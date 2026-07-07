@@ -3,7 +3,7 @@
 // state, so src/core stays untouched. Fed from the commit tap (Ph2); unit-proven here.
 
 import type { GameState, RankId } from '../core';
-import { balance } from '../core';
+import { balance, promotionReady } from '../core';
 
 /** The economy read at a milestone moment — the report's per-rung columns (plan §3.1). */
 export interface EconomySnapshot {
@@ -85,10 +85,9 @@ export function detectMilestones(prev: GameState, next: GameState): MilestoneEve
     if (!armedNext) events.push({ kind: 'note' });
   }
 
-  // Promotion-ready: the rung meter crossing its threshold mid-grind is the other "come look"
-  // moment. Threshold derived from the source of truth (rungThreshold), never a copied number.
-  const threshold = balance.rungThreshold(prev.rung);
-  if (next.rung === prev.rung && prev.rungMeter < threshold && next.rungMeter >= threshold) {
+  // Promotion-ready: the requirement list completing mid-grind (the bar hitting 100) is the
+  // other "come look" moment. Derived from the SAME engine read the gate uses (FB-121/AC-6).
+  if (next.rung === prev.rung && !promotionReady(prev) && promotionReady(next)) {
     events.push({ kind: 'note' });
   }
 

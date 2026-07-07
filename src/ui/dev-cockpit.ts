@@ -18,6 +18,7 @@ import {
   perDeedCap,
   season,
   homeRestBonus,
+  rungProgress,
   type GameState,
 } from '../core';
 import { el } from './render';
@@ -197,64 +198,8 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
   { path: 'STAMINA_FLAT_ABOVE', label: 'Stamina flat-above', group: 'Stamina / meals' },
   { path: 'COOK_SANSAI_COST', label: 'Cook sansai cost', group: 'Stamina / meals', integer: true },
   { path: 'COOK_HP_RESTORE', label: 'Cook HP restore', group: 'Stamina / meals', integer: true },
-  // Rung pacing (threshold levers must carry the ranks.ts meterThreshold mirror in the export)
-  { path: 'RUNG_POINTS_PER_ACT', label: 'Rung points / act', group: 'Rung pacing', integer: true },
-  {
-    path: 'RUNG_METER_THRESHOLDS.R0',
-    label: 'Rung meter · R0',
-    group: 'Rung pacing',
-    integer: true,
-    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
-  },
-  {
-    path: 'RUNG_METER_THRESHOLDS.R1',
-    label: 'Rung meter · R1',
-    group: 'Rung pacing',
-    integer: true,
-    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
-  },
-  {
-    path: 'RUNG_METER_THRESHOLDS.R2',
-    label: 'Rung meter · R2',
-    group: 'Rung pacing',
-    integer: true,
-    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
-  },
-  {
-    path: 'RUNG_METER_THRESHOLDS.R3',
-    label: 'Rung meter · R3',
-    group: 'Rung pacing',
-    integer: true,
-    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
-  },
-  {
-    path: 'RUNG_METER_THRESHOLDS.R4',
-    label: 'Rung meter · R4',
-    group: 'Rung pacing',
-    integer: true,
-    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
-  },
-  {
-    path: 'RUNG_METER_THRESHOLDS.R5',
-    label: 'Rung meter · R5',
-    group: 'Rung pacing',
-    integer: true,
-    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
-  },
-  {
-    path: 'RUNG_METER_THRESHOLDS.R6',
-    label: 'Rung meter · R6',
-    group: 'Rung pacing',
-    integer: true,
-    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
-  },
-  {
-    path: 'RUNG_METER_THRESHOLDS.R7',
-    label: 'Rung meter · R7 (capstone)',
-    group: 'Rung pacing',
-    integer: true,
-    guard: 'ranks.ts meterThreshold mirror (verify-content 1:1)',
-  },
+  // Rung pacing sliders RETIRED with the points meter (FB-121/ADR-137): requirement counts
+  // tune in narrative/requirements.md (edit → gen:narrative → sim), never by cockpit lever.
   // Sinks / upkeep
   { path: 'REPAIR_COIN_COST', label: 'Repair coin cost', group: 'Sinks / upkeep', integer: true },
   { path: 'REPAIR_WOOD_COST', label: 'Repair wood cost', group: 'Sinks / upkeep', integer: true },
@@ -372,7 +317,6 @@ export function buildTuneArtifact(
     .map((t) => `| ${t.path} | ${t.canon} | ${t.current} | ${deltaPct(t.canon, t.current)} |`)
     .join('\n');
   const applies = touched.map(applyLine).join('\n');
-  const touchesRungThreshold = touched.some((t) => t.path.startsWith('RUNG_METER_THRESHOLDS.'));
   const lines = [
     '---',
     'kind: balance-tune',
@@ -392,12 +336,6 @@ export function buildTuneArtifact(
     '',
     '## Mirrors & re-verify',
   ];
-  if (touchesRungThreshold) {
-    lines.push(
-      '- a RUNG_METER_THRESHOLDS.* lever moved — update the matching `meterThreshold` in',
-      '  src/core/content/ranks.ts (verify-content enforces the 1:1 mirror).',
-    );
-  }
   lines.push(
     '- run: `pnpm run gen:docs && pnpm run verify` (pacing:check is in verify).',
     '- balance-sim gate: `pnpm run verify:balance && pnpm run balance:report` — this diff is',
@@ -581,11 +519,9 @@ export function mountBalanceCockpit(
     };
     const paintReadouts = (): void => {
       const s = getState();
-      // 1 · next-rung ETA
-      const remain = Math.max(0, balance.rungThreshold(s.rung) - s.rungMeter);
-      const perAct = balance.RUNG_POINTS_PER_ACT;
-      const acts1 = perAct > 0 ? Math.ceil(remain / perAct) : 0;
-      lines[0]!.textContent = `Next rung ${s.rung}: ${acts1} acts ≈ ${fmtMin(acts1)}`;
+      // 1 · next-rung read (FB-121): the requirement percent — act-count ETAs live in the
+      // Phase-4 requirements cheatlist, not a meter arithmetic that no longer exists.
+      lines[0]!.textContent = `Next rung ${s.rung}: ${rungProgress(s).percent}% of requirements`;
       // 2 · capstone ETA (W4) — Estate value → EXCELLENT at the (capped) deed-per-act rate
       const deed = Math.min(balance.ESTATE_DEED_PER_ACT, perDeedCap());
       const gap = Math.max(0, balance.ESTATE_BANDS.excellent - s.influence.estate.value);

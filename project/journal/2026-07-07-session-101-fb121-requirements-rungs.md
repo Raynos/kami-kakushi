@@ -65,6 +65,39 @@ whatever economy has landed by then; contested files rebase-aware.
 waits for their green; the Phase 3 cutover waits for their `intents.ts`/
 `balance.ts` to land (pathspec commits sweep whole files — no interleaving).
 
+## 3 · Phase 3 — the atomic cutover (the points meter dies)
+
+Landed as ONE commit (all 854 tests green): `state.rungMeter` →
+`rungReqs` map (SCHEMA_VERSION 8, v7→v8 migration drops in-rung progress —
+deliberate); `progress-events.ts` NEW (AC-20 glue: one token stream → quests +
+requirements + flavor narration; settle pass at the reduce tail);
+ranks.ts percent/ready reads (+`remainingRequirements`); `RankDef` loses
+meterThreshold/storyGate/advanceHint (eligible KEPT — sim/autoplay pool);
+balance.ts loses RUNG_POINTS_PER_ACT / RUNG_METER_THRESHOLDS / rungThreshold +
+cockpit rung sliders retired; intents/fight route through the glue
+(`act:`/`gather:`/`kill:` + `act:repair_weapon`); autoplay + idler persona are
+requirement-driven (incl. state-pred drivers pulled forward from Phase 5 —
+sell/deposit/buy/improve + a mend-to-full + level-ladder fight policy); render
+% bar; ~10 test files re-derived from the gen'd registry.
+
+**Finding 1 — combat walls (kills parked above R3).** Sim-measured: wolf
+≈0.2% in-loop win rate (2,978 fights → 5 wins; satiety/durability decay
+collapses the probe's 5–23%), bandit 0% at every T0 level, the axe recipe
+needs boar-dropped hardwood (chicken-and-egg). The R4–R7 predator-kill reqs
+were walls for real players too → PARKED (noted in requirements.md); kills
+stay only at R3 (rats/monkey, measured fine). The fiction returns when combat
+tuning matures.
+
+**Finding 2 — counts sim-tuned to the signed bands.** After parking, the climb
+was 44min vs Phase-2 80min (ratio 1.8 RED) → counts re-scaled: R0 4.5 / R1 9.5
+/ R2 10.6 / R3 10.7 / R4 12.7 / R5 10.8 / R6 10.3 min (all in [3,22]); ratio
+1.15 (in [0.8,1.2]). Formal ADR-132 re-derive + report still owed (Phase 5).
+
+Also: playcheck's dead-time wealth proxy widened to wood/sansai (450-woodcut
+requirement stretches read as "dead" while the player watches +3 wood land
+per act); the worn-weapon fixture stores its wood pile before grinding to
+Battered (the new climb arrives wood-rich).
+
 ## Next intended steps
 
 1. Phase 2 — `requirements.md` grammar in gen-narrative (parse/emit/validate),

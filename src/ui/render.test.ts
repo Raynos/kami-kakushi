@@ -29,6 +29,8 @@ import {
   type GameState,
   type Intent,
   type LogEntry,
+  rungRequirements,
+  rungProgress,
 } from '../core';
 
 function entry(text: string, count: number, channel: LogEntry['channel'] = 'reward'): LogEntry {
@@ -1022,10 +1024,14 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
       flags: { ...base.flags, awake: true, raked: true },
     };
   }
-  // a state parked at R0 with the meter PAST the R0→R1 threshold (source-of-truth: rungThreshold),
-  // R0's storyGate being always-true ⇒ promotionReady. rungBeat stays null (the promotion BANKS).
+  // a state parked at R0 with its requirement list DONE (source-of-truth: the gen'd
+  // registry) ⇒ promotionReady. rungBeat stays null (the promotion BANKS). FB-121.
+  const doneReqs = (rung: GameState['rung']): Record<string, number> =>
+    Object.fromEntries(
+      rungRequirements(rung).map((r) => [r.id, r.type === 'count' ? r.target : 1]),
+    );
   function rungReadyState(): GameState {
-    return { ...awakeRungBase(), rungMeter: balance.rungThreshold('R0') + 10 };
+    return { ...awakeRungBase(), rungReqs: doneReqs('R0') };
   }
   // a state parked INSIDE a live rung beat (the player already triggered it).
   function rungBeatState(target: 'R1' | 'R3', askedTopics: string[] = []): GameState {
@@ -1046,17 +1052,17 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
   });
 
   it('the TERMINAL rung (R7) with a full meter does NOT light a dead trigger', () => {
-    // R7 is the top of T0: its meter keeps refilling and its storyGate is always-true, so
-    // promotionReady stays true — but there is NO next rank, so the header must NOT offer a
-    // begin_rung_beat that would no-op (the deploy-gate audit caught this as a phantom capstone
-    // button). RED against the pre-fix header, which lit `.ready` whenever promotionReady held.
+    // R7 is the top of T0: with its whole requirement list done promotionReady stays true —
+    // but there is NO next rank, so the header must NOT offer a begin_rung_beat that would
+    // no-op (the deploy-gate audit caught this as a phantom capstone button). RED against
+    // the pre-fix header, which lit `.ready` whenever promotionReady held.
     const { seen, render } = spyMount();
     const state: GameState = {
       ...awakeRungBase(),
       rung: 'R7',
-      rungMeter: balance.rungThreshold('R7') + 10,
+      rungReqs: doneReqs('R7'),
     };
-    expect(promotionReady(state)).toBe(true); // the meter IS full + the gate open…
+    expect(promotionReady(state)).toBe(true); // the list IS done + the gate open…
     expect(nextRankId(state.rung)).toBeNull(); // …but there is no rung to advance to
     render(state, null);
     expect(root.querySelector('.rung-head')!.classList.contains('ready')).toBe(false); // no glow
@@ -1066,9 +1072,12 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     expect(seen).not.toContainEqual({ type: 'begin_rung_beat' }); // clicking does nothing
   });
 
-  it('the header rung shows the rung name, a meter bar, and a hover detail card (not-ready)', () => {
+  it('the header rung shows the rung name, a percent bar, and a hover detail card (not-ready)', () => {
     const { render } = spyMount();
-    const state: GameState = { ...awakeRungBase(), rungMeter: 40 }; // mid-climb, NOT ready
+    // mid-climb, NOT ready: the R0 count requirement at 40% of its target (registry-derived).
+    const rake = rungRequirements('R0').find((r) => r.type === 'count')!;
+    const midway = rake.type === 'count' ? Math.floor(rake.target * 0.4) : 0;
+    const state: GameState = { ...awakeRungBase(), rungReqs: { [rake.id]: midway } };
     expect(promotionReady(state)).toBe(false);
     render(state, null);
     const head = root.querySelector<HTMLElement>('.rung-head')!;
@@ -1080,9 +1089,10 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     expect(name).toContain(rank.title);
     expect(name).toContain(rank.kanji);
     expect(root.querySelector('.rung-head-meter > span')).not.toBeNull();
-    // the hover card carries the meter numbers + names the NEXT rung.
+    // the hover card carries the rounded percent + names the NEXT rung (FB-121: the same
+    // rungProgress read the gate uses — AC-6).
     expect(root.querySelector('.rung-head-card-meter')!.textContent).toContain(
-      String(balance.rungThreshold('R0')),
+      `${rungProgress(state).percent}%`,
     );
     const next = getRank(nextRankId('R0')!); // → R1
     expect(root.querySelector('.rung-head-card-next')!.textContent).toContain(next.title);

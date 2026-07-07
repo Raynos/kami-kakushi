@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { createInitialState, balance, type GameState } from '../core';
+import { createInitialState, rungRequirements, balance, type GameState } from '../core';
 import { detectMilestones, autosArmed, snapshot } from './milestones';
 
 // Detector proofs: fixtures start from the REAL createInitialState and mutate the public
@@ -47,17 +47,17 @@ describe('milestone detectors — (prev, next) commit diffs', () => {
     expect(disarm.some((e) => e.kind === 'note')).toBe(true);
   });
 
-  it('the rung meter crossing rungThreshold emits a promotion-ready note (no rung change)', () => {
-    const threshold = balance.rungThreshold(base.rung);
-    const below = patch(base, { rungMeter: threshold - 1 });
-    const ready = patch(base, { rungMeter: threshold });
+  it('the requirement list completing emits a promotion-ready note (no rung change)', () => {
+    // FB-121: derive the fixtures from the gen'd registry — one requirement short vs all done.
+    const reqs = rungRequirements(base.rung);
+    const doneMap = Object.fromEntries(reqs.map((r) => [r.id, r.type === 'count' ? r.target : 1]));
+    const first = reqs[0]!;
+    const nearly = { ...doneMap, [first.id]: (first.type === 'count' ? first.target : 1) - 1 };
+    const below = patch(base, { rungReqs: nearly });
+    const ready = patch(base, { rungReqs: doneMap });
     expect(detectMilestones(below, ready).some((e) => e.kind === 'note')).toBe(true);
-    // Already past it: no repeat note on every later commit.
-    expect(
-      detectMilestones(ready, patch(base, { rungMeter: threshold + 1 })).some(
-        (e) => e.kind === 'note',
-      ),
-    ).toBe(false);
+    // Already ready: no repeat note on every later commit.
+    expect(detectMilestones(ready, ready).some((e) => e.kind === 'note')).toBe(false);
   });
 
   it('an unchanged commit emits nothing', () => {

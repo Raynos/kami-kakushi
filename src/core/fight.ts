@@ -12,7 +12,7 @@ import { hpMax } from './selectors';
 import { applyRewards } from './rewards';
 import { advanceClock } from './step';
 import { rollMaterialDrop, getMaterial, MATERIALS } from './content/crafting';
-import { applyQuestEvent } from './quest-engine';
+import { applyProgressEvent } from './progress-events';
 import { bankEstateDeed } from './pillars';
 import {
   COMBAT_XP_K,
@@ -130,7 +130,7 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
     });
     next = gainCombatXp(next, mob.level * COMBAT_XP_K);
     // quest advance token — 'kill:<mob>' (ADR-037), e.g. 'kill:monkey' / 'kill:boar'.
-    next = applyQuestEvent(next, `kill:${mob.id}`);
+    next = applyProgressEvent(next, `kill:${mob.id}`);
     // ADR-145 — standing the watch: a WON fight banks a WATCH Estate deed in Phase 2 (the house
     // is safer; Arms stays T1-gated, so at T0 this feeds Estate standing, not a new pillar).
     next = bankEstateDeed(next, 'watch');

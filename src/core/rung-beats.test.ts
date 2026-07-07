@@ -11,10 +11,10 @@ import {
   isUnlocked,
   hasFlag,
   revealPass,
-  balance,
   INTRO_SCENE_COUNT,
   type GameState,
   type RankId,
+  rungRequirements,
 } from './index';
 import { logFilterMatches } from '../ui/log-filter';
 
@@ -24,13 +24,8 @@ import { logFilterMatches } from '../ui/log-filter';
 // the three rare bonuses. Fixtures are derived from RUNG_BEATS + the RankDefs (source of truth), not
 // magic numbers.
 
-/** The story-gate flag a rung needs before it may promote (absent ⇒ always-ready). Single-sourced
- *  from the intent that sets each — R1 needs `farmed`, R2 the scripted wolf, R3 real gate-watch. */
-const GATE_FLAG: Partial<Record<RankId, string>> = {
-  R1: 'farmed',
-  R2: 'first-fight-survived',
-  R3: 'combat-blooded',
-};
+// FB-121: the old GATE_FLAG map is gone — a rung's whole gate IS its requirement list, so
+// `makeReady` seeds every requirement done straight from the gen'd registry (never literals).
 
 /** A fresh, intro-DONE game (the beat's precondition: `!introActive`). */
 function atDoneIntro(seed = 1): GameState {
@@ -38,14 +33,14 @@ function atDoneIntro(seed = 1): GameState {
   return { ...s, flags: { ...s.flags, awake: true }, introBeat: INTRO_SCENE_COUNT };
 }
 
-/** Saturate the CURRENT rung's meter to its threshold + set its story gate ⇒ a ready promotion.
- *  (The labour-driven meter fill is proven by pacing/t0-arc; this focuses on the beat machine.) */
+/** Complete the CURRENT rung's requirement list ⇒ a ready promotion. (The played-through
+ *  requirement grind is proven by m1/pacing; this focuses on the beat machine.) */
 function makeReady(s: GameState): GameState {
-  const flag = GATE_FLAG[s.rung];
   return {
     ...s,
-    rungMeter: balance.rungThreshold(s.rung),
-    flags: flag ? { ...s.flags, [flag]: true } : s.flags,
+    rungReqs: Object.fromEntries(
+      rungRequirements(s.rung).map((r) => [r.id, r.type === 'count' ? r.target : 1]),
+    ),
   };
 }
 
@@ -132,7 +127,7 @@ describe('D-110 INVARIANT — no rung advances without its beat', () => {
     expect(raked.rung).toBe('R0');
     expect(hasFlag(raked, 'rank-r1')).toBe(false);
     expect(isUnlocked(raked, 'verb-farm')).toBe(false); // R1's unlocks did NOT fire
-    expect(raked.rungMeter).toBeGreaterThanOrEqual(balance.rungThreshold('R0')); // it still holds ready
+    expect(promotionReady(raked)).toBe(true); // it still holds ready
 
     // the finish() body (revealPass) alone likewise never promotes.
     expect(revealPass(s).rung).toBe('R0');

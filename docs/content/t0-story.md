@@ -307,7 +307,7 @@
 ### R2 · Trusted hand 手代
 
 - The woodlot edge knows your axe; the stack by the kura grows even. <small>*(learn-the-woodlot — act:woodcut_edge ×350)*</small>
-- You come back from the hills with full baskets and no bad stories. <small>*(walk-the-hills — act:forage_satoyama ×350)*</small>
+- You come back from the hills with full baskets and no bad stories. <small>*(walk-the-hills — act:forage_satoyama ×450)*</small>
 - A hand that keeps hauling after the field work is a hand the house notes. <small>*(keep-the-stores-moving — act:haul_stores ×300)*</small>
 - The grain-store wolf is faced. The story runs the estate faster than you walk it. <small>*(face-the-wolf — flag first-fight-survived)*</small>
 
@@ -315,33 +315,29 @@
 
 - The rats learn the kura has teeth again. <small>*(clear-the-kura-rats — kill:rice_rats ×3)*</small>
 - The paddies' thieves grow careful where you stand a watch. <small>*(drive-off-the-thieves — kill:monkey ×2)*</small>
-- Watch or no watch, your rows never fall behind — Kihei marks that. <small>*(keep-the-rows — act:farm_paddy ×400)*</small>
-- Timber for the palisade, cut on your own hours. <small>*(timber-for-the-palisade — act:woodcut_edge ×300)*</small>
+- Watch or no watch, your rows never fall behind — Kihei marks that. <small>*(keep-the-rows — act:farm_paddy ×600)*</small>
+- Timber for the palisade, cut on your own hours. <small>*(timber-for-the-palisade — act:woodcut_edge ×450)*</small>
 
 ### R4 · Kura-warden 蔵番
 
-- The stores move through your hands like they were born to it. <small>*(the-stores-know-you — act:haul_stores ×450)*</small>
+- The stores move through your hands like they were born to it. <small>*(the-stores-know-you — act:haul_stores ×1300)*</small>
 - A blade mended by its own bearer — Genemon hears of it from Tōzō. <small>*(mend-your-own-blade — act:repair_weapon ×1)*</small>
-- Two wolves fewer on the near hills; the herders sleep easier. <small>*(thin-the-near-wolves — kill:wolf ×2)*</small>
 - A hundred mon of your own keeping. The house trusts a hand that can hold money. <small>*(a-hundred-mon-held — resource coin ≥ 100)*</small>
 
 ### R5 · House-servant 家人
 
-- The deep satoyama yields to you now, a hill past where the others turn back. <small>*(past-the-danger-line — act:forage_deepwoods ×200)*</small>
-- The boar that tore the fences is down. The field hands say your name differently. <small>*(the-fence-breaker — kill:boar ×1)*</small>
-- The paddies still come first. They always came first. <small>*(the-paddies-still-first — act:farm_paddy ×300)*</small>
+- The deep satoyama yields to you now, a hill past where the others turn back. <small>*(past-the-danger-line — act:forage_deepwoods ×600)*</small>
+- The paddies still come first. They always came first. <small>*(the-paddies-still-first — act:farm_paddy ×500)*</small>
 - A made bed in your own corner — you live here now, and the house knows it. <small>*(a-made-corner — own bedding)*</small>
 
 ### R6 · Steward's man 用人
 
-- The ledgers and your shoulders have stopped arguing with each other. <small>*(the-ledgers-agree — act:haul_stores ×400)*</small>
+- The ledgers and your shoulders have stopped arguing with each other. <small>*(the-ledgers-agree — act:haul_stores ×1100)*</small>
 - Three hundred mon held steady through a season's spending. <small>*(three-hundred-mon-steady — resource coin ≥ 300)*</small>
 - The kura-works stand a stage better for coin you put back into the house. <small>*(coin-into-the-works — native estate-u1)*</small>
-- The man who watched the woodlot road watches nothing now. <small>*(clear-the-woodlot-road — kill:bandit ×1)*</small>
 
 ### R7 · Trusted of the house 内衆
 
 - The house's fields run on your rhythm now, not the other way around. <small>*(the-fields-run-on-you — act:farm_paddy ×400)*</small>
 - The woodlot's stack stands winter-deep, and it was your axe that made it so. <small>*(the-woodlot-runs-on-you — act:woodcut_edge ×400)*</small>
 - The granary holds deep against winter, and the ledger names you for it. <small>*(a-granary-against-winter — banked rice ≥ 200)*</small>
-- The deep woods hold no argument you haven't answered. <small>*(no-argument-unanswered — kill:boar ×2)*</small>

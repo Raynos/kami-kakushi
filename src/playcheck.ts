@@ -25,6 +25,7 @@ import {
   focusedOptimalIntent,
   balance,
   type GameState,
+  rungProgress,
 } from './core';
 import { walkPacing } from './scripts/pacing-report';
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -70,20 +71,27 @@ function rewardTrace(seed = SEED): boolean[] {
   let s = createInitialState(seed);
   const rewarded: boolean[] = [];
   let guard = 0;
-  // Carried wealth is now split into rice (rake/paddy) + coin (wage/spoils) — D-107. A forward beat
-  // is EITHER pile growing, so sum them into one "wealth" signal.
-  const wealth = (st: typeof s): number => (st.resources.rice ?? 0) + (st.resources.coin ?? 0);
+  // A forward beat is ANY carried pile growing — rice/coin (D-107) AND wood/sansai: every
+  // labour act's +N is a visible reward line the player watches land (FB-121 made long
+  // woodcut/forage stretches part of the required climb, so the proxy must see them too —
+  // counting only rice+coin read a 450-woodcut requirement as 20s of "dead" time that the
+  // player actually experiences as +3 wood every act).
+  const wealth = (st: typeof s): number =>
+    (st.resources.rice ?? 0) +
+    (st.resources.coin ?? 0) +
+    (st.resources.wood ?? 0) +
+    (st.resources.sansai ?? 0);
   while (s.rung !== 'R3' && guard++ < 1_000_000) {
     const intent = focusedOptimalIntent(s);
     if (!intent) break;
     const w = wealth(s);
-    const meter = s.rungMeter;
+    const pct = rungProgress(s).percent;
     const reveals = s.unlocked.length;
     const level = s.character.level;
     s = reduce(s, intent);
     rewarded.push(
       wealth(s) > w ||
-        s.rungMeter > meter ||
+        rungProgress(s).percent > pct ||
         s.unlocked.length > reveals ||
         s.character.level > level,
     );

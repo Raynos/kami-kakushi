@@ -1,22 +1,22 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 7,
+    "schemaVersion": 8,
     "rng": {
       "seed": 20260626,
       "cursors": {
-        "combat": 91,
-        "loot": 0,
+        "combat": 782,
+        "loot": 5,
         "seasonal": 0,
         "worldgen": 0
       }
     },
     "clock": {
-      "tick": 16,
-      "day": 430
+      "tick": 4,
+      "day": 386
     },
     "character": {
       "hp": 1,
@@ -30,15 +30,19 @@
         "luck": 5
       },
       "level": 1,
-      "combatXp": 0
+      "combatXp": 25
     },
     "resources": {
-      "coin": 0,
-      "rice": 2410
+      "coin": 54,
+      "rice": 890,
+      "wood": 0,
+      "sansai": 766,
+      "beast_sinew": 2
     },
     "banked": {
       "coin": 0,
-      "rice": 0
+      "rice": 0,
+      "wood": 2716
     },
     "flags": {
       "awake": true,
@@ -57,6 +61,7 @@
       "combat-unlocked": true,
       "mob-monkey": true,
       "combat-blooded": true,
+      "mob-rice_rats": true,
       "r4-thrifty": true,
       "rank-r4": true
     },
@@ -77,6 +82,7 @@
       "panel-estate",
       "verb-eat-rice",
       "skill-farming",
+      "readout-coin",
       "tab-skills",
       "room-woodlot-edge",
       "room-near-satoyama",
@@ -88,6 +94,8 @@
       "row-sansai",
       "skill-conditioning",
       "verb-cook",
+      "skill-woodcutting",
+      "skill-foraging",
       "tab-combat",
       "panel-drill-yard",
       "readout-combat-level",
@@ -260,95 +268,103 @@
           "voice": "narrator"
         },
         {
-          "key": 141,
+          "key": 131,
+          "channel": "narration",
+          "text": "The spilled stores are swept to rows; Genemon counts them without a word.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 132,
           "channel": "narration",
           "text": "Dawn at the gate. The forecourt is swept clean — your doing — and Genemon waits by the posts, watching you the way a man watches weather.",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 142,
+          "key": 133,
           "channel": "narration",
           "text": "\"You cleared the stores without being told twice. The house is short of hands and shorter of trustworthy ones. Stay — you're no day-hire now. Earn your rice.\"",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 143,
+          "key": 134,
           "channel": "narration",
           "text": "\"The gate and the swept forecourt are yours to work now; stores come and go here. The home paddies too — the rice that feeds the house. And the kura's own repair is yours to tend: spend the house's small surplus to shore it up.\"",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 144,
+          "key": 135,
           "channel": "narration",
           "text": "A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi pedlar, come because a tended gate draws trade. He lifts a hand as you pass.",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 145,
+          "key": 136,
           "channel": "narration",
           "text": "\"A tended gate's a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord's.\"",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "speaker": "Tokubei",
           "voice": "villager"
         },
         {
-          "key": 146,
+          "key": 137,
           "channel": "narration",
           "text": "\"The house has my hands.\"",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "speaker": "You",
           "voice": "player"
         },
         {
-          "key": 147,
+          "key": 138,
           "channel": "narration",
           "text": "\"...Good. Hands that don't need watching are the rarest thing I keep.\"",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 148,
+          "key": 139,
           "channel": "narration",
           "text": "The gate and the swept forecourt are yours to work now — stores come and go here.",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 149,
+          "key": 140,
           "channel": "narration",
           "text": "The terraced home paddies open to you — the rice that feeds the house.",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 150,
+          "key": 141,
           "channel": "narration",
           "text": "You begin to mark the turning of the days, and the four seasons with them.",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 151,
+          "key": 142,
           "channel": "milestone",
           "text": "Rank ↑ — Kept hand 下人",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -357,23 +373,47 @@
           }
         },
         {
-          "key": 152,
+          "key": 143,
           "channel": "narration",
           "text": "The estate's own state of repair is yours to tend now — spend the house's surplus to shore it up.",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 153,
+          "key": 144,
           "channel": "narration",
           "text": "The rice you clear and grow is food, not only trade — a plain bowl of it fills a hollow belly and puts you back to work the faster.",
-          "tick": 18,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 617,
+          "key": 420,
+          "channel": "narration",
+          "text": "The paddies answer your hand now; the green rows stand straighter for it.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 423,
+          "channel": "narration",
+          "text": "Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 603,
+          "channel": "narration",
+          "text": "The porters stop watching you lift. That is its own approval.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 604,
           "channel": "narration",
           "text": "The near hill in first light. Genemon leads you past the forecourt for the first time, out to where the woodlot meets the wild edge of the satoyama.",
           "tick": 22,
@@ -381,7 +421,7 @@
           "voice": "narrator"
         },
         {
-          "key": 618,
+          "key": 605,
           "channel": "narration",
           "text": "\"You can be set a task and trusted to finish it out of my sight — worth more than a strong back. The woodlot and the near hill are yours to work now; the house needs fuel and forage, and it trusts you to bring them in.\"",
           "tick": 22,
@@ -390,7 +430,7 @@
           "voice": "steward"
         },
         {
-          "key": 619,
+          "key": 606,
           "channel": "narration",
           "text": "\"One more thing, and not a small one. A wolf's been at the grain stores in the night. Someone must face it — and there is no one else to send. Think on it.\"",
           "tick": 22,
@@ -399,7 +439,7 @@
           "voice": "steward"
         },
         {
-          "key": 620,
+          "key": 607,
           "channel": "narration",
           "text": "A lean man about your own age ambles up from the wood-stack, an axe on one shoulder, grinning as if you two already share a joke.",
           "tick": 22,
@@ -407,7 +447,7 @@
           "voice": "narrator"
         },
         {
-          "key": 621,
+          "key": 608,
           "channel": "narration",
           "text": "\"Rokusuke — kept on two winters back, so I know where the bodies are buried. Do the work, keep your head down, don't let the old steward catch you idle. That's the whole of it.\"",
           "tick": 22,
@@ -416,7 +456,7 @@
           "voice": "villager"
         },
         {
-          "key": 622,
+          "key": 609,
           "channel": "narration",
           "text": "Knotting a load for the woodlot, your fingers tie a porter's knot you never learned — quick, certain, a stranger's habit in your own hands. It means nothing. It will not leave you.",
           "tick": 22,
@@ -424,7 +464,7 @@
           "voice": "narrator"
         },
         {
-          "key": 623,
+          "key": 610,
           "channel": "narration",
           "text": "\"The stores are the house's life. I'll face it.\"",
           "tick": 22,
@@ -433,7 +473,7 @@
           "voice": "player"
         },
         {
-          "key": 624,
+          "key": 611,
           "channel": "narration",
           "text": "\"...Huh. Most men find a reason to be elsewhere. You might do.\"",
           "tick": 22,
@@ -442,7 +482,7 @@
           "voice": "villager"
         },
         {
-          "key": 625,
+          "key": 612,
           "channel": "narration",
           "text": "A way to track what your hands are learning takes shape — your Skills.",
           "tick": 22,
@@ -450,7 +490,7 @@
           "voice": "narrator"
         },
         {
-          "key": 626,
+          "key": 613,
           "channel": "narration",
           "text": "The stable yard and woodlot edge — fuel, timber, and the first sight of the road out.",
           "tick": 22,
@@ -458,7 +498,7 @@
           "voice": "narrator"
         },
         {
-          "key": 627,
+          "key": 614,
           "channel": "narration",
           "text": "Above the estate lies the near satoyama — sansai to gather, and the first edge of danger.",
           "tick": 22,
@@ -466,7 +506,7 @@
           "voice": "narrator"
         },
         {
-          "key": 628,
+          "key": 615,
           "channel": "narration",
           "text": "Beyond the near hill the ground climbs into the deep satoyama — a richer forage for those who dare it, and the boar in its wallow.",
           "tick": 22,
@@ -474,7 +514,7 @@
           "voice": "narrator"
         },
         {
-          "key": 629,
+          "key": 616,
           "channel": "narration",
           "text": "A wolf has been at the grain stores in the night, bold with hunger. Someone must face it — and there is no one else to send.",
           "tick": 22,
@@ -482,7 +522,7 @@
           "voice": "narrator"
         },
         {
-          "key": 630,
+          "key": 617,
           "channel": "milestone",
           "text": "Rank ↑ — Trusted hand 手代",
           "tick": 22,
@@ -494,7 +534,7 @@
           }
         },
         {
-          "key": 631,
+          "key": 618,
           "channel": "narration",
           "text": "You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.",
           "tick": 22,
@@ -502,96 +542,128 @@
           "voice": "narrator"
         },
         {
-          "key": 1239,
+          "key": 797,
+          "channel": "narration",
+          "text": "The woodlot edge knows your axe; the stack by the kura grows even.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 951,
+          "channel": "narration",
+          "text": "You come back from the hills with full baskets and no bad stories.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1143,
+          "channel": "narration",
+          "text": "A hand that keeps hauling after the field work is a hand the house notes.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1145,
           "channel": "combat",
           "text": "The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.",
-          "tick": 0,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "contentKey": "combat.wolfScripted"
         },
         {
-          "key": 1240,
+          "key": 1146,
           "channel": "narration",
           "text": "Kihei the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: \"You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest.\"",
-          "tick": 0,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "contentKey": "combat.drillmaster"
         },
         {
-          "key": 1241,
+          "key": 1147,
           "channel": "narration",
-          "text": "The drill yard behind the omoya, first light. You've stood over the grain-store wolf's carcass; word travels. A hard-faced man is already there, a bokken in each hand — and he throws you one without a word of greeting.",
-          "tick": 14,
+          "text": "The grain-store wolf is faced. The story runs the estate faster than you walk it.",
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1242,
+          "key": 1148,
+          "channel": "narration",
+          "text": "The drill yard behind the omoya, first light. You've stood over the grain-store wolf's carcass; word travels. A hard-faced man is already there, a bokken in each hand — and he throws you one without a word of greeting.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1149,
           "channel": "narration",
           "text": "\"So. You put down the thing that had the run of our stores. Farmers don't do that. There's a soldier in you under the farmhand — I've watched it a week and I'm done pretending I haven't.\"",
-          "tick": 14,
+          "tick": 4,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms"
         },
         {
-          "key": 1243,
+          "key": 1150,
           "channel": "narration",
           "text": "\"You're gate-watch now: a weapon, a yard to train in, and the estate's defence on your shoulders — pests, beasts, and the masterless men who drift down the woodlot road. Keep a field-guide of what you face; a soldier who knows his enemy outlives one who doesn't.\"",
-          "tick": 14,
+          "tick": 4,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms"
         },
         {
-          "key": 1244,
+          "key": 1151,
           "channel": "narration",
           "text": "\"Show me how to end a fight fast.\"",
-          "tick": 14,
+          "tick": 4,
           "count": 1,
           "speaker": "You",
           "voice": "player"
         },
         {
-          "key": 1245,
+          "key": 1152,
           "channel": "narration",
           "text": "\"Fast, he says. Fast gets you a spear in the back. But there's fire in it — we'll aim it before it burns you.\"",
-          "tick": 14,
+          "tick": 4,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms"
         },
         {
-          "key": 1246,
+          "key": 1153,
           "channel": "narration",
           "text": "The drill yard opens to you — a place to train, and foes that must be met.",
-          "tick": 14,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1247,
+          "key": 1154,
           "channel": "narration",
           "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
-          "tick": 14,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1248,
+          "key": 1155,
           "channel": "narration",
           "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
-          "tick": 14,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1249,
+          "key": 1156,
           "channel": "milestone",
           "text": "Rank ↑ — Gate-watch 門番",
-          "tick": 14,
+          "tick": 4,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -600,1019 +672,1253 @@
           }
         },
         {
-          "key": 1250,
+          "key": 1157,
           "channel": "narration",
           "text": "A dry corner of the grain-store is kept back for you now — a straw mat, a bowl, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
-          "tick": 14,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1251,
+          "key": 1158,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 2578 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 14,
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 4 monme 63 mon and 725 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "crop-raiding monkey",
             "hpBefore": 1,
             "hpAfter": 1,
-            "lostCoin": 0,
-            "lostRice": 2578,
+            "lostCoin": 383,
+            "lostRice": 725,
             "lostMats": 0
           }
         },
         {
-          "key": 1844,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 8,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1845,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1846,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 16,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1847,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 22,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1848,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1849,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 6,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1850,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 12,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1851,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1852,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 20,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1853,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 2,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1854,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1855,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 10,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1856,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 16,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1857,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1858,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 0,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1859,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 6,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1860,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1861,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 14,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1862,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 20,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1863,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "key": 1162,
+          "channel": "combat",
+          "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 3 monme 66 mon and 580 rice in the rout. Eat and mend before you take the field again.",
           "tick": 22,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "grain-rat swarm",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 306,
+            "lostRice": 580,
+            "lostMats": 0
+          }
         },
         {
-          "key": 1864,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 4,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1865,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 10,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1866,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1867,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 18,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1868,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 0,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1869,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1870,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 8,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1871,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 14,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1872,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "key": 1165,
+          "channel": "combat",
+          "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 3 monme 5 mon and 464 rice in the rout. Eat and mend before you take the field again.",
           "tick": 16,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "grain-rat swarm",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 245,
+            "lostRice": 464,
+            "lostMats": 0
+          }
         },
         {
-          "key": 1873,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 22,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1874,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 4,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1875,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1876,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 12,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1877,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 18,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1878,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1879,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 2,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1880,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 8,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1881,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "key": 1168,
+          "channel": "combat",
+          "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 2 monme 36 mon and 371 rice in the rout. Eat and mend before you take the field again.",
           "tick": 10,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "grain-rat swarm",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 196,
+            "lostRice": 371,
+            "lostMats": 0
+          }
         },
         {
-          "key": 1882,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 16,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1883,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 22,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1884,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1885,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 6,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1886,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 12,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1887,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1888,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 20,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1889,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 2,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1890,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "key": 1171,
+          "channel": "combat",
+          "text": "You bring down the grain-rat swarm. ✓ (HP 58→13 · +1 mon)",
           "tick": 4,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "grain-rat swarm",
+            "hpBefore": 58,
+            "hpAfter": 13,
+            "coin": 1,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
         },
         {
-          "key": 1891,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 10,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1892,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 16,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1893,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1894,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 0,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1895,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 6,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1896,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1897,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 14,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1898,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 20,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1899,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1900,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 4,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1901,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 10,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1902,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1903,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 18,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1904,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 0,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1905,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1906,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 8,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1907,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 14,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1908,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1909,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 22,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1910,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 4,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1911,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1912,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 12,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1913,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 18,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1914,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1915,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 2,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1916,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 8,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1917,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1918,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 16,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1919,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 22,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1920,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1921,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 6,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1922,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 12,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1923,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "key": 1174,
+          "channel": "combat",
+          "text": "The grain-rat swarm overcomes you; you limp home badly used. (HP 58→1) You drop 1 monme 77 mon and 297 rice in the rout. Eat and mend before you take the field again.",
           "tick": 14,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "grain-rat swarm",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 157,
+            "lostRice": 297,
+            "lostMats": 0
+          }
         },
         {
-          "key": 1924,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 20,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1925,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 2,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1926,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1927,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 10,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1928,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 16,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1929,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1930,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 0,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1931,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 6,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1932,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "key": 1177,
+          "channel": "combat",
+          "text": "You bring down the grain-rat swarm. ✓ (HP 58→8 · +1 mon)",
           "tick": 8,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "grain-rat swarm",
+            "hpBefore": 58,
+            "hpAfter": 8,
+            "coin": 1,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
         },
         {
-          "key": 1933,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 14,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1934,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 20,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1935,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1936,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 4,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1937,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 10,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1938,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1939,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
+          "key": 1180,
+          "channel": "combat",
+          "text": "You bring down the grain-rat swarm. ✓ (HP 58→7 · +1 mon, +1 beast sinew)",
           "tick": 18,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1940,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 0,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1941,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "grain-rat swarm",
+            "hpBefore": 58,
+            "hpAfter": 7,
+            "coin": 1,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
         },
         {
-          "key": 1942,
-          "channel": "reward",
-          "text": "Work the home paddies. (+6 rice)",
-          "tick": 8,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1943,
-          "channel": "reward",
-          "text": "Work the home paddies. (+5 rice)",
-          "tick": 14,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 1944,
+          "key": 1181,
           "channel": "narration",
-          "text": "Genemon meets you at the kura door with an iron key on a cord, worn smooth by other hands before yours.",
-          "tick": 16,
+          "text": "The rats learn the kura has teeth again.",
+          "tick": 18,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1945,
+          "key": 1185,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 1 monme 46 mon and 238 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 126,
+            "lostRice": 238,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1188,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 1 monme 21 mon and 190 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 101,
+            "lostRice": 190,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1191,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 1192,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 79 mon and 152 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 79,
+            "lostRice": 152,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1195,
+          "channel": "combat",
+          "text": "You bring down the crop-raiding monkey. ✓ (HP 58→18 · +3 mon, +1 beast sinew)",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 18,
+            "coin": 3,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 1198,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 64 mon and 122 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 64,
+            "lostRice": 122,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1201,
+          "channel": "combat",
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 58→1) You drop 51 mon and 97 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 1,
+            "lostCoin": 51,
+            "lostRice": 97,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 1204,
+          "channel": "combat",
+          "text": "You bring down the crop-raiding monkey. ✓ (HP 58→12 · +3 mon)",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "crop-raiding monkey",
+            "hpBefore": 58,
+            "hpAfter": 12,
+            "coin": 3,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 1205,
+          "channel": "narration",
+          "text": "The paddies' thieves grow careful where you stand a watch.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1426,
+          "channel": "narration",
+          "text": "Watch or no watch, your rows never fall behind — Kihei marks that.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1630,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1631,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1632,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 10,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1633,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1634,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1635,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 22,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1636,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1637,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1638,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 8,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1639,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1640,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1641,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 20,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1642,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1643,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1644,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 6,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1645,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1646,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1647,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 18,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1648,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1649,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1650,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 4,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1651,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1652,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1653,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 16,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1654,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1655,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1656,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 2,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1657,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1658,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1659,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 14,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1660,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1661,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1662,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 0,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1663,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1664,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1665,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 12,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1666,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1667,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1668,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 22,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1669,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1670,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1671,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 10,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1672,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1673,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1674,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 20,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1675,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1676,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1677,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 8,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1678,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1679,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1680,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 18,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1681,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1682,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1683,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 6,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1684,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1685,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1686,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 16,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1687,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1688,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1689,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 4,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1690,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1691,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1692,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 14,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1693,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1694,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1695,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 2,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1696,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1697,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1698,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 12,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1699,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1700,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1701,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 0,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1702,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1703,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1704,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 10,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1705,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1706,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1707,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 22,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1708,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1709,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1710,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 10,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1711,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1712,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 20,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1713,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1714,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1715,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 8,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1716,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1717,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 18,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1718,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1719,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1720,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 6,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1721,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1722,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 16,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1723,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+3 wood)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1724,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1725,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot edge. (+4 wood)",
+          "tick": 2,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1726,
+          "channel": "narration",
+          "text": "Timber for the palisade, cut on your own hours.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1727,
+          "channel": "narration",
+          "text": "Genemon meets you at the kura door with an iron key on a cord, worn smooth by other hands before yours.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1728,
           "channel": "narration",
           "text": "\"The kura key. Mind the stores as if the rice were your own — from today it half is. The house is forgetting you were ever a stranger. So am I.\"",
-          "tick": 16,
+          "tick": 4,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 1946,
+          "key": 1729,
           "channel": "narration",
           "text": "He walks you on to the woodlot smithy, where a bent old man coaxes an edge back onto a mattock. He doesn't look up.",
-          "tick": 16,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1947,
+          "key": 1730,
           "channel": "narration",
           "text": "\"Tōzō. I keep the estate's iron. A blade you don't tend turns on you — bring me the hides and the metal off what you kill, and I'll show you what an edge wants. The forge is yours to use now; try not to ruin my fire.\"",
-          "tick": 16,
+          "tick": 4,
           "count": 1,
           "speaker": "Tōzō",
           "voice": "arms"
         },
         {
-          "key": 1948,
+          "key": 1731,
           "channel": "narration",
           "text": "\"And the omoya's shuttered rooms are aired and swept — the house rises, and you'll walk floors the family walks. Don't let it turn your head.\"",
-          "tick": 16,
+          "tick": 4,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 1949,
+          "key": 1732,
           "channel": "narration",
           "text": "\"Every grain accounted.\"",
-          "tick": 16,
+          "tick": 4,
           "count": 1,
           "speaker": "You",
           "voice": "player"
         },
         {
-          "key": 1950,
+          "key": 1733,
           "channel": "narration",
           "text": "\"Spoken like a steward. Good — the house was bled white once by hands that weren't.\"",
-          "tick": 16,
+          "tick": 4,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 1951,
+          "key": 1734,
           "channel": "narration",
           "text": "You learn to read the wear on an edge — a blade dulls and chips with use, and a dull edge bites less. Mind your weapon's condition now.",
-          "tick": 16,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1952,
+          "key": 1735,
           "channel": "narration",
           "text": "The woodlot smithy is yours to use — strip what the carcasses give up, forge a real edge, keep it repaired, and take up whichever weapon suits the watch.",
-          "tick": 16,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1953,
+          "key": 1736,
           "channel": "narration",
           "text": "The omoya — the main house — is opened to you. Its shuttered rooms, closed since the lean years, are aired and swept; you walk floors the family walks.",
-          "tick": 16,
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 1954,
+          "key": 1737,
           "channel": "milestone",
           "text": "Rank ↑ — Kura-warden 蔵番",
-          "tick": 16,
+          "tick": 4,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -1621,154 +1927,166 @@
           }
         },
         {
-          "key": 1955,
+          "key": 1738,
+          "channel": "narration",
+          "text": "A hundred mon of your own keeping. The house trusts a hand that can hold money.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1739,
+          "channel": "narration",
+          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1740,
+          "channel": "narration",
+          "text": "The grain-store where you woke — dark, dry, close with the smell of old rice.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1741,
+          "channel": "system",
+          "text": "You store 2716 wood safe in the kura storehouse.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "bank.deposit",
+          "params": {
+            "amount": 2716,
+            "resource": "wood"
+          }
+        },
+        {
+          "key": 1742,
+          "channel": "narration",
+          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1743,
+          "channel": "narration",
+          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 1744,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 3591 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 16,
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 12→1) You drop 42 mon and 679 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "crop-raiding monkey",
-            "hpBefore": 1,
+            "hpBefore": 12,
             "hpAfter": 1,
-            "lostCoin": 0,
-            "lostRice": 3591,
+            "lostCoin": 42,
+            "lostRice": 679,
             "lostMats": 0
           }
         },
         {
-          "key": 1956,
+          "key": 1745,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 2873 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 0,
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 33 mon and 543 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "crop-raiding monkey",
             "hpBefore": 1,
             "hpAfter": 1,
-            "lostCoin": 0,
-            "lostRice": 2873,
+            "lostCoin": 33,
+            "lostRice": 543,
             "lostMats": 0
           }
         },
         {
-          "key": 1957,
+          "key": 1746,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 2298 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 8,
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 27 mon and 434 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "crop-raiding monkey",
             "hpBefore": 1,
             "hpAfter": 1,
-            "lostCoin": 0,
-            "lostRice": 2298,
+            "lostCoin": 27,
+            "lostRice": 434,
             "lostMats": 0
           }
         },
         {
-          "key": 1958,
+          "key": 1747,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1838 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 16,
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 21 mon and 347 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "crop-raiding monkey",
             "hpBefore": 1,
             "hpAfter": 1,
-            "lostCoin": 0,
-            "lostRice": 1838,
+            "lostCoin": 21,
+            "lostRice": 347,
             "lostMats": 0
           }
         },
         {
-          "key": 1959,
+          "key": 1748,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1471 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 0,
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 17 mon and 278 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "crop-raiding monkey",
             "hpBefore": 1,
             "hpAfter": 1,
-            "lostCoin": 0,
-            "lostRice": 1471,
+            "lostCoin": 17,
+            "lostRice": 278,
             "lostMats": 0
           }
         },
         {
-          "key": 1960,
+          "key": 1749,
           "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 1177 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 8,
+          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 14 mon and 222 rice in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
             "mob": "crop-raiding monkey",
             "hpBefore": 1,
             "hpAfter": 1,
-            "lostCoin": 0,
-            "lostRice": 1177,
-            "lostMats": 0
-          }
-        },
-        {
-          "key": 1961,
-          "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 941 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 16,
-          "count": 1,
-          "contentKey": "combat.loss",
-          "params": {
-            "mob": "crop-raiding monkey",
-            "hpBefore": 1,
-            "hpAfter": 1,
-            "lostCoin": 0,
-            "lostRice": 941,
-            "lostMats": 0
-          }
-        },
-        {
-          "key": 1962,
-          "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 753 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 0,
-          "count": 1,
-          "contentKey": "combat.loss",
-          "params": {
-            "mob": "crop-raiding monkey",
-            "hpBefore": 1,
-            "hpAfter": 1,
-            "lostCoin": 0,
-            "lostRice": 753,
-            "lostMats": 0
-          }
-        },
-        {
-          "key": 1963,
-          "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 602 rice in the rout. Eat and mend before you take the field again.",
-          "tick": 8,
-          "count": 1,
-          "contentKey": "combat.loss",
-          "params": {
-            "mob": "crop-raiding monkey",
-            "hpBefore": 1,
-            "hpAfter": 1,
-            "lostCoin": 0,
-            "lostRice": 602,
+            "lostCoin": 14,
+            "lostRice": 222,
             "lostMats": 0
           }
         }
       ],
-      "seq": 1964
+      "seq": 1750
     },
     "skillXp": {
-      "farming": 14527
+      "farming": 4638,
+      "conditioning": 2723,
+      "woodcutting": 3125,
+      "foraging": 1725
     },
     "deliveredDialogue": [
       "gen-greet",
@@ -1807,7 +2125,9 @@
     "belongings": [],
     "location": "home-paddies",
     "rung": "R4",
-    "rungMeter": 0,
+    "rungReqs": {
+      "a-hundred-mon-held": 1
+    },
     "estateStage": 0,
     "autoActivity": null,
     "autoRake": false,

@@ -20,7 +20,7 @@ export const APP_ID = 'kami-kakushi' as const;
  *  home). Additive — an old save defaults it `[]` (owns no furniture; the granted mat + bowl are
  *  derived from the home surface, not stored, so they back-reveal for any R1+ save).
  *  Pre-launch dev saves are wiped (ADR-067), but each forward step is a real, test-covered chain. */
-export const SCHEMA_VERSION = 7 as const;
+export const SCHEMA_VERSION = 8 as const;
 
 /** FB-160/FB-161 (human, 2026-07-06): DURABLE log history (story/chat/progress) is
  *  UNBOUNDED — the whole point of the log is a memory that goes far, far back; a

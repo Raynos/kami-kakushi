@@ -131,7 +131,7 @@ describe('multi-backend redundant save', () => {
       autoRake: true,
       autoCombat: 'monkey',
       autoCombatRetreat: true, // a PREFERENCE — this one survives
-      rungMeter: 42, // ordinary progress — must NOT be stripped
+      rungReqs: { 'rake-the-spill': 42 }, // ordinary progress — must NOT be stripped
     };
     expect((await mgr.save(autoing)).ok).toBe(true);
     const loaded = await mgr.load();
@@ -142,7 +142,7 @@ describe('multi-backend redundant save', () => {
     expect(loaded!.state.autoCombat).toBeNull();
     // …but the preference and real progress ride through untouched
     expect(loaded!.state.autoCombatRetreat).toBe(true);
-    expect(loaded!.state.rungMeter).toBe(42);
+    expect(loaded!.state.rungReqs['rake-the-spill']).toBe(42);
   });
 });
 

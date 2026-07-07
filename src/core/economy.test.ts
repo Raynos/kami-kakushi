@@ -24,11 +24,12 @@ import {
   SEASONS,
   tick,
   balance,
-  promotionReady,
   introActive,
   introSceneAt,
   RUNG_BEATS,
   type GameState,
+  rungRequirements,
+  isRequirementDone,
 } from './index';
 import { validateState } from '../persistence/validate';
 
@@ -128,32 +129,35 @@ describe('skill → yield multiplier (audit #4)', () => {
     expect(farmYield({ ...e0, estateStage: MAX_ESTATE_STAGE })).toBeGreaterThan(baseKoku);
   });
 
-  it('rung pacing is independent of skill — acts-to-promote do not shrink as yield grows', () => {
+  it('rung pacing is independent of skill — requirement counts move per-ACT, not per-yield', () => {
     let atR1 = finishIntro(reduce(createInitialState(SEASON_SPRING_SAFE), { type: 'open_eyes' }));
-    // ADR-056 single profile: derive the rake count from the real R0 threshold (flat pts/act).
-    const rakesToR1 = Math.ceil(balance.rungThreshold('R0') / balance.RUNG_POINTS_PER_ACT);
-    for (let i = 0; i < rakesToR1; i++) atR1 = reduce(atR1, { type: 'rake_rice' }); // fill the R0 meter
+    // FB-121: derive the rake count from the R0 requirement registry (never a frozen literal).
+    const rakeReq = rungRequirements('R0').find((r) => r.type === 'count');
+    const rakesToR1 = rakeReq && rakeReq.type === 'count' ? rakeReq.target : 0;
+    for (let i = 0; i < rakesToR1; i++) atR1 = reduce(atR1, { type: 'rake_rice' });
     atR1 = playBeat(atR1); // R0 → R1 via the story beat (ADR-110)
     expect(atR1.rung).toBe('R1');
 
     const CAP = 5000;
-    // Count the farm acts that FILL the R1 meter (open the promotion gate). ADR-110: the rung no longer
-    // auto-advances, so we measure "acts to ready" (promotionReady) — the same acts-to-promote the
-    // old auto-promote consumed, still per-act (skill-independent).
-    const actsToR2 = (start: GameState): number => {
+    // Count the farm acts that COMPLETE R1's farm requirement (the design lever: a count
+    // requirement ticks once per act, never per yield — skill can't shrink the climb).
+    const farmReq = rungRequirements('R1').find(
+      (r) => r.type === 'count' && r.token === 'act:farm_paddy',
+    )!;
+    const actsToFarmDone = (start: GameState): number => {
       // v0.3.1 Step 5: farm_paddy is spatial — grind at its 'home-paddies' node.
       let s: GameState = { ...start, location: 'home-paddies' };
       let n = 0;
-      while (!promotionReady(s) && n < CAP) {
+      while (!isRequirementDone(farmReq, s.rungReqs) && n < CAP) {
         s = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
         n++;
       }
       return n;
     };
-    const low = actsToR2(atR1);
-    const high = actsToR2(addSkillXp(atR1, 'farming', 100_000));
-    expect(low).toBeLessThan(CAP); // we actually reached R2, not the guard cap
-    expect(low).toBe(high); // RUNG_POINTS_PER_ACT is per-act, not per-yield — skill doesn't shrink it
+    const low = actsToFarmDone(atR1);
+    const high = actsToFarmDone(addSkillXp(atR1, 'farming', 100_000));
+    expect(low).toBeLessThan(CAP); // the requirement actually completed, not the guard cap
+    expect(low).toBe(high); // per-act, not per-yield — skill doesn't shrink it
   });
 });
 

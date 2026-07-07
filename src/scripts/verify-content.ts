@@ -17,10 +17,7 @@ import {
   WEAPONS,
   WEAPON_IDS,
   ESTATE_STAGES,
-  balance,
 } from '../core';
-
-const { RUNG_METER_THRESHOLDS } = balance;
 
 const errors: string[] = [];
 
@@ -54,15 +51,8 @@ for (const r of RANKS) {
   }
 }
 
-// 3b. Rung-meter drift guard (audit G-PACING; ADR-056 — single profile, fork retired): the
-//     RUNG_METER_THRESHOLDS map is the single source of truth, mirrored 1:1 by RankDef.meterThreshold.
-for (const r of RANKS) {
-  if (RUNG_METER_THRESHOLDS[r.id] !== r.meterThreshold) {
-    errors.push(
-      `rank ${r.id}: RUNG_METER_THRESHOLDS (${RUNG_METER_THRESHOLDS[r.id]}) != RankDef.meterThreshold (${r.meterThreshold})`,
-    );
-  }
-}
+// 3b. (RETIRED with FB-121/ADR-137: the RUNG_METER_THRESHOLDS/meterThreshold mirror is gone —
+//     requirement-registry consistency is owned by src/core/content/requirements.test.ts.)
 
 // 4. Bestiary: grounded mobs only (no belief-creatures in spawn tables, canon §E),
 //    ids mirror, levels ≥ 1; weapons mirror + sane stats.

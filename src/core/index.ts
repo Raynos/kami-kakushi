@@ -103,13 +103,26 @@ export {
 export type { SkillProgress } from './skills';
 export {
   currentRank,
-  accrueRungMeter,
   applyPromotion,
   promotionReady,
   pendingPromotionTarget,
   rungProgress,
+  remainingRequirements,
   phaseOf,
 } from './ranks';
+// ── the rung requirements (FB-121 / ADR-137) ──
+export { RUNG_REQUIREMENTS, rungRequirements } from './content/requirements';
+export {
+  advanceOnToken,
+  settleOnState,
+  allRequirementsDone,
+  isRequirementDone,
+  rungPercentOf,
+  chunkCount,
+  NATIVE_PREDICATES,
+} from './requirements-engine';
+export type { RequirementDef, RequirementProgress, StatePredicate } from './requirements-engine';
+export { applyProgressEvent, settleRequirements } from './progress-events';
 // ── the rung-up story beats (ADR-110) ──
 export {
   RUNG_BEATS,
@@ -238,8 +251,9 @@ export {
   homeSatietyBonus,
   homeStorageBonus,
   homeHasCook,
+  estateBuild,
 } from './selectors';
-export type { LabourOption } from './selectors';
+export type { LabourOption, EstateBuild, EstateBuildRow } from './selectors';
 export { PEOPLE, PEOPLE_IDS, getPerson } from './content/people';
 export type { NodePerson, PersonDepth } from './content/people';
 

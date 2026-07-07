@@ -3,9 +3,6 @@
 // gen:docs own them. DEMO-tuned so the M0→M2 slice is reviewable in minutes while
 // the auto-repeat "leave it running" feel reads true.
 
-// Type-only import (erased at runtime — no module cycle) so the rung-meter profile
-// map can be keyed by the canonical RankId.
-import type { RankId } from './ranks';
 // Type-only (erased) — the rice season-price table is keyed by the canonical Season.
 import type { Season } from '../constants';
 
@@ -47,35 +44,9 @@ export const SKILL_XP_PER_ACT = 5; // base XP a labour act grants its skill (the
 export const HARVEST_AUTUMN_MULT_NUM = 13;
 export const HARVEST_AUTUMN_MULT_DEN = 10;
 
-// ── Rung meter (PRD §4.1.1 / FU6) — per-rung-reset; DEMO thresholds in ranks.ts ──
-/** Points a curated eligible activity adds to the current rung's meter. */
-export let RUNG_POINTS_PER_ACT = 2;
-
-// ── Rung-meter thresholds (audit G-PACING) — ADR-056: the DEMO/REAL profile fork is RETIRED
-// here at M2·8. ONE shipped profile, re-derived to the LOCKED T0 targets: R0 ≈ 5-min cold-open
-// (ADR-022); the climb rungs ≈ 10–15 min each (battery R4#2); T0 is ≥30-min-floor-EXEMPT (the
-// signed ≥30-min/rank floor gates from T1 per the 6-tier reshape, NOT T0 "quick but not easy").
-// Review velocity now comes from the DEV-only 2×/4×/8× speed toggle (ADR-056) — NOT a fast profile.
-// Single source of truth (gen:docs + verify-content + the pacing sim own it); mirrored by
-// RankDef.meterThreshold (verifier-enforced). PROVISIONAL / liquid (ADR-059) — tune by
-// `pnpm run pacing`. R0..R2 are simulator-verified to the targets; R3..R7 ride a gentle
-// continuing ramp (the sim stops at R3, so they re-derive when the T0-combat path is simulated). ──
-export const RUNG_METER_THRESHOLDS: Partial<Record<RankId, number>> = {
-  R0: 1100, // ≈ 5-min cold-open
-  R1: 2150, // ≈ 10 min
-  R2: 2600, // ≈ 12 min
-  R3: 2800, // ≈ 13 min (not sim-measured — sim stops at the R3 combat gate)
-  R4: 2950,
-  R5: 3100,
-  R6: 3250,
-  R7: 3400, // ≈ 16 min — the capstone, the longest climb
-};
-/** The active meter threshold for a rung (single profile — ADR-056, fork retired). */
-export function rungThreshold(rankId: RankId): number {
-  const t = RUNG_METER_THRESHOLDS[rankId];
-  if (t === undefined) throw new Error(`no meter threshold for rung ${rankId}`);
-  return t;
-}
+// ── Rung progression (FB-121 / ADR-137): the points meter is GONE. Each rung's authored
+// requirement list lives in narrative/requirements.md → content/requirements.ts; tuning is
+// edit → gen:narrative → sim — no balance.ts mirror, no cockpit slider (the locked design). ──
 
 /** The active-only auto-loop cadence (ONE dispatched intent per interval). Single-sourced
  *  here so the app loop AND the pacing report share it (was a magic 480 in main.ts). */
@@ -368,7 +339,7 @@ export const CURVE_MASTERY_MIN_KILLS = 8; // provisional (v0.2) — tune by play
 // ── Economy: skill → yield multiplier (audit #4) — a bounded "work → skill up →
 // faster output → work" accelerator. Integer fixed-point (no Math.pow), applied as
 // yield × (SKILL_YIELD_DEN + min((level-1)·PER_LEVEL_NUM, CAP_NUM)) / SKILL_YIELD_DEN.
-// Rung pacing is per-ACT (RUNG_POINTS_PER_ACT, fixed) so the multiplier accelerates
+// Rung progression counts ACTS (FB-121 requirement counts), so the multiplier accelerates
 // currency WITHOUT trivialising rung promotion. skillYieldNum(1) === DEN → L1 yields
 // are byte-identical to v0.1. ──
 export const SKILL_YIELD_DEN = 100; // fixed-point denominator for the skill yield multiplier
@@ -457,7 +428,7 @@ export function kuraRiceCap(estateStage: number): number {
 //
 // An explicit `switch` (not a dynamic table) keeps `tsc` owning the path list. The full §2 curated
 // set: scalar levers reassign their own `let` binding; STRUCTURED map paths (ESTATE_BANDS.*,
-// RUNG_METER_THRESHOLDS.*, STANCE_MODS.*, RICE_SELL_PRICE_BY_SEASON.*) mutate the runtime object IN
+// STANCE_MODS.*, RICE_SELL_PRICE_BY_SEASON.*) mutate the runtime object IN
 // PLACE — `readonly`/`as const` is compile-time only, so a local cast is safe and importers reading
 // the property/helper at call time see the change. `readBalanceLever` + `__setBalanceLever` MUST
 // stay in lockstep; the cockpit's registry round-trip test (set→read→reset every path) is the guard.
@@ -521,24 +492,6 @@ export function readBalanceLever(path: string): number {
     case 'COOK_HP_RESTORE':
       return COOK_HP_RESTORE;
     // Rung pacing (threshold levers carry the ranks.ts meterThreshold mirror in the export)
-    case 'RUNG_POINTS_PER_ACT':
-      return RUNG_POINTS_PER_ACT;
-    case 'RUNG_METER_THRESHOLDS.R0':
-      return RUNG_METER_THRESHOLDS.R0!;
-    case 'RUNG_METER_THRESHOLDS.R1':
-      return RUNG_METER_THRESHOLDS.R1!;
-    case 'RUNG_METER_THRESHOLDS.R2':
-      return RUNG_METER_THRESHOLDS.R2!;
-    case 'RUNG_METER_THRESHOLDS.R3':
-      return RUNG_METER_THRESHOLDS.R3!;
-    case 'RUNG_METER_THRESHOLDS.R4':
-      return RUNG_METER_THRESHOLDS.R4!;
-    case 'RUNG_METER_THRESHOLDS.R5':
-      return RUNG_METER_THRESHOLDS.R5!;
-    case 'RUNG_METER_THRESHOLDS.R6':
-      return RUNG_METER_THRESHOLDS.R6!;
-    case 'RUNG_METER_THRESHOLDS.R7':
-      return RUNG_METER_THRESHOLDS.R7!;
     // Sinks / upkeep
     case 'REPAIR_COIN_COST':
       return REPAIR_COIN_COST;
@@ -649,34 +602,6 @@ export function __setBalanceLever(path: string, value: number): void {
     case 'COOK_HP_RESTORE':
       COOK_HP_RESTORE = value;
       return;
-    // Rung pacing
-    case 'RUNG_POINTS_PER_ACT':
-      RUNG_POINTS_PER_ACT = value;
-      return;
-    case 'RUNG_METER_THRESHOLDS.R0':
-      RUNG_METER_THRESHOLDS.R0 = value;
-      return;
-    case 'RUNG_METER_THRESHOLDS.R1':
-      RUNG_METER_THRESHOLDS.R1 = value;
-      return;
-    case 'RUNG_METER_THRESHOLDS.R2':
-      RUNG_METER_THRESHOLDS.R2 = value;
-      return;
-    case 'RUNG_METER_THRESHOLDS.R3':
-      RUNG_METER_THRESHOLDS.R3 = value;
-      return;
-    case 'RUNG_METER_THRESHOLDS.R4':
-      RUNG_METER_THRESHOLDS.R4 = value;
-      return;
-    case 'RUNG_METER_THRESHOLDS.R5':
-      RUNG_METER_THRESHOLDS.R5 = value;
-      return;
-    case 'RUNG_METER_THRESHOLDS.R6':
-      RUNG_METER_THRESHOLDS.R6 = value;
-      return;
-    case 'RUNG_METER_THRESHOLDS.R7':
-      RUNG_METER_THRESHOLDS.R7 = value;
-      return;
     // Sinks / upkeep
     case 'REPAIR_COIN_COST':
       REPAIR_COIN_COST = value;
@@ -740,15 +665,6 @@ export const BALANCE_CANON: Readonly<Record<string, number>> = Object.freeze({
   STAMINA_FLAT_ABOVE,
   COOK_SANSAI_COST,
   COOK_HP_RESTORE,
-  RUNG_POINTS_PER_ACT,
-  'RUNG_METER_THRESHOLDS.R0': RUNG_METER_THRESHOLDS.R0!,
-  'RUNG_METER_THRESHOLDS.R1': RUNG_METER_THRESHOLDS.R1!,
-  'RUNG_METER_THRESHOLDS.R2': RUNG_METER_THRESHOLDS.R2!,
-  'RUNG_METER_THRESHOLDS.R3': RUNG_METER_THRESHOLDS.R3!,
-  'RUNG_METER_THRESHOLDS.R4': RUNG_METER_THRESHOLDS.R4!,
-  'RUNG_METER_THRESHOLDS.R5': RUNG_METER_THRESHOLDS.R5!,
-  'RUNG_METER_THRESHOLDS.R6': RUNG_METER_THRESHOLDS.R6!,
-  'RUNG_METER_THRESHOLDS.R7': RUNG_METER_THRESHOLDS.R7!,
   REPAIR_COIN_COST,
   REPAIR_WOOD_COST,
   'STANCE_MODS.jodan.atkMult': STANCE_MODS.jodan.atkMult,

@@ -13,21 +13,23 @@
 // at R2 to satisfy the storyGate). In-game days are flavour; the FLOOR is on wall-minutes.
 export {};
 
-import { createInitialState, reduce, RANKS, balance, focusedOptimalIntent } from '../core';
+import {
+  createInitialState,
+  reduce,
+  RANKS,
+  balance,
+  focusedOptimalIntent,
+  rungRequirements,
+} from '../core';
 
-const {
-  AUTO_REPEAT_MS,
-  RUNG_WALL_FLOOR_MIN,
-  T0_PACING_BAND_MIN,
-  T0_PACING_BAND_MAX,
-  rungThreshold,
-} = balance;
+const { AUTO_REPEAT_MS, RUNG_WALL_FLOOR_MIN, T0_PACING_BAND_MIN, T0_PACING_BAND_MAX } = balance;
 const SEED = 20260626;
 
 export interface RungPacing {
   rung: string;
   title: string;
-  threshold: number;
+  /** The rung's authored requirement count (FB-121 — the meter threshold is gone). */
+  requirements: number;
   act: string;
   acts: number;
   rests: number;
@@ -79,13 +81,15 @@ export function walkPacing(seed = SEED): RungPacing[] {
   const rows: RungPacing[] = [];
   for (const rank of RANKS) {
     const c = t[rank.id];
-    const threshold = rungThreshold(rank.id);
-    const terminal = rank.id === 'R3' && rank.storyGate({}) === false;
+    const requirements = rungRequirements(rank.id).length;
+    // R3 was terminal while its storyGate needed un-simulated combat; the FB-121 harness
+    // drives kill-requirements, so terminality is now discovered (walk stops), not declared.
+    const terminal = false;
     if (!c) {
       rows.push({
         rung: rank.id,
         title: rank.title,
-        threshold,
+        requirements,
         act: '-',
         acts: 0,
         rests: 0,
@@ -103,7 +107,7 @@ export function walkPacing(seed = SEED): RungPacing[] {
     rows.push({
       rung: rank.id,
       title: rank.title,
-      threshold,
+      requirements,
       act: c.act,
       acts: c.acts,
       rests: c.rests,
@@ -138,7 +142,7 @@ if (RUN_AS_CLI) {
   for (const r of rows) {
     const flag = r.terminal ? 'TERMINAL' : r.intents === 0 ? '-' : r.outOfBand ? 'OUT' : 'OK';
     console.log(
-      `${r.rung.padEnd(5)} ${r.title.padEnd(14)} ${String(r.threshold).padStart(6)} ${r.act.padEnd(13)} ${String(r.acts).padStart(6)} ${String(r.rests).padStart(6)} ${String(r.intents).padStart(8)} ${r.wallMin.toFixed(2).padStart(9)} ${r.inGameDays.toFixed(0).padStart(6)}  ${flag}`,
+      `${r.rung.padEnd(5)} ${r.title.padEnd(14)} ${String(r.requirements).padStart(6)} ${r.act.padEnd(13)} ${String(r.acts).padStart(6)} ${String(r.rests).padStart(6)} ${String(r.intents).padStart(8)} ${r.wallMin.toFixed(2).padStart(9)} ${r.inGameDays.toFixed(0).padStart(6)}  ${flag}`,
     );
   }
   const climb = rows.filter((r) => !r.terminal && r.intents > 0);

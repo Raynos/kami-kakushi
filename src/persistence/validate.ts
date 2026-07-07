@@ -187,7 +187,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'belongings'
     | 'location'
     | 'rung'
-    | 'rungMeter'
+    | 'rungReqs'
     | 'estateStage'
     | 'autoActivity'
     | 'autoRake'
@@ -263,7 +263,9 @@ export function validateState(rawState: unknown): ValidateResult {
     belongings: Array.isArray(base.belongings) ? (base.belongings as readonly string[]) : [],
     location,
     rung: base.rung ?? 'R0',
-    rungMeter: typeof base.rungMeter === 'number' ? base.rungMeter : 0,
+    // Per-requirement rung progress (v8, FB-121/ADR-137). Malformed -> {} (progress within
+    // the current rung restarts -- the same deliberate default as the v7->v8 migration).
+    rungReqs: isObject(base.rungReqs) ? (base.rungReqs as GameState['rungReqs']) : {},
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,
     // ── in-flight automation is NOT restored on load (FB-32) ──────────────────────────────
     // A loaded save starts IDLE: the "currently auto-doing X" targets (auto-labour,

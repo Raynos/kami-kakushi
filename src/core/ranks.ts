@@ -1,12 +1,15 @@
-// The rung ladder engine (PRD §3.2.1 / §4.1.1 / FU6). The Estate Service rung-meter
-// accrues from the current rung's CURATED eligible activities and promotes on the
-// AND-gate (meter ≥ threshold AND the story milestone). Promotion resets the meter
-// and fires the next rank's RewardBundle (the reveal reads as plot). The phase is
-// DERIVED from the current rung (never a separate stored flag, FU7).
+// The rung ladder engine (PRD §3.2.1 / §4.1.1 / FU6, reworked by FB-121 / ADR-137).
+// Each rung carries an authored HIDDEN requirement list (content/requirements.ts);
+// progress IS the requirements — the player sees only a rounded integer percent, and
+// 100% alone opens the gate (the old meter-AND-storyGate model is deleted, not
+// wrapped). Promotion resets the progress map and fires the next rank's RewardBundle
+// (the reveal reads as plot). The phase is DERIVED from the current rung (FU7).
 
 import type { GameState } from './state';
 import { getRank, nextRankId, type RankDef, type RankId } from './content/ranks';
-import { RUNG_POINTS_PER_ACT, rungThreshold } from './content/balance';
+import { allRequirementsDone, isRequirementDone, rungPercentOf } from './requirements-engine';
+import type { RequirementDef } from './requirements-engine';
+import { rungRequirements } from './content/requirements';
 import { getWeapon } from './content/weapons';
 import { applyRewards } from './rewards';
 import { satietyMax } from './selectors';
@@ -15,29 +18,28 @@ export function currentRank(state: GameState): RankDef {
   return getRank(state.rung);
 }
 
-/** Add meter points if the just-performed action feeds the current rung (FU7). */
-export function accrueRungMeter(state: GameState, actionId: string): GameState {
-  const rank = getRank(state.rung);
-  if (!rank.eligible.includes(actionId)) return state;
-  return { ...state, rungMeter: state.rungMeter + RUNG_POINTS_PER_ACT };
-}
-
-/** Distance-to-next-gate read for the rung ladder (ui-design §5.3). */
-export function rungProgress(state: GameState): { into: number; needed: number; ready: boolean } {
-  const rank = getRank(state.rung);
-  const needed = rungThreshold(rank.id);
-  const ready = state.rungMeter >= needed && rank.storyGate(state.flags);
+/** The player-facing rung read (ui-design §5.3): a rounded INTEGER percent 0–100
+ *  (100 ⟺ every requirement done — the engine's 99-clamp keeps rounding honest)
+ *  and the gate state. The SAME engine fn feeds the bar, the sim, and the gate
+ *  (AC-6 — no drift between preview and reality). */
+export function rungProgress(state: GameState): { percent: number; ready: boolean } {
+  const defs = rungRequirements(state.rung);
   return {
-    into: Math.min(state.rungMeter, needed),
-    needed,
-    ready,
+    percent: rungPercentOf(defs, state.rungReqs),
+    ready: allRequirementsDone(defs, state.rungReqs),
   };
 }
 
-/** True when the CURRENT rung's AND-gate is open (meter ≥ threshold AND the story milestone).
- *  A thin read over `rungProgress().ready` — the header affordance + `begin_rung_beat` consult it.
- *  ADR-110: a ready promotion HOLDS here; nothing advances until the player triggers + completes the
- *  rung beat (`choose_rung_option` → `applyPromotion`). */
+/** The CURRENT rung's not-yet-done requirements, in authored order — the harness/sim
+ *  policies read this ("is only the wolf left?"), never the raw progress map. */
+export function remainingRequirements(state: GameState): readonly RequirementDef[] {
+  return rungRequirements(state.rung).filter((d) => !isRequirementDone(d, state.rungReqs));
+}
+
+/** True when the CURRENT rung's requirement list is fully done (100% IS ready — the
+ *  old AND-gate died with the meter). ADR-110 still holds: a ready promotion BANKS
+ *  here; nothing advances until the player triggers + completes the rung beat
+ *  (`begin_rung_beat` → `choose_rung_option` → `applyPromotion`). */
 export function promotionReady(state: GameState): boolean {
   return rungProgress(state).ready;
 }
@@ -55,7 +57,7 @@ export function pendingPromotionTarget(state: GameState): RankId | null {
  *  the gate is verified by `promotionReady` before `begin_rung_beat`. */
 export function applyPromotion(state: GameState, target: RankId): GameState {
   const rank = getRank(target);
-  let next: GameState = { ...state, rung: target, rungMeter: 0 };
+  let next: GameState = { ...state, rung: target, rungReqs: {} };
   if (rank.rewardOnReach) next = applyRewards(next, rank.rewardOnReach);
   // ADR-122 — the T0 status token: a rung that grants `wall-weapon` mounts the weapon you WIELD at that
   // moment on your home wall (the status-mirror). The reveal names your ACTUAL weapon (never a generic

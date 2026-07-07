@@ -69,6 +69,7 @@ import {
   STANCE_ORDER,
   AREAS,
   ESTATE_STAGES,
+  estateBuild,
   NAMES,
   RECIPES,
   MATERIALS,
@@ -93,6 +94,7 @@ import {
   balance,
   NPC_NAME,
   NPC_VOICE,
+  rungRequirements,
 } from '../core';
 import { LOG_FILTERS, logFilterMatches, type LogFilter } from './log-filter';
 import {
@@ -117,9 +119,18 @@ import type { Sfx } from './sfx';
 // without pulling ui/dev.ts into the prod bundle. The dev value is undefined in prod (main.ts).
 import type { DevApi } from './dev';
 
-// rung-meter at which the R0 rake gains its auto-repeat toggle — a few manual rakes' worth
-// (RUNG_POINTS_PER_ACT≈2), so the first rakes land as juice before the grind can be automated.
-const RAKE_AUTO_REVEAL_METER = 10;
+// rake COUNT at which the R0 rake gains its auto-repeat toggle — a few manual rakes' worth,
+// so the first rakes land as juice before the grind can be automated (FB-121: read from the
+// R0 requirement's progress, the same stream the % bar consumes).
+const RAKE_AUTO_REVEAL_COUNT = 5;
+/** Rakes done this rung — the R0 rake requirement's live progress, found by its TOKEN
+ *  (registry-derived; never a copied requirement id). 0 once promoted past R0. */
+function rakeCount(state: GameState): number {
+  const req = rungRequirements(state.rung).find(
+    (r) => r.type === 'count' && r.token === 'act:rake_rice',
+  );
+  return req ? (state.rungReqs[req.id] ?? 0) : 0;
+}
 
 const META_LABELS: Record<'open_eyes' | 'rake_rice' | 'rest', string> = {
   open_eyes: 'Open your eyes',
@@ -689,7 +700,7 @@ export function mount(
   header.append(health, stamina, wood.wrap, sansai.wrap);
 
   // ── FB-106 (ADR-110) — the RUNG element in the fixed header, top-right: a compact rung name + a
-  //    progress bar (the rungMeter toward the next rung) with a HOVER card of detail. This is the
+  //    progress bar (the requirement percent toward the next rung, FB-121) with a HOVER card of detail. This is the
   //    rung's HOME + the PLAYER-TRIGGERED beat start: when a promotion is READY (and no beat is live
   //    / not in the intro) the element becomes the "Answer the summons" affordance → dispatch
   //    `begin_rung_beat`, which navigates to the full-screen VN beat. It NEVER auto-fires — a ready
@@ -834,6 +845,8 @@ export function mount(
   let estateRefs: {
     card: HTMLElement;
     now: HTMLElement;
+    ladder: HTMLElement;
+    ladderRows: { row: HTMLElement; mark: HTMLElement; name: HTMLElement; gauge: HTMLElement }[];
     blurb: HTMLElement;
     hint: HTMLElement;
     btn: HTMLButtonElement;
@@ -1315,10 +1328,9 @@ export function mount(
       state.rungBeat === null &&
       !introActive(state.introBeat);
     setText(rungHeadName, `${rank.title} ${rank.kanji}`);
-    // hold the fill just shy of full while story-gated (mirror the ladder), fill it when ready.
-    const gated = prog.into >= prog.needed && !prog.ready;
-    const frac = prog.needed > 0 ? Math.max(0, Math.min(1, prog.into / prog.needed)) : 0;
-    setStyle(rungHeadFill, 'width', `${ready ? 100 : gated ? 92 : Math.round(frac * 100)}%`);
+    // FB-121: the fill IS the rounded requirement percent (rungProgress/AC-6 — the same
+    // engine read as the gate, so 100 ⟺ ready and the old "gated at 92%" state is gone).
+    setStyle(rungHeadFill, 'width', `${prog.percent}%`);
     setClass(rungHead, 'ready', ready);
     setDisabled(rungHeadTrigger, !ready); // clickable ONLY when a promotion is ready — never auto
     toggle(rungHeadCue, ready);
@@ -1326,17 +1338,13 @@ export function mount(
       ? target
         ? `Answer the summons — begin the ${getRank(target).title} beat`
         : 'Answer the summons'
-      : `${rank.title} — Estate service ${prog.into}/${prog.needed}`;
+      : `${rank.title} — Estate service ${prog.percent}%`;
     if (rungHeadTrigger.title !== triggerTitle) rungHeadTrigger.title = triggerTitle;
     // the hover-card detail (FB-106): the current rung, the meter numbers, the next rung.
     setText(rungHeadCardNow, `${rank.title} · ${rank.kanji}`);
     setText(
       rungHeadCardMeter,
-      prog.ready
-        ? 'Ready to advance — answer the summons.'
-        : gated
-          ? (rank.advanceHint ?? 'The work is done — a deed still stands before the next rung.')
-          : `Estate service · ${prog.into}/${prog.needed}`,
+      prog.ready ? 'Ready to advance — answer the summons.' : `Estate service · ${prog.percent}%`,
     );
     const nid = nextRankId(rank.id);
     setText(
@@ -1372,21 +1380,55 @@ export function mount(
     if (!estateRefs) {
       const card = el('div', 'rung-card frame');
       const now = el('div', 'rung-now');
+      // ADR-145 Phase 4 — the BUILD LADDER (the tracker's shipped default A): one keyed row per
+      // stage, patched in place (P4 append-only). Locked stages stay UNNAMED (P15/TST3 — the U4
+      // reveal is a story beat, not a menu spoiler).
+      const ladder = el('div', 'build-ladder');
+      const ladderRows = ESTATE_STAGES.map(() => {
+        const row = el('div', 'build-ladder-row');
+        const mark = el('span', 'build-ladder-mark');
+        const name = el('span', 'build-ladder-name');
+        const gauge = el('span', 'build-ladder-gauge');
+        row.append(mark, name, gauge);
+        ladder.append(row);
+        return { row, mark, name, gauge };
+      });
       const blurb = el('div', 'skill-blurb');
       const hint = el('div', 'rung-hint');
       const btn = el('button', 'verb');
       btn.type = 'button';
       btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
-      card.append(now, blurb, hint, btn);
+      card.append(now, ladder, blurb, hint, btn);
       estatePane.append(card);
       const rooms = el('div', 'rung-card frame');
       rooms.append(el('div', 'rung-now', 'The house reopens 家'));
       const roomList = el('div', 'house-room-list');
       rooms.append(roomList);
       estatePane.append(rooms);
-      estateRefs = { card, now, blurb, hint, btn, rooms, roomList };
+      estateRefs = { card, now, ladder, ladderRows, blurb, hint, btn, rooms, roomList };
     }
     const r = estateRefs;
+    // the build-tracker DIVERGE hook (ADR-075): a selected B/C repaints the ladder region only.
+    const trackerVaried =
+      __DEV_TOOLS__ && dev ? dev.renderVariant('build-tracker', r.ladder, state, dispatch) : false;
+    if (!trackerVaried) {
+      const build = estateBuild(state);
+      build.rows.forEach((rowData, i) => {
+        const refs = r.ladderRows[i]!;
+        const built = rowData.status === 'built';
+        const cls = `build-ladder-row is-${rowData.status}`;
+        if (refs.row.className !== cls) refs.row.className = cls;
+        setText(refs.mark, built ? '◆' : rowData.status === 'next' ? '▹' : '▢');
+        // a locked stage is a promise, not a preview — the name inks in when it becomes next
+        setText(refs.name, rowData.status === 'locked' ? 'the works continue' : rowData.def.label);
+        setText(
+          refs.gauge,
+          rowData.status === 'next' && rowData.deedGate > 0
+            ? `standing ${Math.min(state.influence.estate.value, rowData.deedGate)} / ${rowData.deedGate} koku`
+            : '',
+        );
+      });
+    }
     const stage = state.estateStage;
     const name = ESTATE_STAGE_NAMES[stage] ?? ESTATE_STAGE_NAMES[ESTATE_STAGE_NAMES.length - 1]!;
     setText(r.now, `Estate · ${name}`);
@@ -2664,7 +2706,7 @@ export function mount(
       patch: (node, a) => {
         if (a !== 'rake_rice') return;
         const auto = node.querySelector<HTMLButtonElement>('.auto-toggle')!;
-        toggle(auto, state.rungMeter >= RAKE_AUTO_REVEAL_METER);
+        toggle(auto, rakeCount(state) >= RAKE_AUTO_REVEAL_COUNT);
         const on = state.autoRake;
         setClass(auto, 'on', on);
         setText(auto, on ? '■ stop' : '▶ auto');

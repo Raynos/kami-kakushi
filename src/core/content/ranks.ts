@@ -1,10 +1,9 @@
-// The T0 estate rung ladder (PRD §3.2 / §3.2.1 earned-transition spine / §4.1.1).
-// Phase 1 = climb the rungs; each promotes on an AND-gate: the per-rung-reset
-// numeric meter ≥ its threshold AND the rung's story milestone. The meter is fed by
-// CURATED per-rung activities (a one-to-many set, not a single repeat-counter; FU7).
+// The T0 estate rung ladder (PRD §3.2 / §3.2.1 earned-transition spine / §4.1.1,
+// reworked by FB-121 / ADR-137). Phase 1 = climb the rungs; each promotes when its
+// authored HIDDEN requirement list (content/requirements.ts, gen'd from narrative
+// markdown) is fully done — the old meter/threshold/storyGate AND-gate is deleted.
+// `eligible` remains the CURATED per-rung labour pool for the auto-play/sim harness.
 // `rewardOnReach` fires when promoted INTO that rank (the reveal reads as plot).
-//
-// M1 authors R0→R2 fully; R3 (the combat gate) is filled at M2a; R4→R7 at M3.
 
 import type { RewardBundle } from '../rewards';
 import { NAMES } from './names';
@@ -17,17 +16,10 @@ export interface RankDef {
   readonly title: string;
   readonly kanji: string;
   readonly granter?: string;
-  /** Points to fill THIS rung's meter, toward the next rung (per-rung-reset). The canonical
-   *  mirror of balance.RUNG_METER_THRESHOLDS[id] (drift is verifier-enforced); resolved at
-   *  runtime via balance.rungThreshold(id). Single profile since ADR-056 (fork retired). */
-  readonly meterThreshold: number;
-  /** Action ids that feed the meter while AT this rung (curated, one-to-many). */
+  /** Action ids CURATED for this rung — the auto-play/sim labour pool (FB-121: the meter
+   *  they once fed is gone; progression is the authored requirement list in
+   *  content/requirements.ts, re-audit this field at Phase 5). */
   readonly eligible: readonly string[];
-  /** The story half of the AND-gate (flags). Defaults to always-ready. */
-  readonly storyGate: (flags: Readonly<Record<string, boolean>>) => boolean;
-  /** Shown by the rung ladder when the meter is FULL but the storyGate is unmet — the deed still
-   *  owed, so a maxed bar never reads as a dead/stuck wall (fun-factor "always a visible next goal"). */
-  readonly advanceHint?: string;
   /** Fired when promoted INTO this rank. */
   readonly rewardOnReach?: RewardBundle;
 }
@@ -38,9 +30,7 @@ export const RANKS: readonly RankDef[] = [
     tier: 0,
     title: 'Day-labourer',
     kanji: '日雇',
-    meterThreshold: 1100, // ADR-056 single profile — ≈ 5-min cold-open (mirrors balance.ts)
     eligible: ['rake_rice'],
-    storyGate: () => true, // raking the spilled stores is proof enough to be kept on
   },
   {
     id: 'R1',
@@ -48,10 +38,7 @@ export const RANKS: readonly RankDef[] = [
     title: 'Kept hand',
     kanji: '下人',
     granter: NAMES.elder,
-    meterThreshold: 2150, // ≈ 10 min
     eligible: ['farm_paddy', 'haul_stores'],
-    storyGate: (f) => f['farmed'] === true, // you've taken to the fieldwork
-    advanceHint: 'Service enough — now take to the fieldwork. Farm the home paddies.',
     rewardOnReach: {
       // Each rung stamps its own `rank-rN` marker — a deliberate SYMMETRIC set (battery #19 audit):
       // `rank-r1` gates a reveal (intents.ts) and the rest are the per-rung record used by test
@@ -77,10 +64,7 @@ export const RANKS: readonly RankDef[] = [
     title: 'Trusted hand',
     kanji: '手代',
     granter: NAMES.elder,
-    meterThreshold: 2600, // ≈ 12 min
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
-    storyGate: (f) => f['first-fight-survived'] === true, // the humbling fight (M2a) opens R3
-    advanceHint: 'Service enough — but the grain-store wolf still waits. Face it to rise.',
     rewardOnReach: {
       flags: ['rank-r2', 'porters-knot'],
       // FB-103 / ADR-110: both the milestone prose AND the porters-knot narration move into
@@ -109,12 +93,9 @@ export const RANKS: readonly RankDef[] = [
     title: 'Gate-watch',
     kanji: '門番',
     granter: NAMES.drillmaster,
-    meterThreshold: 2800, // ≈ 13 min (not sim-measured — sim stops at the R3 combat gate)
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
-    // M2·2: R3→R4 opens once you've actually stood the gate-watch — done real combat duty,
-    // not merely filled the meter with labour (the `combat-blooded` flag, set on any grind fight).
-    storyGate: (f) => f['combat-blooded'] === true,
-    advanceHint: 'Service enough — now blood the blade. Stand a real watch in the field.',
+    // M2·2 lineage: R3→R4 once required real combat duty (the `combat-blooded` storyGate);
+    // FB-121 carries that intent as R3's kill:* requirements in requirements.md.
     rewardOnReach: {
       flags: ['rank-r3', 'combat-unlocked'],
       // v0.3.2 A7 — staggered combat reveal (§4.6.9): R3 opens combat's FLOOR only — the weapon,
@@ -140,9 +121,7 @@ export const RANKS: readonly RankDef[] = [
     title: 'Kura-warden',
     kanji: '蔵番',
     granter: NAMES.elder,
-    meterThreshold: 2950,
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
-    storyGate: () => true,
     rewardOnReach: {
       flags: ['rank-r4'],
       // v0.3.2 A7 — the loot→craft beat: weapon durability bands + repair + the Equipment/craft
@@ -157,9 +136,7 @@ export const RANKS: readonly RankDef[] = [
     title: 'House-servant',
     kanji: '家人',
     granter: NAMES.elder,
-    meterThreshold: 3100,
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
-    storyGate: () => true,
     rewardOnReach: {
       // ADR-122 — the T0 status token: reaching R5 mounts the weapon you WIELD on your home wall (the
       // housing status-mirror). The `wall-weapon` flag latches the mount; applyPromotion emits the
@@ -179,9 +156,7 @@ export const RANKS: readonly RankDef[] = [
     title: "Steward's man",
     kanji: '用人',
     granter: NAMES.steward,
-    meterThreshold: 3250,
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
-    storyGate: () => true,
     rewardOnReach: {
       flags: ['rank-r6'],
       unlock: ['house-workshops', 'house-granary'],
@@ -194,9 +169,7 @@ export const RANKS: readonly RankDef[] = [
     title: 'Trusted of the house',
     kanji: '内衆',
     granter: NAMES.lord,
-    meterThreshold: 3400,
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
-    storyGate: () => true,
     rewardOnReach: {
       // the T0 capstone: `t0-capstone` opens Phase 2 (`phaseOf`), where Estate-pillar deeds
       // begin to bank toward the T0→T1 ascension grade (built in M2·3–M2·5).

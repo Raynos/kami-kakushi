@@ -156,8 +156,11 @@ export interface GameState {
   readonly location: MapNodeId;
   /** Current estate rung (Phase-1 ladder, PRD §3.2). */
   readonly rung: RankId;
-  /** The per-rung-reset Estate Service meter toward the next rung (PRD §4.1.1). */
-  readonly rungMeter: number;
+  /** Per-requirement progress for the CURRENT rung (FB-121 / ADR-137) — keyed by the
+   *  authored requirement id; count reqs 0..target, atomic (state/flag) reqs 0|1,
+   *  completion latched. Reset to {} on promotion, exactly like the old meter.
+   *  SCHEMA_VERSION 8 (replaces `rungMeter`). */
+  readonly rungReqs: Readonly<Record<string, number>>;
   /** Kura-works PURCHASE stage U0…U4 (the coin upgrade ladder; ADR-098/ADR-107). The narrative
    *  CONDITION ladder E0–E5 is a SEPARATE axis (docs only). Flavour, not a sim; PRD §2.17. */
   readonly estateStage: number;
@@ -220,7 +223,7 @@ export function createInitialState(seed: number): GameState {
     belongings: [], // no bought furniture yet; the granted mat + bowl arrive with the home at R1
     location: 'kura',
     rung: 'R0',
-    rungMeter: 0,
+    rungReqs: {},
     estateStage: 0,
     autoActivity: null,
     autoRake: false,

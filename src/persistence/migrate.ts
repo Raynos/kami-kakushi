@@ -58,6 +58,13 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // save owns no BOUGHT furniture yet. The GRANTED keepsakes (the mat + bowl) are derived from the
   // home surface (not stored), so an R1+ save shows them the moment it loads; nothing else moves.
   6: (s) => ({ ...(s as object), belongings: [] }),
+  // v7 -> v8 (REQUIREMENTS progression, FB-121 / ADR-137): the points meter dies -- `rungMeter`
+  // is dropped and the per-requirement progress map hydrates empty. In-rung progress restarts
+  // (deliberate, CHANGELOG'd on ship); the rung itself + everything earned is untouched.
+  7: (s) => {
+    const { rungMeter: _dropped, ...rest } = s as Record<string, unknown>;
+    return { ...rest, rungReqs: {} };
+  },
 };
 
 export function migrate(

@@ -103,8 +103,17 @@ describe('migrate() — ordered forward chain (PRD §6.8.2)', () => {
     expect(v7.belongings).toEqual([]); // v6→v7: the belongings store
   });
 
-  it('a current (v7) save is unchanged by the chain', () => {
-    const s = { schemaVersion: 7 };
-    expect(migrate(s, 7)).toBe(s); // already at target => identity
+  it('a current (v8) save is unchanged by the chain', () => {
+    const s = { schemaVersion: 8 };
+    expect(migrate(s, 8)).toBe(s); // already at target => identity
+  });
+
+  it('v7 → v8 (FB-121): rungMeter drops, rungReqs hydrates empty; nothing else moves', () => {
+    const v7 = { schemaVersion: 7, rungMeter: 476, rung: 'R2', flags: { farmed: true } };
+    const v8 = migrate(v7, 7, 8) as Record<string, unknown>;
+    expect(v8.rungMeter).toBeUndefined(); // the points meter is GONE, not carried
+    expect(v8.rungReqs).toEqual({}); // in-rung progress restarts (deliberate, CHANGELOG'd)
+    expect(v8.rung).toBe('R2'); // the rung itself + everything earned is untouched
+    expect(v8.flags).toEqual({ farmed: true });
   });
 });

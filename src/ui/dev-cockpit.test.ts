@@ -96,12 +96,7 @@ describe('buildTuneArtifact — the pure export-diff builder', () => {
     expect(md).not.toContain('export let ESTATE_BANDS'); // structured ≠ a scalar binding
   });
 
-  it('a rung-threshold tune adds the ranks.ts mirror bullet; a scalar does not', () => {
-    const withRung = buildTuneArtifact(
-      [{ path: 'RUNG_METER_THRESHOLDS.R7', canon: 3400, current: 4000 }],
-      META,
-    );
-    expect(withRung).toContain('src/core/content/ranks.ts');
+  it('no lever emits the retired ranks.ts mirror bullet (FB-121: the rung sliders are gone)', () => {
     const scalar = buildTuneArtifact([{ path: 'RICE_PER_RAKE', canon: 3, current: 4 }], META);
     expect(scalar).not.toContain('src/core/content/ranks.ts');
   });

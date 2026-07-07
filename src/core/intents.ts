@@ -30,7 +30,7 @@ import {
 } from './selectors';
 import { getBelonging, homeRestLine } from './content/home';
 import { skillLevel, skillYieldNum } from './skills';
-import { accrueRungMeter, applyPromotion, promotionReady, pendingPromotionTarget } from './ranks';
+import { applyPromotion, promotionReady, pendingPromotionTarget } from './ranks';
 import { bankEstateDeed } from './pillars';
 import { ascend } from './ascension';
 import { isUnlocked } from './unlock';
@@ -73,7 +73,8 @@ import { RUNG_BEATS, rungTopic, rungOption, type RungScene } from './content/run
 import { NPC_VOICE, NPC_NAME, type NpcId, type VoiceCategory } from './content/voices';
 import type { RankId } from './content/ranks';
 import { getRecipe, canCraft } from './content/crafting';
-import { acceptQuest, applyQuestEvent } from './quest-engine';
+import { acceptQuest } from './quest-engine';
+import { applyProgressEvent, settleRequirements } from './progress-events';
 import { getItem, canBuy } from './content/market';
 import { canMove, getNode } from './content/map';
 import { CONDITIONING_GATE_LEVEL } from './content/balance';
@@ -143,10 +144,12 @@ function adjustSatiety(state: GameState, delta: number): GameState {
 }
 
 function finish(state: GameState): GameState {
-  // ADR-110: the hot path NO LONGER auto-promotes. A ready promotion HOLDS (the meter caps visually);
-  // the rung advances ONLY through the player-triggered beat (begin_rung_beat → choose_rung_option →
-  // applyPromotion). `finish` just runs the reveal pass, so filling the meter never bumps the rung.
-  return revealPass(state);
+  // FB-121: the requirement settle pass — atomic (state/flag) requirements latch against the
+  // post-intent snapshot, so a flag set or a purse filled ANYWHERE is noticed the same tick.
+  // ADR-110 still holds: the hot path NO LONGER auto-promotes. A ready promotion HOLDS (the bar
+  // sits at 100%); the rung advances ONLY through the player-triggered beat (begin_rung_beat →
+  // choose_rung_option → applyPromotion). Then the reveal pass runs as before.
+  return revealPass(settleRequirements(state));
 }
 
 /** Deliver any not-yet-shown, gate-satisfied lines of a dialogue into the story log (the
@@ -497,7 +500,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // reveal-as-plot, ONE line per rake (not the whole raked-gated monologue on the first click):
       // gen-rake lands on rake #1, gen-keep on #2, gen-kept on #3 — the teach paces with the work.
       next = deliverDialogue(next, COLD_OPEN_DIALOGUE_ID, 1);
-      next = accrueRungMeter(next, 'rake_rice');
+      next = applyProgressEvent(next, 'act:rake_rice'); // FB-121: the requirement stream
       next = advanceClock(next, TICKS_PER_ACT);
       break;
     }
@@ -562,12 +565,13 @@ export function reduce(state: GameState, intent: Intent): GameState {
           },
         ],
       });
-      next = accrueRungMeter(next, act.id);
+      // one token stream (AC-20 glue): 'act:<id>' feeds the rung requirements (FB-121);
+      // 'gather:<resource>' per yielded thing feeds quests AND requirements (ADR-037).
+      next = applyProgressEvent(next, `act:${act.id}`);
       // Phase 2 (post-R7): ESTATE-RELEVANT labour banks its source's Estate deed (ADR-145 —
       // multi-source; woodcut/forage carry no deedSource and bank nothing; no-op in Phase 1).
       next = bankEstateDeed(next, act.deedSource);
-      // quest advance tokens — 'gather:<resource>' for each thing the act yielded (ADR-037).
-      for (const res of Object.keys(gained)) next = applyQuestEvent(next, `gather:${res}`);
+      for (const res of Object.keys(gained)) next = applyProgressEvent(next, `gather:${res}`);
       next = advanceClock(next, TICKS_PER_ACT);
       break;
     }
@@ -632,6 +636,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = withResource(next, 'wood', -REPAIR_WOOD_COST);
       if (coinFee > 0) next = withResource(next, 'coin', -coinFee);
       next = { ...next, weaponDurability: weapon.durabilityMax };
+      next = applyProgressEvent(next, 'act:repair_weapon'); // FB-121 (the R4 mend requirement)
       next = applyRewards(next, {
         log: [
           {

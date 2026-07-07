@@ -27,6 +27,7 @@ import {
   SETTLED_HOME_SET,
   SETTLED_HOME_REST_BONUS,
   balance,
+  rungRequirements,
 } from '../core';
 
 const OUT = 'docs/content/t0-content.md';
@@ -64,11 +65,13 @@ function generate(): string {
 
   L.push('## Rung ladder (T0 — Estate)');
   L.push('');
-  L.push('| rung | title | kanji | meter | eligible | granter |');
+  L.push('| rung | title | kanji | requirements | eligible | granter |');
   L.push('|---|---|---|---|---|---|');
   for (const r of RANKS) {
+    // FB-121: the meter threshold is gone — the authored requirement count stands in; the
+    // full lists render in docs/content/t0-story.md (gen-narrative).
     L.push(
-      `| ${r.id} | ${r.title} | ${r.kanji} | ${r.meterThreshold} | ${r.eligible.join(', ')} | ${r.granter ?? '—'} |`,
+      `| ${r.id} | ${r.title} | ${r.kanji} | ${rungRequirements(r.id).length} | ${r.eligible.join(', ')} | ${r.granter ?? '—'} |`,
     );
   }
   L.push('');

@@ -36,7 +36,9 @@ function checkState(s: GameState): string | null {
   for (const [k, v] of Object.entries(s.skillXp)) {
     if (!finite(v ?? 0) || (v ?? 0) < 0) return `skillXp ${k}=${v}`;
   }
-  if (!finite(s.rungMeter) || s.rungMeter < 0) return `rungMeter=${s.rungMeter}`;
+  for (const [k, v] of Object.entries(s.rungReqs)) {
+    if (!finite(v) || v < 0) return `rungReqs ${k}=${v}`;
+  }
   if (!finite(s.tier) || s.tier < 0) return `tier=${s.tier}`;
   if (!finite(s.estateStage) || s.estateStage < 0) return `estateStage=${s.estateStage}`;
   if (!finite(s.weaponDurability) || s.weaponDurability < 0)

@@ -7,11 +7,20 @@
 // the sim and the in-roster G-PACING gate can be equality-checked against each other (Ph1 DoD).
 
 import type { GameState, Intent, RankId } from '../core';
-import { balance, durabilityBand, getWeapon, hasFlag, satietyMax } from '../core';
+import {
+  balance,
+  durabilityBand,
+  getWeapon,
+  hasFlag,
+  satietyMax,
+  rungProgress,
+  rungRequirements,
+} from '../core';
 
 export interface RungMetric {
   rung: RankId;
-  threshold: number;
+  /** The rung's authored requirement count (FB-121 — the meter threshold is gone). */
+  requirements: number;
   /** walkPacing-compatible buckets: productive acts (rake/do_activity), rests, meta
    *  (open_eyes/face_wolf). walkCompatIntents = acts + rests + meta — MUST equal
    *  walkPacing()'s `intents` for R0–R2 on the canonical seed (the Ph1 equality DoD). */
@@ -135,7 +144,7 @@ function totalCoin(s: GameState): number {
  *  hp UP counts (mending is progress toward a fight); hp down does not (losing isn't). */
 export function madeProgress(before: GameState, after: GameState): boolean {
   if (after.tier !== before.tier || after.rung !== before.rung) return true;
-  if (after.rungMeter > before.rungMeter) return true;
+  if (rungProgress(after).percent > rungProgress(before).percent) return true;
   if (after.influence.estate.value > before.influence.estate.value) return true;
   const wealth = (s: GameState): number =>
     (s.resources.coin ?? 0) + (s.resources.rice ?? 0) + (s.banked.coin ?? 0) + (s.banked.rice ?? 0);
@@ -176,7 +185,7 @@ export function createCollector(personaId: string, seed: number): Collector {
     if (!r) {
       r = {
         rung,
-        threshold: balance.rungThreshold(rung),
+        requirements: rungRequirements(rung).length,
         acts: 0,
         rests: 0,
         meta: 0,

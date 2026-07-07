@@ -26,12 +26,8 @@ import {
   type GameState,
   type Intent,
 } from './index';
-import {
-  SKILL_XP_BASE,
-  rungThreshold,
-  RUNG_POINTS_PER_ACT,
-  RICE_PER_RAKE,
-} from './content/balance';
+import { SKILL_XP_BASE, RICE_PER_RAKE } from './content/balance';
+import { rungRequirements } from './content/requirements';
 import { getDialogueLine, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import { COLD_OPEN, rakeLine } from './content/coldOpen';
 import { NAMES } from './content/names';
@@ -49,11 +45,26 @@ function farm(n: number): Intent[] {
     () => ({ type: 'do_activity', activityId: 'farm_paddy' }) as Intent,
   );
 }
-// Acts to fill the CURRENT rung's meter — flat RUNG_POINTS_PER_ACT/act, satiety-INDEPENDENT
-// (ranks.ts). ADR-056 retired the tiny DEMO thresholds, so a promotion is driven by the rung's
-// real point count, not a hand-tuned literal; deriving it keeps these tests threshold-agnostic.
-const actsToPromote = (s: GameState): number =>
-  Math.ceil(rungThreshold(s.rung) / RUNG_POINTS_PER_ACT);
+// FB-121: a promotion is the CURRENT rung's authored requirement list, done. Counts derive
+// from the gen'd registry (ADR-086 — never frozen literals), so a requirements.md retune
+// keeps these tests true. `haul(n)` mirrors `farm(n)` for the multi-requirement rungs.
+const countFor = (rung: GameState['rung'], token: string): number => {
+  const req = rungRequirements(rung).find((r) => r.type === 'count' && r.token === token);
+  if (!req || req.type !== 'count') throw new Error(`no count req for ${token} at ${rung}`);
+  return req.target;
+};
+function haul(n: number): Intent[] {
+  return Array.from(
+    { length: n },
+    () => ({ type: 'do_activity', activityId: 'haul_stores' }) as Intent,
+  );
+}
+/** Drive the FULL R1 count set (farm the paddies + haul the forecourt), spatially. */
+function doR1Work(s: GameState): GameState {
+  s = run({ ...s, location: 'home-paddies' }, farm(countFor('R1', 'act:farm_paddy')));
+  s = run({ ...s, location: 'gate-forecourt' }, haul(countFor('R1', 'act:haul_stores')));
+  return s;
+}
 
 // ADR-110: promotion is now a player-TRIGGERED beat, not an auto-hot-path side effect. These helpers
 // drive the real player path — finish the intro's VN scenes, then TRIGGER + complete a ready rung
@@ -89,7 +100,7 @@ describe('T0 Phase-1 rung climb', () => {
   it('raking the spilled stores earns the kept-hand rung (R0→R1) and opens the estate', () => {
     let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
     expect(s.rung).toBe('R0');
-    s = run(s, repeat('rake_rice', actsToPromote(s))); // raking fills the R0 meter (holds — no auto-promote)
+    s = run(s, repeat('rake_rice', countFor('R0', 'act:rake_rice'))); // the R0 list done (holds — no auto-promote)
     expect(s.rung).toBe('R0'); // ADR-110: the meter holds ready; the rung waits on the beat
     s = playBeat(s); // trigger + complete the R1 story beat → the promotion applies
     expect(s.rung).toBe('R1');
@@ -103,9 +114,10 @@ describe('T0 Phase-1 rung climb', () => {
 
   it('field work earns the trusted-hand rung (R1→R2): first nav, skills, the wider estate', () => {
     let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
-    s = playBeat(run(s, repeat('rake_rice', actsToPromote(s)))); // → R1 (fill + beat)
-    // v0.3.1 Step 5: farm_paddy is spatial — must be at 'home-paddies' to run
-    s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s))); // fill R1 meter; sets 'farmed'
+    s = playBeat(run(s, repeat('rake_rice', countFor('R0', 'act:rake_rice')))); // → R1 (reqs + beat)
+    // v0.3.1 Step 5: labour is spatial — farm at the paddies, haul at the forecourt (FB-121:
+    // R1 is a TWO-requirement rung; farming alone no longer opens the gate).
+    s = doR1Work(s);
     s = playBeat(s); // trigger + complete the R2 beat → promote
     expect(s.rung).toBe('R2');
     expect(isUnlocked(s, 'tab-skills')).toBe(true); // the FIRST nav reveal
@@ -117,10 +129,26 @@ describe('T0 Phase-1 rung climb', () => {
 
   it('does not advance past R2 without the (M2a) combat gate', () => {
     let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
-    s = playBeat(run(s, repeat('rake_rice', actsToPromote(s)))); // → R1
-    s = playBeat(run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s)))); // → R2
-    s = run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s) + 10)); // pile the R2 meter well past its threshold
-    expect(promotionReady(s)).toBe(false); // R2→R3 storyGate needs 'first-fight-survived' (built at M2a)
+    s = playBeat(run(s, repeat('rake_rice', countFor('R0', 'act:rake_rice')))); // → R1
+    s = playBeat(doR1Work(s)); // → R2
+    // complete every R2 COUNT requirement (woodcut / forage / haul, spatially) — only the
+    // wolf flag req remains, so the gate must still hold (FB-121 absorbed the old storyGate).
+    s = run(
+      { ...s, location: 'woodlot-edge' },
+      Array.from(
+        { length: countFor('R2', 'act:woodcut_edge') },
+        () => ({ type: 'do_activity', activityId: 'woodcut_edge' }) as Intent,
+      ),
+    );
+    s = run(
+      { ...s, location: 'near-satoyama' },
+      Array.from(
+        { length: countFor('R2', 'act:forage_satoyama') },
+        () => ({ type: 'do_activity', activityId: 'forage_satoyama' }) as Intent,
+      ),
+    );
+    s = run({ ...s, location: 'gate-forecourt' }, haul(countFor('R2', 'act:haul_stores')));
+    expect(promotionReady(s)).toBe(false); // the 'first-fight-survived' requirement still stands
     expect(playBeat(s).rung).toBe('R2'); // …so even triggering the beat is a no-op — the rung holds
   });
 });
@@ -132,19 +160,28 @@ describe('T0 ladder R4→R7 + the capstone (M2·2)', () => {
     expect(RANKS.every((r) => r.tier === 0)).toBe(true);
   });
 
-  it('R3→R4 needs real gate-watch duty (combat-blooded), not just the meter', () => {
+  it('R3→R4 needs the WHOLE requirement list — labour alone never opens the gate', () => {
     const base = createInitialState(1);
-    const atR3 = (extra: Record<string, boolean>): GameState => ({
+    // seed the labour counts done but the kill requirements untouched (registry-derived).
+    const labourOnly = Object.fromEntries(
+      rungRequirements('R3')
+        .filter((r) => r.type === 'count' && r.token.startsWith('act:'))
+        .map((r) => [r.id, r.type === 'count' ? r.target : 1]),
+    );
+    const allDone = Object.fromEntries(
+      rungRequirements('R3').map((r) => [r.id, r.type === 'count' ? r.target : 1]),
+    );
+    const atR3 = (rungReqs: Record<string, number>): GameState => ({
       ...base,
       rung: 'R3',
-      rungMeter: 100000, // meter half of the AND-gate satisfied
-      flags: { ...base.flags, awake: true, ...extra },
+      rungReqs,
+      flags: { ...base.flags, awake: true },
     });
-    // ADR-110: the meter alone never promotes — the AND-gate is read by `promotionReady` (the beat's
-    // trigger guard). Meter-full but storyGate-unmet ⇒ NOT ready; combat-blooded set ⇒ ready → R4.
-    expect(promotionReady(atR3({}))).toBe(false); // meter alone won't pass
-    expect(promotionReady(atR3({ 'combat-blooded': true }))).toBe(true); // duty done → ready
-    expect(applyPromotion(atR3({ 'combat-blooded': true }), 'R4').rung).toBe('R4'); // the beat applies it
+    // FB-121: the old combat-blooded storyGate lives on as R3's kill:* requirements — the
+    // rows kept (labour done) without the watch stood (kills) is NOT ready.
+    expect(promotionReady(atR3(labourOnly))).toBe(false);
+    expect(promotionReady(atR3(allDone))).toBe(true);
+    expect(applyPromotion(atR3(allDone), 'R4').rung).toBe('R4'); // the beat applies it
   });
 
   it('the ladder climbs R0→R7 and the capstone opens Phase 2', () => {
@@ -308,8 +345,11 @@ describe("porter's-knot is mechanically inert (no-magic / mediocre-start)", () =
 describe('conditioning enablement gate (the danger ring)', () => {
   it('foraging is locked until conditioning reaches the gate level', () => {
     let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
-    s = playBeat(run(s, repeat('rake_rice', actsToPromote(s)))); // → R1
-    s = playBeat(run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s)))); // → R2 (forage revealed but conditioning still Lv1)
+    s = playBeat(run(s, repeat('rake_rice', countFor('R0', 'act:rake_rice')))); // → R1
+    s = playBeat(doR1Work(s)); // → R2 (forage revealed)
+    // FB-121: the R1 climb now hauls 400 stores, so conditioning arrives at R2 already past the
+    // gate — zero it synthetically to isolate the LEVER (level < gate blocks; ≥ gate opens).
+    s = { ...s, skillXp: { ...s.skillXp, conditioning: 0 } };
     // stand at the satoyama so the ONLY thing gating forage is the conditioning level, not the node
     expect(canDoActivity({ ...s, location: 'near-satoyama' }, getActivity('forage_satoyama'))).toBe(
       false,
@@ -333,10 +373,11 @@ describe('conditioning enablement gate (the danger ring)', () => {
 describe('soft stamina + season', () => {
   it('a drained body yields less but never zero (soft throttle)', () => {
     let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
-    s = playBeat(run(s, repeat('rake_rice', actsToPromote(s)))); // → R1
-    s = playBeat(run({ ...s, location: 'home-paddies' }, farm(actsToPromote(s)))); // → R2 (now at home-paddies)
-    s = { ...s, character: { ...s.character, satiety: 100 } }; // a fed body for the fresh baseline
-    const fresh = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' }); // at home-paddies
+    s = playBeat(run(s, repeat('rake_rice', countFor('R0', 'act:rake_rice')))); // → R1
+    s = playBeat(doR1Work(s)); // → R2
+    // a fed body AT THE PADDIES for the fresh baseline (doR1Work ends at the forecourt)
+    s = { ...s, location: 'home-paddies', character: { ...s.character, satiety: 100 } };
+    const fresh = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
     const freshRice = (fresh.resources.rice ?? 0) - (s.resources.rice ?? 0);
     // drain satiety hard (40 hauls × 4 satiety → the floor) — hauling is at the forecourt
     let drained: GameState = { ...s, location: 'gate-forecourt' };

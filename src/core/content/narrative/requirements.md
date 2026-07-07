@@ -56,7 +56,7 @@ drive: haul_stores
 flavor: The woodlot edge knows your axe; the stack by the kura grows even.
 drive: woodcut_edge
 
-### req walk-the-hills · count act:forage_satoyama 350
+### req walk-the-hills · count act:forage_satoyama 450
 
 flavor: You come back from the hills with full baskets and no bad stories.
 drive: forage_satoyama
@@ -86,12 +86,12 @@ drive: fight rice_rats
 flavor: The paddies' thieves grow careful where you stand a watch.
 drive: fight monkey
 
-### req keep-the-rows · count act:farm_paddy 400
+### req keep-the-rows · count act:farm_paddy 600
 
 flavor: Watch or no watch, your rows never fall behind — {drillmaster} marks that.
 drive: farm_paddy
 
-### req timber-for-the-palisade · count act:woodcut_edge 300
+### req timber-for-the-palisade · count act:woodcut_edge 450
 
 flavor: Timber for the palisade, cut on your own hours.
 drive: woodcut_edge
@@ -99,9 +99,15 @@ drive: woodcut_edge
 ## requirements R4
 
 <!-- Kura-warden: the stores are yours to keep — goods, coin, and the tools that
-  guard them. Repair opens at R4 (the smith's beat), so the mend belongs here. -->
+  guard them. Repair opens at R4 (the smith's beat), so the mend belongs here.
+  NOTE (2026-07-07, sim-measured): kill requirements above R3's rat/monkey tier
+  are PARKED — the shipped combat curve walls them (wolf ≈0.2% in-loop win rate,
+  bandit 0% at every T0 level; the axe needs boar-dropped hardwood, a
+  chicken-and-egg). The predator-kill fiction ("thin the near wolves", "the
+  fence-breaker", "clear the woodlot road") returns when combat tuning matures —
+  combat above R3 stays the OPTIONAL grind lane it was tuned as. -->
 
-### req the-stores-know-you · count act:haul_stores 450
+### req the-stores-know-you · count act:haul_stores 1300
 
 flavor: The stores move through your hands like they were born to it.
 drive: haul_stores
@@ -110,11 +116,6 @@ drive: haul_stores
 
 flavor: A blade mended by its own bearer — {elder} hears of it from {smith}.
 drive: repair_weapon
-
-### req thin-the-near-wolves · count kill:wolf 2
-
-flavor: Two wolves fewer on the near hills; the herders sleep easier.
-drive: fight wolf
 
 ### req a-hundred-mon-held · state resource coin >= 100
 
@@ -126,17 +127,12 @@ drive: sell rice
 <!-- House-servant: past the danger line, and a corner of the house that is
   actually yours (the bedding — you LIVE here now). -->
 
-### req past-the-danger-line · count act:forage_deepwoods 200
+### req past-the-danger-line · count act:forage_deepwoods 600
 
 flavor: The deep satoyama yields to you now, a hill past where the others turn back.
 drive: forage_deepwoods
 
-### req the-fence-breaker · count kill:boar 1
-
-flavor: The boar that tore the fences is down. The field hands say your name differently.
-drive: fight boar
-
-### req the-paddies-still-first · count act:farm_paddy 300
+### req the-paddies-still-first · count act:farm_paddy 500
 
 flavor: The paddies still come first. They always came first.
 drive: farm_paddy
@@ -151,7 +147,7 @@ drive: buy bedding
 <!-- Steward's man: the house's arithmetic — held coin, coin put BACK into the
   works — and the road kept safe for it. -->
 
-### req the-ledgers-agree · count act:haul_stores 400
+### req the-ledgers-agree · count act:haul_stores 1100
 
 flavor: The ledgers and your shoulders have stopped arguing with each other.
 drive: haul_stores
@@ -165,11 +161,6 @@ drive: sell rice
 
 flavor: The kura-works stand a stage better for coin you put back into the house.
 drive: buy estate_upgrade
-
-### req clear-the-woodlot-road · count kill:bandit 1
-
-flavor: The man who watched the woodlot road watches nothing now.
-drive: fight bandit
 
 ## requirements R7
 
@@ -190,8 +181,3 @@ drive: woodcut_edge
 
 flavor: The granary holds deep against winter, and the ledger names you for it.
 drive: deposit rice
-
-### req no-argument-unanswered · count kill:boar 2
-
-flavor: The deep woods hold no argument you haven't answered.
-drive: fight boar

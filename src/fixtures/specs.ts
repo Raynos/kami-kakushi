@@ -30,6 +30,7 @@ import {
   type GameState,
   type Intent,
   type MobId,
+  remainingRequirements,
 } from '../core';
 
 export interface FixtureSpec {
@@ -153,8 +154,8 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
         'the wolf should be unfought (first-fight-survived false)',
       );
       must(
-        s.rungMeter >= balance.rungThreshold('R2'),
-        'the R2 rung meter should be full (wolf-ready)',
+        remainingRequirements(s).every((r) => r.type === 'flag'),
+        'the R2 countable requirements should be done (wolf-ready)',
       );
     },
   },
@@ -244,7 +245,14 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     // it — only exists from R4 on. (At R3 the reducer can repair but no player can; the
     // journey lane drives visible controls only, so the waypoint moved up one rung.)
     play: (s0) => {
-      const s = drive(s0, (st) => st.rung === 'R4');
+      let s = drive(s0, (st) => st.rung === 'R4');
+      // FB-121: the climb now arrives at R4 with a deep wood pile (the R2/R3 woodcut
+      // requirements), which would let grindUntil mend forever — STORE the wood in the
+      // kura first, then grind unrepairable to the Battered bind.
+      s = walkTo(s, 'kura');
+      if ((s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST) {
+        s = reduce(s, { type: 'deposit', resource: 'wood' });
+      }
       return grindUntil(s, 'monkey', (st) => bandName(st) === 'Battered');
     },
     expect: (s) => {

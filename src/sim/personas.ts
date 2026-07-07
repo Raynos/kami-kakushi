@@ -11,7 +11,7 @@
 // decide a deterministic function of (state, history) with zero new randomness. Greedy and the
 // idler ignore it.
 
-import type { GameState, Intent, IntentType } from '../core';
+import type { GameState, Intent, IntentType, ActivityId } from '../core';
 import {
   ACTIVITIES,
   ATTR_IDS,
@@ -31,7 +31,6 @@ import {
   durabilityBand,
   focusedOptimalIntent,
   autoModeIntent,
-  cheapestEligibleGlobal,
   getActivity,
   getMob,
   getWeapon,
@@ -46,6 +45,8 @@ import {
   reduce,
   RUNG_BEATS,
   satietyMax,
+  remainingRequirements,
+  GRINDABLE_MOBS,
 } from '../core';
 
 // The ONE runtime list of all intent types (FB-4 §1). When the game grows an intent, `tsc`
@@ -263,11 +264,12 @@ export const idler: Persona = {
       const target = pendingPromotionTarget(s);
       if (target !== null && RUNG_BEATS[target]) return { type: 'begin_rung_beat' };
     }
-    // R2: the scripted wolf blocks the ladder — even an idler must walk back and face it.
+    // R2: the scripted wolf blocks the ladder — even an idler must walk back and face it
+    // (FB-121: "the countable work is done" = the flag req is the only one remaining).
     if (
       s.rung === 'R2' &&
       !hasFlag(s, 'first-fight-survived') &&
-      s.rungMeter >= balance.rungThreshold('R2') &&
+      remainingRequirements(s).every((r) => r.type === 'flag') &&
       isUnlocked(s, 'verb-face-wolf')
     ) {
       const kura = getMob('wolf_scripted').area;
@@ -275,41 +277,73 @@ export const idler: Persona = {
       const hop = nextHopToward(s.location, kura, new Set(s.unlocked));
       if (hop) return { type: 'move_to', to: hop };
     }
-    // R3 blooding: arm the auto-combat watch on the monkey (retreat:true — the safer shipped
-    // mode) and let the auto-loop fight. If too hurt to arm the retreat mode (the reducer would
-    // refuse — the post-wolf HP floor case), arm fight-to-end instead: even a LOSS bloods, and
-    // the setback self-recovers — minimal-input faithful, and never an arm/refuse spin.
-    const needsBlooding =
-      s.rung === 'R3' && !hasFlag(s, 'combat-blooded') && isUnlocked(s, 'tab-combat');
-    if (needsBlooding && s.autoCombat === null) {
-      const foe = getMob('monkey');
-      if (s.location === foe.area) {
-        const retreatHp = Math.round(balance.AUTO_RETREAT_FRAC * hpMax(s));
-        return { type: 'set_auto_combat', mobId: 'monkey', retreat: s.character.hp > retreatHp };
+    // FB-121 — point the auto-modes at the CURRENT rung's requirement list.
+    const rem = remainingRequirements(s);
+    // kill requirements: arm the auto-combat watch on the (level-laddered) foe and let the
+    // shipped loop fight; the check-in mends first — a hurt watch is a loss loop. Training
+    // below level parity mirrors the focused driver's ladder.
+    const killReq = rem.find((r) => r.type === 'count' && r.token.startsWith('kill:'));
+    if (killReq && killReq.type === 'count' && isUnlocked(s, 'tab-combat')) {
+      if (
+        s.character.hp < hpMax(s) &&
+        isUnlocked(s, 'verb-cook') &&
+        (s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST
+      ) {
+        return { type: 'cook_meal' };
       }
-      const hop = nextHopToward(s.location, foe.area, new Set(s.unlocked));
-      if (hop) return { type: 'move_to', to: hop };
-    }
-    // blooded with the watch still armed: stand down and go back to labour.
-    if (!needsBlooding && s.autoCombat !== null) {
+      const target = getMob(killReq.token.slice('kill:'.length) as Parameters<typeof getMob>[0]);
+      const foe =
+        s.character.level >= target.level
+          ? target
+          : (GRINDABLE_MOBS.filter((m) => m.level <= s.character.level).sort(
+              (a, b) => b.level - a.level,
+            )[0] ?? target);
+      if (s.autoCombat === null) {
+        if (s.location === foe.area) {
+          const retreatHp = Math.round(balance.AUTO_RETREAT_FRAC * hpMax(s));
+          return { type: 'set_auto_combat', mobId: foe.id, retreat: s.character.hp > retreatHp };
+        }
+        const hop = nextHopToward(s.location, foe.area, new Set(s.unlocked));
+        if (hop) return { type: 'move_to', to: hop };
+      }
+    } else if (s.autoCombat !== null) {
+      // no kill requirement stands: stand the watch down and go back to labour.
       return { type: 'set_auto_combat', mobId: null };
+    }
+    // the armed labour finished its requirement while others remain — re-point the loop
+    // (otherwise autoModeIntent farms forever and the check-in below never fires).
+    if (
+      s.autoActivity !== null &&
+      rem.length > 0 &&
+      !rem.some((r) => r.type === 'count' && r.token === `act:${s.autoActivity}`)
+    ) {
+      return { type: 'set_auto', activityId: null };
     }
     // between check-ins: the shipped auto-loop IS the play.
     const auto = autoModeIntent(s);
     if (auto) return auto;
-    // check-in: the auto-mode is idle — arm the next one.
+    // check-in: the auto-mode is idle — arm the next REQUIRED labour…
     if (acts.includes('rake_rice') && !s.autoRake) return { type: 'set_auto_rake', on: true };
-    const target = cheapestEligibleGlobal(s);
-    if (target) {
-      if (target.node === s.location && s.autoActivity !== target.id) {
-        return { type: 'set_auto', activityId: target.id };
+    const actReq = rem.find(
+      (r) =>
+        r.type === 'count' &&
+        r.token.startsWith('act:') &&
+        ACTIVITIES.some((a) => `act:${a.id}` === r.token),
+    );
+    if (actReq && actReq.type === 'count') {
+      const id = actReq.token.slice('act:'.length) as ActivityId;
+      const act = getActivity(id);
+      if (act.area === s.location && s.autoActivity !== id) {
+        return { type: 'set_auto', activityId: id };
       }
-      if (target.node !== s.location) {
-        const hop = nextHopToward(s.location, target.node, new Set(s.unlocked));
+      if (act.area !== s.location) {
+        const hop = nextHopToward(s.location, act.area, new Set(s.unlocked));
         if (hop) return { type: 'move_to', to: hop };
       }
     }
-    return null;
+    // …and everything the autos can't do (state reqs, the wolf walk, the Phase-2 deed
+    // grind) gets one attended minute: the focused driver's move.
+    return focusedOptimalIntent(s);
   },
 };
 

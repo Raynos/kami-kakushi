@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { walkPacing } from '../scripts/pacing-report';
-import { balance } from '../core';
+import { balance, rungRequirements } from '../core';
 
 // ADR-056: the DEMO/REAL profile fork is RETIRED — ONE shipped profile. T0 is ≥30-min-floor-EXEMPT
 // ("quick but not easy"; the signed ≥30-min/rank floor gates from T1 per the 6-tier reshape).
@@ -36,9 +36,11 @@ describe('T0 pacing (single profile, D-056)', () => {
     }
   });
 
-  it('the meter map mirrors RankDef thresholds (drift guard, belt-and-suspenders w/ verify-content)', () => {
-    // DELIBERATE copied literals — the suite's one magic-number mirror. Deriving from the
-    // source would make this a tautology; a threshold retune updates these on purpose.
-    expect(balance.RUNG_METER_THRESHOLDS).toMatchObject({ R0: 1100, R1: 2150, R2: 2600 });
+  it('the R0 rake count is the cold-open pace anchor (deliberate copied literal)', () => {
+    // FB-121: the meter map is gone — the one magic-number mirror moves to the R0 rake
+    // requirement (≈5-min cold-open, ADR-022). Deriving it from the registry would be a
+    // tautology; a requirements.md retune updates this on purpose (re-signed via the sim).
+    const rake = rungRequirements('R0').find((r) => r.type === 'count');
+    expect(rake).toMatchObject({ token: 'act:rake_rice', target: 500 });
   });
 });

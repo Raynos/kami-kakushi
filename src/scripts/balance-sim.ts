@@ -27,6 +27,7 @@ import {
   RECIPES,
   WEAPONS,
   balance,
+  RUNG_REQUIREMENTS,
 } from '../core';
 import { PERSONAS, greedy, skippedIntents, type Persona } from '../sim/personas';
 import { runPersona } from '../sim/run';
@@ -58,7 +59,8 @@ function stable(v: unknown): unknown {
 export function inputFingerprint(): string {
   const inputs = stable({
     balance: { ...balance },
-    ranks: RANKS.map((r) => ({ id: r.id, threshold: r.meterThreshold, eligible: r.eligible })),
+    ranks: RANKS.map((r) => ({ id: r.id, eligible: r.eligible })),
+    requirements: RUNG_REQUIREMENTS, // FB-121 — the authored lists ARE the pacing input now
     activities: ACTIVITIES,
     mobs: MOBS,
     weapons: WEAPONS,
@@ -138,7 +140,7 @@ function personaSection(pr: PersonaRuns): string[] {
     const med = median(mins);
     cum += med;
     L.push(
-      `| ${rung} | ${rows[0]!.threshold} | ${c?.acts ?? '—'} | ${c?.rests ?? '—'} | ` +
+      `| ${rung} | ${rows[0]!.requirements} | ${c?.acts ?? '—'} | ${c?.rests ?? '—'} | ` +
         `${c?.moves ?? '—'} | ${c?.intents ?? '—'} | ${min1(med)} | ` +
         `[${min1(Math.min(...mins))}–${min1(Math.max(...mins))}] | ${min1(cum)} |`,
     );
@@ -290,8 +292,8 @@ function check(): number {
       console.error(
         `  ✗ RED ${v.rung}: measured [${min1(v.measuredMin)}–${min1(v.measuredMax)}] min ` +
           `OUTSIDE the band [${v.bandMin}, ${v.bandMax}] — the ${v.rung} lever ` +
-          `(rungThreshold) moved outside signed intent; a human decision is required ` +
-          `(re-derive the threshold or re-sign the band in balance.ts — never a test-side fudge).`,
+          `(the authored requirement counts in requirements.md) moved outside signed intent; a ` +
+          `human decision is required (re-derive the counts or re-sign the band — never a test-side fudge).`,
       );
     }
   }
