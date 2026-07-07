@@ -127,7 +127,24 @@ cuts. Re-tuned to the human's **"rare ambient"** pick (AskUserQuestion):
   latches on the first real roll); the slope/ladder tests derive from the
   balance constants so they re-pinned themselves.
 
+## Close-out — the plan is DONE; the future scope is permanently homed
+
+The human asked where rumors / routing / more-discoverables live so nothing is
+lost into T1/T2, then closed the workstream. Three homes, per the ADR-117
+ripple flow (`/prd-ripple`, classified system+frontier; `prd:drift` CLEAN):
+
+- **PRD §2.6(g)** — the BUILT system spec (def shape, floor + pity ramp, the
+  anti-checklist locks, derived hiddenness, the lacquer instance) + parts-list
+  row 2.6.1.
+- **PRD §2.13(f)** — portable rumors as tag-routed discovery pointers (the
+  frontier spec carrying the signed Phase-0 intent).
+- **BACKLOG.md** — reorganized into **T0 / T1 / T2 sections** (human ask);
+  the discovery extensions (rumors · more discoverables · people-reveals)
+  under **T1**, the inn-board-as-rumor-source tie-in under **T2**.
+
+The plan flipped ✅ DONE and graduated to `project/archive/` (Phase-3 design
+detail survives verbatim).
+
 ## Next intended steps
-- Phase 3 (portable rumors, tag-routed) — the plan's remaining phase.
-- More discoverables (a visit-stumble one would exercise the second trigger)
-  now that the human has signed the pattern.
+- The workstream is closed. Its future scope resumes from BACKLOG §T1 (build
+  more discoverables first, then the rumor engine) when the human pulls it.

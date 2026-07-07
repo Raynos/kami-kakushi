@@ -14,6 +14,7 @@ in the decision log, and the milestone order in the roadmap.
 | 2.4 | Resources & currencies (coin, rice, pillars, materials) | T0 (coin + rice); coin denominations reveal per tier | Estate & Wealth; pillars are the macro layer |
 | 2.5 | Auto-producers (late-game only) | T4+ | Estate & Wealth (idle convenience, never early) |
 | 2.6 | Gathering / labour nodes & jobs-as-offices | T0 | **Estate & Wealth**, **Standing & Office** |
+| 2.6.1 | Emergent node discovery (a node grows actions with attention; hidden until found — ADR-146) | T0-later (BUILT); rumors as pointers T1+ (§2.13(f)) | Estate & Wealth lightly (pocket earners); texture/curiosity reward, gates nothing |
 | 2.7 | Attributes, per-skill levels & milestones (character level **combat-fed only**; per-skill perks add small combat texture) | T0 (attributes/skills); web grows per tier | Arms (combat skills + perks), Estate & Wealth (labour skills) |
 | 2.8 | Combat (idle auto-resolve + active setup) — **INCREMENTAL** (starts with the carrying-pole); **THREE clean tracks** | **T0 (R3)** | **Arms** |
 | 2.9 | Bestiary & mobs (grounded) | T0 (R3) | Arms |
@@ -338,6 +339,25 @@ yield** — the **deep-*satoyama*** (奥山) past the danger ring returns a mate
 farther *pays* (tying the map to the coin economy §4 and the combat cook-loop). The map presents as a
 walkable **paths list** along the 道 (with a schematic 絵地図 and a traveller's-ledger 道中記 as alternate
 views).
+
+**(g) Emergent node discovery — a node reveals itself the longer you pay attention (ADR-146,
+BUILT T0-later).** A map node is **not a fixed menu of chores**: hidden actions surface through
+attention and seeded luck. Each `DiscoveryDef { node, reveals (a hidden activity), trigger
+(watch <activity>·chance | visit·chance), minAttempts (the roll FLOOR — the first N qualifying
+acts only count, so a find can never pop instantly), hints[] (the TIGHTENING ladder, rendered
+inside the node's standing description — ADR-116 made dynamic), discoveryLine (the permanent
+narrator beat at the latch), tag? (the rumor-routing handle) }` rides the reveal engine at finer
+grain: a write-once `discovered` latch (permanent — no runs/resets, §1), plain attempt counters,
+and a dedicated seeded RNG stream with a **gentle pity ramp** beyond the floor (persistence pays
+without a hard wall). **Anti-checklist by design (human-locked):** no discovery-log, no
+"NEW ACTION!" banner, no counters — the sharpened description + the log line are the whole
+signal; you can never be sure a node is done. Hiddenness is **derived** (an activity is hidden
+iff it is an unlatched discovery's reveals-target), so the action list and the latch can't
+drift. First shipped instance: the **woodlot lacquer tree** (repeat woodcutting, rare-ambient
+paced — floor 15, ~40–80 cuts typical — unlocking a coin-paying tap). **Future scope
+(frontier):** more discoverables per node and trigger type (the visit-stumble engine is built,
+content pending); **people-reveals** (a discovery grows the who's-here set, not just the action
+set — ADR-114/115); and **portable rumors** (§2.13) once T1+ content justifies the web.
 
 ---
 
@@ -875,6 +895,19 @@ source.** Most rumour payoff is *feeling, allies, and flavour*, not power.
 opener is the "kappa" of the ford. Rumours unlock **organically, design-staggered and per-tier** (more as
 the estate/village grow). The residual-ambiguity **jizō at the weir/ford** beat is a T0–T1 boundary node
 (the find-spot) that **lingers unresolved** by design.
+
+**(f) Portable rumors as DISCOVERY pointers — tag-routed, never a hand-authored web (ADR-146 §5,
+frontier — the emergent-node-actions plan's Phase 3, parked until T1+ content justifies it).**
+Beyond the yokai board, an **overheard rumor is a portable pointer into the emergent-node-discovery
+engine (§2.6(g))**: a person at node A (or a picked-up rumor item) carries a **discovery TAG**, never
+a node id — at resolve time, **any node holding an undiscovered action with that tag** can answer it
+(unlocking outright, or adding/tightening its hint). Routing by tag keeps the content web robust: a
+discoverable can move nodes, gain siblings, or be cut without any rumor rewrite, and a rumor with no
+live target simply stays flavour. Design intent carried forward from the human-signed Phase 0
+(2026-07-07): rumors are a **discovery source** (the third trigger type beside repeat-attempt and
+visit-stumble), they respect the same anti-checklist locks (no rumor journal-as-todo-list), and they
+should ship only once several tagged discoverables exist for them to route into (the first shipped
+tag: `lacquer`).
 
 ---
 
