@@ -32,6 +32,18 @@
 
 ## T1
 
+- [ ] `docs/living/capstone-t0-branch.md` — **the T0 capstone branch quests**
+  (settled, human-signed design; ADR-125 / PRD §3.0.2): the R7 devoted /
+  ambitious / humble *choice* ships in T0, but its three unique side quests
+  (each → a unique item + a separate unlock) are **T1 content** and were
+  deferred (T1 didn't exist at design time). **⏳ Build WHEN T1 lands** — the
+  quests reuse existing systems only (skill/xp, map nodes, combat/bestiary,
+  craft recipes); a few stats/curves stay open to resolve at build. The
+  build-ready spec is durable canon in the doc; this entry just parks it so it
+  isn't mistaken for live "what the game is now" state.
+  _(Backlogged 2026-07-07 — the doc lives in `docs/living/` but describes
+  deferred T1 work, not the current build.)_
+
 - [ ] **Emergent node discovery — the extensions** (the built system's future
   scope; the shipped part is ADR-146, plan archived at
   `project/archive/opus-2026-07-03-emergent-node-actions.md`, PRD spec at
