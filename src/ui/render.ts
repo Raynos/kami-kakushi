@@ -443,16 +443,11 @@ function buildSettings(hooks: AppHooks): {
     rm.textContent = `Reduced motion: ${reduced ? 'on' : 'off'}`;
     rm.classList.toggle('on', reduced);
   });
-  // sound on/off (the synth SFX engine; default on — the ship default is the R1 taste call)
-  const sound = el('button', 'auto-toggle', `Sound: ${hooks.sfx.isMuted() ? 'off' : 'on'}`);
-  sound.type = 'button';
-  sound.classList.toggle('on', !hooks.sfx.isMuted());
-  sound.addEventListener('click', () => {
-    const muted = !hooks.sfx.isMuted();
-    hooks.sfx.setMuted(muted);
-    sound.textContent = `Sound: ${muted ? 'off' : 'on'}`;
-    sound.classList.toggle('on', !muted);
-  });
+  // Sound removed for now (human call, 2026-07-07 — the synth cues read too comedic). Mute the
+  // ONE shared SFX engine at mount so every caller no-ops, main.ts's per-deed hit() included, and
+  // drop the user-facing toggle so nothing can re-arm it. The engine (sfx.ts) is left intact —
+  // this is a wiring-level silence, trivially reversible: restore the toggle button below.
+  hooks.sfx.setMuted(true);
   let scale = 1;
   const ts = el('div', 'labour-row');
   const tsLabel = el('span', 'lock-hint', 'Text size 100%');
@@ -480,7 +475,7 @@ function buildSettings(hooks: AppHooks): {
     pause.textContent = p ? 'Resume' : 'Pause';
     pause.classList.toggle('on', p);
   });
-  comfort.append(rm, sound, ts, pause);
+  comfort.append(rm, ts, pause);
   settingsSec.append(comfort);
 
   // ── manage saves (Saves tab) ──
