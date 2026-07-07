@@ -188,3 +188,25 @@ locked into 05-world.md (guest house layers, ruin domains, function
 migration, reveal staging). Buried truth sealed in the ruin's inner
 domain. Docs reorg landed earlier in the sitting (story-bible doc-set,
 guides, living=core-canon, symlink).
+
+## Addendum 7 — the T0 tier sheet walked and completed
+
+The six-stop T0 walkthrough closed same-sitting: ladder (8 rungs,
+"The accused" kept) · zones (12 grown to 15: +Overgrown orchard,
++Bamboo grove, +Weir reeds, +Field margins; Night rounds redesigned as
+a repeatable MINI-DUNGEON behind a begin-the-round action) · cast
+(roster grown: O-Yae, Matsuzō, Iori, O-Ume; pedlar renamed
+Tokubei→Yohei; Shinnosuke = the player's MIRROR, reused T0/T1) ·
+side-beats locked (grove, first Bon, lease day, the dog that stays,
+the crest question) · combat canon (no human combat T0/T1; the wolf
+returns in T1; two body economies — labour never costs HP) · economics
+(the SIX-SEASON manual calendar w/ exit-gated nengu + judge-on-exit,
+seasons unlock R2; debt's three-stage intro, number revealed T1
+tally-keeper; tier-up = post-R7 estate-deeds standing grind, Ascend =
+the land campaign; coin lanes DEMOTED to direction — kind-overflow +
+day-wage-collection flagged as open build problems) · mystery seeding
+confirmed (jizō = resolving mystery, kernel ambiguity budget unspent).
+The bible was also rewritten wholesale as true living documents
+mid-sitting, and the seven ladders were approved IN SPIRIT (not
+locked — expected to evolve). Next: T1 sheet in equal detail; cast
+voices; then the staged taper (T2–T3 half, T4 ¼, T5 ⅕, T6 1/10).

@@ -40,8 +40,9 @@
 
 Canon: §0 · §0.5 · §0.9 · §1 · §2 (structure locked; the seven ladders
 approved in spirit, expected to evolve — especially later tiers) · the
-estate anatomy · T0's ladder and zones. Awaiting work: cast voices
-(§3); T0 enemies + economics; tier sheets T1–T6.
+estate anatomy · the six-season calendar · **the complete T0 tier
+sheet** (walked whole 2026-07-07). Awaiting work: cast voices (§3);
+tier sheets T1–T6 (T1 in equal detail, then the staged taper).
 
 **Detail staging (the authoring plan):** T0 and T1 in FULL detail ·
 T2–T3 in half detail · T4 in quarter · T5 in fifth · T6 in tenth.
