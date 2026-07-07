@@ -51,3 +51,7 @@ _(none open)_
   spec**: the super-detailed description of what the T0/T1 sheets should
   depict (one master geography, drawn wrong-things, the AA look bar) + the
   blind-reader rubric the rebuild iterates against.
+- [ ] `project/brainstorms/2026-07-07-t0t1-map-review-next-level.md` — the
+  **map-rebuild fresh-eyes review**: implementation/tooling/output verdicts
+  (incl. a capture bug that hid the zoom-detail layer from every blind
+  pass) + the ranked next-level phases; pairs with your HR-12 taste call.
