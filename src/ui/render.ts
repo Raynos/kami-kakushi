@@ -5299,7 +5299,7 @@ export function mount(
     btn.dataset.actKey = actionKey(type, payload);
   }
   function paintActBar(
-    btn: HTMLButtonElement,
+    btn: HTMLElement,
     phase: string,
     fraction: number,
     remainingMs: number,
@@ -5333,22 +5333,30 @@ export function mount(
     const v = __DEV_TOOLS__ && dev ? dev.getVariant('action-row') : 'act-a';
     if (root.dataset.actVariant !== v) root.dataset.actVariant = v;
     const busy = hooks.clock.busy();
-    for (const btn of root.querySelectorAll<HTMLButtonElement>('button[data-act-key]')) {
+    for (const btn of root.querySelectorAll<HTMLElement>('[data-act-key]')) {
       const st = hooks.clock.status(btn.dataset.actKey!);
       setClass(btn, 'act-running', st.phase === 'running');
       setClass(btn, 'act-cooldown', st.phase === 'cooldown');
       // ONE global action (ADR-148): while anything runs, every timed button locks;
       // a cooling button locks only itself. `actLocked` remembers the lock was OURS,
-      // so an availability-disabled button is never wrongly re-enabled here.
+      // so an availability-disabled button is never wrongly re-enabled here. Non-button
+      // travel controls (map-variant nodes) get the class + aria only — the clock's own
+      // press() refusal is the real enforcement; the paint is the legibility (TST4).
       const lock = busy || st.phase !== 'idle';
-      if (lock) {
-        if (!btn.disabled) {
-          btn.disabled = true;
-          btn.dataset.actLocked = '1';
+      if (btn instanceof HTMLButtonElement) {
+        if (lock) {
+          if (!btn.disabled) {
+            btn.disabled = true;
+            btn.dataset.actLocked = '1';
+          }
+        } else if (btn.dataset.actLocked) {
+          btn.disabled = false;
+          delete btn.dataset.actLocked;
         }
-      } else if (btn.dataset.actLocked) {
-        btn.disabled = false;
-        delete btn.dataset.actLocked;
+      } else {
+        setClass(btn, 'act-locked', lock);
+        if (lock) btn.setAttribute('aria-disabled', 'true');
+        else if (btn.dataset.locked !== '1') btn.removeAttribute('aria-disabled');
       }
       paintActBar(btn, st.phase, st.fraction, st.remainingMs);
     }

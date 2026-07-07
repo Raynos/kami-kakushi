@@ -113,3 +113,16 @@ per-variant scorecards. e2e: journeys boot instantActions; a new
 timed-actions spec drives the REAL 5s cycle (6 pass on 3 profiles). Verified
 live headlessly: press→lock→bar→effect@5s→cooldown→re-enable, and auto
 0→10 rice over 40s through the clock.
+
+## Addendum 5 — Phase 3: per-edge travel
+
+`EDGE_WALK_MS` in timing.ts — every T0 map edge declares its walk seconds
+(4–8s, deep-satoyama the longest hop); undirected `edgeKey`; `walkMs` with a
+TRAVEL_SEED_MS fallback; `timingFor('move_to')` routes per-edge with NO
+cooldown (arrive and keep moving — per-action data if that ever changes).
+main.ts threads `from: state.location`; the map variants' shared `wireTravel`
+stamps `data-act-key` so the walk paints ON the clicked node (all 5 variants,
+one helper); the paint pass covers non-button controls (class + aria — the
+clock's press refusal is the enforcement). Edge coverage test derives from
+MAP_NODES (a new edge without a time is RED). Verified live: kura→gate walk
+takes the edge's 4s with the bar on the node, then arrives.

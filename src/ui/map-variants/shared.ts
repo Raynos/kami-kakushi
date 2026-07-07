@@ -78,6 +78,7 @@ export function fogFrontier(revealed: ReadonlySet<string>): Map<string, string> 
  *  real move; stamps data-node for the shared click tests. */
 export function wireTravel(elm: HTMLElement, id: string, ctx: MapCtx): void {
   elm.dataset.node = id;
+  elm.dataset.actKey = `move_to:${id}`; // ADR-148 Ph3 — the walk paints on the node itself
   elm.style.cursor = 'pointer';
   elm.setAttribute('role', 'button');
   elm.tabIndex = 0;

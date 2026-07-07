@@ -3,7 +3,16 @@
 // (ADR-086/087): a new activity or intent flows into these assertions on its own.
 import { describe, expect, it } from 'vitest';
 import { ACTIVITIES } from './activities';
-import { ACTIVITY_TIMING, INTENT_TIMING, timingFor, type ActionTiming } from './timing';
+import { MAP_NODES } from './map';
+import {
+  ACTIVITY_TIMING,
+  EDGE_WALK_MS,
+  INTENT_TIMING,
+  edgeKey,
+  timingFor,
+  walkMs,
+  type ActionTiming,
+} from './timing';
 
 // The human-locked fast-idle band (ADR-148): every timed duration lives inside it.
 const BAND_MIN_MS = 3000;
@@ -44,6 +53,24 @@ describe('action timing (ADR-148)', () => {
   it('combat intents carry NO timing (excluded pending their own review)', () => {
     for (const type of ['face_wolf', 'fight', 'set_auto_combat'] as const)
       expect(INTENT_TIMING[type].kind, type).toBe('instant');
+  });
+
+  it('every map edge carries its own walk seconds (per-edge data, ADR-148)', () => {
+    // Derived from MAP_NODES: a new edge without an EDGE_WALK_MS entry is RED.
+    for (const n of MAP_NODES)
+      for (const nb of n.neighbors) {
+        expect(EDGE_WALK_MS[edgeKey(n.id, nb)], `${n.id} ↔ ${nb}`).toBeGreaterThan(0);
+      }
+    // undirected: both directions read the same edge
+    expect(walkMs('kura', 'gate-forecourt')).toBe(walkMs('gate-forecourt', 'kura'));
+  });
+
+  it('move_to routes through the per-edge table with NO cooldown', () => {
+    const t = timingFor('move_to', { from: 'kura', to: 'gate-forecourt' });
+    expect(t.kind).toBe('timed');
+    if (t.kind !== 'timed') return;
+    expect(t.durationMs).toBe(EDGE_WALK_MS[edgeKey('kura', 'gate-forecourt')]);
+    expect(t.cooldownMs).toBe(0); // you arrive and keep moving
   });
 
   it('timingFor routes do_activity to its per-activity entry', () => {

@@ -3045,7 +3045,7 @@ html {
    fill / cooldown drain is an inline width transition set by paintActionClock
    (no per-frame JS — TST2). The three ADR-075 variants restyle the SAME states,
    scoped off [data-act-variant] on the app root; prod ships act-a. */
-button[data-act-key] {
+[data-act-key] {
   position: relative;
   overflow: hidden;
 }
@@ -3059,10 +3059,10 @@ button[data-act-key] {
   background: var(--gold);
   opacity: 0.85;
 }
-button[data-act-key].act-running {
+[data-act-key].act-running {
   color: var(--ink-soft); /* the label quiets while the work happens */
 }
-button[data-act-key].act-cooldown .act-bar {
+[data-act-key].act-cooldown .act-bar {
   background: var(--silver-dim, var(--ink-faint));
   opacity: 0.6;
 }
@@ -3082,13 +3082,13 @@ button[data-act-key].act-cooldown .act-bar {
   background: linear-gradient(180deg, rgba(216, 185, 120, 0.16), rgba(216, 185, 120, 0.26));
   opacity: 1;
 }
-[data-act-variant='act-b'] button[data-act-key].act-cooldown .act-bar {
+[data-act-variant='act-b'] [data-act-key].act-cooldown .act-bar {
   background: linear-gradient(180deg, rgba(153, 162, 191, 0.1), rgba(153, 162, 191, 0.18));
 }
 
 /* C · etched gauge — a visible track etched along the bottom frame; the bright
    segment grows over it, then ebbs on cooldown. */
-[data-act-variant='act-c'] button[data-act-key]::after {
+[data-act-variant='act-c'] [data-act-key]::after {
   content: '';
   position: absolute;
   left: 0;
@@ -3104,7 +3104,7 @@ button[data-act-key].act-cooldown .act-bar {
   background: var(--gold-hi);
   opacity: 0.9;
 }
-[data-act-variant='act-c'] button[data-act-key].act-cooldown .act-bar {
+[data-act-variant='act-c'] [data-act-key].act-cooldown .act-bar {
   background: var(--shu-deep);
   opacity: 0.8;
 }
@@ -3114,4 +3114,10 @@ button[data-act-key].act-cooldown .act-bar {
   color: var(--gold-dim);
   border-color: var(--key-dim);
   font-style: italic;
+}
+
+/* ADR-148 Ph3 — a non-button travel control under the one-global lock (map nodes). */
+[data-act-key].act-locked {
+  opacity: 0.55;
+  pointer-events: none;
 }

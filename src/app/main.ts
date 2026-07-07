@@ -275,7 +275,7 @@ async function boot(): Promise<void> {
   // never the core (autoSpeed = 1 in prod).
   const playerBase = telemetry ? telemetry.wrapDispatch(playerDispatch) : playerDispatch;
   function timedPlayerDispatch(intent: Intent): void {
-    const t = timingFor(intent.type, timingPayload(intent));
+    const t = timingFor(intent.type, { ...timingPayload(intent), from: state.location });
     if (t.kind === 'instant') {
       playerBase(intent);
       return;
@@ -369,7 +369,7 @@ async function boot(): Promise<void> {
     if (clock.busy()) return;
     const intent = autoModeIntent(state);
     if (!intent) return;
-    const t = timingFor(intent.type, timingPayload(intent));
+    const t = timingFor(intent.type, { ...timingPayload(intent), from: state.location });
     if (t.kind === 'instant') {
       dispatch(intent);
       return;

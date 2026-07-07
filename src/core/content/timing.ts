@@ -40,10 +40,35 @@ export const ACTIVITY_TIMING: Readonly<Record<ActivityId, ActionTiming>> = {
   tap_lacquer: timed(7000),
 };
 
-/** Phase-3 placeholder: a flat per-hop walk until the map edges carry their own
- *  walk seconds (ADR-148 — travel is per-edge DATA; this seed only classifies the
- *  intent so the taxonomy is total from day one). */
+/** The fallback hop (an edge missing from EDGE_WALK_MS — the coverage test makes
+ *  that a RED, so this only guards an unrevealed/DEV teleport path). */
 export const TRAVEL_SEED_MS = 6000;
+
+/** ADR-148 Phase 3 — travel is PER-EDGE data from day one (the human's call):
+ *  each map edge declares its own walk seconds; distance texture is content,
+ *  not a constant. Undirected (walking back takes as long); keys are sorted
+ *  "a|b". Travel carries NO cooldown seed — you arrive and keep moving; a
+ *  per-edge cooldown stays one number away if the map ever wants weary roads.
+ *  The timing.test derives edge coverage from MAP_NODES: a new edge without a
+ *  walk time here is RED. */
+export const EDGE_WALK_MS: Readonly<Record<string, number>> = {
+  'gate-forecourt|kura': 4000, // the forecourt is steps from the kura door
+  'gate-forecourt|home-paddies': 5000,
+  'gate-forecourt|woodlot-edge': 6000,
+  'drill-yard|gate-forecourt': 4000, // the yard adjoins the forecourt
+  'home-paddies|near-satoyama': 6000,
+  'near-satoyama|woodlot-edge': 5000,
+  'deep-satoyama|near-satoyama': 8000, // one hill farther, past the danger ring (ADR-078)
+};
+
+export function edgeKey(a: string, b: string): string {
+  return a < b ? `${a}|${b}` : `${b}|${a}`;
+}
+
+export function walkMs(from: string | undefined, to: string): number {
+  if (!from) return TRAVEL_SEED_MS;
+  return EDGE_WALK_MS[edgeKey(from, to)] ?? TRAVEL_SEED_MS;
+}
 
 /** The total intent classification. Every intent the reducer accepts appears here —
  *  `Record<IntentType, …>` makes a new unclassified intent a compile error.
@@ -96,8 +121,11 @@ export const INTENT_TIMING: Readonly<Record<IntentType, ActionTiming>> = {
  *  intent table. (Phase 3 teaches this the per-edge `move_to` walk seconds.) */
 export function timingFor(
   type: IntentType,
-  opts?: { readonly activityId?: ActivityId },
+  opts?: { readonly activityId?: ActivityId; readonly from?: string; readonly to?: string },
 ): ActionTiming {
   if (type === 'do_activity' && opts?.activityId) return ACTIVITY_TIMING[opts.activityId];
+  if (type === 'move_to' && opts?.to)
+    // per-edge walk seconds (Phase 3); no cooldown — you arrive and keep moving
+    return { kind: 'timed', durationMs: walkMs(opts.from, opts.to), cooldownMs: 0 };
   return INTENT_TIMING[type];
 }
