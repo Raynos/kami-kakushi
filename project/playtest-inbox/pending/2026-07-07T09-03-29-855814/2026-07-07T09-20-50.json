@@ -1,0 +1,144 @@
+{
+  "capturedAt": "2026-07-07T09:20:50+0200",
+  "seed": 20260626,
+  "clock": {
+    "day": 1,
+    "tick": 6
+  },
+  "location": "kura",
+  "rung": "R0",
+  "tier": 0,
+  "activeTab": "work",
+  "variants": {
+    "map": "map-h"
+  },
+  "viewport": {
+    "w": 1496,
+    "h": 718,
+    "dpr": 2
+  },
+  "url": "/?map=map-h",
+  "element": {
+    "label": "button \"Rake the spilled rice\"",
+    "text": "Rake the spilled rice",
+    "selector": "div:nth-of-type(1) > div:nth-of-type(1) > div > button:nth-of-type(1)",
+    "rect": {
+      "x": 66,
+      "y": 121,
+      "w": 280,
+      "h": 33
+    }
+  },
+  "screenshot": "2026-07-07T09-20-50.png",
+  "logTail": [
+    {
+      "channel": "narration",
+      "text": "Something surfaces and is gone — a porter's knot, a road in grey rain, a name you cannot keep hold of.",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "\"Hold the road. The rain. Almost a name.\"",
+      "count": 1,
+      "speaker": "You"
+    },
+    {
+      "channel": "narration",
+      "text": "You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.",
+      "count": 1
+    },
+    {
+      "channel": "milestone",
+      "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "narration",
+      "text": "\"What house is this?\"",
+      "count": 1,
+      "speaker": "You"
+    },
+    {
+      "channel": "narration",
+      "text": "\"The Kurosawa. A great name gone to seed — samurai on the rolls, paupers in the granary. I've kept it upright since the last master could not, and I'll keep it upright when you can't either.\"",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "narration",
+      "text": "(You say nothing, and reach for the spilled rice.)",
+      "count": 1,
+      "speaker": "You"
+    },
+    {
+      "channel": "narration",
+      "text": "\"...A man who works before he talks. Rare. We'll get on.\"",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "milestone",
+      "text": "Perk unlocked — Hands Before Words: A steady quickness that answers with work — trusting to no luck. (+1 SPD / −1 LUCK)",
+      "count": 1
+    },
+    {
+      "channel": "reward",
+      "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "narration",
+      "text": "Your arms are leaden. You could rest a moment against the cool post.",
+      "count": 1
+    },
+    {
+      "channel": "reward",
+      "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "Clear it without my standing over you, and you'll have earned your rice and a dry corner to sleep in. I'll make you no grander promise than that. In this house, none of us holds one.",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "reward",
+      "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "\"...You don't shirk the work,\" Genemon says, eyeing the cleared boards and the filling basket. \"The house has had its fill of hands that do. Earn your keep, and a place here is yours.\"",
+      "count": 1
+    },
+    {
+      "channel": "reward",
+      "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+      "count": 5
+    },
+    {
+      "channel": "system",
+      "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+      "count": 2
+    },
+    {
+      "channel": "reward",
+      "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+      "count": 5
+    }
+  ],
+  "save": "eyJhcHAiOiJrYW1pLWtha3VzaGkiLCJzY2hlbWFWZXJzaW9uIjo4LCJzYXZlQ291bnRlciI6NTcwNSwic2F2ZWRBdCI6MTc4MzQwODg1MDA1Nywic3RhdGUiOnsic2NoZW1hVmVyc2lvbiI6OCwicm5nIjp7InNlZWQiOjIwMjYwNjI2LCJjdXJzb3JzIjp7ImNvbWJhdCI6MCwibG9vdCI6MCwic2Vhc29uYWwiOjAsIndvcmxkZ2VuIjowfX0sImNsb2NrIjp7InRpY2siOjYsImRheSI6MX0sImNoYXJhY3RlciI6eyJocCI6NTgsInNhdGlldHkiOjc0LCJhdHRyaWJ1dGVQb2ludHMiOjAsImF0dHJzIjp7InN0ciI6NSwiYWdpIjo0LCJpbnQiOjYsInNwZCI6NSwibHVjayI6NX0sImxldmVsIjoxLCJjb21iYXRYcCI6MH0sInJlc291cmNlcyI6eyJjb2luIjowLCJyaWNlIjoyNn0sImJhbmtlZCI6eyJjb2luIjowLCJyaWNlIjowfSwiZmxhZ3MiOnsiYXdha2UiOnRydWUsImRyZWFtLTEiOnRydWUsInJha2VkIjp0cnVlfSwidW5sb2NrZWQiOlsic2NyZWVuLWNvbGQtb3BlbiIsInZlcmItb3Blbi1leWVzIiwicmVhZG91dC1ib2R5IiwicmVhZG91dC1yaWNlIiwidmVyYi1yYWtlIiwidmVyYi1yZXN0Il0sImxvZyI6eyJlbnRyaWVzIjpbeyJrZXkiOjAsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiWW91IG9wZW4geW91ciBleWVzLiBTdHJhdyBiZW5lYXRoIHlvdSwgdGhlIHNtZWxsIG9mIHdldCByaWNlLCBhIGxvdyByb29mIHlvdSBkbyBub3Qga25vdy4gQSBjb2xkIHNwcmluZyDigJQgdGhlIG5pbnRoIHllYXIgb2YgQW4nZWkg4oCUIHRob3VnaCB0aGUgeWVhciBpcyBhcyBsb3N0IHRvIHlvdSBhcyB5b3VyIG5hbWUuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MSwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIllvdSdyZSBhd2FrZS5cIiBTxY1hbiB0aGUgcGh5c2ljaWFuIHNpdHMgYmFjayBvbiBoaXMgaGVlbHMuIFwiTm8ga2FtaSBjYXJyaWVkIHlvdSBvZmYsIHdoYXRldmVyIHRoZSB2aWxsYWdlIHdhbnRzIHRvIGJlbGlldmUuIEEgZmxvb2QgdG9vayB5b3UsIGFuZCBhIGJsb3cgdG8gdGhlIGhlYWQgdG9vayB0aGUgcmVzdC4gQm9kaWVzIGZvcmdldC4gR2l2ZW4gd29yayBhbmQgcmljZSwgdGhleSBhbHNvIG1lbmQuXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IlPFjWFuIiwidm9pY2UiOiJwaHlzaWNpYW4ifSx7ImtleSI6MiwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJZb3UgdGFrZSBzdG9jayBvZiB5b3Vyc2VsZjogYnJ1aXNlZCwgaG9sbG93LCBoYWxmLXN0YXJ2ZWQg4oCUIGJ1dCBicmVhdGhpbmcuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MywiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJSaWNlIGxpZXMgc2NhdHRlcmVkIGFjcm9zcyB0aGUgS3Vyb3Nhd2EgZ3JhaW4tc3RvcmUgZmxvb3IuIFNwaWxsZWQgc3RvcmVzIGFyZSB3YXN0ZSDigJQgYW5kIGNsZWFyaW5nIHdhc3RlIGlzIGEga2luZCBvZiB3b3JrLCBpZiB5b3Ugc2V0IHlvdXIgaGFuZHMgdG8gaXQuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6NCwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIldoYXQgaGFwcGVuZWQgdG8gbWU/XCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IllvdSIsInZvaWNlIjoicGxheWVyIiwiY2hhdCI6dHJ1ZX0seyJrZXkiOjUsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCJZb3Ugd2FzaGVkIHVwIGJlbG93IHRoZSB3ZWlyIHRocmVlIGRheXMgYmFjaywgYSBnYXNoIG9uIHlvdXIgc2NhbHAgYW5kIG5vIG5hbWUgdG8gZ2l2ZS4gVGhlIHJpdmVyIGRvZXMgdGhhdC4gV2UgZmlzaGVkIHlvdSBvdXQ7IHRoZSByZXN0IHlvdSdsbCBoYXZlIHRvIGVhcm4gYmFjay5cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiU8WNYW4iLCJ2b2ljZSI6InBoeXNpY2lhbiIsImNoYXQiOnRydWV9LHsia2V5Ijo2LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlwiVGhlcmUgd2FzIGEgcm9hZC4gR3JleSByYWluLiBBIG5hbWUgSSBjYW4ndCBob2xkLiBJcyB0aGF0IHRoZSBmZXZlcj9cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiWW91Iiwidm9pY2UiOiJwbGF5ZXIifSx7ImtleSI6NywiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIlRoYXQgaXMgdGhlIGJsb3cgdGFsa2luZywgbm90IGEgZ2hvc3QuIEl0IHdpbGwgZmFkZSDigJQgb3IgaXQgd29uJ3QuIERvbid0IGxldCB0aGUgb2xkIHdvbWVuIG1ha2UgYSBoYXVudGluZyBvZiBpdC5cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiU8WNYW4iLCJ2b2ljZSI6InBoeXNpY2lhbiJ9LHsia2V5Ijo4LCJjaGFubmVsIjoibWlsZXN0b25lIiwidGV4dCI6IlBlcmsgdW5sb2NrZWQg4oCUIEEgV2FraW5nIEZyYWdtZW50OiBBIGhhbGYtY2F1Z2h0IG9tZW4gdGhhdCBiZW5kcyBmb3J0dW5lIHlvdXIgd2F5LCB0aG91Z2ggeW91ciBzdGVwIGlzIHNsb3dlciB0byBhbnN3ZXIuICgrMSBMVUNLIC8g4oiSMSBBR0kpIiwidGljayI6MCwiY291bnQiOjF9LHsia2V5Ijo5LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlNvbWV0aGluZyBzdXJmYWNlcyBhbmQgaXMgZ29uZSDigJQgYSBwb3J0ZXIncyBrbm90LCBhIHJvYWQgaW4gZ3JleSByYWluLCBhIG5hbWUgeW91IGNhbm5vdCBrZWVwIGhvbGQgb2YuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MTAsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCJIb2xkIHRoZSByb2FkLiBUaGUgcmFpbi4gQWxtb3N0IGEgbmFtZS5cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiWW91Iiwidm9pY2UiOiJwbGF5ZXIifSx7ImtleSI6MTEsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiWW91IGNoYXNlIGl0IGlud2FyZCDigJQgYW5kIHRoZSBhY2hlIGluIHlvdXIgc2t1bGwgY2hhc2VzIHlvdSBiYWNrLiBUaGUgbmFtZSBzdGF5cyBsb3N0LCBidXQgdGhlIGhhYml0IG9mIGxvb2tpbmcgc2V0cyBpbi4iLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5IjoxMiwiY2hhbm5lbCI6Im1pbGVzdG9uZSIsInRleHQiOiJQZXJrIHVubG9ja2VkIOKAlCBUaGUgSW53YXJkIFR1cm46IEEgbWluZCB0aGF0IGRlZXBlbnMgYnkgZHdlbGxpbmcsIGF0IHRoZSBwcmljZSBvZiBhIHNsb3dlciBib2R5LiAoKzEgSU5UIC8g4oiSMSBTUEQpIiwidGljayI6MCwiY291bnQiOjF9LHsia2V5IjoxMywiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJPbiB5b3VyIGZlZXQsIHRoZW4uIEkgYW0gR2VuZW1vbiwgc3Rld2FyZCBvZiB0aGlzIGhvdXNlLCBhbmQgSSBrZWVwIHRoZSBsaXR0bGUgaXQgaGFzIGxlZnQgdG8ga2VlcC4gWW91J2xsIG5vdCByZW1lbWJlciBhbnkgb2YgaXQsIHNvIGhlYXIgaXQgcGxhaW46IHRoZSBLdXJvc2F3YSBhcmUgc2FtdXJhaSBzdGlsbCDigJQgb24gdGhlIGxvcmQncyByb2xscywgaWYgbm93aGVyZSBpbiB0aGUgZ3JhbmFyeS4iLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IkdlbmVtb24iLCJ2b2ljZSI6InN0ZXdhcmQifSx7ImtleSI6MTQsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCJXaGF0IGhvdXNlIGlzIHRoaXM/XCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IllvdSIsInZvaWNlIjoicGxheWVyIiwiY2hhdCI6dHJ1ZX0seyJrZXkiOjE1LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlwiVGhlIEt1cm9zYXdhLiBBIGdyZWF0IG5hbWUgZ29uZSB0byBzZWVkIOKAlCBzYW11cmFpIG9uIHRoZSByb2xscywgcGF1cGVycyBpbiB0aGUgZ3JhbmFyeS4gSSd2ZSBrZXB0IGl0IHVwcmlnaHQgc2luY2UgdGhlIGxhc3QgbWFzdGVyIGNvdWxkIG5vdCwgYW5kIEknbGwga2VlcCBpdCB1cHJpZ2h0IHdoZW4geW91IGNhbid0IGVpdGhlci5cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiR2VuZW1vbiIsInZvaWNlIjoic3Rld2FyZCIsImNoYXQiOnRydWV9LHsia2V5IjoxNiwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiIoWW91IHNheSBub3RoaW5nLCBhbmQgcmVhY2ggZm9yIHRoZSBzcGlsbGVkIHJpY2UuKSIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiWW91Iiwidm9pY2UiOiJwbGF5ZXIifSx7ImtleSI6MTcsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCIuLi5BIG1hbiB3aG8gd29ya3MgYmVmb3JlIGhlIHRhbGtzLiBSYXJlLiBXZSdsbCBnZXQgb24uXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IkdlbmVtb24iLCJ2b2ljZSI6InN0ZXdhcmQifSx7ImtleSI6MTgsImNoYW5uZWwiOiJtaWxlc3RvbmUiLCJ0ZXh0IjoiUGVyayB1bmxvY2tlZCDigJQgSGFuZHMgQmVmb3JlIFdvcmRzOiBBIHN0ZWFkeSBxdWlja25lc3MgdGhhdCBhbnN3ZXJzIHdpdGggd29yayDigJQgdHJ1c3RpbmcgdG8gbm8gbHVjay4gKCsxIFNQRCAvIOKIkjEgTFVDSykiLCJ0aWNrIjowLCJjb3VudCI6MX0seyJrZXkiOjE5LCJjaGFubmVsIjoicmV3YXJkIiwidGV4dCI6IllvdSByYWtlIHRoZSBzcGlsbGVkIHJpY2UgYmFjayB0b3dhcmQgdGhlIGJhc2tldC4gKCsyIHJpY2UpIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IiLCJlcGhlbWVyYWwiOnRydWV9LHsia2V5IjoyMCwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJTbyB5b3UgcHV0IHlvdXIgaGFuZHMgdG8gaXQuIFJha2Ugd2hhdCBncmFpbiBpcyBzdGlsbCB3aG9sZSBiYWNrIHRvd2FyZCB0aGUgYmFza2V0LCBhIGZpc3RmdWwgYXQgYSB0aW1lLiBXZSByZWNrb24gYSBzYW11cmFpIGhvdXNl4oCZcyB3b3J0aCBpbiBrb2t1IOKAlCBhIHllYXLigJlzIGVhdGluZyBmb3Igb25lIG1hbiDigJQgYW5kIGV2ZXJ5IGJhc2tldCB5b3Ugc2F2ZSB1cyBpcyBhIG1lYXN1cmUgd2UgbmVlZCBub3QgZ28gYmVnZ2luZyB0byB0aGUgbG9yZCB0byBtYWtlIGdvb2QuIiwidGljayI6MCwiY291bnQiOjEsInNwZWFrZXIiOiJHZW5lbW9uIiwidm9pY2UiOiJzdGV3YXJkIn0seyJrZXkiOjIxLCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IllvdXIgYXJtcyBhcmUgbGVhZGVuLiBZb3UgY291bGQgcmVzdCBhIG1vbWVudCBhZ2FpbnN0IHRoZSBjb29sIHBvc3QuIiwidGljayI6MiwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MjIsImNoYW5uZWwiOiJyZXdhcmQiLCJ0ZXh0IjoiWW91IHJha2UgdGhlIHNwaWxsZWQgcmljZSBiYWNrIHRvd2FyZCB0aGUgYmFza2V0LiAoKzIgcmljZSkiLCJ0aWNrIjoyLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciIsImVwaGVtZXJhbCI6dHJ1ZX0seyJrZXkiOjIzLCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IkNsZWFyIGl0IHdpdGhvdXQgbXkgc3RhbmRpbmcgb3ZlciB5b3UsIGFuZCB5b3UnbGwgaGF2ZSBlYXJuZWQgeW91ciByaWNlIGFuZCBhIGRyeSBjb3JuZXIgdG8gc2xlZXAgaW4uIEknbGwgbWFrZSB5b3Ugbm8gZ3JhbmRlciBwcm9taXNlIHRoYW4gdGhhdC4gSW4gdGhpcyBob3VzZSwgbm9uZSBvZiB1cyBob2xkcyBvbmUuIiwidGljayI6MiwiY291bnQiOjEsInNwZWFrZXIiOiJHZW5lbW9uIiwidm9pY2UiOiJzdGV3YXJkIn0seyJrZXkiOjI0LCJjaGFubmVsIjoicmV3YXJkIiwidGV4dCI6IllvdSByYWtlIHRoZSBzcGlsbGVkIHJpY2UgYmFjayB0b3dhcmQgdGhlIGJhc2tldC4gKCsyIHJpY2UpIiwidGljayI6NCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IiLCJlcGhlbWVyYWwiOnRydWV9LHsia2V5IjoyNSwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIi4uLllvdSBkb24ndCBzaGlyayB0aGUgd29yayxcIiBHZW5lbW9uIHNheXMsIGV5ZWluZyB0aGUgY2xlYXJlZCBib2FyZHMgYW5kIHRoZSBmaWxsaW5nIGJhc2tldC4gXCJUaGUgaG91c2UgaGFzIGhhZCBpdHMgZmlsbCBvZiBoYW5kcyB0aGF0IGRvLiBFYXJuIHlvdXIga2VlcCwgYW5kIGEgcGxhY2UgaGVyZSBpcyB5b3Vycy5cIiIsInRpY2siOjQsImNvdW50IjoxLCJ2b2ljZSI6Im5hcnJhdG9yIn0seyJrZXkiOjI2LCJjaGFubmVsIjoicmV3YXJkIiwidGV4dCI6IllvdSByYWtlIHRoZSBzcGlsbGVkIHJpY2UgYmFjayB0b3dhcmQgdGhlIGJhc2tldC4gKCsyIHJpY2UpIiwidGljayI6MTQsImNvdW50Ijo1LCJ2b2ljZSI6Im5hcnJhdG9yIiwiZXBoZW1lcmFsIjp0cnVlfSx7ImtleSI6MjcsImNoYW5uZWwiOiJzeXN0ZW0iLCJ0ZXh0IjoiWW91IHJlc3QgYWdhaW5zdCB0aGUgcG9zdC4gVGhlIGFjaGUgZHVsbHM7IHRoZSBsaWdodCB0aHJvdWdoIHRoZSBzbGF0cyBzaGlmdHMuIiwidGljayI6MTgsImNvdW50IjoyLCJ2b2ljZSI6Im5hcnJhdG9yIiwiZXBoZW1lcmFsIjp0cnVlfSx7ImtleSI6MjgsImNoYW5uZWwiOiJyZXdhcmQiLCJ0ZXh0IjoiWW91IHJha2UgdGhlIHNwaWxsZWQgcmljZSBiYWNrIHRvd2FyZCB0aGUgYmFza2V0LiAoKzIgcmljZSkiLCJ0aWNrIjo0LCJjb3VudCI6NSwidm9pY2UiOiJuYXJyYXRvciIsImVwaGVtZXJhbCI6dHJ1ZX1dLCJzZXEiOjI5fSwic2tpbGxYcCI6e30sImRlbGl2ZXJlZERpYWxvZ3VlIjpbImdlbi1ncmVldCIsImdlbi1zdG9yZXMiLCJnZW4tcmFrZSIsImdlbi1rZWVwIiwiZ2VuLWtlcHQiXSwibnBjTWVtb3J5Ijp7InNvYW4iOnsicmVnYXJkIjoid29ycmllZCIsIndhcm10aCI6MH0sImdlbmVtb24iOnsicmVnYXJkIjoic3RlYWR5Iiwid2FybXRoIjoxfX0sImludHJvQmVhdCI6MywicnVuZ0JlYXQiOm51bGwsImFza2VkVG9waWNzIjpbInNvYW4td2hhdC1oYXBwZW5lZCIsImdlbi1ob3VzZSJdLCJxdWVzdHMiOnsiYWNjZXB0ZWQiOltdLCJwcm9ncmVzcyI6e30sImNvbXBsZXRlZCI6W119LCJtYXJrZXRCb3VnaHQiOnt9LCJiZWxvbmdpbmdzIjpbXSwibG9jYXRpb24iOiJrdXJhIiwicnVuZyI6IlIwIiwicnVuZ1JlcXMiOnsicmFrZS10aGUtc3BpbGwiOjEzfSwiZXN0YXRlU3RhZ2UiOjAsImF1dG9BY3Rpdml0eSI6bnVsbCwiYXV0b1Jha2UiOnRydWUsImVxdWlwcGVkV2VhcG9uIjoiY2FycnlpbmdfcG9sZSIsIndlYXBvbkR1cmFiaWxpdHkiOjQwLCJhdXRvQ29tYmF0IjpudWxsLCJhdXRvQ29tYmF0UmV0cmVhdCI6ZmFsc2UsInN0YW5jZSI6ImNodWRhbiIsInRpZXIiOjAsImluZmx1ZW5jZSI6eyJlc3RhdGUiOnsidmFsdWUiOjAsImhpZ2hXYXRlciI6MCwianVkZ2VkIjowLCJmcmFjIjowfX19fQ=="
+}
