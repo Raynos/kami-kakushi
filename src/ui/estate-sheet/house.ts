@@ -74,7 +74,7 @@ export const ROOMS: readonly RoomDef[] = [
     id: 'kitchen',
     kanji: '竈',
     en: 'kitchen & board',
-    rect: [5, 11, 8.2, 14],
+    rect: [5, 10.4, 8.2, 13.4],
     eave: 1.5,
     ridge: 2.4,
   },

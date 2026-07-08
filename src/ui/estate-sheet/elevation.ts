@@ -1031,24 +1031,30 @@ export function rakeArcs(
 ): void {
   const g = sv('g', { class: 'es-fine' });
   const r = rng(seed);
-  const n = 4 + Math.floor(r() * 2);
-  for (let i = 0; i < n; i++) {
-    const cx = x0 + r() * (x1 - x0);
-    const cy = y0 + r() * (y1 - y0);
-    for (let b = 0; b < 3; b++) {
-      const rad = 8 + b * 4 + r() * 3;
-      const a0 = r() * Math.PI;
+  // ORDERLY broom passes — aligned shallow arc rows, so the ground reads
+  // swept (raked, tended), never scrub. All arcs bow the same way.
+  const rowStep = 26;
+  const colStep = 34;
+  for (let y = y0 + rowStep * 0.7; y < y1 - 6; y += rowStep) {
+    for (
+      let x = x0 + colStep * 0.5 + ((Math.round(y) % 2) * colStep) / 2;
+      x < x1 - 10;
+      x += colStep
+    ) {
+      if (r() < 0.25) continue;
+      const wArc = 20 + r() * 6;
+      const bow = 3.2 + r() * 1.4;
       const pts: Pt[] = [];
-      for (let s = 0; s <= 5; s++) {
-        const a = a0 + (s / 5) * 1.2;
-        pts.push([cx + Math.cos(a) * rad, cy + Math.sin(a) * rad]);
+      for (let s = 0; s <= 4; s++) {
+        const t = s / 4;
+        pts.push([x + wArc * t, y - Math.sin(t * Math.PI) * bow]);
       }
       inkLine(g, pts, {
-        seed: `${seed}:${i}:${b}`,
+        seed: `${seed}:${Math.round(x)}-${Math.round(y)}`,
         color: 'var(--ink-faint)',
         w: 0.7,
-        opacity: 0.55,
-        amp: 0.4,
+        opacity: 0.5,
+        amp: 0.3,
       });
     }
   }
@@ -1147,19 +1153,29 @@ export function altarNiche(
 ): void {
   const g = sv('g');
   if (mode === 'plan') {
+    // a tiny shrine glyph, not a door: two posts + a wide lintel jutting off
+    // the corridor's north line, the offering dot between the posts
+    for (const dx of [-4, 4]) {
+      inkLine(
+        g,
+        [
+          [x + dx, y + 3],
+          [x + dx, y - 5],
+        ],
+        { seed: `${seed}:p${dx}`, color: 'var(--gold-dim)', w: 1.3, amp: 0.3 },
+      );
+    }
     inkLine(
       g,
       [
-        [x - 5, y + 4],
-        [x - 5, y - 4],
-        [x + 5, y - 4],
-        [x + 5, y + 4],
+        [x - 6.5, y - 5],
+        [x + 6.5, y - 5],
       ],
-      { seed: `${seed}:n`, color: 'var(--gold-dim)', w: 1.2, amp: 0.4 },
+      { seed: `${seed}:lintel`, color: 'var(--gold-dim)', w: 1.6, amp: 0.3 },
     );
     const dot = sv('circle', {
       cx: String(x),
-      cy: String(y - 1),
+      cy: String(y),
       r: '1.4',
       fill: 'var(--gold-dim)',
     });

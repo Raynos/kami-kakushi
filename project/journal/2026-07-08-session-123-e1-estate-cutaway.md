@@ -92,20 +92,59 @@ B's ruin ground line overlapped the west wing's roof (read as roof
 damage) → raised clear of the lived ridgeline; washes brightened a
 notch. Verify green (17 gates), pin regenerated post-polish.
 
+## 4 · Blind pass (iter 1+2) → both variants PASS · Pass-2 scorecards
+
+Two fresh blind describers (images only) → E-lines scored against
+their verbatim text (mechanical; a separate judge skipped per the cost
+steer). **B passed everything first try** — corridor, the alcove read
+as a maintained household shrine, "the ratio is the story," the full
+gold/shu grammar including the west→east work migration, "decisively
+NOT CAD." **A missed E2's corridor** (buried under floor texture;
+alcove read as a door; rake arcs as scrub) → iter-2 fixes (corridor
+re-inked over floors + 廊下 · shrine glyph posts+lintel · orderly broom
+rows · kitchen attached to the west flank per the bible) → a THIRD
+fresh reader: full pass — "all strung on the single 廊下 corridor,"
+the alcove "the single strangest interior feature," "the tending stops
+exactly at the wall." Post-pass polish: the well's 井 mark. Full
+report + quotes:
+`project/audit/reports/2026-07-08-e1-estate-sheet-blind-pass.md`;
+final captures committed to
+`project/audit/screens/2026-07-08-e1-estate-sheet/`. Pin regenerated
+at the final look.
+
+**Taste Pass 2 (full 21-walk, per variant).** Applicable set as the
+Pass-1 brief (P2 P4 P5 P6 P15 P17 P19 P20 + TST1/TST4 value-lines);
+all others n/a for a static DEV artifact (no capability moves,
+speakers, typewriter, log surfaces, app-info).
+
+- **A (fold-up): 8✔ · 0✘ · 13—.** Borderline ✔ flagged: P6 — the
+  modal is desktop-register; at phone widths the sheet shrinks legibly
+  but small (DEV-only tool, accepted); P2 — the local `txt` helper is
+  now the THIRD copy of the font-register text idiom (stamp-book,
+  scene-cards, here) → hoist-into-brush.ts candidate, named as debt.
+- **B (section-cut): 8✔ · 0✘ · 13—.** Same P6/P2 flags; plus the
+  noted depth-overlap residual (kitchen gold vs west wing, mitigated).
+
+**Self-pick: A · fold-up** carries as the exploration's default —
+truest to the okoshi-ezu fiction, and the plan projection is the
+right substrate for the Estate tab's future per-room repair
+interactions; B kept as the alternate (the harder-hitting single
+glance). Both stay live behind the DEV toggle until HR-16.
+
 ## Next intended steps (current)
 
-1. Blind-pass loop vs the README E-lines (2 fresh describers + a
-   judge); fix misses; re-pin if the look changes.
-2. Self-pick the default variant; Pass 2 scorecards; finish HR-16
-   (How-to-look + brief + scorecards); checkpoint (commit → snapshot →
-   push).
+1. HR-16 verdict from the human (spec read + A/B pick or kill).
+2. If kept: E1.4 integration stays GATED on storywave Plan B + HR-9.
+3. Debt noted: hoist the `txt` font-register helper into brush.ts
+   (three copies now exist).
 
 ## Landmines (current)
 
-- **Seam law:** storywave Plan B owns `src/**` — this experiment may
-  touch ONLY the new `src/ui/estate-sheet/` dir + one DEV-menu entry
-  (`src/ui/dev.ts`); pathspec commits, check the shared index before
-  every commit (another agent is live in this tree).
-- The estate-sheet pin is its OWN golden test — do not touch the
-  map-sheets pin; the map-blind-pass workflow does NOT apply here
-  (fresh-eyes subagents judge vs the README rubric instead).
+- **Seam law:** storywave Plan B owns `src/**` — this experiment
+  touched ONLY `src/ui/estate-sheet/` + one `ui/dev.ts` button.
+- The estate-sheet pin is its OWN golden test
+  (`UPDATE_ESTATE_GOLDEN=1`); map-sheets' pin untouched; the
+  map-blind-pass workflow does NOT apply to this module.
+- `tmp/e1-shots.mjs` is the capture harness (scratch, git-ignored) —
+  it force-fits the svg to the scroll pane before shooting; without
+  that the element screenshot viewport-clips.

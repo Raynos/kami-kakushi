@@ -345,20 +345,40 @@ past the spec-read gate (same as E2/E3), so this item covers both halves:
   re-ink grammar (repairs in gold, the `ruinRevealed` label swap), and the
   E-line blind-reader rubric. Cheap to fix — flag anything before
   integration (E1.4, still gated).
-- **The variants** (DEV-only, fixture-fed, zero game integration):
-  - [ ] **A — fold-up okoshi-ezu** — plan at centre, wall/roof elevations
-    hinged flat off its edges with fold tabs; the ruin an un-folded
-    backdrop along the north edge. Truest to the genre.
+- **The variants** (DEV-only, fixture-fed, zero game integration; BOTH
+  passed the blind-reader rubric — all 5 M + 4/4 S; report with quotes:
+  [`2026-07-08-e1-estate-sheet-blind-pass.md`](../audit/reports/2026-07-08-e1-estate-sheet-blind-pass.md)):
+  - [ ] **A — fold-up okoshi-ezu** _(self-picked carry-forward default)_ —
+    plan at centre, wall elevations hinged off its edges with fold tabs,
+    loose east/west/residence pieces, the ruin un-folded along the north
+    edge taller than any folded wall. Truest to the genre; the richer
+    surface for future per-room repair interaction. A cold reader named
+    the genre unprompted and called the corridor shrine "the single
+    strangest interior feature."
   - [ ] **B — flat section-cut** — one long dollhouse section-elevation,
-    rooms in a row, the ruin's elevation rising behind at the same scale.
-    The more immediately pictorial read.
+    hatched cut members, the ruin skyline rising behind at the same ken
+    scale. The harder-hitting single glance ("the ratio is the story…
+    camping in the corner of something that used to be vastly larger").
 - **Asking for:** (1) the spec read; (2) which variant carries E1 forward
   (or kill E1 — a valid verdict; killing promotes the next SOON-shelf
   concept).
-- **How to look:** _(filled when the prototype lands this session — DEV
-  menu entry + boot param.)_
-- **Taste brief (pass 1):** _(attached with the build commit.)_
-- **Scorecard:** _(per variant, after build.)_
+- **How to look:** `pnpm run dev` → **DEV** panel (bottom-right) →
+  **Story** tab → **"⤢ Estate sheet — E1 okoshi-ezu prototype"**. Inside
+  the modal: **look** A/B buttons + **era** buttons (T0·R1 · T1·R7 · the
+  T2-seam reveal preview — watch the labels turn honest: 母屋 struck →
+  客殿, the ruin named 本邸). Hover any part for its name.
+- **Taste brief (pass 1):** P2 reuse brush/geom + the stamp-book modal
+  idiom, tokens only · P4/P5 repaint only on explicit toggle, fixed shell ·
+  P6 one viewBox object, complete at every width · P15/TST3 the sheet
+  believes the 母屋 lie, mystery outside the 凡例 · P17 toggles advertise
+  active state · P19 sheet = ceremony register, controls = chrome ·
+  P20 full-viewport modal, internal scroll · TST1 one geometry + one
+  vocabulary for both variants · TST4 ink states legible at a glance.
+- **Scorecard (A):** 8✔ · 0✘ · 13— — borderline ✔s flagged: P6 (desktop-
+  register modal; small at phone widths — DEV-only tool) · P2 (the local
+  `txt` helper is a third copy of the font-register idiom — hoist debt).
+- **Scorecard (B):** 8✔ · 0✘ · 13— — same flags + the depth residual
+  (state-1 kitchen gold in front of the west wing; seated lower now).
 - **Verdict:** _(awaiting the human)_
 
 ---

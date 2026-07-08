@@ -187,6 +187,12 @@ function paintPlan(root: SVGElement, fx: EstateFixture): void {
   );
   rakeArcs(root, kx(FORECOURT.x0), ky(FORECOURT.y0), kx(FORECOURT.x1), ky(FORECOURT.y1), 'a:rake');
   wellRing(root, kx(WELL.x), ky(WELL.y), 7, 'a:well');
+  // the period well mark — a cold reader took the bare ring for a lone stone
+  txt(root, kx(WELL.x) + 13, ky(WELL.y) + 4, '井', {
+    size: 10,
+    color: 'var(--silver-dim)',
+    opacity: 0.9,
+  });
 
   // the compound wall — the structural boundary (gate gap on the south)
   const wallPts: Pt[] = [
@@ -199,30 +205,35 @@ function paintPlan(root: SVGElement, fx: EstateFixture): void {
   ];
   brushStroke(root, wallPts, { seed: 'a:wall', w: 3.2, color: 'var(--silver)', wobble: 0.2 });
 
-  // the corridor joining the wings — drawn UNDER the rooms' outlines
-  inkLine(
-    root,
-    [
-      [kx(CORRIDOR.x0), ky(CORRIDOR.y0)],
-      [kx(CORRIDOR.x1), ky(CORRIDOR.y0)],
-    ],
-    { seed: 'a:cor1', color: 'var(--silver-dim)', w: 1.2, amp: 0.8 },
-  );
-  inkLine(
-    root,
-    [
-      [kx(CORRIDOR.x0), ky(CORRIDOR.y1)],
-      [kx(CORRIDOR.x1), ky(CORRIDOR.y1)],
-    ],
-    { seed: 'a:cor2', color: 'var(--silver-dim)', w: 1.2, amp: 0.8 },
-  );
-  altarNiche(root, kx(ALCOVE.x), ky(ALCOVE.y) - 5, 'a:alcove', 'plan');
-
   // rooms
   for (const room of ROOMS) {
     if (room.id === 'gate') continue; // the gate lives on the south fold
     paintPlanRoom(root, room, fx);
   }
+
+  // the corridor re-inked OVER the floors (blind-pass iter-2: it must read as
+  // the passage tying the wings together, not as floor texture) + its name +
+  // the shrine glyph sitting IN it (H3)
+  for (const [yk, s] of [
+    [CORRIDOR.y0, 'a:cor1t'],
+    [CORRIDOR.y1, 'a:cor2t'],
+  ] as const) {
+    inkLine(
+      root,
+      [
+        [kx(CORRIDOR.x0), ky(yk)],
+        [kx(CORRIDOR.x1), ky(yk)],
+      ],
+      { seed: s, color: 'var(--silver-dim)', w: 1.4, amp: 0.7 },
+    );
+  }
+  txt(root, kx(12.2), ky(8.25), '廊下', {
+    size: 9,
+    color: 'var(--ink-soft)',
+    font: 'body',
+    opacity: 0.9,
+  });
+  altarNiche(root, kx(ALCOVE.x), ky(ALCOVE.y) + 0.6 * KEN, 'a:alcove', 'plan');
 
   // the stable court's raked drill ground beside the range
   rakeArcs(root, kx(19.4), ky(11), kx(23.2), ky(16), 'a:drill');

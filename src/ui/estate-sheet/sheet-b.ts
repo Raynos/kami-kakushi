@@ -310,7 +310,9 @@ function paintForeground(root: SVGElement, fx: EstateFixture): void {
   const kg = sv('g', { opacity: '0.85' });
   const kx0 = bx(kitchen.rect[0]);
   const kx1 = bx(kitchen.rect[2]);
-  const kGround = GY + 34;
+  // seated a step lower than the wing behind it, so its gold can't be
+  // mis-attributed to the west wing (blind-pass iter-2)
+  const kGround = GY + 42;
   wallFace(kg, kx0, kx1, kGround - kitchen.eave * KEN, kGround, { seed: 'b:kit', postStep: 26 });
   roofProfile(kg, kx0, kx1, kGround - kitchen.eave * KEN, kGround - kitchen.ridge * KEN, {
     seed: 'b:kitr',
