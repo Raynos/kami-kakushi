@@ -140,10 +140,11 @@ function drawSealLayer(
   }
   const hits = (a: Box, b: Box): boolean =>
     a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1;
+  // chip boxes first (inflated so captions never kiss a neighbouring seal);
+  // ownerIx lets a seal's caption candidates skip ITS OWN chip box
   const taken: Box[] = roster.map((n) => {
     const p = pos.get(n.id)!;
     const r = ANCHORS[n.id]?.room === true;
-    // the chip, inflated a touch so captions never kiss a neighbouring seal
     return {
       x0: p.x - (r ? 24 : 30),
       y0: p.y - (r ? 22 : 28),
@@ -151,26 +152,34 @@ function drawSealLayer(
       y1: p.y + (r ? 22 : 28),
     };
   });
+  const chipCount = taken.length;
   const capBoxFor = (nx: number, ny: number, bh: number, above: boolean): Box =>
     above
       ? { x0: nx - 72, y0: ny - bh / 2 - 52, x1: nx + 72, y1: ny - bh / 2 - 4 }
       : { x0: nx - 72, y0: ny + bh / 2 + 4, x1: nx + 72, y1: ny + bh / 2 + 52 };
-  for (const n of roster) {
+  for (let ri = 0; ri < roster.length; ri++) {
+    const n = roster[ri]!;
     const { x: nx, y: ny } = pos.get(n.id)!;
     const room = ANCHORS[n.id]?.room === true;
+    // ALL seals run the pass now (blind pass 3: Gate/Night-rounds captions
+    // collided at fit) — non-room seals never suppress, they just flip above
     let capAbove = false;
     let capSuppressed = false;
-    if (room) {
-      const bhr = 32;
+    {
+      const bhr = room ? 32 : 44;
+      const clear = (box: Box): boolean =>
+        !taken.some((b, bi) => (bi === ri && bi < chipCount ? false : hits(b, box)));
       const below = capBoxFor(nx, ny, bhr, false);
       const above = capBoxFor(nx, ny, bhr, true);
-      if (!taken.some((b) => hits(b, below))) {
+      if (clear(below)) {
         taken.push(below);
-      } else if (!taken.some((b) => hits(b, above))) {
+      } else if (clear(above)) {
         capAbove = true;
         taken.push(above);
-      } else {
+      } else if (room) {
         capSuppressed = true;
+      } else {
+        taken.push(below); // crowded both ways — a non-room caption stays below
       }
     }
     const g = sv('g', {

@@ -218,3 +218,13 @@ draw-attribute streams + node counts (17,107 / 17,154) into
 `golden.hash.json`; regen = `UPDATE_MAP_GOLDEN=1 vitest run …` committed
 WITH the intentional change. RED-proven: a 1-unit weir nudge fails both
 tiers; reverted, green.
+
+Blind pass 3 (Phase B close): every M-line passes on both sheets — R4
+and R13's closed-half confirmed in the readers' own words; R16 became
+the T1 headline ("not one drop of red ink… a held breath"); V-1 closed
+("the sheet feels like paper, not a void"). Report:
+`project/audit/reports/2026-07-08-t0t1-map-blind-pass-3.md`. The one
+shared nit (Gate/Night-rounds caption collision) fixed by extending the
+caption pass to ALL seals — which surfaced a real bug (a candidate box
+colliding with the seal's OWN inflated chip; self-exclusion added).
+Golden pin untouched (seals are shell-layer, not hashed ground).
