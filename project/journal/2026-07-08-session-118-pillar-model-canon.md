@@ -167,3 +167,24 @@ a COHERENT pass (a lone token-flip would be worse): **§1.1 Vision**, **§1.5.4*
 belief). These are a §1 taste/vision pass — surfaced for a follow-up, not blocking
 A2's DoD. Also: the rippled PRD merits a human taste-read (content fidelity is
 beyond what prd:drift/gen-regions gates can verify).
+
+### §1 residual pass ✅ DONE (human ruled: do it now)
+Resolved the three flagged subsections + the dangling origin refs in
+`docs/living/prd/01-vision.md`:
+- **§1.1 Vision**: tier-sweep list → seven tiers (household/land → valley
+  (Asagiri) → region → castle-town → domain → Edo); the Tama framing rewritten to
+  the bible (the village half-adopts him as its OWN lost child Tama — a misreading
+  the true story corrects (Tama = Otsuru, found grown); the dream returns Tahei /
+  the landslide / the family that kept his register open).
+- **§1.5.4**: "SIX-TIER SPINE" → **SEVEN-TIER**; the per-tier standing arc + the
+  domain-expands list rebuilt to seven tiers (steward/yōnin ceiling at T5, the
+  house's H0→H7 at T6); the origin `O0→O5` rung-ladder framing → a reputation
+  side-track (docket #9); "House Influence spends to expand" → "the macro-measure
+  the tier-gate reads — never spent" (§1.6 consistency).
+- **§1.10**: added the softened kernel-#1 clause — a mundane truth may be
+  "nobody's sin and even warm" (a child who ran, found grown; a family that
+  refused to grieve), not only dark.
+- Swept the three other dangling `O0→O5` origin-ladder refs (§1.5.3, §1.5.x,
+  §1.12) → reputation side-track. Residual `V0→V7` hits are intentional
+  forward-spec ("built game trails on V0→V7"). Gates: gen-regions fresh, drift
+  CLEAN. This supersedes the "known remaining §1 residuals" note above.

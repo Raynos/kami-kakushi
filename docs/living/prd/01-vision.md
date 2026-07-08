@@ -29,9 +29,9 @@ the next tier.** The climb is a **long, generous grind** — an OSRS-rough **min
 *leave auto-running, checking the progress* (active-only, no offline), never a brick-wall: the ~28.5 h budget
 is a **floor**, not a ceiling (§1.12/§1.13).
 
-As you rise, the world you can reach grows with you: first the **estate**, then the valley **village of
-Asagiri**, then the **region**, then the domain's **castle-town**, and finally **indirect, mediated
-recognition at Edo** — until the Kurosawa name stands **restored *and* surpassed** beyond anything it held
+As you rise, the world you can reach grows with you: first the **estate** (the household, then its land), then
+the valley **village of Asagiri**, then the **region**, then the **castle-town**, then the **domain**, and
+finally **indirect, mediated recognition at Edo** — until the Kurosawa name stands **restored *and* surpassed** beyond anything it held
 three generations ago. The estate-rise *is* the perseverance fantasy at grand scale, and it is the same
 motion as the game's **signature feature: the UI itself unlocks as you progress** — minute one is one verb
 and a persistent event log; every panel, tab, resource, skill, and area thereafter fades in **one at a time
@@ -39,9 +39,11 @@ by design** (the unlock schedule is *authored* so reveals never arrive in a batc
 beat, never silent menu growth.
 
 Two grounded side-threads run quietly beneath the climb and pay off only in **feeling, allies, and flavour
-— never in power**: a grieving village is certain you are **"Tama,"** their child spirited away ten years
-ago (the estate flatly disbelieves it; to them you are simply a farmhand), and a **recurring dream** slowly
-returns the memory of who you truly were and the living family who will come to back you. **Nothing
+— never in power**: a grieving village half-adopts you as **"Tama,"** its OWN child lost to a "taking" years
+ago — a misreading (the estate flatly disbelieves it; to them you are simply a hand) that the true story
+quietly corrects (Tama was a girl who ran, found grown), and a **recurring dream** slowly returns the memory
+of who you truly were — **Tahei**, a porter a landslide took into the river — and the living family who kept
+your name on their register and will come to back you. **Nothing
 supernatural ever happens; every omen resolves to a human or natural cause; every climbing number is earned
 sweat.** This is the **dignity of a nobody — and a dying house — becoming someone real, by hand**, and
 forcing a forgotten name to be spoken at the capital. Built as a **pure, deterministic TypeScript core**
@@ -325,7 +327,7 @@ house**, still interleaving labour and combat (the region has **no rival-house c
 face is Lord **Tomita** at the T4 campaign; §1.11). T3 **adds no new weapon line — only depth** (the roster
 completes at T2, §3), and **T3's Arms-pillar deeds accrue only in T3's Phase 2** (the revealed-pillar set
 reaches **4**, + Name surfacing). The **personal-mystery payoff** (Kuzuhara on the spine; the origin reunions incl. father
-**Jinpachi** + the lost-child truth on the **Origin one-tier rep side-track**, `O0→O5`) lands across it. Exact
+**Jinpachi** + the lost-child truth on the **Origin reputation side-track** — §3.6, never 1:1) lands across it. Exact
 rung copy is detailed at §3.6 (the unlock ladder). T4/T5 ladders are **scoped forward** (T4 stub, T5 roadmap).
 
 **Combat progression — incremental weapons + the reveal ladder (the §1-level shape; detail at §2.8/§4).**
@@ -388,9 +390,10 @@ transport-and-goods house. This track is a memory-gated, late-blooming **support
 day one. It stays dark — foreshadowed for hours by the dream so its absence reads as anticipation — and
 **opens at T3 (the region tier)**, when the dream has returned enough memory **AND** the protagonist's
 standing lets him physically travel the controlled *kaidō* (*sekisho* checkpoints make free travel
-impossible without standing). It is a **one-tier standalone reputation side-track with its OWN rung ladder**
-(`O0→O5`, §3.6.2) — optional, fully completable, an **accelerant**, narrative-only with **ZERO
-mechanical gift from remembering**, and it **NEVER gates the spine**. Its rungs walk the reunion in sequence:
+impossible without standing). It is a **standalone reputation side-track**, distinct from the house rungs and
+**never converting 1:1** (docket #9/ADR-160; §3.6) — optional, fully completable, an **accelerant**,
+narrative-only with **ZERO mechanical gift from remembering**, and it **NEVER gates the spine**. Its stages
+walk the reunion in sequence:
 recognised at the post-town → the household reopens (mother **O-Nobu**, sister **Suzu**) → the old trade
 welcomes him (toiya master **Zenbei**, friend **Kenta**, the porter-guild) → the father met (**Jinpachi**) →
 **his own name reclaimed — "Tahei" set down (the Origin capstone, O5).** This O5 name-reclaim is **earned and *missable*** (a player who skips the Origin track may
@@ -425,18 +428,19 @@ capstone is** (the surprise of *what* "Tahei" means is preserved).
 
 ### 1.5.4 How the three interrelate — and the Tama-vs-farmhand allegiance
 
-**THREE reputation systems, two shapes.** The **ESTATE = the SIX-TIER
-SPINE** — the only thing that gates tier advancement. Per tier the estate-rep arc climbs (T0 stranger→**tolerated** ·
-T1 tolerated→**friendly** · T2 friendly→**TRUSTED** · **T3 trusted→HONORARY MEMBER of the house** · **T4 honorary
-member→chief steward / *yōnin*** (the MC's personal CEILING) · **T5 the MC stays *yōnin*; the arc shifts to the
-HOUSE's national standing** — the indirect/mediated Edo ceiling, the *house* ranked, never the man) and the
-estate's **domain expands**: survival on its own land (T0) → **the full estate** (T1) → **+ the village &
-surrounding valley** (T2) → **+ the region** (T3) → **+ the castle-town** (T4) → **+ Edo / the nation** (T5). The
-**VILLAGE (T2)** and **ORIGIN (T3)** reputations are **ONE-TIER standalone side-tracks**, each with its **own
-ranks/rungs**, optional and fully completable — **accelerants that NEVER gate** the climb. The **village web**
-(how the villagers *personally* regard you) carries forward through T3; the **Origin track** (Tahei's living
-family/friends at Sawatari-juku) is a one-tier rep side-track with its own `O0→O5` rung ladder (§3.6.2),
-narrative-only.
+**THREE reputation systems, two shapes.** The **ESTATE = the SEVEN-TIER
+SPINE** — the only thing that gates tier advancement. Per tier the estate-standing arc climbs (T0 stranger→**tolerated** ·
+T1 tolerated→**man of the house** · T2 friendly→**TRUSTED in the valley** · **T3 trusted→the house's reach made
+flesh** · **T4 the campaign that TAKES the castle-town** · **T5 the domain's caretaker→chief steward / *yōnin***
+— the MC's personal CEILING, "ends at THE STEWARD" · **T6 the MC stays *yōnin*; the arc shifts to the HOUSE's
+national standing (H0→H7)** — the indirect/mediated Edo ceiling, the *house* ranked, never the man) and the
+estate's **domain expands**: the household on its own land (T0) → **the full estate & land** (T1) → **+ the
+valley & the village of Asagiri** (T2) → **+ the region** (T3) → **+ the castle-town** (T4) → **+ the domain**
+(T5) → **+ Edo / the nation** (T6). The **VILLAGE (from T2)** and **ORIGIN (T3)** reputations are **standalone
+side-tracks**, distinct from the house rungs and **never converting 1:1** (docket #9/ADR-160) — optional
+**accelerants that NEVER gate** the climb. The **village web** (how Asagiri *personally* regards you) carries
+forward; the **Origin track** (Tahei's living family/friends; the reunion an OPTIONAL side-track at
+Sawatari-juku) is a **reputation side-track** (§3.6), never a parallel rung ladder.
 
 **Separate earned tracks** keep these from collapsing into one bar. The **estate spine** is gated, **per
 tier**, by **Phase-1 rung progression** — at T0 the authored requirement lists (ADR-137); from T1 the
@@ -446,9 +450,9 @@ systems feed THREE clean, separately-stored tracks** that must never collapse in
 the **character (combat) level** (HP + attribute points + satietyMax); **(2)** recognised **deeds** → the **Arms
 pillar** (House Influence, Phase-2-gated); **(3)** per-rung curated activities → the **Combat Rank rung-meter**
 (the martial rung-gate above). Alongside the spine sit the optional side-track meters: **Village Reputation**
-(gentle per-node meters — the T2 side-track) and **Origin Ties** (the T3 side-track's own `O0→O5` rung meter).
-Above all of them sits **House Influence**, the macro-resource the estate spends to expand: the estate generates
-it directly, while village allies and origin trade-ties act as **multipliers/feeders** — they don't unlock the
+(gentle per-node meters — the T2 side-track) and **Origin Ties** (the T3 reputation side-track).
+Above all of them sits **House Influence** (家威), the macro-measure the tier-gate reads — **never spent** (§1.6):
+the estate generates it directly, while village allies and origin trade-ties act as **multipliers/feeders** — they don't unlock the
 next tier, they make conquering it faster and cheaper (tuned so weaving both in shaves **~10–15%** off
 time-to-next-tier — *felt, never a wall*).
 
@@ -902,9 +906,10 @@ all-at-once dump). Each rumour is a lightweight yokai story the player **may** g
 introduced as genuine, respected village dread first, investigated through ordinary work, and resolved
 one-to-one to a concrete human/natural cause — but the game **lingers in the unease before resolving**, and
 debunks with **dawning dread, never a Scooby-Doo unmasking.** The master belief, *kamikakushi*, is itself a
-comforting lie covering a human truth (people who fled debt/violence, or died on a lethal road — and the
-protagonist's own near-drowning trauma — a landslide that swept him into the river, not a flood);
-handled as grief-coping, not superstition to mock.
+comforting lie covering a **mundane** truth — sometimes dark (people who fled debt/violence, or died on a
+lethal road), sometimes **nobody's sin and even warm** (a child who simply ran, found grown; a family that
+refused to grieve) — including the protagonist's own: a landslide that swept him into the river, not a flood.
+Handled as grief-coping, not superstition to mock.
 
 **Residual ambiguity is hard-capped at ≤1** unresolved, off-screen, mundane-readable beat (the unidentified-
 hand offering at the **jizō at the weir** where he was found — the single co-located find-spot). Folk-religion
@@ -1061,7 +1066,7 @@ The time/budget model is a **FLOOR, not a ceiling**: the **~28.5 h budget is a m
 over GameState), deterministic under the one seeded RNG, with balance/unlock tables generated into `docs/` and
 headlessly regression-testable via the DEV play API. The estate, village, and origin tracks differ in **shape**
 to keep pacing varied (estate steep-geometric per-tier ladders; village gentle per-node meters; origin a short
-one-tier rep ladder `O0→O5`), and the **per-rung-reset rung-meter** is the numeric per-rung curve that
+reputation side-track), and the **per-rung-reset rung-meter** is the numeric per-rung curve that
 drives the Phase-1 reveals. The side factions act as Influence **multipliers** (shave **~10–15%** off
 time-to-tier — felt, never a wall). The presentation register throughout is **text + emoji + CSS art**
 (the Andon Steel bimetal palette, ADR-127; kanji season tags; colour-coded rarities), with **load-bearing
