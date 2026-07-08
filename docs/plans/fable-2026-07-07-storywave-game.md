@@ -250,6 +250,85 @@ summary in the commit body. The ADR-133 `PHASE2_PHASE1_RATIO_BAND` law
 
 ---
 
+## Economy spec (embed of ADR-163 — the soft-cap two-lane model)
+
+Added by the 2026-07-08 walkthrough scoping pass. This is the concrete shape
+the economy milestones build; G1 / G3 / G4.5 reference it. It elaborates
+ADR-163 (which refines ADR-158) — it fixes **mechanism and structure only**;
+ALL magnitudes (unit ratios, curve exponents, sink rates, wage/nengu size) are
+**SIM-OWNED (ADR-132)**, verdicted at build via `verify:balance` +
+`balance:report`. Where this and a milestone body disagree, THIS block wins
+(it is the newer, walkthrough-ruled spec).
+
+**The soft-cap law.** Every accumulation axis is bounded by a CURVE, never a
+hard wall — grind-proof by construction (each axis flattens; pushing past
+equilibrium is wasted effort). The five axes and their caps:
+- rice/goods production → diminishing returns as the season pool depletes
+- the kura (storage) → spoilage
+- free HP recovery → the manual "rest at sickroom" trickle (ADR-164)
+- standing / deeds → rising rung thresholds (ADR-159)
+- mon inflow → the fixed day-wage + Yohei's finite purse
+
+**Rice as measured units.** Rice is a commodity held in the kura, NEVER a
+pocketed integer. One ladder of period units, magnitude-appropriate display
+(TST4):
+- **shō (升)** — the small unit: a day's meal, a day-hand's rice reckoning.
+- **bale / 俵 (hyō)** — stores & sales; the kura reads in bales.
+- **koku (石)** — the reckoning unit; the nengu is stated in koku.
+- Rough ladder (exact ratios sim-owned): ~100 shō = 1 koku; 1 bale ≈ 0.4
+  koku. The kura shows bales (a koku total surfaces at the nengu); wages/meals
+  show shō. The player never sees "N rice".
+
+**Production — the finite seasonal pool.** Each labour SITE (paddy, woodlot,
+weir, grove…) carries a per-season yield POOL. Working the site draws that
+pool down with DIMINISHING RETURNS — each action yields a fraction of what
+remains, so output asymptotes toward (never reaches) zero within a season (the
+human's ruling: the pool thins, never fully dry). The pool REFILLS when the
+season turns — this is *why* seasons are manual containers (G1). Per-site
+seasonal peaks ride the existing harvest multiplier (paddy peaks Autumn, etc.).
+*Mechanism: a per-(site, season) remaining-pool scalar + a decreasing yield
+curve; the curve shape + pool sizes are sim-owned.*
+
+**Sinks — the kura goes DOWN.** Five, each a different pressure:
+- **Consumption** — the household eats a steady shō/day draw (scales with
+  household size in later tiers). A constant background drain.
+- **Spoilage** — the storage soft cap: held stores decay per season (a rate on
+  the total, so net stock converges where spoilage = inflow). The spoilage
+  pass runs at season-exit (G1's exit pipeline).
+- **The nengu** — Autumn's reckoning: a koku demand met from the kura; the
+  Autumn exit-gate (`flag nengu-reckoned`). Shortfall is the debt's felt
+  pressure (never numbered in T0).
+- **Debt / the lease** — the lease day + Sōan's ledger draw on stores / coin.
+- **Seed** — a reserve of the harvest is held back for next season's planting
+  (a self-imposed floor the player learns to keep).
+
+**Progress is DEEDS, not rice.** Rice is working capital that OSCILLATES —
+fills through the growing seasons, drops at consumption + spoilage + the
+nengu. What the player KEEPS is deeds / rung standing (ADR-159's pillar
+engine, Phase-2). The rice count is never the score; the score is "did you run
+the house through the year with a margin".
+
+**The two lanes, restated (ADR-158 + ADR-163).**
+- **KIND** (soft-capped, not truly unbounded): labour → rice/goods into the
+  kura; combat → materials; consumables run on kind. Bounded by production
+  soft caps + spoilage.
+- **MON** (bounded): the fixed day-wage (R5+, collected by the
+  collect-at-the-board verb) + Yohei's finite market-day purse;
+  durables / stall stock / sickroom bills run on mon. Raw materials are NOT
+  sellable (his `buys:` whitelist = rice + named goods only).
+
+**Milestone split** (each milestone builds its slice of the above):
+- **G1** — rice-unit constants + the kura stores as measured state; the
+  per-(site, season) production-pool structure; the consumption sink; spoilage
+  as the storage soft cap (in the season-exit pipeline).
+- **G3** — the HP soft cap (no auto-trickle; treatment / manual rest) + the
+  defeat carried-loss bleed (ADR-164).
+- **G4.5** — the wage verb; Yohei's purse + `buys:` whitelist + season stock;
+  the payment-ladder reveal; the nengu / debt / lease sinks wired to content;
+  `banked` = house stores.
+
+---
+
 ## Milestones
 
 ### G0 · Cast registry (add-only) + the fiction-gap inventory
@@ -359,6 +438,15 @@ what forces the persistence break.
   Season[]` peaks, per-person `presence` season predicates (Iori lodges
   New Year + Bon), Yohei stall stock restocks per season, node
   per-season flavor keys.
+- **⚑ The economy spec's G1 slice (see the "Economy spec" block above —
+  ADR-163, NEW scope):** rice becomes MEASURED units (shō/bale/koku) held in
+  the kura, never a pocketed integer; the kura stores are re-typed to the
+  measured model. The per-(site, season) production POOL structure lands here
+  (each labour site has a per-season yield pool that depletes by diminishing
+  returns and refills at season-turn). The CONSUMPTION sink (steady shō/day
+  draw) and SPOILAGE (the storage soft cap, in the season-exit pipeline) land
+  here too. Mechanism only; every magnitude sim-owned (ADR-132). The nengu /
+  debt / lease sinks + the wage/market lanes are G4.5.
 
 **Files:**
 - **M `src/core/constants.ts`** — `SEASONS = ['winter', 'new-year',
@@ -745,19 +833,16 @@ coherent WIP commit there.
 
 **G4.5 · The coin lanes (embeds the economy docket-ADR shape;
 magnitudes SIM-OWNED, ADR-132).**
-- KIND lane (unbounded): labour pays rice/goods; combat drops materials
+- KIND lane (soft-capped, not truly unbounded — see the "Economy spec"
+  block): labour pays rice/goods into the kura; combat drops materials
   only (G4.3 deleted `coinReward`); consumables run on kind — food,
   rest, dog rice, mending thread.
-  - **⚑ Rice reframe (ADR-163, NEW scope — re-models G1's balance re-key +
-    state):** rice is a MEASURED commodity held in the kura (shō for
-    wages/meals → bales/俵 for stores/sales → koku/石 at the nengu), never a
-    pocketed integer. Production is a **finite seasonal pool depleting by
-    diminishing returns**; sinks (consumption · spoilage · nengu · debt/lease
-    · seed) draw the kura DOWN; **progress = deeds, not the rice count**.
-    **Soft caps** are the economy's self-balancing principle throughout
-    (production = diminishing returns, storage = spoilage, HP = the rest
-    trickle, deeds = rising thresholds, mon = fixed wage + finite purse).
-    Magnitudes sim-owned.
+  - **⚑ Rice is measured kura-units (ADR-163) — see the Economy spec block
+    for the full model.** G4.5's slice: rice flows through the wage/market
+    lanes as measured units (shō/bale/koku); the nengu / debt / lease sinks
+    wire to content here; `banked` = house stores. The rice-unit state + the
+    production pool + consumption + spoilage are G1's slice. Magnitudes
+    sim-owned (ADR-132).
 - MON lane (bounded): **C `src/core/wage.ts`** — the day-wage is FIXED
   PER GAME-DAY WORKED, from R5 (`WAGE_START_RUNG = 'R5'`,
   `DAY_WAGE_MON` seed sim-owned): a day counts if ≥1 timed labour act

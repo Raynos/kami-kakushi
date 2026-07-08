@@ -25,6 +25,9 @@ to transcribe into the A0 economy docket-ADR.
   the 3 overrides + the rice reframe (G3 keep-the-bleed + no-auto-trickle;
   G4.1 R2-opens-a-VN; G4.5 wage-verb + the rice-as-kura-units/soft-caps
   NEW-scope note).
+- `docs/plans/fable-2026-07-07-storywave-game.md` (2nd pass) — added the
+  "Economy spec (embed of ADR-163)" block before the milestones + threaded
+  G1/G4.5 to it (rice/soft-cap scoping pass; MD-only).
 - `project/journal/2026-07-08-session-121-storywave-open-questions.md` — this.
 
 ## Overrode the plan default
@@ -45,12 +48,19 @@ to transcribe into the A0 economy docket-ADR.
    existing docket). Human intent supersedes §S sync-point 1's Plan-A-owns-ADRs
    convention (ADR-022).
 2. ~~Update the plan body~~ — DONE (resolved banner + inline milestone patches).
-3. **Rice-model scoping pass before build** — the rice-as-measured-kura-units
-   reframe (ADR-163) is NEW scope the milestone bodies predate; G1/G3/G4.5 want
-   a proper spec pass (still MD-only until the human greenlights the rebuild).
+3. ~~Rice-model scoping pass~~ — DONE. Added an **"Economy spec (embed of
+   ADR-163)"** block to the plan (mirrors its calendar/night-round embeds):
+   the soft-cap law, rice-as-measured-units (shō/bale/koku), the finite
+   seasonal production pool w/ diminishing returns, the five sinks, and a
+   milestone split (G1 = units+pool+consumption+spoilage · G3 = HP cap+bleed ·
+   G4.5 = wage verb+market+nengu/debt/lease+banked). Threaded pointers into
+   G1 (engine-spec slice), G3 (already patched), G4.5 (trimmed to a pointer so
+   the two copies can't drift). All magnitudes flagged sim-owned.
 4. Plan B execution starts at G0 when the human is ready — **NOT yet** (human
    paused the rebuild: "before we rebuild the whole game wait a minute";
-   "don't touch any typescript just yet").
+   "don't touch any typescript just yet"). The plan is now build-ready on the
+   economy scope; a fresh-eyes read of the Economy spec (is the loop actually
+   fun / are the sinks balanced in principle?) is a good pre-build check.
 
 ## Landmines
 - Shared tree: another agent (graphics) is live — this session touched only
