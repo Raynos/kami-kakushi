@@ -1,7 +1,18 @@
 # Storywave — Plan A: the DOCS ripple (PRD · roadmap · ADRs · living docs)
 
-**Status: 📋 PROPOSED — awaiting the human's read; executes in parallel
-with fable-2026-07-07-storywave-game.md per the §S seam.**
+**Status: IN-PROGRESS — A0–A3 ✅ landed (ADR docket `f4b2016`; PRD §5
+rewrite `13c4458` + §1–§7 ripple `38980d1`/`e1caa45`/`d138d00`/`d8c3de6`;
+roadmap reshape `f12fc28`). A4 largely landed (fun-factor §1.6 + README
+story-bible pointer done; the parked-T1-`capstone-branch` archival step
+still outstanding). A5 (closure: remove the PRD/§6 forward-spec banners +
+closing `prd:drift`) is ⛔ GATED on Plan B shipping — it cannot run until
+the game catches up. Executes in parallel with
+fable-2026-07-07-storywave-game.md per the §S seam.**
+
+<!-- Header corrected 2026-07-08 (session 124): the old "📋 PROPOSED"
+line was stale — A0–A4 had already landed in the tree; it was never
+flipped, which is what made the docs work look un-started. -->
+
 
 **Confidence: ( 85% Opus, 15% Fable )** — the work is transcription and
 targeted surgery against a signed canon (Opus-shaped); the one
