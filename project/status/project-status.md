@@ -67,7 +67,7 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 - **Graphics explorations plan read** 🔲 (s120) — top-3 slate (estate cutaway
   · cold-open scene card · progression menu), prototype-first: `docs/plans/
   fable-2026-07-08-graphics-explorations.md`; register `docs/living/graphics-concepts.md`.
-  **E3 demo built** (s121): DEV → Story → "⤢ Stamp book" — rule kill/iterate/real track.
+  **E3 demo built & kept as-is** (s121, human ✔, paused): DEV → Story → "⤢ Stamp book".
 
 ## Deferred / owed tail (engineering — not blocking the deploy)
 

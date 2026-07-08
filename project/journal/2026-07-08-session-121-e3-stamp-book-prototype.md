@@ -51,3 +51,14 @@ this demo.
   only when a look graduates (map-authoring pin discipline).
 - The plan's E3 sequencing (spec/HR/diverge) is bypassed ONLY for this demo;
   docs/plans/fable-2026-07-08-graphics-explorations.md still governs the rest.
+
+---
+
+## Addendum — the human's verdict (same session)
+
+The human looked at the demo and ruled: **happy with the prototype as-is for
+now; continue later.** Recorded where status lives (no new docs/ file — the
+what/how/why homes already exist and were updated instead): the register row
+(`docs/living/graphics-concepts.md`), a status note atop the plan's E3 section,
+and the snapshot line. E3 is PAUSED; the real track (E3.1 spec → E3.2 HR →
+E3.3 diverge/pin → E3.4 integration) resumes from the plan when picked up.

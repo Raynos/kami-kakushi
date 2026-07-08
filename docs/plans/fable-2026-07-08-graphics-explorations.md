@@ -103,6 +103,13 @@ budget for spend-then-kill as a real outcome.
 
 ## E3 · Progression menu (#8 stamp book ❤️ + #10 ink thread)
 
+> **Status note (2026-07-08, s121):** the human pulled a **single lightweight
+> demo** forward past E3.1/E3.2 — one version, no spec, no diverge (newest
+> steer supersedes the sequencing — ADR-022). Built: `src/ui/stamp-book/`
+> (fixture-fed, DEV → Story → "⤢ Stamp book"; how/why in the module README +
+> journal s121). **Human verdict: happy as-is for now — PAUSED.** The steps
+> below still gate anything beyond the demo; E1/E2 untouched.
+
 **Home:** a progression/record surface — **the home itself is the first
 design fork** (own tab? a Character-tab panel? the ceremony's book?).
 Window-independent (first stamp presses at the R0→R1 ceremony; value

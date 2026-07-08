@@ -39,7 +39,7 @@ exploration's first deliverable, a vague "somewhere" cannot.
 |---|---|---|---|
 | 5 | **Estate cutaway** (okoshi-ezu) | Estate tab centerpiece (R1) | Carpenter's elevation of house + guest house + ruin, re-inking as the estate rises — the map system's sibling, new projection. |
 | 12 | **VN scene-card pilot** | The COLD OPEN (R0) | ONE composed woodblock vignette from existing primitive vocabulary; "really really really hard" — kill fast if it slops. |
-| 8+10 | **Progression menu** ❤️ | A progression/record surface (home fork open) | Shuinchō stamp book — rungs/milestones/tiers as pressed stamps — strung on the run's single growing ink-thread brushstroke. |
+| 8+10 | **Progression menu** ❤️ | A progression/record surface (home fork open) | Shuinchō stamp book — rungs/milestones/tiers as pressed stamps — strung on the run's single growing ink-thread brushstroke. **Demo built & kept (s121, human-pulled, one version):** `src/ui/stamp-book/`, DEV → Story → "⤢ Stamp book" — human ruled *happy as-is for now, continue later*; the real E3 track (spec → HR → diverge → pin) resumes from the plan. |
 
 Sequencing, gates (Plan B seam, HR-9), routing → the
 [explorations plan](../plans/fable-2026-07-08-graphics-explorations.md).
