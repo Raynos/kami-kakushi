@@ -128,3 +128,51 @@ buttons?": DEV panel → Story tab → "⤢ T0 V2 map" → the small 段 pill
 in the modal's top-right controls row. ONE cycling pill (段 全 → R1 →
 R3 → R5 → R7), T0 only — not a row of buttons, and not on the in-game
 地図 Map tab (that swap is the storywave build-wave work, ADR-149/151).
+(The pill went English — 'rung: all' / 'rung: R1..R7' — on the human's
+call, same strip policy; d704d52.)
+
+## The map knowledge transfer (same session, later — the human's ask)
+
+Goal: Opus/Sonnet sessions build/edit maps WITHOUT Fable — turn the
+s112–117 map knowledge into repo files. Four forks locked via
+AskUserQuestion first: skills live in REPO `.claude/skills/` (not
+~/.claude — repo-specific, can't drift) · ONE skill with a decision
+tree · new-tier flow = **spec → HR read → build** · the s115 T-3
+blind-pass runner GETS BUILT · enforcement = integrity gate +
+AGENTS.md bullet + pre-commit signpost · NO T2 dry-run yet.
+
+Landed:
+
+- **`src/ui/map-sheets/README.md`** — the five laws (deterministic ·
+  tokens-only · brush-alive · one-geography · pin-guarded), module
+  map, "where does my change go", verify crib.
+- **`docs/guides/map-authoring.md`** — the procedures: §2 edit / §3
+  add-zone / §4 new-primitive / §5 the blind-pass loop / §6 model
+  routing (what any model can do vs what escalates) / §7 the
+  paid-for gotchas ledger (data-zoom capture bug, shotRoot, toFixed,
+  seedSeq order, insetPoly, JP strip…).
+- **`docs/guides/map-styles.md`** — the scale-class design language:
+  six Edo map genres as sheet classes (mura-ezu T0–T2 · dōchūzu T3 ·
+  machi-ezu T4 · kuniezu T5 · kiriezu T6), one-world-several-
+  projections (in-class = crops; cross-class = anchor registry +
+  the demotion rule), what carries across classes, the locked
+  spec→HR→build process, per-tier direction sketches.
+- **`.claude/skills/map-sheets/SKILL.md`** — the entry point: routing
+  table + the five non-negotiables + escalation rules.
+- **`.claude/workflows/map-blind-pass.js`** — T-3 built: capture →
+  blind describe (fresh agent per sheet, images ONLY) → judge vs
+  map-spec §5 → scored report into `project/audit/reports/`.
+  Parse-checked as the runtime wraps it (async fn body).
+- **`src/ui/map-sheets/integrity.test.ts`** — the roster↔layout gate
+  (rides vitest/verify): every zone has an anchor, no orphan seals,
+  RUNG_LADDER names real T0 zones at real rungs, REVEAL stages
+  increasing with fog geometry (bare final stage = fully surveyed —
+  caught my own wrong assumption on first run), unique ids.
+  `TIER_DELTA` exported from ground.ts for future T2 assertions.
+- **`.githooks/pre-commit`** — one-line WARN signposting map-sheets
+  editors to the README/laws when the golden hash isn't staged
+  (`SKIP_MAP_SIGNPOST=1`).
+- **AGENTS.md** Conventions bullet (maps never freehand; spec-first
+  for new tiers) · repo-map.md (guides map-set, skill, workflows
+  dir) · reading-queue entry for the two guides · the maps TODO
+  cleared (delivered this session, ADR-089 spirit).

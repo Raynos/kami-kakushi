@@ -96,7 +96,7 @@ function redNote(
  *  (G-4 from the session-115 review: the old `fresh` boolean branched at ~15
  *  sites and left T2 — whose whole job is revealing the ruin — an invasive
  *  rewrite; a T2 column here is now ADDITIVE). */
-interface TierDelta {
+export interface TierDelta {
   /** the re-survey: this tier's new work reads fresh-ink/gold */
   readonly fresh: boolean;
   readonly poolsDrained: boolean;
@@ -113,7 +113,7 @@ interface TierDelta {
   readonly ruinRevealed: boolean;
 }
 
-const TIER_DELTA: Readonly<Record<Tier, TierDelta>> = {
+export const TIER_DELTA: Readonly<Record<Tier, TierDelta>> = {
   T0: {
     fresh: false,
     poolsDrained: false,

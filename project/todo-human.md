@@ -17,9 +17,6 @@
 
 ## TODO
 
-- [ ] Use Fable to get a guide & a set of skills for making and editing maps
-  using the new map sheet UI library tools etc.
-
 ## Reading queue
 
 > **What belongs here** — a durable doc whose purpose is for you to read or sign
@@ -34,6 +31,12 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
+- [ ] `docs/guides/map-authoring.md` + `docs/guides/map-styles.md` — the **map
+  knowledge transfer** (your 2026-07-08 ask, closes the maps TODO): the
+  procedures + the scale-class design language (mura-ezu → kuniezu, T2–T6
+  sketches) that let Opus/Sonnet sessions build maps solo. Riding along: the
+  `map-sheets` skill, `src/ui/map-sheets/README.md`, the `map-blind-pass`
+  workflow runner, the integrity test, and the spec→HR→build flow you locked.
 - [ ] `docs/plans/fable-2026-07-07-storywave-docs.md` — **storywave Plan A
   (DOCS)**: the docs/PRD/ADR ripple to the blessed bible — the ten-ADR
   engine docket (A0, ready-to-paste), PRD §5 rewrite + banner, targeted

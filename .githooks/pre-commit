@@ -122,6 +122,19 @@ if [ "${SKIP_BALANCE_FRESH:-0}" != "1" ]; then
   fi
 fi
 
+# --- Map-sheets signpost (human, 2026-07-08 — WARN ONLY, one line): editing the survey-sheet
+#     engine without staging the golden pin is EITHER a look-neutral refactor (fine — the pin's
+#     green run is the proof) or a forgotten regen (the vitest gate above already went RED if so).
+#     Either way, point the editor at the laws once. Scoped to map-sheets code; costs nothing else. ---
+if [ "${SKIP_MAP_SIGNPOST:-0}" != "1" ]; then
+  if echo "$staged_all" | grep -qE '^src/ui/map-sheets/.*\.ts$' \
+    && ! echo "$staged_all" | grep -qx 'src/ui/map-sheets/golden.hash.json'; then
+    echo "  ~ map-sheets edited without a pin regen — fine for a look-neutral refactor (green pin =" >&2
+    echo "    proof); a LOOK change must commit the regenerated hash WITH it. Laws + workflow:" >&2
+    echo "    src/ui/map-sheets/README.md · docs/guides/map-authoring.md (SKIP_MAP_SIGNPOST=1 silences)." >&2
+  fi
+fi
+
 # --- Reading-queue gate: a durable doc whose PURPOSE is the human reading / reviewing / signing off on
 #     it must be listed in the reading queue (project/todo-human.md) in the SAME commit, or it silently
 #     never reaches the human (the bug this fixes). Fires on brand-NEW files only — editing or archiving

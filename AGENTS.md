@@ -236,6 +236,15 @@ Full version:
   `window` so the game can be driven and observed headlessly — see the
   `capture-game-states` skill and the
   [QA & playtesting guide](docs/guides/qa-playtesting.md).
+- **Map work goes through the map-sheets system — never freehand (2026-07-08).**
+  Any survey-sheet change (edit · zone · new primitive · a NEW tier sheet)
+  enters via the [`map-sheets` skill](.claude/skills/map-sheets/SKILL.md) and
+  its guides ([authoring](docs/guides/map-authoring.md) ·
+  [styles](docs/guides/map-styles.md) · [spec](docs/guides/map-spec.md)): the
+  golden pin, the roster↔layout integrity test, and the `map-blind-pass`
+  workflow carry the taste risk, so non-Fable sessions build maps safely. A
+  new tier sheet is **spec-first → the human reads (HR-item) → build**; the
+  committed look only changes with a deliberately regenerated pin.
 - **Real-play telemetry — read `project/telemetry/` before touching balance
   (FB-8).** The human's DEV sessions auto-drop attended-time pacing reports
   (git-ignored, local sensor data) there; the ADR-132 balance flow's step 0

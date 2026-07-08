@@ -17,9 +17,13 @@ always-loaded context while being editable on its own.
 - [`docs/guides/`](docs/guides) — **how-to guides** (living, but process not
   canon): [qa-playtesting.md](docs/guides/qa-playtesting.md) (how Claude
   play-tests — harness, MCP tools, balance flows),
-  [sfx-spec.md](docs/guides/sfx-spec.md) (the audio contract), and
-  [map-spec.md](docs/guides/map-spec.md) (the T0/T1 map-sheet spec + the
-  standing blind-pass rubric; graduated from `docs/plans/` 2026-07-08).
+  [sfx-spec.md](docs/guides/sfx-spec.md) (the audio contract), and the **map
+  set**: [map-spec.md](docs/guides/map-spec.md) (what T0/T1 depict + the
+  blind-pass rubric), [map-authoring.md](docs/guides/map-authoring.md) (build/
+  edit/verify procedures — pin discipline, blind-pass loop, model routing),
+  [map-styles.md](docs/guides/map-styles.md) (scale classes mura-ezu→kuniezu +
+  designing NEW tier sheets, spec→HR→build). Code-adjacent orientation:
+  [`src/ui/map-sheets/README.md`](src/ui/map-sheets/README.md).
   Moved out of `docs/living/` 2026-07-07 so living holds only core canon.
 - [`project/status/`](project/status) — **live operational state** + **live
   trackers** (mutable, edited in place; this is where a checkbox tracker
@@ -166,4 +170,11 @@ always-loaded context while being editable on its own.
   user-invoked only via `/prepare-to-exit`), and `ship` (the one-command
   **release train** — bump → CHANGELOG → tagged release commit → push →
   `src/scripts/ship.sh` isolated build + gh-pages push, fast & bounded, done
-  at the push; user-invoked only via `/ship`, never agent-initiated — FB-9).
+  at the push; user-invoked only via `/ship`, never agent-initiated — FB-9),
+  and `map-sheets` (THE map-work entry point — routes edit / zone / primitive /
+  new-tier-sheet jobs to the map guides under the golden-pin + blind-pass
+  laws; built so non-Fable sessions do map work safely).
+- `.claude/workflows/` — committed Workflow-tool scripts:
+  [`map-blind-pass.js`](.claude/workflows/map-blind-pass.js) (one-command map
+  verification: capture → blind describe per sheet → judge vs map-spec §5 →
+  scored report into `project/audit/reports/`).
