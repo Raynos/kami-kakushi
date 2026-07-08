@@ -24,9 +24,10 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 ## Where we are now
 
 - **🔧 STORYWAVE GAME BUILD (Plan B, s125):** T0 rewrite to the bible (ADR-150).
-  **G0** `29b7940` (§04-cast+monk; **HD-30** prose wave ⛔ gates G7) · **G1**
-  `1f615aa` (6-season MANUAL calendar + clean-break saves; rice reframe→G4.5;
-  OWED balance re-baseline). Next G2 (scenes+night-rounds). Plan A A0–A4.
+  **G0–G2 ✅:** `29b7940` §04-cast+monk (**HD-30** prose wave ⛔ gates G7) ·
+  `1f615aa` 6-season calendar + clean-break saves (rice reframe→G4.5) ·
+  `08d586d` scenes+night-round engines (dormant). OWED balance re-baseline.
+  Next G3 (body economies). Plan A A0–A4.
 - **PRD** — `prd.md` = stub index → `docs/living/prd/*` (seven-tier per s118
   ripple); §4 + §7 MS2–MS7 provisional (ADR-059).
 - **v0.3.0–v0.3.7 shipped** the full T0 MS0–MS4 arc (FB-1–FB-117), the T0
@@ -65,9 +66,8 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 - **Phase-2 story + tracker picks** 🔲 — HR-10 (the estate-build beat take:
   ledger canon vs land/heir alternates) · HR-11 (tracker A ladder / B rail /
   C ledger); PH5 fun-certification of the new ~65-min Phase 2 rides HR-1.
-- **Graphics explore slate DONE/archived (s124):** E1 cutaway *needs work*
-  (HR-16 closed) · E2 *parked* · E3 *good, later*; demos DEV→Story, E1.4/E3.4
-  gated on Plan B.
+- **Graphics explore slate DONE/archived (s124):** demos DEV→Story; E1.4/E3.4
+  gated on Plan B (E1 cutaway HR-16 closed · E2 parked · E3 good-later).
 
 ## Deferred / owed tail (engineering — not blocking the deploy)
 
