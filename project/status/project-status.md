@@ -64,10 +64,10 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 - **Phase-2 story + tracker picks** 🔲 — HR-10 (the estate-build beat take:
   ledger canon vs land/heir alternates) · HR-11 (tracker A ladder / B rail /
   C ledger); PH5 fun-certification of the new ~65-min Phase 2 rides HR-1.
-- **Graphics slate — E1 (estate cutaway) spec is the open item.** Plan:
-  `docs/plans/fable-2026-07-08-graphics-explorations.md` · register
-  `docs/living/graphics-concepts.md`. **E3 kept** (s121 ✔, paused: "⤢ Stamp
-  book"). **E2 PARKED** (s122 ✔): v1 slop-ruled + v2 kage-e both kept in DEV → Story.
+- **Graphics slate — E1 BUILT, awaiting HR-16** (s123): standalone
+  `src/ui/estate-sheet/` (NOT map-sheets; spec+rubric in its README), 2
+  variants + 3 eras in DEV → Story; blind-pass green BOTH; self-pick A;
+  E1.4 GATED. **E3 kept** (s121, paused) · **E2 PARKED** (s122, demos kept).
 
 ## Deferred / owed tail (engineering — not blocking the deploy)
 
