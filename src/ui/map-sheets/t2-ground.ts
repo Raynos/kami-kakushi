@@ -63,19 +63,29 @@ function road(art: SVGElement, pts: readonly Pt[], seed: string, ghost = false):
   }
   brushStroke(art, pts, {
     seed: `${seed}-u`,
-    w: 11,
+    w: 14,
     color: 'var(--steel-2)',
     opacity: 1,
     taperIn: 0.05,
     taperOut: 0.05,
     amp: 2.5,
   });
+  // a continuous silver working-line ON the trodden ground so a road reads as ONE
+  // route from end to end at fit (the blind read separated the estate & village
+  // roads — V6); the dash rides on top of it, not instead of it
+  inkLine(art, pts, {
+    seed: `${seed}-c`,
+    w: 1.5,
+    color: 'var(--silver-dim)',
+    opacity: 0.7,
+    amp: 2.5,
+  });
   inkLine(art, pts, {
     seed: `${seed}-d`,
-    w: 1.6,
+    w: 1.8,
     color: 'var(--ink-soft)',
-    dash: '11 8',
-    opacity: 0.9,
+    dash: '12 8',
+    opacity: 1,
     amp: 2.5,
   });
 }
@@ -344,6 +354,23 @@ function paintDemotedEstate(art: SVGElement, revealed: boolean): void {
   wallRun(art, PRECINCT.wall, { seed: 'v-prec-wall', state: 'robbed' });
   for (const s of PRECINCT.standing)
     wallRun(art, s, { seed: `v-prec-stand-${s[0]![0]}`, state: 'standing' });
+  // more BROKEN standing masonry around the ring (west + south) so the enclosure
+  // reads as a RUIN, not an intact wall — dry-brush runs with gaps + rubble spill
+  // (the blind read the dotted footings as a live boundary; V3).
+  for (const s of [
+    [
+      [1170, 1080],
+      [1160, 820],
+      [1150, 565],
+    ],
+    [
+      [1350, 1500],
+      [1560, 1512],
+      [1780, 1530],
+    ],
+  ] as const) {
+    wallRun(art, s, { seed: `v-prec-broke-${s[0][0]}`, state: 'standing' });
+  }
   for (const f of PRECINCT.fallenRoofs)
     fallenRoof(art, f.x, f.y, f.w, f.h, { seed: `v-fallen-${f.x}`, angleDeg: f.angleDeg });
   // a couple of feral pines in the old ground so the ruin reads overgrown

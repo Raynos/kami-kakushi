@@ -99,3 +99,34 @@ the camp lost in the woods → a cleared patch.
 2. Follow-ups (not blocking): the pre-reveal label toggle (currently renders
    revealed); a T2 rung-reveal fog stage-set (`REVEAL_T2`); fiction-voiced
    polish of the T2 roster blurbs (ADR-139 narrative-diverge).
+
+---
+
+## Update — the blind pass (§6.4) + the runner hardening
+
+**A tooling trap cost three misfired runs, now fixed.** The `map-blind-pass`
+runner SILENTLY defaulted a missing/malformed `args.sheets` to "all sheets", so
+three runs graded T0/T1 instead of T2 (I also passed args as a JSON string once,
+my error). Fixed the runner to **HARD BAIL** before any agent spawns unless
+`args.sheets` is a non-empty `Array<'T0'|'T1'|'T2'>` (tolerates a JSON-string
+arg by parsing, then validates). Committed. Report:
+`project/audit/reports/2026-07-08-t2-map-blind-pass.md`.
+
+**The real T2 verdict (proxy): M 3/6 pre-fix, then targeted fixes.** One Sonnet
+reader recovered V1/V2/V4 + the scale contrast + the corner-of-something-larger
+read, but: (V3) my rubble read as "garden gravel," not ruin — *"nothing reads
+as broken/collapsed walls"* — so I added broken standing-wall stretches on the
+precinct ring; (V6) roads read as separate/ambiguous — added a continuous
+working-line under the dash + drew the NW-upstream + east-over-hill exits; (V5)
+was a harness artifact (the inline run gave no T1 image). The estate-within-ruin
+twist (V3/R5) is the line this proxy is WEAKEST on — the HR-12-approved T0/T1
+sheets fail it too. **Did not re-score after the fixes** (proxy cost vs. its
+known weakness on this line); the drawing changes target the reader's exact
+stated gaps. **The human is the arbiter** — review live via `?t2-map-demo`.
+
+## Next intended steps (final)
+1. Human eyeballs the T2 sheet live (`?t2-map-demo`) — the real look verdict.
+2. If the reveal-twist should read harder on the sheet, consider defaulting to
+   the PRE-reveal labels (ruin = "ruined compound", guest = "main house") which
+   read the twist more like T0/T1 — a framing call for the human.
+3. The non-blocking follow-ups above (fog stage-set, ADR-139 blurb polish).
