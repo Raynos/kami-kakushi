@@ -10,6 +10,13 @@
 > §7 MS2–MS7 milestone detail stay **provisional** and are re-planned after each playtest. No code is written until
 > §7 (the roadmap) is approved. *(Satisfied 2026-06-26: §7 approved → MS0–M2b built & verify-green; MS3–MS7 provisional.)*
 >
+> **V3 (2026-07-08) — the story reboot.** The **story bible**
+> ([`docs/story-bible/`](../story-bible/README.md)) is now the single home of
+> story canon (ADR-150 + the storywave docket ADR-152…ADR-162); §5 is a
+> pointer-and-summary; **SEVEN tiers** (T0–T6, enum 0..6 per ADR-152); the
+> pillar tier-up engine kept and refined (ADR-159, HD-25). §1's locked intent
+> (the four pillars, the estate spine) holds.
+>
 > **Working title:** *Kamikakushi* (神隠し, "spirited away"). A single-player, story-driven
 > **incremental RPG** set in Edo-period rural Japan, built as a static HTML5 + TypeScript web game,
 > deployable to itch.io.
@@ -28,7 +35,7 @@ revised, and its load-bearing decisions locked as ADRs.
 | 2 | Systems & mechanics catalog | **PRD V2.3** |
 | 3 | Incremental unlock ladder (UI-as-progression) | **PRD V2.3** |
 | 4 | Combat, progression & balance model | **PRD V2.3 — numbers provisional** |
-| 5 | Full act-by-act narrative & content | **PRD V2.3** |
+| 5 | Narrative & world — pointer-and-summary (the bible is canon) | **V3 — pointer** |
 | 6 | Tech architecture & data model | **PRD V2.3** |
 | 7 | Milestone roadmap, v1 scope & deployment | **PRD V2.3 — MS2–MS7 provisional** |
 
@@ -41,7 +48,7 @@ revised, and its load-bearing decisions locked as ADRs.
 > pillar profile, Q7/FU10). **PROVISIONAL IMPLEMENTATION (the route — liquid, revised via playtest):**
 > everything tagged `proposed v1 balance` (the §4 yields/levers/magnitudes) and the **§7 MS2–MS7** milestone
 > detail — these *hit* the locked targets, so the levers move while the targets do not. The **v1 scope**
-> (full **T0–T2**, no pre-planned descope — §7.4.2) is **orthogonal and still LOCKED**: it fixes *what*
+> (full **T0–T3**, no pre-planned descope — §7.4.2) is **orthogonal and still LOCKED**: it fixes *what*
 > ships, not the provisional *how*. **Do NOT explode this doc yet** — **MS0 + MS1 build against this PRD
 > as-is**; full sign-off and the one-time reorganisation come **after the first build-and-play cycle**, on
 > ground that has survived contact with play. Then §1 + the locked constraints freeze as a tagged vision
@@ -54,7 +61,7 @@ revised, and its load-bearing decisions locked as ADRs.
 > ([`content/t0-content.md`](../content/t0-content.md) already exists) — is the queued next step.)*
 
 > **FRAMING 2 — the frontier line (ADR ADR-117, 2026-07-03; refines ADR-097).** This
-> PRD's **primary job is the forward spec of the UNBUILT** (T1–T5, endgame).
+> PRD's **primary job is the forward spec of the UNBUILT** (T1–T6, endgame).
 > Once a tier's human taste review closes, its built slices **compress** — one
 > per-tier, human-signed sweep across §2–§6 — to intent + acceptance criteria +
 > pointers (code / generated `docs/content/` / ADRs); the pre-compression text
@@ -73,6 +80,6 @@ failure class. Each file is one top-level section, verbatim.
 - [§2 — Systems & Mechanics Catalog](prd/02-systems.md)
 - [§3 — Incremental Unlock Ladder (UI-as-progression)](prd/03-unlock-ladder.md)
 - [§4 — Combat, Progression & Balance Model](prd/04-combat-balance.md)
-- [§5 — Act-by-Act Narrative & Content](prd/05-narrative.md)
+- [§5 — Narrative & World — pointer-and-summary](prd/05-narrative.md)
 - [§6 — Tech Architecture & Data Model](prd/06-tech-architecture.md)
 - [§7 — Milestone Roadmap, v1 Scope & Deployment](prd/07-roadmap-scope.md)
