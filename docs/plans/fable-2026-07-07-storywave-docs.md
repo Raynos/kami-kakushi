@@ -104,7 +104,13 @@ invention, stop and file an HR-item rather than inventing.
   roster — before pushing, run `pnpm run verify` yourself.
 - **Journal + snapshot**: every session stages a `project/journal/`
   entry (pre-commit enforced); `project/status/project-status.md`
-  updates only THIS workstream's lines (§S sync point 4).
+  updates only THIS workstream's lines (§S sync point 4). Naming
+  note: the snapshot currently speaks ADR-150's taxonomy ("Workstream
+  B is OPEN and B1 is the next step") — this plan IS that
+  workstream-B's docs half. At A0, reframe the snapshot's line(s) to
+  the two storywave plans (Plan A = docs, Plan B = game); every
+  "snapshot's workstream-A line" below means the Plan-A line from
+  then on.
 - **Checkpoint ritual** at every milestone boundary: commit (pathspec)
   → journal → snapshot current → `git push origin main` → confirm
   clean. Don't fight Plan B's red: if the tree is red with the other
@@ -179,20 +185,28 @@ per-file or in small groups — many small commits.
 
 ### A0 · Mint the engine-ADR docket + file the open-question HD-items
 
-**Goal:** transcribe the bible's locked build-cutting shapes into ten
-real ADRs at the tail of `docs/living/decisions.md`, so Plan B's
-milestones and this plan's PRD edits can cite real ADR numbers instead
-of "the ADR that will exist." This is TRANSCRIPTION of signed canon
-(ADR-150 is the charter; the bible sections cited in each draft are the
-spec) — not new design. One sitting, one or two commits.
+**Goal:** transcribe the bible's locked build-cutting shapes into
+eleven real ADRs at the tail of `docs/living/decisions.md`, so Plan
+B's milestones and this plan's PRD edits can cite real ADR numbers
+instead of "the ADR that will exist." This is TRANSCRIPTION of signed
+canon (ADR-150 is the charter; the bible sections cited in each draft
+are the spec) or of a journal-recorded human ruling (#7's sim-time
+call and all of #11 transcribe rulings recorded in journal s116,
+`project/journal/2026-07-07-session-116-story-reboot-plan-finished-and-archived.md`)
+— not new design. One sitting, one or two commits.
 
-**Numbering:** the drafts below are written as **ADR-152…ADR-161** —
+**Numbering:** the drafts below are written as **ADR-152…ADR-162** —
 the next free numbers as of this plan's authoring (the tail of
 decisions.md is ADR-151). **Check the tail at execution time**: if
 other ADRs landed meanwhile, renumber sequentially from the actual next
 free number and keep the docket-# cross-references intact (Plan B cites
-by docket #, which is renumber-safe). Set every `created_date` to the
-actual execution date (the drafts assume 2026-07-07).
+by docket #, which is renumber-safe). **If renumbered, also sweep every
+hard-coded ADR-15x/16x reference in THIS plan** — the pasted text in
+A2.2/A2.3/A2.6, A3's spine/header blocks, and §5.4's ADR-162 note — to
+the new numbers before executing those steps (the mirror of the HD-id
+sweep in the HD paragraph below). Set every `created_date` to the
+actual execution date (the drafts assume 2026-07-07; docket #11's
+ruling date is 2026-07-08 and stays as written).
 
 **File:** `docs/living/decisions.md` — append at the tail, after
 ADR-151, under one new grouping heading:
@@ -200,15 +214,18 @@ ADR-151, under one new grouping heading:
 ```markdown
 ## The storywave docket — the ADR-150 build wave's engine ADRs (2026-07-07)
 
-Ten ADRs minted in one sitting per the storywave docs plan
+Eleven ADRs minted in one sitting per the storywave docs plan
 (`docs/plans/fable-2026-07-07-storywave-docs.md` A0; parallel game
 plan: `fable-2026-07-07-storywave-game.md`). Each TRANSCRIBES a locked
-shape from the blessed story bible (ADR-150 is the charter); magnitudes
-stay sim-owned (ADR-132). Cross-plan citations use the docket numbers
-(#1–#10), which are stable even if ADR numbers shift.
+shape from the blessed story bible (ADR-150 is the charter) or a human
+ruling recorded in journal s116; magnitudes stay sim-owned (ADR-132).
+Cross-plan citations use the docket numbers (#1–#11), which are stable
+even if ADR numbers shift. The mapping: #1=ADR-152 · #2=ADR-153 ·
+#3=ADR-154 · #4=ADR-155 · #5=ADR-156 · #6=ADR-157 · #7=ADR-158 ·
+#8=ADR-159 · #9=ADR-160 · #10=ADR-161 · #11=ADR-162.
 ```
 
-Then the ten ADRs, ready to paste:
+Then the eleven ADRs, ready to paste:
 
 ```markdown
 ### ADR-152 ✅ — Docket #1: seven tiers — TierId widens to 0..6
@@ -338,9 +355,20 @@ Then the ten ADRs, ready to paste:
 
 - **created_date:** 2026-07-07
 - **Context:** `docs/story-bible/tiers/t0.md` "Economics
-  (human-locked shape; all magnitudes sim-owned)". The human flagged
-  two open problems in the coin-lane shape at the bible sitting.
-- **Decision (the locked shape):** **(1) Three nested ledgers** — the
+  (human-locked shape; all magnitudes sim-owned)" — within which the
+  bible tags the coin-lane block itself "**(DIRECTION, not locked —
+  known open problems, flagged by the human for build/balance
+  time)**". At the 2026-07-07 storywave re-plan the human ruled the
+  lanes proceed as ADOPTED DIRECTION with both open problems resolved
+  at sim time; that in-session ruling is recorded in journal s116
+  (`project/journal/2026-07-07-session-116-story-reboot-plan-finished-and-archived.md`,
+  the addenda). This ADR transcribes that ruling — it does NOT
+  upgrade the bible's DIRECTION tag to "locked", so bible and ADR
+  agree: ledgers/barn/debt are the locked shape, the lanes are the
+  adopted direction.
+- **Decision (the shape — 1/2/5 locked per the bible; 3/4, the coin
+  lanes, adopted direction per its own tag):** **(1) Three nested
+  ledgers** — the
   MC's (meals → rice → a day-wage in mon → trusted with the house's
   purse), the household's day-book, and the DEBT (the standing
   antagonist; principal untouchable in T0). **(2) Filling the barn is
@@ -356,14 +384,15 @@ Then the ten ADRs, ready to paste:
   Genemon's terms → felt in scenes all T0 (the lease day; the nengu),
   never numbered → T1's tally-keeper rung unlocks the debt panel and
   the number is finally seen, a story beat.
-- **Decision (the two flagged open problems — resolved-at-sim-time,
-  human-ruled 2026-07-07 at the storywave re-plan):** (a) kind-overflow
-  sinks/caps and (b) the day-wage collection moment vs auto-actions
-  are NOT blockers on this ADR — they resolve **at sim time under the
-  ADR-132 flow** (Plan B's economy build runs the persona-sim, picks
-  the mechanism the machine verdict supports, and commits the
-  before/after pacing diff as the evidence). The lane SHAPE above is
-  locked; the two mechanisms and all magnitudes are the sim's.
+- **Decision (the two flagged open problems — resolved-at-sim-time;
+  human-ruled 2026-07-07 at the storywave re-plan, recorded in
+  journal s116):** (a) kind-overflow sinks/caps and (b) the day-wage
+  collection moment vs auto-actions are NOT blockers on this ADR —
+  they resolve **at sim time under the ADR-132 flow** (Plan B's
+  economy build runs the persona-sim, picks the mechanism the machine
+  verdict supports, and commits the before/after pacing diff as the
+  evidence). The ledger/barn/debt shape is locked; the lane direction
+  is adopted; the two mechanisms and all magnitudes are the sim's.
 - **Consequences:** the T0 economy re-cores at Plan B's rebuild;
   `pnpm run verify:balance` + `balance:report` gate every magnitude
   change; PRD §4's spine moves only with this ADR's build (ADR-117
@@ -432,6 +461,35 @@ Then the ten ADRs, ready to paste:
 - **Consequences:** Plan B drops all reboot-boundary migration work
   and ships the notice UI instead; docket #1 inherits this; §0.9's
   "save-migration chain" constraint reads as post-reboot law.
+
+### ADR-162 ✅ — Docket #11: the T0 prose wave ships ONE version per unit (🔁 refines ADR-139/ADR-143 for this wave only)
+
+- **created_date:** 2026-07-08
+- **Context:** ADR-139 (every fiction unit ships from 3+ takes) and
+  ADR-143 (a human-reviewed narrative diverge MUST be live in the DEV
+  Story switcher) are the standing law. The storywave T0 prose wave
+  authored all 10 units × 3 blind takes
+  (`src/core/content/narrative/t0v2/` — the ledger / the held breath
+  / the weather) with a per-unit judge VERDICT, and Plan B originally
+  specced rung-bucket DEV review of every take. The human ruled
+  otherwise on 2026-07-08; the ruling is recorded in journal s116
+  (`project/journal/2026-07-07-session-116-story-reboot-plan-finished-and-archived.md`,
+  Addendum 4) — this ADR is its transcription.
+- **Decision (human, 2026-07-08):** the T0 prose wave ships **ONE
+  version of the story per unit** — the judge's VERDICT pick
+  (including mixed picks) plus its required redlines IS the canonical
+  text. The non-picked alternates stay in
+  `src/core/content/narrative/t0v2/` as an on-disk archive, **NOT
+  wired** into the DEV Story switcher; the rung-bucket
+  switcher/grouping work and the per-rung live DEV review collapse
+  accordingly. 🔁 This REFINES ADR-139/ADR-143 **for this wave only**
+  — the 3-take diverge + live DEV review remain the standing law for
+  all future fiction. HR-8 closes at prose-ship (its s116 condition).
+- **Consequences:** Plan B drops the rung-bucket switcher work and
+  migrates only the picked+redlined texts; the per-unit VERDICT files
+  in `t0v2/` are the review record of this wave; PRD §5.4 carries a
+  one-line note of the wave exception (placed at A1). Future fiction
+  rides ADR-139/ADR-143 unchanged.
 ```
 
 **Also in A0 — file the open-question HD-items.** Append the five
@@ -439,15 +497,19 @@ items from "Open questions for the human" (bottom of this plan) to
 `project/human-in-the-loop/decisions.md` in its `### HD-n 🔲` format
 (next free id at authoring time: **HD-25** — verify against the file
 and `archive.md`, ids are never reused; if the ids shift, sweep this
-plan's HD-25…HD-29 references to match). Copy each question's
-options + recommendation verbatim from this plan's bottom section.
+plan's HD-25…HD-29 references to match). **File them in ascending id
+order (HD-25 → HD-29)** — the bottom section presents them out of id
+order; the append order into decisions.md is id order. Copy each
+question's options + recommendation verbatim from this plan's bottom
+section.
 Proceed on the recommended defaults immediately (PH4) — EXCEPT HD-28,
 which by design waits for the human (it is the seam-exception ask);
 the defaults are baked into A1–A4 below.
 
 **DoD:**
-- Ten ADRs at the decisions.md tail, sequentially numbered, each with
-  created_date/Context/Decision/Consequences and bible file refs.
+- Eleven ADRs at the decisions.md tail, sequentially numbered, each
+  with created_date/Context/Decision/Consequences and bible file refs
+  (or, for #11 and #7's sim-time block, the journal-s116 ruling ref).
 - The docket-# → ADR-number mapping is stated in the grouping header's
   intro (so Plan B's "docket #2" citations resolve).
 - Five HD-items filed with recommended defaults.
@@ -460,7 +522,11 @@ docs-lane gates (links, snapshot line-cap, journal) prove it. Then the
 checkpoint ritual: push `origin/main`, confirm clean. Substantively:
 re-read each pasted ADR against its cited bible section (PH2) before
 committing — the drafts above were derived from the bible on
-2026-07-07; the bible wins if they disagree.
+2026-07-07; the bible wins if they disagree. For the journal-ruled
+blocks (#11 whole; #7's DIRECTION framing + sim-time block) the cited
+journal-s116 record is the source of truth — verify against it the
+same way; ADR-158 as drafted AGREES with the bible's own DIRECTION
+tag, so no bible-vs-draft conflict remains to adjudicate.
 
 ---
 
@@ -488,7 +554,8 @@ B's renames land.
    > (`docs/story-bible/`) became the single home of story canon and
    > §5 became a pointer-and-summary. The live section:
    > `docs/living/prd/05-narrative.md`. Note: the BUILT game played
-   > THIS canon until the storywave game plan's B3/B4 landed.
+   > THIS canon until the storywave game plan's G4/G4.1 (content
+   > migration + prose wave; ADR-150's waves B4/B3) landed.
 
    ```
 
@@ -498,8 +565,11 @@ B's renames land.
 2. **Replace the live file's content** with the skeleton below. The
    per-tier paragraphs are assembled from `03-tiers.md` — check each
    against the bible before committing; the bible wins. Ready-to-paste
-   draft (adjust the heading depth/`Part of` line to match the other
-   `prd/0N-*.md` files' shared preamble style — read one first):
+   draft. The `# §5 · …` H1 is GATE-CHECKED — the `verify-prd` gate
+   requires each `prd/0N-*.md`'s H1 to match `# §<n>` with the
+   filename's number — so keep the H1 exactly as drafted; adjust only
+   the `> Part of …` preamble line to match the other `prd/0N-*.md`
+   files' shared style (read one first):
 
    ```markdown
    # §5 · Narrative & world — pointer-and-summary
@@ -614,7 +684,9 @@ B's renames land.
    log/VN split; a decide is never a morality dial) live in
    [`01-laws.md` §0.5](../../story-bible/01-laws.md) and bind every
    fiction-voiced line the game ships. Shipped fiction rides ADR-139
-   three-take diverges + the FB-10 taste scorecard (§0.9).
+   three-take diverges + the FB-10 taste scorecard (§0.9). (One
+   recorded exception: the T0 prose wave ships the judge's single
+   pick per unit — ADR-162; the standing law resumes after it.)
 
    ## 5.5 · What §5 no longer does
 
@@ -631,17 +703,19 @@ B's renames land.
    pre-writes the RETIRED-terms entries the game plan adds at its
    rename commits. (Rows are extended from the `pnpm run prd:drift`
    report — every built label the report flags as missing from the
-   PRD gets a row here.)
+   PRD gets a row here. The "Changes at" column cites the game plan's
+   G-milestones: G4 = content migration, G4.1 = prose wave — ADR-150's
+   waves B4/B3 respectively.)
 
    | Built label (shipping) | Bible successor | Changes at |
    |---|---|---|
-   | Lord Shigemasa | Lord **Munemasa** (dies at the T1 seam) | game plan B4 |
-   | Tokubei | **Yohei** (the pedlar) | game plan B4 |
-   | Chiyo | recast per `04-cast.md` (T0 household) | game plan B3/B4 |
+   | Lord Shigemasa | Lord **Munemasa** (dies at the T1 seam) | game plan G4 |
+   | Tokubei | **Yohei** (the pedlar) | game plan G4 |
+   | Chiyo | recast per `04-cast.md` (T0 household) | game plan G4.1/G4 |
    | Rokusuke | kept (Rokusuke-class hands) | — |
-   | Kanta | **Kenta** (origin friend) | game plan B4 |
-   | Asagiri (the village) | the village is UNNAMED in the bible (HD-27) | game plan B4 |
-   | Akagi | CUT — the T4 enemy is Lord Tomita | game plan B4 |
+   | Kanta | **Kenta** (origin friend) | game plan G4 |
+   | Asagiri (the village) | the village is UNNAMED in the bible (HD-27) | game plan G4 |
+   | Akagi | CUT — the T4 enemy is Lord Tomita | game plan G4 |
    ```
 
 3. **Run the checks and reconcile:**
@@ -718,7 +792,7 @@ the docket ref):
   §5.1's premise paragraph (A1) condensed to this section's length:
   Tahei · kaidō porter · landslide · family ALIVE, register kept open
   · Tama is the VILLAGE's thread, ignited at T2 by Sayo's misreading,
-  resolved as Otsuru at T3. L144 ("a family a valley away who grieved
+  resolved as Otsuru at T3. L143 ("a family a valley away who grieved
   the protagonist himself as dead") — keep the warmth, fix the fact:
   the family REFUSES the grief; the register entry is kept open.
 - §1.4 (L151, protagonist contract): survives; sync name (birth name
@@ -796,10 +870,16 @@ the docket ref):
 - L1159 + L1353: "T5 Edo" rows/climax → T6 Edo; insert the T5 Domain
   tier where the ladder is enumerated.
 - L1491 (the real-name denylist line): "Munenori/Jūbei/Ranpo … →
-  Shigemasa/Kihei/Sōan" → "… → Munemasa/Kihei/Sōan". (Safe now
-  because §5.6 keeps a "Shigemasa" mention for the drift presence
-  check; the `prd-drift.ts` successor-chain re-point is Plan B's, at
-  its rename commits.)
+  Shigemasa/Kihei/Sōan" → "… → **Munemasa (was Shigemasa)**/Kihei/
+  Sōan" — **keep BOTH names on this line.** The `prd-drift.ts`
+  RETIRED-terms lane is a PER-LINE check: a line containing
+  "munenori" passes only if the SAME line also contains its successor
+  "shigemasa"; drop "Shigemasa" here and `prd:drift` goes RED (the
+  §5.6 row is in a different file and rescues only the separate
+  presence lane, not this one). The successor-chain re-point in
+  `prd-drift.ts` is Plan B's, at its rename commits — until it lands,
+  the "(was Shigemasa)" parenthetical carries the per-line allowance;
+  A5 tidies the line once the chains re-point.
 - §2.15 (rep web): survives in spirit; re-source to docket #9
   (ADR-160) / 03-tiers.md "Parallel reputation tracks" (village T2 ·
   origin T3 · never 1:1 · the T6 H0–H7 flip).
@@ -933,14 +1013,14 @@ then the checkpoint ritual.
 
 ### A3 · The roadmap reshape (7 tiers, the B-wave as the near term)
 
-**Goal:** `docs/living/roadmap.md` (366 lines) stops planning dead
+**Goal:** `docs/living/roadmap.md` (365 lines) stops planning dead
 content. ADR-150 already charters this ("B1 … + roadmap ripple (7
 tiers, new milestone shapes)") — no new ADR needed.
 
 **Edits:**
 - Header (L15–20, "the 2026-06-28 tier reshape (ADR-048…ADR-055, 6
   tiers)"): add the 2026-07-07 storywave line — ADR-150 + the docket
-  (ADR-152…161); the bible is canon; seven tiers.
+  (ADR-152…162); the bible is canon; seven tiers.
 - The locked-spine block (L44–54): rewrite — **7 tiers (T0 Estate-
   household · T1 Estate-land · T2 Valley · T3 Region · T4 Castle Town
   · T5 Domain · T6 Edo); v1 = full T0–T3 (HD-26 default, ADR-021's
@@ -975,7 +1055,12 @@ tiers, new milestone shapes)") — no new ADR needed.
   plans — Plan A (this plan: A0 docket ✅ by then, A1–A2 PRD, A3
   roadmap, A4 sweeps, A5 closure gated on B) and Plan B (the game
   plan: engine ADR builds → T0 prose wave → content migration →
-  ship), each row pointing at its plan file.
+  ship), each row pointing at its plan file. **The rewritten-T0
+  milestone row's DoD names the two tier-gate tests verbatim:
+  `src/core/t0-arc.test.ts` + `src/core/invariants.test.ts`**
+  (ADR-088's full-arc e2e + invariants pair; Plan B rewrites both IN
+  PLACE, never renamed, and its seam note expects exactly these two
+  names transcribed here).
 - Ship-section rows: re-point "ships v1 = T0→T3" language to the new
   tier names; keep the two ship milestones.
 
@@ -1032,20 +1117,30 @@ game plan's ship."
 ### A5 · POST-GAME-SHIP closure — ⛔ GATED on Plan B shipping
 
 **Do not start until the game plan's ship milestone is on `main`**
-(the new T0 playing the bible canon in prod — verify by reading Plan
-B's Status line and the CHANGELOG release section, not by assumption;
-PH2). This may be days after A4. If picking this plan up cold: A5 is
-the only remaining work.
+(the new T0 playing the bible canon in prod). The checkable gate
+(PH2, not assumption): **`CHANGELOG.md` carries the release section
+for the new-T0 ship** (the bible-canon T0 rewrite + clean-break
+release — Plan B writes it at its ship milestone), **and/or the game
+plan sits in `project/archive/` with its Status line flipped to
+done** (Plan B's ship milestone does both). Corroborate with
+`git log` / the release tag if in doubt; rely on no other signal.
+This may be days after A4. If picking this plan up cold: A5 is the
+only remaining work.
 
 - **Remove the status banners** this plan added: §5's "FORWARD CANON
   — THE SHIPPED GAME TRAILS" block (A1), every "FORWARD SPEC
   (storywave)" banner in §2/§6 (A2.3/A2.6), and the two
   awaiting-confirmation notes IF their HDs have closed (if an HD is
   still open, leave its note and say so in the commit body).
-- **Closing `pnpm run prd:drift`:** Plan B's rename commits added the
-  RETIRED-terms entries (shigemasa→munemasa, tokubei→yohei, etc.) and
-  re-pointed the munenori/jūbei/ranpo successor chains in
-  `prd-drift.ts`. Now shrink §5.6: rows whose built label no longer
+- **Closing `pnpm run prd:drift`:** Plan B's rename commits are
+  specced to add the RETIRED-terms entries (shigemasa→munemasa,
+  tokubei→yohei, `asagiri`, etc.) and re-point the
+  munenori/jūbei/ranpo successor chains in `prd-drift.ts` (its file
+  per §S). **Verify, don't assume (PH2): read `prd-drift.ts` first**
+  — if an entry or re-point is missing, file the gap to Plan B's
+  executor (journal note; an HD-item if it blocks the clean report)
+  and do NOT edit the file yourself. Then shrink §5.6: rows whose
+  built label no longer
   ships (the registries speak bible names) lose their presence
   purpose — cut the stale rows, keep the table as a one-screen
   historical rename ledger or fold it into a footnote pointing at
@@ -1074,10 +1169,13 @@ the only remaining work.
   ruling recorded, this is transcription, not a canon edit).
 - **Plan hygiene:** set THIS plan's Status line to ✅ done and
   `git mv` it to `project/archive/`; do the same for
-  `fable-2026-07-07-story-bible-finish.md` if Plan B has archived its
-  own plan (both waves done = the finish plan's DoD met — check its
-  Status first). Reconcile the reading queue (ADR-089): remove
-  this plan's entry.
+  `fable-2026-07-07-story-bible-finish.md` once Plan B's ship is on
+  `main` (Plan B archives its own plan at its ship milestone, so by
+  A5's gate both waves are done = the finish plan's DoD met; confirm
+  the game plan is in `project/archive/` — if it is not, surface the
+  gap to Plan B's executor, but it does not block archiving THIS
+  plan). Reconcile the reading queue (ADR-089): remove this plan's
+  entry.
 
 **DoD:** no storywave banner remains in the PRD; `prd:drift` clean
 without load-bearing compat rows; gen-regions fresh + correctly
@@ -1186,3 +1284,18 @@ follow-up edit, scoped below.
   explicit go (this one does not proceed-on-default — it is the seam
   exception itself). Until then the banner stays stale; §5's own
   status banner carries the correct picture, so nothing misleads.
+
+---
+
+### New fork surfaced by the 2026-07-08 verify-fix pass (NOT an HD-item)
+
+- **The §5.4 wave-exception note:** the PRD §5.4 paste now carries one
+  line citing docket #11 (ADR-162 — the T0 prose wave ships the
+  judge's single pick per unit) where the bible's §0.9 states the
+  standing 3-take law. Fork: keep the note (the PRD records the ruled
+  exception a reader would otherwise read as a PRD-vs-build
+  contradiction at prose-ship) vs keep §5.4 bible-pure (the exception
+  lives only in decisions.md). **Default: keep the note** — it
+  transcribes a recorded human ruling (journal s116, Addendum 4), not
+  a canon addition; an override deletes one sentence.
+  Proceed-on-default; no new ruling needed.

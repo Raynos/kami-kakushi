@@ -125,6 +125,27 @@ the session workflows dir, runId wf_7ade1a59-89a); verifiers relaunch
 fresh. The finish plan's Status re-point to the twin plans is Plan A's
 A4 step — deliberately NOT done here.
 
+## Addendum 5 — the storywave remainder closed (2026-07-08, post-reset)
+
+The owed tail ran as 10 fresh agents (no blind workflow resume — it
+would have overwritten four complete VERDICTs): judges u7 (PICK=b, 3
+redlines) · u8 (mixed: C base + A's Bon + A's dog-coda; B disqualified
+on a rule-7 breach) · u9 (per-character mix across all three takes; B
+the single-take fallback) · flavor authors f1-nodes (17 zones, "the
+waste ground" naming call) + f2-texture (log/quests/perks/field-guide)
+· the flavor judge (both SHIPPABLE; 5 migration-time redlines; waste
+ground KEPT) · both plan verifiers (game: 2/7/8 B/M/m; docs: 1/6/6) ·
+both plan fixers (every finding addressed under 8 shared coordination
+rulings). Load-bearing outcomes: **ADR-162 draft** joins the A0 docket
+(the 2026-07-08 one-version ruling, wave-scoped, refines ADR-139/143;
+HR-8 closes at prose-ship); the game plan gains **G3.5** (the FB-5
+compiler extension owns all grammar work, pre-worktree); G5 is now
+VERDICT reconciliation (no switcher machinery); prd-drift RETIRED
+entries are explicitly Plan B's G4.9; A5's gate reads disk-emitted
+signals (Status flip + CHANGELOG). The wave is COMPLETE: 10 story
+units judged with canonical picks, 2 flavor sheets judged shippable.
+Both plans are verified Opus-executable and sit in the reading queue.
+
 ## Landmines
 
 - Journal/HR-archive entries still cite the old `docs/plans/` path for

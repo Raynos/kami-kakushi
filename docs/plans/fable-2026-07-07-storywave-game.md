@@ -8,17 +8,21 @@ sequencing judgment, cross-gate reasoning, and taste-adjacent wiring decisions
 concentrate on nearly every milestone; only the mechanical sweeps (name
 renames, test-fixture rederivation) are Fable-grade.
 
-> **Ruling update (human, 2026-07-08 — supersedes the 3-take review
-> wiring wherever this plan describes it):** the prose wave ships **ONE
-> version of the story**. The takes were already authored (all 30 on
-> disk in `t0v2/`), so per unit the judge's VERDICT pick IS the
-> canonical text; the alternates stay in `t0v2/` as on-disk archive and
-> are **NOT wired** into the DEV Story switcher; the rung-bucket
-> switcher/grouping work and the per-rung DEV review collapse
-> accordingly (the human may still ask for a swap by redline — that is
-> an edit to the picked take, not a live toggle). Where a unit has no
-> VERDICT yet (u7/u8/u9 at writing), the pick lands before this plan
-> executes.
+> **Ruling (human, 2026-07-08 — the ONE-VERSION ruling, reconciled into
+> the body below; Plan A transcribes it as the A0 docket's 11th ADR
+> draft, refining ADR-139/143 for this wave):** the prose wave ships
+> **ONE version of the story**. The staged wave is COMPLETE on disk
+> (verified 2026-07-08): `t0v2/` holds u0–u9, each with 3 takes + a
+> VERDICT.md, plus `flavor/f1-nodes.md` + `flavor/f2-texture.md` +
+> `flavor/VERDICT.md`. Per unit the judge's VERDICT pick IS the
+> canonical text — some VERDICTs are per-piece mixes (u8 ships C with A
+> grafts; u9 a per-character mix) and most carry required redlines; the
+> pick PLUS its redlines together are canon. The alternates stay in
+> `t0v2/` as on-disk archive and are **NOT wired** into the DEV Story
+> switcher; the rung-bucket switcher/grouping work and the per-rung DEV
+> review are cancelled (the human may still ask for a swap by redline —
+> an edit to the picked take's canon `.md`, never a live toggle). G5
+> and G7 below are written to this ruling.
 
 This plan is SELF-CONTAINED: the scout reports it distills live in git-ignored
 `tmp/` and may be gone — every file-level fact needed is baked in below. Where
@@ -31,15 +35,19 @@ ADR-150).
 ## Who builds this — Opus-class executor (human ruling, 2026-07-07)
 
 One Opus-class session (or a short chain of them, resuming via journal +
-snapshot) executes G0→G7 in order. Per ADR-150, B2/B4-class work is
-Opus-routed; the human confirmed the routing for this re-plan.
+snapshot) executes G0→G7 (G3.5 included) in order. Per ADR-150,
+B2/B4-class work is Opus-routed; the human confirmed the routing for
+this re-plan.
 
 **Where taste concentrates, and how the executor stays safe:**
 
 - **The prose is PRE-AUTHORED.** Every fiction-voiced string the rewritten
   game shows comes from the staged wave in
-  `src/core/content/narrative/t0v2/` (10 story units × 3 takes + VERDICT.md
-  picks; flavor f1/f2 × 1 take + VERDICT). The executor MIGRATES prose —
+  `src/core/content/narrative/t0v2/` (10 story units × 3 takes + a
+  VERDICT.md pick each; the flavor layer `flavor/f1-nodes.md` +
+  `flavor/f2-texture.md` — single-take sheets whose `flavor/VERDICT.md`
+  is a scorecard + required-redlines pass, not a pick — ALL on disk,
+  verified 2026-07-08). The executor MIGRATES prose —
   it never writes, "improves," or paraphrases fiction. A fiction gap found
   mid-build (a needed line with no t0v2 source) is an **HD-item** in
   `project/human-in-the-loop/decisions.md` requesting a supplemental prose
@@ -51,12 +59,12 @@ Opus-routed; the human confirmed the routing for this re-plan.
   `balance-sim --summary` pasted into the commit body. It never tunes by
   feel and never moves a cockpit slider into canon (ADR-134).
 - **UI reshapes** (the 地図-tab sheet swap, the season wheel, the night-round
-  runner surface, the Story-pane buckets) follow `docs/living/ui-design.md`
+  runner surface) follow `docs/living/ui-design.md`
   + the two-pass taste-scorecard flow (FB-10/ADR-135): Pass-1 constraint
   brief before building, Pass-2 scorecard after. These are *reshapes of
   existing surfaces to a locked design*, not new-surface diverges — ADR-075
   diverge machinery is NOT re-run for them (the map already went through
-  ADR-149/151 review; the Story pane is DEV-only tooling). If the executor
+  ADR-149/151 review). If the executor
   finds itself inventing a genuinely NEW player-facing surface, stop: that
   is an HD-item.
 - **Design forks** are listed in "Open questions" at the bottom, each with a
@@ -75,8 +83,10 @@ Opus-routed; the human confirmed the routing for this re-plan.
 3. `docs/living/decisions.md`: ADR-150 (the charter), ADR-145 (Phase-2
    economy lock), ADR-146 (node discoveries), ADR-148 (timed actions),
    ADR-149 + ADR-151 (the map sheets are player-bound; the sheet IS the
-   map), ADR-139/143 (diverge review must be live in the DEV switcher),
-   ADR-132/134 (balance verdicts; sliders are the human's).
+   map), ADR-139/143 AS REFINED by the one-version ruling (2026-07-08,
+   the A0 docket's 11th ADR: this wave ships the VERDICT picks as the
+   one version; alternates archive unwired), ADR-132/134 (balance
+   verdicts; sliders are the human's).
 4. `src/core/content/narrative/README.md` (the FB-5 grammar) +
    `src/core/content/narrative/t0v2/README.md` (the staged wave's layout).
 5. `docs/guides/qa-playtesting.md` (§1 harness/`__qa`, §2 the ADR-132 flow).
@@ -161,11 +171,13 @@ human.
   `src/ui/map-sheets/nodes.ts` content strings (e.g. a stale "O-Sato" →
   O-Hisa at `nodes.ts:97`) — that's a mechanical name-sync, exempt from
   diverge (ADR-139 exemption).
-- **The prose fleet** is writing `src/core/content/narrative/t0v2/` NOW.
-  That directory is read by no gate (gen-narrative's input list is
-  explicit; oxfmt/md-links ignore it). B treats `t0v2/` as read-only
-  input until G4 consumes it; if a unit's takes/VERDICT are missing when
-  G4 needs them, that G4 step waits (work other steps meanwhile).
+- **The prose fleet has FINISHED `src/core/content/narrative/t0v2/`** —
+  u0–u9 (3 takes + VERDICT each) plus `flavor/` (f1-nodes + f2-texture +
+  VERDICT) are all on disk (verified 2026-07-08). The directory is read
+  by no gate (gen-narrative's input list is explicit; oxfmt/md-links
+  ignore it). B treats `t0v2/` as read-only input; G0 re-verifies the
+  full layout as a pre-flight check (a missing file is a defect to
+  surface immediately — never a silent wait).
 
 ## Conventions (restated for the executor — binding)
 
@@ -203,14 +215,18 @@ content cutover — new zones + ladder + narrative + economy at once — cannot
 be split into individually-green commits without shipping chimera states
 (half-satoyama, half-bible), so:
 
-- **G0–G3 land green on `main`** as normal small commits — additive
-  registries and dormant/back-compatible engine machinery, each fully
-  verified.
+- **G0–G3.5 land green on `main`** as normal small commits — additive
+  registries, dormant/back-compatible engine machinery, and the compiler
+  extension, each fully verified.
 - **G4 (the content cutover) runs in an ISOLATED WORKTREE:**
-  `git worktree add ../kk-storywave -b storywave-cutover`. Inside it the
-  executor commits WIP freely (`SKIP_VERIFY=1` allowed THERE and only
-  there — those commits never push, and `main` in the shared tree never
-  sees red). When the whole cutover is green under the FULL roster inside
+  `git worktree add ../kk-storywave -b storywave-cutover`, then
+  `pnpm install` inside it (a fresh worktree has no `node_modules`;
+  "green under the FULL roster" needs one). Inside it the executor
+  commits WIP freely (`SKIP_VERIFY=1 SKIP_JOURNAL=1` allowed THERE and
+  only there — the journal-hygiene gate is a separate pre-commit check
+  that `SKIP_VERIFY` does NOT skip; those WIP commits never push, and
+  `main` in the shared tree never sees red). When the whole cutover is
+  green under the FULL roster inside
   the worktree, land it on `main` as a short series of green, pathspec'd
   commits (rebase/cherry-pick or a squashed re-commit — executor's
   choice), push, then `git worktree remove ../kk-storywave` and delete the
@@ -243,7 +259,9 @@ is mapped to a t0v2 source or surfaced as a gap NOW.
   live canon narrative references): `ohisa: 'O-Hisa'`,
   `shinnosuke: 'Shinnosuke'`, `toku: 'Toku'`, `oyae: 'O-Yae'`,
   `matsuzo: 'Matsuzō'`, `iori: 'Iori'`, `oume: 'O-Ume'`,
-  `naoyuki` stays (already the heir), `useName: 'Gonbei'`. Forward names
+  `useName: 'Gonbei'` (Naoyuki needs NO `NAMES` change — the existing
+  `heir` key already carries `'Naoyuki'`; the `naoyuki` NpcId addition
+  below is `voices.ts`'s). Forward names
   correct now (nothing live references them): `villageChief` → `'Mohei'`,
   `mother` → `'O-Nobu'`, `sister` → `'Suzu'`; DELETE `sweetheart`
   (Osen is void — origin relock). DEFER to G4 (live canon still resolves
@@ -259,21 +277,45 @@ is mapped to a t0v2 source or surfaced as a gap NOW.
   `PLAYER_SPEAKER` untouched here (G4 §8).
 - **C nothing else.** `people.ts` placements need the new AreaIds → G4.
 
-**The fiction-gap inventory (same milestone, doc output):** walk the G4
-spec below and list every fiction-voiced string against the t0v2 manifest
-(U0–U9, F1 node sheet, F2 texture sheet). Known-uncovered already:
+**The fiction-gap inventory (same milestone, doc output):** first
+re-verify the staged wave's layout on disk (u0–u9 each with 3 takes +
+VERDICT.md; `flavor/f1-nodes.md` + `f2-texture.md` + `flavor/VERDICT.md`
+— a missing file is surfaced immediately, never silently waited on),
+then walk the G4 spec below and list every fiction-voiced string against
+the wave ITSELF — there is no separate manifest; the unit roster is:
+- `u0-cold-open` — the weir rescue, Sōan's examination, the intro
+  scenes, the forced name-question beat;
+- `u1`–`u7` — the rung beats R1–R7, one unit per rung;
+- `u8-side-beats` — the grove DECIDE, the first Bon, the lease day, the
+  dog that stays, the crest question + the mystery windows;
+- `u9-dialogue` — node/ambient dialogue for the T0 cast;
+- `flavor/f1-nodes.md` — node blurbs, wrong-things, action labels,
+  discovery fiction (the node sheet);
+- `flavor/f2-texture.md` — the texture sheet; its `##` sections are
+  exactly: prose log-texture (seasons/weather) · quest-rewards · perks
+  · field-guide. (Surface REVEAL lines are NOT in it — see
+  known-uncovered item 4 below.)
+Placement is defined by each unit's VERDICT.md — the pick (including the
+per-piece mixes: u8 ships C with A grafts, u9 a per-character mix) plus
+its required redlines — never by a manifest. The inventory's
+needed-grammar-forms column doubles as G3.5's grammar-demand list.
+Known-uncovered already:
 1. the six per-season VN overlay scenes (the season-exit ceremony),
 2. the nengu Autumn-exit scene (the board; the MC as furniture),
 3. per-req requirement flavor (`flavor:` + `drive:` lines, R0–R7),
-4. surface reveal lines (the ~45 `surfaces.ts` unlock lines — partially
-   F2-adjacent but not named there),
+4. surface reveal lines (the ~45 `surfaces.ts` unlock lines — NOT
+   covered by `f2-texture.md`, verified: its sections are log-texture /
+   quest-rewards / perks / field-guide),
 5. the save-retirement notice text,
 6. estate repair-project lines + the day-book seasonal-judge grade lines,
 7. the sickroom/treatment lines and the wage/payment-ladder beat lines.
 File ONE consolidated HD-item requesting a supplemental prose mini-wave
-(3 takes for scenes, 1 law-compliant take for texture — mirroring the
-human's ruling split), staged into `t0v2/` by the fleet process. The
-executor keeps building G1–G3 while it runs.
+(3 takes for scenes, 1 law-compliant take for texture), staged into
+`t0v2/` by the same fleet process and in the SAME shape as u0–u9 under
+the one-version ruling (2026-07-08): takes → a judge VERDICT → the pick
+(+ its required redlines) is canonical; alternates stay in `t0v2/` as
+archive; NOTHING is wired into the DEV switcher. The executor keeps
+building G1–G3.5 while it runs.
 
 **DoD:** registries compile; no live behavior change; the HD-item filed.
 **Named tests:** extend `src/core/content/voices.test.ts` — the NpcId
@@ -301,9 +343,12 @@ what forces the persistence break.
 - Exit gates are DATA on the season entry: Autumn's gate is the nengu
   (`flag nengu-reckoned`); attempting Autumn's exit without it triggers
   the nengu scene (G4 content) whose completion sets the flag.
-- Seasons UNLOCK at R2 (surface `readout-seasons`, wired G4); R0–R1 show
-  only the day of week. Time display: day-of-week from `week()`/day —
-  the month/year counter stays hidden (bible).
+- Seasons UNLOCK at R2 (**C `readout-seasons`** — a NEW surface row,
+  wired G4; the existing `readout-clock` stays the day-of-week clock
+  from R0, and its old "four seasons" prose dies at G4.6 — Open
+  question #13); R0–R1 show only the day of week. Time display:
+  day-of-week from `week()`/day — the month/year counter stays hidden
+  (bible).
 - Season-scoped content hooks (consumed at G4): per-foe `seasons?:
   Season[]` peaks, per-person `presence` season predicates (Iori lodges
   New Year + Bon), Yohei stall stock restocks per season, node
@@ -332,9 +377,17 @@ what forces the persistence break.
   to 6 seasons (`RICE_SELL_PRICE_BY_SEASON` + harvest multiplier);
   seed values mapped from the old 4 (winter↔winter, spring↔spring,
   summer↔summer, autumn↔autumn; new-year seeds from winter, bon from
-  summer) — SIM-OWNED, verdict at commit.
+  summer) — SIM-OWNED, verdict at commit. Includes the STRING-KEYED
+  cockpit lever switch at `balance.ts:462–467`
+  (`'RICE_SELL_PRICE_BY_SEASON.spring'` …) + the lever-id list it
+  serves — tsc catches the re-keyed Record but NOT these string cases;
+  extend both to six seasons.
 - **M `src/core/pillars.ts`** — `seasonalJudge` re-triggered from the
-  exit pipeline; retire the `PHASE2_JUDGE_INTERVAL_DAYS` 3-day cadence.
+  exit pipeline. The retired `PHASE2_JUDGE_INTERVAL_DAYS` 3-day cadence
+  is a `src/core/constants.ts:60` const (delete it there, with this
+  milestone's other constants edits) FIRED from `step.ts`'s daily plan
+  (already listed above); `ascension.test.ts` + `pillars.test.ts`
+  reference it — rederive those fixtures.
 - **Persistence clean break** (cites the A0-docket clean-break ADR):
   - **M `src/persistence/codec.ts`** — envelope carries `generation`.
   - **M `src/persistence/validate.ts`** — a blob with
@@ -346,9 +399,13 @@ what forces the persistence break.
     history is the archive; the ADR records it); the chain restarts
     empty at v10. **M `src/persistence/migrate.test.ts`** accordingly.
   - **M `src/ui/render.ts`** — the retirement notice on the cold-open
-    screen (composed, in-fiction; TEXT from the supplemental wave — until
-    it lands, this ships behind the notice machinery with the G0 HD-item
-    open; the notice cannot ship ad-hoc prose).
+    screen (composed, in-fiction; TEXT from the supplemental wave).
+    Interim state, until the wave lands: a retired save shows the
+    notice FRAME carrying a deliberately OUT-OF-FICTION bracketed
+    placeholder ("[dev — save retired; the notice text lands with the
+    supplemental wave]") — never ad-hoc fiction-voiced prose (§0.5).
+    Acceptable on `main` because prod ships only at G7, whose gate
+    requires the fiction-gap HD-item CLOSED (Open question #12).
 - **M `src/app/main.ts` / `src/ui/render.ts`** — clock readout renders
   the stored season (old unlock schedule until G4).
 - **M `src/core/autoplay.ts`** — teach `focusedOptimalIntent` to fire
@@ -379,8 +436,17 @@ overlays, Bon) and the on-rails night round.
 **Scene machinery spec:** today only `introBeat` and `rungBeat` can open
 the VN. Add:
 - **C `src/core/content/scenes.ts`** — a `SCENES` registry:
-  `SceneDef { id: SceneId; scene: VNScene; trigger: SceneTrigger;
-  once?: boolean }` where `SceneTrigger` is a discriminated union:
+  `SceneDef { id: SceneId; scene: RungScene; trigger: SceneTrigger;
+  once?: boolean }`. There is NO `VNScene` type and none is invented:
+  the shared VN payload is the EXISTING `RungScene`
+  (`src/core/content/rungBeats.ts:56`), generalized minimally — `rank:
+  RankId` widens to `rank?: RankId` (present only on promotion beats)
+  and `motivates` defaults to `[]`; `RungOption` already carries every
+  effect the staged prose declares (`memory`/`flags`/`statBonus`/
+  `setStance`, all optional). The intro's `DialogueScene` keeps its own
+  path unchanged (its `IntroOption` perk/stat shape differs by design);
+  unification happens at the RENDER layer only (one modal — TST1).
+  `SceneTrigger` is a discriminated union:
   `{ kind: 'rung', rung: RankId }` (promotion beats keep their current
   path) · `{ kind: 'season-exit', season: Season }` ·
   `{ kind: 'flag', flag: string }` · `{ kind: 'verb' }` (opened by an
@@ -392,8 +458,9 @@ the VN. Add:
 - **M `src/core/intents.ts`** — `begin_scene` / `advance_scene_beat` /
   `choose_scene_option`, generalized from the intro/rung VN reducer arms
   (same ask-hub/decide/memory/flags semantics — the FB-5 grammar already
-  expresses all of it; scene VN content compiles from a NEW gen unit, see
-  G5's grammar work).
+  expresses all of it; scene VN content compiles from a NEW gen unit
+  that G3.5 — the compiler milestone — lands BEFORE G4; the registry
+  ships EMPTY here).
 - **M `src/ui/render.ts`** — the VN modal renders `activeScene` through
   the same path as intro/rung beats (one modal, one code path — TST1).
 
@@ -428,8 +495,11 @@ gate surface + quest wiring arrive at G4), so the live arc is untouched.
 tests without UI.
 **Named tests:** **C `src/core/scenes.test.ts`** — trigger kinds each
 fire exactly once when `once`; the queue drains in order; a decide
-applies memory/flags identically to the rung-beat path (derive the
-fixture scene from a real registry entry, not an inline literal). **C
+applies memory/flags identically to the rung-beat path (the registry
+ships empty at G2, so the machinery tests drive a constructed `SceneDef`
+through the reducer arms; at G4.6, once content lands, re-derive the
+fixtures from real registry entries — never inline literals after that).
+**C
 `src/core/night-rounds.test.ts`** — a seeded round resolves stage-by-
 stage; the scripted stage cannot kill or win; fall exits to the sickroom
 path; rewards contain no coin (assert against the registry — RED if
@@ -473,6 +543,42 @@ reduces HP (the one-way law — RED if anyone couples it backwards). **M
 **Verify:** `pnpm run verify && pnpm run verify:balance &&
 pnpm run balance:report` (commit the pacing doc with it).
 
+### G3.5 · The FB-5 grammar/compiler extension (owns ALL compiler changes)
+
+**Goal:** every grammar form the staged t0v2 picks declare compiles
+BEFORE the G4 worktree opens — G4 consumes the compiler, never edits it.
+(Resequenced 2026-07-08: this work previously sat inside G5, AFTER the
+milestone whose DoD needed it; ownership is stated here ONCE — no other
+milestone touches `src/scripts/narrative/` or `gen-narrative.ts`.)
+
+**Files:**
+- **M `src/scripts/gen-narrative.ts`** — TARGETS grows the seventh canon
+  file **C `src/core/content/narrative/scenes.md`** (the season
+  overlays / nengu / side-beats / the Count), compiled to
+  **`scenes.gen.ts`**, consumed by G2's `src/core/content/scenes.ts`
+  (which switches from its hand-written empty registry to re-exporting
+  the gen registry here). At G3.5 `scenes.md` lands as a STUB (header +
+  grammar-exercising sample block(s) drawn verbatim from picked-take
+  text where a fiction-voiced sample is unavoidable — never invented
+  prose); the real content fills it at G4.1.
+- **M `src/scripts/narrative/{parse,emit,validate}.ts`** — extend for:
+  the speakerless narration-only beat (R2's silent rung), the scene-def
+  block (declares `trigger:` — `rung`/`season-exit`/`flag`/`verb`/
+  `scripted` — and `once:` in the grammar), and any `native:` sidecars
+  the staged prose marks (each sidecar stays a hand-written
+  `*.native.ts` — real logic never enters the grammar). Growth is
+  MINIMAL and driven only by G0's grammar-demand list (what the picked
+  takes actually declare).
+
+**DoD:** full verify green on `main` (`gen-narrative` round-trips the
+stub byte-stable); every grammar form the picked takes declare parses,
+emits, and validates.
+**Named tests:** **M `src/scripts/narrative/validate.test.ts`** — the
+speakerless beat and the scene-def block parse + validate; a malformed
+scene-def (unknown trigger kind, `season-exit` without a season) REDs;
+fixtures quote the picked takes' declared forms, not invented ones.
+**Verify:** `pnpm run verify && pnpm run gen:narrative:check`.
+
 ### G4 · THE CONTENT CUTOVER (isolated worktree — the monster)
 
 **Goal:** the shipped satoyama-framed T0 is replaced whole by the
@@ -487,40 +593,52 @@ coherent WIP commit there.
   `names.ts` `lord` → `'Munemasa'`, `pedlar` → `'Yohei'`, delete `smith`
   (T0); `voices.ts` NpcId `shigemasa` → `munemasa`, delete `tozo`,
   `lord` voice re-homed.
-- Rewrite the six canon files in `src/core/content/narrative/` FROM
-  `t0v2/*/VERDICT.md` picks — a MIGRATION (copy the picked take's
-  blocks, normalize keys/meta), never re-authoring:
+- Rewrite the seven canon files in `src/core/content/narrative/`
+  (incl. G3.5's `scenes.md` stub, filled here) FROM `t0v2/*/VERDICT.md`
+  picks — a MIGRATION (copy the picked take's blocks, apply the
+  VERDICT's required redlines, normalize keys/meta), never re-authoring:
   - `cold-open.md` ← U0 pick (the weir rescue; Sōan's examination; the
     forced name-question beat; first verbs rake + haul water; the
     day-book line *one man, name unknown*).
   - `rung-beats.md` ← U1–U7 picks (R1 terms-at-the-board … R7 Gonbei +
     sleep + the FIRST DREAM). **R2 is the silent rung:** a
     narration-only beat (no granter scene — the inert
-    `advance_rung_beat` path goes live for a speakerless beat; if the
-    grammar needs a `speaker: none` form, extend parse/emit minimally —
-    G5 owns grammar changes, so land that extension first if U2's pick
-    requires it). **R5 the Count** is an ensemble night scene — the
+    `advance_rung_beat` path goes live for a speakerless beat; the
+    speakerless narration-only grammar form is G3.5's work, ALREADY
+    LANDED before this worktree opens — G4 never touches the compiler).
+    **R5 the Count** is an ensemble night scene — the
     grammar's ambient-speaker form (`Naoyuki (official): "…"`) already
     carries multi-voice; it plays through G2's `scripted` scene trigger
-    (fired by the R5 promotion path), with a `native:` sidecar only if
+    (fired by the R5 promotion path), its scene body living in
+    `scenes.md` (the G3.5 gen unit), with a `native:` sidecar only if
     the pick marks one.
   - `intro.md` ← U0's examination scenes (the fixed soan/dream/genemon
     order is RESHAPED — the intro-order landmine: the engine's
     fixed-order assumption in the intro reducer is rewritten here to the
     new scene list; there are no old saves to honor, clean break).
-  - `dialogue.md` ← U9 pick (node/ambient dialogue for the T0 cast).
-  - `flavor.md` ← F1 + F2 picks (node blurbs, wrong-things, action
-    labels, log texture, reveal lines, perk lines) + the supplemental
-    wave's picks as they land.
+  - `dialogue.md` ← U9's pick (node/ambient dialogue for the T0 cast —
+    a PER-CHARACTER mix across takes per its VERDICT; migrate
+    character-by-character as the VERDICT rules).
+  - `scenes.md` ← the season overlays, the nengu scene, the Count's
+    scene body, and U8's side-beat pieces (U8 ships take C with A
+    grafts — migrate piece-by-piece per its VERDICT's graft map).
+  - `flavor.md` ← the flavor sheets `t0v2/flavor/f1-nodes.md` (node
+    blurbs, wrong-things, action labels, discovery fiction) +
+    `f2-texture.md` (log texture, quest-reward lines, perk lines,
+    field-guide entries) with `flavor/VERDICT.md`'s redlines applied —
+    single-take sheets, so the redlined sheet IS the pick — + the
+    supplemental wave's picks as they land.
   - `requirements.md` — re-derived per rung against the new verbs
     (R0–R7, ≥3 each — the validator enforces): e.g. R3 gates on the
     first night round's wolf stage (`flag wolf-survived-not-won`), R4 on
     the confession beat flags, R6 on the coin errand, **R7 on
     `flag nengu-reckoned`** (the tax season passed — T0 contains a full
     lived year). Requirement FLAVOR lines from the supplemental wave.
-- Delete `src/core/content/narrative/takes/estate-build-beats/` after
-  resolving its open HR-item with the human (it diverges OLD-canon
-  estate beats; the rewrite voids it — confirm, don't assume).
+- Delete `src/core/content/narrative/takes/estate-build-beats/`,
+  taking Open question #11's default: resolve its open HR-item as
+  superseded (it diverges OLD-canon estate beats the rewrite voids),
+  note the resolution on the item + in the journal, and SURFACE it for
+  async override (PH4) — don't block the worktree waiting on the human.
 - Run `pnpm run gen:narrative`; commit sources + all `*.gen.ts` +
   `docs/content/t0-story.md` together.
 
@@ -530,11 +648,17 @@ coherent WIP commit there.
   (`src/ui/map-sheets/nodes.ts` — one vocabulary, TST1): `weir`,
   `weir-reeds`, `gate`, `forecourt`, `woodshed`, `kitchen`, `shrine`
   (corridor, glimpsed), `kura`, `sickroom`, `drill-yard`, `paddies`,
-  `field-margins`, `woodlot`, `ruined`, `orchard`, `grove` — 16 walkable
-  + `ruined` locked scenery. `near-satoyama`/`deep-satoyama` GONE.
-- **M `src/core/content/map.ts`** — MAP_NODES rebuilt on those ids;
-  **`MAP_NODE_CEILING` = 17** (pinned to the sheet's T0 roster — the
-  test derives the roster length, not a copied number); node grammar
+  `field-margins`, `woodlot`, `ruined`, `orchard`, `grove` — 16 AreaIds
+  total: 15 walkable + `ruined` (locked scenery).
+  `near-satoyama`/`deep-satoyama` GONE.
+- **M `src/core/content/map.ts`** — MAP_NODES rebuilt on all 16 ids
+  (`ruined` included, `locked: true`); **`MAP_NODE_CEILING` = 16**,
+  DERIVED as the sheet's T0 roster minus its activity chips —
+  `T0_NODES` (`src/ui/map-sheets/nodes.ts`) has 17 entries only because
+  it includes the `night-rounds` `kind: 'activity'` chip, which NEVER
+  gets a MAP_NODES entry (it opens the round post, not travel); the
+  test derives `T0_NODES.filter((n) => n.kind !== 'activity').length`,
+  never a copied number; node grammar
   gains `wrongThing: string` (flavor key) + `seasonFlavor?` keys +
   `locked?: true` (the ruined compound: visible, blurbed, never
   walkable — `canMove` refuses); `revealFlag` per node re-derived to the
@@ -549,8 +673,9 @@ coherent WIP commit there.
   the bible: `disc-weir-reeds-bundle` (search the reeds — his washed-up
   bundle, a water-ruined paper), `disc-woodlot-sluice` (the silted
   sluice), `disc-margins-sett` (the sett under the ruined wall).
-  Discovery fiction text from F1/the supplemental wave (ADR-146: hints
-  ride the diverge process — already satisfied by the wave).
+  Discovery fiction text from the redlined `flavor/f1-nodes.md` sheet /
+  the supplemental wave (ADR-146: hints ride the diverge process —
+  already satisfied by the wave).
 - **M `src/core/content/activities.ts`** — labour re-sited, NO direct
   coin yields anywhere: rake + haul (forecourt), field work (paddies —
   the deed engine's heart), kindling/forage (woodlot), mend the weir
@@ -656,7 +781,9 @@ magnitudes SIM-OWNED, ADR-132).**
   (`MACRO_TEASER_REVEAL`, `FRONTIER_BEAT`, `DREAM_2`, the
   omoya/workshops/granary/study rows, "the four seasons" clock line) —
   replacement reveal prose lives as `flavor.md` KEYS (FB-5: prose in
-  markdown, not TS), sourced from F2/the supplemental wave.
+  markdown, not TS), sourced from the SUPPLEMENTAL wave (reveal lines
+  are known-uncovered item 4 of the G0 inventory — `f2-texture.md`
+  does not carry them).
 - **M `src/core/content/estate.ts`** — the U1–U4 kura-works coin ladder
   (long-house/crest/shinden framing) replaced by bible-shaped
   repair/reclamation projects: mend the weir screens · reclaim the
@@ -710,10 +837,20 @@ magnitudes SIM-OWNED, ADR-132).**
   Yohei's stall pane (market day + purse + season stock legible —
   TST4), the nengu/lease/Bon scenes through the one VN modal, bestiary
   updates (Kihei's mamushi line), VOICE_COLOR/SEAL rows for the new
-  cast, `prd-drift.ts` name references.
+  cast.
+- **M `src/scripts/prd-drift.ts`** — the renames land in this worktree,
+  so the drift scanner learns them in the same landing series (the docs
+  plan's A5/HD-27 gate ASSUMES these entries exist — this step makes
+  that assumption true): the `RETIRED` table grows
+  `tokubei → yohei` · `shigemasa → munemasa` · `tōzō`/`tozo` (retired —
+  T1's smith is Tetsuji) · `osen` (void) · `yagōemon → mohei` ·
+  `satoyama` · `asagiri` (the village is unnamed — HD-27); existing
+  successor chains RE-POINT (`munenori`'s successor `shigemasa` →
+  `munemasa`).
 - Rewrite the content/engine test files alongside their registries (the
   full sweep, all in `src/core/` + `src/core/content/`):
-  `map.test.ts` (ceiling derives from the sheet roster) ·
+  `map.test.ts` (ceiling derives from the sheet roster minus its
+  activity chips — the G4.2 rule) ·
   `quests/market/people/voices/coldOpen/intro/dialogue/log-content/
   requirements/crafting/timing/estate-reveal` content tests ·
   `m1/m2/economy/pacing/breadth-arc/rung-beats/intro-flow/
@@ -753,77 +890,44 @@ roadmap milestone's DoD):**
 pnpm run balance:report && pnpm run fixtures:check &&
 pnpm run gen:narrative:check`.
 
-### G5 · Narrative migration: takes-bundles + the rung-grouped Story pane
+### G5 · VERDICT reconciliation — one version, picks complete in the sources
 
-**Goal:** the two NON-picked takes of every unit stay reviewable, live,
-grouped per rung into 1–3 modal-sized buckets in the DEV Story switcher
-(human ruling 2026-07-07); VERDICT picks are already prod canon (G4.1).
-All takes stay wired until the human reviews in DEV post-ship.
+**Goal (rewritten to the 2026-07-08 one-version ruling; Plan A's A0
+docket carries the ADR):** every unit's VERDICT pick — including the
+u8/u9 per-piece mixes and every VERDICT's required redlines — is fully
+migrated into the live narrative sources. The judge's pick IS the
+canonical text; there is NO switcher work, NO `takes/` bundles, NO
+live-swap wiring, and NO `rung:` bundle-meta key (all cancelled by the
+ruling). G4.1 did the bulk migration inside the worktree; G5 is the
+unit-by-unit completeness audit on `main`, plus the late arrivals.
 
-**The grammar/gen work (owns all compiler changes):**
-- **M `src/scripts/gen-narrative.ts`** — TARGETS grows a seventh canon
-  file if G4 needed one (**C `src/core/content/narrative/scenes.md`**
-  for the season overlays / nengu / side-beats / Count, compiled to
-  **`scenes.gen.ts`** consumed by `src/core/content/scenes.ts`); extend
-  `src/scripts/narrative/{parse,emit,validate}.ts` for: the speakerless
-  narration-only beat (R2), the scene-def block, and any `native:`
-  sidecars the staged prose marks (each sidecar is a hand-written
-  `*.native.ts` — real logic never enters the grammar). Grammar growth
-  is MINIMAL and driven only by what the staged prose declares.
-- **The rung-grouping bundle-meta key (the named gap):**
-  **M `src/scripts/narrative/takes.ts`** — `parseBundleMeta` +
-  `BundleMeta` gain an optional **`rung: R<n>`** key; **M
-  `src/scripts/narrative/emit.ts`** carries it into
-  `src/ui/storyTakes.gen.ts`; **M `src/ui/storyTakes.ts`** types it.
-- **M `src/ui/dev.ts`** — the Story pane groups bundle sections under
-  per-rung headers ordered by the ladder (mirroring the existing
-  `reqFlavorPlacement` per-rung computation at `dev.ts:2450`); bundles
-  without `rung:` render in a trailing ungrouped run. Bucket = bundle =
-  one explore page = one pick (preserves the human's ONE-explore-page
-  lock and modal-sized review).
+**The pass:**
+- Per unit (u0–u9 + `flavor/`): diff the live sources in
+  `src/core/content/narrative/` against the unit's VERDICT.md — the
+  pick fully present, placed where the VERDICT says (VERDICT picks
+  define migration placement; there is no separate manifest): the u8
+  side-beat pieces per its C+A graft map into `scenes.md`; the u9
+  per-character mix into `dialogue.md`; the flavor sheets with their
+  required redlines into `flavor.md`.
+- Apply any VERDICT-required redline G4.1 missed — a redline is the
+  judge's ruling transcribed verbatim, never executor fiction.
+- Supplemental-wave picks (the G0 HD-item's units) migrate here as
+  they land, same shape: pick + redlines into the canon `.md`s.
+- The alternates stay in `t0v2/` as the on-disk archive — byte-
+  untouched, NOT wired anywhere. A human swap request arrives as a
+  redline (an edit to the picked take's canon `.md`), never a toggle.
+- Run `pnpm run gen:narrative`; commit sources + `*.gen.ts` +
+  `docs/content/t0-story.md` together.
 
-**The migration:**
-- Per rung, create 1–3 bundles under `src/core/content/narrative/takes/`
-  (bucket mapping per the manifest): `t0v2-r<N>` (the promotion beat —
-  the U-unit's two alternates) · `t0v2-r<N>-side` (the side-beats whose
-  window lands in that rung — U8 SPLIT across rungs at wiring time) ·
-  `t0v2-r<N>-dialogue` (the dialogue unlocking that rung — U9 split).
-  Each `bundle.md`: `# bundle <id> · <title>` + `rung:` + `canon:`
-  (names the VERDICT pick) + `rationale:` (from VERDICT.md) + `review:`
-  (this plan's HR-item path) + one `## take` row per alternate with
-  `brief:` + `file:` (+ `scorecard:` from the wave's Pass-2 verdicts).
-- **Effect normalization (state-compatibility):** alternates from blind
-  agents carry divergent decide option ids/`flags:`/`memory:`/`bonus:`/
-  `stance:`. Normalize every alternate's EFFECT ANNOTATIONS to canon's,
-  byte-identical, prose untouched (effects are mechanics — the ADR-139
-  mechanical-edit exemption) so live-swapped takes never fork state.
-- **Live-swap completeness (ADR-143):** dialogue + cold-open units are
-  reader-only today; this wave touches them, so WIRING THEIR LIVE SWAP
-  IS PART OF THIS MILESTONE — extend `dev.subDialogueLine` /
-  `dev.subColdOpen` on the storyTakes overlay pattern (core-emitted text
-  through declaring-module DEV setters, mirroring
-  `__setRequirementFlavorOverride`); `dialogue:`/`cold-open:` join
-  `LIVE_UNITS`; `dev.storyEpoch()` already rebuilds the transcript.
-- `takes/` is LIVE GATE INPUT: every bundle dir must be complete and
-  parseable IN THE SAME COMMIT (a malformed bundle REDs every commit in
-  the shared tree). Land bundles rung-by-rung, one green commit each.
-- Run `pnpm run gen:narrative`; `docs/content/t0-story.md` +
-  `storyTakes.gen.ts` committed with each.
-- File the review **HR-item bundle** in
-  `project/human-in-the-loop/review.md`: one line item per rung bucket
-  (coherent bundles, never 25+ atomized picks), noting the human reviews
-  live in DEV when the rewritten game ships and that VERDICT picks are
-  the standing defaults.
-
-**DoD:** every rung shows its 1–3 buckets grouped in the Story pane; any
-take live-swaps in the running game (incl. dialogue/cold-open units);
-prod renders exactly the canon picks with the DEV fold stripped.
-**Named tests:** **M `src/scripts/narrative/takes.test.ts`** — `rung:`
-parses, propagates to `STORY_TAKE_BUNDLES`, and a bundle without it
-still parses (RED-able both ways). **M `src/ui/dev.test.ts`** —
-injected bundles with `rung:` group under per-rung headers in ladder
-order; `subDialogueLine`/`subColdOpen` canon-identity + swap + fallback
-(mirroring the existing `subFlavor` block).
+**DoD:** a per-unit reconciliation checklist (unit → VERDICT pick →
+live-source location → redlines applied) in the journal + commit body;
+zero new `takes/` bundles; `t0v2/` unchanged; prod renders exactly the
+picks.
+**Named tests:** none new — the teeth are G4.9's rewritten content
+tests (coldOpen/rung-beats/dialogue/etc. pin the canon) plus the
+`gen-narrative` gate; the reconciliation itself is a text-level PH2
+audit recorded in the checklist. (The ruling voids the old switcher
+test machinery — deliberately none is built.)
 **Verify:** `pnpm run verify && pnpm run gen:narrative:check`.
 
 ### G6 · e2e, QA harness, and the drift sweep
@@ -844,13 +948,20 @@ residue survives.
 - **M `e2e/desktop-layout.spec.ts` / `mobile-layout.spec.ts` /
   `timed-actions.spec.ts` / `e2e/helpers.ts`** — text assertions
   re-anchored to the new UI copy (assert REAL rendered text).
-- **M `src/ui/capture*.ts` + `src/ui/dev-cheatlist.ts`** — `__qa.toRung`
-  rides the rewritten autoplay (already true after G4.8); cheatlist
-  entries for `advance_season`, `begin_night_round`, the wage.
+- **M `src/app/main.ts` + `src/ui/dev-cheatlist.ts`** — `__qa.toRung`
+  (`main.ts:470`; `loadFixture` at `:613`) rides the rewritten autoplay
+  (already true after G4.8 — likely nothing to edit); NEW cheatlist
+  entries for `advance_season`, `begin_night_round`, the wage (the
+  entries touch `dev-cheatlist.ts` + their `main.ts` wiring).
 - **The drift sweep:** repo-wide grep for `Tokubei|Shigemasa|Tōzō|tozo|
   Yagōemon|Oyuki|Okimi|Osen|satoyama|face_wolf|wolf_scripted|
-  porters-knot|DAYS_PER_SEASON` across `src/`, `e2e/` — zero hits
-  (comments included; historical docs exempt per ADR-140 scope).
+  DAYS_PER_SEASON` across `src/`, `e2e/` — zero hits (comments
+  included; historical docs exempt per ADR-140 scope). Porter fiction
+  is deliberately NOT in the sweep: it's origin-true (Tahei was a
+  porter — G4.3 KEEPs the carrying pole), and the OLD cold-open
+  "porter's knot" dream lines die mechanically when U0's pick
+  regenerates `coldOpen.gen.ts`/`intro.gen.ts` at G4.1 — a grep leg for
+  them would be a check that can't go RED (PH3).
 - Run the ADR-151 leftovers: the real zone→rung reveal table locked
   (done G4.2 — re-verify against the shipped ladder), a QA screenshot
   pass (`capture-game-states` flow) into `project/audit/screens/`.
@@ -865,8 +976,8 @@ only exist post-rewrite — RED against the old build by construction).
 ### G7 · SHIP (human-initiated — never agent-initiated)
 
 **Goal:** the rewritten T0 replaces the shipped game; the clean break
-reaches players with its notice; the human's DEV review of the story
-buckets begins.
+reaches players with its notice; the ship signal is readable from disk
+(the docs plan's A5 gate reads it).
 
 **Steps:**
 - Pre-ship checklist: full verify + `verify:balance` + e2e green;
@@ -882,13 +993,24 @@ buckets begins.
   never `pnpm version` in this shared tree). Version semantics: Open
   question #1 (default v0.4.0).
 - Post-ship: notify Plan A (its final milestone removes the PRD §5
-  banner + runs the closing `prd:drift`); surface the G5 HR-item to the
-  human — the DEV Story switcher review can now happen against the LIVE
-  rewritten game; takes stay wired until sign-off (pruning is the
-  post-sign-off cleanup, outside this plan).
+  banner + runs the closing `prd:drift`).
+- **Close HR-8 as moot** (human ruling 2026-07-07, noted on the item at
+  `project/human-in-the-loop/review.md:241`): the shipped new prose
+  voids the old rung-up-cast/R0→R7-beats read — graduate HR-8 to a
+  one-line row in `project/human-in-the-loop/archive.md` (Reviews
+  section) per that dir's lifecycle.
+- **Emit the disk-readable ship signal — BOTH, explicitly** (the docs
+  plan's A5 "Plan B shipped" gate is exactly these two artifacts):
+  (1) flip THIS plan's Status line to ✅ DONE and archive it to
+  `project/archive/` via the checkpoint ritual; (2) the `CHANGELOG.md`
+  release section (the M above) committed with the release.
+- Any human review of the shipped story happens against the LIVE game
+  as the one version; a swap request is a redline edit to the canon
+  `.md`, never a toggle (the 2026-07-08 ruling).
 
 **DoD:** tagged release live on gh-pages; `verify-changelog` green;
-CHANGELOG section present; the human pinged with the review entry point.
+CHANGELOG section present; this plan archived with Status ✅ DONE; HR-8
+in the archive table; the human pinged.
 **Verify:** `/ship` (human-invoked) + green `origin/main`.
 
 ---
@@ -963,5 +1085,19 @@ economy ones fold into the A0 economy docket-ADR.)
 11. **The old `takes/estate-build-beats/` bundle.** It diverges
     old-canon estate beats the rewrite voids. Default: resolve its open
     HR-item as superseded and delete the bundle at G4.1. Override: keep
-    it wired until its own sign-off — costs a stale bundle in the new
+    it wired until its own sign-off — costs a stale bundle in the
     Story pane.
+12. **The retirement-notice interim (G1, until the supplemental wave
+    lands).** Default: the notice FRAME ships with a deliberately
+    out-of-fiction bracketed placeholder ("[dev — save retired; …]") —
+    never ad-hoc fiction-voiced prose; prod is protected by G7's
+    fiction-gap-closed gate. Override: hold the notice UI itself until
+    the wave's text lands — couples the persistence break's landing to
+    prose delivery for no player-visible gain (prod ships at G7 either
+    way).
+13. **`readout-seasons`: a new surface vs renaming `readout-clock`.**
+    Default: a NEW **C** surface row unlocking at R2, beside the kept
+    day-of-week `readout-clock` (two facts, two reveal moments — TST4).
+    Override: absorb the season line into a renamed `readout-clock` —
+    one fewer surface row, but the R0-visible clock then owns an
+    R2-gated reveal inside itself.
