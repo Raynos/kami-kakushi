@@ -245,3 +245,13 @@ terraceCount/Numbers · orchardFeral · ghostRoads · ruinRevealed). T2 is
 now an additive column, and `ruinRevealed` is the explicit seam at the
 ruin painter for T2's reveal. Golden pin GREEN throughout — the refactor
 is provably look-neutral.
+
+Node collapse (G-2, first tranche): hatchArea emits ONE multi-subpath
+path (was one element per scanline segment — a hill flank cost 40-60);
+stipple emits ONE filled path of arc-pair dots (a rubble field cost
+hundreds of circles). 17,107/17,154 → ~15.6k live elements; visually
+indistinguishable on capture (rubble, hachures, pool cracks intact).
+Golden pin REGENERATED with the change (the pin's intended flow).
+DELIBERATELY SKIPPED: <use>-deduplicating trees — per-tree seeded
+uniqueness is the L6 anti-stamp rule, a design feature not an
+inefficiency.

@@ -293,31 +293,35 @@ export interface StippleOpts {
   readonly opacity?: number;
 }
 
-/** Sparse dot texture inside a polygon (forest floor, rubble, scree). */
+/** Sparse dot texture inside a polygon (forest floor, rubble, scree).
+ *  Node collapse (G-2): every dot is an arc-pair subpath of ONE filled path —
+ *  a rubble field used to cost hundreds of circle elements, now exactly one. */
 export function stipple(parent: SVGElement, poly: readonly Pt[], o: StippleOpts): void {
   const r = rng(o.seed);
   const step = o.step ?? 26;
   const { x0, y0, x1, y1 } = bbox(poly);
-  const g = sv('g', {
-    fill: o.color ?? 'var(--ink-faint)',
-    ...(o.opacity !== undefined ? { opacity: String(o.opacity) } : {}),
-  });
+  let d = '';
   for (let y = y0; y <= y1; y += step) {
     for (let x = x0; x <= x1; x += step) {
       if (r() > (o.prob ?? 0.5)) continue;
       const px = x + (r() - 0.5) * step;
       const py = y + (r() - 0.5) * step;
       if (!pointInPoly([px, py], poly)) continue;
-      g.append(
-        sv('circle', {
-          cx: px.toFixed(1),
-          cy: py.toFixed(1),
-          r: ((o.r ?? 1.1) * (0.6 + r() * 0.8)).toFixed(2),
-        }),
-      );
+      const rad = Number(((o.r ?? 1.1) * (0.6 + r() * 0.8)).toFixed(2));
+      const cx = Number(px.toFixed(1));
+      const cy = Number(py.toFixed(1));
+      d += `M${cx - rad},${cy} a${rad},${rad} 0 1,0 ${rad * 2},0 a${rad},${rad} 0 1,0 ${-rad * 2},0 `;
     }
   }
-  parent.append(g);
+  if (!d) return;
+  parent.append(
+    sv('path', {
+      d: d.trimEnd(),
+      fill: o.color ?? 'var(--ink-faint)',
+      stroke: 'none',
+      ...(o.opacity !== undefined ? { opacity: String(o.opacity) } : {}),
+    }),
+  );
 }
 
 export interface HatchOpts {
@@ -341,17 +345,13 @@ export function hatchArea(parent: SVGElement, poly: readonly Pt[], o: HatchOpts)
   const cx = (x0 + x1) / 2;
   const cy = (y0 + y1) / 2;
   const spacing = o.spacing ?? 14;
-  const g = sv('g', {
-    stroke: o.color ?? 'var(--ink-faint)',
-    'stroke-width': String(o.w ?? 1),
-    'stroke-linecap': 'round',
-    fill: 'none',
-    ...(o.opacity !== undefined ? { opacity: String(o.opacity) } : {}),
-  });
+  // node collapse (G-2): every inside-run rides ONE multi-subpath d — a hill
+  // flank used to cost ~40-60 path elements, now exactly one
+  let d = '';
   const sampleStep = 6;
   for (let off = -diag / 2; off <= diag / 2; off += spacing) {
     const offJ = off + (r() - 0.5) * spacing * 0.35;
-    // scan along the hatch line; emit sub-segments where inside the polygon
+    // scan along the hatch line; collect sub-segments where inside the polygon
     let segStart: Pt | null = null;
     let prev: Pt | null = null;
     for (let s = -diag / 2; s <= diag / 2 + sampleStep; s += sampleStep) {
@@ -361,24 +361,26 @@ export function hatchArea(parent: SVGElement, poly: readonly Pt[], o: HatchOpts)
       if (inside && !segStart) segStart = [px, py];
       if (!inside && segStart && prev) {
         if (Math.hypot(prev[0] - segStart[0], prev[1] - segStart[1]) > sampleStep) {
-          g.append(
-            sv('path', {
-              d: `M${segStart[0].toFixed(1)},${segStart[1].toFixed(1)} L${prev[0].toFixed(1)},${prev[1].toFixed(1)}`,
-            }),
-          );
+          d += `M${segStart[0].toFixed(1)},${segStart[1].toFixed(1)} L${prev[0].toFixed(1)},${prev[1].toFixed(1)} `;
         }
         segStart = null;
       }
       prev = [px, py];
     }
     if (segStart && prev && Math.hypot(prev[0] - segStart[0], prev[1] - segStart[1]) > sampleStep)
-      g.append(
-        sv('path', {
-          d: `M${segStart[0].toFixed(1)},${segStart[1].toFixed(1)} L${prev[0].toFixed(1)},${prev[1].toFixed(1)}`,
-        }),
-      );
+      d += `M${segStart[0].toFixed(1)},${segStart[1].toFixed(1)} L${prev[0].toFixed(1)},${prev[1].toFixed(1)} `;
   }
-  parent.append(g);
+  if (!d) return;
+  parent.append(
+    sv('path', {
+      d: d.trimEnd(),
+      stroke: o.color ?? 'var(--ink-faint)',
+      'stroke-width': String(o.w ?? 1),
+      'stroke-linecap': 'round',
+      fill: 'none',
+      ...(o.opacity !== undefined ? { opacity: String(o.opacity) } : {}),
+    }),
+  );
 }
 
 /** Nested shallow water-comb arcs (suiha-mon) — pools, slack water, below weirs. */
