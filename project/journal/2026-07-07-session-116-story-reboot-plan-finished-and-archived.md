@@ -84,6 +84,47 @@ cross-check entries cleared — read/ruled/discussed). Also ruled: Otsuru's
 why stays open for T3 (staged depth honored). **Next: B1 (PRD §5
 rewrite), then B2 engine ADRs (Opus-routed, each its own plan).**
 
+## Addendum 4 — the storywave: twin B-plans + the T0 prose wave
+
+The human split workstream B into two parallel-executable plans and
+asked for the T0 prose wave up front. Executed as a staged fleet:
+three scouts (game gap · docs ripple · prose pipeline — reports in
+git-ignored `tmp/storywave-scout-*.md`, load-bearing detail baked into
+the plans) → a 43-agent prose workflow → two plan authors → two
+adversarial verifiers. Human rulings locked en route: story ×3 /
+flavor ×1 · CLEAN BREAK on saves · review buckets = 1–3 modal-sized
+groups per rung in the DEV Story switcher.
+
+**Delivered:** `docs/plans/fable-2026-07-07-storywave-docs.md` (Plan A,
+1188 lines: ADR docket A0 incl. clean-break saves, PRD §5 rewrite,
+ripples, roadmap, post-ship A5) + `fable-2026-07-07-storywave-game.md`
+(Plan B, ~700 lines: G0 names-first → calendar/persistence → scene
+machinery/night rounds → body economies → content cutover in an
+isolated worktree → prose migration + rung buckets → tests → ship) —
+both embed the identical §S seam contract (path ownership: A =
+docs/living/** + gen-prd-regions.ts; B = src/** + e2e + fixtures +
+CHANGELOG; decisions.md is A's file; mid-build forks are HD-items).
+Plus the staged prose: `src/core/content/narrative/t0v2/` — ALL 30
+takes (10 units × 3 stances: the ledger / the held breath / the
+weather) + VERDICTs for u0–u6.
+
+**Ruling update (human, 2026-07-08):** the prose wave ships **ONE
+version** — the judge's pick per unit is the canonical text; the
+alternates stay in `t0v2/` as archive, NOT wired for DEV review (the
+rung-bucket switcher work in Plan B collapses; a dated ruling note sits
+under Plan B's Status). Nothing new gets authored — the 30 takes were
+already done when the ruling landed.
+
+**Session-limit interruption (resets 02:30):** still owed — judges
+u7/u8/u9, the flavor lane (f1/f2 + verdict), completeness check on the
+u3–u6 VERDICTs and u8 take-c (their agents died mid-return, files may
+be truncated), and BOTH plan executability verifiers (died early;
+re-run against `tmp/storywave-verify-*.md`). Resume: the prose
+workflow resumes from run cache (only failed agents re-run — script at
+the session workflows dir, runId wf_7ade1a59-89a); verifiers relaunch
+fresh. The finish plan's Status re-point to the twin plans is Plan A's
+A4 step — deliberately NOT done here.
+
 ## Landmines
 
 - Journal/HR-archive entries still cite the old `docs/plans/` path for
