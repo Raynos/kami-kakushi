@@ -87,3 +87,16 @@ Plan A is now consistent with all five rulings (HD-25…HD-29) and buildable
 (A0–A4 now; A5 gated on Plan B shipping).
 **Plan B carry-over (flagged, NOT fixed here):** the game plan's G4.9 still
 lists `asagiri` in its prd-drift.ts RETIRED table — drop it when Plan B runs.
+
+## Building storywave Plan A (human ruled: run A0→A4 straight through)
+
+### A0 ✅ — the engine-ADR docket + HD-items archived
+- `docs/living/decisions.md` — appended the **storywave docket**: grouping
+  header (#1–#11 → ADR-152…ADR-162 mapping) + all **11 ADRs (ADR-152…ADR-162)**
+  at the tail. Numbering verified (tail was ADR-151). ADR-159 carries the
+  CORRECTED pillar engine (not the flat draft). Transcribed byte-faithfully by
+  extracting the plan's ready-to-paste blocks (not hand-retyped).
+- `project/human-in-the-loop/archive.md` — filed HD-25…HD-29 as CLOSED (they're
+  ruled, so straight to archive, not the open queue): HD-25→ADR-159, HD-26/27/
+  28/29 as mechanical/scope/canon rows, all → the s118 rulings capture.
+- No open HD-items remain; decisions.md open list stays empty.

@@ -2370,3 +2370,291 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   earlier FB-121 review also wore HR-12); the map workstream continues
   autonomously: drain the playtest-inbox map feedback → Phase B remainder
   → rung mechanism → Phase C.
+
+## The storywave docket — the ADR-150 build wave's engine ADRs (2026-07-07)
+
+Eleven ADRs minted in one sitting per the storywave docs plan
+(`docs/plans/fable-2026-07-07-storywave-docs.md` A0; parallel game
+plan: `fable-2026-07-07-storywave-game.md`). Each TRANSCRIBES a locked
+shape from the blessed story bible (ADR-150 is the charter) or a human
+ruling recorded in journal s116; magnitudes stay sim-owned (ADR-132).
+Cross-plan citations use the docket numbers (#1–#11), which are stable
+even if ADR numbers shift. The mapping: #1=ADR-152 · #2=ADR-153 ·
+#3=ADR-154 · #4=ADR-155 · #5=ADR-156 · #6=ADR-157 · #7=ADR-158 ·
+#8=ADR-159 · #9=ADR-160 · #10=ADR-161 · #11=ADR-162.
+
+### ADR-152 ✅ — Docket #1: seven tiers — TierId widens to 0..6
+
+- **created_date:** 2026-07-07
+- **Context:** ADR-150 locks SEVEN tiers T0–T6; the bible flags the
+  enum change as build/PRD-cutting (`docs/story-bible/03-tiers.md`
+  "The structure": "tier enum 0..5 → 0..6"). The built enum is 0..5
+  (the ADR-048 spine). The tier→map ladder (`05-world.md`): Estate
+  (household) → Estate (land) → Valley → Region → Castle Town →
+  Domain (han) → Edo.
+- **Decision:** `TierId` widens to **0..6**. Display names per the
+  bible: T0 Estate — the household · T1 Estate — the land · T2 the
+  Valley · T3 the Region · T4 the Castle Town · T5 the Domain · T6
+  Edo. Each tier carries its own R0–R7 rung ladder — ONE unbroken
+  career, not a fresh ladder per tier (the old R8–R15/V/G/O numbering
+  is dead); in T6 the ladder's subject flips to the HOUSE's Edo
+  standing, **H0→H7** (state shape may land with docket #9).
+  Time-skips at tier seams; the game spans ~13 years (1780 → 1793+).
+  Saves: **NO migration** — clean break per docket #10 (ADR-161).
+- **Consequences:** Plan B reworks `toTier()`/fixtures/harness docs;
+  PRD §6's `tier: TierId // 0..5` line carries a forward-spec banner
+  until the build lands; roadmap enum refs update at A3. 🔁 Executes
+  ADR-150's charter line (its "+ save migration" phrase is refined by
+  docket #10).
+
+### ADR-153 ✅ — Docket #2: the six-season manual container calendar
+
+- **created_date:** 2026-07-07
+- **Context:** the bible locks the calendar as build-cutting
+  (`docs/story-bible/05-world.md` "Global rules", first bullet;
+  `tiers/t0.md` "The calendar bundle (locked)"). The built game runs a
+  28-day derived 4-season clock (`season(day) = floor(day/28) mod 4`,
+  derived-never-stored — PRD §6).
+- **Decision:** the year is SIX rotating seasons — **Winter → New Year
+  → Spring → Summer → Bon → Autumn** — each a CONTAINER filled at the
+  player's pace. Game time displays only the DAY OF THE WEEK (the
+  month/year counter is hidden). **Season change is a MANUAL action
+  with a per-season VN overlay.** Season-exit events exist (the nengu
+  is Autumn's exit gate — an authored scene at the board); **the
+  seasonal judge rides every season exit**. Seasons UNLOCK at T0-R2
+  (R0–R1 show the day of the week only — "a man counts days again when
+  he has a future"). Nodes carry per-season flavor; season-specific
+  actions, enemies, content and STALL STOCK exist (Yohei's stall
+  restocks per season); unique characters can appear in a specific
+  season (Iori lodges in New Year and Bon). Time-skips at tier seams
+  ride the same wheel. Season becomes STORED, advanced state — no
+  longer derived from the day counter.
+- **Consequences:** pure-core calendar rework + the `seasonal` RNG
+  stream re-anchored (Plan B); the sim/pacing bands re-derive under
+  the ADR-132 flow; PRD §2.2 and §6's calendar lines become forward
+  spec with banners until the build lands.
+
+### ADR-154 ✅ — Docket #3: inside/outside rung alternation + the T2/T3 hard lock
+
+- **created_date:** 2026-07-07
+- **Context:** `docs/story-bible/03-tiers.md` "Rungs alternate"
+  (flagged "Mechanics ADR at build time").
+- **Decision:** every other rung the MC is INSIDE the estate, every
+  other OUTSIDE. In **T2 and T3 the alternation is a HARD LOCK**: an
+  inside rung locks the world out (the estate map only — forced estate
+  actions, skills, levelling); an outside rung locks the estate closed
+  until the objective is done. **T4 drops the gimmick** — free travel
+  everywhere from then on. T2-R5 is the one authored crossing (the
+  bandits hit the works — the outside forcing itself in IS the beat;
+  `tiers/t2.md`). In T0/T1 the alternation is narrative rhythm, not a
+  mechanical lock.
+- **Consequences:** a map/travel gating engine lands with the T2
+  build; no T0/T1 engine work. PRD §1.5.1/§3 re-anchor to it at A2.
+
+### ADR-155 ✅ — Docket #4: two body economies + defeat-as-sickroom
+
+- **created_date:** 2026-07-07
+- **Context:** `docs/story-bible/tiers/t0.md` "Systems canon
+  (game-wide; mechanics ADR at build)".
+- **Decision:** **one body, two meters, coupled one way**: labour
+  spends the WORK/body unit and NEVER costs HP; combat risks HP; being
+  at low HP impairs work capacity. **Defeat is never game-over**: the
+  MC is carried to Sōan's sickroom and loses days (wages, season
+  time), and Sōan's closed ledger grows. Rider (folded in per the
+  scout): recovery flavor differs by home — the woodshed vs the
+  offered room (`tiers/t1.md` side-beat 5); the magnitude is sim-owned.
+- **Consequences:** core stat-model change (Plan B); all magnitudes
+  ride ADR-132 (sim verdict + committed before/after); PRD §2 gains a
+  forward-spec subsection pointing here (A2).
+
+### ADR-156 ✅ — Docket #5: the night-round mini-dungeon runner
+
+- **created_date:** 2026-07-07
+- **Context:** `docs/story-bible/tiers/t0.md` "The Night rounds" +
+  "Combat structure & enemies"; ADR-150 charters it.
+- **Decision:** no day/night map state — a **"begin the night round"
+  action** (its post at the gate) puts the MC on rails through several
+  zones in their night state; clear each of enemies to finish the
+  round, or fall and wake in Sōan's sickroom (docket #4). The FIRST
+  round is a quest; after that it is repeatable. Escalation across T0:
+  rats in the store → a marten → the R3 WOLF as the arc's climax.
+  Kihei designs the round; from R3 it is his and the MC's alone. The
+  round GROWS with the estate in later tiers (`tiers/t1.md`).
+- **Consequences:** a new repeatable activity runner in the pure core
+  (Plan B); fixtures + DEV scenario coverage ride the build.
+
+### ADR-157 ✅ — Docket #6: the speaker-label ladder + the map re-label reveal
+
+- **created_date:** 2026-07-07
+- **Context:** kernel #6 (UI surfaces as story state) made concrete:
+  `docs/story-bible/04-cast.md` "The speaker-label ladder";
+  `tiers/t2.md` "The reveal, staged"; `05-world.md` "The reveal
+  staging". ADR-150 charters both surfaces.
+- **Decision:** **(1) The speaker label is story state:** `You:` for
+  the cold open's first lines → a small FORCED beat where he asks his
+  own name and Sōan answers that he has none → the label flips to
+  `Nameless:` on screen, witnessed → `Gonbei:` takes over at T0-R7 →
+  he KNOWS his birth name (Tahei) at T3 → what the register finally
+  says is his choice at the end (the ink thread). **(2) The map
+  re-label is the T2 reveal's delivery:** at the third signal's scene
+  end the map redraws its two labels — *Main house → Guest house; the
+  ruin → the Main house* — one log line in the day-book's voice, no
+  ceremony.
+- **Consequences:** label state lives in the core and feeds log/VN
+  rendering (Plan B, with the T0 rebuild); the map re-label mechanism
+  lands with the T2 build but its data shape should land now so the
+  sheet-map work (ADR-151) can carry it. TST2 governs both (never
+  yank a watched surface).
+
+### ADR-158 ✅ — Docket #7: the economy — two coin lanes, three ledgers, the debt staged
+
+- **created_date:** 2026-07-07
+- **Context:** `docs/story-bible/tiers/t0.md` "Economics
+  (human-locked shape; all magnitudes sim-owned)" — within which the
+  bible tags the coin-lane block itself "**(DIRECTION, not locked —
+  known open problems, flagged by the human for build/balance
+  time)**". At the 2026-07-07 storywave re-plan the human ruled the
+  lanes proceed as ADOPTED DIRECTION with both open problems resolved
+  at sim time; that in-session ruling is recorded in journal s116
+  (`project/journal/2026-07-07-session-116-story-reboot-plan-finished-and-archived.md`,
+  the addenda). This ADR transcribes that ruling — it does NOT
+  upgrade the bible's DIRECTION tag to "locked", so bible and ADR
+  agree: ledgers/barn/debt are the locked shape, the lanes are the
+  adopted direction.
+- **Decision (the shape — 1/2/5 locked per the bible; 3/4, the coin
+  lanes, adopted direction per its own tag):** **(1) Three nested
+  ledgers** — the
+  MC's (meals → rice → a day-wage in mon → trusted with the house's
+  purse), the household's day-book, and the DEBT (the standing
+  antagonist; principal untouchable in T0). **(2) Filling the barn is
+  the HOUSE's economy** — barn-filling actions raise house stores and
+  flavor, never player loot. **(3) The KIND lane (unbounded):** labour
+  pays in rice and goods; combat drops materials, never coin;
+  consumables run on kind. **(4) The MON lane (bounded):** the
+  day-wage is FIXED PER GAME-DAY worked, not per action; the only
+  other mon source is selling on Yohei's market days (his coin finite
+  per visit); durables and the stall's season-scarce stock run on mon;
+  recurring sinks (dog rice, offerings, thread, sickroom bills).
+  **(5) The debt's three-stage introduction:** R1 named sideways in
+  Genemon's terms → felt in scenes all T0 (the lease day; the nengu),
+  never numbered → T1's tally-keeper rung unlocks the debt panel and
+  the number is finally seen, a story beat.
+- **Decision (the two flagged open problems — resolved-at-sim-time;
+  human-ruled 2026-07-07 at the storywave re-plan, recorded in
+  journal s116):** (a) kind-overflow sinks/caps and (b) the day-wage
+  collection moment vs auto-actions are NOT blockers on this ADR —
+  they resolve **at sim time under the ADR-132 flow** (Plan B's
+  economy build runs the persona-sim, picks the mechanism the machine
+  verdict supports, and commits the before/after pacing diff as the
+  evidence). The ledger/barn/debt shape is locked; the lane direction
+  is adopted; the two mechanisms and all magnitudes are the sim's.
+- **Consequences:** the T0 economy re-cores at Plan B's rebuild;
+  `pnpm run verify:balance` + `balance:report` gate every magnitude
+  change; PRD §4's spine moves only with this ADR's build (ADR-117
+  interim-freeze holds meanwhile).
+
+### ADR-159 ✅ — Docket #8: the pillar-structured standing/deeds tier-up engine
+
+- **created_date:** 2026-07-07 (pillar engine locked + written to canon
+  2026-07-08, session 118)
+- **Context:** `docs/story-bible/03-tiers.md` "House Standing — the four
+  pillars" + `tiers/t0.md`/`tiers/t1.md` "The tier-up (locked)". **HD-25
+  RULED (human, 2026-07-08): KEEP pillars as tier-up mechanics — NOT
+  superseded.** The bible's flat standing/deeds engine was REFINED into
+  the PRD §1.6 four-pillar model, pulled back into canon. Grill + full
+  lock: `project/brainstorms/2026-07-08-pillar-model.md`.
+- **Decision:** House Standing (家威 *ka-i*) is the macro-measure of what
+  the house has become — assessed kokudaka-style, never spent, surfaced
+  as a banzuke — rolling up FOUR pillars **revealed one per tier**:
+  **Estate** (家産) T0 · **+ Arms** (武威) T1 · **+ Office** (官威 —
+  renamed from "Standing & Office"; the umbrella owns "standing") T2 ·
+  **+ Name** (家格) T3; T4–T6 deepen the four. Each pillar is graded on a
+  **six-step ladder** — FAIL·BAD·OK·GOOD·GREAT·EXCELLENT (F·D·B·A·A+·S;
+  English word + letter, kanji flavor). **Tier-up is breadth-required,
+  specialization-rewarded:** every revealed pillar ≥ GOOD, exactly one
+  EXCELLENT + one GREAT (choose WHERE to spike, never whether to skip);
+  overshoot earns a grade-scaled boon. At T0 the single Estate pillar
+  collapses the gate to one top grade; **T0 depth-autonomy lives in the
+  four DEED SOURCES** (fields · stores · works · watch — ADR-145). Deeds
+  accrue in Phase 2 only (post-final-rung). The grind still opens at R7;
+  still graded at every season exit in the day-book's voice (docket #2's
+  seasonal judge); top grade still unlocks the manual ceremonial ASCEND.
+- **Consequences:** the ascension/deed engine reworks at Plan B's rebuild
+  (ADR-145's `accrueDeed`/`ESTATE_STAGES` deed-source structure survives
+  and carries the T0 depth-autonomy); PRD §1.6 rewrites to THIS pillar
+  engine at A2.2 — the "Standing & Office" → "Office" rename + the 6-grade
+  ladder + the reveal ramp CONFIRMED (not superseded). The exact T0
+  required peak grade is sim-owned (ADR-132). 🔁 The bible tier-up
+  sections were updated to this engine on 2026-07-08 (session 118); this
+  ADR transcribes the locked model.
+
+### ADR-160 ✅ — Docket #9: parallel reputation tracks (village · origin · the T6 flip)
+
+- **created_date:** 2026-07-07
+- **Context:** `docs/story-bible/03-tiers.md` "Parallel reputation
+  tracks" + `05-world.md` "Global rules"; ADR-150 charters it.
+- **Decision:** the VILLAGE (from T2) and the ORIGIN TOWN (T3) carry
+  their own reputation tracks, **completely distinct from house rungs
+  — never converting 1:1**. The village track opens at zero
+  (stranger's surcharge, watched hands); on the origin track he is a
+  missing man's rumor and house standing buys nothing — until he
+  knocks. In **T6 the ladder's subject changes: the rungs become the
+  HOUSE's Edo standing (H0→H7)**, not the man's — kernel #4 completed
+  in mechanics.
+- **Consequences:** rep-track state lands with the T2 build (the
+  state SHAPE may land earlier with docket #1's enum work); PRD §2.15
+  re-sources to the bible at A2.
+
+### ADR-161 ✅ — Docket #10: clean-break saves — old saves retire with a courteous notice (🔁 refines ADR-150)
+
+- **created_date:** 2026-07-07
+- **Context:** ADR-150's structural-canon line reads "tier enum 0..5 →
+  0..6 **+ save migration**", and §0.9 constraint 3 names the
+  save-migration chain. The storywave re-plan surfaced the real cost:
+  the reboot replaces the story, content registries, calendar, economy
+  and tier skeleton at once — a migration would map old saves onto a
+  world that no longer exists.
+- **Options:** (a) full save migration (ADR-150's original line);
+  (b) clean break — old saves retire with an in-game notice;
+  (c) a frozen legacy mode for old saves.
+- **Decision (human, 2026-07-07):** **(b)** — old-canon saves are NOT
+  migrated. On loading a pre-reboot save, the game shows a **courteous
+  in-game notice** (composed, TST2 — no crash, no silent wipe: the
+  world was re-founded, a fresh start is offered) and retires the old
+  save. No migration code is written for the reboot boundary. 🔁 This
+  REFINES ADR-150 — its "+ save migration" phrase is superseded (the
+  newest human steer is canon, ADR-022). The save-migration CHAIN
+  itself survives going forward: post-reboot saves migrate normally;
+  the break is one-time.
+- **Consequences:** Plan B drops all reboot-boundary migration work
+  and ships the notice UI instead; docket #1 inherits this; §0.9's
+  "save-migration chain" constraint reads as post-reboot law.
+
+### ADR-162 ✅ — Docket #11: the T0 prose wave ships ONE version per unit (🔁 refines ADR-139/ADR-143 for this wave only)
+
+- **created_date:** 2026-07-08
+- **Context:** ADR-139 (every fiction unit ships from 3+ takes) and
+  ADR-143 (a human-reviewed narrative diverge MUST be live in the DEV
+  Story switcher) are the standing law. The storywave T0 prose wave
+  authored all 10 units × 3 blind takes
+  (`src/core/content/narrative/t0v2/` — the ledger / the held breath
+  / the weather) with a per-unit judge VERDICT, and Plan B originally
+  specced rung-bucket DEV review of every take. The human ruled
+  otherwise on 2026-07-08; the ruling is recorded in journal s116
+  (`project/journal/2026-07-07-session-116-story-reboot-plan-finished-and-archived.md`,
+  Addendum 4) — this ADR is its transcription.
+- **Decision (human, 2026-07-08):** the T0 prose wave ships **ONE
+  version of the story per unit** — the judge's VERDICT pick
+  (including mixed picks) plus its required redlines IS the canonical
+  text. The non-picked alternates stay in
+  `src/core/content/narrative/t0v2/` as an on-disk archive, **NOT
+  wired** into the DEV Story switcher; the rung-bucket
+  switcher/grouping work and the per-rung live DEV review collapse
+  accordingly. 🔁 This REFINES ADR-139/ADR-143 **for this wave only**
+  — the 3-take diverge + live DEV review remain the standing law for
+  all future fiction. HR-8 closes at prose-ship (its s116 condition).
+- **Consequences:** Plan B drops the rung-bucket switcher work and
+  migrates only the picked+redlined texts; the per-unit VERDICT files
+  in `t0v2/` are the review record of this wave; PRD §5.4 carries a
+  one-line note of the wave exception (placed at A1). Future fiction
+  rides ADR-139/ADR-143 unchanged.
