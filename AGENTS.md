@@ -115,9 +115,15 @@ philosophy wins.**
   separate ask** (standing approval; a deploy/force-push still needs sign-off);
   the pre-push gate refuses any red push, so green `origin/main` is the proof.
   Three non-negotiables: **(1) verify before you claim** done/pushed/green;
-  **(2) shared-tree safety** — never mutate/stage files you didn't author;
-  **(3) don't fight someone else's red** — leave your commit local, never
-  `SKIP_VERIFY=1` a red tree onto `main`. Full checklist + the exact commands:
+  **(2) shared-tree safety** — commit ONLY by explicit **pathspec**
+  (`git commit -m … -- path/…`); a bare `git commit`, `git add -A/-a/-u`, or
+  `git add` of a *tracked* file snapshots the SHARED index and sweeps a
+  co-agent's staged work (`0e10d96` did exactly this) — `git add` is for NEW
+  files only, edits commit directly; never `stash`/`checkout`/`restore`/mutate
+  files you didn't author. The **`guard-git-add-all.sh`** PreToolUse hook blocks
+  all of these (escape: `SKIP_SWEEPGUARD=1`); **(3) don't fight someone else's
+  red** — leave your commit local, never `SKIP_VERIFY=1` a red tree onto `main`.
+  Full checklist + the exact commands:
   [`working-agreements.md → Checkpoint`](project/status/working-agreements.md).
 - **Session start → surface what's waiting on the human.** A `SessionStart` hook
   runs [`src/scripts/session-brief.sh`](src/scripts/session-brief.sh) (wired in

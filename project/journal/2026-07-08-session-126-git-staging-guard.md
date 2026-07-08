@@ -55,8 +55,25 @@ inspect+commit, tracked/untracked/dir/glob adds, `-u`, `-N` intent, `-u`
 substring in a filename, amend, SKIP_SWEEPGUARD escape, non-git commands) — all
 pass. `bash -n` clean. Dogfooded: committed this work via the pathspec form.
 
+## Doc ripple
+
+Rippled the enforced policy into the two canonical git-hygiene docs so the
+written norm matches the guard:
+
+- **AGENTS.md** (always-loaded) — sharpened the Checkpoint "shared-tree safety"
+  non-negotiable: commit ONLY by pathspec; bare `git commit` / `git add
+  -A/-a/-u` / `git add` of a tracked file all sweep the shared index; `git add`
+  is for NEW files only; named `guard-git-add-all.sh` + the `SKIP_SWEEPGUARD=1`
+  escape.
+- **working-agreements.md** — updated Checkpoint step 1, the shared-tree-safety
+  rule, and the multi-agent-coordination note: `-u` added to the broad-form
+  ban, the "don't `git add` a tracked file" rule made explicit, and the
+  `0e10d96` recurrence recorded alongside f84aff9.
+
 ## Next intended steps
 
 - None blocking. Guard is active for all agents (hooks re-read per invocation).
 - If the tracked-file block proves too chatty on dirs/globs in practice,
   revisit — but it's tuned to only fire on a concrete tracked-file token.
+- No ADR filed — this is process/tooling hardening, not a design decision.
+  Offer one if the human wants it in the decisions log.

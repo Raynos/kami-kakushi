@@ -40,12 +40,17 @@ touched an approved design/balance pick, flag + offer to revert (P2).
 ## Checkpoint (run when asked to "checkpoint" or before exiting)
 
 1. **Commit** your own files by explicit **pathspec commit**:
-   `git add path/…` (new files) then `git commit -m … -- path/…` (never `-A`/`-a`).
-   A BARE `git commit` snapshots the SHARED index and sweeps whatever a co-agent
-   staged in the window (f84aff9) — the `--` form commits only your paths (git's
-   `--only` semantics). Guard-enforced (`guard-git-add-all.sh`); the pre-commit
-   hook echoes the staged set as the visibility backstop. `SKIP_SWEEPGUARD=1`
-   for a deliberate whole-index commit.
+   `git add path/…` for **NEW files only**, then `git commit -m … -- path/…`.
+   A BARE `git commit` (or `-A`/`-a`/`-u`) snapshots the SHARED index and sweeps
+   whatever a co-agent staged in the window (f84aff9; again `0e10d96`, which
+   swept 6 files) — the `--` form commits only your paths (git's `--only`
+   semantics). **Don't `git add` a tracked file** — edits don't need staging;
+   `git commit -- path` commits the working-tree copy directly. Guard-enforced
+   (`guard-git-add-all.sh` blocks bare commits, broad staging, AND `git add` of
+   a tracked file; its bare-commit check now isolates the `git commit` segment
+   so a ` -- ` in a sibling command or the message can't false-allow). The
+   pre-commit hook echoes the staged set as the visibility backstop.
+   `SKIP_SWEEPGUARD=1` for a deliberate whole-index commit.
 2. **Journal** — stage a `journal/` entry (pre-commit requires it).
 3. **Checkpoint the mechanicals, then finish the judgment half.** `pnpm run checkpoint`
    regenerates the derivable regions (gate roster, active-plans) + graduates any DONE plan; then YOU do the
@@ -63,7 +68,8 @@ Four rules, learned the hard way:
 - **Verify before you claim.** Never say *pushed / green / done* without checking (`git status`, the push
   succeeding, `git log origin/main..main`).
 - **Shared-tree safety** (>1 agent may edit at once). **Never** `stash` / `checkout` / `restore` / `-A` / `-a`
-  or otherwise touch files you didn't author; commit your own by explicit path.
+  / `-u` or otherwise touch files you didn't author; commit your own by explicit path, and never `git add` a
+  tracked file (edits commit directly via `git commit -- path`). `guard-git-add-all.sh` enforces all of this.
 - **Don't fight someone else's red.** Another agent's in-flight red WIP will (correctly) block your push —
   leave your commit local, note it, never `SKIP_VERIFY=1` a red tree onto `main`. (`SKIP_VERIFY=1` is only for
   *committing* your own isolated docs/hooks change locally.)
@@ -83,8 +89,9 @@ Four rules, learned the hard way:
 
 ## Multi-agent coordination (A1/A2)
 
-- **Commit by explicit path, on GREEN — not at a milestone.** A bare `git commit` once swept a co-agent's
-  staged deletion; a `stash` nearly ate uncommitted work. Stage by path the moment your slice is green.
+- **Commit by explicit path, on GREEN — not at a milestone.** A bare `git commit` has swept a co-agent's
+  staged work more than once (a staged deletion; `0e10d96` swept 6 files); a `stash` nearly ate uncommitted
+  work. Stage new files by path, commit by `-- path`, the moment your slice is green.
 - **Scatter-gather only DISJOINT new leaf files** — each independently green, wired into the spine one at a
   time. Keep the coupled core spine single-threaded.
 - **A running audit write-locks the tree** — don't edit source mid-scan (findings rot); land edits, then audit.
