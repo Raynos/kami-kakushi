@@ -64,10 +64,10 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 - **Phase-2 story + tracker picks** 🔲 — HR-10 (the estate-build beat take:
   ledger canon vs land/heir alternates) · HR-11 (tracker A ladder / B rail /
   C ledger); PH5 fun-certification of the new ~65-min Phase 2 rides HR-1.
-- **Graphics slate — E1 BUILT, awaiting HR-16** (s123): standalone
-  `src/ui/estate-sheet/` (NOT map-sheets; spec+rubric in its README), 2
-  variants + 3 eras in DEV → Story; blind-pass green BOTH; self-pick A;
-  E1.4 GATED. **E3 kept** (s121, paused) · **E2 PARKED** (s122, demos kept).
+- **Graphics explore slate — DONE, plan archived** (s124): R0–R1 top-3 ran;
+  verdicts in the graphics-concepts register — **E1 estate cutaway** *needs
+  more work* (HR-16 closed) · **E2 scene cards** *parked* · **E3 stamp book**
+  *good, later*. Demos live in DEV → Story; E1.4/E3.4 GATED on Plan B.
 
 ## Deferred / owed tail (engineering — not blocking the deploy)
 
