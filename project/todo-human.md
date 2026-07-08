@@ -31,11 +31,6 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
-- [ ] `docs/plans/fable-2026-07-07-storywave-docs.md` — **storywave Plan A
-  (DOCS)**: the docs/PRD/ADR ripple to the blessed bible — the ten-ADR
-  engine docket (A0, ready-to-paste), PRD §5 rewrite + banner, targeted
-  §1/§3 ripples, roadmap reshape; open questions at the bottom (pillar
-  model, v1 scope, +3). Executes in parallel with Plan B per the §S seam.
 - [ ] `docs/plans/fable-2026-07-07-storywave-game.md` — **storywave Plan B
   (GAME)**: re-implement T0 in src/ to the bible — six-season calendar,
   night rounds, coin lanes, 17-node map, speaker ladder, scene machinery,
