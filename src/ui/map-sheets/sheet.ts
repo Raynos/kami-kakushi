@@ -560,14 +560,38 @@ function openTierMap(tier: Tier): HTMLElement {
   let dragging = false;
   let dragMoved = false;
   let dragStart = { x: 0, y: 0 };
+  // live pointers — two fingers = pinch zoom. touch-action:none means WE own
+  // every gesture; without this, touch could pan but never zoom (G-9, and the
+  // sheet is player-bound now — ADR-151).
+  const pointers = new Map<number, { x: number; y: number }>();
+  let pinchDist = 0;
   svg.addEventListener('pointerdown', (e) => {
     if (e.button !== 0) return;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2) {
+      const [a, b] = [...pointers.values()];
+      pinchDist = Math.hypot(a!.x - b!.x, a!.y - b!.y);
+      dragging = false; // a second finger ends the pan; the gesture is a pinch
+      svg.classList.remove('t0v2-panning');
+      return;
+    }
     dragging = true;
     dragMoved = false;
     dragStart = toWorld(e.clientX, e.clientY);
     svg.classList.add('t0v2-panning');
   });
   svg.addEventListener('pointermove', (e) => {
+    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2) {
+      const [a, b] = [...pointers.values()];
+      const d = Math.hypot(a!.x - b!.x, a!.y - b!.y);
+      if (pinchDist > 0 && d > 0) {
+        // zoom about the finger midpoint; zoomAt keeps that world point still
+        zoomAt((a!.x + b!.x) / 2, (a!.y + b!.y) / 2, pinchDist / d);
+      }
+      pinchDist = d;
+      return;
+    }
     if (!dragging) return;
     const p = toWorld(e.clientX, e.clientY);
     const dx = dragStart.x - p.x;
@@ -584,7 +608,9 @@ function openTierMap(tier: Tier): HTMLElement {
     clampVb();
     applyVb();
   });
-  const endDrag = (): void => {
+  const endDrag = (e: PointerEvent): void => {
+    pointers.delete(e.pointerId);
+    pinchDist = 0;
     dragging = false;
     svg.classList.remove('t0v2-panning');
   };

@@ -228,3 +228,12 @@ shared nit (Gate/Night-rounds caption collision) fixed by extending the
 caption pass to ALL seals — which surfaced a real bug (a candidate box
 colliding with the seal's OWN inflated chip; self-exclusion added).
 Golden pin untouched (seals are shell-layer, not hashed ground).
+
+Pinch zoom (G-9, player-bound per ADR-151): the shell tracks live
+pointers; two fingers zoom about their midpoint through the existing
+zoomAt path (a second finger ends the pan — the gesture becomes a
+pinch). Verified by synthetic two-pointer spread: 3x finger spread =
+exactly 3x viewBox zoom, centred, no errors. Phase C remaining: geom
+core extraction · node collapse (defs/use + single-path hatch/stipple)
+· tier-delta record + ruinRevealed · turbulence filter eval · API idiom
+pass — all under the golden pin now.
