@@ -58,6 +58,10 @@
 | advance_rung_beat | instant | — | — |
 | ask_rung_topic | instant | — | — |
 | choose_rung_option | instant | — | — |
+| begin_scene | instant | — | — |
+| advance_scene_beat | instant | — | — |
+| choose_scene_option | instant | — | — |
+| begin_night_round | timed | 30s | 2s |
 | rake_rice | timed | 5s | 2s |
 | rest | timed | 4s | 2s |
 | set_auto | instant | — | — |

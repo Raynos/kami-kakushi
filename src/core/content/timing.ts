@@ -40,6 +40,10 @@ export const ACTIVITY_TIMING: Readonly<Record<ActivityId, ActionTiming>> = {
   tap_lacquer: timed(7000),
 };
 
+/** The night-round seed duration (storywave G2) — a BIG scripted sequence in the 30–90s
+ *  band (ADR-148: night rounds are TIMED). SEED ONLY; the human tunes via the cockpit. */
+export const NIGHT_ROUND_SEED_MS = 30000;
+
 /** The fallback hop (an edge missing from EDGE_WALK_MS — the coverage test makes
  *  that a RED, so this only guards an unrevealed/DEV teleport path). */
 export const TRAVEL_SEED_MS = 6000;
@@ -90,6 +94,13 @@ export const INTENT_TIMING: Readonly<Record<IntentType, ActionTiming>> = {
   advance_rung_beat: INSTANT,
   ask_rung_topic: INSTANT,
   choose_rung_option: INSTANT,
+  // storywave G2 scene VN intents — UI narration / zero-fiction bookkeeping (TST3), like the
+  // intro/rung VN intents above; time would be chrome, not fiction.
+  begin_scene: INSTANT,
+  advance_scene_beat: INSTANT,
+  choose_scene_option: INSTANT,
+  // storywave G2: the on-rails night round is TIMED (ADR-148) — a big scripted sequence.
+  begin_night_round: timed(NIGHT_ROUND_SEED_MS),
   rake_rice: timed(5000), // the capture's own example: "takes 5 seconds"
   rest: timed(4000),
   do_activity: timed(7000), // fallback — timingFor routes to ACTIVITY_TIMING

@@ -134,11 +134,39 @@ exit pipeline (they were auto-fired on a day cadence before).
   the pacing gate already guards wall-time, and every seed ascends. The arc's
   extra game-days are invisible to the player (the year counter is hidden in T0).
 
+## 4 · G2 — generalized scenes + night-round runner (dormant) ✅
+
+Two pure-core engines, landing GREEN and DORMANT (both registries EMPTY, so
+nothing is reachable in the live arc). Built by an Opus subagent to a tight
+spec; I independently re-verified (17 gates green, 921+9 tests) + spot-checked
+the two hard mechanisms.
+
+- **Scenes** — `content/scenes.ts` (SceneId · SceneTrigger discriminated union
+  rung/season-exit/flag/verb/scripted · SceneDef · empty `SCENES`) +
+  `scenes.ts` engine (enqueue/trigger/begin/advance/applyOption — mirrors
+  `choose_rung_option`'s memory/flags/statBonus/stance apply, **no promotion**,
+  latches `scenesPlayed`). Reuses the existing `RungScene` VN payload;
+  **rank-optional widening DEFERRED to G4** (keeps the rung system stable).
+- **Night rounds** — `content/nightRounds.ts` (NightRoundStage/Def, empty
+  `NIGHT_ROUNDS`) + `night-rounds.ts` engine: `resolveNightStage` runs the
+  stage foe through the EXISTING `resolveFight` on the seeded combat stream;
+  `scripted:'survive'` (the R3 wolf) GUARANTEES survival + advance, never a win;
+  won stages pay **materials-only, never coin**; a fall ends the round with a
+  `TODO(G3)` sickroom-wire.
+- state.ts +`sceneQueue`/`activeScene`/`scenesPlayed`/`roundState`; validate.ts
+  ledger + defaults; intents.ts +`begin_scene`/`advance_scene_beat`/
+  `choose_scene_option`/`begin_night_round` (dormant arms); timing/personas/
+  affordance maps extended (`begin_night_round` TIMED, the rest INSTANT).
+- New tests: `scenes.test.ts` (5) + `night-rounds.test.ts` (4) — each RED-able,
+  fixtures from constructed defs. VN-modal render integration deferred to G4.9
+  (empty registry ⇒ nothing to render). No balance sim (no magnitudes changed).
+
 ## Next intended steps
-1. Finish G1 balance re-baseline → commit + push G1.
-2. **G2** — generalized scenes registry + night-round runner (engine, dormant).
-3. Then G3 (body economies), G3.5 (compiler), G4 (worktree cutover), G5–G7.
-4. **G4.5 owes** the deferred rice-reframe (kura-units + pool + consumption).
+1. **G3** — the two body economies: low-HP impairs work; defeat→sickroom (days
+   lost + soanLedger + carried-loss bleed, rice spared); no HP auto-trickle.
+2. Then G3.5 (compiler — scenes.md gen unit), G4 (content cutover), G5–G7.
+3. **G4.5 owes** the deferred rice-reframe (kura-units + pool + consumption).
+4. **OWED:** G1 verify:balance ratio verdict + t0-pacing.md regen (batched).
 
 ## Landmines
 - **Shared tree + live co-agents:** always `git commit <pathspec>`; re-check

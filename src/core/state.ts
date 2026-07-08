@@ -31,6 +31,7 @@ import type { MobId } from './content/enemies';
 import { getWeapon, type WeaponId } from './content/weapons';
 import type { MapNodeId } from './content/map';
 import type { NpcId } from './content/voices';
+import type { SceneId } from './content/scenes';
 
 export type SurfaceId = string;
 export type ResourceId = string;
@@ -202,6 +203,20 @@ export interface GameState {
   readonly tier: number;
   /** House-Influence pillar accrual (Phase-2-gated; the macro engine, ADR-049/ADR-055). */
   readonly influence: Influence;
+
+  // ── generalized VN scenes + the night-round runner (storywave G2, additive; DORMANT) ──
+  /** The queue of scene ids waiting to open (FIFO — drains in enqueue order). Additive
+   *  (default []); the registries ship EMPTY at G2, so nothing enqueues in the live arc. */
+  readonly sceneQueue: SceneId[];
+  /** The scene currently on screen + its beat cursor, or null when none is live (mirrors the
+   *  rung-beat `rungBeat` cursor, but scene ids are strings). Additive (default null). */
+  readonly activeScene: { id: SceneId; beat: number } | null;
+  /** Write-once latch of scene ids already played (mirrors `unlocked`) — a `once` scene never
+   *  re-fires. Additive (default []). */
+  readonly scenesPlayed: string[];
+  /** The in-flight night round + its stage cursor, or null when no round is running.
+   *  Additive (default null); the gate surface + quest wiring arrive at G4. */
+  readonly roundState: { roundId: string; stage: number } | null;
 }
 
 export function createInitialState(seed: number): GameState {
@@ -255,6 +270,11 @@ export function createInitialState(seed: number): GameState {
     stance: 'chudan',
     tier: 0,
     influence: { estate: { value: 0, highWater: 0, judged: 0, frac: 0 } },
+    // storywave G2 — dormant scene + night-round state (empty registries; nothing enqueues).
+    sceneQueue: [],
+    activeScene: null,
+    scenesPlayed: [],
+    roundState: null,
   };
 }
 

@@ -18998,6 +18998,10 @@
         "judged": 486,
         "frac": 0.10000000000009979
       }
-    }
+    },
+    "sceneQueue": [],
+    "activeScene": null,
+    "scenesPlayed": [],
+    "roundState": null
   }
 }

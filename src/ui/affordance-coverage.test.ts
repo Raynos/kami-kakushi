@@ -66,6 +66,13 @@ const NON_UI_INTENTS = [
   // storywave INTERIM (G1): `advance_season` is autoplay/DEV-driven for now. G4.9 wires the
   // R2-gated "end the season" affordance (the season wheel) and moves this to PLAYER_INTENTS.
   'advance_season',
+  // storywave INTERIM (G2): the generalized-scene VN intents + the night-round runner ship
+  // DORMANT (empty registries, no reachable UI). G4 wires the gate surface + quest + the VN
+  // modal integration (G4.9) and moves the player-facing ones to PLAYER_INTENTS.
+  'begin_scene',
+  'advance_scene_beat',
+  'choose_scene_option',
+  'begin_night_round',
 ] as const satisfies readonly IntentType[];
 
 // ── the exhaustiveness trip (compile-time, enforced by the typecheck gate) ──────

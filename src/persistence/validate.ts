@@ -211,7 +211,11 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'autoCombatRetreat'
     | 'stance'
     | 'tier'
-    | 'influence';
+    | 'influence'
+    | 'sceneQueue'
+    | 'activeScene'
+    | 'scenesPlayed'
+    | 'roundState';
   type _AssertAllHandled = keyof GameState extends _Handled ? true : never;
   const _exhaustive: _AssertAllHandled = true;
   void _exhaustive;
@@ -312,6 +316,15 @@ export function validateState(rawState: unknown): ValidateResult {
     // ── tier spine (v2, additive): default to a fresh T0 spine; migrate hydrates old saves ──
     tier: typeof base.tier === 'number' ? Math.max(0, Math.floor(base.tier)) : 0,
     influence: validateInfluence(base.influence),
+    // ── storywave G2 (v10, additive; DORMANT): the generalized-scene queue/cursor/latch +
+    // the night-round cursor. Absent / malformed → the inert fresh defaults (nothing enqueued,
+    // no scene or round live). Registries ship empty, so a clean-break v10 save carries none.
+    sceneQueue: Array.isArray(base.sceneQueue) ? (base.sceneQueue as GameState['sceneQueue']) : [],
+    activeScene: isObject(base.activeScene) ? (base.activeScene as GameState['activeScene']) : null,
+    scenesPlayed: Array.isArray(base.scenesPlayed)
+      ? (base.scenesPlayed as GameState['scenesPlayed'])
+      : [],
+    roundState: isObject(base.roundState) ? (base.roundState as GameState['roundState']) : null,
     // (ADR-056: the balanceProfile field is RETIRED from GameState — nothing reads it any more.
     // A legacy save's stray `balanceProfile` rides through inertly via the `...base` spread above
     // [harmless dead data; this builder is additive-tolerant by design, NOT a whitelist rebuild];

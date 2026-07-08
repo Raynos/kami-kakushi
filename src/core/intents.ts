@@ -71,6 +71,10 @@ import {
   type IntroStat,
 } from './content/intro';
 import { RUNG_BEATS, rungTopic, rungOption, type RungScene } from './content/rungBeats';
+import { sceneById } from './content/scenes';
+import { nightRoundById } from './content/nightRounds';
+import { beginScene, advanceSceneBeat, applySceneOption } from './scenes';
+import { beginNightRound } from './night-rounds';
 import { NPC_VOICE, NPC_NAME, type NpcId, type VoiceCategory } from './content/voices';
 import type { RankId } from './content/ranks';
 import { getRecipe, canCraft } from './content/crafting';
@@ -99,6 +103,10 @@ export type Intent =
   | { type: 'advance_rung_beat' } // Continue past a narration-only rung beat (inert today)
   | { type: 'ask_rung_topic'; topicId: string } // ASK a rung-beat hub topic (full VN meets R3/R6/R7)
   | { type: 'choose_rung_option'; optionId: string } // the terminal beat choice → apply the promotion
+  | { type: 'begin_scene'; sceneId: string } // storywave G2: open a generalized VN scene (dormant)
+  | { type: 'advance_scene_beat' } // storywave G2: continue a narration-only scene (inert on decisions)
+  | { type: 'choose_scene_option'; optionId: string } // storywave G2: the terminal scene decision
+  | { type: 'begin_night_round'; roundId: string } // storywave G2: start the on-rails night round (dormant)
   | { type: 'rake_rice' }
   | { type: 'rest' }
   | { type: 'do_activity'; activityId: ActivityId }
@@ -977,6 +985,41 @@ export function reduce(state: GameState, intent: Intent): GameState {
     case 'ascend': {
       // the manual opt-in T0→T1 ascension (gate-checked inside `ascend` — a no-op if not ready).
       next = ascend(next);
+      break;
+    }
+    case 'begin_scene': {
+      // storywave G2 (DORMANT): open a generalized VN scene by id. No-op when the id isn't in
+      // the (empty at G2) registry, or when a scene is already live (the VN surfaces never overlap).
+      const def = sceneById(intent.sceneId);
+      if (!def) return state;
+      if (state.activeScene !== null) return state;
+      next = beginScene(next, def);
+      break;
+    }
+    case 'advance_scene_beat': {
+      // Continue past a NARRATION-only scene (inert on a decision scene) — mirrors advance_rung_beat.
+      if (state.activeScene === null) return state;
+      const def = sceneById(state.activeScene.id);
+      if (!def) return state;
+      next = advanceSceneBeat(next, def);
+      break;
+    }
+    case 'choose_scene_option': {
+      // The TERMINAL scene node: apply the pick (memory/flags/stat/stance — NO promotion), latch
+      // the write-once played record, and clear the cursor.
+      if (state.activeScene === null) return state;
+      const def = sceneById(state.activeScene.id);
+      if (!def) return state;
+      next = applySceneOption(next, def, intent.optionId);
+      break;
+    }
+    case 'begin_night_round': {
+      // storywave G2 (DORMANT): start the on-rails night round. No-op when the id isn't in the
+      // (empty at G2) registry, or when a round is already running.
+      const def = nightRoundById(intent.roundId);
+      if (!def) return state;
+      if (state.roundState !== null) return state;
+      next = beginNightRound(next, def);
       break;
     }
   }

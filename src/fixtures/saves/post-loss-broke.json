@@ -1415,6 +1415,10 @@
         "judged": 0,
         "frac": 0
       }
-    }
+    },
+    "sceneQueue": [],
+    "activeScene": null,
+    "scenesPlayed": [],
+    "roundState": null
   }
 }
