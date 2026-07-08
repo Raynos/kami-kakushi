@@ -16,7 +16,32 @@ export interface SheetNode {
   readonly who: readonly string[];
   readonly wrong: string;
   readonly combat?: string;
+  /** T0 rung at which the zone's seal unlocks (rung-reveal, ADR-151).
+   *  PLACEHOLDER ladder — the T0 build plan locks the real numbers by
+   *  editing this data, never the mechanism. Absent = present from R1. */
+  readonly rung?: number;
 }
+
+/** The T0 reveal ladder (ADR-151 placeholder — data, not code). */
+export const RUNG_LADDER: Readonly<Record<string, number>> = {
+  gate: 1,
+  forecourt: 1,
+  woodshed: 3,
+  kitchen: 3,
+  sickroom: 3,
+  paddies: 3,
+  'field-margins': 3,
+  kura: 5,
+  'drill-yard': 5,
+  weir: 5,
+  'weir-reeds': 5,
+  woodlot: 5,
+  shrine: 5,
+  'night-rounds': 5,
+  orchard: 5,
+  ruined: 7,
+  grove: 7,
+};
 
 export const KIND_META: Record<ZoneKind, { chip: string; label: string }> = {
   estate: { chip: '屋敷', label: 'estate' },

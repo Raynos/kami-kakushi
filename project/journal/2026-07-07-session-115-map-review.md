@@ -200,3 +200,12 @@ Phase B batch 2 — the fine register + the ground plane:
   bare-patch scuffs, ~150 marks) so empty ground reads as DRAWN paper.
   One regression caught on capture: the skirt striped THROUGH the
   forest mass — trimmed to stop at its west edge.
+
+The rung-reveal MECHANISM shipped (ADR-151): `reveal.ts` — fog as
+unsurveyed paper (evenodd mask + scrawled survey edge + pegs, its own
+displacement filter), 未 ghost chips + ENGLISH rumor notes (the strip
+policy reconciled with the hint design), furniture holes so the family's
+document never fogs — every input a data table (`REVEAL` stages +
+`RUNG_LADDER` placeholder in nodes.ts; the build plan edits data, not
+code). A DEV previewer pill (段) on the T0 sheet cycles 全→R1→R3→R5→R7;
+verified live through the full cycle, no console errors.

@@ -10,6 +10,7 @@ import type { Pt } from './brush';
 import { ANCHORS, NIGHT_ROUTE, NIGHT_ROUTE_T1, T0_WINDOW, WORLD } from './layout';
 import type { SheetNode, Tier, ZoneKind } from './nodes';
 import { KIND_META, rosterFor, T1_IDS, T1_NODES, T1_NOTES } from './nodes';
+import { paintReveal, REVEAL, zonesAtRung } from './reveal';
 import { paintT0Ground } from './t0-sheet';
 import { paintT1Ground } from './t1-sheet';
 
@@ -655,6 +656,36 @@ function openTierMap(tier: Tier): HTMLElement {
   const nodeEls = new Map<string, SVGGElement>();
   paintSheet(svg, nodeEls, tier);
   applyVb();
+
+  // ── the T0 rung-reveal previewer (ADR-151): fog = unsurveyed paper, seals
+  //    gate by RUNG_LADDER. DEV-only preview today; when the sheet becomes the
+  //    game's map, the game's rung drives the same painter. 全 = review mode.
+  if (tier === 'T0') {
+    const STAGES: (number | null)[] = [null, 1, 3, 5, 7];
+    let stageIx = 0;
+    const rungPill = hd('button', 't0v2-pill', '段 全');
+    rungPill.type = 'button';
+    rungPill.setAttribute('aria-label', 'Preview the rung-reveal (fog of unsurveyed paper)');
+    rungPill.addEventListener('click', () => {
+      stageIx = (stageIx + 1) % STAGES.length;
+      const rung = STAGES[stageIx]!;
+      rungPill.textContent = rung === null ? '段 全' : `段 R${rung}`;
+      if (rung === null) delete rungPill.dataset.on;
+      else rungPill.dataset.on = '1';
+      // clear the previous stage, then re-apply
+      for (const g of Array.from(svg.querySelectorAll('.ms-reveal'))) g.remove();
+      const visible = rung === null ? (): boolean => true : zonesAtRung(rung);
+      for (const [id, g] of nodeEls) {
+        g.style.display = visible(typeof id === 'string' ? id : '') ? '' : 'none';
+      }
+      const stage = rung === null ? null : (REVEAL.find((s) => s.rung === rung) ?? null);
+      // svg children: [defs, art, seals] — paintSheet's own layer order
+      const art = svg.children[1] as SVGElement;
+      const sealLayer = svg.children[svg.children.length - 1] as SVGElement;
+      paintReveal(svg, art, sealLayer, stage);
+    });
+    controls.append(rungPill);
+  }
 
   let selected: string | null = null;
   const select = (id: string | null): void => {

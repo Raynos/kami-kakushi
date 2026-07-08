@@ -70,7 +70,16 @@ Grammar, all on existing sheet idioms:
 4. **The ruin is the LAST reveal** (with the grove), held until the R7/
    Phase-2 beat — the map itself performs the story's withholding.
 
-## If/when this goes real (the cheap path)
+## STATUS: the mechanism is BUILT (2026-07-08, ADR-151)
+
+`src/ui/map-sheets/reveal.ts` (the fog/ghost/note painter — all data-driven)
++ `RUNG_LADDER` in nodes.ts (the PLACEHOLDER zone ladder) + a DEV previewer
+pill on the T0 sheet (段 全→R1→R3→R5→R7). Rumor notes render in ENGLISH
+(the FB-181/183 strip policy — no unexplained kanji on a player-bound
+sheet). The T0 build plan locks the real ladder by editing the data tables;
+the game's rung will drive the same painter when the sheet becomes the map.
+
+## If/when this goes real (the cheap path — original notes)
 
 The overlay proved the sheet needs no redraw: implementation is (a) a
 `rung?: number` (or tier-phase key) on the zone roster, (b) a reveal mask in
