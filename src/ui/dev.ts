@@ -68,6 +68,7 @@ import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
 import { mountRequirementsCheatlist } from './dev-cheatlist';
 import { openT0V2Map, openT1Map, openT2Map } from './map-sheets/sheet';
 import { openStampBook } from './stamp-book/book';
+import { openEstateSheet } from './estate-sheet/demo';
 import { openSceneCards } from './scene-cards/cards';
 import { openSceneCardsV1 } from './scene-cards/cards-v1';
 // Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
@@ -2037,6 +2038,16 @@ export function mountDevPanel(
   });
   sbkBtn.style.cssText += 'margin-bottom:.2rem;';
   storyPane.append(sbkBtn);
+  // E1 graphics exploration — the okoshi-ezu estate cutaway: a STANDALONE
+  // prototype experiment (NOT part of the map-sheets system; it reuses the
+  // brush toolkit only — spec + rubric in src/ui/estate-sheet/README.md).
+  // Two look variants + three fixture eras inside the modal. DEV-only,
+  // fixture-fed, zero game integration (the prototype-first law). HR-16.
+  const eshBtn = mono('⤢ Estate sheet — E1 okoshi-ezu prototype', () => {
+    openEstateSheet();
+  });
+  eshBtn.style.cssText += 'margin-bottom:.2rem;';
+  storyPane.append(eshBtn);
   // E2 graphics exploration — the VN scene-card pilot demos (two cold-open
   // vignettes: Sōan's sickroom + Genemon's grain-store), human-pulled
   // 2026-07-08 ahead of the E2.1 grammar spec, then PARKED by the human the
