@@ -185,6 +185,7 @@ const VOICE_COLOR: Record<VoiceCategory, string> = {
   arms: 'var(--v-arms)',
   official: 'var(--v-official)',
   villager: 'var(--v-villager)',
+  monk: 'var(--v-monk)', // the traveling monk Iori (storywave §04-cast) — muted ash/sumi
   lord: 'var(--v-lord)',
 };
 // Attribute → its themed pigment (the five traditional colours in styles.css `:root`). An intro
@@ -207,6 +208,7 @@ const VOICE_SEAL: Record<VoiceCategory, string> = {
   arms: '武',
   official: '官',
   villager: '里',
+  monk: '僧', // 僧 (sō) — the traveling monk Iori (storywave §04-cast)
   lord: '殿', // 殿 (dono) — his lordship, the domain lord Shigemasa (ADR-110 R7)
 };
 /** A kanji ink-seal nameplate (hanko idiom): a category-coloured seal + the speaker's name. Takes a

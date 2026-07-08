@@ -63,8 +63,11 @@ describe('narrative validation roster (each check can go RED)', () => {
   });
 
   it('§1 ambient (non-NPC) speaker needs an explicit voice', () => {
+    // Sayo (the village girl) is a NAMES entry but not a T0 NpcId, so a bare speaker
+    // line requires an explicit (voice). (The old example "Tokubei" became the NpcId
+    // `yohei` in the storywave G0 cast growth, so it now resolves a voice on its own.)
     expectError(
-      BASE.replace('Genemon: "A greeting line."', 'Tokubei: "A greeting line."'),
+      BASE.replace('Genemon: "A greeting line."', 'Sayo: "A greeting line."'),
       'needs an explicit (voice)',
     );
   });

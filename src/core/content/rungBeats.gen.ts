@@ -5,7 +5,6 @@
 
 import type { RankId } from './ranks';
 import type { RungScene } from './rungBeats';
-import { NAMES } from './names';
 import { NPC_NAME } from './voices';
 
 export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
@@ -44,7 +43,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       },
       {
         voice: 'villager',
-        speaker: NAMES.pedlar,
+        speaker: NPC_NAME.yohei,
         text: '"A tended gate\'s a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord\'s."',
       },
     ],

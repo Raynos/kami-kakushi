@@ -74,6 +74,7 @@
   --v-arms: #cf9a86;
   --v-official: #b79ad0;
   --v-villager: #a9c391;
+  --v-monk: #b3ab9e; /* muted ash/stone — the traveling monk Iori (sumi robes), clear of the ochres */
   --v-lord: #c9b8ea; /* wisteria — dignified, distinct from the official violet */
 
   /* ── semantic aliases (role beats hue) ──────────────────────────────── */

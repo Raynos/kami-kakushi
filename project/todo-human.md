@@ -34,4 +34,7 @@
 - [`src/ui/estate-sheet/README.md`](../src/ui/estate-sheet/README.md) — the E1
   estate-cutaway spec + rubric (a standalone prototype experiment — not part
   of the map-sheets system); read before/with the HR-16 variant pick.
+- [`project/brainstorms/2026-07-08-storywave-g0-fiction-gap-inventory.md`](brainstorms/2026-07-08-storywave-g0-fiction-gap-inventory.md)
+  — the storywave G0 fiction-gap inventory backing **HD-30** (the supplemental
+  prose mini-wave); read before authorizing/scoping that wave.
 

@@ -5,11 +5,31 @@
 
 import { NAMES } from './names';
 
-/** A remembered non-player character. Grows per tier as new cast is routed. ADR-110 adds the
- *  rung-beat granters/peers: `rokusuke` (R2 peer), `tozo` (R4 smith), `chiyo` (R6), `shigemasa`
- *  (R7). NOTE: the pedlar (Tokubei) is deliberately NOT an NpcId — he is an ambient trader whose
- *  one lever is the `pedlar-favour` flag (BQ6), so he takes no `npcMemory` slot. */
-export type NpcId = 'soan' | 'genemon' | 'kihei' | 'rokusuke' | 'tozo' | 'chiyo' | 'shigemasa';
+/** A remembered non-player character. Grows per tier as new cast is routed. The storywave
+ *  T0 rewrite (game plan G0) adds the bible §04-cast: the household (`ohisa`/`shinnosuke`/
+ *  `toku`), the heir `naoyuki` (a beat-voice in the R5 Count), and the estate's edge
+ *  (`yohei` the pedlar — now a first-class id, `oyae`/`matsuzo`/`iori`/`oume`). Existing ids
+ *  `tozo` (the smith) + `shigemasa` (the old lord) are kept here until G4's cutover retires/
+ *  renames them (`shigemasa`→`munemasa`, `tozo` deleted). These new ids are DORMANT until G4
+ *  wires their people.ts placements — added now so prose can compile against them (G0). */
+export type NpcId =
+  | 'soan'
+  | 'genemon'
+  | 'kihei'
+  | 'rokusuke'
+  | 'tozo' // DEFER→G4: retires from T0 (the smith Tōzō; T1's smith is Tetsuji)
+  | 'chiyo'
+  | 'shigemasa' // DEFER→G4: renames to `munemasa`, re-homing the `lord` voice
+  // ── storywave G0 add-only (bible §04-cast; dormant until G4 wires people.ts) ──
+  | 'ohisa'
+  | 'shinnosuke'
+  | 'toku'
+  | 'naoyuki'
+  | 'yohei'
+  | 'oyae'
+  | 'matsuzo'
+  | 'iori'
+  | 'oume';
 
 /** Who is speaking — drives the render-time colour class (plan §7). `narrator` is the
  *  muted default (ambient prose); `player` is the MC's own spoken lines. */
@@ -19,8 +39,9 @@ export type VoiceCategory =
   | 'physician' // Sōan (scholar / rational)
   | 'steward' // Genemon / Lady Chiyo / household
   | 'arms' // Kihei / the smith Tōzō / drill-yard
-  | 'official' // magistrate / castle voices (the touring inspector, castle clerks)
-  | 'villager' // Asagiri folk / Rokusuke the kept-hand (ADR-110 R2)
+  | 'official' // castle/heir voices (the touring inspector, castle clerks; the heir Naoyuki)
+  | 'villager' // common folk — hired hands, the day-girl, the weir-keeper, the pedlar, the paddy widow
+  | 'monk' // the traveling monk Iori (storywave §04-cast) — a passing-through stranger-kindness voice
   | 'lord'; // the domain lord Shigemasa's R7 capstone (ADR-110) — murasaki 紫, its own dignified voice
 
 // ADR-110 'lord' voice — RESOLVED. Shigemasa now speaks in the dedicated `'lord'` category (its
@@ -41,6 +62,16 @@ export const NPC_VOICE: Readonly<Record<NpcId, VoiceCategory>> = {
   tozo: 'arms',
   chiyo: 'steward',
   shigemasa: 'lord', // the domain lord's own voice — murasaki 紫 (ADR-110 R7 capstone)
+  // ── storywave G0 add-only (voice-colour bindings; refine at G4 when content wires them) ──
+  ohisa: 'steward', // household — the kitchen; the "if" that protects a hope (bible §04-cast)
+  shinnosuke: 'steward', // the heir's son, of the house — household register (a boy)
+  toku: 'steward', // the dowager, household matriarch — the house's memory
+  naoyuki: 'official', // the heir's voice (bible/plan G4.1: `Naoyuki (official)` in the Count)
+  yohei: 'villager', // the pedlar — a tradesman's common register
+  oyae: 'villager', // the scullery day-girl
+  matsuzo: 'villager', // the old weir-keeper
+  iori: 'monk', // the traveling monk — his own passing-through voice
+  oume: 'villager', // the paddy-edge widow
 };
 
 /** The display name (nameplate) for a remembered NPC — reuses the canonical NAMES table. */
@@ -52,6 +83,16 @@ export const NPC_NAME: Readonly<Record<NpcId, string>> = {
   tozo: NAMES.smith,
   chiyo: NAMES.steward,
   shigemasa: NAMES.lord,
+  // ── storywave G0 add-only (nameplates from the canonical NAMES table) ──
+  ohisa: NAMES.ohisa,
+  shinnosuke: NAMES.shinnosuke,
+  toku: NAMES.toku,
+  naoyuki: NAMES.heir, // Naoyuki is the `heir` name key
+  yohei: NAMES.pedlar, // = 'Tokubei' until G4 renames pedlar → 'Yohei' (single-sourced)
+  oyae: NAMES.oyae,
+  matsuzo: NAMES.matsuzo,
+  iori: NAMES.iori,
+  oume: NAMES.oume,
 };
 
 /** Runtime roster of the `VoiceCategory` union (FB-5 Ph2 — the one hand-written enabling change,
@@ -66,6 +107,7 @@ const VOICE_CATEGORY_SET: Readonly<Record<VoiceCategory, true>> = {
   arms: true,
   official: true,
   villager: true,
+  monk: true,
   lord: true,
 };
 export const VOICE_CATEGORIES: readonly VoiceCategory[] = Object.keys(
@@ -80,4 +122,13 @@ export const NPC_IDS: readonly NpcId[] = [
   'tozo',
   'chiyo',
   'shigemasa',
+  'ohisa',
+  'shinnosuke',
+  'toku',
+  'naoyuki',
+  'yohei',
+  'oyae',
+  'matsuzo',
+  'iori',
+  'oume',
 ];

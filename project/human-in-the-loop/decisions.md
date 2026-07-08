@@ -28,4 +28,23 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
 -->
 
 
-_(No open HD-items — HD-23 and HD-24 closed 2026-07-06, see the archive.)_
+### HD-30 🔲 — Storywave: run the supplemental prose mini-wave (⛔ blocks G7 ship)
+
+- **Ask / fork:** the storywave G0 pre-flight found the fiction-voiced
+  strings the T0 rewrite needs that have **no source in the staged `t0v2/`
+  wave** — 7 gap classes (season-exit ceremony scenes, the nengu scene,
+  per-requirement flavor, the ~45 surface reveal lines, the save-retirement
+  notice, estate project + seasonal-judge grade lines, sickroom/treatment +
+  the R5 wage beat), plus the estate-beats re-diverge (Open-Q #11). Full
+  verified inventory:
+  [`../brainstorms/2026-07-08-storywave-g0-fiction-gap-inventory.md`](../brainstorms/2026-07-08-storywave-g0-fiction-gap-inventory.md).
+- **Request:** authorize a **supplemental prose mini-wave**, staged into
+  `t0v2/` in the u0–u9 shape (**3 takes** for scene-class gaps, **1
+  law-compliant take** for texture) → judge VERDICT → the pick + redlines is
+  canon; alternates archive unwired (the one-version ruling, 2026-07-08).
+- **Recommendation:** run it (the blind-fleet process, per ADR-139 as refined
+  by the one-version ruling). It runs **in parallel** with the engine build —
+  G1–G3.5 need none of this text (they ship stubs/placeholders); the picks
+  migrate at G4.1 / G5. **G7 ship is gated on this closing** — no `[dev]`
+  placeholder or missing reveal line reaches players (PH1/PH5).
+- **Resolution:** _(pending — the human authorizes/scopes the wave)_
