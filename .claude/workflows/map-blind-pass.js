@@ -1,40 +1,54 @@
-// The one-command blind-pass loop for the T0/T1 map sheets (s115 review T-3,
+// The one-command blind-pass loop for the T0/T1/T2 map sheets (s115 review T-3,
 // built 2026-07-08): capture → blind describe (one fresh agent per sheet, images
-// ONLY) → judge vs map-spec §5 → committed report. Invoke via the Workflow tool:
-//   { name: 'map-blind-pass' }                          — full both-sheet pass
-//   { name: 'map-blind-pass', args: { sheets: ['T1'] } } — the edited sheet only
-//                                                          (the DEFAULT GUIDANCE for
-//                                                          single-sheet edits; run the
-//                                                          full pass when layout.ts
-//                                                          geometry moved, at HR/
-//                                                          milestone closes, or a new
-//                                                          tier's acceptance)
-//   args.url / args.outdir override the dev-server URL / capture dir.
-// Prereq: the dev server is running (pnpm run dev). The caller commits the report.
-// Loop agents run on SONNET (human-blessed routing, 2026-07-08 — blindness matters,
-// model size doesn't; D-124 satisfied by the explicit blessing).
+// ONLY) → judge vs the map-spec rubric → committed report.
+//
+// args.sheets is MANDATORY — you MUST name which sheet(s) to grade. Invoke via the
+// Workflow tool, passing args as an OBJECT (never a JSON string):
+//   { name: 'map-blind-pass', args: { sheets: ['T2'] } }        — one sheet
+//   { name: 'map-blind-pass', args: { sheets: ['T0', 'T1'] } }  — several
+// Judged against: T0/T1 → map-spec §5 · T2 → map-spec §6.4. args.url / args.outdir
+// override the dev-server URL / capture dir. Prereq: the dev server is running
+// (pnpm run dev). The caller commits the report. Loop agents run on SONNET
+// (human-blessed routing, 2026-07-08 — blindness matters, model size doesn't).
 export const meta = {
   name: 'map-blind-pass',
   description:
-    'Capture the T0/T1 map sheets, blind-describe each with fresh eyes, judge against the map-spec §5 rubric, write a scored report',
+    'Blind-describe the named map sheet(s) with fresh eyes and judge against the map-spec rubric (T0/T1 §5 · T2 §6.4). REQUIRES args.sheets, e.g. { sheets: ["T2"] }.',
   whenToUse:
-    'After any look-bearing map-sheets change (map-authoring.md §5); required before calling a map change done.',
+    'After any look-bearing map-sheets change (map-authoring.md §5); required before calling a map change done. Always pass args.sheets naming the sheet(s) to grade.',
   phases: [
-    { title: 'Capture', detail: 'headless shots of both sheets (map-audit-shots.mjs)' },
+    { title: 'Capture', detail: 'headless shots (map-audit-shots.mjs)' },
     { title: 'Describe', detail: 'one blind reader per sheet — images only' },
-    { title: 'Judge', detail: 'score each description against the §5 rubric' },
+    { title: 'Judge', detail: 'score each description against its rubric' },
     { title: 'Report', detail: 'write the scored report to project/audit/reports/' },
   ],
 };
 
-const url = (args && args.url) || 'http://localhost:5173/';
-const outdirArg = (args && args.outdir) || '';
-const sheets = ['T0', 'T1', 'T2'].filter((t) =>
-  args && args.sheets ? args.sheets.includes(t) : true,
-);
-if (sheets.length === 0) {
-  return { failed: 'args', detail: "args.sheets must name 'T0', 'T1' and/or 'T2'" };
+// ── HARD BAIL on a missing/malformed sheets arg, BEFORE spawning any agent (zero
+//    token cost). The old code SILENTLY defaulted a bad arg to "all sheets" — which
+//    is exactly how three runs graded the wrong tier. Never guess which sheet. ──
+let a = args;
+if (typeof a === 'string') {
+  // tolerate a JSON-encoded object (a common caller slip), then validate it anyway
+  try {
+    a = JSON.parse(a);
+  } catch {
+    a = null;
+  }
 }
+const VALID = ['T0', 'T1', 'T2'];
+const sheets = a && Array.isArray(a.sheets) ? a.sheets : null;
+if (!sheets || sheets.length === 0 || sheets.some((s) => !VALID.includes(s))) {
+  return {
+    failed: 'args',
+    detail:
+      "map-blind-pass requires args.sheets = a non-empty Array<'T0'|'T1'|'T2'> — " +
+      "e.g. { sheets: ['T2'] }. Pass args as an OBJECT, not a JSON string. Got: " +
+      JSON.stringify(args),
+  };
+}
+const url = a.url || 'http://localhost:5173/';
+const outdirArg = a.outdir || '';
 
 phase('Capture');
 const cap = await agent(
