@@ -2267,6 +2267,16 @@ export function mountDevPanel(
   // NOTE: the panel is position:fixed and floats OVER the app (bottom-right), so it reserves
   // NO layout space — the game UI centers on the full viewport (playtest FB-2/FB-4). The old
   // `#app paddingRight:16rem` gutter (which de-centered the UI and exposed a white strip) is gone.
+
+  // ── boot params: `?t0-map-demo` / `?t1-map-demo` open the review sheet straight
+  //    from the URL (human, 2026-07-08 — a shareable "look at the map" link that
+  //    skips the Story-tab click path). Lives HERE, not main.ts, so it rides the
+  //    DEV fold: no panel (prod, `?dev=no`) → no param. First one wins.
+  {
+    const boot = new URLSearchParams(location.search);
+    if (boot.has('t0-map-demo')) openT0V2Map();
+    else if (boot.has('t1-map-demo')) openT1Map();
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════════════════

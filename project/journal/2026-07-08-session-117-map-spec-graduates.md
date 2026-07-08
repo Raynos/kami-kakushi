@@ -107,3 +107,24 @@ is unchanged (the one delicate site — orchardRows' `feral: … r() <
 the old argument order). Golden pin GREEN with NO regen; full verify
 17/17 after oxfmt. G-5 + G-7 close s115's Phase C tail — the map
 engine-hardening list is now fully landed.
+
+## `?t0-map-demo` / `?t1-map-demo` boot params (same session, later)
+
+The human asked for URL params that open the map modals on start.
+Wired at the END of `mountDevPanel` (dev.ts), not main.ts — it rides
+the DEV fold by construction: no panel (prod, `?dev=no`) → param
+inert; nothing new to strip-check. `?t0-map-demo` → `openT0V2Map()`,
+`?t1-map-demo` → `openT1Map()`, first one wins.
+
+Verified live headless (tmp/map-demo-param-check.mjs +
+tmp/rung-pill-check.mjs, playwright chromium): both params open their
+sheet on boot (15.6k/15.8k SVG nodes — the real post-collapse
+drawings), and on T0 the 段 rung-reveal pill sits in the modal header
+(top-right, beside zoom), cycling 全→R1→R3 with fog layers applied.
+T1 has no pill — correct (the reveal mechanism is T0's).
+
+While grounding this, answered the human's "where are the rung-reveal
+buttons?": DEV panel → Story tab → "⤢ T0 V2 map" → the small 段 pill
+in the modal's top-right controls row. ONE cycling pill (段 全 → R1 →
+R3 → R5 → R7), T0 only — not a row of buttons, and not on the in-game
+地図 Map tab (that swap is the storywave build-wave work, ADR-149/151).
