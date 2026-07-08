@@ -150,3 +150,19 @@ ground below the foothills, the upstream pools re-seat on the river's
 west bank (strike ends on the pool group, 改・涸 note clear of the
 water), and a forest tongue reaches into the T0 window's east edge.
 All verified on fresh captures of both sheets.
+
+Third landing — craft + canon (drain items 5/6/8/11 + the hybrid):
+
+- The weir is an EVENT: the old bar ran ALONG the river (angleDeg 100 —
+  the real reason nobody saw it); now a gold two-course stone bar
+  crosses bank-to-bank with stakes and a foam step below. The
+  footbridge + T1 fish weirs get the same crossing fix.
+- Bamboo reads bamboo: interior culms taller with mid-culm joint
+  ticks, bigger nodding edge clumps.
+- The drill yard is a YARD: swept ground west of the stall range, rake
+  sweeps, two straw drill-dummies, the rack in the corner; the seal
+  anchors on the yard; the forecourt yields its east end.
+- 'Kitchen threshold & board-side' → 'The Kitchen threshold'.
+- ADR-151 hybrid canon element: on T1 one stretch of the precinct wall
+  north of the lived corner is re-stacked in fresh work + 改・繕 — the
+  first hand laid on the old ground; the ruin core stays untouched.

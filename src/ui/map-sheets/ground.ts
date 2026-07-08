@@ -462,6 +462,19 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     );
     // sits above the wing, clear of the Workshops caption cluster (L9)
     redNote(art, ex - 6, ey - 66, '改・東棟成', 'The east wing, rebuilt (R4–R6)', true);
+    // ADR-151 hybrid: ONE fresh repair reaches INTO the dead precinct — the
+    // wall stretch north of the lived corner re-stacked in new work. The ruin
+    // itself stays untouched (its reveal is T2); this is the household's first
+    // hand laid on the old ground, a promise the sheet keeps quiet about.
+    wallRun(
+      art,
+      [
+        [1899, 1032],
+        [1897, 962],
+      ],
+      { seed: 'precinct-mend', state: 'neat' },
+    );
+    redNote(art, 1868, 964, '改・繕', 'The old wall, mended a few ken past the rope — why?');
     redNote(
       art,
       house.shoin[0] - 44,

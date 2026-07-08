@@ -38,7 +38,7 @@ export const ANCHORS: Readonly<Record<string, Anchor>> = {
   shrine: { x: 2130, y: 1178, room: true },
   kura: { x: 2310, y: 1030 },
   sickroom: { x: 1950, y: 1332, room: true },
-  'drill-yard': { x: 2318, y: 1362 },
+  'drill-yard': { x: 2272, y: 1346 },
   paddies: { x: 1670, y: 1668 },
   'field-margins': { x: 1424, y: 1652 },
   woodlot: { x: 2565, y: 1145 },
@@ -142,10 +142,10 @@ export const WATER = {
   ] as readonly (readonly Pt[])[],
   worksSluice: { at: [516, 756] as Pt, angleDeg: 75 },
   /** the T0 weir — the estate's water right, leased from Matsuzō */
-  weir: { at: [506, 1192] as Pt, angleDeg: 100 },
+  weir: { at: [502, 1192] as Pt, angleDeg: 8 },
   /** the weir-jizō on the near bank — offerings nobody admits to (unexplained) */
   jizo: [560, 1152] as Pt,
-  bridge: { at: [488, 1242] as Pt, angleDeg: 100 },
+  bridge: { at: [488, 1242] as Pt, angleDeg: 8 },
   /** Matsuzō's hut — HIS side of the water (west bank) */
   matsuzoHut: [436, 1276] as Pt,
   /** the main irrigation channel: weir → home paddies (the one stroke that matters) */
@@ -190,8 +190,8 @@ export const WATER = {
   /** T1 downstream shallows — Matsuzō's stretch: fish weirs + the otters' den in
    *  DRESSED STONE (squared blocks in a wild bank — a wrong thing) */
   fishWeirs: [
-    { at: [432, 1800] as Pt, angleDeg: 95 },
-    { at: [446, 1902] as Pt, angleDeg: 100 },
+    { at: [432, 1800] as Pt, angleDeg: 5 },
+    { at: [446, 1902] as Pt, angleDeg: 12 },
   ],
   otterDen: [472, 1858] as Pt,
 } as const;
@@ -297,8 +297,8 @@ export const GUEST = {
   /** the forecourt — swept ground sized for a household five times this one */
   forecourt: [
     [2000, 1330],
-    [2300, 1330],
-    [2300, 1480],
+    [2242, 1330],
+    [2242, 1480],
     [2000, 1480],
   ] as readonly Pt[],
   well: [2105, 1362] as Pt,

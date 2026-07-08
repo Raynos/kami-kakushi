@@ -501,7 +501,7 @@ export function bambooGrove(parent: SVGElement, poly: readonly Pt[], o: { seed: 
       let headY = p[1];
       for (let g = 0; g < gn; g++) {
         const ox = (g - (gn - 1) / 2) * (2.4 + r() * 1.4);
-        const dl = 7 + r() * 8;
+        const dl = 10 + r() * 11;
         const bx = p[0] + ox;
         const by = p[1] + (r() - 0.5) * 3;
         const tx = bx + Math.sin(cl) * dl;
@@ -524,8 +524,22 @@ export function bambooGrove(parent: SVGElement, poly: readonly Pt[], o: { seed: 
           headX = tx;
           headY = ty;
         }
+        // a joint tick mid-culm — the node is what says BAMBOO
+        if (r() < 0.5) {
+          const jf = 0.4 + r() * 0.25;
+          const jx = bx + (tx - bx) * jf;
+          const jy = by + (ty - by) * jf;
+          inkLine(
+            parent,
+            [
+              [jx - 1.4, jy],
+              [jx + 1.4, jy],
+            ],
+            { seed: sd(), w: 0.7, amp: 0.1, color: FLOOR, opacity: 0.85 },
+          );
+        }
       }
-      if (r() < 0.3) {
+      if (r() < 0.45) {
         for (const dir of [-1, 1]) {
           const a = Math.PI / 2 + cl + dir * (0.9 + r() * 0.3);
           inkLine(
@@ -567,9 +581,9 @@ export function bambooGrove(parent: SVGElement, poly: readonly Pt[], o: { seed: 
       r,
       mx - nx * inset,
       my - ny * inset,
-      15 + r() * 10,
-      nx * 0.38 + (r() - 0.5) * 0.12,
-      0.9,
+      19 + r() * 12,
+      nx * 0.44 + (r() - 0.5) * 0.12,
+      0.95,
     );
   }
 }

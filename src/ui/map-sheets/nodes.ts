@@ -100,7 +100,7 @@ export const T0_NODES: readonly SheetNode[] = [
   {
     id: 'kitchen',
     kanji: '竈',
-    name: 'The Kitchen threshold & board-side',
+    name: 'The Kitchen threshold',
     kind: 'estate',
     blurb: "Meals at the threshold; the board is where the household's shape is overheard.",
     actions: ['Eat (recovery)', 'Overhear (ambient story)', 'Later: carry dishes in'],

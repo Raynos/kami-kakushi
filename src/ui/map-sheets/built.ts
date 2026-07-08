@@ -1927,16 +1927,33 @@ export function stableRange(
       'var(--ink-soft)',
     );
   }
-  // raked yard arcs in front of the stalls
-  for (let i = 0; i < 3; i++) {
-    const yy = hh + 8 + i * 4.5;
+  // THE YARD — the zone is the open drill ground, the range is its edge (inbox
+  // drain FB: "expected an outdoor training zone, not a building"): a swept
+  // tone off the open side, rake sweeps across its whole width, two straw
+  // drill-dummies standing in it, the rack at its corner.
+  const yd = 46;
+  wash(
+    parent,
+    fpts(
+      [
+        [-hw * 0.94, hh + 3],
+        [hw * 0.94, hh + 3],
+        [hw * 0.94, hh + 3 + yd],
+        [-hw * 0.94, hh + 3 + yd],
+      ],
+      t,
+    ),
+    { seed: `${o.seed}:yardwash`, fill: 'var(--steel-hi)', opacity: 0.07, amp: 2.5 },
+  );
+  for (let i = 0; i < 5; i++) {
+    const yy = hh + 8 + i * (yd / 5.4);
     inkLine(
       parent,
       fpts(
         [
-          [-hw * 0.72, yy + 1.2],
-          [0, yy - 1.2],
-          [hw * 0.72, yy + 1.4],
+          [-hw * 0.82, yy + 1.2],
+          [0, yy - 1.4],
+          [hw * 0.82, yy + 1.4],
         ],
         t,
       ),
@@ -1945,12 +1962,51 @@ export function stableRange(
         w: 0.7,
         color: 'var(--ink-faint)',
         amp: 0.5,
-        opacity: 0.8,
+        opacity: 0.75,
       },
     );
   }
-  // the rack outside the east end
-  const rp = t([hw + 14, hh - 2]);
+  // straw drill-dummies — post, crossbar, head, straw skirt (drawn folk-simple)
+  for (const [ux, uy, us] of [
+    [-hw * 0.42, hh + yd * 0.52, 1] as const,
+    [hw * 0.26, hh + yd * 0.4, 0.88] as const,
+  ]) {
+    const base = t([ux, uy]);
+    const top = t([ux, uy - 11 * us]);
+    inkLine(parent, [base, top], {
+      seed: `${o.seed}:dm${ux.toFixed(0)}p`,
+      w: 1.5,
+      color: 'var(--ink-soft)',
+      amp: 0.3,
+    });
+    inkLine(parent, [t([ux - 5 * us, uy - 7.5 * us]), t([ux + 5 * us, uy - 7.5 * us])], {
+      seed: `${o.seed}:dm${ux.toFixed(0)}c`,
+      w: 1.3,
+      color: 'var(--ink-soft)',
+      amp: 0.3,
+    });
+    parent.append(
+      sv('circle', {
+        cx: String(top[0]),
+        cy: String(top[1] - 2),
+        r: String(2.3 * us),
+        fill: 'none',
+        stroke: 'var(--ink-soft)',
+        'stroke-width': '1.2',
+      }),
+    );
+    for (const lean of [-1, 0, 1]) {
+      inkLine(parent, [t([ux + lean * 1.6, uy]), t([ux + lean * 3.4, uy + 4.4])], {
+        seed: `${o.seed}:dm${ux.toFixed(0)}s${lean}`,
+        w: 0.8,
+        color: 'var(--ink-faint)',
+        amp: 0.2,
+        opacity: 0.85,
+      });
+    }
+  }
+  // the rack at the yard's far corner
+  const rp = t([hw * 0.7, hh + yd * 0.82]);
   dryingRack(parent, rp[0], rp[1], `${o.seed}:rack`);
 }
 

@@ -199,8 +199,10 @@ export function pool(
   waveComb(parent, cx + rad * 0.2, cy + rad * 0.28, rad * 0.6, `${o.seed}-c2`, { opacity: 0.4 });
 }
 
-/** The weir — laid squared stones crossing the water + stake ticks: BUILT work,
- *  so it reads gold-dim against the silver river. */
+/** The weir — an EVENT on the river (spec L3; inbox drain FB: "I don't
+ *  physically see the weir"): a structural gold bar clean across the water,
+ *  two courses of laid stones riding it, stake ticks on the downstream face,
+ *  and the water's own testimony — a foam step of wave-combs just below. */
 export function weirBar(
   parent: SVGElement,
   at: Pt,
@@ -208,43 +210,59 @@ export function weirBar(
   o: { seed: string; len?: number },
 ): void {
   const r = rng(o.seed);
-  const len = o.len ?? 64;
+  const len = o.len ?? 54;
   const a = (angleDeg * Math.PI) / 180;
   const dx = Math.cos(a);
   const dy = Math.sin(a);
   const g = sv('g');
-  const stones = Math.max(4, Math.round(len / 13));
-  for (let i = 0; i < stones; i++) {
-    const t = (i + 0.5) / stones - 0.5;
-    const sx = at[0] + dx * len * t + (r() - 0.5) * 2;
-    const sy = at[1] + dy * len * t + (r() - 0.5) * 2;
-    g.append(
-      sv('rect', {
-        x: String(sx - 5.5),
-        y: String(sy - 3.5),
-        width: '11',
-        height: '7',
-        fill: 'var(--steel-2)',
-        stroke: 'var(--gold-dim)',
-        'stroke-width': '1.4',
-        transform: `rotate(${angleDeg + (r() - 0.5) * 14} ${sx} ${sy})`,
-      }),
-    );
+  // the bar itself — one heavy tapered stroke bank-to-bank (structure weight)
+  brushStroke(
+    g,
+    [
+      [at[0] - dx * (len / 2 + 5), at[1] - dy * (len / 2 + 5)],
+      [at[0] + dx * (len / 2 + 5), at[1] + dy * (len / 2 + 5)],
+    ],
+    { seed: `${o.seed}-bar`, w: 4.4, color: 'var(--gold-dim)', opacity: 0.95, amp: 0.8 },
+  );
+  // two courses of squared stones on the bar
+  const stones = Math.max(5, Math.round(len / 12));
+  for (let course = 0; course < 2; course++) {
+    const off = course === 0 ? -3.4 : 3.4;
+    for (let i = 0; i < stones; i++) {
+      const t = (i + 0.5) / stones - 0.5 + (course === 1 ? 0.5 / stones : 0);
+      const sx = at[0] + dx * len * t - dy * off + (r() - 0.5) * 2;
+      const sy = at[1] + dy * len * t + dx * off + (r() - 0.5) * 2;
+      g.append(
+        sv('rect', {
+          x: String(sx - 6.5),
+          y: String(sy - 4),
+          width: '13',
+          height: '8',
+          fill: 'var(--steel-2)',
+          stroke: 'var(--gold-dim)',
+          'stroke-width': '1.6',
+          transform: `rotate(${angleDeg + (r() - 0.5) * 12} ${sx} ${sy})`,
+        }),
+      );
+    }
   }
   // stake ticks driven along the downstream face
   for (let i = 0; i < stones - 1; i++) {
     const t = (i + 1) / stones - 0.5;
-    const sx = at[0] + dx * len * t - dy * 6;
-    const sy = at[1] + dy * len * t + dx * 6;
+    const sx = at[0] + dx * len * t - dy * 10;
+    const sy = at[1] + dy * len * t + dx * 10;
     inkLine(
       g,
       [
         [sx, sy],
-        [sx + (r() - 0.5) * 2, sy + 7],
+        [sx + (r() - 0.5) * 2, sy + 8],
       ],
-      { seed: `${o.seed}-stk-${i}`, w: 1.4, color: 'var(--gold-dim)', opacity: 0.8, amp: 0.5 },
+      { seed: `${o.seed}-stk-${i}`, w: 1.6, color: 'var(--gold-dim)', opacity: 0.85, amp: 0.5 },
     );
   }
+  // the fall — foam combs just downstream say WEIR the way water says it
+  waveComb(g, at[0] - dy * 16, at[1] + dx * 16, len * 0.62, `${o.seed}-fall1`, { opacity: 0.7 });
+  waveComb(g, at[0] - dy * 27, at[1] + dx * 27, len * 0.4, `${o.seed}-fall2`, { opacity: 0.5 });
   parent.append(g);
 }
 
