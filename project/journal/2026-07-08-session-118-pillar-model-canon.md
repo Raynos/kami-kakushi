@@ -73,3 +73,17 @@ Patched the storywave docs plan so it stops contradicting the new canon:
   Status/flag update, not a literal un-archive.)
 Still open (unchanged): PRD §1.6 ripple itself (A2.2) is NOT done — only the
 plan INSTRUCTION is corrected; the PRD text still reads old until Plan A runs.
+
+## Addendum 2 — HD-27 (Asagiri KEPT) rippled through Plan A
+The HD-27 ruling flipped from the plan's default (unnamed) to keep-Asagiri, so
+Plan A still carried stale "make the village unnamed" instructions. Fixed all
+four in `docs/plans/fable-2026-07-07-storywave-docs.md`:
+- §5.6 rename-ledger row: "unnamed" → **KEPT** (no rename).
+- A2.2 §1.5.2 instruction: "→ unnamed" → **KEEP "Asagiri"** (+ sync cast to
+  Mohei/Sayo).
+- A5 closing prd:drift note: `asagiri` REMOVED from the RETIRED list (kept).
+- HD-27 open-question entry: marked **RULED (b) — keep Asagiri**.
+Plan A is now consistent with all five rulings (HD-25…HD-29) and buildable
+(A0–A4 now; A5 gated on Plan B shipping).
+**Plan B carry-over (flagged, NOT fixed here):** the game plan's G4.9 still
+lists `asagiri` in its prd-drift.ts RETIRED table — drop it when Plan B runs.

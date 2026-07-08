@@ -727,7 +727,7 @@ B's renames land.
    | Chiyo | recast per `04-cast.md` (T0 household) | game plan G4.1/G4 |
    | Rokusuke | kept (Rokusuke-class hands) | — |
    | Kanta | **Kenta** (origin friend) | game plan G4 |
-   | Asagiri (the village) | the village is UNNAMED in the bible (HD-27) | game plan G4 |
+   | Asagiri (the village) | **KEPT** — named in the bible (HD-27, human 2026-07-08); no rename | — |
    | Akagi | CUT — the T4 enemy is Lord Tomita | game plan G4 |
    ```
 
@@ -815,10 +815,11 @@ the docket ref):
   (03-tiers.md "The structure"): R0–R7 per tier, the alternation +
   T2/T3 hard lock (docket #3), T6's H0–H7 flip (docket #9). Cite the
   docket ADRs by real number.
-- §1.5.2 (L341): "VILLAGE of Asagiri" → the village is unnamed
-  (HD-27 default): "the village" / "the valley's village" throughout
-  this subsection. Keep one "Asagiri" mention ONLY in §5.6's rename
-  ledger (A1 already placed it).
+- §1.5.2 (L341): "VILLAGE of Asagiri" → **KEEP "Asagiri"** (HD-27 RULED,
+  human 2026-07-08: the village is named Asagiri in the bible —
+  `03-tiers.md`/`tiers/t2.md`). The NAME stays; sync any old-canon
+  village-cast names to the bible (headman **Mohei**, his daughter
+  **Sayo**, etc.).
 - §1.5.3 (L364, + L377, L780–790, L827): origin cast sync — mother
   Oyuki → **O-Nobu**, sister Okimi → **Suzu**, friend Kanta →
   **Kenta**, employer Denbei → toiya **Zenbei**, father **Jinpachi**
@@ -1148,7 +1149,8 @@ only remaining work.
   still open, leave its note and say so in the commit body).
 - **Closing `pnpm run prd:drift`:** Plan B's rename commits are
   specced to add the RETIRED-terms entries (shigemasa→munemasa,
-  tokubei→yohei, `asagiri`, etc.) and re-point the
+  tokubei→yohei, etc. — but NOT `asagiri`, which is KEPT per HD-27; flag
+  Plan B's G4.9 to drop its stale `asagiri`-RETIRED line) and re-point the
   munenori/jūbei/ranpo successor chains in `prd-drift.ts` (its file
   per §S). **Verify, don't assume (PH2): read `prd-drift.ts` first**
   — if an entry or re-point is missing, file the gap to Plan B's
@@ -1266,16 +1268,12 @@ follow-up edit, scoped below.
 - **Question:** the old canon names the T2 village "Asagiri"; the
   bible never names it (zero hits in `docs/story-bible/`). Keep the
   name or leave the village unnamed?
-- **Options:** (a) unnamed — "the village", per the bible's silence
-  (naming it would be a canon addition, which is the human's);
-  (b) keep "Asagiri" (would want a one-line bible addition — a canon
-  edit, human-applied); (c) a new name (narrative-diverge material,
-  ADR-139, at the T2 sitting).
-- **Recommended default: (a)** — the docs ripple must not add canon;
-  §5.6 keeps the "Asagiri → unnamed (HD-27)" ledger row and Plan B
-  adds `asagiri` to RETIRED terms at its rename commit.
-- **If overridden:** a find-replace scoped to A1/A2's rewritten text
-  + the ledger row; trivial.
+- **Options:** (a) unnamed; (b) keep "Asagiri"; (c) a new name.
+- **RULED (b) — human, 2026-07-08.** Keep "Asagiri". The bible edit is
+  DONE (session 118): the village is named **Asagiri (朝霧)** in
+  `03-tiers.md` + `tiers/t2.md`. So `asagiri` is NOT a RETIRED term (Plan
+  B drops it); §5.6's row reads KEPT (no rename); A1/A2 keep the name
+  throughout. **A0 files this HD as RESOLVED.**
 
 ### HD-28 — the bible README banner flip (a §S read-only exception ask)
 
