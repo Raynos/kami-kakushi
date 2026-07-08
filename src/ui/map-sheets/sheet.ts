@@ -719,13 +719,13 @@ function openTierMap(tier: Tier): HTMLElement {
   if (tier === 'T0') {
     const STAGES: (number | null)[] = [null, 1, 3, 5, 7];
     let stageIx = 0;
-    const rungPill = hd('button', 't0v2-pill', '段 全');
+    const rungPill = hd('button', 't0v2-pill', 'rung: all');
     rungPill.type = 'button';
     rungPill.setAttribute('aria-label', 'Preview the rung-reveal (fog of unsurveyed paper)');
     rungPill.addEventListener('click', () => {
       stageIx = (stageIx + 1) % STAGES.length;
       const rung = STAGES[stageIx]!;
-      rungPill.textContent = rung === null ? '段 全' : `段 R${rung}`;
+      rungPill.textContent = rung === null ? 'rung: all' : `rung: R${rung}`;
       if (rung === null) delete rungPill.dataset.on;
       else rungPill.dataset.on = '1';
       // clear the previous stage, then re-apply
