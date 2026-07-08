@@ -53,6 +53,19 @@ in advance).
 
 ## E1 · Estate cutaway (#5) — okoshi-ezu elevation sheet
 
+> **Status note (2026-07-08, s123): E1.1 + E1.3 BUILT — awaiting HR-16.**
+> Two human steers reshaped the track: (1) the diverge capped at **2
+> variants**; (2) the cutaway is a **STANDALONE prototype experiment,
+> NOT part of the map-sheets system** — a parallel system reusing the
+> ink-toolkit code only, so the spec/rubric live in
+> `src/ui/estate-sheet/README.md` (never map-spec/map-styles), and the
+> build was pulled forward past the E1.2 HR gate (E2/E3 precedent; the
+> spec read rides HR-16). Built: `src/ui/estate-sheet/` — A fold-up ·
+> B section-cut × 3 fixture eras, DEV → Story → "⤢ Estate sheet"; own
+> golden pin; blind-pass green on BOTH (all M + 4/4 S; report:
+> `project/audit/reports/2026-07-08-e1-estate-sheet-blind-pass.md`);
+> self-pick A. **E1.4 integration stays GATED** (Plan B + HR-9).
+
 **Home:** the Estate tab's centerpiece (R1). **Why first:** best pure
 bang-for-buck — lands the map-tab "wow" on R1's other new tab; proven
 machinery, new projection (elevation, not plan).
