@@ -4,77 +4,30 @@
 // dry-field furrow hatching, and swept-court ground. Every mark composes brush.ts —
 // seeded-deterministic, Andon-Steel tokens only, brush-alive (no uniform CAD lines).
 
+import { brushStroke, fineLayer, inkLine, inkText, rng, wash } from './brush';
 import {
   along,
   bbox,
-  brushStroke,
-  fineLayer,
-  inkLine,
-  inkText,
+  insetPoly,
   offsetPolyline,
   pointInPoly,
   resample,
-  rng,
-  wash,
-} from './brush';
-import type { Pt } from './brush';
+  scanlineRuns,
+} from './geom';
+import type { Pt } from './geom';
 
 // ── internal geometry ────────────────────────────────────────────────────────
 
-/** Parallel scan rows clipped inside a polygon (composed from the toolkit's
- *  bbox/pointInPoly) — the row engine behind transplant rows, furrows, and the
- *  ghost-bund grid. Each returned segment is one inside-run of one row. */
+/** The field-row engine — geom.scanlineRuns at the transplant-row register (G-5):
+ *  5-unit sampling, rows phased half a spacing in from the bbox edge. */
 function rowSegments(
   poly: readonly Pt[],
   angleDeg: number,
   spacing: number,
   r: () => number,
-  offJitter = 0.3,
+  jitter: number,
 ): { a: Pt; b: Pt }[] {
-  const ang = (angleDeg * Math.PI) / 180;
-  const dx = Math.cos(ang);
-  const dy = Math.sin(ang);
-  const { x0, y0, x1, y1 } = bbox(poly);
-  const diag = Math.hypot(x1 - x0, y1 - y0);
-  const cx = (x0 + x1) / 2;
-  const cy = (y0 + y1) / 2;
-  const out: { a: Pt; b: Pt }[] = [];
-  const step = 5;
-  for (let off = -diag / 2 + spacing / 2; off <= diag / 2; off += spacing) {
-    const oj = off + (r() - 0.5) * spacing * offJitter;
-    let start: Pt | null = null;
-    let prev: Pt | null = null;
-    for (let s = -diag / 2; s <= diag / 2 + step; s += step) {
-      const px = cx + dx * s - dy * oj;
-      const py = cy + dy * s + dx * oj;
-      const inside = s <= diag / 2 && pointInPoly([px, py], poly);
-      if (inside && !start) start = [px, py];
-      if (!inside && start && prev) {
-        if (Math.hypot(prev[0] - start[0], prev[1] - start[1]) > step)
-          out.push({ a: start, b: prev });
-        start = null;
-      }
-      prev = [px, py];
-    }
-  }
-  return out;
-}
-
-/** Shrink a polygon toward its centroid — holds row texture off the bund line. */
-function insetPoly(poly: readonly Pt[], inset: number): Pt[] {
-  let cx = 0;
-  let cy = 0;
-  for (const [x, y] of poly) {
-    cx += x;
-    cy += y;
-  }
-  cx /= poly.length;
-  cy /= poly.length;
-  return poly.map(([x, y]): Pt => {
-    const d = Math.hypot(x - cx, y - cy) || 1;
-    const f = Math.max(0, d - inset) / d;
-    return [cx + (x - cx) * f, cy + (y - cy) * f];
-  });
+  return scanlineRuns(poly, { angleDeg, spacing, r, jitter, step: 5, phase: spacing / 2 });
 }
 
 /** The stretch of a polyline between fractions t0..t1 of its point run. */

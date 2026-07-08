@@ -4,20 +4,9 @@
 // sluices, bridge — reading as human work in gold. Everything seeded (rng only),
 // token-coloured, and composed from brush.ts.
 
-import type { Pt } from './brush';
-import {
-  along,
-  brushStroke,
-  hatchArea,
-  inkLine,
-  offsetPolyline,
-  resample,
-  rng,
-  stipple,
-  sv,
-  waveComb,
-  wash,
-} from './brush';
+import type { Pt } from './geom';
+import { along, normalAt, offsetPolyline, resample } from './geom';
+import { brushStroke, hatchArea, inkLine, rng, stipple, sv, waveComb, wash } from './brush';
 
 /** Interpolate a half-width at fraction t from a width profile. */
 function widthAt(profile: readonly { t: number; w: number }[], t: number): number {
@@ -52,11 +41,7 @@ export function river(
   const left: Pt[] = [];
   const right: Pt[] = [];
   for (let i = 0; i < n; i++) {
-    const a = line[Math.max(0, i - 1)]!;
-    const b = line[Math.min(n - 1, i + 1)]!;
-    const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
-    const nx = -(b[1] - a[1]) / len;
-    const ny = (b[0] - a[0]) / len;
+    const [nx, ny] = normalAt(line, i);
     left.push([line[i]![0] + nx * half[i]!, line[i]![1] + ny * half[i]!]);
     right.push([line[i]![0] - nx * half[i]!, line[i]![1] - ny * half[i]!]);
   }
@@ -96,11 +81,7 @@ export function river(
       const seg: Pt[] = [];
       for (let s = t0; s <= t1; s += 0.02) {
         const i = Math.min(n - 1, Math.round(s * (n - 1)));
-        const a = line[Math.max(0, i - 1)]!;
-        const b = line[Math.min(n - 1, i + 1)]!;
-        const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
-        const nx = -(b[1] - a[1]) / len;
-        const ny = (b[0] - a[0]) / len;
+        const [nx, ny] = normalAt(line, i);
         seg.push([line[i]![0] + nx * half[i]! * off, line[i]![1] + ny * half[i]! * off]);
       }
       if (seg.length > 1) {

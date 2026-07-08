@@ -50,3 +50,33 @@ world canon (TST1).
 
 - The spec is now a guide: future map-spec edits are living-doc edits in
   place — do NOT re-plan it into `docs/plans/`.
+
+## The Phase C tail opens — G-5 geom core (same session, later)
+
+The human asked for the remaining ~20%: G-5 + G-7 from s115's review.
+G-5 lands first: new `geom.ts` — the ONE geometry home (Pt, bbox,
+pointInPoly, polyLen, resample, along, edgeNormal, normalAt,
+offsetPolyline, insetPoly, scanlineRuns). The duplicates die:
+
+- `fields.rowSegments` was a second copy of `hatchArea`'s scanline-clip
+  loop — both now ride ONE `scanlineRuns` engine (parameterized by
+  step/phase/jitter; rowSegments survives as a 3-line register wrapper
+  since all five field call sites share step 5 / phase spacing/2).
+- The vertex-normal idiom, re-derived inline 6× (brush `offsetPolyline`
+  + `brushStroke`, water river banks + current threads, terrain
+  `hillRange` under-mass, built robbed footings) → `normalAt` /
+  `edgeNormal`. The terrain site used the NEGATED normal — replaced
+  with `-normalAt`, exact under IEEE sign symmetry.
+- terrain's private `polyLen` → geom, exported.
+- `insetPoly` (centroid-scale) moves to geom with its limitation
+  DOCUMENTED (wrong-ish for elongated paddies — but the pinned look
+  leans on it; a true edge-offset inset is a pin-regenerating visual
+  change, deliberately NOT taken in a refactor).
+
+Every module now imports geometry from `geom.ts` and ink from
+`brush.ts`. Proof of look-neutrality: the golden pin GREEN with NO
+regen (the pin re-renders both grounds through the new code at test
+time and byte-compares the draw stream — the r()-per-row call order in
+scanlineRuns was preserved exactly for this). Full verify 17/17.
+Shared-tree note: the co-agent's uncommitted story-bible edits
+(03-tiers.md, tiers/t2.md) left untouched.

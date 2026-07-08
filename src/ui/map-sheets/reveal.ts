@@ -6,7 +6,7 @@
 // a player-bound sheet). ALL of this is data: the T0 build plan locks the real
 // ladder/regions by editing REVEAL + RUNG_LADDER, never this painter.
 
-import type { Pt } from './brush';
+import type { Pt } from './geom';
 import { inkText, rng, scrawl, sv } from './brush';
 import { RUNG_LADDER } from './nodes';
 import { T0_WINDOW } from './layout';

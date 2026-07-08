@@ -7,20 +7,8 @@
 // and stays on the Andon Steel tokens (silver = survey ink · gold = built/worked
 // structure · steel = paper and shadow).
 
-import {
-  sv,
-  rng,
-  fineLayer,
-  inkLine,
-  brushStroke,
-  wash,
-  stipple,
-  resample,
-  offsetPolyline,
-  bbox,
-  pointInPoly,
-  type Pt,
-} from './brush';
+import { sv, rng, fineLayer, inkLine, brushStroke, wash, stipple } from './brush';
+import { bbox, edgeNormal, offsetPolyline, pointInPoly, resample, type Pt } from './geom';
 
 // ── local-frame helpers ──────────────────────────────────────────────────────
 
@@ -1253,9 +1241,7 @@ export function wallRun(
       const b = stones[Math.min(stones.length - 1, i + 1)]!;
       const angle = (Math.atan2(b[1] - a[1], b[0] - a[0]) * 180) / Math.PI + (r() - 0.5) * 26;
       const p = stones[i]!;
-      const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
-      const nx = -(b[1] - a[1]) / len;
-      const ny = (b[0] - a[0]) / len;
+      const [nx, ny] = edgeNormal(a, b);
       const off = (r() - 0.5) * 2.4;
       const tt = frame(p[0] + nx * off, p[1] + ny * off, angle);
       const w = 2.2 + r() * 1.6;

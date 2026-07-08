@@ -1,8 +1,12 @@
-// map-sheets/brush.ts — the ink toolkit (DEV fold). Every mark on the T0/T1 review
-// sheets is drawn through these: seeded-deterministic (a given seed always paints the
-// identical sheet — TST2), token-coloured (Andon Steel vars only), and brush-alive
-// (tapered variable-width strokes, never uniform CAD polylines — spec L2). Pure
-// SVG-DOM emitters: no game imports, no RNG outside rng(), no Date/Math.random.
+// map-sheets/brush.ts — the ink toolkit. Every mark on the T0/T1 sheets is drawn
+// through these: seeded-deterministic (a given seed always paints the identical
+// sheet — TST2), token-coloured (Andon Steel vars only), and brush-alive (tapered
+// variable-width strokes, never uniform CAD polylines — spec L2). Pure SVG-DOM
+// emitters: no game imports, no RNG outside rng(), no Date/Math.random. All
+// geometry comes from geom.ts (G-5) — this file is ink only.
+
+import { bbox, normalAt, pointInPoly, resample, scanlineRuns } from './geom';
+import type { Pt } from './geom';
 
 export const NS = 'http://www.w3.org/2000/svg';
 
@@ -34,99 +38,6 @@ export function rng(seed: string): () => number {
     h ^= h >>> 16;
     return (h >>> 0) / 4294967296;
   };
-}
-
-export type Pt = readonly [number, number];
-
-// ── geometry helpers ─────────────────────────────────────────────────────────
-
-export function bbox(pts: readonly Pt[]): { x0: number; y0: number; x1: number; y1: number } {
-  let x0 = Infinity;
-  let y0 = Infinity;
-  let x1 = -Infinity;
-  let y1 = -Infinity;
-  for (const [x, y] of pts) {
-    if (x < x0) x0 = x;
-    if (y < y0) y0 = y;
-    if (x > x1) x1 = x;
-    if (y > y1) y1 = y;
-  }
-  return { x0, y0, x1, y1 };
-}
-
-export function pointInPoly([px, py]: Pt, poly: readonly Pt[]): boolean {
-  let inside = false;
-  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-    const [xi, yi] = poly[i]!;
-    const [xj, yj] = poly[j]!;
-    if (yi > py !== yj > py && px < ((xj - xi) * (py - yi)) / (yj - yi) + xi) inside = !inside;
-  }
-  return inside;
-}
-
-/** Even-step resample of a polyline (keeps ends exactly). */
-export function resample(pts: readonly Pt[], step: number): Pt[] {
-  if (pts.length < 2) return [...pts];
-  const out: Pt[] = [pts[0]!];
-  let carry = 0;
-  for (let i = 1; i < pts.length; i++) {
-    const [ax, ay] = pts[i - 1]!;
-    const [bx, by] = pts[i]!;
-    const seg = Math.hypot(bx - ax, by - ay);
-    if (seg === 0) continue;
-    let d = step - carry;
-    while (d < seg) {
-      const t = d / seg;
-      out.push([ax + (bx - ax) * t, ay + (by - ay) * t]);
-      d += step;
-    }
-    carry = seg - (d - step);
-  }
-  const last = pts[pts.length - 1]!;
-  const tail = out[out.length - 1]!;
-  if (Math.hypot(last[0] - tail[0], last[1] - tail[1]) > step * 0.25) out.push(last);
-  else out[out.length - 1] = last;
-  return out;
-}
-
-/** The point a fraction t (0..1) along a polyline, + its unit tangent. */
-export function along(pts: readonly Pt[], t: number): { p: Pt; tan: Pt } {
-  const segs: number[] = [];
-  let total = 0;
-  for (let i = 1; i < pts.length; i++) {
-    const d = Math.hypot(pts[i]![0] - pts[i - 1]![0], pts[i]![1] - pts[i - 1]![1]);
-    segs.push(d);
-    total += d;
-  }
-  let want = Math.min(Math.max(t, 0), 1) * total;
-  for (let i = 0; i < segs.length; i++) {
-    if (want <= segs[i]! || i === segs.length - 1) {
-      const f = segs[i]! === 0 ? 0 : want / segs[i]!;
-      const [ax, ay] = pts[i]!;
-      const [bx, by] = pts[i + 1]!;
-      const len = segs[i]! || 1;
-      return {
-        p: [ax + (bx - ax) * f, ay + (by - ay) * f],
-        tan: [(bx - ax) / len, (by - ay) / len],
-      };
-    }
-    want -= segs[i]!;
-  }
-  return { p: pts[0]!, tan: [1, 0] };
-}
-
-/** Offset a polyline sideways (left of travel = positive d) via vertex normals. */
-export function offsetPolyline(pts: readonly Pt[], d: number): Pt[] {
-  const out: Pt[] = [];
-  for (let i = 0; i < pts.length; i++) {
-    const a = pts[Math.max(0, i - 1)]!;
-    const b = pts[Math.min(pts.length - 1, i + 1)]!;
-    const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
-    const nx = -(b[1] - a[1]) / len;
-    const ny = (b[0] - a[0]) / len;
-    out.push([pts[i]![0] + nx * d, pts[i]![1] + ny * d]);
-  }
-  return out;
 }
 
 // ── path builders ────────────────────────────────────────────────────────────
@@ -232,11 +143,7 @@ export function brushStroke(parent: SVGElement, pts: readonly Pt[], o: BrushOpts
     const left: Pt[] = [];
     const right: Pt[] = [];
     for (let i = run.from; i <= run.to; i++) {
-      const a = line[Math.max(0, i - 1)]!;
-      const b = line[Math.min(n - 1, i + 1)]!;
-      const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
-      const nx = -(b[1] - a[1]) / len;
-      const ny = (b[0] - a[0]) / len;
+      const [nx, ny] = normalAt(line, i);
       const hw = widths[i]! / 2;
       left.push([line[i]![0] + nx * hw, line[i]![1] + ny * hw]);
       right.push([line[i]![0] - nx * hw, line[i]![1] - ny * hw]);
@@ -334,42 +241,21 @@ export interface HatchOpts {
   readonly opacity?: number;
 }
 
-/** Hatch fill clipped to a polygon by sampling — the ink way to shade an area. */
+/** Hatch fill clipped to a polygon by sampling (geom.scanlineRuns — G-5) — the ink
+ *  way to shade an area. Node collapse (G-2): every inside-run rides ONE
+ *  multi-subpath d — a hill flank used to cost ~40-60 path elements, now one. */
 export function hatchArea(parent: SVGElement, poly: readonly Pt[], o: HatchOpts): void {
   const r = rng(o.seed);
-  const ang = ((o.angle ?? 38) * Math.PI) / 180;
-  const dx = Math.cos(ang);
-  const dy = Math.sin(ang);
-  const { x0, y0, x1, y1 } = bbox(poly);
-  const diag = Math.hypot(x1 - x0, y1 - y0);
-  const cx = (x0 + x1) / 2;
-  const cy = (y0 + y1) / 2;
-  const spacing = o.spacing ?? 14;
-  // node collapse (G-2): every inside-run rides ONE multi-subpath d — a hill
-  // flank used to cost ~40-60 path elements, now exactly one
+  const runs = scanlineRuns(poly, {
+    angleDeg: o.angle ?? 38,
+    spacing: o.spacing ?? 14,
+    r,
+    jitter: 0.35,
+    step: 6,
+  });
   let d = '';
-  const sampleStep = 6;
-  for (let off = -diag / 2; off <= diag / 2; off += spacing) {
-    const offJ = off + (r() - 0.5) * spacing * 0.35;
-    // scan along the hatch line; collect sub-segments where inside the polygon
-    let segStart: Pt | null = null;
-    let prev: Pt | null = null;
-    for (let s = -diag / 2; s <= diag / 2 + sampleStep; s += sampleStep) {
-      const px = cx + dx * s - dy * offJ;
-      const py = cy + dy * s + dx * offJ;
-      const inside = s <= diag / 2 && pointInPoly([px, py], poly);
-      if (inside && !segStart) segStart = [px, py];
-      if (!inside && segStart && prev) {
-        if (Math.hypot(prev[0] - segStart[0], prev[1] - segStart[1]) > sampleStep) {
-          d += `M${segStart[0].toFixed(1)},${segStart[1].toFixed(1)} L${prev[0].toFixed(1)},${prev[1].toFixed(1)} `;
-        }
-        segStart = null;
-      }
-      prev = [px, py];
-    }
-    if (segStart && prev && Math.hypot(prev[0] - segStart[0], prev[1] - segStart[1]) > sampleStep)
-      d += `M${segStart[0].toFixed(1)},${segStart[1].toFixed(1)} L${prev[0].toFixed(1)},${prev[1].toFixed(1)} `;
-  }
+  for (const { a, b } of runs)
+    d += `M${a[0].toFixed(1)},${a[1].toFixed(1)} L${b[0].toFixed(1)},${b[1].toFixed(1)} `;
   if (!d) return;
   parent.append(
     sv('path', {

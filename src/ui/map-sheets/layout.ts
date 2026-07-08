@@ -10,7 +10,7 @@
 //   paddies between house and river · everything worked is a fraction of the old
 //   traces · roads that go somewhere.
 
-import type { Pt } from './brush';
+import type { Pt } from './geom';
 
 export const WORLD = { w: 3200, h: 2100 } as const;
 

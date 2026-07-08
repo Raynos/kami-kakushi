@@ -5,27 +5,10 @@
 // composes brush.ts primitives, is seed-deterministic, and stays on Andon Steel tokens
 // (spec §3 L1/L2/L7). Baselines are drawn WEST→EAST (left→right); hills stack screen-up.
 
-import {
-  along,
-  brushStroke,
-  hatchArea,
-  inkLine,
-  offsetPolyline,
-  resample,
-  rng,
-  sv,
-  wash,
-  type Pt,
-} from './brush';
+import { brushStroke, hatchArea, inkLine, rng, sv, wash } from './brush';
+import { along, normalAt, offsetPolyline, polyLen, resample, type Pt } from './geom';
 
 // ── internals ────────────────────────────────────────────────────────────────
-
-function polyLen(pts: readonly Pt[]): number {
-  let len = 0;
-  for (let i = 1; i < pts.length; i++)
-    len += Math.hypot(pts[i]![0] - pts[i - 1]![0], pts[i]![1] - pts[i - 1]![1]);
-  return len;
-}
 
 /** One of five hill-silhouette families — dome / peak / shouldered / twin-crest /
  *  hog-back — with per-hill apex + sharpness jitter, so a range never reads as a
@@ -233,15 +216,12 @@ export function hillRange(parent: SVGElement, baseline: readonly Pt[], o: HillRa
   const rs = resample(baseline, 52);
   const massTop: Pt[] = [];
   for (let i = 0; i < rs.length; i++) {
-    const a = rs[Math.max(0, i - 1)]!;
-    const b = rs[Math.min(rs.length - 1, i + 1)]!;
-    const dl = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
-    const ux = (b[1] - a[1]) / dl;
-    const uy = -(b[0] - a[0]) / dl;
+    // the RIGHT of travel (screen-up for a W→E baseline) = the negated vertex normal
+    const [nx, ny] = normalAt(rs, i);
     // taper the mass to nothing at both ends — no vertical wall seams
     const edge = Math.min(1, i / 2.2, (rs.length - 1 - i) / 2.2);
     const lift = ((rows - 1) * liftStep + (26 + rm() * 52) * scale) * (0.12 + 0.88 * edge);
-    massTop.push([rs[i]![0] + ux * lift, rs[i]![1] + uy * lift]);
+    massTop.push([rs[i]![0] - nx * lift, rs[i]![1] - ny * lift]);
   }
   const massBot = offsetPolyline(rs, 22 * scale).reverse();
   wash(g, [...massTop, ...massBot], {

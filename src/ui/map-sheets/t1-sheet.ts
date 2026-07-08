@@ -3,7 +3,7 @@
 // tier changed (spec §2). Geography identical to T0 by construction: this file is
 // only the full frame + the furniture.
 
-import type { Pt } from './brush';
+import type { Pt } from './geom';
 import { paintWorld } from './ground';
 import { paintFurniture } from './t0-sheet';
 

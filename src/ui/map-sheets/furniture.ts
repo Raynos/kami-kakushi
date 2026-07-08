@@ -4,7 +4,8 @@
 // diagram. Everything composes from brush.ts (seeded, token-coloured, brush-alive);
 // silver = drawn state, gold = the frame keyline, shu = the reviser's red only.
 
-import { sv, rng, scrawl, inkLine, brushStroke, wash, inkText, resample, type Pt } from './brush';
+import { sv, rng, scrawl, inkLine, brushStroke, wash, inkText } from './brush';
+import { resample, type Pt } from './geom';
 
 /** Closed hand-scrawled rect path (corners + side midpoints so long sides waver). */
 function rectRing(x: number, y: number, w: number, h: number): Pt[] {

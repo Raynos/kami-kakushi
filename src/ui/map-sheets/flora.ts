@@ -4,19 +4,9 @@
 // seed-varied in silhouette, scale and rotation so no two trees read identical. Composes
 // brush.ts only; all randomness flows through rng(seed) — one seed, one identical grove.
 
-import {
-  bbox,
-  brushStroke,
-  inkLine,
-  pointInPoly,
-  resample,
-  rng,
-  stipple,
-  sv,
-  wash,
-  waveComb,
-} from './brush';
-import type { Pt } from './brush';
+import { brushStroke, inkLine, rng, stipple, sv, wash, waveComb } from './brush';
+import { bbox, edgeNormal, pointInPoly, resample } from './geom';
+import type { Pt } from './geom';
 
 const TAU = Math.PI * 2;
 
@@ -578,9 +568,7 @@ export function bambooGrove(parent: SVGElement, poly: readonly Pt[], o: { seed: 
   for (let i = 1; i < ring.length; i++) {
     const a = ring[i - 1]!;
     const b = ring[i]!;
-    const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
-    let nx = -(b[1] - a[1]) / len;
-    let ny = (b[0] - a[0]) / len;
+    let [nx, ny] = edgeNormal(a, b);
     const mx = (a[0] + b[0]) / 2;
     const my = (a[1] + b[1]) / 2;
     if (pointInPoly([mx + nx * 4, my + ny * 4], poly)) {

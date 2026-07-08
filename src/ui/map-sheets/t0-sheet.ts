@@ -3,7 +3,7 @@
 // design: geography lives in layout.ts, drawing in the primitives, scene order in
 // ground.ts — this file only marries them to the T0 crop.
 
-import type { Pt } from './brush';
+import type { Pt } from './geom';
 import { sv } from './brush';
 import { cartouche, foldCreases, northArrow, scaleBar, sheetBorder } from './furniture';
 import { paintWorld } from './ground';

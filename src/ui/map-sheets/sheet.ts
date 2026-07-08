@@ -6,7 +6,7 @@
 // (same public API: openT0V2Map / openT1Map).
 
 import { rng, scrawl, sv, tip } from './brush';
-import type { Pt } from './brush';
+import type { Pt } from './geom';
 import { ANCHORS, NIGHT_ROUTE, NIGHT_ROUTE_T1, T0_WINDOW, WORLD } from './layout';
 import type { SheetNode, Tier, ZoneKind } from './nodes';
 import { KIND_META, rosterFor, T1_IDS, T1_NODES, T1_NOTES } from './nodes';

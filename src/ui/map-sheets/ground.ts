@@ -5,20 +5,9 @@
 // vs lit, terrace numerals absent vs counting, the reviser's red layer. No zone
 // content here (nodes.ts) and no chrome (sheet.ts): only place.
 
-import type { Pt } from './brush';
-import {
-  bbox,
-  brushStroke,
-  fineLayer,
-  inkLine,
-  inkText,
-  pointInPoly,
-  rng,
-  stipple,
-  sv,
-  tip,
-  wash,
-} from './brush';
+import type { Pt } from './geom';
+import { bbox, pointInPoly } from './geom';
+import { brushStroke, fineLayer, inkLine, inkText, rng, stipple, sv, tip, wash } from './brush';
 import { bambooGrove, grassTufts, orchardRows, pine, reedBed, treeMass } from './flora';
 import { furrows, ghostBunds, paddyBlock, sweptCourt, terraceRun } from './fields';
 import {
