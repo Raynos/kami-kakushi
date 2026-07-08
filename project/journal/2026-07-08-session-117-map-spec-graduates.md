@@ -176,3 +176,13 @@ Landed:
   for new tiers) · repo-map.md (guides map-set, skill, workflows
   dir) · reading-queue entry for the two guides · the maps TODO
   cleared (delivered this session, ADR-089 spirit).
+
+Follow-up ruling (human, same session): the blind-pass runner gets
+**`args.sheets` per-sheet scoping** (the default guidance — most
+edits change one sheet's read; the FULL both-sheet pass is reserved
+for layout.ts geometry moves, HR/milestone closes, and new-tier
+acceptance) and its **loop agents route to SONNET** (blessed
+2026-07-08 — blindness matters, model size doesn't; D-124 satisfied).
+Image count stays. Cost shape: ~10–20k tokens per scoped run, ~40–60k
+for the full pass, fired only on look-bearing changes — the pin
+carries everything else for free.

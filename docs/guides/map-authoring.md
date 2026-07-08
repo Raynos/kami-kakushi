@@ -136,10 +136,15 @@ The loop that shipped T0/T1 at the AA bar, runnable by any agent:
 4. **Report** — a scored report in `project/audit/reports/` (committed).
 
 **One command:** the `map-blind-pass` workflow
-(`.claude/workflows/map-blind-pass.js`) runs capture → describe ×2 → judge →
-report. Invoke it via the Workflow tool: `{ name: 'map-blind-pass' }`
-(optional args: `{ url, outdir }`). Run it after any look-bearing change; a
-craft-only tweak can skip to your own capture review.
+(`.claude/workflows/map-blind-pass.js`) runs capture → describe → judge →
+report; its loop agents run on Sonnet (human-blessed routing, 2026-07-08).
+Invoke via the Workflow tool, **scoped to the sheet you edited**:
+`{ name: 'map-blind-pass', args: { sheets: ['T1'] } }` — most edits change
+one sheet's read. Run the FULL both-sheet pass (`{ name: 'map-blind-pass' }`)
+only when it earns its cost: shared geometry moved (`layout.ts` — R12 needs
+cross-sheet agreement), an HR/milestone close, or a new tier's acceptance.
+Run frequency: look-bearing changes only — refactors ride the pin (free) and
+craft tweaks need just your own capture review.
 
 ## §6 · Model routing — what needs whom
 

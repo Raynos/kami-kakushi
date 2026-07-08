@@ -32,10 +32,13 @@ guides; this skill routes you and holds the non-negotiables.
    the PNGs yourself**, then regen
    (`UPDATE_MAP_GOLDEN=1 pnpm exec vitest run src/ui/map-sheets/golden.test.ts`)
    and commit the hash WITH the change. Never regen an unexplained RED.
-2. **Look-bearing change → blind pass.** Run the committed runner:
-   Workflow `{ name: 'map-blind-pass' }` (needs the dev server:
-   `pnpm run dev`). All map-spec §5 **M** lines must pass, ≥ half **S**.
-   The report lands in `project/audit/reports/` — commit it.
+2. **Look-bearing change → blind pass.** Run the committed runner, scoped
+   to the sheet you edited: Workflow
+   `{ name: 'map-blind-pass', args: { sheets: ['T1'] } }` (needs the dev
+   server: `pnpm run dev`). Full both-sheet pass only for `layout.ts`
+   geometry moves, HR/milestone closes, or a new tier's acceptance. All
+   map-spec §5 **M** lines must pass, ≥ half **S**. The report lands in
+   `project/audit/reports/` — commit it.
 3. **Determinism.** `rng(seed)` only; sub-seeds as `` `${o.seed}:part` ``
    template strings; no `Math.random`/`Date`; Andon tokens only, no hex.
 4. **Data over drawing.** Positions/polygons → `layout.ts`; narrative →

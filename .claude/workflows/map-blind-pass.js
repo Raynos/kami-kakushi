@@ -1,9 +1,18 @@
 // The one-command blind-pass loop for the T0/T1 map sheets (s115 review T-3,
 // built 2026-07-08): capture → blind describe (one fresh agent per sheet, images
 // ONLY) → judge vs map-spec §5 → committed report. Invoke via the Workflow tool:
-//   { name: 'map-blind-pass' }            — defaults (dev server on :5173)
-//   { name: 'map-blind-pass', args: { url: 'http://localhost:5173/', outdir: '...' } }
+//   { name: 'map-blind-pass' }                          — full both-sheet pass
+//   { name: 'map-blind-pass', args: { sheets: ['T1'] } } — the edited sheet only
+//                                                          (the DEFAULT GUIDANCE for
+//                                                          single-sheet edits; run the
+//                                                          full pass when layout.ts
+//                                                          geometry moved, at HR/
+//                                                          milestone closes, or a new
+//                                                          tier's acceptance)
+//   args.url / args.outdir override the dev-server URL / capture dir.
 // Prereq: the dev server is running (pnpm run dev). The caller commits the report.
+// Loop agents run on SONNET (human-blessed routing, 2026-07-08 — blindness matters,
+// model size doesn't; D-124 satisfied by the explicit blessing).
 export const meta = {
   name: 'map-blind-pass',
   description:
@@ -20,6 +29,10 @@ export const meta = {
 
 const url = (args && args.url) || 'http://localhost:5173/';
 const outdirArg = (args && args.outdir) || '';
+const sheets = ['T0', 'T1'].filter((t) => (args && args.sheets ? args.sheets.includes(t) : true));
+if (sheets.length === 0) {
+  return { failed: 'args', detail: "args.sheets must name 'T0' and/or 'T1'" };
+}
 
 phase('Capture');
 const cap = await agent(
@@ -31,6 +44,7 @@ absolute-or-repo-relative file paths grouped per sheet — T0 files contain "t0"
 the filename, T1 files contain "t1".`,
   {
     label: 'capture',
+    model: 'sonnet',
     schema: {
       type: 'object',
       properties: {
@@ -56,8 +70,10 @@ const RUBRIC_NOTE = {
   T1: 'Apply the "Both sheets" lines R1–R11 AND the "T1 additions" R12–R18. For R12 (no landmark moved) you may additionally Read the T0 images listed for comparison.',
 };
 
+// capture is local playwright (token-free), so both sheets are always shot —
+// the sheets arg scopes only the AGENT work below (where the tokens are)
 const results = await pipeline(
-  ['T0', 'T1'],
+  sheets,
   // stage 1 — the blind reader: images only, no repo access
   (tier) =>
     agent(
@@ -73,7 +89,7 @@ relationship, what reads as old vs new vs abandoned, the roads and where they go
 the document itself (what kind of map, who might have made it, scale/legend), and
 anything that strikes you as WRONG, oversized, unexplained, or deliberately
 mysterious. State only what you can see. Return the description as plain text.`,
-      { label: `describe:${tier}`, phase: 'Describe' },
+      { label: `describe:${tier}`, phase: 'Describe', model: 'sonnet' },
     ),
   // stage 2 — the judge: rubric vs description
   (description, tier) =>
@@ -95,6 +111,7 @@ Return JSON: per-line verdicts with a one-line reason for every MISS.`,
       {
         label: `judge:${tier}`,
         phase: 'Judge',
+        model: 'sonnet',
         schema: {
           type: 'object',
           properties: {
@@ -132,25 +149,28 @@ const scored = results.filter(Boolean).map((r) => {
   };
 });
 const pass =
-  scored.length === 2 && scored.every((t) => t.mPass === t.mTotal && t.sPass * 2 >= t.sTotal);
+  scored.length === sheets.length &&
+  scored.every((t) => t.mPass === t.mTotal && t.sPass * 2 >= t.sTotal);
 for (const t of scored) log(`${t.tier}: M ${t.mPass}/${t.mTotal} · S ${t.sPass}/${t.sTotal}`);
 
 phase('Report');
 const report = await agent(
-  `Write the blind-pass report for the T0/T1 map sheets to a new file
+  `Write the blind-pass report for the map sheet(s) ${sheets.join('+')} to a new file
 project/audit/reports/<YYYY-MM-DD>-t0t1-map-blind-pass.md (compute the date with
 the "date +%F" shell command; if the file exists, suffix -2, -3, …). Markdown,
-~80-char wrap, in this shape: a header naming the capture dir (${cap.outdir}) and
+~80-char wrap, in this shape: a header naming the capture dir (${cap.outdir}),
+the sheets covered (${sheets.join(', ')} — a scoped run is NOT a full pass), and
 the overall verdict (${pass ? 'PASS' : 'FAIL'}); per sheet a scores line, a
 verbatim MISS table (id · kind · why), and the full blind description quoted in a
 collapsible/quote block. Data (JSON): ${JSON.stringify(scored.map(({ description: _description, ...rest }) => rest))}
 Full descriptions:
 ${scored.map((t) => `--- ${t.tier} ---\n${t.description}`).join('\n')}
 Return only the path of the file you wrote.`,
-  { label: 'report' },
+  { label: 'report', model: 'sonnet' },
 );
 return {
   pass,
+  sheets,
   report: (report || '').trim(),
   scores: scored.map(({ description: _description, ...rest }) => rest),
   capturedTo: cap.outdir,
