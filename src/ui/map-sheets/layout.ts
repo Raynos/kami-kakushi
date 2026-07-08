@@ -63,6 +63,54 @@ export const ANCHORS: Readonly<Record<string, Anchor>> = {
   shoin: { x: 2058, y: 1098, room: true },
 };
 
+// ── ground washes (L1 substrate) — one home for the wash geography ──────────
+export const WASHES = {
+  /** the valley floor — a broad quiet band below the hills */
+  valley: [
+    [30, 560],
+    [1200, 480],
+    [2400, 500],
+    [3170, 560],
+    [3170, 2070],
+    [30, 2070],
+  ] as readonly Pt[],
+  /** the worked heart — a lighter breath around compound + fields */
+  heart: [
+    [1300, 1450],
+    [2400, 1420],
+    [2450, 1900],
+    [1350, 1950],
+  ] as readonly Pt[],
+  /** the river meadow — a damp strip along the east bank, one tone apart */
+  riverMeadow: [
+    [560, 620],
+    [760, 700],
+    [700, 1300],
+    [640, 1900],
+    [470, 1900],
+    [540, 1250],
+  ] as readonly Pt[],
+  /** the hill skirt — colluvium under the foothills, a shade deeper (stops at
+   *  the forest's west edge — it must never stripe THROUGH the tree mass) */
+  hillSkirt: [
+    [30, 640],
+    [1250, 545],
+    [2380, 585],
+    [2560, 640],
+    [2540, 700],
+    [2360, 660],
+    [1250, 650],
+    [30, 750],
+  ] as readonly Pt[],
+  /** where the sparse life-scatter lives (the whole worked valley floor) */
+  lifeBand: [
+    [60, 620],
+    [3140, 640],
+    [3140, 2040],
+    [60, 2040],
+  ] as readonly Pt[],
+} as const;
+
 // ── terrain ──────────────────────────────────────────────────────────────────
 export const HILLS = {
   /** the far range — the valley's north wall */

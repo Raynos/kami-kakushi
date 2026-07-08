@@ -10,6 +10,7 @@
 import {
   sv,
   rng,
+  fineLayer,
   inkLine,
   brushStroke,
   wash,
@@ -214,6 +215,7 @@ export function roofMass(
 
   // shingle courses — fine texture so a large roof never reads flat
   if (w >= 76) {
+    const fineShingles = fineLayer(parent); // spec L10 — courses pay past the gate
     const courses = Math.min(3, Math.max(2, Math.floor(h / 30)));
     for (let i = 1; i <= courses; i++) {
       const f = i / (courses + 1);
@@ -223,7 +225,7 @@ export function roofMass(
       if (r() > 0.25) {
         const sh = r() * w * 0.1;
         inkLine(
-          parent,
+          fineShingles,
           fpts(
             [
               [-hw + insN + 4 + sh, yN],
@@ -242,7 +244,7 @@ export function roofMass(
       }
       if (r() > 0.35) {
         inkLine(
-          parent,
+          fineShingles,
           fpts(
             [
               [-hw + insN + 4 + r() * w * 0.08, yS],
@@ -372,12 +374,13 @@ export function roofMass(
     },
   );
 
-  // rafter ticks along the shadow eave — hand-spaced, some missing
+  // rafter ticks along the shadow eave — hand-spaced, some missing (fine: L10)
   if (w >= 42) {
+    const fineRafters = fineLayer(parent);
     for (let x = -hw + 5; x <= hw - 5; x += 8 + r() * 5) {
       if (r() < 0.16) continue;
       tick(
-        parent,
+        fineRafters,
         t([x, hh + 0.5]),
         t([x + (r() - 0.5) * 1.6, hh + 2.2 + r() * 1.4]),
         `${o.seed}:rt${x.toFixed(0)}`,
@@ -642,6 +645,8 @@ export function kura(
 
   // namako lattice — crossed hairlines on the lower body; the course count, skirt
   // height, and door placement vary by seed so a row of kura never reads stamped
+  // (fine register — the lattice is the close view's reward, spec L10)
+  const fineNamako = fineLayer(parent);
   const doorX = (r() - 0.5) * 10;
   const skirt = 3 + r() * 2.5;
   const cells = 2 + Math.floor(r() * 2); // lattice cells per side of the door
@@ -652,7 +657,7 @@ export function kura(
       const xb = doorX + side * (4 + (i + 1) * latW);
       if (Math.min(xa, xb) < -14 || Math.max(xa, xb) > 14) continue;
       inkLine(
-        parent,
+        fineNamako,
         fpts(
           [
             [xa, 13],
@@ -668,7 +673,7 @@ export function kura(
         },
       );
       inkLine(
-        parent,
+        fineNamako,
         fpts(
           [
             [xa, skirt],
@@ -1594,10 +1599,11 @@ export function stoneMarker(
       { seed: `${seed}:f`, w: 0.8, color: 'var(--ink-soft)', amp: 0.3 },
     );
     tick(parent, t([-4.4, 6.6]), t([4.4, 6.8]), `${seed}:base`, 1.3, 'var(--silver-dim)');
-    // offerings — small bright marks at the foot, never explained
+    // offerings — small bright marks at the foot, never explained (fine: L10)
+    const fineOff = fineLayer(parent);
     for (let i = 0; i < 3; i++) {
       const p = t([-2.6 + i * 2.6 + (r() - 0.5) * 1.2, 8.6 + (r() - 0.5) * 1.4]);
-      parent.append(
+      fineOff.append(
         sv('circle', {
           cx: p[0].toFixed(1),
           cy: p[1].toFixed(1),
@@ -1679,10 +1685,11 @@ export function stoneMarker(
       color: 'var(--silver-dim)',
       amp: 0.35,
     });
+    const fineRake = fineLayer(parent);
     for (let i = 0; i < 3; i++) {
       const yy = -3.4 + i * 3.2;
       inkLine(
-        parent,
+        fineRake,
         fpts(
           [
             [-6.6, yy + 0.8],
@@ -1945,10 +1952,11 @@ export function stableRange(
     ),
     { seed: `${o.seed}:yardwash`, fill: 'var(--steel-hi)', opacity: 0.07, amp: 2.5 },
   );
+  const fineYard = fineLayer(parent);
   for (let i = 0; i < 5; i++) {
     const yy = hh + 8 + i * (yd / 5.4);
     inkLine(
-      parent,
+      fineYard,
       fpts(
         [
           [-hw * 0.82, yy + 1.2],

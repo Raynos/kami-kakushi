@@ -184,3 +184,19 @@ bottom — every pick nulled). Seals now label as `map-sheet seal "<zone>"`
 with a data-zone-anchored selector. Two RED-able regression tests; the
 body-shot verified live with the modal open (centre pixel = sheet plate,
 86% of the mid scanline sheet-ish).
+
+Phase B batch 2 — the fine register + the ground plane:
+
+- The L10 register POPULATED: roof shingle courses, rafter ticks, kura
+  namako lattice, jizō offering dots, grave rake arcs, drill-yard rake
+  sweeps all ride `.ms-fine` now (register 42/92 → 104/124 elements;
+  the fit view sheds the micro-clutter, the close view pays craft).
+- Forest depth strata: pine() gains `dim` (deep-interior trees recede
+  by TONE per L2 — a scoped --silver-dim rebind); treeMass dims trees
+  >56u from the edge. The stamped read breaks.
+- The V-1 void fix, earned: wash geography moves to layout.WASHES (part
+  of the §4 leak closed) + two new bands (hill-skirt colluvium, river
+  meadow) + a seeded valley-wide life scatter (grass ticks · pebbles ·
+  bare-patch scuffs, ~150 marks) so empty ground reads as DRAWN paper.
+  One regression caught on capture: the skirt striped THROUGH the
+  forest mass — trimmed to stop at its west edge.

@@ -41,6 +41,7 @@ import { bridge, channel, fishWeir, flowTicks, pool, river, sluiceGate, weirBar 
 import { groundWashBand, hachureBand, hillRange } from './terrain';
 import {
   BOUNDARY_STONES,
+  WASHES,
   FIELDS,
   GUEST,
   HILLS,
@@ -118,30 +119,87 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
       fill: 'var(--steel-1)',
     }),
   );
-  // the valley floor — a broad quiet band below the hills
-  groundWashBand(
-    art,
-    [
-      [30, 560],
-      [1200, 480],
-      [2400, 500],
-      [3170, 560],
-      [3170, 2070],
-      [30, 2070],
-    ],
-    { seed: 'wash-valley', tone: 'var(--steel-2)', opacity: 0.35 },
-  );
-  // the worked heart — a lighter breath around compound + fields
-  groundWashBand(
-    art,
-    [
-      [1300, 1450],
-      [2400, 1420],
-      [2450, 1900],
-      [1350, 1950],
-    ],
-    { seed: 'wash-heart', tone: 'var(--steel-2)', opacity: 0.45 },
-  );
+  // the wash geography lives in layout.WASHES (one home — spec §0/§4)
+  groundWashBand(art, [...WASHES.valley], {
+    seed: 'wash-valley',
+    tone: 'var(--steel-2)',
+    opacity: 0.35,
+  });
+  groundWashBand(art, [...WASHES.hillSkirt], {
+    seed: 'wash-skirt',
+    tone: 'var(--steel-0)',
+    opacity: 0.3,
+  });
+  groundWashBand(art, [...WASHES.riverMeadow], {
+    seed: 'wash-meadow',
+    tone: 'var(--steel-hi)',
+    opacity: 0.14,
+  });
+  groundWashBand(art, [...WASHES.heart], {
+    seed: 'wash-heart',
+    tone: 'var(--steel-2)',
+    opacity: 0.45,
+  });
+  // the life scatter — the V-1 void fix, earned by rendering (ADR-149): sparse
+  // hand marks across the whole valley floor so empty ground reads as DRAWN
+  // paper — grass ticks, a pebble, a bare-patch breath — never a stamped grid
+  {
+    const lr = rng('valley-life');
+    const band = WASHES.lifeBand;
+    for (let yy = 660; yy < 2020; yy += 115) {
+      for (let xx = 90; xx < 3120; xx += 115) {
+        const p: Pt = [xx + (lr() - 0.5) * 96, yy + (lr() - 0.5) * 96];
+        if (lr() > 0.46 || !pointInPoly(p, band)) continue;
+        const kind = lr();
+        if (kind < 0.62) {
+          // a small grass tick pair
+          for (const lean of [-1, 1] as const) {
+            inkLine(
+              art,
+              [
+                [p[0], p[1]],
+                [p[0] + lean * (1.6 + lr() * 1.6), p[1] - 2.8 - lr() * 2],
+              ],
+              {
+                seed: `vl-${xx}-${yy}-${lean}`,
+                w: 0.9,
+                color: 'var(--ink-faint)',
+                amp: 0.3,
+                opacity: 0.95,
+              },
+            );
+          }
+        } else if (kind < 0.86) {
+          // a pebble
+          art.append(
+            sv('circle', {
+              cx: p[0].toFixed(1),
+              cy: p[1].toFixed(1),
+              r: (0.8 + lr() * 0.7).toFixed(2),
+              fill: 'var(--ink-faint)',
+              opacity: '0.7',
+            }),
+          );
+        } else {
+          // a bare-patch breath — a short horizontal scuff
+          inkLine(
+            art,
+            [
+              [p[0] - 3 - lr() * 3, p[1]],
+              [p[0] + 3 + lr() * 3, p[1] + (lr() - 0.5) * 1.4],
+            ],
+            {
+              seed: `vl-${xx}-${yy}-s`,
+              w: 0.7,
+              color: 'var(--ink-faint)',
+              amp: 0.5,
+              opacity: 0.55,
+            },
+          );
+        }
+      }
+    }
+  }
 
   // ── 1 · terrain: the north wall of the valley (G1) ──
   hillRange(art, HILLS.range1, { seed: 'hills-far', rows: 3 });

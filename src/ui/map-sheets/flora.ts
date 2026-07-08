@@ -182,7 +182,14 @@ function needlePad(
 /** ONE brush pine — the survey's conifer pictogram. Five silhouettes selected by seed
  *  (kasa umbrella · two-step · wind-leant · tall three-tier · scrub), with seed-jittered
  *  scale, rotation and trunk lean, so a hillside of pines never reads stamped. */
-export function pine(parent: SVGElement, x: number, y: number, s: number, seed: string): void {
+export function pine(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  s: number,
+  seed: string,
+  o?: { dim?: boolean },
+): void {
   const r = rng(seed);
   const sd = seedSeq(seed);
   const variant = Math.floor(r() * 5) % 5;
@@ -190,6 +197,8 @@ export function pine(parent: SVGElement, x: number, y: number, s: number, seed: 
   const rot = (r() - 0.5) * 9;
   const lean = (r() - 0.5) * 0.36;
   const g = sv('g', {
+    // deep-interior trees recede by TONE (ink ramp), never by opacity (L2)
+    ...(o?.dim ? { style: '--silver-dim: var(--ink-soft)' } : {}),
     transform: `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rot.toFixed(1)})`,
   });
   parent.append(g);
@@ -371,7 +380,11 @@ export function treeMass(
     }
   }
   spots.sort((a, b) => a.p[1] - b.p[1]);
-  spots.forEach((sp, i) => pine(parent, sp.p[0], sp.p[1], sp.s, `${o.seed}:t${i}`));
+  spots.forEach((sp, i) =>
+    pine(parent, sp.p[0], sp.p[1], sp.s, `${o.seed}:t${i}`, {
+      dim: distToEdge(sp.p, poly) > 56,
+    }),
+  );
 }
 
 /** A drooping fan of bamboo leaf-flicks from one node — the 个-stroke cluster every
