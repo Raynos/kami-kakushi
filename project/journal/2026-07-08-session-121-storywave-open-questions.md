@@ -13,6 +13,18 @@ to transcribe into the A0 economy docket-ADR.
   full ruling record: soft-caps principle + soft-cap map, Cluster A economy
   (Q3/4/5/8/9 + rice units + anti-grind spine), Clusters B/C/D
   (Q6/7/11/2/13/12/10/1), and an overrides-vs-defaults summary.
+- `docs/living/decisions.md` — NEW ADR-163 (economy: soft caps, rice-as-kura-
+  units, the sink loop; 🔁 refines ADR-158), ADR-164 (body: defeat still
+  bleeds + the no-auto-trickle HP-mend split; 🔁 refines ADR-155), ADR-165
+  (every rung-up opens a VN; R2 silent content). Forward-pointer notes added
+  to ADR-158 and ADR-155. NB the docket ADRs (152–162) already existed — my
+  rulings are refinements, not new dockets.
+- `docs/plans/fable-2026-07-07-storywave-game.md` — Open-questions section
+  marked ✅ RESOLVED with the ruling summary (original forks kept below for
+  reference); a resolved banner at the top; and inline milestone patches for
+  the 3 overrides + the rice reframe (G3 keep-the-bleed + no-auto-trickle;
+  G4.1 R2-opens-a-VN; G4.5 wage-verb + the rice-as-kura-units/soft-caps
+  NEW-scope note).
 - `project/journal/2026-07-08-session-121-storywave-open-questions.md` — this.
 
 ## Overrode the plan default
@@ -28,12 +40,17 @@ to transcribe into the A0 economy docket-ADR.
   NO auto HP trickle.
 
 ## Next intended steps
-1. Plan A transcribes the economy rulings into the A0 economy docket-ADR
-   (and the calendar / clean-break ADRs). This session did NOT write ADRs
-   (§S sync point 1/3 — ADR writes are Plan A's).
-2. The plan body + its "Open questions" section want updating to match the
-   3 overrides + the new economy shape (a Plan-B-executor / Plan-A task).
-3. Plan B execution can then start at G0 with all forks resolved.
+1. ~~Plan A transcribes the economy rulings into ADRs~~ — DONE this session
+   (human directed it directly; ADR-163/164/165 written as refinements to the
+   existing docket). Human intent supersedes §S sync-point 1's Plan-A-owns-ADRs
+   convention (ADR-022).
+2. ~~Update the plan body~~ — DONE (resolved banner + inline milestone patches).
+3. **Rice-model scoping pass before build** — the rice-as-measured-kura-units
+   reframe (ADR-163) is NEW scope the milestone bodies predate; G1/G3/G4.5 want
+   a proper spec pass (still MD-only until the human greenlights the rebuild).
+4. Plan B execution starts at G0 when the human is ready — **NOT yet** (human
+   paused the rebuild: "before we rebuild the whole game wait a minute";
+   "don't touch any typescript just yet").
 
 ## Landmines
 - Shared tree: another agent (graphics) is live — this session touched only

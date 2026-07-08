@@ -3,6 +3,12 @@
 **Status: 📋 PROPOSED — awaiting the human's read; executes in parallel with
 fable-2026-07-07-storywave-docs.md per the §S seam.**
 
+**Open questions RESOLVED (2026-07-08 walkthrough)** — see the bottom section
++ ADR-163/164/165. Three overrode the executor defaults (Q3 wage verb, Q6
+every rung-up gets a VN, Q8 keep the defeat bleed), and a **rice-model
+reframe** (measured kura-units + soft caps + the seasonal-pool sink loop) is
+NEW scope the milestone bodies predate (inline notes flag the affected steps).
+
 **Confidence: ( 90% Opus, 10% Fable )** — a multi-system engine rewrite where
 sequencing judgment, cross-gate reasoning, and taste-adjacent wiring decisions
 concentrate on nearly every milestone; only the mechanical sweeps (name
@@ -526,11 +532,14 @@ impairs work capacity** (missing); defeat routes to the sickroom.
   delete the guard at G4), lose DAYS (`SICKROOM_DAYS_LOST` seed: 2 via
   `advanceClock`), "Sōan's ledger grows" counter
   (`state.soanLedger: number`), sickroom bill once waged (a mon sink,
-  active from G4's wage lane). Re-evaluate the current carried-loss
-  bleed: DEFAULT — retire the carried coin/rice bleed in favor of
-  days-and-wages (the bible's framing); surfaced in Open questions.
+  active from G4's wage lane). **RESOLVED (ADR-164): KEEP the carried-loss
+  bleed** — a loss bleeds carried coin + goods ON TOP of days + Sōan's
+  ledger (rice is spared: it lives in the kura, never pocketed — ADR-163);
+  the double-cost curve (bleed + days) gets an explicit sim-check.
 - Treatment action (the big-injury mend at the sickroom node) is G4
-  content; the state fields land here.
+  content; the state fields land here. **ADR-164: HP has NO auto-trickle** —
+  it mends only via the paid treatment action or a manual "rest at sickroom"
+  trickle; food stays satiety-only (the two body meters stay distinct).
 
 **DoD:** full verify green; combat loss visibly costs days, not
 game-over; low-HP work impairment measurable.
@@ -601,11 +610,11 @@ coherent WIP commit there.
     forced name-question beat; first verbs rake + haul water; the
     day-book line *one man, name unknown*).
   - `rung-beats.md` ← U1–U7 picks (R1 terms-at-the-board … R7 Gonbei +
-    sleep + the FIRST DREAM). **R2 is the silent rung:** a
-    narration-only beat (no granter scene — the inert
-    `advance_rung_beat` path goes live for a speakerless beat; the
+    sleep + the FIRST DREAM). **R2 is the silent rung (ADR-165):** it opens
+    a VN frame like every other rung-up, but with SILENT/narration content —
+    no granter, quiet (NOT a no-modal path; every rung-up opens a VN). The
     speakerless narration-only grammar form is G3.5's work, ALREADY
-    LANDED before this worktree opens — G4 never touches the compiler).
+    LANDED before this worktree opens — G4 never touches the compiler.
     **R5 the Count** is an ensemble night scene — the
     grammar's ambient-speaker form (`Naoyuki (official): "…"`) already
     carries multi-voice; it plays through G2's `scripted` scene trigger
@@ -739,11 +748,23 @@ magnitudes SIM-OWNED, ADR-132).**
 - KIND lane (unbounded): labour pays rice/goods; combat drops materials
   only (G4.3 deleted `coinReward`); consumables run on kind — food,
   rest, dog rice, mending thread.
+  - **⚑ Rice reframe (ADR-163, NEW scope — re-models G1's balance re-key +
+    state):** rice is a MEASURED commodity held in the kura (shō for
+    wages/meals → bales/俵 for stores/sales → koku/石 at the nengu), never a
+    pocketed integer. Production is a **finite seasonal pool depleting by
+    diminishing returns**; sinks (consumption · spoilage · nengu · debt/lease
+    · seed) draw the kura DOWN; **progress = deeds, not the rice count**.
+    **Soft caps** are the economy's self-balancing principle throughout
+    (production = diminishing returns, storage = spoilage, HP = the rest
+    trickle, deeds = rising thresholds, mon = fixed wage + finite purse).
+    Magnitudes sim-owned.
 - MON lane (bounded): **C `src/core/wage.ts`** — the day-wage is FIXED
   PER GAME-DAY WORKED, from R5 (`WAGE_START_RUNG = 'R5'`,
   `DAY_WAGE_MON` seed sim-owned): a day counts if ≥1 timed labour act
-  completed that day; **collection default (Open question #3):** credit
-  at day rollover, one log line in the day-book's voice.
+  completed that day; **collection RESOLVED (ADR-163):** a tactile
+  **collect-at-the-board verb** (he is handed the coin; autoplay learns it),
+  NOT auto-credit — the daily-vs-weekly cadence is just a ×7/÷7 scalar on
+  the amount.
 - **M `src/core/content/market.ts`** — becomes Yohei's stall:
   `marketDays: DayOfWeek[]`, `vendorPurse` finite PER VISIT (he stops
   buying when it's empty — the kind-overflow cap, Open question #4),
@@ -1015,11 +1036,55 @@ in the archive table; the human pinged.
 
 ---
 
-## Open questions for the human
+## Open questions for the human — ✅ RESOLVED (2026-07-08 walkthrough)
+
+**All 13 ruled** in the human's live walkthrough (2026-07-08). Full record +
+the soft-cap map:
+[`project/brainstorms/2026-07-08-storywave-economy-decisions.md`](../../project/brainstorms/2026-07-08-storywave-economy-decisions.md);
+the three that needed ADRs are **ADR-163** (economy), **ADR-164** (body),
+**ADR-165** (rung-up VN). Magnitudes stay sim-owned (ADR-132).
+
+**Rulings** (⚑ = overrode the executor's default):
+1. **v0.4.0** — a milestone, not feature-completeness.
+2. Retire `ezu` whole — the sheet is the one map (zone seals get button/aria).
+3. ⚑ Wage = a **collect-at-the-board verb** (not auto-credit); cadence a
+   ×7/÷7 scalar (ADR-163).
+4. Yohei's finite purse caps mon; **raw materials not sellable** in T0;
+   overflow → house stores + crafting (ADR-163).
+5. `banked` reframed **AS house stores** — one-way barn-filling, no withdrawal
+   at T0 (ADR-163).
+6. ⚑ **Every rung-up opens a VN**; R2's content is silent/narration, not a
+   no-modal path (ADR-165).
+7. Chiyo: nengu + board ambient only, no granter beat.
+8. ⚑ Defeat **keeps the carried-loss bleed** (coin + carried goods; rice is
+   safe in the kura) (ADR-164).
+9. HP-mend split: **treatment** (mon) + a **manual "rest at sickroom"**
+   trickle; **no auto-trickle**; food is satiety-only (ADR-164).
+10. Keep all five bible-unmentioned systems, re-fictioned.
+11. Delete the old `estate-build-beats` bundle (superseded); the NEW estate
+    beats **re-diverge** via the supplemental wave (G0 item #6).
+12. Retirement notice ships with a bracketed `[dev]` placeholder (prod gated
+    at G7).
+13. `readout-seasons` = a **new surface row** unlocking at R2, beside the
+    kept day-of-week clock.
+
+**⚑ NEW SCOPE surfaced in the walkthrough** (the milestone bodies below
+predate it): **soft caps** as the economy's self-balancing principle, and
+**rice as a measured commodity held in the kura** (shō/bale/koku), never a
+pocketed integer — with the **finite-seasonal-pool + diminishing-returns**
+anti-grind loop, its sinks (consumption/spoilage/nengu/debt/seed), and
+**progress measured in deeds**, not rice. This re-models rice across G1
+(balance re-key) / G3 / G4.5 — see ADR-163. The affected milestones carry an
+inline note; a scoping pass over them is wanted before build.
+
+---
+
+_The original proposal's detailed forks (options + defaults) are preserved
+below for reference; the rulings above are canon._
+
+### Open questions — original proposal (reference)
 
 Each fork: options → the executor's default → what changes if overridden.
-(Per §S sync point 3 these become HD-items as they turn load-bearing; the
-economy ones fold into the A0 economy docket-ADR.)
 
 1. **Version semantics — v0.4.0 vs v1.0.0.** Default: **v0.4.0** — the
    T0 rewrite is a milestone on the road, not feature-completeness; the

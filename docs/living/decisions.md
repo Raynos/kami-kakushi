@@ -2466,6 +2466,10 @@ even if ADR numbers shift. The mapping: #1=ADR-152 · #2=ADR-153 ·
 - **Consequences:** core stat-model change (Plan B); all magnitudes
   ride ADR-132 (sim verdict + committed before/after); PRD §2 gains a
   forward-spec subsection pointing here (A2).
+- 🔁 **Refined by ADR-164 (2026-07-08):** defeat ALSO bleeds carried coin +
+  goods (rice is spared — it lives in the kura, ADR-163); HP has NO
+  auto-trickle — it mends via a paid treatment action or a manual
+  "rest at sickroom" trickle.
 
 ### ADR-156 ✅ — Docket #5: the night-round mini-dungeon runner
 
@@ -2552,6 +2556,11 @@ even if ADR numbers shift. The mapping: #1=ADR-152 · #2=ADR-153 ·
   `pnpm run verify:balance` + `balance:report` gate every magnitude
   change; PRD §4's spine moves only with this ADR's build (ADR-117
   interim-freeze holds meanwhile).
+- 🔁 **Refined by ADR-163 (2026-07-08):** the two open problems (a)/(b) are
+  now DECIDED on mechanism (Yohei purse cap + no raw-material sales; the
+  collect-at-the-board wage verb), plus soft caps as the self-balancing
+  principle, rice-as-measured-kura-units, the finite-seasonal-pool sink loop,
+  and `banked` = house stores. Magnitudes remain sim-owned.
 
 ### ADR-159 ✅ — Docket #8: the pillar-structured standing/deeds tier-up engine
 
@@ -2658,3 +2667,121 @@ even if ADR numbers shift. The mapping: #1=ADR-152 · #2=ADR-153 ·
   in `t0v2/` are the review record of this wave; PRD §5.4 carries a
   one-line note of the wave exception (placed at A1). Future fiction
   rides ADR-139/ADR-143 unchanged.
+
+## The storywave open-questions walkthrough (2026-07-08)
+
+Rulings from the human's live walkthrough of the storywave GAME plan's 13
+open questions ([`docs/plans/fable-2026-07-07-storywave-game.md`](../plans/fable-2026-07-07-storywave-game.md)
+§ "Open questions"). Full ruling record + the soft-cap map:
+[`project/brainstorms/2026-07-08-storywave-economy-decisions.md`](../../project/brainstorms/2026-07-08-storywave-economy-decisions.md).
+Three rulings needed ADRs (below); the other ten took the plan's default and
+live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
+
+### ADR-163 ✅ — the economy walkthrough: soft caps, rice-as-kura-units, the sink loop (🔁 refines ADR-158)
+
+- **created_date:** 2026-07-08
+- **Context:** ADR-158 locked the ledger/barn/debt shape and adopted the two
+  coin lanes as direction, DEFERRING two open problems — (a) kind-overflow
+  sinks and (b) the wage-collection moment — to sim time. In the walkthrough
+  the human resolved both as DESIGN now, and surfaced a unifying
+  self-balancing principle plus a concrete rice model.
+- **Decision:**
+  1. **Soft caps are the economy's self-balancing principle** — diminishing
+     returns / rising costs / decay, never hand-tuned hard walls. Set a
+     CURVE; the economy finds equilibrium. Grind-proof by construction (every
+     axis flattens; pushing past equilibrium is wasted effort). The soft-cap
+     map: rice/goods production = diminishing returns as the season pool
+     depletes · the kura = spoilage · free HP recovery = the slow rest
+     trickle (ADR-164) · standing/deeds = rising rung thresholds (ADR-159) ·
+     mon inflow = fixed wage + finite purse.
+  2. **Rice is a MEASURED COMMODITY held in the kura, never pocketed** —
+     counted in period units (shō for wages/meals → bales/俵 for
+     stores/sales → koku/石 at the nengu). It accrues to house stores; the MC
+     never carries loose rice. Retires the abstract "N rice" integer (the
+     immersion problem the human flagged: "what even is '100 rice'?").
+  3. **The anti-grind spine:** a season is a FINITE production pool depleting
+     by DIMINISHING RETURNS (not a hard stop — a determined player always
+     eeks a trickle). Sinks draw the kura DOWN: consumption (steady daily
+     draw) · spoilage (the storage soft cap) · the nengu (Autumn's reckoning,
+     the exit gate) · debt/lease · seed. **Progress is DEEDS/rung standing,
+     not the rice count** — rice is working capital that oscillates; deeds
+     are what you keep (dovetails ADR-159).
+  4. **Resolves ADR-158 open problem (b):** the day-wage is collected by a
+     tactile **"collect-at-the-board" verb** (he is handed the coin), not
+     auto-credited. Daily-vs-weekly cadence is a ×7/÷7 scalar on the amount
+     (pacing-tuned); autoplay learns the verb.
+  5. **Resolves ADR-158 open problem (a):** raw materials are NOT sellable in
+     T0 — Yohei's `buys:` whitelist is rice + named goods only, purse finite
+     per visit; kind-overflow drains to house stores + crafting inputs, never
+     coin.
+  6. **`banked` is reframed AS house stores** (ADR-158's "filling the barn is
+     the HOUSE's economy" made concrete): deposits are one-way barn-filling
+     at T0 (raise stores, bank deeds, feed the nengu fiction); no withdrawal
+     verb at T0; the MC's own keeping is what he carries + the woodshed chest.
+- **Why:** the two lanes only read as two if the KIND lane is bounded by
+  something — soft caps + finite seasonal pools give it a self-balancing
+  ceiling without hard numbers, and measured rice-in-the-kura grounds the
+  fiction. Deciding the two "open problems" as design fixes the MECHANISM; the
+  MAGNITUDES (curve exponents, sink rates, wage size) stay sim-owned.
+- **Consequences:** 🔁 refines ADR-158 — its "resolved-at-sim-time" clause for
+  problems (a)/(b) is superseded on MECHANISM (magnitudes still sim-owned).
+  Plan B's economy build (G1 balance re-key, G3, G4.5) implements the
+  rice-as-measured-kura-units model, the seasonal-pool diminishing-returns
+  sources, the sink set, and the wage verb; every magnitude rides
+  `verify:balance` + `balance:report` (ADR-132). PRD §4's spine moves with
+  this build (ADR-117 interim-freeze holds meanwhile). **The rice-unit reframe
+  is NEW scope** vs the plan's original "keep the rice integer" assumption —
+  flagged in the plan body.
+
+### ADR-164 ✅ — the body-economy walkthrough: defeat still bleeds; the HP-mend split (🔁 refines ADR-155)
+
+- **created_date:** 2026-07-08
+- **Context:** ADR-155 locked "one body, two meters, coupled one way" +
+  defeat-as-sickroom (lose days, Sōan's ledger grows), but left the MATERIAL
+  cost of defeat and WHAT HEALS HP open (Q8, Q9). The human ruled both.
+- **Decision:**
+  1. **(Q8) Defeat KEEPS a carried-loss bleed** — combat must carry real
+     danger: a loss bleeds what the MC is CARRYING (coin + goods/materials),
+     ON TOP OF the days lost + Sōan's growing ledger. Because rice lives in
+     the kura and is never pocketed (ADR-163), a defeat naturally spares
+     rice — the bleed hits coin + carried goods only, keeping the two-lane
+     read clean.
+  2. **(Q9) The HP-mend split — no auto-trickle:** HP does NOT regen
+     ambiently. Serious injury mends via a **treatment action** at the
+     sickroom (costs mon once waged, else a day); the free fallback when broke
+     is a **manual "rest at sickroom" action** that slowly trickles HP.
+     Recovery is always a deliberate act (pay for speed, or spend days).
+     Food stays satiety-only; the two body meters stay genuinely distinct.
+- **Why:** keeping the bleed makes losing sting in the moment, while routing
+  rice out of the carried pool keeps the penalty legible. No auto-trickle
+  makes HP recovery a resource the player spends (mon or days) — which is what
+  turns the sickroom + Sōan's ledger into real economic pressure, not a free
+  nap.
+- **Consequences:** 🔁 refines ADR-155 — adds the defeat material-bleed and the
+  no-auto-trickle mend split. Plan B: G3 KEEPS the carried-loss bleed
+  (reversing the plan's original "retire the bleed" default) and lands the
+  no-auto-trickle rule; the treatment action + manual rest-at-sickroom are G4
+  sickroom content. All magnitudes (bleed size, `SICKROOM_DAYS_LOST`,
+  treatment cost, trickle rate) sim-owned; the double-cost curve (bleed +
+  days) gets an explicit sim-check.
+
+### ADR-165 ✅ — every rung-up opens a VN; content varies (the R2 silent rung)
+
+- **created_date:** 2026-07-08
+- **Context:** the plan's default made the R2 "silent rung" a narration-only
+  promotion with NO VN modal (a special no-scene path). The human ruled the
+  opposite on structure (Q6).
+- **Decision:** **every rung-up opens a VN scene** — the promotion is always
+  the same ritual moment (one uniform "rung → VN" engine path, one
+  player-facing beat; TST1 / kernel #6). What goes INSIDE varies by rung:
+  R2's VN content is the silent/narration treatment (no granter, quiet — the
+  bible's deliberately wordless rung), but the FRAME is present exactly like
+  every other rung.
+- **Why:** a uniform promotion ritual reads better than a special-cased
+  missing modal and is simpler in the engine (no inert no-scene branch). The
+  bible's "silence" at R2 is a CONTENT choice (what the VN says), not a
+  STRUCTURAL one (whether the VN opens).
+- **Consequences:** Plan B G4.1/G4.6 — R2 gets a VN frame with silent content,
+  reversing the plan's "no granter modal / inert `advance_rung_beat` path"
+  default; the VN modal carries all eight rung-ups uniformly. No magnitude
+  impact.
