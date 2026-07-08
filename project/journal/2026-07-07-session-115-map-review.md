@@ -166,3 +166,11 @@ Third landing — craft + canon (drain items 5/6/8/11 + the hybrid):
 - ADR-151 hybrid canon element: on T1 one stretch of the precinct wall
   north of the lived corner is re-stacked in fresh work + 改・繕 — the
   first hand laid on the old ground; the ruin core stays untouched.
+
+Drain closed: FB-178..FB-196 logged in
+`project/feedback-human/2026-07-07-playtest.md` (17 sheet items — all ✅,
+FB-193 as the ADR-151 hybrid — + the two capture-TOOL bugs FB-195/196
+left 🔲 open, fix queued); the session file + JSONs archived
+(`playtest-inbox/archive/2026-07-07T22-29-33-9aa00d*`). pending/ is
+empty. Next: FB-195/196 tool fix, then Phase B remainder (fine register,
+ground texture, forest strata, wing fills) → rung mechanism → Phase C.
