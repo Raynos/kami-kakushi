@@ -23,8 +23,8 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 
 ## Where we are now
 
-- **PRD V2.3** — 6-tier reshape rippled; `prd.md` = a stub index →
-  `docs/living/prd/*`; §4 + §7 MS2–MS7 provisional (ADR-059).
+- **PRD** — `prd.md` = stub index → `docs/living/prd/*` (seven-tier per s118
+  ripple); §4 + §7 MS2–MS7 provisional (ADR-059).
 - **v0.3.0–v0.3.7 shipped** the full T0 MS0–MS4 arc (FB-1–FB-117), the T0
   rebuild (**ADR-107–116**) + v0.3.5 deltas (**ADR-118–125**; R7 cap → T1).
 - **✅ THE TASTE LOCK (ADR-126, s57):** `taste.md` (21 principles, capped) ·
@@ -32,20 +32,19 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 - **✅ UI-v2 Andon Steel SHIPPED + PH5-CERTIFIED (s98, 2026-07-06):** M1–M7
   (tokens/fonts · materials · Andon rail|desk|log-window + phone band · GBA
   cold open · VN/ceremony heat · variants steel-native · **ADR-144** retires
-  the woodblock locks) + drains FB-127–FB-172. HR-7 ✅ (絵図 map pick — superseded by ADR-151 below).
-- **✅ Process/e2e/narrative infra** (s77–s94): FB-1–10 · e2e lane
-  (ADR-141/142) · s90 hardening (ADR-140) · ADR-139 story diverge.
+  the woodblock locks) + drains FB-127–FB-172.
+- **✅ Process/e2e/narrative infra** (s77–s94): FB-1–10 · e2e lane ·
+  ADR-139/140/141/142.
 - **✅ T0/T1 MAPS PLAYER-BOUND, HR-12 ✅ (s112–117, ADR-149/151):** the sheet =
   THE player map. Drain · reveal mech · blind-pass all-M · golden pin · Phase C
   closed · s117 guides+skill+runner — non-Fable map builds; spec→HR→build.
 - **🔧 T2 VALLEY MAP BUILT (s119, `?t2-map-demo`):** spec §6 (HR-13 "build it")
   → drawn (demoted estate + Asagiri + `ruinRevealed`); pinned, verify-green,
   human = look arbiter. **NOT DONE vs §6.1: no T2 rungs / fog** (T0-only still).
-- **✅ THE PHASE-2 ECONOMY (ADR-145, s100):** the A+B loop shipped — 5 deed
-  sources · deed-gated U1–U4 staged build + E1 beats · tracker diverge (HR-11)
-  · retuned in-band · PRD rippled. **✅ FB-121 REQUIREMENTS RUNGS (ADR-137,
-  s101):** points meter DEAD — authored hidden lists, %-bar, locked flavor
-  (HR-12/13 ✅). RESIDUE: R4+ predator kills parked (combat-curve retune).
+- **✅ PHASE-2 ECONOMY (ADR-145, s100):** A+B loop shipped — 5 deed sources ·
+  deed-gated U1–U4 + E1 beats · tracker diverge (HR-11) · PRD rippled.
+  **✅ FB-121 REQUIREMENTS RUNGS (ADR-137, s101):** points meter DEAD — hidden
+  lists, %-bar (HR-12/13 ✅). RESIDUE: R4+ predator kills parked (curve retune).
 - **✅ THE BIBLE — DONE & BLESSED (s109–116, ADR-150):** all 7 tier sheets ·
   full cast · origin relocked warm (Tahei) · use-name **GONBEI** · register
   rules law · THE FALL · the salvage/audit cross-check ruled in (law §0.5.7,
@@ -65,8 +64,10 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 - **Phase-2 story + tracker picks** 🔲 — HR-10 (the estate-build beat take:
   ledger canon vs land/heir alternates) · HR-11 (tracker A ladder / B rail /
   C ledger); PH5 fun-certification of the new ~65-min Phase 2 rides HR-1.
+- **Graphics explorations plan read** 🔲 (s120) — top-3 slate (estate cutaway
+  · cold-open scene card · progression menu), prototype-first: `docs/plans/
+  fable-2026-07-08-graphics-explorations.md`; register `docs/living/graphics-concepts.md`.
 
-(Live lists: `project/human-in-the-loop/review.md` + `project/todo-human.md`.)
 
 ## Deferred / owed tail (engineering — not blocking the deploy)
 
@@ -99,8 +100,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 
 > 🎮 **v0.3.9 "the steel release" shipped 2026-07-06 via `/ship`** (the full
 > Andon Steel UI-v2 + drains FB-127–172 + the deployed-variant-toggle fix,
-> ADR-138 axis; gh-pages `a337ab6` ← main `3ebeef0`; Pages was still
-> propagating at ship time — `ship.sh --verify-live` to confirm). Live at
+> ADR-138 axis; gh-pages `a337ab6` ← main `3ebeef0`). Live at
 > raynos.github.io/kami-kakushi. Open = the human queue above.
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
@@ -109,8 +109,8 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).
-3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
-   subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
+3. Drive **headless-only** (hook-enforced — NEVER a headed browser, incl.
+   subagents): `window.__qa` / `node src/scripts/qa-shots.mjs`; `newGame()` resets.
 4. **Next** — **STORYWAVE build wave** (s116). **Plan A (DOCS) A0–A4 ✅ DONE
    (s118):** docket ADR-152…162 · PRD §5→pointer · §1–§7 seven-tier/pillar
    ripple · roadmap; **A5 GATED on Plan B ship**. **Plan B (GAME):** human READS
