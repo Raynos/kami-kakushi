@@ -142,6 +142,8 @@ waves B4/B3 respectively.)
 | Kanta | **Kenta** (origin friend) | game plan G4 |
 | Asagiri (the village) | **KEPT** — named in the bible (HD-27, human 2026-07-08); no rename | — |
 | Akagi | CUT — the T4 enemy is Lord Tomita | game plan G4 |
+| Osen (the sweetheart) | CUT — not in the bible cast (origin relock) | game plan G4 |
+| Tōzō (the T0 smith) | retired from T0 — T1's smith is Tetsuji | game plan G4 |
 
 > **Built T0 quest titles** (old-canon, replaced at game plan G4.3 by the
 > first night round, the orchard chain, and seasonal-defense quests) — listed

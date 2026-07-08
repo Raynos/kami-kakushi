@@ -103,7 +103,8 @@ T0–T1, **monme** unlocking from T2, **ryō** by T4–T5 (1 ryō = 50 monme = 4
 | **T2 Village** | ~10K → ~**250K** produced | mon → **monme** reveals | ~0.5K → ~**15K** ip | "**42K rice**", "**Estate 11K**" |
 | **T3 Region** *(v1 end-gate)* | ~100K → low **M** | monme | ~5K → ~**110K** ip | "**1.8M rice**", "**Office 78K**" |
 | **T4 Castle-town** *(beyond v1)* | low **M** → ~**100M** | monme → **ryō** reveals | ~50K → ~**900K** ip | "**240M rice**", "**Name 900K**" |
-| **T5 Edo** *(beyond v1)* | ~100M → low **B** | ryō | ~1M → ~**12M** ip | "**3.4B rice**", "**Name 11M**" |
+| **T5 Domain** *(beyond v1)* | ~100M → low **B** | ryō | ~1M → ~**12M** ip | "**3.4B rice**", "**Name 11M**" |
+| **T6 Edo** *(beyond v1)* | — *(provisional; sim-owned)* | ryō | — *(provisional)* | — |
 
 ### §4.0b The STANDING ladder — koku, the assessed prestige SCORE (never spent)
 
@@ -121,7 +122,8 @@ bands (distinct from the resource scale above):
 | **T2 Village** | **~1,000 → 5,000** | |
 | **T3 Region** *(v1 end-gate)* | **~5,000 → 10,000** | approaches the daimyō line by the v1 end-gate |
 | **T4 Castle-town** *(beyond v1)* | **10,000 (DAIMYŌ) → ~100,000** | 10,000 koku = the daimyō threshold; a **personal koku stipend** appears from T4+ (House-only before) |
-| **T5 Edo** *(beyond v1)* | **~100,000 → 1,000,000+** | T5 caps the full parallel **Office / court-rank / favour** track (koku = scale, office = access) — T0 grants exactly ONE home status token; the surname→two-swords→gōshi ladder is T1–T5 (**ADR-122**) |
+| **T5 Domain** *(beyond v1)* | **~100,000 → 1,000,000+** | T5 caps the full parallel **Office / court-rank / favour** track (koku = scale, office = access) — T0 grants exactly ONE home status token; the surname→two-swords→gōshi ladder is T1–T5 (**ADR-122**) |
+| **T6 Edo** *(beyond v1)* | — *(provisional; sim-owned)* | the ladder's subject flips to the house's Edo standing (H0→H7); bands re-derive at sim time (ADR-117 freeze) |
 
 *(Recorded as ADRs **ADR-107** — the rice/coin/koku split, **ADR-108** — coin denominations, **ADR-109** — the
 tier→koku ladder + office track + T4 stipend. The upper koku bands are provisional/liquid.)*
@@ -1549,7 +1551,7 @@ pillar pairs, post-trade-clamp, **excluded from the gate-check**; §4.3.1) as th
 climb (≥ its per-tier FLOOR) + this Phase-2 grind**, so the realised tier always runs **above** its floor (the
 pacing regression fails on **undershoot only**, §4.8.4).
 
-### §4.8.2 The Village tier (T2) — Phase-1 rung pacing
+### §4.8.2 The Valley (T2) — Phase-1 rung pacing
 
 The Village tier's Phase-1 (V0→V7) spends its **~8–10 h** floor on **wider** content (market, coin, component
 crafting, silk *meibutsu*, rumours board, valley-scale combat, the **3rd weapon line — Staff/polearm**) at
@@ -1575,7 +1577,7 @@ accrue **after V7** (§4.8.1b), to the hybrid **good-in-3 + great-in-2** gate. T
 **Office is a fresh required gate** (0 before → good-band 2K here). Season ≈ 60 min ⇒ ~8 seasons span the
 Village Phase-1 floor.
 
-### §4.8.3 The Region tier (T3) — Phase-1 rung pacing (the v1 end-gate)
+### §4.8.3 The Region (T3) — Phase-1 rung pacing (the v1 end-gate)
 
 The Region tier (G0→G7) is the **v1 END-gate** (`outcome: t3done`). Its Phase-1 is the longest, widest: region
 map, *sekisho* travel, region-scale human mobs (rōnin/bandits), the Origin faction + both personal payoffs,

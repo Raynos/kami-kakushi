@@ -96,43 +96,84 @@ sparring slots; a new region reveals one road → one threat → one contact. Re
 
 ## 2.2 Time, season & world clock (active-only)
 
-**(a) What it is.** An **abstract in-game clock advanced by active play** (a single tick driver with
-per-tick / per-day / per-week scheduler). Drives day/season (kanji tags), weather, lunar phase,
-festivals, vendor restocks, food rotting/fermenting, and — critically — the **seasonal *judged*
-Influence results** (§2.16). **ACTIVE-ONLY:** the clock advances **only while the game is open and
-visible**, and **PAUSES on `document.hidden`** — there is **no offline or background accrual and no
-wall-time catch-up**. The story never advances while the tab is backgrounded or the game is closed.
+> **FORWARD SPEC (storywave).** This subsection specs the bible's
+> design per docket #2 (ADR-153). The BUILT game still runs the old
+> mechanics until that ADR's build lands (the storywave game plan).
+> Banner removed at the docs plan's A5 closure.
 
-**(b) Player-facing behaviour / loop.** Time passes as the player works; a day/season indicator (e.g.
-春 spring) is always visible once revealed. Seasons gate which gathering nodes are productive (rice
-cycle, foraging windows) and trigger festivals and the reckoning beats. There is **no offline accrual
-and no offline summary**: the clock **pauses the moment the tab is hidden** and halts when the game is
-closed. The "leave it running, check the progress" feel comes from **tab-open auto-resolve combat +
-auto-repeat labour** — active-only loops that keep ticking **while you watch** — not from any
-background or wall-time accrual.
+**(a) What it is — the six-season manual container calendar (docket #2/ADR-153).**
+The year is **SIX rotating seasons** — **Winter → New Year → Spring → Summer →
+Bon → Autumn** — each a **CONTAINER filled at the player's own pace**, not a
+fixed-length span. **Season change is a MANUAL action** (a per-season VN overlay
+marks the turn), so the **season becomes STORED, advanced state** — no longer
+derived from a day counter. Game time displays only the **DAY OF THE WEEK**; the
+month/year counter is **hidden**. **Seasons UNLOCK at T0-R2** (R0–R1 show only
+the day of the week — "a man counts days again when he has a future").
+**Season-exit events exist** — the **nengū (land-tax) is Autumn's exit gate**, an
+authored scene at the board — and the **seasonal JUDGE rides every season exit**
+(the pillar reckoning, §2.16, fires as the container closes on a new high-water
+mark). Nodes carry **per-season flavour**; season-specific actions, enemies,
+content and **stall STOCK** exist (Yohei's stall restocks per season); unique
+characters can appear in a specific season (Iori lodges in New Year and Bon).
+Time-skips at tier seams ride the same wheel. The clock stays **ACTIVE-ONLY:** it
+advances **only while the game is open and visible**, **PAUSES on
+`document.hidden`**, with **no offline or wall-time accrual** — the story never
+advances while the tab is backgrounded or the game is closed.
 
-**(c) Rough DATA shape.**
-- `WorldClock { tick, day, season ('spring'|'summer'|'autumn'|'winter'), year }` — **only the day index
-  and tick persist.** Weather and lunar phase are **NOT stored fields**: they are **DERIVED on read** via a
-  pure stateless helper `deriveDayKeyed(seed, 'weather'|'lunar', day)` over the day-keyed RNG sub-stream,
-  so nothing weather/lunar ever serialises (only `day` does). This keeps the clock replay-stable
-  and the save minimal.
+**As the BUILT game ships it (until docket #2's build lands).** The running
+engine runs a **28-day derived 4-season clock** — `season(day) = floor(day / 28)
+mod 4` over `'spring'|'summer'|'autumn'|'winter'`, **derived-never-stored** (only
+the day index and tick persist; §6). Season is a pure function of the day
+counter, there is no manual season-turn action, and the judge runs on a
+day-interval (below), not a season-exit gate. The six-season forward-spec
+calendar replaces this model at the storywave game build (PH2 — the delta is the
+banner's, not a live change already made).
+
+**(b) Player-facing behaviour / loop.** Time passes as the player works. In the
+BUILT game a day/season indicator (e.g. 春 spring) is always visible once
+revealed and seasons gate which gathering nodes are productive (rice cycle,
+foraging windows) and trigger festivals and the reckoning beats; under the
+forward spec the DAY OF THE WEEK shows early and the SEASON label + VN overlay
+arrive when seasons unlock at T0-R2, each ended by the manual season-turn. Either
+way there is **no offline accrual and no offline summary**: the clock **pauses
+the moment the tab is hidden** and halts when the game is closed. The "leave it
+running, check the progress" feel comes from **tab-open auto-resolve combat +
+auto-repeat labour** — active-only loops that keep ticking **while you watch** —
+not from any background or wall-time accrual.
+
+**(c) Rough DATA shape** (as built; the forward-spec delta is season → stored).
+- `WorldClock { tick, day, season ('spring'|'summer'|'autumn'|'winter'), year }` —
+  in the BUILT game **only the day index and tick persist** and season is
+  derived; **under docket #2 the season becomes a STORED, manually-advanced
+  container** (the six-season wheel above). Weather and lunar phase are **NOT
+  stored fields**: they are **DERIVED on read** via a pure stateless helper
+  `deriveDayKeyed(seed, 'weather'|'lunar', day)` over the day-keyed RNG
+  sub-stream, so nothing weather/lunar ever serialises (only `day` does). This
+  keeps the clock replay-stable and the save minimal.
 - A **fractional-tick remainder** accumulates in the app tick loop (not in core) so `tick()` only ever
   receives **whole integer ticks** — the deterministic core never sees a fractional `dtTicks`.
 - `Scheduler { perTickPlans[], perDayPlans[], perWeekPlans[] }` — registry rows that fire effects on
   cadence (restock, rot, festival start, harvest reckoning).
-- The seasonal **JUDGE** folds pillar state **one day at a time** on a per-tier **reckoning cadence**
-  (`PHASE2_JUDGE_INTERVAL_DAYS` — a per-tier lever, decoupled from the 28-day season calendar; at T0 the
-  house reckons ~every 3 days). Each pillar carries a `PillarState { value, highWater, judged }` (§2.16);
-  a reckoning fires a judged result only on a **new high-water mark**, never a repeatable maintenance
-  award. There is **no `pendingAppraisals` counter** — the judge advances one day per tick.
+- The seasonal **JUDGE** folds pillar state **one day at a time**. In the BUILT
+  game it runs on a per-tier **reckoning cadence** (`PHASE2_JUDGE_INTERVAL_DAYS` —
+  a per-tier lever, decoupled from the 28-day season calendar; at T0 the house
+  reckons ~every 3 days); **under docket #2 the judge instead rides every season
+  EXIT** (the manual container close). Each pillar carries a `PillarState { value,
+  highWater, judged }` (§2.16); a reckoning fires a judged result only on a **new
+  high-water mark**, never a repeatable maintenance award. There is **no
+  `pendingAppraisals` counter** — the judge advances one day per tick.
 
-**(d) Ties to the four pillars.** The clock is the **timing source for accrual shape (B)** — periodic
-**judged results** (a season's harvest, an autumn audit, a security appraisal) for **all four
-pillars**. It never grants Influence by itself (no time-trickle).
+**(d) Ties to the four pillars.** The clock is the **timing source for accrual
+shape (B)** — periodic **judged results** (a season's harvest, an autumn audit, a
+security appraisal) for **all four pillars** (BUILT: on the day-interval cadence;
+forward: at each season exit). It never grants Influence by itself (no
+time-trickle).
 
-**(e) When introduced / fractal reveal.** **T0** — the clock display reveals early (around R1, with
-the *rice* heartbeat); seasons/weather/festivals deepen at **T2** (the world-sim layer, §2.14).
+**(e) When introduced / fractal reveal.** **T0** — in the BUILT game the clock
+display reveals early (around R1, with the *rice* heartbeat); under docket #2 the
+DAY OF THE WEEK shows from R0–R1 and the **seasons unlock at T0-R2** (the VN
+overlay + manual turn). Seasons/weather/festivals deepen at **T2** (the world-sim
+layer, §2.14).
 
 ---
 
@@ -960,6 +1001,16 @@ life (and the village social calendar). Festivals/weather deepen per tier (regio
 
 ## 2.15 Factions & reputation (estate ladder, village web, origin ties, allegiance)
 
+**Re-sourced to the bible (docket #9/ADR-160).** The parallel reputation tracks
+survive in spirit but re-source to `docs/story-bible/` (`03-tiers.md` "Parallel
+reputation tracks"): the **VILLAGE** track opens at **T2** and the **ORIGIN**
+track at **T3**, each **completely distinct from the house rungs — never
+converting 1:1** (the village opens at zero, a stranger's surcharge; on the
+origin track house standing buys nothing until he knocks). In **T6 the ladder's
+subject flips to the HOUSE's Edo standing (H0→H7)** — the man's personal rungs
+retire. The built village-web / origin-ladder shapes described below stand until
+docket #9's build lands.
+
 **(a) What it is.** Three starter factions, **deliberately distinct in SHAPE** so they never read as
 one bar painted three colours, plus the **Tama-vs-farmhand allegiance**. **More factions/zones bloom per
 tier** (the §1.7.1 / world-expansion cut-set; **v1 ships only the three starters + the six cross-cutting
@@ -989,8 +1040,8 @@ Ryōa's shrine+register, Magobei/Yagōemon's skim).
   **Cast mostly STATIC.** **Village standing NEVER gates the UI ladder or the tier climb** (ignoring it
   leaves you poorer and lonelier — a viable-but-poorer playstyle, never a wall).
 - **ORIGIN (side, memory-gated SUPPORT track) — a ONE-TIER standalone rep ladder (`O0→O5`).** Tahei's
-  **living** family/friends in **Sawatari-juku** (mother Oyuki, **father Jinpachi**, sister Okimi, employer
-  Denbei, friend Kanta, sweetheart Osen, the porter guild). **Opens at T3-G2** on the **doubly-earned** gate
+  **living** family/friends in **Sawatari-juku** (mother Oyuki, **father Jinpachi**, sister Okimi, toiya
+  **Zenbei**, friend **Kenta**, the porter guild). **Opens at T3-G2** on the **doubly-earned** gate
   (dream-memory **AND** travel-standing); the dream foreshadows it from early game. A **proper one-tier
   reputation side-track with its own short rung ladder** (`O0→O5`, §3.6.2 — kept LIGHT, 6 rungs, never a
   second spine), tracking the MC's standing with his origin community. Payoff = **support, not local power**:
@@ -1156,7 +1207,8 @@ gate). **Plus a per-tier transition STORY GATE** (see table).
 | **T2 Village** | enough estate work + **basic repairs** → sent into the village | Revealed: Estate + Arms + **Office**. **Good in all three**, **great in 2** (errand-authority; headman's regard; cash-crops + the village silk market online). |
 | **T3 Region** | **"clean your room"** (estate healthy, village happy, fires out) → grow regional influence; the rival-house contest climaxes | Revealed: Estate + Arms + Office (+ **Name** surfacing → 4). **Estate + Office great/excellent, Arms good**; the **personal-mystery payoff** lands here. **v1 ends here** (`outcome: t3done`). |
 | **T4 Castle-town** *(stub in v1)* | **win the region** → the castle-town rulers confer regional leadership + **invite the house in** (the **castle-town / Daikan's-Office first-contact** beat) | **Office + Name excellent** (won socially); Arms/Estate as leverage. |
-| **T5 Edo** *(roadmap)* | a **"taste of Edo"** — staff & run the *domain's* Edo establishment (the *rusui-yaku* under the daimyō's *sankin-kōtai*, never its own) → grow influence | **Name + Office excellent** (the national *banzuke* on all four pillars). |
+| **T5 Domain** *(roadmap)* | caretaker administration of a broken, inherited domain (the debt at scale); **the rung-up INVERTS** — each rung an audience-day, the domain summoned to HIM; ends at THE STEWARD | all four pillars **deepen** (the exact profile is sim-owned — provisional). |
+| **T6 Edo** *(roadmap)* | the house's own Edo ladder — the rungs' subject flips to the **HOUSE's** Edo standing (**H0→H7**); Shinnosuke is lord; deliberately RESERVED (the game-within-a-game) | **Name + Office excellent** (the national *banzuke* on all four pillars). |
 
 **Cross-pillar combos — the T2 anti-slump.** From T2, **broader cross-pillar combos** (multiple pillar
 pairs, larger magnitude) join the **seasonal-reward rotation** (§2.14) as the late-game anti-slump device.
@@ -1242,6 +1294,80 @@ jump into both); never Arms/Estate, never a recurring trickle.
 
 **(e) When introduced / fractal reveal.** **T4+ parked (not in v1)** — the lever matures in the **T4**
 castle-town arc (§5.T4.2/§5.T4.5) and pays an optional callback at **T5**; v1 (**T0–T3**) does **not** surface it.
+
+---
+
+## Storywave forward-spec addenda (T0 rebuild — not yet built)
+
+These four subsystems are **forward spec** for the storywave T0 rebuild: the
+bible locks each shape and the cited docket ADR carries the full spec; the BUILT
+game does not yet run them. Each is a parts-list entry naming the shape, **not** a
+re-spec — the ADR (and the bible section it transcribes) governs.
+
+**The two body economies + defeat-as-sickroom (docket #4/ADR-155).**
+
+> **FORWARD SPEC (storywave).** This subsection specs the bible's
+> design per docket #4 (ADR-155). The BUILT game still runs the old
+> mechanics until that ADR's build lands (the storywave game plan).
+> Banner removed at the docs plan's A5 closure.
+
+One body, **two meters coupled one way**: labour spends the WORK/body unit and
+**never costs HP**, combat risks HP, and being at low HP **impairs work
+capacity**. **Defeat is never game-over** — the MC is carried to Sōan's sickroom
+and loses days (wages, season time) while Sōan's closed ledger grows; recovery
+flavour differs by home (the woodshed vs the offered room). The core stat-model
+change and all magnitudes are the game build's (sim-owned, ADR-132);
+`docs/story-bible/tiers/t0.md` carries the shape.
+
+**The night-round mini-dungeon runner (docket #5/ADR-156).**
+
+> **FORWARD SPEC (storywave).** This subsection specs the bible's
+> design per docket #5 (ADR-156). The BUILT game still runs the old
+> mechanics until that ADR's build lands (the storywave game plan).
+> Banner removed at the docs plan's A5 closure.
+
+A **"begin the night round" action** (posted at the gate) puts the MC on rails
+through several zones in their night state; clear each of enemies to finish the
+round, or fall and wake in Sōan's sickroom (docket #4). The first round is a
+quest, repeatable thereafter; escalation across T0 runs rats-in-the-store → a
+marten → the R3 **WOLF** as the arc's climax, and the round **grows with the
+estate** in later tiers. A new repeatable-activity runner in the pure core;
+`docs/story-bible/tiers/t0.md` carries the shape.
+
+**The speaker-label ladder + the map re-label reveal (docket #6/ADR-157).**
+
+> **FORWARD SPEC (storywave).** This subsection specs the bible's
+> design per docket #6 (ADR-157). The BUILT game still runs the old
+> mechanics until that ADR's build lands (the storywave game plan).
+> Banner removed at the docs plan's A5 closure.
+
+**The speaker label is story state:** `You:` for the cold open → a forced beat
+where he asks his own name and Sōan answers that he has none → the label flips to
+`Nameless:` on screen, witnessed → `Gonbei:` takes over at T0-R7 → the birth name
+(Tahei) is KNOWN at T3 → what the register finally says is his choice at the end.
+**The map re-label is the T2 reveal's delivery:** at the third signal's scene end
+the map redraws its two labels (*Main house → Guest house; the ruin → the Main
+house*) in one day-book line, no ceremony. **TST2 governs both** (never yank a
+watched surface); `docs/story-bible/04-cast.md` + `05-world.md` carry the shape.
+
+**The economy — two coin lanes, three ledgers (docket #7/ADR-158).**
+
+> **FORWARD SPEC (storywave).** This subsection specs the bible's
+> design per docket #7 (ADR-158). The BUILT game still runs the old
+> mechanics until that ADR's build lands (the storywave game plan).
+> Banner removed at the docs plan's A5 closure.
+
+**Three nested ledgers** (the MC's, the household's day-book, and the DEBT — the
+standing antagonist, principal untouchable in T0), **filling the barn is the
+HOUSE's economy** (never player loot), and **two coin lanes:** a **KIND lane**
+(unbounded — labour pays in rice/goods, combat drops materials never coin) and a
+**MON lane** (bounded — a FIXED per-game-day wage plus Yohei's finite market
+coin; durables, season-scarce stock and recurring sinks run on mon). The **debt
+is staged** — named sideways in R1 → felt in scenes but never numbered all T0 →
+the number finally seen at T1's tally-keeper rung. The ledger/barn/debt shape is
+locked; the coin lanes are adopted direction; the two open mechanisms and all
+magnitudes are sim-owned (ADR-132/ADR-158). `docs/story-bible/tiers/t0.md`
+carries the shape.
 
 ---
 
@@ -1350,7 +1476,7 @@ staying **comfort + prestige** throughout.
 
 **(a) What it is.** The endgame's legible win-display and a per-tier motif: a **ranking of the HOUSE**
 (not the man) on all four pillars. **Per-tier rank ladders also rank the house at each tier** (a domain
-*banzuke* precedes the national one). The **T5 Edo climax** is a **national multi-pillar *banzuke***.
+*banzuke* precedes the national one). The **T6 Edo climax** is a **national multi-pillar *banzuke***.
 **LOCKED presentation:** a **popular *mitate* / parody broadsheet** (woodblock, not an official register)
 using **sumo-rank vocabulary** — **Maegashira / Komusubi** for the house's attainable band; **Ōzeki /
 Yokozuna** for the **structurally sealed top** (the wall the truly powerful built, made the chart's
@@ -1488,7 +1614,7 @@ and the invariants below. **Verifier checks (§6.6):**
 - **No system ever wipes Influence/holdings** (dents are recoverable; the seasonal restore never advances
   the high-water).
 - **Real-name DENYLIST lint** — fictionalised-names guard (Toyama/Konoe and Mago/Naozane/Obaa Sato renamed;
-  the retired Yagyū/Edogawa echoes **Munenori/Jūbei/Ranpo** likewise denied (→ Shigemasa/Kihei/Sōan);
+  the retired Yagyū/Edogawa echoes **Munenori/Jūbei/Ranpo** likewise denied (→ **Munemasa (was Shigemasa)**/Kihei/Sōan);
   Nihonbashi allow-listed).
 - **`Math.pow`/`exp`/`log`/trig lint** (§6.1) — banned in core (integer-pow; **`sqrt` whitelisted**).
 

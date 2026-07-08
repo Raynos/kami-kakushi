@@ -1011,10 +1011,10 @@ the docket ref):
   × 4 tiers = 32 rungs for v1 (T0–T3), zones per the tier sheets'
   zone lists, quests per the side-beat rosters (point at the sheets;
   don't inventory what the sheets own).
-- Add one line under the v1 scope statement: "(v1 scope reconfirmed
-  as full T0–T3 per HD-26's default — ADR-021's lock, same label,
-  new content; awaiting the human's confirmation)". Remove when
-  HD-26 closes.
+- Add one line under the v1 scope statement: "(v1 scope reconfirmed as
+  full T0–T3 — HD-26 RULED, human 2026-07-08; ADR-021's lock, same
+  label, new content)". HD-26 is CLOSED — state it confirmed, NO
+  awaiting-confirmation note.
 
 **DoD (A2 whole):** every quoted stale line above is gone or
 rewritten; the four marker pairs byte-identical (`gen:prd-regions

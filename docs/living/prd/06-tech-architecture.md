@@ -259,6 +259,13 @@ go stale and never need a migration.
 
 ### Stored (non-derivable) — the persisted surface
 
+> **FORWARD SPEC (storywave).** This specs the bible's design per ADR-152 (the
+> macro-tier enum widens to 0..6 — T5 Domain · T6 Edo) and ADR-161 (clean-break
+> saves — no migration at the reboot boundary). The BUILT game still runs the old
+> mechanics — the enum is 0..5 and `tier: TierId` spans T0..T5 — until that ADR's
+> build lands (the storywave game plan). Banner removed at the docs plan's A5
+> closure.
+
 ```ts
 interface GameState {
   schemaVersion: number;            // for the migration safety-net (§6.8.2)
@@ -284,8 +291,8 @@ interface GameState {
                                 gateEligibleValue: number;
                                 subEngines?: { land: SubEngine; treasury: SubEngine; trade: SubEngine } }>;
                                                  // 4 pillars; high-water + `judged` (the high-water AS OF the last reckoning — the judge fires only on a NEW high-water, highWater > judged, folded one day at a time so a multi-interval jump accrues every reckoning) + the (≤1) active recoverable dent (§4.2.4) + a `gateEligibleValue` accumulator. ESTATE & WEALTH value is PURELY DERIVED: it nests `subEngines` (each { value, highWater }) and its pillar `value` is NOT stored — it is computed on read as land + treasury + trade (the subEngine value sum), so a dent on one strand can never desync the pillar total and the trade ≤⅓ HARD clamp holds BY CONSTRUCTION. (Non-Estate pillars store `value`; Estate omits it.) `gateEligibleValue` is the DEED-ONLY accumulator: only recognised Phase-2 DEEDS add to it; cross-pillar combos do NOT write it — so a combo can never satisfy a required gate band nor breach trade-≤⅓. The gate check (§6.6.1) reads `gateEligibleValue`, never the combo-inflated `value`. (SubEngine = { value: number; highWater: number }.)
-  koku: number;                                   // the House's assessed STANDING — the kokudaka-like prestige SCORE that re-expresses the influence pillars (part of the standing/influence system). It is NEVER spent, is NOT an income multiplier, and GATES ascension/unlocks; it is IMMUNE to the combat loss-bite (that bites carried COIN, not standing). RE-ASSESSED at each seasonal `seasonalJudge` + the big "the assessors arrive" event at tier jumps — stored as the last-assessed value (the tier→koku ladder: T0 tens → T1 ~100–1,000 → T2 ~1,000–5,000 → T3 ~5,000–10,000 → T4 = 10,000 *daimyō* → T5 100,000–1,000,000+; bands PROVISIONAL). A PERSONAL koku stipend appears only from T4+ (House-only before).
-  tier: TierId;                                   // current macro tier T0..T5 (set by the ascension/tier-up intent; threshold-progress is DERIVED, never stored)
+  koku: number;                                   // the House's assessed STANDING — the kokudaka-like prestige SCORE that re-expresses the influence pillars (part of the standing/influence system). It is NEVER spent, is NOT an income multiplier, and GATES ascension/unlocks; it is IMMUNE to the combat loss-bite (that bites carried COIN, not standing). RE-ASSESSED at each seasonal `seasonalJudge` + the big "the assessors arrive" event at tier jumps — stored as the last-assessed value (the tier→koku ladder: T0 tens → T1 ~100–1,000 → T2 ~1,000–5,000 → T3 ~5,000–10,000 → T4 = 10,000 *daimyō* → T5 (Domain) ~100,000 → T6 (Edo) 1,000,000+; bands PROVISIONAL). A PERSONAL koku stipend appears only from T4+ (House-only before).
+  tier: TierId;                                   // current macro tier T0..T6 — built enum is 0..5 until the storywave game plan lands (FORWARD SPEC above; ADR-152/ADR-161). Set by the ascension/tier-up intent; threshold-progress is DERIVED, never stored
   estateStage: number;                            // the COIN PURCHASE-ladder step — the U1..U4 "kura-works" (estate upgrades you BUY: patch-kura → clear-drill-yard → reclaim-shinden → raise-long-house), the T0 coin flywheel sink. A separate axis from the E0–E5 narrative CONDITION of the house (§2.17) and from `influence.subEngines` (the T1+ estate-value engine).
   ranks: Record<TierId, { estateService: number; combatRank: number; rung: RankId }>;
                                                  // PER-RUNG-RESET progression: at T0 the `rungReqs` requirement-progress map (ADR-137); T1+ frontier adds estateService/combatRank sub-tracks. The phase-1/phase-2 marker is DERIVED from `rung` — there is NO separate stored phase flag.
@@ -340,6 +347,14 @@ a live predicate re-eval); `currentTier(state)` and
 **0-based** day index — `season(day) = floor(day / 28) mod 4` and `year(day) = 1 + floor(day / 112)` (the 28-day
 season CALENDAR; the reckoning cadence is decoupled from it — §4.2.2). These are pure, cheap, memoizable
 per-snapshot, and **excluded from the save**.
+
+> **FORWARD SPEC (storywave).** This specs the bible's design per ADR-153 (the
+> six-season MANUAL container calendar — `season` becomes STORED, advanced state,
+> no longer derived from `day`). The BUILT game still runs the old mechanic —
+> `season(day) = floor(day / 28) mod 4`, derived-never-stored (the seasonal RNG
+> stream and the day-keyed derivations of §6.7/§6.7.1 survive; a stored season
+> container just re-anchors what "season" names) — until that ADR's build lands
+> (the storywave game plan). Banner removed at the docs plan's A5 closure.
 
 > **Why this split matters:** it keeps the save tiny and forward-compatible (you only ever migrate
 > non-derivable fields), makes the renderer a pure function of state, and means a balance retune (a curve
@@ -578,7 +593,9 @@ function lunarPhase(day: number): number;   // f(day mod LUNAR_PERIOD), LUNAR_PE
 - This is **distinct** from the four persisted RNG cursors (§6.7): the cursors are *consumed* monotonically
   by gameplay (combat/loot/seasonal/worldgen draws), whereas `deriveDayKeyed` is a **stateless re-derivation**
   keyed by the calendar day and `lunarPhase` is a **deterministic ephemeris**. The **only** non-derivable
-  economy state is `market.saturation` (§6.4) — weather, lunar phase, season and year are not stored at all.
+  economy state is `market.saturation` (§6.4) — weather, lunar phase, season and year are not stored at all
+  (in the BUILT engine; the storywave forward spec — §6.4 banner, ADR-153 — turns `season` into a stored
+  container, while weather/lunar/year stay derived).
 
 ---
 

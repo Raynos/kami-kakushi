@@ -50,27 +50,31 @@ fails on **undershoot only** (§7.1.2).
 
 ### §7.1.1 What v1 IS
 
-**v1 = Tiers 0–3 complete:** the **Estate** as **two tiers** (**T0** tutorial +
-**T1** full), the **Village** of Asagiri (**T2**), and the **Region** (**T3**)
-**including the T3 personal-mystery payoff** — the lost-child **Otsuru** resolution
-(the **TRUTH** that the MC is *not* Tama; the real Tama is Otsuru, alive and grown)
-is **spine-guaranteed at G6 for every player** (§1.5.3, §3.6 G6, §5 T3), while
-reclaiming the MC's true name — **"Tahei"** — is **earned and *missable*** on the
-optional **Origin** side-track's **O5** capstone (a player who skips the Origin
-thread may finish without it), and the **Origin** reunions incl. father **Jinpachi**
-land across T3. **T4 Castle-town ships as a STUB cliff-hanger** — the **castle-town /
-Daikan's-Office first-contact** beat at the G7 capstone (the §3.7.1 first-contact
-screen — "the page turns onto stone walls, and the story pauses"); **T5 Edo is
+**v1 = Tiers 0–3 complete:** the **Estate** as **two tiers** (**T0** — the
+household + **T1** — the land), **the Valley** (**T2**, with the village of Asagiri
+within it), and **the Region** (**T3**) **including the T3 personal-mystery payoff**
+— the lost-child **Otsuru** resolution (the **TRUTH** that the MC is *not* Tama; the
+real Tama is Otsuru, alive and grown) is **spine-guaranteed at G6 for every player**
+(§1.5.3, §3.6 G6, §5 T3), while learning the MC's birth name — **"Tahei"** — lands on
+the **T3 origin mainline**. The origin **family is ALIVE** (Tahei's people keep his
+register entry open by refusal), and the **family reunion is an OPTIONAL side-track**
+at **Sawatari-juku** — a player who skips it may still finish. **T4 the Castle Town
+is the near frontier**: it ships as a **STUB cliff-hanger** — the **castle-town
+first-contact** beat at the G7 capstone (the §3.7.1 first-contact screen — "the page
+turns onto stone walls, and the story pauses"). **T5 the Domain and T6 Edo are
 roadmap only** (sketched in §3.7.2, not built).
+
+*(v1 scope reconfirmed as full T0–T3 — HD-26 RULED, human 2026-07-08; ADR-021's
+lock, same label, new content.)*
 
 **The lean cut-set (§1.2 pillar 3) — what "complete" means per tier:**
 
 | Dimension | v1 cut-set | Source |
 |---|---|---|
-| **Rank ladders** | a **fresh ~8-rung ladder per tier** × 4 v1 tiers: T0 `R0–R7` (Estate tutorial), T1 `R8–R15` (Estate full — the **two-track** Estate-Service + Combat-Rank rung-meters, promote on the AND-gate), T2 `V0–V7` (Village), T3 `G0–G7` (Region) — **32 rungs total**. **Each tier is climbed in TWO SEQUENTIAL PHASES** — **Phase 1**: climb the ~8 rungs, each promoting on a **numeric per-rung-reset rung-meter** (§4.1.1) **AND** that rung's story milestone (an **AND-gate**); **Phase 2**: the estate-influence / four-pillar **grind unlocks after the final rung** (the capstone OPENS it). | §1.6.4, §3.2 / §3.4 / §3.6, §2.15.1 |
+| **Rank ladders** | **one unbroken `R0–R7` rung ladder per tier** — 8 rungs × 4 v1 tiers (T0 the household · T1 the land · T2 the Valley · T3 the Region) = **32 rungs total** (the old fresh-per-tier `R8–R15`/`V0–V7`/`G0–G7` numbering is dead — ADR-152 / docket #1; each tier now carries its OWN `R0–R7`). Each tier's climb still drives the **two-track** Estate-Service + Combat-Rank rung-meters (promote on the AND-gate). **Each tier is climbed in TWO SEQUENTIAL PHASES** — **Phase 1**: climb the 8 rungs, each promoting on a **numeric per-rung-reset rung-meter** (§4.1.1) **AND** that rung's story milestone (an **AND-gate**); **Phase 2**: the estate-influence / four-pillar **grind unlocks after the final rung** (the capstone OPENS it). | §1.6.4, §3.2 / §3.4 / §3.6, §2.15.1 |
 | **Bestiary** | **~5 grounded mobs** core (boar, wolf, monkey, bandit, rōnin/smuggler), each carrying a **`MobDef.level`** — NO belief-creatures in spawn tables | §4.6, §6.5 `enemies.ts` |
-| **Quest types** | the **4 STARTER types**: PEST-CONTROL · HUNT · CLEAR · DEFEND (DEFEND is the Arms-deed earner) — a **taxonomy, not a count budget**: author whatever quests fit each stage, more / more-interesting welcome, especially at later tiers | §2.12, §3.2 R5 |
-| **World** | **full walkable maps T0–T3** within a **~6–8-node-per-tier** cut-set (full maps every tier, not abstract boards) | §1.7, §3 |
+| **Quest types** | the **4 STARTER types**: PEST-CONTROL · HUNT · CLEAR · DEFEND (DEFEND is the Arms-deed earner) — a **taxonomy, not a count budget**: the actual per-tier quests are the **side-beat rosters in the story-bible tier sheets** ([`tiers/`](../../story-bible/tiers/)) — author to the roster, don't re-inventory it here; more / more-interesting welcome at later tiers | §2.12, §3.2 R5, [`03-tiers.md`](../../story-bible/03-tiers.md) |
+| **World** | **full walkable maps T0–T3** (full maps every tier, not abstract boards); the **per-tier zone lists live in the story-bible tier sheets** ([`tiers/`](../../story-bible/tiers/)) — this section points at them, it does not inventory the nodes | §1.7, §3, [`03-tiers.md`](../../story-bible/03-tiers.md) |
 | **Skills (LOCKED v1 set)** | **farming · foraging · woodcutting · fishing · smithing · cooking** + **conditioning** + the **incremental weapon roster** (below). Each skill (labour included) carries a bounded **per-skill PERKS** track — ~2–8 small, stackable labour→combat bonuses, no global cap, each small-magnitude; **conditioning stays the ZERO-stat enablement gate**, orthogonal to and never bypassed by the perks. (Fishing surfaces at T2 — the Village.) | §1.5.1, §2.7/§2.7.1, §4.5/§4.5.4 |
 | **Combat** | an **idle/auto-resolve auto-battler** (active-only; tab-open auto-resolve + auto-repeat) revealed **INCREMENTALLY** on the **combat-reveal ladder** (R3 starter weapon + auto-resolve loop + retreat → R4 graded durability bands → R5 stance → first weapon-line L10 ability/item slots → 2nd combat line at T1 → 3rd at T2; one reveal per beat); **satiety-throttled**; **graded 4-band durability** (never auto-unequipped); feeding **THREE clean separately-stored tracks** — kills/combat-XP → the **character (combat) level**, recognised deeds → the **Arms pillar** (Phase-2-gated), per-rung curated activities → the **Combat Rank rung-meter** | §1.6.4, §2.8/§2.8.1/§2.8.2, §4.6 |
 | **Weapon roster (incremental)** | a **growing ~9–10-weapon roster** across **3 archetype lines** (spear T0 · sword T1 · the **Staff/polearm line at T2 Village**) — **T0 starts with the carrying-pole and unlocks +2 across the tier** (at least one of the two craftable); **+3 at T1**, **+4 at T2** → **roster complete by end-of-T2**; **T3 Region adds combat DEPTH, no new line** (each weapon an **archetype** — per-weapon `baseSpeed` / `reach` / `targetCount` / `attackProfile` — **+ a signature ability**; FOUND and CRAFTED, never gifted) | §2.8.2, §2.10.1, §4.6.9 |

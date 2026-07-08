@@ -118,3 +118,52 @@ lists `asagiri` in its prd-drift.ts RETIRED table — drop it when Plan B runs.
   exception, human-blessed.)
 - Gates: prd:drift clean, gen-prd-regions --check fresh (4 marker pairs intact),
   docs-lane verify green.
+
+### A2.1 + §1.6 ✅ (done by hand — the ruling-critical parts)
+- `docs/living/prd.md` (A2.1): V3 story-reboot status line; §5 retitled
+  pointer-and-summary (ToC + link); v1 = full T0–T3; UNBUILT span T1–T6.
+- `docs/living/prd/01-vision.md` §1.6 (the crown jewel): the four pillar labels
+  → crisp canon **Estate/Arms/Office/Name**; "Office" (官威) kills the
+  "Standing & Office" umbrella collision; the six-step grade ladder
+  FAIL/BAD/OK/GOOD/GREAT/EXCELLENT (F/D/B/A/A+/S) stated + a canon-pointer note;
+  seven-tier header. Points at 03-tiers.md as the engine home.
+
+### A2.2–A2.7 + A3 + A4 ✅ (fanned out to 8 Opus subagents, one per file)
+Rationale: the plan was already made ruling-consistent (HD-25/26/27/29 patched
+into it), so subagents transcribing against the plan + bible were safe; I kept
+the ruling-critical spine (A3) + HD-29 (A4 don't-archive) as brief overrides and
+did all verification + commits. Objective gates on the stabilized tree:
+**gen-prd-regions --check GREEN** (all 4 marker pairs byte-intact — the two
+gen-region files §2/§3 handled correctly) and **prd:drift CLEAN**.
+- **A2.2 §1** (rest): premise → bible (Tahei/landslide/family-alive; Tama is the
+  village's thread via Sayo→Otsuru); cast sync (Mohei/Sayo; O-Nobu/Suzu/Kenta/
+  Zenbei; Osen CUT); world/zones → bible ladders; cast table → 04-cast.md
+  pointers; two-register ink thread; antagonists (DEBT · T4 Tomita; no rival-
+  house G5/G7); §1.6.3 tier table + koku ladder → seven tiers.
+- **A2.3 §2**: six-season manual calendar (ADR-153) + 4 forward-spec subsections
+  (ADR-155/156/157/158); the munenori-line LANDMINE kept both names
+  ("Munemasa (was Shigemasa)"); T5 Domain / T6 Edo.
+- **A2.4 §3**: all ladders → R0–R7 × seven tiers; ⌂/⛩ alternation + hard lock;
+  map re-label reveal; HD-29 R7 = use-name beat (capstone superseded for T0,
+  kept for T1); §3.2.1 table reconciled to the bible beats.
+- **A2.5 §4**: T5 Domain row inserted, Edo→T6 (no invented numbers); tier headers.
+- **A2.6 §6**: enum 0..6 + forward-spec banner; six-season calendar bannered
+  (built 28-day behavior preserved); koku ladder seven-tier.
+- **A2.7 §7**: v1 = full T0–T3 (HD-26 CONFIRMED, no awaiting note); origin synced;
+  cut-set → R0–R7 × 4 = 32 rungs.
+- **A3 roadmap**: spine STATES the pillar engine (HD-25 kept, no awaiting note);
+  seven tiers; SHIPPED rows byte-untouched; storywave near-term section (Plan A +
+  Plan B rows); T0 milestone DoD names t0-arc.test.ts + invariants.test.ts.
+- **A4 sweep**: fun-factor six→seven tiers (pillars kept); README story-bible
+  pointer; story-bible-finish plan re-pointed; capstone plan NOT archived (HD-29
+  adopt-partial); emergent-node-extensions left (no stale refs found).
+- Drift-clearing: added §5.6 rows for **Osen** (cut) + **Tōzō** (retired smith).
+
+### ⚠️ Known remaining §1 residuals (NOT in the A2.2 scope — flagged, not fixed)
+The §1 agent correctly stayed within A2.2's edit list and flagged three
+subsections that still carry old six-tier / Tama-belief premise language and need
+a COHERENT pass (a lone token-flip would be worse): **§1.1 Vision**, **§1.5.4**
+(a self-consistent "SIX-TIER SPINE" rep-arc), **§1.10** (kamikakushi-as-village-
+belief). These are a §1 taste/vision pass — surfaced for a follow-up, not blocking
+A2's DoD. Also: the rippled PRD merits a human taste-read (content fidelity is
+beyond what prd:drift/gen-regions gates can verify).
