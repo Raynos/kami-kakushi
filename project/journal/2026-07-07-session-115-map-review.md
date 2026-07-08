@@ -237,3 +237,11 @@ exactly 3x viewBox zoom, centred, no errors. Phase C remaining: geom
 core extraction · node collapse (defs/use + single-path hatch/stipple)
 · tier-delta record + ruinRevealed · turbulence filter eval · API idiom
 pass — all under the golden pin now.
+
+Tier-delta record (G-4): the lone `fresh` boolean that branched at ~15
+sites becomes ONE declarative `TIER_DELTA: Record<Tier, TierDelta>`
+(fresh · poolsDrained · worksSilted · clampSmoking · forgeLit ·
+terraceCount/Numbers · orchardFeral · ghostRoads · ruinRevealed). T2 is
+now an additive column, and `ruinRevealed` is the explicit seam at the
+ruin painter for T2's reveal. Golden pin GREEN throughout — the refactor
+is provably look-neutral.

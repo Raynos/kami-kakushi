@@ -103,11 +103,60 @@ function redNote(
   art.append(g);
 }
 
+/** Everything a tier changes about the ONE world, as one declarative record
+ *  (G-4 from the session-115 review: the old `fresh` boolean branched at ~15
+ *  sites and left T2 — whose whole job is revealing the ruin — an invasive
+ *  rewrite; a T2 column here is now ADDITIVE). */
+interface TierDelta {
+  /** the re-survey: this tier's new work reads fresh-ink/gold */
+  readonly fresh: boolean;
+  readonly poolsDrained: boolean;
+  readonly worksSilted: boolean;
+  readonly clampSmoking: boolean;
+  readonly forgeLit: boolean;
+  readonly terraceCount: number;
+  readonly terraceNumbers: boolean;
+  readonly orchardFeral: boolean;
+  /** roads drawn as faint ghosts (not yet worked) this tier */
+  readonly ghostRoads: { clamp: boolean; terrace: boolean; bon: boolean };
+  /** T2's hook: the precinct honestly named + drawn as reclaimed ground.
+   *  NO tier sets it yet — its drawing is T2 build work, but the seam exists. */
+  readonly ruinRevealed: boolean;
+}
+
+const TIER_DELTA: Readonly<Record<Tier, TierDelta>> = {
+  T0: {
+    fresh: false,
+    poolsDrained: false,
+    worksSilted: true,
+    clampSmoking: false,
+    forgeLit: false,
+    terraceCount: 2,
+    terraceNumbers: false,
+    orchardFeral: true,
+    ghostRoads: { clamp: true, terrace: true, bon: true },
+    ruinRevealed: false,
+  },
+  T1: {
+    fresh: true,
+    poolsDrained: true,
+    worksSilted: false,
+    clampSmoking: true,
+    forgeLit: true,
+    terraceCount: 5,
+    terraceNumbers: true,
+    orchardFeral: false,
+    ghostRoads: { clamp: false, terrace: false, bon: false },
+    ruinRevealed: false,
+  },
+};
+
 /** Paint the whole world; returns seal-anchor refinements (room seals snap to the
  *  drawn house). The T0 sheet crops this via its viewBox window — nothing moves. */
 export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   const overrides = new Map<string, Pt>();
-  const fresh = tier === 'T1'; // the re-survey: the tier's new work reads fresh
+  const d = TIER_DELTA[tier];
+  const fresh = d.fresh;
 
   // ── 0 · substrate: the sheet plate + valley washes (spec L1) ──
   art.append(
@@ -232,7 +281,7 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
       opacity: 0.7,
     });
   }
-  charcoalClamp(art, WILDS.clamp[0], WILDS.clamp[1], { seed: 'clamp', smoking: fresh });
+  charcoalClamp(art, WILDS.clamp[0], WILDS.clamp[1], { seed: 'clamp', smoking: d.clampSmoking });
 
   // ── 3 · fields (G7): the worked fraction + the ghost of the old extent ──
   ghostBunds(art, FIELDS.ghostBunds, { seed: 'ghost-w' });
@@ -278,23 +327,24 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   // reading them is T1's R1 round); T1 works all five and the stones COUNT (G7)
   terraceRun(art, FIELDS.terraces.baseline, {
     seed: 'terr',
-    count: tier === 'T1' ? FIELDS.terraces.count : 2,
+    count: d.terraceCount,
     depth: FIELDS.terraces.depth,
-    fresh, // T1's re-stacked walls are new work (gold); T0's are old stone
-    ...(tier === 'T1' ? { numberFrom: FIELDS.terraces.numberFrom } : {}),
+    fresh, // the re-stacked walls are new work (gold) only on the re-survey
+    ...(d.terraceNumbers ? { numberFrom: FIELDS.terraces.numberFrom } : {}),
   });
   terraceRun(art, FIELDS.letgo.baseline, {
     seed: 'letgo',
     count: FIELDS.letgo.count,
     depth: FIELDS.letgo.depth,
     letGo: true,
-    ...(tier === 'T1' ? { numberFrom: FIELDS.letgo.numberFrom } : {}),
+    ...(d.terraceNumbers ? { numberFrom: FIELDS.letgo.numberFrom } : {}),
   });
 
   // ── 4 · water (G2/G3): the river, the works, the one channel that matters ──
   river(art, RIVER.centerline, { seed: 'river', widthProfile: [...RIVER.widthProfile] });
   flowTicks(art, RIVER.centerline, { seed: 'flow', count: 7 });
-  for (const p of WATER.pools) pool(art, p.x, p.y, p.r, { seed: `pool-${p.x}`, drained: fresh });
+  for (const p of WATER.pools)
+    pool(art, p.x, p.y, p.r, { seed: `pool-${p.x}`, drained: d.poolsDrained });
   if (fresh) {
     // the re-survey strikes the drained pools in red
     inkLine(
@@ -316,14 +366,14 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   }
   // the old breach: open robbed gap in T0; closed in fresh stone in T1
   breachMark(art, tier);
-  for (const ch of WATER.worksChannels) channel(art, ch, { seed: 'works', silted: !fresh });
+  for (const ch of WATER.worksChannels) channel(art, ch, { seed: 'works', silted: d.worksSilted });
   sluiceGate(art, WATER.worksSluice.at, WATER.worksSluice.angleDeg, 'works-sluice');
   weirBar(art, WATER.weir.at, WATER.weir.angleDeg, { seed: 'weir' });
   channel(art, WATER.mainChannel, { seed: 'main-ch' });
   for (let i = 0; i < WATER.paddyDitches.length; i++)
     channel(art, WATER.paddyDitches[i]!, { seed: `pd-${i}` });
   sluiceGate(art, WATER.channelSluice.at, WATER.channelSluice.angleDeg, 'ch-sluice');
-  channel(art, WATER.siltedBranch, { seed: 'silt-br', silted: !fresh });
+  channel(art, WATER.siltedBranch, { seed: 'silt-br', silted: d.worksSilted });
   bridge(art, WATER.bridge.at, WATER.bridge.angleDeg, { seed: 'bridge' });
   reedBed(art, WATER.reeds, { seed: 'reeds' });
   for (const fw of WATER.fishWeirs) fishWeir(art, fw.at, fw.angleDeg, `fw-${fw.at[0]}`);
@@ -361,13 +411,18 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   road(art, ROADS.upstream, 'rd-up');
   road(art, ROADS.workPath, 'rd-work');
   road(art, ROADS.grovePath, 'rd-grove');
-  road(art, ROADS.clampPath, 'rd-clamp', !fresh); // faint till the clamp turns (T1 R2)
-  road(art, ROADS.terracePath, 'rd-terr', tier === 'T0');
-  road(art, ROADS.bonPath, 'rd-bon', tier === 'T0');
+  road(art, ROADS.clampPath, 'rd-clamp', d.ghostRoads.clamp); // faint till the clamp turns
+  road(art, ROADS.terracePath, 'rd-terr', d.ghostRoads.terrace);
+  road(art, ROADS.bonPath, 'rd-bon', d.ghostRoads.bon);
   // the ghost approach — the dead road to the great gate, beside the living one
   road(art, PRECINCT.ghostApproach, 'rd-ghost', true);
 
   // ── 6 · the old precinct — the RUIN (G4): footings, standing runs, fallen roofs ──
+  // d.ruinRevealed is T2's seam: when a tier finally NAMES the precinct, its
+  // reclaimed drawing branches HERE (that drawing is T2 build work — today every
+  // tier keeps the ruin locked scenery, and this painter is the only touchpoint;
+  // the golden pin guards against an accidental flip).
+  void d.ruinRevealed;
   // a whisper of court-tone inside the ring: the dead precinct's ground reads as
   // GROUND, not as unpainted sheet
   wash(art, [...PRECINCT.wall], {
@@ -426,7 +481,7 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     rows: WILDS.orchard.rows,
     spacing: WILDS.orchard.spacing,
     angleDeg: WILDS.orchard.angleDeg,
-    feral: tier === 'T0', // T1 reclaims the rows (the dog chain paid)
+    feral: d.orchardFeral, // the re-survey reclaims the rows (the dog chain paid)
   });
   bambooGrove(art, WILDS.grove, { seed: 'grove' });
 
@@ -550,7 +605,7 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     angleDeg: GUEST.stable.angleDeg,
   });
   shed(art, GUEST.workshops[0], GUEST.workshops[1], { seed: 'workshop', scale: 1 });
-  forge(art, GUEST.workshops[0] - 26, GUEST.workshops[1] + 18, { seed: 'forge', lit: fresh });
+  forge(art, GUEST.workshops[0] - 26, GUEST.workshops[1] + 18, { seed: 'forge', lit: d.forgeLit });
   well(art, GUEST.well[0], GUEST.well[1], 'well');
 
   // ── 9 · the family plot (drawn both tiers; sealed in T1) + the bounds (G9) ──
