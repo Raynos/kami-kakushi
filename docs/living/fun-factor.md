@@ -12,7 +12,7 @@
 > doc disagree on a number, this doc owns the *intent* ("it should feel like X"); the other owns the
 > *realisation* (the dial that gets it there).
 >
-> Grounded throughout in the PRD: §1.2 (pillars), §1.6 (the four pillars / six tiers), §1.12 (reveal
+> Grounded throughout in the PRD: §1.2 (pillars), §1.6 (the four pillars / seven tiers), §1.12 (reveal
 > pacing), §1.13 (guardrails), §3 (the unlock ladders), §4.2 (accrual), §4.6.6 (soft-setback), §4.8
 > (the locked pacing budget).
 
@@ -405,6 +405,6 @@ the whole climb). This is what makes hour 20 still mean something.
 - [`qa-playtesting.md`](../guides/qa-playtesting.md) §3 — the harness/proxies that **measure** these
   targets (this doc owns *why*, that doc owns *how we check*).
 - `ui-design.md` — the visual bible that owns the **look** of every reveal/reward beat.
-- [`prd.md`](prd.md) — §1.2 (pillars), §1.6 (four pillars / six tiers), §1.12 (reveal pacing), §1.13
+- [`prd.md`](prd.md) — §1.2 (pillars), §1.6 (four pillars / seven tiers), §1.12 (reveal pacing), §1.13
   (guardrails), §3 (unlock ladders), §4.2 (accrual), §4.6.6 (soft-setback), §4.8 (the locked pacing
   budget). [`2026-06-26-prd-human-feedback.md`](../../project/feedback-human/2026-06-26-prd-human-feedback.md) §K — the fun/UI process intent.

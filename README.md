@@ -9,7 +9,8 @@
 > **Note — this is the preserved original seed prompt, kept as a historical artifact.** It is not
 > the current canon and some details have since evolved (e.g. the protagonist's age). For the
 > authoritative present-day vision see [`docs/living/prd.md`](docs/living/prd.md) §1, and for what is actually
-> built see the milestone tracker in [`docs/living/roadmap.md`](docs/living/roadmap.md). The setting is now
+> built see the milestone tracker in [`docs/living/roadmap.md`](docs/living/roadmap.md). The single home of
+> story canon is the story bible [`docs/story-bible/`](docs/story-bible/README.md) (ADR-150). The setting is now
 > **anchored to 1780** (Edo-era Japan, *An'ei* 9 — real year, fictional geography & politics; ADR ADR-105). The
 > original seed text is preserved unchanged below.
 

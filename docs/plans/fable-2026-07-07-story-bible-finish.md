@@ -3,7 +3,10 @@
 **Status: 🔶 IN-PROGRESS — BIBLE DONE (2026-07-07: workstream A
 complete s109; the human signed off the whole read s116). Workstream B
 is OPEN: B0's frame ADR is MINTED (ADR-150); B1–B4 are the live
-build wave.** The execution plan for finishing what the
+build wave.** B1–B5 are RE-PLANNED as two parallel storywave plans —
+`docs/plans/fable-2026-07-07-storywave-docs.md` (docs ripple) +
+`docs/plans/fable-2026-07-07-storywave-game.md` (engine/prose/content);
+this plan archives when both ship. The execution plan for finishing what the
 story reboot (its Phases 3–4; archived 2026-07-07 as the frame +
 redline record — `project/archive/fable-2026-07-07-story-reboot.md`)
 started: first the BIBLE (workstream A — human co-write), then the
