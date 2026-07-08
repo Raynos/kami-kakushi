@@ -53,3 +53,32 @@ integration (the prototype-first law).
   pattern, git-ignored).
 - Storywave Plan B owns `src/**`; this demo touched the shared `dev.ts`
   only for its one menu entry, per the plan's seam rule.
+
+---
+
+## Update (same session) — v1 slop verdict → the kage-e rebuild
+
+The human's verdict on v1: *"complete and utter slop, amateur town art"* —
+but ruled some concepts redeemable and asked for the best 3 style-change
+suggestions. Diagnosis: v1 attempted representational illustration
+(mid-distance figures, a perspective-ish room) with a toolkit whose
+strengths are flat graphic marks. Proposed 3 rescues in
+`project/brainstorms/2026-07-08-e2-scene-card-rescue.md`; **the human
+picked 1+2** and the cards were rebuilt the same session:
+
+- **Kage-e silhouette theatre** — flat planes, strict-profile near-black
+  silhouettes (character only in the outline: nape step, chin/nose notch,
+  sleeve, stoop), the MC a **paper void cut out of the ground shadow**
+  (fill-rule evenodd; the slat-light bands fall into the cutout for free).
+- **Press layer** — keyblock over colour blocks riding a seeded
+  misregistration slip, baren/paper grain (feTurbulence alpha masks) in
+  the fills; the cartouche moved into the colour layer (a seal is a
+  second press).
+
+Craft rules learned (candidates for the E2.1 grammar spec if v2 survives):
+profile poses only (3/4 view = mud); outline notches need ~10px depth to
+survive render scale; **bumps must be arcs of points — a lone peak vertex
+renders as a spike** (the v2.1 void read as mountains until smoothed);
+figure-void shapes must stay fully inside their host band or the evenodd
+cutout clips and breaks the outline. Three headless screenshot iterations;
+`docs/` plan + register notes updated; module README rewritten for v2.

@@ -1,34 +1,28 @@
 // scene-cards/cards.ts — the E2 graphics-exploration DEV demo (#12, the VN
-// scene-card pilot): two composed woodblock vignettes for the cold open's VN
-// scenes — Sōan's sickroom and Genemon's grain-store — drawn ENTIRELY by code
-// from the existing brush toolkit (map-sheets/brush.ts). Human-pulled
-// 2026-07-08 as a single lightweight demo AHEAD of the E2.1 grammar spec: one
-// version, no diverge (docs/plans/fable-2026-07-08-graphics-explorations.md).
-// DEV-only (imported by ui/dev.ts alone); ZERO game integration — the
-// prototype-first law. Seeded-deterministic; Andon tokens only.
+// scene-card pilot), v2: after the human's slop verdict on v1's figurative
+// room-scenes, rebuilt in the 1+2 rescue direction
+// (project/brainstorms/2026-07-08-e2-scene-card-rescue.md):
 //
-// The composition grammar this demo embodies (E2.1 will spec it properly):
-// - ONE focal mass per card, set against a dominant horizon band; the rest of
-//   the frame stays negative space (the still, composed frame IS the look).
-// - Figures are featureless silhouette masses — NEVER faces, never literal
-//   action. The MC goes further: a figure-scale VOID, the spirited-away man
-//   drawn as the absence the light falls around.
-// - A caption cartouche (the vermillion seal-frame, vertical role-kanji) marks
-//   the card the way a print's title cartouche does.
-// - The card's single tint is the speaker's existing VN voice colour
-//   (--v-physician / --v-steward) so the cards belong to the dialogue system
-//   they'd one day sit above.
+//   1 · KAGE-E — full-commitment silhouette theatre. Flat depth planes, no
+//     perspective, no room. Every figure a PURE flat silhouette in STRICT
+//     PROFILE — no grays, no fold lines; all character lives in the crafted
+//     outline (a nose/chin notch in the outline is silhouette practice; drawn
+//     facial features stay banned). The MC inverts to a figure-scale PAPER
+//     VOID cut out of the ground shadow (fill-rule evenodd) — the
+//     spirited-away man is the one non-shadow.
+//   2 · PRINT-CRAFT — fake the PRESS, not the drawing. A dark keyblock layer
+//     (silhouettes, props) over flat color blocks that are deliberately
+//     MISREGISTERED a few px off the keyblock, with baren/paper grain
+//     (feTurbulence alpha masks) inside the fills. Perfect registration is
+//     the tell of SVG art; the slip is what reads "printed object".
+//
+// Still the lightweight human-pulled demo (one version, no diverge, ahead of
+// the E2.1 grammar spec — docs/plans/fable-2026-07-08-graphics-explorations.md).
+// DEV-only (imported by ui/dev.ts alone); ZERO game integration — the
+// prototype-first law. Seeded-deterministic; Andon tokens only; each card's
+// single tint is its speaker's VN voice colour (--v-physician / --v-steward).
 
-import {
-  brushStroke,
-  hatchArea,
-  inkLine,
-  scrawl,
-  stipple,
-  sv,
-  tip,
-  wash,
-} from '../map-sheets/brush';
+import { brushStroke, inkLine, rng, scrawl, stipple, sv, tip, wash } from '../map-sheets/brush';
 import type { Pt } from '../map-sheets/geom';
 import { NAMES } from '../../core/content/names';
 
@@ -79,30 +73,21 @@ function txt(
   return t;
 }
 
-/** A featureless head-blob — a dense ring scrawled closed (never a face). */
-function headPts(cx: number, cy: number, r: number): Pt[] {
-  const pts: Pt[] = [];
-  for (let i = 0; i < 14; i++) {
-    const a = (i / 14) * Math.PI * 2;
-    pts.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r * 1.06]);
-  }
-  return pts;
+/** A keyblock silhouette — one flat near-black mass; the craft is the outline.
+ *  Low scrawl amp on purpose: kage-e reads CUT, not wobbled. */
+function silhouette(parent: SVGElement, pts: readonly Pt[], seed: string): SVGPathElement {
+  const p = sv('path', {
+    d: scrawl(pts, seed, 1.5, true),
+    fill: 'var(--void)',
+    stroke: 'none',
+    opacity: '0.95',
+  });
+  parent.append(p);
+  return p;
 }
 
-/** Two or three curved robe-fold strokes — brushwork, never a regular hatch. */
-function robeFolds(parent: SVGElement, folds: readonly (readonly Pt[])[], seed: string): void {
-  for (const [i, f] of folds.entries())
-    inkLine(parent, f, {
-      seed: `${seed}-fold-${i}`,
-      color: 'var(--washi-deep)',
-      w: 1.6,
-      opacity: 0.4,
-      amp: 2.4,
-    });
-}
-
-/** The caption cartouche — a vermillion seal-frame with vertical role-kanji,
- *  top-right like a print's title cartouche. */
+/** The caption cartouche — a vermillion seal-frame with vertical role-kanji.
+ *  Lives in the misregistered colour layer: a seal is a second press. */
 function cartouche(parent: SVGElement, kanji: string, roman: string, seed: string): void {
   const x0 = 646;
   const y0 = 26;
@@ -137,548 +122,353 @@ function cartouche(parent: SVGElement, kanji: string, roman: string, seed: strin
   });
 }
 
+/** The card's layer stack — background paper, colour blocks under/over the
+ *  keyblock (both riding the same registration slip), and the keyblock. */
+interface Layers {
+  readonly paper: SVGGElement;
+  readonly colorUnder: SVGGElement;
+  readonly key: SVGGElement;
+  readonly colorOver: SVGGElement;
+}
+
 // ── card 1 · Sōan — the sickroom ("You're awake.") ────────────────────────────
+//
+// Planes: the physician's cool paper field · three flat slat-light bands
+// raking down onto the ground shadow · the roof beam bleeding off both edges ·
+// the ground band with the MC cut OUT of it, lying where the light lands ·
+// Sōan kneeling seiza in profile, bowed toward him.
 
-function paintSoanCard(art: SVGElement): void {
-  // the ground — a dark interior, most of the frame left as negative space
-  wash(
-    art,
-    [
-      [6, 6],
-      [714, 6],
-      [714, 399],
-      [6, 399],
-    ],
-    { seed: 'soan-bg', fill: 'var(--washi-deep)', amp: 2 },
-  );
-
-  // the low roof — one heavy beam, a few rafters rising off the frame
-  brushStroke(
-    art,
-    [
-      [14, 86],
-      [706, 76],
-    ],
-    { seed: 'soan-beam', w: 9, color: 'var(--ink-soft)', opacity: 0.5 },
-  );
-  const rafters: [Pt, Pt][] = [
-    [
-      [148, 84],
-      [118, 14],
-    ],
-    [
-      [398, 80],
-      [376, 10],
-    ],
-    [
-      [648, 78],
-      [630, 8],
-    ],
+function paintSoanCard(l: Layers): void {
+  // paper field — the voice tint laid flat over washi
+  const field: Pt[] = [
+    [6, 6],
+    [714, 6],
+    [714, 399],
+    [6, 399],
   ];
-  for (const [i, [a, b]] of rafters.entries())
-    brushStroke(art, [a, b], {
-      seed: `soan-rafter-${i}`,
-      w: 4.4,
-      color: 'var(--ink-faint)',
-      opacity: 0.4,
-    });
+  wash(l.paper, field, { seed: 'soan-paper', fill: 'var(--washi)', amp: 2 });
+  wash(l.paper, field, { seed: 'soan-tint', fill: 'var(--v-physician)', opacity: 0.22, amp: 2 });
 
-  // the floor — the horizon band; straw laid in low gold hatch
-  inkLine(
-    art,
-    [
-      [10, 302],
-      [710, 296],
-    ],
-    { seed: 'soan-horizon', color: 'var(--ink-faint)', w: 1.4, opacity: 0.6 },
-  );
-  const floor: Pt[] = [
-    [10, 300],
-    [710, 295],
-    [710, 400],
-    [10, 400],
-  ];
-  hatchArea(art, floor, {
-    seed: 'soan-straw',
-    angle: 6,
-    spacing: 10,
-    color: 'var(--gold-dim)',
-    opacity: 0.16,
-    w: 1,
-  });
-  stipple(art, floor, {
-    seed: 'soan-chaff',
-    step: 30,
-    prob: 0.4,
-    r: 1,
-    color: 'var(--gold-dim)',
-    opacity: 0.3,
-  });
-
-  // light through the slats — three shafts in the physician's cool tint,
-  // falling from the unseen wall to land ON the bed where the MC lies
+  // slat-light — three flat bands falling from the beam onto the void (the
+  // light falls INTO the cutout, for free, via evenodd)
   for (let i = 0; i < 3; i++) {
-    const tx = 42 + i * 46;
-    const bx = 128 + i * 84;
+    const tx = 62 + i * 52;
+    const bx = 130 + i * 72;
     wash(
-      art,
+      l.colorUnder,
       [
-        [tx, 90],
-        [tx + 26, 89],
-        [bx + 82, 326],
-        [bx + 30, 330],
+        [tx, 56],
+        [tx + 30, 55],
+        [bx + 62, 292],
+        [bx, 295],
       ],
-      {
-        seed: `soan-shaft-${i}`,
-        fill: 'var(--v-physician)',
-        opacity: 0.075 + (i % 2) * 0.02,
-        amp: 2,
-      },
-    );
-    wash(
-      art,
-      [
-        [bx + 14, 328],
-        [bx + 96, 324],
-        [bx + 88, 350],
-        [bx + 22, 354],
-      ],
-      { seed: `soan-pool-${i}`, fill: 'var(--v-physician)', opacity: 0.12, amp: 3 },
+      { seed: `soan-band-${i}`, fill: 'var(--silver-hi)', opacity: i === 1 ? 0.13 : 0.1, amp: 2 },
     );
   }
 
-  // the straw bed — a lighter mat catching the light
-  const mat: Pt[] = [
-    [128, 310],
-    [352, 305],
-    [358, 352],
-    [122, 356],
-  ];
-  wash(art, mat, { seed: 'soan-mat', fill: 'var(--washi-shade)', amp: 3 });
-  hatchArea(art, mat, {
-    seed: 'soan-mat-straw',
-    angle: 4,
-    spacing: 7,
-    color: 'var(--gold-dim)',
-    opacity: 0.22,
-    w: 0.9,
-  });
-
-  // the MC — a figure-scale VOID lying in the light: the spirited-away man
-  // drawn as the absence the light falls around (never a face)
-  const mcBody: Pt[] = [
-    [162, 332],
-    [200, 316],
-    [258, 309],
-    [300, 314],
-    [312, 326],
-    [300, 340],
-    [242, 347],
-    [182, 345],
-  ];
-  const mcG = sv('g');
-  wash(mcG, mcBody, {
-    seed: 'soan-mc',
-    fill: 'var(--void)',
-    amp: 2.5,
-    stroke: 'var(--ink-faint)',
-    strokeW: 1,
-  });
-  wash(mcG, headPts(330, 324, 13), {
-    seed: 'soan-mc-head',
-    fill: 'var(--void)',
-    amp: 1.6,
-    stroke: 'var(--ink-faint)',
-    strokeW: 1,
-  });
-  tip(mcG, 'the spirited-away — a figure-scale void; the man the light falls around');
-  art.append(mcG);
-
-  // Sōan — kneeling, sat back on his heels, facing the bed; a featureless mass
-  wash(
-    art,
+  // the roof beam — one heavy keyblock bar bleeding off both edges
+  brushStroke(
+    l.key,
     [
-      [420, 340],
-      [540, 335],
-      [544, 351],
-      [416, 353],
-    ],
-    { seed: 'soan-shadow', fill: 'var(--void)', opacity: 0.5, amp: 3 },
-  );
-  const soanG = sv('g');
-  const soanBody: Pt[] = [
-    [488, 226],
-    [468, 240],
-    [448, 270],
-    [432, 300],
-    [428, 334],
-    [530, 332],
-    [524, 282],
-    [518, 246],
-    [504, 230],
-  ];
-  wash(soanG, soanBody, { seed: 'soan-body', fill: 'var(--ink-soft)', amp: 2.5, opacity: 0.92 });
-  wash(soanG, headPts(494, 208, 16), {
-    seed: 'soan-head',
-    fill: 'var(--ink-soft)',
-    amp: 1.8,
-    opacity: 0.92,
-  });
-  robeFolds(
-    soanG,
-    [
-      [
-        [474, 248],
-        [458, 286],
-        [452, 328],
-      ],
-      [
-        [498, 244],
-        [502, 288],
-        [506, 328],
-      ],
-    ],
-    'soan',
-  );
-  tip(soanG, `${NAMES.physician} the physician sits back on his heels.`);
-  art.append(soanG);
-
-  // the medicine chest at his knee — the physician's one emblem
-  wash(
-    art,
-    [
-      [372, 298],
-      [412, 295],
-      [414, 331],
-      [370, 333],
+      [-8, 46],
+      [728, 38],
     ],
     {
-      seed: 'soan-chest',
-      fill: 'var(--washi-shade)',
-      amp: 1.6,
-      stroke: 'var(--ink-faint)',
-      strokeW: 1,
+      seed: 'soan-beam',
+      w: 20,
+      color: 'var(--void)',
+      opacity: 0.95,
+      taperIn: 0.04,
+      taperOut: 0.04,
     },
   );
-  inkLine(
-    art,
-    [
-      [373, 309],
-      [412, 307],
-    ],
-    { seed: 'soan-drawer1', color: 'var(--ink-faint)', w: 1, opacity: 0.7 },
-  );
-  inkLine(
-    art,
-    [
-      [372, 320],
-      [413, 318],
-    ],
-    { seed: 'soan-drawer2', color: 'var(--ink-faint)', w: 1, opacity: 0.7 },
-  );
 
-  cartouche(art, '医', NAMES.physician, 'soan');
+  // the ground shadow band, with the MC cut OUT of it — the spirited-away man
+  // as a figure-scale paper void (never a face; the profile IS the drawing)
+  const band: Pt[] = [
+    [6, 290],
+    [714, 285],
+    [714, 399],
+    [6, 399],
+  ];
+  // fully INSIDE the band (a ridge poking past the band's edge reads as
+  // mountains, not a man), and every bump an ARC of points — a lone peak
+  // vertex renders as a spike, a rounded run of points as a sleeping body
+  const mc: Pt[] = [
+    [102, 324], // heels
+    [106, 314], // toes, turned up —
+    [112, 309], //   the arch —
+    [118, 313], //   set down
+    [136, 315], // ankles
+    [146, 314], // shins
+    [160, 306], // the knees rise —
+    [172, 301], //   crest —
+    [184, 304], //   and fall
+    [194, 310],
+    [212, 314], // thigh
+    [232, 315], // hip
+    [250, 311],
+    [262, 306], // the chest rises —
+    [274, 301], //   he is breathing —
+    [286, 303], //   and eases
+    [296, 308],
+    [306, 313], // the neck dip
+    [313, 307], // chin, tipped up
+    [318, 301],
+    [323, 303], // the notch
+    [327, 297], // nose to the rafters
+    [332, 300],
+    [338, 305], // brow
+    [344, 311], // crown
+    [348, 318], // back of the head
+    [350, 324],
+    [345, 330], // nape on the mat
+    [320, 335],
+    [270, 338],
+    [210, 339],
+    [150, 337],
+    [115, 332],
+    [104, 328],
+  ];
+  const bandG = sv('g');
+  const bandPath = sv('path', {
+    d: `${scrawl(band, 'soan-band-edge', 3, true)} ${scrawl(mc, 'soan-mc', 0.7, true)}`,
+    'fill-rule': 'evenodd',
+    fill: 'var(--void)',
+    stroke: 'none',
+    opacity: '0.95',
+  });
+  bandG.append(bandPath);
+  tip(bandG, 'the spirited-away — the one shape the shadow does not own');
+  l.key.append(bandG);
+
+  // Sōan — seiza in strict profile, bowed toward the bed; sleeve, nape, and
+  // tucked chin carry the whole character (outline only, never features)
+  const soanG = sv('g');
+  silhouette(
+    soanG,
+    [
+      [462, 180], // crown, bowed forward
+      [490, 188], // back of the skull
+      [492, 210], // nape — the step that makes the neck
+      [510, 220], // shoulder-back
+      [524, 252], // the bent back
+      [530, 286], // low back
+      [534, 318], // heels — sinking into the ground shadow
+      [446, 318], // base front, in the shadow
+      [440, 300], // shin
+      [448, 286], // knee
+      [424, 278], // the kimono sleeve — a BOLD hanging triangle
+      [420, 262], // sleeve tip
+      [442, 248], // wrist
+      [452, 234], // chest
+      [448, 224], // collar — step in before the jaw
+      [432, 216], // chin, tucked
+      [440, 208], // the notch under the nose
+      [428, 200], // nose — outline only, never features
+      [438, 192], // bridge
+      [443, 186], // brow
+    ],
+    'soan-fig',
+  );
+  tip(soanG, `${NAMES.physician} the physician sits back on his heels.`);
+  l.key.append(soanG);
+
+  cartouche(l.colorOver, '医', NAMES.physician, 'soan');
 }
 
 // ── card 2 · Genemon — the grain-store ("On your feet, then.") ────────────────
+//
+// Planes: the steward's dry-ochre paper field · a toppled tawara sunk in the
+// ground shadow, its rice pouring out as the card's one bright colour block ·
+// Genemon stooped in profile over the loss, hands clasped behind · the rake
+// oversized in the foreground, bleeding off the frame.
 
-function paintGenemonCard(art: SVGElement): void {
+function paintGenemonCard(l: Layers): void {
+  const field: Pt[] = [
+    [6, 6],
+    [714, 6],
+    [714, 399],
+    [6, 399],
+  ];
+  wash(l.paper, field, { seed: 'gen-paper', fill: 'var(--washi)', amp: 2 });
+  wash(l.paper, field, { seed: 'gen-tint', fill: 'var(--v-steward)', opacity: 0.22, amp: 2 });
+
+  // a low dusk band above the ground shadow — the one hint of depth
   wash(
-    art,
+    l.colorUnder,
     [
-      [6, 6],
-      [714, 6],
+      [6, 268],
+      [714, 262],
+      [714, 300],
+      [6, 304],
+    ],
+    { seed: 'gen-dusk', fill: 'var(--gold)', opacity: 0.05, amp: 3 },
+  );
+
+  // the ground shadow band
+  wash(
+    l.key,
+    [
+      [6, 290],
+      [714, 285],
       [714, 399],
       [6, 399],
     ],
-    { seed: 'gen-bg', fill: 'var(--washi-deep)', amp: 2 },
+    { seed: 'gen-band', fill: 'var(--void)', opacity: 0.95, amp: 3 },
   );
 
-  // the kura's bones — heavy posts and a top beam
-  brushStroke(
-    art,
-    [
-      [18, 64],
-      [702, 58],
-    ],
-    { seed: 'gen-beam', w: 8, color: 'var(--ink-soft)', opacity: 0.5 },
-  );
-  brushStroke(
-    art,
-    [
-      [34, 62],
-      [37, 344],
-    ],
-    { seed: 'gen-post-l', w: 8, color: 'var(--ink-faint)', opacity: 0.5 },
-  );
-  brushStroke(
-    art,
-    [
-      [694, 58],
-      [696, 342],
-    ],
-    { seed: 'gen-post-r', w: 8, color: 'var(--ink-faint)', opacity: 0.5 },
-  );
-
-  // the doorway the rains took — a pale gap of daylight, the door leaning off it
-  wash(
-    art,
-    [
-      [74, 96],
-      [168, 92],
-      [170, 336],
-      [72, 340],
-    ],
-    { seed: 'gen-gap', fill: 'var(--silver)', opacity: 0.07, amp: 2.5 },
-  );
-  wash(
-    art,
-    [
-      [88, 102],
-      [150, 99],
-      [152, 332],
-      [86, 336],
-    ],
-    { seed: 'gen-gap2', fill: 'var(--silver)', opacity: 0.05, amp: 2 },
-  );
-  inkLine(
-    art,
-    [
-      [70, 94],
-      [72, 340],
-    ],
-    { seed: 'gen-jamb-l', color: 'var(--ink-faint)', w: 1.6, opacity: 0.7 },
-  );
-  inkLine(
-    art,
-    [
-      [172, 92],
-      [174, 338],
-    ],
-    { seed: 'gen-jamb-r', color: 'var(--ink-faint)', w: 1.6, opacity: 0.7 },
-  );
-  const door: Pt[] = [
-    [178, 150],
-    [242, 166],
-    [216, 344],
-    [158, 330],
-  ];
-  wash(art, door, {
-    seed: 'gen-door',
-    fill: 'var(--washi-shade)',
-    amp: 2,
-    stroke: 'var(--ink-faint)',
-    strokeW: 1.2,
-  });
-  inkLine(
-    art,
-    [
-      [198, 158],
-      [178, 336],
-    ],
-    { seed: 'gen-plank1', color: 'var(--ink-faint)', w: 1, opacity: 0.6 },
-  );
-  inkLine(
-    art,
-    [
-      [220, 162],
-      [198, 340],
-    ],
-    { seed: 'gen-plank2', color: 'var(--ink-faint)', w: 1, opacity: 0.6 },
-  );
-
-  // the floor — board seams running long
-  inkLine(
-    art,
-    [
-      [10, 312],
-      [710, 306],
-    ],
-    { seed: 'gen-horizon', color: 'var(--ink-faint)', w: 1.4, opacity: 0.6 },
-  );
-  for (const [i, y] of [342, 370, 392].entries())
-    inkLine(
-      art,
-      [
-        [12, y],
-        [708, y - 4],
-      ],
-      { seed: `gen-board-${i}`, color: 'var(--ink-faint)', w: 1, opacity: 0.35 },
-    );
-
-  // the tawara — a rice bale toppled on its side, ropes still crossed
+  // the tawara — toppled, half-sunk in the shadow, its arc against the field
+  const baleG = sv('g');
   const bale: Pt[] = [];
-  for (let i = 0; i < 12; i++) {
-    const a = (i / 12) * Math.PI * 2;
-    bale.push([336 + Math.cos(a) * 68, 320 + Math.sin(a) * 26]);
+  for (let i = 0; i < 14; i++) {
+    const a = (i / 14) * Math.PI * 2;
+    bale.push([300 + Math.cos(a) * 72, 288 + Math.sin(a) * 32]);
   }
-  wash(art, bale, { seed: 'gen-bale', fill: 'var(--gold-dim)', opacity: 0.38, amp: 2.5 });
-  hatchArea(art, bale, {
-    seed: 'gen-bale-straw',
-    angle: 5,
-    spacing: 6,
-    color: 'var(--gold-dim)',
-    opacity: 0.4,
-    w: 0.9,
-  });
-  for (const [i, bx] of [308, 356].entries()) {
-    inkLine(
-      art,
-      [
-        [bx, 298],
-        [bx + 12, 342],
-      ],
-      { seed: `gen-rope-a${i}`, color: 'var(--ink-soft)', w: 1.6, opacity: 0.8 },
-    );
-    inkLine(
-      art,
-      [
-        [bx + 12, 298],
-        [bx, 342],
-      ],
-      { seed: `gen-rope-b${i}`, color: 'var(--ink-soft)', w: 1.6, opacity: 0.8 },
-    );
-  }
-  wash(art, headPts(402, 320, 19), {
-    seed: 'gen-bale-end',
-    fill: 'var(--washi-shade)',
-    amp: 1.6,
-    stroke: 'var(--ink-soft)',
-    strokeW: 1.2,
-  });
+  silhouette(baleG, bale, 'gen-bale');
+  tip(baleG, 'Half a season’s stores, spilled where the kura door gave way in the rains.');
+  l.key.append(baleG);
 
-  // the spilled half-season — rice fanning from the bale's mouth in the
-  // steward's dry ochre; the card's focal mass
-  const spillG = sv('g');
-  const spill: Pt[] = [
-    [404, 312],
-    [522, 330],
-    [604, 366],
-    [624, 398],
-    [438, 398],
-    [396, 342],
-  ];
-  wash(spillG, spill, { seed: 'gen-spill-wash', fill: 'var(--v-steward)', opacity: 0.05, amp: 4 });
-  stipple(spillG, spill, {
-    seed: 'gen-rice',
-    step: 8,
-    prob: 0.55,
-    r: 1.15,
-    color: 'var(--v-steward)',
-    opacity: 0.75,
-  });
-  const halo: Pt[] = [
-    [398, 306],
-    [548, 322],
-    [640, 362],
-    [668, 400],
-    [420, 402],
-    [386, 340],
-  ];
-  stipple(spillG, halo, {
-    seed: 'gen-rice-halo',
-    step: 13,
-    prob: 0.4,
-    r: 1,
-    color: 'var(--v-steward)',
-    opacity: 0.35,
-  });
-  tip(spillG, 'Half a season’s stores, spilled where the kura door gave way in the rains.');
-  art.append(spillG);
-
-  // the rake — set to the work already, leaning clear of the bale, head down
-  brushStroke(
-    art,
-    [
-      [258, 128],
-      [230, 326],
-    ],
-    { seed: 'gen-rake', w: 3.6, color: 'var(--ink-soft)', opacity: 0.75 },
-  );
-  inkLine(
-    art,
-    [
-      [210, 322],
-      [252, 332],
-    ],
-    { seed: 'gen-rake-bar', color: 'var(--ink-soft)', w: 2.4, opacity: 0.85 },
-  );
-  for (let i = 0; i < 4; i++)
-    inkLine(
-      art,
-      [
-        [214 + i * 11, 326 + i * 2.4],
-        [217 + i * 11, 340 + i * 2],
-      ],
-      { seed: `gen-tine-${i}`, color: 'var(--ink-soft)', w: 1.6, opacity: 0.85 },
-    );
-
-  // Genemon — standing over the loss, a stooped featureless mass, hands kept
-  wash(
-    art,
-    [
-      [516, 346],
-      [606, 342],
-      [610, 356],
-      [512, 358],
-    ],
-    { seed: 'gen-shadow', fill: 'var(--void)', opacity: 0.5, amp: 3 },
-  );
+  // Genemon — standing profile, stooped by years of keeping, hands clasped
+  // behind the back; the head thrust forward reads the reproach
   const genG = sv('g');
-  const genBody: Pt[] = [
-    [542, 196],
-    [528, 210],
-    [522, 246],
-    [526, 290],
-    [522, 342],
-    [596, 340],
-    [592, 288],
-    [598, 244],
-    [584, 206],
-    [560, 194],
-  ];
-  wash(genG, genBody, { seed: 'gen-body', fill: 'var(--ink-soft)', amp: 2.5, opacity: 0.92 });
-  wash(genG, headPts(552, 174, 15), {
-    seed: 'gen-head',
-    fill: 'var(--ink-soft)',
-    amp: 1.8,
-    opacity: 0.92,
-  });
-  robeFolds(
+  silhouette(
     genG,
     [
-      [
-        [544, 214],
-        [538, 268],
-        [534, 336],
-      ],
-      [
-        [576, 212],
-        [582, 270],
-        [586, 334],
-      ],
+      [536, 148], // crown
+      [558, 154], // back of the skull
+      [556, 172], // nape — the step that makes the neck
+      [572, 184], // shoulder-back
+      [588, 214], // the stoop — the back bows out
+      [596, 238], // hands clasped behind —
+      [590, 250], //   the knuckle notch —
+      [598, 258], //   the second hand
+      [588, 290], // robe back
+      [594, 318], // hem, sinking into the shadow
+      [524, 318], // hem front
+      [530, 286], // the robe front falls straight
+      [526, 248],
+      [534, 216], // chest
+      [536, 200], // collar
+      [530, 194], // throat
+      [518, 188], // chin, thrust forward
+      [524, 180], // the notch under the nose
+      [514, 174], // nose — outline only, never features
+      [522, 166], // bridge
+      [526, 162], // brow
     ],
-    'gen',
-  );
-  inkLine(
-    genG,
-    [
-      [525, 262],
-      [595, 258],
-    ],
-    { seed: 'gen-obi', color: 'var(--washi-deep)', w: 2.2, opacity: 0.5 },
+    'gen-fig',
   );
   tip(genG, `${NAMES.elder}, steward of this house — he keeps the little it has left to keep.`);
-  art.append(genG);
+  l.key.append(genG);
 
-  cartouche(art, '家令', NAMES.elder, 'gen');
+  // the rake — foreground plane, oversized, bleeding off the frame corner
+  brushStroke(
+    l.key,
+    [
+      [-8, 400],
+      [150, 178],
+    ],
+    { seed: 'gen-rake', w: 9, color: 'var(--void)', opacity: 0.95 },
+  );
+  brushStroke(
+    l.key,
+    [
+      [124, 166],
+      [184, 200],
+    ],
+    { seed: 'gen-rake-bar', w: 6, color: 'var(--void)', opacity: 0.95 },
+  );
+  // the tine comb — parallel teeth hanging off the crossbar
+  for (let i = 0; i < 5; i++)
+    inkLine(
+      l.key,
+      [
+        [130 + i * 12, 172 + i * 7],
+        [117 + i * 12, 195 + i * 7],
+      ],
+      { seed: `gen-tine-${i}`, color: 'var(--void)', w: 3.5, opacity: 0.95 },
+    );
+
+  // the spill — the card's one bright colour block, pouring from the bale's
+  // mouth across the shadow and off the frame; rice reads as pressed colour
+  const spillG = sv('g');
+  const spill: Pt[] = [
+    [356, 290],
+    [470, 310],
+    [590, 344],
+    [680, 378],
+    [720, 394],
+    [720, 399],
+    [560, 399],
+    [430, 346],
+    [352, 312],
+  ];
+  wash(spillG, spill, { seed: 'gen-spill', fill: 'var(--gold)', opacity: 0.4, amp: 4 });
+  stipple(spillG, spill, {
+    seed: 'gen-rice',
+    step: 9,
+    prob: 0.5,
+    r: 1.2,
+    color: 'var(--gold-hi)',
+    opacity: 0.9,
+  });
+  // strays past the drift's edge
+  stipple(
+    spillG,
+    [
+      [340, 280],
+      [700, 350],
+      [714, 399],
+      [420, 399],
+    ],
+    { seed: 'gen-strays', step: 26, prob: 0.3, r: 1, color: 'var(--gold-hi)', opacity: 0.5 },
+  );
+  l.colorOver.append(spillG);
+
+  // rope crossings + the coiled end-cap, pressed in the tint colour over the
+  // bale's ink — the second block showing its slip against the keyblock
+  for (const [i, bx] of [258, 314].entries()) {
+    inkLine(
+      l.colorOver,
+      [
+        [bx, 262],
+        [bx + 14, 314],
+      ],
+      { seed: `gen-rope-a${i}`, color: 'var(--v-steward)', w: 2.2, opacity: 0.85 },
+    );
+    inkLine(
+      l.colorOver,
+      [
+        [bx + 14, 262],
+        [bx, 314],
+      ],
+      { seed: `gen-rope-b${i}`, color: 'var(--v-steward)', w: 2.2, opacity: 0.85 },
+    );
+  }
+  const cap: Pt[] = [];
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * Math.PI * 2;
+    cap.push([358 + Math.cos(a) * 15, 286 + Math.sin(a) * 17]);
+  }
+  l.colorOver.append(
+    sv('path', {
+      d: scrawl(cap, 'gen-cap', 1.6, true),
+      fill: 'none',
+      stroke: 'var(--v-steward)',
+      'stroke-width': '2',
+      opacity: '0.85',
+    }),
+  );
+
+  cartouche(l.colorOver, '家令', NAMES.elder, 'gen');
 }
 
 // ── the cards + modal ─────────────────────────────────────────────────────────
 
 interface SceneCard {
   readonly id: string;
-  readonly paint: (art: SVGElement) => void;
+  readonly paint: (l: Layers) => void;
   readonly speaker: string;
   readonly voiceVar: string;
   readonly role: string;
@@ -713,7 +503,34 @@ const CARDS: readonly SceneCard[] = [
 
 let uidCounter = 0;
 
-/** One card: the woodblock vignette under a paper-grain wobble, bordered crisp. */
+/** A grain mask — feTurbulence noise eaten into the layer's alpha: baren
+ *  streaks on the paper, fine press mottle in the colour blocks. */
+function grainFilter(
+  defs: SVGElement,
+  id: string,
+  o: { bf: string; slope: number; intercept: number; seed: string },
+): void {
+  const f = sv('filter', { id, x: '-2%', y: '-2%', width: '104%', height: '104%' });
+  const ct = sv('feComponentTransfer', { in: 'n', result: 'a' });
+  ct.append(
+    sv('feFuncA', { type: 'linear', slope: String(o.slope), intercept: String(o.intercept) }),
+  );
+  f.append(
+    sv('feTurbulence', {
+      type: 'fractalNoise',
+      baseFrequency: o.bf,
+      numOctaves: '2',
+      seed: o.seed,
+      result: 'n',
+    }),
+    ct,
+    sv('feComposite', { in: 'SourceGraphic', in2: 'a', operator: 'in' }),
+  );
+  defs.append(f);
+}
+
+/** One card: paper → colour blocks (misregistered) → keyblock → colour-over
+ *  (same slip) → crisp frame. */
 function buildCard(def: SceneCard): SVGSVGElement {
   const uid = `scn-${++uidCounter}`;
   const svg = sv('svg', {
@@ -721,14 +538,9 @@ function buildCard(def: SceneCard): SVGSVGElement {
     preserveAspectRatio: 'xMidYMid meet',
   }) as SVGSVGElement;
   const defs = sv('defs');
-  const filter = sv('filter', {
-    id: `${uid}-w`,
-    x: '-3%',
-    y: '-3%',
-    width: '106%',
-    height: '106%',
-  });
-  filter.append(
+  // the keyblock's hand-cut wobble
+  const wob = sv('filter', { id: `${uid}-w`, x: '-3%', y: '-3%', width: '106%', height: '106%' });
+  wob.append(
     sv('feTurbulence', {
       type: 'fractalNoise',
       baseFrequency: '0.012',
@@ -736,13 +548,26 @@ function buildCard(def: SceneCard): SVGSVGElement {
       seed: '7',
       result: 'n',
     }),
-    sv('feDisplacementMap', { in: 'SourceGraphic', in2: 'n', scale: '3' }),
+    sv('feDisplacementMap', { in: 'SourceGraphic', in2: 'n', scale: '2.5' }),
   );
-  defs.append(filter);
+  defs.append(wob);
+  grainFilter(defs, `${uid}-gp`, { bf: '0.006 0.08', slope: 0.35, intercept: 0.78, seed: '5' });
+  grainFilter(defs, `${uid}-gc`, { bf: '0.55', slope: 0.9, intercept: 0.35, seed: '9' });
   svg.append(defs);
-  const art = sv('g', { filter: `url(#${uid}-w)` });
-  svg.append(art);
-  def.paint(art);
+
+  // the registration slip — seeded per card, a few px, the press's honesty
+  const r = rng(`reg-${def.id}`);
+  const dx = (2.4 + r() * 1.6) * (r() < 0.5 ? 1 : -1);
+  const dy = -(1.4 + r() * 1.4);
+  const slip = `translate(${dx.toFixed(1)} ${dy.toFixed(1)})`;
+
+  const paper = sv('g', { filter: `url(#${uid}-gp)` });
+  const colorUnder = sv('g', { filter: `url(#${uid}-gc)`, transform: slip });
+  const key = sv('g', { filter: `url(#${uid}-w)` });
+  const colorOver = sv('g', { filter: `url(#${uid}-gc)`, transform: slip });
+  svg.append(paper, colorUnder, key, colorOver);
+  def.paint({ paper, colorUnder, key, colorOver });
+
   // crisp frame outside the wobble
   svg.append(
     sv('rect', {
@@ -796,7 +621,7 @@ export function openSceneCards(): HTMLElement {
     hd(
       'span',
       'roman',
-      'E2 demo — VN scene cards (the cold open · fixture text, zero integration)',
+      'E2 demo v2 — kage-e scene cards (the cold open · fixture text, zero integration)',
     ),
   );
   card.append(title);
@@ -818,10 +643,10 @@ export function openSceneCards(): HTMLElement {
     hd(
       'div',
       'scn-hint',
-      'Two composed woodblock vignettes for the cold open’s VN scenes — the grammar ' +
-        'demo: one focal mass on a horizon band, figures as featureless silhouettes ' +
-        '(never faces), the MC a figure-scale void, a vermillion caption cartouche, ' +
-        'one voice-colour tint per speaker. Where it goes: a card like this sits above ' +
+      'Kage-e silhouette theatre under a two-block press: strict-profile shadow ' +
+        'figures on flat planes, the MC a paper void cut out of the ground shadow, ' +
+        'colour blocks deliberately misregistered off the keyblock, baren grain in ' +
+        'the fills. One voice-colour field per speaker; a card like this sits above ' +
         'its VN scene. DEV-only demo; hover the figures.',
     ),
   );

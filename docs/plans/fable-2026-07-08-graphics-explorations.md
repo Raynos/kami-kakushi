@@ -83,10 +83,14 @@ class of job, minus the world-layout invention.
 > demo** forward past E2.1/E2.2 — one version, no diverge, and TWO cards
 > (illustrating the idea, not the one-card pilot): Sōan's sickroom +
 > Genemon's grain-store from the existing cold-open/intro text. Built:
-> `src/ui/scene-cards/` (DEV → Story → "⤢ Scene cards"; grammar notes in the
-> module README). Awaiting the human's look; the steps below still gate
-> anything beyond the demo — the E2.1 grammar spec, the real one-moment
-> diverge, and the keep/kill ruling.
+> `src/ui/scene-cards/` (DEV → Story → "⤢ Scene cards"; style notes in the
+> module README). **v1 (figurative room-scenes) got the human's slop
+> verdict**; rebuilt same-session as **kage-e silhouette theatre + a
+> misregistered press layer** — the 1+2 pick from
+> [`2026-07-08-e2-scene-card-rescue.md`](../../project/brainstorms/2026-07-08-e2-scene-card-rescue.md).
+> Awaiting the human's look at v2; the steps below still gate anything
+> beyond the demo — the E2.1 grammar spec, the real one-moment diverge, and
+> the keep/kill ruling.
 
 **Home:** the cold open (R0's first impression). **Scope:** ONE card,
 period. **Kill criterion is part of the spec:** if the pilot reads slop
