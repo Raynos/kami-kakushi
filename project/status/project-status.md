@@ -23,10 +23,10 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 
 ## Where we are now
 
-- **🔧 STORYWAVE GAME BUILD (Plan B, s125):** T0 engine rewrite to the bible
-  (ADR-150). **G0 ✅** `29b7940` (§04-cast registry + `monk` voice; **HD-30**
-  = supplemental prose wave, ⛔ gates G7). Next G1 (6-season calendar ·
-  rice-as-kura · clean-break saves). Plan A docs A0–A4 landed, A5 gated here.
+- **🔧 STORYWAVE GAME BUILD (Plan B, s125):** T0 rewrite to the bible (ADR-150).
+  **G0** `29b7940` (§04-cast+monk; **HD-30** prose wave ⛔ gates G7) · **G1**
+  `1f615aa` (6-season MANUAL calendar + clean-break saves; rice reframe→G4.5;
+  OWED balance re-baseline). Next G2 (scenes+night-rounds). Plan A A0–A4.
 - **PRD** — `prd.md` = stub index → `docs/living/prd/*` (seven-tier per s118
   ripple); §4 + §7 MS2–MS7 provisional (ADR-059).
 - **v0.3.0–v0.3.7 shipped** the full T0 MS0–MS4 arc (FB-1–FB-117), the T0
