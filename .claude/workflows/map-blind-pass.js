@@ -29,9 +29,11 @@ export const meta = {
 
 const url = (args && args.url) || 'http://localhost:5173/';
 const outdirArg = (args && args.outdir) || '';
-const sheets = ['T0', 'T1'].filter((t) => (args && args.sheets ? args.sheets.includes(t) : true));
+const sheets = ['T0', 'T1', 'T2'].filter((t) =>
+  args && args.sheets ? args.sheets.includes(t) : true,
+);
 if (sheets.length === 0) {
-  return { failed: 'args', detail: "args.sheets must name 'T0' and/or 'T1'" };
+  return { failed: 'args', detail: "args.sheets must name 'T0', 'T1' and/or 'T2'" };
 }
 
 phase('Capture');
@@ -41,7 +43,7 @@ const cap = await agent(
 (If the command fails because the dev server is down, report that clearly and return files as empty arrays.)
 Then list the produced PNG files. Return JSON only: the output directory and the
 absolute-or-repo-relative file paths grouped per sheet — T0 files contain "t0" in
-the filename, T1 files contain "t1".`,
+the filename, T1 files contain "t1", T2 files contain "t2".`,
   {
     label: 'capture',
     model: 'sonnet',
@@ -51,23 +53,28 @@ the filename, T1 files contain "t1".`,
         outdir: { type: 'string' },
         t0: { type: 'array', items: { type: 'string' } },
         t1: { type: 'array', items: { type: 'string' } },
+        t2: { type: 'array', items: { type: 'string' } },
         error: { type: 'string' },
       },
       required: ['outdir', 't0', 't1'],
     },
   },
 );
-if (!cap || cap.t0.length === 0 || cap.t1.length === 0) {
+const filesFor = (t) =>
+  (t === 'T0' ? cap && cap.t0 : t === 'T1' ? cap && cap.t1 : cap && cap.t2) || [];
+if (!cap || sheets.some((t) => filesFor(t).length === 0)) {
   return {
     failed: 'capture',
-    detail: (cap && cap.error) || 'no shots produced — is the dev server up?',
+    detail: (cap && cap.error) || 'no shots produced for a requested sheet — is the dev server up?',
   };
 }
-log(`captured ${cap.t0.length} T0 + ${cap.t1.length} T1 shots → ${cap.outdir}`);
+log(sheets.map((t) => `${filesFor(t).length} ${t}`).join(' + ') + ` shots → ${cap.outdir}`);
 
+// which map-spec rubric section + cross-sheet comparison each tier is judged by
 const RUBRIC_NOTE = {
-  T0: 'Apply the "Both sheets" lines R1–R11 only.',
-  T1: 'Apply the "Both sheets" lines R1–R11 AND the "T1 additions" R12–R18. For R12 (no landmark moved) you may additionally Read the T0 images listed for comparison.',
+  T0: 'Use the §5 rubric. Apply the "Both sheets" lines R1–R11 only.',
+  T1: 'Use the §5 rubric. Apply the "Both sheets" lines R1–R11 AND the "T1 additions" R12–R18. For R12 (no landmark moved) you may additionally Read the T0 images listed for comparison.',
+  T2: 'Use the §6.4 rubric (the T2 valley sheet). Apply the V-lines V1–V12. For V5 (same world as T1, no landmark moved) you may additionally Read the T1 images for comparison.',
 };
 
 // capture is local playwright (token-free), so both sheets are always shot —
@@ -81,7 +88,7 @@ const results = await pipeline(
 Read (view) these image files and nothing else — do NOT open, grep, or explore any
 other project file; your blindness is the point of this exercise.
 
-Images: ${(tier === 'T0' ? cap.t0 : cap.t1).join(' · ')}
+Images: ${filesFor(tier).join(' · ')}
 
 Describe, concretely and at length, the PLACE this sheet depicts: the geography
 (relief, water and its flow direction, land use), the settlement(s) and their
@@ -95,8 +102,8 @@ mysterious. State only what you can see. Return the description as plain text.`,
   (description, tier) =>
     agent(
       `Judge a blind reader's description of the ${tier} map sheet against the
-blind-reader rubric. Read docs/guides/map-spec.md and use ONLY its §5 rubric.
-${RUBRIC_NOTE[tier]}
+blind-reader rubric. Read docs/guides/map-spec.md and use ONLY the rubric section
+named next. ${RUBRIC_NOTE[tier]}
 
 A rubric line PASSES only if the description actually recovers it (paraphrase is
 fine; the reader inferring the opposite, or simply not mentioning it, is a MISS).
@@ -156,7 +163,7 @@ for (const t of scored) log(`${t.tier}: M ${t.mPass}/${t.mTotal} · S ${t.sPass}
 phase('Report');
 const report = await agent(
   `Write the blind-pass report for the map sheet(s) ${sheets.join('+')} to a new file
-project/audit/reports/<YYYY-MM-DD>-t0t1-map-blind-pass.md (compute the date with
+project/audit/reports/<YYYY-MM-DD>-${sheets.join('').toLowerCase()}-map-blind-pass.md (compute the date with
 the "date +%F" shell command; if the file exists, suffix -2, -3, …). Markdown,
 ~80-char wrap, in this shape: a header naming the capture dir (${cap.outdir}),
 the sheets covered (${sheets.join(', ')} — a scoped run is NOT a full pass), and
