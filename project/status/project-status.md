@@ -35,8 +35,9 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
   the woodblock locks) + drains FB-127–FB-172. HR-7 ✅ (絵図 map pick — superseded by ADR-151 below).
 - **✅ Process/e2e/narrative infra** (s77–s94): FB-1–10 · e2e lane
   (ADR-141/142) · s90 hardening (ADR-140) · ADR-139 story diverge.
-- **✅ T0/T1 MAPS PLAYER-BOUND, HR-12 ✅ (s112–115, ADR-149/151):** the sheet =
-  THE player map. Drain · rung-reveal mech · blind-pass-3 all-M · golden pin.
+- **✅ T0/T1 MAPS PLAYER-BOUND, HR-12 ✅ (s112–117, ADR-149/151):** the sheet =
+  THE player map. Drain · reveal mech · blind-pass all-M · golden pin · s117:
+  Phase C closed (geom + idiom, pin-green) · `?t0/t1-map-demo` · spec → guides.
 - **✅ THE PHASE-2 ECONOMY (ADR-145, s100):** the A+B loop shipped — 5 deed
   sources · deed-gated U1–U4 staged build + E1 beats · tracker diverge (HR-11)
   · retuned in-band · PRD rippled. **✅ FB-121 REQUIREMENTS RUNGS (ADR-137,
@@ -59,9 +60,8 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 - **REVIEW PASSOVER** 🔲 (HR-1) — play/review the full T0 arc for fun & pacing
   (the LOOK is now certified — UI-v2 PH5, s98).
 - **DEV-variant picks** 🔲 — ALL KEPT live by the human's call (s98) for a
-  detailed pass: estate-section A/B/C (HR-9) · home A/B/C (HR-6) · bestiary (HR-5) · the HR-2
-  bundle. Picks → I strip (zero flag-debt). (HR-7 map ✅ picked: 絵図 survey
-  plan shipped; two-column Map tab still queued.)
+  detailed pass: estate-section A/B/C (HR-9) · home A/B/C (HR-6) · bestiary
+  (HR-5) · the HR-2 bundle. Picks → I strip (zero flag-debt).
 - **Phase-2 story + tracker picks** 🔲 — HR-10 (the estate-build beat take:
   ledger canon vs land/heir alternates) · HR-11 (tracker A ladder / B rail /
   C ledger); PH5 fun-certification of the new ~65-min Phase 2 rides HR-1.
