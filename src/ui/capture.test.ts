@@ -40,7 +40,7 @@ const hotkey = (target: EventTarget = document): void => {
 /** Enter pick mode, then press — with elementFromPoint stubbed to `el` (null ⇒ a general note).
  *  Pick fires on pointerdown (mousedown is suppressed when an element preventDefaults pointerdown;
  *  a hover popover also eats the follow-up click), so drive pointerdown. */
-function pick(el: HTMLElement | null): void {
+function pick(el: Element | null): void {
   hotkey();
   document.elementFromPoint = (): Element | null => el;
   document.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientX: 5, clientY: 5 }));
@@ -364,5 +364,39 @@ describe('mountCapture — submit', () => {
       URL.createObjectURL = origCreate;
       URL.revokeObjectURL = origRevoke;
     }
+  });
+});
+
+describe('FB-195/196 — the map sheet is capturable', () => {
+  it('an SVG pick yields a descriptor (the old picker returned null for SVG)', async () => {
+    mount();
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('class', 't0v2-node');
+    (g as unknown as { dataset: DOMStringMap }).dataset.zone = 'weir';
+    const kanji = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    kanji.textContent = '堰';
+    g.appendChild(kanji);
+    svg.appendChild(g);
+    host.appendChild(svg);
+    pick(kanji);
+    await typeAndSend('the weir seal');
+    const entry = posts[0]!.body.entry;
+    expect(entry).toContain('map-sheet seal "weir"'); // semantic label, not null
+    expect(entry).toContain('data-zone=weir'); // the selector anchors to the zone
+  });
+
+  it('the screenshot rasterises shotRoot when given (body ⇒ modals ride the shot)', async () => {
+    const seen: Element[] = [];
+    mount({
+      shotRoot: document.body,
+      snapshot: async (el) => {
+        seen.push(el);
+        return 'data:image/png;base64,x';
+      },
+    });
+    pick(null);
+    await typeAndSend('general note');
+    expect(seen).toEqual([document.body]); // NOT the #app host
   });
 });

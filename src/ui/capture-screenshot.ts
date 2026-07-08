@@ -13,12 +13,17 @@ import {
   type ScreenshotCompositor,
 } from './capture';
 
-/** Rasterise `el` (the #app root) to a PNG data URL, or null on failure — a screenshot is a
- *  best-effort viewing aid (§2.3), never allowed to break the capture; the deterministic save
- *  in the .md is the authoritative repro. */
+/** Rasterise `el` (the shotRoot — main passes document.body so modals mounted
+ *  outside #app ride the shot, FB-195) to a PNG data URL, or null on failure —
+ *  a screenshot is a best-effort viewing aid (§2.3), never allowed to break the
+ *  capture; the deterministic save in the .md is the authoritative repro. The
+ *  capture overlay's own UI (the note box, marked data-kami-capture) is
+ *  filtered out so a body-rooted shot never photographs itself. */
 export const snapshotDom: DomSnapshotter = async (el) => {
   try {
-    return await domToPng(el);
+    return await domToPng(el, {
+      filter: (node) => !(node instanceof HTMLElement && node.dataset.kamiCapture !== undefined),
+    });
   } catch {
     return null;
   }

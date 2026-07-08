@@ -684,6 +684,10 @@ async function boot(): Promise<void> {
   if (import.meta.env.DEV) {
     mountCapture({
       host: root,
+      // rasterise the whole BODY, not #app: full-screen scrims (the map sheet
+      // modal) mount outside the app root and were invisible in every map
+      // capture (FB-195)
+      shotRoot: document.body,
       snapshot: snapshotDom,
       composite: compositeStrokes,
       build: { version: __VERSION__, sha: __BUILD_SHA__, date: __BUILD_DATE__ },

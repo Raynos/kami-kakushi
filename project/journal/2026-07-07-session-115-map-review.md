@@ -174,3 +174,13 @@ left 🔲 open, fix queued); the session file + JSONs archived
 (`playtest-inbox/archive/2026-07-07T22-29-33-9aa00d*`). pending/ is
 empty. Next: FB-195/196 tool fix, then Phase B remainder (fine register,
 ground texture, forest strata, wing fills) → rung mechanism → Phase C.
+
+FB-195/196 fixed (the capture tool itself): the snapshotter now
+rasterises a `shotRoot` (main passes document.body — the map scrim
+mounts there, outside #app, which is why every map shot came out empty;
+the overlay's own note box is filtered from the shot), and the pick-mode
+resolver accepts Element instead of HTMLElement (the sheet is SVG top to
+bottom — every pick nulled). Seals now label as `map-sheet seal "<zone>"`
+with a data-zone-anchored selector. Two RED-able regression tests; the
+body-shot verified live with the modal open (centre pixel = sheet plate,
+86% of the mid scanline sheet-ish).

@@ -70,6 +70,10 @@ export interface CaptureOptions {
   readonly build: CaptureBuild;
   /** Freeze the per-capture game context at pick. Closes over live state (main.ts). */
   readonly buildContext: () => CaptureEntryContext;
+  /** What the snapshotter rasterises; default `host`. Pass `document.body` so
+   *  full-screen scrims mounted OUTSIDE the app root (the map sheet modal —
+   *  FB-195's empty shots) ride the screenshot too. */
+  readonly shotRoot?: HTMLElement;
   /** DOM→PNG snapshotter; omitted ⇒ no screenshot (the real impl is injected at the mount). */
   readonly snapshot?: DomSnapshotter;
   /** Bake markup strokes into the screenshot (submit-time); omitted ⇒ strokes stay on-screen only. */
@@ -142,22 +146,33 @@ function isEditableTarget(t: EventTarget | null): boolean {
   return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || t.isContentEditable;
 }
 
+/** dataset of an HTML *or* SVG element (both carry one; plain Element doesn't). */
+function dataOf(el: Element): DOMStringMap | undefined {
+  return el instanceof HTMLElement || el instanceof SVGElement ? el.dataset : undefined;
+}
+
 /** A short best-effort CSS-ish path (stops at #app or a data-panel/data-node anchor). */
-function cssPath(el: HTMLElement): string {
+function cssPath(el: Element): string {
   const parts: string[] = [];
-  let cur: HTMLElement | null = el;
+  let cur: Element | null = el;
   let depth = 0;
   while (cur && cur.id !== 'app' && depth < 4) {
     let part = cur.tagName.toLowerCase();
-    if (cur.dataset.panel) {
-      parts.unshift(`${part}[data-panel=${cur.dataset.panel}]`);
+    const data = dataOf(cur);
+    if (data?.panel) {
+      parts.unshift(`${part}[data-panel=${data.panel}]`);
       break;
     }
-    if (cur.dataset.node) {
-      parts.unshift(`${part}[data-node=${cur.dataset.node}]`);
+    if (data?.node) {
+      parts.unshift(`${part}[data-node=${data.node}]`);
       break;
     }
-    const parent: HTMLElement | null = cur.parentElement;
+    if (data?.zone) {
+      // a map-sheet seal (SVG) — the zone id is the anchor
+      parts.unshift(`${part}[data-zone=${data.zone}]`);
+      break;
+    }
+    const parent: Element | null = cur.parentElement;
     if (parent) {
       const sibs = Array.from(parent.children).filter((c) => c.tagName === cur!.tagName);
       if (sibs.length > 1) part += `:nth-of-type(${sibs.indexOf(cur) + 1})`;
@@ -169,8 +184,10 @@ function cssPath(el: HTMLElement): string {
   return parts.join(' > ') || el.tagName.toLowerCase();
 }
 
-/** Describe the picked element — prefer the game's own semantic hooks over a brittle path. */
-function describeElement(el: HTMLElement): ElementDescriptor {
+/** Describe the picked element — prefer the game's own semantic hooks over a brittle path.
+ *  Accepts SVG too (FB-196: the map sheet is all SVG — the old HTMLElement-only
+ *  picker returned null for every seal, kanji and drawn stroke). */
+function describeElement(el: Element): ElementDescriptor {
   const r = el.getBoundingClientRect();
   const rect = {
     x: Math.round(r.x),
@@ -181,12 +198,15 @@ function describeElement(el: HTMLElement): ElementDescriptor {
   const text = (el.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 60);
 
   const btn = el.closest('button, [role="button"]');
+  const seal = el.closest('[data-zone]');
   const node = el.closest<HTMLElement>('[data-node]');
   const panel = el.closest<HTMLElement>('[data-panel]');
   const aria = el.getAttribute('aria-label');
   let label: string;
   if (btn) {
     label = `button "${(btn.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 40)}"`;
+  } else if (seal) {
+    label = `map-sheet seal "${dataOf(seal)?.zone}"`;
   } else if (node) {
     label = `map node "${node.dataset.node}"`;
   } else if (panel) {
@@ -342,7 +362,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
     markupBtn = undoBtn = clearBtn = null;
   }
 
-  function positionHighlight(el: HTMLElement): void {
+  function positionHighlight(el: Element): void {
     const r = el.getBoundingClientRect();
     highlight.style.left = `${r.x}px`;
     highlight.style.top = `${r.y}px`;
@@ -351,9 +371,9 @@ export function mountCapture(opts: CaptureOptions): () => void {
     highlight.style.display = 'block';
   }
 
-  function elementUnder(e: MouseEvent): HTMLElement | null {
-    const el = doc.elementFromPoint(e.clientX, e.clientY);
-    return el instanceof HTMLElement ? el : null;
+  function elementUnder(e: MouseEvent): Element | null {
+    // Element, not HTMLElement — the map sheet is SVG top to bottom (FB-196)
+    return doc.elementFromPoint(e.clientX, e.clientY);
   }
 
   function showHint(): void {
@@ -547,7 +567,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
     const capturedAt = localIso(now());
     const base = opts.buildContext();
     const shot: Promise<string | null> = opts.snapshot
-      ? opts.snapshot(host).catch(() => null)
+      ? opts.snapshot(opts.shotRoot ?? host).catch(() => null)
       : Promise.resolve(null);
 
     const el = doc.createElement('div');
