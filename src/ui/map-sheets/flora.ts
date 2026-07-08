@@ -4,7 +4,7 @@
 // seed-varied in silhouette, scale and rotation so no two trees read identical. Composes
 // brush.ts only; all randomness flows through rng(seed) — one seed, one identical grove.
 
-import { brushStroke, inkLine, rng, stipple, sv, wash, waveComb } from './brush';
+import { brushStroke, inkLine, rng, stipple, sv, wash, waveComb, type SeedOpts } from './brush';
 import { bbox, edgeNormal, pointInPoly, resample } from './geom';
 import type { Pt } from './geom';
 
@@ -169,17 +169,17 @@ function needlePad(
   }
 }
 
+export interface PineOpts {
+  readonly seed: string;
+  /** deep-interior recession — the stroke tone drops one step (spec L2) */
+  readonly dim?: boolean;
+}
+
 /** ONE brush pine — the survey's conifer pictogram. Five silhouettes selected by seed
  *  (kasa umbrella · two-step · wind-leant · tall three-tier · scrub), with seed-jittered
  *  scale, rotation and trunk lean, so a hillside of pines never reads stamped. */
-export function pine(
-  parent: SVGElement,
-  x: number,
-  y: number,
-  s: number,
-  seed: string,
-  o?: { dim?: boolean },
-): void {
+export function pine(parent: SVGElement, x: number, y: number, s: number, o: PineOpts): void {
+  const { seed } = o;
   const r = rng(seed);
   const sd = seedSeq(seed);
   const variant = Math.floor(r() * 5) % 5;
@@ -188,7 +188,7 @@ export function pine(
   const lean = (r() - 0.5) * 0.36;
   const g = sv('g', {
     // deep-interior trees recede by TONE (ink ramp), never by opacity (L2)
-    ...(o?.dim ? { style: '--silver-dim: var(--ink-soft)' } : {}),
+    ...(o.dim ? { style: '--silver-dim: var(--ink-soft)' } : {}),
     transform: `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rot.toFixed(1)})`,
   });
   parent.append(g);
@@ -314,14 +314,16 @@ function scallopEdge(
   );
 }
 
+export interface TreeMassOpts {
+  readonly seed: string;
+  readonly density?: number;
+  readonly floor?: boolean;
+}
+
 /** A forest MASS — how the survey draws woodland it will not count tree by tree:
  *  a dark under-wash, a scalloped canopy edge, and pines thick at the silhouette,
  *  thinning inward (the mapmaker inks the edge he can see). Optional stipple floor. */
-export function treeMass(
-  parent: SVGElement,
-  poly: readonly Pt[],
-  o: { seed: string; density?: number; floor?: boolean },
-): void {
+export function treeMass(parent: SVGElement, poly: readonly Pt[], o: TreeMassOpts): void {
   const r = rng(o.seed);
   const sd = seedSeq(o.seed);
   wash(parent, poly, { seed: sd(), fill: FOREST_WASH, opacity: 0.8, amp: 5 });
@@ -371,7 +373,8 @@ export function treeMass(
   }
   spots.sort((a, b) => a.p[1] - b.p[1]);
   spots.forEach((sp, i) =>
-    pine(parent, sp.p[0], sp.p[1], sp.s, `${o.seed}:t${i}`, {
+    pine(parent, sp.p[0], sp.p[1], sp.s, {
+      seed: `${o.seed}:t${i}`,
       dim: distToEdge(sp.p, poly) > 56,
     }),
   );
@@ -477,8 +480,9 @@ export function bambooClump(
   x: number,
   y: number,
   s: number,
-  seed: string,
+  o: SeedOpts,
 ): void {
+  const { seed } = o;
   const r = rng(seed);
   const sd = seedSeq(seed);
   culmClump(parent, sd, r, x, y, s * (0.9 + r() * 0.2), (r() - 0.5) * 0.44, 1);
@@ -487,7 +491,7 @@ export function bambooClump(
 /** A grove MASS — a raised wash + vertical culm-hatch for the uncountable interior,
  *  with individually-readable culm clumps leaning outward all along the silhouette
  *  (the painter details only the stems the lamplight catches at the edge). */
-export function bambooGrove(parent: SVGElement, poly: readonly Pt[], o: { seed: string }): void {
+export function bambooGrove(parent: SVGElement, poly: readonly Pt[], o: SeedOpts): void {
   const r = rng(o.seed);
   const sd = seedSeq(o.seed);
   wash(parent, poly, { seed: sd(), fill: GROVE_WASH, opacity: 0.65, amp: 5 });
@@ -589,6 +593,11 @@ export function bambooGrove(parent: SVGElement, poly: readonly Pt[], o: { seed: 
   }
 }
 
+export interface FruitTreeOpts {
+  readonly seed: string;
+  readonly feral?: boolean;
+}
+
 /** A round-crown orchard tree — the fruit-tree pictogram: short trunk, one bumpy
  *  crown circle, a couple of interior foliage arcs. `feral` breaks the pruned shape
  *  with escaping tangle strokes and a water-shoot — neglect made visible (G8). */
@@ -597,9 +606,9 @@ export function fruitTree(
   x: number,
   y: number,
   s: number,
-  seed: string,
-  o: { feral?: boolean } = {},
+  o: FruitTreeOpts,
 ): void {
+  const { seed } = o;
   const r = rng(seed);
   const sd = seedSeq(seed);
   const k = s * (0.88 + r() * 0.24);
@@ -746,7 +755,7 @@ function stalkFan(
 
 /** A reed bed — tufts thick in the slack water (the polygon's interior), thinning to
  *  the current's edge, with a few suiha-mon wave-combs in the open gaps between. */
-export function reedBed(parent: SVGElement, poly: readonly Pt[], o: { seed: string }): void {
+export function reedBed(parent: SVGElement, poly: readonly Pt[], o: SeedOpts): void {
   const r = rng(o.seed);
   const sd = seedSeq(o.seed);
   const { x0, y0, x1, y1 } = bbox(poly);
@@ -774,18 +783,19 @@ export function reedBed(parent: SVGElement, poly: readonly Pt[], o: { seed: stri
     const p: Pt = [x0 + r() * (x1 - x0), y0 + r() * (y1 - y0)];
     if (!pointInPoly(p, poly) || distToEdge(p, poly) < 12) continue;
     if (placed.some((q) => Math.hypot(q[0] - p[0], q[1] - p[1]) < 20)) continue;
-    waveComb(parent, p[0], p[1], 18 + r() * 12, sd(), { opacity: 0.6 });
+    waveComb(parent, p[0], p[1], 18 + r() * 12, { seed: sd(), opacity: 0.6 });
     combs++;
   }
 }
 
+export interface GrassTuftsOpts {
+  readonly seed: string;
+  readonly density?: number;
+}
+
 /** Sparse grass tufts — the ruin-floor / margin tick (spec L4: grass breaching floors):
  *  small splayed flicks in the receding ink tone, never a lawn. */
-export function grassTufts(
-  parent: SVGElement,
-  poly: readonly Pt[],
-  o: { seed: string; density?: number },
-): void {
+export function grassTufts(parent: SVGElement, poly: readonly Pt[], o: GrassTuftsOpts): void {
   const r = rng(o.seed);
   const sd = seedSeq(o.seed);
   const step = 26 / Math.sqrt(o.density ?? 1);
@@ -808,22 +818,20 @@ export function grassTufts(
   }
 }
 
+export interface OrchardRowsOpts {
+  readonly seed: string;
+  readonly cols: number;
+  readonly rows: number;
+  readonly spacing: number;
+  readonly angleDeg?: number;
+  readonly feral?: boolean;
+}
+
 /** Grid-planted orchard rows — trees on a courtyard grid (aligned to walls, not to the
  *  fields — G5/G8's tell). `feral` tangles every crown and seeds grass between trunks,
  *  but the planting GRID stays readable: that wrongness — a garden kept by no one,
  *  still holding its lines — is story, not noise. */
-export function orchardRows(
-  parent: SVGElement,
-  origin: Pt,
-  o: {
-    seed: string;
-    cols: number;
-    rows: number;
-    spacing: number;
-    angleDeg?: number;
-    feral?: boolean;
-  },
-): void {
+export function orchardRows(parent: SVGElement, origin: Pt, o: OrchardRowsOpts): void {
   const r = rng(o.seed);
   const sd = seedSeq(o.seed);
   const ang = ((o.angleDeg ?? 0) * Math.PI) / 180;
@@ -841,7 +849,8 @@ export function orchardRows(
         row * o.spacing + (r() - 0.5) * jit * 2,
       );
       const s = o.spacing * (o.feral ? 0.52 + r() * 0.3 : 0.56 + r() * 0.14);
-      fruitTree(parent, p[0], p[1], s, `${o.seed}:o${row}-${col}`, {
+      fruitTree(parent, p[0], p[1], s, {
+        seed: `${o.seed}:o${row}-${col}`,
         feral: o.feral === true && r() < 0.85,
       });
       if (o.feral && col < o.cols - 1 && r() < 0.55) {

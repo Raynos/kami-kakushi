@@ -4,7 +4,7 @@
 // dry-field furrow hatching, and swept-court ground. Every mark composes brush.ts —
 // seeded-deterministic, Andon-Steel tokens only, brush-alive (no uniform CAD lines).
 
-import { brushStroke, fineLayer, inkLine, inkText, rng, wash } from './brush';
+import { brushStroke, fineLayer, inkLine, inkText, rng, wash, type SeedOpts } from './brush';
 import {
   along,
   bbox,
@@ -128,15 +128,17 @@ function scrubTuft(parent: SVGElement, [x, y]: Pt, seed: string, scale = 1): voi
 
 // ── exports ──────────────────────────────────────────────────────────────────
 
+export interface PaddyBlockOpts {
+  readonly seed: string;
+  readonly rowAngleDeg?: number;
+  readonly wet?: boolean;
+}
+
 /** A worked paddy block (spec L7): pale water-tone wash (wet) or drier earth tone,
  *  transplant-row dashes at the field's row angle, and a working-weight bund outline —
  *  the period surveyor's way of saying "this square is planted and holds water".
  *  wet=false drops the silver water sheen for a drier ground. */
-export function paddyBlock(
-  parent: SVGElement,
-  poly: readonly Pt[],
-  o: { seed: string; rowAngleDeg?: number; wet?: boolean },
-): void {
+export function paddyBlock(parent: SVGElement, poly: readonly Pt[], o: PaddyBlockOpts): void {
   const wet = o.wet ?? true;
   const r = rng(o.seed);
   wash(parent, poly, {
@@ -172,15 +174,17 @@ export function paddyBlock(
   bundOutline(parent, poly, `${o.seed}:bund`, 2, 'var(--silver-dim)');
 }
 
+export interface GhostBundsOpts {
+  readonly seed: string;
+  readonly cell?: number;
+  readonly angleDeg?: number;
+}
+
 /** The FADED traces of former field bunds (G7 — the estate was four times wider; this
  *  is that, drawn): a faint dotted irregular grid filling the polygon, stretches lost
  *  where the stones were robbed or ploughed out. angleDeg (optional extra) aligns the
  *  ghost grid with a living block's pattern so the traces read as its continuation. */
-export function ghostBunds(
-  parent: SVGElement,
-  poly: readonly Pt[],
-  o: { seed: string; cell?: number; angleDeg?: number },
-): void {
+export function ghostBunds(parent: SVGElement, poly: readonly Pt[], o: GhostBundsOpts): void {
   const r = rng(o.seed);
   const cell = o.cell ?? 46;
   const baseAng = o.angleDeg ?? (r() - 0.5) * 6;
@@ -228,27 +232,25 @@ export function ghostBunds(
   }
 }
 
+export interface TerraceRunOpts {
+  readonly seed: string;
+  readonly count: number;
+  readonly depth: number;
+  readonly letGo?: boolean;
+  readonly numberFrom?: number;
+  /** true = the walls read as NEW work (T1's re-stacked runs, gold); false/absent
+   *  = old laid stone in survey silver (T0 — blind pass 2 read the gold there as
+   *  an unexplained "vein", and on the old survey nothing at the terraces is new) */
+  readonly fresh?: boolean;
+}
+
 /** Stacked terrace strips climbing from the baseline (draw the baseline left→right and
  *  the run climbs up-sheet): each strip a paddy wash held by a retaining-wall brush
  *  stroke — gold for walls in work (built structure), dry-broken silver fragments with
  *  scrub tufts and NO water tone when the run has been let go. numberFrom sets tiny
  *  kanji count-stones at the strip ends (fine layer, L10); the numerals keep counting
  *  on let-go strips — the T1 wrong thing. */
-export function terraceRun(
-  parent: SVGElement,
-  baseline: readonly Pt[],
-  o: {
-    seed: string;
-    count: number;
-    depth: number;
-    letGo?: boolean;
-    numberFrom?: number;
-    /** true = the walls read as NEW work (T1's re-stacked runs, gold); false/absent
-     *  = old laid stone in survey silver (T0 — blind pass 2 read the gold there as
-     *  an unexplained "vein", and on the old survey nothing at the terraces is new) */
-    fresh?: boolean;
-  },
-): void {
+export function terraceRun(parent: SVGElement, baseline: readonly Pt[], o: TerraceRunOpts): void {
   const r = rng(o.seed);
   const base = resample(baseline, 14);
   const first = base[0]!;
@@ -363,15 +365,16 @@ export function terraceRun(
   });
 }
 
+export interface FurrowsOpts {
+  readonly seed: string;
+  readonly angleDeg?: number;
+}
+
 /** Dry-field furrow hatching (vegetable rows, L7): hand-pulled plough rows over a
  *  drier ground tone. The whole plot shares one plough bow (the ox turns the same way
  *  every pass) while each row keeps its own waver, stops short of the headland by its
  *  own margin, and now and then breaks mid-field — never a screen-tone hatch. */
-export function furrows(
-  parent: SVGElement,
-  poly: readonly Pt[],
-  o: { seed: string; angleDeg?: number },
-): void {
+export function furrows(parent: SVGElement, poly: readonly Pt[], o: FurrowsOpts): void {
   const r = rng(o.seed);
   wash(parent, poly, { seed: `${o.seed}:wash`, fill: 'var(--steel-2)', opacity: 0.75, amp: 3 });
   const { x0, y0, x1, y1 } = bbox(poly);
@@ -426,7 +429,7 @@ export function furrows(
  *  across the court, so the sweeps are long shallow arcs in a shared direction, each
  *  pass a close group of 2–3 tine lines; one small turn-swirl where the sweeper came
  *  about. The way a surveyor notes ground that is TENDED rather than grown. */
-export function sweptCourt(parent: SVGElement, poly: readonly Pt[], o: { seed: string }): void {
+export function sweptCourt(parent: SVGElement, poly: readonly Pt[], o: SeedOpts): void {
   const r = rng(o.seed);
   wash(parent, poly, { seed: `${o.seed}:wash`, fill: 'var(--steel-hi)', opacity: 0.62, amp: 3.5 });
   const fine = fineLayer(parent);

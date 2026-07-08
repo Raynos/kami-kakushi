@@ -259,7 +259,8 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   {
     // the woodlot edge — scattered conifers thinning toward the precinct
     const r = alongScatter(WILDS.woodlotScatter, 26, 'woodlot-scatter');
-    for (const [x, y, s] of r) pine(art, x, y, 7 + s * 5, `wl-${x.toFixed(0)}-${y.toFixed(0)}`);
+    for (const [x, y, s] of r)
+      pine(art, x, y, 7 + s * 5, { seed: `wl-${x.toFixed(0)}-${y.toFixed(0)}` });
     // char-darkened stumps (T0's undated marks)
     stipple(art, WILDS.woodlotScatter, {
       seed: 'stumps',
@@ -279,7 +280,7 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     paddyBlock(art, FIELDS.homePaddies[i]!, { seed: `paddy-${i}`, rowAngleDeg: -4 + i * 3 });
   }
   furrows(art, GUEST.vegRows, { seed: 'veg', angleDeg: 88 });
-  for (const [x, y] of GUEST.dryingRacks) dryingRack(art, x, y, `rack-${x}`);
+  for (const [x, y] of GUEST.dryingRacks) dryingRack(art, x, y, { seed: `rack-${x}` });
   // the margins: scrubby fringe + the sett-line running under the precinct wall
   grassTufts(art, FIELDS.margins, { seed: 'margins', density: 0.7 });
   inkLine(art, FIELDS.settLine, {
@@ -311,7 +312,7 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     ],
     { seed: 'oldfields-2', density: 0.4 },
   );
-  pine(art, 1352, 1232, 9, 'lone-fieldpine');
+  pine(art, 1352, 1232, 9, { seed: 'lone-fieldpine' });
   // the NW terraces: T0 shows two worked strips + scrub above (no numbers yet —
   // reading them is T1's R1 round); T1 works all five and the stones COUNT (G7)
   terraceRun(art, FIELDS.terraces.baseline, {
@@ -356,16 +357,16 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   // the old breach: open robbed gap in T0; closed in fresh stone in T1
   breachMark(art, tier);
   for (const ch of WATER.worksChannels) channel(art, ch, { seed: 'works', silted: d.worksSilted });
-  sluiceGate(art, WATER.worksSluice.at, WATER.worksSluice.angleDeg, 'works-sluice');
+  sluiceGate(art, WATER.worksSluice.at, WATER.worksSluice.angleDeg, { seed: 'works-sluice' });
   weirBar(art, WATER.weir.at, WATER.weir.angleDeg, { seed: 'weir' });
   channel(art, WATER.mainChannel, { seed: 'main-ch' });
   for (let i = 0; i < WATER.paddyDitches.length; i++)
     channel(art, WATER.paddyDitches[i]!, { seed: `pd-${i}` });
-  sluiceGate(art, WATER.channelSluice.at, WATER.channelSluice.angleDeg, 'ch-sluice');
+  sluiceGate(art, WATER.channelSluice.at, WATER.channelSluice.angleDeg, { seed: 'ch-sluice' });
   channel(art, WATER.siltedBranch, { seed: 'silt-br', silted: d.worksSilted });
   bridge(art, WATER.bridge.at, WATER.bridge.angleDeg, { seed: 'bridge' });
   reedBed(art, WATER.reeds, { seed: 'reeds' });
-  for (const fw of WATER.fishWeirs) fishWeir(art, fw.at, fw.angleDeg, `fw-${fw.at[0]}`);
+  for (const fw of WATER.fishWeirs) fishWeir(art, fw.at, fw.angleDeg, { seed: `fw-${fw.at[0]}` });
   // the otters' den — dressed stone in a wild bank (a wrong thing, drawn small)
   {
     const g = fineLayer(art);
@@ -392,7 +393,7 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   // Matsuzō's hut — his side of the water
   shed(art, WATER.matsuzoHut[0], WATER.matsuzoHut[1], { seed: 'matsuzo', scale: 0.8 });
   // the weir-jizō + the offerings nobody admits to
-  stoneMarker(art, WATER.jizo[0], WATER.jizo[1], 'jizo', 'jizo');
+  stoneMarker(art, WATER.jizo[0], WATER.jizo[1], 'jizo', { seed: 'jizo' });
 
   // ── 5 · roads (G10) — they go somewhere ──
   road(art, ROADS.village, 'rd-village');
@@ -458,8 +459,8 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   });
   grassTufts(art, PRECINCT.innerGardenOld, { seed: 'old-garden', density: 1.7 });
   // the old garden's ornamental trees, gone wild among the tufts
-  pine(art, 1592, 1128, 9, 'garden-pine-1');
-  pine(art, 1768, 1096, 8, 'garden-pine-2');
+  pine(art, 1592, 1128, 9, { seed: 'garden-pine-1' });
+  pine(art, 1768, 1096, 8, { seed: 'garden-pine-2' });
   // the rope — posts + a sagging line: the household's refusal, drawn
   ropeLine(art);
 
@@ -595,7 +596,7 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   });
   shed(art, GUEST.workshops[0], GUEST.workshops[1], { seed: 'workshop', scale: 1 });
   forge(art, GUEST.workshops[0] - 26, GUEST.workshops[1] + 18, { seed: 'forge', lit: d.forgeLit });
-  well(art, GUEST.well[0], GUEST.well[1], 'well');
+  well(art, GUEST.well[0], GUEST.well[1], { seed: 'well' });
 
   // ── 9 · the family plot (drawn both tiers; sealed in T1) + the bounds (G9) ──
   gravePlotMark(art, tier);
@@ -606,7 +607,7 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
       transform: `translate(${s.x} ${s.y}) scale(1.5) translate(${-s.x} ${-s.y})`,
     });
     art.append(sg);
-    stoneMarker(sg, s.x, s.y, 'boundary', `bstone-${s.x}`);
+    stoneMarker(sg, s.x, s.y, 'boundary', { seed: `bstone-${s.x}` });
     if (s.newer && tier === 'T1') {
       const g = fineLayer(art);
       inkText(g, s.x + 16, s.y - 10, '新?', { size: 11, color: 'var(--shu)', opacity: 0.8 });
@@ -747,10 +748,10 @@ function gravePlotMark(art: SVGElement, tier: Tier): void {
     [-9, 14],
     [29, 13],
   ] as const) {
-    stoneMarker(g, cx + dx, cy + dy, 'grave', `grave-${i++}`);
+    stoneMarker(g, cx + dx, cy + dy, 'grave', { seed: `grave-${i++}` });
   }
   // the swept, weeded, STONELESS plot — the register's unstruck line, in earth
-  stoneMarker(g, cx + 10, cy + 13, 'graveEmpty', 'grave-empty');
+  stoneMarker(g, cx + 10, cy + 13, 'graveEmpty', { seed: 'grave-empty' });
   tip(g, 'The family plot — and one plot swept and weeded with NO stone in it');
   art.append(g);
 }

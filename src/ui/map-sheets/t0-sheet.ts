@@ -24,7 +24,7 @@ export function paintFurniture(art: SVGElement, frame: Frame, tier: 'T0' | 'T1')
   const fg = sv('g', { transform: `translate(${frame.x} ${frame.y})` });
   sheetBorder(fg, frame.w, frame.h, { seed: `border-${tier}` });
   foldCreases(fg, frame.w, frame.h, { seed: `creases-${tier}` });
-  northArrow(fg, 84, 96, `north-${tier}`);
+  northArrow(fg, 84, 96, { seed: `north-${tier}` });
   cartouche(fg, frame.w - 112, 48, {
     seed: `cart-${tier}`,
     title: '黒沢家領内絵図・改',

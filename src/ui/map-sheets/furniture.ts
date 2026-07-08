@@ -4,7 +4,7 @@
 // diagram. Everything composes from brush.ts (seeded, token-coloured, brush-alive);
 // silver = drawn state, gold = the frame keyline, shu = the reviser's red only.
 
-import { sv, rng, scrawl, inkLine, brushStroke, wash, inkText } from './brush';
+import { sv, rng, scrawl, inkLine, brushStroke, wash, inkText, type SeedOpts } from './brush';
 import { resample, type Pt } from './geom';
 
 /** Closed hand-scrawled rect path (corners + side midpoints so long sides waver). */
@@ -379,7 +379,8 @@ export function scaleBar(parent: SVGElement, x: number, y: number, o: ScaleBarOp
  * its head rather than a compass rose. One tapering upstroke, a two-flick head, the
  * character above; the whole mark set a few degrees off true, as a hand would.
  */
-export function northArrow(parent: SVGElement, x: number, y: number, seed: string): void {
+export function northArrow(parent: SVGElement, x: number, y: number, o: SeedOpts): void {
+  const { seed } = o;
   const r = rng(`${seed}:north`);
   const tilt = (r() - 0.5) * 7;
   const g = sv('g', { transform: `rotate(${tilt.toFixed(1)} ${x} ${y})` });

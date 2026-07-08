@@ -4,6 +4,13 @@
 // variable-width strokes, never uniform CAD polylines — spec L2). Pure SVG-DOM
 // emitters: no game imports, no RNG outside rng(), no Date/Math.random. All
 // geometry comes from geom.ts (G-5) — this file is ink only.
+//
+// API idiom (G-7): every EMITTER takes (parent, …geometry, o) with the seed in
+// a named XxxOpts options type — never positional. An emitter returns the one
+// element it appended (null when it appended nothing); only a many-element
+// emitter (brushStroke's dry runs) returns void. The two low-level builders,
+// rng(seed) and scrawl(pts, seed, …), keep their positional seed — there the
+// seed IS the argument.
 
 import { bbox, normalAt, pointInPoly, resample, scanlineRuns } from './geom';
 import type { Pt } from './geom';
@@ -59,6 +66,12 @@ export function scrawl(pts: readonly Pt[], seed: string, amp = 2.2, close = fals
   }
   if (close) d += ' Z';
   return d;
+}
+
+/** The minimal emitter option set — primitives with nothing to configure but
+ *  their determinism take exactly this. */
+export interface SeedOpts {
+  readonly seed: string;
 }
 
 export interface InkOpts {
@@ -203,7 +216,11 @@ export interface StippleOpts {
 /** Sparse dot texture inside a polygon (forest floor, rubble, scree).
  *  Node collapse (G-2): every dot is an arc-pair subpath of ONE filled path —
  *  a rubble field used to cost hundreds of circle elements, now exactly one. */
-export function stipple(parent: SVGElement, poly: readonly Pt[], o: StippleOpts): void {
+export function stipple(
+  parent: SVGElement,
+  poly: readonly Pt[],
+  o: StippleOpts,
+): SVGPathElement | null {
   const r = rng(o.seed);
   const step = o.step ?? 26;
   const { x0, y0, x1, y1 } = bbox(poly);
@@ -220,15 +237,15 @@ export function stipple(parent: SVGElement, poly: readonly Pt[], o: StippleOpts)
       d += `M${cx - rad},${cy} a${rad},${rad} 0 1,0 ${rad * 2},0 a${rad},${rad} 0 1,0 ${-rad * 2},0 `;
     }
   }
-  if (!d) return;
-  parent.append(
-    sv('path', {
-      d: d.trimEnd(),
-      fill: o.color ?? 'var(--ink-faint)',
-      stroke: 'none',
-      ...(o.opacity !== undefined ? { opacity: String(o.opacity) } : {}),
-    }),
-  );
+  if (!d) return null;
+  const p = sv('path', {
+    d: d.trimEnd(),
+    fill: o.color ?? 'var(--ink-faint)',
+    stroke: 'none',
+    ...(o.opacity !== undefined ? { opacity: String(o.opacity) } : {}),
+  });
+  parent.append(p);
+  return p;
 }
 
 export interface HatchOpts {
@@ -244,7 +261,11 @@ export interface HatchOpts {
 /** Hatch fill clipped to a polygon by sampling (geom.scanlineRuns — G-5) — the ink
  *  way to shade an area. Node collapse (G-2): every inside-run rides ONE
  *  multi-subpath d — a hill flank used to cost ~40-60 path elements, now one. */
-export function hatchArea(parent: SVGElement, poly: readonly Pt[], o: HatchOpts): void {
+export function hatchArea(
+  parent: SVGElement,
+  poly: readonly Pt[],
+  o: HatchOpts,
+): SVGPathElement | null {
   const r = rng(o.seed);
   const runs = scanlineRuns(poly, {
     angleDeg: o.angle ?? 38,
@@ -256,17 +277,24 @@ export function hatchArea(parent: SVGElement, poly: readonly Pt[], o: HatchOpts)
   let d = '';
   for (const { a, b } of runs)
     d += `M${a[0].toFixed(1)},${a[1].toFixed(1)} L${b[0].toFixed(1)},${b[1].toFixed(1)} `;
-  if (!d) return;
-  parent.append(
-    sv('path', {
-      d: d.trimEnd(),
-      stroke: o.color ?? 'var(--ink-faint)',
-      'stroke-width': String(o.w ?? 1),
-      'stroke-linecap': 'round',
-      fill: 'none',
-      ...(o.opacity !== undefined ? { opacity: String(o.opacity) } : {}),
-    }),
-  );
+  if (!d) return null;
+  const p = sv('path', {
+    d: d.trimEnd(),
+    stroke: o.color ?? 'var(--ink-faint)',
+    'stroke-width': String(o.w ?? 1),
+    'stroke-linecap': 'round',
+    fill: 'none',
+    ...(o.opacity !== undefined ? { opacity: String(o.opacity) } : {}),
+  });
+  parent.append(p);
+  return p;
+}
+
+export interface WaveCombOpts {
+  readonly seed: string;
+  readonly color?: string;
+  readonly opacity?: number;
+  readonly rows?: number;
 }
 
 /** Nested shallow water-comb arcs (suiha-mon) — pools, slack water, below weirs. */
@@ -275,10 +303,9 @@ export function waveComb(
   cx: number,
   cy: number,
   w: number,
-  seed: string,
-  o: { color?: string; opacity?: number; rows?: number } = {},
-): void {
-  const r = rng(seed);
+  o: WaveCombOpts,
+): SVGGElement {
+  const r = rng(o.seed);
   const rows = o.rows ?? 3;
   const g = sv('g', {
     stroke: o.color ?? 'var(--silver-dim)',
@@ -298,6 +325,16 @@ export function waveComb(
     );
   }
   parent.append(g);
+  return g;
+}
+
+export interface InkTextOpts {
+  readonly size?: number;
+  readonly color?: string;
+  readonly opacity?: number;
+  readonly angle?: number;
+  readonly vertical?: boolean;
+  readonly anchor?: 'start' | 'middle' | 'end';
 }
 
 /** Small ink text set INTO the drawing (stone numerals, period notes) — rides the
@@ -307,14 +344,7 @@ export function inkText(
   x: number,
   y: number,
   text: string,
-  o: {
-    size?: number;
-    color?: string;
-    opacity?: number;
-    angle?: number;
-    vertical?: boolean;
-    anchor?: 'start' | 'middle' | 'end';
-  } = {},
+  o: InkTextOpts = {},
 ): SVGTextElement {
   const t = sv(
     'text',

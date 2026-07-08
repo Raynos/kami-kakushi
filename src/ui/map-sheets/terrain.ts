@@ -312,15 +312,16 @@ export function hachureBand(parent: SVGElement, pts: readonly Pt[], o: HachureOp
   }
 }
 
+export interface RidgeLineOpts {
+  readonly seed: string;
+  readonly w?: number;
+}
+
 /** A tapered crest stroke for a minor rise — a knoll or spur too small for hillRange.
  *  Period maps mark these with a single pressed brush line that swells in the belly
  *  and dries out at the tail; a few faint settling ticks under it keep it reading as
  *  ground rather than a stray scratch. */
-export function ridgeLine(
-  parent: SVGElement,
-  pts: readonly Pt[],
-  o: { seed: string; w?: number },
-): void {
+export function ridgeLine(parent: SVGElement, pts: readonly Pt[], o: RidgeLineOpts): void {
   if (pts.length < 2) return;
   const w = o.w ?? 2.2;
   const g = sv('g', { class: 'ms-ridge' });
@@ -359,6 +360,12 @@ export function ridgeLine(
   }
 }
 
+export interface GroundWashBandOpts {
+  readonly seed: string;
+  readonly tone: string;
+  readonly opacity?: number;
+}
+
 /** A broad substrate wash with hand-cut edges — the valley-floor / field / water tone
  *  bands every period sheet lays down FIRST, so empty ground reads as the paper of a
  *  worked drawing, never unrendered void (spec L1). Thin wrapper over brush.wash so
@@ -366,7 +373,7 @@ export function ridgeLine(
 export function groundWashBand(
   parent: SVGElement,
   poly: readonly Pt[],
-  o: { seed: string; tone: string; opacity?: number },
+  o: GroundWashBandOpts,
 ): void {
   if (poly.length < 3) return;
   // resample the perimeter so even a 4-corner polygon gets an organic, wobbling edge

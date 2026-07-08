@@ -7,7 +7,7 @@
 // and stays on the Andon Steel tokens (silver = survey ink · gold = built/worked
 // structure · steel = paper and shadow).
 
-import { sv, rng, fineLayer, inkLine, brushStroke, wash, stipple } from './brush';
+import { sv, rng, fineLayer, inkLine, brushStroke, wash, stipple, type SeedOpts } from './brush';
 import { bbox, edgeNormal, offsetPolyline, pointInPoly, resample, type Pt } from './geom';
 
 // ── local-frame helpers ──────────────────────────────────────────────────────
@@ -114,6 +114,13 @@ function squaredStone(
 
 // ── roofs ────────────────────────────────────────────────────────────────────
 
+export interface RoofMassOpts {
+  readonly seed: string;
+  readonly angleDeg?: number;
+  readonly style?: 'hip' | 'gable';
+  readonly tone?: string;
+}
+
 /** A roof mass — the basic building pictogram of the sheet (spec L3). Period ezu
  *  drew buildings as solid roof forms, not floor plans: a lit north plane
  *  (steel-hi) and a shadowed south plane (steel-0) meet at a heavy tapered silver
@@ -126,7 +133,7 @@ export function roofMass(
   cy: number,
   w: number,
   h: number,
-  o: { seed: string; angleDeg?: number; style?: 'hip' | 'gable'; tone?: string },
+  o: RoofMassOpts,
 ): void {
   const r = rng(o.seed);
   const ang = (o.angleDeg ?? 0) + (r() - 0.5) * 2.2;
@@ -442,6 +449,12 @@ function corridorRoof(
   );
 }
 
+export interface WingedHouseOpts {
+  readonly seed: string;
+  readonly scale?: number;
+  readonly angleDeg?: number;
+}
+
 /** The guest house — ONE winged residence (spec L3, bible G6): a hipped central
  *  hall, two gabled wings joined by a ridged corridor running behind the hall, the
  *  kitchen mass on the WEST flank (threshold step facing the paddies), the shoin
@@ -450,7 +463,7 @@ function corridorRoof(
 export function wingedHouse(
   parent: SVGElement,
   at: Pt,
-  o: { seed: string; scale?: number; angleDeg?: number },
+  o: WingedHouseOpts,
 ): { hall: Pt; eastWing: Pt; westWing: Pt; corridor: Pt; kitchen: Pt; shoin: Pt } {
   const s = o.scale ?? 1;
   const r = rng(o.seed);
@@ -587,16 +600,16 @@ export function wingedHouse(
   };
 }
 
+export interface KuraOpts {
+  readonly seed: string;
+  readonly scale?: number;
+}
+
 /** The kura — drawn the ezu way, as a small elevational glyph: a white-plaster
  *  body (steel-hi lifted with a silver-faint glaze — the brightest built surface
  *  on the sheet) under a heavy dark overhanging roof, namako-lattice hairlines on
  *  the lower body, a dark door slit. Must read instantly distinct from wooden roofs. */
-export function kura(
-  parent: SVGElement,
-  cx: number,
-  cy: number,
-  o: { seed: string; scale?: number },
-): void {
+export function kura(parent: SVGElement, cx: number, cy: number, o: KuraOpts): void {
   const s = o.scale ?? 1;
   const r = rng(o.seed);
   const t = frame(cx, cy, (r() - 0.5) * 3);
@@ -763,15 +776,15 @@ export function kura(
   );
 }
 
+export interface LeanToOpts {
+  readonly seed: string;
+  readonly angleDeg?: number;
+}
+
 /** A lean-to (katanagare) — one mono-pitch plane propped against a wall or on
  *  posts: high-edge working stroke, low shadow eave, two prop ticks. Sōan's
  *  sickroom register: small, attached, humble. */
-export function leanTo(
-  parent: SVGElement,
-  cx: number,
-  cy: number,
-  o: { seed: string; angleDeg?: number },
-): void {
+export function leanTo(parent: SVGElement, cx: number, cy: number, o: LeanToOpts): void {
   const r = rng(o.seed);
   const t = frame(cx, cy, (o.angleDeg ?? 0) + (r() - 0.5) * 2.5);
   const c: Pt[] = [
@@ -871,14 +884,15 @@ export function leanTo(
   tick(parent, t([9, 9.5]), t([9.5, 13]), `${o.seed}:p2`, 1.2, 'var(--ink-soft)');
 }
 
+export interface ShedOpts {
+  readonly seed: string;
+  readonly scale?: number;
+  readonly angleDeg?: number;
+}
+
 /** A small gabled outbuilding (woodshed register) — a compact roofMass with a
  *  door gap tick on the shadow side. */
-export function shed(
-  parent: SVGElement,
-  cx: number,
-  cy: number,
-  o: { seed: string; scale?: number; angleDeg?: number },
-): void {
+export function shed(parent: SVGElement, cx: number, cy: number, o: ShedOpts): void {
   const s = o.scale ?? 1;
   roofMass(parent, cx, cy, 38 * s, 26 * s, {
     seed: `${o.seed}:r`,
@@ -918,17 +932,18 @@ export function shed(
 
 // ── the gate ─────────────────────────────────────────────────────────────────
 
+export interface GatehouseOpts {
+  readonly seed: string;
+  readonly ruined?: boolean;
+  readonly scale?: number;
+}
+
 /** A roofed gate drawn as an EVENT (spec L3): gable gate-roof over paired pillar
  *  ticks, flanking wall stubs, door leaves, and the worn threshold — the pale
  *  trodden ground that says people pass HERE. `ruined` swaps it for the crumbled
  *  great-gate: one collapsed roof plane, a fallen lintel across the passage, a
  *  leaning post, rubble and grass where the doors were (spec L4). */
-export function gatehouse(
-  parent: SVGElement,
-  at: Pt,
-  angleDeg: number,
-  o: { seed: string; ruined?: boolean; scale?: number },
-): void {
+export function gatehouse(parent: SVGElement, at: Pt, angleDeg: number, o: GatehouseOpts): void {
   const s = o.scale ?? 1;
   const r = rng(o.seed);
   const t = frame(at[0], at[1], angleDeg + (r() - 0.5) * 2);
@@ -1153,16 +1168,17 @@ export function gatehouse(
 
 // ── walls ────────────────────────────────────────────────────────────────────
 
+export interface WallRunOpts {
+  readonly seed: string;
+  readonly state: 'neat' | 'standing' | 'robbed';
+}
+
 /** A wall in one of its three lives (spec L4). `neat` — the lived wall: a
  *  gold-dim built line with an inner hairline and post ticks. `standing` — ruin
  *  still upright: heavy dry-brush runs broken by gaps, rubble dots at the breaks.
  *  `robbed` — quarried to the ground: only footing stones remain, a dotted
  *  stone-trace where the courses were carted away. */
-export function wallRun(
-  parent: SVGElement,
-  pts: readonly Pt[],
-  o: { seed: string; state: 'neat' | 'standing' | 'robbed' },
-): void {
+export function wallRun(parent: SVGElement, pts: readonly Pt[], o: WallRunOpts): void {
   if (pts.length < 2) return;
   const r = rng(o.seed);
   if (o.state === 'neat') {
@@ -1268,6 +1284,11 @@ export function wallRun(
 
 // ── ruin ─────────────────────────────────────────────────────────────────────
 
+export interface FallenRoofOpts {
+  readonly seed: string;
+  readonly angleDeg?: number;
+}
+
 /** A collapsed roof (spec L4) — two roof planes slumped at wrong angles with a
  *  gap of bare ground between them, broken dry ridge fragments, rubble spilled at
  *  one end, grass breaching the floor. Ruin depicted, never notated. */
@@ -1277,7 +1298,7 @@ export function fallenRoof(
   cy: number,
   w: number,
   h: number,
-  o: { seed: string; angleDeg?: number },
+  o: FallenRoofOpts,
 ): void {
   const r = rng(o.seed);
   const t = frame(cx, cy, (o.angleDeg ?? 0) + (r() - 0.5) * 3);
@@ -1454,7 +1475,7 @@ export function fallenRoof(
 /** A rubble field (spec L4) — an ash-tone wash over the ground, two stipple
  *  registers of broken stone, a few squared dressed blocks (the robbed masonry
  *  that never got carted), and grass tufts working up through it all. */
-export function rubbleField(parent: SVGElement, poly: readonly Pt[], o: { seed: string }): void {
+export function rubbleField(parent: SVGElement, poly: readonly Pt[], o: SeedOpts): void {
   const r = rng(o.seed);
   wash(parent, poly, { seed: `${o.seed}:ash`, fill: 'var(--steel-2)', amp: 4, opacity: 0.7 });
   // ground scatter — sparse, so the HEAPS below carry the rubble reading
@@ -1535,8 +1556,9 @@ export function stoneMarker(
   x: number,
   y: number,
   kind: 'jizo' | 'boundary' | 'grave' | 'graveEmpty',
-  seed: string,
+  o: SeedOpts,
 ): void {
+  const { seed } = o;
   const r = rng(seed);
   const tilt = (r() - 0.5) * 6;
   // per-seed stature: no two stones on the sheet stand quite alike
@@ -1699,7 +1721,8 @@ export function stoneMarker(
 /** The well — a ring of laid stones around a dark mouth, crowned by the 井
  *  crib-frame (igeta), the four crossed beams every period sheet uses to say
  *  "well" at a glance. */
-export function well(parent: SVGElement, x: number, y: number, seed: string): void {
+export function well(parent: SVGElement, x: number, y: number, o: SeedOpts): void {
+  const { seed } = o;
   const r = rng(seed);
   const t = frame(x, y, (r() - 0.5) * 14);
   // dark mouth
@@ -1797,15 +1820,15 @@ function smokeWisp(parent: SVGElement, x: number, y: number, seed: string, len =
   }
 }
 
+export interface ForgeOpts {
+  readonly seed: string;
+  readonly lit?: boolean;
+}
+
 /** The forge — a small dark gabled workshop with a vent box on the roof. `lit`
  *  opens the door on a gold ember (the ONE warm point — built/worked structure at
  *  work) with a smoke wisp at the vent; cold is shut, barred, and dark. */
-export function forge(
-  parent: SVGElement,
-  x: number,
-  y: number,
-  o: { seed: string; lit?: boolean },
-): void {
+export function forge(parent: SVGElement, x: number, y: number, o: ForgeOpts): void {
   const r = rng(o.seed);
   const ang = (r() - 0.5) * 4;
   const t = frame(x, y, ang);
@@ -1874,14 +1897,16 @@ export function forge(
   }
 }
 
+export interface StableRangeOpts {
+  readonly seed: string;
+  readonly stalls: number;
+  readonly angleDeg?: number;
+}
+
 /** The old stable court's range — a LONG gabled building combed by stall-division
  *  ticks (far too many stalls for the one mule), the stall-front posts marching
  *  along the open south side, a rack standing outside and rake arcs in the yard. */
-export function stableRange(
-  parent: SVGElement,
-  at: Pt,
-  o: { seed: string; stalls: number; angleDeg?: number },
-): void {
+export function stableRange(parent: SVGElement, at: Pt, o: StableRangeOpts): void {
   const r = rng(o.seed);
   const ang = (o.angleDeg ?? 0) + (r() - 0.5) * 1.6;
   const t = frame(at[0], at[1], ang);
@@ -2001,12 +2026,13 @@ export function stableRange(
   }
   // the rack at the yard's far corner
   const rp = t([hw * 0.7, hh + yd * 0.82]);
-  dryingRack(parent, rp[0], rp[1], `${o.seed}:rack`);
+  dryingRack(parent, rp[0], rp[1], { seed: `${o.seed}:rack` });
 }
 
 /** A drying rack — posts, two lashed rails, and a few hung things flapping from
  *  the top rail. Reads as work in progress, not architecture. */
-export function dryingRack(parent: SVGElement, x: number, y: number, seed: string): void {
+export function dryingRack(parent: SVGElement, x: number, y: number, o: SeedOpts): void {
+  const { seed } = o;
   const r = rng(seed);
   const t = frame(x, y, (r() - 0.5) * 5);
   // posts
@@ -2063,6 +2089,11 @@ export function dryingRack(parent: SVGElement, x: number, y: number, seed: strin
   }
 }
 
+export interface CharcoalClampOpts {
+  readonly seed: string;
+  readonly smoking?: boolean;
+}
+
 /** A charcoal clamp — the earthen kiln mound of the woodlot economy: a domed
  *  wash with a heavy shoulder stroke, flank hatching, a course of vent holes;
  *  `smoking` sends wisps up from the crown (the clamp back in rotation). */
@@ -2070,7 +2101,7 @@ export function charcoalClamp(
   parent: SVGElement,
   x: number,
   y: number,
-  o: { seed: string; smoking?: boolean },
+  o: CharcoalClampOpts,
 ): void {
   const r = rng(o.seed);
   const t = frame(x, y, (r() - 0.5) * 4);

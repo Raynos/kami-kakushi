@@ -80,3 +80,30 @@ time and byte-compares the draw stream — the r()-per-row call order in
 scanlineRuns was preserved exactly for this). Full verify 17/17.
 Shared-tree note: the co-agent's uncommitted story-bible edits
 (03-tiers.md, tiers/t2.md) left untouched.
+
+## G-7 — the API idiom pass (same session, later)
+
+The toolkit's exported surface normalized to ONE idiom, stated in
+brush.ts's header: every EMITTER takes `(parent, …geometry, o)` with
+the seed inside a named `XxxOpts` type; an emitter returns the one
+element it appended (null when nothing); only many-element emitters
+return void; `rng`/`scrawl` keep positional seed (the two low-level
+builders where the seed IS the argument).
+
+- Positional seed → `o.seed` on nine emitters: waveComb, well,
+  dryingRack, sluiceGate, fishWeir, northArrow, stoneMarker, pine,
+  bambooClump, fruitTree (+ their ~20 call sites across ground/flora/
+  water/built/t0-sheet).
+- ~30 re-inlined option literals → named exported interfaces
+  (PaddyBlockOpts, TerraceRunOpts, RiverOpts, RoofMassOpts, …), plus a
+  shared `SeedOpts` for the seed-only primitives — brush.ts's existing
+  named-Opts idiom applied across the toolkit.
+- Return convention: stipple/hatchArea now return their path (| null),
+  waveComb its group; inkText's inline opts named `InkTextOpts`.
+
+rng-order safety: every seed string and every r() consumption sequence
+is unchanged (the one delicate site — orchardRows' `feral: … r() <
+0.85` — keeps the seed template evaluated before the r() call, same as
+the old argument order). Golden pin GREEN with NO regen; full verify
+17/17 after oxfmt. G-5 + G-7 close s115's Phase C tail — the map
+engine-hardening list is now fully landed.
