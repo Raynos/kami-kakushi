@@ -112,9 +112,9 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 3. Drive **headless-only** (hook-enforced — NEVER a headed browser, incl.
    subagents): `window.__qa` / `node src/scripts/qa-shots.mjs`; `newGame()` resets.
 4. **Next** — **STORYWAVE build wave** (s116). **Plan A (DOCS) A0–A4 ✅ DONE
-   (s118):** docket ADR-152…162 · PRD §5→pointer · §1–§7 seven-tier/pillar
-   ripple · roadmap; **A5 GATED on Plan B ship**. **Plan B (GAME):** human READS
-   `docs/plans/fable-2026-07-07-storywave-game.md` → ⬩Opus rewrites T0 in `src/`
-   (G0→G7); prose wave DONE (`…/t0v2/`, ONE version); clean-break saves. (§1
-   residual §1.1/§1.5.4/§1.10 → seven-tier pass, s118 journal.)
+   (s118):** docket ADR-152…162 · PRD ripple · roadmap; **A5 GATED on B ship**.
+   **Plan B (GAME):** 13 open Qs RULED (s121) → **ADR-163/164/165** + an
+   **Economy spec** block (soft-cap econ · rice-as-kura-units · defeat-bleed ·
+   every-rung-a-VN); ⬩Opus rewrites T0 (G0→G7) — **PAUSED pending human go**;
+   prose wave DONE (`…/t0v2/`, ONE version); clean-break saves.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.

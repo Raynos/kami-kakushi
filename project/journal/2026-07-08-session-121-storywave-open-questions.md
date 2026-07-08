@@ -28,6 +28,10 @@ to transcribe into the A0 economy docket-ADR.
 - `docs/plans/fable-2026-07-07-storywave-game.md` (2nd pass) — added the
   "Economy spec (embed of ADR-163)" block before the milestones + threaded
   G1/G4.5 to it (rice/soft-cap scoping pass; MD-only).
+- `project/status/project-status.md` — snapshot "Next" refreshed: Plan B open
+  questions RULED (s121), ADR-163/164/165, Economy spec, rebuild PAUSED.
+- `project/todo-human.md` — cleared the storywave Plan B reading-queue entry
+  (engaged + ruled this session; ADR-089 implicit sign-off).
 - `project/journal/2026-07-08-session-121-storywave-open-questions.md` — this.
 
 ## Overrode the plan default

@@ -37,8 +37,3 @@
   per-exploration steps + kill criteria + cost gut-feels; it links the
   new slate register `docs/living/graphics-concepts.md` (worth a skim —
   all 15 concepts on their shelves).
-- [ ] `docs/plans/fable-2026-07-07-storywave-game.md` — **storywave Plan B
-  (GAME)**: re-implement T0 in src/ to the bible — six-season calendar,
-  night rounds, coin lanes, 17-node map, speaker ladder, scene machinery,
-  the t0v2 prose migration (ONE version ships, per your 2026-07-08
-  ruling), clean-break ship; 11 open questions at the bottom.
