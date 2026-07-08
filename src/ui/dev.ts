@@ -68,6 +68,7 @@ import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
 import { mountRequirementsCheatlist } from './dev-cheatlist';
 import { openT0V2Map, openT1Map, openT2Map } from './map-sheets/sheet';
 import { openStampBook } from './stamp-book/book';
+import { openSceneCards } from './scene-cards/cards';
 // Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
 // here, riding this module's DEV fold + sentinel graph (FB-7 / ADR-059).
 export { createBalanceCockpit, buildTuneArtifact } from './dev-cockpit';
@@ -2035,6 +2036,15 @@ export function mountDevPanel(
   });
   sbkBtn.style.cssText += 'margin-bottom:.2rem;';
   storyPane.append(sbkBtn);
+  // E2 graphics exploration — the VN scene-card pilot demo (two cold-open
+  // vignettes: Sōan's sickroom + Genemon's grain-store), human-pulled
+  // 2026-07-08 as a single lightweight demo ahead of the E2.1 grammar spec.
+  // DEV-only review artifact, zero game integration (the prototype-first law).
+  const scnBtn = mono('⤢ Scene cards — E2 VN pilot demo', () => {
+    openSceneCards();
+  });
+  scnBtn.style.cssText += 'margin-bottom:.2rem;';
+  storyPane.append(scnBtn);
   if (dev.storyBundles.length === 0) {
     const empty = el('div', undefined, 'No open story diverges — nothing awaiting review.');
     empty.style.cssText = 'color:#9b8e78;padding:.3rem .1rem;';

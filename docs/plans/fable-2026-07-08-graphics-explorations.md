@@ -79,6 +79,15 @@ class of job, minus the world-layout invention.
 
 ## E2 · VN scene-card pilot (#12) — the cold open
 
+> **Status note (2026-07-08, s122):** the human pulled a **single lightweight
+> demo** forward past E2.1/E2.2 — one version, no diverge, and TWO cards
+> (illustrating the idea, not the one-card pilot): Sōan's sickroom +
+> Genemon's grain-store from the existing cold-open/intro text. Built:
+> `src/ui/scene-cards/` (DEV → Story → "⤢ Scene cards"; grammar notes in the
+> module README). Awaiting the human's look; the steps below still gate
+> anything beyond the demo — the E2.1 grammar spec, the real one-moment
+> diverge, and the keep/kill ruling.
+
 **Home:** the cold open (R0's first impression). **Scope:** ONE card,
 period. **Kill criterion is part of the spec:** if the pilot reads slop
 after the diverge + two redline rounds, kill it and keep the cold open
