@@ -327,6 +327,55 @@ the house through the year with a margin".
   the payment-ladder reveal; the nengu / debt / lease sinks wired to content;
   `banked` = house stores.
 
+### Build map — the rice reframe's state shape & touch-points
+
+The rice reframe is NEW scope; this pins the SHAPE decisions so G1/G4 don't
+improvise them. Field names are the executor's to finalize; the STRUCTURE and
+the touch-point list are the spec. All ratios/magnitudes are sim-owned
+(ADR-132).
+
+**State shape (the judgment calls, pinned):**
+- **Rice is stored canonically in shō** (the smallest unit) as ONE integer;
+  bales and koku are DISPLAY conversions (÷ constants), never separate stored
+  fields — no float drift, one source of truth.
+- **Rice lives ONLY in the kura** (house stores) — which is what `banked`
+  becomes (Q5: one-way barn-filling, no withdrawal verb at T0). The player's
+  CARRIED pocket holds coin (mon) + goods/materials, NEVER rice. *(This is the
+  state basis for the "defeat never bleeds rice" + "rice un-pocketed"
+  invariants — G4 DoD.)*
+- **The production pool is per-(site, season) state** — a remaining-yield
+  scalar per labour site, drawn down as the site is worked (the yield curve
+  reads it) and REFILLED at season-turn. Retire any unbounded per-action
+  yield assumption.
+
+**Touch-points (what each file does — the old carried `rice` integer dies at
+G4):**
+- `state.ts` — retire the carried `rice` integer; `banked` → the kura (rice in
+  shō + house goods); add the per-site season-pool state.
+- `constants.ts` / `content/balance.ts` — unit ratios (shō↔bale↔koku), per-site
+  pool sizes, the diminishing-returns curve params, the daily consumption
+  rate, the spoilage rate, the nengu koku demand — ALL sim-owned.
+- `selectors.ts` — display selectors deriving bales/koku from kura shō; the
+  production-yield selector (pool + curve).
+- `content/activities.ts` — labour yields draw from the site pool via the
+  curve, deposit to the kura in shō.
+- `content/market.ts` + `intents.ts` (`sell_rice`/`buy_item`) — Yohei prices
+  rice per measured unit; deposits reframed to house stores; the
+  collect-at-the-board wage verb credits mon.
+- `step.ts` — daily consumption draws shō from the kura; the season-turn
+  refills the site pools.
+- the season-exit pipeline (`pillars.ts` / the G1 exit hook) — the spoilage
+  pass decays kura shō; the Autumn nengu reckons the koku demand.
+- `render.ts` — the kura reads in BALES (koku surfaced at the nengu);
+  wage/meal amounts read in shō; the UI NEVER shows a raw "N rice" integer
+  (TST4).
+- `fixtures/specs.ts` + `sim/` — re-derive every waypoint against the kura
+  model.
+
+**Display rule (TST4):** kura total → bales (+ a koku line at the nengu);
+wage/meal amounts → shō; never a unit-less "rice" number anywhere the player
+reads.
+
 ---
 
 ## Milestones
@@ -978,14 +1027,19 @@ roadmap milestone's DoD):**
   round-wolf, the Count, the nengu-reckoned Autumn, R7 Gonbei + the
   first dream), through Phase-2 standing to ascension — asserting the
   design levers at each gate (rung reqs met by the real mechanism, the
-  wage starting at R5, the season count ≥ a full year), not collapsed
-  metrics.
+  wage starting at R5 and collected at the board, **the diminishing-returns
+  lever — a site's later labour in a season yields less than its first**, the
+  season count ≥ a full year), not collapsed metrics.
 - **`src/core/invariants.test.ts`** — the tier invariants: labour never
   reduces HP · combat drops never contain coin · no human foe below
   tier 2 · the season wheel only advances by intent · Autumn never exits
   unreckoned · the speaker label is monotonic You→Nameless→Gonbei · the
   debt is never numbered in T0 state/log · `wolf-survived-not-won`
-  survives `ascend`.
+  survives `ascend` · **rice is held only in the kura, never in the carried
+  pocket — so a defeat bleeds carried coin + goods but NEVER rice**
+  (ADR-163/164) · **HP never rises without a deliberate act** (treatment or
+  manual rest; no ambient auto-trickle — ADR-164) · **every rung-up enqueues a
+  VN scene** (all 8 rungs, incl. R2's silent-content beat — ADR-165).
 - Full verify + `verify:balance` green on `main`; `balance:report` run;
   the regenerated `docs/content/t0-pacing.md` + `t0-content.md` +
   `t0-story.md` committed with the landing; sim summary in the commit

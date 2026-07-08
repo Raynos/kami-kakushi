@@ -28,6 +28,12 @@ to transcribe into the A0 economy docket-ADR.
 - `docs/plans/fable-2026-07-07-storywave-game.md` (2nd pass) — added the
   "Economy spec (embed of ADR-163)" block before the milestones + threaded
   G1/G4.5 to it (rice/soft-cap scoping pass; MD-only).
+- `docs/plans/fable-2026-07-07-storywave-game.md` (3rd pass) — build-readiness
+  gaps closed: a **Build map** (rice state shape — canonical shō integer, kura
+  = reframed `banked`, per-site season pool; + per-file touch-points + the
+  TST4 display rule) appended to the Economy spec; and the G4 DoD gained the
+  four new invariants (rice-only-in-kura / defeat-spares-rice · no auto-HP-
+  trickle · every-rung-up-a-VN) + a diminishing-returns lever on the arc test.
 - `project/status/project-status.md` — snapshot "Next" refreshed: Plan B open
   questions RULED (s121), ADR-163/164/165, Economy spec, rebuild PAUSED.
 - `project/todo-human.md` — cleared the storywave Plan B reading-queue entry
