@@ -67,6 +67,7 @@ import { FLAVOR } from '../core/content/flavor';
 import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
 import { mountRequirementsCheatlist } from './dev-cheatlist';
 import { openT0V2Map, openT1Map, openT2Map } from './map-sheets/sheet';
+import { openStampBook } from './stamp-book/book';
 // Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
 // here, riding this module's DEV fold + sentinel graph (FB-7 / ADR-059).
 export { createBalanceCockpit, buildTuneArtifact } from './dev-cockpit';
@@ -2026,6 +2027,14 @@ export function mountDevPanel(
   });
   t2Btn.style.cssText += 'margin-bottom:.2rem;';
   storyPane.append(t2Btn);
+  // E3 graphics exploration (fable-2026-07-08-graphics-explorations.md) — the shuinchō
+  // stamp-book + ink-thread progression prototype, drawn from a FIXTURE run history.
+  // DEV-only review artifact, zero game integration (the prototype-first law).
+  const sbkBtn = mono('⤢ Stamp book — E3 progression prototype', () => {
+    openStampBook();
+  });
+  sbkBtn.style.cssText += 'margin-bottom:.2rem;';
+  storyPane.append(sbkBtn);
   if (dev.storyBundles.length === 0) {
     const empty = el('div', undefined, 'No open story diverges — nothing awaiting review.');
     empty.style.cssText = 'color:#9b8e78;padding:.3rem .1rem;';

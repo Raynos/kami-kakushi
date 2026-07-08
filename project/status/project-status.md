@@ -67,7 +67,7 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 - **Graphics explorations plan read** 🔲 (s120) — top-3 slate (estate cutaway
   · cold-open scene card · progression menu), prototype-first: `docs/plans/
   fable-2026-07-08-graphics-explorations.md`; register `docs/living/graphics-concepts.md`.
-
+  **E3 demo built** (s121): DEV → Story → "⤢ Stamp book" — rule kill/iterate/real track.
 
 ## Deferred / owed tail (engineering — not blocking the deploy)
 
@@ -105,7 +105,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-08-session-120-novel-graphics-triage.md`](../journal/2026-07-08-session-120-novel-graphics-triage.md)
+   [`journal/2026-07-08-session-121-e3-stamp-book-prototype.md`](../journal/2026-07-08-session-121-e3-stamp-book-prototype.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).
