@@ -57,3 +57,19 @@ No code touched — docs/canon only.
   before A0 mints it, or the docket will contradict the bible.
 - The 03-tiers.md pillar block links to the brainstorm for provenance; if that
   brainstorm later archives, leave a forward pointer (append-only law).
+
+## Addendum — storywave plan consistency (ADR-159 + HD-29)
+Patched the storywave docs plan so it stops contradicting the new canon:
+- `docs/plans/fable-2026-07-07-storywave-docs.md` — the **ADR-159 draft**
+  (docket #8) redrafted from the FLAT standing/deeds engine to the
+  **pillar-structured** engine; the **A2.2 §1.6** ripple instruction flipped
+  from "pillars superseded" to "rewrite to the pillar engine (Office rename +
+  6-grade ladder + keep the reveal ramp)"; the **HD-25 open-question** entry
+  marked **RULED (c) — keep pillars**, so A0 files it resolved.
+- `docs/plans/t1/opus-2026-07-03-t1-capstone-branch.md` — Status → **HD-29
+  adopt-partial**: keep a real forking T0→T1 capstone, but its R8–R15 /
+  Shigemasa devoted-ambitious-humble content is VOID; rework against
+  `tiers/t1.md` when T1 opens. (Plan was PARKED, not archived — so this is a
+  Status/flag update, not a literal un-archive.)
+Still open (unchanged): PRD §1.6 ripple itself (A2.2) is NOT done — only the
+plan INSTRUCTION is corrected; the PRD text still reads old until Plan A runs.

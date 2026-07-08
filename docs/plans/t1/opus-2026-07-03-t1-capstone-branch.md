@@ -1,11 +1,19 @@
 # The T0 capstone branch — designed, DEFERRED to the T1 build
 
-**Status: 📌 PARKED — build WHEN T1 lands.** *(Moved from
-`docs/living/` 2026-07-07 per the docs reorg: living holds only the
-core canon docs; deferred build-detail is plan-shaped. NOTE: the
-story reboot (`project/archive/fable-2026-07-07-story-reboot.md`) reopened tier
-design — the reboot's T1 tier sheet will ADOPT or SUPERSEDE this
-design when it is drafted.)*
+**Status: 📌 PARKED — build WHEN T1 lands; ADOPT-PARTIAL per HD-29
+(human, 2026-07-08).** *(Moved from `docs/living/` 2026-07-07 per the
+docs reorg: living holds only the core canon docs; deferred build-detail
+is plan-shaped.)*
+
+> **HD-29 ruling (human, 2026-07-08) — adopt-partial.** KEEP a meaningful
+> T0→T1 capstone BRANCH — a real mechanical fork/choice with genuinely
+> meaningful content — but **REWRITE its content against the new canon**
+> (`docs/story-bible/tiers/t1.md`): the old-canon **R8–R15** ladder and
+> the R7 **Shigemasa** devoted/ambitious/humble beat below are **VOID**
+> (Shigemasa → Munemasa, dead at the T1 seam; the new T1 is a different
+> ladder). Rework when T1's build opens; the forking-capstone PATTERN
+> (ADR-121/ADR-125) stays available. Ruling record:
+> `project/feedback-human/2026-07-08-storywave-open-questions-rulings.md`.
 
 > **⏳ DEFERRED — do NOT build yet.** This is **T1 content** (the side quests land
 > in the full estate, **R8→R15**), and **T1 does not exist yet** — the game is

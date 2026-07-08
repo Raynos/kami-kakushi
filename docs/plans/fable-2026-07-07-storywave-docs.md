@@ -398,27 +398,40 @@ Then the eleven ADRs, ready to paste:
   change; PRD §4's spine moves only with this ADR's build (ADR-117
   interim-freeze holds meanwhile).
 
-### ADR-159 ✅ — Docket #8: the standing/deeds tier-up engine
+### ADR-159 ✅ — Docket #8: the pillar-structured standing/deeds tier-up engine
 
-- **created_date:** 2026-07-07
-- **Context:** `docs/story-bible/tiers/t0.md` "The tier-up (locked)".
-  Collides with the PRD §1.6 four-pillar reveal ramp, whose fate
-  ADR-150 did not rule (HD-25 carries the ruling; this ADR transcribes
-  the bible engine either way).
-- **Decision:** the house-standing grind opens at R7: the same verbs
-  start banking **ESTATE-DEEDS into the house's standing** —
-  reclamation bearing fruit, repairs holding, the granary past
-  this-winter's need: surplus and order, written down. Standing is the
-  house's own verdict on itself. **Graded at every season exit**, one
-  plain line in the day-book's voice (docket #2's seasonal judge).
-  **Top grade unlocks the manual, ceremonial ASCEND** (New-Year-themed
-  if timed there). What T0→T1 buys: influence over its own land — the
-  right to try again.
-- **Consequences:** the ascension gate reworks at Plan B's rebuild;
-  PRD §1.6 rewrites to this engine at A2 (default per HD-25: the
-  four-pillar ramp is SUPERSEDED as tier-up mechanics; if the human
-  overrides, pillars survive as thematic framing only and this ADR
-  still governs the mechanics).
+- **created_date:** 2026-07-07 (pillar engine locked + written to canon
+  2026-07-08, session 118)
+- **Context:** `docs/story-bible/03-tiers.md` "House Standing — the four
+  pillars" + `tiers/t0.md`/`tiers/t1.md` "The tier-up (locked)". **HD-25
+  RULED (human, 2026-07-08): KEEP pillars as tier-up mechanics — NOT
+  superseded.** The bible's flat standing/deeds engine was REFINED into
+  the PRD §1.6 four-pillar model, pulled back into canon. Grill + full
+  lock: `project/brainstorms/2026-07-08-pillar-model.md`.
+- **Decision:** House Standing (家威 *ka-i*) is the macro-measure of what
+  the house has become — assessed kokudaka-style, never spent, surfaced
+  as a banzuke — rolling up FOUR pillars **revealed one per tier**:
+  **Estate** (家産) T0 · **+ Arms** (武威) T1 · **+ Office** (官威 —
+  renamed from "Standing & Office"; the umbrella owns "standing") T2 ·
+  **+ Name** (家格) T3; T4–T6 deepen the four. Each pillar is graded on a
+  **six-step ladder** — FAIL·BAD·OK·GOOD·GREAT·EXCELLENT (F·D·B·A·A+·S;
+  English word + letter, kanji flavor). **Tier-up is breadth-required,
+  specialization-rewarded:** every revealed pillar ≥ GOOD, exactly one
+  EXCELLENT + one GREAT (choose WHERE to spike, never whether to skip);
+  overshoot earns a grade-scaled boon. At T0 the single Estate pillar
+  collapses the gate to one top grade; **T0 depth-autonomy lives in the
+  four DEED SOURCES** (fields · stores · works · watch — ADR-145). Deeds
+  accrue in Phase 2 only (post-final-rung). The grind still opens at R7;
+  still graded at every season exit in the day-book's voice (docket #2's
+  seasonal judge); top grade still unlocks the manual ceremonial ASCEND.
+- **Consequences:** the ascension/deed engine reworks at Plan B's rebuild
+  (ADR-145's `accrueDeed`/`ESTATE_STAGES` deed-source structure survives
+  and carries the T0 depth-autonomy); PRD §1.6 rewrites to THIS pillar
+  engine at A2.2 — the "Standing & Office" → "Office" rename + the 6-grade
+  ladder + the reveal ramp CONFIRMED (not superseded). The exact T0
+  required peak grade is sim-owned (ADR-132). 🔁 The bible tier-up
+  sections were updated to this engine on 2026-07-08 (session 118); this
+  ADR transcribes the locked model.
 
 ### ADR-160 ✅ — Docket #9: parallel reputation tracks (village · origin · the T6 flip)
 
@@ -813,14 +826,15 @@ the docket ref):
   her (the bible's family is father, mother, sibling; `04-cast.md`
   governs). "Opens at T3" survives.
 - §1.6 (L459) + §1.6.3 (L550) — "the four pillars & the six tiers":
-  rewrite the tier-up engine to the bible's standing/deeds model
-  (docket #8 / ADR-159): estate-deeds bank into house standing, graded
-  at season exits, top grade unlocks the ceremonial ascend. Per
-  HD-25's default the pillar REVEAL RAMP is superseded as mechanics;
-  if any pillar prose survives, it survives as thematic framing
-  explicitly labeled as such. Add a one-line note: "(HD-25 default —
-  pillars superseded as mechanics; awaiting the human's confirmation)"
-  and remove the note when the HD closes.
+  rewrite to the bible's PILLAR-structured tier-up engine (docket #8 /
+  ADR-159; `03-tiers.md` "House Standing — the four pillars"). **HD-25
+  RULED (c, human 2026-07-08): pillars KEPT as mechanics — NOT
+  superseded.** Updates: rename the pillar "Standing & Office" →
+  **Office** (the umbrella "House Standing" owns the word); the grade
+  ladder becomes the six-step **FAIL·BAD·OK·GOOD·GREAT·EXCELLENT**
+  (F·D·B·A·A+·S); KEEP the one-per-tier reveal ramp; state the
+  breadth-required-specialize-on-top gate + the T0 deed-source
+  depth-autonomy (fields/stores/works/watch). No "superseded" note.
 - §1.7/§1.7.1 (L670/L699, world & areas): replace with the bible zone
   ladders — the tier→map ladder + estate anatomy (guest house layer,
   the ruin layer, the T2 reveal, the function migration) from
@@ -1199,18 +1213,20 @@ follow-up edit, scoped below.
   (`tiers/t0.md` "The tier-up (locked)"). ADR-150 charters the
   mechanics ADRs but does not rule the pillar model's fate. Which
   governs §1.6, the roadmap spine, and the milestone DoDs?
-- **Options:** (a) pillars SUPERSEDED entirely — standing/deeds is
-  the engine, §1.6 rewrites to it; (b) pillars survive as THEMATIC
-  framing only (a reading of what each tier reveals), standing/deeds
-  is the mechanics; (c) keep pillars as mechanics (contradicts the
-  bible — would need a canon HD).
-- **Recommended default: (a)** — the bible is canon (ADR-150); the
-  standing engine is human-locked in t0.md; the pillar ramp appears
-  nowhere in the bible.
-- **If overridden to (b):** §1.6 keeps a labeled thematic-pillars
-  paragraph; ADR-159 and all mechanics text stand unchanged; A2.2 and
-  A3 get a ~30-minute follow-up edit. (c) requires reopening canon —
-  out of this plan's scope.
+- **Options:** (a) pillars SUPERSEDED entirely; (b) pillars survive as
+  THEMATIC framing only; (c) keep pillars as mechanics (reopens canon).
+- **RULED (c) — human, 2026-07-08.** Keep pillars as tier-up mechanics.
+  The bible's flat standing/deeds engine was REFINED into the
+  pillar-structured model and written into canon (session 118:
+  `03-tiers.md` "House Standing — the four pillars" + the t0/t1 tier-up
+  blocks). Full lock: `project/brainstorms/2026-07-08-pillar-model.md`;
+  ruling record:
+  `project/feedback-human/2026-07-08-storywave-open-questions-rulings.md`.
+  **A0 files this HD as RESOLVED**; ADR-159 (redrafted above to the
+  pillar engine) + A2.2's §1.6 ripple carry it. The Estate/Arms/Office/
+  Name domains + one-per-tier reveal ramp are KEPT; renamed crisp
+  (Office, not "Standing & Office"); the grade ladder is the six-step
+  F·D·B·A·A+·S.
 
 ### HD-29 — the parked T1 capstone-branch plan (ADR-125 pattern)
 
