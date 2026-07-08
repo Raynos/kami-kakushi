@@ -38,6 +38,9 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 - **✅ T0/T1 MAPS PLAYER-BOUND, HR-12 ✅ (s112–117, ADR-149/151):** the sheet =
   THE player map. Drain · reveal mech · blind-pass all-M · golden pin · Phase C
   closed · s117 guides+skill+runner — non-Fable map builds; spec→HR→build.
+- **🔧 T2 VALLEY MAP BUILT (s119, `?t2-map-demo`):** spec §6 (HR-13 "build it")
+  → drawn (demoted estate + Asagiri + `ruinRevealed`); pinned, verify-green,
+  human = look arbiter. **NOT DONE vs §6.1: no T2 rungs / fog** (T0-only still).
 - **✅ THE PHASE-2 ECONOMY (ADR-145, s100):** the A+B loop shipped — 5 deed
   sources · deed-gated U1–U4 staged build + E1 beats · tracker diverge (HR-11)
   · retuned in-band · PRD rippled. **✅ FB-121 REQUIREMENTS RUNGS (ADR-137,
@@ -48,12 +51,9 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
   rules law · THE FALL · the salvage/audit cross-check ruled in (law §0.5.7,
   Kihei's "…"-react, D5 wants). **The human signed off the whole read (s116);
   ADR-150 minted** — the frame ADR is the build wave's charter.
-- **✅ TIMED ACTIONS (ADR-148, s105):** press→instant is DEAD — every action
-  `timed{duration,cooldown}` or `instant` (total, compile-enforced) · shell
-  **ActionClock** (one global, drop-on-interrupt, auto = go-again) · in-button
-  bar (the human's A+C mix, HR-14 ✅) · per-edge travel · targets ÷ wall-cost
-  (G-PACING holds R0–R2). **INTERIM: economy NOT rebalanced (human)** — R3+
-  balloons; suspended gates in `envelopes.ts` ADR148_INTERIM re-enable then.
+- **✅ TIMED ACTIONS (ADR-148, s105):** press→instant DEAD — every action
+  `timed{duration,cooldown}`/`instant` · **ActionClock** · in-button bar (A+C,
+  HR-14 ✅). **INTERIM: economy unbalanced (human)** — R3+; `envelopes.ts` gates.
 
 ## Waiting on the human
 
