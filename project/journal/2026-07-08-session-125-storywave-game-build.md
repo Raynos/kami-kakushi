@@ -209,13 +209,36 @@ only CONSUMES it (never edits it). Opus subagent → I re-verified (17 gates +
   with a TODO (the U8 new-moon-bark native lands as scenes.native.ts at G4.1).
 - 9 new validate tests. Scene system stays DORMANT (triggers unwired until G4).
 
+## 7 · G4 — the content cutover: SCOPED, staged, map captured (build in progress)
+
+A scoping subagent confirmed G4 is **monolithic**: the `areas.ts` AreaId swap
+breaks **55 files** at once (no green island), ~40 more reference `face_wolf`/
+`applyScriptedWolf`, the deferred rice reframe touches ~11 files, and 34 test
+files need rewriting. So G4 **cannot land as one big-bang** — it's an ORDERED
+STAGED SERIES (the plan's worktree-series intent). The subagent (correctly, PH3)
+did NOT gamble the clean tree on an unfinishable big-bang; it returned a
+fully-grounded **migration map** instead —
+[`../brainstorms/2026-07-08-storywave-g4-migration-map.md`](../brainstorms/2026-07-08-storywave-g4-migration-map.md)
+(the 8-rung ladder, the 16 zones + anchors, the enemy roster, cast-at-nodes, the
+economy beats, and the **per-unit VERDICT picks + load-bearing redlines** — the
+hardest, hard-won part). Read it before building any G4 stage.
+
+**Staging (the map's §Recommended):** stages **1–2 are GREEN ISLANDS** (land
+independently green, de-risk first) — (1) the cast-rename spine (deferred
+lord→Munemasa / pedlar→Yohei / retire smith·tozo), (2) the rice-as-kura-units
+reframe (the deferred G1 slice). **Stages 3–8 are the monolith** (the zone swap +
+enemies/quests/people/ranks/surfaces/speaker + narrative migration + coin lanes +
+autoplay/fixtures/render + the 34 test rewrites + the 2 DoD tier tests).
+Correction the map records: **Naoyuki is a full cast portrait**, not just a beat;
+Munemasa is the "voice through a wall" that never places at a node.
+
 ## Next intended steps
-1. **G4** — THE content cutover (the monster): zones+map · enemies/quests/combat
-   · cast-at-nodes · coin lanes (+ deferred rice reframe) · ladder/reqs/surfaces
-   · speaker ladder · autoplay/fixtures/sim · render sweep+tests. From the t0v2
-   VERDICT picks. Land as a green series (worktree optional; human said direct-on
-   -main is fine). Re-baselines T0 pacing (folds in the OWED balance re-baseline).
-2. Then G5 (VERDICT reconcile), G6 (e2e/drift), G7 SHIP (human-gated).
+1. **G4 stage 1** — the cast-rename spine (green island) → commit.
+2. **G4 stage 2** — the rice reframe (green island) → commit.
+3. **G4 stages 3–8** — the zone/content monolith (a focused multi-session push;
+   drive the AreaId swap + all referents to typecheck→green in one series).
+4. Then G5 (VERDICT reconcile), G6 (e2e/drift), G7 SHIP (human-gated).
+5. **OWED (batched at G4 end):** verify:balance ratio + t0-pacing.md regen.
 
 ## Landmines
 - **Shared tree + live co-agents:** always `git commit <pathspec>`; re-check
