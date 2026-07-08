@@ -277,6 +277,8 @@ export {
   year,
   lunarPhase,
   staminaRate,
+  lowHpWorkMult,
+  workRate,
   availableLabours,
   canDoActivity,
   peopleHere,

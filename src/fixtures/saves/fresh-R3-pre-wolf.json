@@ -1191,6 +1191,7 @@
     "sceneQueue": [],
     "activeScene": null,
     "scenesPlayed": [],
-    "roundState": null
+    "roundState": null,
+    "soanLedger": 0
   }
 }

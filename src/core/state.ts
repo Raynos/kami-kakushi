@@ -217,6 +217,11 @@ export interface GameState {
   /** The in-flight night round + its stage cursor, or null when no round is running.
    *  Additive (default null); the gate surface + quest wiring arrive at G4. */
   readonly roundState: { roundId: string; stage: number } | null;
+
+  /** Sōan's ledger (storywave G3 — ADR-155/ADR-164): a monotonic counter of DEFEATS — each lost
+   *  fight / fallen night-round "grows Sōan's ledger", the sickroom's running tally of what the MC
+   *  owes. The treatment/debt lane reads it from G4. Additive (default 0). */
+  readonly soanLedger: number;
 }
 
 export function createInitialState(seed: number): GameState {
@@ -275,6 +280,7 @@ export function createInitialState(seed: number): GameState {
     activeScene: null,
     scenesPlayed: [],
     roundState: null,
+    soanLedger: 0,
   };
 }
 

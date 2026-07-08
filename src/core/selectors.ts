@@ -11,6 +11,8 @@ import {
   SATIETY_PER_LEVEL,
   STAMINA_RATE_FLOOR,
   STAMINA_FLAT_ABOVE,
+  LOW_HP_WORK_THRESHOLD,
+  LOW_HP_WORK_MULT,
   CONDITIONING_GATE_LEVEL,
   SKILL_YIELD_DEN,
   ESTATE_STAGE_DEED_GATES,
@@ -146,6 +148,27 @@ export function staminaRate(state: GameState): number {
   // linear from FLOOR at frac=0 to 1.0 at frac=FLAT_ABOVE
   const t = clamp(frac / STAMINA_FLAT_ABOVE, 0, 1);
   return STAMINA_RATE_FLOOR + (1 - STAMINA_RATE_FLOOR) * t;
+}
+
+/**
+ * The low-HP work impairment (storywave G3 — ADR-155/ADR-164, the missing coupling): an injured
+ * body works worse. Below LOW_HP_WORK_THRESHOLD of hpMax the multiplier drops to LOW_HP_WORK_MULT,
+ * else it is 1 (no impairment). This only READS hp to slow labour — the coupling is strictly
+ * ONE-WAY, so labour never writes hp back (satiety, not HP, is the work fuel).
+ */
+export function lowHpWorkMult(state: GameState): number {
+  const max = hpMax(state);
+  const frac = max > 0 ? state.character.hp / max : 0;
+  return frac < LOW_HP_WORK_THRESHOLD ? LOW_HP_WORK_MULT : 1;
+}
+
+/**
+ * The labour-facing work rate: the satiety soft-throttle (staminaRate) FURTHER scaled by the low-HP
+ * impairment (lowHpWorkMult). Labour reads THIS; the stamina BAR keeps reading staminaRate (satiety
+ * only), so the HP coupling slows work without mislabelling the stamina meter (TST4).
+ */
+export function workRate(state: GameState): number {
+  return staminaRate(state) * lowHpWorkMult(state);
 }
 
 export interface LabourOption {

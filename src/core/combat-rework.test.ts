@@ -21,6 +21,7 @@ import {
   formatCoin,
   balance,
   hpMax,
+  TICKS_PER_DAY,
   type GameState,
 } from './index';
 
@@ -138,6 +139,26 @@ describe('3c · a lost fight drops CARRIED coin/materials; BANKED is safe (D-076
     const line = combatLines(after).at(-1) ?? '';
     expect(line).toContain(formatCoin(lostCoin)); // the dropped coin, as the pill renders it
     expect(line).not.toMatch(/\d+ coin/); // RED against the old "You drop N coin in the rout" form
+  });
+});
+
+describe('G3 · a defeat routes to the sickroom (ADR-155/ADR-164)', () => {
+  it("a lost fight grows Sōan's ledger and loses SICKROOM_DAYS_LOST whole days", () => {
+    const before: GameState = { ...mc(1), clock: { day: 0, tick: 0 } }; // L1 vs bandit ≈ 0.00 → loss
+    expect(before.soanLedger).toBe(0);
+    const after = applyGrindFight(before, 'bandit');
+    expect(after.character.hp).toBe(balance.SETBACK_HP); // it lost
+
+    // Sōan's ledger grows by exactly one on the defeat (RED if the shared handler isn't wired).
+    expect(after.soanLedger).toBe(before.soanLedger + 1);
+
+    // the defeat costs SICKROOM_DAYS_LOST whole days ON TOP of the limp-home ticks — every count
+    // DERIVED from the source constants (never a copied 2), so the assertion tracks the balance.
+    const limpTicks = balance.FIGHT_TICKS + balance.SETBACK_TICKS + balance.FORCED_REST_TICKS;
+    const sickTicks = balance.SICKROOM_DAYS_LOST * TICKS_PER_DAY;
+    expect(after.clock.day).toBe(Math.floor((limpTicks + sickTicks) / TICKS_PER_DAY));
+    // RED-able: without the sickroom days the loss would land on day 1, not day 3.
+    expect(after.clock.day).toBeGreaterThanOrEqual(balance.SICKROOM_DAYS_LOST);
   });
 });
 

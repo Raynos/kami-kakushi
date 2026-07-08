@@ -22,7 +22,7 @@ import { clamp } from './math';
 import {
   satietyMax,
   hpMax,
-  staminaRate,
+  workRate,
   season,
   canDoActivity,
   estateYieldNum,
@@ -536,7 +536,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
     case 'do_activity': {
       const act = getActivity(intent.activityId);
       if (!canDoActivity(next, act)) return state;
-      const rate = staminaRate(next);
+      // G3 (ADR-155/ADR-164): the labour rate is the satiety throttle FURTHER scaled by the low-HP
+      // impairment (workRate = staminaRate · lowHpWorkMult). This READS hp to slow work; the
+      // coupling stays strictly ONE-WAY — labour never writes hp back (`adjustSatiety` below spends
+      // satiety, the work fuel, never HP).
+      const rate = workRate(next);
       const autumn = act.seasonHarvest === true && season(next) === 'autumn';
       // The skill→yield multiplier (audit #4). Skill level is read BEFORE this act's
       // addSkillXp on purpose: the leveling act uses the pre-level mult; the bump shows

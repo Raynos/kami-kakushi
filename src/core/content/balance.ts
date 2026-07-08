@@ -259,6 +259,19 @@ export const SETBACK_HP = 1;
 export const SETBACK_TICKS = 12; // ~½ day
 export const FORCED_REST_TICKS = 18;
 
+/** Low-HP work impairment (storywave G3 — ADR-155/ADR-164, the missing coupling): below
+ *  LOW_HP_WORK_THRESHOLD of hpMax an injured body works at LOW_HP_WORK_MULT (yield + speed).
+ *  The coupling is strictly ONE-WAY — low HP slows labour, labour NEVER costs HP (satiety is the
+ *  work fuel). SIM-OWNED (ADR-132): seed values, tuned by the balance sim, not the DEV cockpit. */
+export const LOW_HP_WORK_THRESHOLD = 0.3; // fraction of hpMax below which work is impaired
+export const LOW_HP_WORK_MULT = 0.5; // yield/speed multiplier while injured
+
+/** Defeat → sickroom (storywave G3 — ADR-155/ADR-164): a loss costs this many whole days (routed
+ *  toward the sickroom), ON TOP of the carried-loss bleed + Sōan's growing ledger — the double-cost
+ *  curve. SIM-OWNED (ADR-132): seed value, sim-tuned. The paid treatment / manual rest-at-sickroom
+ *  that MEND HP are G4 sickroom content; HP has no auto-trickle (ADR-164). */
+export const SICKROOM_DAYS_LOST = 2;
+
 /** Loss penalty (ADR-076 + batch-2 call 7 + ADR-113): a lost fight drops this fraction of your CARRIED
  *  COIN + RICE (the two wealth resources); what's BANKED in the kura storehouse is SAFE. The "real
  *  bite" magnitude (batch-1 call 3) — liquid (ADR-059), tuned by playtest. koku (House standing) is

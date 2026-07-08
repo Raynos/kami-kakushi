@@ -9,6 +9,8 @@ import {
   mcCombatStats,
   getWeapon,
   hpMax,
+  workRate,
+  lowHpWorkMult,
   satietyMax,
   season,
   estateSatietyBonus,
@@ -164,6 +166,38 @@ describe('skill → yield multiplier (audit #4)', () => {
     const high = actsToFarmDone(addSkillXp(atR1, 'farming', 100_000));
     expect(low).toBeLessThan(CAP); // the requirement actually completed, not the guard cap
     expect(low).toBe(high); // per-act, not per-yield — skill doesn't shrink it
+  });
+});
+
+// G3 — the missing body coupling (ADR-155/ADR-164): "one body, two meters, coupled ONE way".
+// Low HP now IMPAIRS work; labour NEVER costs HP. Fixtures derive the threshold from the source
+// constant (LOW_HP_WORK_THRESHOLD), never a copied 30 — RED if anyone drops the HP term from the
+// work rate OR couples labour → HP backwards.
+describe('low-HP work impairment (G3 — the missing coupling)', () => {
+  it('below LOW_HP_WORK_THRESHOLD of hpMax, labour yields strictly less than at full HP', () => {
+    const base = farmReady(); // full satiety → the satiety throttle is a flat 1.0, so HP is isolated
+    const max = hpMax(base);
+    const full: GameState = { ...base, character: { ...base.character, hp: max } };
+    // HP just UNDER the threshold, DERIVED from the source constant (never a copied 0.3 / 30).
+    const injuredHp = Math.floor(balance.LOW_HP_WORK_THRESHOLD * max) - 1;
+    expect(injuredHp).toBeGreaterThan(0); // a sane fixture — hurt, still on his feet
+    const injured: GameState = { ...base, character: { ...base.character, hp: injuredHp } };
+    // the design lever: the work multiplier is 1 at full HP and drops to LOW_HP_WORK_MULT once hurt…
+    expect(lowHpWorkMult(full)).toBe(1);
+    expect(lowHpWorkMult(injured)).toBe(balance.LOW_HP_WORK_MULT);
+    expect(workRate(injured)).toBeLessThan(workRate(full));
+    // …and it bites the REALISED labour yield (RED if the HP term is dropped from the work rate).
+    expect(farmYield(injured)).toBeLessThan(farmYield(full));
+  });
+
+  it('labour at 1 HP never reduces HP — the coupling is strictly ONE-WAY (satiety is the work fuel)', () => {
+    const atFloor: GameState = { ...farmReady(), character: { ...farmReady().character, hp: 1 } };
+    const after = reduce(atFloor, { type: 'do_activity', activityId: 'farm_paddy' });
+    // the one-way law: working NEVER writes HP — RED the instant anyone couples labour → HP.
+    expect(after.character.hp).toBe(1);
+    // …and the act still HAPPENED — it spent SATIETY (the real work fuel) and yielded rice.
+    expect(after.character.satiety).toBeLessThan(atFloor.character.satiety);
+    expect(after.resources.rice ?? 0).toBeGreaterThan(atFloor.resources.rice ?? 0);
   });
 });
 

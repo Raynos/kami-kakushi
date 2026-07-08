@@ -16,6 +16,7 @@ import { getMob } from './content/enemies';
 import { mcCombatStats, mobCombatStats, resolveFight } from './combat';
 import { rollMaterialDrop } from './content/crafting';
 import { SETBACK_HP } from './content/balance';
+import { applyDefeatConsequences } from './defeat';
 import type { NightRoundDef, NightRoundStage } from './content/nightRounds';
 
 /** The in-flight round cursor (mirrors `GameState['roundState']`). */
@@ -84,12 +85,14 @@ export function resolveNightStage(state: GameState, def: NightRoundDef): GameSta
     return advanceStage(next, def);
   }
 
-  // FALL (loss): the round ENDS here. At G2 a fall just ends the round (HP at the setback
-  // floor, cursor cleared).
-  // TODO(G3): route a fall to the defeat→sickroom path — relocate to the sickroom node, lose
-  // days (SICKROOM_DAYS_LOST), grow Sōan's ledger, apply the ADR-164 carried-loss bleed. The
-  // sickroom node + wire land at G3; here we only end the round.
+  // FALL (loss): the round ENDS here — HP at the setback floor, cursor cleared, and (G3) the
+  // SHARED defeat→sickroom consequence: Sōan's ledger grows, SICKROOM_DAYS_LOST whole days are
+  // lost, and the MC relocates to the sickroom node once it exists (the guard no-ops today). The
+  // carried-loss BLEED lives with the grind-fight loss branch (fight.ts) for now — night rounds
+  // are DORMANT (empty registry) so nothing carried is bled here yet; that folds into the shared
+  // handler when the round lane goes live (G4).
   next = setHp(next, SETBACK_HP);
+  next = applyDefeatConsequences(next);
   return { ...next, roundState: null };
 }
 

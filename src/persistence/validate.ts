@@ -215,7 +215,8 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'sceneQueue'
     | 'activeScene'
     | 'scenesPlayed'
-    | 'roundState';
+    | 'roundState'
+    | 'soanLedger';
   type _AssertAllHandled = keyof GameState extends _Handled ? true : never;
   const _exhaustive: _AssertAllHandled = true;
   void _exhaustive;
@@ -325,6 +326,8 @@ export function validateState(rawState: unknown): ValidateResult {
       ? (base.scenesPlayed as GameState['scenesPlayed'])
       : [],
     roundState: isObject(base.roundState) ? (base.roundState as GameState['roundState']) : null,
+    // Sōan's defeat ledger (G3) — a non-negative counter; absent/malformed → 0 (fresh).
+    soanLedger: typeof base.soanLedger === 'number' ? Math.max(0, Math.floor(base.soanLedger)) : 0,
     // (ADR-056: the balanceProfile field is RETIRED from GameState — nothing reads it any more.
     // A legacy save's stray `balanceProfile` rides through inertly via the `...base` spread above
     // [harmless dead data; this builder is additive-tolerant by design, NOT a whitelist rebuild];

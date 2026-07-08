@@ -161,12 +161,35 @@ the two hard mechanisms.
   fixtures from constructed defs. VN-modal render integration deferred to G4.9
   (empty registry ⇒ nothing to render). No balance sim (no magnitudes changed).
 
+## 5 · G3 — the two body economies (the missing coupling) ✅
+
+The bible's "one body, two meters, coupled ONE way": labour never costs HP
+(already true); **low HP now impairs work** (was missing); a defeat routes
+toward the sickroom. Opus subagent → I re-verified (17 gates) + read defeat.ts.
+
+- **Low-HP work impairment** — `balance.ts` +`LOW_HP_WORK_THRESHOLD` (0.3),
+  `LOW_HP_WORK_MULT` (0.5, sim-owned). `selectors.ts` +`lowHpWorkMult` +
+  `workRate` (= staminaRate·lowHpWorkMult); `do_activity` now scales yield+XP by
+  `workRate`. Strictly ONE-WAY (reads HP, never writes it). The stamina BAR keeps
+  reading `staminaRate` (satiety-only, TST4).
+- **Defeat → sickroom** — new `src/core/defeat.ts`
+  `applyDefeatConsequences`: `soanLedger`++ (new state field), lose
+  `SICKROOM_DAYS_LOST` (2) days via advanceClock, relocate to `sickroom` behind a
+  `MAP_NODE_IDS.has` guard (no-ops until G4 creates the node). fight.ts loss +
+  the G2 night-round fall both call it; the **carried-loss bleed is KEPT**
+  (ADR-164) on top.
+- **DEFERRED to G4 (would break the live arc):** food stays HP-healing for now —
+  the ADR-164 food-satiety-only + treatment/rest-at-sickroom HP-mend split is G4
+  sickroom content (commented in fight.ts). Rice still carried (bleed spares it
+  for free at G4.5).
+- New tests: economy.test low-HP block (2) + combat-rework.test defeat→ledger+days
+  (1). Fixtures regenerated (soanLedger + loss-day change).
+
 ## Next intended steps
-1. **G3** — the two body economies: low-HP impairs work; defeat→sickroom (days
-   lost + soanLedger + carried-loss bleed, rice spared); no HP auto-trickle.
-2. Then G3.5 (compiler — scenes.md gen unit), G4 (content cutover), G5–G7.
-3. **G4.5 owes** the deferred rice-reframe (kura-units + pool + consumption).
-4. **OWED:** G1 verify:balance ratio verdict + t0-pacing.md regen (batched).
+1. **G3.5** — the FB-5 grammar/compiler extension: scenes.md gen unit
+   (→ scenes.gen.ts), the speakerless beat + scene-def block grammar.
+2. Then G4 (THE content cutover), G5 (VERDICT reconcile), G6 (e2e/drift), G7 SHIP.
+3. **G4.5 owes** the rice-reframe; **OWED:** G1 verify:balance + t0-pacing regen.
 
 ## Landmines
 - **Shared tree + live co-agents:** always `git commit <pathspec>`; re-check

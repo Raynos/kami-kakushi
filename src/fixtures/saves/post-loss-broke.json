@@ -20,7 +20,7 @@
     },
     "clock": {
       "tick": 8,
-      "day": 16
+      "day": 18
     },
     "character": {
       "hp": 1,
@@ -1419,6 +1419,7 @@
     "sceneQueue": [],
     "activeScene": null,
     "scenesPlayed": [],
-    "roundState": null
+    "roundState": null,
+    "soanLedger": 1
   }
 }

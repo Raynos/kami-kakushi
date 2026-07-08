@@ -14,6 +14,7 @@ import { advanceClock } from './step';
 import { rollMaterialDrop, getMaterial, MATERIALS } from './content/crafting';
 import { applyProgressEvent } from './progress-events';
 import { bankEstateDeed } from './pillars';
+import { applyDefeatConsequences } from './defeat';
 import {
   COMBAT_XP_K,
   SETBACK_HP,
@@ -164,6 +165,9 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
     next = { ...next, autoCombat: null };
     const lostCoin = Math.round((next.resources.coin ?? 0) * LOSS_COIN_FRAC);
     if (lostCoin > 0) next = withResource(next, 'coin', -lostCoin);
+    // G3 (ADR-164): the carried-loss bleed is KEPT (a defeat must sting in the moment). Rice is
+    // still a CARRIED resource at this milestone, so it bleeds here too; once rice moves kura-only
+    // (G4.5) it lives in the storehouse and this bleed spares it for free (ADR-163).
     const lostRice = Math.round((next.resources.rice ?? 0) * LOSS_COIN_FRAC);
     if (lostRice > 0) next = withResource(next, 'rice', -lostRice);
     let lostMats = 0;
@@ -193,6 +197,11 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
       ],
     });
     next = advanceClock(next, FIGHT_TICKS + SETBACK_TICKS + FORCED_REST_TICKS);
+    // G3 (ADR-155/ADR-164): the defeat ALSO routes toward the sickroom — Sōan's ledger grows and
+    // SICKROOM_DAYS_LOST whole days are lost, ON TOP of the carried-loss bleed above (the
+    // double-cost curve). This never mends HP: food stays satiety-only and HP has no auto-trickle;
+    // the paid treatment + manual rest-at-sickroom that heal HP are G4 sickroom CONTENT (ADR-164).
+    next = applyDefeatConsequences(next);
   }
   return next;
 }
