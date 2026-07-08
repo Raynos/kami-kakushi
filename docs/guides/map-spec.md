@@ -307,3 +307,248 @@ must-say (fail the iteration if missed) · **S** = should-say.
 Iteration loop: capture (`src/scripts/map-audit-shots.mjs`) → one fresh
 blind-describe agent per sheet → a judge agent scores THIS rubric →
 fix the misses → repeat until all **M** pass and ≥ half of **S**.
+
+The T2 sheet's own pass bar (V-lines) lives with its spec in **§6.4** —
+it is not a T1-style addition to the estate rubric but a wider-frame
+rubric of its own, because T2 changes the register (valley, not estate).
+
+---
+
+## §6 · The T2 sheet — the Valley, Asagiri (1784)
+
+**Status: SPEC, pre-build — awaiting the human's HR read (map-styles §4
+locked flow: spec → HR → build). No drawing until sign-off.**
+
+The register widens. The T0/T1 sheets are the *estate survey* (mura-ezu
+村絵図) — the holding drawn field-by-field. The T2 sheet is the SAME
+idiom **pulled back to the valley** (mura-ezu, wide): the estate is now
+one walled compound in a settled valley, and the VILLAGE of **Asagiri**
+(朝霧 — "morning mist") joins the frame downstream. Whole compounds
+become single pictograms; fields become pattern masses; the river runs
+the length of the sheet as the valley's spine.
+
+Derived from the story bible ([`tiers/t2.md`](../story-bible/tiers/t2.md)
+· [`05-world.md`](../story-bible/05-world.md)); the bible wins every
+disagreement. This is a **same-class extension** of the estate survey,
+not a new scale class — so per map-styles §4.5 it needs **no ADR-075
+diverge**; it EXTENDS the one master layout (T0 ⊂ T1 ⊂ T2 stays a
+mathematical fact — see §6.5), it does not fork the look.
+
+### §6.0 · The valley geography (master extension)
+
+The one-geography law still holds: T2 does not rearrange the estate — it
+**pulls the camera back** and adds the valley south of it. Everything on
+the T1 sheet keeps its exact ground; the T2 frame simply shows more world
+and draws the estate smaller.
+
+- **VG1 · The frame grows SOUTH (and a shade wider).** The estate holds
+  the NORTH (upstream) third of the sheet at the coordinates T1 already
+  surveyed. Below it the valley floor runs south along the river to
+  **Asagiri**, ~half a ri down (the T0/T1 "村へ 半里" note is now a place,
+  not a promise). Wooded flanks wall the valley E and W; the hills close
+  it to the north as before.
+- **VG2 · The river is the spine.** It still flows **north → south**,
+  entering from the NW hills, past the estate's weir (Matsuzō's stretch,
+  upstream), on down to Asagiri where it drives the **mill** and is
+  crossed at the **ferry**; a **gorge** pinches it between estate and
+  village. The downstream (south) exit carries it on out of the valley.
+- **VG3 · The demotion — the estate is now ONE compound pictogram.** The
+  whole T0/T1 world collapses to a valley-scale glyph: the precinct wall
+  ring, the RUIN's footprint (still the largest single built mass in the
+  entire valley — bigger than anything in Asagiri), the guest house a
+  small roofed pictogram in the ruin's SE corner, the new **gatehouse**
+  in gold on the south face, the fields a washed pattern mass to the
+  west, the terraces a texture on the NW slope. Its interior
+  room-detail is RETIRED to the T0/T1 sheets (it does not draw at valley
+  scale). The reward of the demotion (map-styles §2): the player has
+  *walked* every ditch of that compound and knows how much world the one
+  glyph hides.
+- **VG4 · The anchors that must agree.** Relative geography is canon
+  across the class and may not contradict T0/T1: estate NORTH/upstream ·
+  Asagiri SOUTH/downstream · temple **country** still upstream NW (Toku's
+  packet road, off toward the region) · the next valley EAST over the
+  wooded hill · the road onward (to the region / castle town, T3+) leaves
+  the valley past Asagiri south.
+- **VG5 · What Asagiri IS (the counter-weight).** A real settlement so
+  the estate's shrinkage reads: a street of houses along the river's east
+  bank with its named public works — the **well**, the **market square**,
+  the **shrine & temple** (Ekai's, holding the register of the vanished),
+  the **headman's house** (Mohei's), the **mill** (Kyūbei's, on the
+  river), the **ferry landing** (Funakichi's). At valley scale each is a
+  small pictogram or a block of house-tone, never field-by-field.
+
+### §6.1 · The T2 sheet — zone by zone
+
+At valley scale, position is **relative** (the build assigns coordinates
+extending `layout.ts`; §6.5). Drawn form is a valley-scale pictogram or a
+pattern mass, never estate-scale interior detail. The visible wrong thing
+each carries seeds a later tier (G12), deliberately outside the legend.
+
+| Zone | Position | Drawn form + wrong thing |
+|---|---|---|
+| The estate 館 | NORTH, upstream | one walled compound pictogram: precinct ring + the RUIN footprint (largest mass in the valley) + the guest-house roof in its SE corner + the new gatehouse (gold) on the south face; fields as a wash-mass W. **Wrong thing:** the one-more-petal crest drawn on the gatehouse — Shinnosuke's T0 question, answered by paper (the old plans), not people |
+| The gatehouse & outer domain 普請 | estate south face | the works: gatehouse RAISED in fresh gold work, scaffold ticks, cleared ground where the outer court was scrub. The estate's new face to the valley. **Wrong thing:** the clearance turns up robbed-footing lines the guest house's wall never explained |
+| Asagiri village 里 | SOUTH, downstream, E bank | a street of house-tone blocks along the river; the whole cluster smaller in built mass than the estate's ruin alone. **Wrong thing:** dressed stones reused in the villagers' walls & footings — the main house's own robbed stone, in plain sight |
+| The well 井 | village centre | a well-ring pictogram in the street; the gathering point (R0's "the well goes quiet"). **Wrong thing:** nothing — the honest heart of the track |
+| Market square 市 | village, off the street | an open block with stall-rows on market days (season-stocked); tables. **Wrong thing:** one stall's goods are town-made, a cut above the valley's own |
+| Shrine & temple 寺 | village edge, S | temple roof + torii/shrine glyph; a small graveyard. Holds Ekai's **register of the vanished**. **Wrong thing:** fresh alms-traffic marks — a packet node on Toku's network, arrivals nobody signs for |
+| Headman's house 名主 | village, largest house | the one house drawn a size up, a walled yard; Mohei's, where the R6 table sits. **Wrong thing:** its grievance-ledger board, a village mirror of the house's day-book |
+| The mill 水車 | river, above the village | a waterwheel pictogram on a mill-race off the river; the valley's choke (everyone's grain passes Kyūbei's stones). **Wrong thing:** the race is cut with the same dressed stone as the quarry |
+| The ferry 渡 | river crossing, at/below village | a landing + a rope-ferry glyph where no bridge reaches (Funakichi's); the river too deep/gorged to ford here. **Wrong thing:** the night-roads trouble lands on this crossing first (marked faint) |
+| The river gorge 峡 | river, between estate & village | the banks pinch to a narrow tapered channel, current threads crowding; the reason the ferry exists. **Wrong thing:** a squared cutting in the gorge wall — old stonework nobody in the valley claims |
+| The old quarry 石切 | a valley flank (W or E scrub) | a dressed-stone scar cut into the slope, spoil heaps, sled-tracks down toward the ruin & village. **Wrong thing:** the cut faces MATCH the ruin's robbed footings — the village took the main house apart here |
+| Valley woods 谷林 | both flanks, thickening the T1 forest | pine-mass under-wash climbing the flanks; the T1 woodlot/burn-line still reads at its estate-scale ground, now one edge of a larger wood. **Wrong thing:** the too-straight burn line still held by no one named |
+| Hill shrines 山祠 | up the E/W flanks, above the floor | tiny roadside shrine glyphs on the hill tracks; the valley's folk-faith scatter. **Wrong thing:** offerings at the highest one, like the weir-jizō's — the same unadmitted hand |
+| The bandit camp 山犬 | up a side draw in the hills, OFF the settled floor | a palisade + campfire glyphs on a mountain shelf ("the mountain dogs," Seiroku's); a track down toward the roads. **Wrong thing:** town-made gear in a hungry-men's camp — a good blade, boots not made in the valley (the castle-town accent, T4's first shadow) |
+| Night roads 夜道 | the valley's roads, on select | the valley-scale danger rail: the ferry crossing, the gorge road, the estate's south road — where the camp's pressure falls after dark (T2's night layer, the estate patrol's wider cousin). **Wrong thing:** the hooded new-moon lantern thread still leaves the estate upstream, unexplained |
+| The moved stone 界石 | estate/Asagiri boundary, river side | the T1 "fresher" boundary stone, now shown a field INTO Asagiri's land — the village-track dispute made visible. **Wrong thing:** it IS the wrong thing — one stone younger than its line, a field misplaced |
+
+Not every zone opens at once — T2 zones unlock rung by rung within the
+tier (05-world "zone growth"; the reveal survey extends as the story
+walks it, carrying the ADR-151 rung-reveal fog into T2's own `REVEAL`
+staging). The gatehouse/outer-domain works (R1), the payment road and
+the village public works, the market (R4), the camp (R5–R6) arrive in
+their rungs; unsurveyed valley draws as the same unsurveyed-paper +
+未 ghost-chip + rumor-note grammar the estate sheets use.
+
+### §6.2 · The reveal re-label (the honesty flip — `ruinRevealed`)
+
+T2's signature beat is a **map event** (kernel #6; TST3 — the UI change
+IS the story). Early in the tier, three signals converge (t2.md "the
+reveal, staged"): the well rumor (R0), the old plans found clearing the
+kura (R1), and Toku's one past-tense line. At the third signal's scene
+end, **the sheet redraws its two labels**:
+
+- **Before** (`ruinRevealed: false`) — the estate glyph is labelled the
+  way T0/T1 name it: the lived compound is **"the main house" (母屋)**;
+  the great footprint beside it is only **"ruined compound" (廃屋)**,
+  never honestly named.
+- **After** (`ruinRevealed: true`) — the two labels swap to the truth:
+  the lived compound becomes **"guest house" (客殿)**; the ruin gains its
+  real name, **"the Main house" (本邸)**. One log line in the day-book's
+  voice, no ceremony. Retroactively legible: Heikichi's salvage marks,
+  the kura crest, the garden gate that opens on the ruin.
+
+This is `TIER_DELTA`'s `ruinRevealed` seam (already stubbed in
+`ground.ts`) driving a label swap on the estate compound — NOT a
+geometry change. Nothing moves; only the survey's honesty changes. The
+crest answer (VG3's wrong thing) lands legibly WITH the reveal — the old
+plans that name the ruin are the same paper that draws the one-more-petal
+crest.
+
+### §6.3 · Look deltas vs the estate-survey default
+
+Everything in §3 (the aizuri-night AA bar) carries unchanged — same
+substrate, same silver/gold/shu grammar, same brush-alive strokes, same
+paper furniture, same LOD reward. The class is the same; only the
+GRAMMAR of what a mark means at this zoom shifts (map-styles §3):
+
+- **D1 · Whole compounds are single pictograms.** The estate that filled
+  the T0/T1 frame is now one glyph; Asagiri's houses are house-tone
+  blocks, not drawn room-by-room. The honesty rule of the wide mura-ezu:
+  draw the compound's FOOTPRINT and roof truly, retire its interior.
+- **D2 · Fields become pattern masses.** The paddy grid, terraces, and
+  ghost bunds that the estate sheets drew bund-by-bund now read as
+  washed texture-masses at valley scale (their fine detail is `.ms-fine`,
+  gated to close zoom, or simply the estate glyph's own texture).
+- **D3 · The river gains its full course.** Pools/weir/reeds/shallows
+  (the T1 downstream order) are now the UPSTREAM end of a river that runs
+  on to the mill, gorge, and ferry — the flow must read N→S across the
+  whole taller sheet, not just the estate window.
+- **D4 · New vocabulary, same toolkit** (§6.5): village block, village
+  street, shrine/temple glyph, mill waterwheel, ferry landing, quarry
+  scar, palisade/campfire. Each a new seeded primitive in the existing
+  vocabulary modules — never a look fork.
+- **D5 · The document fiction widens.** T0 is the family's own survey;
+  T1 the R7 re-survey in reviser's red; **T2 is the valley drawn as the
+  house now sees it** — the estate one holding among neighbours, the
+  survey extended outward as the tier's works and dues-roads walk it. The
+  re-label (§6.2) is this survey correcting its own oldest lie.
+
+### §6.4 · The T2 blind-reader rubric (the pass bar)
+
+A fresh agent given ONLY the T2 screenshot set must recover these. **M**
+= must-say (fail the iteration if missed) · **S** = should-say. These are
+the spec's teeth — a change that makes a V-line recoverable is progress;
+one that doesn't is decoration.
+
+- **V1 M** — a wider survey of a whole VALLEY (not just an estate): a
+  settled valley with a village downstream and one large compound
+  upstream, on one river, north up.
+- **V2 M** — the river runs the length of the valley **north → south**;
+  the compound sits UPSTREAM (north), the village DOWNSTREAM (south),
+  with a crossing (ferry/bridge) at the village end.
+- **V3 M** — the northern compound reads as ONE walled estate whose
+  RUINED precinct is the LARGEST single built footprint in the entire
+  valley — out-massing even the village's biggest buildings; the lived
+  house sits small in its corner. (The T0/T1 twist, now readable AGAINST
+  the village's scale.)
+- **V4 M** — the village is a real settlement: a street/cluster of houses
+  with recognizable public works among them — at minimum a well, a
+  temple/shrine, a mill on the river, and a ferry or river crossing.
+- **V5 M** — same world as T1, pulled back: no landmark that appeared on
+  T1 has MOVED; the estate occupies the exact northern ground T1
+  surveyed (a reader who saw T1 recognizes it demoted, not redrawn).
+- **V6 M** — roads/river connect the valley to a wider world: the
+  estate's south road reaches the village; the way continues out past the
+  village (south/onward); the upstream path still leaves NW (temple
+  country); a track still crosses EAST over the hill.
+- **V7 S** — the survey names the ruin honestly in the revealed state:
+  the label reads the RUIN as the main house and the lived compound as
+  the guest house (the T2 re-label — recoverable only from a revealed
+  capture).
+- **V8 S** — a water-driven mill sits on the river at a choke; a ferry
+  crossing exists where the river is too deep/gorged to ford.
+- **V9 S** — the valley's edges carry the trouble: a bandit/mountain camp
+  up a side draw OFF the settled floor; the night-roads legible as a
+  danger layer.
+- **V10 S** — an old quarry scars a valley flank; its dressed-stone cuts
+  visibly match the ruin's robbed footings (the village took the main
+  house's stones — the reader can connect the two).
+- **V11 S** — the wrong things read, and stay OUTSIDE the legend: a crest
+  on the estate's new gatehouse; a boundary stone standing a field into
+  the village's land; something town-made in the camp.
+- **V12 S** — quality/register: reads as ONE document with the estate
+  sheets (same aizuri-night hand, whole compounds as pictograms, fields
+  as pattern masses) — a wider mura-ezu, NOT a different game and NOT a
+  labelled diagram.
+
+Iteration loop as §5: capture → one fresh blind-describe agent → a judge
+agent scores THESE V-lines → fix the misses → repeat until all **M** pass
+and ≥ half of **S**. A full both-sheet pass (T0/T1 + T2) is required at
+T2's acceptance (map-authoring §5 / the skill's non-negotiable 2).
+
+### §6.5 · Build notes (the primitives contract, extended)
+
+Follows the §4 contract and map-authoring §6 (drawing to a signed spec is
+safe for any model). The mechanics:
+
+- **Extend the one master.** Grow `layout.ts`'s `WORLD` **southward**
+  (a taller valley extent) with the estate anchors UNCHANGED, so
+  T1's window is literally a crop of T2's world (T0 ⊂ T1 ⊂ T2 stays a
+  mathematical fact — map-styles §2). Add the valley/village anchors and
+  polygons south of the current extent; the T2 sheet's viewBox is the
+  whole valley, the T1 sheet's is the existing `WORLD` crop.
+- **New seeded vocabulary** (existing modules, `XxxOpts` idiom): a
+  `villageBlock`/`street` (built.ts or a new `village.ts` if it earns
+  it), `shrineGlyph`/`templeGlyph` (built.ts), `mill`/waterwheel + a
+  `ferry` landing (water.ts — reuse `bridge`/`weirBar` idioms), a
+  `quarryScar` (terrain.ts), a `palisade`/`campfire` for the camp. Each
+  brush-alive and seed-jittered (law 3), Andon tokens only (law 2).
+- **The estate as a demoted glyph.** A valley-scale composition of the
+  existing precinct/guest/ruin geometry (reuse the layout data at the
+  wide zoom; the room-scale interior seals do not draw at this LOD).
+- **`ground.ts` composition + `TIER_DELTA`.** Add a T2 column; the
+  `ruinRevealed` seam (already stubbed) drives the §6.2 label swap.
+- **`nodes.ts`.** A `T2_NODES` roster (bible-distilled, fiction-voiced
+  text = ADR-139 narrative-diverge territory — not authored inside this
+  spec) + T2 `ANCHORS`; rung-gated zones extend `RUNG_LADDER`/`REVEAL`
+  (`integrity.test.ts` keeps roster↔layout honest).
+- **The pin.** Growing `WORLD` and inserting marks reshuffles seeds — the
+  golden pin goes RED by design; capture, eyeball, regen with
+  `UPDATE_MAP_GOLDEN=1`, commit the hash WITH the change (law 5). A T2
+  `t2-sheet.ts` composition + its own golden entry join the pin.
+- **No diverge** (map-styles §4.5): a same-class extension is not a
+  restyle. If the build discovers the estate-demotion or village grammar
+  genuinely needs a look CHOICE, THAT is when an ADR-075 diverge is
+  raised — not pre-emptively.

@@ -41,4 +41,9 @@
   night rounds, coin lanes, 17-node map, speaker ladder, scene machinery,
   the t0v2 prose migration (ONE version ships, per your 2026-07-08
   ruling), clean-break ship; 11 open questions at the bottom.
+- [ ] `docs/guides/map-spec.md` **§6** — the **T2 valley map spec** (HR-13):
+  the read gate BEFORE the T2 sheet is drawn (map-styles §4 locked flow).
+  The valley depiction — estate demoted to one compound, Asagiri village,
+  the `ruinRevealed` re-label, the V1–V12 rubric. Same-class extension, no
+  diverge. Build is blocked on your read.
 
