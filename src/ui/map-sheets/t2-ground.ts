@@ -34,7 +34,7 @@ import {
   templeGlyph,
   villageLane,
 } from './village';
-import { FIELDS, GUEST, HILLS, PRECINCT, RIVER } from './layout';
+import { FIELDS, GUEST, HILLS, PRECINCT, RIVER, ROADS } from './layout';
 import {
   GORGE,
   RIVER_SOUTH,
@@ -198,6 +198,10 @@ export function paintValley(art: SVGElement, revealed: boolean): void {
   // ── 3 · roads — they connect the valley to the wider world (V6) ──
   road(art, VALLEY_ROADS.toVillage, 'v-rd-village');
   road(art, VALLEY_ROADS.onward, 'v-rd-onward');
+  // the estate's own exits, carried at valley scale: NW upstream to temple country,
+  // and east over the hill to the next valley (so ALL three ways out read — V6)
+  road(art, ROADS.upstream, 'v-rd-upstream');
+  road(art, ROADS.eastTrack, 'v-rd-east');
   road(art, VALLEY_ROADS.ferryApproach, 'v-rd-ferry');
   road(art, VALLEY_ROADS.campTrack, 'v-rd-camp', true);
   for (let i = 0; i < VALLEY_ROADS.quarryTracks.length; i++)
@@ -346,6 +350,19 @@ function paintDemotedEstate(art: SVGElement, revealed: boolean): void {
   pine(art, 1592, 1128, 10, { seed: 'v-garden-pine-1' });
   pine(art, 1768, 1096, 9, { seed: 'v-garden-pine-2' });
   grassTufts(art, PRECINCT.innerGardenOld, { seed: 'v-old-garden', density: 1.2 });
+  // broken, overgrown ground THROUGH the ruin core so the great compound reads as
+  // RUINED (not an intact settlement) at fit — the blind pass read it as buildings
+  // until this landed (V3). Rubble + grass breaching, over the fallen halls.
+  {
+    const core: Pt[] = [
+      [1470, 660],
+      [1980, 620],
+      [2000, 1015],
+      [1490, 1055],
+    ];
+    rubbleField(art, core, { seed: 'v-ruin-core' });
+    grassTufts(art, core, { seed: 'v-ruin-grass', density: 0.7 });
+  }
 
   // the guest house — small, in the ruin's SE corner (its neat wall = the repaired
   // stretch of the precinct's own circuit). Drawn as a compact pictogram, not the

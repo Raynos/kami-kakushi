@@ -288,7 +288,8 @@ export const VALLEY_NOTES: readonly {
   readonly vertical?: boolean;
 }[] = [
   { x: 940, y: 4160, text: 'to the castle town', vertical: true },
-  { x: 606, y: 2360, text: 'upstream · temple country', vertical: true },
+  { x: 690, y: 210, text: 'upstream · temple country', vertical: true },
+  { x: 2770, y: 1120, text: 'over the hill · next valley', vertical: true },
 ];
 
 /** The T2 seal anchors — added to layout.ANCHORS (the shell reads ANCHORS[id]).

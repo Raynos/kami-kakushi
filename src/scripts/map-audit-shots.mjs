@@ -103,8 +103,10 @@ try {
   // deep zoom on the guest-house compound (fine register ON via the fix)
   await sweep('T0', [1850, 1000, 700, 467]);
   await sweep('T1', [1850, 1000, 900, 590]);
-  // T2: deep zoom on Asagiri village (the settlement + its public works)
-  await sweep('T2', [800, 3050, 1100, 1478]);
+  // T2: deep zoom on the ESTATE compound — the demotion + the reveal is T2's
+  // headline (the robbed precinct ring, the ruin the valley's largest mass, the
+  // tiny guest house in its SE corner). The village reads from the SW/SE quadrants.
+  await sweep('T2', [1040, 440, 1500, 2016]);
 } finally {
   await browser.close();
 }
