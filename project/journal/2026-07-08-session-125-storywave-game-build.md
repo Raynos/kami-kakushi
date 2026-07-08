@@ -72,18 +72,81 @@ Typecheck clean; full vitest 921 passed / 2 skipped. Registries additive — no
 live behavior change (the only test premise that shifted, Tokubei→ambient, is
 a direct consequence of the intended `yohei` id and was re-anchored).
 
+## 3 · G1 — six-season manual calendar + clean-break persistence ✅
+
+The season became STORED, MANUAL state; old saves retire cleanly.
+
+**⚑ SCOPING DEVIATION (surfaced, PH4/PH6):** the plan's G1 economy slice
+(the rice-as-kura-units reframe + per-site production pool + daily consumption
+sink) was **deferred to G4.5**, where its consumers — the re-sited activities
++ Yohei's market — actually land. Adding dead, unread pool/consumption state
+now earns nothing (PH6 lean), and the clean break means no migration cost
+either way. The plan itself flagged the economy slice as new scope wanting a
+scoping pass. G1 kept: the 6-season wheel, the exit pipeline, clean-break
+saves, and **relocating** the existing spoilage + the seasonal judge into the
+exit pipeline (they were auto-fired on a day cadence before).
+
+### What changed (engine)
+- `constants.ts` — `SEASONS` = the bible wheel (Winter→New-Year→Spring→
+  Summer→Bon→Autumn); DELETED `DAYS_PER_SEASON` + `PHASE2_JUDGE_INTERVAL_DAYS`;
+  `SCHEMA_VERSION` 9→10; **new `APP_GENERATION = 2`**.
+- `state.ts` — `season`/`seasonsPassed` stored fields; `tier` doc 0..5→0..6.
+- `selectors.ts` — `season()` reads state; `year()` derives from seasonsPassed.
+- `step.ts` — removed the auto day-boundary season-turn + the 3-day reckon;
+  **new exported `advanceSeason(state)`** = the exit pipeline (judge → spoilage
+  → advance the wheel). `intents.ts` — new `advance_season` intent (instant,
+  ADR-148); `timing.ts`/`personas.ts`/affordance map classified.
+- `balance.ts` — `RICE_SELL_PRICE_BY_SEASON` + the cockpit lever
+  getter/setter/canon + `dev-cockpit` sliders extended to 6 seasons (new-year
+  seeds from winter, bon from summer — sim-owned, ADR-132).
+- `render.ts` — `SEASON_TAG` gained New-Year (正月🎍) + Bon (盆🏮).
+- **autoplay** — `focusedOptimalIntent` now issues `advance_season` in Phase 2
+  to collect the seasonal share (the manual replacement for the retired auto
+  judge). **BUG FOUND + FIXED:** first cut gated on `highWater > judged`, but
+  `advance_season` is instant + the judge pays ~0 on tiny growth (and
+  `onReckoning` discards the judged-update when bonus≤0) → an **infinite
+  instant loop** (297k advances, estate stuck at 1). Fix: gate on a WORTHWHILE
+  unjudged-growth threshold (`PHASE2_SEASON_COLLECT_KOKU = 20`) so the payout
+  is always real, no loop, grind never starved. Arc now closes: EXCELLENT,
+  17 season-collects, judge banks.
+
+### What changed (persistence — clean break, ADR-161)
+- `codec.ts` — envelope carries `generation`. `validate.ts` — a blob with
+  `generation < APP_GENERATION` (or none) → `{ retired: true }`, never a crash.
+  `saveManager.ts` — on retired: back the raw bytes up under
+  `kk:pre-reboot-backup` + boot fresh; `wasRetiredOnLoad()` signals it.
+  `migrate.ts` — MIGRATIONS 1–9 DELETED, chain restarts empty at v10.
+  `main.ts` — the cold-open retirement notice (INTERIM bracketed `[dev]`
+  placeholder; real text = HD-30 wave; G7 gate requires it closed).
+
+### Tests
+- New behavior model rippled: `economy`/`m1`/`pillars`/`ascension` season +
+  spoilage + judge tests rewritten to the manual `advanceSeason` model (each
+  still RED-able, source-derived). `migrate.test` rewritten to the empty-chain
+  + clean-break; `save.test` migration test → the retirement test (+ generation
+  on current envelopes). Fixtures regenerated (old-gen ones now retire).
+- Full `pnpm run verify` GREEN (17 gates); 912 tests pass — incl. the `pacing`
+  + `playcheck` gates, so the T0 WALL-TIME bands hold. **OWED (human directive,
+  2026-07-08 — timebox sims to 5 min):** `verify:balance` (the ADR-133
+  Phase2≈Phase1 ratio verdict) + `balance:report` (regen `t0-pacing.md`) are too
+  slow to complete in the timebox over the longer arc (~800 game-days; instant
+  `advance_season` + a slower deed-grind). Deferred to a batched balance pass —
+  the pacing gate already guards wall-time, and every seed ascends. The arc's
+  extra game-days are invisible to the player (the year counter is hidden in T0).
+
 ## Next intended steps
-1. **G1** — the six-season manual calendar (`SEASONS` 6-wheel, stored/manual)
-   + the season-exit pipeline + rice-as-kura-units (shō/bale/koku) + per-site
-   season pool + consumption + spoilage + clean-break persistence. Full verify
-   + `verify:balance` + `balance:report`.
-2. Then G2 (scenes + night rounds, dormant), G3 (body economies), G3.5
-   (compiler), G4 (worktree cutover), G5–G7.
+1. Finish G1 balance re-baseline → commit + push G1.
+2. **G2** — generalized scenes registry + night-round runner (engine, dormant).
+3. Then G3 (body economies), G3.5 (compiler), G4 (worktree cutover), G5–G7.
+4. **G4.5 owes** the deferred rice-reframe (kura-units + pool + consumption).
 
 ## Landmines
 - **Shared tree + live co-agents:** always `git commit <pathspec>`; re-check
   `git diff --cached --name-only` is not enough on its own (the index races).
-- **G0 voice-colour picks are provisional** — Naoyuki=official, household=
-  steward, edge=villager, Iori=monk; revisit at G4 if content wants finer.
-- **HD-30 gates G7** — no `[dev]` placeholder prose can ship. G1's retirement
-  notice ships a bracketed placeholder until the supplemental wave lands.
+- **advance_season is INSTANT** — any autoplay/engine gate on it must key off a
+  value that CHANGES when it fires (unjudged-growth threshold), never a
+  day-parity or a stays-true predicate, or it infinite-loops.
+- **G4.5 owes the rice reframe** (deferred from G1): measured kura shō/bale/koku
+  + per-site season pool + daily consumption sink + banked→one-way-kura.
+- **G0 voice-colour picks are provisional**; **HD-30 gates G7** (no `[dev]`
+  prose ships — incl. G1's retirement-notice placeholder).

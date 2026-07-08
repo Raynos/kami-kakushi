@@ -273,10 +273,12 @@ const CHANNEL_BULLET: Record<LogChannel, string> = {
 };
 
 const SEASON_TAG: Record<Season, { kanji: string; emoji: string; name: string }> = {
+  winter: { kanji: '冬', emoji: '❄️', name: 'Winter' },
+  'new-year': { kanji: '正月', emoji: '🎍', name: 'New Year' },
   spring: { kanji: '春', emoji: '🌸', name: 'Spring' },
   summer: { kanji: '夏', emoji: '🎐', name: 'Summer' },
+  bon: { kanji: '盆', emoji: '🏮', name: 'Bon' },
   autumn: { kanji: '秋', emoji: '🍁', name: 'Autumn' },
-  winter: { kanji: '冬', emoji: '❄️', name: 'Winter' },
 };
 
 const RESOURCE_LABEL: Record<string, string> = {

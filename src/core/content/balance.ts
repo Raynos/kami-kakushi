@@ -378,11 +378,12 @@ export let EAT_RICE_SATIETY = 30;
  *  DIRECTION (spring dearest, autumn cheapest) is the design lever the tests assert; the exact
  *  magnitudes are provisional (v0.2, liquid ADR-059). */
 export const RICE_SELL_PRICE_BY_SEASON: Record<Season, number> = {
+  winter: 5,
+  'new-year': 5, // storywave G1 seed: new-year takes winter's price (sim-owned, ADR-132)
   spring: 6, // lean spring — rice is DEAR (the best season to sell)
   summer: 5,
+  bon: 5, // storywave G1 seed: Bon takes summer's price (sim-owned, ADR-132)
   autumn: 4, // R9 (2026-07-05): 3→4, narrow the swing to 6:4 (W2) — still the cheapest season
-
-  winter: 5,
 };
 /** The current coin-per-rice sell price for a season (pure — keyed off the season selector). */
 export function riceSellPrice(season: Season): number {
@@ -458,15 +459,19 @@ export function readBalanceLever(path: string): number {
       return SKILL_YIELD_PER_LEVEL_NUM;
     case 'SKILL_YIELD_CAP_NUM':
       return SKILL_YIELD_CAP_NUM;
-    // W2 · store-vs-sell (season price table)
+    // W2 · store-vs-sell (season price table — six seasons, storywave G1)
+    case 'RICE_SELL_PRICE_BY_SEASON.winter':
+      return RICE_SELL_PRICE_BY_SEASON.winter;
+    case 'RICE_SELL_PRICE_BY_SEASON.new-year':
+      return RICE_SELL_PRICE_BY_SEASON['new-year'];
     case 'RICE_SELL_PRICE_BY_SEASON.spring':
       return RICE_SELL_PRICE_BY_SEASON.spring;
     case 'RICE_SELL_PRICE_BY_SEASON.summer':
       return RICE_SELL_PRICE_BY_SEASON.summer;
+    case 'RICE_SELL_PRICE_BY_SEASON.bon':
+      return RICE_SELL_PRICE_BY_SEASON.bon;
     case 'RICE_SELL_PRICE_BY_SEASON.autumn':
       return RICE_SELL_PRICE_BY_SEASON.autumn;
-    case 'RICE_SELL_PRICE_BY_SEASON.winter':
-      return RICE_SELL_PRICE_BY_SEASON.winter;
     // W3 · eat-rice vs rest
     case 'EAT_RICE_SATIETY':
       return EAT_RICE_SATIETY;
@@ -546,18 +551,24 @@ export function __setBalanceLever(path: string, value: number): void {
     case 'SKILL_YIELD_CAP_NUM':
       SKILL_YIELD_CAP_NUM = value;
       return;
-    // W2
+    // W2 (six seasons, storywave G1)
+    case 'RICE_SELL_PRICE_BY_SEASON.winter':
+      RICE_SELL_PRICE_BY_SEASON.winter = value;
+      return;
+    case 'RICE_SELL_PRICE_BY_SEASON.new-year':
+      RICE_SELL_PRICE_BY_SEASON['new-year'] = value;
+      return;
     case 'RICE_SELL_PRICE_BY_SEASON.spring':
       RICE_SELL_PRICE_BY_SEASON.spring = value;
       return;
     case 'RICE_SELL_PRICE_BY_SEASON.summer':
       RICE_SELL_PRICE_BY_SEASON.summer = value;
       return;
+    case 'RICE_SELL_PRICE_BY_SEASON.bon':
+      RICE_SELL_PRICE_BY_SEASON.bon = value;
+      return;
     case 'RICE_SELL_PRICE_BY_SEASON.autumn':
       RICE_SELL_PRICE_BY_SEASON.autumn = value;
-      return;
-    case 'RICE_SELL_PRICE_BY_SEASON.winter':
-      RICE_SELL_PRICE_BY_SEASON.winter = value;
       return;
     // W3
     case 'EAT_RICE_SATIETY':
@@ -658,10 +669,12 @@ export const BALANCE_CANON: Readonly<Record<string, number>> = Object.freeze({
   RICE_PER_RAKE,
   SKILL_YIELD_PER_LEVEL_NUM,
   SKILL_YIELD_CAP_NUM,
+  'RICE_SELL_PRICE_BY_SEASON.winter': RICE_SELL_PRICE_BY_SEASON.winter,
+  'RICE_SELL_PRICE_BY_SEASON.new-year': RICE_SELL_PRICE_BY_SEASON['new-year'],
   'RICE_SELL_PRICE_BY_SEASON.spring': RICE_SELL_PRICE_BY_SEASON.spring,
   'RICE_SELL_PRICE_BY_SEASON.summer': RICE_SELL_PRICE_BY_SEASON.summer,
+  'RICE_SELL_PRICE_BY_SEASON.bon': RICE_SELL_PRICE_BY_SEASON.bon,
   'RICE_SELL_PRICE_BY_SEASON.autumn': RICE_SELL_PRICE_BY_SEASON.autumn,
-  'RICE_SELL_PRICE_BY_SEASON.winter': RICE_SELL_PRICE_BY_SEASON.winter,
   EAT_RICE_SATIETY,
   EAT_RICE_COST,
   SATIETY_PER_REST,

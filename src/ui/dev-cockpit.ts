@@ -103,6 +103,20 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
     watch: 'W2',
     integer: true,
   },
+  {
+    path: 'RICE_SELL_PRICE_BY_SEASON.new-year',
+    label: 'Rice price · new year',
+    group: 'W2 · store-vs-sell',
+    watch: 'W2',
+    integer: true,
+  },
+  {
+    path: 'RICE_SELL_PRICE_BY_SEASON.bon',
+    label: 'Rice price · Bon',
+    group: 'W2 · store-vs-sell',
+    watch: 'W2',
+    integer: true,
+  },
   // W3 · eat-rice vs rest
   {
     path: 'EAT_RICE_SATIETY',

@@ -63,6 +63,9 @@ const NON_UI_INTENTS = [
   // transcript clicks routed through UI-local state, never a dedicated button
   'advance_intro',
   'advance_rung_beat',
+  // storywave INTERIM (G1): `advance_season` is autoplay/DEV-driven for now. G4.9 wires the
+  // R2-gated "end the season" affordance (the season wheel) and moves this to PLAYER_INTENTS.
+  'advance_season',
 ] as const satisfies readonly IntentType[];
 
 // ── the exhaustiveness trip (compile-time, enforced by the typecheck gate) ──────

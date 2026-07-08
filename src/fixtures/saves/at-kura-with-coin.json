@@ -1,10 +1,13 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 9,
+  "schemaVersion": 10,
+  "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 9,
+    "schemaVersion": 10,
+    "season": "winter",
+    "seasonsPassed": 0,
     "rng": {
       "seed": 20260626,
       "cursors": {
@@ -34,7 +37,7 @@
       "combatXp": 0
     },
     "resources": {
-      "coin": 1228,
+      "coin": 1042,
       "rice": 0,
       "wood": 59,
       "sansai": 46
@@ -1254,15 +1257,15 @@
         {
           "key": 132,
           "channel": "system",
-          "text": "You sell 186 rice to the pedlar at 6 mon the measure. (+13 monme 76 mon)",
+          "text": "You sell 186 rice to the pedlar at 5 mon the measure. (+11 monme 50 mon)",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
             "rice": 186,
-            "price": 6,
-            "coinGain": 1116
+            "price": 5,
+            "coinGain": 930
           }
         },
         {

@@ -7,16 +7,30 @@ import {
   ascend,
   estateGrade,
   balance,
+  focusedOptimalIntent,
   type GameState,
 } from './index';
 
-/** A state parked at the R7 capstone → Phase 2 open. */
+/** A state parked at the R7 capstone → Phase 2 open. All intermediate rank flags are set so
+ *  it reads as a REAL R7 hand: notably `rank-r1` is what retires the R0 rake verb (intents.ts),
+ *  without which the optimal loop would rake forever instead of doing estate labour. */
 function atPhase2(): GameState {
   const s = createInitialState(1);
   return {
     ...s,
     rung: 'R7',
-    flags: { ...s.flags, awake: true, 'rank-r7': true, 't0-capstone': true },
+    flags: {
+      ...s.flags,
+      awake: true,
+      'rank-r1': true,
+      'rank-r2': true,
+      'rank-r3': true,
+      'rank-r4': true,
+      'rank-r5': true,
+      'rank-r6': true,
+      'rank-r7': true,
+      't0-capstone': true,
+    },
   };
 }
 /** …with the Estate pillar at a given value (the ascension gate reads the grade). */
@@ -111,26 +125,23 @@ describe('the spine CLOSES end-to-end (M2·5)', () => {
     expect(ascensionAvailable(t1)).toBe(false); // can't re-ascend T0
   });
 
-  it('the seasonal reckoning FIRES on the optimal Phase-2 path, before ascension (battery #8)', () => {
-    // The bug: the judge fired only on the 28-day season boundary, but the Estate deed-grind reaches
-    // EXCELLENT in ~5 days — so it fired 0× before ascension. The fix reckons on the shorter
-    // PHASE2_JUDGE_INTERVAL_DAYS cadence. This test drives the REAL grind (reduce → advanceClock →
-    // the reckoning boundary) and asserts the judge is FELT: it goes RED under the old season cadence.
-    let s: GameState = atPhase2();
-    s = { ...s, unlocked: [...s.unlocked, 'verb-farm'] };
-    let guard = 0;
-    let firedDuringGrind = false;
-    while (estateGrade(s) !== 'EXCELLENT' && guard++ < 1000) {
-      s = reduce(
-        { ...s, location: 'home-paddies' },
-        { type: 'do_activity', activityId: 'farm_paddy' },
-      );
-      // the judge banks by advancing `judged` past 0 (its baseline moves to the post-bonus high-water)
-      if ((s.influence.estate.judged ?? 0) > 0) firedDuringGrind = true;
-    }
-    expect(firedDuringGrind).toBe(true); // ← the reckoning fired WHILE climbing to the gate
-    expect(s.influence.estate.judged).toBeGreaterThan(0); // it banked (not just logged)
+  it('the seasonal reckoning FIRES on the optimal Phase-2 path, before ascension (storywave G1)', () => {
+    // Seasons are MANUAL now (storywave G1): the judge fires on `advance_season`. With a worthwhile
+    // pile of UNJUDGED Estate growth banked, the optimal steward ENDS the season to collect the owed
+    // seasonal share (the manual replacement for the retired 3-day auto-reckon) — and the exit
+    // pipeline reckons. RED if autoplay never issues advance_season, or the judge never banks.
+    const s: GameState = {
+      ...atPhase2(),
+      unlocked: [...atPhase2().unlocked, 'verb-farm', 'panel-estate'],
+      // unjudged growth well above the collect threshold ⇒ a payout is owed
+      influence: { estate: { value: 100, highWater: 100, judged: 0, frac: 0 } },
+    };
+    const intent = focusedOptimalIntent(s);
+    expect(intent).toEqual({ type: 'advance_season' }); // the steward ends the season to reckon
+    const after = reduce(s, intent!);
+    expect(after.influence.estate.judged).toBeGreaterThan(0); // it banked (not just logged)
+    expect(after.influence.estate.value).toBeGreaterThan(100); // it PAID the seasonal share
     // and it left its ceremonial mark in the log — the player SEES it
-    expect(s.log.entries.some((e) => /accounts are reckoned/.test(e.text))).toBe(true);
+    expect(after.log.entries.some((e) => /accounts are reckoned/.test(e.text))).toBe(true);
   });
 });

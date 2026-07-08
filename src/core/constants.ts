@@ -22,8 +22,20 @@ export const APP_ID = 'kami-kakushi' as const;
  *  v9 = EMERGENT NODE DISCOVERY (ADR-146): adds the `discovered` write-once latch +
  *  `discoveryProgress` attempt counters, and the `discovery` RNG stream cursor. Additive — an old
  *  save has found nothing yet (both default empty; the cursor hydrates 0).
+ *  v10 = THE STORYWAVE T0 REWRITE (ADR-150 wave, game plan G1): the six-season MANUAL
+ *  calendar (stored `season`/`seasonsPassed`), rice as measured kura-units + per-site
+ *  production pools, and the CLEAN BREAK — this is a new APP_GENERATION, so a
+ *  pre-generation blob RETIRES (courteous notice + backup) rather than migrating
+ *  (ADR-161). MIGRATIONS 1–9 are deleted; the chain restarts empty at v10.
  *  Pre-launch dev saves are wiped (ADR-067), but each forward step is a real, test-covered chain. */
-export const SCHEMA_VERSION = 9 as const;
+export const SCHEMA_VERSION = 10 as const;
+
+/** App GENERATION (ADR-161, storywave clean break): bumped when the state model breaks so
+ *  hard that migration is not worth carrying. A saved blob with a generation below this
+ *  RETIRES — the save is backed up untouched and the game boots fresh with a courteous
+ *  in-fiction notice — never a crash, never a silent wipe. Distinct from SCHEMA_VERSION,
+ *  which still governs additive within-generation growth. */
+export const APP_GENERATION = 2 as const;
 
 /** FB-160/FB-161 (human, 2026-07-06): DURABLE log history (story/chat/progress) is
  *  UNBOUNDED — the whole point of the log is a memory that goes far, far back; a
@@ -35,29 +47,21 @@ export const LOG_EPHEMERAL_MAX = 100 as const;
  *  than this many byte-identical consecutive log lines. Provisional (v0.2) — tune by playtest. */
 export const LOG_MAX_IDENTICAL_RUN = 3 as const;
 
-// ── World clock (PRD §2.2 / §6.7.1) — only `tick` and `day` are stored; season,
-// week and year are DERIVED on read (D-Q6), never persisted. ───────────────────
+// ── World clock (PRD §2.2 / §6.7.1) — only `tick`, `day` and now `season` are stored;
+// week and year are DERIVED on read (D-Q6). ────────────────────────────────────
 export const TICKS_PER_DAY = 24 as const;
 export const DAYS_PER_WEEK = 7 as const;
-/** FB-172 (human, 2026-07-06): the CALENDAR ran ~24× too fast — "I don't know how 4 years
- *  passed." Was 28; seasons/years now turn 24× slower (28×24=672 days/season) while the
- *  day/tick chain — and everything keyed on DAYS (the Phase-2 reckoning, day-keyed RNG) —
- *  is untouched, so the judged-economy cadence is byte-identical. CONSEQUENCE (flagged):
- *  season-driven events (kura spoilage, the autumn harvest boost) now fire ~24× more
- *  rarely — epoch events rather than session events; re-express them on a day cadence if
- *  the sink needs to stay felt (the human confirms after play). */
-export const DAYS_PER_SEASON = 672 as const;
-export const SEASONS = ['spring', 'summer', 'autumn', 'winter'] as const;
+
+/** The six-season wheel (story bible `05-world.md`, storywave G1 — ADR-150/ADR-153). The
+ *  season is now STORED, MANUAL state (`state.season`), NOT derived from the day: a season is
+ *  a CONTAINER the player fills at their own pace and ends with the `advance_season` intent.
+ *  There is no `DAYS_PER_SEASON` any more — the day/tick chain still advances (the day-of-week
+ *  clock reads from `day`), but the season only turns by intent. Order is the wheel's, rotating
+ *  cleanly: Winter → New Year → Spring → Summer → Bon → Autumn. */
+export const SEASONS = ['winter', 'new-year', 'spring', 'summer', 'bon', 'autumn'] as const;
 export type Season = (typeof SEASONS)[number];
 
-/** The Phase-2 RECKONING cadence (days) — how often the house is JUDGED (the seasonal-share bonus,
- *  §4.2 / ADR-049). **LIQUID (ADR-059).** Decoupled from the 28-day calendar `DAYS_PER_SEASON` on purpose:
- *  in the compressed T0 showcase a full season never turns inside the ~5-day Estate deed-grind, so a
- *  season-boundary judge fired **0×** before ascension (battery #8) — the house is reckoned on this
- *  SHORTER cadence so the mechanic is actually FELT in T0. Must stay **≤ the grind's day-span** so a
- *  judge is GUARANTEED before the EXCELLENT gate. (T1+, when Phase 2 is a long game, will scale this
- *  back toward the real 28-day season — a per-tier concern for when T1 is built.) */
-export const PHASE2_JUDGE_INTERVAL_DAYS = 3 as const;
-
-/** Real synodic month — the lunar phase is a continuous ephemeris, not a per-day roll (D-Q6). */
+/** Real synodic month — the lunar phase is a continuous ephemeris, not a per-day roll (D-Q6).
+ *  The new-moon mysteries (the hooded lantern crossing, G2) key off `lunarPhase()`; there is
+ *  only ONE moon — do not build a second. */
 export const LUNAR_PERIOD_DAYS = 29.53 as const;

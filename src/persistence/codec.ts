@@ -5,13 +5,17 @@
 // save-layer timestamp (the documented core-lint Date.now exemption — tiebreaker only).
 
 import type { GameState } from '../core';
-import { APP_ID, SCHEMA_VERSION } from '../core';
+import { APP_ID, SCHEMA_VERSION, APP_GENERATION } from '../core';
 import type { LogEntry } from '../core/log';
 import { renderLogLine, type LogParams } from '../core/content/log-content';
 
 export interface SaveEnvelope {
   readonly app: typeof APP_ID;
   readonly schemaVersion: number;
+  /** App generation (ADR-161 clean break). A blob whose generation is below APP_GENERATION —
+   *  including every pre-storywave save, which has no `generation` field at all — RETIRES on
+   *  load (backed up + fresh boot + courteous notice), never migrated. */
+  readonly generation: number;
   /** Monotonic, the real newest-wins selector (PRD §6.8.1 / FU2). */
   readonly saveCounter: number;
   /** Date.now() at write — the tiebreaker only (save metadata, not game logic). */
@@ -20,7 +24,14 @@ export interface SaveEnvelope {
 }
 
 export function makeEnvelope(state: GameState, saveCounter: number, savedAt: number): SaveEnvelope {
-  return { app: APP_ID, schemaVersion: SCHEMA_VERSION, saveCounter, savedAt, state };
+  return {
+    app: APP_ID,
+    schemaVersion: SCHEMA_VERSION,
+    generation: APP_GENERATION,
+    saveCounter,
+    savedAt,
+    state,
+  };
 }
 
 export function encodeEnvelope(env: SaveEnvelope): string {

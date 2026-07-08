@@ -81,6 +81,7 @@
 | withdraw | instant | — | — |
 | move_to | timed | 6s | 2s |
 | ascend | instant | — | — |
+| advance_season | instant | — | — |
 
 ## Estate map (spatial spine — D-093)
 
@@ -192,10 +193,12 @@ Rice is a REAL resource with three uses, so it never dead-ends (G-NO-DEAD-VALUES
 
 | season | coin per rice |
 |---|---|
+| winter | 5 |
+| new-year | 5 |
 | spring | 6 |
 | summer | 5 |
+| bon | 5 |
 | autumn | 4 |
-| winter | 5 |
 
 ## The kura bank (carried vs banked)
 

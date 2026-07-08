@@ -6,7 +6,7 @@
 
 import type { GameState } from './state';
 import { withResource, withBanked } from './state';
-import { TICKS_PER_DAY, PHASE2_JUDGE_INTERVAL_DAYS, DAYS_PER_SEASON } from './constants';
+import { TICKS_PER_DAY, SEASONS } from './constants';
 import { revealPass } from './unlock';
 import { phaseOf } from './ranks';
 import { seasonalJudge } from './pillars';
@@ -15,13 +15,11 @@ import { applyRewards } from './rewards';
 import { riceSpoilage } from './content/balance';
 
 function onReckoning(state: GameState): GameState {
-  // The periodic judged-appraisal (M2·4 / ADR-049). In Phase 2 (post-R7), when the Estate pillar has
-  // reached a NEW high-water since the last judge, the reckoning pays out the 30% seasonal share
-  // (±10%) via the day-keyed `seasonal` substream — deterministic, no cursor mutation. Folded ONE
-  // day at a time by singleTick, so a multi-interval jump fires each boundary's judge in turn (no
-  // pendingAppraisals counter needed, B10). CADENCE = PHASE2_JUDGE_INTERVAL_DAYS (battery #8): the
-  // 28-day season never turns inside the ~5-day T0 deed-grind, so we reckon on the shorter cadence
-  // so the judge is actually FELT before ascension.
+  // The judged-appraisal (M2·4 / ADR-049), now fired from the SEASON-EXIT pipeline (storywave
+  // G1 — the old PHASE2_JUDGE_INTERVAL_DAYS 3-day cadence is retired; seasons are manual, so
+  // the judge fires once per `advance_season`). In Phase 2 (post-R7), when the Estate pillar
+  // has reached a NEW high-water since the last judge, it pays the 30% seasonal share (±10%)
+  // via the day-keyed `seasonal` substream — deterministic, no cursor mutation.
   if (phaseOf(state) !== 2) return state;
   const r = deriveDayKeyed(state.rng.seed, 'seasonal-estate', state.clock.day);
   const { pillar, bonus } = seasonalJudge(state.influence.estate, r);
@@ -42,10 +40,11 @@ function onReckoning(state: GameState): GameState {
 }
 
 function onSeasonTurn(state: GameState): GameState {
-  // ADR-118 / build-plan §1 lever (a) — SPOILAGE. On each season boundary a fraction of ALL rice decays,
-  // CARRIED and BANKED alike (each pile floors on its own, so splitting the hoard is no dodge). This is
-  // what makes holding rice COST something — pure hoarding always bleeds, and the kura no longer
-  // out-stores the loss. Deterministic (no RNG), so it stays fold-invariant with the clock (B10).
+  // SPOILAGE (ADR-118 / ADR-163 soft-cap), now fired from the SEASON-EXIT pipeline (storywave
+  // G1 — was the auto day-boundary). A fraction of ALL rice decays, CARRIED and BANKED alike
+  // (each pile floors on its own, so splitting the hoard is no dodge) — the storage soft cap:
+  // holding rice COSTS, so net stock converges where spoilage = inflow. Deterministic (no RNG),
+  // fold-invariant with the clock (B10). (The full measured-kura-shō model is G4.5.)
   const carried = state.resources.rice ?? 0;
   const banked = state.banked.rice ?? 0;
   const lostCarried = riceSpoilage(carried);
@@ -70,23 +69,27 @@ function onSeasonTurn(state: GameState): GameState {
   });
 }
 
-function onDayRollover(state: GameState): GameState {
-  // Per-day plans fire once, in fixed order (B10). The reckoning boundary first, then the season turn.
-  let next = state;
-  if (next.clock.day > 0 && next.clock.day % PHASE2_JUDGE_INTERVAL_DAYS === 0) {
-    next = onReckoning(next);
-  }
-  if (next.clock.day > 0 && next.clock.day % DAYS_PER_SEASON === 0) {
-    next = onSeasonTurn(next);
-  }
-  return next;
+/** The season-exit pipeline (storywave G1 / ADR-153): the seasonal judge (the Phase-2 share) →
+ *  the spoilage pass → advance the wheel one step, incrementing `seasonsPassed`. Exit GATES (e.g.
+ *  Autumn's nengu — `flag nengu-reckoned`) and the per-season VN overlay scene arrive with content
+ *  (G2/G4); until then no season gates its exit and the clock readout is the turn's signal.
+ *  Instant (ADR-148): the overlay, once authored, IS the time. The seasonal judge fires ONLY here
+ *  now (post-R7 Phase 2), so a run must cross season boundaries to be reckoned before ascension. */
+export function advanceSeason(state: GameState): GameState {
+  let next = onReckoning(state);
+  next = onSeasonTurn(next);
+  const idx = SEASONS.indexOf(next.season);
+  const nextSeason = SEASONS[(idx + 1) % SEASONS.length]!;
+  return { ...next, season: nextSeason, seasonsPassed: next.seasonsPassed + 1 };
 }
 
 function singleTick(state: GameState): GameState {
+  // Day/tick advance only — there is no per-day season plan any more (seasons are MANUAL,
+  // ended by the `advance_season` intent → `advanceSeason`). The day-of-week clock still reads
+  // from `day`; the daily consumption sink lands with the measured-rice model at G4.5.
   const tickNext = state.clock.tick + 1;
   if (tickNext >= TICKS_PER_DAY) {
-    const rolled: GameState = { ...state, clock: { tick: 0, day: state.clock.day + 1 } };
-    return onDayRollover(rolled);
+    return { ...state, clock: { tick: 0, day: state.clock.day + 1 } };
   }
   return { ...state, clock: { tick: tickNext, day: state.clock.day } };
 }

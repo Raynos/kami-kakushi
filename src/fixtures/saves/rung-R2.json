@@ -1,10 +1,13 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 9,
+  "schemaVersion": 10,
+  "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 9,
+    "schemaVersion": 10,
+    "season": "winter",
+    "seasonsPassed": 0,
     "rng": {
       "seed": 20260626,
       "cursors": {

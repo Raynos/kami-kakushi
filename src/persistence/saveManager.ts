@@ -22,6 +22,9 @@ const PREMIGRATE_PREFIX = 'kk:premigrate:v';
 // FB-96 — a single "last backup" slot, OUTSIDE the rolling save ring, written just before a DEV
 // New game wipes the run. Distinct key so a backup is never clobbered by ordinary autosaves.
 const BACKUP_KEY = 'kk:save:backup';
+// ADR-161 clean break — a retired (prior-generation) save's raw bytes are preserved here,
+// untouched, so the player's pre-storywave run is recoverable/exportable after the reboot.
+const PREREBOOT_KEY = 'kk:pre-reboot-backup';
 
 function isFiniteVersion(o: unknown): o is { schemaVersion: number } {
   return (
@@ -70,6 +73,9 @@ export class SaveManager {
   private readonly crashThreshold: number;
   private readonly migrateFn: MigrateFn;
   private counter = 0;
+  /** ADR-161: set when the most recent scan retired a prior-generation save — the app reads it
+   *  after a null load to show the courteous "your old save retired" cold-open notice. */
+  private retiredOnLastScan = false;
 
   constructor(opts: SaveManagerOptions) {
     this.backends = opts.backends.filter((b) => b.available());
@@ -115,6 +121,7 @@ export class SaveManager {
 
   private async readCandidates(): Promise<Candidate[]> {
     const out: Candidate[] = [];
+    this.retiredOnLastScan = false;
     for (const b of this.backends) {
       for (let slot = 0; slot < this.ringSlots; slot++) {
         const raw = await b.get(this.slotKey(slot));
@@ -127,7 +134,16 @@ export class SaveManager {
         }
         const fromVersion = isFiniteVersion(parsed) ? parsed.schemaVersion : SCHEMA_VERSION;
         const v = validateEnvelope(parsed, { migrate: this.migrateFn });
-        if (!v.ok) continue; // foreign / structurally-broken → rejected to recovery
+        if (!v.ok) {
+          // ADR-161 clean break: a RETIRED (prior-generation) blob is not a load candidate — back
+          // its raw bytes up untouched (recoverable after the reboot), then boot fresh. Foreign /
+          // structurally-broken blobs just drop to recovery as before.
+          if (v.retired) {
+            this.retiredOnLastScan = true;
+            await this.backupReboot(raw);
+          }
+          continue;
+        }
         const env = parsed as Partial<SaveEnvelope>;
         out.push({
           state: v.state,
@@ -159,6 +175,12 @@ export class SaveManager {
     return { ...winner, safeMode };
   }
 
+  /** ADR-161: did the most recent load()/scan RETIRE a prior-generation save (clean break)? The
+   *  app checks this after a null load to show the courteous cold-open retirement notice. */
+  wasRetiredOnLoad(): boolean {
+    return this.retiredOnLastScan;
+  }
+
   /** Roll back to the newest-but-one distinct save (skip a poisoned newest) — safe-mode path. */
   async loadRollback(): Promise<LoadResult | null> {
     const candidates = await this.readCandidates();
@@ -174,6 +196,13 @@ export class SaveManager {
   private async backupRaw(fromVersion: number, raw: string): Promise<void> {
     const key = `${PREMIGRATE_PREFIX}${fromVersion}`;
     await Promise.all(this.backends.map((b) => b.set(key, raw).catch(() => undefined)));
+  }
+
+  /** ADR-161 clean break: preserve a retired (prior-generation) save's raw bytes under the
+   *  reboot-backup key so the player's old run survives the reboot (recoverable/exportable),
+   *  never silently destroyed. Best-effort across backends. */
+  private async backupReboot(raw: string): Promise<void> {
+    await Promise.all(this.backends.map((b) => b.set(PREREBOOT_KEY, raw).catch(() => undefined)));
   }
 
   // ── FB-96 backup slot: snapshot-before-wipe safety net for the DEV New game button ──

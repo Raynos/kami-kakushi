@@ -14,7 +14,7 @@ import { createRng } from './rng';
 import { clamp } from './math';
 import type { LogState } from './log';
 import { emptyLog } from './log';
-import { SCHEMA_VERSION } from './constants';
+import { SCHEMA_VERSION, type Season } from './constants';
 import {
   HP_BASE,
   HP_PER_LEVEL,
@@ -105,6 +105,12 @@ export interface GameState {
   readonly schemaVersion: number;
   readonly rng: Rng;
   readonly clock: Clock;
+  /** The current season — STORED, MANUAL state (storywave G1 / ADR-153): a container the
+   *  player ends with the `advance_season` intent, never derived from the day. */
+  readonly season: Season;
+  /** Count of season boundaries crossed (one per `advance_season`). `year()` derives from it;
+   *  the seasonal judge + spoilage fire once per increment (the exit pipeline). */
+  readonly seasonsPassed: number;
   readonly character: Character;
   /** Carried wealth — on you, at RISK on a lost fight (ADR-076 / batch-2 call 7). */
   readonly resources: Readonly<Record<ResourceId, number>>;
@@ -190,8 +196,9 @@ export interface GameState {
   readonly stance: StanceId;
 
   // ── the tier spine (T0-M3+, additive; SCHEMA_VERSION 2) ──
-  /** Current tier 0..5 (Estate-tut → Estate → Village → Region → Castle-town → Edo, ADR-048).
-   *  Stored, bumped by the manual opt-in ascension; v1 ships T0→T3 (D-013a). */
+  /** Current tier 0..6 (the seven-tier bible spine, ADR-150/ADR-152; enum widened from 0..5
+   *  by the storywave rewrite — T1+ content is unaffected). Stored, bumped by the manual
+   *  opt-in ascension. */
   readonly tier: number;
   /** House-Influence pillar accrual (Phase-2-gated; the macro engine, ADR-049/ADR-055). */
   readonly influence: Influence;
@@ -200,6 +207,10 @@ export interface GameState {
 export function createInitialState(seed: number): GameState {
   return {
     schemaVersion: SCHEMA_VERSION,
+    // The wheel opens on Winter (bible 05-world: Winter → New Year → Spring → Summer →
+    // Bon → Autumn); the arc runs a full lived year, R7 gating on Autumn's nengu.
+    season: 'winter',
+    seasonsPassed: 0,
     rng: createRng(seed),
     clock: { tick: 0, day: 0 },
     character: {

@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest';
 import {
   createInitialState,
   reduce,
-  advanceClock,
   gradeOf,
   perDeedCap,
   accrueDeed,
@@ -12,8 +11,7 @@ import {
   seasonalJudge,
   estateGrade,
   balance,
-  DAYS_PER_SEASON,
-  TICKS_PER_DAY,
+  advanceSeason,
   type GameState,
   type EstateDeedSource,
   ESTATE_STAGES,
@@ -116,20 +114,20 @@ describe('seasonal judge — new high-water, the 70/30 share, ±10% (M2·3/M2·4
   });
 });
 
-describe('the seasonal judge is wired into the clock (M2·4)', () => {
-  const SEASON_TICKS = DAYS_PER_SEASON * TICKS_PER_DAY;
+describe('the seasonal judge fires on the season-exit pipeline (M2·4, storywave G1)', () => {
   const pending = { estate: { value: 100, highWater: 100, judged: 0 } }; // a new high-water awaiting judge
 
-  it('fires at a season boundary in Phase 2 and advances the judged baseline', () => {
+  it('fires on advance_season in Phase 2 and advances the judged baseline', () => {
     const s0: GameState = { ...atPhase2(), influence: pending };
-    const s1 = advanceClock(s0, SEASON_TICKS); // → day 28, a season boundary
+    const s1 = advanceSeason(s0); // end the season → the exit pipeline reckons
     expect(s1.influence.estate.value).toBeGreaterThan(100); // the season paid out the 30% share
     expect(s1.influence.estate.judged).toBe(s1.influence.estate.highWater); // baseline = POST-bonus HW
+    expect(s1.seasonsPassed).toBe(s0.seasonsPassed + 1); // the wheel actually turned
   });
 
   it('does NOT fire in Phase 1 (pre-capstone)', () => {
     const s0: GameState = { ...createInitialState(1), influence: pending };
-    const s1 = advanceClock(s0, SEASON_TICKS);
+    const s1 = advanceSeason(s0);
     expect(s1.influence.estate.value).toBe(100); // no judge before Phase 2
     expect(s1.influence.estate.judged).toBe(0);
   });

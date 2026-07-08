@@ -21,7 +21,7 @@ import {
   mcCombatStats,
   hpMax,
   RANKS,
-  DAYS_PER_SEASON,
+  SEASONS,
   TICKS_PER_DAY,
   type GameState,
   type Intent,
@@ -398,12 +398,14 @@ describe('soft stamina + season', () => {
     expect(tiredRice).toBeLessThanOrEqual(freshRice);
   });
 
-  it('the clock turns seasons deterministically', () => {
+  it('the season is stored and turns ONLY by advance_season (the six-season wheel)', () => {
     const s = createInitialState(1);
-    expect(season(s)).toBe('spring');
-    // two seasons on — derived from the SOURCE constants (ADR-086; the old copied
-    // 28*24 magic broke silently when FB-172 slowed the calendar 24×).
-    expect(season(tick(s, DAYS_PER_SEASON * TICKS_PER_DAY * 2))).toBe('autumn');
+    expect(season(s)).toBe('winter'); // the wheel opens on Winter (storywave G1 / ADR-153)
+    // MANUAL now: a plain tick never moves the wheel (the old day-derived season is retired).
+    expect(season(tick(s, TICKS_PER_DAY * 5))).toBe('winter');
+    // two turns on: Winter → New Year → Spring — the next season derived from SEASONS, not a copied index.
+    const twoOn = reduce(reduce(s, { type: 'advance_season' }), { type: 'advance_season' });
+    expect(season(twoOn)).toBe(SEASONS[2]); // 'spring'
   });
 });
 

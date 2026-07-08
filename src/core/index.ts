@@ -89,7 +89,7 @@ export {
   cheapestEligibleGlobal,
 } from './autoplay';
 
-export { tick, advanceClock } from './step';
+export { tick, advanceClock, advanceSeason } from './step';
 
 // ── progression (M1) ──
 export {
@@ -318,11 +318,11 @@ export {
 export {
   APP_ID,
   SCHEMA_VERSION,
+  APP_GENERATION,
   LOG_EPHEMERAL_MAX,
   LOG_MAX_IDENTICAL_RUN,
   TICKS_PER_DAY,
   DAYS_PER_WEEK,
-  DAYS_PER_SEASON,
   SEASONS,
   LUNAR_PERIOD_DAYS,
 } from './constants';

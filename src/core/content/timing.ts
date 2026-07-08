@@ -114,6 +114,7 @@ export const INTENT_TIMING: Readonly<Record<IntentType, ActionTiming>> = {
   withdraw: INSTANT, // trade is instant (ADR-148)
   move_to: timed(TRAVEL_SEED_MS), // Phase 3 replaces with per-edge walk seconds
   ascend: INSTANT, // the ascension ceremony owns its own theater (ADR-062)
+  advance_season: INSTANT, // storywave G1: instant dispatch — the VN overlay IS the time (ADR-148)
 };
 
 /** The one lookup the shell clock (Phase 2) and the sim consume: intent → timing.

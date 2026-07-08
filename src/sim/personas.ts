@@ -86,6 +86,7 @@ export const ALL_INTENTS = {
   withdraw: true,
   move_to: true,
   ascend: true,
+  advance_season: true,
 } satisfies Record<IntentType, true>;
 
 export const ALL_INTENT_TYPES = Object.keys(ALL_INTENTS) as IntentType[];

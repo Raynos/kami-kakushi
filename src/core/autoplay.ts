@@ -39,6 +39,12 @@ import { RUNG_BEATS } from './content/rungBeats';
  *  without spamming zero-clock transactions. */
 const PHASE2_SELL_RICE_AT = 20;
 
+/** storywave G1 player-model knob (NOT canon): the amount of UNJUDGED Estate growth (koku) the
+ *  focused-optimal steward lets bank before ENDING the season to collect the seasonal share. Sized
+ *  well above the 0-bonus floor so the reckoning always pays (never a no-op loop, since
+ *  `advance_season` is instant) and the deed-grind is never starved. */
+const PHASE2_SEASON_COLLECT_KOKU = 20;
+
 /** BFS the REVEALED map graph for the first hop from `from` toward `to` (null if here/unreachable).
  *  The focused-optimal path uses this to WALK to a labour's node before working it. */
 export function nextHopToward(
@@ -304,6 +310,14 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
     // (2) the rice lever: sell a worthwhile pile (PHASE2_SELL_RICE_AT is a player-model knob
     //     like GREEDY_MEND_HP_FRAC — what a sensible steward batches, never canon).
     if ((s.resources.rice ?? 0) >= PHASE2_SELL_RICE_AT) return { type: 'sell_rice' };
+    // (2b) collect the seasonal share (storywave G1): seasons are MANUAL now, so the judge no
+    //      longer auto-fires — the steward ENDS the season to reckon it once a WORTHWHILE amount of
+    //      unjudged Estate growth has banked (so the reckoning always pays a real bonus — never a
+    //      0-bonus no-op loop, since advance_season is instant — and the deed-grind is never
+    //      starved). Rice is sold first (above), so the spoilage riding the turn bites little.
+    if (s.influence.estate.highWater - s.influence.estate.judged >= PHASE2_SEASON_COLLECT_KOKU) {
+      return { type: 'advance_season' };
+    }
     // (3) rotate the estate-relevant earners — fields on even days, stores on odd.
     const rotated = s.clock.day % 2 === 0 ? 'farm_paddy' : 'haul_stores';
     const go =

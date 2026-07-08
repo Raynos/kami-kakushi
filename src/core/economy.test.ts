@@ -19,9 +19,8 @@ import {
   MAX_ESTATE_STAGE,
   ESTATE_STAGES,
   MARKET_ITEMS,
-  DAYS_PER_SEASON,
-  TICKS_PER_DAY,
   SEASONS,
+  type Season,
   tick,
   balance,
   introActive,
@@ -468,18 +467,18 @@ describe('v0.3.1 Step 4 — coin sinks tighten the economy (D-086 scarcity / cal
 // fixture derives from the balance source of truth (riceSellPrice / EAT_RICE_* / LOSS_COIN_FRAC),
 // never a copied magic number, and each assertion could go RED against the split. ──
 describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
-  function seller(rice: number, day = 0): GameState {
+  function seller(rice: number, seas: Season = 'spring'): GameState {
     const s = createInitialState(1);
     return {
       ...s,
-      clock: { ...s.clock, day },
+      season: seas, // season is STORED now (storywave G1), not derived from the day
       resources: { ...s.resources, rice },
       unlocked: [...s.unlocked, 'panel-estate'],
     };
   }
 
   it('converts ALL carried rice to coin at the current season price (rice → coin)', () => {
-    const s = seller(20); // day 0 → spring
+    const s = seller(20); // season 'spring'
     expect(season(s)).toBe('spring');
     const price = balance.riceSellPrice('spring');
     const after = reduce(s, { type: 'sell_rice' });
@@ -496,10 +495,9 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
 
   it('the SAME rice earns MORE selling in dear spring than at the cheap autumn glut (the timing call)', () => {
     const rice = 30;
-    const springCoin = reduce(seller(rice, 0), { type: 'sell_rice' }).resources.coin ?? 0;
-    // day = 2·DAYS_PER_SEASON lands in autumn (spring, summer, AUTUMN, winter) — SAME rice, different coin.
-    const autumnCoin =
-      reduce(seller(rice, 2 * DAYS_PER_SEASON), { type: 'sell_rice' }).resources.coin ?? 0;
+    const springCoin = reduce(seller(rice, 'spring'), { type: 'sell_rice' }).resources.coin ?? 0;
+    // the SAME rice, sold in a DIFFERENT stored season — the timing choice the swing creates.
+    const autumnCoin = reduce(seller(rice, 'autumn'), { type: 'sell_rice' }).resources.coin ?? 0;
     expect(springCoin).toBe(rice * balance.riceSellPrice('spring'));
     expect(autumnCoin).toBe(rice * balance.riceSellPrice('autumn'));
     expect(springCoin).toBeGreaterThan(autumnCoin); // the swing is real ⇒ store-or-sell is a choice
@@ -627,35 +625,34 @@ describe('D-107 Phase 2 — the kura shelters RICE beside coin (deposit/withdraw
   });
 });
 
-describe('D-118 §1a — rice SPOILS on a season turn, carried AND banked (holding costs something)', () => {
-  // Park the clock one tick short of a season boundary, then advance ONE tick across it so exactly
-  // one season turn fires. Fixtures derive the loss from riceSpoilage (source of truth), so a broken
-  // or missing spoilage step flips these RED (against the old free/lossless kura).
-  function eveOfSeason(carried: number, banked: number): GameState {
+describe('D-118 §1a — rice SPOILS on advance_season, carried AND banked (holding costs something)', () => {
+  // Storywave G1: seasons are MANUAL now, so spoilage fires in the season-EXIT pipeline
+  // (`advance_season`), not on a day boundary. Fixtures derive the loss from riceSpoilage (source
+  // of truth), so a broken or missing spoilage step flips these RED (against the old lossless kura).
+  function withRice(carried: number, banked: number): GameState {
     const s = createInitialState(1);
     return {
       ...s,
-      // last tick of the last day of season 0 → the next tick rolls day → DAYS_PER_SEASON (a turn).
-      clock: { tick: TICKS_PER_DAY - 1, day: DAYS_PER_SEASON - 1 },
       resources: { ...s.resources, rice: carried },
       banked: { ...s.banked, rice: banked },
     };
   }
 
-  it('a season turn decays BOTH piles by exactly riceSpoilage(each), leaving the rest', () => {
+  it('advance_season decays BOTH piles by exactly riceSpoilage(each), leaving the rest', () => {
     const carried = 100;
     const banked = 200;
-    const after = tick(eveOfSeason(carried, banked), 1); // cross exactly one season boundary
+    const after = reduce(withRice(carried, banked), { type: 'advance_season' });
     expect(after.resources.rice).toBe(carried - balance.riceSpoilage(carried));
     expect(after.banked.rice).toBe(banked - balance.riceSpoilage(banked));
     // the LEVER is a real bleed on a hoard (source-of-truth fraction > 0 for these piles).
     expect(balance.riceSpoilage(carried)).toBeGreaterThan(0);
     expect(balance.riceSpoilage(banked)).toBeGreaterThan(0);
+    // and the wheel actually turned (the pipeline ran, not just the spoilage step).
+    expect(after.seasonsPassed).toBe(1);
   });
 
-  it('mid-season (no boundary crossed) spoils nothing — the cost is per-season, not per-tick', () => {
-    const s = { ...eveOfSeason(100, 200), clock: { tick: 0, day: 1 } }; // deep inside season 0
-    const after = tick(s, 1);
+  it('a plain clock tick spoils nothing — the cost is per season-turn, not per-tick', () => {
+    const after = tick(withRice(100, 200), 1);
     expect(after.resources.rice).toBe(100);
     expect(after.banked.rice).toBe(200);
   });

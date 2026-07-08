@@ -4,11 +4,13 @@
 // rejected to recovery (Q46). Re-asserting up-only / trade-≤⅓ lands additively once
 // pillars exist (M3+); the M0 shape is validated structurally here.
 
-import type { GameState, StanceId, AttrId } from '../core';
+import type { GameState, StanceId, AttrId, Season } from '../core';
 import type { RankId } from '../core';
 import {
   APP_ID,
   SCHEMA_VERSION,
+  APP_GENERATION,
+  SEASONS,
   MAP_NODE_IDS,
   ATTR_IDS,
   ATTR_BASE,
@@ -20,7 +22,9 @@ import { migrate, type MigrateFn } from './migrate';
 
 export type ValidateResult =
   | { ok: true; state: GameState; coerced: boolean; migrated: boolean }
-  | { ok: false; reason: string };
+  /** `retired: true` marks a blob from a PRIOR app generation (ADR-161 clean break) — not a
+   *  corruption; saveManager backs it up and boots fresh with a courteous notice, never a crash. */
+  | { ok: false; reason: string; retired?: boolean };
 
 function isObject(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null;
@@ -60,6 +64,12 @@ function validateInfluence(v: unknown): GameState['influence'] {
 export function validateEnvelope(raw: unknown, opts?: { migrate?: MigrateFn }): ValidateResult {
   if (!isObject(raw)) return { ok: false, reason: 'not-an-object' };
   if (raw.app !== APP_ID) return { ok: false, reason: 'foreign-or-missing-app-id' };
+  // ── clean-break generation gate (ADR-161, storywave): a blob from a PRIOR generation — or one
+  //    with NO `generation` field at all (every pre-storywave save) — RETIRES. It is not migrated
+  //    and never crashes: the caller backs it up and boots fresh with a courteous notice (TST2). ──
+  const generation = typeof raw.generation === 'number' ? raw.generation : 1;
+  if (generation < APP_GENERATION)
+    return { ok: false, reason: 'retired-generation', retired: true };
   if (typeof raw.schemaVersion !== 'number') return { ok: false, reason: 'missing-schema-version' };
   if (raw.schemaVersion > SCHEMA_VERSION) return { ok: false, reason: 'from-a-newer-version' };
   // ── migration safety net (PRD §6.8.2): bring an OLD save's state to current schema
@@ -170,6 +180,8 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'schemaVersion'
     | 'rng'
     | 'clock'
+    | 'season'
+    | 'seasonsPassed'
     | 'character'
     | 'resources'
     | 'banked'
@@ -210,6 +222,14 @@ export function validateState(rawState: unknown): ValidateResult {
     schemaVersion: SCHEMA_VERSION,
     rng: rng as unknown as GameState['rng'],
     clock: { tick: clock.tick, day: clock.day },
+    // ── the six-season MANUAL calendar (v10, storywave G1). A clean-break v10 save always
+    // carries them; still default safely (unknown season → the wheel's start; bad count → 0).
+    season:
+      typeof base.season === 'string' && (SEASONS as readonly string[]).includes(base.season)
+        ? (base.season as Season)
+        : 'winter',
+    seasonsPassed:
+      typeof base.seasonsPassed === 'number' ? Math.max(0, Math.floor(base.seasonsPassed)) : 0,
     character: validatedCharacter,
     resources: rawState.resources as GameState['resources'],
     // additive (batch-2 call 7): the kura storehouse. Absent in any pre-bank save → empty (all

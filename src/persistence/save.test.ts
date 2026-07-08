@@ -1,7 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { createInitialState, reduce, baseAttrs, SCHEMA_VERSION, type GameState } from '../core';
+import {
+  createInitialState,
+  reduce,
+  baseAttrs,
+  SCHEMA_VERSION,
+  APP_GENERATION,
+  type GameState,
+} from '../core';
 import { SaveManager, MemoryBackend, createMemorySaveManager } from './index';
-import { migrate } from './migrate';
 
 function sample(seed = 7): GameState {
   return reduce(reduce(createInitialState(seed), { type: 'open_eyes' }), { type: 'rake_rice' });
@@ -147,28 +153,23 @@ describe('multi-backend redundant save', () => {
 });
 
 describe('migration wiring + pre-migration backup', () => {
-  it('migrates an older save on load, flags it, and keeps a raw backup', async () => {
+  it('RETIRES a prior-generation save on load: fresh boot + a reboot backup kept (ADR-161)', async () => {
     const backend = new MemoryBackend();
-    // a v0 envelope whose inner state is missing a field the fake migration repairs
+    // a pre-storywave blob — no `generation` field at all. The clean break RETIRES it: it is not
+    // migrated, the game boots fresh (load → null, never a crash), and the raw bytes are preserved.
     const old = {
       app: 'kami-kakushi',
-      schemaVersion: 0,
+      schemaVersion: 9,
       saveCounter: 1,
       savedAt: 1,
-      state: { ...sample(), schemaVersion: 0 },
+      state: { ...sample(), schemaVersion: 9 },
     };
     await backend.set('kk:save:1', JSON.stringify(old));
-    const fakeMigrate = (st: unknown, from: number): unknown =>
-      migrate(st, from, SCHEMA_VERSION, {
-        0: (s: unknown) => ({ ...(s as object), estateStage: 0 }),
-      });
-    const mgr = new SaveManager({ backends: [backend], now: () => 9, migrate: fakeMigrate });
+    const mgr = createMemorySaveManager([backend], () => 9);
     const loaded = await mgr.load();
-    expect(loaded).not.toBeNull();
-    expect(loaded!.migrated).toBe(true);
-    expect(loaded!.coerced).toBe(true);
-    expect(loaded!.state.schemaVersion).toBe(SCHEMA_VERSION); // footgun closed
-    expect(await backend.get('kk:premigrate:v0')).toBe(JSON.stringify(old)); // raw backup kept
+    expect(loaded).toBeNull(); // not loaded → boot fresh (the courteous notice replaces a crash)
+    // the player's old run survives the reboot, recoverable/exportable, untouched
+    expect(await backend.get('kk:pre-reboot-backup')).toBe(JSON.stringify(old));
   });
 
   it('clamps a corrupt `location` to the kura on load (a bad node id would crash the renderer)', async () => {
@@ -179,6 +180,7 @@ describe('migration wiring + pre-migration backup', () => {
       JSON.stringify({
         app: 'kami-kakushi',
         schemaVersion: SCHEMA_VERSION,
+        generation: APP_GENERATION,
         saveCounter: 1,
         savedAt: 1,
         state: { ...sample(), location: 'no-such-node' },
@@ -209,6 +211,7 @@ describe('migration wiring + pre-migration backup', () => {
       JSON.stringify({
         app: 'kami-kakushi',
         schemaVersion: SCHEMA_VERSION,
+        generation: APP_GENERATION,
         saveCounter: 1,
         savedAt: 1,
         state: bad,
@@ -236,6 +239,7 @@ describe('migration wiring + pre-migration backup', () => {
       JSON.stringify({
         app: 'kami-kakushi',
         schemaVersion: SCHEMA_VERSION,
+        generation: APP_GENERATION,
         saveCounter: 1,
         savedAt: 1,
         state: legacy,

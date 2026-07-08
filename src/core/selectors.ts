@@ -23,13 +23,7 @@ import {
   homeHasCookLocus,
   type BelongingDef,
 } from './content/home';
-import {
-  DAYS_PER_SEASON,
-  DAYS_PER_WEEK,
-  SEASONS,
-  LUNAR_PERIOD_DAYS,
-  type Season,
-} from './constants';
+import { DAYS_PER_WEEK, SEASONS, LUNAR_PERIOD_DAYS, type Season } from './constants';
 import { clamp } from './math';
 import { ACTIVITIES, type ActivityDef } from './content/activities';
 import { PEOPLE, type NodePerson } from './content/people';
@@ -119,19 +113,20 @@ export function satietyMax(state: GameState): number {
   );
 }
 
-/** Season derived from the absolute day — never stored (D-Q6). */
+/** The current season — STORED, MANUAL state (storywave G1): a season is a container the
+ *  player ends with `advance_season`, never derived from the day. */
 export function season(state: GameState): Season {
-  const idx = Math.floor(state.clock.day / DAYS_PER_SEASON) % SEASONS.length;
-  return SEASONS[idx]!;
+  return state.season;
 }
 
 export function week(state: GameState): number {
   return Math.floor(state.clock.day / DAYS_PER_WEEK);
 }
 
-/** Year (1-based) derived from the absolute day. */
+/** Year (1-based) — derived from the count of season boundaries crossed (one full wheel = a
+ *  year). The month/year counter stays HIDDEN in T0 (bible); this is for internal cadence. */
 export function year(state: GameState): number {
-  return 1 + Math.floor(state.clock.day / (DAYS_PER_SEASON * SEASONS.length));
+  return 1 + Math.floor(state.seasonsPassed / SEASONS.length);
 }
 
 /** Continuous lunar phase in [0,1) — a real ~29.53d ephemeris, not a per-day roll (D-Q6). */

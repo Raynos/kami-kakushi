@@ -17,7 +17,7 @@ import {
 import { applyRewards } from './rewards';
 import { revealPass } from './unlock';
 import { discoveryPass } from './discovery';
-import { advanceClock } from './step';
+import { advanceClock, advanceSeason } from './step';
 import { clamp } from './math';
 import {
   satietyMax,
@@ -113,6 +113,7 @@ export type Intent =
   | { type: 'cook_meal' }
   | { type: 'eat_rice' } // rice → satiety (ADR-107 Phase 2 — the plain-rice food path)
   | { type: 'sell_rice' } // rice → coin at the season price (ADR-107 Phase 2 — the coin faucet)
+  | { type: 'advance_season' } // storywave G1: end the season (the manual six-season wheel)
   | { type: 'improve_estate' }
   | { type: 'spend_attribute'; attr: AttrId }
   | { type: 'craft_weapon'; recipeId: string }
@@ -964,6 +965,13 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // ADR-146 — arriving can stumble onto a hidden discovery (the seeded visit roll; a no-op
       // when this node has no visit-triggered discovery).
       next = discoveryPass(next, { kind: 'visit' });
+      break;
+    }
+    case 'advance_season': {
+      // storywave G1: end the current season — run the exit pipeline (the seasonal judge →
+      // the spoilage pass → advance the six-season wheel, incrementing seasonsPassed). Instant
+      // (ADR-148); exit GATES (Autumn's nengu) + the per-season VN overlay arrive with content (G4).
+      next = advanceSeason(next);
       break;
     }
     case 'ascend': {
