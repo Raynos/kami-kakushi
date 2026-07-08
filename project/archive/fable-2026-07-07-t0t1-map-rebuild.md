@@ -11,7 +11,9 @@ dominate; drawing code is mechanical once the spec exists.
 the work is spec-driven composition against a written rubric with an
 automated verification loop (blind-describe agents), which bounds the
 judgment risk; no engine/core surface is touched (DEV fold only).
-**The spec/corpus:** [`fable-2026-07-07-t0t1-map-spec.md`](fable-2026-07-07-t0t1-map-spec.md).
+**The spec/corpus:** [`docs/guides/map-spec.md`](../../docs/guides/map-spec.md)
+(graduated from `docs/plans/fable-2026-07-07-t0t1-map-spec.md` to a
+living guide, 2026-07-08).
 
 The human steer (2026-07-07): audit the two DEV reference maps
 (`dev-t0v2-map.ts` — T0 V2 + T1) against the story-bible world vision via

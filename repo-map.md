@@ -16,9 +16,11 @@ always-loaded context while being editable on its own.
   written to resolve from both places).
 - [`docs/guides/`](docs/guides) — **how-to guides** (living, but process not
   canon): [qa-playtesting.md](docs/guides/qa-playtesting.md) (how Claude
-  play-tests — harness, MCP tools, balance flows) and
-  [sfx-spec.md](docs/guides/sfx-spec.md) (the audio contract). Moved out of
-  `docs/living/` 2026-07-07 so living holds only core canon.
+  play-tests — harness, MCP tools, balance flows),
+  [sfx-spec.md](docs/guides/sfx-spec.md) (the audio contract), and
+  [map-spec.md](docs/guides/map-spec.md) (the T0/T1 map-sheet spec + the
+  standing blind-pass rubric; graduated from `docs/plans/` 2026-07-08).
+  Moved out of `docs/living/` 2026-07-07 so living holds only core canon.
 - [`project/status/`](project/status) — **live operational state** + **live
   trackers** (mutable, edited in place; this is where a checkbox tracker
   belongs, **not** `docs/plans/`, which is pre-canon proposals):

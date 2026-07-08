@@ -1,17 +1,20 @@
-# The T0 & T1 map sheets — baseline spec (the verification corpus)
+# The map-sheet spec — the T0 & T1 sheets + the blind-pass rubric
 
-**Status:** LOCKED — v1 authored 2026-07-07; the rebuild it gated is DONE
-(HR-12 ✅, ADR-151); this doc stays live as the standing blind-pass rubric.
-**Confidence:** ( 40% Opus, 60% Fable ) — visual judgment + canon fidelity
-concentrate here; the drawing code itself is mechanical once specified.
-**Companion plan:** [`fable-2026-07-07-t0t1-map-rebuild.md`](../../project/archive/fable-2026-07-07-t0t1-map-rebuild.md)
-(the audit findings + build steps). THIS file is the *what*: a
-super-detailed description of what the T0 and T1 DEV review maps should
-depict, derived from the story bible
+**A living guide** (process, not canon — edited in place as the sheets
+evolve; new tiers add their sections here). It graduated from
+`docs/plans/` on 2026-07-08, once the rebuild it gated landed (HR-12 ✅,
+ADR-149/151); the build history — audit findings + build steps — is
+[`fable-2026-07-07-t0t1-map-rebuild.md`](../../project/archive/fable-2026-07-07-t0t1-map-rebuild.md)
+in the archive.
+
+THIS file is the *what*: a super-detailed description of what the T0 and
+T1 map sheets depict, derived from the story bible
 ([`05-world.md`](../story-bible/05-world.md) ·
 [`tiers/t0.md`](../story-bible/tiers/t0.md) ·
 [`tiers/t1.md`](../story-bible/tiers/t1.md) ·
-[`02-house.md`](../story-bible/02-house.md)). It is the **corpus** for the
+[`02-house.md`](../story-bible/02-house.md)). The bible stays the single
+home of world canon — where this doc and the bible disagree, the bible
+wins and this doc gets fixed. This doc is the **corpus** for the
 verification loop: screenshot → blind independent description → judge the
 description against §5's rubric. A map change that makes a rubric line
 recoverable by a cold reader is progress; one that doesn't is decoration.
@@ -177,8 +180,9 @@ keep their exact places. What T1 adds or transforms:
 
 The sheet is an **aizuri-night survey**: a lamplit estate map drawn in
 silver-ink and gold on deep indigo-steel, fully committed — atmosphere
-earned by rendering, not by darkness. (The warm-washi alternative is
-surfaced to the human as a fork; see the plan.) All colour stays on the
+earned by rendering, not by darkness. (The warm-washi alternative was
+built A/B, reviewed live, and REJECTED by the human — night-indigo is the
+locked substrate; ADR-149 as amended.) All colour stays on the
 Andon Steel tokens (ui-design.md §2): steel grounds, ink ramp, silver =
 drawn state, gold = built/worked structure, shu = the reviser's red only.
 
@@ -232,7 +236,7 @@ drawn state, gold = built/worked structure, shu = the reviser's red only.
 ## §4 · Code shape (the primitives contract)
 
 No inline one-off drawing in sheet composition. The toolkit lives in
-`src/ui/map-sheets/` (DEV-fold): `brush.ts` (seeded rng, scrawl, tapered
+`src/ui/map-sheets/` (player-bound — ADR-151): `brush.ts` (seeded rng, scrawl, tapered
 brushStroke, stipple, hatch, waveComb) · `terrain.ts` (hillRange,
 hachureBand, groundWash) · `water.ts` (river, pool, weirBar, channel,
 flowTicks, bridge) · `fields.ts` (paddyBlock, terraceRun, ghostBunds,
@@ -243,9 +247,16 @@ stableRange) · `furniture.ts` (cartouche, legend, scaleBar, northArrow,
 border, foldCreases, distanceNote) · `layout.ts` (the ONE master
 geography: every anchor in shared world units + the T0 window) ·
 `t0-sheet.ts` / `t1-sheet.ts` (thin compositions: layout data → primitive
-calls). The modal shell (pan/zoom/roster/detail/night-rail) is extracted
-and shared. Zone roster/detail data carries over verbatim from
-`dev-t0v2-map.ts` (it is bible-distilled and correct).
+calls). Grown since the rebuild landed: `ground.ts` (the L1 wash bands +
+the life scatter) · `sheet.ts` (the shared shell — pan/zoom/pinch,
+roster, detail, night-rail, the LOD gate, the caption pass) · `nodes.ts`
+(zone roster/detail data, bible-distilled, + the `RUNG_LADDER`
+placeholder) · `reveal.ts` (the ADR-151 rung-reveal fog: unsurveyed
+paper, 未 ghost chips, rumor notes). The look is FROZEN by the golden pin
+(`golden.test.ts` hashes both grounds into `golden.hash.json`; an
+intentional visual change regenerates it with `UPDATE_MAP_GOLDEN=1`,
+committed WITH the change) — every refactor proves itself look-neutral
+against the pin.
 
 ## §5 · The blind-reader rubric (the pass bar)
 
@@ -293,6 +304,6 @@ must-say (fail the iteration if missed) · **S** = should-say.
 - R18 **S** — the charcoal clamp/woodlot economy east; the straight
   burn-line edge in the forest.
 
-Iteration loop: capture (tmp/map-audit-shots.mjs) → one fresh
+Iteration loop: capture (`src/scripts/map-audit-shots.mjs`) → one fresh
 blind-describe agent per sheet → a judge agent scores THIS rubric →
 fix the misses → repeat until all **M** pass and ≥ half of **S**.
