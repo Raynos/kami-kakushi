@@ -1,9 +1,12 @@
 # Novel graphics directions — 15 candidates (post-map-success)
 
-**Status: ✅ TRIAGED (grill session, 2026-07-08) — 7 explore · 5 park
-(→ BACKLOG) · 3 pass. Verdicts + the human's redlines live in "Triage
-verdicts" below; the explore slate in "Outcome". Nothing is engaged as
-build yet — each exploration starts spec-first when the human pulls it.**
+**Status: ✅ TRIAGED & GRADUATED (2026-07-08) — this file is now the
+HISTORY (pitches + the human's verbatim verdicts). The live slate
+register is [`docs/living/graphics-concepts.md`](../../docs/living/graphics-concepts.md)
+(active top 3: estate cutaway #5 · scene-card cold-open pilot #12 ·
+progression menu #8+#10; SOON shelf #4/#6/#15; WHILE shelf
+#2/#3/#7/#9/#13; passes #1/#11/#14). The active explorations' sequenced
+plan: [`docs/plans/fable-2026-07-08-graphics-explorations.md`](../../docs/plans/fable-2026-07-08-graphics-explorations.md).**
 Authored 2026-07-08 after the T2 map blind-pass landed. The ask: given the
 map-sheets system's success, what ELSE in the game could carry novel,
 built-together graphics — without ever sliding into AI-slop imagery?
@@ -190,9 +193,9 @@ redlines, one strategy family at a time. Checkpointed after every round.
 | 1 | Kaō signatures | ❌ PASS | "Not interesting to the game, not a graphics quality improvement — a little signature that shows up but I don't really know where; I just don't think it will add much." |
 | 2 | Kamon crests | 🅿️ PARK | "Could be cool, but again I don't know which UI element in the game would have this kamon crest." Trigger: a surface that needs faction/house identity (T4 map, faction UI). |
 | 3 | Hanko generator | 🅿️ PARK | "I don't know which UI element in the game design would show this seal — not that many people are signing things." Trigger: a document surface (#7) existing first. |
-| 4 | Bestiary plates | ✅ EXPLORE | Home confirmed: the Combat-tab Bestiary panel (HR-5) — the plate is the panel's body. |
+| 4 | Bestiary plates | 🅿️ PARK-SOON | Was explore; re-ruled in the same-day R0–R1 pass: Combat tab only exists at R3, so it queues behind the top 3. Home stays confirmed: the HR-5 Bestiary panel. |
 | 5 | Estate cutaway | ✅ EXPLORE | Human chose Explore over the park rec: spec now against the bible's estate anatomy; build waits for Plan B's T0 rewrite + the HR-9 Estate pick. Home: the Estate tab's centerpiece. |
-| 6 | Family register | ✅ EXPLORE* | "Yes but again no idea where in the UI this kind of element could go." *Explore = FIND THE HOME FIRST — the exploration's first deliverable is a concrete placement proposal (Character-tab House panel was only a guess), before any drawing. |
+| 6 | Family register | 🅿️ PARK-SOON | Was explore ("yes but again no idea where in the UI this could go"); re-ruled in the R0–R1 pass: later-story by nature + still homeless. FIND THE HOME FIRST stands as the pull-forward condition — placement proposal before any drawing. |
 | 7 | Document engine | 🅿️ PARK | "Some potential, but it's going to be nuanced, and again I don't feel where it goes into the game UI." Trigger: Plan B lands deeds as inspectable objects. |
 | 8 | Stamp book | ✅ EXPLORE ❤️ | "Love this idea. Rungs & milestones and tiers are central to your progression system — a progression menu where you see your achievements and stamps and what you've collected so far." Home confirmed: a progression/record surface (Character tab or its own panel). |
 | 9 | Season wheel | 🅿️ PARK | Let Plan B ship its season surface plain first; the drawn-instrument ambition waits. |
@@ -201,7 +204,7 @@ redlines, one strategy family at a time. Checkpointed after every round.
 | 12 | VN scene cards | ✅ EXPLORE (hard) | "This is going to be really really really hard lol." — explore anyway, per the follow-up: ONE pilot scene only, spec-first, kill fast if it slops. |
 | 13 | Emakimono scroll | 🅿️ PARK | "Even fucking harder — combine multiple features into one cohesive whole and somehow not slop it." Trigger: #12's vignette grammar proving out. |
 | 14 | Combat strokes | ❌ PASS | Gesture-rendered combat is out. |
-| 15 | Item pictograms | ✅ EXPLORE ⚠️ | Explore — but the human's follow-up caveat is the spec: "The item pictograms are at risk of being slop too, I have no idea if they will be better than emojis. Emojis are also slop lol." So the pilot is an honest A/B: a 10-item contact sheet rendered BOTH ways (grammar pictograms vs current emoji), blind-passed ("name each item") AND taste-judged side by side; a legitimate outcome is "both slop, keep emoji for now" — kill without shipping. ADR-127 emoji amendment only if pictograms actually win (human call). |
+| 15 | Item pictograms | 🅿️ PARK-SOON ⚠️ | Was explore-with-a-kill-switch; re-ruled in the R0–R1 pass (Inventory is R3). The A/B design stands verbatim as the pull-forward shape: "at risk of being slop too, I have no idea if they will be better than emojis. Emojis are also slop lol" → 10-item contact sheet BOTH ways, blind-passed + taste-judged; "both slop, keep emoji" is a valid outcome; ADR-127 amendment only if pictograms win. |
 
 ### The ruling redline (round 1, human)
 
@@ -210,24 +213,29 @@ the UI is mostly buttons + a text log; an identity mark with no home adds
 nothing. Verdicts from round 2 on are taken against a named tab/surface/
 moment, not an abstract capability.
 
-### Outcome — the explore slate (6 explorations; #10 folds into #8)
+### Outcome — the ACTIVE slate (second pass, same day: T0 R0–R1 bang-for-buck)
 
-1. **The progression menu** (#8 stamp book + #10 ink-thread spine) — the
-   loved one: a progression/record surface where rungs, milestones, and
-   collected stamps live, strung on the run's growing brushstroke.
-2. **Bestiary plates** (#4) — home confirmed: the HR-5 Combat-tab panel.
-3. **Estate cutaway** (#5) — spec now vs the bible's estate anatomy;
-   build waits for Plan B + the HR-9 Estate pick.
-4. **Family register** (#6) — home-finding is deliverable #1; no drawing
-   before a placement is ruled.
-5. **VN scene-card pilot** (#12) — acknowledged "really really really
-   hard": ONE pilot scene, spec-first, kill fast if it slops.
-6. **Item pictogram A/B** (#15) — pictograms vs emoji contact sheet;
-   "both are slop" is a legitimate verdict; kill without shipping is fine.
+The human asked which explores most improve graphical fidelity in the
+T0 R0–R1 window (reveal schedule: Work R0 · Map + Estate R1 · Character
+R2 · Combat + Inventory R3). The top 3 are the active slate, in order:
 
-Parks (#2 kamon · #3 hanko · #7 documents · #9 season wheel · #13 emaki)
-are noted in `project/BACKLOG.md` with their triggers. Passes: #1 kaō ·
-#11 weather · #14 combat strokes.
+1. **Estate cutaway** (#5) — best pure bang-for-buck: lands on R1's new
+   Estate tab, proven map-machinery sibling. Spec now; build waits for
+   Plan B + the HR-9 Estate pick.
+2. **VN scene-card pilot** (#12) — biggest bang, bought carefully: the
+   ONE pilot scene is the COLD OPEN (R0's first impression). Kill fast
+   if it slops.
+3. **The progression menu** (#8 stamp book ❤️ + #10 ink-thread spine) —
+   first stamp presses at the R0→R1 ceremony; compounds all run.
+
+**Park-SOON** (first pulls once the active three land — see BACKLOG):
+#4 bestiary plates (R3 surface; home stays HR-5) · #6 family register
+(home-finding first) · #15 pictogram-vs-emoji A/B (Inventory is R3).
+
+**Park-WHILE** (distant triggers — see BACKLOG): #2 kamon · #3 hanko ·
+#7 documents · #9 season wheel · #13 emaki.
+
+**Pass:** #1 kaō · #11 weather · #14 combat strokes.
 
 ### Open flags (pending input)
 

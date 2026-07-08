@@ -31,6 +31,12 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
+- [ ] `docs/plans/fable-2026-07-08-graphics-explorations.md` — **the R0–R1
+  graphics explorations plan** (estate cutaway · cold-open scene-card
+  pilot · progression menu): prototype-first law, seam rules vs Plan B,
+  per-exploration steps + kill criteria + cost gut-feels; it links the
+  new slate register `docs/living/graphics-concepts.md` (worth a skim —
+  all 15 concepts on their shelves).
 - [ ] `docs/plans/fable-2026-07-07-storywave-game.md` — **storywave Plan B
   (GAME)**: re-implement T0 in src/ to the bible — six-season calendar,
   night rounds, coin lanes, 17-node map, speaker ladder, scene machinery,
