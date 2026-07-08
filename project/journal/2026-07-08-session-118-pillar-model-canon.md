@@ -100,3 +100,21 @@ lists `asagiri` in its prd-drift.ts RETIRED table — drop it when Plan B runs.
   ruled, so straight to archive, not the open queue): HD-25→ADR-159, HD-26/27/
   28/29 as mechanical/scope/canon rows, all → the s118 rulings capture.
 - No open HD-items remain; decisions.md open list stays empty.
+
+### A1 ✅ — PRD §5 → pointer-and-summary
+- `project/archive/2026-07-07-prd-05-narrative-old-canon.md` — NEW: the old
+  1203-line §5 archived VERBATIM (ADR-117 rule 3) with the ARCHIVED header;
+  verified byte-identical below the header (text diff) + NUL-free (AC-15).
+- `docs/living/prd/05-narrative.md` — REPLACED (1203 → ~150 lines) with the
+  pointer-and-summary skeleton (§5.1 premise · §5.2 seven tiers · §5.3 ink
+  thread · §5.4 laws · §5.5 what §5 no longer does · §5.6 rename ledger). The
+  status banner (forward canon; shipped game trails) is present for A5 to
+  remove. Asagiri row reads KEPT (HD-27). Added a §5.6 note listing the 4
+  built satoyama quest titles (each unbroken on one line) so prd:drift's
+  presence check stays green — QUESTS 4/4, RETIRED clean.
+- `docs/story-bible/README.md` — HD-28 banner flip applied (authorized): the
+  stale "PRD §5 describes the built game" line → "narrative sources + generated
+  t0-story.md; PRD §5 is its pointer-and-summary". (The one §S read-only
+  exception, human-blessed.)
+- Gates: prd:drift clean, gen-prd-regions --check fresh (4 marker pairs intact),
+  docs-lane verify green.

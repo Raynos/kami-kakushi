@@ -6,8 +6,10 @@
 > split pattern). It is reachable both as `docs/story-bible/README.md`
 > and via the `docs/living/story-bible.md` symlink — links here are
 > written to resolve from either place. Until the reboot's build wave
-> lands, the BUILT game's story is described by the PRD §5 + the
-> narrative sources; this doc-set is the forward canon.
+> lands, the BUILT game's story is described by the narrative sources
+> (`src/core/content/narrative/`) + the generated
+> `docs/content/t0-story.md`; this doc-set is the forward canon, and the
+> PRD §5 is its pointer-and-summary (HD-28, human 2026-07-08).
 > History (how each section got decided): the reboot plan (archived)
 > `project/archive/fable-2026-07-07-story-reboot.md`, the pitch bundle in
 > `project/brainstorms/2026-07-07-story-pitches/`, and the journal.
