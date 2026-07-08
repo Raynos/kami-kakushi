@@ -17,6 +17,29 @@
 > target no longer exists** so a stale pointer can't survive a commit.
 > Organized by the **tier the work lands in**.
 
+## T0 (post-Plan-B) — graphics parks from the 2026-07-08 novel-graphics triage
+
+Parked in the grill session over
+`project/brainstorms/2026-07-08-novel-graphics-directions.md` (verdicts +
+the human's words live there):
+
+- [ ] **Document engine (#7)** — deeds/letters as drawn washi documents.
+  Trigger: Plan B lands the Phase-2 deed economy with deeds as
+  inspectable objects. The **hanko seal generator (#3)** rides with it
+  (its trigger is a document surface existing at all).
+- [ ] **Season wheel instrument (#9)** — the drawn six-season dial.
+  Trigger: Plan B's season surface ships plain first; revisit after.
+- [ ] **Emakimono story scroll (#13)** — beats as a picture scroll in the
+  progression menu. Trigger: the #12 scene-card pilot proves the
+  vignette grammar ("even harder — combine multiple features into one
+  cohesive whole and somehow not slop it").
+
+## T4
+
+- [ ] **Kamon crests (#2, graphics triage 2026-07-08)** — constructed
+  house/faction crests. Trigger: a surface that needs faction identity
+  (the T4 town plan's "crested rectangles", faction UI).
+
 ## T2
 
 - [ ] **Inn rumours board as a discovery-rumor source** — when the village
