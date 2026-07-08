@@ -1,8 +1,17 @@
 # Graphics explorations — the R0–R1 top three
 
-**Status: 📋 PROPOSED — awaiting the human's read. Specs/prototypes may
-start any time; nothing integrates into the live game surfaces until the
-storywave Plan B seam allows (see "The seam" below).**
+**Status: ✅ DONE (2026-07-08) — the explore slate ran; all three
+demos built + human-judged. Verdicts: E1 estate cutaway → *needs more
+work* (HR-16 closed) · E2 scene cards → *park* · E3 stamp book → *yeah
+good, continue later*. Outcomes + forward tracks captured in the
+[graphics-concepts register](../living/graphics-concepts.md) (the durable
+home), so this plan can archive without loss. Real integration stays
+gated on storywave Plan B (+ HR-9 for E1). Ready to `git mv` to
+`project/archive/` on the human's word.**
+
+**Historical status (superseded):** ~~📋 PROPOSED — awaiting the human's
+read. Specs/prototypes may start any time; nothing integrates into the
+live game surfaces until the storywave Plan B seam allows.~~
 
 **Confidence: ( 35% Opus, 65% Fable )** — the spec + composition-grammar
 work is taste-dense (Fable); drawing/building to a SIGNED spec is

@@ -19,13 +19,18 @@
 
 ## Graphics concepts — parked shelves live in their register
 
-- [ ] **Parked graphics concepts (SOON: #4 bestiary plates · #6 family
-  register · #15 pictogram A/B — WHILE: #2 kamon · #3 hanko · #7
-  documents · #9 season wheel · #13 emaki)** — the one home for the
-  whole slate, shelves + pull-forward triggers included, is
+- [ ] **Parked graphics concepts** — the one home for the whole slate
+  (shelves, verdicts, pull-forward triggers) is
   [`docs/living/graphics-concepts.md`](../docs/living/graphics-concepts.md)
   (human, 2026-07-08: concepts must not float in BACKLOG/brainstorms).
   This line exists only so the parked shelf is findable from here.
+  - **The 3 explored R0–R1 demos** (plan ran to completion 2026-07-08, all
+    built behind DEV → Story): **#5 estate cutaway** → *needs more work* ·
+    **#12 scene cards** → *park* · **#8+10 stamp book** → *yeah good,
+    continue later*.
+  - **Still on the shelves** — SOON: #4 bestiary plates · #6 family
+    register · #15 pictogram A/B · WHILE: #2 kamon · #3 hanko · #7
+    documents · #9 season wheel · #13 emaki.
 
 ## T2
 

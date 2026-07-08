@@ -5,9 +5,12 @@
 > in `project/BACKLOG.md`). Born from the 15-candidate brainstorm + the
 > human's live triage, 2026-07-08. **Status per concept is maintained
 > HERE**; history (the full pitches + the human's verbatim verdicts) stays
-> in `project/brainstorms/2026-07-08-novel-graphics-directions.md`; the
-> active explorations' sequencing lives in
-> [`docs/plans/fable-2026-07-08-graphics-explorations.md`](../plans/fable-2026-07-08-graphics-explorations.md).
+> in `project/brainstorms/2026-07-08-novel-graphics-directions.md`. The
+> explore slate **ran to completion (2026-07-08)** — its plan,
+> [`fable-2026-07-08-graphics-explorations.md`](../../project/archive/fable-2026-07-08-graphics-explorations.md),
+> is done (all three demos built + judged); each demo's verdict and
+> forward track is captured in the slate below, so the register stands
+> alone once the plan archives.
 > The visual language itself is [`ui-design.md`](ui-design.md)'s; nothing
 > here overrides it.
 
@@ -33,16 +36,20 @@ exploration's first deliverable, a vague "somewhere" cannot.
 
 ## The slate
 
-### ▶️ ACTIVE — the T0 R0–R1 explore slate (top 3 by bang-for-buck)
+### 🅿️ EXPLORED — the R0–R1 explore slate RAN (plan complete, 2026-07-08)
 
-| # | concept | home | one line |
+All three top-3 concepts shipped a lightweight DEV demo (DEV → Story) and
+the human judged each. The [explorations plan](../../project/archive/fable-2026-07-08-graphics-explorations.md)
+is **COMPLETE**; each concept is parked here at its verdict with its
+forward track, so it can be pulled back up by the human's call without the
+plan. Real integration stays gated on storywave **Plan B** (+ **HR-9** for
+E1's Estate tab).
+
+| # | concept · home | verdict (human, 2026-07-08) · what's kept | forward track (if resumed) |
 |---|---|---|---|
-| 5 | **Estate cutaway** (okoshi-ezu) | Estate tab centerpiece (R1) | Carpenter's elevation of house + guest house + ruin, re-inking as the estate rises — the map system's sibling, new projection. |
-| 12 | **VN scene-card pilot** | The COLD OPEN (R0) | ONE composed woodblock vignette from existing primitive vocabulary; "really really really hard" — kill fast if it slops. **Demos built & PARKED (s122, human ruling):** `src/ui/scene-cards/`, DEV → Story → the two "⤢ Scene cards" entries — Sōan's sickroom + Genemon's grain-store. v1 (figurative room-scenes) ruled SLOP; rebuilt same-session as v2 kage-e silhouette theatre + misregistered press (the 1+2 rescue pick — `project/brainstorms/2026-07-08-e2-scene-card-rescue.md`); the human then **parked E2 keeping BOTH versions in code as concept references**. Resumes (if ever) at the real track: grammar spec → HR → one-moment diverge → keep/kill. |
-| 8+10 | **Progression menu** ❤️ | A progression/record surface (home fork open) | Shuinchō stamp book — rungs/milestones/tiers as pressed stamps — strung on the run's single growing ink-thread brushstroke. **Demo built & kept (s121, human-pulled, one version):** `src/ui/stamp-book/`, DEV → Story → "⤢ Stamp book" — human ruled *happy as-is for now, continue later*; the real E3 track (spec → HR → diverge → pin) resumes from the plan. |
-
-Sequencing, gates (Plan B seam, HR-9), routing → the
-[explorations plan](../plans/fable-2026-07-08-graphics-explorations.md).
+| 5 | **Estate cutaway** (okoshi-ezu) · Estate tab centerpiece (R1) | ⚠️ **NEEDS MORE WORK** — the human looked and ruled the demo isn't ready to carry forward as-is (closes HR-16). Demo built: `src/ui/estate-sheet/`, DEV → Story → "⤢ Estate sheet" — **A** fold-up okoshi-ezu (self-pick) · **B** flat section-cut, ×3 fixture eras; blind-pass green (5 M + 4/4 S). Neither variant ships. | Iterate the look past the "needs more work" bar, THEN E1.4 integration (gated on Plan B + HR-9). Spec + rubric: `src/ui/estate-sheet/README.md`. |
+| 12 | **VN scene-card pilot** · the COLD OPEN (R0) | 🅿️ **PARK** — both demo versions kept in code as concept refs. `src/ui/scene-cards/`, DEV → Story → the two "⤢ Scene cards" entries: **v1** figurative room-scenes (ruled SLOP) · **v2** kage-e silhouette theatre + misregistered press (the 1+2 rescue pick). "Really really hard — kill fast if it slops." | Resumes (if ever) at the real track: grammar spec → HR → one-moment diverge → keep/kill. Rescue notes: `project/brainstorms/2026-07-08-e2-scene-card-rescue.md`. |
+| 8+10 | **Progression menu** ❤️ · a progression/record surface (home fork open) | ✅ **YEAH GOOD** — human ruled *happy as-is for now, continue later*. Demo kept: `src/ui/stamp-book/`, DEV → Story → "⤢ Stamp book" (one version, fixture-fed) — shuinchō stamp book (rungs/milestones/tiers as pressed stamps) on the run's single growing ink-thread stroke. | Resume the real E3 track: stamp/thread grammar spec → HR (home fork: a Record panel on the Character tab?) → ADR-075 diverge → pin. |
 
 ### 🅿️ PARKED SOON — first pulls once the active three land
 
