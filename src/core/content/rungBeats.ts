@@ -55,7 +55,10 @@ export interface RungDecision {
  *  greeting's per-line `voice`/`speaker` carry two-voice beats (R4/R5). */
 export interface RungScene {
   readonly id: string; // 'rung-r1' … 'rung-r7'
-  readonly rank: RankId; // the TARGET rank this beat promotes INTO
+  /** The TARGET rank this beat promotes INTO. OPTIONAL (storywave G3.5): rung beats always carry
+   *  it, but a generalized `SceneDef` scene (season overlay, side-beat, the nengu) is
+   *  non-promotion content with no rank — it reuses this shared VN payload sans `rank`. */
+  readonly rank?: RankId;
   readonly voice: VoiceCategory; // the react/nameplate colour of the decision (fallback)
   readonly speaker?: NpcId; // the primary decision speaker (react nameplate)
   readonly greeting: readonly IntroSetupLine[];

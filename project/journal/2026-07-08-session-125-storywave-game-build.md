@@ -185,11 +185,37 @@ toward the sickroom. Opus subagent → I re-verified (17 gates) + read defeat.ts
 - New tests: economy.test low-HP block (2) + combat-rework.test defeat→ledger+days
   (1). Fixtures regenerated (soanLedger + loss-day change).
 
+## 6 · G3.5 — FB-5 grammar/compiler extension ✅
+
+The compiler now handles every grammar form the storywave scenes need, so G4
+only CONSUMES it (never edits it). Opus subagent → I re-verified (17 gates +
+`gen:narrative:check` byte-stable) + read the stub.
+
+- **Seventh canon target** `scenes.md` → `scenes.gen.ts` (added to
+  gen-narrative TARGETS; content/scenes.ts switched from the hand-written empty
+  `[]` to re-exporting the gen registry, keeping the types + sceneById).
+- **Two new grammar forms** — the **scene-def block** (`## scene-def <id>` with
+  `trigger:` ∈ rung/season-exit/flag/verb/scripted + optional `once:`, body
+  reuses the rung-scene grammar → `SceneDef`) and the **speakerless
+  narration-only beat** (ADR-165: narrator-only greeting + NO decision → the
+  engine's empty-options continue path). parse/emit/validate/story-doc extended;
+  a malformed scene-def (unknown trigger, season-exit w/o a season) REDs.
+- `RungScene.rank` widened to optional (a season-exit/scripted scene has no
+  rank; blast radius = 1 dev.ts line, rung gen byte-identical) — the G2 "defer to
+  G4" note is resolved here since G3.5 owns SceneDef consumption.
+- **scenes.md is a STUB** (filled at G4.1): two blocks exercise the forms with
+  fiction drawn VERBATIM from picked t0v2 takes (u2-c narration placeholder for
+  the nengu frame; U8-c "dog that stays" side-beat). `native:` sidecar DEFERRED
+  with a TODO (the U8 new-moon-bark native lands as scenes.native.ts at G4.1).
+- 9 new validate tests. Scene system stays DORMANT (triggers unwired until G4).
+
 ## Next intended steps
-1. **G3.5** — the FB-5 grammar/compiler extension: scenes.md gen unit
-   (→ scenes.gen.ts), the speakerless beat + scene-def block grammar.
-2. Then G4 (THE content cutover), G5 (VERDICT reconcile), G6 (e2e/drift), G7 SHIP.
-3. **G4.5 owes** the rice-reframe; **OWED:** G1 verify:balance + t0-pacing regen.
+1. **G4** — THE content cutover (the monster): zones+map · enemies/quests/combat
+   · cast-at-nodes · coin lanes (+ deferred rice reframe) · ladder/reqs/surfaces
+   · speaker ladder · autoplay/fixtures/sim · render sweep+tests. From the t0v2
+   VERDICT picks. Land as a green series (worktree optional; human said direct-on
+   -main is fine). Re-baselines T0 pacing (folds in the OWED balance re-baseline).
+2. Then G5 (VERDICT reconcile), G6 (e2e/drift), G7 SHIP (human-gated).
 
 ## Landmines
 - **Shared tree + live co-agents:** always `git commit <pathspec>`; re-check

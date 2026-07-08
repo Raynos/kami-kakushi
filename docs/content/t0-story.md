@@ -289,6 +289,42 @@
 - "I only did the work in front of me." <small>· memory shigemasa +1 (humble) · flags r7-humble</small>
   **Shigemasa:** "And that, I think, is why it came to so much. Remember it when louder men tell you otherwise."
 
+## Generalized scenes (G3.5 stub)
+
+> Season overlays, side-beats, and the nengu ceremony — triggered outside the
+> rung ladder. A STUB at G3.5 (grammar samples); the real content lands at G4.1.
+
+### nengu-autumn-frame
+
+*(trigger: season-exit autumn, once)*
+
+> First light. The broom stands against the gatepost where you left it. The hand who kept the yard's round quit for the lowlands; nobody has said whose it is now.
+
+> You take the broom. Nobody takes it back.
+
+### sb-dog
+
+*(trigger: flag orchard-reclaimed, once)*
+
+> The last of the pack went over the wall two days ago. This one stayed. An old dog, grey to the jaw, one ear ragged from winters, lying in the dead leaves under the far fruit trees like the orchard is a post it was never relieved from.
+
+> It does not run and it does not beg. When you work, it watches. When you eat, it watches the food, then you — and then it looks away first.
+
+> Kihei crosses the cleared ground on his round and stops beside you, reading the dog the way he reads a blade for rust.
+
+**Kihei:** "The old one. Too slow for the pack, too proud for the village middens. Drive it, feed it, or bring it to me. Don't leave it half-decided."
+
+**Decide** — The dog watches you decide.
+
+- "The orchard's cleared. All of it." <small>· memory kihei +1 (thorough) · flags sb-dog-driven</small>
+  **Kihei:** "Cleared is cleared. Stop the gap in the wall behind it."
+
+- "It stays. I'll feed it from my share." <small>· memory genemon +1 (accountable) · flags sb-dog-fed</small>
+  **Genemon:** "A dog. Old, one ear. Rice: a handful, mornings, from the sweepings — entered against rats. If it earns, it stays entered."
+
+- "Take it to Kihei." <small>· memory kihei +1 (clear-eyed) · flags sb-dog-ended</small>
+  **Kihei:** "Give me your belt-cord. Go rake the leaves. This isn't a lesson."
+
 ## The hidden rung requirements
 
 > The player never sees this list — only the rounded % bar and each

@@ -454,6 +454,7 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
     },
     storyEpoch: () => storyEpoch,
     subRungScene: (scene) => {
+      if (scene.rank === undefined) return scene; // non-promotion scene — no rung-beat take alt
       for (const b of bundles) {
         const eff = effective(b.id, `rung:${scene.rank}`);
         if (eff === 'canon') continue;

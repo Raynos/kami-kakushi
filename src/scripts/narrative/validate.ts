@@ -22,13 +22,16 @@ import { NAMES } from '../../core/content/names';
 import { ATTR_IDS, STANCE_ORDER } from '../../core/content/balance';
 import { SURFACE_IDS } from '../../core/content/surfaces';
 import { RANKS } from '../../core/content/ranks';
-import type {
-  DialogueDefNode,
-  IntroSceneNode,
-  Loc,
-  NarrativeDoc,
-  ProseLine,
-  RungSceneNode,
+import { SEASONS } from '../../core/constants';
+import {
+  parseSceneTrigger,
+  type DialogueDefNode,
+  type IntroSceneNode,
+  type Loc,
+  type NarrativeDoc,
+  type ProseLine,
+  type RungSceneNode,
+  type SceneDefNode,
 } from './parse';
 
 /** Every rung's requirement-list floor (human, 2026-07-07) — see the check below. */
@@ -60,6 +63,7 @@ const RANK_UNLOCKS = new Map<string, readonly string[]>(
 const VOICE_SET = new Set<string>(VOICE_CATEGORIES);
 const STANCE_SET = new Set<string>(STANCE_ORDER);
 const ATTR_SET = new Set<string>(ATTR_IDS);
+const SEASON_SET = new Set<string>(SEASONS);
 
 const at = (loc: Loc): string => `${loc.file}:${loc.line}`;
 
@@ -209,6 +213,11 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
         }
         continue;
       }
+      if (block.kind === 'scene-def') {
+        validateSceneCommon(block, err, checkProse, topicIds, optionIds);
+        validateSceneDef(block, err);
+        continue;
+      }
       const scene = block;
       if (scene.kind === 'scene') introScenes.push(scene);
       validateSceneCommon(scene, err, checkProse, topicIds, optionIds);
@@ -241,7 +250,7 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
 }
 
 function validateSceneCommon(
-  scene: RungSceneNode | IntroSceneNode,
+  scene: RungSceneNode | IntroSceneNode | SceneDefNode,
   err: (loc: Loc, msg: string) => void,
   checkProse: (line: ProseLine, isReact: boolean) => void,
   topicIds: Map<string, Loc>,
@@ -299,9 +308,9 @@ function validateSceneCommon(
     else optionIds.set(o.id, o.loc);
 
     if (o.react) checkProse(o.react, true);
-    if (scene.kind === 'rung' && o.react) {
+    if ((scene.kind === 'rung' || scene.kind === 'scene-def') && o.react) {
       if (o.react.kind !== 'speech' || !NPC_BY_NAME.has(o.react.speaker)) {
-        err(o.react.loc, `a rung-beat react must be a speech line spoken by an NPC`);
+        err(o.react.loc, `a ${scene.kind} react must be a speech line spoken by an NPC`);
       }
     }
     // §3.5 memory NPCs real, |warmth Δ| ≤ 3.
@@ -395,6 +404,26 @@ function validateIntroExtras(scene: IntroSceneNode, err: (loc: Loc, msg: string)
     if (o.memory && (o.memory.length !== 1 || o.memory[0]!.regard === undefined)) {
       err(o.loc, 'an intro option takes exactly one memory write, with a regard');
     }
+  }
+}
+
+/** Scene-def specifics (storywave G3.5 / FB-5): a resolvable `trigger:` and a real `voice:`.
+ *  A malformed trigger (unknown kind, `season-exit` without a season, an unknown season) REDs —
+ *  the generalized-scene registry must never carry a trigger the engine can't match. */
+function validateSceneDef(def: SceneDefNode, err: (loc: Loc, msg: string) => void): void {
+  const trigger = def.meta.get('trigger');
+  if (!trigger) {
+    err(def.loc, `scene-def "${def.id}" is missing "trigger:" meta`);
+  } else {
+    const parsed = parseSceneTrigger(trigger.value);
+    if (!parsed.ok) {
+      err(trigger.loc, `scene-def "${def.id}": ${parsed.reason}`);
+    } else if (parsed.trigger.kind === 'season-exit' && !SEASON_SET.has(parsed.trigger.season)) {
+      err(trigger.loc, `unknown season "${parsed.trigger.season}" (known: ${SEASONS.join(', ')})`);
+    }
+  }
+  if (!def.meta.get('voice')) {
+    err(def.loc, `scene-def "${def.id}" is missing "voice:" meta`);
   }
 }
 

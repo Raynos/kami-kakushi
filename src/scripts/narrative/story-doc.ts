@@ -14,6 +14,7 @@ import type {
   OptionNode,
   ProseLine,
   RungSceneNode,
+  SceneDefNode,
   TopicNode,
 } from './parse';
 
@@ -98,6 +99,29 @@ function sceneLines(scene: RungSceneNode | IntroSceneNode, resolve: Resolver): s
   return out;
 }
 
+/** Render a generalized `## scene-def` (storywave G3.5) — trigger tag + greeting + optional
+ *  decision (a decision-less scene-def is a narration-only beat, so nothing to render past its
+ *  greeting). */
+function sceneDefLines(def: SceneDefNode, resolve: Resolver): string[] {
+  const trigger = def.meta.get('trigger')?.value ?? '(no trigger)';
+  const once = def.meta.get('once') !== undefined ? ', once' : '';
+  const out: string[] = [`*(trigger: ${trigger}${once})*`, ''];
+  out.push(...proseLines(def.greeting, resolve));
+  for (const t of def.topics) out.push(...topicLines(t, resolve));
+  if (def.decision) {
+    out.push(`**Decide** — ${resolve(def.decision.prompt)}`, '');
+    for (const o of def.decision.options) {
+      const react = o.react!;
+      const reactText =
+        react.kind === 'speech'
+          ? `**${react.speaker}:** ${resolve(react.text)}`
+          : `*${resolve(react.text)}*`;
+      out.push(`- ${resolve(o.label)}${effectNotes(o, resolve)}`, `  ${reactText}`, '');
+    }
+  }
+  return out;
+}
+
 /** Compile the whole narrative doc set into the t0-story.md reading page. */
 export function emitStoryDoc(docs: readonly NarrativeDoc[]): string {
   const resolve = makeResolver(docs);
@@ -141,6 +165,21 @@ export function emitStoryDoc(docs: readonly NarrativeDoc[]): string {
     const title = rank ? `${rank.title} ${rank.kanji}` : scene.rankKey;
     L.push(`## ${scene.rankKey} · ${title}`, '');
     L.push(...sceneLines(scene, resolve));
+  }
+
+  // ── the generalized scenes (storywave G3.5 — a STUB until G4.1 fills scenes.md) ──
+  const sceneDefs = docs.flatMap((d) => d.blocks).filter((b) => b.kind === 'scene-def');
+  if (sceneDefs.length > 0) {
+    L.push('## Generalized scenes (G3.5 stub)', '');
+    L.push(
+      '> Season overlays, side-beats, and the nengu ceremony — triggered outside the',
+      '> rung ladder. A STUB at G3.5 (grammar samples); the real content lands at G4.1.',
+      '',
+    );
+    for (const def of sceneDefs) {
+      L.push(`### ${def.id}`, '');
+      L.push(...sceneDefLines(def, resolve));
+    }
   }
 
   // ── the hidden rung requirements (FB-121 / ADR-137) — the human's sign-off

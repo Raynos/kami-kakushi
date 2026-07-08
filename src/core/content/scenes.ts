@@ -7,9 +7,12 @@
 // intro's `DialogueScene` keeps its own path (its perk/stat shape differs by design);
 // unification happens at the RENDER layer only (one modal — TST1, deferred to G4.9).
 //
-// DORMANT at G2: the registry is EMPTY. G3.5's compiler + G4 content fill it later (the
-// module then switches from this hand-written empty registry to re-exporting the gen
-// registry). Pure-core: no DOM, no Math/Date — this module only carries DATA + a lookup.
+// The registry is AUTHORED as prose in `narrative/scenes.md` (FB-5 — the source of truth) and
+// compiled to `scenes.gen.ts` by `pnpm run gen:narrative`; this module keeps the hand-written
+// TYPES + `sceneById` lookup and re-exports the generated `SCENES` array (mirrors how
+// `rungBeats.ts` re-exports `RUNG_BEATS`). At G3.5 `scenes.md` is a STUB — the season overlays /
+// nengu / side-beats / the Count fill it at G4.1; the scene system stays DORMANT until G4 wires
+// its triggers. Pure-core: no DOM, no Math/Date — this module only carries DATA + a lookup.
 
 import type { RungScene } from './rungBeats';
 import type { RankId } from './ranks';
@@ -33,20 +36,22 @@ export type SceneTrigger =
 
 export interface SceneDef {
   readonly id: SceneId;
-  /** The shared VN payload. NOTE: `scene` is a plain `RungScene` with its REQUIRED `rank`.
-   *  The plan's rank-optional widening (`rank?: RankId` for non-promotion content) is
-   *  DEFERRED to G4 — it destabilizes the rung system, and at G2 the registry is empty so
-   *  nothing supplies a dummy rank (tests construct a `RungScene` with a rank). */
+  /** The shared VN payload — a `RungScene`. `RungScene.rank` is OPTIONAL (widened at G3.5):
+   *  non-promotion scene content (season overlays, side-beats, the nengu) carries no rank. A
+   *  decision-less scene (the speakerless narration-only beat, ADR-165) carries an empty
+   *  `decision` — the engine's `advanceSceneBeat` drives it via the empty-options path. */
   readonly scene: RungScene;
   readonly trigger: SceneTrigger;
   /** Play at most once — latched into `scenesPlayed` after `applySceneOption` (mirrors
-   *  `unlocked`). Absent ⇒ repeatable (G4 content; at G2 the registry is empty). */
+   *  `unlocked`). Absent ⇒ repeatable. */
   readonly once?: boolean;
 }
 
-/** EMPTY at G2 — dormant. Nothing here is reachable in the live arc (the season overlays,
- *  side-beats, and night-round frames land as content at G4). */
-export const SCENES: readonly SceneDef[] = [];
+/** AUTHORED in `narrative/scenes.md`, compiled to `scenes.gen.ts`. A STUB at G3.5 (grammar-
+ *  exercising samples only); the real content lands at G4.1, and the scene TRIGGERS stay
+ *  unwired until G4 — so nothing here is reachable in the live arc yet. */
+export { SCENES } from './scenes.gen';
+import { SCENES } from './scenes.gen';
 
 /** A scene by id, or undefined (the reducer arms no-op on undefined — dormant here). */
 export function sceneById(id: SceneId): SceneDef | undefined {

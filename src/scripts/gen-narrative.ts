@@ -23,6 +23,7 @@ import {
   emitIntro,
   emitRequirements,
   emitRungBeats,
+  emitScenes,
 } from './narrative/emit';
 import { emitStoryDoc } from './narrative/story-doc';
 import { validateNarrative } from './narrative/validate';
@@ -66,6 +67,11 @@ const TARGETS: readonly Target[] = [
     md: 'src/core/content/narrative/requirements.md',
     out: 'src/core/content/requirements.gen.ts',
     emit: emitRequirements,
+  },
+  {
+    md: 'src/core/content/narrative/scenes.md',
+    out: 'src/core/content/scenes.gen.ts',
+    emit: emitScenes,
   },
 ];
 

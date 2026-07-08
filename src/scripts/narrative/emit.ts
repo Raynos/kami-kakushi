@@ -16,12 +16,15 @@ import { NPC_NAME, NPC_VOICE, type NpcId } from '../../core/content/voices';
 import { NAMES } from '../../core/content/names';
 import {
   NarrativeError,
+  parseSceneTrigger,
   type DialogueDefNode,
   type IntroSceneNode,
   type NarrativeDoc,
   type OptionNode,
   type ProseLine,
   type RungSceneNode,
+  type SceneDefNode,
+  type SceneTriggerAst,
   type SpeechLine,
   type WhenGate,
 } from './parse';
@@ -114,7 +117,7 @@ function emitProseLine(line: ProseLine): string {
 
 // ── rung beats ──────────────────────────────────────────────────────────────
 
-function emitRungOption(opt: OptionNode, scene: RungSceneNode): string {
+function emitRungOption(opt: OptionNode, scene: RungSceneNode | SceneDefNode): string {
   const react = opt.react!; // parse guarantees presence
   if (react.kind !== 'speech') {
     throw new NarrativeError(react.loc, 'a rung-beat react must be a speech line');
@@ -151,7 +154,7 @@ function emitRungOption(opt: OptionNode, scene: RungSceneNode): string {
   return L.join('\n');
 }
 
-function emitTopics(scene: RungSceneNode | IntroSceneNode): string {
+function emitTopics(scene: RungSceneNode | IntroSceneNode | SceneDefNode): string {
   if (scene.topics.length === 0) return 'topics: [],';
   const L: string[] = ['topics: ['];
   for (const t of scene.topics) {
@@ -415,5 +418,88 @@ export function emitRequirements(doc: NarrativeDoc): string {
     `import type { RequirementDef } from '../requirements-engine';`,
     `import type { RankId } from './ranks';`,
     `import { NAMES } from './names';`,
+  ]);
+}
+
+// ── generalized scenes (storywave G3.5 / FB-5) ───────────────────────────────
+
+/** A parsed scene-def trigger → the `SceneTrigger` object literal (content/scenes.ts). */
+function triggerExpr(t: SceneTriggerAst): string {
+  switch (t.kind) {
+    case 'rung':
+      return `{ kind: 'rung', rung: '${t.rung}' }`;
+    case 'season-exit':
+      return `{ kind: 'season-exit', season: '${t.season}' }`;
+    case 'flag':
+      return `{ kind: 'flag', flag: ${str(t.flag)} }`;
+    case 'verb':
+      return `{ kind: 'verb' }`;
+    case 'scripted':
+      return `{ kind: 'scripted' }`;
+  }
+}
+
+/** Compile one `## scene-def` block into a `SceneDef` literal. The `scene` payload is the shared
+ *  `RungScene` shape (no `rank` — non-promotion content); a decision-LESS scene-def (the
+ *  speakerless narration-only beat, ADR-165) emits an empty decision so the engine's
+ *  narration-only path drives it. */
+export function emitSceneDef(def: SceneDefNode): string {
+  const meta = (key: string): string | undefined => def.meta.get(key)?.value;
+  const triggerRaw = meta('trigger');
+  if (!triggerRaw) {
+    throw new NarrativeError(def.loc, `scene-def "${def.id}" is missing "trigger:" meta`);
+  }
+  const parsed = parseSceneTrigger(triggerRaw);
+  if (!parsed.ok) throw new NarrativeError(def.loc, `scene-def "${def.id}": ${parsed.reason}`);
+  const voice = meta('voice');
+  if (!voice) throw new NarrativeError(def.loc, `scene-def "${def.id}" is missing "voice:" meta`);
+  const speaker = meta('speaker');
+  const motivatesRaw = meta('motivates');
+  const motivates = motivatesRaw ? motivatesRaw.split(',').map((m) => m.trim()) : [];
+
+  // The shared RungScene payload (no rank — that field is optional for non-promotion scenes).
+  const S: string[] = ['{'];
+  S.push(`id: ${str(def.id)},`);
+  S.push(`voice: '${voice}',`);
+  if (speaker) S.push(`speaker: '${speaker}',`);
+  S.push(`motivates: [${motivates.map(str).join(', ')}],`);
+  S.push('greeting: [');
+  for (const line of def.greeting) S.push(emitProseLine(line));
+  S.push('],');
+  S.push(emitTopics(def));
+  if (def.decision) {
+    S.push('decision: {');
+    S.push(`prompt: ${textExpr(def.decision.prompt, def.decision.loc)},`);
+    S.push('options: [');
+    for (const o of def.decision.options) S.push(emitRungOption(o, def));
+    S.push('],');
+    S.push('},');
+  } else {
+    // Narration-only beat — the engine advances it via the empty-options path.
+    S.push(`decision: { prompt: '', options: [] },`);
+  }
+  S.push('}');
+
+  const L: string[] = ['{'];
+  L.push(`id: ${str(def.id)},`);
+  L.push(`scene: ${S.join('\n')},`);
+  L.push(`trigger: ${triggerExpr(parsed.trigger)},`);
+  if (meta('once') !== undefined) L.push('once: true,');
+  L.push('},');
+  return L.join('\n');
+}
+
+/** Compile the scenes narrative doc into the `scenes.gen.ts` module source (unformatted).
+ *  The registry is a stable empty array when no scene-def is authored, so the byte-compare
+ *  has a fixed target. */
+export function emitScenes(doc: NarrativeDoc): string {
+  const defs = doc.blocks.filter((b) => b.kind === 'scene-def');
+  const body = `export const SCENES: readonly SceneDef[] = [\n${defs
+    .map(emitSceneDef)
+    .join('\n\n')}\n];`;
+  return withImports(GENERATED(doc.file, 'scenes.ts'), body, [
+    `import type { SceneDef } from './scenes';`,
+    `import { NAMES } from './names';`,
+    `import { NPC_NAME } from './voices';`,
   ]);
 }

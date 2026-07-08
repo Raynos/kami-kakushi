@@ -25,6 +25,11 @@ purpose); the compiled one-page reading copy is `docs/content/t0-story.md`.
   (`## prose flavor`, `### <key>`). Live-switchable in the DEV set-switcher
   (`dev.subFlavor`) — a diverge on one ships its takes as a `takes/` bundle
   (ADR-143). Re-exported by `../flavor.ts`.
+- `scenes.md` → `../scenes.gen.ts` — the **generalized VN scenes** (storywave
+  G3.5): scenes NOT tied to a rung promotion (season-exit overlays, the nengu
+  ceremony, the R5 Count, authored side-beats), one `## scene-def <id>` block
+  each. Re-exported by `../scenes.ts` (which keeps the types + `sceneById`). A
+  STUB at G3.5; filled at G4.1.
 - `requirements.md` → `../requirements.gen.ts` — the **hidden rung-requirement
   lists** (FB-121 / ADR-137), one `## requirements R<n>` block per rung R0–R7
   (the validator holds the set to exactly all eight, each with **≥3
@@ -128,6 +133,39 @@ Effect annotations, one per line, order-free, after the react:
 | `stance:` | `chudan` | `setStance` (R5 only) |
 
 Annotation continuation lines indent two spaces.
+
+### The scene-def block (storywave G3.5)
+
+```markdown
+## scene-def sb-dog
+trigger: flag orchard-reclaimed
+once: true
+speaker: kihei
+voice: arms
+
+> Kihei crosses the cleared ground on his round and stops beside you.
+
+### decide · The dog watches you decide.
+
+#### sb-dog-drive · "The orchard's cleared. All of it."
+Kihei: "Cleared is cleared."
+memory: kihei +1 (thorough)
+flags: sb-dog-driven
+```
+
+`## scene-def <id>` compiles to a `SceneDef` (`../scenes.ts`) — a generalized VN
+scene fired OUTSIDE the rung ladder. Meta keys: `trigger:` (required — one of
+`rung <R#>` / `season-exit <season>` / `flag <id>` / `verb` / `scripted`),
+`once:` (optional; presence ⇒ play-once), `voice:` (required — the scene's
+fallback voice), and optional `speaker:` / `motivates:`. The body reuses the
+**rung-scene grammar** (greeting + optional topics + **optional decision**); the
+`scene` payload is a plain `RungScene` with no `rank` (non-promotion content).
+
+**The speakerless narration-only beat (ADR-165):** omit the decision entirely —
+a narrator-voiced greeting (no granter speaker) with no `### decide` block. The
+compiler emits an empty `decision: { prompt: '', options: [] }` so the engine
+drives it via its narration-only continue path. A malformed trigger (unknown
+kind, `season-exit` with no season, an unknown season) is a validation error.
 
 ## What stays hand-written TS
 

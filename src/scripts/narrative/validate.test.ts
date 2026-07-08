@@ -8,6 +8,7 @@
 import { describe, it, expect } from 'vitest';
 import { parseNarrative, NarrativeError } from './parse';
 import { validateNarrative } from './validate';
+import { emitScenes } from './emit';
 import { RANKS } from '../../core/content/ranks';
 
 const R1_UNLOCK = RANKS.find((r) => r.id === 'R1')!.rewardOnReach!.unlock!;
@@ -237,5 +238,118 @@ Shigemasa: "The react."
     expect(() =>
       parseNarrative('## rung R1 · rung-r1\n\njust prose with no home\n', 'fixture.md'),
     ).toThrowError(NarrativeError);
+  });
+});
+
+// storywave G3.5 (FB-5) — the generalized scene-def block + the speakerless narration-only
+// beat. Fixtures quote the picked-take forms scenes.md declares (u2 take-c's silent-rung
+// narration; the U8 take-c "dog that stays" side-beat), not invented shapes. Each assertion
+// goes RED against a broken validator.
+describe('narrative scene-defs (G3.5) — the new grammar forms validate + go RED', () => {
+  // The speakerless narration-only beat: narrator-voiced greeting, no granter speaker, no
+  // decision (the engine's empty-options continue path drives it). A season-exit overlay,
+  // once per year — verbatim u2 take-c narration.
+  const SILENT = `## scene-def nengu-autumn-frame
+trigger: season-exit autumn
+once: true
+voice: narrator
+
+> First light. The broom stands against the gatepost where you left it.
+
+> You take the broom. Nobody takes it back.
+`;
+
+  // A well-formed scene-def WITH a decision (the U8 dog side-beat, take C): a flag trigger,
+  // a two-voice react (Genemon answers a beat Kihei owns → reactNpc).
+  const DOG = `## scene-def sb-dog
+trigger: flag orchard-reclaimed
+once: true
+speaker: kihei
+voice: arms
+
+> Kihei crosses the cleared ground on his round and stops beside you.
+
+Kihei: "Drive it, feed it, or bring it to me. Don't leave it half-decided."
+
+### decide · The dog watches you decide.
+
+#### sb-dog-drive · "The orchard's cleared. All of it."
+
+Kihei: "Cleared is cleared. Stop the gap in the wall behind it."
+
+memory: kihei +1 (thorough)
+flags: sb-dog-driven
+
+#### sb-dog-feed · "It stays. I'll feed it from my share."
+
+Genemon: "A dog. Old, one ear. Rice: a handful, mornings — entered against rats."
+
+memory: genemon +1 (accountable)
+flags: sb-dog-fed
+`;
+
+  it('the speakerless narration-only beat is clean (errors AND warnings empty)', () => {
+    const v = validate(SILENT);
+    expect(v.errors).toEqual([]);
+    expect(v.warnings).toEqual([]);
+  });
+
+  it('a well-formed scene-def with a decision is clean', () => {
+    const v = validate(DOG);
+    expect(v.errors).toEqual([]);
+    expect(v.warnings).toEqual([]);
+  });
+
+  it('a two-voice react in a scene-def compiles to a reactNpc', () => {
+    // Genemon (not the scene speaker Kihei) answers sb-dog-feed — the emit path must carry it.
+    // Assertions are quote-robust (emit is pre-oxfmt; the gate formats it after).
+    const gen = emitScenes(parseNarrative(DOG, 'fixture.md'));
+    expect(gen).toContain("reactNpc: 'genemon'");
+    expect(gen).toContain("kind: 'flag'");
+    expect(gen).toContain('orchard-reclaimed');
+    expect(gen).toContain('once: true');
+  });
+
+  it('the narration-only beat emits an empty decision (the engine continue path)', () => {
+    const gen = emitScenes(parseNarrative(SILENT, 'fixture.md'));
+    expect(gen).toContain("decision: { prompt: '', options: [] }");
+    expect(gen).toContain("kind: 'season-exit'");
+    expect(gen).toContain('autumn');
+  });
+
+  it('RED — an unknown trigger kind', () => {
+    expectError(
+      SILENT.replace('trigger: season-exit autumn', 'trigger: on-tuesday'),
+      'unknown trigger "on-tuesday"',
+    );
+  });
+
+  it('RED — season-exit without a season', () => {
+    expectError(
+      SILENT.replace('trigger: season-exit autumn', 'trigger: season-exit'),
+      'season-exit trigger needs a season',
+    );
+  });
+
+  it('RED — season-exit with an unknown season', () => {
+    expectError(
+      SILENT.replace('trigger: season-exit autumn', 'trigger: season-exit octember'),
+      'unknown season "octember"',
+    );
+  });
+
+  it('RED — a missing trigger', () => {
+    expectError(SILENT.replace('trigger: season-exit autumn\n', ''), 'is missing "trigger:" meta');
+  });
+
+  it('RED — a scene-def react must be spoken by an NPC', () => {
+    // Sayo is a NAMES entry but not a T0 NpcId — an invalid react speaker.
+    expectError(
+      DOG.replace(
+        'Kihei: "Cleared is cleared. Stop the gap in the wall behind it."',
+        '> A narrator react.',
+      ),
+      'a scene-def react must be a speech line spoken by an NPC',
+    );
   });
 });

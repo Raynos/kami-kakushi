@@ -5,11 +5,12 @@
 // compiles to a generated `.ts` registry. The grammar is documented in
 // `src/core/content/narrative/README.md` — keep the two in sync.
 //
-// Four block kinds (Ph1 + Ph3): `## rung` (rung beats), `## scene` (intro
-// dialogue scenes), `## dialogue` (teach-by-reveal line registries), and
-// `## prose` (keyed prose constants — the cold open). Every node carries its
-// authoring file:line so validation errors point at the `.md` the author
-// should edit, never at generated output.
+// Block kinds: `## rung` (rung beats), `## scene` (intro dialogue scenes),
+// `## scene-def` (generalized VN scenes — storywave G3.5), `## dialogue`
+// (teach-by-reveal line registries), `## prose` (keyed prose constants — the
+// cold open / flavor), and `## requirements` (the hidden rung lists). Every node
+// carries its authoring file:line so validation errors point at the `.md` the
+// author should edit, never at generated output.
 
 export interface Loc {
   readonly file: string;
@@ -108,6 +109,76 @@ export interface IntroSceneNode {
   readonly loc: Loc;
 }
 
+/** How a `## scene-def` enters the queue (mirrors `content/scenes.ts`'s `SceneTrigger`).
+ *  Parsed leniently: the trigger STRING is validated in validate.ts so a malformed trigger
+ *  is a VALIDATION error (cites the .md file:line), never a hard parse throw. */
+export type SceneTriggerAst =
+  | { readonly kind: 'rung'; readonly rung: string }
+  | { readonly kind: 'season-exit'; readonly season: string }
+  | { readonly kind: 'flag'; readonly flag: string }
+  | { readonly kind: 'verb' }
+  | { readonly kind: 'scripted' };
+
+/** Parse a `trigger:` spec into a `SceneTriggerAst`, or a reason it is malformed. Shared by
+ *  emit + validate so the two never disagree (validate REDs the reason; emit throws defensively
+ *  — validate runs first, so a compiled build never reaches the throw). */
+export function parseSceneTrigger(
+  raw: string,
+):
+  | { readonly ok: true; readonly trigger: SceneTriggerAst }
+  | { readonly ok: false; readonly reason: string } {
+  const s = raw.trim();
+  if (s === 'verb') return { ok: true, trigger: { kind: 'verb' } };
+  if (s === 'scripted') return { ok: true, trigger: { kind: 'scripted' } };
+  if (s === 'rung' || s.startsWith('rung ')) {
+    const rung = s.slice('rung'.length).trim();
+    if (!/^R[0-7]$/.test(rung)) {
+      return {
+        ok: false,
+        reason: `rung trigger needs a rank R0–R7 (rung <R#>), got "${rung || '(none)'}"`,
+      };
+    }
+    return { ok: true, trigger: { kind: 'rung', rung } };
+  }
+  if (s === 'season-exit' || s.startsWith('season-exit ')) {
+    const season = s.slice('season-exit'.length).trim();
+    if (!season)
+      return { ok: false, reason: 'season-exit trigger needs a season (season-exit <season>)' };
+    return { ok: true, trigger: { kind: 'season-exit', season } };
+  }
+  if (s === 'flag' || s.startsWith('flag ')) {
+    const flag = s.slice('flag'.length).trim();
+    if (!/^[a-z][a-z0-9-]*$/.test(flag)) {
+      return {
+        ok: false,
+        reason: `flag trigger needs a flag id (flag <id>), got "${flag || '(none)'}"`,
+      };
+    }
+    return { ok: true, trigger: { kind: 'flag', flag } };
+  }
+  return {
+    ok: false,
+    reason: `unknown trigger "${s}" (rung <R#> / season-exit <season> / flag <id> / verb / scripted)`,
+  };
+}
+
+/** A generalized scene (`## scene-def <id>`) — storywave G3.5 / FB-5. Reuses the rung-scene
+ *  body grammar (greeting + optional topics + OPTIONAL decision), plus a `trigger:` and an
+ *  optional `once:`; compiles to a `SceneDef` (`content/scenes.ts`) with the shared `RungScene`
+ *  payload. A decision-LESS scene-def is the speakerless narration-only beat (R2's silent rung,
+ *  ADR-165): the emitter synthesizes an empty decision so the engine's narration-only path
+ *  (`decision.options.length === 0`) drives it. */
+export interface SceneDefNode {
+  readonly kind: 'scene-def';
+  readonly id: string;
+  /** Raw `key: value` meta (trigger / once / voice / speaker / motivates). */
+  readonly meta: Map<string, { value: string; loc: Loc }>;
+  readonly greeting: ProseLine[];
+  readonly topics: TopicNode[];
+  decision?: DecisionNode;
+  readonly loc: Loc;
+}
+
 /** A `when:` reveal gate on a dialogue line. */
 export type WhenGate =
   | { readonly type: 'flag'; readonly flag: string }
@@ -182,6 +253,7 @@ export interface RequirementsNode {
 export type BlockNode =
   | RungSceneNode
   | IntroSceneNode
+  | SceneDefNode
   | DialogueDefNode
   | ProseDocNode
   | RequirementsNode;
@@ -201,6 +273,8 @@ const RESERVED = new Set([
   'speaker',
   'voice',
   'motivates',
+  'trigger',
+  'once',
   'after',
   'when',
   'say',
@@ -219,6 +293,7 @@ const RE_RUNG = /^## rung (\S+) · (\S+)\s*$/;
 const RE_REQS = /^## requirements (R[0-7])\s*$/;
 const RE_REQ = /^### req ([a-z0-9-]+) · (.+)$/;
 const RE_SCENE = /^## scene (\S+)\s*$/;
+const RE_SCENEDEF = /^## scene-def (\S+)\s*$/;
 const RE_DIALOGUE = /^## dialogue (\S+) · (\S+)\s*$/;
 const RE_PROSE = /^## prose (\S+)\s*$/;
 const RE_TOPIC = /^### ask ([a-z0-9-]+) · (.+)$/;
@@ -349,7 +424,7 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
   const lines = source.split('\n');
   const blocks: BlockNode[] = [];
 
-  let scene: RungSceneNode | IntroSceneNode | undefined;
+  let scene: RungSceneNode | IntroSceneNode | SceneDefNode | undefined;
   let dialogue: DialogueDefNode | undefined;
   let prose: ProseDocNode | undefined;
   let reqs: RequirementsNode | undefined;
@@ -403,7 +478,11 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
       if (section === 'meta') {
         if (!scene) return fail(loc.line, 'meta annotation outside a scene');
         const known =
-          scene.kind === 'rung' ? ['speaker', 'voice', 'motivates'] : ['speaker', 'voice'];
+          scene.kind === 'rung'
+            ? ['speaker', 'voice', 'motivates']
+            : scene.kind === 'scene-def'
+              ? ['trigger', 'once', 'voice', 'speaker', 'motivates']
+              : ['speaker', 'voice'];
         if (!known.includes(key)) {
           return fail(loc.line, `unknown scene meta key "${key}" (${known.join('/')})`);
         }
@@ -505,9 +584,25 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
 
     // ── block headings ──
     const rungM = RE_RUNG.exec(raw);
-    const sceneM = RE_SCENE.exec(raw);
+    const sceneDefM = RE_SCENEDEF.exec(raw);
+    const sceneM = sceneDefM ? null : RE_SCENE.exec(raw);
     const dialogueM = RE_DIALOGUE.exec(raw);
     const proseM = RE_PROSE.exec(raw);
+    if (sceneDefM) {
+      close();
+      resetBlock();
+      scene = {
+        kind: 'scene-def',
+        id: sceneDefM[1]!,
+        meta: new Map(),
+        greeting: [],
+        topics: [],
+        loc: { file, line: n },
+      };
+      blocks.push(scene);
+      section = 'meta';
+      continue;
+    }
     if (rungM || sceneM) {
       close();
       resetBlock();
@@ -716,6 +811,21 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
       }
       for (const o of b.decision.options) {
         if (!o.react) throw new NarrativeError(o.loc, `option "${o.id}" has no react line`);
+      }
+    } else if (b.kind === 'scene-def') {
+      // A scene-def's decision is OPTIONAL (a decision-less scene-def is the narration-only
+      // beat — the engine drives it via the empty-options path). When present, it must have
+      // options and every option must react (same floor as a rung/intro scene).
+      if (b.decision) {
+        if (b.decision.options.length === 0) {
+          throw new NarrativeError(
+            b.decision.loc,
+            `scene-def "${b.id}" decide block has no options`,
+          );
+        }
+        for (const o of b.decision.options) {
+          if (!o.react) throw new NarrativeError(o.loc, `option "${o.id}" has no react line`);
+        }
       }
     } else if (b.kind === 'dialogue') {
       for (const l of b.lines) {
