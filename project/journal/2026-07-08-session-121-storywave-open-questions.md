@@ -34,6 +34,11 @@ to transcribe into the A0 economy docket-ADR.
   TST4 display rule) appended to the Economy spec; and the G4 DoD gained the
   four new invariants (rice-only-in-kura / defeat-spares-rice · no auto-HP-
   trickle · every-rung-up-a-VN) + a diminishing-returns lever on the arc test.
+- `docs/plans/fable-2026-07-07-storywave-game.md` (4th pass) — **Status flipped
+  📋 PROPOSED → ✅ FINALIZED / READY TO BUILD** with a finalization record (all
+  13 ruled + ADR-163/164/165 · rice reframe fully specced · sequence = LITERAL
+  G0→G7 · Gap 3 deferred to post-build playtest). **BUILD NOT STARTED** —
+  awaiting the human's explicit go-build. Swept clean of PROPOSED/TBD/TODO.
 - `project/status/project-status.md` — snapshot "Next" refreshed: Plan B open
   questions RULED (s121), ADR-163/164/165, Economy spec, rebuild PAUSED.
 - `project/todo-human.md` — cleared the storywave Plan B reading-queue entry
@@ -66,11 +71,13 @@ to transcribe into the A0 economy docket-ADR.
    G4.5 = wage verb+market+nengu/debt/lease+banked). Threaded pointers into
    G1 (engine-spec slice), G3 (already patched), G4.5 (trimmed to a pointer so
    the two copies can't drift). All magnitudes flagged sim-owned.
-4. Plan B execution starts at G0 when the human is ready — **NOT yet** (human
-   paused the rebuild: "before we rebuild the whole game wait a minute";
-   "don't touch any typescript just yet"). The plan is now build-ready on the
-   economy scope; a fresh-eyes read of the Economy spec (is the loop actually
-   fun / are the sinks balanced in principle?) is a good pre-build check.
+4. **Plan is FINALIZED (s121).** Sequence decided: LITERAL G0→G7 (not the
+   vertical-slice alt). Gap 3 (loop fun/balance) → the human playtests AFTER
+   the initial build. **BUILD NOT STARTED** — the human wants the PLAN ready,
+   NOT the code yet ("don't start building the typescript yet. I just want the
+   plan to be ready / finalized"). Execution begins at G0 only on an explicit
+   go-build. (Caution learned this session: I misread a sequence-pick as a
+   build greenlight — the human corrected it; direction ≠ execution.)
 
 ## Landmines
 - Shared tree: another agent (graphics) is live — this session touched only

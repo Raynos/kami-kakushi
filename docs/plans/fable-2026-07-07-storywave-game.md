@@ -1,13 +1,22 @@
 # Plan B — the storywave GAME plan: rewrite T0 in src/ to the bible
 
-**Status: 📋 PROPOSED — awaiting the human's read; executes in parallel with
-fable-2026-07-07-storywave-docs.md per the §S seam.**
+**Status: ✅ LOCKED — READY TO BUILD (finalized 2026-07-08). BUILD NOT
+STARTED — awaiting the human's explicit go-build.** Executes in parallel with
+fable-2026-07-07-storywave-docs.md per the §S seam.
 
-**Open questions RESOLVED (2026-07-08 walkthrough)** — see the bottom section
-+ ADR-163/164/165. Three overrode the executor defaults (Q3 wage verb, Q6
-every rung-up gets a VN, Q8 keep the defeat bleed), and a **rice-model
-reframe** (measured kura-units + soft caps + the seasonal-pool sink loop) is
-NEW scope the milestone bodies predate (inline notes flag the affected steps).
+**Finalization record (2026-07-08 walkthrough, session 121):**
+- **All 13 open questions RULED** — see the bottom section + **ADR-163/164/165**.
+  Three overrode the executor defaults (Q3 wage verb, Q6 every rung-up gets a
+  VN, Q8 keep the defeat bleed); the other ten took the default.
+- **The rice-model reframe** (measured kura-units + soft caps + the
+  seasonal-pool sink loop) is NEW scope, fully specced: the **Economy spec**
+  block (below, before the Milestones) fixes the model, its **Build map** pins
+  the state shape + per-file touch-points, and the **G4 DoD** invariants
+  encode every new ruling.
+- **Build sequence: LITERAL G0→G7** (human, 2026-07-08) — the vertical-slice
+  "economy engine first" alternative was considered and NOT taken.
+- **Gap 3 (loop fun/balance) is deferred to a human playtest AFTER the initial
+  build** (human, 2026-07-08) — not a pre-build blocker.
 
 **Confidence: ( 90% Opus, 10% Fable )** — a multi-system engine rewrite where
 sequencing judgment, cross-gate reasoning, and taste-adjacent wiring decisions

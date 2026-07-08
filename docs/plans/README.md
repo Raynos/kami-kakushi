@@ -62,7 +62,7 @@ got here" log is [`../../project/journal/`](../../project/journal).
 
 - [`fable-2026-07-07-story-bible-finish.md`](fable-2026-07-07-story-bible-finish.md) — IN-PROGRESS
 - [`fable-2026-07-07-storywave-docs.md`](fable-2026-07-07-storywave-docs.md) — PROPOSED
-- [`fable-2026-07-07-storywave-game.md`](fable-2026-07-07-storywave-game.md) — PROPOSED
+- [`fable-2026-07-07-storywave-game.md`](fable-2026-07-07-storywave-game.md) — LOCKED
 - [`fable-2026-07-08-graphics-explorations.md`](fable-2026-07-08-graphics-explorations.md) — PROPOSED
 <!-- gen:end active-plans -->
 
