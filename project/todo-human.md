@@ -36,4 +36,8 @@
   night rounds, coin lanes, 17-node map, speaker ladder, scene machinery,
   the t0v2 prose migration (ONE version ships, per your 2026-07-08
   ruling), clean-break ship; 11 open questions at the bottom.
+- [ ] `project/brainstorms/2026-07-08-novel-graphics-directions.md` — **15
+  novel-graphics candidates** (you asked for these 2026-07-08): where else
+  the map's anti-slop machinery (code-drawn from data · period-document
+  genre · pin + blind-pass) could carry graphics — pick any to explore.
 
