@@ -88,9 +88,11 @@ class of job, minus the world-layout invention.
 > verdict**; rebuilt same-session as **kage-e silhouette theatre + a
 > misregistered press layer** — the 1+2 pick from
 > [`2026-07-08-e2-scene-card-rescue.md`](../../project/brainstorms/2026-07-08-e2-scene-card-rescue.md).
-> Awaiting the human's look at v2; the steps below still gate anything
-> beyond the demo — the E2.1 grammar spec, the real one-moment diverge, and
-> the keep/kill ruling.
+> **Human verdict on v2 (2026-07-08): E2 is PARKED — both demo versions stay
+> in code as concept references** (`cards-v1.ts` figurative · `cards.ts`
+> kage-e, both labelled parked in the DEV menu); no further E2 work until
+> the human un-parks. The steps below remain the track if it resumes — the
+> E2.1 grammar spec, the real one-moment diverge, and the keep/kill ruling.
 
 **Home:** the cold open (R0's first impression). **Scope:** ONE card,
 period. **Kill criterion is part of the spec:** if the pilot reads slop

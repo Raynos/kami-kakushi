@@ -82,3 +82,16 @@ renders as a spike** (the v2.1 void read as mountains until smoothed);
 figure-void shapes must stay fully inside their host band or the evenodd
 cutout clips and breaks the outline. Three headless screenshot iterations;
 `docs/` plan + register notes updated; module README rewritten for v2.
+
+---
+
+## Update 2 (same session) — E2 PARKED, both versions kept
+
+The human's ruling on v2: **park E2, keep BOTH prototypes in code as
+concept references.** Restored v1 from git history (`2aa344a`) as
+`cards-v1.ts` (`openSceneCardsV1`, filter-uid prefix `scnv1-` so both
+modals can coexist), marked both modal titles + the two DEV Story-pane
+buttons *parked*, and rippled the parked status into the module README,
+the plan's E2 note, and the graphics-concepts #12 row. No further E2 work
+until the human un-parks; the next exploration in the plan's order is E1
+(estate cutaway spec).

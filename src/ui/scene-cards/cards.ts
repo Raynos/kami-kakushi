@@ -18,6 +18,9 @@
 //
 // Still the lightweight human-pulled demo (one version, no diverge, ahead of
 // the E2.1 grammar spec — docs/plans/fable-2026-07-08-graphics-explorations.md).
+// **PARKED (human, 2026-07-08):** both demo versions stay in code as concept
+// references — this v2 (the kept look) and cards-v1.ts (the slop-ruled
+// figurative take) — and neither advances until E2 un-parks.
 // DEV-only (imported by ui/dev.ts alone); ZERO game integration — the
 // prototype-first law. Seeded-deterministic; Andon tokens only; each card's
 // single tint is its speaker's VN voice colour (--v-physician / --v-steward).
@@ -621,7 +624,7 @@ export function openSceneCards(): HTMLElement {
     hd(
       'span',
       'roman',
-      'E2 demo v2 — kage-e scene cards (the cold open · fixture text, zero integration)',
+      'E2 demo v2 · PARKED — kage-e scene cards (the cold open · fixture text, zero integration)',
     ),
   );
   card.append(title);
