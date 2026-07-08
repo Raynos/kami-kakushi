@@ -24,10 +24,10 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 ## Where we are now
 
 - **🔧 STORYWAVE GAME BUILD (Plan B, s125):** T0 rewrite to the bible (ADR-150).
-  **G0–G3 ✅** (`29b7940` §cast+monk · `1f615aa` 6-season+clean-break ·
-  `08d586d` scenes+night-rounds dormant · `75a9d02` body economies). **HD-30**
-  prose wave ⛔ gates G7; rice reframe→G4.5; OWED balance re-baseline. Next
-  G3.5 (compiler) → G4 cutover. Plan A A0–A4.
+  **G0–G3.5 ✅** — engine+compiler all in (cast · calendar · scenes+rounds ·
+  body-economies · narrative-compiler; `29b7940`→`946f57c`). **HD-30** prose
+  wave ⛔ gates G7; rice reframe→G4.5; OWED balance re-baseline (folds into G4).
+  **Next: G4 — THE content cutover** (the monster, from t0v2 picks). Plan A A0–A4.
 - **PRD** — `prd.md` = stub index → `docs/living/prd/*` (seven-tier per s118
   ripple); §4 + §7 MS2–MS7 provisional (ADR-059).
 - **v0.3.0–v0.3.7 shipped** the full T0 MS0–MS4 arc (FB-1–FB-117), the T0
