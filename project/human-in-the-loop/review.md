@@ -329,6 +329,40 @@ improve card — all three re-present the SAME pure-core `estateBuild` selector
 
 ---
 
+### HR-16 🔲 — E1 Estate cutaway (okoshi-ezu) — spec read + the 2-variant look pick
+
+The first graphics exploration (E1 of the 2026-07-08 plan): the Estate tab's
+future centerpiece as a **carpenter's fold-up house sheet** — a **standalone
+prototype experiment**, NOT part of the map-sheets system (your steer,
+2026-07-08): a parallel system that reuses the ink toolkit code only. Look
+diverge capped at **2** variants (your steer). You pulled the build forward
+past the spec-read gate (same as E2/E3), so this item covers both halves:
+
+- **The spec** — the module README,
+  [`src/ui/estate-sheet/README.md`](../../src/ui/estate-sheet/README.md):
+  the document fiction (the household's own repair sheet, drawn by hands
+  that believe the "main house" lie), the room-by-room truths, the H5
+  re-ink grammar (repairs in gold, the `ruinRevealed` label swap), and the
+  E-line blind-reader rubric. Cheap to fix — flag anything before
+  integration (E1.4, still gated).
+- **The variants** (DEV-only, fixture-fed, zero game integration):
+  - [ ] **A — fold-up okoshi-ezu** — plan at centre, wall/roof elevations
+    hinged flat off its edges with fold tabs; the ruin an un-folded
+    backdrop along the north edge. Truest to the genre.
+  - [ ] **B — flat section-cut** — one long dollhouse section-elevation,
+    rooms in a row, the ruin's elevation rising behind at the same scale.
+    The more immediately pictorial read.
+- **Asking for:** (1) the spec read; (2) which variant carries E1 forward
+  (or kill E1 — a valid verdict; killing promotes the next SOON-shelf
+  concept).
+- **How to look:** _(filled when the prototype lands this session — DEV
+  menu entry + boot param.)_
+- **Taste brief (pass 1):** _(attached with the build commit.)_
+- **Scorecard:** _(per variant, after build.)_
+- **Verdict:** _(awaiting the human)_
+
+---
+
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **HR-4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **ADR-076…ADR-079** (+ADR-056); **HR-3** folded into HR-2 (**ADR-075**).

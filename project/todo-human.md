@@ -31,3 +31,7 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
+- [`src/ui/estate-sheet/README.md`](../src/ui/estate-sheet/README.md) — the E1
+  estate-cutaway spec + rubric (a standalone prototype experiment — not part
+  of the map-sheets system); read before/with the HR-16 variant pick.
+
