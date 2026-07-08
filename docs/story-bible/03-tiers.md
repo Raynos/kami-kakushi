@@ -32,6 +32,30 @@ house rungs — they never convert 1:1. In **T6 the ladder's subject
 changes: the rungs become the HOUSE'S Edo standing (H0→H7)**, not the
 man's — kernel #4 completed in mechanics.
 
+**House Standing — the four pillars** *(pillar-structured tier-up; human,
+2026-07-08 — refines the flat standing/deeds engine per the HD-25 ruling;
+see [`project/brainstorms/2026-07-08-pillar-model.md`](../../project/brainstorms/2026-07-08-pillar-model.md)).*
+House Standing (家威 *ka-i*) is the macro-measure of what the house has
+visibly become — assessed kokudaka-style, never spent, surfaced as a
+banzuke. It rolls up FOUR pillars, each a domain of the house's worth
+(kernel #4's enemy — *debt, disrepair, a name in decline* — named as
+pillars), **revealed one per tier**: **Estate** (家産 — lands, stores,
+treasury, trade) at T0 → **+ Arms** (武威 — the house's defense & martial
+repute) at T1 → **+ Office** (官威 — offices, administration, territory)
+at T2 → **+ Name** (家格 — house rank, off the foreclosure list, the
+register) at T3; T4–T6 deepen the four, adding none. Each pillar is graded
+on a six-step ladder — **FAIL · BAD · OK · GOOD · GREAT · EXCELLENT**
+(F·D·B·A·A+·S; the English word carries the read, the letter is the
+glance, kanji is flavor). **Tier-up is breadth-required,
+specialization-rewarded:** every revealed pillar must reach GOOD, and —
+where more than one is open — exactly one hits EXCELLENT and one GREAT
+(the player chooses WHERE to spike, never whether to skip); at T0 the
+single Estate pillar collapses the gate to one top grade. Overshooting
+earns a grade-scaled boon. A tier's own depth-autonomy lives one level
+down, in that tier's DEED SOURCES (T0: fields · stores · works · watch).
+Deeds accrue in Phase 2 only (post-final-rung). Mechanics ADR at build
+time (the storywave engine docket).
+
 **The MC carries one small concrete want per tier** *(D5 relocked
 2026-07-07, the salvage cross-check)* — small enough to sit under the
 plot, concrete enough to stage; named beside each tier's theme below.
@@ -128,7 +152,8 @@ the scene). The true compound stays locked scenery.
 ### T2 · The Valley — lordless (1784)
 
 Starts: sent to speak WITH THE HOUSE'S NAME IN HIS MOUTH — a regency's
-messenger to a village that watches a house with no lord at its head.
+messenger to the valley village, **Asagiri** (朝霧, "morning mist"), that
+watches a house with no lord at its head.
 Early in the tier THE REVEAL lands (three signals, no lecture: village
 rumor at the well · the compound's old plans found in the kura, the
 "main house" a small box labeled *guest quarters* · one Toku
