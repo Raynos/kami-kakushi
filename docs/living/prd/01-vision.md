@@ -456,7 +456,7 @@ trust at the cost of village warmth and Tama-only lore.
 > stance. The spine is restored-and-surpassed fastest and richest when all three are woven together, but is
 > still completable spine-only, just slower and lonelier.
 
-## 1.6 House Influence (家威) — the four pillars & the six tiers
+## 1.6 House Influence (家威) — the four pillars & the seven tiers
 
 **House Influence** (家威, *ka-i*) is the macro-resource — the estate's **recognized standing** in the eyes of
 progressively wider authorities — and the **one thing the entire UI-reveal is gated on.** It is **re-expressed
@@ -488,9 +488,19 @@ so the grind stays load-bearing.
 | Pillar | Kanji | Protagonist domain | Grows on |
 |---|---|---|---|
 | **Arms** (martial) | 武威 *bu-i* | combat / weapon-skills / men-at-arms leadership | recognised martial deeds (a road declared safe; a nest cleared; the grain store defended; a rival's enforcer broken) + seasonal security **judged results** (fired on a new high-water mark, never repeatable maintenance) |
-| **Estate & Wealth** (economic) | 家産 *kasan* | labour / jobs / skills / trades / crafting | three **capped sub-engines** — **LAND** (*shinden* reclamation), **TREASURY** (debt→solvency→creditworthiness, *goyōkin*), **TRADE** (routes, broker standing, the signature ***meibutsu*: silk / sericulture**) |
-| **Standing & Office** (political/territorial) | 官威 *kan'i* | jobs-as-offices / administration / quests | offices granted, territory secured, alliances sealed, rivals eclipsed (named on the roster; the bailiff duty; a dispute arbitrated; a valley allied) |
-| **Name & Honour** (prestige/cultural) | 家格 *kakaku* | the recognition layer (reflects the other three + deeds/patronage/lineage) | the lord's recognition; the house off the foreclosure list; a sponsored rite; an inspector's report; a recorded merit-elevation |
+| **Estate** (economic) | 家産 *kasan* | labour / jobs / skills / trades / crafting | three **capped sub-engines** — **LAND** (*shinden* reclamation), **TREASURY** (debt→solvency→creditworthiness, *goyōkin*), **TRADE** (routes, broker standing, the signature ***meibutsu*: silk / sericulture**) |
+| **Office** (political/territorial) | 官威 *kan'i* | jobs-as-offices / administration / quests | offices granted, territory secured, alliances sealed, rivals eclipsed (named on the roster; the bailiff duty; a dispute arbitrated; a valley allied) |
+| **Name** (prestige/cultural) | 家格 *kakaku* | the recognition layer (reflects the other three + deeds/patronage/lineage) | the lord's recognition; the house off the foreclosure list; a sponsored rite; an inspector's report; a recorded merit-elevation |
+
+> **Canon pillar names (bible; ADR-159, HD-25 — kept, not superseded).** The four
+> pillars' canon names are the crisp single words **Estate · Arms · Office · Name**
+> (家産 · 武威 · 官威 · 家格), under the umbrella **House Standing (家威)**. "Office"
+> (官威) replaces the old "Standing & Office" so it no longer collides with the
+> umbrella term; the "& Wealth"/"& Honour" longforms are descriptive only. Each
+> pillar is graded on a **six-step ladder — FAIL · BAD · OK · GOOD · GREAT ·
+> EXCELLENT** (F·D·B·A·A+·S). Full engine:
+> [`docs/story-bible/03-tiers.md`](../../story-bible/03-tiers.md) "House Standing —
+> the four pillars".
 
 > **The Estate & Wealth sub-engines = the coin/rice flywheel, revealed across the Estate split.**
 > In **T0** the economy is a **single LINEAR taste** — one work → **rice + a little coin** → upgrade → more
@@ -547,13 +557,16 @@ dents Arms; a scandal dents Name; a called debt dents Estate) — small and **ne
 holding-loss; a failed defence damages/disables a holding *temporarily*, recoverable by rebuild). Dent
 self-heal is a small **below-high-water seasonal restore** that **never advances the high-water mark**.
 
-### 1.6.3 The six tiers, transition story gates & per-tier pillar gating
+### 1.6.3 The seven tiers, transition story gates & per-tier pillar gating
 
 Tier-up is **not** crossing a single band: each tier gates on a **scaled
 grade-gate across the pillars REVEALED by that tier**. For **N** open pillars you need **exactly 1
 EXCELLENT + 1 GREAT + (N−2) GOOD**, all **≥ GOOD** (**no** overflow substitution; **breadth required,
-specialisation rewarded**). The semantics: **good = the expected baseline · great = really strong · excellent =
-above-and-beyond**. The **revealed-pillar set grows one per tier**: **T0 = 1**
+specialisation rewarded**). The grades are a **six-step ladder — FAIL · BAD · OK ·
+GOOD · GREAT · EXCELLENT** (F·D·B·A·A+·S; the English word carries the read, the
+letter is the glance): **GOOD = the expected baseline · GREAT = really strong ·
+EXCELLENT = above-and-beyond**, with OK/BAD/FAIL the states below the GOOD gate
+floor. The **revealed-pillar set grows one per tier**: **T0 = 1**
 (Estate — the gate **collapses to a single EXCELLENT**, the (N−2) term dropping), **T1 = 2** (+ Arms → 1 GREAT
 + 1 EXCELLENT), **T2 = 3** (+ Office → 1 EXC + 1 GRT + 1 GOOD), **T3 = 4** (+ Name → 1 EXC + 1 GRT + 2 GOOD) —
 the gate is **only ever checked against revealed pillars** (never against an unrevealed one).
