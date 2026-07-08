@@ -42,11 +42,11 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
   · retuned in-band · PRD rippled. **✅ FB-121 REQUIREMENTS RUNGS (ADR-137,
   s101):** points meter DEAD — authored hidden lists, %-bar, locked flavor
   (HR-12/13 ✅). RESIDUE: R4+ predator kills parked (combat-curve retune).
-- **✅ THE BIBLE — WORKSTREAM A COMPLETE (s109):** all 7 tier sheets walked
-  to staged depth · full T0–T5 cast (portraits, clean-passed) · **origin
-  RELOCKED warm** (Tahei/landslide; Tama + reunion threads restored) · name
-  sweep ruled (use-name **GONBEI**) · register rules law · THE FALL authored ·
-  7 review Qs ruled. **Awaits the human's whole-read → BIBLE DONE.** ADR held.
+- **✅ THE BIBLE — DONE & BLESSED (s109–116, ADR-150):** all 7 tier sheets ·
+  full cast · origin relocked warm (Tahei) · use-name **GONBEI** · register
+  rules law · THE FALL · the salvage/audit cross-check ruled in (law §0.5.7,
+  Kihei's "…"-react, D5 wants). **The human signed off the whole read (s116);
+  ADR-150 minted** — the frame ADR is the build wave's charter.
 - **✅ TIMED ACTIONS (ADR-148, s105):** press→instant is DEAD — every action
   `timed{duration,cooldown}` or `instant` (total, compile-enforced) · shell
   **ActionClock** (one global, drop-on-interrupt, auto = go-again) · in-button
@@ -111,10 +111,10 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
    Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced — NEVER open a headed browser, incl. from
    subagents): `window.__qa` or `node src/scripts/qa-shots.mjs`. `newGame()` to reset.
-4. **Next** — **the STORY-BIBLE FINISH plan** (`fable-2026-07-07-story-bible-finish.md`):
-   **BIBLE DONE (s116 — the human signed off the whole read) and the frame
-   ADR is MINTED (ADR-150)**. Workstream B is OPEN and B1 is the next step:
-   B1 PRD §5 rewrite → B2 engine ADRs (⬩Opus) → B3 T0 prose wave → B4
-   migration (⬩Opus) → B5 closure (HR-8 closes at B3). The reboot + salvage
-   plans are archived. UI-v2 picks stay human-gated.
+4. **Next** — **the STORYWAVE twin plans** (s116, supersede the finish plan's
+   B): the human READS `docs/plans/fable-2026-07-07-storywave-{docs,game}.md`
+   (PRD/ADR ripple · the T0 re-implementation) → two ⬩Opus executors run
+   them IN PARALLEL per their §S seam. The T0 prose wave is DONE in
+   `src/core/content/narrative/t0v2/` — ONE version ships (2026-07-08 ruling;
+   VERDICT picks canonical, alternates archived). Clean-break saves.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
