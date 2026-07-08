@@ -1,9 +1,10 @@
 # The T0 & T1 map sheets — baseline spec (the verification corpus)
 
-**Status:** IN-PROGRESS — v1, authored 2026-07-07.
+**Status:** LOCKED — v1 authored 2026-07-07; the rebuild it gated is DONE
+(HR-12 ✅, ADR-151); this doc stays live as the standing blind-pass rubric.
 **Confidence:** ( 40% Opus, 60% Fable ) — visual judgment + canon fidelity
 concentrate here; the drawing code itself is mechanical once specified.
-**Companion plan:** [`fable-2026-07-07-t0t1-map-rebuild.md`](fable-2026-07-07-t0t1-map-rebuild.md)
+**Companion plan:** [`fable-2026-07-07-t0t1-map-rebuild.md`](../../project/archive/fable-2026-07-07-t0t1-map-rebuild.md)
 (the audit findings + build steps). THIS file is the *what*: a
 super-detailed description of what the T0 and T1 DEV review maps should
 depict, derived from the story bible

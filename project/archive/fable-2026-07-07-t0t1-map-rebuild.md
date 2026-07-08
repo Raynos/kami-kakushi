@@ -1,6 +1,10 @@
 # T0/T1 review-map rebuild — audit + plan
 
-**Status:** IN-PROGRESS — authored 2026-07-07 (session 112).
+**Status:** ✅ DONE — authored 2026-07-07 (s112), completed s112–s115:
+rebuilt on one geography, three blind passes (all M-lines green), HR-12
+PASSED (ADR-151), the 17-capture drain landed, rung-reveal mechanism +
+golden pin + Phase C hardening shipped. The companion SPEC stays active
+as the standing verification corpus.
 **Confidence:** ( 40% Opus, 60% Fable ) — canon fidelity + art judgment
 dominate; drawing code is mechanical once the spec exists.
 **Who builds this — Fable or Opus?** This session (Fable 5) builds it:

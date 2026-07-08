@@ -263,3 +263,13 @@ without). The shell now SUSPENDS the filter during zoom and restores it
 (present → suspended → restored). Snapshot refreshed with the whole map
 workstream state. Phase C remaining tail: geom-core extraction (G-5) +
 API idiom pass (G-7) — internal quality, pin-guarded, tracked.
+
+Checkpoint (/prepare-to-exit): the rebuild plan flipped ✅ DONE and
+graduated to `project/archive/` (the SPEC stays active as the standing
+blind-pass rubric — its Status says so); the four map docs cleared from
+the reading queue (all engaged this session — the human ruled every fork
+they carried: ADR-149/151, HR-12 PASS, the substrate kill, the drain).
+Phase C tail left open on the task list: geom-core extraction (G-5) +
+API idiom pass (G-7) — internal, golden-pin-guarded. The co-agent's
+uncommitted snapshot prose (bible/storywave, w2:p2) left untouched in
+the working tree — theirs to commit.

@@ -34,7 +34,6 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
-
 - [ ] `docs/plans/fable-2026-07-07-storywave-docs.md` — **storywave Plan A
   (DOCS)**: the docs/PRD/ADR ripple to the blessed bible — the ten-ADR
   engine docket (A0, ready-to-paste), PRD §5 rewrite + banner, targeted
@@ -45,20 +44,4 @@
   night rounds, coin lanes, 17-node map, speaker ladder, scene machinery,
   the t0v2 prose migration (ONE version ships, per your 2026-07-08
   ruling), clean-break ship; 11 open questions at the bottom.
-- [ ] `docs/plans/fable-2026-07-07-t0t1-map-rebuild.md` — the **T0/T1 map
-  rebuild plan**: what the blind-agent audit found wrong with the two DEV
-  reference maps (canon + quality + code), the build steps, and the one
-  surfaced fork (night-indigo vs warm-washi substrate — default is night).
-- [ ] `docs/plans/fable-2026-07-07-t0t1-map-spec.md` — the **map baseline
-  spec**: the super-detailed description of what the T0/T1 sheets should
-  depict (one master geography, drawn wrong-things, the AA look bar) + the
-  blind-reader rubric the rebuild iterates against.
-- [ ] `project/brainstorms/2026-07-07-t0t1-map-review-next-level.md` — the
-  **map-rebuild fresh-eyes review**: implementation/tooling/output verdicts
-  (incl. a capture bug that hid the zoom-detail layer from every blind
-  pass) + the ranked next-level phases; pairs with your HR-12 taste call.
-- [ ] `project/brainstorms/2026-07-07-t0-map-rung-reveal.md` — the
-  **rung-reveal illustration** you asked for: T0R1/R3/R5/R7 renders (fog =
-  unsurveyed paper, 未 ghost chips, rumor notes; images in
-  `project/audit/screens/2026-07-07-t0-rung-reveal/`) + the design calls it
-  takes and the fork it surfaces (sheet vs 地図 as the one unlock source).
+
