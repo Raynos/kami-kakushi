@@ -536,7 +536,28 @@ function openTierMap(tier: Tier): HTMLElement {
     const p = new DOMPoint(cx, cy).matrixTransform(m.inverse());
     return { x: p.x, y: p.y };
   };
+  // The paper-warp displacement filter costs ~10ms/frame while ZOOMING (the
+  // browser re-rasterises the filtered group at each new scale — measured
+  // 24ms→14ms p50 without it). Suspend it during zoom, restore on idle: crisp
+  // warp at rest, 60fps in motion. Pan is attribute-only and never pays this.
+  const artGroup = (): SVGElement | null => svg.children[1] as SVGElement | null;
+  let artFilter: string | null = null;
+  let filterIdle: ReturnType<typeof setTimeout> | undefined;
+  const suspendFilterForZoom = (): void => {
+    const art = artGroup();
+    if (art && artFilter === null) {
+      artFilter = art.getAttribute('filter');
+      if (artFilter) art.removeAttribute('filter');
+    }
+    clearTimeout(filterIdle);
+    filterIdle = setTimeout(() => {
+      const a = artGroup();
+      if (a && artFilter) a.setAttribute('filter', artFilter);
+      artFilter = null;
+    }, 160);
+  };
   const zoomAt = (cx: number, cy: number, factor: number): void => {
+    suspendFilterForZoom();
     const p = toWorld(cx, cy);
     vb.w *= factor;
     vb.h *= factor;
@@ -759,6 +780,7 @@ function openTierMap(tier: Tier): HTMLElement {
   select(null);
 
   const dismiss = (): void => {
+    clearTimeout(filterIdle); // never restore a filter onto a removed sheet
     document.removeEventListener('keydown', onKey);
     scrim.remove();
   };

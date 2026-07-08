@@ -255,3 +255,11 @@ Golden pin REGENERATED with the change (the pin's intended flow).
 DELIBERATELY SKIPPED: <use>-deduplicating trees — per-tree seeded
 uniqueness is the L6 anti-stamp rule, a design feature not an
 inefficiency.
+
+Turbulence verdict (G-3), measured then fixed: the paper-warp
+displacement filter cost ~10ms/frame during zoom (24ms → 14ms p50
+without). The shell now SUSPENDS the filter during zoom and restores it
+160ms after idle — crisp warp at rest, 60fps in motion; verified live
+(present → suspended → restored). Snapshot refreshed with the whole map
+workstream state. Phase C remaining tail: geom-core extraction (G-5) +
+API idiom pass (G-7) — internal quality, pin-guarded, tracked.
