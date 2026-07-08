@@ -209,3 +209,12 @@ document never fogs — every input a data table (`REVEAL` stages +
 `RUNG_LADDER` placeholder in nodes.ts; the build plan edits data, not
 code). A DEV previewer pill (段) on the T0 sheet cycles 全→R1→R3→R5→R7;
 verified live through the full cycle, no console errors.
+
+Phase C opens — the golden pin first (sequencing judgment: the wholesale
+role-named-seed refactor would RESHUFFLE the HR-12-passed look, so it is
+SKIPPED; the pin freezes the current rendering and every refactor proves
+itself against it). `golden.test.ts` (jsdom) hashes both grounds' full
+draw-attribute streams + node counts (17,107 / 17,154) into
+`golden.hash.json`; regen = `UPDATE_MAP_GOLDEN=1 vitest run …` committed
+WITH the intentional change. RED-proven: a 1-unit weir nudge fails both
+tiers; reverted, green.
