@@ -50,3 +50,52 @@ holds.
   RED by design; regen deliberately, eyeball first.
 - Shared tree: another agent (`w2:p2`) was live on story-wave docs this
   session; only my three files were staged.
+
+---
+
+## Update — the T2 sheet BUILT (human said "build it" → HR-13 signed off)
+
+The human read the relay and said **"build it"** — the implicit sign-off on
+HR-13 (intent is canon, ADR-022). Same-class extension → no diverge (§4.5).
+Built the whole T2 valley sheet to the §6 spec, verified against the §6.4
+V-rubric by eyeballing captures.
+
+**What the build adds (new files):**
+- `src/ui/map-sheets/valley.ts` — T2 geography data: the `VALLEY` frame
+  (3200×4300, extends WORLD south), `RIVER_SOUTH`, gorge, flank hills/woods,
+  valley washes, **Asagiri** (street · clusters · well · market · headman ·
+  temple · mill · ferry), valley features (quarry · camp · hill-shrines ·
+  moved stone), roads, `NIGHT_ROUTE_T2`, and `VALLEY_ANCHORS`.
+- `src/ui/map-sheets/village.ts` — new seeded brush-alive primitives:
+  `houseCluster` · `villageLane` · `marketSquare` · `torii` · `templeGlyph`
+  · `millWheel` · `ferryLanding` · `quarryScar` · `banditCamp` · `hillShrine`
+  · `flankShoulder`.
+- `src/ui/map-sheets/t2-ground.ts` — `paintValley(art, revealed)`: the
+  DEMOTED estate (precinct ring + ruin mass + tiny guest-house pictogram +
+  the new gold gatehouse + the `改` re-label notes) + the valley + Asagiri.
+- `src/ui/map-sheets/t2-sheet.ts` — thin composition (paintValley + furniture).
+
+**Wiring:** `Tier` → `+'T2'`; `TIER_DELTA.T2` (ruinRevealed:true — the honesty
+flip); `T2_NODES` (17 bible-distilled zones) + `rosterFor(T2)`; `sheet.ts`
+frame/ground/night-route/roster branches + `openT2Map`; `dev.ts` button +
+`?t2-map-demo`; `golden.test.ts` + `integrity.test.ts` extended to T2;
+`t0-sheet.ts` furniture → `Tier` (T2 cartouche 1784 · 一里 scale);
+`map-audit-shots.mjs` → T2 sweep.
+
+**Verified:** `pnpm run verify` GREEN (17 gates). Golden pin regenerated —
+T2 = 22,135 nodes (under the 25k guard). Captured + eyeballed at fit + three
+deep zooms: the estate demotion reads (the great robbed precinct ring with the
+tiny gold guest-house in its SE corner — V3 ✓✓), the river runs N→S estate→
+village (V2), Asagiri reads as a settlement (V4), roads connect out (V6), the
+ruin is named the Main house with the crest (V7). Fixed en route: field
+rectangles that read as flat voids → real ghost-bund + hatched paddy; mid-
+valley emptiness → bolder roads + Asagiri farm fields + denser life-scatter;
+the camp lost in the woods → a cleared patch.
+
+## Next intended steps (updated)
+1. Run the `map-blind-pass` workflow scoped to T2 (Sonnet loop agents) →
+   score against §6.4 V1–V12 → iterate any missed **M** line → commit the
+   report to `project/audit/reports/`.
+2. Follow-ups (not blocking): the pre-reveal label toggle (currently renders
+   revealed); a T2 rung-reveal fog stage-set (`REVEAL_T2`); fiction-voiced
+   polish of the T2 roster blurbs (ADR-139 narrative-diverge).

@@ -16,8 +16,11 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { T0_WINDOW, WORLD } from './layout';
+import { VALLEY } from './valley';
+import type { Tier } from './nodes';
 import { paintT0Ground } from './t0-sheet';
 import { paintT1Ground } from './t1-sheet';
+import { paintT2Ground } from './t2-sheet';
 
 const GOLDEN_PATH = join(__dirname, 'golden.hash.json');
 
@@ -56,12 +59,18 @@ const DRAW_ATTRS = [
   'style',
 ];
 
-function renderTier(tier: 'T0' | 'T1'): { hash: string; nodes: number } {
+function renderTier(tier: Tier): { hash: string; nodes: number } {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   const art = document.createElementNS('http://www.w3.org/2000/svg', 'g');
   svg.append(art);
-  const frame = tier === 'T0' ? T0_WINDOW : { x: 0, y: 0, w: WORLD.w, h: WORLD.h };
+  const frame =
+    tier === 'T0'
+      ? T0_WINDOW
+      : tier === 'T2'
+        ? { x: VALLEY.x, y: VALLEY.y, w: VALLEY.w, h: VALLEY.h }
+        : { x: 0, y: 0, w: WORLD.w, h: WORLD.h };
   if (tier === 'T0') paintT0Ground(art, frame);
+  else if (tier === 'T2') paintT2Ground(art, frame);
   else paintT1Ground(art, frame);
   const parts: string[] = [];
   for (const el of Array.from(art.querySelectorAll('*'))) {
@@ -79,16 +88,18 @@ function renderTier(tier: 'T0' | 'T1'): { hash: string; nodes: number } {
 interface Golden {
   readonly t0: { hash: string; nodes: number };
   readonly t1: { hash: string; nodes: number };
+  readonly t2: { hash: string; nodes: number };
 }
 
 describe('map-sheets golden pin — the drawing is the HR-12-passed one', () => {
-  const current: Golden = { t0: renderTier('T0'), t1: renderTier('T1') };
+  const current: Golden = { t0: renderTier('T0'), t1: renderTier('T1'), t2: renderTier('T2') };
 
   if (process.env.UPDATE_MAP_GOLDEN) {
     it('regenerates the pin (UPDATE_MAP_GOLDEN set)', () => {
       writeFileSync(GOLDEN_PATH, JSON.stringify(current, null, 2) + '\n');
       expect(current.t0.nodes).toBeGreaterThan(1000);
       expect(current.t1.nodes).toBeGreaterThan(1000);
+      expect(current.t2.nodes).toBeGreaterThan(1000);
     });
     return;
   }
@@ -101,10 +112,14 @@ describe('map-sheets golden pin — the drawing is the HR-12-passed one', () => 
   it('T1 ground hash matches the pin', () => {
     expect(current.t1).toEqual(golden.t1);
   });
+  it('T2 ground hash matches the pin', () => {
+    expect(current.t2).toEqual(golden.t2);
+  });
   it('node counts stay within the perf envelope (blowup guard)', () => {
     // ~17k measured at pin time; the Phase C node collapse will LOWER these —
     // regen the pin when it lands. A silent 2x growth is the failure this catches.
     expect(current.t0.nodes).toBeLessThan(25000);
     expect(current.t1.nodes).toBeLessThan(25000);
+    expect(current.t2.nodes).toBeLessThan(25000);
   });
 });

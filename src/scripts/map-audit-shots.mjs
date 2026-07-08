@@ -19,10 +19,11 @@ const OUT =
   `project/audit/screens/${new Date().toISOString().slice(0, 10)}-t0t1-map-shots`;
 mkdirSync(OUT, { recursive: true });
 
-// The two sheet frames (world units — layout.ts: T0_WINDOW and WORLD).
+// The sheet frames (world units — layout.ts: T0_WINDOW and WORLD; valley.ts: VALLEY).
 const FRAME = {
   T0: { x: 430, y: 330, w: 2220, h: 1480 },
   T1: { x: 0, y: 0, w: 3200, h: 2100 },
+  T2: { x: 0, y: 0, w: 3200, h: 4300 },
 };
 
 const browser = await chromium.launch({ headless: true });
@@ -44,7 +45,7 @@ try {
   const openMap = async (tier) => {
     await page.evaluate(async (t) => {
       const m = await import('/ui/map-sheets/sheet.ts');
-      window.__mapScrim = t === 'T0' ? m.openT0V2Map() : m.openT1Map();
+      window.__mapScrim = t === 'T0' ? m.openT0V2Map() : t === 'T2' ? m.openT2Map() : m.openT1Map();
     }, tier);
     await page.waitForTimeout(700);
   };
@@ -102,6 +103,8 @@ try {
   // deep zoom on the guest-house compound (fine register ON via the fix)
   await sweep('T0', [1850, 1000, 700, 467]);
   await sweep('T1', [1850, 1000, 900, 590]);
+  // T2: deep zoom on Asagiri village (the settlement + its public works)
+  await sweep('T2', [800, 3050, 1100, 1478]);
 } finally {
   await browser.close();
 }

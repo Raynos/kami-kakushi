@@ -8,11 +8,13 @@
 import { rng, scrawl, sv, tip } from './brush';
 import type { Pt } from './geom';
 import { ANCHORS, NIGHT_ROUTE, NIGHT_ROUTE_T1, T0_WINDOW, WORLD } from './layout';
+import { NIGHT_ROUTE_T2, VALLEY } from './valley';
 import type { SheetNode, Tier, ZoneKind } from './nodes';
-import { KIND_META, rosterFor, T1_IDS, T1_NODES, T1_NOTES } from './nodes';
+import { KIND_META, rosterFor, T1_IDS, T1_NODES, T1_NOTES, T2_IDS } from './nodes';
 import { paintReveal, REVEAL, zonesAtRung } from './reveal';
 import { paintT0Ground } from './t0-sheet';
 import { paintT1Ground } from './t1-sheet';
+import { paintT2Ground } from './t2-sheet';
 
 function hd<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -33,6 +35,7 @@ interface Frame {
 }
 
 function frameFor(tier: Tier): Frame {
+  if (tier === 'T2') return { x: VALLEY.x, y: VALLEY.y, w: VALLEY.w, h: VALLEY.h };
   return tier === 'T0' ? T0_WINDOW : { x: 0, y: 0, w: WORLD.w, h: WORLD.h };
 }
 
@@ -89,11 +92,16 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
   const seals = sv('g'); // crisp text/click layer
   svg.append(art, seals);
 
-  const overrides = tier === 'T1' ? paintT1Ground(art, frame) : paintT0Ground(art, frame);
+  const overrides =
+    tier === 'T2'
+      ? paintT2Ground(art, frame)
+      : tier === 'T1'
+        ? paintT1Ground(art, frame)
+        : paintT0Ground(art, frame);
 
   // the night-rounds rail — drawn once, revealed when 夜 is selected
   const rail = sv('g', { class: 't0v2-nightrail' });
-  const route = tier === 'T1' ? NIGHT_ROUTE_T1 : NIGHT_ROUTE;
+  const route = tier === 'T2' ? NIGHT_ROUTE_T2 : tier === 'T1' ? NIGHT_ROUTE_T1 : NIGHT_ROUTE;
   rail.append(
     sv('path', {
       d: scrawl(route, 'rail', 3.5),
@@ -254,43 +262,51 @@ function drawSealLayer(
 function renderOverview(aside: HTMLElement, select: (id: string) => void, tier: Tier): void {
   const roster = rosterFor(tier);
   aside.textContent = '';
-  aside.append(
-    hd('div', 't0v2-aside-title', tier === 'T0' ? 'T0 — the zone sheet' : 'T1 — the zone sheet'),
-  );
-  const src = hd(
-    'div',
-    't0v2-aside-src',
-    tier === 'T0'
-      ? 'Source: docs/story-bible/tiers/t0.md (walked whole, 2026-07-07). Review artifact — ' +
-          'NOT wired to the game. One geography: this sheet is a WINDOW of the T1 world. ' +
-          'Drag to pan · scroll to zoom · roster rows fly to the zone.'
-      : 'Source: docs/story-bible/tiers/t1.md (walked whole, 2026-07-07). The SAME world as ' +
-          'T0, seen whole and one-to-two years on: the land at true extent, the wings opened, ' +
-          "the re-survey's red recording what the tier changed. The ruin shows NO new work — " +
-          'its reveal is T2. Drag to pan · scroll to zoom.',
-  );
-  aside.append(src);
+  const titleFor: Record<Tier, string> = {
+    T0: 'T0 — the zone sheet',
+    T1: 'T1 — the zone sheet',
+    T2: 'T2 — the valley sheet',
+  };
+  aside.append(hd('div', 't0v2-aside-title', titleFor[tier]));
+  const srcFor: Record<Tier, string> = {
+    T0:
+      'Source: docs/story-bible/tiers/t0.md (walked whole, 2026-07-07). Review artifact — ' +
+      'NOT wired to the game. One geography: this sheet is a WINDOW of the T1 world. ' +
+      'Drag to pan · scroll to zoom · roster rows fly to the zone.',
+    T1:
+      'Source: docs/story-bible/tiers/t1.md (walked whole, 2026-07-07). The SAME world as ' +
+      'T0, seen whole and one-to-two years on: the land at true extent, the wings opened, ' +
+      "the re-survey's red recording what the tier changed. The ruin shows NO new work — " +
+      'its reveal is T2. Drag to pan · scroll to zoom.',
+    T2:
+      'Source: docs/story-bible/tiers/t2.md + map-spec §6. The SAME world PULLED BACK to the ' +
+      'valley: the estate demoted to one compound (the ruin now named the Main house — the ' +
+      'reveal), Asagiri village downstream on the river. A mura-ezu, wide. Drag to pan · ' +
+      'scroll to zoom.',
+  };
+  aside.append(hd('div', 't0v2-aside-src', srcFor[tier]));
   const counts = roster.reduce<Record<ZoneKind, number>>(
     (acc, n) => ((acc[n.kind] = (acc[n.kind] ?? 0) + 1), acc),
     { estate: 0, grounds: 0, combat: 0, activity: 0, scenery: 0 },
   );
-  aside.append(
-    hd(
-      'div',
-      't0v2-aside-sum',
-      tier === 'T0'
-        ? `${roster.length} nodes — ${counts.estate} estate · ${counts.grounds} grounds · ` +
-            `${counts.combat} combat zones · ${counts.activity} combat activity · ` +
-            `${counts.scenery} locked scenery. Shapes: 3 grindable loops · 1 authored chain · ` +
-            '1 repeatable mini-dungeon (the Night rounds).'
-        : `${roster.length} nodes (${T1_NODES.length} new in T1) — ${counts.estate} estate · ` +
-            `${counts.grounds} grounds · ${counts.combat} combat zones · ${counts.activity} ` +
-            `combat activity · ${counts.scenery} locked scenery. Shapes: grindable loops (the ` +
-            'pools RETIRE at R4; the shallows; the carried T0 loops) · authored chains (the ' +
-            'let-go terraces; the boar chain) · the R6 wolf set-piece in daylight · the Night ' +
-            'rounds, grown building by building.',
-    ),
-  );
+  const kindLine =
+    `${counts.estate} estate · ${counts.grounds} grounds · ${counts.combat} combat zones · ` +
+    `${counts.activity} combat activity · ${counts.scenery} scenery`;
+  const sumFor: Record<Tier, string> = {
+    T0:
+      `${roster.length} nodes — ${kindLine}. Shapes: 3 grindable loops · 1 authored chain · ` +
+      '1 repeatable mini-dungeon (the Night rounds).',
+    T1:
+      `${roster.length} nodes (${T1_NODES.length} new in T1) — ${kindLine}. Shapes: grindable ` +
+      'loops (the pools RETIRE at R4; the shallows; the carried T0 loops) · authored chains ' +
+      '(the let-go terraces; the boar chain) · the R6 wolf set-piece in daylight · the Night ' +
+      'rounds, grown building by building.',
+    T2:
+      `${roster.length} nodes (the valley) — ${kindLine}. The estate demotes to three compound ` +
+      'seals; the village + valley zones join. First HUMAN combat (the mountain-dogs’ camp); ' +
+      'the village reputation track opens at zero.',
+  };
+  aside.append(hd('div', 't0v2-aside-sum', sumFor[tier]));
   // the full roster, grouped by kind — a completeness checklist for the review
   const order: readonly ZoneKind[] = ['estate', 'grounds', 'combat', 'activity', 'scenery'];
   for (const kind of order) {
@@ -301,7 +317,8 @@ function renderOverview(aside: HTMLElement, select: (id: string) => void, tier: 
       const row = hd('button', 't0v2-roster-row');
       row.type = 'button';
       row.append(hd('span', 't0v2-roster-kanji', n.kanji), hd('span', undefined, n.name));
-      if (tier === 'T1' && T1_IDS.has(n.id)) row.append(hd('span', 't0v2-roster-new', '新'));
+      if ((tier === 'T1' && T1_IDS.has(n.id)) || (tier === 'T2' && T2_IDS.has(n.id)))
+        row.append(hd('span', 't0v2-roster-new', '新'));
       row.addEventListener('click', () => select(n.id));
       aside.append(row);
     }
@@ -328,6 +345,7 @@ function renderDetail(aside: HTMLElement, n: SheetNode, back: () => void, tier: 
   );
   if (tier === 'T1' && T1_IDS.has(n.id))
     chips.append(hd('div', 't0v2-chip t0v2-chip-new', '新 · new in T1'));
+  if (tier === 'T2') chips.append(hd('div', 't0v2-chip t0v2-chip-new', '新 · the valley'));
   aside.append(chips);
   aside.append(hd('p', 't0v2-detail-blurb', n.blurb));
 
@@ -465,6 +483,11 @@ export function openT1Map(): HTMLElement {
   return openTierMap('T1');
 }
 
+/** Open the T2 review map — the valley, the estate demoted, Asagiri downstream. */
+export function openT2Map(): HTMLElement {
+  return openTierMap('T2');
+}
+
 function openTierMap(tier: Tier): HTMLElement {
   const scrim = hd('div', 'modal-scrim');
   // the DEV panel floats at z-index 9999 and would overlap the aside's corner —
@@ -485,11 +508,12 @@ function openTierMap(tier: Tier): HTMLElement {
   const head = hd('div', 't0v2-head');
   const title = hd('div', 'modal-title');
   const kami = hd('span', 'kami', '絵図・改');
-  const roman = hd(
-    'span',
-    'roman',
-    tier === 'T0' ? 'T0 — the estate & the household' : 'T1 — the same world, seen whole',
-  );
+  const romanFor: Record<Tier, string> = {
+    T0: 'T0 — the estate & the household',
+    T1: 'T1 — the same world, seen whole',
+    T2: 'T2 — the valley, Asagiri downstream',
+  };
+  const roman = hd('span', 'roman', romanFor[tier]);
   title.append(kami, roman);
   head.append(title);
 
@@ -646,7 +670,7 @@ function openTierMap(tier: Tier): HTMLElement {
   const focusNode = (id: string): void => {
     const a = ANCHORS[id];
     if (!a) return;
-    vb.w = tier === 'T1' ? 1100 : 900;
+    vb.w = tier === 'T2' ? 1500 : tier === 'T1' ? 1100 : 900;
     vb.h = (vb.w * FR.h) / FR.w;
     vb.x = a.x - vb.w / 2;
     vb.y = a.y - vb.h / 2;

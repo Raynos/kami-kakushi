@@ -51,6 +51,7 @@ This file is an **index, not the record**. The durable "why" lives in the **ADR*
 
 | R# | Title | Resolution (one line) | → ADR / outcome | Date | Intent |
 |----|-------|-----------------------|-----------------|------|--------|
+| HR-13 (map — id reused; this is the T2-spec read gate, not the FB-121 row below) | The T2 valley map spec (§6 of map-spec.md) — read before the build draws | **Signed off implicitly ("build it")** — spec read/approved; the T2 valley sheet was then BUILT to it (demoted estate + Asagiri + the ruinRevealed re-label, verified against the §6.4 V-rubric) | map-spec §6; build in `src/ui/map-sheets/` (valley.ts · village.ts · t2-ground.ts · t2-sheet.ts) | 2026-07-08 | (in-session "build it" steer) |
 | R3 | T0-M4 breadth diverge picks | Superseded — folded into the unified per-variant **R2** review | **D-075** (diverge v2) | 2026-06-30 | [r4-playtest-decisions](../feedback-human/2026-06-30-r4-playtest-decisions.md) |
 | R4 | v0.3 fidelity-battery judgment queue (6 calls) | All 6 decided via AskUserQuestion (clock / fork / auto-combat / cold-open / breadth / koku) | **D-076…D-079** (+D-056) | 2026-06-30 | [r4-playtest-decisions](../feedback-human/2026-06-30-r4-playtest-decisions.md) |
 | R9 | UI-remaster direction (`ui-demos/` field of 10) | **10 Andon Steel** locked as UI-v2's direction; 01–09 anchored as the exploration record (not deleted) | **D-127** | 2026-07-04 | (in-session steer) |

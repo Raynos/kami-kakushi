@@ -66,7 +66,7 @@ import { COLD_OPEN } from '../core/content/coldOpen';
 import { FLAVOR } from '../core/content/flavor';
 import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
 import { mountRequirementsCheatlist } from './dev-cheatlist';
-import { openT0V2Map, openT1Map } from './map-sheets/sheet';
+import { openT0V2Map, openT1Map, openT2Map } from './map-sheets/sheet';
 // Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
 // here, riding this module's DEV fold + sentinel graph (FB-7 / ADR-059).
 export { createBalanceCockpit, buildTuneArtifact } from './dev-cockpit';
@@ -2021,6 +2021,11 @@ export function mountDevPanel(
   });
   t1Btn.style.cssText += 'margin-bottom:.2rem;';
   storyPane.append(t1Btn);
+  const t2Btn = mono('⤢ T2 map — the valley, Asagiri downstream', () => {
+    openT2Map();
+  });
+  t2Btn.style.cssText += 'margin-bottom:.2rem;';
+  storyPane.append(t2Btn);
   if (dev.storyBundles.length === 0) {
     const empty = el('div', undefined, 'No open story diverges — nothing awaiting review.');
     empty.style.cssText = 'color:#9b8e78;padding:.3rem .1rem;';
@@ -2276,6 +2281,7 @@ export function mountDevPanel(
     const boot = new URLSearchParams(location.search);
     if (boot.has('t0-map-demo')) openT0V2Map();
     else if (boot.has('t1-map-demo')) openT1Map();
+    else if (boot.has('t2-map-demo')) openT2Map();
   }
 }
 

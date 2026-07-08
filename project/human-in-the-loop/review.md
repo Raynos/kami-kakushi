@@ -329,39 +329,6 @@ improve card — all three re-present the SAME pure-core `estateBuild` selector
 
 ---
 
-### HR-13 🔲 — the **T2 valley map spec** (§6 of map-spec.md) — read & sign off BEFORE the build draws
-
-> **Locked flow (map-styles §4): spec → HR read → build.** The spec is the
-> taste-heavy artifact; drawing to a signed spec is safe for any model. So
-> the T2 sheet is **not being drawn yet** — this is the cheap-to-fix read
-> gate. A T2 valley sheet is a **same-class extension** of the estate survey
-> (mura-ezu, wide), so it needs **no ADR-075 diverge** (§4.5) — it extends
-> the one master layout, it does not fork the look.
-
-The new **§6** of [`map-spec.md`](../../docs/guides/map-spec.md) specs the T2
-valley sheet: the frame pulls back to the whole valley, the estate demotes to
-one walled compound pictogram (the ruin still the largest single footprint in
-the valley), and **Asagiri** village joins the frame downstream — its street,
-well, market, temple (Ekai's register), headman's house, mill, and ferry. It
-covers the reveal re-label (`ruinRevealed` — main house ⇄ guest house), the
-look deltas vs the estate-survey default, and the T2 blind-reader rubric
-(V1–V12) that the build verifies against. All zone geography is distilled from
-the bible ([`tiers/t2.md`](../../docs/story-bible/tiers/t2.md) ·
-[`05-world.md`](../../docs/story-bible/05-world.md)).
-
-- **Asking for:** a read pass on the spec BEFORE any drawing — does the valley
-  depiction (the demotion, Asagiri's public works, the reveal re-label, the
-  wrong-things-that-seed-T4) match your intent for T2? Any zone to add / cut /
-  reposition, any rubric line to sharpen? Fiction-voiced zone TEXT is NOT in
-  this spec (that's ADR-139 narrative-diverge territory at build time) — this
-  is the cartographic depiction only.
-- **How to look:** read **§6** (§6.0 geography · §6.1 zone table · §6.2 the
-  reveal re-label · §6.3 look deltas · §6.4 the V1–V12 rubric · §6.5 build
-  notes) of [`docs/guides/map-spec.md`](../../docs/guides/map-spec.md).
-- **Verdict:** _(awaiting the human — read gate; build is blocked on it)_
-
----
-
 > _This queue holds **open** reviews only. Closed reviews graduate to
 > [`archive.md`](archive.md) (Reviews section) — e.g. **HR-4** (v0.3 fidelity-battery judgment queue, 6 calls) was
 > **RESOLVED 2026-06-30** via AskUserQuestion → ADRs **ADR-076…ADR-079** (+ADR-056); **HR-3** folded into HR-2 (**ADR-075**).

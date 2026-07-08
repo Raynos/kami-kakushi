@@ -11,6 +11,7 @@
 //   traces · roads that go somewhere.
 
 import type { Pt } from './geom';
+import { VALLEY_ANCHORS } from './valley';
 
 export const WORLD = { w: 3200, h: 2100 } as const;
 
@@ -61,6 +62,8 @@ export const ANCHORS: Readonly<Record<string, Anchor>> = {
   'west-wing': { x: 2002, y: 1172, room: true },
   'inner-garden': { x: 2130, y: 1085, room: true },
   shoin: { x: 2058, y: 1098, room: true },
+  // T2 — the valley (spec §6; positions live in valley.ts beside their geometry)
+  ...VALLEY_ANCHORS,
 };
 
 // ── ground washes (L1 substrate) — one home for the wash geography ──────────

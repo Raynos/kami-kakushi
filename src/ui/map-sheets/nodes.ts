@@ -4,7 +4,7 @@
 // pure narrative data: what the zone IS, never where it sits or how it draws.
 
 export type ZoneKind = 'estate' | 'grounds' | 'combat' | 'activity' | 'scenery';
-export type Tier = 'T0' | 'T1';
+export type Tier = 'T0' | 'T1' | 'T2';
 
 export interface SheetNode {
   readonly id: string;
@@ -540,6 +540,216 @@ export const T1_NODES: readonly SheetNode[] = [
   },
 ];
 
+// The T2 VALLEY roster (map-spec §6) — bible-distilled from tiers/t2.md + 05-world.
+// At valley scale the estate DEMOTES to a few compound seals (its 30 room seals
+// retire to the T0/T1 sheets); the village + valley zones join. Names carry the
+// POST-reveal truth (the ruin IS the main house — spec §6.2). Fiction-voiced polish
+// of these blurbs is ADR-139 territory for a later prose pass.
+export const T2_NODES: readonly SheetNode[] = [
+  {
+    id: 'main-house-ruin',
+    kanji: '本',
+    name: 'The Main house',
+    kind: 'grounds',
+    blurb:
+      'The great jin’ya the family truly held — named honestly at last (the ruin was the ' +
+      'main house all along). Its outer domain opens as a WORK SITE; the restoration’s object.',
+    actions: ['Clear the outer domain (works-labour)', 'Read the old plans found in the kura'],
+    who: ['Nobody lived here since the fall — until now, the crews'],
+    wrong:
+      'It is the LARGEST footprint in the whole valley, dwarfing the lived house at its corner. ' +
+      'The old plans label the small compound "guest quarters."',
+  },
+  {
+    id: 'guest-house',
+    kanji: '客',
+    name: 'The Guest house',
+    kind: 'estate',
+    blurb:
+      'What everyone called "the main house" through two tiers — a grand winged GUEST residence, ' +
+      'the family’s hiding place, tucked into the ruin’s south-east corner.',
+    actions: ['Daily operations (the yard-officer’s ground by R7)', 'House the growing staff'],
+    who: ['The household', 'the hiring wave’s new hands'],
+    wrong: 'Its neat wall is a REPAIRED stretch of the great compound’s own robbed circuit.',
+  },
+  {
+    id: 'gatehouse-works',
+    kanji: '普',
+    name: 'The Gatehouse works',
+    kind: 'estate',
+    blurb:
+      'The old great gate RAISED in fresh work (R5) — the estate’s new face to the valley. ' +
+      'The first stage of the outer-domain restoration.',
+    actions: ['Raise the gatehouse (works stages)', 'Clear the outer court'],
+    who: ['Kihei’s crews', 'the bandits who hit the works (R5, the first man he fights)'],
+    wrong:
+      'The new gate carries a crest with ONE more petal than the house admits to — the old seat’s.',
+  },
+  {
+    id: 'asagiri',
+    kanji: '里',
+    name: 'Asagiri village',
+    kind: 'grounds',
+    blurb:
+      '朝霧 — "morning mist," the valley’s village. A stranger pays the surcharge and is served ' +
+      'last, until his deeds earn a fair price, then the nod, then his own name.',
+    actions: ['Trade honestly (shave the surcharge)', 'Carry the house’s dues'],
+    who: ['Mohei the headman', 'Sayo who names him "Tama"', 'the ordinary faces'],
+    wrong:
+      'Its walls and footings are built of DRESSED STONE — the main house’s own, quarried and carted.',
+  },
+  {
+    id: 'asagiri-well',
+    kanji: '井',
+    name: 'The village well',
+    kind: 'grounds',
+    blurb:
+      'The gathering point. When the messenger steps up in R0, the well goes quiet — the surcharge, made audible.',
+    actions: ['Draw water', 'Be greeted (or not) by name — the village track, read here'],
+    who: ['Ganzo the old man', 'whoever is drawing water'],
+    wrong: 'None — the honest heart of the village track.',
+  },
+  {
+    id: 'market',
+    kanji: '市',
+    name: 'The market square',
+    kind: 'grounds',
+    blurb:
+      'Stall rows on market days; the house sells through him now — charcoal, terrace surplus (R4).',
+    actions: ['Sell the house’s goods', 'Buy season stock'],
+    who: ['O-Haru’s pickle stall', 'Kyubei the miller, first fair-price ally'],
+    wrong: 'One stall’s goods are town-made, a cut above what the valley makes.',
+  },
+  {
+    id: 'headman-house',
+    kanji: '名',
+    name: "The headman's house",
+    kind: 'estate',
+    blurb:
+      'Mohei’s — the largest house in Asagiri, walled. The headman’s-table scenes are his (R6).',
+    actions: ['Speak for the house at the table (R6)', 'Answer the camp as a campaign'],
+    who: ['Mohei', 'Sayo his daughter'],
+    wrong: 'He keeps a ledger of the village’s grievances the way Genemon keeps the house’s debts.',
+  },
+  {
+    id: 'temple',
+    kanji: '寺',
+    name: 'The shrine & temple',
+    kind: 'grounds',
+    blurb:
+      'Ekai the keeper’s temple, on the network Toku’s packet rides. Holds the register of the vanished.',
+    actions: ['Read the register (finds BOTH false takings)', 'The Bon rites (Tama DECIDE)'],
+    who: ['Ekai', 'the grieving village at Bon'],
+    wrong:
+      'The register carries TWO false entries in one book — Katsuhide’s official taking, and Tama’s, ' +
+      'the name the village hangs on the MC.',
+  },
+  {
+    id: 'mill',
+    kanji: '水',
+    name: 'The mill',
+    kind: 'grounds',
+    blurb: 'Kyubei’s waterwheel — the valley’s choke: everyone’s grain passes his stones.',
+    actions: ['Mill the estate’s grain', 'Court the miller’s good price'],
+    who: ['Kyubei the miller'],
+    wrong: 'The mill-race is cut with the same dressed stone as the quarry.',
+  },
+  {
+    id: 'ferry',
+    kanji: '渡',
+    name: 'The ferry',
+    kind: 'grounds',
+    blurb:
+      'Funakichi’s rope crossing where the river runs too deep to ford — Matsuzo’s downstream mirror.',
+    actions: ['Cross the river', 'Carry people and news'],
+    who: ['Funakichi the ferry keeper'],
+    wrong: 'The night-roads trouble lands on his crossing first.',
+  },
+  {
+    id: 'gorge',
+    kanji: '峡',
+    name: 'The river gorge',
+    kind: 'scenery',
+    blurb: 'Where the banks pinch narrow between estate and village — the reason the ferry exists.',
+    actions: ['Pass along the gorge road'],
+    who: ['Nobody — the current does the talking'],
+    wrong: 'A squared cutting in the gorge wall — old stonework nobody in the valley claims.',
+  },
+  {
+    id: 'quarry',
+    kanji: '石',
+    name: 'The old quarry',
+    kind: 'scenery',
+    blurb:
+      'A dressed-stone scar on the valley flank; sled-tracks run down toward the ruin and the village.',
+    actions: ['Walk the workings'],
+    who: ['Long abandoned'],
+    wrong:
+      'The cut faces MATCH the ruin’s robbed footings — the village took the main house apart HERE.',
+  },
+  {
+    id: 'bandit-camp',
+    kanji: '犬',
+    name: 'The mountain-dogs’ camp',
+    kind: 'combat',
+    blurb:
+      'Seiroku’s camp up a side draw — "the mountain dogs," the village calls them. Just hungry men ' +
+      '(kernel #1). The R5–R6 threshold: the first MAN the MC ever fights.',
+    actions: ['Answer the raids (R5)', 'The R6 campaign — both arenas converge'],
+    who: ['Seiroku the chief', 'men, some with the castle-town accent'],
+    wrong:
+      'Town-made gear in a hungry camp — a good blade, boots not made in the valley (the T4 shadow).',
+    combat:
+      'The tier’s human combat — staged as a named threshold beat; the first man DIES under Soan’s hands.',
+  },
+  {
+    id: 'hill-shrines',
+    kanji: '祠',
+    name: 'The hill shrines',
+    kind: 'scenery',
+    blurb: 'Tiny roadside shrines up the flanks — the valley’s folk-faith scatter.',
+    actions: ['Pass and pay respects'],
+    who: ['Whoever climbs the flank tracks'],
+    wrong: 'Offerings at the highest one, like the weir-jizo’s — the same unadmitted hand.',
+  },
+  {
+    id: 'valley-woods',
+    kanji: '谷',
+    name: 'The valley woods',
+    kind: 'grounds',
+    blurb:
+      'The wooded flanks framing the floor — the estate’s eastern forest, now one edge of a larger wood.',
+    actions: ['Gather and forage', 'Fell for the works'],
+    who: ['Nobody, by design'],
+    wrong: 'The too-straight burn line still reads, held by no one named.',
+  },
+  {
+    id: 'night-roads',
+    kanji: '夜',
+    name: 'The night roads',
+    kind: 'activity',
+    blurb:
+      'The valley’s roads after dark — the ferry crossing, the gorge road, the estate’s south road, ' +
+      'where the camp’s pressure falls. The estate patrol’s wider cousin.',
+    actions: ['Walk the night roads (repeatable)', 'Answer the crossing’s trouble'],
+    who: ['Funakichi at the landing', 'the mountain dogs, after dark'],
+    wrong: 'The hooded new-moon lantern thread still leaves the estate upstream, unexplained.',
+  },
+  {
+    id: 'moved-stone',
+    kanji: '界',
+    name: 'The moved boundary stone',
+    kind: 'scenery',
+    blurb:
+      'The T1 "fresher" stone, now shown standing a field INTO Asagiri’s land — the village-track dispute.',
+    actions: ['Walk the disputed line', 'Settle it (a village-track quest)'],
+    who: ['Nobody — but the whole village knows'],
+    wrong: 'It stands younger than its line, a field misplaced. Someone moved it inward.',
+  },
+];
+
+export const T2_IDS: ReadonlySet<string> = new Set(T2_NODES.map((n) => n.id));
+
 /** What T1 changes about a CARRIED T0 zone (shown in its detail pane on the T1 map). */
 export const T1_NOTES: Readonly<Record<string, string>> = {
   'weir-reeds':
@@ -574,6 +784,9 @@ export const T1_NOTES: Readonly<Record<string, string>> = {
 export const T1_IDS: ReadonlySet<string> = new Set(T1_NODES.map((n) => n.id));
 
 export function rosterFor(tier: Tier): readonly SheetNode[] {
+  // T2 is the VALLEY: the estate DEMOTES to a few compound seals (its 30 room
+  // seals retire — spec VG3), and the village + valley zones are the roster.
+  if (tier === 'T2') return T2_NODES;
   // T1 KEEPS the T0 'ruined compound' node (story-bible 05-world: the ruin is
   // locked scenery until the T2 reveal — T1 never enters it; the wings arc is
   // the GUEST HOUSE's interior, not the ruin's).

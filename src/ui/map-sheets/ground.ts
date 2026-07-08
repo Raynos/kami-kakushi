@@ -138,6 +138,21 @@ export const TIER_DELTA: Readonly<Record<Tier, TierDelta>> = {
     ghostRoads: { clamp: false, terrace: false, bon: false },
     ruinRevealed: false,
   },
+  // T2 is drawn by t2-ground.ts (the valley), NOT paintWorld — this record only
+  // exists because TIER_DELTA is Record<Tier,…>. ruinRevealed: true is T2's
+  // signature honesty flip (spec §6.2 — the ruin named as the main house).
+  T2: {
+    fresh: true,
+    poolsDrained: true,
+    worksSilted: false,
+    clampSmoking: true,
+    forgeLit: true,
+    terraceCount: 5,
+    terraceNumbers: true,
+    orchardFeral: false,
+    ghostRoads: { clamp: false, terrace: false, bon: false },
+    ruinRevealed: true,
+  },
 };
 
 /** Paint the whole world; returns seal-anchor refinements (room seals snap to the
