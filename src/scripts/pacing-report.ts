@@ -79,7 +79,7 @@ export function walkPacing(seed = SEED): RungPacing[] {
     if (!intent) break;
     cur.wallMs += intentWallMs(intent, s.location, AUTO_REPEAT_MS); // cost BEFORE the move lands
     s = reduce(s, intent);
-    if (intent.type === 'open_eyes' || intent.type === 'face_wolf') cur.meta++;
+    if (intent.type === 'open_eyes') cur.meta++;
     else if (intent.type === 'rest') cur.rests++;
     else if (intent.type === 'rake_rice') {
       cur.acts++;

@@ -230,11 +230,11 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     blurb: 'R2, wolf-ready — the fight that opens R3, stopped one click short of facing the wolf.',
     seed: T0_ARC_SEED,
     play: (s0) =>
-      drive(s0, (_s, next) => next.kind === 'intent' && next.intent.type === 'face_wolf'),
+      drive(s0, (_s, next) => next.kind === 'intent' && next.intent.type === 'fight' /* TODO(g4-tests): scripted wolf → night round */),
     expect: (s) => {
       must(s.rung === 'R2', `expected rung R2, got ${s.rung}`);
       // the scripted wolf's node (== the kura) — derived, not a magic string.
-      const wolfNode = getMob('wolf_scripted').area;
+      const wolfNode = getMob('wolf').area; // TODO(g4-tests): scripted wolf retired to night round
       must(
         s.location === wolfNode,
         `expected to stand at the wolf node ${wolfNode}, got ${s.location}`,

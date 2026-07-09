@@ -51,7 +51,7 @@ describe('action timing (ADR-148)', () => {
   });
 
   it('combat intents carry NO timing (excluded pending their own review)', () => {
-    for (const type of ['face_wolf', 'fight', 'set_auto_combat'] as const)
+    for (const type of ['fight', 'set_auto_combat'] as const)
       expect(INTENT_TIMING[type].kind, type).toBe('instant');
   });
 

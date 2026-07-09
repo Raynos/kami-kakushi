@@ -71,7 +71,6 @@ export const ALL_INTENTS = {
   do_activity: true,
   set_auto: true,
   set_auto_rake: true,
-  face_wolf: true,
   fight: true,
   set_auto_combat: true,
   repair_weapon: true,
@@ -209,7 +208,6 @@ export const greedy: Persona = {
     'rake_rice',
     'rest',
     'do_activity',
-    'face_wolf',
     'move_to',
     'fight',
     'repair_weapon',
@@ -243,7 +241,6 @@ export const idler: Persona = {
     'rest',
     'rake_rice',
     'do_activity',
-    'face_wolf',
     'fight',
     'repair_weapon',
     'move_to',
@@ -271,17 +268,7 @@ export const idler: Persona = {
     }
     // R2: the scripted wolf blocks the ladder — even an idler must walk back and face it
     // (FB-121: "the countable work is done" = the flag req is the only one remaining).
-    if (
-      s.rung === 'R2' &&
-      !hasFlag(s, 'first-fight-survived') &&
-      remainingRequirements(s).every((r) => r.type === 'flag') &&
-      isUnlocked(s, 'verb-face-wolf')
-    ) {
-      const kura = getMob('wolf_scripted').area;
-      if (s.location === kura) return { type: 'face_wolf' };
-      const hop = nextHopToward(s.location, kura, new Set(s.unlocked));
-      if (hop) return { type: 'move_to', to: hop };
-    }
+    // G4.3 — the scripted-wolf persona drive is deleted (wolf → R3 night round, later chunk).
     // FB-121 — point the auto-modes at the CURRENT rung's requirement list.
     const rem = remainingRequirements(s);
     // kill requirements: arm the auto-combat watch on the (level-laddered) foe and let the

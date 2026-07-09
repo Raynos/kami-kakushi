@@ -78,7 +78,6 @@ export const RANKS: readonly RankDef[] = [
         'room-deep-satoyama',
         'verb-woodcut',
         'verb-forage',
-        'verb-face-wolf',
         'row-wood',
         'row-sansai',
         'skill-conditioning',

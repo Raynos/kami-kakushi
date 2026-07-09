@@ -189,14 +189,7 @@ export const SURFACES: readonly Surface[] = [
     ),
   },
   { id: 'skill-conditioning', kind: 'row', unlock: () => false },
-  {
-    id: 'verb-face-wolf',
-    kind: 'verb',
-    unlock: () => false,
-    revealLine: narrate(
-      'A wolf has been at the grain stores in the night, bold with hunger. Someone must face it — and there is no one else to send.',
-    ),
-  },
+  // G4.3 — the `verb-face-wolf` surface is deleted with the scripted wolf (→ R3 night round).
 
   // ── R3 — combat goes live (the drill yard, the Combat tab) ──
   {

@@ -217,7 +217,7 @@ export type { StanceId, StanceMod, AttrId } from './content/balance';
 export { baseAttrs } from './state';
 export { MOBS, GRINDABLE_MOBS, getMob, MOB_IDS } from './content/enemies';
 export type { MobId, MobDef } from './content/enemies';
-export { applyGrindFight, applyScriptedWolf } from './fight';
+export { applyGrindFight } from './fight';
 export {
   MATERIALS,
   getMaterial,

@@ -172,19 +172,8 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
   // rework, keyed to each req's `drive:` hint.
   const revealed = new Set(s.unlocked);
   const unfinished = rungRequirements(s.rung).filter((d) => !isRequirementDone(d, s.rungReqs));
-  // The scripted wolf (the R2 'first-fight-survived' flag req): face it once the countable
-  // work is done — the same "grind first, then the story fight" ordering the meter had.
-  if (
-    unfinished.length === 1 &&
-    unfinished[0]!.type === 'flag' &&
-    unfinished[0]!.flag === 'first-fight-survived'
-  ) {
-    // Step 5b: the scripted wolf is spatial — walk back to the kura (its node) to face it.
-    const kura = getMob('wolf_scripted').area;
-    if (s.location === kura) return { type: 'face_wolf' };
-    const hop = nextHopToward(s.location, kura, revealed);
-    return hop ? { type: 'move_to', to: hop } : null;
-  }
+  // G4.3 — the scripted `face_wolf` drive is deleted; the wolf moves to the R3 night round
+  // (its 'first-fight-survived' req is driven through the night-round staging in a later chunk).
   // walk-to-then-do one labour act (the shared "go do X" move for every driver below).
   const driveLabour = (id: ActivityId): Intent | null => {
     const act = getActivity(id);

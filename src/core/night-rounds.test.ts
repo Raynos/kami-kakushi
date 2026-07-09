@@ -35,8 +35,8 @@ describe('G2 night-round engine — a seeded round resolves stage by stage', () 
     const def: NightRoundDef = {
       id: 'round-test',
       stages: [
-        { id: 's0', areaId: 'forecourt', foe: 'rice_rats' },
-        { id: 's1', areaId: 'forecourt', foe: 'rice_rats' },
+        { id: 's0', areaId: 'forecourt', foe: 'store_rats' },
+        { id: 's1', areaId: 'forecourt', foe: 'store_rats' },
       ],
     };
     let s = beginNightRound(strongMc(1), def);
@@ -50,7 +50,7 @@ describe('G2 night-round engine — a seeded round resolves stage by stage', () 
   it('finishing yields MATERIALS only — never coin', () => {
     const def: NightRoundDef = {
       id: 'round-coinless',
-      stages: [{ id: 's0', areaId: 'grove', foe: 'boar' }], // boar has a rich material drop
+      stages: [{ id: 's0', areaId: 'grove', foe: 'wolf' }], // boar has a rich material drop
     };
     const start = strongMc(2);
     const end = resolveNightStage(beginNightRound(start, def), def);
@@ -69,7 +69,7 @@ describe("G2 night-round engine — a `scripted:'survive'` stage cannot kill or 
       id: 'round-wolf',
       stages: [
         { id: 'wolf', areaId: 'kura', foe: 'bandit', scripted: 'survive' }, // bandit = strong foe
-        { id: 'after', areaId: 'kura', foe: 'rice_rats' },
+        { id: 'after', areaId: 'kura', foe: 'store_rats' },
       ],
     };
     const start = beginNightRound(weakMc(3), def);

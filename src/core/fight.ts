@@ -206,29 +206,6 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
   return next;
 }
 
-// G4.3 — `applyScriptedWolf` DELETED (wolf → R3 night round, content/nightRounds.ts). __DEL__
-function __removed_applyScriptedWolf_body(): void {
-  const _unused = {
-    a: {
-      channel: 'combat',
-        // FB-91/FB-93 — this scripted one-time attack beat is scene NARRATION, so it carries the
-        // `narrator` voice EXPLICITLY (matching the drillmaster beat right after it + every other
-        // scene-narration line), never a stray plain/un-voiced line. Stays on the `combat` channel
-        // (its home tab); only the VOICE dimension is set. NOTE: the auto-grind outcome lines above
-        // stay deliberately UN-voiced — they are terse mechanical combat-log readouts (HP/coin
-        // deltas), not scene prose, and voicing them would trip the render's typewriter (voice ⇒
-        // qualifiesForTypewriter) on lines the auto-loop fires one-per-tick. This one-time beat has
-        // no such cost.
-        voice: 'narrator',
-        contentKey: 'combat.wolfScripted',
-      },
-      {
-        channel: 'narration',
-        voice: 'narrator', // FB-91/FB-93 — third-person scene narration → consistent narrator voice
-        contentKey: 'combat.drillmaster',
-      },
-    ],
-  });
-  next = advanceClock(next, FIGHT_TICKS + SETBACK_TICKS);
-  return next; // R2→R3 promotion fires in reduce's finish()
-}
+// G4.3 — `applyScriptedWolf` (the scripted grain-store wolf, old R3 gate) is DELETED. The wolf
+// now lives only in the R3 night round (G2's engine, content/nightRounds.ts). The
+// `combat.wolfScripted` / `combat.drillmaster` log keys retire with it.

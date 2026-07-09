@@ -2628,7 +2628,8 @@ export function mount(
         el('span', 'emoji', '⚔️'),
         document.createTextNode(' Face the wolf at the grain store'),
       );
-      wolfBtn.addEventListener('click', () => dispatch({ type: 'face_wolf' }));
+      // G4.3 — the scripted wolf is deleted; this button is inert until the R3 night-round UI (later chunk).
+      void wolfBtn;
       const wolfBlurb = el(
         'p',
         'area-blurb',

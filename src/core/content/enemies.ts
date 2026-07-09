@@ -14,6 +14,7 @@
 // the kura where you woke. A9 (v0.3.2) added the rats/troop/viper for T0 combat variety.
 
 import type { AreaId } from './areas';
+import { FLAVOR } from './flavor';
 
 export type MobId =
   | 'wolf_scripted'
@@ -23,7 +24,8 @@ export type MobId =
   | 'bandit'
   | 'rice_rats'
   | 'mamushi'
-  | 'monkey_troop';
+  | 'monkey_troop'
+  | 'store_rats';
 
 export interface MobDef {
   readonly id: MobId;
@@ -57,6 +59,19 @@ export const MOBS: readonly MobDef[] = [
     scripted: true,
     blurb:
       'A starving wolf cornered among the rice-sacks. You live through this one on luck alone.',
+  },
+  {
+    // G4.3 — a night-round foe (the R3 grain-watch escalation: rats → marten → wolf, bible).
+    // Additive to the T0 roster this chunk; the full new-animal roster cutover is a later chunk.
+    // A fast, scattershot swarm at the kura door — grounded in FLAVOR.mobRatStore.
+    id: 'store_rats',
+    label: 'Grain-store rats',
+    kanji: '鼠',
+    level: 1,
+    area: 'kura',
+    baseSpeed: 1.6, // SEED (sim-owned)
+    accBonus: -3,
+    blurb: FLAVOR.mobRatStore,
   },
   {
     id: 'rice_rats',

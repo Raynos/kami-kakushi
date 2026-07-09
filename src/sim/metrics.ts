@@ -131,7 +131,6 @@ export function classifyIntent(
     case 'rest':
       return 'rest';
     case 'open_eyes':
-    case 'face_wolf':
       return 'meta';
     case 'move_to':
       return 'move';

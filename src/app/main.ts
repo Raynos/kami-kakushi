@@ -253,7 +253,6 @@ async function boot(): Promise<void> {
     'rest',
     'do_activity',
     'fight',
-    'face_wolf',
     'cook_meal',
     'eat_rice',
     'repair_weapon',
@@ -328,7 +327,7 @@ async function boot(): Promise<void> {
     actionCount += 1;
     // one taiko hit per player-driven deed/fight (the T0-M1-F4 hit cue; per-strike combat
     // SFX is out of this minimal pass). Lazy AudioContext respects the user-gesture rule.
-    if (intent.type === 'do_activity' || intent.type === 'fight' || intent.type === 'face_wolf') {
+    if (intent.type === 'do_activity' || intent.type === 'fight') {
       sfx.hit();
     }
     commit(reduce(state, intent));
@@ -501,11 +500,6 @@ async function boot(): Promise<void> {
       },
       // spatial (Step 5b): walk to the foe's ground first, then face it — so a DEV drive fights the
       // real foe on its node rather than silently no-opping off it.
-      faceWolf: () => {
-        qaTaint('qa-drive');
-        walkTo(getMob('wolf_scripted').area);
-        dispatch({ type: 'face_wolf' });
-      },
       fight: (mobId: MobId) => {
         qaTaint('qa-drive');
         walkTo(getMob(mobId).area);

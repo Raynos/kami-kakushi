@@ -118,7 +118,6 @@ export const INTENT_TIMING: Readonly<Record<IntentType, ActionTiming>> = {
   do_activity: timed(7000), // fallback — timingFor routes to ACTIVITY_TIMING
   set_auto: INSTANT,
   set_auto_rake: INSTANT,
-  face_wolf: INSTANT, // combat — excluded (ADR-148)
   fight: INSTANT, // combat — excluded (ADR-148)
   set_auto_combat: INSTANT,
   repair_weapon: timed(8000),

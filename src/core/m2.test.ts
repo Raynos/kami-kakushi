@@ -10,7 +10,6 @@ import {
   resolveFight,
   foeForecasts,
   applyGrindFight,
-  applyScriptedWolf,
   getMob,
   getWeapon,
   getRecipe,
@@ -364,12 +363,8 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
     }
   });
 
-  it('the scripted grain-store wolf is always survived and opens R3', () => {
-    const s = createInitialState(99);
-    const after = applyScriptedWolf(s);
-    expect(after.flags['first-fight-survived']).toBe(true);
-    expect(after.character.hp).toBeGreaterThanOrEqual(1);
-  });
+  // TODO(g4-tests): scripted wolf DELETED (G4.3 → R3 night round); re-derive.
+  it.skip('the scripted grain-store wolf is always survived and opens R3', () => {});
 });
 
 // T0-M2-F2 — the FOUND/CRAFTED 2nd weapon (ADR-052): the drillmaster grant is RETIRED; the

@@ -1697,7 +1697,6 @@ export interface DevQa {
   speed(mult: number): number;
   jumpToPhase2(): unknown;
   jumpToAscension(): void;
-  faceWolf(): void;
   toRung(id: RankId): unknown;
   auto(id: ActivityId | null): void;
   autoCombat(id: MobId | null): void;
@@ -1964,7 +1963,6 @@ export function mountDevPanel(
 
   // combat + auto
   const combat = section('Combat / Auto');
-  combat.append(mono('Face wolf', () => qa.faceWolf()));
   combat.append(mono('Auto: farm', () => qa.auto('farm_paddy' as ActivityId)));
   combat.append(mono('Auto: monkey', () => qa.autoCombat('monkey' as MobId)));
   combat.append(

@@ -34,7 +34,6 @@ const PLAYER_INTENTS = [
   'do_activity',
   'set_auto',
   'set_auto_rake',
-  'face_wolf',
   'fight',
   'set_auto_combat',
   'repair_weapon',
