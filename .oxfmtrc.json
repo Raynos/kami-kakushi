@@ -22,7 +22,7 @@
     "audit",
     "human-in-the-loop",
     "tmp",
-    "ui-demos",
+    "project/prototypes",
     "src/fixtures/saves",
     "project/playtest-inbox",
     "playcheck.baseline.json",

@@ -132,6 +132,14 @@ always-loaded context while being editable on its own.
 - [`project/audit/`](project/audit) — QA outputs: written findings/reports under
   `reports/` + screenshots/ recordings under `screens/` (one dated pass-folder
   each; `screens/latest/` is the live `qa-shots.mjs` gallery).
+- [`project/prototypes/`](project/prototypes) — **standalone interactive
+  feel-tests** (permanent; born 2026-07-09): self-contained single-file HTML
+  mocks a human plays to judge a proposed mechanic/surface before its plan is
+  judged — one dir per prototype, linked from the owning plan/HR-item;
+  mock-data-only, lint-excluded, never imports `src/`. Replaced the retired
+  one-time `ui-demos/` ground (deleted 2026-07-09; its UI-remaster field lives
+  in git history — see the ADR-127 note). Rules:
+  [`README`](project/prototypes/README.md).
 - [`project/playtest-inbox/`](project/playtest-inbox) — **agent-facing** transport
   queue for in-game playtest captures (FB-3): `pending/` holds captures waiting to
   be drained (`/drain-inbox`), `archive/` keeps drained ones long-term. The `.md`

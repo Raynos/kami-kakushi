@@ -16,7 +16,7 @@
     "project/archive",
     "src/scripts/*.mjs",
     "tmp",
-    "ui-demos",
+    "project/prototypes",
     ".claude/worktrees"
   ],
   "overrides": [

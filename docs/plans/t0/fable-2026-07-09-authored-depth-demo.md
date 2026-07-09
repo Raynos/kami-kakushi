@@ -270,6 +270,13 @@ static analysis over generated registries, comfortably sub-100ms.
 
 ## 7 · §U — the kikigaki tab (UI) + the notebook beat
 
+> **A working feel-test of this section exists**:
+> [`project/prototypes/kikigaki-depth/`](../../../project/prototypes/kikigaki-depth/index.html)
+> (2026-07-09, mock data, all three variants + the notebook beat + the priced
+> move loop). The human's verdict on it should reshape this section BEFORE
+> un-park — the whole plan lives or dies on this surface being fun rather
+> than flavor-text slop (human, 2026-07-09).
+
 - **Tab**: add `'kikigaki'` to the `Tab` union, `TAB_ORDER`, and `TAB_LABEL`
   (label 聞書) in `src/ui/render.ts`; `tabHasContent` case returns
   `isUnlocked(state, 'panel-kikigaki')`; new pane section gated on

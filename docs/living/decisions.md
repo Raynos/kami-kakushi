@@ -1574,10 +1574,15 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   and a **06-style GBA typewriter cold-open**. The name "Andon Steel" is a working
   label (renamable).
 - **The rest of the field is ANCHORED, not deleted (PH2 · archive-don't-remove):**
-  01–09 stay in `ui-demos/` as the committed exploration record (the reference the
+  ~~01–09 stay in `ui-demos/` as the committed exploration record (the reference the
   pick was made against); the gallery marks 10 as the locked winner. Nothing is
   stripped from `ui-demos/` (it's a mock staging ground — no PROD flag-debt to
-  clear; the real strip happens when UI-v2 is ported into `src/`).
+  clear; the real strip happens when UI-v2 is ported into `src/`).~~
+  **Superseded (human, 2026-07-09):** `ui-demos/` was a one-time ground — the
+  whole directory is deleted; the exploration record (01–10 + gallery + shared
+  engine) lives in git history (`6a6447c` and kin). Standalone feel-test
+  prototypes now have a permanent home in `project/prototypes/` (see its
+  README).
 - **Why:** the human reviewed the whole field live and synthesized the winner
   himself; 10 is that synthesis. A single locked direction lets a UI-v2 build plan
   target one language instead of hedging across the field.

@@ -40,3 +40,22 @@ stay canon; un-park is the human's move.
   ADR-draft-K2 inside the parked plan. Don't cite it as policy yet.
 - Shared tree during this session: another agent (w2:p2) had storywave G4
   src/ edits in flight; this session's commit is docs/project pathspec only.
+
+---
+
+## Addendum (same session) — the kikigaki feel-test prototype
+
+The human asked for a standalone interactive mock of Plan K §U before judging
+the concept ("the whole idea lives or dies by K4"). Built it as a claude.ai
+artifact first, then brought it into the repo. It briefly targeted
+`ui-demos/`, but the human called that dir a one-time ground and asked for it
+DELETED — so the prototype landed in the NEW permanent home
+`project/prototypes/kikigaki-depth/index.html` (rules in that dir's README:
+self-contained, mock-only, lint-excluded, never imports `src/`), and
+`ui-demos/` was retired to git history (ADR-127 carries the dated note; the
+"01–09 stay" clause is superseded by the newer steer). The mock: all three §U variants
+(book / ledger / scroll), the notebook beat, tick/coin-priced moves with
+blocked-with-reason states, warmth gates, one resolution bite, one
+authored-ambiguity bottom. Mock data throughout, Andon Steel tokens verbatim
+from `styles.css`. Gallery + README + Plan K §U cross-linked. The human's
+verdict on this mock is now the explicit gate on §U's shape at un-park time.

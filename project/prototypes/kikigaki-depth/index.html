@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>kikigaki 聞書 — depth-lane feel-test</title>
+<style>
+  /* ── Andon Steel tokens (verbatim from src/ui/styles.css) ─────────── */
+  :root {
+    --void:#070810; --steel-0:#0e1016; --steel-1:#161922; --steel-2:#1b1f29;
+    --steel-hi:#20242f;
+    --ink:#c2c8d8; --ink-soft:#8a90a4; --ink-faint:#5c6274;
+    --silver:#cdd6ee; --silver-hi:#e7ecff; --silver-dim:#99a2bf;
+    --silver-wire:rgba(205,214,238,.55); --silver-faint:rgba(205,214,238,.14);
+    --gold:#d8b978; --gold-hi:#f2dca0; --gold-dim:#93794a;
+    --key:rgba(216,185,120,.42); --key-dim:rgba(216,185,120,.15);
+    --shu:#bf3b25; --shu-hi:#de5a3a;
+    --v-narrator:#9aa4c4; --v-player:#e3ecff; --v-physician:#8fbfc4;
+    --v-steward:#c9975c; --v-villager:#a9c391;
+    --serif:"Iowan Old Style","Palatino Nova",Palatino,Georgia,serif;
+    --chrome:"Avenir Next","Avenir",system-ui,sans-serif;
+    --radius:3px;
+  }
+  /* Single-theme by commitment: this is the game's own visual world. */
+  html { background:var(--void); }
+  body {
+    margin:0; color:var(--ink); font-family:var(--serif); font-size:15px;
+    line-height:1.55;
+    background:
+      radial-gradient(1200px 480px at 50% -140px, #12141d 0%, var(--void) 68%);
+    background-attachment:fixed; min-height:100vh;
+  }
+  .shell { max-width:1100px; margin:0 auto; padding:20px 16px 48px;
+    border-left:1px solid var(--key-dim); border-right:1px solid var(--key-dim);
+    min-height:100vh; box-sizing:border-box; }
+
+  .plate {
+    background:linear-gradient(180deg, var(--steel-2), var(--steel-1));
+    border:1px solid var(--key); border-radius:var(--radius);
+    box-shadow:inset 0 1px 0 var(--silver-wire), 0 6px 18px rgba(0,0,0,.35);
+  }
+  .well {
+    background:linear-gradient(180deg, var(--steel-0), #0b0d13);
+    border:1px solid var(--silver-faint); border-radius:var(--radius);
+    box-shadow:inset 0 2px 8px rgba(0,0,0,.5);
+  }
+  .label { font-family:var(--chrome); font-size:10.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--silver-dim); }
+  .num { font-variant-numeric:tabular-nums; }
+
+  /* ── header ── */
+  header.hd { display:flex; align-items:baseline; gap:18px; flex-wrap:wrap;
+    padding:10px 14px; margin-bottom:14px; }
+  .hd h1 { font-size:19px; font-weight:600; color:var(--silver); margin:0;
+    letter-spacing:.02em; }
+  .hd h1 .kanji { color:var(--gold); margin-right:8px; }
+  .hd .sub { color:var(--ink-soft); font-size:12.5px; font-style:italic; }
+  .vitals { margin-left:auto; display:flex; gap:18px; align-items:center; }
+  .vital { display:flex; flex-direction:column; gap:3px; min-width:86px; }
+  .vital .v { color:var(--silver); font-size:14px; }
+  .vital .v b { color:var(--gold-hi); font-weight:600; }
+  .tickbar { width:120px; height:6px; border-radius:2px; background:var(--steel-0);
+    border:1px solid var(--silver-faint); overflow:hidden; }
+  .tickbar i { display:block; height:100%; background:var(--gold);
+    transition:width .3s ease; }
+
+  /* ── location strip ── */
+  .loc { display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+    padding:8px 14px; margin-bottom:14px; }
+  .loc .label { margin-right:4px; }
+  button { font:inherit; }
+  .node-btn, .plate-btn {
+    background:linear-gradient(180deg, var(--steel-2), var(--steel-1));
+    border:1px solid var(--silver-faint); border-top-color:var(--silver-wire);
+    border-radius:var(--radius); color:var(--ink); padding:4px 12px;
+    cursor:pointer; font-family:var(--serif); font-size:13.5px;
+    transition:background .14s ease, border-color .14s ease;
+  }
+  .node-btn:hover:not(:disabled), .plate-btn:hover:not(:disabled) {
+    background:linear-gradient(180deg, var(--steel-hi), var(--steel-2));
+    border-color:var(--silver-wire); color:var(--silver-hi);
+  }
+  .node-btn:focus-visible, .plate-btn:focus-visible {
+    outline:2px solid var(--gold); outline-offset:1px; }
+  .node-btn.here { border-color:var(--key); color:var(--gold-hi);
+    box-shadow:inset 0 0 0 1px var(--key-dim); cursor:default; }
+  .node-btn .cost, .plate-btn .cost { color:var(--ink-faint); font-size:11.5px;
+    margin-left:6px; }
+  .node-btn:disabled { opacity:.55; cursor:not-allowed; }
+  .who-here { color:var(--ink-soft); font-size:12.5px; width:100%;
+    padding-top:2px; font-style:italic; }
+  .who-here b { color:var(--ink); font-style:normal; font-weight:600; }
+
+  /* ── the kikigaki pane ── */
+  .pane { padding:0; overflow:hidden; }
+  .pane-hd { display:flex; align-items:center; gap:12px; padding:10px 14px;
+    border-bottom:1px solid var(--silver-faint); }
+  .pane-hd .t { color:var(--silver); font-size:15px; font-weight:600; }
+  .pane-hd .t .kanji { color:var(--gold); }
+  .variants { margin-left:auto; display:flex; gap:6px; align-items:center; }
+  .var-btn { background:none; border:1px solid var(--silver-faint);
+    border-radius:var(--radius); color:var(--ink-soft); padding:3px 10px;
+    cursor:pointer; font-family:var(--chrome); font-size:10.5px;
+    letter-spacing:.1em; text-transform:uppercase; }
+  .var-btn.on { border-color:var(--key); color:var(--gold-hi); }
+  .var-btn:focus-visible { outline:2px solid var(--gold); outline-offset:1px; }
+
+  /* variant A — register-book spreads */
+  .book { display:grid; grid-template-columns:280px 1fr; min-height:430px; }
+  .book .index { border-right:1px solid var(--silver-faint); padding:12px; }
+  .book .page { padding:14px 20px; }
+  .q-item { display:flex; gap:8px; align-items:baseline; width:100%;
+    background:none; border:none; border-left:2px solid transparent;
+    color:var(--ink); padding:7px 8px; cursor:pointer; text-align:left;
+    font-family:var(--serif); font-size:14px; border-radius:0; }
+  .q-item:hover { color:var(--silver-hi); background:rgba(205,214,238,.04); }
+  .q-item:focus-visible { outline:2px solid var(--gold); outline-offset:-2px; }
+  .q-item.sel { border-left-color:var(--gold); color:var(--silver-hi); }
+  .q-item .pip { width:7px; height:7px; border-radius:50%; background:var(--gold);
+    flex:none; position:relative; top:-1px; }
+  .q-item .pip.old { background:var(--steel-hi); border:1px solid var(--ink-faint); }
+  .q-item .state { margin-left:auto; font-size:11px; color:var(--ink-faint);
+    font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .q-item .state.done { color:var(--gold-dim); }
+  .ring-tag { font-family:var(--chrome); font-size:9px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--ink-faint); display:block;
+    margin-top:1px; }
+
+  .q-title { font-size:17px; color:var(--silver-hi); margin:2px 0 2px;
+    font-weight:600; text-wrap:balance; }
+  .q-sub { color:var(--ink-soft); font-size:12px; margin-bottom:12px; }
+  .q-sub .seal { color:var(--gold); }
+
+  .entry { max-width:62ch; padding:10px 0 2px; }
+  .entry + .entry { border-top:1px solid rgba(205,214,238,.08); }
+  .entry .meta { display:flex; gap:10px; align-items:baseline; }
+  .entry .meta .src { color:var(--ink-faint); font-size:11.5px; }
+  .entry p { margin:4px 0 8px; color:var(--ink); }
+  .entry.terminal p { color:var(--ink-soft); font-style:italic; }
+  .entry .bite { color:var(--gold-hi); font-size:12.5px; }
+  .entry .bite::before { content:"◆ "; color:var(--gold); }
+  .defer { display:inline-block; border:1px solid var(--silver-faint);
+    border-radius:var(--radius); color:var(--silver-dim); font-size:11px;
+    padding:1px 8px; font-family:var(--chrome); letter-spacing:.1em; }
+
+  .ink-in { animation:inkin .48s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes inkin { from { opacity:0; transform:translateY(7px); } }
+  @media (prefers-reduced-motion: reduce) { .ink-in { animation:none; } }
+
+  /* moves */
+  .moves { margin-top:14px; }
+  .moves .label { display:block; margin-bottom:8px; }
+  .move { display:flex; align-items:baseline; gap:10px; margin:6px 0;
+    max-width:58ch; }
+  .move .plate-btn { flex:none; }
+  .move .why { color:var(--ink-faint); font-size:12px; font-style:italic; }
+  .move.blocked .plate-btn { opacity:.5; cursor:not-allowed; }
+  .move .hint { color:var(--ink-soft); font-size:13px; }
+
+  /* variant B — ledger rows */
+  .ledger { padding:8px 12px 14px; }
+  .l-row { border-bottom:1px solid rgba(205,214,238,.08); }
+  .l-head { display:flex; align-items:baseline; gap:10px; width:100%;
+    background:none; border:none; color:var(--ink); padding:8px 4px;
+    cursor:pointer; font-family:var(--serif); font-size:14px; text-align:left; }
+  .l-head:hover { color:var(--silver-hi); }
+  .l-head:focus-visible { outline:2px solid var(--gold); outline-offset:-2px; }
+  .l-head .arrow { color:var(--ink-faint); width:12px; flex:none; }
+  .l-head .prog { margin-left:auto; color:var(--ink-faint); font-size:11.5px;
+    font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .l-head .prog.done { color:var(--gold-dim); }
+  .l-body { padding:0 4px 12px 26px; }
+  .l-entry { max-width:62ch; margin:6px 0; font-size:13.5px; }
+  .l-entry .src { color:var(--ink-faint); font-size:11px; margin-right:8px; }
+  .l-entry p { margin:2px 0; display:inline; }
+
+  /* variant C — timeline scroll */
+  .scroll-view { padding:14px 20px; max-height:520px; overflow-y:auto; }
+  .t-entry { display:grid; grid-template-columns:110px 1fr; gap:14px;
+    padding:9px 0; border-bottom:1px solid rgba(205,214,238,.07);
+    max-width:76ch; }
+  .t-entry .margin { text-align:right; }
+  .t-entry .margin .thread-tag { display:block; color:var(--gold-dim);
+    font-size:11px; }
+  .t-entry .margin .day { color:var(--ink-faint); font-size:11px;
+    font-variant-numeric:tabular-nums; }
+  .t-entry p { margin:0; }
+  .yet { padding:12px 20px 18px; border-top:1px solid var(--silver-faint); }
+
+  ::-webkit-scrollbar { width:6px; height:6px; }
+  ::-webkit-scrollbar-thumb { background:var(--steel-hi); border-radius:3px; }
+  ::-webkit-scrollbar-track { background:var(--steel-0); }
+
+  /* ── effects strip + log band ── */
+  .strip { display:flex; gap:18px; flex-wrap:wrap; padding:8px 14px;
+    margin-top:14px; color:var(--ink-soft); font-size:12.5px; }
+  .strip b { color:var(--gold-hi); font-weight:600; }
+  .strip .was { color:var(--ink-faint); text-decoration:line-through; }
+  .logband { margin-top:14px; padding:8px 14px 10px; }
+  .logband .label { display:block; margin-bottom:5px; }
+  .logline { font-size:13px; color:var(--v-narrator); margin:2px 0; }
+  .logline b { font-weight:600; }
+  .logline.milestone { color:var(--gold-hi); border-left:2px solid var(--gold);
+    padding-left:8px; }
+
+  /* ── the notebook beat (VN modal) ── */
+  .scrim { position:fixed; inset:0; background:rgba(7,8,16,.82);
+    display:flex; align-items:center; justify-content:center; z-index:10; }
+  .vn { width:min(620px, 92vw); padding:26px 30px 22px; }
+  .vn .nameplate { display:inline-flex; align-items:center; gap:8px;
+    border:1px solid var(--v-physician); border-radius:var(--radius);
+    padding:2px 10px; margin-bottom:14px; }
+  .vn .nameplate .g { color:var(--v-physician); }
+  .vn .nameplate .n { font-family:var(--chrome); font-size:11px;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--silver-dim); }
+  .vn p { max-width:56ch; margin:0 0 12px; }
+  .vn .speech { color:var(--v-physician); }
+  .vn .speech b { color:var(--v-physician); }
+  .vn .stage { color:var(--v-narrator); font-style:italic; }
+  .vn .cta { margin-top:16px; text-align:right; }
+  .vn .cta .plate-btn { border-color:var(--key); color:var(--gold-hi);
+    padding:7px 20px; }
+
+  /* ── DEV corner ── */
+  .dev { position:fixed; right:10px; bottom:10px; display:flex; gap:6px;
+    align-items:center; font-family:var(--chrome); font-size:10px;
+    letter-spacing:.08em; color:var(--ink-faint); z-index:5; }
+  .dev button { background:var(--steel-0); border:1px solid var(--silver-faint);
+    border-radius:var(--radius); color:var(--ink-soft); font-size:10px;
+    padding:2px 8px; cursor:pointer; font-family:var(--chrome);
+    letter-spacing:.08em; }
+  .dev button:hover { color:var(--silver); }
+
+  footer.colo { margin-top:26px; text-align:center; color:var(--ink-faint);
+    font-size:11px; font-family:var(--chrome); letter-spacing:.06em; }
+
+  @media (max-width:760px) {
+    .book { grid-template-columns:1fr; }
+    .book .index { border-right:none; border-bottom:1px solid var(--silver-faint); }
+    .vitals { margin-left:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <header class="hd plate">
+    <h1><span class="kanji">聞書</span>Kikigaki</h1>
+    <span class="sub">the listening-record — a feel-test of the depth lane (Plan K §U · MOCK data)</span>
+    <div class="vitals">
+      <div class="vital"><span class="label">Day · Season</span>
+        <span class="v num" id="v-day">—</span></div>
+      <div class="vital"><span class="label">刻 today</span>
+        <span class="v num" id="v-ticks">—</span>
+        <span class="tickbar"><i id="v-tickbar"></i></span></div>
+      <div class="vital"><span class="label">Coin</span>
+        <span class="v num" id="v-coin">—</span></div>
+    </div>
+  </header>
+
+  <nav class="loc plate" id="loc" aria-label="Where you are"></nav>
+
+  <section class="pane plate" aria-label="The kikigaki">
+    <div class="pane-hd">
+      <span class="t"><span class="kanji">聞書</span> · the notebook</span>
+      <div class="variants" role="group" aria-label="Layout variant">
+        <span class="label">variant</span>
+        <button class="var-btn" data-v="A">A · book</button>
+        <button class="var-btn" data-v="B">B · ledger</button>
+        <button class="var-btn" data-v="C">C · scroll</button>
+      </div>
+    </div>
+    <div id="pane-body"></div>
+  </section>
+
+  <div class="strip well" id="effects" aria-label="What knowing has changed"></div>
+
+  <div class="logband well" aria-live="polite">
+    <span class="label">The log</span>
+    <div id="log"></div>
+  </div>
+
+  <footer class="colo">MOCK — Plan K §U feel-test · every fact invented, nothing here is canon · Andon Steel tokens verbatim</footer>
+</div>
+
+<div class="scrim" id="beat" role="dialog" aria-modal="true" aria-label="The notebook beat">
+  <div class="vn plate">
+    <span class="nameplate"><span class="g">◈</span><span class="n">Sōan · physician</span></span>
+    <p class="stage">He finishes with the arm, then does not leave. From the chest by the door he takes a bound book of blank leaves and sets it on your knee like a dose.</p>
+    <p class="speech"><b>Sōan:</b> “A man who has lost his yesterdays should keep better hold of his todays. When something will not sit still in your head — a thing said, a thing seen — write it here, and it is kept.”</p>
+    <p class="stage">He ties his sleeve and looks at nothing in particular.</p>
+    <p class="speech"><b>Sōan:</b> “If you want your night at the weir, ask the man who keeps the weir. I only received what the water was finished with.”</p>
+    <p class="stage">The book is thin, cheap, and completely blank. It is the first thing in this house that is yours.</p>
+    <div class="cta"><button class="plate-btn" id="beat-go">Take the book</button></div>
+  </div>
+</div>
+
+<div class="dev">
+  <span>MOCK · not canon</span>
+  <button id="dev-ticks">+12 刻</button>
+  <button id="dev-coin">+20 文</button>
+  <button id="dev-reset">reset</button>
+</div>
+
+<script>
+'use strict';
+/* ───────────────────────── mock content ───────────────────────── */
+const NODES = [
+  { id:'yard', label:'庭 · the yard',   walk:1 },
+  { id:'hall', label:'広間 · the hall', walk:1 },
+  { id:'gate', label:'門 · the gate',   walk:1 },
+  { id:'kura', label:'蔵 · the kura',   walk:1 },
+  { id:'soan', label:'草庵 · Sōan’s room', walk:1 },
+  { id:'weir', label:'堰 · the weir',   walk:2 },
+];
+const NPCS = {
+  soan:    { name:'Sōan',    node:'soan', v:'var(--v-physician)' },
+  matsuzo: { name:'Matsuzō', node:'weir', v:'var(--v-villager)'  },
+  oyae:    { name:'O-Yae',   node:'gate', v:'var(--v-villager)'  },
+  toku:    { name:'Toku',    node:'hall', v:'var(--v-steward)'   },
+};
+const THREADS = [
+  { id:'soans-ledger', ring:'cast', title:'What does Sōan keep in the grey book?',
+    opens:'soan-glimpse', bottom:{ kind:'resolution', fact:'soan-read' } },
+  { id:'weir-night', ring:'core', title:'What did Matsuzō see, the night I came out of the weir?',
+    opens:'matsuzo-watches', bottom:{ kind:'resolution', fact:'matsuzo-account' } },
+  { id:'light-upstream', ring:'core', title:'What was the light that crossed against the current?',
+    opens:'light-open', hidden:true,
+    bottom:{ kind:'ambiguity', close:'light-close', defers:'beyond this rung' } },
+  { id:'tokus-purse', ring:'cast', title:'Why does the dowager’s purse open where the house’s books don’t?',
+    opens:'oyae-old-coin', bottom:{ kind:'resolution', fact:'toku-admits' } },
+];
+/* facts: need = prior facts; warmth = [npc,min]; at = node required to act;
+   auto = latches free on arriving at node; coin/ticks = cost of the move */
+const FACTS = [
+  // ── soans-ledger ──
+  { id:'soan-glimpse', thread:'soans-ledger', src:'seen · Sōan’s room', beat:true,
+    text:'Sōan wrote in the grey book again while he dressed my arm. He stopped when I looked — the way a man stops who was not writing about herbs.' },
+  { id:'soan-dates', thread:'soans-ledger', src:'heard · Sōan',
+    move:'Ask Sōan what he writes', need:['soan-glimpse'], warmth:['soan',2], at:'soan', ticks:4,
+    text:'He asked me, offhand, what day I thought it was when he pulled me from the weir. I said what everyone says. He wrote down my answer — not the day.' },
+  { id:'soan-burned', thread:'soans-ledger', src:'heard · O-Yae',
+    move:'Ask O-Yae about the doctor', need:['soan-glimpse'], warmth:['oyae',1], at:'gate', ticks:4,
+    text:'O-Yae, pleased to be asked anything: the morning after I first woke, the physician burned a page at his own brazier. Paper is dear. Nobody burns a blank one.' },
+  { id:'soan-read', thread:'soans-ledger', src:'shown · the grey book',
+    move:'Ask to see the book', need:['soan-dates','soan-burned'], warmth:['soan',3], at:'soan', ticks:6,
+    bite:'Sōan trusts you with more than the book — treatment now costs half.',
+    text:'He watched me a long moment, then opened it himself. The entries about me begin four days BEFORE Matsuzō pulled me from the water. In his own hand: “expected.” He will not say more. He wrote it, and he showed me — both were choices.' },
+  // ── weir-night ──
+  { id:'matsuzo-watches', thread:'weir-night', src:'seen · the weir', auto:'weir',
+    text:'The old weir-keeper tallies my comings and goings on the rail with a thumb-nail, the way he tallies herons. He has been counting me since before I could count.' },
+  { id:'matsuzo-lease', thread:'weir-night', src:'heard · Matsuzō',
+    move:'Ask Matsuzō about that night', need:['matsuzo-watches'], warmth:['matsuzo',1], at:'weir', ticks:4,
+    text:'“Not on an empty jar.” That is all he said. O-Yae says the pedlar at the gate keeps the cheap clear stuff the old man drinks.' },
+  { id:'matsuzo-sake', thread:'weir-night', src:'bought · the gate stall',
+    move:'Buy the old man’s sake', need:['matsuzo-lease'], at:'gate', ticks:2, coin:12,
+    text:'A jar of the cheap clear stuff, dear enough on a hand’s wages. Yohei wrapped it without a word, which for Yohei is a kind of respect.' },
+  { id:'matsuzo-account', thread:'weir-night', src:'heard · Matsuzō',
+    move:'Pour, and ask again', need:['matsuzo-sake'], warmth:['matsuzo',2], at:'weir', ticks:8,
+    text:'He drank twice before he spoke. There was no boat and no flood. There was a light that crossed the water UPSTREAM — against the current, steady, the pace of a man walking a corridor. Then the light was gone, and I was at the weir gate, face down, “dry above the waist, which the river does not do.” He told no one. “Who does a man tell that to?”' },
+  // ── light-upstream (spawned) ──
+  { id:'light-open', thread:'light-upstream', src:'the book itself', spawned:true,
+    text:'The book has begun asking its own questions. What crosses water against the current, at a walking pace, and leaves a man dry above the waist?' },
+  { id:'toku-word', thread:'light-upstream', src:'heard · Toku',
+    move:'Ask Toku about lights on water', need:['light-open'], warmth:['toku',2], at:'hall', ticks:6,
+    text:'The dowager went very still, dated the question — “my grandmother’s time, before the second granary” — and said her grandmother had a word for such a light. She did not say the word. “We do not use it in this house.”' },
+  { id:'light-close', thread:'light-upstream', src:'written · my own hand', close:true,
+    move:'Write the question closed — for now',
+    need:['toku-word'], ticks:2,
+    text:'No one at this rung of the world can tell me what crossed the water. Whatever it was, it did not come from downstream. Neither did I. — I close this page, not the question.' },
+  // ── tokus-purse ──
+  { id:'oyae-old-coin', thread:'tokus-purse', src:'seen · the gate', auto:'gate',
+    text:'O-Yae’s wages, glimpsed as she counted them: coin struck before the current era, worn smooth. The house books, which I carry to Genemon, show no wage paid to her at all.' },
+  { id:'oyae-forgets', thread:'tokus-purse', src:'heard · O-Yae',
+    move:'Ask O-Yae who pays her', need:['oyae-old-coin'], warmth:['oyae',2], at:'gate', ticks:4,
+    text:'She looked at the coin, then at me, and chose her words like footing on ice: “The lady dowager pays for what the house forgets.” Then she remembered somewhere she needed to be.' },
+  { id:'ledger-gap', thread:'tokus-purse', src:'read · the house books',
+    move:'Check the wage column in the kura books', need:['oyae-old-coin'], at:'kura', ticks:6,
+    text:'The servant-wage column stops clean two years ago, ruled off in Genemon’s hand. Nothing after. Yet the gate is swept, the water is drawn, and O-Yae counts old coin. Someone pays what the page says stopped.' },
+  { id:'toku-admits', thread:'tokus-purse', src:'heard · Toku',
+    move:'Ask the dowager plainly', need:['oyae-forgets','ledger-gap'], warmth:['toku',2], at:'hall', ticks:8,
+    bite:'Toku has noticed you notice — your day’s keep rises by 1 mon.',
+    text:'She did not deny it; she dated it. “Two years, since the autumn the trade failed.” Her widow’s portion, coin by coin, keeps the living paid where the house cannot. “A house is people fed, not beams standing. Write that down, since you write things down.”' },
+];
+const FACT = Object.fromEntries(FACTS.map(f => [f.id, f]));
+const THREAD = Object.fromEntries(THREADS.map(t => [t.id, t]));
+
+/* ───────────────────────── state ───────────────────────── */
+const TICKS_PER_DAY = 24;
+let S;
+function freshState() {
+  return {
+    day:1, ticks:TICKS_PER_DAY, coin:18, node:'yard',
+    warmth:{ soan:1, matsuzo:0, oyae:1, toku:0 },
+    known:[], seen:[], order:[],           // latched fact ids, seen-by-UI, latch order
+    treat:24, keep:4,                       // bite-visible numbers
+    variant:'A', sel:'soans-ledger', open:{}, // UI state (B expand map)
+    log:[],
+  };
+}
+const known = id => S.known.includes(id);
+
+/* ───────────────────────── engine (pure-ish, mock) ───────────────────────── */
+function moveState(f) {          // null = not listed; else {ok, why}
+  if (known(f.id) || f.beat || f.auto || f.spawned) return null;
+  if (!(f.need || []).every(known)) return null;      // hidden until deps met
+  const t = THREAD[f.thread];
+  if (!known(t.opens)) return null;
+  if (f.warmth) {
+    const [npc, min] = f.warmth;
+    if ((S.warmth[npc] || 0) < min)
+      return { ok:false, why:`${NPCS[npc].name} does not know you well enough yet (warmth ${S.warmth[npc]||0}/${min}) — sit with ${NPCS[npc].name==='Toku'?'her':'them'} first` };
+  }
+  if (f.at && S.node !== f.at)
+    return { ok:false, why:`for this you must be at ${NODES.find(n=>n.id===f.at).label}` };
+  if ((f.coin || 0) > S.coin) return { ok:false, why:`you lack the coin (${f.coin}文)` };
+  if ((f.ticks || 0) > S.ticks) return { ok:false, why:'no time left today — sleep first' };
+  return { ok:true, why:null };
+}
+function movesFor(threadId) {
+  return FACTS.filter(f => f.thread === threadId)
+    .map(f => ({ f, st: moveState(f) })).filter(m => m.st);
+}
+function threadOpen(t) { return known(t.opens); }
+function threadDone(t) {
+  return t.bottom.kind === 'resolution' ? known(t.bottom.fact) : known(t.bottom.close);
+}
+function factsKnown(threadId) {
+  return S.order.filter(id => FACT[id].thread === threadId).map(id => FACT[id]);
+}
+function hasNew(threadId) {
+  return S.order.some(id => FACT[id].thread === threadId && !S.seen.includes(id));
+}
+
+function log(text, milestone) {
+  S.log.push({ text, milestone: !!milestone });
+  if (S.log.length > 5) S.log.shift();
+}
+function latch(id, viaMove) {
+  if (known(id)) return;
+  S.known.push(id); S.order.push(id);
+  const f = FACT[id], t = THREAD[f.thread];
+  S.lastInk = id;
+  if (!threadOpen(t) || t.opens === id) log(`A new question opens in the book: “${t.title}”`, true);
+  else log(`The book takes a line — ${t.title.replace(/\?$/, '')}…`);
+  if (f.bite) {
+    if (id === 'soan-read') S.treat = 12;
+    if (id === 'toku-admits') S.keep = 5;
+    log(f.bite, true);
+  }
+  if (id === 'matsuzo-account') {           // successor thread spawns
+    THREAD['light-upstream'].hidden = false;
+    latch('light-open');
+  }
+  if (t.bottom.kind === 'resolution' && t.bottom.fact === id)
+    log(`The question is answered: “${t.title}”`, true);
+  if (f.close) log('Some questions are closed, not answered. The page is sealed.', true);
+}
+function pursue(id) {
+  const f = FACT[id], st = moveState(f);
+  if (!st || !st.ok) return;
+  S.ticks -= (f.ticks || 0); S.coin -= (f.coin || 0);
+  latch(id, true);
+  S.sel = f.thread; S.open[f.thread] = true;
+  render();
+}
+function walk(nodeId) {
+  const n = NODES.find(n => n.id === nodeId);
+  if (S.node === nodeId || S.ticks < n.walk) return;
+  S.ticks -= n.walk; S.node = nodeId;
+  FACTS.filter(f => f.auto === nodeId && !known(f.id) ).forEach(f => {
+    latch(f.id); S.sel = f.thread; S.open[f.thread] = true;
+  });
+  render();
+}
+function sitWith(npc) {
+  if (S.ticks < 3 || (S.warmth[npc]||0) >= 3) return;
+  S.ticks -= 3; S.warmth[npc]++;
+  log(`You spend a while with ${NPCS[npc].name}. (warmth ${S.warmth[npc]}/3)`);
+  render();
+}
+function sleep() {
+  S.day++; S.ticks = TICKS_PER_DAY; S.coin += S.keep;
+  log(`Day ${S.day}. The day’s keep: +${S.keep}文.`);
+  render();
+}
+
+/* ───────────────────────── rendering ───────────────────────── */
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function inkClass(id) { return S.lastInk === id ? ' ink-in' : ''; }
+
+function renderVitals() {
+  $('#v-day').innerHTML = `Day <b>${S.day}</b> · autumn`;
+  $('#v-ticks').innerHTML = `<b>${S.ticks}</b>/${TICKS_PER_DAY}`;
+  $('#v-tickbar').style.width = (100 * S.ticks / TICKS_PER_DAY) + '%';
+  $('#v-coin').innerHTML = `🪙 <b>${S.coin}</b> 文`;
+}
+function renderLoc() {
+  const here = NODES.find(n => n.id === S.node);
+  const folk = Object.entries(NPCS).filter(([,p]) => p.node === S.node);
+  $('#loc').innerHTML =
+    `<span class="label">You are at</span>` +
+    NODES.map(n => n.id === S.node
+      ? `<button class="node-btn here" aria-current="true">${n.label}</button>`
+      : `<button class="node-btn" data-walk="${n.id}" ${S.ticks < n.walk ? 'disabled' : ''}>${n.label}<span class="cost">刻${n.walk}</span></button>`
+    ).join('') +
+    `<button class="node-btn" data-sleep ${S.ticks === TICKS_PER_DAY ? 'disabled' : ''}>🏮 sleep<span class="cost">→ day ${S.day + 1}</span></button>` +
+    `<span class="who-here">${
+      folk.length
+        ? 'Here: ' + folk.map(([id,p]) =>
+            `<b style="color:${p.v}">${p.name}</b> <button class="plate-btn" data-sit="${id}" ${S.ticks<3||(S.warmth[id]||0)>=3?'disabled':''} title="raise warmth">sit with · 刻3 (warmth ${S.warmth[id]||0}/3)</button>`
+          ).join(' &nbsp; ')
+        : 'No one is here just now.'
+    }</span>`;
+}
+function entryHTML(f, small) {
+  const t = THREAD[f.thread];
+  const isBottom = t.bottom.kind === 'resolution' && t.bottom.fact === f.id;
+  return `<div class="entry${f.close ? ' terminal' : ''}${inkClass(f.id)}">
+    <div class="meta"><span class="src">${esc(f.src)}</span>
+      ${isBottom ? '<span class="label" style="color:var(--gold)">answered</span>' : ''}
+      ${f.close ? `<span class="defer">先送 · ${esc(t.bottom.defers)}</span>` : ''}</div>
+    <p>${esc(f.text)}</p>
+    ${f.bite && known(f.id) ? `<div class="bite">${esc(f.bite)}</div>` : ''}
+  </div>`;
+}
+function movesHTML(threadId) {
+  const t = THREAD[threadId];
+  if (threadDone(t)) return '';
+  const ms = movesFor(threadId);
+  if (!ms.length) return `<div class="moves"><span class="label">To learn more</span>
+    <span class="hint" style="color:var(--ink-faint);font-style:italic">Nothing more offers itself yet — the world may need to move first.</span></div>`;
+  return `<div class="moves"><span class="label">To learn more</span>` + ms.map(({f, st}) => `
+    <div class="move${st.ok ? '' : ' blocked'}">
+      <button class="plate-btn" data-pursue="${f.id}" ${st.ok ? '' : 'disabled'}
+        aria-disabled="${!st.ok}">${esc(f.move)}<span class="cost">${f.ticks ? '刻' + f.ticks : ''}${f.coin ? ' · ' + f.coin + '文' : ''}</span></button>
+      ${st.ok ? '' : `<span class="why">${esc(st.why)}</span>`}
+    </div>`).join('') + `</div>`;
+}
+function visibleThreads() { return THREADS.filter(t => !t.hidden && threadOpen(t)); }
+
+function renderA(el) {
+  const ts = visibleThreads();
+  if (!ts.some(t => t.id === S.sel)) S.sel = ts[0] && ts[0].id;
+  el.innerHTML = `<div class="book">
+    <div class="index" role="tablist" aria-label="Open questions">
+      <span class="label" style="display:block;margin:2px 0 8px">Open questions</span>
+      ${ts.map(t => `
+        <button class="q-item ${t.id === S.sel ? 'sel' : ''}" data-sel="${t.id}" role="tab" aria-selected="${t.id === S.sel}">
+          <span class="pip ${hasNew(t.id) ? '' : 'old'}" aria-hidden="true"></span>
+          <span>${esc(t.title)}<span class="ring-tag">${t.ring}</span></span>
+          <span class="state ${threadDone(t) ? 'done' : ''}">${threadDone(t) ? (t.bottom.kind === 'ambiguity' ? '封' : '✒ answered') : factsKnown(t.id).length + ' entr' + (factsKnown(t.id).length === 1 ? 'y' : 'ies')}</span>
+        </button>`).join('')}
+    </div>
+    <div class="page" role="tabpanel">${
+      S.sel ? (() => { const t = THREAD[S.sel];
+        return `<div class="q-title">${esc(t.title)}</div>
+          <div class="q-sub">${t.ring} · ${threadDone(t) ? (t.bottom.kind === 'ambiguity' ? '<span class="seal">closed, not answered</span>' : '<span class="seal">answered</span>') : 'open'}</div>
+          ${factsKnown(t.id).map(f => entryHTML(f)).join('')}
+          ${movesHTML(t.id)}`; })() : ''
+    }</div></div>`;
+}
+function renderB(el) {
+  const ts = visibleThreads();
+  el.innerHTML = `<div class="ledger">` + ts.map(t => {
+    const openRow = S.open[t.id] !== false;
+    return `<div class="l-row">
+      <button class="l-head" data-toggle="${t.id}" aria-expanded="${openRow}">
+        <span class="arrow">${openRow ? '▾' : '▸'}</span>
+        <span class="pip ${hasNew(t.id) ? '' : 'old'}" style="width:7px;height:7px;border-radius:50%;flex:none;background:${hasNew(t.id) ? 'var(--gold)' : 'var(--steel-hi)'}"></span>
+        <span>${esc(t.title)}</span>
+        <span class="prog ${threadDone(t) ? 'done' : ''}">${threadDone(t) ? (t.bottom.kind === 'ambiguity' ? '封 closed' : '✒ answered') : factsKnown(t.id).length + ' · ' + movesFor(t.id).filter(m => m.st.ok).length + ' move' + (movesFor(t.id).filter(m => m.st.ok).length === 1 ? '' : 's')}</span>
+      </button>
+      ${openRow ? `<div class="l-body">
+        ${factsKnown(t.id).map(f => `<div class="l-entry${inkClass(f.id)}"><span class="src">${esc(f.src)}</span><p>${esc(f.text)}</p></div>`).join('')}
+        ${movesHTML(t.id)}</div>` : ''}
+    </div>`; }).join('') + `</div>`;
+}
+function renderC(el) {
+  const all = S.order.map(id => FACT[id]);
+  const dayOf = {}; all.forEach((f, i) => dayOf[f.id] = Math.min(S.day, 1 + (i >> 1)));
+  el.innerHTML = `<div class="scroll-view">` + all.map(f => `
+    <div class="t-entry${inkClass(f.id)}">
+      <div class="margin"><span class="thread-tag">${esc(THREAD[f.thread].title.slice(0, 26))}…</span>
+        <span class="day">day ${dayOf[f.id]}</span></div>
+      <div>${entryHTML(f)}</div>
+    </div>`).join('') + `</div>
+    <div class="yet"><span class="label" style="display:block;margin-bottom:6px">Yet unwritten</span>${
+      visibleThreads().filter(t => !threadDone(t)).map(t =>
+        `<div style="margin:8px 0 2px;color:var(--silver-dim);font-size:13px">${esc(t.title)}</div>` + movesHTML(t.id)
+      ).join('') || '<span class="hint" style="color:var(--ink-faint);font-style:italic">Every open page is either answered or waiting on the world.</span>'
+    }</div>`;
+}
+function renderPane() {
+  document.querySelectorAll('.var-btn').forEach(b =>
+    b.classList.toggle('on', b.dataset.v === S.variant));
+  const el = $('#pane-body');
+  ({ A: renderA, B: renderB, C: renderC })[S.variant](el);
+  visibleThreads().forEach(t => { if (S.variant !== 'A' || t.id === S.sel)
+    factsKnown(t.id).forEach(f => { if (!S.seen.includes(f.id)) S.seen.push(f.id); }); });
+}
+function renderEffects() {
+  $('#effects').innerHTML =
+    `<span class="label" style="align-self:center">What knowing has changed</span>
+     <span>治療 treatment: ${S.treat === 12 ? '<span class="was">24文</span> <b>12文</b>' : '<b>24文</b>'}</span>
+     <span>day’s keep: ${S.keep === 5 ? '<span class="was">4文</span> <b>+5文</b>' : '<b>+4文</b>'}</span>
+     <span>entries kept: <b class="num">${S.known.length}</b></span>`;
+}
+function renderLog() {
+  $('#log').innerHTML = S.log.map(l =>
+    `<div class="logline ${l.milestone ? 'milestone' : ''}">${esc(l.text)}</div>`).join('');
+}
+function render() {
+  renderVitals(); renderLoc(); renderPane(); renderEffects(); renderLog();
+  S.lastInk = null;
+}
+
+/* ───────────────────────── wiring ───────────────────────── */
+document.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.walk) walk(b.dataset.walk);
+  else if (b.dataset.sit) sitWith(b.dataset.sit);
+  else if (b.dataset.pursue) pursue(b.dataset.pursue);
+  else if (b.dataset.sel) { S.sel = b.dataset.sel; render(); }
+  else if (b.dataset.toggle) { S.open[b.dataset.toggle] = S.open[b.dataset.toggle] === false; render(); }
+  else if (b.dataset.v) { S.variant = b.dataset.v; render(); }
+  else if (b.hasAttribute('data-sleep')) sleep();
+});
+$('#beat-go').addEventListener('click', () => {
+  $('#beat').style.display = 'none';
+  latch('soan-glimpse');
+  log('聞書 — the notebook is yours. A new tab would ink into the rail here.', true);
+  render();
+});
+$('#dev-ticks').addEventListener('click', () => { S.ticks = Math.min(TICKS_PER_DAY, S.ticks + 12); render(); });
+$('#dev-coin').addEventListener('click', () => { S.coin += 20; render(); });
+$('#dev-reset').addEventListener('click', () => { S = freshState(); $('#beat').style.display = 'flex'; render(); });
+
+S = freshState();
+render();
+</script>
+</body>
+</html>
