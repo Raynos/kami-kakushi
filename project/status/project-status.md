@@ -83,8 +83,13 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 
 > 🎮 **v0.4.0 "the storywave release" shipped 2026-07-09 via `/ship`** — the
 > bible-canon T0 rewrite (six-season year, kura economy, body economies, new cast).
-> Live at raynos.github.io/kami-kakushi. All agent-side storywave work is DONE; the
-> open work is the human queue above.
+> Live at raynos.github.io/kami-kakushi. Session 133 then AUDITED the whole wave
+> (6-agent review + map-sheets audit): ship real, engine sound, no src/ criticals —
+> but two closure debts are now mapped in two PROPOSED plans (awaiting the human's
+> read): `docs/plans/fable-2026-07-09-storywave-closure.md` (A5 doc staleness ·
+> B-fixes · C4 "switch the written world on") and
+> `docs/plans/fable-2026-07-09-map-sheets-fixes.md` (ensemble blind-pass first —
+> the loop proved noisy — then redraw only robust fails).
 
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
@@ -94,10 +99,13 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
    Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
 4. **Next (autonomous):** build **T2 rungs/fog** (plan ready + human-greenlit:
-   `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`, mechanics-only) — a focused pass
-   with live `?t2-map-demo`; or drain the playtest inbox as the human QAs (review.md
-   + the DEV Variants tab are now RUNG-ordered to track it). Combat R4+ = a design
-   call (loot-craft loop + intended decayed-state wall), NOT a fix → inbox.
+   `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`, mechanics-only; its assumptions
+   AUDIT-VERIFIED true 2026-07-09) — a focused pass with live `?t2-map-demo`; or
+   drain the playtest inbox as the human QAs. The two session-133 fix plans
+   (storywave-closure · map-sheets-fixes) are PROPOSED, Opus-routed, and start on
+   the human's go — closure C1.1 (O-Sato) and map P2 (denylist test) share a
+   coordination point. Combat R4+ = a design call (loot-craft loop + intended
+   decayed-state wall), NOT a fix → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 1/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 2/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->

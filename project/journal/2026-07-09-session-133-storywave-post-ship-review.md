@@ -137,3 +137,8 @@ P5 close-out incl. the T2-plan ladder caveat. Routed Opus throughout
   list.
 - The blind-pass workflow's describe/judge agents stay Sonnet
   (human-blessed 2026-07-08 routing) even under the ensemble upgrade.
+
+**Checkpoint (session close):** snapshot resume block updated to the two
+PROPOSED plans; the two audit REPORTS cleared from the reading queue
+(human confirmed read-via-discussion, AskUserQuestion); both PLANS stay
+queued. All work pushed; no subagents/workflows left running.
