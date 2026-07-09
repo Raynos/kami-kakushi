@@ -64,7 +64,7 @@ export const DISCOVERIES: readonly DiscoveryDef[] = [
     // 2026-07-07): no roll for the first 15 cuts, then 1% gently pity-ramped (balance.ts
     // DISCOVERY_PITY_*) — a many-visits background surprise, typically ~50+ cuts in.
     id: 'disc-woodlot-lacquer',
-    node: 'woodlot-edge',
+    node: 'woodlot',
     reveals: 'tap_lacquer',
     trigger: { kind: 'watch', activity: 'woodcut_edge', chance: 0.01 },
     minAttempts: 15,

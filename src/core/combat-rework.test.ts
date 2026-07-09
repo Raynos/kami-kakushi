@@ -211,7 +211,7 @@ describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
     // Step 5b: arming an auto-grind is spatial — you must stand on the monkey's node (home-paddies).
     const s: GameState = {
       ...createInitialState(1),
-      location: 'home-paddies',
+      location: getMob('monkey').area,
       flags: { awake: true },
     };
     const death = reduce(s, { type: 'set_auto_combat', mobId: 'monkey', retreat: false });
@@ -225,14 +225,14 @@ describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
     const away: GameState = { ...createInitialState(1), location: 'kura', flags: { awake: true } };
     expect(reduce(away, { type: 'set_auto_combat', mobId: 'monkey' })).toBe(away); // no-op off-node
     // clearing (mobId null) is not gated — you can always stop the autopilot
-    const armed: GameState = { ...away, location: 'home-paddies', autoCombat: 'monkey' };
+    const armed: GameState = { ...away, location: getMob('monkey').area, autoCombat: 'monkey' };
     expect(reduce(armed, { type: 'set_auto_combat', mobId: null }).autoCombat).toBeNull();
   });
 });
 
 describe('5c · banking is spatial — you store/draw only at the kura (batch-2 map call)', () => {
   it('deposit off the kura is a no-op; at the kura it stores', () => {
-    const away: GameState = { ...economyReady(100), location: 'home-paddies' };
+    const away: GameState = { ...economyReady(100), location: getMob('monkey').area };
     expect(reduce(away, { type: 'deposit', resource: 'coin' })).toBe(away); // same ref → no-op
     const atKura: GameState = { ...economyReady(100), location: 'kura' };
     const stored = reduce(atKura, { type: 'deposit', resource: 'coin' });
@@ -242,7 +242,7 @@ describe('5c · banking is spatial — you store/draw only at the kura (batch-2 
   it('withdraw off the kura is a no-op; the stored coin stays safe until you walk back', () => {
     const atKura: GameState = { ...economyReady(100), location: 'kura' };
     const stored = reduce(atKura, { type: 'deposit', resource: 'coin' });
-    const away: GameState = { ...stored, location: 'woodlot-edge' };
+    const away: GameState = { ...stored, location: 'woodlot' };
     expect(reduce(away, { type: 'withdraw', resource: 'coin' })).toBe(away); // same ref → no-op
     expect(away.banked.coin ?? 0).toBe(100); // still sheltered
   });
@@ -255,10 +255,10 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
     return { ...s, location, unlocked: [...s.unlocked, 'tab-combat'] };
   }
 
-  it('the monkey lives on the home paddies — fighting it there WORKS, elsewhere is a no-op', () => {
+  it('the monkey lives on the bamboo grove — fighting it there WORKS, elsewhere is a no-op', () => {
     // source of truth: the monkey's bound node (not a copied string).
     const monkeyNode = getMob('monkey').area;
-    expect(monkeyNode).toBe('home-paddies');
+    expect(monkeyNode).toBe('grove'); // G4: the crop-raiding troop's ground
 
     // off the node (kura): the fight is rejected — combat state is untouched.
     const away = fighterAt('kura');
@@ -274,19 +274,18 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
 
   it('the watch shows only the foes on THIS node (foesHere is node-scoped)', () => {
     const idsAt = (loc: string): string[] => foesHere(fighterAt(loc)).map((f) => f.mob.id);
-    // gate forecourt: the grain-rat swarm (the gentle warmup at the stores). home paddies: the
-    // humbling lone monkey + the crop-raiding troop (A9). near satoyama: the lean wolf + the pit
-    // viper in the grass. deep satoyama: the boar in its wallow (Step 5d). The kura holds only the
-    // scripted wolf (NOT grindable → empty watch). The woodlot road's bandit is the first HUMAN
-    // threat, GATED to T2 (A10) → no T0 watch there. Order is GRINDABLE danger-order (level asc).
-    expect(idsAt('gate-forecourt')).toEqual(['rice_rats']);
-    expect(idsAt('home-paddies')).toEqual(['monkey', 'monkey_troop']);
-    expect(idsAt('near-satoyama')).toEqual(['wolf', 'mamushi']);
-    expect(idsAt('deep-satoyama')).toEqual(['boar']);
-    expect(idsAt('woodlot-edge')).toEqual([]); // bandit gated out of T0
-    expect(idsAt('kura')).toEqual([]);
+    // G4 re-siting (level-asc danger order): the weir reeds hold the river-rat warmup; the field
+    // margins the tanuki + the heavier badger; the grove the lone monkey + the troop big-male; the
+    // orchard the feral-dog pack. The kura's foes are night-round-only (excluded from the day watch);
+    // the woodlot road's bandit is the first HUMAN threat, GATED to T2 → no T0 watch there.
+    expect(idsAt('weir-reeds')).toEqual(['river_rats']);
+    expect(idsAt('field-margins')).toEqual(['tanuki', 'badger']);
+    expect(idsAt('grove')).toEqual(['monkey', 'monkey_male']);
+    expect(idsAt('orchard')).toEqual(['feral_dog']);
+    expect(idsAt('woodlot')).toEqual([]); // bandit gated out of T0
+    expect(idsAt('kura')).toEqual([]); // the store-rats/marten/wolf are night-round-only
     // …but the bandit DOES appear once the house reaches T2 (the gate is tier-scoped, A10).
-    const atT2 = foesHere({ ...fighterAt('woodlot-edge'), tier: 2 }).map((f) => f.mob.id);
+    const atT2 = foesHere({ ...fighterAt('woodlot'), tier: 2 }).map((f) => f.mob.id);
     expect(atT2).toEqual(['bandit']);
   });
 
@@ -325,18 +324,17 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
   });
 
   it('walking away from a foe ends the auto-grind on it (move_to clears autoCombat)', () => {
-    // stand on the paddies auto-grinding the monkey, then walk one hop off — the autopilot stops.
-    const at = fighterAt('home-paddies');
+    // stand at the forecourt auto-grinding the monkey, then walk one hop off — the autopilot stops.
+    const at = fighterAt('forecourt');
     const grinding: GameState = {
       ...at,
-      // reveal the nodes the walk touches (the estate rooms double as node-reveal surfaces).
-      unlocked: [...at.unlocked, 'room-gate-forecourt', 'room-home-paddies'],
       flags: { awake: true },
       autoCombat: 'monkey',
       autoCombatRetreat: false,
     };
-    const walked = reduce(grinding, { type: 'move_to', to: 'gate-forecourt' });
-    expect(walked.location).toBe('gate-forecourt');
+    // the kitchen is an always-open R0 neighbour of the forecourt (no reveal/danger gate).
+    const walked = reduce(grinding, { type: 'move_to', to: 'kitchen' });
+    expect(walked.location).toBe('kitchen');
     expect(walked.autoCombat).toBeNull();
   });
 

@@ -15,13 +15,13 @@ import {
 import { DISCOVERIES, type DiscoveryDef } from './content/discoveries';
 import { FLAVOR } from './content/flavor.gen';
 import { DISCOVERY_PITY_NUM, DISCOVERY_PITY_DEN, DISCOVERY_HINT_STEP } from './content/balance';
-import { availableLabours } from './selectors';
-import { getActivity } from './content/activities';
+import { availableLabours, season } from './selectors';
+import { getActivity, refillSitePools } from './content/activities';
 import { reduce } from './intents';
 
 const WATCH_DEF: DiscoveryDef = {
   id: 'disc-test-watch',
-  node: 'woodlot-edge',
+  node: 'woodlot',
   reveals: 'forage_deepwoods', // a real ActivityId — the engine only stores/keys it
   trigger: { kind: 'watch', activity: 'woodcut_edge', chance: 0.3 },
   hints: ['h0', 'h1', 'h2'],
@@ -45,7 +45,7 @@ const WOODCUT: DiscoveryEvent = { kind: 'activity', activityId: 'woodcut_edge' }
 
 describe('discoveryPass (ADR-146 Phase 1)', () => {
   it('a matching attempt increments progress and advances ONLY the discovery stream', () => {
-    const s = at('woodlot-edge');
+    const s = at('woodlot');
     const s2 = discoveryPass(s, WOODCUT, [WATCH_DEF]);
     expect(s2.discoveryProgress[WATCH_DEF.id]).toBe(1);
     expect(s2.rng.cursors.discovery).toBe(s.rng.cursors.discovery + 1);
@@ -56,18 +56,18 @@ describe('discoveryPass (ADR-146 Phase 1)', () => {
     const wrongNode = discoveryPass(at('kura'), WOODCUT, [WATCH_DEF]);
     expect(wrongNode.discoveryProgress[WATCH_DEF.id]).toBeUndefined();
     const wrongAct = discoveryPass(
-      at('woodlot-edge'),
+      at('woodlot'),
       { kind: 'activity', activityId: 'farm_paddy' },
       [WATCH_DEF],
     );
     expect(wrongAct.discoveryProgress[WATCH_DEF.id]).toBeUndefined();
-    const wrongKind = discoveryPass(at('woodlot-edge'), { kind: 'visit' }, [WATCH_DEF]);
+    const wrongKind = discoveryPass(at('woodlot'), { kind: 'visit' }, [WATCH_DEF]);
     expect(wrongKind.discoveryProgress[WATCH_DEF.id]).toBeUndefined();
   });
 
   it('is reproducible under a fixed seed: same seed → the latch lands on the same attempt', () => {
     const run = (seed: number): number => {
-      let s = at('woodlot-edge', seed);
+      let s = at('woodlot', seed);
       for (let i = 1; i <= 100; i++) {
         s = discoveryPass(s, WOODCUT, [WATCH_DEF]);
         if (s.discovered.includes(WATCH_DEF.id)) return i;
@@ -142,7 +142,7 @@ describe('derived hiddenness gates the node action list (could-go-RED vs a stati
   it('an undiscovered reveals-target is ABSENT from availableLabours and un-doable', () => {
     // Stand at the deep satoyama with everything surface-unlocked; hide forage_deepwoods behind
     // the fixture discovery via the real (registry-defaulted) selector path's parametric core.
-    const s = at('deep-satoyama');
+    const s = at('woodlot');
     const unlocked = { ...s, unlocked: [...s.unlocked, 'verb-forage'] } as GameState;
     // pre-discovery: hidden set contains the target…
     expect(hiddenActivityIds(unlocked, [WATCH_DEF]).has('forage_deepwoods')).toBe(true);
@@ -154,7 +154,7 @@ describe('derived hiddenness gates the node action list (could-go-RED vs a stati
   it('the wired selectors consult the LIVE registry: tap_lacquer hides until its latch', () => {
     // The real content path (could-go-RED against a static list): at the woodlot with the
     // woodcut verb revealed, the lacquer action is ABSENT pre-discovery and appears post-latch.
-    const s = at('woodlot-edge');
+    const s = at('woodlot');
     const unlocked = { ...s, unlocked: [...s.unlocked, 'verb-woodcut'] } as GameState;
     expect(availableLabours(unlocked).map((o) => o.activity.id)).not.toContain('tap_lacquer');
     const found = { ...unlocked, discovered: ['disc-woodlot-lacquer'] } as GameState;
@@ -194,7 +194,7 @@ describe('the shipped content (disc-woodlot-lacquer) — registry invariants', (
     // cut until the discovery latches (pity-ramped 12% — certain well inside the act budget),
     // then perform the grown action and watch coin move. RED against a static action list, a
     // broken reduce wiring, or a latch that doesn't gate the selector.
-    let s = at('woodlot-edge', 20260707);
+    let s = at('woodlot', 20260707);
     s = { ...s, unlocked: [...s.unlocked, 'verb-woodcut'] } as GameState;
     expect(availableLabours(s).map((o) => o.activity.id)).not.toContain('tap_lacquer');
     let acts = 0;
@@ -208,8 +208,9 @@ describe('the shipped content (disc-woodlot-lacquer) — registry invariants', (
     // the found line landed in the log, permanent narrator prose
     expect(s.log.entries.some((e) => e.text === FLAVOR.lacquerFound)).toBe(true);
     // the hint is gone (latched), and the action now exists and pays
-    expect(nodeHint(s, 'woodlot-edge')).toBeNull();
+    expect(nodeHint(s, 'woodlot')).toBeNull();
     expect(availableLabours(s).map((o) => o.activity.id)).toContain('tap_lacquer');
+    s = { ...s, sitePools: refillSitePools(season(s)) };
     const coinBefore = s.resources.coin ?? 0;
     const after = reduce(s, { type: 'do_activity', activityId: 'tap_lacquer' });
     expect(after.resources.coin ?? 0).toBeGreaterThan(coinBefore);
@@ -218,13 +219,13 @@ describe('the shipped content (disc-woodlot-lacquer) — registry invariants', (
 
 describe('the tightening hint ladder (ADR-146 / ADR-116)', () => {
   it('steps up every DISCOVERY_HINT_STEP attempts and clamps at the last line', () => {
-    const s = at('woodlot-edge');
-    expect(nodeHint(s, 'woodlot-edge', [WATCH_DEF])?.text).toBe('h0'); // the standing foreshadow
+    const s = at('woodlot');
+    expect(nodeHint(s, 'woodlot', [WATCH_DEF])?.text).toBe('h0'); // the standing foreshadow
     // Deterministically set progress (no rolls) to probe the ladder at the source-derived steps.
     const withAttempts = (n: number): GameState =>
       ({ ...s, discoveryProgress: { [WATCH_DEF.id]: n } }) as GameState;
     const hintAt = (n: number): string | undefined =>
-      nodeHint(withAttempts(n), 'woodlot-edge', [WATCH_DEF])?.text;
+      nodeHint(withAttempts(n), 'woodlot', [WATCH_DEF])?.text;
     expect(hintAt(DISCOVERY_HINT_STEP - 1)).toBe('h0');
     expect(hintAt(DISCOVERY_HINT_STEP)).toBe('h1');
     expect(hintAt(DISCOVERY_HINT_STEP * 2)).toBe('h2');
@@ -232,9 +233,9 @@ describe('the tightening hint ladder (ADR-146 / ADR-116)', () => {
   });
 
   it('goes silent once discovered, and for other nodes', () => {
-    const s = at('woodlot-edge');
+    const s = at('woodlot');
     const found = { ...s, discovered: [WATCH_DEF.id] } as GameState;
-    expect(nodeHint(found, 'woodlot-edge', [WATCH_DEF])).toBeNull();
+    expect(nodeHint(found, 'woodlot', [WATCH_DEF])).toBeNull();
     expect(nodeHint(s, 'kura', [WATCH_DEF])).toBeNull();
   });
 });
