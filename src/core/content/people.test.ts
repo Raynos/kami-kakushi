@@ -7,7 +7,7 @@ import { describe, it, expect } from 'vitest';
 import { createInitialState, type GameState } from '../state';
 import { reduce } from '../intents';
 import { peopleHere } from '../selectors';
-import { getPerson } from './people';
+import { getPerson, presenceCtx } from './people';
 import { getNode } from './map';
 
 function awakeAt(location: string, extraUnlocked: string[] = []): GameState {
@@ -25,7 +25,8 @@ describe('peopleHere (D-114) — the spatial "who\'s here" selector, mirroring f
     const pedlar = getPerson('pedlar'); // source of truth: his node + presence gate
     // stand at the pedlar's node with his presence satisfied → he is present.
     const present = awakeAt(pedlar.node, ['panel-estate']);
-    expect(pedlar.presence!(present)).toBe(true); // the coupling this test rides on
+    // TODO(g4-tests): registry re-authored (pedlar→yohei, smith retired) — rewritten in the test chunk.
+    expect(pedlar.presence!(presenceCtx(present))).toBe(true); // the coupling this test rides on
     expect(peopleHere(present).map((p) => p.id)).toContain('pedlar');
 
     // same unlocks, but standing on the KURA floor (not his node) → spatial: he is absent.
@@ -37,7 +38,7 @@ describe('peopleHere (D-114) — the spatial "who\'s here" selector, mirroring f
   it('respects PRESENCE — the pedlar is absent until his presence predicate holds', () => {
     const pedlar = getPerson('pedlar');
     const notYet = awakeAt(pedlar.node); // at his node, but presence gate NOT yet satisfied
-    expect(pedlar.presence!(notYet)).toBe(false); // documents the coupling (else the test is moot)
+    expect(pedlar.presence!(presenceCtx(notYet))).toBe(false); // documents the coupling (else the test is moot)
     expect(peopleHere(notYet).map((p) => p.id)).not.toContain('pedlar');
   });
 

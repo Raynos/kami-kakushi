@@ -36,7 +36,7 @@ import {
 } from './constants';
 import { clamp } from './math';
 import { ACTIVITIES, type ActivityDef } from './content/activities';
-import { PEOPLE, type NodePerson } from './content/people';
+import { PEOPLE, presenceCtx, type NodePerson } from './content/people';
 import { isUnlocked } from './unlock';
 import { hiddenActivityIds } from './discovery';
 import { skillLevel } from './skills';
@@ -251,10 +251,11 @@ export function canDoActivity(state: GameState, activity: ActivityDef): boolean 
  *  and their `presence` (if any) holds. Pure + deterministic over the surface latch (no RNG), so a
  *  place-gated vendor (the smith on `panel-equipment`) is simply absent until the gate opens. */
 export function peopleHere(state: GameState): NodePerson[] {
+  const ctx = presenceCtx(state);
   return PEOPLE.filter((p) => {
     if (p.node !== state.location) return false;
     if (p.placeGate !== undefined && !isUnlocked(state, p.placeGate)) return false;
-    if (p.presence !== undefined && !p.presence(state)) return false;
+    if (p.presence !== undefined && !p.presence(ctx)) return false;
     return true;
   });
 }

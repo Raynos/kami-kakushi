@@ -1,14 +1,25 @@
-// The vendors-as-people registry (ADR-114 / FB-109/FB-110): every vendor is a PERSON you
-// TALK to at a map node's "who's here" list — never a bare inline menu — arranged on a
-// SPECTRUM of interaction depth, with an OPTIONAL place-gate. A vendor = (a person on the
-// spectrum) + (an optional place-gate). Pure data + pure predicates (no DOM, no RNG, no
-// Date/Math.random): the `presence`/`placeGate` are pure functions of latched surface
-// state, so `peopleHere` (selectors.ts) is deterministic + unit-testable, exactly as
-// `foesHere` (combat.ts) is for the spatial "who's here" foe question.
+// The vendors-as-people registry (ADR-114 / FB-109/FB-110), grown at G4 into the FULL bible
+// §04-cast ↔ node placement: every T0 person you can meet stands at a map node's "who's here"
+// list — never a bare inline menu — arranged on a SPECTRUM of interaction depth, with an
+// OPTIONAL presence predicate (WHO is WHERE WHEN) and an OPTIONAL place-gate. A vendor/person =
+// (a person on the spectrum) + (an optional presence window) + (an optional place-gate). Pure
+// data + pure predicates (no DOM, no RNG, no Date/Math.random): `presence` is a pure function of
+// the derived `PresenceCtx` (day-of-week / season / rung / flags — all latched state), so
+// `peopleHere` (selectors.ts) is deterministic + unit-testable, exactly as `foesHere` (combat.ts)
+// is for the spatial "who's here" foe question.
+//
+// The LINES a person speaks are migrated canon (dialogue.gen.ts `u9-<npc>` registries — the
+// single source, NEVER re-typed here). This module places WHO stands WHERE and WHEN; the talk
+// panel surfaces their migrated dialogue via `sceneId` (the full-VN path is wired in a later
+// chunk). Munemasa — "a voice through a wall" — never places at a T0 node, so he has no entry.
 
 import type { GameState, SurfaceId } from '../state';
 import type { MapNodeId } from './map';
 import type { VoiceCategory } from './voices';
+import type { RankId } from './ranks';
+import type { Season } from '../constants';
+import { dayOfWeek, type DayOfWeek } from '../constants';
+import { YOHEI_MARKET_DAYS } from './market';
 import { NAMES } from './names';
 
 /** The ADR-114 depth spectrum — how much authoring a vendor carries:
@@ -18,71 +29,211 @@ import { NAMES } from './names';
  *              a shop, no dialogue tree). */
 export type PersonDepth = 'vn' | 'small' | 'tiny';
 
+/** The DERIVED context a `presence` predicate reads (G4) — the four levers the bible schedules a
+ *  person on: the day-of-week (Yohei's market days), the season (Iori at New Year + Bon), the rung
+ *  (Naoyuki reads the MC true from R1), and the story flags. Pure derivation of latched state, so a
+ *  presence predicate stays deterministic + unit-testable. */
+export interface PresenceCtx {
+  readonly dayOfWeek: DayOfWeek;
+  readonly season: Season;
+  readonly rung: RankId;
+  readonly flags: Readonly<Record<string, boolean>>;
+}
+
+/** Derive the presence context from GameState (the single place state internals are read). */
+export function presenceCtx(s: GameState): PresenceCtx {
+  return { dayOfWeek: dayOfWeek(s.clock.day), season: s.season, rung: s.rung, flags: s.flags };
+}
+
+/** The rung ladder order, for "at or past Rn" presence gates (plain index compare — the canonical
+ *  ordering lives in ranks.ts; kept local so people.ts stays a leaf). */
+const RUNG_ORDER: readonly RankId[] = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7'];
+function rungAtLeast(rung: RankId, min: RankId): boolean {
+  return RUNG_ORDER.indexOf(rung) >= RUNG_ORDER.indexOf(min);
+}
+
+/** The weir lease is settled on one weekday a week — Matsuzō walks up from the water then. A
+ *  placement-scheduling constant (not fiction), sibling to YOHEI_MARKET_DAYS. */
+const LEASE_DAY: DayOfWeek = 0;
+
 export interface NodePerson {
-  /** Stable id — 'pedlar', 'smith', … (also the who's-here reconcile key + the talk-open key). */
+  /** Stable id — the bible NpcId ('genemon', 'yohei', …); also the who's-here reconcile key + the
+   *  talk-open key. */
   readonly id: string;
-  /** Display name (a canonical NAMES entry or an inline label — the who's-here nameplate). */
+  /** Display name (a canonical NAMES entry — the who's-here nameplate). */
   readonly name: string;
   /** Speaker category — colours the who's-here row seal/name + any dialogue (voices.ts). */
   readonly voice: VoiceCategory;
   /** Where they stand (content/map.ts) — they only appear in `peopleHere` at THIS node. */
   readonly node: MapNodeId;
-  /** The ADR-114 spectrum position (a/b/c). */
+  /** The ADR-114 spectrum position. */
   readonly depth: PersonDepth;
 
   /** (ADR-114 place-gate) a surface/flag the LOCATION needs before this person is reachable — you
-   *  must REACH or BUILD the place first (e.g. the smithy before the smith). Undefined = no gate. */
+   *  must REACH or BUILD the place first. Undefined = no gate (the node's own map reveal gates it). */
   readonly placeGate?: SurfaceId;
 
-  /** Is this person here right now? (e.g. the pedlar "passes now and then"). A PURE predicate over
-   *  GameState (surface latch only — no RNG); undefined = always present once place-gated. */
-  readonly presence?: (s: GameState) => boolean;
+  /** Is this person here right now? A PURE predicate over the derived `PresenceCtx` (day-of-week /
+   *  season / rung / flags — no RNG, no wall-clock); undefined = always present at their node. */
+  readonly presence?: (c: PresenceCtx) => boolean;
 
   // ── depth-specific payloads ──
-  /** `vn` → the ADR-104 DialogueScene id to open (the shared VN engine). */
+  /** `vn` → the migrated dialogue/scene id to open on talk (dialogue.gen.ts `u9-<npc>`). */
   readonly sceneId?: string;
   /** `small`/`tiny` → a line or two shown on talk (so a trader reads as a person, not a menu). */
   readonly greeting?: string;
-  /** `small`/`tiny` → the trade set to open on talk (the pedlar's `MARKET_ITEMS`, for now). */
+  /** `small`/`tiny` → the trade set to open on talk (Yohei's market — content/market.ts). */
   readonly shopId?: string;
-  /** A one-line who's-here tell (like `foeTell`) — what this person is/carries, at a glance. */
+  /** A one-line who's-here tell (like `foeTell`) — the person's role, at a glance. */
   readonly tell?: string;
 }
 
+// The FULL T0 cast placement (bible §04-cast; the storywave migration map, session 125). One entry
+// per person at their canonical node; the presence predicate carries the bible's WHEN. Secondary
+// haunts noted in the migration map (Sōan on the weir rounds, Kihei at the gate watch-change,
+// O-Hisa at the woodshed) are ambient scripted beats, not talk placements — folded in a later chunk.
 export const PEOPLE: readonly NodePerson[] = [
-  // ── the PEDLAR (FB-109 worked example) — a TINY trader (a face on a shop) with ONE greeting line so
-  //    he reads as a person, not a menu (a hair toward `small`; easy to promote later). He "passes
-  //    now and then" — present at the gate once the estate economy opens (panel-estate,
-  //    ~R1). No place-gate: he comes to YOU (contrast the smith, who is tied to a place). ──
+  // ── the household (the estate's inner cast) ──
   {
-    id: 'pedlar',
+    // Genemon — the steward; the board, the book, the terms (R1·R6·R7 granter). Runs the forecourt.
+    id: 'genemon',
+    name: NAMES.elder,
+    voice: 'steward',
+    node: 'forecourt',
+    depth: 'vn',
+    sceneId: 'u9-genemon',
+    tell: 'the steward — the board, the book, the terms',
+  },
+  {
+    // Kihei — the drillmaster / watch-keeper (R3·R4 granter). His ground is the drill yard (R4 node).
+    id: 'kihei',
+    name: NAMES.drillmaster,
+    voice: 'arms',
+    node: 'drill-yard',
+    depth: 'vn',
+    sceneId: 'u9-kihei',
+    tell: 'the drillmaster — orders, then verdicts',
+  },
+  {
+    // Sōan — the physician; the weir examination + the sickroom. His surgery off the outer court.
+    id: 'soan',
+    name: NAMES.physician,
+    voice: 'physician',
+    node: 'sickroom',
+    depth: 'vn',
+    sceneId: 'u9-soan',
+    tell: 'the physician — the exam, the sickroom',
+  },
+  {
+    // O-Hisa — the kitchen; meals at the threshold, the household's shape overheard.
+    id: 'ohisa',
+    name: NAMES.ohisa,
+    voice: 'steward',
+    node: 'kitchen',
+    depth: 'vn',
+    sceneId: 'u9-ohisa',
+    tell: 'the kitchen — meals at the threshold',
+  },
+  {
+    // Shinnosuke — the heir's son (~12), the player's MIRROR. Underfoot at the kitchen board first.
+    id: 'shinnosuke',
+    name: NAMES.shinnosuke,
+    voice: 'steward',
+    node: 'kitchen',
+    depth: 'vn',
+    sceneId: 'u9-shinnosuke',
+    tell: "the heir's son — a boy, always underfoot",
+  },
+  {
+    // Toku — the dowager, the house's memory; the shrine corridor + the new-moon walk (shrine = R5).
+    id: 'toku',
+    name: NAMES.toku,
+    voice: 'steward',
+    node: 'shrine',
+    depth: 'vn',
+    sceneId: 'u9-toku',
+    tell: "the dowager — the house's memory",
+  },
+  {
+    // Naoyuki — the heir, reads the MC true from the R1 veranda (the full portrait; the Count is R5,
+    // a scripted scene). Present at the forecourt/veranda from R1.
+    id: 'naoyuki',
+    name: NAMES.heir,
+    voice: 'official',
+    node: 'forecourt',
+    depth: 'vn',
+    sceneId: 'u9-naoyuki',
+    presence: (c) => rungAtLeast(c.rung, 'R1'),
+    tell: 'the heir — reads you true',
+  },
+
+  // ── the estate's edge (the village line) ──
+  {
+    // Yohei — the pedlar at the gate on MARKET DAYS only (day-of-week predicate). A TINY trader:
+    // talking opens his market (content/market.ts) straight away. Coin errands counted to the mon.
+    id: 'yohei',
     name: NAMES.pedlar,
     voice: 'villager',
     node: 'gate',
     depth: 'tiny',
-    presence: (s) => s.unlocked.includes('panel-estate'),
-    greeting:
-      '"Anything for the road, master? Greens for the pot, a bundle of kindling, a hone for the ' +
-      'blade — a little of all, and cheap." He unslings his pack.',
-    shopId: 'pedlar',
-    tell: 'an Ōmi pedlar — greens, wood, a whetstone',
+    presence: (c) => YOHEI_MARKET_DAYS.includes(c.dayOfWeek),
+    shopId: 'yohei',
+    tell: 'the pedlar — coin, greens, wood, a whetstone',
   },
-  // ── the SMITH (place-gate SEAM, ADR-114 §4.2) — a `small` person TIED TO A PLACE: unavailable until
-  //    the woodlot smithy is YOURS to use (placeGate `panel-equipment`, the R4 reward). Before then he
-  //    is simply not in `peopleHere` (the reveal reuses the existing surface latch — no new machinery),
-  //    so the shop feels EARNED and SITED. A deliberate STUB here (a greeting, no full character): the
-  //    two examples together cover both halves of ADR-114 (person-who-comes-to-you vs place-gated). ──
   {
-    id: 'smith',
-    name: 'The smith',
-    voice: 'arms',
-    node: 'woodlot',
-    depth: 'small',
-    placeGate: 'panel-equipment',
-    greeting:
-      '"The forge is hot. Bring me good wood and a tired edge, and we\'ll see it made whole." ' +
-      'He does not look up from the anvil.',
-    tell: 'the woodlot smith — mends and betters a blade',
+    // O-Yae — the scullery day-girl; the news service both ways, at the kitchen by day.
+    id: 'oyae',
+    name: NAMES.oyae,
+    voice: 'villager',
+    node: 'kitchen',
+    depth: 'vn',
+    sceneId: 'u9-oyae',
+    tell: 'the scullery day-girl — news both ways',
+  },
+  {
+    // Matsuzō — the old weir-keeper the house leases the weir from; up from the water on the LEASE DAY.
+    id: 'matsuzo',
+    name: NAMES.matsuzo,
+    voice: 'villager',
+    node: 'weir',
+    depth: 'vn',
+    sceneId: 'u9-matsuzo',
+    presence: (c) => c.dayOfWeek === LEASE_DAY,
+    tell: 'the old weir-keeper — the water, the lease',
+  },
+  {
+    // Iori — the traveling monk, lodging at the gate at NEW YEAR + BON only (season predicate). Wants
+    // nothing, gives, leaves.
+    id: 'iori',
+    name: NAMES.iori,
+    voice: 'monk',
+    node: 'gate',
+    depth: 'vn',
+    sceneId: 'u9-iori',
+    presence: (c) => c.season === 'new-year' || c.season === 'bon',
+    tell: 'a traveling monk — wants nothing, gives, leaves',
+  },
+  {
+    // O-Ume — the widow at the paddy's edge; sets her drowned husband's place at Bon (the jizō
+    // offerings). At the field margins.
+    id: 'oume',
+    name: NAMES.oume,
+    voice: 'villager',
+    node: 'field-margins',
+    depth: 'vn',
+    sceneId: 'u9-oume',
+    tell: 'the paddy-edge widow — the jizō offerings',
+  },
+  {
+    // Rokusuke — the named face of the hired hands; his load-tally clears the MC at the Count. In the
+    // home paddies with the rest of the day-labour.
+    id: 'rokusuke',
+    name: NAMES.rokusuke,
+    voice: 'villager',
+    node: 'paddies',
+    depth: 'vn',
+    sceneId: 'u9-rokusuke',
+    tell: 'the hired hands — his load-tally counts',
   },
 ];
 

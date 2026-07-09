@@ -303,8 +303,8 @@ export {
   estateBuild,
 } from './selectors';
 export type { LabourOption, EstateBuild, EstateBuildRow } from './selectors';
-export { PEOPLE, PEOPLE_IDS, getPerson } from './content/people';
-export type { NodePerson, PersonDepth } from './content/people';
+export { PEOPLE, PEOPLE_IDS, getPerson, presenceCtx } from './content/people';
+export type { NodePerson, PersonDepth, PresenceCtx } from './content/people';
 
 export type { LogEntry, LogState, LogChannel } from './log';
 

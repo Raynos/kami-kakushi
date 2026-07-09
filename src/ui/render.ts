@@ -94,6 +94,7 @@ import {
   skillLevel,
   balance,
   PEOPLE,
+  presenceCtx,
   NPC_NAME,
   NPC_VOICE,
   rungRequirements,
@@ -1846,8 +1847,9 @@ export function mount(
    *  stage, and each mapped person's live presence — so the sheet's wholesale (deterministic)
    *  repaint fires only on a real change, never on an idle tick (TST2). */
   function mapSignature(state: GameState): string {
+    const pctx = presenceCtx(state);
     const presence = PEOPLE.map((p) =>
-      p.presence === undefined || p.presence(state) ? '1' : '0',
+      p.presence === undefined || p.presence(pctx) ? '1' : '0',
     ).join('');
     return [
       state.location,
@@ -4779,8 +4781,8 @@ export function mount(
     // tab's "who's here" list, not an inline menu. His wares (a `tiny` trader's shop) open ONLY while
     // he is the OPEN person: talk-to-reveal. Gate on `openPersonId === 'pedlar'` AND that he is
     // actually present (peopleHere) — so his shop is never dumped inline (on Work OR on Map).
-    const pedlarPresent = peopleHere(state).some((p) => p.id === 'pedlar');
-    const show = activeTab === 'map' && openPersonId === 'pedlar' && pedlarPresent;
+    const pedlarPresent = peopleHere(state).some((p) => p.id === 'yohei');
+    const show = activeTab === 'map' && openPersonId === 'yohei' && pedlarPresent;
     toggle(marketPane, show);
     if (!show) return;
     // ── the diverged goods presentation (ADR-075) — A = the price-button list (default, ships).

@@ -16,7 +16,7 @@
 import type { MapCtx } from './shared';
 import { fogFrontier, getNode, revealedDepths, wireGated, wireTravel } from './shared';
 import type { GameState, Intent } from '../../core';
-import { ACTIVITIES, MOBS, PEOPLE } from '../../core';
+import { ACTIVITIES, MOBS, PEOPLE, presenceCtx } from '../../core';
 
 const NS = 'http://www.w3.org/2000/svg';
 
@@ -873,10 +873,11 @@ function marksFor(id: string, ctx: MapCtx, state: GameState): Mark[] {
       out.push({ glyph: m.kanji ?? '獣', colour: 'var(--ink-soft)', why: m.label });
     }
   }
+  const pctx = presenceCtx(state);
   for (const p of PEOPLE) {
     if (p.node !== id) continue;
     if (p.placeGate && !state.unlocked.includes(p.placeGate)) continue;
-    if (p.presence && !p.presence(state)) continue;
+    if (p.presence && !p.presence(pctx)) continue;
     out.push({ glyph: '人', colour: 'var(--silver-dim)', why: p.tell ?? p.name });
   }
   return out;
