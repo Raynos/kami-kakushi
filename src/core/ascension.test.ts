@@ -110,7 +110,7 @@ describe('the spine CLOSES end-to-end (M2·5)', () => {
     while (estateGrade(s) !== 'EXCELLENT' && guard++ < 1000) {
       // v0.3.1 Step 5: activities are SPATIAL — farm_paddy runs only at its node.
       s = reduce(
-        { ...s, location: 'home-paddies' },
+        { ...s, location: 'paddies' },
         { type: 'do_activity', activityId: 'farm_paddy' },
       );
     }
