@@ -290,14 +290,14 @@ gated on banked Estate standing + coin — ADR-145; §3.3/§2.17).
 >
 > | Rung | Title (build) | 漢字 |
 > |---|---|---|
-> | R0 | Day-labourer | 日雇 |
-> | R1 | Kept hand | 下人 |
-> | R2 | Trusted hand | 手代 |
-> | R3 | Gate-watch | 門番 |
-> | R4 | Kura-warden | 蔵番 |
-> | R5 | House-servant | 家人 |
-> | R6 | Steward's man | 用人 |
-> | R7 | Trusted of the house | 内衆 |
+> | R0 | The man from the weir | 無名 |
+> | R1 | The day-hand | 日雇 |
+> | R2 | The yard-hand | 庭男 |
+> | R3 | The grain-watch | 蔵番 |
+> | R4 | The pupil | 弟子 |
+> | R5 | The accused | 咎人 |
+> | R6 | The trusted hand | 用人 |
+> | R7 | The named hand | 名代 |
 <!-- gen:end t0-rung-titles -->
 
 | Rung | Title | The beat (bible `tiers/t0.md`) |

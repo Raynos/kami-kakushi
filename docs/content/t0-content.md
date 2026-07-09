@@ -7,14 +7,14 @@
 
 | rung | title | kanji | requirements | eligible | granter |
 |---|---|---|---|---|---|
-| R0 | Day-labourer | 日雇 | 3 | rake_rice | — |
-| R1 | Kept hand | 下人 | 3 | farm_paddy, haul_stores | Genemon |
-| R2 | Trusted hand | 手代 | 4 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
-| R3 | Gate-watch | 門番 | 5 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Kihei |
-| R4 | Kura-warden | 蔵番 | 5 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
-| R5 | House-servant | 家人 | 4 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
-| R6 | Steward's man | 用人 | 4 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Chiyo |
-| R7 | Trusted of the house | 内衆 | 3 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Shigemasa |
+| R0 | The man from the weir | 無名 | 3 | rake_rice | — |
+| R1 | The day-hand | 日雇 | 3 | farm_paddy, haul_stores | Genemon |
+| R2 | The yard-hand | 庭男 | 3 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | — |
+| R3 | The grain-watch | 蔵番 | 6 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Kihei |
+| R4 | The pupil | 弟子 | 4 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Kihei |
+| R5 | The accused | 咎人 | 4 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
+| R6 | The trusted hand | 用人 | 4 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
+| R7 | The named hand | 名代 | 4 | farm_paddy, haul_stores, woodcut_edge, forage_satoyama | Genemon |
 
 ## Skills (v1 labour set)
 
@@ -29,12 +29,12 @@
 
 | id | skill | area | yields | satiety | xp |
 |---|---|---|---|---|---|
-| farm_paddy | farming | home-paddies | 4 rice | 3 | 5 |
-| haul_stores | conditioning | gate-forecourt | 2 coin | 4 | 5 |
-| woodcut_edge | woodcutting | woodlot-edge | 3 wood | 4 | 5 |
-| forage_satoyama | foraging | near-satoyama | 2 sansai, 1 coin | 3 | 5 |
-| forage_deepwoods | foraging | deep-satoyama | 4 sansai, 2 coin | 5 | 7 |
-| tap_lacquer | woodcutting | woodlot-edge | 3 coin | 4 | 5 |
+| farm_paddy | farming | paddies | 4 rice | 3 | 5 |
+| haul_stores | conditioning | forecourt | 2 coin | 4 | 5 |
+| woodcut_edge | woodcutting | woodlot | 3 wood | 4 | 5 |
+| forage_satoyama | foraging | woodlot | 2 sansai, 1 coin | 3 | 5 |
+| forage_deepwoods | foraging | woodlot | 4 sansai, 2 coin | 5 | 7 |
+| tap_lacquer | woodcutting | woodlot | 3 coin | 4 | 5 |
 
 ## Action timing (ADR-148 — timed vs instant)
 
@@ -66,7 +66,6 @@
 | rest | timed | 4s | 2s |
 | set_auto | instant | — | — |
 | set_auto_rake | instant | — | — |
-| face_wolf | instant | — | — |
 | fight | instant | — | — |
 | set_auto_combat | instant | — | — |
 | repair_weapon | timed | 8s | 2s |
@@ -75,6 +74,7 @@
 | cook_meal | timed | 6s | 2s |
 | eat_rice | timed | 3s | 2s |
 | sell_rice | instant | — | — |
+| collect_wage | instant | — | — |
 | improve_estate | timed | 60s | 2s |
 | spend_attribute | instant | — | — |
 | craft_weapon | timed | 45s | 2s |
@@ -89,18 +89,27 @@
 
 ## Estate map (spatial spine — D-093)
 
-> Node ceiling: `MAP_NODE_CEILING = 7` — the T0 hard cap on
+> Node ceiling: `MAP_NODE_CEILING = 16` — the T0 hard cap on
 > node count (the graph stays a hamlet you can hold in your head; it grows in T1).
 
 | id | node | neighbours | revealFlag | dangerRing |
-|---|---|---|---|---|
-| kura | The grain-store (kura) 蔵 | gate-forecourt | — |  |
-| gate-forecourt | Gate & forecourt 門前 | kura, home-paddies, woodlot-edge, drill-yard | room-gate-forecourt |  |
-| home-paddies | Home paddies 田圃 | gate-forecourt, near-satoyama | room-home-paddies |  |
-| woodlot-edge | Stables & woodlot edge 杣 | gate-forecourt, near-satoyama | room-woodlot-edge |  |
-| near-satoyama | Near satoyama 里山 | home-paddies, woodlot-edge, deep-satoyama | room-near-satoyama | yes |
-| deep-satoyama | Deep satoyama 奥山 | near-satoyama | room-deep-satoyama | yes |
-| drill-yard | Drill yard 稽古場 | gate-forecourt | panel-drill-yard |  |
+|---|---|---|---|
+| weir | The weir & riverbank 堰 | weir-reeds, paddies | — |  |
+| sickroom | Sōan's sickroom 薬 | forecourt | — |  |
+| forecourt | The forecourt 庭 | gate, kura, kitchen, woodshed, sickroom, drill-yard, paddies | — |  |
+| kitchen | The kitchen threshold 竈 | forecourt, shrine | — |  |
+| gate | The gate & gateyard 門 | forecourt | room-gate |  |
+| woodshed | The woodshed 薪 | forecourt | room-woodshed |  |
+| paddies | The home paddy & vegetable rows 田 | forecourt, weir, field-margins, woodlot | room-paddies |  |
+| field-margins | The field margins 畦 | paddies, ruined | room-field-margins | yes |
+| kura | The kura & grain-store 蔵 | forecourt | room-kura |  |
+| woodlot | The woodlot edge 林 | paddies, orchard | room-woodlot | yes |
+| weir-reeds | The weir reeds 葦 | weir | room-weir-reeds | yes |
+| drill-yard | The drill yard 稽 | forecourt | room-drill-yard |  |
+| shrine | The shrine-alcove corridor 祠 | kitchen | room-shrine |  |
+| orchard | The overgrown orchard 園 | woodlot, ruined, grove | room-orchard | yes |
+| grove | The bamboo grove 竹 | orchard | room-grove | yes |
+| ruined | The ruined compound 廃 | field-margins, orchard | — |  |
 
 ## Weapons (T0 roster)
 
@@ -123,16 +132,18 @@
 
 ## Bestiary (grounded — no belief-creatures)
 
-| id | label | level | coin | scripted |
-|---|---|---|---|---|
-| wolf_scripted | Grain-store wolf | 2 | 0 | yes |
-| rice_rats | Grain-rat swarm | 1 | 1 |  |
-| monkey | Crop-raiding monkey | 1 | 3 |  |
-| monkey_troop | Crop-raiding troop | 2 | 6 |  |
-| wolf | Lean wolf | 2 | 5 |  |
-| mamushi | Mamushi (pit viper) | 2 | 4 |  |
-| boar | Wild boar | 3 | 8 |  |
-| bandit | Road bandit | 5 | 12 |  |
+| id | label | level | scripted |
+|---|---|---|---|
+| river_rats | River rats | 1 |  |
+| tanuki | Tanuki | 1 |  |
+| badger | Badger | 2 |  |
+| monkey | Crop-raiding monkey | 1 |  |
+| monkey_male | Troop big-male | 2 |  |
+| feral_dog | Feral dog | 2 |  |
+| store_rats | Store rats | 1 |  |
+| marten | Marten | 1 |  |
+| wolf | Lean wolf | 3 |  |
+| bandit | Road bandit | 5 |  |
 
 ## Craft recipes (loot → craft — D-052)
 
@@ -155,22 +166,24 @@
 
 | foe | material | qty | chance |
 |---|---|---|---|
-| rice_rats | beast_sinew | 1 | 1/6 |
+| river_rats | beast_sinew | 1 | 1/6 |
+| tanuki | beast_sinew | 1 | 1/2 |
+| badger | beast_sinew | 1 | 1/2 |
 | monkey | beast_sinew | 1 | 1/2 |
-| monkey_troop | beast_sinew | 1 | 3/5 |
-| mamushi | beast_sinew | 1 | 1/2 |
+| monkey_male | beast_sinew | 1 | 3/5 |
+| feral_dog | beast_sinew | 1 | 3/4 |
+| marten | beast_sinew | 1 | 1/2 |
 | wolf | beast_sinew | 1 | 3/4 |
-| boar | hardwood | 2 | 3/4 |
 | bandit | hardwood | 3 | 1/1 |
 
 ## Estate improvements (coin sink)
 
 | stage | label | coin | +satietyMax |
 |---|---|---|---|
-| E1 | Patch the kura | 100 | +20 |
-| E2 | Clear the drill yard | 300 | +20 |
-| E3 | Reclaim the first shinden | 700 | +30 |
-| E4 | Raise the long-house | 1400 | +30 |
+| E1 | Mend the weir screens | 100 | +20 |
+| E2 | Reclaim the orchard | 300 | +20 |
+| E3 | Raise the granary | 700 | +30 |
+| E4 | Set the house in order | 1400 | +30 |
 
 ## Market (T0 provisioning shop — D-008)
 
@@ -179,7 +192,7 @@
 > primary income/output loop. The real village market arrives at T2.
 
 | id | label | coin | grants | stockCap |
-|---|---|---|---|---|
+|---|---|---|---|
 | greens_sack | Sack of mountain greens | 10 | 3 sansai | 5 |
 | wood_bundle | Bundle of split kindling | 16 | 4 wood | 4 |
 | whetstone_kit | Hone and ash-faggot | 28 | 7 wood | 3 |
@@ -225,7 +238,7 @@ The home GROWING with rung + the status-mirror are deferred T1+ seams (only tier
 | 0 | R1 | Your corner | 寝床 |
 
 | id | belonging | kanji | comfort | source |
-|---|---|---|---|---|
+|---|---|---|---|
 | `straw_mat` | A straw sleeping-mat | 筵 | keepsake | granted |
 | `bowl` | A rice bowl | 椀 | keepsake | granted |
 | `bedding` | A futon | 布団 | rest +5 | buy 60 coin |
@@ -250,14 +263,14 @@ Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (th
 | `readout-clock` | readout |
 | `panel-home` | panel |
 | `readout-stamina` | readout |
-| `room-gate-forecourt` | panel |
-| `room-home-paddies` | panel |
+| `room-gate` | panel |
+| `room-paddies` | panel |
+| `room-woodshed` | panel |
 | `verb-farm` | verb |
 | `verb-haul` | verb |
 | `tab-skills` | tab |
-| `room-woodlot-edge` | panel |
-| `room-near-satoyama` | panel |
-| `room-deep-satoyama` | panel |
+| `room-woodlot` | panel |
+| `room-field-margins` | panel |
 | `verb-woodcut` | verb |
 | `verb-forage` | verb |
 | `row-wood` | row |
@@ -265,7 +278,12 @@ Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (th
 | `verb-cook` | verb |
 | `verb-eat-rice` | verb |
 | `skill-conditioning` | row |
-| `verb-face-wolf` | verb |
+| `room-kura` | panel |
+| `room-weir-reeds` | panel |
+| `room-drill-yard` | panel |
+| `room-shrine` | panel |
+| `room-orchard` | panel |
+| `room-grove` | panel |
 | `tab-combat` | tab |
 | `panel-drill-yard` | panel |
 | `readout-combat-level` | readout |
@@ -276,6 +294,7 @@ Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (th
 | `verb-equip-axe` | verb |
 | `stance-control` | panel |
 | `tab-quests` | tab |
+| `verb-collect-wage` | verb |
 | `house-omoya` | row |
 | `house-workshops` | row |
 | `house-granary` | row |
@@ -292,7 +311,7 @@ Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (th
 | key | name |
 |---|---|
 | house | Kurosawa |
-| lord | Shigemasa |
+| lord | Munemasa |
 | heir | Naoyuki |
 | elder | Genemon |
 | drillmaster | Kihei |
@@ -301,13 +320,12 @@ Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (th
 | ohisa | O-Hisa |
 | shinnosuke | Shinnosuke |
 | toku | Toku |
-| pedlar | Tokubei |
+| pedlar | Yohei |
 | oyae | O-Yae |
 | matsuzo | Matsuzō |
 | iori | Iori |
 | oume | O-Ume |
 | rokusuke | Rokusuke |
-| smith | Tōzō |
 | villageChief | Mohei |
 | villageGirl | Sayo |
 | father | Jinpachi |

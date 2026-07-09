@@ -15,7 +15,7 @@
         "loot": 1,
         "seasonal": 0,
         "worldgen": 0,
-        "discovery": 0
+        "discovery": 5
       }
     },
     "clock": {
@@ -1906,7 +1906,9 @@
     "rungReqs": {},
     "estateStage": 0,
     "discovered": [],
-    "discoveryProgress": {},
+    "discoveryProgress": {
+      "disc-woodlot-lacquer": 20
+    },
     "autoActivity": null,
     "autoRake": false,
     "equippedWeapon": "carrying_pole",

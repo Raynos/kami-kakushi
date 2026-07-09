@@ -15,7 +15,7 @@
         "loot": 41,
         "seasonal": 0,
         "worldgen": 0,
-        "discovery": 0
+        "discovery": 11
       }
     },
     "clock": {
@@ -1113,7 +1113,15 @@
           "voice": "narrator"
         },
         {
-          "key": 278,
+          "key": 263,
+          "channel": "narration",
+          "text": "The nose knew it first, then the palm, and last the word: urushi. A lacquer tree, hidden all this time among the common pine, and the beading sap already worth more than the day's whole stack.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 279,
           "channel": "narration",
           "text": "\"The palisade wood is his cutting,\" Kihei says, striking a post with the flat of his hand.",
           "tick": 8,
@@ -1121,7 +1129,7 @@
           "voice": "narrator"
         },
         {
-          "key": 284,
+          "key": 285,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 60→1) You drop 24 mon in the rout. Eat and mend before you take the field again.",
           "tick": 16,
@@ -1137,7 +1145,7 @@
           }
         },
         {
-          "key": 295,
+          "key": 296,
           "channel": "combat",
           "text": "You bring down the river rats. ✓ (HP 60→14 · +0 mon)",
           "tick": 12,
@@ -1153,7 +1161,7 @@
           }
         },
         {
-          "key": 298,
+          "key": 299,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 60→1) You drop 20 mon in the rout. Eat and mend before you take the field again.",
           "tick": 22,
@@ -1169,7 +1177,7 @@
           }
         },
         {
-          "key": 305,
+          "key": 306,
           "channel": "combat",
           "text": "You bring down the river rats. ✓ (HP 60→14 · +0 mon)",
           "tick": 16,
@@ -1185,7 +1193,7 @@
           }
         },
         {
-          "key": 317,
+          "key": 318,
           "channel": "combat",
           "text": "You bring down the river rats. ✓ (HP 60→1 · +0 mon)",
           "tick": 6,
@@ -1201,7 +1209,7 @@
           }
         },
         {
-          "key": 318,
+          "key": 319,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 2.",
           "tick": 6,
@@ -1212,7 +1220,7 @@
           }
         },
         {
-          "key": 324,
+          "key": 325,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 16 mon in the rout. Eat and mend before you take the field again.",
           "tick": 18,
@@ -1228,7 +1236,7 @@
           }
         },
         {
-          "key": 332,
+          "key": 333,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 14,
@@ -1242,7 +1250,7 @@
           }
         },
         {
-          "key": 335,
+          "key": 336,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 68→17 · +0 mon)",
           "tick": 14,
@@ -1258,7 +1266,7 @@
           }
         },
         {
-          "key": 338,
+          "key": 339,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 12 mon in the rout. Eat and mend before you take the field again.",
           "tick": 0,
@@ -1274,7 +1282,7 @@
           }
         },
         {
-          "key": 348,
+          "key": 349,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 10 mon in the rout. Eat and mend before you take the field again.",
           "tick": 20,
@@ -1290,7 +1298,7 @@
           }
         },
         {
-          "key": 354,
+          "key": 355,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 68→15 · +0 mon, +1 beast sinew)",
           "tick": 14,
@@ -1306,7 +1314,7 @@
           }
         },
         {
-          "key": 363,
+          "key": 364,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 8 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 4,
@@ -1322,7 +1330,7 @@
           }
         },
         {
-          "key": 372,
+          "key": 373,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 7 mon in the rout. Eat and mend before you take the field again.",
           "tick": 0,
@@ -1338,7 +1346,7 @@
           }
         },
         {
-          "key": 383,
+          "key": 384,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
           "tick": 22,
@@ -1354,7 +1362,7 @@
           }
         },
         {
-          "key": 395,
+          "key": 396,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
           "tick": 20,
@@ -1370,7 +1378,7 @@
           }
         },
         {
-          "key": 411,
+          "key": 412,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 68→25 · +0 mon)",
           "tick": 0,
@@ -1386,7 +1394,7 @@
           }
         },
         {
-          "key": 425,
+          "key": 426,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 6 mon in the rout. Eat and mend before you take the field again.",
           "tick": 0,
@@ -1402,7 +1410,7 @@
           }
         },
         {
-          "key": 437,
+          "key": 438,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 68→2 · +0 mon, +1 beast sinew)",
           "tick": 0,
@@ -1418,7 +1426,7 @@
           }
         },
         {
-          "key": 444,
+          "key": 445,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 14,
@@ -1432,7 +1440,7 @@
           }
         },
         {
-          "key": 447,
+          "key": 448,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 4 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 14,
@@ -1448,7 +1456,7 @@
           }
         },
         {
-          "key": 453,
+          "key": 454,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
           "tick": 8,
@@ -1464,7 +1472,7 @@
           }
         },
         {
-          "key": 463,
+          "key": 464,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
           "tick": 4,
@@ -1480,7 +1488,7 @@
           }
         },
         {
-          "key": 469,
+          "key": 470,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
           "tick": 22,
@@ -1496,7 +1504,7 @@
           }
         },
         {
-          "key": 480,
+          "key": 481,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 68→15 · +0 mon)",
           "tick": 20,
@@ -1512,7 +1520,7 @@
           }
         },
         {
-          "key": 489,
+          "key": 490,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 68→1 · +0 mon)",
           "tick": 10,
@@ -1528,7 +1536,7 @@
           }
         },
         {
-          "key": 490,
+          "key": 491,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 3.",
           "tick": 10,
@@ -1539,14 +1547,14 @@
           }
         },
         {
-          "key": 491,
+          "key": 492,
           "channel": "milestone",
           "text": "You have become what the house needed at its gate — a hand it can trust with an edge to it. Kihei watches you drill at first light and almost smiles. \"There's a soldier in you under the farmhand. We'll find the rest of it yet.\" Past the gate the valley road climbs out of sight — toward the house's standing, its rivals, and the name you still cannot reach. That climb is for the days to come.",
           "tick": 12,
           "count": 1
         },
         {
-          "key": 492,
+          "key": 493,
           "channel": "narration",
           "text": "That night the dream comes again, and stays longer. The grey rain, the road — and now a load on your back, roped with the porter's knot your hands already knew. Water rising over the planks of a low bridge. A woman's voice behind you, calling a name through the flood — your name, you are almost sure, though the water closes over it before you can catch its shape.",
           "tick": 12,
@@ -1554,7 +1562,7 @@
           "voice": "narrator"
         },
         {
-          "key": 501,
+          "key": 502,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 76→20 · +0 mon)",
           "tick": 2,
@@ -1570,7 +1578,7 @@
           }
         },
         {
-          "key": 509,
+          "key": 510,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 76→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
           "tick": 14,
@@ -1586,7 +1594,7 @@
           }
         },
         {
-          "key": 523,
+          "key": 524,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 76→11 · +0 mon, +1 beast sinew)",
           "tick": 18,
@@ -1602,7 +1610,7 @@
           }
         },
         {
-          "key": 535,
+          "key": 536,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 76→12 · +0 mon, +1 beast sinew)",
           "tick": 12,
@@ -1618,7 +1626,7 @@
           }
         },
         {
-          "key": 550,
+          "key": 551,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 76→3 · +0 mon, +1 beast sinew)",
           "tick": 14,
@@ -1634,7 +1642,7 @@
           }
         },
         {
-          "key": 560,
+          "key": 561,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 12,
@@ -1648,7 +1656,7 @@
           }
         },
         {
-          "key": 563,
+          "key": 564,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 76→28 · +0 mon)",
           "tick": 12,
@@ -1664,7 +1672,7 @@
           }
         },
         {
-          "key": 572,
+          "key": 573,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 76→17 · +0 mon)",
           "tick": 0,
@@ -1680,7 +1688,7 @@
           }
         },
         {
-          "key": 573,
+          "key": 574,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 4.",
           "tick": 0,
@@ -1691,7 +1699,7 @@
           }
         },
         {
-          "key": 576,
+          "key": 577,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 84→29 · +0 mon)",
           "tick": 12,
@@ -1707,7 +1715,7 @@
           }
         },
         {
-          "key": 584,
+          "key": 585,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 84→3 · +0 mon)",
           "tick": 0,
@@ -1723,7 +1731,7 @@
           }
         },
         {
-          "key": 587,
+          "key": 588,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 84→16 · +0 mon, +1 beast sinew)",
           "tick": 14,
@@ -1739,7 +1747,7 @@
           }
         },
         {
-          "key": 596,
+          "key": 597,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 84→24 · +0 mon, +1 beast sinew)",
           "tick": 4,
@@ -1755,7 +1763,7 @@
           }
         },
         {
-          "key": 599,
+          "key": 600,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 84→7 · +0 mon)",
           "tick": 16,
@@ -1771,7 +1779,7 @@
           }
         },
         {
-          "key": 610,
+          "key": 611,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 84→19 · +0 mon, +1 beast sinew)",
           "tick": 12,
@@ -1787,7 +1795,7 @@
           }
         },
         {
-          "key": 619,
+          "key": 620,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 84→11 · +0 mon, +1 beast sinew)",
           "tick": 2,
@@ -1803,7 +1811,7 @@
           }
         },
         {
-          "key": 629,
+          "key": 630,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 84→1) You drop 6 mon and 3 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 20,
@@ -1819,7 +1827,7 @@
           }
         },
         {
-          "key": 641,
+          "key": 642,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 84→14 · +0 mon, +1 beast sinew)",
           "tick": 22,
@@ -1835,7 +1843,7 @@
           }
         },
         {
-          "key": 651,
+          "key": 652,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 16,
@@ -1849,7 +1857,7 @@
           }
         },
         {
-          "key": 654,
+          "key": 655,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 84→41 · +0 mon, +1 beast sinew)",
           "tick": 16,
@@ -1865,7 +1873,7 @@
           }
         },
         {
-          "key": 655,
+          "key": 656,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 5.",
           "tick": 16,
@@ -1876,7 +1884,7 @@
           }
         },
         {
-          "key": 669,
+          "key": 670,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→37 · +0 mon)",
           "tick": 12,
@@ -1892,7 +1900,7 @@
           }
         },
         {
-          "key": 677,
+          "key": 678,
           "channel": "narration",
           "text": "Loads cross the forecourt all morning: trays, lamp-oil, cut flowers, a bundle of incense sticks O-Yae carries two-handed like a caught bird. Everyone is given something.",
           "tick": 2,
@@ -1900,7 +1908,7 @@
           "voice": "narrator"
         },
         {
-          "key": 678,
+          "key": 679,
           "channel": "narration",
           "text": "The third load goes past before you ask it.",
           "tick": 2,
@@ -1908,7 +1916,7 @@
           "voice": "narrator"
         },
         {
-          "key": 679,
+          "key": 680,
           "channel": "narration",
           "text": "\"What do I carry?\"",
           "tick": 2,
@@ -1916,7 +1924,7 @@
           "voice": "narrator"
         },
         {
-          "key": 680,
+          "key": 681,
           "channel": "narration",
           "text": "\"Not this. If a year from now — well. Not this.\"",
           "tick": 2,
@@ -1925,7 +1933,7 @@
           "voice": "steward"
         },
         {
-          "key": 681,
+          "key": 682,
           "channel": "narration",
           "text": "The house files toward the alcove corridor. The forecourt is yours all day. For once, nobody crosses it.",
           "tick": 2,
@@ -1933,7 +1941,7 @@
           "voice": "narrator"
         },
         {
-          "key": 682,
+          "key": 683,
           "channel": "narration",
           "text": "At dusk, from the weir path: O-Ume sets her lantern on the water and talks it out past the reeds, the way you'd see a guest to the road.",
           "tick": 2,
@@ -1941,7 +1949,7 @@
           "voice": "narrator"
         },
         {
-          "key": 683,
+          "key": 684,
           "channel": "narration",
           "text": "At the gate, the monk Iori has his lodging and his one small fire.",
           "tick": 2,
@@ -1949,7 +1957,7 @@
           "voice": "narrator"
         },
         {
-          "key": 684,
+          "key": 685,
           "channel": "narration",
           "text": "\"Sit. Two bowls, one mouth. I'll be gone before you learn my face.\"",
           "tick": 2,
@@ -1958,7 +1966,7 @@
           "voice": "monk"
         },
         {
-          "key": 685,
+          "key": 686,
           "channel": "narration",
           "text": "Through the corridor screen, past shoulders: a small tray set out for somebody, and straw sandals beside it, toes toward the gate.",
           "tick": 2,
@@ -1966,7 +1974,7 @@
           "voice": "narrator"
         },
         {
-          "key": 686,
+          "key": 687,
           "channel": "narration",
           "text": "Morning. The trays are cleared, the lanterns down, the monk gone north. The sandals are new.",
           "tick": 2,
@@ -1974,7 +1982,7 @@
           "voice": "narrator"
         },
         {
-          "key": 693,
+          "key": 694,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→45 · +0 mon, +1 beast sinew)",
           "tick": 10,
@@ -1990,7 +1998,7 @@
           }
         },
         {
-          "key": 696,
+          "key": 697,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→48 · +0 mon)",
           "tick": 20,
@@ -2006,7 +2014,7 @@
           }
         },
         {
-          "key": 699,
+          "key": 700,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→45 · +0 mon)",
           "tick": 6,
@@ -2022,7 +2030,7 @@
           }
         },
         {
-          "key": 708,
+          "key": 709,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→30 · +0 mon, +1 beast sinew)",
           "tick": 18,
@@ -2038,7 +2046,7 @@
           }
         },
         {
-          "key": 711,
+          "key": 712,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→25 · +0 mon)",
           "tick": 6,
@@ -2054,7 +2062,7 @@
           }
         },
         {
-          "key": 714,
+          "key": 715,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→24 · +0 mon, +1 beast sinew)",
           "tick": 18,
@@ -2070,7 +2078,7 @@
           }
         },
         {
-          "key": 722,
+          "key": 723,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→37 · +0 mon, +1 beast sinew)",
           "tick": 8,
@@ -2086,7 +2094,7 @@
           }
         },
         {
-          "key": 730,
+          "key": 731,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→10 · +0 mon)",
           "tick": 20,
@@ -2102,7 +2110,7 @@
           }
         },
         {
-          "key": 739,
+          "key": 740,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→27 · +0 mon, +1 beast sinew)",
           "tick": 12,
@@ -2118,7 +2126,7 @@
           }
         },
         {
-          "key": 745,
+          "key": 746,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 2,
@@ -2132,7 +2140,7 @@
           }
         },
         {
-          "key": 748,
+          "key": 749,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→34 · +0 mon, +1 beast sinew)",
           "tick": 2,
@@ -2148,7 +2156,7 @@
           }
         },
         {
-          "key": 749,
+          "key": 750,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 6.",
           "tick": 2,
@@ -2159,7 +2167,7 @@
           }
         },
         {
-          "key": 764,
+          "key": 765,
           "channel": "narration",
           "text": "[dev — R3 grain-watch: the first night round; the wolf, survived-not-won; ribs cracked. The beat's prose is in rung-beats R3; no t0v2 requirement-flavor source. HD-30.]",
           "tick": 20,
@@ -2167,7 +2175,7 @@
           "voice": "narrator"
         },
         {
-          "key": 765,
+          "key": 766,
           "channel": "narration",
           "text": "Sōan strapped the ribs for walking. Not for work. It is thirty paces from the sickroom door to the board. You count them.",
           "tick": 20,
@@ -2175,7 +2183,7 @@
           "voice": "narrator"
         },
         {
-          "key": 766,
+          "key": 767,
           "channel": "narration",
           "text": "Past the kitchen passage a screen stands open on a corridor you have never been sent down. An altar set into the passage wall; rites laid out for somebody; a pair of straw sandals, new this year, facing away from the house. You look a breath too long. The screen slides shut from inside. Nobody says anything to you about it, then or after.",
           "tick": 20,
@@ -2183,7 +2191,7 @@
           "voice": "narrator"
         },
         {
-          "key": 767,
+          "key": 768,
           "channel": "narration",
           "text": "Genemon is there, the day-book open, the morning's entries not yet dry. He looks up, and waits, and does not help you begin.",
           "tick": 20,
@@ -2191,7 +2199,7 @@
           "voice": "narrator"
         },
         {
-          "key": 768,
+          "key": 769,
           "channel": "narration",
           "text": "\"Rats were in the store. Three nights, while I lay. A quarter-sack gone. Two more opened at the seam.\"",
           "tick": 20,
@@ -2199,7 +2207,7 @@
           "voice": "narrator"
         },
         {
-          "key": 769,
+          "key": 770,
           "channel": "narration",
           "text": "\"The watch was mine.\"",
           "tick": 20,
@@ -2207,7 +2215,7 @@
           "voice": "narrator"
         },
         {
-          "key": 770,
+          "key": 771,
           "channel": "narration",
           "text": "Genemon writes before he answers. It is what he does with surprise, though nothing in his face has admitted to any.",
           "tick": 20,
@@ -2215,7 +2223,7 @@
           "voice": "narrator"
         },
         {
-          "key": 771,
+          "key": 772,
           "channel": "narration",
           "text": "\"Rice, one quarter-sack, to vermin. Two sacks to resew — O-Hisa has thread. Entered under the store.\"",
           "tick": 20,
@@ -2224,7 +2232,7 @@
           "voice": "steward"
         },
         {
-          "key": 772,
+          "key": 773,
           "channel": "narration",
           "text": "\"Not under your name. No wage ran for the nights you lay. No watch stood — the gate cannot leave the gate. The account is even.\"",
           "tick": 20,
@@ -2233,7 +2241,7 @@
           "voice": "steward"
         },
         {
-          "key": 773,
+          "key": 774,
           "channel": "narration",
           "text": "\"It isn't.\"",
           "tick": 20,
@@ -2241,7 +2249,7 @@
           "voice": "narrator"
         },
         {
-          "key": 774,
+          "key": 775,
           "channel": "narration",
           "text": "The pen stops above the line a moment longer than the line needs. Then it moves on, and he says nothing, and writes nothing further.",
           "tick": 20,
@@ -2249,7 +2257,7 @@
           "voice": "narrator"
         },
         {
-          "key": 775,
+          "key": 776,
           "channel": "narration",
           "text": "At the kitchen threshold O-Hisa has stopped with a bowl in her hands, as if there were something to say to somebody. She sets it down where you will pass, and goes in.",
           "tick": 20,
@@ -2257,7 +2265,7 @@
           "voice": "narrator"
         },
         {
-          "key": 776,
+          "key": 777,
           "channel": "narration",
           "text": "From the board, the woodshed is one way and the old stable court is the other. Your ribs are for the woodshed. You go the other way.",
           "tick": 20,
@@ -2265,7 +2273,7 @@
           "voice": "narrator"
         },
         {
-          "key": 777,
+          "key": 778,
           "channel": "narration",
           "text": "Stalls for twenty horses run down the long side of the court, and the house owns one mule. Kihei is at the rack, running a whetstone down a spear-head that has no war to go to. Two practice staves lean beside him. One is worn grey at the grip. The other is oiled, and looks as if it has never been anything else.",
           "tick": 20,
@@ -2273,7 +2281,7 @@
           "voice": "narrator"
         },
         {
-          "key": 778,
+          "key": 779,
           "channel": "narration",
           "text": "\"Teach me.\"",
           "tick": 20,
@@ -2281,7 +2289,7 @@
           "voice": "narrator"
         },
         {
-          "key": 779,
+          "key": 780,
           "channel": "narration",
           "text": "That was the easy half. The question costs more than the walk did.",
           "tick": 20,
@@ -2289,7 +2297,7 @@
           "voice": "narrator"
         },
         {
-          "key": 780,
+          "key": 781,
           "channel": "narration",
           "text": "\"Will you?\"",
           "tick": 20,
@@ -2297,7 +2305,7 @@
           "voice": "narrator"
         },
         {
-          "key": 781,
+          "key": 782,
           "channel": "narration",
           "text": "Kihei sets down the whetstone. He looks at the strapping, at the way you keep your left side back, at the scars that were old before the river. He has looked at them before. He has never once asked.",
           "tick": 20,
@@ -2305,7 +2313,7 @@
           "voice": "narrator"
         },
         {
-          "key": 782,
+          "key": 783,
           "channel": "narration",
           "text": "\"...You walked here on cracked ribs to ask for more of what cracked them.\"",
           "tick": 20,
@@ -2314,7 +2322,7 @@
           "voice": "arms"
         },
         {
-          "key": 783,
+          "key": 784,
           "channel": "narration",
           "text": "It is not a question, so you do not answer it.",
           "tick": 20,
@@ -2322,7 +2330,7 @@
           "voice": "narrator"
         },
         {
-          "key": 784,
+          "key": 785,
           "channel": "narration",
           "text": "\"Terms, then. Once. Talent is a story the lucky tell. You are not lucky. So you will work.\"",
           "tick": 20,
@@ -2331,7 +2339,7 @@
           "voice": "arms"
         },
         {
-          "key": 785,
+          "key": 786,
           "channel": "narration",
           "text": "He takes the oiled staff from the rack and holds it out. He does not say how long it has stood there, and you do not ask.",
           "tick": 20,
@@ -2339,7 +2347,7 @@
           "voice": "narrator"
         },
         {
-          "key": 786,
+          "key": 787,
           "channel": "narration",
           "text": "\"The house has one man who can stand a watch, and he is grey. Dawn, before the others. Every day the ribs allow, and some they don't.\"",
           "tick": 20,
@@ -2348,7 +2356,7 @@
           "voice": "arms"
         },
         {
-          "key": 787,
+          "key": 788,
           "channel": "narration",
           "text": "On the wall above the empty stalls a boy sits very still, the way boys sit when they believe stillness is the same as not being there.",
           "tick": 20,
@@ -2356,7 +2364,7 @@
           "voice": "narrator"
         },
         {
-          "key": 788,
+          "key": 789,
           "channel": "narration",
           "text": "\"One thing before the staff. Why.\"",
           "tick": 20,
@@ -2365,7 +2373,7 @@
           "voice": "arms"
         },
         {
-          "key": 789,
+          "key": 790,
           "channel": "narration",
           "text": "\"It will come back.\"",
           "tick": 20,
@@ -2374,7 +2382,7 @@
           "voice": "player"
         },
         {
-          "key": 790,
+          "key": 791,
           "channel": "narration",
           "text": "\"It will. Or its like. Dawn, then.\"",
           "tick": 20,
@@ -2383,7 +2391,7 @@
           "voice": "arms"
         },
         {
-          "key": 791,
+          "key": 792,
           "channel": "narration",
           "text": "You learn to read the wear on an edge — a blade dulls and chips with use, and a dull edge bites less. Mind your weapon's condition now.",
           "tick": 20,
@@ -2391,7 +2399,7 @@
           "voice": "narrator"
         },
         {
-          "key": 792,
+          "key": 793,
           "channel": "narration",
           "text": "The woodlot smithy is yours to use — strip what the carcasses give up, forge a real edge, keep it repaired, and take up whichever weapon suits the watch.",
           "tick": 20,
@@ -2399,7 +2407,7 @@
           "voice": "narrator"
         },
         {
-          "key": 793,
+          "key": 794,
           "channel": "narration",
           "text": "The omoya — the main house — is opened to you. Its shuttered rooms, closed since the lean years, are aired and swept; you walk floors the family walks.",
           "tick": 20,
@@ -2407,7 +2415,7 @@
           "voice": "narrator"
         },
         {
-          "key": 794,
+          "key": 795,
           "channel": "narration",
           "text": "[dev — drill-yard node reveal; flavor-key migration pending (HD-30)]",
           "tick": 20,
@@ -2415,7 +2423,7 @@
           "voice": "narrator"
         },
         {
-          "key": 795,
+          "key": 796,
           "channel": "milestone",
           "text": "Rank ↑ — The pupil 弟子",
           "tick": 20,
@@ -2427,7 +2435,7 @@
           }
         },
         {
-          "key": 806,
+          "key": 807,
           "channel": "narration",
           "text": "The house learns he keeps coin of his own, strung and counted, spent on nothing foolish.",
           "tick": 20,
@@ -2435,7 +2443,7 @@
           "voice": "narrator"
         },
         {
-          "key": 811,
+          "key": 812,
           "channel": "narration",
           "text": "The porters have stopped counting his loads against their own.",
           "tick": 22,
@@ -2443,7 +2451,7 @@
           "voice": "narrator"
         },
         {
-          "key": 823,
+          "key": 824,
           "channel": "narration",
           "text": "When the kura needs moving in a hurry, it is his name the yard calls first.",
           "tick": 10,
@@ -2451,7 +2459,7 @@
           "voice": "narrator"
         },
         {
-          "key": 836,
+          "key": 837,
           "channel": "narration",
           "text": "New porters are told to watch how he stacks; nobody remembers deciding that.",
           "tick": 0,
@@ -2459,7 +2467,7 @@
           "voice": "narrator"
         },
         {
-          "key": 837,
+          "key": 838,
           "channel": "narration",
           "text": "The drillmaster teaches you to set your stance before a foe — press the attack and take more in return, or guard and give up some bite. The call is yours, fight by fight.",
           "tick": 2,
@@ -2467,7 +2475,7 @@
           "voice": "narrator"
         },
         {
-          "key": 838,
+          "key": 839,
           "channel": "narration",
           "text": "You begin to keep a book of undertakings — the tasks and errands the house sets you, and the ones you take on yourself. A place to see what still stands unfinished.",
           "tick": 2,
@@ -2475,7 +2483,7 @@
           "voice": "narrator"
         },
         {
-          "key": 839,
+          "key": 840,
           "channel": "narration",
           "text": "[dev — shrine corridor reveal; flavor-key migration pending (HD-30)]",
           "tick": 2,
@@ -2483,7 +2491,7 @@
           "voice": "narrator"
         },
         {
-          "key": 840,
+          "key": 841,
           "channel": "narration",
           "text": "[dev — overgrown orchard reveal; flavor-key migration pending (HD-30)]",
           "tick": 2,
@@ -2491,7 +2499,7 @@
           "voice": "narrator"
         },
         {
-          "key": 841,
+          "key": 842,
           "channel": "milestone",
           "text": "You mount your worn carrying-pole on the wall of your corner — the weapon you carry, and proof of the road you have walked. A servant with a place, and a token of it on the wall.",
           "tick": 2,
@@ -2503,7 +2511,7 @@
           }
         },
         {
-          "key": 842,
+          "key": 843,
           "channel": "milestone",
           "text": "Rank ↑ — The accused 咎人",
           "tick": 2,
@@ -2515,7 +2523,7 @@
           }
         },
         {
-          "key": 843,
+          "key": 844,
           "channel": "narration",
           "text": "[dev — the day-wage begins; collect it at the board (HD-30)]",
           "tick": 2,
@@ -2523,7 +2531,7 @@
           "voice": "narrator"
         },
         {
-          "key": 844,
+          "key": 845,
           "channel": "narration",
           "text": "A hand shakes you awake in the dark of the woodshed. Rokusuke, with a lantern, looking mostly at the door.",
           "tick": 2,
@@ -2531,7 +2539,7 @@
           "voice": "narrator"
         },
         {
-          "key": 845,
+          "key": 846,
           "channel": "narration",
           "text": "\"Board room. The whole house is called. You as well. I only fetch.\"",
           "tick": 2,
@@ -2540,7 +2548,7 @@
           "voice": "villager"
         },
         {
-          "key": 846,
+          "key": 847,
           "channel": "narration",
           "text": "Lamps at the board at the wrong hour. The household stands in two rows — the hands by the door, the house by the book — and between the rows there is more floor than the room usually has. You are shown to the middle of it. Nobody arranged that. It arranged itself.",
           "tick": 2,
@@ -2548,7 +2556,7 @@
           "voice": "narrator"
         },
         {
-          "key": 847,
+          "key": 848,
           "channel": "narration",
           "text": "\"The alcove chest stands open. One item short against the book. A packet — cloth, bound with cord, a hand's length — entered as lamp-oil for the shrine. Counted at the evening rice. Gone since. The house will be counted before it sleeps.\"",
           "tick": 2,
@@ -2557,7 +2565,7 @@
           "voice": "steward"
         },
         {
-          "key": 848,
+          "key": 849,
           "channel": "narration",
           "text": "Naoyuki stands at his father's place at the board. He does not look at you until he does.",
           "tick": 2,
@@ -2565,7 +2573,7 @@
           "voice": "narrator"
         },
         {
-          "key": 849,
+          "key": 850,
           "channel": "narration",
           "text": "\"If the house must do this, then it does it properly — in order of service, eldest hands first, so that no one can say—\"",
           "tick": 2,
@@ -2574,7 +2582,7 @@
           "voice": "official"
         },
         {
-          "key": 850,
+          "key": 851,
           "channel": "narration",
           "text": "\"No. The weir man. Him first.\"",
           "tick": 2,
@@ -2583,7 +2591,7 @@
           "voice": "official"
         },
         {
-          "key": 851,
+          "key": 852,
           "channel": "narration",
           "text": "Nobody objects. Some of the hands look at you; more look at the floor. It is the order the room was already thinking in.",
           "tick": 2,
@@ -2591,7 +2599,7 @@
           "voice": "narrator"
         },
         {
-          "key": 852,
+          "key": 853,
           "channel": "narration",
           "text": "\"Say nothing. Stand for the count.\"",
           "tick": 2,
@@ -2600,7 +2608,7 @@
           "voice": "player"
         },
         {
-          "key": 853,
+          "key": 854,
           "channel": "narration",
           "text": "\"Asked before the whole house, and he offers— note it down, steward. He offers nothing. Note that.\"",
           "tick": 2,
@@ -2609,7 +2617,7 @@
           "voice": "official"
         },
         {
-          "key": 860,
+          "key": 861,
           "channel": "narration",
           "text": "The first deep-hill baskets come back full, and no one mentions the danger line twice.",
           "tick": 20,
@@ -2617,7 +2625,7 @@
           "voice": "narrator"
         },
         {
-          "key": 867,
+          "key": 868,
           "channel": "narration",
           "text": "He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up.",
           "tick": 6,
@@ -2625,7 +2633,7 @@
           "voice": "narrator"
         },
         {
-          "key": 891,
+          "key": 892,
           "channel": "narration",
           "text": "Whatever else he is now, the paddies get his mornings first, and Genemon sees that they do.",
           "tick": 16,
@@ -2633,7 +2641,7 @@
           "voice": "narrator"
         },
         {
-          "key": 893,
+          "key": 894,
           "channel": "milestone",
           "text": "You lay a quilted futon over the straw in your corner. The nights come easier now.",
           "tick": 20,
@@ -2641,7 +2649,7 @@
           "voice": "narrator"
         },
         {
-          "key": 894,
+          "key": 895,
           "channel": "narration",
           "text": "There is bedding in the north corner, bought with his own coin, and the maids sweep around it now.",
           "tick": 20,
@@ -2649,7 +2657,7 @@
           "voice": "narrator"
         },
         {
-          "key": 895,
+          "key": 896,
           "channel": "narration",
           "text": "Morning, the forecourt. Genemon's window stands open, the day-book out, and beside it a purse the size of a fist, dark with handling.",
           "tick": 20,
@@ -2657,7 +2665,7 @@
           "voice": "narrator"
         },
         {
-          "key": 896,
+          "key": 897,
           "channel": "narration",
           "text": "\"Salt, one shō. Waxed thread, two hanks. Lamp oil, one masu. Yohei sets his boards up at the gate by mid-morning.\"",
           "tick": 20,
@@ -2666,7 +2674,7 @@
           "voice": "steward"
         },
         {
-          "key": 897,
+          "key": 898,
           "channel": "narration",
           "text": "\"Two hands short since spring, and I cannot leave the book on a market morning. So.\"",
           "tick": 20,
@@ -2675,7 +2683,7 @@
           "voice": "steward"
         },
         {
-          "key": 898,
+          "key": 899,
           "channel": "narration",
           "text": "He counts the coins into your palm one at a time, watching each one land.",
           "tick": 20,
@@ -2683,7 +2691,7 @@
           "voice": "narrator"
         },
         {
-          "key": 899,
+          "key": 900,
           "channel": "narration",
           "text": "\"Forty mon. Count them back.\"",
           "tick": 20,
@@ -2692,7 +2700,7 @@
           "voice": "steward"
         },
         {
-          "key": 900,
+          "key": 901,
           "channel": "narration",
           "text": "\"Forty.\"",
           "tick": 20,
@@ -2700,7 +2708,7 @@
           "voice": "narrator"
         },
         {
-          "key": 901,
+          "key": 902,
           "channel": "narration",
           "text": "He watches the whole count. When it comes out even he does not nod. He enters something in the day-book, unasked.",
           "tick": 20,
@@ -2708,7 +2716,7 @@
           "voice": "narrator"
         },
         {
-          "key": 902,
+          "key": 903,
           "channel": "narration",
           "text": "\"His prices are his own. The house's figures are mine. Go.\"",
           "tick": 20,
@@ -2717,7 +2725,7 @@
           "voice": "steward"
         },
         {
-          "key": 903,
+          "key": 904,
           "channel": "narration",
           "text": "Market morning at the gate. Yohei's boards are up and the gateyard has people in it for once — baskets, a mule, talk. The woman ahead of you pulls her basket an inch closer when you stop beside her. The talk is rain over the pass and the price of salt, and it thins a little when you step to the boards, and it is not about you either.",
           "tick": 20,
@@ -2725,7 +2733,7 @@
           "voice": "narrator"
         },
         {
-          "key": 904,
+          "key": 905,
           "channel": "narration",
           "text": "\"The house's hand, and carrying the house's purse — there's news by itself. Rain over the pass, the dye-man's held at the ford a week, so waxed thread is scarce, so the thread is eleven. Salt fifteen, the oil fourteen — fair as water, those two. Eleven for the thread, then?\"",
           "tick": 20,
@@ -2734,7 +2742,7 @@
           "voice": "villager"
         },
         {
-          "key": 905,
+          "key": 906,
           "channel": "narration",
           "text": "\"Nine. Count it with me.\"",
           "tick": 20,
@@ -2743,7 +2751,7 @@
           "voice": "player"
         },
         {
-          "key": 906,
+          "key": 907,
           "channel": "narration",
           "text": "\"Ha — the steward's figure, out of the steward's own mouth. Nine, nine, take it. Twelve markets a year, I'd rather be the stall you count at than the one you walk past.\"",
           "tick": 20,
@@ -2752,7 +2760,7 @@
           "voice": "villager"
         },
         {
-          "key": 907,
+          "key": 908,
           "channel": "narration",
           "text": "The estate's workshops wake again — a smith's forge, a joiner's bench — the crafts of a house that makes as well as grows.",
           "tick": 20,
@@ -2760,7 +2768,7 @@
           "voice": "narrator"
         },
         {
-          "key": 908,
+          "key": 909,
           "channel": "narration",
           "text": "A second granary, the itakura, is raised board by board — the house’s stores have outgrown the old kura at last.",
           "tick": 20,
@@ -2768,7 +2776,7 @@
           "voice": "narrator"
         },
         {
-          "key": 909,
+          "key": 910,
           "channel": "milestone",
           "text": "Rank ↑ — The trusted hand 用人",
           "tick": 20,
@@ -2780,7 +2788,7 @@
           }
         },
         {
-          "key": 914,
+          "key": 915,
           "channel": "narration",
           "text": "\"The store-room count is early this month,\" Chiyo says, not yet naming why.",
           "tick": 22,
@@ -2788,7 +2796,7 @@
           "voice": "narrator"
         },
         {
-          "key": 930,
+          "key": 931,
           "channel": "narration",
           "text": "\"The ledgers agree tonight,\" Chiyo says, which is her whole praise.",
           "tick": 20,
@@ -2796,7 +2804,7 @@
           "voice": "narrator"
         },
         {
-          "key": 939,
+          "key": 940,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -2810,7 +2818,7 @@
           }
         },
         {
-          "key": 940,
+          "key": 941,
           "channel": "narration",
           "text": "\"His purse holds steady,\" Chiyo lets fall, \"which is more than this house has managed.\"",
           "tick": 0,
@@ -2818,14 +2826,14 @@
           "voice": "narrator"
         },
         {
-          "key": 941,
+          "key": 942,
           "channel": "milestone",
           "text": "You mend the leased weir screens slat by slat — green bamboo split with the grain, lashed wet to tighten as it dries. The rats' road is closed; the lease's damage line stays empty this season. (U1 · Stabilising)",
           "tick": 0,
           "count": 1
         },
         {
-          "key": 942,
+          "key": 943,
           "channel": "narration",
           "text": "\"He put his own coin into the kura-works,\" Chiyo tells Genemon, twice, to be sure he heard.",
           "tick": 0,
@@ -2833,7 +2841,7 @@
           "voice": "narrator"
         },
         {
-          "key": 943,
+          "key": 944,
           "channel": "narration",
           "text": "The board, past supper, past the year's tax. The household's noises are done for the day. Genemon has the day-book open under the lamp and a fresh page ruled, and he does not look up until the last column of the old one is footed.",
           "tick": 0,
@@ -2841,7 +2849,7 @@
           "voice": "narrator"
         },
         {
-          "key": 944,
+          "key": 945,
           "channel": "narration",
           "text": "\"Stand where I can see you. This is quick.\"",
           "tick": 0,
@@ -2850,7 +2858,7 @@
           "voice": "steward"
         },
         {
-          "key": 945,
+          "key": 946,
           "channel": "narration",
           "text": "\"A full year and more, this book has said 'one man, name unknown.' Every entry, the same six strokes spent on a man the whole yard knows on sight. Paper is not free. Neither is my evening.\"",
           "tick": 0,
@@ -2859,7 +2867,7 @@
           "voice": "steward"
         },
         {
-          "key": 946,
+          "key": 947,
           "channel": "narration",
           "text": "He turns back through the pages — a winter, a wolf, a harvest — to the first entry, and reads it aloud, once. One man, name unknown. Then he dips the brush, and holds it over the page a breath longer than any entry needs.",
           "tick": 0,
@@ -2867,7 +2875,7 @@
           "voice": "narrator"
         },
         {
-          "key": 947,
+          "key": 948,
           "channel": "narration",
           "text": "\"Gonbei. Every hired man this house has kept has carried it before you. The house's name for you, then. Earn a better.\"",
           "tick": 0,
@@ -2876,7 +2884,7 @@
           "voice": "steward"
         },
         {
-          "key": 948,
+          "key": 949,
           "channel": "narration",
           "text": "He writes it small and square — the hand of a man who has written all his life and never once for pleasure — and the thing is done. One man, Gonbei, sound.",
           "tick": 0,
@@ -2884,7 +2892,7 @@
           "voice": "narrator"
         },
         {
-          "key": 949,
+          "key": 950,
           "channel": "narration",
           "text": "\"It will do.\"",
           "tick": 0,
@@ -2893,7 +2901,7 @@
           "voice": "player"
         },
         {
-          "key": 950,
+          "key": 951,
           "channel": "narration",
           "text": "\"So it will. Take what is left in the pot as you pass the kitchen. It is paid for.\"",
           "tick": 0,
@@ -2902,7 +2910,7 @@
           "voice": "steward"
         },
         {
-          "key": 951,
+          "key": 952,
           "channel": "narration",
           "text": "The lord opens his study — the shoin, the writing-room where the house's business is truly done — to you. Few servants ever cross that threshold.",
           "tick": 0,
@@ -2910,7 +2918,7 @@
           "voice": "narrator"
         },
         {
-          "key": 952,
+          "key": 953,
           "channel": "narration",
           "text": "[dev — bamboo grove reveal; flavor-key migration pending (HD-30)]",
           "tick": 0,
@@ -2918,7 +2926,7 @@
           "voice": "narrator"
         },
         {
-          "key": 953,
+          "key": 954,
           "channel": "milestone",
           "text": "Rank ↑ — The named hand 名代",
           "tick": 0,
@@ -2930,7 +2938,7 @@
           }
         },
         {
-          "key": 954,
+          "key": 955,
           "channel": "narration",
           "text": "\"There is rice against winter,\" Munemasa says, slowly, as if the words were new to him.",
           "tick": 0,
@@ -2938,7 +2946,7 @@
           "voice": "narrator"
         },
         {
-          "key": 955,
+          "key": 956,
           "channel": "narration",
           "text": "The woodshed, late. On the doorstep, folded under a stone against the wind: his straw coat, mended at the shoulder in small even stitches that no one will own to. He carries it in, lies down on the mat, and for once sleeps at once.",
           "tick": 0,
@@ -2946,7 +2954,7 @@
           "voice": "narrator"
         },
         {
-          "key": 956,
+          "key": 957,
           "channel": "narration",
           "text": "— a road, climbing. Rain on it.",
           "tick": 0,
@@ -2954,7 +2962,7 @@
           "voice": "narrator"
         },
         {
-          "key": 957,
+          "key": 958,
           "channel": "narration",
           "text": "The weight across his shoulders is right. Two loads and the pole, and his feet know the next stone without being asked. Below the road, water — he cannot see it, but it is there the way a wall is there in a dark room.",
           "tick": 0,
@@ -2962,7 +2970,7 @@
           "voice": "narrator"
         },
         {
-          "key": 958,
+          "key": 959,
           "channel": "narration",
           "text": "Behind him on the climb, somebody calls a name. Short, worn smooth, thrown easy — a name that has landed a thousand times and expects to land now.",
           "tick": 0,
@@ -2970,7 +2978,7 @@
           "voice": "narrator"
         },
         {
-          "key": 959,
+          "key": 960,
           "channel": "narration",
           "text": "He turns to answer.",
           "tick": 0,
@@ -2978,7 +2986,7 @@
           "voice": "narrator"
         },
         {
-          "key": 960,
+          "key": 961,
           "channel": "narration",
           "text": "The mountain moves.",
           "tick": 0,
@@ -2986,7 +2994,7 @@
           "voice": "narrator"
         },
         {
-          "key": 961,
+          "key": 962,
           "channel": "narration",
           "text": "After that there is only the water, and the road going away upward, and the voice still calling — smaller, and smaller. He knows the name is his. He cannot hear it.",
           "tick": 0,
@@ -2994,7 +3002,7 @@
           "voice": "narrator"
         },
         {
-          "key": 962,
+          "key": 963,
           "channel": "narration",
           "text": "He wakes in the woodshed with his mouth open around a word that is not there. Rain, real rain, small on the roof. The coat is where he left it.",
           "tick": 0,
@@ -3002,7 +3010,7 @@
           "voice": "narrator"
         },
         {
-          "key": 963,
+          "key": 964,
           "channel": "narration",
           "text": "\"There was a road.\"",
           "tick": 0,
@@ -3011,7 +3019,7 @@
           "voice": "player"
         },
         {
-          "key": 964,
+          "key": 965,
           "channel": "narration",
           "text": "Nobody answers. It is a long while before he sleeps again, and the dream, that night, does not come back.",
           "tick": 0,
@@ -3019,7 +3027,7 @@
           "voice": "narrator"
         },
         {
-          "key": 967,
+          "key": 968,
           "channel": "milestone",
           "text": "Entered: rice from the new paddies, credited to the house's own account. The old books carried this line once; it is carried again.",
           "tick": 0,
@@ -3027,7 +3035,7 @@
           "voice": "narrator"
         },
         {
-          "key": 970,
+          "key": 971,
           "channel": "narration",
           "text": "\"The fields no longer wait on my orders,\" Munemasa says from the veranda, \"they wait on his.\"",
           "tick": 14,
@@ -3035,7 +3043,7 @@
           "voice": "narrator"
         },
         {
-          "key": 977,
+          "key": 978,
           "channel": "narration",
           "text": "\"Even the woodlot answers to him,\" Kihei says to Genemon, who does not disagree.",
           "tick": 10,
@@ -3043,7 +3051,7 @@
           "voice": "narrator"
         },
         {
-          "key": 978,
+          "key": 979,
           "channel": "milestone",
           "text": "[dev — the nengu is reckoned; the year is measured against the house]",
           "tick": 12,
@@ -3051,7 +3059,7 @@
           "voice": "narrator"
         },
         {
-          "key": 979,
+          "key": 980,
           "channel": "narration",
           "text": "[dev — R7/Autumn-exit: the nengu reckoning, felt-never-numbered; the ceremony sets `nengu-reckoned` (scenes.md nengu-autumn-frame). No t0v2 requirement-flavor source. HD-30.]",
           "tick": 12,
@@ -3059,7 +3067,7 @@
           "voice": "narrator"
         },
         {
-          "key": 980,
+          "key": 981,
           "channel": "narration",
           "text": "[dev — the nengu reckoning ceremony body: the board at the season's turn, the MC as furniture in the room, the land-tax felt but never numbered; sets `nengu-reckoned`. No t0v2 source prose — authored later (narrative-diverge), not migrated. HD-30 gap.]",
           "tick": 12,
@@ -3067,7 +3075,7 @@
           "voice": "narrator"
         },
         {
-          "key": 984,
+          "key": 985,
           "channel": "milestone",
           "text": "Entered: the granary takes in more than it pays out. A full storehouse needs no remark — this one has earned it all the same.",
           "tick": 12,
@@ -3075,7 +3083,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1186,
+          "key": 1187,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 0,
@@ -3086,7 +3094,7 @@
           }
         },
         {
-          "key": 1400,
+          "key": 1401,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 10,
@@ -3097,7 +3105,7 @@
           }
         },
         {
-          "key": 1613,
+          "key": 1614,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 18,
@@ -3108,14 +3116,14 @@
           }
         },
         {
-          "key": 1687,
+          "key": 1688,
           "channel": "milestone",
           "text": "The dens stand empty and the wild rows are cut back — sound fruit trees found under the choke. The day-book opens a line it has not carried in years: orchard. (U2 · Recovering)",
           "tick": 10,
           "count": 1
         },
         {
-          "key": 1831,
+          "key": 1832,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 4,
@@ -3126,7 +3134,7 @@
           }
         },
         {
-          "key": 2050,
+          "key": 2051,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 14,
@@ -3137,7 +3145,7 @@
           }
         },
         {
-          "key": 2269,
+          "key": 2270,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 0,
@@ -3148,7 +3156,7 @@
           }
         },
         {
-          "key": 2270,
+          "key": 2271,
           "channel": "milestone",
           "text": "[dev — the nengu is reckoned; the year is measured against the house]",
           "tick": 0,
@@ -3156,7 +3164,7 @@
           "voice": "narrator"
         },
         {
-          "key": 2489,
+          "key": 2490,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 10,
@@ -3167,7 +3175,7 @@
           }
         },
         {
-          "key": 2708,
+          "key": 2709,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 18,
@@ -3178,14 +3186,14 @@
           }
         },
         {
-          "key": 2741,
+          "key": 2742,
           "channel": "milestone",
           "text": "A second granary is raised board by board and the kura kept past this winter's need. The storehouse takes in more than it pays out at last. (U3 · Prosperous)",
           "tick": 6,
           "count": 1
         },
         {
-          "key": 2931,
+          "key": 2932,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 6,
@@ -3196,7 +3204,7 @@
           }
         },
         {
-          "key": 3150,
+          "key": 3151,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 16,
@@ -3207,21 +3215,10 @@
           }
         },
         {
-          "key": 3365,
+          "key": 3366,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 0,
-          "count": 1,
-          "contentKey": "season.reckoned",
-          "params": {
-            "bonus": 9
-          }
-        },
-        {
-          "key": 3584,
-          "channel": "milestone",
-          "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
-          "tick": 10,
           "count": 1,
           "contentKey": "season.reckoned",
           "params": {
@@ -3231,13 +3228,24 @@
         {
           "key": 3585,
           "channel": "milestone",
+          "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "season.reckoned",
+          "params": {
+            "bonus": 9
+          }
+        },
+        {
+          "key": 3586,
+          "channel": "milestone",
           "text": "[dev — the nengu is reckoned; the year is measured against the house]",
           "tick": 10,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3803,
+          "key": 3804,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 20,
@@ -3248,7 +3256,7 @@
           }
         },
         {
-          "key": 4021,
+          "key": 4022,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 6,
@@ -3259,7 +3267,7 @@
           }
         },
         {
-          "key": 4240,
+          "key": 4241,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 16,
@@ -3270,7 +3278,7 @@
           }
         },
         {
-          "key": 4455,
+          "key": 4456,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 0,
@@ -3281,7 +3289,7 @@
           }
         },
         {
-          "key": 4574,
+          "key": 4575,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 22,
@@ -3290,7 +3298,7 @@
           "ephemeral": true
         },
         {
-          "key": 4575,
+          "key": 4576,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 0,
@@ -3299,7 +3307,7 @@
           "ephemeral": true
         },
         {
-          "key": 4576,
+          "key": 4577,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 2,
@@ -3308,7 +3316,7 @@
           "ephemeral": true
         },
         {
-          "key": 4577,
+          "key": 4578,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 4,
@@ -3317,7 +3325,7 @@
           "ephemeral": true
         },
         {
-          "key": 4578,
+          "key": 4579,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 14,
@@ -3326,7 +3334,7 @@
           "ephemeral": true
         },
         {
-          "key": 4579,
+          "key": 4580,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 16,
@@ -3335,7 +3343,7 @@
           "ephemeral": true
         },
         {
-          "key": 4580,
+          "key": 4581,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 22,
@@ -3344,7 +3352,7 @@
           "ephemeral": true
         },
         {
-          "key": 4581,
+          "key": 4582,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 0,
@@ -3353,7 +3361,7 @@
           "ephemeral": true
         },
         {
-          "key": 4582,
+          "key": 4583,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 6,
@@ -3362,7 +3370,7 @@
           "ephemeral": true
         },
         {
-          "key": 4583,
+          "key": 4584,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 8,
@@ -3371,7 +3379,7 @@
           "ephemeral": true
         },
         {
-          "key": 4584,
+          "key": 4585,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 22,
@@ -3380,18 +3388,9 @@
           "ephemeral": true
         },
         {
-          "key": 4585,
+          "key": 4586,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4586,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
@@ -3399,6 +3398,15 @@
         },
         {
           "key": 4587,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4588,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 2,
@@ -3407,7 +3415,7 @@
           "ephemeral": true
         },
         {
-          "key": 4588,
+          "key": 4589,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 12,
@@ -3416,7 +3424,7 @@
           "ephemeral": true
         },
         {
-          "key": 4589,
+          "key": 4590,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 14,
@@ -3425,7 +3433,7 @@
           "ephemeral": true
         },
         {
-          "key": 4590,
+          "key": 4591,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 22,
@@ -3434,7 +3442,7 @@
           "ephemeral": true
         },
         {
-          "key": 4591,
+          "key": 4592,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 0,
@@ -3443,7 +3451,7 @@
           "ephemeral": true
         },
         {
-          "key": 4592,
+          "key": 4593,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 4,
@@ -3452,7 +3460,7 @@
           "ephemeral": true
         },
         {
-          "key": 4593,
+          "key": 4594,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 6,
@@ -3461,7 +3469,7 @@
           "ephemeral": true
         },
         {
-          "key": 4594,
+          "key": 4595,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 20,
@@ -3470,7 +3478,7 @@
           "ephemeral": true
         },
         {
-          "key": 4595,
+          "key": 4596,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 22,
@@ -3479,7 +3487,7 @@
           "ephemeral": true
         },
         {
-          "key": 4596,
+          "key": 4597,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 0,
@@ -3488,7 +3496,7 @@
           "ephemeral": true
         },
         {
-          "key": 4597,
+          "key": 4598,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 10,
@@ -3497,7 +3505,7 @@
           "ephemeral": true
         },
         {
-          "key": 4598,
+          "key": 4599,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 12,
@@ -3506,7 +3514,7 @@
           "ephemeral": true
         },
         {
-          "key": 4599,
+          "key": 4600,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 22,
@@ -3515,18 +3523,9 @@
           "ephemeral": true
         },
         {
-          "key": 4600,
+          "key": 4601,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4601,
-          "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
@@ -3534,6 +3533,15 @@
         },
         {
           "key": 4602,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4603,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 2,
@@ -3542,7 +3550,7 @@
           "ephemeral": true
         },
         {
-          "key": 4603,
+          "key": 4604,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 18,
@@ -3551,7 +3559,7 @@
           "ephemeral": true
         },
         {
-          "key": 4604,
+          "key": 4605,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 20,
@@ -3560,7 +3568,7 @@
           "ephemeral": true
         },
         {
-          "key": 4605,
+          "key": 4606,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 22,
@@ -3569,7 +3577,7 @@
           "ephemeral": true
         },
         {
-          "key": 4606,
+          "key": 4607,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 0,
@@ -3578,7 +3586,7 @@
           "ephemeral": true
         },
         {
-          "key": 4607,
+          "key": 4608,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 8,
@@ -3587,7 +3595,7 @@
           "ephemeral": true
         },
         {
-          "key": 4608,
+          "key": 4609,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 10,
@@ -3596,7 +3604,7 @@
           "ephemeral": true
         },
         {
-          "key": 4609,
+          "key": 4610,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 22,
@@ -3605,7 +3613,7 @@
           "ephemeral": true
         },
         {
-          "key": 4610,
+          "key": 4611,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 0,
@@ -3614,7 +3622,7 @@
           "ephemeral": true
         },
         {
-          "key": 4611,
+          "key": 4612,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 2,
@@ -3623,7 +3631,7 @@
           "ephemeral": true
         },
         {
-          "key": 4612,
+          "key": 4613,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 14,
@@ -3632,7 +3640,7 @@
           "ephemeral": true
         },
         {
-          "key": 4613,
+          "key": 4614,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 16,
@@ -3641,7 +3649,7 @@
           "ephemeral": true
         },
         {
-          "key": 4614,
+          "key": 4615,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 22,
@@ -3650,7 +3658,7 @@
           "ephemeral": true
         },
         {
-          "key": 4615,
+          "key": 4616,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 0,
@@ -3659,7 +3667,7 @@
           "ephemeral": true
         },
         {
-          "key": 4616,
+          "key": 4617,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 6,
@@ -3668,7 +3676,7 @@
           "ephemeral": true
         },
         {
-          "key": 4617,
+          "key": 4618,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 8,
@@ -3677,7 +3685,7 @@
           "ephemeral": true
         },
         {
-          "key": 4618,
+          "key": 4619,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 18,
@@ -3686,7 +3694,7 @@
           "ephemeral": true
         },
         {
-          "key": 4619,
+          "key": 4620,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 20,
@@ -3695,7 +3703,7 @@
           "ephemeral": true
         },
         {
-          "key": 4620,
+          "key": 4621,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 22,
@@ -3704,7 +3712,7 @@
           "ephemeral": true
         },
         {
-          "key": 4621,
+          "key": 4622,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 0,
@@ -3713,7 +3721,7 @@
           "ephemeral": true
         },
         {
-          "key": 4622,
+          "key": 4623,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 12,
@@ -3722,7 +3730,7 @@
           "ephemeral": true
         },
         {
-          "key": 4623,
+          "key": 4624,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 14,
@@ -3731,7 +3739,7 @@
           "ephemeral": true
         },
         {
-          "key": 4624,
+          "key": 4625,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 22,
@@ -3740,7 +3748,7 @@
           "ephemeral": true
         },
         {
-          "key": 4625,
+          "key": 4626,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 0,
@@ -3749,7 +3757,7 @@
           "ephemeral": true
         },
         {
-          "key": 4626,
+          "key": 4627,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 4,
@@ -3758,7 +3766,7 @@
           "ephemeral": true
         },
         {
-          "key": 4627,
+          "key": 4628,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 6,
@@ -3767,7 +3775,7 @@
           "ephemeral": true
         },
         {
-          "key": 4628,
+          "key": 4629,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 16,
@@ -3776,7 +3784,7 @@
           "ephemeral": true
         },
         {
-          "key": 4629,
+          "key": 4630,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 18,
@@ -3785,7 +3793,7 @@
           "ephemeral": true
         },
         {
-          "key": 4630,
+          "key": 4631,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 22,
@@ -3794,7 +3802,7 @@
           "ephemeral": true
         },
         {
-          "key": 4631,
+          "key": 4632,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 0,
@@ -3803,7 +3811,7 @@
           "ephemeral": true
         },
         {
-          "key": 4632,
+          "key": 4633,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 8,
@@ -3812,7 +3820,7 @@
           "ephemeral": true
         },
         {
-          "key": 4633,
+          "key": 4634,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 10,
@@ -3821,7 +3829,7 @@
           "ephemeral": true
         },
         {
-          "key": 4634,
+          "key": 4635,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 22,
@@ -3830,7 +3838,7 @@
           "ephemeral": true
         },
         {
-          "key": 4635,
+          "key": 4636,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 0,
@@ -3839,7 +3847,7 @@
           "ephemeral": true
         },
         {
-          "key": 4636,
+          "key": 4637,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 2,
@@ -3848,7 +3856,7 @@
           "ephemeral": true
         },
         {
-          "key": 4637,
+          "key": 4638,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 4,
@@ -3857,7 +3865,7 @@
           "ephemeral": true
         },
         {
-          "key": 4638,
+          "key": 4639,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 14,
@@ -3866,7 +3874,7 @@
           "ephemeral": true
         },
         {
-          "key": 4639,
+          "key": 4640,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 16,
@@ -3875,7 +3883,7 @@
           "ephemeral": true
         },
         {
-          "key": 4640,
+          "key": 4641,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 22,
@@ -3884,7 +3892,7 @@
           "ephemeral": true
         },
         {
-          "key": 4641,
+          "key": 4642,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 0,
@@ -3893,7 +3901,7 @@
           "ephemeral": true
         },
         {
-          "key": 4642,
+          "key": 4643,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 6,
@@ -3902,7 +3910,7 @@
           "ephemeral": true
         },
         {
-          "key": 4643,
+          "key": 4644,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 8,
@@ -3911,7 +3919,7 @@
           "ephemeral": true
         },
         {
-          "key": 4644,
+          "key": 4645,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 22,
@@ -3920,18 +3928,9 @@
           "ephemeral": true
         },
         {
-          "key": 4645,
+          "key": 4646,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4646,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
@@ -3939,6 +3938,15 @@
         },
         {
           "key": 4647,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4648,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 2,
@@ -3947,7 +3955,7 @@
           "ephemeral": true
         },
         {
-          "key": 4648,
+          "key": 4649,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 12,
@@ -3956,7 +3964,7 @@
           "ephemeral": true
         },
         {
-          "key": 4649,
+          "key": 4650,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 14,
@@ -3965,7 +3973,7 @@
           "ephemeral": true
         },
         {
-          "key": 4650,
+          "key": 4651,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 22,
@@ -3974,7 +3982,7 @@
           "ephemeral": true
         },
         {
-          "key": 4651,
+          "key": 4652,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 0,
@@ -3983,7 +3991,7 @@
           "ephemeral": true
         },
         {
-          "key": 4652,
+          "key": 4653,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 4,
@@ -3992,7 +4000,7 @@
           "ephemeral": true
         },
         {
-          "key": 4653,
+          "key": 4654,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 6,
@@ -4001,7 +4009,7 @@
           "ephemeral": true
         },
         {
-          "key": 4654,
+          "key": 4655,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 20,
@@ -4010,7 +4018,7 @@
           "ephemeral": true
         },
         {
-          "key": 4655,
+          "key": 4656,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 22,
@@ -4019,7 +4027,7 @@
           "ephemeral": true
         },
         {
-          "key": 4656,
+          "key": 4657,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 0,
@@ -4028,7 +4036,7 @@
           "ephemeral": true
         },
         {
-          "key": 4657,
+          "key": 4658,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 10,
@@ -4037,7 +4045,7 @@
           "ephemeral": true
         },
         {
-          "key": 4658,
+          "key": 4659,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 12,
@@ -4046,7 +4054,7 @@
           "ephemeral": true
         },
         {
-          "key": 4659,
+          "key": 4660,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 22,
@@ -4055,7 +4063,7 @@
           "ephemeral": true
         },
         {
-          "key": 4660,
+          "key": 4661,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 0,
@@ -4064,7 +4072,7 @@
           "ephemeral": true
         },
         {
-          "key": 4661,
+          "key": 4662,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 0,
@@ -4073,7 +4081,7 @@
           "ephemeral": true
         },
         {
-          "key": 4662,
+          "key": 4663,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 2,
@@ -4082,7 +4090,7 @@
           "ephemeral": true
         },
         {
-          "key": 4663,
+          "key": 4664,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 18,
@@ -4091,7 +4099,7 @@
           "ephemeral": true
         },
         {
-          "key": 4664,
+          "key": 4665,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 20,
@@ -4100,7 +4108,7 @@
           "ephemeral": true
         },
         {
-          "key": 4665,
+          "key": 4666,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 22,
@@ -4109,7 +4117,7 @@
           "ephemeral": true
         },
         {
-          "key": 4666,
+          "key": 4667,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 0,
@@ -4118,7 +4126,7 @@
           "ephemeral": true
         },
         {
-          "key": 4667,
+          "key": 4668,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 8,
@@ -4127,7 +4135,7 @@
           "ephemeral": true
         },
         {
-          "key": 4668,
+          "key": 4669,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 10,
@@ -4136,7 +4144,7 @@
           "ephemeral": true
         },
         {
-          "key": 4669,
+          "key": 4670,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 22,
@@ -4145,7 +4153,7 @@
           "ephemeral": true
         },
         {
-          "key": 4670,
+          "key": 4671,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 0,
@@ -4154,7 +4162,7 @@
           "ephemeral": true
         },
         {
-          "key": 4671,
+          "key": 4672,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 2,
@@ -4163,7 +4171,7 @@
           "ephemeral": true
         },
         {
-          "key": 4672,
+          "key": 4673,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 8,
@@ -4172,7 +4180,7 @@
           "ephemeral": true
         },
         {
-          "key": 4673,
+          "key": 4674,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 10,
@@ -4183,7 +4191,7 @@
           }
         },
         {
-          "key": 4674,
+          "key": 4675,
           "channel": "system",
           "text": "The season turns, and some of your rice has spoiled in the store. (−113 rice)",
           "tick": 10,
@@ -4196,7 +4204,7 @@
           }
         }
       ],
-      "seq": 4675
+      "seq": 4676
     },
     "skillXp": {
       "farming": 7202,
@@ -4254,8 +4262,12 @@
       "the-nengu-reckoned": 1
     },
     "estateStage": 3,
-    "discovered": [],
-    "discoveryProgress": {},
+    "discovered": [
+      "disc-woodlot-lacquer"
+    ],
+    "discoveryProgress": {
+      "disc-woodlot-lacquer": 26
+    },
     "autoActivity": null,
     "autoRake": false,
     "equippedWeapon": "carrying_pole",

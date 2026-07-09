@@ -83,7 +83,12 @@ function drawSeal(
   g.append(
     sv(
       'text',
-      { x: String(x), y: String(y + bh / 2 + 34), 'text-anchor': 'middle', class: 'sheetmap-caption' },
+      {
+        x: String(x),
+        y: String(y + bh / 2 + 34),
+        'text-anchor': 'middle',
+        class: 'sheetmap-caption',
+      },
       node.label.replace(/^The /, ''),
     ),
   );
@@ -221,7 +226,10 @@ export function renderMapSheet(
       'text-anchor': 'middle',
       class: 'sheetmap-fog',
     });
-    t.append(sv('tspan', { x: String(a.x), dy: '0' }, '未'), sv('tspan', { x: String(a.x), dy: '38' }, '測'));
+    t.append(
+      sv('tspan', { x: String(a.x), dy: '0' }, '未'),
+      sv('tspan', { x: String(a.x), dy: '38' }, '測'),
+    );
     tip(t, 'Unsurveyed ground');
     seals.append(t);
   }

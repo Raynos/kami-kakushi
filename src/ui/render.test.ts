@@ -1342,7 +1342,11 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     const render = mount(root, () => {}, noopHooks());
     // stand at the gate on a MARKET DAY (dayOfWeek 2) so the pedlar (Yohei) is present to talk to.
     render(
-      { ...awake(['panel-estate', 'room-gate']), location: 'gate', clock: { ...createInitialState(1).clock, day: 2 } },
+      {
+        ...awake(['panel-estate', 'room-gate']),
+        location: 'gate',
+        clock: { ...createInitialState(1).clock, day: 2 },
+      },
       null,
     );
     // the pedlar's market is on the Map 地図 tab now (FB-109 / IA reorg ADR-112).
@@ -1793,7 +1797,10 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
   }
   function combat(extra: string[] = [], over: Partial<GameState> = {}): GameState {
     // G4: foes are spatial — the field margins is the first grindable combat zone (tanuki/badger).
-    return awake(['tab-combat', 'panel-bestiary', ...extra], { location: 'field-margins', ...over });
+    return awake(['tab-combat', 'panel-bestiary', ...extra], {
+      location: 'field-margins',
+      ...over,
+    });
   }
   function openTab(marker: string): void {
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
@@ -1951,7 +1958,13 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     const render = mount(root, () => {}, noopHooks());
     const pedlar = getPerson('yohei'); // source of truth: his node + name (G4: Yohei, at the gate)
     // Yohei stands his stall on his MARKET DAYS (dayOfWeek 2) — put us on one so he is present.
-    render({ ...awakeAt(pedlar.node, ['room-gate', 'panel-estate']), clock: { ...createInitialState(1).clock, day: 2 } }, null);
+    render(
+      {
+        ...awakeAt(pedlar.node, ['room-gate', 'panel-estate']),
+        clock: { ...createInitialState(1).clock, day: 2 },
+      },
+      null,
+    );
     openTab('地図');
     const whos = root.querySelector<HTMLElement>('.map-pane .whos-here')!;
     expect(whos).not.toBeNull();
@@ -1968,7 +1981,13 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
 
   it('talking to the pedlar OPENS his wares — the shop is hidden until you speak to him', () => {
     const render = mount(root, () => {}, noopHooks());
-    render({ ...awakeAt('gate', ['room-gate', 'panel-estate']), clock: { ...createInitialState(1).clock, day: 2 } }, null);
+    render(
+      {
+        ...awakeAt('gate', ['room-gate', 'panel-estate']),
+        clock: { ...createInitialState(1).clock, day: 2 },
+      },
+      null,
+    );
     openTab('地図');
     // BEFORE talking: the pedlar's wares are NOT rendered inline on the Map tab.
     expect(root.querySelector('.market-pane .market-row')).toBeNull();
@@ -1998,7 +2017,10 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     const yohei = getPerson('yohei');
     const clock = createInitialState(1).clock;
     // an OFF day (dayOfWeek 1) → Yohei is not at the gate, so no row.
-    render({ ...awakeAt(yohei.node, ['room-gate', 'panel-estate']), clock: { ...clock, day: 1 } }, null);
+    render(
+      { ...awakeAt(yohei.node, ['room-gate', 'panel-estate']), clock: { ...clock, day: 1 } },
+      null,
+    );
     openTab('地図');
     expect(
       [...root.querySelectorAll<HTMLElement>('.map-pane .person-row')].some((r) =>
@@ -2006,7 +2028,10 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
       ),
     ).toBe(false);
     // a MARKET day (dayOfWeek 2) → Yohei joins the who's-here list.
-    render({ ...awakeAt(yohei.node, ['room-gate', 'panel-estate']), clock: { ...clock, day: 2 } }, null);
+    render(
+      { ...awakeAt(yohei.node, ['room-gate', 'panel-estate']), clock: { ...clock, day: 2 } },
+      null,
+    );
     expect(
       [...root.querySelectorAll<HTMLElement>('.map-pane .person-row')].some((r) =>
         (r.textContent ?? '').includes(yohei.name),

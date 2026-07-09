@@ -2392,7 +2392,9 @@ export function mount(
       // ceremony — scenes never advance a rank) that dispatches choose_scene_option.
       const cont = el('button', 'verb intro-continue', 'Continue');
       cont.type = 'button';
-      cont.addEventListener('click', () => dispatch({ type: 'choose_scene_option', optionId: optId }));
+      cont.addEventListener('click', () =>
+        dispatch({ type: 'choose_scene_option', optionId: optId }),
+      );
       wrap.append(cont);
     } else {
       // FB-153 — the promotion ceremony lives IN the beat modal (human spec): the
@@ -2711,7 +2713,10 @@ export function mount(
       const nightRow = el('div', 'labour-row place-night');
       const nightBtn = el('button', 'verb primary');
       nightBtn.type = 'button';
-      nightBtn.append(el('span', 'emoji', '🏮'), document.createTextNode(' Post the night watch 夜廻'));
+      nightBtn.append(
+        el('span', 'emoji', '🏮'),
+        document.createTextNode(' Post the night watch 夜廻'),
+      );
       nightBtn.addEventListener('click', () =>
         dispatch({ type: 'begin_night_round', roundId: 'first-night-round' }),
       );
@@ -2831,7 +2836,12 @@ export function mount(
     const owed = state.wageDaysAccrued;
     toggle(r.wageRow, waged);
     if (waged) {
-      setText(r.wageBtn, owed > 0 ? `Collect your wage 給 (${owed * DAY_WAGE_MON} mon)` : 'Wage board 給 — nothing owed');
+      setText(
+        r.wageBtn,
+        owed > 0
+          ? `Collect your wage 給 (${owed * DAY_WAGE_MON} mon)`
+          : 'Wage board 給 — nothing owed',
+      );
       setDisabled(r.wageBtn, owed <= 0);
     }
     toggle(r.placeStrip, nightPending || roundLive || waged);

@@ -659,13 +659,15 @@ mixed motives and CLEAR/CAPTURE choices with consequences; some are reachable co
 >
 > | Foe | 漢字 | Found on |
 > |---|---|---|
-> | Grain-store wolf | 狼 | kura |
-> | Grain-rat swarm | 稲鼠 | gate forecourt |
-> | Crop-raiding monkey | 猿 | home paddies |
-> | Crop-raiding troop | 猿群 | home paddies |
-> | Lean wolf | 狼 | near satoyama |
-> | Mamushi (pit viper) | 蝮 | near satoyama |
-> | Wild boar | 猪 | deep satoyama |
+> | River rats | 川鼠 | weir reeds |
+> | Tanuki | 狸 | field margins |
+> | Badger | 穴熊 | field margins |
+> | Crop-raiding monkey | 猿 | grove |
+> | Troop big-male | 猿王 | grove |
+> | Feral dog | 野犬 | orchard |
+> | Store rats | 内鼠 | kura |
+> | Marten | 貂 | kura |
+> | Lean wolf | 狼 | kura |
 <!-- gen:end t0-bestiary -->
 
 **(d) Ties to the four pillars.** **Arms** — clearing/securing against mobs is the recognized martial
