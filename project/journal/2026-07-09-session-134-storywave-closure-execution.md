@@ -179,3 +179,20 @@ reboot (no Skills tab; a fresh drive never leaves the intro shell —
 fixes landed; the real repair (an intro-drain drive) queued into C4. D8:
 AGENTS.md now states the real gate-wall shape (vitest-dominated ~30–60 s;
 the 5 s budget is aspirational).
+
+## C3 — prd-drift hardened (D7) + RED-proof
+
+RETIRED terms extended (satoyama · 28-day · akagi[→tomita] · oyuki[→o-nobu]
+· okimi[→suzu] · o-sato[→o-hisa] · tokubei[→yohei]; shigemasa verified
+already present); the scan WIDENED per the human ruling to fun-factor.md /
+ui-design.md / qa-playtesting.md (presence stays PRD-only; decisions.md's
+append-only history stays out of scope). The scan also went WHOLE-WORD —
+plain includes() false-fired 'oyuki' inside every "Naoyuki". The widened
+gate immediately caught residuals the hand sweep missed (§1.7's zone-table
+satoyama rows + the §1 reveal list) — swept in the same commit
+(re-voiced to the shipped woodlot vocabulary; the region label reads
+"Wilderness & Mountains"). **RED-proof (isolated worktree at pre-C2
+170280e, new gate copied in): 37 drift items** — the full D3 satoyama
+cluster incl. 2 hits in qa-playtesting + 1 in ui-design + 2 in fun-factor
+(exactly the widened class), the D1/D6 28-day cluster, D5's oyuki/okimi.
+Gate CLEAN on the swept tree.

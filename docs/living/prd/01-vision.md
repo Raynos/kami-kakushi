@@ -765,11 +765,11 @@ Bible source: [`tiers/t0.md`](../../story-bible/tiers/t0.md).
 | **The Chief's House** | Village of Asagiri (T2) | Village | Yagōemon's receiving room; the village ledgers | T2, on building the chief's regard. Reputation roll-up + the doctored-ledger thread. |
 | **The Inn & Rumours Board** | Village of Asagiri (T2) | Village | The rumours board; the common room | T2. Sukezō's inn — hub for optional light folklore side-quests (unlocked organically). **None gate tier progression.** |
 | **The Shrine / Temple** | Village of Asagiri (T2) | Village | The shrine (*shimenawa*); the temple register; the Bon offering site | T2. Priest Ryōa's register of the vanished (a mystery clue). |
-| **The Jizō at the Weir** | Satoyama & Mountains / Asagiri boundary (shared, T0–T3) | Village / neutral | The boundary *jizō* **at the weir where he was found**; an offering left by an unknown hand | T0–T2, gated by conditioning. **The single find-spot** — where he was pulled from the river — and the **one** capped residual-ambiguity beat (the unknown-hand offering lingers unresolved). |
-| **The Near Satoyama** | Satoyama & Mountains (shared, T0–T3) | Shared wilderness | Foraging groves; the bamboo stand | R2/T0, gated by conditioning. First ring of the danger gradient. |
-| **The Deep Satoyama (奥山)** | Satoyama & Mountains (shared, T0–T3) | Shared wilderness | Deep forage groves (*sansai*); the boar's den | T0, one hill past the near satoyama (behind the danger ring, at a higher satiety cost). **The second conditioning-gated danger ring** — gates the richer `forage_deepwoods` yield and dens the boar, so the map earns its walk. |
-| **The River, Ford & Weir** | Satoyama & Mountains (shared, T0–T3) | Shared wilderness | The ford (the "kappa" spot); the weir | T0–T2, gated by conditioning. Fishing + the "kappa" thread (undertow + smugglers' sinking-spot). *(The find-spot **jizō at the weir** is its own row above — the lone residual-ambiguity beat is co-located there.)* |
-| **The Foothills & Charcoal Grounds** | Satoyama & Mountains (shared, T0–T3) | Shared wilderness | The hidden charcoal kiln ("fox-fire"); hunting trails | T2, deeper conditioning. A further danger ring at valley scale. |
+| **The Jizō at the Weir** | Wilderness & Mountains / Asagiri boundary (shared, T0–T3) | Village / neutral | The boundary *jizō* **at the weir where he was found**; an offering left by an unknown hand | T0–T2, gated by conditioning. **The single find-spot** — where he was pulled from the river — and the **one** capped residual-ambiguity beat (the unknown-hand offering lingers unresolved). |
+| **The Woodlot's Forage Grounds** | Wilderness & Mountains (shared, T0–T3) | Shared wilderness | Foraging groves; the bamboo stand | R2/T0, gated by conditioning. First ring of the danger gradient. |
+| **The Deeper Woods (奥山)** | Wilderness & Mountains (shared, T0–T3) | Shared wilderness | Deep forage groves (*sansai*) | T0, one hill past the forage grounds (behind the danger ring, at a higher satiety cost). **The second conditioning-gated danger ring** — gates the richer `forage_deepwoods` yield, so the map earns its walk. |
+| **The River, Ford & Weir** | Wilderness & Mountains (shared, T0–T3) | Shared wilderness | The ford (the "kappa" spot); the weir | T0–T2, gated by conditioning. Fishing + the "kappa" thread (undertow + smugglers' sinking-spot). *(The find-spot **jizō at the weir** is its own row above — the lone residual-ambiguity beat is co-located there.)* |
+| **The Foothills & Charcoal Grounds** | Wilderness & Mountains (shared, T0–T3) | Shared wilderness | The hidden charcoal kiln ("fox-fire"); hunting trails | T2, deeper conditioning. A further danger ring at valley scale. |
 
 ## 1.7.1 World & areas — LATER (T3 deep + T4–T5 expansion; parked, not cut)
 
@@ -1015,7 +1015,7 @@ pillar-grind)** model (§1.6.4). **Combat surfaces inside the FIRST tier (T0)** 
 
 - **R0** — body/rest bar + rice counter.
 - **R1** — labour loop + paddies + **rice + a little coin** (rice you eat / store / sell for coin).
-- **R2** — Skills tab + foraging/woodcutting + the near-satoyama.
+- **R2** — Skills tab + foraging/woodcutting + the woodlot's forage grounds.
 - **R3** — **drill yard + Combat panel + the carrying-pole + Equipment/Inventory + Bestiary + the bare auto-resolve loop + retreat** (after the humbling first fight; **character (combat) level begins**, fed by combat-XP).
 - **R4** — main-house interior + the household domestic economy; first *shinden* begun; **the simple Crafting loop as a top-level tab + graded durability bands** (never auto-unequip).
 - **R5** — **stance slot** + the **Quests top-level tab** (pest-control/hunt/clear/defend). *(Curated combat activities feed the **Combat Rank** rung-meter; **Arms PILLAR deeds do NOT accrue yet** — gated to Phase 2.)*

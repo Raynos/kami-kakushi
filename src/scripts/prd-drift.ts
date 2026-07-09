@@ -10,10 +10,13 @@
 //      (beneath spec altitude — the PRD doesn't name every mushroom) are
 //      listed for coverage but never counted as drift.
 //   2. RETIRED TERMS — terms an ADR retired (renames, re-cores) appearing in
-//      the PRD are drift by definition. Scans docs/living/prd/ ONLY (the ADR
-//      log legitimately quotes old names). Config lives here: an entry is
-//      added in the same commit as the rename ADR, deleted once a compression
-//      sweep clears it.
+//      the PRD are drift by definition. Scans docs/living/prd/ PLUS the three
+//      shipped-reality living docs (fun-factor · ui-design · qa-playtesting —
+//      WIDENED by the human's 2026-07-09 closure ruling; the A5-class misses
+//      lived exactly there). The ADR log (decisions.md) stays OUT of scope —
+//      append-only history legitimately quotes old names. Config lives here:
+//      an entry is added in the same commit as the rename ADR, deleted once a
+//      compression sweep clears it.
 //
 // This is a REPORT, never a verify gate (prose matching is heuristic — a hard
 // gate would cry wolf, AC-11). `--strict` exits 1 on drift for scripted use.
@@ -106,6 +109,31 @@ const RETIRED: readonly { term: string; adr: string; successor?: string }[] = [
   { term: 'ranpo', adr: 'Q39/Block N.1 (Edogawa-echo rename)', successor: 'sōan' },
   { term: 'spend koku', adr: 'D-107/D-109 (koku is House standing, not spendable)' },
   { term: 'koku cost', adr: 'D-107/D-109 (coin/rice pay costs, never koku)' },
+  // D7 (the closure plan C3) — the A5-class misses the post-ship review found:
+  // "shipped but described as the pre-storywave build" was invisible to the
+  // presence check, so the pre-storywave vocabulary itself is retired.
+  { term: 'satoyama', adr: 'G4 storywave map cutover (the 16-zone estate — areas.ts)' },
+  { term: '28-day', adr: 'ADR-153 (the stored manual six-season wheel)' },
+  // successor 'tomita': the canon ladder's campaign REPLACES the rival-house
+  // climax, so a line naming both documents the cut (e.g. §1's cast table).
+  {
+    term: 'akagi',
+    adr: 'story reboot (rival house CUT — the canon antagonist ladder)',
+    successor: 'tomita',
+  },
+  { term: 'oyuki', adr: 'bible cast sweep (origin mother)', successor: 'o-nobu' },
+  { term: 'okimi', adr: 'bible cast sweep (origin sister)', successor: 'suzu' },
+  { term: 'o-sato', adr: 'bible cast sweep (B1 closure)', successor: 'o-hisa' },
+  { term: 'tokubei', adr: 'bible cast sweep (the dowager thread)', successor: 'yohei' },
+];
+
+// The RETIRED scan's WIDENED file set beyond docs/living/prd/ (human ruling,
+// 2026-07-09): the living docs that state shipped reality. Presence (check 1)
+// stays PRD-only — "named in the SPEC" is a PRD property, not a guides one.
+const EXTRA_RETIRED_SCAN: readonly string[] = [
+  'docs/living/fun-factor.md',
+  'docs/living/ui-design.md',
+  'docs/guides/qa-playtesting.md',
 ];
 
 // ── run ──────────────────────────────────────────────────────────────────────
@@ -116,6 +144,11 @@ function run(): void {
     prdFiles.map((f) => [f, readFileSync(join(PRD_DIR, f), 'utf8').toLowerCase()]),
   );
   const corpus = [...corpusByFile.values()].join('\n');
+  // the RETIRED scan reads the PRD corpus PLUS the widened living docs
+  const retiredScanByFile = new Map(corpusByFile);
+  for (const rel of EXTRA_RETIRED_SCAN) {
+    retiredScanByFile.set(rel, readFileSync(join(repoRoot, rel), 'utf8').toLowerCase());
+  }
 
   let driftCount = 0;
   const lines: string[] = [];
@@ -138,10 +171,12 @@ function run(): void {
   for (const { term, adr, successor } of RETIRED) {
     let bad = 0;
     let allowed = 0;
-    for (const [file, text] of corpusByFile) {
+    for (const [file, text] of retiredScanByFile) {
       for (const line of text.split('\n')) {
-        if (!line.includes(term)) continue;
-        if (successor && line.includes(successor)) {
+        // WHOLE-WORD (C3): plain includes() false-fired 'oyuki' inside every
+        // "Naoyuki" — the same Toku/Tokubei lesson the presence check learned.
+        if (!hasWholeWord(line, term)) continue;
+        if (successor && hasWholeWord(line, successor)) {
           allowed++;
           continue; // documents the rename (old → new on one line) — not drift
         }
