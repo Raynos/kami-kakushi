@@ -37,9 +37,9 @@ import { promotionReady, pendingPromotionTarget, phaseOf } from './ranks';
 import { estateBuild } from './selectors';
 import { RUNG_BEATS } from './content/rungBeats';
 
-/** ADR-145 Phase-2 player-model knob (NOT canon): the carried-rice pile size at which the
- *  focused-optimal steward walks the pedlar trade — batching sells keeps the loop textured
- *  without spamming zero-clock transactions. */
+/** ADR-145 Phase-2 player-model knob (NOT canon): the KURA rice pile (shō) at which the
+ *  focused-optimal steward sells at Yohei's stall — batching sells keeps the loop textured
+ *  without spamming zero-clock transactions. (Rice is kura-only post-G4.5 — ADR-163.) */
 const PHASE2_SELL_RICE_AT = 20;
 
 /** storywave G1 player-model knob (NOT canon): the amount of UNJUDGED Estate growth (koku) the
@@ -400,9 +400,14 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
     if (b.next && b.next.deedsShort === 0 && b.next.coinShort === 0) {
       return { type: 'improve_estate' };
     }
-    // (2) the rice lever: sell a worthwhile pile (PHASE2_SELL_RICE_AT is a player-model knob
-    //     like GREEDY_MEND_HP_FRAC — what a sensible steward batches, never canon).
-    if ((s.resources.rice ?? 0) >= PHASE2_SELL_RICE_AT) return { type: 'sell_rice' };
+    // (2) the rice lever: sell a worthwhile KURA pile at the stall (PHASE2_SELL_RICE_AT is a
+    //     player-model knob like GREEDY_MEND_HP_FRAC — what a sensible steward batches, never
+    //     canon). B4 closure: reads banked.rice (rice is kura-only post-G4.5; resources.rice is
+    //     never written) and only on a market day (mirrors the reducer's no-op guards — a
+    //     shut stall must not stall the policy loop).
+    if (isMarketDay(s.clock.day) && (s.banked.rice ?? 0) >= PHASE2_SELL_RICE_AT) {
+      return { type: 'sell_rice' };
+    }
     // (2b) collect the seasonal share (storywave G1): seasons are MANUAL now, so the judge no
     //      longer auto-fires — the steward ENDS the season to reckon it once a WORTHWHILE amount of
     //      unjudged Estate growth has banked (so the reckoning always pays a real bonus — never a

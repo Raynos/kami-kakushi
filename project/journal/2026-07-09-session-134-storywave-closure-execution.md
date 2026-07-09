@@ -86,3 +86,14 @@ ADR-132: `t0-pacing.md` was STALE since the rewrite (fingerprint 64b47624 →
 ratio ~7–8.7 vs [0.8,1.2]) — verified PRE-EXISTING at HEAD by swapping the
 diff out; the bleed fold is sim-neutral; the reconciliation is C5b's owed
 re-baseline. All 24 telemetry reports are v0.3.x/tainted → C5b distill.
+
+## C1.3 — B4 dead autoplay branch re-pointed to the kura
+
+The Phase-2 steward's sell-rice lever read `resources.rice` (never written
+post-G4.5) so it never fired. The intent ladder's own step-2b comment ("Rice
+is sold first (above)") shows the lever is MEANT to fire — re-pointed to
+`banked.rice` and gated on `isMarketDay` (mirrors the reducer's no-op guards
+so a shut stall can't stall the policy loop; the sell terminates by shrinking
+the pile). ADR-132: Phase-2 ratio nudged [7.33–8.65]→[7.24–8.54] (the lever
+now fires; still the pre-existing C5b band breach), idler REDs unchanged;
+report + fixtures regenerated.
