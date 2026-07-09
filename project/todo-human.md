@@ -33,7 +33,7 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
-- _(none — the queue is clear; both prior items closed with their HR/HD items:
-  the E1 estate-sheet readme with HR-16, and the G0 fiction-gap inventory with
-  HD-30, 2026-07-09.)_
+- [`docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`](../docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md)
+  — the ready-to-build plan for T2 (Valley) map rungs + fog (you greenlit it
+  2026-07-09; mechanics-only, no pin/HR). Skim before/whenever I build it.
 
