@@ -23,8 +23,10 @@ import {
   reduce,
   hpMax,
   satietyMax,
+  season,
   type GameState,
 } from './index';
+import { refillSitePools } from './content/activities';
 
 // A "ready" fighter at the given level: full HP (hpMax grows with level, so seed it
 // explicitly) at the given satiety, with a REALISTIC combat build — the level-appropriate
@@ -71,11 +73,11 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
     expect(wr).toBeLessThanOrEqual(balance.CURVE_FIRST_FOE_WR_MAX);
   });
 
-  it('the grain-rat warmup (A9) is a gentler fight than the humbling monkey at L1', () => {
-    // A9: rice_rats is an OPTIONAL warmup that must NOT displace the monkey as the humbling first
+  it('the river-rat warmup (A9) is a gentler fight than the humbling monkey at L1', () => {
+    // A9: river_rats is an OPTIONAL warmup that must NOT displace the monkey as the humbling first
     // foe — it forecasts strictly easier than the monkey at base attrs. RED if it were tuned as
     // hard as (or harder than) the monkey, which would steal the "first real fight" beat.
-    expect(foeWr(mc(1), 'rice_rats')).toBeGreaterThan(foeWr(mc(1), 'monkey'));
+    expect(foeWr(mc(1), 'river_rats')).toBeGreaterThan(foeWr(mc(1), 'monkey'));
   });
 
   it('no checkpoint level is ALL-dead or ALL-trivial (the invariant v0.1 violated)', () => {
@@ -97,9 +99,17 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
   });
 
   it('the mid-tier wolf is a genuine race once leveled (anchor: wolf @L3)', () => {
-    const wr = foeWr(mc(3), 'wolf');
+    // G4: the wolf lives ONLY in the R3 night round now (nightRoundOnly → excluded from the day
+    // foeForecasts), so sample its curve DIRECTLY through the shared combat model. At L3 it is a
+    // true coin-flip race (won, not steamrolled) — the arc's humbling grain-watch climax.
+    const wr = sampledWinRate(mcCombatStats(mc(3)), mobCombatStats(getMob('wolf')), 33, 100);
     expect(wr).toBeGreaterThanOrEqual(0.4);
     expect(wr).toBeLessThanOrEqual(0.72);
+    // and it IS a race the ladder wins: strictly easier once leveled past L3, harder before it.
+    const early = sampledWinRate(mcCombatStats(mc(1)), mobCombatStats(getMob('wolf')), 33, 100);
+    const later = sampledWinRate(mcCombatStats(mc(6)), mobCombatStats(getMob('wolf')), 33, 100);
+    expect(early).toBeLessThan(wr);
+    expect(later).toBeGreaterThan(wr);
   });
 
   it('mastering the easiest foe takes real investment (dozens of fights, not ~5 kills)', () => {
@@ -258,7 +268,7 @@ describe('the seeded auto-battler', () => {
   it('replays byte-identically for a fixed seed', () => {
     const s = atFullSatiety(createInitialState(42));
     const mc = mcCombatStats(s);
-    const en = mobCombatStats(getMob('wolf')); // TODO(g4-tests): boar retired → wolf
+    const en = mobCombatStats(getMob('wolf'));
     const a = resolveFight(s.rng, mc, en);
     const b = resolveFight(s.rng, mc, en);
     expect(a.won).toBe(b.won);
@@ -324,6 +334,10 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
       let guard = 0;
       let foughtBroken = false;
       while (s.character.level < 2 && guard++ < 8000) {
+        // Keep the labour SITE pools topped so gathering stays productive — the ADR-163 per-site
+        // draw-down + season-refill is exercised by economy.test; here we isolate the no-stranding
+        // recovery-loop invariant (the player would turn seasons to refill in the real game).
+        s = { ...s, sitePools: refillSitePools(season(s)) };
         const band = durabilityBand(s.weaponDurability, w.durabilityMax).name;
         // repair PROACTIVELY (before Broken) via the real intent — woodcut for wood if short
         if (band !== 'Pristine') {
@@ -331,7 +345,7 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
             (s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST
               ? reduce(s, { type: 'repair_weapon' })
               : reduce(
-                  { ...s, location: 'woodlot-edge' },
+                  { ...s, location: 'woodlot' },
                   { type: 'do_activity', activityId: 'woodcut_edge' },
                 );
           continue;
@@ -343,7 +357,7 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
             (s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST
               ? reduce(s, { type: 'cook_meal' })
               : reduce(
-                  { ...s, location: 'near-satoyama' },
+                  { ...s, location: 'woodlot' },
                   { type: 'do_activity', activityId: 'forage_satoyama' },
                 );
           continue;
@@ -356,15 +370,16 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
         }
         if (durabilityBand(s.weaponDurability, w.durabilityMax).name === 'Broken')
           foughtBroken = true;
-        s = reduce({ ...s, location: 'home-paddies' }, { type: 'fight', mobId: 'monkey' });
+        s = reduce({ ...s, location: getMob('monkey').area }, { type: 'fight', mobId: 'monkey' });
       }
       expect(s.character.level, `seed ${seed} stranded below combat-L2`).toBeGreaterThanOrEqual(2);
       expect(foughtBroken, `seed ${seed} fought a Broken blade`).toBe(false);
     }
   });
 
-  // TODO(g4-tests): scripted wolf DELETED (G4.3 → R3 night round); re-derive.
-  it.skip('the scripted grain-store wolf is always survived and opens R3', () => {});
+  // The scripted grain-store wolf is DELETED (G4.3): the wolf now lives in the R3 night round (the
+  // rats→marten→wolf climax, survived-not-won). That behaviour is owned by night-rounds.test.ts +
+  // the t0-arc proof ('wolf-survived-not-won' latched by the round), so no stub survives here.
 });
 
 // T0-M2-F2 — the FOUND/CRAFTED 2nd weapon (ADR-052): the drillmaster grant is RETIRED; the
