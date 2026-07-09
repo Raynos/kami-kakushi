@@ -126,3 +126,28 @@ RED-proof banked pre-fix in an isolated worktree: the test against
 HEAD@1407c6e fails with exactly the O-Sato ×4. prd-drift's RETIRED
 table left alone — different mechanism (ADR-keyed, PRD-only), owned by
 s134's C3.
+
+---
+
+## 6 · P3 — the ensemble re-measure (all three sheets)
+
+20 agents, all green; report
+`project/audit/reports/2026-07-09-t0t1t2-map-blind-pass-2.md` (T2
+sheet-verdict corrected in place — the report writer mislabelled a
+6/6-M · 5/6-S sheet as FAIL; the workflow rule says PASS); raw output
+snapshotted to `project/brainstorms/raw/2026-07-09-…ensemble….json`.
+
+**The robust-fail set (P4's work list):** T0-R7 (1/3, roads don't
+read as leading OUT) · T1-R5 (0/3 — readers infer the OPPOSITE
+nesting: ruin as separate twin compound) · T1-R6 (1/3, no shrinkage
+read) · T1-R7 (0/3, readers explicitly deny through-roads) · T1-R14
+(0/3 — the water-works REPAIR reads inverted as failure/drying).
+**T2 owes nothing** — V3/V6 pass unanimously; the audit's suspicion
+was single-sample noise, the 86f6778/b48eb32 fixes hold and are now
+re-scored. Marginals (fix-if-free): T0-R5, T0-R6, T1-R12; S-fails
+carried as free-fix candidates (T0/T1 R8+R9, T2 V10).
+
+**Coherence note:** T0's R5/R6 pass marginally while T1's fail
+robustly on the SAME one-geography drawing — the nesting/shrinkage
+story survives the estate crop but dies at the whole-world frame; the
+fix is T1-scale legibility, never moving a landmark.
