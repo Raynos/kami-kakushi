@@ -96,3 +96,18 @@ missing ingredient). Plan K stays PARKED; canon untouched all evening.
 Zoom-out lesson for future sessions, banked in the brainstorm: watch for
 small-ball reconstituting itself inside a big swing via the
 plan→prototype→iterate reflex.
+
+---
+
+## Addendum 4 (session close, part 2) — plan left in a good state
+
+Final human steer before exit: prototypes regrouped per-plan
+(`project/prototypes/authored-depth-demo/` — convention recorded in the
+prototypes README), `the-asking` tagged ⭐ POTENTIAL / the rest REFERENCE,
+and Plan K updated in place so it stands alone: §7/§U rewritten as the
+Asking + clue-book synthesis (the combination the verdicts converged on),
+§M amended (ask-driven latching; `availableMoves` internal-only), K2 gains
+the `asking.md` intent-lexicon unit, K4 rewritten Sonnet-buildable with
+K0-before-K4 binding, and a new §R section carries the five-feel-test
+verdict table + the constraint law + the liked-fragments list. Plan stays
+🧊 PARKED, sequenced after v0.4.0; un-park remains the human's move.

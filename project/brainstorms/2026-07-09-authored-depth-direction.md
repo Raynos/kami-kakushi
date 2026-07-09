@@ -388,6 +388,24 @@ not an interaction atom (full text in chat):
   (nothing landed). The forest-level alternative (author the underside
   first, UI after) was offered in Round 4 and remains the agent's read.
 
+## Round 10 (2026-07-09) — leaving the plan in a good state (final steer)
+
+- Human's closing steer: prototypes move under a per-plan folder; `the-asking`
+  marked ⭐ POTENTIAL, the rest REFERENCE; everything captured IN the plan;
+  K4 rewritten to the best synthesis — "some kind of combination of ideas,
+  with the asking having the most potential."
+- Done: prototypes now live at `project/prototypes/authored-depth-demo/`
+  (per-plan grouping is now the convention, in that dir's README); earlier
+  rounds' `project/prototypes/<name>` mentions in this file predate the move.
+- Plan K updated in place: §7/§U rewritten as **the Asking + the clue-book**
+  (free-text in → clues latch under named questions → completion rewarded,
+  never purchased → Scholar as the idle lane → diegetic costs only →
+  per-person territory hints); §M amended (`pursue_fact` → `ask` intent;
+  `availableMoves` demoted to internal); K2 gains the `asking.md` lexicon
+  unit; K4 rewritten Sonnet-buildable with the K0-before-K4 precondition
+  binding; new §R section carries the five-feel-test table, the constraint
+  law, and the liked-fragments list. Plan remains 🧊 PARKED.
+
 ## Outcome (2026-07-09 — session close)
 
 Promoted: the whole grill distilled into

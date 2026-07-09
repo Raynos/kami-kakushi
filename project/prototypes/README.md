@@ -8,8 +8,9 @@ and deleted that day; its 10 variants live in git history — ADR-127 note).
 
 Unlike `ui-demos/`, this ground is **permanent**: a prototype stays as the
 reviewable record of what a verdict was rendered against, even after its
-plan lands or dies. One directory per prototype, each linked from the plan
-or HR-item that owns it.
+plan lands or dies. **Prototypes are grouped one folder per OWNING PLAN**
+(human, 2026-07-09), so a parked plan's whole feel-test record travels
+together; inside, each prototype is one self-contained dir.
 
 ## Rules of this ground
 
@@ -22,33 +23,38 @@ or HR-item that owns it.
 - Excluded from oxlint/oxfmt (like `tmp/` and the old `ui-demos/`).
 - Wear the real design tokens (copy from `src/ui/styles.css`, note the date)
   so the human judges the mechanic, not a foreign skin.
+- **Status tags** (kept in this README, per prototype): ⭐ **POTENTIAL** —
+  the human saw promise; the owning plan's design should build on it ·
+  **REFERENCE** — failed its feel-test; kept as the record of a verdict
+  (what any future attempt must beat).
 
-## Prototypes
+## Plan folders
 
-- [`the-noticing/`](the-noticing/index.html) — depth-lane feel-test V
-  (2026-07-09): acquisition through PLAY, no button — the estate's live log
-  mixes ordinary life with occasional lines that quietly contradict the
-  world's posted normals (prices, calendar, habits); you get 3 notes of ink
-  a day; noting a truly-off line stamps the album, noting a normal one
-  wastes ink. Sets complete → revelation → permanent idle buffs. Built
-  after The Album's verdict ("a gacha hint button — no world integration").
-- [`the-album/`](the-album/index.html) — depth-lane feel-test IV
-  (2026-07-09): the genre-native synthesis the human's Round-6 verdicts
-  picked — a live idle strip earns ATTENTION; spend it ("Listen") to fill
-  silhouette ??? slots in named sticker SETS, or assign the SCHOLAR to a set
-  to fill it while you idle (some slots are scholar-only); completed sets
-  play a revelation and grant permanent idle buffs (bite-back); two sets
-  start hidden behind others. Earn → spend → automate → complete → buff,
-  end to end. Owner: same Plan K thread.
-- [`the-asking/`](the-asking/index.html) — depth-lane feel-test II
-  (2026-07-09): free-text questioning — type what you wonder, in your own
-  words; four NPCs answer in voice via a hand-built miniature (~40 intents)
-  of the compiled intent lexicon; hidden per-person openness (no meters, no
-  move list), authored deflections that leak sideways, a buried
-  date-discrepancy aha-chain. Built after the kikigaki mock's verdict
-  ("checklist, too cheap"). Owner: same Plan K thread.
-- [`kikigaki-depth/`](kikigaki-depth/index.html) — the Plan K §U feel-test
-  (2026-07-09): the authored-depth investigation notebook — three layout
-  variants (book / ledger / scroll), the notebook beat, tick/coin-priced
-  moves, warmth gates, a resolution bite, an authored-ambiguity bottom.
-  Owner: [`docs/plans/t0/fable-2026-07-09-authored-depth-demo.md`](../../docs/plans/t0/fable-2026-07-09-authored-depth-demo.md).
+### [`authored-depth-demo/`](authored-depth-demo) — Plan K (🧊 PARKED)
+
+Owner: [`docs/plans/t0/fable-2026-07-09-authored-depth-demo.md`](../../docs/plans/t0/fable-2026-07-09-authored-depth-demo.md).
+The 2026-07-09 depth-UI feel-test loop — **five feel-tests in four folders**
+(feel-tests II and III share `the-asking/`: v1 was rewritten in place into
+v2; v1 is recoverable at commit `f29e87c^`). Round-by-round verdicts:
+[the discovery record](../brainstorms/2026-07-09-authored-depth-direction.md),
+Rounds 2–9.
+
+- ⭐ **POTENTIAL** — [`the-asking/`](authored-depth-demo/the-asking/index.html)
+  (feel-tests II+III): free-text questioning, answers in voice from a
+  ~40-intent lexicon miniature, hidden per-person openness, per-person
+  territory hints in the input, and (v2) real answers distilling into
+  clue-lines under named open questions. The human: "the asking having the
+  most potential." Plan K's rewritten K4 builds on exactly this.
+- **REFERENCE** — [`kikigaki-depth/`](authored-depth-demo/kikigaki-depth/index.html)
+  (feel-test I): the enumerated-moves notebook (3 layout variants, priced
+  moves, warmth gates). Verdict: checklist, too cheap — though the *book*
+  layout and set-accumulation idiom survived into later tests.
+- **REFERENCE** — [`the-album/`](authored-depth-demo/the-album/index.html)
+  (feel-test IV): idle-earned attention spent on silhouette sticker sets +
+  the Scholar automation + completion buffs. Verdict: "a gacha hint button —
+  no world integration" — but set completion, the Scholar, and
+  buffs-that-visibly-speed-the-idle-strip were individually liked.
+- **REFERENCE** — [`the-noticing/`](authored-depth-demo/the-noticing/index.html)
+  (feel-test V): caught-not-vended — anomaly lines hidden in the live estate
+  log, 3 notes of ink per day. Verdict: "not fun" — mechanically sound, flat
+  without real material/stakes (the Round-9 finding).

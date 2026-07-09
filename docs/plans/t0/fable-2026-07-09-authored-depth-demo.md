@@ -110,6 +110,16 @@ change follows the ADR-132 flow (`pnpm run verify:balance` →
 
 ## 4 · §M — the system model (core)
 
+> **Amendment (2026-07-09, post-feel-test loop):** the latch model below
+> SURVIVES intact (threads, facts, write-once latches, C5 grants, the §6
+> gate) — but `availableMoves` as a *player-facing enumeration* is DEAD (§R
+> clause 1), and `pursue_fact` is replaced by ask-driven latching:
+> `{ type: 'ask'; npc: string; text: string }` resolves through the compiled
+> intent lexicon (K2's `asking.md`) to an authored answer whose `facts:`
+> latch through the same path scenes use. `availableMoves` demotes to an
+> internal selector (the §6 gate and the Scholar consume it; the UI never
+> renders it). K1/K4 below are to be read with this substitution.
+
 New content module pair, following the `rungBeats` pattern (hand-written
 re-export over a generated registry):
 
@@ -268,44 +278,57 @@ Checks (each independently RED-able — this gate is the teeth of C1):
 The gate runs in the parallel roster (soft 5s budget, ADR-072) — it is pure
 static analysis over generated registries, comfortably sub-100ms.
 
-## 7 · §U — the kikigaki tab (UI) + the notebook beat
+## 7 · §U — the Asking + the clue-book (REWRITTEN 2026-07-09 after the feel-test loop)
 
-> **⚠️ This section is an OPEN problem (2026-07-09, end of session).** FIVE
-> feel-tests were built and all failed the human's fun bar — the record
-> lives in [`project/prototypes/`](../../../project/prototypes/README.md)
-> (`kikigaki-depth` · `the-asking` · `the-album` · `the-noticing`) and the
-> round-by-round verdicts in the
-> [discovery record](../../../project/brainstorms/2026-07-09-authored-depth-direction.md)
-> (Rounds 2–9). Any future §U design must satisfy the converged constraint
-> law (never enumerate method · always show progress · never vend knowledge
-> through a verb · acquisition lives in the game's own surfaces) — and note
-> Round 9's suspicion: interaction shape alone may not produce fun; the
-> missing ingredient is likely stakes/material a fragment mock cannot carry
-> (Round 4). Do NOT build K4 from this section as written without solving
-> that first.
+> **Provenance.** This section originally specced an enumerated-moves
+> notebook tab. Five feel-tests later (§R) that shape is dead; this rewrite
+> specs the one shape that survived every verdict — the human's closing
+> steer: *"some kind of combination of ideas, with the asking having the
+> most potential."* The living reference is the ⭐ POTENTIAL prototype
+> [`the-asking/`](../../../project/prototypes/authored-depth-demo/the-asking/index.html).
 
-- **Tab**: add `'kikigaki'` to the `Tab` union, `TAB_ORDER`, and `TAB_LABEL`
-  (label 聞書) in `src/ui/render.ts`; `tabHasContent` case returns
-  `isUnlocked(state, 'panel-kikigaki')`; new pane section gated on
-  `activeTab === 'kikigaki'`, with `dev.renderVariant('kikigaki-tab', pane,
-  state, dispatch)` as the first line (the ADR-075 seam).
-- **Surface**: `panel-kikigaki` added in `surfaces.ts`, unlocked by the
-  notebook beat's reward — the fiction causes the tab (TST3): the tab does
-  not exist until Sōan hands MC the blank notebook.
-- **The notebook beat**: a `## scene-def kikigaki-notebook` in
+The surface is a conversation-first investigation lane: **ask in your own
+words · real answers distill into clues · completion is rewarded, never
+purchased.**
+
+- **Input — the Asking.** Standing before a person (Map-tab presence rules,
+  `peopleHere`), the player writes a free-text question, matched against the
+  compiled intent lexicon (`narrative/asking.md`, a K2 unit): per-intent,
+  per-speaker, state-conditioned authored answers; authored fallback ladders
+  that deflect in voice and leak sideways (the stumble channel). The input
+  carries **per-person territory hints** as placeholder text
+  (human-requested, 2026-07-09), sourced from each cast member's bible
+  entry — register ("ask about the house, its dates, its money…"), never
+  method.
+- **Output — the clue-book.** When an answer carries facts, they latch (§M)
+  and render as distilled clue-lines (MC's hand + source tag) under **named
+  open questions** in the book pane, always visible beside the conversation.
+  "The book takes a line" is the reward beat. Direction comes ONLY from
+  question titles; the UI never enumerates who to ask or what to say (§R
+  clause 1).
+- **Completion.** A thread with all facts latched completes: the revelation
+  (clues assemble into the truth paragraph) + its C5 mechanical bite.
+  Completion rewards; nothing is ever vended for currency (§R clause 3).
+- **The Scholar — the idle lane.** A rung-gated helper: assign him one open
+  question; he asks around while the player idles, yield conditioned on
+  facts already latched; a stall surfaces as an in-fiction hint about the
+  KIND of thing missing, never a method. ("Has potential" — human.)
+- **Costs — diegetic only.** Per-person daily patience (~6 asks/day, dawn
+  refill) + the walk to wherever the person is; hidden per-person openness
+  rises through person-directed curiosity in play. NO meters, NO
+  meta-currency, NO priced hint verbs (§R clauses 3–4).
+- **The notebook beat** (unchanged): `## scene-def kikigaki-notebook` in
   `narrative/scenes.md` — proposed `trigger: flag treated-once`, `once: true`,
   `voice: herbs` (Sōan): *"write what you can't keep."* The beat's decision
-  grants `panel-kikigaki` + latches the first fact. Beat text is K0
-  narrative-diverge material (C8), reviewable live in the DEV Story switcher.
-- **The surface itself is a full ADR-075 diverge** (it's a new UI surface):
-  3 working variants in `SURFACES` (`src/ui/dev.ts`), e.g. A · register-book
-  spreads (facing pages per thread) · B · question-index ledger (dense rows,
-  kanji chips) · C · single-scroll timeline (facts in discovery order,
-  threads as margin threads). Each variant renders: open questions with
-  newness marks (TST4), the thread page (facts in MC's hand, in order), and
-  available moves with their tick/coin costs and `blockedBy` reasons — all
-  fed from `availableMoves` (C7). Taste-scorecard Pass 1 before, Pass 2 per
-  variant after; one HR line item per variant.
+  grants `panel-kikigaki` + latches the seed fact so the book is never blank
+  (feel-test III finding: one open question from minute zero). The tab
+  (`'kikigaki'` in the `Tab` union / `TAB_ORDER` / `TAB_LABEL`, gated on
+  `isUnlocked(state, 'panel-kikigaki')`) does not exist until the fiction
+  hands it over (TST3).
+- **ADR-075 diverge** — scoped to the BOOK PANE layout only (the
+  register-book idiom won feel-test I's layout question; ledger/scroll
+  lost). The ask-input + conversation column is one design, not a diverge
+  axis.
 
 ## 8 · Prerequisites + sequencing (D5)
 
@@ -371,6 +394,9 @@ O-Ume's jizō thread is deliberately NOT used (its reveal is T3 canon).
 
 - **Files**: `src/core/content/narrative/threads.md` (grammar §5, seeded with
   ONE complete thread from K0 as the pipeline proof),
+  `src/core/content/narrative/asking.md` (NEW post-feel-test unit: the
+  intent lexicon — intents × paraphrase corpus × per-speaker answers with
+  `facts:` annotations → `asking.gen.ts`; the §U Asking's fuel),
   `src/scripts/narrative/{parse,emit,validate}.ts` (thread/fact/bottom
   blocks; `facts:` effect key; the 3 reveal-grammar extensions),
   `src/core/requirements-engine.ts` (`warmth`/`at`/`fact` forms),
@@ -399,19 +425,36 @@ O-Ume's jizō thread is deliberately NOT used (its reveal is T3 canon).
 - **Verify**: full verify green incl. the new gate; `pnpm run verify:budget`
   still under budget.
 
-### K4 · The kikigaki surface + notebook beat — **Sonnet 5 build, Fable Pass-1**
+### K4 · The Asking surface + notebook beat — **Sonnet 5 build, Fable Pass-1**
+*(rewritten 2026-07-09 to §7's post-feel-test spec)*
 
-- **Files**: `src/ui/render.ts` (tab plumbing §7), `surfaces.ts`
-  (`panel-kikigaki`), `src/ui/dev.ts` (`SURFACES` + `kikigaki-tab` with 3
-  variants), `narrative/scenes.md` (`scene-def kikigaki-notebook`, prose from
-  K0's picked take).
-- **DoD**: ADR-075 held in full — 3 WORKING variants, live-switchable, prod
-  default self-picked, zero prod flag-debt; the tab does not exist before the
-  beat (TST3) and never flashes or rebuilds under the player (TST2); moves
-  show cost + blockedBy from the same selector the reducer uses (C7).
-- **Named tests**: e2e assertion added in K6; unit: `tabHasContent` gating.
-- **Reviews**: taste-scorecard Pass 1 (before) + Pass 2 per variant (after);
-  one HR line item per variant.
+- **Files**: `src/ui/render.ts` (tab plumbing per §7 — conversation column +
+  always-visible book pane), `surfaces.ts` (`panel-kikigaki`),
+  `src/core/asking-engine.ts` (pure: normalize → concept-tag → intent match
+  → per-speaker answer selection + patience legality; the SAME fn feeds any
+  UI preview and the reducer, AC-6), `narrative/scenes.md`
+  (`scene-def kikigaki-notebook`, prose from K0's picked take),
+  `src/ui/dev.ts` (book-pane diverge variants only).
+- **DoD**: NO enumerated moves anywhere in the UI (§R clause 1); per-person
+  territory hints render from cast data; the full loop runs through real
+  intents — free-text ask → in-voice answer → fact latch → clue-line inks
+  under its question → thread completes → bite observable; the Scholar is
+  assignable and stall-hints by KIND only; patience legality holds (an
+  over-budget ask is a no-op with an in-fiction line); ADR-075 held for the
+  book pane (working variants, live-switchable, prod default self-picked,
+  zero prod flag-debt); TST2 (no flashes/rebuilds) and TST4 (newness marks
+  on unseen clues) hold.
+- **Named tests**: `src/core/asking-engine.test.ts` — paraphrase hits per
+  intent, fallback-ladder tiers on unknown input, per-speaker + state-gated
+  answer selection, patience budget, latch-through-ask write-once; unit:
+  `tabHasContent` gating. The K6 e2e journey retargets to: notebook beat →
+  free-text ask → clue inks → drive one thread to its bottom → bite check.
+- **Precondition (§R clause 5 — binding)**: K4 does not start until K0's
+  dossiers exist at real density; five feel-tests proved interaction without
+  material reads flat. Tune generous: most natural first questions must hit
+  authored content, not fallbacks.
+- **Reviews**: taste-scorecard Pass 1 (before) + Pass 2 per book-pane
+  variant (after); one HR line item per variant.
 
 ### K5 · Content cutover + bites — **Sonnet 5 transcribing K0**
 
@@ -440,6 +483,45 @@ O-Ume's jizō thread is deliberately NOT used (its reveal is T3 canon).
   exists; an HR-item files the demo verdict ("does pulling a thread FEEL like
   the mystery is real?") — the human is the arbiter (PH5).
 - **Verify**: full verify + `test:e2e` + CI green.
+
+## §R · The feel-test record (2026-07-09) — binding evidence
+
+One evening, five feel-tests, five failed fun bars — the record any future
+surface design must answer to. The prototypes are PERMANENT, grouped under
+this plan's folder:
+[`project/prototypes/authored-depth-demo/`](../../../project/prototypes/authored-depth-demo)
+(⭐ POTENTIAL: `the-asking` · REFERENCE: `kikigaki-depth` · `the-album` ·
+`the-noticing`). Five feel-tests live in four folders — II and III share
+`the-asking/` (v1 rewritten in place to v2; v1 recoverable at `f29e87c^`).
+Round-by-round verdicts:
+[the discovery record](../../../project/brainstorms/2026-07-09-authored-depth-direction.md),
+Rounds 2–9.
+
+| # | Prototype | Shape | Verdict (human) |
+|---|---|---|---|
+| I | `kikigaki-depth` | enumerated moves priced in ticks/coin, warmth meters | "a cheap UI… click through blind" |
+| II | `the-asking` v1 | free-text asking, transcript-only book | "no direction… vague… what's the point" |
+| III | `the-asking` v2 | asking + clues latch under named questions + per-person hints | best received — "most potential" (closing steer) |
+| IV | `the-album` | idle-earned currency → sticker sets + Scholar + buffs | "a gacha hint button, no world integration" |
+| V | `the-noticing` | anomaly lines hidden in the live log, scarce daily ink | "not fun" |
+
+**The constraint law** — each clause paid for by a failure; §7/K4 are
+written to it and any future redesign must satisfy it:
+
+1. **Never enumerate method** — no move lists, no meters (I).
+2. **Always show progress** — clues visibly accumulate under named open
+   questions (II).
+3. **Never vend knowledge through a verb** — no currency-for-clue (IV).
+4. **Acquisition lives in the game world's own surfaces** (IV).
+5. **Interaction shape alone does not produce fun** — the material and its
+   stakes carry the experience; a fragment mock can't (V + Round 4's
+   diagnosis). Hence the K0-before-K4 precondition is binding.
+
+Fragments individually LIKED along the way (safe to reuse): the book/
+register layout (I) · clue-lines distilling under question titles + the
+seeded first question (III) · per-person territory hints (III) · set/thread
+completion as a reward moment (IV) · the Scholar as the idle automation lane
+(IV) · buffs that visibly speed the idle strip (IV).
 
 ## 10 · Draft ADRs — DO NOT land while parked
 
