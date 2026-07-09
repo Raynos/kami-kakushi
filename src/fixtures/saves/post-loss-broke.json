@@ -11,57 +11,60 @@
     "rng": {
       "seed": 20260626,
       "cursors": {
-        "combat": 53,
-        "loot": 0,
+        "combat": 65,
+        "loot": 1,
         "seasonal": 0,
         "worldgen": 0,
-        "discovery": 5
+        "discovery": 0
       }
     },
     "clock": {
-      "tick": 8,
-      "day": 18
+      "tick": 20,
+      "day": 17
     },
     "character": {
       "hp": 1,
       "satiety": 100,
       "attributePoints": 0,
       "attrs": {
-        "str": 5,
-        "agi": 4,
-        "int": 7,
+        "str": 6,
+        "agi": 5,
+        "int": 5,
         "spd": 4,
         "luck": 5
       },
       "level": 1,
-      "combatXp": 0
+      "combatXp": 10
     },
     "resources": {
-      "coin": 90,
-      "rice": 53,
-      "wood": 59,
-      "sansai": 46
+      "coin": 96,
+      "wood": 162,
+      "sansai": 2
     },
     "banked": {
-      "coin": 0,
-      "rice": 120
+      "rice": 328
     },
+    "sitePools": {
+      "paddies": 0,
+      "forecourt": 0,
+      "woodlot": 0
+    },
+    "wageDaysAccrued": 0,
+    "lastWageDay": -1,
     "flags": {
       "awake": true,
       "dream-1": true,
+      "label-nameless": true,
       "raked": true,
-      "r1-dutiful": true,
+      "r1-none-claimed": true,
       "rank-r1": true,
       "farmed": true,
-      "r2-wolf-heeded": true,
       "rank-r2": true,
       "porters-knot": true,
-      "first-fight-survived": true,
-      "mob-wolf_scripted": true,
-      "r3-aggressive": true,
+      "r3-track": true,
       "rank-r3": true,
       "combat-unlocked": true,
-      "mob-monkey": true,
+      "mob-badger": true,
       "combat-blooded": true
     },
     "unlocked": [
@@ -71,8 +74,9 @@
       "readout-rice",
       "verb-rake",
       "verb-rest",
-      "room-gate-forecourt",
-      "room-home-paddies",
+      "room-gate",
+      "room-paddies",
+      "room-woodshed",
       "verb-farm",
       "verb-haul",
       "readout-clock",
@@ -83,12 +87,10 @@
       "skill-farming",
       "readout-coin",
       "tab-skills",
-      "room-woodlot-edge",
-      "room-near-satoyama",
-      "room-deep-satoyama",
+      "room-woodlot",
+      "room-field-margins",
       "verb-woodcut",
       "verb-forage",
-      "verb-face-wolf",
       "row-wood",
       "row-sansai",
       "skill-conditioning",
@@ -100,6 +102,8 @@
       "readout-combat-level",
       "panel-bestiary",
       "panel-house-influence",
+      "room-kura",
+      "room-weir-reeds",
       "panel-home"
     ],
     "log": {
@@ -107,7 +111,7 @@
         {
           "key": 0,
           "channel": "narration",
-          "text": "You open your eyes. Straw beneath you, the smell of wet rice, a low roof you do not know. A cold spring — the ninth year of An'ei — though the year is as lost to you as your name.",
+          "text": "The river gives you up at the weir. You keep none of it in order: hands in your collar, gravel under your back, the sky white and near, water leaving you in coughs. A stone jizō watches from the bank, rice at its feet, nobody on the road who could have left it. Someone says, carry him up, then. Then nothing.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -115,16 +119,15 @@
         {
           "key": 1,
           "channel": "narration",
-          "text": "\"You're awake.\" Sōan the physician sits back on his heels. \"No kami carried you off, whatever the village wants to believe. A flood took you, and a blow to the head took the rest. Bodies forget. Given work and rice, they also mend.\"",
+          "text": "Straw. A low roof. A fire kept small. Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it. You have been three days in a room you have never seen.",
           "tick": 0,
           "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician"
+          "voice": "narrator"
         },
         {
           "key": 2,
           "channel": "narration",
-          "text": "You take stock of yourself: bruised, hollow, half-starved — but breathing.",
+          "text": "The physician does not ask how you feel. He takes your wrist, then your jaw, then turns your hands over and looks at them longer than at anything else. He presses a thumb into the callus line across one palm and says nothing. There is a ledger open on his knee.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -132,24 +135,24 @@
         {
           "key": 3,
           "channel": "narration",
-          "text": "Rice lies scattered across the Kurosawa grain-store floor. Spilled stores are waste — and clearing waste is a kind of work, if you set your hands to it.",
+          "text": "\"Do you know the year?\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 4,
+          "channel": "narration",
+          "text": "\"No.\"",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 4,
-          "channel": "narration",
-          "text": "\"Then I'll trust your craft, not the village's ghosts.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "You",
-          "voice": "player"
-        },
-        {
           "key": 5,
           "channel": "narration",
-          "text": "\"Sense, at last. Rest, eat, and let the swelling go down. The wits come back last — don't force them.\"",
+          "text": "\"An'ei nine. Now you know it again. Drink this.\"",
           "tick": 0,
           "count": 1,
           "speaker": "Sōan",
@@ -157,15 +160,16 @@
         },
         {
           "key": 6,
-          "channel": "milestone",
-          "text": "Perk unlocked — Sōan's Counsel: A mind honed sharper than the body it wears. (+1 INT / −1 STR)",
+          "channel": "narration",
+          "text": "Whatever the hands told him goes into the ledger, two lines, too far off to read. The door slides, and he closes the book on his thumb.",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "voice": "narrator"
         },
         {
           "key": 7,
           "channel": "narration",
-          "text": "Something surfaces and is gone — a porter's knot, a road in grey rain, a name you cannot keep hold of.",
+          "text": "The man in the doorway is grey and dry and carries a book of his own. Two books in the room now, and only one of them open.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -173,74 +177,75 @@
         {
           "key": 8,
           "channel": "narration",
-          "text": "\"Hold the road. The rain. Almost a name.\"",
+          "text": "\"The weir man. Sōan — can he work?\"",
           "tick": 0,
           "count": 1,
-          "speaker": "You",
-          "voice": "player"
+          "speaker": "Genemon",
+          "voice": "steward"
         },
         {
           "key": 9,
           "channel": "narration",
-          "text": "You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.",
+          "text": "\"Ask him.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 10,
+          "channel": "narration",
+          "text": "\"Name, age, where from. In that order.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 11,
+          "channel": "narration",
+          "text": "Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 10,
-          "channel": "milestone",
-          "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
-          "tick": 0,
-          "count": 1
-        },
-        {
-          "key": 11,
-          "channel": "narration",
-          "text": "On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
           "key": 12,
           "channel": "narration",
-          "text": "\"I'll earn my keep. Point me at it.\"",
+          "text": "\"What name did I give? When they pulled me out.\"",
           "tick": 0,
           "count": 1,
-          "speaker": "You",
-          "voice": "player"
+          "voice": "narrator"
         },
         {
           "key": 13,
           "channel": "narration",
-          "text": "\"...Good. The house has had its fill of hands that don't. We'll see if you mean it.\"",
+          "text": "\"None. You gave none. Three days I have had nothing to call you, and neither have you.\"",
           "tick": 0,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
+          "speaker": "Sōan",
+          "voice": "physician"
         },
         {
           "key": 14,
-          "channel": "milestone",
-          "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
+          "channel": "narration",
+          "text": "Nothing comes.",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "voice": "narrator"
         },
         {
           "key": 15,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+          "channel": "narration",
+          "text": "Genemon does not look surprised. He looks down and writes, and reads it back as he writes, aloud and once.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "voice": "narrator"
         },
         {
           "key": 16,
           "channel": "narration",
-          "text": "So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.",
+          "text": "One man, name unknown. Taken at the weir. Fed, three days. Condition, poor; hands, good.",
           "tick": 0,
           "count": 1,
           "speaker": "Genemon",
@@ -249,13 +254,155 @@
         {
           "key": 17,
           "channel": "narration",
-          "text": "Your arms are leaden. You could rest a moment against the cool post.",
+          "text": "\"When he can stand, he rakes. The kitchen wants water before it wants anything.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 18,
+          "channel": "narration",
+          "text": "He goes. Sōan opens his ledger again, where his thumb kept the place.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 19,
+          "channel": "narration",
+          "text": "[dev — body readout reveal; flavor-key migration pending (HD-30)]",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 20,
+          "channel": "narration",
+          "text": "[dev — rice readout reveal; flavor-key migration pending (HD-30)]",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 21,
+          "channel": "narration",
+          "text": "\"My hands know a knot. I'll keep that.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "You",
+          "voice": "player"
+        },
+        {
+          "key": 22,
+          "channel": "narration",
+          "text": "You tie it in the cord of your own bedding: a carrier's hitch, fast and one-handed, twice. Sōan watches it both times. He does not write it down while you are looking.",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 23,
+          "channel": "milestone",
+          "text": "Perk unlocked — The Carrier's Hitch: fast, one-handed, holds wet. (+1 AGI / −1 INT)",
+          "tick": 0,
+          "count": 1
+        },
+        {
+          "key": 24,
+          "channel": "narration",
+          "text": "Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 25,
+          "channel": "narration",
+          "text": "\"Hold the road. The rain. Almost a name.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player"
+        },
+        {
+          "key": 26,
+          "channel": "narration",
+          "text": "You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 27,
+          "channel": "milestone",
+          "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
+          "tick": 0,
+          "count": 1
+        },
+        {
+          "key": 28,
+          "channel": "narration",
+          "text": "On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 29,
+          "channel": "narration",
+          "text": "\"I'll earn my keep. Point me at it.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player"
+        },
+        {
+          "key": 30,
+          "channel": "narration",
+          "text": "\"...Good. The house has had its fill of hands that don't. We'll see if you mean it.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 31,
+          "channel": "milestone",
+          "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
+          "tick": 0,
+          "count": 1
+        },
+        {
+          "key": 32,
+          "channel": "reward",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 33,
+          "channel": "narration",
+          "text": "So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 34,
+          "channel": "narration",
+          "text": "[dev — rest verb reveal; flavor-key migration pending (HD-30)]",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 18,
+          "key": 35,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
@@ -264,7 +411,7 @@
           "ephemeral": true
         },
         {
-          "key": 19,
+          "key": 36,
           "channel": "narration",
           "text": "Clear it without my standing over you, and you'll have earned your rice and a dry corner to sleep in. I'll make you no grander promise than that. In this house, none of us holds one.",
           "tick": 2,
@@ -273,7 +420,7 @@
           "voice": "steward"
         },
         {
-          "key": 20,
+          "key": 37,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 4,
@@ -282,7 +429,7 @@
           "ephemeral": true
         },
         {
-          "key": 21,
+          "key": 38,
           "channel": "narration",
           "text": "\"...You don't shirk the work,\" Genemon says, eyeing the cleared boards and the filling basket. \"The house has had its fill of hands that do. Earn your keep, and a place here is yours.\"",
           "tick": 4,
@@ -290,7 +437,7 @@
           "voice": "narrator"
         },
         {
-          "key": 22,
+          "key": 39,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 18,
@@ -299,7 +446,7 @@
           "ephemeral": true
         },
         {
-          "key": 23,
+          "key": 40,
           "channel": "narration",
           "text": "\"So he can work,\" Genemon says, in the way another man says good morning.",
           "tick": 18,
@@ -307,7 +454,7 @@
           "voice": "narrator"
         },
         {
-          "key": 24,
+          "key": 41,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
@@ -316,7 +463,7 @@
           "ephemeral": true
         },
         {
-          "key": 25,
+          "key": 42,
           "channel": "narration",
           "text": "\"Still at it,\" Genemon says, passing the granary door without stopping.",
           "tick": 14,
@@ -324,16 +471,16 @@
           "voice": "narrator"
         },
         {
-          "key": 26,
+          "key": 43,
           "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
           "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 27,
+          "key": 44,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
@@ -342,16 +489,16 @@
           "ephemeral": true
         },
         {
-          "key": 28,
+          "key": 45,
           "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
           "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 29,
+          "key": 46,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 0,
@@ -360,7 +507,7 @@
           "ephemeral": true
         },
         {
-          "key": 30,
+          "key": 47,
           "channel": "narration",
           "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
           "tick": 0,
@@ -368,76 +515,151 @@
           "voice": "narrator"
         },
         {
-          "key": 31,
+          "key": 48,
           "channel": "narration",
-          "text": "Dawn at the gate. The forecourt is swept clean — your doing — and Genemon waits by the posts, watching you the way a man watches weather.",
+          "text": "Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon calls you up from the step without looking up.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 32,
+          "key": 49,
           "channel": "narration",
-          "text": "\"You cleared the stores without being told twice. The house is short of hands and shorter of trustworthy ones. Stay — you're no day-hire now. Earn your rice.\"",
+          "text": "\"Two hands took the lowland road this week. Wages drawn through the day they left, lines struck. The yard is short. The work is not.\"",
           "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 33,
+          "key": 50,
           "channel": "narration",
-          "text": "\"The gate and the swept forecourt are yours to work now; stores come and go here. The home paddies too — the rice that feeds the house. And the kura's own repair is yours to tend: spend the house's small surplus to shore it up.\"",
+          "text": "It is the first you have heard of any leaving.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 51,
+          "channel": "narration",
+          "text": "\"Terms. Work, sun to sun, at what the yard wants doing — hired by the day, counted in the book. Meals at the threshold, morning and evening. The woodshed corner and a mat. No coin: the house's coin is spoken for before it reaches the yard. Objections are heard now or kept. The paddies want you by full light.\"",
           "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 34,
+          "key": 52,
           "channel": "narration",
-          "text": "A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi pedlar, come because a tended gate draws trade. He lifts a hand as you pass.",
+          "text": "Nobody stops eating. Two hands lost was a morning's talk; one stray kept is not even that. The bowls go on.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 35,
+          "key": 53,
           "channel": "narration",
-          "text": "\"A tended gate's a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord's.\"",
+          "text": "\"The board has heard it. That serves for witness.\"",
           "tick": 2,
           "count": 1,
-          "speaker": "Tokubei",
-          "voice": "villager"
+          "speaker": "Genemon",
+          "voice": "steward"
         },
         {
-          "key": 36,
+          "key": 54,
           "channel": "narration",
-          "text": "\"The house has my hands.\"",
+          "text": "He opens the day-book to a page already half-filled with other men.",
           "tick": 2,
           "count": 1,
-          "speaker": "You",
+          "voice": "narrator"
+        },
+        {
+          "key": 55,
+          "channel": "narration",
+          "text": "On the veranda above the step, Naoyuki has stopped — the second son, papers of his own under one arm. Passing, and made a witness like the rest of the room.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 56,
+          "channel": "narration",
+          "text": "\"The house is glad of —\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Naoyuki",
+          "voice": "official"
+        },
+        {
+          "key": 57,
+          "channel": "narration",
+          "text": "The sentence stops. He stands with it a moment, as if he has read it back and found it not worth the ink.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 58,
+          "channel": "narration",
+          "text": "\"Two hands left. You were here. That is all it is.\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Naoyuki",
+          "voice": "official"
+        },
+        {
+          "key": 59,
+          "channel": "narration",
+          "text": "He goes on along the veranda. He looked at you once.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 60,
+          "channel": "narration",
+          "text": "Then Genemon takes up the brush, and asks it plainly, at board volume. The room hears without listening.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 61,
+          "channel": "narration",
+          "text": "\"One thing before the ink. If a claim follows you here, I enter it against your board. Is anything owing on you?\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 62,
+          "channel": "narration",
+          "text": "\"Not that I know.\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Nameless",
           "voice": "player"
         },
         {
-          "key": 37,
+          "key": 63,
           "channel": "narration",
-          "text": "\"...Good. Hands that don't need watching are the rarest thing I keep.\"",
+          "text": "\"Then the book says none claimed. It has lived with worse.\"",
           "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 38,
+          "key": 64,
           "channel": "narration",
-          "text": "The gate and the swept forecourt are yours to work now — stores come and go here.",
+          "text": "The gate and gateyard are yours to work now — stores come and go here, and Yohei sets up his stall on market days.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 39,
+          "key": 65,
           "channel": "narration",
           "text": "The terraced home paddies open to you — the rice that feeds the house.",
           "tick": 2,
@@ -445,7 +667,15 @@
           "voice": "narrator"
         },
         {
-          "key": 40,
+          "key": 66,
+          "channel": "narration",
+          "text": "[dev — woodshed corner reveal; flavor-key migration pending (HD-30)]",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 67,
           "channel": "narration",
           "text": "You begin to mark the turning of the days, and the four seasons with them.",
           "tick": 2,
@@ -453,19 +683,19 @@
           "voice": "narrator"
         },
         {
-          "key": 41,
+          "key": 68,
           "channel": "milestone",
-          "text": "Rank ↑ — Kept hand 下人",
+          "text": "Rank ↑ — The day-hand 日雇",
           "tick": 2,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
-            "title": "Kept hand",
-            "kanji": "下人"
+            "title": "The day-hand",
+            "kanji": "日雇"
           }
         },
         {
-          "key": 42,
+          "key": 69,
           "channel": "narration",
           "text": "The estate's own state of repair is yours to tend now — spend the house's surplus to shore it up.",
           "tick": 2,
@@ -473,7 +703,7 @@
           "voice": "narrator"
         },
         {
-          "key": 43,
+          "key": 70,
           "channel": "narration",
           "text": "The rice you clear and grow is food, not only trade — a plain bowl of it fills a hollow belly and puts you back to work the faster.",
           "tick": 2,
@@ -481,34 +711,115 @@
           "voice": "narrator"
         },
         {
-          "key": 44,
+          "key": 71,
           "channel": "narration",
-          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 45,
+          "key": 72,
           "channel": "narration",
-          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 46,
+          "key": 73,
           "channel": "reward",
-          "text": "Work the home paddies. (+4 rice)",
-          "tick": 20,
-          "count": 10,
+          "text": "Work the home paddy & rows. (+50 shō)",
+          "tick": 2,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 47,
+          "key": 74,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+42 shō)",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 75,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+35 shō)",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 76,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+30 shō)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 77,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+25 shō)",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 78,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+21 shō)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 79,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+18 shō)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 80,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+15 shō)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 81,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+13 shō)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 82,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+11 shō)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 83,
           "channel": "narration",
           "text": "The first rows he plants alone come up as straight as anyone's.",
           "tick": 20,
@@ -516,343 +827,28 @@
           "voice": "narrator"
         },
         {
-          "key": 48,
-          "channel": "reward",
-          "text": "Work the home paddies. (+4 rice)",
-          "tick": 22,
-          "count": 13,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 49,
-          "channel": "reward",
-          "text": "Work the home paddies. (+3 rice)",
-          "tick": 4,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 50,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 51,
-          "channel": "reward",
-          "text": "Work the home paddies. (+4 rice)",
-          "tick": 12,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 52,
-          "channel": "reward",
-          "text": "Work the home paddies. (+3 rice)",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 53,
-          "channel": "narration",
-          "text": "The paddy women no longer point out which rows are his; he has learned them.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 54,
-          "channel": "narration",
-          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 55,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+1 coin)",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 56,
-          "channel": "narration",
-          "text": "Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 57,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 58,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 0,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 59,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+1 coin)",
-          "tick": 4,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 60,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 61,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 14,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 62,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 63,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 2,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 64,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 65,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 12,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 66,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 67,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 0,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 68,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 69,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 70,
-          "channel": "narration",
-          "text": "At the gate the porters shift a strap for him without being asked, as they do among their own.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 71,
-          "channel": "narration",
-          "text": "The near hill in first light. Genemon leads you past the forecourt for the first time, out to where the woodlot meets the wild edge of the satoyama.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 72,
-          "channel": "narration",
-          "text": "\"You can be set a task and trusted to finish it out of my sight — worth more than a strong back. The woodlot and the near hill are yours to work now; the house needs fuel and forage, and it trusts you to bring them in.\"",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
-          "key": 73,
-          "channel": "narration",
-          "text": "\"One more thing, and not a small one. A wolf's been at the grain stores in the night. Someone must face it — and there is no one else to send. Think on it.\"",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
-          "key": 74,
-          "channel": "narration",
-          "text": "A lean man about your own age ambles up from the wood-stack, an axe on one shoulder, grinning as if you two already share a joke.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 75,
-          "channel": "narration",
-          "text": "\"Rokusuke — kept on two winters back, so I know where the bodies are buried. Do the work, keep your head down, don't let the old steward catch you idle. That's the whole of it.\"",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Rokusuke",
-          "voice": "villager"
-        },
-        {
-          "key": 76,
-          "channel": "narration",
-          "text": "Knotting a load for the woodlot, your fingers tie a porter's knot you never learned — quick, certain, a stranger's habit in your own hands. It means nothing. It will not leave you.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 77,
-          "channel": "narration",
-          "text": "\"The stores are the house's life. I'll face it.\"",
-          "tick": 6,
-          "count": 1,
-          "speaker": "You",
-          "voice": "player"
-        },
-        {
-          "key": 78,
-          "channel": "narration",
-          "text": "\"...Huh. Most men find a reason to be elsewhere. You might do.\"",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Rokusuke",
-          "voice": "villager"
-        },
-        {
-          "key": 79,
-          "channel": "narration",
-          "text": "A way to track what your hands are learning takes shape — your Skills.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 80,
-          "channel": "narration",
-          "text": "The stable yard and woodlot edge — fuel, timber, and the first sight of the road out.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 81,
-          "channel": "narration",
-          "text": "Above the estate lies the near satoyama — sansai to gather, and the first edge of danger.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 82,
-          "channel": "narration",
-          "text": "Beyond the near hill the ground climbs into the deep satoyama — a richer forage for those who dare it, and the boar in its wallow.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 83,
-          "channel": "narration",
-          "text": "A wolf has been at the grain stores in the night, bold with hunger. Someone must face it — and there is no one else to send.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
           "key": 84,
-          "channel": "milestone",
-          "text": "Rank ↑ — Trusted hand 手代",
-          "tick": 6,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+9 shō)",
+          "tick": 22,
           "count": 1,
-          "contentKey": "rank.marker",
-          "params": {
-            "title": "Trusted hand",
-            "kanji": "手代"
-          }
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
           "key": 85,
-          "channel": "narration",
-          "text": "You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.",
-          "tick": 6,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+8 shō)",
+          "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
           "key": 86,
-          "channel": "narration",
-          "text": "The stable yard giving onto the woodlot, and the road that leaves the valley.",
-          "tick": 6,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+6 shō)",
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -860,124 +856,123 @@
         {
           "key": 87,
           "channel": "reward",
-          "text": "Cut wood at the woodlot edge. (+3 wood)",
-          "tick": 16,
-          "count": 18,
+          "text": "Work the home paddy & rows. (+5 shō)",
+          "tick": 4,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 88,
           "channel": "reward",
-          "text": "Cut wood at the woodlot edge. (+2 wood)",
-          "tick": 18,
+          "text": "Work the home paddy & rows. (+4 shō)",
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 89,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
-          "count": 1,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+3 shō)",
+          "tick": 10,
+          "count": 2,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 90,
           "channel": "reward",
-          "text": "Cut wood at the woodlot edge. (+3 wood)",
-          "tick": 22,
-          "count": 1,
+          "text": "Work the home paddy & rows. (+2 shō)",
+          "tick": 16,
+          "count": 3,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 91,
-          "channel": "narration",
-          "text": "The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean.",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator"
+          "channel": "reward",
+          "text": "Work the home paddy & rows. (+1 shō)",
+          "tick": 2,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
           "key": 92,
-          "channel": "narration",
-          "text": "The managed hill-forest above the estate — sansai to gather, and the first teeth of the wild.",
-          "tick": 0,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 93,
-          "channel": "reward",
-          "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
-          "tick": 2,
-          "count": 2,
+          "channel": "system",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 6,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 94,
           "channel": "reward",
-          "text": "Forage the near satoyama. (+1 sansai, +1 coin)",
-          "tick": 8,
-          "count": 3,
+          "text": "Work the home paddy & rows. ()",
+          "tick": 14,
+          "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 95,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
+          "channel": "narration",
+          "text": "The paddy women no longer point out which rows are his; he has learned them.",
+          "tick": 14,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "voice": "narrator"
         },
         {
           "key": 96,
-          "channel": "reward",
-          "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
-          "tick": 20,
-          "count": 5,
+          "channel": "narration",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "tick": 16,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 97,
           "channel": "reward",
-          "text": "Forage the near satoyama. (+1 sansai, +1 coin)",
-          "tick": 22,
+          "text": "Haul stores at the forecourt. (+14 coin)",
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 98,
+          "channel": "narration",
+          "text": "[dev — coin readout reveal; flavor-key migration pending (HD-30)]",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 99,
           "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 99,
-          "channel": "reward",
-          "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
-          "tick": 12,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 100,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+14 coin)",
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -985,17 +980,17 @@
         {
           "key": 101,
           "channel": "reward",
-          "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
-          "tick": 2,
-          "count": 6,
+          "text": "Haul stores at the forecourt. (+11 coin)",
+          "tick": 22,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 102,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+9 coin)",
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1003,34 +998,35 @@
         {
           "key": 103,
           "channel": "reward",
-          "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
-          "tick": 8,
-          "count": 2,
+          "text": "Haul stores at the forecourt. (+7 coin)",
+          "tick": 2,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 104,
-          "channel": "narration",
-          "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
-          "tick": 8,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+6 coin)",
+          "tick": 4,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
           "key": 105,
-          "channel": "narration",
-          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
-          "tick": 10,
+          "channel": "system",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 106,
-          "channel": "narration",
-          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
-          "tick": 10,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+6 coin)",
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1038,17 +1034,17 @@
         {
           "key": 107,
           "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 14,
-          "count": 3,
+          "text": "Haul stores at the forecourt. (+5 coin)",
+          "tick": 10,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 108,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+4 coin)",
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1056,17 +1052,17 @@
         {
           "key": 109,
           "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 2,
-          "count": 5,
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 14,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 110,
           "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1074,193 +1070,190 @@
         {
           "key": 111,
           "channel": "reward",
+          "text": "Haul stores at the forecourt. (+3 coin)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 112,
+          "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
+          "tick": 2,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 113,
+          "channel": "system",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 114,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. (+1 coin)",
           "tick": 12,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 112,
+          "key": 115,
           "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
           "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 113,
+          "key": 116,
           "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 0,
-          "count": 5,
+          "text": "Haul stores at the forecourt. (+1 coin)",
+          "tick": 16,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 114,
+          "key": 117,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 0,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 118,
           "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
           "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 115,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 8,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 116,
-          "channel": "narration",
-          "text": "Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 117,
-          "channel": "narration",
-          "text": "The grain-store where you woke — dark, dry, close with the smell of old rice.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 118,
-          "channel": "combat",
-          "text": "The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "combat.wolfScripted"
-        },
-        {
           "key": 119,
-          "channel": "narration",
-          "text": "Kihei the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: \"You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest.\"",
-          "tick": 10,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "contentKey": "combat.drillmaster"
+          "ephemeral": true
         },
         {
           "key": 120,
           "channel": "narration",
-          "text": "There is blood on the grain-store threshold, most of it his, and the rice behind the door untouched.",
-          "tick": 0,
+          "text": "At the gate the porters shift a strap for him without being asked, as they do among their own.",
+          "tick": 4,
           "count": 1,
           "voice": "narrator"
         },
         {
           "key": 121,
           "channel": "narration",
-          "text": "The drill yard behind the omoya, first light. You've stood over the grain-store wolf's carcass; word travels. A hard-faced man is already there, a bokken in each hand — and he throws you one without a word of greeting.",
-          "tick": 0,
+          "text": "A way to track what your hands are learning takes shape — your Skills.",
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
           "key": 122,
           "channel": "narration",
-          "text": "\"So. You put down the thing that had the run of our stores. Farmers don't do that. There's a soldier in you under the farmhand — I've watched it a week and I'm done pretending I haven't.\"",
-          "tick": 0,
+          "text": "The woodlot edge opens to you — kindling and timber to cut, wild greens to gather along its margin.",
+          "tick": 6,
           "count": 1,
-          "speaker": "Kihei",
-          "voice": "arms"
+          "voice": "narrator"
         },
         {
           "key": 123,
           "channel": "narration",
-          "text": "\"You're gate-watch now: a weapon, a yard to train in, and the estate's defence on your shoulders — pests, beasts, and the masterless men who drift down the woodlot road. Keep a field-guide of what you face; a soldier who knows his enemy outlives one who doesn't.\"",
-          "tick": 0,
+          "text": "[dev — field-margins reveal; flavor-key migration pending (HD-30)]",
+          "tick": 6,
           "count": 1,
-          "speaker": "Kihei",
-          "voice": "arms"
+          "voice": "narrator"
         },
         {
           "key": 124,
-          "channel": "narration",
-          "text": "\"Show me how to end a fight fast.\"",
-          "tick": 0,
+          "channel": "milestone",
+          "text": "Rank ↑ — The yard-hand 庭男",
+          "tick": 6,
           "count": 1,
-          "speaker": "You",
-          "voice": "player"
+          "contentKey": "rank.marker",
+          "params": {
+            "title": "The yard-hand",
+            "kanji": "庭男"
+          }
         },
         {
           "key": 125,
           "channel": "narration",
-          "text": "\"Fast, he says. Fast gets you a spear in the back. But there's fire in it — we'll aim it before it burns you.\"",
-          "tick": 0,
+          "text": "You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.",
+          "tick": 6,
           "count": 1,
-          "speaker": "Kihei",
-          "voice": "arms"
+          "voice": "narrator"
         },
         {
           "key": 126,
           "channel": "narration",
-          "text": "The drill yard opens to you — a place to train, and foes that must be met.",
-          "tick": 0,
+          "text": "First light. The broom stands against the gatepost where you left it. The hand who kept the yard's round quit for the lowlands; nobody has said whose it is now.",
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
           "key": 127,
           "channel": "narration",
-          "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
-          "tick": 0,
+          "text": "You take the broom. Nobody takes it back.",
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
           "key": 128,
           "channel": "narration",
-          "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
-          "tick": 0,
+          "text": "The round takes the morning: the gate swept, the forecourt raked, the water in, the wood up off the ground. Dusk round, then the kitchen threshold, the bowl. Genemon comes past with the day-book under his arm and does not slow.",
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
           "key": 129,
-          "channel": "milestone",
-          "text": "Rank ↑ — Gate-watch 門番",
-          "tick": 0,
+          "channel": "narration",
+          "text": "\"Rice from the new moon. One measure the day, dry, weighed at the kura door. Meals were terms for a man staying a week.\"",
+          "tick": 6,
           "count": 1,
-          "contentKey": "rank.marker",
-          "params": {
-            "title": "Gate-watch",
-            "kanji": "門番"
-          }
+          "speaker": "Genemon",
+          "voice": "steward"
         },
         {
           "key": 130,
           "channel": "narration",
-          "text": "A dry corner of the grain-store is kept back for you now — a straw mat, a bowl, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
-          "tick": 0,
+          "text": "He is through the door before you can set the bowl down.",
+          "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
           "key": 131,
           "channel": "narration",
-          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
-          "tick": 0,
+          "text": "A meal ends with the eating. Rice keeps.",
+          "tick": 6,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "voice": "narrator"
         },
         {
           "key": 132,
           "channel": "narration",
-          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
-          "tick": 0,
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1268,88 +1261,608 @@
         {
           "key": 133,
           "channel": "narration",
-          "text": "The managed hill-forest above the estate — sansai to gather, and the first teeth of the wild.",
-          "tick": 0,
+          "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 134,
-          "channel": "narration",
-          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
-          "tick": 0,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+27 wood)",
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 135,
-          "channel": "narration",
-          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
-          "tick": 0,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+23 wood)",
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 136,
-          "channel": "narration",
-          "text": "The grain-store where you woke — dark, dry, close with the smell of old rice.",
-          "tick": 0,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+19 wood)",
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 137,
-          "channel": "system",
-          "text": "You store 120 rice safe in the kura storehouse.",
-          "tick": 0,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+17 wood)",
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "contentKey": "bank.deposit",
-          "params": {
-            "amount": 120,
-            "resource": "rice"
-          }
+          "ephemeral": true
         },
         {
           "key": 138,
-          "channel": "narration",
-          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
-          "tick": 0,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+14 wood)",
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 139,
-          "channel": "narration",
-          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
-          "tick": 0,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+11 wood)",
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 140,
-          "channel": "combat",
-          "text": "The crop-raiding monkey overcomes you; you limp home badly used. (HP 1→1) You drop 22 mon and 13 rice in the rout. Eat and mend before you take the field again.",
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+10 wood)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 141,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+8 wood)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 142,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+6 wood)",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 143,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+5 wood)",
           "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 144,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+4 wood)",
+          "tick": 4,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 145,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+3 wood)",
+          "tick": 8,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 146,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+2 wood)",
+          "tick": 12,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 147,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+1 wood)",
+          "tick": 18,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 148,
+          "channel": "system",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 149,
+          "channel": "reward",
+          "text": "Cut wood at the woodlot. (+1 wood)",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 150,
+          "channel": "narration",
+          "text": "The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 151,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+1 sansai, +1 coin)",
+          "tick": 2,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 152,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+1 coin)",
+          "tick": 8,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 153,
+          "channel": "system",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 154,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+1 coin)",
+          "tick": 22,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 155,
+          "channel": "system",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 156,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+1 coin)",
+          "tick": 12,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 157,
+          "channel": "system",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 158,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+1 coin)",
+          "tick": 2,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 159,
+          "channel": "system",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 160,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+1 coin)",
+          "tick": 8,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 161,
+          "channel": "narration",
+          "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 162,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 163,
+          "channel": "narration",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 164,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 14,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 165,
+          "channel": "system",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 166,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 2,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 167,
+          "channel": "system",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 168,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 12,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 169,
+          "channel": "system",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 170,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 0,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 171,
+          "channel": "system",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 172,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 8,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 173,
+          "channel": "narration",
+          "text": "Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 174,
+          "channel": "narration",
+          "text": "Dawn comes grey through the kura door. The blood on the sill has dried black, and most of it is yours. Inside, the rice sits in its rows, untouched, exactly as it was put. Sōan has strapped your ribs so tight that breathing is a decision.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 175,
+          "channel": "narration",
+          "text": "Kihei crouches at the sill a long time, reading the blood the way Genemon reads a column of figures. The trail goes west, into the trees, in drops that get no smaller.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 176,
+          "channel": "narration",
+          "text": "\"…Alive. Good.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Kihei",
+          "voice": "arms"
+        },
+        {
+          "key": 177,
+          "channel": "narration",
+          "text": "For a moment there is more in him than the verdict. He checks the broken bar instead.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 178,
+          "channel": "narration",
+          "text": "Genemon stands in the doorway. Whatever he came to say, he writes something in the day-book first.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 179,
+          "channel": "narration",
+          "text": "\"Screen, one, torn. Bar, one, broken. Grain — none lost. Hand, one. Standing.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 180,
+          "channel": "narration",
+          "text": "None lost. You think of the gnawed seed-bale at the back wall, and the count you made twice by lantern, and you do not correct him. Not yet.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 181,
+          "channel": "narration",
+          "text": "\"The bar was old. It goes against the house, not your wage.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 182,
+          "channel": "narration",
+          "text": "Kihei stands, takes the boar-spear off the sill, and puts it back in your hands, butt first.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 183,
+          "channel": "narration",
+          "text": "\"You didn't win. The house lost nothing. Keep the watch.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Kihei",
+          "voice": "arms"
+        },
+        {
+          "key": 184,
+          "channel": "narration",
+          "text": "By evening the padded coat is folded at the woodshed step, the torn shoulder closed with stitches smaller than the tear deserved. O-Hisa is still three steps from the kitchen when you come round the corner, caught.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 185,
+          "channel": "narration",
+          "text": "\"It tore clean, at least. If the ribs knit as straight — well.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "O-Hisa",
+          "voice": "steward"
+        },
+        {
+          "key": 186,
+          "channel": "narration",
+          "text": "She is back inside before you find anything to say to that.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 187,
+          "channel": "narration",
+          "text": "\"It bled going west. The trail is fresh.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player"
+        },
+        {
+          "key": 188,
+          "channel": "narration",
+          "text": "\"And you can chase it exactly as far as I can throw you. Sit down. It is winter's business now, not yours.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 189,
+          "channel": "narration",
+          "text": "The drill yard opens to you — a place to train, and foes that must be met.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 190,
+          "channel": "narration",
+          "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 191,
+          "channel": "narration",
+          "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 192,
+          "channel": "narration",
+          "text": "[dev — kura / grain-store reveal; flavor-key migration pending (HD-30)]",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 193,
+          "channel": "narration",
+          "text": "[dev — weir-reeds reveal; flavor-key migration pending (HD-30)]",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 194,
+          "channel": "milestone",
+          "text": "Rank ↑ — The grain-watch 蔵番",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "rank.marker",
+          "params": {
+            "title": "The grain-watch",
+            "kanji": "蔵番"
+          }
+        },
+        {
+          "key": 195,
+          "channel": "narration",
+          "text": "A lean corner of the woodshed is kept back for you now — a straw mat, a bowl, a nail for your coat, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 196,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 197,
+          "channel": "narration",
+          "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 198,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 58→12 · +0 mon)",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 58,
+            "hpAfter": 12,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 199,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 12→1) You drop 24 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 12,
           "count": 1,
           "contentKey": "combat.loss",
           "params": {
-            "mob": "crop-raiding monkey",
-            "hpBefore": 1,
+            "mob": "badger",
+            "hpBefore": 12,
             "hpAfter": 1,
-            "lostCoin": 22,
-            "lostRice": 13,
+            "lostCoin": 24,
+            "lostRice": 0,
             "lostMats": 0
           }
         }
       ],
-      "seq": 141
+      "seq": 200
     },
     "skillXp": {
       "farming": 134,
@@ -1366,20 +1879,16 @@
     ],
     "npcMemory": {
       "soan": {
-        "regard": "grateful",
+        "regard": "noted",
         "warmth": 1
       },
       "genemon": {
-        "regard": "dutiful",
-        "warmth": 2
-      },
-      "rokusuke": {
-        "regard": "respected",
-        "warmth": 0
+        "regard": "earnest",
+        "warmth": 1
       },
       "kihei": {
-        "regard": "eager",
-        "warmth": -1
+        "regard": "spine",
+        "warmth": 1
       }
     },
     "introBeat": 3,
@@ -1392,14 +1901,12 @@
     },
     "marketBought": {},
     "belongings": [],
-    "location": "home-paddies",
+    "location": "sickroom",
     "rung": "R3",
     "rungReqs": {},
     "estateStage": 0,
     "discovered": [],
-    "discoveryProgress": {
-      "disc-woodlot-lacquer": 20
-    },
+    "discoveryProgress": {},
     "autoActivity": null,
     "autoRake": false,
     "equippedWeapon": "carrying_pole",
@@ -1418,7 +1925,9 @@
     },
     "sceneQueue": [],
     "activeScene": null,
-    "scenesPlayed": [],
+    "scenesPlayed": [
+      "r2-yard-hand"
+    ],
     "roundState": null,
     "soanLedger": 1
   }

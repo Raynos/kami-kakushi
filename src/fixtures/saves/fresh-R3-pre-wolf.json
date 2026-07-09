@@ -6,56 +6,69 @@
   "savedAt": 0,
   "state": {
     "schemaVersion": 10,
-    "season": "winter",
-    "seasonsPassed": 0,
+    "season": "autumn",
+    "seasonsPassed": 5,
     "rng": {
       "seed": 20260626,
       "cursors": {
-        "combat": 0,
-        "loot": 0,
+        "combat": 3681,
+        "loot": 40,
         "seasonal": 0,
         "worldgen": 0,
-        "discovery": 5
+        "discovery": 0
       }
     },
     "clock": {
-      "tick": 10,
-      "day": 14
+      "tick": 2,
+      "day": 106
     },
     "character": {
-      "hp": 58,
-      "satiety": 27,
-      "attributePoints": 0,
+      "hp": 100,
+      "satiety": 117,
+      "attributePoints": 3,
       "attrs": {
-        "str": 5,
-        "agi": 4,
-        "int": 7,
+        "str": 6,
+        "agi": 5,
+        "int": 5,
         "spd": 4,
         "luck": 5
       },
-      "level": 1,
-      "combatXp": 0
+      "level": 6,
+      "combatXp": 360
     },
     "resources": {
-      "coin": 112,
-      "rice": 186,
-      "wood": 59,
-      "sansai": 46
+      "coin": 31,
+      "wood": 235,
+      "sansai": 11,
+      "beast_sinew": 14
     },
     "banked": {
-      "coin": 0,
-      "rice": 0
+      "rice": 221
     },
+    "sitePools": {
+      "paddies": 390,
+      "forecourt": 120,
+      "woodlot": 42
+    },
+    "wageDaysAccrued": 0,
+    "lastWageDay": -1,
     "flags": {
       "awake": true,
       "dream-1": true,
+      "label-nameless": true,
       "raked": true,
-      "r1-dutiful": true,
+      "r1-none-claimed": true,
       "rank-r1": true,
       "farmed": true,
-      "r2-wolf-heeded": true,
       "rank-r2": true,
-      "porters-knot": true
+      "porters-knot": true,
+      "r3-track": true,
+      "rank-r3": true,
+      "combat-unlocked": true,
+      "mob-river_rats": true,
+      "combat-blooded": true,
+      "mob-tanuki": true,
+      "mob-badger": true
     },
     "unlocked": [
       "screen-cold-open",
@@ -64,8 +77,9 @@
       "readout-rice",
       "verb-rake",
       "verb-rest",
-      "room-gate-forecourt",
-      "room-home-paddies",
+      "room-gate",
+      "room-paddies",
+      "room-woodshed",
       "verb-farm",
       "verb-haul",
       "readout-clock",
@@ -76,25 +90,33 @@
       "skill-farming",
       "readout-coin",
       "tab-skills",
-      "room-woodlot-edge",
-      "room-near-satoyama",
-      "room-deep-satoyama",
+      "room-woodlot",
+      "room-field-margins",
       "verb-woodcut",
       "verb-forage",
-      "verb-face-wolf",
       "row-wood",
       "row-sansai",
       "skill-conditioning",
       "verb-cook",
       "skill-woodcutting",
-      "skill-foraging"
+      "skill-foraging",
+      "tab-combat",
+      "panel-drill-yard",
+      "readout-combat-level",
+      "panel-bestiary",
+      "panel-house-influence",
+      "room-kura",
+      "room-weir-reeds",
+      "panel-home",
+      "screen-demo-frontier",
+      "dream-2"
     ],
     "log": {
       "entries": [
         {
           "key": 0,
           "channel": "narration",
-          "text": "You open your eyes. Straw beneath you, the smell of wet rice, a low roof you do not know. A cold spring — the ninth year of An'ei — though the year is as lost to you as your name.",
+          "text": "The river gives you up at the weir. You keep none of it in order: hands in your collar, gravel under your back, the sky white and near, water leaving you in coughs. A stone jizō watches from the bank, rice at its feet, nobody on the road who could have left it. Someone says, carry him up, then. Then nothing.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -102,16 +124,15 @@
         {
           "key": 1,
           "channel": "narration",
-          "text": "\"You're awake.\" Sōan the physician sits back on his heels. \"No kami carried you off, whatever the village wants to believe. A flood took you, and a blow to the head took the rest. Bodies forget. Given work and rice, they also mend.\"",
+          "text": "Straw. A low roof. A fire kept small. Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it. You have been three days in a room you have never seen.",
           "tick": 0,
           "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician"
+          "voice": "narrator"
         },
         {
           "key": 2,
           "channel": "narration",
-          "text": "You take stock of yourself: bruised, hollow, half-starved — but breathing.",
+          "text": "The physician does not ask how you feel. He takes your wrist, then your jaw, then turns your hands over and looks at them longer than at anything else. He presses a thumb into the callus line across one palm and says nothing. There is a ledger open on his knee.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -119,24 +140,24 @@
         {
           "key": 3,
           "channel": "narration",
-          "text": "Rice lies scattered across the Kurosawa grain-store floor. Spilled stores are waste — and clearing waste is a kind of work, if you set your hands to it.",
+          "text": "\"Do you know the year?\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 4,
+          "channel": "narration",
+          "text": "\"No.\"",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 4,
-          "channel": "narration",
-          "text": "\"Then I'll trust your craft, not the village's ghosts.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "You",
-          "voice": "player"
-        },
-        {
           "key": 5,
           "channel": "narration",
-          "text": "\"Sense, at last. Rest, eat, and let the swelling go down. The wits come back last — don't force them.\"",
+          "text": "\"An'ei nine. Now you know it again. Drink this.\"",
           "tick": 0,
           "count": 1,
           "speaker": "Sōan",
@@ -144,15 +165,16 @@
         },
         {
           "key": 6,
-          "channel": "milestone",
-          "text": "Perk unlocked — Sōan's Counsel: A mind honed sharper than the body it wears. (+1 INT / −1 STR)",
+          "channel": "narration",
+          "text": "Whatever the hands told him goes into the ledger, two lines, too far off to read. The door slides, and he closes the book on his thumb.",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "voice": "narrator"
         },
         {
           "key": 7,
           "channel": "narration",
-          "text": "Something surfaces and is gone — a porter's knot, a road in grey rain, a name you cannot keep hold of.",
+          "text": "The man in the doorway is grey and dry and carries a book of his own. Two books in the room now, and only one of them open.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -160,74 +182,75 @@
         {
           "key": 8,
           "channel": "narration",
-          "text": "\"Hold the road. The rain. Almost a name.\"",
+          "text": "\"The weir man. Sōan — can he work?\"",
           "tick": 0,
           "count": 1,
-          "speaker": "You",
-          "voice": "player"
+          "speaker": "Genemon",
+          "voice": "steward"
         },
         {
           "key": 9,
           "channel": "narration",
-          "text": "You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.",
+          "text": "\"Ask him.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 10,
+          "channel": "narration",
+          "text": "\"Name, age, where from. In that order.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 11,
+          "channel": "narration",
+          "text": "Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 10,
-          "channel": "milestone",
-          "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
-          "tick": 0,
-          "count": 1
-        },
-        {
-          "key": 11,
-          "channel": "narration",
-          "text": "On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
           "key": 12,
           "channel": "narration",
-          "text": "\"I'll earn my keep. Point me at it.\"",
+          "text": "\"What name did I give? When they pulled me out.\"",
           "tick": 0,
           "count": 1,
-          "speaker": "You",
-          "voice": "player"
+          "voice": "narrator"
         },
         {
           "key": 13,
           "channel": "narration",
-          "text": "\"...Good. The house has had its fill of hands that don't. We'll see if you mean it.\"",
+          "text": "\"None. You gave none. Three days I have had nothing to call you, and neither have you.\"",
           "tick": 0,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
+          "speaker": "Sōan",
+          "voice": "physician"
         },
         {
           "key": 14,
-          "channel": "milestone",
-          "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
+          "channel": "narration",
+          "text": "Nothing comes.",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "voice": "narrator"
         },
         {
           "key": 15,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+          "channel": "narration",
+          "text": "Genemon does not look surprised. He looks down and writes, and reads it back as he writes, aloud and once.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "voice": "narrator"
         },
         {
           "key": 16,
           "channel": "narration",
-          "text": "So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.",
+          "text": "One man, name unknown. Taken at the weir. Fed, three days. Condition, poor; hands, good.",
           "tick": 0,
           "count": 1,
           "speaker": "Genemon",
@@ -236,22 +259,146 @@
         {
           "key": 17,
           "channel": "narration",
-          "text": "Your arms are leaden. You could rest a moment against the cool post.",
+          "text": "\"When he can stand, he rakes. The kitchen wants water before it wants anything.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 18,
+          "channel": "narration",
+          "text": "He goes. Sōan opens his ledger again, where his thumb kept the place.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 19,
+          "channel": "narration",
+          "text": "[dev — body readout reveal; flavor-key migration pending (HD-30)]",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 20,
+          "channel": "narration",
+          "text": "[dev — rice readout reveal; flavor-key migration pending (HD-30)]",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 21,
+          "channel": "narration",
+          "text": "\"My hands know a knot. I'll keep that.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "You",
+          "voice": "player"
+        },
+        {
+          "key": 22,
+          "channel": "narration",
+          "text": "You tie it in the cord of your own bedding: a carrier's hitch, fast and one-handed, twice. Sōan watches it both times. He does not write it down while you are looking.",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 23,
+          "channel": "milestone",
+          "text": "Perk unlocked — The Carrier's Hitch: fast, one-handed, holds wet. (+1 AGI / −1 INT)",
+          "tick": 0,
+          "count": 1
+        },
+        {
+          "key": 24,
+          "channel": "narration",
+          "text": "Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 25,
+          "channel": "narration",
+          "text": "\"Hold the road. The rain. Almost a name.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player"
+        },
+        {
+          "key": 26,
+          "channel": "narration",
+          "text": "You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 27,
+          "channel": "milestone",
+          "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
+          "tick": 0,
+          "count": 1
+        },
+        {
+          "key": 28,
+          "channel": "narration",
+          "text": "On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 29,
+          "channel": "narration",
+          "text": "\"I'll earn my keep. Point me at it.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player"
+        },
+        {
+          "key": 30,
+          "channel": "narration",
+          "text": "\"...Good. The house has had its fill of hands that don't. We'll see if you mean it.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 31,
+          "channel": "milestone",
+          "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
+          "tick": 0,
+          "count": 1
+        },
+        {
+          "key": 33,
+          "channel": "narration",
+          "text": "So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 34,
+          "channel": "narration",
+          "text": "[dev — rest verb reveal; flavor-key migration pending (HD-30)]",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 18,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 19,
+          "key": 36,
           "channel": "narration",
           "text": "Clear it without my standing over you, and you'll have earned your rice and a dry corner to sleep in. I'll make you no grander promise than that. In this house, none of us holds one.",
           "tick": 2,
@@ -260,16 +407,7 @@
           "voice": "steward"
         },
         {
-          "key": 20,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 21,
+          "key": 38,
           "channel": "narration",
           "text": "\"...You don't shirk the work,\" Genemon says, eyeing the cleared boards and the filling basket. \"The house has had its fill of hands that do. Earn your keep, and a place here is yours.\"",
           "tick": 4,
@@ -277,16 +415,7 @@
           "voice": "narrator"
         },
         {
-          "key": 22,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 18,
-          "count": 7,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 23,
+          "key": 40,
           "channel": "narration",
           "text": "\"So he can work,\" Genemon says, in the way another man says good morning.",
           "tick": 18,
@@ -294,16 +423,7 @@
           "voice": "narrator"
         },
         {
-          "key": 24,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 14,
-          "count": 10,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 25,
+          "key": 42,
           "channel": "narration",
           "text": "\"Still at it,\" Genemon says, passing the granary door without stopping.",
           "tick": 14,
@@ -311,43 +431,7 @@
           "voice": "narrator"
         },
         {
-          "key": 26,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 27,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 10,
-          "count": 9,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 28,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 29,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 0,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 30,
+          "key": 47,
           "channel": "narration",
           "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
           "tick": 0,
@@ -355,76 +439,151 @@
           "voice": "narrator"
         },
         {
-          "key": 31,
+          "key": 48,
           "channel": "narration",
-          "text": "Dawn at the gate. The forecourt is swept clean — your doing — and Genemon waits by the posts, watching you the way a man watches weather.",
+          "text": "Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon calls you up from the step without looking up.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 32,
+          "key": 49,
           "channel": "narration",
-          "text": "\"You cleared the stores without being told twice. The house is short of hands and shorter of trustworthy ones. Stay — you're no day-hire now. Earn your rice.\"",
+          "text": "\"Two hands took the lowland road this week. Wages drawn through the day they left, lines struck. The yard is short. The work is not.\"",
           "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 33,
+          "key": 50,
           "channel": "narration",
-          "text": "\"The gate and the swept forecourt are yours to work now; stores come and go here. The home paddies too — the rice that feeds the house. And the kura's own repair is yours to tend: spend the house's small surplus to shore it up.\"",
+          "text": "It is the first you have heard of any leaving.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 51,
+          "channel": "narration",
+          "text": "\"Terms. Work, sun to sun, at what the yard wants doing — hired by the day, counted in the book. Meals at the threshold, morning and evening. The woodshed corner and a mat. No coin: the house's coin is spoken for before it reaches the yard. Objections are heard now or kept. The paddies want you by full light.\"",
           "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 34,
+          "key": 52,
           "channel": "narration",
-          "text": "A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi pedlar, come because a tended gate draws trade. He lifts a hand as you pass.",
+          "text": "Nobody stops eating. Two hands lost was a morning's talk; one stray kept is not even that. The bowls go on.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 35,
+          "key": 53,
           "channel": "narration",
-          "text": "\"A tended gate's a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord's.\"",
+          "text": "\"The board has heard it. That serves for witness.\"",
           "tick": 2,
           "count": 1,
-          "speaker": "Tokubei",
-          "voice": "villager"
+          "speaker": "Genemon",
+          "voice": "steward"
         },
         {
-          "key": 36,
+          "key": 54,
           "channel": "narration",
-          "text": "\"The house has my hands.\"",
+          "text": "He opens the day-book to a page already half-filled with other men.",
           "tick": 2,
           "count": 1,
-          "speaker": "You",
+          "voice": "narrator"
+        },
+        {
+          "key": 55,
+          "channel": "narration",
+          "text": "On the veranda above the step, Naoyuki has stopped — the second son, papers of his own under one arm. Passing, and made a witness like the rest of the room.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 56,
+          "channel": "narration",
+          "text": "\"The house is glad of —\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Naoyuki",
+          "voice": "official"
+        },
+        {
+          "key": 57,
+          "channel": "narration",
+          "text": "The sentence stops. He stands with it a moment, as if he has read it back and found it not worth the ink.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 58,
+          "channel": "narration",
+          "text": "\"Two hands left. You were here. That is all it is.\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Naoyuki",
+          "voice": "official"
+        },
+        {
+          "key": 59,
+          "channel": "narration",
+          "text": "He goes on along the veranda. He looked at you once.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 60,
+          "channel": "narration",
+          "text": "Then Genemon takes up the brush, and asks it plainly, at board volume. The room hears without listening.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 61,
+          "channel": "narration",
+          "text": "\"One thing before the ink. If a claim follows you here, I enter it against your board. Is anything owing on you?\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 62,
+          "channel": "narration",
+          "text": "\"Not that I know.\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Nameless",
           "voice": "player"
         },
         {
-          "key": 37,
+          "key": 63,
           "channel": "narration",
-          "text": "\"...Good. Hands that don't need watching are the rarest thing I keep.\"",
+          "text": "\"Then the book says none claimed. It has lived with worse.\"",
           "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 38,
+          "key": 64,
           "channel": "narration",
-          "text": "The gate and the swept forecourt are yours to work now — stores come and go here.",
+          "text": "The gate and gateyard are yours to work now — stores come and go here, and Yohei sets up his stall on market days.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 39,
+          "key": 65,
           "channel": "narration",
           "text": "The terraced home paddies open to you — the rice that feeds the house.",
           "tick": 2,
@@ -432,7 +591,15 @@
           "voice": "narrator"
         },
         {
-          "key": 40,
+          "key": 66,
+          "channel": "narration",
+          "text": "[dev — woodshed corner reveal; flavor-key migration pending (HD-30)]",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 67,
           "channel": "narration",
           "text": "You begin to mark the turning of the days, and the four seasons with them.",
           "tick": 2,
@@ -440,19 +607,19 @@
           "voice": "narrator"
         },
         {
-          "key": 41,
+          "key": 68,
           "channel": "milestone",
-          "text": "Rank ↑ — Kept hand 下人",
+          "text": "Rank ↑ — The day-hand 日雇",
           "tick": 2,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
-            "title": "Kept hand",
-            "kanji": "下人"
+            "title": "The day-hand",
+            "kanji": "日雇"
           }
         },
         {
-          "key": 42,
+          "key": 69,
           "channel": "narration",
           "text": "The estate's own state of repair is yours to tend now — spend the house's surplus to shore it up.",
           "tick": 2,
@@ -460,7 +627,7 @@
           "voice": "narrator"
         },
         {
-          "key": 43,
+          "key": 70,
           "channel": "narration",
           "text": "The rice you clear and grow is food, not only trade — a plain bowl of it fills a hollow belly and puts you back to work the faster.",
           "tick": 2,
@@ -468,34 +635,7 @@
           "voice": "narrator"
         },
         {
-          "key": 44,
-          "channel": "narration",
-          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 45,
-          "channel": "narration",
-          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 46,
-          "channel": "reward",
-          "text": "Work the home paddies. (+4 rice)",
-          "tick": 20,
-          "count": 10,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 47,
+          "key": 83,
           "channel": "narration",
           "text": "The first rows he plants alone come up as straight as anyone's.",
           "tick": 20,
@@ -503,52 +643,7 @@
           "voice": "narrator"
         },
         {
-          "key": 48,
-          "channel": "reward",
-          "text": "Work the home paddies. (+4 rice)",
-          "tick": 22,
-          "count": 13,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 49,
-          "channel": "reward",
-          "text": "Work the home paddies. (+3 rice)",
-          "tick": 4,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 50,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 51,
-          "channel": "reward",
-          "text": "Work the home paddies. (+4 rice)",
-          "tick": 12,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 52,
-          "channel": "reward",
-          "text": "Work the home paddies. (+3 rice)",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 53,
+          "key": 95,
           "channel": "narration",
           "text": "The paddy women no longer point out which rows are his; he has learned them.",
           "tick": 14,
@@ -556,150 +651,15 @@
           "voice": "narrator"
         },
         {
-          "key": 54,
+          "key": 98,
           "channel": "narration",
-          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 55,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+1 coin)",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 56,
-          "channel": "narration",
-          "text": "Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.",
+          "text": "[dev — coin readout reveal; flavor-key migration pending (HD-30)]",
           "tick": 18,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 57,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 58,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 0,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 59,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+1 coin)",
-          "tick": 4,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 60,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 61,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 14,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 62,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 63,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 2,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 64,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 65,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 12,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 66,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 67,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 0,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 68,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 69,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 70,
+          "key": 120,
           "channel": "narration",
           "text": "At the gate the porters shift a strap for him without being asked, as they do among their own.",
           "tick": 4,
@@ -707,76 +667,7 @@
           "voice": "narrator"
         },
         {
-          "key": 71,
-          "channel": "narration",
-          "text": "The near hill in first light. Genemon leads you past the forecourt for the first time, out to where the woodlot meets the wild edge of the satoyama.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 72,
-          "channel": "narration",
-          "text": "\"You can be set a task and trusted to finish it out of my sight — worth more than a strong back. The woodlot and the near hill are yours to work now; the house needs fuel and forage, and it trusts you to bring them in.\"",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
-          "key": 73,
-          "channel": "narration",
-          "text": "\"One more thing, and not a small one. A wolf's been at the grain stores in the night. Someone must face it — and there is no one else to send. Think on it.\"",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
-          "key": 74,
-          "channel": "narration",
-          "text": "A lean man about your own age ambles up from the wood-stack, an axe on one shoulder, grinning as if you two already share a joke.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 75,
-          "channel": "narration",
-          "text": "\"Rokusuke — kept on two winters back, so I know where the bodies are buried. Do the work, keep your head down, don't let the old steward catch you idle. That's the whole of it.\"",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Rokusuke",
-          "voice": "villager"
-        },
-        {
-          "key": 76,
-          "channel": "narration",
-          "text": "Knotting a load for the woodlot, your fingers tie a porter's knot you never learned — quick, certain, a stranger's habit in your own hands. It means nothing. It will not leave you.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 77,
-          "channel": "narration",
-          "text": "\"The stores are the house's life. I'll face it.\"",
-          "tick": 6,
-          "count": 1,
-          "speaker": "You",
-          "voice": "player"
-        },
-        {
-          "key": 78,
-          "channel": "narration",
-          "text": "\"...Huh. Most men find a reason to be elsewhere. You might do.\"",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Rokusuke",
-          "voice": "villager"
-        },
-        {
-          "key": 79,
+          "key": 121,
           "channel": "narration",
           "text": "A way to track what your hands are learning takes shape — your Skills.",
           "tick": 6,
@@ -784,51 +675,35 @@
           "voice": "narrator"
         },
         {
-          "key": 80,
+          "key": 122,
           "channel": "narration",
-          "text": "The stable yard and woodlot edge — fuel, timber, and the first sight of the road out.",
+          "text": "The woodlot edge opens to you — kindling and timber to cut, wild greens to gather along its margin.",
           "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 81,
+          "key": 123,
           "channel": "narration",
-          "text": "Above the estate lies the near satoyama — sansai to gather, and the first edge of danger.",
+          "text": "[dev — field-margins reveal; flavor-key migration pending (HD-30)]",
           "tick": 6,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 82,
-          "channel": "narration",
-          "text": "Beyond the near hill the ground climbs into the deep satoyama — a richer forage for those who dare it, and the boar in its wallow.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 83,
-          "channel": "narration",
-          "text": "A wolf has been at the grain stores in the night, bold with hunger. Someone must face it — and there is no one else to send.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 84,
+          "key": 124,
           "channel": "milestone",
-          "text": "Rank ↑ — Trusted hand 手代",
+          "text": "Rank ↑ — The yard-hand 庭男",
           "tick": 6,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
-            "title": "Trusted hand",
-            "kanji": "手代"
+            "title": "The yard-hand",
+            "kanji": "庭男"
           }
         },
         {
-          "key": 85,
+          "key": 125,
           "channel": "narration",
           "text": "You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.",
           "tick": 6,
@@ -836,52 +711,56 @@
           "voice": "narrator"
         },
         {
-          "key": 86,
+          "key": 126,
           "channel": "narration",
-          "text": "The stable yard giving onto the woodlot, and the road that leaves the valley.",
+          "text": "First light. The broom stands against the gatepost where you left it. The hand who kept the yard's round quit for the lowlands; nobody has said whose it is now.",
           "tick": 6,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "voice": "narrator"
         },
         {
-          "key": 87,
-          "channel": "reward",
-          "text": "Cut wood at the woodlot edge. (+3 wood)",
-          "tick": 16,
-          "count": 18,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 88,
-          "channel": "reward",
-          "text": "Cut wood at the woodlot edge. (+2 wood)",
-          "tick": 18,
+          "key": 127,
+          "channel": "narration",
+          "text": "You take the broom. Nobody takes it back.",
+          "tick": 6,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "voice": "narrator"
         },
         {
-          "key": 89,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 20,
+          "key": 128,
+          "channel": "narration",
+          "text": "The round takes the morning: the gate swept, the forecourt raked, the water in, the wood up off the ground. Dusk round, then the kitchen threshold, the bowl. Genemon comes past with the day-book under his arm and does not slow.",
+          "tick": 6,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "voice": "narrator"
         },
         {
-          "key": 90,
-          "channel": "reward",
-          "text": "Cut wood at the woodlot edge. (+3 wood)",
-          "tick": 22,
+          "key": 129,
+          "channel": "narration",
+          "text": "\"Rice from the new moon. One measure the day, dry, weighed at the kura door. Meals were terms for a man staying a week.\"",
+          "tick": 6,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "speaker": "Genemon",
+          "voice": "steward"
         },
         {
-          "key": 91,
+          "key": 130,
+          "channel": "narration",
+          "text": "He is through the door before you can set the bowl down.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 131,
+          "channel": "narration",
+          "text": "A meal ends with the eating. Rice keeps.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 150,
           "channel": "narration",
           "text": "The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean.",
           "tick": 22,
@@ -889,115 +768,7 @@
           "voice": "narrator"
         },
         {
-          "key": 92,
-          "channel": "narration",
-          "text": "The managed hill-forest above the estate — sansai to gather, and the first teeth of the wild.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 93,
-          "channel": "reward",
-          "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
-          "tick": 2,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 94,
-          "channel": "reward",
-          "text": "Forage the near satoyama. (+1 sansai, +1 coin)",
-          "tick": 8,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 95,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 96,
-          "channel": "reward",
-          "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
-          "tick": 20,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 97,
-          "channel": "reward",
-          "text": "Forage the near satoyama. (+1 sansai, +1 coin)",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 98,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 99,
-          "channel": "reward",
-          "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
-          "tick": 12,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 100,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 101,
-          "channel": "reward",
-          "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
-          "tick": 2,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 102,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 103,
-          "channel": "reward",
-          "text": "Forage the near satoyama. (+2 sansai, +1 coin)",
-          "tick": 8,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 104,
+          "key": 161,
           "channel": "narration",
           "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
           "tick": 8,
@@ -1005,106 +776,7 @@
           "voice": "narrator"
         },
         {
-          "key": 105,
-          "channel": "narration",
-          "text": "Terraced paddies stepping down the slope — the rice that keeps the house fed.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 106,
-          "channel": "narration",
-          "text": "The estate gate and its swept forecourt — the ground the whole house turns on.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 107,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 14,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 108,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 109,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 2,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 110,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 111,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 12,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 112,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 113,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 0,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 114,
-          "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 115,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. (+2 coin)",
-          "tick": 8,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 116,
+          "key": 173,
           "channel": "narration",
           "text": "Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.",
           "tick": 8,
@@ -1112,22 +784,2447 @@
           "voice": "narrator"
         },
         {
-          "key": 117,
+          "key": 174,
           "channel": "narration",
-          "text": "The grain-store where you woke — dark, dry, close with the smell of old rice.",
+          "text": "Dawn comes grey through the kura door. The blood on the sill has dried black, and most of it is yours. Inside, the rice sits in its rows, untouched, exactly as it was put. Sōan has strapped your ribs so tight that breathing is a decision.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 175,
+          "channel": "narration",
+          "text": "Kihei crouches at the sill a long time, reading the blood the way Genemon reads a column of figures. The trail goes west, into the trees, in drops that get no smaller.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 176,
+          "channel": "narration",
+          "text": "\"…Alive. Good.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Kihei",
+          "voice": "arms"
+        },
+        {
+          "key": 177,
+          "channel": "narration",
+          "text": "For a moment there is more in him than the verdict. He checks the broken bar instead.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 178,
+          "channel": "narration",
+          "text": "Genemon stands in the doorway. Whatever he came to say, he writes something in the day-book first.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 179,
+          "channel": "narration",
+          "text": "\"Screen, one, torn. Bar, one, broken. Grain — none lost. Hand, one. Standing.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 180,
+          "channel": "narration",
+          "text": "None lost. You think of the gnawed seed-bale at the back wall, and the count you made twice by lantern, and you do not correct him. Not yet.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 181,
+          "channel": "narration",
+          "text": "\"The bar was old. It goes against the house, not your wage.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 182,
+          "channel": "narration",
+          "text": "Kihei stands, takes the boar-spear off the sill, and puts it back in your hands, butt first.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 183,
+          "channel": "narration",
+          "text": "\"You didn't win. The house lost nothing. Keep the watch.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Kihei",
+          "voice": "arms"
+        },
+        {
+          "key": 184,
+          "channel": "narration",
+          "text": "By evening the padded coat is folded at the woodshed step, the torn shoulder closed with stitches smaller than the tear deserved. O-Hisa is still three steps from the kitchen when you come round the corner, caught.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 185,
+          "channel": "narration",
+          "text": "\"It tore clean, at least. If the ribs knit as straight — well.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "O-Hisa",
+          "voice": "steward"
+        },
+        {
+          "key": 186,
+          "channel": "narration",
+          "text": "She is back inside before you find anything to say to that.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 187,
+          "channel": "narration",
+          "text": "\"It bled going west. The trail is fresh.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player"
+        },
+        {
+          "key": 188,
+          "channel": "narration",
+          "text": "\"And you can chase it exactly as far as I can throw you. Sit down. It is winter's business now, not yours.\"",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 189,
+          "channel": "narration",
+          "text": "The drill yard opens to you — a place to train, and foes that must be met.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 190,
+          "channel": "narration",
+          "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 191,
+          "channel": "narration",
+          "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 192,
+          "channel": "narration",
+          "text": "[dev — kura / grain-store reveal; flavor-key migration pending (HD-30)]",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 193,
+          "channel": "narration",
+          "text": "[dev — weir-reeds reveal; flavor-key migration pending (HD-30)]",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 194,
+          "channel": "milestone",
+          "text": "Rank ↑ — The grain-watch 蔵番",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "rank.marker",
+          "params": {
+            "title": "The grain-watch",
+            "kanji": "蔵番"
+          }
+        },
+        {
+          "key": 195,
+          "channel": "narration",
+          "text": "A lean corner of the woodshed is kept back for you now — a straw mat, a bowl, a nail for your coat, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 200,
+          "channel": "combat",
+          "text": "You bring down the river rats. ✓ (HP 60→11 · +0 mon)",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "river rats",
+            "hpBefore": 60,
+            "hpAfter": 11,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 211,
+          "channel": "combat",
+          "text": "You bring down the river rats. ✓ (HP 60→36 · +0 mon)",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "river rats",
+            "hpBefore": 60,
+            "hpAfter": 36,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 214,
+          "channel": "combat",
+          "text": "You bring down the river rats. ✓ (HP 60→10 · +0 mon, +1 beast sinew)",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "river rats",
+            "hpBefore": 60,
+            "hpAfter": 10,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 215,
+          "channel": "narration",
+          "text": "\"Quiet in the kura tonight,\" Kihei lets drop, cleaning his blade by lamplight.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 225,
+          "channel": "combat",
+          "text": "You bring down the tanuki. ✓ (HP 60→15 · +0 mon, +1 beast sinew)",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "tanuki",
+            "hpBefore": 60,
+            "hpAfter": 15,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 228,
+          "channel": "combat",
+          "text": "You bring down the tanuki. ✓ (HP 60→26 · +0 mon)",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "tanuki",
+            "hpBefore": 60,
+            "hpAfter": 26,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 229,
+          "channel": "narration",
+          "text": "\"The monkeys have learned his shape,\" Kihei is heard to say, almost pleased.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 246,
+          "channel": "narration",
+          "text": "\"The fields don't miss him while he drills,\" Genemon notes, half to himself.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 253,
+          "channel": "narration",
+          "text": "\"Watch or no watch, his rows never fell behind,\" Genemon says over the evening rice.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 278,
+          "channel": "narration",
+          "text": "\"The palisade wood is his cutting,\" Kihei says, striking a post with the flat of his hand.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 284,
+          "channel": "combat",
+          "text": "The river rats overcomes you; you limp home badly used. (HP 60→1) You drop 24 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "river rats",
+            "hpBefore": 60,
+            "hpAfter": 1,
+            "lostCoin": 24,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 295,
+          "channel": "combat",
+          "text": "You bring down the river rats. ✓ (HP 60→14 · +0 mon)",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "river rats",
+            "hpBefore": 60,
+            "hpAfter": 14,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 298,
+          "channel": "combat",
+          "text": "The river rats overcomes you; you limp home badly used. (HP 60→1) You drop 20 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "river rats",
+            "hpBefore": 60,
+            "hpAfter": 1,
+            "lostCoin": 20,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 305,
+          "channel": "combat",
+          "text": "You bring down the river rats. ✓ (HP 60→14 · +0 mon)",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "river rats",
+            "hpBefore": 60,
+            "hpAfter": 14,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 317,
+          "channel": "combat",
+          "text": "You bring down the river rats. ✓ (HP 60→1 · +0 mon)",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "river rats",
+            "hpBefore": 60,
+            "hpAfter": 1,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 318,
+          "channel": "milestone",
+          "text": "Your body has hardened with the fighting. Combat level 2.",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.levelUp",
+          "params": {
+            "level": 2
+          }
+        },
+        {
+          "key": 324,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 16 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "lostCoin": 16,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 332,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 335,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 68→17 · +0 mon)",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 17,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 338,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 12 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "lostCoin": 12,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 348,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 10 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "lostCoin": 10,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 354,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 68→15 · +0 mon, +1 beast sinew)",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 15,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 363,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 8 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "lostCoin": 8,
+            "lostRice": 0,
+            "lostMats": 1
+          }
+        },
+        {
+          "key": 372,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 7 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "lostCoin": 7,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 383,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 395,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "lostCoin": 5,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 411,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 68→25 · +0 mon)",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 25,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 425,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 6 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "lostCoin": 6,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 437,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 68→2 · +0 mon, +1 beast sinew)",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 2,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 444,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 447,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 4 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "lostCoin": 4,
+            "lostRice": 0,
+            "lostMats": 1
+          }
+        },
+        {
+          "key": 453,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 463,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 469,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 68→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "lostCoin": 2,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 480,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 68→15 · +0 mon)",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 15,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 489,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 68→1 · +0 mon)",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 68,
+            "hpAfter": 1,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 490,
+          "channel": "milestone",
+          "text": "Your body has hardened with the fighting. Combat level 3.",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.levelUp",
+          "params": {
+            "level": 3
+          }
+        },
+        {
+          "key": 491,
+          "channel": "milestone",
+          "text": "You have become what the house needed at its gate — a hand it can trust with an edge to it. Kihei watches you drill at first light and almost smiles. \"There's a soldier in you under the farmhand. We'll find the rest of it yet.\" Past the gate the valley road climbs out of sight — toward the house's standing, its rivals, and the name you still cannot reach. That climb is for the days to come.",
+          "tick": 12,
+          "count": 1
+        },
+        {
+          "key": 492,
+          "channel": "narration",
+          "text": "That night the dream comes again, and stays longer. The grey rain, the road — and now a load on your back, roped with the porter's knot your hands already knew. Water rising over the planks of a low bridge. A woman's voice behind you, calling a name through the flood — your name, you are almost sure, though the water closes over it before you can catch its shape.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 501,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 76→20 · +0 mon)",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 76,
+            "hpAfter": 20,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 509,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 76→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 76,
+            "hpAfter": 1,
+            "lostCoin": 3,
+            "lostRice": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 523,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 76→11 · +0 mon, +1 beast sinew)",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 76,
+            "hpAfter": 11,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 535,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 76→12 · +0 mon, +1 beast sinew)",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 76,
+            "hpAfter": 12,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 550,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 76→3 · +0 mon, +1 beast sinew)",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 76,
+            "hpAfter": 3,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 560,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 563,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 76→28 · +0 mon)",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 76,
+            "hpAfter": 28,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 572,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 76→17 · +0 mon)",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 76,
+            "hpAfter": 17,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 573,
+          "channel": "milestone",
+          "text": "Your body has hardened with the fighting. Combat level 4.",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.levelUp",
+          "params": {
+            "level": 4
+          }
+        },
+        {
+          "key": 576,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 84→29 · +0 mon)",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 84,
+            "hpAfter": 29,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 584,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 84→3 · +0 mon)",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 84,
+            "hpAfter": 3,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 587,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 84→16 · +0 mon, +1 beast sinew)",
+          "tick": 14,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 84,
+            "hpAfter": 16,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 596,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 84→24 · +0 mon, +1 beast sinew)",
+          "tick": 4,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 84,
+            "hpAfter": 24,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 599,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 84→7 · +0 mon)",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 84,
+            "hpAfter": 7,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 610,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 84→19 · +0 mon, +1 beast sinew)",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 84,
+            "hpAfter": 19,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 619,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 84→11 · +0 mon, +1 beast sinew)",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 84,
+            "hpAfter": 11,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 628,
+          "channel": "narration",
+          "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 629,
+          "channel": "combat",
+          "text": "The badger overcomes you; you limp home badly used. (HP 84→1) You drop 6 mon and 3 of your spoils in the rout. Eat and mend before you take the field again.",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 84,
+            "hpAfter": 1,
+            "lostCoin": 6,
+            "lostRice": 0,
+            "lostMats": 3
+          }
+        },
+        {
+          "key": 630,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 6,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 631,
+          "channel": "narration",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 632,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 633,
+          "channel": "narration",
+          "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 634,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+5 sansai, +1 coin)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 635,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 14,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 636,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+4 sansai, +1 coin)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 637,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 638,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +13 HP)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 13
+          }
+        },
+        {
+          "key": 639,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 640,
+          "channel": "narration",
+          "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 641,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 84→14 · +0 mon, +1 beast sinew)",
+          "tick": 22,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 84,
+            "hpAfter": 14,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 642,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 643,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 644,
+          "channel": "narration",
+          "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 645,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+4 sansai, +1 coin)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 646,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 6,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 647,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+3 sansai, +1 coin)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 648,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 649,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+3 sansai, +1 coin)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 650,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 651,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 652,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 653,
+          "channel": "narration",
+          "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 654,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 84→41 · +0 mon, +1 beast sinew)",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 84,
+            "hpAfter": 41,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 655,
+          "channel": "milestone",
+          "text": "Your body has hardened with the fighting. Combat level 5.",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.levelUp",
+          "params": {
+            "level": 5
+          }
+        },
+        {
+          "key": 656,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 657,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 658,
+          "channel": "narration",
+          "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 659,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+2 sansai, +1 coin)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 660,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 661,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+2 sansai, +1 coin)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 662,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 663,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+1 sansai, +1 coin)",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 664,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 665,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+1 sansai, +1 coin)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 666,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +9 HP)",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 9
+          }
+        },
+        {
+          "key": 667,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 668,
+          "channel": "narration",
+          "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 669,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 92→37 · +0 mon)",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 37,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 670,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 671,
+          "channel": "narration",
+          "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 672,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+1 sansai, +1 coin)",
+          "tick": 16,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 673,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 674,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+1 sansai, +1 coin)",
+          "tick": 22,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 675,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 676,
+          "channel": "system",
+          "text": "The season turns, and some of your rice has spoiled in the store. (−26 rice)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "season.spoilage",
+          "params": {
+            "total": 26
+          }
+        },
+        {
+          "key": 677,
+          "channel": "narration",
+          "text": "Loads cross the forecourt all morning: trays, lamp-oil, cut flowers, a bundle of incense sticks O-Yae carries two-handed like a caught bird. Everyone is given something.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 678,
+          "channel": "narration",
+          "text": "The third load goes past before you ask it.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 679,
+          "channel": "narration",
+          "text": "\"What do I carry?\"",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 680,
+          "channel": "narration",
+          "text": "\"Not this. If a year from now — well. Not this.\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "O-Hisa",
+          "voice": "steward"
+        },
+        {
+          "key": 681,
+          "channel": "narration",
+          "text": "The house files toward the alcove corridor. The forecourt is yours all day. For once, nobody crosses it.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 682,
+          "channel": "narration",
+          "text": "At dusk, from the weir path: O-Ume sets her lantern on the water and talks it out past the reeds, the way you'd see a guest to the road.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 683,
+          "channel": "narration",
+          "text": "At the gate, the monk Iori has his lodging and his one small fire.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 684,
+          "channel": "narration",
+          "text": "\"Sit. Two bowls, one mouth. I'll be gone before you learn my face.\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Iori",
+          "voice": "monk"
+        },
+        {
+          "key": 685,
+          "channel": "narration",
+          "text": "Through the corridor screen, past shoulders: a small tray set out for somebody, and straw sandals beside it, toes toward the gate.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 686,
+          "channel": "narration",
+          "text": "Morning. The trays are cleared, the lanterns down, the monk gone north. The sandals are new.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 687,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+24 sansai, +1 coin)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 688,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 689,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 690,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +13 HP)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 13
+          }
+        },
+        {
+          "key": 691,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
+        },
+        {
+          "key": 692,
+          "channel": "narration",
+          "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 693,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 92→45 · +0 mon, +1 beast sinew)",
+          "tick": 10,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 45,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 694,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 16,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 695,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +5 HP)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 5
+          }
+        },
+        {
+          "key": 696,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 92→48 · +0 mon)",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 48,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 697,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 2,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 698,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +2 HP)",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 2
+          }
+        },
+        {
+          "key": 699,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 92→45 · +0 mon)",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 45,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 700,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 10,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 701,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 702,
+          "channel": "narration",
+          "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 703,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+24 sansai, +1 coin)",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 704,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 705,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +5 HP)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 5
+          }
+        },
+        {
+          "key": 706,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 707,
+          "channel": "narration",
+          "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 708,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 92→30 · +0 mon, +1 beast sinew)",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 30,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 709,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 2,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 710,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +6 HP)",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 6
+          }
+        },
+        {
+          "key": 711,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 92→25 · +0 mon)",
+          "tick": 6,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 25,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 712,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 14,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 713,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +11 HP)",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 11
+          }
+        },
+        {
+          "key": 714,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 92→24 · +0 mon, +1 beast sinew)",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 24,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 715,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 716,
+          "channel": "narration",
+          "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 717,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+10 sansai, +1 coin)",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 718,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 4,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 719,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +12 HP)",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 12
+          }
+        },
+        {
+          "key": 720,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 721,
+          "channel": "narration",
+          "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 722,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 92→37 · +0 mon, +1 beast sinew)",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 37,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 723,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 724,
+          "channel": "narration",
+          "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 725,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+16 sansai, +1 coin)",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 726,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 16,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 727,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +13 HP)",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 13
+          }
+        },
+        {
+          "key": 728,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 729,
+          "channel": "narration",
+          "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 730,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 92→10 · +0 mon)",
+          "tick": 20,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 10,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 731,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 4,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 732,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 733,
+          "channel": "narration",
+          "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 734,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+12 sansai, +1 coin)",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 735,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 736,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +12 HP)",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 12
+          }
+        },
+        {
+          "key": 737,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 738,
+          "channel": "narration",
+          "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 739,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 92→27 · +0 mon, +1 beast sinew)",
+          "tick": 12,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 27,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 740,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 20,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 741,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 742,
+          "channel": "narration",
+          "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 743,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+11 sansai, +1 coin)",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 744,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +9 HP)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 9
+          }
+        },
+        {
+          "key": 745,
+          "channel": "system",
+          "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 6
+          }
+        },
+        {
+          "key": 746,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 747,
+          "channel": "narration",
+          "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 748,
+          "channel": "combat",
+          "text": "You bring down the badger. ✓ (HP 92→34 · +0 mon, +1 beast sinew)",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 34,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 749,
+          "channel": "milestone",
+          "text": "Your body has hardened with the fighting. Combat level 6.",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.levelUp",
+          "params": {
+            "level": 6
+          }
+        },
+        {
+          "key": 750,
+          "channel": "system",
+          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
+          "tick": 12,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 751,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
+          "tick": 20,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 14
+          }
+        },
+        {
+          "key": 752,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 753,
+          "channel": "narration",
+          "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 754,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+12 sansai, +1 coin)",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 755,
+          "channel": "system",
+          "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +10 HP)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "food.cook",
+          "params": {
+            "sansai": 2,
+            "hpGain": 10
+          }
         }
       ],
-      "seq": 118
+      "seq": 756
     },
     "skillXp": {
-      "farming": 134,
+      "farming": 265,
       "conditioning": 173,
-      "woodcutting": 92,
-      "foraging": 96
+      "woodcutting": 190,
+      "foraging": 357
     },
     "deliveredDialogue": [
       "gen-greet",
@@ -1138,16 +3235,16 @@
     ],
     "npcMemory": {
       "soan": {
-        "regard": "grateful",
+        "regard": "noted",
         "warmth": 1
       },
       "genemon": {
-        "regard": "dutiful",
-        "warmth": 2
+        "regard": "earnest",
+        "warmth": 1
       },
-      "rokusuke": {
-        "regard": "respected",
-        "warmth": 0
+      "kihei": {
+        "regard": "spine",
+        "warmth": 1
       }
     },
     "introBeat": 3,
@@ -1160,22 +3257,22 @@
     },
     "marketBought": {},
     "belongings": [],
-    "location": "kura",
-    "rung": "R2",
+    "location": "woodlot",
+    "rung": "R3",
     "rungReqs": {
-      "learn-the-woodlot": 20,
-      "walk-the-hills": 25,
-      "keep-the-stores-moving": 20
+      "clear-the-kura-rats": 3,
+      "drive-off-the-thieves": 2,
+      "the-fields-hold": 15,
+      "keep-the-rows": 30,
+      "timber-for-the-palisade": 25
     },
     "estateStage": 0,
     "discovered": [],
-    "discoveryProgress": {
-      "disc-woodlot-lacquer": 20
-    },
+    "discoveryProgress": {},
     "autoActivity": null,
     "autoRake": false,
     "equippedWeapon": "carrying_pole",
-    "weaponDurability": 40,
+    "weaponDurability": 38,
     "autoCombat": null,
     "autoCombatRetreat": false,
     "stance": "chudan",
@@ -1190,8 +3287,11 @@
     },
     "sceneQueue": [],
     "activeScene": null,
-    "scenesPlayed": [],
+    "scenesPlayed": [
+      "r2-yard-hand",
+      "sb-bon"
+    ],
     "roundState": null,
-    "soanLedger": 0
+    "soanLedger": 16
   }
 }

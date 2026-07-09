@@ -18,10 +18,11 @@ import {
   applyGrindFight,
   focusedOptimalIntent,
   nextHopToward,
+  getActivity,
   getMob,
   getWeapon,
   durabilityBand,
-  skillLevel,
+  isMarketDay,
   promotionReady,
   pendingPromotionTarget,
   phaseOf,
@@ -31,6 +32,8 @@ import {
   introActive,
   introSceneAt,
   INTRO_SCENE_COUNT,
+  resolveNightStage,
+  nightRoundById,
   type GameState,
   type Intent,
   type MobId,
@@ -78,22 +81,31 @@ function must(cond: boolean, msg: string): void {
 export type NextStep =
   | { readonly kind: 'ascend' }
   | { readonly kind: 'grind'; readonly mobId: MobId }
+  | { readonly kind: 'night-stage'; readonly foe: MobId }
   | { readonly kind: 'intent'; readonly intent: Intent };
 
 export type StopFn = (s: GameState, next: NextStep) => boolean;
 
 /** Drive the real engine from `s0` (after the cold-open `open_eyes`, exactly as t0-arc does) until
- *  `stop` fires or the arc terminates. Returns the state AT the stop (before the stopped action). */
+ *  `stop` fires or the arc terminates. Returns the state AT the stop (before the stopped action).
+ *  G4 cutover: the R3 `combat-blooded` monkey-grind hack is GONE (the new R3 opens on the on-rails
+ *  NIGHT ROUND, resolved stage-by-stage through the engine like the app loop / t0-arc.test.ts), and
+ *  the beatless silent rungs (R2, R5) promote through `focusedOptimalIntent`'s own path. */
 export function drive(s0: GameState, stop: StopFn): GameState {
   let s = reduce(s0, { type: 'open_eyes' });
   let guard = 0;
-  while (s.tier === 0 && guard++ < 1_000_000) {
+  while (s.tier === 0 && guard++ < 3_000_000) {
+    if (s.roundState !== null) {
+      // the R3 grain-watch night round — resolve its current stage through the engine (no intent).
+      const def = nightRoundById(s.roundState.roundId)!;
+      const foe = def.stages[s.roundState.stage]?.foe;
+      if (foe && stop(s, { kind: 'night-stage', foe })) return s;
+      s = resolveNightStage(s, def);
+      continue;
+    }
     let next: NextStep;
     if (ascensionAvailable(s)) {
       next = { kind: 'ascend' };
-    } else if (s.rung === 'R3' && !hasFlag(s, 'combat-blooded')) {
-      // R3→R4 needs real combat duty, not just meter — one grind fight sets `combat-blooded`.
-      next = { kind: 'grind', mobId: 'monkey' };
     } else {
       const intent = focusedOptimalIntent(s);
       if (!intent) return s; // a genuine dead-end — the spec's `expect` catches a missed waypoint
@@ -101,7 +113,7 @@ export function drive(s0: GameState, stop: StopFn): GameState {
     }
     if (stop(s, next)) return s;
     if (next.kind === 'ascend') return reduce(s, { type: 'ascend' });
-    s = next.kind === 'grind' ? applyGrindFight(s, next.mobId) : reduce(s, next.intent);
+    s = reduce(s, next.intent);
   }
   return s;
 }
@@ -226,26 +238,23 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
   {
     name: 'fresh-R3-pre-wolf',
     group: G_EARLY,
-    // The wolf is faced AT R2 (the fight that OPENS R3); the blurb states it plainly (Risk #7).
-    blurb: 'R2, wolf-ready — the fight that opens R3, stopped one click short of facing the wolf.',
+    // G4 cutover: the wolf moved to R3's on-rails NIGHT ROUND (the grain-watch), which OPENS R3→R4.
+    // This waypoint is the grain-watch blooded + round-ready, stopped one click short of POSTING the
+    // first night round — the R3 countables (the rat/tanuki kills, the field + timber work) all done,
+    // only the survive-the-wolf flag left. (Name kept — the DEV button / ?fixture= route resolves it.)
+    blurb: 'R3 grain-watch, night-round-ready — blooded and stopped one click short of posting the wolf round.',
     seed: T0_ARC_SEED,
     play: (s0) =>
-      drive(s0, (_s, next) => next.kind === 'intent' && next.intent.type === 'fight' /* TODO(g4-tests): scripted wolf → night round */),
+      drive(s0, (_s, next) => next.kind === 'intent' && next.intent.type === 'begin_night_round'),
     expect: (s) => {
-      must(s.rung === 'R2', `expected rung R2, got ${s.rung}`);
-      // the scripted wolf's node (== the kura) — derived, not a magic string.
-      const wolfNode = getMob('wolf').area; // TODO(g4-tests): scripted wolf retired to night round
+      must(s.rung === 'R3', `expected rung R3, got ${s.rung}`);
       must(
-        s.location === wolfNode,
-        `expected to stand at the wolf node ${wolfNode}, got ${s.location}`,
-      );
-      must(
-        !hasFlag(s, 'first-fight-survived'),
-        'the wolf should be unfought (first-fight-survived false)',
+        !hasFlag(s, 'wolf-survived-not-won'),
+        'the wolf should be unfaced (wolf-survived-not-won false)',
       );
       must(
         remainingRequirements(s).every((r) => r.type === 'flag'),
-        'the R2 countable requirements should be done (wolf-ready)',
+        'the R3 countable requirements should be done (round-ready)',
       );
     },
   },
@@ -284,30 +293,31 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     name: 'post-loss-broke',
     group: G_SETBACKS,
     blurb:
-      'The post-loss slump (D-113): HP at the floor, carried rice bled in the rout, the kura hoard sheltered — sansai on hand so the cook-to-heal answer (D-076) is one press away.',
+      'The post-loss slump (D-113): HP at the floor, carried coin/goods bled in the rout, the kura RICE hoard sheltered — sansai on hand so the cook-to-heal answer (D-076) is one press away.',
     seed: T0_ARC_SEED,
-    // Drive to R3 (a lvl-1 gate-watch never grinds combat, so it truly LOSES), earn the
-    // conditioning gate by hauling (real labour) so the satoyama opens, forage enough sansai
-    // to cook, bank some rice in the kura (so the shelter is legible), then take the
-    // documented rout against the monkey. The sansai makes the ADR-076 recovery loop (cook →
-    // heal) drivable from this waypoint through visible controls alone — the journey lane
-    // (fable-2026-07-05-desktop-journey-e2e P2) boots it and presses Cook.
+    // G4 cutover: rice is KURA-ONLY now (never carried), so the rout bleeds carried coin/goods but
+    // can't touch the granary — the shelter is the whole kura pile. Drive to R3, forage sansai on the
+    // woodlot (real labour) so the cook-to-heal loop is pressable, then take a real rout against a
+    // REACHABLE foe (the field-margins badger, which walls a lvl-1 gate-watch) until the setback fires.
     play: (s0) => {
       let s = drive(s0, (st) => st.rung === 'R3');
-      s = walkTo(s, 'gate-forecourt');
+      // forage sansai on the woodlot; if the season pool's worked out, turn the wheel to refill it.
       let guard = 0;
-      while (skillLevel(s, 'conditioning') < balance.CONDITIONING_GATE_LEVEL && guard++ < 200) {
-        s = reduce(s, { type: 'do_activity', activityId: 'haul_stores' });
+      const forageArea = getActivity('forage_satoyama').area;
+      while ((s.resources.sansai ?? 0) < balance.COOK_SANSAI_COST && guard++ < 60) {
+        if ((s.sitePools[forageArea] ?? 0) <= 0 && s.location === forageArea) {
+          s = reduce(s, { type: 'advance_season' });
+          continue;
+        }
+        s = s.location === forageArea ? reduce(s, { type: 'do_activity', activityId: 'forage_satoyama' }) : walkTo(s, forageArea);
       }
-      s = walkTo(s, 'near-satoyama');
+      // take the documented rout — grind the badger (reachable at the field margins) to the setback.
+      s = walkTo(s, getMob('badger').area);
       guard = 0;
-      while ((s.resources.sansai ?? 0) < balance.COOK_SANSAI_COST && guard++ < 10) {
-        s = reduce(s, { type: 'do_activity', activityId: 'forage_satoyama' });
+      while (s.character.hp !== balance.SETBACK_HP && guard++ < 80) {
+        s = applyGrindFight(s, 'badger');
       }
-      s = walkTo(s, 'kura');
-      s = reduce(s, { type: 'deposit', resource: 'rice' }); // shelter a slice under the kura cap
-      s = walkTo(s, getMob('monkey').area);
-      return applyGrindFight(s, 'monkey'); // the lvl-1 MC is beaten — the setback fires
+      return s;
     },
     expect: (s) => {
       must(
@@ -319,8 +329,8 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
         'the kura should shelter banked rice (the rout cannot touch it)',
       );
       must(
-        (s.resources.rice ?? 0) > 0,
-        'carried rice should remain (bled by a fraction, not zeroed)',
+        (s.resources.rice ?? 0) === 0,
+        'rice is never carried (kura-only) — there is nothing on the back to bleed',
       );
       must(
         (s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST,
@@ -347,7 +357,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
       if ((s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST) {
         s = reduce(s, { type: 'deposit', resource: 'wood' });
       }
-      return grindUntil(s, 'monkey', (st) => bandName(st) === 'Battered');
+      return grindUntil(s, 'badger', (st) => bandName(st) === 'Battered');
     },
     expect: (s) => {
       must(bandName(s) === 'Battered', `expected a Battered weapon, got ${bandName(s)}`);
@@ -364,20 +374,31 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     blurb:
       'Phase 2, coffers full — rice sold and coin banked past 2× the dearest estate stage; idle at the kura.',
     seed: T0_ARC_SEED,
-    // Full arc to the Phase-2 threshold, then run the coin faucet: sell the rice hoard and bank the
-    // coin until rich. Idles at the kura (FB-32 resets in-flight automation on every load — genuinely idle).
+    // Full arc to the Phase-2 threshold, then run the coin faucet: G4 cutover — rice is KURA-ONLY, so
+    // the faucet is `sell_rice` (kura shō → coin at Yohei's market-day stall), the wage board, and the
+    // deposit. Sell/collect/bank on the spot; pass time with a haul when the stall's shut, until rich.
+    // Idles at the kura (FB-32 resets in-flight automation on every load — genuinely idle).
     play: (s0) => {
       let s = walkTo(
         drive(s0, (_st, next) => next.kind === 'ascend'),
         'kura',
       );
       let guard = 0;
-      while ((s.banked.coin ?? 0) < WEALTHY_COIN_THRESHOLD && guard++ < 30) {
-        if ((s.resources.rice ?? 0) > 0) s = reduce(s, { type: 'sell_rice' });
-        if ((s.resources.coin ?? 0) <= 0) break;
-        s = reduce(s, { type: 'deposit', resource: 'coin' });
+      while ((s.banked.coin ?? 0) < WEALTHY_COIN_THRESHOLD && guard++ < 4000) {
+        if (isMarketDay(s.clock.day) && (s.banked.rice ?? 0) > 0) {
+          s = reduce(s, { type: 'sell_rice' }); // kura shō → coin (Yohei's purse-clamped)
+        } else if (s.wageDaysAccrued > 0) {
+          s = reduce(s, { type: 'collect_wage' });
+        } else if ((s.resources.coin ?? 0) > 0 && s.location === 'kura') {
+          s = reduce(s, { type: 'deposit', resource: 'coin' });
+        } else {
+          // pass time (reach the next market day) with a coin-paying haul, then walk home to bank.
+          s = walkTo(s, getActivity('haul_stores').area);
+          s = reduce(s, { type: 'do_activity', activityId: 'haul_stores' });
+          s = walkTo(s, 'kura');
+        }
       }
-      return s;
+      return walkTo(s, 'kura');
     },
     expect: (s) => {
       must(phaseOf(s) === 2, `expected Phase 2, got phase ${phaseOf(s)}`);
@@ -392,36 +413,39 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     name: 'rice-at-gate',
     group: G_ECONOMY,
     blurb:
-      'R3 with the rice hoard carried to the forecourt — Tokubei one press away (the D-114 talk-to-open market loop).',
+      'R3 standing at the gate on Yohei’s market ground, the kura rice ready to sell — the market loop’s start.',
     seed: T0_ARC_SEED,
-    // The market-loop journey's start (fable-2026-07-05-desktop-journey-e2e P2): standing at
-    // the gate where the pedlar keeps his ground, rice on the back, nothing yet sold.
+    // G4 cutover: rice is KURA-ONLY (never carried), sold at Yohei's gate stall — so the market-loop
+    // start is standing at the GATE with a stocked kura, not rice "on the back". (`gate` is the real
+    // node id; `gate-forecourt` was the pre-cutover name.)
     play: (s0) =>
       walkTo(
         drive(s0, (st) => st.rung === 'R3'),
-        'gate-forecourt',
+        'gate',
       ),
     expect: (s) => {
-      must(s.location === 'gate-forecourt', `expected the gate-forecourt, got ${s.location}`);
-      must((s.resources.rice ?? 0) > 0, 'carried rice to sell — the loop needs stock');
+      must(s.location === 'gate', `expected the gate, got ${s.location}`);
+      must((s.banked.rice ?? 0) > 0, 'kura rice to sell — the loop needs stock');
       must(
         s.unlocked.includes('panel-estate'),
-        'panel-estate must be revealed (Tokubei stands the gate on it)',
+        'panel-estate must be revealed (Yohei stands the gate on it)',
       );
     },
   },
   {
     name: 'at-kura-with-coin',
     group: G_ECONOMY,
-    blurb: 'R3, standing in the kura with sale-coin in the sleeve — the deposit one press away.',
+    blurb: 'R3, standing in the kura with wage-coin in the sleeve — the deposit one press away.',
     seed: T0_ARC_SEED,
-    // The kura-deposit journey's start (P2): rice sold at the gate, the coin walked home.
+    // The kura-deposit journey's start (P2): coin earned by the coin-paying haul (the wage labour),
+    // walked home to the storehouse. (G4: coin comes from the haul/market, not carried-rice sales.)
     play: (s0) => {
-      let s = walkTo(
-        drive(s0, (st) => st.rung === 'R3'),
-        'gate-forecourt',
-      );
-      s = reduce(s, { type: 'sell_rice' });
+      let s = drive(s0, (st) => st.rung === 'R3');
+      s = walkTo(s, getActivity('haul_stores').area); // forecourt — the coin-paying wage labour
+      let guard = 0;
+      while ((s.resources.coin ?? 0) <= 0 && guard++ < 20) {
+        s = reduce(s, { type: 'do_activity', activityId: 'haul_stores' });
+      }
       return walkTo(s, 'kura');
     },
     expect: (s) => {

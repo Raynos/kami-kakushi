@@ -27,9 +27,9 @@
       "satiety": 100,
       "attributePoints": 0,
       "attrs": {
-        "str": 5,
-        "agi": 4,
-        "int": 7,
+        "str": 6,
+        "agi": 5,
+        "int": 5,
         "spd": 4,
         "luck": 5
       },
@@ -37,18 +37,24 @@
       "combatXp": 0
     },
     "resources": {
-      "coin": 0,
-      "rice": 70
+      "coin": 0
     },
     "banked": {
-      "coin": 0,
-      "rice": 0
+      "rice": 61
     },
+    "sitePools": {
+      "paddies": 300,
+      "forecourt": 120,
+      "woodlot": 160
+    },
+    "wageDaysAccrued": 0,
+    "lastWageDay": -1,
     "flags": {
       "awake": true,
       "dream-1": true,
+      "label-nameless": true,
       "raked": true,
-      "r1-dutiful": true,
+      "r1-none-claimed": true,
       "rank-r1": true
     },
     "unlocked": [
@@ -58,8 +64,9 @@
       "readout-rice",
       "verb-rake",
       "verb-rest",
-      "room-gate-forecourt",
-      "room-home-paddies",
+      "room-gate",
+      "room-paddies",
+      "room-woodshed",
       "verb-farm",
       "verb-haul",
       "readout-clock",
@@ -73,7 +80,7 @@
         {
           "key": 0,
           "channel": "narration",
-          "text": "You open your eyes. Straw beneath you, the smell of wet rice, a low roof you do not know. A cold spring — the ninth year of An'ei — though the year is as lost to you as your name.",
+          "text": "The river gives you up at the weir. You keep none of it in order: hands in your collar, gravel under your back, the sky white and near, water leaving you in coughs. A stone jizō watches from the bank, rice at its feet, nobody on the road who could have left it. Someone says, carry him up, then. Then nothing.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -81,16 +88,15 @@
         {
           "key": 1,
           "channel": "narration",
-          "text": "\"You're awake.\" Sōan the physician sits back on his heels. \"No kami carried you off, whatever the village wants to believe. A flood took you, and a blow to the head took the rest. Bodies forget. Given work and rice, they also mend.\"",
+          "text": "Straw. A low roof. A fire kept small. Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it. You have been three days in a room you have never seen.",
           "tick": 0,
           "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician"
+          "voice": "narrator"
         },
         {
           "key": 2,
           "channel": "narration",
-          "text": "You take stock of yourself: bruised, hollow, half-starved — but breathing.",
+          "text": "The physician does not ask how you feel. He takes your wrist, then your jaw, then turns your hands over and looks at them longer than at anything else. He presses a thumb into the callus line across one palm and says nothing. There is a ledger open on his knee.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -98,24 +104,24 @@
         {
           "key": 3,
           "channel": "narration",
-          "text": "Rice lies scattered across the Kurosawa grain-store floor. Spilled stores are waste — and clearing waste is a kind of work, if you set your hands to it.",
+          "text": "\"Do you know the year?\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 4,
+          "channel": "narration",
+          "text": "\"No.\"",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 4,
-          "channel": "narration",
-          "text": "\"Then I'll trust your craft, not the village's ghosts.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "You",
-          "voice": "player"
-        },
-        {
           "key": 5,
           "channel": "narration",
-          "text": "\"Sense, at last. Rest, eat, and let the swelling go down. The wits come back last — don't force them.\"",
+          "text": "\"An'ei nine. Now you know it again. Drink this.\"",
           "tick": 0,
           "count": 1,
           "speaker": "Sōan",
@@ -123,15 +129,16 @@
         },
         {
           "key": 6,
-          "channel": "milestone",
-          "text": "Perk unlocked — Sōan's Counsel: A mind honed sharper than the body it wears. (+1 INT / −1 STR)",
+          "channel": "narration",
+          "text": "Whatever the hands told him goes into the ledger, two lines, too far off to read. The door slides, and he closes the book on his thumb.",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "voice": "narrator"
         },
         {
           "key": 7,
           "channel": "narration",
-          "text": "Something surfaces and is gone — a porter's knot, a road in grey rain, a name you cannot keep hold of.",
+          "text": "The man in the doorway is grey and dry and carries a book of his own. Two books in the room now, and only one of them open.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -139,74 +146,75 @@
         {
           "key": 8,
           "channel": "narration",
-          "text": "\"Hold the road. The rain. Almost a name.\"",
+          "text": "\"The weir man. Sōan — can he work?\"",
           "tick": 0,
           "count": 1,
-          "speaker": "You",
-          "voice": "player"
+          "speaker": "Genemon",
+          "voice": "steward"
         },
         {
           "key": 9,
           "channel": "narration",
-          "text": "You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.",
+          "text": "\"Ask him.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 10,
+          "channel": "narration",
+          "text": "\"Name, age, where from. In that order.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 11,
+          "channel": "narration",
+          "text": "Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 10,
-          "channel": "milestone",
-          "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
-          "tick": 0,
-          "count": 1
-        },
-        {
-          "key": 11,
-          "channel": "narration",
-          "text": "On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
           "key": 12,
           "channel": "narration",
-          "text": "\"I'll earn my keep. Point me at it.\"",
+          "text": "\"What name did I give? When they pulled me out.\"",
           "tick": 0,
           "count": 1,
-          "speaker": "You",
-          "voice": "player"
+          "voice": "narrator"
         },
         {
           "key": 13,
           "channel": "narration",
-          "text": "\"...Good. The house has had its fill of hands that don't. We'll see if you mean it.\"",
+          "text": "\"None. You gave none. Three days I have had nothing to call you, and neither have you.\"",
           "tick": 0,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
+          "speaker": "Sōan",
+          "voice": "physician"
         },
         {
           "key": 14,
-          "channel": "milestone",
-          "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
+          "channel": "narration",
+          "text": "Nothing comes.",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "voice": "narrator"
         },
         {
           "key": 15,
-          "channel": "reward",
-          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+          "channel": "narration",
+          "text": "Genemon does not look surprised. He looks down and writes, and reads it back as he writes, aloud and once.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "voice": "narrator"
         },
         {
           "key": 16,
           "channel": "narration",
-          "text": "So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.",
+          "text": "One man, name unknown. Taken at the weir. Fed, three days. Condition, poor; hands, good.",
           "tick": 0,
           "count": 1,
           "speaker": "Genemon",
@@ -215,13 +223,155 @@
         {
           "key": 17,
           "channel": "narration",
-          "text": "Your arms are leaden. You could rest a moment against the cool post.",
+          "text": "\"When he can stand, he rakes. The kitchen wants water before it wants anything.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 18,
+          "channel": "narration",
+          "text": "He goes. Sōan opens his ledger again, where his thumb kept the place.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 19,
+          "channel": "narration",
+          "text": "[dev — body readout reveal; flavor-key migration pending (HD-30)]",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 20,
+          "channel": "narration",
+          "text": "[dev — rice readout reveal; flavor-key migration pending (HD-30)]",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 21,
+          "channel": "narration",
+          "text": "\"My hands know a knot. I'll keep that.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "You",
+          "voice": "player"
+        },
+        {
+          "key": 22,
+          "channel": "narration",
+          "text": "You tie it in the cord of your own bedding: a carrier's hitch, fast and one-handed, twice. Sōan watches it both times. He does not write it down while you are looking.",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician"
+        },
+        {
+          "key": 23,
+          "channel": "milestone",
+          "text": "Perk unlocked — The Carrier's Hitch: fast, one-handed, holds wet. (+1 AGI / −1 INT)",
+          "tick": 0,
+          "count": 1
+        },
+        {
+          "key": 24,
+          "channel": "narration",
+          "text": "Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 25,
+          "channel": "narration",
+          "text": "\"Hold the road. The rain. Almost a name.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player"
+        },
+        {
+          "key": 26,
+          "channel": "narration",
+          "text": "You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 27,
+          "channel": "milestone",
+          "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
+          "tick": 0,
+          "count": 1
+        },
+        {
+          "key": 28,
+          "channel": "narration",
+          "text": "On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 29,
+          "channel": "narration",
+          "text": "\"I'll earn my keep. Point me at it.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player"
+        },
+        {
+          "key": 30,
+          "channel": "narration",
+          "text": "\"...Good. The house has had its fill of hands that don't. We'll see if you mean it.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 31,
+          "channel": "milestone",
+          "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
+          "tick": 0,
+          "count": 1
+        },
+        {
+          "key": 32,
+          "channel": "reward",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 33,
+          "channel": "narration",
+          "text": "So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 34,
+          "channel": "narration",
+          "text": "[dev — rest verb reveal; flavor-key migration pending (HD-30)]",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 18,
+          "key": 35,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
@@ -230,7 +380,7 @@
           "ephemeral": true
         },
         {
-          "key": 19,
+          "key": 36,
           "channel": "narration",
           "text": "Clear it without my standing over you, and you'll have earned your rice and a dry corner to sleep in. I'll make you no grander promise than that. In this house, none of us holds one.",
           "tick": 2,
@@ -239,7 +389,7 @@
           "voice": "steward"
         },
         {
-          "key": 20,
+          "key": 37,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 4,
@@ -248,7 +398,7 @@
           "ephemeral": true
         },
         {
-          "key": 21,
+          "key": 38,
           "channel": "narration",
           "text": "\"...You don't shirk the work,\" Genemon says, eyeing the cleared boards and the filling basket. \"The house has had its fill of hands that do. Earn your keep, and a place here is yours.\"",
           "tick": 4,
@@ -256,7 +406,7 @@
           "voice": "narrator"
         },
         {
-          "key": 22,
+          "key": 39,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 18,
@@ -265,7 +415,7 @@
           "ephemeral": true
         },
         {
-          "key": 23,
+          "key": 40,
           "channel": "narration",
           "text": "\"So he can work,\" Genemon says, in the way another man says good morning.",
           "tick": 18,
@@ -273,7 +423,7 @@
           "voice": "narrator"
         },
         {
-          "key": 24,
+          "key": 41,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
@@ -282,7 +432,7 @@
           "ephemeral": true
         },
         {
-          "key": 25,
+          "key": 42,
           "channel": "narration",
           "text": "\"Still at it,\" Genemon says, passing the granary door without stopping.",
           "tick": 14,
@@ -290,16 +440,16 @@
           "voice": "narrator"
         },
         {
-          "key": 26,
+          "key": 43,
           "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
           "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 27,
+          "key": 44,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
@@ -308,16 +458,16 @@
           "ephemeral": true
         },
         {
-          "key": 28,
+          "key": 45,
           "channel": "system",
-          "text": "You rest against the post. The ache dulls; the light through the slats shifts.",
+          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
           "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 29,
+          "key": 46,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 0,
@@ -326,7 +476,7 @@
           "ephemeral": true
         },
         {
-          "key": 30,
+          "key": 47,
           "channel": "narration",
           "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
           "tick": 0,
@@ -334,76 +484,151 @@
           "voice": "narrator"
         },
         {
-          "key": 31,
+          "key": 48,
           "channel": "narration",
-          "text": "Dawn at the gate. The forecourt is swept clean — your doing — and Genemon waits by the posts, watching you the way a man watches weather.",
+          "text": "Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon calls you up from the step without looking up.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 32,
+          "key": 49,
           "channel": "narration",
-          "text": "\"You cleared the stores without being told twice. The house is short of hands and shorter of trustworthy ones. Stay — you're no day-hire now. Earn your rice.\"",
+          "text": "\"Two hands took the lowland road this week. Wages drawn through the day they left, lines struck. The yard is short. The work is not.\"",
           "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 33,
+          "key": 50,
           "channel": "narration",
-          "text": "\"The gate and the swept forecourt are yours to work now; stores come and go here. The home paddies too — the rice that feeds the house. And the kura's own repair is yours to tend: spend the house's small surplus to shore it up.\"",
+          "text": "It is the first you have heard of any leaving.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 51,
+          "channel": "narration",
+          "text": "\"Terms. Work, sun to sun, at what the yard wants doing — hired by the day, counted in the book. Meals at the threshold, morning and evening. The woodshed corner and a mat. No coin: the house's coin is spoken for before it reaches the yard. Objections are heard now or kept. The paddies want you by full light.\"",
           "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 34,
+          "key": 52,
           "channel": "narration",
-          "text": "A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi pedlar, come because a tended gate draws trade. He lifts a hand as you pass.",
+          "text": "Nobody stops eating. Two hands lost was a morning's talk; one stray kept is not even that. The bowls go on.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 35,
+          "key": 53,
           "channel": "narration",
-          "text": "\"A tended gate's a lucky gate for a man with a pack. Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your own spends as well as any lord's.\"",
+          "text": "\"The board has heard it. That serves for witness.\"",
           "tick": 2,
           "count": 1,
-          "speaker": "Tokubei",
-          "voice": "villager"
+          "speaker": "Genemon",
+          "voice": "steward"
         },
         {
-          "key": 36,
+          "key": 54,
           "channel": "narration",
-          "text": "\"The house has my hands.\"",
+          "text": "He opens the day-book to a page already half-filled with other men.",
           "tick": 2,
           "count": 1,
-          "speaker": "You",
+          "voice": "narrator"
+        },
+        {
+          "key": 55,
+          "channel": "narration",
+          "text": "On the veranda above the step, Naoyuki has stopped — the second son, papers of his own under one arm. Passing, and made a witness like the rest of the room.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 56,
+          "channel": "narration",
+          "text": "\"The house is glad of —\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Naoyuki",
+          "voice": "official"
+        },
+        {
+          "key": 57,
+          "channel": "narration",
+          "text": "The sentence stops. He stands with it a moment, as if he has read it back and found it not worth the ink.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 58,
+          "channel": "narration",
+          "text": "\"Two hands left. You were here. That is all it is.\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Naoyuki",
+          "voice": "official"
+        },
+        {
+          "key": 59,
+          "channel": "narration",
+          "text": "He goes on along the veranda. He looked at you once.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 60,
+          "channel": "narration",
+          "text": "Then Genemon takes up the brush, and asks it plainly, at board volume. The room hears without listening.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 61,
+          "channel": "narration",
+          "text": "\"One thing before the ink. If a claim follows you here, I enter it against your board. Is anything owing on you?\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 62,
+          "channel": "narration",
+          "text": "\"Not that I know.\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Nameless",
           "voice": "player"
         },
         {
-          "key": 37,
+          "key": 63,
           "channel": "narration",
-          "text": "\"...Good. Hands that don't need watching are the rarest thing I keep.\"",
+          "text": "\"Then the book says none claimed. It has lived with worse.\"",
           "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward"
         },
         {
-          "key": 38,
+          "key": 64,
           "channel": "narration",
-          "text": "The gate and the swept forecourt are yours to work now — stores come and go here.",
+          "text": "The gate and gateyard are yours to work now — stores come and go here, and Yohei sets up his stall on market days.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 39,
+          "key": 65,
           "channel": "narration",
           "text": "The terraced home paddies open to you — the rice that feeds the house.",
           "tick": 2,
@@ -411,7 +636,15 @@
           "voice": "narrator"
         },
         {
-          "key": 40,
+          "key": 66,
+          "channel": "narration",
+          "text": "[dev — woodshed corner reveal; flavor-key migration pending (HD-30)]",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 67,
           "channel": "narration",
           "text": "You begin to mark the turning of the days, and the four seasons with them.",
           "tick": 2,
@@ -419,19 +652,19 @@
           "voice": "narrator"
         },
         {
-          "key": 41,
+          "key": 68,
           "channel": "milestone",
-          "text": "Rank ↑ — Kept hand 下人",
+          "text": "Rank ↑ — The day-hand 日雇",
           "tick": 2,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
-            "title": "Kept hand",
-            "kanji": "下人"
+            "title": "The day-hand",
+            "kanji": "日雇"
           }
         },
         {
-          "key": 42,
+          "key": 69,
           "channel": "narration",
           "text": "The estate's own state of repair is yours to tend now — spend the house's surplus to shore it up.",
           "tick": 2,
@@ -439,7 +672,7 @@
           "voice": "narrator"
         },
         {
-          "key": 43,
+          "key": 70,
           "channel": "narration",
           "text": "The rice you clear and grow is food, not only trade — a plain bowl of it fills a hollow belly and puts you back to work the faster.",
           "tick": 2,
@@ -447,7 +680,7 @@
           "voice": "narrator"
         }
       ],
-      "seq": 44
+      "seq": 71
     },
     "skillXp": {},
     "deliveredDialogue": [
@@ -459,12 +692,12 @@
     ],
     "npcMemory": {
       "soan": {
-        "regard": "grateful",
+        "regard": "noted",
         "warmth": 1
       },
       "genemon": {
-        "regard": "dutiful",
-        "warmth": 2
+        "regard": "earnest",
+        "warmth": 1
       }
     },
     "introBeat": 3,
