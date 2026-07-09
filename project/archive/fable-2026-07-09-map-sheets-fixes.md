@@ -1,6 +1,8 @@
 # Map-sheets fixes — trustworthy loop first, then the sheets
 
-**Status: IN PROGRESS (2026-07-09) — human signed off via pre-build Q&A;
+**Status: ✅ DONE (2026-07-09, session 135) — all phases landed; see the
+audit report's addendum for the finding→commit map. Originally:
+human signed off via pre-build Q&A;
 all four forks locked on the plan's defaults: Fable builds it this
 session (routing upgrade approved), 3-reader/2-of-3 ensemble, the
 O-Sato fix lands here with the denylist test (storywave C1.1 ticks off

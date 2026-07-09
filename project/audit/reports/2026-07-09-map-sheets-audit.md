@@ -101,3 +101,37 @@ measurement first (ensemble blind pass) → re-measure → redraw only the
 robust-fail set (T2 V3/V6 the likely candidates); mechanical canon
 fixes + the denylist guard land immediately, independent of the loop
 work.
+
+---
+
+## Addendum (2026-07-09, session 135) — finding → fixing commit
+
+Executed via `docs/plans/fable-2026-07-09-map-sheets-fixes.md` (now in
+`project/archive/`); sessions 134/135 shared the tree, so two S-fixes
+rode a session-134 commit (described in the follow-up's body).
+
+- **Finding 0 (the noisy loop)** → `1407c6e` — ensemble blind pass: 3
+  readers/sheet, per-line 2/3 majority, vote-spread column; Opus-medium
+  reader+judge (human ruling). A single-reader run is a SAMPLE.
+- **S1 (RUNG_LADDER placeholder)** → `9b702d8` (hunks swept in via the
+  shared tree; described in `c2fa3e4`'s body) — the ladder is now
+  DERIVED from core `ranks.ts` unlocks; `c2fa3e4` — the DEV pill walks
+  every rung R1–R7.
+- **S2 (Otoku) + S3 (macrons)** → `9b702d8` (same sweep, described in
+  `c2fa3e4`).
+- **S4 (sheet.ts self-contradiction)** → `c2fa3e4` — one status story
+  (DEV viewer; geometry player-bound via `sheet-map.ts`, ADR-151).
+- **S5 (no content-string guard)** → `9b702d8` (s134 built the
+  mechanism: `RETIRED_NAMES` + the all-string-fields denylist test) +
+  `fd0128f` (list completed to the full 13-name docket; RED-proof vs
+  `1407c6e` recorded).
+- **The blind-pass FAIL itself** → P3 ensemble re-measure
+  (`…t0t1t2-map-blind-pass-2.md`): T2 PASSES (V3/V6 were single-sample
+  noise — re-scored); real fails T0-R7 + T1-R5/R6/R7/R14 → fixed in
+  `f0b8066` (exit notes painted in English, roads bleed off-frame, R14
+  red glosses, nesting/shrinkage survey notes) → re-verified
+  (`…t0t1-map-blind-pass.md`): **T0 M 7/7 · T1 M 12/12, PASS,
+  unanimous on every fixed line.**
+
+The audit's one-line goal — *the map layer's green means something
+again* — holds: the loop is reproducible, and all three sheets pass it.

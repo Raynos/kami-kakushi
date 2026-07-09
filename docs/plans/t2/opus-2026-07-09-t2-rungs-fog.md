@@ -78,3 +78,14 @@ text a player reads → strictly ADR-139 narrative-diverge territory. For a firs
 mechanics pass, keep notes minimal/placeholder and flag for a later prose diverge
 (same posture T0's stages took), rather than treating this as a full narrative
 deliverable.
+
+## Audit caveat (map-sheets audit S1, appended 2026-07-09 — session 135)
+
+`T2_RUNG_LADDER` is **DEV-preview-only**, exactly as T0's is (the audit's
+S1): the live map derives visibility from core `ctx.revealed` and must
+NEVER read the ladder table; the seeded numbers are never the canon
+schedule. Note the sibling precedent landed this session: T0's
+`RUNG_LADDER` is now **derived** from core `ranks.ts` `rewardOnReach.unlock`
+`room-*` flags (single source, TST1) — when T2's real unlock schedule
+exists in core, derive rather than transcribe, and say so in the table's
+doc comment.

@@ -180,3 +180,24 @@ Two capture rounds (tmp/p4-notes, tmp/p4-notes-2): first round found
 a note collision (pass-road × ring-corner) + river overlap
 (boundary-stone) — repositioned; second round reads composed on both
 sheets, my own eyes. Pin regenerated deliberately WITH this commit.
+
+---
+
+## 8 · P4 verified — PASS, unanimous on every fixed line
+
+The T0+T1 ensemble re-verification
+(`project/audit/reports/2026-07-09-t0t1-map-blind-pass.md`, raw
+snapshotted): **T0 M 7/7 · S 3/4 — T1 M 12/12 · S 4/6, overall
+PASS.** Every P3 robust-fail flipped to **3/3 unanimous** (T0-R7,
+T1-R5/R6/R7/R14) and the P3 marginals hardened to 3/3 (T0-R5/R6,
+T1-R12). Left on the table, S-lines with quotas met: R9 both sheets
+(orchard courtyard-rows + bamboo pressure — drawing-level, future
+polish) and T1-R8 (the new stables note fixed T0 3/3 but on T1 reads
+as a SEPARATE stable beside the drill yard — note placement, future
+polish; not chased at ~800k tokens per ensemble iteration).
+
+## 9 · P5 — close-out
+
+Audit-report addendum (finding → fixing commit) appended; T2
+rungs+fog plan carries the S1 caveat; plan Status → DONE, archived to
+`project/archive/`; checkpoint (snapshot + push) closes the session.

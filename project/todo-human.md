@@ -40,8 +40,4 @@
   — the follow-up plan to finish the rewrite cleanly: C0 forks (HD-31/32)
   · C1 build fixes · C2 docs A5 completion · C3 gate hardening · C4
   switch-the-written-world-on · C5 fiction wave + balance re-baseline.
-- [`docs/plans/fable-2026-07-09-map-sheets-fixes.md`](../docs/plans/fable-2026-07-09-map-sheets-fixes.md)
-  — the fix plan: ensemble blind-pass first (P0) → re-measure (P3) →
-  redraw only robust fails (P4); mechanical canon fixes + a retired-name
-  guard test land immediately (P1/P2).
 

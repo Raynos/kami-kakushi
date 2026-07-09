@@ -85,11 +85,12 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 > bible-canon T0 rewrite (six-season year, kura economy, body economies, new cast).
 > Live at raynos.github.io/kami-kakushi. Session 133 then AUDITED the whole wave
 > (6-agent review + map-sheets audit): ship real, engine sound, no src/ criticals —
-> but two closure debts are now mapped in two PROPOSED plans (awaiting the human's
-> read): `docs/plans/fable-2026-07-09-storywave-closure.md` (A5 doc staleness ·
-> B-fixes · C4 "switch the written world on") and
-> `docs/plans/fable-2026-07-09-map-sheets-fixes.md` (ensemble blind-pass first —
-> the loop proved noisy — then redraw only robust fails).
+> but two closure debts were mapped into plans. Sessions 134+135 then executed
+> them in parallel: `storywave-closure` is IN EXECUTION (s134); the
+> **map-sheets fixes plan is ✅ DONE (s135, archived)** — the blind-pass loop is
+> now a 3-reader ensemble (majority verdicts, vote spreads, Opus-medium agents)
+> and ALL THREE sheets pass it (T0 M 7/7 · T1 M 12/12 · T2 M 6/6); canon
+> strings carry a 13-name retired-name guard test.
 
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
@@ -103,9 +104,9 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
    wave; rulings in `feedback-human/2026-07-09-storywave-closure-rulings.md`).**
    Resume it phase-by-phase (C1→C5, per the plan's Status + this journal).
    Also startable: **T2 rungs/fog** (plan ready + human-greenlit:
-   `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`) · map-sheets-fixes
-   (PROPOSED) — its P2 denylist test coordinates with closure C1.1 (O-Sato).
-   Combat R4+ = a design call, NOT a fix → inbox.
+   `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md` — carries the S1 caveat:
+   `T2_RUNG_LADDER` is DEV-preview-only; derive from core when the schedule
+   exists). Combat R4+ = a design call, NOT a fix → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 3/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 4/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
