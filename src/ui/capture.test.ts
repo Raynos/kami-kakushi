@@ -367,6 +367,53 @@ describe('mountCapture — submit', () => {
   });
 });
 
+describe('mountCapture — kind + bucket', () => {
+  const kindBtn = (kind: string): HTMLButtonElement =>
+    boxEl()!.querySelector(`button[data-kind="${kind}"]`) as HTMLButtonElement;
+  const groupField = (): HTMLInputElement =>
+    boxEl()!.querySelector('[data-kami-group]') as HTMLInputElement;
+  const setGroup = (name: string): void => {
+    const g = groupField();
+    g.value = name;
+    g.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+
+  it('defaults to Bug and an ungrouped session file', async () => {
+    mount();
+    pick(null);
+    await typeAndSend('a plain note');
+    expect(posts[0]!.body.session).toBe(SESSION); // ungrouped ⇒ keyed by session
+    expect(posts[0]!.body.header).toContain('# Playtest session');
+    expect(posts[0]!.body.entry).toContain('## Bug ·');
+  });
+
+  it('Question kind + a bucket re-key the file and its header', async () => {
+    mount();
+    pick(null);
+    clearSwallow(); // consume the pick-follow click swallow before clicking a control
+    kindBtn('question').dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    setGroup('Map feedback');
+    await typeAndSend('the weir seal is faint');
+    expect(posts[0]!.body.session).toBe('map-feedback'); // file keyed by the bucket slug
+    expect(posts[0]!.body.header).toContain('# Playtest bucket — Map feedback');
+    expect(posts[0]!.body.entry).toContain('## Question ·');
+  });
+
+  it('kind + bucket persist to the next capture in the mount', async () => {
+    mount();
+    pick(null);
+    clearSwallow();
+    kindBtn('question').dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    setGroup('Dev tooling');
+    await typeAndSend('first');
+    pick(null); // reopen — the toggle + bucket should be remembered (sticky within the mount)
+    expect(groupField().value).toBe('Dev tooling');
+    await typeAndSend('second');
+    expect(posts[1]!.body.session).toBe('dev-tooling');
+    expect(posts[1]!.body.entry).toContain('## Question ·');
+  });
+});
+
 describe('FB-195/196 — the map sheet is capturable', () => {
   it('an SVG pick yields a descriptor (the old picker returned null for SVG)', async () => {
     mount();

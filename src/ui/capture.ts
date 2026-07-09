@@ -18,11 +18,15 @@
 
 import {
   buildEntry,
+  buildBucketHeader,
   buildSessionHeader,
+  captureFileKey,
   mintSessionId,
+  slugGroup,
   CAPTURE_ENDPOINT,
   type CaptureBuild,
   type CaptureContext,
+  type CaptureKind,
   type ElementDescriptor,
 } from './capture-format';
 
@@ -35,6 +39,35 @@ export const CAPTURE_SENTINEL = '__KAMI_PLAYTEST_CAPTURE__';
 const HOTKEY = 'Backquote';
 const TOAST_MS = 1600;
 const SESSION_KEY = 'kami-capture-session';
+/** localStorage key for the recent bucket names — powers the group input's datalist suggestions. */
+const GROUPS_KEY = 'kami-capture-groups';
+const GROUPS_MAX = 12;
+
+/** Recent bucket names (most-recent first) for the group datalist — best-effort, storage-guarded. */
+function loadGroups(): string[] {
+  try {
+    const raw = globalThis.localStorage?.getItem(GROUPS_KEY);
+    const arr = raw ? (JSON.parse(raw) as unknown) : [];
+    return Array.isArray(arr) ? arr.filter((x): x is string => typeof x === 'string') : [];
+  } catch {
+    return []; // storage unavailable / corrupt — recents are a convenience only
+  }
+}
+
+/** Remember a just-used bucket name at the head of the recents (deduped, capped). No-op if blank. */
+function rememberGroup(name: string): void {
+  const n = name.trim();
+  if (!n) return;
+  try {
+    const next = [n, ...loadGroups().filter((g) => g.toLowerCase() !== n.toLowerCase())].slice(
+      0,
+      GROUPS_MAX,
+    );
+    globalThis.localStorage?.setItem(GROUPS_KEY, JSON.stringify(next));
+  } catch {
+    /* storage unavailable — the bucket still works for this capture, just no suggestion memory */
+  }
+}
 
 /** DOM→PNG data URL, or null when no shot is available. Injected (the real impl lands at the mount). */
 export type DomSnapshotter = (el: HTMLElement) => Promise<string | null>;
@@ -243,11 +276,11 @@ export function mountCapture(opts: CaptureOptions): () => void {
 
   const host = opts.host;
   const session = resolveSession(opts, now, storage);
-  const header = buildSessionHeader({
-    sessionId: session.sessionId,
-    startedAt: session.startedAt,
-    build: opts.build,
-  });
+
+  // Sticky across captures within this mount: the kind toggle (default Bug) and the current bucket
+  // name ('' = ungrouped). So a run of "map feedback" questions is set once, not re-picked each time.
+  let currentKind: CaptureKind = 'bug';
+  let currentGroup = '';
 
   // The pick highlight — a child of `host` so it rides INTO the domToPng(host) screenshot
   // (vermilion box, pointer-events:none so it never intercepts elementFromPoint).
@@ -537,13 +570,26 @@ export function mountCapture(opts: CaptureOptions): () => void {
       hasScreenshot: shot !== null,
       ...(element ? { element } : {}),
     };
-    const { entry, metadataName, metadata, screenshotName } = buildEntry(
-      note,
-      ctx,
-      session.sessionId,
-    );
-    const payload: Record<string, unknown> = {
+    // Bucket → the file key (its slug) + a bucket header; ungrouped → the session id + session
+    // header. The header is written once server-side (only when the file is new), so building it
+    // per-capture is harmless and lets the human switch buckets between captures.
+    const groupSlug = slugGroup(currentGroup);
+    const fileKey = captureFileKey(session.sessionId, currentGroup);
+    const header = groupSlug
+      ? buildBucketHeader(currentGroup.trim(), groupSlug)
+      : buildSessionHeader({
+          sessionId: session.sessionId,
+          startedAt: session.startedAt,
+          build: opts.build,
+        });
+    const { entry, metadataName, metadata, screenshotName } = buildEntry(note, ctx, fileKey, {
+      kind: currentKind,
+      ...(groupSlug ? { group: currentGroup.trim() } : {}),
       session: session.sessionId,
+      build: opts.build,
+    });
+    const payload: Record<string, unknown> = {
+      session: fileKey,
       header,
       entry,
       metadataName,
@@ -554,9 +600,11 @@ export function mountCapture(opts: CaptureOptions): () => void {
       payload.screenshot = shot;
     }
     const ok = await post(CAPTURE_ENDPOINT, JSON.stringify(payload));
-    if (ok) toast('captured → inbox');
-    else {
-      downloadFallback(`${session.sessionId}-entry.md`, entry);
+    if (ok) {
+      if (groupSlug) rememberGroup(currentGroup); // surface it in the datalist next time
+      toast(groupSlug ? `captured → ${groupSlug}` : 'captured → inbox');
+    } else {
+      downloadFallback(`${fileKey}-entry.md`, entry);
       toast('inbox unreachable — saved the entry to a file');
     }
   }
@@ -626,6 +674,69 @@ export function mountCapture(opts: CaptureOptions): () => void {
       'color:#E4B24A;background:#1F1C18;border-bottom:1px solid #3A342C;overflow:hidden;' +
       'text-overflow:ellipsis;white-space:nowrap;';
 
+    // ── meta row: KIND toggle (Bug/Question) + BUCKET input — sits under the header, above the note ──
+    const metaRow = doc.createElement('div');
+    metaRow.style.cssText =
+      'flex:0 0 auto;display:flex;gap:.5rem;align-items:center;padding:.35rem .6rem;' +
+      'background:#211D18;border-bottom:1px solid #3A342C;';
+
+    // Kind: a two-button segmented control. Active Bug = vermilion, active Question = gold.
+    const kindWrap = doc.createElement('div');
+    kindWrap.style.cssText =
+      'display:inline-flex;flex:0 0 auto;border:1px solid #7A6C59;border-radius:3px;overflow:hidden;';
+    const mkKindBtn = (kind: CaptureKind, label: string): HTMLButtonElement => {
+      const b = doc.createElement('button');
+      b.type = 'button';
+      b.dataset.kind = kind;
+      b.textContent = label;
+      b.style.cssText =
+        "font:0.72rem/1 'Hiragino Mincho ProN',serif;border:none;padding:.25rem .6rem;cursor:pointer;";
+      b.addEventListener('pointerdown', (ev) => ev.stopPropagation()); // don't start a window drag
+      b.addEventListener('click', () => {
+        currentKind = kind;
+        paintKind();
+        box?.textarea.focus();
+      });
+      return b;
+    };
+    const bugBtn = mkKindBtn('bug', 'Bug');
+    const questionBtn = mkKindBtn('question', 'Question');
+    function paintKind(): void {
+      const paint = (b: HTMLButtonElement, active: boolean, activeBg: string): void => {
+        b.style.background = active ? activeBg : 'transparent';
+        b.style.color = active ? '#1A1713' : '#B8A98C';
+        b.style.fontWeight = active ? '700' : '400';
+      };
+      paint(bugBtn, currentKind === 'bug', '#D7402C');
+      paint(questionBtn, currentKind === 'question', '#E4B24A');
+    }
+    kindWrap.append(bugBtn, questionBtn);
+    paintKind();
+
+    // Bucket: a free-text input (blank = ungrouped session file) with a datalist of recent buckets.
+    const datalist = doc.createElement('datalist');
+    datalist.id = 'kami-capture-groups';
+    for (const g of loadGroups()) {
+      const o = doc.createElement('option');
+      o.value = g;
+      datalist.appendChild(o);
+    }
+    const groupInput = doc.createElement('input');
+    groupInput.type = 'text';
+    groupInput.dataset.kamiGroup = '1';
+    groupInput.value = currentGroup;
+    groupInput.setAttribute('list', datalist.id);
+    groupInput.placeholder = 'bucket — e.g. map feedback (blank = session)';
+    groupInput.title = 'Group this capture into a bucket so `/drain-inbox <bucket>` drains just it';
+    groupInput.style.cssText =
+      'flex:1 1 auto;min-width:0;background:#1A1713;color:#F3E9D2;border:1px solid #3A342C;' +
+      'border-radius:3px;padding:.2rem .4rem;font:inherit;font-size:0.75rem;outline:none;';
+    groupInput.addEventListener('pointerdown', (ev) => ev.stopPropagation()); // don't drag the window
+    groupInput.addEventListener('input', () => {
+      currentGroup = groupInput.value;
+    });
+    metaRow.append(kindWrap, groupInput, datalist);
+
     const textarea = doc.createElement('textarea');
     textarea.placeholder = element ? `What about "${element.label}"?` : 'What did you notice?';
     textarea.style.cssText =
@@ -637,7 +748,9 @@ export function mountCapture(opts: CaptureOptions): () => void {
     hintLine.style.cssText =
       'flex:0 0 auto;padding:.35rem 1rem .35rem .6rem;font-size:0.72rem;color:#B8A98C;text-align:right;';
 
-    textarea.addEventListener('keydown', (e: KeyboardEvent) => {
+    // ⌘/Ctrl+Enter sends, Esc cancels — from the note OR the bucket field (so a bucket typed last
+    // still submits/closes without a reach back to the textarea).
+    const onBoxKey = (e: KeyboardEvent): void => {
       if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         void submit();
@@ -645,7 +758,9 @@ export function mountCapture(opts: CaptureOptions): () => void {
         e.preventDefault();
         closeBox();
       }
-    });
+    };
+    textarea.addEventListener('keydown', onBoxKey);
+    groupInput.addEventListener('keydown', onBoxKey);
 
     // Markup toolbar — Draw toggles the pen, Undo drops the last stroke, Clear wipes them. The
     // drawing bakes into the screenshot on send and is discarded after (ephemeral annotation).
@@ -682,7 +797,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
     });
     toolbar.append(markupBtn, undoBtn, clearBtn);
 
-    el.append(bar, textarea, toolbar, hintLine);
+    el.append(bar, metaRow, textarea, toolbar, hintLine);
     doc.body.appendChild(el);
     textarea.focus();
     box = { el, textarea, capturedAt, base, shot, element };

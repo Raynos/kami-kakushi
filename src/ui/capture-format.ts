@@ -4,6 +4,14 @@
 // header written once and one `##` ENTRY appended per capture. Screenshots for the session live
 // in a sibling folder `pending/<sessionId>/` (git-ignored), same base name as the file.
 //
+// Captures are keyed to ONE markdown file by a **file key**: when the human tags a capture with a
+// BUCKET (e.g. "map feedback", "dev tooling") the key is that bucket's slug, so every capture in
+// the bucket — across sessions and builds — appends to `pending/<bucketSlug>.md` and
+// `/drain-inbox <bucket>` drains just it. UNGROUPED captures fall back to the game-session id (one
+// browser-tab play sitting — survives a reload via sessionStorage), landing in one file per
+// session. A capture also carries a KIND — `bug` (a defect to fix) or `question` (something the
+// human is exploring) — shown in the entry heading so the drain can route it.
+//
 // PURE + node-testable: no DOM, no fs, and NO Date — callers pass ISO timestamps (snapshotted at
 // box-OPEN, §2.1). Deterministic in / deterministic out.
 
@@ -41,6 +49,25 @@ export interface ElementDescriptor {
   readonly text: string;
   readonly selector: string;
   readonly rect: { readonly x: number; readonly y: number; readonly w: number; readonly h: number };
+}
+
+/** What a capture is: a defect to fix, or a thing the human is exploring interactively. Surfaced
+ *  in the entry heading so the drain routes it (a `question` is answered/discussed, not force-fixed). */
+export type CaptureKind = 'bug' | 'question';
+
+/** Human-readable heading label per kind. */
+const KIND_LABEL: Readonly<Record<CaptureKind, string>> = { bug: 'Bug', question: 'Question' };
+
+/** Per-entry metadata beyond the game context — the kind, the (optional) bucket, and the source
+ *  session/build provenance (a bucket file spans sessions + builds, so each entry records its own). */
+export interface EntryMeta {
+  readonly kind: CaptureKind;
+  /** Raw human-typed bucket name; '' / absent ⇒ ungrouped (file keyed by session id). */
+  readonly group?: string;
+  /** Source session id — provenance (a bucket file spans sessions). */
+  readonly session?: string;
+  /** Build stamp — provenance (a bucket file spans builds). */
+  readonly build?: CaptureBuild;
 }
 
 /** Session-level metadata — written into the header once, on the first capture of the session. */
@@ -92,6 +119,22 @@ export interface BuiltEntry {
 /** The session file's name from its id. */
 export function sessionFilename(sessionId: string): string {
   return `${sessionId}.md`;
+}
+
+/** A bucket name → an allowlist-safe file-key slug (`Map feedback` → `map-feedback`, `R0 feedback`
+ *  → `r0-feedback`). Returns '' for an empty / symbol-only name (⇒ treat the capture as ungrouped). */
+export function slugGroup(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+/** The file key a capture writes under: the bucket slug when grouped, else the session id. Both are
+ *  allowlist-safe (SESSION_RE), so the server keys the filename + sidecar folder straight off it. */
+export function captureFileKey(sessionId: string, group: string): string {
+  return slugGroup(group) || sessionId;
 }
 
 /** `2026-07-03T18:42:07+0200` → `2026-07-03T18-42-07` (colons are illegal in the allowlist). */
@@ -149,8 +192,34 @@ export function buildSessionHeader(meta: SessionMeta): string {
   );
 }
 
-/** Build one capture ENTRY (the `##` block appended to the session file). */
-export function buildEntry(note: string, ctx: CaptureContext, sessionId: string): BuiltEntry {
+/** The BUCKET file header — written ONCE, on the first capture into a bucket (possibly a past
+ *  session). A bucket accumulates captures across sessions/builds, so — unlike the session header —
+ *  it carries no single build/session; each entry records its own provenance in its sidecar JSON. */
+export function buildBucketHeader(name: string, slug: string): string {
+  return (
+    [
+      `# Playtest bucket — ${name}`,
+      '',
+      `- **bucket:** \`${slug}\``,
+      `- **details + screenshots:** \`./${slug}/\` (\`<stamp>.json\` = save + logs +`,
+      '  context, committed; `<stamp>.png` = screenshot, git-ignored)',
+      '',
+      'Each `##` block below is one in-game capture in this bucket, appended in order —',
+      'possibly across sessions and builds. Each entry names its kind and records its own',
+      'save + context in the linked `<stamp>.json`; reproduce any one with `__qa.load(<its save>)`.',
+      '',
+    ].join('\n') + '\n'
+  );
+}
+
+/** Build one capture ENTRY (the `##` block appended to the file). `fileKey` is the file/​folder base
+ *  (bucket slug or session id) the sidecar links resolve against; `meta` carries kind + provenance. */
+export function buildEntry(
+  note: string,
+  ctx: CaptureContext,
+  fileKey: string,
+  meta: EntryMeta = { kind: 'bug' },
+): BuiltEntry {
   const stamp = stampOf(ctx.capturedAt);
   const slug = slugOf(note);
   const screenshotName = ctx.hasScreenshot ? `${stamp}.png` : undefined;
@@ -161,6 +230,10 @@ export function buildEntry(note: string, ctx: CaptureContext, sessionId: string)
   const metadata = JSON.stringify(
     {
       capturedAt: ctx.capturedAt,
+      kind: meta.kind,
+      group: meta.group || null, // raw bucket name; null ⇒ ungrouped (keyed by session)
+      session: meta.session ?? null, // source session (provenance — a bucket spans sessions)
+      build: meta.build ?? null, // source build (provenance — a bucket spans builds)
       seed: ctx.seed,
       clock: ctx.clock,
       location: ctx.location,
@@ -183,7 +256,7 @@ export function buildEntry(note: string, ctx: CaptureContext, sessionId: string)
   // and a link out to the metadata JSON.
   const lines: string[] = [
     '',
-    `## ${ctx.capturedAt} — ${slug}`,
+    `## ${KIND_LABEL[meta.kind]} · ${ctx.capturedAt} — ${slug}`,
     '',
     note.trim() || '_(empty note)_',
     '',
@@ -196,9 +269,9 @@ export function buildEntry(note: string, ctx: CaptureContext, sessionId: string)
         `@${el.rect.x},${el.rect.y} ${el.rect.w}×${el.rect.h}`,
     );
   }
-  if (screenshotName) lines.push(`**Screenshot:** \`${sessionId}/${screenshotName}\``);
+  if (screenshotName) lines.push(`**Screenshot:** \`${fileKey}/${screenshotName}\``);
   lines.push(
-    `**Details:** \`${sessionId}/${metadataName}\` — save + recent logs + full context`,
+    `**Details:** \`${fileKey}/${metadataName}\` — save + recent logs + full context`,
     '',
     '---',
   );

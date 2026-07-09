@@ -1,9 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import {
   buildEntry,
+  buildBucketHeader,
   buildSessionHeader,
+  captureFileKey,
   mintSessionId,
   sessionFilename,
+  slugGroup,
   slugOf,
   stampOf,
   type CaptureContext,
@@ -59,6 +62,28 @@ describe('ids', () => {
   });
 });
 
+describe('buckets — file key + slug', () => {
+  it('slugGroup kebabs a bucket name and is allowlist-safe, or blank for empty/symbols', () => {
+    expect(slugGroup('Map feedback')).toBe('map-feedback');
+    expect(slugGroup('R0 feedback')).toBe('r0-feedback');
+    expect(slugGroup('dev tooling')).toBe('dev-tooling');
+    expect(slugGroup('map-feedback')).toMatch(SERVER_SESSION_RE);
+    expect(slugGroup('   ')).toBe('');
+    expect(slugGroup('！！！')).toBe('');
+  });
+  it('captureFileKey is the bucket slug when grouped, else the session id', () => {
+    expect(captureFileKey('2026-07-03T18-40-00-abc', 'Map feedback')).toBe('map-feedback');
+    expect(captureFileKey('2026-07-03T18-40-00-abc', '')).toBe('2026-07-03T18-40-00-abc');
+    expect(captureFileKey('2026-07-03T18-40-00-abc', '！！！')).toBe('2026-07-03T18-40-00-abc');
+  });
+  it('buildBucketHeader names the bucket + its slug folder', () => {
+    const h = buildBucketHeader('Map feedback', 'map-feedback');
+    expect(h).toContain('# Playtest bucket — Map feedback');
+    expect(h).toContain('bucket:** `map-feedback`');
+    expect(h).toContain('screenshots:** `./map-feedback/`');
+  });
+});
+
 describe('buildSessionHeader', () => {
   it('carries the session-level metadata and the screenshots folder', () => {
     const h = buildSessionHeader(META);
@@ -76,7 +101,8 @@ describe('buildEntry', () => {
       ctx(),
       META.sessionId,
     );
-    expect(entry).toContain('## 2026-07-03T18:42:07+0200 — open-eyes-button-off');
+    // heading carries the kind (default Bug) so a drain scans bug-vs-question at a glance
+    expect(entry).toContain('## Bug · 2026-07-03T18:42:07+0200 — open-eyes-button-off');
     expect(entry).toContain('open eyes button off centre'); // the human's note
     expect(metadataName).toBe('2026-07-03T18-42-07.json');
     expect(entry).toContain(`**Details:** \`${META.sessionId}/${metadataName}\``); // link out
@@ -84,6 +110,32 @@ describe('buildEntry', () => {
     expect(entry).not.toContain('eyJhcHAiOiJrYW1pLWtha3VzaGkifQ=='); // no base64 save
     expect(entry).not.toContain('seed 20260626'); // no context dump
     expect(entry.trimEnd().endsWith('---')).toBe(true);
+  });
+
+  it('carries kind (heading + JSON) and defaults to bug', () => {
+    const bug = buildEntry('n', ctx(), META.sessionId); // no meta ⇒ default bug
+    expect(bug.entry).toContain('## Bug ·');
+    expect(JSON.parse(bug.metadata).kind).toBe('bug');
+    const q = buildEntry('n', ctx(), META.sessionId, { kind: 'question' });
+    expect(q.entry).toContain('## Question ·');
+    expect(JSON.parse(q.metadata).kind).toBe('question');
+  });
+
+  it('a bucketed entry keys sidecar links off the bucket slug + records provenance', () => {
+    const { entry, metadata } = buildEntry('the weir seal is faint', ctx(), 'map-feedback', {
+      kind: 'question',
+      group: 'Map feedback',
+      session: META.sessionId,
+      build: META.build,
+    });
+    // links resolve against the bucket folder, NOT the session id
+    expect(entry).toContain('**Details:** `map-feedback/2026-07-03T18-42-07.json`');
+    const m = JSON.parse(metadata);
+    expect(m.group).toBe('Map feedback');
+    expect(m.session).toBe(META.sessionId); // provenance survives cross-session bucketing
+    expect(m.build).toEqual(META.build);
+    // ungrouped ⇒ group is null
+    expect(JSON.parse(buildEntry('n', ctx(), META.sessionId).metadata).group).toBeNull();
   });
 
   it('puts the save + logs + full context in the metadata JSON', () => {

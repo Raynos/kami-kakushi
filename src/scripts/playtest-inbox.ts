@@ -36,7 +36,9 @@ const JSON_NAME_RE = /^[A-Za-z0-9T.-]+\.json$/;
 const PNG_DATA_URL_RE = /^data:image\/png;base64,([A-Za-z0-9+/=]+)$/;
 
 export interface CaptureBody {
-  /** The session id — filename base (no `.md`) and the sidecar folder name. */
+  /** The file key — filename base (no `.md`) and the sidecar folder name. It is a BUCKET slug when
+   *  the capture is grouped (`map-feedback.md`), else the game-session id (ungrouped, one file per
+   *  session). Opaque to the server: allowlist-checked (SESSION_RE) and used only as the path base. */
   readonly session: string;
   /** The session header — written ONLY when the session file is first created. */
   readonly header: string;
