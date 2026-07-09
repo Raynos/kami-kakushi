@@ -98,6 +98,7 @@ import {
   NPC_VOICE,
   rungRequirements,
   nodeHint,
+  kuraBales,
 } from '../core';
 import { LOG_FILTERS, logFilterMatches, type LogFilter } from './log-filter';
 import {
@@ -2785,12 +2786,13 @@ export function mount(
     toggle(r.eatRiceRow, showEatRice);
     if (showEatRice) {
       const cost = balance.EAT_RICE_COST;
-      setText(r.eatRiceBtn, `Eat plain rice (${cost} rice)`);
-      const short = (state.resources.rice ?? 0) < cost;
+      // ADR-163 — the meal is drawn from the kura; meal amounts read in shō (TST4).
+      setText(r.eatRiceBtn, `Eat plain rice (${cost} shō)`);
+      const short = (state.banked.rice ?? 0) < cost;
       setDisabled(r.eatRiceBtn, short);
       const title = short
-        ? `Needs ${cost} rice — rake or farm the paddies to gather it.`
-        : `A plain bowl of rice restores ${balance.EAT_RICE_SATIETY} body — more than a mere rest, at the cost of ${cost} rice.`;
+        ? `Needs ${cost} shō in the kura — rake or farm the paddies to gather it.`
+        : `A plain bowl of rice restores ${balance.EAT_RICE_SATIETY} body — more than a mere rest, at the cost of ${cost} shō.`;
       if (r.eatRiceBtn.title !== title) r.eatRiceBtn.title = title;
     }
     // (FB-107 — no "Walk on" strip here anymore: navigation lives ONLY on the Map tab.)
@@ -4418,14 +4420,16 @@ export function mount(
     const r = storehouseRefs;
     const carried = state.resources.coin ?? 0;
     const banked = state.banked.coin ?? 0;
-    const carriedRice = state.resources.rice ?? 0;
+    // ADR-163 — rice lives ONLY in the kura (shō); the carried pocket holds no rice. The kura reads
+    // in BALES (TST4 — never a unit-less "N rice"). (The deposit/withdraw rice rows are vestigial
+    // under the one-way barn-filling model; the full render sweep retires them in a later chunk.)
+    const carriedRice = 0;
     const bankedRice = state.banked.rice ?? 0;
-    // ADR-118 §1 — the kura's rice cap (raised by estate upgrades); show stored/N so the wall is legible.
     const riceCap = balance.kuraRiceCap(state.estateStage);
     const riceRoom = Math.max(0, riceCap - bankedRice);
     setText(
       r.when,
-      `Carried ${formatCoin(carried)}, ${carriedRice} rice · stored ${formatCoin(banked)}, ${bankedRice}/${riceCap} rice (safe)`,
+      `Carried ${formatCoin(carried)} · stored ${formatCoin(banked)}, ${kuraBales(state)} bales (safe)`,
     );
     // spatial (Step 5c): the storehouse IS the kura — the balance shows anywhere (your safe reserve
     // is worth seeing on the road), but you can only store/draw while standing at the grain-store.
@@ -4759,13 +4763,15 @@ export function mount(
       sellPrice,
       `The pedlar pays ${formatCoin(price)} the measure now — ${SEASON_TAG[s].name}, ${gloss}.`,
     );
-    const rice = state.resources.rice ?? 0;
-    setText(sellBtn, `Sell all rice (${rice} rice → ${formatCoin(rice * price)})`);
+    // ADR-163 — rice sells from the KURA (shō); the sale is clamped by Yohei's market-day + purse
+    // (the full stall UI — day/purse legibility — lands in the later render sweep).
+    const rice = state.banked.rice ?? 0;
+    setText(sellBtn, `Sell kura rice (${rice} shō → ${formatCoin(rice * price)})`);
     // a11y: a full accessible name so a screen-reader hears WHAT the sell does + the live price.
-    const aria = `Sell all ${rice} carried rice for ${formatCoin(rice * price)} at the ${SEASON_TAG[s].name} price of ${formatCoin(price)} each`;
+    const aria = `Sell ${rice} shō of kura rice for ${formatCoin(rice * price)} at the ${SEASON_TAG[s].name} price of ${formatCoin(price)} each`;
     if (sellBtn.getAttribute('aria-label') !== aria) sellBtn.setAttribute('aria-label', aria);
     setDisabled(sellBtn, rice <= 0);
-    const title = rice <= 0 ? 'No carried rice to sell — rake or farm to gather it.' : '';
+    const title = rice <= 0 ? 'No kura rice to sell — rake or farm to gather it.' : '';
     if (sellBtn.title !== title) sellBtn.title = title;
   }
   function renderMarket(state: GameState): void {
