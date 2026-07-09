@@ -63,7 +63,7 @@ export const RANKS: readonly RankDef[] = [
     tier: 0,
     title: 'Trusted hand',
     kanji: '手代',
-    granter: NAMES.elder,
+    // G4 — R2 is the SILENT rung (bible: 'a task simply not taken back'); no granter beat.
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     rewardOnReach: {
       flags: ['rank-r2', 'porters-knot'],
@@ -119,7 +119,7 @@ export const RANKS: readonly RankDef[] = [
     tier: 0,
     title: 'Kura-warden',
     kanji: '蔵番',
-    granter: NAMES.elder,
+    granter: NAMES.drillmaster, // G4 — bible R4 'the pupil': Kihei's drills grant it
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     rewardOnReach: {
       flags: ['rank-r4'],
@@ -154,7 +154,7 @@ export const RANKS: readonly RankDef[] = [
     tier: 0,
     title: "Steward's man",
     kanji: '用人',
-    granter: NAMES.steward,
+    granter: NAMES.elder, // G4 — bible R6: Genemon sends the first coin errand
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     rewardOnReach: {
       flags: ['rank-r6'],
@@ -167,7 +167,7 @@ export const RANKS: readonly RankDef[] = [
     tier: 0,
     title: 'Trusted of the house',
     kanji: '内衆',
-    granter: NAMES.lord,
+    granter: NAMES.elder, // G4 — bible R7: Genemon writes the hand-me-down name (Munemasa never places in T0)
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     rewardOnReach: {
       // the T0 capstone: `t0-capstone` opens Phase 2 (`phaseOf`), where Estate-pillar deeds
