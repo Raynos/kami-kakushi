@@ -37,4 +37,10 @@
 - [`project/brainstorms/2026-07-08-storywave-g0-fiction-gap-inventory.md`](brainstorms/2026-07-08-storywave-g0-fiction-gap-inventory.md)
   — the storywave G0 fiction-gap inventory backing **HD-30** (the supplemental
   prose mini-wave); read before authorizing/scoping that wave.
+- [`docs/plans/t0/fable-2026-07-09-authored-depth-demo.md`](../docs/plans/t0/fable-2026-07-09-authored-depth-demo.md)
+  — **Plan K (🧊 PARKED)**: the kikigaki authored-depth demo — the "game only
+  this can make" exploration turned into a Sonnet-buildable plan, sequenced
+  after v0.4.0. Read to confirm it captures the direction you want parked;
+  un-park is your call. (Discovery record:
+  [`2026-07-09-authored-depth-direction.md`](brainstorms/2026-07-09-authored-depth-direction.md).)
 

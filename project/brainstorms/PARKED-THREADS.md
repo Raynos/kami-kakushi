@@ -18,3 +18,8 @@ aren't lost and don't pollute the active thread or the decision log. The
   The mechanical-checkpoint plan's Phase 1 markers/`--check` are shared
   infrastructure for D-117's generated-facts half — sequence it before the
   T0 sweep.
+- **The unchosen big swings (ship-whole-game · studio inversion · thousand
+  model-playtesters · multi-game catalog)** →
+  [2026-07-09-authored-depth-direction.md](2026-07-09-authored-depth-direction.md#parking-lot-tangents--parallel-threads).
+  The 2026-07-09 "big boy energy" discussion picked authored depth (→ Plan K,
+  parked); these four were floated in the same breath and never developed.
