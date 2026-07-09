@@ -56,13 +56,25 @@ export const TRAVEL_SEED_MS = 6000;
  *  The timing.test derives edge coverage from MAP_NODES: a new edge without a
  *  walk time here is RED. */
 export const EDGE_WALK_MS: Readonly<Record<string, number>> = {
-  'gate-forecourt|kura': 4000, // the forecourt is steps from the kura door
-  'gate-forecourt|home-paddies': 5000,
-  'gate-forecourt|woodlot-edge': 6000,
-  'drill-yard|gate-forecourt': 4000, // the yard adjoins the forecourt
-  'home-paddies|near-satoyama': 6000,
-  'near-satoyama|woodlot-edge': 5000,
-  'deep-satoyama|near-satoyama': 8000, // one hill farther, past the danger ring (ADR-078)
+  // The estate core — steps apart around the forecourt hub.
+  'forecourt|gate': 3000,
+  'forecourt|kura': 4000, // the forecourt is steps from the kura door
+  'forecourt|kitchen': 3000,
+  'forecourt|woodshed': 3000,
+  'forecourt|sickroom': 3000,
+  'drill-yard|forecourt': 4000, // the yard adjoins the forecourt
+  'kitchen|shrine': 3000, // the alcove is just off the kitchen threshold
+  // Out to the working ground.
+  'forecourt|paddies': 5000,
+  'field-margins|paddies': 5000,
+  'paddies|woodlot': 6000,
+  'paddies|weir': 6000, // down the work path to the river
+  'weir|weir-reeds': 4000,
+  // The old compound's wild edge — farther, past the danger ring (ADR-078).
+  'orchard|woodlot': 6000,
+  'grove|orchard': 6000,
+  'field-margins|ruined': 7000, // locked scenery, but the graph edge is timed for coverage
+  'orchard|ruined': 7000,
 };
 
 export function edgeKey(a: string, b: string): string {
