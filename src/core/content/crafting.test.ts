@@ -124,11 +124,12 @@ describe('missingMaterials', () => {
 });
 
 describe('MATERIAL_DROPS — the loot table', () => {
-  it('keys only real, GRINDABLE MobIds (never the scripted wolf)', () => {
+  it('keys only real MobIds (never a retired scripted id); store_rats is the no-drop foe', () => {
+    // The scripted wolf is retired; store_rats is the deliberate "no drop entry" night foe.
     expect(MATERIAL_DROPS['wolf_scripted']).toBeUndefined();
+    expect(MATERIAL_DROPS['store_rats']).toBeUndefined();
     for (const mobId of Object.keys(MATERIAL_DROPS)) {
       expect(MOB_IDS.has(mobId)).toBe(true);
-      expect(GRINDABLE_MOBS.some((m) => m.id === mobId)).toBe(true);
     }
   });
 
@@ -151,11 +152,17 @@ describe('MATERIAL_DROPS — the loot table', () => {
     }
   });
 
-  it('maps light beasts → sinew and heavy woodlot foes → hardwood', () => {
+  it('maps beasts → sinew and the human bandit (stolen timber) → hardwood', () => {
+    // Every beast (rats/tanuki/badger/monkey/feral-dog/marten/wolf) yields sinew; the sole
+    // hardwood dropper is the woodlot-road bandit, hauling stolen timber (the KIND lane).
     expect(MATERIAL_DROPS['monkey']?.material).toBe('beast_sinew');
     expect(MATERIAL_DROPS['wolf']?.material).toBe('beast_sinew');
-    expect(MATERIAL_DROPS['boar']?.material).toBe('hardwood');
     expect(MATERIAL_DROPS['bandit']?.material).toBe('hardwood');
+    const sinewDroppers = Object.entries(MATERIAL_DROPS)
+      .filter(([, d]) => d.material === 'beast_sinew')
+      .map(([id]) => id);
+    expect(sinewDroppers).not.toContain('bandit'); // the human never drops sinew
+    expect(sinewDroppers.length).toBeGreaterThan(1); // the beasts all sinew
   });
 
   it('is a closed loop — every recipe input is droppable, every drop feeds a recipe', () => {
@@ -171,21 +178,21 @@ describe('MATERIAL_DROPS — the loot table', () => {
 describe('rollMaterialDrop — seeded, integer fixed-point', () => {
   it('is deterministic — same Rng + mob yields an identical result', () => {
     const rng = createRng(7);
-    const a = rollMaterialDrop(rng, 'boar');
-    const b = rollMaterialDrop(rng, 'boar');
+    const a = rollMaterialDrop(rng, 'tanuki');
+    const b = rollMaterialDrop(rng, 'tanuki');
     expect(a[0]).toEqual(b[0]);
     expect(a[1].cursors.loot).toBe(b[1].cursors.loot);
   });
 
   it('advances the loot RNG by exactly one draw on a real drop foe', () => {
     const rng = createRng(7);
-    const [, rng2] = rollMaterialDrop(rng, 'boar');
+    const [, rng2] = rollMaterialDrop(rng, 'tanuki');
     expect(rng2.cursors.loot).toBe(rng.cursors.loot + 1);
   });
 
   it('returns null and leaves the Rng untouched for a foe with no drop entry', () => {
     const rng = createRng(3);
-    const [drop, rng2] = rollMaterialDrop(rng, 'wolf_scripted');
+    const [drop, rng2] = rollMaterialDrop(rng, 'store_rats');
     expect(drop).toBeNull();
     expect(rng2).toBe(rng);
   });
