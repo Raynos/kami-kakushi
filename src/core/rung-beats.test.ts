@@ -55,6 +55,18 @@ describe('D-110 full-arc e2e — a promotion walks THROUGH the beat (R0→R7)', 
       expect(pendingPromotionTarget(s)).toBe(target);
 
       const beforeRung = s.rung;
+      const beat = RUNG_BEATS[target];
+
+      // SILENT rungs (R2 the yard-hand, R5 the accused) carry NO promotion beat — their story is a
+      // generalized scene, so `begin_rung_beat` promotes them STRAIGHT through (no terminal choice).
+      if (!beat) {
+        s = reduce(s, { type: 'begin_rung_beat' });
+        expect(s.rung, `silent rung ${target} did not promote`).toBe(target);
+        expect(s.rungBeat).toBeNull(); // no VN beat opened
+        expect(hasFlag(s, rankFlag(target))).toBe(true); // rewardOnReach applied on the silent promote
+        continue;
+      }
+
       // (1) TRIGGER the beat — reveals the greeting, sets the cursor, but does NOT promote.
       s = reduce(s, { type: 'begin_rung_beat' });
       expect(s.rungBeat).toBe(target);
@@ -62,7 +74,6 @@ describe('D-110 full-arc e2e — a promotion walks THROUGH the beat (R0→R7)', 
       expect(hasFlag(s, rankFlag(target))).toBe(false); // rewardOnReach NOT applied yet
 
       // (2) a full-VN beat's ask-hub is free + never promotes.
-      const beat = RUNG_BEATS[target]!;
       if (beat.topics.length > 0) {
         s = reduce(s, { type: 'ask_rung_topic', topicId: beat.topics[0]!.id });
         expect(s.rung).toBe(beforeRung);
@@ -186,57 +197,86 @@ describe('D-110 / F103 channel routing — story prose → Story, terse marker �
   });
 });
 
-describe('D-110 the three rare varied bonuses (BQ2)', () => {
+describe('D-110 the varied per-option bonuses (BQ2 — distinct flags + relationship memory)', () => {
   /** Drive one beat from a rung, choosing `optId`. */
   function beatFrom(rung: RankId, optId: string, seed = 1): GameState {
     let s = makeReady({ ...atDoneIntro(seed), rung });
     s = reduce(s, { type: 'begin_rung_beat' });
     return reduce(s, { type: 'choose_rung_option', optionId: optId });
   }
+  /** The registry option (source of truth for its flag + memory bonus). */
+  const opt = (rung: RankId, id: string) =>
+    RUNG_BEATS[rung]!.decision.options.find((o) => o.id === id)!;
 
-  it('R2 "trade the gossip" sets the pedlar-favour STORY FLAG (Tokubei friend-price)', () => {
-    const s = beatFrom('R1', 'r2-rokusuke-friend');
-    expect(s.rung).toBe('R2');
-    expect(hasFlag(s, 'pedlar-favour')).toBe(true);
-    expect(hasFlag(s, 'r2-rokusuke-friend')).toBe(true);
-    expect(s.npcMemory.rokusuke?.regard).toBe('friend');
-    // the OTHER R2 picks do NOT grant it — the bonus is rare, not baked into the rung.
-    expect(hasFlag(beatFrom('R1', 'r2-wolf-heeded'), 'pedlar-favour')).toBe(false);
-  });
-
-  it('R3 "stand a watch" grants the one +1 AGI STAT nudge (statBonus)', () => {
-    const base = makeReady({ ...atDoneIntro(), rung: 'R2' });
-    const agiBefore = base.character.attrs.agi;
-    const s = beatFrom('R2', 'r3-disciplined');
+  it('an R3 option sets its OWN story flag + deepens the named NPC (varied, not one default)', () => {
+    // The BQ2 variety now lives in each option's distinct FLAG + relationship MEMORY (derived from
+    // the registry, never a copied literal) — RED if a pick is mis-routed or the options collapse.
+    const track = opt('R3', 'r3-track');
+    const s = beatFrom('R2', 'r3-track');
     expect(s.rung).toBe('R3');
-    expect(s.character.attrs.agi).toBe(agiBefore + 1);
-    // no other R3 pick moves an attribute (the statBonus is on exactly one option).
-    expect(beatFrom('R2', 'r3-aggressive').character.attrs.agi).toBe(agiBefore);
+    expect(hasFlag(s, track.flags![0]!)).toBe(true);
+    const tm = track.memory![0]!;
+    expect(s.npcMemory[tm.npc]).toEqual({ regard: tm.regard, warmth: tm.warmthDelta });
+
+    // a DIFFERENT pick sets a DIFFERENT flag AND a DIFFERENT relationship — the options genuinely diverge.
+    const mend = opt('R3', 'r3-mend');
+    const other = beatFrom('R2', 'r3-mend');
+    expect(hasFlag(other, mend.flags![0]!)).toBe(true);
+    expect(hasFlag(other, track.flags![0]!)).toBe(false);
+    const mm = mend.memory![0]!;
+    expect(mm.npc).not.toBe(tm.npc); // a different NPC deepened (Genemon vs Kihei)
+    expect(other.npcMemory[tm.npc]).toBeUndefined(); // r3-mend never touched r3-track's NPC
   });
 
-  it('R4 "spend on the house" earns the smith-whetstone KEEPSAKE flag', () => {
-    const s = beatFrom('R3', 'r4-generous');
-    expect(s.rung).toBe('R4');
-    expect(hasFlag(s, 'smith-whetstone')).toBe(true);
-    // TODO(g4-tests): tozo/smith retired (G4); R4's second voice is Kihei now — re-derive regard assertion
-    expect(hasFlag(beatFrom('R3', 'r4-thrifty'), 'smith-whetstone')).toBe(false); // rare, not default
+  it('an R4 option diverges too — one watches with Kihei, another owns the loss to Genemon', () => {
+    const watch = opt('R4', 'r4-it-returns');
+    const w = beatFrom('R3', 'r4-it-returns');
+    expect(w.rung).toBe('R4');
+    const wm = watch.memory![0]!;
+    expect(w.npcMemory[wm.npc]).toEqual({ regard: wm.regard, warmth: wm.warmthDelta });
+
+    const owned = opt('R4', 'r4-the-rice');
+    const o = beatFrom('R3', 'r4-the-rice');
+    const om = owned.memory![0]!;
+    expect(om.npc).not.toBe(wm.npc); // a different relationship than the watch pick
+    expect(o.npcMemory[om.npc]).toEqual({ regard: om.regard, warmth: om.warmthDelta });
+    expect(hasFlag(o, owned.flags![0]!)).toBe(true);
+    expect(hasFlag(o, watch.flags![0]!)).toBe(false);
+  });
+
+  it("the pick is EXCLUSIVE — an unchosen option's flag never fires (rare, not baked-in)", () => {
+    const held = beatFrom('R2', 'r3-hold');
+    expect(hasFlag(held, opt('R3', 'r3-hold').flags![0]!)).toBe(true);
+    for (const other of ['r3-track', 'r3-mend'])
+      expect(hasFlag(held, opt('R3', other).flags![0]!)).toBe(false);
   });
 });
 
 describe('D-110 deepenNpc — relationships ACCUMULATE across rungs', () => {
   it("Genemon's warmth deepens R1 → R4 (not re-stamped each meeting)", () => {
+    // both picks that deepen Genemon (R1 kept-accounts, R4 owned-the-loss) — the warmth ADDS across
+    // rungs, the regard takes the latest. Deltas derived from the registry (source of truth).
+    const r1mem = RUNG_BEATS.R1!.decision.options.find((o) => o.id === 'r1-kept')!.memory![0]!;
+    const r4mem = RUNG_BEATS.R4!.decision.options.find((o) => o.id === 'r4-the-rice')!.memory![0]!;
+    expect(r1mem.npc).toBe('genemon');
+    expect(r4mem.npc).toBe('genemon');
+
     let s = makeReady(atDoneIntro());
     s = reduce(s, { type: 'begin_rung_beat' });
-    s = reduce(s, { type: 'choose_rung_option', optionId: 'r1-dutiful' }); // genemon +1
-    expect(s.npcMemory.genemon).toEqual({ regard: 'dutiful', warmth: 1 });
+    s = reduce(s, { type: 'choose_rung_option', optionId: 'r1-kept' }); // genemon +1
+    expect(s.npcMemory.genemon).toEqual({ regard: r1mem.regard, warmth: r1mem.warmthDelta });
 
     // dev-bypass R2/R3 (applyPromotion never touches memory), then run the R4 beat.
     s = applyPromotion(s, 'R2');
     s = applyPromotion(s, 'R3');
     s = makeReady(s);
     s = reduce(s, { type: 'begin_rung_beat' });
-    s = reduce(s, { type: 'choose_rung_option', optionId: 'r4-thrifty' }); // genemon +1 AGAIN
+    s = reduce(s, { type: 'choose_rung_option', optionId: 'r4-the-rice' }); // genemon +1 AGAIN
     expect(s.rung).toBe('R4');
-    expect(s.npcMemory.genemon).toEqual({ regard: 'thrifty', warmth: 2 }); // ACCUMULATED, not re-stamped
+    // ACCUMULATED warmth (r1 + r4), regard = the latest pick — not re-stamped.
+    expect(s.npcMemory.genemon).toEqual({
+      regard: r4mem.regard,
+      warmth: r1mem.warmthDelta + r4mem.warmthDelta,
+    });
   });
 });
