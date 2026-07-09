@@ -1,47 +1,326 @@
 <!-- The GENERALIZED VN scenes (storywave G3.5 / FB-5) — the AUTHORING SOURCE OF
-  TRUTH for scenes NOT tied to a rung promotion: the six season-exit overlays,
-  the nengu Autumn-exit ceremony, the R5 Count's scene body, and the authored
-  side-beats. Compiled to src/core/content/scenes.gen.ts by
-  `pnpm run gen:narrative`; re-exported by ../scenes.ts (which keeps the types +
-  sceneById). Format spec: ./README.md.
+  TRUTH for scenes NOT tied to a rung promotion: the season-exit ceremony (nengu),
+  the R5 Count's scene body, and the authored side-beats (U8). Compiled to
+  src/core/content/scenes.gen.ts by `pnpm run gen:narrative`; re-exported by
+  ../scenes.ts (which keeps the types + sceneById). Format spec: ./README.md.
 
-  STUB — filled at G4.1. The two blocks below EXERCISE the two grammar forms
-  G3.5 adds (the speakerless narration-only beat + the scene-def block); the
-  real content — the season overlays, the nengu reckoning, the Count, and U8's
-  side-beats — migrates in from t0v2/*/VERDICT.md picks at G4.1. The scene
-  TRIGGERS stay unwired until G4, so nothing here fires in the live arc yet.
+  Fiction-voiced text is drawn VERBATIM from picked t0v2 takes (register law
+  §0.5 — never invented): the Count from u5 take-c; the side-beats from
+  u8 take-c base + take-a grafts (per u8 VERDICT.md THE PICK). Where no t0v2
+  source prose exists (the generic per-season overlays; the nengu reckoning
+  body), the scene body is a bracketed [dev — …] placeholder (an HD-30 gap),
+  NOT invented fiction. -->
 
-  Fiction-voiced sample text is drawn VERBATIM from picked t0v2 takes (register
-  law §0.5 — never invented): block 1's narration is a PLACEHOLDER borrowed from
-  u2 take-c (the picked R2 silent-rung take) pending the real nengu prose;
-  block 2 is the U8 "dog that stays" side-beat, take C (the U8 pick). -->
-
-<!-- FORM 1 · the speakerless narration-only beat (ADR-165): a VN frame whose
-  greeting is narrator-voiced only (no granter speaker) and which carries NO
-  decision — the engine drives it via the empty-options continue path. Here the
-  season-exit ceremony (the nengu reckoning is Autumn's; gap-inventory item 2),
-  once per year. STUB narration (verbatim u2 take-c) — replaced at G4.1 by the
-  authored nengu scene body (the board; the MC as furniture; felt, never
-  numbered). -->
+<!-- ── The season-exit ceremony ─────────────────────────────────────────────
+  The nengu (land-tax) reckoning is Autumn's season-exit gate (economy spec,
+  ADR-163): the board, the MC as furniture, felt-never-numbered; sets the flag
+  `nengu-reckoned` that R7 gates on. NO t0v2 source prose exists for the nengu
+  ceremony body yet — the placeholder below is a [dev] gap (HD-30), replaced
+  when the nengu scene is authored (a narrative-diverge, not a migration).
+  Generic per-season overlays for the other five seasons have no t0v2 source
+  either and are DEFERRED (not stubbed with invented fiction). -->
 
 ## scene-def nengu-autumn-frame
 trigger: season-exit autumn
 once: true
 voice: narrator
 
-> First light. The broom stands against the gatepost where you left it.
-> The hand who kept the yard's round quit for the lowlands; nobody has
-> said whose it is now.
+> [dev — the nengu reckoning ceremony body: the board at the season's turn, the
+> MC as furniture in the room, the land-tax felt but never numbered; sets
+> `nengu-reckoned`. No t0v2 source prose — authored later (narrative-diverge),
+> not migrated. HD-30 gap.]
 
-> You take the broom. Nobody takes it back.
+<!-- ── The R5 Count (u5 take-c) ──────────────────────────────────────────────
+  The accusation night — a `scripted` night-interrupt (the engine pulls the MC
+  from sleep at nightfall of the R5 earning day). Migrated VERBATIM from
+  t0v2/u5-r5-accused/take-c.md with the redlines: Naoyuki break-offs trimmed to
+  ≤ 2; "It takes as long as it takes." and "It is not malice." deleted; one
+  narration epigram kept. The scene continues past the decide (the tally, Toku,
+  the morning wage) — split at the take's marked native seam into the chained
+  `count-resolve` beat (README: "If the grammar's decide must end a scene, split
+  at the seam into a chained second beat"). -->
 
-<!-- FORM 2 · the scene-def block with a decision (trigger + once). The U8 "dog
-  that stays" side-beat — take C, the pick — fired when the overgrown-orchard
-  chain completes (a discovered flag). Verbatim from t0v2/u8-side-beats/take-c
-  (scene + decide only; the flag-keyed aftermath log lines + the fed-branch
-  new-moon native payoff are texture that migrates at G4.1). A `native:` sidecar
-  is NOT built at G3.5 — DEFERRED with this note; the pick marks one (the
-  new-moon bark), which lands as a hand-written scenes.native.ts at G4.1. -->
+## scene-def count
+trigger: scripted
+once: true
+speaker: genemon
+voice: steward
+
+> A hand shakes you awake in the dark of the woodshed. Rokusuke, with a
+> lantern, looking mostly at the door.
+
+Rokusuke: "Board room. The whole house is called. You as well. I only
+fetch."
+
+> Lamps at the board at the wrong hour. The household stands in two rows —
+> the hands by the door, the house by the book — and between the rows there
+> is more floor than the room usually has. You are shown to the middle of it.
+> Nobody arranged that. It arranged itself.
+
+Genemon: "The alcove chest stands open. One item short against the book. A
+packet — cloth, bound with cord, a hand's length — entered as lamp-oil for
+the shrine. Counted at the evening rice. Gone since. The house will be
+counted before it sleeps."
+
+> Naoyuki stands at his father's place at the board. He does not look at you
+> until he does.
+
+Naoyuki: "If the house must do this, then it does it properly — in order of
+service, eldest hands first, so that no one can say—"
+
+Naoyuki: "No. The weir man. Him first."
+
+> Nobody objects. Some of the hands look at you; more look at the floor. It
+> is the order the room was already thinking in.
+
+### ask r5-accused · "Am I accused?"
+
+> The question costs you something to ask. Genemon does not notice the price.
+
+Genemon: "You are counted. The whole house is counted. Accusation is for
+after the book speaks."
+
+### ask r5-why-first · "Why me first?"
+
+Naoyuki: "Because the book carries ten years on every other man here, and on
+you it carries—"
+
+Naoyuki: "Because nobody in this house knows what you are."
+
+### decide · The room waits on you.
+
+#### r5-stand · "Say nothing. Stand for the count."
+
+Naoyuki: "Asked before the whole house, and he offers— note it down, steward.
+He offers nothing. Note that."
+
+memory: naoyuki -1 (unreadable)
+flags: r5-stood
+
+#### r5-account · "Give your day, hour by hour."
+
+Genemon: "Say it slower. I am writing."
+
+memory: genemon +0 (exact)
+flags: r5-accounted
+
+#### r5-search · "Offer your corner to be searched."
+
+Genemon: "It was searched while Rokusuke fetched you. A mat, a bowl, a
+whetstone, a mended cord. Nothing of the house's past its keep."
+
+memory: genemon +0 (open-handed)
+flags: r5-offered-search
+
+## scene-def count-resolve
+trigger: scripted
+once: true
+speaker: genemon
+voice: steward
+
+Genemon: "The kura tally. Who kept it today?"
+
+> Rokusuke has been standing where the lantern light mostly isn't. He comes
+> forward the way a man wades cold water.
+
+Rokusuke: "Eleven loads in by dark, steward. His mark against each. Last mark
+at lamp-lighting, and the rice was long cleared by then. He never left the
+kura side of the yard. That's what the board says. The board's there to look
+at."
+
+> Genemon sets the tally board beside the day-book and reads one against the
+> other. The room watches him do arithmetic.
+
+Genemon: "The packet was counted at the evening rice, in the inner house.
+From mid-day to lamp-lighting this man was under grain. The book holds no gap
+with him in it."
+
+Naoyuki: "Then it is someone of the house."
+
+> The door to the inner corridor slides. Toku stands in it, in her
+> night-clothes, her hair down — a woman nobody sent for. She looks at no one
+> in particular, and at the book last.
+
+Toku: "It went up at the new moon."
+
+> Nobody asks what went up. Nobody asks where. Genemon dips his brush, enters
+> one line, and closes the day-book.
+
+> Twice, on the new-moon rounds, you have seen a hooded lantern cross the far
+> edge of the yard, going upstream. You say nothing now. Nobody asks you
+> either.
+
+Genemon: "The count is answered. The house is not short. Take the lamps."
+
+> The rows break up around you. Naoyuki passes you last.
+
+Naoyuki: "You were counted. That is all it was."
+
+> At the morning board nobody speaks of the night. The hands keep a little
+> more room around you than the work needs — for a day, then two — and then
+> it is spent, needing nothing from you to end.
+
+Genemon: "From today the book carries you at a day-wage, in mon, paid against
+each day worked. It was due at the season's turn. It is the season's turn."
+
+> At the paddy Rokusuke works the row over from yours, as he did before, no
+> nearer. You thank him for the tally.
+
+Rokusuke: "Kept it same as any day. It would have read the same if it hanged
+you."
+
+> He bends back to the row.
+
+> That evening the wage enters the day-book: so many mon, and against the
+> entry, where a name would go, a mark. It is still not a name.
+
+<!-- ── U8 side-beats ─────────────────────────────────────────────────────────
+  Per u8 VERDICT.md THE PICK: take-c base + two take-a grafts (Bon whole from A;
+  the fed-dog new-moon coda from A). All fiction VERBATIM from the named take +
+  the required redlines. The `native:` aftermath log-line blocks in both source
+  takes have NO FB-5 grammar form — they are flag-keyed engine log lines for a
+  later chunk (G4.8/G4.9), DROPPED from these scene-defs and noted (HD-30). Each
+  scene keeps greeting + optional decide only. MC label is `Nameless:`
+  throughout (all five beats sit pre-R7). -->
+
+<!-- Beat 1 · the grove — TAKE C. A bamboo-grove patrol between R2 and R4; no
+  clean flag/season trigger in the grammar, so `scripted` (note). -->
+
+## scene-def sb-grove
+trigger: scripted
+once: true
+speaker: shinnosuke
+voice: steward
+
+> The grove, past noon. Yesterday's cut stalks lie where the work stopped.
+> The troop is loud up the slope — and under the troop, smaller, a voice that
+> has no business being here.
+
+> Shinnosuke stands with his back to green bamboo, holding a stripped branch
+> out in front of him the way nobody taught him. The big male is down on the
+> ground. It is closer to the boy than monkeys come when things are going
+> well.
+
+Shinnosuke: "You're the new one. Do they bite? They bite, don't they — don't
+tell anyone I'm here."
+
+> You come up the slow way, on the uphill side, and stand where the male can
+> weigh you. It goes when going is its own idea. It takes a seed-pouch with
+> it.
+
+Shinnosuke: "I had a plan. Did you see it take the pouch? That wasn't my
+fault."
+
+### decide · The boy is looking at you.
+
+#### sb-grove-report · "The house will hear it from me. Walk home ahead."
+
+Shinnosuke: "Fine. Tell them. See if I mind."
+
+memory: kihei +1 (post-kept)
+flags: sb-grove-reported
+
+#### sb-grove-cover · "I count one pouch lost. That's all I count."
+
+Shinnosuke: "You won't say? Why won't you say — you're not so bad. Don't
+expect anything."
+
+memory: shinnosuke +1 (kept-quiet)
+flags: sb-grove-covered
+
+#### sb-grove-teach · "Stand uphill of them. Watch."
+
+Shinnosuke: "Like this? Why uphill — so they can't get above you, or so you
+look bigger?"
+
+memory: shinnosuke +1 (taught)
+flags: sb-grove-taught
+
+<!-- Beat 2 · the first Bon — TAKE A (sb-bon whole), POV-converted to 2nd
+  person (redline 1: "before he asks it" → "before you ask it"; "The forecourt
+  is his all day" → "yours all day"). Fires at the first Bon season the MC is on
+  the books; grammar has only season triggers, so `season-exit bon` (note). -->
+
+## scene-def sb-bon
+trigger: season-exit bon
+once: true
+speaker: ohisa
+voice: steward
+
+> Loads cross the forecourt all morning: trays, lamp-oil, cut flowers, a
+> bundle of incense sticks O-Yae carries two-handed like a caught bird.
+> Everyone is given something.
+
+> The third load goes past before you ask it.
+
+Nameless: "What do I carry?"
+
+O-Hisa: "Not this. If a year from now — well. Not this."
+
+> The house files toward the alcove corridor. The forecourt is yours all day.
+> For once, nobody crosses it.
+
+> At dusk, from the weir path: O-Ume sets her lantern on the water and talks
+> it out past the reeds, the way you'd see a guest to the road.
+
+> At the gate, the monk Iori has his lodging and his one small fire.
+
+Iori: "Sit. Two bowls, one mouth. I'll be gone before you learn my face."
+
+> Through the corridor screen, past shoulders: a small tray set out for
+> somebody, and straw sandals beside it, toes toward the gate.
+
+> Morning. The trays are cleared, the lanterns down, the monk gone north. The
+> sandals are new.
+
+<!-- Beat 3 · the lease day — TAKE C, with redline 2: CUT the banked line
+  ("It was quiet that night. Quietest all year." — T3's origin clue, stays
+  banked). Fires at the season's lease day after R3; `scripted` (note). -->
+
+## scene-def sb-lease
+trigger: scripted
+once: true
+speaker: matsuzo
+voice: villager
+
+> Matsuzō comes up from the river at the pace of a man nothing has hurried in
+> sixty years. Genemon meets him in the forecourt with the day-book already
+> open — which is how you learn the house knew it was short before the knock.
+
+Genemon: "The weir lease. Due today: rice, one koku. In the store, against
+it: seven to. The house is short a third, and I will not count it smaller
+than it is."
+
+Matsuzō: "Screens took a beating in the spring water. Rats after. Hard year
+on everything downstream."
+
+> He does not say: on you too. He looks at the gate's paint, and at you, and
+> back toward the river, the way he looks at everything — weather that will
+> pass over his weir eventually.
+
+Genemon: "Three to owing. I ask the season's grace on it. The house asks."
+
+> Genemon bows. Not deeply — the exact depth a Kurosawa steward has never
+> before had to measure for a weir-keeper, measured now, got right the first
+> time because he will not let it be seen twice.
+
+Matsuzō: "The river can wait a season. The screens can't — rats are in them
+now. Send your man down while the year turns and we'll call it even weight by
+winter."
+
+> Nobody asks you. A line in the day-book, a nod toward the water, and a
+> season of your evenings is settled between two old men. Three to of rice.
+> It is the first time you have been worth a number. The number is small.
+
+> At the gate the old man stops, level with you, and looks at you the way he
+> looked at the paint. He goes back down the way he came, having made nothing
+> of it. He has been making nothing of it for a year.
+
+<!-- Beat 4 · the dog — TAKE C (scene + decide), with redline 3: the fed dog's
+  rice re-priced onto the MC's own measure (Genemon's entry agrees with "from
+  my share"). The fed-branch new-moon payoff is TAKE A's `sb-dog-coda` (below),
+  the only rendering of "the ONLY one who barks". Fires at the end of the
+  orchard-reclamation chain → `flag orchard-reclaimed`. -->
 
 ## scene-def sb-dog
 trigger: flag orchard-reclaimed
@@ -74,8 +353,8 @@ flags: sb-dog-driven
 
 #### sb-dog-feed · "It stays. I'll feed it from my share."
 
-Genemon: "A dog. Old, one ear. Rice: a handful, mornings, from the sweepings
-— entered against rats. If it earns, it stays entered."
+Genemon: "A dog. Old, one ear. Rice: a handful, mornings, from your measure —
+entered. If it earns, it stays entered."
 
 memory: genemon +1 (accountable)
 flags: sb-dog-fed
@@ -86,3 +365,73 @@ Kihei: "Give me your belt-cord. Go rake the leaves. This isn't a lesson."
 
 memory: kihei +1 (clear-eyed)
 flags: sb-dog-ended
+
+<!-- Beat 4 coda · the new-moon bark — TAKE A's `sb-dog-coda` (graft, redline
+  5). Fires on the first new-moon night round carrying `sb-dog-fed`; binds to
+  the seeded hooded-lantern crossing (answered at the Count). Speakerless
+  narration-only beat (ADR-165) — no decide. -->
+
+## scene-def sb-dog-coda
+trigger: flag sb-dog-fed
+once: true
+voice: narrator
+
+> New moon, and the round goes out into it. Rats in the store: cleared. The
+> store settles. Then, at the yard's far edge, a lantern crosses with its
+> light hooded, going upstream, unhurried, sure of the path.
+
+> The rats said nothing. The marten, the time it came, said nothing. The dog
+> barks once — once — at the lantern, and then is quiet.
+
+> The lantern does not stop. Kihei does not turn his head. The dog watches it
+> the whole way upstream, and nobody enters a bark in any book.
+
+<!-- Beat 5 · the crest — TAKE C, with redline 4: the petal count kept RELATIVE
+  ("one more"), no absolute number enters canon before T2's reveal. Fires at
+  the kura after R3; `scripted` (note). -->
+
+## scene-def sb-crest
+trigger: scripted
+once: true
+speaker: shinnosuke
+voice: steward
+
+> Loading at the kura. Shinnosuke is up on the stacked bales, where he is not
+> allowed, counting something over your head.
+
+Shinnosuke: "Count them. The storehouse has one more than the gate. Why does
+the storehouse get one more petal than the gate? Who changes a crest — you
+can't just change a crest, can you?"
+
+> You look. Above the seal-plate the mon is cut deep and old: the same flower
+> as the gate's, and not the same flower. You count twice, because counting
+> is the one kind of reading you trust.
+
+Nameless: "Ask the steward."
+
+Shinnosuke: "I asked everyone. Grandmother said mind the lamp. Genemon wrote
+in his book. Mother said if I've time for petals I've time for copywork.
+Nobody answers me. You ask. You work here — they have to answer you."
+
+> Asking costs you something every time. You pay it at the board that evening.
+
+Nameless: "The kura's crest. It has one petal more than the gate's."
+
+> It is not even a question, the way you say it. Genemon looks at you the way
+> he looked at the river-wet stranger the first morning — a thing to be
+> entered under the correct heading. Then he opens the day-book, writes — not
+> long — and closes it.
+
+Genemon: "The kura wants its hinges oiled before the rains. Take the small
+ladder."
+
+> That is the answer. It is the same answer the boy got, in a different hand.
+
+> Shinnosuke is waiting on the woodpile to hear what you learned. You tell
+> him: hinges. He nods like a man twice his age confirming a debt gone bad.
+
+Shinnosuke: "See. You're the other one they don't tell. What did he write —
+did you see what he wrote?"
+
+> You didn't. The boy climbs down and goes in to his copywork, and you oil the
+> hinges under the crest, and the kura keeps whatever it keeps.

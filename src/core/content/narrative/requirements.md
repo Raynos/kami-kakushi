@@ -19,7 +19,18 @@
 
   Counts are PROVISIONAL fun-first drafts scaled to the old meter's act-counts
   (R0 ≈ 5 min, climb rungs ≈ 10–15 min); the FB-4 sim re-derives the bands
-  (ADR-132) and tuning is edit → gen:narrative → sim (no balance.ts mirror). -->
+  (ADR-132) and tuning is edit → gen:narrative → sim (no balance.ts mirror).
+
+  storywave G4.1 — PROVISIONAL / OWED RE-DERIVATION (HD-30): the two named
+  redlines are applied — R3 gates the night-round wolf flag `wolf-survived-not-won`
+  and R7 gates `nengu-reckoned`; and the R4 `{smith}`/repair requirement is
+  retired (the smith Tōzō leaves T0). The FULL re-derivation of every rung's
+  count-verb tokens against the NEW verb/activity registry (rake · haul water ·
+  night-round · …) is DEFERRED to the chunk that lands that registry (G4.2/G4.3) —
+  re-binding verb tokens now would be inventing against a registry that does not
+  exist yet. The pre-reboot flavor lines below are kept (valid, in-register)
+  pending that pass; `gen:narrative` does NOT registry-check `count`/`flag`/`drive`
+  tokens, so this file compiles green today. -->
 
 ## requirements R0
 
@@ -120,6 +131,11 @@ drive: farm_paddy
 flavor: "The palisade wood is his cutting," {drillmaster} says, striking a post with the flat of his hand.
 drive: woodcut_edge
 
+### req the-wolf-survived-not-won · flag wolf-survived-not-won
+
+flavor: [dev — R3 grain-watch: the first night round; the wolf, survived-not-won; ribs cracked. The beat's prose is in rung-beats R3; no t0v2 requirement-flavor source. HD-30.]
+drive: [dev — sim survives the night-round wolf stage; the night-round staging + the wolf land in a later G4 chunk (face_wolf deleted, G4.3)]
+
 ## requirements R4
 
 <!-- Kura-warden: the stores are yours to keep — goods, coin, and the tools that
@@ -146,10 +162,10 @@ drive: haul_stores
 flavor: New porters are told to watch how he stacks; nobody remembers deciding that.
 drive: haul_stores
 
-### req mend-your-own-blade · count act:repair_weapon 1
+### req begs-for-the-drills · flag r4-drills-begun
 
-flavor: {smith} turns the mended edge to the light and hands it back without a word of correction.
-drive: repair_weapon
+flavor: [dev — R4 pupil: limps to the board, confesses the granary loss, begs for the drills; the drill-yard opens. Retires the {smith}/repair req (Tōzō leaves T0). No t0v2 requirement-flavor source. HD-30.]
+drive: [dev — sim confesses + begs; the drill-yard unlock + the new verbs land in a later G4 chunk]
 
 ### req a-hundred-mon-held · state resource coin >= 100
 
@@ -225,3 +241,8 @@ drive: woodcut_edge
 
 flavor: "There is rice against winter," {lord} says, slowly, as if the words were new to him.
 drive: deposit rice
+
+### req the-nengu-reckoned · flag nengu-reckoned
+
+flavor: [dev — R7/Autumn-exit: the nengu reckoning, felt-never-numbered; the ceremony sets `nengu-reckoned` (scenes.md nengu-autumn-frame). No t0v2 requirement-flavor source. HD-30.]
+drive: [dev — sim reaches the Autumn-exit nengu ceremony; the economy/season gate lands in a later G4 chunk]
