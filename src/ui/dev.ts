@@ -48,6 +48,7 @@ import {
   NPC_VOICE,
   PLAYER_SPEAKER,
   RUNG_BEATS,
+  sceneById,
   estateBuild,
 } from '../core';
 import { el, pct, ESTATE_STAGE_NAMES, HOUSE_ROOMS } from './render';
@@ -2395,6 +2396,7 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
   for (const t of bundle.takes) {
     for (const k of Object.keys(t.coldOpen ?? {})) keys.add(`cold-open:${k}`);
     for (const s of t.introScenes ?? []) keys.add(`intro:${s.id}`);
+    for (const k of Object.keys(t.scenes ?? {})) keys.add(`scene:${k}`);
     for (const k of Object.keys(t.rungBeats ?? {})) keys.add(`rung:${k}`);
     for (const d of t.dialogues ?? []) keys.add(`dialogue:${d.id}`);
     for (const k of Object.keys(t.flavor ?? {})) keys.add(`flavor:${k}`);
@@ -2413,13 +2415,15 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
       ? 0
       : k.startsWith('intro:')
         ? 1
-        : k.startsWith('rung:')
+        : k.startsWith('scene:')
           ? 2
-          : k.startsWith('flavor:')
-            ? 4
-            : k.startsWith('req-flavor:')
-              ? 5
-              : 3;
+          : k.startsWith('rung:')
+            ? 2
+            : k.startsWith('flavor:')
+              ? 4
+              : k.startsWith('req-flavor:')
+                ? 5
+                : 3;
   // req-flavor keys order by their REGISTRY placement (rung, then authored position),
   // never alphabetically — the explore page reads as the ladder.
   const sub = (k: string): number =>
@@ -2441,6 +2445,12 @@ function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] 
       take === 'canon'
         ? DIALOGUE_SCENES.find((x) => x.id === key)
         : take.introScenes?.find((x) => x.id === key);
+    return s ? readerSceneLines(s) : null;
+  }
+  if (kind === 'scene') {
+    // generalized scene-defs (season-exit / scripted VN beats) — canon reads the LIVE
+    // SCENES registry by id; a take carries only the RungScene body in `scenes`.
+    const s = take === 'canon' ? sceneById(key)?.scene : take.scenes?.[key];
     return s ? readerSceneLines(s) : null;
   }
   if (kind === 'dialogue') {
@@ -2532,7 +2542,7 @@ function reqFlavorPlacement(reqId: string): { section: string; order: number } |
 // req-flavor via the CORE overlay — ADR-139: every diverge unit reviews in the switcher).
 // dialogue + cold-open pin only the READER's display today (takes/README: wiring the
 // live-swap is part of diverging one).
-const LIVE_UNITS = /^(rung|intro|flavor|req-flavor):/;
+const LIVE_UNITS = /^(rung|intro|scene|flavor|req-flavor):/;
 
 function readerUnitHeader(host: HTMLElement, unit: string, extra?: HTMLElement): void {
   const h = el('div');

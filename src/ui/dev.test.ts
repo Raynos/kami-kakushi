@@ -817,6 +817,20 @@ describe('ADR-139 story reader modal', () => {
     expect(text).toContain(canonGreeting.slice(0, 40));
   });
 
+  it('renders a generalized scene-def bundle (the real hd30-nengu — was blank)', () => {
+    const nengu = STORY_TAKE_BUNDLES.find((b) => b.id === 'hd30-nengu');
+    expect(nengu, 'hd30-nengu bundle present').toBeDefined();
+    const scrim = openStoryReader(nengu!);
+    const text = scrim.textContent ?? '';
+    // the scene unit must enumerate + render — this whole page was empty before the fix.
+    expect(text).toContain('scene:nengu-autumn-frame');
+    expect(text).not.toContain('scene:nengu-autumn-frame (reader-only)'); // it's LIVE, not reader-only
+    // canon reads the LIVE SCENES registry; the take-a alt renders its own body.
+    const takeA = nengu!.takes.find((t) => t.id === 'a')!;
+    const altGreeting = takeA.scenes!['nengu-autumn-frame']!.greeting[0]!.text;
+    expect(text).toContain(altGreeting.slice(0, 40));
+  });
+
   it('dims a take line that is byte-identical to canon (FB-124)', () => {
     // Build a bundle whose take shares ONE line verbatim with the canon R1 beat.
     const sharedText = RUNG_BEATS.R1!.greeting[0]!.text;
