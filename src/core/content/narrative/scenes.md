@@ -253,7 +253,7 @@ voice: steward
 
 > The third load goes past before you ask it.
 
-Nameless: "What do I carry?"
+> "What do I carry?"
 
 O-Hisa: "Not this. If a year from now — well. Not this."
 
@@ -407,7 +407,7 @@ can't just change a crest, can you?"
 > as the gate's, and not the same flower. You count twice, because counting
 > is the one kind of reading you trust.
 
-Nameless: "Ask the steward."
+> "Ask the steward."
 
 Shinnosuke: "I asked everyone. Grandmother said mind the lamp. Genemon wrote
 in his book. Mother said if I've time for petals I've time for copywork.
@@ -415,7 +415,7 @@ Nobody answers me. You ask. You work here — they have to answer you."
 
 > Asking costs you something every time. You pay it at the board that evening.
 
-Nameless: "The kura's crest. It has one petal more than the gate's."
+> "The kura's crest. It has one petal more than the gate's."
 
 > It is not even a question, the way you say it. Genemon looks at you the way
 > he looked at the river-wet stranger the first morning — a thing to be
@@ -435,3 +435,79 @@ did you see what he wrote?"
 
 > You didn't. The boy climbs down and goes in to his copywork, and you oil the
 > hinges under the crest, and the kura keeps whatever it keeps.
+
+<!-- ── The silent R2 (u2 take-c) ─────────────────────────────────────────────
+  R2 "the yard-hand" is the SILENT rung (ADR-165 / map): no granter, no decision
+  — the promotion is the absence of dismissal (a task simply not taken back). A
+  `## rung` block cannot express this (the compiler requires a decide), so it is
+  a speakerless narration-only scene-def, `trigger: rung R2`. Migrated from
+  t0v2/u2-r2-yard-hand/take-c.md with the redlines: the rice narration ends at
+  "Rice keeps."; one aphorism; Genemon's "One measure the day" kept unit-vague.
+  The social lines (O-Yae's wedding news, Rokusuke, Kihei's glance) and the
+  decision are DROPPED to keep the rung silent — they route to dialogue in a
+  later chunk; the `r2-first-mark` / yard-round log texture is DEFERRED. -->
+
+## scene-def r2-yard-hand
+trigger: rung R2
+once: true
+voice: narrator
+
+> First light. The broom stands against the gatepost where you left it. The hand
+> who kept the yard's round quit for the lowlands; nobody has said whose it is
+> now.
+
+> You take the broom. Nobody takes it back.
+
+> The round takes the morning: the gate swept, the forecourt raked, the water
+> in, the wood up off the ground. Dusk round, then the kitchen threshold, the
+> bowl. Genemon comes past with the day-book under his arm and does not slow.
+
+Genemon: "Rice from the new moon. One measure the day, dry, weighed at the kura
+door. Meals were terms for a man staying a week."
+
+> He is through the door before you can set the bowl down.
+
+> A meal ends with the eating. Rice keeps.
+
+<!-- ── The first dream (u7 take-b) ───────────────────────────────────────────
+  THE FIRST DREAM fires at T0-R7 (01-laws §0.5.4, canon) — the engine chains it
+  directly off rung-r7's close, a sleep transition. Not a `## rung` (a `## scene`
+  would break the intro scene-order check), so a `scripted` scene-def. Migrated
+  from t0v2/u7-r7-named-hand/take-b.md with the redline: the dream simile "fine
+  as sieved ash" is CUT. The MC's closing line renders under the post-R7 label
+  via the ambient `Gonbei (player):` speaker (the pre-R7 `Nameless` label has no
+  ambient NAMES entry, so it cannot carry a speech line). -->
+
+## scene-def r7-dream
+trigger: scripted
+once: true
+voice: narrator
+
+> The woodshed, late. On the doorstep, folded under a stone against the wind:
+> his straw coat, mended at the shoulder in small even stitches that no one will
+> own to. He carries it in, lies down on the mat, and for once sleeps at once.
+
+> — a road, climbing. Rain on it.
+
+> The weight across his shoulders is right. Two loads and the pole, and his feet
+> know the next stone without being asked. Below the road, water — he cannot see
+> it, but it is there the way a wall is there in a dark room.
+
+> Behind him on the climb, somebody calls a name. Short, worn smooth, thrown
+> easy — a name that has landed a thousand times and expects to land now.
+
+> He turns to answer.
+
+> The mountain moves.
+
+> After that there is only the water, and the road going away upward, and the
+> voice still calling — smaller, and smaller. He knows the name is his. He
+> cannot hear it.
+
+> He wakes in the woodshed with his mouth open around a word that is not there.
+> Rain, real rain, small on the roof. The coat is where he left it.
+
+Gonbei (player): "There was a road."
+
+> Nobody answers. It is a long while before he sleeps again, and the dream, that
+> night, does not come back.

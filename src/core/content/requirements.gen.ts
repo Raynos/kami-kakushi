@@ -142,6 +142,15 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       flavor: `"The palisade wood is his cutting," ${NAMES.drillmaster} says, striking a post with the flat of his hand.`,
       drive: 'woodcut_edge',
     },
+    {
+      id: 'the-wolf-survived-not-won',
+      type: 'flag',
+      flag: 'wolf-survived-not-won',
+      flavor:
+        "[dev — R3 grain-watch: the first night round; the wolf, survived-not-won; ribs cracked. The beat's prose is in rung-beats R3; no t0v2 requirement-flavor source. HD-30.]",
+      drive:
+        '[dev — sim survives the night-round wolf stage; the night-round staging + the wolf land in a later G4 chunk (face_wolf deleted, G4.3)]',
+    },
   ],
 
   R4: [
@@ -170,12 +179,13 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       drive: 'haul_stores',
     },
     {
-      id: 'mend-your-own-blade',
-      type: 'count',
-      token: 'act:repair_weapon',
-      target: 1,
-      flavor: `${NAMES.smith} turns the mended edge to the light and hands it back without a word of correction.`,
-      drive: 'repair_weapon',
+      id: 'begs-for-the-drills',
+      type: 'flag',
+      flag: 'r4-drills-begun',
+      flavor:
+        '[dev — R4 pupil: limps to the board, confesses the granary loss, begs for the drills; the drill-yard opens. Retires the smith/repair req (Tōzō leaves T0). No t0v2 requirement-flavor source. HD-30.]',
+      drive:
+        '[dev — sim confesses + begs; the drill-yard unlock + the new verbs land in a later G4 chunk]',
     },
     {
       id: 'a-hundred-mon-held',
@@ -280,6 +290,15 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       pred: { kind: 'banked', res: 'rice', min: 200 },
       flavor: `"There is rice against winter," ${NAMES.lord} says, slowly, as if the words were new to him.`,
       drive: 'deposit rice',
+    },
+    {
+      id: 'the-nengu-reckoned',
+      type: 'flag',
+      flag: 'nengu-reckoned',
+      flavor:
+        '[dev — R7/Autumn-exit: the nengu reckoning, felt-never-numbered; the ceremony sets `nengu-reckoned` (scenes.md nengu-autumn-frame). No t0v2 requirement-flavor source. HD-30.]',
+      drive:
+        '[dev — sim reaches the Autumn-exit nengu ceremony; the economy/season gate lands in a later G4 chunk]',
     },
   ],
 };

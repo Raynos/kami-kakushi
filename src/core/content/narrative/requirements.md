@@ -23,7 +23,7 @@
 
   storywave G4.1 — PROVISIONAL / OWED RE-DERIVATION (HD-30): the two named
   redlines are applied — R3 gates the night-round wolf flag `wolf-survived-not-won`
-  and R7 gates `nengu-reckoned`; and the R4 `{smith}`/repair requirement is
+  and R7 gates `nengu-reckoned`; and the R4 `smith`/repair requirement is
   retired (the smith Tōzō leaves T0). The FULL re-derivation of every rung's
   count-verb tokens against the NEW verb/activity registry (rake · haul water ·
   night-round · …) is DEFERRED to the chunk that lands that registry (G4.2/G4.3) —
@@ -164,7 +164,7 @@ drive: haul_stores
 
 ### req begs-for-the-drills · flag r4-drills-begun
 
-flavor: [dev — R4 pupil: limps to the board, confesses the granary loss, begs for the drills; the drill-yard opens. Retires the {smith}/repair req (Tōzō leaves T0). No t0v2 requirement-flavor source. HD-30.]
+flavor: [dev — R4 pupil: limps to the board, confesses the granary loss, begs for the drills; the drill-yard opens. Retires the smith/repair req (Tōzō leaves T0). No t0v2 requirement-flavor source. HD-30.]
 drive: [dev — sim confesses + begs; the drill-yard unlock + the new verbs land in a later G4 chunk]
 
 ### req a-hundred-mon-held · state resource coin >= 100

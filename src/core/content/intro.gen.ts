@@ -15,96 +15,127 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
     voice: 'physician',
     speaker: 'soan',
     greeting: [
+      { voice: 'narrator', text: COLD_OPEN.weir },
       { voice: 'narrator', text: COLD_OPEN.wake },
-      { voice: 'physician', speaker: NPC_NAME.soan, text: COLD_OPEN.grounding },
+      {
+        voice: 'narrator',
+        text: 'The physician does not ask how you feel. He takes your wrist, then your jaw, then turns your hands over and looks at them longer than at anything else. He presses a thumb into the callus line across one palm and says nothing. There is a ledger open on his knee.',
+      },
+      { voice: 'physician', speaker: NPC_NAME.soan, text: '"Do you know the year?"' },
+      { voice: 'narrator', text: '"No."' },
+      {
+        voice: 'physician',
+        speaker: NPC_NAME.soan,
+        text: '"An\'ei nine. Now you know it again. Drink this."',
+      },
+      {
+        voice: 'narrator',
+        text: 'Whatever the hands told him goes into the ledger, two lines, too far off to read. The door slides, and he closes the book on his thumb.',
+      },
+      {
+        voice: 'narrator',
+        text: 'The man in the doorway is grey and dry and carries a book of his own. Two books in the room now, and only one of them open.',
+      },
+      { voice: 'steward', speaker: NPC_NAME.genemon, text: '"The weir man. Sōan — can he work?"' },
+      { voice: 'physician', speaker: NPC_NAME.soan, text: '"Ask him."' },
+      {
+        voice: 'steward',
+        speaker: NPC_NAME.genemon,
+        text: '"Name, age, where from. In that order."',
+      },
+      {
+        voice: 'narrator',
+        text: 'Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.',
+      },
+      { voice: 'narrator', text: '"What name did I give? When they pulled me out."' },
+      {
+        voice: 'physician',
+        speaker: NPC_NAME.soan,
+        text: '"None. You gave none. Three days I have had nothing to call you, and neither have you."',
+      },
+      { voice: 'narrator', text: 'Nothing comes.' },
+      {
+        voice: 'narrator',
+        text: 'Genemon does not look surprised. He looks down and writes, and reads it back as he writes, aloud and once.',
+      },
+      { voice: 'steward', speaker: NPC_NAME.genemon, text: COLD_OPEN.daybook },
+      {
+        voice: 'steward',
+        speaker: NPC_NAME.genemon,
+        text: '"When he can stand, he rakes. The kitchen wants water before it wants anything."',
+      },
+      {
+        voice: 'narrator',
+        text: 'He goes. Sōan opens his ledger again, where his thumb kept the place.',
+      },
     ],
     topics: [
       {
-        id: 'soan-what-happened',
-        label: '"What happened to me?"',
+        id: 'soan-where',
+        label: '"Where is this?"',
         answer: [
           {
             voice: 'physician',
             speaker: NPC_NAME.soan,
-            text: '"You washed up below the weir three days back, a gash on your scalp and no name to give. The river does that. We fished you out; the rest you\'ll have to earn back."',
+            text: `"The ${NAMES.house} house — the estate, or what answers to the word. This is my sickroom, off the outer court, and you will be out of it by tomorrow. I need the mat."`,
           },
         ],
       },
       {
         id: 'soan-kami',
-        label: '"The village says a kami hid me away."',
+        label: '"Someone on the bank said a god hid me."',
         answer: [
           {
             voice: 'physician',
             speaker: NPC_NAME.soan,
-            text: "\"Kami-kakushi — 'spirited away.' It's the tale they tell for every soul that wanders off and every child the river takes. I've tended enough of the 'spirited-away' to know it's water and cold and bad luck, not spirits. Don't let the old women make a haunting of it.\"",
+            text: '"Kamikakushi. The valley says it of every man the river takes and every child who runs off. Let them say it; it comforts them and costs you nothing. What took you was water."',
           },
         ],
       },
       {
-        id: 'soan-fragment',
-        label: '"There\'s a road. Grey rain. A name I can\'t hold."',
+        id: 'soan-how-long',
+        label: '"How long was I in the river?"',
         answer: [
           {
             voice: 'physician',
             speaker: NPC_NAME.soan,
-            text: '"That\'s the blow talking, not a ghost. Fragments surface as the swelling goes down — chase them if you must, but a name you have to dig for is rarely one worth keeping."',
-          },
-        ],
-      },
-      {
-        id: 'soan-mend',
-        label: '"How do I get my strength back?"',
-        answer: [
-          {
-            voice: 'physician',
-            speaker: NPC_NAME.soan,
-            text: '"Rest, rice, and work — in that order at first, then all at once. The body remembers labour before the mind remembers anything. The wits come back last; don\'t force them."',
+            text: '"That I can\'t write down. Three days here, fevered. Before that, ask the river."',
           },
         ],
       },
     ],
     decision: {
-      prompt: 'What do you say to him?',
+      prompt: 'No name, then. What do you keep instead?',
       options: [
         {
-          id: 'soan-grateful',
-          label: 'Thank him — ask how to mend',
-          say: '"Then I\'ll trust your craft, not the village\'s ghosts."',
+          id: 'soan-knot',
+          label: '"My hands know a knot. I\'ll keep that."',
+          say: '"My hands know a knot. I\'ll keep that."',
           react:
-            '"Sense, at last. Rest, eat, and let the swelling go down. The wits come back last — don\'t force them."',
-          stat: { up: 'int', down: 'str' },
-          perk: {
-            name: `${NAMES.physician}'s Counsel`,
-            desc: 'A mind honed sharper than the body it wears.',
-          },
-          memory: { npc: 'soan', regard: 'grateful', warmth: 1 },
+            "You tie it in the cord of your own bedding: a carrier's hitch, fast and one-handed, twice. Sōan watches it both times. He does not write it down while you are looking.",
+          stat: { up: 'agi', down: 'int' },
+          perk: { name: "The Carrier's Hitch", desc: 'fast, one-handed, holds wet.' },
+          memory: { npc: 'soan', regard: 'noted', warmth: 1 },
         },
         {
-          id: 'soan-curt',
-          label: 'Brush it off — ask for work',
-          say: '"Kami or flood, I\'m still breathing. Where\'s the work?"',
+          id: 'soan-work',
+          label: '"The work. Point me at it."',
+          say: '"The work. Point me at it."',
           react:
-            '"...Hm. No patience for a physician. Well — the body heals the same whether you thank me or not."',
-          stat: { up: 'str', down: 'int' },
-          perk: {
-            name: 'Sickbed Grit',
-            desc: 'A back that shoulders the work before the wits can weigh in.',
-          },
-          memory: { npc: 'soan', regard: 'curt', warmth: -1 },
+            '"Can you stand? Then the rake is by the door, and the well is past the kitchen. Water first — the kitchen never has enough. Come back when something bleeds."',
+          stat: { up: 'str', down: 'luck' },
+          perk: { name: 'The Well Yoke', desc: 'a load the shoulders carry before it is asked.' },
+          memory: { npc: 'soan', regard: 'plain', warmth: 0 },
         },
         {
-          id: 'soan-worried',
-          label: 'Grasp at the fragment',
-          say: '"There was a road. Grey rain. A name I can\'t hold. Is that the fever?"',
+          id: 'soan-count',
+          label: '"The days. I\'ll count from this one."',
+          say: '"The days. I\'ll count from this one."',
           react:
-            '"That is the blow talking, not a ghost. It will fade — or it won\'t. Don\'t let the old women make a haunting of it."',
-          stat: { up: 'luck', down: 'agi' },
-          perk: {
-            name: 'A Waking Fragment',
-            desc: 'A half-caught omen that bends fortune your way, though your step is slower to answer.',
-          },
-          memory: { npc: 'soan', regard: 'worried', warmth: 0 },
+            '"Day four, by mine. Yours can start where you like. Mark the post — notches hold."',
+          stat: { up: 'int', down: 'agi' },
+          perk: { name: 'The Notched Post', desc: 'a day cut where fever cannot blur it.' },
+          memory: { npc: 'soan', regard: 'methodical', warmth: 0 },
         },
       ],
     },

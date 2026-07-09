@@ -96,4 +96,359 @@ export const DIALOGUES: readonly DialogueDef[] = [
       },
     ],
   },
+
+  {
+    id: 'u9-genemon',
+    speaker: NAMES.elder,
+    lines: [
+      {
+        id: 'u9-gen-terms',
+        speaker: NAMES.elder,
+        voice: 'steward',
+        text: 'Meals at the threshold. Straw in the woodshed. The rest when the day-book has a reason to say more.',
+      },
+      {
+        id: 'u9-gen-entry',
+        speaker: NAMES.elder,
+        voice: 'steward',
+        text: 'One man, name unknown. That is the entry. An entry is amended when there is something to amend.',
+      },
+      {
+        id: 'u9-gen-tally',
+        speaker: NAMES.elder,
+        voice: 'steward',
+        text: 'Straw: four bundles sound, one gone soft. The soft one is entered too. Everything is.',
+      },
+      {
+        id: 'u9-gen-purse',
+        speaker: NAMES.elder,
+        voice: 'steward',
+        text: 'Sixteen mon out. Sixteen back, or the difference in goods, named. The book takes either. It does not take short.',
+      },
+    ],
+  },
+
+  {
+    id: 'u9-kihei',
+    speaker: NAMES.drillmaster,
+    lines: [
+      {
+        id: 'kihei-gate',
+        speaker: NAMES.drillmaster,
+        voice: 'arms',
+        text: 'Bar the gate behind me. Count a hundred before you trust the quiet. The quiet lies.',
+      },
+      {
+        id: 'kihei-flinch',
+        speaker: NAMES.drillmaster,
+        gate: (flags) => flags.pupil === true,
+        voice: 'arms',
+        text: "Lower. Again. You flinch before the blow, not at it — that's a memory, not a fault. Again.",
+      },
+      {
+        id: 'kihei-wall',
+        speaker: NAMES.drillmaster,
+        gate: (flags) => flags['wolf-held'] === true,
+        voice: 'arms',
+        text: 'You held the wall with cracked ribs and a rake. …Good. Tomorrow you learn what would have held it cheaper.',
+      },
+    ],
+  },
+
+  {
+    id: 'u9-soan',
+    speaker: NAMES.physician,
+    lines: [
+      {
+        id: 'soan-ribs',
+        speaker: NAMES.physician,
+        voice: 'physician',
+        text: 'Does it catch when you breathe, or when you turn? Turn less. The wrap comes off in six days; the habit of wincing you may keep.',
+      },
+      {
+        id: 'soan-hands',
+        speaker: NAMES.physician,
+        voice: 'physician',
+        text: 'Where did your hands learn rope? — No. Forget I asked it. Willow bark, morning and evening, and stay off the wet stones at the weir.',
+      },
+      {
+        id: 'soan-rounds',
+        speaker: NAMES.physician,
+        voice: 'physician',
+        text: 'Sleeping? Dreams? — Mm. Salt, sleep, and no river wind after dark. The rest mends on its own schedule, not mine.',
+      },
+      {
+        id: 'soan-ledger',
+        speaker: NAMES.physician,
+        voice: 'narrator',
+        text: `${NAMES.physician} closes the ledger before you are through the door. He does not hurry about it, and he does not explain it.`,
+      },
+    ],
+  },
+
+  {
+    id: 'u9-ohisa',
+    speaker: NAMES.ohisa,
+    lines: [
+      {
+        id: 'ohisa-seam',
+        speaker: NAMES.ohisa,
+        voice: 'steward',
+        text: "The shoulder seam was going. It's done now. A shirt lasts years if someone — it's done. It's on the step.",
+      },
+      {
+        id: 'ohisa-warm',
+        speaker: NAMES.ohisa,
+        voice: 'steward',
+        text: "Eat while it's warm. A man fed at the same hour every day starts to look like he belongs to — eat. It's getting cold.",
+      },
+      {
+        id: 'ohisa-rice',
+        speaker: NAMES.ohisa,
+        gate: (flags) => flags.named === true,
+        voice: 'steward',
+        text: 'If the rice holds this year — well. Hold your bowl out. Both hands.',
+      },
+    ],
+  },
+
+  {
+    id: 'u9-shinnosuke',
+    speaker: NAMES.shinnosuke,
+    lines: [
+      {
+        id: 'shin-threshold',
+        speaker: NAMES.shinnosuke,
+        voice: 'steward',
+        text: 'Why do you eat at the threshold? Did they tell you to, or did you guess it?',
+      },
+      {
+        id: 'shin-book',
+        speaker: NAMES.shinnosuke,
+        voice: 'steward',
+        text: 'Why does Genemon write you in the back of the book? Whose names are in the front?',
+      },
+      {
+        id: 'shin-wolf',
+        speaker: NAMES.shinnosuke,
+        gate: (flags) => flags['wolf-held'] === true,
+        voice: 'steward',
+        text: 'Did the wolf look at you before it went? Was it sent, do you think?',
+      },
+      {
+        id: 'shin-taken',
+        speaker: NAMES.shinnosuke,
+        voice: 'steward',
+        text: 'When the river had you — was there a place? Could someone come back from it after ten years, if there was?',
+      },
+    ],
+  },
+
+  {
+    id: 'u9-naoyuki',
+    speaker: NAMES.heir,
+    lines: [
+      {
+        id: 'u9-nao-boards',
+        speaker: NAMES.heir,
+        voice: 'official',
+        text: 'My father would have wished you — . The north boards want sweeping. Begin there.',
+      },
+      {
+        id: 'u9-nao-yard',
+        speaker: NAMES.heir,
+        voice: 'official',
+        text: 'You keep the yard as if the house were — . It is a yard. Keep it.',
+      },
+    ],
+  },
+
+  {
+    id: 'u9-toku',
+    speaker: NAMES.toku,
+    lines: [
+      {
+        id: 'toku-doors',
+        speaker: NAMES.toku,
+        voice: 'steward',
+        text: "The year the weir went, this corridor had doors at both ends. Mind the draught. The draught is younger than you'd think.",
+      },
+      {
+        id: 'toku-plums',
+        speaker: NAMES.toku,
+        voice: 'steward',
+        text: "We salted plums the summer the old lord's father died. Forty jars, that year. There are three. Take none of them.",
+      },
+      {
+        id: 'toku-moon',
+        speaker: NAMES.toku,
+        voice: 'steward',
+        text: 'You came two days past the new moon. I keep the nights by their moons — someone in this house must.',
+      },
+    ],
+  },
+
+  {
+    id: 'u9-yohei',
+    speaker: NAMES.pedlar,
+    lines: [
+      {
+        id: 'yohei-first',
+        speaker: NAMES.pedlar,
+        voice: 'villager',
+        text: 'A new face at a fine gate — whetstone, two mon, best in the valley — and half the valley says the river brought you, which for the two mon I never heard.',
+      },
+      {
+        id: 'yohei-coat',
+        speaker: NAMES.pedlar,
+        voice: 'villager',
+        text: 'Cold coming, they say it in three villages — one straw coat left this winter, six mon — and a man who sleeps in a woodshed knows what a coat is worth better than I could flatter him.',
+      },
+      {
+        id: 'yohei-square',
+        speaker: NAMES.pedlar,
+        gate: (flags) => flags['pedlar-square'] === true,
+        voice: 'villager',
+        text: "You count back to the mon, friend, which is rarer than anything on this mat — the coat's five for you, not six, and the news is free: the passes open early this year, and prices follow.",
+      },
+    ],
+  },
+
+  {
+    id: 'u9-oyae',
+    speaker: NAMES.oyae,
+    lines: [
+      {
+        id: 'oyae-river',
+        speaker: NAMES.oyae,
+        voice: 'villager',
+        text: "They say in the village a man walked out of the river with no name in his mouth. I'm not saying it. They say it.",
+      },
+      {
+        id: 'oyae-jizo',
+        speaker: NAMES.oyae,
+        voice: 'villager',
+        text: 'They say someone leaves rice-cakes at the weir-jizō and nobody ever sees who. My mother says the kami take their own share. My mother says a lot of things.',
+      },
+      {
+        id: 'oyae-autumn',
+        speaker: NAMES.oyae,
+        voice: 'villager',
+        text: "The miller's wife says the house can't pay past autumn. Cook says the miller's wife should mind her own stones. I only carry the buckets.",
+      },
+      {
+        id: 'oyae-well',
+        speaker: NAMES.oyae,
+        voice: 'villager',
+        text: "They ask me at the well what you're like. I say you rake. Well — you do.",
+      },
+    ],
+  },
+
+  {
+    id: 'u9-matsuzo',
+    speaker: NAMES.matsuzo,
+    lines: [
+      {
+        id: 'matsu-newhand',
+        speaker: NAMES.matsuzo,
+        voice: 'villager',
+        text: "The new hand? River's low for the season. The screens will show their gaps by Bon, whoever mends them.",
+      },
+      {
+        id: 'matsu-quiet',
+        speaker: NAMES.matsuzo,
+        voice: 'villager',
+        text: "That night? The river was quiet that night. I've said so before. Nobody asked twice.",
+      },
+      {
+        id: 'matsu-lease',
+        speaker: NAMES.matsuzo,
+        voice: 'villager',
+        text: "Your steward keeps the lease the way his old master did — to the day, short or not. The water doesn't care whose name is on it.",
+      },
+    ],
+  },
+
+  {
+    id: 'u9-iori',
+    speaker: NAMES.iori,
+    lines: [
+      {
+        id: 'u9-iori-greet',
+        speaker: NAMES.iori,
+        voice: 'villager',
+        text: 'Well met — and gone by the third day, so let us say the good things tonight.',
+      },
+      {
+        id: 'u9-iori-gifts',
+        speaker: NAMES.iori,
+        voice: 'villager',
+        text: 'I carry needles, dried plum, and a knot worth knowing for a torn net. Take whichever; I walk lighter without them.',
+      },
+      {
+        id: 'u9-iori-bow',
+        speaker: NAMES.iori,
+        voice: 'villager',
+        text: 'I made my goodbye when I bowed at the gate coming in. What we say now is over and above.',
+      },
+    ],
+  },
+
+  {
+    id: 'u9-oume',
+    speaker: NAMES.oume,
+    lines: [
+      {
+        id: 'oume-racks',
+        speaker: NAMES.oume,
+        voice: 'villager',
+        text: 'The kami kept the racks whole this year — do you hear that, old man? Not one sheaf down. Not one.',
+      },
+      {
+        id: 'oume-plum',
+        speaker: NAMES.oume,
+        voice: 'villager',
+        text: "You'll take a plum. Not from me — the river owes you, and I'm only handing it across.",
+      },
+      {
+        id: 'oume-bon',
+        speaker: NAMES.oume,
+        voice: 'villager',
+        text: 'His place is set. He was never one to miss rice over a little water.',
+      },
+    ],
+  },
+
+  {
+    id: 'u9-rokusuke',
+    speaker: NAMES.rokusuke,
+    lines: [
+      {
+        id: 'roku-right',
+        speaker: NAMES.rokusuke,
+        voice: 'villager',
+        text: "That's right, that's right. Whatever the steward said, that's the way of it.",
+      },
+      {
+        id: 'roku-weather',
+        speaker: NAMES.rokusuke,
+        voice: 'villager',
+        text: "Cold for planting. — Aye, or warm for it, could be. You'd know better than me.",
+      },
+      {
+        id: 'roku-tally',
+        speaker: NAMES.rokusuke,
+        voice: 'villager',
+        text: "Sixteen loads by my count. But if the board says fourteen, fourteen. The board's the board.",
+      },
+      {
+        id: 'roku-dog',
+        speaker: NAMES.rokusuke,
+        gate: (flags) => flags['sb-dog-fed'] === true,
+        voice: 'villager',
+        text: "You feed it, it's yours. That's how the yard reckons it, and the yard's not wrong. Not saying it's wrong.",
+      },
+    ],
+  },
 ];

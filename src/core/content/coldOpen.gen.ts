@@ -3,17 +3,14 @@
 // (the gen-narrative verify gate rebuilds this file and byte-compares it).
 // Data only — the types + helpers stay hand-written in coldOpen.ts, which re-exports this.
 
-import { NAMES } from './names';
-
 export const COLD_OPEN = {
-  wake: "You open your eyes. Straw beneath you, the smell of wet rice, a low roof you do not know. A cold spring — the ninth year of An'ei — though the year is as lost to you as your name.",
-  grounding: `"You're awake." ${NAMES.physician} the physician sits back on his heels. "No kami carried you off, whatever the village wants to believe. A flood took you, and a blow to the head took the rest. Bodies forget. Given work and rice, they also mend."`,
+  weir: 'The river gives you up at the weir. You keep none of it in order: hands in your collar, gravel under your back, the sky white and near, water leaving you in coughs. A stone jizō watches from the bank, rice at its feet, nobody on the road who could have left it. Someone says, carry him up, then. Then nothing.',
+  wake: 'Straw. A low roof. A fire kept small. Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it. You have been three days in a room you have never seen.',
   dream:
-    "Something surfaces and is gone — a porter's knot, a road in grey rain, a name you cannot keep hold of.",
-  bodyReveal: 'You take stock of yourself: bruised, hollow, half-starved — but breathing.',
-  riceReveal: `Rice lies scattered across the ${NAMES.house} grain-store floor. Spilled stores are waste — and clearing waste is a kind of work, if you set your hands to it.`,
-  coinReveal:
-    'Copper coin, warm from another hand — your first wage. Rice fills a belly; coin is what the world takes in trade for everything a belly is not.',
-  restReveal: 'Your arms are leaden. You could rest a moment against the cool post.',
-  restAct: 'You rest against the post. The ache dulls; the light through the slats shifts.',
+    'Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it.',
+  daybook:
+    'One man, name unknown. Taken at the weir. Fed, three days. Condition, poor; hands, good.',
+  daybookVerbs: 'Rakes; hauls. Wage: meals.',
+  rake: 'The court is long and the rake is short. You work it in rows, corner to gate, until the gravel shows its lines again. Nobody watches. The rows stay.',
+  haul: 'Two buckets on a yoke, well to kitchen, forty paces each way. By the fourth trip the jars stop ringing hollow. The kitchen does not thank the water. It uses it.',
 } as const;

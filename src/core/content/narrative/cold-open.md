@@ -34,12 +34,12 @@ have been three days in a room you have never seen.
 Something surfaces — a knot, a road in grey rain — and goes down again
 before you can put a hand to it.
 
-### day-book
+### daybook
 
 One man, name unknown. Taken at the weir. Fed, three days. Condition, poor;
 hands, good.
 
-### day-book-verbs
+### daybookVerbs
 
 Rakes; hauls. Wage: meals.
 

@@ -1,6 +1,23 @@
 <!-- The rung-up story beats (ADR-110), R1→R7 — the AUTHORING SOURCE OF TRUTH (FB-5).
   Compiled to src/core/content/rungBeats.gen.ts by `pnpm run gen:narrative`.
-  Format spec: ./README.md. R0 has no beat — the intro IS the R0 beat. -->
+  Format spec: ./README.md. R0 has no beat — the intro IS the R0 beat.
+
+  storywave G4.1 — migrated from the t0v2 VERDICT picks (u1-c, u2-c, u3-b, u4-b,
+  u6-c, u7-b) + each unit's redlines. MC speech (the pre-R7 `Nameless:` label /
+  the `You:` label) has no FB-5 speaker form, so those lines render as narrator
+  `>` quotes (the label flip stays a `native:` engine concern, 04-cast ladder).
+
+  Each rung keeps its CURRENT `motivates:` list (verbatim-equal to
+  RANKS.<rung>.rewardOnReach.unlock, unchanged this chunk — the validator hard-
+  checks that equality). The picks' own aspirational motivates ids bind when
+  RANKS/SURFACES are re-derived in a later G4 chunk; several rung beats now
+  narrate a granter/theme (e.g. R4 = Kihei's drill-yard) that does not yet match
+  its RANKS unlock list (repair/omoya) — a KNOWN later-chunk reconciliation.
+
+  R5 is intentionally ABSENT: the R5 promotion is the ensemble "Count" night,
+  which plays as the `scripted` scene-defs `count` / `count-resolve` in
+  scenes.md (map: "u5-c — plays via a scripted scene"). Duplicating its
+  r5-stand/account/search option ids here would RED the global-unique check. -->
 
 ## rung R1 · rung-r1
 speaker: genemon
@@ -8,101 +25,88 @@ voice: steward
 motivates: room-gate-forecourt, room-home-paddies, verb-farm, verb-haul,
   readout-clock, readout-stamina, panel-rung-ladder
 
-> Dawn at the gate. The forecourt is swept clean — your doing — and Genemon
-> waits by the posts, watching you the way a man watches weather.
+> Morning at the board. The hands take their rice at the threshold; the
+> steward's papers hold the table's far end — an estate's worth of paper on a
+> kitchen table. Genemon calls you up from the step without looking up.
 
-Genemon: "You cleared the stores without being told twice. The house is short of
-hands and shorter of trustworthy ones. Stay — you're no day-hire now. Earn your
-rice."
+Genemon: "Two hands took the lowland road this week. Wages drawn through the day
+they left, lines struck. The yard is short. The work is not."
 
-Genemon: "The gate and the swept forecourt are yours to work now; stores come
-and go here. The home paddies too — the rice that feeds the house. And the
-kura's own repair is yours to tend: spend the house's small surplus to shore it
-up."
+> It is the first you have heard of any leaving.
 
-> A pack-laden stranger has laid a mat in the lee of the gate-post — an Ōmi
-> pedlar, come because a tended gate draws trade. He lifts a hand as you pass.
+Genemon: "Terms. Work, sun to sun, at what the yard wants doing — hired by the
+day, counted in the book. Meals at the threshold, morning and evening. The
+woodshed corner and a mat. No coin: the house's coin is spoken for before it
+reaches the yard. Objections are heard now or kept. The paddies want you by full
+light."
 
-Tokubei (villager): "A tended gate's a lucky gate for a man with a pack.
-Tokubei, of Ōmi — mind if I keep my mat here a while, young master? Coin of your
-own spends as well as any lord's."
+> Nobody stops eating. Two hands lost was a morning's talk; one stray kept is
+> not even that. The bowls go on.
 
-### decide · How do you take the keeping?
+Genemon: "The board has heard it. That serves for witness."
 
-#### r1-dutiful · "The house has my hands."
+> He opens the day-book to a page already half-filled with other men.
 
-Genemon: "...Good. Hands that don't need watching are the rarest thing I keep."
+> On the veranda above the step, Naoyuki has stopped — the second son, papers of
+> his own under one arm. Passing, and made a witness like the rest of the room.
 
-memory: genemon +1 (dutiful)
-flags: r1-dutiful
+Naoyuki: "The house is glad of —"
 
-#### r1-practical · "A roof and rice is a fair trade."
+> The sentence stops. He stands with it a moment, as if he has read it back and
+> found it not worth the ink.
 
-Genemon: "Honest, and cold. A fair trade it is — see that you hold your half."
+Naoyuki: "Two hands left. You were here. That is all it is."
 
-memory: genemon +0
-flags: r1-practical
+> He goes on along the veranda. He looked at you once.
 
-#### r1-ambitious · "I mean to rise past a kept hand."
+> Then Genemon takes up the brush, and asks it plainly, at board volume. The
+> room hears without listening.
 
-Genemon: "...Ambition, in a hand kept a day. Mind it doesn't outrun your worth."
+Genemon: "One thing before the ink. If a claim follows you here, I enter it
+against your board. Is anything owing on you?"
 
-memory: genemon -1 (ambitious)
-flags: r1-ambitious
+### ask r1-the-two · "The two that left?"
 
-## rung R2 · rung-r2
-speaker: rokusuke
-voice: villager
-motivates: tab-skills, room-woodlot-edge, room-near-satoyama,
-  room-deep-satoyama, verb-woodcut, verb-forage, verb-face-wolf, row-wood,
-  row-sansai, skill-conditioning
+Genemon: "Left owed nothing, owing nothing. Struck clean. The lowlands pay coin
+in winter; I could not argue the sum, so I did not argue it."
 
-> The near hill in first light. Genemon leads you past the forecourt for the
-> first time, out to where the woodlot meets the wild edge of the satoyama.
+### ask r1-why-keep · "Why keep me?"
 
-Genemon: "You can be set a task and trusted to finish it out of my sight — worth
-more than a strong back. The woodlot and the near hill are yours to work now;
-the house needs fuel and forage, and it trusts you to bring them in."
+Genemon: "The paddies take six hands at the least. Five sleep here now. You are
+the sixth. If a better sixth comes by, the book will say so."
 
-Genemon: "One more thing, and not a small one. A wolf's been at the grain stores
-in the night. Someone must face it — and there is no one else to send. Think on
-it."
+### ask r1-the-meals · "Just the meals?"
 
-> A lean man about your own age ambles up from the wood-stack, an axe on one
-> shoulder, grinning as if you two already share a joke.
+Genemon: "A fed hand does a day's work; a hungry one is half a hand at a whole
+board."
 
-Rokusuke: "Rokusuke — kept on two winters back, so I know where the bodies are
-buried. Do the work, keep your head down, don't let the old steward catch you
-idle. That's the whole of it."
+### decide · Is anything owing on you?
 
-> Knotting a load for the woodlot, your fingers tie a porter's knot you never
-> learned — quick, certain, a stranger's habit in your own hands. It means
-> nothing. It will not leave you.
+#### r1-none-claimed · "Not that I know."
 
-### decide · The wolf, and the man beside you — how do you take them?
+Genemon: "Then the book says none claimed. It has lived with worse."
 
-#### r2-wolf-heeded · "The stores are the house's life. I'll face it."
+flags: r1-none-claimed
 
-Rokusuke: "...Huh. Most men find a reason to be elsewhere. You might do."
+#### r1-kept · "Say nothing."
 
-memory: rokusuke +0 (respected)
-flags: r2-wolf-heeded
+Genemon: "Kept, then. The book carries what is claimed, and I keep my own
+margins."
 
-#### r2-rokusuke-friend · "Tell me how the house really runs."
+memory: genemon +1 (kept-accounts)
+flags: r1-kept-owing
 
-Rokusuke: "Now you're talking. Stick with me and you'll know which pedlar cheats
-and which steward's watching. Speaking of — old Tokubei keeps a softer price for
-a friend. Tell him I sent you."
+#### r1-and-if · "And if there were?"
 
-memory: rokusuke +1 (friend)
-flags: r2-rokusuke-friend, pedlar-favour
+Genemon: "Then the house's claim comes first, while you eat its rice. After that
+— whoever can find you. So far nobody has asked."
 
-#### r2-solitary · "The work's enough. I keep to myself."
+flags: r1-asked-owing
 
-Rokusuke: "Suit yourself. Offer stands, if you tire of your own company."
-
-memory: rokusuke -1 (solitary)
-flags: r2-solitary
+<!-- R2 is the SILENT RUNG (ADR-165): a speakerless narration-only beat with no
+  decision — which a `## rung` block cannot express (the compiler requires a
+  decide). It lives in scenes.md as the `r2-yard-hand` scene-def, `trigger: rung
+  R2` — the README's own home for the speakerless form. -->
 
 ## rung R3 · rung-r3
 speaker: kihei
@@ -110,281 +114,363 @@ voice: arms
 motivates: tab-combat, panel-drill-yard, readout-combat-level, panel-bestiary,
   panel-house-influence
 
-> The drill yard behind the omoya, first light. You've stood over the
-> grain-store wolf's carcass; word travels. A hard-faced man is already there, a
-> bokken in each hand — and he throws you one without a word of greeting.
+> Dawn comes grey through the kura door. The blood on the sill has dried black,
+> and most of it is yours. Inside, the rice sits in its rows, untouched, exactly
+> as it was put. Sōan has strapped your ribs so tight that breathing is a
+> decision.
 
-Kihei: "So. You put down the thing that had the run of our stores. Farmers don't
-do that. There's a soldier in you under the farmhand — I've watched it a week
-and I'm done pretending I haven't."
+> Kihei crouches at the sill a long time, reading the blood the way Genemon
+> reads a column of figures. The trail goes west, into the trees, in drops that
+> get no smaller.
 
-Kihei: "You're gate-watch now: a weapon, a yard to train in, and the estate's
-defence on your shoulders — pests, beasts, and the masterless men who drift down
-the woodlot road. Keep a field-guide of what you face; a soldier who knows his
-enemy outlives one who doesn't."
+Kihei: "…Alive. Good."
 
-### ask kihei-why-blade · "Why set me to the blade?"
+> For a moment there is more in him than the verdict. He checks the broken bar
+> instead.
 
-Kihei: "The house has walls and no one to stand on them. A great name with an
-empty granary draws wolves of both kinds. I'd sooner the man holding the gate be
-one who chose to."
+> Genemon stands in the doorway. Whatever he came to say, he writes something in
+> the day-book first.
 
-### ask kihei-road · "What's out on the woodlot road?"
+Genemon: "Screen, one, torn. Bar, one, broken. Grain — none lost. Hand, one.
+Standing."
 
-Kihei: "Boar and wolf in season. And men — ronin, deserters, the leavings of
-every lord's quarrel — who'll take rice off a house too weak to keep it. That
-last is why you're really here."
+> None lost. You think of the gnawed seed-bale at the back wall, and the count
+> you made twice by lantern, and you do not correct him. Not yet.
 
-### ask kihei-who · "Who are you, drillmaster?"
-after: kihei-why-blade
+Genemon: "The bar was old. It goes against the house, not your wage."
 
-Kihei: "A man who soldiered for a house that no longer exists. Genemon kept the
-granary; I kept the walls. Ask me the rest when you've bled for the place."
+> Kihei stands, takes the boar-spear off the sill, and puts it back in your
+> hands, butt first.
 
-### decide · How do you take up the blade?
+Kihei: "You didn't win. The house lost nothing. Keep the watch."
 
-#### r3-aggressive · "Show me how to end a fight fast."
+> By evening the padded coat is folded at the woodshed step, the torn shoulder
+> closed with stitches smaller than the tear deserved. O-Hisa is still three
+> steps from the kitchen when you come round the corner, caught.
 
-Kihei: "Fast, he says. Fast gets you a spear in the back. But there's fire in it
-— we'll aim it before it burns you."
+O-Hisa: "It tore clean, at least. If the ribs knit as straight — well."
 
-memory: kihei -1 (eager)
-flags: r3-aggressive
+> She is back inside before you find anything to say to that.
 
-#### r3-disciplined · "Teach me to stand a watch."
+### ask r3-wolf · "Will it come back?"
 
-Kihei: "...Good answer. A wall that holds is worth ten swords that swing wild.
-Come at dawn — before the others."
+Kihei: "It left more blood past the woodlot than a wolf keeps spare. If the
+winter doesn't finish it, it remembers this door. So do you. That makes you
+even."
 
-memory: kihei +1 (disciplined)
-flags: r3-disciplined
-bonus: +1 agi — "Kihei drills you an extra dawn; your feet learn the watch. (+1
-  AGI)"
+### ask r3-ribs · "How long?"
 
-#### r3-duty-not-glory · "I'd rather the paddies — but the house needs it."
+Sōan: "Breathe to the bottom of it. No. Cracked, then, not broken. Three weeks
+strapped, nothing heavier than the lantern, and you come to me before you decide
+you are healed."
 
-Kihei: "Honest. I trust a man who'd rather not more than one who's hungry for
-it. The house is lucky in you."
+> He writes a line in his ledger and closes it when you turn your head.
 
-memory: kihei +1 (reluctant)
-flags: r3-duty-not-glory
+### ask r3-rice · "The rice?"
 
-## rung R4 · rung-r4
-speaker: genemon
-voice: steward
-motivates: readout-durability, panel-equipment, verb-repair, house-omoya
+Kihei: "Where it was put. Last night's, at least. The rest is the board's
+arithmetic, not mine."
 
-> Genemon meets you at the kura door with an iron key on a cord, worn smooth by
-> other hands before yours.
+### decide · What do you do about the wolf?
 
-Genemon: "The kura key. Mind the stores as if the rice were your own — from
-today it half is. The house is forgetting you were ever a stranger. So am I."
+#### r3-track · "It bled going west. The trail is fresh."
 
-> He walks you on to the woodlot smithy, where a bent old man coaxes an edge
-> back onto a mattock. He doesn't look up.
+Sōan: "And you can chase it exactly as far as I can throw you. Sit down. It is
+winter's business now, not yours."
 
-Tōzō: "Tōzō. I keep the estate's iron. A blade you don't tend turns on you —
-bring me the hides and the metal off what you kill, and I'll show you what an
-edge wants. The forge is yours to use now; try not to ruin my fire."
+memory: kihei +1 (spine)
+flags: r3-track
 
-Genemon: "And the omoya's shuttered rooms are aired and swept — the house rises,
-and you'll walk floors the family walks. Don't let it turn your head."
+#### r3-hold · "It knows this door now. So do I. I'll be at the sill."
 
-### decide · How do you hold the key, and the house's surplus?
-
-#### r4-thrifty · "Every grain accounted."
-
-Genemon: "Spoken like a steward. Good — the house was bled white once by hands
-that weren't."
-
-memory: genemon +1 (thrifty)
-flags: r4-thrifty
-
-#### r4-generous · "Spend it on the house's needs — a mended kura feeds everyone."
-
-Tōzō: "Hah — the lad'd sooner fix the roof than count the rice. Here: a
-whetstone that's outlived three wardens. Keep your edge keen and it'll keep
-you."
-
-memory: genemon +0, tozo +1 (friend)
-flags: r4-generous, smith-whetstone
-
-#### r4-self-keeping · "Keep a little back for myself."
-
-Genemon: "...I'll pretend I didn't hear that. See that I go on not hearing it."
-
-memory: genemon -1 (self-keeping)
-flags: r4-self-keeping
-
-## rung R5 · rung-r5
-speaker: kihei
-voice: arms
-motivates: stance-control, tab-quests
-
-> Genemon calls you to the omoya's inner room — a place season-hands never see.
-
-Genemon: "No longer a season-hired hand. From today you answer to the house day
-and night, and it answers for you. The work is the same. The standing is not."
-
-> Then he walks you out to the yard, where Kihei waits with two bokken and
-> something that might, on another man, be a smile.
-
-Kihei: "The standing means the house trusts your judgment now — so I'll trust
-you with the last of it. Set your stance before a foe: press to end it fast, or
-guard to outlast it. The call is yours, fight by fight. Show me you understand
-the choice."
-
-### decide · What stance do you make your own?
-
-#### r5-stance-aggressive · "Press every fight — end it, don't outlast it."
-
-Kihei: "The tiger's way. Fast and final. It'll serve — until the day it doesn't.
-Mind that day."
-
-memory: kihei +0 (aggressive)
-flags: r5-stance-aggressive
-stance: jodan
-
-#### r5-stance-guard · "Guard first — a live watchman beats a dead hero."
-
-Kihei: "The bear's way. Unglamorous. It's also why I'm old enough to teach you."
+Kihei: "Then mend the bar before dark, and take the long spear this time. Eat
+first."
 
 memory: kihei +1 (steady)
-flags: r5-stance-guard
-stance: gedan
+flags: r3-hold
 
-#### r5-stance-adaptive · "Read the foe — the call changes fight by fight."
+#### r3-mend · "The bar first. Then the wolf."
 
-Kihei: "...The answer I hoped for and rarely get. There's a swordsman in you
-now, not just a gate-watch. Chūdan — the middle. Everything opens from it."
+Genemon: "The bar, the screen, then the tally. I will enter the wood against the
+house."
 
-memory: kihei +1 (adaptive)
-flags: r5-stance-adaptive
-stance: chudan
+memory: genemon +1 (careful)
+flags: r3-mend
+
+## rung R4 · rung-r4
+speaker: kihei
+voice: arms
+motivates: readout-durability, panel-equipment, verb-repair, house-omoya
+
+> Sōan strapped the ribs so you could walk, not so you could work. It is thirty
+> paces from the sickroom door to the board. You count them.
+
+> Genemon is there, the day-book open, the morning's entries not yet dry. He
+> looks up, and waits, and does not help you begin.
+
+> "Rats were in the store. Three nights, while I lay. A quarter-sack gone. Two
+> more opened at the seam."
+
+> "The watch was mine."
+
+> Genemon writes before he answers. It is what he does with surprise, though
+> nothing in his face has admitted to any.
+
+Genemon: "Rice, one quarter-sack, to vermin. Two sacks to resew — O-Hisa has
+thread. Entered under the store."
+
+Genemon: "Not under your name. No wage ran for the nights you lay. The account
+is even."
+
+> "It isn't."
+
+> The pen stops above the line a moment longer than the line needs. Then it
+> moves on, and he says nothing, and writes nothing further.
+
+> At the kitchen threshold O-Hisa has stopped with a bowl in her hands, as if
+> there were something to say to somebody. She sets it down where you will pass,
+> and goes in.
+
+> From the board, the woodshed is one way and the old stable court is the other.
+> Your ribs are for the woodshed. You go the other way.
+
+> Stalls for twenty horses run down the long side of the court, and the house
+> owns one mule. Kihei is at the rack, running a whetstone down a spear-head
+> that has no war to go to. Two practice staves lean beside him. One is worn
+> grey at the grip. The other is oiled, and looks as if it has never been
+> anything else.
+
+> "Teach me."
+
+> That was the easy half. The question costs more than the walk did.
+
+> "Will you?"
+
+> Kihei sets down the whetstone. He looks at the strapping, at the way you keep
+> your left side back, at the scars that were old before the river. He has
+> looked at them before. He has never once asked.
+
+Kihei: "...You walked here on cracked ribs to ask for more of what cracked
+them."
+
+> It is not a question, so you do not answer it.
+
+Kihei: "Terms, then. Once. Talent is a story the lucky tell. You are not lucky.
+So you will work."
+
+> He takes the oiled staff from the rack and holds it out. He does not say how
+> long it has stood there, and you do not ask.
+
+Kihei: "The house has one man who can stand a watch, and he is grey. Dawn,
+before the others. Every day the ribs allow, and some they don't."
+
+> On the wall above the empty stalls a boy sits very still, the way boys sit
+> when they believe stillness is the same as not being there.
+
+Kihei: "One thing before the staff. Why."
+
+### ask r4-what-first · "What will you teach me?"
+
+Kihei: "Feet first. Then the staff. The spear when the staff says so. Not the
+sword — the sword is not yours to carry, and that is the law's affair, not a
+judgment."
+
+### ask r4-whose-staff · "Whose staff is this?"
+
+Kihei: "One that was kept oiled. Oil is cheap. Ask again when you can hold it
+right."
+
+### ask r4-wolf · "Will the wolf come back?"
+
+Kihei: "It went off bleeding into a lean winter. It comes back, or it dies out
+there. Train for the one that comes back."
+
+### decide · Why do you ask for this?
+
+#### r4-it-returns · "It will come back."
+
+Kihei: "It will. Or its like. Dawn, then."
+
+memory: kihei +1 (watchful)
+flags: r4-it-returns
+
+#### r4-the-rice · "I lost the house rice."
+
+Kihei: "The rice is the steward's grief; mine is the sill it crossed. But carry
+it, if it carries you to this yard at dawn."
+
+memory: genemon +1 (owned-the-loss)
+flags: r4-the-rice
+
+#### r4-not-carried · "I was carried once. Not again."
+
+Kihei: "Then don't be. Dawn."
+
+flags: r4-not-carried
 
 ## rung R6 · rung-r6
-speaker: chiyo
+speaker: genemon
 voice: steward
 motivates: house-workshops, house-granary
 
-> The omoya's formal room. Lady Chiyo sits behind a low table stacked with the
-> house's ledgers, and studies you the way she'd study a column of figures that
-> doesn't yet add up.
+<!-- u6-c, redlined: "Everything walks downhill but the rain." cut from
+  r6-ford-news; the `You:` count reshaped to a narrator quote. The count-back
+  epilogue (`## scene r6-count-back`, native when:-gated post-decide prose) and
+  its @-reuse of the R0 "one man, name unknown" echo have no rung-beat form —
+  DEFERRED to a later chunk (a scene-def / native sidecar), noted HD-30. -->
 
-Chiyo: "So you are the river's foundling Genemon would not stop mentioning. Sit.
-I've errands that need a hand I can trust with more than a hoe — ledgers
-carried, messages run, the house's small business held close."
+> Morning, the forecourt. Genemon's window stands open, the day-book out, and
+> beside it a purse the size of a fist, dark with handling.
 
-Chiyo: "The workshops wake again on the strength of your work — a forge, a
-joiner's bench — and a second granary rises behind the kura. They fall under
-your oversight now. You are being weighed for something larger than a servant.
-Do not disappoint the scales."
+Genemon: "Salt, one shō. Waxed thread, two hanks. Lamp oil, one masu. Yohei sets
+his boards up at the gate by mid-morning."
 
-### ask chiyo-need · "What does the inner house need?"
+Genemon: "Two hands short since spring, and I cannot leave the book on a market
+morning. So."
 
-Chiyo: "Order. A great name is a heavy thing to carry with an empty purse — I
-keep the two from crushing us. I need a man who does what's asked and asks
-nothing back he hasn't earned."
+> He counts the coins into your palm one at a time, watching each one land.
 
-### ask chiyo-trust · "Why trust an outsider?"
+Genemon: "Forty mon. Count them back."
 
-Chiyo: "An outsider owes no old faction and carries no old grudge. You are loyal
-to this house or to nothing — and a man loyal to nothing is easy to read. I
-prefer easy to read."
+> "Forty."
 
-### ask chiyo-lord · "The lord — is he well?"
-after: chiyo-need
+> He watches the whole count. When it comes out even he does not nod. He enters
+> something in the day-book, unasked.
 
-Chiyo: "Shigemasa is old, and tired, and prouder than either. His heir Naoyuki
-is young and wary and not yet ready to carry it. Between them the house needs
-steady hands more than another sword. Remember that when the drillmaster fills
-your head."
+Genemon: "His prices are his own. The house's figures are mine. Go."
 
-### decide · How do you serve the inner house?
+> Market morning at the gate. Yohei's boards are up and the gateyard has people
+> in it for once — baskets, a mule, talk. The woman ahead of you pulls her
+> basket an inch closer when you stop beside her. The talk is rain over the pass
+> and the price of salt, and it thins a little when you step to the boards, and
+> it is not about you either.
 
-#### r6-loyal · "The house's name is my name now."
+Yohei: "The house's hand, and carrying the house's purse — there's news by
+itself. Rain over the pass, the dye-man's held at the ford a week, so waxed
+thread is scarce, so the thread is eleven. Salt fifteen, the oil fourteen — fair
+as water, those two. Eleven for the thread, then?"
 
-Chiyo: "A large thing to say. Larger to mean. We shall see which you've done."
+### ask r6-stray-price · "You priced me high, my first market."
 
-memory: chiyo +1 (loyal)
-flags: r6-loyal
+Yohei: "I did. First market, you were the road's — a road man pays the road's
+price, carries it off, and is gone. A house man comes back twelve markets a
+year. I price the coming back."
 
-#### r6-ambitious · "I'd carry more than errands."
+### ask r6-ford-news · "What holds the dye-man?"
 
-Chiyo: "Ambition. I neither trust it nor waste it. Carry the errands first; the
-more comes to those who don't ask for it."
+Yohei: "The ford, swollen, and no hurry in him — lowland wages are fat this year
+and half the carriers went down for them. Your house lost two hands to the same
+road, I hear."
 
-memory: chiyo +0 (ambitious)
-flags: r6-ambitious
+### decide · The thread is eleven. The steward reckoned nine.
 
-#### r6-discreet · "A steward's man keeps the house's silences."
+#### r6-count-flat · "Nine. Count it with me."
 
-Chiyo: "...Yes. That, more than the errands, is the post. You understand it
-already. Good."
+Yohei: "Ha — the steward's figure, out of the steward's own mouth. Nine, nine,
+take it. Twelve markets a year, I'd rather be the stall you count at than the
+one you walk past."
 
-memory: chiyo +1 (discreet)
-flags: r6-discreet
+memory: yohei +1 (square)
+flags: r6-flat
+
+#### r6-pay-over · "Eleven, then."
+
+Yohei: "Done, and kindly done. Salt, oil, thread — mind the oil, it sweats in
+the sun. My regards to the kitchen."
+
+memory: yohei +0 (a mark still)
+flags: r6-over
+
+#### r6-put-back · "Then the house does without thread."
+
+Yohei: "As you like. Thread keeps, and so do I. Salt and oil, twenty-nine — and
+tell the steward it's the dye-man sets that price, not me."
+
+memory: yohei +0 (hard)
+flags: r6-back
 
 ## rung R7 · rung-r7
-speaker: shigemasa
-voice: official
+speaker: genemon
+voice: steward
 motivates: house-study
 
-> The shoin — the lord's own writing-room, where the house's real business is
-> done and few servants ever cross the threshold. Shigemasa is smaller than his
-> name, and older, and his eyes miss nothing.
+<!-- u7-b, redlined: the spoken Item/Count/Condition labels recast into plain
+  Genemon speech (r7-what-changes). Two grafts from u7 take-c/take-a could NOT
+  be applied — their source prose was not transcribed this pass: take-c's "An
+  entry can be amended" line, and take-a's morning-after log line (HD-30 /
+  un-applied redlines). THE FIRST DREAM (`scene r7-dream`) is NOT a rung block
+  (a `## scene` here would break the intro scene-order check) — it migrates to
+  scenes.md as the `r7-dream` scene-def, where the "fine as sieved ash" simile
+  is cut. The name-flip Nameless:→Gonbei: on the decide labels stays native. -->
 
-Shigemasa (official): "Come in. Sit — no, closer. I would see the man Chiyo and
-Genemon and even that flint Kihei agree upon, which they have not done in twenty
-years."
+> The board, past supper, past the year's tax. The household's noises are done
+> for the day. Genemon has the day-book open under the lamp and a fresh page
+> ruled, and he does not look up until the last column of the old one is footed.
 
-Shigemasa (official): "You came to us with no name and nothing in your hands.
-Look what those hands have done — the kura full, the walls kept, the workshops
-loud again. I admit you to this room. The measure of the House itself takes
-shape before you now. Few servants ever stand where you stand."
+Genemon: "Stand where I can see you. This is quick."
 
-### ask shigemasa-house · "How is a house weighed?"
+Genemon: "A full year and more, this book has said 'one man, name unknown.'
+Every entry, the same six strokes spent on a man the whole yard knows on sight.
+Paper is not free. Neither is my evening."
 
-Shigemasa (official): "Not in koku alone, though the granary matters. In its
-name, its arms, its office, the memory it leaves. I have spent my life keeping
-one pillar from pulling down the rest. Soon that reckoning will lie open before
-you — and you will see how far a house can yet rise."
+> He turns back through the pages — a winter, a wolf, a harvest — to the first
+> entry, and reads it aloud, once. One man, name unknown. Then he dips the
+> brush, and holds it over the page a breath longer than any entry needs.
 
-### ask shigemasa-of-me · "What would you have of me?"
+Genemon: "Gonbei. Every hired man this house has kept has carried it before you.
+The house's name for you, then. Earn a better."
 
-Shigemasa (official): "More than I have the right to ask of a servant, and less
-than I suspect you'll one day give. For now — carry the house's standing as if
-it were your own name. Perhaps, in time, it will be."
+> He writes it small and square — the hand of a man who has written all his life
+> and never once for pleasure — and the thing is done. One man, Gonbei, sound.
 
-### ask shigemasa-heir · "And your heir?"
-after: shigemasa-house
+### ask r7-what-changes · "What changes?"
 
-Shigemasa (official): "Naoyuki. He is young, and he watches you already — not
-all of it kindly. A house has room for an heir and an able man both, if both are
-wise. See that you are the wise one; I cannot always be here to remind him."
+Genemon: "Your name, on the page. A day-wage, as before, and the house's purse
+when it's sent out with you. And watched — as every name on this book is
+watched."
 
-### decide · How do you answer the lord?
+Genemon: "And one thing more. From this season's close I rule a second
+reckoning — not the hands. The house. Stores past the winter's need, walls that
+held, ground taken back. One line, each season, in this book's plain words. I
+have written this house's losses for thirty-one years. I mean to write something
+else before I am done."
 
-#### r7-devoted · "I'll carry the Kurosawa name as far as it can go."
+### ask r7-before · "Who carried it before me?"
 
-Shigemasa: "The house before the man. It is what I would have said at your age.
-Whether it was wisdom or only habit, I have never decided."
+> The question costs him something to ask, and Genemon looks up as if a chair
+> had spoken. Then he turns the book back further than he turned it for the ink,
+> to a page the lamp barely reaches.
 
-memory: shigemasa +1 (devoted)
-flags: r7-devoted
+Genemon: "Four, in my years. Two served their seasons out and went to the
+lowlands. One died of a winter chest, in the house's service; his dates are
+here. The fourth was let go. There was a year this house could keep no one it
+did not have to keep. That is the whole of it."
 
-#### r7-ambitious · "A name can be made as well as served."
+> The same name, four times over, each line ruled through — dated, footed,
+> closed. He answers the rest of the question by writing the date on the fifth,
+> and the fifth stands open.
 
-Shigemasa: "...Bold. To my face, no less. I'll not pretend it pleases me less
-than the safe answer would have."
+### decide · The ink is drying. How do you take the name?
 
-memory: shigemasa +0 (ambitious)
-flags: r7-ambitious
+#### r7-plain · "It will do."
 
-#### r7-humble · "I only did the work in front of me."
+Genemon: "So it will. Take what is left in the pot as you pass the kitchen. It
+is paid for."
 
-Shigemasa: "And that, I think, is why it came to so much. Remember it when
-louder men tell you otherwise."
+memory: genemon +1 (plain)
+flags: r7-plain
 
-memory: shigemasa +1 (humble)
-flags: r7-humble
+#### r7-earn · "Then I'll earn the better one."
+
+Genemon: "Better is earned at the season's close, like everything on this book.
+I will hold you to the word."
+
+memory: genemon +1 (ambitious)
+flags: r7-earn
+
+#### r7-mine · "Until mine comes back, it can serve."
+
+Genemon: "As you say."
+
+memory: genemon +1 (guarded)
+flags: r7-mine

@@ -75,7 +75,7 @@ and neither have you."
 > Genemon does not look surprised. He looks down and writes, and reads it
 > back as he writes, aloud and once.
 
-Genemon: @cold-open.day-book
+Genemon: @cold-open.daybook
 
 Genemon: "When he can stand, he rakes. The kitchen wants water before it
 wants anything."
@@ -107,8 +107,6 @@ say: "My hands know a knot. I'll keep that."
 > You tie it in the cord of your own bedding: a carrier's hitch, fast and
 > one-handed, twice. Sōan watches it both times. He does not write it down
 > while you are looking.
-
-Sōan: "Keep it, then."
 
 stat: +agi -int
 perk: The Carrier's Hitch — fast, one-handed, holds wet.
