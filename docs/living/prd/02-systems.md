@@ -96,11 +96,6 @@ sparring slots; a new region reveals one road → one threat → one contact. Re
 
 ## 2.2 Time, season & world clock (active-only)
 
-> **FORWARD SPEC (storywave).** This subsection specs the bible's
-> design per docket #2 (ADR-153). The BUILT game still runs the old
-> mechanics until that ADR's build lands (the storywave game plan).
-> Banner removed at the docs plan's A5 closure.
-
 **(a) What it is — the six-season manual container calendar (docket #2/ADR-153).**
 The year is **SIX rotating seasons** — **Winter → New Year → Spring → Summer →
 Bon → Autumn** — each a **CONTAINER filled at the player's own pace**, not a
@@ -1308,11 +1303,6 @@ re-spec — the ADR (and the bible section it transcribes) governs.
 
 **The two body economies + defeat-as-sickroom (docket #4/ADR-155).**
 
-> **FORWARD SPEC (storywave).** This subsection specs the bible's
-> design per docket #4 (ADR-155). The BUILT game still runs the old
-> mechanics until that ADR's build lands (the storywave game plan).
-> Banner removed at the docs plan's A5 closure.
-
 One body, **two meters coupled one way**: labour spends the WORK/body unit and
 **never costs HP**, combat risks HP, and being at low HP **impairs work
 capacity**. **Defeat is never game-over** — the MC is carried to Sōan's sickroom
@@ -1322,11 +1312,6 @@ change and all magnitudes are the game build's (sim-owned, ADR-132);
 `docs/story-bible/tiers/t0.md` carries the shape.
 
 **The night-round mini-dungeon runner (docket #5/ADR-156).**
-
-> **FORWARD SPEC (storywave).** This subsection specs the bible's
-> design per docket #5 (ADR-156). The BUILT game still runs the old
-> mechanics until that ADR's build lands (the storywave game plan).
-> Banner removed at the docs plan's A5 closure.
 
 A **"begin the night round" action** (posted at the gate) puts the MC on rails
 through several zones in their night state; clear each of enemies to finish the
@@ -1338,11 +1323,6 @@ estate** in later tiers. A new repeatable-activity runner in the pure core;
 
 **The speaker-label ladder + the map re-label reveal (docket #6/ADR-157).**
 
-> **FORWARD SPEC (storywave).** This subsection specs the bible's
-> design per docket #6 (ADR-157). The BUILT game still runs the old
-> mechanics until that ADR's build lands (the storywave game plan).
-> Banner removed at the docs plan's A5 closure.
-
 **The speaker label is story state:** `You:` for the cold open → a forced beat
 where he asks his own name and Sōan answers that he has none → the label flips to
 `Nameless:` on screen, witnessed → `Gonbei:` takes over at T0-R7 → the birth name
@@ -1353,11 +1333,6 @@ house*) in one day-book line, no ceremony. **TST2 governs both** (never yank a
 watched surface); `docs/story-bible/04-cast.md` + `05-world.md` carry the shape.
 
 **The economy — two coin lanes, three ledgers (docket #7/ADR-158).**
-
-> **FORWARD SPEC (storywave).** This subsection specs the bible's
-> design per docket #7 (ADR-158). The BUILT game still runs the old
-> mechanics until that ADR's build lands (the storywave game plan).
-> Banner removed at the docs plan's A5 closure.
 
 **Three nested ledgers** (the MC's, the household's day-book, and the DEBT — the
 standing antagonist, principal untouchable in T0), **filling the barn is the
@@ -1616,7 +1591,7 @@ and the invariants below. **Verifier checks (§6.6):**
 - **No system ever wipes Influence/holdings** (dents are recoverable; the seasonal restore never advances
   the high-water).
 - **Real-name DENYLIST lint** — fictionalised-names guard (Toyama/Konoe and Mago/Naozane/Obaa Sato renamed;
-  the retired Yagyū/Edogawa echoes **Munenori/Jūbei/Ranpo** likewise denied (→ **Munemasa (was Shigemasa)**/Kihei/Sōan);
+  the retired Yagyū/Edogawa echoes **Munenori/Jūbei/Ranpo** likewise denied (→ **Munemasa**/Kihei/Sōan);
   Nihonbashi allow-listed).
 - **`Math.pow`/`exp`/`log`/trig lint** (§6.1) — banned in core (integer-pow; **`sqrt` whitelisted**).
 

@@ -1,5 +1,11 @@
 # The T0 capstone branch — designed, DEFERRED to the T1 build
 
+> **SUPERSEDED by the storywave reboot (archived 2026-07-09, Plan A A5).** The new
+> T0-R7 has no three-way lord beat; the capstone-branch PATTERN (ADR-125) remains
+> available to future tiers. See
+> [`fable-2026-07-07-storywave-docs.md`](fable-2026-07-07-storywave-docs.md) HD-29
+> for the adopt-partial ruling. *(This file is retained as the pattern's design record.)*
+
 **Status: 📌 PARKED — build WHEN T1 lands; ADOPT-PARTIAL per HD-29
 (human, 2026-07-08).** *(Moved from `docs/living/` 2026-07-07 per the
 docs reorg: living holds only the core canon docs; deferred build-detail

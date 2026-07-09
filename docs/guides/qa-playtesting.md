@@ -82,7 +82,7 @@ the async twin of the human's live playtest loop; it never blocks either side.
 
 ```ts
 {
-  tier,            // 0..5 (T0 Estate-tutorial · T1 Estate-full … T5 Edo)
+  tier,            // 0..6 (T0 Estate-household · T1 Estate-land · T2 Valley … T6 Edo)
   rung,            // current rung id ('R3' | 'V5' | 'G2' | …)
   estateStanding,  // 'stranger'|'friendly'|'trusted'|'honoraryMember'|'yonin'  (the rep arc)
   pillars,         // { arms, estate, office, name } — the four House Influence accumulators
@@ -110,7 +110,7 @@ the async twin of the human's live playtest loop; it never blocks either side.
 | `dispatch(intent)` | Apply one player intent through `reduce` (the universal driver). Convenience wrappers: `activity(id)`, `auto(id\|null)`, `faceWolf()`, `fight(mobId)`, `autoCombat(mobId\|null)`, `setStance(s)`. Intents with no wrapper are driven raw: `move_to` (or use `goto` below), `deposit`/`withdraw` (the kura 蔵 bank — move a resource carried ↔ sheltered `banked`), `set_auto_rake` (the leave-it-running auto-labour toggle), and `set_auto_combat`'s `retreat` flag (sets `autoCombatRetreat` — the auto-retreat-at-~20%-HP mode vs fight-to-death). |
 | `goto(node)` | **Walk to a map node** — replays real `move_to` hops over the revealed graph (nodes: `kura`, `gate-forecourt`, `home-paddies`, `woodlot-edge`, `near-satoyama`, `deep-satoyama` 奥山, `drill-yard`). **REQUIRED to reach node-gated activities/foes** — labours + enemies are spatial, so a driver that never walks can't reach forage / the deep-satoyama boar den or bank at the `kura`. `fight`/`faceWolf` auto-`goto` the foe's node first. |
 | `tick(dt)` / `frames(n)` | Advance the sim one step (`tick`) / re-render N frames without advancing the sim (`frames`). |
-| `toRung(id)` / `toTier(n)` | **Jump-to-rung / jump-to-tier teleport** — play the optimal path to a checkpoint so a QA run reaches a target in seconds. `toTier(n)` accepts **0..5**. |
+| `toRung(id)` / `toTier(n)` | **Jump-to-rung / jump-to-tier teleport** — play the optimal path to a checkpoint so a QA run reaches a target in seconds. `toTier(n)` accepts **0..6** (T0–T6; no upper clamp). |
 | `jumpToPhase2()` / `jumpToAscension()` | **DEV teleports** — to the R7 capstone (Phase-2 open) / an ascension-ready Estate-EXCELLENT state, so the macro spine is one click away. |
 | `speed(mult)` | **DEV speed toggle** — run **N auto-steps per tick** (2× / 4× / 8×; `1` = prod cadence), so the build plays hands-on at a compressed-but-real pace. Distinct from `tick` (one discrete step) and the `toRung`/`toTier` teleport (instant warp). |
 | `pause()` / `resume()` | Pause / resume the active-only auto-loop. |
@@ -172,7 +172,7 @@ The suites:
   scripted wolf fight, the rung-beat summons, settings open/close.
 - **`e2e/journeys.spec.ts`** (all projects) — the story-beat reachability net
   (the 8 flows of `docs/plans` → `project/archive/` fable-2026-07-05-desktop-journey-e2e):
-  the whole intro VN to the shell, a rung-beat promotion landing, the Tokubei
+  the whole intro VN to the shell, a rung-beat promotion landing, the Yohei
   market loop (ADR-114 talk-to-open), the kura deposit, cook-to-heal (ADR-076), the
   repair bind (R4 — `verb-repair` is an R4 unlock by design), a quest slice, and
   the ascension ceremony. Fixtures checkpoint past grind; tests press only

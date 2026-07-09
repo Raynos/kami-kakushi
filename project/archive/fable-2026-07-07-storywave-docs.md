@@ -1,13 +1,14 @@
 # Storywave — Plan A: the DOCS ripple (PRD · roadmap · ADRs · living docs)
 
-**Status: IN-PROGRESS — A0–A3 ✅ landed (ADR docket `f4b2016`; PRD §5
-rewrite `13c4458` + §1–§7 ripple `38980d1`/`e1caa45`/`d138d00`/`d8c3de6`;
-roadmap reshape `f12fc28`). A4 largely landed (fun-factor §1.6 + README
-story-bible pointer done; the parked-T1-`capstone-branch` archival step
-still outstanding). A5 (closure: remove the PRD/§6 forward-spec banners +
-closing `prd:drift`) is ⛔ GATED on Plan B shipping — it cannot run until
-the game catches up. Executes in parallel with
-fable-2026-07-07-storywave-game.md per the §S seam.**
+**Status: ✅ DONE (2026-07-09) — A0–A5 complete; archived.** A0–A4 landed earlier
+(ADR docket · PRD §5 rewrite + §1–§7 ripple · roadmap reshape · fun-factor §1.6 ·
+README pointer). **A5 closure ran post-ship (Plan B shipped v0.4.0):** the 11 PRD
+forward-spec banners stripped, shigemasa→munemasa, §5.6 shrunk to a bible pointer,
+the shipped T0 map-nodes/quests added → **`prd:drift` CLEAN**, `gen-prd-regions`
+fresh, qa-playtesting harness lines re-anchored (0..6 tiers, Yohei), and the parked
+T1 capstone-branch plan archived (HD-29). Pacing re-derivation deferred to the
+playtest inbox per human steer (2026-07-09). Executed in parallel with
+fable-2026-07-07-storywave-game.md per the §S seam.
 
 <!-- Header corrected 2026-07-08 (session 124): the old "📋 PROPOSED"
 line was stale — A0–A4 had already landed in the tree; it was never

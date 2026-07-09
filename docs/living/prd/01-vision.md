@@ -216,14 +216,6 @@ spine without ever gating it.** More factions/zones bloom per tier beyond the th
 
 ### 1.5.1 ESTATE — the Kurosawa *gōshi* household (MAIN — one unbroken R0–R7 career per tier)
 
-> **FORWARD SPEC (storywave).** The bible restructures the estate climb as ONE unbroken **R0–R7 ladder PER
-> TIER** (docket #1, **ADR-152**) — not a fresh renumbered ladder each tier; in **T6** the rungs flip to the
-> HOUSE's Edo standing **H0–H7** (docket #9, **ADR-160**). Rungs **alternate inside/outside** the estate, a
-> **hard lock in T2/T3**, dropped at T4 (docket #3, **ADR-154**). The BUILT game still runs the old
-> R0–R7 / R8–R15 / V0–V7 numbering and the illustrative rung tables below until the storywave game plan lands;
-> the bible tier sheets ([`03-tiers.md`](../../story-bible/03-tiers.md)) govern. Banner removed at the docs
-> plan's A5 closure.
-
 The **Kurosawa** hold a modest hill estate in **Asagiri valley** — proud, threadbare, working much of their
 own land, quietly drowning in a ruinous debt inherited from grandfather **Sadamune's** failed flood-control
 venture. This is the **only** faction structured as a discrete, gated **rank ladder**, because rising through
@@ -714,11 +706,6 @@ canvas. **T0 ships as a small walkable estate map** (delivering §1's "areas to 
 in a **data-driven registry** (`content/world.ts`) with **unlock predicates** over GameState — reinforcing the
 data-driven, headlessly-testable framing.
 
-> **FORWARD SPEC (storywave).** The bible's zone ladder and estate anatomy (with the **T2 map re-label**,
-> docket #6, **ADR-157**) supersede the flat area registry. The BUILT game still ships the old area table
-> (below, kept as the trailing built registry) until the storywave game plan lands; per-tier node detail lives
-> in the bible tier sheets. Banner removed at the docs plan's A5 closure.
-
 **The tier→map ladder** ([`05-world.md`](../../story-bible/05-world.md)): Estate (the household) → Estate (the
 land) → the Valley → the Region → the Castle Town → the Domain (*han*) → Edo. Two large late regions (the
 castle town, the domain), then Edo; the map never attempts all of Japan. Zones unlock **rung by rung within
@@ -756,6 +743,13 @@ Beyond the estate, the **wilderness** stays a shared danger gradient gated by co
 deep satoyama → the river/ford/weir where he was found → the foothills); the **valley, region, castle town,
 domain and Edo** zones are enumerated per tier in the bible tier sheets
 ([`tiers/`](../../story-bible/tiers/); [`03-tiers.md`](../../story-bible/03-tiers.md)).
+
+**The shipped T0 walkable map (v0.4.0)** opens the estate anatomy above room by room:
+*The weir & riverbank* (the cold open) · *The forecourt* · *The gate & gateyard* · *The kitchen threshold* ·
+*The woodshed* · *The home paddy & vegetable rows* · *The field margins* · *The kura & grain-store* ·
+*The woodlot edge* · *The weir reeds* · *The drill yard* · *The shrine-alcove corridor* ·
+*The overgrown orchard* · *The bamboo grove* · and *The ruined compound* (locked scenery until the T2 reveal).
+Bible source: [`tiers/t0.md`](../../story-bible/tiers/t0.md).
 
 **The built-game area registry (trailing until the storywave game plan lands):**
 
@@ -810,12 +804,6 @@ existing cast and pay off the spine directly.
 > later — **not** abstract-board-only by design).
 
 ## 1.8 Cast (by faction & area)
-
-> **FORWARD SPEC (storywave).** The per-tier cast lives in the bible
-> ([`04-cast.md`](../../story-bible/04-cast.md)) — the single home; this section is now a **short pointer**,
-> not a roster. The BUILT game still ships the old-canon cast (Shigemasa, Tokubei, Chiyo, Onatsu, Magobei, the
-> rival houses…) until the storywave game plan lands; the §5.6 rename ledger (in §5) tracks each built label's
-> bible successor. Banner removed at the docs plan's A5 closure.
 
 Most NPCs do **double duty** — a gatekeeper *and* a story thread in the same beat. The estate roster **grows
 per tier**; the village (T2) and origin (T3) casts open with their tiers. Canon home + full entries:
@@ -889,7 +877,7 @@ finally says is **his choice** at the end. Two registers, one thread
 
 | Tier | Side-quests (open-ended; never gate the spine) |
 |---|---|
-| **T0** (the household) | The porter's-knot beat ("you've hauled before"); the first dream fragment (T0-R7); Dowager **Toku**'s first memory of the fall; **O-Ume**'s Bon grief at the paddy's edge (the jizō offerings, revealed T3). |
+| **T0** (the household) | The porter's-knot beat ("you've hauled before"); the first dream fragment (T0-R7); Dowager **Toku**'s first memory of the fall; **O-Ume**'s Bon grief at the paddy's edge (the jizō offerings, revealed T3). **Shipped v0.4.0:** *Walk the first night round* · *Take back the orchard* · *Drive the troop from the rows* · *Keep the leased screens whole* · *Dig out the field-margin setts*. |
 | **T1** (the land) | The **T0→T1 ascension** dream beat (BIG — the silhouettes stir); the cadence deepens (a fragment every second promotion); the first paid retinue settles; the shoin restoration with **Heikichi** → Lord **Munemasa**'s last entry, his death at the seam. |
 | **T2** (the Valley) | THE REVEAL (three signals; the map re-labels itself — guest house → the true main house); **Sayo**'s Tama misreading ignites and is worked; the bandit camp answered as a campaign; a per-family goodwill help; **Ekai**'s register of the vanished. |
 | **T3** (the Region) | The Tama truth resolves — **Otsuru** found grown at Yanagi-watari (**spine-guaranteed at G6**); the origin reunions (**Jinpachi, O-Nobu, Suzu, Kenta, Zenbei**); the **Origin O5 name-reclaim ("Tahei")** the optional, missable capstone; the sealed storerooms (the buried truth); Kuzuhara re-founded + the drowned named. |

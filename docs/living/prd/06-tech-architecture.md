@@ -259,13 +259,6 @@ go stale and never need a migration.
 
 ### Stored (non-derivable) — the persisted surface
 
-> **FORWARD SPEC (storywave).** This specs the bible's design per ADR-152 (the
-> macro-tier enum widens to 0..6 — T5 Domain · T6 Edo) and ADR-161 (clean-break
-> saves — no migration at the reboot boundary). The BUILT game still runs the old
-> mechanics — the enum is 0..5 and `tier: TierId` spans T0..T5 — until that ADR's
-> build lands (the storywave game plan). Banner removed at the docs plan's A5
-> closure.
-
 ```ts
 interface GameState {
   schemaVersion: number;            // for the migration safety-net (§6.8.2)
@@ -347,14 +340,6 @@ a live predicate re-eval); `currentTier(state)` and
 **0-based** day index — `season(day) = floor(day / 28) mod 4` and `year(day) = 1 + floor(day / 112)` (the 28-day
 season CALENDAR; the reckoning cadence is decoupled from it — §4.2.2). These are pure, cheap, memoizable
 per-snapshot, and **excluded from the save**.
-
-> **FORWARD SPEC (storywave).** This specs the bible's design per ADR-153 (the
-> six-season MANUAL container calendar — `season` becomes STORED, advanced state,
-> no longer derived from `day`). The BUILT game still runs the old mechanic —
-> `season(day) = floor(day / 28) mod 4`, derived-never-stored (the seasonal RNG
-> stream and the day-keyed derivations of §6.7/§6.7.1 survive; a stored season
-> container just re-anchors what "season" names) — until that ADR's build lands
-> (the storywave game plan). Banner removed at the docs plan's A5 closure.
 
 > **Why this split matters:** it keeps the save tiny and forward-compatible (you only ever migrate
 > non-derivable fields), makes the renderer a pure function of state, and means a balance retune (a curve

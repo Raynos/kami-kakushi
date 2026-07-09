@@ -1467,7 +1467,7 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   (`project/brainstorms/2026-07-03-r7-capstone-branch.md`) settled both a **reusable
   pattern** (so T1–T5 capstones can be designed later) and the **concrete T0
   design**. This ADR records the pattern as canon; the build-ready detail lives in
-  [`capstone-t0-branch.md`](../plans/t1/opus-2026-07-03-t1-capstone-branch.md) (the plan archived).
+  [`capstone-t0-branch.md`](../../project/archive/opus-2026-07-03-t1-capstone-branch.md) (the plan archived).
 - **Decision (human, 2026-07-03) — THE PATTERN (applies every tier):** at each
   tier's **capstone rung** (the final Phase-1 rung — R7 for T0), the existing rung
   VN beat's **values choice** becomes a **branch**: each option **keeps** its
@@ -1508,7 +1508,7 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   **ADR-121**; relates **ADR-110** (rung beats), **ADR-119**. **⏳ Build DEFERRED to T1:**
   the side quests are T1 content (R8→R15) and T1 isn't built (PH6 — don't build
   unreachable); the R7 *choice* already ships. Full build-ready spec graduated to
-  [`capstone-t0-branch.md`](../plans/t1/opus-2026-07-03-t1-capstone-branch.md); its plan is archived.
+  [`capstone-t0-branch.md`](../../project/archive/opus-2026-07-03-t1-capstone-branch.md); its plan is archived.
 
 ### ADR-126 ✅ — Taste: the top layer locked (4 values · 3 touchstones · 2 references) + the taste docs become budgeted snapshots
 - **created_date:** 2026-07-03

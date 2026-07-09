@@ -7,13 +7,6 @@
 > governs. The demoted V2 narrative text is archived verbatim at
 > [`project/archive/2026-07-07-prd-05-narrative-old-canon.md`](../../../project/archive/2026-07-07-prd-05-narrative-old-canon.md).
 
-> **STATUS — FORWARD CANON; THE SHIPPED GAME TRAILS.** This section
-> specs the story the game is being rebuilt toward. The BUILT game
-> still plays the OLD canon (the Shigemasa/Tokubei-era text and
-> content — see §5.6) until the storywave game plan's prose wave
-> and content migration land. This banner is removed at the docs
-> plan's closure milestone (A5), after the game ships.
-
 ## 5.1 · The premise
 
 1780, rural Japan. A man is pulled half-drowned from the estate's
@@ -121,32 +114,10 @@ direction live in the bible ONLY — do not re-spec them here. A
 story change is a bible change (human-gated; ADR-150), and this
 section follows.
 
-## 5.6 · Built-game compatibility (the rename ledger)
+## 5.6 · Rename ledger (historical)
 
-The BUILT game ships the old canon until the storywave game plan
-lands. This table documents each built label's bible successor —
-one line per label keeps the `prd:drift` presence check green and
-pre-writes the RETIRED-terms entries the game plan adds at its
-rename commits. (Rows are extended from the `pnpm run prd:drift`
-report — every built label the report flags as missing from the
-PRD gets a row here. The "Changes at" column cites the game plan's
-G-milestones: G4 = content migration, G4.1 = prose wave — ADR-150's
-waves B4/B3 respectively.)
-
-| Built label (shipping) | Bible successor | Changes at |
-|---|---|---|
-| Lord Shigemasa | Lord **Munemasa** (dies at the T1 seam) | game plan G4 |
-| Tokubei | **Yohei** (the pedlar) | game plan G4 |
-| Chiyo | recast per `04-cast.md` (T0 household) | game plan G4.1/G4 |
-| Rokusuke | kept (Rokusuke-class hands) | — |
-| Kanta | **Kenta** (origin friend) | game plan G4 |
-| Asagiri (the village) | **KEPT** — named in the bible (HD-27, human 2026-07-08); no rename | — |
-| Akagi | CUT — the T4 enemy is Lord Tomita | game plan G4 |
-| Osen (the sweetheart) | CUT — not in the bible cast (origin relock) | game plan G4 |
-| Tōzō (the T0 smith) | retired from T0 — T1's smith is Tetsuji | game plan G4 |
-
-> **Built T0 quest titles** (old-canon, replaced at game plan G4.3 by the
-> first night round, the orchard chain, and seasonal-defense quests) — listed
-> so `prd:drift`'s presence check stays green until the rename lands:
-> *Clear the satoyama trails* · *Hunt the satoyama predators* ·
-> *Drive off the crop-raiders* · *Defend the grain-store*.
+The storywave rewrite shipped the bible names in **v0.4.0** (game plan G4); the
+built game no longer trails an older canon. The full old→new rename docket — the
+T0 lord, the pedlar, the origin friend, the cut and kept names — lives in the
+bible's name registry [`04-cast.md`](../../story-bible/04-cast.md). Kept here
+only as a pointer; the game's registries now speak the bible names directly.
