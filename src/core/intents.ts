@@ -35,7 +35,7 @@ import { applyPromotion, promotionReady, pendingPromotionTarget } from './ranks'
 import { bankEstateDeed } from './pillars';
 import { ascend } from './ascension';
 import { isUnlocked } from './unlock';
-import { applyGrindFight, applyScriptedWolf } from './fight';
+import { applyGrindFight } from './fight';
 import {
   RICE_PER_RAKE,
   SATIETY_PER_ACT,
@@ -56,7 +56,7 @@ import {
 } from './content/balance';
 import { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
 import { FLAVOR } from './content/flavor';
-import { COLD_OPEN, rakeLine } from './content/coldOpen';
+import { rakeLine } from './content/coldOpen';
 import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import {
   INTRO_SCENE_COUNT,
@@ -112,7 +112,6 @@ export type Intent =
   | { type: 'do_activity'; activityId: ActivityId }
   | { type: 'set_auto'; activityId: ActivityId | null }
   | { type: 'set_auto_rake'; on: boolean }
-  | { type: 'face_wolf' }
   | { type: 'fight'; mobId: MobId; retreat?: boolean }
   | { type: 'set_auto_combat'; mobId: MobId | null; retreat?: boolean; reason?: 'weapon-broken' }
   | { type: 'repair_weapon' }
@@ -522,7 +521,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // 0 pre-home + for a bare corner, so the base rest is byte-identical until you earn comfort).
       const atHome = isUnlocked(next, 'panel-home');
       next = adjustSatiety(next, SATIETY_PER_REST + homeRestBonus(next));
-      const restLine = atHome ? homeRestLine(ownsBelonging(next, 'bedding')) : COLD_OPEN.restAct;
+      const restLine = atHome
+        ? homeRestLine(ownsBelonging(next, 'bedding'))
+        : '[dev — bare-corner rest line; flavor-key migration pending (HD-30)]';
       // FB-53 — resting is fleeting flavor: it lands in the "Now" view and fades, never clutters
       // the permanent Work/All channels.
       // FB-91/FB-93 — the rest RESULT line is scene narration → `narrator` voice, consistent with
@@ -600,15 +601,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = { ...next, autoRake: intent.on };
       break;
     }
-    case 'face_wolf': {
-      if (!isUnlocked(next, 'verb-face-wolf') || hasFlag(next, 'first-fight-survived'))
-        return state;
-      // v0.3.1 Step 5b: the humbling first fight is SPATIAL — the wolf is cornered in the kura
-      // where you woke, so you walk back to the grain store to face it.
-      if (next.location !== getMob('wolf_scripted').area) return state;
-      next = applyScriptedWolf(next);
-      break;
-    }
+    // G4.3 — the scripted `face_wolf` beat is deleted; the wolf lives only in the R3 night round.
     case 'fight': {
       if (!isUnlocked(next, 'tab-combat')) return state;
       // v0.3.1 Step 5b: foes are spatial — you must stand on the foe's node to fight it.

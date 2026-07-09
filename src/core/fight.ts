@@ -107,7 +107,7 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
     // combat cursor) so it folds into the SINGLE summarised outcome line below.
     const [drop, lootRng] = rollMaterialDrop(next.rng, mob.id);
     next = { ...next, rng: lootRng };
-    const gained: Record<string, number> = { coin: mob.coinReward };
+    const gained: Record<string, number> = { coin: 0 }; // G4: combat drops materials, never coin (KIND lane, bible)
     if (drop) gained[drop.material] = drop.qty;
     // SUMMARISED log (ADR-076 / batch-1 call 2): ONE outcome line per fight, carrying the HP swing
     // + loot. The blow-by-blow is suppressed — the auto-grind fires this hundreds of times. The
@@ -122,7 +122,7 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
             mob: mob.label.toLowerCase(),
             hpBefore,
             hpAfter: result.mcHpLeft,
-            coin: mob.coinReward,
+            coin: 0, // G4: no coin from beasts
             lootQty: drop ? drop.qty : 0,
             lootLabel: drop ? getMaterial(drop.material).label.toLowerCase() : '',
           },
@@ -206,18 +206,11 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
   return next;
 }
 
-/** The scripted grain-store wolf (R3 gate): always survived, by luck — the humbling beat. */
-export function applyScriptedWolf(state: GameState): GameState {
-  const mob = getMob('wolf_scripted');
-  const result = resolveFight(state.rng, mcCombatStats(state), mobCombatStats(mob));
-  let next: GameState = { ...state, rng: result.rng };
-  next = wearWeapon(next);
-  next = setHp(next, Math.max(SETBACK_HP, result.mcHpLeft));
-  next = applyRewards(next, {
-    flags: ['first-fight-survived', 'mob-wolf_scripted'],
-    log: [
-      {
-        channel: 'combat',
+// G4.3 — `applyScriptedWolf` DELETED (wolf → R3 night round, content/nightRounds.ts). __DEL__
+function __removed_applyScriptedWolf_body(): void {
+  const _unused = {
+    a: {
+      channel: 'combat',
         // FB-91/FB-93 — this scripted one-time attack beat is scene NARRATION, so it carries the
         // `narrator` voice EXPLICITLY (matching the drillmaster beat right after it + every other
         // scene-narration line), never a stray plain/un-voiced line. Stays on the `combat` channel

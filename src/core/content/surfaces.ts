@@ -9,7 +9,6 @@ import type { GameState, SurfaceId } from '../state';
 import type { LogChannel } from '../log';
 import type { VoiceCategory } from './voices';
 import { hasFlag } from '../state';
-import { COLD_OPEN } from './coldOpen';
 import { HOME_REVEAL_LINE } from './home';
 import { NAMES } from './names';
 import { R3_FRONTIER_COMBAT_LEVEL } from './balance';
@@ -55,13 +54,13 @@ export const SURFACES: readonly Surface[] = [
     id: 'readout-body',
     kind: 'readout',
     unlock: (s) => s.flags.awake === true,
-    revealLine: narrate(COLD_OPEN.bodyReveal),
+    revealLine: narrate('[dev — body readout reveal; flavor-key migration pending (HD-30)]'),
   },
   {
     id: 'readout-rice',
     kind: 'readout',
     unlock: (s) => s.flags.awake === true,
-    revealLine: narrate(COLD_OPEN.riceReveal),
+    revealLine: narrate('[dev — rice readout reveal; flavor-key migration pending (HD-30)]'),
   },
   {
     // COIN is a "first wage" beat (ADR-107 / D4): the cold open is RICE-only, and the coin pill stays
@@ -71,14 +70,14 @@ export const SURFACES: readonly Surface[] = [
     id: 'readout-coin',
     kind: 'readout',
     unlock: (s) => (s.resources.coin ?? 0) > 0 || (s.banked.coin ?? 0) > 0,
-    revealLine: narrate(COLD_OPEN.coinReveal),
+    revealLine: narrate('[dev — coin readout reveal; flavor-key migration pending (HD-30)]'),
   },
   { id: 'verb-rake', kind: 'verb', unlock: (s) => s.flags.awake === true },
   {
     id: 'verb-rest',
     kind: 'verb',
     unlock: (s) => s.flags.raked === true,
-    revealLine: narrate(COLD_OPEN.restReveal),
+    revealLine: narrate('[dev — rest verb reveal; flavor-key migration pending (HD-30)]'),
   },
 
   // ── R1 — the estate opens (revealed by the rank reward) ──

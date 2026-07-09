@@ -41,9 +41,9 @@ export interface ActivityDef {
 export const ACTIVITIES: readonly ActivityDef[] = [
   {
     id: 'farm_paddy',
-    label: 'Work the home paddies',
+    label: 'Work the home paddy & rows',
     skill: 'farming',
-    area: 'home-paddies',
+    area: 'paddies',
     yields: { rice: 4 },
     satietyCost: 3,
     xp: 5,
@@ -55,7 +55,7 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     id: 'haul_stores',
     label: 'Haul stores at the forecourt',
     skill: 'conditioning',
-    area: 'gate-forecourt',
+    area: 'forecourt',
     // The first COIN-paying labour — a porter's wage (ADR-107 / D4: coin arrives as the "first wage").
     yields: { coin: 2 },
     satietyCost: 4,
@@ -65,9 +65,9 @@ export const ACTIVITIES: readonly ActivityDef[] = [
   },
   {
     id: 'woodcut_edge',
-    label: 'Cut wood at the woodlot edge',
+    label: 'Cut wood at the woodlot',
     skill: 'woodcutting',
-    area: 'woodlot-edge',
+    area: 'woodlot',
     yields: { wood: 3 },
     satietyCost: 4,
     xp: 5,
@@ -75,9 +75,9 @@ export const ACTIVITIES: readonly ActivityDef[] = [
   },
   {
     id: 'forage_satoyama',
-    label: 'Forage the near satoyama',
+    label: 'Forage the woodlot edge',
     skill: 'foraging',
-    area: 'near-satoyama',
+    area: 'woodlot',
     yields: { sansai: 2, coin: 1 },
     satietyCost: 3,
     xp: 5,
@@ -89,9 +89,9 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     // node. You walk one hill farther (past the danger ring) for a materially better haul — the map
     // gates income, tying the spatial spine to the Step-4 coin economy + the combat cook-loop.
     id: 'forage_deepwoods',
-    label: 'Forage the deep satoyama',
+    label: 'Forage deep in the woodlot',
     skill: 'foraging',
-    area: 'deep-satoyama',
+    area: 'woodlot',
     yields: { sansai: 4, coin: 2 },
     satietyCost: 5,
     xp: 7,
@@ -106,7 +106,7 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     id: 'tap_lacquer',
     label: 'Tap the lacquer tree',
     skill: 'woodcutting',
-    area: 'woodlot-edge',
+    area: 'woodlot',
     yields: { coin: 3 },
     satietyCost: 4,
     xp: 5,

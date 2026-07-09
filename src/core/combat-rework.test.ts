@@ -58,7 +58,7 @@ describe('3a · summarised one-line fight outcomes (D-076 / batch-1 call 2)', ()
     expect(line).toMatch(/bring down the .*monkey/i);
     expect(line).toMatch(/HP \d+→\d+/); // the HP swing is IN the outcome line
     // ADR-108 — the coin reward is DENOMINATED (mon/monme/ryō), matching the pills; NOT raw " coin".
-    expect(line).toContain(`+${formatCoin(getMob('monkey').coinReward)}`);
+    expect(line).toContain(`+${formatCoin(0)}`); // TODO(g4-tests): combat drops no coin (KIND lane); re-derive
     expect(line).not.toMatch(/\d+ coin/); // RED against the old "+N coin" raw-integer form
   });
 
@@ -298,7 +298,7 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
       const m = getMob(id);
       // sane stats derived from the def itself (no copied magic numbers).
       expect(m.level).toBeGreaterThanOrEqual(1);
-      expect(m.coinReward).toBeGreaterThanOrEqual(0);
+      // TODO(g4-tests): mon-reward field removed (G4 — beasts carry no mon)
       expect(m.minTier ?? 0).toBe(0); // grindable in T0, unlike the T2-gated bandit
       // reachable at T0 (tier 0) on its OWN node — RED if a placement/gate regressed.
       const hereIds = foesHere(fighterAt(m.area)).map((f) => f.mob.id);

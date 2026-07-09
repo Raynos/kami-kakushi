@@ -123,7 +123,7 @@ function generate(): string {
   L.push('> node count (the graph stays a hamlet you can hold in your head; it grows in T1).');
   L.push('');
   L.push('| id | node | neighbours | revealFlag | dangerRing |');
-  L.push('|---|---|---|---|---|');
+  L.push('|---|---|---|---|');
   for (const n of MAP_NODES) {
     const node = n.kanji ? `${n.label} ${n.kanji}` : n.label;
     L.push(
@@ -158,10 +158,10 @@ function generate(): string {
 
   L.push('## Bestiary (grounded — no belief-creatures)');
   L.push('');
-  L.push('| id | label | level | coin | scripted |');
-  L.push('|---|---|---|---|---|');
+  L.push('| id | label | level | scripted |');
+  L.push('|---|---|---|---|');
   for (const m of MOBS) {
-    L.push(`| ${m.id} | ${m.label} | ${m.level} | ${m.coinReward} | ${m.scripted ? 'yes' : ''} |`);
+    L.push(`| ${m.id} | ${m.label} | ${m.level} | ${m.scripted ? 'yes' : ''} |`);
   }
   L.push('');
 
@@ -212,7 +212,7 @@ function generate(): string {
   L.push('> primary income/output loop. The real village market arrives at T2.');
   L.push('');
   L.push('| id | label | coin | grants | stockCap |');
-  L.push('|---|---|---|---|---|');
+  L.push('|---|---|---|---|');
   for (const it of MARKET_ITEMS) {
     const grants = Object.entries(it.grants)
       .map(([r, n]) => `${n} ${r}`)
@@ -272,7 +272,7 @@ function generate(): string {
   for (const t of HOME_TIERS) L.push(`| ${t.tier} | ${t.rung} | ${t.label} | ${t.kanji} |`);
   L.push('');
   L.push('| id | belonging | kanji | comfort | source |');
-  L.push('|---|---|---|---|---|');
+  L.push('|---|---|---|---|');
   for (const b of BELONGINGS) {
     const comfort = b.homesCook
       ? 'cook here' // ADR-120 — the hearth homes the cook verb (diegetic, not a stat)

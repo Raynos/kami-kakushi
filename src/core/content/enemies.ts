@@ -44,8 +44,6 @@ export interface MobDef {
   readonly minTier?: number;
   /** A scripted story beat the MC always survives (never a grindable encounter). */
   readonly scripted?: boolean;
-  /** Coin scavenged on a win (the modest spoils of a kept hand; base unit mon — ADR-107). */
-  readonly coinReward: number;
   readonly blurb: string;
 }
 
@@ -57,7 +55,6 @@ export const MOBS: readonly MobDef[] = [
     level: 2,
     area: 'kura',
     scripted: true,
-    coinReward: 0,
     blurb:
       'A starving wolf cornered among the rice-sacks. You live through this one on luck alone.',
   },
@@ -66,7 +63,7 @@ export const MOBS: readonly MobDef[] = [
     label: 'Grain-rat swarm',
     kanji: '稲鼠',
     level: 1,
-    area: 'gate-forecourt',
+    area: 'forecourt',
     // The gentlest fight there is — a boiling swarm of grain-rats at the stores. FAST (they swarm)
     // but scattershot and easy to hit (a mass of small bodies), so it lands few real bites: a
     // slightly-easier-than-the-monkey OPTIONAL warmup at the forecourt, NOT the humbling first
@@ -74,7 +71,6 @@ export const MOBS: readonly MobDef[] = [
     baseSpeed: 1.7,
     accBonus: -4,
     evaBonus: -2,
-    coinReward: 1,
     blurb:
       'A boiling swarm at the grain-stores — a nuisance, not a threat. Good for a first swing.',
   },
@@ -83,11 +79,10 @@ export const MOBS: readonly MobDef[] = [
     label: 'Crop-raiding monkey',
     kanji: '猿',
     level: 1,
-    area: 'home-paddies',
+    area: 'paddies',
     // A fast, dodgy nuisance — the humbling first foe: it swings often and slips your blows.
     baseSpeed: 1.5,
     evaBonus: 4,
-    coinReward: 3,
     blurb: 'Bold and quick, a menace to the paddies — but the lightest of the threats.',
   },
   {
@@ -95,13 +90,12 @@ export const MOBS: readonly MobDef[] = [
     label: 'Crop-raiding troop',
     kanji: '猿群',
     level: 2,
-    area: 'home-paddies',
+    area: 'paddies',
     // A whole troop swarms the paddies — the accuracy/evasion LESSON made flesh: they scatter and
     // duck so you WHIFF a lot (very high evasion), the escalation of the lone monkey on the same
     // ground. (True multi-target waits on the T1 weapon targetCount; at T0 it is one evasive pack.)
     baseSpeed: 1.2,
     evaBonus: 6,
-    coinReward: 6,
     blurb: 'Not one raider but a whole troop — they scatter and duck, and you swing at empty air.',
   },
   {
@@ -109,13 +103,12 @@ export const MOBS: readonly MobDef[] = [
     label: 'Lean wolf',
     kanji: '狼',
     level: 2,
-    area: 'near-satoyama',
+    area: 'woodlot',
     // Fast and lethal — "it means to kill": quicker and more accurate than the monkey, and it
     // slips a little too. Harder than the monkey despite the same HP band (the graded ramp).
     baseSpeed: 1.4,
     accBonus: 2,
     evaBonus: 2,
-    coinReward: 5,
     blurb: 'Comes down from the satoyama when the hunting is thin. It means to kill.',
   },
   {
@@ -123,13 +116,12 @@ export const MOBS: readonly MobDef[] = [
     label: 'Mamushi (pit viper)',
     kanji: '蝮',
     level: 2,
-    area: 'near-satoyama',
+    area: 'field-margins',
     // A pit viper coiled in the hill-grass — FAST and deadly-ACCURATE (a lunging strike that rarely
     // misses), the sharp opposite of the monkey_troop's misses. A short, sharp duel: it bites hard
     // and lands its bites. (Its venom/gall consumable is a T1 feature, ADR-095 — no status effect yet.)
     baseSpeed: 1.3,
     accBonus: 3,
-    coinReward: 4,
     blurb:
       'Coiled in the grass, quick as a whip and sure of its strike. It bites before you see it.',
   },
@@ -138,12 +130,11 @@ export const MOBS: readonly MobDef[] = [
     label: 'Wild boar',
     kanji: '猪',
     level: 3,
-    area: 'deep-satoyama',
+    area: 'grove',
     // Slow but heavy and unerring — a wall of muscle: it swings less often than the wolf, but
     // it lands (accBonus) and its higher-level HP makes it a real grind (harder than the wolf).
     baseSpeed: 0.95,
     accBonus: 4,
-    coinReward: 8,
     blurb: 'Tusked and furious, denned in the deep hills it raids from. It will not turn aside.',
   },
   {
@@ -151,12 +142,11 @@ export const MOBS: readonly MobDef[] = [
     label: 'Road bandit',
     kanji: '野伏',
     level: 5, // provisional (v0.2) — tune by playtest
-    area: 'woodlot-edge',
+    area: 'woodlot',
     baseSpeed: 1.0, // a trained man — the curve's high-end wall
     // A10 / PRD §5: the first HUMAN threat is canon-held for T2. The bandit stays in the
     // balance CURVE (the top-end wall foeForecasts reads) but is GATED out of a T0 fight.
     minTier: 2,
-    coinReward: 12,
     blurb: 'A masterless man gone to robbery on the woodlot road — a threat for a later season.',
   },
 ];

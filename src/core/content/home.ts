@@ -191,7 +191,7 @@ export const HOME_TIERS: readonly HomeTierDef[] = [
     label: 'Your corner',
     kanji: '寝床',
     blurb:
-      'A dry corner of the grain-store, kept back for you — a mat, a bowl, a place to lay your head. Small, but yours.',
+      'A lean corner of the woodshed, kept back for you — a mat, a bowl, a nail for the coat, a place to lay your head. Small, but yours.',
   },
   // ── DEFERRED (T1+, ADR-111 §2.1) — the home GROWS with your rung, a domestic mirror of the estate
   //    flywheel: Servant's room (~R5, "onto the household staff proper", ranks.ts) → Your own
@@ -203,9 +203,11 @@ export const HOME_TIERS: readonly HomeTierDef[] = [
   //    the ADR-109 status tokens (economy Phase 5), which don't exist yet — so it is a seam, not code.
 ];
 
-/** The R1 home reveal line — cashes "a place here is yours" (dialogue.ts:81) into a real space. */
+/** The R1 home reveal line — cashes "a place here is yours" (dialogue.ts:81) into a real space.
+ *  G4: re-sited from the grain-store to the WOODSHED (the bible's "his corner" — a lean space
+ *  between the woodpiles; FLAVOR.nodeWoodshedBlurb). */
 export const HOME_REVEAL_LINE =
-  'A dry corner of the grain-store is kept back for you now — a straw mat, a bowl, a place to lay your head. "A place here is yours," the old man said. Small, but yours to keep.';
+  'A lean corner of the woodshed is kept back for you now — a straw mat, a bowl, a nail for your coat, a place to lay your head. "A place here is yours," the old man said. Small, but yours to keep.';
 
 /** The `rest` result line, re-sited to your corner (T0-A). Varies on whether you sleep on the bare
  *  mat or a bought futon — the comfort you earned reads in the prose, not only the number. */
