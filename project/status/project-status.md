@@ -25,9 +25,9 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 
 - **🔧 STORYWAVE GAME (Plan B, s125–131):** T0 rewrite to the bible. **G0–G6 ✅
   green on `main`** (engine·compiler·G4 cutover·G5 reconcile·G6 e2e/drift). **HD-30
-  prose wave BUILT (s131)** — every `[dev]` placeholder authored; nengu VN beat a
-  live 3-take diverge (`dev.subScene`), awaiting **HR-17**. **Only G7 (SHIP,
-  human-only) left, gated on HR-17.** OWED: balance re-baseline (batched from G4).
+  ✅ CLOSED — HR-17 signed off (s131):** every `[dev]` authored; nengu diverge kept
+  as a reference (steer). **Only G7 (SHIP) left — human-only via `/ship`**, best
+  after the rung-by-rung QA + OWED balance re-baseline. On ship: HR-8 moot, A5.
 - **🧊 PLAN K PARKED (s127):** authored-depth demo (`docs/plans/t0/`) — §U =
   the Asking + clue-book after 5 failed feel-tests (§R = the law; prototypes
   ⭐ `project/prototypes/authored-depth-demo/`). Un-park = human, post-v0.4.0.

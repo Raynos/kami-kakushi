@@ -71,5 +71,26 @@ Queue:
   state.
 - `t0v2/hd30/` is gone; the durable record of the wave is canon + the bundle +
   this journal. Don't look for the staging files.
-- The DEV Story tab now shows **1 open bundle** — that's HR-17, expected; it
-  disappears when the bundle dir is pruned on sign-off.
+- The DEV Story tab now shows **1 open bundle** — expected, and now KEPT (see
+  addendum). Do NOT auto-prune it.
+
+## Addendum — reader fix + ship-line close-outs
+
+Human review surfaced a bug + a steer:
+- **Bug (fixed, `d709550`):** the "Explore this diverge" reader page was BLANK
+  for hd30-nengu — the galley never handled the `scene:` unit type
+  (`readerUnitsOf`/`readerUnitLines`/`LIVE_UNITS`). Wired it (canon reads the
+  live SCENES registry via `sceneById`); RED-able guard on the real bundle.
+- **Human steer (2026-07-09):** signed off HR-17 (Take C canon) but asked to
+  **leave the diverge lying around** → the `hd30-nengu` bundle is KEPT, not
+  pruned (ADR-022 override of the takes/README prune rule; noted in bundle.md).
+- **Close-outs:** HR-17 → archive (Reviews, signed off); HD-30 → archive
+  (Decisions, run & built); plan Status flipped to "🔧 BUILT to the ship line".
+  **HR-8 stays OPEN** — its condition is "when the new text SHIPS to players"
+  (gh-pages), so it closes at G7, in the post-`/ship` cascade, not now.
+
+**The ship line.** G0–G6 + HD-30 are done and green. The ONLY remaining step is
+G7 = `/ship` (user-invoked; never agent-initiated). Recommended order: the
+human's rung-by-rung QA (tomorrow) → OWED balance re-baseline (post-QA, so it
+reflects any QA tuning) → `/ship`. On ship I cascade: HR-8 moot, Plan A's A5
+closure, and archive all three storywave plans.

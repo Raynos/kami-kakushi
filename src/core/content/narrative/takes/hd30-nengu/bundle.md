@@ -2,10 +2,15 @@
   beat — the year's tax reckoned against the house. Three blind takes; the agent
   self-picked TAKE C (canon, in scenes.md) for the strictest §0.5 register fit
   (plainest voice, no epigram, MC-as-furniture strongest, the sum never read
-  aloud). A & B are the not-picked alternates, here for the human to compare LIVE
-  in the DEV panel → Story switcher until sign-off, then this dir is pruned. All
-  three are narration-only (ADR-165) and state-compatible: same scene id, empty
-  decision — the swap changes only what the live scene READS. -->
+  aloud). A & B are the not-picked alternates, compared LIVE in DEV → Story.
+  All three are narration-only (ADR-165) and state-compatible: same scene id,
+  empty decision — the swap changes only what the live scene READS.
+
+  KEPT BY HUMAN STEER (2026-07-09): HR-17 is SIGNED OFF (Take C canon), but the
+  human asked to "leave the story diverge lying around" — so this bundle is NOT
+  pruned. It stays as a live reference, deliberately overriding the takes/README
+  prune-on-sign-off rule (ADR-022 — human intent is canon). DEV → Story showing
+  "Story (1)" is expected; do NOT auto-prune it. -->
 
 # bundle hd30-nengu · The nengu reckoning — the year against the house
 review: project/human-in-the-loop/review.md
