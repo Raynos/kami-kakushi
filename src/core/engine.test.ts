@@ -9,6 +9,7 @@ import {
   type Intent,
   type GameState,
 } from './index';
+import { COLD_OPEN } from './content/coldOpen';
 
 function play(seed: number, intents: Intent[]): GameState {
   let s = createInitialState(seed);
@@ -34,14 +35,13 @@ describe('cold-open reducer flow', () => {
     expect(isUnlocked(s, 'readout-rice')).toBe(true);
     // the rake verb is legal once awake (the intro is a parallel presentation layer, plan §4.4)
     expect(availableActions(s)).toEqual(['rake_rice']);
-    // waking no longer dumps the cold open — it starts Beat 0 (the wake line + Sōan's grounding),
-    // revealed AFTER the click (FB-15). The dream + Genemon greet are now LATER beats, not on wake.
+    // waking no longer dumps the cold open — it starts Beat 0 (the wake line + Sōan's grounding exam),
+    // revealed AFTER the click (FB-15), not a pre-run dump.
     expect(s.introBeat).toBe(0);
-    expect(s.log.entries.some((e) => e.voice === 'physician' && e.text.includes('Sōan'))).toBe(
-      true,
-    );
-    expect(s.log.entries.some((e) => e.text.includes('Genemon'))).toBe(false); // deferred to Beat 3
-    // Genemon's greet is retired from the registry dump (marked delivered so it can't double-fire),
+    // Beat 0 reveals the wake line + Sōan's grounding exam (a physician-voiced line lands on wake).
+    expect(s.log.entries.some((e) => e.voice === 'physician')).toBe(true);
+    expect(s.log.entries.some((e) => e.text === COLD_OPEN.wake)).toBe(true); // the wake line landed
+    // the registry's UNGATED Genemon greet/stakes are marked delivered so they can't double-fire,
     // while the rake TEACHING stays deferred until you actually rake.
     expect(s.deliveredDialogue).toContain('gen-greet');
     expect(s.deliveredDialogue).not.toContain('gen-rake');
@@ -49,10 +49,11 @@ describe('cold-open reducer flow', () => {
 
   it('raking earns rice, drains satiety, and reveals rest', () => {
     let s = reduce(createInitialState(1), { type: 'open_eyes' });
-    const rice0 = s.resources.rice ?? 0;
+    // ADR-163: the raked spilled rice banks into the KURA (shō), never a carried pocket.
+    const rice0 = s.banked.rice ?? 0;
     const sat0 = s.character.satiety;
     s = reduce(s, { type: 'rake_rice' });
-    expect(s.resources.rice ?? 0).toBeGreaterThan(rice0);
+    expect(s.banked.rice ?? 0).toBeGreaterThan(rice0);
     expect(s.character.satiety).toBeLessThan(sat0);
     expect(hasFlag(s, 'raked')).toBe(true);
     expect(availableActions(s)).toContain('rest');
