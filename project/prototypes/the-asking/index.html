@@ -171,13 +171,17 @@
 /* ── people ── */
 const PEOPLE = {
   soan:    { name:'Sōan',    role:'physician',   v:'var(--v-physician)',
-             where:'His room smells of dried things. He does not stop working while you speak.' },
+             where:'His room smells of dried things. He does not stop working while you speak.',
+             hint:'ask about his notes, that first morning, what he remembers of when you came…' },
   matsuzo: { name:'Matsuzō', role:'weir-keeper', v:'var(--v-villager)',
-             where:'The weir. He watches the water the whole time, never you.' },
+             where:'The weir. He watches the water the whole time, never you.',
+             hint:'ask about the weir, that night, his forty years, what he counts…' },
   oyae:    { name:'O-Yae',   role:'scullery girl', v:'var(--v-villager)',
-             where:'The gate. She is glad of any excuse to stop hauling water.' },
+             where:'The gate. She is glad of any excuse to stop hauling water.',
+             hint:'ask what the village says — about anyone, anything; she hears everything…' },
   toku:    { name:'Toku',    role:'the dowager', v:'var(--v-steward)',
-             where:'The hall. She receives your questions like callers: one at a time, properly.' },
+             where:'The hall. She receives your questions like callers: one at a time, properly.',
+             hint:'ask about the house, its dates, its money, what it no longer speaks of…' },
 };
 const ASKS_PER_DAY = 8;
 
@@ -535,6 +539,7 @@ function renderPeople() {
   const p = PEOPLE[S.who];
   $('#with-name').textContent = p.name; $('#with-name').style.color = p.v;
   $('#where').textContent = p.where;
+  $('#q').placeholder = p.hint;
   $('#v-day').textContent = S.day;
   $('#v-clues').textContent = S.known.length;
 }
