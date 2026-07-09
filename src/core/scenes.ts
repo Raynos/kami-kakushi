@@ -60,6 +60,22 @@ export function triggerScenes(state: GameState, event: SceneTrigger): GameState 
   return next;
 }
 
+/** Enqueue every FLAG-triggered scene whose flag is now set (and which isn't a played `once` scene).
+ *  Called centrally from the reduce settle pass (`finish`), so a side-beat's flag latching ANYWHERE
+ *  — a quest completion, a rung reward, a choice — queues its scene the same tick, with no per-flag
+ *  wiring at each setter. G4: this makes `sb-dog` (orchard-reclaimed) + `sb-dog-coda` (sb-dog-fed)
+ *  and any future flag side-beat reachable. Idempotent (enqueueScene dedupes). */
+export function triggerFlagScenes(state: GameState): GameState {
+  let next = state;
+  for (const def of SCENES) {
+    if (def.trigger.kind !== 'flag') continue;
+    if (state.flags[def.trigger.flag] !== true) continue;
+    if (def.once && next.scenesPlayed.includes(def.id)) continue;
+    next = enqueueScene(next, def.id);
+  }
+  return next;
+}
+
 /** Open a scene: set `activeScene` at beat 0 and reveal its greeting lines into the log
  *  (mirrors `revealRungBeat` — the Story/narration channel, each line's authored
  *  voice/nameplate carried so a two-voice scene reads correctly). */

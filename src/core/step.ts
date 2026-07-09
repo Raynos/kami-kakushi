@@ -14,6 +14,7 @@ import { deriveDayKeyed } from './rng';
 import { applyRewards } from './rewards';
 import { riceSpoilage, CONSUMPTION_SHO_PER_DAY, NENGU_KOKU_DEMAND } from './content/balance';
 import { refillSitePools } from './content/activities';
+import { triggerScenes } from './scenes';
 
 function onReckoning(state: GameState): GameState {
   // The judged-appraisal (M2·4 / ADR-049), now fired from the SEASON-EXIT pipeline (storywave
@@ -102,6 +103,11 @@ export function advanceSeason(state: GameState): GameState {
   let next = onReckoning(state);
   next = onNengu(next); // Autumn's nengu draws the kura BEFORE spoilage (the tax is met first)
   next = onSeasonTurn(next);
+  // G4 — the per-season VN overlay: queue any scene whose season-exit trigger matches the season NOW
+  //   ending (before the wheel turns) — the Autumn `nengu-autumn-frame` reckoning overlay, the Bon
+  //   `sb-bon` beat. Enqueued here; the queue opens at the render layer (G4.9). The `nengu-reckoned`
+  //   flag latch (onNengu) is the mechanical gate; this scene is its felt VN frame.
+  next = triggerScenes(next, { kind: 'season-exit', season: next.season });
   const idx = SEASONS.indexOf(next.season);
   const nextSeason = SEASONS[(idx + 1) % SEASONS.length]!;
   // ADR-163 — the production pools REFILL to the incoming season's peak (this is *why* seasons are

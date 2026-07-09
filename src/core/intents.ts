@@ -76,7 +76,13 @@ import { playerSpeaker } from './content/voices';
 import { RUNG_BEATS, rungTopic, rungOption, type RungScene } from './content/rungBeats';
 import { sceneById } from './content/scenes';
 import { nightRoundById } from './content/nightRounds';
-import { beginScene, advanceSceneBeat, applySceneOption } from './scenes';
+import {
+  beginScene,
+  advanceSceneBeat,
+  applySceneOption,
+  enqueueScene,
+  triggerFlagScenes,
+} from './scenes';
 import { beginNightRound } from './night-rounds';
 import { NPC_VOICE, NPC_NAME, type NpcId, type VoiceCategory } from './content/voices';
 import type { RankId } from './content/ranks';
@@ -169,7 +175,9 @@ function finish(state: GameState): GameState {
   // ADR-110 still holds: the hot path NO LONGER auto-promotes. A ready promotion HOLDS (the bar
   // sits at 100%); the rung advances ONLY through the player-triggered beat (begin_rung_beat →
   // choose_rung_option → applyPromotion). Then the reveal pass runs as before.
-  return revealPass(settleRequirements(state));
+  // G4 — the flag side-beat pass: any scene whose FLAG trigger is now set queues here (sb-dog on
+  // orchard-reclaimed, sb-dog-coda on sb-dog-fed), so a flag latching anywhere is noticed this tick.
+  return revealPass(triggerFlagScenes(settleRequirements(state)));
 }
 
 /** Deliver any not-yet-shown, gate-satisfied lines of a dialogue into the story log (the
@@ -485,7 +493,13 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // (e) APPLY the promotion — the sole place rewardOnReach fires (rank-rN flags + unlocks + the
       //     terse marker). No rung ever advances without this beat completing (the ADR-110 invariant).
       next = applyPromotion(next, target);
-      // (f) clear the cursor — the beat is done; the shell/world reveals post-scene.
+      // (f) G4 — the scripted ensemble scenes hung on a promotion: the COUNT plays when the accused
+      //     reaches R5 (bible R5 — cleared by the day-book; Naoyuki names him), and the first DREAM
+      //     when the named hand reaches R7 (bible R7 — sleep → first dream). Enqueued here (the queue
+      //     opens at the render layer, G4.9); once-latched so they never re-fire.
+      if (target === 'R5') next = enqueueScene(next, 'count');
+      if (target === 'R7') next = enqueueScene(next, 'r7-dream');
+      // (g) clear the cursor — the beat is done; the shell/world reveals post-scene.
       next = { ...next, rungBeat: null };
       break;
     }
