@@ -84,19 +84,21 @@ describe('A7 — the Bestiary selector fogs an un-encountered foe, reveals it on
     const seen = setFlag(createInitialState(1), 'mob-monkey');
     const entries = bestiaryEntries(seen);
     const monkey = entries.find((e) => e.mob.id === 'monkey')!;
-    const wolf = entries.find((e) => e.mob.id === 'wolf')!;
+    // an UNFACED grindable foe stays fogged (the feral-dog pack — not the night-round-only wolf,
+    // which never appears in the day bestiary).
+    const feralDog = entries.find((e) => e.mob.id === 'feral_dog')!;
     expect(monkey.seen).toBe(true);
-    expect(wolf.seen).toBe(false); // an unfaced foe stays fogged
+    expect(feralDog.seen).toBe(false);
     // the earned info is real: a positive win-rate forecast + a derived tell.
     expect(monkey.winRate).toBeGreaterThan(0);
     expect(monkey.tell.length).toBeGreaterThan(0);
   });
 
-  // TODO(g4-tests): boar/mamushi retired (G4 roster); re-derive archetype tells for new foes.
-  it.skip('the tell is DERIVED from the archetype knobs (enemies.ts), not a copied string', () => {
-    // monkey: evaBonus 4 → "evasive"; boar: baseSpeed 0.95 → "heavy"; each reads its design lever.
+  it('the tell is DERIVED from the archetype knobs (enemies.ts), not a copied string', () => {
+    // G4 roster: monkey evaBonus 4 → "evasive"; badger baseSpeed 0.9 → "heavy"; wolf accBonus 3 →
+    // "unerring". Each reads its design lever straight off the def (foeTell), never a copied string.
     expect(foeTell(getMob('monkey'))).toContain('evasive');
-    expect(foeTell(getMob('badger'))).toContain('heavy'); // TODO(g4-tests): boar retired → badger (slow)
-    expect(foeTell(getMob('wolf'))).toContain('unerring'); // TODO(g4-tests): mamushi retired → wolf (accBonus 3)
+    expect(foeTell(getMob('badger'))).toContain('heavy');
+    expect(foeTell(getMob('wolf'))).toContain('unerring');
   });
 });

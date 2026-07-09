@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { createInitialState, type GameState } from './index';
 import { enqueueScene, triggerScenes, beginScene, applySceneOption } from './scenes';
-import type { SceneDef } from './content/scenes';
+import { SCENES, type SceneDef } from './content/scenes';
 import type { RungScene } from './content/rungBeats';
 
 // storywave G2 — the generalized-scene ENGINE proof. The registry ships EMPTY at G2, so these
@@ -99,15 +99,24 @@ describe('G2 scene engine — applySceneOption is the terminal node', () => {
 });
 
 describe('G2 scene engine — queue discipline (once / order / no re-enqueue)', () => {
-  it('a once scene, once played, does not re-enqueue', () => {
+  it('a once scene, once played, does not re-enqueue (the scenesPlayed guard)', () => {
     const def = makeDef('scene-once', true);
     // play it (begin → decide) so the id latches into scenesPlayed
     const played = applySceneOption(beginScene(createInitialState(1), def), def, 'opt-earnest');
     expect(played.scenesPlayed).toContain(def.id);
     expect(played.sceneQueue).toEqual([]); // was never queued; play doesn't enqueue
-    // now the id is latched: the scenesPlayed guard blocks a re-enqueue on BOTH paths
-    expect(enqueueScene(played, def.id).sceneQueue).toEqual([]);
-    expect(triggerScenes(played, def.trigger).sceneQueue).toEqual([]);
+    // the scenesPlayed guard blocks an explicit re-enqueue of the played id (RED if it stops guarding).
+    expect(enqueueScene(played, def.id).sceneQueue).not.toContain(def.id);
+
+    // …and a trigger SCAN over the REAL registry (G4: SCENES now ships content) respects the guard:
+    // it enqueues an UNPLAYED scripted scene but NOT a played one (source-derived, no magic ids).
+    const scripted = SCENES.filter((d) => d.trigger.kind === 'scripted');
+    expect(scripted.length).toBeGreaterThan(0);
+    const target = scripted[0]!;
+    const fresh = createInitialState(1);
+    expect(triggerScenes(fresh, { kind: 'scripted' }).sceneQueue).toContain(target.id); // unplayed → queued
+    const withPlayed: GameState = { ...fresh, scenesPlayed: [target.id] };
+    expect(triggerScenes(withPlayed, { kind: 'scripted' }).sceneQueue).not.toContain(target.id); // played → skipped
   });
 
   it('the queue drains in enqueue order and never double-queues', () => {
