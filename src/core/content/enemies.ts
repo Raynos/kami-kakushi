@@ -1,31 +1,37 @@
-// Bestiary (PRD §2.9 / §4.6 / canon §E). GROUNDED mobs only — grain-rats, monkeys
-// (lone + troop), pit vipers, wolves, boars, bandits. NO belief-creatures in any spawn
-// table (a hard guardrail the content verifier enforces). Each carries a `level` from which {attackPower,
-// defense, hp} derive (Block N.1 #1). The scripted grain-store wolf is the humbling
-// first fight (a guaranteed-survival story beat, §7.2 M2a).
+// Bestiary (PRD §2.9 / §4.6 / canon §E; T0 sheet "Combat structure & enemies"). GROUNDED
+// mobs only — river rats, tanuki/badger, the monkey troop, feral dogs, the night-round
+// store-rats→marten→wolf ladder, and the held-for-T2 bandit. NO belief-creatures in any
+// spawn table (a hard guardrail the content verifier enforces). Each carries a `level`
+// from which {attackPower, defense, hp} derive (Block N.1 #1).
 //
-// v0.3.1 Step 5b: each foe is SPATIAL — it lives on exactly one map node (`area`), so
-// you walk to its ground to fight it (the human's "combat happens on a node" call). The
-// grain-rat swarm boils at the gate forecourt (the gentle warmup); the lone crop-raiding
-// monkey AND its troop haunt the home paddies; the lean wolf comes down to the near satoyama
-// where a pit viper coils in the grass; the boar dens deeper, in the deep satoyama it raids
-// from (Step 5d); the road bandit works the woodlot road (the first HUMAN threat — canon-held
-// for T2, A10; in the curve but gated out of a T0 fight); the scripted wolf is cornered in
-// the kura where you woke. A9 (v0.3.2) added the rats/troop/viper for T0 combat variety.
+// G4 (the content cutover): the roster is re-sited onto the bible's 16-zone estate spine —
+// each foe lives on exactly one map node (`area`, Step 5b spatial), so you walk to its
+// ground to fight it. The bible's economics are KIND-lane: beasts carry no mon (combat
+// drops MATERIALS, never coin — crafting.ts), so the old `coinReward` field is GONE. The
+// old scripted grain-store wolf (`wolf_scripted` + `face_wolf`) is retired: the wolf now
+// lives ONLY in the R3 night round (the night-round engine, nightRounds.ts), alongside the
+// store-rats and marten (`nightRoundOnly`) — the arc's rats→marten→wolf climax.
+//
+// Blurbs are the migrated canon (FLAVOR.mob* keys, authored in narrative/flavor.md — the
+// single source; NEVER re-typed here). The bandit — the first HUMAN threat — is canon-held
+// for T2 (no human combat in T0/T1): it stays in the balance CURVE (foeForecasts, the
+// high-end wall) but `minTier: 2` gates it out of a T0 fight, and the content verifier
+// asserts every human-archetype foe carries minTier ≥ 2.
 
 import type { AreaId } from './areas';
 import { FLAVOR } from './flavor';
 
 export type MobId =
-  | 'wolf_scripted'
-  | 'wolf'
-  | 'boar'
+  | 'river_rats'
+  | 'tanuki'
+  | 'badger'
   | 'monkey'
-  | 'bandit'
-  | 'rice_rats'
-  | 'mamushi'
-  | 'monkey_troop'
-  | 'store_rats';
+  | 'monkey_male'
+  | 'feral_dog'
+  | 'store_rats'
+  | 'marten'
+  | 'wolf'
+  | 'bandit';
 
 export interface MobDef {
   readonly id: MobId;
@@ -35,132 +41,147 @@ export interface MobDef {
   /** The map node this foe is found on — you must stand here to fight it (Step 5b, spatial). */
   readonly area: AreaId;
   /** Per-mob archetype knobs (§4.6.1d) — the cadence/accuracy/evasion character on top of the
-   *  linear-in-level curve. Default: baseSpeed 1.0, accBonus 0, evaBonus 0. The monkey's fast,
-   *  evasive profile is what makes it the humbling first foe despite the MC's ~58 HP. */
+   *  linear-in-level curve. Default: baseSpeed 1.0, accBonus 0, evaBonus 0. All SEED / sim-owned. */
   readonly baseSpeed?: number;
   readonly accBonus?: number;
   readonly evaBonus?: number;
   /** The first tier this foe can be FOUGHT (spatial-reachability gate; default 0 = T0). The
-   *  bandit — the first HUMAN threat — is canon-held for T2 (PRD §5), so it stays in the balance
-   *  CURVE (foeForecasts, the high-end wall) but is NOT reachable/fightable in T0 (foesHere). */
+   *  bandit — the first HUMAN threat — is canon-held for T2 (PRD §5 / T0 sheet), so it stays in
+   *  the balance CURVE (foeForecasts, the high-end wall) but is NOT reachable/fightable in T0. */
   readonly minTier?: number;
-  /** A scripted story beat the MC always survives (never a grindable encounter). */
+  /** A scripted story beat the MC always survives (never a grindable encounter). Unused in the
+   *  post-G4 roster — the scripted wolf is retired — but kept as a machinery hook for later beats. */
   readonly scripted?: boolean;
+  /** This foe is met ONLY inside the R3 night round (the on-rails mini-dungeon, nightRounds.ts),
+   *  never a walk-up day-grind foe — so it is excluded from GRINDABLE_MOBS / the day foesHere list. */
+  readonly nightRoundOnly?: boolean;
   readonly blurb: string;
 }
 
+// Levels + archetype knobs are SEED magnitudes — the balance sim owns the final curve (§4.6.1d).
 export const MOBS: readonly MobDef[] = [
   {
-    id: 'wolf_scripted',
-    label: 'Grain-store wolf',
-    kanji: '狼',
-    level: 2,
-    area: 'kura',
-    scripted: true,
-    blurb:
-      'A starving wolf cornered among the rice-sacks. You live through this one on luck alone.',
-  },
-  {
-    // G4.3 — a night-round foe (the R3 grain-watch escalation: rats → marten → wolf, bible).
-    // Additive to the T0 roster this chunk; the full new-animal roster cutover is a later chunk.
-    // A fast, scattershot swarm at the kura door — grounded in FLAVOR.mobRatStore.
-    id: 'store_rats',
-    label: 'Grain-store rats',
-    kanji: '鼠',
+    id: 'river_rats',
+    label: 'River rats',
+    kanji: '川鼠',
     level: 1,
-    area: 'kura',
-    baseSpeed: 1.6, // SEED (sim-owned)
-    accBonus: -3,
-    blurb: FLAVOR.mobRatStore,
-  },
-  {
-    id: 'rice_rats',
-    label: 'Grain-rat swarm',
-    kanji: '稲鼠',
-    level: 1,
-    area: 'forecourt',
-    // The gentlest fight there is — a boiling swarm of grain-rats at the stores. FAST (they swarm)
-    // but scattershot and easy to hit (a mass of small bodies), so it lands few real bites: a
-    // slightly-easier-than-the-monkey OPTIONAL warmup at the forecourt, NOT the humbling first
-    // fight (that stays the monkey on the paddies). Barely worth a coin.
+    area: 'weir-reeds',
+    // The gentlest grind — a wet swarm at the leased weir screens. FAST (they boil) but scattershot
+    // and easy to hit (a mass of small bodies), so it lands few real bites: the warmup foe.
     baseSpeed: 1.7,
     accBonus: -4,
     evaBonus: -2,
-    blurb:
-      'A boiling swarm at the grain-stores — a nuisance, not a threat. Good for a first swing.',
+    blurb: FLAVOR.mobRatRiver,
+  },
+  {
+    id: 'tanuki',
+    label: 'Tanuki',
+    kanji: '狸',
+    level: 1,
+    area: 'field-margins',
+    // The folk-loaded animal played PLAIN (kernel #1): round, low, gone at a shout. A brisk, light
+    // raider of the drying racks — quicker than a badger, but no real weight behind it.
+    baseSpeed: 1.2,
+    evaBonus: 2,
+    blurb: FLAVOR.mobTanuki,
+  },
+  {
+    id: 'badger',
+    label: 'Badger',
+    kanji: '穴熊',
+    level: 2,
+    area: 'field-margins',
+    // Slow to rouse and hard to stop once roused — a low, heavy digger that lands what it throws.
+    baseSpeed: 0.9,
+    accBonus: 3,
+    blurb: FLAVOR.mobBadger,
   },
   {
     id: 'monkey',
     label: 'Crop-raiding monkey',
     kanji: '猿',
     level: 1,
-    area: 'paddies',
-    // A fast, dodgy nuisance — the humbling first foe: it swings often and slips your blows.
+    area: 'grove',
+    // Fast and dodgy — the humbling first foe: it swings often and slips your blows (high evasion).
     baseSpeed: 1.5,
     evaBonus: 4,
-    blurb: 'Bold and quick, a menace to the paddies — but the lightest of the threats.',
+    blurb: FLAVOR.mobMonkey,
   },
   {
-    id: 'monkey_troop',
-    label: 'Crop-raiding troop',
-    kanji: '猿群',
+    id: 'monkey_male',
+    label: 'Troop big-male',
+    kanji: '猿王',
     level: 2,
-    area: 'paddies',
-    // A whole troop swarms the paddies — the accuracy/evasion LESSON made flesh: they scatter and
-    // duck so you WHIFF a lot (very high evasion), the escalation of the lone monkey on the same
-    // ground. (True multi-target waits on the T1 weapon targetCount; at T0 it is one evasive pack.)
+    area: 'grove',
+    // The grove troop's mini-cap: half again the size and unafraid of a stick — the accuracy/evasion
+    // LESSON made flesh (very high evasion), the escalation of the lone monkey on the same ground.
     baseSpeed: 1.2,
     evaBonus: 6,
-    blurb: 'Not one raider but a whole troop — they scatter and duck, and you swing at empty air.',
+    blurb: FLAVOR.mobMonkeyMale,
+  },
+  {
+    id: 'feral_dog',
+    label: 'Feral dog',
+    kanji: '野犬',
+    level: 2,
+    area: 'orchard',
+    // Bold from lean winters, worst in a pack — quick and it means the bite: harder than a monkey,
+    // it slips a little and lands a little. Break the pack and what's left is only dogs.
+    baseSpeed: 1.3,
+    accBonus: 2,
+    evaBonus: 1,
+    blurb: FLAVOR.mobFeralDog,
+  },
+  {
+    id: 'store_rats',
+    label: 'Store rats',
+    kanji: '内鼠',
+    level: 1,
+    area: 'kura',
+    // Night-round stage 1 — the swarm along the kura wall-lines after dark. The gentlest night foe,
+    // fast and scattershot like its river cousin; the round's easy opening.
+    baseSpeed: 1.6,
+    accBonus: -3,
+    evaBonus: -2,
+    nightRoundOnly: true,
+    blurb: FLAVOR.mobRatStore,
+  },
+  {
+    id: 'marten',
+    label: 'Marten',
+    kanji: '貂',
+    level: 2,
+    area: 'kura',
+    // Night-round stage 2 — over the roof, not the wall, and it kills more than it carries. Fast and
+    // evasive: the mid-round step up from the store rats before the wolf.
+    baseSpeed: 1.5,
+    accBonus: 2,
+    evaBonus: 3,
+    nightRoundOnly: true,
+    blurb: FLAVOR.mobMarten,
   },
   {
     id: 'wolf',
     label: 'Lean wolf',
     kanji: '狼',
-    level: 2,
-    area: 'woodlot',
-    // Fast and lethal — "it means to kill": quicker and more accurate than the monkey, and it
-    // slips a little too. Harder than the monkey despite the same HP band (the graded ramp).
-    baseSpeed: 1.4,
-    accBonus: 2,
-    evaBonus: 2,
-    blurb: 'Comes down from the satoyama when the hunting is thin. It means to kill.',
-  },
-  {
-    id: 'mamushi',
-    label: 'Mamushi (pit viper)',
-    kanji: '蝮',
-    level: 2,
-    area: 'field-margins',
-    // A pit viper coiled in the hill-grass — FAST and deadly-ACCURATE (a lunging strike that rarely
-    // misses), the sharp opposite of the monkey_troop's misses. A short, sharp duel: it bites hard
-    // and lands its bites. (Its venom/gall consumable is a T1 feature, ADR-095 — no status effect yet.)
-    baseSpeed: 1.3,
-    accBonus: 3,
-    blurb:
-      'Coiled in the grass, quick as a whip and sure of its strike. It bites before you see it.',
-  },
-  {
-    id: 'boar',
-    label: 'Wild boar',
-    kanji: '猪',
     level: 3,
-    area: 'grove',
-    // Slow but heavy and unerring — a wall of muscle: it swings less often than the wolf, but
-    // it lands (accBonus) and its higher-level HP makes it a real grind (harder than the wolf).
-    baseSpeed: 0.95,
-    accBonus: 4,
-    blurb: 'Tusked and furious, denned in the deep hills it raids from. It will not turn aside.',
+    area: 'kura',
+    // The R3 night-round CLIMAX (the arc's rats→marten→wolf): big, silent, no waste. Survived, not
+    // won — the humbling beat. Heavier and surer than anything before it in the round.
+    baseSpeed: 1.1,
+    accBonus: 3,
+    nightRoundOnly: true,
+    blurb: FLAVOR.mobWolf,
   },
   {
     id: 'bandit',
     label: 'Road bandit',
     kanji: '野伏',
-    level: 5, // provisional (v0.2) — tune by playtest
+    level: 5, // provisional (v0.2) — tune by playtest; the curve's high-end wall
     area: 'woodlot',
-    baseSpeed: 1.0, // a trained man — the curve's high-end wall
-    // A10 / PRD §5: the first HUMAN threat is canon-held for T2. The bandit stays in the
-    // balance CURVE (the top-end wall foeForecasts reads) but is GATED out of a T0 fight.
+    baseSpeed: 1.0, // a trained man
+    // The first HUMAN threat is canon-held for T2 (T0 sheet: no human combat in T0/T1). The bandit
+    // stays in the balance CURVE (the top-end wall foeForecasts reads) but is GATED out of a T0 fight.
     minTier: 2,
     blurb: 'A masterless man gone to robbery on the woodlot road — a threat for a later season.',
   },
@@ -174,7 +195,8 @@ export function getMob(id: MobId): MobDef {
   return m;
 }
 
-/** The grindable (non-scripted) foes, in danger order (easiest first). */
-export const GRINDABLE_MOBS: readonly MobDef[] = MOBS.filter((m) => !m.scripted)
+/** The day-grindable foes, in danger order (easiest first): not scripted, and not a
+ *  night-round-only foe (those are met only inside the on-rails R3 round, nightRounds.ts). */
+export const GRINDABLE_MOBS: readonly MobDef[] = MOBS.filter((m) => !m.scripted && !m.nightRoundOnly)
   .slice()
   .sort((a, b) => a.level - b.level);

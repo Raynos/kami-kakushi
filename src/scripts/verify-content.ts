@@ -76,6 +76,14 @@ for (const m of MOBS) {
     errors.push(`belief-creature in the bestiary/spawn registry: ${m.id} (canon §E forbids it)`);
   }
 }
+// 4c. No HUMAN-archetype foe is fightable in T0/T1 (bible T0 sheet, locked: the first man the
+//     MC ever fights is a T2 bandit). A human foe MUST carry minTier ≥ 2 to stay curve-only.
+const HUMAN_ARCHETYPES = new Set<string>(['bandit']);
+for (const m of MOBS) {
+  if (HUMAN_ARCHETYPES.has(m.id) && (m.minTier ?? 0) < 2) {
+    errors.push(`human-archetype foe ${m.id}: minTier ${m.minTier ?? 0} < 2 (no human combat in T0/T1)`);
+  }
+}
 if (WEAPONS.length !== WEAPON_IDS.size) errors.push('WEAPON_IDS does not mirror WEAPONS');
 for (const w of WEAPONS) {
   if (w.baseAttack <= 0 || w.baseSpeed <= 0 || w.durabilityMax <= 0) {

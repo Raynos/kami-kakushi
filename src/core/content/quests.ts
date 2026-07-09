@@ -6,9 +6,16 @@
 // TOP-LEVEL Quests nav tab (ADR-037), not a nested panel; no fixed quest-type budget (ADR-032).
 // PURE data + pure progression with NO GameState coupling (it takes a plain done-set), so it
 // wires into state / intents / reducers later without this file ever importing them.
+//
+// G4 (the content cutover): the roster is re-authored to the bible's T0 defence quests — the
+// first night round, the orchard-dog chain, and the seasonal margin defences (grove monkeys,
+// weir rats, field-margin setts). Every fight has an economic reason the ledger could name.
+// All prose is the migrated canon (FLAVOR.quest* keys — the single source; NEVER re-typed).
+// Rewards run on the KIND lane (bible economics: combat/defence pays in recovered goods and
+// standing, NEVER coin) — so a quest banks its completion flag + its diegetic payoff line.
 
 import type { RewardBundle } from '../rewards';
-import { NAMES } from './names';
+import { FLAVOR } from './flavor';
 
 export type QuestKind = 'PEST' | 'HUNT' | 'CLEAR' | 'DEFEND';
 
@@ -30,125 +37,128 @@ export interface QuestDef {
 
 export const QUESTS: readonly QuestDef[] = [
   {
-    id: 'pest_crop_raiders',
-    kind: 'PEST',
-    title: 'Drive off the crop-raiders',
-    blurb:
-      'Monkeys and boar have come down out of the satoyama to strip the ripening paddies — thin the raiders, then mend what they have trampled before the harvest is lost.',
+    id: 'first_night_round',
+    kind: 'DEFEND',
+    title: 'Walk the first night round',
+    blurb: FLAVOR.questNightRoundOffer,
     steps: [
       {
-        id: 'rout-monkey',
-        label: 'Rout a crop-raiding monkey from the home paddies',
-        event: 'kill:monkey',
+        id: 'clear-store-rats',
+        label: 'Clear the store rats along the kura wall on the round',
+        event: 'kill:store_rats',
       },
       {
-        id: 'down-boar',
-        label: 'Track the boar to its wallow in the deep satoyama and put it down',
-        event: 'kill:boar',
+        id: 'clear-marten',
+        label: 'Turn the marten off the roof before it reaches the coop',
+        event: 'kill:marten',
+      },
+    ],
+    reward: {
+      flags: ['quest_first_night_round_done'],
+      log: [
+        { channel: 'narration', text: FLAVOR.questNightRoundComplete },
+        { channel: 'milestone', text: FLAVOR.questNightRoundReward },
+      ],
+    },
+  },
+  {
+    id: 'orchard_chain',
+    kind: 'CLEAR',
+    title: 'Take back the orchard',
+    blurb: FLAVOR.questOrchardDogsOffer,
+    steps: [
+      {
+        id: 'drive-dogs',
+        label: 'Break the feral-dog pack denned in the overgrown orchard',
+        event: 'kill:feral_dog',
       },
       {
-        id: 'mend-fence',
-        label: 'Cut stakes at the woodlot edge and mend the trampled paddy-fence',
+        id: 'reclaim-rows',
+        label: 'Cut back the wild rows and reclaim the orchard as an orchard',
         event: 'gather:wood',
       },
     ],
     reward: {
-      resources: { coin: 30 },
-      flags: ['quest_pest_crop_raiders_done'],
+      flags: ['quest_orchard_chain_done'],
       log: [
-        {
-          channel: 'milestone',
-          text: `The paddies stand quiet again. ${NAMES.elder} counts thirty coin from the house purse into your hand — "for the rice you kept on the stalk."`,
-        },
+        { channel: 'narration', text: FLAVOR.questOrchardDogsComplete },
+        { channel: 'milestone', text: FLAVOR.questOrchardReclaimReward },
       ],
     },
   },
   {
-    id: 'hunt_satoyama_predators',
-    kind: 'HUNT',
-    title: 'Hunt the satoyama predators',
-    blurb:
-      'The lean wolves and a tusked boar have grown bold on the hill-trails, taking stock and testing the folds. Go up into the satoyama and put the worst of them down before they come to the yard.',
-    steps: [
-      { id: 'hunt-wolf', label: 'Bring down a lean wolf in the near satoyama', event: 'kill:wolf' },
-      {
-        id: 'hunt-boar',
-        label: 'Track the boar to its wallow in the deep satoyama and kill it',
-        event: 'kill:boar',
-      },
-    ],
-    reward: {
-      resources: { coin: 24 },
-      flags: ['quest_hunt_satoyama_predators_done'],
-      log: [
-        {
-          channel: 'milestone',
-          text: `${NAMES.drillmaster} the drillmaster looks over the hides you bring in and grunts, almost approving. "The hills are quieter for it. Twenty-four coin — a hunter's due."`,
-        },
-      ],
-    },
-  },
-  {
-    id: 'clear_satoyama_trails',
-    kind: 'CLEAR',
-    title: 'Clear the satoyama trails',
-    blurb:
-      'No one can work the far ground while every trail hides a raider. Sweep the whole rising country — monkey, wolf, and boar alike — until a porter can walk the paths unarmed.',
-    steps: [
-      {
-        id: 'clear-monkey',
-        label: 'Rout a crop-raiding monkey from the trails',
-        event: 'kill:monkey',
-      },
-      {
-        id: 'clear-wolf',
-        label: 'Down a lean wolf on the near-satoyama paths',
-        event: 'kill:wolf',
-      },
-      {
-        id: 'clear-boar',
-        label: 'Kill the boar that dens in the deep satoyama',
-        event: 'kill:boar',
-      },
-    ],
-    reward: {
-      resources: { coin: 40 },
-      flags: ['quest_clear_satoyama_trails_done'],
-      log: [
-        {
-          channel: 'milestone',
-          text: `Word goes round that the satoyama trails are safe to walk. ${NAMES.elder} marks it in the house book and hands you forty coin — "a road cleared is a road that earns."`,
-        },
-      ],
-    },
-  },
-  {
-    id: 'defend_the_stores',
+    id: 'defend_grove',
     kind: 'DEFEND',
-    title: 'Defend the grain-store',
-    blurb:
-      'Raiders have found the granary. Hold the stores through the season — beat back what comes for the rice, and bar the store against the next night.',
+    title: 'Drive the troop from the rows',
+    blurb: FLAVOR.questGroveMonkeysOffer,
     steps: [
       {
-        id: 'defend-monkey',
-        label: 'Drive a raiding monkey off the granary',
+        id: 'rout-monkey',
+        label: 'Rout the crop-raiding monkeys from the vegetable rows',
         event: 'kill:monkey',
       },
       {
-        id: 'defend-wolf',
-        label: 'Kill the wolf that breaks for the stores at night',
-        event: 'kill:wolf',
+        id: 'break-troop',
+        label: 'Turn the troop big-male, and the rest break for the grove',
+        event: 'kill:monkey_male',
       },
-      { id: 'defend-bar', label: 'Cut timber and bar the grain-store door', event: 'gather:wood' },
     ],
     reward: {
-      resources: { coin: 28 },
-      flags: ['quest_defend_the_stores_done'],
+      flags: ['quest_defend_grove_done'],
       log: [
-        {
-          channel: 'milestone',
-          text: `The stores come through the season whole. ${NAMES.elder} rests a hand on the barred door. "The house eats this winter because you held this. Twenty-eight coin — and the trust that comes with it."`,
-        },
+        { channel: 'narration', text: FLAVOR.questGroveMaleComplete },
+        { channel: 'milestone', text: FLAVOR.questGroveMonkeysReward },
+      ],
+    },
+  },
+  {
+    id: 'pest_weir_screens',
+    kind: 'PEST',
+    title: 'Keep the leased screens whole',
+    blurb: FLAVOR.questWeirRatsOffer,
+    steps: [
+      {
+        id: 'clear-river-rats',
+        label: 'Clear the river rats gnawing the weir screens',
+        event: 'kill:river_rats',
+      },
+      {
+        id: 'mend-screens',
+        label: 'Cut green bamboo and mend the gnawed weir screens',
+        event: 'gather:wood',
+      },
+    ],
+    reward: {
+      flags: ['quest_pest_weir_screens_done'],
+      log: [
+        { channel: 'narration', text: FLAVOR.questWeirRatsComplete },
+        { channel: 'narration', text: FLAVOR.questWeirRatsSpeech },
+        { channel: 'milestone', text: FLAVOR.questWeirRatsReward },
+      ],
+    },
+  },
+  {
+    id: 'pest_field_margins',
+    kind: 'PEST',
+    title: 'Dig out the field-margin setts',
+    blurb: FLAVOR.questMarginSettsOffer,
+    steps: [
+      {
+        id: 'drive-tanuki',
+        label: 'Drive the tanuki off the drying racks at the field margin',
+        event: 'kill:tanuki',
+      },
+      {
+        id: 'dig-badger',
+        label: 'Dig out the badger under the seed store',
+        event: 'kill:badger',
+      },
+    ],
+    reward: {
+      flags: ['quest_pest_field_margins_done'],
+      log: [
+        { channel: 'narration', text: FLAVOR.questMarginSettsComplete },
+        { channel: 'milestone', text: FLAVOR.questMarginSettsReward },
       ],
     },
   },

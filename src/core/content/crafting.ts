@@ -110,19 +110,21 @@ export interface MaterialDrop {
   readonly chanceDen: number;
 }
 
-/** Which foe (by MobId) drops which crafting material, and how often. GRINDABLE foes
- *  only — the scripted grain-store wolf is a story beat, never a loot source. Light
- *  beasts (monkey/wolf) yield sinew; the heavy woodlot foes (boar/bandit) yield hardwood. */
+/** Which foe (by MobId) drops which crafting material, and how often (G4: re-keyed to the
+ *  bible roster). Beasts carry NO mon — combat drops MATERIALS only (KIND lane). Light beasts
+ *  (rats/tanuki/badger/monkey/feral-dog/marten/wolf) yield sinew; the held-for-T2 bandit hauls
+ *  stolen timber (hardwood). `store_rats` is the deliberate "no drop entry" foe. All SEED. */
 export const MATERIAL_DROPS: Readonly<Record<string, MaterialDrop>> = {
-  // The grain-rat swarm is nearly worthless loot — usually nothing, a rare scrap of sinew.
-  rice_rats: { material: 'beast_sinew', qty: 1, chanceNum: 1, chanceDen: 6 },
+  // The river-rat swarm is nearly worthless loot — usually nothing, a rare scrap of sinew.
+  river_rats: { material: 'beast_sinew', qty: 1, chanceNum: 1, chanceDen: 6 },
+  tanuki: { material: 'beast_sinew', qty: 1, chanceNum: 1, chanceDen: 2 },
+  badger: { material: 'beast_sinew', qty: 1, chanceNum: 1, chanceDen: 2 },
   monkey: { material: 'beast_sinew', qty: 1, chanceNum: 1, chanceDen: 2 },
-  // The monkey troop and the viper both yield sinew — a light beast haul, never a recipe's ONLY
-  // source (the boar's hardwood + the monkey/wolf sinew still fully cover the axe + yari).
-  monkey_troop: { material: 'beast_sinew', qty: 1, chanceNum: 3, chanceDen: 5 },
-  mamushi: { material: 'beast_sinew', qty: 1, chanceNum: 1, chanceDen: 2 },
+  monkey_male: { material: 'beast_sinew', qty: 1, chanceNum: 3, chanceDen: 5 },
+  feral_dog: { material: 'beast_sinew', qty: 1, chanceNum: 3, chanceDen: 4 },
+  // Night-round foes (marten/wolf) still give up a hide/sinew — the round's material haul.
+  marten: { material: 'beast_sinew', qty: 1, chanceNum: 1, chanceDen: 2 },
   wolf: { material: 'beast_sinew', qty: 1, chanceNum: 3, chanceDen: 4 },
-  boar: { material: 'hardwood', qty: 2, chanceNum: 3, chanceDen: 4 },
   // The woodlot-road bandit is hauling stolen timber — a guaranteed, if dangerous, haul.
   bandit: { material: 'hardwood', qty: 3, chanceNum: 1, chanceDen: 1 },
 };

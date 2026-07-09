@@ -258,7 +258,7 @@ describe('the seeded auto-battler', () => {
   it('replays byte-identically for a fixed seed', () => {
     const s = atFullSatiety(createInitialState(42));
     const mc = mcCombatStats(s);
-    const en = mobCombatStats(getMob('boar'));
+    const en = mobCombatStats(getMob('wolf')); // TODO(g4-tests): boar retired → wolf
     const a = resolveFight(s.rng, mc, en);
     const b = resolveFight(s.rng, mc, en);
     expect(a.won).toBe(b.won);
