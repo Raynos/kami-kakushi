@@ -166,30 +166,33 @@ describe('the DECISION still resolves after any asking — the net-zero invarian
       s = reduce(s, { type: 'ask_topic', topicId: t.id });
     }
     expect(attrTotal(s)).toBe(totalBefore); // asking changed nothing
-    // now DECIDE — the balanced closer applies its +1/−1 + writes soan, and advances the scene
-    const curt = sceneById('soan').decision.options.find((o) => o.memory?.regard === 'curt')!;
-    const after = reduce(s, { type: 'choose_intro', optionId: curt.id });
+    // now DECIDE — the balanced closer applies its +1/−1 + writes soan, and advances the scene.
+    // Pick a real Sōan option that carries a memory write (derived, not a copied regard literal).
+    const opt = sceneById('soan').decision.options.find((o) => o.memory)!;
+    const after = reduce(s, { type: 'choose_intro', optionId: opt.id });
     expect(attrTotal(after)).toBe(totalBefore); // still net-zero — the decision is a TRADE
-    expect(after.character.attrs[curt.stat.up]).toBe((s.character.attrs[curt.stat.up] ?? 0) + 1);
-    expect(after.character.attrs[curt.stat.down]).toBe(
-      (s.character.attrs[curt.stat.down] ?? 0) - 1,
-    );
-    expect(npcRegard(after, 'soan')).toBe('curt'); // memory written by the decision, not the asks
+    expect(after.character.attrs[opt.stat.up]).toBe((s.character.attrs[opt.stat.up] ?? 0) + 1);
+    expect(after.character.attrs[opt.stat.down]).toBe((s.character.attrs[opt.stat.down] ?? 0) - 1);
+    expect(npcRegard(after, 'soan')).toBe(opt.memory!.regard); // memory written by the decision, not the asks
     expect(after.introBeat).toBe(s.introBeat + 1); // advanced to the next scene
   });
 
   it('the full ask→decide e2e lands the intro complete, whatever the asking pattern', () => {
     let s = wake();
+    // topic ids derived from the scenes (source of truth) — a content re-author flows through.
+    const soanTopics = sceneById('soan').topics;
+    const genTopics = sceneById('genemon').topics;
+    const gen0 = genTopics.find((t) => t.gate === undefined)!; // an ungated genemon topic
     // ask a couple at Sōan, decide; skip the dream hub (none); ask + decide at Genemon
-    s = reduce(s, { type: 'ask_topic', topicId: 'soan-kami' });
-    s = reduce(s, { type: 'ask_topic', topicId: 'soan-mend' });
+    s = reduce(s, { type: 'ask_topic', topicId: soanTopics[0]!.id });
+    s = reduce(s, { type: 'ask_topic', topicId: soanTopics[1]!.id });
     s = reduce(s, { type: 'choose_intro', optionId: sceneById('soan').decision.options[1]!.id });
     s = reduce(s, { type: 'choose_intro', optionId: sceneById('dream').decision.options[2]!.id });
-    s = reduce(s, { type: 'ask_topic', topicId: 'gen-house' });
+    s = reduce(s, { type: 'ask_topic', topicId: gen0.id });
     s = reduce(s, { type: 'choose_intro', optionId: sceneById('genemon').decision.options[0]!.id });
     expect(s.introBeat).toBe(INTRO_SCENE_COUNT); // intro done
     // the whole run's asked history survives (never cleared)
-    expect(s.askedTopics).toEqual(['soan-kami', 'soan-mend', 'gen-house']);
+    expect(s.askedTopics).toEqual([soanTopics[0]!.id, soanTopics[1]!.id, gen0.id]);
   });
 });
 
