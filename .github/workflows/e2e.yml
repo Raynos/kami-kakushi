@@ -1,4 +1,4 @@
-# Atomic check — the MOBILE e2e lane (playwright.config.ts → e2e/*.spec.ts).
+# Atomic check — the MOBILE e2e lane (playwright.config.ts → src/tests/e2e/*.spec.ts).
 # Real mobile browser profiles (Android Chrome + iOS-floor WebKit) drive the DEV
 # server through real taps and layout probes: no horizontal scroll, single-column
 # stacking, tap-target reach, the core play journeys. Its own workflow — NOT a

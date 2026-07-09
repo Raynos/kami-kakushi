@@ -17,12 +17,7 @@
 
 ## TODO
 
-- Move `e2e/` → `src/tests/e2e/` (root-tidy follow-up). Deferred on purpose:
-  multiple agents were live in the shared tree at move-time and `e2e/` is
-  wired into `playwright.config.ts` + CI (`.github/workflows/e2e.yml`) + the
-  mobile-e2e lane, so it needs a quiet tree. When done: `git mv`, update
-  `testDir` in `playwright.config.ts`, the workflow paths, and the `e2e/`
-  entries in `docs/repo-map.md`.
+- _(none open — the `e2e/` → `src/tests/e2e/` move landed 2026-07-09.)_
 
 ## Reading queue
 

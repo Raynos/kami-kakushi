@@ -106,7 +106,7 @@ always-loaded context while being editable on its own.
   registries the hand-written modules re-export, plus the one-page reading
   script [`docs/content/t0-story.md`](../docs/content/t0-story.md). Story edits
   land HERE, never in the `.gen.ts`.
-- [`e2e/`](../e2e) — the **mobile e2e lane**: Playwright specs (`mobile-layout` /
+- [`src/tests/e2e/`](../src/tests/e2e) — the **mobile e2e lane**: Playwright specs (`mobile-layout` /
   `mobile-journey` + `helpers`) driven by root `playwright.config.ts` on two real
   mobile profiles (Android Chrome + iOS-floor WebKit) against the DEV server.
   `pnpm run test:e2e` locally; gates in CI via `.github/workflows/e2e.yml` (NOT a

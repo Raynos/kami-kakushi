@@ -14,7 +14,7 @@ import { defineConfig, devices } from '@playwright/test';
 const PORT = 5199; // NOT 5173 — never fights the human's live dev server
 
 export default defineConfig({
-  testDir: './e2e',
+  testDir: './src/tests/e2e',
   fullyParallel: true,
   // 60% of cores (human, 2026-07-06): 75% pinned every core at 100% — spooky on
   // a laptop; 60% keeps headroom while still beating the 50% default. CI keeps

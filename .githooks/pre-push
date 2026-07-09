@@ -46,7 +46,7 @@ fi
 # lane's covered surface, name the files and nudge a local run now, instead of
 # a red e2e.yml surfacing minutes after the push. Silence: SKIP_E2E_WARN=1.
 if [ "${SKIP_E2E_WARN:-0}" != "1" ] && [ -n "$_push_refs" ]; then
-  _e2e_paths='^e2e/|^playwright\.config\.ts$|^src/fixtures/|^src/ui/styles\.css$'
+  _e2e_paths='^src/tests/e2e/|^playwright\.config\.ts$|^src/fixtures/|^src/ui/styles\.css$'
   _pushed_files=""
   while read -r _lref _lsha _rref _rsha; do
     [ -n "${_lsha:-}" ] || continue
