@@ -27,8 +27,22 @@ export interface NightRoundDef {
   readonly stages: readonly NightRoundStage[];
 }
 
-/** EMPTY at G2 — dormant. The pre-R3 / R3 / post-R3 rounds land as content at G4. */
-export const NIGHT_ROUNDS: readonly NightRoundDef[] = [];
+/** The R3 FIRST night round (bible R3 'the grain-watch') — walked at the gate post once R3 opens
+ *  (the quest `first_night_round`). Two winnable stages along the kura wall (the store rats, the roof
+ *  marten — mirroring the quest's kill:store_rats / kill:marten steps), then the WOLF as a
+ *  `scripted: 'survive'` terminal stage: survived-not-won, ribs cracked, the rice behind the door
+ *  untouched. Surviving it latches `wolf-survived-not-won` (night-rounds.ts), the R3→R4 requirement.
+ *  Repeatable after (the first walk is the quest; later rounds are the ongoing grain-watch duty). */
+export const NIGHT_ROUNDS: readonly NightRoundDef[] = [
+  {
+    id: 'first-night-round',
+    stages: [
+      { id: 'kura-store-rats', areaId: 'kura', foe: 'store_rats' },
+      { id: 'roof-marten', areaId: 'kura', foe: 'marten' },
+      { id: 'the-wolf', areaId: 'kura', foe: 'wolf', scripted: 'survive' },
+    ],
+  },
+];
 
 /** A round by id, or undefined (the reducer arm no-ops on undefined — dormant here). */
 export function nightRoundById(id: string): NightRoundDef | undefined {

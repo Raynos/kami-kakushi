@@ -11,7 +11,7 @@
 // constructed `NightRoundDef` through `resolveNightStage` directly.
 
 import type { GameState } from './state';
-import { withResource } from './state';
+import { withResource, setFlag } from './state';
 import { getMob } from './content/enemies';
 import { mcCombatStats, mobCombatStats, resolveFight } from './combat';
 import { rollMaterialDrop } from './content/crafting';
@@ -71,6 +71,9 @@ export function resolveNightStage(state: GameState, def: NightRoundDef): GameSta
     // force a survive-and-advance: HP floored at the setback floor (never 0, never a death),
     // and NO reward (a survive stage is never a victory). Blood on the sill, mostly his.
     next = setHp(next, Math.max(SETBACK_HP, result.mcHpLeft));
+    // G4 — latch the R3→R4 requirement flag (requirements.gen R3 `the-wolf-survived-not-won`): the
+    // survive stage IS the beat, replacing the deleted `applyScriptedWolf`/`first-fight-survived` path.
+    next = setFlag(next, 'wolf-survived-not-won');
     // The wolf-flees / new-moon crossing log line is G4 content (a per-stage newMoonLine key).
     return advanceStage(next, def);
   }

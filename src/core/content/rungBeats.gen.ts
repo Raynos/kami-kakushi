@@ -14,8 +14,9 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     voice: 'steward',
     speaker: 'genemon',
     motivates: [
-      'room-gate-forecourt',
-      'room-home-paddies',
+      'room-gate',
+      'room-paddies',
+      'room-woodshed',
       'verb-farm',
       'verb-haul',
       'readout-clock',
@@ -152,6 +153,8 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       'readout-combat-level',
       'panel-bestiary',
       'panel-house-influence',
+      'room-kura',
+      'room-weir-reeds',
     ],
     greeting: [
       {
@@ -283,7 +286,13 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     rank: 'R4',
     voice: 'arms',
     speaker: 'kihei',
-    motivates: ['readout-durability', 'panel-equipment', 'verb-repair', 'house-omoya'],
+    motivates: [
+      'readout-durability',
+      'panel-equipment',
+      'verb-repair',
+      'house-omoya',
+      'room-drill-yard',
+    ],
     greeting: [
       {
         voice: 'narrator',
@@ -547,7 +556,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     rank: 'R7',
     voice: 'steward',
     speaker: 'genemon',
-    motivates: ['house-study'],
+    motivates: ['house-study', 'room-grove'],
     greeting: [
       {
         voice: 'narrator',

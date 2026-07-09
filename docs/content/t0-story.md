@@ -132,7 +132,7 @@
 - Silent — just get to work <small>· memory genemon +1 (steady) · stat +spd −luck · perk “Hands Before Words”</small>
   **Genemon:** "...A man who works before he talks. Rare. We'll get on."
 
-## R1 · Kept hand 下人
+## R1 · The day-hand 日雇
 
 > Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon calls you up from the step without looking up.
 
@@ -185,7 +185,7 @@
 - "And if there were?" <small>· flags r1-asked-owing</small>
   **Genemon:** "Then the house's claim comes first, while you eat its rice. After that — whoever can find you. So far nobody has asked."
 
-## R3 · Gate-watch 門番
+## R3 · The grain-watch 蔵番
 
 > Dawn comes grey through the kura door. The blood on the sill has dried black, and most of it is yours. Inside, the rice sits in its rows, untouched, exactly as it was put. Sōan has strapped your ribs so tight that breathing is a decision.
 
@@ -238,7 +238,7 @@
 - "The bar first. Then the wolf." <small>· memory genemon +1 (careful) · flags r3-mend</small>
   **Genemon:** "The bar, the screen, then the tally. I will enter the wood against the house."
 
-## R4 · Kura-warden 蔵番
+## R4 · The pupil 弟子
 
 > Sōan strapped the ribs for walking. Not for work. It is thirty paces from the sickroom door to the board. You count them.
 
@@ -311,7 +311,7 @@
 - "I was carried once. Not again." <small>· flags r4-not-carried</small>
   **Kihei:** "Then don't be. Dawn."
 
-## R6 · Steward's man 用人
+## R6 · The trusted hand 用人
 
 > Morning, the forecourt. Genemon's window stands open, the day-book out, and beside it a purse the size of a fist, dark with handling.
 
@@ -352,7 +352,7 @@
 - "Then the house does without thread." <small>· memory yohei +0 (hard) · flags r6-back</small>
   **Yohei:** "As you like. Thread keeps, and so do I. Salt and oil, twenty-nine — and tell the steward it's the dye-man sets that price, not me."
 
-## R7 · Trusted of the house 内衆
+## R7 · The named hand 名代
 
 > The board, past supper, past the year's tax. The household's noises are done for the day. Genemon has the day-book open under the lamp and a fresh page ruled, and he does not look up until the last column of the old one is footed.
 
@@ -667,26 +667,26 @@
 > completion's flavor line. Counts are provisional (the FB-4 sim tunes
 > them; ADR-132).
 
-### R0 · Day-labourer 日雇
+### R0 · The man from the weir 無名
 
 - "So he can work," Genemon says, in the way another man says good morning. <small>*(rake-the-first-rows — act:rake_rice ×10)*</small>
 - "Still at it," Genemon says, passing the granary door without stopping. <small>*(rake-through-the-night — act:rake_rice ×20)*</small>
 - "Dawn, and he is still raking," Genemon says to the dark, as if the dark had asked. <small>*(rake-the-spill — act:rake_rice ×35)*</small>
 
-### R1 · Kept hand 下人
+### R1 · The day-hand 日雇
 
 - The first rows he plants alone come up as straight as anyone's. <small>*(first-rows-of-his-own — act:farm_paddy ×10)*</small>
 - The paddy women no longer point out which rows are his; he has learned them. <small>*(take-to-the-fields — act:farm_paddy ×30)*</small>
 - At the gate the porters shift a strap for him without being asked, as they do among their own. <small>*(a-porters-back — act:haul_stores ×25)*</small>
 
-### R2 · Trusted hand 手代
+### R2 · The yard-hand 庭男
 
 - The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean. <small>*(learn-the-woodlot — act:woodcut_edge ×20)*</small>
 - The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon. <small>*(walk-the-hills — act:forage_satoyama ×25)*</small>
 - Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted. <small>*(keep-the-stores-moving — act:haul_stores ×20)*</small>
 - There is blood on the grain-store threshold, most of it his, and the rice behind the door untouched. <small>*(face-the-wolf — flag first-fight-survived)*</small>
 
-### R3 · Gate-watch 門番
+### R3 · The grain-watch 蔵番
 
 - "Quiet in the kura tonight," Kihei lets drop, cleaning his blade by lamplight. <small>*(clear-the-kura-rats — kill:rice_rats ×3)*</small>
 - "The monkeys have learned his shape," Kihei is heard to say, almost pleased. <small>*(drive-off-the-thieves — kill:monkey ×2)*</small>
@@ -695,7 +695,7 @@
 - "The palisade wood is his cutting," Kihei says, striking a post with the flat of his hand. <small>*(timber-for-the-palisade — act:woodcut_edge ×25)*</small>
 - [dev — R3 grain-watch: the first night round; the wolf, survived-not-won; ribs cracked. The beat's prose is in rung-beats R3; no t0v2 requirement-flavor source. HD-30.] <small>*(the-wolf-survived-not-won — flag wolf-survived-not-won)*</small>
 
-### R4 · Kura-warden 蔵番
+### R4 · The pupil 弟子
 
 - The porters have stopped counting his loads against their own. <small>*(a-load-among-loads — act:haul_stores ×25)*</small>
 - When the kura needs moving in a hurry, it is his name the yard calls first. <small>*(first-name-in-the-yard — act:haul_stores ×50)*</small>
@@ -703,21 +703,21 @@
 - [dev — R4 pupil: limps to the board, confesses the granary loss, begs for the drills; the drill-yard opens. Retires the smith/repair req (Tōzō leaves T0). No t0v2 requirement-flavor source. HD-30.] <small>*(begs-for-the-drills — flag r4-drills-begun)*</small>
 - The house learns he keeps coin of his own, strung and counted, spent on nothing foolish. <small>*(a-hundred-mon-held — resource coin ≥ 100)*</small>
 
-### R5 · House-servant 家人
+### R5 · The accused 咎人
 
 - The first deep-hill baskets come back full, and no one mentions the danger line twice. <small>*(first-deep-baskets — act:forage_deepwoods ×10)*</small>
 - He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up. <small>*(past-the-danger-line — act:forage_deepwoods ×25)*</small>
 - Whatever else he is now, the paddies get his mornings first, and Genemon sees that they do. <small>*(the-paddies-still-first — act:farm_paddy ×25)*</small>
 - There is bedding in the north corner, bought with his own coin, and the maids sweep around it now. <small>*(a-made-corner — own bedding)*</small>
 
-### R6 · Steward's man 用人
+### R6 · The trusted hand 用人
 
 - "The store-room count is early this month," Chiyo says, not yet naming why. <small>*(the-count-comes-early — act:haul_stores ×25)*</small>
 - "The ledgers agree tonight," Chiyo says, which is her whole praise. <small>*(the-ledgers-agree — act:haul_stores ×65)*</small>
 - "His purse holds steady," Chiyo lets fall, "which is more than this house has managed." <small>*(three-hundred-mon-steady — resource coin ≥ 300)*</small>
 - "He put his own coin into the kura-works," Chiyo tells Genemon, twice, to be sure he heard. <small>*(coin-into-the-works — native estate-u1)*</small>
 
-### R7 · Trusted of the house 内衆
+### R7 · The named hand 名代
 
 - "The fields no longer wait on my orders," Munemasa says from the veranda, "they wait on his." <small>*(the-fields-run-on-you — act:farm_paddy ×20)*</small>
 - "Even the woodlot answers to him," Kihei says to Genemon, who does not disagree. <small>*(the-woodlot-runs-on-you — act:woodcut_edge ×20)*</small>

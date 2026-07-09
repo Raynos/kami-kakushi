@@ -22,7 +22,7 @@
 ## rung R1 · rung-r1
 speaker: genemon
 voice: steward
-motivates: room-gate-forecourt, room-home-paddies, verb-farm, verb-haul,
+motivates: room-gate, room-paddies, room-woodshed, verb-farm, verb-haul,
   readout-clock, readout-stamina, panel-rung-ladder
 
 > Morning at the board. The hands take their rice at the threshold; the
@@ -111,7 +111,7 @@ flags: r1-asked-owing
 speaker: kihei
 voice: arms
 motivates: tab-combat, panel-drill-yard, readout-combat-level, panel-bestiary,
-  panel-house-influence
+  panel-house-influence, room-kura, room-weir-reeds
 
 > Dawn comes grey through the kura door. The blood on the sill has dried black,
 > and most of it is yours. Inside, the rice sits in its rows, untouched, exactly
@@ -199,7 +199,7 @@ flags: r3-mend
 ## rung R4 · rung-r4
 speaker: kihei
 voice: arms
-motivates: readout-durability, panel-equipment, verb-repair, house-omoya
+motivates: readout-durability, panel-equipment, verb-repair, house-omoya, room-drill-yard
 
 > Sōan strapped the ribs for walking. Not for work. It is thirty paces from
 > the sickroom door to the board. You count them.
@@ -397,7 +397,7 @@ flags: r6-back
 ## rung R7 · rung-r7
 speaker: genemon
 voice: steward
-motivates: house-study
+motivates: house-study, room-grove
 
 <!-- u7-b, redlined: the spoken Item/Count/Condition labels recast into plain
   Genemon speech (r7-what-changes). Two grafts from u7 take-c/take-a could NOT

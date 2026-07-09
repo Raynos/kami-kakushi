@@ -392,6 +392,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       //    exact ±, landing AFTER the pick on the MILESTONE channel so it reads under Progress, not
       //    Work (FB-41). The UI renders it as a JRPG-style perk box in a later pass.
       next = applyRewards(next, { log: [{ channel: 'milestone', text: introPerkLine(opt) }] });
+      // 5b) G4 — the R0 FORCED name-question (bible: `You:` → `Nameless:`). Answering Sōan's "No name,
+      //     then. What do you keep instead?" (the `soan` scene) latches `label-nameless`, the first rung
+      //     of the speaker ladder (voices.ts playerSpeaker) — his nameplate is "Nameless" from here to R7.
+      if (scene.id === 'soan') next = setFlag(next, 'label-nameless');
       // 6) advance to the next beat, or fire the intro-complete tail
       next = enterNextBeat(next, state.introBeat + 1);
       break;

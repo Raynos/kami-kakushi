@@ -13,6 +13,7 @@ import { HOME_REVEAL_LINE } from './home';
 import { NAMES } from './names';
 import { R3_FRONTIER_COMBAT_LEVEL } from './balance';
 import { skillVisible } from '../skills';
+import { isWaged } from './wage';
 
 export type SurfaceKind = 'screen' | 'panel' | 'tab' | 'readout' | 'verb' | 'row';
 
@@ -291,6 +292,16 @@ export const SURFACES: readonly Surface[] = [
     revealLine: narrate(
       'You begin to keep a book of undertakings — the tasks and errands the house sets you, and the ones you take on yourself. A place to see what still stands unfinished.',
     ),
+  },
+  {
+    // G4 — the MON lane collect-at-the-board verb (ADR-163 / wage.ts). Revealed the moment the MC is
+    // WAGED (R5+, isWaged) — a STATE-PREDICATE so it back-reveals for any R5+ save. The accrual +
+    // `collect_wage` intent are wired (intents.ts); the board BUTTON binds to this surface in the
+    // G4.9 render sweep. Reveal line is a [dev —] placeholder until the wage-ladder prose migrates (HD-30).
+    id: 'verb-collect-wage',
+    kind: 'verb',
+    unlock: (s) => isWaged(s.rung),
+    revealLine: narrate('[dev — the day-wage begins; collect it at the board (HD-30)]'),
   },
 
   // ── Interior-house AREA reveals (A8 / canon §I / PRD §3.3) — the house physically REOPENS its
