@@ -44,3 +44,16 @@ export const NAMES = {
   borrowedName: 'Tama', // the village's borrowed name for him (the T2 Tama thread)
   lostChild: 'Otsuru', // the real spirited-away child (alive, grown)
 } as const;
+
+/** Names the story-bible sweep RETIRED — must never be player-visible. Content-side
+ *  sweeps assert against this list (the map-sheets integrity test); the docs-side
+ *  twin is the RETIRED terms table in `src/scripts/prd-drift.ts`. */
+export const RETIRED_NAMES = [
+  'O-Sato', // → O-Hisa (the 2026-07-07 cast sweep; the B1 closure miss)
+  'Oyuki', // → O-Nobu (the origin mother)
+  'Okimi', // → Suzu (the origin sister)
+  'Jinbei', // → Mohei (the T2 headman)
+  'Akagi', // rival house CUT — the canon ladder is debt → Lord Tomita → domain → house
+  'Shigemasa', // the old T1 capstone granter, void in the reboot
+  'Tokubei', // pre-reboot name, void
+] as const;

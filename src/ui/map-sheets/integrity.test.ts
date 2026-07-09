@@ -6,6 +6,7 @@
 // from the live data (never copied ids), per the test-discipline rule.
 
 import { describe, expect, it } from 'vitest';
+import { RETIRED_NAMES } from '../../core/content/names';
 import { ANCHORS } from './layout';
 import { RUNG_LADDER, T0_NODES, T1_NODES, T2_NODES } from './nodes';
 import { REVEAL } from './reveal';
@@ -50,5 +51,19 @@ describe('map-sheets data integrity — nodes/layout/reveal agree', () => {
     expect(t0Ids.size).toBe(T0_NODES.length);
     expect(new Set(T1_NODES.map((n) => n.id)).size).toBe(T1_NODES.length);
     expect(new Set(T2_NODES.map((n) => n.id)).size).toBe(T2_NODES.length);
+  });
+
+  it('no node content string carries a bible-retired name (the B1 class)', () => {
+    // The `who:`/blurb panels are player-visible prose; a retired name surviving
+    // there is exactly how "O-Sato" shipped ×4 past the 72f7e24 zero-hit sweep.
+    // RETIRED_NAMES is the single source (names.ts) — never a copied list here.
+    const hits: string[] = [];
+    for (const n of [...T0_NODES, ...T1_NODES, ...T2_NODES]) {
+      const blob = JSON.stringify(n);
+      for (const name of RETIRED_NAMES) {
+        if (blob.includes(name)) hits.push(`${n.id}: ${name}`);
+      }
+    }
+    expect(hits).toEqual([]);
   });
 });

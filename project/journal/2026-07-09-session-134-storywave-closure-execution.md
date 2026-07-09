@@ -58,3 +58,31 @@ C1 (build fixes, one commit per step) → C2 (docs sweep) → C3 (gate hardening
 RED-proof vs pre-C2 tree) → C4 (wire the dark world) → C5a (fiction wave,
 ADR-139) + C5b (balance re-baseline). Each phase checkpoints (commit →
 journal append → snapshot → push).
+
+---
+
+## C1.1 — B1 name-sync (O-Sato → O-Hisa)
+
+Four player-visible `who:` strings in `src/ui/map-sheets/nodes.ts` carried the
+bible-retired "O-Sato" (→ O-Hisa). Fixed; side-panel text only, no geometry,
+no pin regen. Durable guard: `names.ts` gains `RETIRED_NAMES` (the content-side
+single source — O-Sato, Oyuki, Okimi, Jinbei, Akagi, Shigemasa, Tokubei) and
+the map-sheets integrity test sweeps every node's content strings against it —
+seen RED against the pre-fix tree (all four hits), GREEN after. Adjacent-canon
+check: "Heikichi" in a nodes action string verified bible-canon (04-cast).
+Note: the C0 push was blocked by the co-agent's (w2:p5) unformatted WIP —
+left local per "don't fight someone else's red"; cleared later this session.
+
+## C1.2 — B2/B3 night-round fall bleed fold
+
+`applyCarriedLossBleed` extracted to `defeat.ts` (one home); fight loss +
+night-round fall both call it; dead `lostRice` read deleted (rice kura-only —
+cannot bleed by construction); the fall now logs via the same `combat.loss`
+key. B3: the test sweeps the REAL `NIGHT_ROUNDS` registry (materials-only
+rewards across seeds; fall bleeds the constant-derived slice) — RED-proven
+against the HEAD engine. Fixtures regenerated (loss path feeds waypoints).
+ADR-132: `t0-pacing.md` was STALE since the rewrite (fingerprint 64b47624 →
+780ad790); regenerated. Sim verdict: 6 RED (idler R1 soft-lock ×5 + Phase-2
+ratio ~7–8.7 vs [0.8,1.2]) — verified PRE-EXISTING at HEAD by swapping the
+diff out; the bleed fold is sim-neutral; the reconciliation is C5b's owed
+re-baseline. All 24 telemetry reports are v0.3.x/tainted → C5b distill.

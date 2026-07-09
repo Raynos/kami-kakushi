@@ -3,6 +3,8 @@
 // sheets). Positions live in layout.ts (the ONE master geography) — a node here is
 // pure narrative data: what the zone IS, never where it sits or how it draws.
 
+import { RANKS } from '../../core';
+
 export type ZoneKind = 'estate' | 'grounds' | 'combat' | 'activity' | 'scenery';
 export type Tier = 'T0' | 'T1' | 'T2';
 
@@ -16,31 +18,29 @@ export interface SheetNode {
   readonly who: readonly string[];
   readonly wrong: string;
   readonly combat?: string;
-  /** T0 rung at which the zone's seal unlocks (rung-reveal, ADR-151).
-   *  PLACEHOLDER ladder — the T0 build plan locks the real numbers by
-   *  editing this data, never the mechanism. Absent = present from R1. */
-  readonly rung?: number;
 }
 
-/** The T0 reveal ladder (ADR-151 placeholder — data, not code). */
+/** The T0 reveal ladder — DEV rung-preview ONLY: the live map
+ *  (map-variants/sheet-map.ts) reads core `revealed` and never this table;
+ *  this is NOT the reveal schedule's home. DERIVED from the single source
+ *  (TST1): a zone unlocks at the rung whose `rewardOnReach.unlock` carries
+ *  its `room-<id>` flag (core content/ranks.ts). Absent = present from the
+ *  start: weir/sickroom/forecourt/kitchen carry no `revealFlag` in core
+ *  content/map.ts (the cold open's ground), and `ruined` is locked scenery
+ *  all tier (map.ts `locked: true` — its seal is the 封 marker, never an
+ *  unlock; its reveal is T2). */
 export const RUNG_LADDER: Readonly<Record<string, number>> = {
-  gate: 1,
-  forecourt: 1,
-  woodshed: 3,
-  kitchen: 3,
-  sickroom: 3,
-  paddies: 3,
-  'field-margins': 3,
-  kura: 5,
-  'drill-yard': 5,
-  weir: 5,
-  'weir-reeds': 5,
-  woodlot: 5,
-  shrine: 5,
-  'night-rounds': 5,
-  orchard: 5,
-  ruined: 7,
-  grove: 7,
+  // the one literal: night-rounds is an activity chip with no core map node —
+  // it rides combat's R3 reveal (`tab-combat`; kura is "where the night round
+  // is walked", ranks.ts R3).
+  'night-rounds': 3,
+  ...Object.fromEntries(
+    RANKS.flatMap((r) =>
+      (r.rewardOnReach?.unlock ?? [])
+        .filter((u) => u.startsWith('room-'))
+        .map((u) => [u.slice('room-'.length), Number(r.id.slice(1))]),
+    ),
+  ),
 };
 
 export const KIND_META: Record<ZoneKind, { chip: string; label: string }> = {
@@ -119,7 +119,7 @@ export const T0_NODES: readonly SheetNode[] = [
     kind: 'estate',
     blurb: 'His corner: a mat, a chipped bowl, the comfort floor.',
     actions: ['Rest / recover', 'Keep his few things'],
-    who: ['O-Sato leaves mended things without knocking (later rungs)'],
+    who: ['O-Hisa leaves mended things without knocking (later rungs)'],
     wrong: 'None — this node is the one warmth the tier allows, and it is earned.',
   },
   {
@@ -130,7 +130,7 @@ export const T0_NODES: readonly SheetNode[] = [
     blurb: "Meals at the threshold; the board is where the household's shape is overheard.",
     actions: ['Eat (recovery)', 'Overhear (ambient story)', 'Later: carry dishes in'],
     who: [
-      'O-Sato rules it',
+      'O-Hisa rules it',
       'Shinnosuke interrogates from it',
       'Genemon states terms at it',
       'O-Yae, the scullery day-girl, by day (the gossip conduit)',
@@ -200,7 +200,7 @@ export const T0_NODES: readonly SheetNode[] = [
     actions: ['Field work', 'Seasonal planting / harvest'],
     who: [
       'Rokusuke-class hired hands come and go',
-      'Otoku-class village women at harvest',
+      'village women at harvest',
       "O-Ume's plot at the edge",
     ],
     wrong:
@@ -488,7 +488,7 @@ export const T1_NODES: readonly SheetNode[] = [
       'Warden its keys from R6',
     ],
     who: [
-      'O-Sato airing ahead of the work — one room was hers',
+      'O-Hisa airing ahead of the work — one room was hers',
       'Chiyo begins using the first restored room',
     ],
     wrong:
@@ -505,7 +505,7 @@ export const T1_NODES: readonly SheetNode[] = [
       "it, at the threshold, from Naoyuki's own hands. The MC never enters — the door is a " +
       'fact, not a lock to pick.',
     actions: ['None — the threshold only (R6, the crates crossing)'],
-    who: ['O-Sato sweeps its corridor as ordinary duty'],
+    who: ['O-Hisa sweeps its corridor as ordinary duty'],
     wrong:
       'The household keeps the closed wing like an open one — and nobody finds that ' +
       'strange. Not a mystery: a portrait of the refusal.',
@@ -606,7 +606,7 @@ export const T2_NODES: readonly SheetNode[] = [
     blurb:
       'The gathering point. When the messenger steps up in R0, the well goes quiet — the surcharge, made audible.',
     actions: ['Draw water', 'Be greeted (or not) by name — the village track, read here'],
-    who: ['Ganzo the old man', 'whoever is drawing water'],
+    who: ['Ganzō the old man', 'whoever is drawing water'],
     wrong: 'None — the honest heart of the village track.',
   },
   {
@@ -617,7 +617,7 @@ export const T2_NODES: readonly SheetNode[] = [
     blurb:
       'Stall rows on market days; the house sells through him now — charcoal, terrace surplus (R4).',
     actions: ['Sell the house’s goods', 'Buy season stock'],
-    who: ['O-Haru’s pickle stall', 'Kyubei the miller, first fair-price ally'],
+    who: ['O-Haru’s pickle stall', 'Kyūbei the miller, first fair-price ally'],
     wrong: 'One stall’s goods are town-made, a cut above what the valley makes.',
   },
   {
@@ -649,9 +649,9 @@ export const T2_NODES: readonly SheetNode[] = [
     kanji: '水',
     name: 'The mill',
     kind: 'grounds',
-    blurb: 'Kyubei’s waterwheel — the valley’s choke: everyone’s grain passes his stones.',
+    blurb: 'Kyūbei’s waterwheel — the valley’s choke: everyone’s grain passes his stones.',
     actions: ['Mill the estate’s grain', 'Court the miller’s good price'],
-    who: ['Kyubei the miller'],
+    who: ['Kyūbei the miller'],
     wrong: 'The mill-race is cut with the same dressed stone as the quarry.',
   },
   {
