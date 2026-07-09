@@ -108,22 +108,28 @@ fi
 # a prettier-fail retry carried 4 of another agent's staged files). Require the
 # canonical pathspec form: git commit -m "..." -- path/a path/b   (--only semantics).
 #
-# Detection hardening (2026-07-08, after 0e10d96 swept 6 co-agent files): the ' -- '
-# pathspec must live INSIDE the `git commit` segment, NOT anywhere in the compound
-# command. The old whole-$cmd check let `git diff -- path && git commit -m "..."`
-# (bare) through — the diff's pathspec satisfied the check. So now we (a) isolate the
-# git-commit invocation up to the next ; & | boundary, and (b) strip quoted strings
-# first, so a ' -- ' buried in the commit MESSAGE can't false-allow either.
+# Detection hardening:
+#  (2026-07-08, after 0e10d96 swept 6 co-agent files) the ' -- ' pathspec must live
+#    INSIDE the `git commit` segment, NOT anywhere in the compound command — the old
+#    whole-$cmd check let `git diff -- path && git commit -m "..."` (bare) through.
+#  (2026-07-09) FLATTEN newlines to spaces FIRST. A multi-line `-m "…"` message made the
+#    per-line grep capture only the message's FIRST line, missing the trailing
+#    ' -- <pathspec>' that follows the whole message → false-BLOCK (hit 3× in one
+#    session). Flattening, then stripping quoted strings, then isolating the commit
+#    segment, also stops a ';', '&', or '|' inside the message truncating the segment.
 # Allowed bare: --amend, merge-in-progress, SKIP_SWEEPGUARD=1.
-if printf '%s' "$cmd" | grep -qE "${B}git[[:space:]]+commit([[:space:]]|$)" \
-  && ! printf '%s' "$cmd" | grep -q 'SKIP_SWEEPGUARD=1' \
-  && ! printf '%s' "$cmd" | grep -qE "${B}git[[:space:]]+commit[^;&|]*--amend" \
+cmd_flat="$(printf '%s' "$cmd" | tr '\n' ' ')"
+if printf '%s' "$cmd_flat" | grep -qE "${B}git[[:space:]]+commit([[:space:]]|$)" \
+  && ! printf '%s' "$cmd_flat" | grep -q 'SKIP_SWEEPGUARD=1' \
+  && ! printf '%s' "$cmd_flat" | grep -qE "${B}git[[:space:]]+commit[^;&|]*--amend" \
   && ! [ -e .git/MERGE_HEAD ]; then
-  # Isolate the `git commit …` invocation (up to the next ; & | boundary) and strip
-  # quoted strings, so only a REAL pathspec — not a ' -- ' in the message or a sibling
-  # command — counts. Failure mode is a safe false-BLOCK (escape: SKIP_SWEEPGUARD=1).
-  commit_seg="$(printf '%s' "$cmd" | grep -oE "git[[:space:]]+commit[^;&|]*" | head -1 || true)"
-  commit_seg="$(printf '%s' "$commit_seg" | sed -E "s/'[^']*'//g; s/\"[^\"]*\"//g")"
+  # Strip quoted strings FIRST (on the flattened one-line text, so a multi-line message's
+  # quotes actually match and its whole body — including any ' -- ', ';', '&', '|' — is
+  # removed), THEN isolate the `git commit …` invocation up to the next ; & | boundary.
+  # Only a REAL pathspec — not one in the message or a sibling command — survives.
+  # Failure mode is a safe false-BLOCK (escape: SKIP_SWEEPGUARD=1).
+  stripped="$(printf '%s' "$cmd_flat" | sed -E "s/'[^']*'//g; s/\"[^\"]*\"//g")"
+  commit_seg="$(printf '%s' "$stripped" | grep -oE "git[[:space:]]+commit[^;&|]*" | head -1 || true)"
   if ! printf '%s' "$commit_seg" | grep -qE '[[:space:]]--([[:space:]]|$)'; then
     deny_commit
   fi
