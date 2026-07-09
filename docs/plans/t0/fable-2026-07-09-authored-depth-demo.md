@@ -67,7 +67,7 @@ change follows the ADR-132 flow (`pnpm run verify:balance` →
    `src/core/requirements-engine.ts`, `src/core/content/people.ts`
    (`PEOPLE`, `PresenceCtx`), `src/core/content/balance.ts`.
 6. The storywave plan
-   [`fable-2026-07-07-storywave-game.md`](../fable-2026-07-07-storywave-game.md)
+   [`fable-2026-07-07-storywave-game.md`](../../../project/archive/fable-2026-07-07-storywave-game.md)
    — this plan assumes its G2 scene-def system (`SceneTrigger`, `sceneQueue`)
    and G3.5 compiler shape are LANDED (they are prerequisites; see §8).
 7. Quality rails: [`taste.md`](../../living/taste.md) (TST1–TST4),

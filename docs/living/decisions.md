@@ -2676,7 +2676,7 @@ even if ADR numbers shift. The mapping: #1=ADR-152 · #2=ADR-153 ·
 ## The storywave open-questions walkthrough (2026-07-08)
 
 Rulings from the human's live walkthrough of the storywave GAME plan's 13
-open questions ([`docs/plans/fable-2026-07-07-storywave-game.md`](../plans/fable-2026-07-07-storywave-game.md)
+open questions ([`docs/plans/fable-2026-07-07-storywave-game.md`](../../project/archive/fable-2026-07-07-storywave-game.md)
 § "Open questions"). Full ruling record + the soft-cap map:
 [`project/brainstorms/2026-07-08-storywave-economy-decisions.md`](../../project/brainstorms/2026-07-08-storywave-economy-decisions.md).
 Three rulings needed ADRs (below); the other ten took the plan's default and

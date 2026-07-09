@@ -1,13 +1,12 @@
 # Plan B — the storywave GAME plan: rewrite T0 in src/ to the bible
 
-**Status: 🔧 IN-PROGRESS — built to the ship line. G0–G6 ✅ + HD-30 prose wave ✅,
-all green on `main` (s125–131). Only G7 (SHIP) remains, and it is human-initiated: the
-release runs via `/ship` (user-invoked). HR-17 signed off (Take C canon; the
-`hd30-nengu` diverge kept as a reference by human steer). Recommended before the
-ship: the human's rung-by-rung QA + the OWED balance re-baseline, then `/ship`.**
-On ship this plan flips to ✅ DONE and archives; HR-8 closes moot; Plan A's A5
-unblocks. Executed in parallel with fable-2026-07-07-storywave-docs.md per the
-§S seam.
+**Status: ✅ DONE — SHIPPED v0.4.0 (2026-07-09, gh-pages @ `4ac1ead`, live).
+G0–G7 complete: the storywave T0 rewrite plays the bible canon in prod. HR-17
+signed off (Take C canon; the `hd30-nengu` diverge kept as a reference by human
+steer); HR-8 closed moot on ship. Archived to `project/archive/`. Follow-on:
+Plan A's A5 closure (unblocked by this ship) + the human's rung-by-rung QA +
+the OWED balance re-baseline.** Executed in parallel with
+fable-2026-07-07-storywave-docs.md per the §S seam.
 
 **Finalization record (2026-07-08 walkthrough, session 121):**
 - **All 13 open questions RULED** — see the bottom section + **ADR-163/164/165**.

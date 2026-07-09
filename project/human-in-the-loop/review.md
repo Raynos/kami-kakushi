@@ -238,31 +238,6 @@ stage/coin/rooms data:
 
 ---
 
-### HR-8 🔲 — Rung-up cast + R0→R7 story beats — read & sign off (FB-97/FB-103, ADR-110)
-
-> **Closing condition RULED (human, 2026-07-07):** stays open until the
-> B3 prose wave ships the new T0 text (ADR-150 build wave), then closes
-> as moot — no further ask needed. The slop audit's §2/§4 stand as the
-> deep read of the text this item covers.
-
-Rung promotions are now **player-triggered VN story beats** (ADR-110) — each
-narratively motivates the unlocks it grants. The **cast** (three invented faces:
-pedlar Tokubei, Rokusuke, smith Tōzō) and the **R0→R7 beat script** are drafted
-for your read in
-[`project/archive/opus-2026-07-02-rung-up-story-transitions.md`](../../project/archive/opus-2026-07-02-rung-up-story-transitions.md)
-(§6.6 cast / §7 beats).
-
-- **Asking for:** a taste/read pass on the cast + the per-rung beats — do the
-  faces + the transition prose land, or do you want any recast / retuned?
-- **How to look:** read the ONE-PAGE generated script
-  [`docs/content/t0-story.md`](../../docs/content/t0-story.md) (FB-5 — cold open →
-  intro → R1…R7 in play order, choices + effects inline); or play it live —
-  `pnpm run dev`, then `__qa.toRung('R1')`… to trigger each rung's beat in the VN
-  modal. Prose edits now land directly in
-  [`src/core/content/narrative/`](../../src/core/content/narrative/) (the FB-5
-  authoring source — you can mark up those files yourself).
-- **Verdict:** _(awaiting the human)_
-
 ---
 
 ### HR-10 🔲 — Phase-2 build beats (deed-source reveals + E1) — pick the take bundle (ADR-145, ADR-139)
