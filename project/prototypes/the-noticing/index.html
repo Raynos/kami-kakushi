@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Noticing — feel-test V: the world misspeaks, you catch it</title>
+<style>
+  :root {
+    --void:#070810; --steel-0:#0e1016; --steel-1:#161922; --steel-2:#1b1f29;
+    --steel-hi:#20242f;
+    --ink:#c2c8d8; --ink-soft:#8a90a4; --ink-faint:#5c6274;
+    --silver:#cdd6ee; --silver-hi:#e7ecff; --silver-dim:#99a2bf;
+    --silver-wire:rgba(205,214,238,.55); --silver-faint:rgba(205,214,238,.14);
+    --gold:#d8b978; --gold-hi:#f2dca0; --gold-dim:#93794a;
+    --key:rgba(216,185,120,.42); --key-dim:rgba(216,185,120,.15);
+    --shu:#bf3b25; --shu-hi:#de5a3a;
+    --serif:"Iowan Old Style","Palatino Nova",Palatino,Georgia,serif;
+    --chrome:"Avenir Next","Avenir",system-ui,sans-serif;
+    --radius:3px;
+  }
+  html { background:var(--void); }
+  body { margin:0; color:var(--ink); font-family:var(--serif); font-size:15px;
+    line-height:1.5; min-height:100vh;
+    background:radial-gradient(1200px 480px at 50% -140px, #12141d 0%, var(--void) 68%);
+    background-attachment:fixed; }
+  .shell { max-width:1220px; margin:0 auto; padding:16px 16px 44px;
+    border-left:1px solid var(--key-dim); border-right:1px solid var(--key-dim);
+    min-height:100vh; box-sizing:border-box; display:flex; flex-direction:column; gap:12px; }
+  .plate { background:linear-gradient(180deg,var(--steel-2),var(--steel-1));
+    border:1px solid var(--key); border-radius:var(--radius);
+    box-shadow:inset 0 1px 0 var(--silver-wire), 0 6px 18px rgba(0,0,0,.35); }
+  .label { font-family:var(--chrome); font-size:10.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--silver-dim); }
+  button { font:inherit; }
+  .plate-btn { background:linear-gradient(180deg,var(--steel-2),var(--steel-1));
+    border:1px solid var(--silver-faint); border-top-color:var(--silver-wire);
+    border-radius:var(--radius); color:var(--ink); padding:4px 12px; cursor:pointer;
+    font-family:var(--serif); font-size:13px; }
+  .plate-btn:hover:not(:disabled) { background:linear-gradient(180deg,var(--steel-hi),var(--steel-2));
+    color:var(--silver-hi); }
+  .num { font-variant-numeric:tabular-nums; }
+
+  /* idle strip */
+  .idle { display:flex; gap:22px; align-items:baseline; padding:10px 16px; flex-wrap:wrap; }
+  .idle .res { display:flex; flex-direction:column; gap:2px; min-width:104px; }
+  .idle .res .v { font-size:16px; color:var(--silver); }
+  .idle .res .v b { color:var(--gold-hi); font-weight:600; }
+  .idle .res .rate { font-size:11.5px; color:var(--ink-soft); }
+  .idle .res .rate .up { color:var(--gold); }
+  .idle .ink { margin-left:auto; display:flex; flex-direction:column; gap:3px; align-items:flex-end; }
+  .pips { display:flex; gap:5px; }
+  .pip { width:12px; height:12px; border-radius:50%; border:1px solid var(--silver-faint);
+    background:var(--steel-0); }
+  .pip.full { background:var(--silver-dim); border-color:var(--silver-wire); }
+  .idle .ink .cap { font-size:11px; color:var(--ink-faint); font-style:italic; }
+
+  .main { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(300px,1fr); gap:12px; align-items:start; }
+  @media (max-width:940px) { .main { grid-template-columns:1fr; } }
+
+  /* the world log */
+  .world { display:flex; flex-direction:column; min-height:520px; }
+  .world-hd { padding:9px 14px; border-bottom:1px solid var(--silver-faint);
+    display:flex; gap:12px; align-items:baseline; }
+  .world-hd .t { color:var(--silver); font-weight:600; font-size:14.5px; }
+  .world-hd .daysea { margin-left:auto; color:var(--silver); font-size:13px;
+    font-variant-numeric:tabular-nums; }
+  .world-hd .daysea b { color:var(--gold-hi); }
+  .wlog { flex:1; overflow-y:auto; padding:12px 16px; max-height:56vh; }
+  .wl { max-width:66ch; margin:0 0 7px; font-size:14px; color:var(--ink); cursor:pointer;
+    border-left:2px solid transparent; padding:2px 8px; border-radius:2px; }
+  .wl:hover { background:rgba(205,214,238,.05); border-left-color:var(--silver-faint); }
+  .wl .tstamp { color:var(--ink-faint); font-size:11px; margin-right:8px;
+    font-variant-numeric:tabular-nums; }
+  .wl.noted { color:var(--ink-faint); cursor:default; }
+  .wl.noted:hover { background:none; border-left-color:transparent; }
+  .wl.hit { color:var(--gold-hi); border-left-color:var(--gold); cursor:default; }
+  .wl.sys { color:var(--v-narrator, #9aa4c4); font-style:italic; font-size:13px; cursor:default; }
+  .wl.sys:hover { background:none; border-left-color:transparent; }
+  .wl.newday { color:var(--silver-dim); font-family:var(--chrome); font-size:10.5px;
+    letter-spacing:.14em; text-transform:uppercase; margin-top:12px; cursor:default; }
+  .wl.newday:hover { background:none; }
+  .ink-in { animation:inkin .35s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes inkin { from { opacity:0; transform:translateY(6px); } }
+  @media (prefers-reduced-motion: reduce) { .ink-in { animation:none; } }
+
+  /* common knowledge — the world's normals */
+  .known { padding:10px 14px 12px; }
+  .known h3 { margin:0 0 6px; font-size:13px; color:var(--silver); font-weight:600; }
+  .known ul { margin:0; padding:0; list-style:none; columns:2; column-gap:22px; }
+  .known li { font-size:12px; color:var(--ink-soft); margin:3px 0; padding-left:11px;
+    position:relative; break-inside:avoid; }
+  .known li::before { content:"・"; position:absolute; left:0; color:var(--ink-faint); }
+  @media (max-width:940px) { .known ul { columns:1; } }
+
+  /* album */
+  .album { padding:12px 14px 16px; }
+  .album h2 { margin:0 0 2px; font-size:15px; color:var(--silver); font-weight:600; }
+  .album h2 .kanji { color:var(--gold); margin-right:7px; }
+  .album .subtitle { color:var(--ink-soft); font-size:11.5px; font-style:italic; margin-bottom:10px; }
+  .set { border:1px solid var(--silver-faint); border-radius:var(--radius);
+    background:linear-gradient(180deg,var(--steel-1),var(--steel-0)); padding:10px 12px;
+    margin-bottom:10px; }
+  .set.done { border-color:var(--key); }
+  .set .t { display:flex; align-items:baseline; gap:8px; }
+  .set .t .name { font-size:13.5px; color:var(--silver-hi); font-weight:600; }
+  .set .t .prog { margin-left:auto; font-size:11px; color:var(--ink-faint);
+    font-variant-numeric:tabular-nums; }
+  .set.done .t .prog { color:var(--gold-dim); }
+  .slots { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+  .slot { width:44px; height:54px; border-radius:var(--radius); border:1px dashed var(--ink-faint);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+    color:var(--ink-faint); background:rgba(14,16,22,.6); }
+  .slot .g { font-size:16px; opacity:.5; }
+  .slot .r { font-size:8.5px; font-family:var(--chrome); letter-spacing:.08em; text-transform:uppercase; }
+  .slot.filled { border:1px solid var(--key); color:var(--gold-hi); cursor:pointer;
+    background:linear-gradient(180deg,var(--steel-2),var(--steel-1)); }
+  .slot.filled .g { opacity:1; }
+  .slot.stamp { animation:stamp .5s cubic-bezier(.2,1.4,.4,1) both; }
+  @keyframes stamp { 0% { transform:scale(1.7); opacity:0; } 60% { transform:scale(.95); opacity:1; } 100% { transform:scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .slot.stamp { animation:none; } }
+  .cluecard { margin-top:8px; border-left:2px solid var(--gold); padding:5px 9px;
+    font-size:12.5px; color:var(--ink); background:rgba(216,185,120,.04); max-width:44ch; }
+  .cluecard .why { display:block; color:var(--gold-dim); font-size:11px; margin-top:3px;
+    font-style:italic; }
+  .set .bonus { margin-top:7px; font-size:12px; color:var(--gold-hi); }
+  .set .bonus::before { content:"◆ "; color:var(--gold); }
+  .set.teaser { opacity:.55; }
+
+  /* revelation */
+  .scrim { position:fixed; inset:0; background:rgba(7,8,16,.86); z-index:10;
+    display:none; align-items:center; justify-content:center; }
+  .scrim.show { display:flex; }
+  .rev { width:min(560px,92vw); padding:26px 30px 22px; }
+  .rev .kicker { font-family:var(--chrome); font-size:10.5px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--gold-dim); }
+  .rev h2 { color:var(--gold-hi); font-size:19px; margin:6px 0 12px; font-weight:600; }
+  .rev p { max-width:54ch; margin:0 0 10px; }
+  .rev .grant { color:var(--gold-hi); margin-top:12px; font-size:14px; }
+  .rev .grant::before { content:"◆ "; color:var(--gold); }
+  .rev .cta { text-align:right; margin-top:14px; }
+
+  ::-webkit-scrollbar { width:6px; } ::-webkit-scrollbar-thumb { background:var(--steel-hi); }
+  ::-webkit-scrollbar-track { background:var(--steel-0); }
+  .dev { position:fixed; right:10px; bottom:10px; display:flex; gap:6px; align-items:center;
+    font-family:var(--chrome); font-size:10px; letter-spacing:.08em; color:var(--ink-faint); z-index:20; }
+  .dev button { background:var(--steel-0); border:1px solid var(--silver-faint);
+    border-radius:var(--radius); color:var(--ink-soft); font-size:10px; padding:2px 8px;
+    cursor:pointer; font-family:var(--chrome); letter-spacing:.08em; }
+  footer.colo { text-align:center; color:var(--ink-faint); font-size:11px;
+    font-family:var(--chrome); letter-spacing:.06em; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <section class="idle plate" aria-label="The idle game, running">
+    <div class="res"><span class="label">Rice 🌾</span>
+      <span class="v num" id="v-rice">0</span>
+      <span class="rate num" id="v-ricerate"></span></div>
+    <div class="res"><span class="label">Coin 🪙</span>
+      <span class="v num" id="v-coin">0</span>
+      <span class="rate num" id="v-coinrate"></span></div>
+    <div class="ink">
+      <span class="label">Ink — notes you can afford today</span>
+      <div class="pips" id="pips"></div>
+      <span class="cap">click a log line to note it · wasted ink is wasted</span>
+    </div>
+  </section>
+
+  <div class="main">
+    <div style="display:flex; flex-direction:column; gap:12px; min-width:0;">
+      <section class="world plate">
+        <div class="world-hd">
+          <span class="t">The estate — life, passing</span>
+          <span class="daysea">Day <b id="v-day">1</b> · eighth month</span>
+        </div>
+        <div class="wlog" id="wlog" aria-live="polite"></div>
+      </section>
+      <section class="known plate">
+        <h3>What everyone knows (the world’s normals — anomalies contradict THESE)</h3>
+        <ul>
+          <li>Salt is 12 mon at the stall. Rice sells at 8.</li>
+          <li>O-Yae draws water at dawn, every dawn.</li>
+          <li>Sōan sleeps early; his lamp is out by the second watch.</li>
+          <li>Wages are paid on the first. The steward’s book records every payment.</li>
+          <li>Bon lanterns go out on the 13th; the house dates your arrival the 14th.</li>
+          <li>Matsuzō counts herons, boats, and water-height. Nothing else.</li>
+          <li>Nobody walks the west path after dark.</li>
+          <li>Paper is dear. Nobody buys it twice in a month.</li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="album plate">
+      <h2><span class="kanji">帖</span>The Album</h2>
+      <div class="subtitle">it fills ONLY from what you catch out there — there is no button for this (MOCK)</div>
+      <div id="sets"></div>
+    </section>
+  </div>
+
+  <footer class="colo">MOCK — feel-test V: the world occasionally misspeaks against its own normals; you have 3 notes of ink a day; catch the off lines, fill the sets, the buffs are real. Nothing is canon.</footer>
+</div>
+
+<div class="scrim" id="revscrim" role="dialog" aria-modal="true">
+  <div class="rev plate">
+    <span class="kicker">the set completes — the truth assembles</span>
+    <h2 id="rev-title"></h2>
+    <p id="rev-text"></p>
+    <div class="grant" id="rev-grant"></div>
+    <div class="cta"><button class="plate-btn" id="rev-close">Continue</button></div>
+  </div>
+</div>
+
+<div class="dev">
+  <span>MOCK · not canon</span>
+  <button id="dev-fast">fast ×4</button>
+  <button id="dev-ink">+3 ink</button>
+  <button id="dev-reset">reset</button>
+</div>
+
+<script>
+'use strict';
+/* ── the album: sets fill ONLY via caught anomalies ── */
+const SETS = [
+  { id:'book', name:'The Grey Book', bonus:{ label:'+40% rice', rice:1.4 },
+    reveal:'The physician who sleeps early has been awake for weeks. He buys paper like a man with too much to say and burns it like a man who said it too soon. Whatever the grey book holds, it holds more of it every night — and some mornings, less.',
+    slots:[
+      { g:'物', r:'off',  anomaly:'Past the second watch, the lamp in Sōan’s room still burns.',
+        why:'Sōan sleeps early. Everyone knows that. So why is he writing at midnight?',
+        clue:'His lamp burns past the second watch. A man who sleeps early is awake — writing.' },
+      { g:'物', r:'off',  anomaly:'Yohei wraps a second bundle of paper for the physician — his second this month.',
+        why:'Paper is dear; nobody buys it twice in a month.',
+        clue:'Two bundles of paper in one month. Whatever he writes, it is outrunning his supply.' },
+      { g:'日', r:'gold', anomaly:'A thin smell of burnt paper drifts from the physician’s room at dawn.',
+        why:'Nobody burns dear paper — unless the page mattered more gone.',
+        clue:'He burns what he writes. Some record exists only in its own ashes now.' },
+    ] },
+  { id:'dates', name:'The Dates', bonus:{ label:'+2 coin/s', coinAdd:2 },
+    reveal:'The lanterns die on the thirteenth — the count says so, the shrine ledger says so. The house says you began on the fourteenth. Somewhere between those two numbers is a day nobody will account for, and the calendar’s page for it is clean. Too clean.',
+    slots:[
+      { g:'日', r:'off',  anomaly:'Shinnosuke asks when the stranger came; Toku answers “the fourteenth” a beat too fast.',
+        why:'True answers take a moment. Rehearsed ones don’t.',
+        clue:'“The fourteenth,” faster than memory works. That number has been practiced.' },
+      { g:'日', r:'off',  anomaly:'The house calendar lies open in the hall: the page for the thirteenth is blank.',
+        why:'Every other day carries entries. A house that dates everything dated NOTHING that day.',
+        clue:'The thirteenth is blank in a book that records everything. Erased is not the same as empty.' },
+      { g:'日', r:'gold', anomaly:'At the shrine, the Bon ledger’s last lantern-mark falls on the thirteenth.',
+        why:'The lanterns died the 13th; the weir gave you up “the morning after.” The house says the 14th. The numbers only fit if a day is missing.',
+        clue:'Lanterns out the 13th. Found “the morning after.” The house insists on the 14th. One day does not exist.' },
+    ] },
+  { id:'purse', name:'The House’s Purse', bonus:{ label:'+40% coin', coinMult:1.4 },
+    reveal:'The wage book was ruled off two years ago, and yet the gate is swept and the water is drawn and the scullery girl pays with coin older than her grandmother. Someone with old money keeps this house alive off the books — and only one person here has old money and no need to explain it.',
+    slots:[
+      { g:'物', r:'off',  anomaly:'O-Yae buys salt at the stall; the pedlar squints twice at her coin before taking it.',
+        why:'Current coin doesn’t make a pedlar squint. Old coin does.',
+        clue:'She pays in coin struck before the current era. Wages come from somewhere — just not from now.' },
+      { g:'日', r:'off',  anomaly:'The first of the month passes. Genemon’s wage book stays shut. O-Yae hums at the well.',
+        why:'Wages are paid on the first, and the book records every payment. No book, no wages — yet she is content.',
+        clue:'Wage day came and went without the book opening. Whoever pays her, it isn’t the ledger.' },
+      { g:'人', r:'gold', anomaly:'Toku’s maid returns from the village with an empty purse and a very full basket.',
+        why:'An empty purse and a full basket means money moved — money the house’s books will never see.',
+        clue:'The dowager’s purse empties into the village and nothing is written anywhere. Charity, or payroll.' },
+    ] },
+  { id:'weir', name:'The Weir at Night', bonus:{ label:'+50% rice', rice:1.5 },
+    reveal:'The weir-keeper counts herons, boats, and water-height — and now he counts something he will not name, at dusk, facing upstream. Whatever came down that water once is expected back. He is not waiting to rescue it.',
+    slots:[
+      { g:'人', r:'off',  anomaly:'At dusk Matsuzō stands at the weir rail, counting — though the water is empty.',
+        why:'He counts herons, boats, water-height. There is nothing there. So what is he counting?',
+        clue:'He counts an empty river now, every dusk, facing upstream. A tally for something not yet arrived.' },
+      { g:'場', r:'off',  anomaly:'A lantern bobs along the west path, well after dark.',
+        why:'Nobody walks the west path after dark. Nobody should.',
+        clue:'Someone keeps the lantern road at night. The rite that “stops at the bank” doesn’t — not for everyone.' },
+      { g:'物', r:'gold', anomaly:'For one breath, a light shows on the water — upstream of the weir. Then it does not.',
+        why:'A lantern doubles in the river. This one cast no twin.',
+        clue:'One light, upstream, no reflection. The thing the old man will not name has a habit of coming back.' },
+    ] },
+  { id:'expected', name:'Expected', needs:['book','dates'], bonus:{ label:'×2 everything', rice:2, coinMult:2 },
+    reveal:'Put the ashes next to the missing day and it stops being strange and starts being simple: the physician’s record of you began before the river gave you up, and the day between the lanterns and your “arrival” was spent getting the story straight. You were not found. You were expected — and the house has been keeping its composure ever since.',
+    slots:[
+      { g:'物', r:'gold', anomaly:'Sorting Sōan’s deliveries, you find a receipt dated the TENTH — for “the usual, prepared early.”',
+        why:'Prepared early. Four days before the weir. For whom?',
+        clue:'“The usual, prepared early” — dated the tenth. He was readying for a patient he had not met.' },
+      { g:'人', r:'gold', anomaly:'Genemon, passing, calls you by a name that is not the one the house gave you — then corrects himself, smoothly.',
+        why:'You cannot mis-say a name you never knew.',
+        clue:'The steward knows another name for you. It came out of him like an old habit, not a mistake.' },
+    ] },
+];
+
+/* ── ordinary estate life (normals + baits — clicking these wastes ink) ── */
+const NORMALS = [
+  'Rain on the paddies. The tally rises anyway.',
+  'O-Yae draws water at dawn, singing off-key.',
+  'Kihei drills two farmhands. The winner is the fence.',
+  'The pedlar’s mule refuses the bridge. The pedlar loses the argument.',
+  'Salt at the stall today: 12 mon, as ever.',
+  'Rice sells at 8. Genemon counts it twice, as ever.',
+  'A heron lands on the weir post. Matsuzō adds it to the count.',
+  'Smoke from the kitchen; barley again tonight.',
+  'Shinnosuke chases the cat off the veranda. The cat forgives nothing.',
+  'The rake needs a new tooth. It gets string instead.',
+  'Two farmhands argue over a straw hat. The hat stays ownerless.',
+  'The steward’s abacus clicks late into the afternoon.',
+  'Toku takes her tea facing the garden, back straight as a post.',
+  'Sōan grinds something bitter; the smell crosses the yard.',
+  'The weir runs low for the month. Matsuzō chalks the height.',
+  'A festival is coming, O-Yae says, and says, and says.',
+  'The west field wants weeding. It will want it tomorrow too.',
+  'Yohei arrives at the gate; market cloth over one shoulder.',
+  'Cicadas. Then, mercifully, fewer cicadas.',
+  'The kura door is locked at dusk, same as every dusk.',
+  'A letter arrives for Genemon: rice-tax boilerplate. He sighs like a bellows.',
+  'The lamp-oil jar is refilled. The house smells briefly of it.',
+  'Dinner: barley, pickles, one strip of dried fish each. Nobody complains twice.',
+  'Frogs start up at the paddy edge like a hired chorus.',
+  'Wage entries checked and squared; the first of the month is in order, the steward says of MOST months.',
+  'The cat is on the kura roof again. Nobody knows how.',
+  'Matsuzō mends a net with the patience of a man made of rope.',
+  'Sōan turns a farmhand’s ankle this way and that, pronounces it lazy, not broken.',
+  'O-Yae drops a bucket. The yard learns three new words.',
+  'The eighth month heat leans on the afternoon like a debt.',
+];
+
+/* ── economy / pacing ── */
+const BASE = { rice:3, coin:1 };
+const LINE_MS = 2100;         // one log line per ~2.1s
+const LINES_PER_DAY = 16;
+const INK_PER_DAY = 3;
+const TICK_MS = 250;
+
+let S, timer, lineTimer;
+function fresh() {
+  return { rice:0, coin:0, mult:{ rice:1, coin:1 }, coinAdd:0,
+    day:1, lineNo:0, ink:INK_PER_DAY, fast:1,
+    filled:{}, done:{}, lines:[], normalIdx:0, anomalyQueue:[], openClue:{},
+    caught:0, wasted:0 };
+}
+const filledCount = id => (S.filled[id] || []).length;
+const isFilled = (id,i) => (S.filled[id] || []).includes(i);
+const setDef = id => SETS.find(s => s.id === id);
+const setOpen = s => !s.needs || s.needs.every(n => S.done[n]);
+
+/* anomaly scheduling: keep a shuffled queue of (setId, slotIdx) for open sets */
+function refillAnomalyQueue() {
+  const pool = [];
+  SETS.filter(setOpen).forEach(s => s.slots.forEach((sl, i) => {
+    if (!isFilled(s.id, i)) pool.push({ set:s.id, slot:i });
+  }));
+  for (let i = pool.length - 1; i > 0; i--) { const j = (i * 7 + S.lineNo) % (i + 1); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+  S.anomalyQueue = pool;
+}
+
+function pushLine(l) { S.lines.push(l); if (S.lines.length > 90) S.lines.shift(); S.dirtyLog = true; }
+
+function nextLine() {
+  S.lineNo++;
+  /* day turn */
+  if (S.lineNo % LINES_PER_DAY === 0) {
+    S.day++; S.ink = INK_PER_DAY;
+    pushLine({ kind:'newday', text:'— day ' + S.day + ' · ink replenished —' });
+  }
+  /* anomaly roughly every 6th line, if any remain */
+  const due = S.lineNo % 6 === 3;
+  if (due) {
+    if (!S.anomalyQueue.length) refillAnomalyQueue();
+    const a = S.anomalyQueue.shift();
+    if (a && !isFilled(a.set, a.slot) && setOpen(setDef(a.set))) {
+      const sl = setDef(a.set).slots[a.slot];
+      pushLine({ kind:'anomaly', text: sl.anomaly, set:a.set, slot:a.slot });
+      return;
+    }
+  }
+  pushLine({ kind:'normal', text: NORMALS[S.normalIdx++ % NORMALS.length] });
+}
+
+/* ── noting: the ONLY acquisition verb ── */
+function note(idx) {
+  const l = S.lines[idx];
+  if (!l || l.noted || l.kind === 'newday' || l.kind === 'sys') return;
+  if (S.ink <= 0) { pushLine({ kind:'sys', text:'No ink left today. Tomorrow you may afford to notice again.' }); render(); return; }
+  S.ink--;
+  l.noted = true;
+  if (l.kind === 'anomaly') {
+    l.hit = true; S.caught++;
+    fillSlot(l.set, l.slot);
+  } else {
+    S.wasted++;
+    pushLine({ kind:'sys', text:'The ink dries on: “' + l.text.slice(0, 44) + '…” Nothing looks back at you from it.' });
+  }
+  render();
+}
+function fillSlot(id, i) {
+  (S.filled[id] = S.filled[id] || []).push(i);
+  S.lastStamp = id + ':' + i;
+  const s = setDef(id), sl = s.slots[i];
+  pushLine({ kind:'sys', text:'The book takes a line — “' + s.name + '” gains its ' + filledCount(id) + (['st','nd','rd'][filledCount(id)-1] || 'th') + ' entry.' });
+  if (filledCount(id) === s.slots.length) completeSet(id);
+}
+function completeSet(id) {
+  const s = setDef(id);
+  S.done[id] = true;
+  if (s.bonus.rice)     S.mult.rice *= s.bonus.rice;
+  if (s.bonus.coinMult) S.mult.coin *= s.bonus.coinMult;
+  if (s.bonus.coinAdd)  S.coinAdd   += s.bonus.coinAdd;
+  pushLine({ kind:'sys', text:'SET COMPLETE — ' + s.name + ' · ' + s.bonus.label + '. The estate works differently for a man who knows.' });
+  $('#rev-title').textContent = s.name;
+  $('#rev-text').textContent = s.reveal;
+  $('#rev-grant').textContent = 'Insight: ' + s.bonus.label + ' — permanent.';
+  $('#revscrim').classList.add('show');
+  refillAnomalyQueue();
+}
+
+/* ── ticking ── */
+let lineAcc = 0;
+function tick() {
+  const dt = (TICK_MS / 1000) * S.fast;
+  S.rice += BASE.rice * S.mult.rice * dt;
+  S.coin += (BASE.coin * S.mult.coin + S.coinAdd) * dt;
+  lineAcc += TICK_MS * S.fast;
+  while (lineAcc >= LINE_MS) { lineAcc -= LINE_MS; nextLine(); }
+  renderNumbers();
+  if (S.dirtyLog) { renderLog(); renderSets(); S.dirtyLog = false; }
+}
+
+/* ── render ── */
+const $ = sel => document.querySelector(sel);
+const esc = t => t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const fmt = n => n >= 1000 ? (n/1000).toFixed(2) + 'K' : Math.floor(n).toString();
+function renderNumbers() {
+  $('#v-rice').textContent = fmt(S.rice);
+  $('#v-coin').textContent = fmt(S.coin);
+  $('#v-ricerate').innerHTML = '+' + (BASE.rice * S.mult.rice).toFixed(1) + '/s' + (S.mult.rice > 1 ? ' <span class="up">▲</span>' : '');
+  $('#v-coinrate').innerHTML = '+' + (BASE.coin * S.mult.coin + S.coinAdd).toFixed(1) + '/s' + ((S.mult.coin > 1 || S.coinAdd) ? ' <span class="up">▲</span>' : '');
+  $('#v-day').textContent = S.day;
+  $('#pips').innerHTML = Array.from({ length: INK_PER_DAY }, (_, i) =>
+    `<span class="pip ${i < S.ink ? 'full' : ''}"></span>`).join('');
+}
+function renderLog() {
+  const el = $('#wlog');
+  const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 60;
+  el.innerHTML = S.lines.map((l, i) => {
+    const cls = l.kind === 'newday' ? 'newday' : l.kind === 'sys' ? 'sys' : l.hit ? 'hit' : l.noted ? 'noted' : '';
+    const last = i >= S.lines.length - 2 ? ' ink-in' : '';
+    return `<p class="wl ${cls}${last}" data-i="${i}">${l.kind === 'normal' || l.kind === 'anomaly' ? '<span class="tstamp">' + (i % LINES_PER_DAY) + '刻</span>' : ''}${esc(l.text)}</p>`;
+  }).join('');
+  if (atBottom) el.scrollTop = el.scrollHeight;
+}
+function renderSets() {
+  $('#sets').innerHTML = SETS.map(s => {
+    if (!setOpen(s)) return `<div class="set teaser">
+      <div class="t"><span class="name">? ? ?</span><span class="prog">${s.slots.length} slots</span></div>
+      <div class="slots">${s.slots.map(() => '<div class="slot"><span class="g">?</span></div>').join('')}</div></div>`;
+    const n = filledCount(s.id), done = !!S.done[s.id];
+    return `<div class="set ${done ? 'done' : ''}">
+      <div class="t"><span class="name">${esc(s.name)}</span>
+        <span class="prog">${done ? '✒ complete' : n + ' / ' + s.slots.length}</span></div>
+      <div class="slots">${s.slots.map((sl, i) => {
+        const f = isFilled(s.id, i);
+        const stamp = S.lastStamp === s.id + ':' + i ? ' stamp' : '';
+        return `<div class="slot ${f ? 'filled' : ''}${stamp}" ${f ? `data-clue="${s.id}:${i}" role="button" tabindex="0"` : ''}
+          title="${f ? 'read it' : 'uncaught — it will misspeak again'}">
+          <span class="g">${f ? sl.g : '?'}</span><span class="r">${f ? sl.r : '???'}</span></div>`;
+      }).join('')}</div>
+      ${S.openClue[s.id] !== undefined && isFilled(s.id, S.openClue[s.id])
+        ? (() => { const sl = s.slots[S.openClue[s.id]];
+            return `<div class="cluecard">${esc(sl.clue)}<span class="why">why it was off: ${esc(sl.why)}</span></div>`; })() : ''}
+      ${done ? `<div class="bonus">${esc(s.bonus.label)} — permanent</div>` : ''}
+    </div>`;
+  }).join('');
+  S.lastStamp = null;
+}
+function render() { renderLog(); renderSets(); renderNumbers(); }
+
+/* ── wiring ── */
+document.addEventListener('click', e => {
+  const clue = e.target.closest('[data-clue]');
+  if (clue) { const [id, i] = clue.dataset.clue.split(':');
+    S.openClue[id] = S.openClue[id] === +i ? undefined : +i; renderSets(); return; }
+  const wl = e.target.closest('.wl[data-i]');
+  if (wl) note(+wl.dataset.i);
+});
+$('#rev-close').addEventListener('click', () => $('#revscrim').classList.remove('show'));
+$('#dev-fast').addEventListener('click', function () { S.fast = S.fast === 1 ? 4 : 1; this.textContent = S.fast === 4 ? 'fast ×1' : 'fast ×4'; });
+$('#dev-ink').addEventListener('click', () => { S.ink = Math.min(9, S.ink + 3); renderNumbers(); });
+$('#dev-reset').addEventListener('click', () => { S = fresh(); boot(); });
+
+function boot() {
+  pushLine({ kind:'sys', text:'The estate goes about its day. Most of what you will read is exactly what it looks like. Once in a while, a line is quietly WRONG — against the prices, the calendar, the habits everyone knows. You have three notes of ink a day. Catch the world misspeaking.' });
+  refillAnomalyQueue();
+  render();
+}
+S = fresh();
+boot();
+timer = setInterval(tick, TICK_MS);
+</script>
+</body>
+</html>

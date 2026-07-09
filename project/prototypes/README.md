@@ -25,6 +25,13 @@ or HR-item that owns it.
 
 ## Prototypes
 
+- [`the-noticing/`](the-noticing/index.html) — depth-lane feel-test V
+  (2026-07-09): acquisition through PLAY, no button — the estate's live log
+  mixes ordinary life with occasional lines that quietly contradict the
+  world's posted normals (prices, calendar, habits); you get 3 notes of ink
+  a day; noting a truly-off line stamps the album, noting a normal one
+  wastes ink. Sets complete → revelation → permanent idle buffs. Built
+  after The Album's verdict ("a gacha hint button — no world integration").
 - [`the-album/`](the-album/index.html) — depth-lane feel-test IV
   (2026-07-09): the genre-native synthesis the human's Round-6 verdicts
   picked — a live idle strip earns ATTENTION; spend it ("Listen") to fill

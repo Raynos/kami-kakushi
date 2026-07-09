@@ -341,6 +341,29 @@ not an interaction atom (full text in chat):
   one assignable Scholar with progress bar, revelation modal + permanent
   buff per set, ×2-everything finale ("Expected").
 
+## Round 8 (2026-07-09) — Album fails ("gacha hint button") → The Noticing
+
+- **Human verdict on The Album:** "you just built a prototype where I just
+  click and I get hints… too fucking easy, there's no actual deep
+  integration with the game world, there's just a 'get the hint [gacha]'
+  button." Correct — Listen-for-currency is mock 1's vending machine with a
+  coin slot; it violated the blessed paragraph's own clauses (thought-cost,
+  stumble-able).
+- **The converged design law after four failures** (each verdict kills one
+  pole): knowledge must never be VENDED by a dedicated verb — the album is
+  only where knowledge GOES; it must be CAUGHT in the game world's own
+  surfaces. The surviving acquisition verb: **noticing** — the live log
+  mixes ordinary estate life with rare lines that quietly contradict the
+  world's learnable normals (posted prices, the calendar, people's habits);
+  no glint, no highlight; scarce daily ink to spend on notes; noting a real
+  anomaly stamps the album (with a "why it was off" teach-back), noting
+  noise wastes ink. Sets → revelation → permanent idle buffs (unchanged —
+  the liked parts of IV survive).
+- **Feel-test V built:** `project/prototypes/the-noticing/` — live idle
+  strip · flowing estate log (~30 normal/bait lines, 14 authored anomalies
+  across 4 sets + a gated finale) · "what everyone knows" normals panel ·
+  3 ink/day · missed anomalies recycle · caught/wasted tracked.
+
 ## Outcome (2026-07-09 — session close)
 
 Promoted: the whole grill distilled into
