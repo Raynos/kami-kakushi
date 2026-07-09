@@ -364,6 +364,30 @@ not an interaction atom (full text in chat):
   across 4 sets + a gated finale) · "what everyone knows" normals panel ·
   3 ink/day · missed anomalies recycle · caught/wasted tracked.
 
+## Round 9 (2026-07-09) — The Noticing verdict; session wrapped
+
+- **Human verdict on The Noticing:** "Not fun lol. I think we can wrap up
+  here." Five feel-tests, five fails on the fun bar (PH5: proxies prove
+  absence; only the human certifies presence — five honest absences).
+- **What the evening actually produced** (not wasted — a real research
+  result): a converged CONSTRAINT LAW any future depth-UI must satisfy,
+  each clause paid for by a failed prototype:
+  1. Never enumerate method (kikigaki: move-lists = checklist, cheap).
+  2. Always show progress (Asking I: invisible progress = pointless).
+  3. Never vend knowledge through a dedicated verb (Album: currency-for-
+     clue = gacha hint button).
+  4. Acquisition must live in the game world's own surfaces (Album's
+     second failure: no integration).
+  5. Even caught-not-vended noticing isn't sufficient for fun by itself
+     (Noticing: mechanically sound, still flat) — the missing ingredient
+     is NOT interaction shape; suspicion: it's stakes/material/context a
+     fragment mock cannot carry (see Round 4's diagnosis).
+- **Standing state:** Plan K stays 🧊 PARKED with §U/§M explicitly OPEN;
+  the five prototypes remain in `project/prototypes/` as the record any
+  future attempt must beat; the depth bet itself is untouched canon-side
+  (nothing landed). The forest-level alternative (author the underside
+  first, UI after) was offered in Round 4 and remains the agent's read.
+
 ## Outcome (2026-07-09 — session close)
 
 Promoted: the whole grill distilled into

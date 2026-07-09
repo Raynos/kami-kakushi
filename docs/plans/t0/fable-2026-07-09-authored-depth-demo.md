@@ -270,12 +270,19 @@ static analysis over generated registries, comfortably sub-100ms.
 
 ## 7 · §U — the kikigaki tab (UI) + the notebook beat
 
-> **A working feel-test of this section exists**:
-> [`project/prototypes/kikigaki-depth/`](../../../project/prototypes/kikigaki-depth/index.html)
-> (2026-07-09, mock data, all three variants + the notebook beat + the priced
-> move loop). The human's verdict on it should reshape this section BEFORE
-> un-park — the whole plan lives or dies on this surface being fun rather
-> than flavor-text slop (human, 2026-07-09).
+> **⚠️ This section is an OPEN problem (2026-07-09, end of session).** FIVE
+> feel-tests were built and all failed the human's fun bar — the record
+> lives in [`project/prototypes/`](../../../project/prototypes/README.md)
+> (`kikigaki-depth` · `the-asking` · `the-album` · `the-noticing`) and the
+> round-by-round verdicts in the
+> [discovery record](../../../project/brainstorms/2026-07-09-authored-depth-direction.md)
+> (Rounds 2–9). Any future §U design must satisfy the converged constraint
+> law (never enumerate method · always show progress · never vend knowledge
+> through a verb · acquisition lives in the game's own surfaces) — and note
+> Round 9's suspicion: interaction shape alone may not produce fun; the
+> missing ingredient is likely stakes/material a fragment mock cannot carry
+> (Round 4). Do NOT build K4 from this section as written without solving
+> that first.
 
 - **Tab**: add `'kikigaki'` to the `Tab` union, `TAB_ORDER`, and `TAB_LABEL`
   (label 聞書) in `src/ui/render.ts`; `tabHasContent` case returns

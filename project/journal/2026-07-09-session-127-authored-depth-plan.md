@@ -76,3 +76,23 @@ hidden openness, deflections with a true-leak channel, buried 10th-vs-14th
 aha-chain. Ten further concepts offered and captured in the brainstorm's
 Round 2 section. Next: the human plays The Asking; verdict decides whether
 Plan K §M/§U get rewritten around open input.
+
+---
+
+## Addendum 3 (session close) — five feel-tests, five fails; wrapped
+
+The prototype loop ran to five: kikigaki (checklist — too cheap) → Asking I
+(no direction — pointless) → Asking II + hints (synthesis: open input in,
+clue-book out) → The Album (verdict: "a gacha hint button, no world
+integration") → The Noticing (caught-not-vended anomaly-spotting in the
+live log — verdict: "not fun lol"). Session wrapped there at the human's
+call. The yield is real despite zero fun certs: a four-clause constraint
+law any future depth-UI must satisfy (each clause paid for by a failure),
+all five prototypes kept in `project/prototypes/` as the record to beat,
+Plan K's §U re-marked as an OPEN problem with a warning not to build K4 as
+written, and the Round-4 forest diagnosis on record (fragments may be
+unable to carry the bet; the material, not the interface, may be the
+missing ingredient). Plan K stays PARKED; canon untouched all evening.
+Zoom-out lesson for future sessions, banked in the brainstorm: watch for
+small-ball reconstituting itself inside a big swing via the
+plan→prototype→iterate reflex.
