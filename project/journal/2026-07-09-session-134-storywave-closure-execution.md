@@ -269,3 +269,22 @@ soan (the gate machinery now exercised on a constructed scene — no gated
 topic ships); the cold-open fixture spec asks Sōan twice instead of
 one-per-character; the render 'decision-only scene' test left with the
 content that drove it. Sim: 6 pre-existing REDs unchanged.
+
+## C4 DoD closed (+ the qa-shots harness lives again)
+
+- **Headless proof captures** in `project/audit/screens/2026-07-10-closure-c4/`
+  (git-ignored dir; this entry is the record): `c4-sb-crest-fires.png` — walking
+  to the kura at R4 queues + auto-opens the sb-crest VN (and the regenerated R4
+  fixture's own `scenesPlayed` = [r2-yard-hand, sb-lease, sb-bon,
+  nengu-autumn-frame] proves the C4.1 wiring fires inside the REAL arc drive);
+  `c4-talk-ohisa.png` — Speak with O-Hisa delivers her authored u9 line into the
+  Story log ("The shoulder seam was going. It's done now…"); ambient texture —
+  three authored gossip lines emitted across ~14 ticked days (matchmaker /
+  lowland wages / Ganzō at the well).
+- **qa-shots.mjs runs GREEN end-to-end for the first time since the reboot**
+  (15 shots, zero console errors): the one-scene intro drains via two DOM
+  clicks (02b/02c), skills shoot on the Character tab (R2), the map + a
+  post-fight Character shot joined the gallery. `screens/latest/` refreshed.
+- The sb-grove capture attempt surfaced a REAL fact, not a bug: the grove sits
+  behind the conditioning danger ring, so the R2–R4 window beat requires a
+  drilled MC — reachable, by design (the sim's t0-arc drives drills).

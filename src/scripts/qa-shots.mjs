@@ -15,10 +15,18 @@ const clickTab = (label) =>
 const steps = [
   { name: '01-cold-open' },
   { name: '02-awake', run: `__qa.dispatch({type:'open_eyes'})` },
+  // C4.9: the intro is the ONE fused sickroom scene — decide it (first option) so the
+  // shell mounts; toRung teleports rungs but never plays the intro (qa-playtesting.md).
+  {
+    name: '02b-intro-decide',
+    run: `document.querySelector('.intro-choice')?.click()`,
+    wait: 500,
+  },
+  { name: '02c-intro-done', run: `document.querySelector('.intro-continue')?.click()`, wait: 800 },
   { name: '03-r1', run: `__qa.toRung('R1')`, wait: 2200 },
   { name: '04-r2-work', run: `__qa.toRung('R2')`, wait: 2200 },
-  // The Estate card is live from ~R1; the survey-sheet map (ADR-151) from R1's gate reveal.
-  { name: '05-r2-estate', run: clickTab('Estate') },
+  // IA reorg (ADR-112): skills is a section of the Character 己 tab (present from R2).
+  { name: '05-r2-skills', run: clickTab('Character') },
   { name: '06-map', run: clickTab('地図') },
   {
     // Step 5b: foes are spatial — stand on the grove (the monkey troop's ground in the shipped
