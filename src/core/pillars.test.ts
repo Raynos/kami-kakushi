@@ -30,11 +30,15 @@ function atPhase2(): GameState {
 }
 const zero = { value: 0, highWater: 0, judged: 0 } as const;
 
-describe('Estate pillar — grade bands + per-deed cap (M2·3)', () => {
-  it('gradeOf steps NONE→GOOD→GREAT→EXCELLENT on the bands', () => {
+describe('Estate pillar — grade bands + per-deed cap (M2·3, six-step per ADR-159/C4.7)', () => {
+  it('gradeOf steps FAIL→BAD→OK→GOOD→GREAT→EXCELLENT on the bands (derived from the source)', () => {
     const b = balance.ESTATE_BANDS;
-    expect(gradeOf(0)).toBe('NONE');
-    expect(gradeOf(b.good - 1)).toBe('NONE');
+    expect(gradeOf(0)).toBe('FAIL');
+    expect(gradeOf(b.bad - 1)).toBe('FAIL');
+    expect(gradeOf(b.bad)).toBe('BAD');
+    expect(gradeOf(b.ok - 1)).toBe('BAD');
+    expect(gradeOf(b.ok)).toBe('OK');
+    expect(gradeOf(b.good - 1)).toBe('OK');
     expect(gradeOf(b.good)).toBe('GOOD');
     expect(gradeOf(b.great)).toBe('GREAT');
     expect(gradeOf(b.excellent)).toBe('EXCELLENT');
@@ -287,7 +291,7 @@ describe('ADR-145 — estateBuild is the ONE build read (Phase 4 DoD, AC-6/TST4)
 
 describe('estateGrade reads the live pillar', () => {
   it('reflects accrued standing', () => {
-    expect(estateGrade(createInitialState(1))).toBe('NONE');
+    expect(estateGrade(createInitialState(1))).toBe('FAIL'); // a fresh house starts failing (ADR-159)
     const rich: GameState = {
       ...createInitialState(1),
       influence: { estate: { value: balance.ESTATE_BANDS.excellent, highWater: 999, judged: 0 } },

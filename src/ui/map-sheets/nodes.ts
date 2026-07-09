@@ -3,6 +3,7 @@
 // sheets). Positions live in layout.ts (the ONE master geography) — a node here is
 // pure narrative data: what the zone IS, never where it sits or how it draws.
 
+import { FLAVOR } from '../../core/content/flavor';
 import { RANKS } from '../../core';
 
 export type ZoneKind = 'estate' | 'grounds' | 'combat' | 'activity' | 'scenery';
@@ -64,9 +65,7 @@ export const T0_NODES: readonly SheetNode[] = [
       'hidden: search the reeds — his washed-up bundle, a water-ruined paper',
     ],
     who: ['Sōan passes on his rounds'],
-    wrong:
-      'Offerings appear at the jizō that nobody admits to leaving — a long-running mystery ' +
-      '(it has an authored answer, revealed in a later tier).',
+    wrong: FLAVOR.nodeWeirRiverbankWrong,
   },
   {
     id: 'weir-reeds',
@@ -81,10 +80,7 @@ export const T0_NODES: readonly SheetNode[] = [
       'Wade the shallows',
     ],
     who: ['Matsuzō counts the damage from his side of the water'],
-    wrong:
-      'The rats always come from UPSTREAM — something upstream feeds them (a T1 thread: the old ' +
-      'breach pools).',
-    combat: 'Grindable loop — rats vs the leased screens; rats swarm at harvest storage.',
+    wrong: FLAVOR.nodeWeirReedsWrong,
   },
   {
     id: 'gate',
@@ -100,7 +96,7 @@ export const T0_NODES: readonly SheetNode[] = [
       'Yohei on his market days',
       'Iori lodges here in the New Year & Bon seasons',
     ],
-    wrong: "The gate's crest board is newer than the gate — the old one is not discussed.",
+    wrong: FLAVOR.nodeGateGateyardWrong,
   },
   {
     id: 'forecourt',
@@ -110,7 +106,7 @@ export const T0_NODES: readonly SheetNode[] = [
     blurb: "The working heart of the guest house's outer court.",
     actions: ['Rake (the first verb)', 'Haul', 'Stack', 'Odd jobs'],
     who: ["Genemon's window overlooks it; the day-book lives off it"],
-    wrong: 'The court is sized for a household five times this one.',
+    wrong: FLAVOR.nodeForecourtWrong,
   },
   {
     id: 'woodshed',
@@ -135,9 +131,7 @@ export const T0_NODES: readonly SheetNode[] = [
       'Genemon states terms at it',
       'O-Yae, the scullery day-girl, by day (the gossip conduit)',
     ],
-    wrong:
-      "The steward's papers share the kitchen — an estate compressed into a guest house (the " +
-      'twist, hiding in plain sight).',
+    wrong: FLAVOR.nodeKitchenThresholdWrong,
   },
   {
     id: 'shrine',
@@ -149,9 +143,7 @@ export const T0_NODES: readonly SheetNode[] = [
       'entered in T1.',
     actions: ['Glimpse only (this tier)'],
     who: ['Toku tends it'],
-    wrong:
-      'Rites set out for a dead man — and the straw sandals face AWAY from the house, renewed ' +
-      'this year.',
+    wrong: FLAVOR.nodeShrineCorridorWrong,
   },
   {
     id: 'kura',
@@ -161,9 +153,7 @@ export const T0_NODES: readonly SheetNode[] = [
     blurb: "The working storehouse; the grain-watch's post.",
     actions: ['Load / unload', 'The night watch (R3)', 'The wolf fight'],
     who: ['Kihei sets the watch'],
-    wrong:
-      "The kura's seal-plate carries a crest with ONE more petal than the gate's — the old " +
-      "seat's crest; nobody reads it aloud.",
+    wrong: FLAVOR.nodeKuraWrong,
   },
   {
     id: 'sickroom',
@@ -175,7 +165,7 @@ export const T0_NODES: readonly SheetNode[] = [
       'and lose days.',
     actions: ['Treatment (injury recovery)', 'The R0 examination', 'Quiet questions not asked'],
     who: ['Sōan'],
-    wrong: 'He keeps notes on the MC’s healing in a ledger he closes when anyone enters.',
+    wrong: FLAVOR.nodeSickroomWrong,
   },
   {
     id: 'drill-yard',
@@ -189,7 +179,7 @@ export const T0_NODES: readonly SheetNode[] = [
       "The field-guide's first pages",
     ],
     who: ['Kihei, always', 'Shinnosuke watching from the wall'],
-    wrong: 'Stable stalls for twenty horses; the house owns one mule.',
+    wrong: FLAVOR.nodeDrillYardWrong,
   },
   {
     id: 'paddies',
@@ -203,8 +193,7 @@ export const T0_NODES: readonly SheetNode[] = [
       'village women at harvest',
       "O-Ume's plot at the edge",
     ],
-    wrong:
-      'Boundary stones stand far beyond the worked rows — the fields were once four times wider.',
+    wrong: FLAVOR.nodeHomePaddyWrong,
   },
   {
     id: 'field-margins',
@@ -216,10 +205,7 @@ export const T0_NODES: readonly SheetNode[] = [
       'Folk-loaded animals played PLAIN (kernel #1).',
     actions: ['Drive the raiders (repeatable, harvest peaks)', 'Dig the setts', 'Set watch'],
     who: ["O-Ume's plot borders the worst of it; she thanks the kami, not the MC"],
-    wrong:
-      "An old sett runs UNDER the ruined compound's wall — a way in that nobody official knows " +
-      'exists.',
-    combat: 'Grindable loop — seasonal peaks at harvest.',
+    wrong: FLAVOR.nodeFieldMarginsWrong,
   },
   {
     id: 'woodlot',
@@ -235,7 +221,7 @@ export const T0_NODES: readonly SheetNode[] = [
       'hidden: the silted sluice the field-work keeps hinting at',
     ],
     who: ['Nobody — that is the point'],
-    wrong: 'Char marks on old stumps — a burn nobody dates.',
+    wrong: FLAVOR.nodeWoodlotEdgeWrong,
   },
   {
     id: 'ruined',
@@ -247,7 +233,7 @@ export const T0_NODES: readonly SheetNode[] = [
       'quarried for stones. LOCKED all tier; not even named honestly.',
     actions: ['None — scenery, locked all tier'],
     who: ['Nobody — and the household refuses to look at it'],
-    wrong: 'The whole node.',
+    wrong: FLAVOR.nodeRuinedCompoundWrong,
   },
   {
     id: 'orchard',
@@ -262,12 +248,7 @@ export const T0_NODES: readonly SheetNode[] = [
       'RECLAIM the orchard — repair-labour turns a threat into a food source',
     ],
     who: ['Nobody goes there; Kihei calls it "the dogs’ yard" without irony'],
-    wrong:
-      'Fruit trees planted in courtyard rows — an orchard laid out by someone who expected ' +
-      'paths and lanterns.',
-    combat:
-      'Authored chain — feral-dog stages → reclamation (combat converts to repair and income). ' +
-      'Side-beat: the dog that stays.',
+    wrong: FLAVOR.nodeOvergrownOrchardWrong,
   },
   {
     id: 'grove',
@@ -283,10 +264,7 @@ export const T0_NODES: readonly SheetNode[] = [
       'Cut bamboo (craft material)',
     ],
     who: ['Shinnosuke sneaks here against all instruction'],
-    wrong:
-      'A cut-bamboo waymark renewed each season — far too old a habit for anyone who’ll ' +
-      'claim it.',
-    combat: "Grindable loop — the troop's big male is its mini-cap.",
+    wrong: FLAVOR.nodeBambooGroveWrong,
   },
   {
     id: 'night-rounds',

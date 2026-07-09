@@ -247,3 +247,25 @@ lines are ephemeral (Now view, FB-53). Cadence = cockpit levers (ADR-132,
 sim-owned). texture.test.ts: 6 tests (pools registry-derived, lever gates,
 determinism + own-stream isolation, pre-wake silence). Sim: 6 pre-existing
 REDs unchanged.
+
+## C4.6 + C4.7 + C4.9 — one home for wrong-things; six-step grades; the legacy intro retired
+
+C4.6: `FLAVOR.nodeXWrong` (15 authored lines, all dead) is now THE single
+source: `MapNode.wrong` wires them into core; the play node card renders the
+wrong line (new `.map-wrong` register, 怪 + muted shu); the survey-sheet's
+private paraphrases (one even broke fiction voice with "has an authored
+answer, revealed in a later tier") are replaced by the same FLAVOR refs.
+Woodshed + night-rounds keep their local lines (no FLAVOR source authored —
+nothing invented). C4.7: `Grade` widened to the LOCKED six-step ladder
+(ADR-159 — FAIL·BAD·OK·GOOD·GREAT·EXCELLENT, worn as the classical
+不可·劣·可·良·優·秀); ESTATE_BANDS gains bad/ok (80/160 — sim-owned
+intermediates; the EXCELLENT=480 T0 gate untouched); cockpit + canon + CSS
+rows follow; PRD §1.6 verified already six-step (no edit). Per-grade judge
+LINE variety = C5a unit 4. C4.9: the legacy pre-reboot intro scenes (dream +
+genemon) DELETED — intro.md's own comments confirmed take-a's fused soan
+scene carries their threads (the r0-knot option IS the porter/dream fork);
+INTRO_SCENE_ORDER → ['soan']; the intro is ONE scene. Tests re-anchored on
+soan (the gate machinery now exercised on a constructed scene — no gated
+topic ships); the cold-open fixture spec asks Sōan twice instead of
+one-per-character; the render 'decision-only scene' test left with the
+content that drove it. Sim: 6 pre-existing REDs unchanged.

@@ -23,20 +23,28 @@ import { applyRewards } from './rewards';
 import { setFlag } from './state';
 import { FLAVOR } from './content/flavor';
 
-export type Grade = 'NONE' | 'GOOD' | 'GREAT' | 'EXCELLENT';
+/** The LOCKED six-step pillar ladder (ADR-159: FAIL·BAD·OK·GOOD·GREAT·EXCELLENT —
+ *  不可·劣·可·良·優·秀). C4.7 closed the build's 4-step divergence (the PRD §1.6 already
+ *  spoke six-step; the docs were AHEAD of the build here). The T0 ascension gate is
+ *  unchanged: top grade = EXCELLENT. */
+export type Grade = 'FAIL' | 'BAD' | 'OK' | 'GOOD' | 'GREAT' | 'EXCELLENT';
 
 export interface GradeBands {
+  readonly bad: number;
+  readonly ok: number;
   readonly good: number;
   readonly great: number;
   readonly excellent: number;
 }
 
-/** The grade a pillar value earns (the ascension gate reads this; ADR-049/ADR-057). */
+/** The grade a pillar value earns (the ascension gate reads this; ADR-049/ADR-057/ADR-159). */
 export function gradeOf(value: number, bands: GradeBands = ESTATE_BANDS): Grade {
   if (value >= bands.excellent) return 'EXCELLENT';
   if (value >= bands.great) return 'GREAT';
   if (value >= bands.good) return 'GOOD';
-  return 'NONE';
+  if (value >= bands.ok) return 'OK';
+  if (value >= bands.bad) return 'BAD';
+  return 'FAIL';
 }
 
 /** The cap a single deed may contribute (0.04 · GOOD) — no one act spikes the grade. At T0 the sole

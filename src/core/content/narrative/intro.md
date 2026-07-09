@@ -1,6 +1,6 @@
-<!-- The interactive intro (3 VN scenes: soan / dream / genemon — the fixed
-  order the engine cursor + v3→v4 migration assume, enforced by validate.ts
-  INTRO_SCENE_ORDER) — the AUTHORING SOURCE OF TRUTH (FB-5). Compiled to
+<!-- The interactive intro (ONE VN scene: soan — the fused take-a sickroom
+  scene; order enforced by validate.ts INTRO_SCENE_ORDER) — the AUTHORING
+  SOURCE OF TRUTH (FB-5). Compiled to
   src/core/content/intro.gen.ts by `pnpm run gen:narrative`; types + helpers stay
   in intro.ts. Every option is a NET-ZERO +1/−1 lean (stat:) and grants a perk
   (perk:); `say:` overrides the label as the MC's spoken line. `@…` lines REUSE
@@ -14,13 +14,11 @@
   toward the concrete object (VERDICT redline 3, suggested — a judgment edit, see
   HD-30 note); day-book "three days" lives in cold-open.md.
 
-  HD-30 GAP — scenes `dream` + `genemon` are LEGACY (pre-reboot fiction), kept
-  because validate.ts hard-requires exactly [soan, dream, genemon] and take-a
-  supplies a SINGLE fused sickroom scene (its Genemon + dream/porter threads fold
-  into `soan` above — the r0-knot option IS the porter/dream fork). The full
-  reshape to the new single-scene intro needs the INTRO_SCENE_ORDER validator
-  change (a later G4 chunk); fabricating replacement fiction here would violate
-  "never invent fiction." Flagged for the human. -->
+  C4.9 (the G4.1 reshape, FINISHED) — the legacy pre-reboot scenes `dream` +
+  `genemon` are DELETED: take-a supplies a SINGLE fused sickroom scene (its
+  Genemon + dream/porter threads fold into `soan` — the r0-knot option IS the
+  porter/dream fork), so the intro is exactly [soan] and the validator's
+  INTRO_SCENE_ORDER matches. Git history keeps the legacy fiction. -->
 
 ## scene soan
 speaker: soan
@@ -132,110 +130,3 @@ notches hold."
 stat: +int -agi
 perk: The Notched Post — a day cut where fever cannot blur it.
 memory: soan +0 (methodical)
-
-<!-- HD-30 LEGACY (pre-reboot fiction) — see the header note. Kept only to
-  satisfy INTRO_SCENE_ORDER; the porter/dream thread now lives in scene soan's
-  r0-knot option above. -->
-
-## scene dream
-voice: narrator
-
-@cold-open.dream
-
-### decide · The fragment tugs. Do you follow it?
-
-#### dream-dwell · Dwell on it
-say: "Hold the road. The rain. Almost a name."
-
-> You chase it inward — and the ache in your skull chases you back. The name
-> stays lost, but the habit of looking sets in.
-
-stat: +int -spd
-perk: The Inward Turn — A mind that deepens by dwelling, at the price of a
-  slower body.
-
-#### dream-shake · Shake it off
-say: "Later. The body is here; the past isn't."
-
-> You let it go and the room sharpens — the slats of light, the way out.
-
-stat: +spd -int
-perk: The Clear Room — Senses sharpened to the way out — quick where thought is
-  thin.
-
-#### dream-hands · Trust the hands
-say: "A porter's knot. My hands know this much."
-
-> Your fingers move before you decide to — a labourer's memory, still in the
-> muscle.
-
-stat: +str -luck
-perk: The Porter's Hands — Hands that remember the work before the head does.
-
-<!-- HD-30 LEGACY (pre-reboot fiction) — Genemon's sickroom entrance + day-book
-  are migrated into scene soan above; this standalone board scene is legacy
-  pending the intro reshape. -->
-
-## scene genemon
-speaker: genemon
-voice: steward
-
-Genemon: @dialogue.genemon-open/gen-greet
-
-### ask gen-house · "What house is this?"
-
-Genemon: "The {house}. A great name gone to seed — samurai on the rolls, paupers
-in the granary. I've kept it upright since the last master could not, and I'll
-keep it upright when you can't either."
-
-### ask gen-work · "What work is there?"
-
-Genemon: "Rice to rake, a paddy to tend, a storehouse standing half-empty.
-Honest labour and no shortage of it. Earn your keep and there's a dry corner and
-a bowl in it — that's the whole of what I can promise."
-
-### ask gen-you · "And who are you to me?"
-
-Genemon: "Steward. I run the estate; you'll learn it, or you won't eat. Do as I
-say on the house's matters and we'll get on well enough."
-
-### ask gen-danger · "Is it safe here?"
-after: gen-work
-
-Genemon: "Safe as anywhere the lord's men don't ride. There's a wolf gone bold
-at the grain store, and worse up in the hills. But that's tomorrow's trouble.
-Today it's rice."
-
-### decide · How do you answer the steward?
-
-#### genemon-earnest · Earnest — point me at the work
-say: "I'll earn my keep. Point me at it."
-
-Genemon: "...Good. The house has had its fill of hands that don't. We'll see if
-you mean it."
-
-stat: +str -agi
-perk: {elder}'s Charge — Honest muscle set plainly to the task — sure over
-  nimble.
-memory: genemon +1 (earnest)
-
-#### genemon-wary · Wary — what's in it for me
-say: "A samurai house with an empty granary. What's in it for me?"
-
-Genemon: "An honest question, and a cold one. Rice and a dry corner — that's the
-whole of what I can promise. Take it or walk."
-
-stat: +agi -str
-perk: The Wary Foot — A guard kept up and light on the feet — quick to move
-  before committing.
-memory: genemon -1 (wary)
-
-#### genemon-steady · Silent — just get to work
-say: (You say nothing, and reach for the spilled rice.)
-
-Genemon: "...A man who works before he talks. Rare. We'll get on."
-
-stat: +spd -luck
-perk: Hands Before Words — A steady quickness that answers with work — trusting
-  to no luck.
-memory: genemon +1 (steady)

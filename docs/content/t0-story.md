@@ -86,52 +86,6 @@
 - "The days. I'll count from this one." <small>· memory soan +0 (methodical) · stat +int −agi · perk “The Notched Post”</small>
   **Sōan:** "Day four, by mine. Yours can start where you like. Mark the post — notches hold."
 
-## Intro 2 · The dream-fragment
-
-> Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it.
-
-**Decide** — The fragment tugs. Do you follow it?
-
-- Dwell on it <small>· stat +int −spd · perk “The Inward Turn”</small>
-  *You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.*
-
-- Shake it off <small>· stat +spd −int · perk “The Clear Room”</small>
-  *You let it go and the room sharpens — the slats of light, the way out.*
-
-- Trust the hands <small>· stat +str −luck · perk “The Porter's Hands”</small>
-  *Your fingers move before you decide to — a labourer's memory, still in the muscle.*
-
-## Intro 3 · Genemon the steward
-
-**Genemon:** On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.
-
-**Ask** — "What house is this?"
-
-**Genemon:** "The Kurosawa. A great name gone to seed — samurai on the rolls, paupers in the granary. I've kept it upright since the last master could not, and I'll keep it upright when you can't either."
-
-**Ask** — "What work is there?"
-
-**Genemon:** "Rice to rake, a paddy to tend, a storehouse standing half-empty. Honest labour and no shortage of it. Earn your keep and there's a dry corner and a bowl in it — that's the whole of what I can promise."
-
-**Ask** — "And who are you to me?"
-
-**Genemon:** "Steward. I run the estate; you'll learn it, or you won't eat. Do as I say on the house's matters and we'll get on well enough."
-
-**Ask** — "Is it safe here?" *(after gen-work)*
-
-**Genemon:** "Safe as anywhere the lord's men don't ride. There's a wolf gone bold at the grain store, and worse up in the hills. But that's tomorrow's trouble. Today it's rice."
-
-**Decide** — How do you answer the steward?
-
-- Earnest — point me at the work <small>· memory genemon +1 (earnest) · stat +str −agi · perk “Genemon's Charge”</small>
-  **Genemon:** "...Good. The house has had its fill of hands that don't. We'll see if you mean it."
-
-- Wary — what's in it for me <small>· memory genemon -1 (wary) · stat +agi −str · perk “The Wary Foot”</small>
-  **Genemon:** "An honest question, and a cold one. Rice and a dry corner — that's the whole of what I can promise. Take it or walk."
-
-- Silent — just get to work <small>· memory genemon +1 (steady) · stat +spd −luck · perk “Hands Before Words”</small>
-  **Genemon:** "...A man who works before he talks. Rare. We'll get on."
-
 ## R1 · The day-hand 日雇
 
 > Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon calls you up from the step without looking up.

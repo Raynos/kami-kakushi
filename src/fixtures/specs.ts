@@ -195,9 +195,11 @@ const POST_COLD_OPEN_SPEC: FixtureSpec = {
     while (introActive(s.introBeat) && guard++ < 32) {
       const scene = introSceneAt(s.introBeat);
       if (!scene) break;
-      // one question to each character: the NPC scenes carry topics, the dream scene does not.
-      const topic = scene.topics[0];
-      if (topic) s = reduce(s, { type: 'ask_topic', topicId: topic.id });
+      // C4.9: the intro is the ONE fused sickroom scene — ask Sōan two questions
+      // (exploration is free), then decide.
+      for (const topic of scene.topics.slice(0, 2)) {
+        s = reduce(s, { type: 'ask_topic', topicId: topic.id });
+      }
       const opt = scene.decision.options[0];
       if (!opt) break;
       s = reduce(s, { type: 'choose_intro', optionId: opt.id });
@@ -212,7 +214,7 @@ const POST_COLD_OPEN_SPEC: FixtureSpec = {
     );
     must(
       s.askedTopics.length >= 2,
-      `expected at least the two asked topics (one per character), got ${s.askedTopics.length}`,
+      `expected at least two asked topics (the sickroom hub grilled), got ${s.askedTopics.length}`,
     );
   },
 };

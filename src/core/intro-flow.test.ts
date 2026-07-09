@@ -75,26 +75,13 @@ describe('interactive intro — reducer flow (plan §3.5)', () => {
 
   it('the memory write lands on the RIGHT NPC only — never cross-fed', () => {
     const s = wake();
-    // Beat 0 → answer Sōan (writes soan only, whatever the re-authored regard); genemon stays unwritten.
+    // The sickroom beat answers Sōan (writes soan only); every other NPC stays unwritten.
     const soanOpt = INTRO_BEATS[0]!.options!.find((o) => o.memory)!; // derived: the first Sōan option with a memory write
     expect(soanOpt.memory!.npc).toBe('soan');
     const afterSoan = reduce(s, { type: 'choose_intro', optionId: soanOpt.id });
     expect(npcRegard(afterSoan, 'soan')).toBe(soanOpt.memory!.regard);
     expect(afterSoan.npcMemory.soan?.warmth).toBe(soanOpt.memory!.warmth);
     expect(afterSoan.npcMemory.genemon).toBeUndefined(); // Sōan's answer never touches Genemon
-
-    // …advance through the dream (Beat 1, no memory) then answer Genemon earnestly (writes genemon).
-    const afterDream = reduce(afterSoan, {
-      type: 'choose_intro',
-      optionId: INTRO_BEATS[1]!.options![0]!.id,
-    });
-    expect(afterDream.npcMemory.genemon).toBeUndefined(); // the dream writes NOTHING
-    const earnest = INTRO_BEATS[2]!.options!.find((o) => o.memory?.regard === 'earnest')!;
-    expect(earnest.memory!.npc).toBe('genemon');
-    const afterGen = reduce(afterDream, { type: 'choose_intro', optionId: earnest.id });
-    // both memories now coexist, independently: Sōan's regard + warm Genemon
-    expect(npcRegard(afterGen, 'soan')).toBe(soanOpt.memory!.regard);
-    expect(npcRegard(afterGen, 'genemon')).toBe('earnest');
   });
 
   it('the beat sequence advances 0→3 and COMPLETES, dropping into normal play with the rake verb', () => {
@@ -153,11 +140,14 @@ describe('per-NPC memory READ — a later Sōan line branches on regard (plan §
   });
 
   it('the read is per-NPC: Genemon regard does NOT change which Sōan greeting shows', () => {
-    // a real (non-grateful) Sōan answer → cool; an earnest Genemon must not warm the Sōan greeting.
+    // a real (non-grateful) Sōan answer → cool; an earnest Genemon (seeded directly — no
+    // intro beat writes genemon since the C4.9 reshape) must not warm the Sōan greeting.
     const soanOpt = INTRO_BEATS[0]!.options!.find((o) => o.memory)!;
-    let s = reduce(wake(), { type: 'choose_intro', optionId: soanOpt.id });
-    s = reduce(s, { type: 'choose_intro', optionId: INTRO_BEATS[1]!.options![0]!.id }); // dream
-    s = reduce(s, { type: 'choose_intro', optionId: 'genemon-earnest' });
+    const s0 = reduce(wake(), { type: 'choose_intro', optionId: soanOpt.id });
+    const s = {
+      ...s0,
+      npcMemory: { ...s0.npcMemory, genemon: { regard: 'earnest', warmth: 1 } },
+    };
     expect(npcRegard(s, 'genemon')).toBe('earnest');
     expect(soanGreetIds(s)).toEqual(['soan-greet-curt']); // unaffected by Genemon
   });

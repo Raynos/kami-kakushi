@@ -27,10 +27,10 @@
       "satiety": 30,
       "attributePoints": 0,
       "attrs": {
-        "str": 6,
-        "agi": 5,
-        "int": 5,
-        "spd": 4,
+        "str": 5,
+        "agi": 6,
+        "int": 4,
+        "spd": 5,
         "luck": 5
       },
       "level": 1,
@@ -268,72 +268,6 @@
         },
         {
           "key": 24,
-          "channel": "narration",
-          "text": "Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 25,
-          "channel": "narration",
-          "text": "\"Hold the road. The rain. Almost a name.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Nameless",
-          "voice": "player"
-        },
-        {
-          "key": 26,
-          "channel": "narration",
-          "text": "You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 27,
-          "channel": "milestone",
-          "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
-          "tick": 0,
-          "count": 1
-        },
-        {
-          "key": 28,
-          "channel": "narration",
-          "text": "On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
-          "key": 29,
-          "channel": "narration",
-          "text": "\"I'll earn my keep. Point me at it.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Nameless",
-          "voice": "player"
-        },
-        {
-          "key": 30,
-          "channel": "narration",
-          "text": "\"...Good. The house has had its fill of hands that don't. We'll see if you mean it.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
-          "key": 31,
-          "channel": "milestone",
-          "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
-          "tick": 0,
-          "count": 1
-        },
-        {
-          "key": 32,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 0,
@@ -342,7 +276,7 @@
           "ephemeral": true
         },
         {
-          "key": 33,
+          "key": 25,
           "channel": "narration",
           "text": "So you put your hands to it. Rake what grain is still whole back toward the basket, a fistful at a time. We reckon a samurai house’s worth in koku — a year’s eating for one man — and every basket you save us is a measure we need not go begging to the lord to make good.",
           "tick": 0,
@@ -351,7 +285,7 @@
           "voice": "steward"
         },
         {
-          "key": 34,
+          "key": 26,
           "channel": "narration",
           "text": "You can stop now, when the day is done — set the work down, and let the body take back what it can.",
           "tick": 2,
@@ -359,7 +293,7 @@
           "voice": "narrator"
         },
         {
-          "key": 35,
+          "key": 27,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 2,
@@ -368,7 +302,7 @@
           "ephemeral": true
         },
         {
-          "key": 36,
+          "key": 28,
           "channel": "narration",
           "text": "Clear it without my standing over you, and you'll have earned your rice and a dry corner to sleep in. I'll make you no grander promise than that. In this house, none of us holds one.",
           "tick": 2,
@@ -377,7 +311,7 @@
           "voice": "steward"
         },
         {
-          "key": 37,
+          "key": 29,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 4,
@@ -386,7 +320,7 @@
           "ephemeral": true
         },
         {
-          "key": 38,
+          "key": 30,
           "channel": "narration",
           "text": "\"...You don't shirk the work,\" Genemon says, eyeing the cleared boards and the filling basket. \"The house has had its fill of hands that do. Earn your keep, and a place here is yours.\"",
           "tick": 4,
@@ -394,7 +328,7 @@
           "voice": "narrator"
         },
         {
-          "key": 39,
+          "key": 31,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 18,
@@ -403,7 +337,7 @@
           "ephemeral": true
         },
         {
-          "key": 40,
+          "key": 32,
           "channel": "narration",
           "text": "\"So he can work,\" Genemon says, in the way another man says good morning.",
           "tick": 18,
@@ -411,7 +345,7 @@
           "voice": "narrator"
         },
         {
-          "key": 41,
+          "key": 33,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 14,
@@ -420,7 +354,7 @@
           "ephemeral": true
         },
         {
-          "key": 42,
+          "key": 34,
           "channel": "narration",
           "text": "\"Still at it,\" Genemon says, passing the granary door without stopping.",
           "tick": 14,
@@ -428,7 +362,7 @@
           "voice": "narrator"
         },
         {
-          "key": 43,
+          "key": 35,
           "channel": "system",
           "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
           "tick": 16,
@@ -437,7 +371,7 @@
           "ephemeral": true
         },
         {
-          "key": 44,
+          "key": 36,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 22,
@@ -446,7 +380,7 @@
           "ephemeral": true
         },
         {
-          "key": 45,
+          "key": 37,
           "channel": "narration",
           "text": "Married out to the next valley: a charcoal-burner's daughter, in the house's harvest weeks. The news and the wedding sweets arrived a week apart, both a little stale.",
           "tick": 0,
@@ -455,7 +389,7 @@
           "ephemeral": true
         },
         {
-          "key": 46,
+          "key": 38,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 10,
@@ -464,7 +398,7 @@
           "ephemeral": true
         },
         {
-          "key": 47,
+          "key": 39,
           "channel": "system",
           "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
           "tick": 12,
@@ -473,7 +407,7 @@
           "ephemeral": true
         },
         {
-          "key": 48,
+          "key": 40,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
           "tick": 0,
@@ -482,7 +416,7 @@
           "ephemeral": true
         },
         {
-          "key": 49,
+          "key": 41,
           "channel": "narration",
           "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
           "tick": 0,
@@ -490,7 +424,7 @@
           "voice": "narrator"
         }
       ],
-      "seq": 50
+      "seq": 42
     },
     "skillXp": {},
     "deliveredDialogue": [
@@ -504,13 +438,9 @@
       "soan": {
         "regard": "noted",
         "warmth": 1
-      },
-      "genemon": {
-        "regard": "earnest",
-        "warmth": 1
       }
     },
-    "introBeat": 3,
+    "introBeat": 1,
     "rungBeat": null,
     "askedTopics": [],
     "quests": {

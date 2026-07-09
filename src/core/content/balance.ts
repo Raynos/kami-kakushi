@@ -74,7 +74,9 @@ export const PHASE2_PHASE1_RATIO_MAX = 1.2;
 // grade bands + the deed/seasonal accrual rates. All PROVISIONAL T0 magnitudes (liquid, ADR-059
 // — re-derived at Ship-M1-F2); chosen so the THIN spine demonstrably CLOSES (deeds → EXCELLENT
 // → ascension) and the season judge is a visible beat. ──
-export const ESTATE_BANDS = { good: 240, great: 360, excellent: 480 } as const;
+// C4.7 (ADR-159): the six-step ladder's lower rungs — BAD/OK thresholds are sim-owned
+// intermediate steps (ADR-132); the T0 ascension gate stays EXCELLENT (480), untouched.
+export const ESTATE_BANDS = { bad: 80, ok: 160, good: 240, great: 360, excellent: 480 } as const;
 /** Per-deed cap = this/100 · GOOD (anti-spike: one deed can't jump the grade). 0.04·240 ≈ 10. */
 export let PER_DEED_CAP_NUM = 4;
 /** Estate standing a single Phase-2 labour act banks (a "deed") — a SUB-koku fraction, accumulated
@@ -557,6 +559,10 @@ export function readBalanceLever(path: string): number {
     case 'SATIETY_PER_REST':
       return SATIETY_PER_REST;
     // W4 · capstone pacing
+    case 'ESTATE_BANDS.bad':
+      return ESTATE_BANDS.bad;
+    case 'ESTATE_BANDS.ok':
+      return ESTATE_BANDS.ok;
     case 'ESTATE_BANDS.good':
       return ESTATE_BANDS.good;
     case 'ESTATE_BANDS.great':
@@ -662,6 +668,12 @@ export function __setBalanceLever(path: string, value: number): void {
       SATIETY_PER_REST = value;
       return;
     // W4 — ESTATE_BANDS is `as const` (compile-time readonly); cast to mutate the runtime object.
+    case 'ESTATE_BANDS.bad':
+      (ESTATE_BANDS as { bad: number }).bad = value;
+      return;
+    case 'ESTATE_BANDS.ok':
+      (ESTATE_BANDS as { ok: number }).ok = value;
+      return;
     case 'ESTATE_BANDS.good':
       (ESTATE_BANDS as { good: number }).good = value;
       return;
@@ -765,6 +777,8 @@ export const BALANCE_CANON: Readonly<Record<string, number>> = Object.freeze({
   EAT_RICE_SATIETY,
   EAT_RICE_COST,
   SATIETY_PER_REST,
+  'ESTATE_BANDS.bad': ESTATE_BANDS.bad,
+  'ESTATE_BANDS.ok': ESTATE_BANDS.ok,
   'ESTATE_BANDS.good': ESTATE_BANDS.good,
   'ESTATE_BANDS.great': ESTATE_BANDS.great,
   'ESTATE_BANDS.excellent': ESTATE_BANDS.excellent,

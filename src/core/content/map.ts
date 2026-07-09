@@ -7,6 +7,8 @@
 // content/surfaces room-unlock id gated on that rung. Pure data + pure helpers (no DOM,
 // no RNG). Immutable-in/immutable-out; the caller passes a plain `revealed` set.
 
+import { FLAVOR } from './flavor';
+
 export type MapNodeId = string;
 
 export interface MapNode {
@@ -14,6 +16,10 @@ export interface MapNode {
   readonly label: string;
   readonly kanji?: string;
   readonly blurb: string;
+  /** The node's WRONG thing (bible: every zone carries one) — the FLAVOR nodeXWrong line,
+   *  the ONE source the play card and the survey-sheet detail pane both read (C4.6/TST1).
+   *  Absent where none is authored (the woodshed's warmth is earned). */
+  readonly wrong?: string;
   /** Adjacent nodes (symmetric: if A lists B, B lists A — verified by the test). */
   readonly neighbors: readonly MapNodeId[];
   /** The surface/flag that must be in `revealed` before this node is walkable; an
@@ -42,6 +48,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The weir & riverbank',
     kanji: '堰',
     blurb: 'Where the river left him; the weir-jizō stands here.',
+    wrong: FLAVOR.nodeWeirRiverbankWrong,
     neighbors: ['weir-reeds', 'paddies'],
     rung: 0,
     // No revealFlag: the cold open finds him here; the weir is always walkable.
@@ -51,6 +58,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: "Sōan's sickroom",
     kanji: '薬',
     blurb: "A lean-to surgery off the outer court — where the river's gift is carried.",
+    wrong: FLAVOR.nodeSickroomWrong,
     neighbors: ['forecourt'],
     rung: 0,
   },
@@ -59,6 +67,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The forecourt',
     kanji: '庭',
     blurb: "The working heart of the guest house's outer court — the first verb is here.",
+    wrong: FLAVOR.nodeForecourtWrong,
     neighbors: ['gate', 'kura', 'kitchen', 'woodshed', 'sickroom', 'drill-yard', 'paddies'],
     rung: 0,
   },
@@ -67,6 +76,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The kitchen threshold',
     kanji: '竈',
     blurb: "Meals at the threshold; the board where the household's shape is overheard.",
+    wrong: FLAVOR.nodeKitchenThresholdWrong,
     neighbors: ['forecourt', 'shrine'],
     rung: 0,
   },
@@ -75,6 +85,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The gate & gateyard',
     kanji: '門',
     blurb: "The estate's face, kept barely; Yohei's stall sets up here on market days.",
+    wrong: FLAVOR.nodeGateGateyardWrong,
     neighbors: ['forecourt'],
     revealFlag: 'room-gate',
     rung: 1,
@@ -93,6 +104,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The home paddy & vegetable rows',
     kanji: '田',
     blurb: "The guest house's skirts; the labour baseline — the deed engine's heart.",
+    wrong: FLAVOR.nodeHomePaddyWrong,
     neighbors: ['forecourt', 'weir', 'field-margins', 'woodlot'],
     revealFlag: 'room-paddies',
     // G4 — R1, NOT R2: R1→R2 requires farm_paddy (requirements.gen R1), so the paddy MUST be
@@ -104,6 +116,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The field margins',
     kanji: '畦',
     blurb: "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+    wrong: FLAVOR.nodeFieldMarginsWrong,
     neighbors: ['paddies', 'ruined'],
     revealFlag: 'room-field-margins',
     rung: 2,
@@ -114,6 +127,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The kura & grain-store',
     kanji: '蔵',
     blurb: "The working storehouse; the grain-watch's post.",
+    wrong: FLAVOR.nodeKuraWrong,
     neighbors: ['forecourt'],
     revealFlag: 'room-kura',
     rung: 3,
@@ -123,6 +137,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The woodlot edge',
     kanji: '林',
     blurb: "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+    wrong: FLAVOR.nodeWoodlotEdgeWrong,
     neighbors: ['paddies', 'orchard'],
     revealFlag: 'room-woodlot',
     // G4 — R2, NOT R3: R2→R3 requires woodcut_edge + forage_satoyama (both sited at the woodlot,
@@ -135,6 +150,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The weir reeds',
     kanji: '葦',
     blurb: 'River rats gnaw the weir screens the house leases from Matsuzō.',
+    wrong: FLAVOR.nodeWeirReedsWrong,
     neighbors: ['weir'],
     revealFlag: 'room-weir-reeds',
     rung: 3,
@@ -145,6 +161,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The drill yard',
     kanji: '稽',
     blurb: "The old stable court, repurposed — Kihei's ground. Opens at R4.",
+    wrong: FLAVOR.nodeDrillYardWrong,
     neighbors: ['forecourt'],
     revealFlag: 'room-drill-yard',
     rung: 4,
@@ -154,6 +171,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The shrine-alcove corridor',
     kanji: '祠',
     blurb: 'A family altar in a corridor — glimpsed once in T0, entered in T1.',
+    wrong: FLAVOR.nodeShrineCorridorWrong,
     neighbors: ['kitchen'],
     revealFlag: 'room-shrine',
     rung: 5,
@@ -163,6 +181,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The overgrown orchard',
     kanji: '園',
     blurb: "The old compound's orchard gone wild; feral dogs den in it, bold from lean winters.",
+    wrong: FLAVOR.nodeOvergrownOrchardWrong,
     neighbors: ['woodlot', 'ruined', 'grove'],
     revealFlag: 'room-orchard',
     rung: 5,
@@ -173,6 +192,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The bamboo grove',
     kanji: '竹',
     blurb: 'Behind the compound; the monkey troop raids the vegetable rows from it.',
+    wrong: FLAVOR.nodeBambooGroveWrong,
     neighbors: ['orchard'],
     revealFlag: 'room-grove',
     rung: 7,
@@ -183,6 +203,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The ruined compound',
     kanji: '廃',
     blurb: 'Beyond a rope and a warning: fallen roofs, a crumbled gate. Locked all tier.',
+    wrong: FLAVOR.nodeRuinedCompoundWrong,
     neighbors: ['field-margins', 'orchard'],
     locked: true,
   },

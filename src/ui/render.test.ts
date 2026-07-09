@@ -928,20 +928,9 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     expect(seen).toContainEqual({ type: 'choose_intro', optionId: opt.id });
   });
 
-  it('a decision-only scene (the dream — no topics) opens straight in the DECIDE grid', () => {
-    const dreamIdx = DIALOGUE_SCENES.findIndex((s) => s.topics.length === 0);
-    expect(dreamIdx).toBeGreaterThanOrEqual(0);
-    const { render } = spyMount();
-    render(introState(dreamIdx), null);
-    expect(shown('.vn-decide')).toBe(true);
-    expect(root.querySelector('.vn-choices.vn-grid')).not.toBeNull();
-    expect(root.querySelector('.intro-ask')).toBeNull(); // no ask hub for a topic-less scene
-    expect(root.querySelector('.intro-done')).toBeNull();
-    // the prompt still types into the story on entry (nothing pops in un-typed — FB-82/FB-83).
-    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
-      DIALOGUE_SCENES[dreamIdx]!.decision.prompt,
-    );
-  });
+  // (The "decision-only scene opens straight in DECIDE" test left with C4.9's intro
+  // reshape — no topic-less intro scene ships (the legacy dream was the only one; the
+  // renderer branch stays for a future topic-less scene, and git history keeps the test).
 
   // FB-88 — EVERY voiced line carries its speaker-name prefix, not just the player's. The NPC greeting
   // (a non-player line) must render "<name>: " the same way the player's "You: " does.

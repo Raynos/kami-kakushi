@@ -959,6 +959,7 @@ export function mount(
     loc: HTMLElement;
     kanji: HTMLElement;
     blurb: HTMLElement;
+    wrongEl: HTMLElement; // C4.6 — the node's wrong-thing line (one FLAVOR source with the sheet)
     // FB-102 — the Map splits into TWO sections: (a) the bordered you-are-here FLAVOR card above
     // (card/loc/kanji/blurb), and (b) the estate map below — the 絵図 survey-plan sheet (the
     // HR-7 human pick) — a sibling of the flavor card, not nested in it. The sheet is a wholesale
@@ -1533,13 +1534,23 @@ export function mount(
   const LIVE_ARIA = "The House's koku standing";
   const LOCKED_ARIA = "The House's koku standing — opens once you are trusted of the house";
   function gradeWordFor(grade: ReturnType<typeof estateGrade>): string {
-    return grade === 'EXCELLENT'
-      ? 'Excellent 秀'
-      : grade === 'GREAT'
-        ? 'Great 優'
-        : grade === 'GOOD'
-          ? 'Good 良'
-          : 'Unranked';
+    // C4.7 (ADR-159) — the six-step ladder wears the classical grade kanji
+    // (不可·劣·可·良·優·秀). Mechanical labels; the day-book judge's per-grade
+    // LINE variety is fiction and rides the C5a wave.
+    switch (grade) {
+      case 'EXCELLENT':
+        return 'Excellent 秀';
+      case 'GREAT':
+        return 'Great 優';
+      case 'GOOD':
+        return 'Good 良';
+      case 'OK':
+        return 'Fair 可';
+      case 'BAD':
+        return 'Poor 劣';
+      case 'FAIL':
+        return 'Failing 不可';
+    }
   }
   // the DEV-path ascension foot (a fresh wholesale build each render). The incremental prod/test
   // path toggles the equivalent foot sub-sections in place; only the DEV path appends fresh nodes.
@@ -5078,6 +5089,11 @@ export function mount(
       h.append(loc, kanji);
       const blurb = el('div', 'skill-blurb');
       card.append(h, blurb);
+      // C4.6 — the node's WRONG thing (bible: every zone carries one) reads on the play card
+      // too, from the ONE FLAVOR source the sheet detail pane shares. Hidden when the node
+      // has none (the woodshed's warmth is earned).
+      const wrongEl = el('div', 'map-wrong skill-blurb');
+      card.append(wrongEl);
       mapPane.append(card);
       // (b) the survey sheet's mount — a SIBLING of the flavor card, filled behind the sig guard.
       const nav = el('div', 'map-nav');
@@ -5089,11 +5105,14 @@ export function mount(
       const whosList = el('div', 'whos-list');
       whos.append(whosList);
       mapPane.append(whos);
-      mapRefs = { card, loc, kanji, blurb, nav, sig: '', whos, whosList };
+      mapRefs = { card, loc, kanji, blurb, wrongEl, nav, sig: '', whos, whosList };
     }
     const r = mapRefs;
     const here = getNode(state.location);
     fillMapHere(r.loc, r.kanji, here);
+    // C4.6 — the wrong thing, patched in place (present only where authored)
+    toggle(r.wrongEl, Boolean(here.wrong));
+    if (here.wrong) setText(r.wrongEl, `怪 ${here.wrong}`);
     // ADR-146 — the standing discovery hint reads as PART of the node description (diegetic,
     // P15 — never a banner/counter); it tightens as attempts climb and vanishes on the latch.
     // Text patch in place (P4); DEV story switcher live-swaps the line via its flavor key.

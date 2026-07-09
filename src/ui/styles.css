@@ -2964,8 +2964,16 @@ html {
 .grade-excellent {
   color: #6d5212; /* deep bronze (~4.9:1) */
 }
-.grade-none {
+/* C4.7 (ADR-159) — the six-step ladder's lower rungs. FAIL/BAD read in deepened shu
+   tones (AA on washi like the upper grades); OK sits neutral like the old unranked. */
+.grade-ok {
   color: var(--ink-faint);
+}
+.grade-bad {
+  color: #8a4436; /* muted deep shu (~4.6:1) */
+}
+.grade-fail {
+  color: #99301e; /* deep shu (~5:1) */
 }
 .influence-bar {
   position: relative;
@@ -3081,4 +3089,11 @@ html {
 [data-act-key].act-locked {
   opacity: 0.55;
   pointer-events: none;
+}
+
+/* C4.6 — the node's WRONG thing on the play card (one FLAVOR source with the sheet's
+   detail pane; the sheet's .t0v2-detail-wrong is its sibling register) */
+.map-wrong {
+  color: var(--shu);
+  opacity: 0.85;
 }

@@ -141,6 +141,21 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
     integer: true,
   },
   // W4 · capstone pacing
+  // C4.7 (ADR-159) — the six-step ladder's lower rungs (intermediate thresholds, sim-owned)
+  {
+    path: 'ESTATE_BANDS.bad',
+    label: 'Estate band · Poor 劣',
+    group: 'W4 · capstone pacing',
+    watch: 'W4',
+    integer: true,
+  },
+  {
+    path: 'ESTATE_BANDS.ok',
+    label: 'Estate band · Fair 可',
+    group: 'W4 · capstone pacing',
+    watch: 'W4',
+    integer: true,
+  },
   {
     path: 'ESTATE_BANDS.good',
     label: 'Estate band · Good',

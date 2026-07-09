@@ -47,9 +47,10 @@ export interface Verdict {
  *  registered voice is 'lord' — human call, 2026-07-05 (FB-5 plan Risks #3). */
 const VOICE_OVERRIDE_ALLOWED: ReadonlySet<string> = new Set(['munemasa:official']);
 
-/** The fixed intro scene order — the engine's `introBeat` cursor (0/1/2) and the v3→v4
- *  save migration both assume it (intro.ts scene-order note). */
-const INTRO_SCENE_ORDER = ['soan', 'dream', 'genemon'] as const;
+/** The fixed intro scene order — the engine's `introBeat` cursor assumes it. C4.9 (the
+ *  G4.1 reshape, finished): the intro is the ONE fused take-a sickroom scene; the legacy
+ *  pre-reboot dream/genemon filler is deleted (git history keeps it). */
+const INTRO_SCENE_ORDER = ['soan'] as const;
 
 const NPC_BY_NAME = new Map<string, NpcId>(
   (Object.entries(NPC_NAME) as [NpcId, string][]).map(([id, name]) => [name, id]),

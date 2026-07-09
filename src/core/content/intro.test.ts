@@ -16,13 +16,10 @@ import { NPC_IDS } from './voices';
 // so a content edit that breaks an invariant (a non-net-zero trade, a cross-fed memory write) goes
 // RED here rather than shipping.
 describe('INTRO_BEATS — the interactive-intro data (plan §3.4/§4)', () => {
-  it('is exactly the human-approved 3 beats: Sōan, the self-dream, Genemon', () => {
-    expect(INTRO_BEAT_COUNT).toBe(3);
-    expect(INTRO_BEATS.map((b) => b.id)).toEqual(['soan', 'dream', 'genemon']);
-    // Beats 1 & 3 are NPC beats (a speaker); Beat 2 is the self/narrator dream (no speaker).
+  it('is exactly the ONE fused sickroom beat: Sōan (C4.9 — the G4.1 reshape finished)', () => {
+    expect(INTRO_BEAT_COUNT).toBe(1);
+    expect(INTRO_BEATS.map((b) => b.id)).toEqual(['soan']);
     expect(INTRO_BEATS[0]!.speaker).toBe('soan');
-    expect(INTRO_BEATS[1]!.speaker).toBeUndefined();
-    expect(INTRO_BEATS[2]!.speaker).toBe('genemon');
   });
 
   it('every beat has a prompt, 3 options, non-empty setup, say + react copy', () => {
@@ -74,12 +71,11 @@ describe('INTRO_BEATS — the interactive-intro data (plan §3.4/§4)', () => {
     }
   });
 
-  it('memory writes are per-NPC and NEVER cross-fed: Beat 1 writes soan, Beat 3 writes genemon', () => {
-    const memNpcs = (i: number) =>
-      INTRO_BEATS[i]!.options!.map((o) => o.memory?.npc).filter((n) => n !== undefined);
-    expect(new Set(memNpcs(0))).toEqual(new Set(['soan'])); // Beat 1 → soan only
-    expect(memNpcs(1)).toEqual([]); // Beat 2 (dream) → no memory at all
-    expect(new Set(memNpcs(2))).toEqual(new Set(['genemon'])); // Beat 3 → genemon only
+  it('memory writes are per-NPC and NEVER cross-fed: the sickroom beat writes soan only', () => {
+    const memNpcs = INTRO_BEATS[0]!
+      .options!.map((o) => o.memory?.npc)
+      .filter((n) => n !== undefined);
+    expect(new Set(memNpcs)).toEqual(new Set(['soan']));
     // every memory NPC id is a real NpcId
     for (const beat of INTRO_BEATS) {
       for (const opt of beat.options!) {
@@ -143,9 +139,9 @@ describe('intro selectors', () => {
     }
   });
 
-  it('all 9 perk names are distinct (the milestone line must read as a specific unlock)', () => {
+  it('every perk name is distinct (the milestone line must read as a specific unlock)', () => {
     const names = INTRO_BEATS.flatMap((b) => b.options!.map((o) => o.perk.name));
-    expect(names.length).toBe(9);
-    expect(new Set(names).size).toBe(9);
+    expect(names.length).toBeGreaterThan(0);
+    expect(new Set(names).size).toBe(names.length);
   });
 });

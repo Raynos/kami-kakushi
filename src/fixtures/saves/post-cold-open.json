@@ -27,10 +27,10 @@
       "satiety": 64,
       "attributePoints": 0,
       "attrs": {
-        "str": 6,
-        "agi": 5,
-        "int": 5,
-        "spd": 4,
+        "str": 5,
+        "agi": 6,
+        "int": 4,
+        "spd": 5,
         "luck": 5
       },
       "level": 1,
@@ -262,6 +262,26 @@
         {
           "key": 23,
           "channel": "narration",
+          "text": "\"Someone on the bank said a god hid me.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "You",
+          "voice": "player",
+          "chat": true
+        },
+        {
+          "key": 24,
+          "channel": "narration",
+          "text": "\"Kamikakushi. The valley says it of every man the river takes and every child who runs off. Let them say it; it comforts them and costs you nothing. What took you was water.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician",
+          "chat": true
+        },
+        {
+          "key": 25,
+          "channel": "narration",
           "text": "\"My hands know a knot. I'll keep that.\"",
           "tick": 0,
           "count": 1,
@@ -269,7 +289,7 @@
           "voice": "player"
         },
         {
-          "key": 24,
+          "key": 26,
           "channel": "narration",
           "text": "You tie it in the cord of your own bedding: a carrier's hitch, fast and one-handed, twice. Sōan watches it both times. He does not write it down while you are looking.",
           "tick": 0,
@@ -278,100 +298,14 @@
           "voice": "physician"
         },
         {
-          "key": 25,
+          "key": 27,
           "channel": "milestone",
           "text": "Perk unlocked — The Carrier's Hitch: fast, one-handed, holds wet. (+1 AGI / −1 INT)",
           "tick": 0,
           "count": 1
-        },
-        {
-          "key": 26,
-          "channel": "narration",
-          "text": "Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 27,
-          "channel": "narration",
-          "text": "\"Hold the road. The rain. Almost a name.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Nameless",
-          "voice": "player"
-        },
-        {
-          "key": 28,
-          "channel": "narration",
-          "text": "You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 29,
-          "channel": "milestone",
-          "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
-          "tick": 0,
-          "count": 1
-        },
-        {
-          "key": 30,
-          "channel": "narration",
-          "text": "On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
-          "key": 31,
-          "channel": "narration",
-          "text": "\"What house is this?\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Nameless",
-          "voice": "player",
-          "chat": true
-        },
-        {
-          "key": 32,
-          "channel": "narration",
-          "text": "\"The Kurosawa. A great name gone to seed — samurai on the rolls, paupers in the granary. I've kept it upright since the last master could not, and I'll keep it upright when you can't either.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "chat": true
-        },
-        {
-          "key": 33,
-          "channel": "narration",
-          "text": "\"I'll earn my keep. Point me at it.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Nameless",
-          "voice": "player"
-        },
-        {
-          "key": 34,
-          "channel": "narration",
-          "text": "\"...Good. The house has had its fill of hands that don't. We'll see if you mean it.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
-          "key": 35,
-          "channel": "milestone",
-          "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
-          "tick": 0,
-          "count": 1
         }
       ],
-      "seq": 36
+      "seq": 28
     },
     "skillXp": {},
     "deliveredDialogue": [
@@ -382,17 +316,13 @@
       "soan": {
         "regard": "noted",
         "warmth": 1
-      },
-      "genemon": {
-        "regard": "earnest",
-        "warmth": 1
       }
     },
-    "introBeat": 3,
+    "introBeat": 1,
     "rungBeat": null,
     "askedTopics": [
       "soan-where",
-      "gen-house"
+      "soan-kami"
     ],
     "quests": {
       "accepted": [],

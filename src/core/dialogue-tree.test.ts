@@ -18,26 +18,20 @@ import {
 // Fixtures derive from DIALOGUE_SCENES (the source of truth) — a content edit that breaks an
 // invariant (a topic with no answer, a stat lean leaking into ask_topic, a broken gate) goes RED
 // here rather than shipping. No copied magic numbers.
+// C4.9 (the G4.1 reshape): the intro is the ONE fused take-a sickroom scene (`soan`) — the
+// legacy pre-reboot dream/genemon filler is deleted, so these fixtures anchor on soan and the
+// GATE machinery (no gated topic ships in the intro today) is exercised at the pure level on a
+// constructed scene.
 const wake = (seed = 1): GameState => reduce(createInitialState(seed), { type: 'open_eyes' });
 const attrTotal = (s: GameState): number =>
   ATTR_IDS.reduce((n, id) => n + (s.character.attrs[id] ?? 0), 0);
 const sceneById = (id: string): DialogueScene => DIALOGUE_SCENES.find((s) => s.id === id)!;
 
-/** Drive the intro to the genemon scene (index 2) by taking each scene's first decision option. */
-const atGenemon = (): GameState => {
-  let s = wake();
-  s = reduce(s, { type: 'choose_intro', optionId: sceneById('soan').decision.options[0]!.id });
-  s = reduce(s, { type: 'choose_intro', optionId: sceneById('dream').decision.options[0]!.id });
-  return s; // introBeat === 2, the genemon scene
-};
-
 describe('DIALOGUE_SCENES — the dialogue-tree data (npc-dialogue-tree plan §3.4/§4)', () => {
-  it('is exactly the 3 ordered scenes: Sōan, the self-dream, Genemon', () => {
-    expect(INTRO_SCENE_COUNT).toBe(3);
-    expect(DIALOGUE_SCENES.map((s) => s.id)).toEqual(['soan', 'dream', 'genemon']);
+  it('is exactly the ONE fused sickroom scene: Sōan (C4.9 — the G4.1 reshape finished)', () => {
+    expect(INTRO_SCENE_COUNT).toBe(1);
+    expect(DIALOGUE_SCENES.map((s) => s.id)).toEqual(['soan']);
     expect(sceneById('soan').speaker).toBe('soan');
-    expect(sceneById('dream').speaker).toBeUndefined(); // self scene — narrator, no NPC
-    expect(sceneById('genemon').speaker).toBe('genemon');
   });
 
   it('every scene has a greeting + a decision (prompt + 3 balanced options)', () => {
@@ -48,10 +42,8 @@ describe('DIALOGUE_SCENES — the dialogue-tree data (npc-dialogue-tree plan §3
     }
   });
 
-  it('the NPC scenes carry an ask hub; the dream is topic-less (decision-only)', () => {
+  it('the sickroom scene carries an ask hub (exploration before the identity fork)', () => {
     expect(sceneById('soan').topics.length).toBeGreaterThan(0);
-    expect(sceneById('genemon').topics.length).toBeGreaterThan(0);
-    expect(sceneById('dream').topics).toEqual([]); // no hub — degenerates to today's inner beat
   });
 
   it('every topic has an id, a spoken label, and non-empty answer line(s)', () => {
@@ -72,17 +64,21 @@ describe('DIALOGUE_SCENES — the dialogue-tree data (npc-dialogue-tree plan §3
 });
 
 describe('availableTopics — the gate over the asked-set', () => {
+  // No intro topic ships a gate today (the gated genemon hub left with the C4.9 reshape), so
+  // the gate MACHINERY is exercised on a constructed scene — the pure function is the lever.
+  const base = sceneById('soan');
+  const gatedScene: DialogueScene = {
+    ...base,
+    topics: [
+      { ...base.topics[0]!, id: 'g-open' },
+      { ...base.topics[1]!, id: 'g-gated', gate: (asked) => asked.has('g-open') },
+    ],
+  };
   it('an ungated topic is always available; a gated one is hidden until its prerequisite is asked', () => {
-    const gen = sceneById('genemon');
-    const gated = gen.topics.find((t) => t.gate !== undefined)!;
-    // gen-danger is gated on gen-work — so with nothing asked it is NOT yet in the hub…
-    const emptyIds = availableTopics(gen, new Set()).map((t) => t.id);
-    expect(emptyIds).not.toContain(gated.id);
-    expect(emptyIds.length).toBe(gen.topics.length - 1); // every OTHER topic is available
-    // …and once its prerequisite is asked, it surfaces.
-    const prereq = gen.topics.find((t) => t.id === 'gen-work')!;
-    const afterIds = availableTopics(gen, new Set([prereq.id])).map((t) => t.id);
-    expect(afterIds).toContain(gated.id);
+    const emptyIds = availableTopics(gatedScene, new Set()).map((t) => t.id);
+    expect(emptyIds).toEqual(['g-open']);
+    const afterIds = availableTopics(gatedScene, new Set(['g-open'])).map((t) => t.id);
+    expect(afterIds).toContain('g-gated');
   });
 });
 
@@ -135,22 +131,8 @@ describe('ask_topic — reveal the answer, mark asked, touch nothing else (plan 
     expect(twice.askedTopics.filter((id) => id === topic.id).length).toBe(1);
   });
 
-  it('rejects a gated topic before its prerequisite, then accepts it after (no-op discipline)', () => {
-    const gen = sceneById('genemon');
-    const gated = gen.topics.find((t) => t.gate !== undefined)!;
-    const s = atGenemon();
-    // before gen-work: the gate fails ⇒ pure no-op (same state reference)
-    expect(reduce(s, { type: 'ask_topic', topicId: gated.id })).toBe(s);
-    // ask the prerequisite, then the gated topic is accepted
-    const afterPrereq = reduce(s, { type: 'ask_topic', topicId: 'gen-work' });
-    const afterGated = reduce(afterPrereq, { type: 'ask_topic', topicId: gated.id });
-    expect(afterGated.askedTopics).toContain(gated.id);
-  });
-
-  it('is a no-op for a topic from ANOTHER scene, a foreign id, or when the intro is inactive', () => {
+  it('is a no-op for a foreign id, and when the intro is inactive', () => {
     const s = wake(); // at the soan scene
-    const genTopic = sceneById('genemon').topics[0]!;
-    expect(reduce(s, { type: 'ask_topic', topicId: genTopic.id })).toBe(s); // wrong scene
     expect(reduce(s, { type: 'ask_topic', topicId: 'no-such-topic' })).toBe(s); // foreign id
     const pre = createInitialState(1); // pre-wake ⇒ inactive
     expect(reduce(pre, { type: 'ask_topic', topicId: sceneById('soan').topics[0]!.id })).toBe(pre);
@@ -174,25 +156,19 @@ describe('the DECISION still resolves after any asking — the net-zero invarian
     expect(after.character.attrs[opt.stat.up]).toBe((s.character.attrs[opt.stat.up] ?? 0) + 1);
     expect(after.character.attrs[opt.stat.down]).toBe((s.character.attrs[opt.stat.down] ?? 0) - 1);
     expect(npcRegard(after, 'soan')).toBe(opt.memory!.regard); // memory written by the decision, not the asks
-    expect(after.introBeat).toBe(s.introBeat + 1); // advanced to the next scene
+    expect(after.introBeat).toBe(s.introBeat + 1); // advanced past the scene
   });
 
   it('the full ask→decide e2e lands the intro complete, whatever the asking pattern', () => {
     let s = wake();
-    // topic ids derived from the scenes (source of truth) — a content re-author flows through.
+    // topic ids derived from the scene (source of truth) — a content re-author flows through.
     const soanTopics = sceneById('soan').topics;
-    const genTopics = sceneById('genemon').topics;
-    const gen0 = genTopics.find((t) => t.gate === undefined)!; // an ungated genemon topic
-    // ask a couple at Sōan, decide; skip the dream hub (none); ask + decide at Genemon
     s = reduce(s, { type: 'ask_topic', topicId: soanTopics[0]!.id });
     s = reduce(s, { type: 'ask_topic', topicId: soanTopics[1]!.id });
     s = reduce(s, { type: 'choose_intro', optionId: sceneById('soan').decision.options[1]!.id });
-    s = reduce(s, { type: 'choose_intro', optionId: sceneById('dream').decision.options[2]!.id });
-    s = reduce(s, { type: 'ask_topic', topicId: gen0.id });
-    s = reduce(s, { type: 'choose_intro', optionId: sceneById('genemon').decision.options[0]!.id });
-    expect(s.introBeat).toBe(INTRO_SCENE_COUNT); // intro done
+    expect(s.introBeat).toBe(INTRO_SCENE_COUNT); // the ONE scene done ⇒ intro done
     // the whole run's asked history survives (never cleared)
-    expect(s.askedTopics).toEqual([soanTopics[0]!.id, soanTopics[1]!.id, gen0.id]);
+    expect(s.askedTopics).toEqual([soanTopics[0]!.id, soanTopics[1]!.id]);
   });
 });
 
@@ -206,12 +182,12 @@ describe('markTopicAsked + createInitialState — the ask-hub state (plan §3.2)
     expect(s1.askedTopics).toEqual(['soan-kami']);
     const s2 = markTopicAsked(s1, 'soan-kami');
     expect(s2).toBe(s1); // idempotent — same reference, no growth
-    const s3 = markTopicAsked(s2, 'gen-house');
-    expect(s3.askedTopics).toEqual(['soan-kami', 'gen-house']);
+    const s3 = markTopicAsked(s2, 'soan-where');
+    expect(s3.askedTopics).toEqual(['soan-kami', 'soan-where']);
   });
   it('introTopic finds a topic on its scene and is undefined for a foreign id', () => {
     const soan = sceneById('soan');
     expect(introTopic(soan, soan.topics[0]!.id)).toBe(soan.topics[0]);
-    expect(introTopic(soan, 'gen-house')).toBeUndefined(); // a topic from another scene
+    expect(introTopic(soan, 'no-such-topic')).toBeUndefined();
   });
 });
