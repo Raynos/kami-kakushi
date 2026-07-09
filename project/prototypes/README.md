@@ -25,6 +25,14 @@ or HR-item that owns it.
 
 ## Prototypes
 
+- [`the-album/`](the-album/index.html) — depth-lane feel-test IV
+  (2026-07-09): the genre-native synthesis the human's Round-6 verdicts
+  picked — a live idle strip earns ATTENTION; spend it ("Listen") to fill
+  silhouette ??? slots in named sticker SETS, or assign the SCHOLAR to a set
+  to fill it while you idle (some slots are scholar-only); completed sets
+  play a revelation and grant permanent idle buffs (bite-back); two sets
+  start hidden behind others. Earn → spend → automate → complete → buff,
+  end to end. Owner: same Plan K thread.
 - [`the-asking/`](the-asking/index.html) — depth-lane feel-test II
   (2026-07-09): free-text questioning — type what you wonder, in your own
   words; four NPCs answer in voice via a hand-built miniature (~40 intents)

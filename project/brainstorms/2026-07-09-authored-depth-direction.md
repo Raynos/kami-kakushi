@@ -244,6 +244,103 @@ _(running synthesis — updated as answers land)_
   Matsuzō); clue counter in the header. Direction comes from QUESTION
   titles, never methods.
 
+## Round 4 (2026-07-09) — the zoom-out: all 10 were twigs
+
+- **Human verdicts on the 10:** Dreams "cool thing but what's the point" ·
+  Stakeout "not really, and hard vs the auto-grinding idle clock" · Copying
+  "wtf why would copying be fun" · Offerings "fun little novel thing but how
+  does it touch the 50 novels" · Rumor "very subtle and difficult" ·
+  Sketchbook "way too hard to draw/render" · Silences "no thanks, a nuance" ·
+  **Almanac "could be good, could be fun"** · Maxims "not a description of
+  fun" · **Double "novel and fun, but incredibly dynamic and challenging."**
+- **The meta-verdict (the real one):** "these are all 10 small boy ideas
+  again… we are 5 layers deep into the tree. See the forest through the
+  trees — what are we even doing here." The 10 don't answer the ORIGINAL
+  prompt's spirit (frontier-model-scale work), they answer layer-5's prompt
+  (widget mechanics for a parked feature's tab).
+- **Diagnosis banked:** the depth bet is NOT a UI feature and cannot be
+  validated by mock fragments — a 40-intent doorknob can't prove a cathedral.
+  Depth is a property of the WORLD; the interface is the game the player
+  already has; the deliverable that makes it real is the CANON'S HIDDEN
+  LAYER — the underside of the story bible (what is true beneath every
+  surface, who knows what, where it leaks) — authored at scale,
+  kernel-consistent, gate-checked. Form follows material; UI iteration
+  before the material exists is doorknob-polishing (this evening proved the
+  plan's own PARKED sequencing right).
+
+## Round 5 (2026-07-09) — 10 ZOOMED-OUT prototype ideas (human: "not underside
+yet; prototypes serve a purpose; give me 10 way-zoomed-out prototype ideas")
+
+Each is a buildable standalone prototype that tests a TOP-of-tree hypothesis,
+not an interaction atom (full text in chat):
+
+1. **The Chapel** — one scene (the weir at dawn) authored to REAL bottom
+   (~1,500 nodes, 5+ layers everywhere) — the honest material test.
+2. **Knowledge Is the Economy** — clues/insights ARE the incremental resource
+   (knowing compounds, insights are multipliers) — tests the genre marriage.
+3. **The Interleave Week** — accelerated week of auto-playing idle T0 with
+   depth leaking through its normal surfaces — tests attention/pacing.
+4. **The Decade Machine** — seasons/years per session; people age and die;
+   knowledge outlives its sources — tests TIME as the depth axis.
+5. **The Concept Album** — T0→T5 in ~30 min, one compressed scene per tier —
+   tests the macro shape (quiet ascent + kamikakushi) before anything else.
+6. **The Ending First** — build the LAST hour (T5, truth available, final
+   choice) — judge the destination before authoring 50 novels of road.
+7. **The Second Playthrough** — NG+ mock: start holding three late truths;
+   do early scenes re-read electric? — tests "every line load-bearing."
+8. **The Inexhaustible Square** — one square, ~5,000 authored state-true
+   lines, never repeats — tests the only-Fable inexhaustibility claim alone.
+9. **The Stranger's First Hour** — title → cold open → hour one, judged as a
+   stranger would — tests "would anyone play" (the ship-swing as prototype).
+10. **The Studio Inversion Pilot** — process prototype: one intent page →
+    overnight autonomous run → playable build + 15-min review ritual —
+    tests the "agent as studio" swing on this repo.
+
+## Round 6 (2026-07-09) — the blessed one-paragraph spirit + 10 genre-native UI concepts
+
+- Round-5's "zoomed-out prototypes" all rejected ("I asked for fucking UI
+  prototypes"). Human asked for the spirit compressed to ONE paragraph, then
+  10 UI concepts **from the whole idle/incremental genre vocabulary — no
+  1780-Japan diegetic pigeonholing**, mix-&-match encouraged.
+- The paragraph (as offered; awaiting explicit edits): the game stays the
+  existing idle RPG; a massive authored consistent hidden truth-layer is
+  baked in (static, gated, no runtime AI); the UI problem is a bolt-on
+  component that makes digging FUN with the tested constraints — never show
+  method · always show progress · cost = thought + idle currencies ·
+  stumble-able · open-ended · knowledge bites back into the economy.
+- The 10 genre-native concepts (full text in chat): 1 Constellation Chart
+  (self-drawing truth skill-tree) · 2 Combination Bench (Cultist-Simulator
+  card slots) · 3 Sticker Album (??? silhouette sets + set bonuses) ·
+  4 Rumor Gacha (location-flavored pulls, rarities, pity) · 5 Excavation
+  Grid (minesweeper-ish dig, partial text reveals) · 6 Retainer Dispatch
+  (send befriended NPCs on timed investigations) · 7 Murder Board (drag +
+  string; right theories "settle" overnight) · 8 Confrontation Bosses
+  (Ace-Attorney argument battles spending clue cards) · 9 Idle Scholar
+  (research queue that extrapolates from fed clues) · 10 Prestige Retelling
+  (knowledge persists through rebirth and rewrites the early run).
+
+## Round 7 (2026-07-09) — Round-6 verdicts → feel-test IV: The Album
+
+- **Human verdicts on the 10 genre-native concepts:** Constellation "messy,
+  way too intense, overwhelming at real clue counts" · Combination bench "just
+  don't feel like cards/merging" · **Sticker album YES** ("set completion is
+  not a bad idea… especially standalone, the whole filling out and unlocking
+  end to end") · Gacha no, **but the underlying loop YES** ("idling earns a
+  soft currency you spend on the knowledge/clue/question book — a good
+  bolt-on interaction") · Excavation grid "too far from the game" · Dispatch
+  not for questions, **but estate-worker dispatch at T2+ is a game idea →
+  parked** · Murder board "not a fit" · Confrontation boss "could work but
+  really hard" · **Idle Scholar "has potential"** · Prestige "hard, skip."
+- **The synthesis (agent read, human asked us to choose):** the three yeses
+  are ONE economy — idle earns attention → spend on the album → the Scholar
+  automates → sets complete → permanent buffs feed the idle loop. Built as
+  **feel-test IV: `project/prototypes/the-album/`** — live idle strip (rice/
+  coin/attention with visible rates), 4 open sets + 2 gated teasers,
+  common/rare/gold silhouette slots (人場物日 glyphs), "Listen 聞 <cost>"
+  with rising per-set costs, scholar-only slots ("won't come by listening"),
+  one assignable Scholar with progress bar, revelation modal + permanent
+  buff per set, ×2-everything finale ("Expected").
+
 ## Outcome (2026-07-09 — session close)
 
 Promoted: the whole grill distilled into

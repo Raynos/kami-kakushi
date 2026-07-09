@@ -18,6 +18,12 @@ aren't lost and don't pollute the active thread or the decision log. The
   The mechanical-checkpoint plan's Phase 1 markers/`--check` are shared
   infrastructure for D-117's generated-facts half — sequence it before the
   T0 sweep.
+- **Estate-worker dispatch as a T2+ system** →
+  [2026-07-09-authored-depth-direction.md](2026-07-09-authored-depth-direction.md#round-7-2026-07-09--round-6-verdicts--feel-test-iv-the-album).
+  From the depth-UI rounds (human, 2026-07-09): dispatching retainers to
+  answer QUESTIONS doesn't fit — but "dispatching people working under you
+  in the estate in T2/3/4/5" could be a real game system when those tiers'
+  management layer lands.
 - **The unchosen big swings (ship-whole-game · studio inversion · thousand
   model-playtesters · multi-game catalog)** →
   [2026-07-09-authored-depth-direction.md](2026-07-09-authored-depth-direction.md#parking-lot-tangents--parallel-threads).

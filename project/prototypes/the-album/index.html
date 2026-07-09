@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Album — feel-test IV: earn → spend → automate → complete → buff</title>
+<style>
+  :root {
+    --void:#070810; --steel-0:#0e1016; --steel-1:#161922; --steel-2:#1b1f29;
+    --steel-hi:#20242f;
+    --ink:#c2c8d8; --ink-soft:#8a90a4; --ink-faint:#5c6274;
+    --silver:#cdd6ee; --silver-hi:#e7ecff; --silver-dim:#99a2bf;
+    --silver-wire:rgba(205,214,238,.55); --silver-faint:rgba(205,214,238,.14);
+    --gold:#d8b978; --gold-hi:#f2dca0; --gold-dim:#93794a;
+    --key:rgba(216,185,120,.42); --key-dim:rgba(216,185,120,.15);
+    --shu:#bf3b25; --shu-hi:#de5a3a;
+    --serif:"Iowan Old Style","Palatino Nova",Palatino,Georgia,serif;
+    --chrome:"Avenir Next","Avenir",system-ui,sans-serif;
+    --radius:3px;
+  }
+  html { background:var(--void); }
+  body { margin:0; color:var(--ink); font-family:var(--serif); font-size:15px;
+    line-height:1.5; min-height:100vh;
+    background:radial-gradient(1200px 480px at 50% -140px, #12141d 0%, var(--void) 68%);
+    background-attachment:fixed; }
+  .shell { max-width:1150px; margin:0 auto; padding:16px 16px 44px;
+    border-left:1px solid var(--key-dim); border-right:1px solid var(--key-dim);
+    min-height:100vh; box-sizing:border-box; display:flex; flex-direction:column; gap:12px; }
+  .plate { background:linear-gradient(180deg,var(--steel-2),var(--steel-1));
+    border:1px solid var(--key); border-radius:var(--radius);
+    box-shadow:inset 0 1px 0 var(--silver-wire), 0 6px 18px rgba(0,0,0,.35); }
+  .label { font-family:var(--chrome); font-size:10.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--silver-dim); }
+  button { font:inherit; }
+  .plate-btn { background:linear-gradient(180deg,var(--steel-2),var(--steel-1));
+    border:1px solid var(--silver-faint); border-top-color:var(--silver-wire);
+    border-radius:var(--radius); color:var(--ink); padding:4px 12px; cursor:pointer;
+    font-family:var(--serif); font-size:13px; }
+  .plate-btn:hover:not(:disabled) { background:linear-gradient(180deg,var(--steel-hi),var(--steel-2));
+    color:var(--silver-hi); border-color:var(--silver-wire); }
+  .plate-btn:disabled { opacity:.5; cursor:not-allowed; }
+  .plate-btn:focus-visible { outline:2px solid var(--gold); outline-offset:1px; }
+  .num { font-variant-numeric:tabular-nums; }
+
+  /* ── the idle strip: the existing game, ticking ── */
+  .idle { display:flex; gap:22px; align-items:baseline; padding:10px 16px; flex-wrap:wrap; }
+  .idle .res { display:flex; flex-direction:column; gap:2px; min-width:120px; }
+  .idle .res .v { font-size:16px; color:var(--silver); }
+  .idle .res .v b { color:var(--gold-hi); font-weight:600; }
+  .idle .res .rate { font-size:11.5px; color:var(--ink-soft); }
+  .idle .res .rate .up { color:var(--gold); }
+  .idle .att .v b { color:var(--silver-hi); }
+  .idle .buffs { margin-left:auto; display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+  .buff { border:1px solid var(--key); border-radius:var(--radius); padding:2px 9px;
+    font-size:11.5px; color:var(--gold-hi); background:rgba(216,185,120,.06); }
+
+  .main { display:grid; grid-template-columns:1fr 300px; gap:12px; align-items:start; }
+  @media (max-width:900px) { .main { grid-template-columns:1fr; } }
+
+  /* ── the album ── */
+  .album { padding:14px 16px 18px; }
+  .album h2 { margin:0 0 2px; font-size:16px; color:var(--silver); font-weight:600; }
+  .album h2 .kanji { color:var(--gold); margin-right:8px; }
+  .album .subtitle { color:var(--ink-soft); font-size:12px; font-style:italic; margin-bottom:12px; }
+  .sets { display:grid; grid-template-columns:repeat(auto-fill, minmax(330px, 1fr)); gap:12px; }
+  .set { border:1px solid var(--silver-faint); border-radius:var(--radius);
+    background:linear-gradient(180deg,var(--steel-1),var(--steel-0)); padding:12px 14px; }
+  .set.done { border-color:var(--key); }
+  .set .t { display:flex; align-items:baseline; gap:8px; }
+  .set .t .name { font-size:14.5px; color:var(--silver-hi); font-weight:600; }
+  .set .t .prog { margin-left:auto; font-size:11.5px; color:var(--ink-faint);
+    font-variant-numeric:tabular-nums; }
+  .set.done .t .prog { color:var(--gold-dim); }
+  .slots { display:flex; gap:7px; flex-wrap:wrap; margin:10px 0 4px; }
+  .slot { width:52px; height:64px; border-radius:var(--radius); border:1px dashed var(--ink-faint);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+    color:var(--ink-faint); background:rgba(14,16,22,.6); cursor:default; position:relative; }
+  .slot .g { font-size:19px; opacity:.5; }
+  .slot .r { font-size:9px; font-family:var(--chrome); letter-spacing:.1em; text-transform:uppercase; }
+  .slot.filled { border:1px solid var(--key); color:var(--gold-hi);
+    background:linear-gradient(180deg,var(--steel-2),var(--steel-1)); cursor:pointer; }
+  .slot.filled .g { opacity:1; }
+  .slot.filled:hover { background:linear-gradient(180deg,var(--steel-hi),var(--steel-2)); }
+  .slot.rare { box-shadow:0 0 0 1px var(--key-dim); }
+  .slot.rare .r { color:var(--gold-dim); }
+  .slot.stamp { animation:stamp .5s cubic-bezier(.2,1.4,.4,1) both; }
+  @keyframes stamp { 0% { transform:scale(1.7); opacity:0; } 60% { transform:scale(.95); opacity:1; } 100% { transform:scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .slot.stamp { animation:none; } }
+
+  .set .verbs { display:flex; gap:8px; align-items:center; margin-top:8px; flex-wrap:wrap; }
+  .set .verbs .cost { color:var(--ink-faint); font-size:11.5px; }
+  .set .hintline { color:var(--ink-soft); font-size:12px; font-style:italic; margin-top:7px;
+    max-width:44ch; }
+  .set .bonus { margin-top:8px; font-size:12.5px; color:var(--gold-hi); }
+  .set .bonus::before { content:"◆ "; color:var(--gold); }
+  .set.locked-teaser { opacity:.55; }
+  .set.locked-teaser .name { color:var(--ink-faint); }
+
+  .cluecard { margin-top:8px; border-left:2px solid var(--gold); padding:6px 10px;
+    font-size:13px; color:var(--ink); background:rgba(216,185,120,.04); max-width:52ch; }
+  .cluecard .src { display:block; color:var(--ink-faint); font-size:11px; margin-top:2px; }
+
+  /* ── scholar + log column ── */
+  .sidecol { display:flex; flex-direction:column; gap:12px; }
+  .scholar { padding:12px 14px; }
+  .scholar h3 { margin:0 0 4px; font-size:14px; color:var(--silver); font-weight:600; }
+  .scholar .who { color:var(--ink-soft); font-size:12.5px; font-style:italic; }
+  .scholar .assign { margin-top:8px; }
+  .sch-bar { height:6px; border-radius:2px; background:var(--steel-0);
+    border:1px solid var(--silver-faint); overflow:hidden; margin-top:8px; }
+  .sch-bar i { display:block; height:100%; background:var(--silver-dim); transition:width .25s linear; }
+  .scholar .status { font-size:12.5px; color:var(--ink-soft); margin-top:6px; max-width:34ch; }
+  .scholar .status.stalled { color:var(--shu-hi); }
+  .scholar select { background:var(--steel-0); color:var(--ink); border:1px solid var(--silver-faint);
+    border-radius:var(--radius); font-family:var(--serif); font-size:13px; padding:3px 6px; }
+
+  .feed { padding:12px 14px; max-height:300px; overflow-y:auto; }
+  .feed h3 { margin:0 0 6px; font-size:13px; color:var(--silver); font-weight:600; }
+  .feed .fl { font-size:12.5px; color:var(--ink-soft); margin:4px 0; }
+  .feed .fl.gold { color:var(--gold-hi); border-left:2px solid var(--gold); padding-left:8px; }
+
+  /* revelation overlay */
+  .scrim { position:fixed; inset:0; background:rgba(7,8,16,.86); z-index:10;
+    display:none; align-items:center; justify-content:center; }
+  .scrim.show { display:flex; }
+  .rev { width:min(560px,92vw); padding:26px 30px 22px; text-align:left; }
+  .rev .kicker { font-family:var(--chrome); font-size:10.5px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--gold-dim); }
+  .rev h2 { color:var(--gold-hi); font-size:19px; margin:6px 0 12px; font-weight:600; }
+  .rev p { max-width:54ch; margin:0 0 10px; }
+  .rev .grant { color:var(--gold-hi); margin-top:12px; font-size:14px; }
+  .rev .grant::before { content:"◆ "; color:var(--gold); }
+  .rev .cta { text-align:right; margin-top:14px; }
+
+  ::-webkit-scrollbar { width:6px; } ::-webkit-scrollbar-thumb { background:var(--steel-hi); }
+  ::-webkit-scrollbar-track { background:var(--steel-0); }
+  .dev { position:fixed; right:10px; bottom:10px; display:flex; gap:6px; align-items:center;
+    font-family:var(--chrome); font-size:10px; letter-spacing:.08em; color:var(--ink-faint); z-index:20; }
+  .dev button { background:var(--steel-0); border:1px solid var(--silver-faint);
+    border-radius:var(--radius); color:var(--ink-soft); font-size:10px; padding:2px 8px;
+    cursor:pointer; font-family:var(--chrome); letter-spacing:.08em; }
+  footer.colo { text-align:center; color:var(--ink-faint); font-size:11px;
+    font-family:var(--chrome); letter-spacing:.06em; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <section class="idle plate" aria-label="The idle game, running">
+    <div class="res"><span class="label">Rice 🌾</span>
+      <span class="v num" id="v-rice">0</span>
+      <span class="rate num" id="v-ricerate">+0/s</span></div>
+    <div class="res"><span class="label">Coin 🪙</span>
+      <span class="v num" id="v-coin">0</span>
+      <span class="rate num" id="v-coinrate">+0/s</span></div>
+    <div class="res att"><span class="label">Attention 聞</span>
+      <span class="v num" id="v-att">0</span>
+      <span class="rate num" id="v-attrate">+0/s</span></div>
+    <div class="buffs" id="buffs"><span class="label">insight buffs</span></div>
+  </section>
+
+  <div class="main">
+    <section class="album plate">
+      <h2><span class="kanji">帖</span>The Album</h2>
+      <div class="subtitle">what the house knows, in sets — silhouettes show that something is there, never how to get it (MOCK)</div>
+      <div class="sets" id="sets"></div>
+    </section>
+
+    <div class="sidecol">
+      <section class="scholar plate">
+        <h3>The Scholar</h3>
+        <div class="who">A quiet assistant with time on his hands. Point him at a question; he works while you don’t.</div>
+        <div class="assign">
+          <span class="label">assigned to</span><br>
+          <select id="sch-sel"><option value="">— idle —</option></select>
+        </div>
+        <div class="sch-bar"><i id="sch-bar" style="width:0%"></i></div>
+        <div class="status" id="sch-status">He waits, politely.</div>
+      </section>
+      <section class="feed plate" aria-live="polite">
+        <h3>The log</h3>
+        <div id="feed"></div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="colo">MOCK — feel-test IV: idling earns attention → spend it on the album (or let the Scholar) → completed sets buff the idle game. Nothing is canon.</footer>
+</div>
+
+<div class="scrim" id="revscrim" role="dialog" aria-modal="true">
+  <div class="rev plate">
+    <span class="kicker">the set completes — the truth assembles</span>
+    <h2 id="rev-title"></h2>
+    <p id="rev-text"></p>
+    <div class="grant" id="rev-grant"></div>
+    <div class="cta"><button class="plate-btn" id="rev-close">Continue</button></div>
+  </div>
+</div>
+
+<div class="dev">
+  <span>MOCK · not canon</span>
+  <button id="dev-att">+200 聞</button>
+  <button id="dev-fast">fast ×5</button>
+  <button id="dev-reset">reset</button>
+</div>
+
+<script>
+'use strict';
+/* ── content: sets of stickers. glyphs: 人 person · 場 place · 物 thing · 日 date ── */
+const SETS = [
+  { id:'weir', name:'The Night at the Weir', open:true,
+    bonus:{ label:'+25% rice', rice:1.25 },
+    reveal:'There was no boat and no flood. A single light crossed the water upstream, at a walking pace, and left a man at the weir gate — face down, dry above the waist, which the river does not do. The weir-keeper saw all of it and told no one. Now it is pasted here, in order, and it cannot un-happen.',
+    slots:[
+      { g:'人', r:'common', clue:'The weir-keeper was there that night. He carried you up himself.', src:'heard at the gate' },
+      { g:'場', r:'common', clue:'The weir gate, at dawn. That is where you begin.', src:'seen' },
+      { g:'物', r:'common', clue:'Your clothes: river-mud to the belt, clean above it.', src:'the laundry' },
+      { g:'物', r:'rare',   clue:'Dry above the waist — “which the river does not do.”', src:'two witnesses agree' },
+      { g:'物', r:'rare',   clue:'A single light, crossing UPSTREAM at a walking pace. Lanterns double in water; this one didn’t.', src:'Matsuzō, reluctantly', via:'scholar' },
+      { g:'人', r:'gold',   clue:'He told no one. “Who does a man tell that to?”', src:'Matsuzō, the whole of it', via:'scholar' },
+    ] },
+  { id:'dates', name:'The Dates', open:true,
+    bonus:{ label:'+2 coin/s', coinAdd:2 },
+    reveal:'The house says the fourteenth. The Bon count says the lanterns died on the thirteenth, and the weir gave you up the morning after. Two numbers, one day apart, both spoken with total confidence. Dates are how a woman is believed — and how a house is caught.',
+    slots:[
+      { g:'日', r:'common', clue:'Toku: “The fourteenth of the eighth month.” She dates everything.', src:'the hall' },
+      { g:'日', r:'common', clue:'The Bon lanterns go out on the thirteenth. Same every year.', src:'the Bon count' },
+      { g:'日', r:'rare',   clue:'“You came out of my weir the morning after the last of them.”', src:'Matsuzō’s tally' },
+      { g:'物', r:'rare',   clue:'The house’s calendar has no entry at all for the thirteenth. The page is clean. Too clean.', src:'the house books', via:'scholar' },
+    ] },
+  { id:'book', name:'The Grey Book', open:true,
+    bonus:{ label:'+20% attention', att:1.2 },
+    reveal:'The physician keeps a grey book, and the grey book keeps you. The morning after you first woke he burned a page of it at his own brazier — paper is dear; nobody burns a blank one. And the page he burned was written on the TENTH. His record of you begins before you do.',
+    slots:[
+      { g:'人', r:'common', clue:'Sōan writes more than a physician needs to. The light burns late in that room.', src:'the house, variously' },
+      { g:'物', r:'common', clue:'A grey book, kept apart from the pharmacopoeia, in his own hand.', src:'seen once' },
+      { g:'物', r:'rare',   clue:'The morning after you woke, he burned a page at his own brazier. There was smoke.', src:'O-Yae saw it' },
+      { g:'日', r:'gold',   clue:'The burned page was written on the TENTH. “A physician corrects the record.”', src:'Sōan, cornered', via:'scholar' },
+      { g:'人', r:'rare',   clue:'“I was sent for.” — said a half-beat late, like a coin he regretted spending.', src:'Sōan, unguarded' },
+    ] },
+  { id:'purse', name:'The House’s Purse', open:true,
+    bonus:{ label:'+15% rice', rice:1.15 },
+    reveal:'The wage column was ruled off two years ago, the autumn the trade failed — yet the gate is swept and the water is drawn. The dowager pays the living out of her widow’s portion, in old coin, counted twice. A house is people fed, not beams standing.',
+    slots:[
+      { g:'物', r:'common', clue:'O-Yae is paid in old coin, struck before the current era, worn smooth.', src:'glimpsed at the gate' },
+      { g:'物', r:'common', clue:'The servant-wage column stops clean, two years back, ruled off in the steward’s hand.', src:'the house books' },
+      { g:'人', r:'rare',   clue:'“The lady dowager pays for what the house forgets.”', src:'O-Yae, whispered' },
+      { g:'日', r:'rare',   clue:'The trade failed two autumns ago. She will give you the day if you ask; nobody else will.', src:'Toku, dated' },
+      { g:'人', r:'gold',   clue:'“Two years. My widow’s portion is mine to spend.” She is not ashamed. She is magnificent.', src:'Toku, plainly', via:'scholar' },
+    ] },
+  { id:'light', name:'What Walks the Water', open:false, needs:['weir'],
+    bonus:{ label:'+30% attention', att:1.3 },
+    reveal:'Her grandmother had a word for a light that walks the water — a word her generation used the way we use “storm”: a thing you plan around. The house does not use the word anymore. The house plans around it all the same.',
+    slots:[
+      { g:'人', r:'rare', clue:'Toku’s grandmother had a WORD for it. “We do not use it in this house.”', src:'Toku, once only' },
+      { g:'場', r:'rare', clue:'The west path is the lantern road. Nobody walks it after dark. Nobody SHOULD.', src:'common knowledge, oddly firm' },
+      { g:'日', r:'rare', clue:'The rite was once kept “further than the bank.” Now it stops at the bank. No date given — the only undated thing she has ever said.', src:'Toku, evasive', via:'scholar' },
+      { g:'物', r:'gold', clue:'One light. There should never be ONE light on water — a lantern doubles in the river.', src:'Matsuzō’s arithmetic' },
+    ] },
+  { id:'expected', name:'Expected', open:false, needs:['book','dates'],
+    bonus:{ label:'×2 everything', rice:2, coinMult:2, att:2 },
+    reveal:'A letter came four days before the weir. The physician was told to be ready — and burned his first note because it named the letter. The house dates you from the fourteenth because the fourteenth is when you surfaced. You were not found. You were EXPECTED. The question the album cannot hold yet: by whom?',
+    slots:[
+      { g:'物', r:'gold', clue:'A letter came, four days before the weir. His first note named it. That is the note he burned.', src:'Sōan, finally', via:'scholar' },
+      { g:'日', r:'gold', clue:'The tenth is before the fourteenth. His record of you begins before the river gave you up.', src:'your own arithmetic' },
+      { g:'人', r:'gold', clue:'“You were not found, boy. You were expected.”', src:'Sōan, looking at you at last' },
+    ] },
+];
+
+/* ── economy tuning (feel-test generous) ── */
+const BASE = { rice:3, coin:1, att:4 };           // per second
+const LISTEN_COSTS = [20, 35, 55, 80, 110, 150];   // per already-filled count in set
+const SCHOLAR_SECS = 14;                            // per slot when unstalled
+const TICK_MS = 250;
+
+let S, timer;
+function fresh() {
+  return { rice:0, coin:0, att:0, mult:{ rice:1, coin:1, att:1 }, coinAdd:0,
+    filled:{}, done:{}, schSet:'', schProg:0, feed:[], fast:1, openClue:{} };
+}
+const filledCount = id => (S.filled[id] || []).length;
+const isFilled = (id,i) => (S.filled[id] || []).includes(i);
+const setDef = id => SETS.find(s => s.id === id);
+const setOpen = s => s.open || (s.needs || []).every(n => S.done[n]);
+
+function feed(text, gold) { S.feed.unshift({ text, gold }); S.feed = S.feed.slice(0, 30); }
+
+function fillSlot(id, i, how) {
+  (S.filled[id] = S.filled[id] || []).push(i);
+  const s = setDef(id), slot = s.slots[i];
+  S.lastStamp = id + ':' + i;
+  S.dirty = true;
+  feed((how === 'scholar' ? 'The Scholar returns: ' : 'You spend your attention well: ') +
+    '“' + slot.clue.slice(0, 60) + (slot.clue.length > 60 ? '…”' : '”'));
+  if (filledCount(id) === s.slots.length) completeSet(id);
+}
+function completeSet(id) {
+  const s = setDef(id);
+  S.done[id] = true;
+  if (s.bonus.rice)     S.mult.rice *= s.bonus.rice;
+  if (s.bonus.att)      S.mult.att  *= s.bonus.att;
+  if (s.bonus.coinMult) S.mult.coin *= s.bonus.coinMult;
+  if (s.bonus.coinAdd)  S.coinAdd   += s.bonus.coinAdd;
+  feed('SET COMPLETE — ' + s.name + ' · ' + s.bonus.label, true);
+  if (S.schSet === id) { S.schSet = ''; S.schProg = 0; }
+  $('#rev-title').textContent = s.name;
+  $('#rev-text').textContent = s.reveal;
+  $('#rev-grant').textContent = 'Insight: ' + s.bonus.label + ' — the house works differently for a man who knows this.';
+  $('#revscrim').classList.add('show');
+}
+
+/* which empty slot would "listen" get? cheapest listen-able; scholar-only slots refuse */
+function listenTarget(id) {
+  const s = setDef(id);
+  for (let i = 0; i < s.slots.length; i++)
+    if (!isFilled(id, i) && s.slots[i].via !== 'scholar') return i;
+  return -1;
+}
+function scholarTarget(id) {
+  const s = setDef(id);
+  for (let i = 0; i < s.slots.length; i++) if (!isFilled(id, i)) return i;
+  return -1;
+}
+function listenCost(id) { return LISTEN_COSTS[Math.min(filledCount(id), LISTEN_COSTS.length - 1)]; }
+
+function listen(id) {
+  const cost = listenCost(id), t = listenTarget(id);
+  if (S.att < cost) return;
+  if (t < 0) { feed('No amount of listening buys what is left of “' + setDef(id).name + '”. Someone must go and ASK.'); render(); return; }
+  S.att -= cost;
+  fillSlot(id, t, 'listen');
+  render();
+}
+
+/* ── the tick ── */
+function tick() {
+  const dt = (TICK_MS / 1000) * S.fast;
+  S.rice += BASE.rice * S.mult.rice * dt;
+  S.coin += (BASE.coin * S.mult.coin + S.coinAdd) * dt;
+  S.att  += BASE.att  * S.mult.att  * dt;
+  if (S.schSet && !S.done[S.schSet]) {
+    const t = scholarTarget(S.schSet);
+    if (t < 0) { S.schSet = ''; S.schProg = 0; }
+    else {
+      const slot = setDef(S.schSet).slots[t];
+      const gated = slot.need && !S.done[slot.need];
+      if (!gated) {
+        S.schProg += dt / SCHOLAR_SECS;
+        if (S.schProg >= 1) { S.schProg = 0; fillSlot(S.schSet, t, 'scholar'); }
+      }
+    }
+  }
+  renderNumbers();
+  if (S.dirty) { render(); S.dirty = false; }
+}
+
+/* ── rendering ── */
+const $ = sel => document.querySelector(sel);
+const esc = t => t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const fmt = n => n >= 1000 ? (n/1000).toFixed(2) + 'K' : Math.floor(n).toString();
+
+function renderNumbers() {
+  $('#v-rice').textContent = fmt(S.rice);
+  $('#v-coin').textContent = fmt(S.coin);
+  $('#v-att').textContent  = fmt(S.att);
+  $('#v-ricerate').innerHTML = '+' + (BASE.rice * S.mult.rice).toFixed(1) + '/s' + (S.mult.rice > 1 ? ' <span class="up">▲</span>' : '');
+  $('#v-coinrate').innerHTML = '+' + (BASE.coin * S.mult.coin + S.coinAdd).toFixed(1) + '/s' + ((S.mult.coin > 1 || S.coinAdd > 0) ? ' <span class="up">▲</span>' : '');
+  $('#v-attrate').innerHTML  = '+' + (BASE.att * S.mult.att).toFixed(1) + '/s' + (S.mult.att > 1 ? ' <span class="up">▲</span>' : '');
+  $('#sch-bar').style.width = (S.schProg * 100) + '%';
+  document.querySelectorAll('[data-listen]').forEach(b => {
+    const id = b.dataset.listen;
+    b.disabled = S.att < listenCost(id) || listenTarget(id) < 0 || S.done[id];
+  });
+}
+function renderBuffs() {
+  $('#buffs').innerHTML = '<span class="label">insight buffs</span>' +
+    (Object.keys(S.done).length
+      ? SETS.filter(s => S.done[s.id]).map(s => `<span class="buff">${esc(s.bonus.label)}</span>`).join('')
+      : '<span style="color:var(--ink-faint);font-size:12px;font-style:italic">none yet — complete a set</span>');
+}
+function renderSets() {
+  const visible = SETS.filter(setOpen);
+  const teasers = SETS.filter(s => !setOpen(s));
+  $('#sets').innerHTML = visible.map(s => {
+    const n = filledCount(s.id), done = !!S.done[s.id];
+    return `<div class="set ${done ? 'done' : ''}">
+      <div class="t"><span class="name">${esc(s.name)}</span>
+        <span class="prog">${done ? '✒ complete' : n + ' / ' + s.slots.length}</span></div>
+      <div class="slots">${s.slots.map((sl, i) => {
+        const f = isFilled(s.id, i);
+        const stamp = S.lastStamp === s.id + ':' + i ? ' stamp' : '';
+        return `<div class="slot ${f ? 'filled' : ''} ${sl.r !== 'common' ? 'rare' : ''}${stamp}"
+          ${f ? `data-clue="${s.id}:${i}" role="button" tabindex="0"` : ''}
+          title="${f ? 'read it' : '? ? ?'}">
+          <span class="g">${f ? sl.g : '?'}</span><span class="r">${sl.r}</span></div>`;
+      }).join('')}</div>
+      ${S.openClue[s.id] !== undefined && isFilled(s.id, S.openClue[s.id])
+        ? `<div class="cluecard">${esc(s.slots[S.openClue[s.id]].clue)}<span class="src">${esc(s.slots[S.openClue[s.id]].src)}</span></div>` : ''}
+      ${done
+        ? `<div class="bonus">${esc(s.bonus.label)} — permanent</div>`
+        : `<div class="verbs">
+            <button class="plate-btn" data-listen="${s.id}">Listen 聞 <span class="cost">${listenCost(s.id)}</span></button>
+            <button class="plate-btn" data-sch="${s.id}" ${S.schSet === s.id ? 'disabled' : ''}>${S.schSet === s.id ? 'Scholar is on it' : 'Send the Scholar'}</button>
+          </div>
+          ${listenTarget(s.id) < 0 && n < s.slots.length
+            ? '<div class="hintline">What remains here will not come by listening. Someone must go and ask — send the Scholar.</div>' : ''}`}
+    </div>`;
+  }).join('') + teasers.map(s => `
+    <div class="set locked-teaser">
+      <div class="t"><span class="name">? ? ?</span><span class="prog">${s.slots.length} slots</span></div>
+      <div class="slots">${s.slots.map(() => '<div class="slot"><span class="g">?</span></div>').join('')}</div>
+      <div class="hintline">The album senses a set here. Something you have not finished is holding it shut.</div>
+    </div>`).join('');
+  S.lastStamp = null;
+}
+function renderScholar() {
+  const sel = $('#sch-sel');
+  sel.innerHTML = '<option value="">— idle —</option>' + SETS.filter(s => setOpen(s) && !S.done[s.id])
+    .map(s => `<option value="${s.id}" ${S.schSet === s.id ? 'selected' : ''}>${esc(s.name)}</option>`).join('');
+  const st = $('#sch-status');
+  if (!S.schSet) { st.textContent = 'He waits, politely.'; st.className = 'status'; return; }
+  const t = scholarTarget(S.schSet);
+  if (t < 0) { st.textContent = 'Nothing left there for him.'; st.className = 'status'; return; }
+  const slot = setDef(S.schSet).slots[t];
+  if (slot.need && !S.done[slot.need]) {
+    st.textContent = 'He is stalled. “I keep circling something I don’t have yet — finish what you have open, and I’ll have my footing.”';
+    st.className = 'status stalled';
+  } else {
+    st.textContent = 'He is out asking. ' + (slot.via === 'scholar' ? 'This one only comes to a patient man.' : 'He will bring back what he hears.');
+    st.className = 'status';
+  }
+}
+function renderFeed() {
+  $('#feed').innerHTML = S.feed.map(f => `<div class="fl ${f.gold ? 'gold' : ''}">${esc(f.text)}</div>`).join('')
+    || '<div class="fl" style="font-style:italic">The estate hums. Attention accrues. Spend it on what the house knows.</div>';
+}
+function render() { renderSets(); renderScholar(); renderBuffs(); renderFeed(); renderNumbers(); }
+
+/* ── wiring ── */
+document.addEventListener('click', e => {
+  const clue = e.target.closest('[data-clue]');
+  if (clue) { const [id, i] = clue.dataset.clue.split(':');
+    S.openClue[id] = S.openClue[id] === +i ? undefined : +i; render(); return; }
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.listen) listen(b.dataset.listen);
+  if (b.dataset.sch) { S.schSet = b.dataset.sch; S.schProg = 0; render(); }
+});
+$('#sch-sel').addEventListener('change', e => { S.schSet = e.target.value; S.schProg = 0; render(); });
+$('#rev-close').addEventListener('click', () => { $('#revscrim').classList.remove('show'); render(); });
+$('#dev-att').addEventListener('click', () => { S.att += 200; renderNumbers(); });
+$('#dev-fast').addEventListener('click', function () { S.fast = S.fast === 1 ? 5 : 1; this.textContent = S.fast === 5 ? 'fast ×1' : 'fast ×5'; });
+$('#dev-reset').addEventListener('click', () => { S = fresh(); render(); });
+
+S = fresh();
+feed('The album arrives with four questions already stitched into it. Two more wait, held shut.');
+render();
+timer = setInterval(tick, TICK_MS);
+</script>
+</body>
+</html>
