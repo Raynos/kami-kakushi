@@ -123,3 +123,19 @@ their own levers standing on now-illegal R0 ground); scenes.test's
 once-scan filtered to `once` defs. KNOWN EDGE: a v0.4.0 save mid-Autumn
 that already auto-reckoned will re-play the frame and pay once more that
 autumn (year-flag absent) — accepted, dev-stage, self-heals at the turn.
+
+## C1.5 — B5 remnants + combat-rework debt (+ adjacent finds)
+
+- `main.ts` stale INTERIM-placeholder comment rewritten (the notice IS the
+  HD-30 prose). `combat.win` no longer renders a dead "+0" coin token
+  (coin conditional like loot); tests assert the coinless form + that wins
+  mint no coin. The 3 `it.skip` dead tests deleted (A9 roster + 2 scripted-
+  wolf — retired at G4.3; history is the archive). The retreat-sweep's
+  string-swapped 'wolf' re-derived to 'badger' (the wolf is nightRoundOnly
+  — B6 makes it engine-illegal by day; badger is the heavy DAY foe).
+- Adjacent (plan-missed, human grant): dead `combat.wolfScripted` +
+  `combat.drillmaster` log keys deleted (orphaned since G4.3, only test
+  fixtures referenced them); home.test's tautological PRE_HOME_REST_LINE
+  capture re-anchored on the real woodshed-corner siting words; m1.test's
+  DEAD empty-array voice loop now derives the readout reveal prose from
+  the SURFACES registry.

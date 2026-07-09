@@ -30,6 +30,7 @@ import { SKILL_XP_BASE, RICE_PER_RAKE } from './content/balance';
 import { refillSitePools } from './content/activities';
 import { rungRequirements } from './content/requirements';
 import { getDialogueLine, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
+import { SURFACES } from './content/surfaces';
 import { rakeLine } from './content/coldOpen';
 import { NAMES } from './content/names';
 
@@ -262,10 +263,13 @@ describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
     const find = (text: string) => s.log.entries.find((e) => e.text === text);
 
     // the wake-time surface reveals (readout-body / readout-rice) are scene NARRATION → narrator
-    // voice, no nameplate — same convention as the intro's narrator lines.
-    for (const text of [] as string[]) {
-      // TODO(g4-tests): re-derive readout reveal prose (cold open re-fictioned, G4)
-      const entry = find(text);
+    // voice, no nameplate — same convention as the intro's narrator lines. C1.5 (was an empty
+    // dead loop): the prose derives from the SURFACES registry itself, never a copied string.
+    for (const id of ['readout-body', 'readout-rice'] as const) {
+      const def = SURFACES.find((d) => d.id === id);
+      expect(def?.revealLine?.text, `${id} has no reveal line`).toBeTruthy();
+      const entry = find(def!.revealLine!.text);
+      expect(entry, `${id} reveal never logged on wake`).toBeTruthy();
       expect(entry?.voice).toBe('narrator');
       expect(entry?.speaker).toBeUndefined();
     }

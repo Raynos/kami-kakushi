@@ -47,8 +47,15 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
   'combat.tooHurt': () =>
     'You are too hurt to hold the line — eat and mend before you take the field.',
   'combat.win': (p) => {
-    const loot = Number(p.lootQty) > 0 ? `, +${p.lootQty} ${p.lootLabel}` : '';
-    return `You bring down the ${p.mob}. ✓ (HP ${p.hpBefore}→${p.hpAfter} · +${formatCoin(Number(p.coin))}${loot})`;
+    // Combat is MATERIALS-only (G4 — beasts carry no mon): the coin token renders only when a
+    // coin reward actually exists, so the ordinary coinless win never shows a dead "+0" (C1.5).
+    const extras = [
+      Number(p.coin) > 0 ? `+${formatCoin(Number(p.coin))}` : '',
+      Number(p.lootQty) > 0 ? `+${p.lootQty} ${p.lootLabel}` : '',
+    ]
+      .filter(Boolean)
+      .join(', ');
+    return `You bring down the ${p.mob}. ✓ (HP ${p.hpBefore}→${p.hpAfter}${extras ? ` · ${extras}` : ''})`;
   },
   'combat.flee': (p) =>
     `You break off the fight with the ${p.mob} and fall back — winded, blade up, but whole. (HP ${p.hpBefore}→${p.hpAfter})`,
@@ -65,10 +72,6 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
     const drop = phrase ? ` You drop ${phrase} in the rout.` : '';
     return `The ${p.mob} overcomes you; you limp home badly used. (HP ${p.hpBefore}→${p.hpAfter})${drop} Eat and mend before you take the field again.`;
   },
-  'combat.wolfScripted': () =>
-    `The wolf comes out of the dark among the rice-sacks. You swing the pole, miss, swing again — and somehow, more luck than skill, it bolts bleeding into the night. You are alive. You should not be.`,
-  'combat.drillmaster': () =>
-    `${NAMES.drillmaster} the drillmaster finds you shaking by the stores. He says nothing for a long moment. Then: "You lived. That's the only talent that matters in the end. Come to the yard at dawn — I'll teach you the rest."`,
 
   // ── intents.ts — player actions ──────────────────────────────────────────────
   // Only the INLINE-authored templates live here; lines pulled from content data

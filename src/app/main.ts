@@ -115,9 +115,8 @@ async function boot(): Promise<void> {
   } else {
     state = createInitialState(DEFAULT_SEED);
     // ADR-161 clean break: if the load RETIRED a prior-generation (pre-storywave) save, boot fresh
-    // but tell the player courteously — never a silent wipe. INTERIM (storywave G1): a deliberately
-    // OUT-OF-FICTION bracketed placeholder; the composed in-fiction notice text lands with the
-    // Composed via HD-30 (2026-07-09) — the clean-break notice ships as authored in-fiction prose.
+    // but tell the player courteously — never a silent wipe. The notice below is the authored
+    // in-fiction prose (HD-30 wave, 2026-07-09).
     if (save.wasRetiredOnLoad()) {
       note(
         root,

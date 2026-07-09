@@ -56,8 +56,10 @@ describe('3a · summarised one-line fight outcomes (D-076 / batch-1 call 2)', ()
     const line = combatLines(after).at(-1) ?? '';
     expect(line).toMatch(/bring down the .*monkey/i);
     expect(line).toMatch(/HP \d+→\d+/); // the HP swing is IN the outcome line
-    // ADR-108 — the coin reward is DENOMINATED (mon/monme/ryō), matching the pills; NOT raw " coin".
-    expect(line).toContain(`+${formatCoin(0)}`); // TODO(g4-tests): combat drops no coin (KIND lane); re-derive
+    // G4 — combat is MATERIALS-only (the KIND lane): a win mints NO coin, and the outcome
+    // line renders NO dead "+0" coin token (C1.5 — RED against the old always-rendered form).
+    expect(after.resources.coin ?? 0).toBe(before.resources.coin ?? 0);
+    expect(line).not.toContain(formatCoin(0));
     expect(line).not.toMatch(/\d+ coin/); // RED against the old "+N coin" raw-integer form
   });
 
@@ -183,6 +185,9 @@ describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
     // not a flee — which is the correct per-turn semantic). So sweep seeds: assert flees DO occur
     // (else the branch is dead) and that every flee is handled right. Starting HP at 50% drains to
     // the 20% threshold over a couple boar hits; the L1 MC can't kill the tanky boar first.
+    // The grind-down foe derives from the DAY roster (the wolf is nightRoundOnly since B6 —
+    // engine-refused by day): the badger is the heavy day foe an L1 survives a couple hits
+    // from but cannot quickly kill, which is exactly the retreat threshold's territory.
     let fledCount = 0;
     for (let seed = 1; seed <= 40; seed++) {
       const base: GameState = { ...mc(1), rng: createInitialState(seed).rng };
@@ -191,10 +196,10 @@ describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
         ...base,
         character: { ...base.character, hp: startHp },
         resources: { ...base.resources, coin: 100 },
-        autoCombat: 'wolf', // TODO(g4-tests): boar retired → wolf
+        autoCombat: 'badger',
         autoCombatRetreat: true,
       };
-      const after = applyGrindFight(before, 'wolf', true); // TODO(g4-tests): boar retired → wolf
+      const after = applyGrindFight(before, 'badger', true);
       if (/break off|fall back/i.test(combatLines(after).at(-1) ?? '')) {
         fledCount++;
         expect(after.autoCombat).toBeNull(); // ← a flee STOPS the autopilot
@@ -289,40 +294,9 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
     expect(atT2).toEqual(['bandit']);
   });
 
-  // A9 — the richer T0 roster (Plan B v0.3.2). The three new grounded foes exist with sane
-  // stats, are T0-REACHABLE (minTier 0) on their own nodes, and carry their design identity.
-  // TODO(g4-tests): the A9 roster (rice_rats/mamushi/monkey_troop) retired in the G4 cutover.
-  it.skip('the A9 foes exist, are T0-reachable on their node, and keep their archetype identity', () => {
-    for (const id of ['river_rats', 'badger', 'monkey_male'] as const) {
-      // TODO(g4-tests): roster re-sited
-      const m = getMob(id);
-      // sane stats derived from the def itself (no copied magic numbers).
-      expect(m.level).toBeGreaterThanOrEqual(1);
-      // TODO(g4-tests): mon-reward field removed (G4 — beasts carry no mon)
-      expect(m.minTier ?? 0).toBe(0); // grindable in T0, unlike the T2-gated bandit
-      // reachable at T0 (tier 0) on its OWN node — RED if a placement/gate regressed.
-      const hereIds = foesHere(fighterAt(m.area)).map((f) => f.mob.id);
-      expect(hereIds).toContain(id);
-    }
-    // identity levers (assert the design KNOB, not a collapsed metric): the troop teaches the
-    // accuracy/evasion lesson (the single most evasive foe in the roster), while the viper is its
-    // sharp opposite on the neighbouring node — a fast, accurate biter that lands where the troop
-    // ducks (higher accuracy + far lower evasion than the troop, and among the fastest cadences).
-    const grindables = ['rice_rats', 'monkey', 'monkey_troop', 'wolf', 'mamushi', 'boar', 'bandit'];
-    const eva = (id: string) => getMob(id as never).evaBonus ?? 0;
-    const acc = (id: string) => getMob(id as never).accBonus ?? 0;
-    const spd = (id: string) => getMob(id as never).baseSpeed ?? 1;
-    expect(Math.max(...grindables.map(eva))).toBe(eva('monkey_troop'));
-    expect(acc('mamushi')).toBeGreaterThan(acc('monkey_troop'));
-    expect(eva('mamushi')).toBeLessThan(eva('monkey_troop'));
-    expect(spd('mamushi')).toBeGreaterThan(1); // a fast striker, not a plodder
-    // the grain-rat swarm is the fastest cadence (a boiling swarm) yet nearly harmless (its bites
-    // rarely land — the LOWEST accuracy), the gentle-warmup identity.
-    expect(Math.max(...grindables.map(spd))).toBe(spd('rice_rats'));
-    expect(Math.min(...grindables.map(acc))).toBe(acc('rice_rats'));
-    // (the grain-rat warmup forecasting EASIER than the monkey at L1 is asserted against the
-    // sampled combat curve in m2.test.ts, where the foeWr helper lives.)
-  });
+  // (The A9-roster identity test was DELETED at C1.5 — that roster retired in the G4 cutover;
+  // the LIVE roster's node placement is asserted by the foesHere sweep above, and git history
+  // keeps the old identity levers if a future roster wants the pattern.)
 
   it('walking away from a foe ends the auto-grind on it (move_to clears autoCombat)', () => {
     // stand at the forecourt auto-grinding the monkey, then walk one hop off — the autopilot stops.
@@ -339,14 +313,9 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
     expect(walked.autoCombat).toBeNull();
   });
 
-  // TODO(g4-tests): scripted grain-store wolf DELETED (G4.3 → R3 night round); re-derive.
-  it.skip('the scripted grain-store wolf is faced at the kura — nowhere else', () => {});
-
-  // FB-91/FB-93 voice-consistency (voice-only, no mechanics): every scene-narration line the scripted
-  // wolf beat emits carries the `narrator` voice EXPLICITLY — no stray plain/un-voiced line among
-  // the voiced ones. RED-able: the attack line shipped un-voiced (voice: undefined) before this pass.
-  // TODO(g4-tests): scripted-wolf beat DELETED (G4.3); voice-consistency re-derived later.
-  it.skip('the scripted-wolf beat voices its scene-narration lines as narrator (no stray plain line)', () => {});
+  // (The two scripted grain-store-wolf skips were DELETED at C1.5 — that beat retired at G4.3;
+  // the wolf lives only in the R3 night round, whose semantics night-rounds.test.ts +
+  // invariants.test.ts own, and the B6 guard makes it un-day-fightable by engine law.)
 });
 
 describe('v0.3.1 fun/quality audit fixes (2026-07-01)', () => {

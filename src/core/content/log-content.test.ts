@@ -36,7 +36,7 @@ describe('log-content registry — golden line equality', () => {
     );
   });
 
-  it('combat.win assembles the outcome line with and without loot (✓ · → glyphs)', () => {
+  it('combat.win assembles the outcome line with and without loot/coin (✓ · → glyphs)', () => {
     expect(
       renderLogLine('combat.win', {
         mob: 'boar',
@@ -57,6 +57,28 @@ describe('log-content registry — golden line equality', () => {
         lootLabel: '',
       }),
     ).toBe(`You bring down the boar. ✓ (HP 50→42 · +${formatCoin(8)})`);
+    // the ordinary G4 win: NO coin, loot only — no dead "+0" token renders (C1.5)
+    expect(
+      renderLogLine('combat.win', {
+        mob: 'boar',
+        hpBefore: 50,
+        hpAfter: 42,
+        coin: 0,
+        lootQty: 2,
+        lootLabel: 'boar hide',
+      }),
+    ).toBe('You bring down the boar. ✓ (HP 50→42 · +2 boar hide)');
+    // …and a fully-bare win closes the parens clean
+    expect(
+      renderLogLine('combat.win', {
+        mob: 'boar',
+        hpBefore: 50,
+        hpAfter: 42,
+        coin: 0,
+        lootQty: 0,
+        lootLabel: '',
+      }),
+    ).toBe('You bring down the boar. ✓ (HP 50→42)');
   });
 
   it('combat.loss joins the rout-loss phrase at 3 / 1 / 0 dropped resources', () => {
@@ -130,8 +152,6 @@ describe('log-content registry — coverage', () => {
     },
     'combat.flee': { mob: 'boar', hpBefore: 50, hpAfter: 20 },
     'combat.loss': { mob: 'boar', hpBefore: 40, hpAfter: 5, lostCoin: 1, lostMats: 1 },
-    'combat.wolfScripted': {},
-    'combat.drillmaster': {},
     'combat.weaponBroken': { weapon: 'bo staff' },
     'craft.repair': { weapon: 'bo staff', wood: 2, coinFee: 3 },
     'craft.equip': { weapon: 'bo staff' },

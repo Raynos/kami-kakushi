@@ -988,7 +988,7 @@
         {
           "key": 200,
           "channel": "combat",
-          "text": "You bring down the river rats. ✓ (HP 60→11 · +0 mon)",
+          "text": "You bring down the river rats. ✓ (HP 60→11)",
           "tick": 12,
           "count": 1,
           "contentKey": "combat.win",
@@ -1004,7 +1004,7 @@
         {
           "key": 211,
           "channel": "combat",
-          "text": "You bring down the river rats. ✓ (HP 60→36 · +0 mon)",
+          "text": "You bring down the river rats. ✓ (HP 60→36)",
           "tick": 0,
           "count": 1,
           "contentKey": "combat.win",
@@ -1020,7 +1020,7 @@
         {
           "key": 214,
           "channel": "combat",
-          "text": "You bring down the river rats. ✓ (HP 60→10 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the river rats. ✓ (HP 60→10 · +1 beast sinew)",
           "tick": 6,
           "count": 1,
           "contentKey": "combat.win",
@@ -1044,7 +1044,7 @@
         {
           "key": 225,
           "channel": "combat",
-          "text": "You bring down the tanuki. ✓ (HP 60→15 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the tanuki. ✓ (HP 60→15 · +1 beast sinew)",
           "tick": 18,
           "count": 1,
           "contentKey": "combat.win",
@@ -1060,7 +1060,7 @@
         {
           "key": 228,
           "channel": "combat",
-          "text": "You bring down the tanuki. ✓ (HP 60→26 · +0 mon)",
+          "text": "You bring down the tanuki. ✓ (HP 60→26)",
           "tick": 4,
           "count": 1,
           "contentKey": "combat.win",
@@ -1131,7 +1131,7 @@
         {
           "key": 296,
           "channel": "combat",
-          "text": "You bring down the river rats. ✓ (HP 60→14 · +0 mon)",
+          "text": "You bring down the river rats. ✓ (HP 60→14)",
           "tick": 12,
           "count": 1,
           "contentKey": "combat.win",
@@ -1162,7 +1162,7 @@
         {
           "key": 306,
           "channel": "combat",
-          "text": "You bring down the river rats. ✓ (HP 60→14 · +0 mon)",
+          "text": "You bring down the river rats. ✓ (HP 60→14)",
           "tick": 16,
           "count": 1,
           "contentKey": "combat.win",
@@ -1178,7 +1178,7 @@
         {
           "key": 318,
           "channel": "combat",
-          "text": "You bring down the river rats. ✓ (HP 60→1 · +0 mon)",
+          "text": "You bring down the river rats. ✓ (HP 60→1)",
           "tick": 6,
           "count": 1,
           "contentKey": "combat.win",
@@ -1234,7 +1234,7 @@
         {
           "key": 336,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 68→17 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 68→17)",
           "tick": 14,
           "count": 1,
           "contentKey": "combat.win",
@@ -1280,7 +1280,7 @@
         {
           "key": 355,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 68→15 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 68→15 · +1 beast sinew)",
           "tick": 14,
           "count": 1,
           "contentKey": "combat.win",
@@ -1356,7 +1356,7 @@
         {
           "key": 412,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 68→25 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 68→25)",
           "tick": 0,
           "count": 1,
           "contentKey": "combat.win",
@@ -1387,7 +1387,7 @@
         {
           "key": 438,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 68→2 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 68→2 · +1 beast sinew)",
           "tick": 0,
           "count": 1,
           "contentKey": "combat.win",
@@ -1477,7 +1477,7 @@
         {
           "key": 481,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 68→15 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 68→15)",
           "tick": 20,
           "count": 1,
           "contentKey": "combat.win",
@@ -1493,7 +1493,7 @@
         {
           "key": 490,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 68→1 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 68→1)",
           "tick": 10,
           "count": 1,
           "contentKey": "combat.win",
@@ -1535,7 +1535,7 @@
         {
           "key": 502,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 76→20 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 76→20)",
           "tick": 2,
           "count": 1,
           "contentKey": "combat.win",
@@ -1566,7 +1566,7 @@
         {
           "key": 524,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 76→11 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 76→11 · +1 beast sinew)",
           "tick": 18,
           "count": 1,
           "contentKey": "combat.win",
@@ -1582,7 +1582,7 @@
         {
           "key": 536,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 76→12 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 76→12 · +1 beast sinew)",
           "tick": 12,
           "count": 1,
           "contentKey": "combat.win",
@@ -1598,7 +1598,7 @@
         {
           "key": 551,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 76→3 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 76→3 · +1 beast sinew)",
           "tick": 14,
           "count": 1,
           "contentKey": "combat.win",
@@ -1628,7 +1628,7 @@
         {
           "key": 564,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 76→28 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 76→28)",
           "tick": 12,
           "count": 1,
           "contentKey": "combat.win",
@@ -1644,7 +1644,7 @@
         {
           "key": 573,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 76→17 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 76→17)",
           "tick": 0,
           "count": 1,
           "contentKey": "combat.win",
@@ -1671,7 +1671,7 @@
         {
           "key": 577,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 84→29 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 84→29)",
           "tick": 12,
           "count": 1,
           "contentKey": "combat.win",
@@ -1687,7 +1687,7 @@
         {
           "key": 585,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 84→3 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 84→3)",
           "tick": 0,
           "count": 1,
           "contentKey": "combat.win",
@@ -1703,7 +1703,7 @@
         {
           "key": 588,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 84→16 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 84→16 · +1 beast sinew)",
           "tick": 14,
           "count": 1,
           "contentKey": "combat.win",
@@ -1719,7 +1719,7 @@
         {
           "key": 597,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 84→24 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 84→24 · +1 beast sinew)",
           "tick": 4,
           "count": 1,
           "contentKey": "combat.win",
@@ -1735,7 +1735,7 @@
         {
           "key": 600,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 84→7 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 84→7)",
           "tick": 16,
           "count": 1,
           "contentKey": "combat.win",
@@ -1751,7 +1751,7 @@
         {
           "key": 611,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 84→19 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 84→19 · +1 beast sinew)",
           "tick": 12,
           "count": 1,
           "contentKey": "combat.win",
@@ -1767,7 +1767,7 @@
         {
           "key": 620,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 84→11 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 84→11 · +1 beast sinew)",
           "tick": 2,
           "count": 1,
           "contentKey": "combat.win",
@@ -1798,7 +1798,7 @@
         {
           "key": 642,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 84→14 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 84→14 · +1 beast sinew)",
           "tick": 22,
           "count": 1,
           "contentKey": "combat.win",
@@ -1828,7 +1828,7 @@
         {
           "key": 655,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 84→41 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 84→41 · +1 beast sinew)",
           "tick": 16,
           "count": 1,
           "contentKey": "combat.win",
@@ -1855,7 +1855,7 @@
         {
           "key": 670,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 92→37 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 92→37)",
           "tick": 12,
           "count": 1,
           "contentKey": "combat.win",
@@ -1985,7 +1985,7 @@
         {
           "key": 694,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 92→45 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 92→45 · +1 beast sinew)",
           "tick": 10,
           "count": 1,
           "contentKey": "combat.win",
@@ -2029,7 +2029,7 @@
         {
           "key": 697,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 92→48 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 92→48)",
           "tick": 20,
           "count": 1,
           "contentKey": "combat.win",
@@ -2073,7 +2073,7 @@
         {
           "key": 700,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 92→45 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 92→45)",
           "tick": 6,
           "count": 1,
           "contentKey": "combat.win",
@@ -2176,7 +2176,7 @@
         {
           "key": 709,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 92→30 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 92→30 · +1 beast sinew)",
           "tick": 18,
           "count": 1,
           "contentKey": "combat.win",
@@ -2220,7 +2220,7 @@
         {
           "key": 712,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 92→25 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 92→25)",
           "tick": 6,
           "count": 1,
           "contentKey": "combat.win",
@@ -2264,7 +2264,7 @@
         {
           "key": 715,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 92→24 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 92→24 · +1 beast sinew)",
           "tick": 18,
           "count": 1,
           "contentKey": "combat.win",
@@ -2353,7 +2353,7 @@
         {
           "key": 723,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 92→37 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 92→37 · +1 beast sinew)",
           "tick": 8,
           "count": 1,
           "contentKey": "combat.win",
@@ -2442,7 +2442,7 @@
         {
           "key": 731,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 92→10 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 92→10)",
           "tick": 20,
           "count": 1,
           "contentKey": "combat.win",
@@ -2545,7 +2545,7 @@
         {
           "key": 740,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 92→27 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 92→27 · +1 beast sinew)",
           "tick": 12,
           "count": 1,
           "contentKey": "combat.win",
@@ -2648,7 +2648,7 @@
         {
           "key": 749,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 92→34 · +0 mon, +1 beast sinew)",
+          "text": "You bring down the badger. ✓ (HP 92→34 · +1 beast sinew)",
           "tick": 2,
           "count": 1,
           "contentKey": "combat.win",

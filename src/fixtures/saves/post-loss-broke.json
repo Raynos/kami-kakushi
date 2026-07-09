@@ -1832,7 +1832,7 @@
         {
           "key": 198,
           "channel": "combat",
-          "text": "You bring down the badger. ✓ (HP 58→12 · +0 mon)",
+          "text": "You bring down the badger. ✓ (HP 58→12)",
           "tick": 10,
           "count": 1,
           "contentKey": "combat.win",
