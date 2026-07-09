@@ -27,6 +27,7 @@ import {
   type Intent,
 } from './index';
 import { SKILL_XP_BASE, RICE_PER_RAKE } from './content/balance';
+import { refillSitePools } from './content/activities';
 import { rungRequirements } from './content/requirements';
 import { getDialogueLine, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import { rakeLine } from './content/coldOpen';
@@ -65,8 +66,8 @@ function haul(n: number): Intent[] {
 }
 /** Drive the FULL R1 count set (farm the paddies + haul the forecourt), spatially. */
 function doR1Work(s: GameState): GameState {
-  s = run({ ...s, location: 'home-paddies' }, farm(countFor('R1', 'act:farm_paddy')));
-  s = run({ ...s, location: 'gate-forecourt' }, haul(countFor('R1', 'act:haul_stores')));
+  s = run({ ...s, location: 'paddies' }, farm(countFor('R1', 'act:farm_paddy')));
+  s = run({ ...s, location: 'forecourt' }, haul(countFor('R1', 'act:haul_stores')));
   return s;
 }
 
@@ -131,29 +132,39 @@ describe('T0 Phase-1 rung climb', () => {
     expect(skillVisible(s, 'farming')).toBe(true);
   });
 
-  it('does not advance past R2 without the (M2a) combat gate', () => {
+  it('R2 is a pure-labour rung — its full count set opens the gate (the combat gate is R3)', () => {
+    // G4: R2→R3 is labour-only (woodcut/forage/haul); the combat gate moved to R3 (the night-round
+    // grain-watch — its kill:* requirements, tested in the R3→R4 block below). So finishing R2's
+    // count set DOES open the gate — an incomplete set (missing forage) must NOT.
     let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
     s = playBeat(run(s, repeat('rake_rice', countFor('R0', 'act:rake_rice')))); // → R1
     s = playBeat(doR1Work(s)); // → R2
-    // complete every R2 COUNT requirement (woodcut / forage / haul, spatially) — only the
-    // wolf flag req remains, so the gate must still hold (FB-121 absorbed the old storyGate).
-    s = run(
-      { ...s, location: 'woodlot-edge' },
-      Array.from(
-        { length: countFor('R2', 'act:woodcut_edge') },
-        () => ({ type: 'do_activity', activityId: 'woodcut_edge' }) as Intent,
-      ),
-    );
-    s = run(
-      { ...s, location: 'near-satoyama' },
-      Array.from(
-        { length: countFor('R2', 'act:forage_satoyama') },
-        () => ({ type: 'do_activity', activityId: 'forage_satoyama' }) as Intent,
-      ),
-    );
-    s = run({ ...s, location: 'gate-forecourt' }, haul(countFor('R2', 'act:haul_stores')));
-    expect(promotionReady(s)).toBe(false); // the 'first-fight-survived' requirement still stands
-    expect(playBeat(s).rung).toBe('R2'); // …so even triggering the beat is a no-op — the rung holds
+    const woodcut = (t: GameState): GameState =>
+      run(
+        { ...t, location: 'woodlot' },
+        Array.from(
+          { length: countFor('R2', 'act:woodcut_edge') },
+          () => ({ type: 'do_activity', activityId: 'woodcut_edge' }) as Intent,
+        ),
+      );
+    const forage = (t: GameState): GameState =>
+      run(
+        { ...t, location: 'woodlot' },
+        Array.from(
+          { length: countFor('R2', 'act:forage_satoyama') },
+          () => ({ type: 'do_activity', activityId: 'forage_satoyama' }) as Intent,
+        ),
+      );
+    const haulR2 = (t: GameState): GameState =>
+      run({ ...t, location: 'forecourt' }, haul(countFor('R2', 'act:haul_stores')));
+    // woodcut + haul only (forage untouched) → the list is INCOMPLETE, so the gate holds.
+    const partial = haulR2(woodcut(s));
+    expect(promotionReady(partial)).toBe(false);
+    expect(playBeat(partial).rung).toBe('R2'); // triggering the beat is a no-op while short
+    // now finish the forage requirement too → the full labour set opens the gate and promotes.
+    const done = forage(partial);
+    expect(promotionReady(done)).toBe(true);
+    expect(playBeat(done).rung).toBe('R3');
   });
 });
 
@@ -298,23 +309,22 @@ describe('walkable estate map (T0-M4-F4 / D-065)', () => {
     const base = createInitialState(1);
     const atForecourt: GameState = {
       ...base,
-      location: 'gate-forecourt',
+      location: 'forecourt',
       flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, 'room-gate-forecourt', 'room-home-paddies'],
+      // the paddies + the danger-ring field-margins revealed (field-margins is NOT off the forecourt).
+      unlocked: [...base.unlocked, 'room-paddies', 'room-field-margins'],
     };
     // adjacent + revealed → you move
-    expect(reduce(atForecourt, { type: 'move_to', to: 'home-paddies' }).location).toBe(
-      'home-paddies',
-    );
-    // non-adjacent (satoyama isn't off the forecourt) → no-op
-    expect(reduce(atForecourt, { type: 'move_to', to: 'near-satoyama' })).toBe(atForecourt);
+    expect(reduce(atForecourt, { type: 'move_to', to: 'paddies' }).location).toBe('paddies');
+    // non-adjacent even when revealed (the field margins aren't off the forecourt) → no-op
+    expect(reduce(atForecourt, { type: 'move_to', to: 'field-margins' })).toBe(atForecourt);
     // the danger ring needs the conditioning gate even when adjacent + revealed
     const atPaddies: GameState = {
       ...atForecourt,
-      location: 'home-paddies',
-      unlocked: [...atForecourt.unlocked, 'room-near-satoyama'],
+      location: 'paddies',
     };
-    expect(reduce(atPaddies, { type: 'move_to', to: 'near-satoyama' })).toBe(atPaddies);
+    // field-margins is a danger ring adjacent to the paddies + revealed — still blocked (conditioning 0)
+    expect(reduce(atPaddies, { type: 'move_to', to: 'field-margins' })).toBe(atPaddies);
   });
 });
 
@@ -328,7 +338,7 @@ describe("porter's-knot is mechanically inert (no-magic / mediocre-start)", () =
     const plain: GameState = {
       ...base,
       rung: 'R2',
-      location: 'home-paddies', // v0.3.1 Step 5: farm_paddy is spatial — stand where the labour runs
+      location: 'paddies', // v0.3.1 Step 5: farm_paddy is spatial — stand where the labour runs
       flags: { ...base.flags, awake: true },
       unlocked: [...base.unlocked, 'verb-farm', 'tab-combat'],
     };
@@ -355,20 +365,20 @@ describe('conditioning enablement gate (the danger ring)', () => {
     // gate — zero it synthetically to isolate the LEVER (level < gate blocks; ≥ gate opens).
     s = { ...s, skillXp: { ...s.skillXp, conditioning: 0 } };
     // stand at the satoyama so the ONLY thing gating forage is the conditioning level, not the node
-    expect(canDoActivity({ ...s, location: 'near-satoyama' }, getActivity('forage_satoyama'))).toBe(
+    expect(canDoActivity({ ...s, location: 'woodlot' }, getActivity('forage_satoyama'))).toBe(
       false,
     );
     // top off the climb's fatigue so conditioning XP isn't stamina-throttled, then haul builds it to Lv2
     s = { ...s, character: { ...s.character, satiety: 100 } };
     s = run(
-      { ...s, location: 'gate-forecourt' }, // v0.3.1 Step 5: haul_stores runs at the forecourt
+      { ...s, location: 'forecourt' }, // v0.3.1 Step 5: haul_stores runs at the forecourt
       Array.from(
         { length: 5 },
         () => ({ type: 'do_activity', activityId: 'haul_stores' }) as Intent,
       ),
     );
     expect(skillLevel(s, 'conditioning')).toBeGreaterThanOrEqual(2);
-    expect(canDoActivity({ ...s, location: 'near-satoyama' }, getActivity('forage_satoyama'))).toBe(
+    expect(canDoActivity({ ...s, location: 'woodlot' }, getActivity('forage_satoyama'))).toBe(
       true,
     );
   });
@@ -379,22 +389,31 @@ describe('soft stamina + season', () => {
     let s = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
     s = playBeat(run(s, repeat('rake_rice', countFor('R0', 'act:rake_rice')))); // → R1
     s = playBeat(doR1Work(s)); // → R2
-    // a fed body AT THE PADDIES for the fresh baseline (doR1Work ends at the forecourt)
-    s = { ...s, location: 'home-paddies', character: { ...s.character, satiety: 100 } };
+    // a fed body AT THE PADDIES for the fresh baseline (doR1Work ends at the forecourt). REFILL the
+    // paddy site pool (doR1Work drew it down) so the ONLY lever between fresh + tired is SATIETY —
+    // not the ADR-163 per-site draw-down. Rice banks to the kura (banked), never carried (resources).
+    s = {
+      ...s,
+      location: 'paddies',
+      character: { ...s.character, satiety: 100 },
+      sitePools: refillSitePools(season(s)),
+    };
     const fresh = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
-    const freshRice = (fresh.resources.rice ?? 0) - (s.resources.rice ?? 0);
-    // drain satiety hard (40 hauls × 4 satiety → the floor) — hauling is at the forecourt
-    let drained: GameState = { ...s, location: 'gate-forecourt' };
+    const freshRice = (fresh.banked.rice ?? 0) - (s.banked.rice ?? 0);
+    expect(freshRice).toBeGreaterThan(0); // a full pool + full belly banks real rice
+    // drain satiety hard (40 hauls × 4 satiety → the floor) — hauling is at the forecourt, a
+    // DIFFERENT site, so the paddy pool the tired-farm draws is still full (isolates satiety).
+    let drained: GameState = { ...s, location: 'forecourt' };
     for (let i = 0; i < 40; i++)
       drained = reduce(drained, { type: 'do_activity', activityId: 'haul_stores' });
     expect(drained.character.satiety).toBeLessThan(20);
     // walk the drained body back to the paddies for the tired-farm comparison
     const tired = reduce(
-      { ...drained, location: 'home-paddies' },
+      { ...drained, location: 'paddies' },
       { type: 'do_activity', activityId: 'farm_paddy' },
     );
-    const tiredRice = (tired.resources.rice ?? 0) - (drained.resources.rice ?? 0);
-    expect(tiredRice).toBeGreaterThan(0); // never zero
+    const tiredRice = (tired.banked.rice ?? 0) - (drained.banked.rice ?? 0);
+    expect(tiredRice).toBeGreaterThan(0); // never zero (the soft throttle floors, never blocks)
     expect(tiredRice).toBeLessThanOrEqual(freshRice);
   });
 
@@ -444,7 +463,7 @@ describe('ephemeral flavor tagging (F53 + F58a)', () => {
     const atPaddies: GameState = {
       ...base,
       rung: 'R2',
-      location: 'home-paddies',
+      location: 'paddies',
       flags: { ...base.flags, awake: true },
       unlocked: [...base.unlocked, 'verb-farm'],
     };
@@ -453,13 +472,13 @@ describe('ephemeral flavor tagging (F53 + F58a)', () => {
     expect(farmLine).toBeDefined();
     expect(farmLine!.ephemeral).toBe(true);
 
-    // …but the flag is NOT a blanket: a milestone perk-unlock line (FB-56) stays a PERMANENT record.
-    const perked = reduce(reduce(createInitialState(1), { type: 'open_eyes' }), {
-      type: 'choose_intro',
-      optionId: 'soan-grateful',
-    });
-    const perkLine = lastByChannel(perked, 'milestone');
-    expect(perkLine).toBeDefined();
-    expect(perkLine!.ephemeral ?? false).toBe(false);
+    // …but the flag is NOT a blanket: the milestone rung-marker line (applyPromotion's rank.marker)
+    // stays a PERMANENT record. Climb R0→R1 for a real promotion beat, then read its milestone line.
+    let promoted = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
+    promoted = playBeat(run(promoted, repeat('rake_rice', countFor('R0', 'act:rake_rice')))); // → R1
+    expect(promoted.rung).toBe('R1');
+    const markerLine = lastByChannel(promoted, 'milestone');
+    expect(markerLine).toBeDefined();
+    expect(markerLine!.ephemeral ?? false).toBe(false);
   });
 });
