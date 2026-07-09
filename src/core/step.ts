@@ -5,14 +5,14 @@
 // dtTicks from active elapsed time only).
 
 import type { GameState } from './state';
-import { withBanked, setFlag, hasFlag } from './state';
-import { TICKS_PER_DAY, SEASONS, SHO_PER_KOKU } from './constants';
+import { withBanked } from './state';
+import { TICKS_PER_DAY, SEASONS } from './constants';
 import { revealPass } from './unlock';
 import { phaseOf } from './ranks';
 import { seasonalJudge } from './pillars';
 import { deriveDayKeyed } from './rng';
 import { applyRewards } from './rewards';
-import { riceSpoilage, CONSUMPTION_SHO_PER_DAY, NENGU_KOKU_DEMAND } from './content/balance';
+import { riceSpoilage, CONSUMPTION_SHO_PER_DAY } from './content/balance';
 import { refillSitePools } from './content/activities';
 import { triggerScenes } from './scenes';
 
@@ -65,47 +65,21 @@ function onSeasonTurn(state: GameState): GameState {
   });
 }
 
-/** The nengu (年貢) — Autumn's land-tax reckoning (ADR-163, a KURA sink). At the AUTUMN season-exit
- *  the koku demand is met from the kura (converted to shō); the shortfall is the debt's FELT pressure
- *  — never numbered in T0 (no debt panel, flags only). Latches `nengu-reckoned` (the Autumn exit-gate
- *  seam + the T1 debt hook). */
-function onNengu(state: GameState): GameState {
-  if (state.season !== 'autumn') return state;
-  const demandSho = NENGU_KOKU_DEMAND * SHO_PER_KOKU;
-  const inKura = state.banked.rice ?? 0;
-  const paid = Math.min(inKura, demandSho);
-  let next = state;
-  if (paid > 0) next = withBanked(next, 'rice', -paid);
-  // The reckoning happened; the tax-day flag latches (felt, never numbered). `nengu-short` marks the
-  // shortfall (the debt's pressure) for content to read — a flag seam, no number surfaced.
-  next = setFlag(next, 'nengu-reckoned');
-  if (paid < demandSho && !hasFlag(next, 'nengu-short')) next = setFlag(next, 'nengu-short');
-  return applyRewards(next, {
-    log: [
-      {
-        channel: 'milestone',
-        voice: 'narrator',
-        // HD-30 (2026-07-09): the nengu reckoning line — felt, never numbered (no koku/shō figure).
-        text: 'The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.',
-      },
-    ],
-  });
-}
-
 /** The season-exit pipeline (storywave G1 / ADR-153): the seasonal judge (the Phase-2 share) →
- *  the spoilage pass → advance the wheel one step, incrementing `seasonsPassed`. Exit GATES (e.g.
- *  Autumn's nengu — `flag nengu-reckoned`) and the per-season VN overlay scene arrive with content
- *  (G2/G4); until then no season gates its exit and the clock readout is the turn's signal.
- *  Instant (ADR-148): the overlay, once authored, IS the time. The seasonal judge fires ONLY here
- *  now (post-R7 Phase 2), so a run must cross season boundaries to be reckoned before ascension. */
+ *  the spoilage pass → advance the wheel one step, incrementing `seasonsPassed`. Instant
+ *  (ADR-148): the overlay, once authored, IS the time. The seasonal judge fires ONLY here
+ *  (post-R7 Phase 2), so a run must cross season boundaries to be reckoned before ascension.
+ *  ADR-166: Autumn's REFUSING exit gate lives in the `advance_season` reducer arm — a caller
+ *  only reaches this pipeline once the year's nengu is reckoned (the reckoning itself moved
+ *  to the nengu scene's completion: nengu.ts / scenes.ts). By construction the nengu draw
+ *  precedes this exit's spoilage pass (the tax is met first, as ADR-163 orders it). */
 export function advanceSeason(state: GameState): GameState {
   let next = onReckoning(state);
-  next = onNengu(next); // Autumn's nengu draws the kura BEFORE spoilage (the tax is met first)
   next = onSeasonTurn(next);
   // G4 — the per-season VN overlay: queue any scene whose season-exit trigger matches the season NOW
-  //   ending (before the wheel turns) — the Autumn `nengu-autumn-frame` reckoning overlay, the Bon
-  //   `sb-bon` beat. Enqueued here; the queue opens at the render layer (G4.9). The `nengu-reckoned`
-  //   flag latch (onNengu) is the mechanical gate; this scene is its felt VN frame.
+  //   ending (before the wheel turns) — e.g. the Bon `sb-bon` beat. Enqueued here; the queue opens
+  //   at the render layer (G4.9). (The nengu frame is NOT season-exit-keyed since ADR-166 — the
+  //   REFUSED Autumn attempt enqueues it instead.)
   next = triggerScenes(next, { kind: 'season-exit', season: next.season });
   const idx = SEASONS.indexOf(next.season);
   const nextSeason = SEASONS[(idx + 1) % SEASONS.length]!;

@@ -97,3 +97,29 @@ so a shut stall can't stall the policy loop; the sell terminates by shrinking
 the pile). ADR-132: Phase-2 ratio nudged [7.33–8.65]→[7.24–8.54] (the lever
 now fires; still the pre-existing C5b band breach), idler REDs unchanged;
 report + fixtures regenerated.
+
+## C1.4 — B7/ADR-166: the Autumn refusing gate + season.test.ts + B6
+
+The big one. `advance_season` is ENGINE law now (refused during intro/scene,
+refused pre-R2 — mirrors the vitals gate), and Autumn's exit is the TRUE
+refusing gate the human ruled: unreckoned attempt → refused + the nengu
+scene enqueues (`trigger: scripted` now — re-keyed in scenes.md); scene
+completion performs the reckoning (new `src/core/nengu.ts` — AC-20 glue:
+kura draw + `nengu-reckoned` + `nengu-short` + the per-year re-arm flag
+`nengu-reckoned-y<N>`); next attempt exits. `onNengu` deleted from the exit
+pipeline (step.ts). Scene engine: completion effects fire from BOTH
+terminals (scenes.ts `applySceneCompletionEffects`); `enqueueScene`'s
+replay-block now keys on `def.once` — it silently blocked EVERY played id,
+making the "absent ⇒ repeatable" SceneDef contract false (latent bug); the
+nengu frame is repeatable (annual). Autoplay unchanged in policy (the (a0)
+scene drain self-resolves the refusal); its pre-R2 wheel-turn is guarded.
+B6 same commit: `fight` + `set_auto_combat` refuse `nightRoundOnly` foes
+(engine law, was UI-only); registry-derived invariant added.
+`season.test.ts` finally exists: wheel order from SEASONS, pool refill from
+refillSitePools, the three guards, the refusal flow, shortfall, annual
+re-arm (8 tests; the refusal/re-arm cases fail BY CONSTRUCTION against the
+old auto-reckon engine). m1/economy suites re-seamed to R2 (they tested
+their own levers standing on now-illegal R0 ground); scenes.test's
+once-scan filtered to `once` defs. KNOWN EDGE: a v0.4.0 save mid-Autumn
+that already auto-reckoned will re-play the frame and pay once more that
+autumn (year-flag absent) — accepted, dev-stage, self-heals at the turn.

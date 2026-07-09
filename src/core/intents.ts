@@ -32,7 +32,8 @@ import {
 } from './selectors';
 import { getBelonging, homeRestLine } from './content/home';
 import { skillLevel, skillYieldNum } from './skills';
-import { applyPromotion, promotionReady, pendingPromotionTarget } from './ranks';
+import { applyPromotion, promotionReady, pendingPromotionTarget, rungNumber } from './ranks';
+import { nenguReckonedThisYear } from './nengu';
 import { bankEstateDeed } from './pillars';
 import { ascend } from './ascension';
 import { isUnlocked } from './unlock';
@@ -681,6 +682,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!isUnlocked(next, 'tab-combat')) return state;
       // v0.3.1 Step 5b: foes are spatial — you must stand on the foe's node to fight it.
       if (getMob(intent.mobId).area !== next.location) return state;
+      // B6 — "the wolf is survived, never won" is ENGINE law: a nightRoundOnly foe can never
+      // be day-fought (the UI's GRINDABLE_MOBS filter was the only guard before).
+      if (getMob(intent.mobId).nightRoundOnly) return state;
       next = applyGrindFight(next, intent.mobId, intent.retreat ?? false);
       break;
     }
@@ -688,6 +692,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // Spatial (Step 5b): you can only ARM an auto-grind for a foe you stand with (mirrors the
       // `fight` gate); clearing (mobId null) works from anywhere. move_to also clears it when you walk off.
       if (intent.mobId !== null && getMob(intent.mobId).area !== next.location) return state;
+      // B6 — a nightRoundOnly foe can't be ARMED for the day-grind either (the same invariant).
+      if (intent.mobId !== null && getMob(intent.mobId).nightRoundOnly) return state;
       next = { ...next, autoCombat: intent.mobId, autoCombatRetreat: intent.retreat ?? false };
       // The auto-loop stops the grind when the blade breaks and there's no wood to mend it — say so,
       // else the "leave it running" mode just halts silently and reads as a freeze (R3 false-silence).
@@ -1081,9 +1087,22 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'advance_season': {
-      // storywave G1: end the current season — run the exit pipeline (the seasonal judge →
-      // the spoilage pass → advance the six-season wheel, incrementing seasonsPassed). Instant
-      // (ADR-148); exit GATES (Autumn's nengu) + the per-season VN overlay arrive with content (G4).
+      // storywave G1 + C1.4: end the current season — the exit pipeline (seasonal judge →
+      // spoilage → wheel turn, instant per ADR-148). ENGINE LAW, not render law: refused
+      // while any VN owns the surface (the surfaces never overlap) and before R2 (the manual
+      // wheel arrives with the season readout — the vitals gate mirrors this; the reducer is
+      // the source of truth).
+      if (introActive(state.introBeat)) return state;
+      if (state.activeScene !== null) return state;
+      if (rungNumber(state.rung) < 2) return state;
+      // ADR-166 — the Autumn REFUSING gate (human-ruled 2026-07-09): the year does not turn
+      // until THIS year's nengu is reckoned. The refused attempt opens the reckoning itself:
+      // the nengu scene enqueues (completing it draws the kura + latches the flags —
+      // scenes.ts/nengu.ts), and the exit passes on the next attempt. Re-arms every year.
+      if (state.season === 'autumn' && !nenguReckonedThisYear(state)) {
+        next = enqueueScene(next, 'nengu-autumn-frame');
+        break;
+      }
       next = advanceSeason(next);
       break;
     }
@@ -1093,8 +1112,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'begin_scene': {
-      // storywave G2 (DORMANT): open a generalized VN scene by id. No-op when the id isn't in
-      // the (empty at G2) registry, or when a scene is already live (the VN surfaces never overlap).
+      // storywave G2 engine, LIVE since G4: open a generalized VN scene by id. No-op when the
+      // id isn't in the registry, or when a scene is already live (the VN surfaces never overlap).
       const def = sceneById(intent.sceneId);
       if (!def) return state;
       if (state.activeScene !== null) return state;
@@ -1119,8 +1138,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'begin_night_round': {
-      // storywave G2 (DORMANT): start the on-rails night round. No-op when the id isn't in the
-      // (empty at G2) registry, or when a round is already running.
+      // storywave G2 engine, LIVE since G4 (the R3 grain-watch): start the on-rails night
+      // round. No-op when the id isn't in the registry, or when a round is already running.
       const def = nightRoundById(intent.roundId);
       if (!def) return state;
       if (state.roundState !== null) return state;

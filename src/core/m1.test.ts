@@ -417,10 +417,13 @@ describe('soft stamina + season', () => {
   });
 
   it('the season is stored and turns ONLY by advance_season (the six-season wheel)', () => {
-    const s = createInitialState(1);
-    expect(season(s)).toBe('winter'); // the wheel opens on Winter (storywave G1 / ADR-153)
+    const s0 = createInitialState(1);
+    expect(season(s0)).toBe('winter'); // the wheel opens on Winter (storywave G1 / ADR-153)
     // MANUAL now: a plain tick never moves the wheel (the old day-derived season is retired).
-    expect(season(tick(s, TICKS_PER_DAY * 5))).toBe('winter');
+    expect(season(tick(s0, TICKS_PER_DAY * 5))).toBe('winter');
+    // C1.4: the wheel is engine-refused pre-R2 (the guard suite lives in season.test.ts) —
+    // seam to R2 so this test keeps testing ITS lever (storage + manual turn), not the guard.
+    const s = { ...s0, rung: 'R2' as const };
     // two turns on: Winter → New Year → Spring — the next season derived from SEASONS, not a copied index.
     const twoOn = reduce(reduce(s, { type: 'advance_season' }), { type: 'advance_season' });
     expect(season(twoOn)).toBe(SEASONS[2]); // 'spring'

@@ -692,7 +692,9 @@ describe('D-118 §1a — kura rice SPOILS on advance_season (holding costs somet
   // so a broken or missing spoilage step flips these RED (against the old lossless kura).
   function withKura(banked: number): GameState {
     const s = createInitialState(1);
-    return { ...s, banked: { ...s.banked, rice: banked } };
+    // rung R2: the manual wheel is engine-refused below it (C1.4 — guards in season.test.ts);
+    // this suite tests the SPOILAGE lever, so it stands on legal ground and pulls only that.
+    return { ...s, rung: 'R2', banked: { ...s.banked, rice: banked } };
   }
 
   it('advance_season decays the KURA pile by exactly riceSpoilage(banked), leaving the rest', () => {

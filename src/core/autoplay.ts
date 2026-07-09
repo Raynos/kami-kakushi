@@ -33,7 +33,7 @@ import { isRequirementDone } from './requirements-engine';
 import { canCraft, getRecipe } from './content/crafting';
 import { hasFlag } from './state';
 import { introActive, introSceneAt } from './content/intro';
-import { promotionReady, pendingPromotionTarget, phaseOf } from './ranks';
+import { promotionReady, pendingPromotionTarget, phaseOf, rungNumber } from './ranks';
 import { estateBuild } from './selectors';
 import { RUNG_BEATS } from './content/rungBeats';
 
@@ -325,7 +325,10 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
         // (instant) to refill it rather than farm a dead field — the focused-optimal farmer waits
         // for next season. The 10%/season spoilage on the turn is dwarfed by a fresh pool's yield,
         // so the banked pile still climbs to the R7 granary target.
-        if ((s.sitePools[getActivity('farm_paddy').area] ?? 0) <= 0) {
+        if (
+          (s.sitePools[getActivity('farm_paddy').area] ?? 0) <= 0 &&
+          rungNumber(s.rung) >= 2 // the manual wheel is engine-refused pre-R2 (C1.4)
+        ) {
           return { type: 'advance_season' };
         }
         const go = driveLabour('farm_paddy');
@@ -384,8 +387,9 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
       continue; // a round is live — the driver loop resolves its stages this step
     }
     if (req.flag === 'nengu-reckoned') {
-      // Autumn's reckoning latches at the AUTUMN season-EXIT (step.onNengu): turn the manual wheel
-      // (instant) until autumn is exited. The season overlays it enqueues drain at (a0) next step.
+      // ADR-166: the reckoning latches when the NENGU SCENE completes — the refused Autumn
+      // exit enqueues it, (a0) drains it (reckoning), and the next attempt exits. So the
+      // policy is unchanged: keep turning the manual wheel; the refusal path self-resolves.
       return { type: 'advance_season' };
     }
   }

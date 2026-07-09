@@ -109,8 +109,10 @@ describe('G2 scene engine — queue discipline (once / order / no re-enqueue)', 
     expect(enqueueScene(played, def.id).sceneQueue).not.toContain(def.id);
 
     // …and a trigger SCAN over the REAL registry (G4: SCENES now ships content) respects the guard:
-    // it enqueues an UNPLAYED scripted scene but NOT a played one (source-derived, no magic ids).
-    const scripted = SCENES.filter((d) => d.trigger.kind === 'scripted');
+    // it enqueues an UNPLAYED once scene but NOT a played one (source-derived, no magic ids).
+    // Filter to `once` defs — a REPEATABLE scripted scene (the annual nengu frame, ADR-166)
+    // legitimately re-enqueues and is not this test's lever.
+    const scripted = SCENES.filter((d) => d.trigger.kind === 'scripted' && d.once);
     expect(scripted.length).toBeGreaterThan(0);
     const target = scripted[0]!;
     const fresh = createInitialState(1);

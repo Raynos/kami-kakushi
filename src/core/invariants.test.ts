@@ -308,6 +308,24 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
     expect(hasFlag(arc.final, 'wolf-survived-not-won')).toBe(true);
   });
 
+  it('every nightRoundOnly foe is un-FIGHTABLE and un-ARMABLE by day (B6 — engine law)', () => {
+    // Registry-derived: for each night-only foe, stand ON its node with combat open and try
+    // both day intents — the reducer must refuse (reference-equal state). RED if the C1.4
+    // guards are removed, or if a future night foe is added without riding them.
+    const nightFoes = MOBS.filter((m) => m.nightRoundOnly);
+    expect(nightFoes.length).toBeGreaterThan(0); // never vacuous
+    for (const mob of nightFoes) {
+      const s: GameState = {
+        ...createInitialState(1),
+        rung: 'R4',
+        location: mob.area,
+        unlocked: [...createInitialState(1).unlocked, 'tab-combat'],
+      };
+      expect(reduce(s, { type: 'fight', mobId: mob.id }), `fight ${mob.id}`).toBe(s);
+      expect(reduce(s, { type: 'set_auto_combat', mobId: mob.id }), `arm ${mob.id}`).toBe(s);
+    }
+  });
+
   it('EVERY rung-up R1…R7 surfaces a VN scene — a promotion beat OR a silent-content scene', () => {
     // the beat-bearing rungs each carry a RUNG_BEATS entry (the VN opened on `begin_rung_beat`)…
     for (const r of ['R1', 'R3', 'R4', 'R6', 'R7'] as const) {

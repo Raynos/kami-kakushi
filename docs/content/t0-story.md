@@ -398,7 +398,7 @@
 
 ### nengu-autumn-frame
 
-*(trigger: season-exit autumn, once)*
+*(trigger: scripted)*
 
 > Autumn thins to its last day, and the board comes out at an hour it does not usually keep. The whole house comes with it: the family by the book, the hands by the door, and you in the corner — counted as part of the room, and not asked into it.
 

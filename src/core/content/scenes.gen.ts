@@ -39,8 +39,7 @@ export const SCENES: readonly SceneDef[] = [
       topics: [],
       decision: { prompt: '', options: [] },
     },
-    trigger: { kind: 'season-exit', season: 'autumn' },
-    once: true,
+    trigger: { kind: 'scripted' },
   },
 
   {

@@ -12,9 +12,14 @@
   NOT invented fiction. -->
 
 <!-- ── The season-exit ceremony ─────────────────────────────────────────────
-  The nengu (land-tax) reckoning is Autumn's season-exit gate (economy spec,
-  ADR-163): the board, the MC as furniture, felt-never-numbered; sets the flag
-  `nengu-reckoned` that R7 gates on. AUTHORED via the HD-30 narrative-diverge
+  The nengu (land-tax) reckoning is Autumn's REFUSING exit gate (ADR-166,
+  human-ruled 2026-07-09; economy spec ADR-163): `trigger: scripted` — the
+  REFUSED Autumn exit enqueues it (intents.ts advance_season), its completion
+  performs the reckoning (nengu.ts — kura draw; latches `nengu-reckoned` that
+  R7 gates on + the per-year re-arm flag), and the next exit attempt passes.
+  REPEATABLE (no `once`): the board comes out every Autumn — the felt frame
+  of the annual tax. The board, the MC as furniture, felt-never-numbered.
+  AUTHORED via the HD-30 narrative-diverge
   (2026-07-09): a 3-take blind fleet → self-pick TAKE C (the speakerless
   MC-as-furniture take — tightest to the bible's "pays by inches we SHOW, never
   discussed" + "the MC as furniture"), with one grafted image from take A ("the
@@ -25,8 +30,7 @@
 
 
 ## scene-def nengu-autumn-frame
-trigger: season-exit autumn
-once: true
+trigger: scripted
 voice: narrator
 
 > Autumn thins to its last day, and the board comes out at an hour it does not

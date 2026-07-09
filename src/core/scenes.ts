@@ -10,7 +10,14 @@
 import type { GameState } from './state';
 import { deepenNpc } from './state';
 import { applyRewards } from './rewards';
-import { SCENES, type SceneDef, type SceneId, type SceneTrigger } from './content/scenes';
+import {
+  SCENES,
+  sceneById,
+  type SceneDef,
+  type SceneId,
+  type SceneTrigger,
+} from './content/scenes';
+import { reckonNengu } from './nengu';
 import { rungOption, type RungScene } from './content/rungBeats';
 import {
   NPC_VOICE,
@@ -21,12 +28,18 @@ import {
 } from './content/voices';
 
 /** Append a scene id to the queue — unless it is already queued, currently active, or a
- *  write-once played scene (mirrors the `unlocked` latch). The lower-level primitive both
- *  `triggerScenes` and the `verb` intent post through. */
+ *  played `once` scene. The lower-level primitive both `triggerScenes` and the `verb`
+ *  intent post through. C1.4: the replay-block keys on `def.once` (it used to block EVERY
+ *  played id, silently making the SceneDef "absent ⇒ repeatable" contract false) — the
+ *  annual nengu frame (ADR-166) re-enters the queue each Autumn through here. */
 export function enqueueScene(state: GameState, id: SceneId): GameState {
   if (state.sceneQueue.includes(id)) return state;
   if (state.activeScene?.id === id) return state;
-  if (state.scenesPlayed.includes(id)) return state;
+  // An id OUTSIDE the registry (constructed test defs) conservatively keeps the old
+  // once-only behavior — only a REGISTERED repeatable may re-enter the queue.
+  const def = sceneById(id);
+  const once = def ? def.once === true : true;
+  if (once && state.scenesPlayed.includes(id)) return state;
   return { ...state, sceneQueue: [...state.sceneQueue, id] };
 }
 
@@ -107,8 +120,19 @@ export function beginScene(state: GameState, def: SceneDef): GameState {
 export function advanceSceneBeat(state: GameState, def: SceneDef): GameState {
   if (state.activeScene === null || state.activeScene.id !== def.id) return state;
   if (def.scene.decision.options.length > 0) return state;
-  const next = latchScenePlayed(state, def.id);
+  let next = applySceneCompletionEffects(state, def);
+  next = latchScenePlayed(next, def.id);
   return { ...next, activeScene: null };
+}
+
+/** Scene-completion EFFECTS (AC-20-style glue): id-keyed engine consequences that fire when
+ *  a scene closes, whichever terminal closed it (a decision pick or the narration drain).
+ *  ADR-166: the nengu frame IS the reckoning — completing it draws the kura + latches the
+ *  flags (nengu.ts). Content-keyed effects live HERE, never inline in a reducer arm, so the
+ *  two terminals can't drift. */
+function applySceneCompletionEffects(state: GameState, def: SceneDef): GameState {
+  if (def.id === 'nengu-autumn-frame') return reckonNengu(state);
+  return state;
 }
 
 /** The voice + nameplate a scene option's `react` line speaks in (mirrors the rung-beat
@@ -169,7 +193,8 @@ export function applySceneOption(state: GameState, def: SceneDef, optionId: stri
   // (e) the story-DEFAULT opening stance (if the pick sets one).
   if (opt.setStance) next = { ...next, stance: opt.setStance };
   // NO promotion — scenes never advance a rank (the rung trigger keeps begin_rung_beat's path).
-  // Latch the write-once played record, then clear the cursor (the world reveals post-scene).
+  // Completion effects (the id-keyed glue), then latch the played record + clear the cursor.
+  next = applySceneCompletionEffects(next, def);
   next = latchScenePlayed(next, def.id);
   return { ...next, activeScene: null };
 }

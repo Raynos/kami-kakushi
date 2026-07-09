@@ -94,6 +94,12 @@ export function applyPromotion(state: GameState, target: RankId): GameState {
 }
 
 /** T0 has R0…R7; Phase 2 (the pillar grind) opens after the final rung (FU7). */
+/** The numeric height of a rung id ('R4' → 4) — the engine-side twin of the vitals-gate
+ *  parse (render.ts renderVitals), so a UI rule promoted to engine law derives the same way. */
+export function rungNumber(id: RankId): number {
+  return Number.parseInt(id.slice(1), 10);
+}
+
 export function phaseOf(state: GameState): 1 | 2 {
   return state.rung === 'R7' && state.flags['t0-capstone'] === true ? 2 : 1;
 }
