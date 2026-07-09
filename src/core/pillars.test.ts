@@ -17,6 +17,7 @@ import {
   ESTATE_STAGES,
   estateBuild,
 } from './index';
+import { FLAVOR } from './content/flavor';
 
 /** A state parked at the R7 capstone → Phase 2 open (where deeds bank). */
 function atPhase2(): GameState {
@@ -74,7 +75,7 @@ describe('Estate deeds are Phase-2-gated (FU7) (M2·3)', () => {
     const base = atPhase2();
     const s = reduce(
       // farm_paddy is SPATIAL (v0.3.1 Step 5) — must be at its node to run.
-      { ...base, location: 'home-paddies', unlocked: [...base.unlocked, 'verb-farm'] },
+      { ...base, location: 'paddies', unlocked: [...base.unlocked, 'verb-farm'] },
       { type: 'do_activity', activityId: 'farm_paddy' },
     );
     // The deed is SUB-koku (ADR-133): a single act banks into `frac`, not yet a whole koku in `value`.
@@ -173,12 +174,12 @@ describe('ADR-145 — the multi-source Phase-2 economy (Phase 1 DoD)', () => {
   it('via the reducer: farm banks FIELDS, woodcut banks ZERO (the Q4 gate end-to-end)', () => {
     const base2 = atPhase2();
     const farm = reduce(
-      { ...base2, location: 'home-paddies', unlocked: [...base2.unlocked, 'verb-farm'] },
+      { ...base2, location: 'paddies', unlocked: [...base2.unlocked, 'verb-farm'] },
       { type: 'do_activity', activityId: 'farm_paddy' },
     );
     expect(farm.influence.estate.frac ?? 0).toBeCloseTo(estateDeedMagnitude('fields'), 9);
     const wood = reduce(
-      { ...base2, location: 'woodlot-edge', unlocked: [...base2.unlocked, 'verb-woodcut'] },
+      { ...base2, location: 'woodlot', unlocked: [...base2.unlocked, 'verb-woodcut'] },
       { type: 'do_activity', activityId: 'woodcut_edge' },
     );
     expect(wood.resources.wood ?? 0).toBeGreaterThan(0); // the act really ran…
@@ -228,7 +229,9 @@ describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', (
       expect(s.estateStage).toBe(stage); // strictly one stage per commissioning — never skips
     }
     expect(s.flags['estate-stands']).toBe(true);
-    const standsLines = s.log.entries.filter((l) => l.text.includes('the estate stands'));
+    // Match the completion BEAT precisely (FLAVOR.estateStands) — the U4 stage's own commissioning
+    // line also carries the phrase "the estate stands", so a loose substring would over-count.
+    const standsLines = s.log.entries.filter((l) => l.text === FLAVOR.estateStands);
     expect(standsLines.length).toBe(1); // the build-complete beat fired exactly once
     // …and a further improve is a no-op that does NOT re-fire it (append-only, TST2)
     const again = reduce(s, { type: 'improve_estate' });
