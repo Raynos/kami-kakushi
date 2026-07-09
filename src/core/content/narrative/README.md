@@ -83,7 +83,7 @@ continuation lines indent two spaces).
   are one paragraph.
 - `Kihei: "…"` — a speech line. The speaker is a display name resolved through
   the `NPC_NAME` reverse map; its voice defaults to `NPC_VOICE[npc]`. A non-NPC
-  (ambient) speaker or a voice override is explicit: `Tokubei (villager): "…"`
+  (ambient) speaker or a voice override is explicit: `Yohei (villager): "…"`
   (resolved through `NAMES`). The quotes are part of the line, verbatim.
 
 Hard-wrap prose at ~80 chars; continuation lines are flush-left (speech) or
@@ -120,15 +120,15 @@ bonus: +1 agi — "Kihei drills you an extra dawn; your feet learn the watch.
 `### decide · <prompt>`, then `#### <option-id> · <label>` per option. The
 label doubles as the MC's `say` line (a `say:` annotation overrides where they
 differ — the intro). The option's one speech paragraph is the `react` — and
-**naming a different speaker is how a two-voice react is written** (R4: Tōzō
-answers a decision Genemon owns → `reactNpc`).
+**naming a different speaker is how a two-voice react is written** (e.g. a
+second speaker answers a decision the granter owns → `reactNpc`).
 
 Effect annotations, one per line, order-free, after the react:
 
 | annotation | example | compiles to |
 |---|---|---|
-| `memory:` | `kihei +1 (disciplined)` · `genemon +0, tozo +1 (friend)` | `memory: [{npc, warmthDelta, regard?}]` |
-| `flags:` | `r4-generous, smith-whetstone` | `flags: […]` |
+| `memory:` | `kihei +1 (disciplined)` · `genemon +0, kihei +1 (friend)` | `memory: [{npc, warmthDelta, regard?}]` |
+| `flags:` | `r4-generous, r4-drills-begun` | `flags: […]` |
 | `bonus:` | `+1 agi — "…delight line…"` | `statBonus` (the rare BQ2 stat nudge) |
 | `stance:` | `chudan` | `setStance` (R5 only) |
 
