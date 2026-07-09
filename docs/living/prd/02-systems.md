@@ -104,8 +104,10 @@ marks the turn), so the **season becomes STORED, advanced state** — no longer
 derived from a day counter. Game time displays only the **DAY OF THE WEEK**; the
 month/year counter is **hidden**. **Seasons UNLOCK at T0-R2** (R0–R1 show only
 the day of the week — "a man counts days again when he has a future").
-**Season-exit events exist** — the **nengū (land-tax) is Autumn's exit gate**, an
-authored scene at the board — and the **seasonal JUDGE rides every season exit**
+**Season-exit events exist** — the **nengū (land-tax) is Autumn's REFUSING exit
+gate** (ADR-166): the unreckoned exit is refused and opens the authored board
+scene, whose completion performs the reckoning; the gate re-arms every year —
+and the **seasonal JUDGE rides every season exit**
 (the pillar reckoning, §2.16, fires as the container closes on a new high-water
 mark). Nodes carry **per-season flavour**; season-specific actions, enemies,
 content and **stall STOCK** exist (Yohei's stall restocks per season); unique
@@ -115,32 +117,32 @@ advances **only while the game is open and visible**, **PAUSES on
 `document.hidden`**, with **no offline or wall-time accrual** — the story never
 advances while the tab is backgrounded or the game is closed.
 
-**As the BUILT game ships it (until docket #2's build lands).** The running
-engine runs a **28-day derived 4-season clock** — `season(day) = floor(day / 28)
-mod 4` over `'spring'|'summer'|'autumn'|'winter'`, **derived-never-stored** (only
-the day index and tick persist; §6). Season is a pure function of the day
-counter, there is no manual season-turn action, and the judge runs on a
-day-interval (below), not a season-exit gate. The six-season forward-spec
-calendar replaces this model at the storywave game build (PH2 — the delta is the
-banner's, not a live change already made).
+**As the BUILT game ships it (v0.4.0, the storywave build — ADR-153).** The
+engine runs exactly the model above: the season is a **STORED six-season wheel**
+(`SEASONS = winter → new-year → spring → summer → bon → autumn`,
+`constants.ts`), advanced ONLY by the manual `advance_season` intent (engine-law
+guarded: refused pre-R2 and while any VN owns the surface — C1.4), with the
+exit pipeline (judge → spoilage → wheel turn + per-season production-pool
+refill) riding every turn and Autumn's exit refusing until the year's nengu is
+reckoned (ADR-166). *(The pre-storywave build derived four seasons from a
+fixed-length day counter; that model retired at v0.4.0.)*
 
-**(b) Player-facing behaviour / loop.** Time passes as the player works. In the
-BUILT game a day/season indicator (e.g. 春 spring) is always visible once
-revealed and seasons gate which gathering nodes are productive (rice cycle,
-foraging windows) and trigger festivals and the reckoning beats; under the
-forward spec the DAY OF THE WEEK shows early and the SEASON label + VN overlay
-arrive when seasons unlock at T0-R2, each ended by the manual season-turn. Either
-way there is **no offline accrual and no offline summary**: the clock **pauses
-the moment the tab is hidden** and halts when the game is closed. The "leave it
+**(b) Player-facing behaviour / loop.** Time passes as the player works. The
+season label + the "End the <season> 季" turn control live with the calendar
+readout and arrive at T0-R2; each season ends by the manual turn (Autumn only
+once the nengu board has sat — ADR-166), and each (site, season) production
+pool refills on the turn, so the wheel is the pacing container the player
+squeezes at their own pace. There is **no offline accrual and no offline
+summary**: the clock **pauses the moment the tab is hidden** and halts when the
+game is closed. The "leave it
 running, check the progress" feel comes from **tab-open auto-resolve combat +
 auto-repeat labour** — active-only loops that keep ticking **while you watch** —
 not from any background or wall-time accrual.
 
-**(c) Rough DATA shape** (as built; the forward-spec delta is season → stored).
-- `WorldClock { tick, day, season ('spring'|'summer'|'autumn'|'winter'), year }` —
-  in the BUILT game **only the day index and tick persist** and season is
-  derived; **under docket #2 the season becomes a STORED, manually-advanced
-  container** (the six-season wheel above). Weather and lunar phase are **NOT
+**(c) Rough DATA shape** (as built, v0.4.0).
+- The clock persists `tick` + the day index; the **season is a STORED,
+  manually-advanced container** (`season: Season` + `seasonsPassed`, the
+  six-season wheel above — ADR-153). Weather and lunar phase are **NOT
   stored fields**: they are **DERIVED on read** via a pure stateless helper
   `deriveDayKeyed(seed, 'weather'|'lunar', day)` over the day-keyed RNG
   sub-stream, so nothing weather/lunar ever serialises (only `day` does). This
@@ -149,11 +151,10 @@ not from any background or wall-time accrual.
   receives **whole integer ticks** — the deterministic core never sees a fractional `dtTicks`.
 - `Scheduler { perTickPlans[], perDayPlans[], perWeekPlans[] }` — registry rows that fire effects on
   cadence (restock, rot, festival start, harvest reckoning).
-- The seasonal **JUDGE** folds pillar state **one day at a time**. In the BUILT
-  game it runs on a per-tier **reckoning cadence** (`PHASE2_JUDGE_INTERVAL_DAYS` —
-  a per-tier lever, decoupled from the 28-day season calendar; at T0 the house
-  reckons ~every 3 days); **under docket #2 the judge instead rides every season
-  EXIT** (the manual container close). Each pillar carries a `PillarState { value,
+- The seasonal **JUDGE** rides every **season EXIT** (the manual container
+  close — the shipped ADR-153 pipeline; the old day-interval
+  `PHASE2_JUDGE_INTERVAL_DAYS` cadence retired with the derived clock). Each
+  pillar carries a `PillarState { value,
   highWater, judged }` (§2.16); a reckoning fires a judged result only on a **new
   high-water mark**, never a repeatable maintenance award. There is **no
   `pendingAppraisals` counter** — the judge advances one day per tick.
@@ -335,8 +336,9 @@ tiers/regions.** Nodes are **tiered and season-gated**; clickable now, idle late
 labour** convenience (active-only — repeats the chosen action while the tab is open) is the grind
 convenience, **distinct from** the *late* auto-gather toggle / auto-producer (§2.5).
 
-**(b) Player-facing behaviour / loop.** Do the work manually (rake rice, fell timber, forage the
-near-*satoyama*, fish the ford), or leave the **tab-open auto-repeat** running and check the progress;
+**(b) Player-facing behaviour / loop.** Do the work manually (rake rice, farm the paddies, haul
+stores, cut wood, forage the woodlot's edge or its deeper woods, tap lacquer), or leave the
+**tab-open auto-repeat** running and check the progress;
 each action yields a **resource + skill XP + sometimes a quest event**. Higher ranks/offices add
 **jobs-as-offices** — e.g. the bailiff of the home fields takes on field administration as **his own
 duties/quests**, never a city-builder panel. The texture stays **grind ("the hero gets better at what he
@@ -359,22 +361,22 @@ yields and seasonal harvest appraisals are the canonical **achievement-jump / ju
 (accruing in **Phase 2** — §2.15.1/§2.16).
 
 **(e) When introduced / fractal reveal.** **T0.** Farming at **R1** (paddies, the *rice* heartbeat);
-foraging + woodcutting + hauling at **R2** (Skills tab + near-*satoyama*); smithing/crafting chains and
-fishing fold in across R5–R6 and the wilderness rings. **T2** adds village-facing labour (cash-crops,
+foraging + woodcutting + hauling at **R2** (Skills tab + the woodlot/forecourt grounds); crafting
+chains fold in across R5–R6 and the deeper grounds. **T2** adds village-facing labour (cash-crops,
 the silk/sericulture sub-engine at V3); **T3** adds region-scale labour (post-town trade, Kuzuhara
 river-works as a labour project). Jobs-as-offices begin at **T0-R7** (bailiff) and grow per tier.
 
 **(f) The map is SPATIAL — every activity is on ONE node, you walk there to do it (T0).** The
 "small walkable map" (§1) is **load-bearing**, not chrome: each labour is **bound to a map node**
-(`area`), there is **no default node**, and the work tab lists only the **current node's** labours — so
-you start at the *kura* (rake rice), then **walk** to the paddies to farm, the woodlot to cut, the
-near-*satoyama* to forage. The same spine binds **combat** (foes live on nodes — you walk to a foe's
-ground to fight it; the scripted grain-store wolf is faced at the *kura*; §2.8/§2.9) and the **storehouse
-/ bank** (deposit/withdraw only at the *kura*; §2.4). A **load-bearing node gates a richer
-yield** — the **deep-*satoyama*** (奥山) past the danger ring returns a materially better forage — so walking
-farther *pays* (tying the map to the coin economy §4 and the combat cook-loop). The map presents as a
-walkable **paths list** along the 道 (with a schematic 絵地図 and a traveller's-ledger 道中記 as alternate
-views).
+(`area`), there is **no default node**, and the work tab lists only the **current node's** labours — the
+weir gives you up at the cold open, then you **walk** the 16-zone estate (`areas.ts` is the roster):
+the paddies to farm, the forecourt to haul stores, the woodlot to cut, forage and tap. The same spine
+binds **combat** (foes live on nodes — you walk to a foe's ground to fight it; the R3 wolf lives only
+in the kura night round; §2.8/§2.9) and the **storehouse / bank** (deposit/withdraw only at the
+*kura*; §2.4). A **load-bearing node gates a richer yield** — the woodlot's **deeper woods** past the
+danger ring return a materially better forage — so walking farther *pays* (tying the map to the coin
+economy §4 and the combat cook-loop). The map presents as the **survey-sheet ezu** (ADR-151 — the
+T0/T1 sheets ARE the player map), each zone a tappable seal.
 
 **(g) Emergent node discovery — a node reveals itself the longer you pay attention (ADR-146,
 BUILT T0-later).** A map node is **not a fixed menu of chores**: hidden actions surface through
@@ -617,10 +619,11 @@ feed the **three clean tracks** (§2.8.1), never one fused bar; curves and per-w
 ## 2.9 Bestiary & mobs (grounded)
 
 **(a) What it is.** A **grounded** bestiary arranged along a **danger gradient** of map nodes
-(near-*satoyama* → foothills/charcoal grounds → river/ford → upstream Kuzuhara → high pass) — deeper nodes
-hold tougher foes, gated by **conditioning**. **Hard rule: NO belief-creatures live on grindable nodes.**
-Grindable mobs are honestly-mundane (**~5 in v1**: wild boar, crop-raiding monkeys, a giant-hornet nest, a
-wolf pack *or* rogue bear, bandits/starving deserters). Any "yokai" (kappa, fox-fire fox/tanuki,
+(shipped T0: the weir reeds' river-rat warmup → the field margins' tanuki + badger → the grove's
+monkey troop → the orchard's feral-dog pack; T2+: foothills/charcoal grounds → river/ford → upstream
+Kuzuhara → high pass) — deeper nodes hold tougher foes, gated by **conditioning**. **Hard rule: NO
+belief-creatures live on grindable nodes.** Grindable mobs are honestly-mundane (the shipped T0 day
+roster above, plus the kura's night-round-only store-rats/marten/wolf and the T2-gated bandit). Any "yokai" (kappa, fox-fire fox/tanuki,
 yamanba/tengu, the "one-eyed mountain god") is an **INVESTIGATE-then-confront one-shot** that resolves to a
 human/animal — **never a respawn population** (surfaced through the optional rumour quests, §2.13).
 
@@ -669,11 +672,12 @@ mixed motives and CLEAR/CAPTURE choices with consequences; some are reachable co
 service that converts to Arms (as **Phase-2 deeds**; §2.8(d)/§2.15.1). Loot also feeds Estate & Wealth
 (crafting materials, §2.10/2.11).
 
-**(e) When introduced / fractal reveal.** **T0, R3** (the Bestiary reveals with the Combat panel; the
-boar is the first grindable threat after the humbling fight, denned at the deep-*satoyama*). New nodes/mobs
-reveal one at a time by conditioning: near-*satoyama* and the grounded estate beasts (T0–T1) →
-foothills/charcoal grounds + river, with the **first HUMAN threat — bandits/starving deserters — arriving at
-the village** (T2) → high mountains/pass and rōnin (T3). Belief-beast one-shots arrive only via inn rumours
+**(e) When introduced / fractal reveal.** **T0, R3** (the Bestiary reveals with the Combat panel;
+the humbling first fight is the R3 wolf, survived-never-won in the kura night round; the day grind
+climbs the estate's own grounds — reeds, margins, grove, orchard). New nodes/mobs reveal one at a
+time by conditioning: the estate's grounded beasts (T0–T1) → foothills/charcoal grounds + river,
+with the **first HUMAN threat — the woodlot-road bandit, tier-gated to T2** → high mountains/pass
+and rōnin (T3). Belief-beast one-shots arrive only via inn rumours
 (T2+).
 
 ---
@@ -964,7 +968,7 @@ weather nudges what's worth doing (a **bounded ±10%** rate swing, never a hard 
 time-boxed social/economic beats; the **seasonal reckoning** (harvest result, autumn audit, security
 appraisal) fires the **judged-result Influence** when a new high-water mark is reached (weather/festivals
 modulate that judged result **±10%**; §2.16). Reinforces "the world enlarges as numbers go up." (The
-reckoning CADENCE is a per-tier lever, decoupled from the 28-day season calendar — §2.2.)
+reckoning rides the manual season EXIT — the shipped ADR-153 pipeline; §2.2.)
 
 **Seasonal-reward ROTATION — the 2nd T2 anti-slump lever.** From **T2**, each
 season features a **rotating featured deed / bonus** — a per-season highlighted recognized-deed (or an
@@ -1033,11 +1037,11 @@ Ryōa's shrine+register, Magobei/Yagōemon's skim).
   ladder): per-shop "patron/regular" standing (smith Gonta, dry-goods/rice broker, herbalist **Obaa Kuni**,
   brewer Tokuemon, **weaver Onatsu — lead of the silk *meibutsu***), per-family goodwill (raised by
   **open-ended help**), an artisans'/craft-guild standing, and the **Village Chief's regard** (headman
-  Yagōemon — a weighted roll-up). **Gentle curves** (linear/soft-cap) for frequent small dopamine.
+  Mohei — a weighted roll-up). **Gentle curves** (linear/soft-cap) for frequent small dopamine.
   **Cast mostly STATIC.** **Village standing NEVER gates the UI ladder or the tier climb** (ignoring it
   leaves you poorer and lonelier — a viable-but-poorer playstyle, never a wall).
 - **ORIGIN (side, memory-gated SUPPORT track) — a ONE-TIER standalone rep ladder (`O0→O5`).** Tahei's
-  **living** family/friends in **Sawatari-juku** (mother Oyuki, **father Jinpachi**, sister Okimi, toiya
+  **living** family/friends in **Sawatari-juku** (mother O-Nobu, **father Jinpachi**, sister Suzu, toiya
   **Zenbei**, friend **Kenta**, the porter guild). **Opens at T3-G2** on the **doubly-earned** gate
   (dream-memory **AND** travel-standing); the dream foreshadows it from early game. A **proper one-tier
   reputation side-track with its own short rung ladder** (`O0→O5`, §3.6.2 — kept LIGHT, 6 rungs, never a
@@ -1294,57 +1298,62 @@ castle-town arc (§5.T4.2/§5.T4.5) and pays an optional callback at **T5**; v1 
 
 ---
 
-## Storywave forward-spec addenda (T0 rebuild — not yet built)
+## Storywave addenda — T0 halves SHIPPED (v0.4.0); T1+ halves forward spec
 
-These four subsystems are **forward spec** for the storywave T0 rebuild: the
-bible locks each shape and the cited docket ADR carries the full spec; the BUILT
-game does not yet run them. Each is a parts-list entry naming the shape, **not** a
-re-spec — the ADR (and the bible section it transcribes) governs.
+The four storywave subsystems below **run in the shipped T0** (v0.4.0 — the
+storywave game build; §5.6's shipped note). What remains forward spec is only
+each entry's **later-tier half**, banner-tagged inline. Each is a parts-list
+entry naming the shape, **not** a re-spec — the ADR (and the bible section it
+transcribes) governs.
 
-**The two body economies + defeat-as-sickroom (docket #4/ADR-155).**
+**The two body economies + defeat-as-sickroom (docket #4/ADR-155/ADR-164) —
+BUILT at T0.**
 
 One body, **two meters coupled one way**: labour spends the WORK/body unit and
 **never costs HP**, combat risks HP, and being at low HP **impairs work
-capacity**. **Defeat is never game-over** — the MC is carried to Sōan's sickroom
-and loses days (wages, season time) while Sōan's closed ledger grows; recovery
-flavour differs by home (the woodshed vs the offered room). The core stat-model
-change and all magnitudes are the game build's (sim-owned, ADR-132);
+capacity** (`lowHpWorkMult`, the do_activity throttle). **Defeat is never
+game-over** — days are lost while Sōan's closed ledger grows, the carried-loss
+bleed stings in the moment (coin + materials, one home in `defeat.ts` for the
+day loss AND the night-round fall), and HP mends only by deliberate act (no
+auto-trickle). All magnitudes sim-owned (ADR-132);
 `docs/story-bible/tiers/t0.md` carries the shape.
 
-**The night-round mini-dungeon runner (docket #5/ADR-156).**
+**The night-round mini-dungeon runner (docket #5/ADR-156) — BUILT at T0.**
 
-A **"begin the night round" action** (posted at the gate) puts the MC on rails
-through several zones in their night state; clear each of enemies to finish the
-round, or fall and wake in Sōan's sickroom (docket #4). The first round is a
-quest, repeatable thereafter; escalation across T0 runs rats-in-the-store → a
-marten → the R3 **WOLF** as the arc's climax, and the round **grows with the
-estate** in later tiers. A new repeatable-activity runner in the pure core;
-`docs/story-bible/tiers/t0.md` carries the shape.
+The **"begin the night round" action** (the gate post, `begin_night_round`)
+puts the MC on rails through staged foes resolved by the seeded combat engine
+(`night-rounds.ts`): a won stage pays materials-only salvage, the R3 **WOLF**
+stage is survived-never-won (engine law — a night foe can't be day-fought),
+and a fall ends the round into the shared defeat consequence. The first round
+is the R3 grain-watch quest, repeatable after. *(FORWARD SPEC — T1+: the round
+roster growing with the estate.)*
 
-**The speaker-label ladder + the map re-label reveal (docket #6/ADR-157).**
+**The speaker-label ladder + the map re-label reveal (docket #6/ADR-157) —
+speaker ladder BUILT at T0; map re-label is T2 spec.**
 
-**The speaker label is story state:** `You:` for the cold open → a forced beat
-where he asks his own name and Sōan answers that he has none → the label flips to
-`Nameless:` on screen, witnessed → `Gonbei:` takes over at T0-R7 → the birth name
-(Tahei) is KNOWN at T3 → what the register finally says is his choice at the end.
-**The map re-label is the T2 reveal's delivery:** at the third signal's scene end
-the map redraws its two labels (*Main house → Guest house; the ruin → the Main
-house*) in one day-book line, no ceremony. **TST2 governs both** (never yank a
+**The speaker label is story state** and ships: `You:` for the cold open → the
+forced name-question beat latches `label-nameless` → `Nameless:` on screen,
+witnessed → `Gonbei:` takes over at T0-R7. *(FORWARD SPEC — T3: the birth name
+Tahei KNOWN; the end: what the register finally says is his choice. FORWARD
+SPEC — T2: the map re-label reveal — at the third signal's scene end the map
+redraws its two labels (Main house → Guest house; the ruin → the Main house)
+in one day-book line, no ceremony.)* **TST2 governs both** (never yank a
 watched surface); `docs/story-bible/04-cast.md` + `05-world.md` carry the shape.
 
-**The economy — two coin lanes, three ledgers (docket #7/ADR-158).**
+**The economy — two coin lanes, three ledgers (docket #7/ADR-158/ADR-163) —
+BUILT at T0.**
 
-**Three nested ledgers** (the MC's, the household's day-book, and the DEBT — the
-standing antagonist, principal untouchable in T0), **filling the barn is the
-HOUSE's economy** (never player loot), and **two coin lanes:** a **KIND lane**
-(unbounded — labour pays in rice/goods, combat drops materials never coin) and a
-**MON lane** (bounded — a FIXED per-game-day wage plus Yohei's finite market
-coin; durables, season-scarce stock and recurring sinks run on mon). The **debt
-is staged** — named sideways in R1 → felt in scenes but never numbered all T0 →
-the number finally seen at T1's tally-keeper rung. The ledger/barn/debt shape is
-locked; the coin lanes are adopted direction; the two open mechanisms and all
-magnitudes are sim-owned (ADR-132/ADR-158). `docs/story-bible/tiers/t0.md`
-carries the shape.
+**Three nested ledgers** (the MC's, the household's day-book, and the DEBT —
+the standing antagonist, principal untouchable in T0), **filling the kura is
+the HOUSE's economy** (rice banks kura-only, measured in shō/bales; never
+pocketed loot), and **two coin lanes:** the **KIND lane** (unbounded — labour
+pays in rice/goods, combat drops materials never coin) and the **MON lane**
+(bounded — the fixed wage plus Yohei's finite market-day purse; durables and
+recurring sinks run on mon). The **debt is staged** — named sideways in R1 →
+felt in scenes but never numbered all T0 (the nengu shortfall is a flag, not a
+figure). *(FORWARD SPEC — T1: the number finally seen at the tally-keeper
+rung.)* All magnitudes sim-owned (ADR-132/ADR-158);
+`docs/story-bible/tiers/t0.md` carries the shape.
 
 ---
 
