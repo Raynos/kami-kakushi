@@ -104,14 +104,23 @@ test('rung-beat completes: summons → choice → promotion lands', async ({ pag
   expectNoPageErrors(errors);
 });
 
-test('market loop: speak with Tokubei, sell the rice, the coin rises', async ({ page }) => {
+test('market loop: speak with Yohei, sell the rice, the coin rises', async ({ page }) => {
   const errors = await boot(page, 'rice-at-gate');
   const coinBefore = await page.evaluate<number>('__qa.state().resources.coin ?? 0');
+
+  // Yohei stands the gate only on his MARKET DAYS (day % 7 ∈ {2,5} — YOHEI_MARKET_DAYS).
+  // The fixture may land off-market; rest at the gate (rest never moves) until a market
+  // day so the stall is open when we talk. Bounded well past a full week of days.
+  await page.evaluate(`
+    for (let i = 0; i < 200 && ![2, 5].includes(window.__qa.state().clock.day % 7); i++) {
+      window.__qa.dispatch({ type: 'rest' });
+    }
+  `);
 
   await press(page.locator('.nav-tab', { hasText: '地図' })); // Map
   // ADR-114 talk-to-open: the market shows ONLY after speaking with the pedlar
   await expect(page.locator('.market-sell')).toBeHidden();
-  await press(page.locator('button.person-talk', { hasText: 'Speak with Tokubei' }));
+  await press(page.locator('button.person-talk', { hasText: 'Speak with Yohei' }));
   const sell = page.locator('.market-sell button.auto-toggle');
   await expect(sell, 'the market never opened from the talk').toBeVisible();
   await expect(sell).toBeEnabled();
@@ -172,12 +181,14 @@ test('repair bind: chop wood, mend the blade, durability rises', async ({ page }
   const errors = await boot(page, 'worn-weapon-no-wood');
   const duraBefore = await page.evaluate<number>('__qa.state().weaponDurability');
 
-  // walk to the woodlot through the REAL map (home paddies → forecourt → woodlot)
+  // walk to the woodlot through the REAL map (sickroom → forecourt → paddies → woodlot).
   await press(page.locator('.nav-tab', { hasText: '地図' }));
-  // the survey-plan sheet (HR-7): each node's seal is an SVG travel control, not a <button>
-  await press(page.locator('.map-nav [data-node="gate-forecourt"]:not([data-locked])'));
-  await press(page.locator('.map-nav [data-node="woodlot-edge"]:not([data-locked])'));
-  await page.waitForFunction(`window.__qa.state().location === 'woodlot-edge'`);
+  // the survey-plan sheet (ADR-151): each zone's seal is an SVG travel control, not a <button>;
+  // move_to is single-hop, so tap the adjacency chain in order (forecourt is the estate hub).
+  await press(page.locator('.map-nav [data-node="forecourt"]:not([data-locked])'));
+  await press(page.locator('.map-nav [data-node="paddies"]:not([data-locked])'));
+  await press(page.locator('.map-nav [data-node="woodlot"]:not([data-locked])'));
+  await page.waitForFunction(`window.__qa.state().location === 'woodlot'`);
 
   // chop twice (3 wood each; repair costs 5) — the recovery loop must not strand
   await press(page.locator('.nav-tab', { hasText: 'Work' }));
@@ -205,9 +216,12 @@ test('quest slice: take it on, do its act, the step marks done', async ({ page }
   const errors = await boot(page, 'wealthy-idler');
 
   await press(page.locator('.nav-tab', { hasText: '用' })); // Quests
-  const firstCard = page.locator('.quest-card').first();
-  await expect(firstCard).toBeVisible();
-  const accept = firstCard.locator('button.verb', { hasText: 'Take this on' });
+  // Target a quest whose FIRST step is a MAP fight: the night-round quest's first step is a
+  // night-round-only foe (unreachable on the map), so pick the orchard chain — it opens on a
+  // feral-dog kill at the orchard node (kill:feral_dog → the FIGHT→quest event seam).
+  const orchard = page.locator('.quest-card', { hasText: 'Take back the orchard' });
+  await expect(orchard, 'the orchard quest must offer itself at R7').toBeVisible();
+  const accept = orchard.locator('button.verb', { hasText: 'Take this on' });
   await expect(accept, 'an acceptable quest must offer itself').toBeVisible();
   await press(accept);
   await expect
@@ -216,12 +230,15 @@ test('quest slice: take it on, do its act, the step marks done', async ({ page }
     })
     .toBeGreaterThan(0);
 
-  // the first quest's cheapest act is gather:wood — walk kura → forecourt → woodlot, chop once
+  // orchard_chain is ORDER-FREE (quests.ts): its `reclaim-rows` step listens for gather:wood, so
+  // a wood-chop completes a step WITHOUT the feral-dog fight (an idler never trained combat).
+  // Walk kura → forecourt → paddies → woodlot. The survey-plan sheet (ADR-151): each zone's seal
+  // is an SVG travel control, not a <button>; move_to is single-hop, so tap the chain in order.
   await press(page.locator('.nav-tab', { hasText: '地図' }));
-  // the survey-plan sheet (HR-7): each node's seal is an SVG travel control, not a <button>
-  await press(page.locator('.map-nav [data-node="gate-forecourt"]:not([data-locked])'));
-  await press(page.locator('.map-nav [data-node="woodlot-edge"]:not([data-locked])'));
-  await page.waitForFunction(`window.__qa.state().location === 'woodlot-edge'`);
+  await press(page.locator('.map-nav [data-node="forecourt"]:not([data-locked])'));
+  await press(page.locator('.map-nav [data-node="paddies"]:not([data-locked])'));
+  await press(page.locator('.map-nav [data-node="woodlot"]:not([data-locked])'));
+  await page.waitForFunction(`window.__qa.state().location === 'woodlot'`);
   await press(page.locator('.nav-tab', { hasText: 'Work' }));
   await press(page.locator('button.verb', { hasText: 'Cut wood' }).first());
 

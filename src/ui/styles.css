@@ -2079,6 +2079,21 @@ h3 {
   font-weight: 600;
   white-space: nowrap;
 }
+/* Narrow phones (iOS SE ≈ 375px): the READY state adds the "Answer the summons ›" cue beside a
+   long rung title (e.g. R0 "The man from the weir 無名"), which can push the header past the
+   viewport. Let the title wrap and the trigger reflow so every glyph stays on-screen (TST2/TST4 —
+   no truncation, nothing clipped) instead of overflowing the right edge. */
+@media (max-width: 480px) {
+  .rung-head-trigger {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .rung-head-name {
+    white-space: normal;
+    min-width: 0;
+    text-align: right;
+  }
+}
 /* READY — the affordance: a seal-red rim + a soft breathing pulse, the trigger goes clickable. */
 .rung-head.ready .rung-head-trigger {
   border-color: var(--beni);

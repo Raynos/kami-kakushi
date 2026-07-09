@@ -118,11 +118,59 @@ mechanisms themselves):**
 Full verify green (17 gates) after the sweep. The `e2e/journeys.spec.ts`
 "Speak with Tokubei" hits are the G6 e2e rewrite's job (next).
 
+## 3 · G6 — the e2e rewrite (Playwright, all 3 profiles green)
+
+Ran the suite, grounded every rewrite in the REAL failures (PH2). Landed
+**82/82 green** on mobile-chromium + mobile-webkit + desktop-chromium.
+
+- **`journeys.spec.ts` — market loop:** "Speak with Tokubei" → **Yohei**;
+  Yohei stands the gate only on his market days (day%7 ∈ {2,5}), so the test
+  now advances the clock (`__qa.dispatch rest` at the gate — rest never moves)
+  until a market day before talking.
+- **`journeys.spec.ts` — repair + quest journeys:** the stale node ids
+  `gate-forecourt`/`woodlot-edge` → the real sheet AreaIds; `move_to` is
+  single-hop, so the specs tap the adjacency chain (forecourt→paddies→woodlot).
+  The **quest** slice retargets the ORDER-FREE `orchard_chain` quest and
+  completes its `gather:wood` step by chopping wood (the old "first()" quest is
+  now the night-round quest, whose first step is a night-round-only foe; and
+  even the R7 idler LOSES a feral-dog fight — an idler never trained combat).
+- **`mobile-journey.spec.ts` — R3:** "Face the wolf" (the deleted scripted
+  verb) → the **night round**: walk to the gate, "Post the night watch", the
+  app loop resolves the stages on rails. Asserts the round reaches a definite
+  terminal consequence (survived-not-won OR a fall to the sickroom) — NOT a
+  specific combat verdict (fresh-R3-pre-wolf's MC beats the store-rats but
+  falls to the marten; requiring the wolf flag would couple the reachability
+  net to balance RNG). Title updated.
+- **`timed-actions.spec.ts`:** `resources.rice` → `banked.rice` (ADR-163: raked
+  rice banks into the kura in shō, never carried).
+- **`persistence.spec.ts` — export→import:** stale `rung === 'R2'` wait (a
+  since-renamed fixture) → `'R3'` (the `fresh-R3-pre-wolf` it loads); the
+  mismatch had hung the test until the context tore down.
+- **`src/ui/styles.css` (a real G4-content layout bug, not a test edit):** the
+  new R0 rung title "The man from the weir 無名" + the ready-state "Answer the
+  summons ›" cue overflowed the iPhone-SE header by 7px (mobile-webkit
+  `mobile-layout`). Added a ≤480px rule that lets the rung-head title wrap and
+  the trigger reflow (right-aligned) — every glyph stays on-screen, no
+  truncation (TST2/TST4). ⚑ The compact header may deserve a fuller mobile
+  design pass; flagged.
+
+**Drift sweep final:** zero retired-name hits across `src/` + `e2e/` (outside
+the byte-frozen `t0v2/` archive and the 3 reported anti-drift exemptions).
+`pnpm run test:e2e` green on both mobile profiles + desktop.
+
 ## Next intended steps (current)
-1. G6 — rewrite `e2e/` specs to the new arc (Yohei stall / R3 night round /
-   clean-break persistence / re-anchored layout text); clears the last two
-   retired-name hits (journeys.spec.ts "Tokubei").
-2. G6 — QA screenshot pass (if the harness runs) into `project/audit/screens/`.
+1. G6 — QA screenshot pass (if the harness runs) into `project/audit/screens/`.
+2. Hand back to the human: G5/G6 land; G7 SHIP is human-initiated and still
+   gated on HD-30 (the open fiction gaps) closing.
+
+## Landmines (addendum)
+- The night-round e2e depends on the background app loop resolving stages (it
+  does fire in headless Playwright). A fixture whose MC can't survive the
+  winnable stages falls to the sickroom — that's a valid terminal the test
+  accepts; don't tighten it to require the wolf flag without a combat-ready
+  fixture.
+- `mobile-webkit`/`mobile-chromium` do NOT run `persistence`/`desktop-layout`
+  (per-project `testIgnore`); persistence is desktop-only.
 
 ## Landmines (current)
 - **`Nameless:` vs narrator-quote (surface for the human).** G4.1 adopted a

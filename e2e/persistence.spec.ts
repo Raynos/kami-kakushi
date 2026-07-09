@@ -67,16 +67,16 @@ test('export → import round-trips through the real settings UI', async ({ page
   expect(code.length, 'the export textarea must carry a save code').toBeGreaterThan(0);
 
   // a genuinely different browser profile — fresh localStorage. It boots a
-  // DIFFERENT fixture (R2) rather than a cold open: the settings entry lives in
+  // DIFFERENT fixture (R3) rather than a cold open: the settings entry lives in
   // the shell footer, which a brand-new profile only reaches after the whole
   // intro; the wiring under test (textarea → importSave → apply) is the same,
-  // and the R2→R7 flip proves the import REPLACED a live run wholesale.
+  // and the R3→R7 flip proves the import REPLACED a live run wholesale.
   const ctx = await browser.newContext();
   try {
     const page2 = await ctx.newPage();
     await page2.goto(`http://localhost:5199/?dev=no&telemetry=no&fixture=fresh-R3-pre-wolf`);
     await page2.waitForFunction('Boolean(window.__qa)');
-    await page2.waitForFunction(`window.__qa.state().rung === 'R2'`);
+    await page2.waitForFunction(`window.__qa.state().rung === 'R3'`);
     await press(page2.locator('.settings-btn'));
     await press(page2.locator('.modal-tab', { hasText: 'Saves' }));
     await page2.locator('#save-import').fill(code);

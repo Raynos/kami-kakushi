@@ -12,18 +12,19 @@ test('timed rake: press → disabled + bar → effect at duration → cooldown �
   const errors = await boot(page, 'post-cold-open', { timedActions: true });
   const rake = page.locator('button[data-act-key="rake_rice"]');
   await expect(rake).toBeEnabled();
-  const riceBefore = await page.evaluate<number>('window.__qa.state().resources.rice ?? 0');
+  // ADR-163: raked rice banks into the KURA (`banked.rice`, in shō), never a carried pocket.
+  const riceBefore = await page.evaluate<number>('window.__qa.state().banked.rice ?? 0');
 
   await press(rake);
   // the lifetime lock + the inner progress bar (TST4 — visible state)
   await expect(rake).toBeDisabled();
   await expect(rake.locator('.act-bar')).toHaveCount(1);
   // nothing lands early — the effect waits for the clock (ADR-148)
-  expect(await page.evaluate<number>('window.__qa.state().resources.rice ?? 0')).toBe(riceBefore);
+  expect(await page.evaluate<number>('window.__qa.state().banked.rice ?? 0')).toBe(riceBefore);
 
   // the effect lands at the 5s duration…
   await expect
-    .poll(() => page.evaluate<number>('window.__qa.state().resources.rice ?? 0'), {
+    .poll(() => page.evaluate<number>('window.__qa.state().banked.rice ?? 0'), {
       timeout: 9_000,
     })
     .toBeGreaterThan(riceBefore);

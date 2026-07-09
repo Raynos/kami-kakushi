@@ -14,7 +14,9 @@ test('cold open: tapping "Open your eyes" wakes the game', async ({ page }) => {
   expectNoPageErrors(errors);
 });
 
-test('R3: tabs switch by tap, actions land, the wolf fight resolves', async ({ page }) => {
+test('R3: tabs switch by tap, actions land, the night round posts and resolves', async ({
+  page,
+}) => {
   const errors = await boot(page, 'fresh-R3-pre-wolf');
 
   // every visible tab activates on tap — and the layout survives each panel
@@ -32,7 +34,6 @@ test('R3: tabs switch by tap, actions land, the wolf fight resolves', async ({ p
   // back to Work; a plain action tap must land as a PLAYER intent (actionCount
   // only moves on real player dispatches — resting doesn't always write the log)
   await press(tabs.first());
-  const logLines = page.locator('.log-lines > *');
   const actionsBefore = await page.evaluate<number>('__qa.pacing().actionCount');
   await press(page.locator('button.verb', { hasText: 'Rest a moment' }).first());
   await expect
@@ -41,13 +42,28 @@ test('R3: tabs switch by tap, actions land, the wolf fight resolves', async ({ p
     })
     .toBeGreaterThan(actionsBefore);
 
-  // the scripted wolf fight — the R3 story beat — resolves from a tap
-  const beforeWolf = await logLines.count();
-  await press(page.locator('button.verb', { hasText: 'Face the wolf' }));
-  await expect
-    .poll(() => logLines.count(), { message: 'the wolf fight must write the log' })
-    .toBeGreaterThan(beforeWolf);
-  await expectNoHorizontalOverflow(page, 'after wolf fight');
+  // the R3 grain-watch NIGHT ROUND — the wolf lives here now (G4.3 deleted the scripted
+  // "Face the wolf" verb). It's POSTED at the gate; the app loop then resolves its stages
+  // on rails (rats → marten → THE WOLF). Walk woodlot → paddies → forecourt → gate, then
+  // post it from the Work tab's place strip.
+  await press(page.locator('.nav-tab', { hasText: '地図' })); // Map
+  await press(page.locator('.map-nav [data-node="paddies"]:not([data-locked])'));
+  await press(page.locator('.map-nav [data-node="forecourt"]:not([data-locked])'));
+  await press(page.locator('.map-nav [data-node="gate"]:not([data-locked])'));
+  await page.waitForFunction(`window.__qa.state().location === 'gate'`);
+  await press(tabs.first()); // back to Work — the night-watch post lives on the place strip
+
+  await press(page.locator('button.verb', { hasText: 'Post the night watch' }));
+  // the round is dispatched live (roundState set) and the app loop plays its stages on rails to
+  // a DEFINITE terminal state — survived-not-won at the wolf, or a fall to the sickroom (the MC's
+  // readiness decides which). Either consequence proves the post→round→resolve wiring ran (RED
+  // against the old scripted-verb build); we assert the outcome, never a specific combat verdict.
+  await page.waitForFunction(
+    `(() => { const s = window.__qa.state(); return s.roundState === null && (!!s.flags['wolf-survived-not-won'] || s.location === 'sickroom'); })()`,
+    undefined,
+    { timeout: 15_000 },
+  );
+  await expectNoHorizontalOverflow(page, 'after the night round');
   expectNoPageErrors(errors);
 });
 
