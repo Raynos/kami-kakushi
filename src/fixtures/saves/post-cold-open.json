@@ -226,7 +226,7 @@
         {
           "key": 19,
           "channel": "narration",
-          "text": "[dev — body readout reveal; flavor-key migration pending (HD-30)]",
+          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -234,7 +234,7 @@
         {
           "key": 20,
           "channel": "narration",
-          "text": "[dev — rice readout reveal; flavor-key migration pending (HD-30)]",
+          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"

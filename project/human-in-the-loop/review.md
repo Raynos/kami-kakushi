@@ -326,6 +326,57 @@ improve card — all three re-present the SAME pure-core `estateBuild` selector
   it doesn't render — pick that surface first (HR-9) if you want them merged.
 - **Verdict:** _(awaiting the human — per variant, via the live toggle)_
 
+### HR-17 🔲 — HD-30 supplemental prose wave: the nengu diverge + the texture lines (⛔ closing this closes HD-30 → unblocks G7)
+
+The G4 cutover shipped a handful of `[dev — …]` placeholders (one VN scene body
++ ~18 short in-fiction "texture" lines). The HD-30 wave authored them all, in
+register (§0.5: plainest MC voice, no epigram, the debt felt-never-numbered; the
+wage in mon may be numbered). **No `[dev]` text ships now** — G7's ship gate is
+clear on that count. Two things to look at:
+
+**1 · The nengu-autumn-frame VN beat — a real 3-take diverge (ADR-139).** The
+Autumn season-exit reckoning (the year measured against the house; sets
+`nengu-reckoned`, R7's gate). Three blind takes; the agent self-picked **Take C**
+(canon). A & B are wired LIVE — this session added the `dev.subScene` swap for
+generalized scene-defs so the beat is reviewable in-panel, not doc-only.
+
+- **Taste brief (pass 1):** §0.5 register — plainest voice, NO epigram (the
+  license is Munemasa's/Kihei's; neither speaks here); the land-tax FELT, never a
+  koku/shō/mon figure. TST3 — the ceremony IS the economy's nengu sink made
+  diegetic (discovered, not spawned). The MC is furniture: counted as part of the
+  room, not asked into it. State-compatible: all three narration-only, same scene
+  id, empty decision — the swap changes only what the live scene READS.
+- **Take C — the speakerless reckoning** _(self-picked canon; ships)_ — the sum
+  never read aloud; the house's true size learned by what it lets itself be seen
+  without. **Scorecard (C):** tightest §0.5 fit — no speaker, no priced aside, the
+  withheld figure load-bearing.
+- **Take A — Chiyo's arithmetic of dignity** _(DEV-only alt)_ — Chiyo centered;
+  the nengu paid by inches the house SHOWS (a screen sold quietly, the gate kept
+  painted). **Scorecard (A):** strong TST3/TST4; risk — her priced asides edge
+  toward explaining what canon leaves unspoken.
+- **Take B — the day-book register** _(DEV-only alt)_ — Genemon reads the year
+  down, item/count/condition; names the nengu and won't count it; the MC carried
+  as a mark, not yet a name. **Scorecard (B):** strong "felt never numbered"; risk
+  — colder ledger register, the MC's presence thinner than canon's corner.
+
+**2 · The ~18 texture lines — single-take, law-bound (the f1/f2 flavor ruling).**
+Surface/verb/node reveal lines, the wage-collect + nengu log lines, the
+bare-corner rest line, the clean-break save-retirement notice, and two rung
+requirement flavor lines. Texture, not beats → authored once, no rivals.
+
+- **Asking for:** (a) sign off Take C as the nengu canon, or override to A/B live;
+  (b) confirm the texture prose reads in-register. Either way, closing HR-17
+  closes HD-30 and clears the last G7 gate.
+- **How to look:**
+  - **Nengu diverge:** `pnpm run dev` → DEV panel → **Story** tab → the
+    "hd30-nengu" bundle → toggle **Canon / A / B**. To see it live in the VN:
+    DEV → Settings → **Rung → R7** (or a late fixture), then advance to the
+    **Autumn season-exit** — the reckoning plays with the selected take.
+  - **Texture lines:** they reveal on first-unlock in normal play; or read them
+    consolidated in the generated script `docs/content/t0-story.md`.
+- **Verdict:** _(awaiting the human — the nengu pick via the live toggle; the
+  texture lines by reading)_
+
 ---
 
 > _This queue holds **open** reviews only. Closed reviews graduate to

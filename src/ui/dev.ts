@@ -307,6 +307,12 @@ export interface DevApi {
    *  state-compatible by the takes/README rule). */
   subRungScene(scene: RungScene): RungScene;
   subIntroScene(scene: DialogueScene): DialogueScene;
+  /** Substitute an ACTIVE generalized scene-def (season-exit / scripted VN beat) with the
+   *  selected take's version, keyed by scene id (identity when everything is 'canon'). Called
+   *  from render.ts's `activeVn` behind the dev gate — display/content only; state + RNG never
+   *  fork (takes are state-compatible). Its trigger already fired in canon, so the swap only
+   *  changes what the live scene READS. */
+  subScene(scene: RungScene): RungScene;
   /** Substitute a canon UI flavor line (`FLAVOR[key]`) with the active take's version
    *  (ADR-139 — identity when everything is 'canon'). Called from render.ts behind the dev
    *  gate so a flavor-line diverge swaps LIVE in the running game, not just in the reader. */
@@ -468,6 +474,15 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
         const eff = effective(b.id, `intro:${scene.id}`);
         if (eff === 'canon') continue;
         const alt = b.takes.find((t) => t.id === eff)?.introScenes?.find((s) => s.id === scene.id);
+        if (alt) return alt;
+      }
+      return scene;
+    },
+    subScene: (scene) => {
+      for (const b of bundles) {
+        const eff = effective(b.id, `scene:${scene.id}`);
+        if (eff === 'canon') continue;
+        const alt = b.takes.find((t) => t.id === eff)?.scenes?.[scene.id];
         if (alt) return alt;
       }
       return scene;
@@ -2006,8 +2021,8 @@ export function mountDevPanel(
   //    set-switch (Canon / take …) keeps a whole coherent take live so pacing reads true;
   //    per-unit override rows below mix within the set. Swaps are display-only (takes are
   //    state-compatible) and re-render immediately; live swap covers the VN scene types
-  //    (rung beats + intro scenes) + UI flavor lines (lock-hints) — dialogue/cold-open
-  //    units read in the script-reader. ──
+  //    (rung beats + intro scenes + generalized scene-defs — season-exit/scripted beats) +
+  //    UI flavor lines (lock-hints) — dialogue/cold-open units read in the script-reader. ──
   storyTab.textContent =
     dev.storyBundles.length > 0 ? `Story (${dev.storyBundles.length})` : 'Story';
   // T0/T1 review maps (2026-07-07 story reboot) — the rebooted tier-sheet zone rosters drawn

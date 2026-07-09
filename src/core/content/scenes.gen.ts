@@ -17,7 +17,23 @@ export const SCENES: readonly SceneDef[] = [
       greeting: [
         {
           voice: 'narrator',
-          text: "[dev — the nengu reckoning ceremony body: the board at the season's turn, the MC as furniture in the room, the land-tax felt but never numbered; sets `nengu-reckoned`. No t0v2 source prose — authored later (narrative-diverge), not migrated. HD-30 gap.]",
+          text: 'Autumn thins to its last day, and the board comes out at an hour it does not usually keep. The whole house comes with it: the family by the book, the hands by the door, and you in the corner — counted as part of the room, and not asked into it.',
+        },
+        {
+          voice: 'narrator',
+          text: "Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the one thing the house owes the land, that must be answered before the season is allowed to turn.",
+        },
+        {
+          voice: 'narrator',
+          text: 'Nobody reads the sum aloud. It arrives the way weather arrives: the room goes still around it, a breath drawn and not let go, every eye on the book and none on one another.',
+        },
+        {
+          voice: 'narrator',
+          text: "Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. You are learning the house's true size by what it will let itself be seen without.",
+        },
+        {
+          voice: 'narrator',
+          text: 'The book closes. The house has answered for the land; its autumn can end. You are still in the corner. Nobody tells you the season is over. It is.',
         },
       ],
       topics: [],

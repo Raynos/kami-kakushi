@@ -240,7 +240,7 @@
         {
           "key": 19,
           "channel": "narration",
-          "text": "[dev — body readout reveal; flavor-key migration pending (HD-30)]",
+          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -248,7 +248,7 @@
         {
           "key": 20,
           "channel": "narration",
-          "text": "[dev — rice readout reveal; flavor-key migration pending (HD-30)]",
+          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -365,7 +365,7 @@
         {
           "key": 34,
           "channel": "narration",
-          "text": "[dev — rest verb reveal; flavor-key migration pending (HD-30)]",
+          "text": "You can stop now, when the day is done — set the work down, and let the body take back what it can.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
@@ -442,7 +442,7 @@
         {
           "key": 43,
           "channel": "system",
-          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
           "tick": 16,
           "count": 1,
           "voice": "narrator",
@@ -460,7 +460,7 @@
         {
           "key": 45,
           "channel": "system",
-          "text": "[dev — bare-corner rest line; flavor-key migration pending (HD-30)]",
+          "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
           "tick": 12,
           "count": 1,
           "voice": "narrator",
@@ -638,7 +638,7 @@
         {
           "key": 66,
           "channel": "narration",
-          "text": "[dev — woodshed corner reveal; flavor-key migration pending (HD-30)]",
+          "text": "They give you the lean space between the woodpiles: a mat, a chipped bowl, a nail for the coat. It is not much, and it is not anyone else's.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"

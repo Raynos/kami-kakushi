@@ -400,7 +400,15 @@
 
 *(trigger: season-exit autumn, once)*
 
-> [dev — the nengu reckoning ceremony body: the board at the season's turn, the MC as furniture in the room, the land-tax felt but never numbered; sets `nengu-reckoned`. No t0v2 source prose — authored later (narrative-diverge), not migrated. HD-30 gap.]
+> Autumn thins to its last day, and the board comes out at an hour it does not usually keep. The whole house comes with it: the family by the book, the hands by the door, and you in the corner — counted as part of the room, and not asked into it.
+
+> Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the one thing the house owes the land, that must be answered before the season is allowed to turn.
+
+> Nobody reads the sum aloud. It arrives the way weather arrives: the room goes still around it, a breath drawn and not let go, every eye on the book and none on one another.
+
+> Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. You are learning the house's true size by what it will let itself be seen without.
+
+> The book closes. The house has answered for the land; its autumn can end. You are still in the corner. Nobody tells you the season is over. It is.
 
 ### count
 
@@ -690,7 +698,7 @@
 - "The fields don't miss him while he drills," Genemon notes, half to himself. <small>*(the-fields-hold — act:farm_paddy ×15)*</small>
 - "Watch or no watch, his rows never fell behind," Genemon says over the evening rice. <small>*(keep-the-rows — act:farm_paddy ×30)*</small>
 - "The palisade wood is his cutting," Kihei says, striking a post with the flat of his hand. <small>*(timber-for-the-palisade — act:woodcut_edge ×25)*</small>
-- [dev — R3 grain-watch: the first night round; the wolf, survived-not-won; ribs cracked. The beat's prose is in rung-beats R3; no t0v2 requirement-flavor source. HD-30.] <small>*(the-wolf-survived-not-won — flag wolf-survived-not-won)*</small>
+- The night the wolf came you stood between it and the stores, and were still there at dawn — bleeding, ribs cracked, the rice untouched. Not won. Survived. <small>*(the-wolf-survived-not-won — flag wolf-survived-not-won)*</small>
 
 ### R4 · The pupil 弟子
 
@@ -718,4 +726,4 @@
 - "The fields no longer wait on my orders," Munemasa says from the veranda, "they wait on his." <small>*(the-fields-run-on-you — act:farm_paddy ×20)*</small>
 - "Even the woodlot answers to him," Kihei says to Genemon, who does not disagree. <small>*(the-woodlot-runs-on-you — act:woodcut_edge ×20)*</small>
 - "There is rice against winter," Munemasa says, slowly, as if the words were new to him. <small>*(a-granary-against-winter — banked rice ≥ 200)*</small>
-- [dev — R7/Autumn-exit: the nengu reckoning, felt-never-numbered; the ceremony sets `nengu-reckoned` (scenes.md nengu-autumn-frame). No t0v2 requirement-flavor source. HD-30.] <small>*(the-nengu-reckoned — flag nengu-reckoned)*</small>
+- You stood in the room while the year was measured against the house — the reckoning read out, the gap named plainly and once, and nothing asked of you but to be there for it. A full year, lived through. <small>*(the-nengu-reckoned — flag nengu-reckoned)*</small>

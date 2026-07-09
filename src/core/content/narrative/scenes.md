@@ -14,21 +14,40 @@
 <!-- ── The season-exit ceremony ─────────────────────────────────────────────
   The nengu (land-tax) reckoning is Autumn's season-exit gate (economy spec,
   ADR-163): the board, the MC as furniture, felt-never-numbered; sets the flag
-  `nengu-reckoned` that R7 gates on. NO t0v2 source prose exists for the nengu
-  ceremony body yet — the placeholder below is a [dev] gap (HD-30), replaced
-  when the nengu scene is authored (a narrative-diverge, not a migration).
-  Generic per-season overlays for the other five seasons have no t0v2 source
-  either and are DEFERRED (not stubbed with invented fiction). -->
+  `nengu-reckoned` that R7 gates on. AUTHORED via the HD-30 narrative-diverge
+  (2026-07-09): a 3-take blind fleet → self-pick TAKE C (the speakerless
+  MC-as-furniture take — tightest to the bible's "pays by inches we SHOW, never
+  discussed" + "the MC as furniture"), with one grafted image from take A ("the
+  house's true size"). Alternates A & B live in the OPEN bundle
+  takes/hd30-nengu/ — swappable LIVE in DEV → Story (ADR-139, HR-17); the dir is
+  pruned on sign-off. The five other per-season overlays have no source take and
+  stay DEFERRED (not stubbed with invented fiction). -->
+
 
 ## scene-def nengu-autumn-frame
 trigger: season-exit autumn
 once: true
 voice: narrator
 
-> [dev — the nengu reckoning ceremony body: the board at the season's turn, the
-> MC as furniture in the room, the land-tax felt but never numbered; sets
-> `nengu-reckoned`. No t0v2 source prose — authored later (narrative-diverge),
-> not migrated. HD-30 gap.]
+> Autumn thins to its last day, and the board comes out at an hour it does not
+> usually keep. The whole house comes with it: the family by the book, the hands
+> by the door, and you in the corner — counted as part of the room, and not
+> asked into it.
+
+> Genemon reads the year against the house. The harvest in and weighed, the
+> lease, the winter's wood — and then the one thing the house owes the land, that
+> must be answered before the season is allowed to turn.
+
+> Nobody reads the sum aloud. It arrives the way weather arrives: the room goes
+> still around it, a breath drawn and not let go, every eye on the book and none
+> on one another.
+
+> Chiyo looks once, and briefly, at a screen that will not be in its room by
+> spring. That is all that is shown of it, and none of it is explained. You are
+> learning the house's true size by what it will let itself be seen without.
+
+> The book closes. The house has answered for the land; its autumn can end. You
+> are still in the corner. Nobody tells you the season is over. It is.
 
 <!-- ── The R5 Count (u5 take-c) ──────────────────────────────────────────────
   The accusation night — a `scripted` night-interrupt (the engine pulls the MC

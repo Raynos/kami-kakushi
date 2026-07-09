@@ -302,7 +302,7 @@
         {
           "key": 19,
           "channel": "narration",
-          "text": "[dev — body readout reveal; flavor-key migration pending (HD-30)]",
+          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -310,7 +310,7 @@
         {
           "key": 20,
           "channel": "narration",
-          "text": "[dev — rice readout reveal; flavor-key migration pending (HD-30)]",
+          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -418,7 +418,7 @@
         {
           "key": 34,
           "channel": "narration",
-          "text": "[dev — rest verb reveal; flavor-key migration pending (HD-30)]",
+          "text": "You can stop now, when the day is done — set the work down, and let the body take back what it can.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
@@ -619,7 +619,7 @@
         {
           "key": 66,
           "channel": "narration",
-          "text": "[dev — woodshed corner reveal; flavor-key migration pending (HD-30)]",
+          "text": "They give you the lean space between the woodpiles: a mat, a chipped bowl, a nail for the coat. It is not much, and it is not anyone else's.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
@@ -679,7 +679,7 @@
         {
           "key": 98,
           "channel": "narration",
-          "text": "[dev — coin readout reveal; flavor-key migration pending (HD-30)]",
+          "text": "Coin, at last, and few enough to count on one hand. What little the house pays in mon, you keep your own tally of.",
           "tick": 18,
           "count": 1,
           "voice": "narrator"
@@ -711,7 +711,7 @@
         {
           "key": 123,
           "channel": "narration",
-          "text": "[dev — field-margins reveal; flavor-key migration pending (HD-30)]",
+          "text": "Out past the last worked row the setts begin — tanuki, badger — and the nightly raids on the drying racks and the seed store.",
           "tick": 6,
           "count": 1,
           "voice": "narrator"
@@ -963,7 +963,7 @@
         {
           "key": 192,
           "channel": "narration",
-          "text": "[dev — kura / grain-store reveal; flavor-key migration pending (HD-30)]",
+          "text": "The storehouse is opened to you: the iron-strapped door, the good lock, the grain-watch's stool beside it. What is counted in and out is the house's whole year.",
           "tick": 10,
           "count": 1,
           "voice": "narrator"
@@ -971,7 +971,7 @@
         {
           "key": 193,
           "channel": "narration",
-          "text": "[dev — weir-reeds reveal; flavor-key migration pending (HD-30)]",
+          "text": "The shallows above and below the weir, reeds past the waist. River rats gnaw the screens the house leases from Matsuzō, and every screen lost is coin owed across the water.",
           "tick": 10,
           "count": 1,
           "voice": "narrator"
@@ -2165,7 +2165,7 @@
         {
           "key": 765,
           "channel": "narration",
-          "text": "[dev — R3 grain-watch: the first night round; the wolf, survived-not-won; ribs cracked. The beat's prose is in rung-beats R3; no t0v2 requirement-flavor source. HD-30.]",
+          "text": "The night the wolf came you stood between it and the stores, and were still there at dawn — bleeding, ribs cracked, the rice untouched. Not won. Survived.",
           "tick": 20,
           "count": 1,
           "voice": "narrator"
@@ -2413,7 +2413,7 @@
         {
           "key": 795,
           "channel": "narration",
-          "text": "[dev — drill-yard node reveal; flavor-key migration pending (HD-30)]",
+          "text": "The old stable court, swept bare and given a new use. Kihei's ground now, and yours to enter: things happen here in his order or not at all.",
           "tick": 20,
           "count": 1,
           "voice": "narrator"
@@ -2814,7 +2814,7 @@
         {
           "key": 840,
           "channel": "narration",
-          "text": "[dev — shrine corridor reveal; flavor-key migration pending (HD-30)]",
+          "text": "In passing you glimpse it — a family altar set into a corridor, the rites kept in a passage never meant to hold them. You are not asked to stop.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
@@ -2822,7 +2822,7 @@
         {
           "key": 841,
           "channel": "narration",
-          "text": "[dev — overgrown orchard reveal; flavor-key migration pending (HD-30)]",
+          "text": "The old orchard gone wild: bramble to the shoulder, windfall rotting underfoot, the dogs denned in the hollow. Kihei calls it the dogs' yard, without irony.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
@@ -2854,7 +2854,7 @@
         {
           "key": 844,
           "channel": "narration",
-          "text": "[dev — the day-wage begins; collect it at the board (HD-30)]",
+          "text": "The house pays you in coin now — a fixed measure for each day worked. It waits at the board until you go and take it up.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
@@ -3630,7 +3630,7 @@
         {
           "key": 932,
           "channel": "reward",
-          "text": "[dev — wage collected: 88 mon]",
+          "text": "You are handed 88 mon at the board, counted once into your palm — the first the house has paid you in coin, and yours to keep.",
           "tick": 22,
           "count": 1,
           "voice": "narrator",
@@ -3666,7 +3666,7 @@
         {
           "key": 936,
           "channel": "reward",
-          "text": "[dev — wage collected: 8 mon]",
+          "text": "You are handed 8 mon at the board, counted once into your palm — the first the house has paid you in coin, and yours to keep.",
           "tick": 2,
           "count": 1,
           "voice": "narrator",
@@ -3816,7 +3816,7 @@
         {
           "key": 953,
           "channel": "narration",
-          "text": "[dev — bamboo grove reveal; flavor-key migration pending (HD-30)]",
+          "text": "Green dark and creaking, close behind the waste ground. The monkey troop raids the rows from here and is up the stems before you have turned around.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"

@@ -17,6 +17,7 @@ import {
   type DevQa,
 } from './dev';
 import type { StoryTakeBundle } from './storyTakes';
+import { STORY_TAKE_BUNDLES } from './storyTakes';
 import type { RungScene } from '../core/content/rungBeats';
 import { RUNG_BEATS } from '../core/content/rungBeats';
 
@@ -624,6 +625,74 @@ describe('ADR-139 story take-sets', () => {
     expect(dev.getStoryTake('test-bundle')).toBe('canon');
     dev.setStoryUnit('test-bundle', 'rung:R1', 'nope');
     expect(dev.getStoryUnit('test-bundle', 'rung:R1')).toBeUndefined();
+  });
+
+  // ADR-139 — generalized scene-defs (season-exit / scripted VN beats) swap LIVE too, keyed
+  // by scene id via `dev.subScene` (the nengu-autumn-frame diverge, HD-30). Same set-switch
+  // path as rung/intro scenes: identity on canon, swaps the take, falls back when absent.
+  const sceneDef = (text: string): RungScene => ({
+    id: 'nengu-autumn-frame',
+    voice: 'narrator',
+    greeting: [{ voice: 'narrator', text }],
+    topics: [],
+    decision: { prompt: '', options: [] },
+    motivates: [],
+  });
+  const sceneCanon = sceneDef('canon reckoning');
+  const sceneAltA = sceneDef('take-a reckoning');
+  const sceneBundle: StoryTakeBundle = {
+    id: 'scene-bundle',
+    title: 'Scene bundle',
+    takes: [
+      {
+        id: 'a',
+        label: 'Chiyo',
+        brief: 'the arithmetic of dignity',
+        scenes: { 'nengu-autumn-frame': sceneAltA },
+      },
+      { id: 'b', label: 'Ledger', brief: 'the day-book register' },
+    ],
+  };
+
+  it('subScene: identity on canon, swaps the selected take, falls back when absent', () => {
+    const dev = createDevApi([sceneBundle]);
+    expect(dev.subScene(sceneCanon)).toBe(sceneCanon); // all-canon → identity
+    dev.setStoryTake('scene-bundle', 'a');
+    expect(dev.subScene(sceneCanon)).toBe(sceneAltA); // take a carries the scene
+    dev.setStoryTake('scene-bundle', 'b');
+    expect(dev.subScene(sceneCanon)).toBe(sceneCanon); // take b lacks it → canon shows
+  });
+
+  it('subScene: per-unit override beats the set and clears back', () => {
+    const dev = createDevApi([sceneBundle]);
+    dev.setStoryTake('scene-bundle', 'a');
+    dev.setStoryUnit('scene-bundle', 'scene:nengu-autumn-frame', 'canon');
+    expect(dev.subScene(sceneCanon)).toBe(sceneCanon);
+    dev.setStoryUnit('scene-bundle', 'scene:nengu-autumn-frame', undefined);
+    expect(dev.subScene(sceneCanon)).toBe(sceneAltA);
+  });
+
+  // PH6 / verify-don't-trust — the REAL generated registry, not a fixture: the HD-30 nengu
+  // diverge must compile end-to-end (compiler → storyTakes.gen → dev API) and swap the actual
+  // authored take. RED if the bundle is pruned/renamed or the scene-def emit path regresses.
+  it('subScene: the real hd30-nengu bundle swaps the authored nengu scene', () => {
+    const nengu = STORY_TAKE_BUNDLES.find((b) => b.id === 'hd30-nengu');
+    expect(nengu, 'hd30-nengu bundle present in the generated registry').toBeDefined();
+    const takeA = nengu!.takes.find((t) => t.id === 'a');
+    const authored = takeA?.scenes?.['nengu-autumn-frame'];
+    expect(authored, 'take a carries a nengu-autumn-frame scene body').toBeDefined();
+    const dev = createDevApi(STORY_TAKE_BUNDLES);
+    const liveCanon: RungScene = {
+      id: 'nengu-autumn-frame',
+      voice: 'narrator',
+      greeting: [{ voice: 'narrator', text: 'canon' }],
+      topics: [],
+      decision: { prompt: '', options: [] },
+      motivates: [],
+    };
+    expect(dev.subScene(liveCanon)).toBe(liveCanon); // canon set → identity
+    dev.setStoryTake('hd30-nengu', 'a');
+    expect(dev.subScene(liveCanon)).toBe(authored); // take a → the authored body
   });
 
   // ADR-139 — UI flavor lines swap LIVE too (a lock-hint diverge like HR-10), not reader-only.

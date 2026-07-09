@@ -306,7 +306,7 @@
         {
           "key": 19,
           "channel": "narration",
-          "text": "[dev — body readout reveal; flavor-key migration pending (HD-30)]",
+          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -314,7 +314,7 @@
         {
           "key": 20,
           "channel": "narration",
-          "text": "[dev — rice readout reveal; flavor-key migration pending (HD-30)]",
+          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -422,7 +422,7 @@
         {
           "key": 34,
           "channel": "narration",
-          "text": "[dev — rest verb reveal; flavor-key migration pending (HD-30)]",
+          "text": "You can stop now, when the day is done — set the work down, and let the body take back what it can.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
@@ -623,7 +623,7 @@
         {
           "key": 66,
           "channel": "narration",
-          "text": "[dev — woodshed corner reveal; flavor-key migration pending (HD-30)]",
+          "text": "They give you the lean space between the woodpiles: a mat, a chipped bowl, a nail for the coat. It is not much, and it is not anyone else's.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
@@ -683,7 +683,7 @@
         {
           "key": 98,
           "channel": "narration",
-          "text": "[dev — coin readout reveal; flavor-key migration pending (HD-30)]",
+          "text": "Coin, at last, and few enough to count on one hand. What little the house pays in mon, you keep your own tally of.",
           "tick": 18,
           "count": 1,
           "voice": "narrator"
@@ -715,7 +715,7 @@
         {
           "key": 123,
           "channel": "narration",
-          "text": "[dev — field-margins reveal; flavor-key migration pending (HD-30)]",
+          "text": "Out past the last worked row the setts begin — tanuki, badger — and the nightly raids on the drying racks and the seed store.",
           "tick": 6,
           "count": 1,
           "voice": "narrator"
@@ -967,7 +967,7 @@
         {
           "key": 192,
           "channel": "narration",
-          "text": "[dev — kura / grain-store reveal; flavor-key migration pending (HD-30)]",
+          "text": "The storehouse is opened to you: the iron-strapped door, the good lock, the grain-watch's stool beside it. What is counted in and out is the house's whole year.",
           "tick": 10,
           "count": 1,
           "voice": "narrator"
@@ -975,7 +975,7 @@
         {
           "key": 193,
           "channel": "narration",
-          "text": "[dev — weir-reeds reveal; flavor-key migration pending (HD-30)]",
+          "text": "The shallows above and below the weir, reeds past the waist. River rats gnaw the screens the house leases from Matsuzō, and every screen lost is coin owed across the water.",
           "tick": 10,
           "count": 1,
           "voice": "narrator"
@@ -2169,7 +2169,7 @@
         {
           "key": 765,
           "channel": "narration",
-          "text": "[dev — R3 grain-watch: the first night round; the wolf, survived-not-won; ribs cracked. The beat's prose is in rung-beats R3; no t0v2 requirement-flavor source. HD-30.]",
+          "text": "The night the wolf came you stood between it and the stores, and were still there at dawn — bleeding, ribs cracked, the rice untouched. Not won. Survived.",
           "tick": 20,
           "count": 1,
           "voice": "narrator"
@@ -2417,7 +2417,7 @@
         {
           "key": 795,
           "channel": "narration",
-          "text": "[dev — drill-yard node reveal; flavor-key migration pending (HD-30)]",
+          "text": "The old stable court, swept bare and given a new use. Kihei's ground now, and yours to enter: things happen here in his order or not at all.",
           "tick": 20,
           "count": 1,
           "voice": "narrator"
@@ -2485,7 +2485,7 @@
         {
           "key": 840,
           "channel": "narration",
-          "text": "[dev — shrine corridor reveal; flavor-key migration pending (HD-30)]",
+          "text": "In passing you glimpse it — a family altar set into a corridor, the rites kept in a passage never meant to hold them. You are not asked to stop.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
@@ -2493,7 +2493,7 @@
         {
           "key": 841,
           "channel": "narration",
-          "text": "[dev — overgrown orchard reveal; flavor-key migration pending (HD-30)]",
+          "text": "The old orchard gone wild: bramble to the shoulder, windfall rotting underfoot, the dogs denned in the hollow. Kihei calls it the dogs' yard, without irony.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
@@ -2525,7 +2525,7 @@
         {
           "key": 844,
           "channel": "narration",
-          "text": "[dev — the day-wage begins; collect it at the board (HD-30)]",
+          "text": "The house pays you in coin now — a fixed measure for each day worked. It waits at the board until you go and take it up.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"
@@ -2920,7 +2920,7 @@
         {
           "key": 953,
           "channel": "narration",
-          "text": "[dev — bamboo grove reveal; flavor-key migration pending (HD-30)]",
+          "text": "Green dark and creaking, close behind the waste ground. The monkey troop raids the rows from here and is up the stems before you have turned around.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -3053,7 +3053,7 @@
         {
           "key": 979,
           "channel": "milestone",
-          "text": "[dev — the nengu is reckoned; the year is measured against the house]",
+          "text": "The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.",
           "tick": 12,
           "count": 1,
           "voice": "narrator"
@@ -3061,7 +3061,7 @@
         {
           "key": 980,
           "channel": "narration",
-          "text": "[dev — R7/Autumn-exit: the nengu reckoning, felt-never-numbered; the ceremony sets `nengu-reckoned` (scenes.md nengu-autumn-frame). No t0v2 requirement-flavor source. HD-30.]",
+          "text": "You stood in the room while the year was measured against the house — the reckoning read out, the gap named plainly and once, and nothing asked of you but to be there for it. A full year, lived through.",
           "tick": 12,
           "count": 1,
           "voice": "narrator"
@@ -3069,13 +3069,45 @@
         {
           "key": 981,
           "channel": "narration",
-          "text": "[dev — the nengu reckoning ceremony body: the board at the season's turn, the MC as furniture in the room, the land-tax felt but never numbered; sets `nengu-reckoned`. No t0v2 source prose — authored later (narrative-diverge), not migrated. HD-30 gap.]",
+          "text": "Autumn thins to its last day, and the board comes out at an hour it does not usually keep. The whole house comes with it: the family by the book, the hands by the door, and you in the corner — counted as part of the room, and not asked into it.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 982,
+          "channel": "narration",
+          "text": "Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the one thing the house owes the land, that must be answered before the season is allowed to turn.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 983,
+          "channel": "narration",
+          "text": "Nobody reads the sum aloud. It arrives the way weather arrives: the room goes still around it, a breath drawn and not let go, every eye on the book and none on one another.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 984,
+          "channel": "narration",
+          "text": "Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. You are learning the house's true size by what it will let itself be seen without.",
           "tick": 12,
           "count": 1,
           "voice": "narrator"
         },
         {
           "key": 985,
+          "channel": "narration",
+          "text": "The book closes. The house has answered for the land; its autumn can end. You are still in the corner. Nobody tells you the season is over. It is.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 989,
           "channel": "milestone",
           "text": "Entered: the granary takes in more than it pays out. A full storehouse needs no remark — this one has earned it all the same.",
           "tick": 12,
@@ -3083,7 +3115,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1187,
+          "key": 1191,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 0,
@@ -3094,7 +3126,7 @@
           }
         },
         {
-          "key": 1401,
+          "key": 1405,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 10,
@@ -3105,7 +3137,7 @@
           }
         },
         {
-          "key": 1614,
+          "key": 1618,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 18,
@@ -3116,14 +3148,14 @@
           }
         },
         {
-          "key": 1688,
+          "key": 1692,
           "channel": "milestone",
           "text": "The dens stand empty and the wild rows are cut back — sound fruit trees found under the choke. The day-book opens a line it has not carried in years: orchard. (U2 · Recovering)",
           "tick": 10,
           "count": 1
         },
         {
-          "key": 1832,
+          "key": 1836,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 4,
@@ -3134,7 +3166,7 @@
           }
         },
         {
-          "key": 2051,
+          "key": 2055,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 14,
@@ -3145,7 +3177,7 @@
           }
         },
         {
-          "key": 2270,
+          "key": 2274,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 0,
@@ -3156,15 +3188,15 @@
           }
         },
         {
-          "key": 2271,
+          "key": 2275,
           "channel": "milestone",
-          "text": "[dev — the nengu is reckoned; the year is measured against the house]",
+          "text": "The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 2490,
+          "key": 2494,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 10,
@@ -3175,7 +3207,7 @@
           }
         },
         {
-          "key": 2709,
+          "key": 2713,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 18,
@@ -3186,14 +3218,14 @@
           }
         },
         {
-          "key": 2742,
+          "key": 2746,
           "channel": "milestone",
           "text": "A second granary is raised board by board and the kura kept past this winter's need. The storehouse takes in more than it pays out at last. (U3 · Prosperous)",
           "tick": 6,
           "count": 1
         },
         {
-          "key": 2932,
+          "key": 2936,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 6,
@@ -3204,7 +3236,7 @@
           }
         },
         {
-          "key": 3151,
+          "key": 3155,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 16,
@@ -3215,7 +3247,7 @@
           }
         },
         {
-          "key": 3366,
+          "key": 3370,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 0,
@@ -3226,7 +3258,7 @@
           }
         },
         {
-          "key": 3585,
+          "key": 3589,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 10,
@@ -3237,15 +3269,15 @@
           }
         },
         {
-          "key": 3586,
+          "key": 3590,
           "channel": "milestone",
-          "text": "[dev — the nengu is reckoned; the year is measured against the house]",
+          "text": "The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.",
           "tick": 10,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 3804,
+          "key": 3808,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 20,
@@ -3256,7 +3288,7 @@
           }
         },
         {
-          "key": 4022,
+          "key": 4026,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 6,
@@ -3267,7 +3299,7 @@
           }
         },
         {
-          "key": 4241,
+          "key": 4245,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+8 koku)",
           "tick": 16,
@@ -3278,7 +3310,7 @@
           }
         },
         {
-          "key": 4456,
+          "key": 4460,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 0,
@@ -3289,7 +3321,7 @@
           }
         },
         {
-          "key": 4575,
+          "key": 4579,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 22,
@@ -3298,46 +3330,10 @@
           "ephemeral": true
         },
         {
-          "key": 4576,
+          "key": 4580,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4577,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 2,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4578,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4579,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 14,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4580,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -3346,16 +3342,16 @@
           "key": 4581,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
-          "tick": 22,
-          "count": 3,
+          "tick": 2,
+          "count": 2,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 4582,
-          "channel": "narration",
-          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
-          "tick": 0,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -3363,9 +3359,9 @@
         {
           "key": 4583,
           "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 6,
-          "count": 4,
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 14,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -3373,7 +3369,7 @@
           "key": 4584,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 8,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -3381,16 +3377,16 @@
         {
           "key": 4585,
           "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
+          "text": "Haul stores at the forecourt. ()",
           "tick": 22,
-          "count": 7,
+          "count": 3,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 4586,
           "channel": "narration",
-          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
@@ -3399,9 +3395,9 @@
         {
           "key": 4587,
           "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 0,
-          "count": 1,
+          "text": "Work the home paddy & rows. ()",
+          "tick": 6,
+          "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -3409,7 +3405,7 @@
           "key": 4588,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 2,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -3417,17 +3413,17 @@
         {
           "key": 4589,
           "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 12,
-          "count": 5,
+          "text": "Work the home paddy & rows. ()",
+          "tick": 22,
+          "count": 7,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 4590,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 14,
+          "channel": "narration",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -3436,13 +3432,49 @@
           "key": 4591,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4592,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4593,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 12,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4594,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4595,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
           "tick": 22,
           "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 4592,
+          "key": 4596,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 0,
@@ -3451,7 +3483,7 @@
           "ephemeral": true
         },
         {
-          "key": 4593,
+          "key": 4597,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 4,
@@ -3460,7 +3492,7 @@
           "ephemeral": true
         },
         {
-          "key": 4594,
+          "key": 4598,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 6,
@@ -3469,7 +3501,7 @@
           "ephemeral": true
         },
         {
-          "key": 4595,
+          "key": 4599,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 20,
@@ -3478,54 +3510,18 @@
           "ephemeral": true
         },
         {
-          "key": 4596,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4597,
-          "channel": "narration",
-          "text": "The working heart of the guest house's outer court — the first verb is here.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4598,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 10,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4599,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 4600,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 22,
-          "count": 5,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 4601,
           "channel": "narration",
-          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
@@ -3534,9 +3530,9 @@
         {
           "key": 4602,
           "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 0,
-          "count": 1,
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 10,
+          "count": 6,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -3544,7 +3540,7 @@
           "key": 4603,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 2,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -3552,17 +3548,17 @@
         {
           "key": 4604,
           "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 18,
-          "count": 8,
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 22,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 4605,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 20,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -3571,526 +3567,22 @@
           "key": 4606,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
-          "tick": 22,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 4607,
-          "channel": "narration",
-          "text": "The working heart of the guest house's outer court — the first verb is here.",
-          "tick": 0,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 4608,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 8,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4609,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4610,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 22,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4611,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4612,
-          "channel": "narration",
-          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4613,
-          "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 14,
-          "count": 7,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4614,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4615,
-          "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 22,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4616,
-          "channel": "narration",
-          "text": "The working heart of the guest house's outer court — the first verb is here.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4617,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 6,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4618,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4619,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 18,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4620,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4621,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4622,
-          "channel": "narration",
-          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4623,
-          "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 12,
-          "count": 7,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4624,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4625,
-          "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 22,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4626,
-          "channel": "narration",
-          "text": "The working heart of the guest house's outer court — the first verb is here.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4627,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 4,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4628,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4629,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 16,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4630,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4631,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 22,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4632,
-          "channel": "narration",
-          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4633,
-          "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 8,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4634,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4635,
-          "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 22,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4636,
-          "channel": "narration",
-          "text": "The working heart of the guest house's outer court — the first verb is here.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4637,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 2,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4638,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4639,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 14,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4640,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4641,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 22,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4642,
-          "channel": "narration",
-          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4643,
-          "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 6,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4644,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4645,
-          "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 22,
-          "count": 7,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4646,
-          "channel": "narration",
-          "text": "The working heart of the guest house's outer court — the first verb is here.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4647,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4648,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4649,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 12,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4650,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4651,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 22,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4652,
-          "channel": "narration",
-          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4653,
-          "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 4,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4654,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4655,
-          "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 20,
-          "count": 7,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4656,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4657,
-          "channel": "narration",
-          "text": "The working heart of the guest house's outer court — the first verb is here.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4658,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 10,
-          "count": 6,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4659,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4660,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 22,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4661,
-          "channel": "narration",
-          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4662,
-          "channel": "reward",
-          "text": "Work the home paddy & rows. ()",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4663,
-          "channel": "system",
-          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 4664,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 18,
@@ -4099,7 +3591,7 @@
           "ephemeral": true
         },
         {
-          "key": 4665,
+          "key": 4609,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 20,
@@ -4108,7 +3600,7 @@
           "ephemeral": true
         },
         {
-          "key": 4666,
+          "key": 4610,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 22,
@@ -4117,7 +3609,7 @@
           "ephemeral": true
         },
         {
-          "key": 4667,
+          "key": 4611,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 0,
@@ -4126,7 +3618,7 @@
           "ephemeral": true
         },
         {
-          "key": 4668,
+          "key": 4612,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 8,
@@ -4135,7 +3627,7 @@
           "ephemeral": true
         },
         {
-          "key": 4669,
+          "key": 4613,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 10,
@@ -4144,7 +3636,7 @@
           "ephemeral": true
         },
         {
-          "key": 4670,
+          "key": 4614,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
           "tick": 22,
@@ -4153,7 +3645,7 @@
           "ephemeral": true
         },
         {
-          "key": 4671,
+          "key": 4615,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 0,
@@ -4162,7 +3654,7 @@
           "ephemeral": true
         },
         {
-          "key": 4672,
+          "key": 4616,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 2,
@@ -4171,7 +3663,547 @@
           "ephemeral": true
         },
         {
+          "key": 4617,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 14,
+          "count": 7,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4618,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4619,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 22,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4620,
+          "channel": "narration",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4621,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 6,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4622,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4623,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 18,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4624,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4625,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4626,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4627,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 12,
+          "count": 7,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4628,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4629,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 22,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4630,
+          "channel": "narration",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4631,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 4,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4632,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4633,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 16,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4634,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4635,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 22,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4636,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4637,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 8,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4638,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4639,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 22,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4640,
+          "channel": "narration",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4641,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 2,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4642,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4643,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 14,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4644,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4645,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 22,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4646,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4647,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 6,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4648,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4649,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 22,
+          "count": 7,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4650,
+          "channel": "narration",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4651,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4652,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4653,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 12,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4654,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4655,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 22,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4656,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4657,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 4,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4658,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4659,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 20,
+          "count": 7,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4660,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4661,
+          "channel": "narration",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4662,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 10,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4663,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4664,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 22,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4665,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4666,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4667,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4668,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 18,
+          "count": 8,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4669,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4670,
+          "channel": "reward",
+          "text": "Work the home paddy & rows. ()",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4671,
+          "channel": "narration",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4672,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 8,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
           "key": 4673,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4674,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 22,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4675,
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4676,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 4677,
           "channel": "reward",
           "text": "Work the home paddy & rows. ()",
           "tick": 8,
@@ -4180,7 +4212,7 @@
           "ephemeral": true
         },
         {
-          "key": 4674,
+          "key": 4678,
           "channel": "milestone",
           "text": "The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+9 koku)",
           "tick": 10,
@@ -4191,7 +4223,7 @@
           }
         },
         {
-          "key": 4675,
+          "key": 4679,
           "channel": "system",
           "text": "The season turns, and some of your rice has spoiled in the store. (−113 rice)",
           "tick": 10,
@@ -4204,7 +4236,7 @@
           }
         }
       ],
-      "seq": 4676
+      "seq": 4680
     },
     "skillXp": {
       "farming": 7202,

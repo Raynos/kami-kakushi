@@ -18,6 +18,7 @@ import {
   emitDialogueDef,
   emitIntroScene,
   emitRungScene,
+  emitSceneDefBody,
   GENERATED,
   keyExpr,
   textExpr,
@@ -169,6 +170,16 @@ function emitTake(meta: TakeMeta, doc: NarrativeDoc): string {
     L.push('introScenes: [');
     for (const s of scenes) L.push(emitIntroScene(s));
     L.push('],');
+  }
+  // Generalized scene-defs (season-exit / scripted VN beats) → `scenes`, keyed by scene id.
+  // Swapped live at the active-VN render path via `dev.subScene` (ADR-139). The take carries
+  // only the RungScene body; trigger/once live in canon (a take is state-compatible, never
+  // re-triggers). A decision-LESS scene-def stays narration-only, matching a narration canon.
+  const sceneDefs = doc.blocks.filter((b) => b.kind === 'scene-def');
+  if (sceneDefs.length) {
+    L.push('scenes: {');
+    for (const s of sceneDefs) L.push(`${keyExpr(s.id)}: ${emitSceneDefBody(s)},`);
+    L.push('},');
   }
   const dialogues = doc.blocks.filter((b) => b.kind === 'dialogue');
   if (dialogues.length) {

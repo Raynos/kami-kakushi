@@ -4,5 +4,121 @@
 // Data only — the types + helpers stay hand-written in storyTakes.ts, which re-exports this.
 
 import type { StoryTakeBundle } from './storyTakes';
+import { NPC_NAME } from '../core/content/voices';
 
-export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [];
+export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
+  {
+    id: 'hd30-nengu',
+    title: 'The nengu reckoning — the year against the house',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      "Take C keeps the strictest §0.5 register — the sum is never read aloud, the MC is counted as part of the room and not asked into it, and the house's true size is learned only by what it lets itself be seen without. No epigram, no priced aside; the felt-never-numbered debt carries wordless.",
+    canonLabel: 'Take C — the speakerless reckoning (MC as furniture)',
+    takes: [
+      {
+        id: 'a',
+        label: "Chiyo's arithmetic of dignity",
+        brief:
+          "Chiyo centered — the house will not PERFORM falling; the nengu paid by inches it SHOWS (a screen sold quietly from a far room, the gate kept painted). The land-tax felt, never numbered; the MC holds the lamp and learns the house's size by what it will be seen without.",
+        scorecard:
+          "strong TST3/TST4; risk — Chiyo's priced asides edge toward explaining the arithmetic the canon leaves unspoken.",
+        scenes: {
+          'nengu-autumn-frame': {
+            id: 'nengu-autumn-frame',
+            voice: 'narrator',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'Autumn thins to its last week, and the board is lit at an hour that is not for hands. The household stands along the walls. You are sent for, to carry a lamp and hold it steady — light to read a reckoning by, and no more part in it than that.',
+              },
+              {
+                voice: 'narrator',
+                text: 'The day-book lies open. Genemon reads what the land owes against what the store holds, and the two do not meet. He does not say by how much. In this house the figure is never spoken; it is only stood in front of, the way the room is standing in front of it now.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Above the book, where the lamp does not quite reach, Chiyo does the other arithmetic — the one that is never entered.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.chiyo,
+                text: '"The painted screen from the far room. It goes to the town, quietly, and not through the valley. The room keeps its door shut after. No one is shown a bare wall."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.chiyo,
+                text: '"If the screen sells well, the gate is painted before the New Year. If it sells poorly, the gate is painted still, and the far room gives up its second screen for it."',
+              },
+              {
+                voice: 'narrator',
+                text: "No one asks the hired man what a screen is worth, or by what road such things leave a house, or how a year's due is paid out of the walls of one's own quiet rooms. You hold the lamp. You are learning the house's true size by what it will let itself be seen without.",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.chiyo,
+                text: '"Enter it met. What we cannot pay in rice we will pay in screens, and no one at the gate will know the difference."',
+              },
+              {
+                voice: 'narrator',
+                text: 'Genemon dips his brush and enters one line — the reckoning met, though you never hear with what. The book closes. The lamps are taken up. Autumn is let go with no word raised in the whole house: the silence the house has just paid for.',
+              },
+            ],
+            topics: [],
+            decision: { prompt: '', options: [] },
+          },
+        },
+      },
+      {
+        id: 'b',
+        label: 'The day-book register',
+        brief:
+          'The year closed as an ENTRY — Genemon foots the last column and reads it down, item/count/condition, the whole house standing to hear its own account. The one line he never reads as a figure is the nengu; the MC is carried in the book as a mark, not yet a name.',
+        scorecard:
+          'strong "felt never numbered" via Genemon-who-counts-but-won\'t; risk — the ledger register runs colder, the MC\'s presence thinner than the canon corner.',
+        scenes: {
+          'nengu-autumn-frame': {
+            id: 'nengu-autumn-frame',
+            voice: 'narrator',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: "The board, the year's turn. Genemon foots the last column of the season by lamplight and reads it down aloud — item, count, condition — the whole house standing to hear its own account. You stand at the edge of it. Nobody set you there. Nobody sends you off.",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Autumn rice: in, weighed, under the store roof. Woodlot: cut and stacked for winter, dry. Weir screens: three mended, one owed downstream against the spring. The reclaimed rows bore — entered to the house, not to any wage."',
+              },
+              {
+                voice: 'narrator',
+                text: 'Behind the board a paler square marks the wall where a screen used to hang. Nobody looks at it. Nobody names what met the difference. The house does not discuss its arithmetic; it settles it in rooms you are not shown.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"And the nengu. The year\'s tax against the year\'s yield. Paid. The store stands level after it — level, not over. That closes the season."',
+              },
+              {
+                voice: 'narrator',
+                text: 'He names the tax and does not count it — the one line at this board he never reads as a figure. The house carries it wordless, and every man standing feels the size of it anyway.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"The book is the better for a hand on it this year. The store, the screens, the rows — held or gained, each entered. The hand that did it carries no name yet. The account holds a mark as well as it holds a name."',
+              },
+              {
+                voice: 'narrator',
+                text: "He dips the brush, enters the season closed, and squares the day-book with the lamp. The year is reckoned. You are in its book — the season's wages set against a mark where a name has not been written — and you are still at its edge.",
+              },
+            ],
+            topics: [],
+            decision: { prompt: '', options: [] },
+          },
+        },
+      },
+    ],
+  },
+];

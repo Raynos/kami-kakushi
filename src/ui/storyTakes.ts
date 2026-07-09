@@ -26,6 +26,10 @@ export interface StoryTake {
   readonly scorecard?: string;
   readonly rungBeats?: Partial<Record<RankId, RungScene>>;
   readonly introScenes?: readonly DialogueScene[];
+  /** ADR-139 — generalized scene-def bodies (season-exit / scripted VN beats), keyed by
+   *  scene id. Swapped live at the active-VN render path via `dev.subScene` (identity when
+   *  the set is 'canon'). The take carries only the RungScene body; trigger/once stay canon. */
+  readonly scenes?: Partial<Record<string, RungScene>>;
   readonly dialogues?: readonly DialogueDef[];
   readonly coldOpen?: Readonly<Record<string, string>>;
   /** ADR-139 — fiction-voiced UI flavor lines (lock-hints, gate explainers) the

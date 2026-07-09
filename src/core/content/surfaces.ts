@@ -55,13 +55,17 @@ export const SURFACES: readonly Surface[] = [
     id: 'readout-body',
     kind: 'readout',
     unlock: (s) => s.flags.awake === true,
-    revealLine: narrate('[dev — body readout reveal; flavor-key migration pending (HD-30)]'),
+    revealLine: narrate(
+      "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
+    ),
   },
   {
     id: 'readout-rice',
     kind: 'readout',
     unlock: (s) => s.flags.awake === true,
-    revealLine: narrate('[dev — rice readout reveal; flavor-key migration pending (HD-30)]'),
+    revealLine: narrate(
+      "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
+    ),
   },
   {
     // COIN is a "first wage" beat (ADR-107 / D4): the cold open is RICE-only, and the coin pill stays
@@ -71,14 +75,18 @@ export const SURFACES: readonly Surface[] = [
     id: 'readout-coin',
     kind: 'readout',
     unlock: (s) => (s.resources.coin ?? 0) > 0 || (s.banked.coin ?? 0) > 0,
-    revealLine: narrate('[dev — coin readout reveal; flavor-key migration pending (HD-30)]'),
+    revealLine: narrate(
+      'Coin, at last, and few enough to count on one hand. What little the house pays in mon, you keep your own tally of.',
+    ),
   },
   { id: 'verb-rake', kind: 'verb', unlock: (s) => s.flags.awake === true },
   {
     id: 'verb-rest',
     kind: 'verb',
     unlock: (s) => s.flags.raked === true,
-    revealLine: narrate('[dev — rest verb reveal; flavor-key migration pending (HD-30)]'),
+    revealLine: narrate(
+      'You can stop now, when the day is done — set the work down, and let the body take back what it can.',
+    ),
   },
 
   // ── R1 — the estate opens (revealed by the rank reward) ──
@@ -117,7 +125,7 @@ export const SURFACES: readonly Surface[] = [
   { id: 'readout-stamina', kind: 'readout', unlock: () => false },
   // G4 — the walkable ZONE reveals (content/map.ts `revealFlag`s, the 16-node spine). Each opens on
   // its rung reward (ranks.ts rewardOnReach.unlock), predicate `() => false` (revealed as plot). The
-  // reveal LINES for the newly-sited nodes have no migrated t0v2 flavor key yet ⇒ bracketed [dev —]
+  // reveal LINES for the newly-sited nodes have no migrated t0v2 flavor key yet ⇒ authored via HD-30 (2026-07-09)
   // placeholders (HD-30); the two that carry forward (gate, paddies) keep their prior reveal copy.
   {
     id: 'room-gate',
@@ -137,7 +145,9 @@ export const SURFACES: readonly Surface[] = [
     id: 'room-woodshed',
     kind: 'panel',
     unlock: () => false,
-    revealLine: narrate('[dev — woodshed corner reveal; flavor-key migration pending (HD-30)]'),
+    revealLine: narrate(
+      "They give you the lean space between the woodpiles: a mat, a chipped bowl, a nail for the coat. It is not much, and it is not anyone else's.",
+    ),
   },
   { id: 'verb-farm', kind: 'verb', unlock: () => false },
   { id: 'verb-haul', kind: 'verb', unlock: () => false },
@@ -161,7 +171,9 @@ export const SURFACES: readonly Surface[] = [
     id: 'room-field-margins',
     kind: 'panel',
     unlock: () => false,
-    revealLine: narrate('[dev — field-margins reveal; flavor-key migration pending (HD-30)]'),
+    revealLine: narrate(
+      'Out past the last worked row the setts begin — tanuki, badger — and the nightly raids on the drying racks and the seed store.',
+    ),
   },
   { id: 'verb-woodcut', kind: 'verb', unlock: () => false },
   { id: 'verb-forage', kind: 'verb', unlock: () => false },
@@ -194,42 +206,54 @@ export const SURFACES: readonly Surface[] = [
 
   // ── G4 — the later-rung ZONE reveals (content/map.ts revealFlags): kura + weir-reeds at R3, the
   //    drill-yard NODE at R4, shrine + orchard at R5, the grove at R7. Revealed by the rung reward
-  //    (predicate `() => false`); reveal LINES are [dev —] placeholders until t0v2 flavor migrates (HD-30). ──
+  //    (predicate `() => false`); reveal LINES authored via HD-30 (2026-07-09, narrative-diverge texture). ──
   {
     id: 'room-kura',
     kind: 'panel',
     unlock: () => false,
-    revealLine: narrate('[dev — kura / grain-store reveal; flavor-key migration pending (HD-30)]'),
+    revealLine: narrate(
+      "The storehouse is opened to you: the iron-strapped door, the good lock, the grain-watch's stool beside it. What is counted in and out is the house's whole year.",
+    ),
   },
   {
     id: 'room-weir-reeds',
     kind: 'panel',
     unlock: () => false,
-    revealLine: narrate('[dev — weir-reeds reveal; flavor-key migration pending (HD-30)]'),
+    revealLine: narrate(
+      'The shallows above and below the weir, reeds past the waist. River rats gnaw the screens the house leases from Matsuzō, and every screen lost is coin owed across the water.',
+    ),
   },
   {
     id: 'room-drill-yard',
     kind: 'panel',
     unlock: () => false,
-    revealLine: narrate('[dev — drill-yard node reveal; flavor-key migration pending (HD-30)]'),
+    revealLine: narrate(
+      "The old stable court, swept bare and given a new use. Kihei's ground now, and yours to enter: things happen here in his order or not at all.",
+    ),
   },
   {
     id: 'room-shrine',
     kind: 'panel',
     unlock: () => false,
-    revealLine: narrate('[dev — shrine corridor reveal; flavor-key migration pending (HD-30)]'),
+    revealLine: narrate(
+      'In passing you glimpse it — a family altar set into a corridor, the rites kept in a passage never meant to hold them. You are not asked to stop.',
+    ),
   },
   {
     id: 'room-orchard',
     kind: 'panel',
     unlock: () => false,
-    revealLine: narrate('[dev — overgrown orchard reveal; flavor-key migration pending (HD-30)]'),
+    revealLine: narrate(
+      "The old orchard gone wild: bramble to the shoulder, windfall rotting underfoot, the dogs denned in the hollow. Kihei calls it the dogs' yard, without irony.",
+    ),
   },
   {
     id: 'room-grove',
     kind: 'panel',
     unlock: () => false,
-    revealLine: narrate('[dev — bamboo grove reveal; flavor-key migration pending (HD-30)]'),
+    revealLine: narrate(
+      'Green dark and creaking, close behind the waste ground. The monkey troop raids the rows from here and is up the stems before you have turned around.',
+    ),
   },
 
   // ── R3 — combat goes live (the drill yard, the Combat tab) ──
@@ -297,11 +321,13 @@ export const SURFACES: readonly Surface[] = [
     // G4 — the MON lane collect-at-the-board verb (ADR-163 / wage.ts). Revealed the moment the MC is
     // WAGED (R5+, isWaged) — a STATE-PREDICATE so it back-reveals for any R5+ save. The accrual +
     // `collect_wage` intent are wired (intents.ts); the board BUTTON binds to this surface in the
-    // G4.9 render sweep. Reveal line is a [dev —] placeholder until the wage-ladder prose migrates (HD-30).
+    // G4.9 render sweep. Reveal line authored via HD-30 (2026-07-09).
     id: 'verb-collect-wage',
     kind: 'verb',
     unlock: (s) => isWaged(s.rung),
-    revealLine: narrate('[dev — the day-wage begins; collect it at the board (HD-30)]'),
+    revealLine: narrate(
+      'The house pays you in coin now — a fixed measure for each day worked. It waits at the board until you go and take it up.',
+    ),
   },
 
   // ── Interior-house AREA reveals (A8 / canon §I / PRD §3.3) — the house physically REOPENS its

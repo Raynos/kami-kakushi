@@ -117,12 +117,12 @@ async function boot(): Promise<void> {
     // ADR-161 clean break: if the load RETIRED a prior-generation (pre-storywave) save, boot fresh
     // but tell the player courteously — never a silent wipe. INTERIM (storywave G1): a deliberately
     // OUT-OF-FICTION bracketed placeholder; the composed in-fiction notice text lands with the
-    // supplemental prose wave (HD-30), and G7's ship gate requires it CLOSED so no [dev] text ships.
+    // Composed via HD-30 (2026-07-09) — the clean-break notice ships as authored in-fiction prose.
     if (save.wasRetiredOnLoad()) {
       note(
         root,
-        '[dev — your earlier save was retired by the storywave rebuild; a fresh start begins. ' +
-          'The composed notice lands with the supplemental prose wave.]',
+        'An older record of your time here has been closed and laid away. The day-book opens ' +
+          'to a clean page, and your account begins again from the first line.',
       );
     }
   }

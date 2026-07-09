@@ -47,4 +47,12 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
   G1–G3.5 need none of this text (they ship stubs/placeholders); the picks
   migrate at G4.1 / G5. **G7 ship is gated on this closing** — no `[dev]`
   placeholder or missing reveal line reaches players (PH1/PH5).
-- **Resolution:** _(pending — the human authorizes/scopes the wave)_
+- **Resolution:** authorized by the human ("do the HD-30 prose wave", 2026-07-09)
+  and **BUILT the same day** (session 131). Every `[dev — …]` placeholder in
+  shipped src is now authored, in-register prose — the nengu VN beat (a real
+  3-take diverge, self-picked Take C) + the ~18 texture lines (single-take,
+  law-bound). The nengu alternates are wired LIVE (this session added the
+  `dev.subScene` swap for generalized scene-defs, so the beat reviews in DEV →
+  Story, not doc-only — ADR-139). **Remaining human action → HR-17** (sign off the
+  nengu pick / override + confirm the texture reads in-register). **Closing HR-17
+  closes HD-30 and clears the last G7 gate.**

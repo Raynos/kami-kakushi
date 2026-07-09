@@ -139,8 +139,8 @@ drive: woodcut_edge
 
 ### req the-wolf-survived-not-won · flag wolf-survived-not-won
 
-flavor: [dev — R3 grain-watch: the first night round; the wolf, survived-not-won; ribs cracked. The beat's prose is in rung-beats R3; no t0v2 requirement-flavor source. HD-30.]
-drive: [dev — sim survives the night-round wolf stage; the night-round staging + the wolf land in a later G4 chunk (the old scripted wolf beat is gone, G4.3)]
+flavor: The night the wolf came you stood between it and the stores, and were still there at dawn — bleeding, ribs cracked, the rice untouched. Not won. Survived.
+drive: the R3 first night round resolves its scripted survive-not-won wolf stage, setting `wolf-survived-not-won`.
 
 ## requirements R4
 
@@ -252,5 +252,5 @@ drive: deposit rice
 
 ### req the-nengu-reckoned · flag nengu-reckoned
 
-flavor: [dev — R7/Autumn-exit: the nengu reckoning, felt-never-numbered; the ceremony sets `nengu-reckoned` (scenes.md nengu-autumn-frame). No t0v2 requirement-flavor source. HD-30.]
-drive: [dev — sim reaches the Autumn-exit nengu ceremony; the economy/season gate lands in a later G4 chunk]
+flavor: You stood in the room while the year was measured against the house — the reckoning read out, the gap named plainly and once, and nothing asked of you but to be there for it. A full year, lived through.
+drive: sim reaches the Autumn season-exit, whose nengu ceremony sets `nengu-reckoned`.

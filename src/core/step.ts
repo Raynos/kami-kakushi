@@ -85,9 +85,8 @@ function onNengu(state: GameState): GameState {
       {
         channel: 'milestone',
         voice: 'narrator',
-        // TODO(g4-tests): HD-30 — the nengu reckoning prose is authored at G4.6; a bracketed dev
-        // placeholder until then (felt, never numbered — no koku/shō count in the player line).
-        text: '[dev — the nengu is reckoned; the year is measured against the house]',
+        // HD-30 (2026-07-09): the nengu reckoning line — felt, never numbered (no koku/shō figure).
+        text: 'The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.',
       },
     ],
   });

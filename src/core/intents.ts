@@ -572,7 +572,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = adjustSatiety(next, SATIETY_PER_REST + homeRestBonus(next));
       const restLine = atHome
         ? homeRestLine(ownsBelonging(next, 'bedding'))
-        : '[dev — bare-corner rest line; flavor-key migration pending (HD-30)]';
+        : 'You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.';
       // FB-53 — resting is fleeting flavor: it lands in the "Now" view and fades, never clutters
       // the permanent Work/All channels.
       // FB-91/FB-93 — the rest RESULT line is scene narration → `narrator` voice, consistent with
@@ -868,9 +868,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'reward',
             voice: 'narrator',
-            // TODO(g4-tests): HD-30 — no migrated fiction line for the wage-collect beat yet; a
-            // bracketed dev placeholder until the payment-ladder reveal prose is authored (G4.6).
-            text: `[dev — wage collected: ${pay} mon]`,
+            // HD-30 (2026-07-09): the wage-collect beat — the day-wage counted into the hand.
+            text: `You are handed ${pay} mon at the board, counted once into your palm — the first the house has paid you in coin, and yours to keep.`,
             ephemeral: true,
           },
         ],

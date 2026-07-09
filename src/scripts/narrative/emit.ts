@@ -443,21 +443,17 @@ function triggerExpr(t: SceneTriggerAst): string {
  *  `RungScene` shape (no `rank` — non-promotion content); a decision-LESS scene-def (the
  *  speakerless narration-only beat, ADR-165) emits an empty decision so the engine's
  *  narration-only path drives it. */
-export function emitSceneDef(def: SceneDefNode): string {
+/** The shared `RungScene` payload of a scene-def (no rank — non-promotion content); a
+ *  decision-LESS scene-def emits an empty decision (the narration-only path). Exposed so
+ *  the story-takes emitter can reuse a take's scene-def body live (ADR-139 `dev.subScene`). */
+export function emitSceneDefBody(def: SceneDefNode): string {
   const meta = (key: string): string | undefined => def.meta.get(key)?.value;
-  const triggerRaw = meta('trigger');
-  if (!triggerRaw) {
-    throw new NarrativeError(def.loc, `scene-def "${def.id}" is missing "trigger:" meta`);
-  }
-  const parsed = parseSceneTrigger(triggerRaw);
-  if (!parsed.ok) throw new NarrativeError(def.loc, `scene-def "${def.id}": ${parsed.reason}`);
   const voice = meta('voice');
   if (!voice) throw new NarrativeError(def.loc, `scene-def "${def.id}" is missing "voice:" meta`);
   const speaker = meta('speaker');
   const motivatesRaw = meta('motivates');
   const motivates = motivatesRaw ? motivatesRaw.split(',').map((m) => m.trim()) : [];
 
-  // The shared RungScene payload (no rank — that field is optional for non-promotion scenes).
   const S: string[] = ['{'];
   S.push(`id: ${str(def.id)},`);
   S.push(`voice: '${voice}',`);
@@ -479,10 +475,21 @@ export function emitSceneDef(def: SceneDefNode): string {
     S.push(`decision: { prompt: '', options: [] },`);
   }
   S.push('}');
+  return S.join('\n');
+}
+
+export function emitSceneDef(def: SceneDefNode): string {
+  const meta = (key: string): string | undefined => def.meta.get(key)?.value;
+  const triggerRaw = meta('trigger');
+  if (!triggerRaw) {
+    throw new NarrativeError(def.loc, `scene-def "${def.id}" is missing "trigger:" meta`);
+  }
+  const parsed = parseSceneTrigger(triggerRaw);
+  if (!parsed.ok) throw new NarrativeError(def.loc, `scene-def "${def.id}": ${parsed.reason}`);
 
   const L: string[] = ['{'];
   L.push(`id: ${str(def.id)},`);
-  L.push(`scene: ${S.join('\n')},`);
+  L.push(`scene: ${emitSceneDefBody(def)},`);
   L.push(`trigger: ${triggerExpr(parsed.trigger)},`);
   if (meta('once') !== undefined) L.push('once: true,');
   L.push('},');

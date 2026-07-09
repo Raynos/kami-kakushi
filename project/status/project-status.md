@@ -23,11 +23,11 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 
 ## Where we are now
 
-- **🔧 STORYWAVE GAME (Plan B, s125):** T0 rewrite to the bible. **G0–G3.5 ✅**
-  engine+compiler all pushed (`29b7940`→`946f57c`). **G4 SCOPED, NOT BUILT** —
-  ONE monolithic cutover (areas swap = 55 files, no green island → a worktree
-  series); full map at `brainstorms/2026-07-08-storywave-g4-migration-map.md`.
-  **HD-30 ⛔ gates G7**; OWED balance re-baseline batches at G4-end. Next: G4.
+- **🔧 STORYWAVE GAME (Plan B, s125–131):** T0 rewrite to the bible. **G0–G6 ✅
+  green on `main`** (engine·compiler·G4 cutover·G5 reconcile·G6 e2e/drift). **HD-30
+  prose wave BUILT (s131)** — every `[dev]` placeholder authored; nengu VN beat a
+  live 3-take diverge (`dev.subScene`), awaiting **HR-17**. **Only G7 (SHIP,
+  human-only) left, gated on HR-17.** OWED: balance re-baseline (batched from G4).
 - **🧊 PLAN K PARKED (s127):** authored-depth demo (`docs/plans/t0/`) — §U =
   the Asking + clue-book after 5 failed feel-tests (§R = the law; prototypes
   ⭐ `project/prototypes/authored-depth-demo/`). Un-park = human, post-v0.4.0.
@@ -105,7 +105,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 
 1. Read the **newest journal** (then skim prior sessions) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-09-session-130-feedback-kind-bucket.md`](../journal/2026-07-09-session-130-feedback-kind-bucket.md)
+   [`journal/2026-07-09-session-131-hd30-prose-wave.md`](../journal/2026-07-09-session-131-hd30-prose-wave.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).
@@ -115,6 +115,6 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
    (s118):** docket ADR-152…162 · PRD ripple · roadmap; **A5 GATED on B ship**.
    **Plan B (GAME):** 13 open Qs RULED (s121) → **ADR-163/164/165** + an
    **Economy spec** block (soft-cap econ · rice-as-kura-units · defeat-bleed ·
-   every-rung-a-VN); ⬩Opus rewrites T0 (G0→G7) — **PAUSED pending human go**;
-   prose wave DONE (`…/t0v2/`, ONE version); clean-break saves.
+   every-rung-a-VN); T0 rewrite **G0–G6 BUILT & green**, **HD-30 prose wave built
+  (s131) → HR-17**; only **G7 SHIP** left (human-only). Clean-break saves.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.

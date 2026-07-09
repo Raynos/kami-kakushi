@@ -2032,9 +2032,13 @@ export function mount(
       return sub ? projectRung(sub) : null;
     }
     // storywave G4.9 — a live generalized scene (Count / season / nengu / side-beat / dream).
+    // ADR-139 — the switcher substitutes its RungScene body with the selected take (display-only;
+    // trigger/once stay canon, so a take never re-fires). Identity when everything is 'canon'.
     if (state.activeScene !== null) {
       const def = sceneById(state.activeScene.id);
-      return def ? projectScene(def.scene) : null;
+      const s = def ? def.scene : null;
+      const sub = __DEV_TOOLS__ && dev && s ? dev.subScene(s) : s;
+      return sub ? projectScene(sub) : null;
     }
     return null;
   }
