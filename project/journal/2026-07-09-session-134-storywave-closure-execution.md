@@ -139,3 +139,22 @@ autumn (year-flag absent) — accepted, dev-stage, self-heals at the turn.
   capture re-anchored on the real woodshed-corner siting words; m1.test's
   DEAD empty-array voice loop now derives the readout reveal prose from
   the SURFACES registry.
+
+## C1 DoD closed
+
+- **B1 player-visible proof:** headless capture of the T0 sheet's woodshed +
+  kitchen detail panes — "WHO'S THERE: O-Hisa …", O-Sato absent (verified by
+  page-text scan both ways). Shots in
+  `project/audit/screens/2026-07-09-closure-c1/` (git-ignored dir — local
+  evidence; this journal line is the record).
+- **e2e:** GREEN in CI at `20cd708` (the authoritative Linux lane). Two
+  mobile-webkit specs (journeys repair-bind + quest-slice) fail LOCALLY on
+  macOS WebKit — bisected in an isolated worktree to PRE-EXISTING at
+  `f0c954f`, where CI is also green: a local-env rendering artifact (the
+  woodlot seal falls under the section fold on macOS metrics), not a
+  regression from this work. Left as a known local quirk.
+- Adjacent find parked for C2/D3: `src/scripts/qa-shots.mjs` still drives
+  the RETIRED `home-paddies` node id (+ boar-era comments) — it rides the
+  D3 goto-roster sweep.
+- Sim: the 6 pre-existing REDs stand (C5b's re-baseline); every C1 commit
+  carried its ADR-132 verdict.
