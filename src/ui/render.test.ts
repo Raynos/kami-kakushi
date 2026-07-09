@@ -611,7 +611,7 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     const base = createInitialState(1);
     return {
       ...base,
-      location: 'paddies',
+      location: 'field-margins', // G4: the first grindable combat zone (tanuki/badger)
       flags: { ...base.flags, awake: true },
       // the full R3 combat surface set: the Combat tab + its floor, plus the Character-tab surfaces
       // (tab-skills R2, readout-combat-level + panel-bestiary R3) that light the split-out sheet.
@@ -1097,8 +1097,9 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     expect(root.querySelector('.vn-scene')).not.toBeNull();
     // …and it hides the shell (the vnActive gate now covers a rung beat too).
     expect(root.querySelector<HTMLElement>('.shell')!.hidden).toBe(true);
-    // R1 is a light-VN (topics: []) → opens straight in the DECIDE grid, with the rung's options.
-    expect(shown('.vn-decide')).toBe(true);
+    // G4 — R1 is now a full VN (it carries ask topics) → it opens in the ASK phase; the decide
+    // grid is built (its options present in the DOM) but held until "I've heard enough".
+    expect(shown('.vn-ask')).toBe(true);
     expect(root.querySelectorAll('.intro-choice').length).toBe(
       RUNG_BEATS.R1!.decision.options.length,
     );
@@ -1208,7 +1209,12 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     expect(greeting.length).toBeGreaterThanOrEqual(2);
     vi.runAllTimers(); // let ONLY the auto timers run — no click
     const texts = lineTexts();
-    greeting.forEach((line, i) => expect(texts[i]).toBe(line.text)); // every line typed itself
+    // G4 — the intro greeting now mixes voiced speaker lines (Genemon/Sōan) with narration; a
+    // voiced line whose source carries no quotes is DISPLAYED quoted (FB-158), so derive the
+    // expected DISPLAY text with the same rule rather than the raw source.
+    const displayed = (line: (typeof greeting)[number]): string =>
+      line.voice !== 'narrator' && !/["“]/.test(line.text) ? `"${line.text}"` : line.text;
+    greeting.forEach((line, i) => expect(texts[i]).toBe(displayed(line))); // every line typed itself
     expect(shown('.vn-ask')).toBe(true); // …and the panel revealed after the last line
   });
 
@@ -1334,8 +1340,11 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
 
   it('F67/F72 — the pedlar buy control sits in its OWN in-flow cell (never a floating overlap)', () => {
     const render = mount(root, () => {}, noopHooks());
-    // stand at the forecourt so the pedlar (Yohei) is actually present to talk to.
-    render({ ...awake(['panel-estate', 'room-gate']), location: 'gate' }, null);
+    // stand at the gate on a MARKET DAY (dayOfWeek 2) so the pedlar (Yohei) is present to talk to.
+    render(
+      { ...awake(['panel-estate', 'room-gate']), location: 'gate', clock: { ...createInitialState(1).clock, day: 2 } },
+      null,
+    );
     // the pedlar's market is on the Map 地図 tab now (FB-109 / IA reorg ADR-112).
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
       .find((b) => (b.textContent ?? '').includes('地図'))
@@ -1584,7 +1593,11 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderMarket — a pedlar row survives a re-render (identity) and idle ticks churn nothing', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['panel-estate', 'room-gate'], { location: 'gate' }); // the pedlar is on the Map tab now
+    // a MARKET DAY (dayOfWeek 2) so Yohei stands the gate stall; the pedlar is on the Map tab now.
+    const s = awake(['panel-estate', 'room-gate'], {
+      location: 'gate',
+      clock: { ...createInitialState(1).clock, day: 2 },
+    });
     render(s, null);
     openTab('地図');
     talkToPedlar();
@@ -1605,6 +1618,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     const render = mount(root, (i) => seen.push(i), noopHooks());
     const s = awake(['panel-estate', 'room-gate'], {
       location: 'gate',
+      clock: { ...createInitialState(1).clock, day: 2 }, // a market day → Yohei is present
       resources: { ...createInitialState(1).resources, coin: 0 },
     });
     render(s, null);
@@ -1616,6 +1630,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     // afford it → the SAME button becomes enabled (patched in place, not a fresh node).
     const rich = awake(['panel-estate', 'room-gate'], {
       location: 'gate',
+      clock: { ...createInitialState(1).clock, day: 2 },
       resources: { ...createInitialState(1).resources, coin: 9999 },
     });
     render(rich, s);
@@ -1704,8 +1719,9 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     // lines instead of `textContent=''` + rebuild. RED against the old rebuild — every idle tick
     // recreated the node (churn) and dropped its identity.
     const render = mount(root, () => {}, noopHooks());
-    let s = awake(['room-gate', 'room-paddies'], { location: 'gate' });
-    // a move emits an EPHEMERAL arrival line (the sole feed of the Now view).
+    let s = awake(['room-gate', 'room-paddies'], { location: 'forecourt' });
+    // a move emits an EPHEMERAL arrival line (the sole feed of the Now view). forecourt→paddies
+    // is a real one-step walk (gate is not adjacent to the paddy).
     s = reduce(s, { type: 'move_to', to: 'paddies' });
     render(s, null);
     // switch the log to the "Now" filter so the ephemeral line is stamped + painted.
@@ -1722,7 +1738,8 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderMap — the you-are-here card + survey sheet survive a re-render (the sig guard)', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['room-gate', 'room-paddies'], { location: 'gate' });
+    // forecourt so the paddy is a walkable neighbour with a live [data-node] travel seal.
+    const s = awake(['room-gate', 'room-paddies'], { location: 'forecourt' });
     render(s, null);
     openTab('地図');
     const card = root.querySelector<HTMLElement>('.map-pane .map-here')!;
@@ -1775,7 +1792,8 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     };
   }
   function combat(extra: string[] = [], over: Partial<GameState> = {}): GameState {
-    return awake(['tab-combat', 'panel-bestiary', ...extra], { location: 'paddies', ...over });
+    // G4: foes are spatial — the field margins is the first grindable combat zone (tanuki/badger).
+    return awake(['tab-combat', 'panel-bestiary', ...extra], { location: 'field-margins', ...over });
   }
   function openTab(marker: string): void {
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
@@ -1866,7 +1884,7 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
 
   it('renderCombat — a foe-watch row inks fog→forecast IN PLACE (same row + win-rate node)', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = combat(); // the monkey stands unseen (fogged)
+    const s = combat(); // the field-margin foe stands unseen (fogged)
     render(s, null);
     openTab('Combat');
     const pane = root.querySelector<HTMLElement>('.combat-pane')!;
@@ -1874,8 +1892,8 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     const wr = foe.querySelector<HTMLElement>('.win-rate')!;
     expect(foe.querySelector('.skill-name')!.textContent).toBe('Unknown foe');
     expect(wr.textContent).toContain('Unknown');
-    // face the monkey → the SAME row + the SAME win-rate node patch to a real forecast (no strobe).
-    const facedIt = setFlag(s, 'mob-monkey');
+    // face THIS node's first foe → the SAME row + the SAME win-rate node patch to a real forecast.
+    const facedIt = setFlag(s, `mob-${foesHere(s)[0]!.mob.id}`);
     render(facedIt, s);
     expect(pane.querySelector('.foe-row:not(.bestiary-card)')).toBe(foe); // row not recreated
     expect(foe.querySelector('.win-rate')).toBe(wr); // forecast pip patched in place
