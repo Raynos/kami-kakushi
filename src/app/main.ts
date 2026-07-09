@@ -10,6 +10,8 @@ import {
   nextHopToward,
   timingFor,
   getMob,
+  nightRoundById,
+  resolveNightStage,
   applyPromotion,
   nextRankId,
   revealPass,
@@ -369,6 +371,17 @@ async function boot(): Promise<void> {
   // AUTO_REPEAT_MS; the DEV speed toggle runs N steps per tick (autoSpeed = 1 in prod). ──
   function autoStep(): void {
     if (paused || document.hidden || crashed) return;
+    // storywave G4.9 — the R3 grain-watch NIGHT ROUND resolves ON RAILS: once the player has
+    // posted the watch (begin_night_round), its stages are resolved as a side-channel (like the
+    // sim + the t0-arc/invariants drivers), one stage per beat, until the round clears. The
+    // player ISSUES begin_night_round; the runner plays out here (a felt beat, not a silent tick).
+    if (state.roundState !== null) {
+      const def = nightRoundById(state.roundState.roundId);
+      if (def) {
+        commit(resolveNightStage(state, def));
+        return;
+      }
+    }
     // The DECISION is the pure core's autoModeIntent (FB-4 Ph3 — the sim's idler persona consumes
     // the SAME function, so the shipped auto-loop and the sim can never desync); this loop keeps
     // only the app concerns: the DOM guards above and the dispatch below.

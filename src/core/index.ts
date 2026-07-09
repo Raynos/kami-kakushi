@@ -139,6 +139,11 @@ export {
   rungOption,
 } from './content/rungBeats';
 export type { RungScene, RungDecision, RungOption } from './content/rungBeats';
+// storywave — the generalized VN scene registry + the MON-lane wage helpers (G4.9 render sweep
+// wires these into the one VN modal + the wage board / season / night-round controls).
+export { SCENES, sceneById } from './content/scenes';
+export type { SceneDef, SceneId, SceneTrigger } from './content/scenes';
+export { isWaged, WAGE_START_RUNG, DAY_WAGE_MON } from './content/wage';
 export { FLAVOR } from './content/flavor';
 export {
   gradeOf,

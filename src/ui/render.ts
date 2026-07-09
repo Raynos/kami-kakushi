@@ -100,6 +100,11 @@ import {
   rungRequirements,
   nodeHint,
   kuraBales,
+  sceneById,
+  isWaged,
+  DAY_WAGE_MON,
+  getMob,
+  nightRoundById,
 } from '../core';
 import { LOG_FILTERS, logFilterMatches, type LogFilter } from './log-filter';
 import {
@@ -690,6 +695,14 @@ export function mount(
   const clockTag = el('span', 'season-tag');
   const clockDay = el('span', 'rate');
   clock.append(clockTag, clockDay);
+  // storywave G1/G4.9 — the season wheel is MANUAL from R2 on (ADR-153): the player ENDS the season
+  // to turn the six-season wheel (the seasonal judge, spoilage, pool refill). Lives WITH the calendar
+  // (TST1 — season reads where the season shows). Gated + labelled in renderVitals.
+  const seasonEndBtn = el('button', 'season-end');
+  seasonEndBtn.type = 'button';
+  seasonEndBtn.hidden = true;
+  seasonEndBtn.addEventListener('click', () => dispatch({ type: 'advance_season' }));
+  clock.append(seasonEndBtn);
   const stamina = el('div', 'vital stamina');
   stamina.hidden = true;
   stamina.append(el('span', 'label', 'body'));
@@ -965,9 +978,13 @@ export function mount(
   //    they toggle `hidden` when empty so an empty section leaves no phantom flex-gap (FB-72).
   let actionsRefs: {
     metaRow: HTMLElement;
-    wolfBox: HTMLElement;
-    wolfBtn: HTMLButtonElement;
-    wolfBlurb: HTMLElement;
+    // storywave G4.9 — the place strip: the night-round post + the day-wage board.
+    placeStrip: HTMLElement;
+    nightRow: HTMLElement;
+    nightBtn: HTMLButtonElement;
+    nightBlurb: HTMLElement;
+    wageRow: HTMLElement;
+    wageBtn: HTMLButtonElement;
     areaGroups: HTMLElement;
     noWork: HTMLElement;
     cookRow: HTMLElement;
@@ -1117,6 +1134,8 @@ export function mount(
   root.append(coldOpen, shell, settings.modal);
 
   let firstRender = true;
+  // storywave G4.9 — guards the queued-scene pump so a deferred begin_scene never stacks.
+  let scenePumpScheduled = false;
   let coldOpenRevealStarted = false;
   let cancelColdOpenReveal: (() => void) | undefined;
   let lastKey = -1;
@@ -1881,7 +1900,7 @@ export function mount(
   //    (`DIALOGUE_SCENES`) and the rung beats (`RUNG_BEATS`) feed into the SAME append-only engine.
   //    The engine below renders from `VnScene`/`VnOption` only, so it never branches on the raw
   //    scene type; only the DISPATCH (choose_intro vs choose_rung_option) reads `source`. ──
-  type VnSource = 'intro' | 'rung';
+  type VnSource = 'intro' | 'rung' | 'scene';
   interface VnOption {
     readonly id: string;
     readonly label: string;
@@ -1959,6 +1978,39 @@ export function mount(
       }),
     };
   }
+  // storywave G4.9 — the generalized VN scene (the Count / season overlays / nengu / side-beats /
+  // the R7 dream) projects through the SAME normalized shape (one modal — TST1). `def.scene` IS a
+  // RungScene, so this mirrors projectRung — but the source is 'scene' (its picks dispatch
+  // choose_scene_option, its narration-only Continue dispatches advance_scene_beat) and topics are
+  // dropped: scenes have no ask-topic reducer of their own, so a scene opens straight in decide
+  // (an options scene) or narration-Continue (an empty-decision scene, ADR-165). A scene NEVER
+  // promotes, so no rung-up ceremony fires on its Continue.
+  function projectScene(scene: RungScene): VnScene {
+    return {
+      source: 'scene',
+      id: scene.id,
+      voice: scene.voice,
+      ...(scene.speaker !== undefined ? { speaker: scene.speaker } : {}),
+      greeting: scene.greeting,
+      topics: [],
+      prompt: scene.decision.prompt,
+      options: scene.decision.options.map((o): VnOption => {
+        const rs = o.reactNpc ? NPC_NAME[o.reactNpc] : beatReactSpeaker(scene);
+        const warmth = (o.memory ?? []).reduce((n, m) => n + m.warmthDelta, 0);
+        const accent =
+          warmth > 0 ? 'var(--gold)' : warmth < 0 ? 'var(--shu-hi)' : 'var(--silver-dim)';
+        return {
+          id: o.id,
+          label: o.label,
+          say: o.say,
+          react: o.react,
+          reactVoice: o.reactNpc ? NPC_VOICE[o.reactNpc] : beatReactVoice(scene),
+          ...(rs !== undefined ? { reactSpeaker: rs } : {}),
+          ...(o.statBonus ? { note: o.statBonus.note, attr: o.statBonus.attr } : { accent }),
+        };
+      }),
+    };
+  }
   // The ACTIVE VN scene (source-tagged) — the intro (as today) while it runs, else the ready-and-
   // triggered rung beat (`RUNG_BEATS[rungBeat]` via `rungBeatFor`). `null` ⇒ no VN is live (the shell
   // shows). The reducers own the core rung selectors (`rungTopic`/`rungOption`/`availableRungTopics`);
@@ -1978,12 +2030,17 @@ export function mount(
       const sub = __DEV_TOOLS__ && dev && s ? dev.subRungScene(s) : s;
       return sub ? projectRung(sub) : null;
     }
+    // storywave G4.9 — a live generalized scene (Count / season / nengu / side-beat / dream).
+    if (state.activeScene !== null) {
+      const def = sceneById(state.activeScene.id);
+      return def ? projectScene(def.scene) : null;
+    }
     return null;
   }
   // Is a full-screen VN scene live? (the render gate — intro OR a rung beat). ADR-110 §7.3: the washi
   // surface hides the shell during BOTH; the world inks in only after the active scene ends.
   function vnActive(state: GameState): boolean {
-    return introActive(state.introBeat) || state.rungBeat !== null;
+    return introActive(state.introBeat) || state.rungBeat !== null || state.activeScene !== null;
   }
   // pin the LEFT transcript column to its newest line (FB-84) — the .vn-lines' scroll parent (.vn-story).
   function introScrollToBottom(): void {
@@ -2329,6 +2386,13 @@ export function mount(
       cont.type = 'button';
       cont.addEventListener('click', () => dispatch({ type: 'choose_intro', optionId: optId }));
       wrap.append(cont);
+    } else if (scene.source === 'scene') {
+      // storywave G4.9 — a generalized scene's terminal pick: a plain Continue (NO promotion/
+      // ceremony — scenes never advance a rank) that dispatches choose_scene_option.
+      const cont = el('button', 'verb intro-continue', 'Continue');
+      cont.type = 'button';
+      cont.addEventListener('click', () => dispatch({ type: 'choose_scene_option', optionId: optId }));
+      wrap.append(cont);
     } else {
       // FB-153 — the promotion ceremony lives IN the beat modal (human spec): the
       // outcome's control reads "Rung up"; pressing it renders the seal + the
@@ -2445,6 +2509,18 @@ export function mount(
   function buildDecidePanel(scene: VnScene): HTMLElement {
     const decide = el('div', 'vn-decide');
     decide.hidden = true;
+    // storywave G4.9 — a narration-only scene (empty decision, ADR-165: the nengu frame, the R7
+    // dream body, R2's silent yard-hand beat) has no pick — its terminal is a single Continue that
+    // dispatches advance_scene_beat (the engine's empty-options path closes the scene).
+    if (scene.source === 'scene' && scene.options.length === 0) {
+      const cont = el('button', 'verb intro-continue', 'Continue');
+      cont.type = 'button';
+      cont.addEventListener('click', () => dispatch({ type: 'advance_scene_beat' }));
+      const choices = el('div', 'vn-choices vn-grid');
+      choices.append(cont);
+      decide.append(choices);
+      return decide;
+    }
     const choices = el('div', 'vn-choices vn-grid');
     for (const opt of scene.options) {
       const attr = opt.attr;
@@ -2624,21 +2700,29 @@ export function mount(
     // sections the parent's flex-gap so wrapping doesn't collapse the button stack.
     if (!actionsRefs) {
       const metaRow = el('div', 'actions-group');
-      const wolfBox = el('div', 'wolf-box');
-      const wolfBtn = el('button', 'verb primary');
-      wolfBtn.type = 'button';
-      wolfBtn.append(
-        el('span', 'emoji', '⚔️'),
-        document.createTextNode(' Face the wolf at the grain store'),
+      // storywave G4.9 — the PLACE strip: the standing what-you-do-here beats that aren't plain
+      // labour — the night-round post at the gate (begin_night_round) and the day-wage board
+      // (collect_wage). The scripted wolf-box is GONE (G4.3 deleted `verb-face-wolf`; the wolf is
+      // now the night round's `survive` terminal stage). One home for place beats (TST1).
+      const placeStrip = el('div', 'place-strip');
+      // (a) the night-round post — post the grain-watch at the gate (bible R3). While a round is
+      //     live the app loop resolves its stages; the status line reads the current stage (TST4).
+      const nightRow = el('div', 'labour-row place-night');
+      const nightBtn = el('button', 'verb primary');
+      nightBtn.type = 'button';
+      nightBtn.append(el('span', 'emoji', '🏮'), document.createTextNode(' Post the night watch 夜廻'));
+      nightBtn.addEventListener('click', () =>
+        dispatch({ type: 'begin_night_round', roundId: 'first-night-round' }),
       );
-      // G4.3 — the scripted wolf is deleted; this button is inert until the R3 night-round UI (later chunk).
-      void wolfBtn;
-      const wolfBlurb = el(
-        'p',
-        'area-blurb',
-        'The grain-store wolf still waits where you woke. Use the Map 地図 tab to walk back to the kura (蔵) and face it.',
-      );
-      wolfBox.append(wolfBtn, wolfBlurb);
+      const nightBlurb = el('p', 'area-blurb');
+      nightRow.append(nightBtn);
+      // (b) the wage board — collect the accrued day-wage (R5+, MON lane / ADR-163).
+      const wageRow = el('div', 'labour-row place-wage');
+      const wageBtn = el('button', 'verb');
+      wageBtn.type = 'button';
+      wageBtn.addEventListener('click', () => dispatch({ type: 'collect_wage' }));
+      wageRow.append(wageBtn);
+      placeStrip.append(nightBlurb, nightRow, wageRow);
       const areaGroups = el('div', 'actions-group');
       const noWork = el(
         'p',
@@ -2659,12 +2743,15 @@ export function mount(
       eatRiceRow.append(eatRiceBtn);
       // FB-107 (ADR-112) — the "Walk on 道" nav strip is GONE from Work: the Map tab is navigation's
       // SOLE home. Labour is all the Work tab holds now.
-      actions.append(metaRow, wolfBox, areaGroups, noWork, cookRow, eatRiceRow);
+      actions.append(metaRow, placeStrip, areaGroups, noWork, cookRow, eatRiceRow);
       actionsRefs = {
         metaRow,
-        wolfBox,
-        wolfBtn,
-        wolfBlurb,
+        placeStrip,
+        nightRow,
+        nightBtn,
+        nightBlurb,
+        wageRow,
+        wageBtn,
         areaGroups,
         noWork,
         cookRow,
@@ -2715,15 +2802,38 @@ export function mount(
       order: true,
     });
 
-    // the humbling first fight — a charged one-time beat (the wolf cornered in the kura). Spatial
-    // (Step 5b): you face it where you woke, so at the kura the charged button shows; anywhere else
-    // it's a standing summons to walk back.
-    const wolfPending =
-      isUnlocked(state, 'verb-face-wolf') && !hasFlag(state, 'first-fight-survived');
-    const atKura = state.location === 'kura';
-    toggle(r.wolfBox, wolfPending);
-    toggle(r.wolfBtn, wolfPending && atKura);
-    toggle(r.wolfBlurb, wolfPending && !atKura);
+    // storywave G4.9 — the PLACE strip: the night-round post + the day-wage board.
+    // (a) the grain-watch night round (bible R3): posted at the gate. Show the post button once the
+    //     MC has reached R3 (`rank-r3`, latched — a rung check dies at R4) and hasn't yet survived
+    //     the round; at the gate it's the live post, elsewhere a standing summons to walk to the
+    //     gate. While a round is LIVE the app loop resolves its stages — the blurb reads the stage.
+    const roundLive = state.roundState !== null;
+    const nightPending =
+      hasFlag(state, 'rank-r3') && !hasFlag(state, 'wolf-survived-not-won') && !roundLive;
+    const atGate = state.location === 'gate';
+    toggle(r.nightRow, nightPending && atGate);
+    if (roundLive) {
+      const def = nightRoundById(state.roundState!.roundId);
+      const stage = def?.stages[state.roundState!.stage];
+      const foe = stage ? getMob(stage.foe).label : 'the dark';
+      setText(r.nightBlurb, `夜廻 The watch is walking — you face ${foe} at the grain store.`);
+    } else if (nightPending && !atGate) {
+      setText(
+        r.nightBlurb,
+        'The grain-watch waits to be walked — open the Map 地図 tab and go to the gate (門) to post it.',
+      );
+    }
+    toggle(r.nightBlurb, roundLive || (nightPending && !atGate));
+    // (b) the day-wage board (R5+, MON lane / ADR-163): collect the accrued wage. Show the button once
+    //     waged; enabled only when a day's wage stands unclaimed (TST4 — the amount is legible).
+    const waged = isWaged(state.rung);
+    const owed = state.wageDaysAccrued;
+    toggle(r.wageRow, waged);
+    if (waged) {
+      setText(r.wageBtn, owed > 0 ? `Collect your wage 給 (${owed * DAY_WAGE_MON} mon)` : 'Wage board 給 — nothing owed');
+      setDisabled(r.wageBtn, owed <= 0);
+    }
+    toggle(r.placeStrip, nightPending || roundLive || waged);
 
     // labour activities, grouped by estate room (each: do-once + auto-repeat toggle). Outer keyed
     // list over the areas that HAVE labour here; each group's rows are an inner keyed list.
@@ -2761,7 +2871,8 @@ export function mount(
     toggle(
       r.noWork,
       labours.length === 0 &&
-        !wolfPending &&
+        !nightPending &&
+        !roundLive &&
         hasFlag(state, 'awake') &&
         isUnlocked(state, 'room-gate'),
     );
@@ -3570,6 +3681,15 @@ export function mount(
         document.createTextNode(` ${s.kanji} ${s.name}`),
       );
       clockDay.textContent = `Year ${year(state)} · day ${state.clock.day + 1}`;
+      // storywave G1/G4.9 — the manual season wheel is the player's from R2 on (before R2 the
+      // season is day-of-week only). Once shown, ending the season is always available (instant —
+      // the seasonal judge + spoilage + pool refill run on the turn, ADR-153).
+      const rungN = Number.parseInt(state.rung.replace(/^R/, ''), 10);
+      const canTurnSeason = Number.isFinite(rungN) && rungN >= 2;
+      seasonEndBtn.hidden = !canTurnSeason;
+      if (canTurnSeason) setText(seasonEndBtn, `End the ${SEASON_TAG[season(state)].name} 季`);
+    } else {
+      seasonEndBtn.hidden = true;
     }
 
     stamina.hidden = !isUnlocked(state, 'readout-stamina');
@@ -3581,7 +3701,8 @@ export function mount(
 
     // HP — revealed the moment combat first matters (the R2 wolf beat), then always visible. Shows an
     // exact number (1 HP vs a full bar is life-or-death, ADR-076) + a bar that flags `low` when ≤ 30%.
-    health.hidden = !(isUnlocked(state, 'verb-face-wolf') || isUnlocked(state, 'tab-combat'));
+    // storywave G4.3 — `verb-face-wolf` is deleted; HP reveals with combat (tab-combat).
+    health.hidden = !isUnlocked(state, 'tab-combat');
     if (!health.hidden) {
       const max = hpMax(state);
       const hp = state.character.hp;
@@ -5140,6 +5261,26 @@ export function mount(
     // (the incremental-reveal signature — a rung beat's newly-motivated panels ink in on teardown,
     // §7.4). The log is kept painted INSTANTLY behind the scene (FB-48) so it's ready the moment the
     // shell reveals — the scene owns the live spoken reveal, the log is only the historical transcript.
+    // storywave G4.9 — auto-open a queued generalized scene (the Count wakes you, a per-season
+    // overlay, the Autumn nengu frame, a discovered side-beat, the R7 dream): when the queue holds
+    // one and no VN/scene is already live, drain the head. Deferred via a microtask so we never
+    // dispatch mid-render (re-entrancy), and guarded so it never stacks. begin_scene is thus
+    // engine-driven (NON_UI, like advance_intro) — the player has no control that opens a scene; the
+    // player-facing controls are the scene's Continue/pick (advance_scene_beat / choose_scene_option).
+    if (
+      state.sceneQueue.length > 0 &&
+      state.activeScene === null &&
+      state.rungBeat === null &&
+      !introActive(state.introBeat) &&
+      !scenePumpScheduled
+    ) {
+      const sceneId = state.sceneQueue[0]!;
+      scenePumpScheduled = true;
+      queueMicrotask(() => {
+        scenePumpScheduled = false;
+        dispatch({ type: 'begin_scene', sceneId });
+      });
+    }
     if (vnActive(state)) {
       shell.hidden = true;
       firstRender = false; // the post-scene log resumes its cascade, not a static dump
