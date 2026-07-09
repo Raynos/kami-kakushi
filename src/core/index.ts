@@ -110,6 +110,7 @@ export {
   rungProgress,
   remainingRequirements,
   phaseOf,
+  rungNumber,
 } from './ranks';
 // ── the rung requirements (FB-121 / ADR-137) ──
 export {

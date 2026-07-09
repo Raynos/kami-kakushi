@@ -58,27 +58,33 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 | rung | threshold | acts | rests | moves | intents | wall-min | across seeds | cum med |
 |---|---|---|---|---|---|---|---|---|
 | R0 | 3 | 35 | 5 | 0 | 45 | 4.6 | [4.6–4.6] | 4.6 |
-| R1 | 3 | 818142 | 181806 | 3 | 999955 | 127267.5 | [127267.5–127267.5] | 127272.1 |
+| R1 | 3 | 55 | 9 | 3 | 72 | 9.5 | [9.5–9.5] | 14.1 |
+| R2 | 3 | 65 | 12 | 2 | 90 | 10.5 | [10.5–10.5] | 24.6 |
+| R3 | 6 | 80 | 16 | 47 | 447 | 161.2 | [25.3–765.8] | 185.8 |
+| R4 | 4 | 75 | 15 | 2 | 98 | 11.6 | [11.5–11.7] | 197.4 |
+| R5 | 4 | 50 | 10 | 3 | 76 | 10.1 | [10.1–10.2] | 207.5 |
+| R6 | 4 | 65 | 10 | 1 | 87 | 10.9 | [10.8–10.9] | 218.4 |
+| R7 | 4 | 804353 | 139886 | 2 | 999085 | 135037.6 | [134678.4–135117.3] | 135256.0 |
 
 ## idler — arc + economy (per seed)
 
 | seed | ascended | intents | wall-min | Phase-2 min | first-coin min | end coin | end rice | estate | P2 intent mix | stages | judges |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| 20260626 | ❌ guard | 1000000 | 127272.1 | — | 0.7 | 121 | 0 | 0 | 0:  | U0 | 0 |
-| 1 | ❌ guard | 1000000 | 127272.1 | — | 0.7 | 121 | 0 | 0 | 0:  | U0 | 0 |
-| 7 | ❌ guard | 1000000 | 127272.1 | — | 0.7 | 121 | 0 | 0 | 0:  | U0 | 0 |
-| 11 | ❌ guard | 1000000 | 127272.1 | — | 0.7 | 121 | 0 | 0 | 0:  | U0 | 0 |
-| 13 | ❌ guard | 1000000 | 127272.1 | — | 0.7 | 121 | 0 | 0 | 0:  | U0 | 0 |
+| 20260626 | ❌ guard | 1000000 | 135226.0 | — | 0.7 | 496 | 0 | 1 | 8: advance_scene_beat advance_season begin_scene choose_rung_option do_activity move_to rest set_auto | U1 | 0 |
+| 1 | ❌ guard | 1000000 | 135256.1 | — | 0.7 | 497 | 0 | 1 | 8: advance_scene_beat advance_season begin_scene choose_rung_option do_activity move_to rest set_auto | U1 | 0 |
+| 7 | ❌ guard | 1000000 | 135501.4 | — | 0.7 | 528 | 0 | 1 | 8: advance_scene_beat advance_season begin_scene choose_rung_option do_activity move_to rest set_auto | U1 | 0 |
+| 11 | ❌ guard | 1000000 | 135411.9 | — | 0.7 | 523 | 0 | 1 | 8: advance_scene_beat advance_season begin_scene choose_rung_option do_activity move_to rest set_auto | U1 | 0 |
+| 13 | ❌ guard | 1000000 | 135199.8 | — | 0.7 | 636 | 0 | 1 | 8: advance_scene_beat advance_season begin_scene choose_rung_option do_activity move_to rest set_auto | U1 | 0 |
 
 ## idler — combat · starvation · durability (per seed)
 
 | seed | fights | W/L/R | coin bled | rice bled | satiety-0 | below-knee | battered | max no-progress |
 |---|---|---|---|---|---|---|---|---|
-| 20260626 | 0 | 0/0/0 | 0 | 0 | 0 | 181815 | 0 | 4 |
-| 1 | 0 | 0/0/0 | 0 | 0 | 0 | 181815 | 0 | 4 |
-| 7 | 0 | 0/0/0 | 0 | 0 | 0 | 181815 | 0 | 4 |
-| 11 | 0 | 0/0/0 | 0 | 0 | 0 | 181815 | 0 | 4 |
-| 13 | 0 | 0/0/0 | 0 | 0 | 0 | 181815 | 0 | 4 |
+| 20260626 | 10 | 5/0/5 | 0 | 0 | 0 | 149514 | 0 | 11 |
+| 1 | 6 | 5/0/1 | 0 | 0 | 0 | 149467 | 0 | 10 |
+| 7 | 11 | 6/0/5 | 0 | 0 | 0 | 149070 | 81 | 11 |
+| 11 | 7 | 5/0/2 | 0 | 0 | 0 | 149182 | 0 | 11 |
+| 13 | 11 | 5/0/6 | 0 | 0 | 0 | 149556 | 81 | 8 |
 
 ## explorer — time-to-rung
 
@@ -118,5 +124,5 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 ## Skipped intents (per persona — loud, never a silent gap)
 
 - **greedy** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, begin_scene, advance_scene_beat, choose_scene_option, begin_night_round, set_auto, set_auto_rake, set_auto_combat, equip_weapon, set_stance, eat_rice, sell_rice, collect_wage, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw, advance_season, talk_to
-- **idler** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, begin_scene, advance_scene_beat, choose_scene_option, begin_night_round, equip_weapon, set_stance, cook_meal, eat_rice, sell_rice, collect_wage, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw, advance_season, talk_to
+- **idler** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, equip_weapon, set_stance, cook_meal, eat_rice, sell_rice, collect_wage, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw, talk_to
 - **explorer** never issues: advance_intro, advance_rung_beat, begin_scene, advance_scene_beat, choose_scene_option, begin_night_round, set_auto, set_auto_rake, set_auto_combat, collect_wage, advance_season, talk_to

@@ -43,7 +43,9 @@ import {
   pendingPromotionTarget,
   promotionReady,
   reduce,
+  sceneById,
   RUNG_BEATS,
+  rungNumber,
   satietyMax,
   remainingRequirements,
   GRINDABLE_MOBS,
@@ -249,12 +251,33 @@ export const idler: Persona = {
     'set_auto_rake',
     'set_auto',
     'set_auto_combat',
+    'advance_season',
+    'begin_night_round',
+    'begin_scene',
+    'advance_scene_beat',
+    'choose_scene_option',
     'ascend',
   ],
   decide(s) {
+    // C5b — the manual six-season wheel (ADR-153) made advance_season a SURVIVAL verb:
+    // a labour site's (site, season) pool runs dry and every act yields nothing until the
+    // wheel turns. Even an idler ends the season when the labour under their auto-loop is
+    // farming a dead pool (engine-refused pre-R2, so guard the rung like the vitals gate).
+    const poolDry = (id: ActivityId): boolean => (s.sitePools[getActivity(id).area] ?? 0) <= 0;
+    const canTurnWheel = rungNumber(s.rung) >= 2;
     if (ascensionAvailable(s)) return { type: 'ascend' };
     const acts = availableActions(s);
     if (acts.includes('open_eyes')) return { type: 'open_eyes' };
+    // (a0) drain any live/queued generalized VN scene FIRST (mirrors autoplay): a scene owns
+    // the surface — and under ADR-166 the refused Autumn exit QUEUES the nengu scene, whose
+    // completion is the only way the wheel turns again (C5b: the no-op advance_season loop).
+    if (s.activeScene !== null) {
+      const def = sceneById(s.activeScene.id);
+      const opts = def?.scene.decision.options ?? [];
+      if (opts.length > 0) return { type: 'choose_scene_option', optionId: opts[0]!.id };
+      return { type: 'advance_scene_beat' };
+    }
+    if (s.sceneQueue.length > 0) return { type: 'begin_scene', sceneId: s.sceneQueue[0]! };
     // check-in: a VN affordance is showing — answer it (first option, deterministically).
     if (introActive(s.introBeat)) {
       const opt = introSceneAt(s.introBeat)?.decision.options[0];
@@ -266,7 +289,11 @@ export const idler: Persona = {
     }
     if (promotionReady(s) && !introActive(s.introBeat)) {
       const target = pendingPromotionTarget(s);
-      if (target !== null && RUNG_BEATS[target]) return { type: 'begin_rung_beat' };
+      // C5b: dispatch for BEATLESS rungs too — the reducer promotes a silent rung (R2, R5)
+      // straight through begin_rung_beat (its own comment says so). The old `RUNG_BEATS[target]`
+      // filter skipped exactly that case, so the idler ground haul_stores forever at a ready
+      // R1→R2 promotion: the soft-lock every seed showed since the rewrite.
+      if (target !== null) return { type: 'begin_rung_beat' };
     }
     // R2: the scripted wolf blocks the ladder — even an idler must walk back and face it
     // (FB-121: "the countable work is done" = the flag req is the only one remaining).
@@ -293,6 +320,9 @@ export const idler: Persona = {
       const kband = durabilityBand(s.weaponDurability, kw.durabilityMax);
       if (kband.name === 'Battered' || kband.name === 'Broken') {
         if ((s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST) return { type: 'repair_weapon' };
+        // a dry woodlot pool yields nothing — turn the wheel first (C5b; the exact loop
+        // that soft-locked the idler: 27k zero-yield cuts against a dead seasonal pool)
+        if (poolDry('woodcut_edge') && canTurnWheel) return { type: 'advance_season' };
         const woodlot = getActivity('woodcut_edge');
         if (s.location === woodlot.area) return { type: 'do_activity', activityId: 'woodcut_edge' };
         const hop = nextHopToward(s.location, woodlot.area, new Set(s.unlocked));
@@ -317,6 +347,44 @@ export const idler: Persona = {
       // no kill requirement stands: stand the watch down and go back to labour.
       return { type: 'set_auto_combat', mobId: null };
     }
+    // C5b — the R3 night round: the wolf is survived INSIDE the round, so an idler must post
+    // the watch too (the runner resolves live stages). Fires only once the COUNTABLE work is
+    // done (rem is flags-only — the FB-121 shape), so the rat/tanuki grinding has already
+    // levelled the fighter; prep mirrors the focused driver: mended HP, full belly, a sound
+    // blade — the round is back-to-back fights with no mend inside it.
+    const wolfReq = rem.find((r) => r.type === 'flag' && r.flag === 'wolf-survived-not-won');
+    if (
+      wolfReq &&
+      rem.every((r) => r.type === 'flag') &&
+      isUnlocked(s, 'tab-combat') &&
+      s.roundState === null
+    ) {
+      // mend HP FIRST (no auto-trickle — ADR-164): cook when the sansai allows, else forage
+      // for it (turning the wheel past a dead pool) — beginning at the setback floor is the
+      // fall-loop this branch exists to avoid.
+      if (s.character.hp < hpMax(s) && isUnlocked(s, 'verb-cook')) {
+        if ((s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST) return { type: 'cook_meal' };
+        if (poolDry('forage_satoyama') && canTurnWheel) return { type: 'advance_season' };
+        const forage = getActivity('forage_satoyama');
+        if (s.location === forage.area) {
+          return { type: 'do_activity', activityId: 'forage_satoyama' };
+        }
+        const fhop = nextHopToward(s.location, forage.area, new Set(s.unlocked));
+        if (fhop) return { type: 'move_to', to: fhop };
+      }
+      if (s.character.satiety < satietyMax(s) * 0.9 && acts.includes('rest')) {
+        return { type: 'rest' };
+      }
+      const ww = getWeapon(s.equippedWeapon);
+      const wband = durabilityBand(s.weaponDurability, ww.durabilityMax);
+      if (
+        (wband.name === 'Battered' || wband.name === 'Broken') &&
+        (s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST
+      ) {
+        return { type: 'repair_weapon' };
+      }
+      return { type: 'begin_night_round', roundId: 'first-night-round' };
+    }
     // the armed labour finished its requirement while others remain — re-point the loop
     // (otherwise autoModeIntent farms forever and the check-in below never fires).
     if (
@@ -326,7 +394,11 @@ export const idler: Persona = {
     ) {
       return { type: 'set_auto', activityId: null };
     }
-    // between check-ins: the shipped auto-loop IS the play.
+    // between check-ins: the shipped auto-loop IS the play — but never against a dead
+    // seasonal pool (C5b): end the season so the armed labour has something to yield.
+    if (s.autoActivity !== null && poolDry(s.autoActivity) && canTurnWheel) {
+      return { type: 'advance_season' };
+    }
     const auto = autoModeIntent(s);
     if (auto) return auto;
     // check-in: the auto-mode is idle — arm the next REQUIRED labour…

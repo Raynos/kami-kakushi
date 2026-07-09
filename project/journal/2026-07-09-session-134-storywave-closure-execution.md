@@ -288,3 +288,31 @@ content that drove it. Sim: 6 pre-existing REDs unchanged.
 - The sb-grove capture attempt surfaced a REAL fact, not a bug: the grove sits
   behind the conditioning danger ring, so the R2–R4 window beat requires a
   drilled MC — reachable, by design (the sim's t0-arc drives drills).
+
+## C5b — the balance re-baseline
+
+**Telemetry diary (step 0, the folder README's rule):** 24 reports read; 9
+untainted, ALL v0.3.8/v0.3.9 (pre-rewrite) — none can bind the v0.4.0 build.
+The one deep untainted run (20260626-1783420086, 49 attended min) covers R0
+only: 6.2 attended vs 4.3 sim-greedy min, in band (~1.4× sim — the old
+build's known slow-vs-sim lean). Conclusion: NO usable post-rewrite attended
+data exists yet; the human's v0.4.x rung-by-rung QA will grow it.
+**The idler soft-lock (5 seeds, R1) — ROOT-CAUSED + FIXED (sim-side, real
+bugs not band fudges):** the rewrite added verbs the idler persona never
+learned. Four repairs in `src/sim/personas.ts`: (1) it skipped
+`begin_rung_beat` for BEATLESS rungs — the reducer promotes silent rungs
+straight through, so a ready R1→R2 promotion sat forever while the auto-loop
+ground haul_stores ×24k; (2) the manual wheel (ADR-153) made `advance_season`
+a survival verb — a dry (site, season) pool yields nothing, and the idler cut
+wood 27k times against a dead pool; it now ends the season when its labour
+farms a dead pool (rung-guarded like the vitals gate); (3) the ADR-166
+refusing gate queues the nengu VN — the idler gained autoplay's (a0) scene
+drain (it looped 59k no-op advance_seasons against the refused Autumn exit);
+(4) the R3 wolf lives inside the night round — the idler now posts the watch
+once the countable work is done, with the focused driver's prep (cook/forage
+mend, rest to 90%, sound blade). **Verdict after:** idler fullLadder=TRUE on
+all 5 seeds (was R1 soft-lock); Phase-2 ratio [4.04–4.86] vs [0.8,1.2] and
+idler-ascension remain RED — genuinely design-gated, filed as **HD-34** with
+the evidence (incl. the B8 measurement note: the greedy sim already exploits
+the free pool refill and the per-rung bands still hold). t0-pacing.md
+regenerated + committed.

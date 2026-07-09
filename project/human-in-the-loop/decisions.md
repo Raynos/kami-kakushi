@@ -50,3 +50,33 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
 - **Recommendation:** (b) — single-source them; §5 + the generated report are
   already the live truth, and a hand-maintained twin WILL drift again.
 - **Resolution:** _(open)_
+
+### HD-34 🔲 [R7 · Phase 2] — the owed balance re-baseline's THREE design calls (C5b, sim evidence attached)
+
+- **Question / fork:** the closure plan's C5b re-baseline fixed what was
+  mechanical (the idler persona now speaks the rewrite's verbs — the manual
+  wheel, the scene drain, the night round — and climbs the FULL ladder on all
+  5 seeds; it soft-locked at R1 before). Three verdicts remain that the sim
+  cannot rule:
+  1. **The Phase-2 ratio breach** — measured [4.04–4.86] vs the signed band
+     [0.8, 1.2] (window ~67.5 min): Phase 2 runs ~4.4× Phase 1's wall-time
+     since the rewrite went liquid. The check's own text: "a human decision is
+     required (re-tune the Phase-2 economy or re-sign PHASE2_PHASE1_RATIO_* —
+     never a test-side fudge)."
+  2. **Is "an idler ascends T0" a design promise?** The idler now reaches R7
+     with every requirement done (fullLadder=true, all seeds) but trips the
+     1M-intent guard before Estate-EXCELLENT — its check-in policy grinds
+     Phase 2 far slower than greedy. Options: (a) Phase 2 is deliberately
+     attention-priced — an idler NOT ascending is correct; re-sign the sim
+     expectation to fullLadder (b) re-tune so the auto-loop also closes.
+  3. **B8 — the zero-cost season-turn pool refill:** the greedy sim already
+     exploits it (its own comments say so) and the per-rung bands still hold,
+     so current evidence does NOT show pacing broken by it; the mechanism
+     options (refill lag · a turn cost · spoilage scaling) stay available if
+     your own play feels the wheel-spin cheap. Magnitudes sim-owned either way.
+- **Recommendation:** rule 2(a) now (Phase 2 as attention-priced reads
+  intentional; the sim expectation re-signs to fullLadder for the idler), and
+  take 1 + 3 together in one cockpit sitting on the live build (the FB-7 flow)
+  — the ratio band was signed against the pre-rewrite economy and needs feel,
+  not arithmetic.
+- **Resolution:** _(open)_
