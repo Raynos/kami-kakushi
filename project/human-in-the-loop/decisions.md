@@ -4,6 +4,10 @@
 Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archive — see below.)
 `⛔ blocks <task>` marks a blocker.
 
+> **Rung-tagged (2026-07-09)** — like [`review.md`](review.md), an open HD-item carries a
+> `[rung]` tag (or `[cross-cutting]`) for the rung it concerns, so decisions track a
+> rung-by-rung pass. _(Currently no open decisions — see below.)_
+
 ## Lifecycle (where a resolved HD-item goes)
 
 1. The human answers (inline or in chat); mark it ✅ with the verdict.
