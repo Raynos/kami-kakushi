@@ -36,7 +36,7 @@ export function hiddenActivityIds(
 ): ReadonlySet<string> {
   const hidden = new Set<string>();
   for (const d of defs) {
-    if (!state.discovered.includes(d.id)) hidden.add(d.reveals);
+    if (d.reveals !== undefined && !state.discovered.includes(d.id)) hidden.add(d.reveals);
   }
   return hidden;
 }

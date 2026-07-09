@@ -8,6 +8,8 @@ import {
   estateGrade,
   balance,
   focusedOptimalIntent,
+  gradeOf,
+  judgeLine,
   type GameState,
 } from './index';
 
@@ -138,7 +140,9 @@ describe('the spine CLOSES end-to-end (M2·5)', () => {
     const after = reduce(s, intent!);
     expect(after.influence.estate.judged).toBeGreaterThan(0); // it banked (not just logged)
     expect(after.influence.estate.value).toBeGreaterThan(100); // it PAID the seasonal share
-    // and it left its ceremonial mark in the log — the player SEES it
-    expect(after.log.entries.some((e) => /accounts are reckoned/.test(e.text))).toBe(true);
+    // and it left its ceremonial mark in the log — the per-GRADE judge line (C5a/ADR-159),
+    // derived from the same sources the emitter reads (never a copied string)
+    const grade = gradeOf(after.influence.estate.value);
+    expect(after.log.entries.some((e) => e.text.startsWith(judgeLine(grade)))).toBe(true);
   });
 });

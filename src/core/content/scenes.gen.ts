@@ -644,4 +644,159 @@ export const SCENES: readonly SceneDef[] = [
     trigger: { kind: 'scripted' },
     once: true,
   },
+
+  {
+    id: 'turn-winter',
+    scene: {
+      id: 'turn-winter',
+      voice: 'narrator',
+      motivates: [],
+      greeting: [
+        {
+          voice: 'narrator',
+          text: 'The snow quits the valley floor first — gray at the edges, then standing water in the wheel-ruts. The ridge keeps its white and means to keep it.',
+        },
+        {
+          voice: 'narrator',
+          text: "The river runs black and narrow between its shelves of ice. Past the rope, the old garden's snow lies whole: a winter's worth, and not one track across it.",
+        },
+        {
+          voice: 'narrator',
+          text: 'The light stretches. Work that used to end at the woodshed door now ends past it, and the cold stays on, but it has stopped arguing.',
+        },
+        {
+          voice: 'narrator',
+          text: 'Small on the road below, a man comes up from the village with new straw rope coiled over his shoulder, for the gates. The year is going out. The New Year comes up the valley behind him.',
+        },
+      ],
+      topics: [],
+      decision: { prompt: '', options: [] },
+    },
+    trigger: { kind: 'season-exit', season: 'winter' },
+    once: true,
+  },
+
+  {
+    id: 'turn-new-year',
+    scene: {
+      id: 'turn-new-year',
+      voice: 'narrator',
+      motivates: [],
+      greeting: [
+        {
+          voice: 'narrator',
+          text: 'Ice lets go of the shaded bank a plate at a time, each one turning once in the current and gone.',
+        },
+        {
+          voice: 'narrator',
+          text: 'The ground gives underfoot where all winter it rang. The well-path grows a margin of mud, and the mud holds each footprint till noon.',
+        },
+        {
+          voice: 'narrator',
+          text: 'Up the woodlot, the bark of the young trees is chewed to the pale — deer, down off the ridge in the dark and gone again by light. Whatever they came for, the ridge no longer had it.',
+        },
+        {
+          voice: 'narrator',
+          text: 'Last, and small under all that water-light, the villagers walk their field-bunds, looking at what the thaw left them. Spring is on the valley, and everything from here on is work.',
+        },
+      ],
+      topics: [],
+      decision: { prompt: '', options: [] },
+    },
+    trigger: { kind: 'season-exit', season: 'new-year' },
+    once: true,
+  },
+
+  {
+    id: 'turn-spring',
+    scene: {
+      id: 'turn-spring',
+      voice: 'narrator',
+      motivates: [],
+      greeting: [
+        {
+          voice: 'narrator',
+          text: 'The green closes ranks. What was rows in the paddies is one surface now, and when the wind crosses it, the whole valley floor moves together.',
+        },
+        {
+          voice: 'narrator',
+          text: 'The river drops slow over its gravel, clear and warm in the shallows by noon.',
+        },
+        {
+          voice: 'narrator',
+          text: 'In the grove, the new bamboo has gone up taller than a man in a fortnight — pale among the old canes, then not.',
+        },
+        {
+          voice: 'narrator',
+          text: 'People show late in this weather, and low: hats in the deep green, moving slow along the rows. Summer has the valley now.',
+        },
+      ],
+      topics: [],
+      decision: { prompt: '', options: [] },
+    },
+    trigger: { kind: 'season-exit', season: 'spring' },
+    once: true,
+  },
+
+  {
+    id: 'turn-summer',
+    scene: {
+      id: 'turn-summer',
+      voice: 'narrator',
+      motivates: [],
+      greeting: [
+        {
+          voice: 'narrator',
+          text: 'The heat loosens its grip at the edges first: a haze on the river that burns off later each morning, and at dusk the cicadas trade their noon voice for the thin evening one.',
+        },
+        {
+          voice: 'narrator',
+          text: 'The light comes in slantwise now and finds the dust hanging in the forecourt air. The ridge stands closer in it, the way it does before weather.',
+        },
+        {
+          voice: 'narrator',
+          text: "On the hill above the village, small figures move among the stones with sickles and water-buckets, tidying — one household first, then by week's end all of them.",
+        },
+        {
+          voice: 'narrator',
+          text: 'Smoke stands over the village at dusk, more fires than there are suppers. Bon is here, and the valley is making itself ready to be visited.',
+        },
+      ],
+      topics: [],
+      decision: { prompt: '', options: [] },
+    },
+    trigger: { kind: 'season-exit', season: 'summer' },
+    once: true,
+  },
+
+  {
+    id: 'turn-bon',
+    scene: {
+      id: 'turn-bon',
+      voice: 'narrator',
+      motivates: [],
+      greeting: [
+        {
+          voice: 'narrator',
+          text: 'The river carries the first leaves down from the ridge, one and two at a time, red before anything on the valley floor has thought of turning.',
+        },
+        {
+          voice: 'narrator',
+          text: 'The mornings come in cold enough to name. Mist stands knee-deep in the paddies, and the heavy heads of rice bow through it, all leaning the same way.',
+        },
+        {
+          voice: 'narrator',
+          text: 'The road empties back out over the pass. The valley keeps what belongs to it and lets the rest go.',
+        },
+        {
+          voice: 'narrator',
+          text: "From the village at dusk, the sound of whetstones — one, then several, no hurry in any of them. Bon has gone home. It is autumn, and the valley's whole year is standing out in the fields, waiting to be carried in.",
+        },
+      ],
+      topics: [],
+      decision: { prompt: '', options: [] },
+    },
+    trigger: { kind: 'season-exit', season: 'bon' },
+    once: true,
+  },
 ];

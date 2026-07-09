@@ -19,6 +19,8 @@ export type LogTemplate = (p: LogParams) => string;
 
 export const LOG_CONTENT: Record<string, LogTemplate> = {
   // ── step.ts — season boundaries ──────────────────────────────────────────────
+  // SUPERSEDED at C5a (ADR-159): the live judge line is per-grade (flavor.ts judgeLine);
+  // this template stays only so persisted pre-C5a log entries keep a renderer.
   'season.reckoned': (p) =>
     `The season's accounts are reckoned. The house is judged the better for your hand on it — its koku standing rises. (+${p.bonus} koku)`,
   'season.spoilage': (p) =>

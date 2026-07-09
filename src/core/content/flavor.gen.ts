@@ -232,4 +232,40 @@ export const FLAVOR = {
     "On the dark of the moon a lantern crosses the far edge of the yard — hooded low, held steady, going upstream. By the time the round brings you back the yard is empty, and in the morning no one has missed a lantern. It is not your watch's business. You watch for it anyway.",
   nightRoundFall:
     "You wake on Sōan's mat with daylight standing in the wrong place. Days gone, and the wages with them. He asks one question, writes two lines, and closes the ledger when you turn your head.",
+  reedsHint0:
+    'The reeds above the sill hold whatever the river gives up, and the work has never yet left time to go through them.',
+  reedsHint1:
+    'Mending the third screen, the pole snags in the reed roots on something that gives like cloth, not like root.',
+  reedsHint2:
+    "At low water a corner of dark cloth shows wedged in the reed roots off the third screen, silted to their color, an arm's reach down.",
+  reedsFound:
+    'Out of the reeds, a bundle: river-heavy, the cloth gone the color of the bank, tied off in a knot your hands undo without being told. Inside, wrapped twice against the wet, a single paper — the ink run to gray, not one word of it left.',
+  sluiceHint0:
+    'However the ditches are kept, the far paddies take their water last, and take it thin.',
+  sluiceHint1:
+    'The feed ditch goes in under the woodlot trees carrying more water than ever comes out the other side.',
+  sluiceHint2:
+    'At the woodlot edge the ditch ends against a bank of silt, and square-cut stone shows through where the rain has worked it.',
+  sluiceFound:
+    'Under the silt, cut stone and a lift-board seized in its groove: a sluice-gate, made well and left to choke. Clearing it is days of honest digging, and nobody at the house knows it is there to clear.',
+  settHint0:
+    'The racks nearest the old compound wall lose the most, season after season, whatever watch is set.',
+  settHint1:
+    'Cut off one run and the badger cuts another, and every one of them bears toward the foot of the old wall.',
+  settHint2:
+    "Behind the scrub at the wall's foot the ground is worked hollow, fresh earth thrown out from under the stones themselves.",
+  settFound:
+    "At the wall's foot the spade finds the sett's main gallery: old work, wider than the badger needs, going down under the stones and not coming up on this side. The digging stops at the stones.",
+  judgeLineFail:
+    "On the village road the house's name is said in the low voice kept for endings. Nobody wishes it ill; the valley is only deciding, early, what its fields will come to.",
+  judgeLineBad:
+    "The house's word is worth less down the valley than it was: at the stall its name still buys, but the amounts are counted slowly.",
+  judgeLineOk:
+    'The valley lets the house be — greeted on the road, owed nothing, promised nothing. This year, being left alone is a kind of standing.',
+  judgeLineGood:
+    "Word goes down the valley ahead of the season's close: the gate is kept, the roofs hold, and the house's name is said plainly again, without the pause that used to follow it.",
+  judgeLineGreat:
+    'The road bends toward the gate again — a favor asked of the house, a cart that slows without needing anything. The valley has resumed expecting things of it.',
+  judgeLineExcellent:
+    'The season closes on a house the valley measures by once more: its name given first in any accounting of names, as it was given in years nobody thought would come back.',
 } as const;

@@ -9,7 +9,8 @@ import { withBanked } from './state';
 import { TICKS_PER_DAY, SEASONS } from './constants';
 import { revealPass } from './unlock';
 import { phaseOf } from './ranks';
-import { seasonalJudge } from './pillars';
+import { seasonalJudge, gradeOf } from './pillars';
+import { judgeLine } from './content/flavor';
 import { deriveDayKeyed } from './rng';
 import { applyRewards } from './rewards';
 import { riceSpoilage, CONSUMPTION_SHO_PER_DAY } from './content/balance';
@@ -31,12 +32,12 @@ function onReckoning(state: GameState): GameState {
   return applyRewards(judged, {
     log: [
       {
+        // C5a unit 4 (ADR-159/ADR-167): the day-book reads the house's GRADE as the valley
+        // sees it — one authored line per six-step grade (judgeLine, DEV-swappable), with the
+        // arithmetic appended by the engine (the fiction carries no numbers — §0.5.3).
         channel: 'milestone',
-        // ADR-107/ADR-109: the season re-assesses the House's worth "in waves" — the koku STANDING steps
-        // up. (Keeps "accounts are reckoned"; the weightier "assessors arrive" tier-jump beat is
-        // DEFERRED — a T1+ event, not built here.) Words live in log-content.ts (Stage C).
-        contentKey: 'season.reckoned',
-        params: { bonus },
+        voice: 'narrator',
+        text: `${judgeLine(gradeOf(pillar.value))} (+${bonus} koku)`,
       },
     ],
   });

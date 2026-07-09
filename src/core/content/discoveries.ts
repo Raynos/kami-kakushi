@@ -25,8 +25,10 @@ export interface DiscoveryDef {
   /** The node that grows this discovery (attempts + hints + the reveal are all node-local). */
   readonly node: MapNodeId;
   /** The hidden ACTIVITY this discovery unlocks — absent from the node's action list until the
-   *  latch (derived hiddenness; see `hiddenActivityIds`). */
-  readonly reveals: ActivityId;
+   *  latch (derived hiddenness; see `hiddenActivityIds`). OPTIONAL since C5a: a SEED-ONLY
+   *  discovery (the sett under the ruined wall) latches its find into `state.discovered` and
+   *  its line into the log — the payoff is a later tier's, not a new verb. */
+  readonly reveals?: ActivityId;
   readonly trigger: DiscoveryTrigger;
   /** The roll FLOOR (human feel-verdict, 2026-07-07 — "rare ambient"): the first `minAttempts`
    *  qualifying acts only count, no roll fires — a discovery can never pop instantly and the
@@ -73,6 +75,50 @@ export const DISCOVERIES: readonly DiscoveryDef[] = [
     discoveryLine: FLAVOR.lacquerFound,
     lineKey: 'lacquerFound',
     tag: 'lacquer', // ADR-146 §5 — the Phase-3 rumor-routing handle
+  },
+  {
+    // C5a — the reeds bundle (tiers/t0.md, locked): his own washed-up bundle with the
+    // water-ruined paper — a MYSTERY SEED (T3 pays it), found working the weir. Reveals
+    // the reed-wading forage verb. RARE AMBIENT like the lacquer (chances sim-owned).
+    id: 'disc-weir-bundle',
+    node: 'weir',
+    reveals: 'search_reeds',
+    trigger: { kind: 'visit', chance: 0.02 },
+    minAttempts: 8,
+    hints: [FLAVOR.reedsHint0, FLAVOR.reedsHint1, FLAVOR.reedsHint2],
+    hintKeys: ['reedsHint0', 'reedsHint1', 'reedsHint2'],
+    discoveryLine: FLAVOR.reedsFound,
+    lineKey: 'reedsFound',
+    tag: 'reeds-bundle',
+  },
+  {
+    // C5a — the silted sluice (tiers/t0.md: "the silted sluice the field-work keeps
+    // hinting at"): an old water-gate under the woodlot trees, choked; clearing it is
+    // labour the estate forgot it had. Surfaces through the woodlot's own work.
+    id: 'disc-woodlot-sluice',
+    node: 'woodlot',
+    reveals: 'clear_sluice',
+    trigger: { kind: 'watch', activity: 'forage_satoyama', chance: 0.015 },
+    minAttempts: 10,
+    hints: [FLAVOR.sluiceHint0, FLAVOR.sluiceHint1, FLAVOR.sluiceHint2],
+    hintKeys: ['sluiceHint0', 'sluiceHint1', 'sluiceHint2'],
+    discoveryLine: FLAVOR.sluiceFound,
+    lineKey: 'sluiceFound',
+    tag: 'sluice',
+  },
+  {
+    // C5a — the sett under the ruined wall (tiers/t0.md: "a way in that nobody official
+    // knows exists"). SEED-ONLY (no `reveals`): the find latches + logs; the payoff is
+    // T2's. The digging stops at the stones.
+    id: 'disc-margins-sett',
+    node: 'field-margins',
+    trigger: { kind: 'visit', chance: 0.02 },
+    minAttempts: 8,
+    hints: [FLAVOR.settHint0, FLAVOR.settHint1, FLAVOR.settHint2],
+    hintKeys: ['settHint0', 'settHint1', 'settHint2'],
+    discoveryLine: FLAVOR.settFound,
+    lineKey: 'settFound',
+    tag: 'sett',
   },
 ];
 

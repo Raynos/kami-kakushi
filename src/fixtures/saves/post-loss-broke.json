@@ -15,7 +15,7 @@
         "loot": 1,
         "seasonal": 0,
         "worldgen": 19,
-        "discovery": 5
+        "discovery": 11
       }
     },
     "clock": {
@@ -47,7 +47,8 @@
     "sitePools": {
       "paddies": 0,
       "forecourt": 0,
-      "woodlot": 0
+      "woodlot": 0,
+      "weir": 120
     },
     "wageDaysAccrued": 0,
     "lastWageDay": -1,
@@ -1420,26 +1421,25 @@
           "key": 150,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+1 coin)",
-          "tick": 12,
-          "count": 6,
+          "tick": 10,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 151,
-          "channel": "system",
-          "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
-          "tick": 14,
+          "channel": "narration",
+          "text": "Under the silt, cut stone and a lift-board seized in its groove: a sluice-gate, made well and left to choke. Clearing it is days of honest digging, and nobody at the house knows it is there to clear.",
+          "tick": 10,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
+          "voice": "narrator"
         },
         {
           "key": 152,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+1 coin)",
-          "tick": 2,
-          "count": 6,
+          "tick": 12,
+          "count": 1,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1447,7 +1447,7 @@
           "key": 153,
           "channel": "system",
           "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
-          "tick": 4,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1456,66 +1456,13 @@
           "key": 154,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+1 coin)",
-          "tick": 8,
-          "count": 2,
+          "tick": 2,
+          "count": 6,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 155,
-          "channel": "narration",
-          "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 156,
-          "channel": "narration",
-          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 157,
-          "channel": "narration",
-          "text": "The working heart of the guest house's outer court — the first verb is here.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 158,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 14,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 159,
-          "channel": "system",
-          "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 160,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 2,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 161,
           "channel": "system",
           "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
           "tick": 4,
@@ -1524,11 +1471,64 @@
           "ephemeral": true
         },
         {
+          "key": 156,
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+1 coin)",
+          "tick": 8,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 157,
+          "channel": "narration",
+          "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 158,
+          "channel": "narration",
+          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 159,
+          "channel": "narration",
+          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 160,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
+          "tick": 14,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 161,
+          "channel": "system",
+          "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
           "key": 162,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
-          "tick": 12,
-          "count": 4,
+          "tick": 2,
+          "count": 5,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1536,7 +1536,7 @@
           "key": 163,
           "channel": "system",
           "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
-          "tick": 14,
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1545,8 +1545,8 @@
           "key": 164,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
-          "tick": 0,
-          "count": 5,
+          "tick": 12,
+          "count": 4,
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1554,7 +1554,7 @@
           "key": 165,
           "channel": "system",
           "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
-          "tick": 2,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -1563,13 +1563,31 @@
           "key": 166,
           "channel": "reward",
           "text": "Haul stores at the forecourt. ()",
+          "tick": 0,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 167,
+          "channel": "system",
+          "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 168,
+          "channel": "reward",
+          "text": "Haul stores at the forecourt. ()",
           "tick": 8,
           "count": 3,
           "voice": "narrator",
           "ephemeral": true
         },
         {
-          "key": 167,
+          "key": 169,
           "channel": "narration",
           "text": "Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.",
           "tick": 8,
@@ -1577,7 +1595,7 @@
           "voice": "narrator"
         },
         {
-          "key": 168,
+          "key": 170,
           "channel": "narration",
           "text": "Dawn comes grey through the kura door. The blood on the sill has dried black, and most of it is yours. Inside, the rice sits in its rows, untouched, exactly as it was put. Sōan has strapped your ribs so tight that breathing is a decision.",
           "tick": 10,
@@ -1585,7 +1603,7 @@
           "voice": "narrator"
         },
         {
-          "key": 169,
+          "key": 171,
           "channel": "narration",
           "text": "Kihei crouches at the sill a long time, reading the blood the way Genemon reads a column of figures. The trail goes west, into the trees, in drops that get no smaller.",
           "tick": 10,
@@ -1593,7 +1611,7 @@
           "voice": "narrator"
         },
         {
-          "key": 170,
+          "key": 172,
           "channel": "narration",
           "text": "\"…Alive. Good.\"",
           "tick": 10,
@@ -1602,7 +1620,7 @@
           "voice": "arms"
         },
         {
-          "key": 171,
+          "key": 173,
           "channel": "narration",
           "text": "For a moment there is more in him than the verdict. He checks the broken bar instead.",
           "tick": 10,
@@ -1610,7 +1628,7 @@
           "voice": "narrator"
         },
         {
-          "key": 172,
+          "key": 174,
           "channel": "narration",
           "text": "Genemon stands in the doorway. Whatever he came to say, he writes something in the day-book first.",
           "tick": 10,
@@ -1618,7 +1636,7 @@
           "voice": "narrator"
         },
         {
-          "key": 173,
+          "key": 175,
           "channel": "narration",
           "text": "\"Screen, one, torn. Bar, one, broken. Grain — none lost. Hand, one. Standing.\"",
           "tick": 10,
@@ -1627,7 +1645,7 @@
           "voice": "steward"
         },
         {
-          "key": 174,
+          "key": 176,
           "channel": "narration",
           "text": "None lost. You think of the gnawed seed-bale at the back wall, and the count you made twice by lantern, and you do not correct him. Not yet.",
           "tick": 10,
@@ -1635,7 +1653,7 @@
           "voice": "narrator"
         },
         {
-          "key": 175,
+          "key": 177,
           "channel": "narration",
           "text": "\"The bar was old. It goes against the house, not your wage.\"",
           "tick": 10,
@@ -1644,7 +1662,7 @@
           "voice": "steward"
         },
         {
-          "key": 176,
+          "key": 178,
           "channel": "narration",
           "text": "Kihei stands, takes the boar-spear off the sill, and puts it back in your hands, butt first.",
           "tick": 10,
@@ -1652,7 +1670,7 @@
           "voice": "narrator"
         },
         {
-          "key": 177,
+          "key": 179,
           "channel": "narration",
           "text": "\"You didn't win. The house lost nothing. Keep the watch.\"",
           "tick": 10,
@@ -1661,7 +1679,7 @@
           "voice": "arms"
         },
         {
-          "key": 178,
+          "key": 180,
           "channel": "narration",
           "text": "By evening the padded coat is folded at the woodshed step, the torn shoulder closed with stitches smaller than the tear deserved. O-Hisa is still three steps from the kitchen when you come round the corner, caught.",
           "tick": 10,
@@ -1669,7 +1687,7 @@
           "voice": "narrator"
         },
         {
-          "key": 179,
+          "key": 181,
           "channel": "narration",
           "text": "\"It tore clean, at least. If the ribs knit as straight — well.\"",
           "tick": 10,
@@ -1678,7 +1696,7 @@
           "voice": "steward"
         },
         {
-          "key": 180,
+          "key": 182,
           "channel": "narration",
           "text": "She is back inside before you find anything to say to that.",
           "tick": 10,
@@ -1686,7 +1704,7 @@
           "voice": "narrator"
         },
         {
-          "key": 181,
+          "key": 183,
           "channel": "narration",
           "text": "\"It bled going west. The trail is fresh.\"",
           "tick": 10,
@@ -1695,7 +1713,7 @@
           "voice": "player"
         },
         {
-          "key": 182,
+          "key": 184,
           "channel": "narration",
           "text": "\"And you can chase it exactly as far as I can throw you. Sit down. It is winter's business now, not yours.\"",
           "tick": 10,
@@ -1704,7 +1722,7 @@
           "voice": "physician"
         },
         {
-          "key": 183,
+          "key": 185,
           "channel": "narration",
           "text": "The drill yard opens to you — a place to train, and foes that must be met.",
           "tick": 10,
@@ -1712,7 +1730,7 @@
           "voice": "narrator"
         },
         {
-          "key": 184,
+          "key": 186,
           "channel": "narration",
           "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
           "tick": 10,
@@ -1720,7 +1738,7 @@
           "voice": "narrator"
         },
         {
-          "key": 185,
+          "key": 187,
           "channel": "narration",
           "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
           "tick": 10,
@@ -1728,7 +1746,7 @@
           "voice": "narrator"
         },
         {
-          "key": 186,
+          "key": 188,
           "channel": "narration",
           "text": "The storehouse is opened to you: the iron-strapped door, the good lock, the grain-watch's stool beside it. What is counted in and out is the house's whole year.",
           "tick": 10,
@@ -1736,7 +1754,7 @@
           "voice": "narrator"
         },
         {
-          "key": 187,
+          "key": 189,
           "channel": "narration",
           "text": "The shallows above and below the weir, reeds past the waist. River rats gnaw the screens the house leases from Matsuzō, and every screen lost is coin owed across the water.",
           "tick": 10,
@@ -1744,7 +1762,7 @@
           "voice": "narrator"
         },
         {
-          "key": 188,
+          "key": 190,
           "channel": "milestone",
           "text": "Rank ↑ — The grain-watch 蔵番",
           "tick": 10,
@@ -1756,7 +1774,7 @@
           }
         },
         {
-          "key": 189,
+          "key": 191,
           "channel": "narration",
           "text": "A lean corner of the woodshed is kept back for you now — a straw mat, a bowl, a nail for your coat, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
           "tick": 10,
@@ -1764,7 +1782,7 @@
           "voice": "narrator"
         },
         {
-          "key": 190,
+          "key": 192,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 10,
@@ -1773,7 +1791,7 @@
           "ephemeral": true
         },
         {
-          "key": 191,
+          "key": 193,
           "channel": "narration",
           "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
           "tick": 10,
@@ -1782,7 +1800,7 @@
           "ephemeral": true
         },
         {
-          "key": 192,
+          "key": 194,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 58→8)",
           "tick": 10,
@@ -1798,7 +1816,7 @@
           }
         },
         {
-          "key": 193,
+          "key": 195,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 8→1) You drop 24 mon in the rout. Eat and mend before you take the field again.",
           "tick": 12,
@@ -1813,7 +1831,7 @@
           }
         },
         {
-          "key": 194,
+          "key": 196,
           "channel": "narration",
           "text": "Married out to the next valley: a charcoal-burner's daughter, in the house's harvest weeks. The news and the wedding sweets arrived a week apart, both a little stale.",
           "tick": 0,
@@ -1822,7 +1840,7 @@
           "ephemeral": true
         }
       ],
-      "seq": 195
+      "seq": 197
     },
     "skillXp": {
       "farming": 134,
@@ -1861,9 +1879,13 @@
     "rung": "R3",
     "rungReqs": {},
     "estateStage": 0,
-    "discovered": [],
+    "discovered": [
+      "disc-woodlot-sluice"
+    ],
     "discoveryProgress": {
-      "disc-woodlot-lacquer": 20
+      "disc-woodlot-lacquer": 20,
+      "disc-woodlot-sluice": 16,
+      "disc-margins-sett": 1
     },
     "autoActivity": null,
     "autoRake": false,

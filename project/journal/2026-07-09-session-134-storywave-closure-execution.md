@@ -316,3 +316,28 @@ idler-ascension remain RED — genuinely design-gated, filed as **HD-34** with
 the evidence (incl. the B8 measurement note: the greedy sim already exploits
 the free pool refill and the per-rung bands still hold). t0-pacing.md
 regenerated + committed.
+
+## C5a (part 1) — the fiction wave: overlays · discoveries · judge lines
+
+The ADR-139 flow ran as a 54-agent workflow (27 blind takes × 27 taste-Pass-2
+judges; raw snapshot `project/brainstorms/raw/2026-07-10-c5a-fiction-wave.json`).
+Pass-1 constraint brief bound all takes (§0.5 + the four values + length
+discipline). **Unit 1 (five season overlays): TAKE C picked** ("the land
+first"; 18✔2✘ — best craft by a wide margin); Pass-2 redlines applied
+(one stacked spring ornament trimmed; the 5/5 season-handoff closing template
+broken by deletion in 3 scenes). Lands as `turn-*` scene-defs (season-exit
+triggers, once, narration-only) — engine cost zero. **Unit 2 (the three
+discoveries): TAKE A** ("found by hand"; 11✔1✘; the settFound rope-maxim
+cut). Registry: `disc-weir-bundle` (reveals the new `search_reeds` verb),
+`disc-woodlot-sluice` (reveals `clear_sluice`), `disc-margins-sett` —
+SEED-ONLY (DiscoveryDef.reveals went optional; the payoff is T2's). Two new
+activities with sim-owned modest magnitudes. **Unit 4 (judge lines): TAKE C**
+("as the valley sees it") over the tied take B on TST3 — koku standing IS
+outside regard; the counted-twice canon echo redlined one-word. Wired: the
+per-grade `judgeLine(grade)` in flavor.ts with `__setJudgeFlavorOverride`
+(the declaring-module pattern), emitted by step.ts onReckoning; the DEV
+switcher forwards flavor takes to it (live-swap ✓); the legacy
+season.reckoned template kept for persisted entries. Alternates live in
+`takes/c5a-{overlays,discoveries,judge}/` (4 open bundles compile). Tests
+re-derived (the ascension judge-line assertion; the lacquer-path hint check
+now that the woodlot holds a second secret).

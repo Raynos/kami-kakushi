@@ -5,3 +5,34 @@
 // ships its alternates as a `takes/` bundle (the mend-hint is HR-10's first user).
 
 export { FLAVOR } from './flavor.gen';
+import { FLAVOR } from './flavor.gen';
+import type { Grade } from '../pillars';
+
+// ── C5a unit 4 — the per-grade seasonal-judge line (ADR-159/ADR-167) ─────────────────
+// Core-EMITTED text (step.ts onReckoning), so the DEV story switcher swaps it through
+// the declaring-module setter (the requirements.ts __setRequirementFlavorOverride
+// pattern): future emissions voice the selected take; logged history stays (TST2).
+
+let JUDGE_OVERRIDE: Readonly<Record<string, string>> | null = null;
+
+/** DEV-only (the story set-switcher): override the judge lines by FLAVOR key, or null
+ *  to restore canon. */
+export function __setJudgeFlavorOverride(map: Readonly<Record<string, string>> | null): void {
+  JUDGE_OVERRIDE = map;
+}
+
+const JUDGE_KEY: Readonly<Record<Grade, keyof typeof FLAVOR>> = {
+  FAIL: 'judgeLineFail',
+  BAD: 'judgeLineBad',
+  OK: 'judgeLineOk',
+  GOOD: 'judgeLineGood',
+  GREAT: 'judgeLineGreat',
+  EXCELLENT: 'judgeLineExcellent',
+};
+
+/** The day-book's judge line for a grade — the valley's regard read at the season's
+ *  close (TAKE C of the C5a diverge; TST3: koku standing IS outside regard). */
+export function judgeLine(grade: Grade): string {
+  const key = JUDGE_KEY[grade];
+  return JUDGE_OVERRIDE?.[key] ?? FLAVOR[key];
+}

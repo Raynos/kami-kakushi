@@ -33,6 +33,8 @@
 | haul_stores | conditioning | forecourt | 2 coin | 4 | 5 |
 | woodcut_edge | woodcutting | woodlot | 3 wood | 4 | 5 |
 | forage_satoyama | foraging | woodlot | 2 sansai, 1 coin | 3 | 5 |
+| search_reeds | foraging | weir | 1 sansai, 1 coin | 3 | 4 |
+| clear_sluice | woodcutting | woodlot | 2 wood, 1 coin | 4 | 5 |
 | forage_deepwoods | foraging | woodlot | 4 sansai, 2 coin | 5 | 7 |
 | tap_lacquer | woodcutting | woodlot | 3 coin | 4 | 5 |
 
@@ -48,6 +50,8 @@
 | do_activity:haul_stores | timed | 6s | 2s |
 | do_activity:woodcut_edge | timed | 7s | 2s |
 | do_activity:forage_satoyama | timed | 6s | 2s |
+| do_activity:search_reeds | timed | 6s | 2s |
+| do_activity:clear_sluice | timed | 9s | 2s |
 | do_activity:forage_deepwoods | timed | 9s | 2s |
 | do_activity:tap_lacquer | timed | 7s | 2s |
 | open_eyes | instant | — | — |

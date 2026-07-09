@@ -45,7 +45,8 @@
     "sitePools": {
       "paddies": 0,
       "forecourt": 0,
-      "woodlot": 160
+      "woodlot": 160,
+      "weir": 120
     },
     "wageDaysAccrued": 0,
     "lastWageDay": -1,

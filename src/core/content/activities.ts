@@ -16,7 +16,9 @@ export type ActivityId =
   | 'woodcut_edge'
   | 'forage_satoyama'
   | 'forage_deepwoods'
-  | 'tap_lacquer';
+  | 'tap_lacquer'
+  | 'search_reeds'
+  | 'clear_sluice';
 // ADR-107: labour yields RICE (rake + paddy work), COIN (hauling wage + a little from forage), wood
 // (woodcut), or sansai (forage greens). koku is never labour-earned — it is House standing.
 export type LabourResource = 'rice' | 'coin' | 'wood' | 'sansai';
@@ -82,6 +84,33 @@ export const ACTIVITIES: readonly ActivityDef[] = [
     area: 'woodlot',
     yields: { sansai: 2, coin: 1 },
     satietyCost: 3,
+    xp: 5,
+    dangerRing: true,
+    surface: 'verb-forage',
+  },
+  {
+    // C5a discovery-revealed (the weir bundle, ADR-146): wading the reed shallows for what the
+    // river carries — hidden until the reeds discovery latches. Magnitudes sim-owned (ADR-132);
+    // modest forage-class yields (the reeds pay less than the woodlot — the point is the find).
+    id: 'search_reeds',
+    label: 'Search the reeds',
+    skill: 'foraging',
+    area: 'weir',
+    yields: { sansai: 1, coin: 1 },
+    satietyCost: 3,
+    xp: 4,
+    surface: 'verb-forage',
+  },
+  {
+    // C5a discovery-revealed (the silted sluice): clearing the forgotten water-gate is real
+    // repair-labour — wood-class pay + the estate's water served (a stores-class deed home
+    // is a T1 call; T0 keeps it plain labour). Magnitudes sim-owned (ADR-132).
+    id: 'clear_sluice',
+    label: 'Clear the silted sluice',
+    skill: 'woodcutting',
+    area: 'woodlot',
+    yields: { wood: 2, coin: 1 },
+    satietyCost: 4,
     xp: 5,
     dangerRing: true,
     surface: 'verb-forage',

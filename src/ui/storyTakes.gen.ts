@@ -8,6 +8,405 @@ import { NPC_NAME } from '../core/content/voices';
 
 export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
+    id: 'c5a-discoveries',
+    title: 'The three hidden discoveries',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'Take A scored 11✔1✘ — tool-adjacent escalation ("gives like cloth, not like root"; "wider than the badger needs") lands the finds as plain fact with the strangeness visible and unremarked; the one flagged maxim cut per Pass-2.',
+    canonLabel: 'A · found by hand',
+    takes: [
+      {
+        id: 'b',
+        label: 'the estate remembers',
+        brief: "hints as the past showing through; finds meet a previous keeper's hand",
+        scorecard: '10✔ 2✘',
+        flavor: {
+          reedsHint0:
+            'The reeds below the weir keep what the river tires of — a screen-lath gone soft, a sandal sole, losses older than anyone left to claim them.',
+          reedsHint1:
+            "Some earlier keeper cut ways into this bank for the same work you're at, and the current still uses them, ferrying what it carries into the deepest cut.",
+          reedsHint2:
+            'The old cut ends at a snag that has caught things since before your time, and it has caught something lately: a pale shape low in the roots, half taken back by the reeds.',
+          reedsFound:
+            'A bundle, river-swollen, off the same water that brought you. Inside, a paper the river has already read — the ink gone to grey bloom, the folds still sharp from a careful hand.',
+          sluiceHint0:
+            'The far paddies take their water the long way round, as though the ditches once knew a shorter answer and have forgotten it.',
+          sluiceHint1:
+            "Where the field-ditch meets the woodlot the grass grows in a line too straight for grass, and under the moss there is dressed stone — someone's good work, going nowhere.",
+          sluiceHint2:
+            'The dressed channel runs to a gate-post rotted off at the collar, its slot packed hard with silt; when the ditch runs high, the water still leans toward it.',
+          sluiceFound:
+            "Cleared to the sill, the old gate shows its maker's hand — chisel-dressed cheeks, a hardwood sill set true, work done once and meant to outlast the man who did it. The estate forgot it owned this; the water never did.",
+          settHint0:
+            'The setts at the field margin are new digging over old — the badgers have held this ground longer than the field has been a field.',
+          settHint1:
+            'Driving them out, you find the spoil ages with the holes: fresh earth at the young ones, and at the grandfather sett, grey rubble that never came out of any field.',
+          settHint2:
+            'The grandfather sett is dug through made ground — roof-tile, a squared footing stone — and its spoil runs in a line that ends where the waste ground begins.',
+          settFound:
+            "The main run passes beneath the old wall's footing, through a gap left when the stone was first laid — a badger's road, worn smooth by generations. The rope stands and the warning stands; the badgers were simply never told.",
+        },
+      },
+      {
+        id: 'c',
+        label: 'nobody says',
+        brief: 'hints ride silences and avoidances',
+        scorecard: '9✔ 3✘',
+        flavor: {
+          reedsHint0:
+            'The cutters have taken reed from every stand along the weir but one, downstream, left whole for no reason anyone offers.',
+          reedsHint1:
+            'Matsuzō, who counts every gnawed screen aloud, goes quiet by the downstream stand and finds his count again past it.',
+          reedsHint2:
+            'The untouched stand is the stretch where the river gave you up; no one has cut there since, and no one has said so.',
+          reedsFound:
+            'Deep in the roots, a bundle: cloth gone river-grey, tied off in a knot your own hands could have made, and inside it a paper the water has finished — the ink walked off into grey, not one word left standing. You bind it up the way it was, and say nothing either.',
+          sluiceHint0:
+            "The field-talk follows the water's whole length, complaint by complaint, and always dries up at the same place — a little short of the woodlot.",
+          sluiceHint1:
+            'An old straight cut runs from the paddies in under the trees, and the mowing has bent around it for years — not one scythe-mark crosses it.',
+          sluiceHint2:
+            'Ganzō has a year for every flood and every snow, but the cut at the woodlot edge gets no year from him nor from anyone — the one question at the well that turns into talk of weather.',
+          sluiceFound:
+            "Under the silt, timber: a sluice gate, hand-squared and still sound, choked to the lintel — a whole gate's worth of water the paddies have thirsted past for years. It stands in no ledger, and nobody's talk has ever carried it.",
+          settHint0:
+            'The drivers work every burrow along the margin but the oldest one, nearest the waste ground, which the older men pass without seeming to see.',
+          settHint1:
+            "Every sett on the margin wears some man's mark — a snare-peg, a spade-lip — except the old diggings that run toward the wall, where no mark has ever been left.",
+          settHint2:
+            'The badger runs all gather toward the foot of the ruined wall, and whoever drove these fields before you stopped their digging short of it every time, at the same line, with no word left as to why.',
+          settFound:
+            "The oldest gallery does not stop: it goes down beneath the wall's footing and keeps on, smooth-worn earth, dark past the reach of an arm. Overhead the rope says what it has always said; underfoot the ground has been saying otherwise for a long time.",
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'c5a-judge',
+    title: 'The per-grade day-book judge lines',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'Takes B and C tied 5✔1✘; C wins on TST3 — koku standing IS the valley\'s regard, so the outside-eyes register is the mechanic\'s own fiction ("without the pause that used to follow it"); the counted-twice echo redlined per Pass-2.',
+    canonLabel: 'C · as the valley sees it',
+    takes: [
+      {
+        id: 'a',
+        label: "the board's arithmetic",
+        brief: 'each grade as what the columns show',
+        scorecard: '4✔ 2✘',
+        flavor: {
+          judgeLineFail:
+            'The season enters the book as loss: what went out takes more of the page than what came in, and no entry is made smaller for being shameful. Exactness is the one thing the house is not yet poor in.',
+          judgeLineBad:
+            'The columns close short, and the book says so in the same hand it says everything else. What the season would not give, the page does not pretend to hold.',
+          judgeLineOk:
+            'Taken against given, the season stands level — nothing owed forward, nothing to carry. The book closes even, which is not yet the same as closing well.',
+          judgeLineGood:
+            'The in-column outlasts the out-column, and a remainder passes to the season ahead. It is a small thing, written no larger than anything else on the page.',
+          judgeLineGreat:
+            'Every heading the book keeps ends the season fuller than it began. The surplus is ruled off with the same care once spent on losses, as if plenty too must answer for itself.',
+          judgeLineExcellent:
+            'No column ends the season worse, and several end it fuller than the book remembers. Read together, the lines amount to a house on its own feet again — though the book leaves that word to whoever reads it.',
+        },
+      },
+      {
+        id: 'b',
+        label: 'the house as body',
+        brief: "each grade read off the estate's physical bearing",
+        scorecard: '5✔ 1✘',
+        flavor: {
+          judgeLineFail:
+            'The season closes on a house going down under its own weight: more came off the roofs than any hand put back, and the hands cross the court quickly, the way people cross a sickroom.',
+          judgeLineBad:
+            'The house held, the way a man holds who cannot afford to fall — the failed timber propped, not replaced, and the props are what a passing eye finds first.',
+          judgeLineOk:
+            'The season leaves the house as it found it: nothing lost, nothing mended past its need. The gate opens on the same groan it opened on in the first week.',
+          judgeLineGood:
+            "Something in the house's bearing has straightened — a roof-line true where it sagged — and the hands take the court at a walk now, because the day has room in it again.",
+          judgeLineGreat:
+            'The house moves like a body past its fever: repairs made before they were wanted, and the sound of the yard is work chosen, not work owed.',
+          judgeLineExcellent:
+            "The house stands the way it must once have stood — square at the gate, dry under every roof, the court crossed at a working man's easy pace — and the valley, passing, sees it.",
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'c5a-overlays',
+    title: 'The five season-turn overlays',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      "Take C scored 18✔2✘ — the land-first frame keeps people late and small (the register the nengu frame set), every image this valley's own; redlined per Pass-2 (one stacked ornament; the handoff template broken in 3 of 5).",
+    canonLabel: 'C · the land first',
+    takes: [
+      {
+        id: 'a',
+        label: 'the ledger turns',
+        brief: 'every season closes as work and accounting; emotion only through what gets counted',
+        scorecard: '12✔ 7✘',
+        scenes: {
+          'turn-winter': {
+            id: 'turn-winter',
+            voice: 'narrator',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The wood is counted down to what is left, and what is left is not measured against anything — winter has stopped asking. The mended things go back to their walls, each worth a line the day it broke and none now that it holds.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Before the year is let go, the book settles with it. What the house owes is called in and answered where it can be; what cannot be answered is not forgiven — it is carried forward, in a hand that writes smaller than the rest of the page.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Genemon warms water for the ink stone — the one warmth the board room is allowed — and rules the year off. A whole winter fits above the line.',
+              },
+              {
+                voice: 'narrator',
+                text: 'The New Year is at the gate before the ink is dry. A fresh page, headed and empty: the one morning of the year the book holds nothing against anyone. It does not last the week.',
+              },
+            ],
+            topics: [],
+            decision: { prompt: '', options: [] },
+          },
+          'turn-new-year': {
+            id: 'turn-new-year',
+            voice: 'narrator',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The pine comes down from the gate and goes to the kitchen as kindling. The house does not keep ornaments; it keeps what they burn down to, and the book sees it to the stove.',
+              },
+              {
+                voice: 'narrator',
+                text: 'The quiet weeks end at the board first. The entries turn forward: so much seed against so many rows, so many days between here and the water. For a season the book will count things that do not exist yet. It is the only reckless thing the book does all year.',
+              },
+              {
+                voice: 'narrator',
+                text: 'The dull tools go down to the smith and come back with edges. The charge is entered against a season that has not earned anything.',
+              },
+              {
+                voice: 'narrator',
+                text: 'The New Year is spent down to its last slow morning. Spring next — the page is already headed, and the paddies are already in it.',
+              },
+            ],
+            topics: [],
+            decision: { prompt: '', options: [] },
+          },
+          'turn-spring': {
+            id: 'turn-spring',
+            voice: 'narrator',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The last row goes in with the light failing, and the count goes into the ground with it. What left the kura as a number stands in the mud as rows, and cannot be counted again until autumn proves it.',
+              },
+              {
+                voice: 'narrator',
+                text: "The book holds the difference as owing. The ground has the house's rice now, and the ground signs nothing.",
+              },
+              {
+                voice: 'narrator',
+                text: 'The planting days are entered by the day, never by the back that did them. Yours are in there with the rest, worth the same line.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Spring is finished the hour the water stands level in the last paddy. Summer takes the valley from the morning side — heat before the dew is off — and the book goes quiet, waiting on the ground.',
+              },
+            ],
+            topics: [],
+            decision: { prompt: '', options: [] },
+          },
+          'turn-summer': {
+            id: 'turn-summer',
+            voice: 'narrator',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The weeding is done for the doing again, and the walking begins. Genemon goes along the paddy dikes with the day-book shut under his arm. Whatever he counts out there he counts by eye, and enters none of it.',
+              },
+              {
+                voice: 'narrator',
+                text: 'The Bon goods come up from the stall: lamp-oil, incense, cut flowers. They are entered like any goods, at their price. It is the one page of the year nobody argues smaller.',
+              },
+              {
+                voice: 'narrator',
+                text: 'The kitchen cooks ahead. The tools are set down where they stand. Work is entered until it stops, and then the stopping is not entered at all.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Summer closes with the valley still green and unproven. Bon is next, and the house turns from what it grows to what it owes its dead.',
+              },
+            ],
+            topics: [],
+            decision: { prompt: '', options: [] },
+          },
+          'turn-bon': {
+            id: 'turn-bon',
+            voice: 'narrator',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'Three days stand blank in the day-book — the only blank the year is allowed. Genemon rules around them and leaves them, the way a field is left around a stone.',
+              },
+              {
+                voice: 'narrator',
+                text: 'What the lamps burned is not asked after. The oil went where it was sent; no line calls it back. Of everything the house buys in a year, only this is spent without being watched.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Then the blank days are spent too. Autumn, and the book sharpens with the sickles: whetstones out, racks up, everything that grew on trust about to be weighed. The book has been patient since spring. It is done being patient.',
+              },
+            ],
+            topics: [],
+            decision: { prompt: '', options: [] },
+          },
+        },
+      },
+      {
+        id: 'b',
+        label: "the household's body",
+        brief: "the turn read in the house's physical routine; the family glimpsed at its seams",
+        scorecard: '3✔ 3✘',
+        scenes: {
+          'turn-winter': {
+            id: 'turn-winter',
+            voice: 'narrator',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: "Winter leaves the house through the back door, in baskets. Brazier ash, the year's soot knocked off the beams with green bamboo — the kitchen works with everything open, letting in cold it spent three months keeping out.",
+              },
+              {
+                voice: 'narrator',
+                text: "The good bowls come down off the high shelf, unwrapped onto trays you have not seen used. Behind the screens the family is up late; the light in the main room outlasts the house's habit.",
+              },
+              {
+                voice: 'narrator',
+                text: 'Rice is set to soak in the big tub — not an eating quantity. A pounding quantity.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Winter is done. The house has swept it out and shut the door on it, and what it opens the front gate to instead, it calls the New Year.',
+              },
+            ],
+            topics: [],
+            decision: { prompt: '', options: [] },
+          },
+          'turn-new-year': {
+            id: 'turn-new-year',
+            voice: 'narrator',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The New Year is put away in the order it came out. Bowls wrapped and boxed to the storehouse shelf, the gate greens taken down and burned small, the last of the pounded rice gone hard enough for the soup pot and nothing else.',
+              },
+              {
+                voice: 'narrator',
+                text: 'The pegs by the kitchen door change: town cloth in, work cloth out. Hoes and mattocks stand along the yard wall to have their handles looked at, one by one.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Mud takes the threshold stones again. Nobody wipes it twice.',
+              },
+              {
+                voice: 'narrator',
+                text: 'The visiting season is over. What stands in the yard now, wanting hands before it wants anything, is spring.',
+              },
+            ],
+            topics: [],
+            decision: { prompt: '', options: [] },
+          },
+          'turn-spring': {
+            id: 'turn-spring',
+            voice: 'narrator',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The house changes its skin. The papered doors come off their grooves and go up to the loft, and reed screens hang in their places; for one afternoon, between the old walls and the new, you can see straight through the house — the family at their low tables, arranged just as they were behind the paper.',
+              },
+              {
+                voice: 'narrator',
+                text: "Quilts go over the poles in the sun. Padded jackets come apart under Chiyo's needle into flat cloth, washed, and folded away with the winter.",
+              },
+              {
+                voice: 'narrator',
+                text: 'The lamps are filled less. The day does most of the lighting now, and stays in the rooms longer than anyone asks it to.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Spring is finished. What the opened house lets through it, wall to wall, is summer.',
+              },
+            ],
+            topics: [],
+            decision: { prompt: '', options: [] },
+          },
+          'turn-summer': {
+            id: 'turn-summer',
+            voice: 'narrator',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'Field tools go up early and stay up. The house turns inward instead: the altar room is opened and aired, and Chiyo wipes each tablet and sets it back before the next comes down. You are not asked to help with that room.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Lanterns come out of the loft and are checked for their candles — more lanterns than the house has people.',
+              },
+              {
+                voice: 'narrator',
+                text: 'At dusk a small fire is laid at the gate, ready for lighting. The doors are left open onto the dark, for guests who will not come by the road.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Summer is over. The season the house has dressed itself for is Bon.',
+              },
+            ],
+            topics: [],
+            decision: { prompt: '', options: [] },
+          },
+          'turn-bon': {
+            id: 'turn-bon',
+            voice: 'narrator',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: "A second fire at the gate, at dusk, to send off what the first one welcomed. The lanterns are emptied of their stubs and go back to the loft; the altar room is closed, and the house's doors remember their daytime shapes.",
+              },
+              {
+                voice: 'narrator',
+                text: 'The loft gives up sacks and carrying-baskets next, down into the yard for mending. The kura is swept out to the bare boards — emptied, so far as you can see, in order to be filled.',
+              },
+              {
+                voice: 'narrator',
+                text: 'The kitchen fires earlier and cooks longer. Whatever is coming will be fed in the field, out of boxes, at the hours the work sets.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Bon is over, and its guests are seen off. The house stands with its hands full, facing autumn.',
+              },
+            ],
+            topics: [],
+            decision: { prompt: '', options: [] },
+          },
+        },
+      },
+    ],
+  },
+
+  {
     id: 'hd30-nengu',
     title: 'The nengu reckoning — the year against the house',
     review: 'project/human-in-the-loop/review.md',

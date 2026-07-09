@@ -38,6 +38,8 @@ export const ACTIVITY_TIMING: Readonly<Record<ActivityId, ActionTiming>> = {
   forage_satoyama: timed(6000),
   forage_deepwoods: timed(9000),
   tap_lacquer: timed(7000),
+  search_reeds: timed(6000), // C5a — reed-wading sits with the light forage swings
+  clear_sluice: timed(9000), // C5a — silt work is the heavy end of the band
 };
 
 /** The night-round seed duration (storywave G2) — a BIG scripted sequence in the 30–90s

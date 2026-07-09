@@ -163,8 +163,10 @@ describe('derived hiddenness gates the node action list (could-go-RED vs a stati
 describe('the shipped content (disc-woodlot-lacquer) — registry invariants', () => {
   it('every discovery resolves: a real activity, at the discovery node, watched at the same node', () => {
     for (const d of DISCOVERIES) {
-      const revealed = getActivity(d.reveals);
-      expect(revealed.area).toBe(d.node); // the grown action belongs to the growing node
+      if (d.reveals !== undefined) {
+        const revealed = getActivity(d.reveals);
+        expect(revealed.area).toBe(d.node); // the grown action belongs to the growing node
+      }
       expect(d.trigger.chance).toBeGreaterThan(0);
       expect(d.trigger.chance).toBeLessThanOrEqual(1);
       if (d.trigger.kind === 'watch') {
@@ -205,8 +207,11 @@ describe('the shipped content (disc-woodlot-lacquer) — registry invariants', (
     expect(acts).toBeGreaterThan(0);
     // the found line landed in the log, permanent narrator prose
     expect(s.log.entries.some((e) => e.text === FLAVOR.lacquerFound)).toBe(true);
-    // the hint is gone (latched), and the action now exists and pays
-    expect(nodeHint(s, 'woodlot')).toBeNull();
+    // the LACQUER hint ladder is gone (latched) — the node may now foreshadow its next
+    // undiscovered secret (C5a added the sluice at the same node), never the latched one
+    expect([FLAVOR.lacquerHint0, FLAVOR.lacquerHint1, FLAVOR.lacquerHint2]).not.toContain(
+      nodeHint(s, 'woodlot')?.text,
+    );
     expect(availableLabours(s).map((o) => o.activity.id)).toContain('tap_lacquer');
     s = { ...s, sitePools: refillSitePools(season(s)) };
     const coinBefore = s.resources.coin ?? 0;

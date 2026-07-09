@@ -15,7 +15,7 @@
         "loot": 40,
         "seasonal": 0,
         "worldgen": 345,
-        "discovery": 11
+        "discovery": 53
       }
     },
     "clock": {
@@ -48,7 +48,8 @@
     "sitePools": {
       "paddies": 300,
       "forecourt": 120,
-      "woodlot": 133
+      "woodlot": 133,
+      "weir": 120
     },
     "wageDaysAccrued": 0,
     "lastWageDay": -1,
@@ -705,7 +706,15 @@
           "voice": "narrator"
         },
         {
-          "key": 155,
+          "key": 151,
+          "channel": "narration",
+          "text": "Under the silt, cut stone and a lift-board seized in its groove: a sluice-gate, made well and left to choke. Clearing it is days of honest digging, and nobody at the house knows it is there to clear.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 157,
           "channel": "narration",
           "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
           "tick": 8,
@@ -713,7 +722,7 @@
           "voice": "narrator"
         },
         {
-          "key": 167,
+          "key": 169,
           "channel": "narration",
           "text": "Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.",
           "tick": 8,
@@ -721,7 +730,7 @@
           "voice": "narrator"
         },
         {
-          "key": 168,
+          "key": 170,
           "channel": "narration",
           "text": "Dawn comes grey through the kura door. The blood on the sill has dried black, and most of it is yours. Inside, the rice sits in its rows, untouched, exactly as it was put. Sōan has strapped your ribs so tight that breathing is a decision.",
           "tick": 10,
@@ -729,7 +738,7 @@
           "voice": "narrator"
         },
         {
-          "key": 169,
+          "key": 171,
           "channel": "narration",
           "text": "Kihei crouches at the sill a long time, reading the blood the way Genemon reads a column of figures. The trail goes west, into the trees, in drops that get no smaller.",
           "tick": 10,
@@ -737,7 +746,7 @@
           "voice": "narrator"
         },
         {
-          "key": 170,
+          "key": 172,
           "channel": "narration",
           "text": "\"…Alive. Good.\"",
           "tick": 10,
@@ -746,7 +755,7 @@
           "voice": "arms"
         },
         {
-          "key": 171,
+          "key": 173,
           "channel": "narration",
           "text": "For a moment there is more in him than the verdict. He checks the broken bar instead.",
           "tick": 10,
@@ -754,7 +763,7 @@
           "voice": "narrator"
         },
         {
-          "key": 172,
+          "key": 174,
           "channel": "narration",
           "text": "Genemon stands in the doorway. Whatever he came to say, he writes something in the day-book first.",
           "tick": 10,
@@ -762,7 +771,7 @@
           "voice": "narrator"
         },
         {
-          "key": 173,
+          "key": 175,
           "channel": "narration",
           "text": "\"Screen, one, torn. Bar, one, broken. Grain — none lost. Hand, one. Standing.\"",
           "tick": 10,
@@ -771,7 +780,7 @@
           "voice": "steward"
         },
         {
-          "key": 174,
+          "key": 176,
           "channel": "narration",
           "text": "None lost. You think of the gnawed seed-bale at the back wall, and the count you made twice by lantern, and you do not correct him. Not yet.",
           "tick": 10,
@@ -779,7 +788,7 @@
           "voice": "narrator"
         },
         {
-          "key": 175,
+          "key": 177,
           "channel": "narration",
           "text": "\"The bar was old. It goes against the house, not your wage.\"",
           "tick": 10,
@@ -788,7 +797,7 @@
           "voice": "steward"
         },
         {
-          "key": 176,
+          "key": 178,
           "channel": "narration",
           "text": "Kihei stands, takes the boar-spear off the sill, and puts it back in your hands, butt first.",
           "tick": 10,
@@ -796,7 +805,7 @@
           "voice": "narrator"
         },
         {
-          "key": 177,
+          "key": 179,
           "channel": "narration",
           "text": "\"You didn't win. The house lost nothing. Keep the watch.\"",
           "tick": 10,
@@ -805,7 +814,7 @@
           "voice": "arms"
         },
         {
-          "key": 178,
+          "key": 180,
           "channel": "narration",
           "text": "By evening the padded coat is folded at the woodshed step, the torn shoulder closed with stitches smaller than the tear deserved. O-Hisa is still three steps from the kitchen when you come round the corner, caught.",
           "tick": 10,
@@ -813,7 +822,7 @@
           "voice": "narrator"
         },
         {
-          "key": 179,
+          "key": 181,
           "channel": "narration",
           "text": "\"It tore clean, at least. If the ribs knit as straight — well.\"",
           "tick": 10,
@@ -822,7 +831,7 @@
           "voice": "steward"
         },
         {
-          "key": 180,
+          "key": 182,
           "channel": "narration",
           "text": "She is back inside before you find anything to say to that.",
           "tick": 10,
@@ -830,7 +839,7 @@
           "voice": "narrator"
         },
         {
-          "key": 181,
+          "key": 183,
           "channel": "narration",
           "text": "\"It bled going west. The trail is fresh.\"",
           "tick": 10,
@@ -839,7 +848,7 @@
           "voice": "player"
         },
         {
-          "key": 182,
+          "key": 184,
           "channel": "narration",
           "text": "\"And you can chase it exactly as far as I can throw you. Sit down. It is winter's business now, not yours.\"",
           "tick": 10,
@@ -848,7 +857,7 @@
           "voice": "physician"
         },
         {
-          "key": 183,
+          "key": 185,
           "channel": "narration",
           "text": "The drill yard opens to you — a place to train, and foes that must be met.",
           "tick": 10,
@@ -856,7 +865,7 @@
           "voice": "narrator"
         },
         {
-          "key": 184,
+          "key": 186,
           "channel": "narration",
           "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
           "tick": 10,
@@ -864,7 +873,7 @@
           "voice": "narrator"
         },
         {
-          "key": 185,
+          "key": 187,
           "channel": "narration",
           "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
           "tick": 10,
@@ -872,7 +881,7 @@
           "voice": "narrator"
         },
         {
-          "key": 186,
+          "key": 188,
           "channel": "narration",
           "text": "The storehouse is opened to you: the iron-strapped door, the good lock, the grain-watch's stool beside it. What is counted in and out is the house's whole year.",
           "tick": 10,
@@ -880,7 +889,7 @@
           "voice": "narrator"
         },
         {
-          "key": 187,
+          "key": 189,
           "channel": "narration",
           "text": "The shallows above and below the weir, reeds past the waist. River rats gnaw the screens the house leases from Matsuzō, and every screen lost is coin owed across the water.",
           "tick": 10,
@@ -888,7 +897,7 @@
           "voice": "narrator"
         },
         {
-          "key": 188,
+          "key": 190,
           "channel": "milestone",
           "text": "Rank ↑ — The grain-watch 蔵番",
           "tick": 10,
@@ -900,7 +909,7 @@
           }
         },
         {
-          "key": 189,
+          "key": 191,
           "channel": "narration",
           "text": "A lean corner of the woodshed is kept back for you now — a straw mat, a bowl, a nail for your coat, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
           "tick": 10,
@@ -908,7 +917,7 @@
           "voice": "narrator"
         },
         {
-          "key": 193,
+          "key": 195,
           "channel": "combat",
           "text": "You bring down the river rats. ✓ (HP 58→8)",
           "tick": 10,
@@ -924,7 +933,39 @@
           }
         },
         {
-          "key": 197,
+          "key": 199,
+          "channel": "narration",
+          "text": "The snow quits the valley floor first — gray at the edges, then standing water in the wheel-ruts. The ridge keeps its white and means to keep it.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 200,
+          "channel": "narration",
+          "text": "The river runs black and narrow between its shelves of ice. Past the rope, the old garden's snow lies whole: a winter's worth, and not one track across it.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 201,
+          "channel": "narration",
+          "text": "The light stretches. Work that used to end at the woodshed door now ends past it, and the cold stays on, but it has stopped arguing.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 202,
+          "channel": "narration",
+          "text": "Small on the road below, a man comes up from the village with new straw rope coiled over his shoulder, for the gates. The year is going out. The New Year comes up the valley behind him.",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 203,
           "channel": "narration",
           "text": "Matsuzō comes up from the river at the pace of a man nothing has hurried in sixty years. Genemon meets him in the forecourt with the day-book already open — which is how you learn the house knew it was short before the knock.",
           "tick": 14,
@@ -932,7 +973,7 @@
           "voice": "narrator"
         },
         {
-          "key": 198,
+          "key": 204,
           "channel": "narration",
           "text": "\"The weir lease. Due today: rice, one koku. In the store, against it: seven to. The house is short a third, and I will not count it smaller than it is.\"",
           "tick": 14,
@@ -941,7 +982,7 @@
           "voice": "steward"
         },
         {
-          "key": 199,
+          "key": 205,
           "channel": "narration",
           "text": "\"Screens took a beating in the spring water. Rats after. Hard year on everything downstream.\"",
           "tick": 14,
@@ -950,7 +991,7 @@
           "voice": "villager"
         },
         {
-          "key": 200,
+          "key": 206,
           "channel": "narration",
           "text": "He does not say: on you too. He looks at the gate's paint, and at you, and back toward the river, the way he looks at everything — weather that will pass over his weir eventually.",
           "tick": 14,
@@ -958,7 +999,7 @@
           "voice": "narrator"
         },
         {
-          "key": 201,
+          "key": 207,
           "channel": "narration",
           "text": "\"Three to owing. I ask the season's grace on it. The house asks.\"",
           "tick": 14,
@@ -967,7 +1008,7 @@
           "voice": "steward"
         },
         {
-          "key": 202,
+          "key": 208,
           "channel": "narration",
           "text": "Genemon bows. Not deeply — the exact depth a Kurosawa steward has never before had to measure for a weir-keeper, measured now, got right the first time because he will not let it be seen twice.",
           "tick": 14,
@@ -975,7 +1016,7 @@
           "voice": "narrator"
         },
         {
-          "key": 203,
+          "key": 209,
           "channel": "narration",
           "text": "\"The river can wait a season. The screens can't — rats are in them now. Send your man down while the year turns and we'll call it even weight by winter.\"",
           "tick": 14,
@@ -984,7 +1025,7 @@
           "voice": "villager"
         },
         {
-          "key": 204,
+          "key": 210,
           "channel": "narration",
           "text": "Nobody asks you. A line in the day-book, a nod toward the water, and a season of your evenings is settled between two old men. Three to of rice. It is the first time you have been worth a number. The number is small.",
           "tick": 14,
@@ -992,7 +1033,7 @@
           "voice": "narrator"
         },
         {
-          "key": 205,
+          "key": 211,
           "channel": "narration",
           "text": "At the gate the old man stops, level with you, and looks at you the way he looked at the paint. He goes back down the way he came, having made nothing of it. He has been making nothing of it for a year.",
           "tick": 14,
@@ -1000,7 +1041,7 @@
           "voice": "narrator"
         },
         {
-          "key": 215,
+          "key": 221,
           "channel": "combat",
           "text": "You bring down the river rats. ✓ (HP 58→17)",
           "tick": 22,
@@ -1016,7 +1057,7 @@
           }
         },
         {
-          "key": 219,
+          "key": 225,
           "channel": "combat",
           "text": "You bring down the river rats. ✓ (HP 58→12 · +1 beast sinew)",
           "tick": 6,
@@ -1032,7 +1073,7 @@
           }
         },
         {
-          "key": 220,
+          "key": 226,
           "channel": "narration",
           "text": "\"Quiet in the kura tonight,\" Kihei lets drop, cleaning his blade by lamplight.",
           "tick": 6,
@@ -1040,7 +1081,7 @@
           "voice": "narrator"
         },
         {
-          "key": 226,
+          "key": 232,
           "channel": "combat",
           "text": "You bring down the tanuki. ✓ (HP 58→16 · +1 beast sinew)",
           "tick": 16,
@@ -1056,7 +1097,7 @@
           }
         },
         {
-          "key": 228,
+          "key": 234,
           "channel": "combat",
           "text": "You bring down the tanuki. ✓ (HP 58→15)",
           "tick": 0,
@@ -1072,7 +1113,7 @@
           }
         },
         {
-          "key": 229,
+          "key": 235,
           "channel": "narration",
           "text": "\"The monkeys have learned his shape,\" Kihei is heard to say, almost pleased.",
           "tick": 0,
@@ -1080,7 +1121,7 @@
           "voice": "narrator"
         },
         {
-          "key": 245,
+          "key": 251,
           "channel": "narration",
           "text": "\"The fields don't miss him while he drills,\" Genemon notes, half to himself.",
           "tick": 6,
@@ -1088,7 +1129,7 @@
           "voice": "narrator"
         },
         {
-          "key": 250,
+          "key": 256,
           "channel": "narration",
           "text": "\"Watch or no watch, his rows never fell behind,\" Genemon says over the evening rice.",
           "tick": 14,
@@ -1096,15 +1137,7 @@
           "voice": "narrator"
         },
         {
-          "key": 261,
-          "channel": "narration",
-          "text": "The nose knew it first, then the palm, and last the word: urushi. A lacquer tree, hidden all this time among the common pine, and the beading sap already worth more than the day's whole stack.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 277,
+          "key": 282,
           "channel": "narration",
           "text": "\"The palisade wood is his cutting,\" Kihei says, striking a post with the flat of his hand.",
           "tick": 4,
@@ -1112,7 +1145,39 @@
           "voice": "narrator"
         },
         {
+          "key": 286,
+          "channel": "narration",
+          "text": "Ice lets go of the shaded bank a plate at a time, each one turning once in the current and gone.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
           "key": 287,
+          "channel": "narration",
+          "text": "The ground gives underfoot where all winter it rang. The well-path grows a margin of mud, and the mud holds each footprint till noon.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 288,
+          "channel": "narration",
+          "text": "Up the woodlot, the bark of the young trees is chewed to the pale — deer, down off the ridge in the dark and gone again by light. Whatever they came for, the ridge no longer had it.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 289,
+          "channel": "narration",
+          "text": "Last, and small under all that water-light, the villagers walk their field-bunds, looking at what the thaw left them. Spring is on the valley, and everything from here on is work.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 296,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 24 mon in the rout. Eat and mend before you take the field again.",
           "tick": 16,
@@ -1127,7 +1192,7 @@
           }
         },
         {
-          "key": 297,
+          "key": 306,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 20 mon in the rout. Eat and mend before you take the field again.",
           "tick": 10,
@@ -1142,7 +1207,7 @@
           }
         },
         {
-          "key": 305,
+          "key": 314,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 16 mon in the rout. Eat and mend before you take the field again.",
           "tick": 4,
@@ -1157,7 +1222,7 @@
           }
         },
         {
-          "key": 316,
+          "key": 325,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 13 mon in the rout. Eat and mend before you take the field again.",
           "tick": 0,
@@ -1172,7 +1237,7 @@
           }
         },
         {
-          "key": 331,
+          "key": 340,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 10 mon in the rout. Eat and mend before you take the field again.",
           "tick": 0,
@@ -1187,7 +1252,7 @@
           }
         },
         {
-          "key": 339,
+          "key": 348,
           "channel": "combat",
           "text": "You bring down the river rats. ✓ (HP 58→6)",
           "tick": 18,
@@ -1203,7 +1268,7 @@
           }
         },
         {
-          "key": 347,
+          "key": 356,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 6,
@@ -1217,7 +1282,7 @@
           }
         },
         {
-          "key": 351,
+          "key": 360,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 7 mon in the rout. Eat and mend before you take the field again.",
           "tick": 6,
@@ -1232,7 +1297,7 @@
           }
         },
         {
-          "key": 363,
+          "key": 372,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 6 mon in the rout. Eat and mend before you take the field again.",
           "tick": 2,
@@ -1247,7 +1312,7 @@
           }
         },
         {
-          "key": 373,
+          "key": 382,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
           "tick": 22,
@@ -1262,7 +1327,7 @@
           }
         },
         {
-          "key": 384,
+          "key": 393,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
           "tick": 18,
@@ -1277,7 +1342,7 @@
           }
         },
         {
-          "key": 401,
+          "key": 410,
           "channel": "combat",
           "text": "You bring down the river rats. ✓ (HP 58→12)",
           "tick": 20,
@@ -1293,7 +1358,7 @@
           }
         },
         {
-          "key": 413,
+          "key": 422,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
           "tick": 10,
@@ -1308,7 +1373,7 @@
           }
         },
         {
-          "key": 431,
+          "key": 440,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
           "tick": 20,
@@ -1323,7 +1388,39 @@
           }
         },
         {
-          "key": 447,
+          "key": 450,
+          "channel": "narration",
+          "text": "The green closes ranks. What was rows in the paddies is one surface now, and when the wind crosses it, the whole valley floor moves together.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 451,
+          "channel": "narration",
+          "text": "The river drops slow over its gravel, clear and warm in the shallows by noon.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 452,
+          "channel": "narration",
+          "text": "In the grove, the new bamboo has gone up taller than a man in a fortnight — pale among the old canes, then not.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 453,
+          "channel": "narration",
+          "text": "People show late in this weather, and low: hats in the deep green, moving slow along the rows. Summer has the valley now.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 460,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 5 mon in the rout. Eat and mend before you take the field again.",
           "tick": 22,
@@ -1338,7 +1435,7 @@
           }
         },
         {
-          "key": 460,
+          "key": 473,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 4 mon in the rout. Eat and mend before you take the field again.",
           "tick": 18,
@@ -1353,7 +1450,15 @@
           }
         },
         {
-          "key": 469,
+          "key": 481,
+          "channel": "narration",
+          "text": "Out of the reeds, a bundle: river-heavy, the cloth gone the color of the bank, tied off in a knot your hands undo without being told. Inside, wrapped twice against the wet, a single paper — the ink run to gray, not one word of it left.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 483,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
           "tick": 12,
@@ -1368,7 +1473,7 @@
           }
         },
         {
-          "key": 481,
+          "key": 495,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
           "tick": 8,
@@ -1383,7 +1488,7 @@
           }
         },
         {
-          "key": 486,
+          "key": 500,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 2,
@@ -1397,7 +1502,7 @@
           }
         },
         {
-          "key": 491,
+          "key": 505,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 2,
@@ -1412,7 +1517,7 @@
           }
         },
         {
-          "key": 503,
+          "key": 517,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 22,
@@ -1427,7 +1532,7 @@
           }
         },
         {
-          "key": 515,
+          "key": 529,
           "channel": "combat",
           "text": "The river rats overcomes you; you limp home badly used. (HP 58→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 20,
@@ -1442,7 +1547,7 @@
           }
         },
         {
-          "key": 526,
+          "key": 540,
           "channel": "combat",
           "text": "You bring down the river rats. ✓ (HP 58→14)",
           "tick": 16,
@@ -1458,7 +1563,7 @@
           }
         },
         {
-          "key": 527,
+          "key": 541,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 2.",
           "tick": 16,
@@ -1469,7 +1574,7 @@
           }
         },
         {
-          "key": 534,
+          "key": 548,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 2,
@@ -1484,7 +1589,7 @@
           }
         },
         {
-          "key": 546,
+          "key": 560,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 66→1)",
           "tick": 0,
@@ -1500,7 +1605,7 @@
           }
         },
         {
-          "key": 557,
+          "key": 571,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 16,
@@ -1515,7 +1620,7 @@
           }
         },
         {
-          "key": 573,
+          "key": 587,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 66→2 · +1 beast sinew)",
           "tick": 20,
@@ -1531,7 +1636,39 @@
           }
         },
         {
-          "key": 593,
+          "key": 602,
+          "channel": "narration",
+          "text": "The heat loosens its grip at the edges first: a haze on the river that burns off later each morning, and at dusk the cicadas trade their noon voice for the thin evening one.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 603,
+          "channel": "narration",
+          "text": "The light comes in slantwise now and finds the dust hanging in the forecourt air. The ridge stands closer in it, the way it does before weather.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 604,
+          "channel": "narration",
+          "text": "On the hill above the village, small figures move among the stones with sickles and water-buckets, tidying — one household first, then by week's end all of them.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 605,
+          "channel": "narration",
+          "text": "Smoke stands over the village at dusk, more fires than there are suppers. Bon is here, and the valley is making itself ready to be visited.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 611,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 4 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 6,
@@ -1546,7 +1683,7 @@
           }
         },
         {
-          "key": 600,
+          "key": 618,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
           "tick": 0,
@@ -1561,7 +1698,7 @@
           }
         },
         {
-          "key": 607,
+          "key": 625,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
           "tick": 18,
@@ -1576,7 +1713,7 @@
           }
         },
         {
-          "key": 616,
+          "key": 634,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 14,
@@ -1590,7 +1727,7 @@
           }
         },
         {
-          "key": 619,
+          "key": 637,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 14,
@@ -1605,7 +1742,7 @@
           }
         },
         {
-          "key": 629,
+          "key": 647,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 10,
@@ -1620,7 +1757,15 @@
           }
         },
         {
-          "key": 636,
+          "key": 654,
+          "channel": "narration",
+          "text": "At the wall's foot the spade finds the sett's main gallery: old work, wider than the badger needs, going down under the stones and not coming up on this side. The digging stops at the stones.",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 655,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 66→3)",
           "tick": 4,
@@ -1636,7 +1781,7 @@
           }
         },
         {
-          "key": 645,
+          "key": 664,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 18,
@@ -1651,7 +1796,7 @@
           }
         },
         {
-          "key": 655,
+          "key": 674,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 14,
@@ -1666,7 +1811,7 @@
           }
         },
         {
-          "key": 662,
+          "key": 681,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 8,
@@ -1681,7 +1826,7 @@
           }
         },
         {
-          "key": 675,
+          "key": 694,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 66→18 · +1 beast sinew)",
           "tick": 8,
@@ -1697,7 +1842,7 @@
           }
         },
         {
-          "key": 684,
+          "key": 703,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 66→2)",
           "tick": 20,
@@ -1713,7 +1858,7 @@
           }
         },
         {
-          "key": 695,
+          "key": 714,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 2 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 12,
@@ -1728,7 +1873,7 @@
           }
         },
         {
-          "key": 713,
+          "key": 732,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
           "tick": 16,
@@ -1743,7 +1888,7 @@
           }
         },
         {
-          "key": 730,
+          "key": 749,
           "channel": "narration",
           "text": "Loads cross the forecourt all morning: trays, lamp-oil, cut flowers, a bundle of incense sticks O-Yae carries two-handed like a caught bird. Everyone is given something.",
           "tick": 2,
@@ -1751,7 +1896,7 @@
           "voice": "narrator"
         },
         {
-          "key": 731,
+          "key": 750,
           "channel": "narration",
           "text": "The third load goes past before you ask it.",
           "tick": 2,
@@ -1759,7 +1904,7 @@
           "voice": "narrator"
         },
         {
-          "key": 732,
+          "key": 751,
           "channel": "narration",
           "text": "\"What do I carry?\"",
           "tick": 2,
@@ -1767,7 +1912,7 @@
           "voice": "narrator"
         },
         {
-          "key": 733,
+          "key": 752,
           "channel": "narration",
           "text": "\"Not this. If a year from now — well. Not this.\"",
           "tick": 2,
@@ -1776,7 +1921,7 @@
           "voice": "steward"
         },
         {
-          "key": 734,
+          "key": 753,
           "channel": "narration",
           "text": "The house files toward the alcove corridor. The forecourt is yours all day. For once, nobody crosses it.",
           "tick": 2,
@@ -1784,7 +1929,7 @@
           "voice": "narrator"
         },
         {
-          "key": 735,
+          "key": 754,
           "channel": "narration",
           "text": "At dusk, from the weir path: O-Ume sets her lantern on the water and talks it out past the reeds, the way you'd see a guest to the road.",
           "tick": 2,
@@ -1792,7 +1937,7 @@
           "voice": "narrator"
         },
         {
-          "key": 736,
+          "key": 755,
           "channel": "narration",
           "text": "At the gate, the monk Iori has his lodging and his one small fire.",
           "tick": 2,
@@ -1800,7 +1945,7 @@
           "voice": "narrator"
         },
         {
-          "key": 737,
+          "key": 756,
           "channel": "narration",
           "text": "\"Sit. Two bowls, one mouth. I'll be gone before you learn my face.\"",
           "tick": 2,
@@ -1809,7 +1954,7 @@
           "voice": "monk"
         },
         {
-          "key": 738,
+          "key": 757,
           "channel": "narration",
           "text": "Through the corridor screen, past shoulders: a small tray set out for somebody, and straw sandals beside it, toes toward the gate.",
           "tick": 2,
@@ -1817,7 +1962,7 @@
           "voice": "narrator"
         },
         {
-          "key": 739,
+          "key": 758,
           "channel": "narration",
           "text": "Morning. The trays are cleared, the lanterns down, the monk gone north. The sandals are new.",
           "tick": 2,
@@ -1825,7 +1970,39 @@
           "voice": "narrator"
         },
         {
-          "key": 744,
+          "key": 759,
+          "channel": "narration",
+          "text": "The river carries the first leaves down from the ridge, one and two at a time, red before anything on the valley floor has thought of turning.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 760,
+          "channel": "narration",
+          "text": "The mornings come in cold enough to name. Mist stands knee-deep in the paddies, and the heavy heads of rice bow through it, all leaning the same way.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 761,
+          "channel": "narration",
+          "text": "The road empties back out over the pass. The valley keeps what belongs to it and lets the rest go.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 762,
+          "channel": "narration",
+          "text": "From the village at dusk, the sound of whetstones — one, then several, no hurry in any of them. Bon has gone home. It is autumn, and the valley's whole year is standing out in the fields, waiting to be carried in.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 767,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 66→1) You drop 3 mon in the rout. Eat and mend before you take the field again.",
           "tick": 6,
@@ -1840,7 +2017,7 @@
           }
         },
         {
-          "key": 748,
+          "key": 771,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 0,
@@ -1854,7 +2031,7 @@
           }
         },
         {
-          "key": 752,
+          "key": 775,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 66→9)",
           "tick": 0,
@@ -1870,7 +2047,7 @@
           }
         },
         {
-          "key": 753,
+          "key": 776,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 3.",
           "tick": 0,
@@ -1881,14 +2058,14 @@
           }
         },
         {
-          "key": 754,
+          "key": 777,
           "channel": "milestone",
           "text": "You have become what the house needed at its gate — a hand it can trust with an edge to it. Kihei watches you drill at first light and almost smiles. \"There's a soldier in you under the farmhand. We'll find the rest of it yet.\" Past the gate the valley road climbs out of sight — toward the house's standing, its rivals, and the name you still cannot reach. That climb is for the days to come.",
           "tick": 2,
           "count": 1
         },
         {
-          "key": 755,
+          "key": 778,
           "channel": "narration",
           "text": "That night the dream comes again, and stays longer. The grey rain, the road — and now a load on your back, roped with the porter's knot your hands already knew. Water rising over the planks of a low bridge. A woman's voice behind you, calling a name through the flood — your name, you are almost sure, though the water closes over it before you can catch its shape.",
           "tick": 2,
@@ -1896,7 +2073,7 @@
           "voice": "narrator"
         },
         {
-          "key": 758,
+          "key": 781,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 74→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
           "tick": 12,
@@ -1911,7 +2088,7 @@
           }
         },
         {
-          "key": 768,
+          "key": 791,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 74→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 10,
@@ -1926,7 +2103,7 @@
           }
         },
         {
-          "key": 776,
+          "key": 799,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 74→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 6,
@@ -1941,7 +2118,7 @@
           }
         },
         {
-          "key": 790,
+          "key": 813,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 74→10)",
           "tick": 8,
@@ -1957,7 +2134,7 @@
           }
         },
         {
-          "key": 793,
+          "key": 816,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 74→2 · +1 beast sinew)",
           "tick": 20,
@@ -1973,7 +2150,7 @@
           }
         },
         {
-          "key": 804,
+          "key": 827,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 74→1) You drop 2 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 12,
@@ -1988,7 +2165,7 @@
           }
         },
         {
-          "key": 814,
+          "key": 837,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 74→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 10,
@@ -2003,7 +2180,7 @@
           }
         },
         {
-          "key": 826,
+          "key": 849,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 74→1) You drop 1 mon in the rout. Eat and mend before you take the field again.",
           "tick": 8,
@@ -2018,7 +2195,7 @@
           }
         },
         {
-          "key": 843,
+          "key": 866,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 74→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
           "tick": 12,
@@ -2033,7 +2210,7 @@
           }
         },
         {
-          "key": 857,
+          "key": 880,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 74→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
           "tick": 14,
@@ -2048,7 +2225,7 @@
           }
         },
         {
-          "key": 873,
+          "key": 896,
           "channel": "narration",
           "text": "Autumn thins to its last day, and the board comes out at an hour it does not usually keep. The whole house comes with it: the family by the book, the hands by the door, and you in the corner — counted as part of the room, and not asked into it.",
           "tick": 4,
@@ -2056,7 +2233,7 @@
           "voice": "narrator"
         },
         {
-          "key": 874,
+          "key": 897,
           "channel": "narration",
           "text": "Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the one thing the house owes the land, that must be answered before the season is allowed to turn.",
           "tick": 4,
@@ -2064,7 +2241,7 @@
           "voice": "narrator"
         },
         {
-          "key": 875,
+          "key": 898,
           "channel": "narration",
           "text": "Nobody reads the sum aloud. It arrives the way weather arrives: the room goes still around it, a breath drawn and not let go, every eye on the book and none on one another.",
           "tick": 4,
@@ -2072,7 +2249,7 @@
           "voice": "narrator"
         },
         {
-          "key": 876,
+          "key": 899,
           "channel": "narration",
           "text": "Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. You are learning the house's true size by what it will let itself be seen without.",
           "tick": 4,
@@ -2080,7 +2257,7 @@
           "voice": "narrator"
         },
         {
-          "key": 877,
+          "key": 900,
           "channel": "narration",
           "text": "The book closes. The house has answered for the land; its autumn can end. You are still in the corner. Nobody tells you the season is over. It is.",
           "tick": 4,
@@ -2088,7 +2265,7 @@
           "voice": "narrator"
         },
         {
-          "key": 878,
+          "key": 901,
           "channel": "milestone",
           "text": "The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.",
           "tick": 4,
@@ -2096,7 +2273,7 @@
           "voice": "narrator"
         },
         {
-          "key": 883,
+          "key": 906,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 10,
@@ -2110,7 +2287,7 @@
           }
         },
         {
-          "key": 886,
+          "key": 909,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 74→3 · +1 beast sinew)",
           "tick": 10,
@@ -2126,7 +2303,7 @@
           }
         },
         {
-          "key": 889,
+          "key": 912,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 74→11 · +1 beast sinew)",
           "tick": 0,
@@ -2142,7 +2319,7 @@
           }
         },
         {
-          "key": 892,
+          "key": 915,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 74→18)",
           "tick": 12,
@@ -2158,7 +2335,7 @@
           }
         },
         {
-          "key": 900,
+          "key": 923,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 74→1) You drop 3 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 0,
@@ -2173,7 +2350,7 @@
           }
         },
         {
-          "key": 906,
+          "key": 929,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 74→6)",
           "tick": 20,
@@ -2189,7 +2366,7 @@
           }
         },
         {
-          "key": 907,
+          "key": 930,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 4.",
           "tick": 20,
@@ -2200,7 +2377,7 @@
           }
         },
         {
-          "key": 916,
+          "key": 939,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 82→17)",
           "tick": 12,
@@ -2216,7 +2393,7 @@
           }
         },
         {
-          "key": 919,
+          "key": 942,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 82→1) You drop 2 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 0,
@@ -2231,7 +2408,7 @@
           }
         },
         {
-          "key": 932,
+          "key": 955,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 82→4)",
           "tick": 2,
@@ -2247,7 +2424,7 @@
           }
         },
         {
-          "key": 935,
+          "key": 958,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 82→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
           "tick": 16,
@@ -2262,7 +2439,7 @@
           }
         },
         {
-          "key": 947,
+          "key": 970,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 82→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
           "tick": 16,
@@ -2277,7 +2454,7 @@
           }
         },
         {
-          "key": 960,
+          "key": 983,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 82→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
           "tick": 16,
@@ -2292,7 +2469,7 @@
           }
         },
         {
-          "key": 975,
+          "key": 998,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 0,
@@ -2306,7 +2483,7 @@
           }
         },
         {
-          "key": 978,
+          "key": 1001,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 82→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
           "tick": 0,
@@ -2321,7 +2498,7 @@
           }
         },
         {
-          "key": 998,
+          "key": 1021,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 82→14 · +1 beast sinew)",
           "tick": 18,
@@ -2337,7 +2514,7 @@
           }
         },
         {
-          "key": 1001,
+          "key": 1024,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 82→1) You drop 3 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 6,
@@ -2352,7 +2529,7 @@
           }
         },
         {
-          "key": 1009,
+          "key": 1032,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 82→2 · +1 beast sinew)",
           "tick": 2,
@@ -2368,7 +2545,7 @@
           }
         },
         {
-          "key": 1018,
+          "key": 1041,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 82→19)",
           "tick": 18,
@@ -2384,7 +2561,7 @@
           }
         },
         {
-          "key": 1023,
+          "key": 1046,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 82→14 · +1 beast sinew)",
           "tick": 6,
@@ -2400,7 +2577,7 @@
           }
         },
         {
-          "key": 1031,
+          "key": 1054,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 82→1) You drop 3 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 20,
@@ -2415,7 +2592,7 @@
           }
         },
         {
-          "key": 1037,
+          "key": 1060,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 82→30 · +1 beast sinew)",
           "tick": 16,
@@ -2431,7 +2608,7 @@
           }
         },
         {
-          "key": 1045,
+          "key": 1068,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 82→1) You drop 2 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 4,
@@ -2446,7 +2623,7 @@
           }
         },
         {
-          "key": 1053,
+          "key": 1076,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 82→1) You drop 2 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 0,
@@ -2461,7 +2638,7 @@
           }
         },
         {
-          "key": 1068,
+          "key": 1091,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 82→6 · +1 beast sinew)",
           "tick": 2,
@@ -2477,7 +2654,7 @@
           }
         },
         {
-          "key": 1075,
+          "key": 1098,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 18,
@@ -2491,7 +2668,7 @@
           }
         },
         {
-          "key": 1078,
+          "key": 1101,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 82→16 · +1 beast sinew)",
           "tick": 18,
@@ -2507,7 +2684,7 @@
           }
         },
         {
-          "key": 1079,
+          "key": 1102,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 5.",
           "tick": 18,
@@ -2518,7 +2695,7 @@
           }
         },
         {
-          "key": 1089,
+          "key": 1112,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 90→29)",
           "tick": 10,
@@ -2534,7 +2711,7 @@
           }
         },
         {
-          "key": 1099,
+          "key": 1122,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 90→2 · +1 beast sinew)",
           "tick": 2,
@@ -2550,7 +2727,7 @@
           }
         },
         {
-          "key": 1117,
+          "key": 1140,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 90→1) You drop 3 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 8,
@@ -2565,7 +2742,7 @@
           }
         },
         {
-          "key": 1138,
+          "key": 1161,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 90→1) You drop 4 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 22,
@@ -2580,7 +2757,7 @@
           }
         },
         {
-          "key": 1145,
+          "key": 1168,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 90→1) You drop 3 mon and 1 of your spoils in the rout. Eat and mend before you take the field again.",
           "tick": 20,
@@ -2595,7 +2772,7 @@
           }
         },
         {
-          "key": 1155,
+          "key": 1178,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 22,
@@ -2604,7 +2781,7 @@
           "ephemeral": true
         },
         {
-          "key": 1156,
+          "key": 1179,
           "channel": "narration",
           "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
           "tick": 22,
@@ -2613,7 +2790,7 @@
           "ephemeral": true
         },
         {
-          "key": 1157,
+          "key": 1180,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 90→11)",
           "tick": 22,
@@ -2629,7 +2806,7 @@
           }
         },
         {
-          "key": 1158,
+          "key": 1181,
           "channel": "narration",
           "text": "Fog up from the river till mid-morning. Matsuzō's bank is an outline; the weir is a sound.",
           "tick": 0,
@@ -2638,7 +2815,7 @@
           "ephemeral": true
         },
         {
-          "key": 1159,
+          "key": 1182,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 8,
@@ -2652,7 +2829,7 @@
           }
         },
         {
-          "key": 1160,
+          "key": 1183,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +9 HP)",
           "tick": 10,
@@ -2666,7 +2843,7 @@
           }
         },
         {
-          "key": 1161,
+          "key": 1184,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 90→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
           "tick": 12,
@@ -2681,7 +2858,7 @@
           }
         },
         {
-          "key": 1162,
+          "key": 1185,
           "channel": "narration",
           "text": "The village has it, by way of O-Yae, that the house keeps a man the river left. Some say lucky, some say the other thing. She reports both and owns neither.",
           "tick": 0,
@@ -2690,7 +2867,7 @@
           "ephemeral": true
         },
         {
-          "key": 1163,
+          "key": 1186,
           "channel": "narration",
           "text": "A wind off the mountain all day. The bamboo grove talks through it, and the gate-board knocks until someone wedges it.",
           "tick": 0,
@@ -2699,7 +2876,7 @@
           "ephemeral": true
         },
         {
-          "key": 1164,
+          "key": 1187,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 20,
@@ -2713,7 +2890,7 @@
           }
         },
         {
-          "key": 1165,
+          "key": 1188,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 22,
@@ -2722,7 +2899,7 @@
           "ephemeral": true
         },
         {
-          "key": 1166,
+          "key": 1189,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 22,
@@ -2731,7 +2908,7 @@
           "ephemeral": true
         },
         {
-          "key": 1167,
+          "key": 1190,
           "channel": "narration",
           "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
           "tick": 22,
@@ -2740,7 +2917,7 @@
           "ephemeral": true
         },
         {
-          "key": 1168,
+          "key": 1191,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+10 sansai, +1 coin)",
           "tick": 22,
@@ -2749,7 +2926,7 @@
           "ephemeral": true
         },
         {
-          "key": 1169,
+          "key": 1192,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 8,
@@ -2763,7 +2940,7 @@
           }
         },
         {
-          "key": 1170,
+          "key": 1193,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+17 sansai, +1 coin)",
           "tick": 10,
@@ -2772,7 +2949,7 @@
           "ephemeral": true
         },
         {
-          "key": 1171,
+          "key": 1194,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +5 HP)",
           "tick": 12,
@@ -2786,7 +2963,7 @@
           }
         },
         {
-          "key": 1172,
+          "key": 1195,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 14,
@@ -2795,7 +2972,7 @@
           "ephemeral": true
         },
         {
-          "key": 1173,
+          "key": 1196,
           "channel": "narration",
           "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
           "tick": 14,
@@ -2804,7 +2981,7 @@
           "ephemeral": true
         },
         {
-          "key": 1174,
+          "key": 1197,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 90→41)",
           "tick": 14,
@@ -2820,7 +2997,7 @@
           }
         },
         {
-          "key": 1175,
+          "key": 1198,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 20,
@@ -2834,7 +3011,7 @@
           }
         },
         {
-          "key": 1176,
+          "key": 1199,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +7 HP)",
           "tick": 22,
@@ -2848,7 +3025,7 @@
           }
         },
         {
-          "key": 1177,
+          "key": 1200,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 90→1) You drop 2 mon in the rout. Eat and mend before you take the field again.",
           "tick": 0,
@@ -2863,7 +3040,7 @@
           }
         },
         {
-          "key": 1178,
+          "key": 1201,
           "channel": "narration",
           "text": "Thunder over the ridge at dusk, rain elsewhere. The paddies wanted it and did not get it.",
           "tick": 0,
@@ -2872,7 +3049,7 @@
           "ephemeral": true
         },
         {
-          "key": 1179,
+          "key": 1202,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 12,
@@ -2886,7 +3063,7 @@
           }
         },
         {
-          "key": 1180,
+          "key": 1203,
           "channel": "narration",
           "text": "The working heart of the guest house's outer court — the first verb is here.",
           "tick": 14,
@@ -2895,7 +3072,7 @@
           "ephemeral": true
         },
         {
-          "key": 1181,
+          "key": 1204,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 14,
@@ -2904,7 +3081,7 @@
           "ephemeral": true
         },
         {
-          "key": 1182,
+          "key": 1205,
           "channel": "narration",
           "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
           "tick": 14,
@@ -2913,7 +3090,7 @@
           "ephemeral": true
         },
         {
-          "key": 1183,
+          "key": 1206,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+13 sansai, +1 coin)",
           "tick": 14,
@@ -2922,7 +3099,7 @@
           "ephemeral": true
         },
         {
-          "key": 1184,
+          "key": 1207,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 20,
@@ -2936,7 +3113,7 @@
           }
         },
         {
-          "key": 1185,
+          "key": 1208,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +5 HP)",
           "tick": 22,
@@ -2950,7 +3127,7 @@
           }
         },
         {
-          "key": 1186,
+          "key": 1209,
           "channel": "narration",
           "text": "O-Yae brings it with the fish: a boy born at the ferry keeper's, loud and early. The village has already decided who he looks like.",
           "tick": 0,
@@ -2959,7 +3136,7 @@
           "ephemeral": true
         },
         {
-          "key": 1187,
+          "key": 1210,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 0,
@@ -2968,7 +3145,7 @@
           "ephemeral": true
         },
         {
-          "key": 1188,
+          "key": 1211,
           "channel": "narration",
           "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
           "tick": 0,
@@ -2977,7 +3154,7 @@
           "ephemeral": true
         },
         {
-          "key": 1189,
+          "key": 1212,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 90→19 · +1 beast sinew)",
           "tick": 0,
@@ -2993,7 +3170,7 @@
           }
         },
         {
-          "key": 1190,
+          "key": 1213,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 6,
@@ -3007,7 +3184,7 @@
           }
         },
         {
-          "key": 1191,
+          "key": 1214,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 8,
@@ -3016,7 +3193,7 @@
           "ephemeral": true
         },
         {
-          "key": 1192,
+          "key": 1215,
           "channel": "narration",
           "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
           "tick": 8,
@@ -3025,7 +3202,7 @@
           "ephemeral": true
         },
         {
-          "key": 1193,
+          "key": 1216,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+11 sansai, +1 coin)",
           "tick": 8,
@@ -3034,7 +3211,7 @@
           "ephemeral": true
         },
         {
-          "key": 1194,
+          "key": 1217,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 12,
@@ -3048,7 +3225,7 @@
           }
         },
         {
-          "key": 1195,
+          "key": 1218,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +1 HP)",
           "tick": 14,
@@ -3062,7 +3239,7 @@
           }
         },
         {
-          "key": 1196,
+          "key": 1219,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 16,
@@ -3076,7 +3253,7 @@
           }
         },
         {
-          "key": 1197,
+          "key": 1220,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 16,
@@ -3085,7 +3262,7 @@
           "ephemeral": true
         },
         {
-          "key": 1198,
+          "key": 1221,
           "channel": "narration",
           "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
           "tick": 16,
@@ -3094,7 +3271,7 @@
           "ephemeral": true
         },
         {
-          "key": 1199,
+          "key": 1222,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 90→11)",
           "tick": 16,
@@ -3110,7 +3287,7 @@
           }
         },
         {
-          "key": 1200,
+          "key": 1223,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 20,
@@ -3124,7 +3301,7 @@
           }
         },
         {
-          "key": 1201,
+          "key": 1224,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 22,
@@ -3133,7 +3310,7 @@
           "ephemeral": true
         },
         {
-          "key": 1202,
+          "key": 1225,
           "channel": "narration",
           "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
           "tick": 22,
@@ -3142,7 +3319,7 @@
           "ephemeral": true
         },
         {
-          "key": 1203,
+          "key": 1226,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+9 sansai, +1 coin)",
           "tick": 22,
@@ -3151,7 +3328,7 @@
           "ephemeral": true
         },
         {
-          "key": 1204,
+          "key": 1227,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 4,
@@ -3165,7 +3342,7 @@
           }
         },
         {
-          "key": 1205,
+          "key": 1228,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +9 HP)",
           "tick": 6,
@@ -3179,7 +3356,7 @@
           }
         },
         {
-          "key": 1206,
+          "key": 1229,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 8,
@@ -3188,7 +3365,7 @@
           "ephemeral": true
         },
         {
-          "key": 1207,
+          "key": 1230,
           "channel": "narration",
           "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
           "tick": 8,
@@ -3197,7 +3374,7 @@
           "ephemeral": true
         },
         {
-          "key": 1208,
+          "key": 1231,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 90→10 · +1 beast sinew)",
           "tick": 8,
@@ -3213,7 +3390,7 @@
           }
         },
         {
-          "key": 1209,
+          "key": 1232,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 10,
@@ -3227,7 +3404,7 @@
           }
         },
         {
-          "key": 1210,
+          "key": 1233,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 12,
@@ -3236,7 +3413,7 @@
           "ephemeral": true
         },
         {
-          "key": 1211,
+          "key": 1234,
           "channel": "narration",
           "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
           "tick": 12,
@@ -3245,7 +3422,7 @@
           "ephemeral": true
         },
         {
-          "key": 1212,
+          "key": 1235,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+3 sansai, +1 coin)",
           "tick": 12,
@@ -3254,7 +3431,7 @@
           "ephemeral": true
         },
         {
-          "key": 1213,
+          "key": 1236,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 14,
@@ -3263,7 +3440,7 @@
           "ephemeral": true
         },
         {
-          "key": 1214,
+          "key": 1237,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 16,
@@ -3277,7 +3454,7 @@
           }
         },
         {
-          "key": 1215,
+          "key": 1238,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+7 sansai, +1 coin)",
           "tick": 18,
@@ -3286,7 +3463,7 @@
           "ephemeral": true
         },
         {
-          "key": 1216,
+          "key": 1239,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 0,
@@ -3300,7 +3477,7 @@
           }
         },
         {
-          "key": 1217,
+          "key": 1240,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +10 HP)",
           "tick": 2,
@@ -3314,7 +3491,7 @@
           }
         },
         {
-          "key": 1218,
+          "key": 1241,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 4,
@@ -3323,7 +3500,7 @@
           "ephemeral": true
         },
         {
-          "key": 1219,
+          "key": 1242,
           "channel": "narration",
           "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
           "tick": 4,
@@ -3332,7 +3509,7 @@
           "ephemeral": true
         },
         {
-          "key": 1220,
+          "key": 1243,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 90→34 · +1 beast sinew)",
           "tick": 4,
@@ -3348,7 +3525,7 @@
           }
         },
         {
-          "key": 1221,
+          "key": 1244,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 6,
@@ -3357,7 +3534,7 @@
           "ephemeral": true
         },
         {
-          "key": 1222,
+          "key": 1245,
           "channel": "narration",
           "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
           "tick": 6,
@@ -3366,7 +3543,7 @@
           "ephemeral": true
         },
         {
-          "key": 1223,
+          "key": 1246,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+5 sansai, +1 coin)",
           "tick": 6,
@@ -3375,7 +3552,7 @@
           "ephemeral": true
         },
         {
-          "key": 1224,
+          "key": 1247,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 10,
@@ -3389,7 +3566,7 @@
           }
         },
         {
-          "key": 1225,
+          "key": 1248,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+4 sansai, +1 coin)",
           "tick": 12,
@@ -3398,7 +3575,7 @@
           "ephemeral": true
         },
         {
-          "key": 1226,
+          "key": 1249,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 16,
@@ -3412,7 +3589,7 @@
           }
         },
         {
-          "key": 1227,
+          "key": 1250,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 18,
@@ -3421,7 +3598,7 @@
           "ephemeral": true
         },
         {
-          "key": 1228,
+          "key": 1251,
           "channel": "narration",
           "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
           "tick": 18,
@@ -3430,7 +3607,7 @@
           "ephemeral": true
         },
         {
-          "key": 1229,
+          "key": 1252,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 90→6)",
           "tick": 18,
@@ -3446,7 +3623,7 @@
           }
         },
         {
-          "key": 1230,
+          "key": 1253,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 20,
@@ -3455,7 +3632,7 @@
           "ephemeral": true
         },
         {
-          "key": 1231,
+          "key": 1254,
           "channel": "narration",
           "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
           "tick": 20,
@@ -3464,7 +3641,7 @@
           "ephemeral": true
         },
         {
-          "key": 1232,
+          "key": 1255,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+2 sansai, +1 coin)",
           "tick": 20,
@@ -3473,7 +3650,7 @@
           "ephemeral": true
         },
         {
-          "key": 1233,
+          "key": 1256,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 22,
@@ -3487,7 +3664,7 @@
           }
         },
         {
-          "key": 1234,
+          "key": 1257,
           "channel": "narration",
           "text": "They say the lowland wages are up again; two village boys have gone to try them. Their fields will be a pair of hands short at harvest, and everyone knows whose.",
           "tick": 0,
@@ -3496,7 +3673,7 @@
           "ephemeral": true
         },
         {
-          "key": 1235,
+          "key": 1258,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+1 sansai, +1 coin)",
           "tick": 0,
@@ -3505,7 +3682,7 @@
           "ephemeral": true
         },
         {
-          "key": 1236,
+          "key": 1259,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 2,
@@ -3519,7 +3696,7 @@
           }
         },
         {
-          "key": 1237,
+          "key": 1260,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+3 sansai, +1 coin)",
           "tick": 4,
@@ -3528,7 +3705,7 @@
           "ephemeral": true
         },
         {
-          "key": 1238,
+          "key": 1261,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 6,
@@ -3537,7 +3714,7 @@
           "ephemeral": true
         },
         {
-          "key": 1239,
+          "key": 1262,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 8,
@@ -3551,7 +3728,7 @@
           }
         },
         {
-          "key": 1240,
+          "key": 1263,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+2 sansai, +1 coin)",
           "tick": 10,
@@ -3560,7 +3737,7 @@
           "ephemeral": true
         },
         {
-          "key": 1241,
+          "key": 1264,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 12,
@@ -3574,7 +3751,7 @@
           }
         },
         {
-          "key": 1242,
+          "key": 1265,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+2 sansai, +1 coin)",
           "tick": 14,
@@ -3583,7 +3760,7 @@
           "ephemeral": true
         },
         {
-          "key": 1243,
+          "key": 1266,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 16,
@@ -3597,7 +3774,7 @@
           }
         },
         {
-          "key": 1244,
+          "key": 1267,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+1 sansai, +1 coin)",
           "tick": 18,
@@ -3606,7 +3783,7 @@
           "ephemeral": true
         },
         {
-          "key": 1245,
+          "key": 1268,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 20,
@@ -3620,7 +3797,7 @@
           }
         },
         {
-          "key": 1246,
+          "key": 1269,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 22,
@@ -3629,7 +3806,7 @@
           "ephemeral": true
         },
         {
-          "key": 1247,
+          "key": 1270,
           "channel": "narration",
           "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
           "tick": 22,
@@ -3638,7 +3815,7 @@
           "ephemeral": true
         },
         {
-          "key": 1248,
+          "key": 1271,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 90→28 · +1 beast sinew)",
           "tick": 22,
@@ -3654,7 +3831,7 @@
           }
         },
         {
-          "key": 1249,
+          "key": 1272,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 0,
@@ -3663,7 +3840,7 @@
           "ephemeral": true
         },
         {
-          "key": 1250,
+          "key": 1273,
           "channel": "narration",
           "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
           "tick": 0,
@@ -3672,7 +3849,7 @@
           "ephemeral": true
         },
         {
-          "key": 1251,
+          "key": 1274,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+1 sansai, +1 coin)",
           "tick": 2,
@@ -3681,7 +3858,7 @@
           "ephemeral": true
         },
         {
-          "key": 1252,
+          "key": 1275,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 4,
@@ -3695,7 +3872,7 @@
           }
         },
         {
-          "key": 1253,
+          "key": 1276,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+1 sansai, +1 coin)",
           "tick": 6,
@@ -3704,7 +3881,7 @@
           "ephemeral": true
         },
         {
-          "key": 1254,
+          "key": 1277,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 8,
@@ -3713,7 +3890,7 @@
           "ephemeral": true
         },
         {
-          "key": 1255,
+          "key": 1278,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+1 sansai, +1 coin)",
           "tick": 10,
@@ -3722,7 +3899,7 @@
           "ephemeral": true
         },
         {
-          "key": 1256,
+          "key": 1279,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 12,
@@ -3736,7 +3913,7 @@
           }
         },
         {
-          "key": 1257,
+          "key": 1280,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+1 sansai, +1 coin)",
           "tick": 14,
@@ -3745,7 +3922,7 @@
           "ephemeral": true
         },
         {
-          "key": 1258,
+          "key": 1281,
           "channel": "narration",
           "text": "A wedding at the miller's, two days gone. The kitchen heard when the red rice arrived — a bowl of it, already cool.",
           "tick": 16,
@@ -3754,7 +3931,7 @@
           "ephemeral": true
         },
         {
-          "key": 1259,
+          "key": 1282,
           "channel": "reward",
           "text": "Forage the woodlot edge. (+29 sansai, +1 coin)",
           "tick": 16,
@@ -3763,7 +3940,7 @@
           "ephemeral": true
         },
         {
-          "key": 1260,
+          "key": 1283,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 20,
@@ -3777,7 +3954,7 @@
           }
         },
         {
-          "key": 1261,
+          "key": 1284,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +6 HP)",
           "tick": 22,
@@ -3791,7 +3968,7 @@
           }
         },
         {
-          "key": 1262,
+          "key": 1285,
           "channel": "narration",
           "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
           "tick": 0,
@@ -3800,7 +3977,7 @@
           "ephemeral": true
         },
         {
-          "key": 1263,
+          "key": 1286,
           "channel": "narration",
           "text": "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
           "tick": 0,
@@ -3809,7 +3986,7 @@
           "ephemeral": true
         },
         {
-          "key": 1264,
+          "key": 1287,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 90→14 · +1 beast sinew)",
           "tick": 0,
@@ -3825,7 +4002,7 @@
           }
         },
         {
-          "key": 1265,
+          "key": 1288,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 6.",
           "tick": 0,
@@ -3836,7 +4013,7 @@
           }
         },
         {
-          "key": 1266,
+          "key": 1289,
           "channel": "system",
           "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
           "tick": 8,
@@ -3845,7 +4022,7 @@
           "ephemeral": true
         },
         {
-          "key": 1267,
+          "key": 1290,
           "channel": "system",
           "text": "You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +14 HP)",
           "tick": 20,
@@ -3859,7 +4036,7 @@
           }
         }
       ],
-      "seq": 1268
+      "seq": 1291
     },
     "skillXp": {
       "farming": 204,
@@ -3905,10 +4082,15 @@
     },
     "estateStage": 0,
     "discovered": [
-      "disc-woodlot-lacquer"
+      "disc-woodlot-sluice",
+      "disc-weir-bundle",
+      "disc-margins-sett"
     ],
     "discoveryProgress": {
-      "disc-woodlot-lacquer": 26
+      "disc-woodlot-lacquer": 45,
+      "disc-woodlot-sluice": 16,
+      "disc-weir-bundle": 22,
+      "disc-margins-sett": 11
     },
     "autoActivity": null,
     "autoRake": false,
@@ -3930,8 +4112,13 @@
     "activeScene": null,
     "scenesPlayed": [
       "r2-yard-hand",
+      "turn-winter",
       "sb-lease",
+      "turn-new-year",
+      "turn-spring",
+      "turn-summer",
       "sb-bon",
+      "turn-bon",
       "nengu-autumn-frame"
     ],
     "roundState": null,

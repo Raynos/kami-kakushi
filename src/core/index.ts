@@ -145,7 +145,7 @@ export type { RungScene, RungDecision, RungOption } from './content/rungBeats';
 export { SCENES, sceneById } from './content/scenes';
 export type { SceneDef, SceneId, SceneTrigger } from './content/scenes';
 export { isWaged, WAGE_START_RUNG, DAY_WAGE_MON } from './content/wage';
-export { FLAVOR } from './content/flavor';
+export { FLAVOR, judgeLine, __setJudgeFlavorOverride } from './content/flavor';
 export {
   gradeOf,
   perDeedCap,

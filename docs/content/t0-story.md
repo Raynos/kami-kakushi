@@ -621,6 +621,66 @@
 
 > Nobody answers. It is a long while before he sleeps again, and the dream, that night, does not come back.
 
+### turn-winter
+
+*(trigger: season-exit winter, once)*
+
+> The snow quits the valley floor first — gray at the edges, then standing water in the wheel-ruts. The ridge keeps its white and means to keep it.
+
+> The river runs black and narrow between its shelves of ice. Past the rope, the old garden's snow lies whole: a winter's worth, and not one track across it.
+
+> The light stretches. Work that used to end at the woodshed door now ends past it, and the cold stays on, but it has stopped arguing.
+
+> Small on the road below, a man comes up from the village with new straw rope coiled over his shoulder, for the gates. The year is going out. The New Year comes up the valley behind him.
+
+### turn-new-year
+
+*(trigger: season-exit new-year, once)*
+
+> Ice lets go of the shaded bank a plate at a time, each one turning once in the current and gone.
+
+> The ground gives underfoot where all winter it rang. The well-path grows a margin of mud, and the mud holds each footprint till noon.
+
+> Up the woodlot, the bark of the young trees is chewed to the pale — deer, down off the ridge in the dark and gone again by light. Whatever they came for, the ridge no longer had it.
+
+> Last, and small under all that water-light, the villagers walk their field-bunds, looking at what the thaw left them. Spring is on the valley, and everything from here on is work.
+
+### turn-spring
+
+*(trigger: season-exit spring, once)*
+
+> The green closes ranks. What was rows in the paddies is one surface now, and when the wind crosses it, the whole valley floor moves together.
+
+> The river drops slow over its gravel, clear and warm in the shallows by noon.
+
+> In the grove, the new bamboo has gone up taller than a man in a fortnight — pale among the old canes, then not.
+
+> People show late in this weather, and low: hats in the deep green, moving slow along the rows. Summer has the valley now.
+
+### turn-summer
+
+*(trigger: season-exit summer, once)*
+
+> The heat loosens its grip at the edges first: a haze on the river that burns off later each morning, and at dusk the cicadas trade their noon voice for the thin evening one.
+
+> The light comes in slantwise now and finds the dust hanging in the forecourt air. The ridge stands closer in it, the way it does before weather.
+
+> On the hill above the village, small figures move among the stones with sickles and water-buckets, tidying — one household first, then by week's end all of them.
+
+> Smoke stands over the village at dusk, more fires than there are suppers. Bon is here, and the valley is making itself ready to be visited.
+
+### turn-bon
+
+*(trigger: season-exit bon, once)*
+
+> The river carries the first leaves down from the ridge, one and two at a time, red before anything on the valley floor has thought of turning.
+
+> The mornings come in cold enough to name. Mist stands knee-deep in the paddies, and the heavy heads of rice bow through it, all leaning the same way.
+
+> The road empties back out over the pass. The valley keeps what belongs to it and lets the rest go.
+
+> From the village at dusk, the sound of whetstones — one, then several, no hurry in any of them. Bon has gone home. It is autumn, and the valley's whole year is standing out in the fields, waiting to be carried in.
+
 ## The hidden rung requirements
 
 > The player never sees this list — only the rounded % bar and each

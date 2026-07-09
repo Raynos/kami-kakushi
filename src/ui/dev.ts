@@ -58,6 +58,7 @@ import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './stor
 import {
   __setRequirementFlavorOverride,
   __setDiscoveryFlavorOverride,
+  __setJudgeFlavorOverride,
   RUNG_REQUIREMENTS,
   getRank,
 } from '../core';
@@ -391,6 +392,10 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
       }
     }
     __setDiscoveryFlavorOverride(Object.keys(discOverlay).length > 0 ? discOverlay : null);
+    // C5a unit 4 — the seasonal-judge line is core-emitted (step.ts onReckoning): forward
+    // the same effective flavor-take entries so FUTURE reckonings voice the selected take
+    // (judgeLine* keys; other keys are ignored by the reader — flavor.ts JUDGE_KEY).
+    __setJudgeFlavorOverride(Object.keys(discOverlay).length > 0 ? discOverlay : null);
   };
 
   // FB-18 — hydrate variant selections from the URL query params so a tweak survives a reload and a
