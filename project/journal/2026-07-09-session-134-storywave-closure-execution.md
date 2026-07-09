@@ -158,3 +158,24 @@ autumn (year-flag absent) — accepted, dev-stage, self-heals at the turn.
   D3 goto-roster sweep.
 - Sim: the 6 pre-existing REDs stand (C5b's re-baseline); every C1 commit
   carried its ADR-132 verdict.
+
+## C2 — the docs sweep (D1–D8)
+
+Per-file commits. 02-systems (D1 §2.2 stored wheel + ADR-166 gate · D2
+addenda re-titled BUILT-at-T0 · in-file D3 zone prose · D5 O-Nobu/Suzu +
+adjacent Yagōemon→Mohei) · 03-unlock-ladder + 06-tech + 01-vision +
+04-combat-balance (D3/D6: 16-zone roster, stored season in the state shape,
+judge-rides-exit, tier enum 0..6, rice kura-only in the carried-wealth line,
+ADR-118 'mechanism TBD' → shipped ADR-163) · fun-factor (D4: canon
+antagonist ladder — T3 = the Lord Tomita campaign, Akagi cut; 28-day echoes)
+· ui-design §5.11 · qa-playtesting (the goto() roster = the REAL 16 zones;
+toRung documented as the teleport it is + its does-NOT-play-the-intro trap).
+**HD-33 filed:** §1.5's rung table + §4.8's hand pacing table are pre-reboot
+WHOLESALE — inside the frozen §1, so only the cited map tokens were fixed;
+the table-level fix is the human's call (recommend single-sourcing at §5 /
+the generated report). **Adjacent:** `qa-shots.mjs` is BROKEN since the
+reboot (no Skills tab; a fresh drive never leaves the intro shell —
+`planRungJump` teleports rungs but the intro stays live). Mechanical id
+fixes landed; the real repair (an intro-drain drive) queued into C4. D8:
+AGENTS.md now states the real gate-wall shape (vitest-dominated ~30–60 s;
+the 5 s budget is aspirational).

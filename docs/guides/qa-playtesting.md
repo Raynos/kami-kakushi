@@ -93,7 +93,7 @@ the async twin of the human's live playtest loop; it never blocks either side.
   skills,          // { farming:{lvl,xp}, …, weaponLines:{…} }
   attrs,           // real attrs are { might, guard, vigor }; the 5-attr { str, agi, int, spd, luck } is the v1 target
   time,            // { day, season, year } — the abstract clock
-  location,        // current map NODE id ('kura' | 'home-paddies' | 'deep-satoyama' | …) — labours + foes are spatial (real field)
+  location,        // current map NODE id ('kura' | 'paddies' | 'woodlot' | …) — labours + foes are spatial (real field)
   combat,          // active fight state | null  (idle auto-resolve + active setup)
   sideTracks,      // { villageRep:{…}, origin:{ rung:'O2', … } }  — the optional side-tracks
   screen,          // the active nav screen + which nav entries are revealed
@@ -108,9 +108,9 @@ the async twin of the human's live playtest loop; it never blocks either side.
 |---|---|
 | `newGame(seed)` | Fresh run on a fixed seed (skips any title wait). |
 | `dispatch(intent)` | Apply one player intent through `reduce` (the universal driver). Convenience wrappers: `activity(id)`, `auto(id\|null)`, `faceWolf()`, `fight(mobId)`, `autoCombat(mobId\|null)`, `setStance(s)`. Intents with no wrapper are driven raw: `move_to` (or use `goto` below), `deposit`/`withdraw` (the kura 蔵 bank — move a resource carried ↔ sheltered `banked`), `set_auto_rake` (the leave-it-running auto-labour toggle), and `set_auto_combat`'s `retreat` flag (sets `autoCombatRetreat` — the auto-retreat-at-~20%-HP mode vs fight-to-death). |
-| `goto(node)` | **Walk to a map node** — replays real `move_to` hops over the revealed graph (nodes: `kura`, `gate-forecourt`, `home-paddies`, `woodlot-edge`, `near-satoyama`, `deep-satoyama` 奥山, `drill-yard`). **REQUIRED to reach node-gated activities/foes** — labours + enemies are spatial, so a driver that never walks can't reach forage / the deep-satoyama boar den or bank at the `kura`. `fight`/`faceWolf` auto-`goto` the foe's node first. |
+| `goto(node)` | **Walk to a map node** — replays real `move_to` hops over the revealed graph. The nodes are the SHIPPED 16-zone roster (`src/core/content/areas.ts` — spot-check there before scripting): `weir`, `weir-reeds`, `gate`, `forecourt`, `woodshed`, `kitchen`, `shrine`, `kura`, `sickroom`, `drill-yard`, `paddies`, `field-margins`, `woodlot`, `ruined`, `orchard`, `grove`. **REQUIRED to reach node-gated activities/foes** — labours + enemies are spatial, so a driver that never walks can't reach the woodlot forage or bank at the `kura`. `fight`/`faceWolf` auto-`goto` the foe's node first. |
 | `tick(dt)` / `frames(n)` | Advance the sim one step (`tick`) / re-render N frames without advancing the sim (`frames`). |
-| `toRung(id)` / `toTier(n)` | **Jump-to-rung / jump-to-tier teleport** — play the optimal path to a checkpoint so a QA run reaches a target in seconds. `toTier(n)` accepts **0..6** (T0–T6; no upper clamp). |
+| `toRung(id)` / `toTier(n)` | **Jump-to-rung / jump-to-tier teleport** — `planRungJump` applies real promotions up to the target (a DOWNWARD jump resets to a fresh climb) so a QA run reaches a checkpoint in seconds. NOTE: it does NOT play the intro — a fresh-run drive must answer the intro scenes first (or boot a `?fixture=` save, which is already past them). `toTier(n)` accepts **0..6** (T0–T6; no upper clamp). |
 | `jumpToPhase2()` / `jumpToAscension()` | **DEV teleports** — to the R7 capstone (Phase-2 open) / an ascension-ready Estate-EXCELLENT state, so the macro spine is one click away. |
 | `speed(mult)` | **DEV speed toggle** — run **N auto-steps per tick** (2× / 4× / 8×; `1` = prod cadence), so the build plays hands-on at a compressed-but-real pace. Distinct from `tick` (one discrete step) and the `toRung`/`toTier` teleport (instant warp). |
 | `pause()` / `resume()` | Pause / resume the active-only auto-loop. |

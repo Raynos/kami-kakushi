@@ -17,19 +17,23 @@ const steps = [
   { name: '02-awake', run: `__qa.dispatch({type:'open_eyes'})` },
   { name: '03-r1', run: `__qa.toRung('R1')`, wait: 2200 },
   { name: '04-r2-work', run: `__qa.toRung('R2')`, wait: 2200 },
-  { name: '05-r2-skills', run: clickTab('Skills') },
-  { name: '06-firstfight', run: `${clickTab('Work')}; __qa.faceWolf()` },
+  // The Estate card is live from ~R1; the survey-sheet map (ADR-151) from R1's gate reveal.
+  { name: '05-r2-estate', run: clickTab('Estate') },
+  { name: '06-map', run: clickTab('地図') },
   {
-    // Step 5b: foes are spatial — stand on the home paddies (monkey + boar) so the watch has foes
-    // to show (toRung ends at the kura, where the watch is empty by design).
+    // Step 5b: foes are spatial — stand on the grove (the monkey troop's ground in the shipped
+    // roster) so the watch has foes to show (toRung ends where the climb left the MC; the kura's
+    // foes are night-round-only, so its day watch is empty by design).
     name: '07-r3-combat',
-    run: `__qa.toRung('R3'); __qa.goto('home-paddies'); ${clickTab('Combat')}`,
+    run: `__qa.toRung('R3'); __qa.goto('grove'); ${clickTab('Combat')}`,
     wait: 2200,
   },
   {
     name: '08-after-fights',
     run: `__qa.fight('monkey'); __qa.fight('monkey')`,
   },
+  // IA reorg (ADR-112): skills/attrs/bestiary live on the Character 己 tab (present from R3).
+  { name: '08b-character', run: clickTab('Character') },
   { name: '09-settings', run: `document.querySelector('.settings-btn').click()` },
   {
     name: '10-rankup-seal',
