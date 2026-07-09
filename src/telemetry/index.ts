@@ -237,7 +237,9 @@ export function createTelemetry(opts: {
     }
     runStartT = t;
     startedAtISO = new Date(runStartT).toISOString();
-    runId = `${seed}-${Math.floor(runStartT / 1000)}`;
+    // Real-date prefix (2026-07-09) so reports sort/read by the day PLAYED — the old
+    // `${seed}-…` prefix was the default seed 20260626, reading like a frozen June date.
+    runId = `${startedAtISO.slice(0, 10).replace(/-/g, '')}-${Math.floor(runStartT / 1000)}`;
     milestones = [];
     taints = new Set(
       reason === 'import' ? ['save-import'] : reason === 'fixture' ? ['fixture'] : [],
