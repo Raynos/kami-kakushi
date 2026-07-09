@@ -36,4 +36,7 @@
 - [`docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`](../docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md)
   — the ready-to-build plan for T2 (Valley) map rungs + fog (you greenlit it
   2026-07-09; mechanics-only, no pin/HR). Skim before/whenever I build it.
+- [`project/audit/reports/2026-07-09-storywave-post-ship-review.md`](../project/audit/reports/2026-07-09-storywave-post-ship-review.md)
+  — the four-agent post-ship review you asked for (bible + both storywave
+  plans): verdict, 8 build + 8 docs findings, ranked fix list.
 
