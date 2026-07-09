@@ -2,13 +2,17 @@ import { describe, it, expect } from 'vitest';
 import { createInitialState, type GameState } from './index';
 import { resolveNightStage, nightStageReward, beginNightRound } from './night-rounds';
 import type { NightRoundDef } from './content/nightRounds';
+import { NIGHT_ROUNDS } from './content/nightRounds';
 import { mcCombatStats, mobCombatStats, resolveFight } from './combat';
 import { getMob } from './content/enemies';
+import { LOSS_COIN_FRAC, LOSS_MATERIAL_FRAC } from './content/balance';
+import { MATERIALS } from './content/crafting';
 
-// storywave G2 — the NIGHT-ROUND engine proof. NIGHT_ROUNDS ships EMPTY at G2, so these drive a
-// CONSTRUCTED NightRoundDef through the engine directly. The invariants under test: a seeded round
-// resolves stage-by-stage; a `scripted:'survive'` stage cannot kill OR win; a fall ENDS the round
-// (→ the sickroom path at G3); a finish carries MATERIALS, never coin (RED if anyone adds coin).
+// storywave G2 engine proof + the B3 registry sweep. The engine invariants drive a CONSTRUCTED
+// NightRoundDef directly (a seeded round resolves stage-by-stage; a `scripted:'survive'` stage
+// cannot kill OR win; a fall ENDS the round). The REGISTRY sweep below then walks the REAL,
+// LIVE `NIGHT_ROUNDS` (shipping since G4) so a future coin reward or bleed regression in any
+// shipped round goes RED — the constructed defs alone were registry-blind (the B3 finding).
 
 /** A STRONG MC that reliably wins a weak fight — makes the win branch deterministic across seeds. */
 function strongMc(seed = 1): GameState {
@@ -98,5 +102,61 @@ describe('G2 night-round engine — a fall ends the round (→ sickroom at G3)',
     expect(real.won).toBe(false); // precondition: this stage is a loss
     const after = resolveNightStage(start, def);
     expect(after.roundState).toBeNull(); // the fall ended the round
+  });
+});
+
+/** Load the MC's pockets so the bleed has something real to bite. */
+function withCarried(s: GameState): GameState {
+  const mats = Object.fromEntries(MATERIALS.map((m) => [m.id, 9]));
+  return { ...s, resources: { ...s.resources, coin: 25, ...mats } };
+}
+
+describe('the REAL NIGHT_ROUNDS registry (B3) — every shipped round holds the invariants', () => {
+  it('every stage of every shipped round rewards MATERIALS only — never coin', () => {
+    expect(NIGHT_ROUNDS.length).toBeGreaterThan(0); // the sweep is live, never vacuous
+    const materialIds = new Set(MATERIALS.map((m) => m.id));
+    for (const def of NIGHT_ROUNDS) {
+      for (const stage of def.stages) {
+        // roll on several streams so a coin drop can't hide behind one seed
+        for (const seed of [1, 2, 3, 4, 5]) {
+          const { reward } = nightStageReward(createInitialState(seed).rng, stage);
+          expect('coin' in reward.materials).toBe(false);
+          for (const key of Object.keys(reward.materials)) {
+            // every rolled key is a real MATERIAL id (coin is not one) — RED the moment a
+            // stage's drop table mints anything that isn't salvage
+            expect(materialIds.has(key), `${def.id}/${stage.id} rolled '${key}'`).toBe(true);
+          }
+        }
+      }
+    }
+  });
+
+  it("a losable stage's fall bleeds EXACTLY what the day-fight loss bleeds (derived, like state)", () => {
+    for (const def of NIGHT_ROUNDS) {
+      const idx = def.stages.findIndex((st) => !st.scripted);
+      if (idx === -1) continue; // a round with no losable stage has no fall to test
+      const stage = def.stages[idx]!;
+      // find a seed where the weak MC genuinely LOSES this stage's real fight (deterministic
+      // search — the precondition guarantees the fall branch is the one under test)
+      let start: GameState | null = null;
+      for (let seed = 1; seed <= 200 && start === null; seed++) {
+        const s = withCarried(weakMc(seed));
+        const real = resolveFight(s.rng, mcCombatStats(s), mobCombatStats(getMob(stage.foe)));
+        if (!real.won) start = s;
+      }
+      expect(start, `${def.id}: no losing seed found for '${stage.foe}'`).not.toBeNull();
+      let s = beginNightRound(start!, def);
+      s = { ...s, roundState: { roundId: def.id, stage: idx } };
+      const before = s.resources;
+      const after = resolveNightStage(s, def);
+      expect(after.roundState).toBeNull(); // the fall ended the round
+      // the bleed derives from the balance constants — never copied fractions (test law #2)
+      const coinHad = before.coin ?? 0;
+      expect(after.resources.coin ?? 0).toBe(coinHad - Math.round(coinHad * LOSS_COIN_FRAC));
+      for (const m of MATERIALS) {
+        const had = before[m.id] ?? 0;
+        expect(after.resources[m.id] ?? 0).toBe(had - Math.floor(had * LOSS_MATERIAL_FRAC));
+      }
+    }
   });
 });

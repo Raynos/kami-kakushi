@@ -1110,7 +1110,6 @@
             "hpBefore": 60,
             "hpAfter": 1,
             "lostCoin": 24,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1142,7 +1141,6 @@
             "hpBefore": 60,
             "hpAfter": 1,
             "lostCoin": 20,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1201,7 +1199,6 @@
             "hpBefore": 68,
             "hpAfter": 1,
             "lostCoin": 16,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1247,7 +1244,6 @@
             "hpBefore": 68,
             "hpAfter": 1,
             "lostCoin": 12,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1263,7 +1259,6 @@
             "hpBefore": 68,
             "hpAfter": 1,
             "lostCoin": 10,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1295,7 +1290,6 @@
             "hpBefore": 68,
             "hpAfter": 1,
             "lostCoin": 8,
-            "lostRice": 0,
             "lostMats": 1
           }
         },
@@ -1311,7 +1305,6 @@
             "hpBefore": 68,
             "hpAfter": 1,
             "lostCoin": 7,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1327,7 +1320,6 @@
             "hpBefore": 68,
             "hpAfter": 1,
             "lostCoin": 5,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1343,7 +1335,6 @@
             "hpBefore": 68,
             "hpAfter": 1,
             "lostCoin": 5,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1375,7 +1366,6 @@
             "hpBefore": 68,
             "hpAfter": 1,
             "lostCoin": 6,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1421,7 +1411,6 @@
             "hpBefore": 68,
             "hpAfter": 1,
             "lostCoin": 4,
-            "lostRice": 0,
             "lostMats": 1
           }
         },
@@ -1437,7 +1426,6 @@
             "hpBefore": 68,
             "hpAfter": 1,
             "lostCoin": 3,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1453,7 +1441,6 @@
             "hpBefore": 68,
             "hpAfter": 1,
             "lostCoin": 3,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1469,7 +1456,6 @@
             "hpBefore": 68,
             "hpAfter": 1,
             "lostCoin": 2,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1559,7 +1545,6 @@
             "hpBefore": 76,
             "hpAfter": 1,
             "lostCoin": 3,
-            "lostRice": 0,
             "lostMats": 0
           }
         },
@@ -1801,7 +1786,6 @@
             "hpBefore": 84,
             "hpAfter": 1,
             "lostCoin": 6,
-            "lostRice": 0,
             "lostMats": 3
           }
         },

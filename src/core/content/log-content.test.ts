@@ -61,16 +61,16 @@ describe('log-content registry — golden line equality', () => {
 
   it('combat.loss joins the rout-loss phrase at 3 / 1 / 0 dropped resources', () => {
     const base = { mob: 'boar', hpBefore: 40, hpAfter: 5 };
-    // 3 parts → "A, B and C"
-    expect(renderLogLine('combat.loss', { ...base, lostCoin: 10, lostRice: 3, lostMats: 2 })).toBe(
-      `The boar overcomes you; you limp home badly used. (HP 40→5) You drop ${formatCoin(10)}, 3 rice and 2 of your spoils in the rout. Eat and mend before you take the field again.`,
+    // 2 parts → "A and B" (rice never appears — kura-only, cannot bleed: ADR-163)
+    expect(renderLogLine('combat.loss', { ...base, lostCoin: 10, lostMats: 2 })).toBe(
+      `The boar overcomes you; you limp home badly used. (HP 40→5) You drop ${formatCoin(10)} and 2 of your spoils in the rout. Eat and mend before you take the field again.`,
     );
     // 1 part → no "and"
-    expect(renderLogLine('combat.loss', { ...base, lostCoin: 0, lostRice: 3, lostMats: 0 })).toBe(
-      'The boar overcomes you; you limp home badly used. (HP 40→5) You drop 3 rice in the rout. Eat and mend before you take the field again.',
+    expect(renderLogLine('combat.loss', { ...base, lostCoin: 0, lostMats: 2 })).toBe(
+      'The boar overcomes you; you limp home badly used. (HP 40→5) You drop 2 of your spoils in the rout. Eat and mend before you take the field again.',
     );
     // 0 parts → no drop clause at all
-    expect(renderLogLine('combat.loss', { ...base, lostCoin: 0, lostRice: 0, lostMats: 0 })).toBe(
+    expect(renderLogLine('combat.loss', { ...base, lostCoin: 0, lostMats: 0 })).toBe(
       'The boar overcomes you; you limp home badly used. (HP 40→5) Eat and mend before you take the field again.',
     );
   });
@@ -129,7 +129,7 @@ describe('log-content registry — coverage', () => {
       lootLabel: 'hide',
     },
     'combat.flee': { mob: 'boar', hpBefore: 50, hpAfter: 20 },
-    'combat.loss': { mob: 'boar', hpBefore: 40, hpAfter: 5, lostCoin: 1, lostRice: 1, lostMats: 1 },
+    'combat.loss': { mob: 'boar', hpBefore: 40, hpAfter: 5, lostCoin: 1, lostMats: 1 },
     'combat.wolfScripted': {},
     'combat.drillmaster': {},
     'combat.weaponBroken': { weapon: 'bo staff' },

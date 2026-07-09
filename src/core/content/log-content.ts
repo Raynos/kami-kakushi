@@ -53,9 +53,9 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
   'combat.flee': (p) =>
     `You break off the fight with the ${p.mob} and fall back — winded, blade up, but whole. (HP ${p.hpBefore}→${p.hpAfter})`,
   'combat.loss': (p) => {
+    // Rice never appears here: it is kura-only (ADR-163) and cannot bleed by construction.
     const parts = [
       Number(p.lostCoin) > 0 ? formatCoin(Number(p.lostCoin)) : '',
-      Number(p.lostRice) > 0 ? `${p.lostRice} rice` : '',
       Number(p.lostMats) > 0 ? `${p.lostMats} of your spoils` : '',
     ].filter(Boolean);
     const phrase =

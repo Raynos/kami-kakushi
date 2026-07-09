@@ -9,9 +9,11 @@
 // bleed; only the days + ledger (+ the guarded relocation) live here.
 
 import type { GameState } from './state';
+import { withResource } from './state';
 import { MAP_NODE_IDS } from './content/map';
 import { advanceClock } from './step';
-import { SICKROOM_DAYS_LOST } from './content/balance';
+import { LOSS_COIN_FRAC, LOSS_MATERIAL_FRAC, SICKROOM_DAYS_LOST } from './content/balance';
+import { MATERIALS } from './content/crafting';
 import { TICKS_PER_DAY } from './constants';
 
 /** The placeholder sickroom node id. The node itself lands at G4; until then it is ABSENT from
@@ -30,4 +32,28 @@ export function applyDefeatConsequences(state: GameState): GameState {
   }
   next = advanceClock(next, SICKROOM_DAYS_LOST * TICKS_PER_DAY);
   return next;
+}
+
+/** The carried-loss BLEED (ADR-164): a defeat drops a slice of what the MC is CARRYING —
+ *  coin (LOSS_COIN_FRAC) + materials (LOSS_MATERIAL_FRAC). Rice CANNOT bleed by
+ *  construction: it is kura-only (ADR-163), never pocketed. ONE home (TST1) — the
+ *  grind-fight loss branch and the night-round fall both call this, so a night fall
+ *  costs what a day-fight loss costs in like state (the B2 closure). Pure, no RNG. */
+export function applyCarriedLossBleed(state: GameState): {
+  next: GameState;
+  lostCoin: number;
+  lostMats: number;
+} {
+  let next = state;
+  const lostCoin = Math.round((next.resources.coin ?? 0) * LOSS_COIN_FRAC);
+  if (lostCoin > 0) next = withResource(next, 'coin', -lostCoin);
+  let lostMats = 0;
+  for (const m of MATERIALS) {
+    const lose = Math.floor((next.resources[m.id] ?? 0) * LOSS_MATERIAL_FRAC);
+    if (lose > 0) {
+      next = withResource(next, m.id, -lose);
+      lostMats += lose;
+    }
+  }
+  return { next, lostCoin, lostMats };
 }

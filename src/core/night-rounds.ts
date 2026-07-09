@@ -6,9 +6,11 @@
 //     salvage, not pay) → advance to the next stage; finishing the last stage ends the round.
 //   - a `scripted: 'survive'` stage (the R3 wolf) → GUARANTEED survival, NEVER a win: the
 //     fighter lives (HP floored), the foe flees bleeding, no death and no victory reward.
-//   - a FALL (loss) → the round ends here.
-// DORMANT at G2: `NIGHT_ROUNDS` is empty, so no round is reachable live; the tests drive a
-// constructed `NightRoundDef` through `resolveNightStage` directly.
+//   - a FALL (loss) → the round ends here: the setback HP floor, the shared carried-loss
+//     bleed + defeat→sickroom consequence (defeat.ts), cursor cleared.
+// LIVE since G4: `NIGHT_ROUNDS` ships the R3 grain-watch round (content/nightRounds.ts);
+// the gate post + quest wiring drive it in the real arc, and the registry sweep in
+// night-rounds.test.ts guards every shipped round's invariants.
 
 import type { GameState } from './state';
 import { withResource, setFlag } from './state';
@@ -16,7 +18,8 @@ import { getMob } from './content/enemies';
 import { mcCombatStats, mobCombatStats, resolveFight } from './combat';
 import { rollMaterialDrop } from './content/crafting';
 import { SETBACK_HP } from './content/balance';
-import { applyDefeatConsequences } from './defeat';
+import { applyCarriedLossBleed, applyDefeatConsequences } from './defeat';
+import { applyRewards } from './rewards';
 import type { NightRoundDef, NightRoundStage } from './content/nightRounds';
 
 /** The in-flight round cursor (mirrors `GameState['roundState']`). */
@@ -88,19 +91,36 @@ export function resolveNightStage(state: GameState, def: NightRoundDef): GameSta
     return advanceStage(next, def);
   }
 
-  // FALL (loss): the round ENDS here — HP at the setback floor, cursor cleared, and (G3) the
-  // SHARED defeat→sickroom consequence: Sōan's ledger grows, SICKROOM_DAYS_LOST whole days are
-  // lost, and the MC relocates to the sickroom node once it exists (the guard no-ops today). The
-  // carried-loss BLEED lives with the grind-fight loss branch (fight.ts) for now — night rounds
-  // are DORMANT (empty registry) so nothing carried is bled here yet; that folds into the shared
-  // handler when the round lane goes live (G4).
+  // FALL (loss): the round ENDS here — HP at the setback floor, cursor cleared, the shared
+  // carried-loss BLEED (defeat.ts, ONE home with the grind-fight loss — B2/ADR-164: a night
+  // fall costs what a day-fight loss costs in like state), and the SHARED defeat→sickroom
+  // consequence: Sōan's ledger grows, SICKROOM_DAYS_LOST whole days are lost, and the MC
+  // relocates to the sickroom node once it exists. Logged through the same `combat.loss`
+  // line the day loss uses (TST1 — one wording for the rout).
+  const hpBefore = state.character.hp;
   next = setHp(next, SETBACK_HP);
+  const bled = applyCarriedLossBleed(next);
+  next = bled.next;
+  next = applyRewards(next, {
+    log: [
+      {
+        channel: 'combat',
+        contentKey: 'combat.loss',
+        params: {
+          mob: mob.label.toLowerCase(),
+          hpBefore,
+          hpAfter: SETBACK_HP,
+          lostCoin: bled.lostCoin,
+          lostMats: bled.lostMats,
+        },
+      },
+    ],
+  });
   next = applyDefeatConsequences(next);
   return { ...next, roundState: null };
 }
 
-/** Begin a round: seat the cursor at stage 0. (The reducer arm calls this; dormant with the
- *  empty registry.) */
+/** Begin a round: seat the cursor at stage 0 (the `begin_night_round` reducer arm). */
 export function beginNightRound(state: GameState, def: NightRoundDef): GameState {
   return { ...state, roundState: { roundId: def.id, stage: 0 } };
 }

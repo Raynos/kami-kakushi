@@ -4,24 +4,22 @@
 // loses a level / gear / Influence (LOCKED shape, §4.6.6). The scripted grain-store
 // wolf is a guaranteed-survival humbling beat that opens R3.
 
-import { withResource, hasFlag, type GameState } from './state';
+import { hasFlag, type GameState } from './state';
 import type { MobId } from './content/enemies';
 import { getMob } from './content/enemies';
 import { mcCombatStats, mobCombatStats, resolveFight, combatLevelForXp } from './combat';
 import { hpMax } from './selectors';
 import { applyRewards } from './rewards';
 import { advanceClock } from './step';
-import { rollMaterialDrop, getMaterial, MATERIALS } from './content/crafting';
+import { rollMaterialDrop, getMaterial } from './content/crafting';
 import { applyProgressEvent } from './progress-events';
 import { bankEstateDeed } from './pillars';
-import { applyDefeatConsequences } from './defeat';
+import { applyCarriedLossBleed, applyDefeatConsequences } from './defeat';
 import {
   COMBAT_XP_K,
   SETBACK_HP,
   SETBACK_TICKS,
   FORCED_REST_TICKS,
-  LOSS_COIN_FRAC,
-  LOSS_MATERIAL_FRAC,
   AUTO_RETREAT_FRAC,
   DURABILITY_WEAR_PER_FIGHT,
   FIGHT_TICKS,
@@ -163,23 +161,13 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
     const hpBefore = state.character.hp;
     next = setHp(next, SETBACK_HP);
     next = { ...next, autoCombat: null };
-    const lostCoin = Math.round((next.resources.coin ?? 0) * LOSS_COIN_FRAC);
-    if (lostCoin > 0) next = withResource(next, 'coin', -lostCoin);
-    // G3 (ADR-164): the carried-loss bleed is KEPT (a defeat must sting in the moment). Rice is
-    // still a CARRIED resource at this milestone, so it bleeds here too; once rice moves kura-only
-    // (G4.5) it lives in the storehouse and this bleed spares it for free (ADR-163).
-    const lostRice = Math.round((next.resources.rice ?? 0) * LOSS_COIN_FRAC);
-    if (lostRice > 0) next = withResource(next, 'rice', -lostRice);
-    let lostMats = 0;
-    for (const m of MATERIALS) {
-      const lose = Math.floor((next.resources[m.id] ?? 0) * LOSS_MATERIAL_FRAC);
-      if (lose > 0) {
-        next = withResource(next, m.id, -lose);
-        lostMats += lose;
-      }
-    }
-    // The rout-loss wording (which of the three carried resources you drop, and the grammar
-    // that joins them) lives in the log-content registry (Stage C); pass the raw amounts.
+    // G3 (ADR-164): the carried-loss bleed is KEPT (a defeat must sting in the moment). The
+    // bleed's ONE home is defeat.ts (shared with the night-round fall — B2 closure); rice is
+    // kura-only (ADR-163) and cannot bleed by construction.
+    const bled = applyCarriedLossBleed(next);
+    next = bled.next;
+    // The rout-loss wording (which carried resources you drop, and the grammar that joins
+    // them) lives in the log-content registry (Stage C); pass the raw amounts.
     next = applyRewards(next, {
       log: [
         {
@@ -189,9 +177,8 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
             mob: mob.label.toLowerCase(),
             hpBefore,
             hpAfter: SETBACK_HP,
-            lostCoin,
-            lostRice,
-            lostMats,
+            lostCoin: bled.lostCoin,
+            lostMats: bled.lostMats,
           },
         },
       ],
