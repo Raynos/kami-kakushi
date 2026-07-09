@@ -1,7 +1,13 @@
 # Storywave closure — finish the rewrite cleanly
 
-**Status: PROPOSED (2026-07-09) — complete; awaiting the human's read. Both
-spirit-pass reports landed and C4 is filled; C0–C5 are ready to execute.**
+**Status: IN-PROGRESS (2026-07-09, session 134) — the human read the plan
+and ruled every surfaced fork via AskUserQuestion (see
+`project/feedback-human/2026-07-09-storywave-closure-rulings.md`): HD-31 →
+the REFUSING gate (ADR-166, reverses this plan's default) · HD-32 → the
+FULL fiction wave now incl. unit 5 at per-season units (ADR-167) · routing
+→ Fable executes C0–C5 in one session · C3 → the prd-drift scan set WIDENS
+to the living docs. Executing autonomously end-to-end; adjacent misses the
+plan didn't catch are in scope (human grant).**
 **Confidence: ( 80% Opus, 20% Fable )** — the fix work is mechanical or
 engine-shaped against a written findings list (Opus); only the C5a prose wave
 (fiction authoring) and any C4 taste-adjacent depth work concentrate
@@ -15,6 +21,10 @@ ship left behind, so the bible → build claim ("the shipped T0 plays the
 bible canon") is true without asterisks.
 
 ## Who builds this — Fable or Opus?
+
+> **RULED — 2026-07-09 (closure-rulings #3): Fable executes the whole plan
+> in one session.** The routing below stands as the record of what the
+> plan proposed.
 
 - **C0–C3 · Opus.** Transcription-grade fixes against a verified findings
   list: name-syncs, an engine fold that reuses existing constants, doc sweeps
@@ -68,17 +78,14 @@ push → confirm clean).
      build auto-reckons the nengu *inside* every Autumn exit
      (`step.ts:72-93`) and no exit is ever refused. Functionally sound —
      R7 still gates on the flag — and shipped in v0.4.0.
-   - Options: **(a) keep the as-built auto-reckon** — the exit IS the
-     reckoning; retire the refusing-gate concept (recommended: shipped,
-     simpler, the fiction still lands via the nengu scene) · (b) implement
-     the refusing gate per the G1 spec (adds a friction beat; more
-     machinery).
-   - Proceed on (a) immediately (PH4); C1.4's `season.test.ts` asserts the
-     as-built semantics either way (it tests what IS, and flips with the
-     ruling if (b) wins).
+   - Options: ~~**(a) keep the as-built auto-reckon**~~ · (b) implement
+     the refusing gate per the G1 spec.
+   - **RULED (b) — 2026-07-09, ADR-166** (never sat open): refusal +
+     scene-completion reckoning + annual re-arm; `season.test.ts` asserts
+     the refusing semantics. C1.4 implements it.
 3. **File HD-32 — the five missing season VN overlays** (see C5a for the
-   full ask; file the item now so it queues while the mechanical phases
-   run).
+   full ask). **RULED — 2026-07-09, ADR-167** (never sat open): the FULL
+   wave ships now, incl. unit 5 at per-season diverge units.
 
 **DoD:** both HD-items filed with defaults; findings re-verified; label set.
 Docs-only commit (pathspec: `project/human-in-the-loop/decisions.md` +
@@ -241,9 +248,11 @@ govern (documented-rename allowances for §5.6-style ledger lines).
   terms won't cry wolf on decisions.md history (out of scope) or the §5.6
   rename ledger (allowance rows). If `fun-factor.md`/`ui-design.md`/
   `qa-playtesting.md` are OUT of its scan set, say so in the commit body
-  and leave them to the norm — do NOT widen the gate's file set in this
+  ~~and leave them to the norm — do NOT widen the gate's file set in this
   plan (a scope widening is its own fork; surface it as a one-line HD
-  option instead).
+  option instead).~~ **RULED — 2026-07-09 (closure-rulings #4): WIDEN the
+  scan set to `fun-factor.md` / `ui-design.md` / `qa-playtesting.md`, with
+  allowance rows so it never cries wolf.**
 
 **C3 DoD:** gate green on the swept tree; RED-proof recorded; verify green.
 
@@ -379,9 +388,12 @@ live DEV Story-switcher review per ADR-143, human sign-off via HR-item):
    wants nodes to breathe by season. LARGE (≈15 nodes × 6 seasons): the
    human scopes which slice ships now vs riding the T1 wave — present
    the size honestly in the HD-item, don't default to "all".
-Options on the HD-item: (a) run units 1–4 now, scope 5 (recommended —
+~~Options on the HD-item: (a) run units 1–4 now, scope 5 (recommended —
 they are the shipped game's visible canon gaps) · (b) defer the whole
-wave to T1 (the gaps persist through the human's rung-by-rung v0.4.x QA).
+wave to T1 (the gaps persist through the human's rung-by-rung v0.4.x QA).~~
+**RULED — 2026-07-09, ADR-167: everything now, units 1–5; unit 5 at
+per-season diverge units (6 units × 3 takes, each take one season's
+atmosphere across all ~15 nodes).**
 
 **C5b · The owed balance re-baseline (Opus, ADR-132).**
 - Step 0: read ALL unread `project/telemetry/` reports (24 at authoring);

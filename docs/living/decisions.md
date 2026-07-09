@@ -2790,3 +2790,58 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   reversing the plan's "no granter modal / inert `advance_rung_beat` path"
   default; the VN modal carries all eight rung-ups uniformly. No magnitude
   impact.
+
+### ADR-166 ✅ — Autumn's exit is a true refusing gate (HD-31; 🔁 refines ADR-153)
+
+- **created_date:** 2026-07-09
+- **Context:** the storywave G1 spec said a gated season exit is REFUSED
+  until its predicate holds; the build shipped the softer form — every
+  Autumn exit auto-reckons the nengu inside the pipeline (`step.ts`
+  `onNengu`), so no exit is ever refused. The post-ship review recorded
+  the divergence (B7); the closure plan surfaced it as HD-31 with a
+  keep-as-built default. The human ruled the OTHER way (2026-07-09).
+- **Decision:** implement the refusing gate per the G1 spec. Attempting
+  `advance_season` in Autumn before that year's reckoning REFUSES the
+  exit and triggers the nengu scene; the scene's completion performs the
+  reckoning (the kura koku draw + `nengu-reckoned` / `nengu-short`
+  latches + the HD-30 log line); a second exit attempt then passes.
+  **Annual semantics:** the gate re-arms every Autumn (the reckoning is
+  per-year, tracked by a per-year seam, e.g. the seasonsPassed of the
+  last reckoning), while the once-latched `nengu-reckoned` flag keeps
+  serving the R7 rung gate unchanged. The same C1.4 hardening makes
+  `advance_season` engine-law elsewhere too: refused while a scene/intro
+  is live and before the R2 `readout-seasons` unlock.
+- **Why:** the human wants tax day to be a stop-and-face-it friction
+  beat — the door does not pay itself. The fiction (the board, the
+  reckoning) now CAUSES the mechanics (TST3) instead of riding them.
+- **Consequences:** reverses the B7 as-built semantics; `onNengu` moves
+  from the exit pipeline to nengu-scene completion; the autoplay/sim
+  must reckon before ending Autumn (pacing may shift → ADR-132 verdict
+  with the commit); `season.test.ts` asserts the refusal + the annual
+  re-arm. Ungated seasons stay instant (ADR-148 unchanged).
+
+### ADR-167 ✅ — the supplemental fiction wave ships NOW, in full (HD-32)
+
+- **created_date:** 2026-07-09
+- **Context:** the spirit-pass audit found the bible's ambient T0 half
+  authored-and-dark; five of six per-season VN overlays deferred
+  (`scenes.md`), the three bible-named hidden discoveries absent, the
+  day-book judge single-lined, per-season node flavor unwritten. The
+  closure plan's C5a offered "units 1–4 now, scope 5" vs "defer to T1".
+- **Decision:** run the FULL wave now, including unit 5. Units: (1) the
+  five missing season VN overlays; (2) the three named hidden
+  discoveries (weir-reeds mystery seed · silted sluice · the sett) with
+  ADR-146 hint lines; (3) the wolf-flees / new-moon crossing line iff
+  C4.4's source search is empty; (4) per-grade day-book judge lines for
+  the six-step ladder; (5) per-season node flavor at **per-season
+  diverge units** — 6 units × 3 takes, each take one season's atmosphere
+  across all ~15 nodes (seasonal coherence chosen over per-node voice or
+  whole-set picks). All under the ADR-139 3-take law (the ADR-162
+  one-version exception was wave-scoped and is spent), live DEV
+  Story-switcher review (ADR-143), self-pick + HR-item sign-off.
+- **Why:** the gaps are the shipped game's visible canon debt — the
+  human chose completeness now over deferring through the v0.4.x QA
+  pass; per-season units balance review load against coherent mood.
+- **Consequences:** C5a executes in-session (human-routed to Fable);
+  alternates stay DEV-only until the HR-items close; `map.ts` node
+  blurbs become season-keyed; registry wiring rides the same commits.
