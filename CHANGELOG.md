@@ -12,6 +12,51 @@ in-game version is single-sourced from `package.json` (footer: `vX.Y.Z · build
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-07-09
+
+The storywave release. The whole of the opening tier is rebuilt on the story
+bible — a truer house, a year that actually turns, and a new reckoning between
+the land and the people who work it. If you played an earlier build, that run is
+closed and laid away, and you begin again from the first line.
+
+### Changed
+
+- **The whole T0 story is rewritten.** The house, its people, and the beats that
+  carry you up from the weir to a trusted hand (R0→R7) are re-authored to the
+  story bible — new faces, new scenes, and prose that means to be read.
+- **The year turns through six seasons.** Winter, the New Year, Spring, Summer,
+  Bon, and Autumn come round in order, advanced by your hand, and each closes on
+  its own account of where the house stands.
+- **Rice is the house's store now, not a figure in your pocket.** The harvest is
+  counted into the kura by the year, feeds the household through the lean months,
+  spoils if it overflows the store, and answers the land's due. What the house
+  pays _you_ is coin (mon) — and that you keep and count yourself.
+- **The nengu reckoning.** Once a year, at Autumn's turn, the house is measured
+  against the land — the shortfall named plainly, once, and let stand. You stand
+  in the room for it, counted as part of it and not asked into it.
+- **Your body is part of the work.** A hurt or ill-fed man works worse than a
+  whole one, and a fight you lose puts you on a sickroom pallet to mend before
+  you can take the day up again.
+
+### Added
+
+- **Year-turning story beats.** The season-exit ceremonies and the nengu
+  reckoning play as full scenes as the year comes round, so the calendar reads as
+  the house's life, not a counter.
+
+### Internal
+
+- **The T0 engine rebuilt (G0–G6).** A generalized VN-scene engine + night-round
+  runner, six-season time and the kura-unit economy in the pure core, two body
+  economies (work-impairment + defeat→sickroom), the FB-5 narrative grammar
+  extended to carry it, a VERDICT reconciliation pass, and the e2e/drift sweep —
+  all green on `main`.
+- **Clean-break persistence (D-161).** A pre-rewrite save is retired (backed up,
+  then a fresh boot) rather than migrated, with a composed in-fiction notice.
+- **Live scene-def review (D-139).** The DEV Story switcher now swaps a
+  generalized VN beat between its authored takes, so a narrative diverge (the
+  nengu reckoning's three takes) reviews live in the running game. DEV-only.
+
 ## [0.3.9] — 2026-07-06
 
 The steel release. The whole game re-dressed in one day — the washi paper and
