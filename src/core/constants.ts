@@ -52,6 +52,14 @@ export const LOG_MAX_IDENTICAL_RUN = 3 as const;
 export const TICKS_PER_DAY = 24 as const;
 export const DAYS_PER_WEEK = 7 as const;
 
+/** Day of the week, 0..6 — derived from the absolute `day` (day % DAYS_PER_WEEK). Yohei's stall
+ *  (content/market.ts) is open only on named `DayOfWeek`s — the market-day scarcity that pulls the
+ *  wheel (ADR-163 / G4.5). */
+export type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+export function dayOfWeek(day: number): DayOfWeek {
+  return (((day % DAYS_PER_WEEK) + DAYS_PER_WEEK) % DAYS_PER_WEEK) as DayOfWeek;
+}
+
 /** The six-season wheel (story bible `05-world.md`, storywave G1 — ADR-150/ADR-153). The
  *  season is now STORED, MANUAL state (`state.season`), NOT derived from the day: a season is
  *  a CONTAINER the player fills at their own pace and ends with the `advance_season` intent.
@@ -65,3 +73,15 @@ export type Season = (typeof SEASONS)[number];
  *  The new-moon mysteries (the hooded lantern crossing, G2) key off `lunarPhase()`; there is
  *  only ONE moon — do not build a second. */
 export const LUNAR_PERIOD_DAYS = 29.53 as const;
+
+// ── Rice unit ladder (measured kura-units, ADR-163 / G4.5) ──────────────────────
+// Rice is stored canonically in shō (升) as ONE integer, held ONLY in the kura
+// (`banked.rice`). Bales (俵) and koku (石) are DISPLAY conversions (÷ these
+// constants), NEVER separately stored — one source of truth, no float drift. The
+// kura reads in bales; wages/meals read in shō; the nengu is stated in koku. The
+// player never sees a raw "N rice" integer (TST4).
+//
+// SIM-OWNED SEED (ADR-132): the rough period ladder is ~100 shō = 1 koku, 1 bale ≈
+// 0.4 koku (= 40 shō). Exact ratios are the sim's to verdict — do NOT hand-tune.
+export const SHO_PER_KOKU = 100 as const; // SIM-OWNED SEED (ADR-132)
+export const SHO_PER_BALE = 40 as const; // 1 bale ≈ 0.4 koku — SIM-OWNED SEED (ADR-132)

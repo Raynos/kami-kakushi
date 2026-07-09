@@ -430,6 +430,64 @@ export function kuraRiceCap(estateStage: number): number {
   return KURA_RICE_CAP_BASE + Math.max(0, estateStage) * KURA_RICE_CAP_PER_STAGE;
 }
 
+// ── The measured-kura rice model (ADR-163 / G4.5, the soft-cap two-lane economy) ──────────────
+// The KIND lane, made grind-proof by construction: each labour SITE carries a per-season yield
+// POOL that depletes with DIMINISHING RETURNS (each act takes a fraction of what remains, so
+// output asymptotes toward — never reaches — zero within a season), and REFILLS when the season
+// turns (this is *why* seasons are manual containers). Rice deposits into the kura in shō; the
+// household eats a steady shō/day; held stores spoil per season; Autumn's nengu draws koku.
+//
+// ALL magnitudes below are SIM-OWNED SEEDS (ADR-132) — the balance sim verdicts them; do NOT
+// hand-tune. Keyed by the labour SITE (the activity's `area` string) so balance.ts stays acyclic
+// (no import of ActivityId — AC-20).
+
+/** Per-(site, season) base yield POOL, in the site's own yield unit (shō for the paddy, wood for
+ *  the woodlot, sansai for forage). Refilled to this at season-turn; drawn down as the site is
+ *  worked. A site absent here falls back to POOL_DEFAULT. SIM-OWNED SEED (ADR-132). */
+export const SITE_POOL_BASE: Readonly<Record<string, number>> = {
+  paddies: 300, // the rice pool (shō) — the household's staple faucet
+  forecourt: 120, // porter's-wage hauling (coin)
+  woodlot: 160, // wood + forage greens
+};
+/** Fallback pool for any labour site not in SITE_POOL_BASE. SIM-OWNED SEED (ADR-132). */
+export const SITE_POOL_DEFAULT = 120;
+
+/** The diminishing-returns DRAW: one act yields ceil(remaining · NUM/DEN), floored at 1 (while the
+ *  pool has anything left) and capped at what remains. NUM/DEN = 1/6 seeds a pool that thins to a
+ *  trickle over ~a dozen acts, never fully dry within a season. SIM-OWNED SEED (ADR-132). */
+export const POOL_DRAW_NUM = 1;
+export const POOL_DRAW_DEN = 6;
+
+/** The season-refill pool for a site — the base, lifted by the autumn-harvest peak when the site is
+ *  season-gated (the paddy peaks Autumn). Pure; the caller passes whether this site rides the
+ *  harvest multiplier. SIM-OWNED SEED (ADR-132). */
+export function sitePoolRefill(site: string, season: Season, seasonHarvest: boolean): number {
+  const base = SITE_POOL_BASE[site] ?? SITE_POOL_DEFAULT;
+  if (seasonHarvest && season === 'autumn') {
+    return Math.round((base * HARVEST_AUTUMN_MULT_NUM) / HARVEST_AUTUMN_MULT_DEN);
+  }
+  return base;
+}
+
+/** One labour act's yield off a remaining pool, via the diminishing-returns curve. Returns 0 only
+ *  when the pool is exhausted; otherwise ≥1 (min a single unit while anything remains). Pure +
+ *  deterministic (no RNG) — folds cleanly with the reducer. */
+export function productionDraw(remaining: number): number {
+  if (remaining <= 0) return 0;
+  const draw = Math.ceil((remaining * POOL_DRAW_NUM) / POOL_DRAW_DEN);
+  return Math.min(remaining, Math.max(1, draw));
+}
+
+/** The household's steady daily rice CONSUMPTION (shō/day), drawn from the kura each day-turn —
+ *  the constant background drain that makes rice working capital, never a score. Scales with
+ *  household size in later tiers; a flat single-mouth draw at T0. SIM-OWNED SEED (ADR-132). */
+export const CONSUMPTION_SHO_PER_DAY = 3;
+
+/** The nengu (年貢) — Autumn's land-tax reckoning, stated in KOKU. Met from the kura (converted to
+ *  shō via SHO_PER_KOKU) at the Autumn season-exit; the shortfall is the debt's felt pressure,
+ *  never numbered in T0. SIM-OWNED SEED (ADR-132). */
+export const NENGU_KOKU_DEMAND = 5;
+
 // ── Emergent node discovery (ADR-146) — the pity ramp + the hint ladder step. Liquid (ADR-059).
 // Re-tuned to the human's "rare ambient" feel-verdict (2026-07-07, HR-14 playtest): a discovery
 // is a many-visits background surprise (~50+ qualifying acts), never an instant pop — each def

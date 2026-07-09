@@ -16,6 +16,7 @@ import {
   ATTR_BASE,
   INTRO_BEAT_COUNT,
   RANK_IDS,
+  refillSitePools,
 } from '../core';
 import type { SaveEnvelope } from './codec';
 import { migrate, type MigrateFn } from './migrate';
@@ -185,6 +186,9 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'character'
     | 'resources'
     | 'banked'
+    | 'sitePools'
+    | 'wageDaysAccrued'
+    | 'lastWageDay'
     | 'flags'
     | 'unlocked'
     | 'log'
@@ -221,6 +225,11 @@ export function validateState(rawState: unknown): ValidateResult {
   const _exhaustive: _AssertAllHandled = true;
   void _exhaustive;
 
+  const resolvedSeason: Season =
+    typeof base.season === 'string' && (SEASONS as readonly string[]).includes(base.season)
+      ? (base.season as Season)
+      : 'winter';
+
   const state: GameState = {
     ...base,
     // Always current after migrate+validate (closes the inner/outer divergence, audit §3 #9).
@@ -229,17 +238,23 @@ export function validateState(rawState: unknown): ValidateResult {
     clock: { tick: clock.tick, day: clock.day },
     // ── the six-season MANUAL calendar (v10, storywave G1). A clean-break v10 save always
     // carries them; still default safely (unknown season → the wheel's start; bad count → 0).
-    season:
-      typeof base.season === 'string' && (SEASONS as readonly string[]).includes(base.season)
-        ? (base.season as Season)
-        : 'winter',
+    season: resolvedSeason,
     seasonsPassed:
       typeof base.seasonsPassed === 'number' ? Math.max(0, Math.floor(base.seasonsPassed)) : 0,
     character: validatedCharacter,
     resources: rawState.resources as GameState['resources'],
     // additive (batch-2 call 7): the kura storehouse. Absent in any pre-bank save → empty (all
     // wealth carried), which is the correct fresh-bank default.
-    banked: isObject(base.banked) ? (base.banked as GameState['banked']) : {},
+    banked: isObject(base.banked) ? (base.banked as GameState['banked']) : { rice: 0 },
+    // ── the measured-kura production pools (v10, ADR-163 / G4.5). Absent/malformed → refilled for
+    // the resolved season (the correct fresh default). ──
+    sitePools: isObject(base.sitePools)
+      ? (base.sitePools as GameState['sitePools'])
+      : refillSitePools(resolvedSeason),
+    // MON lane wage accrual (v10, additive). Absent/malformed → not yet waged (0 / -1).
+    wageDaysAccrued:
+      typeof base.wageDaysAccrued === 'number' ? Math.max(0, Math.floor(base.wageDaysAccrued)) : 0,
+    lastWageDay: typeof base.lastWageDay === 'number' ? Math.floor(base.lastWageDay) : -1,
     flags: rawState.flags as GameState['flags'],
     unlocked: rawState.unlocked as GameState['unlocked'],
     // Normalize each loaded entry's coalescing count to ≥1 so a later pushLog onto a

@@ -72,6 +72,10 @@ const NON_UI_INTENTS = [
   'advance_scene_beat',
   'choose_scene_option',
   'begin_night_round',
+  // storywave INTERIM (G4.5): the MON-lane collect-at-the-board wage verb ships core-only for now
+  // (ADR-163). The render sweep (a later G4 chunk) wires the board affordance + moves this to
+  // PLAYER_INTENTS; until then it has no clickable control by design.
+  'collect_wage',
 ] as const satisfies readonly IntentType[];
 
 // ── the exhaustiveness trip (compile-time, enforced by the typecheck gate) ──────

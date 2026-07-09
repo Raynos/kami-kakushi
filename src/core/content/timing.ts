@@ -126,6 +126,7 @@ export const INTENT_TIMING: Readonly<Record<IntentType, ActionTiming>> = {
   cook_meal: timed(6000),
   eat_rice: timed(3000),
   sell_rice: INSTANT, // trade is instant (ADR-148)
+  collect_wage: INSTANT, // MON lane (ADR-163): handed the coin at the board — a tactile transaction
   improve_estate: timed(60000), // a BIG action — the 30–90s band
   spend_attribute: INSTANT,
   craft_weapon: timed(45000), // a BIG action — the 30–90s band

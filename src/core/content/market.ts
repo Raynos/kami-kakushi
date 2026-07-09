@@ -8,6 +8,9 @@
 // costs are integer coin (base unit mon, no floats). All numbers are provisional (v0.2) — tune by
 // playtest.
 
+import type { DayOfWeek, Season } from '../constants';
+import { dayOfWeek } from '../constants';
+
 export type MarketItemId = string;
 
 export interface MarketItem {
@@ -20,6 +23,9 @@ export interface MarketItem {
   readonly grants: Readonly<Record<string, number>>;
   /** Hard per-run buy cap — the clamp that keeps TRADE a minority lane (ADR-008). */
   readonly stockCap: number;
+  /** Seasons this item is STOCKED (ADR-163 / G4.5 — the stall re-keys per season; one straw coat
+   *  this winter). OMITTED = stocked every season (the staple goods). SIM-OWNED SEED (ADR-132). */
+  readonly seasons?: readonly Season[];
 }
 
 export const MARKET_ITEMS: readonly MarketItem[] = [
@@ -82,6 +88,40 @@ export const MARKET_ITEMS: readonly MarketItem[] = [
 ];
 
 export const MARKET_ITEM_IDS: ReadonlySet<string> = new Set(MARKET_ITEMS.map((m) => m.id));
+
+// ── Yohei's stall (ADR-163 / G4.5) — the MON lane's market side ─────────────────────────────────
+// The pedlar Yohei sets up on named MARKET DAYS only (scarcity that pulls the wheel), carries a
+// FINITE purse per visit (he stops BUYING when it's empty — the kind-overflow soft cap, so selling
+// rice into coin can't run away), and BUYS only a whitelist: rice + named finished goods, never raw
+// materials (wood/sansai stay carried, unsellable in T0 — overflow feeds the house stores). ALL
+// magnitudes SIM-OWNED SEEDS (ADR-132).
+
+/** The weekdays Yohei's stall is open (0..6). Two market days a week — the rest of the week the
+ *  stall is bare, so selling is a TIMING beat. SIM-OWNED SEED (ADR-132). */
+export const YOHEI_MARKET_DAYS: readonly DayOfWeek[] = [2, 5];
+
+/** Yohei's coin purse PER VISIT (base unit mon). Once he's spent it buying your rice/goods he stops
+ *  buying until his next market day — the finite-purse soft cap on mon inflow. SIM-OWNED SEED. */
+export const YOHEI_PURSE_MON = 120;
+
+/** What Yohei will BUY (his `buys:` whitelist) — rice + named finished goods only. Raw materials
+ *  (wood, sansai) are NOT here: unsellable in T0 (overflow feeds house stores, not coin). */
+export const YOHEI_BUYS: ReadonlySet<string> = new Set(['rice']);
+
+/** Is Yohei's stall open on this absolute day? (market-day clamp for sell/buy.) */
+export function isMarketDay(day: number): boolean {
+  return YOHEI_MARKET_DAYS.includes(dayOfWeek(day));
+}
+
+/** Is this market item STOCKED this season? (absent `seasons` ⇒ every season.) */
+export function itemInSeason(item: MarketItem, season: Season): boolean {
+  return item.seasons === undefined || item.seasons.includes(season);
+}
+
+/** Does Yohei buy this resource? (his whitelist — rice + named goods; raw materials refused.) */
+export function yoheiBuys(resource: string): boolean {
+  return YOHEI_BUYS.has(resource);
+}
 
 export function getItem(id: MarketItemId): MarketItem {
   const it = MARKET_ITEMS.find((x) => x.id === id);

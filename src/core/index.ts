@@ -174,7 +174,14 @@ export type { BelongingDef, ComfortBonus, ComfortKind, HomeTierDef } from './con
 
 export { SKILLS, getSkill, SKILL_IDS } from './content/skills';
 export type { SkillId, SkillDef } from './content/skills';
-export { ACTIVITIES, getActivity, activityLine, ACTIVITY_IDS } from './content/activities';
+export {
+  ACTIVITIES,
+  getActivity,
+  activityLine,
+  ACTIVITY_IDS,
+  LABOUR_SITES,
+  refillSitePools,
+} from './content/activities';
 export type { ActivityId, ActivityDef, LabourResource } from './content/activities';
 export {
   ACTIVITY_TIMING,

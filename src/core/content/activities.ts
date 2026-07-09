@@ -7,6 +7,8 @@
 import type { SkillId } from './skills';
 import type { AreaId } from './areas';
 import type { EstateDeedSource } from './balance';
+import { sitePoolRefill } from './balance';
+import type { Season } from '../constants';
 
 export type ActivityId =
   | 'farm_paddy'
@@ -116,6 +118,33 @@ export const ACTIVITIES: readonly ActivityDef[] = [
 
 export const ACTIVITY_IDS: ReadonlySet<string> = new Set(ACTIVITIES.map((a) => a.id));
 
+// ── Labour SITES + the per-(site, season) production pool (ADR-163 / G4.5) ───────────────────────
+// Each distinct labour `area` is a SITE with a per-season yield pool (SITE_POOL_BASE). A site is
+// season-gated (rides the autumn-harvest peak) iff ANY activity there is `seasonHarvest` (the
+// paddy). Working the site draws its pool down by diminishing returns; the pool refills to the new
+// season's peak at season-turn.
+
+/** Every distinct labour site + whether it rides the autumn-harvest peak. Derived from ACTIVITIES
+ *  (single source), so a new labour activity's site is picked up for free. */
+export const LABOUR_SITES: readonly { readonly site: string; readonly seasonHarvest: boolean }[] =
+  (() => {
+    const byArea = new Map<string, boolean>();
+    for (const a of ACTIVITIES) {
+      byArea.set(a.area, (byArea.get(a.area) ?? false) || a.seasonHarvest === true);
+    }
+    return [...byArea.entries()].map(([site, seasonHarvest]) => ({ site, seasonHarvest }));
+  })();
+
+/** The fresh season-turn pool map: every labour site refilled to its (site, season) peak. Used at
+ *  init (winter) and at each `advance_season`. */
+export function refillSitePools(season: Season): Record<string, number> {
+  const pools: Record<string, number> = {};
+  for (const { site, seasonHarvest } of LABOUR_SITES) {
+    pools[site] = sitePoolRefill(site, season, seasonHarvest);
+  }
+  return pools;
+}
+
 export function getActivity(id: ActivityId): ActivityDef {
   const a = ACTIVITIES.find((x) => x.id === id);
   if (!a) throw new Error(`unknown activity: ${id}`);
@@ -128,7 +157,8 @@ export function activityLine(
 ): string {
   const parts = Object.entries(gained)
     .filter(([, n]) => (n ?? 0) > 0)
-    .map(([r, n]) => `+${n} ${r}`)
+    // ADR-163 (TST4) — rice reads in SHŌ (a day-hand's rice reckoning), never a unit-less "rice".
+    .map(([r, n]) => `+${n} ${r === 'rice' ? 'shō' : r}`)
     .join(', ');
   return `${act.label}. (${parts})`;
 }

@@ -16,6 +16,7 @@ import {
   CONDITIONING_GATE_LEVEL,
   SKILL_YIELD_DEN,
   ESTATE_STAGE_DEED_GATES,
+  productionDraw,
 } from './content/balance';
 import { ESTATE_STAGES, type EstateStageDef } from './content/estate';
 import {
@@ -25,7 +26,14 @@ import {
   homeHasCookLocus,
   type BelongingDef,
 } from './content/home';
-import { DAYS_PER_WEEK, SEASONS, LUNAR_PERIOD_DAYS, type Season } from './constants';
+import {
+  DAYS_PER_WEEK,
+  SEASONS,
+  LUNAR_PERIOD_DAYS,
+  SHO_PER_BALE,
+  SHO_PER_KOKU,
+  type Season,
+} from './constants';
 import { clamp } from './math';
 import { ACTIVITIES, type ActivityDef } from './content/activities';
 import { PEOPLE, type NodePerson } from './content/people';
@@ -129,6 +137,33 @@ export function week(state: GameState): number {
  *  year). The month/year counter stays HIDDEN in T0 (bible); this is for internal cadence. */
 export function year(state: GameState): number {
   return 1 + Math.floor(state.seasonsPassed / SEASONS.length);
+}
+
+// ── The measured-kura rice display (ADR-163 / G4.5, TST4) ───────────────────────────────────────
+// Rice is stored ONLY as shō in the kura (`banked.rice`). These derive the magnitude-appropriate
+// DISPLAY units — the kura reads in bales, the nengu surfaces a koku total; wages/meals read raw
+// shō. The player never sees a unit-less "N rice" integer.
+
+/** Raw rice in the kura, in shō (the stored integer). */
+export function kuraRiceSho(state: GameState): number {
+  return state.banked.rice ?? 0;
+}
+/** The kura's rice as BALES (俵) — the storehouse display unit. Fractional (one decimal) so a
+ *  part-bale still reads honestly. */
+export function kuraBales(state: GameState): number {
+  return Math.round((kuraRiceSho(state) / SHO_PER_BALE) * 10) / 10;
+}
+/** The kura's rice as KOKU (石) — the reckoning unit, surfaced at the nengu. Fractional (one
+ *  decimal). */
+export function kuraKoku(state: GameState): number {
+  return Math.round((kuraRiceSho(state) / SHO_PER_KOKU) * 10) / 10;
+}
+
+/** The production YIELD one labour act at `site` would produce right now, off the site's remaining
+ *  seasonal pool via the diminishing-returns curve (ADR-163). 0 once the pool is worked out for the
+ *  season. Routes through the SAME `productionDraw` the reducer uses (AC-6 — forecast == reality). */
+export function siteYield(state: GameState, site: string): number {
+  return productionDraw(state.sitePools[site] ?? 0);
 }
 
 /** Continuous lunar phase in [0,1) — a real ~29.53d ephemeris, not a per-day roll (D-Q6). */

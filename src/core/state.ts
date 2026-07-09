@@ -26,6 +26,7 @@ import {
 } from './content/balance';
 import type { RankId } from './content/ranks';
 import type { ActivityId } from './content/activities';
+import { refillSitePools } from './content/activities';
 import type { SkillId } from './content/skills';
 import type { MobId } from './content/enemies';
 import { getWeapon, type WeaponId } from './content/weapons';
@@ -113,12 +114,27 @@ export interface GameState {
    *  the seasonal judge + spoilage fire once per increment (the exit pipeline). */
   readonly seasonsPassed: number;
   readonly character: Character;
-  /** Carried wealth — on you, at RISK on a lost fight (ADR-076 / batch-2 call 7). */
+  /** Carried wealth — on you, at RISK on a lost fight (ADR-076 / batch-2 call 7). The carried
+   *  pocket holds COIN (mon) + goods/materials (wood/sansai) ONLY — NEVER rice (ADR-163): rice is
+   *  a commodity held solely in the kura, so a lost fight can never bleed the household's grain. */
   readonly resources: Readonly<Record<ResourceId, number>>;
-  /** The kura storehouse — resources SHELTERED from the lost-fight penalty. Deposit/withdraw move
-   *  between this and `resources` (carried); spending + earning use carried (banked is a safe
-   *  reserve). Additive (default {}); spatially gated to the kura node in Step 5. */
+  /** The kura (蔵) — the house STORES (ADR-163 / G4.5): rice held canonically in SHŌ (`banked.rice`,
+   *  one integer; bales/koku are display conversions, never stored) + finished house goods. This is
+   *  the KIND lane's reservoir — one-way barn-filling at T0 (no withdrawal verb): labour deposits,
+   *  consumption/spoilage/the nengu draw. Loss-sheltered (a lost fight never touches it). */
   readonly banked: Readonly<Record<ResourceId, number>>;
+  /** Per-(site, season) remaining production POOL (ADR-163 / G4.5), keyed by the labour site's
+   *  `area` string. Working a site draws its pool down by diminishing returns (the yield curve
+   *  reads it); it REFILLS to the season's peak at each `advance_season`. The soft cap on the KIND
+   *  lane — output asymptotes within a season, so grinding one site flattens. */
+  readonly sitePools: Readonly<Record<string, number>>;
+  /** MON lane (ADR-163 / G4.5): game-days worked but not yet collected as wage. Incremented once
+   *  per game-day the MC completes ≥1 timed labour act while waged (R5+); zeroed by the
+   *  collect-at-the-board `collect_wage` verb. The fixed day-wage is a bounded faucet (no compounding). */
+  readonly wageDaysAccrued: number;
+  /** The last absolute `day` that credited a wage-day (dedupe — one accrual per game-day). -1 = none
+   *  yet. Additive; a pre-wage save defaults it -1. */
+  readonly lastWageDay: number;
   readonly flags: Readonly<Record<FlagId, boolean>>;
   /** Write-once reveal latch, in reveal order (PRD §6.2 core/unlock). A set, kept ordered. */
   readonly unlocked: readonly SurfaceId[];
@@ -243,10 +259,14 @@ export function createInitialState(seed: number): GameState {
       level: 1,
       combatXp: 0,
     },
-    // ADR-107: coin (base unit mon, the spendable currency) + rice (a real resource). koku is NO
-    // LONGER a carried resource — it is the House's assessed STANDING (lives in `influence`).
-    resources: { coin: 0, rice: 0 },
-    banked: { coin: 0, rice: 0 },
+    // ADR-163: the carried pocket holds COIN (mon) only at the cold open — goods/materials arrive as
+    // labour earns them. Rice is NEVER carried; it lives only in the kura (`banked.rice`, in shō).
+    resources: { coin: 0 },
+    banked: { rice: 0 },
+    // The season-turn production pools, filled for the opening Winter (ADR-163 / G4.5).
+    sitePools: refillSitePools('winter'),
+    wageDaysAccrued: 0,
+    lastWageDay: -1,
     flags: {},
     // The cold open shows exactly one verb against the dark of the kura.
     unlocked: ['screen-cold-open', 'verb-open-eyes'],
@@ -296,6 +316,13 @@ export function withResource(state: GameState, id: ResourceId, delta: number): G
 export function withBanked(state: GameState, id: ResourceId, delta: number): GameState {
   const current = state.banked[id] ?? 0;
   return { ...state, banked: { ...state.banked, [id]: current + delta } };
+}
+
+/** Draw down (or refill) a labour site's production pool by `delta` (ADR-163). Floors at 0 — a
+ *  worked-out site yields nothing until the season refills it. */
+export function withSitePool(state: GameState, site: string, delta: number): GameState {
+  const current = state.sitePools[site] ?? 0;
+  return { ...state, sitePools: { ...state.sitePools, [site]: Math.max(0, current + delta) } };
 }
 
 export function setFlag(state: GameState, id: FlagId, value = true): GameState {

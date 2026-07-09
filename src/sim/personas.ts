@@ -79,6 +79,7 @@ export const ALL_INTENTS = {
   cook_meal: true,
   eat_rice: true,
   sell_rice: true,
+  collect_wage: true,
   improve_estate: true,
   spend_attribute: true,
   craft_weapon: true,

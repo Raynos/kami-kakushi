@@ -9,6 +9,7 @@ import {
   hasFlag,
   withResource,
   withBanked,
+  withSitePool,
   addSkillXp,
   rememberNpc,
   deepenNpc,
@@ -53,7 +54,9 @@ import {
   riceSellPrice,
   kuraRiceCap,
   ESTATE_STAGE_DEED_GATES,
+  productionDraw,
 } from './content/balance';
+import { DAY_WAGE_MON, isWaged } from './content/wage';
 import { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
 import { FLAVOR } from './content/flavor';
 import { rakeLine } from './content/coldOpen';
@@ -80,7 +83,14 @@ import type { RankId } from './content/ranks';
 import { getRecipe, canCraft } from './content/crafting';
 import { acceptQuest } from './quest-engine';
 import { applyProgressEvent, settleRequirements } from './progress-events';
-import { getItem, canBuy } from './content/market';
+import {
+  getItem,
+  canBuy,
+  isMarketDay,
+  itemInSeason,
+  yoheiBuys,
+  YOHEI_PURSE_MON,
+} from './content/market';
 import { canMove, getNode } from './content/map';
 import { CONDITIONING_GATE_LEVEL } from './content/balance';
 import {
@@ -118,8 +128,9 @@ export type Intent =
   | { type: 'equip_weapon'; weaponId: WeaponId }
   | { type: 'set_stance'; stance: StanceId }
   | { type: 'cook_meal' }
-  | { type: 'eat_rice' } // rice → satiety (ADR-107 Phase 2 — the plain-rice food path)
-  | { type: 'sell_rice' } // rice → coin at the season price (ADR-107 Phase 2 — the coin faucet)
+  | { type: 'eat_rice' } // kura rice → satiety (ADR-163 — the plain-rice meal path, shō from stores)
+  | { type: 'sell_rice' } // kura rice → coin at Yohei's stall (ADR-163 — market-day + purse clamped)
+  | { type: 'collect_wage' } // MON lane (ADR-163): collect the accrued day-wage at the board (R5+)
   | { type: 'advance_season' } // storywave G1: end the season (the manual six-season wheel)
   | { type: 'improve_estate' }
   | { type: 'spend_attribute'; attr: AttrId }
@@ -493,7 +504,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'rake_rice': {
       if (!metaLegal(state, 'rake_rice')) return state;
-      next = withResource(next, 'rice', RICE_PER_RAKE);
+      // ADR-163: the raked spilled rice goes into the KURA (in shō), never a carried pocket — the
+      // household's grain is a kura commodity from the first handful.
+      next = withBanked(next, 'rice', RICE_PER_RAKE);
       next = adjustSatiety(next, -SATIETY_PER_ACT);
       // F58a — the per-rake +rice OUTPUT line is fleeting flavor: it lands in the "Now" view and
       // fades, so repetitive rake output no longer spams Work (the human's log-v2 revision — rake
@@ -550,21 +563,47 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // the estate flywheel (T0-M4-F2): a higher estate stage lifts every labour act's output,
       // so coin→upgrade→more output compounds. Identity (===DEN) at U0 — byte-identical pre-buy.
       const eNum = estateYieldNum(next);
+      // ADR-163 — the per-(site, season) production POOL + diminishing returns. The site's remaining
+      // pool drives the PRIMARY yield via `productionDraw` (each act takes a fraction of what remains,
+      // so output asymptotes within a season); the pool depletes by that raw draw (before skill/estate
+      // bonuses — the site gives what it gives). Secondary "pocket" yields (forage-coin) keep their
+      // fixed base. The pool refills at season-turn (step.advanceSeason).
+      const site = act.area;
+      const rawDraw = productionDraw(next.sitePools[site] ?? 0);
+      if (rawDraw > 0) next = withSitePool(next, site, -rawDraw);
+      const yieldEntries = Object.entries(act.yields) as [LabourResource, number][];
+      const primary = yieldEntries[0]?.[0];
       const gained: Partial<Record<LabourResource, number>> = {};
-      for (const [res, amt] of Object.entries(act.yields) as [LabourResource, number][]) {
-        let v = amt * rate;
+      for (const [res, amt] of yieldEntries) {
+        // the primary yield rides the site pool draw; a worked-out pool yields nothing on it.
+        if (res === primary && rawDraw === 0) {
+          gained[res] = 0;
+          continue;
+        }
+        let v = (res === primary ? rawDraw : amt) * rate;
         if (autumn) v = (v * HARVEST_AUTUMN_MULT_NUM) / HARVEST_AUTUMN_MULT_DEN;
         v = (v * yNum) / SKILL_YIELD_DEN;
         v = (v * eNum) / SKILL_YIELD_DEN;
         gained[res] = Math.max(1, Math.round(v));
       }
+      // ADR-163: rice is a KURA commodity (shō) — it deposits into the house stores (banked), NEVER
+      // the carried pocket. Split it out of the carried-resources reward.
+      const riceSho = gained.rice ?? 0;
+      const carried: Partial<Record<LabourResource, number>> = { ...gained };
+      delete carried.rice;
+      if (riceSho > 0) next = withBanked(next, 'rice', riceSho);
       const xpGain = Math.max(1, Math.round(act.xp * rate));
       next = addSkillXp(next, act.skill, xpGain);
       next = adjustSatiety(next, -act.satietyCost);
+      // MON lane (ADR-163): a game-day on which ≥1 timed labour act completes accrues one day-wage,
+      // once waged (R5+). Dedupe on the day (`lastWageDay`) so many acts in a day count once.
+      if (isWaged(next.rung) && next.clock.day !== next.lastWageDay) {
+        next = { ...next, wageDaysAccrued: next.wageDaysAccrued + 1, lastWageDay: next.clock.day };
+      }
       const storyFlags: string[] = [];
       if (act.id === 'farm_paddy') storyFlags.push('farmed');
       next = applyRewards(next, {
-        resources: gained as Record<string, number>,
+        resources: carried as Record<string, number>,
         flags: storyFlags,
         // FB-53 — the per-activity labour output line is fleeting flavor ("you worked / +N"): it
         // shows only in the "Now" view and fades. The gained resources still bank on the state;
@@ -724,9 +763,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // (EAT_RICE_SATIETY > SATIETY_PER_REST), so eating your OWN harvest trades rice for a faster
       // refuel — never a strictly-worse rest. Opens with the estate economy (verb-eat-rice), where
       // rice first gains its eat/sell/store uses. A no-op without the rice on hand.
+      // ADR-163: the meal is drawn from the KURA (shō), never a carried pocket — rice lives only in
+      // the house stores. A no-op without enough rice in the kura.
       if (!isUnlocked(next, 'verb-eat-rice')) return state;
-      if ((next.resources.rice ?? 0) < EAT_RICE_COST) return state;
-      next = withResource(next, 'rice', -EAT_RICE_COST);
+      if ((next.banked.rice ?? 0) < EAT_RICE_COST) return state;
+      next = withBanked(next, 'rice', -EAT_RICE_COST);
       const satBefore = next.character.satiety;
       next = adjustSatiety(next, EAT_RICE_SATIETY);
       const satGain = next.character.satiety - satBefore;
@@ -745,17 +786,23 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'sell_rice': {
-      // rice → COIN (ADR-107 Phase 2 / §14): the coin FAUCET. Sell your whole carried rice pile to the
-      // pedlar at the SEASON-swinging coin-per-rice rate (dear spring, cheap autumn) — the light
-      // store-vs-sell timing decision (hold the cheap-autumn haul in the kura, sell into dear
-      // spring). A transaction (no clock cost, like buy_item). Opens with the estate economy
-      // (panel-estate — the pedlar arrives). A no-op with no carried rice.
+      // ADR-163 — kura rice → COIN at Yohei's stall. Sell from the KURA (shō) at the SEASON-swinging
+      // coin-per-shō rate, but CLAMPED: the stall is open only on his MARKET DAYS, and his finite
+      // per-visit PURSE bounds how much he'll buy (the kind-overflow soft cap on mon inflow). He buys
+      // only whitelisted goods (rice). A transaction (no clock cost). A no-op off a market day, with
+      // no kura rice, or once his purse is spent.
       if (!isUnlocked(next, 'panel-estate')) return state;
-      const rice = next.resources.rice ?? 0;
-      if (rice <= 0) return state;
+      if (!isMarketDay(next.clock.day)) return state; // stall shut this weekday
+      if (!yoheiBuys('rice')) return state;
+      const riceStock = next.banked.rice ?? 0;
+      if (riceStock <= 0) return state;
       const price = riceSellPrice(season(next));
-      const coinGain = rice * price;
-      next = withResource(next, 'rice', -rice);
+      // clamp to Yohei's purse: he buys only as many shō as his coin covers.
+      const affordableSho = price > 0 ? Math.floor(YOHEI_PURSE_MON / price) : riceStock;
+      const soldSho = Math.min(riceStock, affordableSho);
+      if (soldSho <= 0) return state;
+      const coinGain = soldSho * price;
+      next = withBanked(next, 'rice', -soldSho);
       next = withResource(next, 'coin', coinGain);
       next = applyRewards(next, {
         log: [
@@ -763,13 +810,35 @@ export function reduce(state: GameState, intent: Intent): GameState {
             channel: 'system',
             voice: 'narrator', // FB-91/FB-93 — player-action narration, consistent narrator voice
             contentKey: 'market.sellRice',
-            params: { rice, price, coinGain },
+            params: { rice: soldSho, price, coinGain },
           },
         ],
       });
       // ADR-145 — the sale enters the house books: a TREASURY Estate deed (Phase-2 only). The
       // store-vs-sell timing lever (Q3) is thus a real Phase-2 decision, not ambient economy.
       next = bankEstateDeed(next, 'treasury');
+      break;
+    }
+    case 'collect_wage': {
+      // MON lane (ADR-163) — the tactile collect-at-the-board verb: the accrued day-wage is HANDED
+      // to the MC as coin (never auto-credited). Fixed per day worked (no compounding) — the bounded
+      // faucet. A no-op with nothing owed.
+      if (next.wageDaysAccrued <= 0) return state;
+      const pay = next.wageDaysAccrued * DAY_WAGE_MON;
+      next = withResource(next, 'coin', pay);
+      next = { ...next, wageDaysAccrued: 0 };
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'reward',
+            voice: 'narrator',
+            // TODO(g4-tests): HD-30 — no migrated fiction line for the wage-collect beat yet; a
+            // bracketed dev placeholder until the payment-ladder reveal prose is authored (G4.6).
+            text: `[dev — wage collected: ${pay} mon]`,
+            ephemeral: true,
+          },
+        ],
+      });
       break;
     }
     case 'improve_estate': {
@@ -845,7 +914,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // the tiny CAPPED market (TRADE taste, T0-M4-F3/ADR-008) — a commissioning, no clock cost.
       // Opens with the estate economy (panel-estate). The per-run stockCap is the minority clamp.
       if (!isUnlocked(next, 'panel-estate')) return state;
+      // ADR-163 — Yohei's stall clamps: open only on his MARKET DAYS, and each item is STOCKED only
+      // in its seasons (one straw coat this winter). Off a market day or out of season → no buy.
+      if (!isMarketDay(next.clock.day)) return state;
       const item = getItem(intent.itemId);
+      if (!itemInSeason(item, season(next))) return state;
       const bought = next.marketBought[item.id] ?? 0;
       if (!canBuy(next.resources, item, bought)) return state;
       next = withResource(next, 'coin', -item.coinCost);
