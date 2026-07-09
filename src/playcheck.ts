@@ -53,7 +53,7 @@ export interface Baseline {
   minutesPerRung: Record<string, number>;
 }
 
-const baselineUrl = new URL('../playcheck.baseline.json', import.meta.url);
+const baselineUrl = new URL('./playcheck.baseline.json', import.meta.url);
 
 /** A state at combat level `lvl`, full satiety — the seed-robust win-curve probe (mirrors m2.test mc()). */
 function mcAtLevel(lvl: number): GameState {

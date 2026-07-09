@@ -36,7 +36,7 @@ const BUDGETS: ReadonlyArray<{ path: string; cap: number; warn?: number; genreLe
   // but the hard cap is deliberately generous (a co-agent adding a bullet
   // mid-flight must never hit a wall); the warn is the working pressure.
   { path: 'AGENTS.md', cap: 500, warn: 420, genreLeak: /\(session-\d+\)/ },
-  { path: 'repo-map.md', cap: 250, warn: 220, genreLeak: /\(session-\d+\)/ },
+  { path: 'docs/repo-map.md', cap: 250, warn: 220, genreLeak: /\(session-\d+\)/ },
 ];
 
 let red = false;

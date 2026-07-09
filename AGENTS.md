@@ -396,10 +396,10 @@ above are the portable part; these are what's specific to kami-kakushi.
   `project/journal/`.
 
 The directory map — what lives where — is maintained in
-[`repo-map.md`](repo-map.md) and `@`-included below so it stays in
+[`repo-map.md`](docs/repo-map.md) and `@`-included below so it stays in
 always-loaded context:
 
-@repo-map.md
+@docs/repo-map.md
 
 ## AI Commit Attribution (Required)
 

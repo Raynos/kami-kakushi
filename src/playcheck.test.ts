@@ -7,7 +7,7 @@ import { computeProxies, evaluate, type Baseline } from './playcheck';
 // passes" actually asserts the engine hasn't drifted from the blessed numbers. `evaluate` is pure,
 // so we feed it degraded vectors directly, including values right at the ratchet boundary.
 const committed = JSON.parse(
-  readFileSync(new URL('../playcheck.baseline.json', import.meta.url), 'utf8'),
+  readFileSync(new URL('./playcheck.baseline.json', import.meta.url), 'utf8'),
 ) as Baseline;
 
 describe('playcheck — the fun-vector gate has teeth', () => {

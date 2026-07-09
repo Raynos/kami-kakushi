@@ -45,7 +45,7 @@ When no principle covers, **reason from the four values**.
 - **yet-another-idle-rpg** (<https://miktaew.github.io/yet-another-idle-rpg/>)
   — take **many small visible progressions**: per-skill bars (level/cap +
   %), activity cards stating rate + ETA in plain numbers.
-- Annotated shots: [`raw/screenshots/`](../../raw/screenshots).
+- Annotated shots: [`raw/screenshots/`](../../project/raw/screenshots).
   *(Woodblock/ink is [ui-design.md](ui-design.md)'s vision — provisional
   pending R9, not restated here.)*
 
