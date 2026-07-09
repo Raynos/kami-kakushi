@@ -94,9 +94,9 @@ function awakeCombatState(): GameState {
   const base = createInitialState(1);
   return {
     ...base,
-    // Step 5b: foes are spatial — stand on the home paddies (the first grindable node: monkey +
-    // boar) so the combat pane's "watch" actually has foes to show.
-    location: 'home-paddies',
+    // Step 5b / G4 cutover: foes are spatial — stand on the field margins (the first grindable
+    // combat zone: tanuki + badger at the paddy's edge) so the combat pane's "watch" has foes.
+    location: 'field-margins',
     flags: { ...base.flags, awake: true },
     unlocked: [...base.unlocked, 'readout-rice', 'tab-combat'],
   };
@@ -350,13 +350,13 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     render(
       {
         ...base,
-        location: 'home-paddies',
+        location: 'paddies',
         flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'verb-farm', 'room-home-paddies'],
+        unlocked: [...base.unlocked, 'verb-farm', 'room-paddies'],
       },
       null,
     );
-    expect(clickText('Work the home paddies')).toBe(true);
+    expect(clickText('Work the home paddy')).toBe(true);
     expect(seen).toContainEqual({ type: 'do_activity', activityId: 'farm_paddy' });
   });
 
@@ -366,16 +366,17 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     render(
       {
         ...base,
-        location: 'gate-forecourt',
+        // stand at the forecourt (the R0 hub) — the paddy is one of its walkable neighbours.
+        location: 'forecourt',
         flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'room-gate-forecourt', 'room-home-paddies'],
+        unlocked: [...base.unlocked, 'room-gate', 'room-paddies'],
       },
       null,
     );
     openTab('地図');
     // the sheet's nodes are SVG travel controls (role=button), not <button>s — click via data-node.
     const node = root.querySelector<HTMLElement>(
-      '.map-pane [data-node="home-paddies"]:not([data-locked])',
+      '.map-pane [data-node="paddies"]:not([data-locked])',
     );
     expect(node).not.toBeNull();
     node!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
@@ -400,42 +401,27 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     expect(seen).toContainEqual({ type: 'deposit', resource: 'coin' });
   });
 
-  it('the storehouse Store rice button dispatches deposit rice (D-107 Phase 2, at the kura)', () => {
-    const { seen, render } = spyMount();
-    const base = createInitialState(1);
-    render(
-      {
-        ...base,
-        location: 'kura',
-        flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'panel-estate', 'tab-combat'], // ADR-119 — Inventory tab reveals at R3
-        resources: { ...base.resources, rice: 40 },
-      },
-      null,
-    );
-    openTab('蔵'); // Inventory tab (revealed R3, ADR-119)
-    expect(clickText('Store all rice')).toBe(true);
-    expect(seen).toContainEqual({ type: 'deposit', resource: 'rice' });
-  });
-
   it('the market Sell-rice button dispatches sell_rice (D-107 Phase 2 — the coin faucet)', () => {
     const { seen, render } = spyMount();
     const base = createInitialState(1);
     render(
       {
         ...base,
-        // the gate must be open so the Map tab (the pedlar's home) is reachable.
-        location: 'gate-forecourt',
+        // the gate must be open so the Map tab (the pedlar's home) is reachable; a MARKET DAY
+        // (dayOfWeek 2) so Yohei stands his stall; and kura rice to sell (rice is kura-only now).
+        location: 'gate',
+        clock: { ...base.clock, day: 2 },
         flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'panel-estate', 'room-gate-forecourt'],
-        resources: { ...base.resources, rice: 30 },
+        unlocked: [...base.unlocked, 'panel-estate', 'room-gate'],
+        banked: { ...base.banked, rice: 30 },
       },
       null,
     );
     openTab('地図'); // the pedlar's market is on the Map 地図 tab now (FB-109 / IA reorg ADR-112)
-    // ADR-114 — his wares open only by TALKING to him (Tokubei), never inline.
-    expect(clickText('Speak with Tokubei')).toBe(true);
-    expect(clickText('Sell all rice')).toBe(true);
+    // ADR-114 — his wares open only by TALKING to him (Yohei), never inline.
+    expect(clickText('Speak with Yohei')).toBe(true);
+    // ADR-163 — rice sells from the KURA; the button reads "Sell kura rice (N shō → …)".
+    expect(clickText('Sell kura rice')).toBe(true);
     expect(seen).toContainEqual({ type: 'sell_rice' });
   });
 
@@ -447,7 +433,8 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
         ...base,
         flags: { ...base.flags, awake: true },
         unlocked: [...base.unlocked, 'panel-estate', 'verb-eat-rice'],
-        resources: { ...base.resources, rice: 30 },
+        // ADR-163 — the meal is drawn from the KURA (shō), never a carried pile.
+        banked: { ...base.banked, rice: 30 },
       },
       null,
     );
@@ -461,15 +448,15 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     render(
       {
         ...base,
-        location: 'home-paddies', // the monkey's node
-        flags: { ...base.flags, awake: true, 'mob-monkey': true },
+        location: 'field-margins', // the tanuki/badger node (the paddy's edge)
+        flags: { ...base.flags, awake: true, 'mob-tanuki': true },
         unlocked: [...base.unlocked, 'tab-combat'],
       },
       null,
     );
     openTab('Combat');
     expect(clickText('Fight')).toBe(true);
-    expect(seen.some((i) => i.type === 'fight' && i.mobId === 'monkey')).toBe(true);
+    expect(seen.some((i) => i.type === 'fight' && i.mobId === 'tanuki')).toBe(true);
   });
 
   it('F107 (D-112) — navigation lives ONLY on the Map tab; the Work tab has no "Walk on" strip', () => {
@@ -478,9 +465,9 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     render(
       {
         ...base,
-        location: 'gate-forecourt',
+        location: 'forecourt',
         flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'room-gate-forecourt', 'room-home-paddies'],
+        unlocked: [...base.unlocked, 'room-gate', 'room-paddies'],
       },
       null,
     );
@@ -489,10 +476,10 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     expect(root.querySelector('.actions [data-node]')).toBeNull();
     // open the Map tab — the survey sheet's nodes live there, and moving from Map still works.
     openTab('地図');
-    const node = root.querySelector<HTMLElement>('.map-pane [data-node="home-paddies"]');
+    const node = root.querySelector<HTMLElement>('.map-pane [data-node="paddies"]');
     expect(node).not.toBeNull();
     node!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    expect(seen).toContainEqual({ type: 'move_to', to: 'home-paddies' });
+    expect(seen).toContainEqual({ type: 'move_to', to: 'paddies' });
   });
 
   it('the HP "life" meter is visible once combat matters — with an exact number + a low flag (D-076)', () => {
@@ -578,7 +565,7 @@ describe('D-119 — tabs reveal one beat at a time (Inventory R3, Quests R5)', (
   }
 
   it('R1 (Map+Estate live) reveals Map + Estate but NOT Inventory — no triple-reveal', () => {
-    at(['room-gate-forecourt', 'panel-estate', 'panel-home']);
+    at(['room-gate', 'panel-estate', 'panel-home']);
     const labels = tabLabels();
     expect(labels.some((l) => l.includes('地図'))).toBe(true); // Map
     expect(labels.some((l) => l.includes('家') && !l.includes('武'))).toBe(true); // Estate
@@ -588,14 +575,14 @@ describe('D-119 — tabs reveal one beat at a time (Inventory R3, Quests R5)', (
   });
 
   it('R3 (combat live) is where the Inventory tab finally reveals', () => {
-    at(['room-gate-forecourt', 'panel-estate', 'panel-home', 'tab-combat']);
+    at(['room-gate', 'panel-estate', 'panel-home', 'tab-combat']);
     expect(tabLabels().some((l) => l.includes('Inventory'))).toBe(true);
     // …but Quests is still held for its own R5 beat, not batched into the R3 combat wave.
     expect(tabLabels().some((l) => l.includes('Quests'))).toBe(false);
   });
 
   it('R5 (tab-quests granted) is where the Quests tab reveals — its own beat', () => {
-    at(['room-gate-forecourt', 'panel-estate', 'panel-home', 'tab-combat', 'tab-quests']);
+    at(['room-gate', 'panel-estate', 'panel-home', 'tab-combat', 'tab-quests']);
     expect(tabLabels().some((l) => l.includes('Quests'))).toBe(true);
   });
 });
@@ -624,7 +611,7 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     const base = createInitialState(1);
     return {
       ...base,
-      location: 'home-paddies',
+      location: 'paddies',
       flags: { ...base.flags, awake: true },
       // the full R3 combat surface set: the Combat tab + its floor, plus the Character-tab surfaces
       // (tab-skills R2, readout-combat-level + panel-bestiary R3) that light the split-out sheet.
@@ -1347,15 +1334,15 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
 
   it('F67/F72 — the pedlar buy control sits in its OWN in-flow cell (never a floating overlap)', () => {
     const render = mount(root, () => {}, noopHooks());
-    // stand at the forecourt so the pedlar (Tokubei) is actually present to talk to.
-    render({ ...awake(['panel-estate', 'room-gate-forecourt']), location: 'gate-forecourt' }, null);
+    // stand at the forecourt so the pedlar (Yohei) is actually present to talk to.
+    render({ ...awake(['panel-estate', 'room-gate']), location: 'gate' }, null);
     // the pedlar's market is on the Map 地図 tab now (FB-109 / IA reorg ADR-112).
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
       .find((b) => (b.textContent ?? '').includes('地図'))
       ?.click();
-    // ADR-114 — talk to Tokubei to open his wares (talk-to-reveal, never inline).
+    // ADR-114 — talk to Yohei to open his wares (talk-to-reveal, never inline).
     [...root.querySelectorAll<HTMLButtonElement>('button')]
-      .find((b) => (b.textContent ?? '').includes('Speak with Tokubei'))
+      .find((b) => (b.textContent ?? '').includes('Speak with Yohei'))
       ?.click();
     const rows = [...root.querySelectorAll<HTMLElement>('.market-pane .market-row')];
     expect(rows.length).toBeGreaterThan(0);
@@ -1392,7 +1379,7 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
 
   it('F94/F116 — the work slices are direct children of the .work fold (the flex-0 stacking seam)', () => {
     const render = mount(root, () => {}, noopHooks());
-    render(awake(['panel-estate', 'room-gate-forecourt', 'panel-rung-ladder']), null);
+    render(awake(['panel-estate', 'room-gate', 'panel-rung-ladder']), null);
     const work = root.querySelector<HTMLElement>('.work')!;
     // The FB-94 fix (`.workspace[data-layout=layout-byobu] > .work > .slice { flex: 0 0 auto }`) can
     // only reach the slices if they are DIRECT children of `.work` — nest them deeper and the cards
@@ -1406,7 +1393,7 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
 
   it('F100 (D-112) — the estate-improve card lives on the Estate tab, not the Work tab', () => {
     const render = mount(root, () => {}, noopHooks());
-    render(awake(['panel-estate', 'room-gate-forecourt']), null);
+    render(awake(['panel-estate', 'room-gate']), null);
     const estatePane = root.querySelector<HTMLElement>('.estate-pane')!;
     // structural: it's grouped in the Do slice, NOT the Work-column Estate/economy slice.
     expect(root.querySelector('.slice-do .estate-pane')).not.toBeNull();
@@ -1555,10 +1542,10 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
       .find((b) => (b.textContent ?? '').includes(marker))
       ?.click();
   }
-  // ADR-114 — talk to Tokubei on the Map's who's-here list to open his wares (talk-to-reveal).
+  // ADR-114 — talk to Yohei on the Map's who's-here list to open his wares (talk-to-reveal).
   function talkToPedlar(): void {
     [...root.querySelectorAll<HTMLButtonElement>('button')]
-      .find((b) => (b.textContent ?? '').includes('Speak with Tokubei'))
+      .find((b) => (b.textContent ?? '').includes('Speak with Yohei'))
       ?.click();
   }
   // observe a settled surface across an identical-state re-render; return the queued mutations.
@@ -1597,7 +1584,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderMarket — a pedlar row survives a re-render (identity) and idle ticks churn nothing', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['panel-estate', 'room-gate-forecourt'], { location: 'gate-forecourt' }); // the pedlar is on the Map tab now
+    const s = awake(['panel-estate', 'room-gate'], { location: 'gate' }); // the pedlar is on the Map tab now
     render(s, null);
     openTab('地図');
     talkToPedlar();
@@ -1616,8 +1603,8 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
   it('renderMarket — a patch reflects a changed buy state without recreating the row', () => {
     const seen: Intent[] = [];
     const render = mount(root, (i) => seen.push(i), noopHooks());
-    const s = awake(['panel-estate', 'room-gate-forecourt'], {
-      location: 'gate-forecourt',
+    const s = awake(['panel-estate', 'room-gate'], {
+      location: 'gate',
       resources: { ...createInitialState(1).resources, coin: 0 },
     });
     render(s, null);
@@ -1627,8 +1614,8 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
     expect(btn.disabled).toBe(true); // no coin → can't buy
     // afford it → the SAME button becomes enabled (patched in place, not a fresh node).
-    const rich = awake(['panel-estate', 'room-gate-forecourt'], {
-      location: 'gate-forecourt',
+    const rich = awake(['panel-estate', 'room-gate'], {
+      location: 'gate',
       resources: { ...createInitialState(1).resources, coin: 9999 },
     });
     render(rich, s);
@@ -1700,7 +1687,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderEstate — the improve card survives a re-render (Estate tab); rooms grow, not rebuild', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['panel-estate', 'room-gate-forecourt']);
+    const s = awake(['panel-estate', 'room-gate']);
     render(s, null);
     openTab('家'); // IA reorg (ADR-112) — the estate-improve card lives on the Estate 家 tab now
     const card = root.querySelector<HTMLElement>('.estate-pane .rung-card')!;
@@ -1717,9 +1704,9 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     // lines instead of `textContent=''` + rebuild. RED against the old rebuild — every idle tick
     // recreated the node (churn) and dropped its identity.
     const render = mount(root, () => {}, noopHooks());
-    let s = awake(['room-gate-forecourt', 'room-home-paddies'], { location: 'gate-forecourt' });
+    let s = awake(['room-gate', 'room-paddies'], { location: 'gate' });
     // a move emits an EPHEMERAL arrival line (the sole feed of the Now view).
-    s = reduce(s, { type: 'move_to', to: 'home-paddies' });
+    s = reduce(s, { type: 'move_to', to: 'paddies' });
     render(s, null);
     // switch the log to the "Now" filter so the ephemeral line is stamped + painted.
     [...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab')]
@@ -1735,19 +1722,19 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderMap — the you-are-here card + survey sheet survive a re-render (the sig guard)', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['room-gate-forecourt', 'room-home-paddies'], { location: 'gate-forecourt' });
+    const s = awake(['room-gate', 'room-paddies'], { location: 'gate' });
     render(s, null);
     openTab('地図');
     const card = root.querySelector<HTMLElement>('.map-pane .map-here')!;
     const blurb = card.querySelector<HTMLElement>('.skill-blurb')!;
-    const node = root.querySelector<HTMLElement>('.map-pane [data-node="home-paddies"]')!;
+    const node = root.querySelector<HTMLElement>('.map-pane [data-node="paddies"]')!;
     expect(card).not.toBeNull();
     render(s, s);
     // the CARD frame + its header/blurb persist — and the survey sheet is zero-churn behind the
     // mapSignature guard: the SAME travel node survives an idle re-render (no wholesale repaint).
     expect(root.querySelector('.map-pane .map-here')).toBe(card);
     expect(card.querySelector('.skill-blurb')).toBe(blurb);
-    expect(root.querySelector('.map-pane [data-node="home-paddies"]')).toBe(node);
+    expect(root.querySelector('.map-pane [data-node="paddies"]')).toBe(node);
     expect(card.isConnected).toBe(true);
     expect(churnOnReRender(root.querySelector<HTMLElement>('.map-pane')!, s, render)).toEqual([]);
   });
@@ -1788,7 +1775,7 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     };
   }
   function combat(extra: string[] = [], over: Partial<GameState> = {}): GameState {
-    return awake(['tab-combat', 'panel-bestiary', ...extra], { location: 'home-paddies', ...over });
+    return awake(['tab-combat', 'panel-bestiary', ...extra], { location: 'paddies', ...over });
   }
   function openTab(marker: string): void {
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
@@ -1815,8 +1802,8 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     // re-create / lose focus on the ~2×/s tick). FB-107 (ADR-112): the "Walk on 道" nav strip is GONE
     // from Work — navigation's sole home is the Map tab, so move-node identity is asserted in the
     // renderMap test above (`.map-pane .map-move` survives a re-render), not here.
-    const s = awake(['verb-farm', 'room-home-paddies', 'room-gate-forecourt'], {
-      location: 'home-paddies',
+    const s = awake(['verb-farm', 'room-paddies', 'room-gate'], {
+      location: 'paddies',
       autoActivity: 'farm_paddy',
     });
     render(s, null);
@@ -1844,13 +1831,13 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
   it('renderActions — toggling auto-labour patches the SAME toggle node in place (no re-create)', () => {
     const seen: Intent[] = [];
     const render = mount(root, (i) => seen.push(i), noopHooks());
-    const off = awake(['verb-farm', 'room-home-paddies'], { location: 'home-paddies' });
+    const off = awake(['verb-farm', 'room-paddies'], { location: 'paddies' });
     render(off, null);
     const auto = root.querySelector<HTMLButtonElement>('.actions .area-group .auto-toggle')!;
     expect(auto.classList.contains('on')).toBe(false);
     // start the auto-labour → the SAME node flips `.on` (patched, not remounted); its listener holds.
-    const on = awake(['verb-farm', 'room-home-paddies'], {
-      location: 'home-paddies',
+    const on = awake(['verb-farm', 'room-paddies'], {
+      location: 'paddies',
       autoActivity: 'farm_paddy',
     });
     render(on, off);
@@ -1897,7 +1884,7 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
   });
 });
 
-// ── Phase B (ADR-114 vendors-as-people + ADR-116 location flavor) — the pedlar (Tokubei) is a talkable
+// ── Phase B (ADR-114 vendors-as-people + ADR-116 location flavor) — the pedlar (Yohei) is a talkable
 //    person on the Map's "who's here" list; his wares open only by TALKING (never inline); and the
 //    move-arrival flavor is a transient Now line, not a permanent Story entry. ──────────────────────
 describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-116)', () => {
@@ -1942,10 +1929,11 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     return Boolean(btn);
   }
 
-  it('the Map "who\'s here" lists the pedlar (Tokubei) at his node — a talk affordance', () => {
+  it('the Map "who\'s here" lists the pedlar (Yohei) at his node — a talk affordance', () => {
     const render = mount(root, () => {}, noopHooks());
-    const pedlar = getPerson('pedlar'); // source of truth: his node + name
-    render(awakeAt(pedlar.node, ['room-gate-forecourt', 'panel-estate']), null);
+    const pedlar = getPerson('yohei'); // source of truth: his node + name (G4: Yohei, at the gate)
+    // Yohei stands his stall on his MARKET DAYS (dayOfWeek 2) — put us on one so he is present.
+    render({ ...awakeAt(pedlar.node, ['room-gate', 'panel-estate']), clock: { ...createInitialState(1).clock, day: 2 } }, null);
     openTab('地図');
     const whos = root.querySelector<HTMLElement>('.map-pane .whos-here')!;
     expect(whos).not.toBeNull();
@@ -1962,13 +1950,13 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
 
   it('talking to the pedlar OPENS his wares — the shop is hidden until you speak to him', () => {
     const render = mount(root, () => {}, noopHooks());
-    render(awakeAt('gate-forecourt', ['room-gate-forecourt', 'panel-estate']), null);
+    render({ ...awakeAt('gate', ['room-gate', 'panel-estate']), clock: { ...createInitialState(1).clock, day: 2 } }, null);
     openTab('地図');
     // BEFORE talking: the pedlar's wares are NOT rendered inline on the Map tab.
     expect(root.querySelector('.market-pane .market-row')).toBeNull();
     expect(root.querySelector<HTMLElement>('.market-pane')!.hidden).toBe(true);
     // talk → the trade panel opens (his MARKET_ITEMS rows + the sell-rice faucet).
-    expect(clickButton('Speak with Tokubei')).toBe(true);
+    expect(clickButton('Speak with Yohei')).toBe(true);
     expect(root.querySelector<HTMLElement>('.market-pane')!.hidden).toBe(false);
     expect(root.querySelectorAll('.market-pane .market-row').length).toBeGreaterThan(0);
   });
@@ -1976,7 +1964,7 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
   it("the pedlar's shop is NEVER inline on the Work tab (talk-to-reveal only)", () => {
     const render = mount(root, () => {}, noopHooks());
     // awake at the forecourt with the economy open, sitting on the default Work tab.
-    render(awakeAt('gate-forecourt', ['room-gate-forecourt', 'panel-estate']), null);
+    render(awakeAt('gate', ['room-gate', 'panel-estate']), null);
     // no wares are built on Work, and the market pane is hidden there.
     expect(root.querySelector('.market-pane .market-row')).toBeNull();
     expect(root.querySelector<HTMLElement>('.market-pane')!.hidden).toBe(true);
@@ -1984,32 +1972,36 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     expect(root.querySelector('.actions .person-row')).toBeNull();
   });
 
-  it("the place-gated smith appears in who's-here only AFTER his place is unlocked (D-114)", () => {
+  it("a PRESENCE-gated vendor (Yohei) appears in who's-here only WHEN he's present (D-114)", () => {
+    // G4 cutover: the T0 cast gates on PRESENCE (WHO is WHERE WHEN), not placeGate — no T0 person
+    // uses placeGate (people.test.ts). Yohei stands the gate ONLY on his market days (dayOfWeek 2),
+    // so his who's-here row appears / vanishes with the day — the same reveal-as-plot filter.
     const render = mount(root, () => {}, noopHooks());
-    const smith = getPerson('smith');
-    const gate = smith.placeGate!; // source of truth for the gate + node
-    // at his node before the smithy is yours → no smith row.
-    render(awakeAt(smith.node, ['room-gate-forecourt', 'room-woodlot-edge']), null);
+    const yohei = getPerson('yohei');
+    const clock = createInitialState(1).clock;
+    // an OFF day (dayOfWeek 1) → Yohei is not at the gate, so no row.
+    render({ ...awakeAt(yohei.node, ['room-gate', 'panel-estate']), clock: { ...clock, day: 1 } }, null);
     openTab('地図');
     expect(
       [...root.querySelectorAll<HTMLElement>('.map-pane .person-row')].some((r) =>
-        (r.textContent ?? '').includes(smith.name),
+        (r.textContent ?? '').includes(yohei.name),
       ),
     ).toBe(false);
-    // unlock the place → the smith joins the who's-here list.
-    render(awakeAt(smith.node, ['room-gate-forecourt', 'room-woodlot-edge', gate]), null);
+    // a MARKET day (dayOfWeek 2) → Yohei joins the who's-here list.
+    render({ ...awakeAt(yohei.node, ['room-gate', 'panel-estate']), clock: { ...clock, day: 2 } }, null);
     expect(
       [...root.querySelectorAll<HTMLElement>('.map-pane .person-row')].some((r) =>
-        (r.textContent ?? '').includes(smith.name),
+        (r.textContent ?? '').includes(yohei.name),
       ),
     ).toBe(true);
   });
 
   it("D-116 — a move's arrival flavor is a transient Now line, NOT a permanent Story line", () => {
     const render = mount(root, () => {}, noopHooks());
-    const dest = 'gate-forecourt';
-    const s0 = awakeAt('kura', [getNode(dest).revealFlag!]);
-    const moved = reduce(s0, { type: 'move_to', to: dest }); // walk to the forecourt
+    const dest = 'gate';
+    // stand at the forecourt (adjacent to the gate) so the walk is a real one-step move.
+    const s0 = awakeAt('forecourt', [getNode(dest).revealFlag!]);
+    const moved = reduce(s0, { type: 'move_to', to: dest }); // walk to the gate
     render(moved, s0);
     const blurb = getNode(dest).blurb;
     const lines = root.querySelector<HTMLElement>('.log-lines')!;
@@ -2066,43 +2058,43 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
 
   it('renders the flavor card (current-node blurb) + the survey sheet; a seal click walks there', () => {
     const { seen, render } = spyRender();
-    render(at('gate-forecourt', ['room-gate-forecourt', 'room-home-paddies']), null);
+    render(at('gate', ['room-gate', 'room-paddies']), null);
     openMapTab();
     const flavor = root.querySelector<HTMLElement>('.map-pane .map-here')!;
     const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
     expect(flavor).not.toBeNull();
     expect(nav).not.toBeNull();
     // (a) the flavor carries the CURRENT node's immersive description…
-    expect(flavor.textContent).toContain(getNode('gate-forecourt').blurb);
+    expect(flavor.textContent).toContain(getNode('gate').blurb);
     // …and (b) the sheet is a SIBLING section, not nested inside the flavor card.
     expect(flavor.contains(nav)).toBe(false);
     // the sheet actually painted: the title cartouche is on the sheet.
     expect(nav.textContent).toContain('黒沢家領内絵図');
     // click-to-move: a node's seal walks there (the real move_to; no separate go button).
-    const seal = nav.querySelector<HTMLElement>('[data-node="home-paddies"]:not([data-locked])')!;
+    const seal = nav.querySelector<HTMLElement>('[data-node="paddies"]:not([data-locked])')!;
     expect(seal).not.toBeNull();
     seal.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    expect(seen).toContainEqual({ type: 'move_to', to: 'home-paddies' });
+    expect(seen).toContainEqual({ type: 'move_to', to: 'paddies' });
   });
 
   it('unsurveyed ground stays UNNAMED (reveal-as-plot) and no destination blurb leaks', () => {
     const { render } = spyRender();
-    render(at('gate-forecourt', ['room-gate-forecourt', 'room-home-paddies']), null);
+    render(at('gate', ['room-gate', 'room-paddies']), null);
     openMapTab();
     const text = root.querySelector<HTMLElement>('.map-pane .map-nav')!.textContent ?? '';
     // the destination's blurb never leaks into the sheet (it updates on ARRIVAL, ADR-116)…
-    expect(text).not.toContain(getNode('home-paddies').blurb);
+    expect(text).not.toContain(getNode('paddies').blurb);
     expect(text).not.toContain('a foe stirs');
     // …and the frontier past surveyed ground is a blank 未測 wash — an unrevealed node is
     // NEVER named on the sheet (the woodlot sits one step past the revealed forecourt).
     expect(text).toContain('未測');
-    expect(text).not.toContain(getNode('woodlot-edge').label);
+    expect(text).not.toContain(getNode('woodlot').label);
   });
 
   it('a conditioning-locked node is GREYED + inert with its reason VISIBLE (not hidden)', () => {
     const { seen, render } = spyRender();
     render(
-      at('home-paddies', ['room-home-paddies', 'room-gate-forecourt', 'room-near-satoyama']),
+      at('paddies', ['room-paddies', 'room-gate', 'room-near-satoyama']),
       null,
     );
     openMapTab();
@@ -2311,8 +2303,8 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
       unlocked: [
         ...s.unlocked,
         'readout-rice',
-        'room-gate-forecourt',
-        'room-home-paddies',
+        'room-gate',
+        'room-paddies',
         'panel-rung-ladder',
         'panel-estate',
         'panel-home',
