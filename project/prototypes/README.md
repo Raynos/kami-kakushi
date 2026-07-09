@@ -25,6 +25,13 @@ or HR-item that owns it.
 
 ## Prototypes
 
+- [`the-asking/`](the-asking/index.html) — depth-lane feel-test II
+  (2026-07-09): free-text questioning — type what you wonder, in your own
+  words; four NPCs answer in voice via a hand-built miniature (~40 intents)
+  of the compiled intent lexicon; hidden per-person openness (no meters, no
+  move list), authored deflections that leak sideways, a buried
+  date-discrepancy aha-chain. Built after the kikigaki mock's verdict
+  ("checklist, too cheap"). Owner: same Plan K thread.
 - [`kikigaki-depth/`](kikigaki-depth/index.html) — the Plan K §U feel-test
   (2026-07-09): the authored-depth investigation notebook — three layout
   variants (book / ledger / scroll), the notebook beat, tick/coin-priced

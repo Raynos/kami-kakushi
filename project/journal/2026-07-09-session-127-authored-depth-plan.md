@@ -59,3 +59,20 @@ blocked-with-reason states, warmth gates, one resolution bite, one
 authored-ambiguity bottom. Mock data throughout, Andon Steel tokens verbatim
 from `styles.css`. Gallery + README + Plan K §U cross-linked. The human's
 verdict on this mock is now the explicit gate on §U's shape at un-park time.
+
+---
+
+## Addendum 2 (same session) — verdict in; The Asking built
+
+The human played the kikigaki mock and killed its interaction model, not its
+layout ("book better; ledger/scroll bad" — but the move-list + priced clicks
++ warmth pumping = "a cheap UI" you click through blind). New surface brief:
+work / stumble / no hints / no checklist / open-ended / only-Fable. Three
+replacement concepts pitched; the human picked **The Asking** (free-text
+questions, answers in voice, no menus) and rejected The Papers ("300 pages")
+and The Overheard World ("don't feel the UI"). Built feel-test II at
+`project/prototypes/the-asking/` — ~40-intent hand-built lexicon miniature,
+hidden openness, deflections with a true-leak channel, buried 10th-vs-14th
+aha-chain. Ten further concepts offered and captured in the brainstorm's
+Round 2 section. Next: the human plays The Asking; verdict decides whether
+Plan K §M/§U get rewritten around open input.

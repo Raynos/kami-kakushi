@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>問 The Asking — depth-lane feel-test II</title>
+<style>
+  :root {
+    --void:#070810; --steel-0:#0e1016; --steel-1:#161922; --steel-2:#1b1f29;
+    --steel-hi:#20242f;
+    --ink:#c2c8d8; --ink-soft:#8a90a4; --ink-faint:#5c6274;
+    --silver:#cdd6ee; --silver-hi:#e7ecff; --silver-dim:#99a2bf;
+    --silver-wire:rgba(205,214,238,.55); --silver-faint:rgba(205,214,238,.14);
+    --gold:#d8b978; --gold-hi:#f2dca0; --gold-dim:#93794a;
+    --key:rgba(216,185,120,.42); --key-dim:rgba(216,185,120,.15);
+    --shu:#bf3b25;
+    --v-narrator:#9aa4c4; --v-player:#e3ecff; --v-physician:#8fbfc4;
+    --v-steward:#c9975c; --v-villager:#a9c391;
+    --serif:"Iowan Old Style","Palatino Nova",Palatino,Georgia,serif;
+    --chrome:"Avenir Next","Avenir",system-ui,sans-serif;
+    --radius:3px;
+  }
+  html { background:var(--void); }
+  body { margin:0; color:var(--ink); font-family:var(--serif); font-size:15px;
+    line-height:1.55; min-height:100vh;
+    background:radial-gradient(1200px 480px at 50% -140px, #12141d 0%, var(--void) 68%);
+    background-attachment:fixed; }
+  .shell { max-width:1060px; margin:0 auto; padding:18px 16px 40px;
+    border-left:1px solid var(--key-dim); border-right:1px solid var(--key-dim);
+    min-height:100vh; box-sizing:border-box; display:flex; flex-direction:column; gap:12px; }
+  .plate { background:linear-gradient(180deg,var(--steel-2),var(--steel-1));
+    border:1px solid var(--key); border-radius:var(--radius);
+    box-shadow:inset 0 1px 0 var(--silver-wire), 0 6px 18px rgba(0,0,0,.35); }
+  .well { background:linear-gradient(180deg,var(--steel-0),#0b0d13);
+    border:1px solid var(--silver-faint); border-radius:var(--radius);
+    box-shadow:inset 0 2px 8px rgba(0,0,0,.5); }
+  .label { font-family:var(--chrome); font-size:10.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--silver-dim); }
+  button { font:inherit; }
+  .plate-btn { background:linear-gradient(180deg,var(--steel-2),var(--steel-1));
+    border:1px solid var(--silver-faint); border-top-color:var(--silver-wire);
+    border-radius:var(--radius); color:var(--ink); padding:4px 12px; cursor:pointer;
+    font-family:var(--serif); font-size:13.5px; }
+  .plate-btn:hover { background:linear-gradient(180deg,var(--steel-hi),var(--steel-2));
+    color:var(--silver-hi); border-color:var(--silver-wire); }
+  .plate-btn:focus-visible { outline:2px solid var(--gold); outline-offset:1px; }
+
+  header.hd { display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; padding:10px 14px; }
+  .hd h1 { font-size:18px; font-weight:600; color:var(--silver); margin:0; }
+  .hd h1 .kanji { color:var(--gold); margin-right:8px; }
+  .hd .sub { color:var(--ink-soft); font-size:12px; font-style:italic; }
+  .hd .day { margin-left:auto; color:var(--silver); font-size:13.5px;
+    font-variant-numeric:tabular-nums; }
+  .hd .day b { color:var(--gold-hi); }
+
+  .people { display:flex; gap:8px; flex-wrap:wrap; padding:9px 14px; align-items:center; }
+  .p-btn { display:flex; flex-direction:column; align-items:flex-start; gap:1px;
+    background:linear-gradient(180deg,var(--steel-2),var(--steel-1));
+    border:1px solid var(--silver-faint); border-radius:var(--radius);
+    padding:6px 14px; cursor:pointer; min-width:118px; text-align:left; }
+  .p-btn .nm { font-size:14.5px; }
+  .p-btn .role { font-size:10.5px; color:var(--ink-faint); font-family:var(--chrome);
+    letter-spacing:.08em; text-transform:uppercase; }
+  .p-btn.on { border-color:currentColor; box-shadow:inset 0 0 0 1px var(--key-dim); }
+  .p-btn:focus-visible { outline:2px solid var(--gold); outline-offset:1px; }
+  .p-btn .gone { font-size:10.5px; color:var(--ink-faint); font-style:italic; }
+
+  .talk { flex:1; display:flex; flex-direction:column; min-height:430px; }
+  .talk-hd { padding:9px 14px; border-bottom:1px solid var(--silver-faint);
+    display:flex; gap:12px; align-items:baseline; }
+  .talk-hd .where { color:var(--ink-soft); font-size:12.5px; font-style:italic; }
+  .talk-hd .book-btn { margin-left:auto; }
+  .lines { flex:1; overflow-y:auto; padding:14px 20px; }
+  .ln { max-width:64ch; margin:0 0 10px; }
+  .ln.you { color:var(--v-player); }
+  .ln.you::before { content:"問 — "; color:var(--gold-dim); }
+  .ln .who { font-weight:600; }
+  .ln.stage { color:var(--v-narrator); font-style:italic; font-size:13.5px; }
+  .ink-in { animation:inkin .4s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes inkin { from { opacity:0; transform:translateY(6px); } }
+  @media (prefers-reduced-motion: reduce) { .ink-in { animation:none; } }
+
+  .askrow { display:flex; gap:10px; padding:12px 14px; border-top:1px solid var(--silver-faint);
+    align-items:center; }
+  .askrow .pre { color:var(--gold); font-size:16px; }
+  .askrow input { flex:1; background:transparent; border:none;
+    border-bottom:1px solid var(--silver-faint); color:var(--silver-hi);
+    font-family:var(--serif); font-size:15.5px; padding:6px 2px; }
+  .askrow input:focus { outline:none; border-bottom-color:var(--gold); }
+  .askrow input::placeholder { color:var(--ink-faint); font-style:italic; }
+
+  ::-webkit-scrollbar { width:6px; } ::-webkit-scrollbar-thumb { background:var(--steel-hi); }
+  ::-webkit-scrollbar-track { background:var(--steel-0); }
+
+  .scrim { position:fixed; inset:0; background:rgba(7,8,16,.84); z-index:10;
+    display:none; align-items:center; justify-content:center; }
+  .scrim.show { display:flex; }
+  .book { width:min(680px,94vw); max-height:82vh; overflow-y:auto; padding:22px 26px; }
+  .book h2 { font-size:16px; color:var(--gold); font-weight:600; margin:0 0 4px; }
+  .book .who-sec { margin:14px 0 4px; font-size:14px; color:var(--silver); font-weight:600; }
+  .book .qa { max-width:62ch; margin:7px 0; font-size:13.5px; }
+  .book .qa .q { color:var(--v-player); }
+  .book .qa .q::before { content:"問 "; color:var(--gold-dim); }
+  .book .qa .a { color:var(--ink); margin-top:2px; }
+  .book .empty { color:var(--ink-faint); font-style:italic; font-size:13px; }
+  .book .close { float:right; }
+
+  .dev { position:fixed; right:10px; bottom:10px; display:flex; gap:6px; align-items:center;
+    font-family:var(--chrome); font-size:10px; letter-spacing:.08em; color:var(--ink-faint); z-index:5; }
+  .dev button { background:var(--steel-0); border:1px solid var(--silver-faint);
+    border-radius:var(--radius); color:var(--ink-soft); font-size:10px; padding:2px 8px;
+    cursor:pointer; font-family:var(--chrome); letter-spacing:.08em; }
+  footer.colo { text-align:center; color:var(--ink-faint); font-size:11px;
+    font-family:var(--chrome); letter-spacing:.06em; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="hd plate">
+    <h1><span class="kanji">問</span>The Asking</h1>
+    <span class="sub">write what you wonder, in your own words — the village answers in character (MOCK)</span>
+    <span class="day">Day <b id="v-day">1</b> · autumn</span>
+  </header>
+
+  <nav class="people plate" id="people" aria-label="Who you are with"></nav>
+
+  <section class="talk plate">
+    <div class="talk-hd">
+      <span class="label">With</span><span id="with-name">—</span>
+      <span class="where" id="where">—</span>
+      <button class="plate-btn book-btn" id="open-book">聞書 the book</button>
+    </div>
+    <div class="lines" id="lines" aria-live="polite"></div>
+    <form class="askrow" id="askform">
+      <span class="pre" aria-hidden="true">問</span>
+      <input id="q" autocomplete="off" spellcheck="false"
+        placeholder="ask anything — e.g. “what did you see that night?”" aria-label="Your question">
+      <button class="plate-btn" type="submit">ask</button>
+    </form>
+  </section>
+
+  <footer class="colo">MOCK — “The Asking” feel-test · ~40 intents hand-built as a miniature of the compiled lexicon · nothing is canon</footer>
+</div>
+
+<div class="scrim" id="bookscrim" role="dialog" aria-modal="true" aria-label="The book">
+  <div class="book plate"><button class="plate-btn close" id="close-book">close</button>
+    <h2>聞書 — what has been said to you</h2>
+    <div id="bookbody"></div>
+  </div>
+</div>
+
+<div class="dev">
+  <span>MOCK · not canon</span>
+  <button id="dev-day">sleep → next day</button>
+  <button id="dev-map">reveal the map (spoilers)</button>
+  <button id="dev-reset">reset</button>
+</div>
+
+<script>
+'use strict';
+/* ── people ── */
+const PEOPLE = {
+  soan:    { name:'Sōan',    role:'physician',   v:'var(--v-physician)',
+             where:'His room smells of dried things. He does not stop working while you speak.' },
+  matsuzo: { name:'Matsuzō', role:'weir-keeper', v:'var(--v-villager)',
+             where:'The weir. He watches the water the whole time, never you.' },
+  oyae:    { name:'O-Yae',   role:'scullery girl', v:'var(--v-villager)',
+             where:'The gate. She is glad of any excuse to stop hauling water.' },
+  toku:    { name:'Toku',    role:'the dowager', v:'var(--v-steward)',
+             where:'The hall. She receives your questions like callers: one at a time, properly.' },
+};
+const ASKS_PER_DAY = 6;
+
+/* ── concepts: token → tag ── */
+const SYN = {
+  night:'night', evening:'night', dark:'night', midnight:'night',
+  weir:'weir', river:'weir', water:'weir', sluice:'weir', drown:'weir', drowned:'weir',
+  arrive:'arrival', arrived:'arrival', came:'arrival', come:'arrival', found:'arrival',
+  pulled:'arrival', rescued:'arrival', washed:'arrival', woke:'arrival', awoke:'arrival',
+  memory:'memory', memories:'memory', remember:'memory', forget:'memory', forgot:'memory',
+  past:'memory', yesterdays:'memory', amnesia:'memory',
+  book:'book', ledger:'book', journal:'book', notebook:'book', write:'book', writes:'book',
+  writing:'book', wrote:'book', entry:'book', entries:'book', page:'book', pages:'book', grey:'book', gray:'book',
+  burn:'burn', burned:'burn', burnt:'burn', burning:'burn', brazier:'burn', ash:'burn', fire:'burn',
+  day:'date', date:'date', when:'date', calendar:'date', month:'date',
+  tenth:'tenth', '10th':'tenth',
+  fourteenth:'fourteenth', '14th':'fourteenth',
+  dry:'dry', wet:'dry', soaked:'dry', clothes:'dry', clothing:'dry', undressed:'dry',
+  light:'light', lights:'light', glow:'light', lantern:'light', lanterns:'light',
+  upstream:'upstream', current:'upstream', against:'upstream',
+  coin:'coin', coins:'coin', wage:'coin', wages:'coin', paid:'coin', pay:'coin', pays:'coin',
+  money:'coin', mon:'coin', purse:'coin',
+  toku:'toku', dowager:'toku', lady:'toku', widow:'toku',
+  soan:'soan', physician:'soan', doctor:'soan', healer:'soan',
+  matsuzo:'matsuzo', keeper:'matsuzo',
+  oyae:'oyae', 'o-yae':'oyae', scullery:'oyae', girl:'oyae',
+  genemon:'others', kihei:'others', chiyo:'others', shinnosuke:'others', yohei:'yohei', pedlar:'yohei',
+  house:'house', kurosawa:'house', estate:'house', family:'house',
+  you:'you', your:'you', yourself:'you',
+  i:'me', me:'me', my:'me', myself:'me', am:'me', who:'who',
+  west:'west', path:'west', road:'west',
+  bon:'bon', festival:'bon',
+  jizo:'jizo', statue:'jizo', offering:'jizo', offerings:'jizo', flowers:'jizo',
+  secret:'secret', secrets:'secret', hide:'secret', hiding:'secret', truth:'secret',
+  lie:'secret', lying:'secret',
+  afraid:'fear', fear:'fear', scared:'fear', frighten:'fear',
+  work:'work', job:'work', duty:'work', craft:'work', years:'work', long:'work',
+  weather:'small', rain:'small', harvest:'small', season:'small', cold:'small', autumn:'small',
+  count:'tally', counting:'tally', tally:'tally', watch:'tally', watching:'tally', herons:'tally',
+  sake:'sake', drink:'sake', jar:'sake',
+  see:'see', saw:'see', seen:'see', happened:'see',
+  before:'before', earlier:'before', first:'before',
+  why:'why', word:'word', name:'word', called:'word', grandmother:'grandmother',
+};
+const norm = q => q.toLowerCase().replace(/[^a-z0-9\s-]/g,' ').split(/\s+/).filter(Boolean);
+const tagsOf = q => new Set(norm(q).map(t => SYN[t]).filter(Boolean));
+
+/* ── state ── */
+let S;
+function fresh() { return {
+  day:1, asks:{ soan:0, matsuzo:0, oyae:0, toku:0 },
+  regard:{ soan:1, matsuzo:0, oyae:1, toku:0 },
+  tells:new Set(), asked:new Set(), fallbackN:{ soan:0, matsuzo:0, oyae:0, toku:0 },
+  who:'soan', log:{ soan:[], matsuzo:[], oyae:[], toku:[] },
+}; }
+const told = t => S.tells.has(t);
+const R = who => S.regard[who] || 0;
+const bump = (who, n=1) => { S.regard[who] = Math.min(3, R(who) + n); };
+
+/* ── the lexicon (a hand-built miniature of the compiled intent table) ──
+   slots: every slot must match one of its |-alternatives.
+   re[who] -> string | fn(state)->string. fx side-effects run on match.   */
+const INTENTS = [
+
+  // ——— the night at the weir (the spine) ———
+  { id:'night-weir', slots:['night|arrival|see','weir'],
+    re: {
+      matsuzo: () => {
+        if (R('matsuzo') >= 2) {
+          S.tells.add('account'); S.tells.add('light');
+          return '“There was no boat and no flood.” He says it to the water, not to you. “There was a light that crossed UPSTREAM — against the current, steady, the pace of a man walking a corridor. Then it was gone, and you were at the gate of my weir, face down. Dry above the waist — which the river does not do. I told no one. Who does a man tell that to?”';
+        }
+        return told('night-try') ? '“I said what I said.” He spits, neatly. “Ask me about something I’ll answer.”'
+          : (S.tells.add('night-try'), '“Not on an empty jar.” He taps the rail twice and says nothing else.');
+      },
+      soan: '“I received what the water was finished with. What the water did before that is the weir-keeper’s to tell — he was there. I was sent for.”',
+      oyae: '“They say the old weir-keeper found you half-drowned. He carried you up himself, they say. He’s stronger than he looks, they say.” She clearly enjoys “they say.”',
+      toku: () => { S.tells.add('date14');
+        return '“The fourteenth of the eighth month.” No hesitation. “I date what happens to this house. You happened to it.”'; },
+    } },
+
+  // ——— when did I arrive (the date anchor) ———
+  { id:'arrival-date', slots:['arrival|me','date'],
+    re: {
+      toku: () => { S.tells.add('date14'); return '“The fourteenth. I have said so. I will say it the same way in ten years.”'; },
+      matsuzo: () => { S.tells.add('bonanchor'); return '“Morning after the Bon lanterns went out. I remember because the paper was still on the water.”'; },
+      soan: '“The fourteenth, as anyone will tell you.” He is briefly very interested in a jar he has already arranged.',
+      oyae: '“Before my time noticing you, sorry.” She counts on her fingers. “The lantern month? Ask the dowager — she keeps every date in the province.”',
+    } },
+
+  // ——— Sōan’s book ———
+  { id:'soan-writing', slots:['book'],
+    re: {
+      soan: '“Notes. A physician who does not write buries his mistakes twice.” The brush does not stop. He has not told you what the notes are OF.',
+      oyae: () => { S.tells.add('burned');
+        return 'She lowers the bucket. “The morning after you first woke — he burned a page. At his own brazier. Paper is dear, sir. Nobody burns a blank one.” She looks proud, then worried, then busy.'; },
+      toku: '“A physician’s book outlives his patients. Ask him what he keeps — and watch his hands when he answers, not his mouth.”',
+      matsuzo: '“Can’t read.” A long pause. “He can, though. Writes more than he doctors, some nights. The light burns late in that room.”',
+    } },
+
+  // ——— the burned page ———
+  { id:'burned-page', slots:['burn'],
+    re: {
+      soan: () => {
+        if (told('burned')) { S.tells.add('tenth');
+          return 'He goes very still. “The girl talks.” A breath. “A page I wrote on the tenth. It was… premature. A physician corrects the record; that is all a physician does.” He will not say more, and his hands have stopped.'; }
+        return '“Ash is ash. If you have a wound, show me the wound.”';
+      },
+      oyae: () => { S.tells.add('burned'); return '“So you heard too!” — she is delighted — “the page, the brazier, the morning after you woke. I SAW the smoke. Don’t say I said.”'; },
+      toku: '“In this house we burn pine and we burn our dead, and nothing else. Whoever burns paper has a reason worth the paper.”',
+      matsuzo: '“Men burn what they can’t drown.” He seems to consider this fair.',
+    } },
+
+  // ——— the tenth vs the fourteenth (the buried treasure) ———
+  { id:'why-before', slots:['tenth','date|fourteenth|before|arrival|me'],
+    re: {
+      soan: () => {
+        if (told('tenth') && told('date14')) { S.tells.add('expected');
+          return 'For the first time he looks at you the way he looks at a fever chart. “Because I was told to be ready.” The room is very quiet. “Four days before the weir, a letter came. I burned my first note because it named the letter. You were not found, boy. You were expected.” He opens the door for you to leave, courteously, like a man who has just handed you something heavy.'; }
+        return '“Dates.” He shrugs with one shoulder. “Ask the dowager; she hoards them.”';
+      },
+      toku: '“Before? Nothing about you is before. You began on the fourteenth, as far as this house is concerned.” The AS FAR AS sits there, dated and deliberate.',
+      oyae: '“Numbers, sir? I carry water.”',
+      matsuzo: '“Count on your own fingers, I count herons.”',
+    } },
+
+  // ——— dry above the waist ———
+  { id:'dry', slots:['dry'],
+    re: {
+      soan: () => { S.tells.add('dry'); return '“You were dry above the waist when they brought you in. I noted it.” A beat. “I note things.”'; },
+      matsuzo: () => { S.tells.add('dry'); return '“Dry.” He says it like a verdict. “Which the river does not do.”'; },
+      oyae: '“I washed what you came in. River-mud to the belt, clean as church above it. I didn’t like touching it, if you want the truth.”',
+      toku: '“I do not discuss gentlemen’s laundry.” It is almost a joke. Almost.',
+    } },
+
+  // ——— the light ———
+  { id:'light', slots:['light','weir|night|upstream|see'],
+    re: {
+      matsuzo: () => told('account')
+        ? '“I said it once and it cost me a jar’s worth of quiet. Steady. Upstream. Walking pace.” He holds up one finger. “ONE light. There should never be one light on water — a lantern doubles in the river. This one didn’t.”'
+        : '“Lights on water.” He looks at you for the first time. “Who have you been talking to?” He goes back to the water and will not continue.',
+      toku: () => {
+        if (told('light')) { S.tells.add('word');
+          return 'She is quiet so long you think she has not heard. “My grandmother had a word for a light that walks the water. Her generation used it the way we use ‘storm’ — a thing you plan around.” She smooths her sleeve once. “We do not use that word in this house. Ask me anything else and I will answer it.”'; }
+        return '“Fireflies are done for the year. Speak plainly or speak of something else.”';
+      },
+      soan: '“Marsh-gas does strange things in the eighth month. So do tired eyes.” He says it too smoothly, like a prescription he has filled before.',
+      oyae: '“Ooh, like the Bon lanterns? They go west along the path, every year, down to the water. Beautiful and sad. Why?”',
+    } },
+
+  // ——— O-Yae’s wages / Toku’s purse ———
+  { id:'wages', slots:['coin'],
+    re: {
+      oyae: () => {
+        if (R('oyae') >= 2) { S.tells.add('tokupays');
+          return 'She checks the yard with one glance. “The lady dowager pays me. Old coin, worn smooth, counted twice.” Quieter: “She pays for what the house forgets.” Then, loudly: “LOVELY weather for hauling water!”'; }
+        return '“Wages, sir?” The bucket is suddenly fascinating. “I’m paid what I’m paid.”';
+      },
+      toku: () => {
+        if (told('tokupays')) { S.tells.add('admits');
+          return '“Two years.” She folds her hands. “Since the autumn the trade failed and my son’s steward ruled off the wage column like a man closing an eye. My widow’s portion is mine to spend. A house is people fed, not beams standing.” She regards you. “Write that down, since you write things down.”'; }
+        return '“The house’s books are the steward’s. My purse is mine. Which of the two are you asking an old woman about?” — and she waits, genuinely, for you to dare.';
+      },
+      soan: '“I am paid in radishes as often as coin. Ask the steward about money; bring me the radishes.”',
+      matsuzo: '“I pay THEM. Weir lease, first of the month, to the young master by subtraction.” The phrase sounds rehearsed and bitter.',
+    } },
+
+  // ——— person-directed (these raise regard, hidden) ———
+  { id:'about-you', slots:['you','work|tally|memory|house|small|who'],
+    re: {
+      matsuzo: () => { bump('matsuzo');
+        return '“Forty-one years at this weir. Two floods, one drowning, one—” he stops. “Two floods and one drowning.” He almost smiles at your noticing. “You listen. Most don’t.”'; },
+      soan: () => { bump('soan');
+        return '“I trained in the castle town. I came out here because the castle town was full of physicians and empty of patients who told the truth.” He looks at you. “Country people lie less. Present company under review.”'; },
+      oyae: () => { bump('oyae');
+        return '“Me? Nobody asks about ME.” She tells you about her mother, the walk from the village, the cook’s temper, and one very good festival, all in one breath. You are now her favorite person on the estate.'; },
+      toku: () => { bump('toku');
+        return '“I came to this house in my sixteenth year, the year the second granary was raised. Everything I tell you will have a date on it. Dates are how a woman is believed.”'; },
+    } },
+  { id:'tally', slots:['tally'],
+    re: {
+      matsuzo: () => { bump('matsuzo');
+        return '“Herons. Boats. Water-height, by the third post.” A pause. “You, since the fourteenth. Nothing personal — I count what the weir sends me.”'; },
+      soan: '“I count doses. Miscounting is how physicians become famous.”',
+      oyae: '“I count buckets. Today: thirty-one. It is not interesting, sir.”',
+      toku: '“I count years. We are none of us short of material.”',
+    } },
+  { id:'small-talk', slots:['small'],
+    re: {
+      matsuzo: () => { bump('matsuzo'); return '“Water’s low for the month.” Coming from him this is nearly a friendship.'; },
+      soan: () => { bump('soan'); return '“The cold comes early. Old joints know it first; I dose half the village in the eighth month.”'; },
+      oyae: () => { bump('oyae'); return '“They say the harvest dance might be BIG this year—” and you receive the entire village’s social calendar, with commentary.'; },
+      toku: () => { bump('toku'); return '“The autumn of the year you came is ending. Seasons close, sir. Books should.”'; },
+    } },
+
+  // ——— texture with leaks ———
+  { id:'west-path', slots:['west'],
+    re: {
+      oyae: '“The west path? That’s the Bon road — the lanterns go down it to the water, every year. Nobody walks it after dark otherwise. Well. Nobody SHOULD.”',
+      toku: '“The lantern road. My grandmother kept the rite the old way, further than the bank. The house keeps it… to the bank.” A date does not accompany this, which you notice.',
+      matsuzo: '“Comes out at my weir, the west path. Bon nights the whole river is paper and light.” He rubs his thumb on the rail. “Pretty, if you don’t think about it.”',
+      soan: '“A path. It goes west.” He is not going to be interesting about this, visibly on purpose.',
+    } },
+  { id:'bon', slots:['bon'],
+    re: {
+      matsuzo: () => { S.tells.add('bonanchor'); return '“Lanterns went out on the thirteenth. You came out of my weir the morning after the last of them.” He lets that sit, in case you can count.'; },
+      oyae: '“Bon! The dead come home and eat better than we do.” She laughs, then doesn’t. “The lanterns lead them back to the water after. That’s the part I never liked — WATCHING them go.”',
+      toku: '“We keep Bon properly in this house. The dead are family. Family is not optional.”',
+      soan: '“A physician works Bon. The living get ill out of sheer feeling.”',
+    } },
+  { id:'jizo', slots:['jizo'],
+    re: {
+      oyae: '“The paddy jizō? Fresh flowers, always. I don’t know who. Truly! It’s the one gossip I don’t have, and it DRIVES ME MAD.”',
+      toku: '“Someone honors what the house does not remember to. Leave them to it; some accounts are private.”',
+      matsuzo: '“Flowers, yes. Before dawn, whoever it is. Not my water, not my count.”',
+      soan: '“Stone does not sicken; I have no opinion on the jizō.”',
+    } },
+  { id:'who-am-i', slots:['me|who','memory'],
+    re: {
+      soan: '“You ask as if I would know more than you.” He says it evenly — too evenly, you think later. “Rest. Eat. Names return or they do not.”',
+      toku: '“You are the man from the weir, and since the fourteenth you have been the house’s to feed. That is an answer. It is not THE answer, but it is the one I have.”',
+      matsuzo: '“You’re what the weir gave me instead of a heron.” He finds this genuinely funny, once, silently.',
+      oyae: '“They say you might be anyone! A lord’s son, a runaway monk, a drowned ghost—” she stops. “Not the last one. Sorry. It’s only what they say.”',
+    } },
+  { id:'secrets', slots:['secret|fear'],
+    re: {
+      soan: '“Everyone keeps something. A physician keeps most of it professionally.” The word PROFESSIONALLY is doing a great deal of work.',
+      matsuzo: '“Afraid? Of the river, always. A man who isn’t is about to teach the village a lesson at his own expense.”',
+      oyae: '“I’d tell you MY secrets but I haven’t any good ones. Other people’s, now—” she catches herself with real effort.',
+      toku: '“A house this old is built of kept things. Pull one beam and see what the roof does.” It sounds like a warning and an invitation at once.',
+    } },
+  { id:'others', slots:['others'],
+    re: {
+      oyae: '“The steward counts everything twice; the drill-master’s bark is worse et cetera; the young master reads you like a tally and doesn’t like the total. There. Saved you a season of asking.”',
+      toku: '“The living members of this house you may observe at dinner. The absent ones are not dinner conversation.” ABSENT ones. Plural.',
+      soan: '“I treat them all and discuss none of them. You see how that must also protect YOU.”',
+      matsuzo: '“House folk. They pass my weir twice a year and look at the water like it owes them rent.”',
+    } },
+  { id:'yohei', slots:['yohei|sake'],
+    re: {
+      matsuzo: '“The pedlar keeps the clear stuff.” He looks at the water. He looks at you. He looks at the water. It is the least subtle thing an old man has ever done.',
+      oyae: '“Yohei’s at the gate on market days. Sharp as a hook but he wraps things nicely.”',
+      soan: '“I buy alum from him and doubt him at every weighing.”',
+      toku: '“A pedlar knows a road’s worth of everything. Buy something small and let him talk.”',
+    } },
+  { id:'house-decline', slots:['house','coin|secret|small'],
+    re: {
+      toku: '“The trade failed two autumns ago — I will give you the date if you want it; nobody else in this house will.” She waits. “A house does not fall in a night. It rounds DOWN, year by year, until someone counts honestly.”',
+      soan: '“The house pays me late and apologizes early. Draw your own chart.”',
+      oyae: '“We do more with less every year. The dowager says a house is people fed—” she stops, having quoted somebody she shouldn’t.',
+      matsuzo: '“Lease used to be renewed every three years. Now it’s yearly. Whatever that means up at the house, down here it means paper.”',
+    } },
+];
+
+/* per-person fallbacks + occasional true leaks (the stumble channel) */
+const FALLBACK = {
+  soan: ['“Hm.” The brush keeps moving. “Ask it smaller.”',
+         '“That is either philosophy or gossip, and I stock neither.”',
+         '“Try the question again the way you would describe a symptom: where, when, how much.”'],
+  matsuzo: ['A grunt. The water is more interesting than your question, and he lets you know it.',
+            '“Words.” He adjusts a rope that did not need adjusting.',
+            '“Ask the house. Or the river. Whichever answers first.”'],
+  oyae: ['“Sir, I genuinely have no idea what you just asked, and I know EVERYTHING.”',
+         '“Is that a riddle? I’m terrible at riddles. Ask me who’s courting whom instead.”',
+         '“You do ask the strangest things. I’ll think on it while I haul.”'],
+  toku: ['“Rephrase it, and this time decide what you are actually asking.” It is not unkind. It is a lesson.',
+         '“That question has no date in it. Give a thing its WHEN and it becomes answerable.”',
+         '“An old woman’s attention is a small purse. Spend it precisely.”'],
+};
+const LEAK = {
+  soan: '“…While you are here: eat before sundown. You came to me weak once already, and I had warning then.” He does not appear to notice the word WARNING leaving him.',
+  matsuzo: '“…Fourteen years I’ve kept the Bon count for the village. Lanterns out on the thirteenth, always. Some things you can set the water by.”',
+  oyae: '“…Oh! Unrelated: if you ever wonder about the west path, don’t wonder about it after dark. That’s all. That’s the whole thought.”',
+  toku: '“…You may as well know the second granary was raised the year I came. This house COULD build, once. Remember that when you hear it creak.”',
+};
+
+/* ── matching ── */
+function match(q, who) {
+  const tags = tagsOf(q);
+  let best = null, bestScore = 0;
+  for (const it of INTENTS) {
+    if (!it.slots.every(slot => slot.split('|').some(t => tags.has(t)))) continue;
+    const score = it.slots.length + (it.re[who] ? 0.5 : 0);
+    if (score > bestScore) { best = it; bestScore = score; }
+  }
+  return best;
+}
+function answer(q) {
+  const who = S.who;
+  if (S.asks[who] >= ASKS_PER_DAY) {
+    return { stage:true, text: PEOPLE[who].name + ' has given you what a day politely allows. (Sleep, and come back.)' };
+  }
+  S.asks[who]++;
+  const it = match(q, who);
+  if (!it) {
+    const n = S.fallbackN[who]++;
+    const pool = FALLBACK[who];
+    const text = (n > 0 && n % 3 === 2) ? LEAK[who] : pool[n % pool.length];
+    return { text };
+  }
+  const key = it.id + ':' + who;
+  const again = S.asked.has(key); S.asked.add(key);
+  let r = it.re[who];
+  if (!r) return { text: PEOPLE[who].name === 'Toku'
+      ? '“Not mine to speak of. Ask where the knowing lives.”'
+      : '“Couldn’t say.” (Perhaps someone else could.)' };
+  const text = typeof r === 'function' ? r() : r;
+  return { text, again };
+}
+
+/* ── rendering ── */
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function renderPeople() {
+  $('#people').innerHTML = '<span class="label">Before</span>' +
+    Object.entries(PEOPLE).map(([id,p]) => {
+      const spent = S.asks[id] >= ASKS_PER_DAY;
+      return `<button class="p-btn ${id===S.who?'on':''}" data-who="${id}" style="color:${p.v}">
+        <span class="nm">${p.name}</span><span class="role">${p.role}</span>
+        ${spent ? '<span class="gone">has had enough today</span>' : ''}</button>`;
+    }).join('');
+  const p = PEOPLE[S.who];
+  $('#with-name').textContent = p.name;
+  $('#with-name').style.color = p.v;
+  $('#where').textContent = p.where;
+  $('#v-day').textContent = S.day;
+}
+function renderLines() {
+  const el = $('#lines');
+  el.innerHTML = S.log[S.who].map((l,i,arr) => {
+    const last = i >= arr.length - 2 ? ' ink-in' : '';
+    if (l.q !== undefined) return `<p class="ln you${last}">${esc(l.q)}</p>`;
+    if (l.stage) return `<p class="ln stage${last}">${esc(l.text)}</p>`;
+    return `<p class="ln${last}"><span class="who" style="color:${PEOPLE[S.who].v}">${PEOPLE[S.who].name}:</span> ${esc(l.text)}${l.again ? ' <span style="color:var(--ink-faint);font-size:12px;font-style:italic">(again)</span>' : ''}</p>`;
+  }).join('') || `<p class="ln stage">You stand before ${PEOPLE[S.who].name}. The book is open. Ask what you actually wonder.</p>`;
+  el.scrollTop = el.scrollHeight;
+}
+function renderBook() {
+  $('#bookbody').innerHTML = Object.entries(PEOPLE).map(([id,p]) => {
+    const qa = S.log[id].filter(l => l.q !== undefined || (!l.stage && l.text));
+    const pairs = [];
+    for (let i=0;i<S.log[id].length;i++) {
+      const l = S.log[id][i];
+      if (l.q !== undefined) pairs.push({ q:l.q, a:(S.log[id][i+1]&&S.log[id][i+1].text)||'' });
+    }
+    return `<div class="who-sec" style="color:${p.v}">${p.name}</div>` +
+      (pairs.length ? pairs.map(x => `<div class="qa"><div class="q">${esc(x.q)}</div><div class="a">${esc(x.a)}</div></div>`).join('')
+                    : '<div class="empty">nothing yet — you have not asked.</div>');
+  }).join('');
+}
+function render() { renderPeople(); renderLines(); }
+
+/* ── wiring ── */
+document.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.who) { S.who = b.dataset.who; render(); $('#q').focus(); }
+});
+$('#askform').addEventListener('submit', e => {
+  e.preventDefault();
+  const q = $('#q').value.trim(); if (!q) return;
+  $('#q').value = '';
+  const res = answer(q);
+  if (res.stage) S.log[S.who].push({ stage:true, text:res.text });
+  else { S.log[S.who].push({ q }); S.log[S.who].push({ text:res.text, again:res.again }); }
+  render(); $('#q').focus();
+});
+$('#open-book').addEventListener('click', () => { renderBook(); $('#bookscrim').classList.add('show'); });
+$('#close-book').addEventListener('click', () => $('#bookscrim').classList.remove('show'));
+$('#bookscrim').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('show'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') $('#bookscrim').classList.remove('show'); });
+$('#dev-day').addEventListener('click', () => { S.day++; S.asks = { soan:0, matsuzo:0, oyae:0, toku:0 };
+  S.log[S.who].push({ stage:true, text:'Day ' + S.day + '. The house wakes; patience is refilled.' }); render(); });
+$('#dev-reset').addEventListener('click', () => { S = fresh(); render(); });
+$('#dev-map').addEventListener('click', () => {
+  S.log[S.who].push({ stage:true, text:'[DEV — the map, for judging coverage after play] Spine: ask MATSUZŌ about the night/weir (he opens only once he likes you — ask about HIM, his count, his weir first; no meter is shown). TOKU dates your arrival (the 14th); MATSUZŌ anchors it to Bon (lanterns out the 13th). O-YAE knows Sōan burned a page; with that, press SŌAN about the burning (he admits: written the 10th). Holding both dates, ask Sōan WHY THE 10TH IS BEFORE THE 14TH → the buried line. The light: only after Matsuzō’s account; then take the word LIGHT to Toku. Wages: befriend O-Yae → “the dowager pays” → confront Toku. ~40 intents; everything else is authored texture, deflection, or leak.' });
+  render();
+});
+
+S = fresh();
+render();
+$('#q').focus();
+</script>
+</body>
+</html>

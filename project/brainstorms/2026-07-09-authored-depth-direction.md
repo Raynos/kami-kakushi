@@ -167,6 +167,61 @@ _(running synthesis — updated as answers land)_
 - **ADR-139 refinement** (diverge load-bearing, gate bulk) — drafted as
   ADR-draft-K2 inside the plan; ADR-139 as written stays canon until un-park.
 
+## Feel-test verdict (2026-07-09, human — after playing the prototype)
+
+- Layouts: **ledger/scroll bad, book better** — but the layout isn't the issue.
+- **The interaction model FAILED**: visible move-list + priced clicks + warmth
+  pumping = "randomly click through and guess everything and get all the
+  content… a cheap UI." The depth may exist but is found too easily. This
+  indicts Plan K §M's `availableMoves` surface (the checklist) — not the ring
+  contract, not the canon model.
+- New brief for the surface (human, verbatim-close): make the player WORK for
+  it · STUMBLE upon it · no hints/hand-holding, hard work and thought · never
+  checklist/chore — curiosity & imagination find it · open-ended · a UI only
+  Fable could build (impossible for pre-LLM 2023 HTML5 dev).
+- Three replacement top-level UI concepts offered (detailed in chat, to be
+  developed on pick): **問 The Asking** (free-text questions → compiled
+  authored intent lexicon, answers in-voice per speaker×state, no menus) ·
+  **帳 The Papers** (the house's complete REAL document corpus, unmarked
+  discrepancies found by actually doing the bookkeeping; rung = clearance;
+  gate audits the corpus arithmetic) · **影 The Overheard World** (a
+  never-repeating state-true ambient layer + clip-anything + show-any-clipping
+  -to-any-person authored reaction matrix; meaning confirmed only by people's
+  reactions). Shared spine: open input, intrinsic thought-cost, confirmation
+  only through the fiction; all static/deterministic/gate-walkable (C7 holds).
+
+## Round 2 (2026-07-09, later) — Asking picked; Papers/Overheard rejected; 10 more
+
+- **Human verdicts on the three concepts:** The Asking → *build the prototype*
+  (built: `project/prototypes/the-asking/`). The Papers → rejected as pitched
+  ("how can this be fun, its just 300 pages of dense stuff"). The Overheard
+  World → rejected as pitched ("I still don't feel how the UI comes into
+  this"). Lesson recorded: a depth concept is only as good as its concrete
+  UI + moment-to-moment fun; corpus-scale is not a pitch.
+- **The Asking prototype** (feel-test II): free-text question box, 4 NPCs
+  answering in voice from a ~40-intent hand-built miniature of the compiled
+  lexicon; hidden per-person openness raised by person-directed curiosity
+  (no meters shown); per-person authored deflections with a rotating
+  true-leak channel (the stumble mechanism); buried aha-chain: Toku dates
+  arrival the 14th · Matsuzō anchors Bon lanterns out the 13th · O-Yae knows
+  Sōan burned a page · Sōan admits it was written the 10th · asking Sōan why
+  the 10th precedes the 14th ⇒ "You were expected." DEV corner has a
+  spoiler map for judging coverage after play.
+- **10 further concepts offered** (each with UI + why-fun; full text in chat,
+  develop on pick): 夢 Dreams (interactive dream vignettes recombining the
+  day; carry one symbol out) · 仕草 Stakeout (full authored routines; be
+  there, watch; deviations are the clues; watchers get noticed) · 写 The
+  Copying (transcription job = fidelity choices; the house reacts to what
+  circulates) · 供 The Offerings (wordless object-correspondence at
+  significant places) · 咄 The Rumor (say things; claims propagate the
+  social graph and return altered) · 絵 The Sketchbook (authored ink
+  drawings per place×time×state; compare sketches to see change) · 間 The
+  Silences (avoidance performed; record what was NOT said) · 暦 The Almanac
+  (a working period calendar genuinely schedules the world; planning is the
+  play) · 家訓 The Maxims (reconstruct the ur-text from each speaker's
+  corrupted variant; recite it back) · 影 The Double (the house investigates
+  you back; read your own evolving dossier).
+
 ## Outcome (2026-07-09 — session close)
 
 Promoted: the whole grill distilled into
