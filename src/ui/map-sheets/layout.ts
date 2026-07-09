@@ -490,6 +490,7 @@ export const ROADS = {
     [2152, 1660],
     [2172, 1810],
     [2130, 2060],
+    [2114, 2110], // off the sheet edge — the road LEAVES (R7; the T2-V6 lesson)
   ] as readonly Pt[],
   /** the hill track east through the woodlot — over the pass */
   eastTrack: [
@@ -498,6 +499,7 @@ export const ROADS = {
     [2750, 1120],
     [3000, 1032],
     [3160, 990],
+    [3212, 968], // off the sheet edge (R7)
   ] as readonly Pt[],
   /** the upstream path along the east bank — the temple country (the packet's road) */
   upstream: [
@@ -506,6 +508,7 @@ export const ROADS = {
     [640, 620],
     [700, 380],
     [742, 140],
+    [758, -8], // off the sheet edge (R7)
   ] as readonly Pt[],
   /** the daily work path: gate → paddies → weir */
   workPath: [
@@ -546,20 +549,45 @@ export const ROADS = {
   ] as readonly Pt[],
 } as const;
 
-/** Period distance notes at the exits — the sheet says where the world continues. */
+/** Period distance notes at the exits — the sheet says where the world
+ *  continues. ENGLISH (FB-181/183: a player must understand where a road
+ *  goes; the old kanji forms sat unread — and unpainted: no painter consumed
+ *  this data until the 2026-07-09 R7 fix wired it). Translations of the
+ *  original authored notes, not new fiction. */
 export const NOTES: readonly {
   readonly x: number;
   readonly y: number;
   readonly text: string;
-  readonly vertical?: boolean;
   readonly t1Only?: boolean;
 }[] = [
-  { x: 2192, y: 1700, text: '村へ 半里', vertical: true },
-  { x: 2596, y: 1198, text: '峠道', vertical: true },
-  { x: 602, y: 582, text: '上流 寺領へ', vertical: true },
-  { x: 2136, y: 2010, text: '村道', vertical: true, t1Only: true },
-  { x: 3062, y: 952, text: '隣谷へ', vertical: true, t1Only: true },
-  { x: 706, y: 232, text: '山径', vertical: true, t1Only: true },
+  { x: 2196, y: 1712, text: 'to the village — half a ri' },
+  { x: 2450, y: 1275, text: 'the pass road — east' },
+  { x: 620, y: 468, text: 'upstream — the temple lands' },
+  { x: 2050, y: 2032, text: 'the village road', t1Only: true },
+  { x: 2930, y: 926, text: 'to the next valley', t1Only: true },
+  { x: 700, y: 218, text: 'a mountain path', t1Only: true },
+];
+
+/** Story annotations in the surveyor's own hand — the document SAYS what the
+ *  drawing alone stopped saying at fit zoom (the 2026-07-09 ensemble blind
+ *  pass: R5 nesting read INVERTED 0/3, R6 shrinkage unread, R8 never
+ *  recovered). English per FB-181/183; every line is transcribed from
+ *  committed canon (nodes.ts wrong-lines · spec §4 · the DEV tooltips),
+ *  never newly-authored fiction. */
+export const SURVEY_NOTES: readonly {
+  readonly x: number;
+  readonly y: number;
+  readonly text: string;
+  readonly t1Only?: boolean;
+}[] = [
+  // R5 — the nesting, said in the document's voice
+  { x: 880, y: 1032, text: 'the old precinct wall — robbed to footings' },
+  { x: 1600, y: 1180, text: "the house keeps the old ring's corner" },
+  // R6 — the shrinkage
+  { x: 950, y: 1748, text: 'the old fields — four times this, let go' },
+  { x: 648, y: 872, text: 'boundary stone — the old line' },
+  // R8 — the stable court under the drill yard
+  { x: 2380, y: 1402, text: 'the old stables — stalls for twenty' },
 ];
 
 /** The night-rounds patrol rail (drawn when 夜 is selected) — gate → kura →

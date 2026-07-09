@@ -151,3 +151,32 @@ carried as free-fix candidates (T0/T1 R8+R9, T2 V10).
 robustly on the SAME one-geography drawing — the nesting/shrinkage
 story survives the estate crop but dies at the whole-world frame; the
 fix is T1-scale legibility, never moving a landmark.
+
+---
+
+## 7 · P4 — the redraw: the sheet learns to SAY its story
+
+Root cause across all five robust fails, one defect class: **the
+story's captions were kanji-only, tooltip-only, or dead data.** The
+exit NOTES ("村へ 半里") existed in layout.ts but NO painter consumed
+them — R7's roads read as internal lanes; the R14 repair story lived
+in DEV tooltips behind red kanji (改・涸 read as "drying, ominous" —
+inverted 0/3); R5/R6's nesting/shrinkage relied on pure inference at
+fit zoom.
+
+The fix (FB-181/183 idiom — English survey annotations, fit-visible;
+every line transcribed from committed canon, never new fiction):
+
+- `layout.ts` — NOTES translated to English + finally painted; three
+  exit roads extended to bleed OFF the sheet edge (the proven T2-V6
+  lesson); new `SURVEY_NOTES` data (precinct/ring-corner/old-fields/
+  boundary-stone/stables lines from nodes.ts wrong-lines + tooltips).
+- `ground.ts` — NOTES + SURVEY_NOTES painters (ink-soft, sizes 13/14,
+  art layer NOT .ms-fine — the misses happen at fit); English red
+  glosses beside 改・涸 (pools) and 改・塞 (breach); precinct ground
+  wash 0.26 → 0.33 so the old enclosure reads as ONE ground.
+
+Two capture rounds (tmp/p4-notes, tmp/p4-notes-2): first round found
+a note collision (pass-road × ring-corner) + river overlap
+(boundary-stone) — repositioned; second round reads composed on both
+sheets, my own eyes. Pin regenerated deliberately WITH this commit.

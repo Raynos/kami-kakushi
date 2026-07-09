@@ -35,9 +35,11 @@ import {
   GUEST,
   HILLS,
   LANTERN_THREAD,
+  NOTES,
   PRECINCT,
   RIVER,
   ROADS,
+  SURVEY_NOTES,
   WATER,
   WILDS,
   WORLD,
@@ -368,6 +370,11 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
       '改・涸',
       'The re-survey: the pools drained when the breach closed (R4)',
     );
+    // the kanji alone read as DISASTER to fresh eyes (R14 inverted 0/3 —
+    // "drying, ominous"); the reviser's gloss says what the red means
+    inkText(art, 452, 300, 'pools drained —', { size: 12, color: 'var(--shu)', opacity: 0.95 });
+    inkText(art, 452, 318, 'the breach closed', { size: 12, color: 'var(--shu)', opacity: 0.95 });
+    inkText(art, 452, 336, 'ditches cut anew', { size: 12, color: 'var(--shu)', opacity: 0.95 });
   }
   // the old breach: open robbed gap in T0; closed in fresh stone in T1
   breachMark(art, tier);
@@ -421,6 +428,19 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   road(art, ROADS.bonPath, 'rd-bon', d.ghostRoads.bon);
   // the ghost approach — the dead road to the great gate, beside the living one
   road(art, PRECINCT.ghostApproach, 'rd-ghost', true);
+  // exit + story notes, the surveyor's English hand (FB-181/183) — the 2026-07-09
+  // ensemble pass: R7 failed because the exit notes were DEAD DATA (never
+  // painted) and roads read as internal lanes; R5/R6/R8 failed because the
+  // nesting/shrinkage/stable story lived only in inference and DEV tooltips.
+  // Fit-visible on purpose — the misses happen at fit zoom, never in .ms-fine.
+  for (const n of NOTES) {
+    if (n.t1Only && tier === 'T0') continue;
+    inkText(art, n.x, n.y, n.text, { size: 14, color: 'var(--ink-soft)', opacity: 0.92 });
+  }
+  for (const n of SURVEY_NOTES) {
+    if (n.t1Only && tier === 'T0') continue;
+    inkText(art, n.x, n.y, n.text, { size: 13, color: 'var(--ink-soft)', opacity: 0.85 });
+  }
 
   // ── 6 · the old precinct — the RUIN (G4): footings, standing runs, fallen roofs ──
   // d.ruinRevealed is T2's seam: when a tier finally NAMES the precinct, its
@@ -433,8 +453,8 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   wash(art, [...PRECINCT.wall], {
     seed: 'prec-ground',
     fill: 'var(--steel-2)',
-    opacity: 0.26,
-    amp: 6,
+    opacity: 0.33, // lifted from 0.26 — the enclosure must read as ONE old ground
+    amp: 6, //         at fit zoom (R5: the nesting read inverted without it)
   });
   rubbleField(art, PRECINCT.rubble, { seed: 'rubble' });
   // OPEN ring on purpose: the missing stretch is the guest compound's neat wall —
@@ -656,6 +676,12 @@ function breachMark(art: SVGElement, tier: Tier): void {
       { seed: 'breach-fix', w: 6, color: 'var(--gold-dim)', opacity: 0.85 },
     );
     redNote(art, bx + 46, by + 6, '改・塞', 'The breach, CLOSED at R4 — the pools drained with it');
+    // English gloss beside the kanji stamp (R14 — the repair must READ as repair)
+    inkText(art, bx + 66, by - 2, 'breach closed — new stone', {
+      size: 12,
+      color: 'var(--shu)',
+      opacity: 0.95,
+    });
     tip(g, 'The old breach — closed in fresh stone (R4); the robbed hollows still read beside it');
   } else {
     tip(
