@@ -90,6 +90,10 @@ export interface VariantDef {
 export interface SurfaceDef {
   id: string;
   label: string;
+  /** The rung a player first meets this surface — the Variants tab groups by it so the panel
+   *  tracks a rung-by-rung QA (2026-07-09; matches review.md's rung grouping). Display-only;
+   *  V-tags stay registry-ordered. Omit ⇒ sorts last ("other"). */
+  rung?: number;
   /** variants[0] is the prod DEFAULT (self-picked); the rest are DEV-only alternates. */
   variants: VariantDef[];
 }
@@ -99,6 +103,7 @@ export interface SurfaceDef {
 export const SURFACES: SurfaceDef[] = [
   {
     id: 'estate-section',
+    rung: 1,
     label: 'Estate section (FB-157)',
     variants: [
       {
@@ -120,6 +125,7 @@ export const SURFACES: SurfaceDef[] = [
   },
   {
     id: 'build-tracker',
+    rung: 1,
     label: 'Build tracker (ADR-145)',
     variants: [
       {
@@ -142,6 +148,7 @@ export const SURFACES: SurfaceDef[] = [
   },
   {
     id: 'influence',
+    rung: 3,
     label: 'House-Influence grade',
     variants: [
       {
@@ -163,6 +170,7 @@ export const SURFACES: SurfaceDef[] = [
   },
   {
     id: 'craft',
+    rung: 4,
     label: 'Crafting',
     variants: [
       {
@@ -184,6 +192,7 @@ export const SURFACES: SurfaceDef[] = [
   },
   {
     id: 'market',
+    rung: 1,
     label: 'Travelling market',
     variants: [
       {
@@ -205,6 +214,7 @@ export const SURFACES: SurfaceDef[] = [
   },
   {
     id: 'quests',
+    rung: 5,
     label: 'Quests',
     variants: [
       {
@@ -227,6 +237,7 @@ export const SURFACES: SurfaceDef[] = [
   },
   {
     id: 'bestiary',
+    rung: 3,
     label: 'Bestiary',
     variants: [
       {
@@ -259,6 +270,7 @@ export const SURFACES: SurfaceDef[] = [
   //   buyable acquire list wired to `buy_belonging`) — only the PRESENTATION differs.
   {
     id: 'home',
+    rung: 3,
     label: 'Home / belongings',
     variants: [
       {
@@ -2162,8 +2174,25 @@ export function mountDevPanel(
     });
   });
 
-  const recencyOrdered = dev.surfaces.slice().reverse();
-  for (const surface of recencyOrdered) {
+  // Rung-ordered (2026-07-09) — surfaces sort by the RUNG a player first meets them, so the
+  // Variants tab tracks a rung-by-rung QA (mirrors review.md's rung grouping). A rung header
+  // lands whenever the rung changes; V-tags stay REGISTRY-ordered (above), so they never shift.
+  const rungOrdered = dev.surfaces.slice().sort((a, b) => (a.rung ?? 99) - (b.rung ?? 99));
+  let shownRung: number | undefined;
+  let firstRow = true;
+  for (const surface of rungOrdered) {
+    if (firstRow || surface.rung !== shownRung) {
+      shownRung = surface.rung;
+      firstRow = false;
+      const rh = el(
+        'div',
+        undefined,
+        surface.rung !== undefined ? `— rung R${surface.rung} —` : '— other —',
+      );
+      rh.style.cssText =
+        'color:#b08d4f;font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin:.35rem 0 .1rem;opacity:.85;';
+      variantsPane.append(rh);
+    }
     const sec = el('div');
     sec.style.cssText = 'border:1px solid #3a322a;border-radius:3px;';
 
