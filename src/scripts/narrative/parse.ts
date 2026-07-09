@@ -27,7 +27,7 @@ export class NarrativeError extends Error {
 
 export interface SpeechLine {
   readonly kind: 'speech';
-  /** The display-name token as written (e.g. 'Kihei', 'Tokubei') — resolved by emit. */
+  /** The display-name token as written (e.g. 'Kihei', 'Yohei') — resolved by emit. */
   readonly speaker: string;
   /** Explicit `(voice)` override; absent ⇒ the speaker's registered NPC voice. */
   readonly voice?: string;
@@ -307,7 +307,7 @@ const RE_SPEECH = /^(\p{Lu}[^:()]*?)(?: \(([a-z-]+)\))?: (.*)$/u;
 // A bare reuse-reference line (narrator voice), e.g. `@cold-open.wake`.
 const RE_REF = /^@[a-z-]+\.\S+$/;
 
-/** Parse `memory: kihei +1 (disciplined)` / `genemon +0, tozo +1 (friend)`. */
+/** Parse `memory: kihei +1 (disciplined)` / `genemon +0, kihei +1 (friend)`. */
 function parseMemory(raw: string, loc: Loc): MemoryEffect[] {
   return raw.split(',').map((part) => {
     const m = /^([a-z-]+) ([+\-−])(\d+)(?: \(([^()]+)\))?$/.exec(part.trim());

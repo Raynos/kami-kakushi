@@ -63,7 +63,7 @@ export function dayOfWeek(day: number): DayOfWeek {
 /** The six-season wheel (story bible `05-world.md`, storywave G1 — ADR-150/ADR-153). The
  *  season is now STORED, MANUAL state (`state.season`), NOT derived from the day: a season is
  *  a CONTAINER the player fills at their own pace and ends with the `advance_season` intent.
- *  There is no `DAYS_PER_SEASON` any more — the day/tick chain still advances (the day-of-week
+ *  The fixed per-season day-count is gone — the day/tick chain still advances (the day-of-week
  *  clock reads from `day`), but the season only turns by intent. Order is the wheel's, rotating
  *  cleanly: Winter → New Year → Spring → Summer → Bon → Autumn. */
 export const SEASONS = ['winter', 'new-year', 'spring', 'summer', 'bon', 'autumn'] as const;

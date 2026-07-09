@@ -63,11 +63,66 @@ No new `[dev — …]` gaps introduced this session; no fiction invented.
 
 ---
 
+## 2 · G6 — the drift sweep (retired names/ids)
+
+Word-boundary grep across `src/` for
+`Tokubei|Shigemasa|Tōzō|tozo|Yagōemon|Oyuki|Okimi|Osen|satoyama|face_wolf|
+wolf_scripted|DAYS_PER_SEASON`. (Naive `-i` grep false-positives on
+"Na**oyuki**" the heir and "ch**osen**" — always word-boundary it.) The `t0v2/`
+archive is exempt (byte-untouched per the one-version ruling, like historical
+docs / ADR-140). Fixes landed:
+
+- **Player-facing strings → real zones** (mechanical name-sync, the retired
+  satoyama folds into the woodlot): cook hints + the two "No foe holds this
+  ground" strings in `render.ts`; the `market.ts` greens-sack blurb; the
+  `skills.ts` Foraging blurb.
+- **Stale-as-current comments fixed:** `rungBeats.ts` old rung→cast list
+  (Tokubei/Tōzō/Shigemasa) genericized; `voices.ts` "until G4 renames"
+  comments updated (the rename landed — `NAMES.pedlar = 'Yohei'`);
+  `render.ts` `Shigemasa`→`Munemasa` (the lord), pedlar `(Tokubei)`→`(Yohei)`.
+- **Tombstone comments reworded** to keep the "why" while dropping the retired
+  literal: `face_wolf`/`wolf_scripted` deletion notes (`intents.ts`,
+  `autoplay.ts`, `enemies.ts`, `timing.ts`, `sim/metrics.ts`, `specs.ts`,
+  `playtest.mjs`, `requirements.md`); `DAYS_PER_SEASON` (`constants.ts`);
+  satoyama frame (`areas.ts`, `ranks.ts`).
+- **Test scaffolding decoupled from retired names:** `validate.test.ts` now
+  rejects a neutral `nonesuch` token (better than a retired name);
+  `requirements.test.ts` sample drive; `render.test.ts`/`discovery.test.ts`/
+  `m1.test.ts`/`economy.test.ts` sample/label text → woodlot.
+- **`narrative/parse.ts`/`validate.ts`** doc-comment examples updated
+  (Tokubei→Yohei, tozo→kihei, Shigemasa→Munemasa register).
+- **`map-variants/ezu.ts` DELETED** — the retired estate-map render path
+  (G4.2 ruled "retire whole"). It was fully orphaned: nothing imports it,
+  its one export `renderMapEzu` had 0 external refs, and `render.ts:130`
+  already noted "the old ezu.ts POS keyed to retired node ids and drew nothing
+  for the G4 estate." Clears 12 `near-/deep-satoyama` hits. Fixed the two
+  stale comments (`dev.ts`, `dev.test.ts`) that claimed render.ts imports
+  `ezu.ts` (it imports `map-variants/sheet-map.ts`).
+- **`map-sheets/nodes.ts`** — content-string name-sync `Shigemasa`→`Munemasa`
+  in the Shoin node's `who` (seam-authorized). ⚑ **Surface:** that node claims
+  the lord has "his only scene" at the Shoin, but the bible says Munemasa
+  never places at a T0 node ("a voice through a wall") — a pre-existing
+  map-content question for the map workstream, independent of the name.
+
+**Principled exemptions (left, reported — the anti-drift/anti-regression
+mechanisms themselves):**
+- `prd-drift.ts` — the drift **detector's** denylist (`{ term: 'shigemasa',
+  successor: 'munemasa' }`) + its self-documenting comments. Removing the term
+  disables catching this exact rename.
+- `prd-drift.test.ts` — the `hasWholeWord('tokubei tokujirō…', 'toku')` fixture
+  proving the matcher won't false-positive inside a longer word (the real bug
+  it guards).
+- `crafting.test.ts:129` — `expect(MATERIAL_DROPS['wolf_scripted']).toBeUndefined()`,
+  a RED-able anti-regression proving the old drop key is gone.
+
+Full verify green (17 gates) after the sweep. The `e2e/journeys.spec.ts`
+"Speak with Tokubei" hits are the G6 e2e rewrite's job (next).
+
 ## Next intended steps (current)
 1. G6 — rewrite `e2e/` specs to the new arc (Yohei stall / R3 night round /
-   clean-break persistence / re-anchored layout text).
-2. G6 — the drift sweep: fix residual retired-name hits in `src/` + `e2e/`.
-3. G6 — QA screenshot pass (if the harness runs) into `project/audit/screens/`.
+   clean-break persistence / re-anchored layout text); clears the last two
+   retired-name hits (journeys.spec.ts "Tokubei").
+2. G6 — QA screenshot pass (if the harness runs) into `project/audit/screens/`.
 
 ## Landmines (current)
 - **`Nameless:` vs narrator-quote (surface for the human).** G4.1 adopted a

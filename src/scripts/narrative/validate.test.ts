@@ -65,8 +65,8 @@ describe('narrative validation roster (each check can go RED)', () => {
 
   it('§1 ambient (non-NPC) speaker needs an explicit voice', () => {
     // Sayo (the village girl) is a NAMES entry but not a T0 NpcId, so a bare speaker
-    // line requires an explicit (voice). (The old example "Tokubei" became the NpcId
-    // `yohei` in the storywave G0 cast growth, so it now resolves a voice on its own.)
+    // line requires an explicit (voice). (A former pedlar example is now the
+    // first-class NpcId `yohei`, so it resolves a voice on its own.)
     expectError(
       BASE.replace('Genemon: "A greeting line."', 'Sayo: "A greeting line."'),
       'needs an explicit (voice)',
@@ -85,7 +85,7 @@ describe('narrative validation roster (each check can go RED)', () => {
   });
 
   it('scene speaker must be a real NPC id', () => {
-    expectError(BASE.replace('speaker: genemon', 'speaker: tokubei'), 'unknown scene speaker');
+    expectError(BASE.replace('speaker: genemon', 'speaker: nonesuch'), 'unknown scene speaker');
   });
 
   it('§3 duplicate topic id', () => {
@@ -129,8 +129,8 @@ describe('narrative validation roster (each check can go RED)', () => {
 
   it('§5 memory npc must be a known NPC id', () => {
     expectError(
-      BASE.replace('memory: genemon +1 (dutiful)', 'memory: tokubei +1 (dutiful)'),
-      'memory npc "tokubei"',
+      BASE.replace('memory: genemon +1 (dutiful)', 'memory: nonesuch +1 (dutiful)'),
+      'memory npc "nonesuch"',
     );
   });
 

@@ -721,7 +721,7 @@ describe('D-118 §1a — kura rice SPOILS on advance_season (holding costs somet
 });
 
 describe('v0.3.1 Step 5d — the load-bearing map node gates a richer yield (D-078)', () => {
-  it('the deep satoyama forage out-yields the near one on BOTH resources (the map earns its walk)', () => {
+  it('the deeper woodlot forage out-yields the near one on BOTH resources (the map earns its walk)', () => {
     const near = getActivity('forage_satoyama').yields;
     const deep = getActivity('forage_deepwoods').yields;
     // the design lever: walking one hill farther is STRICTLY richer per act — else the node is dead

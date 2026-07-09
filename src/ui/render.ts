@@ -178,7 +178,7 @@ const COLD_OPEN_LEDE =
 
 // ── the interactive intro VN scene (ADR-104 / FB-43–FB-48) — the SOLE prod intro presentation ──
 // Voice → on-palette colour: the nameplate seal + name take it (mirrors the log voice colours).
-// ADR-110 'lord' voice — RESOLVED. Shigemasa's R7 capstone speaks in a DEDICATED `'lord'`
+// ADR-110 'lord' voice — RESOLVED. Munemasa's R7 capstone speaks in a DEDICATED `'lord'`
 // VoiceCategory (added to the core union in `voices.ts`): murasaki 紫 — the historic
 // highest-court-rank colour — distinct from the magistrate `'official'` kihada and Chiyo's
 // `'steward'` ochre. These maps are exhaustive over the core `VoiceCategory` union, so `lord`
@@ -217,7 +217,7 @@ const VOICE_SEAL: Record<VoiceCategory, string> = {
   official: '官',
   villager: '里',
   monk: '僧', // 僧 (sō) — the traveling monk Iori (storywave §04-cast)
-  lord: '殿', // 殿 (dono) — his lordship, the domain lord Shigemasa (ADR-110 R7)
+  lord: '殿', // 殿 (dono) — his lordship, the domain lord Munemasa (ADR-110 R7)
 };
 /** A kanji ink-seal nameplate (hanko idiom): a category-coloured seal + the speaker's name. Takes a
  *  minimal structural shape so BOTH the intro `DialogueScene` and the normalized `VnScene` (rung
@@ -1958,7 +1958,7 @@ export function mount(
       topics: scene.topics,
       prompt: scene.decision.prompt,
       options: scene.decision.options.map((o): VnOption => {
-        // a two-voice beat (R4 Tōzō) overrides the react to a NON-default speaker; else the scene's.
+        // a two-voice beat (e.g. R4) overrides the react to a NON-default speaker; else the scene's.
         const rs = o.reactNpc ? NPC_NAME[o.reactNpc] : beatReactSpeaker(scene);
         // FB-147 — the choice's colour hint: the rare statBonus pick wears its attr
         // pigment; otherwise the honest mechanical axis is the relationship write —
@@ -2899,7 +2899,7 @@ export function mount(
       const short = (state.resources.sansai ?? 0) < cost;
       setDisabled(r.cookBtn, short);
       const title = short
-        ? `Needs ${cost} sansai — forage the satoyama to gather it.`
+        ? `Needs ${cost} sansai — forage the woodlot to gather it.`
         : 'Eat to restore your body and mend your wounds — eating is the only way to heal.';
       if (r.cookBtn.title !== title) r.cookBtn.title = title;
     }
@@ -3354,7 +3354,7 @@ export function mount(
         el(
           'p',
           'area-blurb',
-          'No foe holds this ground. Use the Map 地図 tab to reach the paddies, the satoyama, or the woodlot road.',
+          'No foe holds this ground. Use the Map 地図 tab to reach the field-margins, the grove, or the orchard.',
         ),
       );
     }
@@ -3428,7 +3428,7 @@ export function mount(
       const watchEmpty = el(
         'p',
         'area-blurb',
-        'No foe holds this ground. Use the Map 地図 tab to reach the paddies, the satoyama, or the woodlot road.',
+        'No foe holds this ground. Use the Map 地図 tab to reach the field-margins, the grove, or the orchard.',
       );
       const watchList = el('div', 'combat-group');
 
@@ -4783,7 +4783,7 @@ export function mount(
       setClass(r.cookBtn, 'primary', state.character.hp < hpMax(state)); // the heal cue when hurt
       setDisabled(r.cookBtn, short);
       const title = short
-        ? `Need ${cost} sansai to cook — forage the satoyama for wild greens.`
+        ? `Need ${cost} sansai to cook — forage the woodlot for wild greens.`
         : 'Boil the wild greens into a hot meal — the only way to mend a wound (D-050).';
       if (r.cookBtn.title !== title) r.cookBtn.title = title;
     }
@@ -4909,7 +4909,7 @@ export function mount(
     if (sellBtn.title !== title) sellBtn.title = title;
   }
   function renderMarket(state: GameState): void {
-    // IA reorg (ADR-112 §2 / FB-109 / ADR-114) — the pedlar (Tokubei) is now a TALKABLE PERSON on the Map
+    // IA reorg (ADR-112 §2 / FB-109 / ADR-114) — the pedlar (Yohei) is now a TALKABLE PERSON on the Map
     // tab's "who's here" list, not an inline menu. His wares (a `tiny` trader's shop) open ONLY while
     // he is the OPEN person: talk-to-reveal. Gate on `openPersonId === 'pedlar'` AND that he is
     // actually present (peopleHere) — so his shop is never dumped inline (on Work OR on Map).

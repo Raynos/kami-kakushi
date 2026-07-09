@@ -138,7 +138,7 @@ describe('the pity ramp (the design lever, not a collapsed metric)', () => {
 
 describe('derived hiddenness gates the node action list (could-go-RED vs a static list)', () => {
   it('an undiscovered reveals-target is ABSENT from availableLabours and un-doable', () => {
-    // Stand at the deep satoyama with everything surface-unlocked; hide forage_deepwoods behind
+    // Stand at the woodlot with everything surface-unlocked; hide forage_deepwoods behind
     // the fixture discovery via the real (registry-defaulted) selector path's parametric core.
     const s = at('woodlot');
     const unlocked = { ...s, unlocked: [...s.unlocked, 'verb-forage'] } as GameState;

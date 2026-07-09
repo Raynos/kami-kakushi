@@ -79,7 +79,7 @@ export const RANKS: readonly RankDef[] = [
       // emits the terse "Rank ↑" marker to Progress.
       // G4 — R2 opens the woodlot (woodcut + forage both site there now, activities.ts) and the
       // field margins (the tanuki/badger PEST beat) — the labour R2→R3 requires (woodcut_edge,
-      // forage_satoyama). The retired near/deep satoyama nodes fold into the woodlot.
+      // forage_satoyama). The retired near/deep wilderness nodes fold into the woodlot.
       unlock: [
         'tab-skills',
         'room-woodlot',

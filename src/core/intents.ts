@@ -284,7 +284,7 @@ function revealRungBeat(state: GameState, target: RankId): GameState {
 }
 
 /** The voice + nameplate a rung-beat option's `react` line speaks in. A per-option `reactNpc` wins
- *  (two-voice R4 — Tōzō answers option 2); else the scene's decision speaker/voice. */
+ *  (two-voice R4 — a second speaker answers option 2); else the scene's decision speaker/voice. */
 function rungReactVoiceSpeaker(
   scene: RungScene,
   reactNpc: NpcId | undefined,
@@ -676,7 +676,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = { ...next, autoRake: intent.on };
       break;
     }
-    // G4.3 — the scripted `face_wolf` beat is deleted; the wolf lives only in the R3 night round.
+    // G4.3 — the scripted grain-store wolf beat is deleted; the wolf lives only in the R3 night round.
     case 'fight': {
       if (!isUnlocked(next, 'tab-combat')) return state;
       // v0.3.1 Step 5b: foes are spatial — you must stand on the foe's node to fight it.

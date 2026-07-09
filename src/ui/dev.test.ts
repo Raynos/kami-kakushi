@@ -168,7 +168,7 @@ describe('renderer variant routing — House-Influence grade (D-075)', () => {
 });
 
 // The Estate-map surface is RESOLVED (HR-7, human pick 2026-07-07): the 絵図 survey-plan
-// sheet ships as THE prod map (render.ts imports map-variants/ezu.ts directly; sig-guarded),
+// sheet ships as THE prod map (render.ts imports map-variants/sheet-map.ts directly; sig-guarded),
 // and the diverge's losing takes were stripped (ADR-075 zero flag-debt) — so there is no map
 // entry in the variant registry any more. The sheet's travel/gate/no-hint contract is held by
 // the prod-path tests in render.test.ts ("Estate map — flavor card + the 絵図 survey-plan sheet").

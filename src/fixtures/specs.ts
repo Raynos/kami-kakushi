@@ -75,7 +75,7 @@ function must(cond: boolean, msg: string): void {
 // shared `focusedOptimalIntent` policy, plus the one sanctioned non-intent helper (`applyGrindFight`
 // for the R3 `combat-blooded` gate-watch duty), and the ascend gate. The ONLY addition is a `stop`
 // predicate that PEEKS the next step and halts BEFORE performing it — this is how a spec stops one
-// click short of a scripted beat (e.g. `pre-wolf` stops before `face_wolf`).
+// click short of a scripted beat (e.g. `pre-wolf` stops before the night-round wolf stage).
 
 /** What the drive loop is about to do next — handed to `stop` so a spec can halt one click short. */
 export type NextStep =

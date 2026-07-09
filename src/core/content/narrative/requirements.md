@@ -24,7 +24,7 @@
   storywave G4.1 — PROVISIONAL / OWED RE-DERIVATION (HD-30): the two named
   redlines are applied — R3 gates the night-round wolf flag `wolf-survived-not-won`
   and R7 gates `nengu-reckoned`; and the R4 `smith`/repair requirement is
-  retired (the smith Tōzō leaves T0). The FULL re-derivation of every rung's
+  retired (the T0 smith leaves the arc). The FULL re-derivation of every rung's
   count-verb tokens against the NEW verb/activity registry (rake · haul water ·
   night-round · …) is DEFERRED to the chunk that lands that registry (G4.2/G4.3) —
   re-binding verb tokens now would be inventing against a registry that does not
@@ -140,7 +140,7 @@ drive: woodcut_edge
 ### req the-wolf-survived-not-won · flag wolf-survived-not-won
 
 flavor: [dev — R3 grain-watch: the first night round; the wolf, survived-not-won; ribs cracked. The beat's prose is in rung-beats R3; no t0v2 requirement-flavor source. HD-30.]
-drive: [dev — sim survives the night-round wolf stage; the night-round staging + the wolf land in a later G4 chunk (face_wolf deleted, G4.3)]
+drive: [dev — sim survives the night-round wolf stage; the night-round staging + the wolf land in a later G4 chunk (the old scripted wolf beat is gone, G4.3)]
 
 ## requirements R4
 

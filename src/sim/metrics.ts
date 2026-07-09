@@ -24,7 +24,7 @@ export interface RungMetric {
   /** The rung's authored requirement count (FB-121 — the meter threshold is gone). */
   requirements: number;
   /** walkPacing-compatible buckets: productive acts (rake/do_activity), rests, meta
-   *  (open_eyes/face_wolf). walkCompatIntents = acts + rests + meta — MUST equal
+   *  (open_eyes/fight). walkCompatIntents = acts + rests + meta — MUST equal
    *  walkPacing()'s `intents` for R0–R2 on the canonical seed (the Ph1 equality DoD). */
   acts: number;
   rests: number;
@@ -246,7 +246,7 @@ export function createCollector(personaId: string, seed: number): Collector {
         durability.batteredIntents++;
       }
 
-      // combat outcomes — grindable `fight` intents only (face_wolf is a scripted story beat).
+      // combat outcomes — grindable `fight` intents only (scripted story-beat combat is separate).
       if (intent.type === 'fight') {
         combat.fights++;
         if (after.character.combatXp > before.character.combatXp) combat.wins++;

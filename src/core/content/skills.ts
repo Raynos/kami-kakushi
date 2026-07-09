@@ -23,7 +23,7 @@ export const SKILLS: readonly SkillDef[] = [
     id: 'foraging',
     label: 'Foraging',
     kanji: '採',
-    blurb: 'Reading the satoyama for sansai, mushrooms, and medicine.',
+    blurb: 'Reading the woodlot for sansai, mushrooms, and medicine.',
   },
   {
     id: 'woodcutting',

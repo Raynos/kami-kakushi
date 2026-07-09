@@ -533,7 +533,7 @@ export const T1_NODES: readonly SheetNode[] = [
       "Restored last, for the scene; Heikichi's and the MC's joint work — the last boards " +
       'set alone. Then: the register, the last entry, the unstruck line.',
     actions: ['The restoration (R7, board by board)', 'The register scene'],
-    who: ['Heikichi', 'Shigemasa, once — his only scene'],
+    who: ['Heikichi', 'Munemasa, once — his only scene'],
     wrong:
       "The salvage marks in its timbers — the shoin's bones came from the compound " +
       '("Good wood. Came from over there."), said as craft, dated never.',

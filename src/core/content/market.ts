@@ -33,7 +33,7 @@ export const MARKET_ITEMS: readonly MarketItem[] = [
     id: 'greens_sack',
     label: 'Sack of mountain greens',
     blurb:
-      "A travelling forager's sack of sansai — fern-shoots and butterbur, enough for a few hot meals when the satoyama is bare.",
+      "A travelling forager's sack of sansai — fern-shoots and butterbur, enough for a few hot meals when the woodlot is bare.",
     coinCost: 10,
     grants: { sansai: 3 },
     stockCap: 5,

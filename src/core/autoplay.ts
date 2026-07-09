@@ -195,7 +195,7 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
   // rework, keyed to each req's `drive:` hint.
   const revealed = new Set(s.unlocked);
   const unfinished = rungRequirements(s.rung).filter((d) => !isRequirementDone(d, s.rungReqs));
-  // G4.3 — the scripted `face_wolf` drive is deleted; the wolf moves to the R3 night round
+  // G4.3 — the scripted grain-store wolf drive is deleted; the wolf moves to the R3 night round
   // (its 'first-fight-survived' req is driven through the night-round staging in a later chunk).
   // walk-to-then-do one labour act (the shared "go do X" move for every driver below).
   const driveLabour = (id: ActivityId): Intent | null => {

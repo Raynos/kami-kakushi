@@ -55,8 +55,8 @@ describe('formatLogText — coalesced ×N display', () => {
   });
 
   it('never multiplies a multi-resource suffix (bare ×N fallback)', () => {
-    expect(formatLogText(entry('Forage the near satoyama. (+2 sansai, +1 coin)', 5))).toBe(
-      'Forage the near satoyama. (+2 sansai, +1 coin) ×5',
+    expect(formatLogText(entry('Forage the woodlot edge. (+2 sansai, +1 coin)', 5))).toBe(
+      'Forage the woodlot edge. (+2 sansai, +1 coin) ×5',
     );
   });
 

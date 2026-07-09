@@ -3,8 +3,7 @@
 // compiled to `rungBeats.gen.ts` by `pnpm run gen:narrative`; this module keeps the hand-written
 // TYPES + HELPERS and re-exports the generated registry, so consumers see one unchanged surface.
 // EVERY rung R1→R7 is a player-TRIGGERED VN beat that narratively MOTIVATES its unlocks (FB-97) and
-// discovers its people (FB-99); SOME rungs introduce a new face (Tokubei R1, Rokusuke R2, Kihei R3,
-// Tōzō R4, Chiyo R6, Shigemasa R7), others deepen a known one (the Genemon rungs). R0 has NO beat —
+// discovers its people (FB-99); SOME rungs introduce a new face, others deepen a known one (the Genemon rungs). R0 has NO beat —
 // the intro's Genemon scene IS the R0 beat (§6.6 R0); you never "promote into R0".
 //
 // Choices are relationship/flag-FIRST (§0): they mainly move `npcMemory` (via `deepenNpc`) + story
@@ -28,8 +27,7 @@ export interface RungOption {
   /** For the two-voice beats (R4): the NPC whose voice/nameplate the `react` line speaks in, when it
    *  is NOT the scene's default decision speaker. Absent ⇒ the react uses the scene's speaker. */
   readonly reactNpc?: NpcId;
-  /** ACCUMULATING relationship write(s) — an array so a two-voice beat can touch two NPCs (R4
-   *  Genemon+Tōzō). `warmthDelta` ADDS (clamped -3..+3); `regard` overwrites only when present. */
+  /** ACCUMULATING relationship write(s) — an array so a two-voice beat can touch two NPCs (a two-voice R4). `warmthDelta` ADDS (clamped -3..+3); `regard` overwrites only when present. */
   readonly memory?: readonly {
     readonly npc: NpcId;
     readonly warmthDelta: number;

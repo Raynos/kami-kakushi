@@ -365,7 +365,7 @@ describe('conditioning enablement gate (the danger ring)', () => {
     // FB-121: the R1 climb now hauls 400 stores, so conditioning arrives at R2 already past the
     // gate — zero it synthetically to isolate the LEVER (level < gate blocks; ≥ gate opens).
     s = { ...s, skillXp: { ...s.skillXp, conditioning: 0 } };
-    // stand at the satoyama so the ONLY thing gating forage is the conditioning level, not the node
+    // stand at the woodlot so the ONLY thing gating forage is the conditioning level, not the node
     expect(canDoActivity({ ...s, location: 'woodlot' }, getActivity('forage_satoyama'))).toBe(
       false,
     );

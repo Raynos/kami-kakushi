@@ -8,7 +8,7 @@
 // each foe lives on exactly one map node (`area`, Step 5b spatial), so you walk to its
 // ground to fight it. The bible's economics are KIND-lane: beasts carry no mon (combat
 // drops MATERIALS, never coin — crafting.ts), so the old `coinReward` field is GONE. The
-// old scripted grain-store wolf (`wolf_scripted` + `face_wolf`) is retired: the wolf now
+// old scripted grain-store wolf is retired: the wolf now
 // lives ONLY in the R3 night round (the night-round engine, nightRounds.ts), alongside the
 // store-rats and marten (`nightRoundOnly`) — the arc's rats→marten→wolf climax.
 //

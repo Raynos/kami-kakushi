@@ -4,7 +4,7 @@
 // file:line. Fixtures for the unit tests derive from the source-of-truth
 // registries (NPC_IDS, ATTR_IDS, STANCE_ORDER, SURFACE_IDS, RANKS), never
 // copied magic values. Errors fail the build; warnings print but pass —
-// with a human-signed allowlist for rulings like Shigemasa's R7 register.
+// with a human-signed allowlist for rulings like Munemasa's R7 register.
 //
 // Cross-file checks (reuse references, dialogue routing) see ALL parsed docs
 // at once — the CLI parses every narrative file, then validates the set.

@@ -10,15 +10,15 @@ import { NAMES } from './names';
  *  T0 rewrite (game plan G0) adds the bible §04-cast: the household (`ohisa`/`shinnosuke`/
  *  `toku`), the heir `naoyuki` (a beat-voice in the R5 Count), and the estate's edge
  *  (`yohei` the pedlar — now a first-class id, `oyae`/`matsuzo`/`iori`/`oume`). The G4
- *  cutover retired the smith `tozo` (Tōzō leaves T0) and renamed `shigemasa`→`munemasa`
- *  (the domain lord, re-homing the `lord` voice). */
+ *  cutover retired the T0 smith and renamed the domain lord to `munemasa`
+ *  (re-homing the `lord` voice). */
 export type NpcId =
   | 'soan'
   | 'genemon'
   | 'kihei'
   | 'rokusuke'
   | 'chiyo'
-  | 'munemasa' // the domain lord — R7 capstone `lord` voice (renamed from shigemasa at G4)
+  | 'munemasa' // the domain lord — R7 capstone `lord` voice (added at the G4 cutover)
   // ── storywave G0 add-only (bible §04-cast; dormant until G4 wires people.ts) ──
   | 'ohisa'
   | 'shinnosuke'
@@ -97,7 +97,7 @@ export const NPC_NAME: Readonly<Record<NpcId, string>> = {
   shinnosuke: NAMES.shinnosuke,
   toku: NAMES.toku,
   naoyuki: NAMES.heir, // Naoyuki is the `heir` name key
-  yohei: NAMES.pedlar, // = 'Tokubei' until G4 renames pedlar → 'Yohei' (single-sourced)
+  yohei: NAMES.pedlar, // single-sourced from NAMES.pedlar (= 'Yohei' since G4)
   oyae: NAMES.oyae,
   matsuzo: NAMES.matsuzo,
   iori: NAMES.iori,

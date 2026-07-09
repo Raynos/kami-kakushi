@@ -24,7 +24,7 @@ try {
 
     // real-play grind: fight the easiest foe, escalating as the MC levels. Step 5b — foes are
     // spatial, so qa.fight() auto-walks to the foe's node first. The escalation stays on the
-    // non-danger nodes (paddies monkey+boar, woodlot bandit); the satoyama wolf is left out since
+    // non-danger nodes (paddies monkey+boar, woodlot bandit); the night-round wolf is left out since
     // its node is behind the conditioning gate this pure-combat smoke never trains.
     // D-076: the auto-loop no longer auto-heals — only cooking mends HP — so a realistic grind
     // COOKS between bouts (a forager's larder of sansai fuels it). Without it the untrained R3 MC

@@ -2,7 +2,7 @@
 // SHEET's zone ids (src/ui/map-sheets/nodes.ts T0_NODES — ONE vocabulary, TST1). Each
 // zone inks in on its own rung beat (the separate-reveal rule, canon §I). 16 AreaIds:
 // 15 walkable + `ruined` (locked scenery, never walkable). Blurbs are adapted from the
-// bible-distilled sheet nodes (single source). The old satoyama frame is retired here.
+// bible-distilled sheet nodes (single source). The old wilderness frame is retired here.
 
 export type AreaId =
   | 'weir'

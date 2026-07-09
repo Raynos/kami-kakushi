@@ -91,7 +91,7 @@ export function walkMs(from: string | undefined, to: string): number {
  *  Notes on the deliberate instants:
  *  - trade/inventory (`sell_rice`, `buy_*`, `deposit`, `withdraw`) — the human's
  *    locked "instant action" class (ADR-148).
- *  - combat (`face_wolf`, `fight`, `set_auto_combat`) — EXCLUDED from timing
+ *  - combat (`fight`, `set_auto_combat`) — EXCLUDED from timing
  *    pending its own review (ADR-148); today's behavior holds.
  *  - VN/meta intents (intro, rung beats, toggles, equips) — UI narration or
  *    zero-fiction bookkeeping; time would be chrome, not fiction (TST3).

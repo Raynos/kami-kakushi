@@ -249,7 +249,7 @@ export const SURFACES: SurfaceDef[] = [
   },
   // FB-102 / ADR-115 / ADR-116 / HR-7 — the Estate map surface is RESOLVED: the human picked
   //   H · 絵図 survey plan from the real-map diverge (2026-07-07, "V7D"), so the sheet now ships
-  //   as THE prod map (render.ts imports map-variants/ezu.ts directly) and the losing takes
+  //   as THE prod map (render.ts imports map-variants/sheet-map.ts directly) and the losing takes
   //   (B/G schematics + I/J/K/L real-map takes) were stripped — ADR-075 zero flag-debt. NOTE:
   //   removing this group renumbered the DEV panel's V-tags for LATER surfaces (home V8→V7).
   // ADR-111 / FB-89 — the home / belongings panel (the deep-housing pass shipped ONE prod default,

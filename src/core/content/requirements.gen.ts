@@ -141,7 +141,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       flavor:
         "[dev — R3 grain-watch: the first night round; the wolf, survived-not-won; ribs cracked. The beat's prose is in rung-beats R3; no t0v2 requirement-flavor source. HD-30.]",
       drive:
-        '[dev — sim survives the night-round wolf stage; the night-round staging + the wolf land in a later G4 chunk (face_wolf deleted, G4.3)]',
+        '[dev — sim survives the night-round wolf stage; the night-round staging + the wolf land in a later G4 chunk (the old scripted wolf beat is gone, G4.3)]',
     },
   ],
 
