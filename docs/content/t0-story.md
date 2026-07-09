@@ -172,7 +172,7 @@
 
 **Ask** — "Just the meals?"
 
-**Genemon:** "A fed hand does a day's work; a hungry one is half a hand at a whole board."
+**Genemon:** "Six hands' work, five men fed. The sixth eats. That is the whole of it."
 
 **Decide** — Is anything owing on you?
 
@@ -219,7 +219,7 @@
 
 **Ask** — "How long?"
 
-**Sōan:** "Breathe to the bottom of it. No. Cracked, then, not broken. Three weeks strapped, nothing heavier than the lantern, and you come to me before you decide you are healed."
+**Sōan:** "Breathe to the bottom of it. Cracked, not broken. Three weeks strapped, nothing heavier than the lantern, and you come to me before you decide you are healed."
 
 > He writes a line in his ledger and closes it when you turn your head.
 
@@ -240,7 +240,9 @@
 
 ## R4 · Kura-warden 蔵番
 
-> Sōan strapped the ribs so you could walk, not so you could work. It is thirty paces from the sickroom door to the board. You count them.
+> Sōan strapped the ribs for walking. Not for work. It is thirty paces from the sickroom door to the board. You count them.
+
+> Past the kitchen passage a screen stands open on a corridor you have never been sent down. An altar set into the passage wall; rites laid out for somebody; a pair of straw sandals, new this year, facing away from the house. You look a breath too long. The screen slides shut from inside. Nobody says anything to you about it, then or after.
 
 > Genemon is there, the day-book open, the morning's entries not yet dry. He looks up, and waits, and does not help you begin.
 
@@ -252,7 +254,7 @@
 
 **Genemon:** "Rice, one quarter-sack, to vermin. Two sacks to resew — O-Hisa has thread. Entered under the store."
 
-**Genemon:** "Not under your name. No wage ran for the nights you lay. The account is even."
+**Genemon:** "Not under your name. No wage ran for the nights you lay. No watch stood — the gate cannot leave the gate. The account is even."
 
 > "It isn't."
 
@@ -304,7 +306,7 @@
   **Kihei:** "It will. Or its like. Dawn, then."
 
 - "I lost the house rice." <small>· memory genemon +1 (owned-the-loss) · flags r4-the-rice</small>
-  **Kihei:** "The rice is the steward's grief; mine is the sill it crossed. But carry it, if it carries you to this yard at dawn."
+  **Kihei:** "The rice is Genemon's grief. Mine is the sill. Then carry it to this yard at dawn."
 
 - "I was carried once. Not again." <small>· flags r4-not-carried</small>
   **Kihei:** "Then don't be. Dawn."
@@ -387,7 +389,7 @@
   **Genemon:** "Better is earned at the season's close, like everything on this book. I will hold you to the word."
 
 - "Until mine comes back, it can serve." <small>· memory genemon +1 (guarded) · flags r7-mine</small>
-  **Genemon:** "As you say."
+  **Genemon:** "As you say. An entry can be amended."
 
 ## Generalized scenes (G3.5 stub)
 

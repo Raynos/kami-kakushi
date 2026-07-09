@@ -106,7 +106,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
           {
             voice: 'steward',
             speaker: NPC_NAME.genemon,
-            text: '"A fed hand does a day\'s work; a hungry one is half a hand at a whole board."',
+            text: '"Six hands\' work, five men fed. The sixth eats. That is the whole of it."',
           },
         ],
       },
@@ -224,7 +224,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
           {
             voice: 'physician',
             speaker: NPC_NAME.soan,
-            text: '"Breathe to the bottom of it. No. Cracked, then, not broken. Three weeks strapped, nothing heavier than the lantern, and you come to me before you decide you are healed."',
+            text: '"Breathe to the bottom of it. Cracked, not broken. Three weeks strapped, nothing heavier than the lantern, and you come to me before you decide you are healed."',
           },
           {
             voice: 'narrator',
@@ -287,7 +287,11 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     greeting: [
       {
         voice: 'narrator',
-        text: 'Sōan strapped the ribs so you could walk, not so you could work. It is thirty paces from the sickroom door to the board. You count them.',
+        text: 'Sōan strapped the ribs for walking. Not for work. It is thirty paces from the sickroom door to the board. You count them.',
+      },
+      {
+        voice: 'narrator',
+        text: 'Past the kitchen passage a screen stands open on a corridor you have never been sent down. An altar set into the passage wall; rites laid out for somebody; a pair of straw sandals, new this year, facing away from the house. You look a breath too long. The screen slides shut from inside. Nobody says anything to you about it, then or after.',
       },
       {
         voice: 'narrator',
@@ -310,7 +314,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       {
         voice: 'steward',
         speaker: NPC_NAME.genemon,
-        text: '"Not under your name. No wage ran for the nights you lay. The account is even."',
+        text: '"Not under your name. No wage ran for the nights you lay. No watch stood — the gate cannot leave the gate. The account is even."',
       },
       { voice: 'narrator', text: '"It isn\'t."' },
       {
@@ -416,7 +420,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
           label: '"I lost the house rice."',
           say: '"I lost the house rice."',
           react:
-            '"The rice is the steward\'s grief; mine is the sill it crossed. But carry it, if it carries you to this yard at dawn."',
+            '"The rice is Genemon\'s grief. Mine is the sill. Then carry it to this yard at dawn."',
           memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'owned-the-loss' }],
           flags: ['r4-the-rice'],
         },
@@ -635,7 +639,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
           id: 'r7-mine',
           label: '"Until mine comes back, it can serve."',
           say: '"Until mine comes back, it can serve."',
-          react: '"As you say."',
+          react: '"As you say. An entry can be amended."',
           memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'guarded' }],
           flags: ['r7-mine'],
         },
