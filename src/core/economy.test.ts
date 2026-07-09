@@ -33,6 +33,11 @@ import {
   isRequirementDone,
 } from './index';
 import { validateState } from '../persistence/validate';
+import { YOHEI_MARKET_DAYS, YOHEI_PURSE_MON } from './content/market';
+
+// A weekday that IS one of Yohei's market days (his stall is open) — derived from the source
+// (never a pinned literal). clock.day in 0..6 has day-of-week === itself.
+const MARKET_DAY = YOHEI_MARKET_DAYS[0]!;
 
 // ADR-110: promotion is a player-TRIGGERED beat now. These local helpers drive the real path — finish
 // the intro's VN scenes, then trigger + complete a ready rung beat.
@@ -64,19 +69,23 @@ function farmReady(seed = SEASON_SPRING_SAFE): GameState {
   const s = createInitialState(seed);
   return {
     ...s,
-    // v0.3.1 Step 5: farm_paddy is SPATIAL — it only runs at its 'home-paddies' node.
-    location: 'home-paddies',
+    // G4: farm_paddy is SPATIAL — it only runs at its 'paddies' node.
+    location: 'paddies',
     character: { ...s.character, satiety: satietyMax(s) },
     unlocked: [...s.unlocked, 'verb-farm'],
   };
 }
 
 function farmYield(s: GameState): number {
-  // farm_paddy now yields RICE (ADR-107) — the honest noun for working the paddies.
-  const before = s.resources.rice ?? 0;
+  // ADR-163: paddy work banks RICE (shō) into the KURA (banked), never a carried pocket.
+  const before = s.banked.rice ?? 0;
   const after = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
-  return (after.resources.rice ?? 0) - before;
+  return (after.banked.rice ?? 0) - before;
 }
+
+/** The L1 first-draw paddy yield, derived from the source pool + draw curve (never a copied
+ *  magic number): a fresh winter paddy pool, one diminishing-returns draw. */
+const PADDY_L1_FIRST_DRAW = balance.productionDraw(balance.SITE_POOL_BASE.paddies!);
 
 describe('skill → yield multiplier (audit #4)', () => {
   it('is ×1.00 at L1 (byte-identical to v0.1), reaches the ×3.0 cap, and never decreases', () => {
@@ -95,7 +104,7 @@ describe('skill → yield multiplier (audit #4)', () => {
     const base = farmReady();
     expect(skillLevel(base, 'farming')).toBe(1);
     const baseKoku = farmYield(base);
-    expect(baseKoku).toBe(4); // home-paddy base yield, unchanged at skill L1
+    expect(baseKoku).toBe(PADDY_L1_FIRST_DRAW); // the fresh-pool first-draw yield at skill L1
 
     const leveled = addSkillXp(base, 'farming', 200); // a few ranks of farming
     expect(skillLevel(leveled, 'farming')).toBeGreaterThan(1);
@@ -154,7 +163,7 @@ describe('skill → yield multiplier (audit #4)', () => {
       )[0]!;
     const actsToFarmDone = (start: GameState): number => {
       // v0.3.1 Step 5: farm_paddy is spatial — grind at its 'home-paddies' node.
-      let s: GameState = { ...start, location: 'home-paddies' };
+      let s: GameState = { ...start, location: 'paddies' };
       let n = 0;
       while (!isRequirementDone(farmReq, s.rungReqs) && n < CAP) {
         s = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
@@ -195,9 +204,9 @@ describe('low-HP work impairment (G3 — the missing coupling)', () => {
     const after = reduce(atFloor, { type: 'do_activity', activityId: 'farm_paddy' });
     // the one-way law: working NEVER writes HP — RED the instant anyone couples labour → HP.
     expect(after.character.hp).toBe(1);
-    // …and the act still HAPPENED — it spent SATIETY (the real work fuel) and yielded rice.
+    // …and the act still HAPPENED — it spent SATIETY (the real work fuel) and banked rice (kura).
     expect(after.character.satiety).toBeLessThan(atFloor.character.satiety);
-    expect(after.resources.rice ?? 0).toBeGreaterThan(atFloor.resources.rice ?? 0);
+    expect(after.banked.rice ?? 0).toBeGreaterThan(atFloor.banked.rice ?? 0);
   });
 });
 
@@ -411,6 +420,8 @@ describe('the tiny capped market (T0-M4-F3 / D-008)', () => {
     const s = createInitialState(1);
     return {
       ...s,
+      // ADR-163: Yohei's stall is open only on his MARKET DAYS — sit the clock on one.
+      clock: { ...s.clock, day: MARKET_DAY },
       resources: { ...s.resources, coin: 1000 },
       unlocked: [...s.unlocked, 'panel-estate'],
     };
@@ -506,17 +517,20 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
     return {
       ...s,
       season: seas, // season is STORED now (storywave G1), not derived from the day
-      resources: { ...s.resources, rice },
+      clock: { ...s.clock, day: MARKET_DAY }, // ADR-163: Yohei buys only on his market days
+      banked: { ...s.banked, rice }, // ADR-163: rice lives in the KURA (shō), sold from there
       unlocked: [...s.unlocked, 'panel-estate'],
     };
   }
 
-  it('converts ALL carried rice to coin at the current season price (rice → coin)', () => {
+  it('converts kura rice to coin at the current season price (rice → coin)', () => {
+    // 20 shō at spring 6 = 120 mon — exactly Yohei's per-visit purse, so he clears the whole kura.
     const s = seller(20); // season 'spring'
     expect(season(s)).toBe('spring');
     const price = balance.riceSellPrice('spring');
+    expect(20 * price).toBeLessThanOrEqual(YOHEI_PURSE_MON); // within his purse → all of it sells
     const after = reduce(s, { type: 'sell_rice' });
-    expect(after.resources.rice ?? 0).toBe(0); // all carried rice sold
+    expect(after.banked.rice ?? 0).toBe(0); // all kura rice sold
     expect(after.resources.coin ?? 0).toBe(20 * price); // exact, from the source-of-truth price
   });
 
@@ -528,7 +542,10 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
   });
 
   it('the SAME rice earns MORE selling in dear spring than at the cheap autumn glut (the timing call)', () => {
-    const rice = 30;
+    // a SMALL pile (10 shō) sits inside Yohei's purse in BOTH seasons, so the purse clamp doesn't
+    // mask the price swing — the delta is purely the season price.
+    const rice = 10;
+    expect(rice * balance.riceSellPrice('spring')).toBeLessThanOrEqual(YOHEI_PURSE_MON);
     const springCoin = reduce(seller(rice, 'spring'), { type: 'sell_rice' }).resources.coin ?? 0;
     // the SAME rice, sold in a DIFFERENT stored season — the timing choice the swing creates.
     const autumnCoin = reduce(seller(rice, 'autumn'), { type: 'sell_rice' }).resources.coin ?? 0;
@@ -546,11 +563,13 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
   });
 
   it('the sell line DENOMINATES the per-measure price + proceeds (D-108, matching the pills)', () => {
-    // 100 rice at the spring price clears ≥1 monme of proceeds — the log shows the SAME mon/monme/ryō
-    // rendering the coin pill uses, never a raw " coin" integer (the ADR-108 same-transaction mismatch).
-    const s = seller(100); // day 0 → spring
+    // 20 shō at the spring price (a full purse) clears ≥1 monme of proceeds — the log shows the SAME
+    // mon/monme/ryō rendering the coin pill uses, never a raw " coin" integer (ADR-108).
+    const sold = 20;
+    const s = seller(sold); // spring, a market day
     const price = balance.riceSellPrice('spring');
-    const proceeds = 100 * price;
+    const proceeds = sold * price;
+    expect(proceeds).toBeLessThanOrEqual(YOHEI_PURSE_MON); // within his purse → all of it sells
     expect(proceeds).toBeGreaterThanOrEqual(80); // ≥1 monme, so the denominated form is a monme readout
     const after = reduce(s, { type: 'sell_rice' });
     const line = after.log.entries.find((e) => e.text.includes('pedlar'))?.text ?? '';
@@ -578,15 +597,15 @@ describe('D-107 Phase 2 — eat_rice: the plain-rice satiety path', () => {
     return {
       ...s,
       character: { ...s.character, satiety },
-      resources: { ...s.resources, rice },
+      banked: { ...s.banked, rice }, // ADR-163: the meal is drawn from the KURA (shō)
       unlocked: [...s.unlocked, 'panel-estate', 'verb-eat-rice'],
     };
   }
 
-  it('spends rice and restores work-stamina (satiety), clamped at satietyMax', () => {
+  it('spends kura rice and restores work-stamina (satiety), clamped at satietyMax', () => {
     const s = eatReady(10, 20);
     const after = reduce(s, { type: 'eat_rice' });
-    expect(after.resources.rice).toBe(10 - balance.EAT_RICE_COST);
+    expect(after.banked.rice).toBe(10 - balance.EAT_RICE_COST);
     expect(after.character.satiety).toBe(20 + balance.EAT_RICE_SATIETY);
 
     const nearMax = eatReady(10, satietyMax(createInitialState(1)) - 2);
@@ -643,51 +662,60 @@ describe('D-107 Phase 2 — the kura shelters RICE beside coin (deposit/withdraw
     expect(balance.kuraRiceCap(1)).toBeGreaterThan(cap);
   });
 
-  it('a lost fight bleeds carried rice but the kura-STORED rice is sheltered (D-113)', () => {
+  it('a lost fight bleeds carried COIN but the kura-STORED rice is sheltered from the rout (D-113)', () => {
+    // ADR-163: rice lives ONLY in the kura, so a rout can't touch the grain the way it bites carried
+    // coin. Carried coin takes the LOSS_COIN_FRAC hit; the kura rice loses only the household's daily
+    // MEAL over the lost sick-days (a few shō), NEVER the ~20% fractional rout.
     const base = atKura(0);
     const armed: GameState = {
       ...base,
       character: { ...base.character, level: 1, satiety: 100 },
-      resources: { ...base.resources, rice: 100 }, // carried, at risk
-      banked: { ...base.banked, rice: 50 }, // stored, safe
+      resources: { ...base.resources, coin: 100 }, // carried, at risk
+      banked: { ...base.banked, rice: 500 }, // stored, sheltered
     };
     const ready = { ...armed, character: { ...armed.character, hp: hpMax(armed) } };
     const after = applyGrindFight(ready, 'bandit'); // L1 vs bandit ≈ 0.00 → a guaranteed loss
     expect(after.character.hp).toBe(balance.SETBACK_HP); // it lost
-    expect(after.resources.rice).toBe(100 - Math.round(100 * balance.LOSS_COIN_FRAC)); // carried bitten
-    expect(after.banked.rice).toBe(50); // stored rice untouched — the shelter holds
+    expect(after.resources.coin).toBe(100 - Math.round(100 * balance.LOSS_COIN_FRAC)); // coin bitten
+    // the kura rice loses at MOST the meals over the sick-days — strictly less than the 20% rout would.
+    const maxMeals = balance.CONSUMPTION_SHO_PER_DAY * (balance.SICKROOM_DAYS_LOST + 3);
+    const rout = Math.round(500 * balance.LOSS_COIN_FRAC); // what a rice-bleed WOULD have taken
+    expect(500 - (after.banked.rice ?? 0)).toBeLessThanOrEqual(maxMeals); // only meals, not the rout
+    expect(maxMeals).toBeLessThan(rout); // proves the two are distinguishable (this can go RED)
   });
 });
 
-describe('D-118 §1a — rice SPOILS on advance_season, carried AND banked (holding costs something)', () => {
-  // Storywave G1: seasons are MANUAL now, so spoilage fires in the season-EXIT pipeline
-  // (`advance_season`), not on a day boundary. Fixtures derive the loss from riceSpoilage (source
-  // of truth), so a broken or missing spoilage step flips these RED (against the old lossless kura).
-  function withRice(carried: number, banked: number): GameState {
+describe('D-118 §1a — kura rice SPOILS on advance_season (holding costs something)', () => {
+  // Storywave G1 + ADR-163: seasons are MANUAL, so spoilage fires in the season-EXIT pipeline
+  // (`advance_season`). Rice lives ONLY in the kura now, so spoilage decays the BANKED pile alone —
+  // there is no carried grain to rot. Fixtures derive the loss from riceSpoilage (source of truth),
+  // so a broken or missing spoilage step flips these RED (against the old lossless kura).
+  function withKura(banked: number): GameState {
     const s = createInitialState(1);
-    return {
-      ...s,
-      resources: { ...s.resources, rice: carried },
-      banked: { ...s.banked, rice: banked },
-    };
+    return { ...s, banked: { ...s.banked, rice: banked } };
   }
 
-  it('advance_season decays BOTH piles by exactly riceSpoilage(each), leaving the rest', () => {
-    const carried = 100;
+  it('advance_season decays the KURA pile by exactly riceSpoilage(banked), leaving the rest', () => {
+    // pick a pile big enough that the season's meal-draw can't be confused with spoilage — the
+    // spoilage LEVER is the ≈10% bleed on a hoard (source-of-truth fraction > 0).
     const banked = 200;
-    const after = reduce(withRice(carried, banked), { type: 'advance_season' });
-    expect(after.resources.rice).toBe(carried - balance.riceSpoilage(carried));
-    expect(after.banked.rice).toBe(banked - balance.riceSpoilage(banked));
-    // the LEVER is a real bleed on a hoard (source-of-truth fraction > 0 for these piles).
-    expect(balance.riceSpoilage(carried)).toBeGreaterThan(0);
-    expect(balance.riceSpoilage(banked)).toBeGreaterThan(0);
+    const before = withKura(banked);
+    const after = reduce(before, { type: 'advance_season' });
+    const spoil = balance.riceSpoilage(banked);
+    expect(spoil).toBeGreaterThan(0);
+    // the kura lost AT LEAST the spoilage (a background daily meal may draw a little more).
+    expect((after.banked.rice ?? 0)).toBeLessThanOrEqual(banked - spoil);
+    // …but not catastrophically — the bleed is the spoilage plus at most a season's worth of meals.
+    const maxMeals = balance.CONSUMPTION_SHO_PER_DAY * 4;
+    expect((after.banked.rice ?? 0)).toBeGreaterThanOrEqual(banked - spoil - maxMeals);
     // and the wheel actually turned (the pipeline ran, not just the spoilage step).
     expect(after.seasonsPassed).toBe(1);
+    // rice is never carried — the pocket stays empty across the turn.
+    expect(after.resources.rice ?? 0).toBe(0);
   });
 
   it('a plain clock tick spoils nothing — the cost is per season-turn, not per-tick', () => {
-    const after = tick(withRice(100, 200), 1);
-    expect(after.resources.rice).toBe(100);
+    const after = tick(withKura(200), 1);
     expect(after.banked.rice).toBe(200);
   });
 });
@@ -706,7 +734,7 @@ describe('v0.3.1 Step 5d — the load-bearing map node gates a richer yield (D-0
     const near = getActivity('forage_satoyama');
     const deep = getActivity('forage_deepwoods');
     expect(deep.dangerRing).toBe(true); // gated by the conditioning ring, like its near sibling
-    expect(deep.area).toBe('deep-satoyama'); // a DIFFERENT node — you walk there
+    expect(deep.area).toBe('woodlot'); // G4: both forage acts run at the woodlot (the wild edge)
     expect(deep.satietyCost).toBeGreaterThan(near.satietyCost); // the richer haul taxes you more
   });
 });
