@@ -126,8 +126,9 @@ import {
 } from './ui-prefs';
 import type { Sfx } from './sfx';
 // the SHIPPED estate map — the 絵図 survey-plan sheet, the human-picked winner of the ADR-075
-// real-map diverge (HR-7, 2026-07-07); the losing takes were stripped (zero flag-debt).
-import { renderMapEzu } from './map-variants/ezu';
+// real-map diverge (HR-7). storywave G4.9: rebuilt on the map-sheets geometry (the ONE aligned
+// layout) since the old ezu.ts POS keyed to retired node ids and drew nothing for the G4 estate.
+import { renderMapSheet } from './map-variants/sheet-map';
 import type { MapCtx } from './map-variants/shared';
 import { actionKey, type ActionClock } from '../app/action-clock';
 // type-only (erased at compile → no runtime import) so the renderer can accept the DEV harness
@@ -5078,7 +5079,7 @@ export function mount(
     if (sig !== r.sig) {
       r.sig = sig;
       r.nav.textContent = '';
-      renderMapEzu(r.nav, mapCtx(state), state, dispatch);
+      renderMapSheet(r.nav, mapCtx(state), state, dispatch);
     }
     // ADR-114 who's-here — reconcile the present people; hide the whole section when the node is empty.
     toggle(r.whos, fillWhosHere(r.whosList, present));

@@ -2058,14 +2058,15 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
 
   it('renders the flavor card (current-node blurb) + the survey sheet; a seal click walks there', () => {
     const { seen, render } = spyRender();
-    render(at('gate', ['room-gate', 'room-paddies']), null);
+    // stand at the forecourt (the R0 hub) — the paddy is one of its walkable neighbours.
+    render(at('forecourt', ['room-gate', 'room-paddies']), null);
     openMapTab();
     const flavor = root.querySelector<HTMLElement>('.map-pane .map-here')!;
     const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
     expect(flavor).not.toBeNull();
     expect(nav).not.toBeNull();
     // (a) the flavor carries the CURRENT node's immersive description…
-    expect(flavor.textContent).toContain(getNode('gate').blurb);
+    expect(flavor.textContent).toContain(getNode('forecourt').blurb);
     // …and (b) the sheet is a SIBLING section, not nested inside the flavor card.
     expect(flavor.contains(nav)).toBe(false);
     // the sheet actually painted: the title cartouche is on the sheet.
@@ -2079,27 +2080,26 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
 
   it('unsurveyed ground stays UNNAMED (reveal-as-plot) and no destination blurb leaks', () => {
     const { render } = spyRender();
-    render(at('gate', ['room-gate', 'room-paddies']), null);
+    // at the paddies with the paddy surveyed but the woodlot (one step past) still unsurveyed.
+    render(at('paddies', ['room-gate', 'room-paddies']), null);
     openMapTab();
     const text = root.querySelector<HTMLElement>('.map-pane .map-nav')!.textContent ?? '';
-    // the destination's blurb never leaks into the sheet (it updates on ARRIVAL, ADR-116)…
-    expect(text).not.toContain(getNode('paddies').blurb);
-    expect(text).not.toContain('a foe stirs');
+    // the frontier destination's blurb never leaks into the sheet (updates on ARRIVAL, ADR-116)…
+    expect(text).not.toContain(getNode('woodlot').blurb);
     // …and the frontier past surveyed ground is a blank 未測 wash — an unrevealed node is
-    // NEVER named on the sheet (the woodlot sits one step past the revealed forecourt).
+    // NEVER named on the sheet (the woodlot sits one step past the revealed paddies).
     expect(text).toContain('未測');
     expect(text).not.toContain(getNode('woodlot').label);
   });
 
   it('a conditioning-locked node is GREYED + inert with its reason VISIBLE (not hidden)', () => {
     const { seen, render } = spyRender();
-    render(
-      at('paddies', ['room-paddies', 'room-gate', 'room-near-satoyama']),
-      null,
-    );
+    // at the paddies with the field margins (a danger-ring neighbour) surveyed but conditioning
+    // not yet trained — the edge is walkable-in-principle but gated on the skill.
+    render(at('paddies', ['room-paddies', 'room-gate', 'room-field-margins']), null);
     openMapTab();
     const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
-    const locked = nav.querySelector<HTMLElement>('[data-locked][data-node="near-satoyama"]')!;
+    const locked = nav.querySelector<HTMLElement>('[data-locked][data-node="field-margins"]')!;
     expect(locked).not.toBeNull();
     expect(locked.dataset.locked).toBe('1');
     expect(locked.getAttribute('aria-disabled')).toBe('true');
