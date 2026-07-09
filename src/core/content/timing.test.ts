@@ -62,14 +62,14 @@ describe('action timing (ADR-148)', () => {
         expect(EDGE_WALK_MS[edgeKey(n.id, nb)], `${n.id} ↔ ${nb}`).toBeGreaterThan(0);
       }
     // undirected: both directions read the same edge
-    expect(walkMs('kura', 'gate-forecourt')).toBe(walkMs('gate-forecourt', 'kura'));
+    expect(walkMs('kura', 'forecourt')).toBe(walkMs('forecourt', 'kura'));
   });
 
   it('move_to routes through the per-edge table with NO cooldown', () => {
-    const t = timingFor('move_to', { from: 'kura', to: 'gate-forecourt' });
+    const t = timingFor('move_to', { from: 'kura', to: 'forecourt' });
     expect(t.kind).toBe('timed');
     if (t.kind !== 'timed') return;
-    expect(t.durationMs).toBe(EDGE_WALK_MS[edgeKey('kura', 'gate-forecourt')]);
+    expect(t.durationMs).toBe(EDGE_WALK_MS[edgeKey('kura', 'forecourt')]);
     expect(t.cooldownMs).toBe(0); // you arrive and keep moving
   });
 

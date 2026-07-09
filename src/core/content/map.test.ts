@@ -9,17 +9,23 @@ import {
   type MapNodeId,
 } from './map';
 import { AREAS } from './areas';
+import { T0_NODES } from '../../ui/map-sheets/nodes';
 
 // Every revealFlag the graph references, as a "fully-opened estate" set.
 const ALL_REVEALED = new Set<string>(
   MAP_NODES.map((n) => n.revealFlag).filter((f): f is string => f !== undefined),
 );
 
+// The walkable, always-open R0 cold-open nodes (no revealFlag, not locked scenery).
+const UNGATED = MAP_NODES.filter((n) => n.revealFlag === undefined && !n.locked).map((n) => n.id);
+
 describe('MAP_NODES — the T0 estate node-graph', () => {
-  it('stays at or under the pinned node-count ceiling (minimal-here, D-065)', () => {
-    expect(MAP_NODE_CEILING).toBe(7);
-    expect(MAP_NODES.length).toBeLessThanOrEqual(MAP_NODE_CEILING);
-    expect(MAP_NODES.length).toBeGreaterThanOrEqual(5); // the ~5-6 authored estate nodes
+  it('holds exactly the sheet ceiling — every non-activity T0 zone, no more (D-065, TST1)', () => {
+    // The ceiling is DERIVED from the sheet roster (T0_NODES minus its activity chips), never a
+    // copied magic number: a new zone on the sheet flows through and a mismatch goes RED.
+    const sheetWalkable = T0_NODES.filter((n) => n.kind !== 'activity').length;
+    expect(MAP_NODE_CEILING).toBe(sheetWalkable);
+    expect(MAP_NODES.length).toBe(MAP_NODE_CEILING); // the graph mirrors the sheet 1:1
   });
 
   it('has unique ids and a matching id-set', () => {
@@ -34,14 +40,23 @@ describe('MAP_NODES — the T0 estate node-graph', () => {
     }
   });
 
-  it('marks the satoyama nodes as danger rings (near + the deeper one)', () => {
+  it('marks the wild nodes as danger rings (the combat grounds)', () => {
     const danger = MAP_NODES.filter((n) => n.dangerRing).map((n) => n.id);
-    expect(danger).toEqual(['near-satoyama', 'deep-satoyama']);
+    // in map-order: the paddy edge, the woodlot, the weir reeds, the orchard, the grove.
+    expect(danger).toEqual(['field-margins', 'woodlot', 'weir-reeds', 'orchard', 'grove']);
   });
 
-  it('reveal-gates every node except the cold-open kura', () => {
-    const ungated = MAP_NODES.filter((n) => n.revealFlag === undefined).map((n) => n.id);
-    expect(ungated).toEqual(['kura']);
+  it('reveal-gates every node except the R0 cold-open zones', () => {
+    // The cold open finds him at the weir; the sickroom/forecourt/kitchen are the always-open
+    // outer court. Every other zone inks in on its rung beat via a revealFlag.
+    expect(UNGATED).toEqual(['weir', 'sickroom', 'forecourt', 'kitchen']);
+  });
+
+  it('holds the ruined compound as locked scenery — visible, never walkable', () => {
+    const ruined = getNode('ruined');
+    expect(ruined.locked).toBe(true);
+    // even fully-revealed, no adjacent may step into it.
+    for (const nb of ruined.neighbors) expect(canMove(nb, 'ruined', ALL_REVEALED)).toBe(false);
   });
 });
 
@@ -85,8 +100,8 @@ describe('graph shape', () => {
 
 describe('getNode', () => {
   it('returns the node for a known id', () => {
-    expect(getNode('kura').id).toBe('kura');
-    expect(getNode('near-satoyama').dangerRing).toBe(true);
+    expect(getNode('forecourt').id).toBe('forecourt');
+    expect(getNode('field-margins').dangerRing).toBe(true);
   });
 
   it('throws on an unknown id', () => {
@@ -96,44 +111,45 @@ describe('getNode', () => {
 
 describe('canMove — adjacency AND reveal gating', () => {
   it('refuses a move between non-adjacent nodes even when fully revealed', () => {
-    expect(canMove('kura', 'near-satoyama', ALL_REVEALED)).toBe(false);
+    // the kura's sole neighbour is the forecourt — the field margins are not adjacent.
+    expect(canMove('kura', 'field-margins', ALL_REVEALED)).toBe(false);
   });
 
   it('refuses an adjacent move while the target is still hidden', () => {
-    // gate-forecourt -> home-paddies needs the home-paddies room revealed.
-    expect(canMove('gate-forecourt', 'home-paddies', new Set())).toBe(false);
+    // forecourt -> paddies needs the paddies room revealed.
+    expect(canMove('forecourt', 'paddies', new Set())).toBe(false);
   });
 
   it('allows an adjacent move once the target room is revealed', () => {
-    expect(canMove('gate-forecourt', 'home-paddies', new Set(['room-home-paddies']))).toBe(true);
+    expect(canMove('forecourt', 'paddies', new Set(['room-paddies']))).toBe(true);
   });
 
-  it('always allows reaching an ungated neighbour (the kura)', () => {
-    expect(canMove('gate-forecourt', 'kura', new Set())).toBe(true);
+  it('always allows reaching an ungated neighbour (the R0 kitchen)', () => {
+    expect(canMove('forecourt', 'kitchen', new Set())).toBe(true);
   });
 
   it('returns false for unknown endpoints (total + safe, never throws)', () => {
-    expect(canMove('nowhere', 'kura', ALL_REVEALED)).toBe(false);
-    expect(canMove('kura', 'nowhere', ALL_REVEALED)).toBe(false);
+    expect(canMove('nowhere', 'forecourt', ALL_REVEALED)).toBe(false);
+    expect(canMove('forecourt', 'nowhere', ALL_REVEALED)).toBe(false);
   });
 });
 
 describe('reachableFrom — only revealed neighbours', () => {
   it('returns only ungated neighbours when nothing is revealed', () => {
-    const reach = reachableFrom('gate-forecourt', new Set()).map((n) => n.id);
-    expect(reach).toEqual(['kura']);
+    // forecourt's always-open neighbours are the kitchen + the sickroom (both R0, no flag).
+    const reach = reachableFrom('forecourt', new Set()).map((n) => n.id).sort();
+    expect(reach).toEqual(['kitchen', 'sickroom']);
   });
 
   it('widens as rooms are revealed', () => {
-    const reach = reachableFrom(
-      'gate-forecourt',
-      new Set(['room-home-paddies', 'room-woodlot-edge']),
-    ).map((n) => n.id);
-    expect(reach.sort()).toEqual(['home-paddies', 'kura', 'woodlot-edge']);
+    const reach = reachableFrom('forecourt', new Set(['room-paddies', 'room-kura'])).map(
+      (n) => n.id,
+    );
+    expect(reach.sort()).toEqual(['kitchen', 'kura', 'paddies', 'sickroom']);
   });
 
   it('returns full node objects, all genuinely adjacent to the source', () => {
-    const from = 'gate-forecourt';
+    const from = 'forecourt';
     const reach = reachableFrom(from, ALL_REVEALED);
     expect(reach.length).toBeGreaterThan(0);
     for (const n of reach) {
