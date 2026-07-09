@@ -126,18 +126,35 @@ The loop that shipped T0/T1 at the AA bar, runnable by any agent:
    `node src/scripts/map-audit-shots.mjs project/audit/screens/<date>-<slug>/`
    (fit + quadrants + deep zoom, both sheets; flips `data-zoom` so the fine
    register is IN the shots — never screenshot the modal by hand for this).
-2. **Blind describe** — one fresh agent per sheet, given ONLY the images
-   (no repo access in the prompt): *"Describe the place this survey sheet
-   depicts — geography, settlement, water, what seems old/new/wrong."* The
-   agent must not read `map-spec.md`; blindness is the point (PH2).
-3. **Judge** — an agent scores each description against
-   [`map-spec.md`](map-spec.md) §5: every **M** line must be recovered; ≥ half
-   the **S** lines. A miss names the drawing gap to fix; iterate.
-4. **Report** — a scored report in `project/audit/reports/` (committed).
+2. **Blind describe** — **three independent fresh agents per sheet**, each
+   given ONLY the images (no repo access, no shared context): *"Describe the
+   place this survey sheet depicts — geography, settlement, water, what seems
+   old/new/wrong."* The agents must not read `map-spec.md`; blindness is the
+   point (PH2).
+3. **Judge** — each description is scored **separately** against
+   [`map-spec.md`](map-spec.md) §5; a line's verdict is the **strict majority
+   (2/3)** of the votes. A sheet passes when every **M** line holds a
+   majority and ≥ half the **S** lines do. A majority-miss names the drawing
+   gap to fix; iterate.
+4. **Report** — a scored report in `project/audit/reports/` (committed),
+   carrying a per-line **vote-spread column** (`3/3 · 2/3 · 1/3 · 0/3`).
+
+**Why an ensemble (the 2026-07-09 variance finding):** on 07-08/07-09 the
+SAME unchanged T0/T1 pixels scored all-M-green, then 3/7 · 4/11, under an
+identical rubric and byte-identical captures — reader recall and judge
+scoring vary enough on their own to flip M-lines. So: **a single-reader run
+is a SAMPLE, never a verdict; the ensemble majority is the verdict**, and any
+pass/fail claim cites the vote spread. The spread is also the
+redraw-priority signal — a `2/3` line is visibly marginal (fix it only if
+the fix is free while you're in the file); a `0/3`–`1/3` M-line is a real
+communication gap.
 
 **One command:** the `map-blind-pass` workflow
-(`.claude/workflows/map-blind-pass.js`) runs capture → describe → judge →
-report; its loop agents run on Sonnet (human-blessed routing, 2026-07-08).
+(`.claude/workflows/map-blind-pass.js`) runs capture → describe ×3 → judge
+each → majority → report; its reader + judge agents run on **Opus at medium
+effort** (human ruling, 2026-07-09 — supersedes the 2026-07-08 Sonnet
+blessing; the ensemble carries the variance measurement, the model tier
+removes recall/scoring noise), while capture + report-writing stay cheap.
 Invoke via the Workflow tool, **scoped to the sheet you edited**:
 `{ name: 'map-blind-pass', args: { sheets: ['T1'] } }` — most edits change
 one sheet's read. Run the FULL both-sheet pass (`{ name: 'map-blind-pass' }`)
@@ -155,8 +172,10 @@ craft tweaks need just your own capture review.
   authoring for a new tier's spec (map-styles §4 — the spec is the
   taste-heavy artifact; the human reads it before build), any restyle of the
   committed look (ADR-135 + HR-item).
-- Subagents you spawn inherit your model (D-124); route the blind-pass
-  describe/judge agents as-is — blindness matters more than model size there.
+- Subagents you spawn inherit your model (D-124); the blind-pass
+  describe/judge agents are pinned to Opus medium in the workflow itself
+  (human ruling, 2026-07-09) — blindness comes from the prompt's no-repo
+  rule, not the model tier.
 
 ## §7 · Gotchas ledger (paid for; don't re-buy)
 

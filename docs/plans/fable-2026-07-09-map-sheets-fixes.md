@@ -1,6 +1,16 @@
 # Map-sheets fixes — trustworthy loop first, then the sheets
 
-**Status: PROPOSED (2026-07-09) — awaiting the human's read.**
+**Status: IN PROGRESS (2026-07-09) — human signed off via pre-build Q&A;
+all four forks locked on the plan's defaults: Fable builds it this
+session (routing upgrade approved), 3-reader/2-of-3 ensemble, the
+O-Sato fix lands here with the denylist test (storywave C1.1 ticks off
+as done), P4 redraws autonomously. Two mid-build human rulings
+(2026-07-09): the blind-pass reader+judge agents route **Opus medium**
+(supersedes the 2026-07-08 Sonnet blessing — the ensemble votes stay
+the variance instrument, the model upgrade removes tier noise from
+reader recall and judge scoring); and **Fable does all map authoring
+in this session** — the "Opus, whole plan" routing below is
+superseded for this execution.**
 **Confidence: ( 85% Opus, 15% Fable )** — every phase routes Opus under
 the map rails (map-authoring §6: the pin + rubric + integrity test carry
 the risk for geometry work to an EXISTING rubric); Fable/human enters
