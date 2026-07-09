@@ -76,7 +76,8 @@ for (const { path, cap, warn, genreLeak } of BUDGETS) {
 // edit that doesn't bump the number is a scam" — and at the threshold the doc is
 // REWRITTEN fresh (debt → 0), restoring the clarity compression eroded. This is
 // git-aware: it compares the working tree to HEAD, so it only requires a bump
-// when the file actually changed. The counter is one comment line in the doc.
+// when the HAND-WRITTEN body changed — a mechanical gen-region regen is exempt
+// (see below). The counter is one comment line in the doc.
 const RD_PATH = 'project/status/project-status.md';
 const RD_THRESHOLD = 20;
 const parseDebt = (s: string): { n: number; max: number } | null => {
@@ -93,8 +94,12 @@ if (existsSync(RD_PATH)) {
     );
     red = true;
   } else {
-    // Compare to HEAD. A bump is required ONLY when the content actually changed;
-    // no HEAD blob (new file / detached bootstrap) skips the check gracefully.
+    // A bump is required ONLY when the doc's HAND-WRITTEN body changed. A mechanical
+    // `checkpoint` gen-region regen (the journal pointer, the gate roster) is NOT a
+    // "compression" and must not demand a bump — else every journal-adding session
+    // cries wolf (AC-11). So compare with the `gen:begin…gen:end` blocks STRIPPED. No
+    // HEAD blob (new file / detached bootstrap) skips the check gracefully.
+    const stripGen = (s: string): string => s.replace(/<!-- gen:begin[\s\S]*?gen:end[^>]*-->/g, '');
     let head = '';
     try {
       head = execFileSync('git', ['show', `HEAD:${RD_PATH}`], { encoding: 'utf-8' });
@@ -102,12 +107,13 @@ if (existsSync(RD_PATH)) {
       head = '';
     }
     const headDebt = head ? parseDebt(head) : null;
-    if (head && headDebt && cur !== head && curDebt.n <= headDebt.n) {
+    if (head && headDebt && stripGen(cur) !== stripGen(head) && curDebt.n <= headDebt.n) {
       console.error(
-        `  X doc-budgets: ${RD_PATH} changed but rewrite-debt did not rise (${headDebt.n} → ${curDebt.n}).`,
+        `  X doc-budgets: ${RD_PATH} body changed but rewrite-debt did not rise (${headDebt.n} → ${curDebt.n}).`,
       );
       console.error(
-        `    Snapshot-class doc: EVERY edit must bump the counter (human 2026-07-09). Set it to ${headDebt.n + 1}/${curDebt.max}.`,
+        `    Snapshot-class doc: EVERY hand edit must bump the counter (human 2026-07-09) — a` +
+          ` gen-region regen is exempt. Set it to ${headDebt.n + 1}/${curDebt.max}.`,
       );
       red = true;
     }

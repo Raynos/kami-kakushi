@@ -43,10 +43,11 @@ Two big arcs in one long session:
   loud WARN at ≥20 → rewrite fresh. Threshold tunable in `verify-doc-budgets.ts`.
   RED-proved (edit-no-bump → red; bump → green). Inaugural full rewrite: snapshot
   120 → 100 lines, counter seeded `0/20`.
-  - **Landmine:** the gate fires on ANY snapshot change vs HEAD — including a
-    `checkpoint` gen-region regen (the journal pointer). So a session that adds a
-    journal must bump the counter too. If that turns into wolf-crying, exempt
-    gen-region-only diffs.
+  - **Landmine → RESOLVED (same session):** the gate first fired on ANY snapshot
+    change vs HEAD — including a mechanical `checkpoint` gen-region regen (the
+    journal pointer). Fixed: the bump-check now STRIPS `gen:begin…gen:end` blocks
+    before comparing, so a regen is exempt; only a hand-written body change needs a
+    bump. RED-proved (gen-only→green, body-change→red, body+bump→green).
 
 ## 3 · The rung-reorg batch (4 subagents → sequential apply)
 
@@ -95,7 +96,8 @@ Fanned read-only research to 4 subagents; applied each in the main thread:
 3. Optional: the graphics-concept shelves, T2 §6.1 fog prose diverge.
 
 ## Landmines (current)
-- The rewrite-debt gate fires on every snapshot change — see §2.
+- The rewrite-debt gate: a hand-written body change needs a counter bump;
+  mechanical gen-region regens are exempt (fixed same session — see §2).
 - `hd30-nengu` bundle is KEPT (human steer) — do NOT auto-prune; DEV Story shows
   "Story (1)" by design.
 - Combat is a design call, not a bug — don't "fix" the axe recipe (breaks the
