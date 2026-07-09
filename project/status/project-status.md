@@ -28,18 +28,19 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
   ONE monolithic cutover (areas swap = 55 files, no green island → a worktree
   series); full map at `brainstorms/2026-07-08-storywave-g4-migration-map.md`.
   **HD-30 ⛔ gates G7**; OWED balance re-baseline batches at G4-end. Next: G4.
+- **🧊 PLAN K PARKED (s127):** authored-depth demo (`docs/plans/t0/`) — §U =
+  the Asking + clue-book after 5 failed feel-tests (§R = the law; prototypes
+  ⭐ `project/prototypes/authored-depth-demo/`). Un-park = human, post-v0.4.0.
 - **PRD** — `prd.md` = stub index → `docs/living/prd/*` (seven-tier per s118
   ripple); §4 + §7 MS2–MS7 provisional (ADR-059).
-- **v0.3.0–v0.3.7 shipped** the full T0 MS0–MS4 arc (FB-1–FB-117), the T0
-  rebuild (**ADR-107–116**) + v0.3.5 deltas (**ADR-118–125**; R7 cap → T1).
+- **v0.3.0–v0.3.7 shipped** T0 MS0–MS4 (FB-1–117), the T0 rebuild
+  (ADR-107–125; R7 cap → T1).
 - **✅ THE TASTE LOCK (ADR-126, s57):** `taste.md` (21 principles, capped) ·
   generated tokens · `doc-budgets` gate · FB-10 two-pass flow (ADR-135).
 - **✅ UI-v2 Andon Steel SHIPPED + PH5-CERTIFIED (s98, 2026-07-06):** M1–M7
   (tokens/fonts · materials · Andon rail|desk|log-window + phone band · GBA
   cold open · VN/ceremony heat · variants steel-native · **ADR-144** retires
   the woodblock locks) + drains FB-127–FB-172.
-- **✅ Process/e2e/narrative infra** (s77–s94): FB-1–10 · e2e lane ·
-  ADR-139/140/141/142.
 - **✅ T0/T1 MAPS PLAYER-BOUND, HR-12 ✅ (s112–117, ADR-149/151):** the sheet =
   THE player map. Drain · reveal mech · blind-pass all-M · golden pin · Phase C
   closed · s117 guides+skill+runner — non-Fable map builds; spec→HR→build.
@@ -66,13 +67,12 @@ The built T0 ships until the reboot's build wave replaces it. No magic; no reset
 - **Phase-2 story + tracker picks** 🔲 — HR-10 (the estate-build beat take:
   ledger canon vs land/heir alternates) · HR-11 (tracker A ladder / B rail /
   C ledger); PH5 fun-certification of the new ~65-min Phase 2 rides HR-1.
-- **Graphics explore slate DONE/archived (s124):** demos DEV→Story; E1.4/E3.4
-  gated on Plan B (E1 cutaway HR-16 closed · E2 parked · E3 good-later).
+- **Graphics slate DONE/archived (s124):** E1.4/E3.4 gated on Plan B (HR-16 closed · E2 parked · E3 good-later).
 
 ## Deferred / owed tail (engineering — not blocking the deploy)
 
-**R7 capstone side-quests** → T1 · **status-token ladder** → T1–T5 · home
-grows w/ rung · NPC placement (FB-113) · node-discovery T1+ tail → `BACKLOG.md`.
+**R7 side-quests** → T1 · **status-token ladder** → T1–T5 · home grows w/
+rung · NPC placement (FB-113) · node-discovery T1+ tail → `BACKLOG.md`.
 
 ## Toolchain
 
