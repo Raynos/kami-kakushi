@@ -400,10 +400,10 @@ voice: steward
 motivates: house-study, room-grove
 
 <!-- u7-b, redlined: the spoken Item/Count/Condition labels recast into plain
-  Genemon speech (r7-what-changes). Two grafts from u7 take-c/take-a could NOT
-  be applied — their source prose was not transcribed this pass: take-c's "An
-  entry can be amended" line, and take-a's morning-after log line (HD-30 /
-  un-applied redlines). THE FIRST DREAM (`scene r7-dream`) is NOT a rung block
+  Genemon speech (r7-what-changes). take-c's "An entry can be amended" graft IS
+  applied (the `r7-mine` react). take-a's morning-after log line is NOT
+  transcribed — VERDICT classes it Recommended / non-blocking (HD-30). THE
+  FIRST DREAM (`scene r7-dream`) is NOT a rung block
   (a `## scene` here would break the intro scene-order check) — it migrates to
   scenes.md as the `r7-dream` scene-def, where the "fine as sieved ash" simile
   is cut. The name-flip Nameless:→Gonbei: on the decide labels stays native. -->

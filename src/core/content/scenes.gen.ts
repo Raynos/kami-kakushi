@@ -46,7 +46,7 @@ export const SCENES: readonly SceneDef[] = [
         },
         {
           voice: 'narrator',
-          text: 'Lamps at the board at the wrong hour. The household stands in two rows — the hands by the door, the house by the book — and between the rows there is more floor than the room usually has. You are shown to the middle of it. Nobody arranged that. It arranged itself.',
+          text: 'Lamps at the board at the wrong hour. The household stands in two rows — the hands by the door, the house by the book — and between the rows there is more floor than the room usually has. You are shown to the middle of it. Nobody arranged that.',
         },
         {
           voice: 'steward',
@@ -182,10 +182,6 @@ export const SCENES: readonly SceneDef[] = [
         {
           voice: 'narrator',
           text: 'Nobody asks what went up. Nobody asks where. Genemon dips his brush, enters one line, and closes the day-book.',
-        },
-        {
-          voice: 'narrator',
-          text: 'Twice, on the new-moon rounds, you have seen a hooded lantern cross the far edge of the yard, going upstream. You say nothing now. Nobody asks you either.',
         },
         {
           voice: 'steward',

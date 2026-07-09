@@ -55,7 +55,7 @@ fetch."
 > Lamps at the board at the wrong hour. The household stands in two rows —
 > the hands by the door, the house by the book — and between the rows there
 > is more floor than the room usually has. You are shown to the middle of it.
-> Nobody arranged that. It arranged itself.
+> Nobody arranged that.
 
 Genemon: "The alcove chest stands open. One item short against the book. A
 packet — cloth, bound with cord, a hand's length — entered as lamp-oil for
@@ -146,9 +146,13 @@ Toku: "It went up at the new moon."
 > Nobody asks what went up. Nobody asks where. Genemon dips his brush, enters
 > one line, and closes the day-book.
 
-> Twice, on the new-moon rounds, you have seen a hooded lantern cross the far
-> edge of the yard, going upstream. You say nothing now. Nobody asks you
-> either.
+<!-- redline 2 (VERDICT §2): the "Twice, on the new-moon rounds, you have seen a
+  hooded lantern…" beat is CUT. The judge forbade shipping it as unconditional
+  narration — the player may never have walked a new-moon round, so the claimed
+  memory is false — and ruled it must be flag-gated on a real sighting or cut.
+  No `saw-hooded-lantern` flag exists to gate on (the crossing is night-round
+  texture only, never latched), so it is cut here, the authorized option. The
+  new-moon lantern crossing still lives as night-round flavor (sb-dog-coda). -->
 
 Genemon: "The count is answered. The house is not short. Take the lamps."
 
