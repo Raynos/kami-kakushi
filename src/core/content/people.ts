@@ -9,9 +9,11 @@
 // is for the spatial "who's here" foe question.
 //
 // The LINES a person speaks are migrated canon (dialogue.gen.ts `u9-<npc>` registries — the
-// single source, NEVER re-typed here). This module places WHO stands WHERE and WHEN; the talk
-// panel surfaces their migrated dialogue via `sceneId` (the full-VN path is wired in a later
-// chunk). Munemasa — "a voice through a wall" — never places at a T0 node, so he has no entry.
+// single source, NEVER re-typed here). This module places WHO stands WHERE and WHEN; a `vn`
+// person's Speak dispatches the `talk_to` intent (C4.2), which delivers their next
+// gate/memory-satisfied line into the Story log through the deliverDialogue cursor (the same
+// diegetic-mentor path as the cold open — one home, TST1). Munemasa — "a voice through a
+// wall" — never places at a T0 node, so he has no entry.
 
 import type { GameState, SurfaceId } from '../state';
 import type { MapNodeId } from './map';

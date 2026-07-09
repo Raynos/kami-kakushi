@@ -279,6 +279,12 @@ export const SICKROOM_DAYS_LOST = 2;
 export let LOSS_COIN_FRAC = 0.2;
 export let LOSS_MATERIAL_FRAC = 0.34;
 
+/** Ambient log-texture cadence (C4.3 — the bible §0.5 "flavor in the log" half): the chance an
+ *  ordinary day boundary breathes one authored season/weather line into the Now view, and the
+ *  chance a MARKET day adds a stall-gossip line. Cockpit levers; magnitudes sim-owned (ADR-132). */
+export let TEXTURE_DAY_CHANCE = 0.25;
+export let TEXTURE_MARKET_CHANCE = 0.5;
+
 /** Auto-retreat threshold (batch-2 call 6): the "auto-fight, retreat @20%" mode breaks off on a
  *  turn where HP drops below this fraction of MAX HP — a PER-TURN check, so a burst foe that kills
  *  outright still wins (a killing blow is a loss, not a flee). The safer auto-mode: no death, no
@@ -603,6 +609,10 @@ export function readBalanceLever(path: string): number {
       return LOSS_MATERIAL_FRAC;
     case 'AUTO_RETREAT_FRAC':
       return AUTO_RETREAT_FRAC;
+    case 'TEXTURE_DAY_CHANCE':
+      return TEXTURE_DAY_CHANCE;
+    case 'TEXTURE_MARKET_CHANCE':
+      return TEXTURE_MARKET_CHANCE;
     default:
       throw new Error(`balance-override: unknown lever ${path}`);
   }
@@ -728,6 +738,12 @@ export function __setBalanceLever(path: string, value: number): void {
     case 'AUTO_RETREAT_FRAC':
       AUTO_RETREAT_FRAC = value;
       return;
+    case 'TEXTURE_DAY_CHANCE':
+      TEXTURE_DAY_CHANCE = value;
+      return;
+    case 'TEXTURE_MARKET_CHANCE':
+      TEXTURE_MARKET_CHANCE = value;
+      return;
     default:
       throw new Error(`balance-override: unknown lever ${path}`);
   }
@@ -773,6 +789,8 @@ export const BALANCE_CANON: Readonly<Record<string, number>> = Object.freeze({
   LOSS_COIN_FRAC,
   LOSS_MATERIAL_FRAC,
   AUTO_RETREAT_FRAC,
+  TEXTURE_DAY_CHANCE,
+  TEXTURE_MARKET_CHANCE,
 });
 
 /** Reset every overridden lever back to its canon value (the cockpit's "Reset all to canon"). */

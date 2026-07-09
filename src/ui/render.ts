@@ -5011,8 +5011,18 @@ export function mount(
     const talk = el('button', 'verb person-talk');
     talk.type = 'button';
     talk.addEventListener('click', () => {
-      // toggle the conversation: talking again (or to someone else) opens THIS person; a second
-      // click on the open person closes it. Re-render off the last state (like setTab), UI-only.
+      if (p.depth === 'vn' && p.sceneId) {
+        // C4.2 — a `vn` person actually SPEAKS: every press delivers their next
+        // gate-satisfied authored line into the Story log (the talk_to intent — the same
+        // diegetic-mentor cursor as the cold open; the log is the surface, TST1/ADR-039).
+        // The conversation STAYS open ("Ask X" keeps asking); it closes by walking off or
+        // talking to someone else. The dispatch re-renders for us.
+        openPersonId = p.id;
+        dispatch({ type: 'talk_to', personId: p.id });
+        return;
+      }
+      // small/tiny: toggle the greeting/wares panel — a second click on the open person
+      // closes it. Re-render off the last state (like setTab), UI-only.
       openPersonId = openPersonId === p.id ? null : p.id;
       if (lastState) render(lastState, null);
     });
@@ -5022,7 +5032,9 @@ export function mount(
   function patchPersonRow(row: HTMLElement, p: NodePerson): void {
     const open = openPersonId === p.id;
     const talk = row.querySelector<HTMLButtonElement>('.person-talk')!;
-    setText(talk, open ? `Leave ${p.name}` : `Speak with ${p.name}`);
+    // a vn conversation stays open and keeps ASKING (C4.2); small/tiny toggle open/closed
+    const openLabel = p.depth === 'vn' ? `Ask ${p.name} more` : `Leave ${p.name}`;
+    setText(talk, open ? openLabel : `Speak with ${p.name}`);
     setClass(talk, 'on', open);
     const say = row.querySelector<HTMLElement>('.person-say')!;
     toggle(say, open && Boolean(p.greeting));

@@ -86,6 +86,7 @@
 | move_to | timed | 6s | 2s |
 | ascend | instant | — | — |
 | advance_season | instant | — | — |
+| talk_to | instant | — | — |
 
 ## Estate map (spatial spine — D-093)
 

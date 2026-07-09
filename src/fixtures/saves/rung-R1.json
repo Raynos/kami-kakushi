@@ -14,7 +14,7 @@
         "combat": 0,
         "loot": 0,
         "seasonal": 0,
-        "worldgen": 0,
+        "worldgen": 4,
         "discovery": 0
       }
     },
@@ -452,16 +452,16 @@
           "key": 44,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 10,
-          "count": 9,
+          "tick": 22,
+          "count": 3,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 45,
-          "channel": "system",
-          "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
-          "tick": 12,
+          "channel": "narration",
+          "text": "Married out to the next valley: a charcoal-burner's daughter, in the house's harvest weeks. The news and the wedding sweets arrived a week apart, both a little stale.",
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -470,13 +470,31 @@
           "key": 46,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 0,
+          "tick": 10,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 47,
+          "channel": "system",
+          "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 48,
+          "channel": "reward",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+          "tick": 0,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 49,
           "channel": "narration",
           "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
           "tick": 0,
@@ -484,7 +502,7 @@
           "voice": "narrator"
         },
         {
-          "key": 48,
+          "key": 50,
           "channel": "narration",
           "text": "Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon calls you up from the step without looking up.",
           "tick": 2,
@@ -492,7 +510,7 @@
           "voice": "narrator"
         },
         {
-          "key": 49,
+          "key": 51,
           "channel": "narration",
           "text": "\"Two hands took the lowland road this week. Wages drawn through the day they left, lines struck. The yard is short. The work is not.\"",
           "tick": 2,
@@ -501,7 +519,7 @@
           "voice": "steward"
         },
         {
-          "key": 50,
+          "key": 52,
           "channel": "narration",
           "text": "It is the first you have heard of any leaving.",
           "tick": 2,
@@ -509,7 +527,7 @@
           "voice": "narrator"
         },
         {
-          "key": 51,
+          "key": 53,
           "channel": "narration",
           "text": "\"Terms. Work, sun to sun, at what the yard wants doing — hired by the day, counted in the book. Meals at the threshold, morning and evening. The woodshed corner and a mat. No coin: the house's coin is spoken for before it reaches the yard. Objections are heard now or kept. The paddies want you by full light.\"",
           "tick": 2,
@@ -518,7 +536,7 @@
           "voice": "steward"
         },
         {
-          "key": 52,
+          "key": 54,
           "channel": "narration",
           "text": "Nobody stops eating. Two hands lost was a morning's talk; one stray kept is not even that. The bowls go on.",
           "tick": 2,
@@ -526,7 +544,7 @@
           "voice": "narrator"
         },
         {
-          "key": 53,
+          "key": 55,
           "channel": "narration",
           "text": "\"The board has heard it. That serves for witness.\"",
           "tick": 2,
@@ -535,7 +553,7 @@
           "voice": "steward"
         },
         {
-          "key": 54,
+          "key": 56,
           "channel": "narration",
           "text": "He opens the day-book to a page already half-filled with other men.",
           "tick": 2,
@@ -543,7 +561,7 @@
           "voice": "narrator"
         },
         {
-          "key": 55,
+          "key": 57,
           "channel": "narration",
           "text": "On the veranda above the step, Naoyuki has stopped — the second son, papers of his own under one arm. Passing, and made a witness like the rest of the room.",
           "tick": 2,
@@ -551,7 +569,7 @@
           "voice": "narrator"
         },
         {
-          "key": 56,
+          "key": 58,
           "channel": "narration",
           "text": "\"The house is glad of —\"",
           "tick": 2,
@@ -560,7 +578,7 @@
           "voice": "official"
         },
         {
-          "key": 57,
+          "key": 59,
           "channel": "narration",
           "text": "The sentence stops. He stands with it a moment, as if he has read it back and found it not worth the ink.",
           "tick": 2,
@@ -568,7 +586,7 @@
           "voice": "narrator"
         },
         {
-          "key": 58,
+          "key": 60,
           "channel": "narration",
           "text": "\"Two hands left. You were here. That is all it is.\"",
           "tick": 2,
@@ -577,7 +595,7 @@
           "voice": "official"
         },
         {
-          "key": 59,
+          "key": 61,
           "channel": "narration",
           "text": "He goes on along the veranda. He looked at you once.",
           "tick": 2,
@@ -585,7 +603,7 @@
           "voice": "narrator"
         },
         {
-          "key": 60,
+          "key": 62,
           "channel": "narration",
           "text": "Then Genemon takes up the brush, and asks it plainly, at board volume. The room hears without listening.",
           "tick": 2,
@@ -593,7 +611,7 @@
           "voice": "narrator"
         },
         {
-          "key": 61,
+          "key": 63,
           "channel": "narration",
           "text": "\"One thing before the ink. If a claim follows you here, I enter it against your board. Is anything owing on you?\"",
           "tick": 2,
@@ -602,7 +620,7 @@
           "voice": "steward"
         },
         {
-          "key": 62,
+          "key": 64,
           "channel": "narration",
           "text": "\"Not that I know.\"",
           "tick": 2,
@@ -611,7 +629,7 @@
           "voice": "player"
         },
         {
-          "key": 63,
+          "key": 65,
           "channel": "narration",
           "text": "\"Then the book says none claimed. It has lived with worse.\"",
           "tick": 2,
@@ -620,7 +638,7 @@
           "voice": "steward"
         },
         {
-          "key": 64,
+          "key": 66,
           "channel": "narration",
           "text": "The gate and gateyard are yours to work now — stores come and go here, and Yohei sets up his stall on market days.",
           "tick": 2,
@@ -628,7 +646,7 @@
           "voice": "narrator"
         },
         {
-          "key": 65,
+          "key": 67,
           "channel": "narration",
           "text": "The terraced home paddies open to you — the rice that feeds the house.",
           "tick": 2,
@@ -636,7 +654,7 @@
           "voice": "narrator"
         },
         {
-          "key": 66,
+          "key": 68,
           "channel": "narration",
           "text": "They give you the lean space between the woodpiles: a mat, a chipped bowl, a nail for the coat. It is not much, and it is not anyone else's.",
           "tick": 2,
@@ -644,7 +662,7 @@
           "voice": "narrator"
         },
         {
-          "key": 67,
+          "key": 69,
           "channel": "narration",
           "text": "You begin to mark the turning of the days, and the four seasons with them.",
           "tick": 2,
@@ -652,7 +670,7 @@
           "voice": "narrator"
         },
         {
-          "key": 68,
+          "key": 70,
           "channel": "milestone",
           "text": "Rank ↑ — The day-hand 日雇",
           "tick": 2,
@@ -664,7 +682,7 @@
           }
         },
         {
-          "key": 69,
+          "key": 71,
           "channel": "narration",
           "text": "The estate's own state of repair is yours to tend now — spend the house's surplus to shore it up.",
           "tick": 2,
@@ -672,7 +690,7 @@
           "voice": "narrator"
         },
         {
-          "key": 70,
+          "key": 72,
           "channel": "narration",
           "text": "The rice you clear and grow is food, not only trade — a plain bowl of it fills a hollow belly and puts you back to work the faster.",
           "tick": 2,
@@ -680,7 +698,7 @@
           "voice": "narrator"
         }
       ],
-      "seq": 71
+      "seq": 73
     },
     "skillXp": {},
     "deliveredDialogue": [

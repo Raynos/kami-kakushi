@@ -225,3 +225,25 @@ window on the real ephemeris). C4.8: the post-climax `grain-watch` round
 serves it once `wolf-survived-not-won` latches. C4.5 tail: the scene modules'
 "STUB/DORMANT/empty registry" headers rewritten to the live truth. Sim: the
 6 pre-existing REDs unchanged; report + fixtures regenerated.
+
+## C4.2 + C4.3 — the cast speaks; the log breathes
+
+C4.2 (taste Pass-1 brief: TST1 — reuse the deliverDialogue cursor + the log,
+no new popup surface; TST2 — person rows patch in place, log appends; TST3 —
+the lines are migrated §04-cast canon, gate/memory-aware; TST4 — nameplate +
+voice colour carried, "Speak with X" → "Ask X more"): the new `talk_to`
+intent delivers a vn person's next gate-satisfied u9-* line into the Story
+log — ONE line per ask ("one teach per moment"), presence engine-checked
+(peopleHere), exhausted/absent = clean no-op. O-Ume, Matsuzō, O-Yae, Toku,
+Iori, Genemon, Kihei, Sōan, O-Hisa, Shinnosuke, Naoyuki become people, not
+scenery (~40 authored lines now reachable). Guards in talk.test.ts (4 tests,
+registry-derived, incl. every vn sceneId resolving to a real dialogue).
+C4.3: `src/core/texture.ts` — the ambient emitter for the 40+ dark
+season/weather/gossip lines: day boundary rolls a season/weather line
+(TEXTURE_DAY_CHANCE), market days gossip first (TEXTURE_MARKET_CHANCE), the
+season turn always announces the incoming season; all on the previously
+UNUSED `worldgen` stream (no schema change, replays untouched — asserted);
+lines are ephemeral (Now view, FB-53). Cadence = cockpit levers (ADR-132,
+sim-owned). texture.test.ts: 6 tests (pools registry-derived, lever gates,
+determinism + own-stream isolation, pre-wake silence). Sim: 6 pre-existing
+REDs unchanged.

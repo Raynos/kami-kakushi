@@ -25,6 +25,7 @@ type IntentType = Intent['type'];
 const PLAYER_INTENTS = [
   'open_eyes',
   'ask_topic',
+  'talk_to', // C4.2 — the who's-here Speak button (a vn person's next authored line)
   'choose_intro',
   'begin_rung_beat',
   'ask_rung_topic',

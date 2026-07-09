@@ -29,7 +29,9 @@ import {
   estateYieldNum,
   homeRestBonus,
   ownsBelonging,
+  peopleHere,
 } from './selectors';
+import { getPerson, PEOPLE_IDS } from './content/people';
 import { getBelonging, homeRestLine } from './content/home';
 import { skillLevel, skillYieldNum } from './skills';
 import { applyPromotion, promotionReady, pendingPromotionTarget, rungNumber } from './ranks';
@@ -124,7 +126,8 @@ export type Intent =
   | { type: 'begin_scene'; sceneId: string } // storywave G2: open a generalized VN scene (dormant)
   | { type: 'advance_scene_beat' } // storywave G2: continue a narration-only scene (inert on decisions)
   | { type: 'choose_scene_option'; optionId: string } // storywave G2: the terminal scene decision
-  | { type: 'begin_night_round'; roundId: string } // storywave G2: start the on-rails night round (dormant)
+  | { type: 'begin_night_round'; roundId: string } // storywave G2: start the on-rails night round
+  | { type: 'talk_to'; personId: string } // C4.2: a vn person's talk delivers their next authored line
   | { type: 'rake_rice' }
   | { type: 'rest' }
   | { type: 'do_activity'; activityId: ActivityId }
@@ -1156,6 +1159,19 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!def) return state;
       if (state.roundState !== null) return state;
       next = beginNightRound(next, def);
+      break;
+    }
+    case 'talk_to': {
+      // C4.2 — the vn-depth cast is CONVERSABLE: talking delivers the person's next
+      // gate/memory-satisfied authored line into the log through the SAME diegetic-mentor
+      // cursor the cold open uses (deliverDialogue — one home, TST1; the log IS the surface,
+      // never a popup). One line per ask ("one teach per moment"); talk again for the next;
+      // exhausted or absent → a clean no-op. Presence is engine-checked (peopleHere).
+      if (!PEOPLE_IDS.has(intent.personId)) return state;
+      const person = getPerson(intent.personId);
+      if (person.depth !== 'vn' || !person.sceneId) return state;
+      if (!peopleHere(state).some((p) => p.id === intent.personId)) return state;
+      next = deliverDialogue(next, person.sceneId, 1);
       break;
     }
   }

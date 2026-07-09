@@ -225,6 +225,9 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
   { path: 'LOSS_COIN_FRAC', label: 'Loss · coin frac', group: 'Combat feel' },
   { path: 'LOSS_MATERIAL_FRAC', label: 'Loss · material frac', group: 'Combat feel' },
   { path: 'AUTO_RETREAT_FRAC', label: 'Auto-retreat HP frac', group: 'Combat feel' },
+  // C4.3 — the ambient log-texture cadence (bible §0.5 "flavor in the log")
+  { path: 'TEXTURE_DAY_CHANCE', label: 'Texture · day chance', group: 'World feel' },
+  { path: 'TEXTURE_MARKET_CHANCE', label: 'Texture · market gossip', group: 'World feel' },
 ];
 
 /** One touched lever: its canon and current (overridden) value. */

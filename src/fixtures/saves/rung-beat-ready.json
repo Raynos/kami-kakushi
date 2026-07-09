@@ -14,7 +14,7 @@
         "combat": 0,
         "loot": 0,
         "seasonal": 0,
-        "worldgen": 0,
+        "worldgen": 4,
         "discovery": 0
       }
     },
@@ -440,16 +440,16 @@
           "key": 44,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 10,
-          "count": 9,
+          "tick": 22,
+          "count": 3,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 45,
-          "channel": "system",
-          "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
-          "tick": 12,
+          "channel": "narration",
+          "text": "Married out to the next valley: a charcoal-burner's daughter, in the house's harvest weeks. The news and the wedding sweets arrived a week apart, both a little stale.",
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true
@@ -458,13 +458,31 @@
           "key": 46,
           "channel": "reward",
           "text": "You rake the spilled rice back toward the basket. (+2 rice)",
-          "tick": 0,
+          "tick": 10,
           "count": 6,
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 47,
+          "channel": "system",
+          "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 48,
+          "channel": "reward",
+          "text": "You rake the spilled rice back toward the basket. (+2 rice)",
+          "tick": 0,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true
+        },
+        {
+          "key": 49,
           "channel": "narration",
           "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
           "tick": 0,
@@ -472,7 +490,7 @@
           "voice": "narrator"
         }
       ],
-      "seq": 48
+      "seq": 50
     },
     "skillXp": {},
     "deliveredDialogue": [

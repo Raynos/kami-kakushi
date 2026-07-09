@@ -14,6 +14,7 @@ import { deriveDayKeyed } from './rng';
 import { applyRewards } from './rewards';
 import { riceSpoilage, CONSUMPTION_SHO_PER_DAY } from './content/balance';
 import { refillSitePools } from './content/activities';
+import { textureDayPass, textureSeasonTurn } from './texture';
 import { triggerScenes } from './scenes';
 
 function onReckoning(state: GameState): GameState {
@@ -85,12 +86,14 @@ export function advanceSeason(state: GameState): GameState {
   const nextSeason = SEASONS[(idx + 1) % SEASONS.length]!;
   // ADR-163 — the production pools REFILL to the incoming season's peak (this is *why* seasons are
   // manual containers): each labour site's remaining-yield scalar resets to its (site, season) pool.
-  return {
+  const turned: GameState = {
     ...next,
     season: nextSeason,
     seasonsPassed: next.seasonsPassed + 1,
     sitePools: refillSitePools(nextSeason),
   };
+  // C4.3 — the incoming season announces itself: one authored texture line on the turn.
+  return textureSeasonTurn(turned);
 }
 
 /** The daily CONSUMPTION sink (ADR-163) — the household eats a steady shō/day drawn from the kura,
@@ -107,10 +110,11 @@ function onDayBoundary(state: GameState): GameState {
 function singleTick(state: GameState): GameState {
   // Day/tick advance — seasons are MANUAL (ended by `advance_season`), but the DAY boundary still
   // fires the daily consumption sink (ADR-163): the household eats a steady shō/day from the kura.
+  // C4.3: the boundary also breathes the world's ambient texture (one authored line, chance-gated).
   const tickNext = state.clock.tick + 1;
   if (tickNext >= TICKS_PER_DAY) {
     const rolled: GameState = { ...state, clock: { tick: 0, day: state.clock.day + 1 } };
-    return onDayBoundary(rolled);
+    return textureDayPass(onDayBoundary(rolled));
   }
   return { ...state, clock: { tick: tickNext, day: state.clock.day } };
 }
