@@ -135,8 +135,10 @@ always-loaded context while being editable on its own.
 - [`project/prototypes/`](../project/prototypes) — **standalone interactive
   feel-tests** (permanent; born 2026-07-09): self-contained single-file HTML
   mocks a human plays to judge a proposed mechanic/surface before its plan is
-  judged — one dir per prototype, linked from the owning plan/HR-item;
-  mock-data-only, lint-excluded, never imports `src/`. Replaced the retired
+  judged — **grouped one folder per OWNING PLAN** (human, 2026-07-09), one
+  self-contained dir per prototype inside, each tagged ⭐ POTENTIAL or
+  REFERENCE in the README; mock-data-only, lint-excluded, never imports
+  `src/`. Replaced the retired
   one-time `ui-demos/` ground (deleted 2026-07-09; its UI-remaster field lives
   in git history — see the ADR-127 note). Rules:
   [`README`](../project/prototypes/README.md).
