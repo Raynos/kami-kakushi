@@ -14,6 +14,7 @@
 export {};
 
 import { readFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 
 // `warn` (optional) is the SOFT line — an early "start displacing" nudge,
 // loud but never blocking (same two-tier shape as the 5s drift timer vs
@@ -68,5 +69,55 @@ for (const { path, cap, warn, genreLeak } of BUDGETS) {
     );
   }
 }
+// ── rewrite-debt counter (human, 2026-07-09) ────────────────────────────────
+// project-status.md is snapshot-class and gets lossily COMPRESSED to fit its
+// cap; repeated compression degrades it invisibly (this session compressed it
+// ~5× before the counter existed). So EVERY edit must bump a debt counter — "any
+// edit that doesn't bump the number is a scam" — and at the threshold the doc is
+// REWRITTEN fresh (debt → 0), restoring the clarity compression eroded. This is
+// git-aware: it compares the working tree to HEAD, so it only requires a bump
+// when the file actually changed. The counter is one comment line in the doc.
+const RD_PATH = 'project/status/project-status.md';
+const RD_THRESHOLD = 20;
+const parseDebt = (s: string): { n: number; max: number } | null => {
+  const m = /rewrite-debt:\s*(\d+)\s*\/\s*(\d+)/.exec(s);
+  return m ? { n: Number(m[1]), max: Number(m[2]) } : null;
+};
+if (existsSync(RD_PATH)) {
+  const cur = readFileSync(RD_PATH, 'utf-8');
+  const curDebt = parseDebt(cur);
+  if (!curDebt) {
+    console.error(`  X doc-budgets: ${RD_PATH} is missing its rewrite-debt counter.`);
+    console.error(
+      `    Add a last line: <!-- rewrite-debt: N/${RD_THRESHOLD} · last full rewrite: YYYY-MM-DD -->`,
+    );
+    red = true;
+  } else {
+    // Compare to HEAD. A bump is required ONLY when the content actually changed;
+    // no HEAD blob (new file / detached bootstrap) skips the check gracefully.
+    let head = '';
+    try {
+      head = execFileSync('git', ['show', `HEAD:${RD_PATH}`], { encoding: 'utf-8' });
+    } catch {
+      head = '';
+    }
+    const headDebt = head ? parseDebt(head) : null;
+    if (head && headDebt && cur !== head && curDebt.n <= headDebt.n) {
+      console.error(
+        `  X doc-budgets: ${RD_PATH} changed but rewrite-debt did not rise (${headDebt.n} → ${curDebt.n}).`,
+      );
+      console.error(
+        `    Snapshot-class doc: EVERY edit must bump the counter (human 2026-07-09). Set it to ${headDebt.n + 1}/${curDebt.max}.`,
+      );
+      red = true;
+    }
+    if (curDebt.n >= RD_THRESHOLD) {
+      console.log(
+        `  ~ doc-budgets WARN: ${RD_PATH} rewrite-debt ${curDebt.n}/${curDebt.max} — time to REWRITE it as a fresh living doc (restore the clarity lost to repeated compression) and reset to 0/${curDebt.max}.`,
+      );
+    }
+  }
+}
+
 if (red) process.exit(1);
 console.log(`  ✓ doc-budgets: ${BUDGETS.length} snapshot docs within their caps.`);
