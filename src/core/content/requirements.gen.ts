@@ -91,32 +91,24 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
         'Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.',
       drive: 'haul_stores',
     },
-    {
-      id: 'face-the-wolf',
-      type: 'flag',
-      flag: 'first-fight-survived',
-      flavor:
-        'There is blood on the grain-store threshold, most of it his, and the rice behind the door untouched.',
-      drive: 'face_wolf',
-    },
   ],
 
   R3: [
     {
       id: 'clear-the-kura-rats',
       type: 'count',
-      token: 'kill:rice_rats',
+      token: 'kill:river_rats',
       target: 3,
       flavor: `"Quiet in the kura tonight," ${NAMES.drillmaster} lets drop, cleaning his blade by lamplight.`,
-      drive: 'fight rice_rats',
+      drive: 'fight river_rats',
     },
     {
       id: 'drive-off-the-thieves',
       type: 'count',
-      token: 'kill:monkey',
+      token: 'kill:tanuki',
       target: 2,
       flavor: `"The monkeys have learned his shape," ${NAMES.drillmaster} is heard to say, almost pleased.`,
-      drive: 'fight monkey',
+      drive: 'fight tanuki',
     },
     {
       id: 'the-fields-hold',
@@ -177,15 +169,6 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       target: 75,
       flavor: 'New porters are told to watch how he stacks; nobody remembers deciding that.',
       drive: 'haul_stores',
-    },
-    {
-      id: 'begs-for-the-drills',
-      type: 'flag',
-      flag: 'r4-drills-begun',
-      flavor:
-        '[dev — R4 pupil: limps to the board, confesses the granary loss, begs for the drills; the drill-yard opens. Retires the smith/repair req (Tōzō leaves T0). No t0v2 requirement-flavor source. HD-30.]',
-      drive:
-        '[dev — sim confesses + begs; the drill-yard unlock + the new verbs land in a later G4 chunk]',
     },
     {
       id: 'a-hundred-mon-held',

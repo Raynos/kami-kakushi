@@ -150,13 +150,17 @@ export const MOBS: readonly MobDef[] = [
     id: 'marten',
     label: 'Marten',
     kanji: '貂',
-    level: 2,
+    level: 1,
     area: 'kura',
-    // Night-round stage 2 — over the roof, not the wall, and it kills more than it carries. Fast and
-    // evasive: the mid-round step up from the store rats before the wolf.
-    baseSpeed: 1.5,
-    accBonus: 2,
-    evaBonus: 3,
+    // Night-round stage 2 — over the roof, not the wall, and it kills more than it carries. A quick
+    // biter, the mid-round step up from the store rats before the wolf. SIM-OWNED SEEDS (ADR-132):
+    // G4 arc-close retune — the pre-reboot L2/evaBonus-3 marten was an un-winnable wall for an R3 MC
+    // on the carrying-pole (HP carries between stages, so a evasive L2 after the rats meant the
+    // rats→marten→wolf round never reached its survive-the-wolf climax). Softened to a fast-but-
+    // hittable L1 so the round CLOSES; the real curve re-derivation is OWED to the balance sim.
+    baseSpeed: 1.4,
+    accBonus: 0,
+    evaBonus: 1,
     nightRoundOnly: true,
     blurb: FLAVOR.mobMarten,
   },

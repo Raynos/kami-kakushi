@@ -80,7 +80,13 @@ export function triggerFlagScenes(state: GameState): GameState {
  *  (mirrors `revealRungBeat` — the Story/narration channel, each line's authored
  *  voice/nameplate carried so a two-voice scene reads correctly). */
 export function beginScene(state: GameState, def: SceneDef): GameState {
-  const opened: GameState = { ...state, activeScene: { id: def.id, beat: 0 } };
+  // DEQUEUE the scene as it opens (FIFO drain) — else the queue keeps re-serving the same id and
+  // the arc re-plays it forever. Filter (not shift) so opening a non-head id still removes exactly it.
+  const opened: GameState = {
+    ...state,
+    activeScene: { id: def.id, beat: 0 },
+    sceneQueue: state.sceneQueue.filter((id) => id !== def.id),
+  };
   return applyRewards(opened, {
     log: def.scene.greeting.map((l) => ({
       channel: 'narration' as const,
@@ -91,14 +97,18 @@ export function beginScene(state: GameState, def: SceneDef): GameState {
   });
 }
 
-/** Advance the beat cursor of a NARRATION-only / multi-line scene. Inert when the scene
- *  carries a decision with options (that terminal node is `applySceneOption`'s job) —
- *  mirrors `advance_rung_beat`. (A decision-less scene's terminal latch is G4 content; the
- *  registry is empty here, so no such scene exists yet.) */
+/** Advance a NARRATION-only scene (a decision with no options — the Count-resolve, the nengu
+ *  frame, the Bon beat, the R7 dream, R2's silent yard-hand beat). Inert when the scene carries
+ *  a decision WITH options (that terminal node is `applySceneOption`'s job) — mirrors
+ *  `advance_rung_beat`. G4 — `beginScene` reveals the WHOLE greeting at once (a single beat), so
+ *  the first `advance` on a decision-less scene is its TERMINAL: it latches the write-once played
+ *  record and clears `activeScene` (the world reveals post-scene), exactly like a decision scene's
+ *  close but with no pick to apply. Without this the arc's narration-only scenes never drain. */
 export function advanceSceneBeat(state: GameState, def: SceneDef): GameState {
   if (state.activeScene === null || state.activeScene.id !== def.id) return state;
   if (def.scene.decision.options.length > 0) return state;
-  return { ...state, activeScene: { id: def.id, beat: state.activeScene.beat + 1 } };
+  const next = latchScenePlayed(state, def.id);
+  return { ...next, activeScene: null };
 }
 
 /** The voice + nameplate a scene option's `react` line speaks in (mirrors the rung-beat

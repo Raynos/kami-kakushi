@@ -81,6 +81,7 @@ import {
   advanceSceneBeat,
   applySceneOption,
   enqueueScene,
+  triggerScenes,
   triggerFlagScenes,
 } from './scenes';
 import { beginNightRound } from './night-rounds';
@@ -293,6 +294,18 @@ function rungReactVoiceSpeaker(
   return { voice: scene.voice, speaker: undefined };
 }
 
+/** Apply a promotion INTO `target` and fire its post-promotion scene hooks — the shared tail both
+ *  the beat path (`choose_rung_option`) AND the SILENT path (`begin_rung_beat` on a beatless rung)
+ *  run, so a rung's scenes enqueue however it was reached: the Count on R5, the first dream on R7,
+ *  and the generalized rung-trigger mirror (R2's silent yard-hand beat). */
+function promoteInto(state: GameState, target: RankId): GameState {
+  let next = applyPromotion(state, target);
+  if (target === 'R5') next = enqueueScene(next, 'count');
+  if (target === 'R7') next = enqueueScene(next, 'r7-dream');
+  next = triggerScenes(next, { kind: 'rung', rung: target });
+  return next;
+}
+
 export function reduce(state: GameState, intent: Intent): GameState {
   let next = state;
   switch (intent.type) {
@@ -409,7 +422,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (state.rungBeat !== null) return state;
       if (introActive(state.introBeat)) return state;
       const target = pendingPromotionTarget(state);
-      if (target === null || !RUNG_BEATS[target]) return state;
+      if (target === null) return state;
+      // SILENT rungs (R2 the yard-hand, R5 the accused) carry NO rung beat — their story is a
+      // generalized SCENE (r2-yard-hand / the Count), not a promotion beat. Promote them STRAIGHT
+      // through here (the scene enqueues inside promoteInto); only a rung WITH a beat opens the VN.
+      // Without this the beatless rungs deadlocked the ladder (nothing could advance into them).
+      if (!RUNG_BEATS[target]) {
+        next = promoteInto(next, target);
+        break;
+      }
       next = { ...next, rungBeat: target };
       next = revealRungBeat(next, target);
       break;
@@ -496,13 +517,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (opt.setStance) next = { ...next, stance: opt.setStance };
       // (e) APPLY the promotion — the sole place rewardOnReach fires (rank-rN flags + unlocks + the
       //     terse marker). No rung ever advances without this beat completing (the ADR-110 invariant).
-      next = applyPromotion(next, target);
-      // (f) G4 — the scripted ensemble scenes hung on a promotion: the COUNT plays when the accused
-      //     reaches R5 (bible R5 — cleared by the day-book; Naoyuki names him), and the first DREAM
-      //     when the named hand reaches R7 (bible R7 — sleep → first dream). Enqueued here (the queue
-      //     opens at the render layer, G4.9); once-latched so they never re-fire.
-      if (target === 'R5') next = enqueueScene(next, 'count');
-      if (target === 'R7') next = enqueueScene(next, 'r7-dream');
+      // (e/f) APPLY the promotion + fire its post-promotion scene hooks (the Count on R5, the first
+      //       dream on R7, the generalized rung-trigger mirror) — the shared `promoteInto` tail, so a
+      //       beat-reached rung and a silent rung enqueue their scenes identically.
+      next = promoteInto(next, target);
       // (g) clear the cursor — the beat is done; the shell/world reveals post-scene.
       next = { ...next, rungBeat: null };
       break;

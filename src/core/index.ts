@@ -24,6 +24,7 @@ export {
   MARKET_ITEM_IDS,
   getItem,
   canBuy,
+  isMarketDay,
   MARKET_COIN_SINK_NOTE,
 } from './content/market';
 export type { MarketItem, MarketItemId } from './content/market';
@@ -225,6 +226,10 @@ export { baseAttrs } from './state';
 export { MOBS, GRINDABLE_MOBS, getMob, MOB_IDS } from './content/enemies';
 export type { MobId, MobDef } from './content/enemies';
 export { applyGrindFight } from './fight';
+export { resolveNightStage, nightStageReward, beginNightRound } from './night-rounds';
+export { NIGHT_ROUNDS, nightRoundById } from './content/nightRounds';
+export type { NightRoundDef, NightRoundStage } from './content/nightRounds';
+export { playerSpeaker } from './content/voices';
 export {
   MATERIALS,
   getMaterial,

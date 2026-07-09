@@ -684,12 +684,11 @@
 - The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean. <small>*(learn-the-woodlot — act:woodcut_edge ×20)*</small>
 - The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon. <small>*(walk-the-hills — act:forage_satoyama ×25)*</small>
 - Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted. <small>*(keep-the-stores-moving — act:haul_stores ×20)*</small>
-- There is blood on the grain-store threshold, most of it his, and the rice behind the door untouched. <small>*(face-the-wolf — flag first-fight-survived)*</small>
 
 ### R3 · The grain-watch 蔵番
 
-- "Quiet in the kura tonight," Kihei lets drop, cleaning his blade by lamplight. <small>*(clear-the-kura-rats — kill:rice_rats ×3)*</small>
-- "The monkeys have learned his shape," Kihei is heard to say, almost pleased. <small>*(drive-off-the-thieves — kill:monkey ×2)*</small>
+- "Quiet in the kura tonight," Kihei lets drop, cleaning his blade by lamplight. <small>*(clear-the-kura-rats — kill:river_rats ×3)*</small>
+- "The monkeys have learned his shape," Kihei is heard to say, almost pleased. <small>*(drive-off-the-thieves — kill:tanuki ×2)*</small>
 - "The fields don't miss him while he drills," Genemon notes, half to himself. <small>*(the-fields-hold — act:farm_paddy ×15)*</small>
 - "Watch or no watch, his rows never fell behind," Genemon says over the evening rice. <small>*(keep-the-rows — act:farm_paddy ×30)*</small>
 - "The palisade wood is his cutting," Kihei says, striking a post with the flat of his hand. <small>*(timber-for-the-palisade — act:woodcut_edge ×25)*</small>
@@ -700,7 +699,6 @@
 - The porters have stopped counting his loads against their own. <small>*(a-load-among-loads — act:haul_stores ×25)*</small>
 - When the kura needs moving in a hurry, it is his name the yard calls first. <small>*(first-name-in-the-yard — act:haul_stores ×50)*</small>
 - New porters are told to watch how he stacks; nobody remembers deciding that. <small>*(the-stores-know-you — act:haul_stores ×75)*</small>
-- [dev — R4 pupil: limps to the board, confesses the granary loss, begs for the drills; the drill-yard opens. Retires the smith/repair req (Tōzō leaves T0). No t0v2 requirement-flavor source. HD-30.] <small>*(begs-for-the-drills — flag r4-drills-begun)*</small>
 - The house learns he keeps coin of his own, strung and counted, spent on nothing foolish. <small>*(a-hundred-mon-held — resource coin ≥ 100)*</small>
 
 ### R5 · The accused 咎人

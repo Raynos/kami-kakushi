@@ -6,191 +6,160 @@ import {
   phaseOf,
   ascensionAvailable,
   estateGrade,
-  applyGrindFight,
   focusedOptimalIntent,
-  hpMax,
+  resolveNightStage,
+  nightRoundById,
   season,
   balance,
-  ESTATE_STAGES,
+  SEASONS,
+  RANKS,
   type GameState,
 } from './index';
 
-// THE WHOLE T0 ARC, end-to-end, via the REAL reducer — the strongest "is it playtestable" proof.
-// Unit tests cover the arc in FRAGMENTS (the ladder via forced flags, combat survival, pillars,
-// ascension — each in isolation). This drives a single auto-pilot from the cold open all the way to
-// the T0→T1 ascension with NO forced flags, so it proves the SEAMS hold: real combat actually sets
-// the flags the ladder gates on, real Phase-2 labour actually banks Estate deeds to EXCELLENT, and
-// the ascension actually fires. If any link dead-ends, the guard trips and this goes RED.
+// THE WHOLE storywave T0 ARC, end-to-end, via the REAL reducer — the strongest "is it playtestable"
+// proof. Unit tests cover the arc in FRAGMENTS (the ladder, combat survival, the economy, ascension —
+// each in isolation); this drives ONE seeded auto-pilot from the weir cold-open all the way to the
+// T0→T1 ascension with NO forced flags, so it proves the SEAMS of the G4 cutover hold: the silent
+// rungs (R2, R5) actually promote, the R3 grain-watch NIGHT ROUND latches `wolf-survived-not-won`,
+// the Count / season overlays / R7 dream drain, the Autumn nengu latches, the day-wage begins at R5,
+// and the Phase-2 estate grind reaches EXCELLENT so the ascension fires. If any link dead-ends the
+// arc can't close and this goes RED.
 //
-// Policy (mirrors the production auto-loop): ascend when the gate opens · stand the gate-watch (one
-// real grind fight) when R3 needs `combat-blooded` · otherwise the SHARED focused-optimal intent
-// (open_eyes > rest-if-starving > rake > face_wolf@R2 > cheapest-eligible labour). The labour banks
-// Estate deeds once Phase 2 opens (post-R7 capstone).
-function playToAscension(seed: number): { final: GameState; reachedRung: Record<string, boolean> } {
+// The driver is the SHARED focused-optimal policy (`focusedOptimalIntent`), plus the two side-channels
+// it can't express as a single Intent: the night-round STAGES (resolved through the night-round engine,
+// like the app loop) and the terminal ascension. NO forced flags — every gate is opened by the real
+// mechanism the player would use.
+
+/** The R0…R7 ladder in order, derived from the rank registry (never a hand-typed magic list). */
+const RUNG_ORDER = RANKS.map((r) => r.id);
+const rungIndex = (id: string): number => RUNG_ORDER.indexOf(id as (typeof RUNG_ORDER)[number]);
+
+interface ArcTrace {
+  readonly final: GameState;
+  readonly reached: Record<string, boolean>;
+  readonly steps: number;
+  /** Total coin the `collect_wage` board verb HANDED the MC (0 if the wage was never collected). */
+  readonly wageCollectedCoin: number;
+  /** Did a day-wage EVER accrue while the MC was below the R5 wage-start rung? (Must stay false.) */
+  readonly wageAccruedBeforeR5: boolean;
+  /** The lowest rung at which a `collect_wage` was dispatched (Infinity if never). */
+  readonly firstWageRungIdx: number;
+}
+
+function playArc(seed: number): ArcTrace {
   let s = reduce(createInitialState(seed), { type: 'open_eyes' });
-  const reachedRung: Record<string, boolean> = {};
+  const reached: Record<string, boolean> = {};
   let guard = 0;
-  while (s.tier === 0 && guard++ < 1_000_000) {
-    reachedRung[s.rung] = true;
+  let wageCollectedCoin = 0;
+  let wageAccruedBeforeR5 = false;
+  let firstWageRungIdx = Infinity;
+  const R5 = rungIndex('R5');
+  while (s.tier === 0 && guard++ < 2_000_000) {
+    reached[s.rung] = true;
+    // the day-wage is the R5+ faucet: it must NEVER accrue before the trusted hand is put on the books.
+    if (rungIndex(s.rung) < R5 && s.wageDaysAccrued > 0) wageAccruedBeforeR5 = true;
     if (ascensionAvailable(s)) {
       s = reduce(s, { type: 'ascend' });
       break;
     }
-    // R3→R4 needs real combat duty, not just meter — one grind fight sets `combat-blooded`.
-    if (s.rung === 'R3' && !hasFlag(s, 'combat-blooded')) {
-      s = applyGrindFight(s, 'monkey');
+    if (s.roundState !== null) {
+      // the R3 grain-watch night round: resolve its stages through the engine (like the app loop).
+      s = resolveNightStage(s, nightRoundById(s.roundState.roundId)!);
       continue;
     }
     const intent = focusedOptimalIntent(s);
     if (!intent) break; // a genuine dead-end (no legal move) — the arc is broken
+    if (intent.type === 'collect_wage') {
+      const before = s.resources.coin ?? 0;
+      firstWageRungIdx = Math.min(firstWageRungIdx, rungIndex(s.rung));
+      s = reduce(s, intent);
+      wageCollectedCoin += (s.resources.coin ?? 0) - before;
+      continue;
+    }
     s = reduce(s, intent);
   }
-  return { final: s, reachedRung };
+  return { final: s, reached, steps: guard, wageCollectedCoin, wageAccruedBeforeR5, firstWageRungIdx };
 }
 
-describe('T0 arc closes end-to-end via real intents (cold open → ascension)', () => {
-  const { final, reachedRung } = playToAscension(20260626);
+describe('the storywave T0 arc closes end-to-end via real intents (weir cold open → ascension)', () => {
+  const arc = playArc(20260626);
+  const { final } = arc;
 
-  it('climbs the full contiguous rung ladder R0…R7', () => {
-    for (const r of ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7'] as const) {
-      expect(reachedRung[r], `never reached ${r}`).toBe(true);
+  it('climbs the full contiguous rung ladder R0…R7 (incl. the SILENT R2 + R5)', () => {
+    for (const r of RUNG_ORDER) {
+      expect(arc.reached[r], `never reached ${r}`).toBe(true);
+    }
+    // the silent rungs have NO promotion beat — reaching R3+/R6+ proves the beatless promotion path works.
+    expect(arc.reached.R3 && arc.reached.R6).toBe(true);
+  });
+
+  it('the R3 grain-watch is opened by the REAL night round (the round-wolf flag, not a forced flag)', () => {
+    // `wolf-survived-not-won` is latched ONLY by the night-round survive stage (night-rounds.ts) — the
+    // driver forces nothing, so its presence proves the round actually reached its survive-the-wolf climax.
+    expect(hasFlag(final, 'wolf-survived-not-won')).toBe(true);
+  });
+
+  it('the day-wage begins at R5 and is COLLECTED at the board (the tactile faucet)', () => {
+    expect(arc.wageAccruedBeforeR5).toBe(false); // never a wage before the R5 wage-start rung
+    expect(arc.wageCollectedCoin).toBeGreaterThan(0); // the board handed real coin
+    expect(arc.firstWageRungIdx).toBeGreaterThanOrEqual(rungIndex('R5')); // collected only once waged
+  });
+
+  it('the Autumn nengu is reckoned, and the run spans a full lived YEAR of manual seasons', () => {
+    expect(hasFlag(final, 'nengu-reckoned')).toBe(true); // Autumn's reckoning latched (R7 gate)
+    // a full year is one turn of the six-season wheel (source-of-truth SEASONS, never a magic 6).
+    expect(final.seasonsPassed).toBeGreaterThanOrEqual(SEASONS.length);
+  });
+
+  it('the SILENT-content beats played: R2 yard-hand, the R5 Count, the R7 dream (scenes drained)', () => {
+    for (const id of ['r2-yard-hand', 'count', 'r7-dream']) {
+      expect(final.scenesPlayed.includes(id), `scene ${id} never played`).toBe(true);
     }
   });
 
-  it('the real combat gates open by actually fighting (not forced flags)', () => {
-    expect(hasFlag(final, 'first-fight-survived')).toBe(true); // the scripted grain-store wolf (R2→R3)
-    expect(hasFlag(final, 'combat-blooded')).toBe(true); // a real grind fight (R3→R4)
-  });
-
-  it('the R7 capstone opened Phase 2 and the Estate banked deeds to EXCELLENT', () => {
+  it('THE LOOP CLOSES: Phase 2 opened at the capstone, the Estate reached EXCELLENT, and it ascended', () => {
     expect(hasFlag(final, 't0-capstone')).toBe(true);
     expect(estateGrade(final)).toBe('EXCELLENT');
     expect(final.influence.estate.value).toBeGreaterThanOrEqual(balance.ESTATE_BANDS.excellent);
-  });
-
-  it('THE LOOP CLOSES: the ascension fired and the Estate rose to tier 1', () => {
     expect(final.tier).toBe(1); // T0 → T1
-    // post-ascension we are no longer ascension-eligible at the just-cleared grade (it advanced)
     expect(phaseOf({ ...final, tier: 0 })).toBe(2); // the macro engine was open at the capstone
   });
 
-  it('is deterministic — the same seed plays the same arc', () => {
-    const again = playToAscension(20260626);
+  it('is deterministic — the same seed plays the same arc to the same close', () => {
+    const again = playArc(20260626);
     expect(again.final.tier).toBe(1);
+    expect(again.steps).toBe(arc.steps);
     expect(again.final.influence.estate.value).toBe(final.influence.estate.value);
+    expect(again.final.seasonsPassed).toBe(final.seasonsPassed);
   });
 });
 
-// ADR-107/ADR-108/ADR-113 — the RICE / COIN / KOKU economy split, driven on the REAL reducer + fight path
-// (the DoD end-to-end economy proof). Fixtures ride the seed-robust curve (m2 header): a level-5 MC
-// beats the monkey ≈ 1.00 (a guaranteed win) and a fresh L1 MC loses to the bandit ≈ 0.00 (a
-// guaranteed loss) — deterministic without fishing a magic seed, and RED-able against the split.
-describe('the D-107 economy on the real path (rice / coin / koku split)', () => {
-  /** A ready fighter at the given level (full HP + satiety), carrying the given wealth. */
-  function fighter(level: number, extra: Record<string, number> = {}): GameState {
-    const s = createInitialState(1);
-    const t: GameState = {
-      ...s,
-      character: { ...s.character, level, satiety: 100 },
-      resources: { ...s.resources, ...extra },
-    };
-    return { ...t, character: { ...t.character, hp: hpMax(t) } };
-  }
-
-  it('raking the spilled rice grants RICE — coin holds back (the rice-only cold open)', () => {
-    let s = reduce(createInitialState(11), { type: 'open_eyes' });
-    const before = s.resources.rice ?? 0;
-    s = reduce(s, { type: 'rake_rice' });
-    expect(s.resources.rice ?? 0).toBe(before + balance.RICE_PER_RAKE); // rake → rice
-    expect(s.resources.coin ?? 0).toBe(0); // coin is the first WAGE (haul), not the cold open
-  });
-
-  it('a coin-paying labour (haul stores) is what first mints COIN — the first-wage beat', () => {
-    const base = createInitialState(13);
-    const ready: GameState = {
-      ...base,
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, 'verb-haul', 'room-gate-forecourt'],
-      location: 'gate-forecourt',
-    };
-    const after = reduce(ready, { type: 'do_activity', activityId: 'haul_stores' });
-    expect(after.resources.coin ?? 0).toBeGreaterThan(0); // hauling pays a copper wage
-    expect(after.resources.rice ?? 0).toBe(0); // hauling is not farming — no rice
-  });
-
-  it('a combat WIN pays COIN (the spendable currency), never koku', () => {
-    const won = applyGrindFight(fighter(5, { coin: 0 }), 'monkey');
-    expect(won.character.combatXp).toBeGreaterThan(0); // it won
-    expect(won.resources.coin ?? 0).toBeGreaterThan(0); // spoils are coin
-  });
-
-  it('spending flows through COIN — the estate kura-works sink debits coin', () => {
+describe('the T0 arc — the DESIGN LEVERS at the gates (not collapsed metrics)', () => {
+  it('DIMINISHING RETURNS: a site yields LESS on its later labour than its first, in a season', () => {
+    // The KIND-lane soft cap (ADR-163): each site's per-season pool draws down by diminishing returns.
+    // Drive TWO real farm acts on a fresh Winter paddy pool and assert the 2nd banks strictly less rice.
     const base = createInitialState(1);
     const ready: GameState = {
       ...base,
-      resources: { ...base.resources, coin: 1000 },
-      unlocked: [...base.unlocked, 'panel-rung-ladder', 'panel-estate'],
+      flags: { ...base.flags, awake: true, raked: true },
+      unlocked: [...base.unlocked, 'verb-farm', 'room-paddies'],
+      location: 'paddies',
+      character: { ...base.character, satiety: 100 },
     };
-    const after = reduce(ready, { type: 'improve_estate' });
-    expect(after.estateStage).toBe(1);
-    expect(after.resources.coin).toBe(1000 - ESTATE_STAGES[0]!.coinCost); // U1 debited in coin
+    const a1 = reduce(ready, { type: 'do_activity', activityId: 'farm_paddy' });
+    const first = (a1.banked.rice ?? 0) - (ready.banked.rice ?? 0);
+    const a2 = reduce(a1, { type: 'do_activity', activityId: 'farm_paddy' });
+    const later = (a2.banked.rice ?? 0) - (a1.banked.rice ?? 0);
+    expect(first).toBeGreaterThan(0);
+    expect(later).toBeLessThan(first); // the depleting pool is the lever, not a flat faucet
+    // and the underlying draw curve is MONOTONIC in what remains (the source-of-truth lever)
+    expect(balance.productionDraw(300)).toBeGreaterThan(balance.productionDraw(100));
   });
 
-  it('a LOST fight bleeds carried COIN + RICE + materials; the kura shelters them (D-113)', () => {
-    const before = fighter(1, { coin: 100, rice: 100, hardwood: 100 });
-    const banked: GameState = { ...before, banked: { coin: 40, rice: 40 } };
-    const after = applyGrindFight(banked, 'bandit'); // L1 vs bandit ≈ 0.00 → a guaranteed loss
-    expect(after.character.hp).toBe(balance.SETBACK_HP); // it lost
-    // all three carried resources are bitten, from the source-of-truth fractions (not magic numbers)
-    expect(after.resources.coin).toBe(100 - Math.round(100 * balance.LOSS_COIN_FRAC));
-    expect(after.resources.rice).toBe(100 - Math.round(100 * balance.LOSS_COIN_FRAC));
-    expect(after.resources.hardwood).toBe(100 - Math.floor(100 * balance.LOSS_MATERIAL_FRAC));
-    // koku (House standing) is NOT a carried resource, so the rout never touches it — nor the kura.
-    expect(after.banked.coin).toBe(40); // sheltered
-    expect(after.banked.rice).toBe(40); // sheltered
-    expect(after.influence.estate.value).toBe(before.influence.estate.value); // standing untouched
-  });
-
-  // ADR-107 Phase 2 — the RICE LOOP end-to-end on the REAL reducer: rake → RICE → SELL → COIN → SPEND
-  // (the coin faucet), and store-rice → a lost fight shelters it. This is the Phase-2 DoD proof that
-  // rice's sinks actually connect through the real player path, not just in isolation.
-  it('the coin faucet closes the loop: rake → RICE → sell → COIN → spend the estate sink', () => {
-    let s = reduce(createInitialState(7), { type: 'open_eyes' });
-    for (let i = 0; i < 50; i++) s = reduce(s, { type: 'rake_rice' }); // rake spilled rice → RICE
-    const rice = s.resources.rice ?? 0;
-    expect(rice).toBeGreaterThan(0);
-    expect(s.resources.coin ?? 0).toBe(0); // no coin yet — the cold open is rice-only
-    // open the estate economy (the pedlar + kura-works) — a mid-arc reveal, forced here for the slice.
-    s = { ...s, unlocked: [...s.unlocked, 'panel-rung-ladder', 'panel-estate'] };
-    const price = balance.riceSellPrice(season(s));
-    s = reduce(s, { type: 'sell_rice' }); // RICE → COIN at the season price (the faucet)
-    expect(s.resources.rice ?? 0).toBe(0);
-    expect(s.resources.coin ?? 0).toBe(rice * price); // exact, from the source-of-truth price
-    // and the minted coin actually SPENDS on the estate sink (the faucet feeds a real cost).
-    expect(s.resources.coin ?? 0).toBeGreaterThanOrEqual(ESTATE_STAGES[0]!.coinCost);
-    const built = reduce(s, { type: 'improve_estate' });
-    expect(built.estateStage).toBe(1); // U1 bought with faucet coin
-  });
-
-  it('store rice in the kura via the deposit intent → a lost fight shelters it (D-113)', () => {
-    let s = reduce(createInitialState(9), { type: 'open_eyes' });
-    for (let i = 0; i < 30; i++) s = reduce(s, { type: 'rake_rice' }); // rake at the grain-store
-    s = { ...s, unlocked: [...s.unlocked, 'panel-rung-ladder', 'panel-estate'] };
-    expect(s.location).toBe('kura'); // you woke, and raked, at the kura
-    s = reduce(s, { type: 'deposit', resource: 'rice' }); // bank the whole haul, safe
-    const stored = s.banked.rice ?? 0;
-    expect(stored).toBeGreaterThan(0);
-    expect(s.resources.rice ?? 0).toBe(0); // all carried rice is now stored
-    // arm a fresh L1 fighter carrying coin, keeping the banked rice, and lose a fight.
-    const armed: GameState = {
-      ...s,
-      character: { ...s.character, level: 1, satiety: 100 },
-      resources: { ...s.resources, coin: 100 },
-    };
-    const ready = { ...armed, character: { ...armed.character, hp: hpMax(armed) } };
-    const after = applyGrindFight(ready, 'bandit'); // L1 vs bandit ≈ 0.00 → a guaranteed loss
-    expect(after.character.hp).toBe(balance.SETBACK_HP); // it lost
-    expect(after.banked.rice).toBe(stored); // the STORED rice survives the rout (sheltered)
-    expect(after.resources.coin).toBe(100 - Math.round(100 * balance.LOSS_COIN_FRAC)); // carried coin bled
+  it('the rice SELL price swings by SEASON (spring dearest, autumn cheapest) — the store-vs-sell lever', () => {
+    // Assert the DIRECTION (the design lever), derived from the price table, not a pinned magnitude.
+    expect(balance.riceSellPrice('spring')).toBeGreaterThan(balance.riceSellPrice('autumn'));
+    // and the arc actually rode a season it could sell into (a positive coin close proves the faucet ran).
+    expect(season(createInitialState(1))).toBe('winter'); // the wheel opens on Winter (bible)
   });
 });

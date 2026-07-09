@@ -12,7 +12,10 @@ import { canDoActivity, hpMax, satietyMax } from './selectors';
 import { ACTIVITIES, getActivity, type ActivityId } from './content/activities';
 import { getRank } from './content/ranks';
 import { reachableFrom } from './content/map';
-import { getMob, GRINDABLE_MOBS } from './content/enemies';
+import { getMob, GRINDABLE_MOBS, type MobId } from './content/enemies';
+import { sceneById } from './content/scenes';
+import { isMarketDay } from './content/market';
+import { isWaged } from './content/wage';
 import { getBelonging } from './content/home';
 import { ESTATE_STAGES } from './content/estate';
 import { getWeapon } from './content/weapons';
@@ -146,9 +149,26 @@ export function autoModeIntent(s: GameState): Intent | null {
   return { type: 'set_auto', activityId: null };
 }
 
+/** Grind up to this combat level before posting the R3 grain-watch night round: the round's
+ *  MIDDLE stage is a real fight vs the marten (L2) — un-survivable underlevelled — so the
+ *  focused-optimal player trains to the wolf's own level (nightRounds wolf = L3) first, then
+ *  walks the round. Data-adjacent (the wolf's level); a small constant so autoplay stays leaf. */
+const NIGHT_ROUND_READY_LEVEL = 6;
+
 export function focusedOptimalIntent(s: GameState): Intent | null {
   const acts = availableActions(s);
   if (acts.includes('open_eyes')) return { type: 'open_eyes' };
+  // (a0) drain any live/queued generalized VN scene FIRST (the Count, the season overlays, the
+  // R7 dream, R2's silent yard-hand beat) — a scene owns the surface until it closes, so the
+  // arc plays it before working on. A decision scene picks its first option deterministically;
+  // a narration-only scene advances to its terminal (scenes.advanceSceneBeat closes it).
+  if (s.activeScene !== null) {
+    const def = sceneById(s.activeScene.id);
+    const opts = def?.scene.decision.options ?? [];
+    if (opts.length > 0) return { type: 'choose_scene_option', optionId: opts[0]!.id };
+    return { type: 'advance_scene_beat' };
+  }
+  if (s.sceneQueue.length > 0) return { type: 'begin_scene', sceneId: s.sceneQueue[0]! };
   // (a) answer the intro's VN scenes before working — pick the first closer, deterministically.
   if (introActive(s.introBeat)) {
     const scene = introSceneAt(s.introBeat);
@@ -161,8 +181,11 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
     if (opt) return { type: 'choose_rung_option', optionId: opt.id };
   }
   if (promotionReady(s) && !introActive(s.introBeat)) {
-    const target = pendingPromotionTarget(s);
-    if (target !== null && RUNG_BEATS[target]) return { type: 'begin_rung_beat' };
+    // TRIGGER a ready promotion. `begin_rung_beat` opens the VN beat for a rung that HAS one, and
+    // promotes SILENTLY through a beatless rung (R2 the yard-hand, R5 the accused) — so the driver
+    // dispatches it for EVERY ready promotion, not only the beat-bearing rungs (else the silent
+    // rungs deadlock the ladder).
+    if (pendingPromotionTarget(s) !== null) return { type: 'begin_rung_beat' };
   }
   if (s.character.satiety < satietyMax(s) * 0.25 && acts.includes('rest')) return { type: 'rest' };
   if (acts.includes('rake_rice')) return { type: 'rake_rice' };
@@ -185,10 +208,80 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
     const hop = nextHopToward(s.location, act.area, revealed);
     return hop ? { type: 'move_to', to: hop } : null;
   };
-  // earn coin: sell the carried rice pile when the pedlar's there, else the coin-paying haul.
+  // Is a foe/labour AREA reachable from here right now (here, or a revealed path exists)?
+  const canReachArea = (area: string): boolean =>
+    area === s.location || nextHopToward(s.location, area, revealed) !== null;
+  // earn coin: the accrued day-wage first (R5+ tactile board faucet), then sell surplus kura rice
+  // on a market day; else the coin-paying haul while the forecourt pool holds, and when it's worked
+  // out forage's steady pocket-coin (a SECONDARY yield, NOT pool-limited) keeps the faucet flowing.
   const earnCoin = (): Intent | null => {
-    if ((s.resources.rice ?? 0) > 0 && isUnlocked(s, 'panel-estate')) return { type: 'sell_rice' };
-    return driveLabour('haul_stores') ?? driveLabour('farm_paddy');
+    if (isWaged(s.rung) && s.wageDaysAccrued > 0) return { type: 'collect_wage' };
+    if ((s.banked.rice ?? 0) > 0 && isUnlocked(s, 'panel-estate') && isMarketDay(s.clock.day)) {
+      return { type: 'sell_rice' };
+    }
+    const haulPool = s.sitePools[getActivity('haul_stores').area] ?? 0;
+    if (haulPool > 0) {
+      const h = driveLabour('haul_stores');
+      if (h) return h;
+    }
+    return (
+      driveLabour('forage_satoyama') ??
+      driveLabour('forage_deepwoods') ??
+      driveLabour('haul_stores') ??
+      driveLabour('farm_paddy')
+    );
+  };
+  // Mend toward FULL HP (a hurt fighter loses forever): cook when a meal's ready, else forage sansai
+  // (the meal's ingredient); when the forage site is worked out, turn the season to refill it. Returns
+  // null when already full OR when mending is impossible (no cook / unreachable forage) — fight on hurt.
+  const mendToFull = (): Intent | null => {
+    if (s.character.hp >= hpMax(s) * FIGHT_MEND_HP_FRAC) return null;
+    if (!isUnlocked(s, 'verb-cook')) return null; // can't mend yet — proceed and fight hurt
+    if ((s.resources.sansai ?? 0) >= COOK_SANSAI_COST) return { type: 'cook_meal' };
+    if ((s.sitePools[getActivity('forage_satoyama').area] ?? 0) <= 0) {
+      return { type: 'advance_season' };
+    }
+    return driveLabour('forage_satoyama') ?? driveLabour('forage_deepwoods');
+  };
+  // Walk-to-then-FIGHT `desired` (the shared combat move): mend to full, craft/repair, and TRAIN on
+  // the strongest reachable grindable at/below level before taking the desired foe (a lvl-1 vs a
+  // lvl-2 foe is a loss loop, not a climb). Returns the prep/move/fight intent, or null when no
+  // fightable foe is reachable. Reused by the kill requirements AND the R3 night-round grind-up.
+  const fightToward = (desired: MobId): Intent | null => {
+    if (!isUnlocked(s, 'tab-combat')) return null;
+    // craft the axe the moment the looted materials allow (a real upgrade over the pole).
+    if (!hasFlag(s, 'crafted-wood_axe') && canCraft(s.resources, getRecipe('craft_wood_axe'))) {
+      return { type: 'craft_weapon', recipeId: 'craft_wood_axe' };
+    }
+    const mend = mendToFull();
+    if (mend) return mend;
+    // mend a worn blade when the wood allows (a Broken edge grinds losses); else cut the wood.
+    const band = durabilityBand(s.weaponDurability, getWeapon(s.equippedWeapon).durabilityMax);
+    if (band.name === 'Battered' || band.name === 'Broken') {
+      if ((s.resources.wood ?? 0) >= REPAIR_WOOD_COST) return { type: 'repair_weapon' };
+      const cut = driveLabour('woodcut_edge');
+      if (cut) return cut;
+    }
+    const target = getMob(desired);
+    const fightable = (m: (typeof GRINDABLE_MOBS)[number]): boolean =>
+      (m.minTier ?? 0) <= s.tier && canReachArea(m.area);
+    const canTakeDesired =
+      s.character.level >= target.level &&
+      !target.nightRoundOnly &&
+      (target.minTier ?? 0) <= s.tier &&
+      canReachArea(target.area);
+    let mob: MobId | null = canTakeDesired ? desired : null;
+    if (mob === null) {
+      const trainable = GRINDABLE_MOBS.filter((m) => m.level <= s.character.level && fightable(m)).sort(
+        (a, b) => b.level - a.level,
+      );
+      const fallback = GRINDABLE_MOBS.filter(fightable).sort((a, b) => a.level - b.level);
+      mob = trainable[0]?.id ?? fallback[0]?.id ?? null;
+    }
+    if (mob === null) return null;
+    if (getMob(mob).area === s.location) return { type: 'fight', mobId: mob, retreat: false };
+    const hop = nextHopToward(s.location, getMob(mob).area, revealed);
+    return hop ? { type: 'move_to', to: hop } : null;
   };
   for (const req of unfinished) {
     if (req.type !== 'count') continue;
@@ -205,45 +298,9 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
       if (go) return go;
       continue;
     }
-    if (verb === 'kill' && isUnlocked(s, 'tab-combat')) {
-      // pre-fight care: a hurt fighter loses forever (a half-HP level-1 vs the rats is a
-      // ~0% fight), so mend to FULL first — cook when a meal's on hand (the ONLY HP heal,
-      // ADR-050), else forage sansai; craft the axe the moment the looted materials allow;
-      // and mend a worn blade when the wood allows (a Broken edge grinds losses).
-      if (!hasFlag(s, 'crafted-wood_axe') && canCraft(s.resources, getRecipe('craft_wood_axe'))) {
-        return { type: 'craft_weapon', recipeId: 'craft_wood_axe' };
-      }
-      if (s.character.hp < hpMax(s) * FIGHT_MEND_HP_FRAC) {
-        if (isUnlocked(s, 'verb-cook') && (s.resources.sansai ?? 0) >= COOK_SANSAI_COST) {
-          return { type: 'cook_meal' };
-        }
-        const gather = driveLabour('forage_satoyama');
-        if (gather) return gather;
-        // no meal and no reachable sansai — fight on rather than stall.
-      }
-      const weapon = getWeapon(s.equippedWeapon);
-      const band = durabilityBand(s.weaponDurability, weapon.durabilityMax);
-      if (band.name === 'Battered' || band.name === 'Broken') {
-        if ((s.resources.wood ?? 0) >= REPAIR_WOOD_COST) return { type: 'repair_weapon' };
-        // ADR-148 — the divided requirement targets no longer leave a wood SURPLUS as a
-        // side effect of the climb, so a broken blade must PROVISION (cut the repair wood)
-        // instead of grinding a zero-win-rate loss loop forever (the pre-fix stall).
-        const cut = driveLabour('woodcut_edge');
-        if (cut) return cut;
-      }
-      // level ladder: an under-levelled fighter TRAINS first — grind the strongest foe at
-      // or below the MC's level for XP (and loot), and take on the required foe only once
-      // level parity is reached (a lvl-1 vs the lvl-2 wolf is a loss loop, not a climb).
-      const target = getMob(subject as Parameters<typeof getMob>[0]);
-      const mob =
-        s.character.level >= target.level
-          ? target
-          : (GRINDABLE_MOBS.filter((m) => m.level <= s.character.level).sort(
-              (a, b) => b.level - a.level,
-            )[0] ?? GRINDABLE_MOBS.reduce((a, b) => (a.level <= b.level ? a : b)));
-      if (mob.area === s.location) return { type: 'fight', mobId: mob.id, retreat: false };
-      const hop = nextHopToward(s.location, mob.area, revealed);
-      if (hop) return { type: 'move_to', to: hop };
+    if (verb === 'kill') {
+      const go = fightToward(subject as MobId);
+      if (go) return go;
     }
   }
   // state-predicate drivers (each authored req's `drive:` intent, generalised): earn toward,
@@ -262,7 +319,20 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
         const hop = nextHopToward(s.location, 'kura', revealed);
         if (hop) return { type: 'move_to', to: hop };
       }
-      const earn = p.res === 'rice' ? driveLabour('farm_paddy') : earnCoin();
+      if (p.res === 'rice') {
+        // rice banks kura-native from the paddy's PRIMARY yield, which rides the (site,season)
+        // production pool. When the paddy is worked out for the season, TURN THE MANUAL WHEEL
+        // (instant) to refill it rather than farm a dead field — the focused-optimal farmer waits
+        // for next season. The 10%/season spoilage on the turn is dwarfed by a fresh pool's yield,
+        // so the banked pile still climbs to the R7 granary target.
+        if ((s.sitePools[getActivity('farm_paddy').area] ?? 0) <= 0) {
+          return { type: 'advance_season' };
+        }
+        const go = driveLabour('farm_paddy');
+        if (go) return go;
+        continue;
+      }
+      const earn = earnCoin();
       if (earn) return earn;
       continue;
     }
@@ -283,6 +353,39 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
       }
       const earn = earnCoin();
       if (earn) return earn;
+    }
+  }
+  // FLAG requirements (atomic story flags): R3's grain-watch wolf + R7's Autumn nengu. Driven AFTER
+  // the count + state reqs (above) so the fighter is blooded/levelled and the granary stocked first.
+  // A flag already SET is left alone — the reduce-tail settle latches it next step; re-driving would
+  // loop. The night-round STAGES are resolved by the driver loop (resolveNightStage), not here.
+  for (const req of unfinished) {
+    if (req.type !== 'flag') continue;
+    if (hasFlag(s, req.flag)) continue; // set — settles on the next reduce; never re-drive
+    if (req.flag === 'wolf-survived-not-won') {
+      // the R3 first night round (grain-watch, nightRounds `first-night-round`): grind to
+      // combat-ready (the marten stage is a real fight), then POST at the gate. A live round is
+      // resolved by the driver loop; if none is live, begin one.
+      if (s.character.level < NIGHT_ROUND_READY_LEVEL) {
+        const best = GRINDABLE_MOBS.filter(
+          (m) => (m.minTier ?? 0) <= s.tier && canReachArea(m.area),
+        ).sort((a, b) => b.level - a.level)[0];
+        const grind = best ? fightToward(best.id) : null;
+        if (grind) return grind;
+      }
+      // FULL BELLY + FULL HP before posting — the round is three back-to-back fights with HP carried
+      // between stages and NO mend inside it, and low satiety throttles attack (COMBAT_SATIETY floor).
+      // Beginning it hurt/hungry loses stage 1 on the spot (an un-winnable re-begin loop).
+      if (s.character.satiety < satietyMax(s) * 0.9 && acts.includes('rest')) return { type: 'rest' };
+      const mend = mendToFull();
+      if (mend) return mend;
+      if (s.roundState === null) return { type: 'begin_night_round', roundId: 'first-night-round' };
+      continue; // a round is live — the driver loop resolves its stages this step
+    }
+    if (req.flag === 'nengu-reckoned') {
+      // Autumn's reckoning latches at the AUTUMN season-EXIT (step.onNengu): turn the manual wheel
+      // (instant) until autumn is exited. The season overlays it enqueues drain at (a0) next step.
+      return { type: 'advance_season' };
     }
   }
   // ADR-145 Phase 3 — the TEXTURED Phase-2 loop (the A+B hybrid, played sensibly): commission
