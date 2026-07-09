@@ -270,8 +270,9 @@ function renderOverview(aside: HTMLElement, select: (id: string) => void, tier: 
   aside.append(hd('div', 't0v2-aside-title', titleFor[tier]));
   const srcFor: Record<Tier, string> = {
     T0:
-      'Source: docs/story-bible/tiers/t0.md (walked whole, 2026-07-07). Review artifact — ' +
-      'NOT wired to the game. One geography: this sheet is a WINDOW of the T1 world. ' +
+      'Source: docs/story-bible/tiers/t0.md (walked whole, 2026-07-07). DEV survey-sheet ' +
+      'viewer — the live map draws this same geometry through map-variants/sheet-map.ts ' +
+      '(ADR-151). One geography: this sheet is a WINDOW of the T1 world. ' +
       'Drag to pan · scroll to zoom · roster rows fly to the zone.',
     T1:
       'Source: docs/story-bible/tiers/t1.md (walked whole, 2026-07-07). The SAME world as ' +
@@ -606,8 +607,10 @@ function openTierMap(tier: Tier): HTMLElement {
   let dragMoved = false;
   let dragStart = { x: 0, y: 0 };
   // live pointers — two fingers = pinch zoom. touch-action:none means WE own
-  // every gesture; without this, touch could pan but never zoom (G-9, and the
-  // sheet is player-bound now — ADR-151).
+  // every gesture; without this, touch could pan but never zoom (G-9 — and
+  // this DEV viewer's geometry is player-bound through
+  // map-variants/sheet-map.ts (ADR-151), so gestures here must match the
+  // live map's).
   const pointers = new Map<number, { x: number; y: number }>();
   let pinchDist = 0;
   svg.addEventListener('pointerdown', (e) => {
@@ -738,10 +741,12 @@ function openTierMap(tier: Tier): HTMLElement {
   applyVb();
 
   // ── the T0 rung-reveal previewer (ADR-151): fog = unsurveyed paper, seals
-  //    gate by RUNG_LADDER. DEV-only preview today; when the sheet becomes the
-  //    game's map, the game's rung drives the same painter. 全 = review mode.
+  //    gate by RUNG_LADDER (the REAL schedule, derived from core ranks.ts).
+  //    DEV-only preview — the live map (map-variants/sheet-map.ts) reads core
+  //    `revealed`, never this pill. Cycles every rung; the fog poly is the
+  //    nearest REVEAL stage at-or-below the rung (stages are sparse data).
   if (tier === 'T0') {
-    const STAGES: (number | null)[] = [null, 1, 3, 5, 7];
+    const STAGES: (number | null)[] = [null, 1, 2, 3, 4, 5, 6, 7];
     let stageIx = 0;
     const rungPill = hd('button', 't0v2-pill', 'rung: all');
     rungPill.type = 'button';
@@ -758,7 +763,8 @@ function openTierMap(tier: Tier): HTMLElement {
       for (const [id, g] of nodeEls) {
         g.style.display = visible(typeof id === 'string' ? id : '') ? '' : 'none';
       }
-      const stage = rung === null ? null : (REVEAL.find((s) => s.rung === rung) ?? null);
+      const fogStages = rung === null ? [] : REVEAL.filter((s) => s.rung <= rung);
+      const stage = fogStages.length > 0 ? fogStages[fogStages.length - 1]! : null;
       // svg children: [defs, art, seals] — paintSheet's own layer order
       const art = svg.children[1] as SVGElement;
       const sealLayer = svg.children[svg.children.length - 1] as SVGElement;

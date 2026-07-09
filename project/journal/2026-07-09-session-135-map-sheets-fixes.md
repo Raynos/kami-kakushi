@@ -94,3 +94,35 @@ their own commit; this plan's P2 (extend `RETIRED_NAMES` to the full
 - The DEV pill's R2/R4/R6 stages reuse the nearest lower REVEAL fog
   poly — the fog GEOGRAPHY is still ADR-151 placeholder data; only the
   seal gating is real.
+
+---
+
+## 4 · P1 committed (split across two commits by the shared tree)
+
+Session 134's pathspec commit of `nodes.ts` (`9b702d8`, their B1
+O-Sato fix) swept this session's uncommitted S1–S3 hunks in with it —
+the file-level sweep hazard §3 predicted. Work landed correctly;
+their message doesn't describe the ladder hunks, so this session's
+`sheet.ts` commit body carries the S1–S3 record. The sheet.ts half
+(rung pill walks every rung; S4 one-status-story) committed
+separately, full verify green, pin GREEN (no regen — nothing
+look-bearing).
+
+---
+
+## 5 · P2 — the retired-name guard, completed to the full docket
+
+Session 134's `9b702d8` landed the mechanism (RETIRED_NAMES ×7 + the
+generic all-string-fields denylist test over all three tiers' nodes) —
+exactly the plan's S5 shape, independently built. This session
+completed the list to the FULL 04-cast docket (13): + Kanta (→Kenta) ·
+Gonsuke (→Kumazō) · Tazō (→Ganzō) · Tōzō (the old smith; now Tetsuji)
+· Osen (sweetheart — origin void) · Otoku (never canon, the S2
+invention). Each verified against the bible before listing (Osen
+nearly false-listed: decisions.md shows Ohana→Osen, but the whole
+sweetheart origin is void — names.ts:39); no current name contains any
+listed token as a substring (Matsuzō/Kumazō/Ganzō vs Tazō checked).
+RED-proof banked pre-fix in an isolated worktree: the test against
+HEAD@1407c6e fails with exactly the O-Sato ×4. prd-drift's RETIRED
+table left alone — different mechanism (ADR-keyed, PRD-only), owned by
+s134's C3.
