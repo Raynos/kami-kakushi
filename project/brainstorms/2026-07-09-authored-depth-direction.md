@@ -222,6 +222,28 @@ _(running synthesis — updated as answers land)_
   corrupted variant; recite it back) · 影 The Double (the house investigates
   you back; read your own evolving dossier).
 
+## Round 3 (2026-07-09, later still) — Asking I fails inverse; the synthesis
+
+- **Human verdict on The Asking (v1):** "no direction, no hints, no guidance,
+  all the responses are vague… the book is just literally my vague questions
+  and the vague responses. I don't get the point." The inverse failure of the
+  kikigaki mock. **The two verdicts triangulate the design target: open input
+  on the way in, earned-but-visible accumulation on the way out.** Checklist
+  = too legible about METHOD; Asking v1 = illegible about PROGRESS. The
+  player must never be told who to ask or what to type, but must SEE clues
+  gathering under named open questions.
+- Contributing mock-artifact flaw (honest note): a 40-intent miniature makes
+  most natural questions hit fallback deflections → everything reads vague.
+  A real lexicon is 30–50× denser; feel-tests must be tuned generous.
+- **Asking II built** (same file/artifact, v2): free-text in, but authored
+  answers now LATCH distilled clue-lines (MC's hand + source) into a
+  always-visible book pane of named open questions (the kikigaki "book"
+  idiom the human liked); "the book takes a line" gold moment in the
+  conversation; thread states open/✒answered; one seeded open question so
+  the book is never blank; gates loosened (one personal question opens
+  Matsuzō); clue counter in the header. Direction comes from QUESTION
+  titles, never methods.
+
 ## Outcome (2026-07-09 — session close)
 
 Promoted: the whole grill distilled into
