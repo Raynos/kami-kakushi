@@ -60,3 +60,38 @@ called those hits "correct current usage", wrongly).
   README rule).
 - Verify wall-time is now ~61s (vitest-dominated); AGENTS.md's "under 5s"
   gate prose is stale (finding D8) — don't "fix" the timer, fix the prose.
+
+---
+
+## Addendum (same session) — the spirit pass + the closure plan
+
+The human asked two follow-ups: (1) a second Opus pass on whether the src/
+rewrite honors the bible's SPIRIT or is shortcut-ridden; (2) a detailed plan
+to finish the work cleanly.
+
+**Spirit pass (2 more Opus agents):** verdict "faithful-but-shallow — a real
+rewrite, not a facade (~82% done-properly), but the ambient half of the
+bible's T0 is authored-and-dark": 4/5 side-beats unreachable, the minor cast
+mute (~40 dialogue lines undispatched), the log-texture layer (40+ keys)
+unemitted, the 3 named discoveries absent, the wolf-flees line silent, night
+rounds don't grow, the grade ladder 4-step vs ADR-159's six. Findings
+appended to the review report ("Second pass" section). Three raw agent
+claims corrected by direct grep before recording (round count; label flip
+works; grade ladder confirmed).
+
+**Closure plan authored:**
+`docs/plans/fable-2026-07-09-storywave-closure.md` — C0 (pre-flight +
+HD-31 nengu-semantics fork + HD-32 fiction-wave ask) · C1 (build fixes
+B1–B7) · C2 (finish A5: D1–D8) · C3 (prd-drift RETIRED-term hardening w/
+RED-proof) · C4 (switch the written world on: wire side-beats, cast
+dialogue, texture emitter, wolf line, wrong-things single-source, six-step
+grades, round growth, legacy-intro retirement) · C5 (the ADR-139 fiction
+wave, human-gated + the owed ADR-132 balance re-baseline w/ the 24
+telemetry reports). Queued for the human. NOT started — awaiting the read.
+
+## Next intended steps (updated)
+
+1. Human reads the closure plan (+ the report's second-pass section);
+   rules HD-31/HD-32 when filed at C0.
+2. On the go-ahead: execute C0→C3 (Opus-routed per the plan), then C4;
+   C5a/C5b as ruled.

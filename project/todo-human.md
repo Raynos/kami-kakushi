@@ -37,6 +37,11 @@
   — the ready-to-build plan for T2 (Valley) map rungs + fog (you greenlit it
   2026-07-09; mechanics-only, no pin/HR). Skim before/whenever I build it.
 - [`project/audit/reports/2026-07-09-storywave-post-ship-review.md`](../project/audit/reports/2026-07-09-storywave-post-ship-review.md)
-  — the four-agent post-ship review you asked for (bible + both storywave
-  plans): verdict, 8 build + 8 docs findings, ranked fix list.
+  — the six-agent post-ship review you asked for (bible + both storywave
+  plans), both passes: findings + the spirit-audit verdict ("a
+  beautifully-written ladder through a world written but not switched on").
+- [`docs/plans/fable-2026-07-09-storywave-closure.md`](../docs/plans/fable-2026-07-09-storywave-closure.md)
+  — the follow-up plan to finish the rewrite cleanly: C0 forks (HD-31/32)
+  · C1 build fixes · C2 docs A5 completion · C3 gate hardening · C4
+  switch-the-written-world-on · C5 fiction wave + balance re-baseline.
 

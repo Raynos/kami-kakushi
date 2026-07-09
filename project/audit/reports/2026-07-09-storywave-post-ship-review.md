@@ -100,7 +100,56 @@ line that its own TODO flags as a wart.
   the ADR-088 test names resolving, all four gen-region marker pairs intact,
   decisions.md effectively append-only over the range.
 
+## Second pass — the spirit/depth audit (same day, human-requested)
+
+Two further Opus agents audited whether the src/ rewrite honors the
+bible's SPIRIT or is "lazy / half-assed / full of shortcuts."
+
+**Verdict: a real rewrite, not a facade — but "faithful-but-shallow":
+the R0→R7 spine is rich, on-bible, and fully reachable; the AMBIENT half
+of the bible's T0 is largely authored-and-dark.** The shortcut hunt
+scored it ~82% done-properly, with the debt in comments/tests, not fake
+product: all seven new intents wire to real player verbs (the tactile
+wage moment, market-day/purse/whitelist clamps, measured rice units, a
+clean roster, uniform no-op edge handling — all genuinely well done).
+
+The material gaps (all folded into the closure plan's C4/C5a):
+
+- **4 of 5 authored side-beats can never fire** — grove/lease/crest are
+  `trigger: scripted` with no enqueue site; the dog chain gates on
+  `orchard-reclaimed`, which nothing sets. Only the Bon beat reaches a
+  player.
+- **The whole minor cast is mute** — ~40 authored dialogue lines
+  (`dialogue.md` u9-*) are placed via `sceneId` that the talk affordance
+  never dispatches (`people.ts:14` "a later chunk").
+- **The log's world-breath is silent** — 40+ authored
+  season/weather/gossip texture keys have zero consumers; the §0.5
+  "flavor in the log" law is half-unimplemented.
+- **The three bible-named hidden discoveries are absent** (only an
+  off-list lacquer entry exists).
+- **The R3 wolf-flees / new-moon line never emits** — the code names the
+  beat (`night-rounds.ts:77`) and returns silent.
+- **Night rounds don't grow** — ONE round exists (`first-night-round`,
+  3 stages); the promised post-R3 escalations are unbuilt.
+- **The grade ladder is 4-step** (`pillars.ts:26`) vs ADR-159's locked
+  six-step — the PRD already speaks six-step, so the docs are AHEAD of
+  the build here (the inverse of the A5 misses).
+- **Stale "DORMANT / empty at G2" comments** misdescribe live systems;
+  two legacy pre-reboot intro scenes (`intro.md:140,179`) still ship.
+
+Corrections made to raw agent claims (verified directly): the earlier
+"7 night rounds" statements were miscounts (one round, 3 stages); the
+You:→Nameless: label flip DOES work (`intents.ts:411`).
+
+The honest one-line summary: *a player today climbs a beautifully-written
+ladder through a world that has been written but not yet switched on.*
+
 ## Recommended next actions (ranked)
+
+> **Superseded by the closure plan** —
+> `docs/plans/fable-2026-07-09-storywave-closure.md` (C0–C5) sequences
+> every finding from both passes; the list below survives as the first
+> pass's original ranking.
 
 1. **Fix B1** (O-Sato → O-Hisa ×4) — 5-minute mechanical name-sync.
 2. **Finish A5 properly** (D1–D6): one docs sitting sweeping §2.2, §1297, the
