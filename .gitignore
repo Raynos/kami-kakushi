@@ -15,7 +15,6 @@ project/brainstorms/raw/*.json
 .playwright-mcp/
 
 # Mobile e2e lane artifacts (traces/reports on failure — local + CI only)
-test-results/
 playwright-report/
 
 # QA screenshots: only the live gallery (screens/latest/) is tracked. All other
