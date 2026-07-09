@@ -95,3 +95,45 @@ telemetry reports). Queued for the human. NOT started — awaiting the read.
    rules HD-31/HD-32 when filed at C0.
 2. On the go-ahead: execute C0→C3 (Opus-routed per the plan), then C4;
    C5a/C5b as ruled.
+
+---
+
+## Addendum 2 (same session) — the map-sheets audit + fix plan
+
+The human picked the map-sheets audit as the next review, then asked
+for a fix/improve plan from it.
+
+**Audit (two lanes):** (1) Opus canon-sync — structurally SOUND:
+vocabularies match core + bible on all three tiers, ~19 placement
+spot-checks clean, live map reads real core reveal state, all 5 pin
+regens deliberate; minor findings S1–S5 (placeholder RUNG_LADDER
+diverges from ranks.ts, "Otoku", T2 macrons, contradictory sheet.ts
+comments, and NO guard covers content-string drift — the O-Sato class).
+**The T2 rungs+fog plan's assumptions all verified TRUE** — it may
+proceed. (2) The committed `map-blind-pass` workflow on T0/T1/T2:
+**FAIL** (T0 3/7 M · T1 4/11 · T2 4/6) — but forensics (drawings
+unchanged since the 07-08 all-green pass-3, rubric unchanged, capture
+recipe byte-similar) showed the loop itself is NOISY: one reader per
+sheet flips M-lines on identical pixels. Finding 0 (MAJOR, process):
+neither yesterday's green nor today's red is trustworthy alone; T2's
+V3/V6 (failed 07-08, fixed, never re-scored, failed again today) are
+the likely-real fails. Report:
+`project/audit/reports/2026-07-09-map-sheets-audit.md` (+ the workflow's
+scored report and raw snapshot per the capture rule).
+
+**Fix plan authored:** `docs/plans/fable-2026-07-09-map-sheets-fixes.md`
+— P0 ensemble blind pass (3 readers, per-line majority, vote-spread
+column) · P1 mechanical canon fixes S1–S4 · P2 the retired-name
+denylist test (RED-proof via O-Sato; coordinates with closure C1.1) ·
+P3 ensemble re-measure → robust-fail set · P4 redraw only robust fails
+under the pin rails (escalation: restyle → HR, rubric doubt → HD) ·
+P5 close-out incl. the T2-plan ladder caveat. Routed Opus throughout
+(map-authoring §6). Queued for the human. NOT started.
+
+## Landmines (addendum 2)
+
+- Do NOT prescribe or start redraw work from today's single-sample
+  blind-pass misses — P0/P3 first; the ensemble verdict is the work
+  list.
+- The blind-pass workflow's describe/judge agents stay Sonnet
+  (human-blessed 2026-07-08 routing) even under the ensemble upgrade.
