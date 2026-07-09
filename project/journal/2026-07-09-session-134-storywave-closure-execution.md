@@ -196,3 +196,32 @@ satoyama rows + the §1 reveal list) — swept in the same commit
 cluster incl. 2 hits in qa-playtesting + 1 in ui-design + 2 in fun-factor
 (exactly the widened class), the D1/D6 28-day cluster, D5's oyuki/okimi.
 Gate CLEAN on the swept tree.
+
+## C4.1 + C4.4 + C4.8 — the dark side-beats wired; night rounds voiced + grow
+
+The scenes.md author NOTES carried the firing moments all along — transcribed,
+never invented: sb-grove fires on a grove arrival R2–R4 (move_to); sb-crest at
+the kura R4+ (move_to); sb-lease on the first season turn at R3+
+(advance_season); sb-dog re-keyed to the REAL quest flag
+(`quest_orchard_chain_done` — the authored `orchard-reclaimed` had no setter;
+the narrative flag grammar widened to allow snake_case so triggers can name
+engine flags); sb-dog-coda re-keyed scripted, enqueued by the night-round
+begin on a NEW-MOON night with the dog fed (a bare flag trigger fired ahead
+of its own fiction). BONUS dark beat the review missed: `count-resolve` (the
+Count's chained second half) had no enqueuer — completing `count` now queues
+it (the completion-effects glue). Durable guard: the C4.1 reachability sweep
+in scenes.test.ts — scripted ids must appear at a literal enqueueScene call
+site, flag triggers must name a flag a quest reward / scene option / setFlag
+literal produces (all source-derived); it was RED mid-build the moment
+sb-dog-coda went scripted before its enqueuer existed (the exact class).
+C4.4: u3-B's staged native log lines (THE PICK; the "later chunk" HD-30
+noted) migrated VERBATIM to FLAVOR nightRound* keys — the watch-post read on
+begin, per-stage aftermaths (rats/marten), the wolf ENCOUNTER read on the
+survive stage (the beat the code named and never emitted), the hooded-lantern
+new-moon sighting (suppressed the round the dog-coda VN plays — one lantern
+moment), the sickroom-wake fall read. `isNewMoon` selector added (±~1 day
+window on the real ephemeris). C4.8: the post-climax `grain-watch` round
+(rats + marten, NO wolf — it returns in T1, locked canon); the gate post
+serves it once `wolf-survived-not-won` latches. C4.5 tail: the scene modules'
+"STUB/DORMANT/empty registry" headers rewritten to the live truth. Sim: the
+6 pre-existing REDs unchanged; report + fixtures regenerated.

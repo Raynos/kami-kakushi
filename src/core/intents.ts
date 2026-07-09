@@ -1084,6 +1084,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // ADR-146 — arriving can stumble onto a hidden discovery (the seeded visit roll; a no-op
       // when this node has no visit-triggered discovery).
       next = discoveryPass(next, { kind: 'visit' });
+      // C4.1 — the authored side-beats fire from their AUTHORED moments (the scenes.md
+      // notes are the spec): the grove patrol beat "between R2 and R4", the crest question
+      // "at the kura after R3". enqueueScene dedupes + once-guards, so these are no-ops
+      // once played; a run that never walks the window simply misses the OPTIONAL beat.
+      {
+        const rn = rungNumber(next.rung);
+        if (intent.to === 'grove' && rn >= 2 && rn <= 4) next = enqueueScene(next, 'sb-grove');
+        if (intent.to === 'kura' && rn >= 4) next = enqueueScene(next, 'sb-crest');
+      }
       break;
     }
     case 'advance_season': {
@@ -1104,6 +1113,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
         break;
       }
       next = advanceSeason(next);
+      // C4.1 — "the season's lease day after R3" (the scenes.md note): the first season
+      // turn at R3+ opens Matsuzō's weir-lease collection beat (once; dedupe in enqueue).
+      if (rungNumber(next.rung) >= 3) next = enqueueScene(next, 'sb-lease');
       break;
     }
     case 'ascend': {

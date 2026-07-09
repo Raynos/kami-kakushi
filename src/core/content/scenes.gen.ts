@@ -474,7 +474,7 @@ export const SCENES: readonly SceneDef[] = [
         ],
       },
     },
-    trigger: { kind: 'flag', flag: 'orchard-reclaimed' },
+    trigger: { kind: 'flag', flag: 'quest_orchard_chain_done' },
     once: true,
   },
 
@@ -501,7 +501,7 @@ export const SCENES: readonly SceneDef[] = [
       topics: [],
       decision: { prompt: '', options: [] },
     },
-    trigger: { kind: 'flag', flag: 'sb-dog-fed' },
+    trigger: { kind: 'scripted' },
     once: true,
   },
 

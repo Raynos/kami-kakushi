@@ -172,6 +172,13 @@ export function lunarPhase(state: GameState): number {
   return frac < 0 ? frac + 1 : frac;
 }
 
+/** The NEW-MOON window (±~1 day around phase 0) — the hooded-lantern nights: the G2
+ *  mystery seam the night rounds key their sighting beats off (C4.4). */
+export function isNewMoon(state: GameState): boolean {
+  const p = lunarPhase(state);
+  return p < 0.04 || p > 0.96;
+}
+
 /**
  * The soft stamina throttle multiplier on the action rate (FU16/FU21): flat (1.0)
  * above STAMINA_FLAT_ABOVE of satietyMax, ramping down to STAMINA_RATE_FLOOR as

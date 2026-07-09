@@ -220,4 +220,16 @@ export const FLAVOR = {
     'Comes down in a lean winter, alone, after the rats and the smell of stored grain. Big track, no sound, no waste. Do not stand a watch against a wolf without a fire at your back.',
   mobMamushi:
     'Patterned like dead leaves, thick for its length, short-tempered in the warm months; it holds its ground in the grass where a foot is about to land. The rat-snake is long, plain, and earns its keep in the kura — leave that one be. Know the two apart before the grass is high.',
+  nightRoundPost:
+    'The watch post is a stool, a hooded lantern, and the boar-spear leaning where Kihei left it. The round begins when you lift the lantern, and ends when you set it down here again.',
+  nightRoundRats:
+    'Rats in the store, where Kihei said. You learn the sound grain makes when something small is stealing it — a dry whisper under the floor, gone the moment you stop walking. The spear-butt does the rest. In the morning you sweep up what they spoiled and say what you took. The number is never nothing.',
+  nightRoundMarten:
+    'A marten, quick as spilled water, dead by more luck than spear-work. Behind the back bales, where it hunted, you find what the rats had all along — a seed-rice bale gnawed open at the seam, half gone into the walls. You make the count alone, by lantern, twice. It does not improve the second time. You bar the door on it and tell no one yet.',
+  nightRoundWolf:
+    'At the kura door the lantern finds two eyes at the height of your waist, and the dark around them is the wrong shape for a dog. The bar is behind you. So is the rice.',
+  nightRoundNewMoon:
+    "On the dark of the moon a lantern crosses the far edge of the yard — hooded low, held steady, going upstream. By the time the round brings you back the yard is empty, and in the morning no one has missed a lantern. It is not your watch's business. You watch for it anyway.",
+  nightRoundFall:
+    "You wake on Sōan's mat with daylight standing in the wrong place. Days gone, and the wages with them. He asks one question, writes two lines, and closes the ledger when you turn your head.",
 } as const;

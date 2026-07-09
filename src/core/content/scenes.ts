@@ -10,9 +10,10 @@
 // The registry is AUTHORED as prose in `narrative/scenes.md` (FB-5 — the source of truth) and
 // compiled to `scenes.gen.ts` by `pnpm run gen:narrative`; this module keeps the hand-written
 // TYPES + `sceneById` lookup and re-exports the generated `SCENES` array (mirrors how
-// `rungBeats.ts` re-exports `RUNG_BEATS`). At G3.5 `scenes.md` is a STUB — the season overlays /
-// nengu / side-beats / the Count fill it at G4.1; the scene system stays DORMANT until G4 wires
-// its triggers. Pure-core: no DOM, no Math/Date — this module only carries DATA + a lookup.
+// `rungBeats.ts` re-exports `RUNG_BEATS`). LIVE since G4 (+ the C4.1 dark-beat wiring): the
+// nengu frame, the Count chain, the five side-beats, R2's silent beat, the R7 dream — every
+// def's trigger is reachable (the scenes.test.ts reachability sweep guards the class).
+// Pure-core: no DOM, no Math/Date — this module only carries DATA + a lookup.
 
 import type { RungScene } from './rungBeats';
 import type { RankId } from './ranks';
@@ -47,13 +48,14 @@ export interface SceneDef {
   readonly once?: boolean;
 }
 
-/** AUTHORED in `narrative/scenes.md`, compiled to `scenes.gen.ts`. A STUB at G3.5 (grammar-
- *  exercising samples only); the real content lands at G4.1, and the scene TRIGGERS stay
- *  unwired until G4 — so nothing here is reachable in the live arc yet. */
+/** AUTHORED in `narrative/scenes.md`, compiled to `scenes.gen.ts` — the LIVE T0 scene
+ *  content (the nengu frame, the Count chain, the side-beats, the R7 dream). Every def's
+ *  trigger reaches the player (C4.1; the reachability sweep in scenes.test.ts is RED the
+ *  moment someone ships an authored scene with no path to it). */
 export { SCENES } from './scenes.gen';
 import { SCENES } from './scenes.gen';
 
-/** A scene by id, or undefined (the reducer arms no-op on undefined — dormant here). */
+/** A scene by id, or undefined (the reducer arms no-op on an unknown id). */
 export function sceneById(id: SceneId): SceneDef | undefined {
   return SCENES.find((s) => s.id === id);
 }

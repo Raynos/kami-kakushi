@@ -2722,7 +2722,13 @@ export function mount(
         document.createTextNode(' Post the night watch 夜廻'),
       );
       nightBtn.addEventListener('click', () =>
-        dispatch({ type: 'begin_night_round', roundId: 'first-night-round' }),
+        // C4.8 — the first round (the quest, wolf climax) plays ONCE; after the wolf is
+        // survived the post serves the repeatable grain-watch (no scripted wolf replay —
+        // it returns in T1, locked canon).
+        dispatch({
+          type: 'begin_night_round',
+          roundId: hasFlag(state, 'wolf-survived-not-won') ? 'grain-watch' : 'first-night-round',
+        }),
       );
       const nightBlurb = el('p', 'area-blurb');
       nightRow.append(nightBtn);

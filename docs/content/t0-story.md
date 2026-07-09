@@ -566,7 +566,7 @@
 
 ### sb-dog
 
-*(trigger: flag orchard-reclaimed, once)*
+*(trigger: flag quest_orchard_chain_done, once)*
 
 > The last of the pack went over the wall two days ago. This one stayed. An old dog, grey to the jaw, one ear ragged from winters, lying in the dead leaves under the far fruit trees like the orchard is a post it was never relieved from.
 
@@ -589,7 +589,7 @@
 
 ### sb-dog-coda
 
-*(trigger: flag sb-dog-fed, once)*
+*(trigger: scripted, once)*
 
 > New moon, and the round goes out into it. Rats in the store: cleared. The store settles. Then, at the yard's far edge, a lantern crosses with its light hooded, going upstream, unhurried, sure of the path.
 

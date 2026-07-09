@@ -567,3 +567,41 @@ Comes down in a lean winter, alone, after the rats and the smell of stored grain
 
 <!-- name: Mamushi -->
 Patterned like dead leaves, thick for its length, short-tempered in the warm months; it holds its ground in the grass where a foot is about to land. The rat-snake is long, plain, and earns its keep in the kura — leave that one be. Know the two apart before the grass is high.
+
+### nightRoundPost
+
+<!-- Migrated VERBATIM from t0v2/u3-r3-grain-watch/take-b.md (THE PICK — the
+  staged `native:` engine log lines HD-30 noted for "a later chunk"; C4.4/C4.8
+  is that chunk). Emitted by src/core/night-rounds.ts on the round's begin;
+  texture goes to the LOG, never the VN (bible §0.5). -->
+The watch post is a stool, a hooded lantern, and the boar-spear leaning where Kihei left it. The round begins when you lift the lantern, and ends when you set it down here again.
+
+### nightRoundRats
+
+<!-- u3-B `night-round-rats` — the rats stage's aftermath (emitted on the won stage). -->
+Rats in the store, where Kihei said. You learn the sound grain makes when something small is stealing it — a dry whisper under the floor, gone the moment you stop walking. The spear-butt does the rest. In the morning you sweep up what they spoiled and say what you took. The number is never nothing.
+
+### nightRoundMarten
+
+<!-- u3-B `night-round-marten` — the marten stage's aftermath; carries the gnawed
+  seed-bale (the unconfessed loss the R4 board scene spends — rung-beats.md). -->
+A marten, quick as spilled water, dead by more luck than spear-work. Behind the back bales, where it hunted, you find what the rats had all along — a seed-rice bale gnawed open at the seam, half gone into the walls. You make the count alone, by lantern, twice. It does not improve the second time. You bar the door on it and tell no one yet.
+
+### nightRoundWolf
+
+<!-- u3-B `night-round-wolf` — the survive stage's encounter read (the wolf-flees
+  beat the code named and never emitted — the C4.4 closure). -->
+At the kura door the lantern finds two eyes at the height of your waist, and the dark around them is the wrong shape for a dog. The bar is behind you. So is the rice.
+
+### nightRoundNewMoon
+
+<!-- u3-B `night-round-new-moon` — the hooded-lantern sighting on new-moon rounds
+  (Toku's seed, unnamed until R5). Suppressed the round the sb-dog-coda VN plays
+  (one lantern moment per round — TST1). -->
+On the dark of the moon a lantern crosses the far edge of the yard — hooded low, held steady, going upstream. By the time the round brings you back the yard is empty, and in the morning no one has missed a lantern. It is not your watch's business. You watch for it anyway.
+
+### nightRoundFall
+
+<!-- u3-B `night-round-fall` — the sickroom wake after a fall (rides WITH the
+  mechanical combat.loss line, which carries the costs). -->
+You wake on Sōan's mat with daylight standing in the wrong place. Days gone, and the wages with them. He asks one question, writes two lines, and closes the ledger when you turn your head.

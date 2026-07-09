@@ -11,6 +11,7 @@
 
 import type { AreaId } from './areas';
 import type { MobId } from './enemies';
+import { FLAVOR } from './flavor';
 
 export interface NightRoundStage {
   readonly id: string;
@@ -20,6 +21,10 @@ export interface NightRoundStage {
   /** `'survive'` = the R3 wolf stage: guaranteed survival, never a win. Absent ⇒ a real
    *  fight (win advances, fall ends the round). */
   readonly scripted?: 'survive';
+  /** The stage's authored LOG narration (a FLAVOR string — u3-B's staged native lines,
+   *  C4.4): emitted when the stage resolves (won, or the survive read). Texture goes to
+   *  the log, never the VN (bible §0.5). */
+  readonly narration?: string;
 }
 
 export interface NightRoundDef {
@@ -37,9 +42,37 @@ export const NIGHT_ROUNDS: readonly NightRoundDef[] = [
   {
     id: 'first-night-round',
     stages: [
-      { id: 'kura-store-rats', areaId: 'kura', foe: 'store_rats' },
-      { id: 'roof-marten', areaId: 'kura', foe: 'marten' },
-      { id: 'the-wolf', areaId: 'kura', foe: 'wolf', scripted: 'survive' },
+      {
+        id: 'kura-store-rats',
+        areaId: 'kura',
+        foe: 'store_rats',
+        narration: FLAVOR.nightRoundRats,
+      },
+      { id: 'roof-marten', areaId: 'kura', foe: 'marten', narration: FLAVOR.nightRoundMarten },
+      {
+        id: 'the-wolf',
+        areaId: 'kura',
+        foe: 'wolf',
+        scripted: 'survive',
+        narration: FLAVOR.nightRoundWolf,
+      },
+    ],
+  },
+  {
+    // C4.8 — the POST-climax repeatable grain-watch (bible/t0.md: "first round is a quest,
+    // repeatable after"): the same watch WITHOUT the once-only wolf stage — the wolf is
+    // survived once and returns in T1 (locked canon), so a replay must never re-run its
+    // scripted survival. The gate post serves this round once `wolf-survived-not-won` is
+    // latched (render.ts picks; the quest drives the first round explicitly).
+    id: 'grain-watch',
+    stages: [
+      {
+        id: 'watch-store-rats',
+        areaId: 'kura',
+        foe: 'store_rats',
+        narration: FLAVOR.nightRoundRats,
+      },
+      { id: 'watch-marten', areaId: 'kura', foe: 'marten', narration: FLAVOR.nightRoundMarten },
     ],
   },
 ];

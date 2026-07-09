@@ -1,7 +1,12 @@
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { describe, it, expect } from 'vitest';
 import { createInitialState, type GameState } from './index';
 import { enqueueScene, triggerScenes, beginScene, applySceneOption } from './scenes';
 import { SCENES, type SceneDef } from './content/scenes';
+import { QUESTS } from './content/quests';
+import { RANKS } from './content/ranks';
+import { SEASONS } from './constants';
 import type { RungScene } from './content/rungBeats';
 
 // storywave G2 — the generalized-scene ENGINE proof. The registry ships EMPTY at G2, so these
@@ -128,5 +133,60 @@ describe('G2 scene engine — queue discipline (once / order / no re-enqueue)', 
     s = enqueueScene(s, 'c');
     s = enqueueScene(s, 'a'); // duplicate — ignored
     expect(s.sceneQueue).toEqual(['a', 'b', 'c']);
+  });
+});
+
+describe('C4.1 — every authored scene is REACHABLE (no authored-but-dark content)', () => {
+  // The class this catches: 4 of 5 authored side-beats shipped with NO path to the
+  // player (scripted with no enqueuer; a flag trigger keyed to a flag nothing sets).
+  // Everything derives from the code, never a hand list:
+  //  - scripted ids must appear in a literal enqueueScene(…, '<id>') call site in core;
+  //  - flag triggers must name a flag some SETTER produces (a quest reward, a scene
+  //    option's flags, or an engine setFlag literal);
+  //  - rung/season triggers must name a real rank / season.
+  const coreDir = fileURLToPath(new URL('.', import.meta.url));
+  const coreSrc = ['intents.ts', 'night-rounds.ts', 'scenes.ts', 'step.ts', 'nengu.ts']
+    .map((f) => readFileSync(coreDir + f, 'utf8'))
+    .join('\n');
+  const enqueuedIds = new Set(
+    [...coreSrc.matchAll(/enqueueScene\([^,]+,\s*'([\w-]+)'\)/g)].map((m) => m[1]!),
+  );
+  const setFlagIds = new Set(
+    [...coreSrc.matchAll(/setFlag\([^,]+,\s*'([\w-]+)'\)/g)].map((m) => m[1]!),
+  );
+  const questFlagIds = new Set(QUESTS.flatMap((q) => q.reward.flags ?? []));
+  const sceneOptionFlagIds = new Set(
+    SCENES.flatMap((d) => d.scene.decision.options.flatMap((o) => o.flags ?? [])),
+  );
+  const rankIds = new Set(RANKS.map((r) => r.id));
+
+  it('scripted scenes have a known enqueuer; flag scenes a known setter; rung/season are real', () => {
+    for (const def of SCENES) {
+      const t = def.trigger;
+      switch (t.kind) {
+        case 'scripted':
+          expect(enqueuedIds.has(def.id), `'${def.id}' is authored but nothing enqueues it`).toBe(
+            true,
+          );
+          break;
+        case 'flag':
+          expect(
+            setFlagIds.has(t.flag) || questFlagIds.has(t.flag) || sceneOptionFlagIds.has(t.flag),
+            `'${def.id}' waits on flag '${t.flag}' which nothing sets`,
+          ).toBe(true);
+          break;
+        case 'rung':
+          expect(rankIds.has(t.rung), `'${def.id}' fires on unknown rung '${t.rung}'`).toBe(true);
+          break;
+        case 'season-exit':
+          expect(
+            (SEASONS as readonly string[]).includes(t.season),
+            `'${def.id}' fires on unknown season '${t.season}'`,
+          ).toBe(true);
+          break;
+        case 'verb':
+          break; // verb scenes are opened by explicit intents — C4.2's talk affordance owns them
+      }
+    }
   });
 });

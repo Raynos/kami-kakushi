@@ -347,10 +347,12 @@ winter."
   rice re-priced onto the MC's own measure (Genemon's entry agrees with "from
   my share"). The fed-branch new-moon payoff is TAKE A's `sb-dog-coda` (below),
   the only rendering of "the ONLY one who barks". Fires at the end of the
-  orchard-reclamation chain → `flag orchard-reclaimed`. -->
+  orchard-reclamation chain — keyed to the REAL flag the quest's completion
+  sets (`quest_orchard_chain_done`; the earlier `orchard-reclaimed` name had
+  no setter — the C4.1 dark-beat fix). -->
 
 ## scene-def sb-dog
-trigger: flag orchard-reclaimed
+trigger: flag quest_orchard_chain_done
 once: true
 speaker: kihei
 voice: arms
@@ -394,12 +396,14 @@ memory: kihei +1 (clear-eyed)
 flags: sb-dog-ended
 
 <!-- Beat 4 coda · the new-moon bark — TAKE A's `sb-dog-coda` (graft, redline
-  5). Fires on the first new-moon night round carrying `sb-dog-fed`; binds to
-  the seeded hooded-lantern crossing (answered at the Count). Speakerless
+  5). Fires on the first NEW-MOON night round carrying `sb-dog-fed` (the
+  night-round engine enqueues it — a bare flag trigger fired the moment the
+  dog was fed, ahead of its own fiction; the C4.1 re-key); binds to the
+  seeded hooded-lantern crossing (answered at the Count). Speakerless
   narration-only beat (ADR-165) — no decide. -->
 
 ## scene-def sb-dog-coda
-trigger: flag sb-dog-fed
+trigger: scripted
 once: true
 voice: narrator
 

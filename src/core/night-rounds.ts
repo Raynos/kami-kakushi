@@ -17,9 +17,13 @@ import { withResource, setFlag } from './state';
 import { getMob } from './content/enemies';
 import { mcCombatStats, mobCombatStats, resolveFight } from './combat';
 import { rollMaterialDrop } from './content/crafting';
+import { hasFlag } from './state';
 import { SETBACK_HP } from './content/balance';
+import { FLAVOR } from './content/flavor';
+import { isNewMoon } from './selectors';
 import { applyCarriedLossBleed, applyDefeatConsequences } from './defeat';
 import { applyRewards } from './rewards';
+import { enqueueScene } from './scenes';
 import type { NightRoundDef, NightRoundStage } from './content/nightRounds';
 
 /** The in-flight round cursor (mirrors `GameState['roundState']`). */
@@ -77,7 +81,9 @@ export function resolveNightStage(state: GameState, def: NightRoundDef): GameSta
     // G4 — latch the R3→R4 requirement flag (requirements.gen R3 `the-wolf-survived-not-won`): the
     // survive stage IS the beat, replacing the deleted `applyScriptedWolf`/`first-fight-survived` path.
     next = setFlag(next, 'wolf-survived-not-won');
-    // The wolf-flees / new-moon crossing log line is G4 content (a per-stage newMoonLine key).
+    // C4.4 — the stage's authored encounter read (u3-B's night-round-wolf), the beat this
+    // return used to name and never emit. The dawn aftermath is the R3 rung beat's.
+    next = emitStageNarration(next, stage);
     return advanceStage(next, def);
   }
 
@@ -88,6 +94,7 @@ export function resolveNightStage(state: GameState, def: NightRoundDef): GameSta
     const { reward, rng: lootRng } = nightStageReward(next.rng, stage);
     next = { ...next, rng: lootRng };
     for (const [id, qty] of Object.entries(reward.materials)) next = withResource(next, id, qty);
+    next = emitStageNarration(next, stage); // C4.4 — the won stage's authored aftermath
     return advanceStage(next, def);
   }
 
@@ -114,13 +121,45 @@ export function resolveNightStage(state: GameState, def: NightRoundDef): GameSta
           lostMats: bled.lostMats,
         },
       },
+      // C4.4 — the authored sickroom-wake read (u3-B's night-round-fall) rides WITH the
+      // mechanical cost line above (which carries the numbers; this carries the fiction).
+      { channel: 'narration', voice: 'narrator', text: FLAVOR.nightRoundFall },
     ],
   });
   next = applyDefeatConsequences(next);
   return { ...next, roundState: null };
 }
 
-/** Begin a round: seat the cursor at stage 0 (the `begin_night_round` reducer arm). */
+/** Emit a stage's authored LOG narration (C4.4 — u3-B's staged native lines). A stage
+ *  without one stays silent (nothing invented — bible §0.5). */
+function emitStageNarration(state: GameState, stage: NightRoundStage): GameState {
+  if (!stage.narration) return state;
+  return applyRewards(state, {
+    log: [{ channel: 'narration', voice: 'narrator', text: stage.narration }],
+  });
+}
+
+/** Begin a round: seat the cursor at stage 0 (the `begin_night_round` reducer arm), read
+ *  the authored watch-post line, and key the NEW-MOON beats (C4.4): on the dark of the
+ *  moon, the round either opens the fed-dog's bark coda (the sb-dog-coda VN — once, only
+ *  after the dog beat's fed branch) or logs the hooded-lantern sighting; never both in
+ *  one round (one lantern moment — TST1). */
 export function beginNightRound(state: GameState, def: NightRoundDef): GameState {
-  return { ...state, roundState: { roundId: def.id, stage: 0 } };
+  let next: GameState = { ...state, roundState: { roundId: def.id, stage: 0 } };
+  next = applyRewards(next, {
+    log: [
+      { channel: 'narration', voice: 'narrator', text: FLAVOR.nightRoundPost, ephemeral: true },
+    ],
+  });
+  if (isNewMoon(next)) {
+    const codaFresh = hasFlag(next, 'sb-dog-fed') && !next.scenesPlayed.includes('sb-dog-coda');
+    if (codaFresh) {
+      next = enqueueScene(next, 'sb-dog-coda');
+    } else {
+      next = applyRewards(next, {
+        log: [{ channel: 'narration', voice: 'narrator', text: FLAVOR.nightRoundNewMoon }],
+      });
+    }
+  }
+  return next;
 }

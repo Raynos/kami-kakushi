@@ -148,7 +148,9 @@ export function parseSceneTrigger(
   }
   if (s === 'flag' || s.startsWith('flag ')) {
     const flag = s.slice('flag'.length).trim();
-    if (!/^[a-z][a-z0-9-]*$/.test(flag)) {
+    // Underscores allowed (C4.1): the QUEST engine's completion flags are snake_case
+    // (`quest_orchard_chain_done`) and a flag trigger must be able to name a REAL flag.
+    if (!/^[a-z][a-z0-9_-]*$/.test(flag)) {
       return {
         ok: false,
         reason: `flag trigger needs a flag id (flag <id>), got "${flag || '(none)'}"`,

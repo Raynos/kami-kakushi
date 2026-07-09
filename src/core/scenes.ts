@@ -3,8 +3,8 @@
 // semantics as the intro + rung-beat VN reducer arms, but with NO promotion (a scene
 // never advances a rank; the `rung` trigger keeps `begin_rung_beat`'s promotion path).
 // The reducer arms (`begin_scene` / `advance_scene_beat` / `choose_scene_option`) look a
-// def up via `sceneById` and call these; the registry ships EMPTY at G2, so the arms are
-// dormant live and the tests drive a CONSTRUCTED `SceneDef` through these functions
+// def up via `sceneById` and call these; the registry ships the LIVE T0 content (G4 +
+// C4.1), and the engine tests still drive CONSTRUCTED `SceneDef`s through these functions
 // directly. Pure-core: no DOM, no Math/Date — determinism rides the caller's state.
 
 import type { GameState } from './state';
@@ -60,9 +60,8 @@ function triggerMatches(def: SceneTrigger, event: SceneTrigger): boolean {
 }
 
 /** Enqueue every registered scene whose trigger matches `event`, respecting `once` vs
- *  `scenesPlayed` (a played `once` scene never re-fires). DORMANT at G2: `SCENES` is empty,
- *  so this is a live no-op — the machinery is exercised in tests via `enqueueScene` on a
- *  constructed def. */
+ *  `scenesPlayed` (a played `once` scene never re-fires). Live callers: the season-exit
+ *  pipeline (the Bon beat) and `promoteInto`'s rung mirror. */
 export function triggerScenes(state: GameState, event: SceneTrigger): GameState {
   let next = state;
   for (const def of SCENES) {
@@ -132,6 +131,10 @@ export function advanceSceneBeat(state: GameState, def: SceneDef): GameState {
  *  two terminals can't drift. */
 function applySceneCompletionEffects(state: GameState, def: SceneDef): GameState {
   if (def.id === 'nengu-autumn-frame') return reckonNengu(state);
+  // C4.1 — the Count's CHAINED second beat (scenes.md: "split at the seam into a chained
+  // second beat"): closing `count` queues `count-resolve` (the tally, Toku, the morning
+  // wage). It was authored but had no enqueuer — dark until now.
+  if (def.id === 'count') return enqueueScene(state, 'count-resolve');
   return state;
 }
 
