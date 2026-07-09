@@ -52,6 +52,12 @@ const PLAYER_INTENTS = [
   'withdraw',
   'move_to',
   'ascend',
+  // storywave G4.9 — the new-arc verbs, each now wired to a real dispatching control:
+  'advance_season', // the season wheel's "End the season" button (clock-dock, R2+)
+  'collect_wage', // the day-wage board (Work tab place strip, R5+)
+  'begin_night_round', // the grain-watch post at the gate (Work tab place strip, R3)
+  'advance_scene_beat', // a narration-only scene's Continue (the one VN modal)
+  'choose_scene_option', // a decision scene's pick + Continue (the one VN modal)
 ] as const satisfies readonly IntentType[];
 
 /** Intents with NO clickable control, on purpose — each entry carries its why.
@@ -62,20 +68,12 @@ const NON_UI_INTENTS = [
   // transcript clicks routed through UI-local state, never a dedicated button
   'advance_intro',
   'advance_rung_beat',
-  // storywave INTERIM (G1): `advance_season` is autoplay/DEV-driven for now. G4.9 wires the
-  // R2-gated "end the season" affordance (the season wheel) and moves this to PLAYER_INTENTS.
-  'advance_season',
-  // storywave INTERIM (G2): the generalized-scene VN intents + the night-round runner ship
-  // DORMANT (empty registries, no reachable UI). G4 wires the gate surface + quest + the VN
-  // modal integration (G4.9) and moves the player-facing ones to PLAYER_INTENTS.
+  // storywave G4.9 — begin_scene is ENGINE-DRIVEN (auto-drained): the render loop opens a queued
+  // scene the moment the queue holds one and no VN is live (the Count wakes you, a season overlay,
+  // a discovered side-beat). Like advance_intro/advance_rung_beat, the player has NO control that
+  // opens a scene — the player-facing scene controls are its Continue / pick (advance_scene_beat /
+  // choose_scene_option, both in PLAYER_INTENTS). So it stays NON_UI by design.
   'begin_scene',
-  'advance_scene_beat',
-  'choose_scene_option',
-  'begin_night_round',
-  // storywave INTERIM (G4.5): the MON-lane collect-at-the-board wage verb ships core-only for now
-  // (ADR-163). The render sweep (a later G4 chunk) wires the board affordance + moves this to
-  // PLAYER_INTENTS; until then it has no clickable control by design.
-  'collect_wage',
 ] as const satisfies readonly IntentType[];
 
 // ── the exhaustiveness trip (compile-time, enforced by the typecheck gate) ──────
@@ -212,20 +210,52 @@ describe('intent → affordance coverage (the wiring-layer ratchet)', () => {
     const worn = fixtureState('worn-weapon-no-wood');
     // equip_weapon: a forged axe waiting in the rack beside the equipped pole
     sweep({ ...worn, flags: { ...worn.flags, 'crafted-wood_axe': true } }, seen);
-    // craft_weapon: standing at the smithy with the recipe's inputs on hand
+    // craft_weapon: standing at the smithy (the woodlot) with the recipe's inputs on hand
     sweep(
       {
         ...worn,
-        location: 'woodlot-edge',
+        location: 'woodlot',
         resources: { ...worn.resources, hardwood: 3, beast_sinew: 1 },
       },
       seen,
     );
-    // buy_item: at the gate with coin in the sleeve (rice-at-gate carries none)
+    // buy_item + sell_rice: at the gate on a MARKET DAY (dayOfWeek 2 — Yohei stands his stall),
+    // coin in the sleeve + kura rice to sell. The sweep talks to Yohei (opens his wares), then the
+    // buy rows + the sell-rice faucet are live. (rice-at-gate carries no coin; force a market day so
+    // Yohei is present — his presence gates the whole market pane.)
     const gate = fixtureState('rice-at-gate');
-    sweep({ ...gate, resources: { ...gate.resources, coin: 500 } }, seen);
+    sweep(
+      { ...gate, clock: { ...gate.clock, day: 2 }, resources: { ...gate.resources, coin: 500 } },
+      seen,
+    );
     // ask_rung_topic: the R1/R2 beats are decide-only — R3's beat carries topics
     sweep({ ...inBeat, rungBeat: 'R3' }, seen);
+    const r3 = fixtureState('fresh-R3-pre-wolf');
+    // fight + set_auto_combat: standing on a combat zone (the field margins — tanuki/badger) with
+    // combat live, so the watch lists a foe with its Fight button + auto-toggle.
+    sweep({ ...r3, location: 'field-margins' }, seen);
+
+    // ── storywave G4.9 — the new-arc verbs, each ENABLED by one synthetic render state ──
+    const r5 = fixtureState('rung-R5');
+    // advance_season: the season wheel's "End the season" button (clock-dock, shown R2+).
+    sweep(r5, seen);
+    // collect_wage: the day-wage board, with a day's wage standing unclaimed (R5+).
+    sweep({ ...r5, wageDaysAccrued: 1 }, seen);
+    // begin_night_round: the grain-watch post at the gate — R3-reached (`rank-r3`), not yet
+    // survived, no round live, standing AT the gate.
+    sweep(
+      {
+        ...r3,
+        location: 'gate',
+        roundState: null,
+        flags: { ...r3.flags, 'rank-r3': true, 'wolf-survived-not-won': false },
+      },
+      seen,
+    );
+    // advance_scene_beat: a NARRATION-only scene live (the Autumn nengu frame) — its Continue.
+    sweep({ ...r5, sceneQueue: [], activeScene: { id: 'nengu-autumn-frame', beat: 0 } }, seen);
+    // choose_scene_option: a DECISION scene live (the Count) — pick an option, then Continue.
+    sweep({ ...r5, sceneQueue: [], activeScene: { id: 'count', beat: 0 } }, seen);
 
     const missing = PLAYER_INTENTS.filter((t) => !seen.has(t));
     expect(
