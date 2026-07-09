@@ -39,7 +39,7 @@ describe('multi-backend redundant save', () => {
         completed: [],
       },
       marketBought: { 'mountain-greens': 2 },
-      location: 'home-paddies',
+      location: 'paddies',
     };
     expect((await mgr.save(rich)).ok).toBe(true);
     const loaded = await mgr.load();
@@ -50,7 +50,7 @@ describe('multi-backend redundant save', () => {
     expect(loaded!.state.influence.estate.judged).toBe(240);
     expect(loaded!.state.quests.progress['crop-raiders']).toEqual(['rout-monkey', 'mend-fence']);
     expect(loaded!.state.marketBought['mountain-greens']).toBe(2);
-    expect(loaded!.state.location).toBe('home-paddies');
+    expect(loaded!.state.location).toBe('paddies');
   });
 
   it('writes to ALL available backends (redundancy)', async () => {
@@ -257,7 +257,7 @@ describe('migration wiring + pre-migration backup', () => {
 // FB-96 — the "New game" safety net: back up the current run to a distinct slot, then restore it.
 describe('backup / restore slot (F96)', () => {
   function rich(seed = 7): GameState {
-    return { ...sample(seed), tier: 1, location: 'home-paddies' };
+    return { ...sample(seed), tier: 1, location: 'paddies' };
   }
 
   it('has no backup until one is written', async () => {

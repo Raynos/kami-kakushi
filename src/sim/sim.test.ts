@@ -118,8 +118,8 @@ describe('autoModeIntent — the extracted autoStep decision order (the app loop
     const s0 = armed({ autoCombat: null, autoActivity: 'farm_paddy' });
     const there: GameState = {
       ...s0,
-      unlocked: [...s0.unlocked, 'verb-farm', 'room-home-paddies'],
-      location: 'home-paddies',
+      unlocked: [...s0.unlocked, 'verb-farm', 'room-paddies'],
+      location: 'paddies',
     };
     expect(autoModeIntent(there)).toEqual({ type: 'do_activity', activityId: 'farm_paddy' });
     const elsewhere = { ...there, location: 'kura' };

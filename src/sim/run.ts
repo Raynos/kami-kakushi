@@ -4,7 +4,7 @@
 // randomness lives in GameState.rng, so the same (persona, seed) reproduces byte-identically.
 
 import type { GameState } from '../core';
-import { createInitialState, reduce } from '../core';
+import { createInitialState, reduce, nightRoundById, resolveNightStage } from '../core';
 import type { Persona } from './personas';
 import { intentKey } from './personas';
 import type { RunMetrics } from './metrics';
@@ -39,6 +39,28 @@ export function runPersona(persona: Persona, seed: number): RunResult {
     if (i >= SIM_GUARD_INTENTS) {
       softLock = { reason: 'guard', atIntent: i, rung: s.rung };
       break;
+    }
+    // The R3 grain-watch NIGHT ROUND (G4): its STAGES are resolved through the engine as a
+    // side-channel (like the app loop + the t0-arc/invariants drivers), not as a persona Intent —
+    // the persona only ISSUES `begin_night_round` to start it. Resolve stages here until the round
+    // clears, or the ladder dead-ends at R3. Recorded as the round action (deterministic) so the
+    // metrics stay consistent + byte-reproducible.
+    if (s.roundState !== null) {
+      const def = nightRoundById(s.roundState.roundId);
+      if (!def) {
+        softLock = { reason: 'no-intent', atIntent: i, rung: s.rung };
+        break;
+      }
+      const before = s;
+      s = resolveNightStage(before, def);
+      collect.record(before, s, { type: 'begin_night_round', roundId: def.id }, i);
+      sinceProgress = madeProgress(before, s) ? 0 : sinceProgress + 1;
+      if (sinceProgress >= SIM_SOFTLOCK_INTENTS) {
+        softLock = { reason: 'no-progress', atIntent: i, rung: s.rung };
+        break;
+      }
+      i++;
+      continue;
     }
     const intent = persona.decide(s, issued);
     if (!intent) {
