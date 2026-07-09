@@ -43,9 +43,9 @@ export interface Verdict {
 }
 
 /** Speech-voice overrides the human has ruled INTENTIONAL (`npc:voice`). The WARN
- *  stays quiet on these. Shigemasa keeps the formal 'official' register at R7 while his
+ *  stays quiet on these. Munemasa keeps the formal 'official' register at R7 while his
  *  registered voice is 'lord' — human call, 2026-07-05 (FB-5 plan Risks #3). */
-const VOICE_OVERRIDE_ALLOWED: ReadonlySet<string> = new Set(['shigemasa:official']);
+const VOICE_OVERRIDE_ALLOWED: ReadonlySet<string> = new Set(['munemasa:official']);
 
 /** The fixed intro scene order — the engine's `introBeat` cursor (0/1/2) and the v3→v4
  *  save migration both assume it (intro.ts scene-order note). */

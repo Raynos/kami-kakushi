@@ -8,18 +8,16 @@ import { NAMES } from './names';
 /** A remembered non-player character. Grows per tier as new cast is routed. The storywave
  *  T0 rewrite (game plan G0) adds the bible §04-cast: the household (`ohisa`/`shinnosuke`/
  *  `toku`), the heir `naoyuki` (a beat-voice in the R5 Count), and the estate's edge
- *  (`yohei` the pedlar — now a first-class id, `oyae`/`matsuzo`/`iori`/`oume`). Existing ids
- *  `tozo` (the smith) + `shigemasa` (the old lord) are kept here until G4's cutover retires/
- *  renames them (`shigemasa`→`munemasa`, `tozo` deleted). These new ids are DORMANT until G4
- *  wires their people.ts placements — added now so prose can compile against them (G0). */
+ *  (`yohei` the pedlar — now a first-class id, `oyae`/`matsuzo`/`iori`/`oume`). The G4
+ *  cutover retired the smith `tozo` (Tōzō leaves T0) and renamed `shigemasa`→`munemasa`
+ *  (the domain lord, re-homing the `lord` voice). */
 export type NpcId =
   | 'soan'
   | 'genemon'
   | 'kihei'
   | 'rokusuke'
-  | 'tozo' // DEFER→G4: retires from T0 (the smith Tōzō; T1's smith is Tetsuji)
   | 'chiyo'
-  | 'shigemasa' // DEFER→G4: renames to `munemasa`, re-homing the `lord` voice
+  | 'munemasa' // the domain lord — R7 capstone `lord` voice (renamed from shigemasa at G4)
   // ── storywave G0 add-only (bible §04-cast; dormant until G4 wires people.ts) ──
   | 'ohisa'
   | 'shinnosuke'
@@ -38,13 +36,13 @@ export type VoiceCategory =
   | 'player' // the MC's own spoken lines
   | 'physician' // Sōan (scholar / rational)
   | 'steward' // Genemon / Lady Chiyo / household
-  | 'arms' // Kihei / the smith Tōzō / drill-yard
+  | 'arms' // Kihei / the drill-yard
   | 'official' // castle/heir voices (the touring inspector, castle clerks; the heir Naoyuki)
   | 'villager' // common folk — hired hands, the day-girl, the weir-keeper, the pedlar, the paddy widow
   | 'monk' // the traveling monk Iori (storywave §04-cast) — a passing-through stranger-kindness voice
-  | 'lord'; // the domain lord Shigemasa's R7 capstone (ADR-110) — murasaki 紫, its own dignified voice
+  | 'lord'; // the domain lord Munemasa's R7 capstone (ADR-110) — murasaki 紫, its own dignified voice
 
-// ADR-110 'lord' voice — RESOLVED. Shigemasa now speaks in the dedicated `'lord'` category (its
+// ADR-110 'lord' voice — RESOLVED. Munemasa now speaks in the dedicated `'lord'` category (its
 // murasaki colour + 殿 seal live in render.ts's VOICE_COLOR / VOICE_SEAL, which are exhaustive over
 // this union — a missing key is a tsc error). `'official'` is now the magistrate/clerk voice only.
 
@@ -59,9 +57,8 @@ export const NPC_VOICE: Readonly<Record<NpcId, VoiceCategory>> = {
   genemon: 'steward',
   kihei: 'arms',
   rokusuke: 'villager',
-  tozo: 'arms',
   chiyo: 'steward',
-  shigemasa: 'lord', // the domain lord's own voice — murasaki 紫 (ADR-110 R7 capstone)
+  munemasa: 'lord', // the domain lord's own voice — murasaki 紫 (ADR-110 R7 capstone)
   // ── storywave G0 add-only (voice-colour bindings; refine at G4 when content wires them) ──
   ohisa: 'steward', // household — the kitchen; the "if" that protects a hope (bible §04-cast)
   shinnosuke: 'steward', // the heir's son, of the house — household register (a boy)
@@ -80,9 +77,8 @@ export const NPC_NAME: Readonly<Record<NpcId, string>> = {
   genemon: NAMES.elder,
   kihei: NAMES.drillmaster,
   rokusuke: NAMES.rokusuke,
-  tozo: NAMES.smith,
   chiyo: NAMES.steward,
-  shigemasa: NAMES.lord,
+  munemasa: NAMES.lord,
   // ── storywave G0 add-only (nameplates from the canonical NAMES table) ──
   ohisa: NAMES.ohisa,
   shinnosuke: NAMES.shinnosuke,
@@ -119,9 +115,8 @@ export const NPC_IDS: readonly NpcId[] = [
   'genemon',
   'kihei',
   'rokusuke',
-  'tozo',
   'chiyo',
-  'shigemasa',
+  'munemasa',
   'ohisa',
   'shinnosuke',
   'toku',

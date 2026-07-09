@@ -100,7 +100,8 @@ const INFO: readonly RegistryCheck[] = [
 // denylist "Munenori … → Shigemasa"), not drift — calibrated after the
 // tripwire's very first run false-fired on exactly that line (AC-11).
 const RETIRED: readonly { term: string; adr: string; successor?: string }[] = [
-  { term: 'munenori', adr: 'Q39/Block N (Yagyū-echo rename)', successor: 'shigemasa' },
+  { term: 'munenori', adr: 'Q39/Block N (Yagyū-echo rename)', successor: 'munemasa' },
+  { term: 'shigemasa', adr: 'G4 storywave cutover (lord rename)', successor: 'munemasa' },
   { term: 'jūbei', adr: 'Q12/Q39 (Yagyū-echo rename)', successor: 'kihei' },
   { term: 'ranpo', adr: 'Q39/Block N.1 (Edogawa-echo rename)', successor: 'sōan' },
   { term: 'spend koku', adr: 'D-107/D-109 (koku is House standing, not spendable)' },

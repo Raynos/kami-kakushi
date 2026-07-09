@@ -202,20 +202,20 @@ describe('narrative validation roster (each check can go RED)', () => {
     expect(v.warnings.join('\n')).toContain("Genemon speaks in 'villager'");
   });
 
-  it("§12 allowlist — Shigemasa's R7 'official' register stays quiet (human ruling)", () => {
+  it("§12 allowlist — Munemasa's R7 'official' register stays quiet (human ruling)", () => {
     const r7unlock = RANKS.find((r) => r.id === 'R7')!.rewardOnReach!.unlock!;
     const md = `## rung R7 · rung-r7
-speaker: shigemasa
+speaker: munemasa
 voice: official
 motivates: ${r7unlock.join(', ')}
 
-Shigemasa (official): "A capstone line."
+Munemasa (official): "A capstone line."
 
 ### decide · The prompt?
 
 #### o-seven · "The label."
 
-Shigemasa: "The react."
+Munemasa: "The react."
 `;
     const v = validate(md);
     expect(v.errors).toEqual([]);

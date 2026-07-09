@@ -8,7 +8,7 @@
 export const NAMES = {
   // ── Estate (Kurosawa house) — the story bible §04-cast (T0) ──
   house: 'Kurosawa',
-  lord: 'Shigemasa', // DEFER→G4: renames to 'Munemasa' (live T0 canon still resolves through `lord`)
+  lord: 'Munemasa', // the domain lord — "a voice through a wall"; never placed at a T0 node
   heir: 'Naoyuki', // the second son, heir by subtraction — reads the MC true from the first
   elder: 'Genemon', // the steward; R1·R6·R7 granter — speaks in item, count, condition
   drillmaster: 'Kihei', // the drillmaster / watch-keeper; R4 granter — orders then verdicts
@@ -19,7 +19,7 @@ export const NAMES = {
   toku: 'Toku', // the dowager; the house's memory — the shrine corridor + the new-moon walk
 
   // ── The estate's edge (story bible §04-cast) ──
-  pedlar: 'Tokubei', // DEFER→G4: renames to 'Yohei' (live T0 canon still resolves through `pedlar`)
+  pedlar: 'Yohei', // the pedlar at the gate on market-days — coin errands counted back to the mon
   oyae: 'O-Yae', // the scullery day-girl; crosses the estate/village line — the news service both ways
   matsuzo: 'Matsuzō', // the old weir-keeper the house leases the weir from — answers about the water
   iori: 'Iori', // the traveling monk, lodging at the gate at New Year + Bon — wants nothing, gives, leaves
@@ -27,7 +27,6 @@ export const NAMES = {
 
   // ── Estate hands + craftsmen ──
   rokusuke: 'Rokusuke', // the named face of the hired hands; his load-tally clears the MC at the Count
-  smith: 'Tōzō', // DEFER→G4: retires from T0 (T1's smith is Tetsuji) — delete at the cutover
 
   // ── Village (T2+ — the headman + his daughter enter from T2) ──
   villageChief: 'Mohei', // the headman (bible: renamed off "Jinbei", yields to Jinpachi)

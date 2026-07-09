@@ -1,19 +1,19 @@
 import { describe, it, expect } from 'vitest';
 import { NPC_VOICE, NPC_IDS, NPC_NAME, VOICE_CATEGORIES } from './voices';
 
-// ADR-110 'lord' voice — the domain lord Shigemasa speaks in his OWN dedicated voice
+// ADR-110 'lord' voice — the domain lord Munemasa speaks in his OWN dedicated voice
 // category (murasaki 紫 + the 殿 seal, applied by render.ts's exhaustive VOICE_COLOR /
 // VOICE_SEAL maps), NOT the borrowed magistrate 'official'. RED against the pre-fix
-// `shigemasa: 'official'`.
+// `munemasa: 'official'`.
 describe("NPC_VOICE — the 'lord' voice (D-110 R7)", () => {
-  it('Shigemasa speaks as the lord, not a magistrate', () => {
-    expect(NPC_VOICE.shigemasa).toBe('lord');
-    expect(NPC_VOICE.shigemasa).not.toBe('official');
+  it('Munemasa speaks as the lord, not a magistrate', () => {
+    expect(NPC_VOICE.munemasa).toBe('lord');
+    expect(NPC_VOICE.munemasa).not.toBe('official');
   });
 
-  it('the lord voice is unique to Shigemasa — no other NPC borrows it', () => {
+  it('the lord voice is unique to Munemasa — no other NPC borrows it', () => {
     const lordSpeakers = NPC_IDS.filter((id) => NPC_VOICE[id] === 'lord');
-    expect(lordSpeakers).toEqual(['shigemasa']);
+    expect(lordSpeakers).toEqual(['munemasa']);
   });
 
   it('every NPC has a voice (the map is total over NPC_IDS)', () => {
