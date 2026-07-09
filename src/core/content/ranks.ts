@@ -140,7 +140,13 @@ export const RANKS: readonly RankDef[] = [
       // v0.3.2 A7 — the loot→craft beat: weapon durability bands + repair + the Equipment/craft
       // loop (the craft panel + the equip switcher) reveal here, one rung after combat opens.
       // G4 — R4 opens the drill yard NODE (Kihei's ground on the map), where the drills happen.
-      unlock: ['readout-durability', 'panel-equipment', 'verb-repair', 'house-omoya', 'room-drill-yard'],
+      unlock: [
+        'readout-durability',
+        'panel-equipment',
+        'verb-repair',
+        'house-omoya',
+        'room-drill-yard',
+      ],
       // FB-103 / ADR-110: story prose → RUNG_BEATS.R4.greeting (Genemon + Kihei); terse marker only.
     },
   },

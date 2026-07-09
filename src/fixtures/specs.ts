@@ -242,7 +242,8 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     // This waypoint is the grain-watch blooded + round-ready, stopped one click short of POSTING the
     // first night round — the R3 countables (the rat/tanuki kills, the field + timber work) all done,
     // only the survive-the-wolf flag left. (Name kept — the DEV button / ?fixture= route resolves it.)
-    blurb: 'R3 grain-watch, night-round-ready — blooded and stopped one click short of posting the wolf round.',
+    blurb:
+      'R3 grain-watch, night-round-ready — blooded and stopped one click short of posting the wolf round.',
     seed: T0_ARC_SEED,
     play: (s0) =>
       drive(s0, (_s, next) => next.kind === 'intent' && next.intent.type === 'begin_night_round'),
@@ -309,7 +310,10 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
           s = reduce(s, { type: 'advance_season' });
           continue;
         }
-        s = s.location === forageArea ? reduce(s, { type: 'do_activity', activityId: 'forage_satoyama' }) : walkTo(s, forageArea);
+        s =
+          s.location === forageArea
+            ? reduce(s, { type: 'do_activity', activityId: 'forage_satoyama' })
+            : walkTo(s, forageArea);
       }
       // take the documented rout — grind the badger (reachable at the field margins) to the setback.
       s = walkTo(s, getMob('badger').area);

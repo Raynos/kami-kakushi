@@ -704,10 +704,10 @@ describe('D-118 §1a — kura rice SPOILS on advance_season (holding costs somet
     const spoil = balance.riceSpoilage(banked);
     expect(spoil).toBeGreaterThan(0);
     // the kura lost AT LEAST the spoilage (a background daily meal may draw a little more).
-    expect((after.banked.rice ?? 0)).toBeLessThanOrEqual(banked - spoil);
+    expect(after.banked.rice ?? 0).toBeLessThanOrEqual(banked - spoil);
     // …but not catastrophically — the bleed is the spoilage plus at most a season's worth of meals.
     const maxMeals = balance.CONSUMPTION_SHO_PER_DAY * 4;
-    expect((after.banked.rice ?? 0)).toBeGreaterThanOrEqual(banked - spoil - maxMeals);
+    expect(after.banked.rice ?? 0).toBeGreaterThanOrEqual(banked - spoil - maxMeals);
     // and the wheel actually turned (the pipeline ran, not just the spoilage step).
     expect(after.seasonsPassed).toBe(1);
     // rice is never carried — the pocket stays empty across the turn.

@@ -78,7 +78,14 @@ function playArc(seed: number): ArcTrace {
     }
     s = reduce(s, intent);
   }
-  return { final: s, reached, steps: guard, wageCollectedCoin, wageAccruedBeforeR5, firstWageRungIdx };
+  return {
+    final: s,
+    reached,
+    steps: guard,
+    wageCollectedCoin,
+    wageAccruedBeforeR5,
+    firstWageRungIdx,
+  };
 }
 
 describe('the storywave T0 arc closes end-to-end via real intents (weir cold open → ascension)', () => {

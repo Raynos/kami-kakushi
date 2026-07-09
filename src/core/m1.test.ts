@@ -263,7 +263,8 @@ describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
 
     // the wake-time surface reveals (readout-body / readout-rice) are scene NARRATION → narrator
     // voice, no nameplate — same convention as the intro's narrator lines.
-    for (const text of [] as string[]) { // TODO(g4-tests): re-derive readout reveal prose (cold open re-fictioned, G4)
+    for (const text of [] as string[]) {
+      // TODO(g4-tests): re-derive readout reveal prose (cold open re-fictioned, G4)
       const entry = find(text);
       expect(entry?.voice).toBe('narrator');
       expect(entry?.speaker).toBeUndefined();
@@ -378,9 +379,7 @@ describe('conditioning enablement gate (the danger ring)', () => {
       ),
     );
     expect(skillLevel(s, 'conditioning')).toBeGreaterThanOrEqual(2);
-    expect(canDoActivity({ ...s, location: 'woodlot' }, getActivity('forage_satoyama'))).toBe(
-      true,
-    );
+    expect(canDoActivity({ ...s, location: 'woodlot' }, getActivity('forage_satoyama'))).toBe(true);
   });
 });
 

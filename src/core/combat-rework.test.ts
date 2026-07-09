@@ -293,7 +293,8 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
   // stats, are T0-REACHABLE (minTier 0) on their own nodes, and carry their design identity.
   // TODO(g4-tests): the A9 roster (rice_rats/mamushi/monkey_troop) retired in the G4 cutover.
   it.skip('the A9 foes exist, are T0-reachable on their node, and keep their archetype identity', () => {
-    for (const id of ['river_rats', 'badger', 'monkey_male'] as const) { // TODO(g4-tests): roster re-sited
+    for (const id of ['river_rats', 'badger', 'monkey_male'] as const) {
+      // TODO(g4-tests): roster re-sited
       const m = getMob(id);
       // sane stats derived from the def itself (no copied magic numbers).
       expect(m.level).toBeGreaterThanOrEqual(1);

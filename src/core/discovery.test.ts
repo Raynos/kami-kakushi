@@ -55,11 +55,9 @@ describe('discoveryPass (ADR-146 Phase 1)', () => {
   it('does NOT attempt from the wrong node, the wrong activity, or the wrong event kind', () => {
     const wrongNode = discoveryPass(at('kura'), WOODCUT, [WATCH_DEF]);
     expect(wrongNode.discoveryProgress[WATCH_DEF.id]).toBeUndefined();
-    const wrongAct = discoveryPass(
-      at('woodlot'),
-      { kind: 'activity', activityId: 'farm_paddy' },
-      [WATCH_DEF],
-    );
+    const wrongAct = discoveryPass(at('woodlot'), { kind: 'activity', activityId: 'farm_paddy' }, [
+      WATCH_DEF,
+    ]);
     expect(wrongAct.discoveryProgress[WATCH_DEF.id]).toBeUndefined();
     const wrongKind = discoveryPass(at('woodlot'), { kind: 'visit' }, [WATCH_DEF]);
     expect(wrongKind.discoveryProgress[WATCH_DEF.id]).toBeUndefined();

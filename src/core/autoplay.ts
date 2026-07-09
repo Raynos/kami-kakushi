@@ -272,9 +272,9 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
       canReachArea(target.area);
     let mob: MobId | null = canTakeDesired ? desired : null;
     if (mob === null) {
-      const trainable = GRINDABLE_MOBS.filter((m) => m.level <= s.character.level && fightable(m)).sort(
-        (a, b) => b.level - a.level,
-      );
+      const trainable = GRINDABLE_MOBS.filter(
+        (m) => m.level <= s.character.level && fightable(m),
+      ).sort((a, b) => b.level - a.level);
       const fallback = GRINDABLE_MOBS.filter(fightable).sort((a, b) => a.level - b.level);
       mob = trainable[0]?.id ?? fallback[0]?.id ?? null;
     }
@@ -376,7 +376,8 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
       // FULL BELLY + FULL HP before posting — the round is three back-to-back fights with HP carried
       // between stages and NO mend inside it, and low satiety throttles attack (COMBAT_SATIETY floor).
       // Beginning it hurt/hungry loses stage 1 on the spot (an un-winnable re-begin loop).
-      if (s.character.satiety < satietyMax(s) * 0.9 && acts.includes('rest')) return { type: 'rest' };
+      if (s.character.satiety < satietyMax(s) * 0.9 && acts.includes('rest'))
+        return { type: 'rest' };
       const mend = mendToFull();
       if (mend) return mend;
       if (s.roundState === null) return { type: 'begin_night_round', roundId: 'first-night-round' };

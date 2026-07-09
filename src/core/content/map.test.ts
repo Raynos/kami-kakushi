@@ -137,7 +137,9 @@ describe('canMove — adjacency AND reveal gating', () => {
 describe('reachableFrom — only revealed neighbours', () => {
   it('returns only ungated neighbours when nothing is revealed', () => {
     // forecourt's always-open neighbours are the kitchen + the sickroom (both R0, no flag).
-    const reach = reachableFrom('forecourt', new Set()).map((n) => n.id).sort();
+    const reach = reachableFrom('forecourt', new Set())
+      .map((n) => n.id)
+      .sort();
     expect(reach).toEqual(['kitchen', 'sickroom']);
   });
 

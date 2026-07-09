@@ -81,7 +81,8 @@ function checkState(s: GameState): string | null {
     if (!finite(v) || v < 0) return `resource ${k}=${v}`;
   }
   for (const [k, v] of Object.entries(s.banked)) if (!finite(v) || v < 0) return `banked ${k}=${v}`;
-  for (const [k, v] of Object.entries(s.rungReqs)) if (!finite(v) || v < 0) return `rungReqs ${k}=${v}`;
+  for (const [k, v] of Object.entries(s.rungReqs))
+    if (!finite(v) || v < 0) return `rungReqs ${k}=${v}`;
   if (!finite(s.tier) || s.tier < 0) return `tier=${s.tier}`;
   if (!finite(s.estateStage) || s.estateStage < 0) return `estateStage=${s.estateStage}`;
   if (!finite(s.seasonsPassed) || s.seasonsPassed < 0) return `seasonsPassed=${s.seasonsPassed}`;
@@ -124,7 +125,9 @@ describe('structural invariants hold across the full real playthrough', () => {
       const t0 = prev.clock.day * 24 + prev.clock.tick;
       const t1 = cur.clock.day * 24 + cur.clock.tick;
       expect(t1, `clock ran backwards at step ${i}`).toBeGreaterThanOrEqual(t0);
-      expect(cur.log.seq, `log.seq ran backwards at step ${i}`).toBeGreaterThanOrEqual(prev.log.seq);
+      expect(cur.log.seq, `log.seq ran backwards at step ${i}`).toBeGreaterThanOrEqual(
+        prev.log.seq,
+      );
     }
   });
 
@@ -162,7 +165,9 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
   it('HP rises ONLY by a deliberate meal — never off labour, rest, a promotion, or a fight', () => {
     for (const st of arc.steps) {
       if (st.after.character.hp > st.before.character.hp) {
-        expect(st.intent.type, `HP rose on a non-cook intent (${st.intent.type})`).toBe('cook_meal');
+        expect(st.intent.type, `HP rose on a non-cook intent (${st.intent.type})`).toBe(
+          'cook_meal',
+        );
       }
     }
   });
@@ -187,7 +192,9 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
         );
       }
     }
-    expect(sawAutumnExit, 'the arc never crossed an autumn boundary (nengu never tested)').toBe(true);
+    expect(sawAutumnExit, 'the arc never crossed an autumn boundary (nengu never tested)').toBe(
+      true,
+    );
   });
 
   it('the SPEAKER label only climbs You → Nameless → Gonbei (monotonic, never a regress)', () => {
@@ -236,7 +243,9 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
     // lost sick-days (a few shō), never the ~20% carried-loss fraction (which would be 40+ here → RED).
     const rout = Math.round(200 * balance.LOSS_COIN_FRAC); // what a rice-bleed WOULD have taken
     const maxMeals = balance.CONSUMPTION_SHO_PER_DAY * (balance.SICKROOM_DAYS_LOST + 3);
-    expect(200 - (after.banked.rice ?? 0), 'the rout bled the kura rice').toBeLessThanOrEqual(maxMeals);
+    expect(200 - (after.banked.rice ?? 0), 'the rout bled the kura rice').toBeLessThanOrEqual(
+      maxMeals,
+    );
     expect(maxMeals).toBeLessThan(rout); // proves the two are distinguishable (the check can go RED)
     expect(after.resources.rice ?? 0).toBe(0); // and rice is never carried to bleed in the first place
   });
@@ -246,7 +255,12 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
       const s = createInitialState(3);
       const t: GameState = {
         ...s,
-        character: { ...s.character, level: 20, satiety: 100, attrs: { str: 30, agi: 30, int: 20, spd: 30, luck: 20 } },
+        character: {
+          ...s.character,
+          level: 20,
+          satiety: 100,
+          attrs: { str: 30, agi: 30, int: 20, spd: 30, luck: 20 },
+        },
         resources: { ...s.resources, coin: 50 },
       };
       return { ...t, character: { ...t.character, hp: hpMax(t) } };
@@ -301,7 +315,9 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
     }
     // …and the SILENT rungs (R2, R5) deliver their story as an enqueued scene that actually played.
     for (const id of ['r2-yard-hand', 'count']) {
-      expect(arc.final.scenesPlayed.includes(id), `silent rung scene ${id} never played`).toBe(true);
+      expect(arc.final.scenesPlayed.includes(id), `silent rung scene ${id} never played`).toBe(
+        true,
+      );
     }
     // the R7 capstone dream too (the 8th VN surface, beside R0's intro) — the run drained it.
     expect(arc.final.scenesPlayed.includes('r7-dream')).toBe(true);

@@ -201,6 +201,8 @@ export function getMob(id: MobId): MobDef {
 
 /** The day-grindable foes, in danger order (easiest first): not scripted, and not a
  *  night-round-only foe (those are met only inside the on-rails R3 round, nightRounds.ts). */
-export const GRINDABLE_MOBS: readonly MobDef[] = MOBS.filter((m) => !m.scripted && !m.nightRoundOnly)
+export const GRINDABLE_MOBS: readonly MobDef[] = MOBS.filter(
+  (m) => !m.scripted && !m.nightRoundOnly,
+)
   .slice()
   .sort((a, b) => a.level - b.level);

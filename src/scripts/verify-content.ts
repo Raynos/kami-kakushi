@@ -81,7 +81,9 @@ for (const m of MOBS) {
 const HUMAN_ARCHETYPES = new Set<string>(['bandit']);
 for (const m of MOBS) {
   if (HUMAN_ARCHETYPES.has(m.id) && (m.minTier ?? 0) < 2) {
-    errors.push(`human-archetype foe ${m.id}: minTier ${m.minTier ?? 0} < 2 (no human combat in T0/T1)`);
+    errors.push(
+      `human-archetype foe ${m.id}: minTier ${m.minTier ?? 0} < 2 (no human combat in T0/T1)`,
+    );
   }
 }
 if (WEAPONS.length !== WEAPON_IDS.size) errors.push('WEAPON_IDS does not mirror WEAPONS');
