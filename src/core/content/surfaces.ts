@@ -114,19 +114,29 @@ export const SURFACES: readonly Surface[] = [
     revealLine: narrate(HOME_REVEAL_LINE),
   },
   { id: 'readout-stamina', kind: 'readout', unlock: () => false },
+  // G4 — the walkable ZONE reveals (content/map.ts `revealFlag`s, the 16-node spine). Each opens on
+  // its rung reward (ranks.ts rewardOnReach.unlock), predicate `() => false` (revealed as plot). The
+  // reveal LINES for the newly-sited nodes have no migrated t0v2 flavor key yet ⇒ bracketed [dev —]
+  // placeholders (HD-30); the two that carry forward (gate, paddies) keep their prior reveal copy.
   {
-    id: 'room-gate-forecourt',
+    id: 'room-gate',
     kind: 'panel',
     unlock: () => false,
     revealLine: narrate(
-      'The gate and the swept forecourt are yours to work now — stores come and go here.',
+      'The gate and gateyard are yours to work now — stores come and go here, and Yohei sets up his stall on market days.',
     ),
   },
   {
-    id: 'room-home-paddies',
+    id: 'room-paddies',
     kind: 'panel',
     unlock: () => false,
     revealLine: narrate('The terraced home paddies open to you — the rice that feeds the house.'),
+  },
+  {
+    id: 'room-woodshed',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate('[dev — woodshed corner reveal; flavor-key migration pending (HD-30)]'),
   },
   { id: 'verb-farm', kind: 'verb', unlock: () => false },
   { id: 'verb-haul', kind: 'verb', unlock: () => false },
@@ -139,28 +149,18 @@ export const SURFACES: readonly Surface[] = [
     revealLine: narrate('A way to track what your hands are learning takes shape — your Skills.'),
   },
   {
-    id: 'room-woodlot-edge',
+    id: 'room-woodlot',
     kind: 'panel',
     unlock: () => false,
     revealLine: narrate(
-      'The stable yard and woodlot edge — fuel, timber, and the first sight of the road out.',
+      'The woodlot edge opens to you — kindling and timber to cut, wild greens to gather along its margin.',
     ),
   },
   {
-    id: 'room-near-satoyama',
+    id: 'room-field-margins',
     kind: 'panel',
     unlock: () => false,
-    revealLine: narrate(
-      'Above the estate lies the near satoyama — sansai to gather, and the first edge of danger.',
-    ),
-  },
-  {
-    id: 'room-deep-satoyama',
-    kind: 'panel',
-    unlock: () => false,
-    revealLine: narrate(
-      'Beyond the near hill the ground climbs into the deep satoyama — a richer forage for those who dare it, and the boar in its wallow.',
-    ),
+    revealLine: narrate('[dev — field-margins reveal; flavor-key migration pending (HD-30)]'),
   },
   { id: 'verb-woodcut', kind: 'verb', unlock: () => false },
   { id: 'verb-forage', kind: 'verb', unlock: () => false },
@@ -190,6 +190,46 @@ export const SURFACES: readonly Surface[] = [
   },
   { id: 'skill-conditioning', kind: 'row', unlock: () => false },
   // G4.3 — the `verb-face-wolf` surface is deleted with the scripted wolf (→ R3 night round).
+
+  // ── G4 — the later-rung ZONE reveals (content/map.ts revealFlags): kura + weir-reeds at R3, the
+  //    drill-yard NODE at R4, shrine + orchard at R5, the grove at R7. Revealed by the rung reward
+  //    (predicate `() => false`); reveal LINES are [dev —] placeholders until t0v2 flavor migrates (HD-30). ──
+  {
+    id: 'room-kura',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate('[dev — kura / grain-store reveal; flavor-key migration pending (HD-30)]'),
+  },
+  {
+    id: 'room-weir-reeds',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate('[dev — weir-reeds reveal; flavor-key migration pending (HD-30)]'),
+  },
+  {
+    id: 'room-drill-yard',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate('[dev — drill-yard node reveal; flavor-key migration pending (HD-30)]'),
+  },
+  {
+    id: 'room-shrine',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate('[dev — shrine corridor reveal; flavor-key migration pending (HD-30)]'),
+  },
+  {
+    id: 'room-orchard',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate('[dev — overgrown orchard reveal; flavor-key migration pending (HD-30)]'),
+  },
+  {
+    id: 'room-grove',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate('[dev — bamboo grove reveal; flavor-key migration pending (HD-30)]'),
+  },
 
   // ── R3 — combat goes live (the drill yard, the Combat tab) ──
   {

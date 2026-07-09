@@ -28,15 +28,17 @@ export const RANKS: readonly RankDef[] = [
   {
     id: 'R0',
     tier: 0,
-    title: 'Day-labourer',
-    kanji: '日雇',
+    // G4 — bible R0 'the man from the weir': the day-book's "one man, name unknown."
+    title: 'The man from the weir',
+    kanji: '無名',
     eligible: ['rake_rice'],
   },
   {
     id: 'R1',
     tier: 0,
-    title: 'Kept hand',
-    kanji: '下人',
+    // G4 — bible R1 'the day-hand': kept by arithmetic; hired by the day, counted in the book.
+    title: 'The day-hand',
+    kanji: '日雇',
     granter: NAMES.elder,
     eligible: ['farm_paddy', 'haul_stores'],
     rewardOnReach: {
@@ -47,9 +49,13 @@ export const RANKS: readonly RankDef[] = [
       // FB-103 / ADR-110: the rung-up STORY prose now lives in RUNG_BEATS.R1.greeting (spoken in the
       // beat → Story channel); `applyPromotion` emits the single terse "Rank ↑" marker to Progress.
       // So `rewardOnReach` carries NO log line — only the flags + the surfaces the beat motivates.
+      // G4 — the room-<id> reveal ids match content/map.ts `revealFlag`s (the 16-node zone spine).
+      // R1 opens the gate (haul + Yohei's stall), the home paddy (farm), and the woodshed corner —
+      // the labour R1→R2 requires (farm_paddy, haul_stores) must be REACHABLE the moment you're R1.
       unlock: [
-        'room-gate-forecourt',
-        'room-home-paddies',
+        'room-gate',
+        'room-paddies',
+        'room-woodshed',
         'verb-farm',
         'verb-haul',
         'readout-clock',
@@ -61,9 +67,9 @@ export const RANKS: readonly RankDef[] = [
   {
     id: 'R2',
     tier: 0,
-    title: 'Trusted hand',
-    kanji: '手代',
-    // G4 — R2 is the SILENT rung (bible: 'a task simply not taken back'); no granter beat.
+    // G4 — bible R2 'the yard-hand': the SILENT rung ('a task simply not taken back'); no granter beat.
+    title: 'The yard-hand',
+    kanji: '庭男',
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     rewardOnReach: {
       flags: ['rank-r2', 'porters-knot'],
@@ -71,11 +77,13 @@ export const RANKS: readonly RankDef[] = [
       // RUNG_BEATS.R2.greeting (the beat's closing narrator line), so all of R2's story prose lives
       // in one place (Story channel). `rewardOnReach` keeps only flags + unlocks; `applyPromotion`
       // emits the terse "Rank ↑" marker to Progress.
+      // G4 — R2 opens the woodlot (woodcut + forage both site there now, activities.ts) and the
+      // field margins (the tanuki/badger PEST beat) — the labour R2→R3 requires (woodcut_edge,
+      // forage_satoyama). The retired near/deep satoyama nodes fold into the woodlot.
       unlock: [
         'tab-skills',
-        'room-woodlot-edge',
-        'room-near-satoyama',
-        'room-deep-satoyama',
+        'room-woodlot',
+        'room-field-margins',
         'verb-woodcut',
         'verb-forage',
         'row-wood',
@@ -89,8 +97,9 @@ export const RANKS: readonly RankDef[] = [
   {
     id: 'R3',
     tier: 0,
-    title: 'Gate-watch',
-    kanji: '門番',
+    // G4 — bible R3 'the grain-watch': the first night round, the wolf survived-not-won; ribs cracked.
+    title: 'The grain-watch',
+    kanji: '蔵番',
     granter: NAMES.drillmaster,
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     // M2·2 lineage: R3→R4 once required real combat duty (the `combat-blooded` storyGate);
@@ -101,12 +110,16 @@ export const RANKS: readonly RankDef[] = [
       // the auto-resolve fight loop (verb, auto-modes, retreat), and the Bestiary. Durability +
       // repair + craft/equip wait for R4 (`readout-durability`/`panel-equipment`); the stance
       // control waits for R5 (`stance-control`) — one beat per rung, not the whole tab at once.
+      // G4 — R3 opens the kura (the grain-watch's post, where the night round is walked) and the
+      // weir reeds (the leased-screen rat PEST beat, Matsuzō's water). `room-drill-yard` waits for R4.
       unlock: [
         'tab-combat',
         'panel-drill-yard',
         'readout-combat-level',
         'panel-bestiary',
         'panel-house-influence',
+        'room-kura',
+        'room-weir-reeds',
       ],
       // FB-103 / ADR-110: story prose → RUNG_BEATS.R3.greeting (Kihei's full VN meet); terse marker only.
     },
@@ -117,23 +130,26 @@ export const RANKS: readonly RankDef[] = [
   {
     id: 'R4',
     tier: 0,
-    title: 'Kura-warden',
-    kanji: '蔵番',
+    // G4 — bible R4 'the pupil': limps to the board, confesses the granary loss, begs for drills.
+    title: 'The pupil',
+    kanji: '弟子',
     granter: NAMES.drillmaster, // G4 — bible R4 'the pupil': Kihei's drills grant it
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     rewardOnReach: {
       flags: ['rank-r4'],
       // v0.3.2 A7 — the loot→craft beat: weapon durability bands + repair + the Equipment/craft
       // loop (the craft panel + the equip switcher) reveal here, one rung after combat opens.
-      unlock: ['readout-durability', 'panel-equipment', 'verb-repair', 'house-omoya'],
-      // FB-103 / ADR-110: story prose → RUNG_BEATS.R4.greeting (Genemon + the smith Tōzō); terse marker only.
+      // G4 — R4 opens the drill yard NODE (Kihei's ground on the map), where the drills happen.
+      unlock: ['readout-durability', 'panel-equipment', 'verb-repair', 'house-omoya', 'room-drill-yard'],
+      // FB-103 / ADR-110: story prose → RUNG_BEATS.R4.greeting (Genemon + Kihei); terse marker only.
     },
   },
   {
     id: 'R5',
     tier: 0,
-    title: 'House-servant',
-    kanji: '家人',
+    // G4 — bible R5 'the accused': cleared by the day-book at the Count; Naoyuki names him.
+    title: 'The accused',
+    kanji: '咎人',
     granter: NAMES.elder,
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     rewardOnReach: {
@@ -144,7 +160,9 @@ export const RANKS: readonly RankDef[] = [
       // v0.3.2 A7 — the combat-rung beat: the stance control (glass-cannon↔tank) reveals here,
       // the last staggered combat surface (§4.6.9). ADR-119 — the QUESTS tab also reveals at R5 (its own
       // quest-log beat, tab-quests), one beat per rung.
-      unlock: ['stance-control', 'tab-quests'],
+      // G4 — R5 opens the shrine corridor (glimpsed, the dowager's new-moon walk) and the overgrown
+      // orchard (the feral-dog CLEAR chain). The Count clears him and the wage begins here (wage.ts).
+      unlock: ['stance-control', 'tab-quests', 'room-shrine', 'room-orchard'],
       // FB-103 / ADR-110: story prose → RUNG_BEATS.R5.greeting (Genemon confers + Kihei teaches the
       // stance, two-voice; BQ3). Terse "Rank ↑" marker only.
     },
@@ -152,30 +170,35 @@ export const RANKS: readonly RankDef[] = [
   {
     id: 'R6',
     tier: 0,
-    title: "Steward's man",
+    // G4 — bible R6 'the trusted hand': the first coin errand at Yohei's stall, counted to the mon.
+    title: 'The trusted hand',
     kanji: '用人',
     granter: NAMES.elder, // G4 — bible R6: Genemon sends the first coin errand
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     rewardOnReach: {
       flags: ['rank-r6'],
       unlock: ['house-workshops', 'house-granary'],
-      // FB-103 / ADR-110: story prose → RUNG_BEATS.R6.greeting (Lady Chiyo's full VN meet); terse marker only.
+      // FB-103 / ADR-110: story prose → RUNG_BEATS.R6.greeting (Genemon's coin-errand meet); terse marker only.
     },
   },
   {
     id: 'R7',
     tier: 0,
-    title: 'Trusted of the house',
-    kanji: '内衆',
+    // G4 — bible R7 'the named hand': the day-book writes Gonbei; "Earn a better." Sleep → first dream.
+    title: 'The named hand',
+    kanji: '名代',
     granter: NAMES.elder, // G4 — bible R7: Genemon writes the hand-me-down name (Munemasa never places in T0)
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     rewardOnReach: {
       // the T0 capstone: `t0-capstone` opens Phase 2 (`phaseOf`), where Estate-pillar deeds
-      // begin to bank toward the T0→T1 ascension grade (built in M2·3–M2·5).
-      flags: ['rank-r7', 't0-capstone'],
-      unlock: ['house-study'],
-      // FB-103 / ADR-110: story prose → RUNG_BEATS.R7.greeting (the lord Shigemasa's capstone VN meet);
-      // terse "Rank ↑" marker only. `t0-capstone` fires here regardless of the beat's choice (BQ4).
+      // begin to bank toward the T0→T1 ascension grade (built in M2·3–M2·5). The day-book naming
+      // sets `label-gonbei` (voices.ts speaker ladder) — wired in the R7 beat / applyPromotion below.
+      flags: ['rank-r7', 't0-capstone', 'label-gonbei'],
+      // G4 — R7 opens the bamboo grove (the monkey-troop DEFEND beat, the last T0 node).
+      unlock: ['house-study', 'room-grove'],
+      // FB-103 / ADR-110: story prose → RUNG_BEATS.R7.greeting (Genemon writes the name — Munemasa is
+      // "a voice through a wall", never placed). Terse "Rank ↑" marker only. `t0-capstone` fires here
+      // regardless of the beat's choice (BQ4); `label-gonbei` flips the speaker to "Gonbei" (bible R7).
     },
   },
 ];

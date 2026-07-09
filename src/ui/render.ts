@@ -1274,7 +1274,7 @@ export function mount(
       case 'map':
         // the walkable node-map opens once the gate does (R1 — you can step off the kura floor). Nav's
         // sole home (FB-107); the market/pedlar lives here too, but the node-map is the primary content.
-        return isUnlocked(state, 'room-gate-forecourt');
+        return isUnlocked(state, 'room-gate');
       case 'estate':
         // the kura-works improve card (panel-estate, ~R1) + House-Influence (joins at R3).
         return isUnlocked(state, 'panel-estate');
@@ -2761,7 +2761,7 @@ export function mount(
       labours.length === 0 &&
         !wolfPending &&
         hasFlag(state, 'awake') &&
-        isUnlocked(state, 'room-gate-forecourt'),
+        isUnlocked(state, 'room-gate'),
     );
 
     // cook a meal — sansai → satiety AND the ONLY way to mend HP (ADR-050/ADR-076). Say so, and make it

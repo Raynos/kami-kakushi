@@ -95,7 +95,9 @@ export const MAP_NODES: readonly MapNode[] = [
     blurb: "The guest house's skirts; the labour baseline — the deed engine's heart.",
     neighbors: ['forecourt', 'weir', 'field-margins', 'woodlot'],
     revealFlag: 'room-paddies',
-    rung: 2,
+    // G4 — R1, NOT R2: R1→R2 requires farm_paddy (requirements.gen R1), so the paddy MUST be
+    // reachable the moment you are R1. Reconciles the G4.2 self-picked schedule to the requirement drives.
+    rung: 1,
   },
   {
     id: 'field-margins',
@@ -123,7 +125,9 @@ export const MAP_NODES: readonly MapNode[] = [
     blurb: "Kindling and forage country; the wolf's ground before R3. Nobody here.",
     neighbors: ['paddies', 'orchard'],
     revealFlag: 'room-woodlot',
-    rung: 3,
+    // G4 — R2, NOT R3: R2→R3 requires woodcut_edge + forage_satoyama (both sited at the woodlot,
+    // activities.ts), so the woodlot MUST open at R2. Reconciled to the requirement drives.
+    rung: 2,
     dangerRing: true,
   },
   {
