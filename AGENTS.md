@@ -65,15 +65,18 @@ philosophy wins.**
   generic "branch off main / commit only when asked" default.)* Each commit runs
   the **full `pnpm run verify`** (the gate roster is owned by
   `src/scripts/gates.ts` — the single source of truth — and the gates run in
-  **parallel**, comfortably under the soft 5s drift budget) and
+  **parallel**; the wall clock is **vitest-dominated, ~30–60 s**, so expect a
+  commit to sit at the gate for half a minute) and
   stages a `project/journal/` entry (enforced by `.githooks/pre-commit`;
   `SKIP_CODE_VERIFY=1` for a docs-only commit — skips the code lane, the
   docs gates still run (~1s); `SKIP_DOCS_VERIFY=1` is the code-lane mirror;
   `SKIP_VERIFY=1` skips *everything* — last resort;
   `SKIP_JOURNAL=1` for trivial commits. A push always verifies the FULL
   roster — the lane flags are commit-time only).
-  A soft 5s **drift timer** warns (never blocks) as the gate slows;
-  `pnpm run verify:budget` is the hard, on-demand budget check (ADR-072). Enable
+  A soft **drift timer** warns (never blocks) when a run exceeds its target;
+  `pnpm run verify:budget` is the hard, on-demand budget check (ADR-072 — its
+  5 s target predates the vitest-heavy roster and reads as aspirational; the
+  per-gate breakdown is the useful part). Enable
   the hook once per clone: `git config core.hooksPath .githooks`.
 - **Use Workflows for substantial / parallelizable work** (e.g. fan-out
   research, multi-file sweeps).
