@@ -56,4 +56,11 @@ export const RETIRED_NAMES = [
   'Akagi', // rival house CUT — the canon ladder is debt → Lord Tomita → domain → house
   'Shigemasa', // the old T1 capstone granter, void in the reboot
   'Tokubei', // pre-reboot name, void
+  // ── the docket's remaining retirements (map-sheets fixes plan P2, 2026-07-09):
+  'Kanta', // → Kenta (the porter friend; Katsuhide keeps)
+  'Gonsuke', // → Kumazō (freed the GONBEI syllable for the use-name)
+  'Tazō', // → Ganzō (earlier ruled; Tama/Tahei keep)
+  'Tōzō', // the old smith name — the smith is Tetsuji (04-cast)
+  'Osen', // the sweetheart — the whole origin is void in the reboot (names.ts:39)
+  'Otoku', // never canon: invented in nodes.ts, near-collided with Toku the dowager
 ] as const;
