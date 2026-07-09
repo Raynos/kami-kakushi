@@ -154,3 +154,67 @@ source is a bracketed `[dev — …]` placeholder → an HD-30 gap (G7 ship is g
 HD-30 closed). Do NOT run the slow `verify:balance`/`balance:report` (timeboxed) —
 the `pacing`/`playcheck` verify gates guard the arc; the balance ratio re-baseline
 is OWED and batched at the end.
+
+## Build progress — worktree `agent-ac82117a0a261485e` (session 126)
+
+**Landed (WIP commit `7742504`, worktree only — RED tree, as expected):** the
+**G4.2 zone spine** — the AreaId swap everything hangs on:
+- `areas.ts` — the 6 satoyama zones REPLACED by the bible's **16** (keyed to
+  `map-sheets/nodes.ts` `T0_NODES` vocabulary). `AreaDef` gains `locked?`. Old
+  `near-satoyama`/`deep-satoyama` gone.
+- `map.ts` — `MAP_NODES` rebuilt on all 16 ids; `MAP_NODE_CEILING = 16` (comment
+  documents the derivation = `T0_NODES.filter(n=>n.kind!=='activity').length`; the
+  map.test must assert that equality against the sheet — NOT yet written). `MapNode`
+  grammar gains `rung?` + `locked?`; `isRevealed`/`canMove` refuse `locked` scenery.
+- `timing.ts` — `EDGE_WALK_MS` re-keyed to the new 16-node edge set (16 edges).
+  `ACTIVITY_TIMING` + `INTENT_TIMING` UNTOUCHED (they key off `ActivityId`/`IntentType`
+  which G4.2-activities / G4.3-wolf-deletion still own).
+
+**Design LOCKS made here (self-picked defaults per PH4 — surface for human override):**
+- **Reveal schedule (rung per zone):** weir·sickroom·forecourt·kitchen = **R0**;
+  gate·woodshed = R1; paddies·field-margins = R2; kura·woodlot·weir-reeds = R3;
+  drill-yard = R4; shrine·orchard = R5; grove = R7; **ruined = locked all tier**.
+  (Aligned to the bible anchors: R0 rescue-loop zones, kura R3, drill-yard R4, seasons
+  R2, grove late. This REPLACES the `nodes.ts RUNG_LADDER` placeholder, which had
+  sickroom/weir wrong for the cold open — G4.2's map-render step should re-point the
+  reveal mask to THIS.)
+- **Adjacency:** `forecourt` is the estate hub (→ gate·kura·kitchen·woodshed·sickroom·
+  drill-yard·paddies); kitchen→shrine (corridor); paddies→weir·field-margins·woodlot;
+  weir→weir-reeds; woodlot→orchard→{grove,ruined}; field-margins→ruined. Symmetric
+  (verified by hand). `revealFlag` convention kept as `room-<id>` — **surfaces.ts
+  (G4.6) must emit those `room-<id>` unlock ids** on the rung schedule, or the map
+  never opens past R0.
+
+**NOT started (the rest of G4, in the map's staged order):** the whole remainder.
+The build order's hard truth discovered this session: **there is no compiling
+intermediate** short of ~80% done, because —
+1. `*.gen.ts` (rungBeats/dialogue/etc.) reference old cast ids as `NpcId`
+   (`NPC_NAME.tozo`, `reactNpc:'tozo'`, speaker `shigemasa`). So the **cast rename**
+   (delete `tozo`, `shigemasa`→`munemasa`) BREAKS the committed `.gen.ts` and they
+   only regenerate clean once the **narrative `.md` are migrated** to remove those
+   speakers. ⇒ **The narrative migration (G4.1) is the FIRST domino**, not stage 6 —
+   it must precede (or land atomically with) the cast rename + `gen:narrative`.
+2. The old narrative deeply references the retired cast/frame (`lord`/`pedlar`/
+   `smith`/`Tokubei`/`Tōzō`/`Shigemasa`/`Chiyo`) and old AreaIds — grep before any
+   rename: `grep -rniE "lord|pedlar|smith|shigemasa|tozo|tokubei|satoyama" src/core/content/narrative/*.md`.
+3. Rice touches **59 files**; `banked` **28**. The rice reframe is NOT an island
+   either — it threads state/selectors/step/pillars/balance/telemetry/playcheck/
+   gen-docs/prd-drift + fixtures/sim.
+
+**Therefore the recommended continuation order (revising the map's stages):**
+**(A)** Migrate the 7 narrative `.md` from the `t0v2/*/VERDICT.md` picks (verbatim +
+redlines — see "VERDICT picks" above; MIGRATION not authoring; the grammar is in
+`narrative/README.md`). **(B)** Cast rename in `names.ts`/`voices.ts` (values
+`lord→'Munemasa'`, `pedlar→'Yohei'`, delete `smith`; NpcId `shigemasa→munemasa`,
+delete `tozo`, re-home the `lord` voice; fix `NPC_VOICE`/`NPC_NAME`/`NPC_IDS`) →
+`pnpm run gen:narrative`. **(C)** Then the mechanical consumers can typecheck-chase
+green: `discoveries`/`activities`/`enemies`(delete `coinReward` + verify-content
+human-foe guard)/`quests`/`crafting`/`people`/`ranks`/`surfaces`(emit `room-<id>`)/
+`estate`/`home`/`ascension` + the wolf deletion (`face_wolf`/`applyScriptedWolf`/
+`verb-face-wolf`) + the speaker ladder (`playerSpeaker(state)`). **(D)** rice reframe
+(G4.5 + the deferred G1 slice). **(E)** autoplay/fixtures/sim. **(F)** render sweep +
+the 34 test rewrites + the 2 DoD tier tests (`t0-arc.test.ts`, `invariants.test.ts`).
+
+**HD-30 `[dev]` placeholders:** none yet (no fiction authored this session — the spine
+is mechanical data + bible-distilled blurbs only). The placeholder inventory begins at
+step (A) when a needed line has no t0v2 source.
