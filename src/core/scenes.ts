@@ -15,7 +15,7 @@ import { rungOption, type RungScene } from './content/rungBeats';
 import {
   NPC_VOICE,
   NPC_NAME,
-  PLAYER_SPEAKER,
+  playerSpeaker,
   type NpcId,
   type VoiceCategory,
 } from './content/voices';
@@ -108,7 +108,7 @@ export function applySceneOption(state: GameState, def: SceneDef, optionId: stri
   const react = sceneReactVoiceSpeaker(def.scene, opt.reactNpc);
   let next = applyRewards(state, {
     log: [
-      { channel: 'narration', text: opt.say, voice: 'player', speaker: PLAYER_SPEAKER },
+      { channel: 'narration', text: opt.say, voice: 'player', speaker: playerSpeaker(state) },
       { channel: 'narration', text: opt.react, voice: react.voice, speaker: react.speaker },
     ],
   });

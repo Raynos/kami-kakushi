@@ -67,9 +67,9 @@ import {
   introPerkLine,
   beatReactVoice,
   beatReactSpeaker,
-  PLAYER_SPEAKER,
   type IntroStat,
 } from './content/intro';
+import { playerSpeaker } from './content/voices';
 import { RUNG_BEATS, rungTopic, rungOption, type RungScene } from './content/rungBeats';
 import { sceneById } from './content/scenes';
 import { nightRoundById } from './content/nightRounds';
@@ -324,7 +324,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             channel: 'narration',
             text: topic.label,
             voice: 'player',
-            speaker: PLAYER_SPEAKER,
+            speaker: playerSpeaker(next),
             chat: true,
           },
           ...topic.answer.map((l) => ({
@@ -351,7 +351,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // 1) the MC's spoken reply, then 2) the NPC's / narrator's reaction (voice-tagged, FB-23/FB-26)
       next = applyRewards(next, {
         log: [
-          { channel: 'narration', text: opt.say, voice: 'player', speaker: PLAYER_SPEAKER },
+          { channel: 'narration', text: opt.say, voice: 'player', speaker: playerSpeaker(next) },
           {
             channel: 'narration',
             text: opt.react,
@@ -408,7 +408,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             channel: 'narration',
             text: topic.label,
             voice: 'player',
-            speaker: PLAYER_SPEAKER,
+            speaker: playerSpeaker(next),
             chat: true,
           },
           ...topic.answer.map((l) => ({
@@ -438,7 +438,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       const react = rungReactVoiceSpeaker(scene, opt.reactNpc);
       next = applyRewards(next, {
         log: [
-          { channel: 'narration', text: opt.say, voice: 'player', speaker: PLAYER_SPEAKER },
+          { channel: 'narration', text: opt.say, voice: 'player', speaker: playerSpeaker(next) },
           { channel: 'narration', text: opt.react, voice: react.voice, speaker: react.speaker },
         ],
       });

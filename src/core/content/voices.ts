@@ -3,6 +3,7 @@
 // content can share the ids without a cycle. The RENDERER colours speech by `VoiceCategory`
 // (a later phase); the pure core only CARRIES the tag. Pure data — no DOM, no Math/Date.
 
+import type { GameState } from '../state';
 import { NAMES } from './names';
 
 /** A remembered non-player character. Grows per tier as new cast is routed. The storywave
@@ -46,8 +47,20 @@ export type VoiceCategory =
 // murasaki colour + 殿 seal live in render.ts's VOICE_COLOR / VOICE_SEAL, which are exhaustive over
 // this union — a missing key is a tsc error). `'official'` is now the magistrate/clerk voice only.
 
-/** The MC's spoken-line nameplate (voice `player`). */
+/** The MC's spoken-line nameplate (voice `player`) — the DEFAULT/fallback label ('You'), used by
+ *  state-less previews (the DEV takes gallery) and as the base rung of the ladder below. */
 export const PLAYER_SPEAKER = 'You';
+
+/** G4.7 — the T0 speaker ladder: the MC's nameplate climbs You → Nameless → Gonbei as the
+ *  name-story advances. `label-nameless` is set by the cold-open name beat (the `You:`→`Nameless:`
+ *  flip, bible R0); `label-gonbei` at R7 when Genemon writes the hand-me-down house name
+ *  (NAMES.useName = "Gonbei", bible R7). PURE over flags — no RNG, no Date. The label-* flags are
+ *  wired by their story beats in a later chunk; until then this returns 'You' (dormant, safe). */
+export function playerSpeaker(s: GameState): string {
+  if (s.flags['label-gonbei']) return NAMES.useName;
+  if (s.flags['label-nameless']) return 'Nameless';
+  return PLAYER_SPEAKER;
+}
 
 /** The category a given NPC speaks in — one source of truth for both dialogue + intro tags.
  *  `chiyo` reuses the `steward` colour (the nameplate distinguishes her from Genemon; a distinct

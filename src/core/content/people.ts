@@ -52,13 +52,13 @@ export interface NodePerson {
 export const PEOPLE: readonly NodePerson[] = [
   // ── the PEDLAR (FB-109 worked example) — a TINY trader (a face on a shop) with ONE greeting line so
   //    he reads as a person, not a menu (a hair toward `small`; easy to promote later). He "passes
-  //    now and then" — present at the gate-forecourt once the estate economy opens (panel-estate,
+  //    now and then" — present at the gate once the estate economy opens (panel-estate,
   //    ~R1). No place-gate: he comes to YOU (contrast the smith, who is tied to a place). ──
   {
     id: 'pedlar',
     name: NAMES.pedlar,
     voice: 'villager',
-    node: 'gate-forecourt',
+    node: 'gate',
     depth: 'tiny',
     presence: (s) => s.unlocked.includes('panel-estate'),
     greeting:
@@ -76,7 +76,7 @@ export const PEOPLE: readonly NodePerson[] = [
     id: 'smith',
     name: 'The smith',
     voice: 'arms',
-    node: 'woodlot-edge',
+    node: 'woodlot',
     depth: 'small',
     placeGate: 'panel-equipment',
     greeting:
