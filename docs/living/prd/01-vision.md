@@ -269,7 +269,7 @@ late-game convenience only (§1.12).
 |---|---|---|---|
 | **R0 — Stray / "another mouth"** | labour | Found half-drowned and taken in; survive convalescence and the first labour. *(Met at the open.)* | The *kura* storehouse (one room, one verb); the body/rest bar and rice counter; the bare diegetic estate dashboard. |
 | **R1 — Day-labourer (*hiyatoi*)** | labour | Chief Steward **Genemon** ("another mouth, soft and clumsy") assigns the first real work; complete it, earn a sleeping-place. | The gate & forecourt; the home paddies and dry fields (the **rice heartbeat** — labour yields **rice + a little coin**, both live from T0; rice you then **eat** (satiety), **store** in the *kura*, or **sell** for coin at a season-swinging price); the basic labour loop. |
-| **R2 — Bonded hand (*genin*)** | labour | Sustained, reliable labour across a season; Genemon grants a place on the household's books. | Foraging, woodcutting, hauling; the stables & woodlot edge; the porter's-knot beat surfaces; the **Skills tab**; the near-satoyama (conditioning-gated). |
+| **R2 — Bonded hand (*genin*)** | labour | Sustained, reliable labour across a season; Genemon grants a place on the household's books. | Foraging, woodcutting, hauling; the stables & woodlot edge; the porter's-knot beat surfaces; the **Skills tab**; the woodlot's forage grounds (conditioning-gated). |
 | **R3 — Yard-hand under arms (*buke-hōkōnin*)** | **combat (entry)** | A wolf at the grain store forces the **humbling, near-fatal first fight** early; **survive it**, then beg **Kihei** for drills. The deliberately-incompetent floor of the combat track — surfaced inside T0, not mid-ladder. | The drill yard; the **Combat panel** + idle-combat/training; the **carrying-pole** + **Equipment & Inventory**; the **Bestiary**; the **bare auto-resolve loop + retreat** (character (combat) **level** begins, fed by combat-XP). Combat stats start near-zero. |
 | **R4 — Trusted hand & houseman** | mixed | Win **Lady Chiyo's** regard for indoor work and heir **Naoyuki's** grudging vouching; complete authored trust beats (return a lost ledger; help hold the grain store). | The main-house interior; the household domestic economy (textiles, kitchen, provisioning); the first *shinden* reclamation begun; the **simple Crafting tab + loot→craft loop** (Smith Gonta), surfaced as a **top-level nav tab**; **graded weapon-durability bands** surface with it (a weapon degrades but is **never auto-unequipped**). |
 | **R5 — Gate-guard (*monban*)** | combat | Stand a real watch; clear the first pest/animal threats; weapon-skill milestones reached. (**Combat Rank** gate; conditioning floor at R3.) | Estate-defence duties; the **stance slot** unlocks; **PEST-CONTROL / HUNT / CLEAR / DEFEND** quest types, surfaced on a **top-level Quests nav tab**. *(Curated combat activities feed the **Combat Rank** rung-meter here; the **Arms PILLAR deeds** do **not** accrue yet — they are gated to **Phase 2**, post-R7.)* |
@@ -302,7 +302,7 @@ a gate; see §1.5.4.)*
 | Rank | Track | How earned | Unlocks |
 |---|---|---|---|
 | **V0 — Errand-runner FOR the house, in the valley** | labour | The house trusts him to carry its business past its own gate into Asagiri; first village errands. | The market/shop row; the **monme** coin denomination (coin itself runs from T0 — this is a *denomination* reveal as wealth grows, not a new currency); the village reputation web seeds (optional). |
-| **V1 — Recognised hand of the house** | mixed | The valley begins to know the house's man (headman + shops acknowledge him); combat keeps pace clearing valley pests/animals. | The chief's house; deeper satoyama rings; the inn & rumours board (side). |
+| **V1 — Recognised hand of the house** | mixed | The valley begins to know the house's man (headman + shops acknowledge him); combat keeps pace clearing valley pests/animals. | The chief's house; the deeper wilderness rings; the inn & rumours board (side). |
 | **V2 — Road-warden (*michi-ban*) for the house** | combat | Make a stretch of valley road or the ford safe in the estate's name; survive a real bandit/animal clear. | Road-security duties; **HUNT/CLEAR** at valley scale; better loot/craft tiers; the **3rd combat line** (the staff) opens here (a Combat Rank rung-gate; +weapons across T2). *(Arms-pillar deeds accrue in T2's **Phase 2**, not on the rungs.)* |
 | **V3 — The house's steward of the valley economy** | labour | Bring the valley economy and the estate's cash-crops to a recorded seasonal result. | Cash-crop and trade levers (the silk/sericulture *meibutsu* sub-engine begins — the trade strand opens at T1, never T0); the broker meters. |
 | **V4 — Trusted of the headman** | mixed | Put a valley fire out on the estate's behalf (Magobei's skim surfaces here); win the headman's regard (personal regard is a side accelerant). | The headman's roll-up quests; the doctored-ledger thread; first **Office** standing (the Office pillar reveals at T2). |
@@ -739,9 +739,9 @@ town once"), the compound's old plans found in the kura (the "main house" labell
 past-tense line — then **THE MAP RE-LABELS ITSELF** ("Main house" → "Guest house"; the ruin gains its true
 name), the twist delivered by the UI surface itself (kernel #6; TST2 — a watched surface never yanked).
 
-Beyond the estate, the **wilderness** stays a shared danger gradient gated by conditioning (near satoyama →
-deep satoyama → the river/ford/weir where he was found → the foothills); the **valley, region, castle town,
-domain and Edo** zones are enumerated per tier in the bible tier sheets
+Beyond the estate, the **wilderness** stays a shared danger gradient gated by conditioning (the estate's
+near grounds → the deeper woods → the river/ford/weir where he was found → the foothills); the **valley,
+region, castle town, domain and Edo** zones are enumerated per tier in the bible tier sheets
 ([`tiers/`](../../story-bible/tiers/); [`03-tiers.md`](../../story-bible/03-tiers.md)).
 
 **The shipped T0 walkable map (v0.4.0)** opens the estate anatomy above room by room:

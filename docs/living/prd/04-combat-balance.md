@@ -473,11 +473,10 @@ trickle). Autumn is the headline (harvest), and **all revealed pillars are appra
 > jump. (Koku standing is immune to combat loss — the loss-bite is on carried **coin/rice**, §4.6.6b, never on
 > standing.)
 
-> **Cadence is a LEVER, not the shape.** The *shape* above is canon; how OFTEN a reckoning fires is a per-tier
-> lever. In the compressed **T0** tail a full **28-day season never turns** inside the ~5-day Phase-2
-> deed-grind, so T0 reckons on the shorter **`PHASE2_JUDGE_INTERVAL_DAYS`** (~3 d) — tuned ≤ the grind's
-> day-span so a reckoning is actually felt. **T1+, when Phase 2 is a long game, scales the reckoning back toward
-> the real season.** The 28-day `season()` **calendar** is unchanged — only the JUDGE cadence decouples from it.
+> **The reckoning rides the manual season EXIT (ADR-153, shipped).** The *shape* above is canon; the
+> reckoning fires as each season-container closes — the player turns the six-season wheel at their own
+> pace, so Phase 2's cadence is the player's own (the sim watches that it stays felt — ADR-132). The
+> old day-interval `PHASE2_JUDGE_INTERVAL_DAYS` lever retired with the derived clock at v0.4.0.
 
 > **Phase reconciliation.** The seasonal pillar **CREDIT posts only in PHASE 2** (deeds-gated; pillars do
 > not accrue in Phase 1). The *basis* (the house's holdings — land reclaimed, treasury, secured danger) grows
@@ -1504,7 +1503,7 @@ from T1, T0 exempt — and the per-tier hour FLOORS are locked.)*
 |---|---|---|---|---|
 | **R0 Stray** — cold open done; bare estate dashboard | *(story only — the cold open §3.1)*; meter n/a | n/a (tutorial) | ~0 | **~5 min** *(cold open)* |
 | **R1 Day-labourer** — paddies, basic labour loop, world-clock | **Estate Service ≥ ~18** (rake/recover rice · clear forecourt · first paddy turns) + Genemon assigns real work | ~25 rice/min | ~0.75K | **~30 min** |
-| **R2 Bonded hand** — Skills tab, foraging/woodcut/haul, near *satoyama* | **Estate Service ≥ ~19** (forage · woodcut · haul · stable chores) + first season turns | ~35 rice/min | ~1.05K | **~30 min** |
+| **R2 Bonded hand** — Skills tab, foraging/woodcut/haul, the woodlot grounds | **Estate Service ≥ ~19** (forage · woodcut · haul · stable chores) + first season turns | ~35 rice/min | ~1.05K | **~30 min** |
 | **R3 Yard-hand under arms** — COMBAT LIVE; humbling first fight; drill yard, Bestiary, the starter **yari** | **Combat Rank ≥ ~17** (survive the **scripted** first wolf [a **guaranteed-survival** beat — win-or-soft-setback, the R3 story trigger] · drill reps · the **grindable** wolf/sparring + first pest skirmishes [where the **LOCKED 20–35 % win @ ≥0.7 satiety** is measured, §4.8.0/§4.6.7]) + drill-yard story | ~40 rice/min | ~1.2K | **~30 min** |
 | **R4 Trusted hand** — Main House, domestic economy, **first *shinden* (U1)**, **loot→craft loop + durability bands** | **Estate Service ≥ ~17** (indoor errands · first *shinden* labour · craft a first tool) + invited to the Main House; **build U1 (400 coin)** | ~60 rice/min | ~2.1K | **~35 min** |
 | **R5 Gate-guard** — Quest log + quest types; the **stance** slot | **Combat Rank ≥ ~17** (stand a watch · pest-control / hunt / clear sweeps) + posted to the gate | ~80 rice/min | ~3.2K | **~40 min** |

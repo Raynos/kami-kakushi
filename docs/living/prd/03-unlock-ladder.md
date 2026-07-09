@@ -262,8 +262,8 @@ pillar; Arms reveals at T1). One declining hill estate
 (the Kurosawa *gōshi* house), **unlocked room by room** — and T0 room/area reveals are **separate**:
 stables, woodlot edge, and drill yard each reveal individually, never folded into the forecourt. **T0 is
 spatial**: every labour and every foe is bound to a **map node**, and you **walk (move to the node)** to work or
-fight — you start at the **kura** (rake rice), then walk out to the paddies to farm, the woodlot to cut, the
-satoyama to forage; banking is at the kura. **Combat surfaces EARLY at R3** (the humbling first fight) and then
+fight — the weir gives you up at the cold open, then you walk out to the paddies to farm, the forecourt
+to haul, the woodlot to cut and forage; banking is at the kura. **Combat surfaces EARLY at R3** (the humbling first fight) and then
 deepens **incrementally** along the **combat-reveal ladder** (§3.5.1) — never a one-beat dump. Each rung
 promotes on the **per-rung RUNG-METER** — **Estate Service** (labour rungs) or **Combat Rank** (martial rungs),
 each **per-rung-reset**, its threshold back-solved from the **tutorial ramp** (T0 is **floor-exempt** — a gentle
@@ -433,8 +433,8 @@ dump. This is the same data (`RevealableEntry kind:'area'`) as the rungs above, 
 | **The Gate & Forecourt (*genkan*)** | E0→E1 | `RANK` R1 | *"The forecourt gate, leaning on its post, opens to you."* |
 | **The Home Paddies & Dry Fields** | E0→E1 | `RANK` R1 | *"Fallow paddies and dry fields stretch below — yours to work."* |
 | **The Stables & Woodlot Edge** | E1 | `RANK` R2 *(revealed SEPARATELY)* | *"You're trusted past the yard — the stables, and the woodlot's edge."* |
-| **The Near Satoyama** (the near wild ring) | E1 | `FIRST-USE` (conditioning floor at R2) | *"The near hills open — foraging groves, a bamboo stand. Something rustles deeper in."* |
-| **The Deep Satoyama (奥山)** (the deeper wild ring) | E1 | `FIRST-USE` (past the near satoyama, at a higher satiety cost — the load-bearing walk) | *"One hill further, the trees close in. Richer forage than the near hills — and the boar has denned here."* |
+| **The Woodlot's forage grounds** (the near wild ring) | E1 | `FIRST-USE` (conditioning floor at R2) | *"The woodlot's edge opens — foraging groves, a bamboo stand. Something rustles deeper in."* |
+| **The Deeper Woods (奥山)** (the woodlot past the danger ring) | E1 | `FIRST-USE` (past the edge, at a higher satiety cost — the load-bearing walk) | *"One hill further, the trees close in. Richer forage than the edge — and something heavier has denned here."* |
 | **The Drill Yard** | E1 | `STORY` R3 (after the humbling fight) *(revealed SEPARATELY)* | *"Kihei kicks open the drill-yard gate. One post. One rack. Begin."* |
 | **The Main House / *Omoya*** (inner) | E1 | `RANK` R4 | *"The screens slide back — kitchen, inner rooms, the household shrine."* |
 | **The Workshops & Granary** | E1 (build continues) | `RANK` R6 | *"A workshop frame; a granary rising. The Kurosawa works begin."* (E1→E2 itself lands in **T1**, the full estate) |

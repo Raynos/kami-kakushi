@@ -136,8 +136,8 @@ tunes it.** These are the things the harness watches and the polish loop juices.
   fun miss). One teach per moment; never a monologue dump. The battery `onboarding` lens checks this.
 
 ### 2.5 The seasonal loop (~30–120 min/season) — *the judged exam*
-- **What:** on the reckoning cadence — a per-tier lever, decoupled from the 28-day season calendar (T0
-  reckons ~every 3 days) — the world appraises the house and each pillar takes a **judged-result top-up**
+- **What:** as each manual season-container closes (the player ends the season — ADR-153; Autumn only
+  once the nengu is reckoned, ADR-166), the world appraises the house and each pillar takes a **judged-result top-up**
   on a new high-water mark (~30% of growth; autumn harvest is the headline, §4.2.2). **The same beat
   re-assesses the House's koku *standing*** (the `seasonalJudge`): koku is a slow prestige *score*, so
   this is the only place it moves in ordinary play (plus the bigger "the assessors arrive" event at each
@@ -286,8 +286,8 @@ a ×10 version of the old thing (Antimatter Dimensions' rule). If a tier is "sam
 that *is* the slump. Schedule each tier's headline new system at the tier's **start**, not its end.
 
 **(c) Novelty cadence — the metronome of freshness.** A steady drip of "first time you see X" across the
-whole 28.5 h, tied to the reckoning cadence as a predictable beat (each reckoning — a per-tier lever, ~every
-3 days in T0, decoupled from the 28-day season — can open one new affordance or shift what's judged). Tightening-then-loosening rhythm: fast reveals in T0 to teach/hook, spaced-but-
+whole 28.5 h, tied to the season-exit reckoning as a predictable beat (each manual season turn — ADR-153 —
+can open one new affordance or shift what's judged). Tightening-then-loosening rhythm: fast reveals in T0 to teach/hook, spaced-but-
 bigger reveals later (the slow grind is the *space* in which each reveal lands harder — don't rush reveals
 to fill silence). Always telegraph the next one.
 
@@ -375,9 +375,10 @@ the whole climb). This is what makes hour 20 still mean something.
 
 **T3 — Region (~16 h): the warmest payoff + the rival contest — and the slump danger zone.**
 - *Fun engine:* the emotional peak — the **Origin family/friends open** and the **personal-mystery
-  (Tama/Tahei) payoff lands** (§1.6.3, §3.6); the **rival houses Tomita & Akagi** are the incumbents to
-  surpass, with **G7 = rivals dethroned** as the v1 climax. Play stays **hands-on** but the stage becomes the
-  region — brokering/diplomacy verbs + the rival contest; the FULL cross-pillar combos click. (Governance/delegation
+  (Tama/Tahei) payoff lands** (§1.6.3, §3.6); the antagonist is the canon ladder's T3 step — **the
+  campaign against Lord Tomita** (the debt was T0–T1's; the inherited domain and the house's Edo ladder
+  are T4+'s), the v1 climax. Play stays **hands-on** but the stage becomes the region —
+  brokering/diplomacy verbs + the campaign; the FULL cross-pillar combos click. (Governance/delegation
   proper is **T4+**, not v1.)
 - *Fun risk:* **THE mid-game slump** — the longest tier is where "cycle and cycle for bigger numbers"
   kills retention. It is the longest single tier in v1 — more than any earlier tier alone.

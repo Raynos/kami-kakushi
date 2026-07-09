@@ -249,7 +249,7 @@ progress-saved + Reload, DEV-only stack, idempotent single node, inline-styled s
 ### 5.11 The Map tab — the walkable node
 
 Space is load-bearing (ADR-065/ADR-078/ADR-093): every labour and foe binds to a node; you WALK (`move_to`)
-to work or fight; the deep satoyama 奥山 behind the danger ring gates the richer forage + the boar.
+to work or fight; the woodlot's deeper woods 奥山 behind the danger ring gate the richer forage.
 Navigation lives ONLY here (FB-107); Map ≠ Estate (FB-112); every visited location stays reachable (FB-113);
 NPC placement shifts by tier/rung. **The node = two sections (FB-102/ADR-116):** a bordered "where you are
 now" description (immersive, carries the discovery hints, persists) + a terse navigation section hinting
