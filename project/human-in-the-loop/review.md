@@ -282,15 +282,14 @@ Three blind takes were authored (ADR-139); canon carries the self-pick:
   mendHint vow kept. ✘ first-person "I" clashes with the log's narrator-voice
   convention (FB-91/93).
 
-- **Asking for:** keep the ledger take, or override to b / c (or per-line mix).
-- **How to look:** read the bundle —
-  [`takes/estate-build-beats/`](../../src/core/content/narrative/takes/estate-build-beats/)
-  (bundle.md + take-b/c.md; canon in flavor.md). NOTE these beats are
-  **core-emitted log lines** — the DEV story switcher lists the bundle but a
-  live in-log swap is not wired (same reader-only class as dialogue/cold-open
-  takes); to see one land in play: load a Phase-2 fixture and trigger the
-  source's first bank (e.g. farm once / sell rice / win a fight).
-- **Verdict:** _(awaiting the human)_
+- **Asking for:** ~~keep the ledger take, or override to b / c~~ — moot.
+- **Verdict:** ✅ **SUPERSEDED by the storywave T0 rewrite (G4, Open-Q #11).**
+  These beats diverged the OLD-canon U1–U4 estate ladder, which the bible
+  rewrite voids — the `takes/estate-build-beats/` bundle was deleted at G4.1 and
+  `estate.ts` re-fictioned to repair/reclamation projects (mend the weir screens
+  · reclaim the orchard · the granary). Any new estate-beat prose re-diverges via
+  the **HD-30** supplemental wave. No take-pick is owed. (Surfaced for async
+  override — PH4; graduate to `archive.md` at G5's queue reconcile.)
 
 ---
 

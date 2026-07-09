@@ -250,3 +250,48 @@ Munemasa is the "voice through a wall" that never places at a node.
   + per-site season pool + daily consumption sink + banked→one-way-kura.
 - **G0 voice-colour picks are provisional**; **HD-30 gates G7** (no `[dev]`
   prose ships — incl. G1's retirement-notice placeholder).
+
+## 8 · G4 — THE CONTENT CUTOVER: BUILT + FULLY GREEN ✅ (on `storywave-cutover`)
+
+The entire bible-canon T0 rewrite is built and **`pnpm run verify` is 17/17
+GREEN** (938 tests, typecheck 0) on the integration branch
+`storywave-cutover` (off `main` 38880e7). Driven as an ordered chunk-series by
+Opus subagents (single-writer, WIP commits) after the scoping subagent proved
+G4 is one monolithic cutover (no green island):
+
+1. **Zone spine** — 16 bible AreaIds + map + edges (the domino everything hangs on).
+2. **Narrative migration + cast renames** — 7 `.md` migrated verbatim from the
+   t0v2 VERDICT picks + redlines; lord→Munemasa, pedlar→Yohei, smith/tozo retired;
+   `gen:narrative` green.
+3. **Consumer registries** — enemies (coinReward deleted; human-foe minTier≥2
+   guard) / quests / crafting / ranks+granters / estate→repair-projects / home→
+   woodshed / ascension / activities / wolf-deletion / speaker-ladder → typecheck 0.
+4. **Rice reframe + coin lanes** — rice = measured kura shō only (carried pocket
+   never holds rice); per-(site,season) production pools + consumption + spoilage;
+   wage.ts (collect-at-the-board) + Yohei's market + the Autumn nengu.
+5. **Content-complete + arc wiring** — full 13-cast people registry + presence
+   predicates + rank titles; scene triggers; the R3 night round; the reveal-mask
+   reconciled (fixed an arc deadlock — paddies open R1).
+6. **Arc-close** — fixed the R2 requirement deadlock + beatless-silent-rung
+   promotion + scene-queue drain; taught autoplay the whole new arc; **the arc
+   CLOSES end-to-end** (weir→R0…R7→ascension); the 2 DoD tier tests
+   (`t0-arc`/`invariants`) pass. One SIM-OWNED seed retune (marten L2→L1, OWED).
+7. **Core/content test rewrites** — ~19 files re-derived to the new content
+   (vitest 910→938 pass); fixed 2 source bugs (a discovery node id, the sim
+   harness not resolving night-round stages).
+8. **Render sweep (G4.9)** — map tab renders the T0 sheet; the VN scene modal;
+   season-wheel + wage-board + night-round + stall/sickroom affordances; render +
+   affordance tests green → **all 17 gates green**.
+9. Resolved **HR-10** (estate-build-beats) as SUPERSEDED (Open-Q #11).
+
+**OWED:** the `verify:balance` ratio + `t0-pacing.md` regen (timeboxed — pacing/
+playcheck gates pass, so wall-time holds; the deep ratio re-baseline is batched).
+**HD-30 `[dev]` placeholders** remain (nengu/wage/reveal lines) — the prose wave
+fills them; still ⛔ gates G7 ship.
+
+## Landmine — shared branch, live co-agent
+`storywave-cutover` is a SHARED integration branch: a co-agent (w2:p5 / session
+127) interleaved `feat(prototypes)` (Asking II / The Noticing) + Plan K docs +
+`docs(depth)` commits throughout. **Landing G4 to `main` is entangled with their
+work** — needs a coordination call (merge the whole branch vs separate G4), and
+DON'T switch the shared checkout's branch out from under their live session.
