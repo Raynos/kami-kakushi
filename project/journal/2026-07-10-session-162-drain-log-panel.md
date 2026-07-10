@@ -50,6 +50,22 @@ prefix). Nine fix groups A–I; one commit per group; F-entries in
   `.tab-now.live` gains a warm gold background wash (the bare text tint read
   as "no change"). Verified: re-lights on rake #2, lapses clean when idle.
 
+- **E · FB-321/FB-322 — styled typewriter.** `typeLine` now builds the line
+  FULLY STYLED up front (buildLogLine → renderLineContent) and reveals its text
+  progressively ACROSS the styled text nodes — quotes wear their `.speech`
+  tint/italics from the first character (was: bare text node, styling snapped
+  on at finalize). Verified live via a forced narrator-quote line: `.speech`
+  present at 7 chars in, quote fills styled, tail continues. NOTE: the hunk
+  landed inside w6:p1's `fd934341` (their surgical stage picked up my
+  in-flight worktree hunk) — content correct, attribution noted here + to them.
+
+- **F · FB-323 — the 新 divider re-anchors when pinned.** Two holes closed: a
+  reader pinned at the foot (= read everything) now gets the divider MOVED to
+  just above each incoming block (scrolled-up keeps FB-199's anchored
+  boundary), and a coalesced ×N bump counts as new text — the marker slides in
+  front of the bumped line. Verified live: burst→divider above it, second
+  burst→re-anchored, coalesce→marked.
+
 ## Next intended steps
 - E · FB-321/FB-322 — typewriter styled reveal
 - F · FB-323 — divider re-anchor when pinned

@@ -4567,10 +4567,13 @@ export function mount(
     freshDivider?.remove();
     freshDivider = undefined;
   }
-  function markFreshDivider(): void {
+  // FB-323 — `before` re-anchors the divider ABOVE an existing line (the coalesce-bump
+  // case: the "new text" grew in place, so the marker slides in front of it).
+  function markFreshDivider(before?: Element): void {
     clearFreshDivider();
     const d = buildFreshDividerNode(); // same idiom the intro reuses (FB-27/FB-54)
-    logLines.append(d); // fresh lines append AFTER it
+    if (before) logLines.insertBefore(d, before);
+    else logLines.append(d); // fresh lines append AFTER it
     freshDivider = d;
     armFreshDividerFade();
   }
@@ -4722,6 +4725,14 @@ export function mount(
         if (lineEl) {
           renderLineContent(lineEl, last);
           flashTally(lineEl);
+          // FB-323 — a coalesce bump IS new text: it gets the 新 marker like any arrival.
+          // Pinned at the foot → the divider re-anchors to sit just above the bumped
+          // line; scrolled-up keeps the anchored boundary (its fade re-arms). Never
+          // while a VN owns the screen (the player isn't watching the transcript).
+          if (!vnActive(state) && !introEndingRender) {
+            if (freshDivider?.isConnected && !logPinnedToBottom) armFreshDividerFade();
+            else markFreshDivider(lineEl);
+          }
           scrollLogToNewest();
         }
         lastPaintedCount = last.count ?? 1;
@@ -4773,9 +4784,11 @@ export function mount(
       !didReset &&
       !introInstant
     ) {
-      // FB-199 — anchored: a live divider stays where it is (new lines land under it,
-      // its fade re-arms); only a quiet log gets a NEW boundary marker.
-      if (freshDivider?.isConnected) armFreshDividerFade();
+      // FB-199/FB-323 — the divider marks the read/unread BOUNDARY. A reader scrolled up
+      // into history keeps the anchored marker (new lines land under it, its fade
+      // re-arms); a reader PINNED at the foot has read everything above, so the divider
+      // RE-ANCHORS to sit just above each incoming block — new text always says 新.
+      if (freshDivider?.isConnected && !logPinnedToBottom) armFreshDividerFade();
       else markFreshDivider();
     }
 
