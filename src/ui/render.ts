@@ -653,6 +653,8 @@ export function mount(
   let introTypeTimer: number | undefined; // the pending per-char step timeout
   let introAdvanceTimer: number | undefined; // the inter-line ~2s auto-advance timeout (FB-86)
   const introAuxTimers: number[] = []; // other pending intro timeouts (fresh-divider fades)
+  // FB-197 — Space/Enter advance the VN like a click; installed per scene, removed on teardown.
+  let introKeyHandler: ((e: KeyboardEvent) => void) | null = null;
   // true for the SINGLE render on which the intro just ended, so the final beat's log lines paint
   // INSTANTLY as the shell reveals (FB-48 — no slow catch-up), not via the story cascade.
   let introEndingRender = false;
@@ -2098,6 +2100,10 @@ export function mount(
   // FULL teardown — fires ONLY on a scene change or when the intro ends, never on an in-scene update.
   function teardownIntroScene(): void {
     clearIntroTimers();
+    if (introKeyHandler) {
+      document.removeEventListener('keydown', introKeyHandler);
+      introKeyHandler = null;
+    }
     introScene?.remove();
     introScene = null;
     introSceneCurrentId = null;
@@ -2579,6 +2585,22 @@ export function mount(
       if ((e.target as HTMLElement).closest('button')) return;
       introAdvance();
     });
+    // FB-197 — Space/Enter advance too (classic VN keyboard idiom). Skipped when a control
+    // has focus (Space must still press the focused button) or a modal dialog is open;
+    // preventDefault stops Space from scrolling the page.
+    introKeyHandler = (e: KeyboardEvent) => {
+      if (e.key !== ' ' && e.key !== 'Enter') return;
+      const target = e.target;
+      if (
+        target instanceof HTMLElement &&
+        target.closest('button, input, textarea, select, [contenteditable]')
+      )
+        return;
+      if (document.querySelector('.modal-scrim:not([hidden])')) return;
+      e.preventDefault();
+      introAdvance();
+    };
+    document.addEventListener('keydown', introKeyHandler);
     introAskEl = scene.topics.length > 0 ? buildAskPanel() : null;
     introDecideEl = buildDecidePanel(scene);
     if (introAskEl) panel.append(introAskEl);

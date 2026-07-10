@@ -1219,6 +1219,34 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     expect(first.textContent).toBe(full); // the click filled the line at once
   });
 
+  // FB-197 — Space advances exactly like a click (keyboard VN idiom). RED before FB-197:
+  // the scene only listened for clicks, so the keydown left the line mid-type.
+  it('F197 — Space mid-type completes the current line instantly (keyboard advance)', () => {
+    const render = spyMount();
+    render(introState(0), null);
+    const full = DIALOGUE_SCENES[0]!.greeting[0]!.text;
+    const first = root.querySelector<HTMLElement>('.vn-line .vn-text')!;
+    expect(first.textContent).not.toBe(full); // mid-type
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+    expect(first.textContent).toBe(full); // Space filled the line at once
+  });
+
+  // FB-197 — a Space keydown whose target is a focusable control must NOT advance the
+  // scene: Space there presses the control (e.g. an ask-topic button), not the typewriter.
+  it('F197 — Space on a focused button does NOT advance the typewriter', () => {
+    const render = spyMount();
+    render(introState(0), null);
+    vi.runAllTimers(); // settle the greeting so the ask panel (buttons) is revealed
+    render(introState(0, [DIALOGUE_SCENES[0]!.topics[0]!.id]), null); // a new block types
+    const spans = [...root.querySelectorAll<HTMLElement>('.vn-line .vn-text')];
+    const typing = spans[spans.length - 1]!;
+    const before = typing.textContent;
+    const btn = root.querySelector<HTMLButtonElement>('.intro-ask')!;
+    btn.focus();
+    btn.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+    expect(typing.textContent).toBe(before); // untouched — the keydown belonged to the button
+  });
+
   // FB-86 — a click DURING the ~2s inter-line hold skips the remaining wait and starts the next line
   // now. RED against a model that ignores the click in the gap (line 1 would stay empty until ~2s).
   it('F86 — a click during the inter-line hold advances immediately (skips the wait)', () => {
