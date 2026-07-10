@@ -93,6 +93,29 @@ herdr_shared_tree() {
   add ""
 }
 
+# --- Inbox headline: per-bucket OPEN capture counts, the very first line -------
+# The human wants the feedback-inbox shape at a glance without asking an agent.
+# A capture is OPEN until its <stamp>.json sidecar carries status:"done" (the
+# drain-inbox stamp; "parked" holds a bucket open, so it counts as open here).
+# Silent when nothing is open (the no-cry-wolf norm).
+inbox_line=""
+for d in project/playtest-inbox/pending/*/; do
+  [[ -d "$d" ]] || continue
+  bucket="$(basename "$d")"
+  [[ "$bucket" == ".claims" ]] && continue
+  open=0
+  for j in "$d"*.json; do
+    [[ -e "$j" ]] || continue
+    grep -q '"status"[[:space:]]*:[[:space:]]*"done"' "$j" && continue
+    open=$((open + 1))
+  done
+  [[ "$open" -gt 0 ]] && inbox_line+="${inbox_line:+, }${bucket} ${open}"
+done
+if [[ -n "$inbox_line" ]]; then
+  add "Inbox: ${inbox_line}"
+  add ""
+fi
+
 add "## 🧑‍⚖️ Human-in-the-loop brief (auto-surfaced at session start)"
 add ""
 add "> ⏱️ **Opening turn ≤5s — relay this brief with ZERO tool calls.** Everything you need (queue, reviews, commits, the active-plan tag) is already inlined below. Do **not** run \`git\`/\`Read\`/\`verify\` or open any file just to brief — even one round-trip costs several seconds and blows the budget. Defer every verify-against-git check to when you actually pick the work up."
