@@ -69,7 +69,8 @@ magic; no reset.
   judge lines · node reads) + the R7 lord-unstaged lines (HD-36 → ADR-175), all
   reviewed LIVE via DEV → Story. *(HD-33…36 closed 2026-07-10; none open.)*
 - **DEV-variant picks** 🔲 — kept live for a detailed pass: home (HR-6) ·
-  bestiary (HR-5) · the HR-2 bundle. Picks → the agent strips the alternates.
+  bestiary (HR-5) · the HR-2 bundle · map travel presence (HR-26 — walk a zone
+  edge; silence ships A). Picks → the agent strips the alternates.
   *(HR-9/HR-11 closed INTERIM 2026-07-10 — they retire with the ADR-177 redesign.)*
 
 ## Toolchain
@@ -116,4 +117,4 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    HR-1 + HR-18…25. Combat R4+ = a design call → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 20/20 — REWRITE OWED (deferred: co-agent WIP in flight) · last full rewrite: 2026-07-09 -->
+<!-- rewrite-debt: 21/20 — REWRITE OWED (deferred: co-agent WIP in flight) · last full rewrite: 2026-07-09 -->
