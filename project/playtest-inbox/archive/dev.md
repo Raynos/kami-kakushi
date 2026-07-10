@@ -122,3 +122,44 @@ All of these stories diverge here need to be goruped by rung just like variants 
 **Details:** `dev/2026-07-10T15-19-12.json` — save + recent logs + full context
 
 ---
+
+<!-- re-archived dev captures, second pass (w6:p1 drain, 2026-07-10 evening) -->
+## Bug · FB-353 · 2026-07-10T19:04:24+0200 — i-m-pretty-sure
+
+I'm pretty sure all the scenarios are broken / stale.
+
+how do we implement these in a non stale fashion that never breaks and is upto date with the src/ built ?
+
+**Element:** div — "Fresh startpost-cold-openLoadNew game, cold open already ans" · `body > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(4)` · @1120,268 329×404
+**Screenshot:** `dev/2026-07-10T19-04-24.png`
+**Details:** `dev/2026-07-10T19-04-24.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-358 · 2026-07-10T19:17:01+0200 — when-i-click-ng
+
+When i click "NG (post open)" It doesnt reset all the state correctly, im still on the map screen, like something is just completely fucked in the UI / DOM
+
+The map screen should never be rendered, like all the game features that are R1/R2/R3 etc should just never be rendered.
+
+When you enter a broken state, I mean it should say Rung R0 too in the dev tools because i presed NG (post open)
+
+I feel like the new game button is implemented properly, and NG (post open) is buggy as shit.
+
+Anyway I'm supposed to be on another screen.
+
+**Element:** header.titlebar — "神隠しKamikakushi" · `div:nth-of-type(2) > header:nth-of-type(1)` · @29,0 1438×33
+**Screenshot:** `dev/2026-07-10T19-17-01.png`
+**Details:** `dev/2026-07-10T19-17-01.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-359 · 2026-07-10T19:18:20+0200 — lol-in-this-state
+
+lol in this state i cant even press new game im just stuck in the cold open.
+
+**Element:** button "⟳ New game" — "⟳ New game" · `div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(9) > button:nth-of-type(2)` · @1286,689 163×25
+**Screenshot:** `dev/2026-07-10T19-18-20.png`
+**Details:** `dev/2026-07-10T19-18-20.json` — save + recent logs + full context
+
+---

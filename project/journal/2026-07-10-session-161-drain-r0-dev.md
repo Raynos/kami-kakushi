@@ -33,3 +33,7 @@ FB-329 (map fog + travel gating already shipped).
   refusal + cap line + auto-rake disarm); fixtures regen; balance GREEN (Δ 0.0).
 - FB-353 + FB-329 answered (💬): fixtures provably current (the staleness was
   FB-358's UI bug); map fog + movement lock already shipped.
+- Cross-lane note: fd934341 (FB-324) also carries w2:p5's in-flight typeLine
+  rewrite (~render.ts:4211, FB-321/322) — written between my hunk-check and
+  the pathspec commit. They confirmed it verified + intended (no revert) and
+  reference fd934341 from their F-entries.

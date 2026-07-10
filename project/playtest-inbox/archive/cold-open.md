@@ -154,3 +154,14 @@ Same thing third action should be slow enough for the text to render.
 **Details:** `cold-open/2026-07-10T11-43-26.json` — save + recent logs + full context
 
 ---
+
+<!-- re-archived cold-open captures, second pass (w6:p1 drain, 2026-07-10 evening) -->
+## Bug · FB-360 · 2026-07-10T19:19:01+0200 — i-cant-click-continue
+
+i cant click continue lol
+
+**Element:** button "Continue" — "Continue" · `div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > button` · @988,315 91×36
+**Screenshot:** `cold-open/2026-07-10T19-19-01.png`
+**Details:** `cold-open/2026-07-10T19-19-01.json` — save + recent logs + full context
+
+---
