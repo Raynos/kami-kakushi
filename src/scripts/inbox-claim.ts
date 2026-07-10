@@ -10,6 +10,7 @@
 //
 //   tsx src/scripts/inbox-claim.ts claim <lane...> --pane <w:p> [--agent <label>]
 //   tsx src/scripts/inbox-claim.ts list
+//   tsx src/scripts/inbox-claim.ts headline   # TSV drain rows for session-brief
 //   tsx src/scripts/inbox-claim.ts release <lane...>
 //   tsx src/scripts/inbox-claim.ts reap
 export {};
@@ -17,12 +18,14 @@ export {};
 import { mkdirSync, readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import {
+  bucketDrainRows,
   CLAIMS_DIR,
   createClaim,
   fbAllocations,
   fbHighWater,
   findCollisions,
   isClaimLive,
+  lanesWithoutBucket,
   readClaims,
   readItems,
   releaseClaim,
@@ -79,6 +82,22 @@ if (cmd === 'list') {
     items,
   );
   console.log(`F-number high-water mark: FB-${hw} (next block starts at FB-${hw + 1})`);
+  process.exit(0);
+}
+
+if (cmd === 'headline') {
+  // Machine-readable per-bucket drain status for the session-brief inbox
+  // headline (one `<count>\t<bucket>\t<status>` row per line, biggest first).
+  // Status mirrors the brief's cheap contract — claim-FILE presence, no
+  // liveness probe (that stays a claim-time concern) — but resolves the lane
+  // from each sidecar (`lane ?? bucket`), so a lane renamed off its bucket is
+  // still seen as claimed. Union of every claim's lanes, live or not.
+  const claimedLanes = new Set(
+    claims.flatMap(({ claim }) => (Array.isArray(claim.lanes) ? claim.lanes : [])),
+  );
+  for (const row of bucketDrainRows(items, claimedLanes)) {
+    console.log(`${row.count}\t${row.bucket}\t${row.inProgress ? 'in progress' : 'pending'}`);
+  }
   process.exit(0);
 }
 
@@ -170,6 +189,20 @@ if (cmd === 'claim') {
         ? `FB-${claim.fbLo}..${claim.fbHi} reserved for ${unstamped.length} unstamped legacy item(s); the rest carry their capture-time FB`
         : 'all captures FB-stamped at capture time — no block reserved'),
   );
+  // Surface a lane whose name diverges from its bucket folder — folder-keyed
+  // tools (an older session-brief) misread such a bucket as idle. Soft: valid
+  // when deliberate (a lane that splits/spans buckets), but flagged so an
+  // accidental mismatch doesn't hide a drain-in-progress. (The brief itself now
+  // resolves the real lane, so this is belt-and-suspenders, not a correctness
+  // dependency.)
+  const orphanLanes = lanesWithoutBucket(lanes, new Set(items.map((i) => i.bucket)));
+  if (orphanLanes.length > 0) {
+    console.warn(
+      `  ~ WARN: lane(s) ${orphanLanes.join(', ')} name no pending bucket folder —`,
+      'folder-keyed tools may read that bucket as idle. Prefer a lane named after its',
+      "bucket, or confirm the bucket's sidecars set `lane` so the brief resolves it.",
+    );
+  }
   printLive(lanes);
   const others = items.filter((i) => !lanes.includes(i.lane));
   const collisions = findCollisions(open, others);
@@ -193,5 +226,5 @@ if (cmd === 'claim') {
   process.exit(0);
 }
 
-console.error(`unknown command: ${cmd} (use claim | list | release | reap)`);
+console.error(`unknown command: ${cmd} (use claim | list | headline | release | reap)`);
 process.exit(1);

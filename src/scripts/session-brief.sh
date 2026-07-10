@@ -109,37 +109,35 @@ herdr_shared_tree() {
 # bucket (a mid-drain status:"done" stamp does NOT subtract — the bucket is the unit,
 # not fully done until archived out of pending/).
 #
-# STATUS semantics (human, 2026-07-10): a bucket is only "in progress" when an agent
-# is ACTIVELY draining it — signalled by a live drain-lane claim (ADR-171,
-# .claims/<lane>.json, lane defaults to the bucket name). A bucket with no claim is
-# just sitting there → "pending", NOT "in progress". The old code called every pending
-# capture "in progress", which read as "someone's on it" when nobody was. We mirror the
-# claims-line's cheap contract (claim-FILE presence, liveness checked at claim time not
-# here); a stale dead claim is rare and reapable. Biggest bucket first.
-# NOT silent when empty — we still print the line (drained state) so the habit holds.
-claimed_lanes=""
-for c in project/playtest-inbox/pending/.claims/*.json; do
-  [[ -e "$c" ]] || continue
-  claimed_lanes+=" $(basename "$c" .json) "
-done
-inbox_rows=""
-for d in project/playtest-inbox/pending/*/; do
-  [[ -d "$d" ]] || continue
-  bucket="$(basename "$d")"
-  [[ "$bucket" == ".claims" ]] && continue
-  n=0
-  for j in "$d"*.json; do
-    [[ -e "$j" ]] || continue
-    n=$((n + 1))
+# STATUS semantics (human, 2026-07-10; lane-resolution fixed 2026-07-11): a
+# bucket is "in progress" only when an agent is ACTIVELY draining it — a live
+# drain-lane claim (ADR-171, .claims/<lane>.json). The rows are derived by the
+# drain CORE (`inbox-claim.ts headline`) — the single source of truth for lane
+# resolution: a capture's lane is `sidecar.lane ?? bucket`, so a lane renamed
+# OFF its bucket (e.g. `log-panel` draining the `the-log` bucket) is still seen
+# as claimed. Bash used to match the claim-file basename against the bucket
+# FOLDER name and so mislabelled any such renamed lane as "pending"; the core
+# matches the real lane. It mirrors the cheap contract — claim-FILE presence, no
+# liveness probe (that's a claim-time concern). Rows: `<count>\t<bucket>\t<status>`,
+# count = ALL sidecars in the bucket (a mid-drain done stamp does NOT subtract —
+# the bucket is the unit until archived). NOT silent when empty. Biggest first.
+inbox_rows="$(node_modules/.bin/tsx src/scripts/inbox-claim.ts headline 2>/dev/null || true)"
+if [[ -z "$inbox_rows" ]]; then
+  # Failsafe — the core call failed; NEVER blank the MANDATORY line. Render
+  # counts straight from the filesystem with a neutral "pending" status.
+  for d in project/playtest-inbox/pending/*/; do
+    [[ -d "$d" ]] || continue
+    bucket="$(basename "$d")"
+    [[ "$bucket" == ".claims" ]] && continue
+    n=0
+    for j in "$d"*.json; do
+      [[ -e "$j" ]] || continue
+      n=$((n + 1))
+    done
+    [[ "$n" -gt 0 ]] || continue
+    inbox_rows+="${n}"$'\t'"${bucket}"$'\t'"pending"$'\n'
   done
-  [[ "$n" -gt 0 ]] || continue
-  if [[ "$claimed_lanes" == *" $bucket "* ]]; then
-    status="in progress"
-  else
-    status="pending"
-  fi
-  inbox_rows+="${n}"$'\t'"${bucket}"$'\t'"${status}"$'\n'
-done
+fi
 if [[ -n "$inbox_rows" ]]; then
   # Biggest bucket first (numeric desc); render "<bucket> (<n> <status>)".
   inbox_line="$(printf '%s' "$inbox_rows" | sort -rn \

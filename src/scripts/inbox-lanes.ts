@@ -127,6 +127,53 @@ export function writeDrainFields(
 }
 
 // ---------------------------------------------------------------------------
+// Session-brief headline — per-bucket drain status
+
+export interface BucketDrain {
+  readonly bucket: string;
+  readonly count: number; // every sidecar in the bucket (the headline unit)
+  readonly inProgress: boolean; // a claim holds one of the bucket's resolved lanes
+}
+
+/** Per-bucket rows for the session-brief inbox headline, biggest bucket first.
+ *  `count` is every capture sidecar in the bucket (a mid-drain done stamp does
+ *  NOT subtract — the bucket is the unit until archived). `inProgress` is true
+ *  when ANY of the bucket's captures' RESOLVED lane (`sidecar.lane ?? bucket`)
+ *  is in `claimedLanes` — matched on the real lane, NOT the folder name, so a
+ *  lane renamed OFF its bucket (e.g. `log-panel` draining the `the-log` bucket)
+ *  is still read as claimed. This is the single source of truth the brief
+ *  consumes; the old bash matched the claim-file basename against the bucket
+ *  FOLDER name and so mislabelled any such renamed lane as idle. Ties break by
+ *  bucket name for a stable order. */
+export function bucketDrainRows(
+  items: readonly InboxItem[],
+  claimedLanes: ReadonlySet<string>,
+): BucketDrain[] {
+  const byBucket = new Map<string, InboxItem[]>();
+  for (const i of items) byBucket.set(i.bucket, [...(byBucket.get(i.bucket) ?? []), i]);
+  return [...byBucket]
+    .map(([bucket, list]) => ({
+      bucket,
+      count: list.length,
+      inProgress: list.some((i) => claimedLanes.has(i.lane)),
+    }))
+    .sort((a, b) => b.count - a.count || a.bucket.localeCompare(b.bucket));
+}
+
+/** Claimed lanes that name no pending bucket folder — the divergence that lets
+ *  folder-keyed tooling misread an actively-drained bucket as idle. A soft
+ *  claim-time warning, never a block: a lane MAY validly differ from its bucket
+ *  (splitting or spanning buckets), but an *unintended* mismatch is worth
+ *  surfacing at claim time rather than only in the brief. `bucketNames` is the
+ *  set of every pending bucket's own folder name. */
+export function lanesWithoutBucket(
+  claimedLanes: readonly string[],
+  bucketNames: ReadonlySet<string>,
+): string[] {
+  return claimedLanes.filter((lane) => !bucketNames.has(lane));
+}
+
+// ---------------------------------------------------------------------------
 // Surfaces — the collision tokens
 
 /** Heuristic selector/label → surface-token rules, most-specific first. The

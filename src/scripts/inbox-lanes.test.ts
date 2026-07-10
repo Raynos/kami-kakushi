@@ -3,6 +3,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
+  bucketDrainRows,
   createClaim,
   deriveSurface,
   fbAllocations,
@@ -10,6 +11,7 @@ import {
   FB_BASELINE,
   findCollisions,
   isClaimLive,
+  lanesWithoutBucket,
   ledgerFindings,
   readClaims,
   readItems,
@@ -156,6 +158,43 @@ describe('deriveSurface + findCollisions', () => {
     expect(hits).toHaveLength(1);
     expect(hits[0]!.other.stamp).toBe('s3');
     expect(hits[0]!.tokens).toEqual(['vn-overlay']);
+  });
+});
+
+describe('bucketDrainRows — status by RESOLVED lane, not folder', () => {
+  it('marks a bucket in-progress when a renamed lane (lane ≠ bucket) is claimed', () => {
+    // The exact bug: the `the-log` bucket is drained under lane `log-panel`, so
+    // a folder-name match would call it "pending" while an agent is on it.
+    const items = [
+      item({ bucket: 'the-log', lane: 'log-panel', stamp: 'a' }),
+      item({ bucket: 'the-log', lane: 'log-panel', stamp: 'b' }),
+      item({ bucket: 'r1', lane: 'r1', stamp: 'c' }),
+    ];
+    const rows = bucketDrainRows(items, new Set(['log-panel']));
+    const byBucket = Object.fromEntries(rows.map((r) => [r.bucket, r]));
+    expect(byBucket['the-log']).toMatchObject({ count: 2, inProgress: true });
+    expect(byBucket['r1']).toMatchObject({ count: 1, inProgress: false });
+  });
+
+  it('also matches a lane that equals its bucket, and orders biggest-first', () => {
+    const items = [
+      item({ bucket: 'r1', lane: 'r1', stamp: 'a' }),
+      item({ bucket: 'r1', lane: 'r1', stamp: 'b' }),
+      item({ bucket: 'dev', lane: 'dev', stamp: 'c' }),
+    ];
+    const rows = bucketDrainRows(items, new Set(['r1']));
+    expect(rows.map((r) => r.bucket)).toEqual(['r1', 'dev']); // count desc
+    expect(rows[0]).toMatchObject({ inProgress: true });
+    expect(rows[1]).toMatchObject({ inProgress: false });
+  });
+});
+
+describe('lanesWithoutBucket — claim-time divergence warning', () => {
+  it('flags a claimed lane that names no bucket folder, passes a matching one', () => {
+    expect(lanesWithoutBucket(['log-panel', 'r1'], new Set(['r1', 'the-log']))).toEqual([
+      'log-panel',
+    ]);
+    expect(lanesWithoutBucket(['r1'], new Set(['r1']))).toEqual([]);
   });
 });
 
