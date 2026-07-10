@@ -52,8 +52,12 @@ export interface StoryTakeBundle {
   /** Short label for the CANON option pill ("Canon — <label>"); absent ⇒ "the pick". */
   readonly canonLabel?: string;
   /** The rung a player first meets this diverge's content (FB-307 — the Story pane
-   *  groups bundles under `— rung RX —` headers, mirroring the Variants pane). */
+   *  groups bundles under `— rung RX —` headers, mirroring the Variants pane). A
+   *  bundle no rung fits carries `rungReason` instead (FB-312 — no catch-all group:
+   *  each reason renders as its own `— other · <reason> —` header). One of the two
+   *  is always set (the takes generator requires it). */
   readonly rung?: number;
+  readonly rungReason?: string;
   readonly takes: readonly StoryTake[];
 }
 

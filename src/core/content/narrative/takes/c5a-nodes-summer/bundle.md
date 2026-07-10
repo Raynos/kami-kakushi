@@ -1,4 +1,5 @@
 # bundle c5a-nodes-summer · The summer node reads (16 zones)
+rung: R2
 review: project/human-in-the-loop/review.md
 rationale: Take A (work-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.
 canon: A · work-first

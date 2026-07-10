@@ -2142,21 +2142,20 @@ export function mountDevPanel(
   // ONE explore page per diverge (human, 2026-07-07): each bundle section below carries
   // its OWN "⤢ Explore" link — no combined all-bundles modal.
   // FB-307 — rung-ordered with `— rung RX —` headers, mirroring the Variants pane: bundles
-  // sort by the rung a player first meets them (authored as `rung:` in bundle.md).
+  // sort by the rung a player first meets them (authored as `rung:` in bundle.md). FB-312 —
+  // NO catch-all "other" group: a rungless bundle carries its own `rungReason`, and each
+  // distinct reason renders as its own `— other · <reason> —` header (reason'd bundles sort
+  // after the numbered rungs, in registry order).
+  const bundleHeader = (b: StoryTakeBundle): string =>
+    b.rung !== undefined ? `— rung R${b.rung} —` : `— other · ${b.rungReason ?? '?'} —`;
   const rungOrderedBundles = dev.storyBundles
     .slice()
     .sort((a, b) => (a.rung ?? 99) - (b.rung ?? 99));
-  let shownBundleRung: number | undefined;
-  let firstBundle = true;
+  let shownBundleHeader: string | undefined;
   for (const bundle of rungOrderedBundles) {
-    if (firstBundle || bundle.rung !== shownBundleRung) {
-      shownBundleRung = bundle.rung;
-      firstBundle = false;
-      const rh = el(
-        'div',
-        undefined,
-        bundle.rung !== undefined ? `— rung R${bundle.rung} —` : '— other —',
-      );
+    if (bundleHeader(bundle) !== shownBundleHeader) {
+      shownBundleHeader = bundleHeader(bundle);
+      const rh = el('div', undefined, shownBundleHeader);
       rh.style.cssText =
         'color:#b08d4f;font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin:.35rem 0 .1rem;opacity:.85;';
       storyPane.append(rh);

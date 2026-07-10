@@ -468,7 +468,7 @@ describe('DEV panel — New-game footer safety (F95)', () => {
       (b.textContent ?? '').includes(needle),
     ) as HTMLButtonElement;
 
-  it('renders the New-game button half-width and left-anchored (not full width)', () => {
+  it('renders the New-game button as ONE cell of the 2-col footer grid (not full width)', () => {
     const host = document.createElement('div');
     document.body.append(host);
     mountDevPanel(host, {
@@ -479,9 +479,12 @@ describe('DEV panel — New-game footer safety (F95)', () => {
     });
     const btn = btnByText(host, 'New game');
     expect(btn).toBeTruthy();
-    // half width + pinned left (was flex:1 / full width) so a stray double-click misses it.
-    expect(btn.style.width).toBe('50%');
-    expect(btn.style.alignSelf).toBe('flex-start');
+    // FB-309 — the footer is a 2×2 grid; the F95 accident guard holds because each cell is
+    // half the panel, so a stray double-click beside the button still misses it.
+    const footer = btn.parentElement!;
+    expect(footer.style.display).toBe('grid');
+    expect(footer.style.gridTemplateColumns).toBe('1fr 1fr');
+    expect(btn.style.width).toBe(''); // no full-width override — the cell bounds it
     host.remove();
   });
 

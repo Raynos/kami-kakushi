@@ -13,6 +13,7 @@
   "Story (1)" is expected; do NOT auto-prune it. -->
 
 # bundle hd30-nengu · The nengu reckoning — the year against the house
+rung: R2
 review: project/human-in-the-loop/review.md
 rationale: Take C keeps the strictest §0.5 register — the sum is never read aloud,
   the MC is counted as part of the room and not asked into it, and the house's true

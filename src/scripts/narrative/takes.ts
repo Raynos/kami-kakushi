@@ -47,8 +47,12 @@ export interface BundleMeta {
   readonly canonLabel?: string;
   /** The rung a player FIRST MEETS this diverge's content (FB-307 — the Story
    *  pane groups bundles under `— rung RX —` headers exactly like Variants).
-   *  Authored as `rung: R2` in bundle.md; parsed to the bare number. */
+   *  Authored as `rung: R2` in bundle.md; parsed to the bare number. REQUIRED
+   *  (FB-312 — the catch-all "other" group is banned): a bundle no rung fits
+   *  declares `rung: other · <reason>` instead, and each reason is its own
+   *  header. Exactly one of `rung`/`rungReason` is set. */
   readonly rung?: number;
+  readonly rungReason?: string;
   readonly takes: readonly TakeMeta[];
 }
 
@@ -146,15 +150,22 @@ export function parseBundleMeta(source: string, file: string): BundleMeta {
   const canonLabel = top.get('canon');
   const rungRaw = top.get('rung');
   let rung: number | undefined;
-  if (rungRaw !== undefined) {
-    const m = /^R(\d+)$/.exec(rungRaw);
-    if (!m) {
-      throw new NarrativeError(
-        { file, line: 1 },
-        `bundle "${id}": rung must be "R<n>" (got "${rungRaw}")`,
-      );
-    }
-    rung = Number(m[1]);
+  let rungReason: string | undefined;
+  if (rungRaw === undefined) {
+    throw new NarrativeError(
+      { file, line: 1 },
+      `bundle "${id}": missing "rung:" — declare "R<n>", or "other · <reason>" when no rung fits (FB-312: the catch-all group is banned)`,
+    );
+  }
+  const rm = /^R(\d+)$/.exec(rungRaw);
+  const om = /^other · (.+)$/.exec(rungRaw);
+  if (rm) rung = Number(rm[1]);
+  else if (om) rungReason = om[1];
+  else {
+    throw new NarrativeError(
+      { file, line: 1 },
+      `bundle "${id}": rung must be "R<n>" or "other · <reason>" (got "${rungRaw}")`,
+    );
   }
   return {
     id,
@@ -163,6 +174,7 @@ export function parseBundleMeta(source: string, file: string): BundleMeta {
     ...(rationale !== undefined ? { rationale } : {}),
     ...(canonLabel !== undefined ? { canonLabel } : {}),
     ...(rung !== undefined ? { rung } : {}),
+    ...(rungReason !== undefined ? { rungReason } : {}),
     takes,
   };
 }
@@ -236,6 +248,7 @@ export function emitStoryTakes(bundles: readonly ParsedTakeBundle[]): string {
     if (b.meta.rationale) L.push(`rationale: ${str(b.meta.rationale)},`);
     if (b.meta.canonLabel) L.push(`canonLabel: ${str(b.meta.canonLabel)},`);
     if (b.meta.rung !== undefined) L.push(`rung: ${b.meta.rung},`);
+    if (b.meta.rungReason !== undefined) L.push(`rungReason: ${str(b.meta.rungReason)},`);
     L.push('takes: [');
     b.meta.takes.forEach((t, i) => L.push(emitTake(t, b.docs[i]!)));
     L.push('],');

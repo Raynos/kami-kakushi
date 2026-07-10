@@ -112,17 +112,19 @@ Story, which now leads with the diverge bundles.
 New UI (E3 / E1) (stamp book · estate sheet), Parked UI prototypes (scene cards
 v2 · v1).
 
-### FB-307 · story diverges grouped by rung — 🔧
+### FB-307 · story diverges grouped by rung — ✅
 **Verbatim:** _"All of these stories diverge here need to be goruped by rung
 just like variants and secnarios"_
 **Reading:** the Story pane should mirror the Variants pane's `— rung RX —`
 headers.
-**Fixed in:** pipeline + UI landed (a `rung:` bundle.md field → takes.ts parse →
-`StoryTakeBundle.rung` → rung-sorted headers in the Story pane, with a RED-able
-parse/emit test). The DATA half (the ten `rung:` lines + the storyTakes.gen.ts
-regen) is QUEUED behind w1:p3's in-flight hd37-cold-open bundles — regenerating
-now would bake their untracked sources into the committed registry (CI red).
-Lands as a follow-up commit the moment their sources land.
+**Fixed in:** two halves. cc425f0 — the pipeline + UI (a `rung:` bundle.md
+field → takes.ts parse → `StoryTakeBundle.rung` → rung-sorted headers in the
+Story pane, RED-able parse/emit tests). Follow-up — the data: ten `rung:` lines
+(discoveries R0 · overlays/nodes/nengu R2 · judge R7) + the storyTakes.gen.ts
+regen, committed together with a human-approved snapshot of w1:p3's two
+in-flight hd37-cold-open bundles (their untracked sources had to ride along or
+the regenerated registry would fail CI's byte-compare; they carry `rung: R0`,
+added by w1:p3 on my ping).
 
 ## Live steers during the drain (direct chat, 2026-07-10 — FB-308…311)
 
@@ -152,3 +154,15 @@ FB-95 half-width accident guard holds.
 3 slots in the grid"_
 **Fixed in:** tab flex-basis fixed at a third (`flex:0 0 calc((100% - .5rem)/3)`),
 so the lone last-row tab no longer stretches: A A A / A A A / A · ·.
+
+### FB-312 · the "— other —" catch-all is banned — ✅
+**Verbatim:** _"OTHER in story is banned, if there is a section that doesnt fit
+in a rung instead of doing OTHER [catch all] / do Other - [reason] / Other -
+[reason2]"_
+**Reading:** a rungless bundle must say WHY it has no rung, and each reason is
+its own header — an anonymous catch-all bucket hides information (TST4).
+**Fixed in:** `rung:` is now REQUIRED in bundle.md — either `R<n>` or
+`other · <reason>`; the generator REDs a bundle with neither (the ban holds at
+the gate rung, not as a norm), and the Story pane renders each distinct reason
+as its own `— other · <reason> —` header. Today all 12 bundles carry a numeric
+rung, so no other-header renders; the tests pin both paths.

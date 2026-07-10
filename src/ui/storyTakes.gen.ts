@@ -4,6 +4,7 @@
 // Data only — the types + helpers stay hand-written in storyTakes.ts, which re-exports this.
 
 import type { StoryTakeBundle } from './storyTakes';
+import { NAMES } from '../core/content/names';
 import { NPC_NAME } from '../core/content/voices';
 
 export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
@@ -14,6 +15,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     rationale:
       'Take A scored 11✔1✘ — tool-adjacent escalation ("gives like cloth, not like root"; "wider than the badger needs") lands the finds as plain fact with the strangeness visible and unremarked; the one flagged maxim cut per Pass-2.',
     canonLabel: 'A · found by hand',
+    rung: 0,
     takes: [
       {
         id: 'b',
@@ -89,6 +91,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     rationale:
       'Takes B and C tied 5✔1✘; C wins on TST3 — koku standing IS the valley\'s regard, so the outside-eyes register is the mechanic\'s own fiction ("without the pause that used to follow it"); the counted-twice echo redlined per Pass-2.',
     canonLabel: 'C · as the valley sees it',
+    rung: 7,
     takes: [
       {
         id: 'a',
@@ -140,6 +143,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     rationale:
       'Take B (senses-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.',
     canonLabel: 'B · senses-first',
+    rung: 2,
     takes: [
       {
         id: 'a',
@@ -232,6 +236,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     rationale:
       'Take B (senses-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.',
     canonLabel: 'B · senses-first',
+    rung: 2,
     takes: [
       {
         id: 'a',
@@ -324,6 +329,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     rationale:
       'Take B (senses-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.',
     canonLabel: 'B · senses-first',
+    rung: 2,
     takes: [
       {
         id: 'a',
@@ -416,6 +422,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     rationale:
       'Take B (senses-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.',
     canonLabel: 'B · senses-first',
+    rung: 2,
     takes: [
       {
         id: 'a',
@@ -508,6 +515,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     rationale:
       'Take A (work-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.',
     canonLabel: 'A · work-first',
+    rung: 2,
     takes: [
       {
         id: 'b',
@@ -600,6 +608,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     rationale:
       'Take A (work-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.',
     canonLabel: 'A · work-first',
+    rung: 2,
     takes: [
       {
         id: 'b',
@@ -692,6 +701,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     rationale:
       "Take C scored 18✔2✘ — the land-first frame keeps people late and small (the register the nengu frame set), every image this valley's own; redlined per Pass-2 (one stacked ornament; the handoff template broken in 3 of 5).",
     canonLabel: 'C · the land first',
+    rung: 2,
     takes: [
       {
         id: 'a',
@@ -965,6 +975,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     rationale:
       "Take C keeps the strictest §0.5 register — the sum is never read aloud, the MC is counted as part of the room and not asked into it, and the house's true size is learned only by what it lets itself be seen without. No epigram, no priced aside; the felt-never-numbered debt carries wordless.",
     canonLabel: 'Take C — the speakerless reckoning (MC as furniture)',
+    rung: 2,
     takes: [
       {
         id: 'a',
@@ -1069,6 +1080,389 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             decision: { prompt: '', options: [] },
           },
         },
+      },
+    ],
+  },
+
+  {
+    id: 'hd37-cold-open-a',
+    title: 'The memory act — what the water keeps',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      "Take a scored highest (9 vs 8.5/8.5, zero blockers) and coheres deepest with canon — the counted-items register seeds the house's counting faith (Genemon's item/count/condition, two ledgers in the sickroom) and its \"kept item goes under, the habit stays\" seam makes the verdicted wake line read true after every pick. Judge's one edit applied (the near-epigram react clause flattened).",
+    canonLabel: 'Take a — the inventory of what is left (counted items, the name a blank entry)',
+    rung: 0,
+    takes: [
+      {
+        id: 'b',
+        label: 'The grasp against the current',
+        brief:
+          "Sensory, immediate, second person — the reader IN the water; a voice calls two beats of sound that might be his name and the current takes it before it lands, so the name is lost ON SCREEN and Sōan's later question presses a wound the player watched being made. The lede is the river's pull; the CTA is the reach.",
+        scorecard:
+          '12✔ 0✘ · score 8.5 · shippable; the canon-mirroring fragment clause softened per the judge ("close enough to touch, already going by")',
+        introScenes: [
+          {
+            id: 'dream',
+            voice: 'narrator',
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'Water, all of it, and the cold has a weight and the weight has a direction. Things come loose and go past you — a knot pulled tight in bad light, a road going soft in grey rain — near enough to touch and already leaving. Above, thinned by the water, a voice is calling something. Two beats of sound that could be a name, could be men on a bank. The current takes it before it lands.',
+              },
+            ],
+            topics: [],
+            decision: {
+              prompt: 'You have one reach left. Where does it go?',
+              options: [
+                {
+                  id: 'dream-dwell',
+                  label: 'After the voice',
+                  say: '"Say it again."',
+                  react:
+                    'You turn down toward the sound and the surface goes farther off. Nothing lands. But the reaching stays in you, the way a knot stays in a pocket for the fingers to work.',
+                  stat: { up: 'int', down: 'spd' },
+                  perk: {
+                    name: 'The Inward Turn',
+                    desc: 'A mind that deepens by dwelling, at the price of a slower body.',
+                  },
+                },
+                {
+                  id: 'dream-shake',
+                  label: 'For the light',
+                  say: '"Up. Up is enough."',
+                  react:
+                    'You let the voice go and the water gets simple: cold, weight, one pale seam above. From now on, the first thing you find in any room is the door.',
+                  stat: { up: 'spd', down: 'int' },
+                  perk: {
+                    name: 'The Clear Room',
+                    desc: 'Senses sharpened to the way out — quick where thought is thin.',
+                  },
+                },
+                {
+                  id: 'dream-hands',
+                  label: 'For anything solid',
+                  say: '"Give me something to hold."',
+                  react:
+                    'Something rakes your palm — wood, slick, real — and the hand closes without asking you. It is a grip learned hauling loads you no longer remember, and it holds.',
+                  stat: { up: 'str', down: 'luck' },
+                  perk: {
+                    name: "The Porter's Hands",
+                    desc: 'Hands that remember the work before the head does.',
+                  },
+                },
+              ],
+            },
+          },
+        ],
+        coldOpen: {
+          lede: 'The river does not ask. It takes your coat, your breath, the order of things, and it is still not done. Far above, thinned by the water, there is light.',
+          cta: 'Reach for it',
+        },
+      },
+      {
+        id: 'c',
+        label: 'What the river keeps',
+        brief:
+          "Spare, liminal, folk-adjacent — the loss already FINISHED when the act opens; a closed transaction with the river, no reaching, no inventory; the player's pick is the first thing the man owns. Sets up the valley's kamikakushi read without showing anything supernatural.",
+        scorecard:
+          '11✔ 1✘ [briefed: proverb-shaped lede opener — removed per the judge] · score 8.5 · shippable',
+        introScenes: [
+          {
+            id: 'dream',
+            voice: 'narrator',
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'There is water, and no top to it. You are turned, held, turned again — without hurry, the way washing is turned. Things pass close enough to touch: a knot your fingers know, a road in grey rain. Nothing is offered. It is all going out with the rest.',
+              },
+            ],
+            topics: [],
+            decision: {
+              prompt: 'What do you keep?',
+              options: [
+                {
+                  id: 'dream-dwell',
+                  label: 'The knot',
+                  say: '"The knot. I know it."',
+                  react:
+                    'You turn it over, and over, until the cold matters less than the knowing. What comes up out of the water is a man who will not put a thing down until he understands it — and he comes up slower than he went in.',
+                  stat: { up: 'int', down: 'spd' },
+                  perk: {
+                    name: 'The Inward Turn',
+                    desc: 'A mind that deepens by dwelling, at the price of a slower body.',
+                  },
+                },
+                {
+                  id: 'dream-shake',
+                  label: 'The way up',
+                  say: '"Never mind. Which way is up."',
+                  react:
+                    'You give the rest to the current and follow the pale side of the water. What comes up is a body that finds the door of a place before the head has named it — thin on thought, quick at the way out.',
+                  stat: { up: 'spd', down: 'int' },
+                  perk: {
+                    name: 'The Clear Room',
+                    desc: 'Senses sharpened to the way out — quick where thought is thin.',
+                  },
+                },
+                {
+                  id: 'dream-hands',
+                  label: 'What the hands held',
+                  say: '"The hands kept something. Let them keep it."',
+                  react:
+                    "Your fingers close on nothing and hold it anyway — a carrier's grip, older than the name that owned it. The hands come up knowing the work; your luck stays down, the river's share.",
+                  stat: { up: 'str', down: 'luck' },
+                  perk: {
+                    name: "The Porter's Hands",
+                    desc: 'Hands that remember the work before the head does.',
+                  },
+                },
+              ],
+            },
+          },
+        ],
+        coldOpen: {
+          lede: 'Your name, the years behind it, whoever stood in them — taken, settled, done. What the river did not want is still in the water.',
+          cta: 'Keep what is left',
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'hd37-cold-open-b',
+    title: "Genemon's scene — the entry is not closed",
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'Take c tied take a on score (8.5, zero blockers) and won the tie-break on canon seams — it carries the daybookVerbs line ("Rakes; hauls. Wage: meals") verbatim as an already-written entry, its "Day four; the book said three" locks onto Sōan\'s canon "Day four, by mine", the open entry seeds the R7 name-writing payoff, and its probation drama differentiates the act from the dream act\'s inventory register (take a would make two of three acts "being counted"). Judge\'s one edit applied ("the book prefers" → "the book keeps").',
+    canonLabel:
+      "Take c — the first entry is yours (probation in ink; the pick is the man's first dictated line)",
+    rung: 0,
+    takes: [
+      {
+        id: 'a',
+        label: 'The intake entry',
+        brief:
+          'The MC being read — the scene is an INTAKE, item/count/condition applied to a man; the day-book open on the steward\'s knee all scene; every react is literally the condition-column line being entered. The fled-debt misread surfaces once, obliquely ("you came in under the second column").',
+        scorecard:
+          '12✔ 0✘ · score 8.5 · shippable; judge edits applied (weather personification flattened; day-count aligned to canon\'s "Day four")',
+        introScenes: [
+          {
+            id: 'genemon',
+            voice: 'steward',
+            speaker: 'genemon',
+            greeting: [
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: `"On your feet the fourth day — I have it written. I am ${NAMES.elder}, steward to the ${NAMES.house}; what this house still holds, I keep counted. Your entry stands open: one man, name unknown, condition poor. We finish it now."`,
+              },
+            ],
+            topics: [
+              {
+                id: 'gen-house',
+                label: '"What house is this?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: `"The ${NAMES.house}. On the lord's rolls: samurai, one house, standing since before my hand kept the book. In the granary: less than the rolls would suggest, and I will not write the number for a stranger."`,
+                  },
+                ],
+              },
+              {
+                id: 'gen-work',
+                label: '"What\'s the work?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Rice. Half a season\'s stores, spilled in the kura court where the door gave way in the rains. You rake it in before the rain spoils what\'s left to count; wage stands as entered — meals."',
+                  },
+                ],
+              },
+              {
+                id: 'gen-you',
+                label: '"Who are you to me?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"The steward. I count what the house holds and what it is owed; you came in under the second column. A man working a thing off gets fair terms from me, and no questions the book does not ask."',
+                  },
+                ],
+              },
+              {
+                id: 'gen-danger',
+                label: '"Is the work safe?"',
+                gate: (asked) => asked.has('gen-work'),
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"A wolf, one, gone bold at the grain store. Grain lost: some. Men lost: none — work by daylight and I intend that count to hold."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The brush waits over the condition column. How do you answer the steward?',
+              options: [
+                {
+                  id: 'genemon-earnest',
+                  label: 'Point me at the work',
+                  say: '"Give me the rake. I\'ll do whatever\'s put in front of me."',
+                  react:
+                    '"Condition: sound; willing. I enter you as my charge — mine to set to the task, mine to answer for."',
+                  stat: { up: 'str', down: 'agi' },
+                  perk: {
+                    name: `${NAMES.elder}'s Charge`,
+                    desc: 'Honest muscle set plainly to the task — sure over nimble.',
+                  },
+                  memory: { npc: 'genemon', regard: 'earnest', warmth: 1 },
+                },
+                {
+                  id: 'genemon-wary',
+                  label: "First, what's in it for me",
+                  say: '"Before I rake anything — what do I get, and what do you get?"',
+                  react:
+                    '"Terms asked before work; I have seen worse habits in honest men. Condition: guarded — a man who counts before he lifts keeps his feet under him."',
+                  stat: { up: 'agi', down: 'str' },
+                  perk: {
+                    name: 'The Wary Foot',
+                    desc: 'A guard kept up and light on the feet — quick to move before committing.',
+                  },
+                  memory: { npc: 'genemon', regard: 'wary', warmth: -1 },
+                },
+                {
+                  id: 'genemon-steady',
+                  label: 'Just get to work',
+                  say: '(You say nothing, and take up the rake.)',
+                  react:
+                    '"No answer; the rake already moving. Condition: answers with hands — I enter it so, and luck has no column in this book."',
+                  stat: { up: 'spd', down: 'luck' },
+                  perk: {
+                    name: 'Hands Before Words',
+                    desc: 'A steady quickness that answers with work — trusting to no luck.',
+                  },
+                  memory: { npc: 'genemon', regard: 'steady', warmth: 1 },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        id: 'b',
+        label: 'The arithmetic of the house',
+        brief:
+          "The house's condition told in numbers — rooms ten six shut, hands three counting you, saved/rotted columns, the wolf twice/once; the decline quantified, never mourned; recruiting by necessity with the poverty stated plainly enough to respect.",
+        scorecard:
+          "11✔ 1✘ [blindspot: three figures in Genemon's mouth broke the zero-metaphor lock — all three literalized here per the judge] · score 7.5 → shippable after the fix pass",
+        introScenes: [
+          {
+            id: 'genemon',
+            voice: 'steward',
+            speaker: 'genemon',
+            greeting: [
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: `"On your feet, then — day four. I am ${NAMES.elder}; I keep what books the ${NAMES.house} has left, and I'll give you the house as the books give it: samurai on the lord's rolls; rooms, ten, six shut; hands, three, counting you. Hear it once and plainly, since you carry nothing to weigh it against."`,
+              },
+            ],
+            topics: [
+              {
+                id: 'gen-house',
+                label: '"What house is this?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: `"The ${NAMES.house}. On the rolls: a samurai house, sword-ranked, owing service. In the granary: rice to spring, if nothing else goes wrong — and my ledgers hold forty years of things going wrong."`,
+                  },
+                ],
+              },
+              {
+                id: 'gen-work',
+                label: '"What work is there?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: "\"The kura door gave in the rains; half a season's stores lie spilled in the court. Rake it, dry it, sack it — what's saved goes in one column, what's rotted in the other. Wage: meals; the book says so already.\"",
+                  },
+                ],
+              },
+              {
+                id: 'gen-you',
+                label: '"And who are you to me?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"The man who wrote you in: one line, name unknown, hands good. Men come without names for their own reasons; I don\'t ask, so long as your count comes right."',
+                  },
+                ],
+              },
+              {
+                id: 'gen-danger',
+                label: '"Is it safe here?"',
+                gate: (asked) => asked.has('gen-work'),
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Safe is not a column I keep. A wolf has come to the grain store twice — tracks both mornings, grain gone once. Work by day, bar the kura at dusk, and add nothing to that count."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: "Do you take the house's terms?",
+              options: [
+                {
+                  id: 'genemon-earnest',
+                  label: 'Point me at the work',
+                  say: '"Meals for work is fair. Show me where to start."',
+                  react:
+                    '"One man, charged to the kura court — I\'ll write it so. Take the sound rake and go at it square; the count will show it."',
+                  stat: { up: 'str', down: 'agi' },
+                  perk: {
+                    name: `${NAMES.elder}'s Charge`,
+                    desc: 'Honest muscle set plainly to the task — sure over nimble.',
+                  },
+                  memory: { npc: 'genemon', regard: 'earnest', warmth: 1 },
+                },
+                {
+                  id: 'genemon-wary',
+                  label: "What's in it for me",
+                  say: '"Meals only? Say plainly what I get out of this."',
+                  react:
+                    '"Meals, a roof, and nothing written down that you didn\'t say — that is the whole column, and I\'ll not pad it. A man who counts his own terms keeps his feet; keep them."',
+                  stat: { up: 'agi', down: 'str' },
+                  perk: {
+                    name: 'The Wary Foot',
+                    desc: 'A guard kept up and light on the feet — quick to move before committing.',
+                  },
+                  memory: { npc: 'genemon', regard: 'wary', warmth: -1 },
+                },
+                {
+                  id: 'genemon-steady',
+                  label: 'Say nothing, take the rake',
+                  say: '(You say nothing, and pick up the rake.)',
+                  react:
+                    '"Hm. (He opens the day-book and writes: answered with work.) The rice won\'t keep — sack what you save, and I\'ll match it to my book."',
+                  stat: { up: 'spd', down: 'luck' },
+                  perk: {
+                    name: 'Hands Before Words',
+                    desc: 'A steady quickness that answers with work — trusting to no luck.',
+                  },
+                  memory: { npc: 'genemon', regard: 'steady', warmth: 1 },
+                },
+              ],
+            },
+          },
+        ],
       },
     ],
   },

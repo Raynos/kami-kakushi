@@ -16,6 +16,7 @@ const BUNDLE = `<!-- a comment
   spanning lines -->
 
 # bundle demo · A demo bundle
+rung: R1
 review: project/some/review.md
 rationale: canon keeps the pick because
   it reads truest.
@@ -58,7 +59,7 @@ describe('parseBundleMeta', () => {
         brief: 'withholds warmth',
         scorecard: '1✔',
         file: 'take-b.md',
-        loc: { file: 'bundle.md', line: 9 },
+        loc: { file: 'bundle.md', line: 10 },
       },
     ]);
   });
@@ -67,7 +68,7 @@ describe('parseBundleMeta', () => {
     const bad = BUNDLE.replace('brief: withholds warmth\n', '');
     expect(() => parseBundleMeta(bad, 'bundle.md')).toThrowError(NarrativeError);
     expect(() => parseBundleMeta(bad, 'bundle.md')).toThrowError(
-      /bundle\.md:9 .* missing "brief:"/,
+      /bundle\.md:10 .* missing "brief:"/,
     );
   });
 
@@ -83,23 +84,35 @@ describe('parseBundleMeta', () => {
   });
 });
 
-describe('bundle rung (FB-307)', () => {
-  const withRung = BUNDLE.replace(
-    'review: project/some/review.md',
-    'review: project/some/review.md\nrung: R2',
-  );
-
-  it('parses `rung: R2` to the bare number and emits it into the registry entry', () => {
-    const meta = parseBundleMeta(withRung, 'bundle.md');
+describe('bundle rung (FB-307/FB-312)', () => {
+  it('parses `rung: R<n>` to the bare number and emits it into the registry entry', () => {
+    const meta = parseBundleMeta(BUNDLE.replace('rung: R1', 'rung: R2'), 'bundle.md');
     expect(meta.rung).toBe(2);
+    expect(meta.rungReason).toBeUndefined();
     const doc = parseNarrative(TAKE, 'take-b.md');
     expect(emitStoryTakes([{ meta, docs: [doc] }])).toContain('rung: 2,');
   });
 
-  it('stays absent when unauthored and rejects a malformed rung', () => {
-    expect(parseBundleMeta(BUNDLE, 'bundle.md').rung).toBeUndefined();
-    const bad = BUNDLE.replace('review: project/some/review.md', 'rung: 2');
-    expect(() => parseBundleMeta(bad, 'bundle.md')).toThrowError(/rung must be "R<n>"/);
+  it('parses `rung: other · <reason>` into rungReason and emits it', () => {
+    const meta = parseBundleMeta(
+      BUNDLE.replace('rung: R1', 'rung: other · the cold open — before R0'),
+      'bundle.md',
+    );
+    expect(meta.rung).toBeUndefined();
+    expect(meta.rungReason).toBe('the cold open — before R0');
+    const doc = parseNarrative(TAKE, 'take-b.md');
+    expect(emitStoryTakes([{ meta, docs: [doc] }])).toContain(
+      'rungReason: "the cold open — before R0",',
+    );
+  });
+
+  it('REQUIRES the field (FB-312: no catch-all) and rejects a malformed value', () => {
+    expect(() => parseBundleMeta(BUNDLE.replace('rung: R1\n', ''), 'bundle.md')).toThrowError(
+      /missing "rung:"/,
+    );
+    expect(() => parseBundleMeta(BUNDLE.replace('rung: R1', 'rung: 2'), 'bundle.md')).toThrowError(
+      /rung must be "R<n>" or "other · <reason>"/,
+    );
   });
 });
 
