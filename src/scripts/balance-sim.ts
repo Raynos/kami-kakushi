@@ -34,7 +34,12 @@ import { runPersona } from '../sim/run';
 import type { RunMetrics, RungMetric } from '../sim/metrics';
 import { wallMinutes } from '../sim/metrics';
 import { SIM_SEEDS, CANONICAL_SEED, fuzzSeeds } from '../sim/seeds';
-import { greedyBandVerdicts, structuralVerdict, phase2RatioVerdict } from '../sim/envelopes';
+import {
+  greedyBandVerdicts,
+  structuralVerdict,
+  phase2RatioVerdict,
+  PHASE2_RUNG,
+} from '../sim/envelopes';
 import { walkPacing } from './pacing-report';
 
 const OUT = 'docs/content/t0-pacing.md';
@@ -156,8 +161,16 @@ function personaSection(pr: PersonaRuns): string[] {
   for (const r of pr.runs) {
     const p2 = r.economy.phase2Intents;
     const fc = r.economy.firstCoinIntent;
+    // ADR-170: a 'ladder'-promise persona (the idler) never promises ascension — its clean
+    // full-ladder close prints as such, not as a RED-looking ❌.
+    const sv = structuralVerdict(r, pr.persona.promise ?? 'ascend');
+    const arc = r.ascended
+      ? '✅'
+      : sv.ok
+        ? '— ladder ✓ (ascension not promised)'
+        : '❌ ' + (r.softLock?.reason ?? 'no');
     L.push(
-      `| ${r.seed} | ${r.ascended ? '✅' : '❌ ' + (r.softLock?.reason ?? 'no')} | ` +
+      `| ${r.seed} | ${arc} | ` +
         `${r.totalIntents} | ${min1(r.totalWallMin)} | ${p2 === null ? '—' : min1(wallMinutes(p2))} | ` +
         `${fc === null ? '—' : min1(wallMinutes(fc))} | ${r.economy.endCoin} | ${r.economy.endRice} | ` +
         `${r.economy.endEstate} | ${r.economy.phase2DistinctIntents.length}: ${r.economy.phase2DistinctIntents.join(' ')} | ` +
@@ -303,8 +316,10 @@ function check(): number {
 
   // Phase 2 ≈ Phase 1 (ADR-133/HD-19): greedy's phase2/phase1 wall-time ratio vs the signed band.
   const rv = phase2RatioVerdict(greedyRuns);
-  const p2 = greedyRuns.map((r) => r.economy.phase2Intents ?? 0);
-  const p2min = `[${min1(wallMinutes(Math.min(...p2)))}–${min1(wallMinutes(Math.max(...p2)))}] min`;
+  // The Phase-2 window in the ADR-148 timed wall model (the final rung's residence) — the same
+  // measure the ratio verdict divides (ADR-170).
+  const p2 = greedyRuns.map((r) => r.rungs.find((x) => x.rung === PHASE2_RUNG)?.wallMin ?? 0);
+  const p2min = `[${min1(Math.min(...p2))}–${min1(Math.max(...p2))}] min`;
   if (rv.built === 0) {
     console.log(`  · Phase-2 ratio: no built Phase-2 economy in the matrix — gate no-op.`);
   } else if (rv.ok) {
@@ -322,16 +337,20 @@ function check(): number {
     );
   }
 
-  // (2) structural gates — every persona × seed: full ladder, ascension, zero soft-locks.
+  // (2) structural gates — every persona × seed: the run's PROMISE closes (ADR-170) with zero
+  //     soft-locks: full ladder + ascension ('ascend'), or the full ladder alone ('ladder' — the
+  //     idler; Phase 2 is attention-priced, ascension deliberately not promised).
   for (const pr of matrix) {
     for (const m of pr.runs) {
-      const s = structuralVerdict(m);
+      const s = structuralVerdict(m, pr.persona.promise ?? 'ascend');
       if (s.ok) {
-        console.log(`  ✓ ${s.personaId} seed ${s.seed}: ladder + ascension, no soft-lock`);
+        const closed =
+          s.promise === 'ladder' ? 'ladder (ascension not promised)' : 'ladder + ascension';
+        console.log(`  ✓ ${s.personaId} seed ${s.seed}: ${closed}, no soft-lock`);
       } else {
         reds++;
         console.error(
-          `  ✗ RED ${s.personaId} seed ${s.seed}: ascended=${s.ascended} ` +
+          `  ✗ RED ${s.personaId} seed ${s.seed}: promise=${s.promise} ascended=${s.ascended} ` +
             `fullLadder=${s.fullLadder} softLock=${JSON.stringify(s.softLock)}`,
         );
       }
@@ -395,10 +414,10 @@ function summary(): void {
         `${v.ok ? 'in' : 'OUT OF'} [${v.bandMin}, ${v.bandMax}]`,
     );
   }
-  const p2 = runs.map((r) => r.economy.phase2Intents ?? 0);
+  const p2 = runs.map((r) => r.rungs.find((x) => x.rung === PHASE2_RUNG)?.wallMin ?? 0);
   const rv = phase2RatioVerdict(runs);
   console.log(
-    `Phase-2 window ${min1(wallMinutes(median(p2)))} min · ratio ` +
+    `Phase-2 window ${min1(median(p2))} min (timed wall) · ratio ` +
       `[${r2(rv.measuredMin)}–${r2(rv.measuredMax)}] ${rv.ok ? 'in' : 'OUT OF'} ` +
       `[${rv.bandMin}, ${rv.bandMax}] (D-133); fingerprint ${inputFingerprint()}`,
   );

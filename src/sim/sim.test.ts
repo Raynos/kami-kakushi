@@ -11,14 +11,9 @@ import type { GameState } from '../core';
 import { idler, explorer, type Persona } from './personas';
 import { runPersona, SIM_SOFTLOCK_INTENTS } from './run';
 import { CANONICAL_SEED } from './seeds';
+import { structuralVerdict } from './envelopes';
 
 describe('persona determinism (the reproducibility contract)', () => {
-  // ADR-148 INTERIM (human, 2026-07-07): the idler cannot close the arc against the
-  // deliberately-unrebalanced economy ("I'll rebalance later") — its check-in policy
-  // has no coin-grind drive for the old-scale estate sinks, so its run burns minutes
-  // to the guard. SKIPPED (not fudged) until the economy rebalance; greedy's arc
-  // closure stays gated in pacing-envelope.test.ts. Re-enable with the rebalance —
-  // see envelopes.ts ADR148_INTERIM note.
   for (const persona of [explorer]) {
     it(`${persona.id}: same seed ⇒ byte-identical RunMetrics`, () => {
       const a = runPersona(persona, CANONICAL_SEED).metrics;
@@ -27,10 +22,15 @@ describe('persona determinism (the reproducibility contract)', () => {
       expect(JSON.stringify(a)).toBe(JSON.stringify(b));
     });
   }
-  it.skip('idler: same seed ⇒ byte-identical RunMetrics (SUSPENDED — ADR-148 interim)', () => {
+  // ADR-170 (HD-34, human 2026-07-10): the idler's promise is the LADDER, not ascension —
+  // Phase 2 is attention-priced by design, so its run ends cleanly at the top rung
+  // (re-enabled from the ADR-148 interim skip; cheap now that it doesn't burn to the guard).
+  it('idler: same seed ⇒ byte-identical RunMetrics, ladder promise closes', () => {
     const a = runPersona(idler, CANONICAL_SEED).metrics;
     const b = runPersona(idler, CANONICAL_SEED).metrics;
-    expect(a.ascended, 'idler must close the arc').toBe(true);
+    expect(a.softLock, 'idler must not soft-lock').toBeNull();
+    expect(structuralVerdict(a, idler.promise).ok, 'idler must climb the full ladder').toBe(true);
+    expect(a.ascended, 'ascension is deliberately NOT the idler promise').toBe(false);
     expect(JSON.stringify(a)).toBe(JSON.stringify(b));
   });
 });

@@ -19,8 +19,10 @@ export const CLIMB_RUNGS: readonly string[] = RANKS.slice(0, -1).map((r) => r.id
  *  ECONOMY (coin sinks, XP/materials accumulation) is deliberately NOT rebalanced yet —
  *  "I'll rebalance later." Until that rebalance re-signs the full-ladder bands, the
  *  per-rung band verdict applies to the pre-combat climb (R0–R2, the rungs the divided
- *  targets fully govern) and the Phase-2 ratio gate is SUSPENDED. Delete this scope —
- *  restoring the full-ladder verdicts — as part of the economy rebalance. */
+ *  targets fully govern). ADR-170 (HD-34) re-tuned the Phase-2 economy and RE-ENABLED the
+ *  ratio gate; the R3–R6 band scope stays interim — R3's timed wall (~146–221 min vs the
+ *  [3, 22] band) is an unruled design question, filed as HD-35. Delete this scope —
+ *  restoring the full-ladder verdicts — when HD-35 is ruled. */
 export const ADR148_INTERIM_BAND_RUNGS: ReadonlySet<string> = new Set(['R0', 'R1', 'R2']);
 
 /** The final rung — its residence time IS the Phase-2 window (report-only, see HD-19). */
@@ -70,16 +72,17 @@ export interface RatioVerdict {
 /** Phase 2 ≈ Phase 1 (ADR-133 / HD-19): greedy's phase2Wall / phase1Wall must sit inside the signed
  *  ratio band. Time-based ⇒ greedy only (idler/explorer carry no time bands, per this file's rule).
  *  SCOPED to runs with a BUILT Phase 2 (ascended + a measured window): a tier with no Phase-2
- *  economy yet never reaches here, so the gate can't cry wolf on the unbuilt. Wall-min is linear in
- *  intents (one cadence), so the ratio is computed straight from the intent counts. Generalises
+ *  economy yet never reaches here, so the gate can't cry wolf on the unbuilt. Measured in the
+ *  ADR-148 TIMED wall model (the final rung's residence wall vs the climb's) — the signed law is
+ *  wall-TIME, and timed actions broke the old wall≈intents shortcut (ADR-170). Generalises
  *  per-tier the day the sim spans more than T0. */
 export function phase2RatioVerdict(runs: readonly RunMetrics[]): RatioVerdict {
   const ratios: number[] = [];
   for (const r of runs) {
-    const p2 = r.economy.phase2Intents;
-    if (!r.ascended || p2 === null || p2 <= 0) continue; // Phase 2 not built/reached — skip
-    const p1 = r.totalIntents - p2;
-    if (p1 <= 0) continue;
+    if (!r.ascended || r.economy.phase2Intents === null) continue; // Phase 2 not built/reached
+    const p2 = r.rungs.find((x) => x.rung === PHASE2_RUNG)?.wallMin ?? 0;
+    const p1 = r.totalWallMin - p2;
+    if (p2 <= 0 || p1 <= 0) continue;
     ratios.push(p2 / p1);
   }
   const built = ratios.length;
@@ -107,12 +110,20 @@ export interface StructuralVerdict {
   /** Every rung of the ladder was reached (the game itself enforces order; presence of the
    *  full contiguous set is the structural claim). */
   fullLadder: boolean;
+  /** What the persona's run promised (ADR-170): 'ascend' — the arc closes tier 0 → 1;
+   *  'ladder' — the full ladder is climbed, ascension deliberately not promised. */
+  promise: 'ascend' | 'ladder';
   ok: boolean;
 }
 
-/** The structural gate every persona × seed must pass: the arc CLOSES — full ladder, ascension,
- *  zero soft-locks. Applies to all personas (no time judgement involved). */
-export function structuralVerdict(m: RunMetrics): StructuralVerdict {
+/** The structural gate every persona × seed must pass: the run's PROMISE closes with zero
+ *  soft-locks — full ladder + ascension for 'ascend' personas; full ladder only for 'ladder'
+ *  personas (ADR-170/HD-34 — Phase 2 is attention-priced, so idle play stops at the top rung).
+ *  Applies to all personas (no time judgement involved). */
+export function structuralVerdict(
+  m: RunMetrics,
+  promise: 'ascend' | 'ladder' = 'ascend',
+): StructuralVerdict {
   const seen = new Set(m.rungs.map((r) => r.rung));
   const fullLadder = RANKS.every((r) => seen.has(r.id));
   return {
@@ -121,6 +132,7 @@ export function structuralVerdict(m: RunMetrics): StructuralVerdict {
     ascended: m.ascended,
     softLock: m.softLock,
     fullLadder,
-    ok: m.ascended && m.softLock === null && fullLadder,
+    promise,
+    ok: (promise === 'ladder' || m.ascended) && m.softLock === null && fullLadder,
   };
 }

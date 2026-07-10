@@ -4,7 +4,7 @@
 // randomness lives in GameState.rng, so the same (persona, seed) reproduces byte-identically.
 
 import type { GameState } from '../core';
-import { createInitialState, reduce, nightRoundById, resolveNightStage } from '../core';
+import { RANKS, createInitialState, reduce, nightRoundById, resolveNightStage } from '../core';
 import type { Persona } from './personas';
 import { intentKey } from './personas';
 import type { RunMetrics } from './metrics';
@@ -35,7 +35,13 @@ export function runPersona(persona: Persona, seed: number): RunResult {
   let softLock: RunMetrics['softLock'] = null;
   let sinceProgress = 0;
   let i = 0;
-  while (s.tier === 0) {
+  // ADR-170 (HD-34): a 'ladder'-promise persona's run ends CLEANLY on reaching the final rung —
+  // ascension is not its promise (Phase 2 is attention-priced), so grinding on to the runaway
+  // guard would measure nothing the design claims. Symmetric with 'ascend' ending at tier 1.
+  const topRung = RANKS[RANKS.length - 1]!.id;
+  const promiseMet = (st: GameState): boolean =>
+    st.tier !== 0 || (persona.promise === 'ladder' && st.rung === topRung);
+  while (!promiseMet(s)) {
     if (i >= SIM_GUARD_INTENTS) {
       softLock = { reason: 'guard', atIntent: i, rung: s.rung };
       break;

@@ -2903,3 +2903,45 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   `tiers/t2.md`'s village-track block annotated; the T2 rungs/fog plan
   (or its successor) inherits the web↔five-stages reconciliation as a
   design item; the five-stage *voice* is kept as flavor material.
+
+### ADR-170 ✅ — Phase 2 re-tuned to the signed ≈1:1; idler ascension is NOT a promise (HD-34; 🔁 refines ADR-133/ADR-148-interim)
+
+- **created_date:** 2026-07-10
+- **Context:** the C5b re-baseline left three design REDs the sim could
+  not rule (HD-34). The story rewrite shrank Phase 1 (the R0→R7 climb)
+  while the Phase-2 estate economy — `ESTATE_DEED_PER_ACT`, tuned
+  against the OLD climb — stood, drifting the phase ratio to ~4.4–5×
+  the signed [0.8, 1.2] (ADR-133/HD-19). Separately the idler persona,
+  its C5b verb bugs fixed, climbed the full ladder on all 5 seeds but
+  burned to the 1M-intent guard in Phase 2 (estate ~0 after ~800k idle
+  acts — idle labour banks essentially no deeds).
+- **Decision (human, 2026-07-10, via the fork ask):**
+  1. **Re-tune Phase 2 to ≈1:1** — the ADR-133 law stands;
+     `ESTATE_DEED_PER_ACT` 0.05 → 0.22, sim-verified to ratio
+     [0.84–1.17] ∈ [0.8, 1.2]. Total greedy T0 ≈ 7.5–8.5 h wall
+     (climb ≈ 3.5–4.5 h + Phase 2 ≈ 4 h), down from ≈ 22 h.
+  2. **"An idler ascends T0" is NOT a design promise** — Phase 2 is
+     deliberately **attention-priced**: idling climbs the full ladder;
+     ascension takes attended estate work. The sim expectation re-signs
+     to a per-persona **promise** (`'ascend'` | `'ladder'`); the idler's
+     run now ends cleanly on reaching the top rung (0.9 s matrix, was
+     15+ min of guard-burning).
+  3. **B8 (zero-cost season-turn pool refill): no action** — the
+     evidence shows the per-rung bands holding despite the greedy sim
+     exploiting it; the mechanism options (refill lag · turn cost ·
+     spoilage scaling) stay available if the human's own play feels the
+     wheel-spin cheap.
+- **Why:** the ratio band is a *ratio* precisely so it survives climb
+  changes — nothing since HD-19 re-signed the "capstone ≈ climb" law,
+  so the economy moves, not the band. Attention-priced ascension
+  matches the fiction (a house's standing isn't built absentmindedly)
+  and keeps the idle loop valuable without making it the whole game.
+- **Consequences:** the ADR-148-interim ratio-gate suspension is
+  LIFTED — `pacing-envelope.test.ts`'s real-arc ratio assert and the
+  idler determinism test are re-enabled; `phase2RatioVerdict` measures
+  the ADR-148 **timed wall** (the old wall≈intents shortcut died with
+  timed actions); the R3–R6 per-rung band scope stays interim, filed
+  as **HD-35** (R3's timed wall ~146–221 min vs the [3, 22] band is an
+  unruled question). Fixtures `pre-ascension`/`wealthy-idler`
+  regenerated; pacing report regenerated (the diff is the
+  before/after).

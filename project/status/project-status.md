@@ -35,10 +35,11 @@ magic; no reset.
   addendum. Plan archived.
 - **✅ STORYWAVE SHIPPED v0.4.0 (s125–131):** the bible-canon T0 rewrite is LIVE on
   gh-pages (tag `v0.4.0`); all three storywave plans archived.
-- **OWED → HD-34 (design):** the Phase-2 ratio breach ([4.0–4.9] vs [0.8,1.2]) ·
-  the idler-ascension expectation · B8's free pool refill — sim evidence attached.
-  `verify:balance` now runs ~17 min (the repaired idler plays to the guard).
-  Combat curve R4+ kills still parked.
+- **✅ HD-34 RULED & APPLIED (s138, ADR-170):** Phase 2 re-tuned to the signed ≈1:1
+  (deed base 0.05→0.22; ratio [0.84–1.17] ∈ [0.8,1.2]; greedy T0 ≈ 8 h wall) ·
+  idler ascension NOT a promise (per-persona sim promises; `verify:balance` ~1 s)
+  · B8 no action. Remainder → **HD-35** (R3's timed wall vs the [3,22] band — the
+  last ADR-148-interim scope). Combat curve R4+ kills still parked.
 - **🧊 PARKED:** Plan K authored-depth demo (`docs/plans/t0/`; prototypes ⭐
   `project/prototypes/authored-depth-demo/`) + the T1 emergent-node plan
   (`docs/plans/t1/`). Un-park = human.
@@ -57,8 +58,9 @@ magic; no reset.
 - **HR-1** 🔲 — play/review the full T0 arc for fun & pacing (the LOOK is UI-v2
   certified; this is the fun/taste call on the live storywave build).
 - **HR-18…HR-21** 🔲 — the C5a fiction-wave picks (overlays · discoveries · judge
-  lines · node reads), reviewed LIVE via DEV → Story. **HD-33** 🔲 (the frozen
-  §1's pre-reboot tables) · **HD-34** 🔲 (the three balance design calls).
+  lines · node reads), reviewed LIVE via DEV → Story. **HD-35** 🔲 (restore the
+  R3–R6 band verdicts — R3's timed wall vs the [3,22] band). *(HD-33 → ADR-168,
+  HD-34 → ADR-170 — both closed 2026-07-10.)*
 - **DEV-variant picks** 🔲 — kept live for a detailed pass: estate-section (HR-9) ·
   home (HR-6) · bestiary (HR-5) · the HR-2 bundle · Phase-2 build-beat + tracker
   (HR-10/HR-11). Picks → the agent strips the alternates (zero prod flag-debt).
@@ -101,7 +103,7 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-10-session-137-telemetry-retention.md`](../journal/2026-07-10-session-137-telemetry-retention.md)
+   [`journal/2026-07-10-session-139-dev-server-self-kill.md`](../journal/2026-07-10-session-139-dev-server-self-kill.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).
@@ -111,8 +113,8 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
    `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md` — carries the S1 caveat:
    `T2_RUNG_LADDER` is DEV-preview-only; derive from core when the schedule
    exists), or drain the playtest inbox as the human QAs. Human-gated:
-   HR-1 + HR-18…21 (DEV → Story) + HD-33/HD-34. Combat R4+ = a design
+   HR-1 + HR-18…21 (DEV → Story) + HD-35. Combat R4+ = a design
    call, NOT a fix → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 5/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 6/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->

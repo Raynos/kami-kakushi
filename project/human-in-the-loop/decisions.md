@@ -31,32 +31,20 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
 - **Resolution:** {filled in when the human answers — then graduate + archive per the lifecycle}
 -->
 
-### HD-34 🔲 [R7 · Phase 2] — the owed balance re-baseline's THREE design calls (C5b, sim evidence attached)
+### HD-35 🔲 [R3–R6 · pacing] — restore the R3–R6 per-rung band verdicts (the last ADR-148-interim scope)
 
-- **Question / fork:** the closure plan's C5b re-baseline fixed what was
-  mechanical (the idler persona now speaks the rewrite's verbs — the manual
-  wheel, the scene drain, the night round — and climbs the FULL ladder on all
-  5 seeds; it soft-locked at R1 before). Three verdicts remain that the sim
-  cannot rule:
-  1. **The Phase-2 ratio breach** — measured [4.04–4.86] vs the signed band
-     [0.8, 1.2] (window ~67.5 min): Phase 2 runs ~4.4× Phase 1's wall-time
-     since the rewrite went liquid. The check's own text: "a human decision is
-     required (re-tune the Phase-2 economy or re-sign PHASE2_PHASE1_RATIO_* —
-     never a test-side fudge)."
-  2. **Is "an idler ascends T0" a design promise?** The idler now reaches R7
-     with every requirement done (fullLadder=true, all seeds) but trips the
-     1M-intent guard before Estate-EXCELLENT — its check-in policy grinds
-     Phase 2 far slower than greedy. Options: (a) Phase 2 is deliberately
-     attention-priced — an idler NOT ascending is correct; re-sign the sim
-     expectation to fullLadder (b) re-tune so the auto-loop also closes.
-  3. **B8 — the zero-cost season-turn pool refill:** the greedy sim already
-     exploits it (its own comments say so) and the per-rung bands still hold,
-     so current evidence does NOT show pacing broken by it; the mechanism
-     options (refill lag · a turn cost · spoilage scaling) stay available if
-     your own play feels the wheel-spin cheap. Magnitudes sim-owned either way.
-- **Recommendation:** rule 2(a) now (Phase 2 as attention-priced reads
-  intentional; the sim expectation re-signs to fullLadder for the idler), and
-  take 1 + 3 together in one cockpit sitting on the live build (the FB-7 flow)
-  — the ratio band was signed against the pre-rewrite economy and needs feel,
-  not arithmetic.
+- **Question / fork:** ADR-170 lifted the ADR-148-interim ratio-gate suspension, but
+  the per-rung band verdict still covers only R0–R2 (`ADR148_INTERIM_BAND_RUNGS`).
+  Restoring R3–R6 today REDs on **R3**: its ADR-148 *timed* wall measures
+  ~146–221 min across seeds vs the signed [3, 22] band — greedy's night-watch rung
+  is ~10× over in real wall terms (R4–R6 sit in band at ~10–14 min). Either R3's
+  design (the night round, the ~379-move walk pattern, timed move costs) gets
+  re-paced, or the band re-signs a per-rung exception for R3, or the R3 wall is
+  accepted as intentional (the tier's one long "act").
+- **Options:** (a) re-pace R3 into the band · (b) re-sign the band/an R3 exception ·
+  (c) sign R3-as-intentional and restore the verdicts for R4–R6 only.
+- **Recommendation:** feel R3 on the live build first (it's also the rung your own
+  telemetry will speak to loudest) — then rule; the scope note in
+  `src/sim/envelopes.ts` names this item and deletes with it.
 - **Resolution:** _(open)_
+

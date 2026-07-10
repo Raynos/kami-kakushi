@@ -8,20 +8,33 @@ import { describe, it, expect } from 'vitest';
 import { greedy } from './personas';
 import { runPersona } from './run';
 import { CANONICAL_SEED } from './seeds';
-import { greedyBandVerdicts, structuralVerdict, phase2RatioVerdict } from './envelopes';
+import {
+  greedyBandVerdicts,
+  structuralVerdict,
+  phase2RatioVerdict,
+  PHASE2_RUNG,
+} from './envelopes';
 import type { RunMetrics } from './metrics';
 import { balance } from '../core';
 
 // ONE greedy run, shared across the tripwires below (AC-17 — don't re-run the sim per describe).
 const { metrics } = runPersona(greedy, CANONICAL_SEED);
 
-/** A minimal RunMetrics stub — `phase2RatioVerdict` reads only these three fields, so the RED-able
- *  cases below don't need a full simulated run. */
+/** A minimal RunMetrics stub — `phase2RatioVerdict` reads only the timed walls (total + the final
+ *  rung's residence, ADR-170) plus the built-Phase-2 markers, so the RED-able cases below don't
+ *  need a full simulated run. */
 const ratioStub = (
-  totalIntents: number,
-  phase2Intents: number | null,
+  totalWallMin: number,
+  phase2WallMin: number | null,
   ascended = true,
-): RunMetrics => ({ ascended, totalIntents, economy: { phase2Intents } }) as unknown as RunMetrics;
+): RunMetrics =>
+  ({
+    ascended,
+    totalWallMin,
+    totalIntents: 0,
+    economy: { phase2Intents: phase2WallMin === null ? null : 1 },
+    rungs: phase2WallMin === null ? [] : [{ rung: PHASE2_RUNG, wallMin: phase2WallMin }],
+  }) as unknown as RunMetrics;
 
 describe('T0 pacing envelope tripwire (greedy, canonical seed)', () => {
   it('every climb rung lands inside the signed T0 band (D-056)', () => {
@@ -44,12 +57,10 @@ describe('T0 pacing envelope tripwire (greedy, canonical seed)', () => {
 });
 
 describe('Phase 2 ≈ Phase 1 ratio gate (D-133 / H19)', () => {
-  // ADR-148 INTERIM (human, 2026-07-07): the divided act targets shrank Phase-1 intents
-  // ~16× while the Phase-2 economy (estate coin sinks) is deliberately unrebalanced
-  // ("I'll rebalance later") — the real-arc ratio is out of band BY SIGNED INTENT until
-  // that rebalance. The verdict machinery + RED-able stubs stay; re-enable this assertion
-  // (delete the .skip) with the economy rebalance — see envelopes.ts ADR148_INTERIM note.
-  it.skip('the real greedy arc lands inside the signed ratio band (SUSPENDED — ADR-148 interim)', () => {
+  // ADR-170 (HD-34, human 2026-07-10): the owed ADR-148-interim economy rebalance landed —
+  // ESTATE_DEED_PER_ACT re-tuned against the sim, the ratio measured in the timed wall model,
+  // and this assertion RE-ENABLED (the R3–R6 band scope stays interim, pending HD-35).
+  it('the real greedy arc lands inside the signed ratio band', () => {
     const v = phase2RatioVerdict([metrics]);
     expect(v.built, 'greedy never reached a built Phase 2').toBeGreaterThan(0);
     expect(
@@ -61,15 +72,15 @@ describe('Phase 2 ≈ Phase 1 ratio gate (D-133 / H19)', () => {
   });
 
   it('is RED-able: a thin Phase 2 (the pre-D-133 anticlimax) FAILS the band', () => {
-    // ~50-intent Phase 2 against an ~10440 Phase 1 → ratio ≈ 0.005, far below the 0.8 floor.
-    const v = phase2RatioVerdict([ratioStub(10490, 50)]);
+    // A ~2-min Phase 2 against a ~448-min Phase 1 → ratio ≈ 0.004, far below the 0.8 floor.
+    const v = phase2RatioVerdict([ratioStub(450, 2)]);
     expect(v.built).toBe(1);
     expect(v.ok).toBe(false);
     expect(v.measuredMax).toBeLessThan(balance.PHASE2_PHASE1_RATIO_MIN);
   });
 
   it('no-ops GREEN when no run has a built Phase 2 — never cries wolf on an unbuilt tier', () => {
-    const v = phase2RatioVerdict([ratioStub(1000, null, false)]);
+    const v = phase2RatioVerdict([ratioStub(100, null, false)]);
     expect(v.built).toBe(0);
     expect(v.ok).toBe(true);
   });

@@ -100,6 +100,11 @@ export const ALL_INTENT_TYPES = Object.keys(ALL_INTENTS) as IntentType[];
 
 export interface Persona {
   readonly id: 'greedy' | 'idler' | 'explorer';
+  /** What this persona's run PROMISES (ADR-170 / HD-34): 'ascend' — the arc closes tier 0 → 1
+   *  (the default when omitted); 'ladder' — the full rung ladder is climbed, but ascension is
+   *  NOT promised (Phase 2 is attention-priced by design, and idle play doesn't buy it), so the
+   *  run ends cleanly on reaching the final rung instead of burning to the runaway guard. */
+  readonly promise?: 'ascend' | 'ladder';
   /** Intent types this policy knows how to issue (the complement prints as the skip-list). */
   readonly knows: readonly IntentType[];
   /** PURE + deterministic: next intent from player-visible state (+ the run's issued-intent
@@ -237,6 +242,9 @@ export const greedy: Persona = {
 
 export const idler: Persona = {
   id: 'idler',
+  // ADR-170 (HD-34, human 2026-07-10): "an idler ascends T0" is NOT a design promise — Phase 2
+  // is deliberately attention-priced, so idle play climbs the full ladder and stops there.
+  promise: 'ladder',
   knows: [
     'open_eyes',
     'choose_intro',

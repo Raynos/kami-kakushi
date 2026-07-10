@@ -289,6 +289,10 @@ export function createCollector(personaId: string, seed: number): Collector {
     },
 
     finish(final, softLock) {
+      // ADR-170 — a run may END on the intent that reaches its final rung (the 'ladder' promise
+      // stops there), so the rung the run finished AT is touched even with zero intents recorded
+      // against it: a reached rung must appear in `rungs` for the fullLadder verdict to see it.
+      touch(final.rung);
       for (const r of rungs.values()) r.wallMin = (r.wallMsAcc ?? 0) / 60_000;
       const ascended = final.tier > 0;
       return {
