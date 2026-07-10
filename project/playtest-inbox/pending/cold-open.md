@@ -50,3 +50,13 @@ I also think new can stick around for longer, like fade out after 30s or somethi
 **Details:** `cold-open/2026-07-10T11-36-21.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:37:24+0200 — continue-button-feels-placed
+
+Continue button feels placed a bit small and off center, I think we can add more whitespace, lower it a bit and center it a bit better.
+
+**Element:** button "Continue" — "Continue" · `div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > button` · @890,305 71×33
+**Screenshot:** `cold-open/2026-07-10T11-37-24.png`
+**Details:** `cold-open/2026-07-10T11-37-24.json` — save + recent logs + full context
+
+---
