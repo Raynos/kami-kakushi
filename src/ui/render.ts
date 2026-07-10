@@ -2517,6 +2517,20 @@ export function mount(
       );
       wrap.append(cont);
     } else {
+      // FB-328 — the panel names what the button does BEFORE the press: a promotion
+      // kicker + the target rung, so a flag-only pick (no perk, no statBonus) never
+      // reads as one bare orphaned "Rung up" button. Reuses the ceremony's classes.
+      const targetRank = RANKS.find((r) => r.id === introLastState?.rungBeat);
+      wrap.append(el('div', 'rankup-kicker', 'Promotion 昇'));
+      if (targetRank) {
+        wrap.append(
+          el(
+            'div',
+            'vn-rung-flavor',
+            `The house raises you — ${targetRank.title} ${targetRank.kanji}.`,
+          ),
+        );
+      }
       // FB-153 — the promotion ceremony lives IN the beat modal (human spec): the
       // outcome's control reads "Rung up"; pressing it renders the seal + the
       // promoted-to flavour HERE, and its Continue does the real dispatch. The old
