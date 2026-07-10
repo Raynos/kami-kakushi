@@ -110,7 +110,8 @@ _(running synthesis — updated as answers land)_
   stay canon; the human keeps working v0.4.0 + playtesting idle gameplay; the
   depth demo is sequenced AFTER v0.4.0. ADR draft + spec planning allowed, but
   nothing lands — everything stays at PLAN stage.
-- Flags: plan home = `docs/plans/t0/` (tier subfolders are skipped by the
+- Flags: plan home = `docs/plans/t1/` (moved from `t0/` 2026-07-10, human
+  call — tier subfolders are skipped by the
   active-plans scanners — the sanctioned parked home), Status token `🧊 PARKED`,
   reading-queue entry in the authoring commit. NO BACKLOG.md pointer —
   BACKLOG.md bans plan pointers (they rot; the checkpoint gate flags them).
@@ -409,7 +410,7 @@ not an interaction atom (full text in chat):
 ## Outcome (2026-07-09 — session close)
 
 Promoted: the whole grill distilled into
-[`docs/plans/t0/fable-2026-07-09-authored-depth-demo.md`](../../docs/plans/t0/fable-2026-07-09-authored-depth-demo.md)
+[`docs/plans/t1/fable-2026-07-09-authored-depth-demo.md`](../../docs/plans/t1/fable-2026-07-09-authored-depth-demo.md)
 — **Plan K, 🧊 PARKED**, written to Sonnet-5-buildable detail (D8): depth
 contract §3, core model §4, `threads.md` grammar §5, `verify-threads` gate §6,
 kikigaki tab §7, milestones K0–K6, draft ADRs §10. Nothing landed as canon

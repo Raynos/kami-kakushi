@@ -32,7 +32,7 @@ together; inside, each prototype is one self-contained dir.
 
 ### [`authored-depth-demo/`](authored-depth-demo) — Plan K (🧊 PARKED)
 
-Owner: [`docs/plans/t0/fable-2026-07-09-authored-depth-demo.md`](../../docs/plans/t0/fable-2026-07-09-authored-depth-demo.md).
+Owner: [`docs/plans/t1/fable-2026-07-09-authored-depth-demo.md`](../../docs/plans/t1/fable-2026-07-09-authored-depth-demo.md).
 The 2026-07-09 depth-UI feel-test loop — **five feel-tests in four folders**
 (feel-tests II and III share `the-asking/`: v1 was rewritten in place into
 v2; v1 is recoverable at commit `f29e87c^`). Round-by-round verdicts:

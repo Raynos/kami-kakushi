@@ -93,6 +93,6 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
   elements, as a **hybrid + fresh diverge** — the take-a sickroom prose stays
   as the middle act; the dream + Genemon acts return via narrative-diverge
   (ADR-139), seeded by the pre-C4.9 fiction (`b221d6e~1`). Plan:
-  [`docs/plans/t0/fable-2026-07-10-cold-open-rearc.md`](../../docs/plans/t0/fable-2026-07-10-cold-open-rearc.md).
+  [`docs/plans/fable-2026-07-10-cold-open-rearc.md`](../../docs/plans/fable-2026-07-10-cold-open-rearc.md).
   Graduates to an ADR when the plan lands.
 

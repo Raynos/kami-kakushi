@@ -40,7 +40,7 @@ magic; no reset.
   idler ascension NOT a promise (per-persona sim promises; `verify:balance` ~1 s)
   · B8 no action. Remainder → **HD-35** (R3's timed wall vs the [3,22] band — the
   last ADR-148-interim scope). Combat curve R4+ kills still parked.
-- **🧊 PARKED:** Plan K authored-depth demo (`docs/plans/t0/`; prototypes ⭐
+- **🧊 PARKED:** Plan K authored-depth demo (`docs/plans/t1/`; prototypes ⭐
   `project/prototypes/authored-depth-demo/`) + the T1 emergent-node plan
   (`docs/plans/t1/`). Un-park = human.
 - **✅ THE BIBLE — DONE & BLESSED (s109–116, ADR-150):** 7 tier sheets · full cast ·
@@ -117,4 +117,4 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    HR-18…21 (DEV → Story) + HD-35. Combat R4+ = a design call, NOT a fix → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 11/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 12/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
