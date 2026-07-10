@@ -13,6 +13,8 @@ import {
   clampLogScale,
   loadLogScale,
   saveLogScale,
+  loadActionHover,
+  saveActionHover,
 } from './ui-prefs';
 
 describe('clampLogScale', () => {
@@ -68,5 +70,27 @@ describe('loadLogScale / saveLogScale round-trip', () => {
   it('falls back to the default for a corrupt stored value', () => {
     localStorage.setItem('kk.ui.logScale', 'not-a-number');
     expect(loadLogScale()).toBe(LOG_SCALE_DEFAULT);
+  });
+});
+
+describe('action-hover pref (FB-264 — the DEV hover-detail toggle)', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
+  it('defaults OFF when nothing is stored (a DEV overlay is opt-in)', () => {
+    expect(loadActionHover()).toBe(false);
+  });
+
+  it('round-trips ON and OFF through localStorage', () => {
+    saveActionHover(true);
+    expect(loadActionHover()).toBe(true);
+    saveActionHover(false);
+    expect(loadActionHover()).toBe(false);
+  });
+
+  it('treats a corrupt stored value as OFF', () => {
+    localStorage.setItem('kk.dev.actionHover', 'banana');
+    expect(loadActionHover()).toBe(false);
   });
 });

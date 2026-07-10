@@ -23,17 +23,16 @@ import { clamp } from './math';
 import {
   satietyMax,
   hpMax,
-  workRate,
   season,
   canDoActivity,
-  estateYieldNum,
+  activityForecast,
   homeRestBonus,
   ownsBelonging,
   peopleHere,
 } from './selectors';
 import { getPerson, PEOPLE_IDS } from './content/people';
 import { getBelonging, homeRestLine } from './content/home';
-import { skillLevel, skillYieldNum } from './skills';
+import { skillLevel } from './skills';
 import { applyPromotion, promotionReady, pendingPromotionTarget, rungNumber } from './ranks';
 import { nenguReckonedThisYear } from './nengu';
 import { bankEstateDeed } from './pillars';
@@ -45,11 +44,8 @@ import {
   SATIETY_PER_ACT,
   SATIETY_PER_REST,
   TICKS_PER_ACT,
-  HARVEST_AUTUMN_MULT_NUM,
-  HARVEST_AUTUMN_MULT_DEN,
   REPAIR_WOOD_COST,
   REPAIR_COIN_COST,
-  SKILL_YIELD_DEN,
   COOK_SANSAI_COST,
   COOK_HP_RESTORE,
   EAT_RICE_COST,
@@ -57,7 +53,6 @@ import {
   riceSellPrice,
   kuraRiceCap,
   ESTATE_STAGE_DEED_GATES,
-  productionDraw,
 } from './content/balance';
 import { DAY_WAGE_MON, isWaged } from './content/wage';
 import { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
@@ -590,49 +585,19 @@ export function reduce(state: GameState, intent: Intent): GameState {
     case 'do_activity': {
       const act = getActivity(intent.activityId);
       if (!canDoActivity(next, act)) return state;
-      // G3 (ADR-155/ADR-164): the labour rate is the satiety throttle FURTHER scaled by the low-HP
-      // impairment (workRate = staminaRate · lowHpWorkMult). This READS hp to slow work; the
-      // coupling stays strictly ONE-WAY — labour never writes hp back (`adjustSatiety` below spends
-      // satiety, the work fuel, never HP).
-      const rate = workRate(next);
-      const autumn = act.seasonHarvest === true && season(next) === 'autumn';
-      // The skill→yield multiplier (audit #4). Skill level is read BEFORE this act's
-      // addSkillXp on purpose: the leveling act uses the pre-level mult; the bump shows
-      // on the NEXT act. skillYieldNum(1) === DEN → L1 yields are byte-identical to v0.1.
-      const yNum = skillYieldNum(skillLevel(next, act.skill));
-      // the estate flywheel (T0-M4-F2): a higher estate stage lifts every labour act's output,
-      // so coin→upgrade→more output compounds. Identity (===DEN) at U0 — byte-identical pre-buy.
-      const eNum = estateYieldNum(next);
-      // ADR-163 — the per-(site, season) production POOL + diminishing returns. The site's remaining
-      // pool drives the PRIMARY yield via `productionDraw` (each act takes a fraction of what remains,
-      // so output asymptotes within a season); the pool depletes by that raw draw (before skill/estate
-      // bonuses — the site gives what it gives). Secondary "pocket" yields (forage-coin) keep their
-      // fixed base. The pool refills at season-turn (step.advanceSeason).
-      const site = act.area;
-      const rawDraw = productionDraw(next.sitePools[site] ?? 0);
-      if (rawDraw > 0) next = withSitePool(next, site, -rawDraw);
-      const yieldEntries = Object.entries(act.yields) as [LabourResource, number][];
-      const primary = yieldEntries[0]?.[0];
-      const gained: Partial<Record<LabourResource, number>> = {};
-      for (const [res, amt] of yieldEntries) {
-        // the primary yield rides the site pool draw; a worked-out pool yields nothing on it.
-        if (res === primary && rawDraw === 0) {
-          gained[res] = 0;
-          continue;
-        }
-        let v = (res === primary ? rawDraw : amt) * rate;
-        if (autumn) v = (v * HARVEST_AUTUMN_MULT_NUM) / HARVEST_AUTUMN_MULT_DEN;
-        v = (v * yNum) / SKILL_YIELD_DEN;
-        v = (v * eNum) / SKILL_YIELD_DEN;
-        gained[res] = Math.max(1, Math.round(v));
-      }
+      // The whole reward math (G3 throttle × autumn × skill × estate over the ADR-163 site-pool
+      // draw) lives in `activityForecast` — the SAME selector the DEV hover forecast reads
+      // (FB-264, AC-6 — forecast == reality). This case keeps only the state writes.
+      const { rawDraw, gained, xp: xpGain } = activityForecast(next, act);
+      // the pool depletes by the raw draw (before skill/estate bonuses — the site gives what it
+      // gives); it refills at season-turn (step.advanceSeason).
+      if (rawDraw > 0) next = withSitePool(next, act.area, -rawDraw);
       // ADR-163: rice is a KURA commodity (shō) — it deposits into the house stores (banked), NEVER
       // the carried pocket. Split it out of the carried-resources reward.
       const riceSho = gained.rice ?? 0;
       const carried: Partial<Record<LabourResource, number>> = { ...gained };
       delete carried.rice;
       if (riceSho > 0) next = withBanked(next, 'rice', riceSho);
-      const xpGain = Math.max(1, Math.round(act.xp * rate));
       next = addSkillXp(next, act.skill, xpGain);
       next = adjustSatiety(next, -act.satietyCost);
       // MON lane (ADR-163): a game-day on which ≥1 timed labour act completes accrues one day-wage,

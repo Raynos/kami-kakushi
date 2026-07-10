@@ -73,6 +73,7 @@ import { openStampBook } from './stamp-book/book';
 import { openEstateSheet } from './estate-sheet/demo';
 import { openSceneCards } from './scene-cards/cards';
 import { openSceneCardsV1 } from './scene-cards/cards-v1';
+import { loadActionHover, saveActionHover } from './ui-prefs';
 // Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
 // here, riding this module's DEV fold + sentinel graph (FB-7 / ADR-059).
 export { createBalanceCockpit, buildTuneArtifact } from './dev-cockpit';
@@ -1955,6 +1956,26 @@ export function mountDevPanel(
     speed.append(b);
   }
   markSpeed(1); // the game starts at 1×
+
+  // FB-264 — the action hover-detail inspector: hovering any timed action button shows what it
+  // WILL pay (effective yields/xp via activityForecast — AC-6) + its timing. The render-side card
+  // reads body[data-dev-act-hover]; the pref survives reload (ui-prefs seam). Default OFF.
+  const inspect = section('Inspect');
+  let hoverOn = loadActionHover();
+  const applyHover = (): void => {
+    if (hoverOn) document.body.dataset.devActHover = '1';
+    else delete document.body.dataset.devActHover;
+    hoverBtn.textContent = `action detail: ${hoverOn ? 'on' : 'off'}`;
+    hoverBtn.style.background = hoverOn ? '#b08d4f' : '#3a322a';
+    hoverBtn.style.color = hoverOn ? '#1c1814' : '#e7d9bc';
+  };
+  const hoverBtn = mono('action detail: off', () => {
+    hoverOn = !hoverOn;
+    saveActionHover(hoverOn);
+    applyHover();
+  });
+  inspect.append(hoverBtn);
+  applyHover();
 
   // (The UI-v2 temp-toggle section lived here through the migration; RETIRED with
   // the human's PH5 certification, 2026-07-06 — attr palette locked 'temper'; the

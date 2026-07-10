@@ -2176,6 +2176,27 @@ h3 {
   margin-top: var(--space-1);
 }
 
+/* ── FB-264 — the DEV action hover-detail card (DEV-only; render.ts strips it from prod).
+   fixed + pointer-events:none: a DEV tool that observes must not perturb — no layout
+   shift, no stolen hovers. */
+.dev-act-card {
+  position: fixed;
+  z-index: 90;
+  max-width: 20rem;
+  padding: var(--space-1) var(--space-2);
+  background: var(--washi);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px #00000022;
+  pointer-events: none;
+  font-size: var(--fs-micro);
+  color: var(--text-2);
+}
+.dev-act-card-timing {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
 /* ── labour rows + auto-repeat toggle ────────────────────────────────────── */
 .labour-row {
   display: flex;

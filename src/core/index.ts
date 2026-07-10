@@ -300,6 +300,7 @@ export {
   kuraKoku,
   kuraRiceSho,
   siteYield,
+  activityForecast,
   staminaRate,
   lowHpWorkMult,
   workRate,
@@ -315,7 +316,7 @@ export {
   homeHasCook,
   estateBuild,
 } from './selectors';
-export type { LabourOption, EstateBuild, EstateBuildRow } from './selectors';
+export type { LabourOption, ActivityForecast, EstateBuild, EstateBuildRow } from './selectors';
 export { PEOPLE, PEOPLE_IDS, getPerson, presenceCtx } from './content/people';
 export type { NodePerson, PersonDepth, PresenceCtx } from './content/people';
 

@@ -11,6 +11,7 @@ import {
   hpMax,
   workRate,
   lowHpWorkMult,
+  activityForecast,
   satietyMax,
   season,
   estateSatietyBonus,
@@ -738,5 +739,60 @@ describe('v0.3.1 Step 5d — the load-bearing map node gates a richer yield (D-0
     expect(deep.dangerRing).toBe(true); // gated by the conditioning ring, like its near sibling
     expect(deep.area).toBe('woodlot'); // G4: both forage acts run at the woodlot (the wild edge)
     expect(deep.satietyCost).toBeGreaterThan(near.satietyCost); // the richer haul taxes you more
+  });
+});
+
+describe('activityForecast — forecast == reality (FB-264, AC-6)', () => {
+  // The DEV hover card shows what one act WILL pay. These drive the REAL reducer and compare
+  // deltas against the forecast — never re-deriving the multiplier math in the test — so either
+  // side drifting from the shared selector goes RED.
+  const hungry = (s: GameState): GameState => ({
+    ...s,
+    character: { ...s.character, satiety: 1 }, // deep inside the stamina throttle
+  });
+  const hurt = (s: GameState): GameState => ({
+    ...s,
+    character: { ...s.character, hp: 1 }, // under the low-HP work impairment (G3)
+  });
+
+  const paddyStates: [string, GameState][] = [
+    ['fresh spring paddy', farmReady()],
+    ['hungry (stamina throttle)', hungry(farmReady())],
+    ['hurt (low-HP impairment)', hurt(farmReady())],
+    ['autumn (harvest multiplier)', { ...farmReady(), season: 'autumn' as Season }],
+    ['skilled (yield multiplier)', addSkillXp(farmReady(), 'farming', 500)],
+    ['worked-out pool', { ...farmReady(), sitePools: { ...farmReady().sitePools, paddies: 0 } }],
+  ];
+
+  for (const [name, s] of paddyStates) {
+    it(`matches the real do_activity payout — ${name}`, () => {
+      const f = activityForecast(s, getActivity('farm_paddy'));
+      const after = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
+      // rice is a kura commodity (ADR-163): the banked delta IS the payout
+      expect((after.banked.rice ?? 0) - (s.banked.rice ?? 0)).toBe(f.gained.rice ?? 0);
+      expect((after.skillXp.farming ?? 0) - (s.skillXp.farming ?? 0)).toBe(f.xp);
+      expect((s.sitePools.paddies ?? 0) - (after.sitePools.paddies ?? 0)).toBe(f.rawDraw);
+    });
+  }
+
+  it('matches carried-pocket yields too (haul_stores coin)', () => {
+    const base = createInitialState(SEASON_SPRING_SAFE);
+    const s: GameState = {
+      ...base,
+      location: 'forecourt',
+      character: { ...base.character, satiety: satietyMax(base) },
+      unlocked: [...base.unlocked, 'verb-haul'],
+    };
+    const f = activityForecast(s, getActivity('haul_stores'));
+    const after = reduce(s, { type: 'do_activity', activityId: 'haul_stores' });
+    expect((after.resources.coin ?? 0) - (s.resources.coin ?? 0)).toBe(f.gained.coin ?? 0);
+    expect((after.skillXp.conditioning ?? 0) - (s.skillXp.conditioning ?? 0)).toBe(f.xp);
+  });
+
+  it('is a pure read — forecasting never spends the pool or the body', () => {
+    const s = farmReady();
+    const snapshot = JSON.stringify(s);
+    activityForecast(s, getActivity('farm_paddy'));
+    expect(JSON.stringify(s)).toBe(snapshot);
   });
 });

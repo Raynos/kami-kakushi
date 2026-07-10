@@ -16,6 +16,8 @@ import {
   CONDITIONING_GATE_LEVEL,
   SKILL_YIELD_DEN,
   ESTATE_STAGE_DEED_GATES,
+  HARVEST_AUTUMN_MULT_NUM,
+  HARVEST_AUTUMN_MULT_DEN,
   productionDraw,
 } from './content/balance';
 import { ESTATE_STAGES, type EstateStageDef } from './content/estate';
@@ -35,11 +37,11 @@ import {
   type Season,
 } from './constants';
 import { clamp } from './math';
-import { ACTIVITIES, type ActivityDef } from './content/activities';
+import { ACTIVITIES, type ActivityDef, type LabourResource } from './content/activities';
 import { PEOPLE, presenceCtx, type NodePerson } from './content/people';
 import { isUnlocked } from './unlock';
 import { hiddenActivityIds } from './discovery';
-import { skillLevel } from './skills';
+import { skillLevel, skillYieldNum } from './skills';
 
 /** hpMax = HP_BASE + HP_PER_LEVEL·characterLevel + STR_HP·STR (§4.6.1). */
 export function hpMax(state: GameState): number {
@@ -164,6 +166,52 @@ export function kuraKoku(state: GameState): number {
  *  season. Routes through the SAME `productionDraw` the reducer uses (AC-6 — forecast == reality). */
 export function siteYield(state: GameState, site: string): number {
   return productionDraw(state.sitePools[site] ?? 0);
+}
+
+// ── The per-act labour forecast (FB-264, AC-6 — forecast == reality) ─────────────────────────────
+
+export interface ActivityForecast {
+  /** The site-pool draw this act would take (0 = the site is worked out this season). */
+  readonly rawDraw: number;
+  /** Effective yields after every live multiplier (throttle, autumn, skill, estate). */
+  readonly gained: Partial<Record<LabourResource, number>>;
+  /** Effective skill XP — the same workRate scaling the reducer pays. */
+  readonly xp: number;
+}
+
+/** What ONE `do_activity` act would pay right now. The reducer CALLS this (never a copy), so any
+ *  preview built on it can't drift from reality — the same seam as mcCombatStats/siteYield. Pure
+ *  read: it never depletes the pool or spends satiety.
+ *  The multiplier chain (G3 throttle × autumn × skill × estate over the site-pool draw) lives
+ *  here; `do_activity` keeps only the state writes. */
+export function activityForecast(state: GameState, act: ActivityDef): ActivityForecast {
+  const rate = workRate(state);
+  const autumn = act.seasonHarvest === true && season(state) === 'autumn';
+  // Skill level is read BEFORE this act's addSkillXp on purpose: the leveling act uses the
+  // pre-level mult; the bump shows on the NEXT act. skillYieldNum(1) === DEN → L1 is identity.
+  const yNum = skillYieldNum(skillLevel(state, act.skill));
+  // the estate flywheel (T0-M4-F2): identity (===DEN) at U0 — byte-identical pre-buy.
+  const eNum = estateYieldNum(state);
+  // ADR-163 — the primary yield rides the per-(site, season) pool's diminishing-returns draw;
+  // secondary "pocket" yields keep their fixed base.
+  const rawDraw = productionDraw(state.sitePools[act.area] ?? 0);
+  const yieldEntries = Object.entries(act.yields) as [LabourResource, number][];
+  const primary = yieldEntries[0]?.[0];
+  const gained: Partial<Record<LabourResource, number>> = {};
+  for (const [res, amt] of yieldEntries) {
+    // a worked-out pool yields nothing on the primary.
+    if (res === primary && rawDraw === 0) {
+      gained[res] = 0;
+      continue;
+    }
+    let v = (res === primary ? rawDraw : amt) * rate;
+    if (autumn) v = (v * HARVEST_AUTUMN_MULT_NUM) / HARVEST_AUTUMN_MULT_DEN;
+    v = (v * yNum) / SKILL_YIELD_DEN;
+    v = (v * eNum) / SKILL_YIELD_DEN;
+    gained[res] = Math.max(1, Math.round(v));
+  }
+  const xp = Math.max(1, Math.round(act.xp * rate));
+  return { rawDraw, gained, xp };
 }
 
 /** Continuous lunar phase in [0,1) — a real ~29.53d ephemeris, not a per-day roll (D-Q6). */

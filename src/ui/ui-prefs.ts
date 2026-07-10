@@ -42,3 +42,28 @@ export function saveLogScale(scale: number): number {
   }
   return v;
 }
+
+// ── FB-264 — the DEV action hover-detail toggle ──────────────────────────────────────────────────
+// DEV-only (the toggle lives in the DEV panel's Settings pane; the card renders behind
+// __DEV_TOOLS__), but the pref persists here on the same device-scoped seam as the log scale so a
+// reload keeps the inspector where the human left it. Default OFF — a DEV overlay is opt-in.
+
+const ACTION_HOVER_KEY = 'kk.dev.actionHover';
+
+/** Read the persisted DEV action-hover toggle (false when absent/unreadable). */
+export function loadActionHover(): boolean {
+  try {
+    return localStorage.getItem(ACTION_HOVER_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+/** Persist the DEV action-hover toggle. */
+export function saveActionHover(on: boolean): void {
+  try {
+    localStorage.setItem(ACTION_HOVER_KEY, on ? '1' : '0');
+  } catch {
+    /* storage unavailable — the in-memory state still applies this session */
+  }
+}

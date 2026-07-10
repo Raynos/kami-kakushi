@@ -28,6 +28,8 @@ import {
   availableActions,
   availableLabours,
   timingFor,
+  getActivity,
+  activityForecast,
   introActive,
   introSceneAt,
   introStatDelta,
@@ -5619,6 +5621,68 @@ export function mount(
     }
   }
   hooks.clock.onChange(() => paintActionClock());
+
+  // ── FB-264 — the DEV action hover-detail card ────────────────────────────────
+  // Toggled from the DEV panel's Settings pane (body[data-dev-act-hover]); one
+  // singleton fixed-position card, pointer-events:none — a DEV tool that observes
+  // must not perturb (no layout shift, no stolen hovers, no dispatch). Content is
+  // built lazily on mouseover from `activityForecast` — the SAME selector the
+  // reducer pays from (AC-6), so the shown numbers ARE the next act's payout.
+  // `__DEV_TOOLS__` strips the whole block (and the card) from prod.
+  if (__DEV_TOOLS__ && dev) {
+    const card = el('div', 'dev-act-card');
+    card.hidden = true;
+    document.body.append(card);
+    const hideCard = (): void => {
+      card.hidden = true;
+    };
+    root.addEventListener('mouseover', (e) => {
+      if (document.body.dataset.devActHover !== '1' || !lastState) return hideCard();
+      const btn = (e.target as Element | null)?.closest<HTMLElement>('[data-act-key]');
+      if (!btn) return hideCard();
+      const key = btn.dataset.actKey!;
+      const sep = key.indexOf(':');
+      const type = (sep === -1 ? key : key.slice(0, sep)) as Intent['type'];
+      const arg = sep === -1 ? undefined : key.slice(sep + 1);
+      card.textContent = '';
+      if (type === 'do_activity' && arg) {
+        const act = getActivity(arg as Parameters<typeof getActivity>[0]);
+        const f = activityForecast(lastState, act);
+        const gains = Object.entries(f.gained)
+          .map(([r, n]) => `+${n} ${r === 'rice' ? 'shō (kura)' : r}`)
+          .join(' · ');
+        card.append(el('div', 'dev-act-card-line', gains || 'no yield'));
+        card.append(
+          el('div', 'dev-act-card-line', `+${f.xp} ${act.skill} xp · −${act.satietyCost} satiety`),
+        );
+      }
+      const t = timingFor(type, {
+        activityId: arg,
+        to: arg,
+        from: lastState.location,
+      } as Parameters<typeof timingFor>[1]);
+      card.append(
+        el(
+          'div',
+          'dev-act-card-line dev-act-card-timing',
+          t.kind === 'timed'
+            ? `${t.durationMs / 1000}s work · ${t.cooldownMs / 1000}s cooldown`
+            : 'instant',
+        ),
+      );
+      card.hidden = false;
+      // clamp on-screen only after unhiding, so the measured size is real
+      const r = btn.getBoundingClientRect();
+      const x = Math.min(Math.max(4, r.left), window.innerWidth - card.offsetWidth - 4);
+      const below = r.bottom + 4 + card.offsetHeight <= window.innerHeight;
+      card.style.left = `${x}px`;
+      card.style.top = `${below ? r.bottom + 4 : Math.max(4, r.top - 4 - card.offsetHeight)}px`;
+    });
+    root.addEventListener('mouseout', (e) => {
+      const to = e.relatedTarget as Element | null;
+      if (!to?.closest?.('[data-act-key]')) hideCard();
+    });
+  }
 
   return render;
 }
