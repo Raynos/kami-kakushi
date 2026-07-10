@@ -60,6 +60,23 @@ export function hasWholeWord(haystack: string, needle: string): boolean {
 // A display name counts as mentioned if the full label OR its core (the label
 // minus any trailing parenthetical, e.g. "Mamushi (pit viper)" → "Mamushi")
 // appears case-insensitively, as a whole word, anywhere in the PRD.
+/** Strip gen-region bodies (between `<!-- gen:begin` / `<!-- gen:end` marker
+ *  lines). Generated regions are BUILD TRUTH by construction (the gen-prd-regions
+ *  gate byte-compares them), so the RETIRED-terms scan must not fire on them —
+ *  a shipped registry id that carries a retired word (e.g. `forage_satoyama`)
+ *  is a code-rename concern, not PRD drift. The PRESENCE scan keeps regions
+ *  (they are exactly where many names are mentioned). Exported for test. */
+export function stripGenRegions(text: string): string {
+  const out: string[] = [];
+  let inRegion = false;
+  for (const line of text.split('\n')) {
+    if (line.includes('<!-- gen:begin ')) inRegion = true;
+    if (!inRegion) out.push(line);
+    if (line.includes('<!-- gen:end ')) inRegion = false;
+  }
+  return out.join('\n');
+}
+
 export function matchesLabel(corpus: string, label: string): boolean {
   const forms = [label, label.replace(/\s*\([^)]*\)\s*$/, '')].map((s) => s.trim().toLowerCase());
   return forms.some((f) => f.length > 0 && hasWholeWord(corpus, f));
@@ -145,9 +162,14 @@ function run(): void {
   );
   const corpus = [...corpusByFile.values()].join('\n');
   // the RETIRED scan reads the PRD corpus PLUS the widened living docs
-  const retiredScanByFile = new Map(corpusByFile);
+  const retiredScanByFile = new Map(
+    [...corpusByFile].map(([f, text]) => [f, stripGenRegions(text)] as const),
+  );
   for (const rel of EXTRA_RETIRED_SCAN) {
-    retiredScanByFile.set(rel, readFileSync(join(repoRoot, rel), 'utf8').toLowerCase());
+    retiredScanByFile.set(
+      rel,
+      stripGenRegions(readFileSync(join(repoRoot, rel), 'utf8').toLowerCase()),
+    );
   }
 
   let driftCount = 0;

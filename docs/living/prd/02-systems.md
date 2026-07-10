@@ -130,7 +130,7 @@ fixed-length day counter; that model retired at v0.4.0.)*
 **(b) Player-facing behaviour / loop.** Time passes as the player works. The
 season label + the "End the <season> 季" turn control live with the calendar
 readout and arrive at T0-R2; each season ends by the manual turn (Autumn only
-once the nengu board has sat — ADR-166), and each (site, season) production
+once the nengu board — Lady **Chiyo's** reckoning — has sat; ADR-166), and each (site, season) production
 pool refills on the turn, so the wheel is the pacing container the player
 squeezes at their own pace. There is **no offline accrual and no offline
 summary**: the clock **pauses the moment the tab is hidden** and halts when the

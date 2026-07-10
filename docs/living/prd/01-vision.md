@@ -265,23 +265,27 @@ lever** (§3): T1 (the full estate) opens the **2nd/sword** line, T2 (the Villag
 this ladder — early game is the MC's own active grind (combat, skills, jobs, crafting); idle helpers are a
 late-game convenience only (§1.12).
 
-| Rank | Track | How earned | Unlocks |
-|---|---|---|---|
-| **R0 — Stray / "another mouth"** | labour | Found half-drowned and taken in; survive convalescence and the first labour. *(Met at the open.)* | The *kura* storehouse (one room, one verb); the body/rest bar and rice counter; the bare diegetic estate dashboard. |
-| **R1 — Day-labourer (*hiyatoi*)** | labour | Chief Steward **Genemon** ("another mouth, soft and clumsy") assigns the first real work; complete it, earn a sleeping-place. | The gate & forecourt; the home paddies and dry fields (the **rice heartbeat** — labour yields **rice + a little coin**, both live from T0; rice you then **eat** (satiety), **store** in the *kura*, or **sell** for coin at a season-swinging price); the basic labour loop. |
-| **R2 — Bonded hand (*genin*)** | labour | Sustained, reliable labour across a season; Genemon grants a place on the household's books. | Foraging, woodcutting, hauling; the stables & woodlot edge; the porter's-knot beat surfaces; the **Skills tab**; the woodlot's forage grounds (conditioning-gated). |
-| **R3 — Yard-hand under arms (*buke-hōkōnin*)** | **combat (entry)** | A wolf at the grain store forces the **humbling, near-fatal first fight** early; **survive it**, then beg **Kihei** for drills. The deliberately-incompetent floor of the combat track — surfaced inside T0, not mid-ladder. | The drill yard; the **Combat panel** + idle-combat/training; the **carrying-pole** + **Equipment & Inventory**; the **Bestiary**; the **bare auto-resolve loop + retreat** (character (combat) **level** begins, fed by combat-XP). Combat stats start near-zero. |
-| **R4 — Trusted hand & houseman** | mixed | Win **Lady Chiyo's** regard for indoor work and heir **Naoyuki's** grudging vouching; complete authored trust beats (return a lost ledger; help hold the grain store). | The main-house interior; the household domestic economy (textiles, kitchen, provisioning); the first *shinden* reclamation begun; the **simple Crafting tab + loot→craft loop** (Smith Gonta), surfaced as a **top-level nav tab**; **graded weapon-durability bands** surface with it (a weapon degrades but is **never auto-unequipped**). |
-| **R5 — Gate-guard (*monban*)** | combat | Stand a real watch; clear the first pest/animal threats; weapon-skill milestones reached. (**Combat Rank** gate; conditioning floor at R3.) | Estate-defence duties; the **stance slot** unlocks; **PEST-CONTROL / HUNT / CLEAR / DEFEND** quest types, surfaced on a **top-level Quests nav tab**. *(Curated combat activities feed the **Combat Rank** rung-meter here; the **Arms PILLAR deeds** do **not** accrue yet — they are gated to **Phase 2**, post-R7.)* |
-| **R6 — Foreman of works (*kogashira*)** | labour | Drive the *shinden* reclamation and the workshops to recorded yield; the house edging toward solvency. | The workshops and granary; the low palisade; proto-industry levers; **the first errands past the estate gate** (the valley comes into view; the **village tier proper opens after Phase 2 / tier-up**). |
-| **R7 — Bailiff of the home fields (*jikata-yaku*)** | labour→admin (as narration) | First reclamation recorded; the lord begins to notice; the MC takes on the home-fields *office* (his own quests/duties, not a management layer). | Field administration framed as the MC's own offices/quests; **the capstone OPENS Phase 2** — the four-pillar **estate-influence grind** — and the **capstone CHOICE is a mechanical branch** (each answer unlocks a unique T1 side quest → item + unlock; **§3.0.2 / ADR-125**) — with **House Influence made visible** (the standing panel, showing the **revealed** pillar: at T0 that is **Estate** only — Arms reveals at T1; §1.6.4/§2.16(e)); cash-crop levers; the **tier-expansion map**. Clearing T0's **single-EXCELLENT Estate gate** (Estate only — Arms reveals at T1; §1.6.3) is what **tiers up to T1.** |
+Per-rung **unlocks** are the generated reveal ladder in §1.12 (from `RANKS`);
+this table fixes the **arc** — track and earning — from the bible
+([`tiers/t0.md`](../../story-bible/tiers/t0.md)).
+
+| Rung | Track | The earning |
+|---|---|---|
+| **R0 — The man from the weir (無名)** | labour | Pulled half-drowned from the weir; Sōan's examination, and the forced beat where he asks his own name — the day-book holds *"one man, name unknown."* First verbs: rake, haul water. |
+| **R1 — The day-hand (日雇)** | labour | Kept by arithmetic — two hands quit for the lowlands that week; Genemon states the terms at the board, witnessed. |
+| **R2 — The yard-hand (庭男)** | labour | The SILENT rung — a task simply not taken back; the yard's round becomes his. The seasons readout unlocks here. |
+| **R3 — The grain-watch (蔵番)** | **combat (entry)** | The night round, and the wolf — **survived, not won**: blood on the sill mostly his, the rice untouched, ribs cracked. Combat surfaces here (the deliberately-incompetent floor), inside T0, not mid-ladder. |
+| **R4 — The pupil (弟子)** | mixed | He limps to the board and CONFESSES the granary loss; the shame drives him to BEG Kihei for drills. The creed, on-screen, once. The drill yard opens as Kihei's need. |
+| **R5 — The accused (咎人)** | mixed | The Count — Toku's packet missing; Naoyuki says his name first; the day-book clears him. No apology. The wage begins. |
+| **R6 — The trusted hand (用人)** | labour | The first coin errand — Yohei's stall at the gate, the house's small purse counted back to the mon under Genemon's finger. |
+| **R7 — The named hand (名代)** | labour→admin (as narration) | Genemon opens the day-book and writes the hand-me-down name **Gonbei** — *"the house's name for you; earn a better."* Sleep; the first dream. The capstone **OPENS Phase 2** — the estate-influence grind (the House-Influence panel **teases from R3**; the revealed pillar is **Estate** only at T0, Arms reveals at T1) — and clearing T0's **single-EXCELLENT Estate gate** (§1.6.3) is what **tiers up to T1.** |
 
 **T1 — Estate (the land, at full depth): the real grind begins (~8 rungs; its own `R0→R7` arc — the career
 unbroken, docket #1; built game trails on the old `R8→R15` labels).**
 The same one estate at **full depth** — the deliberate **≥30-min-per-rung** climb first bites here (T0's
 tutorial cadence ends). Standing climbs **tolerated → friendly**. The **Arms pillar reveals** and its
 **deeds first bank** (in T1's Phase 2); the **coin/rice** flywheel **branches into LAND / TREASURY / TRADE** (trade
-**≤⅓**); the **first paid retinue** (Gohei & Yatarō) is won and the **E1→E2** estate stage lands. New verbs,
+**≤⅓**); the **first hired hands** are won (the bible's T1-R6 first hiring — Tetsuji's forge lit; [`tiers/t1.md`](../../story-bible/tiers/t1.md)) and the **E1→E2** estate stage lands. New verbs,
 same familiar domain — and the **first ascension (T0→T1) lands BIG**. The rung-meters reset per rung;
 the weapon roster grows **+3** and the **2nd archetype line — the sword** opens here (a Combat Rank rung-gate;
 the blade is a full-estate reveal, §3). T1 mints its own ~8-rung R0→R7 arc
@@ -299,16 +303,20 @@ deeds accrue only in T2's Phase 2**.
 *(The **village reputation web** — §1.5.2 — runs **alongside** this as a parallel **optional accelerant**, never
 a gate; see §1.5.4.)*
 
-| Rank | Track | How earned | Unlocks |
-|---|---|---|---|
-| **V0 — Errand-runner FOR the house, in the valley** | labour | The house trusts him to carry its business past its own gate into Asagiri; first village errands. | The market/shop row; the **monme** coin denomination (coin itself runs from T0 — this is a *denomination* reveal as wealth grows, not a new currency); the village reputation web seeds (optional). |
-| **V1 — Recognised hand of the house** | mixed | The valley begins to know the house's man (headman + shops acknowledge him); combat keeps pace clearing valley pests/animals. | The chief's house; the deeper wilderness rings; the inn & rumours board (side). |
-| **V2 — Road-warden (*michi-ban*) for the house** | combat | Make a stretch of valley road or the ford safe in the estate's name; survive a real bandit/animal clear. | Road-security duties; **HUNT/CLEAR** at valley scale; better loot/craft tiers; the **3rd combat line** (the staff) opens here (a Combat Rank rung-gate; +weapons across T2). *(Arms-pillar deeds accrue in T2's **Phase 2**, not on the rungs.)* |
-| **V3 — The house's steward of the valley economy** | labour | Bring the valley economy and the estate's cash-crops to a recorded seasonal result. | Cash-crop and trade levers (the silk/sericulture *meibutsu* sub-engine begins — the trade strand opens at T1, never T0); the broker meters. |
-| **V4 — Trusted of the headman** | mixed | Put a valley fire out on the estate's behalf (Magobei's skim surfaces here); win the headman's regard (personal regard is a side accelerant). | The headman's roll-up quests; the doctored-ledger thread; first **Office** standing (the Office pillar reveals at T2). |
-| **V5 — Sworn man-at-arms of the house** | combat | Stand a real watch for the valley in the house's name; weapon-line milestones; survive the first dangerous-road encounter. | Gohei & Yatarō (the **T1** paid retinue) **deployed/expanded** at valley scale (not first-won — that was T1, §3); defence of the valley. |
-| **V6 — Right-hand-in-waiting (agent over the valley)** | mixed | The lord first believes the house's impact beyond the estate is possible; "clean your room" nearly done. | Authority across the valley; the alliance/standing levers that point at the region. |
-| **V7 — Agent of the house, the valley anchored** | labour→admin (as narration) | Estate healthy, valley anchored under it, immediate fires out — the capstone "clean your room" beat. | The **region** map and the **T2→T3** quest; the capstone **OPENS T2's Phase 2** (the pillar grind across **Arms + Estate + Office**); clearing T2's **hybrid profile** bridges to **T3** (the domain expands again, to the Region). Rival samurai houses appear. |
+The T2 arc from the bible ([`tiers/t2.md`](../../story-bible/tiers/t2.md) —
+⌂ inside / ⛩ outside, the tier's alternation); per-rung mechanics are T2's own
+design pass's domain when it builds.
+
+| Rung | Arena | The earning |
+|---|---|---|
+| **R0 ⛩ — The messenger** | village | Sent to the village with the house's name in his mouth; the well goes quiet — the stranger's surcharge made audible. And **Sayo stops dead: "Tama? You're alive?"** — the Tama thread ignites. |
+| **R1 ⌂ — The works-hand of the outer court** | estate | The ruin's outer domain opens as a WORK SITE — clearances, the gatehouse scaffolded; the compound a place he works, not scenery. |
+| **R2 ⛩ — The dues-carrier** | village | He carries the house's dues — and, sealed among them, **Genemon's silver**; his tally-keeper's eye is what notices the line that doesn't map. |
+| **R3 ⌂ — The steward's shadow** | estate | Genemon folds him into the stewardship proper (the T5 succession's long root); the books open wider; the missing-years stubs sit in reach, unexplained. |
+| **R4 ⛩ — The market-man** | village | The house sells through him — charcoal, terrace surplus, the market square's tables; each honest deal shaves the surcharge. |
+| **R5 ⌂→⛩ — The works-master** | the ONE crossing | The gatehouse RAISED — the estate's new face to the valley; **bandits hit the works — the first MAN he ever fights**, staged and named, with an aftermath that refuses to let it be small. |
+| **R6 ⛩ — The house's voice** | village | He speaks for the house at the headman's table; the bandit camp is answered as a **CAMPAIGN** — both arenas converge on it. |
+| **R7 ⌂ — The yard-officer** | estate | Daily operations his; the regency leans on him in fact but not in title. The house has bones again, and the valley knows whose hands set them. The capstone **OPENS T2's Phase 2** (the pillar grind); clearing T2's hybrid profile bridges to **T3**. |
 
 **T3 — Region ladder (v1 scope; enumerated as a per-tier ladder).** v1 completes T3, so its ~8-rung ladder
 ships too: the estate's domain expands again — a region-facing hierarchy framed as **the house's** agent over an
@@ -686,8 +694,9 @@ per-pillar-per-tier thresholds are back-solved against the fixed deed inventory 
 stays **≤⅓** of Estate & Wealth as the **only** structural cap, with cross-pillar combos computed **post-clamp**
 and excluded from the gate-check.
 
-> **The standing-panel teaser.** From the capstone of **T0**, **House Influence becomes visible** as a
-> standing panel showing the **active pillar(s)** filled and bar-graphed beside the **locked pillars rendered as
+> **The standing-panel teaser.** From **R3** (the build's `panel-house-influence`
+> unlock — the teaser shows well before the capstone; **Phase 2's grind** is what
+> opens at R7), **House Influence is visible** as a standing panel showing the **active pillar(s)** filled and bar-graphed beside the **locked pillars rendered as
 > unnamed silhouettes** — the player sees there are more pillars coming (and roughly how many) **without** their
 > names or mechanics being spelled out, so each reveal still lands as a story beat (§2.16(e); ui-design.md).
 
@@ -744,32 +753,30 @@ near grounds → the deeper woods → the river/ford/weir where he was found →
 region, castle town, domain and Edo** zones are enumerated per tier in the bible tier sheets
 ([`tiers/`](../../story-bible/tiers/); [`03-tiers.md`](../../story-bible/03-tiers.md)).
 
-**The shipped T0 walkable map (v0.4.0)** opens the estate anatomy above room by room:
-*The weir & riverbank* (the cold open) · *The forecourt* · *The gate & gateyard* · *The kitchen threshold* ·
-*The woodshed* · *The home paddy & vegetable rows* · *The field margins* · *The kura & grain-store* ·
-*The woodlot edge* · *The weir reeds* · *The drill yard* · *The shrine-alcove corridor* ·
-*The overgrown orchard* · *The bamboo grove* · and *The ruined compound* (locked scenery until the T2 reveal).
+**The shipped T0 walkable map (16 zones, incl. Sōan's sickroom; `ruined` is
+locked scenery until the T2 reveal)** opens the estate anatomy room by room —
+the roster and each zone's reveal rung are **generated** in §3.3 (the
+`t0-zone-reveals` region, [`03-unlock-ladder.md`](03-unlock-ladder.md)).
 Bible source: [`tiers/t0.md`](../../story-bible/tiers/t0.md).
 
 **The built-game area registry (trailing until the storywave game plan lands):**
 
+The **T0 rows are generated** — the shipped 16-zone roster + reveal rungs live
+in §3.3's `t0-zone-reveals` region (never duplicated here). The frontier rows
+below (T1+) are forward spec, names from the bible cast
+([`04-cast.md`](../../story-bible/04-cast.md)):
+
 | Area | Region (tier) | Faction | Notable locations | Unlocks when |
 |---|---|---|---|---|
-| **The Kura Storehouse** | Kurosawa Estate (T0) | Estate | The convalescence pallet; spilled rice to rake | At the open (R0, Stray). Home of the UI-reveal engine (body/rest bar, rice counter). |
-| **The Gate & Forecourt (*genkan*)** | Kurosawa Estate (T0) | Estate | The *genkan*; the visitor's mat | R1. The diegetic stage for promotions and the Tama-vs-farmhand framing. *(T0 room/area reveals are SEPARATE — the stables, woodlot edge, and drill yard each reveal individually, not folded in.)* |
-| **The Home Paddies & Dry Fields** | Kurosawa Estate (T0) | Estate | Fallow plots to reclaim; the granary | R1; *shinden* reclamation begins around R4. The **rice heartbeat** (active grind, not idle producers) — rice to eat, store, or sell for coin. |
-| **The Drill Yard** | Kurosawa Estate (T0) | Estate | Training posts; Kihei's weapon rack | **R3, after the humbling first fight (combat live from T0).** Conditioning & idle-combat. |
-| **The Main House / *Omoya*** | Kurosawa Estate (T0) | Estate | Kitchen & inner rooms; the household shrine; the lord's study (ledgers) | R4 (houseman); the study at R7 (bailiff). |
-| **The Workshops, Granary & Palisade** | Kurosawa Estate (T1) | Estate | The two workshops; the granary; the low palisade; the men-at-arms' rota | **T1** — the full-estate grind (estate stage **E1→E2**); proto-industry levers; the first paid retinue (Gohei & Yatarō) mustered. The Arms-pillar's first deeds bank here. |
-| **The Market / Shop Row** | Village of Asagiri (T2) | Village | Smith Gonta's forge; Obaa Kuni's herb stall; Brewer Tokuemon's; Weaver Onatsu's (silk) | T2 (the full estate trusts him to carry its business past the gate; village V0). Per-shop reputation meters; the real silk *meibutsu* market. |
-| **The Chief's House** | Village of Asagiri (T2) | Village | Yagōemon's receiving room; the village ledgers | T2, on building the chief's regard. Reputation roll-up + the doctored-ledger thread. |
-| **The Inn & Rumours Board** | Village of Asagiri (T2) | Village | The rumours board; the common room | T2. Sukezō's inn — hub for optional light folklore side-quests (unlocked organically). **None gate tier progression.** |
-| **The Shrine / Temple** | Village of Asagiri (T2) | Village | The shrine (*shimenawa*); the temple register; the Bon offering site | T2. Priest Ryōa's register of the vanished (a mystery clue). |
-| **The Jizō at the Weir** | Wilderness & Mountains / Asagiri boundary (shared, T0–T3) | Village / neutral | The boundary *jizō* **at the weir where he was found**; an offering left by an unknown hand | T0–T2, gated by conditioning. **The single find-spot** — where he was pulled from the river — and the **one** capped residual-ambiguity beat (the unknown-hand offering lingers unresolved). |
-| **The Woodlot's Forage Grounds** | Wilderness & Mountains (shared, T0–T3) | Shared wilderness | Foraging groves; the bamboo stand | R2/T0, gated by conditioning. First ring of the danger gradient. |
-| **The Deeper Woods (奥山)** | Wilderness & Mountains (shared, T0–T3) | Shared wilderness | Deep forage groves (*sansai*) | T0, one hill past the forage grounds (behind the danger ring, at a higher satiety cost). **The second conditioning-gated danger ring** — gates the richer `forage_deepwoods` yield, so the map earns its walk. |
-| **The River, Ford & Weir** | Wilderness & Mountains (shared, T0–T3) | Shared wilderness | The ford (the "kappa" spot); the weir | T0–T2, gated by conditioning. Fishing + the "kappa" thread (undertow + smugglers' sinking-spot). *(The find-spot **jizō at the weir** is its own row above — the lone residual-ambiguity beat is co-located there.)* |
-| **The Foothills & Charcoal Grounds** | Wilderness & Mountains (shared, T0–T3) | Shared wilderness | The hidden charcoal kiln ("fox-fire"); hunting trails | T2, deeper conditioning. A further danger ring at valley scale. |
+| **The Workshops, Granary & Palisade** | Kurosawa Estate (T1) | Estate | The workshops (the forge lit under **Tetsuji**, the T1-R6 first hiring); the granary; the low palisade; the men-at-arms' rota | **T1** — the full-estate grind (estate stage **E1→E2**); proto-industry levers; the first hired hands mustered. The Arms-pillar's first deeds bank here. |
+| **The Market Square & Shop Row** | Village of Asagiri (T2) | Village | The well; the market tables the house sells through (T2-R4); **Kyūbei's mill**; the craft stalls behind the §1.5.2 reputation web | T2 (the house trusts him to carry its business past the gate; T2-R0). The village arena of the reputation web; the real silk *meibutsu* market. |
+| **The Headman's House** | Village of Asagiri (T2) | Village | **Mohei's** receiving room; the village ledgers; **Sayo** — the namer, the living heart of the Tama thread | T2, on building the headman's regard (the web's roll-up). |
+| **The Inn & Rumours Board** | Village of Asagiri (T2) | Village | The rumours board; the common room | T2. The folklore-delivery surface of §1.5.2 — optional light side-quests, unlocked organically. **None gate tier progression.** |
+| **The Temple** | Village of Asagiri (T2) | Village | **Ekai's** temple; **the register of the vanished** (the mystery clue — both false takings in official ink); the Bon offering site | T2. |
+| **The Ferry Landing & Night Roads** | Village of Asagiri (T2) | Village | **Funakichi's** landing; the crossing trouble | T2 (a main-quest thread, bible `tiers/t2.md`). |
+| **The Jizō at the Weir** | Wilderness & Mountains / Asagiri boundary (shared, T0–T3) | Village / neutral | The boundary *jizō* **at the weir where he was found**; an offering left by an unknown hand | Walkable from T0 (the weir zone). **The single find-spot** — and the **one** capped residual-ambiguity beat (the unknown-hand offering lingers unresolved). |
+| **The River, Ford & Weir** | Wilderness & Mountains (shared, T0–T3) | Shared wilderness | The ford (the "kappa" spot); the weir | T0–T2. Fishing + the "kappa" thread (undertow + smugglers' sinking-spot). |
+| **The Foothills & Charcoal Grounds** | Wilderness & Mountains (shared, T0–T3) | Shared wilderness | The charcoal grounds (T2's charcoal trade); hunting trails | T2, deeper conditioning. A further danger ring at valley scale. |
 
 ## 1.7.1 World & areas — LATER (T3 deep + T4–T5 expansion; parked, not cut)
 

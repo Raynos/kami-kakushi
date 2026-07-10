@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { hasWholeWord, matchesLabel } from './prd-drift';
+import { hasWholeWord, matchesLabel, stripGenRegions } from './prd-drift';
 
 // Unit-tests the pure matching layer of the prd-drift report (the CLI itself
 // stays untested — it's a report, and coupling tests to the CURRENT PRD corpus
@@ -45,5 +45,25 @@ describe('matchesLabel', () => {
 
   it('rejects a label absent from the corpus', () => {
     expect(matchesLabel('nothing relevant here', 'Forged yari')).toBe(false);
+  });
+});
+
+describe('stripGenRegions', () => {
+  it('removes region bodies so a shipped id with a retired word cannot fire the scan', () => {
+    const doc = [
+      'hand prose above',
+      '<!-- gen:begin t0-activities (pnpm run gen:prd-regions — do not edit inside) -->',
+      '> | `forage_satoyama` | Forage the woodlot edge |',
+      '<!-- gen:end t0-activities -->',
+      'hand prose below',
+    ].join('\n');
+    const out = stripGenRegions(doc);
+    expect(out).not.toContain('satoyama');
+    expect(out).toContain('hand prose above');
+    expect(out).toContain('hand prose below');
+  });
+
+  it('leaves a retired term in HAND prose alone — the scan still fires there', () => {
+    expect(stripGenRegions('the satoyama frame lives on')).toContain('satoyama');
   });
 });

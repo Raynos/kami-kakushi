@@ -105,3 +105,33 @@ G11 §4.8 T0 Phase-1 pacing table (retired meter gates, old rung
 fictions) → t0-pacing.md + requirements.ts, locked intent kept as
 prose (escalation, the T1+ 30-min floor, ≤2–3× ratios, no Phase-1
 pillar deeds). Full verify green (17 gates).
+
+## 6 · Phase T1 — the §1 canon transcriptions
+
+- **T1.1** §1.5 T0 rung table → the shipped bible ladder (weir-man 無名
+  → named-hand 名代; the silent R2, the survived-not-won wolf at R3,
+  the Count at R5, Gonbei written at R7). Unlocks column dropped — the
+  generated §1.12 ladder is the one home.
+- **T1.2** §1.5 T2 V0–V7 table → the bible R0–R7 arc (messenger →
+  yard-officer, ⌂/⛩ alternation, the R5 first-MAN crossing). Magobei/
+  Gohei/Yatarō (nowhere in canon) are gone; the T1 first-hiring is
+  Tetsuji per the bible.
+- **T1.3** §1.7 area registry → T0 rows struck (the generated
+  `t0-zone-reveals` region is the home); frontier rows rebuilt from
+  the bible cast (Mohei, Sayo, Ekai + the register of the vanished,
+  Kyūbei, Funakichi); the Deeper Woods row deleted (node retired into
+  the woodlot).
+- **Fixes:** House-Influence teaser corrected to its R3 reveal (three
+  spots); the 15-node map list → 16 zones incl. Sōan's sickroom, now a
+  pointer at the generated region; Chiyo re-homed to her true beat
+  (the nengu board, ADR-166).
+- **P1 arrived early:** `prd-drift`'s RETIRED scan now strips
+  gen-region bodies (build ids like `forage_satoyama` are build truth,
+  not PRD drift — code-rename concerns live in code review) + 2 tests.
+  `prd:drift` CLEAN.
+
+NOTE: full verify is RED on a co-agent's src/sim WIP (w1:p3's ratio
+work: sim.test.ts + stale fixtures) — not this workstream. This commit
+verified its own slices directly (38 tests green, oxfmt/oxlint clean)
+and rode SKIP_CODE_VERIFY; the docs gates (incl. gen-prd-regions,
+verify-prd, md-links) ran green.
