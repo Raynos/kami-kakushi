@@ -386,12 +386,15 @@ above are the portable part; these are what's specific to kami-kakushi.
   append at the bottom, never prepend; the live snapshot is
   `project/status/project-status.md`). One doc per concern; edit living docs in
   place (don't fork copies).
-- **Freeze = locked intent, not the plan.** "Freezing" the PRD scopes to
-  **locked intent** — the §1 vision + the human-signed acceptance criteria —
-  **not** the route there: the §4 balance numbers and §7 MS2–MS7 milestone detail
-  stay **provisional** (revised by playtest), never frozen as locked canon. Full
-  rule, rationale + current freeze state: **ADR-021** (refines ADR-020, refined by
-  ADR-059) in [`decisions.md`](docs/living/decisions.md).
+- **The PRD is never frozen — it tracks the shipped game (ADR-168).** The old
+  "freeze" is cancelled: no PRD text is off-limits; where the PRD describes a
+  game that no longer ships, fixing it is agent-safe (an *intent* change still
+  stops for the human). Locked intent — the vision constraints + the
+  human-signed acceptance criteria — binds as **intent** (ADR-022, newest steer
+  wins), not as a text-freeze; the §4 balance numbers and §7 MS2–MS7 detail stay
+  **provisional** (revised by playtest). Prefer **generation** over hand copies
+  (gen-regions / strike-and-point, ADR-168). Chain: **ADR-168** (cancels the
+  ADR-021/ADR-059 freeze door) in [`decisions.md`](docs/living/decisions.md).
 - **Temporary files → `./tmp/`.** Use the repo-local, git-ignored [`tmp/`](tmp)
   for all scratch / working files (intermediate output, throwaway scripts,
   scratch notes) — **not** the global system scratchpad. Anything worth keeping

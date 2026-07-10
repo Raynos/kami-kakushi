@@ -262,7 +262,7 @@ that list is hand-maintained, and no gate can soundly know a rename happened (au
 - **Options:** (A) hard-freeze the whole PRD at sign-off, then explode · (B) **freeze only LOCKED INTENT, keep provisional implementation liquid, build → playtest → THEN explode** · (C) never freeze / never explode.
 - **Decision:** **(B)** The freeze line is **LOCKED INTENT vs PROVISIONAL IMPLEMENTATION.** **FROZEN / locked intent** = §1 vision + the hard human constraints (no-magic · mediocre-start · trade ≤⅓ · active-only · the four pillars · the estate spine) + the human-**SIGNED** acceptance criteria (≥30-min-per-rank floor · 70/30 deeds/seasonal · ~28.5h v1 budget · the tier-gate **TARGETS**) — the destinations. **LIQUID / provisional** = the §4 yields/levers/balance numbers (already tagged "proposed v1 balance" throughout §4, per ADR-016) and the §7 **MS2–MS7** milestone detail that *hit* those targets — the route; the levers move, the locked targets do not. **DO NOT EXPLODE YET:** build **MS0+MS1 against the CURRENT `docs/living/prd.md`**, playtest, **THEN** reorganise once — sign-off legitimately comes *after* the first build-and-play cycle, on ground that has survived contact with play. **On explosion:** the §7 roadmap becomes a **LIVING** `docs/living/roadmap.md` (banner: *"MS0–MS1 committed; MS2–MS7 provisional, re-planned after each playtest"*) and the §4 numbers become **GENERATED** `docs/content/` tables (generate-don't-duplicate — what makes post-playtest re-tuning cheap; the battery rounds kept catching hand-typed derived tables that silently drift). **NEVER freeze MS2–MS7 as locked canon** — that is the mistake rejected, **not** the multi-doc structure. The **v1 SCOPE lock (full T0–T2, "no pre-planned descope", §7.4.2 / ADR-012 / ADR-017) is orthogonal and UNCHANGED** — it locks *what* ships, not the provisional *how*.
 - **Why:** A hard whole-PRD freeze would lock the under-specified plan layer that PD-1 proved must resolve via play (K3 / ADR-019); freezing only the destinations while keeping the route liquid lets the build steer by playtest without re-litigating the vision, and generating the derived tables stops hand-typed balance from silently drifting (a repeat battery finding).
-- **Consequences:** **REFINES (does not delete) ADR-020**; references **ADR-019** (fun-as-hypothesis) and the battery review **PD-1**. Do NOT create `docs/living/roadmap.md` or `docs/content/` yet — build MS0+MS1 against the current `prd.md` first; defer the docs-explosion to the post-M0/MS1 playtest. When exploded: freeze only §1 + the locked constraints as a **tagged vision snapshot**, roadmap → living, balance → generated. The §4 "proposed v1 balance" numbers and the §7 MS2–MS7 detail stay provisional and re-planned after each playtest; the signed acceptance TARGETS and the T0–T2 scope do not move. *(2026-06-27 update: the first build-play cycle is COMPLETE — MS0/MS1/MS2 demo, verify-green; the docs-explosion trigger has fired. `docs/content/` exists [generated] and `docs/living/roadmap.md` [the living milestone tracker] is created; the §1 vision-freeze + §4-balance-to-generated remain queued. See ADR ADR-046.)* **🔁 Refined (2026-06-29) by ADR-059:** the §1 vision-freeze is moved to **end-of-v1** — keep the PRD liquid through T0–T2 (maybe T3), then convert the whole PRD to living docs once v1 is built + play-tested. ADR-021's freeze-line principle (locked intent vs provisional plan) is unchanged; only *when* §1 crystallizes moves.
+- **Consequences:** **REFINES (does not delete) ADR-020**; references **ADR-019** (fun-as-hypothesis) and the battery review **PD-1**. Do NOT create `docs/living/roadmap.md` or `docs/content/` yet — build MS0+MS1 against the current `prd.md` first; defer the docs-explosion to the post-M0/MS1 playtest. When exploded: freeze only §1 + the locked constraints as a **tagged vision snapshot**, roadmap → living, balance → generated. The §4 "proposed v1 balance" numbers and the §7 MS2–MS7 detail stay provisional and re-planned after each playtest; the signed acceptance TARGETS and the T0–T2 scope do not move. *(2026-06-27 update: the first build-play cycle is COMPLETE — MS0/MS1/MS2 demo, verify-green; the docs-explosion trigger has fired. `docs/content/` exists [generated] and `docs/living/roadmap.md` [the living milestone tracker] is created; the §1 vision-freeze + §4-balance-to-generated remain queued. See ADR ADR-046.)* **🔁 Refined (2026-06-29) by ADR-059:** the §1 vision-freeze is moved to **end-of-v1** — keep the PRD liquid through T0–T2 (maybe T3), then convert the whole PRD to living docs once v1 is built + play-tested. ADR-021's freeze-line principle (locked intent vs provisional plan) is unchanged; only *when* §1 crystallizes moves. **🔁 Refined (2026-07-10) by ADR-168:** §1 never crystallizes — the freeze is cancelled outright; the PRD tracks the shipped game.
 
 ### ADR-022 ✅ — V2 decisions supersede prior locks; first application: relax the no-labour→combat wall (Q6)
 - **created_date:** 2026-06-26
@@ -547,7 +547,7 @@ design ADR.
 - **Options:** (A) freeze §1 now (the queued step) · (B) **keep the PRD open/liquid through T0/T1/T2 (possibly T3); do NOT freeze §1 now; convert the WHOLE PRD into living docs once v1 is fully implemented + play-tested** · (C) never freeze / never explode.
 - **Decision:** **(B)** Keep the PRD **liquid through T0–T2 (maybe T3)**. **Do NOT freeze §1 now.** The one-way freeze door moves to **end-of-v1**: once v1 is fully built + play-tested, convert the whole PRD into living docs. (The mechanical PRD-file split into per-section files — feedback #6 — proceeds with the batched ripple; that's structure, not a freeze.)
 - **Why:** Freezing §1 mid-build risks locking intent that contact with play may still steer (the ADR-019 fun-as-hypothesis discipline); the safest moment to crystallize the vision is when v1 has actually survived play. The earlier "freeze after first cycle" was premature given how much the reshape moved.
-- **Consequences:** **REFINES (does not delete) ADR-020, ADR-021, ADR-046** (annotated in each — the queued §1 vision-freeze now waits for end-of-v1). The locked-intent constraints (no-magic · mediocre-start · trade ≤⅓ · active-only · the four pillars · the estate spine · the signed acceptance targets) still hold as canon; they are simply not yet snapshot-frozen. MS2–MS7 stay provisional as ever. **PRD/docs application PENDING.** Per **ADR-022**, governs.
+- **Consequences:** **REFINES (does not delete) ADR-020, ADR-021, ADR-046** (annotated in each — the queued §1 vision-freeze now waits for end-of-v1). The locked-intent constraints (no-magic · mediocre-start · trade ≤⅓ · active-only · the four pillars · the estate spine · the signed acceptance targets) still hold as canon; they are simply not yet snapshot-frozen. MS2–MS7 stay provisional as ever. **PRD/docs application PENDING.** Per **ADR-022**, governs. **🔁 Refined (2026-07-10) by ADR-168:** the end-of-v1 freeze door is **CANCELLED** — the PRD is never frozen; it tracks the shipped game (locked intent binds as *intent*, not as a text-freeze).
 
 ### ADR-060 ✅ — Roadmap re-axed as nested Tier → Milestones → Fun-slices (not a flat S0–S4)
 - **created_date:** 2026-06-29
@@ -2845,3 +2845,33 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
 - **Consequences:** C5a executes in-session (human-routed to Fable);
   alternates stay DEV-only until the HR-items close; `map.ts` node
   blurbs become season-keyed; registry wiring rides the same commits.
+
+### ADR-168 ✅ — the PRD is NOT frozen; it tracks the shipped game (HD-33; 🔁 refines ADR-021/ADR-059)
+
+- **created_date:** 2026-07-10
+- **Context:** HD-33 — the C2 closure sweep found the PRD's §1.5 T0 rung
+  table and §4.8 hand-authored pacing table describe the PRE-reboot game
+  wholesale, and stopped at the ADR-021 freeze boundary rather than fix
+  human-signed §1 text. Asked how far the ripple may reach, the human
+  ruled on the premise itself.
+- **Decision:** **There is no PRD freeze — "we can't freeze it."** The
+  queued §1 vision-freeze (ADR-021's snapshot, re-timed to end-of-v1 by
+  ADR-059) is **CANCELLED**, not merely deferred. Any agent blocked by
+  freeze language unblocks and fixes the text. The PRD is corrected to
+  match the current story-bible + the shipped src (HD-33 option a),
+  with **generation as the preferred mechanism**: wherever a block is
+  derivable from a registry or an existing generated doc, expand the
+  gen-region system (`gen-prd-regions.ts`) or strike-and-point at the
+  generated doc — hand-transcribe only what generation can't carry.
+- **Why:** the build is the territory (PH2); a "frozen" hand copy of a
+  since-rebooted game is worse than no copy — it actively misleads. The
+  locked-intent constraints (no-magic · mediocre-start · trade ≤⅓ ·
+  active-only · the four pillars · the estate spine · the signed
+  acceptance targets) still bind — as **human intent** under ADR-022
+  (newest steer is canon), not as a text-freeze.
+- **Consequences:** ADR-021/ADR-059 annotated (the freeze door is
+  removed, not moved); freeze-language across the PRD/docs gets cleaned
+  in the truth-sync ripple; the s136 PRD truth-audit + its
+  `docs/plans/` truth-sync plan execute this decision. `/prd-ripple`'s
+  "frozen §1 → stop for the human" class relaxes to "intent change →
+  stop for the human" (text-sync to shipped canon is agent-safe).
