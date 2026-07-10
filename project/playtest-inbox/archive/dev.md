@@ -163,3 +163,13 @@ lol in this state i cant even press new game im just stuck in the cold open.
 **Details:** `dev/2026-07-10T19-18-20.json` — save + recent logs + full context
 
 ---
+
+## Question · FB-364 · 2026-07-10T23:10:11+0200 — now-that-the-t0
+
+Now that the T0 map is wired into the game, can we remove the T0 v2 map prototype ? ( We can leave the T1 / T2 map prototypes here )
+
+**Element:** button "⤢ T0 V2 map — the story-bible zone draft" — "⤢ T0 V2 map — the story-bible zone draft" · `div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(8) > button:nth-of-type(1)` · @1120,292 329×25
+**Screenshot:** `dev/2026-07-10T23-10-11.png`
+**Details:** `dev/2026-07-10T23-10-11.json` — save + recent logs + full context
+
+---

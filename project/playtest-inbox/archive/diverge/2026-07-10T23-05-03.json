@@ -1,0 +1,44 @@
+{
+  "capturedAt": "2026-07-10T23:05:03+0200",
+  "kind": "bug",
+  "group": "diverge",
+  "session": "2026-07-10T23-03-27-03f2a7",
+  "build": {
+    "version": "v0.4.0",
+    "sha": "723852d",
+    "date": "2026-07-10"
+  },
+  "seed": 20260626,
+  "clock": {
+    "day": 0,
+    "tick": 0
+  },
+  "location": "kura",
+  "rung": "R0",
+  "tier": 0,
+  "activeTab": "work",
+  "variants": {},
+  "viewport": {
+    "w": 1496,
+    "h": 752,
+    "dpr": 2
+  },
+  "url": "/?story-fb324-rake-cap=b",
+  "element": {
+    "label": "div.modal-card",
+    "text": "×物語Explore story — SV9 · The rake-cap line (the spill runs o",
+    "selector": "html > body > div:nth-of-type(4) > div",
+    "rect": {
+      "x": 10,
+      "y": 30,
+      "w": 1476,
+      "h": 692
+    }
+  },
+  "screenshot": "2026-07-10T23-05-03.png",
+  "logTail": [],
+  "save": "eyJhcHAiOiJrYW1pLWtha3VzaGkiLCJzY2hlbWFWZXJzaW9uIjoxMCwiZ2VuZXJhdGlvbiI6Miwic2F2ZUNvdW50ZXIiOjEzODgsInNhdmVkQXQiOjE3ODM3MTc1MDM2NjksInN0YXRlIjp7InNjaGVtYVZlcnNpb24iOjEwLCJzZWFzb24iOiJ3aW50ZXIiLCJzZWFzb25zUGFzc2VkIjowLCJybmciOnsic2VlZCI6MjAyNjA2MjYsImN1cnNvcnMiOnsiY29tYmF0IjowLCJsb290IjowLCJzZWFzb25hbCI6MCwid29ybGRnZW4iOjAsImRpc2NvdmVyeSI6MH19LCJjbG9jayI6eyJ0aWNrIjowLCJkYXkiOjB9LCJjaGFyYWN0ZXIiOnsiaHAiOjU4LCJzYXRpZXR5Ijo2NCwiYXR0cmlidXRlUG9pbnRzIjowLCJhdHRycyI6eyJzdHIiOjUsImFnaSI6NSwiaW50Ijo1LCJzcGQiOjUsImx1Y2siOjV9LCJsZXZlbCI6MSwiY29tYmF0WHAiOjB9LCJyZXNvdXJjZXMiOnsiY29pbiI6MH0sImJhbmtlZCI6eyJyaWNlIjowfSwic2l0ZVBvb2xzIjp7InBhZGRpZXMiOjMwMCwiZm9yZWNvdXJ0IjoxMjAsIndvb2Rsb3QiOjE2MCwid2VpciI6MTIwfSwid2FnZURheXNBY2NydWVkIjowLCJyYWtlc0RvbmUiOjAsImxhc3RXYWdlRGF5IjotMSwiZmxhZ3MiOnt9LCJ1bmxvY2tlZCI6WyJzY3JlZW4tY29sZC1vcGVuIiwidmVyYi1vcGVuLWV5ZXMiXSwibG9nIjp7ImVudHJpZXMiOltdLCJzZXEiOjB9LCJza2lsbFhwIjp7fSwiZGVsaXZlcmVkRGlhbG9ndWUiOltdLCJucGNNZW1vcnkiOnt9LCJpbnRyb0JlYXQiOi0xLCJydW5nQmVhdCI6bnVsbCwiYXNrZWRUb3BpY3MiOltdLCJxdWVzdHMiOnsiYWNjZXB0ZWQiOltdLCJwcm9ncmVzcyI6e30sImNvbXBsZXRlZCI6W119LCJtYXJrZXRCb3VnaHQiOnt9LCJiZWxvbmdpbmdzIjpbXSwibG9jYXRpb24iOiJrdXJhIiwicnVuZyI6IlIwIiwicnVuZ1JlcXMiOnt9LCJlc3RhdGVTdGFnZSI6MCwiZGlzY292ZXJlZCI6W10sImRpc2NvdmVyeVByb2dyZXNzIjp7fSwiYXV0b0FjdGl2aXR5IjpudWxsLCJhdXRvUmFrZSI6ZmFsc2UsImVxdWlwcGVkV2VhcG9uIjoiY2FycnlpbmdfcG9sZSIsIndlYXBvbkR1cmFiaWxpdHkiOjQwLCJhdXRvQ29tYmF0IjpudWxsLCJhdXRvQ29tYmF0UmV0cmVhdCI6ZmFsc2UsInN0YW5jZSI6ImNodWRhbiIsInRpZXIiOjAsImluZmx1ZW5jZSI6eyJlc3RhdGUiOnsidmFsdWUiOjAsImhpZ2hXYXRlciI6MCwianVkZ2VkIjowLCJmcmFjIjowfX0sInNjZW5lUXVldWUiOltdLCJhY3RpdmVTY2VuZSI6bnVsbCwic2NlbmVzUGxheWVkIjpbXSwicm91bmRTdGF0ZSI6bnVsbCwic29hbkxlZGdlciI6MH19",
+  "fb": 361,
+  "status": "done",
+  "commit": "d6b75df1"
+}
