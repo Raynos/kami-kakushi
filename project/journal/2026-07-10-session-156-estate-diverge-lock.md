@@ -71,3 +71,42 @@ un-gated + affordable in R1) and the Estate-tab pane anatomy in `render.ts`.
   (ADR-171); the plan's Step 0 says whoever triages FB-342 claims/coordinates.
 - The plan is gated on its own Phase 0: no estate build work should start from
   it until the human rules the F1–F5 forks (ADR to be logged then).
+
+---
+
+## 3 · Phase 0 CLOSED — the direction lock ran in-session (→ ADR-177)
+
+The human asked to be run through all the plan's open questions via
+AskUserQuestion. Three rounds + a rung-by-rung tab dossier later, every fork
+is ruled — **ADR-177** — and the plan's Status flips to DIRECTION LOCKED
+(build phases startable). The short form: upgrades leave Estate 家 for a NEW
+**Works 普請** tab; every project is cause-gated (ledger names → you walk →
+NPC beats; weir locked until named, first repairs in the three R1 zones);
+upgrades become repair verbs + inputs; one-tab-per-rung adopted as **Schedule
+A** (R0 Work · R1 Map alone · R2 Character+Works · R3 Combat alone · R4
+Inventory · R5 Quests · R6 Estate 家 · R7 —); the E1 cutaway folds into
+Estate 家.
+
+**What changed (part 3):**
+- `docs/living/decisions.md` — **ADR-177** appended (waited out the co-agent's
+  uncommitted ADR-176 in the same file before touching it).
+- `project/feedback-human/2026-07-10-estate-phase0-rulings.md` — NEW: the
+  verbatim rulings record.
+- `docs/plans/fable-2026-07-10-estate-upgrades-redesign.md` — Status →
+  DIRECTION LOCKED; signed **Direction** section (Schedule A table); Step 0
+  re-scoped (FB-342 resolved by ruling → Phase-1 wiring); Phase 2 rewritten as
+  IA-reshuffle + two surface diverges; Phase 3 concretised to the F3 ruling.
+- `project/todo-human.md` — the plan's reading-queue entry cleared (engaged
+  in-session — the human walked every question; ADR-089 implicit sign-off).
+- `project/status/project-status.md` — resume line updated (plan startable).
+
+**Landmines (part 3):**
+- ADR-176 (landed mid-session) makes pre-push run the FULL vitest lane — a
+  co-agent's uncommitted `src/ui/map-variants/sheet-map.ts` throws
+  `svg.getScreenCTM is not a function` under jsdom in that lane, so a push
+  from this shared tree may be RED through no fault of these docs. Not my
+  file, not my red — leave commits local if it trips (working-agreements).
+- The snapshot's rewrite-debt counter hits **20/20** with this session's edit
+  — a full fresh rewrite of `project-status.md` is now OWED, but three
+  co-agents have live WIP whose state a rewrite would have to describe;
+  deferred to the next quiet moment, explicitly noted here so it isn't lost.

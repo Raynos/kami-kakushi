@@ -3174,3 +3174,48 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   **Follow-up (not in scope):** `save-e2e` runs its playthrough at collect-time
   (describe body) even in the full lane — move to `beforeAll` for parallelism.
   Per **ADR-022**, governs; refines **ADR-072**.
+
+### ADR-177 ✅ — The estate redesign direction: upgrades become Works 普請, cause-gated, one-tab-per-rung (Phase 0 of the estate plan)
+- **created_date:** 2026-07-10
+- **Context:** The Estate section had failed the human three times: FB-157
+  ("border soup" — the quick-fix re-skinned the card, not the shape), FB-274
+  (the reveal line struck as unearned — "I need to think harder about the
+  Estate section TBH"), and FB-338 ("why are you mending the weir screens, who
+  told you about the weirs… its just not mentioned, its random") + FB-342 (the
+  weir walkable in R1 against expectation). The interim HR-9/HR-11 lock (V0A/
+  V1A "for now") flagged the whole section + upgrades for a real redesign; the
+  plan (`docs/plans/fable-2026-07-10-estate-upgrades-redesign.md`) framed five
+  forks; the human ruled all of them in-session (three AskUserQuestion rounds +
+  a rung-by-rung tab dossier). Verbatims:
+  `project/feedback-human/2026-07-10-estate-phase0-rulings.md`.
+- **Decision:** Five rulings, one direction — *the fiction causes the works*:
+  **(1)** The upgrades feature LEAVES the Estate 家 tab into a NEW **Works
+  普請** tab (fushin — picked from a 10-name field); the pillars/influence stay
+  on Estate 家, which gains the E1 okoshi-ezu cutaway (HR-16) as its anchor.
+  **(2)** Every project is **cause-gated** (never R1-spawned): the day-book/
+  lease NAMES a concern → walking the zone and SEEING the damage unlocks the
+  work → each project also gets its own NPC dialogue beat ("ledger names → you
+  walk", + beats). The weir node is **locked until named** (resolves FB-342 and
+  FB-338 with one mechanism); the first Works projects live in the three R1
+  zones (gate · paddies · woodshed). **(3)** Upgrades become **repair verbs +
+  inputs** — per-project zone/act requirements + material costs, coin demoted
+  from sole gate. **(4)** **One-new-tab-per-rung** is adopted as the IA law,
+  signed as **Schedule A**: R0 Work · R1 Map 地図 (alone) · R2 Character +
+  Works 普請 (the one accepted double, both cause-gated) · R3 Combat (alone) ·
+  R4 Inventory (`panel-home` re-keys) · R5 Quests 用 · R6 Estate 家 · R7 —
+  (Phase 2 fills Works). **(5)** Project-per-zone pacing: later projects land
+  as their fiction-zones open (orchard ~R5 · granary ~R6 · study ~R7).
+- **Why:** TST3 end-to-end — FB-338's three questions ("who told you / why did
+  you notice / why is it here") each get a mechanical answer (the ledger line /
+  the zone visit / the cause gate). The tab audit showed R1+R3 doubled while
+  R4/R6/R7 sat empty; Schedule A places every tab where its fiction fires (Works
+  rides the silent R2 rung, Estate 家 arrives as the house-rooms reopen at R6)
+  at the cost of one accepted double. The human explicitly chose fiction over
+  cadence symmetry ("if we have to double we have to double").
+- **Consequences:** The plan's build phases are startable in order (fiction
+  diverge → IA reshuffle + two surface diverges → the requirements economy under
+  ADR-132; ADR-172 magnitudes stand unless the sim moves them). The interim
+  V0A/V1A variants (estate-a/b/c, tracker-a/b/c) retire when Phase 2's diverge
+  signs off. Estate tab R1→R6 + Inventory R3→R4 are pacing-visible moves owned
+  by Phase 2 step 1. FB-338/FB-342's r1-lane sidecars still owe drain stamps.
+  Per **ADR-022**, governs; supersedes the HR-9/HR-11 interim as direction.

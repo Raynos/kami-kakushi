@@ -68,9 +68,9 @@ magic; no reset.
 - **HR-18…HR-21 + HR-25** 🔲 — the fiction-wave picks (overlays · discoveries ·
   judge lines · node reads) + the R7 lord-unstaged lines (HD-36 → ADR-175), all
   reviewed LIVE via DEV → Story. *(HD-33…36 closed 2026-07-10; none open.)*
-- **DEV-variant picks** 🔲 — kept live for a detailed pass: estate-section (HR-9) ·
-  home (HR-6) · bestiary (HR-5) · the HR-2 bundle · Phase-2 build-beat + tracker
-  (HR-10/HR-11). Picks → the agent strips the alternates (zero prod flag-debt).
+- **DEV-variant picks** 🔲 — kept live for a detailed pass: home (HR-6) ·
+  bestiary (HR-5) · the HR-2 bundle. Picks → the agent strips the alternates.
+  *(HR-9/HR-11 closed INTERIM 2026-07-10 — they retire with the ADR-177 redesign.)*
 
 ## Toolchain
 
@@ -108,13 +108,12 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    Use **`?dev=no`** for the true player layout. The page NEVER auto-reloads
    (FB-257) — hit F5 yourself to pick up new code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the frontier is **T2 rungs/fog** (plan ready +
-   human-greenlit: `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1 caveat —
-   `T2_RUNG_LADDER` is DEV-preview-only, derive from core later), or drain the
-   inbox (ADR-171 claim first). Human-gated: HR-1 + HR-18…25; the **estate
-   redesign plan** (`docs/plans/fable-2026-07-10-estate-upgrades-redesign.md`)
-   waits on its Phase-0 direction lock — no estate build before the human rules
-   F1–F5 (HR-9/HR-11 closed INTERIM). Combat R4+ = a design call → inbox.
+4. **Next (autonomous):** the **estate redesign** is DIRECTION LOCKED (ADR-177,
+   `docs/plans/fable-2026-07-10-estate-upgrades-redesign.md`) — Phase 1
+   (fiction diverge) startable; or **T2 rungs/fog** (plan ready + greenlit:
+   `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1 caveat: `T2_RUNG_LADDER`
+   is DEV-preview-only); or drain the inbox (ADR-171 claim first). Human-gated:
+   HR-1 + HR-18…25. Combat R4+ = a design call → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 19/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 20/20 — REWRITE OWED (deferred: co-agent WIP in flight) · last full rewrite: 2026-07-09 -->

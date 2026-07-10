@@ -39,9 +39,4 @@
 - [`docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`](../docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md)
   — the ready-to-build plan for T2 (Valley) map rungs + fog (you greenlit it
   2026-07-09; mechanics-only, no pin/HR). Skim before/whenever I build it.
-- [`docs/plans/fable-2026-07-10-estate-upgrades-redesign.md`](../docs/plans/fable-2026-07-10-estate-upgrades-redesign.md)
-  — the estate section + upgrades redesign plan you asked for (from the
-  2026-07-10 brainstorm + FB-338/FB-342/FB-274/FB-157/HR-16). Phase 0 is a
-  direction-lock sitting with you over five forks — read those first; nothing
-  builds before you rule.
 

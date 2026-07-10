@@ -1,13 +1,53 @@
 # The Estate section + upgrades redesign — feedback → plan
 
-**Status:** PROPOSED — awaiting the human's read (reading queue) + the Phase-0
-direction lock. Nothing builds before Phase 0 closes.
+**Status:** LOCKED — direction signed; **Phase 0 CLOSED 2026-07-10, ADR-177**
+(all forks ruled in-session; see **Direction** below +
+`project/feedback-human/2026-07-10-estate-phase0-rulings.md` for verbatims).
+Build phases are startable in order.
 **Confidence:** ( 35% Opus, 65% Fable ) — the load-bearing work is fiction +
 taste judgment (Phases 1–2); the mechanical tail (Step 0, Phase 3 transcription)
 is Opus-safe.
 **Sources:** `project/brainstorms/2026-07-10-estate-upgrades-redesign.md` (the
 parked direction note this plan supersedes) + the estate-related playtest-inbox
 feedback gathered below.
+
+## Direction — the signed Phase-0 rulings (2026-07-10)
+
+- **F1 → cause-gated, NOT R1; the one-tab-per-rung law adopted.** The tab
+  audit ran; the human signed **Schedule A** ("fine to put Character & works
+  on the same"):
+
+  | Rung | Tab | Note |
+  |------|-----|------|
+  | R0 | Work | cold open |
+  | R1 | Map 地図 | ALONE — Estate leaves R1 |
+  | R2 | Character + **Works 普請** | the one accepted double; both cause-gated |
+  | R3 | Combat | alone (Inventory leaves) |
+  | R4 | Inventory | `panel-home` re-keys off `tab-combat` |
+  | R5 | Quests 用 | as-is |
+  | R6 | Estate 家 | pillars + influence + the E1 cutaway fold-in |
+  | R7 | — | Phase 2 fills Works (deed climb) |
+
+- **F2 → ledger names → you walk, PLUS an NPC beat per project** ("1 & 4").
+  The day-book/lease names the concern; visiting the zone and seeing the
+  damage unlocks the work; each of the four projects also gets its own
+  dialogue beat.
+- **F3 → repair verbs + inputs.** Projects become WORK — per-project zone/act
+  requirements + material inputs (wood); coin demoted from sole gate.
+- **F4 → the upgrades LEAVE "Estate".** New tab **Works 普請** (picked from a
+  10-name field) owns the projects; Estate 家 keeps the pillars/influence and
+  gains the E1 cutaway as its anchor; market/storehouse split out (re-homes
+  are a Phase-2 detail). The influence teaser's pre-R6 home is a Phase-2 call
+  (it shows R3 today).
+- **F5 → the E1 cutaway folds into Estate 家** (the R6 macro house-view);
+  HR-16's look-iteration happens as part of the fold-in.
+- **Weir / FB-342 → locked until named**, and the first Works projects live
+  in the **three R1 zones** (gate · paddies · woodshed) so early repairs
+  happen where you already walk; the weir zone unlocks when the day-book
+  names it.
+- **Project-per-zone pacing** (the dossier insight A builds on): later
+  projects land as their fiction-zones open — orchard ~R5 (U2) · granary ~R6
+  (U3) · study ~R7 (U4).
 
 ## Who builds this — Fable or Opus?
 
@@ -97,19 +137,20 @@ Standing record folded in:
 
 ## The plan
 
-### Step 0 · Triage FB-342 (standalone, before or during anything)
+### Step 0 · FB-342 — RESOLVED BY RULING (build work moves to Phase 1)
 
-Reproduce from `r1/2026-07-10T18-46-13.json`; diff the weir node's reveal/lock
-schedule against intent (was it meant to open with U1? with a rung?). Fix or
-file. **Owner note:** FB-338/FB-342 belong to the r1 drain lane — whoever picks
-this up claims the lane (ADR-171) or coordinates with its claimant; this plan
-does not stamp their sidecars.
+~~Triage~~ The human ruled: the weir node is **locked until the day-book names
+it** — Step 0 is no longer a triage but a wiring task inside Phase 1's cause
+chain. **Owner note:** FB-338/FB-342's r1-lane sidecars still owe their drain
+stamps — whoever drains claims the lane (ADR-171); this plan does not stamp
+them.
 
-### Phase 0 · Direction lock — the human decides what the estate IS
+### Phase 0 · Direction lock — ✅ CLOSED 2026-07-10 (see Direction above)
 
-A grill-me / AskUserQuestion sitting over five forks. Output: an ADR + a signed
-**Direction** section appended to this plan. Per the standing steer
-(lock-direction-before-building), no Phase 1–3 work starts before this closes.
+~~A grill-me / AskUserQuestion sitting over five forks.~~ Ran in-session,
+three AskUserQuestion rounds + the rung dossier; every fork ruled. Verbatims:
+`project/feedback-human/2026-07-10-estate-phase0-rulings.md`. ADR-177 owed.
+The fork list below stays as the record of what was asked.
 
 - **F1 · When does the section earn its reveal?** R1 as now but with a real
   cause · deferred to the rung where its fiction can fire · R1 as a
@@ -128,29 +169,42 @@ A grill-me / AskUserQuestion sitting over five forks. Output: an ADR + a signed
 - **F5 · HR-16's cutaway disposition.** Anchor of the redesign (pull forward) ·
   its own later track · stays parked.
 
-### Phase 1 · Fiction repair (after Phase 0; ADR-139)
+### Phase 1 · Fiction repair (ADR-139) — the cause chain
 
-Per the F1/F2 rulings: a narrative-diverge (3+ blind takes per unit) for the
-estate-intro beat + a per-project cause line/beat for U1–U4, wired
-discovered-not-spawned (reveal follows the story beat, TST3). Reviews LIVE in
-the DEV Story switcher; HR-item with taste scorecards per take.
+Per F2 (ledger→walk + NPC beats): a narrative-diverge (3+ blind takes per
+unit) for (a) the day-book/ledger lines that name each concern, (b) the four
+per-project dialogue beats, (c) the works-intro beat at R2. Wired
+discovered-not-spawned (TST3): the ledger line reveals the zone concern → the
+zone visit reveals the project → the weir node unlocks when named (FB-342's
+fix lives here). First projects sited in the three R1 zones per the ruling.
+Reviews LIVE in the DEV Story switcher; HR-item with taste scorecards.
 
-### Phase 2 · Surface redesign (after Phase 0/1; ADR-075)
+### Phase 2 · The IA reshuffle + the two surfaces (ADR-075)
 
-A FULL diverge — 2–3 genuinely-distinct *working* takes on the F4 answer, not
-another card re-skin. Taste two-pass (constraint brief before, 21-walk
-scorecard after, per variant); each variant its own HR-item line; self-picked
-prod default. **This supersedes the interim V0A/V1A pick and retires
-estate-a/b/c + tracker-a/b/c** (strip on sign-off, zero flag-debt — they were
-kept precisely to die here).
+Two halves, sequenced:
 
-### Phase 3 · Upgrade-economy pass (only what F3 rules)
+1. **Schedule A lands** — the tab moves (Estate R1→R6, Inventory R3→R4 with
+   the `panel-home` re-key, Works 普請 added at R2 cause-gated), the economy
+   panes split out of the staple (re-homes decided here), and the influence
+   teaser's pre-R6 home is picked. Mechanical but pacing-sensitive; e2e +
+   affordance tests will need the new schedule.
+2. **The two surfaces diverge** — a FULL ADR-075 diverge (2–3 working takes
+   each, not card re-skins): **Works 普請** (the projects home, F3's
+   requirements read) and **Estate 家** (pillars + influence + the E1 cutaway
+   fold-in per F5 — HR-16's iteration happens here). Taste two-pass per
+   variant; each variant its own HR-item; self-picked prod defaults. **This
+   supersedes the interim V0A/V1A pick and retires estate-a/b/c +
+   tracker-a/b/c** (strip on sign-off, zero flag-debt — they were kept
+   precisely to die here).
 
-If F3 keeps the shape: a legibility-only pass (show the flywheel, name the
-deed gate before it blocks). If F3 adds inputs/requirements: core work under
+### Phase 3 · Upgrade-economy build (F3 ruled: repair verbs + inputs)
+
+Projects become work: per-project zone/act requirements + material inputs
+(wood), coin demoted from sole gate; project-per-zone pacing (orchard ~R5 ·
+granary ~R6 · study ~R7) folded into the requirement design. Core work under
 the ADR-132 flow — telemetry step 0, `verify:balance` → `balance:report`,
-regenerated `t0-pacing.md` in the same commit, sim summary in the body. ADR-172
-magnitudes stand unless the sim says the new inputs moved them.
+regenerated `t0-pacing.md` in the same commit, sim summary in the body.
+ADR-172 magnitudes stand unless the sim says the new inputs moved them.
 
 ## DoD
 
