@@ -32,3 +32,13 @@ The white is too close to the gray/white of the narrator.
 **Details:** `feedback-ui/2026-07-10T11-35-21.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T12:07:56+0200 — the-feedback-ui-i
+
+The feedback UI I want the bucket to be mandatory, so it dont want to be able to submit without a bucket and I guess I'll just keep creating named buckets.
+
+**Element:** section.work — "What you can doRake the spilled rice▶ autoRest a moment🏮 Po" · `div:nth-of-type(2) > main > section` · @39,88 871×618
+**Screenshot:** `feedback-ui/2026-07-10T12-07-56.png`
+**Details:** `feedback-ui/2026-07-10T12-07-56.json` — save + recent logs + full context
+
+---
