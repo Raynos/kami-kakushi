@@ -47,15 +47,26 @@ in [`ui-tokens.md`](../content/ui-tokens.md)):
 - **attr-\*** — the five-attribute **temper-oxide set** (F131, human-locked): STR bronze · AGI pale-quench ·
   INT temper-purple · SPD temper-blue · LUCK straw-gold — what tempered steel actually turns. Keyed to the
   +1; worn as a legible accent, never a flood-fill.
-- **v-\*** — the per-speaker VOICE ramp (F128): narrator muted blue-grey · player bright silver · Sōan teal ·
+- **v-\*** — the per-speaker VOICE ramp (F128): narrator muted blue-grey · player asagi sky-blue (FB-234) · Sōan teal ·
   Chiyo dry ochre · arms rust · official violet · villager sage · the lord wisteria. Voice colour marks
-  *utterance*, not the line (FB-141): only quoted speech + the name prefix wear it.
+  *utterance*, not the line (FB-141): only quoted speech + the name prefix wear it. **FB-228 laws:** a
+  voice is ONE token on every surface (VN, log, chat — never a per-surface variant; the MC once spoke in
+  three colours); narration is the *ground* (`--v-narrator` everywhere), speech is *figure* (voice colour
+  + the `.spoken` step-in from the narration margin); a quote embedded in narrator prose IS the character
+  speaking — tint it by conservative inference (exactly one NPC named in the line; ambiguous stays
+  neutral — a wrong tint is worse than none).
 
 **Usage discipline:** deltas use gold (gain) / shu-hi (loss), never generic green/red, and colour is never the
 sole carrier (sign + arrow + label always ride along). Role beats hue — but *distinguishability beats
 collapse* (F131): a semantic set of N same-family colours must survive side-by-side reading. Meaning-bearing
 text renders in the ink ramp; identity hues are accents. Contrast: `--ink`/`--ink-2` clear AA on every steel
 plate; gold and silver clear AA on steel; `--ink-faint` is never load-bearing.
+
+**Separate such a set by CHROMA, not lightness — trusting neither HSL saturation nor ΔE** (FB-216/FB-234). The
+old `--v-player` `#e3ecff` read *100% saturated* yet carried CIELAB C\* **10.2**, *below* the narrator's 17.9,
+beating it on lightness alone (ΔL\* +25.7) — hence "the narrator, but whiter". `#8ec9ff` lifts C\* to **32.8**
+for +11.3 L\*, and its ΔE₇₆ is the *smaller* of the two (20.5 vs 26.9): the **axis** of separation is what the
+eye reads, not the distance. Saturation lies near white; brightening a voice can *lower* its chroma.
 
 ## 3. Typography — Western stacks, zero font pipeline
 

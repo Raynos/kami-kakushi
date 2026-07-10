@@ -128,6 +128,11 @@ grammar form + intro retags (FB-198), the fresh-divider made anchored + 30s
   unambiguous inference); the chroma-vs-lightness law was already distilled
   by the co-agent lane (FB-216/FB-234).
 
+- ui-design.md §2 distillation committed as a COORDINATED CARRY: my FB-228
+  laws hunk + w6:p2's chroma-vs-lightness paragraph (FB-216/FB-234) in one
+  commit, on their explicit "option 2, yes — take both hunks" handoff (they
+  checkpointed their other files clean of the shared file).
+
 ## Next intended steps
 
 - The human reads the HD-37 plan → step 1 (mechanical restore) can start on
