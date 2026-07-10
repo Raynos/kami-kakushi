@@ -31,23 +31,6 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
 - **Resolution:** {filled in when the human answers — then graduate + archive per the lifecycle}
 -->
 
-### HD-35 🔲 [R3–R6 · pacing] — restore the R3–R6 per-rung band verdicts (the last ADR-148-interim scope)
-
-- **Question / fork:** ADR-170 lifted the ADR-148-interim ratio-gate suspension, but
-  the per-rung band verdict still covers only R0–R2 (`ADR148_INTERIM_BAND_RUNGS`).
-  Restoring R3–R6 today REDs on **R3**: its ADR-148 *timed* wall measures
-  ~146–221 min across seeds vs the signed [3, 22] band — greedy's night-watch rung
-  is ~10× over in real wall terms (R4–R6 sit in band at ~10–14 min). Either R3's
-  design (the night round, the ~379-move walk pattern, timed move costs) gets
-  re-paced, or the band re-signs a per-rung exception for R3, or the R3 wall is
-  accepted as intentional (the tier's one long "act").
-- **Options:** (a) re-pace R3 into the band · (b) re-sign the band/an R3 exception ·
-  (c) sign R3-as-intentional and restore the verdicts for R4–R6 only.
-- **Recommendation:** feel R3 on the live build first (it's also the rung your own
-  telemetry will speak to loudest) — then rule; the scope note in
-  `src/sim/envelopes.ts` names this item and deletes with it.
-- **Resolution:** _(open)_
-
 ### HD-36 🔲 [R7 · story canon] — Munemasa speaks on-screen in T0, against the synced canon
 
 - **Question / fork:** two shipped R7 house-standing flavor lines

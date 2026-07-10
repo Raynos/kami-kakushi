@@ -147,9 +147,17 @@ describe('ADR-145 — the multi-source Phase-2 economy (Phase 1 DoD)', () => {
     for (const source of Object.keys(mult) as EstateDeedSource[]) {
       // the derivation itself (AC-21: one place source→magnitude comes from)
       expect(estateDeedMagnitude(source)).toBeCloseTo(base() * mult[source], 9);
-      // …and banking it lands EXACTLY that in the accumulator (RED if a source is mis-routed)
-      const s = bankEstateDeed(atPhase2(), source);
-      expect(s.influence.estate.frac ?? 0).toBeCloseTo(base() * mult[source], 9);
+      // …and banking it lands EXACTLY that across the accumulator (RED if a source is
+      // mis-routed). Whole+frac TOTAL, not frac alone: a magnitude ≥ 1 koku (HD-35's
+      // base re-tune made workshop 0.6×2 = 1.2) banks its whole part into value.
+      const s0 = atPhase2();
+      const s = bankEstateDeed(s0, source);
+      const banked =
+        s.influence.estate.value -
+        s0.influence.estate.value +
+        (s.influence.estate.frac ?? 0) -
+        (s0.influence.estate.frac ?? 0);
+      expect(banked).toBeCloseTo(base() * mult[source], 9);
     }
     // the sources are genuinely DISTINCT magnitudes, not one flat rate (RED if the table
     // collapses to a single value — the "grind with 4 buttons that pay the same" regression)
@@ -250,7 +258,9 @@ describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', (
     expect(revealed).toBeGreaterThan(s0.log.entries.length); // the beat landed in the log
     const second = bankEstateDeed(first, 'fields');
     expect(second.log.entries.length).toBe(revealed); // no repeat — the reveal is one-time
-    expect(second.influence.estate.frac).toBeGreaterThan(first.influence.estate.frac ?? 0);
+    // the second deed still BANKS (whole+frac total — frac alone wraps past 1 koku, HD-35)
+    const total = (s: typeof s0) => s.influence.estate.value + (s.influence.estate.frac ?? 0);
+    expect(total(second)).toBeGreaterThan(total(first));
   });
 });
 

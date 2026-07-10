@@ -66,7 +66,7 @@
         {
           "key": 0,
           "channel": "narration",
-          "text": "The river gives you up at the weir. You keep none of it in order: hands in your collar, gravel under your back, the sky white and near, water leaving you in coughs. A stone jizō watches from the bank, rice at its feet, nobody on the road who could have left it. Someone says, carry him up, then. Then nothing.",
+          "text": "Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -74,7 +74,7 @@
         {
           "key": 1,
           "channel": "narration",
-          "text": "Straw. A low roof. A fire kept small. Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it. You have been three days in a room you have never seen.",
+          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -82,167 +82,13 @@
         {
           "key": 2,
           "channel": "narration",
-          "text": "The physician does not ask how you feel. He takes your wrist, then your jaw, then turns your hands over and looks at them longer than at anything else. He presses a thumb into the callus line across one palm and says nothing. There is a ledger open on his knee.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 3,
-          "channel": "narration",
-          "text": "\"Do you know the year?\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician"
-        },
-        {
-          "key": 4,
-          "channel": "narration",
-          "text": "\"No.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "You",
-          "voice": "player"
-        },
-        {
-          "key": 5,
-          "channel": "narration",
-          "text": "\"An'ei nine. Now you know it again. Drink this.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician"
-        },
-        {
-          "key": 6,
-          "channel": "narration",
-          "text": "Whatever the hands told him goes into the ledger, two lines, too far off to read. The door slides, and he closes the book on his thumb.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 7,
-          "channel": "narration",
-          "text": "The man in the doorway is grey and dry and carries a book of his own. Two books in the room now, and only one of them open.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 8,
-          "channel": "narration",
-          "text": "\"The weir man. Sōan — can he work?\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
-          "key": 9,
-          "channel": "narration",
-          "text": "\"Ask him.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician"
-        },
-        {
-          "key": 10,
-          "channel": "narration",
-          "text": "\"Name, age, where from. In that order.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
-          "key": 11,
-          "channel": "narration",
-          "text": "Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 12,
-          "channel": "narration",
-          "text": "\"What name did I give? When they pulled me out.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "You",
-          "voice": "player"
-        },
-        {
-          "key": 13,
-          "channel": "narration",
-          "text": "\"None. You gave none. Three days I have had nothing to call you, and neither have you.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician"
-        },
-        {
-          "key": 14,
-          "channel": "narration",
-          "text": "Nothing comes.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 15,
-          "channel": "narration",
-          "text": "Genemon does not look surprised. He looks down and writes, and reads it back as he writes, aloud and once.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 16,
-          "channel": "narration",
-          "text": "One man, name unknown. Taken at the weir. Fed, three days. Condition, poor; hands, good.",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
-          "key": 17,
-          "channel": "narration",
-          "text": "\"When he can stand, he rakes. The kitchen wants water before it wants anything.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward"
-        },
-        {
-          "key": 18,
-          "channel": "narration",
-          "text": "He goes. Sōan opens his ledger again, where his thumb kept the place.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 19,
-          "channel": "narration",
-          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 20,
-          "channel": "narration",
           "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
         }
       ],
-      "seq": 21
+      "seq": 3
     },
     "skillXp": {},
     "deliveredDialogue": [

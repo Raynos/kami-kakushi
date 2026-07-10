@@ -91,8 +91,10 @@ export let PER_DEED_CAP_NUM = 4;
  *  // magnitude the multi-source table below multiplies — re-derived at the plan's Phase 3.
  *  ADR-170 (HD-34, human 2026-07-10): re-tuned 0.05 → 0.22 against the sim — the story rewrite
  *  shrank Phase 1 while this base (tuned to the OLD climb) stood, drifting the ratio to ~4.4–5×;
- *  the signed ≈1:1 law (ADR-133) holds, so the base scales back into the [0.8, 1.2] band. */
-export let ESTATE_DEED_PER_ACT = 0.22;
+ *  the signed ≈1:1 law (ADR-133) holds, so the base scales back into the [0.8, 1.2] band.
+ *  HD-35 re-pace (human, 2026-07-10): 0.22 → 0.6 — the R3 re-pace shrank the climb ~224 →
+ *  ~76 min, so the same ≈1:1 law scales Phase 2 to match (ratio re-centers at ~0.95). */
+export let ESTATE_DEED_PER_ACT = 0.6;
 /** ADR-145 — the Phase-2 economy is MULTI-SOURCE (the A+B loop): each Estate deed source banks
  *  `ESTATE_DEED_PER_ACT · its multiplier`, so the sources stay distinct in cadence AND magnitude
  *  while the single base stays the one cockpit lever. Estate-relevant work ONLY banks (ADR-145 Q4
@@ -248,15 +250,20 @@ export const COMBAT_XP_BASE = 40; // provisional (v0.2) — tune by playtest (sl
 export const COMBAT_XP_GROWTH_NUM = 13;
 export const COMBAT_XP_GROWTH_DEN = 10;
 export const COMBAT_MAX_LEVEL = 50;
-/** Combat-XP a kill grants = MobDef.level × this (§4.6.5). */
-export const COMBAT_XP_K = 5; // provisional (v0.2) — tune by playtest
+/** Combat-XP a kill grants = MobDef.level × this (§4.6.5).
+ *  HD-35 re-pace (human, 2026-07-10): 5 → 20 — the ~19-kill grind dragged a ~123-min
+ *  life-support loop (526 cooks / 379 walks / 158 forages on the canonical seed) behind
+ *  R3's fights, blowing the [3, 22] band ~8×; ~5 kills keeps the "you've fought" gate
+ *  while the rung sims in band. Tuned against `verify:balance`, sim-owned (ADR-132). */
+export const COMBAT_XP_K = 20;
 
 /** v0.2 narrative: the built-demo terminal beat (frontier capstone + 2nd dream) fires
  *  once the gate-watch reaches this combat level — proof they've truly fought the system
  *  R3 unlocks, not just clocked time. Recomputed for the v0.2 XP curve: cumXp(L3)=92
- *  (COMBAT_XP_BASE 40) and a monkey grants level×COMBAT_XP_K = 1×5 = 5 xp/kill, so ≈19
- *  monkey kills (the spec's '~12' was under the old BASE 30 / K 6). The ~0.29 monkey@L1
- *  win-rate makes this a genuine "you've fought" gate. Provisional (v0.2) — tune by playtest. */
+ *  (COMBAT_XP_BASE 40) and a monkey grants level×COMBAT_XP_K = 1×20 = 20 xp/kill, so ≈5
+ *  monkey kills (was ≈19 pre-HD-35; the spec's '~12' was under the old BASE 30 / K 6).
+ *  The ~0.29 monkey@L1 win-rate makes this a genuine "you've fought" gate. Provisional
+ *  (v0.2) — tune by playtest. */
 export const R3_FRONTIER_COMBAT_LEVEL = 3;
 
 /** Soft-setback-on-loss (LOCKED shape, §4.6.6): never levels/gear/Influence. */
@@ -378,8 +385,10 @@ export let COOK_SANSAI_COST = 2; // sansai consumed per cooked meal — provisio
  *  FB-22: cook recovers HEALTH *only* now — the belly/work-stamina (satiety) refill is the
  *  separate `rest` action (SATIETY_PER_REST); a meal no longer doubles as a work-rest, so the
  *  old COOK_SATIETY_RESTORE was retired. Sized so a couple of meals returns a hurt fighter to
- *  fighting shape. provisional (v0.2). */
-export let COOK_HP_RESTORE = 14;
+ *  fighting shape (2×35 = 70 ≳ the R3-window hpMax ~64). HD-35 re-pace (2026-07-10): 14 → 35 —
+ *  at 14 the R3 grind cooked 526 meals on the canonical seed (~70 min of the rung's 163);
+ *  sim-owned (ADR-132), tuned against the [3, 22] band. provisional (v0.2). */
+export let COOK_HP_RESTORE = 35;
 
 // ── Rice sinks (ADR-107 Phase 2) — rice becomes a REAL resource with three uses: EAT it (→ satiety),
 // STORE it in the kura (deposit/withdraw), or SELL it for coin at a SEASON-swinging price. This is

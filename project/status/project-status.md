@@ -35,11 +35,18 @@ magic; no reset.
   beats the bible's single track (ADR-169; T2 plan owes reconciliation).
 - **✅ STORYWAVE SHIPPED v0.4.0 (s125–131):** the bible-canon T0 rewrite is LIVE on
   gh-pages (tag `v0.4.0`); all three storywave plans archived.
+- **✅ HD-35 RULED & APPLIED (s144, ADR-172):** R3/Phase-2 re-paced — R3 20.0
+  [19.0–20.3] min ∈ [3,22] (XP_K 5→20, COOK_HP 14→35), deed base 0.22→0.6 keeps
+  the ADR-133 ratio at [0.95–0.97]; the ADR-148-interim scope DELETED — full
+  R0–R6 band verdicts + the R7 ratio gate are the live `verify:balance` teeth.
+  Greedy T0 ≈ 2.5 h sim wall. *(Commit local pending w1:p3's cold-open landing —
+  shared fixture/report artifacts.)* Combat curve R4+ kills still parked.
 - **✅ HD-34 RULED & APPLIED (s138, ADR-170):** Phase 2 re-tuned to the signed ≈1:1
-  (deed base 0.05→0.22; ratio [0.84–1.17] ∈ [0.8,1.2]; greedy T0 ≈ 8 h wall) ·
-  idler ascension NOT a promise (per-persona sim promises; `verify:balance` ~1 s)
-  · B8 no action. Remainder → **HD-35** (R3's timed wall vs the [3,22] band — the
-  last ADR-148-interim scope). Combat curve R4+ kills still parked.
+  (deed base 0.05→0.22; ratio [0.84–1.17] ∈ [0.8,1.2]) · idler ascension NOT a
+  promise (per-persona sim promises) · B8 no action.
+- **🔨 COLD-OPEN REARC IN-PROGRESS (s143, HD-37):** three acts back
+  (dream→soan→genemon, three picks); steps 1–2 landed, seeds marked — next: the
+  two diverge units (`docs/plans/fable-2026-07-10-cold-open-rearc.md`).
 - **🧊 PARKED:** Plan K authored-depth demo (`docs/plans/t1/`; prototypes ⭐
   `project/prototypes/authored-depth-demo/`) + the T1 emergent-node plan
   (`docs/plans/t1/`). Un-park = human.
@@ -58,9 +65,9 @@ magic; no reset.
 - **HR-1** 🔲 — play/review the full T0 arc for fun & pacing (the LOOK is UI-v2
   certified; this is the fun/taste call on the live storywave build).
 - **HR-18…HR-21** 🔲 — the C5a fiction-wave picks (overlays · discoveries · judge
-  lines · node reads), reviewed LIVE via DEV → Story. **HD-35** 🔲 (R3–R6 band
-  verdicts — R3's timed wall vs [3,22]). **HD-36** 🔲 (Munemasa voiced in T0
-  R7 vs canon — rec: ADR-139). *(HD-33/34 → ADR-168/170, closed 2026-07-10.)*
+  lines · node reads), reviewed LIVE via DEV → Story. **HD-36** 🔲 (Munemasa
+  voiced in T0 R7 vs canon — rec: ADR-139). *(HD-33/34/35 → ADR-168/170/172,
+  closed 2026-07-10.)*
 - **DEV-variant picks** 🔲 — kept live for a detailed pass: estate-section (HR-9) ·
   home (HR-6) · bestiary (HR-5) · the HR-2 bundle · Phase-2 build-beat + tracker
   (HR-10/HR-11). Picks → the agent strips the alternates (zero prod flag-debt).
@@ -91,18 +98,12 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 ## How to resume
 
 > 🎮 **v0.4.0 "the storywave release" shipped 2026-07-09 via `/ship`** — the
-> bible-canon T0 rewrite (six-season year, kura economy, body economies, new cast).
-> Live at raynos.github.io/kami-kakushi. Session 133 then AUDITED the whole wave
-> (6-agent review + map-sheets audit): ship real, engine sound, no src/ criticals —
-> but two closure debts were mapped into plans. Sessions 134+135 executed them
-> in parallel and BOTH are ✅ DONE + archived: **storywave-closure (s134)** — see
-> "Where we are now" — and **map-sheets fixes (s135)** — the blind-pass loop is
-> now a 3-reader ensemble and ALL THREE sheets pass it (T0 M 7/7 · T1 M 12/12 ·
-> T2 M 6/6); canon strings carry a 13-name retired-name guard test.
+> bible-canon T0 rewrite, live at raynos.github.io/kami-kakushi; the s133 audit
+> + both closure plans (s134 storywave · s135 map-sheets) are ✅ DONE + archived.
 
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-10-session-142-drain-feedback-ui.md`](../journal/2026-07-10-session-142-drain-feedback-ui.md)
+   [`journal/2026-07-10-session-144-hd35-repace.md`](../journal/2026-07-10-session-144-hd35-repace.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. The page NEVER auto-reloads
@@ -112,9 +113,8 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    **T2 rungs/fog** (plan ready + human-greenlit:
    `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md` — carries the S1 caveat:
    `T2_RUNG_LADDER` is DEV-preview-only; derive from core when the schedule
-   exists), or drain the inbox — **claim a lane first** (ADR-171); `feedback-ui`
-   + `cold-open` archived; **`dev`/`r0`/`the-log` open** (`inbox-claim list`). Human-gated: HR-1 +
-   HR-18…21 (DEV → Story) + HD-35. Combat R4+ = a design call, NOT a fix → inbox.
+   exists), or drain the inbox — **claim a lane first** (ADR-171; `inbox-claim
+   list`). Human-gated: HR-1 + HR-18…21. Combat R4+ = a design call → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 12/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 14/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->

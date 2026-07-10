@@ -3004,3 +3004,45 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   `verify` tree) is **deliberately deferred** — accepted risk, its own
   future ADR. Design doc:
   `project/brainstorms/2026-07-10-concurrent-drain-safety.md`.
+
+### ADR-172 ✅ — R3 re-paced into the signed band; full-ladder verdicts restored (HD-35; 🔁 completes ADR-170's interim)
+
+- **created_date:** 2026-07-10
+- **Context:** ADR-170 restored the ratio gate but left the per-rung
+  band verdict scoped to R0–R2 (`ADR148_INTERIM_BAND_RUNGS`): R3's
+  timed wall measured ~146–221 min across seeds vs the signed [3, 22]
+  band (~8× over). The breakdown showed the fights themselves cost
+  under a minute — the ~19-kill grind to `R3_FRONTIER_COMBAT_LEVEL`
+  dragged a ~123-min life-support loop behind it (526 cooks, 379
+  walks, 158 forages on the canonical seed). R7's ~237-min residence
+  mirrored the bloat through the ADR-133 ≈1:1 law (ADR-170 tuned the
+  deed base against the bloated climb).
+- **Decision (human, 2026-07-10, via the fork ask):** HD-35 rules
+  **(a) re-pace** — every climb rung into the band, R7 kept on the
+  ADR-133 ratio law (not the per-rung band), any lever with the
+  night-watch fiction intact:
+  1. `COMBAT_XP_K` 5 → 20 (~5 kills to L3, was ~19) and
+     `COOK_HP_RESTORE` 14 → 35 (two meals ≈ a full mend) — R3 sims
+     **20.0 [19.0–20.3] min**, in band on all 5 seeds.
+  2. `ESTATE_DEED_PER_ACT` 0.22 → 0.6 — the climb shrank ~224 → ~76
+     min, so the same ≈1:1 law scales Phase 2 to match: ratio
+     **[0.95–0.97]** ∈ [0.8, 1.2]. Total greedy T0 ≈ **2.5 h** sim
+     wall (was ≈ 7.7 h).
+  3. The interim scope DELETES (as its comment promised): the band
+     verdict covers all of **R0–R6**; R7 residence stays the ratio
+     gate. `verify:balance` is the full-roster teeth.
+- **Why:** the human ruled the R3 wall a design bug, not the tier's
+  long act — attended play runs ~5× sim-greedy (the R0 telemetry:
+  23.6 attended vs 4.3 sim), so a 160-min sim rung is a ~13-hour
+  attended wall. The support-loop levers (not the fight design) were
+  the honest cut: the "you've fought" gate and the night-round
+  fiction survive untouched.
+- **Consequences:** the idler's kill-req branch gained the
+  forage-for-sansai mend fallback (the re-tune exposed a 1-HP/1-sansai
+  loss-loop on seeds 1/7 — a persona hole, now mirrored from the
+  night-round branch); `pillars.test.ts` asserts deed banking as
+  whole+frac TOTAL (workshop's 0.6×2 = 1.2 koku crosses the whole-koku
+  boundary); `invariants.test.ts`'s arc floor re-derived 2000 → 1000
+  dispatches; fixtures + pacing report regenerated (the diff is the
+  before/after). Attended-play calibration of the [3, 22] band itself
+  (sim-min vs felt-min) stays open under HR-1's live playthrough.

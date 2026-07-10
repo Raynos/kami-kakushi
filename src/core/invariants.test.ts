@@ -93,8 +93,12 @@ function checkState(s: GameState): string | null {
 }
 
 describe('structural invariants hold across the full real playthrough', () => {
-  it('the playthrough is long enough to be a real exercise (thousands of steps to ascension)', () => {
-    expect(arc.states.length).toBeGreaterThan(2000);
+  it('the playthrough is long enough to be a real exercise (a four-figure walk to ascension)', () => {
+    // The floor is a sanity check that the arc exercised the systems, not a pacing
+    // assertion (the [3, 22] band gate owns pacing). HD-35's re-pace (2026-07-10)
+    // shrank the greedy arc ~3.6k → ~1.3k dispatches; 1000 stays comfortably below
+    // every gating seed while still catching a collapsed/short-circuited arc.
+    expect(arc.states.length).toBeGreaterThan(1000);
     expect(arc.final.tier).toBe(1); // it actually reached ascension
   });
 

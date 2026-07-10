@@ -313,12 +313,19 @@ export const idler: Persona = {
     // below level parity mirrors the focused driver's ladder.
     const killReq = rem.find((r) => r.type === 'count' && r.token.startsWith('kill:'));
     if (killReq && killReq.type === 'count' && isUnlocked(s, 'tab-combat')) {
-      if (
-        s.character.hp < hpMax(s) &&
-        isUnlocked(s, 'verb-cook') &&
-        (s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST
-      ) {
-        return { type: 'cook_meal' };
+      // mend HP FIRST, foraging for the pantry when it's dry (mirrors the night-round
+      // branch below): cook-only-when-stocked left a 1-HP idler with 1 sansai arming
+      // the watch and losing to the sickroom forever — the HD-35 re-pace exposed that
+      // loss-loop on seeds 1/7.
+      if (s.character.hp < hpMax(s) && isUnlocked(s, 'verb-cook')) {
+        if ((s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST) return { type: 'cook_meal' };
+        if (poolDry('forage_satoyama') && canTurnWheel) return { type: 'advance_season' };
+        const forage = getActivity('forage_satoyama');
+        if (s.location === forage.area) {
+          return { type: 'do_activity', activityId: 'forage_satoyama' };
+        }
+        const fhop = nextHopToward(s.location, forage.area, new Set(s.unlocked));
+        if (fhop) return { type: 'move_to', to: fhop };
       }
       // ADR-148 — the divided targets leave no wood SURPLUS: a Battered/Broken blade
       // provisions (repair when the wood allows, else cut it) before arming the watch —
