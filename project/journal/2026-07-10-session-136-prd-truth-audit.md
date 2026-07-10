@@ -163,3 +163,36 @@ judge stated before the frontier pseudocode; the scripted
 survived-not-won wolf split from the monkey-measured 20–35% band;
 ADR-118 "mechanism TBD" resolved (2 spots). §5: the spent ADR-162
 exception moved to past tense.
+
+## 8 · Phase T2b + P — §6/§7, the teeth, closure
+
+§6: GitHub Pages named the shipped deploy (itch secondary); the §6.2
+diagram gains the shipped dirs (sim/telemetry/fixtures/e2e) + a
+repo-map pointer; the Intent union and GameState blocks get honest
+"illustrative sketch — the shipped source is intents.ts/state.ts
+(SCHEMA_VERSION 8)" banners naming the material divergences; five RNG
+streams (discovery added, 2 spots); season = stored manual state;
+§6.5 states the two authoring lanes (TS registries + the FB-5
+markdown→gen narrative pipeline); the corpse cast example replaced
+with the names.ts/04-cast roster; docs/balance/ layout marked
+never-shipped (2 spots); §6.6 split "enforced today" (the real
+138-line verify-content roster) vs "spec, not yet wired"; track-3
+storage → rung+rungReqs; the __qa listing refreshed (loadFixture/
+telemetry/backupSave in, advanceSeason out).
+
+§7: hosted CI + /ship automation stated (the "no hosted CI, no deploy
+automation" claim was the audit's flagship §7 find); the release-gate
+chain → a gates.ts pointer; zero-webfonts per ADR-127 (3 spots); the
+bestiary row → the generated roster; dead G-numbering → T3-R6/R7
+(4 spots incl. the ADR-137 fix in the rank-ladder row); the parked
+factions row re-parked honestly (Sōan the only surviving seed);
+world.ts → the per-domain registries.
+
+P1: 17 corpse-terms into prd-drift's RETIRED list — which immediately
+caught 8 leftovers beyond the audit's cited spots (Ryōa/Magobei/
+Yagōemon seeds line, deeper-woods prose ×2, the fun-factor Gohei &
+Yatarō, a macron-lint example, my own 28-day mention) — all fixed;
+prd:drift CLEAN with teeth. P2: /prd-ripple's freeze classes relaxed
+per ADR-168. P3: full verify GREEN (the co-agent's sim red cleared);
+plan → DONE, archived to project/archive/; the reading queue keeps
+only the audit report.

@@ -350,7 +350,7 @@ the whole climb). This is what makes hour 20 still mean something.
 **T1 — Estate-full (first real grind: the ≥30-min floor's first bite).**
 - *Fun engine:* the same one house at full depth — the **Arms pillar deeds begin to bank** (Kihei arrives to
   teach arms/combat, diegetically), the **coin/rice flywheel branches** into land/treasury/trade (trade **≤⅓**), the
-  **first paid retinue** (Gohei & Yatarō) and the **E1→E2** estate stage land. New verbs, same familiar domain —
+  **first hired hands** (Tetsuji's forge lit at T1-R6) and the **E1→E2** estate stage land. New verbs, same familiar domain —
   and the **first ascension lands BIG** (the Yūji Syuku beat) so the floor *opens* on a high.
 - *Fun risk:* the floor reading as a **stall** rather than an *earned* grind — T0's fast tutorial cadence has
   just ended, and the deliberate slow-down must feel like the game **deepening**, not braking; the new Arms axis

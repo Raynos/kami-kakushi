@@ -54,13 +54,13 @@ fails on **undershoot only** (§7.1.2).
 household + **T1** — the land), **the Valley** (**T2**, with the village of Asagiri
 within it), and **the Region** (**T3**) **including the T3 personal-mystery payoff**
 — the lost-child **Otsuru** resolution (the **TRUTH** that the MC is *not* Tama; the
-real Tama is Otsuru, alive and grown) is **spine-guaranteed at G6 for every player**
-(§1.5.3, §3.6 G6, §5 T3), while learning the MC's birth name — **"Tahei"** — lands on
+real Tama is Otsuru, alive and grown) is **spine-guaranteed at T3-R6 for every player**
+(§1.5.3, §3.6, §5 T3), while learning the MC's birth name — **"Tahei"** — lands on
 the **T3 origin mainline**. The origin **family is ALIVE** (Tahei's people keep his
 register entry open by refusal), and the **family reunion is an OPTIONAL side-track**
 at **Sawatari-juku** — a player who skips it may still finish. **T4 the Castle Town
 is the near frontier**: it ships as a **STUB cliff-hanger** — the **castle-town
-first-contact** beat at the G7 capstone (the §3.7.1 first-contact screen — "the page
+first-contact** beat at the T3-R7 capstone (the §3.7.1 first-contact screen — "the page
 turns onto stone walls, and the story pauses"). **T5 the Domain and T6 Edo are
 roadmap only** (sketched in §3.7.2, not built).
 
@@ -71,15 +71,15 @@ lock, same label, new content.)*
 
 | Dimension | v1 cut-set | Source |
 |---|---|---|
-| **Rank ladders** | **one unbroken `R0–R7` rung ladder per tier** — 8 rungs × 4 v1 tiers (T0 the household · T1 the land · T2 the Valley · T3 the Region) = **32 rungs total** (the old fresh-per-tier `R8–R15`/`V0–V7`/`G0–G7` numbering is dead — ADR-152 / docket #1; each tier now carries its OWN `R0–R7`). Each tier's climb still drives the **two-track** Estate-Service + Combat-Rank rung-meters (promote on the AND-gate). **Each tier is climbed in TWO SEQUENTIAL PHASES** — **Phase 1**: climb the 8 rungs, each promoting on a **numeric per-rung-reset rung-meter** (§4.1.1) **AND** that rung's story milestone (an **AND-gate**); **Phase 2**: the estate-influence / four-pillar **grind unlocks after the final rung** (the capstone OPENS it). | §1.6.4, §3.2 / §3.4 / §3.6, §2.15.1 |
-| **Bestiary** | **~5 grounded mobs** core (boar, wolf, monkey, bandit, rōnin/smuggler), each carrying a **`MobDef.level`** — NO belief-creatures in spawn tables | §4.6, §6.5 `enemies.ts` |
+| **Rank ladders** | **one unbroken `R0–R7` rung ladder per tier** — 8 rungs × 4 v1 tiers (T0 the household · T1 the land · T2 the Valley · T3 the Region) = **32 rungs total** (the old fresh-per-tier `R8–R15`/`V0–V7`/`G0–G7` numbering is dead — ADR-152 / docket #1; each tier now carries its OWN `R0–R7`). Each rung promotes on its **authored hidden requirement list, 100% done** (ADR-137 — the old meter/threshold AND-gate is deleted; the player reads a rounded % bar). **Each tier is climbed in TWO SEQUENTIAL PHASES** — **Phase 1**: climb the 8 rungs; **Phase 2**: the estate-influence / four-pillar **grind unlocks after the final rung** (the capstone OPENS it). | §1.6.4, §3.2 / §3.4 / §3.6, §2.15.1 |
+| **Bestiary** | **grounded mobs only** (the shipped T0 roster is the generated §2 bestiary — rats → marten → the R3 wolf arc, 10+ MobDefs in `enemies.ts`; per-tier rosters from the bible tier sheets), each carrying a **`MobDef.level`** — NO belief-creatures in spawn tables | §4.6, `enemies.ts` |
 | **Quest types** | the **4 STARTER types**: PEST-CONTROL · HUNT · CLEAR · DEFEND (DEFEND is the Arms-deed earner) — a **taxonomy, not a count budget**: the actual per-tier quests are the **side-beat rosters in the story-bible tier sheets** ([`tiers/`](../../story-bible/tiers/)) — author to the roster, don't re-inventory it here; more / more-interesting welcome at later tiers | §2.12, §3.2 R5, [`03-tiers.md`](../../story-bible/03-tiers.md) |
 | **World** | **full walkable maps T0–T3** (full maps every tier, not abstract boards); the **per-tier zone lists live in the story-bible tier sheets** ([`tiers/`](../../story-bible/tiers/)) — this section points at them, it does not inventory the nodes | §1.7, §3, [`03-tiers.md`](../../story-bible/03-tiers.md) |
 | **Skills (LOCKED v1 set)** | **farming · foraging · woodcutting · fishing · smithing · cooking** + **conditioning** + the **incremental weapon roster** (below). Each skill (labour included) carries a bounded **per-skill PERKS** track — ~2–8 small, stackable labour→combat bonuses, no global cap, each small-magnitude; **conditioning stays the ZERO-stat enablement gate**, orthogonal to and never bypassed by the perks. (Fishing surfaces at T2 — the Village.) | §1.5.1, §2.7/§2.7.1, §4.5/§4.5.4 |
 | **Combat** | an **idle/auto-resolve auto-battler** (active-only; tab-open auto-resolve + auto-repeat) revealed **INCREMENTALLY** on the **combat-reveal ladder** (R3 starter weapon + auto-resolve loop + retreat → R4 graded durability bands → R5 stance → first weapon-line L10 ability/item slots → 2nd combat line at T1 → 3rd at T2; one reveal per beat); **satiety-throttled**; **graded 4-band durability** (never auto-unequipped); feeding **THREE clean separately-stored tracks** — kills/combat-XP → the **character (combat) level**, recognised deeds → the **Arms pillar** (Phase-2-gated), per-rung curated activities → the **Combat Rank rung-meter** | §1.6.4, §2.8/§2.8.1/§2.8.2, §4.6 |
 | **Weapon roster (incremental)** | a **growing ~9–10-weapon roster** across **3 archetype lines** (spear T0 · sword T1 · the **Staff/polearm line at T2 Village**) — **T0 starts with the carrying-pole and unlocks +2 across the tier** (at least one of the two craftable); **+3 at T1**, **+4 at T2** → **roster complete by end-of-T2**; **T3 Region adds combat DEPTH, no new line** (each weapon an **archetype** — per-weapon `baseSpeed` / `reach` / `targetCount` / `attackProfile` — **+ a signature ability**; FOUND and CRAFTED, never gifted) | §2.8.2, §2.10.1, §4.6.9 |
-| **Estate stages** | **E0 → E1 → E2 → E3** (Foreclosure's Edge → Stabilising → Recovering → **Prosperous**) — the narrative CONDITION ladder; E3 authored in v1 (folded into the G-tier coin/Arms spend, §4.7.5); **E4–E5 parked** | §1.5.1, §4.7.5 |
-| **House Influence** | the **four pillars** (Arms / Estate & Wealth [trade ≤⅓] / Standing & Office / Name & Honour), the four-bar panel revealing **bar-by-bar** as each pillar first scores; achievement-jump (**≈70%**) + seasonal-judged-on-high-water-mark (**≈30%**) accrual, **pillar DEEDS gated to PHASE 2**; the tier-gate is the **scaled grade-gate** (`1 EXCELLENT + 1 GREAT + (N−2) GOOD` for N *revealed* pillars, all ≥ GOOD; **NO overflow**; **T0 collapses to a single EXCELLENT** — T0 is a **1-pillar** tier, Estate only) — a **per-pillar-per-tier overhaul**, not simple ratios | §1.6, §2.16, §4.1–§4.2 |
+| **Estate stages** | **E0 → E1 → E2 → E3** (Foreclosure's Edge → Stabilising → Recovering → **Prosperous**) — the narrative CONDITION ladder; E3 authored in v1 (folded into the T3 coin/Arms spend, §4.7.5); **E4–E5 parked** | §1.5.1, §4.7.5 |
+| **House Influence** | the **four pillars** (**Estate** 家産 [trade ≤⅓] · **Arms** 武威 · **Office** 官威 · **Name** 家格 — ADR-159), the four-bar panel revealing **bar-by-bar** as each pillar first scores; achievement-jump (**≈70%**) + seasonal-judged-on-high-water-mark (**≈30%**) accrual, **pillar DEEDS gated to PHASE 2**; the tier-gate is the **scaled grade-gate** (`1 EXCELLENT + 1 GREAT + (N−2) GOOD` for N *revealed* pillars, all ≥ GOOD; **NO overflow**; **T0 collapses to a single EXCELLENT** — T0 is a **1-pillar** tier, Estate only) — a **per-pillar-per-tier overhaul**, not simple ratios | §1.6, §2.16, §4.1–§4.2 |
 | **Crafting** | **hybrid**: simple recipes from T0-R4; the component/quality system from T2-V3 (the Village). **Crafting stays a homed section** (of Character), NOT its own tab; the **quest log regains its OWN top-level tab**, making a **seven-tab IA** (Work · Map · Estate · Inventory · Character · Combat · **Quests** — **ADR-119**, reinstating ADR-037, superseding ADR-112's six-tab lock; exact tab per `ui-design.md`) | §4.7.2, §2.11/§2.12, §3.4 |
 | **Save** | **MULTI-BACKEND redundant atomic save** — IndexedDB + localStorage + sessionStorage, written to all available backends per autosave; an **app-identity magic field** (`app:'kami-kakushi'`, reject-to-recovery on mismatch); a **monotonic save-counter newest-wins selector** (the save-layer **timestamp is only the tiebreaker** — a documented core-lint exemption, metadata not game logic); an **additive backwards-compatible schema** (never remove/repurpose a field) + ordered migrations + raw backup; **base64 export/import** retained as the portable backstop | §2.19/§2.19.1, §6.8/§6.8.1/§6.8.2 |
 
@@ -96,8 +96,8 @@ post-T3 stub runway / free-play tail; the *built* content floor sums to ≈ 28.5
 §4.8.4.) The **balance pass** treats the per-tier hour budgets and the ≥30-min floor
 as **verify-gate-enforced minimums** — but the **pacing regression fails on
 UNDERSHOOT only**: a headless playthrough that clears any **floor-bound grind** rung
-(from T1: R8–R15, plus the V0–V7 / G0–G7 equivalents; the **R0 cold-open story rung
-AND the whole floor-exempt T0 tutorial ladder R1–R7 are exempt** per §4.8.1) in
+(every **T1–T3 rung** — each tier's own R0→R7, 24 floor-bound rungs; **all of
+T0's R0–R7 is exempt** per §4.8.1) in
 **< ~28 min**, or completes a tier in **under its hour floor**, **fails the pacing
 test** (too fast). **Overshooting the floor is fine and desired** — a longer grind
 never fails the gate. The §4.8 curve is a **minimum-grind model**: tuning lengthens
@@ -114,7 +114,7 @@ deliberately**; nothing here is a design hedge — the *shape* is decided, only 
 | Parked item | Where it returns | Source |
 |---|---|---|
 | **Estate stages E4–E5** (fortified seat → restored-and-surpassed) — E0→E3 **ships in v1** (E3 authored in the Region tier; see [`roadmap.md`](../roadmap.md)) | T4+ | §1.5.1 |
-| **The Matagi hunters, the Pilgrimage Order, the Scholars-&-Physicians *network*** (keep Sōan / Obaa Kuni as seeds only) | T4+ | §1.7.1 |
+| **A wider-world faction layer** (hunters' band / pilgrimage order / a scholars-&-physicians network — pre-reboot concepts, re-parked pending a bible home; **Sōan** is the surviving canon seed) | T4+ | §1.7.1 |
 | **Auto-producers** (any idle/seconded-helper layer) — **v1 is active-only, no idle layer** (the "leave it running" feel comes from tab-open auto-resolve/auto-repeat, NOT offline progress) | T4; scaffold only in v1 | §4.7.4, §2.5 |
 | **The marriage / adoption status lever** (a real T4/T5 alliance lever; numbers deferred) | T4 | §1.7.1, §2.16.1, §4.3 |
 | **Deeper upper-tier world nodes** (the *Daikan's* office depth, the Edo *yashiki* / rusui conduit, the full finance network, the High Mountains & Pass) | T4 / T5 | §1.7.1 |
@@ -221,22 +221,20 @@ locked scope & shape; the roadmap wins on sequence.**
   (versioned, ordered, pre-migration raw backup; a corrupt save degrades gracefully,
   never a "save is kill" wall).
 - **The `pnpm run verify` release gate.** The **same** one-command gate that guards
-  every commit (§6.1) is the release gate: `tsgo --noEmit && oxlint &&
-  oxfmt --check && vitest run && verify-content && gen:docs --check` — i.e.
-  **typecheck + unit tests + the content-verifier (incl. the number-format checks —
-  K/M/B for koku standing + the mon/monme/ryō coin denominations — plus macron + the
-  canon-invariant machine checks) + lints**, **plus the §4.8 headless pacing
-  regression, the fun-proxy gate, AND the build-failing perf gate**. A release
-  artifact is **only ever cut from a verify-green commit**; `verify` is run
-  **locally** as the pre-push / release gate (**no hosted CI, no deploy
-  automation**).
+  every commit (§6.1) is the release gate — the roster is owned by
+  **`src/scripts/gates.ts`** (the single source; ~17 parallel gates, generated
+  into §6.1) — and it runs at **commit, push, AND in hosted CI** (the
+  `.github/workflows/` fan-out: verify · verify-nightly · build · lint · test ·
+  typecheck · e2e). A release artifact is **only ever cut from a verify-green
+  commit**; releases go through **`/ship`** (`src/scripts/ship.sh` — isolated
+  build + DEV-strip gate + **automated gh-pages deploy**, git-tagged).
 - **How to ship to itch.io (brief).** (1) `pnpm run verify` green; (2)
   `pnpm run build:itch` → a zipped `dist/` (contents at root); (3) on itch.io, create
   / edit the project, set **Kind = HTML**, upload the zip, tick **"This file will be
   played in the browser,"** set the viewport (a sensible default frame; the layout
   is responsive per §6.9), set pricing to **free / pay-what-you-want**, **and declare
-  the content descriptors** (§7.3.2); (4) run the deploy-checklist gates — **fonts
-  self-hosted** (no Google / no network), the **About/Credits + commit-SHA stamp**
+  the content descriptors** (§7.3.2); (4) run the deploy-checklist gates — **zero webfonts**
+  (pure system stacks — ADR-127; no network), the **About/Credits + commit-SHA stamp**
   present, the **LICENSE** file exists, and the **multi-backend save-survival smoke**
   green on Chromium + WebKit; (5) save as a draft, open the draft URL, run the
   **fresh-browser smoke test** (load < 5 s to first interactable; rake rice; reload
@@ -251,11 +249,10 @@ locked scope & shape; the roadmap wins on sequence.**
 
 v1 ships **one small, curated, fully-bundled asset set** — no CDN, no network.
 
-- **Self-hosted OFL fonts.** The period-evoking display + body fonts are **SIL
-  OFL**, **self-hosted** (Google dynamic-subsetting removed — it breaks offline play
-  + the itch relative-base), with the **OFL license bundled** and the
-  **Reserved-Font-Name** rule honoured. The offline smoke confirms **zero font
-  network calls**.
+- **Zero webfonts (ADR-127/ADR-144).** The UI-v2 (Andon Steel) remaster retired
+  the self-hosted OFL font pipeline — the shipped type is **pure system font
+  stacks**, so there is nothing to subset, license, or self-host. The offline
+  smoke confirms **zero font network calls** by construction.
 - **Inline-SVG load-bearing motifs.** The **pillar / season / rarity** marks (and
   the other load-bearing period motifs) are **inline SVG** so they render
   **identically across OSes**; **emoji are cosmetic-only**, never load-bearing.
@@ -272,7 +269,7 @@ All of it is bundled into `dist/`; the offline smoke asserts **zero network call
 
 - **About/Credits surface.** A small in-product **About/Credits** screen
   (content/surfaces.ts, §6.5 / §2.21) carrying **authorship**, the **commit-SHA
-  build stamp**, **font/audio attributions** (the OFL fonts + the CC0 samples), a
+  build stamp**, **audio attributions** (the CC0 samples; type is system-stack, no font attribution owed — ADR-127), a
   **clean-room attestation**, and pointers to the license + content descriptors.
 - **Licensing.** A **LICENSE** file ships with the build: **permissive code** (MIT /
   Apache-2.0) **+ reserved game content** (all-rights-reserved or CC-BY-NC) — the
@@ -282,9 +279,11 @@ All of it is bundled into `dist/`; the offline smoke asserts **zero network call
   descriptors** for the game's **mild thematic** content — **child-disappearance,
   drowning, debt** — as a deploy-checklist step. (No graphic violence, no sexual
   content; the register stays restrained.)
-- **World registry.** The world-sim content lives in a **`content/world.ts`**
-  data-as-code registry, id-resolved by the content verifier — the single source for
-  the world-facing content that About/Credits + the descriptors describe.
+- **World registry.** The world-facing content lives in the **per-domain
+  `src/core/content/` registries** (areas, map, enemies, activities, estate, …),
+  each id-resolved by `verify-content` — the single source for what
+  About/Credits + the descriptors describe. *(A monolithic `world.ts` never
+  shipped.)*
 
 ---
 

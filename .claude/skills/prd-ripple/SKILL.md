@@ -29,9 +29,9 @@ Read the diff and place it in exactly one class:
 
 | Class | What it is | The ripple |
 |---|---|---|
-| **Balance number** | a constant / threshold / price / curve / multiplier tuning nudge | **NO §4 edit.** §4 carries the frozen-provisional banner (ADR-021/Q5). Code + tests (+ the pacing report). An **ADR only** when the change is a *design-level re-derivation*, not a tuning nudge. |
+| **Balance number** | a constant / threshold / price / curve / multiplier tuning nudge | **NO §4 edit.** §4's magnitudes are provisional/sim-owned by design (ADR-168 — the live truth is `balance.ts` + the generated `t0-pacing.md`). Code + tests (+ the pacing report). An **ADR only** when the change is a *design-level re-derivation*, not a tuning nudge. |
 | **System / narrative (BUILT territory)** | a shipped system's behaviour, a shipped rung/beat, a registry entry | Code + **ADR (the why)** + a **targeted PRD ripple** (Q5 status quo — ripple *continues* until that tier's compression event retires it). Edit only the subsections the change staled. |
-| **Intent-level** | changes what the game **IS** (the §1 vision / acceptance criteria) | **STOP — not autonomous.** Human decision → ADR + PRD §1 / acceptance-criteria edit. Record the fork; do not self-decide (PH4). |
+| **Intent-level** | changes what the game **IS** (the vision values / acceptance criteria) | **STOP — not autonomous.** Human decision → ADR + PRD edit. Record the fork; do not self-decide (PH4). **Text-sync is NOT intent (ADR-168):** the PRD is never frozen — fixing §1 prose that describes a game that no longer ships is the system/narrative class, agent-safe. |
 | **Frontier (unbuilt)** | T1–T5 / endgame design not yet built | Edit the **fat frontier sections directly** — that's where forward design lives (Q1). Full detail welcome; no drift risk (the frontier is *supposed* to lead the build). |
 
 **If in doubt between "balance number" and "system/narrative":** ask *did a
@@ -44,7 +44,7 @@ design lever's meaning change, or only its value?* Value-only → balance number
 - **Never** re-type a derivable fact into prose — if it lives in a registry and
   the build == end-state intent, transclude it as a **gen-region**
   ([`gen-prd-regions.ts`](../../../src/scripts/gen-prd-regions.ts), F1b Ph2's
-  pattern) so it can't drift again. Numbers stay OUT (§4 is ripple-frozen).
+  pattern) so it can't drift again. Numbers stay OUT (§4 magnitudes are sim-owned, never transcluded — ADR-168).
 - Wrote an ADR? Add it to
   [`docs/living/decisions.md`](../../../docs/living/decisions.md).
 

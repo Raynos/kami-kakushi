@@ -61,7 +61,7 @@ from the start). *(The abstract ip / K-M-B display scheme survives only as T1+
 frontier spec.)* Time runs on the **six-season MANUAL wheel** (winter → new-year
 → spring → summer → bon → autumn — ADR-150/ADR-153): the season is stored state
 turned only by the player's `advance_season`, so a season has **no fixed
-day-count** — the retired 28-day/tick calendar math is gone with it.
+day-count** — the retired fixed-day/tick calendar math is gone with it.
 
 **Wall-clock anchor (the locked time budget reads as a FLOOR).** The saga length
 and the per-rank ≥30-min floor are stated in real minutes; with the ADR-153

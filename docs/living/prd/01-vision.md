@@ -749,7 +749,7 @@ past-tense line — then **THE MAP RE-LABELS ITSELF** ("Main house" → "Guest h
 name), the twist delivered by the UI surface itself (kernel #6; TST2 — a watched surface never yanked).
 
 Beyond the estate, the **wilderness** stays a shared danger gradient gated by conditioning (the estate's
-near grounds → the deeper woods → the river/ford/weir where he was found → the foothills); the **valley,
+near grounds → the woodlot's deep stands → the river/ford/weir where he was found → the foothills); the **valley,
 region, castle town, domain and Edo** zones are enumerated per tier in the bible tier sheets
 ([`tiers/`](../../story-bible/tiers/); [`03-tiers.md`](../../story-bible/03-tiers.md)).
 
@@ -803,7 +803,7 @@ existing cast and pay off the spine directly.
 > §3/§5.
 >
 > **Cut for now (reintroduce later, "start lean, add back"):** the Matagi hunters, the Pilgrimage Order, and
-> the Scholars-&-Physicians as a *network* (keep Sōan / Obaa Kuni as the existing seed only). **Estate stages
+> the Scholars-&-Physicians as a *network* (keep Sōan as the existing seed only). **Estate stages
 > E4–E5** (fortified seat → restored-and-surpassed) stay parked — **E3 "Prosperous" is authored in v1**
 > (§1.5.1).
 >

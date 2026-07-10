@@ -142,6 +142,30 @@ const RETIRED: readonly { term: string; adr: string; successor?: string }[] = [
   { term: 'okimi', adr: 'bible cast sweep (origin sister)', successor: 'suzu' },
   { term: 'o-sato', adr: 'bible cast sweep (B1 closure)', successor: 'o-hisa' },
   { term: 'tokubei', adr: 'bible cast sweep (the dowager thread)', successor: 'yohei' },
+  // ADR-168 truth-sync (s136): the pre-reboot corpse-vocabulary the audit swept
+  // out of the PRD wholesale — teeth so it cannot creep back. Names first
+  // (people who exist nowhere in the bible/names.ts), then the retired rung
+  // fictions and the retired node.
+  { term: 'gonta', adr: 'ADR-168 truth-sync (pre-reboot smith)', successor: 'tetsuji' },
+  { term: 'obaa kuni', adr: 'ADR-168 truth-sync (pre-reboot herbalist — no canon successor)' },
+  { term: 'tokuemon', adr: 'ADR-168 truth-sync (pre-reboot brewer — no canon successor)' },
+  { term: 'onatsu', adr: 'ADR-168 truth-sync (pre-reboot weaver — no canon successor)' },
+  { term: 'sukezō', adr: 'ADR-168 truth-sync (pre-reboot innkeeper — no canon successor)' },
+  { term: 'yagōemon', adr: 'ADR-168 truth-sync (pre-reboot headman)', successor: 'mohei' },
+  { term: 'ryōa', adr: 'ADR-168 truth-sync (pre-reboot priest)', successor: 'ekai' },
+  { term: 'magobei', adr: 'ADR-168 truth-sync (pre-reboot antagonist — no canon successor)' },
+  { term: 'yatarō', adr: 'ADR-168 truth-sync (pre-reboot retinue — no canon successor)' },
+  { term: 'heita', adr: 'ADR-168 truth-sync (pre-reboot field-lad — no canon successor)' },
+  { term: 'mosuke', adr: 'ADR-168 truth-sync (pre-reboot clerk — no canon successor)' },
+  { term: 'hiyatoi', adr: 'ADR-168 truth-sync (pre-reboot R1 fiction — the bible ladder)' },
+  { term: 'monban', adr: 'ADR-168 truth-sync (pre-reboot R5 "gate-guard" fiction)' },
+  { term: 'kogashira', adr: 'ADR-168 truth-sync (pre-reboot R6 "foreman" fiction)' },
+  { term: 'jikata-yaku', adr: 'ADR-168 truth-sync (pre-reboot R7 "bailiff" fiction)' },
+  {
+    term: 'deeper woods',
+    adr: 'ADR-168 truth-sync (node retired into the woodlot)',
+    successor: 'woodlot',
+  },
 ];
 
 // The RETIRED scan's WIDENED file set beyond docs/living/prd/ (human ruling,

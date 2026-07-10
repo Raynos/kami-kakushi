@@ -17,7 +17,7 @@ field, an additive backwards-compatible schema, and a monotonic-counter newest-w
 
 **Stack: Vite + TypeScript + Vitest, with oxlint + oxfmt.** Committed `package.json` +
 lockfile (everything is pinned — no ad-hoc toolchain). Output is
-**fully static** — `vite build` → `dist/` → zipped and uploaded to itch.io, no server, no backend.
+**fully static** — `vite build` → `dist/`, no server, no backend. The shipped deploy is **GitHub Pages** via `/ship` (`src/scripts/ship.sh` — isolated build + gh-pages push, git-tagged); `build:itch` (zip for itch.io) remains the secondary channel.
 
 - **TypeScript: strict.** `"strict": true` plus `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`,
   `noImplicitOverride`. The core is typed end-to-end; content registries are typed data so the content
@@ -140,8 +140,15 @@ src/
   persistence/ ← MULTI-BACKEND redundant save (IndexedDB + localStorage + sessionStorage) + atomic write
                ←   + app-identity magic field + monotonic-counter newest-wins selector + the additive-schema
                ←   migration chain & raw backup + base64 codec. (Side-effectful; never imported BY core.)
-src/scripts/       ← gen-docs.ts, verify-content.ts (Node entry points; import core data only).
+src/scripts/       ← the repo's dev/verify/gen scripts (gates.ts owns the verify roster).
+src/sim/           ← the ADR-132 balance sim (personas, envelopes) — pure-core consumer.
+src/telemetry/     ← FB-8 attended-time telemetry (DEV; drops to project/telemetry/).
+src/fixtures/      ← FB-6 generated scenario saves (specs.ts → saves/*.json).
+src/tests/e2e/     ← the Playwright mobile lane.
 ```
+
+*(The canonical directory map is [`docs/repo-map.md`](../../repo-map.md); this
+diagram fixes the BOUNDARY RULES — pure core, thin renderer — not the full tree.)*
 
 **Dependency rule (one-directional):** `ui`, `app`, `persistence`, and `scripts` may import from `core`;
 **`core` imports from none of them.** `core` exports only pure functions and data and the `GameState` type.
@@ -178,6 +185,14 @@ the registries, and the RNG helpers. **Nothing else mutates state.** Everything 
 Two pure functions are the *only* ways state changes. Both are deterministic given `(state, input)` because
 all randomness is carried inside `state.rng` (§6.7), every weather/festival roll is re-derived stateless and
 day-keyed, and lunar phase is a derived ephemeris off the absolute day (§6.7.1).
+
+> **Illustrative sketch — the SHIPPED union is `src/core/intents.ts`.** The
+> sketch below predates the storywave: the build's live verbs also include the
+> VN/intro set (`open_eyes`/`advance_intro`/`ask_topic`/`choose_intro`…), the
+> manual `advance_season` turn, the night-round and scene verbs, and the
+> fixture/QA intents — while `buy_producer`, `use_item`, `combat_action`,
+> `advance_dialogue`, `read_scroll`, `set_allegiance` are **frontier-tier, not
+> built**. Read `intents.ts` for truth; the shape below is the design pattern.
 
 ```ts
 // Every player action is a typed intent. Discriminated union.
@@ -274,6 +289,16 @@ were away"); the unattended auto-resolve/auto-repeat runs **only while the tab i
 
 ## 6.4 GameState — stored vs. computed
 
+> **Illustrative sketch — the SHIPPED tree is `src/core/state.ts`
+> (SCHEMA_VERSION 8).** Material divergences from the block below: the ADR-137
+> requirement model stores `rung` + `rungReqs` (the `ranks[tier]`
+> estateService/combatRank meters never shipped); `season` + `seasonsPassed`
+> ARE stored (ADR-153); the `discovery` RNG cursor and `discovered` latches
+> exist (ADR-146); `producers`, `market.saturation`, `reputation`,
+> `allegiance`, `settings`, per-slot `equipment`, `effects[]` are
+> frontier-tier, not built. Read `state.ts` for truth; the sketch fixes the
+> save-minimal PRINCIPLE.
+
 `GameState` is a single immutable-ish tree reduced by `reduce`/`tick`. The cardinal rule (the *save-minimal*
 principle): **store only what is NOT derivable; recompute everything derivable on
 read.** Derived values (effective stats, `satietyMax`, the gate profile, current production/sec, what's
@@ -286,7 +311,7 @@ go stale and never need a migration.
 interface GameState {
   schemaVersion: number;            // for the migration safety-net (§6.8.2)
   rng: { seed: number;
-         cursors: { combat: number; loot: number; seasonal: number; worldgen: number } };  // per-named-stream MONOTONIC cursors — persisted (§6.7). Weather/lunar are NOT stored — derived day-keyed (§6.7.1).
+         cursors: { combat: number; loot: number; seasonal: number; worldgen: number; discovery: number } };  // per-named-stream MONOTONIC cursors (discovery = the ADR-146 pity-roll stream) — persisted (§6.7). Weather/lunar are NOT stored — derived day-keyed (§6.7.1).
   clock: { tick: number; day: number };  // abstract time — persist the absolute monotonic day + tick. createInitialState pins tick 0, day 0; the day index is 0-BASED (the renderer adds +1 so the player still reads "day 1"). The SEASON is STORED state beside the clock (ADR-153: `season: Season` + `seasonsPassed`, the manual six-season wheel — advanced only by `advance_season`, Autumn's exit refusing until the year's nengu is reckoned, ADR-166). Lunar phase stays DERIVED — a real ~29.5-day ephemeris off `day` (§6.7.1), not stored and not a per-day RNG roll.
   location: MapNodeId;                            // where the player IS now on the walkable estate map (set by the `move_to` intent) — non-derivable, persisted (§2.19). Every labour, foe, and the kura is bound to a node; you WALK there to work/fight/bank. The shipped T0 map is the 16-zone estate (`content/areas.ts` is the roster; the survey-sheet ezu draws it — ADR-151; §3).
   resources: Record<ResourceId, number>;         // CARRIED wealth (coin(mon), wood, materials… — NOT rice: rice is kura-only since ADR-163) — on you, AT RISK on a lost fight (§4.6.6). Spending + earning use carried. Koku is NOT a resource — it is the House's assessed STANDING (held in `influence`, immune to the loss-bite; see `koku` below).
@@ -383,7 +408,7 @@ collapse into one bar.** Each writes to a *different* field, and **one kill** ma
 |---|---|---|---|---|
 | 1 | **Character (combat) level** | `character.level` + `character.combatXp` | the kill's **combat-XP** (`MobDef.level · COMBAT_XP_K`, §4.6.5) → `combatXp` → `level`; **plus** the equipped **weapon-line skill** XP (in `skills`). HP, attribute-points, and (derived) `satietyMax` scale off `level`. | Arms (no pillar value) and the meter (no rung progress) |
 | 2 | **The Arms pillar** | `influence[Arms]` (value/highWater) | **nothing** — *unless* the kill is a **recognised** clear/defend **deed**, and **only in the tier's Phase 2** (post-final-rung). A deed writes a `pillarDelta` via the rewards bus. | character level (kills don't grant pillar value) and the meter |
-| 3 | **The Combat Rank rung-meter** | `ranks[tier].combatRank` (per-rung-RESET) | **nothing** — the meter is fed **only by per-rung CURATED activities** (a designed one-to-many set), not raw kills/XP. | character level and Arms |
+| 3 | **Rung progress (ADR-137)** | `rung` + `rungReqs` (the per-requirement progress map — SCHEMA_VERSION 8 replaced the old `rungMeter`; the two-meter `ranks[tier]` shape is T1+ frontier) | **nothing** — requirements are authored curated acts, not raw kills/XP. | character level and Arms |
 
 **The sequential per-tier phase gate.** Each tier is climbed in two phases, and the phase marker is
 **DERIVED from the current `rung`** — there is **no stored phase flag**:
@@ -404,8 +429,15 @@ collapse into one bar.** Each writes to a *different* field, and **one kill** ma
 
 ## 6.5 Content as data registries (data-as-code, single source of truth)
 
-**All content is authored as plain, typed TypeScript data in `core/content`, one module per type** — consumed
-by the pure core, never co-located with DOM or behaviour. This is the backbone of *generate-don't-duplicate*.
+Content is authored in **two lanes** (both single-source, both consumed by the
+pure core, never co-located with DOM or behaviour): **(1) typed TypeScript data
+registries** in `core/content`, one module per type; **(2) the FB-5 narrative
+lane** — fiction (rung beats, intro/cold-open scenes, dialogue, flavor,
+requirements) authored as **prose-first markdown** in `core/content/narrative/`
+and compiled by `gen:narrative` into `*.gen.ts` registries (**never edit a
+`.gen.ts`** — the `gen-narrative` gate byte-compares). This is the backbone of
+*generate-don't-duplicate*. *(The registry table below mixes shipped and
+frontier modules — the shipped roster is the `src/core/content/` directory.)*
 
 | Registry module | Holds | Keyed by |
 |---|---|---|
@@ -467,16 +499,18 @@ also asserts the **canon invariants** as machine checks so they cannot silently 
   "labour→combat `== 0`": the verifier asserts **each perk's MAGNITUDE is small** (a per-perk magnitude
   bound), **NOT** `== 0` and **NOT** a single global `≤ CAP` (see §6.6.1);
 - **macron / no-plain-ASCII-romaji lint:** display/name strings use proper-Hepburn **macrons** (Tōkichi,
-  Yagōemon, Kyūsuke, *gōshi*, *rōnin*, *kyō-masu*) — the verifier flags plain-ASCII romaji that should carry a
+  Sōan, Kyūsuke, *gōshi*, *rōnin*, *kyō-masu*) — the verifier flags plain-ASCII romaji that should carry a
   macron, so no ASCII-slip can land in shipped text. **Allow-list:** naturalized English exonyms —
   *shogun, yokai, samurai, Osaka, daimyō* (written with its macron) — plus the **invented-place
   allow-list incl. *Nihonbashi*** are exempt and may stay in their common form. The lint uses the
   **"Combat Rank"** term, and cross-links the **real-name DENYLIST** (§6.6.1).
 
 **Generated docs** (`src/scripts/gen-docs.ts`): a Node entry that imports the same registries the game runs on and
-writes balance/content tables into `docs/` — aligned to **`docs/balance/`** (e.g. `docs/balance/curves.md`,
-`docs/balance/gates.md`) and **`docs/content/`** (e.g. `docs/content/bestiary.md`, `docs/content/areas.md`,
-`docs/content/ranks.md`, `docs/content/influence.md`). Run with `--check` in `verify` to fail the build if the
+writes balance/content tables into **`docs/content/`** — the shipped set is
+`t0-content.md` / `t1-content.md` / `t2-content.md` / `ui-tokens.md`
+(`gen-docs`), plus `t0-pacing.md` (the pacing gate) and `t0-story.md`
+(`gen-narrative`) — *(the old `docs/balance/` per-concern layout never
+shipped)*. Run with `--check` in `verify` to fail the build if the
 committed docs drift from the data. This is the convention *generate, don't duplicate* made literal:
 balance/content tables are **never hand-maintained twice** — they are a build artifact of the one source of
 truth. Any illustrative number duplicated **in prose** is tagged **"illustrative — see generated"** so a
@@ -486,7 +520,15 @@ hand-typed derived value can never silently drift from its generated source.
 
 ## 6.6.1 Verifier invariants
 
-A cluster of machine checks (collected here; run inside `verify-content.ts` alongside the
+> **Enforced today vs spec.** The shipped `verify-content.ts` checks:
+> surface/mob/weapon id mirroring, activity refs, rank eligibility, no
+> belief-creature in spawn tables, no human foe below T2, estate-stage sanity,
+> and the real-name denylist (plus the vitest invariants suite). The rest of
+> this cluster — the macron/romaji lint, per-perk magnitude, accrual tie-outs,
+> the trade-≤⅓-post-combo proof, gate-distribution — is **spec, not yet
+> wired**; treat each as a claim only once it lands in the verifier.
+
+A cluster of machine checks (collected here; specified for `verify-content.ts` alongside the
 §6.6 canon invariants) so the load-bearing properties **cannot silently regress** — especially
 the three-track separation and the hybrid gate.
 
@@ -523,8 +565,10 @@ the three-track separation and the hybrid gate.
 - **Real-name DENYLIST lint.** A denylist flags **real surnames / places** (e.g. *Toyama*,
   *Konoe*, real daimyō / place names) so an invented-name slip can't land in shipped strings — maintained
   alongside the macron lint. **Allow-list:** naturalized exonyms + the **invented-place allow-list (incl.
-  *Nihonbashi*)**. It also flags the reserved-off names **Mago** / **Naozane** / **Obaa Sato** so they can't be
-  used; the shipped names are **Heita** / **Mosuke** / **Obaa Kuni** (field-lad **Heita** ≠ antagonist **Magobei**; clerk **Mosuke** ≠ heir **Naoyuki**; herbalist **Obaa Kuni** ≠ **Sayo**).
+  *Nihonbashi*)**. The shipped cast is single-sourced from `names.ts` +
+  the bible's name registry ([`04-cast.md`](../../story-bible/04-cast.md), the
+  2026-07-07 sweep): Genemon, Kihei, Chiyo, Sōan, O-Hisa, Shinnosuke, Toku,
+  Yohei, Tetsuji, Mohei, Sayo, Ekai….
 - **Tick split-invariance & full-fold.** A determinism check asserts `tick(s, a + b) === tick(tick(s,
   a), b)` for non-negative integers `a, b` (the scheduler folds **one tick at a time**, per-day/week/reckoning
   plans fire once each in **fixed registry order**), and that a multi-season `dtTicks` jump folds one day at a
@@ -598,12 +642,12 @@ function lunarPhase(day: number): number;   // f(day mod LUNAR_PERIOD), LUNAR_PE
   `f(absoluteDay mod LUNAR_PERIOD)` — a smooth new→full→new progression, **deterministic off the absolute
   monotonic `day` alone** (no seed, no RNG cursor, no per-day randomness). This is why season/year (§6.4) and
   the moon are all **derived from `day`** rather than stored: they can never desync.
-- This is **distinct** from the four persisted RNG cursors (§6.7): the cursors are *consumed* monotonically
-  by gameplay (combat/loot/seasonal/worldgen draws), whereas `deriveDayKeyed` is a **stateless re-derivation**
-  keyed by the calendar day and `lunarPhase` is a **deterministic ephemeris**. The **only** non-derivable
-  economy state is `market.saturation` (§6.4) — weather, lunar phase, season and year are not stored at all
-  (in the BUILT engine; the storywave forward spec — §6.4 banner, ADR-153 — turns `season` into a stored
-  container, while weather/lunar/year stay derived).
+- This is **distinct** from the five persisted RNG cursors (§6.7): the cursors are *consumed* monotonically
+  by gameplay (combat/loot/seasonal/worldgen/discovery draws), whereas `deriveDayKeyed` is a **stateless re-derivation**
+  keyed by the calendar day and `lunarPhase` is a **deterministic ephemeris**. Weather and lunar phase are never stored; **`season` IS stored state**
+  (ADR-153, shipped — `season` + `seasonsPassed`, turned only by the manual
+  `advance_season`; the year derives from `seasonsPassed`), while weather/lunar
+  stay derived.
 
 ---
 
@@ -872,7 +916,10 @@ window.__qa = {
   setSeed(seed: number): void,              // pin RNG for reproducible rare rolls
   pacing(): PacingTelemetry,                // accumulated fun-proxy metrics this run (qa-playtesting.md §3)
   reveals(): RevealLogEntry[],              // what unlocked + when (tick/day) — the reveal-cadence proxy (qa-playtesting.md §1)
-  advanceSeason(): void, toRung(id: RankId): void, toTier(n: TierId): void,  // time-compression helpers — fast-forward to a checkpoint (qa-playtesting.md §1)
+  toRung(id: RankId): void, toTier(n: TierId): void,  // fast-forward helpers (a season turn is the plain advance_season intent)
+  loadFixture(name: string): void, fixtures(): string[],  // the FB-6 scenario-save library (+ the DEV Scenarios tab)
+  telemetry(): AttendedTimeReport,          // FB-8 attended-time (drops to project/telemetry/)
+  backupSave(): string, hasBackup(): boolean,  // the raw pre-migration backup
   selectors: { unlocked(): SurfaceId[]; tier(): TierId; production(): ... },  // read-only derived reads
 };
 ```
@@ -924,7 +971,7 @@ done now**:
 |---|---|
 | **Pure-core boundary** | All logic/state/math in `src/core/` with **zero DOM/canvas/window** — enforced by an oxlint boundary rule (build failure, not review). Renderer consumes plain data; one-directional dependency. The only wall-clock read (`Date.now` for the save-`savedAt` tiebreaker) is a **documented save-layer exemption** in `persistence/`, never in core. (§6.2, §6.1) |
 | **Determinism: one RNG** | A single seeded RNG **in `GameState`** as **per-named-stream MONOTONIC cursors** `{ seed, cursors:{combat,loot,seasonal,worldgen} }`, saved/loaded; pure per-stream `next` (no child-RNG-by-splitting); **stateless day-keyed weather/lunar** (re-derived, not stored); **`Math.random()` AND `Math.pow`/`exp`/`log`/trig lint-banned** in core (integer-pow only). Replays are byte-identical (Vitest-asserted). (§6.7, §6.7.1, §6.3, §6.1) |
-| **Single source of truth — generate, don't duplicate** | Content is typed data registries (`core/content`); a **hardened** content verifier cross-checks ids and the **invariants** (gate-monotonicity/ceiling, accrual tie-out, **per-perk magnitude**, **real-name denylist**, **trade-≤⅓-post-combo proof**, hybrid gate-distribution); balance/content docs are **generated** into `docs/balance/` + `docs/content/` from the same data and `gen:docs --check` fails the build on drift. (§6.5, §6.6, §6.6.1) |
+| **Single source of truth — generate, don't duplicate** | Content is typed data registries (`core/content`); a **hardened** content verifier cross-checks ids and the **invariants** (gate-monotonicity/ceiling, accrual tie-out, **per-perk magnitude**, **real-name denylist**, **trade-≤⅓-post-combo proof**, hybrid gate-distribution); balance/content docs are **generated** into `docs/content/` from the same data and the `--check` gates fail the build on drift. (§6.5, §6.6, §6.6.1) |
 | **Playtest via code, not synthetic input** | DEV-only `window.__qa` (read state, drive intents, tick/frames, pause, force-state, seed, `goto` a node) drives the **real** typed intents headlessly; powers `capture-game-states` and pacing/unlock regression. (§6.10) |
 | **Active-only, no offline** | `tick` takes **whole-integer abstract** ticks (the app loop accumulates the fractional remainder); the active-only loop lives in the app layer, **pauses on `document.hidden`**, and runs **auto-resolve combat + auto-repeat labour while the tab is active** (the "leave it running" feel); load resumes the exact saved state with **no** offline accrual code path; auto-producers stay T4+. (§6.3, §6.8, §6.9) |
 | **Lean / high-impact** | One `pnpm run verify` gate; minimal stored save (additive-optional growth, §6.8.2); no speculative subsystems — the module list maps 1:1 to systems already locked in §§1–5; anything bigger is scoped in §7's roadmap. (§6.1, §6.4, §6.8.2) |

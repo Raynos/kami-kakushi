@@ -1,8 +1,11 @@
 # PRD truth-sync — fix the PRD to the shipped game (HD-33 / ADR-168)
 
-**Status:** ▶️ IN-PROGRESS (2026-07-10) — forks locked by the human via the
-plan-fork ask: T2 reputation web KEPT (ADR-169, T1.4 dropped) · all 8
-gen-regions · Fable executes all phases · generation first.
+**Status:** ✅ DONE (2026-07-10, session 136) — executed same-day. Forks locked
+by the human (T2 reputation web KEPT — ADR-169, T1.4 dropped · all 8
+gen-regions · Fable · generation first). Landed: G1–G11 (12 regions total, 3
+strikes), T1 (§1 transcriptions), T2 (§2–§7), P1 (17 corpse-terms into
+prd-drift RETIRED + gen-region strip), P2 (/prd-ripple relaxed). prd:drift
+CLEAN with teeth; full verify green.
 **Confidence:** ( 30% Opus, 70% Fable ) — Phase G is mechanical enough for
 Opus; the §1 fiction transcriptions concentrate canon judgment.
 **Inputs:** the audit report

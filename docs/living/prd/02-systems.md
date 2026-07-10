@@ -417,7 +417,7 @@ weir gives you up at the cold open, then you **walk** the 16-zone estate (`areas
 the paddies to farm, the forecourt to haul stores, the woodlot to cut, forage and tap. The same spine
 binds **combat** (foes live on nodes — you walk to a foe's ground to fight it; the R3 wolf lives only
 in the kura night round; §2.8/§2.9) and the **storehouse / bank** (deposit/withdraw only at the
-*kura*; §2.4). A **load-bearing node gates a richer yield** — the woodlot's **deeper woods** past the
+*kura*; §2.4). A **load-bearing node gates a richer yield** — the woodlot's **deep stands** (`forage_deepwoods`) past the
 danger ring return a materially better forage — so walking farther *pays* (tying the map to the coin
 economy §4 and the combat cook-loop). The map presents as the **survey-sheet ezu** (ADR-151 — the
 T0/T1 sheets ARE the player map), each zone a tappable seal.
@@ -1093,7 +1093,7 @@ docket #9's build lands.
 one bar painted three colours, plus the **Tama-vs-farmhand allegiance**. **More factions/zones bloom per
 tier** (the §1.7.1 / world-expansion cut-set; **v1 ships only the three starters + the six cross-cutting
 SEEDS** embedded in the starter region — porter's-knot, Sōan, the artisans, the rice-broker,
-Ryōa's shrine+register, Magobei/Yagōemon's skim).
+Ekai's temple register of the vanished, the dues-line that doesn't map — Genemon's silver, `tiers/t2.md`).
 
 - **ESTATE (main) — a fresh rank LADDER per tier, climbed in TWO SEQUENTIAL PHASES (§2.15.1).** The only
   faction structured as a discrete, gated ladder (rising through it *is* the perseverance fantasy and the
