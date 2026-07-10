@@ -22,3 +22,19 @@ grammar form + intro retags (FB-198), the fresh-divider made anchored + 30s
   flips are automatic. All 11 narrator-quote MC lines retagged (intro 2,
   scenes 3, rung-beats 6); compiler RED tests for the form + its (voice)
   override rejection.
+- **FB-199** — the fresh divider anchored + 30s (`FRESH_DIVIDER_TTL_MS`, one
+  exported constant for the log and the VN): a live divider never relocates or
+  stacks — new lines re-arm its fade — and it lives 30s past the last new line
+  (was 4.5s). Source-derived timing test.
+
+## Cross-lane notes
+
+- Parallel drain lanes sanctioned mid-session (w3:p3 relay, human go-ahead):
+  this lane owns cold-open, F-block FB-197..214. The voice-colour captures
+  (11:39:11 · 11:39:59 · 11:43:03) are PARKED here — re-grouped cross-bucket
+  into one `.vn-speech` lane for a single coherent fix.
+- FB-198/FB-199 committed under SKIP_VERIFY in a co-agent red window
+  (freeze-clock.ts / capture.ts / journeys.spec.ts, w6:p2 WIP); this lane's
+  roster hand-run green each time. Held local until a green push window.
+- FB-200 (Continue button CSS) BLOCKED on styles.css carrying w6:p2's
+  uncommitted FB-215 hunk — committing the file would sweep their work.

@@ -5,7 +5,14 @@
 // focus-trap). DOM tests mount the real renderer and drive it like the app does.
 import { nodeSeasonalBlurb } from '../core';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { mount, formatLogText, NOW_TTL_MS, type AppHooks } from './render';
+import {
+  mount,
+  formatLogText,
+  NOW_TTL_MS,
+  FRESH_DIVIDER_TTL_MS,
+  FRESH_DIVIDER_FADE_MS,
+  type AppHooks,
+} from './render';
 import { createActionClock } from '../app/action-clock';
 import { LOG_SCALE_MIN, LOG_SCALE_MAX, LOG_SCALE_STEP, LOG_SCALE_DEFAULT } from './ui-prefs';
 import {
@@ -1258,6 +1265,28 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     sceneEl.click(); // click in the gap → skip the wait, start line 1 now
     vi.advanceTimersByTime(100); // a fraction of the ~2s hold — enough for a few chars if it started
     expect((lineTexts()[1] ?? '').length).toBeGreaterThan(0); // it started early, not at ~2s
+  });
+
+  // FB-199 — the VN fresh divider lives FRESH_DIVIDER_TTL_MS past the last new line (the
+  // source constant, ~30s), not the old hard-coded 4.5s. RED before FB-199: at ~5s the
+  // divider was already fading out from under the reader.
+  it('F199 — the fresh divider outlives 4.5s and fades on the source-derived TTL', () => {
+    const render = spyMount();
+    render(introState(0), null);
+    vi.runAllTimers(); // settle the greeting → ask panel
+    root.querySelector<HTMLButtonElement>('.intro-done')!.click();
+    vi.runAllTimers(); // settle the decision prompt
+    const opt = DIALOGUE_SCENES[0]!.decision.options[0]!;
+    [...root.querySelectorAll<HTMLButtonElement>('.intro-choice')]
+      .find((b) => b.textContent!.includes(opt.label))!
+      .click(); // latch → the fresh reply block drops the divider
+    const divider = root.querySelector<HTMLElement>('.vn-story .log-fresh-divider')!;
+    expect(divider).not.toBeNull();
+    vi.advanceTimersByTime(FRESH_DIVIDER_TTL_MS - 1000); // types the block + waits out most of the TTL
+    expect(divider.isConnected).toBe(true);
+    expect(divider.classList.contains('fading')).toBe(false); // RED under the old 4.5s timer
+    vi.advanceTimersByTime(1000 + FRESH_DIVIDER_FADE_MS + 50); // past TTL + the fade-out
+    expect(root.querySelector('.vn-story .log-fresh-divider')).toBeNull();
   });
 
   // FB-90 — the flicker guard: once the block has typed out and the panel is revealed, re-rendering

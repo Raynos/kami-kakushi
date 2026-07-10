@@ -350,6 +350,13 @@ export const NOW_TTL_MS = 15000; // a fleeting line lives ~15s from first appear
 export const NOW_FADE_MS = 900; // …and spends its last ~0.9s fading out
 export const NOW_COLLAPSE_MS = 400; // an expired line collapses its height over ~0.4s so the rest glide up
 
+// FB-199 — the "新 · new" fresh-entries divider (log + VN, one source): it marks everything
+// below it as new-since-you-last-looked, is ANCHORED (a live divider never relocates or
+// stacks — new lines land under it and re-arm its fade), and lives ~30s past the LAST new
+// line (human call — the old 4.5s felt erratic). Exported so tests derive from this source.
+export const FRESH_DIVIDER_TTL_MS = 30000;
+export const FRESH_DIVIDER_FADE_MS = 800;
+
 export function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
   className?: string,
@@ -653,6 +660,8 @@ export function mount(
   let introTypeTimer: number | undefined; // the pending per-char step timeout
   let introAdvanceTimer: number | undefined; // the inter-line ~2s auto-advance timeout (FB-86)
   const introAuxTimers: number[] = []; // other pending intro timeouts (fresh-divider fades)
+  let introFreshEl: HTMLElement | null = null; // FB-199 — the live VN fresh divider (anchored)
+  let introFreshTimer: number | undefined; // …and its pending fade countdown
   // FB-197 — Space/Enter advance the VN like a click; installed per scene, removed on teardown.
   let introKeyHandler: ((e: KeyboardEvent) => void) | null = null;
   // true for the SINGLE render on which the intro just ended, so the final beat's log lines paint
@@ -2078,6 +2087,11 @@ export function mount(
     }
     for (const t of introAuxTimers) window.clearTimeout(t);
     introAuxTimers.length = 0;
+    if (introFreshTimer !== undefined) {
+      window.clearTimeout(introFreshTimer);
+      introFreshTimer = undefined;
+    }
+    introFreshEl = null;
     introLineTyping = false;
   }
   // the fade-away "fresh entries" divider — the SAME idiom the main log uses (FB-27/FB-54), reused here
@@ -2089,13 +2103,31 @@ export function mount(
   }
   function dropIntroFreshDivider(): void {
     if (!introStoryLinesEl) return;
+    // FB-199 — anchored: while a divider is alive, a fresh block re-arms its fade
+    // instead of stacking a second marker; the boundary stays where the reader left it.
+    if (introFreshEl?.isConnected) {
+      armIntroFreshFade();
+      return;
+    }
     const d = buildFreshDividerNode();
     introStoryLinesEl.append(d);
-    const t = window.setTimeout(() => {
+    introFreshEl = d;
+    armIntroFreshFade();
+  }
+  function armIntroFreshFade(): void {
+    const d = introFreshEl;
+    if (!d) return;
+    if (introFreshTimer !== undefined) window.clearTimeout(introFreshTimer);
+    d.classList.remove('fading'); // a late block mid-fade pulls it back
+    introFreshTimer = window.setTimeout(() => {
+      introFreshTimer = undefined;
       d.classList.add('fading');
-      window.setTimeout(() => d.remove(), 800);
-    }, 4500);
-    introAuxTimers.push(t);
+      const t = window.setTimeout(() => {
+        d.remove();
+        if (introFreshEl === d) introFreshEl = null;
+      }, FRESH_DIVIDER_FADE_MS);
+      introAuxTimers.push(t);
+    }, FRESH_DIVIDER_TTL_MS);
   }
   // FULL teardown — fires ONLY on a scene change or when the intro ends, never on an in-scene update.
   function teardownIntroScene(): void {
@@ -4331,9 +4363,9 @@ export function mount(
     armFreshDividerFade();
   }
   // FB-177 — the fade countdown re-arms on EVERY appended line, so the divider outlives the
-  // typewriter cascade: a batch can take many seconds to type out, and the old fixed 4.5s
-  // timer (armed at batch ARRIVAL) faded the divider while its own lines were still landing.
-  // It now fades 4.5s after the LAST line is written, not the first.
+  // typewriter cascade: a batch can take many seconds to type out, and the old fixed timer
+  // (armed at batch ARRIVAL) faded the divider while its own lines were still landing.
+  // It fades FRESH_DIVIDER_TTL_MS after the LAST line is written, not the first (FB-199).
   function armFreshDividerFade(): void {
     const d = freshDivider;
     if (!d) return;
@@ -4353,8 +4385,8 @@ export function mount(
           d.remove();
           freshDivider = undefined;
         }
-      }, 800);
-    }, 4500);
+      }, FRESH_DIVIDER_FADE_MS);
+    }, FRESH_DIVIDER_TTL_MS); // FB-199 — ~30s past the last line (was 4.5s)
   }
   function setLogFilter(f: LogFilter): void {
     if (f === logFilter) return;
@@ -4480,7 +4512,10 @@ export function mount(
       !didReset &&
       !introInstant
     ) {
-      markFreshDivider();
+      // FB-199 — anchored: a live divider stays where it is (new lines land under it,
+      // its fade re-arms); only a quiet log gets a NEW boundary marker.
+      if (freshDivider?.isConnected) armFreshDividerFade();
+      else markFreshDivider();
     }
 
     // on load / reset / reduced-motion / a single new line / the intro transcript → append at once.
