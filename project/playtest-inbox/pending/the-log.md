@@ -18,3 +18,17 @@ Honestly, I expected this to be grouped into multiple sections, I know it's the 
 **Details:** `the-log/2026-07-10T23-07-54.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-363 · 2026-07-10T23:08:52+0200 — i-expected-this-to
+
+I expected this to be actually like a single wider [story] section with inside the [story] section to be a toggle between vn/all so it still looks like its 
+
+[story][progress][chat]...
+
+but the story button is wider then the rest and has a toggle embedded inside it.
+
+**Element:** button "Story" — "Story" · `section[data-panel=log] > div:nth-of-type(2) > div:nth-of-type(1) > button:nth-of-type(1)` · @986,669 46×26
+**Screenshot:** `the-log/2026-07-10T23-08-52.png`
+**Details:** `the-log/2026-07-10T23-08-52.json` — save + recent logs + full context
+
+---
