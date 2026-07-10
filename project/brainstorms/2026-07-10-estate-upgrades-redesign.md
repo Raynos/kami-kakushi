@@ -1,6 +1,10 @@
 # Estate section + upgrades — a redesign is owed
 
-**Status:** PARKED direction note (seed for a future design pass — not a plan yet).
+**Status:** ~~PARKED direction note~~ **SUPERSEDED same-day** — the human pulled
+it forward (2026-07-10, "turn it into a plan"); the live artifact is
+[`docs/plans/fable-2026-07-10-estate-upgrades-redesign.md`](../../docs/plans/fable-2026-07-10-estate-upgrades-redesign.md)
+(the BACKLOG row was removed with the pull-forward). This note stays as the
+seed record.
 **Raised by:** the human, 2026-07-10, in-session: locking the Estate-tab diverge
 picks *"for now"* (**V0A · estate-a**, **V1A · tracker-a**), with the explicit
 steer — *"Honestly the whole estate section and upgrades needs a lot of love and

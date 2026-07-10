@@ -32,17 +32,6 @@
     register · #15 pictogram A/B · WHILE: #2 kamon · #3 hanko · #7
     documents · #9 season wheel · #13 emaki.
 
-## T0
-
-- [ ] **Estate section + upgrades — full redesign** (human, 2026-07-10) — the
-  Estate 家 tab and its upgrade ladder need "a lot of love and thought." The
-  diverge picks (estate-a / tracker-a) are locked *"for now"* as an interim
-  default; the shape itself is what's owed a rethink. Direction + open questions
-  seeded in
-  [`brainstorms/2026-07-10-estate-upgrades-redesign.md`](brainstorms/2026-07-10-estate-upgrades-redesign.md).
-  Likely pulls in the parked HR-16 E1 cutaway. Pull forward when the human wants
-  the design pass.
-
 ## T2
 
 - [ ] **Inn rumours board as a discovery-rumor source** — when the village
