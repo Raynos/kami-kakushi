@@ -298,6 +298,28 @@ breaches literalized per the judge). Canon: `intro.md` scene genemon +
 
 ---
 
+### HR-24 🔲 [R0+ · Story log] — VN grouping units — pick a variant (FB-262, ADR-075)
+
+The Story log's fix for "just random linear scroll": consecutive lines from one
+VN scene (a rung beat, a generalized scene, the cold open) now read as ONE
+bordered unit with the scene's name as its header — scrolling back reads as VN
+blocks with ambient story between them. Three treatments, all working, all
+live-switchable. **Self-picked prod default: A · 幕 card.**
+
+  - **A · 幕 card** — a hairline gold box around the scene, its name as the
+    lintel. Quietest full enclosure; the "proper border VN section" as asked.
+  - **B · margin rail** — a 2px gold rail down the scene's left margin, the
+    name as a small ink side label. Lightest touch; groups without boxing.
+  - **C · raised plate** — the scene sits on its own steel plate (rounded,
+    inset), physically lifted off the ambient flow. Strongest separation.
+  - **How to look LIVE:** DEV → Variants → **Story log · VN groups**; play any
+    rung beat (or `?fixture=rung-beat-ready` → answer the summons) and open
+    Story. NOTE: lines from saves made before 2026-07-10 carry no scene tag —
+    grouping shows on new play.
+  - **Verdict:** _(awaiting your read)_
+
+---
+
 > _Open reviews only. Closed reviews graduate to [`archive.md`](archive.md). The
 > old **HR-2** cross-cutting item is split above into **HR-2A** (market) · **HR-2B**
 > (House-Influence) · **HR-2C** (craft) · **HR-2D** (quests). Two of its surfaces

@@ -47,7 +47,7 @@ in [`ui-tokens.md`](../content/ui-tokens.md)):
 - **attr-\*** — the five-attribute **temper-oxide set** (F131, human-locked): STR bronze · AGI pale-quench ·
   INT temper-purple · SPD temper-blue · LUCK straw-gold — what tempered steel actually turns. Keyed to the
   +1; worn as a legible accent, never a flood-fill.
-- **v-\*** — the per-speaker VOICE ramp (F128): narrator muted blue-grey · player asagi sky-blue (FB-234) · Sōan teal ·
+- **v-\*** — the per-speaker VOICE ramp (F128): narrator bright near-white (FB-263 — neutral ground the chromatic voices stand off) · player asagi sky-blue (FB-234) · Sōan teal ·
   Chiyo dry ochre · arms rust · official violet · villager sage · the lord wisteria. Voice colour marks
   *utterance*, not the line (FB-141): only quoted speech + the name prefix wear it. **FB-228 laws:** a
   voice is ONE token on every surface (VN, log, chat — never a per-surface variant; the MC once spoke in

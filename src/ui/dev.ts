@@ -212,6 +212,31 @@ export const SURFACES: SurfaceDef[] = [
       },
     ],
   },
+  // FB-262 — the Story log's VN GROUPS (drain 2026-07-10): consecutive lines from one VN
+  // scene read as one bordered unit (core tags scene `context`; render.ts stamps
+  // .scene-line/.scene-open/.scene-close; [data-vn-groups] on the log section switches).
+  {
+    id: 'log-vn-groups',
+    rung: 0,
+    label: 'Story log · VN groups',
+    variants: [
+      {
+        id: 'a',
+        label: 'A · 幕 card',
+        blurb: 'A hairline gold box around each scene, its name as the lintel (the prod default).',
+      },
+      {
+        id: 'b',
+        label: 'B · margin rail',
+        blurb: "A quiet gold rail down the scene's left margin; the name as a small side label.",
+      },
+      {
+        id: 'c',
+        label: 'C · raised plate',
+        blurb: 'The scene sits on its own steel plate, inset from the ambient story flow.',
+      },
+    ],
+  },
   {
     id: 'quests',
     rung: 5,

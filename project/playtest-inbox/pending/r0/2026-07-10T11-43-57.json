@@ -150,5 +150,8 @@
  "surface": [
   "log-panel"
  ],
- "lane": "log-panel"
+ "lane": "log-panel",
+ "status": "done",
+ "fb": 268,
+ "commit": "2b5d226"
 }

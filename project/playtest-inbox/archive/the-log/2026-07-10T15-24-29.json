@@ -152,5 +152,7 @@
  "fb": 309,
  "surface": [
   "log-panel"
- ]
+ ],
+ "status": "done",
+ "commit": "2b5d226"
 }

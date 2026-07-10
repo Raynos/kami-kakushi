@@ -18,7 +18,16 @@ cold-open rearc.
   Also HEALS red main — 2b5d226 (w1's render.ts, carrying my consented
   UI hunks) calls canAffordAct, defined in this set.
 
+- FB-262 UI half: scene-group stamps in the log painter + the three
+  [data-vn-groups] treatments (a 幕 card · b margin rail · c raised
+  plate), the DEV Variants registry entry, HR-24 filed. ui-design.md's
+  narrator ramp line updated to the FB-263 near-white.
+- Sidecars stamped for all 25 lane items (incl. FB-308/309, re-captures
+  of the pre-fix build); the-log bucket archived; r0 stays pending with
+  FB-310 (background-tab auto-play) OPEN — new capture, needs a design
+  read on the active-only pillar (PRD §6.9/FU23).
+
 ## Next intended steps
 
-- Stamp sidecars as hashes land; F-entries; archive both buckets; release claims.
-- The FB-262 variants' DEV registry entry + HR items.
+- FB-310: reproduce + a design call (active-only vs open-window idle).
+- The human reviews HR-24 (VN-group variants) live.

@@ -4029,6 +4029,12 @@ export function mount(
       return;
     }
     line.textContent = '';
+    // FB-262 — the VN-group header survives content re-renders (same pattern as the kicker).
+    if (line.dataset.sceneHead !== undefined) {
+      const head = el('div', 'scene-head', `— ${line.dataset.sceneHead} —`);
+      head.setAttribute('aria-hidden', 'true');
+      line.append(head);
+    }
     if (line.dataset.kicker !== undefined) line.append(kickerNode(line.dataset.kicker));
     const bullet = CHANNEL_BULLET[entry.channel];
     if (bullet) {
@@ -4054,6 +4060,30 @@ export function mount(
   // with breathing room, so narration / dialogue / teach lines never run together
   // as "one big log". Paint-order derived; reset with the painted view.
   let lastBlockKey: string | null = null;
+  // FB-262 — the Story log's VN GROUPS: consecutive non-chat lines sharing a scene `context`
+  // read as ONE bordered unit (variants a/b/c style it via [data-vn-groups]). Paint-order
+  // derived like the block breaks; the closing edge is `.scene-close` (stamped when the run
+  // ends) or `:last-child` (the run is still the newest thing in the log).
+  let lastSceneCtx: string | null = null;
+  let lastSceneNode: HTMLElement | null = null;
+  function stampSceneGroup(line: HTMLElement, entry: LogEntry): void {
+    const ctx = entry.chat !== true && entry.context !== undefined ? entry.context : null;
+    if (ctx !== lastSceneCtx && lastSceneNode?.isConnected) {
+      lastSceneNode.classList.add('scene-close'); // the previous run ended — close its box
+    }
+    if (ctx === null) {
+      lastSceneCtx = null;
+      lastSceneNode = null;
+      return;
+    }
+    line.classList.add('scene-line');
+    if (ctx !== lastSceneCtx) {
+      line.classList.add('scene-open');
+      line.dataset.sceneHead = ctx; // renderLineContent rebuilds the head from this (kicker pattern)
+    }
+    lastSceneCtx = ctx;
+    lastSceneNode = line;
+  }
   function stampBlockBreak(line: HTMLElement, entry: LogEntry): void {
     const key = `${entry.channel}|${entry.voice ?? ''}|${entry.speaker ?? ''}`;
     if (lastBlockKey !== null && key !== lastBlockKey) line.classList.add('log-break');
@@ -4077,6 +4107,7 @@ export function mount(
     const line = el('div', `log-line ${entry.channel}${voiceClass}${spokenClass}`);
     stampChatKicker(line, entry); // F127 — before content, so renderLineContent sees the stamp
     stampBlockBreak(line, entry); // FB-167 — breathing room when the speaker-block changes
+    stampSceneGroup(line, entry); // FB-262 — VN-unit grouping in the Story log
     renderLineContent(line, entry);
     if (animate) line.classList.add('reveal');
     return line;
@@ -4152,6 +4183,13 @@ export function mount(
     const line = el('div', `log-line ${entry.channel}${voiceClass}${spokenClass}`);
     stampChatKicker(line, entry); // F127 — group-opener mark survives the post-type re-render
     stampBlockBreak(line, entry); // FB-167
+    stampSceneGroup(line, entry); // FB-262
+    if (line.dataset.sceneHead !== undefined) {
+      // FB-262 — the group header paints immediately (before the line types in)
+      const head = el('div', 'scene-head', `— ${line.dataset.sceneHead} —`);
+      head.setAttribute('aria-hidden', 'true');
+      line.append(head);
+    }
     if (line.dataset.kicker !== undefined) line.append(kickerNode(line.dataset.kicker));
     const bullet = CHANNEL_BULLET[entry.channel];
     if (bullet) {
@@ -4542,6 +4580,8 @@ export function mount(
     if (wasNow) cancelNowCollapse();
     lastKey = -1;
     lastBlockKey = null; // FB-167 — the repaint re-derives block breaks
+    lastSceneCtx = null; // FB-262 — scene groups re-derive with them
+    lastSceneNode = null;
     lastPaintedKey = -1;
     lastPaintedCount = 0;
     revealQueue.length = 0;
@@ -4586,6 +4626,10 @@ export function mount(
     logLines.scrollTop = logLines.scrollHeight;
   }
   function renderLog(state: GameState): void {
+    // FB-262 — the VN-group treatment (diverge log-vn-groups): a = 幕 card (prod default),
+    // b = margin rail, c = raised plate. DEV live-switches via the Variants tab; prod ships 'a'.
+    const vnGroups = __DEV_TOOLS__ && dev ? dev.getVariant('log-vn-groups') || 'a' : 'a';
+    if (logSection.dataset.vnGroups !== vnGroups) logSection.dataset.vnGroups = vnGroups;
     const entries = state.log.entries;
     // FB-165 — refresh the pure kicker map whenever the log advanced or reset.
     if (state.log.seq !== chatKickersSeq) {
@@ -4601,6 +4645,8 @@ export function mount(
       resetReconcile(logLines); // ADR-123 — forget the Now view's key→node map on a wholesale reset
       lastKey = -1;
       lastBlockKey = null; // FB-167
+      lastSceneCtx = null; // FB-262
+      lastSceneNode = null;
       lastPaintedKey = -1;
       lastPaintedCount = 0;
       revealQueue.length = 0;
