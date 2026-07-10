@@ -141,6 +141,20 @@ philosophy wins.**
   PreToolUse hook blocks a send to a dead pane or to your own pane, and a
   `pane run` at a live agent (escape: `SKIP_HERDRGUARD=1`). Full recipe:
   [`working-agreements.md → Cross-agent messaging`](project/status/working-agreements.md).
+- **One dev server — REUSE the herdr pane's, never spawn or kill a rival
+  (human, 2026-07-10).** The game's Vite dev server runs in a dedicated **herdr
+  playtest pane** on **`:5173`**; every agent points its headless driver at
+  `http://localhost:5173` and **reuses** it. **Never `pnpm run dev` (or bare
+  `vite`) your own private server, and never `kill`+respawn the running one** —
+  that churn is exactly what keeps taking the shared server down out from under
+  the human and the other agents in this tree. The recurring footgun: an agent
+  hits vite's `singleServerGuard`, whose old message *told it to `kill <pid>`*,
+  kills the shared server, spawns its own — server dies for everyone. Both a
+  vite-level guard **and** the **`guard-dev-server.sh`** PreToolUse hook now
+  block starting a second server while `:5173` is held, and block killing the
+  holder (escape a genuine throwaway on another port: `KAMI_ALLOW_MULTI_DEV=1` /
+  `SKIP_DEVGUARD=1`). If `:5173` is genuinely dead, **ask the human** to relaunch
+  the pane — don't respawn it yourself.
 - **Session start → surface what's waiting on the human.** A `SessionStart` hook
   runs [`src/scripts/session-brief.sh`](src/scripts/session-brief.sh) (wired in
   `.claude/settings.json`), which prints the open **human queue** — the unticked

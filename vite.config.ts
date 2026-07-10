@@ -125,9 +125,11 @@ function singleServerGuard(): void {
   if (!pid) return;
   console.error(
     `\n✗ A dev server is already running on :${DEV_PORT} (pid ${pid}).\n` +
-      `  Refusing to start a second — use the running one, or stop it:\n` +
-      `      kill ${pid}\n` +
-      `  (bypass this guard with KAMI_ALLOW_MULTI_DEV=1)\n`,
+      `  It's the shared herdr playtest pane — REUSE it (point your headless\n` +
+      `  driver at http://localhost:${DEV_PORT}). Do NOT kill+respawn it: that churn\n` +
+      `  is what keeps taking the server down for the human and other agents.\n` +
+      `  If it truly must be restarted, ASK THE HUMAN — they own the pane.\n` +
+      `  (deliberate throwaway server on another port: KAMI_ALLOW_MULTI_DEV=1)\n`,
   );
   process.exit(1);
 }
