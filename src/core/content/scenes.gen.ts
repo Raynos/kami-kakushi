@@ -799,4 +799,402 @@ export const SCENES: readonly SceneDef[] = [
     trigger: { kind: 'season-exit', season: 'bon' },
     once: true,
   },
+
+  {
+    id: 'works-intro',
+    scene: {
+      id: 'works-intro',
+      voice: 'steward',
+      speaker: 'genemon',
+      motivates: [],
+      greeting: [
+        {
+          voice: 'narrator',
+          text: "The board, an evening some weeks into the rice terms. The day's wages are footed and the book should be closed, but Genemon has turned instead to a page ruled off from the rest — older ink at the head of it, this morning's at the foot.",
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"The wages are settled. This is the other page."',
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"Gate: the west post takes water at the foot, second winter running. Paddies: three bunds slumped, the water going through them at its own level. Woodshed: rain through the north corner of the roof, over where you sleep. None of that is news to the land. It is only now news to the book."',
+        },
+        {
+          voice: 'narrator',
+          text: 'He enters nothing. The lines are already there, dated, the way a man records frost.',
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"And one line the house carries whether I write it or not. The weir screens are Matsuzō\'s — leased, and the keeping of them ours. River rats gnaw them at the waterline; every slat through is coin owed across the water. The river feeds the rats and the house pays the difference. That account was open before the river gave you up at the weir."',
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"I commission nothing that has not been looked at. Walk the three, and the weir path, and look with your own eyes. Rot reads better by daylight. The book will keep."',
+        },
+      ],
+      topics: [
+        {
+          id: 'works-intro-ask-a',
+          label: '"Why now? It\'s stood this long."',
+          answer: [
+            {
+              voice: 'steward',
+              speaker: NPC_NAME.genemon,
+              text: '"Stood is the wrong word. It has been going, at the pace rot keeps, which is slow enough that a busy man calls it standing. There is ground on the far side of the orchard where nobody argued with the rain. Roofs, once. The land entered it line by line, and no hand wrote anything against it. I do not intend to copy that page."',
+            },
+          ],
+        },
+        {
+          id: 'works-intro-ask-b',
+          label: '"Whose coin mends it?"',
+          answer: [
+            {
+              voice: 'steward',
+              speaker: NPC_NAME.genemon,
+              text: '"Not the house\'s; the house\'s coin is spoken for before it reaches the yard — you were told that the first morning, and it has not improved. What goes against the land here is labour, and whatever coin the labourer chooses to set beside it. The book credits what is put in, under the name that put it."',
+            },
+          ],
+        },
+      ],
+      decision: {
+        prompt: 'The page is read out. What do you do with it?',
+        options: [
+          {
+            id: 'works-intro-go',
+            label: '"I\'ll walk it today, while the light holds."',
+            say: '"I\'ll walk it today, while the light holds."',
+            react:
+              '"Then the page has an answerer. Take it in the land\'s own order — water first. It is the oldest hand the land has."',
+            memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'walked-the-book' }],
+            flags: ['works-named-u1', 'works-named-weir'],
+          },
+          {
+            id: 'works-intro-hold',
+            label: '"The land got there first. It can wait for me a day."',
+            say: '"The land got there first. It can wait for me a day."',
+            react:
+              '"It can. It will not return the courtesy. The lines stand entered; walk them when you walk them, and know the land is not resting meanwhile."',
+            flags: ['works-named-u1', 'works-named-weir'],
+          },
+        ],
+      },
+    },
+    trigger: { kind: 'scripted' },
+    once: true,
+  },
+
+  {
+    id: 'works-u1',
+    scene: {
+      id: 'works-u1',
+      voice: 'steward',
+      speaker: 'genemon',
+      motivates: [],
+      greeting: [
+        {
+          voice: 'narrator',
+          text: 'The board again. Genemon watches you cross the forecourt, sets the day-book open at the ruled-off page, and takes up the brush before you have spoken.',
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"You walked it. Your face says the page is honest."',
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"Then hear the work. Post, one, drawn and reset on dry footing. Bunds, three, cut back to sound earth and rammed. Roof, one corner — boards and thatch. One work, the three together. The land does not press in single file, and I will not mend in it."',
+        },
+        {
+          voice: 'narrator',
+          text: 'He rules the line and leaves it open, the brush held off the paper.',
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"Taken up, it goes against your name — your labour, and any coin you put beside it. The book credits what is put in."',
+        },
+      ],
+      topics: [
+        {
+          id: 'works-u1-ask-a',
+          label: '"Why the three together?"',
+          answer: [
+            {
+              voice: 'steward',
+              speaker: NPC_NAME.genemon,
+              text: '"Because they are one entry on the land\'s side, whatever they are on ours. Water at the post, water through the bunds, water through the roof. Mend one and the water keeps its other appointments. Close the account whole or watch it reopen."',
+            },
+          ],
+        },
+        {
+          id: 'works-u1-ask-b',
+          label: '"Where do I begin?"',
+          answer: [
+            {
+              voice: 'steward',
+              speaker: NPC_NAME.genemon,
+              text: '"Water first, always. The post and the bunds while the weather holds; the roof before the autumn rains, or the autumn will inspect the work for us. The land sets the order. I only copy it."',
+            },
+          ],
+        },
+      ],
+      decision: {
+        prompt: 'The line is ruled and open.',
+        options: [
+          {
+            id: 'works-u1-begin',
+            label: '"Set it against my name."',
+            say: '"Set it against my name."',
+            react:
+              '"Entered. Three concerns, one work, your name on the answering side. It is the first entry this page has carried against the land in some years. We will see whose line stands."',
+            memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'set-to-it' }],
+            flags: ['works-open-u1'],
+          },
+          {
+            id: 'works-u1-hold',
+            label: '"When the yard can spare me. It\'s slow work, losing."',
+            say: '"When the yard can spare me. It\'s slow work, losing."',
+            react:
+              '"Slow is the land\'s own gait; do not admire it too long. The line stays open. So, be sure, does the land\'s."',
+            flags: ['works-open-u1'],
+          },
+        ],
+      },
+    },
+    trigger: { kind: 'flag', flag: 'works-seen-u1' },
+    once: true,
+  },
+
+  {
+    id: 'works-u2',
+    scene: {
+      id: 'works-u2',
+      voice: 'steward',
+      speaker: 'genemon',
+      motivates: [],
+      greeting: [
+        {
+          voice: 'narrator',
+          text: "Genemon finds you at the forecourt with the orchard's brambles still on your sleeves, and does not ask where you have been. The day-book comes to the ruled page as if it had been waiting open.",
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"The orchard. That is the land\'s longest entry on this side of the wall — taken a row at a time, over years, and no hand wrote a word against it. Trees a household set out with paths in mind, gone under the choke, and dogs denned in the hollow where fruit was dried once."',
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"The work: the wild rows cut back to the sound wood, and the dens broken and emptied. Not a mending — a taking-back. The land will contest it."',
+        },
+      ],
+      topics: [
+        {
+          id: 'works-u2-ask-a',
+          label: '"The dogs first, or the cutting?"',
+          answer: [
+            {
+              voice: 'steward',
+              speaker: NPC_NAME.genemon,
+              text: '"The dens first, or every arm that swings a billhook is feeding them. Bold from lean winters — they hold ground the way roots do, by staying. Break the pack and what is left is dogs. Kihei will tell you the same, in fewer words, and drill you for it if you ask him plainly."',
+            },
+          ],
+        },
+        {
+          id: 'works-u2-ask-b',
+          label: '"Is anything left in there worth the taking?"',
+          answer: [
+            {
+              voice: 'steward',
+              speaker: NPC_NAME.genemon,
+              text: '"Sound trees under the choke — the stock outlasts the state of it; that is usually the way. Whoever planted them expected paths between the rows, and lanterns. The land has spent thirty years unwriting that. It did not finish."',
+            },
+          ],
+        },
+      ],
+      decision: {
+        prompt: "The orchard's line stands the oldest on the page.",
+        options: [
+          {
+            id: 'works-u2-begin',
+            label: '"Cut it back. Row by row, the way it was lost."',
+            say: '"Cut it back. Row by row, the way it was lost."',
+            react:
+              '"Entered. Ground taken back is a line I have not written since I was a younger man\'s clerk. Mind the dogs, and bring me the rows one at a time. I will strike the land\'s entry as they come."',
+            memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'ground-taken-back' }],
+            flags: ['works-open-u2'],
+          },
+          {
+            id: 'works-u2-hold',
+            label: '"Thirty years of choke. It\'ll keep another season."',
+            say: '"Thirty years of choke. It\'ll keep another season."',
+            react:
+              '"It will keep the way it has kept — by growing. Every season the cutting is a season heavier. The line is entered; take it up before the bramble takes the arithmetic out of your hands."',
+            flags: ['works-open-u2'],
+          },
+        ],
+      },
+    },
+    trigger: { kind: 'flag', flag: 'works-seen-u2' },
+    once: true,
+  },
+
+  {
+    id: 'works-u3',
+    scene: {
+      id: 'works-u3',
+      voice: 'steward',
+      speaker: 'genemon',
+      motivates: [],
+      greeting: [
+        {
+          voice: 'narrator',
+          text: "Evening at the board. Genemon has the kura's tallies out beside the day-book, one read against the other, and he speaks without looking up — the way he speaks when the figures have already argued the matter.",
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"You have seen it. The kura is sound and full, and those are two different worries. It holds this year\'s rice and not a measure over. A poor year starves the house; a good year would embarrass it — grain standing in the damp for want of a roof. The land collects either way."',
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"So: a second granary, raised at the kura, on its own footings. Stores past the winter\'s need. Every work on this page till now has answered a loss the land already entered. This one is made before the loss. I have waited a long time to rule a line of that kind."',
+        },
+      ],
+      topics: [
+        {
+          id: 'works-u3-ask-a',
+          label: '"Why a second? Widen the one that stands."',
+          answer: [
+            {
+              voice: 'steward',
+              speaker: NPC_NAME.genemon,
+              text: '"The kura is sound, and sound is kept, not cut open. A second stands on its own feet, its own roof, its own lock — two roofs do not fail in one night, and two counts keep each other honest. The land takes buildings one at a time. Give it two."',
+            },
+          ],
+        },
+        {
+          id: 'works-u3-ask-b',
+          label: '"Stores past need — for what, exactly?"',
+          answer: [
+            {
+              voice: 'steward',
+              speaker: NPC_NAME.genemon,
+              text: '"For the year the valley has instead of the year we plan for. The land keeps no schedule and sends no word ahead. A full storehouse is the one argument it hears; everything else is entered under losses. Ask the ground past the orchard how far a lean year reaches when nothing stands in its way."',
+            },
+          ],
+        },
+      ],
+      decision: {
+        prompt: 'The footings can be cut this season or not at all.',
+        options: [
+          {
+            id: 'works-u3-begin',
+            label: '"Raise it. Board by board, ahead of the weather."',
+            say: '"Raise it. Board by board, ahead of the weather."',
+            react:
+              '"Entered — and mark it: the first line on this page the land did not write first. Green wood dries crooked; buy seasoned, or cut early and wait. The winter will weigh the work, whichever."',
+            memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'past-winters-need' }],
+            flags: ['works-open-u3'],
+          },
+          {
+            id: 'works-u3-hold',
+            label: '"A whole granary. That\'s past my scale of mending."',
+            say: '"A whole granary. That\'s past my scale of mending."',
+            react:
+              '"It is past mending altogether; that is its virtue. The line is ruled and stands open. Footings before the frost, or the year is lost and the land holds the page another winter."',
+            flags: ['works-open-u3'],
+          },
+        ],
+      },
+    },
+    trigger: { kind: 'flag', flag: 'works-seen-u3' },
+    once: true,
+  },
+
+  {
+    id: 'works-u4',
+    scene: {
+      id: 'works-u4',
+      voice: 'steward',
+      speaker: 'genemon',
+      motivates: [],
+      greeting: [
+        {
+          voice: 'narrator',
+          text: 'Past supper, the board, the lamp low. Genemon has the day-book open to the ruled page, and for once he is not writing — he is reading it back, line by line, the way a man walks a fence he mended himself.',
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"Gonbei. Stand where I can see you; this is the last of the page."',
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"The omoya. You have seen it from the forecourt — half this house shut, moss on the ridge, rooms going back to the land indoors, which is the quiet way: dust, damp, screens that no hand slides. The land does not need weather to take a room. It only needs the room left alone."',
+        },
+        {
+          voice: 'steward',
+          speaker: NPC_NAME.genemon,
+          text: '"I told you I rule a second reckoning from this season — walls that held, ground taken back, one line a season in plain words. This is that reckoning\'s first great line. The house set in order: roofs sound, screens mended, air and use in every room. Thirty-one years I have written this house\'s losses. The land has kept the better book all that time. I mean to even the ledgers before I am done."',
+        },
+      ],
+      topics: [
+        {
+          id: 'works-u4-ask-a',
+          label: '"Why the omoya last?"',
+          answer: [
+            {
+              voice: 'steward',
+              speaker: NPC_NAME.genemon,
+              text: '"Because the rest holds now, and it did not. The gate is dry at the foot, the bunds carry their water, the orchard bears, grain stands past the winter\'s need. The land\'s book against this house is shorter than it has been in thirty years. The omoya is the longest line left on it — and a house is answered from the outside in."',
+            },
+          ],
+        },
+        {
+          id: 'works-u4-ask-b',
+          label: '"What does \'in order\' come to, in the doing?"',
+          answer: [
+            {
+              voice: 'steward',
+              speaker: NPC_NAME.genemon,
+              text: '"Roof and ridge first — a room is lost from above. Then the shut rooms, opened one at a time: screens repapered, boards taken up where the damp has been under them, braziers lit until the walls forget the wet. Then use. A room is kept by being lived in; there is no other keeping. The doing is long. The entry is one line."',
+            },
+          ],
+        },
+      ],
+      decision: {
+        prompt: 'The last line of the page waits on an answer.',
+        options: [
+          {
+            id: 'works-u4-begin',
+            label: '"Open the rooms. All of them."',
+            say: '"Open the rooms. All of them."',
+            react:
+              '"Entered. When it is done, the season-line writes itself, and it will not be a loss. The land may have the far bank and the winter. This ground is spoken for."',
+            memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'the-house-stands' }],
+            flags: ['works-open-u4'],
+          },
+          {
+            id: 'works-u4-hold',
+            label: '"A whole house. Give me the winter to look at it."',
+            say: '"A whole house. Give me the winter to look at it."',
+            react:
+              '"Look, then — but look as the land looks, every day, without tiring. The line is ruled. The omoya has waited years for a hand; it can wait a season more. It should not wait two."',
+            flags: ['works-open-u4'],
+          },
+        ],
+      },
+    },
+    trigger: { kind: 'flag', flag: 'works-seen-u4' },
+    once: true,
+  },
 ];

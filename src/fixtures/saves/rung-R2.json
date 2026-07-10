@@ -61,7 +61,9 @@
       "rank-r1": true,
       "farmed": true,
       "rank-r2": true,
-      "porters-knot": true
+      "porters-knot": true,
+      "works-named-u1": true,
+      "works-named-weir": true
     },
     "unlocked": [
       "screen-cold-open",
@@ -90,7 +92,8 @@
       "row-wood",
       "row-sansai",
       "skill-conditioning",
-      "verb-cook"
+      "verb-cook",
+      "room-weir"
     ],
     "log": {
       "entries": [
@@ -101,7 +104,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "what the water takes"
         },
         {
           "key": 1,
@@ -111,7 +114,7 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "the cold open"
+          "context": "what the water takes"
         },
         {
           "key": 2,
@@ -120,7 +123,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "what the water takes"
         },
         {
           "key": 3,
@@ -136,7 +139,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 5,
@@ -145,7 +148,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 6,
@@ -154,7 +157,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 7,
@@ -164,7 +167,7 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 8,
@@ -174,7 +177,7 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 9,
@@ -184,7 +187,7 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 10,
@@ -193,7 +196,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 11,
@@ -202,7 +205,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 12,
@@ -212,7 +215,7 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 13,
@@ -222,7 +225,7 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 14,
@@ -232,7 +235,7 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 15,
@@ -241,7 +244,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 16,
@@ -251,7 +254,7 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 17,
@@ -261,7 +264,7 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 18,
@@ -270,7 +273,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 19,
@@ -279,7 +282,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 20,
@@ -289,7 +292,7 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 21,
@@ -299,7 +302,7 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 22,
@@ -308,7 +311,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 23,
@@ -318,7 +321,7 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 24,
@@ -328,7 +331,7 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 25,
@@ -345,7 +348,7 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "the cold open"
+          "context": "entered in the book"
         },
         {
           "key": 27,
@@ -355,7 +358,7 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "the cold open"
+          "context": "entered in the book"
         },
         {
           "key": 28,
@@ -365,7 +368,7 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "the cold open"
+          "context": "entered in the book"
         },
         {
           "key": 29,
@@ -1267,9 +1270,87 @@
           "count": 1,
           "voice": "narrator",
           "context": "r2 yard hand"
+        },
+        {
+          "key": 129,
+          "channel": "narration",
+          "text": "The board, an evening some weeks into the rice terms. The day's wages are footed and the book should be closed, but Genemon has turned instead to a page ruled off from the rest — older ink at the head of it, this morning's at the foot.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works intro"
+        },
+        {
+          "key": 130,
+          "channel": "narration",
+          "text": "\"The wages are settled. This is the other page.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro"
+        },
+        {
+          "key": 131,
+          "channel": "narration",
+          "text": "\"Gate: the west post takes water at the foot, second winter running. Paddies: three bunds slumped, the water going through them at its own level. Woodshed: rain through the north corner of the roof, over where you sleep. None of that is news to the land. It is only now news to the book.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro"
+        },
+        {
+          "key": 132,
+          "channel": "narration",
+          "text": "He enters nothing. The lines are already there, dated, the way a man records frost.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works intro"
+        },
+        {
+          "key": 133,
+          "channel": "narration",
+          "text": "\"And one line the house carries whether I write it or not. The weir screens are Matsuzō's — leased, and the keeping of them ours. River rats gnaw them at the waterline; every slat through is coin owed across the water. The river feeds the rats and the house pays the difference. That account was open before the river gave you up at the weir.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro"
+        },
+        {
+          "key": 134,
+          "channel": "narration",
+          "text": "\"I commission nothing that has not been looked at. Walk the three, and the weir path, and look with your own eyes. Rot reads better by daylight. The book will keep.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro"
+        },
+        {
+          "key": 135,
+          "channel": "narration",
+          "text": "\"I'll walk it today, while the light holds.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "works intro"
+        },
+        {
+          "key": 136,
+          "channel": "narration",
+          "text": "\"Then the page has an answerer. Take it in the land's own order — water first. It is the oldest hand the land has.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro"
         }
       ],
-      "seq": 129
+      "seq": 137
     },
     "skillXp": {
       "farming": 134,
@@ -1288,8 +1369,8 @@
         "warmth": 1
       },
       "genemon": {
-        "regard": "earnest",
-        "warmth": 1
+        "regard": "walked-the-book",
+        "warmth": 2
       }
     },
     "introBeat": 3,
@@ -1327,7 +1408,8 @@
     "sceneQueue": [],
     "activeScene": null,
     "scenesPlayed": [
-      "r2-yard-hand"
+      "r2-yard-hand",
+      "works-intro"
     ],
     "roundState": null,
     "soanLedger": 0

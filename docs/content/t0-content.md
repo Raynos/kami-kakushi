@@ -99,7 +99,7 @@
 
 | id | node | neighbours | revealFlag | dangerRing |
 |---|---|---|---|
-| weir | The weir & riverbank 堰 | weir-reeds, paddies | — |  |
+| weir | The weir & riverbank 堰 | weir-reeds, paddies | room-weir |  |
 | sickroom | Sōan's sickroom 薬 | forecourt | — |  |
 | forecourt | The forecourt 庭 | gate, kura, kitchen, woodshed, sickroom, drill-yard, paddies | — |  |
 | kitchen | The kitchen threshold 竈 | forecourt, shrine | — |  |
@@ -185,7 +185,7 @@
 
 | stage | label | coin | +satietyMax |
 |---|---|---|---|
-| E1 | Mend the weir screens | 100 | +20 |
+| E1 | Stem the first rot | 100 | +20 |
 | E2 | Reclaim the orchard | 300 | +20 |
 | E3 | Raise the granary | 700 | +30 |
 | E4 | Set the house in order | 1400 | +30 |
@@ -271,6 +271,7 @@ Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (th
 | `room-gate` | panel |
 | `room-paddies` | panel |
 | `room-woodshed` | panel |
+| `room-weir` | panel |
 | `verb-farm` | verb |
 | `verb-haul` | verb |
 | `tab-skills` | tab |

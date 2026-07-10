@@ -318,3 +318,35 @@ save-load or DEV teleport never animates (only a real one-hop walk does).
 > (ships as a single rendering, no pick) and the **walkable map** (resolved by
 > HR-7, 2026-07-07 — the survey-plan map shipped; losing takes stripped). Recent
 > closes: **HR-8/HR-10/HR-12/HR-14/HR-16/HR-17** (the storywave ship)._
+
+### HR-27 🔲 [R2+ · estate] — the works discovery chain (estate Phase 1, works-cause, ADR-139/ADR-177)
+
+FB-338's fix, built: the estate projects are now DISCOVERED, not spawned. The
+day-book names a concern → you walk the zone and SEE the damage (a sighting
+line lands) → Genemon's beat prices the work → only then does the ladder show
+a name, cost, and button. Five new scene-defs (`works-intro` at the board R2+,
+`works-u1..u4` pricing beats, ladder-ordered) + 14 flavor keys (naming lines,
+sighting lines, the card's unnamed/named hints, U1's re-sited strings). U1
+moves from the weir screens to **first repairs in the three R1 zones** (gate ·
+bunds · woodshed roof); the weir lease stays a NAMED concern — and the weir
+node is **locked until the day-book names it** (FB-342's fix, live).
+**Pick: TAKE C "the land keeps its own book"** (19✔2✘ — the sighting lines
+catch the damage mid-act, which IS the FB-338 answer; naming lines are
+location-free; the land-first register matches your c5a-overlays pick.
+Redlined per Pass-2: the cold-open "his sill" ambiguity → "the weir"; the
+kura fullness claim softened). Alternates: A "the ledger's mercy" (17✔4✘ —
+the deepest conceit, being entered is being kept; read its works-u4), B "the
+household knows" (16✔5✘ — the warmest; the plum dish and the beam-marks).
+Canon: `narrative/scenes.md` + `narrative/flavor.md` (continuous read:
+`docs/content/t0-story.md`); alternates + briefs + Pass-1 constraint brief:
+`takes/works-cause/`.
+
+  - **How to look LIVE:** `?fixture=rung-R2` → move once and return to the
+    forecourt — **works-intro** auto-plays (the naming; the weir path opens);
+    Estate 家 now reads "go and see them where they stand" with NO buy button;
+    walk gate → paddies → woodshed (sighting lines land in Story); the
+    **works-u1** beat fires → the ladder inks in "Stem the first rot" priced.
+    DEV → Story → **works-cause** swaps every unit live (`?story-works-cause=a`
+    boots straight into take A — the ladder label flips to "Close the oldest
+    lines"). U2–U4 beats: `toRung('R5'/'R6'/'R7')` with the prior stage built.
+  - **Verdict:** _(awaiting your read)_

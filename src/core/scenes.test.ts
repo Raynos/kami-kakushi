@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, it, expect } from 'vitest';
 import { createInitialState, type GameState } from './index';
 import { enqueueScene, triggerScenes, beginScene, applySceneOption } from './scenes';
+import { WORKS_PROJECTS } from './works';
 import { SCENES, type SceneDef } from './content/scenes';
 import { QUESTS } from './content/quests';
 import { RANKS } from './content/ranks';
@@ -145,7 +146,7 @@ describe('C4.1 — every authored scene is REACHABLE (no authored-but-dark conte
   //    option's flags, or an engine setFlag literal);
   //  - rung/season triggers must name a real rank / season.
   const coreDir = fileURLToPath(new URL('.', import.meta.url));
-  const coreSrc = ['intents.ts', 'night-rounds.ts', 'scenes.ts', 'step.ts', 'nengu.ts']
+  const coreSrc = ['intents.ts', 'night-rounds.ts', 'scenes.ts', 'step.ts', 'nengu.ts', 'works.ts']
     .map((f) => readFileSync(coreDir + f, 'utf8'))
     .join('\n');
   const enqueuedIds = new Set(
@@ -157,6 +158,12 @@ describe('C4.1 — every authored scene is REACHABLE (no authored-but-dark conte
   const questFlagIds = new Set(QUESTS.flatMap((q) => q.reward.flags ?? []));
   const sceneOptionFlagIds = new Set(
     SCENES.flatMap((d) => d.scene.decision.options.flatMap((o) => o.flags ?? [])),
+  );
+  // ADR-177 — the works chain sets its flags data-driven (worksPass over
+  // WORKS_PROJECTS), so the literal-setFlag scan can't see them; derive from the
+  // source of truth instead (never a hand list).
+  const worksFlagIds = new Set(
+    WORKS_PROJECTS.flatMap((p) => [p.namedFlag, p.seenFlag, ...p.zones.map((z) => z.seenFlag)]),
   );
   const rankIds = new Set(RANKS.map((r) => r.id));
 
@@ -171,7 +178,10 @@ describe('C4.1 — every authored scene is REACHABLE (no authored-but-dark conte
           break;
         case 'flag':
           expect(
-            setFlagIds.has(t.flag) || questFlagIds.has(t.flag) || sceneOptionFlagIds.has(t.flag),
+            setFlagIds.has(t.flag) ||
+              questFlagIds.has(t.flag) ||
+              sceneOptionFlagIds.has(t.flag) ||
+              worksFlagIds.has(t.flag),
             `'${def.id}' waits on flag '${t.flag}' which nothing sets`,
           ).toBe(true);
           break;

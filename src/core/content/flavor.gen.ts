@@ -3,11 +3,13 @@
 // (the gen-narrative verify gate rebuilds this file and byte-compares it).
 // Data only — the types + helpers stay hand-written in flavor.ts, which re-exports this.
 
+import { NAMES } from './names';
+
 export const FLAVOR = {
   mendHint: 'The edge is going. Not yet mine to mend — climb higher, then set it right.',
+  rakeCapLine: 'The spilled rice is raked to the last grain. There is nothing left on the boards.',
   estateSourceFields:
     "Entered: rice from the new paddies, credited to the house's own account. The old books carried this line once; it is carried again.",
-  rakeCapLine: 'The spilled rice is raked to the last grain. There is nothing left on the boards.',
   estateSourceStores:
     'Entered: the granary takes in more than it pays out. A full storehouse needs no remark — this one has earned it all the same.',
   estateSourceWorkshop:
@@ -461,4 +463,27 @@ export const FLAVOR = {
     'The old orchard smells of windfall gone to vinegar from the fence line on, and past the bramble every step lands soft and wrong on rotted fruit. The dogs are denning fat this year, and no longer trouble to be quiet about it.',
   nodeBambooGroveBlurbAutumn:
     'The grove keeps its green while the valley around it goes to stubble-brown, and the air under the stems holds a cellar cold the sun never reaches. The troop strips what the vegetable rows have left, and the creak overhead is the only account of where it went.',
+  worksNamedOrchard: `A new line in the day-book, entered like weather: orchard — gone wild, rows under the choke, dens in the hollow; the land's oldest holding on this side of the wall, ${NAMES.elder} notes, and the first the house means to contest.`,
+  worksNamedGranary:
+    "Ruled at the season's head, dry as a frost report: the kura holds the year and not a measure over — a second granary wanted at its side before the land decides the matter its own way.",
+  worksNamedHouse: `The day-book takes up its longest-carried concern in one plain line: the omoya, half-shut, the rooms going back to the land indoors — dust and damp, ${NAMES.elder} writes, being weather too.`,
+  worksSeenGate:
+    "Rain-water stands at the foot of the west gatepost, and the wood at its waterline gives under a thumbnail, the grain letting go a little more with this season's standing wet. It is happening now, at the pace rot keeps.",
+  worksSeenPaddies:
+    'Water threads through the slumped bund while you stand there — patient, soundless, finding its level through a gap it has been widening all season. Two more bunds down the row are going the same quiet way.',
+  worksSeenWoodshed:
+    'Rain has been through the north corner again: a drip is still working somewhere back of the piles, keeping its own slow count, and the edge of your mat is dark where it drinks.',
+  worksSeenOrchard:
+    'A runner of bramble has a young fruit tree by the throat and is climbing it at the pace of years, tightening as it goes. Down in the hollow something moves through the dens without hurry, at home.',
+  worksSeenKura:
+    "Inside, this year's rice wants most of the room there is, with the harvest still to come. Along the north wall the damp is at its patient work, a hand's width up the boards and climbing.",
+  worksSeenHouse:
+    "From the forecourt the omoya's shut rooms show as a row of weathered screens no hand has slid in years, and moss holds the ridge where the thatch keeps water. The roof is going back to ground, slower than anyone is coming to stop it.",
+  worksLadderUnnamed: 'No works named yet; the land keeps the only running account.',
+  worksLadderNamed: 'The book has named its concerns; go and see them where they stand.',
+  worksU1Label: 'Stem the first rot',
+  worksU1Blurb:
+    'Mend the gatepost, the bunds, and the woodshed roof before the water works deeper.',
+  worksU1Done:
+    'The gatepost stands dry at the foot, the bunds carry their water where it is wanted, and the woodshed roof turns the rain it used to pass. Three lines the land held open are closed against it — the first the book has closed in years. (U1 · Stabilising)',
 } as const;

@@ -66,6 +66,9 @@
       "farmed": true,
       "rank-r2": true,
       "porters-knot": true,
+      "works-named-u1": true,
+      "works-named-weir": true,
+      "works-seen-paddies": true,
       "r3-track": true,
       "rank-r3": true,
       "combat-unlocked": true,
@@ -81,6 +84,12 @@
       "r5-stood": true,
       "r6-flat": true,
       "rank-r6": true,
+      "works-seen-gate": true,
+      "works-seen-woodshed": true,
+      "works-seen-u1": true,
+      "works-open-u1": true,
+      "works-named-u2": true,
+      "works-line-u2": true,
       "r7-plain": true,
       "rank-r7": true,
       "t0-capstone": true,
@@ -89,9 +98,22 @@
       "nengu-reckoned": true,
       "nengu-reckoned-y0": true,
       "nengu-short": true,
+      "works-seen-orchard": true,
+      "works-seen-u2": true,
+      "works-open-u2": true,
       "deed-source-treasury": true,
       "deed-source-stores": true,
+      "works-named-u3": true,
+      "works-line-u3": true,
+      "works-seen-kura": true,
+      "works-seen-u3": true,
+      "works-open-u3": true,
       "nengu-reckoned-y1": true,
+      "works-named-u4": true,
+      "works-line-u4": true,
+      "works-seen-house": true,
+      "works-seen-u4": true,
+      "works-open-u4": true,
       "nengu-reckoned-y2": true,
       "estate-stands": true
     },
@@ -123,6 +145,7 @@
       "row-sansai",
       "skill-conditioning",
       "verb-cook",
+      "room-weir",
       "skill-woodcutting",
       "skill-foraging",
       "tab-combat",
@@ -159,7 +182,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "what the water takes"
         },
         {
           "key": 1,
@@ -169,7 +192,7 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "the cold open"
+          "context": "what the water takes"
         },
         {
           "key": 2,
@@ -178,7 +201,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "what the water takes"
         },
         {
           "key": 3,
@@ -194,7 +217,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 5,
@@ -203,7 +226,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 6,
@@ -212,7 +235,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 7,
@@ -222,7 +245,7 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 8,
@@ -232,7 +255,7 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 9,
@@ -242,7 +265,7 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 10,
@@ -251,7 +274,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 11,
@@ -260,7 +283,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 12,
@@ -270,7 +293,7 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 13,
@@ -280,7 +303,7 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 14,
@@ -290,7 +313,7 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 15,
@@ -299,7 +322,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 16,
@@ -309,7 +332,7 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 17,
@@ -319,7 +342,7 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 18,
@@ -328,7 +351,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 19,
@@ -337,7 +360,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 20,
@@ -347,7 +370,7 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 21,
@@ -357,7 +380,7 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 22,
@@ -366,7 +389,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 23,
@@ -376,7 +399,7 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 24,
@@ -386,7 +409,7 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "the cold open"
+          "context": "no name to give"
         },
         {
           "key": 25,
@@ -403,7 +426,7 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "the cold open"
+          "context": "entered in the book"
         },
         {
           "key": 27,
@@ -413,7 +436,7 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "the cold open"
+          "context": "entered in the book"
         },
         {
           "key": 28,
@@ -423,7 +446,7 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "the cold open"
+          "context": "entered in the book"
         },
         {
           "key": 29,
@@ -802,7 +825,93 @@
           "context": "r2 yard hand"
         },
         {
-          "key": 147,
+          "key": 129,
+          "channel": "narration",
+          "text": "The board, an evening some weeks into the rice terms. The day's wages are footed and the book should be closed, but Genemon has turned instead to a page ruled off from the rest — older ink at the head of it, this morning's at the foot.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works intro"
+        },
+        {
+          "key": 130,
+          "channel": "narration",
+          "text": "\"The wages are settled. This is the other page.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro"
+        },
+        {
+          "key": 131,
+          "channel": "narration",
+          "text": "\"Gate: the west post takes water at the foot, second winter running. Paddies: three bunds slumped, the water going through them at its own level. Woodshed: rain through the north corner of the roof, over where you sleep. None of that is news to the land. It is only now news to the book.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro"
+        },
+        {
+          "key": 132,
+          "channel": "narration",
+          "text": "He enters nothing. The lines are already there, dated, the way a man records frost.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works intro"
+        },
+        {
+          "key": 133,
+          "channel": "narration",
+          "text": "\"And one line the house carries whether I write it or not. The weir screens are Matsuzō's — leased, and the keeping of them ours. River rats gnaw them at the waterline; every slat through is coin owed across the water. The river feeds the rats and the house pays the difference. That account was open before the river gave you up at the weir.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro"
+        },
+        {
+          "key": 134,
+          "channel": "narration",
+          "text": "\"I commission nothing that has not been looked at. Walk the three, and the weir path, and look with your own eyes. Rot reads better by daylight. The book will keep.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro"
+        },
+        {
+          "key": 135,
+          "channel": "narration",
+          "text": "\"I'll walk it today, while the light holds.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "works intro"
+        },
+        {
+          "key": 136,
+          "channel": "narration",
+          "text": "\"Then the page has an answerer. Take it in the land's own order — water first. It is the oldest hand the land has.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro"
+        },
+        {
+          "key": 138,
+          "channel": "narration",
+          "text": "Water threads through the slumped bund while you stand there — patient, soundless, finding its level through a gap it has been widening all season. Two more bunds down the row are going the same quiet way.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 156,
           "channel": "narration",
           "text": "The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean.",
           "tick": 22,
@@ -810,7 +919,7 @@
           "voice": "narrator"
         },
         {
-          "key": 154,
+          "key": 163,
           "channel": "narration",
           "text": "Under the silt, cut stone and a lift-board seized in its groove: a sluice-gate, made well and left to choke. Clearing it is days of honest digging, and nobody at the house knows it is there to clear.",
           "tick": 10,
@@ -818,7 +927,7 @@
           "voice": "narrator"
         },
         {
-          "key": 160,
+          "key": 169,
           "channel": "narration",
           "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
           "tick": 8,
@@ -826,7 +935,7 @@
           "voice": "narrator"
         },
         {
-          "key": 172,
+          "key": 181,
           "channel": "narration",
           "text": "Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.",
           "tick": 8,
@@ -834,7 +943,7 @@
           "voice": "narrator"
         },
         {
-          "key": 173,
+          "key": 182,
           "channel": "narration",
           "text": "Dawn comes grey through the kura door. The blood on the sill has dried black, and most of it is yours. Inside, the rice sits in its rows, untouched, exactly as it was put. Sōan has strapped your ribs so tight that breathing is a decision.",
           "tick": 10,
@@ -843,7 +952,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 174,
+          "key": 183,
           "channel": "narration",
           "text": "Kihei crouches at the sill a long time, reading the blood the way Genemon reads a column of figures. The trail goes west, into the trees, in drops that get no smaller.",
           "tick": 10,
@@ -852,7 +961,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 175,
+          "key": 184,
           "channel": "narration",
           "text": "\"…Alive. Good.\"",
           "tick": 10,
@@ -862,7 +971,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 176,
+          "key": 185,
           "channel": "narration",
           "text": "For a moment there is more in him than the verdict. He checks the broken bar instead.",
           "tick": 10,
@@ -871,7 +980,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 177,
+          "key": 186,
           "channel": "narration",
           "text": "Genemon stands in the doorway. Whatever he came to say, he writes something in the day-book first.",
           "tick": 10,
@@ -880,7 +989,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 178,
+          "key": 187,
           "channel": "narration",
           "text": "\"Screen, one, torn. Bar, one, broken. Grain — none lost. Hand, one. Standing.\"",
           "tick": 10,
@@ -890,7 +999,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 179,
+          "key": 188,
           "channel": "narration",
           "text": "None lost. You think of the gnawed seed-bale at the back wall, and the count you made twice by lantern, and you do not correct him. Not yet.",
           "tick": 10,
@@ -899,7 +1008,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 180,
+          "key": 189,
           "channel": "narration",
           "text": "\"The bar was old. It goes against the house, not your wage.\"",
           "tick": 10,
@@ -909,7 +1018,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 181,
+          "key": 190,
           "channel": "narration",
           "text": "Kihei stands, takes the boar-spear off the sill, and puts it back in your hands, butt first.",
           "tick": 10,
@@ -918,7 +1027,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 182,
+          "key": 191,
           "channel": "narration",
           "text": "\"You didn't win. The house lost nothing. Keep the watch.\"",
           "tick": 10,
@@ -928,7 +1037,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 183,
+          "key": 192,
           "channel": "narration",
           "text": "By evening the padded coat is folded at the woodshed step, the torn shoulder closed with stitches smaller than the tear deserved. O-Hisa is still three steps from the kitchen when you come round the corner, caught.",
           "tick": 10,
@@ -937,7 +1046,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 184,
+          "key": 193,
           "channel": "narration",
           "text": "\"It tore clean, at least. If the ribs knit as straight — well.\"",
           "tick": 10,
@@ -947,7 +1056,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 185,
+          "key": 194,
           "channel": "narration",
           "text": "She is back inside before you find anything to say to that.",
           "tick": 10,
@@ -956,7 +1065,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 186,
+          "key": 195,
           "channel": "narration",
           "text": "\"It bled going west. The trail is fresh.\"",
           "tick": 10,
@@ -966,7 +1075,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 187,
+          "key": 196,
           "channel": "narration",
           "text": "\"And you can chase it exactly as far as I can throw you. Sit down. It is winter's business now, not yours.\"",
           "tick": 10,
@@ -976,7 +1085,7 @@
           "context": "The grain-watch promotion"
         },
         {
-          "key": 188,
+          "key": 197,
           "channel": "narration",
           "text": "The drill yard opens to you — a place to train, and foes that must be met.",
           "tick": 10,
@@ -984,7 +1093,7 @@
           "voice": "narrator"
         },
         {
-          "key": 189,
+          "key": 198,
           "channel": "narration",
           "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
           "tick": 10,
@@ -992,7 +1101,7 @@
           "voice": "narrator"
         },
         {
-          "key": 190,
+          "key": 199,
           "channel": "narration",
           "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
           "tick": 10,
@@ -1000,7 +1109,7 @@
           "voice": "narrator"
         },
         {
-          "key": 191,
+          "key": 200,
           "channel": "narration",
           "text": "The storehouse is opened to you: the iron-strapped door, the good lock, the grain-watch's stool beside it. What is counted in and out is the house's whole year.",
           "tick": 10,
@@ -1008,7 +1117,7 @@
           "voice": "narrator"
         },
         {
-          "key": 192,
+          "key": 201,
           "channel": "narration",
           "text": "The shallows above and below the weir, reeds past the waist. River rats gnaw the screens the house leases from Matsuzō, and every screen lost is coin owed across the water.",
           "tick": 10,
@@ -1016,7 +1125,7 @@
           "voice": "narrator"
         },
         {
-          "key": 193,
+          "key": 202,
           "channel": "milestone",
           "text": "Rank ↑ — The grain-watch 蔵番",
           "tick": 10,
@@ -1028,7 +1137,7 @@
           }
         },
         {
-          "key": 194,
+          "key": 203,
           "channel": "narration",
           "text": "A lean corner of the woodshed is kept back for you now — a straw mat, a bowl, a nail for your coat, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
           "tick": 10,
@@ -1036,7 +1145,7 @@
           "voice": "narrator"
         },
         {
-          "key": 199,
+          "key": 208,
           "channel": "combat",
           "text": "You bring down the river rats. ✓ (HP 60→11)",
           "tick": 12,
@@ -1052,7 +1161,7 @@
           }
         },
         {
-          "key": 202,
+          "key": 211,
           "channel": "narration",
           "text": "The snow quits the valley floor first — gray at the edges, then standing water in the wheel-ruts. The ridge keeps its white and means to keep it.",
           "tick": 14,
@@ -1061,7 +1170,7 @@
           "context": "turn winter"
         },
         {
-          "key": 203,
+          "key": 212,
           "channel": "narration",
           "text": "The river runs black and narrow between its shelves of ice. Past the rope, the old garden's snow lies whole: a winter's worth, and not one track across it.",
           "tick": 14,
@@ -1070,7 +1179,7 @@
           "context": "turn winter"
         },
         {
-          "key": 204,
+          "key": 213,
           "channel": "narration",
           "text": "The light stretches. Work that used to end at the woodshed door now ends past it, and the cold stays on, but it has stopped arguing.",
           "tick": 14,
@@ -1079,7 +1188,7 @@
           "context": "turn winter"
         },
         {
-          "key": 205,
+          "key": 214,
           "channel": "narration",
           "text": "Small on the road below, a man comes up from the village with new straw rope coiled over his shoulder, for the gates. The year is going out. The New Year comes up the valley behind him.",
           "tick": 14,
@@ -1088,7 +1197,7 @@
           "context": "turn winter"
         },
         {
-          "key": 206,
+          "key": 215,
           "channel": "narration",
           "text": "Matsuzō comes up from the river at the pace of a man nothing has hurried in sixty years. Genemon meets him in the forecourt with the day-book already open — which is how you learn the house knew it was short before the knock.",
           "tick": 14,
@@ -1097,7 +1206,7 @@
           "context": "sb lease"
         },
         {
-          "key": 207,
+          "key": 216,
           "channel": "narration",
           "text": "\"The weir lease. Due today: rice, one koku. In the store, against it: seven to. The house is short a third, and I will not count it smaller than it is.\"",
           "tick": 14,
@@ -1107,7 +1216,7 @@
           "context": "sb lease"
         },
         {
-          "key": 208,
+          "key": 217,
           "channel": "narration",
           "text": "\"Screens took a beating in the spring water. Rats after. Hard year on everything downstream.\"",
           "tick": 14,
@@ -1117,7 +1226,7 @@
           "context": "sb lease"
         },
         {
-          "key": 209,
+          "key": 218,
           "channel": "narration",
           "text": "He does not say: on you too. He looks at the gate's paint, and at you, and back toward the river, the way he looks at everything — weather that will pass over his weir eventually.",
           "tick": 14,
@@ -1126,7 +1235,7 @@
           "context": "sb lease"
         },
         {
-          "key": 210,
+          "key": 219,
           "channel": "narration",
           "text": "\"Three to owing. I ask the season's grace on it. The house asks.\"",
           "tick": 14,
@@ -1136,7 +1245,7 @@
           "context": "sb lease"
         },
         {
-          "key": 211,
+          "key": 220,
           "channel": "narration",
           "text": "Genemon bows. Not deeply — the exact depth a Kurosawa steward has never before had to measure for a weir-keeper, measured now, got right the first time because he will not let it be seen twice.",
           "tick": 14,
@@ -1145,7 +1254,7 @@
           "context": "sb lease"
         },
         {
-          "key": 212,
+          "key": 221,
           "channel": "narration",
           "text": "\"The river can wait a season. The screens can't — rats are in them now. Send your man down while the year turns and we'll call it even weight by winter.\"",
           "tick": 14,
@@ -1155,7 +1264,7 @@
           "context": "sb lease"
         },
         {
-          "key": 213,
+          "key": 222,
           "channel": "narration",
           "text": "Nobody asks you. A line in the day-book, a nod toward the water, and a season of your evenings is settled between two old men. Three to of rice. It is the first time you have been worth a number. The number is small.",
           "tick": 14,
@@ -1164,7 +1273,7 @@
           "context": "sb lease"
         },
         {
-          "key": 214,
+          "key": 223,
           "channel": "narration",
           "text": "At the gate the old man stops, level with you, and looks at you the way he looked at the paint. He goes back down the way he came, having made nothing of it. He has been making nothing of it for a year.",
           "tick": 14,
@@ -1173,7 +1282,7 @@
           "context": "sb lease"
         },
         {
-          "key": 224,
+          "key": 233,
           "channel": "combat",
           "text": "You bring down the river rats. ✓ (HP 60→36)",
           "tick": 20,
@@ -1189,7 +1298,7 @@
           }
         },
         {
-          "key": 225,
+          "key": 234,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 2.",
           "tick": 20,
@@ -1200,7 +1309,7 @@
           }
         },
         {
-          "key": 228,
+          "key": 237,
           "channel": "combat",
           "text": "You bring down the river rats. ✓ (HP 68→18 · +1 beast sinew)",
           "tick": 0,
@@ -1216,7 +1325,7 @@
           }
         },
         {
-          "key": 229,
+          "key": 238,
           "channel": "narration",
           "text": "\"Quiet in the kura tonight,\" Kihei lets drop, cleaning his blade by lamplight.",
           "tick": 0,
@@ -1224,7 +1333,7 @@
           "voice": "narrator"
         },
         {
-          "key": 235,
+          "key": 244,
           "channel": "combat",
           "text": "You bring down the tanuki. ✓ (HP 68→23 · +1 beast sinew)",
           "tick": 6,
@@ -1240,7 +1349,7 @@
           }
         },
         {
-          "key": 238,
+          "key": 247,
           "channel": "combat",
           "text": "You bring down the tanuki. ✓ (HP 68→34)",
           "tick": 12,
@@ -1256,7 +1365,7 @@
           }
         },
         {
-          "key": 239,
+          "key": 248,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 3.",
           "tick": 12,
@@ -1267,7 +1376,7 @@
           }
         },
         {
-          "key": 240,
+          "key": 249,
           "channel": "narration",
           "text": "\"The monkeys have learned his shape,\" Kihei is heard to say, almost pleased.",
           "tick": 12,
@@ -1275,14 +1384,14 @@
           "voice": "narrator"
         },
         {
-          "key": 241,
+          "key": 250,
           "channel": "milestone",
           "text": "You have become what the house needed at its gate — a hand it can trust with an edge to it. Kihei watches you drill at first light and almost smiles. \"There's a soldier in you under the farmhand. We'll find the rest of it yet.\" Past the gate the valley road climbs out of sight — toward the house's standing, its rivals, and the name you still cannot reach. That climb is for the days to come.",
           "tick": 14,
           "count": 1
         },
         {
-          "key": 242,
+          "key": 251,
           "channel": "narration",
           "text": "That night the dream comes again, and stays longer. The grey rain, the road — and now a load on your back, roped with the porter's knot your hands already knew. Water rising over the planks of a low bridge. A woman's voice behind you, calling a name through the flood — your name, you are almost sure, though the water closes over it before you can catch its shape.",
           "tick": 14,
@@ -1290,7 +1399,7 @@
           "voice": "narrator"
         },
         {
-          "key": 259,
+          "key": 268,
           "channel": "narration",
           "text": "\"The fields don't miss him while he drills,\" Genemon notes, half to himself.",
           "tick": 18,
@@ -1298,7 +1407,7 @@
           "voice": "narrator"
         },
         {
-          "key": 266,
+          "key": 275,
           "channel": "narration",
           "text": "\"Watch or no watch, his rows never fell behind,\" Genemon says over the evening rice.",
           "tick": 2,
@@ -1306,7 +1415,7 @@
           "voice": "narrator"
         },
         {
-          "key": 293,
+          "key": 302,
           "channel": "narration",
           "text": "\"The palisade wood is his cutting,\" Kihei says, striking a post with the flat of his hand.",
           "tick": 16,
@@ -1314,7 +1423,7 @@
           "voice": "narrator"
         },
         {
-          "key": 297,
+          "key": 306,
           "channel": "narration",
           "text": "Ice lets go of the shaded bank a plate at a time, each one turning once in the current and gone.",
           "tick": 20,
@@ -1323,7 +1432,7 @@
           "context": "turn new year"
         },
         {
-          "key": 298,
+          "key": 307,
           "channel": "narration",
           "text": "The ground gives underfoot where all winter it rang. The well-path grows a margin of mud, and the mud holds each footprint till noon.",
           "tick": 20,
@@ -1332,7 +1441,7 @@
           "context": "turn new year"
         },
         {
-          "key": 299,
+          "key": 308,
           "channel": "narration",
           "text": "Up the woodlot, the bark of the young trees is chewed to the pale — deer, down off the ridge in the dark and gone again by light. Whatever they came for, the ridge no longer had it.",
           "tick": 20,
@@ -1341,7 +1450,7 @@
           "context": "turn new year"
         },
         {
-          "key": 300,
+          "key": 309,
           "channel": "narration",
           "text": "Last, and small under all that water-light, the villagers walk their field-bunds, looking at what the thaw left them. Spring is on the valley, and everything from here on is work.",
           "tick": 20,
@@ -1350,7 +1459,7 @@
           "context": "turn new year"
         },
         {
-          "key": 305,
+          "key": 314,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 76→1) You drop 24 mon in the rout. Eat and mend before you take the field again.",
           "tick": 0,
@@ -1365,7 +1474,7 @@
           }
         },
         {
-          "key": 312,
+          "key": 321,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 76→7)",
           "tick": 14,
@@ -1381,7 +1490,7 @@
           }
         },
         {
-          "key": 315,
+          "key": 324,
           "channel": "combat",
           "text": "The badger overcomes you; you limp home badly used. (HP 76→1) You drop 20 mon in the rout. Eat and mend before you take the field again.",
           "tick": 20,
@@ -1396,7 +1505,7 @@
           }
         },
         {
-          "key": 324,
+          "key": 333,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 76→6)",
           "tick": 10,
@@ -1412,7 +1521,7 @@
           }
         },
         {
-          "key": 325,
+          "key": 334,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 4.",
           "tick": 10,
@@ -1423,7 +1532,7 @@
           }
         },
         {
-          "key": 334,
+          "key": 343,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 84→13 · +1 beast sinew)",
           "tick": 22,
@@ -1439,7 +1548,7 @@
           }
         },
         {
-          "key": 337,
+          "key": 346,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 84→39)",
           "tick": 6,
@@ -1455,7 +1564,7 @@
           }
         },
         {
-          "key": 338,
+          "key": 347,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 5.",
           "tick": 6,
@@ -1466,7 +1575,7 @@
           }
         },
         {
-          "key": 341,
+          "key": 350,
           "channel": "system",
           "text": "You repair the worn carrying-pole. (−5 wood, −6 mon)",
           "tick": 12,
@@ -1480,7 +1589,7 @@
           }
         },
         {
-          "key": 342,
+          "key": 351,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→35 · +1 beast sinew)",
           "tick": 12,
@@ -1496,7 +1605,7 @@
           }
         },
         {
-          "key": 345,
+          "key": 354,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→3)",
           "tick": 18,
@@ -1512,7 +1621,7 @@
           }
         },
         {
-          "key": 354,
+          "key": 363,
           "channel": "combat",
           "text": "You bring down the badger. ✓ (HP 92→57 · +1 beast sinew)",
           "tick": 4,
@@ -1528,7 +1637,7 @@
           }
         },
         {
-          "key": 355,
+          "key": 364,
           "channel": "milestone",
           "text": "Your body has hardened with the fighting. Combat level 6.",
           "tick": 4,
@@ -1539,7 +1648,7 @@
           }
         },
         {
-          "key": 360,
+          "key": 369,
           "channel": "narration",
           "text": "On the dark of the moon a lantern crosses the far edge of the yard — hooded low, held steady, going upstream. By the time the round brings you back the yard is empty, and in the morning no one has missed a lantern. It is not your watch's business. You watch for it anyway.",
           "tick": 18,
@@ -1547,7 +1656,7 @@
           "voice": "narrator"
         },
         {
-          "key": 361,
+          "key": 370,
           "channel": "narration",
           "text": "Rats in the store, where Kihei said. You learn the sound grain makes when something small is stealing it — a dry whisper under the floor, gone the moment you stop walking. The spear-butt does the rest. In the morning you sweep up what they spoiled and say what you took. The number is never nothing.",
           "tick": 18,
@@ -1555,7 +1664,7 @@
           "voice": "narrator"
         },
         {
-          "key": 362,
+          "key": 371,
           "channel": "narration",
           "text": "A marten, quick as spilled water, dead by more luck than spear-work. Behind the back bales, where it hunted, you find what the rats had all along — a seed-rice bale gnawed open at the seam, half gone into the walls. You make the count alone, by lantern, twice. It does not improve the second time. You bar the door on it and tell no one yet.",
           "tick": 18,
@@ -1563,7 +1672,7 @@
           "voice": "narrator"
         },
         {
-          "key": 363,
+          "key": 372,
           "channel": "narration",
           "text": "At the kura door the lantern finds two eyes at the height of your waist, and the dark around them is the wrong shape for a dog. The bar is behind you. So is the rice.",
           "tick": 18,
@@ -1571,7 +1680,7 @@
           "voice": "narrator"
         },
         {
-          "key": 365,
+          "key": 374,
           "channel": "narration",
           "text": "The night the wolf came you stood between it and the stores, and were still there at dawn — bleeding, ribs cracked, the rice untouched. Not won. Survived.",
           "tick": 18,
@@ -1579,7 +1688,7 @@
           "voice": "narrator"
         },
         {
-          "key": 366,
+          "key": 375,
           "channel": "narration",
           "text": "Sōan strapped the ribs for walking. Not for work. It is thirty paces from the sickroom door to the board. You count them.",
           "tick": 18,
@@ -1588,7 +1697,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 367,
+          "key": 376,
           "channel": "narration",
           "text": "Past the kitchen passage a screen stands open on a corridor you have never been sent down. An altar set into the passage wall; rites laid out for somebody; a pair of straw sandals, new this year, facing away from the house. You look a breath too long. The screen slides shut from inside. Nobody says anything to you about it, then or after.",
           "tick": 18,
@@ -1597,7 +1706,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 368,
+          "key": 377,
           "channel": "narration",
           "text": "Genemon is there, the day-book open, the morning's entries not yet dry. He looks up, and waits, and does not help you begin.",
           "tick": 18,
@@ -1606,7 +1715,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 369,
+          "key": 378,
           "channel": "narration",
           "text": "\"Rats were in the store. Three nights, while I lay. A quarter-sack gone. Two more opened at the seam.\"",
           "tick": 18,
@@ -1616,7 +1725,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 370,
+          "key": 379,
           "channel": "narration",
           "text": "\"The watch was mine.\"",
           "tick": 18,
@@ -1626,7 +1735,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 371,
+          "key": 380,
           "channel": "narration",
           "text": "Genemon writes before he answers. It is what he does with surprise, though nothing in his face has admitted to any.",
           "tick": 18,
@@ -1635,7 +1744,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 372,
+          "key": 381,
           "channel": "narration",
           "text": "\"Rice, one quarter-sack, to vermin. Two sacks to resew — O-Hisa has thread. Entered under the store.\"",
           "tick": 18,
@@ -1645,7 +1754,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 373,
+          "key": 382,
           "channel": "narration",
           "text": "\"Not under your name. No wage ran for the nights you lay. No watch stood — the gate cannot leave the gate. The account is even.\"",
           "tick": 18,
@@ -1655,7 +1764,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 374,
+          "key": 383,
           "channel": "narration",
           "text": "\"It isn't.\"",
           "tick": 18,
@@ -1665,7 +1774,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 375,
+          "key": 384,
           "channel": "narration",
           "text": "The pen stops above the line a moment longer than the line needs. Then it moves on, and he says nothing, and writes nothing further.",
           "tick": 18,
@@ -1674,7 +1783,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 376,
+          "key": 385,
           "channel": "narration",
           "text": "At the kitchen threshold O-Hisa has stopped with a bowl in her hands, as if there were something to say to somebody. She sets it down where you will pass, and goes in.",
           "tick": 18,
@@ -1683,7 +1792,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 377,
+          "key": 386,
           "channel": "narration",
           "text": "From the board, the woodshed is one way and the old stable court is the other. Your ribs are for the woodshed. You go the other way.",
           "tick": 18,
@@ -1692,7 +1801,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 378,
+          "key": 387,
           "channel": "narration",
           "text": "Stalls for twenty horses run down the long side of the court, and the house owns one mule. Kihei is at the rack, running a whetstone down a spear-head that has no war to go to. Two practice staves lean beside him. One is worn grey at the grip. The other is oiled, and looks as if it has never been anything else.",
           "tick": 18,
@@ -1701,7 +1810,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 379,
+          "key": 388,
           "channel": "narration",
           "text": "\"Teach me.\"",
           "tick": 18,
@@ -1711,7 +1820,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 380,
+          "key": 389,
           "channel": "narration",
           "text": "That was the easy half. The question costs more than the walk did.",
           "tick": 18,
@@ -1720,7 +1829,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 381,
+          "key": 390,
           "channel": "narration",
           "text": "\"Will you?\"",
           "tick": 18,
@@ -1730,7 +1839,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 382,
+          "key": 391,
           "channel": "narration",
           "text": "Kihei sets down the whetstone. He looks at the strapping, at the way you keep your left side back, at the scars that were old before the river. He has looked at them before. He has never once asked.",
           "tick": 18,
@@ -1739,7 +1848,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 383,
+          "key": 392,
           "channel": "narration",
           "text": "\"...You walked here on cracked ribs to ask for more of what cracked them.\"",
           "tick": 18,
@@ -1749,7 +1858,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 384,
+          "key": 393,
           "channel": "narration",
           "text": "It is not a question, so you do not answer it.",
           "tick": 18,
@@ -1758,7 +1867,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 385,
+          "key": 394,
           "channel": "narration",
           "text": "\"Terms, then. Once. Talent is a story the lucky tell. You are not lucky. So you will work.\"",
           "tick": 18,
@@ -1768,7 +1877,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 386,
+          "key": 395,
           "channel": "narration",
           "text": "He takes the oiled staff from the rack and holds it out. He does not say how long it has stood there, and you do not ask.",
           "tick": 18,
@@ -1777,7 +1886,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 387,
+          "key": 396,
           "channel": "narration",
           "text": "\"The house has one man who can stand a watch, and he is grey. Dawn, before the others. Every day the ribs allow, and some they don't.\"",
           "tick": 18,
@@ -1787,7 +1896,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 388,
+          "key": 397,
           "channel": "narration",
           "text": "On the wall above the empty stalls a boy sits very still, the way boys sit when they believe stillness is the same as not being there.",
           "tick": 18,
@@ -1796,7 +1905,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 389,
+          "key": 398,
           "channel": "narration",
           "text": "\"One thing before the staff. Why.\"",
           "tick": 18,
@@ -1806,7 +1915,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 390,
+          "key": 399,
           "channel": "narration",
           "text": "\"It will come back.\"",
           "tick": 18,
@@ -1816,7 +1925,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 391,
+          "key": 400,
           "channel": "narration",
           "text": "\"It will. Or its like. Dawn, then.\"",
           "tick": 18,
@@ -1826,7 +1935,7 @@
           "context": "The pupil promotion"
         },
         {
-          "key": 392,
+          "key": 401,
           "channel": "narration",
           "text": "You learn to read the wear on an edge — a blade dulls and chips with use, and a dull edge bites less. Mind your weapon's condition now.",
           "tick": 18,
@@ -1834,7 +1943,7 @@
           "voice": "narrator"
         },
         {
-          "key": 393,
+          "key": 402,
           "channel": "narration",
           "text": "The woodlot smithy is yours to use — strip what the carcasses give up, forge a real edge, keep it repaired, and take up whichever weapon suits the watch.",
           "tick": 18,
@@ -1842,7 +1951,7 @@
           "voice": "narrator"
         },
         {
-          "key": 394,
+          "key": 403,
           "channel": "narration",
           "text": "The omoya — the main house — is opened to you. Its shuttered rooms, closed since the lean years, are aired and swept; you walk floors the family walks.",
           "tick": 18,
@@ -1850,7 +1959,7 @@
           "voice": "narrator"
         },
         {
-          "key": 395,
+          "key": 404,
           "channel": "narration",
           "text": "The old stable court, swept bare and given a new use. Kihei's ground now, and yours to enter: things happen here in his order or not at all.",
           "tick": 18,
@@ -1858,7 +1967,7 @@
           "voice": "narrator"
         },
         {
-          "key": 396,
+          "key": 405,
           "channel": "milestone",
           "text": "Rank ↑ — The pupil 弟子",
           "tick": 18,
@@ -1870,7 +1979,7 @@
           }
         },
         {
-          "key": 402,
+          "key": 411,
           "channel": "narration",
           "text": "The house learns he keeps coin of his own, strung and counted, spent on nothing foolish.",
           "tick": 0,
@@ -1878,7 +1987,7 @@
           "voice": "narrator"
         },
         {
-          "key": 413,
+          "key": 422,
           "channel": "narration",
           "text": "The porters have stopped counting his loads against their own.",
           "tick": 20,
@@ -1886,7 +1995,7 @@
           "voice": "narrator"
         },
         {
-          "key": 426,
+          "key": 435,
           "channel": "narration",
           "text": "When the kura needs moving in a hurry, it is his name the yard calls first.",
           "tick": 8,
@@ -1894,7 +2003,7 @@
           "voice": "narrator"
         },
         {
-          "key": 441,
+          "key": 450,
           "channel": "narration",
           "text": "New porters are told to watch how he stacks; nobody remembers deciding that.",
           "tick": 22,
@@ -1902,7 +2011,7 @@
           "voice": "narrator"
         },
         {
-          "key": 442,
+          "key": 451,
           "channel": "narration",
           "text": "The drillmaster teaches you to set your stance before a foe — press the attack and take more in return, or guard and give up some bite. The call is yours, fight by fight.",
           "tick": 0,
@@ -1910,7 +2019,7 @@
           "voice": "narrator"
         },
         {
-          "key": 443,
+          "key": 452,
           "channel": "narration",
           "text": "You begin to keep a book of undertakings — the tasks and errands the house sets you, and the ones you take on yourself. A place to see what still stands unfinished.",
           "tick": 0,
@@ -1918,7 +2027,7 @@
           "voice": "narrator"
         },
         {
-          "key": 444,
+          "key": 453,
           "channel": "narration",
           "text": "In passing you glimpse it — a family altar set into a corridor, the rites kept in a passage never meant to hold them. You are not asked to stop.",
           "tick": 0,
@@ -1926,7 +2035,7 @@
           "voice": "narrator"
         },
         {
-          "key": 445,
+          "key": 454,
           "channel": "narration",
           "text": "The old orchard gone wild: bramble to the shoulder, windfall rotting underfoot, the dogs denned in the hollow. Kihei calls it the dogs' yard, without irony.",
           "tick": 0,
@@ -1934,7 +2043,7 @@
           "voice": "narrator"
         },
         {
-          "key": 446,
+          "key": 455,
           "channel": "milestone",
           "text": "You mount your worn carrying-pole on the wall of your corner — the weapon you carry, and proof of the road you have walked. A servant with a place, and a token of it on the wall.",
           "tick": 0,
@@ -1946,7 +2055,7 @@
           }
         },
         {
-          "key": 447,
+          "key": 456,
           "channel": "milestone",
           "text": "Rank ↑ — The accused 咎人",
           "tick": 0,
@@ -1958,7 +2067,7 @@
           }
         },
         {
-          "key": 448,
+          "key": 457,
           "channel": "narration",
           "text": "The house pays you in coin now — a fixed measure for each day worked. It waits at the board until you go and take it up.",
           "tick": 0,
@@ -1966,7 +2075,7 @@
           "voice": "narrator"
         },
         {
-          "key": 449,
+          "key": 458,
           "channel": "narration",
           "text": "A hand shakes you awake in the dark of the woodshed. Rokusuke, with a lantern, looking mostly at the door.",
           "tick": 0,
@@ -1975,7 +2084,7 @@
           "context": "count"
         },
         {
-          "key": 450,
+          "key": 459,
           "channel": "narration",
           "text": "\"Board room. The whole house is called. You as well. I only fetch.\"",
           "tick": 0,
@@ -1985,7 +2094,7 @@
           "context": "count"
         },
         {
-          "key": 451,
+          "key": 460,
           "channel": "narration",
           "text": "Lamps at the board at the wrong hour. The household stands in two rows — the hands by the door, the house by the book — and between the rows there is more floor than the room usually has. You are shown to the middle of it. Nobody arranged that.",
           "tick": 0,
@@ -1994,7 +2103,7 @@
           "context": "count"
         },
         {
-          "key": 452,
+          "key": 461,
           "channel": "narration",
           "text": "\"The alcove chest stands open. One item short against the book. A packet — cloth, bound with cord, a hand's length — entered as lamp-oil for the shrine. Counted at the evening rice. Gone since. The house will be counted before it sleeps.\"",
           "tick": 0,
@@ -2004,7 +2113,7 @@
           "context": "count"
         },
         {
-          "key": 453,
+          "key": 462,
           "channel": "narration",
           "text": "Naoyuki stands at his father's place at the board. He does not look at you until he does.",
           "tick": 0,
@@ -2013,7 +2122,7 @@
           "context": "count"
         },
         {
-          "key": 454,
+          "key": 463,
           "channel": "narration",
           "text": "\"If the house must do this, then it does it properly — in order of service, eldest hands first, so that no one can say—\"",
           "tick": 0,
@@ -2023,7 +2132,7 @@
           "context": "count"
         },
         {
-          "key": 455,
+          "key": 464,
           "channel": "narration",
           "text": "\"No. The weir man. Him first.\"",
           "tick": 0,
@@ -2033,7 +2142,7 @@
           "context": "count"
         },
         {
-          "key": 456,
+          "key": 465,
           "channel": "narration",
           "text": "Nobody objects. Some of the hands look at you; more look at the floor. It is the order the room was already thinking in.",
           "tick": 0,
@@ -2042,7 +2151,7 @@
           "context": "count"
         },
         {
-          "key": 457,
+          "key": 466,
           "channel": "narration",
           "text": "\"…\"",
           "tick": 0,
@@ -2052,7 +2161,7 @@
           "context": "count"
         },
         {
-          "key": 458,
+          "key": 467,
           "channel": "narration",
           "text": "\"Asked before the whole house, and he offers— note it down, steward. He offers nothing. Note that.\"",
           "tick": 0,
@@ -2062,7 +2171,7 @@
           "context": "count"
         },
         {
-          "key": 459,
+          "key": 468,
           "channel": "narration",
           "text": "\"The kura tally. Who kept it today?\"",
           "tick": 0,
@@ -2072,7 +2181,7 @@
           "context": "count resolve"
         },
         {
-          "key": 460,
+          "key": 469,
           "channel": "narration",
           "text": "Rokusuke has been standing where the lantern light mostly isn't. He comes forward the way a man wades cold water.",
           "tick": 0,
@@ -2081,7 +2190,7 @@
           "context": "count resolve"
         },
         {
-          "key": 461,
+          "key": 470,
           "channel": "narration",
           "text": "\"Eleven loads in by dark, steward. His mark against each. Last mark at lamp-lighting, and the rice was long cleared by then. He never left the kura side of the yard. That's what the board says. The board's there to look at.\"",
           "tick": 0,
@@ -2091,7 +2200,7 @@
           "context": "count resolve"
         },
         {
-          "key": 462,
+          "key": 471,
           "channel": "narration",
           "text": "Genemon sets the tally board beside the day-book and reads one against the other. The room watches him do arithmetic.",
           "tick": 0,
@@ -2100,7 +2209,7 @@
           "context": "count resolve"
         },
         {
-          "key": 463,
+          "key": 472,
           "channel": "narration",
           "text": "\"The packet was counted at the evening rice, in the inner house. From mid-day to lamp-lighting this man was under grain. The book holds no gap with him in it.\"",
           "tick": 0,
@@ -2110,7 +2219,7 @@
           "context": "count resolve"
         },
         {
-          "key": 464,
+          "key": 473,
           "channel": "narration",
           "text": "\"Then it is someone of the house.\"",
           "tick": 0,
@@ -2120,7 +2229,7 @@
           "context": "count resolve"
         },
         {
-          "key": 465,
+          "key": 474,
           "channel": "narration",
           "text": "The door to the inner corridor slides. Toku stands in it, in her night-clothes, her hair down — a woman nobody sent for. She looks at no one in particular, and at the book last.",
           "tick": 0,
@@ -2129,7 +2238,7 @@
           "context": "count resolve"
         },
         {
-          "key": 466,
+          "key": 475,
           "channel": "narration",
           "text": "\"It went up at the new moon.\"",
           "tick": 0,
@@ -2139,7 +2248,7 @@
           "context": "count resolve"
         },
         {
-          "key": 467,
+          "key": 476,
           "channel": "narration",
           "text": "Nobody asks what went up. Nobody asks where. Genemon dips his brush, enters one line, and closes the day-book.",
           "tick": 0,
@@ -2148,7 +2257,7 @@
           "context": "count resolve"
         },
         {
-          "key": 468,
+          "key": 477,
           "channel": "narration",
           "text": "\"The count is answered. The house is not short. Take the lamps.\"",
           "tick": 0,
@@ -2158,7 +2267,7 @@
           "context": "count resolve"
         },
         {
-          "key": 469,
+          "key": 478,
           "channel": "narration",
           "text": "The rows break up around you. Naoyuki passes you last.",
           "tick": 0,
@@ -2167,7 +2276,7 @@
           "context": "count resolve"
         },
         {
-          "key": 470,
+          "key": 479,
           "channel": "narration",
           "text": "\"You were counted. That is all it was.\"",
           "tick": 0,
@@ -2177,7 +2286,7 @@
           "context": "count resolve"
         },
         {
-          "key": 471,
+          "key": 480,
           "channel": "narration",
           "text": "At the morning board nobody speaks of the night. The hands keep a little more room around you than the work needs — for a day, then two — and then it is spent, needing nothing from you to end.",
           "tick": 0,
@@ -2186,7 +2295,7 @@
           "context": "count resolve"
         },
         {
-          "key": 472,
+          "key": 481,
           "channel": "narration",
           "text": "\"From today the book carries you at a day-wage, in mon, paid against each day worked. It was due at the season's turn. It is the season's turn.\"",
           "tick": 0,
@@ -2196,7 +2305,7 @@
           "context": "count resolve"
         },
         {
-          "key": 473,
+          "key": 482,
           "channel": "narration",
           "text": "At the paddy Rokusuke works the row over from yours, as he did before, no nearer. You thank him for the tally.",
           "tick": 0,
@@ -2205,7 +2314,7 @@
           "context": "count resolve"
         },
         {
-          "key": 474,
+          "key": 483,
           "channel": "narration",
           "text": "\"Kept it same as any day. It would have read the same if it hanged you.\"",
           "tick": 0,
@@ -2215,7 +2324,7 @@
           "context": "count resolve"
         },
         {
-          "key": 475,
+          "key": 484,
           "channel": "narration",
           "text": "He bends back to the row.",
           "tick": 0,
@@ -2224,7 +2333,7 @@
           "context": "count resolve"
         },
         {
-          "key": 476,
+          "key": 485,
           "channel": "narration",
           "text": "That evening the wage enters the day-book: so many mon, and against the entry, where a name would go, a mark. It is still not a name.",
           "tick": 0,
@@ -2233,7 +2342,7 @@
           "context": "count resolve"
         },
         {
-          "key": 486,
+          "key": 495,
           "channel": "narration",
           "text": "The first deep-hill baskets come back full, and no one mentions the danger line twice.",
           "tick": 18,
@@ -2241,7 +2350,7 @@
           "voice": "narrator"
         },
         {
-          "key": 494,
+          "key": 503,
           "channel": "narration",
           "text": "He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up.",
           "tick": 4,
@@ -2249,7 +2358,7 @@
           "voice": "narrator"
         },
         {
-          "key": 517,
+          "key": 526,
           "channel": "narration",
           "text": "Whatever else he is now, the paddies get his mornings first, and Genemon sees that they do.",
           "tick": 14,
@@ -2257,7 +2366,7 @@
           "voice": "narrator"
         },
         {
-          "key": 519,
+          "key": 528,
           "channel": "milestone",
           "text": "You lay a quilted futon over the straw in your corner. The nights come easier now.",
           "tick": 18,
@@ -2265,7 +2374,7 @@
           "voice": "narrator"
         },
         {
-          "key": 520,
+          "key": 529,
           "channel": "narration",
           "text": "There is bedding in the north corner, bought with his own coin, and the maids sweep around it now.",
           "tick": 18,
@@ -2273,7 +2382,7 @@
           "voice": "narrator"
         },
         {
-          "key": 521,
+          "key": 530,
           "channel": "narration",
           "text": "Morning, the forecourt. Genemon's window stands open, the day-book out, and beside it a purse the size of a fist, dark with handling.",
           "tick": 18,
@@ -2282,7 +2391,7 @@
           "context": "The trusted hand promotion"
         },
         {
-          "key": 522,
+          "key": 531,
           "channel": "narration",
           "text": "\"Salt, one shō. Waxed thread, two hanks. Lamp oil, one masu. Yohei sets his boards up at the gate by mid-morning.\"",
           "tick": 18,
@@ -2292,7 +2401,7 @@
           "context": "The trusted hand promotion"
         },
         {
-          "key": 523,
+          "key": 532,
           "channel": "narration",
           "text": "\"Two hands short since spring, and I cannot leave the book on a market morning. So.\"",
           "tick": 18,
@@ -2302,7 +2411,7 @@
           "context": "The trusted hand promotion"
         },
         {
-          "key": 524,
+          "key": 533,
           "channel": "narration",
           "text": "He counts the coins into your palm one at a time, watching each one land.",
           "tick": 18,
@@ -2311,7 +2420,7 @@
           "context": "The trusted hand promotion"
         },
         {
-          "key": 525,
+          "key": 534,
           "channel": "narration",
           "text": "\"Forty mon. Count them back.\"",
           "tick": 18,
@@ -2321,7 +2430,7 @@
           "context": "The trusted hand promotion"
         },
         {
-          "key": 526,
+          "key": 535,
           "channel": "narration",
           "text": "\"Forty.\"",
           "tick": 18,
@@ -2331,7 +2440,7 @@
           "context": "The trusted hand promotion"
         },
         {
-          "key": 527,
+          "key": 536,
           "channel": "narration",
           "text": "He watches the whole count. When it comes out even he does not nod. He enters something in the day-book, unasked.",
           "tick": 18,
@@ -2340,7 +2449,7 @@
           "context": "The trusted hand promotion"
         },
         {
-          "key": 528,
+          "key": 537,
           "channel": "narration",
           "text": "\"His prices are his own. The house's figures are mine. Go.\"",
           "tick": 18,
@@ -2350,7 +2459,7 @@
           "context": "The trusted hand promotion"
         },
         {
-          "key": 529,
+          "key": 538,
           "channel": "narration",
           "text": "Market morning at the gate. Yohei's boards are up and the gateyard has people in it for once — baskets, a mule, talk. The woman ahead of you pulls her basket an inch closer when you stop beside her. The talk is rain over the pass and the price of salt, and it thins a little when you step to the boards, and it is not about you either.",
           "tick": 18,
@@ -2359,7 +2468,7 @@
           "context": "The trusted hand promotion"
         },
         {
-          "key": 530,
+          "key": 539,
           "channel": "narration",
           "text": "\"The house's hand, and carrying the house's purse — there's news by itself. Rain over the pass, the dye-man's held at the ford a week, so waxed thread is scarce, so the thread is eleven. Salt fifteen, the oil fourteen — fair as water, those two. Eleven for the thread, then?\"",
           "tick": 18,
@@ -2369,7 +2478,7 @@
           "context": "The trusted hand promotion"
         },
         {
-          "key": 531,
+          "key": 540,
           "channel": "narration",
           "text": "\"Nine. Count it with me.\"",
           "tick": 18,
@@ -2379,7 +2488,7 @@
           "context": "The trusted hand promotion"
         },
         {
-          "key": 532,
+          "key": 541,
           "channel": "narration",
           "text": "\"Ha — the steward's figure, out of the steward's own mouth. Nine, nine, take it. Twelve markets a year, I'd rather be the stall you count at than the one you walk past.\"",
           "tick": 18,
@@ -2389,7 +2498,7 @@
           "context": "The trusted hand promotion"
         },
         {
-          "key": 533,
+          "key": 542,
           "channel": "narration",
           "text": "The estate's workshops wake again — a smith's forge, a joiner's bench — the crafts of a house that makes as well as grows.",
           "tick": 18,
@@ -2397,7 +2506,7 @@
           "voice": "narrator"
         },
         {
-          "key": 534,
+          "key": 543,
           "channel": "narration",
           "text": "A second granary, the itakura, is raised board by board — the house’s stores have outgrown the old kura at last.",
           "tick": 18,
@@ -2405,7 +2514,7 @@
           "voice": "narrator"
         },
         {
-          "key": 535,
+          "key": 544,
           "channel": "milestone",
           "text": "Rank ↑ — The trusted hand 用人",
           "tick": 18,
@@ -2417,7 +2526,7 @@
           }
         },
         {
-          "key": 542,
+          "key": 551,
           "channel": "narration",
           "text": "\"The store-room count is early this month,\" Chiyo says, not yet naming why.",
           "tick": 20,
@@ -2425,7 +2534,7 @@
           "voice": "narrator"
         },
         {
-          "key": 559,
+          "key": 568,
           "channel": "narration",
           "text": "\"The ledgers agree tonight,\" Chiyo says, which is her whole praise.",
           "tick": 18,
@@ -2433,7 +2542,7 @@
           "voice": "narrator"
         },
         {
-          "key": 575,
+          "key": 584,
           "channel": "system",
           "text": "You sell 20 rice to the pedlar at 6 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -2447,7 +2556,7 @@
           }
         },
         {
-          "key": 576,
+          "key": 585,
           "channel": "narration",
           "text": "\"His purse holds steady,\" Chiyo lets fall, \"which is more than this house has managed.\"",
           "tick": 0,
@@ -2455,14 +2564,106 @@
           "voice": "narrator"
         },
         {
-          "key": 577,
+          "key": 589,
+          "channel": "narration",
+          "text": "Rain-water stands at the foot of the west gatepost, and the wood at its waterline gives under a thumbnail, the grain letting go a little more with this season's standing wet. It is happening now, at the pace rot keeps.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 592,
+          "channel": "narration",
+          "text": "Rain has been through the north corner again: a drip is still working somewhere back of the piles, keeping its own slow count, and the edge of your mat is dark where it drinks.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 593,
+          "channel": "narration",
+          "text": "The board again. Genemon watches you cross the forecourt, sets the day-book open at the ruled-off page, and takes up the brush before you have spoken.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works u1"
+        },
+        {
+          "key": 594,
+          "channel": "narration",
+          "text": "\"You walked it. Your face says the page is honest.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u1"
+        },
+        {
+          "key": 595,
+          "channel": "narration",
+          "text": "\"Then hear the work. Post, one, drawn and reset on dry footing. Bunds, three, cut back to sound earth and rammed. Roof, one corner — boards and thatch. One work, the three together. The land does not press in single file, and I will not mend in it.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u1"
+        },
+        {
+          "key": 596,
+          "channel": "narration",
+          "text": "He rules the line and leaves it open, the brush held off the paper.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works u1"
+        },
+        {
+          "key": 597,
+          "channel": "narration",
+          "text": "\"Taken up, it goes against your name — your labour, and any coin you put beside it. The book credits what is put in.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u1"
+        },
+        {
+          "key": 598,
+          "channel": "narration",
+          "text": "\"Set it against my name.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "works u1"
+        },
+        {
+          "key": 599,
+          "channel": "narration",
+          "text": "\"Entered. Three concerns, one work, your name on the answering side. It is the first entry this page has carried against the land in some years. We will see whose line stands.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u1"
+        },
+        {
+          "key": 600,
           "channel": "milestone",
-          "text": "You mend the leased weir screens slat by slat — green bamboo split with the grain, lashed wet to tighten as it dries. The rats' road is closed; the lease's damage line stays empty this season. (U1 · Stabilising)",
+          "text": "The gatepost stands dry at the foot, the bunds carry their water where it is wanted, and the woodshed roof turns the rain it used to pass. Three lines the land held open are closed against it — the first the book has closed in years. (U1 · Stabilising)",
           "tick": 0,
           "count": 1
         },
         {
-          "key": 578,
+          "key": 601,
+          "channel": "milestone",
+          "text": "A new line in the day-book, entered like weather: orchard — gone wild, rows under the choke, dens in the hollow; the land's oldest holding on this side of the wall, Genemon notes, and the first the house means to contest.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 602,
           "channel": "narration",
           "text": "\"He put his own coin into the kura-works,\" Chiyo tells Genemon, twice, to be sure he heard.",
           "tick": 0,
@@ -2470,7 +2671,7 @@
           "voice": "narrator"
         },
         {
-          "key": 579,
+          "key": 603,
           "channel": "narration",
           "text": "The board, past supper, past the year's tax. The household's noises are done for the day. Genemon has the day-book open under the lamp and a fresh page ruled, and he does not look up until the last column of the old one is footed.",
           "tick": 0,
@@ -2479,7 +2680,7 @@
           "context": "The named hand promotion"
         },
         {
-          "key": 580,
+          "key": 604,
           "channel": "narration",
           "text": "\"Stand where I can see you. This is quick.\"",
           "tick": 0,
@@ -2489,7 +2690,7 @@
           "context": "The named hand promotion"
         },
         {
-          "key": 581,
+          "key": 605,
           "channel": "narration",
           "text": "\"A full year and more, this book has said 'one man, name unknown.' Every entry, the same six strokes spent on a man the whole yard knows on sight. Paper is not free. Neither is my evening.\"",
           "tick": 0,
@@ -2499,7 +2700,7 @@
           "context": "The named hand promotion"
         },
         {
-          "key": 582,
+          "key": 606,
           "channel": "narration",
           "text": "He turns back through the pages — a winter, a wolf, a harvest — to the first entry, and reads it aloud, once. One man, name unknown. Then he dips the brush, and holds it over the page a breath longer than any entry needs.",
           "tick": 0,
@@ -2508,7 +2709,7 @@
           "context": "The named hand promotion"
         },
         {
-          "key": 583,
+          "key": 607,
           "channel": "narration",
           "text": "\"Gonbei. Every hired man this house has kept has carried it before you. The house's name for you, then. Earn a better.\"",
           "tick": 0,
@@ -2518,7 +2719,7 @@
           "context": "The named hand promotion"
         },
         {
-          "key": 584,
+          "key": 608,
           "channel": "narration",
           "text": "He writes it small and square — the hand of a man who has written all his life and never once for pleasure — and the thing is done. One man, Gonbei, sound.",
           "tick": 0,
@@ -2527,7 +2728,7 @@
           "context": "The named hand promotion"
         },
         {
-          "key": 585,
+          "key": 609,
           "channel": "narration",
           "text": "\"It will do.\"",
           "tick": 0,
@@ -2537,7 +2738,7 @@
           "context": "The named hand promotion"
         },
         {
-          "key": 586,
+          "key": 610,
           "channel": "narration",
           "text": "\"So it will. Take what is left in the pot as you pass the kitchen. It is paid for.\"",
           "tick": 0,
@@ -2547,7 +2748,7 @@
           "context": "The named hand promotion"
         },
         {
-          "key": 587,
+          "key": 611,
           "channel": "narration",
           "text": "The lord opens his study — the shoin, the writing-room where the house's business is truly done — to you. Few servants ever cross that threshold.",
           "tick": 0,
@@ -2555,7 +2756,7 @@
           "voice": "narrator"
         },
         {
-          "key": 588,
+          "key": 612,
           "channel": "narration",
           "text": "Green dark and creaking, close behind the waste ground. The monkey troop raids the rows from here and is up the stems before you have turned around.",
           "tick": 0,
@@ -2563,7 +2764,7 @@
           "voice": "narrator"
         },
         {
-          "key": 589,
+          "key": 613,
           "channel": "milestone",
           "text": "Rank ↑ — The named hand 名代",
           "tick": 0,
@@ -2575,7 +2776,7 @@
           }
         },
         {
-          "key": 590,
+          "key": 614,
           "channel": "narration",
           "text": "\"There is rice against winter. There was a saying for that — I had it once,\" Munemasa is heard saying to the dark of the inner house, and nobody who hears it goes in.",
           "tick": 0,
@@ -2583,7 +2784,7 @@
           "voice": "narrator"
         },
         {
-          "key": 591,
+          "key": 615,
           "channel": "narration",
           "text": "The woodshed, late. On the doorstep, folded under a stone against the wind: his straw coat, mended at the shoulder in small even stitches that no one will own to. He carries it in, lies down on the mat, and for once sleeps at once.",
           "tick": 0,
@@ -2592,7 +2793,7 @@
           "context": "r7 dream"
         },
         {
-          "key": 592,
+          "key": 616,
           "channel": "narration",
           "text": "— a road, climbing. Rain on it.",
           "tick": 0,
@@ -2601,7 +2802,7 @@
           "context": "r7 dream"
         },
         {
-          "key": 593,
+          "key": 617,
           "channel": "narration",
           "text": "The weight across his shoulders is right. Two loads and the pole, and his feet know the next stone without being asked. Below the road, water — he cannot see it, but it is there the way a wall is there in a dark room.",
           "tick": 0,
@@ -2610,7 +2811,7 @@
           "context": "r7 dream"
         },
         {
-          "key": 594,
+          "key": 618,
           "channel": "narration",
           "text": "Behind him on the climb, somebody calls a name. Short, worn smooth, thrown easy — a name that has landed a thousand times and expects to land now.",
           "tick": 0,
@@ -2619,7 +2820,7 @@
           "context": "r7 dream"
         },
         {
-          "key": 595,
+          "key": 619,
           "channel": "narration",
           "text": "He turns to answer.",
           "tick": 0,
@@ -2628,7 +2829,7 @@
           "context": "r7 dream"
         },
         {
-          "key": 596,
+          "key": 620,
           "channel": "narration",
           "text": "The mountain moves.",
           "tick": 0,
@@ -2637,7 +2838,7 @@
           "context": "r7 dream"
         },
         {
-          "key": 597,
+          "key": 621,
           "channel": "narration",
           "text": "After that there is only the water, and the road going away upward, and the voice still calling — smaller, and smaller. He knows the name is his. He cannot hear it.",
           "tick": 0,
@@ -2646,7 +2847,7 @@
           "context": "r7 dream"
         },
         {
-          "key": 598,
+          "key": 622,
           "channel": "narration",
           "text": "He wakes in the woodshed with his mouth open around a word that is not there. Rain, real rain, small on the roof. The coat is where he left it.",
           "tick": 0,
@@ -2655,7 +2856,7 @@
           "context": "r7 dream"
         },
         {
-          "key": 599,
+          "key": 623,
           "channel": "narration",
           "text": "\"There was a road.\"",
           "tick": 0,
@@ -2665,7 +2866,7 @@
           "context": "r7 dream"
         },
         {
-          "key": 600,
+          "key": 624,
           "channel": "narration",
           "text": "Nobody answers. It is a long while before he sleeps again, and the dream, that night, does not come back.",
           "tick": 0,
@@ -2674,7 +2875,7 @@
           "context": "r7 dream"
         },
         {
-          "key": 603,
+          "key": 628,
           "channel": "milestone",
           "text": "Entered: rice from the new paddies, credited to the house's own account. The old books carried this line once; it is carried again.",
           "tick": 0,
@@ -2682,7 +2883,7 @@
           "voice": "narrator"
         },
         {
-          "key": 605,
+          "key": 630,
           "channel": "narration",
           "text": "\"The fields keep a man's hours now, and not mine — if mine ever held them,\" comes Munemasa's voice through the shoji of the inner house, unanswered; the yard knows whose hours he means.",
           "tick": 14,
@@ -2690,7 +2891,7 @@
           "voice": "narrator"
         },
         {
-          "key": 610,
+          "key": 635,
           "channel": "narration",
           "text": "The nose knew it first, then the palm, and last the word: urushi. A lacquer tree, hidden all this time among the common pine, and the beading sap already worth more than the day's whole stack.",
           "tick": 20,
@@ -2698,7 +2899,7 @@
           "voice": "narrator"
         },
         {
-          "key": 616,
+          "key": 641,
           "channel": "narration",
           "text": "\"Even the woodlot answers to him,\" Kihei says to Genemon, who does not disagree.",
           "tick": 10,
@@ -2706,7 +2907,7 @@
           "voice": "narrator"
         },
         {
-          "key": 617,
+          "key": 642,
           "channel": "milestone",
           "text": "On the village road the house's name is said in the low voice kept for endings. Nobody wishes it ill; the valley is only deciding, early, what its fields will come to. (+5 koku)",
           "tick": 12,
@@ -2714,7 +2915,7 @@
           "voice": "narrator"
         },
         {
-          "key": 620,
+          "key": 645,
           "channel": "narration",
           "text": "The green closes ranks. What was rows in the paddies is one surface now, and when the wind crosses it, the whole valley floor moves together.",
           "tick": 12,
@@ -2723,7 +2924,7 @@
           "context": "turn spring"
         },
         {
-          "key": 621,
+          "key": 646,
           "channel": "narration",
           "text": "The river drops slow over its gravel, clear and warm in the shallows by noon.",
           "tick": 12,
@@ -2732,7 +2933,7 @@
           "context": "turn spring"
         },
         {
-          "key": 622,
+          "key": 647,
           "channel": "narration",
           "text": "In the grove, the new bamboo has gone up taller than a man in a fortnight — pale among the old canes, then not.",
           "tick": 12,
@@ -2741,7 +2942,7 @@
           "context": "turn spring"
         },
         {
-          "key": 623,
+          "key": 648,
           "channel": "narration",
           "text": "People show late in this weather, and low: hats in the deep green, moving slow along the rows. Summer has the valley now.",
           "tick": 12,
@@ -2750,7 +2951,7 @@
           "context": "turn spring"
         },
         {
-          "key": 626,
+          "key": 651,
           "channel": "narration",
           "text": "The heat loosens its grip at the edges first: a haze on the river that burns off later each morning, and at dusk the cicadas trade their noon voice for the thin evening one.",
           "tick": 12,
@@ -2759,7 +2960,7 @@
           "context": "turn summer"
         },
         {
-          "key": 627,
+          "key": 652,
           "channel": "narration",
           "text": "The light comes in slantwise now and finds the dust hanging in the forecourt air. The ridge stands closer in it, the way it does before weather.",
           "tick": 12,
@@ -2768,7 +2969,7 @@
           "context": "turn summer"
         },
         {
-          "key": 628,
+          "key": 653,
           "channel": "narration",
           "text": "On the hill above the village, small figures move among the stones with sickles and water-buckets, tidying — one household first, then by week's end all of them.",
           "tick": 12,
@@ -2777,7 +2978,7 @@
           "context": "turn summer"
         },
         {
-          "key": 629,
+          "key": 654,
           "channel": "narration",
           "text": "Smoke stands over the village at dusk, more fires than there are suppers. Bon is here, and the valley is making itself ready to be visited.",
           "tick": 12,
@@ -2786,7 +2987,7 @@
           "context": "turn summer"
         },
         {
-          "key": 632,
+          "key": 657,
           "channel": "narration",
           "text": "Loads cross the forecourt all morning: trays, lamp-oil, cut flowers, a bundle of incense sticks O-Yae carries two-handed like a caught bird. Everyone is given something.",
           "tick": 12,
@@ -2795,7 +2996,7 @@
           "context": "sb bon"
         },
         {
-          "key": 633,
+          "key": 658,
           "channel": "narration",
           "text": "The third load goes past before you ask it.",
           "tick": 12,
@@ -2804,7 +3005,7 @@
           "context": "sb bon"
         },
         {
-          "key": 634,
+          "key": 659,
           "channel": "narration",
           "text": "\"What do I carry?\"",
           "tick": 12,
@@ -2814,7 +3015,7 @@
           "context": "sb bon"
         },
         {
-          "key": 635,
+          "key": 660,
           "channel": "narration",
           "text": "\"Not this. If a year from now — well. Not this.\"",
           "tick": 12,
@@ -2824,7 +3025,7 @@
           "context": "sb bon"
         },
         {
-          "key": 636,
+          "key": 661,
           "channel": "narration",
           "text": "The house files toward the alcove corridor. The forecourt is yours all day. For once, nobody crosses it.",
           "tick": 12,
@@ -2833,7 +3034,7 @@
           "context": "sb bon"
         },
         {
-          "key": 637,
+          "key": 662,
           "channel": "narration",
           "text": "At dusk, from the weir path: O-Ume sets her lantern on the water and talks it out past the reeds, the way you'd see a guest to the road.",
           "tick": 12,
@@ -2842,7 +3043,7 @@
           "context": "sb bon"
         },
         {
-          "key": 638,
+          "key": 663,
           "channel": "narration",
           "text": "At the gate, the monk Iori has his lodging and his one small fire.",
           "tick": 12,
@@ -2851,7 +3052,7 @@
           "context": "sb bon"
         },
         {
-          "key": 639,
+          "key": 664,
           "channel": "narration",
           "text": "\"Sit. Two bowls, one mouth. I'll be gone before you learn my face.\"",
           "tick": 12,
@@ -2861,7 +3062,7 @@
           "context": "sb bon"
         },
         {
-          "key": 640,
+          "key": 665,
           "channel": "narration",
           "text": "Through the corridor screen, past shoulders: a small tray set out for somebody, and straw sandals beside it, toes toward the gate.",
           "tick": 12,
@@ -2870,7 +3071,7 @@
           "context": "sb bon"
         },
         {
-          "key": 641,
+          "key": 666,
           "channel": "narration",
           "text": "Morning. The trays are cleared, the lanterns down, the monk gone north. The sandals are new.",
           "tick": 12,
@@ -2879,7 +3080,7 @@
           "context": "sb bon"
         },
         {
-          "key": 642,
+          "key": 667,
           "channel": "narration",
           "text": "The river carries the first leaves down from the ridge, one and two at a time, red before anything on the valley floor has thought of turning.",
           "tick": 12,
@@ -2888,7 +3089,7 @@
           "context": "turn bon"
         },
         {
-          "key": 643,
+          "key": 668,
           "channel": "narration",
           "text": "The mornings come in cold enough to name. Mist stands knee-deep in the paddies, and the heavy heads of rice bow through it, all leaning the same way.",
           "tick": 12,
@@ -2897,7 +3098,7 @@
           "context": "turn bon"
         },
         {
-          "key": 644,
+          "key": 669,
           "channel": "narration",
           "text": "The road empties back out over the pass. The valley keeps what belongs to it and lets the rest go.",
           "tick": 12,
@@ -2906,7 +3107,7 @@
           "context": "turn bon"
         },
         {
-          "key": 645,
+          "key": 670,
           "channel": "narration",
           "text": "From the village at dusk, the sound of whetstones — one, then several, no hurry in any of them. Bon has gone home. It is autumn, and the valley's whole year is standing out in the fields, waiting to be carried in.",
           "tick": 12,
@@ -2915,7 +3116,7 @@
           "context": "turn bon"
         },
         {
-          "key": 646,
+          "key": 671,
           "channel": "narration",
           "text": "Autumn thins to its last day, and the board comes out at an hour it does not usually keep. The whole house comes with it: the family by the book, the hands by the door, and you in the corner — counted as part of the room, and not asked into it.",
           "tick": 12,
@@ -2924,7 +3125,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 647,
+          "key": 672,
           "channel": "narration",
           "text": "Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the one thing the house owes the land, that must be answered before the season is allowed to turn.",
           "tick": 12,
@@ -2933,7 +3134,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 648,
+          "key": 673,
           "channel": "narration",
           "text": "Nobody reads the sum aloud. It arrives the way weather arrives: the room goes still around it, a breath drawn and not let go, every eye on the book and none on one another.",
           "tick": 12,
@@ -2942,7 +3143,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 649,
+          "key": 674,
           "channel": "narration",
           "text": "Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. You are learning the house's true size by what it will let itself be seen without.",
           "tick": 12,
@@ -2951,7 +3152,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 650,
+          "key": 675,
           "channel": "narration",
           "text": "The book closes. The house has answered for the land; its autumn can end. You are still in the corner. Nobody tells you the season is over. It is.",
           "tick": 12,
@@ -2960,7 +3161,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 651,
+          "key": 676,
           "channel": "milestone",
           "text": "The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.",
           "tick": 12,
@@ -2968,7 +3169,7 @@
           "voice": "narrator"
         },
         {
-          "key": 652,
+          "key": 677,
           "channel": "narration",
           "text": "You stood in the room while the year was measured against the house — the reckoning read out, the gap named plainly and once, and nothing asked of you but to be there for it. A full year, lived through.",
           "tick": 12,
@@ -2976,7 +3177,64 @@
           "voice": "narrator"
         },
         {
-          "key": 655,
+          "key": 679,
+          "channel": "narration",
+          "text": "A runner of bramble has a young fruit tree by the throat and is climbing it at the pace of years, tightening as it goes. Down in the hollow something moves through the dens without hurry, at home.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 680,
+          "channel": "narration",
+          "text": "Genemon finds you at the forecourt with the orchard's brambles still on your sleeves, and does not ask where you have been. The day-book comes to the ruled page as if it had been waiting open.",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works u2"
+        },
+        {
+          "key": 681,
+          "channel": "narration",
+          "text": "\"The orchard. That is the land's longest entry on this side of the wall — taken a row at a time, over years, and no hand wrote a word against it. Trees a household set out with paths in mind, gone under the choke, and dogs denned in the hollow where fruit was dried once.\"",
+          "tick": 12,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u2"
+        },
+        {
+          "key": 682,
+          "channel": "narration",
+          "text": "\"The work: the wild rows cut back to the sound wood, and the dens broken and emptied. Not a mending — a taking-back. The land will contest it.\"",
+          "tick": 12,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u2"
+        },
+        {
+          "key": 683,
+          "channel": "narration",
+          "text": "\"Cut it back. Row by row, the way it was lost.\"",
+          "tick": 12,
+          "count": 1,
+          "speaker": "Gonbei",
+          "voice": "player",
+          "context": "works u2"
+        },
+        {
+          "key": 684,
+          "channel": "narration",
+          "text": "\"Entered. Ground taken back is a line I have not written since I was a younger man's clerk. Mind the dogs, and bring me the rows one at a time. I will strike the land's entry as they come.\"",
+          "tick": 12,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u2"
+        },
+        {
+          "key": 688,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 14,
@@ -2990,7 +3248,7 @@
           }
         },
         {
-          "key": 656,
+          "key": 689,
           "channel": "milestone",
           "text": "Entered: rice sold at market, the coin set down in the house books — owed to no man. The steward has waited some years to write that word.",
           "tick": 14,
@@ -2998,7 +3256,7 @@
           "voice": "narrator"
         },
         {
-          "key": 658,
+          "key": 691,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 16,
@@ -3012,7 +3270,7 @@
           }
         },
         {
-          "key": 659,
+          "key": 692,
           "channel": "system",
           "text": "You sell 29 rice to the pedlar at 4 mon the measure. (+1 monme 36 mon)",
           "tick": 16,
@@ -3026,7 +3284,7 @@
           }
         },
         {
-          "key": 661,
+          "key": 694,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 18,
@@ -3040,7 +3298,7 @@
           }
         },
         {
-          "key": 664,
+          "key": 697,
           "channel": "system",
           "text": "You sell 29 rice to the pedlar at 4 mon the measure. (+1 monme 36 mon)",
           "tick": 22,
@@ -3054,7 +3312,7 @@
           }
         },
         {
-          "key": 668,
+          "key": 701,
           "channel": "milestone",
           "text": "Entered: the granary takes in more than it pays out. A full storehouse needs no remark — this one has earned it all the same.",
           "tick": 0,
@@ -3062,7 +3320,7 @@
           "voice": "narrator"
         },
         {
-          "key": 692,
+          "key": 725,
           "channel": "milestone",
           "text": "On the village road the house's name is said in the low voice kept for endings. Nobody wishes it ill; the valley is only deciding, early, what its fields will come to. (+8 koku)",
           "tick": 0,
@@ -3070,7 +3328,7 @@
           "voice": "narrator"
         },
         {
-          "key": 707,
+          "key": 740,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -3084,7 +3342,7 @@
           }
         },
         {
-          "key": 710,
+          "key": 743,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 2,
@@ -3098,7 +3356,7 @@
           }
         },
         {
-          "key": 712,
+          "key": 745,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 4,
@@ -3112,7 +3370,7 @@
           }
         },
         {
-          "key": 714,
+          "key": 747,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 6,
@@ -3126,7 +3384,7 @@
           }
         },
         {
-          "key": 716,
+          "key": 749,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 8,
@@ -3140,7 +3398,7 @@
           }
         },
         {
-          "key": 718,
+          "key": 751,
           "channel": "system",
           "text": "You sell 20 rice to the pedlar at 5 mon the measure. (+1 monme 20 mon)",
           "tick": 10,
@@ -3154,7 +3412,7 @@
           }
         },
         {
-          "key": 722,
+          "key": 755,
           "channel": "system",
           "text": "You sell 20 rice to the pedlar at 5 mon the measure. (+1 monme 20 mon)",
           "tick": 16,
@@ -3168,7 +3426,7 @@
           }
         },
         {
-          "key": 726,
+          "key": 759,
           "channel": "system",
           "text": "You sell 22 rice to the pedlar at 5 mon the measure. (+1 monme 30 mon)",
           "tick": 22,
@@ -3182,7 +3440,7 @@
           }
         },
         {
-          "key": 727,
+          "key": 760,
           "channel": "milestone",
           "text": "On the village road the house's name is said in the low voice kept for endings. Nobody wishes it ill; the valley is only deciding, early, what its fields will come to. (+9 koku)",
           "tick": 22,
@@ -3190,7 +3448,7 @@
           "voice": "narrator"
         },
         {
-          "key": 755,
+          "key": 788,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -3204,14 +3462,202 @@
           }
         },
         {
-          "key": 756,
+          "key": 789,
           "channel": "milestone",
           "text": "The dens stand empty and the wild rows are cut back — sound fruit trees found under the choke. The day-book opens a line it has not carried in years: orchard. (U2 · Recovering)",
           "tick": 0,
           "count": 1
         },
         {
-          "key": 757,
+          "key": 790,
+          "channel": "milestone",
+          "text": "Ruled at the season's head, dry as a frost report: the kura holds the year and not a measure over — a second granary wanted at its side before the land decides the matter its own way.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 793,
+          "channel": "narration",
+          "text": "Inside, this year's rice wants most of the room there is, with the harvest still to come. Along the north wall the damp is at its patient work, a hand's width up the boards and climbing.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 794,
+          "channel": "narration",
+          "text": "Loading at the kura. Shinnosuke is up on the stacked bales, where he is not allowed, counting something over your head.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest"
+        },
+        {
+          "key": 795,
+          "channel": "narration",
+          "text": "\"Count them. The storehouse has one more than the gate. Why does the storehouse get one more petal than the gate? Who changes a crest — you can't just change a crest, can you?\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Shinnosuke",
+          "voice": "steward",
+          "context": "sb crest"
+        },
+        {
+          "key": 796,
+          "channel": "narration",
+          "text": "You look. Above the seal-plate the mon is cut deep and old: the same flower as the gate's, and not the same flower. You count twice, because counting is the one kind of reading you trust.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest"
+        },
+        {
+          "key": 797,
+          "channel": "narration",
+          "text": "\"Ask the steward.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Gonbei",
+          "voice": "player",
+          "context": "sb crest"
+        },
+        {
+          "key": 798,
+          "channel": "narration",
+          "text": "\"I asked everyone. Grandmother said mind the lamp. Genemon wrote in his book. Mother said if I've time for petals I've time for copywork. Nobody answers me. You ask. You work here — they have to answer you.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Shinnosuke",
+          "voice": "steward",
+          "context": "sb crest"
+        },
+        {
+          "key": 799,
+          "channel": "narration",
+          "text": "Asking costs you something every time. You pay it at the board that evening.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest"
+        },
+        {
+          "key": 800,
+          "channel": "narration",
+          "text": "\"The kura's crest. It has one petal more than the gate's.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Gonbei",
+          "voice": "player",
+          "context": "sb crest"
+        },
+        {
+          "key": 801,
+          "channel": "narration",
+          "text": "It is not even a question, the way you say it. Genemon looks at you the way he looked at the river-wet stranger the first morning — a thing to be entered under the correct heading. Then he opens the day-book, writes — not long — and closes it.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest"
+        },
+        {
+          "key": 802,
+          "channel": "narration",
+          "text": "\"The kura wants its hinges oiled before the rains. Take the small ladder.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "sb crest"
+        },
+        {
+          "key": 803,
+          "channel": "narration",
+          "text": "That is the answer. It is the same answer the boy got, in a different hand.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest"
+        },
+        {
+          "key": 804,
+          "channel": "narration",
+          "text": "Shinnosuke is waiting on the woodpile to hear what you learned. You tell him: hinges. He nods like a man twice his age confirming a debt gone bad.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest"
+        },
+        {
+          "key": 805,
+          "channel": "narration",
+          "text": "\"See. You're the other one they don't tell. What did he write — did you see what he wrote?\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Shinnosuke",
+          "voice": "steward",
+          "context": "sb crest"
+        },
+        {
+          "key": 806,
+          "channel": "narration",
+          "text": "You didn't. The boy climbs down and goes in to his copywork, and you oil the hinges under the crest, and the kura keeps whatever it keeps.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest"
+        },
+        {
+          "key": 807,
+          "channel": "narration",
+          "text": "Evening at the board. Genemon has the kura's tallies out beside the day-book, one read against the other, and he speaks without looking up — the way he speaks when the figures have already argued the matter.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works u3"
+        },
+        {
+          "key": 808,
+          "channel": "narration",
+          "text": "\"You have seen it. The kura is sound and full, and those are two different worries. It holds this year's rice and not a measure over. A poor year starves the house; a good year would embarrass it — grain standing in the damp for want of a roof. The land collects either way.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u3"
+        },
+        {
+          "key": 809,
+          "channel": "narration",
+          "text": "\"So: a second granary, raised at the kura, on its own footings. Stores past the winter's need. Every work on this page till now has answered a loss the land already entered. This one is made before the loss. I have waited a long time to rule a line of that kind.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u3"
+        },
+        {
+          "key": 810,
+          "channel": "narration",
+          "text": "\"Raise it. Board by board, ahead of the weather.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Gonbei",
+          "voice": "player",
+          "context": "works u3"
+        },
+        {
+          "key": 811,
+          "channel": "narration",
+          "text": "\"Entered — and mark it: the first line on this page the land did not write first. Green wood dries crooked; buy seasoned, or cut early and wait. The winter will weigh the work, whichever.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u3"
+        },
+        {
+          "key": 812,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -3225,7 +3671,7 @@
           }
         },
         {
-          "key": 763,
+          "key": 818,
           "channel": "milestone",
           "text": "The house's word is worth less down the valley than it was: at the stall its name still buys, but the amounts are counted slowly. (+8 koku)",
           "tick": 8,
@@ -3233,7 +3679,7 @@
           "voice": "narrator"
         },
         {
-          "key": 802,
+          "key": 857,
           "channel": "milestone",
           "text": "The house's word is worth less down the valley than it was: at the stall its name still buys, but the amounts are counted slowly. (+9 koku)",
           "tick": 14,
@@ -3241,7 +3687,7 @@
           "voice": "narrator"
         },
         {
-          "key": 810,
+          "key": 865,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -3255,7 +3701,7 @@
           }
         },
         {
-          "key": 829,
+          "key": 884,
           "channel": "milestone",
           "text": "The house's word is worth less down the valley than it was: at the stall its name still buys, but the amounts are counted slowly. (+8 koku)",
           "tick": 10,
@@ -3263,7 +3709,7 @@
           "voice": "narrator"
         },
         {
-          "key": 852,
+          "key": 907,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -3277,7 +3723,7 @@
           }
         },
         {
-          "key": 855,
+          "key": 910,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 2,
@@ -3291,7 +3737,7 @@
           }
         },
         {
-          "key": 858,
+          "key": 913,
           "channel": "system",
           "text": "You sell 21 rice to the pedlar at 5 mon the measure. (+1 monme 25 mon)",
           "tick": 6,
@@ -3305,7 +3751,7 @@
           }
         },
         {
-          "key": 861,
+          "key": 916,
           "channel": "milestone",
           "text": "The valley lets the house be — greeted on the road, owed nothing, promised nothing. This year, being left alone is a kind of standing. (+9 koku)",
           "tick": 12,
@@ -3313,7 +3759,7 @@
           "voice": "narrator"
         },
         {
-          "key": 866,
+          "key": 921,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 16,
@@ -3327,7 +3773,7 @@
           }
         },
         {
-          "key": 868,
+          "key": 923,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 18,
@@ -3341,7 +3787,7 @@
           }
         },
         {
-          "key": 870,
+          "key": 925,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 20,
@@ -3355,7 +3801,7 @@
           }
         },
         {
-          "key": 872,
+          "key": 927,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 22,
@@ -3369,7 +3815,7 @@
           }
         },
         {
-          "key": 873,
+          "key": 928,
           "channel": "system",
           "text": "You sell 20 rice to the pedlar at 4 mon the measure. (+1 monme)",
           "tick": 22,
@@ -3383,7 +3829,7 @@
           }
         },
         {
-          "key": 901,
+          "key": 956,
           "channel": "narration",
           "text": "Autumn thins to its last day, and the board comes out at an hour it does not usually keep. The whole house comes with it: the family by the book, the hands by the door, and you in the corner — counted as part of the room, and not asked into it.",
           "tick": 22,
@@ -3392,7 +3838,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 902,
+          "key": 957,
           "channel": "narration",
           "text": "Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the one thing the house owes the land, that must be answered before the season is allowed to turn.",
           "tick": 22,
@@ -3401,7 +3847,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 903,
+          "key": 958,
           "channel": "narration",
           "text": "Nobody reads the sum aloud. It arrives the way weather arrives: the room goes still around it, a breath drawn and not let go, every eye on the book and none on one another.",
           "tick": 22,
@@ -3410,7 +3856,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 904,
+          "key": 959,
           "channel": "narration",
           "text": "Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. You are learning the house's true size by what it will let itself be seen without.",
           "tick": 22,
@@ -3419,7 +3865,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 905,
+          "key": 960,
           "channel": "narration",
           "text": "The book closes. The house has answered for the land; its autumn can end. You are still in the corner. Nobody tells you the season is over. It is.",
           "tick": 22,
@@ -3428,7 +3874,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 906,
+          "key": 961,
           "channel": "milestone",
           "text": "The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.",
           "tick": 22,
@@ -3436,7 +3882,7 @@
           "voice": "narrator"
         },
         {
-          "key": 907,
+          "key": 962,
           "channel": "milestone",
           "text": "The valley lets the house be — greeted on the road, owed nothing, promised nothing. This year, being left alone is a kind of standing. (+8 koku)",
           "tick": 22,
@@ -3444,14 +3890,89 @@
           "voice": "narrator"
         },
         {
-          "key": 919,
+          "key": 974,
           "channel": "milestone",
           "text": "A second granary is raised board by board and the kura kept past this winter's need. The storehouse takes in more than it pays out at last. (U3 · Prosperous)",
           "tick": 16,
           "count": 1
         },
         {
-          "key": 925,
+          "key": 975,
+          "channel": "milestone",
+          "text": "The day-book takes up its longest-carried concern in one plain line: the omoya, half-shut, the rooms going back to the land indoors — dust and damp, Genemon writes, being weather too.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 976,
+          "channel": "narration",
+          "text": "From the forecourt the omoya's shut rooms show as a row of weathered screens no hand has slid in years, and moss holds the ridge where the thatch keeps water. The roof is going back to ground, slower than anyone is coming to stop it.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 977,
+          "channel": "narration",
+          "text": "Past supper, the board, the lamp low. Genemon has the day-book open to the ruled page, and for once he is not writing — he is reading it back, line by line, the way a man walks a fence he mended himself.",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works u4"
+        },
+        {
+          "key": 978,
+          "channel": "narration",
+          "text": "\"Gonbei. Stand where I can see you; this is the last of the page.\"",
+          "tick": 16,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u4"
+        },
+        {
+          "key": 979,
+          "channel": "narration",
+          "text": "\"The omoya. You have seen it from the forecourt — half this house shut, moss on the ridge, rooms going back to the land indoors, which is the quiet way: dust, damp, screens that no hand slides. The land does not need weather to take a room. It only needs the room left alone.\"",
+          "tick": 16,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u4"
+        },
+        {
+          "key": 980,
+          "channel": "narration",
+          "text": "\"I told you I rule a second reckoning from this season — walls that held, ground taken back, one line a season in plain words. This is that reckoning's first great line. The house set in order: roofs sound, screens mended, air and use in every room. Thirty-one years I have written this house's losses. The land has kept the better book all that time. I mean to even the ledgers before I am done.\"",
+          "tick": 16,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u4"
+        },
+        {
+          "key": 981,
+          "channel": "narration",
+          "text": "\"Open the rooms. All of them.\"",
+          "tick": 16,
+          "count": 1,
+          "speaker": "Gonbei",
+          "voice": "player",
+          "context": "works u4"
+        },
+        {
+          "key": 982,
+          "channel": "narration",
+          "text": "\"Entered. When it is done, the season-line writes itself, and it will not be a loss. The land may have the far bank and the winter. This ground is spoken for.\"",
+          "tick": 16,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u4"
+        },
+        {
+          "key": 988,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -3465,7 +3986,7 @@
           }
         },
         {
-          "key": 928,
+          "key": 991,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 2,
@@ -3479,7 +4000,7 @@
           }
         },
         {
-          "key": 931,
+          "key": 994,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 6,
@@ -3493,7 +4014,7 @@
           }
         },
         {
-          "key": 933,
+          "key": 996,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 8,
@@ -3507,7 +4028,7 @@
           }
         },
         {
-          "key": 935,
+          "key": 998,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 10,
@@ -3521,7 +4042,7 @@
           }
         },
         {
-          "key": 937,
+          "key": 1000,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 12,
@@ -3535,7 +4056,7 @@
           }
         },
         {
-          "key": 939,
+          "key": 1002,
           "channel": "system",
           "text": "You sell 23 rice to the pedlar at 5 mon the measure. (+1 monme 35 mon)",
           "tick": 14,
@@ -3549,7 +4070,7 @@
           }
         },
         {
-          "key": 942,
+          "key": 1005,
           "channel": "system",
           "text": "You sell 22 rice to the pedlar at 5 mon the measure. (+1 monme 30 mon)",
           "tick": 18,
@@ -3563,7 +4084,7 @@
           }
         },
         {
-          "key": 949,
+          "key": 1012,
           "channel": "milestone",
           "text": "Word goes down the valley ahead of the season's close: the gate is kept, the roofs hold, and the house's name is said plainly again, without the pause that used to follow it. (+9 koku)",
           "tick": 4,
@@ -3571,7 +4092,7 @@
           "voice": "narrator"
         },
         {
-          "key": 976,
+          "key": 1039,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -3585,7 +4106,7 @@
           }
         },
         {
-          "key": 980,
+          "key": 1043,
           "channel": "milestone",
           "text": "Word goes down the valley ahead of the season's close: the gate is kept, the roofs hold, and the house's name is said plainly again, without the pause that used to follow it. (+8 koku)",
           "tick": 6,
@@ -3593,7 +4114,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1022,
+          "key": 1085,
           "channel": "milestone",
           "text": "Word goes down the valley ahead of the season's close: the gate is kept, the roofs hold, and the house's name is said plainly again, without the pause that used to follow it. (+8 koku)",
           "tick": 14,
@@ -3601,7 +4122,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1031,
+          "key": 1094,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -3615,7 +4136,7 @@
           }
         },
         {
-          "key": 1044,
+          "key": 1107,
           "channel": "milestone",
           "text": "Word goes down the valley ahead of the season's close: the gate is kept, the roofs hold, and the house's name is said plainly again, without the pause that used to follow it. (+9 koku)",
           "tick": 22,
@@ -3623,7 +4144,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1075,
+          "key": 1138,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -3637,7 +4158,7 @@
           }
         },
         {
-          "key": 1076,
+          "key": 1139,
           "channel": "milestone",
           "text": "Word goes down the valley ahead of the season's close: the gate is kept, the roofs hold, and the house's name is said plainly again, without the pause that used to follow it. (+9 koku)",
           "tick": 0,
@@ -3645,7 +4166,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1080,
+          "key": 1143,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 2,
@@ -3659,7 +4180,7 @@
           }
         },
         {
-          "key": 1082,
+          "key": 1145,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 4,
@@ -3673,7 +4194,7 @@
           }
         },
         {
-          "key": 1084,
+          "key": 1147,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 6,
@@ -3687,7 +4208,7 @@
           }
         },
         {
-          "key": 1087,
+          "key": 1150,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 10,
@@ -3701,7 +4222,7 @@
           }
         },
         {
-          "key": 1089,
+          "key": 1152,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 12,
@@ -3715,7 +4236,7 @@
           }
         },
         {
-          "key": 1090,
+          "key": 1153,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 4 mon the measure. (+1 monme 16 mon)",
           "tick": 12,
@@ -3729,7 +4250,7 @@
           }
         },
         {
-          "key": 1092,
+          "key": 1155,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 14,
@@ -3743,7 +4264,7 @@
           }
         },
         {
-          "key": 1094,
+          "key": 1157,
           "channel": "system",
           "text": "You sell 25 rice to the pedlar at 4 mon the measure. (+1 monme 20 mon)",
           "tick": 16,
@@ -3757,7 +4278,7 @@
           }
         },
         {
-          "key": 1096,
+          "key": 1159,
           "channel": "system",
           "text": "You sell 20 rice to the pedlar at 4 mon the measure. (+1 monme)",
           "tick": 18,
@@ -3771,7 +4292,7 @@
           }
         },
         {
-          "key": 1099,
+          "key": 1162,
           "channel": "system",
           "text": "You sell 30 rice to the pedlar at 4 mon the measure. (+1 monme 40 mon)",
           "tick": 22,
@@ -3785,7 +4306,7 @@
           }
         },
         {
-          "key": 1108,
+          "key": 1171,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+7 coin)",
           "tick": 12,
@@ -3794,7 +4315,7 @@
           "ephemeral": true
         },
         {
-          "key": 1109,
+          "key": 1172,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 14,
@@ -3803,7 +4324,7 @@
           "ephemeral": true
         },
         {
-          "key": 1110,
+          "key": 1173,
           "channel": "narration",
           "text": "Autumn thins to its last day, and the board comes out at an hour it does not usually keep. The whole house comes with it: the family by the book, the hands by the door, and you in the corner — counted as part of the room, and not asked into it.",
           "tick": 16,
@@ -3812,7 +4333,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 1111,
+          "key": 1174,
           "channel": "narration",
           "text": "Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the one thing the house owes the land, that must be answered before the season is allowed to turn.",
           "tick": 16,
@@ -3821,7 +4342,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 1112,
+          "key": 1175,
           "channel": "narration",
           "text": "Nobody reads the sum aloud. It arrives the way weather arrives: the room goes still around it, a breath drawn and not let go, every eye on the book and none on one another.",
           "tick": 16,
@@ -3830,7 +4351,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 1113,
+          "key": 1176,
           "channel": "narration",
           "text": "Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. You are learning the house's true size by what it will let itself be seen without.",
           "tick": 16,
@@ -3839,7 +4360,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 1114,
+          "key": 1177,
           "channel": "narration",
           "text": "The book closes. The house has answered for the land; its autumn can end. You are still in the corner. Nobody tells you the season is over. It is.",
           "tick": 16,
@@ -3848,7 +4369,7 @@
           "context": "nengu autumn frame"
         },
         {
-          "key": 1115,
+          "key": 1178,
           "channel": "milestone",
           "text": "The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.",
           "tick": 16,
@@ -3856,7 +4377,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1116,
+          "key": 1179,
           "channel": "milestone",
           "text": "The road bends toward the gate again — a favor asked of the house, a cart that slows without needing anything. The valley has resumed expecting things of it. (+8 koku)",
           "tick": 16,
@@ -3864,7 +4385,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1117,
+          "key": 1180,
           "channel": "narration",
           "text": "The village kilns are lit — char-smoke standing straight up the valley on the still days. Kindling fetches what firewood did in autumn.",
           "tick": 16,
@@ -3873,14 +4394,14 @@
           "ephemeral": true
         },
         {
-          "key": 1118,
+          "key": 1181,
           "channel": "milestone",
           "text": "Repairs holding, reclamation bearing fruit, the barn full past need — surplus and order, written down. Let it be entered plainly: the estate stands. (U4 · Risen)",
           "tick": 16,
           "count": 1
         },
         {
-          "key": 1119,
+          "key": 1182,
           "channel": "milestone",
           "text": "Let it be entered plainly, for whoever keeps these books hereafter: the estate stands. Every line above this one was the building of it.",
           "tick": 16,
@@ -3888,7 +4409,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1120,
+          "key": 1183,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+20 coin)",
           "tick": 16,
@@ -3897,7 +4418,7 @@
           "ephemeral": true
         },
         {
-          "key": 1121,
+          "key": 1184,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+17 coin)",
           "tick": 18,
@@ -3906,7 +4427,7 @@
           "ephemeral": true
         },
         {
-          "key": 1122,
+          "key": 1185,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+14 coin)",
           "tick": 20,
@@ -3915,7 +4436,7 @@
           "ephemeral": true
         },
         {
-          "key": 1123,
+          "key": 1186,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+12 coin)",
           "tick": 22,
@@ -3924,7 +4445,7 @@
           "ephemeral": true
         },
         {
-          "key": 1124,
+          "key": 1187,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 0,
@@ -3933,7 +4454,7 @@
           "ephemeral": true
         },
         {
-          "key": 1125,
+          "key": 1188,
           "channel": "narration",
           "text": "The guest house's skirts, the paddy and the rows that pay for everything else. Winter lays the fields off — stubble, frost, the water let out — and moves their work indoors: the tools that will open them again are mended now or not at all.",
           "tick": 2,
@@ -3943,7 +4464,7 @@
           "ephemeral": true
         },
         {
-          "key": 1126,
+          "key": 1189,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+52 shō)",
           "tick": 2,
@@ -3952,7 +4473,7 @@
           "ephemeral": true
         },
         {
-          "key": 1127,
+          "key": 1190,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+43 shō)",
           "tick": 4,
@@ -3961,7 +4482,7 @@
           "ephemeral": true
         },
         {
-          "key": 1128,
+          "key": 1191,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+36 shō)",
           "tick": 6,
@@ -3970,7 +4491,7 @@
           "ephemeral": true
         },
         {
-          "key": 1129,
+          "key": 1192,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+29 shō)",
           "tick": 8,
@@ -3979,7 +4500,7 @@
           "ephemeral": true
         },
         {
-          "key": 1130,
+          "key": 1193,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+24 shō)",
           "tick": 10,
@@ -3988,7 +4509,7 @@
           "ephemeral": true
         },
         {
-          "key": 1131,
+          "key": 1194,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+20 shō)",
           "tick": 12,
@@ -3997,7 +4518,7 @@
           "ephemeral": true
         },
         {
-          "key": 1132,
+          "key": 1195,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+16 shō)",
           "tick": 14,
@@ -4006,7 +4527,7 @@
           "ephemeral": true
         },
         {
-          "key": 1133,
+          "key": 1196,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+13 shō)",
           "tick": 16,
@@ -4015,7 +4536,7 @@
           "ephemeral": true
         },
         {
-          "key": 1134,
+          "key": 1197,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 18,
@@ -4024,7 +4545,7 @@
           "ephemeral": true
         },
         {
-          "key": 1135,
+          "key": 1198,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+13 shō)",
           "tick": 20,
@@ -4033,7 +4554,7 @@
           "ephemeral": true
         },
         {
-          "key": 1136,
+          "key": 1199,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+10 shō)",
           "tick": 22,
@@ -4042,7 +4563,7 @@
           "ephemeral": true
         },
         {
-          "key": 1137,
+          "key": 1200,
           "channel": "narration",
           "text": "The outer court of the guest house, where the day's work is set out and seen to — set out in the dark now, the days being what they are, and often finished in it. Genemon's lamp is lit before the sky is; what is done here still gets written down.",
           "tick": 0,
@@ -4052,7 +4573,7 @@
           "ephemeral": true
         },
         {
-          "key": 1138,
+          "key": 1201,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+10 coin)",
           "tick": 0,
@@ -4061,7 +4582,7 @@
           "ephemeral": true
         },
         {
-          "key": 1139,
+          "key": 1202,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+8 coin)",
           "tick": 2,
@@ -4070,7 +4591,7 @@
           "ephemeral": true
         },
         {
-          "key": 1140,
+          "key": 1203,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+7 coin)",
           "tick": 4,
@@ -4079,7 +4600,7 @@
           "ephemeral": true
         },
         {
-          "key": 1141,
+          "key": 1204,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+6 coin)",
           "tick": 6,
@@ -4088,7 +4609,7 @@
           "ephemeral": true
         },
         {
-          "key": 1142,
+          "key": 1205,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 8,
@@ -4097,7 +4618,7 @@
           "ephemeral": true
         },
         {
-          "key": 1143,
+          "key": 1206,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+5 coin)",
           "tick": 10,
@@ -4106,7 +4627,7 @@
           "ephemeral": true
         },
         {
-          "key": 1144,
+          "key": 1207,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+4 coin)",
           "tick": 12,
@@ -4115,7 +4636,7 @@
           "ephemeral": true
         },
         {
-          "key": 1145,
+          "key": 1208,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+3 coin)",
           "tick": 16,
@@ -4124,7 +4645,7 @@
           "ephemeral": true
         },
         {
-          "key": 1146,
+          "key": 1209,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+2 coin)",
           "tick": 20,
@@ -4133,7 +4654,7 @@
           "ephemeral": true
         },
         {
-          "key": 1147,
+          "key": 1210,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 22,
@@ -4142,7 +4663,7 @@
           "ephemeral": true
         },
         {
-          "key": 1148,
+          "key": 1211,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -4156,7 +4677,7 @@
           }
         },
         {
-          "key": 1149,
+          "key": 1212,
           "channel": "milestone",
           "text": "The road bends toward the gate again — a favor asked of the house, a cart that slows without needing anything. The valley has resumed expecting things of it. (+9 koku)",
           "tick": 0,
@@ -4164,7 +4685,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1150,
+          "key": 1213,
           "channel": "system",
           "text": "The season turns, and some of your rice has spoiled in the store. (−1 rice)",
           "tick": 0,
@@ -4177,7 +4698,7 @@
           }
         },
         {
-          "key": 1151,
+          "key": 1214,
           "channel": "narration",
           "text": "Pine at every gate in the village, they say. The house sets one small pair at its own, and Genemon enters the cost.",
           "tick": 0,
@@ -4186,7 +4707,7 @@
           "ephemeral": true
         },
         {
-          "key": 1152,
+          "key": 1215,
           "channel": "narration",
           "text": "The guest house's skirts at rest: grey ice skins the paddy water, and only the winter rows — daikon under straw — still want hands. The mud is iron all morning and mud again by noon, and the new year will be paid for from here like the old one.",
           "tick": 0,
@@ -4196,7 +4717,7 @@
           "ephemeral": true
         },
         {
-          "key": 1153,
+          "key": 1216,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+52 shō)",
           "tick": 0,
@@ -4205,7 +4726,7 @@
           "ephemeral": true
         },
         {
-          "key": 1154,
+          "key": 1217,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 2,
@@ -4219,7 +4740,7 @@
           }
         },
         {
-          "key": 1155,
+          "key": 1218,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+43 shō)",
           "tick": 2,
@@ -4228,7 +4749,7 @@
           "ephemeral": true
         },
         {
-          "key": 1156,
+          "key": 1219,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 4,
@@ -4242,7 +4763,7 @@
           }
         },
         {
-          "key": 1157,
+          "key": 1220,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+36 shō)",
           "tick": 4,
@@ -4251,7 +4772,7 @@
           "ephemeral": true
         },
         {
-          "key": 1158,
+          "key": 1221,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 6,
@@ -4265,7 +4786,7 @@
           }
         },
         {
-          "key": 1159,
+          "key": 1222,
           "channel": "system",
           "text": "You sell 20 rice to the pedlar at 5 mon the measure. (+1 monme 20 mon)",
           "tick": 6,
@@ -4279,7 +4800,7 @@
           }
         },
         {
-          "key": 1160,
+          "key": 1223,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+29 shō)",
           "tick": 6,
@@ -4288,7 +4809,7 @@
           "ephemeral": true
         },
         {
-          "key": 1161,
+          "key": 1224,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 8,
@@ -4302,7 +4823,7 @@
           }
         },
         {
-          "key": 1162,
+          "key": 1225,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+24 shō)",
           "tick": 8,
@@ -4311,7 +4832,7 @@
           "ephemeral": true
         },
         {
-          "key": 1163,
+          "key": 1226,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 10,
@@ -4325,7 +4846,7 @@
           }
         },
         {
-          "key": 1164,
+          "key": 1227,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+20 shō)",
           "tick": 10,
@@ -4334,7 +4855,7 @@
           "ephemeral": true
         },
         {
-          "key": 1165,
+          "key": 1228,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 12,
@@ -4348,7 +4869,7 @@
           }
         },
         {
-          "key": 1166,
+          "key": 1229,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+16 shō)",
           "tick": 12,
@@ -4357,7 +4878,7 @@
           "ephemeral": true
         },
         {
-          "key": 1167,
+          "key": 1230,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 14,
@@ -4366,7 +4887,7 @@
           "ephemeral": true
         },
         {
-          "key": 1168,
+          "key": 1231,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+15 shō)",
           "tick": 16,
@@ -4375,7 +4896,7 @@
           "ephemeral": true
         },
         {
-          "key": 1169,
+          "key": 1232,
           "channel": "system",
           "text": "You sell 24 rice to the pedlar at 5 mon the measure. (+1 monme 40 mon)",
           "tick": 18,
@@ -4389,7 +4910,7 @@
           }
         },
         {
-          "key": 1170,
+          "key": 1233,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+12 shō)",
           "tick": 18,
@@ -4398,7 +4919,7 @@
           "ephemeral": true
         },
         {
-          "key": 1171,
+          "key": 1234,
           "channel": "system",
           "text": "You sell 20 rice to the pedlar at 5 mon the measure. (+1 monme 20 mon)",
           "tick": 20,
@@ -4412,7 +4933,7 @@
           }
         },
         {
-          "key": 1172,
+          "key": 1235,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+10 shō)",
           "tick": 20,
@@ -4421,7 +4942,7 @@
           "ephemeral": true
         },
         {
-          "key": 1173,
+          "key": 1236,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+8 shō)",
           "tick": 22,
@@ -4430,7 +4951,7 @@
           "ephemeral": true
         },
         {
-          "key": 1174,
+          "key": 1237,
           "channel": "narration",
           "text": "The outer court of the guest house, frozen hard enough that every footfall carries; the day's work is still set out here, breath showing over it. Genemon's window is lit early and late while the new year's book is opened — what is done out here goes into it.",
           "tick": 0,
@@ -4440,7 +4961,7 @@
           "ephemeral": true
         },
         {
-          "key": 1175,
+          "key": 1238,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+21 coin)",
           "tick": 0,
@@ -4449,7 +4970,7 @@
           "ephemeral": true
         },
         {
-          "key": 1176,
+          "key": 1239,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+17 coin)",
           "tick": 2,
@@ -4458,7 +4979,7 @@
           "ephemeral": true
         },
         {
-          "key": 1177,
+          "key": 1240,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+14 coin)",
           "tick": 4,
@@ -4467,7 +4988,7 @@
           "ephemeral": true
         },
         {
-          "key": 1178,
+          "key": 1241,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 6,
@@ -4476,7 +4997,7 @@
           "ephemeral": true
         },
         {
-          "key": 1179,
+          "key": 1242,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+13 coin)",
           "tick": 8,
@@ -4485,7 +5006,7 @@
           "ephemeral": true
         },
         {
-          "key": 1180,
+          "key": 1243,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+11 coin)",
           "tick": 10,
@@ -4494,7 +5015,7 @@
           "ephemeral": true
         },
         {
-          "key": 1181,
+          "key": 1244,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+8 coin)",
           "tick": 12,
@@ -4503,7 +5024,7 @@
           "ephemeral": true
         },
         {
-          "key": 1182,
+          "key": 1245,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+7 coin)",
           "tick": 14,
@@ -4512,7 +5033,7 @@
           "ephemeral": true
         },
         {
-          "key": 1183,
+          "key": 1246,
           "channel": "milestone",
           "text": "The road bends toward the gate again — a favor asked of the house, a cart that slows without needing anything. The valley has resumed expecting things of it. (+8 koku)",
           "tick": 16,
@@ -4520,7 +5041,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1184,
+          "key": 1247,
           "channel": "system",
           "text": "The season turns, and some of your rice has spoiled in the store. (−1 rice)",
           "tick": 16,
@@ -4533,7 +5054,7 @@
           }
         },
         {
-          "key": 1185,
+          "key": 1248,
           "channel": "narration",
           "text": "Seed rice out of the kura, counted twice. The paddies want water, the rows want hands, and the day is suddenly short.",
           "tick": 16,
@@ -4542,7 +5063,7 @@
           "ephemeral": true
         },
         {
-          "key": 1186,
+          "key": 1249,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+20 coin)",
           "tick": 16,
@@ -4551,7 +5072,7 @@
           "ephemeral": true
         },
         {
-          "key": 1187,
+          "key": 1250,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+17 coin)",
           "tick": 18,
@@ -4560,7 +5081,7 @@
           "ephemeral": true
         },
         {
-          "key": 1188,
+          "key": 1251,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 20,
@@ -4569,7 +5090,7 @@
           "ephemeral": true
         },
         {
-          "key": 1189,
+          "key": 1252,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+15 coin)",
           "tick": 22,
@@ -4578,7 +5099,7 @@
           "ephemeral": true
         },
         {
-          "key": 1190,
+          "key": 1253,
           "channel": "narration",
           "text": "A wind off the mountain all day. The bamboo grove talks through it, and the gate-board knocks until someone wedges it.",
           "tick": 0,
@@ -4587,7 +5108,7 @@
           "ephemeral": true
         },
         {
-          "key": 1191,
+          "key": 1254,
           "channel": "narration",
           "text": "The paddies are flooding for the planting: cold water over the shins from first light, seedbeds greening at the margins, frog-song after dark where winter kept silence. The whole year's ledger stands in it.",
           "tick": 0,
@@ -4597,7 +5118,7 @@
           "ephemeral": true
         },
         {
-          "key": 1192,
+          "key": 1255,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+51 shō)",
           "tick": 0,
@@ -4606,7 +5127,7 @@
           "ephemeral": true
         },
         {
-          "key": 1193,
+          "key": 1256,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+43 shō)",
           "tick": 2,
@@ -4615,7 +5136,7 @@
           "ephemeral": true
         },
         {
-          "key": 1194,
+          "key": 1257,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+35 shō)",
           "tick": 4,
@@ -4624,7 +5145,7 @@
           "ephemeral": true
         },
         {
-          "key": 1195,
+          "key": 1258,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+29 shō)",
           "tick": 6,
@@ -4633,7 +5154,7 @@
           "ephemeral": true
         },
         {
-          "key": 1196,
+          "key": 1259,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+23 shō)",
           "tick": 8,
@@ -4642,7 +5163,7 @@
           "ephemeral": true
         },
         {
-          "key": 1197,
+          "key": 1260,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+19 shō)",
           "tick": 10,
@@ -4651,7 +5172,7 @@
           "ephemeral": true
         },
         {
-          "key": 1198,
+          "key": 1261,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 12,
@@ -4660,7 +5181,7 @@
           "ephemeral": true
         },
         {
-          "key": 1199,
+          "key": 1262,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+18 shō)",
           "tick": 14,
@@ -4669,7 +5190,7 @@
           "ephemeral": true
         },
         {
-          "key": 1200,
+          "key": 1263,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+14 shō)",
           "tick": 16,
@@ -4678,7 +5199,7 @@
           "ephemeral": true
         },
         {
-          "key": 1201,
+          "key": 1264,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+12 shō)",
           "tick": 18,
@@ -4687,7 +5208,7 @@
           "ephemeral": true
         },
         {
-          "key": 1202,
+          "key": 1265,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+10 shō)",
           "tick": 20,
@@ -4696,7 +5217,7 @@
           "ephemeral": true
         },
         {
-          "key": 1203,
+          "key": 1266,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+8 shō)",
           "tick": 22,
@@ -4705,7 +5226,7 @@
           "ephemeral": true
         },
         {
-          "key": 1204,
+          "key": 1267,
           "channel": "narration",
           "text": "The matchmaker was at the headman's two days running. Nobody is saying whose name is on the table, which is how everyone knows it is serious.",
           "tick": 0,
@@ -4714,7 +5235,7 @@
           "ephemeral": true
         },
         {
-          "key": 1205,
+          "key": 1268,
           "channel": "system",
           "text": "You sell 20 rice to the pedlar at 6 mon the measure. (+1 monme 40 mon)",
           "tick": 0,
@@ -4728,7 +5249,7 @@
           }
         },
         {
-          "key": 1206,
+          "key": 1269,
           "channel": "narration",
           "text": "The outer court where the day's work is set out has come up out of winter heaved and puddled, and the morning rake fights the thaw for it. Genemon's window stands open to the first mild air — which means it stands open to everything below it.",
           "tick": 0,
@@ -4738,7 +5259,7 @@
           "ephemeral": true
         },
         {
-          "key": 1207,
+          "key": 1270,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+12 coin)",
           "tick": 0,
@@ -4747,7 +5268,7 @@
           "ephemeral": true
         },
         {
-          "key": 1208,
+          "key": 1271,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+10 coin)",
           "tick": 2,
@@ -4756,7 +5277,7 @@
           "ephemeral": true
         },
         {
-          "key": 1209,
+          "key": 1272,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 4,
@@ -4765,7 +5286,7 @@
           "ephemeral": true
         },
         {
-          "key": 1210,
+          "key": 1273,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+9 coin)",
           "tick": 6,
@@ -4774,7 +5295,7 @@
           "ephemeral": true
         },
         {
-          "key": 1211,
+          "key": 1274,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+7 coin)",
           "tick": 8,
@@ -4783,7 +5304,7 @@
           "ephemeral": true
         },
         {
-          "key": 1212,
+          "key": 1275,
           "channel": "milestone",
           "text": "The road bends toward the gate again — a favor asked of the house, a cart that slows without needing anything. The valley has resumed expecting things of it. (+9 koku)",
           "tick": 10,
@@ -4791,7 +5312,7 @@
           "voice": "narrator"
         },
         {
-          "key": 1213,
+          "key": 1276,
           "channel": "system",
           "text": "The season turns, and some of your rice has spoiled in the store. (−1 rice)",
           "tick": 10,
@@ -4804,7 +5325,7 @@
           }
         },
         {
-          "key": 1214,
+          "key": 1277,
           "channel": "narration",
           "text": "A wedding at the miller's, two days gone. The kitchen heard when the red rice arrived — a bowl of it, already cool.",
           "tick": 10,
@@ -4813,7 +5334,7 @@
           "ephemeral": true
         },
         {
-          "key": 1215,
+          "key": 1278,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+21 coin)",
           "tick": 10,
@@ -4822,7 +5343,7 @@
           "ephemeral": true
         },
         {
-          "key": 1216,
+          "key": 1279,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+17 coin)",
           "tick": 12,
@@ -4831,7 +5352,7 @@
           "ephemeral": true
         },
         {
-          "key": 1217,
+          "key": 1280,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+14 coin)",
           "tick": 14,
@@ -4840,7 +5361,7 @@
           "ephemeral": true
         },
         {
-          "key": 1218,
+          "key": 1281,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+12 coin)",
           "tick": 16,
@@ -4849,7 +5370,7 @@
           "ephemeral": true
         },
         {
-          "key": 1219,
+          "key": 1282,
           "channel": "system",
           "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 18,
@@ -4858,7 +5379,7 @@
           "ephemeral": true
         },
         {
-          "key": 1220,
+          "key": 1283,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+11 coin)",
           "tick": 20,
@@ -4867,7 +5388,7 @@
           "ephemeral": true
         },
         {
-          "key": 1221,
+          "key": 1284,
           "channel": "reward",
           "text": "Haul stores at the forecourt. (+8 coin)",
           "tick": 22,
@@ -4876,7 +5397,7 @@
           "ephemeral": true
         },
         {
-          "key": 1222,
+          "key": 1285,
           "channel": "narration",
           "text": "The guest house's skirts, and Summer is when the paddy asks the most of a back: weeding between the standing rice, minding water in and water out, leeches at the ankle. No work on the estate outranks this while the rice is green.",
           "tick": 0,
@@ -4886,7 +5407,7 @@
           "ephemeral": true
         },
         {
-          "key": 1223,
+          "key": 1286,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+50 shō)",
           "tick": 0,
@@ -4895,7 +5416,7 @@
           "ephemeral": true
         },
         {
-          "key": 1224,
+          "key": 1287,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+42 shō)",
           "tick": 2,
@@ -4904,7 +5425,7 @@
           "ephemeral": true
         },
         {
-          "key": 1225,
+          "key": 1288,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+34 shō)",
           "tick": 4,
@@ -4913,7 +5434,7 @@
           "ephemeral": true
         },
         {
-          "key": 1226,
+          "key": 1289,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+28 shō)",
           "tick": 6,
@@ -4922,7 +5443,7 @@
           "ephemeral": true
         },
         {
-          "key": 1227,
+          "key": 1290,
           "channel": "reward",
           "text": "Work the home paddy & rows. (+23 shō)",
           "tick": 8,
@@ -4931,7 +5452,7 @@
           "ephemeral": true
         },
         {
-          "key": 1228,
+          "key": 1291,
           "channel": "narration",
           "text": "The day's work is set out by lamplight in the hot months, so the heavy tasks are done before the ground throws the heat back. By midday the court stands empty under Genemon's window.",
           "tick": 10,
@@ -4941,7 +5462,7 @@
           "ephemeral": true
         },
         {
-          "key": 1229,
+          "key": 1292,
           "channel": "narration",
           "text": "The working storehouse in its leanest season, last year's rice going out by the measured scoop while this year's stands green in the water. The door is opened at first light to air the grain before the damp heat gets a smell into it; the count at the stool is quick, there being little to count.",
           "tick": 10,
@@ -4951,7 +5472,7 @@
           "ephemeral": true
         },
         {
-          "key": 1230,
+          "key": 1293,
           "channel": "reward",
           "text": "You are handed 320 mon at the board, counted once into your palm — the first the house has paid you in coin, and yours to keep.",
           "tick": 10,
@@ -4960,7 +5481,7 @@
           "ephemeral": true
         },
         {
-          "key": 1231,
+          "key": 1294,
           "channel": "system",
           "text": "You store 3 ryō 47 monme 2 mon safe in the kura storehouse.",
           "tick": 10,
@@ -4971,132 +5492,9 @@
             "amount": 15762,
             "resource": "coin"
           }
-        },
-        {
-          "key": 1232,
-          "channel": "narration",
-          "text": "Loading at the kura. Shinnosuke is up on the stacked bales, where he is not allowed, counting something over your head.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest"
-        },
-        {
-          "key": 1233,
-          "channel": "narration",
-          "text": "\"Count them. The storehouse has one more than the gate. Why does the storehouse get one more petal than the gate? Who changes a crest — you can't just change a crest, can you?\"",
-          "tick": 10,
-          "count": 1,
-          "speaker": "Shinnosuke",
-          "voice": "steward",
-          "context": "sb crest"
-        },
-        {
-          "key": 1234,
-          "channel": "narration",
-          "text": "You look. Above the seal-plate the mon is cut deep and old: the same flower as the gate's, and not the same flower. You count twice, because counting is the one kind of reading you trust.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest"
-        },
-        {
-          "key": 1235,
-          "channel": "narration",
-          "text": "\"Ask the steward.\"",
-          "tick": 10,
-          "count": 1,
-          "speaker": "Gonbei",
-          "voice": "player",
-          "context": "sb crest"
-        },
-        {
-          "key": 1236,
-          "channel": "narration",
-          "text": "\"I asked everyone. Grandmother said mind the lamp. Genemon wrote in his book. Mother said if I've time for petals I've time for copywork. Nobody answers me. You ask. You work here — they have to answer you.\"",
-          "tick": 10,
-          "count": 1,
-          "speaker": "Shinnosuke",
-          "voice": "steward",
-          "context": "sb crest"
-        },
-        {
-          "key": 1237,
-          "channel": "narration",
-          "text": "Asking costs you something every time. You pay it at the board that evening.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest"
-        },
-        {
-          "key": 1238,
-          "channel": "narration",
-          "text": "\"The kura's crest. It has one petal more than the gate's.\"",
-          "tick": 10,
-          "count": 1,
-          "speaker": "Gonbei",
-          "voice": "player",
-          "context": "sb crest"
-        },
-        {
-          "key": 1239,
-          "channel": "narration",
-          "text": "It is not even a question, the way you say it. Genemon looks at you the way he looked at the river-wet stranger the first morning — a thing to be entered under the correct heading. Then he opens the day-book, writes — not long — and closes it.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest"
-        },
-        {
-          "key": 1240,
-          "channel": "narration",
-          "text": "\"The kura wants its hinges oiled before the rains. Take the small ladder.\"",
-          "tick": 10,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "sb crest"
-        },
-        {
-          "key": 1241,
-          "channel": "narration",
-          "text": "That is the answer. It is the same answer the boy got, in a different hand.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest"
-        },
-        {
-          "key": 1242,
-          "channel": "narration",
-          "text": "Shinnosuke is waiting on the woodpile to hear what you learned. You tell him: hinges. He nods like a man twice his age confirming a debt gone bad.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest"
-        },
-        {
-          "key": 1243,
-          "channel": "narration",
-          "text": "\"See. You're the other one they don't tell. What did he write — did you see what he wrote?\"",
-          "tick": 10,
-          "count": 1,
-          "speaker": "Shinnosuke",
-          "voice": "steward",
-          "context": "sb crest"
-        },
-        {
-          "key": 1244,
-          "channel": "narration",
-          "text": "You didn't. The boy climbs down and goes in to his copywork, and you oil the hinges under the crest, and the kura keeps whatever it keeps.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest"
         }
       ],
-      "seq": 1245
+      "seq": 1295
     },
     "skillXp": {
       "farming": 752,
@@ -5117,8 +5515,8 @@
         "warmth": 1
       },
       "genemon": {
-        "regard": "plain",
-        "warmth": 2
+        "regard": "the-house-stands",
+        "warmth": 3
       },
       "kihei": {
         "regard": "watchful",
@@ -5184,18 +5582,23 @@
     "activeScene": null,
     "scenesPlayed": [
       "r2-yard-hand",
+      "works-intro",
       "turn-winter",
       "sb-lease",
       "turn-new-year",
       "count",
       "count-resolve",
+      "works-u1",
       "r7-dream",
       "turn-spring",
       "turn-summer",
       "sb-bon",
       "turn-bon",
       "nengu-autumn-frame",
-      "sb-crest"
+      "works-u2",
+      "sb-crest",
+      "works-u3",
+      "works-u4"
     ],
     "roundState": null,
     "soanLedger": 2

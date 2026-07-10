@@ -1190,4 +1190,844 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
       },
     ],
   },
+
+  {
+    id: 'works-cause',
+    title: 'The works discovery chain (estate Phase 1)',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'Take C\'s sighting lines are the FB-338 fix itself — the damage caught mid-act answers "why did you notice it\'s broken" on sight; naming lines are location-free (mechanically safest) and the land-first register matches the c5a-overlays canon pick. Redlined per Pass-2 (sill→weir; the kura fullness claim softened).',
+    canonLabel: 'C · the land keeps its own book',
+    rung: 2,
+    takes: [
+      {
+        id: 'a',
+        label: "the ledger's mercy",
+        brief:
+          "every reveal is a day-book entry read aloud; Genemon's care voiced only as bookkeeping choices; being entered is being kept",
+        scorecard:
+          '17✔ 4✘ (2 [blind spot]: later beats assert prior completions — mooted by the ladder-order gate; naming lines pin "at the board"; U1 label reads abstract on the ladder)',
+        scenes: {
+          'works-intro': {
+            id: 'works-intro',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: "Morning, the forecourt. Genemon's window stands open on the board and the day-book is out — turned back, for once, from the working page to the old ones, the corners gone soft with handling. He does not call you. He waits until the round brings you past, which he knew it would.",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Stand where you can see the page. This concerns you now — you are on the book, and the book has other lines than wages."',
+              },
+              {
+                voice: 'narrator',
+                text: 'He reads them the way he reads everything, at board volume, one figure at a time, and each one lands like a thing set down and not thrown.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Gate. Posts, two, sound. Paint, gone. Lower hinge, crying since the year before your river. Carried open four years. Charged to no man."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Home paddies. Bunds, slumping at the water-edges — two hand-spans lost to the mud each spring, entered each spring, mended never. Carried open six years."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Woodshed. Roof, north slope, taking water. The damp goes against the house. The man who sleeps under the damp does not."',
+              },
+              {
+                voice: 'narrator',
+                text: 'He turns further back, to a page ruled tighter than the rest, and lays the book flat so the line faces you.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"And this one, which does not close. Weir screens, leased of Matsuzō, across the river. The rats gnaw them at the waterline; every slat gnawed is coin owed off the estate. I have entered that damage every season for nine years, the way I enter rain. The weir path is open to you. It was always the house\'s to walk; it is time a hand walked it."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"That is the reading. Now the checking. Go and stand where the figures stand — the gate, the paddies, your own roof. An entry is worth what the eye that checks it is worth. Come back when you have looked."',
+              },
+            ],
+            topics: [
+              {
+                id: 'works-intro-ask-a',
+                label: '"Why show me the book?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Because you are in it. A man on this book eats from these figures whether he reads them or not — every open line above your line leans on your line. The others know the yard by their years here. You will know it the way I know it, or not at all."',
+                  },
+                ],
+              },
+              {
+                id: 'works-intro-ask-b',
+                label: '"Who pays for the mending?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Not the house — its coin is spoken for before it reaches the yard; that was your first day\'s lesson and it has not improved. What a hand puts in of his own — labour, and coin when he has coin — the book carries under his mark, dated. It forgets nothing it is given. That is the one promise I am in a position to make."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The day-book lies open on the named lines.',
+              options: [
+                {
+                  id: 'works-intro-go',
+                  label: '"I\'ll walk them today."',
+                  say: '"I\'ll walk them today."',
+                  react:
+                    '"Then the book says so. A short line, the date, no more. Named, and walked the same day — the date will keep you honest."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'walked-the-book' }],
+                  flags: ['works-named-u1', 'works-named-weir'],
+                },
+                {
+                  id: 'works-intro-hold',
+                  label: '"Figures aren\'t mending. The yard wants me first."',
+                  say: '"Figures aren\'t mending. The yard wants me first."',
+                  react:
+                    '"The yard is on this book too; I am not asking you off it. The lines stay open. Open is what they are used to. The old pages keep their corners."',
+                  flags: ['works-named-u1', 'works-named-weir'],
+                },
+              ],
+            },
+          },
+          'works-u1': {
+            id: 'works-u1',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: "The board, evening. The day-book stands open at a page ruled fresh — the gate's line, the bunds' line, the woodshed's, copied out of their years and set together under one head, in ink already dry. He did the copying before you had crossed the yard.",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"The gate hinge. The bunds. The slope over your mat. You stood where the figures stand. Tell me if they lied."',
+              },
+              { voice: 'player', text: '"They didn\'t."' },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"They never do. That is the whole of their use."',
+              },
+              { voice: 'narrator', text: 'He rules a bracket down the three lines, joining them.' },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"One work, then, taken as one: board and hinge-iron for the gate, clay and stone for the water-edges, straw for the roof. The tools are the house\'s — their wear I enter against the house, as I enter my own pen. The rest goes in as you can put it in, and is entered as it goes."',
+              },
+            ],
+            topics: [
+              {
+                id: 'works-u1-ask-a',
+                label: '"Why these three first?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Because they are the oldest lines still cheap. The gate has waited four years; a fifth costs a post. The bund gives up more each spring than the spring before. Old damage compounds like a debt, and these three have not yet learned to. Close them before they do."',
+                  },
+                ],
+              },
+              {
+                id: 'works-u1-ask-b',
+                label: '"And when it\'s done?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"The line closes. A house stands on closed lines; there is no other material. And the closing carries the mark of the hand that closed it — dated, footed, kept. The yard forgets a mended hinge by the next rain. The book does not."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'Three lines under one head, and the brush is wet.',
+              options: [
+                {
+                  id: 'works-u1-begin',
+                  label: '"Put my mark to it."',
+                  say: '"Put my mark to it."',
+                  react:
+                    '"Entered. First repairs — opened this day, against the hand that walked them. Three of the book\'s oldest lines now point at you."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'set-to-it' }],
+                  flags: ['works-open-u1'],
+                },
+                {
+                  id: 'works-u1-hold',
+                  label: '"When I have the means. Not before."',
+                  say: '"When I have the means. Not before."',
+                  react:
+                    '"That is the correct order, and rarer than it should be. The head is ruled either way — it waits better than the timber will. Bring your mark when you bring the means."',
+                  flags: ['works-open-u1'],
+                },
+              ],
+            },
+          },
+          'works-u2': {
+            id: 'works-u2',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The board. Genemon has the day-book turned back further than you have seen it go — years back, to a line ruled open and never carried forward, never struck, sitting on its page like a door left unlocked in an empty house.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Orchard. Last entered bearing the year before the dogs. Since then — nothing against it. No fruit, no loss, no line. I did not strike it. A struck line is a judgment. This one was only waiting."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"You have seen the rows now. Sound trees under the choke, planted in order by people who expected to walk between them. Wild wood over the top, and the dens under. Clearing it is billhook work and den work — weeks of the one, and the other is not work I can enter for you."',
+              },
+            ],
+            topics: [
+              {
+                id: 'works-u2-ask-a',
+                label: '"You kept the line open all this time?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Ink is cheap. Judgment is not. Whoever set those trees out expected paths, and lanterns, and years — I do not close another man\'s expectation until it is proved wrong. Six stewards\' worth of pages carry that line open. I was not going to be the one who ended it for tidiness."',
+                  },
+                ],
+              },
+              {
+                id: 'works-u2-ask-b',
+                label: '"And the dogs?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Kihei\'s column, not mine. Mine says only this: the year the dens filled, the fruit line emptied. The book has watched the two trade for six years, one for one. Empty the dens, and I know what the other line does. I have the figures."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The open line waits on the page.',
+              options: [
+                {
+                  id: 'works-u2-begin',
+                  label: '"Then it stops waiting."',
+                  say: '"Then it stops waiting."',
+                  react:
+                    '"Ground taken back. I have not ruled those words in thirty years of this book. They are ruled now, and dated. Prove the ink right."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'ground-taken-back' }],
+                  flags: ['works-open-u2'],
+                },
+                {
+                  id: 'works-u2-hold',
+                  label: '"It has waited years. It can wait for my strength."',
+                  say: '"It has waited years. It can wait for my strength."',
+                  react:
+                    '"It can. It has the practice. The head is ruled; the line goes on waiting the way it knows how — open. Bring me the date when you are fit to put under it."',
+                  flags: ['works-open-u2'],
+                },
+              ],
+            },
+          },
+          'works-u3': {
+            id: 'works-u3',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'Genemon meets you at the kura door itself, the day-book carried out into the yard under his arm — a thing you have not seen him do in a year of watching him not do it.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: "\"You have stood the watch here. Then you know what I know: the count is honest and the walls are not equal to it. For eleven years this book has entered 'stored to the rafters' as a limit. It should have been a boast. One good harvest and the house's own rice would sleep in the weather.\"",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"A second granary, then, raised beside the first. Timber, stone footing, board by board. The ground it stands on is the house\'s — that much costs you nothing. The rest is put in as it has been put in: your labour, your coin as you have it, entered as it goes. The term of the work is three words. Stores past need. This book has never once been able to write them."',
+              },
+            ],
+            topics: [
+              {
+                id: 'works-u3-ask-a',
+                label: '"Eleven years. Why now?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Because for eleven years the house was bleeding, and a bleeding house does not build. Look at the book, not at me: the lease\'s damage line, empty. The gate, the bunds, the roof — closed. The orchard — open and moving. A book that has stopped bleeding can afford to plan. The figures changed. Most of the hands in the changing are one hand\'s."',
+                  },
+                ],
+              },
+              {
+                id: 'works-u3-ask-b',
+                label: '"And if the harvests don\'t fill it?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Then it stands empty, and I enter an empty granary, which costs nothing to carry and shames no one but the weather. I have carried worse lines for poorer reasons. But I have footed this year twice, once for the house and once against my own doubt, and the two counts agree. It does not stand empty long."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The measure of it is drawn on the page.',
+              options: [
+                {
+                  id: 'works-u3-begin',
+                  label: '"Raise it."',
+                  say: '"Raise it."',
+                  react:
+                    '"Past winter\'s need. Opened, dated, against the kura wall for a desk. I will foot it against every season until it closes. See that the seasons are short."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'past-winters-need' }],
+                  flags: ['works-open-u3'],
+                },
+                {
+                  id: 'works-u3-hold',
+                  label: '"Timber first. My back second. Then the book."',
+                  say: '"Timber first. My back second. Then the book."',
+                  react:
+                    '"That is the whole craft of it in one line — I have known stewards who never learned it. The head is ruled. The timber will tell you when, and the book will still be here."',
+                  flags: ['works-open-u3'],
+                },
+              ],
+            },
+          },
+          'works-u4': {
+            id: 'works-u4',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: "The board, late, the lamp down to its last width of oil. The day-book lies open at the newest page — the second reckoning, ruled at the season's close: one line a season, in the book's plain words. Most of the page is still to come. Genemon sits before the empty part of it the way other men sit before a fire.",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"You have looked at the omoya. From the forecourt — everyone looks from the forecourt; the house is arranged so that nobody sees further. The south rooms, shuttered since before your river. Nine years I have entered no repair against those rooms. Not because nothing wanted repairing."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"The second reckoning wants its capstone. Stores past need — rising. Ground taken back — taken. Walls that held — they held. One head remains, and in thirty-one years I have not had the standing to rule it. The house itself. Set in order, room by shut room, until this book can write of the omoya what it writes of the kura. Sound."',
+              },
+            ],
+            topics: [
+              {
+                id: 'works-u4-ask-a',
+                label: '"Nine years of silence on it. Why?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Because a repair entered is a repair owed. To write the omoya\'s wants into this book while the house could not answer them — that is not stewardship, that is accusation, one line a season, forever. So I kept the rooms shut and the page shut with them, and charged the silence to nobody. Both open now, or neither. The figures say now."',
+                  },
+                ],
+              },
+              {
+                id: 'works-u4-ask-b',
+                label: '"Why tell me?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Because the book says Gonbei against more closed lines than any name in it — count them yourself, the pages are numbered. When this house stands in order, the order will be made of entries, and most of the entries are yours. That is not thanks. It is arithmetic. Thanks is not my column."',
+                  },
+                  {
+                    voice: 'narrator',
+                    text: 'He says it to the page, not to you, and enters nothing, which from him is the same as looking up.',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The last head, unruled.',
+              options: [
+                {
+                  id: 'works-u4-begin',
+                  label: '"Rule it."',
+                  say: '"Rule it."',
+                  react:
+                    '"The house, set in order. Opened. When it closes, this book\'s plain words will be: the estate stands. I have waited a working life to be allowed the sentence. See that I am here to enter it."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'the-house-stands' }],
+                  flags: ['works-open-u4'],
+                },
+                {
+                  id: 'works-u4-hold',
+                  label: '"After the season\'s work. It can wait for me steady."',
+                  say: '"After the season\'s work. It can wait for me steady."',
+                  react:
+                    '"It has waited longer, for worse reasons, under worse hands. The head is ruled and the page is patient — it is the one thing I own that is. Bring me the closing."',
+                  flags: ['works-open-u4'],
+                },
+              ],
+            },
+          },
+        },
+        flavor: {
+          worksNamedOrchard: `At the board, ${NAMES.elder} turns the day-book back years and reads one line aloud: orchard — open, never struck, waiting.`,
+          worksNamedGranary:
+            "The day-book rules a head it has never carried: a second granary — stores past the winter's need.",
+          worksNamedHouse: `Under the second reckoning, ${NAMES.elder} rules the last head as plainly as any: the house itself, set in order.`,
+          worksSeenGate:
+            'The posts stand sound, the paint long gone, and the lower hinge cries on the swing exactly as entered. Four years of that sound, carried, and charged to no one.',
+          worksSeenPaddies:
+            "The bund's water-edge has slumped to a soft lip a thumb can push into, the mud below it fat with what six springs have taken. The figure said two hand-spans; the eye, measuring, gets two.",
+          worksSeenWoodshed:
+            'Daylight through the north slope, and a water-stain riding the rafter over your own mat. The book carries the damp against the house; the roof carries it against you.',
+          worksSeenOrchard:
+            'Wild rows to the shoulder, windfall gone to vinegar underfoot — and beneath the choke the trees stand in planted order, set out by someone who expected to walk here. The dens in the hollow are exactly where the losses said.',
+          worksSeenKura:
+            'The rice stands to the rafters with room for nothing above it — a limit the book has entered as a limit for eleven years. One good harvest would have nowhere to sleep.',
+          worksSeenHouse:
+            'From the forecourt the omoya shows its shut south face: shutters weathered grey into their grooves, rooms nine years absent from the book. Not one entry against any of it, and that is its own kind of entry.',
+          worksLadderUnnamed: 'The day-book carries lines it has not read aloud yet.',
+          worksLadderNamed: 'Named at the board. Now go and stand where the figures stand.',
+          worksU1Label: 'Close the oldest lines',
+          worksU1Blurb:
+            'Gate, bunds, and the woodshed roof — three standing entries, mended as one work.',
+          worksU1Done:
+            "The hinge swings silent, the bunds hold their line, the woodshed roof turns the rain. At the board, three of the day-book's oldest open entries are ruled through in one evening — dated, footed, closed. (U1 · Stabilising)",
+        },
+      },
+      {
+        id: 'b',
+        label: 'the household knows',
+        brief:
+          'the yard has worked around the damage for years; the book only ratifies what nobody says; each priced work binds the stray to the house',
+        scorecard:
+          "16✔ 5✘ (2 [briefed]: two-voice option reacts bend the one-react grammar; household speakers dilute Genemon's decide ownership (P3); warmest texture of the three)",
+        scenes: {
+          'works-intro': {
+            id: 'works-intro',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'Morning at the board, after rain. O-Hisa crosses the gateyard the long way, around a hollow that holds water — the same long way she took yesterday, and dry days too, the detour worn smoother than the reason for it. Rokusuke is in early, mud to the knee, saying nothing about where the mud came from. Nobody says anything. The house has its ways around its own sore places, and the ways stopped being noticed years ago.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Genemon has the day-book open, and for once he is not writing. He is reading back — pages of it, a season at a time — with the face of a man counting a debt he has been letting stand.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"The gate-board is wedged. It has been wedged four winters. The wedge is in this book as kindling, which it is not."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"The east bund weeps. Rokusuke stakes it after every rain — his own straw, his own hour, no entry. The woodshed roof: the wood in there is stacked to miss a drip. Whoever stacks it knows where the drip falls. The book does not."',
+              },
+              { voice: 'narrator', text: 'He turns a page as if the page had argued with him.' },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"And the weir. The screens the house leases from Matsuzō — rats in them, coin owed across the water every season the gnawing runs ahead of the mending. The lease line has carried the damage so long that the carrying has started to look like the lease."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Named, then — since the yard has plainly known it all along. The gate. The bund. The roof. The lease. Go and look at each with your own eyes; the book takes no man\'s word for damage, mine included. Then we will talk of work, and what work costs."',
+              },
+            ],
+            topics: [
+              {
+                id: 'works-intro-ask-a',
+                label: '"Why name it now?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Because the yard has been naming it for years — in wedges, in straw, in the long way round a puddle. A book that will not carry what the whole yard carries is not a record; it is a lie of omission. I keep worse things than losses out of this book. I will not keep that."',
+                  },
+                ],
+              },
+              {
+                id: 'works-intro-ask-b',
+                label: '"Whose coin mends it?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: "\"Not the house's. The house's coin is spoken for before it reaches the yard — you were told so your first morning, and it has not changed. A man who puts his own coin and his own hours into a house is entered as having done so, and the book remembers longer than men do. What that is worth, ask me at a season's close.\"",
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The concerns are named. What do you do with them?',
+              options: [
+                {
+                  id: 'works-intro-go',
+                  label: '"I\'ll walk them today, with my own eyes."',
+                  say: '"I\'ll walk them today, with my own eyes."',
+                  react:
+                    '"Then take them in the book\'s order: gate, bund, roof, and the weir last — the water can be looked at while you are already wet from the bund. Say what you see when you have seen it. Looking is entered as work."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'walked-the-book' }],
+                  flags: ['works-named-u1', 'works-named-weir'],
+                },
+                {
+                  id: 'works-intro-hold',
+                  label: '"The day\'s work first. I\'ll look as the round takes me."',
+                  say: '"The day\'s work first. I\'ll look as the round takes me."',
+                  react:
+                    '"As the round takes you, then. The round goes past all four. It always has — that is rather the point."',
+                  flags: ['works-named-u1', 'works-named-weir'],
+                },
+              ],
+            },
+          },
+          'works-u1': {
+            id: 'works-u1',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The board, evening. Word that you walked the named places has beaten you back to it — Shinnosuke watched you stare at the woodshed roof from the woodpile and told the kitchen, and the kitchen has told the pot: the bowl at the threshold is a little fuller tonight than the terms say. Genemon waits with the day-book open at a clean line.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"You have seen them. Say what you saw."',
+              },
+              {
+                voice: 'player',
+                text: '"The gate-board is soft behind the wedge. The east bund is Rokusuke\'s straw, not the house\'s earth. The roof shows daylight over my own mat."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"So the book has it from a hand that looked, and not from four winters of wedges. Board-wood, stone and straw, thatch. Small work, all of it, and all of it one lot — the kind that is never worth a day until it has cost a season."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"The house\'s coin is spoken for. If this is done, it is done on your own coin and your own hours, entered against your name. The book remembers what a man puts in. So, I find, does the yard."',
+              },
+            ],
+            topics: [
+              {
+                id: 'works-u1-ask-a',
+                label: '"Who set the wedge?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"The hand before you, or the one before him. It passed to whoever slept nearest — things do, here, when the book is silent. Nobody was ever asked; nobody ever entered it. That is the habit I mean to end, starting with the wedge."',
+                  },
+                ],
+              },
+              {
+                id: 'works-u1-ask-b',
+                label: '"Why one lot?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Because the yard treats them as one: three places it steps around in a single round. Mend one, and the round still bends. Mend all three, and the yard walks straight — and knows exactly who straightened it. That last part is not nothing, for a man in your position."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'Three works, one lot. The book waits on your word.',
+              options: [
+                {
+                  id: 'works-u1-begin',
+                  label: '"Set me to it."',
+                  say: '"Set me to it."',
+                  react:
+                    '"Entered. Gate, bund, roof, against your name. Rokusuke will hear it read at the morning board; expect his stakes and straw stacked at the bund by evening, sorted, best to hand. That is how the yard says so."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'set-to-it' }],
+                  flags: ['works-open-u1'],
+                },
+                {
+                  id: 'works-u1-hold',
+                  label: '"When my purse can stand it."',
+                  say: '"When my purse can stand it."',
+                  react:
+                    '"Then it stands entered and unpaid, like much else in here. The wedge has held four winters; it will hold while you count. Not forever."',
+                  flags: ['works-open-u1'],
+                },
+              ],
+            },
+          },
+          'works-u2': {
+            id: 'works-u2',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: "The board again. On it, beside the day-book, sits a small dish of bought plums — O-Hisa's, set down this morning without one word said. Genemon has been looking at the dish longer than a dish wants looking at.",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Nine years the kitchen has bought what this house once grew. The entry is one small line each market: plums, so many mon. Set the nine years end to end and it is not a small line. The kitchen has known it. The stall has known it. The dish is O-Hisa\'s way of asking when the book will."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"You have seen the rows. Sound trees under the choke, and dens dug in the hollow. The cutting-back is long work; the dens are Kihei\'s kind of work, and yours. The house calls the place the dogs\' yard. I mean to strike that name."',
+              },
+            ],
+            topics: [
+              {
+                id: 'works-u2-ask-a',
+                label: '"Whose orchard was it?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"The house\'s. Planted for a larger house than this one — you have seen how the rows are laid: for paths between, and room to walk them. Who walked them is an old page. The trees are this year\'s business, and they are alive, which is more than the old page can say."',
+                  },
+                ],
+              },
+              {
+                id: 'works-u2-ask-b',
+                label: '"And the dogs?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Kihei\'s word on them is one word, and it has kept the yard whole this long. The dens come first — there is no cutting bramble over a den. Go to him before you go near the hollow, and go in his order. He will have one."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The dish is still on the board.',
+              options: [
+                {
+                  id: 'works-u2-begin',
+                  label: '"The house grows its own plums again."',
+                  say: '"The house grows its own plums again."',
+                  react:
+                    '"Entered: orchard, to be taken back. The kitchen will hold you to it harder than this book will, and the book does not forget. Take the dish back as you go — empty. O-Hisa will know what it means."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'ground-taken-back' }],
+                  flags: ['works-open-u2'],
+                },
+                {
+                  id: 'works-u2-hold',
+                  label: '"After the season\'s work. It has waited nine years."',
+                  say: '"After the season\'s work. It has waited nine years."',
+                  react:
+                    '"So it has — and each year has cost more than the one before it. Entered all the same. The dish stays on the board until the line closes; that is O-Hisa\'s term, not mine, and I would not cross it either."',
+                  flags: ['works-open-u2'],
+                },
+              ],
+            },
+          },
+          'works-u3': {
+            id: 'works-u3',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'Genemon is at the kura when you come back to it, and for once he is not counting rice — he is counting wall. Rokusuke stands by with the look of a man whose private arrangement is about to be read aloud.',
+              },
+              { voice: 'steward', speaker: NPC_NAME.genemon, text: '"Show him."' },
+              {
+                voice: 'villager',
+                speaker: NPC_NAME.rokusuke,
+                text: '"Bottom bales go musty against the north wall, so they get turned. Week about, all winter. The marks on the beam say whose week. It\'s not in any book. It never seemed a thing for a book."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"A wall\'s worth of labour every winter, spent standing still. And last autumn three bales sat a week in the forecourt under oilcloth, because the floor was full. If the wild rows come back to bearing, the harvests grow, and this kura will not grow with them. A second granary, raised at its side. Board by board, on your coin, against your name."',
+              },
+            ],
+            topics: [
+              {
+                id: 'works-u3-ask-a',
+                label: '"Why was it never raised before?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"It was to be. The year it was to be raised was a year this house could keep no one it did not have to keep, and after that year, nobody asked again. Rokusuke\'s beam-marks have done the asking since — quietly, week about, for longer than he will say. I have decided to hear them."',
+                  },
+                ],
+              },
+              {
+                id: 'works-u3-ask-b',
+                label: '"Where does it stand?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Against the kura\'s south side, on the dry ground the oilcloth found last autumn. The forecourt taught the house where a granary should stand. We build on the lesson; it was dearly enough bought."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'Rokusuke is waiting on the answer too.',
+              options: [
+                {
+                  id: 'works-u3-begin',
+                  label: '"Raise it. The turning ends this winter."',
+                  say: '"Raise it. The turning ends this winter."',
+                  react:
+                    '"Entered: granary, second, at the kura. Stores past the winter\'s need — the book has wanted to write that line a long time. Rokusuke keeps the turning till your roof is on; he said so before you answered."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'past-winters-need' }],
+                  flags: ['works-open-u3'],
+                },
+                {
+                  id: 'works-u3-hold',
+                  label: '"Boards cost. Let me count my purse first."',
+                  say: '"Boards cost. Let me count my purse first."',
+                  react:
+                    '"Count, then. The beam-marks will keep your place. They have kept it this long."',
+                  flags: ['works-open-u3'],
+                },
+              ],
+            },
+          },
+          'works-u4': {
+            id: 'works-u4',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: "Evening, the forecourt, the omoya's shut screens going grey with the last light. Naoyuki is there before you — standing where you stood to look at them, which means he saw you looking, or was told.",
+              },
+              {
+                voice: 'official',
+                speaker: NPC_NAME.naoyuki,
+                text: '"When I was a boy, those rooms —"',
+              },
+              {
+                voice: 'narrator',
+                text: 'The sentence stops, the way his sentences do, as if he has read it back and found it not worth the ink. He goes in along the veranda. Genemon comes out by the same boards, the day-book under his arm, and stands where Naoyuki stood.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"You have seen the shut rooms. Everyone has. The house walks past its own best rooms daily, by the shortest way, the way a man walks past a debt. And still the veranda edge is wiped clean along its whole length — you will have seen that too."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Thirty-one years I have written the closing of this house, door by door. A room shut is one line, and cheap. Opening is dearer. I rule a second reckoning now — walls that held, ground taken back, stores past need — and that page wants the omoya on it, or the page is a lie of a new kind."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"It is the last work, and the largest: your coin, your hours, against your name in this book. Set the house in order, and whatever else this book has been, it ends as the record of a house that stands."',
+              },
+            ],
+            topics: [
+              {
+                id: 'works-u4-ask-a',
+                label: '"Who keeps the veranda edge clean?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"O-Hisa, when she thinks the yard is empty. Nobody set her to it, and she would not thank the book for noticing. Houses are kept alive by such hands long after they are shut, and none of it has ever been entered. That is the arrears I mean to clear."',
+                  },
+                ],
+              },
+              {
+                id: 'works-u4-ask-b',
+                label: '"Why me?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Because every work on this page went in against your name, and the yard watched each one done. When this house asks, someday, who set it in order, the book should answer with a name it can stand behind. Yours is the one written on the doing."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The last page of the reckoning is ruled, and empty.',
+              options: [
+                {
+                  id: 'works-u4-begin',
+                  label: '"Open the rooms. Set the house in order."',
+                  say: '"Open the rooms. Set the house in order."',
+                  react:
+                    '"Entered. And when it is done, I will write the line I have kept thirty-one years for. See that you make it true."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'the-house-stands' }],
+                  flags: ['works-open-u4'],
+                },
+                {
+                  id: 'works-u4-hold',
+                  label: '"Order is a large word. Let me come at it slowly."',
+                  say: '"Order is a large word. Let me come at it slowly."',
+                  react:
+                    '"Slowly is how the rooms were shut — one line at a time. Come at it however you like; it is entered, and the page will wait. Pages do."',
+                  flags: ['works-open-u4'],
+                },
+              ],
+            },
+          },
+        },
+        flavor: {
+          worksNamedOrchard: `The day-book opens a heading the kitchen has paid toward for nine years in bought plums: orchard, gone wild, to be taken back — ${NAMES.elder} enters it without looking up, as if it had always been there.`,
+          worksNamedGranary:
+            "Entered in the day-book: granary, second, to be raised at the kura — the line saying plainly what Rokusuke's beam-marks and last autumn's oilcloth have said for years.",
+          worksNamedHouse: `Entered, in ${NAMES.elder}'s smallest hand: the omoya, to be set in order. Nobody at the board says anything, which is how this house says most things.`,
+          worksSeenGate:
+            "The gate-board hangs by grace of a wedge someone renews without being asked, and the wood behind it has gone soft as old bread. Yohei's stall always ropes to the same post — even trade knows which one to trust.",
+          worksSeenPaddies:
+            "The east bund weeps through a fist of stakes and straw — Rokusuke's work, redone after every rain, entered nowhere. The water it loses is the far rows' water, and the far rows show it.",
+          worksSeenWoodshed:
+            "The wood is stacked in a horseshoe around one bare patch of floor, and Shinnosuke's perch on the pile keeps to the dry end — even the boy's trespassing has learned this roof. Above the bare patch, daylight.",
+          worksSeenOrchard:
+            "Under the bramble the fruit trees stand alive in their rows while the kitchen buys plums at the stall. The dogs' paths through the choke are wider than the house's.",
+          worksSeenKura:
+            "The rice is stacked to the beams and turned week about so the bottom bales can breathe — Rokusuke's arithmetic, not the builder's. One good harvest more than this floor can hold, and the surplus sits out under oilcloth.",
+          worksSeenHouse:
+            "From the forecourt the omoya's shut rooms show as a row of weathered screens, and along the veranda edge the dust is wiped in one clean band — someone still keeps that much of it, and no one says who.",
+          worksLadderUnnamed: 'The yard works around what nobody has named.',
+          worksLadderNamed: 'The book has named its concerns; go and see them with your own eyes.',
+          worksU1Label: 'Make the first repairs',
+          worksU1Blurb:
+            'Mend the gate, the bund, and the woodshed roof — the small work the yard has walked around for years.',
+          worksU1Done:
+            "The wedge comes out of the gate, the bund holds through a whole rain, and the woodshed roof goes dark where daylight showed. By week's end O-Hisa crosses the gateyard the short way, and the yard's rounds run straight for the first time in four winters. (U1 · Stabilising)",
+        },
+      },
+    ],
+  },
 ];

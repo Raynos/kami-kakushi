@@ -14,6 +14,9 @@ import {
   RAKE_CAP,
   STAMINA_RATE_FLOOR,
   STAMINA_FLAT_ABOVE,
+  HUNGER_MAX,
+  HUNGER_FLAT_ABOVE,
+  HUNGER_REST_FLOOR,
   LOW_HP_WORK_THRESHOLD,
   LOW_HP_WORK_MULT,
   CONDITIONING_GATE_LEVEL,
@@ -21,12 +24,10 @@ import {
   ESTATE_STAGE_DEED_GATES,
   HARVEST_AUTUMN_MULT_NUM,
   HARVEST_AUTUMN_MULT_DEN,
-  HUNGER_MAX,
-  HUNGER_FLAT_ABOVE,
-  HUNGER_REST_FLOOR,
   productionDraw,
 } from './content/balance';
 import { ESTATE_STAGES, type EstateStageDef } from './content/estate';
+import { stageDiscovery, stageOpen } from './works';
 import {
   BELONGINGS,
   HOME_SURFACE,
@@ -395,6 +396,11 @@ export interface EstateBuild {
     /** Carried coin now vs the cost (mon). */
     readonly carried: number;
     readonly coinShort: number;
+    /** ADR-177 — the discovery chain's read: a stage prices only after its beat.
+     *  'unnamed' → the day-book has named nothing · 'named' → walk and see it ·
+     *  'open' → commissionable (the pre-ADR-177 behavior). */
+    readonly discovery: 'unnamed' | 'named' | 'open';
+    readonly open: boolean;
   };
 }
 
@@ -425,6 +431,8 @@ export function estateBuild(state: GameState): EstateBuild {
             deedsShort: Math.max(0, nextRow.deedGate - standing),
             carried,
             coinShort: Math.max(0, nextRow.def.coinCost - carried),
+            discovery: stageDiscovery(state, nextRow.def.stage),
+            open: stageOpen(state, nextRow.def.stage),
           },
         }
       : {}),

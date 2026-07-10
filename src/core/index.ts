@@ -147,6 +147,18 @@ export type { RungScene, RungDecision, RungOption } from './content/rungBeats';
 // wires these into the one VN modal + the wage board / season / night-round controls).
 export { SCENES, sceneById } from './content/scenes';
 export type { SceneDef, SceneId, SceneTrigger } from './content/scenes';
+// ADR-177 — the works discovery chain (day-book names → walk sees → beat opens).
+export {
+  WORKS_PROJECTS,
+  stageOpen,
+  stageDiscovery,
+  stageLabel,
+  stageBlurb,
+  stageLogLine,
+  worksPass,
+  worksLine,
+  __setWorksFlavorOverride,
+} from './works';
 export { isWaged, WAGE_START_RUNG, DAY_WAGE_MON } from './content/wage';
 export { FLAVOR, judgeLine, __setJudgeFlavorOverride } from './content/flavor';
 export {

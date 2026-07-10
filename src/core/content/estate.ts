@@ -9,6 +9,8 @@
 // the bible's repair/reclamation projects, grounded in flavor.gen (perkWeirSlats · questOrchard*
 // · estateSourceStores · estateStands). All numbers are SEED / sim-owned — tune by playtest.
 
+import { FLAVOR } from './flavor';
+
 export interface EstateStageDef {
   readonly stage: number;
   readonly label: string;
@@ -25,14 +27,19 @@ export interface EstateStageDef {
 
 export const ESTATE_STAGES: readonly EstateStageDef[] = [
   {
+    // ADR-177 — U1 re-sited from the weir screens to the three R1 zones (gate ·
+    // paddies · woodshed): first repairs land where the player already walks; the
+    // weir lease stays a NAMED concern (works-intro), not a ladder project. The
+    // strings are single-sourced from FLAVOR (narrative/flavor.md worksU1* — the
+    // works-cause diverge's canon pick); works.ts stageLabel/Blurb/LogLine resolve
+    // the DEV take overlay on top.
     stage: 1,
-    label: 'Mend the weir screens',
+    label: FLAVOR.worksU1Label,
     coinCost: 100, // SEED (sim-owned) — coin-gate retained this chunk; deed reframe is next
     satietyMaxBonus: 20,
     yieldBonusNum: 15, // +15% labour output — the flywheel's first turn
-    logLine:
-      "You mend the leased weir screens slat by slat — green bamboo split with the grain, lashed wet to tighten as it dries. The rats' road is closed; the lease's damage line stays empty this season. (U1 · Stabilising)",
-    blurb: 'Mend the leased weir screens the river rats gnaw through.',
+    logLine: FLAVOR.worksU1Done,
+    blurb: FLAVOR.worksU1Blurb,
   },
   {
     stage: 2,

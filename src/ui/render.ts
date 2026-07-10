@@ -45,6 +45,9 @@ import {
   formatKMB,
   formatCoin,
   satietyMax,
+  hungerMax,
+  restQuality,
+  restRefill,
   hpMax,
   staminaRate,
   season,
@@ -79,6 +82,9 @@ import {
   AREAS,
   ESTATE_STAGES,
   estateBuild,
+  stageLabel,
+  stageBlurb,
+  stageDiscovery,
   NAMES,
   RECIPES,
   MATERIALS,
@@ -761,7 +767,21 @@ export function mount(
   // give body the SAME exact-number readout life has, and say on hover what fills/drains it.
   const staminaNum = el('span', 'value numeric');
   stamina.append(staminaNum);
-  stamina.title = 'Body 体 — work draws it down; a rest or a meal refills it.';
+  stamina.title = 'Body 体 — work draws it down; a rest refills it. Rest better on a full belly.';
+  // The belly (ADR-178 — the FB-345 body split): the SAME vital idiom as body (one primitive per
+  // idiom — label + bar + exact number + hover name), on the slow daily clock. The day draws it
+  // down; the kura ration maintains it; a meal raises it; its only teeth are rest quality.
+  const belly = el('div', 'vital belly');
+  belly.hidden = true;
+  belly.append(el('span', 'label', 'belly'));
+  const bellyBar = el('div', 'bar');
+  const bellyFill = el('span');
+  bellyBar.append(bellyFill);
+  belly.append(bellyBar);
+  const bellyNum = el('span', 'value numeric');
+  belly.append(bellyNum);
+  belly.title =
+    'Belly 腹 — the day draws it down; the house eats from the kura, a meal fills it. A hungry rest restores less.';
   // HP — a life-or-death meter once combat opens (ADR-076: HP accumulates, no auto-heal, a lost fight
   // bites carried coin + rice). It sits beside `body` so the player can always SEE they're hurt + heal (eat).
   const health = el('div', 'vital health');
@@ -775,7 +795,7 @@ export function mount(
   health.append(healthNum);
   const wood = vital('wood', 'wood');
   const sansai = vital('sansai', 'sansai');
-  header.append(health, stamina, wood.wrap, sansai.wrap);
+  header.append(health, stamina, belly, wood.wrap, sansai.wrap);
 
   // ── FB-106 (ADR-110) — the RUNG element in the fixed header, top-right: a compact rung name + a
   //    progress bar (the requirement percent toward the next rung, FB-121) with a HOVER card of detail. This is the
@@ -1551,17 +1571,25 @@ export function mount(
     const r = estateRefs;
     {
       const build = estateBuild(state);
+      const nextOpen = build.next?.open ?? true;
       build.rows.forEach((rowData, i) => {
         const refs = r.ladderRows[i]!;
         const built = rowData.status === 'built';
         const cls = `build-ladder-row is-${rowData.status}`;
         if (refs.row.className !== cls) refs.row.className = cls;
         setText(refs.mark, built ? '◆' : rowData.status === 'next' ? '▹' : '▢');
-        // a locked stage is a promise, not a preview — the name inks in when it becomes next
-        setText(refs.name, rowData.status === 'locked' ? 'the works continue' : rowData.def.label);
+        // a locked stage is a promise, not a preview — the name inks in when it becomes next.
+        // ADR-177: the NEXT stage also stays unnamed until its pricing beat opens it (the
+        // day-book → walk → beat chain is the reveal, never the menu). stageLabel is take-aware.
+        setText(
+          refs.name,
+          rowData.status === 'locked' || (rowData.status === 'next' && !nextOpen)
+            ? 'the works continue'
+            : stageLabel(rowData.def),
+        );
         setText(
           refs.gauge,
-          rowData.status === 'next' && rowData.deedGate > 0
+          rowData.status === 'next' && nextOpen && rowData.deedGate > 0
             ? `standing ${Math.min(state.influence.estate.value, rowData.deedGate)} / ${rowData.deedGate} koku`
             : '',
         );
@@ -1571,14 +1599,27 @@ export function mount(
     const name = ESTATE_STAGE_NAMES[stage] ?? ESTATE_STAGE_NAMES[ESTATE_STAGE_NAMES.length - 1]!;
     setText(r.now, `Estate · ${name}`);
     const next = ESTATE_STAGES.find((s) => s.stage === stage + 1);
-    if (next) {
+    const nextDiscovery = next ? stageDiscovery(state, next.stage) : 'open';
+    if (next && nextDiscovery !== 'open') {
+      // ADR-177 — the discovery chain hasn't closed: no name, no price, no button (TST3).
+      // The card states the chain's position plainly instead (TST4): nothing named yet,
+      // or named-go-and-see. Both lines are FB-5 canon, live-swappable in DEV (ADR-143).
+      toggle(r.blurb, false);
+      toggle(r.btn, false);
+      const hintKey = nextDiscovery === 'named' ? 'worksLadderNamed' : 'worksLadderUnnamed';
+      setText(
+        r.hint,
+        __DEV_TOOLS__ && dev ? dev.subFlavor(hintKey, FLAVOR[hintKey]) : FLAVOR[hintKey],
+      );
+      if (r.btn.title !== '') r.btn.title = '';
+    } else if (next) {
       toggle(r.blurb, true);
-      setText(r.blurb, next.blurb);
+      setText(r.blurb, stageBlurb(next));
       // the mechanical PAYOFF (the coin flywheel — the whole reason to sink coin into the estate),
       // read from the source-of-truth stage fields so it never drifts (R6: an invisible mechanic).
       setText(r.hint, `+${next.yieldBonusNum}% labour output · +${next.satietyMaxBonus} max body`);
       toggle(r.btn, true);
-      setText(r.btn, `${next.label} (${formatCoin(next.coinCost)})`);
+      setText(r.btn, `${stageLabel(next)} (${formatCoin(next.coinCost)})`);
       const carried = state.resources.coin ?? 0;
       const banked = state.banked.coin ?? 0;
       // ADR-145 (the B half) — the build stage is ALSO deed-gated: read the SAME source-of-truth
@@ -3014,7 +3055,10 @@ export function mount(
           auto.addEventListener('click', () =>
             dispatch({ type: 'set_auto_rake', on: !lastState?.autoRake }),
           );
-          row.append(btn, auto);
+          // FB-368 — the rake row carries the labour-row lock-hint idiom too: when the
+          // rake refuses, the why reads inline, not only on hover (TST4).
+          const lock = el('span', 'lock-hint');
+          row.append(btn, auto, lock);
           return row;
         }
         const btn = el('button', a === 'open_eyes' ? 'verb primary' : 'verb', META_LABELS[a]);
@@ -3024,10 +3068,12 @@ export function mount(
         return btn;
       },
       patch: (node, a) => {
-        // FB-346 — rest carries its effect line too (the same number the reducer grants).
+        // FB-346 — rest carries its effect line too. restRefill is the SAME selector the reducer
+        // grants (AC-6/ADR-178), so a hungry rest advertises its true, degraded number.
         if (a === 'rest') {
           const btn = node as HTMLButtonElement;
-          const t = `+${balance.SATIETY_PER_REST + homeRestBonus(state)} body — a free breather; a meal restores more.`;
+          const hungry = restQuality(state) < 0.99;
+          const t = `+${restRefill(state)} body — a free breather${hungry ? ' (poor on an empty belly — eat to rest well)' : ''}.`;
           if (btn.title !== t) btn.title = t;
           return;
         }
@@ -3047,14 +3093,36 @@ export function mount(
               `+${balance.RICE_PER_RAKE} shō (kura) · −${balance.SATIETY_PER_ACT} body`
             : OUT_OF_STRENGTH_REASON;
         if (rakeBtn.title !== rakeTitle) rakeBtn.title = rakeTitle;
+        // FB-367/FB-368 — the rake row speaks the labour-row idioms (patchLabourRow /
+        // ADR-148): exhaustion is PERMANENT, so the auto-toggle hides for good (a
+        // "waiting" idle would lie); merely out-of-strength keeps an ARMED auto visible
+        // as "⏸ waiting" (it re-fires once legal); and the refusal reason reads inline
+        // via the lock-hint, off the SAME predicates the title already uses (AC-6).
         const auto = node.querySelector<HTMLButtonElement>('.auto-toggle')!;
-        toggle(auto, rakeCount(state) >= RAKE_AUTO_REVEAL_COUNT);
+        const lock = node.querySelector<HTMLElement>('.lock-hint')!;
         const on = state.autoRake;
-        setClass(auto, 'on', on);
-        setText(auto, on ? '■ stop' : '▶ auto');
-        const pressed = String(on);
-        if (auto.getAttribute('aria-pressed') !== pressed)
-          auto.setAttribute('aria-pressed', pressed);
+        if (exhausted) {
+          toggle(auto, false);
+        } else if (!affordable) {
+          toggle(auto, on);
+          if (on) {
+            setClass(auto, 'on', true);
+            setClass(auto, 'waiting', true);
+            setText(auto, '⏸ waiting');
+            if (auto.title !== OUT_OF_STRENGTH_REASON) auto.title = OUT_OF_STRENGTH_REASON;
+          }
+        } else {
+          toggle(auto, rakeCount(state) >= RAKE_AUTO_REVEAL_COUNT);
+          setClass(auto, 'on', on);
+          setClass(auto, 'waiting', false);
+          setText(auto, on ? '■ stop' : '▶ auto');
+          const pressed = String(on);
+          if (auto.getAttribute('aria-pressed') !== pressed)
+            auto.setAttribute('aria-pressed', pressed);
+        }
+        const reason = exhausted ? RAKE_DONE_REASON : affordable ? '' : OUT_OF_STRENGTH_REASON;
+        toggle(lock, !!reason);
+        if (reason) setText(lock, reason);
       },
       order: true,
     });
@@ -3139,7 +3207,7 @@ export function mount(
         isUnlocked(state, 'room-gate'),
     );
 
-    // cook a meal — sansai → satiety AND the ONLY way to mend HP (ADR-050/ADR-076). Say so, and make it
+    // cook a meal — sansai → HP mend + a belly side (ADR-050/ADR-076/ADR-178). Say so, and make it
     // the PRIMARY (prominent) action when the MC is hurt — the "heal now" companion to the red life bar.
     const showCook = isUnlocked(state, 'verb-cook');
     toggle(r.cookRow, showCook);
@@ -3151,12 +3219,12 @@ export function mount(
       setDisabled(r.cookBtn, short);
       const title = short
         ? `Needs ${cost} sansai — forage the woodlot to gather it.`
-        : 'Eat to restore your body and mend your wounds — eating is the only way to heal.';
+        : 'A hot meal mends your wounds and fills your belly — eating is the only way to heal.';
       if (r.cookBtn.title !== title) r.cookBtn.title = title;
     }
 
-    // eat plain rice — rice → satiety (ADR-107 Phase 2), the rice food path beside cook. A proper meal
-    // refuels FASTER than a free rest (the design lever), trading your own rice for readiness.
+    // eat plain rice — rice → BELLY (ADR-178: food feeds the belly, never the work bar), the rice
+    // food path beside cook. A deliberate meal RAISES what the daily kura ration only maintains.
     const showEatRice = isUnlocked(state, 'verb-eat-rice');
     toggle(r.eatRiceRow, showEatRice);
     if (showEatRice) {
@@ -3167,7 +3235,7 @@ export function mount(
       setDisabled(r.eatRiceBtn, short);
       const title = short
         ? `Needs ${cost} shō in the kura — rake or farm the paddies to gather it.`
-        : `A plain bowl of rice restores ${balance.EAT_RICE_SATIETY} body — more than a mere rest, at the cost of ${cost} shō.`;
+        : `A plain bowl of rice fills ${balance.EAT_RICE_HUNGER} belly — you rest better fed, at the cost of ${cost} shō.`;
       if (r.eatRiceBtn.title !== title) r.eatRiceBtn.title = title;
     }
     // (FB-107 — no "Walk on" strip here anymore: navigation lives ONLY on the Map tab.)
@@ -3967,6 +4035,20 @@ export function mount(
       // FB-335 — the exact number beside the bar (like life's), so the meter is never a
       // mystery strip; the unit reads "body" everywhere (FB-334), never "satiety".
       setText(staminaNum, `${Math.round(state.character.satiety)}/${Math.round(max)}`);
+    }
+
+    // The belly (ADR-178) — reveals WITH body (the two-bar group FB-345 asked for). The low flag
+    // fires exactly when its teeth bite (restQuality < 1 — AC-6: the same selector the rest
+    // reducer spends), so an amber-flagged belly always MEANS "your rests are degraded".
+    belly.hidden = !isUnlocked(state, 'readout-stamina');
+    if (!belly.hidden) {
+      const max = hungerMax(state);
+      const frac = max > 0 ? state.character.hunger / max : 0;
+      bellyFill.style.width = `${Math.round(frac * 100)}%`;
+      bellyBar.classList.toggle('low', restQuality(state) < 0.99);
+      // the exact number beside the bar (the FB-335 idiom); the unit reads "belly" everywhere
+      // (FB-334's law), never the internal field name.
+      setText(bellyNum, `${Math.round(state.character.hunger)}/${Math.round(max)}`);
     }
 
     // HP — revealed the moment combat first matters (the R2 wolf beat), then always visible. Shows an
@@ -6118,13 +6200,18 @@ export function mount(
           line(`+${balance.RICE_PER_RAKE} shō (kura) · −${balance.SATIETY_PER_ACT} body`);
           break;
         case 'rest':
-          line(`+${balance.SATIETY_PER_REST + homeRestBonus(state)} body`);
+          // restRefill — the SAME selector the reducer spends (AC-6), so a hungry (degraded)
+          // rest forecasts its true, reduced number instead of the full base.
+          line(`+${restRefill(state)} body`);
           break;
         case 'cook_meal':
-          line(`−${balance.COOK_SANSAI_COST} sansai · +${balance.COOK_HP_RESTORE} hp`);
+          line(
+            `−${balance.COOK_SANSAI_COST} sansai · +${balance.COOK_HP_RESTORE} hp · ` +
+              `+${balance.COOK_HUNGER_RESTORE} belly`,
+          );
           break;
         case 'eat_rice':
-          line(`−${balance.EAT_RICE_COST} shō (kura) · +${balance.EAT_RICE_SATIETY} body`);
+          line(`−${balance.EAT_RICE_COST} shō (kura) · +${balance.EAT_RICE_HUNGER} belly`);
           break;
         case 'repair_weapon':
           line(

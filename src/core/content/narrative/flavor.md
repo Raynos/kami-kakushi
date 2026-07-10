@@ -1088,3 +1088,91 @@ The old orchard smells of windfall gone to vinegar from the fence line on, and p
 ### nodeBambooGroveBlurbAutumn
 
 The grove keeps its green while the valley around it goes to stubble-brown, and the air under the stems holds a cellar cold the sun never reaches. The troop strips what the vegetable rows have left, and the creak overhead is the only account of where it went.
+
+<!-- ── The works discovery lines (works-cause bundle, ADR-139/ADR-177) ────────
+  Phase 1 of the estate plan: worksNamed* = the day-book naming entries (CORE-
+  emitted by works.ts worksPass, milestone channel, once per concern);
+  worksSeen* = the sighting lines (CORE-emitted on arrival at a named zone);
+  worksLadder* = the improve-card's pre-priced states (render-read);
+  worksU1* = U1's ladder strings (estate.ts single-sources them from here —
+  U1 re-sited from the weir screens to the three R1 zones, the weir lease
+  stays a NAMED concern). Canon = take C; alternates in takes/works-cause/. -->
+
+### worksNamedOrchard
+
+A new line in the day-book, entered like weather: orchard — gone wild, rows
+under the choke, dens in the hollow; the land's oldest holding on this side
+of the wall, {elder} notes, and the first the house means to contest.
+
+### worksNamedGranary
+
+Ruled at the season's head, dry as a frost report: the kura holds the year
+and not a measure over — a second granary wanted at its side before the land
+decides the matter its own way.
+
+### worksNamedHouse
+
+The day-book takes up its longest-carried concern in one plain line: the
+omoya, half-shut, the rooms going back to the land indoors — dust and damp,
+{elder} writes, being weather too.
+
+### worksSeenGate
+
+Rain-water stands at the foot of the west gatepost, and the wood at its
+waterline gives under a thumbnail, the grain letting go a little more with
+this season's standing wet. It is happening now, at the pace rot keeps.
+
+### worksSeenPaddies
+
+Water threads through the slumped bund while you stand there — patient,
+soundless, finding its level through a gap it has been widening all season.
+Two more bunds down the row are going the same quiet way.
+
+### worksSeenWoodshed
+
+Rain has been through the north corner again: a drip is still working
+somewhere back of the piles, keeping its own slow count, and the edge of
+your mat is dark where it drinks.
+
+### worksSeenOrchard
+
+A runner of bramble has a young fruit tree by the throat and is climbing it
+at the pace of years, tightening as it goes. Down in the hollow something
+moves through the dens without hurry, at home.
+
+### worksSeenKura
+
+Inside, this year's rice wants most of the room there is, with the harvest
+still to come. Along the north wall the damp is at its patient work, a
+hand's width up the boards and climbing.
+
+### worksSeenHouse
+
+From the forecourt the omoya's shut rooms show as a row of weathered
+screens no hand has slid in years, and moss holds the ridge where the
+thatch keeps water. The roof is going back to ground, slower than anyone
+is coming to stop it.
+
+### worksLadderUnnamed
+
+No works named yet; the land keeps the only running account.
+
+### worksLadderNamed
+
+The book has named its concerns; go and see them where they stand.
+
+### worksU1Label
+
+Stem the first rot
+
+### worksU1Blurb
+
+Mend the gatepost, the bunds, and the woodshed roof before the water works
+deeper.
+
+### worksU1Done
+
+The gatepost stands dry at the foot, the bunds carry their water where it is
+wanted, and the woodshed roof turns the rain it used to pass. Three lines the
+land held open are closed against it — the first the book has closed in
+years. (U1 · Stabilising)

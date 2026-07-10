@@ -58,7 +58,10 @@ export const MAP_NODES: readonly MapNode[] = [
     wrong: FLAVOR.nodeWeirRiverbankWrong,
     neighbors: ['weir-reeds', 'paddies'],
     rung: 0,
-    // No revealFlag: the cold open finds him here; the weir is always walkable.
+    // FB-342 / ADR-177 — the cold open happens here, but the PATH BACK reads locked
+    // until the day-book names the lease (the works-intro beat sets works-named-weir
+    // → worksPass reveals room-weir). Discovered, not spawned (TST3).
+    revealFlag: 'room-weir',
   },
   {
     id: 'sickroom',

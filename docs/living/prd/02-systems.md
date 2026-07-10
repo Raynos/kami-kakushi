@@ -1482,7 +1482,7 @@ city-builder/4X drift). **E3 "Prosperous" is authored as a coin/Arms sink folded
 >
 > | Stage | Work | What it is |
 > |---|---|---|
-> | U1 | Mend the weir screens | Mend the leased weir screens the river rats gnaw through. |
+> | U1 | Stem the first rot | Mend the gatepost, the bunds, and the woodshed roof before the water works deeper. |
 > | U2 | Reclaim the orchard | Clear the overgrown orchard and bring it back to fruit. |
 > | U3 | Raise the granary | Raise a second granary; keep the stores past winter. |
 > | U4 | Set the house in order | Repairs hold and the reclamation bears — the estate stands. |

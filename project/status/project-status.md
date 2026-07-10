@@ -100,19 +100,20 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-10-session-167-body-split-phase0-rulings.md`](../journal/2026-07-10-session-167-body-split-phase0-rulings.md)
+   [`journal/2026-07-11-session-168-estate-p1-works-discovery-chain.md`](../journal/2026-07-11-session-168-estate-p1-works-discovery-chain.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. The page NEVER auto-reloads
    (FB-257) — hit F5 yourself to pick up new code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the **estate redesign** is DIRECTION LOCKED (ADR-177,
-   `docs/plans/fable-2026-07-10-estate-upgrades-redesign.md`) — Phase 1
-   (fiction diverge) startable; or **T2 rungs/fog** (plan ready + greenlit:
+4. **Next (autonomous):** the **estate redesign**
+   (`docs/plans/fable-2026-07-10-estate-upgrades-redesign.md`): Phase 1 SHIPPED
+   (s168 — the works discovery chain, HR-27 awaiting the taste read); Phase 2
+   (Schedule A tab moves + the Works 普請/Estate 家 diverges) startable; or **T2 rungs/fog** (plan ready + greenlit:
    `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1 caveat: `T2_RUNG_LADDER`
    is DEV-preview-only); or drain the fresh `diverge` inbox bucket (ADR-171
    claim first; all older lanes archived, s164). Human-gated: HR-1 + HR-18…25
    + the body-split plan Phase-0 (reading queue). Combat R4+ → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 22/20 — REWRITE OWED (deferred: co-agent WIP in flight) · last full rewrite: 2026-07-09 -->
+<!-- rewrite-debt: 23/20 — REWRITE OWED (deferred: co-agent WIP in flight) · last full rewrite: 2026-07-09 -->

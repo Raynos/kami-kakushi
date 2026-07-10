@@ -49,9 +49,11 @@ describe('MAP_NODES — the T0 estate node-graph', () => {
   });
 
   it('reveal-gates every node except the R0 cold-open zones', () => {
-    // The cold open finds him at the weir; the sickroom/forecourt/kitchen are the always-open
-    // outer court. Every other zone inks in on its rung beat via a revealFlag.
-    expect(UNGATED).toEqual(['weir', 'sickroom', 'forecourt', 'kitchen']);
+    // The sickroom/forecourt/kitchen are the always-open outer court. The weir is
+    // GATED since ADR-177 (FB-342): the cold open happens there, but the path back
+    // reads locked until the works-intro's day-book naming reveals room-weir. Every
+    // other zone inks in on its rung beat via a revealFlag.
+    expect(UNGATED).toEqual(['sickroom', 'forecourt', 'kitchen']);
   });
 
   it('holds the ruined compound as locked scenery — visible, never walkable', () => {

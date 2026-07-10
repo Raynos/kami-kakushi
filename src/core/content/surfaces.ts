@@ -160,6 +160,14 @@ export const SURFACES: readonly Surface[] = [
     // FB-272 — the "your home area" beat belongs to the ceremony (human, 2026-07-10).
     ceremonyLabel: 'The woodshed corner — a mat, a bowl, a nail for the coat: yours',
   },
+  {
+    // FB-342 / ADR-177 — the weir path, locked after the cold open; revealed by
+    // worksPass when the works-intro beat's day-book naming latches works-named-weir
+    // (never a rank reward — the fiction causes the unlock, TST3).
+    id: 'room-weir',
+    kind: 'panel',
+    unlock: () => false,
+  },
   { id: 'verb-farm', kind: 'verb', unlock: () => false },
   { id: 'verb-haul', kind: 'verb', unlock: () => false },
 

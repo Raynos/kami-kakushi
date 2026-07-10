@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { WORKS_PROJECTS } from './works';
 import {
   createInitialState,
   reduce,
@@ -211,6 +212,9 @@ describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', (
       unlocked: [...s.unlocked, 'panel-estate'],
       resources: { ...s.resources, coin: 99999 },
       influence: { estate: { value: deedValue, highWater: deedValue, judged: 0 } },
+      // ADR-177 — close every discovery chain (source-of-truth-derived) so these
+      // cases test the DEED gate alone, never the works gate.
+      flags: { ...s.flags, ...Object.fromEntries(WORKS_PROJECTS.map((p) => [p.openFlag, true])) },
     };
   };
 

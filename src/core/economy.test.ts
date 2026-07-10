@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { WORKS_PROJECTS } from './works';
 import {
   createInitialState,
   reduce,
@@ -305,8 +306,21 @@ describe('improve_estate — the coin → estateStage sink (audit #5 / D-107)', 
       ...s,
       resources: { ...s.resources, coin },
       unlocked: [...s.unlocked, 'panel-rung-ladder', 'panel-estate'],
+      // ADR-177 — close the discovery chain (derived from the source of truth) so
+      // each no-op case below tests ITS OWN gate, never masked by the works gate.
+      flags: { ...s.flags, ...Object.fromEntries(WORKS_PROJECTS.map((p) => [p.openFlag, true])) },
     };
   }
+
+  it('is a no-op before the discovery chain opens the stage (ADR-177 — coin alone buys nothing)', () => {
+    const rich = createInitialState(1);
+    const unopened: GameState = {
+      ...rich,
+      resources: { ...rich.resources, coin: 10_000 },
+      unlocked: [...rich.unlocked, 'panel-rung-ladder', 'panel-estate'],
+    };
+    expect(reduce(unopened, { type: 'improve_estate' })).toBe(unopened);
+  });
 
   it('spends coin, advances the stage, and lifts satietyMax by the stage bonus', () => {
     const s = estateReady(150);
@@ -593,7 +607,11 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
     expect(s.resources.coin ?? 0).toBeLessThan(u1); // starts unable to afford the first kura-works
     s = reduce(s, { type: 'sell_rice' });
     expect(s.resources.coin ?? 0).toBeGreaterThanOrEqual(u1); // the faucet crosses the cost
-    const built = reduce(s, { type: 'improve_estate' });
+    const opened: GameState = {
+      ...s,
+      flags: { ...s.flags, [WORKS_PROJECTS[0]!.openFlag]: true }, // ADR-177 — chain closed
+    };
+    const built = reduce(opened, { type: 'improve_estate' });
     expect(built.estateStage).toBe(1); // and the sink actually accepts the coin
   });
 });

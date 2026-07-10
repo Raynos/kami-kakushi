@@ -18,6 +18,7 @@ import {
 } from './state';
 import { applyRewards } from './rewards';
 import { revealPass } from './unlock';
+import { worksPass, stageOpen, stageLogLine } from './works';
 import { discoveryPass } from './discovery';
 import { advanceClock, advanceSeason } from './step';
 import { clamp } from './math';
@@ -68,8 +69,8 @@ import {
   introSceneAt,
   introTopic,
   introSceneOption,
-  introPerkLine,
   introSceneTitle,
+  introPerkLine,
   beatReactVoice,
   beatReactSpeaker,
   type IntroStat,
@@ -138,7 +139,7 @@ export type Intent =
   | { type: 'equip_weapon'; weaponId: WeaponId }
   | { type: 'set_stance'; stance: StanceId }
   | { type: 'cook_meal' }
-  | { type: 'eat_rice' } // kura rice → belly (ADR-178/ADR-163 — the plain-rice meal path, shō from stores)
+  | { type: 'eat_rice' } // kura rice → satiety (ADR-163 — the plain-rice meal path, shō from stores)
   | { type: 'sell_rice' } // kura rice → coin at Yohei's stall (ADR-163 — market-day + purse clamped)
   | { type: 'collect_wage' } // MON lane (ADR-163): collect the accrued day-wage at the board (R5+)
   | { type: 'advance_season' } // storywave G1: end the season (the manual six-season wheel)
@@ -181,7 +182,9 @@ function finish(state: GameState): GameState {
   // choose_rung_option → applyPromotion). Then the reveal pass runs as before.
   // G4 — the flag side-beat pass: any scene whose FLAG trigger is now set queues here (sb-dog on
   // orchard-reclaimed, sb-dog-coda on sb-dog-fed), so a flag latching anywhere is noticed this tick.
-  return revealPass(triggerFlagScenes(settleRequirements(state)));
+  // ADR-177 — the works discovery pass runs FIRST so a naming/sighting latched this
+  // tick is seen by the same tick's flag-scene pass (the pricing beat enqueues at once).
+  return revealPass(triggerFlagScenes(settleRequirements(worksPass(state))));
 }
 
 /** Deliver any not-yet-shown, gate-satisfied lines of a dialogue into the story log (the
@@ -914,6 +917,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!isUnlocked(next, 'panel-estate')) return state;
       const target = ESTATE_STAGES.find((s) => s.stage === next.estateStage + 1);
       if (!target) return state;
+      // ADR-177 (TST3) — a stage is commissionable only after its discovery chain
+      // closed (day-book named it → damage seen → the pricing beat played).
+      if (!stageOpen(next, target.stage)) return state;
       // ADR-145 (the B half) — the build is STAGED against banked Estate standing: stage U<k>
       // also needs the house's recognised deeds at its gate, so U1–U4 land as paced Phase-2
       // build beats (U1's gate is 0 — Phase-1 purchasable as before).
@@ -922,7 +928,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if ((next.resources.coin ?? 0) < target.coinCost) return state;
       next = withResource(next, 'coin', -target.coinCost);
       next = { ...next, estateStage: target.stage };
-      next = applyRewards(next, { log: [{ channel: 'milestone', text: target.logLine }] });
+      // stageLogLine — take-aware (the DEV story switcher swaps future emissions).
+      next = applyRewards(next, { log: [{ channel: 'milestone', text: stageLogLine(target) }] });
       // ADR-145 — the E1 build-complete beat: the estate STANDS (fires exactly once, at U4;
       // the PRD's §3.2/§3.3 promised Phase-2 payoff the tier never shipped).
       if (target.stage === MAX_ESTATE_STAGE && !hasFlag(next, 'estate-stands')) {

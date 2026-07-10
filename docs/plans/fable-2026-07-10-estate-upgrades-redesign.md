@@ -3,7 +3,9 @@
 **Status:** LOCKED — direction signed; **Phase 0 CLOSED 2026-07-10, ADR-177**
 (all forks ruled in-session; see **Direction** below +
 `project/feedback-human/2026-07-10-estate-phase0-rulings.md` for verbatims).
-Build phases are startable in order.
+**Phase 1 BUILT 2026-07-11 (session 168)** — the works-cause diverge + the
+discovery chain shipped (HR-27 open for the taste read; FB-338/FB-342 fixed
+in-engine). Phase 2 (Schedule A + the two surface diverges) is next.
 **Confidence:** ( 35% Opus, 65% Fable ) — the load-bearing work is fiction +
 taste judgment (Phases 1–2); the mechanical tail (Step 0, Phase 3 transcription)
 is Opus-safe.
@@ -173,7 +175,7 @@ The fork list below stays as the record of what was asked.
 - **F5 · HR-16's cutaway disposition.** Anchor of the redesign (pull forward) ·
   its own later track · stays parked.
 
-### Phase 1 · Fiction repair (ADR-139) — the cause chain
+### Phase 1 · Fiction repair (ADR-139) — the cause chain — ✅ BUILT (s168, HR-27)
 
 Per F2 (ledger→walk + NPC beats): a narrative-diverge (3+ blind takes per
 unit) for (a) the day-book/ledger lines that name each concern, (b) the four
