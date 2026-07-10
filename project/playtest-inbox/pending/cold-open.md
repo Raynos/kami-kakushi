@@ -80,3 +80,13 @@ The cold open changed, completely, the Memory section is gone, the discussion wi
 **Details:** `cold-open/2026-07-10T11-38-17.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:38:45+0200 — when-the-cold-open
+
+When the cold open finished, the Progress did not have an unread symbol, it needs to have an unread symbol.
+
+**Element:** button "Progress" — "Progress" · `section[data-panel=log] > div:nth-of-type(2) > div:nth-of-type(1) > button:nth-of-type(2)` · @1031,669 64×26
+**Screenshot:** `cold-open/2026-07-10T11-38-45.png`
+**Details:** `cold-open/2026-07-10T11-38-45.json` — save + recent logs + full context
+
+---
