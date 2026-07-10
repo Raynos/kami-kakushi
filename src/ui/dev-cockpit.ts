@@ -125,12 +125,12 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
   },
   // W3 · eat-rice vs rest
   {
-    path: 'EAT_RICE_SATIETY',
-    label: 'Eat-rice satiety',
+    path: 'EAT_RICE_HUNGER',
+    label: 'Eat-rice belly',
     group: 'W3 · eat vs rest',
     watch: 'W3',
     integer: true,
-    guard: 'EAT_RICE_SATIETY > SATIETY_PER_REST is the documented design lever',
+    guard: 'EAT_RICE_HUNGER > HUNGER_MEAL_RESTORE is the documented design lever (ADR-178)',
   },
   {
     path: 'EAT_RICE_COST',
@@ -569,7 +569,7 @@ export function mountBalanceCockpit(
       const seasonNow = season(s);
       const coinWorth = balance.EAT_RICE_COST * balance.riceSellPrice(seasonNow);
       const restBody = balance.SATIETY_PER_REST + homeRestBonus(s);
-      lines[2]!.textContent = `Eat +${balance.EAT_RICE_SATIETY} body / ${balance.EAT_RICE_COST} rice (≈${coinWorth} coin, ${seasonNow}) vs rest +${restBody} free`;
+      lines[2]!.textContent = `Eat +${balance.EAT_RICE_HUNGER} belly / ${balance.EAT_RICE_COST} rice (≈${coinWorth} coin, ${seasonNow}) vs rest +${restBody} body free`;
       // 4 · rice→coin flow (W1/W2)
       const price = balance.riceSellPrice(seasonNow);
       const spring = balance.riceSellPrice('spring');

@@ -87,7 +87,7 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
   'food.cook': (p) =>
     `You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−${p.sansai} sansai${Number(p.hpGain) > 0 ? `, +${p.hpGain} HP` : ''})`,
   'food.eatRice': (p) =>
-    `You take a bowl of plain rice. (−${p.rice} rice${Number(p.satGain) > 0 ? `, +${p.satGain} body` : ''})`,
+    `You take a bowl of plain rice. (−${p.rice} rice${Number(p.bellyGain) > 0 ? `, +${p.bellyGain} belly` : ''})`,
   'market.sellRice': (p) =>
     `You sell ${p.rice} rice to the pedlar at ${formatCoin(Number(p.price))} the measure. (+${formatCoin(Number(p.coinGain))})`,
   'market.buyItem': (p) => `You barter ${formatCoin(Number(p.coin))} for a ${p.item}.`,

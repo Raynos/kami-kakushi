@@ -21,6 +21,8 @@ import {
   STR_HP,
   ATTR_BASE,
   COLD_OPEN_SATIETY,
+  COLD_OPEN_HUNGER,
+  HUNGER_MAX,
   type StanceId,
   type AttrId,
 } from './content/balance';
@@ -85,7 +87,11 @@ export interface Clock {
 
 export interface Character {
   readonly hp: number;
+  /** The work fuel ("Body 体") — spent by acts, refilled by rest (ADR-178 Option C). */
   readonly satiety: number;
+  /** The belly ("Belly 腹", ADR-178) — the slow daily store food maintains: the day drains it,
+   *  the kura ration / a deliberate meal refills it. Its only teeth are rest quality. */
+  readonly hunger: number;
   /** Unspent allocation POOL (granted +1 every 2 character levels, §4.4); spent into `attrs`. */
   readonly attributePoints: number;
   /** The manual 5-attribute build STR/AGI/INT/SPD/LUCK (§4.6.1). Each starts at ATTR_BASE (5),
@@ -257,6 +263,7 @@ export function createInitialState(seed: number): GameState {
       // at full HP.
       hp: HP_BASE + HP_PER_LEVEL + STR_HP * ATTR_BASE,
       satiety: COLD_OPEN_SATIETY,
+      hunger: COLD_OPEN_HUNGER,
       attributePoints: 0,
       attrs: baseAttrs(),
       level: 1,
@@ -320,6 +327,14 @@ export function withResource(state: GameState, id: ResourceId, delta: number): G
 export function withBanked(state: GameState, id: ResourceId, delta: number): GameState {
   const current = state.banked[id] ?? 0;
   return { ...state, banked: { ...state.banked, [id]: current + delta } };
+}
+
+/** Adjust the belly (ADR-178), clamped to [0, HUNGER_MAX]. Lives HERE (not intents.ts) so the
+ *  clock's day boundary (step.ts) can drain/feed it without importing the reducer (acyclic core). */
+export function adjustHunger(state: GameState, delta: number): GameState {
+  const hunger = clamp(state.character.hunger + delta, 0, HUNGER_MAX);
+  if (hunger === state.character.hunger) return state;
+  return { ...state, character: { ...state.character, hunger } };
 }
 
 /** Draw down (or refill) a labour site's production pool by `delta` (ADR-163). Floors at 0 — a

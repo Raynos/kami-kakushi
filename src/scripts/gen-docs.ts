@@ -227,8 +227,8 @@ function generate(): string {
   L.push('');
   L.push(
     `- **EAT** — \`eat_rice\` spends \`EAT_RICE_COST = ${balance.EAT_RICE_COST}\` rice for ` +
-      `\`EAT_RICE_SATIETY = ${balance.EAT_RICE_SATIETY}\` work-stamina (a proper meal refuels ` +
-      'MORE than a free `rest`, trading rice for readiness).',
+      `\`EAT_RICE_HUNGER = ${balance.EAT_RICE_HUNGER}\` belly (ADR-178: food feeds the BELLY; ` +
+      'a deliberate meal RAISES what the daily kura ration only maintains).',
   );
   L.push('- **STORE** — `deposit`/`withdraw` shelter rice in the kura (see the kura bank below).');
   L.push(

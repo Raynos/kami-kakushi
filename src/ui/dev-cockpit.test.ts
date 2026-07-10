@@ -36,7 +36,7 @@ function cockpit() {
 }
 
 // Derive lever canons from the source of truth (ADR-086 — never a copied magic number, so a tune to
-// RICE_PER_RAKE / EAT_RICE_SATIETY doesn't break these tests).
+// RICE_PER_RAKE / EAT_RICE_HUNGER doesn't break these tests).
 const RAKE = BALANCE_CANON['RICE_PER_RAKE']!;
 
 // The setter mutates MODULE-GLOBAL bindings — reset to canon after every case so no test leaks an
@@ -45,7 +45,7 @@ afterEach(() => __resetBalanceLevers());
 
 describe('buildTuneArtifact — the pure export-diff builder', () => {
   it('emits the exact frontmatter + touched table + old→new apply lines (bytes)', () => {
-    const md = buildTuneArtifact([{ path: 'EAT_RICE_SATIETY', canon: 30, current: 36 }], META);
+    const md = buildTuneArtifact([{ path: 'EAT_RICE_HUNGER', canon: 30, current: 36 }], META);
     const expected =
       [
         '---',
@@ -54,15 +54,15 @@ describe('buildTuneArtifact — the pure export-diff builder', () => {
         'build: v0.3.4 (abc1234, 2026-07-03)',
         'seed: 20260626',
         'clock: { day: 12, tick: 7 }',
-        'session_url: /?bal.EAT_RICE_SATIETY=36',
+        'session_url: /?bal.EAT_RICE_HUNGER=36',
         '---',
         '## Touched levers',
         '| path | canon | tuned | Δ |',
         '|---|---|---|---|',
-        '| EAT_RICE_SATIETY | 30 | 36 | +20% |',
+        '| EAT_RICE_HUNGER | 30 | 36 | +20% |',
         '',
         '## Apply — src/core/content/balance.ts (old → new, exact)',
-        '- `export let EAT_RICE_SATIETY = 30;` → `export let EAT_RICE_SATIETY = 36;`',
+        '- `export let EAT_RICE_HUNGER = 30;` → `export let EAT_RICE_HUNGER = 36;`',
         '',
         '## Mirrors & re-verify',
         '- run: `pnpm run gen:docs && pnpm run verify` (pacing:check is in verify).',
@@ -76,14 +76,14 @@ describe('buildTuneArtifact — the pure export-diff builder', () => {
     const md = buildTuneArtifact(
       [
         { path: 'RICE_PER_RAKE', canon: 3, current: 2 }, // −33%
-        { path: 'EAT_RICE_SATIETY', canon: 30, current: 45 }, // +50%
+        { path: 'EAT_RICE_HUNGER', canon: 30, current: 45 }, // +50%
       ],
       META,
     );
     expect(md).toContain('| RICE_PER_RAKE | 3 | 2 | −33% |');
-    expect(md).toContain('| EAT_RICE_SATIETY | 30 | 45 | +50% |');
+    expect(md).toContain('| EAT_RICE_HUNGER | 30 | 45 | +50% |');
     expect(md).toContain('- `export let RICE_PER_RAKE = 3;` → `export let RICE_PER_RAKE = 2;`');
-    expect(md).toContain('session_url: /?bal.RICE_PER_RAKE=2&bal.EAT_RICE_SATIETY=45');
+    expect(md).toContain('session_url: /?bal.RICE_PER_RAKE=2&bal.EAT_RICE_HUNGER=45');
   });
 
   it('a structured map path emits a field-edit line (not `export let`)', () => {
@@ -135,16 +135,16 @@ describe('cockpit controller — set / read / canon / touched / reset', () => {
     let n = 0;
     c.subscribe(() => n++);
     c.set('RICE_PER_RAKE', 7);
-    c.set('EAT_RICE_SATIETY', 40);
+    c.set('EAT_RICE_HUNGER', 40);
     c.reset();
     expect(n).toBe(3);
   });
 
   it('exportMarkdown renders only the touched levers', () => {
     const c = cockpit();
-    c.set('EAT_RICE_SATIETY', 36);
+    c.set('EAT_RICE_HUNGER', 36);
     const md = c.exportMarkdown();
-    expect(md).toContain('| EAT_RICE_SATIETY | 30 | 36 | +20% |');
+    expect(md).toContain('| EAT_RICE_HUNGER | 30 | 36 | +20% |');
     expect(md).not.toContain('RICE_PER_RAKE'); // untouched → absent
   });
 
@@ -310,7 +310,7 @@ describe('overrides never leak into the save envelope', () => {
     const state = createInitialState(1);
     const before = encodeEnvelope(makeEnvelope(state, 1, 0));
 
-    c.set('EAT_RICE_SATIETY', 99);
+    c.set('EAT_RICE_HUNGER', 99);
     const after = encodeEnvelope(makeEnvelope(state, 1, 0));
 
     expect(after).toBe(before); // the override touched no GameState field

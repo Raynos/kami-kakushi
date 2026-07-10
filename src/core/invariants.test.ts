@@ -74,6 +74,10 @@ function checkState(s: GameState): string | null {
   const c = s.character;
   if (!finite(c.hp) || c.hp < 0) return `hp=${c.hp}`;
   if (!finite(c.satiety) || c.satiety < 0) return `satiety=${c.satiety}`;
+  // ADR-178 — the belly holds its clamp band at every step (the daily drain/ration and every
+  // meal route through adjustHunger, so an out-of-band value means a write bypassed the clamp).
+  if (!finite(c.hunger) || c.hunger < 0 || c.hunger > balance.HUNGER_MAX)
+    return `hunger=${c.hunger}`;
   if (!finite(c.level) || c.level < 1) return `level=${c.level}`;
   if (!finite(c.combatXp) || c.combatXp < 0) return `combatXp=${c.combatXp}`;
   for (const [k, v] of Object.entries(c.attrs)) if (!finite(v)) return `attr ${k}=${v}`;

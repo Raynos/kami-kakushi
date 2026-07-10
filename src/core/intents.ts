@@ -10,6 +10,7 @@ import {
   withResource,
   withBanked,
   withSitePool,
+  adjustHunger,
   addSkillXp,
   rememberNpc,
   deepenNpc,
@@ -28,7 +29,7 @@ import {
   canAffordAct,
   rakeExhausted,
   activityForecast,
-  homeRestBonus,
+  restRefill,
   ownsBelonging,
   peopleHere,
 } from './selectors';
@@ -44,14 +45,14 @@ import { applyGrindFight } from './fight';
 import {
   RICE_PER_RAKE,
   SATIETY_PER_ACT,
-  SATIETY_PER_REST,
   TICKS_PER_ACT,
   REPAIR_WOOD_COST,
   REPAIR_COIN_COST,
   COOK_SANSAI_COST,
   COOK_HP_RESTORE,
+  COOK_HUNGER_RESTORE,
   EAT_RICE_COST,
-  EAT_RICE_SATIETY,
+  EAT_RICE_HUNGER,
   riceSellPrice,
   kuraRiceCap,
   ESTATE_STAGE_DEED_GATES,
@@ -136,7 +137,7 @@ export type Intent =
   | { type: 'equip_weapon'; weaponId: WeaponId }
   | { type: 'set_stance'; stance: StanceId }
   | { type: 'cook_meal' }
-  | { type: 'eat_rice' } // kura rice → satiety (ADR-163 — the plain-rice meal path, shō from stores)
+  | { type: 'eat_rice' } // kura rice → belly (ADR-178/ADR-163 — the plain-rice meal path, shō from stores)
   | { type: 'sell_rice' } // kura rice → coin at Yohei's stall (ADR-163 — market-day + purse clamped)
   | { type: 'collect_wage' } // MON lane (ADR-163): collect the accrued day-wage at the board (R5+)
   | { type: 'advance_season' } // storywave G1: end the season (the manual six-season wheel)
@@ -615,7 +616,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // your corner, and bedding/the settled-home set add to the satiety it restores (homeRestBonus —
       // 0 pre-home + for a bare corner, so the base rest is byte-identical until you earn comfort).
       const atHome = isUnlocked(next, 'panel-home');
-      next = adjustSatiety(next, SATIETY_PER_REST + homeRestBonus(next));
+      // ADR-178 — the refill routes through restRefill (base + comfort, × the belly's rest
+      // quality): a hungry rest is a POOR rest — the belly's only teeth. AC-6: the shown
+      // rest forecast reads the SAME selector, so a degraded rest never surprises.
+      next = adjustSatiety(next, restRefill(next));
       const restLine = atHome
         ? homeRestLine(ownsBelonging(next, 'bedding'))
         : 'You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.';
@@ -797,6 +801,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       const hpAfter = Math.min(hpMax(next), hpBefore + COOK_HP_RESTORE);
       if (hpAfter !== hpBefore) next = { ...next, character: { ...next.character, hp: hpAfter } };
       const hpGain = hpAfter - hpBefore;
+      // ADR-178 — a meal is FOOD, so it also feeds the belly (never the work bar): the mend
+      // stays the verb's primary job; the belly gain is the side of the same bowl.
+      next = adjustHunger(next, COOK_HUNGER_RESTORE);
       next = applyRewards(next, {
         log: [
           {
@@ -815,26 +822,27 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'eat_rice': {
-      // rice → satiety (ADR-107 Phase 2): the plain-rice FOOD path, a light rice SINK beside `rest`
-      // (free satiety) + `cook_meal` (sansai → HP). A proper meal refuels MORE than a mere rest
-      // (EAT_RICE_SATIETY > SATIETY_PER_REST), so eating your OWN harvest trades rice for a faster
-      // refuel — never a strictly-worse rest. Opens with the estate economy (verb-eat-rice), where
+      // rice → BELLY (ADR-178: food feeds the belly, never the work bar — the FB-345 split; was
+      // rice → satiety under ADR-107 Phase 2). The plain-rice FOOD path beside `rest` (free body)
+      // + `cook_meal` (sansai → HP + belly). A deliberate meal RAISES the belly where the daily
+      // kura ration only maintains it (EAT_RICE_HUNGER > HUNGER_MEAL_RESTORE), so eating your OWN
+      // harvest buys rest quality ahead. Opens with the estate economy (verb-eat-rice), where
       // rice first gains its eat/sell/store uses. A no-op without the rice on hand.
       // ADR-163: the meal is drawn from the KURA (shō), never a carried pocket — rice lives only in
       // the house stores. A no-op without enough rice in the kura.
       if (!isUnlocked(next, 'verb-eat-rice')) return state;
       if ((next.banked.rice ?? 0) < EAT_RICE_COST) return state;
       next = withBanked(next, 'rice', -EAT_RICE_COST);
-      const satBefore = next.character.satiety;
-      next = adjustSatiety(next, EAT_RICE_SATIETY);
-      const satGain = next.character.satiety - satBefore;
+      const bellyBefore = next.character.hunger;
+      next = adjustHunger(next, EAT_RICE_HUNGER);
+      const bellyGain = next.character.hunger - bellyBefore;
       next = applyRewards(next, {
         log: [
           {
             channel: 'system',
             voice: 'narrator', // FB-91/FB-93 — player-action narration, consistent narrator voice
             contentKey: 'food.eatRice',
-            params: { rice: EAT_RICE_COST, satGain },
+            params: { rice: EAT_RICE_COST, bellyGain },
             ephemeral: true, // FB-156 — fleeting consumption flavor → "Now", never Work spam
           },
         ],

@@ -3,6 +3,7 @@ import {
   createInitialState,
   reduce,
   baseAttrs,
+  COLD_OPEN_HUNGER,
   SCHEMA_VERSION,
   APP_GENERATION,
   type GameState,
@@ -251,6 +252,29 @@ describe('migration wiring + pre-migration backup', () => {
     expect(loaded!.migrated).toBe(false);
     // absent attrs → the base build (every attribute at ATTR_BASE); stale might/guard/vigor ignored.
     expect(loaded!.state.character.attrs).toEqual(baseAttrs());
+  });
+
+  it('a pre-body-split save MISSING the belly hydrates to the cold-open belly, no false coerce (D-178)', async () => {
+    const backend = new MemoryBackend();
+    const preSplitChar = { ...sample().character } as Record<string, unknown>;
+    delete preSplitChar.hunger; // a save written before ADR-178 has no belly field
+    const preSplit = { ...sample(), character: preSplitChar };
+    await backend.set(
+      'kk:save:1',
+      JSON.stringify({
+        app: 'kami-kakushi',
+        schemaVersion: SCHEMA_VERSION,
+        generation: APP_GENERATION,
+        saveCounter: 1,
+        savedAt: 1,
+        state: preSplit,
+      }),
+    );
+    const mgr = new SaveManager({ backends: [backend], now: () => 1 });
+    const loaded = await mgr.load();
+    expect(loaded!.coerced).toBe(false); // additive hydration is NOT a repair
+    expect(loaded!.migrated).toBe(false);
+    expect(loaded!.state.character.hunger).toBe(COLD_OPEN_HUNGER);
   });
 });
 

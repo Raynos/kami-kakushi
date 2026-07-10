@@ -5,7 +5,7 @@
 // dtTicks from active elapsed time only).
 
 import type { GameState } from './state';
-import { withBanked } from './state';
+import { withBanked, adjustHunger } from './state';
 import { TICKS_PER_DAY, SEASONS } from './constants';
 import { revealPass } from './unlock';
 import { phaseOf } from './ranks';
@@ -13,7 +13,12 @@ import { seasonalJudge, gradeOf } from './pillars';
 import { judgeLine } from './content/flavor';
 import { deriveDayKeyed } from './rng';
 import { applyRewards } from './rewards';
-import { riceSpoilage, CONSUMPTION_SHO_PER_DAY } from './content/balance';
+import {
+  riceSpoilage,
+  CONSUMPTION_SHO_PER_DAY,
+  HUNGER_PER_DAY,
+  HUNGER_MEAL_RESTORE,
+} from './content/balance';
 import { refillSitePools } from './content/activities';
 import { textureDayPass, textureSeasonTurn } from './texture';
 import { triggerScenes } from './scenes';
@@ -97,15 +102,19 @@ export function advanceSeason(state: GameState): GameState {
   return textureSeasonTurn(turned);
 }
 
-/** The daily CONSUMPTION sink (ADR-163) — the household eats a steady shō/day drawn from the kura,
- *  fired once per day-boundary. A constant background drain that makes rice working capital, never a
- *  score. Clamped at the kura floor (you can't eat what isn't there — the shortfall is felt as
- *  hunger via the satiety loop, not a negative store). Pure + deterministic. */
+/** The daily CONSUMPTION sink (ADR-163) + the belly's daily cycle (ADR-178). The day draws
+ *  HUNGER_PER_DAY from the belly; then the household eats its steady shō/day from the kura, and
+ *  that ration restores the belly PRO-RATED by what the kura could actually serve — a stocked
+ *  kura MAINTAINS the belly (restore == drain), a short kura is FELT as hunger (the shortfall
+ *  the old comment promised, now a real store). Fired once per day-boundary, so it folds
+ *  one-tick-at-a-time with the clock (B10). Pure + deterministic. */
 function onDayBoundary(state: GameState): GameState {
-  const inKura = state.banked.rice ?? 0;
+  let next = adjustHunger(state, -HUNGER_PER_DAY);
+  const inKura = next.banked.rice ?? 0;
   const eaten = Math.min(inKura, CONSUMPTION_SHO_PER_DAY);
-  if (eaten <= 0) return state;
-  return withBanked(state, 'rice', -eaten);
+  if (eaten <= 0) return next;
+  next = withBanked(next, 'rice', -eaten);
+  return adjustHunger(next, HUNGER_MEAL_RESTORE * (eaten / CONSUMPTION_SHO_PER_DAY));
 }
 
 function singleTick(state: GameState): GameState {

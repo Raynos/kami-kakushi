@@ -598,30 +598,31 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
   });
 });
 
-describe('D-107 Phase 2 — eat_rice: the plain-rice satiety path', () => {
-  function eatReady(rice: number, satiety: number): GameState {
+describe('D-107 Phase 2 / D-178 — eat_rice: the plain-rice BELLY path', () => {
+  function eatReady(rice: number, hunger: number): GameState {
     const s = createInitialState(1);
     return {
       ...s,
-      character: { ...s.character, satiety },
+      character: { ...s.character, hunger },
       banked: { ...s.banked, rice }, // ADR-163: the meal is drawn from the KURA (shō)
       unlocked: [...s.unlocked, 'panel-estate', 'verb-eat-rice'],
     };
   }
 
-  it('spends kura rice and restores work-stamina (satiety), clamped at satietyMax', () => {
+  it('spends kura rice and fills the BELLY (D-178: food never feeds the work bar), clamped at the cap', () => {
     const s = eatReady(10, 20);
     const after = reduce(s, { type: 'eat_rice' });
     expect(after.banked.rice).toBe(10 - balance.EAT_RICE_COST);
-    expect(after.character.satiety).toBe(20 + balance.EAT_RICE_SATIETY);
+    expect(after.character.hunger).toBe(20 + balance.EAT_RICE_HUNGER);
+    expect(after.character.satiety).toBe(s.character.satiety); // the FB-345 split
 
-    const nearMax = eatReady(10, satietyMax(createInitialState(1)) - 2);
+    const nearMax = eatReady(10, balance.HUNGER_MAX - 2);
     const clamped = reduce(nearMax, { type: 'eat_rice' });
-    expect(clamped.character.satiety).toBe(satietyMax(clamped)); // clamp, not overflow
+    expect(clamped.character.hunger).toBe(balance.HUNGER_MAX); // clamp, not overflow
   });
 
-  it('a proper meal refuels MORE than a free rest (the design lever — never a dominated action)', () => {
-    expect(balance.EAT_RICE_SATIETY).toBeGreaterThan(balance.SATIETY_PER_REST);
+  it('a deliberate meal RAISES what the daily ration only maintains (the design lever)', () => {
+    expect(balance.EAT_RICE_HUNGER).toBeGreaterThan(balance.HUNGER_MEAL_RESTORE);
   });
 
   it('is a no-op without enough rice, or while the verb is unrevealed', () => {

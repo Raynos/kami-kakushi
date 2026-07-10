@@ -25,6 +25,7 @@
     "character": {
       "hp": 1,
       "satiety": 52,
+      "hunger": 66.66666666666666,
       "attributePoints": 3,
       "attrs": {
         "str": 6,

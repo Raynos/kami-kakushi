@@ -19,6 +19,29 @@ export const COLD_OPEN_SATIETY = 64;
 export let STAMINA_RATE_FLOOR = 0.5;
 export let STAMINA_FLAT_ABOVE = 0.7;
 
+// ── The belly (ADR-178, Option C body split) — `hunger` is the SLOW daily store food maintains
+// ("Belly 腹"); `satiety` above stays the per-act work fuel ("Body 体", numbers unchanged —
+// ADR-172 stands). The belly's ONLY teeth are the rest-quality multiplier (hungry rest is poor
+// rest): it SLOWS, never blocks, and there is NO starvation death in T0 (T1+ may add
+// consequences — ADR-178 ruling 3). Internal field names never surface (FB-334). ──
+/** The belly cap — FLAT, deliberately not level-grown (an appetite is a constant, unlike the
+ *  trained body satietyMax models). */
+export const HUNGER_MAX = 100;
+/** Cold-open belly — hungry but above the rest-quality knee (HUNGER_FLAT_ABOVE), so the opening
+ *  rest-loop is byte-identical to pre-split with visible headroom to eat up toward full. */
+export const COLD_OPEN_HUNGER = 60;
+/** What a day of living draws from the belly — fires once per day boundary (fold-invariant). */
+export const HUNGER_PER_DAY = 25;
+/** What the household's daily kura ration (CONSUMPTION_SHO_PER_DAY, ADR-163) restores at the same
+ *  boundary, pro-rated by what the kura could actually serve. Sized EQUAL to the day's drain on
+ *  purpose: a stocked kura MAINTAINS the belly; only deliberate eating (eat_rice / cook) raises
+ *  it — so the bar moves on the kura's clock, not the act loop's. */
+export const HUNGER_MEAL_RESTORE = 25;
+/** Rest quality is FLAT (1.0) at/above this belly fraction, ramping down below it. */
+export const HUNGER_FLAT_ABOVE = 0.5;
+/** The starved-rest floor — a rest on an empty belly still restores half. Never 0 (T0 gentle). */
+export const HUNGER_REST_FLOOR = 0.5;
+
 // ── Cold-open economy (PRD §3.1, §5 T0.2 beat 1) ────────────────────────────────
 /** Rice raked back from the spilled grain-store floor per rake act (ADR-107: this is genuinely
  *  RICE now — the real resource — not a coin alias). */
@@ -393,20 +416,28 @@ export let COOK_SANSAI_COST = 2; // sansai consumed per cooked meal — provisio
  *  at 14 the R3 grind cooked 526 meals on the canonical seed (~70 min of the rung's 163);
  *  sim-owned (ADR-132), tuned against the [3, 22] band. provisional (v0.2). */
 export let COOK_HP_RESTORE = 35;
+/** Belly a cooked meal adds beside its HP mend (ADR-178: a meal is food, so it also feeds the
+ *  belly; the mend stays the verb's PRIMARY job — FB-22's rest≠heal separation is untouched
+ *  because the belly is neither meter). Sized under EAT_RICE_HUNGER (the dedicated meal). */
+export const COOK_HUNGER_RESTORE = 15;
 
 // ── Rice sinks (ADR-107 Phase 2) — rice becomes a REAL resource with three uses: EAT it (→ satiety),
 // STORE it in the kura (deposit/withdraw), or SELL it for coin at a SEASON-swinging price. This is
 // what closes the "rice has no consumer" gap (integrity ledger) + restores the coin faucet. All
 // numbers provisional (v0.2, liquid ADR-059) — tune by playtest / `pnpm run pacing`. ──
 
-/** Rice one plain-rice meal consumes (the `eat_rice` satiety path, beside `rest`/`cook_meal`). */
+/** Rice one plain-rice meal consumes (the `eat_rice` belly path, beside `rest`/`cook_meal`). */
 export let EAT_RICE_COST = 2; // R9 (2026-07-05): 3→2, narrow eat's coin gap vs free rest (W3)
-/** Work-stamina (satiety) a plain-rice meal restores. Sized ABOVE a free `rest` (SATIETY_PER_REST,
- *  18) on purpose — the DESIGN LEVER that keeps eat_rice from being dominated by rest: a proper
- *  meal refuels FASTER than merely resting, trading your own rice for readiness (never strictly
- *  worse than a free rest, never the only satiety source). provisional (v0.2, liquid ADR-059).
- *  `let` for the FB-7 balance cockpit — see RICE_PER_RAKE. */
-export let EAT_RICE_SATIETY = 30;
+/** Belly (hunger) a plain-rice meal restores (ADR-178: food feeds the BELLY, never the work
+ *  bar — the FB-345 split). Sized ABOVE the household's daily maintenance ration
+ *  (HUNGER_MEAL_RESTORE) on purpose — the DESIGN LEVER that makes deliberate eating worth the
+ *  shō: a proper meal RAISES the belly where the ration only holds it. provisional (v0.2,
+ *  liquid ADR-059). `let` for the FB-7 balance cockpit — see RICE_PER_RAKE. */
+export let EAT_RICE_HUNGER = 30;
+/** @deprecated ADR-178 transition alias — the pre-split UI strings (render.ts, currently carrying
+ *  another session's WIP) still read the old name; the Phase-2 belly-UI commit deletes BOTH the
+ *  last reads and this alias. Display-only (module-init copy); never read by the core. */
+export const EAT_RICE_SATIETY = EAT_RICE_HUNGER;
 
 /** Rice SELL price — COIN paid per unit of rice, SWINGING BY SEASON (ADR-107 / §14): DEAR in the
  *  lean spring, CHEAP at the autumn glut — a light store-vs-sell TIMING decision that pairs with
@@ -570,8 +601,8 @@ export function readBalanceLever(path: string): number {
     case 'RICE_SELL_PRICE_BY_SEASON.autumn':
       return RICE_SELL_PRICE_BY_SEASON.autumn;
     // W3 · eat-rice vs rest
-    case 'EAT_RICE_SATIETY':
-      return EAT_RICE_SATIETY;
+    case 'EAT_RICE_HUNGER':
+      return EAT_RICE_HUNGER;
     case 'EAT_RICE_COST':
       return EAT_RICE_COST;
     case 'SATIETY_PER_REST':
@@ -679,8 +710,8 @@ export function __setBalanceLever(path: string, value: number): void {
       RICE_SELL_PRICE_BY_SEASON.autumn = value;
       return;
     // W3
-    case 'EAT_RICE_SATIETY':
-      EAT_RICE_SATIETY = value;
+    case 'EAT_RICE_HUNGER':
+      EAT_RICE_HUNGER = value;
       return;
     case 'EAT_RICE_COST':
       EAT_RICE_COST = value;
@@ -796,7 +827,7 @@ export const BALANCE_CANON: Readonly<Record<string, number>> = Object.freeze({
   'RICE_SELL_PRICE_BY_SEASON.summer': RICE_SELL_PRICE_BY_SEASON.summer,
   'RICE_SELL_PRICE_BY_SEASON.bon': RICE_SELL_PRICE_BY_SEASON.bon,
   'RICE_SELL_PRICE_BY_SEASON.autumn': RICE_SELL_PRICE_BY_SEASON.autumn,
-  EAT_RICE_SATIETY,
+  EAT_RICE_HUNGER,
   EAT_RICE_COST,
   SATIETY_PER_REST,
   'ESTATE_BANDS.bad': ESTATE_BANDS.bad,

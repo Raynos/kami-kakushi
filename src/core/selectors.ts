@@ -10,6 +10,7 @@ import {
   SATIETY_BASE,
   SATIETY_PER_LEVEL,
   SATIETY_PER_ACT,
+  SATIETY_PER_REST,
   RAKE_CAP,
   STAMINA_RATE_FLOOR,
   STAMINA_FLAT_ABOVE,
@@ -20,6 +21,9 @@ import {
   ESTATE_STAGE_DEED_GATES,
   HARVEST_AUTUMN_MULT_NUM,
   HARVEST_AUTUMN_MULT_DEN,
+  HUNGER_MAX,
+  HUNGER_FLAT_ABOVE,
+  HUNGER_REST_FLOOR,
   productionDraw,
 } from './content/balance';
 import { ESTATE_STAGES, type EstateStageDef } from './content/estate';
@@ -240,6 +244,33 @@ export function staminaRate(state: GameState): number {
   // linear from FLOOR at frac=0 to 1.0 at frac=FLAT_ABOVE
   const t = clamp(frac / STAMINA_FLAT_ABOVE, 0, 1);
   return STAMINA_RATE_FLOOR + (1 - STAMINA_RATE_FLOOR) * t;
+}
+
+/** The belly cap (ADR-178) — FLAT, deliberately not level-grown (an appetite is a constant,
+ *  unlike the trained-body reserve satietyMax models). A selector (not a bare constant read)
+ *  so a later-tier growth channel slots in without touching a call site. */
+export function hungerMax(_state: GameState): number {
+  return HUNGER_MAX;
+}
+
+/**
+ * The belly's ONLY teeth (ADR-178 ruling 3): rest quality. Flat (1.0) at/above
+ * HUNGER_FLAT_ABOVE of the belly, ramping down to HUNGER_REST_FLOOR at empty —
+ * a hungry rest restores LESS; it never blocks (floor > 0, no starvation in T0).
+ * The same ramp shape as staminaRate, on the other store.
+ */
+export function restQuality(state: GameState): number {
+  const frac = hungerMax(state) > 0 ? state.character.hunger / hungerMax(state) : 0;
+  if (frac >= HUNGER_FLAT_ABOVE) return 1;
+  const t = clamp(frac / HUNGER_FLAT_ABOVE, 0, 1);
+  return HUNGER_REST_FLOOR + (1 - HUNGER_REST_FLOOR) * t;
+}
+
+/** What ONE `rest` restores to the body right now: the base + home-comfort bonus, scaled by the
+ *  belly's rest quality (ADR-178). The reducer AND every shown forecast read THIS (AC-6 —
+ *  forecast == reality), so a hungry rest reads poor before it is taken. */
+export function restRefill(state: GameState): number {
+  return Math.round((SATIETY_PER_REST + homeRestBonus(state)) * restQuality(state));
 }
 
 /**

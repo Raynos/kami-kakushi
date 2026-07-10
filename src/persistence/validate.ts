@@ -14,6 +14,8 @@ import {
   MAP_NODE_IDS,
   ATTR_IDS,
   ATTR_BASE,
+  COLD_OPEN_HUNGER,
+  HUNGER_MAX,
   INTRO_BEAT_COUNT,
   RANK_IDS,
   refillSitePools,
@@ -112,6 +114,9 @@ export function validateState(rawState: unknown): ValidateResult {
   if (!isObject(character)) return { ok: false, reason: 'character-corrupt' };
   const hp = num(character.hp, 1);
   const satiety = num(character.satiety, 0);
+  // ADR-178 additive growth: the belly. ABSENT on a pre-split save = normal additive
+  // hydration to the cold-open belly (numAdditive — never flags the mended-save notice).
+  const hunger = numAdditive(character.hunger, COLD_OPEN_HUNGER);
   const attributePoints = num(character.attributePoints, 0);
   const level = num(character.level, 1);
   const combatXp = num(character.combatXp, 0);
@@ -130,6 +135,7 @@ export function validateState(rawState: unknown): ValidateResult {
   const validatedCharacter: GameState['character'] = {
     hp: Math.max(0, hp.value),
     satiety: Math.max(0, satiety.value),
+    hunger: Math.min(HUNGER_MAX, Math.max(0, hunger.value)),
     attributePoints: Math.max(0, attributePoints.value),
     attrs,
     level: Math.max(1, Math.floor(level.value)),
@@ -141,6 +147,7 @@ export function validateState(rawState: unknown): ValidateResult {
   const clampChanged =
     validatedCharacter.hp !== hp.value ||
     validatedCharacter.satiety !== satiety.value ||
+    validatedCharacter.hunger !== hunger.value ||
     validatedCharacter.attributePoints !== attributePoints.value ||
     validatedCharacter.level !== level.value ||
     validatedCharacter.combatXp !== combatXp.value;
@@ -148,6 +155,7 @@ export function validateState(rawState: unknown): ValidateResult {
     coerced ||
     hp.coerced ||
     satiety.coerced ||
+    hunger.coerced ||
     attributePoints.coerced ||
     attrsCoerced ||
     level.coerced ||

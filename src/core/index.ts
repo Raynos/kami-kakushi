@@ -228,7 +228,15 @@ export {
 export type { CombatStats, FightResult, FoeForecast, BestiaryEntry } from './combat';
 export { WEAPONS, getWeapon, WEAPON_IDS } from './content/weapons';
 export type { WeaponId, WeaponDef } from './content/weapons';
-export { STANCE_MODS, STANCE_ORDER, ATTR_IDS, ATTR_BASE, ATTR_META } from './content/balance';
+export {
+  STANCE_MODS,
+  STANCE_ORDER,
+  ATTR_IDS,
+  ATTR_BASE,
+  ATTR_META,
+  COLD_OPEN_HUNGER,
+  HUNGER_MAX,
+} from './content/balance';
 export type { StanceId, StanceMod, AttrId } from './content/balance';
 export { baseAttrs } from './state';
 export { MOBS, GRINDABLE_MOBS, getMob, MOB_IDS } from './content/enemies';
@@ -290,6 +298,9 @@ export type { RewardBundle } from './rewards';
 export {
   hpMax,
   satietyMax,
+  hungerMax,
+  restQuality,
+  restRefill,
   estateSatietyBonus,
   estateYieldNum,
   season,
