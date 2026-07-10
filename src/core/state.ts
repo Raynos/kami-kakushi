@@ -132,6 +132,9 @@ export interface GameState {
    *  per game-day the MC completes ≥1 timed labour act while waged (R5+); zeroed by the
    *  collect-at-the-board `collect_wage` verb. The fixed day-wage is a bounded faucet (no compounding). */
   readonly wageDaysAccrued: number;
+  /** FB-324: total rakes this run — the spill is finite (balance.RAKE_CAP); the reducer refuses
+   *  past it. Additive; a pre-cap save defaults 0. */
+  readonly rakesDone: number;
   /** The last absolute `day` that credited a wage-day (dedupe — one accrual per game-day). -1 = none
    *  yet. Additive; a pre-wage save defaults it -1. */
   readonly lastWageDay: number;
@@ -266,6 +269,7 @@ export function createInitialState(seed: number): GameState {
     // The season-turn production pools, filled for the opening Winter (ADR-163 / G4.5).
     sitePools: refillSitePools('winter'),
     wageDaysAccrued: 0,
+    rakesDone: 0,
     lastWageDay: -1,
     flags: {},
     // The cold open shows exactly one verb against the dark of the kura.

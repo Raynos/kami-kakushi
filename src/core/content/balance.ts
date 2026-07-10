@@ -27,6 +27,10 @@ export let STAMINA_FLAT_ABOVE = 0.7;
 // setter is DEV-folded dead code in prod, so canon semantics are untouched and `prefer-const` stays
 // green (the binding IS reassigned in-module). Every call site reads the live binding unchanged.
 export let RICE_PER_RAKE = 2; // R9 (2026-07-05): 3→2, trim the faucet (W1) — human-adopted via FB-7
+// FB-324 (2026-07-10, human-set): the spill is FINITE — 50 rakes total and the boards are clean.
+// Caps the R0 pre-promotion rice faucet (the only rung where rake exists) so it can't be ground
+// forever; the reducer refuses past it and the button says why (AC-6 shared predicate).
+export let RAKE_CAP = 50;
 export let SATIETY_PER_ACT = 2;
 export let SATIETY_PER_REST = 18;
 export const TICKS_PER_ACT = 2;
@@ -546,6 +550,8 @@ export function readBalanceLever(path: string): number {
     // W1 · rice faucet / coin
     case 'RICE_PER_RAKE':
       return RICE_PER_RAKE;
+    case 'RAKE_CAP':
+      return RAKE_CAP;
     case 'SKILL_YIELD_PER_LEVEL_NUM':
       return SKILL_YIELD_PER_LEVEL_NUM;
     case 'SKILL_YIELD_CAP_NUM':
@@ -643,6 +649,9 @@ export function __setBalanceLever(path: string, value: number): void {
     // W1
     case 'RICE_PER_RAKE':
       RICE_PER_RAKE = value;
+      return;
+    case 'RAKE_CAP':
+      RAKE_CAP = value;
       return;
     case 'SKILL_YIELD_PER_LEVEL_NUM':
       SKILL_YIELD_PER_LEVEL_NUM = value;
@@ -778,6 +787,7 @@ export function __setBalanceLever(path: string, value: number): void {
  *  — captured HERE, before any setter runs, so no magic number is hand-copied (derive from source). */
 export const BALANCE_CANON: Readonly<Record<string, number>> = Object.freeze({
   RICE_PER_RAKE,
+  RAKE_CAP,
   SKILL_YIELD_PER_LEVEL_NUM,
   SKILL_YIELD_CAP_NUM,
   'RICE_SELL_PRICE_BY_SEASON.winter': RICE_SELL_PRICE_BY_SEASON.winter,

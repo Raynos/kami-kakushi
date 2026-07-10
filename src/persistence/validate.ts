@@ -188,6 +188,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'banked'
     | 'sitePools'
     | 'wageDaysAccrued'
+    | 'rakesDone'
     | 'lastWageDay'
     | 'flags'
     | 'unlocked'
@@ -255,6 +256,8 @@ export function validateState(rawState: unknown): ValidateResult {
     wageDaysAccrued:
       typeof base.wageDaysAccrued === 'number' ? Math.max(0, Math.floor(base.wageDaysAccrued)) : 0,
     lastWageDay: typeof base.lastWageDay === 'number' ? Math.floor(base.lastWageDay) : -1,
+    // FB-324 rake cap counter (v10, additive). Absent/malformed → 0.
+    rakesDone: typeof base.rakesDone === 'number' ? Math.max(0, Math.floor(base.rakesDone)) : 0,
     flags: rawState.flags as GameState['flags'],
     unlocked: rawState.unlocked as GameState['unlocked'],
     // Normalize each loaded entry's coalescing count to ≥1 so a later pushLog onto a

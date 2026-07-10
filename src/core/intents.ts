@@ -26,6 +26,7 @@ import {
   season,
   canDoActivity,
   canAffordAct,
+  rakeExhausted,
   activityForecast,
   homeRestBonus,
   ownsBelonging,
@@ -58,7 +59,7 @@ import {
 import { DAY_WAGE_MON, isWaged } from './content/wage';
 import { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
 import { FLAVOR } from './content/flavor';
-import { rakeLine } from './content/coldOpen';
+import { rakeLine, RAKE_CAP_LINE } from './content/coldOpen';
 import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import {
   INTRO_SCENE_COUNT,
@@ -576,10 +577,12 @@ export function reduce(state: GameState, intent: Intent): GameState {
     case 'rake_rice': {
       if (!metaLegal(state, 'rake_rice')) return state;
       if (!canAffordAct(next)) return state; // FB-265 — empty satiety refuses the act (rest first)
+      if (rakeExhausted(next)) return state; // FB-324 — the spill is finite; the boards are clean
       // ADR-163: the raked spilled rice goes into the KURA (in shō), never a carried pocket — the
       // household's grain is a kura commodity from the first handful.
       next = withBanked(next, 'rice', RICE_PER_RAKE);
       next = adjustSatiety(next, -SATIETY_PER_ACT);
+      next = { ...next, rakesDone: next.rakesDone + 1 };
       // F58a — the per-rake +rice OUTPUT line is fleeting flavor: it lands in the "Now" view and
       // fades, so repetitive rake output no longer spams Work (the human's log-v2 revision — rake
       // joins do_activity's labour output as ephemeral). The rice still banks; only the line fades.
@@ -591,6 +594,13 @@ export function reduce(state: GameState, intent: Intent): GameState {
           { channel: 'reward', text: rakeLine(RICE_PER_RAKE), voice: 'narrator', ephemeral: true },
         ],
       });
+      // FB-324 — the rake that clears the LAST of the spill says so, once (a durable
+      // narration line, not ephemeral — the "why the button died" record; TST4).
+      if (rakeExhausted(next)) {
+        next = applyRewards(next, {
+          log: [{ channel: 'narration', text: RAKE_CAP_LINE, voice: 'narrator' }],
+        });
+      }
       // reveal-as-plot, ONE line per rake (not the whole raked-gated monologue on the first click):
       // gen-rake lands on rake #1, gen-keep on #2, gen-kept on #3 — the teach paces with the work.
       next = deliverDialogue(next, COLD_OPEN_DIALOGUE_ID, 1);

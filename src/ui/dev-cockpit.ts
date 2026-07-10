@@ -59,6 +59,12 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
     integer: true,
   },
   {
+    path: 'RAKE_CAP',
+    label: 'Rake cap (total)',
+    group: 'W1 · rice faucet',
+    integer: true,
+  },
+  {
     path: 'SKILL_YIELD_PER_LEVEL_NUM',
     label: 'Skill yield / level (%)',
     group: 'W1 · rice faucet',

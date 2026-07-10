@@ -29,6 +29,7 @@ import {
   availableLabours,
   canAffordAct,
   OUT_OF_STRENGTH_REASON,
+  rakeExhausted,
   timingFor,
   getActivity,
   activityForecast,
@@ -135,7 +136,7 @@ import type { Sfx } from './sfx';
 // layout) since the old ezu.ts POS keyed to retired node ids and drew nothing for the G4 estate.
 import { renderMapSheet } from './map-variants/sheet-map';
 import { buildMapCtx, type MapCtx } from './map-variants/shared';
-import { COLD_OPEN } from '../core/content/coldOpen';
+import { COLD_OPEN, RAKE_DONE_REASON } from '../core/content/coldOpen';
 import { actionKey, type ActionClock } from '../app/action-clock';
 // type-only (erased at compile → no runtime import) so the renderer can accept the DEV harness
 // without pulling ui/dev.ts into the prod bundle. The dev value is undefined in prod (main.ts).
@@ -2972,10 +2973,13 @@ export function mount(
         if (a !== 'rake_rice') return;
         // FB-265 — the rake refuses at empty satiety (same predicate as the reducer, AC-6):
         // disable + say why, so the player is steered to "Rest a moment" instead of a dead grind.
+        // FB-324 — and the spill is FINITE: at RAKE_CAP the rake is done for good; same shared
+        // predicate (rakeExhausted) as the reducer refusal, with its own why.
         const rakeBtn = node.querySelector<HTMLButtonElement>('.verb')!;
+        const exhausted = rakeExhausted(state);
         const affordable = canAffordAct(state);
-        setDisabled(rakeBtn, !affordable);
-        const rakeTitle = affordable ? '' : OUT_OF_STRENGTH_REASON;
+        setDisabled(rakeBtn, exhausted || !affordable);
+        const rakeTitle = exhausted ? RAKE_DONE_REASON : affordable ? '' : OUT_OF_STRENGTH_REASON;
         if (rakeBtn.title !== rakeTitle) rakeBtn.title = rakeTitle;
         const auto = node.querySelector<HTMLButtonElement>('.auto-toggle')!;
         toggle(auto, rakeCount(state) >= RAKE_AUTO_REVEAL_COUNT);
@@ -4204,63 +4208,39 @@ export function mount(
     }
     finishTypeNow = undefined;
   }
-  // P2 — build the line with EMPTY text (bullet + voice/.log-line classes), append it,
-  // then reveal `formatLogText` one character at a time into a text node, following the
-  // scroll as it types. On completion, an untagged narration line (quotes, no voice) is
-  // re-rendered through renderLineContent so the FB-23 quote-`.speech` spans apply; a
-  // voiced line needs no re-render (the whole line is the voice colour). `onDone` fires
-  // once the line is fully typed (or the line was evicted), never on a cancel.
+  // P2 — the per-char typewriter. FB-321/FB-322 — the line is built FULLY STYLED up front
+  // (buildLogLine → renderLineContent: voice tints, the FB-23/FB-228 quote-`.speech` spans,
+  // their italics), then its TEXT reveals progressively ACROSS the styled text nodes — the
+  // scroll-in wears the same ink as the finished line, never a plain-text preview that
+  // snaps styled at the end (the old shape: type into one bare text node, re-render on
+  // completion — the human watched quotes scroll in untinted and un-italic). The line's
+  // chrome (scene head / chat kicker / bullet / speaker prefix — FB-50/FB-262) shows at
+  // once, exactly as before. `onDone` fires once the line is fully typed (or the line was
+  // evicted), never on a cancel.
   function typeLine(entry: LogEntry, onDone: () => void): void {
-    const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
-    // FB-261 — same .spoken step-in as buildLogLine: a live-typed speech line must not sit
-    // flush-left while its refresh-repainted siblings indent (the two paths must agree).
-    const spokenClass = entry.voice && entry.voice !== 'narrator' ? ' spoken' : '';
-    const line = el('div', `log-line ${entry.channel}${voiceClass}${spokenClass}`);
-    stampChatKicker(line, entry); // F127 — group-opener mark survives the post-type re-render
-    stampBlockBreak(line, entry); // FB-167
-    stampSceneGroup(line, entry); // FB-262
-    if (line.dataset.sceneHead !== undefined) {
-      // FB-262 — the group header paints immediately (before the line types in)
-      const head = el('div', 'scene-head', `— ${line.dataset.sceneHead} —`);
-      head.setAttribute('aria-hidden', 'true');
-      line.append(head);
-    }
-    if (line.dataset.kicker !== undefined) line.append(kickerNode(line.dataset.kicker));
-    const bullet = CHANNEL_BULLET[entry.channel];
-    if (bullet) {
-      const b = el('span', 'bullet emoji', bullet);
-      b.setAttribute('aria-hidden', 'true');
-      line.append(b);
-    }
-    // FB-50 — a spoken line shows its "Name: " prefix immediately, before the quote types in.
-    const prefix = speakerPrefixNode(entry);
-    if (prefix) line.append(prefix);
-    const textNode = document.createTextNode('');
-    line.append(textNode);
+    const line = buildLogLine(entry, false);
     logLines.append(line);
     while (logLines.childElementCount > LOG_DOM_MAX) logLines.firstElementChild?.remove();
     scrollLogToNewest();
     armFreshDividerFade(); // FB-177 — a typing line keeps the fresh divider alive
 
-    const full = formatLogText(entry);
-    // FB-267 — narrator-VOICED lines need the finalize re-render too: their embedded quotes
-    // ('"So he can work," Genemon says') carry the FB-228 inferred speaker tint, which only
-    // renderLineContent applies. Excluding them left live-typed lines untinted until a refresh.
-    const isNarrationQuote =
-      entry.channel === 'narration' && (entry.voice === undefined || entry.voice === 'narrator');
+    // collect the CONTENT text nodes in document order; the chrome's text is excluded (it
+    // paints immediately). Each node's full text is remembered, then emptied for the reveal.
+    const walker = document.createTreeWalker(line, NodeFilter.SHOW_TEXT);
+    const nodes: { node: Text; full: string }[] = [];
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      if (n.parentElement?.closest('.scene-head, .chat-kicker, .bullet, .log-speaker')) continue;
+      const t = n as Text;
+      nodes.push({ node: t, full: t.data });
+      t.data = '';
+    }
+    const total = nodes.reduce((sum, x) => sum + x.full.length, 0);
     const finalize = (): void => {
-      textNode.data = full;
-      if (isNarrationQuote) renderLineContent(line, entry); // FB-23 .speech spans
+      for (const x of nodes) if (x.node.data !== x.full) x.node.data = x.full;
       scrollLogToNewest();
     };
     finishTypeNow = finalize;
-    if (full.length === 0) {
-      // nothing to type — nothing to finalize; hand straight to the cascade.
-      finishTypeNow = undefined;
-      onDone();
-      return;
-    }
-    if (QA_INSTANT_TEXT) {
+    if (total === 0 || QA_INSTANT_TEXT) {
       finishTypeNow = undefined;
       finalize();
       onDone();
@@ -4276,9 +4256,16 @@ export function mount(
         return;
       }
       i += 1;
-      textNode.data = full.slice(0, i);
+      // fill the styled nodes in order until i characters are visible in total
+      let budget = i;
+      for (const x of nodes) {
+        const want = Math.min(x.full.length, Math.max(0, budget));
+        if (x.node.data.length !== want) x.node.data = x.full.slice(0, want);
+        budget -= x.full.length;
+        if (budget <= 0) break;
+      }
       if (i % 3 === 0) scrollLogToNewest(); // follow the view a few chars at a time
-      if (i < full.length) {
+      if (i < total) {
         typeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
       } else {
         finishTypeNow = undefined;

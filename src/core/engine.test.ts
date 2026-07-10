@@ -13,7 +13,9 @@ import {
   type GameState,
 } from './index';
 import { SURFACES } from './content/surfaces';
-import { COLD_OPEN } from './content/coldOpen';
+import { COLD_OPEN, RAKE_CAP_LINE } from './content/coldOpen';
+import { balance, satietyMax } from './index';
+import { autoModeIntent } from './autoplay';
 
 function play(seed: number, intents: Intent[]): GameState {
   let s = createInitialState(seed);
@@ -128,5 +130,32 @@ describe('determinism', () => {
     const t = tick(s, 30); // > 24 ticks/day
     expect(t.clock.day).toBe(1);
     expect(t.clock.tick).toBe(6);
+  });
+});
+
+// ── FB-324 (inbox drain 2026-07-10) — the spill is FINITE: RAKE_CAP rakes total, then the
+//    rake refuses for good and auto-rake stops. Fixtures derive from balance.RAKE_CAP /
+//    RICE_PER_RAKE (the source of truth, ADR-086) — never copied magic numbers.
+describe('FB-324 — the rice spill exhausts at RAKE_CAP', () => {
+  it('the capping rake still pays + speaks the line once; past it the act refuses', () => {
+    let s = createInitialState(1);
+    s = reduce(s, { type: 'open_eyes' });
+    // one shy of the cap, body topped up (derived, not typed)
+    s = {
+      ...s,
+      rakesDone: balance.RAKE_CAP - 1,
+      introBeat: INTRO_BEATS.length, // intro done (auto pauses under a live VN — FB-266)
+      character: { ...s.character, satiety: satietyMax(s) },
+    };
+    const before = s.banked.rice ?? 0;
+    s = reduce(s, { type: 'rake_rice' });
+    expect(s.rakesDone).toBe(balance.RAKE_CAP);
+    expect(s.banked.rice).toBe(before + balance.RICE_PER_RAKE); // the capping rake still pays
+    expect(s.log.entries.filter((e) => e.text === RAKE_CAP_LINE).length).toBe(1); // spoken once
+    const refused = reduce(s, { type: 'rake_rice' });
+    expect(refused).toBe(s); // refused outright: no rice, no body spent, no second line
+    // and auto-rake disarms instead of spinning dead against the refusal
+    const auto = reduce(s, { type: 'set_auto_rake', on: true });
+    expect(autoModeIntent(auto)).toEqual({ type: 'set_auto_rake', on: false });
   });
 });

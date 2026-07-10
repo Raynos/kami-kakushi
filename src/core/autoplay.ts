@@ -8,7 +8,7 @@
 import type { GameState } from './state';
 import type { Intent } from './intents';
 import { availableActions } from './intents';
-import { canDoActivity, hpMax, satietyMax } from './selectors';
+import { canDoActivity, hpMax, rakeExhausted, satietyMax } from './selectors';
 import { ACTIVITIES, getActivity, type ActivityId } from './content/activities';
 import { getRank } from './content/ranks';
 import { reachableFrom } from './content/map';
@@ -142,6 +142,7 @@ export function autoModeIntent(s: GameState): Intent | null {
   // auto-rake the R0 cold-open; clears itself once raking is no longer legal (R1).
   if (s.autoRake) {
     if (!availableActions(s).includes('rake_rice')) return { type: 'set_auto_rake', on: false };
+    if (rakeExhausted(s)) return { type: 'set_auto_rake', on: false }; // FB-324 — spill exhausted
     if (belowKnee()) return { type: 'rest' };
     return { type: 'rake_rice' };
   }

@@ -10,6 +10,7 @@ import {
   SATIETY_BASE,
   SATIETY_PER_LEVEL,
   SATIETY_PER_ACT,
+  RAKE_CAP,
   STAMINA_RATE_FLOOR,
   STAMINA_FLAT_ABOVE,
   LOW_HP_WORK_THRESHOLD,
@@ -277,6 +278,13 @@ export function canAffordAct(state: GameState): boolean {
 }
 /** The one user-facing refusal reason for an unaffordable act (TST4 — never a dead button). */
 export const OUT_OF_STRENGTH_REASON = 'Out of strength — rest a moment.';
+
+/** FB-324 — the spill is FINITE: RAKE_CAP rakes total and the boards are clean. The reducer
+ *  refuses past it and the rake button disables off this ONE predicate (AC-6, like
+ *  canAffordAct) so the shown gate can never drift from the real one. */
+export function rakeExhausted(state: GameState): boolean {
+  return state.rakesDone >= RAKE_CAP;
+}
 
 /** Revealed labour activities AT THE CURRENT NODE + whether they're currently doable (PRD §6.9).
  *  v0.3.1 Step 5 (batch-2 call 1): activities are SPATIAL — each belongs to one map node

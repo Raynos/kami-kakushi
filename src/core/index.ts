@@ -307,6 +307,7 @@ export {
   availableLabours,
   canDoActivity,
   canAffordAct,
+  rakeExhausted,
   OUT_OF_STRENGTH_REASON,
   peopleHere,
   ownsBelonging,

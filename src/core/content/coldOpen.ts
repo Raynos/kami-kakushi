@@ -13,3 +13,11 @@ export function rakeLine(amount: number): string {
   // renderer tallies on a coalesced run. Coin arrives later, as the first wage (haul stores).
   return `You rake the spilled rice back toward the basket. (+${amount} rice)`;
 }
+
+// FB-324 — spoken once, on the rake that clears the last of the spill (balance.RAKE_CAP).
+// Hand-written beside rakeLine (the same hand-written seam FB-5 carves out for rake prose);
+// take (a) of the three offered, human-approved in the 2026-07-10 drain.
+export const RAKE_CAP_LINE =
+  'The spilled rice is raked to the last grain. There is nothing left on the boards.';
+// The disabled rake button says why (AC-6 — same predicate as the reducer refusal).
+export const RAKE_DONE_REASON = 'Nothing left to rake — the boards are clean.';

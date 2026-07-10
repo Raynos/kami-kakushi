@@ -52,6 +52,7 @@
       "weir": 120
     },
     "wageDaysAccrued": 40,
+    "rakesDone": 35,
     "lastWageDay": 90,
     "flags": {
       "awake": true,

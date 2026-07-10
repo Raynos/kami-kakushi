@@ -29,3 +29,5 @@ FB-329 (map fog + travel gating already shipped).
 - FB-334 fixed: the DEV action-card unit reads "body" (the meter's name).
 - FB-327 fixed: r1-kept silent option echoes as `Nameless: "…"` (say: override).
 - FB-328 fixed: promotion kicker + target-rank line above the Rung up button.
+- FB-324 fixed: RAKE_CAP=50 total (balance lever + rakesDone counter + AC-6
+  refusal + cap line + auto-rake disarm); fixtures regen; balance GREEN (Δ 0.0).
