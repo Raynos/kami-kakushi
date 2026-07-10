@@ -7,6 +7,7 @@ export const FLAVOR = {
   mendHint: 'The edge is going. Not yet mine to mend — climb higher, then set it right.',
   estateSourceFields:
     "Entered: rice from the new paddies, credited to the house's own account. The old books carried this line once; it is carried again.",
+  rakeCapLine: 'The spilled rice is raked to the last grain. There is nothing left on the boards.',
   estateSourceStores:
     'Entered: the granary takes in more than it pays out. A full storehouse needs no remark — this one has earned it all the same.',
   estateSourceWorkshop:

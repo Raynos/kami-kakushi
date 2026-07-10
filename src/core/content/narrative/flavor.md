@@ -11,6 +11,17 @@
 
 The edge is going. Not yet mine to mend — climb higher, then set it right.
 
+<!-- FB-324 rake-cap line (bundle fb324-rake-cap) — spoken once, CORE-emitted by
+  intents.ts on the rake that clears the last of the spill (balance.RAKE_CAP);
+  coldOpen.ts re-exports it as RAKE_CAP_LINE / rakeCapLine(). Moved here from a
+  hand-written const (FB-361, TST1): the FLAVOR registry is the one canon home,
+  so the DEV story reader's Canon column resolves it. Alternates in
+  takes/fb324-rake-cap/ until sign-off. -->
+
+### rakeCapLine
+
+The spilled rice is raked to the last grain. There is nothing left on the boards.
+
 <!-- ADR-145 Phase-2 build beats (CORE-emitted one-time log milestones, not
   renderer hints): the five deed-source reveals + the E1 build-complete beat.
   Canon = the "steward's ledger" take (ADR-139 diverge, bundle

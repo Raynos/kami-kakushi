@@ -6,6 +6,7 @@
 // first dream-fragment foreshadows Origin with ZERO mechanical effect.
 
 export { COLD_OPEN } from './coldOpen.gen';
+import { FLAVOR } from './flavor.gen';
 
 export function rakeLine(amount: number): string {
   // The rake credits RICE (RICE_PER_RAKE) — the honest noun now (ADR-107): what you clear off the
@@ -15,11 +16,12 @@ export function rakeLine(amount: number): string {
 }
 
 // FB-324 — spoken once, on the rake that clears the last of the spill (balance.RAKE_CAP).
-// Hand-written beside rakeLine (the same hand-written seam FB-5 carves out for rake prose);
-// take (a) of the fb324-rake-cap bundle (ADR-139) — alternates live in
+// Take (a) of the fb324-rake-cap bundle (ADR-139) — alternates live in
 // narrative/takes/fb324-rake-cap/, switchable in DEV → Story via the override below.
-export const RAKE_CAP_LINE =
-  'The spilled rice is raked to the last grain. There is nothing left on the boards.';
+// FB-361 (TST1): the canon string lives in narrative/flavor.md → the generated FLAVOR
+// registry (the one home the DEV story reader resolves); this const is the same binding.
+// Imported from flavor.gen directly (not ./flavor) so this leaf module adds no cycle.
+export const RAKE_CAP_LINE: string = FLAVOR.rakeCapLine;
 
 // ADR-139 — the cap line is CORE-emitted log text, so the DEV story switcher swaps it at
 // EMIT time through the declaring-module override (the discoveries.ts/requirements.ts
