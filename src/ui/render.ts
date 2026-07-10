@@ -5571,7 +5571,9 @@ export function mount(
     //    it mounts behind the mapSignature guard: an idle tick repaints nothing (TST2). ──
     if (!mapRefs) {
       mapPane.append(el('h2', undefined, 'The estate 地図'));
-      // (a) the bordered you-are-here FLAVOR card (FB-102): the immersive current-node description.
+      // (a) the bordered you-are-here FLAVOR card (FB-102): the immersive current-node
+      // description. FB-336 — it reads BELOW the sheet now (appended after nav): the map is
+      // the tab's hero, the zone description is the scroll's second beat.
       const card = el('div', 'map-here frame');
       const h = el('div', 'rung-now');
       const loc = el('span');
@@ -5585,10 +5587,10 @@ export function mount(
       // has none (the woodshed's warmth is earned).
       const wrongEl = el('div', 'map-wrong skill-blurb');
       card.append(wrongEl);
-      mapPane.append(card);
-      // (b) the survey sheet's mount — a SIBLING of the flavor card, filled behind the sig guard.
+      // (b) the survey sheet's mount — a SIBLING of the flavor card, filled behind the sig
+      // guard. FB-336 — the sheet mounts FIRST, the flavor card below it.
       const nav = el('div', 'map-nav');
-      mapPane.append(nav);
+      mapPane.append(nav, card);
       // (FB-332 — the who's-here section no longer lives here; it renders on the Zone tab.)
       mapRefs = { card, loc, kanji, blurb, wrongEl, nav, sig: '' };
     }

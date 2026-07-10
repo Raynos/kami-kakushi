@@ -2427,6 +2427,20 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
     expect(seen).toContainEqual({ type: 'move_to', to: 'paddies' });
   });
 
+  it('FB-336 — the sheet is the tab hero: it mounts BEFORE the you-are-here card, log folds away', () => {
+    const { render } = spyRender();
+    render(at('forecourt', ['room-gate']), null);
+    openMapTab();
+    const pane = root.querySelector<HTMLElement>('.map-pane')!;
+    const kids = [...pane.children];
+    const nav = pane.querySelector<HTMLElement>('.map-nav')!;
+    const card = pane.querySelector<HTMLElement>('.map-here')!;
+    // scroll order: map first, then the zone description below it (human ruling, FB-336)
+    expect(kids.indexOf(nav)).toBeLessThan(kids.indexOf(card));
+    // the CSS hook that folds the log column away on this tab is stamped on the root
+    expect(root.dataset.activeTab).toBe('map');
+  });
+
   it('unsurveyed ground stays UNNAMED (reveal-as-plot) and no destination blurb leaks', () => {
     const { render } = spyRender();
     // at the paddies with the paddy surveyed but the woodlot (one step past) still unsurveyed.

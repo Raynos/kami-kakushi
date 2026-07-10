@@ -23,3 +23,5 @@
   season + weekday, year/day-counter dropped.
 - FB-335 ✅ — body meter gets life-style `cur/max` numbers + a hover title
   naming what fills/drains it.
+- FB-336 ✅ — Map tab defaults big: log column folds away (CSS off the
+  `data-active-tab` stamp), sheet first, you-are-here card below.

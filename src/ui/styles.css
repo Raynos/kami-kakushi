@@ -335,6 +335,20 @@ h3 {
 .clock-dock .rate {
   font-size: var(--fs-micro);
 }
+/* ── FB-336 — the Map tab is the SHEET's screen: the log window folds away and
+   the survey sheet takes the whole desk width; the you-are-here read sits BELOW
+   the sheet (scroll: map first, then the zone description — DOM order in
+   render.ts). The ⛶ full toggle still gives true fullscreen on top of this. ── */
+[data-active-tab='map'] .shell > .log {
+  display: none;
+}
+@media (min-width: 921px) {
+  [data-active-tab='map'] .shell {
+    /* collapse the log's reserved third column so the desk truly spans */
+    grid-template-columns: auto minmax(0, 1fr) 0;
+  }
+}
+
 /* ── the ANDON phone recomposition (≤920px, the demo's mobile breakpoint):
    ONE column — header rows, the work desk (scrolls), the log as a BAND with
    its own scroll, then the tab BAR + footer at the bottom. Tap targets rise
@@ -1992,9 +2006,11 @@ h3 {
 .vital.health .bar > span {
   background: var(--rokusho);
 }
-.vital.health .value {
+.vital.health .value,
+.vital.stamina .value {
   /* the survival-critical HP number ("1/20") must read at a glance — not the tiniest glyph on
-     screen (was --fs-micro, half the koku size; ui-design §5.7 / §10 hierarchy). */
+     screen (was --fs-micro, half the koku size; ui-design §5.7 / §10 hierarchy). FB-335 — the
+     body meter carries the same exact-number readout, in the same quiet register. */
   font-size: var(--fs-small);
   font-variant-numeric: tabular-nums;
   color: var(--ink-soft);
