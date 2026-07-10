@@ -49,7 +49,8 @@ import {
   staminaRate,
   season,
   nodeSeasonalBlurb,
-  year,
+  dayOfWeek,
+  DAY_OF_WEEK_NAMES,
   currentRank,
   RANKS,
   SURFACES,
@@ -3921,7 +3922,11 @@ export function mount(
         el('span', 'emoji', s.emoji),
         document.createTextNode(` ${s.kanji} ${s.name}`),
       );
-      clockDay.textContent = `Year ${year(state)} · day ${state.clock.day + 1}`;
+      // FB-333 — the clock is season + weekday ONLY (no year, no day counter): the player
+      // lives by the week (market days pull the wheel), not by an absolute count.
+      const dw = DAY_OF_WEEK_NAMES[dayOfWeek(state.clock.day)]!;
+      clockDay.lang = 'ja';
+      setText(clockDay, `${dw.kanji} ${dw.name}`);
       // storywave G1/G4.9 — the manual season wheel is the player's from R2 on (before R2 the
       // season is day-of-week only). Once shown, ending the season is always available (instant —
       // the seasonal judge + spoilage + pool refill run on the turn, ADR-153).

@@ -60,6 +60,20 @@ export function dayOfWeek(day: number): DayOfWeek {
   return (((day % DAYS_PER_WEEK) + DAYS_PER_WEEK) % DAYS_PER_WEEK) as DayOfWeek;
 }
 
+/** Day-name canon (FB-333, human 2026-07-10): **day 0 = Monday 月** — the day the river
+ *  gives him up. The clock reads season + weekday only (no year, no day counter); Yohei's
+ *  market days (weekdays 2 & 5) land on Wednesday 水 and Saturday 土. Kanji first, the
+ *  woodblock English+kanji pairing. */
+export const DAY_OF_WEEK_NAMES: readonly { readonly kanji: string; readonly name: string }[] = [
+  { kanji: '月', name: 'Monday' },
+  { kanji: '火', name: 'Tuesday' },
+  { kanji: '水', name: 'Wednesday' },
+  { kanji: '木', name: 'Thursday' },
+  { kanji: '金', name: 'Friday' },
+  { kanji: '土', name: 'Saturday' },
+  { kanji: '日', name: 'Sunday' },
+] as const;
+
 /** The six-season wheel (story bible `05-world.md`, storywave G1 — ADR-150/ADR-153). The
  *  season is now STORED, MANUAL state (`state.season`), NOT derived from the day: a season is
  *  a CONTAINER the player fills at their own pace and ends with the `advance_season` intent.

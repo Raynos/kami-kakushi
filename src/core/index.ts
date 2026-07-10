@@ -356,6 +356,8 @@ export {
   LOG_MAX_IDENTICAL_RUN,
   TICKS_PER_DAY,
   DAYS_PER_WEEK,
+  dayOfWeek,
+  DAY_OF_WEEK_NAMES,
   SEASONS,
   LUNAR_PERIOD_DAYS,
 } from './constants';

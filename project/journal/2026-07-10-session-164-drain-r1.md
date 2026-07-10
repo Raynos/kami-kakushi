@@ -19,3 +19,5 @@
 
 - FB-332 ✅ — Work tab renamed **Zone**; who's-here 衆 + talk-to-reveal wares
   moved Map → Zone (render.ts), tests updated (render.test.ts, e2e journeys).
+- FB-333 ✅ — day-name canon `DAY_OF_WEEK_NAMES` (day 0 = Monday 月); clock now
+  season + weekday, year/day-counter dropped.

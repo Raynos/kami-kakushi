@@ -2035,6 +2035,21 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     expect(card.isConnected).toBe(true);
     expect(churnOnReRender(root.querySelector<HTMLElement>('.map-pane')!, s, render)).toEqual([]);
   });
+
+  it('FB-333 — the clock reads season + weekday (day 0 = Monday 月), never a year/day counter', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s0 = awake(['readout-clock']);
+    render(s0, null);
+    const clock = root.querySelector<HTMLElement>('.vital.clock')!;
+    expect(clock.hidden).toBe(false);
+    // day 0 is the canon anchor: Monday 月 (the day the river gives him up).
+    expect(clock.textContent).toContain('月 Monday');
+    // the absolute count is GONE — the player lives by the week, not a day/year meter.
+    expect(clock.textContent).not.toMatch(/Year|· day/);
+    // the weekday rolls with the clock: day 2 (Yohei's market day) reads Wednesday 水.
+    render(awake(['readout-clock'], { clock: { ...s0.clock, day: 2 } }), null);
+    expect(clock.textContent).toContain('水 Wednesday');
+  });
 });
 
 // ── Append-only migration (Phase 2) — the two big flash offenders. `renderActions` (the Work hero,
