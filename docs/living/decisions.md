@@ -3075,3 +3075,38 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   take-c "the first entry is yours" (HR-23); alternates live in
   `takes/hd37-cold-open-{a,b}/` until sign-off. `verify:balance` GREEN
   with three net-zero picks + nine perks — no persona rule needed.
+
+### ADR-174 ✅ — a hidden-but-OPEN window stays active; auto-play keeps ticking (FB-313; 🔁 refines ADR-148)
+
+- **created_date:** 2026-07-10
+- **Context:** the human runs the game in a **dedicated single-tab
+  Chrome window** on a second monitor and works in VS Code; the auto
+  loop stopped whenever that window lost focus. Root cause: the loop
+  (`src/app/main.ts` `autoStep`) gated on `document.hidden`, and the
+  `visibilitychange→hidden` handler additionally `clock.cancelAll()`'d
+  the in-flight action (ADR-148, "tab-hide drops it, active-only"). On
+  macOS the **window-occlusion API** reports a fully-covered dedicated
+  window as `visibilityState: 'hidden'` — the *same bit* a truly
+  backgrounded tab reports. No web API distinguishes "occluded dedicated
+  window" from "one of five tabs, another active", so the platform
+  cannot honour the human's model directly.
+- **Decision (human, 2026-07-10, FB-313 drain):** redefine "active" as
+  **tab-alive**, not tab-visible. `autoStep` no longer gates on
+  `document.hidden` (only `paused`/`crashed`), and hide no longer
+  `cancelAll`s the in-flight action — it just flushes a save. This
+  leans on the **browser's own throttling tiers** to approximate the
+  human's mental model *for free*: an occluded dedicated window keeps
+  progressing at the ~1 s throttled cadence, while a truly-backgrounded
+  tab falls under Chrome's intensive throttling (~1/min after 5 min) and
+  effectively idles off — "dedicated-window keeps going / 5-tabs stops"
+  without a distinction API.
+- **Consequences:** the "active-only, no offline progress" PRD pillar
+  (§1/§2.8/§6.9/FU23) **still holds** in the sense that matters — progress
+  ceases entirely when the **tab is closed**; there is no offline/closed
+  accrual and no catch-up replay. What changed is the boundary of
+  "active": hidden-but-open is now inside it. Minor background battery
+  cost is accepted (the human explicitly chose this over catch-on-return,
+  which couldn't tell the two hide-cases apart). ADR-148's "tab-hide
+  drops the in-flight action" clause is superseded by this entry; the
+  timed-action wall itself is unchanged. FB-8 telemetry watches for any
+  pacing surprise from throttled-cadence hidden runs.

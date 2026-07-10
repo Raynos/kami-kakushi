@@ -389,10 +389,15 @@ async function boot(): Promise<void> {
   }
 
   // ── active-only tick loop (PRD §6.9 / FU23): tab-open auto-repeat labour gives the
-  // "leave it running" feel — strictly active-only (no offline catch-up). One autoStep per
-  // AUTO_REPEAT_MS; the DEV speed toggle runs N steps per tick (autoSpeed = 1 in prod). ──
+  // "leave it running" feel — active-only (tab-alive, no offline/closed-tab catch-up). One
+  // autoStep per AUTO_REPEAT_MS; the DEV speed toggle runs N steps per tick (autoSpeed = 1
+  // in prod). FB-313 (ADR-174) — a hidden-but-OPEN window still counts as active: we do NOT
+  // gate on document.hidden here, so an occluded dedicated window keeps progressing (the
+  // browser throttles the interval to ~1s), while a truly-backgrounded tab crawls under the
+  // engine's own intensive throttling — matching "dedicated-window keeps going / 5-tabs stops"
+  // for free. Progress still ceases entirely when the tab is closed (no offline accrual). ──
   function autoStep(): void {
-    if (paused || document.hidden || crashed) return;
+    if (paused || crashed) return;
     // storywave G4.9 — the R3 grain-watch NIGHT ROUND resolves ON RAILS: once the player has
     // posted the watch (begin_night_round), its stages are resolved as a side-channel (like the
     // sim + the t0-arc/invariants drivers), one stage per beat, until the round clears. The
@@ -434,7 +439,9 @@ async function boot(): Promise<void> {
   // save on hide / unload (best-effort)
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-      clock.cancelAll(); // ADR-148 — tab-hide drops the in-flight action (active-only, §6.9)
+      // FB-313 (ADR-174) — a hidden-but-open window stays active: keep the in-flight action
+      // alive (no clock.cancelAll) and let autoStep keep ticking while hidden. Just flush a
+      // save so an occlusion → close never loses progress.
       void flushSave();
     }
   });

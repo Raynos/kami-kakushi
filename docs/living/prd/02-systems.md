@@ -112,10 +112,13 @@ and the **seasonal JUDGE rides every season exit**
 mark). Nodes carry **per-season flavour**; season-specific actions, enemies,
 content and **stall STOCK** exist (Yohei's stall restocks per season); unique
 characters can appear in a specific season (Iori lodges in New Year and Bon).
-Time-skips at tier seams ride the same wheel. The clock stays **ACTIVE-ONLY:** it
-advances **only while the game is open and visible**, **PAUSES on
-`document.hidden`**, with **no offline or wall-time accrual** — the story never
-advances while the tab is backgrounded or the game is closed.
+Time-skips at tier seams ride the same wheel. The clock stays **ACTIVE-ONLY** —
+but "active" means **tab-ALIVE, not tab-visible** (**ADR-174/FB-313**): the auto
+loop keeps advancing while the window is **hidden-but-open** (an occluded
+dedicated window ticks at the browser's throttled ~1 s cadence; a truly
+backgrounded tab crawls under intensive throttling and effectively idles off) and
+stops **entirely only when the tab is CLOSED**, with **no offline or wall-time
+accrual** — the story never advances after the game is closed.
 
 **As the BUILT game ships it (v0.4.0, the storywave build — ADR-153).** The
 engine runs exactly the model above: the season is a **STORED six-season wheel**
@@ -133,11 +136,11 @@ readout and arrive at T0-R2; each season ends by the manual turn (Autumn only
 once the nengu board — Lady **Chiyo's** reckoning — has sat; ADR-166), and each (site, season) production
 pool refills on the turn, so the wheel is the pacing container the player
 squeezes at their own pace. There is **no offline accrual and no offline
-summary**: the clock **pauses the moment the tab is hidden** and halts when the
-game is closed. The "leave it
-running, check the progress" feel comes from **tab-open auto-resolve combat +
-auto-repeat labour** — active-only loops that keep ticking **while you watch** —
-not from any background or wall-time accrual.
+summary**: the clock keeps ticking while the window is **hidden-but-open**
+(browser-throttled) and **halts entirely when the tab is CLOSED** (**ADR-174**).
+The "leave it running, check the progress" feel comes from **tab-open
+auto-resolve combat + auto-repeat labour** — active-only loops that keep ticking
+**while the tab is open** — not from any offline or closed-tab accrual.
 
 **(c) Rough DATA shape** (as built, v0.4.0).
 - The clock persists `tick` + the day index; the **season is a STORED,
