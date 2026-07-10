@@ -149,7 +149,10 @@ philosophy wins.**
   (`HD`-items) and reviews (`HR`-items) in
   [`project/human-in-the-loop/`](project/human-in-the-loop). **Lead each fresh
   session by relaying that brief to the human** before diving into work, so
-  blocking sign-offs don't sit unseen. The brief then **nudges the next
+  blocking sign-offs don't sit unseen. **The FIRST line of that relay is ALWAYS
+  the brief's `Playtest inbox - …` headline, verbatim** (the human demanded this
+  explicitly) — surface it as reliably as Open Decisions / Open Reviews; never
+  drop it or fold it into prose. The brief then **nudges the next
   autonomous work** — it surfaces recent commits + the live snapshot + the
   active plan(s)/journal/roadmap and asks you to **name the startable
   workstream(s)** — *often just the one active plan; "up to 3" is a cap for

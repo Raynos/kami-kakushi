@@ -95,16 +95,20 @@ herdr_shared_tree() {
   add ""
 }
 
-# --- Inbox headline: per-bucket in-progress capture counts, the very first line -
-# The human wants the feedback-inbox shape at a glance without asking an agent, in
-# the exact shape:
+# --- Inbox headline: per-bucket in-progress capture counts, MANDATORY first line -
+# The human wants the feedback-inbox shape at a glance, EVERY turn, without asking:
 #   Playtest inbox - r0 (25 in progress) dev (11 in progress) the-log (4 in progress)
-# Every capture still sitting in pending/ counts as IN PROGRESS — the bucket is the
-# unit, and it stays in progress until it is fully drained and ARCHIVED out of
-# pending/. A mid-drain status:"done" stamp on one sidecar does NOT retire that
-# capture from the human's view (the earlier "OPEN only" count read 8/22/4 while the
-# buckets actually held 11/25/4), so we count ALL sidecars, done or not. One capture
-# == one <stamp>.json sidecar. Biggest bucket first. Silent when pending/ is empty.
+# History: a bare "Playtest inbox - …" first line was NOT enough — agents treated it
+# as ambient preamble and dropped it from their relay while faithfully relaying Open
+# Decisions / Open Reviews (which are framed as must-relay sections). The human's fix
+# (2026-07-10, emphatic): make this line just as AGGRO as those sections — an
+# unmissable MUST-RELAY-VERBATIM directive at the very top. So we wrap the line in a
+# loud mandatory block, not a bare line. Count semantics: every capture still sitting
+# in pending/ counts as IN PROGRESS — the bucket is the unit, in progress until it is
+# fully drained AND archived out of pending/; a mid-drain status:"done" stamp does NOT
+# subtract (the earlier "OPEN only" count read 8/22/4 while the buckets held 11/25/4),
+# so we count ALL sidecars. One capture == one <stamp>.json. Biggest bucket first.
+# NOT silent when empty — we still print the line (drained state) so the habit holds.
 inbox_rows=""
 for d in project/playtest-inbox/pending/*/; do
   [[ -d "$d" ]] || continue
@@ -121,13 +125,30 @@ if [[ -n "$inbox_rows" ]]; then
   # Biggest bucket first (numeric desc); render "<bucket> (<n> in progress)".
   inbox_line="$(printf '%s' "$inbox_rows" | sort -rn \
     | awk '{ printf "%s%s (%s in progress)", sep, $2, $1; sep=" " }')"
-  add "Playtest inbox - ${inbox_line}"
-  add ""
+  inbox_headline="Playtest inbox - ${inbox_line}"
+else
+  inbox_headline="Playtest inbox - empty (all buckets drained ✅)"
 fi
+add "════════════════════════════════════════════════════════════════════════"
+add "🚨📥 MANDATORY — YOUR REPLY MUST OPEN WITH THE EXACT LINE BELOW 📥🚨"
+add ""
+add "    ${inbox_headline}"
+add ""
+add "Copy it VERBATIM as the **first line of your reply**, EVERY turn — whether"
+add "the human said \`gm\`, \`gn\`, or anything else. Do NOT reword it, do NOT fold"
+add "it into prose, do NOT bury it under other sections, do NOT drop it. It goes"
+add "**ABOVE** Open Decisions, Open Reviews, and everything else in this brief."
+add "The human has demanded this TWICE — omitting this line is a hard failure, as"
+add "bad as ignoring an open decision. Treat it as the single highest-priority"
+add "thing to surface. If you print nothing else from this brief, print THIS."
+add "════════════════════════════════════════════════════════════════════════"
+add ""
 
 add "## 🧑‍⚖️ Human-in-the-loop brief (auto-surfaced at session start)"
 add ""
 add "> ⏱️ **Opening turn ≤5s — relay this brief with ZERO tool calls.** Everything you need (queue, reviews, commits, the active-plan tag) is already inlined below. Do **not** run \`git\`/\`Read\`/\`verify\` or open any file just to brief — even one round-trip costs several seconds and blows the budget. Defer every verify-against-git check to when you actually pick the work up."
+add ""
+add "> 🚨 **The FIRST line of your reply is the MANDATORY \`Playtest inbox - …\` line from the box above — verbatim, before your greeting even.** It is non-optional and non-negotiable; the human has demanded it twice. Relay it with the SAME reliability you relay Open Decisions and Open Reviews. Dropping it is a hard failure."
 add ""
 add "_Surface these to the human early. Full lists: \`$HUMAN_TODO\`, \`$DECISIONS\`, \`$REVIEWS\`._"
 add ""

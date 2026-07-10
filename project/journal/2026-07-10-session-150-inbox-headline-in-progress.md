@@ -16,8 +16,24 @@ human asked for so a "gm"/"gn" turn opens with it:
     actually held 11 / 25 captures.
   - Header docstring gains item 0 documenting the headline.
 
+## Follow-up — make the headline AGGRO (agents were dropping it)
+
+The format fix wasn't enough: a co-agent got a "gm" turn and relayed Open
+Decisions + Open Reviews but **dropped the `Playtest inbox - …` line entirely**
+— it treated the bare first line as ambient preamble. The human (emphatic) wants
+it surfaced as reliably as the HD/HR sections. Fix, in three reinforcing places:
+- `src/scripts/session-brief.sh` — the inbox line is now wrapped in a loud
+  `🚨📥 MANDATORY … MUST OPEN WITH THE EXACT LINE BELOW` box (verbatim, above
+  everything), + a second `🚨` reminder line under the brief header. Also: the
+  headline now prints even when empty (`empty (all buckets drained ✅)`) so the
+  habit holds.
+- `AGENTS.md` — the always-loaded "Session start" bullet now mandates the
+  `Playtest inbox - …` headline as the FIRST line of the relay, verbatim.
+
 ## Next intended steps
-1. None — self-contained tweak. Format is verified against a live run.
+1. None — self-contained. Watch the next real "gm"/"gn" turn to confirm the
+   headline actually leads the relay; escalate further (a UserPromptSubmit hook
+   that injects the line on gm/gn) only if agents STILL drop it.
 
 ## Landmines
 - The count is now "all sidecars in the bucket", not "not-yet-done sidecars". If
