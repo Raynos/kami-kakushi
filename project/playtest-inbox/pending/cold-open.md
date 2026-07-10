@@ -144,3 +144,13 @@ This narrator text still has speech from Genemon in quotes but it's the wrong co
 **Details:** `cold-open/2026-07-10T11-43-03.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:43:26+0200 — same-thing-third-action
+
+Same thing third action should be slow enough for the text to render.
+
+**Element:** panel "log" — ""...You don't shirk the work," Genemon says, eyeing the clea" · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(27)` · @942,573 493×73
+**Screenshot:** `cold-open/2026-07-10T11-43-26.png`
+**Details:** `cold-open/2026-07-10T11-43-26.json` — save + recent logs + full context
+
+---
