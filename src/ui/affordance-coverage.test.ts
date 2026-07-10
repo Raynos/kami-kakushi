@@ -17,7 +17,7 @@ import { createActionClock } from '../app/action-clock';
 import { validateEnvelope } from '../persistence/validate';
 import { migrate } from '../persistence/migrate';
 import { getFixtures } from '../fixtures';
-import { createInitialState, reduce, type GameState, type Intent } from '../core';
+import { createInitialState, reduce, introSceneAt, type GameState, type Intent } from '../core';
 
 type IntentType = Intent['type'];
 
@@ -191,8 +191,18 @@ describe('intent → affordance coverage (the wiring-layer ratchet)', () => {
 
     // cold open — the wake card
     sweep(createInitialState(1), seen);
-    // the intro VN (ask → choose → continue), entered by the real intent
-    sweep(reduce(createInitialState(1), { type: 'open_eyes' }), seen);
+    // the intro VN (ask → choose → continue), entered by the real intent. HD-37: scene 0
+    // is the decide-only dream act, so walk one real pick forward to soan — the ask hub
+    // (ask_topic's only control) lives there.
+    const awakeIntro = reduce(createInitialState(1), { type: 'open_eyes' });
+    sweep(awakeIntro, seen);
+    sweep(
+      reduce(awakeIntro, {
+        type: 'choose_intro',
+        optionId: introSceneAt(awakeIntro.introBeat)!.decision.options[0]!.id,
+      }),
+      seen,
+    );
 
     // the fixture waypoints — every registered scenario gets a sweep, so a new
     // fixture automatically widens this net too

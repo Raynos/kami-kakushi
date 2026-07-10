@@ -196,8 +196,8 @@ const POST_COLD_OPEN_SPEC: FixtureSpec = {
     while (introActive(s.introBeat) && guard++ < 32) {
       const scene = introSceneAt(s.introBeat);
       if (!scene) break;
-      // C4.9: the intro is the ONE fused sickroom scene — ask Sōan two questions
-      // (exploration is free), then decide.
+      // HD-37: three acts again — on each scene with a hub (Sōan, Genemon), ask up to
+      // two questions (exploration is free), then decide; the dream act is decide-only.
       for (const topic of scene.topics.slice(0, 2)) {
         s = reduce(s, { type: 'ask_topic', topicId: topic.id });
       }

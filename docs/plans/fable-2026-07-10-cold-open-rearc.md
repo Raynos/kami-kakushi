@@ -1,6 +1,8 @@
 # The cold-open re-arc — three acts, three picks (HD-37)
 
-**Status:** 🔨 IN-PROGRESS — human ran the decision walkthrough in-session
+**Status:** 🔨 IN-PROGRESS — steps 1–2 LANDED (2026-07-10: the three-act
+restore + the ADR-132 balance gate, `verify` 18/18 + `verify:balance` GREEN);
+next: step 3 (diverge unit A). Human ran the decision walkthrough in-session
 (2026-07-10, supersedes the queued full read) and gave the go: full arc,
 this session. Verdicts: act order `dream → soan → genemon` ✓ · title-card
 lede REWORKED to fit dreaming-first (not moved, not kept) · nine perks

@@ -52,6 +52,16 @@ function entry(text: string, count: number, channel: LogEntry['channel'] = 'rewa
   return { key: 0, channel, text, tick: 0, count };
 }
 
+// HD-37 (the cold-open rearc): the intro is THREE acts again — dream (decide-only) →
+// soan (the ask-hub sickroom) → genemon. The VN tests below anchor on the scene each
+// exercises by ID (derived — never a copied index): the ask/decide machinery lives on
+// soan; the shell-reveal test needs the LAST scene; the dream act covers the
+// topic-less branch.
+const SOAN_IDX = DIALOGUE_SCENES.findIndex((s) => s.id === 'soan');
+const SOAN = DIALOGUE_SCENES[SOAN_IDX]!;
+const LAST_IDX = DIALOGUE_SCENES.length - 1;
+const LAST = DIALOGUE_SCENES[LAST_IDX]!;
+
 describe('formatLogText — coalesced ×N display', () => {
   it('leaves a single (count 1) line untouched', () => {
     expect(formatLogText(entry('You fell the crop-raiding monkey. (+3 coin)', 1))).toBe(
@@ -846,13 +856,13 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
 
   it('renders TWO columns; Phase 1 shows the ask hub, the decide grid stays hidden', () => {
     const { render } = spyMount();
-    render(introState(0), null);
+    render(introState(SOAN_IDX), null);
     expect(root.querySelector('.vn-body')).not.toBeNull();
     expect(root.querySelector('.vn-story .vn-lines')).not.toBeNull();
     expect(root.querySelector('.vn-panel')).not.toBeNull();
     // the greeting typed into the story; the ASK sub-panel is shown, the DECIDE sub-panel is hidden.
     expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain('Sōan');
-    expect(root.querySelectorAll('.intro-ask').length).toBe(DIALOGUE_SCENES[0]!.topics.length);
+    expect(root.querySelectorAll('.intro-ask').length).toBe(SOAN.topics.length);
     expect(shown('.vn-ask')).toBe(true);
     expect(shown('.vn-decide')).toBe(false); // the decision is withheld in the ask phase
     expect(root.querySelector('.intro-done')).not.toBeNull();
@@ -860,7 +870,7 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
 
   it('"I\'ve heard enough" swaps to the DECIDE grid WITHOUT recreating the story nodes (F81)', () => {
     const { render } = spyMount();
-    render(introState(0), null);
+    render(introState(SOAN_IDX), null);
     // capture the first already-rendered greeting line to prove it is NOT destroyed on the swap.
     const firstLine = root.querySelector<HTMLElement>('.vn-story .vn-line')!;
     expect(firstLine).not.toBeNull();
@@ -871,23 +881,21 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     // the panel swapped IN PLACE: decide shown, ask hidden (both still in the DOM).
     expect(shown('.vn-decide')).toBe(true);
     expect(shown('.vn-ask')).toBe(false);
-    expect(root.querySelectorAll('.intro-choice').length).toBe(
-      DIALOGUE_SCENES[0]!.decision.options.length,
-    );
+    expect(root.querySelectorAll('.intro-choice').length).toBe(SOAN.decision.options.length);
     // the decision prompt joined the story transcript (so it, too, is typed — FB-82/FB-83).
     expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
-      DIALOGUE_SCENES[0]!.decision.prompt,
+      SOAN.decision.prompt,
     );
   });
 
   it('an asked Q/A APPENDS to the story, leaving prior lines untouched (append-only diff)', () => {
     const { render } = spyMount();
-    const topic = DIALOGUE_SCENES[0]!.topics[0]!;
-    render(introState(0), null);
+    const topic = SOAN.topics[0]!;
+    render(introState(SOAN_IDX), null);
     const greetingLines = root.querySelectorAll('.vn-story .vn-line').length;
     const firstLine = root.querySelector<HTMLElement>('.vn-story .vn-line')!;
     // simulate the core having recorded the ask (askedTopics grows) + a re-render.
-    render(introState(0, [topic.id]), null);
+    render(introState(SOAN_IDX, [topic.id]), null);
     expect(firstLine.isConnected).toBe(true); // the greeting node was NOT recreated
     const lines = root.querySelectorAll('.vn-story .vn-line');
     expect(lines.length).toBeGreaterThan(greetingLines); // the Q + answer appended
@@ -896,8 +904,8 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
 
   it('each decision button is THEMED by the attribute it grants +1 (accent + kanji chip)', () => {
     const { render } = spyMount();
-    render(introState(0), null);
-    const opt = DIALOGUE_SCENES[0]!.decision.options[0]!; // soan-grateful → +INT
+    render(introState(SOAN_IDX), null);
+    const opt = SOAN.decision.options[0]!; // derived — whatever soan's first option grants
     const btn = byText('.intro-choice', opt.label)!;
     expect(btn).toBeTruthy();
     expect(btn.style.getPropertyValue('--attr-accent')).toContain(`attr-${opt.stat.up}`);
@@ -908,9 +916,9 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
 
   it('picking a choice does NOT advance — reply + fresh divider + perk + Continue appear', () => {
     const { seen, render } = spyMount();
-    render(introState(0), null);
+    render(introState(SOAN_IDX), null);
     root.querySelector<HTMLButtonElement>('.intro-done')!.click();
-    const opt = DIALOGUE_SCENES[0]!.decision.options[0]!;
+    const opt = SOAN.decision.options[0]!;
     byText('.intro-choice', opt.label)!.click();
     // the KEY complaint fix: picking never dispatches choose_intro (no scene jump yet).
     expect(seen.some((i) => i.type === 'choose_intro')).toBe(false);
@@ -937,12 +945,12 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
   // seed first ran on the intro-END render and swallowed the perk line as "history".
   it('F222 — a milestone landing DURING the intro trips the Progress unread dot on reveal', () => {
     const { render } = spyMount();
-    let s = introState(0);
+    let s = introState(LAST_IDX); // the FINAL scene — its pick ends the intro
     render(s, null); // VN active — this render must seed the baseline
-    const opt = DIALOGUE_SCENES[0]!.decision.options[0]!;
+    const opt = LAST.decision.options[0]!;
     s = reduce(s, { type: 'choose_intro', optionId: opt.id }); // the REAL pick → perk milestone
     expect(s.log.entries.some((e) => e.channel === 'milestone')).toBe(true); // fixture self-check
-    render(s, null); // single-scene intro is over — the shell reveals
+    render(s, null); // the last scene is done ⇒ the intro is over — the shell reveals
     const progress = [...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab')].find((b) =>
       (b.textContent ?? '').includes('Progress'),
     )!;
@@ -952,25 +960,38 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
 
   it('ONLY Continue dispatches choose_intro (advancing the scene)', () => {
     const { seen, render } = spyMount();
-    render(introState(0), null);
+    render(introState(SOAN_IDX), null);
     root.querySelector<HTMLButtonElement>('.intro-done')!.click();
-    const opt = DIALOGUE_SCENES[0]!.decision.options[0]!;
+    const opt = SOAN.decision.options[0]!;
     byText('.intro-choice', opt.label)!.click();
     root.querySelector<HTMLButtonElement>('.intro-continue')!.click();
     expect(seen).toContainEqual({ type: 'choose_intro', optionId: opt.id });
   });
 
-  // (The "decision-only scene opens straight in DECIDE" test left with C4.9's intro
-  // reshape — no topic-less intro scene ships (the legacy dream was the only one; the
-  // renderer branch stays for a future topic-less scene, and git history keeps the test).
+  // (Restored with HD-37's rearc — the dream act is topic-less again, so the renderer's
+  // decision-only branch is live once more; the test came back from git history.)
+  it('a decision-only scene (the dream — no topics) opens straight in the DECIDE grid', () => {
+    const dreamIdx = DIALOGUE_SCENES.findIndex((s) => s.topics.length === 0);
+    expect(dreamIdx).toBeGreaterThanOrEqual(0);
+    const { render } = spyMount();
+    render(introState(dreamIdx), null);
+    expect(shown('.vn-decide')).toBe(true);
+    expect(root.querySelector('.vn-choices.vn-grid')).not.toBeNull();
+    expect(root.querySelector('.intro-ask')).toBeNull(); // no ask hub for a topic-less scene
+    expect(root.querySelector('.intro-done')).toBeNull();
+    // the prompt still types into the story on entry (nothing pops in un-typed — FB-82/FB-83).
+    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
+      DIALOGUE_SCENES[dreamIdx]!.decision.prompt,
+    );
+  });
 
   // FB-88 — EVERY voiced line carries its speaker-name prefix, not just the player's. The NPC greeting
   // (a non-player line) must render "<name>: " the same way the player's "You: " does.
   it('F88 — a voiced NPC greeting line renders its speaker-name prefix, not just player lines', () => {
     const { render } = spyMount();
-    render(introState(0), null);
+    render(introState(SOAN_IDX), null);
     // the scene's first VOICED greeting line (narrator lines carry no speaker → no prefix, by design).
-    const npcName = DIALOGUE_SCENES[0]!.greeting.find((l) => l.speaker)!.speaker; // from the scene
+    const npcName = SOAN.greeting.find((l) => l.speaker)!.speaker; // from the scene
     expect(npcName).toBeTruthy();
     const prefixes = [...root.querySelectorAll<HTMLElement>('.vn-line .vn-speaker')].map(
       (s) => s.textContent,
@@ -983,8 +1004,8 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
   // (still a live button), just de-emphasized in CSS.
   it('F87 — an asked topic button carries the gray "asked" class', () => {
     const { render } = spyMount();
-    const topic = DIALOGUE_SCENES[0]!.topics[0]!;
-    render(introState(0, [topic.id]), null);
+    const topic = SOAN.topics[0]!;
+    render(introState(SOAN_IDX, [topic.id]), null);
     const btn = [...root.querySelectorAll<HTMLButtonElement>('.intro-ask')].find((b) =>
       (b.textContent ?? '').includes(topic.label),
     )!;
@@ -1225,8 +1246,8 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
   // non-last line just paused, so line 1+ never typed without a click.
   it('F86 — lines auto-advance through the whole block with NO click, then reveal the panel', () => {
     const render = spyMount();
-    render(introState(0), null);
-    const greeting = DIALOGUE_SCENES[0]!.greeting;
+    render(introState(SOAN_IDX), null);
+    const greeting = SOAN.greeting;
     expect(greeting.length).toBeGreaterThanOrEqual(2);
     vi.runAllTimers(); // let ONLY the auto timers run — no click
     const texts = lineTexts();
@@ -1242,8 +1263,8 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
   // FB-86 — a click while a line is still typing COMPLETES it instantly (speeds up); it never pauses.
   it('F86 — a click mid-type completes the current line instantly', () => {
     const render = spyMount();
-    render(introState(0), null);
-    const full = DIALOGUE_SCENES[0]!.greeting[0]!.text;
+    render(introState(SOAN_IDX), null);
+    const full = SOAN.greeting[0]!.text;
     const first = root.querySelector<HTMLElement>('.vn-line .vn-text')!;
     expect(first.textContent).not.toBe(full); // mid-type (the first char timer hasn't even fired)
     root.querySelector<HTMLElement>('.vn-scene')!.click();
@@ -1254,8 +1275,8 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
   // the scene only listened for clicks, so the keydown left the line mid-type.
   it('F197 — Space mid-type completes the current line instantly (keyboard advance)', () => {
     const render = spyMount();
-    render(introState(0), null);
-    const full = DIALOGUE_SCENES[0]!.greeting[0]!.text;
+    render(introState(SOAN_IDX), null);
+    const full = SOAN.greeting[0]!.text;
     const first = root.querySelector<HTMLElement>('.vn-line .vn-text')!;
     expect(first.textContent).not.toBe(full); // mid-type
     document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
@@ -1266,9 +1287,9 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
   // scene: Space there presses the control (e.g. an ask-topic button), not the typewriter.
   it('F197 — Space on a focused button does NOT advance the typewriter', () => {
     const render = spyMount();
-    render(introState(0), null);
+    render(introState(SOAN_IDX), null);
     vi.runAllTimers(); // settle the greeting so the ask panel (buttons) is revealed
-    render(introState(0, [DIALOGUE_SCENES[0]!.topics[0]!.id]), null); // a new block types
+    render(introState(SOAN_IDX, [SOAN.topics[0]!.id]), null); // a new block types
     const spans = [...root.querySelectorAll<HTMLElement>('.vn-line .vn-text')];
     const typing = spans[spans.length - 1]!;
     const before = typing.textContent;
@@ -1282,7 +1303,7 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
   // now. RED against a model that ignores the click in the gap (line 1 would stay empty until ~2s).
   it('F86 — a click during the inter-line hold advances immediately (skips the wait)', () => {
     const render = spyMount();
-    render(introState(0), null);
+    render(introState(SOAN_IDX), null);
     const sceneEl = root.querySelector<HTMLElement>('.vn-scene')!;
     sceneEl.click(); // complete line 0 → arm the hold
     expect(lineTexts()[1]).toBe(''); // line 1 waiting out the hold
@@ -1296,7 +1317,7 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
   // no .co-typing ever appeared inside the VN.
   it('F227 — the GBA caret rides the typing line and clears when the block finishes', () => {
     const render = spyMount();
-    render(introState(0), null);
+    render(introState(SOAN_IDX), null);
     const typing = root.querySelector<HTMLElement>('.vn-line .vn-text')!;
     expect(typing.classList.contains('co-typing')).toBe(true); // riding line 0 mid-type
     vi.runAllTimers(); // the whole block types + auto-advances out
@@ -1308,11 +1329,11 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
   // divider was already fading out from under the reader.
   it('F199 — the fresh divider outlives 4.5s and fades on the source-derived TTL', () => {
     const render = spyMount();
-    render(introState(0), null);
+    render(introState(SOAN_IDX), null);
     vi.runAllTimers(); // settle the greeting → ask panel
     root.querySelector<HTMLButtonElement>('.intro-done')!.click();
     vi.runAllTimers(); // settle the decision prompt
-    const opt = DIALOGUE_SCENES[0]!.decision.options[0]!;
+    const opt = SOAN.decision.options[0]!;
     [...root.querySelectorAll<HTMLButtonElement>('.intro-choice')]
       .find((b) => b.textContent!.includes(opt.label))!
       .click(); // latch → the fresh reply block drops the divider
@@ -1330,15 +1351,15 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
   // class, no re-typed text, no re-hidden/re-shown panel. A DOM mutation here is a visible flicker.
   it('F90 — an idle re-render of settled intro state mutates nothing in the scene', () => {
     const render = spyMount();
-    render(introState(0), null);
+    render(introState(SOAN_IDX), null);
     vi.runAllTimers(); // settle: greeting fully typed, ask panel revealed
     const sceneEl = root.querySelector<HTMLElement>('.vn-scene')!;
     const before = sceneEl.innerHTML;
     const obs = new MutationObserver(() => {});
     obs.observe(sceneEl, { childList: true, subtree: true, attributes: true });
-    render(introState(0), null); // identical-state re-render ticks
-    render(introState(0), null);
-    render(introState(0), null);
+    render(introState(SOAN_IDX), null); // identical-state re-render ticks
+    render(introState(SOAN_IDX), null);
+    render(introState(SOAN_IDX), null);
     const records = obs.takeRecords(); // synchronously drain any queued mutations
     obs.disconnect();
     expect(records).toEqual([]); // zero DOM mutations ⇒ nothing can re-animate ⇒ no flicker
@@ -2347,9 +2368,9 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
   });
 
   it('F111 — an asked ask_topic line is flagged chat in the pure core (routing source of truth)', () => {
-    // drive the REAL reducer: ask the first intro topic, and prove the emitted lines carry `chat`.
-    let s: GameState = { ...awake(), introBeat: 0 };
-    const topic = DIALOGUE_SCENES[0]!.topics[0]!;
+    // drive the REAL reducer: ask the first soan topic, and prove the emitted lines carry `chat`.
+    let s: GameState = { ...awake(), introBeat: SOAN_IDX };
+    const topic = SOAN.topics[0]!;
     s = reduce(s, { type: 'ask_topic', topicId: topic.id });
     const asked = s.log.entries.filter((e) => e.text === topic.label);
     expect(asked.length).toBeGreaterThan(0);

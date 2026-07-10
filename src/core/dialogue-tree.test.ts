@@ -4,6 +4,7 @@ import {
   reduce,
   DIALOGUE_SCENES,
   INTRO_SCENE_COUNT,
+  introActive,
   availableTopics,
   introTopic,
   introSceneAt,
@@ -18,20 +19,32 @@ import {
 // Fixtures derive from DIALOGUE_SCENES (the source of truth) — a content edit that breaks an
 // invariant (a topic with no answer, a stat lean leaking into ask_topic, a broken gate) goes RED
 // here rather than shipping. No copied magic numbers.
-// C4.9 (the G4.1 reshape): the intro is the ONE fused take-a sickroom scene (`soan`) — the
-// legacy pre-reboot dream/genemon filler is deleted, so these fixtures anchor on soan and the
-// GATE machinery (no gated topic ships in the intro today) is exercised at the pure level on a
-// constructed scene.
+// HD-37 (the cold-open rearc, re-opens C4.9): the intro is the THREE-act arc again —
+// dream (decide-only) → soan (the ask-hub sickroom) → genemon. Ask-machinery fixtures
+// anchor on soan via atScene() (derived — a reorder flows through); the GATE machinery is
+// exercised both on the constructed scene below and by genemon's real `after:`-gated topic.
 const wake = (seed = 1): GameState => reduce(createInitialState(seed), { type: 'open_eyes' });
+// walk the intro forward (first option each pick) until the named scene is live.
+const atScene = (id: string, seed = 1): GameState => {
+  let s = wake(seed);
+  while (introActive(s.introBeat) && introSceneAt(s.introBeat)!.id !== id) {
+    s = reduce(s, {
+      type: 'choose_intro',
+      optionId: introSceneAt(s.introBeat)!.decision.options[0]!.id,
+    });
+  }
+  return s;
+};
 const attrTotal = (s: GameState): number =>
   ATTR_IDS.reduce((n, id) => n + (s.character.attrs[id] ?? 0), 0);
 const sceneById = (id: string): DialogueScene => DIALOGUE_SCENES.find((s) => s.id === id)!;
 
 describe('DIALOGUE_SCENES — the dialogue-tree data (npc-dialogue-tree plan §3.4/§4)', () => {
-  it('is exactly the ONE fused sickroom scene: Sōan (C4.9 — the G4.1 reshape finished)', () => {
-    expect(INTRO_SCENE_COUNT).toBe(1);
-    expect(DIALOGUE_SCENES.map((s) => s.id)).toEqual(['soan']);
+  it('is exactly the HD-37 three-act arc: dream → soan → genemon, in that order', () => {
+    expect(INTRO_SCENE_COUNT).toBe(3);
+    expect(DIALOGUE_SCENES.map((s) => s.id)).toEqual(['dream', 'soan', 'genemon']);
     expect(sceneById('soan').speaker).toBe('soan');
+    expect(sceneById('genemon').speaker).toBe('genemon');
   });
 
   it('every scene has a greeting + a decision (prompt + 3 balanced options)', () => {
@@ -64,8 +77,8 @@ describe('DIALOGUE_SCENES — the dialogue-tree data (npc-dialogue-tree plan §3
 });
 
 describe('availableTopics — the gate over the asked-set', () => {
-  // No intro topic ships a gate today (the gated genemon hub left with the C4.9 reshape), so
-  // the gate MACHINERY is exercised on a constructed scene — the pure function is the lever.
+  // The gate MACHINERY is exercised on a constructed scene (the pure function is the lever);
+  // genemon's real `after:`-gated topic is asserted alongside (back with the HD-37 rearc).
   const base = sceneById('soan');
   const gatedScene: DialogueScene = {
     ...base,
@@ -80,11 +93,21 @@ describe('availableTopics — the gate over the asked-set', () => {
     const afterIds = availableTopics(gatedScene, new Set(['g-open'])).map((t) => t.id);
     expect(afterIds).toContain('g-gated');
   });
+  it("genemon's real gated topic hides until its prerequisite is asked (derived from the scene)", () => {
+    const gen = sceneById('genemon');
+    const gated = gen.topics.find((t) => t.gate)!;
+    expect(gated).toBeTruthy();
+    const fresh = availableTopics(gen, new Set()).map((t) => t.id);
+    expect(fresh).not.toContain(gated.id);
+    const ungatedIds = gen.topics.filter((t) => !t.gate).map((t) => t.id);
+    const opened = availableTopics(gen, new Set(ungatedIds)).map((t) => t.id);
+    expect(opened).toContain(gated.id);
+  });
 });
 
 describe('ask_topic — reveal the answer, mark asked, touch nothing else (plan §3.3)', () => {
   it('voices the MC question (player) THEN the NPC answer line(s) (NPC voice), and marks asked', () => {
-    const s = wake();
+    const s = atScene('soan');
     const scene = introSceneAt(s.introBeat)!; // soan
     const topic = scene.topics[0]!;
     const after = reduce(s, { type: 'ask_topic', topicId: topic.id });
@@ -107,7 +130,7 @@ describe('ask_topic — reveal the answer, mark asked, touch nothing else (plan 
   });
 
   it('changes NO attribute, writes NO memory, and does NOT advance the scene', () => {
-    const s = wake();
+    const s = atScene('soan');
     const scene = introSceneAt(s.introBeat)!;
     const topic = scene.topics[0]!;
     const totalBefore = attrTotal(s);
@@ -121,7 +144,7 @@ describe('ask_topic — reveal the answer, mark asked, touch nothing else (plan 
   });
 
   it('is RE-ASKABLE: a second ask re-emits the answer but the asked-set stays (idempotent)', () => {
-    const s = wake();
+    const s = atScene('soan');
     const topic = introSceneAt(s.introBeat)!.topics[0]!;
     const once = reduce(s, { type: 'ask_topic', topicId: topic.id });
     const twice = reduce(once, { type: 'ask_topic', topicId: topic.id });
@@ -132,7 +155,7 @@ describe('ask_topic — reveal the answer, mark asked, touch nothing else (plan 
   });
 
   it('is a no-op for a foreign id, and when the intro is inactive', () => {
-    const s = wake(); // at the soan scene
+    const s = atScene('soan');
     expect(reduce(s, { type: 'ask_topic', topicId: 'no-such-topic' })).toBe(s); // foreign id
     const pre = createInitialState(1); // pre-wake ⇒ inactive
     expect(reduce(pre, { type: 'ask_topic', topicId: sceneById('soan').topics[0]!.id })).toBe(pre);
@@ -141,7 +164,7 @@ describe('ask_topic — reveal the answer, mark asked, touch nothing else (plan 
 
 describe('the DECISION still resolves after any asking — the net-zero invariant holds', () => {
   it('asking every topic then deciding keeps the total attribute count constant + advances + writes memory', () => {
-    let s = wake();
+    let s = atScene('soan');
     const totalBefore = attrTotal(s);
     // grill Sōan with every currently-available topic (exploration is free)
     for (const t of availableTopics(introSceneAt(s.introBeat)!, new Set(s.askedTopics))) {
@@ -160,15 +183,23 @@ describe('the DECISION still resolves after any asking — the net-zero invarian
   });
 
   it('the full ask→decide e2e lands the intro complete, whatever the asking pattern', () => {
-    let s = wake();
-    // topic ids derived from the scene (source of truth) — a content re-author flows through.
-    const soanTopics = sceneById('soan').topics;
-    s = reduce(s, { type: 'ask_topic', topicId: soanTopics[0]!.id });
-    s = reduce(s, { type: 'ask_topic', topicId: soanTopics[1]!.id });
+    // topic ids derived from the scenes (source of truth) — a content re-author flows through.
+    let s = reduce(atScene('soan'), {
+      type: 'ask_topic',
+      topicId: sceneById('soan').topics[0]!.id,
+    });
+    s = reduce(s, { type: 'ask_topic', topicId: sceneById('soan').topics[1]!.id });
     s = reduce(s, { type: 'choose_intro', optionId: sceneById('soan').decision.options[1]!.id });
-    expect(s.introBeat).toBe(INTRO_SCENE_COUNT); // the ONE scene done ⇒ intro done
+    // now at genemon: ask one, then decide — the LAST scene done ⇒ intro done.
+    s = reduce(s, { type: 'ask_topic', topicId: sceneById('genemon').topics[0]!.id });
+    s = reduce(s, { type: 'choose_intro', optionId: sceneById('genemon').decision.options[0]!.id });
+    expect(s.introBeat).toBe(INTRO_SCENE_COUNT);
     // the whole run's asked history survives (never cleared)
-    expect(s.askedTopics).toEqual([soanTopics[0]!.id, soanTopics[1]!.id]);
+    expect(s.askedTopics).toEqual([
+      sceneById('soan').topics[0]!.id,
+      sceneById('soan').topics[1]!.id,
+      sceneById('genemon').topics[0]!.id,
+    ]);
   });
 });
 

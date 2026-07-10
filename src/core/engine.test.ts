@@ -6,6 +6,7 @@ import {
   availableActions,
   isUnlocked,
   hasFlag,
+  INTRO_BEATS,
   type Intent,
   type GameState,
 } from './index';
@@ -35,12 +36,18 @@ describe('cold-open reducer flow', () => {
     expect(isUnlocked(s, 'readout-rice')).toBe(true);
     // the rake verb is legal once awake (the intro is a parallel presentation layer, plan §4.4)
     expect(availableActions(s)).toEqual(['rake_rice']);
-    // waking no longer dumps the cold open — it starts Beat 0 (the wake line + Sōan's grounding exam),
-    // revealed AFTER the click (FB-15), not a pre-run dump.
+    // waking no longer dumps the cold open — it starts Beat 0, revealed AFTER the click (FB-15),
+    // not a pre-run dump. HD-37: Beat 0 is the DREAM act (memory fragments before waking); the
+    // wake line + Sōan's exam land when the sickroom scene (beat 1) is entered.
     expect(s.introBeat).toBe(0);
-    // Beat 0 reveals the wake line + Sōan's grounding exam (a physician-voiced line lands on wake).
-    expect(s.log.entries.some((e) => e.voice === 'physician')).toBe(true);
-    expect(s.log.entries.some((e) => e.text === COLD_OPEN.wake)).toBe(true); // the wake line landed
+    expect(s.log.entries.some((e) => e.text === COLD_OPEN.dream)).toBe(true); // the dream landed
+    expect(s.log.entries.some((e) => e.text === COLD_OPEN.wake)).toBe(false); // the wake waits for beat 1
+    const atSoan = reduce(s, {
+      type: 'choose_intro',
+      optionId: INTRO_BEATS[0]!.options![0]!.id,
+    });
+    expect(atSoan.log.entries.some((e) => e.voice === 'physician')).toBe(true); // Sōan's exam
+    expect(atSoan.log.entries.some((e) => e.text === COLD_OPEN.wake)).toBe(true); // the wake line landed
     // the registry's UNGATED Genemon greet/stakes are marked delivered so they can't double-fire,
     // while the rake TEACHING stays deferred until you actually rake.
     expect(s.deliveredDialogue).toContain('gen-greet');

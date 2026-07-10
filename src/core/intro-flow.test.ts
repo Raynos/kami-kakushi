@@ -15,6 +15,15 @@ import {
 } from './index';
 
 const wake = (seed = 1): GameState => reduce(createInitialState(seed), { type: 'open_eyes' });
+// HD-37: three beats again — derive a beat by ID + a walker that parks the run on it.
+const beatById = (id: string) => INTRO_BEATS.find((b) => b.id === id)!;
+const atBeat = (id: string, seed = 1): GameState => {
+  let s = wake(seed);
+  while (introActive(s.introBeat) && INTRO_BEATS[s.introBeat]!.id !== id) {
+    s = reduce(s, { type: 'choose_intro', optionId: INTRO_BEATS[s.introBeat]!.options![0]!.id });
+  }
+  return s;
+};
 
 const attrTotal = (s: GameState): number =>
   ATTR_IDS.reduce((n, id) => n + (s.character.attrs[id] ?? 0), 0);
@@ -32,7 +41,7 @@ describe('interactive intro — reducer flow (plan §3.5)', () => {
 
   it('choose_intro applies the option EXACT +1/−1 trade (net-zero) — derived from INTRO_BEATS', () => {
     const s = wake();
-    const opt = INTRO_BEATS[0]!.options![0]!; // soan-grateful (+INT/−STR)
+    const opt = INTRO_BEATS[0]!.options![0]!; // derived — beat 0's first option, whatever it trades
     const before = attrTotal(s);
     const after = reduce(s, { type: 'choose_intro', optionId: opt.id });
     // the DESIGN LEVER: the named up-attr rose by exactly 1, the down-attr fell by exactly 1
@@ -74,9 +83,9 @@ describe('interactive intro — reducer flow (plan §3.5)', () => {
   });
 
   it('the memory write lands on the RIGHT NPC only — never cross-fed', () => {
-    const s = wake();
+    const s = atBeat('soan');
     // The sickroom beat answers Sōan (writes soan only); every other NPC stays unwritten.
-    const soanOpt = INTRO_BEATS[0]!.options!.find((o) => o.memory)!; // derived: the first Sōan option with a memory write
+    const soanOpt = beatById('soan').options!.find((o) => o.memory)!; // derived: the first Sōan option with a memory write
     expect(soanOpt.memory!.npc).toBe('soan');
     const afterSoan = reduce(s, { type: 'choose_intro', optionId: soanOpt.id });
     expect(npcRegard(afterSoan, 'soan')).toBe(soanOpt.memory!.regard);
@@ -126,8 +135,8 @@ describe('per-NPC memory READ — a later Sōan line branches on regard (plan §
 
   it('any OTHER regard surfaces the COOL greeting — the branches are mutually exclusive', () => {
     // a REAL intro answer (the first Sōan option) leaves a non-grateful regard → the cool greeting.
-    const opt = INTRO_BEATS[0]!.options!.find((o) => o.memory)!;
-    const s = reduce(wake(), { type: 'choose_intro', optionId: opt.id });
+    const opt = beatById('soan').options!.find((o) => o.memory)!;
+    const s = reduce(atBeat('soan'), { type: 'choose_intro', optionId: opt.id });
     expect(npcRegard(s, 'soan')).toBe(opt.memory!.regard);
     expect(npcRegard(s, 'soan')).not.toBe('grateful');
     expect(soanGreetIds(s)).toEqual(['soan-greet-curt']);
@@ -140,10 +149,10 @@ describe('per-NPC memory READ — a later Sōan line branches on regard (plan §
   });
 
   it('the read is per-NPC: Genemon regard does NOT change which Sōan greeting shows', () => {
-    // a real (non-grateful) Sōan answer → cool; an earnest Genemon (seeded directly — no
-    // intro beat writes genemon since the C4.9 reshape) must not warm the Sōan greeting.
-    const soanOpt = INTRO_BEATS[0]!.options!.find((o) => o.memory)!;
-    const s0 = reduce(wake(), { type: 'choose_intro', optionId: soanOpt.id });
+    // a real (non-grateful) Sōan answer → cool; an earnest Genemon (seeded directly, so the
+    // assertion is independent of the genemon beat's own options) must not warm the Sōan greeting.
+    const soanOpt = beatById('soan').options!.find((o) => o.memory)!;
+    const s0 = reduce(atBeat('soan'), { type: 'choose_intro', optionId: soanOpt.id });
     const s = {
       ...s0,
       npcMemory: { ...s0.npcMemory, genemon: { regard: 'earnest', warmth: 1 } },

@@ -47,10 +47,11 @@ export interface Verdict {
  *  registered voice is 'lord' — human call, 2026-07-05 (FB-5 plan Risks #3). */
 const VOICE_OVERRIDE_ALLOWED: ReadonlySet<string> = new Set(['munemasa:official']);
 
-/** The fixed intro scene order — the engine's `introBeat` cursor assumes it. C4.9 (the
- *  G4.1 reshape, finished): the intro is the ONE fused take-a sickroom scene; the legacy
- *  pre-reboot dream/genemon filler is deleted (git history keeps it). */
-const INTRO_SCENE_ORDER = ['soan'] as const;
+/** The fixed intro scene order — the engine's `introBeat` cursor assumes it. HD-37
+ *  (2026-07-10) re-opens C4.9's one-scene fusion: the three-act arc returns, in the
+ *  human-approved order dream → soan → genemon (soan keeps the name-flip beat, so the
+ *  genemon act's MC lines read Nameless:). */
+const INTRO_SCENE_ORDER = ['dream', 'soan', 'genemon'] as const;
 
 const NPC_BY_NAME = new Map<string, NpcId>(
   (Object.entries(NPC_NAME) as [NpcId, string][]).map(([id, name]) => [name, id]),

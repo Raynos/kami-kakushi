@@ -17,8 +17,9 @@ const introText = DIALOGUE_SCENES.flatMap((s) => s.greeting.map((l) => l.text)).
 describe('the 1780 anchor grounding (D-105) — surfaced in the intro exam', () => {
   it("grounds the era in An'ei nine (the physician's exam line)", () => {
     expect(introText).toContain("An'ei"); // the era anchor is present, diegetic
-    // and it lands in the FIRST scene (the exam), not buried later — the cold open's own beat.
-    expect(DIALOGUE_SCENES[0]!.greeting.some((l) => l.text.includes("An'ei"))).toBe(true);
+    // and it lands in the EXAM scene (soan — HD-37 made it act 2), where the physician grounds it.
+    const soan = DIALOGUE_SCENES.find((s) => s.id === 'soan')!;
+    expect(soan.greeting.some((l) => l.text.includes("An'ei"))).toBe(true);
   });
 
   it('keeps the anchor diegetic — no Western year digits anywhere in the cold open + intro (B2 declined)', () => {

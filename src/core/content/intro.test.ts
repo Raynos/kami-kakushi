@@ -16,10 +16,12 @@ import { NPC_IDS } from './voices';
 // so a content edit that breaks an invariant (a non-net-zero trade, a cross-fed memory write) goes
 // RED here rather than shipping.
 describe('INTRO_BEATS — the interactive-intro data (plan §3.4/§4)', () => {
-  it('is exactly the ONE fused sickroom beat: Sōan (C4.9 — the G4.1 reshape finished)', () => {
-    expect(INTRO_BEAT_COUNT).toBe(1);
-    expect(INTRO_BEATS.map((b) => b.id)).toEqual(['soan']);
-    expect(INTRO_BEATS[0]!.speaker).toBe('soan');
+  it('is exactly the HD-37 three-act arc: dream → soan → genemon (three picks per run)', () => {
+    expect(INTRO_BEAT_COUNT).toBe(3);
+    expect(INTRO_BEATS.map((b) => b.id)).toEqual(['dream', 'soan', 'genemon']);
+    expect(INTRO_BEATS.find((b) => b.id === 'soan')!.speaker).toBe('soan');
+    expect(INTRO_BEATS.find((b) => b.id === 'genemon')!.speaker).toBe('genemon');
+    expect(INTRO_BEATS.find((b) => b.id === 'dream')!.speaker).toBeUndefined(); // narrator act
   });
 
   it('every beat has a prompt, 3 options, non-empty setup, say + react copy', () => {
@@ -71,17 +73,21 @@ describe('INTRO_BEATS — the interactive-intro data (plan §3.4/§4)', () => {
     }
   });
 
-  it('memory writes are per-NPC and NEVER cross-fed: the sickroom beat writes soan only', () => {
-    const memNpcs = INTRO_BEATS[0]!
-      .options!.map((o) => o.memory?.npc)
-      .filter((n) => n !== undefined);
-    expect(new Set(memNpcs)).toEqual(new Set(['soan']));
-    // every memory NPC id is a real NpcId
+  it('memory writes are per-NPC and NEVER cross-fed: each beat writes its OWN speaker only', () => {
     for (const beat of INTRO_BEATS) {
+      const memNpcs = new Set(
+        beat.options!.map((o) => o.memory?.npc).filter((n) => n !== undefined),
+      );
+      // a beat may only write the NPC it speaks for; the speakerless dream act writes none.
+      for (const npc of memNpcs) expect(npc).toBe(beat.speaker);
+      if (beat.speaker === undefined) expect(memNpcs.size).toBe(0);
+      // every memory NPC id is a real NpcId
       for (const opt of beat.options!) {
         if (opt.memory) expect(NPC_IDS).toContain(opt.memory.npc);
       }
     }
+    // …and the write machinery is actually exercised: at least one beat carries memory.
+    expect(INTRO_BEATS.some((b) => b.options!.some((o) => o.memory))).toBe(true);
   });
 
   it('option ids are globally unique (the reducer looks options up by id)', () => {
