@@ -116,3 +116,13 @@ I pressed rake the spilled rice, but the color of the now tab didnt change to hi
 **Details:** `the-log/2026-07-10T18-27-22.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-326 · 2026-07-10T18:27:58+0200 — the-now-having-next
+
+The Now having next text should also change the background color of the button, not just the text.
+
+**Element:** button "Now" — "Now" · `section[data-panel=log] > div:nth-of-type(2) > button` · @935,669 43×26
+**Screenshot:** `the-log/2026-07-10T18-27-58.png`
+**Details:** `the-log/2026-07-10T18-27-58.json` — save + recent logs + full context
+
+---
