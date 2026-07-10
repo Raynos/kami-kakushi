@@ -70,3 +70,13 @@ test capture.
 **Details:** `feedback-ui/2026-07-10T18-56-51.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-352 · 2026-07-10T18:57:10+0200 — test-rasterize
+
+test rasterize.
+
+**Element:** header.vitals — "黒沢家lifebodywood0sansai0The day-hand 日雇Answer the summons ›Th" · `div:nth-of-type(2) > header:nth-of-type(2)` · @29,33 1438×48
+**Screenshot:** `feedback-ui/2026-07-10T18-57-10.png`
+**Details:** `feedback-ui/2026-07-10T18-57-10.json` — save + recent logs + full context
+
+---
