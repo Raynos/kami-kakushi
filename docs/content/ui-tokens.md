@@ -67,7 +67,10 @@
      distinct per character; the log voice-* classes + the VN VOICE_COLOR map
      (render.ts) consume these. Player reads BRIGHT (your words pop), narrator
      stays muted. ── */
-  --v-narrator: #9aa4c4; /* FB-228 — THE narrator token, both surfaces (VN + log) */
+  --v-narrator: #e7e9f0; /* FB-263 — bright near-white (human-directed): narrator story text must
+     stand OFF the steel blues, not bleed into them; ~13:1 on steel-1. Chroma stays near zero so
+     the FB-228 figure/ground law still separates by CHROMA — neutral ground, chromatic voices.
+     (was #9aa4c4, the muted blue-grey that read as "more blue on blue".) */
   --v-player: #8ec9ff; /* FB-228 — the MC's own asagi sky-blue: unmistakably blue, ~10:1 on steel (the old near-white read as narrator) */
   --v-physician: #8fbfc4;
   --v-steward: #c9975c; /* FB-143 — drier ochre, clear of the gold-hi CTA */

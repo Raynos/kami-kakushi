@@ -113,8 +113,8 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    **T2 rungs/fog** (plan ready + human-greenlit:
    `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md` — carries the S1 caveat:
    `T2_RUNG_LADDER` is DEV-preview-only; derive from core when the schedule
-   exists), or drain the inbox — **claim a lane first** (ADR-171; `inbox-claim
-   list`). Human-gated: HR-1 + HR-18…21. Combat R4+ = a design call → inbox.
+   exists), or drain the inbox (ADR-171 claim first; one open: FB-310 unfocused
+   -tab autoplay). Human-gated: HR-1 + HR-18…24. Combat R4+ = a design call → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 16/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 17/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
