@@ -134,3 +134,13 @@ The second button also has flavor text, same thing, long extended cooldown for t
 **Details:** `cold-open/2026-07-10T11-42-28.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:43:03+0200 — this-narrator-text-still
+
+This narrator text still has speech from Genemon in quotes but it's the wrong color all speech in quotes should be the correct color of the character.
+
+**Element:** panel "log" — ""...You don't shirk the work," Genemon says, eyeing the clea" · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(28)` · @942,595 493×51
+**Screenshot:** `cold-open/2026-07-10T11-43-03.png`
+**Details:** `cold-open/2026-07-10T11-43-03.json` — save + recent logs + full context
+
+---
