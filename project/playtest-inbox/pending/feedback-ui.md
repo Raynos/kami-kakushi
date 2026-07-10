@@ -60,3 +60,13 @@ The japanese icons too which i guess is font text.
 **Details:** `feedback-ui/2026-07-10T18-55-33.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-351 · 2026-07-10T18:56:51+0200 — test-capture
+
+test capture.
+
+**Element:** header.vitals — "黒沢家lifebodywood0sansai0The day-hand 日雇Answer the summons ›Th" · `div:nth-of-type(2) > header:nth-of-type(2)` · @29,33 1438×48
+**Screenshot:** `feedback-ui/2026-07-10T18-56-51.png`
+**Details:** `feedback-ui/2026-07-10T18-56-51.json` — save + recent logs + full context
+
+---
