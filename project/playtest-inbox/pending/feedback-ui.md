@@ -30,3 +30,13 @@ test bug for how fast we can screenshot the SVG now
 **Details:** `feedback-ui/2026-07-10T18-54-53.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-348 · 2026-07-10T18:55:10+0200 — hmm-i-think-i
+
+hmm i think i did see that it changed, like the rasterize is not perfect.
+
+**Element:** panel "do" · `div > svg > g:nth-of-type(1) > rect` · @-7,122 1092×715
+**Screenshot:** `feedback-ui/2026-07-10T18-55-10.png`
+**Details:** `feedback-ui/2026-07-10T18-55-10.json` — save + recent logs + full context
+
+---
