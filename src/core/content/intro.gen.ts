@@ -208,18 +208,18 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           {
             voice: 'steward',
             speaker: NPC_NAME.genemon,
-            text: `"The ${NAMES.house}. Samurai on the lord's rolls; in the granary, near nothing. Both facts are in the book."`,
+            text: `"The ${NAMES.house}. On the lord's rolls: samurai, one house, standing since before my hand kept the book. In the granary: less than the rolls would suggest, and I will not write the number for a stranger."`,
           },
         ],
       },
       {
         id: 'gen-work',
-        label: '"What work is there?"',
+        label: '"What\'s the work?"',
         answer: [
           {
             voice: 'steward',
             speaker: NPC_NAME.genemon,
-            text: '"Rice, half a season\'s, spilled where the kura door gave in the rains. Rakes; hauls. Wage: meals — that line is already written."',
+            text: '"Rice. Half a season\'s stores, spilled in the kura court where the door gave way in the rains. You rake it in before the rain spoils what\'s left to count; wage stands as entered — meals."',
           },
         ],
       },
@@ -230,7 +230,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           {
             voice: 'steward',
             speaker: NPC_NAME.genemon,
-            text: '"The steward. I keep what can be counted, and I count what men work off. Whatever you left behind you, the book wants only your days."',
+            text: '"The steward. I count what the house holds and what it is owed; you came in under the second column. A man working a thing off gets fair terms from me, and no questions the book does not ask."',
           },
         ],
       },
@@ -242,20 +242,20 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           {
             voice: 'steward',
             speaker: NPC_NAME.genemon,
-            text: '"One wolf, gone bold, comes at the grain store by night. It has cost this house two entries already. Work by daylight; count the sacks after."',
+            text: '"A wolf, one, gone bold at the grain store. Grain lost: some. Men lost: none — work by daylight and I intend that count to hold."',
           },
         ],
       },
     ],
     decision: {
-      prompt: 'The steward holds the brush over your line. What do you give the book?',
+      prompt: 'The brush waits over the condition column. How do you answer the steward?',
       options: [
         {
           id: 'genemon-earnest',
-          label: 'Put me down for the heaviest',
-          say: '"Write me down for the heaviest of it. I\'ll carry it."',
+          label: 'Point me at the work',
+          say: '"Give me the rake. I\'ll do whatever\'s put in front of me."',
           react:
-            '"Written: one back, offered whole; set to the heaviest. Sure hands over quick ones — the book keeps what stays lifted."',
+            '"Condition: sound; willing. I enter you as my charge — mine to set to the task, mine to answer for."',
           stat: { up: 'str', down: 'agi' },
           perk: {
             name: `${NAMES.elder}'s Charge`,
@@ -265,10 +265,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         },
         {
           id: 'genemon-wary',
-          label: "What's in it for me",
-          say: '"Before you write — what do I get past the meals?"',
+          label: "First, what's in it for me",
+          say: '"Before I rake anything — what do I get, and what do you get?"',
           react:
-            '"Meals; a roof; the entry itself, which will say you were here and worked. Written: asks the wage before the work — the house has lost less to careful men than to willing ones."',
+            '"Terms asked before work; I have seen worse habits in honest men. Condition: guarded — a man who counts before he lifts keeps his feet under him."',
           stat: { up: 'agi', down: 'str' },
           perk: {
             name: 'The Wary Foot',
@@ -278,10 +278,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         },
         {
           id: 'genemon-steady',
-          label: '(Take up the rake)',
-          say: '(You say nothing, and take up the rake by the door.)',
+          label: 'Just get to work',
+          say: '(You say nothing, and take up the rake.)',
           react:
-            '"Written: no answer given; rake taken, unasked. Work entered before words — the book counts that fastest, and luck not at all."',
+            '"No answer; the rake already moving. Condition: answers with hands — I enter it so, and luck has no column in this book."',
           stat: { up: 'spd', down: 'luck' },
           perk: {
             name: 'Hands Before Words',

@@ -390,7 +390,7 @@
         {
           "key": 28,
           "channel": "narration",
-          "text": "Standing. Day four; the book said three, so the book gains a line. I am Genemon, steward of the Kurosawa — what this house still has, I count, and you are counted in it now. Ask what you must; the entry is not closed.",
+          "text": "On your feet the fourth day — I have it written. I am Genemon, steward to the Kurosawa; what this house still holds, I keep counted. Your entry stands open: one man, name unknown, condition poor. We finish it now.",
           "tick": 0,
           "count": 1,
           "speaker": "Genemon",
@@ -400,7 +400,7 @@
         {
           "key": 29,
           "channel": "narration",
-          "text": "\"Write me down for the heaviest of it. I'll carry it.\"",
+          "text": "\"Give me the rake. I'll do whatever's put in front of me.\"",
           "tick": 0,
           "count": 1,
           "speaker": "Nameless",
@@ -410,7 +410,7 @@
         {
           "key": 30,
           "channel": "narration",
-          "text": "\"Written: one back, offered whole; set to the heaviest. Sure hands over quick ones — the book keeps what stays lifted.\"",
+          "text": "\"Condition: sound; willing. I enter you as my charge — mine to set to the task, mine to answer for.\"",
           "tick": 0,
           "count": 1,
           "speaker": "Genemon",

@@ -195,55 +195,58 @@ Genemon: @dialogue.genemon-open/gen-greet
 
 ### ask gen-house · "What house is this?"
 
-Genemon: "The {house}. Samurai on the lord's rolls; in the granary, near
-nothing. Both facts are in the book."
+Genemon: "The {house}. On the lord's rolls: samurai, one house, standing since
+before my hand kept the book. In the granary: less than the rolls would
+suggest, and I will not write the number for a stranger."
 
-### ask gen-work · "What work is there?"
+### ask gen-work · "What's the work?"
 
-Genemon: "Rice, half a season's, spilled where the kura door gave in the
-rains. Rakes; hauls. Wage: meals — that line is already written."
+Genemon: "Rice. Half a season's stores, spilled in the kura court where the
+door gave way in the rains. You rake it in before the rain spoils what's left
+to count; wage stands as entered — meals."
 
 ### ask gen-you · "Who are you to me?"
 
-Genemon: "The steward. I keep what can be counted, and I count what men work
-off. Whatever you left behind you, the book wants only your days."
+Genemon: "The steward. I count what the house holds and what it is owed; you
+came in under the second column. A man working a thing off gets fair terms
+from me, and no questions the book does not ask."
 
 ### ask gen-danger · "Is the work safe?"
 after: gen-work
 
-Genemon: "One wolf, gone bold, comes at the grain store by night. It has cost
-this house two entries already. Work by daylight; count the sacks after."
+Genemon: "A wolf, one, gone bold at the grain store. Grain lost: some. Men
+lost: none — work by daylight and I intend that count to hold."
 
-### decide · The steward holds the brush over your line. What do you give the book?
+### decide · The brush waits over the condition column. How do you answer the steward?
 
-#### genemon-earnest · Put me down for the heaviest
-say: "Write me down for the heaviest of it. I'll carry it."
+#### genemon-earnest · Point me at the work
+say: "Give me the rake. I'll do whatever's put in front of me."
 
-Genemon: "Written: one back, offered whole; set to the heaviest. Sure hands
-over quick ones — the book keeps what stays lifted."
+Genemon: "Condition: sound; willing. I enter you as my charge — mine to set to
+the task, mine to answer for."
 
 stat: +str -agi
 perk: {elder}'s Charge — Honest muscle set plainly to the task — sure over
   nimble.
 memory: genemon +1 (earnest)
 
-#### genemon-wary · What's in it for me
-say: "Before you write — what do I get past the meals?"
+#### genemon-wary · First, what's in it for me
+say: "Before I rake anything — what do I get, and what do you get?"
 
-Genemon: "Meals; a roof; the entry itself, which will say you were here and
-worked. Written: asks the wage before the work — the house has lost less to
-careful men than to willing ones."
+Genemon: "Terms asked before work; I have seen worse habits in honest
+men. Condition: guarded — a man who counts before he lifts keeps his feet
+under him."
 
 stat: +agi -str
 perk: The Wary Foot — A guard kept up and light on the feet — quick to move
   before committing.
 memory: genemon -1 (wary)
 
-#### genemon-steady · (Take up the rake)
-say: (You say nothing, and take up the rake by the door.)
+#### genemon-steady · Just get to work
+say: (You say nothing, and take up the rake.)
 
-Genemon: "Written: no answer given; rake taken, unasked. Work entered before
-words — the book counts that fastest, and luck not at all."
+Genemon: "No answer; the rake already moving. Condition: answers with hands —
+I enter it so, and luck has no column in this book."
 
 stat: +spd -luck
 perk: Hands Before Words — A steady quickness that answers with work — trusting

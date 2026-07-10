@@ -2171,6 +2171,14 @@ export function mountDevPanel(
   // NO catch-all "other" group: a rungless bundle carries its own `rungReason`, and each
   // distinct reason renders as its own `— other · <reason> —` header (reason'd bundles sort
   // after the numbered rungs, in registry order).
+  // SV-numbering (mirrors the Variants pane's V-tags, FB-36) — per-BUNDLE, assigned in
+  // REGISTRY order (storyBundles[0]=SV0, [1]=SV1, …) so a tag stays pinned to its bundle: it
+  // never shifts when the pane rung-reorders rows or an earlier bundle is pruned on sign-off.
+  // Each take then reads `SV{n}{LETTER}` (canon = `SV{n}·Canon`), so the human can reference a
+  // story take as tersely as a UI variant ("lock SV12A"). Computed once, read into the labels below.
+  const stag = new Map<string, string>();
+  dev.storyBundles.forEach((b, bi) => stag.set(b.id, `SV${bi}`));
+
   const bundleHeader = (b: StoryTakeBundle): string =>
     b.rung !== undefined ? `— rung R${b.rung} —` : `— other · ${b.rungReason ?? '?'} —`;
   const rungOrderedBundles = dev.storyBundles
@@ -2187,7 +2195,7 @@ export function mountDevPanel(
     }
     const sec = el('div');
     sec.style.cssText = 'border:1px solid #3a322a;border-radius:3px;padding:.28rem .4rem;';
-    const title = el('div', undefined, bundle.title);
+    const title = el('div', undefined, `${stag.get(bundle.id)} · ${bundle.title}`);
     title.style.cssText = 'color:#b08d4f;text-transform:uppercase;font-size:11px;';
     sec.append(title);
     const explore = mono('⤢ Explore this diverge', () => {
@@ -2226,9 +2234,10 @@ export function mountDevPanel(
       setBtns.set(id, b);
       setRow.append(b);
     };
-    // every option carries its textual label — canon included (human, 2026-07-07).
-    takeBtn('canon', `Canon — ${bundle.canonLabel ?? 'the pick'}`);
-    for (const t of bundle.takes) takeBtn(t.id, `${t.id.toUpperCase()} — ${t.label}`);
+    // every option carries its textual label + SV-tag — canon included (human, 2026-07-07).
+    const st = stag.get(bundle.id);
+    takeBtn('canon', `${st}·Canon — ${bundle.canonLabel ?? 'the pick'}`);
+    for (const t of bundle.takes) takeBtn(t.id, `${st}${t.id.toUpperCase()} — ${t.label}`);
     sec.append(setRow, brief);
     // Per-unit overrides moved to the per-diverge explore page (human, 2026-07-07) —
     // this section stays focused: the labeled set toggle + the explore link.
@@ -2795,8 +2804,14 @@ export function openStoryReader(bundle: StoryTakeBundle, dev?: DevApi): HTMLElem
   title.className = 'modal-title';
   const kami = el('span', undefined, '物語');
   kami.className = 'kami';
-  // ONE explore page per diverge (human, 2026-07-07) — the page IS the bundle.
-  const roman = el('span', undefined, `Explore story — ${bundle.title}`);
+  // ONE explore page per diverge (human, 2026-07-07) — the page IS the bundle. The SV-tag
+  // (bundle's registry index) mirrors the panel so the human can reference this diverge tersely.
+  const si = dev ? dev.storyBundles.findIndex((b) => b.id === bundle.id) : -1;
+  const roman = el(
+    'span',
+    undefined,
+    `Explore story — ${si >= 0 ? `SV${si} · ` : ''}${bundle.title}`,
+  );
   roman.className = 'roman';
   title.append(kami, roman);
   card.append(title);

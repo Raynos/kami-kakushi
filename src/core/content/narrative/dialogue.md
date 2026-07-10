@@ -17,9 +17,9 @@ unrouted: intro-support (gen-greet reused by intro.md; teach-by-reveal cursor)
 ### line gen-greet
 voice: steward
 
-Standing. Day four; the book said three, so the book gains a line. I am
-{elder}, steward of the {house} — what this house still has, I count, and you
-are counted in it now. Ask what you must; the entry is not closed.
+On your feet the fourth day — I have it written. I am {elder}, steward to the
+{house}; what this house still holds, I keep counted. Your entry stands open:
+one man, name unknown, condition poor. We finish it now.
 
 ### line gen-stores
 voice: steward

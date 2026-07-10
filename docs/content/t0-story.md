@@ -107,34 +107,34 @@
 
 ## Intro 3 · Genemon the steward
 
-**Genemon:** Standing. Day four; the book said three, so the book gains a line. I am Genemon, steward of the Kurosawa — what this house still has, I count, and you are counted in it now. Ask what you must; the entry is not closed.
+**Genemon:** On your feet the fourth day — I have it written. I am Genemon, steward to the Kurosawa; what this house still holds, I keep counted. Your entry stands open: one man, name unknown, condition poor. We finish it now.
 
 **Ask** — "What house is this?"
 
-**Genemon:** "The Kurosawa. Samurai on the lord's rolls; in the granary, near nothing. Both facts are in the book."
+**Genemon:** "The Kurosawa. On the lord's rolls: samurai, one house, standing since before my hand kept the book. In the granary: less than the rolls would suggest, and I will not write the number for a stranger."
 
-**Ask** — "What work is there?"
+**Ask** — "What's the work?"
 
-**Genemon:** "Rice, half a season's, spilled where the kura door gave in the rains. Rakes; hauls. Wage: meals — that line is already written."
+**Genemon:** "Rice. Half a season's stores, spilled in the kura court where the door gave way in the rains. You rake it in before the rain spoils what's left to count; wage stands as entered — meals."
 
 **Ask** — "Who are you to me?"
 
-**Genemon:** "The steward. I keep what can be counted, and I count what men work off. Whatever you left behind you, the book wants only your days."
+**Genemon:** "The steward. I count what the house holds and what it is owed; you came in under the second column. A man working a thing off gets fair terms from me, and no questions the book does not ask."
 
 **Ask** — "Is the work safe?" *(after gen-work)*
 
-**Genemon:** "One wolf, gone bold, comes at the grain store by night. It has cost this house two entries already. Work by daylight; count the sacks after."
+**Genemon:** "A wolf, one, gone bold at the grain store. Grain lost: some. Men lost: none — work by daylight and I intend that count to hold."
 
-**Decide** — The steward holds the brush over your line. What do you give the book?
+**Decide** — The brush waits over the condition column. How do you answer the steward?
 
-- Put me down for the heaviest <small>· memory genemon +1 (earnest) · stat +str −agi · perk “Genemon's Charge”</small>
-  **Genemon:** "Written: one back, offered whole; set to the heaviest. Sure hands over quick ones — the book keeps what stays lifted."
+- Point me at the work <small>· memory genemon +1 (earnest) · stat +str −agi · perk “Genemon's Charge”</small>
+  **Genemon:** "Condition: sound; willing. I enter you as my charge — mine to set to the task, mine to answer for."
 
-- What's in it for me <small>· memory genemon -1 (wary) · stat +agi −str · perk “The Wary Foot”</small>
-  **Genemon:** "Meals; a roof; the entry itself, which will say you were here and worked. Written: asks the wage before the work — the house has lost less to careful men than to willing ones."
+- First, what's in it for me <small>· memory genemon -1 (wary) · stat +agi −str · perk “The Wary Foot”</small>
+  **Genemon:** "Terms asked before work; I have seen worse habits in honest men. Condition: guarded — a man who counts before he lifts keeps his feet under him."
 
-- (Take up the rake) <small>· memory genemon +1 (steady) · stat +spd −luck · perk “Hands Before Words”</small>
-  **Genemon:** "Written: no answer given; rake taken, unasked. Work entered before words — the book counts that fastest, and luck not at all."
+- Just get to work <small>· memory genemon +1 (steady) · stat +spd −luck · perk “Hands Before Words”</small>
+  **Genemon:** "No answer; the rake already moving. Condition: answers with hands — I enter it so, and luck has no column in this book."
 
 ## R1 · The day-hand 日雇
 
