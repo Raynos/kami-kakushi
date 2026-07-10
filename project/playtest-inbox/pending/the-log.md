@@ -44,3 +44,13 @@ Each card section needs a unique name and better grouping, its not clear to me.
 **Details:** `the-log/2026-07-10T18-20-17.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-318 · 2026-07-10T18:20:50+0200 — this-log-line-shows
+
+This log line shows too early, I know that the kura open to me but it should show after the cold open VN
+
+**Element:** panel "log" — "The kura's count is open to you now: rice in, rice out, and " · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(3)` · @942,324 493×52
+**Screenshot:** `the-log/2026-07-10T18-20-50.png`
+**Details:** `the-log/2026-07-10T18-20-50.json` — save + recent logs + full context
+
+---
