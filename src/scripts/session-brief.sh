@@ -95,20 +95,33 @@ herdr_shared_tree() {
   add ""
 }
 
-# --- Inbox headline: per-bucket in-progress capture counts, MANDATORY first line -
+# --- Inbox headline: per-bucket capture counts + drain status, MANDATORY 1st line -
 # The human wants the feedback-inbox shape at a glance, EVERY turn, without asking:
-#   Playtest inbox - r0 (25 in progress) dev (11 in progress) the-log (4 in progress)
+#   Playtest inbox - r0 (25 pending) dev (11 in progress) the-log (4 pending)
 # History: a bare "Playtest inbox - …" first line was NOT enough — agents treated it
 # as ambient preamble and dropped it from their relay while faithfully relaying Open
 # Decisions / Open Reviews (which are framed as must-relay sections). The human's fix
 # (2026-07-10, emphatic): make this line just as AGGRO as those sections — an
 # unmissable MUST-RELAY-VERBATIM directive at the very top. So we wrap the line in a
-# loud mandatory block, not a bare line. Count semantics: every capture still sitting
-# in pending/ counts as IN PROGRESS — the bucket is the unit, in progress until it is
-# fully drained AND archived out of pending/; a mid-drain status:"done" stamp does NOT
-# subtract (the earlier "OPEN only" count read 8/22/4 while the buckets held 11/25/4),
-# so we count ALL sidecars. One capture == one <stamp>.json. Biggest bucket first.
+# loud mandatory block, not a bare line.
+#
+# Count semantics: one capture == one <stamp>.json; we count ALL sidecars in the
+# bucket (a mid-drain status:"done" stamp does NOT subtract — the bucket is the unit,
+# not fully done until archived out of pending/).
+#
+# STATUS semantics (human, 2026-07-10): a bucket is only "in progress" when an agent
+# is ACTIVELY draining it — signalled by a live drain-lane claim (ADR-171,
+# .claims/<lane>.json, lane defaults to the bucket name). A bucket with no claim is
+# just sitting there → "pending", NOT "in progress". The old code called every pending
+# capture "in progress", which read as "someone's on it" when nobody was. We mirror the
+# claims-line's cheap contract (claim-FILE presence, liveness checked at claim time not
+# here); a stale dead claim is rare and reapable. Biggest bucket first.
 # NOT silent when empty — we still print the line (drained state) so the habit holds.
+claimed_lanes=""
+for c in project/playtest-inbox/pending/.claims/*.json; do
+  [[ -e "$c" ]] || continue
+  claimed_lanes+=" $(basename "$c" .json) "
+done
 inbox_rows=""
 for d in project/playtest-inbox/pending/*/; do
   [[ -d "$d" ]] || continue
@@ -119,12 +132,18 @@ for d in project/playtest-inbox/pending/*/; do
     [[ -e "$j" ]] || continue
     n=$((n + 1))
   done
-  [[ "$n" -gt 0 ]] && inbox_rows+="${n} ${bucket}"$'\n'
+  [[ "$n" -gt 0 ]] || continue
+  if [[ "$claimed_lanes" == *" $bucket "* ]]; then
+    status="in progress"
+  else
+    status="pending"
+  fi
+  inbox_rows+="${n}"$'\t'"${bucket}"$'\t'"${status}"$'\n'
 done
 if [[ -n "$inbox_rows" ]]; then
-  # Biggest bucket first (numeric desc); render "<bucket> (<n> in progress)".
+  # Biggest bucket first (numeric desc); render "<bucket> (<n> <status>)".
   inbox_line="$(printf '%s' "$inbox_rows" | sort -rn \
-    | awk '{ printf "%s%s (%s in progress)", sep, $2, $1; sep=" " }')"
+    | awk -F'\t' '{ printf "%s%s (%s %s)", sep, $2, $1, $3; sep=" " }')"
   inbox_headline="Playtest inbox - ${inbox_line}"
 else
   inbox_headline="Playtest inbox - empty (all buckets drained ✅)"
