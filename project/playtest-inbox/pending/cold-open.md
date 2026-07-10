@@ -70,3 +70,13 @@ Also i think the continue button can be a bit larger, and font size a bit larger
 **Details:** `cold-open/2026-07-10T11-37-43.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:38:17+0200 — the-cold-open-changed
+
+The cold open changed, completely, the Memory section is gone, the discussion with genemon is gone, the ability to choose 3 perks is gone.
+
+**Element:** panel "log" — "The house remembersThe river gives you up at the weir. You k" · `section[data-panel=log]` · @921,83 536×622
+**Screenshot:** `cold-open/2026-07-10T11-38-17.png`
+**Details:** `cold-open/2026-07-10T11-38-17.json` — save + recent logs + full context
+
+---
