@@ -62,3 +62,13 @@ Yeah the delay between clicking the select element and the text box section open
 **Details:** `feedback-ui/2026-07-10T12-21-14.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T13:13:28+0200 — test
+
+Test
+
+**Element:** panel "do" — "What you can do" · `section[data-panel=do] > h2` · @50,92 849×18
+**Screenshot:** `feedback-ui/2026-07-10T13-13-28.png`
+**Details:** `feedback-ui/2026-07-10T13-13-28.json` — save + recent logs + full context
+
+---
