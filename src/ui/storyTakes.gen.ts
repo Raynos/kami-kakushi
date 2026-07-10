@@ -1085,6 +1085,43 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   },
 
   {
+    id: 'hd36-lord-unstaged',
+    title: "The lord unstaged — R7's word through the wall",
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      "Take B ties the scorecard and wins on TST3 — R7's title (\"Trusted of the house\") needs the house's summit to have noticed, and B delivers that notice inside the bible's own device: heard through the shoji, unanswered, never met — pre-sounding the damaged voice T1's shoin capstone pays off.",
+    canonLabel: 'Take B — the voice through the wall',
+    rung: 7,
+    takes: [
+      {
+        id: 'a',
+        label: 'The word comes down the wall',
+        brief:
+          "The lord's words reach the yard only RELAYED — Genemon flattens the maxim into the day-book, Chiyo re-prices his answer into what need not be sold; his attention crosses the wall, the wall itself stays whole.",
+        scorecard:
+          '5✔ · 1✘ · 15— (✘ TST4 [briefed] — the granary line lands two inferences from the banked rice and centers the carrier over the milestone)',
+        reqFlavor: {
+          'the-fields-run-on-you': `"${NAMES.lord} says the fields have learned their own weather," ${NAMES.elder} relays at the board, and writes in the day-book: the rows were in before the order came down.`,
+          'a-granary-against-winter': `${NAMES.steward} carried the granary word in through the shoji herself; what came back out was hers: "This winter, no screen leaves the quiet rooms."`,
+        },
+      },
+      {
+        id: 'c',
+        label: 'The house answers for him',
+        brief:
+          "No lord at all — the estate testifies institutionally (the paddies keeping his hours, a day-book page unused for years); absence as presence, recognition as fact rather than anyone's speech.",
+        scorecard:
+          "6✔ · 0✘ · 15— (register-safest; withholds the lord's notice that R7's title promises — the TST3 tie-break loser)",
+        reqFlavor: {
+          'the-fields-run-on-you':
+            'The paddies keep his hours now; the hands go out when he goes out, and no one remembers the last order given.',
+          'a-granary-against-winter': `There is rice against winter in the kura, and ${NAMES.elder} opens a page in the day-book the house has not needed in years to say so.`,
+        },
+      },
+    ],
+  },
+
+  {
     id: 'hd37-cold-open-a',
     title: 'The memory act — what the water keeps',
     review: 'project/human-in-the-loop/review.md',

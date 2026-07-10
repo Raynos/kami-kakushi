@@ -787,7 +787,7 @@
 
 ### R7 · The named hand 名代
 
-- "The fields no longer wait on my orders," Munemasa says from the veranda, "they wait on his." <small>*(the-fields-run-on-you — act:farm_paddy ×20)*</small>
+- "The fields keep a man's hours now, and not mine — if mine ever held them," comes Munemasa's voice through the shoji of the inner house, unanswered; the yard knows whose hours he means. <small>*(the-fields-run-on-you — act:farm_paddy ×20)*</small>
 - "Even the woodlot answers to him," Kihei says to Genemon, who does not disagree. <small>*(the-woodlot-runs-on-you — act:woodcut_edge ×20)*</small>
-- "There is rice against winter," Munemasa says, slowly, as if the words were new to him. <small>*(a-granary-against-winter — banked rice ≥ 200)*</small>
+- "There is rice against winter. There was a saying for that — I had it once," Munemasa is heard saying to the dark of the inner house, and nobody who hears it goes in. <small>*(a-granary-against-winter — banked rice ≥ 200)*</small>
 - You stood in the room while the year was measured against the house — the reckoning read out, the gap named plainly and once, and nothing asked of you but to be there for it. A full year, lived through. <small>*(the-nengu-reckoned — flag nengu-reckoned)*</small>

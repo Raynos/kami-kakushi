@@ -318,6 +318,45 @@ live-switchable. **Self-picked prod default: A · 幕 card.**
     grouping shows on new play.
   - **Verdict:** _(awaiting your read)_
 
+### HR-25 🔲 [R7 · story] — the lord unstaged: R7's two {lord} lines (HD-36, ADR-139)
+
+Your HD-36 (a) ruling applied: the two R7 house-standing lines re-derived so
+Munemasa is never staged in T0 (canon: a voice through a wall, never met — his
+one scene stays T1's capstone). Three blind takes; **pick: TAKE B "the voice
+through the wall"** — his own damaged voice overheard through the shoji,
+unanswered, never met. The canon lines now read:
+
+> "The fields keep a man's hours now, and not mine — if mine ever held them,"
+> comes {lord}'s voice through the shoji of the inner house, unanswered; the
+> yard knows whose hours he means.
+
+> "There is rice against winter. There was a saying for that — I had it once,"
+> {lord} is heard saying to the dark of the inner house, and nobody who hears
+> it goes in.
+
+B ties C (6✔) and wins on TST3 — R7's title ("Trusted of the house") needs the
+summit's notice, delivered inside the bible's own device, pre-sounding the
+voice T1's shoin capstone pays off. Alternates: A "the word comes down the
+wall" (relayed via Genemon/Chiyo, 5✔1✘) · C "the house answers for him"
+(lordless-institutional, 6✔ — a genuinely close second; read it). Canon in
+`narrative/requirements.md`; alternates: `takes/hd36-lord-unstaged/`.
+
+  - **Taste brief (pass 1):** P3 speaker readable via {tokens} · P9
+    recognition follows the labor · P10 only established motifs (shoji, inner
+    house, day-book) · P13 diegetic completion lines · V-canon: Munemasa
+    unstaged, felt-never-numbered, MC never named/quoted, maxims fail upward.
+  - **Scorecard (B · canon):** 6✔ · 0✘ · 15— (the granary maxim fails
+    on-page — "I had it once" — exactly his register).
+  - **Scorecard (A):** 5✔ · 1✘ · 15— — ✘ TST4 [briefed]: the granary line
+    lands two inferences from the banked rice and centers the carrier.
+  - **Scorecard (C):** 6✔ · 0✘ · 15— (withholds the lord's notice — TST3
+    tie-break loser, not a defect).
+  - **How to look LIVE:** DEV → Story → **hd36-lord-unstaged**; then
+    `__qa.toRung('R7')` + `__qa.speed(8)`, farm the paddy / bank rice — the
+    completion lines voice the selected take (future emissions only; logged
+    history stays).
+  - **Verdict:** _(awaiting your read)_
+
 ---
 
 > _Open reviews only. Closed reviews graduate to [`archive.md`](archive.md). The

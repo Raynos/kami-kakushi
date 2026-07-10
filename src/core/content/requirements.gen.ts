@@ -256,7 +256,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       type: 'count',
       token: 'act:farm_paddy',
       target: 20,
-      flavor: `"The fields no longer wait on my orders," ${NAMES.lord} says from the veranda, "they wait on his."`,
+      flavor: `"The fields keep a man's hours now, and not mine — if mine ever held them," comes ${NAMES.lord}'s voice through the shoji of the inner house, unanswered; the yard knows whose hours he means.`,
       drive: 'farm_paddy',
     },
     {
@@ -271,7 +271,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       id: 'a-granary-against-winter',
       type: 'state',
       pred: { kind: 'banked', res: 'rice', min: 200 },
-      flavor: `"There is rice against winter," ${NAMES.lord} says, slowly, as if the words were new to him.`,
+      flavor: `"There is rice against winter. There was a saying for that — I had it once," ${NAMES.lord} is heard saying to the dark of the inner house, and nobody who hears it goes in.`,
       drive: 'deposit rice',
     },
     {

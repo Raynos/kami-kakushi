@@ -21,7 +21,9 @@
   (R0 ≈ 5 min, climb rungs ≈ 10–15 min); the FB-4 sim re-derives the bands
   (ADR-132) and tuning is edit → gen:narrative → sim (no balance.ts mirror).
 
-  storywave G4.1 — PROVISIONAL / OWED RE-DERIVATION (HD-30): the two named
+  storywave G4.1 — PROVISIONAL / OWED RE-DERIVATION (HD-30 closed 2026-07-09
+  with the verb-token pass still OWED to the G4.2/G4.3 registry chunk; the two
+  R7 {lord} lines were re-derived under HD-36, 2026-07-10): the two named
   redlines are applied — R3 gates the night-round wolf flag `wolf-survived-not-won`
   and R7 gates `nengu-reckoned`; and the R4 `smith`/repair requirement is
   retired (the T0 smith leaves the arc). The FULL re-derivation of every rung's
@@ -110,7 +112,7 @@ drive: haul_stores
   and `tanuki`, the folk field-thief, at the field margins (R2's room-field-margins) — both
   day-grindable at R3. The two flavor lines below are the authored canon kept verbatim; their
   fiction (kura-rats · "the monkeys") reads slightly off the repointed foes — a KNOWN fiction
-  gap for narrative-diverge (HD-30), NOT invented here. -->
+  gap for narrative-diverge (owed; HD-30 closed without it), NOT invented here. -->
 
 ### req clear-the-kura-rats · count kill:river_rats 3
 
@@ -233,11 +235,14 @@ drive: buy estate_upgrade
 ## requirements R7
 
 <!-- Trusted of the house: the top of the T0 ladder — the estate runs on your
-  rhythm. Gates nothing today (no R8); it seeds the Phase-2 pillar grind. -->
+  rhythm. Gates nothing today (no R8); it seeds the Phase-2 pillar grind.
+  HD-36 (2026-07-10): the two {lord} lines re-derived UNSTAGED — Munemasa is
+  heard through the wall, never met in T0 (bible t0/04-cast); alternates in
+  takes/hd36-lord-unstaged/. -->
 
 ### req the-fields-run-on-you · count act:farm_paddy 20
 
-flavor: "The fields no longer wait on my orders," {lord} says from the veranda, "they wait on his."
+flavor: "The fields keep a man's hours now, and not mine — if mine ever held them," comes {lord}'s voice through the shoji of the inner house, unanswered; the yard knows whose hours he means.
 drive: farm_paddy
 
 ### req the-woodlot-runs-on-you · count act:woodcut_edge 20
@@ -247,7 +252,7 @@ drive: woodcut_edge
 
 ### req a-granary-against-winter · state banked rice >= 200
 
-flavor: "There is rice against winter," {lord} says, slowly, as if the words were new to him.
+flavor: "There is rice against winter. There was a saying for that — I had it once," {lord} is heard saying to the dark of the inner house, and nobody who hears it goes in.
 drive: deposit rice
 
 ### req the-nengu-reckoned · flag nengu-reckoned

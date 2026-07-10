@@ -3110,3 +3110,26 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   drops the in-flight action" clause is superseded by this entry; the
   timed-action wall itself is unchanged. FB-8 telemetry watches for any
   pacing surprise from throttled-cadence hidden runs.
+
+### ADR-175 ✅ — Munemasa stays unstaged in T0: shipped lines yield to canon (HD-36)
+
+- **created_date:** 2026-07-10
+- **Context:** the s141 src-vs-PRD verification sweep found two shipped R7
+  requirement flavor lines staging `{lord}` Munemasa speaking on-screen
+  ("says from the veranda"), against the human-signed bible canon: in T0 he
+  is "a voice through a wall, **never met**"; his one scene is T1's shoin
+  capstone (tiers/t0.md · 04-cast.md). The lines predate the story reboot;
+  their re-derivation was deferred under HD-30, which closed without them.
+- **Decision (human, 2026-07-10, HD-36 → option a):** **canon holds** — the
+  lines are re-derived via an ADR-139 narrative diverge so the R7 beat lands
+  without staging the lord; the bible is NOT amended to absorb shipped text.
+  The precedent: where shipped fiction contradicts the synced bible, the
+  bible wins and the text re-derives — a shipped line earns no squatter's
+  rights over signed canon.
+- **Consequences:** three blind takes (relayed · overheard · lordless);
+  self-pick **"the voice through the wall"** — Munemasa heard through the
+  shoji, unanswered, never met: the bible's own device, pre-sounding the
+  damaged voice T1's capstone pays off. Review → **HR-25** (alternates live
+  in `takes/hd36-lord-unstaged/`, DEV → Story). The G4.1 verb-token
+  re-derivation stays owed to the G4.2/G4.3 registry chunk (noted in
+  `requirements.md`'s header).

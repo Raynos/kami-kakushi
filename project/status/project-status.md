@@ -31,8 +31,9 @@ magic; no reset.
   repaired. Finding→commit map: the review report's addendum. Plan archived.
 - **✅ PRD TRUTH-SYNC DONE (s136) & VERIFIED (s141):** freeze CANCELLED
   (ADR-168/169); §1–§7 speak the shipped game. s141 sweep (~110 claims vs
-  src/): 7 doc residues fixed; canon breach → **HD-36**. T2 reputation WEB
-  beats the bible's single track (ADR-169; T2 plan owes reconciliation).
+  src/): 7 doc residues fixed; its canon breach closed s153 (HD-36 → ADR-175,
+  HR-25). T2 reputation WEB beats the bible's single track (ADR-169; T2 plan
+  owes reconciliation).
 - **✅ STORYWAVE SHIPPED v0.4.0 (s125–131):** the bible-canon T0 rewrite is LIVE on
   gh-pages (tag `v0.4.0`); all three storywave plans archived.
 - **✅ HD-35 RULED & APPLIED (s144, ADR-172):** R3/Phase-2 re-paced — R3 20.0
@@ -64,10 +65,9 @@ magic; no reset.
 
 - **HR-1** 🔲 — play/review the full T0 arc for fun & pacing (the LOOK is UI-v2
   certified; this is the fun/taste call on the live storywave build).
-- **HR-18…HR-21** 🔲 — the C5a fiction-wave picks (overlays · discoveries · judge
-  lines · node reads), reviewed LIVE via DEV → Story. **HD-36** 🔲 (Munemasa
-  voiced in T0 R7 vs canon — rec: ADR-139). *(HD-33/34/35 → ADR-168/170/172,
-  closed 2026-07-10.)*
+- **HR-18…HR-21 + HR-25** 🔲 — the fiction-wave picks (overlays · discoveries ·
+  judge lines · node reads) + the R7 lord-unstaged lines (HD-36 → ADR-175), all
+  reviewed LIVE via DEV → Story. *(HD-33…36 closed 2026-07-10; none open.)*
 - **DEV-variant picks** 🔲 — kept live for a detailed pass: estate-section (HR-9) ·
   home (HR-6) · bestiary (HR-5) · the HR-2 bundle · Phase-2 build-beat + tracker
   (HR-10/HR-11). Picks → the agent strips the alternates (zero prod flag-debt).
@@ -103,7 +103,7 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-10-session-152-fb313-idle-while-hidden.md`](../journal/2026-07-10-session-152-fb313-idle-while-hidden.md)
+   [`journal/2026-07-10-session-153-hd36-lord-unstaged.md`](../journal/2026-07-10-session-153-hd36-lord-unstaged.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. The page NEVER auto-reloads
@@ -114,7 +114,7 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md` — carries the S1 caveat:
    `T2_RUNG_LADDER` is DEV-preview-only; derive from core when the schedule
    exists), or drain the inbox (ADR-171 claim first; one open: FB-310 unfocused
-   -tab autoplay). Human-gated: HR-1 + HR-18…24. Combat R4+ = a design call → inbox.
+   -tab autoplay). Human-gated: HR-1 + HR-18…25. Combat R4+ = a design call → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 17/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 18/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
