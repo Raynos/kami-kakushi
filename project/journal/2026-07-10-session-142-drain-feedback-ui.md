@@ -142,3 +142,41 @@ elsewhere — committed and pushed, so immovable. Renumbered my two in-session f
 to **FB-256** (progress bar) and **FB-257** (dev-server reload, was FB-220);
 `inbox-claim list` now reports high-water FB-257, next block FB-258. Lesson: take the
 number from the tool, not from a grep of the F-logs.
+
+---
+
+## FB-258 / FB-259 — capture overlay polish
+
+**FB-258** — "Save .md" removed from the POST-failure dialog (human call). It was
+the last route to a note stranded in `~/Downloads` reading as "captured" while the
+inbox stayed empty — the exact failure `a343554` had set out to kill, left behind as
+a button. `downloadFallback()` and the dialog's `filename` are gone; the dialog is
+Retry · Copy note · Discard.
+
+**FB-259** — the bucket `<datalist>` popup is an OS widget and takes no CSS: a white
+slab in system font over the ink overlay. Replaced with a real combobox: text input
+(minting a bucket must stay one keystroke away, FB-217) over our own `role=listbox`
+in the overlay palette, filtering recents, gold "＋ new bucket" row first for an
+unknown name, ↑/↓+Enter to pick without sending, Escape closing the menu before the
+note. Two bugs surfaced while building it: the body-mounted menu needed its OWN
+marker (`data-kami-capture-menu`) or `querySelector('[data-kami-capture]')` found the
+menu instead of the note box, and it needed a z-index above the box or the
+later-appended box painted over it. Both are now tests.
+
+Both under `mountCapture`; `capture.test.ts` is at 45 tests.
+
+### Unblocking the shared push gate
+`vitest run` passed 1088/1088 but exited RED on "1 unhandled error", failing the
+pre-push gate for **every** lane. Two causes, both in the capture overlay's tests:
+jsdom has no canvas backend, so `HTMLCanvasElement.getContext` (called by the markup
+pen on every `openBox`) raised a jsdomError; and jsdom has no `scrollIntoView`, which
+my new combobox called on arrow-key navigation. Stubbed `getContext` to `null` in
+`capture.test.ts` (capture.ts already degrades gracefully) and made the scroll an
+optional call. `pnpm run verify` is now green: 18 gates.
+
+### Not our allocator
+A cross-lane note attributed a pre-allocated `fb:228` in a new r0 sidecar to "the
+capture tool". It isn't the overlay: `src/ui/capture.ts` contains zero references to
+`fb` or a high-water mark, and never has. The `fb` sidecar field is written by
+`src/scripts/playtest-inbox.ts` / `inbox-lanes.ts`, both introduced by `b66806a`
+(feat(inbox): parallel drain lanes, ADR-171). The stale high-water lives there.

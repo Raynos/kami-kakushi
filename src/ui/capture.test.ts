@@ -141,14 +141,25 @@ function fakeFreeze(): {
   };
 }
 
+// jsdom ships no canvas backend, so `HTMLCanvasElement.getContext` raises a jsdomError. openBox()
+// creates the markup pen's canvas on every pick, so that fired on most tests — and vitest counts it
+// as an UNHANDLED ERROR, failing the whole run (and the pre-push gate, for every lane) even though
+// all 1088 tests pass. capture.ts already tolerates a null 2D context: the pen degrades to
+// stroke-recording, which the compositor tests stub anyway. So hand it null explicitly.
+const realGetContext = HTMLCanvasElement.prototype.getContext;
+
 beforeEach(() => {
+  HTMLCanvasElement.prototype.getContext = (() => null) as typeof realGetContext;
   document.body.innerHTML = '';
   document.elementFromPoint = (): Element | null => null; // jsdom default
   host = document.createElement('div');
   host.id = 'app';
   document.body.appendChild(host);
 });
-afterEach(() => unmount());
+afterEach(() => {
+  unmount();
+  HTMLCanvasElement.prototype.getContext = realGetContext;
+});
 
 describe('mountCapture — pick mode', () => {
   it('Backquote enters pick (highlight, no box yet); a pick-click opens the box', () => {
@@ -454,7 +465,9 @@ describe('mountCapture — submit', () => {
     expect(dlgBtn(/Retry/).disabled).toBe(false); // re-armed, not stuck on "Retrying…"
   });
 
-  it('Save .md is an explicit escape hatch, not the default', async () => {
+  // FB-258 — "Save .md" is gone (human call). It was the only path that could strand a note in
+  // ~/Downloads, where it reads as "captured" while the inbox stays empty.
+  it('offers no way to write the note anywhere but the inbox', async () => {
     let downloaded = '';
     await withStubbedDownload(
       (name) => (downloaded = name),
@@ -462,11 +475,17 @@ describe('mountCapture — submit', () => {
         mount({ post: async () => false });
         pick(null);
         await typeAndSend('offline note');
-        expect(downloaded).toBe(''); // nothing until the human asks
+        expect(dialogEl()).not.toBeNull();
+
+        const labels = [...dialogEl()!.querySelectorAll('button')].map((b) => b.textContent);
+        expect(labels).toEqual(['Retry', 'Copy note', 'Discard']);
+        expect(dialogEl()!.textContent).not.toContain('Save');
+
+        // and nothing downloads on its own, either
         clearSwallow();
-        dlgBtn(/Save \.md/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
-        expect(downloaded).toContain('feedback-ui');
+        dlgBtn(/Discard/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
         await flush();
+        expect(downloaded).toBe('');
       },
     );
   });
@@ -712,5 +731,118 @@ describe('mountCapture — the shell freeze', () => {
     pick(document.createElement('button'));
     await typeAndSend('no freeze here');
     expect(posts[0]!.body.entry).toContain('no freeze here');
+  });
+});
+
+// FB-259 — the bucket suggestion list. The native `<datalist>` popup is an OS widget: a white slab
+// in system font, unstyleable, dropped into an ink-dark overlay. Replaced with our own listbox.
+describe('mountCapture — the bucket combobox', () => {
+  const menuEl = (): HTMLElement | null => document.querySelector('[data-kami-capture-menu]');
+  const options = (): HTMLElement[] => [
+    ...(menuEl()?.querySelectorAll<HTMLElement>('[role="option"]') ?? []),
+  ];
+  const groupField = (): HTMLInputElement =>
+    boxEl()!.querySelector('[data-kami-group]') as HTMLInputElement;
+  const type = (v: string): void => {
+    const g = groupField();
+    g.value = v;
+    g.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+  const key = (k: string, init: KeyboardEventInit = {}): void =>
+    void groupField().dispatchEvent(
+      new KeyboardEvent('keydown', { key: k, bubbles: true, ...init }),
+    );
+
+  beforeEach(() =>
+    localStorage.setItem('kami-capture-groups', JSON.stringify(['map feedback', 'dev tooling'])),
+  );
+  afterEach(() => localStorage.clear());
+
+  it('uses no native datalist (that popup cannot be themed)', () => {
+    mount();
+    pick(null);
+    expect(document.querySelector('datalist')).toBeNull();
+    expect(groupField().hasAttribute('list')).toBe(false);
+    expect(groupField().getAttribute('role')).toBe('combobox');
+  });
+
+  it('does not shadow the note box in a [data-kami-capture] lookup', () => {
+    // The menu is body-mounted next to the box; sharing its marker made querySelector find the menu.
+    mount();
+    pick(null);
+    groupField().dispatchEvent(new FocusEvent('focus'));
+    expect(boxEl()!.querySelector('textarea')).not.toBeNull();
+  });
+
+  it('suggests the recents on focus, and filters them as you type', () => {
+    mount();
+    pick(null);
+    groupField().dispatchEvent(new FocusEvent('focus'));
+    expect(options().map((o) => o.textContent)).toEqual(['map feedback', 'dev tooling']);
+
+    type('dev');
+    const labels = options().map((o) => o.textContent);
+    expect(labels).toContain('dev tooling');
+    expect(labels).not.toContain('map feedback');
+  });
+
+  it('offers to mint a new bucket for an unknown name — the common case', () => {
+    mount();
+    pick(null);
+    type('cold open');
+    expect(options()[0]!.textContent).toContain('new bucket');
+    expect(options()[0]!.textContent).toContain('cold open');
+  });
+
+  it('does not offer to mint one that already exists', () => {
+    mount();
+    pick(null);
+    type('map feedback');
+    expect(options().some((o) => o.textContent?.includes('new bucket'))).toBe(false);
+  });
+
+  it('picks a suggestion with the arrow keys and Enter (without sending)', () => {
+    mount();
+    pick(null);
+    groupField().dispatchEvent(new FocusEvent('focus'));
+    key('ArrowDown');
+    key('Enter');
+    expect(groupField().value).toBe('map feedback');
+    expect(posts).toHaveLength(0); // Enter picked; only ⌘/Ctrl+Enter sends
+    expect(menuEl()!.style.display).toBe('none');
+  });
+
+  it('pointerdown on a row selects it', () => {
+    mount();
+    pick(null);
+    groupField().dispatchEvent(new FocusEvent('focus'));
+    // jsdom has no PointerEvent constructor; listeners key off the event TYPE.
+    options()[1]!.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }));
+    expect(groupField().value).toBe('dev tooling');
+  });
+
+  it('Escape closes the MENU first, and only then the note box', () => {
+    mount();
+    pick(null);
+    groupField().dispatchEvent(new FocusEvent('focus'));
+    expect(menuEl()!.style.display).toBe('block');
+
+    key('Escape');
+    expect(menuEl()!.style.display).toBe('none');
+    expect(boxEl()).not.toBeNull(); // the note survived
+
+    key('Escape');
+    expect(boxEl()).toBeNull(); // …now it closes
+  });
+
+  it('tears the body-mounted menu down with the box', () => {
+    mount();
+    pick(null);
+    groupField().dispatchEvent(new FocusEvent('focus'));
+    expect(menuEl()).not.toBeNull();
+    boxEl()!
+      .querySelector('textarea')!
+      .dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    expect(menuEl()).toBeNull(); // no orphan listbox on <body>
   });
 });

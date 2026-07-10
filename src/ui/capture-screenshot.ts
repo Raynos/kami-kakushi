@@ -24,7 +24,7 @@ import {
  *  canvas, whose strokes `compositeStrokes` re-draws into the PNG below. Leaving
  *  it in would ink every annotation twice. The pick HIGHLIGHT is deliberately
  *  NOT filtered: it is the whole point of the picture. */
-const OVERLAY_MARKS = ['kamiCapture', 'kamiCaptureError', 'kamiMarkup'] as const;
+const OVERLAY_MARKS = ['kamiCapture', 'kamiCaptureError', 'kamiCaptureMenu', 'kamiMarkup'] as const;
 
 export const snapshotDom: DomSnapshotter = async (el) => {
   try {

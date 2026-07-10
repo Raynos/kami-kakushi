@@ -50,11 +50,11 @@ const HOTKEY = 'Backquote';
 const HINT_TEXT = '⌘/Ctrl+Enter send · Esc cancel · drag to move · ↘ resize';
 const TOAST_MS = 1600;
 const SESSION_KEY = 'kami-capture-session';
-/** localStorage key for the recent bucket names — powers the group input's datalist suggestions. */
+/** localStorage key for the recent bucket names — powers the bucket combobox's suggestions. */
 const GROUPS_KEY = 'kami-capture-groups';
 const GROUPS_MAX = 12;
 
-/** Recent bucket names (most-recent first) for the group datalist — best-effort, storage-guarded. */
+/** Recent bucket names (most-recent first) for the bucket menu — best-effort, storage-guarded. */
 function loadGroups(): string[] {
   try {
     const raw = globalThis.localStorage?.getItem(GROUPS_KEY);
@@ -355,6 +355,8 @@ export function mountCapture(opts: CaptureOptions): () => void {
     readonly element: ElementDescriptor | null;
   }
   let box: OpenBox | null = null;
+  /** Tear down the bucket suggestion menu (body-mounted, so it outlives the box unless we remove it). */
+  let closeGroupMenu: (() => void) | null = null;
   // The "inbox unreachable" dialog (at most one). Holds the failed entry in memory so Retry can
   // re-send it once the dev server is back — see openErrorDialog.
   let dialog: HTMLElement | null = null;
@@ -560,6 +562,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
 
   function closeBox(): void {
     rememberBoxRect();
+    closeGroupMenu?.(); // the menu is body-mounted; it must not outlive the note box
     box?.el.remove();
     box = null;
     highlight.remove(); // clear the locked highlight
@@ -606,31 +609,22 @@ export function mountCapture(opts: CaptureOptions): () => void {
     rawSetTimeout(() => t.remove(), TOAST_MS);
   }
 
-  function downloadFallback(filename: string, markdown: string): void {
-    const blob = new Blob([markdown], { type: 'text/markdown' });
-    const url = URL.createObjectURL(blob);
-    const a = doc.createElement('a');
-    a.href = url;
-    a.download = filename;
-    doc.body.appendChild(a);
-    a.click();
-    a.remove();
-    rawSetTimeout(() => URL.revokeObjectURL(url), 0);
-  }
-
   function closeDialog(): void {
     dialog?.remove();
     dialog = null;
   }
 
   /** The POST failed — in practice the dev server isn't running (it used to kill itself whenever an
-   *  agent edited a vite-config dependency). Never resolve this by silently downloading the .md: a
-   *  file in ~/Downloads is NOT the inbox, yet the download reads as "captured", so the note dies
+   *  agent edited a vite-config dependency). Never resolve this by writing a .md anywhere but the
+   *  inbox: a file in ~/Downloads is NOT the inbox, yet it reads as "captured", so the note dies
    *  there unnoticed. Say what happened, keep the entry in memory, and let the human Retry once
-   *  `pnpm run dev` is back. Copy / Save stay as EXPLICIT escape hatches, never automatic. */
+   *  `pnpm run dev` is back.
+   *
+   *  FB-258 — "Save .md" is gone entirely (human call). It was the last door back to a note stranded
+   *  in ~/Downloads; Copy (clipboard) is the one escape hatch, and it can only ever land somewhere
+   *  the human chose to paste it. */
   function openErrorDialog(o: {
     entry: string;
-    filename: string;
     retry: () => Promise<boolean>;
     onSuccess: () => void;
   }): void {
@@ -707,28 +701,22 @@ export function mountCapture(opts: CaptureOptions): () => void {
         // no clipboard (non-secure origin, jsdom) — probe for it before promising anything.
         const clip = globalThis.navigator?.clipboard;
         if (!clip) {
-          setStatus('Clipboard unavailable — use Save .md.');
+          setStatus('Clipboard unavailable — start `pnpm run dev` and Retry.');
           return;
         }
         try {
           await clip.writeText(o.entry);
           setStatus('Copied the entry to the clipboard.');
         } catch {
-          setStatus('Clipboard unavailable — use Save .md.');
+          setStatus('Clipboard unavailable — start `pnpm run dev` and Retry.');
         }
       })();
-    });
-
-    const saveBtn = mkBtn('Save .md', false);
-    saveBtn.addEventListener('click', () => {
-      downloadFallback(o.filename, o.entry);
-      setStatus('Saved to your downloads — the inbox is still empty.');
     });
 
     const discardBtn = mkBtn('Discard', false);
     discardBtn.addEventListener('click', closeDialog);
 
-    row.append(retryBtn, copyBtn, saveBtn, discardBtn);
+    row.append(retryBtn, copyBtn, discardBtn);
     panel.append(title, body, status, row);
     el.appendChild(panel);
     doc.body.appendChild(el);
@@ -756,6 +744,14 @@ export function mountCapture(opts: CaptureOptions): () => void {
    *  than fish a note out of a session dump. Refuses the send, points at the field, says why.
    *  `capture-format` still knows how to write a session file — the archive is full of them — the
    *  UI just never asks it to. */
+  /** Undo the missing-bucket nag once they've named one (FB-217). */
+  function clearBucketNag(): void {
+    if (!box || !slugGroup(currentGroup)) return;
+    box.groupInput.style.borderColor = '#3A342C';
+    box.hintLine.textContent = HINT_TEXT;
+    box.hintLine.style.color = '#B8A98C';
+  }
+
   function bucketMissing(): boolean {
     if (!box || slugGroup(currentGroup)) return false;
     box.groupInput.style.borderColor = '#D7402C';
@@ -819,7 +815,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
     }
     const wire = JSON.stringify(payload);
     const captured = (): void => {
-      if (groupSlug) rememberGroup(currentGroup); // surface it in the datalist next time
+      if (groupSlug) rememberGroup(currentGroup); // surface it in the bucket menu next time
       toast(groupSlug ? `captured → ${groupSlug}` : 'captured → inbox');
     };
     const ok = await post(CAPTURE_ENDPOINT, wire);
@@ -828,7 +824,6 @@ export function mountCapture(opts: CaptureOptions): () => void {
     } else {
       openErrorDialog({
         entry,
-        filename: `${fileKey}-entry.md`,
         retry: () => post(CAPTURE_ENDPOINT, wire),
         onSuccess: captured,
       });
@@ -938,34 +933,171 @@ export function mountCapture(opts: CaptureOptions): () => void {
     kindWrap.append(bugBtn, questionBtn);
     paintKind();
 
-    // Bucket: a free-text input (blank = ungrouped session file) with a datalist of recent buckets.
-    const datalist = doc.createElement('datalist');
-    datalist.id = 'kami-capture-groups';
-    for (const g of loadGroups()) {
-      const o = doc.createElement('option');
-      o.value = g;
-      datalist.appendChild(o);
-    }
+    // Bucket: a free-text input (so a new bucket is always one keystroke away) over a suggestion
+    // menu of the recents. FB-259 — this used to be a native `<input list=…>` + `<datalist>`, whose
+    // popup is an OS widget: an unstyleable white slab in system font, dropped into the middle of an
+    // ink-dark overlay. It cannot be themed, so it is replaced with our own listbox.
+    const groupWrap = doc.createElement('div');
+    groupWrap.style.cssText = 'position:relative;display:flex;flex:1 1 auto;min-width:0;';
+
     const groupInput = doc.createElement('input');
     groupInput.type = 'text';
     groupInput.dataset.kamiGroup = '1';
     groupInput.value = currentGroup;
-    groupInput.setAttribute('list', datalist.id);
     groupInput.required = true;
+    groupInput.autocomplete = 'off';
+    groupInput.setAttribute('role', 'combobox');
+    groupInput.setAttribute('aria-expanded', 'false');
     groupInput.placeholder = 'bucket — e.g. map feedback (required)';
     groupInput.title = 'Group this capture into a bucket so `/drain-inbox <bucket>` drains just it';
     groupInput.style.cssText =
       'flex:1 1 auto;min-width:0;background:#1A1713;color:#F3E9D2;border:1px solid #3A342C;' +
-      'border-radius:3px;padding:.2rem .4rem;font:inherit;font-size:0.75rem;outline:none;';
+      'border-radius:3px;padding:.2rem 1.3rem .2rem .4rem;font:inherit;font-size:0.75rem;outline:none;';
     groupInput.addEventListener('pointerdown', (ev) => ev.stopPropagation()); // don't drag the window
+
+    // The caret — our own, since dropping `list=` takes the native one with it.
+    const caret = doc.createElement('button');
+    caret.type = 'button';
+    caret.tabIndex = -1;
+    caret.textContent = '▾';
+    caret.setAttribute('aria-label', 'Recent buckets');
+    caret.style.cssText =
+      'position:absolute;right:.15rem;top:50%;transform:translateY(-50%);border:none;' +
+      'background:transparent;color:#B8A98C;cursor:pointer;font-size:0.7rem;padding:.1rem .25rem;';
+    caret.addEventListener('pointerdown', (ev) => ev.stopPropagation());
+
+    // The suggestion listbox. Body-mounted + fixed, because the note box is `overflow:hidden`
+    // (it has to be, for `resize:both`) and would clip a menu drawn inside it. Its OWN marker, not
+    // `kamiCapture` — that one identifies the note box, and a body-mounted sibling sharing it would
+    // shadow the box in `querySelector('[data-kami-capture]')`. Still stamped with the sentinel, so
+    // the strip gate proves it absent from prod, and the screenshot filter drops it.
+    const menu = doc.createElement('div');
+    menu.dataset.kamiCaptureMenu = CAPTURE_SENTINEL;
+    menu.setAttribute('role', 'listbox');
+    menu.style.cssText =
+      // One ABOVE the note box (2147483646): the menu hangs off an input inside the box, so at equal
+      // z-index the later-appended box paints over it and the suggestions are invisible.
+      'position:fixed;z-index:2147483647;display:none;box-sizing:border-box;background:#26221E;' +
+      'color:#F3E9D2;border:1px solid #7A6C59;border-radius:3px;overflow-y:auto;max-height:11rem;' +
+      "font:0.75rem/1.5 'Hiragino Mincho ProN','Yu Mincho',serif;box-shadow:0 10px 26px #00000066;";
+    doc.body.appendChild(menu);
+
+    interface Row {
+      readonly value: string;
+      readonly el: HTMLElement;
+    }
+    let rows: Row[] = [];
+    let activeIdx = -1;
+    let menuOpen = false;
+
+    function paintActive(): void {
+      rows.forEach((r, i) => {
+        r.el.style.background = i === activeIdx ? '#3A342C' : 'transparent';
+        r.el.setAttribute('aria-selected', String(i === activeIdx));
+      });
+    }
+
+    function choose(value: string): void {
+      groupInput.value = value;
+      currentGroup = value;
+      clearBucketNag();
+      // Focus FIRST: `focus()` re-fires the open handler, and we want the close to win.
+      groupInput.focus();
+      closeMenu();
+    }
+
+    function closeMenu(): void {
+      menuOpen = false;
+      menu.style.display = 'none';
+      groupInput.setAttribute('aria-expanded', 'false');
+      activeIdx = -1;
+    }
+
+    function openMenu(): void {
+      const typed = groupInput.value.trim();
+      const recents = loadGroups();
+      const hay = typed.toLowerCase();
+      const matches = typed ? recents.filter((g) => g.toLowerCase().includes(hay)) : recents;
+      const exact = recents.some((g) => g.toLowerCase() === hay);
+
+      menu.textContent = '';
+      rows = [];
+      const addRow = (value: string, isNew: boolean): void => {
+        const r = doc.createElement('div');
+        r.setAttribute('role', 'option');
+        r.textContent = isNew ? `＋ new bucket “${value}”` : value;
+        r.style.cssText =
+          'padding:.3rem .5rem;cursor:pointer;white-space:nowrap;overflow:hidden;' +
+          `text-overflow:ellipsis;${isNew ? 'color:#E4B24A;' : ''}`;
+        // pointerdown, not click: a click would fire after the input blurs and closes us.
+        r.addEventListener('pointerdown', (ev) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          choose(value);
+        });
+        menu.appendChild(r);
+        rows.push({ value, el: r });
+      };
+      if (typed && !exact) addRow(typed, true); // minting a bucket is the common case (FB-217)
+      for (const g of matches) addRow(g, false);
+
+      if (rows.length === 0) return closeMenu();
+      const r = groupInput.getBoundingClientRect();
+      menu.style.left = `${r.left}px`;
+      menu.style.top = `${r.bottom + 2}px`;
+      menu.style.minWidth = `${r.width}px`;
+      menu.style.display = 'block';
+      menuOpen = true;
+      groupInput.setAttribute('aria-expanded', 'true');
+      activeIdx = -1;
+      paintActive();
+    }
+
+    caret.addEventListener('click', () => (menuOpen ? closeMenu() : openMenu()));
+    groupInput.addEventListener('focus', openMenu);
     groupInput.addEventListener('input', () => {
       currentGroup = groupInput.value;
-      if (!slugGroup(currentGroup)) return;
-      groupInput.style.borderColor = '#3A342C'; // they answered the nag — put the chrome back
-      hintLine.textContent = HINT_TEXT;
-      hintLine.style.color = '#B8A98C';
+      clearBucketNag();
+      openMenu();
     });
-    metaRow.append(kindWrap, groupInput, datalist);
+
+    // Runs BEFORE onBoxKey (registered later), so the menu gets first refusal on Enter/Escape:
+    // Escape closes the menu rather than the whole note, and Enter picks the highlighted bucket
+    // rather than doing nothing. ⌘/Ctrl+Enter always falls through to submit.
+    groupInput.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!menuOpen) return openMenu();
+        const step = e.key === 'ArrowDown' ? 1 : -1;
+        activeIdx = (activeIdx + step + rows.length) % rows.length;
+        paintActive();
+        // optional-call: jsdom has no scrollIntoView, and a missing scroll is never worth a throw
+        rows[activeIdx]?.el.scrollIntoView?.({ block: 'nearest' });
+      } else if (e.key === 'Enter' && !e.metaKey && !e.ctrlKey && menuOpen && activeIdx >= 0) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        choose(rows[activeIdx]!.value);
+      } else if (e.key === 'Escape' && menuOpen) {
+        e.preventDefault();
+        e.stopImmediatePropagation(); // …so the note box survives the first Escape
+        closeMenu();
+      }
+    });
+
+    // A press anywhere else dismisses the menu (the input keeps focus if that's where it landed).
+    const onDocDown = (e: Event): void => {
+      const t = e.target as Node | null;
+      if (menuOpen && t && !menu.contains(t) && t !== groupInput && t !== caret) closeMenu();
+    };
+    doc.addEventListener('pointerdown', onDocDown, true);
+    closeGroupMenu = (): void => {
+      doc.removeEventListener('pointerdown', onDocDown, true);
+      menu.remove();
+      closeGroupMenu = null;
+    };
+
+    groupWrap.append(groupInput, caret);
+    metaRow.append(kindWrap, groupWrap);
 
     const textarea = doc.createElement('textarea');
     textarea.placeholder = element ? `What about "${element.label}"?` : 'What did you notice?';

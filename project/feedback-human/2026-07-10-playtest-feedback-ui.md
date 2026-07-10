@@ -179,3 +179,40 @@ dev, and it paints styled on the first frame. Nothing imports the client now.
 `verify-dev-strip.sh` green. 6 RED-able tests replace the false green;
 mutation-checked (restore `location.reload` → red; drop the env import → red).
 **Fixed in:** (this commit).
+
+### FB-258 · Remove "Save .md" from the capture error dialog — ✅
+**Verbatim:** _"In the error modal remove 'save .md' i dont want that behavior lol"_
+**Reading:** it was the last door back to the failure mode `a343554` set out to
+kill — a note stranded in `~/Downloads`, where it reads as "captured" while the
+inbox stays empty.
+**Fixed in:** `capture.ts` — the button, `downloadFallback()` and the dialog's
+`filename` plumbing are gone. The dialog is now **Retry · Copy note · Discard**;
+Copy is the one escape hatch, and it can only land wherever the human pastes it.
+The clipboard-unavailable message now points at `pnpm run dev` + Retry rather
+than at a button that no longer exists.
+**Verified:** a RED-able test asserts the dialog's buttons are exactly
+`['Retry', 'Copy note', 'Discard']`, that it contains no "Save", and that nothing
+downloads on Discard.
+
+### FB-259 · The bucket dropdown was an unstyleable OS widget — ✅
+**Verbatim:** _"Ugh that picked is so ugly, can you change it to something better?"_
+(screenshot: the native `<datalist>` popup — a white slab in system font, over the
+ink-dark overlay)
+**Reading:** `<input list=…>` renders its popup as an **OS widget**. It takes no
+CSS at all: not the ground, not the type, not the border. There is no styling fix.
+**Fixed in:** `capture.ts` — a real combobox. A text input (so minting a bucket
+stays one keystroke away — FB-217 made it mandatory) over our own `role=listbox`,
+in the overlay's palette (`#26221E` ground, `#7A6C59` border, Mincho serif).
+Filters recents as you type; an unknown name gets a gold **＋ new bucket "…"** row
+first, because minting is the common case. ↑/↓ + Enter pick without sending
+(⌘/Ctrl+Enter still sends); **Escape closes the menu, and only a second Escape
+closes the note**; pointerdown elsewhere dismisses it.
+Two bugs found while building it, both now covered: the menu is body-mounted
+(the note box is `overflow:hidden` for `resize:both`, and would clip it), so it
+needed **its own** `data-kami-capture-menu` marker — sharing `data-kami-capture`
+made `querySelector` find the menu instead of the box — and it needs a z-index
+**above** the box, or the later-appended box paints straight over it.
+**Verified:** 9 RED-able tests (no datalist; no shadowing; focus-suggests;
+type-filters; mint-row present / absent when exact; arrows+Enter pick without
+sending; pointerdown picks; Escape closes menu-then-box; teardown leaves no
+orphan listbox on `<body>`), plus a screenshot of the real thing.
