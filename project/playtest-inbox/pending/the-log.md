@@ -86,3 +86,13 @@ I fucking saw that lol, as the text scrolled it didnt have the correct colors or
 **Details:** `the-log/2026-07-10T18-23-05.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-322 · 2026-07-10T18:24:03+0200 — do-you-see-what
+
+do you see what I mean its not italics or correct colors here as its scrolling.
+
+**Element:** panel "log" — ""Still at it," Genemon sa" · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(36)` · @942,617 493×29
+**Screenshot:** `the-log/2026-07-10T18-24-03.png`
+**Details:** `the-log/2026-07-10T18-24-03.json` — save + recent logs + full context
+
+---
