@@ -64,6 +64,10 @@ feedback gathered below.
 
 Per D-124 this section *proposes* routing for the human to approve; the
 building session inherits its own model unless the human routes otherwise.
+**APPROVED as proposed (human, 2026-07-10)** — Fable builds Phases 1–2;
+Step 0 / Phase 3 may run on Opus sessions. In the same sitting the human
+confirmed the two deferred detail calls (economy-pane re-homes, the influence
+teaser's pre-R6 home) stay **Phase-2 decisions**, as written.
 
 ## The feedback corpus (what the players' record actually says)
 
