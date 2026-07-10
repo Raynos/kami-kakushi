@@ -56,3 +56,89 @@ re-grouped into one lane. No ADR needed.
 2. FB-216 (protagonist speech colour) — hand to whichever lane owns the `.vn-speech`
    cluster; the analysis and the human's chosen route are in the feedback file.
 3. `feedback-ui.md` stays in `pending/` until FB-216 lands (one entry undrained).
+
+---
+
+## FB-257 — the dev server was reloading the human's live game (2026-07-10, later)
+
+Mid-drain the human's game F5'd itself. Not my writes: three lanes edit `src/`
+against one dev server, and `vite.config.ts` statically imports
+`src/scripts/playtest-inbox.ts` — a **config dependency**. Vite re-execs the config
+when one changes, `@vite/client`'s socket drops, and the client calls
+`location.reload()`.
+
+The prior fix (`a343554`) set `server.hmr = false` and its test asserted exactly
+that, reasoning that no HMR ⇒ no reload. **Both were wrong.** Under `hmr: false`
+the HMR websocket still accepts a 101 upgrade, and I reproduced the reload on an
+isolated server (`navigations 1 → 2`). The test was a **false green** — a config
+value standing in for a behaviour — and it never went red while the bug ran
+loose. Textbook PH3.
+
+Two layers to the real fix:
+
+1. **Stripping the injected `<script src="/@vite/client">` from index.html is not
+   enough.** Vite's dev CSS transform serves a JS-imported stylesheet as a *JS
+   module* that imports the client for `createHotContext`/`updateStyle`/
+   `removeStyle`. The client came in through `ui/styles.css`.
+2. **Serve our own `/@vite/client`** (`INERT_VITE_CLIENT`): those three symbols,
+   no websocket, no `location.reload()`. It must still `import '/@vite/env'` —
+   dev does NOT statically replace `define`; `env.mjs` installs `__DEV_TOOLS__`
+   etc. onto `globalThis` at runtime. Omitting it made `boot()` throw
+   `__DEV_TOOLS__ is not defined`, which cost me a confused A/B before I saw that
+   the *committed* config also left the token unreplaced in the served text.
+
+Also removed the magic the human objected to: `import './styles.css'` is a
+bundler convention that earns its keep with many component sheets. We have one
+global sheet, so it bought nothing — and it cost us this bug. It is now
+`<link rel="stylesheet" href="./ui/styles.css">`. `vite build` still hashes and
+minifies it; dev serves real `text/css`; first paint is styled.
+
+**Verified:** isolated :5199 server, page open, hard restart → 0 navigations,
+in-page marker survived, no websockets. Game boots, `pnpm run build` emits
+`dist/assets/index-<hash>.css`, `verify-dev-strip.sh` green.
+
+## What changed (FB-257)
+- `vite.config.ts` — `INERT_VITE_CLIENT` + `VITE_CLIENT_PATH` exports; a
+  `configureServer` middleware serving them ahead of vite's transform middleware.
+  `KAMI_VITE_CLIENT=1` restores the real client.
+- `src/index.html` — links the stylesheet.
+- `src/ui/index.ts` — no longer imports it.
+- `src/scripts/dev-server-config.test.ts` — the false green replaced by 6 RED-able
+  tests (no reload/navigation in the stub, no socket, the `/@vite/env` import, the
+  CSS-shim exports, the link-not-import rule, the polling watcher).
+
+## Note for other lanes
+A dev-server restart no longer reloads an open page, but it still *drops in-flight
+requests*. And `vite.config.ts`'s static imports of `src/scripts/*` remain the
+reason restarts happen at all — worth making lazy if it ever bites again.
+
+---
+
+## FB-256 — the progress bar kept sliding under the frozen screen
+
+The human caught what FB-215 missed twice. `.frozen` pauses keyframe **animations**;
+`.act-bar` is an inline **transition** (`width ${remainingMs}ms linear`) and has no
+play-state. `transition: none` would snap it to 100%. So `freeze-clock` now *pins*:
+read each transitioning property's live computed value, write it inline, then cut the
+transition; thaw restores the original inline values.
+
+There was a second, invisible half: `ActionClock.status()` reads `Date.now()`, so the
+bar would have jumped forward on thaw by the length of the note-writing pause. Added
+`setFrozen(on)` — silent on freeze (a repaint there would re-arm the transition we are
+about to pin), notifying on thaw (that repaint restarts the transition with its true
+remainder). `main.ts` orders the pair.
+
+No `render.ts` edit: another lane held it, and routing the thaw repaint through the
+ActionClock's existing `onChange` subscription is the better seam regardless.
+
+**Verified in a browser** on the captured R1 save: bar 27.75px → 27.75px across a
+1200ms freeze (delta 0). With the pin disabled the same probe measures an 85.8px
+slide — so the check can go red.
+
+## F-number churn
+Three lanes, two numbering schemes. The relay block (feedback-ui = FB-215..224) was
+superseded by the ADR-171 claim tool, whose high-water had already granted FB-220..233
+elsewhere — committed and pushed, so immovable. Renumbered my two in-session findings
+to **FB-256** (progress bar) and **FB-257** (dev-server reload, was FB-220);
+`inbox-claim list` now reports high-water FB-257, next block FB-258. Lesson: take the
+number from the tool, not from a grep of the F-logs.

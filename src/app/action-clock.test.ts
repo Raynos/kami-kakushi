@@ -124,3 +124,70 @@ describe('ActionClock (ADR-148)', () => {
     expect(actionKey('craft_weapon', { recipeId: 'ono' })).toBe('craft_weapon:ono');
   });
 });
+
+// FB-256 — the DEV capture freeze stops the shell's timers, but `status()` reads the WALL clock.
+// Without freezing that too, a progress bar jumps forward on thaw by however long the human spent
+// writing their capture note. RED-able: delete `frozenTotal += …` and the remainder is wrong.
+describe('setFrozen — the clock stops while a capture note is open', () => {
+  function harness() {
+    let t = 1000;
+    const timers = new Map<number, { fn: () => void; at: number }>();
+    let seq = 1;
+    const clock = createActionClock({
+      now: () => t,
+      setTimer: (fn, ms) => {
+        const id = seq++;
+        timers.set(id, { fn, at: t + ms });
+        return id;
+      },
+      clearTimer: (id) => void timers.delete(id),
+    });
+    return { clock, advance: (ms: number) => (t += ms) };
+  }
+
+  it('holds `status()` still while frozen, and does not lose the remainder on thaw', () => {
+    const { clock, advance } = harness();
+    clock.press('rake', 1000, 0, () => {});
+    advance(400);
+    expect(clock.status('rake').fraction).toBeCloseTo(0.4, 5);
+
+    clock.setFrozen(true);
+    expect(clock.frozen()).toBe(true);
+    advance(30_000); // the human writes a long note
+    const frozen = clock.status('rake');
+    expect(frozen.fraction).toBeCloseTo(0.4, 5); // the bar does not creep…
+    expect(frozen.remainingMs).toBe(600);
+
+    clock.setFrozen(false);
+    expect(clock.frozen()).toBe(false);
+    const thawed = clock.status('rake');
+    expect(thawed.fraction).toBeCloseTo(0.4, 5); // …and it does not JUMP on thaw
+    expect(thawed.remainingMs).toBe(600);
+
+    advance(600);
+    expect(clock.status('rake').fraction).toBe(1);
+  });
+
+  it('notifies on thaw (so the UI repaints from the corrected clock) but never on freeze', () => {
+    // A repaint while frozen would re-arm the very CSS transition the freeze just pinned.
+    const { clock } = harness();
+    let notifications = 0;
+    clock.onChange(() => notifications++);
+    clock.press('rake', 1000, 0, () => {});
+    notifications = 0;
+
+    clock.setFrozen(true);
+    expect(notifications).toBe(0);
+    clock.setFrozen(false);
+    expect(notifications).toBe(1);
+  });
+
+  it('survives a freeze/thaw with no action in flight', () => {
+    const { clock, advance } = harness();
+    clock.setFrozen(true);
+    advance(5000);
+    clock.setFrozen(false);
+    expect(clock.status('rake').phase).toBe('idle');
+    expect(clock.busy()).toBe(false);
+  });
+});

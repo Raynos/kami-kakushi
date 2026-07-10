@@ -37,6 +37,11 @@ export interface ActionClock {
   cancelAll(): void;
   /** Instant mode (QA/e2e): press dispatches synchronously, no cooldown. */
   setInstant(on: boolean): void;
+  /** Stop/resume the clock this module reads (FB-256 — the DEV capture freeze). While frozen,
+   *  `status()` is constant; thawing re-arms nothing but notifies, so the UI repaints from the
+   *  corrected remainder. In-flight timers are banked separately by the FreezeClock. */
+  setFrozen(on: boolean): void;
+  frozen(): boolean;
   /** Subscribe to phase changes (start / complete / cooldown-end / cancel).
    *  Returns the unsubscribe. The UI repaints button states from this. */
   onChange(cb: () => void): () => void;
@@ -49,9 +54,18 @@ interface ClockDeps {
 }
 
 export function createActionClock(deps: ClockDeps = {}): ActionClock {
-  const now = deps.now ?? (() => Date.now());
+  const wallNow = deps.now ?? (() => Date.now());
   const setTimer = deps.setTimer ?? ((fn, ms) => window.setTimeout(fn, ms) as unknown as number);
   const clearTimer = deps.clearTimer ?? ((id) => window.clearTimeout(id));
+
+  // FB-256 — the DEV capture freeze stops the shell's TIMERS, but `status()` derives its progress
+  // fraction from the wall clock, not from a timer. Left alone, a bar would sit still (nothing
+  // repaints) and then JUMP forward on thaw by however long the human spent writing their note,
+  // while its completion timer correctly re-armed with the banked remainder. So the clock this
+  // module reads must stop too: `frozenAt` holds the reading, `frozenTotal` accumulates the debt.
+  let frozenAt: number | null = null;
+  let frozenTotal = 0;
+  const now = (): number => (frozenAt ?? wallNow()) - frozenTotal;
 
   let instant = false;
   let inflight: {
@@ -135,6 +149,21 @@ export function createActionClock(deps: ClockDeps = {}): ActionClock {
       instant = on;
       if (on) this.cancelAll();
     },
+    setFrozen(on: boolean): void {
+      if (on) {
+        if (frozenAt === null) frozenAt = wallNow();
+        // Deliberately NO notify: a repaint here would re-arm the progress bar's CSS transition
+        // (paintActBar always restarts it), and the freeze is about to pin that transition.
+        return;
+      }
+      if (frozenAt === null) return;
+      frozenTotal += wallNow() - frozenAt;
+      frozenAt = null;
+      // Thaw DOES notify — the renderer repaints every bar from the corrected clock, which restarts
+      // each transition with its true remaining time. That is what un-pins them.
+      notify();
+    },
+    frozen: () => frozenAt !== null,
     onChange(cb): () => void {
       listeners.add(cb);
       return () => listeners.delete(cb);

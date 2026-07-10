@@ -109,3 +109,73 @@ thawed when the shot runs; paint-before-shot ordering; works with no freeze).
 ### Distilled rule → `docs/guides/qa-playtesting.md`
 A DEV tool that observes the game must not perturb it. Freeze the shell before
 you photograph it, and never rasterise on the interaction the human is waiting on.
+
+### FB-256 · The action button's progress bar kept animating while frozen — ✅
+**Verbatim:** _"Well the progress bar on the action button didnt freeze"_ /
+_"You never got that animation to freeze during feedback, the one on the button."_
+**Reading:** FB-215's freeze banks `setTimeout`/`setInterval` and pauses CSS
+**animations** (`.frozen { animation-play-state: paused }`). `.act-bar` is neither:
+`paintActBar` sets an inline **transition** (`width ${remainingMs}ms linear`), and a
+transition has no play-state to pause. `transition: none` is not a fix either — it
+snaps the element to its target, slamming a half-full bar to 100%.
+Two defects, actually. The visual one above, and a silent one: `ActionClock.status()`
+derives its fraction from `Date.now()`, so even with the bar pinned it would **jump
+forward on thaw** by however long the human spent writing the note.
+**Fixed in:**
+- `freeze-clock.ts` — on freeze, for every element carrying an inline `transition`,
+  read each transitioning property's **current computed value**, write it inline,
+  and only then cut the transition. Thaw restores the original inline values.
+- `action-clock.ts` — `setFrozen(on)` stops the wall clock the module reads
+  (`frozenAt` holds the reading, `frozenTotal` accrues the debt). Freezing is
+  **silent**; thawing **notifies**, so the renderer repaints each bar from its true
+  remaining time — which is what restarts the transition correctly.
+- `main.ts` — composes the two in order: freeze ⇒ ActionClock first (silently), then
+  bank timers + pin; thaw ⇒ un-pin + re-arm, then let the ActionClock notify.
+Deliberately **no `render.ts` change** — another lane held it, and routing the repaint
+through the ActionClock's existing `onChange` subscription proved cleaner anyway.
+**Verified in a real browser** (the human's captured R1 save, a live timed action):
+bar width `27.75px` at freeze → `27.75px` after 1200 ms frozen (delta **0**), resuming
+with a single 0.8 px frame on thaw. RED-proof: with the pin disabled the same probe
+shows the bar sliding **85.8 px** during the freeze. Plus 5 RED-able unit tests
+(pin-before-cut ordering, no-inline-transition untouched, `status()` held, thaw
+notifies / freeze does not, freeze with nothing in flight); both mutation-checked.
+
+### FB-257 · The dev server must never full-reload the live game — ✅
+**Verbatim:** _"My fucking game just refreshed lol wtf. why would it do that."_ /
+_"no turn off the fucking FULL RELOAD the game in vite server. I NEVER WANT FULL
+RELOAD THE GAME"_ / _"vite server restarts shouldnt F5 my current browser game
+session"_ / _"Why do we even do non standard imports in javascript of css files"_
+**Reading:** three lanes edit `src/` against one dev server the human plays on.
+`vite.config.ts` statically imports `src/scripts/playtest-inbox.ts` +
+`telemetry-drop.ts`, making them **config dependencies** — vite re-execs the
+config whenever one changes, the `@vite/client` websocket drops, and on reconnect
+the client calls `location.reload()`. The human's run died mid-play.
+**Why the previous fix (a343554) didn't hold:** it set `server.hmr = false` and
+concluded, from an A/B, that this closed the restart path. It does not. Measured
+today: the HMR websocket **still accepts a 101 upgrade** under `hmr: false`, and a
+restart still reloads an open page (`navigations 1 → 2`, page marker lost). Worse,
+`dev-server-config.test.ts` asserted `hmr === false` *as a proxy for* "cannot
+reload" — a **false green** that stayed green through the live regression (PH3).
+**Two real causes, both closed:**
+1. Vite 5 injects `<script src="/@vite/client">` into index.html regardless of
+   `hmr`. Stripping that tag is **not enough**: vite's dev CSS transform turns a
+   JS-imported stylesheet into a JS module that imports the client itself
+   (`createHotContext` → `import.meta.hot`, `updateStyle`/`removeStyle`). The
+   client loaded through `ui/styles.css` and opened the socket anyway.
+2. So we now serve our **own** `/@vite/client` (`INERT_VITE_CLIENT`,
+   `vite.config.ts`): the three symbols the CSS shim imports, no websocket, no
+   `location.reload()`. It must still `import '/@vite/env'` — in dev vite does
+   **not** statically replace `define` values; `env.mjs` assigns `__DEV_TOOLS__`
+   / `__VERSION__` onto `globalThis` at runtime. Dropping that import makes
+   `boot()` throw `__DEV_TOOLS__ is not defined` (found the hard way).
+**And the magic went away:** `import './styles.css'` was a bundler convention
+buying nothing for one global sheet — it is now a plain
+`<link rel="stylesheet">` in `index.html`. Standard HTML, still hashed + minified
+by `vite build` (`dist/assets/index-<hash>.css`), served as real `text/css` in
+dev, and it paints styled on the first frame. Nothing imports the client now.
+**Verified:** isolated server on :5199, page open, hard restart →
+`navsAfterRestart: 1`, in-page marker survived, zero websockets. Game boots
+(`__qa` present), tokens resolve, `pnpm run build` emits the hashed stylesheet,
+`verify-dev-strip.sh` green. 6 RED-able tests replace the false green;
+mutation-checked (restore `location.reload` → red; drop the env import → red).
+**Fixed in:** (this commit).

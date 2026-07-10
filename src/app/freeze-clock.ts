@@ -164,6 +164,66 @@ export function installFreezeClock(host: TimerHost, deps: FreezeClockDeps = {}):
   host.clearTimeout = (id) => cancel(id, nativeClearTimeout);
   host.clearInterval = (id) => cancel(id, nativeClearInterval);
 
+  // ── CSS TRANSITIONS (FB-256) ────────────────────────────────────────────────────────────────
+  // The `.frozen` class pauses keyframe ANIMATIONS, but a running transition has no
+  // `transition-play-state` to pause, and `transition: none` would snap the element straight to
+  // its target — the action button's progress bar would slam to 100% the instant you hit `` ` ``.
+  // So we pin instead: read each transitioning property's CURRENT computed value, write it inline,
+  // and only then cut the transition. Thawing restores the original inline values; the very next
+  // repaint (ActionClock.setFrozen(false) notifies) restarts each transition with its true
+  // remaining time.
+  //
+  // Scope: elements carrying an INLINE `transition`. That is where JS-driven, long-running
+  // transitions live (`.act-bar` sets `width ${remainingMs}ms linear`). Purely CSS-declared hover
+  // transitions are all sub-400ms and not worth walking the whole DOM for.
+  interface PinnedEl {
+    readonly el: HTMLElement;
+    readonly transition: string;
+    readonly props: readonly { name: string; inline: string }[];
+  }
+  let pinned: PinnedEl[] = [];
+
+  /** Which properties is `el` transitioning? Browsers expand the `transition` shorthand into
+   *  `transition-property`; jsdom does not, so fall back to the first token of each inline segment
+   *  (`width 5000ms linear` → `width`). Returns [] for `none`/`all` — nothing safe to pin. */
+  function transitionedProps(el: HTMLElement, computed: CSSStyleDeclaration): string[] {
+    const source = computed.transitionProperty || el.style.transition;
+    return source
+      .split(',')
+      .map((seg) => seg.trim().split(/\s+/)[0] ?? '')
+      .filter((n) => n && n !== 'none' && n !== 'all');
+  }
+
+  function pinTransitions(): void {
+    const doc = deps.doc;
+    if (!doc?.defaultView) return;
+    for (const el of doc.querySelectorAll<HTMLElement>('[style*="transition"]')) {
+      const computed = doc.defaultView.getComputedStyle(el);
+      const names = transitionedProps(el, computed);
+      if (names.length === 0) continue;
+      // Read the live, mid-transition values BEFORE cutting the transition.
+      const props = names.map((name) => ({
+        name,
+        inline: el.style.getPropertyValue(name),
+        current: computed.getPropertyValue(name),
+      }));
+      pinned.push({ el, transition: el.style.transition, props });
+      for (const p of props) el.style.setProperty(p.name, p.current);
+      el.style.transition = 'none';
+    }
+  }
+
+  function unpinTransitions(): void {
+    for (const { el, transition, props } of pinned) {
+      for (const p of props) {
+        if (p.inline) el.style.setProperty(p.name, p.inline);
+        else el.style.removeProperty(p.name);
+      }
+      el.style.transition = transition;
+    }
+    pinned = [];
+  }
+
   const clock: FreezeClock = {
     frozen: () => isFrozen,
     raw: { setTimeout: nativeSetTimeout, clearTimeout: nativeClearTimeout },
@@ -176,10 +236,12 @@ export function installFreezeClock(host: TimerHost, deps: FreezeClockDeps = {}):
         disarm(p);
       }
       deps.doc?.documentElement.classList.add('frozen');
+      pinTransitions();
     },
     thaw(): void {
       if (!isFrozen) return;
       isFrozen = false;
+      unpinTransitions();
       for (const [id, p] of pending) arm(id, p, p.remaining);
       deps.doc?.documentElement.classList.remove('frozen');
     },

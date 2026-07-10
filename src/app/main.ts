@@ -729,7 +729,27 @@ async function boot(): Promise<void> {
       // FB-215 — hold the world still from the `` ` `` keypress to the send. This is what lets the
       // ~600ms rasterisation happen at SUBMIT: with nothing running, the submit-time pixels ARE the
       // pick-time pixels, so the box can open instantly and Esc stays responsive (FB-218/FB-219).
-      ...(freeze ? { freeze } : {}),
+      //
+      // TWO clocks stop, in this order (FB-256). Freezing: halt the ActionClock's wall clock FIRST
+      // — silently, because a repaint here would re-arm the progress bar's CSS transition that the
+      // freeze is about to pin — then bank the shell's timers and pin the transitions. Thawing
+      // mirrors it: un-pin and re-arm, THEN let the ActionClock notify, so every bar repaints from
+      // its true remaining time instead of resuming a stale one.
+      ...(freeze
+        ? {
+            freeze: {
+              raw: freeze.raw,
+              freeze: (): void => {
+                clock.setFrozen(true);
+                freeze.freeze();
+              },
+              thaw: (): void => {
+                freeze.thaw();
+                clock.setFrozen(false);
+              },
+            },
+          }
+        : {}),
       build: { version: __VERSION__, sha: __BUILD_SHA__, date: __BUILD_DATE__ },
       buildContext: () => ({
         seed: state.rng.seed,

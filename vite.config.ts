@@ -9,6 +9,58 @@ import {
   telemetryDropHandler,
 } from './src/scripts/telemetry-drop';
 
+/** The module specifier vite's DEV transforms import their HMR helpers from. */
+export const VITE_CLIENT_PATH = '/@vite/client';
+
+/**
+ * FB-257 — a drop-in `/@vite/client` with the HMR machinery removed.
+ *
+ * Vite's real client owns three `location.reload()` calls, one of which fires whenever its
+ * websocket closes — i.e. on every dev-server restart. A live playtest must never be reloaded
+ * (TST2), so we serve this instead. It exports exactly what vite's generated CSS shim imports
+ * (`createHotContext`, `updateStyle`, `removeStyle`) plus `injectQuery`, which the dynamic-import
+ * helper reaches for. There is no websocket here, and no way to navigate the page.
+ *
+ * It MUST still import `/@vite/env`. In dev, vite does NOT statically replace `define` values —
+ * `env.mjs` assigns them onto `globalThis` at runtime, and the real client is what imports it. Drop
+ * that import and `__DEV_TOOLS__` / `__VERSION__` are undefined and boot() throws. (`env.mjs` is
+ * pure define-installation: no socket, no reload.)
+ *
+ * `updateStyle`/`removeStyle` mirror vite's own `<style data-vite-dev-id>` bookkeeping so a
+ * re-fetched stylesheet replaces its predecessor rather than stacking.
+ */
+export const INERT_VITE_CLIENT = `// kami: inert @vite/client — HMR off, the page can never self-reload (FB-257)
+import '/@vite/env';
+const sheets = new Map();
+export function updateStyle(id, content) {
+  let style = sheets.get(id);
+  if (!style) {
+    style = document.createElement('style');
+    style.setAttribute('type', 'text/css');
+    style.setAttribute('data-vite-dev-id', id);
+    document.head.appendChild(style);
+    sheets.set(id, style);
+  }
+  style.textContent = content;
+}
+export function removeStyle(id) {
+  const style = sheets.get(id);
+  if (style) {
+    document.head.removeChild(style);
+    sheets.delete(id);
+  }
+}
+const noop = () => {};
+export function createHotContext() {
+  return {
+    get data() { return {}; },
+    accept: noop, acceptExports: noop, dispose: noop, prune: noop,
+    decline: noop, invalidate: noop, on: noop, off: noop, send: noop,
+  };
+}
+export const injectQuery = (url) => url;
+`;
+
 // The VERSION is the SINGLE SOURCE OF TRUTH from package.json — NOT git tags
 // (human call, H1/2026-07-01): the game/HTML/TS must never read a git tag for
 // its displayed version, so a tag lagging the build can't mislabel the footer.
@@ -126,14 +178,47 @@ export default defineConfig(({ command }) => {
         },
       },
       {
-        // Watch + re-transform, but NEVER auto-reload the page (F75). The file-change still
+        // Watch + re-transform, but NEVER auto-reload the page (F75/FB-257). The file change still
         // invalidates the module graph (so a manual F5 serves fresh code); returning [] from
         // handleHotUpdate tells vite there is nothing to hot-update, so no `update` /
-        // `full-reload` message is ever sent to the browser — a live playtest is never yanked.
+        // `full-reload` message is ever sent to the browser.
+        //
+        // That closes ONE of vite's reload paths. The other — the one that kept yanking the human's
+        // live session (TST2) — is the SERVER RESTART: vite re-execs this config whenever it, or
+        // anything it statically imports (playtest-inbox.ts, telemetry-drop.ts), changes. Agents
+        // edit those all day. On restart the `@vite/client` socket closes and the client runs
+        // `server connection lost. Polling for restart...` → waitForSuccessfulPing →
+        // `location.reload()`.
+        //
+        // `hmr: false` does NOT close it (the 2026-07-10 A/B that concluded otherwise was wrong —
+        // measured: the HMR websocket still accepts a 101 upgrade, and a restart still reloads).
+        // Nor does dropping the injected `<script src="/@vite/client">` from index.html: vite's DEV
+        // CSS transform makes `ui/styles.css` a JS module that imports the client itself —
+        //     import { createHotContext } from "/@vite/client"   → import.meta.hot
+        //     import { updateStyle, removeStyle } from "/@vite/client"
+        // so the client loads, the socket opens, and the reload fires anyway.
+        //
+        // The only complete fix is to own the module: serve our OWN `/@vite/client` exporting just
+        // those three symbols, with no websocket and no `location.reload()` anywhere in it. Nothing
+        // in this game uses `import.meta.hot` for anything but that generated CSS shim, so the stub
+        // is behaviourally complete. `KAMI_VITE_CLIENT=1` restores vite's real client (error
+        // overlay, HMR) for a session that wants it.
         name: 'kami-no-auto-reload',
         apply: 'serve',
         handleHotUpdate() {
           return [];
+        },
+        configureServer(server) {
+          // Registered from the hook BODY, so it lands ahead of vite's own transform middleware
+          // (which is what would otherwise serve the real client).
+          server.middlewares.use((req, res, next) => {
+            if (process.env.KAMI_VITE_CLIENT === '1') return next();
+            const path = (req.url ?? '').split('?')[0];
+            if (path !== VITE_CLIENT_PATH) return next();
+            res.setHeader('Content-Type', 'application/javascript');
+            res.setHeader('Cache-Control', 'no-cache');
+            res.end(INERT_VITE_CLIENT);
+          });
         },
       },
     ],

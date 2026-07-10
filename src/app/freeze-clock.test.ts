@@ -226,3 +226,63 @@ describe('installFreezeClock', () => {
     expect(clock.frozen()).toBe(false);
   });
 });
+
+// FB-256 — `.frozen` pauses keyframe animations, but a CSS TRANSITION has no play-state. The action
+// button's progress bar is an inline `transition: width <remaining>ms linear`, so it kept sliding
+// under the feedback box. `transition: none` alone would snap it to 100%; we pin the live value first.
+describe('installFreezeClock — running CSS transitions are pinned, not snapped', () => {
+  function bar(): HTMLElement {
+    const el = document.createElement('div');
+    el.style.width = '100%'; // the transition TARGET, as paintActBar leaves it
+    el.style.transition = 'width 5000ms linear';
+    document.body.appendChild(el);
+    return el;
+  }
+
+  it('cuts the transition only after writing back the CURRENT computed value', () => {
+    // The bug this guards: cutting the transition first makes the element snap to its TARGET, so a
+    // half-full progress bar slams to 100% the instant the capture box opens. jsdom resolves an
+    // inline `100%` to itself, which would make the two orderings indistinguishable — so stub
+    // getComputedStyle to report a genuinely mid-flight value.
+    const el = bar();
+    const real = window.getComputedStyle;
+    window.getComputedStyle = ((node: Element) =>
+      node === el
+        ? ({
+            width: '43.2px', // mid-transition
+            transitionProperty: 'width',
+            getPropertyValue: (n: string) => (n === 'width' ? '43.2px' : ''),
+          } as unknown as CSSStyleDeclaration)
+        : real.call(window, node)) as typeof window.getComputedStyle;
+
+    const fake = makeFake();
+    const clock = installFreezeClock(fake.host, { now: fake.now, doc: document });
+    try {
+      clock.freeze();
+      expect(el.style.transition).toBe('none'); // it can no longer move…
+      expect(el.style.width).toBe('43.2px'); // …pinned where it STOOD, not at the 100% target
+
+      clock.thaw();
+      expect(el.style.transition).toBe('width 5000ms linear'); // original inline transition restored
+      expect(el.style.width).toBe('100%'); // target back, for the repaint to correct
+    } finally {
+      window.getComputedStyle = real;
+      clock.uninstall();
+      el.remove();
+    }
+  });
+
+  it('leaves elements with no inline transition alone', () => {
+    const plain = document.createElement('div');
+    plain.style.width = '50%';
+    document.body.appendChild(plain);
+    const fake = makeFake();
+    const clock = installFreezeClock(fake.host, { now: fake.now, doc: document });
+
+    clock.freeze();
+    expect(plain.style.transition).toBe('');
+    clock.thaw();
+    clock.uninstall();
+    plain.remove();
+  });
+});

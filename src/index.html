@@ -15,6 +15,14 @@
     <title>Kamikakushi · 神隠し</title>
     <!-- Type is pure system stacks (Palatino/Avenir-class, ui/styles.css) —
          no self-hosted faces, no preload, zero font pipeline (UI-v2, ADR-127). -->
+    <!-- FB-257 — the stylesheet is LINKED, not `import`ed from JS. A CSS import is a bundler
+         convention, not JavaScript: it earns its keep when you have many component sheets to
+         split and tree-shake per chunk. We have exactly one global sheet, so it bought nothing —
+         and it cost us the dev reload bug, because vite's DEV transform turns a JS-imported
+         stylesheet into a JS module that pulls in `@vite/client` (and its `location.reload()`).
+         A plain link is standard HTML, still hashed + minified by `vite build`, served as plain
+         CSS in dev, and it paints styled on the first frame instead of after main.ts runs. -->
+    <link rel="stylesheet" href="./ui/styles.css" />
   </head>
   <body>
     <div id="app" aria-busy="true">Kamikakushi — loading…</div>
