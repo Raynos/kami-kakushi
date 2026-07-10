@@ -54,3 +54,13 @@ This log line shows too early, I know that the kura open to me but it should sho
 **Details:** `the-log/2026-07-10T18-20-50.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-319 · 2026-07-10T18:21:10+0200 — also-something-that-can
+
+Also something that can show after the VN open
+
+**Element:** panel "log" — "You have started to keep count of your own strength — what t" · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(2)` · @942,272 493×52
+**Screenshot:** `the-log/2026-07-10T18-21-10.png`
+**Details:** `the-log/2026-07-10T18-21-10.json` — save + recent logs + full context
+
+---
