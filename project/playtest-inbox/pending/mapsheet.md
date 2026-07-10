@@ -28,3 +28,13 @@ Why is weir rendered here in R1 theres only three zones
 **Details:** `mapsheet/2026-07-10T23-17-16.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-376 · 2026-07-10T23:17:30+0200 — why-is-soans-sickroom
+
+Why is soans sickroom rendered here theres onl 3 zones available in R1
+
+**Element:** panel "do" · `svg > g:nth-of-type(2) > g:nth-of-type(2) > rect:nth-of-type(2)` · @916,538 68×41
+**Screenshot:** `mapsheet/2026-07-10T23-17-30.png`
+**Details:** `mapsheet/2026-07-10T23-17-30.json` — save + recent logs + full context
+
+---
