@@ -148,13 +148,24 @@ export default defineConfig(({ command }) => {
       // lane's first test per run was eating ~5s of it. Paths are root-relative
       // (root is `src`).
       warmup: { clientFiles: ['./index.html', './app/main.ts'] },
-      // Auto-reload OFF (human call, F75): the browser does NOT hot-reload or full-refresh
-      // on a file change — the player hits F5 themselves (shields a live playtest from an
-      // agent's mid-edit WIP flashing in). BUT the server must still WATCH + re-transform so
-      // that a manual F5 serves fresh code (2026-07-05: `hmr:false` alone left the server
-      // serving STALE modules until a restart). `usePolling` forces the watcher to detect
-      // changes even where native fs events don't fire in this environment; the reload itself
-      // is suppressed by the no-op HMR update in `handleHotUpdate` (plugin below), not here.
+      // Auto-reload OFF (human call, F75 — hardened 2026-07-10). A live playtest is NEVER
+      // yanked from under the player (TST2). Vite has TWO reload paths and F75 only closed one:
+      //   1. a file change → a `full-reload` message — suppressed by the no-op `handleHotUpdate`
+      //      plugin above;
+      //   2. a SERVER RESTART → vite re-execs this config whenever it (or anything it imports:
+      //      playtest-inbox.ts, telemetry-drop.ts) changes, the HMR client's socket drops, and on
+      //      reconnect `@vite/client` calls `location.reload()`. Nothing in path 1 touches this.
+      // With agents editing config deps all day, path 2 was reloading the human's game session
+      // mid-play. Only `hmr: false` closes it.
+      //
+      // `hmr:false` was tried alone on 2026-07-05 and reverted for serving STALE modules — that
+      // was a missing WATCHER, not hmr. With `watch.usePolling` below the server re-transforms on
+      // every edit, so a manual F5 still serves fresh code. Re-verified A/B on 2026-07-10 (edit a
+      // config dep with a page open): HMR on ⇒ 1 reload, session destroyed; hmr:false ⇒ 0 reloads,
+      // session survives, and a re-fetched module carries the new code.
+      hmr: false,
+      // `usePolling` forces the watcher to detect changes even where native fs events don't fire
+      // in this environment — it is what keeps re-transform alive now that HMR is off.
       watch: { usePolling: true, interval: 250 },
     },
     build: {

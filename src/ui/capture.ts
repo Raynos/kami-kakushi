@@ -302,6 +302,9 @@ export function mountCapture(opts: CaptureOptions): () => void {
     readonly element: ElementDescriptor | null;
   }
   let box: OpenBox | null = null;
+  // The "inbox unreachable" dialog (at most one). Holds the failed entry in memory so Retry can
+  // re-send it once the dev server is back — see openErrorDialog.
+  let dialog: HTMLElement | null = null;
   // Remembered box position + size (the human can drag/resize the feedback window; the size
   // persists across captures in the session so a "lots of feedback" size sticks).
   let boxRect: { left: number; top: number; width: number; height: number } | null = null;
@@ -548,6 +551,124 @@ export function mountCapture(opts: CaptureOptions): () => void {
     setTimeout(() => URL.revokeObjectURL(url), 0);
   }
 
+  function closeDialog(): void {
+    dialog?.remove();
+    dialog = null;
+  }
+
+  /** The POST failed — in practice the dev server isn't running (it used to kill itself whenever an
+   *  agent edited a vite-config dependency). Never resolve this by silently downloading the .md: a
+   *  file in ~/Downloads is NOT the inbox, yet the download reads as "captured", so the note dies
+   *  there unnoticed. Say what happened, keep the entry in memory, and let the human Retry once
+   *  `pnpm run dev` is back. Copy / Save stay as EXPLICIT escape hatches, never automatic. */
+  function openErrorDialog(o: {
+    entry: string;
+    filename: string;
+    retry: () => Promise<boolean>;
+    onSuccess: () => void;
+  }): void {
+    closeDialog();
+    const el = doc.createElement('div');
+    el.dataset.kamiCaptureError = CAPTURE_SENTINEL; // strip-gate marker
+    el.setAttribute('role', 'dialog');
+    el.setAttribute('aria-modal', 'true');
+    el.setAttribute('aria-label', 'Capture not saved');
+    el.style.cssText =
+      'position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;' +
+      'justify-content:center;background:#0D0B0999;';
+
+    const panel = doc.createElement('div');
+    panel.style.cssText =
+      'box-sizing:border-box;width:min(30rem,92vw);background:#26221E;color:#F3E9D2;' +
+      'border:1px solid #7A6C59;border-radius:4px;padding:1rem 1.1rem 0.9rem;' +
+      "font:0.9rem/1.5 'Hiragino Mincho ProN','Yu Mincho',serif;" +
+      'box-shadow:0 2px 0 #00000030, 0 18px 44px #00000077;';
+
+    const title = doc.createElement('div');
+    title.textContent = '✗ Capture not saved';
+    title.style.cssText =
+      'font-size:1rem;font-weight:700;color:#D7402C;margin-bottom:.5rem;letter-spacing:.02em;';
+
+    const body = doc.createElement('div');
+    body.textContent =
+      'The playtest inbox refused the note — the DEV server is almost certainly not running. ' +
+      'Nothing was written. Start it with `pnpm run dev`, then Retry: your note is held here.';
+    body.style.cssText = 'color:#C9BCA4;font-size:0.85rem;margin-bottom:.75rem;';
+
+    const status = doc.createElement('div');
+    status.setAttribute('role', 'status');
+    status.style.cssText = 'min-height:1.2em;font-size:0.78rem;color:#E4B24A;margin-bottom:.6rem;';
+    const setStatus = (t: string): void => void (status.textContent = t);
+
+    const row = doc.createElement('div');
+    row.style.cssText = 'display:flex;gap:.5rem;justify-content:flex-end;flex-wrap:wrap;';
+    const mkBtn = (label: string, primary: boolean): HTMLButtonElement => {
+      const b = doc.createElement('button');
+      b.type = 'button';
+      b.textContent = label;
+      b.style.cssText =
+        "font:0.78rem/1 'Hiragino Mincho ProN',serif;padding:.4rem .75rem;cursor:pointer;" +
+        'border-radius:3px;border:1px solid #7A6C59;' +
+        (primary
+          ? 'background:#E4B24A;color:#1A1713;font-weight:700;border-color:#E4B24A;'
+          : 'background:transparent;color:#B8A98C;');
+      return b;
+    };
+
+    const retryBtn = mkBtn('Retry', true);
+    retryBtn.addEventListener('click', () => {
+      void (async (): Promise<void> => {
+        retryBtn.disabled = true;
+        retryBtn.textContent = 'Retrying…';
+        setStatus('');
+        const ok = await o.retry();
+        if (ok) {
+          closeDialog();
+          o.onSuccess();
+          return;
+        }
+        retryBtn.disabled = false;
+        retryBtn.textContent = 'Retry';
+        setStatus('Still unreachable — is `pnpm run dev` up?');
+      })();
+    });
+
+    const copyBtn = mkBtn('Copy note', false);
+    copyBtn.addEventListener('click', () => {
+      void (async (): Promise<void> => {
+        // Optional-chaining alone would `await undefined` and falsely claim success where there is
+        // no clipboard (non-secure origin, jsdom) — probe for it before promising anything.
+        const clip = globalThis.navigator?.clipboard;
+        if (!clip) {
+          setStatus('Clipboard unavailable — use Save .md.');
+          return;
+        }
+        try {
+          await clip.writeText(o.entry);
+          setStatus('Copied the entry to the clipboard.');
+        } catch {
+          setStatus('Clipboard unavailable — use Save .md.');
+        }
+      })();
+    });
+
+    const saveBtn = mkBtn('Save .md', false);
+    saveBtn.addEventListener('click', () => {
+      downloadFallback(o.filename, o.entry);
+      setStatus('Saved to your downloads — the inbox is still empty.');
+    });
+
+    const discardBtn = mkBtn('Discard', false);
+    discardBtn.addEventListener('click', closeDialog);
+
+    row.append(retryBtn, copyBtn, saveBtn, discardBtn);
+    panel.append(title, body, status, row);
+    el.appendChild(panel);
+    doc.body.appendChild(el);
+    dialog = el;
+    retryBtn.focus();
+  }
+
   async function submit(): Promise<void> {
     if (!box) return;
     const { capturedAt, base, textarea, element } = box;
@@ -599,13 +720,21 @@ export function mountCapture(opts: CaptureOptions): () => void {
       payload.screenshotName = screenshotName;
       payload.screenshot = shot;
     }
-    const ok = await post(CAPTURE_ENDPOINT, JSON.stringify(payload));
-    if (ok) {
+    const wire = JSON.stringify(payload);
+    const captured = (): void => {
       if (groupSlug) rememberGroup(currentGroup); // surface it in the datalist next time
       toast(groupSlug ? `captured → ${groupSlug}` : 'captured → inbox');
+    };
+    const ok = await post(CAPTURE_ENDPOINT, wire);
+    if (ok) {
+      captured();
     } else {
-      downloadFallback(`${fileKey}-entry.md`, entry);
-      toast('inbox unreachable — saved the entry to a file');
+      openErrorDialog({
+        entry,
+        filename: `${fileKey}-entry.md`,
+        retry: () => post(CAPTURE_ENDPOINT, wire),
+        onSuccess: captured,
+      });
     }
   }
 
@@ -805,6 +934,16 @@ export function mountCapture(opts: CaptureOptions): () => void {
   }
 
   function onKeyDown(e: KeyboardEvent): void {
+    // The error dialog is modal: Escape discards it, and the capture hotkey stays inert beneath it.
+    if (dialog) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeDialog();
+      } else if (e.code === HOTKEY) {
+        e.preventDefault();
+      }
+      return;
+    }
     if (box && drawing && e.key === 'Escape') {
       e.preventDefault();
       setDraw(false); // first Escape leaves draw mode (back to typing); a second closes the box
@@ -829,5 +968,6 @@ export function mountCapture(opts: CaptureOptions): () => void {
     exitPickListeners();
     dismissSwallow?.(); // don't leave a stale capture-phase click guard on `document`
     closeBox();
+    closeDialog();
   };
 }

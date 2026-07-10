@@ -33,6 +33,33 @@ const clearSwallow = (): void =>
   void document.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 const boxEl = (): HTMLElement | null => document.querySelector('[data-kami-capture]');
 const highlightEl = (): HTMLElement | null => document.querySelector('[data-kami-highlight]');
+/** The "inbox unreachable" dialog, and a button inside it by label. */
+const dialogEl = (): HTMLElement | null => document.querySelector('[data-kami-capture-error]');
+const dlgBtn = (re: RegExp): HTMLButtonElement =>
+  [...dialogEl()!.querySelectorAll('button')].find((b) => re.test(b.textContent ?? ''))!;
+
+/** Run `body` with the anchor-download machinery stubbed; `onDownload` sees each `a.download`.
+ *  jsdom has no URL.createObjectURL / anchor download, so both must be faked. */
+async function withStubbedDownload(
+  onDownload: (filename: string) => void,
+  body: () => Promise<void>,
+): Promise<void> {
+  const origCreate = URL.createObjectURL;
+  const origRevoke = URL.revokeObjectURL;
+  const origClick = HTMLAnchorElement.prototype.click;
+  URL.createObjectURL = (): string => 'blob:mock';
+  URL.revokeObjectURL = (): void => {};
+  HTMLAnchorElement.prototype.click = function (this: HTMLAnchorElement): void {
+    onDownload(this.download);
+  };
+  try {
+    await body();
+  } finally {
+    URL.createObjectURL = origCreate;
+    URL.revokeObjectURL = origRevoke;
+    HTMLAnchorElement.prototype.click = origClick;
+  }
+}
 const hotkey = (target: EventTarget = document): void => {
   target.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote', bubbles: true }));
 };
@@ -340,30 +367,84 @@ describe('mountCapture — submit', () => {
     expect(btn(/Clear/).disabled).toBe(true);
   });
 
-  it('a failed POST falls back to a file download (no throw)', async () => {
-    const origCreate = URL.createObjectURL;
-    const origRevoke = URL.revokeObjectURL;
-    URL.createObjectURL = () => 'blob:mock';
-    URL.revokeObjectURL = () => {};
-    try {
-      let downloaded = '';
-      mount({ post: async () => false });
-      const origClick = HTMLAnchorElement.prototype.click;
-      HTMLAnchorElement.prototype.click = function (this: HTMLAnchorElement) {
-        downloaded = this.download;
-      };
-      try {
+  // A failed POST means the dev server is down (it used to kill itself on a config-dep edit). The
+  // overlay must SAY so — never silently download a .md, which lands in ~/Downloads reading as
+  // "captured" while the inbox stays empty. RED-able: restore the auto-download and #1 flips.
+  it('a failed POST opens the error dialog and downloads NOTHING', async () => {
+    let downloads = 0;
+    await withStubbedDownload(
+      () => (downloads += 1),
+      async () => {
+        mount({ post: async () => false });
         pick(null);
         await typeAndSend('offline note');
+        expect(dialogEl()).not.toBeNull();
+        expect(downloads).toBe(0);
+        expect(dialogEl()!.textContent).toContain('Capture not saved');
+      },
+    );
+  });
+
+  it('Retry re-posts the held entry and closes the dialog once the server is back', async () => {
+    const sent: string[] = [];
+    let up = false; // the dev server comes back between the two attempts
+    mount({
+      post: async (_url, body) => {
+        sent.push(body);
+        return up;
+      },
+    });
+    pick(null);
+    await typeAndSend('note that survives');
+    expect(dialogEl()).not.toBeNull();
+    expect(sent).toHaveLength(1);
+
+    up = true;
+    clearSwallow(); // the pick armed a one-shot capture-phase click swallow
+    dlgBtn(/Retry/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await flush();
+
+    expect(dialogEl()).toBeNull(); // dismissed on success
+    expect(sent).toHaveLength(2);
+    expect(sent[1]).toBe(sent[0]); // the SAME payload, note intact — not a re-captured empty one
+    expect(JSON.parse(sent[1]!).entry).toContain('note that survives');
+  });
+
+  it('Retry that fails again keeps the dialog and the note', async () => {
+    mount({ post: async () => false });
+    pick(null);
+    await typeAndSend('still offline');
+    clearSwallow();
+    dlgBtn(/Retry/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await flush();
+    expect(dialogEl()).not.toBeNull();
+    expect(dialogEl()!.textContent).toContain('Still unreachable');
+    expect(dlgBtn(/Retry/).disabled).toBe(false); // re-armed, not stuck on "Retrying…"
+  });
+
+  it('Save .md is an explicit escape hatch, not the default', async () => {
+    let downloaded = '';
+    await withStubbedDownload(
+      (name) => (downloaded = name),
+      async () => {
+        mount({ post: async () => false });
+        pick(null);
+        await typeAndSend('offline note');
+        expect(downloaded).toBe(''); // nothing until the human asks
+        clearSwallow();
+        dlgBtn(/Save \.md/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
         expect(downloaded).toContain(SESSION);
         await flush();
-      } finally {
-        HTMLAnchorElement.prototype.click = origClick;
-      }
-    } finally {
-      URL.createObjectURL = origCreate;
-      URL.revokeObjectURL = origRevoke;
-    }
+      },
+    );
+  });
+
+  it('Escape discards the error dialog', async () => {
+    mount({ post: async () => false });
+    pick(null);
+    await typeAndSend('offline note');
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    expect(dialogEl()).toBeNull();
   });
 });
 
