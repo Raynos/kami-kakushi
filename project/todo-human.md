@@ -28,10 +28,6 @@
 
 ## Reading queue
 
-- [ ] [`docs/plans/fable-2026-07-10-body-split-hunger-stamina.md`](../docs/plans/fable-2026-07-10-body-split-hunger-stamina.md)
-      — the FB-345 body split (hunger vs stamina) plan: Phase 0 needs your
-      option pick (A/B/C, recommendation C) + the two bar names. Scheduled,
-      NOT built (your drain ruling, 2026-07-10).
 
 > **What belongs here** — a durable doc whose purpose is for you to read or sign
 > off: a **plan** (`docs/plans/`), a **brainstorm / retrospective for adoption**
