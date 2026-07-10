@@ -78,6 +78,10 @@ and builds** — so each entry's `.json` records its own source session + build.
    capture time** (ADR-171): the middleware — the single writer — allocates the
    next global FB number into the entry heading (`## Bug · FB-255 · …`) and the
    sidecar (`fb`), so no drain lane ever computes "the next free number".
+   Auto-commits **batch** (human, 2026-07-10): while the previous capture
+   commit is unpushed, the next capture `--amend`s into it, so a playtest
+   burst is ONE `chore(inbox): playtest captures` commit, not one per capture
+   (durability unchanged — every capture is committed the moment it lands).
 2. **Claim** — a drain pass starts by claiming its **lane(s)** (a bucket,
    several, or a re-grouped cluster): `tsx src/scripts/inbox-claim.ts claim
    <lane...>`. Claims are **git-ignored ephemera** under `pending/.claims/`

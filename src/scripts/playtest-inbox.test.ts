@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os';
 import { basename, dirname, join } from 'node:path';
 import {
   commitCapture,
+  CAPTURE_COMMIT_SUBJECT,
   nextFbNumber,
   resolveCapture,
   stampCapture,
@@ -205,6 +206,54 @@ describe('commitCapture — auto-commit the .md (fail-soft, opt-outable)', () =>
         throw new Error('index.lock');
       }),
     ).not.toThrow();
+  });
+
+  it('amends into HEAD when it is an unpushed capture commit (one commit per burst)', () => {
+    const calls: string[][] = [];
+    commitCapture(
+      [MD],
+      PENDING,
+      (args) => calls.push(args),
+      (args) => (args[0] === 'log' ? `${CAPTURE_COMMIT_SUBJECT}\n` : ''), // branch -r: empty = unpushed
+    );
+    expect(calls[1]).toContain('--amend');
+    expect(calls[1]!.slice(-2)).toEqual(['--', MD]); // still pathspec-isolated
+  });
+
+  it('does NOT amend a non-capture HEAD (a co-agent commit stays intact)', () => {
+    const calls: string[][] = [];
+    commitCapture(
+      [MD],
+      PENDING,
+      (args) => calls.push(args),
+      (args) => (args[0] === 'log' ? 'feat(core): something else\n' : ''),
+    );
+    expect(calls[1]).not.toContain('--amend');
+  });
+
+  it('does NOT amend a capture commit a remote already has (never rewrite pushed history)', () => {
+    const calls: string[][] = [];
+    commitCapture(
+      [MD],
+      PENDING,
+      (args) => calls.push(args),
+      (args) => (args[0] === 'log' ? `${CAPTURE_COMMIT_SUBJECT}\n` : '  origin/main\n'),
+    );
+    expect(calls[1]).not.toContain('--amend');
+  });
+
+  it('a failing probe (fresh repo, no reader) falls back to a fresh commit', () => {
+    const calls: string[][] = [];
+    commitCapture(
+      [MD],
+      PENDING,
+      (args) => calls.push(args),
+      () => {
+        throw new Error('fatal: bad default revision');
+      },
+    );
+    expect(calls[1]![0]).toBe('commit');
+    expect(calls[1]).not.toContain('--amend');
   });
 
   it('skips entirely under KAMI_INBOX_NO_COMMIT=1', () => {

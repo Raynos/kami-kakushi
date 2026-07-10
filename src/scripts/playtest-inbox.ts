@@ -196,16 +196,28 @@ export function writeCapture(
   if (resolved.shotPath && resolved.pngBuffer) writeFileSync(resolved.shotPath, resolved.pngBuffer);
 }
 
+/** Every capture commit carries this exact subject — it is also the amend-batch marker:
+ *  only the middleware writes it, so a HEAD with this subject is a middleware commit. */
+export const CAPTURE_COMMIT_SUBJECT = 'chore(inbox): playtest captures';
+
 /** Auto-commit the capture `.md` so a capture is durable in git the moment it's made (no capture
  *  sits uncommitted). FAIL-SOFT: the file is already on disk, so a failed commit (index lock,
  *  co-agent race, not-a-repo in tests) is never a lost capture — we just skip it. Isolated by
  *  design: `git commit --only -- <the .md>` commits ONLY that one path (the `.png` is git-ignored),
  *  leaving any co-agent's staged work untouched; `--no-verify` skips the code gates (a data write,
- *  not a code change). Opt out with `KAMI_INBOX_NO_COMMIT=1`. */
+ *  not a code change). Opt out with `KAMI_INBOX_NO_COMMIT=1`.
+ *
+ *  A playtest burst folds into ONE commit (human, 2026-07-10 — a 20-capture sitting
+ *  was 20 `chore(inbox)` commits): when HEAD is itself an UNPUSHED capture commit
+ *  (exact subject match — nothing else writes it) the new capture `--amend`s into it;
+ *  any other HEAD (a co-agent's commit, a pushed capture commit, a fresh repo, a probe
+ *  failure) gets a fresh commit. Durability is unchanged — every capture is still
+ *  committed the moment it lands; only the granularity batches. */
 export function commitCapture(
   paths: readonly string[], // the .md + the metadata .json (the .png stays git-ignored)
   pendingDir: string,
   run?: (args: string[]) => void, // injectable git-runner (tests); defaults to real `git`
+  read?: (args: string[]) => string, // injectable read-runner (tests); defaults to real `git`
 ): void {
   if (process.env.KAMI_INBOX_NO_COMMIT === '1') return;
   if (paths.length === 0) return;
@@ -214,13 +226,32 @@ export function commitCapture(
   const git =
     run ??
     ((args: string[]): void => void execFileSync('git', args, { cwd: repoRoot, stdio: 'ignore' }));
+  // With an injected `run` but no `read`, probing must not hit the REAL repo — throw
+  // instead, which the probe catches as "don't amend" (the pre-batching behaviour).
+  const readGit =
+    read ??
+    (run
+      ? (): string => {
+          throw new Error('no read-runner injected');
+        }
+      : (args: string[]): string =>
+          execFileSync('git', args, { cwd: repoRoot, encoding: 'utf-8' }));
   try {
     git(['add', '--', ...paths]); // stage them (new or appended)
+    let amend = false;
+    try {
+      amend =
+        readGit(['log', '-1', '--format=%s']).trim() === CAPTURE_COMMIT_SUBJECT &&
+        readGit(['branch', '-r', '--contains', 'HEAD']).trim() === ''; // never rewrite pushed history
+    } catch {
+      amend = false;
+    }
     git([
       'commit',
+      ...(amend ? ['--amend'] : []),
       '--no-verify',
       '-m',
-      `chore(inbox): playtest capture ${basename(paths[0]!)}`,
+      CAPTURE_COMMIT_SUBJECT,
       '--',
       ...paths,
     ]);

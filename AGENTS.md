@@ -300,7 +300,11 @@ Full version:
   per browser-tab sitting — while the heavy machine data (deterministic save +
   logs + context) goes to a committed `<stamp>.json` and the full-page screenshot
   *with the highlight baked in* to a git-ignored `<stamp>.png`, both in a sibling
-  folder. Every capture is auto-committed to git on write. The human plays
+  folder. Every capture is auto-committed to git on write — batched: a burst
+  amends into **one** `chore(inbox): playtest captures` commit while that
+  commit is unpushed, never one commit per capture (human, 2026-07-10) — an
+  agent hand-committing inbox files follows the same rule (one bulk intake
+  commit, never per-file). The human plays
   whenever; an agent drains whenever with
   **`/drain-inbox`** — an **interactive** pass, batches of ≤5: reproduce each
   from the save → triage → **propose, and wait for the human's go-ahead** before

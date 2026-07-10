@@ -50,6 +50,15 @@ is replaced by amend-batching — a burst of captures folds into ONE
 2. The review stack (HR-1, HR-24, HR-2A–2D, HR-5/6/9/11, HR-18–21) still awaits
    the human.
 
+## Addendum (same session)
+
+- The human live-tested the shot mid-land and filed 8 more feedback-ui
+  captures (FB-347…FB-355): a speed test, the text-loss trio (FB-348–350,
+  fixed by round 2's CSS embed), and smoke tests — all covered by the two
+  FB-337 commits (`781344d`, `a0fe0af`).
+- The inbox bulk-commit change (`commitCapture` amend-batching + docs) landed
+  as its own commit after the FB-337 pair.
+
 ## Landmines
 - The heavy-SVG raster embeds page CSS wholesale; a future rule that styles svg
   internals via a selector needing ancestors OUTSIDE the svg (e.g. `body.x svg

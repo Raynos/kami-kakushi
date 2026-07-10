@@ -64,7 +64,9 @@ tool).
 The DEV build also carries an **in-game capture overlay** (also `import.meta.env.DEV`, also
 stripped from prod — proven by `verify-dev-strip.sh`). The `` ` `` hotkey pops a note box;
 ⌘/Ctrl+Enter appends a **lean** entry (the note + picked element + links) to **that game session's
-file** in `project/playtest-inbox/pending/` via a dev-server endpoint (auto-committed on write),
+file** in `project/playtest-inbox/pending/` via a dev-server endpoint (auto-committed on write;
+a burst amends into one `chore(inbox): playtest captures` commit while unpushed — never one
+commit per capture),
 while the heavy data — the **deterministic save** (seed + RNG cursors + clock + location + log) —
 goes to a committed `<stamp>.json` sidecar and a `modern-screenshot` PNG to a git-ignored
 `<stamp>.png`, then vanishes (< 5 s, the game never pauses). One `<session>.md` per browser-tab
