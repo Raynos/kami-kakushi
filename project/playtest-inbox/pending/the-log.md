@@ -76,3 +76,13 @@ Because VN text is the "MAIN MAIN STORY" and the rest is all flavor text you can
 **Details:** `the-log/2026-07-10T18-22-21.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-321 · 2026-07-10T18:23:05+0200 — i-fucking-saw-that
+
+I fucking saw that lol, as the text scrolled it didnt have the correct colors or italics.
+
+**Element:** panel "log" — ""...You don't shirk the work," Genemon says, eyeing the clea" · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(34)` · @942,573 493×73
+**Screenshot:** `the-log/2026-07-10T18-23-05.png`
+**Details:** `the-log/2026-07-10T18-23-05.json` — save + recent logs + full context
+
+---
