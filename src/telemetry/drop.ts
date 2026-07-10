@@ -10,6 +10,7 @@
 export const TELEMETRY_DROP_ENDPOINT = '/__telemetry-drop';
 
 let warned = false;
+let notedUnretained = false;
 
 /** Drop the run's report. `keepalive` lets the hide/unload-edge drop outlive the page. */
 export function postSessionReport(runId: string, report: string): void {
@@ -20,10 +21,25 @@ export function postSessionReport(runId: string, report: string): void {
       body: JSON.stringify({ runId, report }),
       keepalive: true,
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok && !warned) {
           warned = true; // once per session — a missing middleware isn't worth console spam
           console.warn(`[telemetry] report drop refused (${res.status}) — ring still has the run`);
+          return;
+        }
+        // The server GCs reports that can't inform balance (retention.ts). Say so ONCE — the
+        // run is still whole in the ring, and a tainted run closes a segment on every blur.
+        if (res.ok && !notedUnretained) {
+          const body = (await res.json().catch(() => null)) as {
+            kept?: boolean;
+            reason?: string;
+          } | null;
+          if (body && body.kept === false) {
+            notedUnretained = true;
+            console.info(
+              `[telemetry] report not retained: ${body.reason ?? 'unusable'} — ring still has the run`,
+            );
+          }
         }
       })
       .catch(() => {

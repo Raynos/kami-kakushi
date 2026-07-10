@@ -7,10 +7,16 @@
 // CONTRACT (see its README) — local sensor data agents read when talking pacing, never repo
 // history. Split for testability: `resolveDrop` is the pure validator (runId allowlist,
 // traversal jail, size cap); the handler is thin connect glue.
+//
+// The write edge also GARBAGE-COLLECTS (2026-07-10): a report that can never inform balance
+// (time-tainted, or shorter than one in-band rung) is refused, and the folder is swept on every
+// drop + at dev-server boot. Policy lives in `../telemetry/retention` and fails OPEN — deletion
+// only ever follows a header this repo demonstrably wrote.
 
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, readdirSync, rmSync, unlinkSync, writeFileSync } from 'node:fs';
 import { resolve, sep } from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import { keepReport } from '../telemetry/retention';
 
 // Single-sourced endpoint (browser-safe module) — the client POSTs to the same path.
 export { TELEMETRY_DROP_ENDPOINT } from '../telemetry/drop';
@@ -45,6 +51,33 @@ export function resolveDrop(body: unknown, dir: string): ResolvedDrop {
     return { ok: false, status: 400, error: 'path escapes the telemetry dir' };
   }
   return { ok: true, path, report };
+}
+
+/** Delete every report in `dir` that can't inform balance. Best-effort: an unreadable file is
+ *  left alone, and `README.md` / non-`.md` entries (the `.gitignore`) are never candidates.
+ *  Returns the names dropped, so the caller can say what it swept. */
+export function sweepTelemetryDir(dir: string): readonly string[] {
+  const root = resolve(dir);
+  let names: readonly string[];
+  try {
+    names = readdirSync(root);
+  } catch {
+    return []; // no folder yet — nothing to sweep
+  }
+  const dropped: string[] = [];
+  for (const name of names) {
+    if (!name.endsWith('.md') || name === 'README.md') continue;
+    const path = resolve(root, name);
+    if (!path.startsWith(root + sep)) continue; // traversal jail, same as resolveDrop
+    try {
+      if (keepReport(readFileSync(path, 'utf-8')).keep) continue;
+      unlinkSync(path);
+      dropped.push(name);
+    } catch {
+      /* unreadable / vanished mid-sweep — leave it; a GC never fights the filesystem */
+    }
+  }
+  return dropped;
 }
 
 function respond(res: ServerResponse, status: number, payload: unknown): void {
@@ -90,10 +123,23 @@ export function telemetryDropHandler(
         respond(res, resolved.status, { error: resolved.error });
         return;
       }
+      const verdict = keepReport(resolved.report);
       try {
         mkdirSync(resolve(dir), { recursive: true });
-        writeFileSync(resolved.path, resolved.report, 'utf-8');
-        respond(res, 200, { ok: true });
+        if (verdict.keep) {
+          writeFileSync(resolved.path, resolved.report, 'utf-8');
+        } else {
+          // A run can turn unusable MID-RUN (you hit speed>1 at minute 20) — so refusing the
+          // write isn't enough: the clean file this run dropped earlier has to go too.
+          rmSync(resolved.path, { force: true });
+        }
+        const swept = sweepTelemetryDir(dir);
+        respond(res, 200, {
+          ok: true,
+          kept: verdict.keep,
+          swept: swept.length,
+          ...(verdict.keep ? {} : { reason: verdict.reason }),
+        });
       } catch (e) {
         respond(res, 500, { error: String(e) });
       }

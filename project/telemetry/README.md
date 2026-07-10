@@ -9,6 +9,12 @@ buffer; these files are the archive agents read.
 
 ## What a report is
 
+**One RUN — not one playthrough.** A fresh runId is minted on every boot that
+can't resume a prior run for the seed, and on every save-import and fixture
+load; a reload of a live run *resumes* it (same file, grown). So the file count
+is a count of *game starts*, never a measure of how much the human played. Read
+the `Σ attended` line, not `ls | wc -l`.
+
 The human's REAL play, measured by the FB-8 attended-time sessionizer: per-rung
 **attended minutes** (5-min-play / 20-min-away / 5-min-play records 10
 minutes, not 30) next to the sim's greedy-bot minutes and the design band,
@@ -32,8 +38,25 @@ files (reality)**.
    journal section — with the numbers quoted. Raw = local-only insurance;
    the committed distillation is the repo's memory (the `brainstorms/raw/`
    two-tier pattern). Data that stays only here rots when this machine does.
-4. **No pruning in v1.** Files are a few KB; revisit only if it ever
-   matters.
+4. **The folder garbage-collects itself (human, 2026-07-10 — supersedes "no
+   pruning in v1").** A report only earns a file if it could ever inform
+   balance. The write edge refuses, and every drop + dev-server boot sweeps:
+   - **time-tainted** (`speed>1`, DEV jumps, instant-actions) — the clock lied,
+     so every vs-sim column already reads `tainted`. Any length. Gone.
+   - **shorter than one in-band rung** (`T0_PACING_BAND_MIN` attended minutes,
+     read from the balance constants) — too small to characterise a rung.
+
+   ORIGIN marks (`save-import`) are **kept**: honest clock, unknown economy.
+   Harness runs never wrote a file to begin with. The rule **fails open** — an
+   unparseable header is kept, never deleted. Policy:
+   [`src/telemetry/retention.ts`](../../src/telemetry/retention.ts); the ring in
+   localStorage still holds every run, refused or not. What survives on disk is
+   exactly the corpus the ADR-132 balance flow is allowed to quote — which is
+   why the session brief can just count files.
+
+   *Why this replaced "no pruning": on 2026-07-10 the folder held 24 files —
+   15 speed-run exhaust, 8 twenty-second pokes, 1 real session — and the session
+   brief shouted "24 reports" every morning about play that never happened.*
 
 Transport: `src/telemetry/drop.ts` → the `telemetry-drop` vite dev-middleware
 (`src/scripts/telemetry-drop.ts`, `apply: 'serve'` — structurally absent from

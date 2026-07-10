@@ -3,7 +3,11 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import { CAPTURE_ENDPOINT, playtestInboxHandler } from './src/scripts/playtest-inbox';
-import { TELEMETRY_DROP_ENDPOINT, telemetryDropHandler } from './src/scripts/telemetry-drop';
+import {
+  TELEMETRY_DROP_ENDPOINT,
+  sweepTelemetryDir,
+  telemetryDropHandler,
+} from './src/scripts/telemetry-drop';
 
 // The VERSION is the SINGLE SOURCE OF TRUTH from package.json — NOT git tags
 // (human call, H1/2026-07-01): the game/HTML/TS must never read a git tag for
@@ -41,12 +45,19 @@ const SHIP_DEV_TOOLS = !['0', 'false', 'no', 'off'].includes(
 // second server. If DEV_PORT is already listening, name the holder and exit — instead of
 // silently cascading to 5174/5175/… and leaving a pile of servers behind. `strictPort` below
 // is the belt-and-suspenders (vite itself won't cascade). Bypass with KAMI_ALLOW_MULTI_DEV=1.
+//
+// It must IGNORE ITSELF. Vite restarts IN-PROCESS when the config — or anything the config
+// imports (playtest-inbox.ts, telemetry-drop.ts) — changes: restartServer() re-evaluates this
+// file (re-running the guard) and only THEN closes the old server. So mid-restart :5173 is
+// still listening, held by our OWN pid. Counting that as "someone else" made the dev server
+// exit(1) on every edit to a config dep — it killed itself, and the playtest-capture POST was
+// left with no inbox to reach (the human hit exactly this while an agent edited telemetry-drop).
 const DEV_PORT = 5173;
 function singleServerGuard(): void {
   if (process.env.KAMI_ALLOW_MULTI_DEV === '1') return;
-  let holder: string;
+  let listening: string;
   try {
-    holder = execSync(`lsof -ti tcp:${DEV_PORT} -sTCP:LISTEN`, {
+    listening = execSync(`lsof -ti tcp:${DEV_PORT} -sTCP:LISTEN`, {
       stdio: ['ignore', 'pipe', 'ignore'],
     })
       .toString()
@@ -54,8 +65,12 @@ function singleServerGuard(): void {
   } catch {
     return; // lsof exits non-zero when nothing is listening ⇒ the port is free ⇒ proceed
   }
-  if (!holder) return;
-  const pid = holder.split('\n')[0];
+  const self = String(process.pid);
+  const pid = listening
+    .split('\n')
+    .map((p) => p.trim())
+    .find((p) => p && p !== self); // our own listener is a restart, not a rival
+  if (!pid) return;
   console.error(
     `\n✗ A dev server is already running on :${DEV_PORT} (pid ${pid}).\n` +
       `  Refusing to start a second — use the running one, or stop it:\n` +
@@ -99,6 +114,14 @@ export default defineConfig(({ command }) => {
         apply: 'serve',
         configureServer(server) {
           const dir = fileURLToPath(new URL('./project/telemetry', import.meta.url));
+          // GC on boot as well as on every drop: a folder left full of tainted / 20-second
+          // runs reads as play that never happened (see telemetry/retention.ts). NEVER under
+          // vitest — it boots a vite server too, and the test lane must not touch the human's
+          // sensor data (the 973b996 rule). The drop endpoint is unreachable there anyway.
+          const swept = process.env.VITEST ? [] : sweepTelemetryDir(dir);
+          if (swept.length > 0) {
+            console.info(`[telemetry] swept ${swept.length} unusable report(s) from ${dir}`);
+          }
           server.middlewares.use(TELEMETRY_DROP_ENDPOINT, telemetryDropHandler(dir));
         },
       },
