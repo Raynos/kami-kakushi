@@ -38,12 +38,13 @@ idling — but **flag low-value ticks honestly** (never dress busy-work up as hi
 *current* build (the `battery` skill's diff re-audit, ~3 lenses) — check the delta, not the milestone; if it
 touched an approved design/balance pick, flag + offer to revert (P2).
 
-## Cross-agent messaging (herdr) — the ENTER gotcha
+## Cross-agent messaging (herdr) — check the target, then ENTER
 
-Messages to a co-agent's pane are TWO commands, not one (learned 2026-07-10 —
-three lane-coordination messages sat unsubmitted until the human pressed Enter
-by hand):
+Messages to a co-agent's pane are THREE commands, not one, and the **first is a
+liveness check**:
 
+0. `herdr agent get <pane>` — the target **must** resolve to a live agent. If it
+   answers `agent_not_found`, **nobody is home** and you must not send.
 1. `herdr agent send <pane> "the message"` — this only **types** the text into
    the target agent's input box. **It does not submit.**
 2. `herdr pane send-keys <pane> Enter` — this is the submit.
@@ -51,9 +52,30 @@ by hand):
    transcript area and the `❯` input line is **empty**. If the text still sits
    at the prompt, it was never received.
 
+**Why step 0 exists (learned 2026-07-10, the hard way).** `herdr agent send`
+accepts *any* pane id and types **blindly** — it never checks that an agent is
+listening. A pane id goes stale the moment that agent exits or restarts, and what
+is left behind is a **bash prompt**. So the message gets typed at `$`, and the
+step-2 Enter **executes your prose as a shell command**: a lane-coordination
+message did exactly this and died on `syntax error near unexpected token '('`.
+Step 3 cannot save you — it verifies *after* the Enter has already run.
+
+Two failure modes, both now blocked by the **`guard-herdr-send.sh`** PreToolUse
+hook (escape: `SKIP_HERDRGUARD=1`):
+
+- **`agent send` at a pane with no live agent** — the incident above. The hook
+  re-prints the live roster so you can retry against a pane that exists *now*.
+- **`agent send` at your own pane** — the message lands in your own input box and
+  reads back as if the human typed it.
+
 `herdr pane run <pane> <command>` does text+Enter in one move, but it is meant
 for shell panes — for agent panes prefer send → send-keys → read, so a
 mid-typing collision with the agent's own input is visible before you submit.
+(The hook blocks `pane run` at a live agent pane for this reason.)
+
+**Note the CLI's sharp edge:** `herdr agent get` prints its success payload to
+**stdout** but its `agent_not_found` error to **stderr**, and exits **0 either
+way**. Never branch on `$?` — merge the streams and parse the JSON.
 
 ## Checkpoint (run when asked to "checkpoint" or before exiting)
 

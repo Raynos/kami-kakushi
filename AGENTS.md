@@ -128,11 +128,18 @@ philosophy wins.**
   red** — leave your commit local, never `SKIP_VERIFY=1` a red tree onto `main`.
   Full checklist + the exact commands:
   [`working-agreements.md → Checkpoint`](project/status/working-agreements.md).
-- **Cross-agent messages (herdr) need an explicit ENTER.** `herdr agent send
-  <pane> "msg"` only *types* into the target's input — it does **not** submit;
-  the message sits invisible until a human presses Enter. Always follow with
-  `herdr pane send-keys <pane> Enter`, then confirm delivery with `herdr agent
-  read <pane>` (the `❯` input line must be empty). Full recipe:
+- **Cross-agent messages (herdr): check the target is ALIVE, then ENTER.**
+  `herdr agent send <pane> "msg"` types **blindly** into whatever occupies that
+  pane and only *types* — it does **not** submit. So a **stale pane id** (its
+  agent exited or restarted) drops your prose at a **bash prompt**, and the Enter
+  you send next **executes it as a shell command** (2026-07-10: a coordination
+  message died on `syntax error near unexpected token '('`). Always: `herdr agent
+  get <pane>` first — it must resolve to a live agent, not `agent_not_found` —
+  then `herdr agent send`, then `herdr pane send-keys <pane> Enter` to submit,
+  then confirm with `herdr agent read <pane>` (the `❯` input line must be empty).
+  Verifying only *after* the Enter is too late. The **`guard-herdr-send.sh`**
+  PreToolUse hook blocks a send to a dead pane or to your own pane, and a
+  `pane run` at a live agent (escape: `SKIP_HERDRGUARD=1`). Full recipe:
   [`working-agreements.md → Cross-agent messaging`](project/status/working-agreements.md).
 - **Session start → surface what's waiting on the human.** A `SessionStart` hook
   runs [`src/scripts/session-brief.sh`](src/scripts/session-brief.sh) (wired in
