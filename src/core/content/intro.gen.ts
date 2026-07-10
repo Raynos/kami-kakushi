@@ -12,6 +12,7 @@ import type { DialogueScene } from './intro';
 export const DIALOGUE_SCENES: readonly DialogueScene[] = [
   {
     id: 'dream',
+    title: 'what the water takes',
     voice: 'narrator',
     greeting: [{ voice: 'narrator', text: COLD_OPEN.dream }],
     topics: [],
@@ -60,6 +61,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
 
   {
     id: 'soan',
+    title: 'no name to give',
     voice: 'physician',
     speaker: 'soan',
     greeting: [
@@ -191,6 +193,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
 
   {
     id: 'genemon',
+    title: 'entered in the book',
     voice: 'steward',
     speaker: 'genemon',
     greeting: [

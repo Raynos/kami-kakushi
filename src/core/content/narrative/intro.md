@@ -28,8 +28,15 @@
   IN the water, pre-rescue — memory surfaces as counted items (never a dream:
   the first dream is T0-R7, §0.5 law 4). No name yet; MC lines render You:. -->
 
+<!-- FB-362 — each scene carries a `title:` (the 幕-head label the log's scene card
+  prints as "— <title> —"), so the three acts group as three cards instead of one
+  fused "the cold open". Canon = take B of the fb362-intro-titles diverge (ADR-139,
+  "taken · unnamed · entered" — each head names the act's event); alternates in
+  takes/fb362-intro-titles/, live-swappable in DEV → Story for FUTURE emissions. -->
+
 ## scene dream
 voice: narrator
+title: what the water takes
 
 @cold-open.dream
 
@@ -70,6 +77,7 @@ perk: The Porter's Hands — Hands that remember the work before the head does.
 ## scene soan
 speaker: soan
 voice: physician
+title: no name to give
 
 <!-- HD-30 / G4.7 / FB-198: take-a's MC speech lines are authored with the `You:`
   player form — no static name compiles; the engine resolves the nameplate through
@@ -190,6 +198,7 @@ memory: soan +0 (methodical)
 ## scene genemon
 speaker: genemon
 voice: steward
+title: entered in the book
 
 Genemon: @dialogue.genemon-open/gen-greet
 

@@ -274,6 +274,7 @@ export function scenesOf(doc: NarrativeDoc): (RungSceneNode | IntroSceneNode)[] 
 const RESERVED = new Set([
   'speaker',
   'voice',
+  'title',
   'motivates',
   'trigger',
   'once',
@@ -484,7 +485,9 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
             ? ['speaker', 'voice', 'motivates']
             : scene.kind === 'scene-def'
               ? ['trigger', 'once', 'voice', 'speaker', 'motivates']
-              : ['speaker', 'voice'];
+              : // FB-362 — `title:` is the intro scene's per-scene 幕-head display label
+                // (stamped as the log `context`, splitting the cold open into act cards).
+                ['speaker', 'voice', 'title'];
         if (!known.includes(key)) {
           return fail(loc.line, `unknown scene meta key "${key}" (${known.join('/')})`);
         }

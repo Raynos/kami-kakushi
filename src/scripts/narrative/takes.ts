@@ -219,10 +219,18 @@ function emitTake(meta: TakeMeta, doc: NarrativeDoc): string {
   // Keyed prose routes to a registry field by its group id: `## prose cold-open` → `coldOpen`,
   // `## prose flavor` → `flavor` (UI micro-copy), `## prose req-flavor` → `reqFlavor`
   // (FB-121 requirement-completion lines — swapped through the CORE overlay, future
-  // emissions only; ADR-139 live-switchable like every diverge unit).
+  // emissions only; ADR-139 live-switchable like every diverge unit), and
+  // `## prose intro-title` → `introTitles` (FB-362 — the per-scene 幕-head labels, keyed
+  // by intro scene id; swapped through the CORE overlay `__setIntroTitleOverride`).
   for (const prose of doc.blocks.filter((b) => b.kind === 'prose')) {
     const field =
-      prose.id === 'flavor' ? 'flavor' : prose.id === 'req-flavor' ? 'reqFlavor' : 'coldOpen';
+      prose.id === 'flavor'
+        ? 'flavor'
+        : prose.id === 'req-flavor'
+          ? 'reqFlavor'
+          : prose.id === 'intro-title'
+            ? 'introTitles'
+            : 'coldOpen';
     L.push(`${field}: {`);
     for (const e of prose.entries) L.push(`${keyExpr(e.key)}: ${textExpr(e.text, e.loc)},`);
     L.push('},');

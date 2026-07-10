@@ -67,6 +67,8 @@ export {
   introStatLine,
   introStatDelta,
   introPerkLine,
+  introSceneTitle,
+  __setIntroTitleOverride,
   beatReactVoice,
   beatReactSpeaker,
 } from './content/intro';

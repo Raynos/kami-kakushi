@@ -66,6 +66,11 @@ export interface DialogueDecision {
  *  generalization of the old linear `IntroBeat`. */
 export interface DialogueScene {
   readonly id: string; // 'soan' | 'dream' | 'genemon'
+  /** FB-362 — the scene's 幕-head display label, stamped as the log `context` so each
+   *  intro act groups as its OWN scene card (was one shared 'the cold open' card).
+   *  Authored as `title:` meta in narrative/intro.md; optional in the type so take
+   *  bundles without one still compile — the engine falls back via introSceneTitle. */
+  readonly title?: string;
   readonly voice: VoiceCategory; // the nameplate + react colour
   readonly speaker?: NpcId; // undefined ⇒ narrator / self scene (the dream)
   readonly greeting: readonly IntroSetupLine[]; // shown on entering (was the beat's `setup`)
@@ -109,6 +114,26 @@ export const INTRO_BEATS: readonly IntroBeat[] = DIALOGUE_SCENES.map((s) => ({
 
 /** Total beats — a re-export alias of `INTRO_SCENE_COUNT` so the migration import doesn't break. */
 export const INTRO_BEAT_COUNT = INTRO_SCENE_COUNT;
+
+// ── FB-362 — the per-scene 幕-head label (ADR-139 live-switchable) ────────────────────
+// The label is CORE-emitted log text (baked into each entry's `context` at emit time), so
+// the DEV story switcher swaps it through the declaring-module override (the
+// requirements.ts/coldOpen.ts pattern): FUTURE emissions voice the selected take;
+// already-logged lines keep their baked context (TST2 — history never rewrites).
+
+let INTRO_TITLE_OVERRIDE: Readonly<Record<string, string>> | null = null;
+
+/** DEV-only (the story set-switcher): override the intro scene titles by SCENE id
+ *  (`## prose intro-title` take keys), or null to restore canon. */
+export function __setIntroTitleOverride(map: Readonly<Record<string, string>> | null): void {
+  INTRO_TITLE_OVERRIDE = map;
+}
+
+/** The 幕-head context an intro scene's log lines stamp — the DEV overlay's take if set,
+ *  else the authored `title:`, else the pre-FB-362 shared label (old take bundles). */
+export function introSceneTitle(scene: DialogueScene): string {
+  return INTRO_TITLE_OVERRIDE?.[scene.id] ?? scene.title ?? 'the cold open';
+}
 
 /** True while the intro is live (a scene is being shown). Pre-wake (-1) and done (≥count) → false. */
 export function introActive(introScene: number): boolean {

@@ -27,7 +27,7 @@
 
 > Two buckets on a yoke, well to kitchen, forty paces each way. By the fourth trip the jars stop ringing hollow. The kitchen does not thank the water. It uses it. <small>*(haul)*</small>
 
-## Intro 1 · The dream-fragment
+## Intro 1 · what the water takes
 
 > Water, above and below. What surfaces is counted: one knot, tied twice; one road in grey rain; one load, set down somewhere and not taken up. The name is not among the items. Each is looked at once and goes under.
 
@@ -42,7 +42,7 @@
 - Take up the load <small>· stat +str −luck · perk “The Porter's Hands”</small>
   *The shoulders answer before the count does. The head kept nothing, but the hands kept the shape of the weight — a strap's width, the length of a carried step.*
 
-## Intro 2 · Sōan the physician
+## Intro 2 · no name to give
 
 > The river gives you up at the weir. You keep none of it in order: hands in your collar, gravel under your back, the sky white and near, water leaving you in coughs. A stone jizō watches from the bank, rice at its feet, nobody on the road who could have left it. Someone says, carry him up, then. Then nothing.
 
@@ -105,7 +105,7 @@
 - "The days. I'll count from this one." <small>· memory soan +0 (methodical) · stat +int −agi · perk “The Notched Post”</small>
   **Sōan:** "Day four, by mine. Yours can start where you like. Mark the post — notches hold."
 
-## Intro 3 · Genemon the steward
+## Intro 3 · entered in the book
 
 **Genemon:** On your feet the fourth day — I have it written. I am Genemon, steward to the Kurosawa; what this house still holds, I keep counted. Your entry stands open: one man, name unknown, condition poor. We finish it now.
 

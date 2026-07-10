@@ -1002,6 +1002,43 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   },
 
   {
+    id: 'fb362-intro-titles',
+    title: "The cold open's act titles (the 幕-heads)",
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'Take B names each act by its event — what the water takes / no name to give / entered in the book — every head canon-true and on-screen in its own act, distinct at a glance (TST4), and the genemon head points straight at the open day-book entry the R7 name-writing pays off (TST3). Take A invents a "book room" the game has no place for; take C\'s clock labels blur at a glance and misdate the soan act.',
+    canonLabel: 'B · event-named acts (taken / unnamed / entered)',
+    rung: 0,
+    takes: [
+      {
+        id: 'a',
+        label: 'the ground it happens on',
+        brief:
+          "place-anchored — each head names WHERE the act happens; the world's geography carries the story (river → sickroom → book room).",
+        scorecard: '19✔ 1✘ 1— (✘ P10 [blind spot] — "the book room" is not a place the game has)',
+        introTitles: {
+          dream: 'the river',
+          soan: 'the sickroom',
+          genemon: 'the book room',
+        },
+      },
+      {
+        id: 'c',
+        label: 'the counted week',
+        brief:
+          'time-anchored — the first days as a counted sequence; time as the thing the house counts and writes (before the first day → three days fevered → the fourth day).',
+        scorecard:
+          '19✔ 1~ 1— (~ TST4 [blind spot] — two clock-shaped heads blur; the soan head misdates its act)',
+        introTitles: {
+          dream: 'before the first day',
+          soan: 'three days fevered',
+          genemon: 'the fourth day',
+        },
+      },
+    ],
+  },
+
+  {
     id: 'hd30-nengu',
     title: 'The nengu reckoning — the year against the house',
     review: 'project/human-in-the-loop/review.md',

@@ -40,6 +40,11 @@ export interface StoryTake {
    *  (`__setRequirementFlavorOverride`): FUTURE completions emit from the
    *  selected take; already-logged lines stay (T2 — history never rewrites). */
   readonly reqFlavor?: Readonly<Record<string, string>>;
+  /** FB-362 — the intro scenes' 幕-head labels (`## prose intro-title`), keyed by
+   *  intro SCENE id. Core-emitted (baked into each log entry's `context`), so the
+   *  switcher swaps FUTURE emissions through `__setIntroTitleOverride`; logged
+   *  history keeps its baked heads (TST2). */
+  readonly introTitles?: Readonly<Record<string, string>>;
 }
 
 export interface StoryTakeBundle {

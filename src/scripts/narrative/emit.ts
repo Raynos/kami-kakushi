@@ -285,8 +285,12 @@ export function emitIntroScene(scene: IntroSceneNode): string {
   const voice = scene.meta.get('voice')?.value;
   if (!voice) throw new NarrativeError(scene.loc, `scene "${scene.id}" is missing "voice:" meta`);
   const speaker = scene.meta.get('speaker')?.value;
+  const title = scene.meta.get('title');
   const L: string[] = ['{'];
   L.push(`id: ${str(scene.id)},`);
+  // FB-362 — the per-scene 幕-head label; the core stamps it as the log `context`
+  // (introSceneTitle), so each intro act groups as its own scene card.
+  if (title) L.push(`title: ${textExpr(title.value, title.loc)},`);
   L.push(`voice: '${voice}',`);
   if (speaker) L.push(`speaker: '${speaker}',`);
   L.push('greeting: [');

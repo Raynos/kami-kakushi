@@ -256,6 +256,25 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
         `intro scenes must be exactly [${INTRO_SCENE_ORDER.join(', ')}] in order, got [${order.join(', ')}]`,
       );
     }
+    // FB-362 — every intro scene carries a DISTINCT `title:` (the 幕-head log context).
+    // Missing → the scene falls back to 'the cold open'; duplicate → the FB-317 head
+    // suppression silently re-merges the act cards. Both regress the per-scene split.
+    const titles = new Map<string, IntroSceneNode>();
+    for (const s of introScenes) {
+      const title = s.meta.get('title')?.value.trim() ?? '';
+      if (title === '') {
+        err(s.loc, `intro scene "${s.id}" is missing "title:" meta (the per-scene 幕-head label)`);
+        continue;
+      }
+      const dup = titles.get(title);
+      if (dup) {
+        err(
+          s.loc,
+          `intro scene "${s.id}" duplicates title "${title}" (scene "${dup.id}") — ` +
+            `identical contexts merge the act cards (FB-317 head suppression)`,
+        );
+      } else titles.set(title, s);
+    }
   }
 
   return { errors, warnings };

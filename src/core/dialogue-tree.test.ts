@@ -203,19 +203,51 @@ describe('the DECISION still resolves after any asking — the net-zero invarian
   });
 });
 
-describe("FB-316 — every intro-emitted line carries the scene context ('the cold open')", () => {
-  it('greeting, ask Q+A, and decision say+react all group into ONE 幕 card (no context gaps)', () => {
+describe('FB-316/FB-362 — every intro-emitted line carries ITS scene context', () => {
+  it("greeting, ask Q+A, and decision say+react all group into the SCENE's 幕 card (no context gaps)", () => {
     // A context-less line inside the run fractures the Story log's scene card (the
     // FB-316 "black space" fragmentation) — so the invariant is TOTAL coverage: every
     // line the intro writes to the log carries the scene context. Derived from the
-    // real reducer path, not copied fixtures.
+    // real reducer path AND the real registry title (never a copied label string).
     let s = atScene('soan');
     const preIntro = s.log.entries.length; // pre-scene lines (open_eyes ran in atScene)
     s = reduce(s, { type: 'ask_topic', topicId: sceneById('soan').topics[0]!.id });
+    const askLines = s.log.entries.slice(preIntro).filter((e) => e.channel === 'narration');
+    expect(askLines.length).toBeGreaterThan(1); // Q + A at minimum
+    for (const e of askLines) expect(e.context).toBe(sceneById('soan').title);
+    const preDecide = s.log.entries.length;
     s = reduce(s, { type: 'choose_intro', optionId: sceneById('soan').decision.options[0]!.id });
-    const introLines = s.log.entries.slice(preIntro).filter((e) => e.channel === 'narration'); // milestone perk box stays outside the card
-    expect(introLines.length).toBeGreaterThan(2); // Q + A + say + react at minimum
-    for (const e of introLines) expect(e.context).toBe('the cold open');
+    const decideLines = s.log.entries.slice(preDecide).filter((e) => e.channel === 'narration'); // milestone perk box stays outside the card
+    expect(decideLines.length).toBeGreaterThan(1); // say + react (+ the NEXT scene's greeting)
+    // TOTAL coverage: no context gap anywhere; say/react stamp soan's card, and the same
+    // reduce reveals the NEXT scene's greeting stamped with ITS OWN title (FB-362).
+    for (const e of decideLines) {
+      expect([sceneById('soan').title, sceneById('genemon').title]).toContain(e.context);
+    }
+    expect(decideLines[0]!.context).toBe(sceneById('soan').title); // the MC's say
+    expect(decideLines[1]!.context).toBe(sceneById('soan').title); // the react
+  });
+  it('the three scenes stamp three DISTINCT contexts (FB-362 — one 幕 card per act, not one fused card)', () => {
+    // Play the whole intro (first option each pick); every scene's lines must carry that
+    // scene's own title, and the three titles must differ — identical adjacent contexts
+    // would re-merge the act cards via the FB-317 head suppression. RED before FB-362:
+    // all five emit sites stamped the same 'the cold open'.
+    let s = wake();
+    const titles: string[] = [];
+    while (introActive(s.introBeat)) {
+      const scene = introSceneAt(s.introBeat)!;
+      titles.push(scene.title!);
+      s = reduce(s, { type: 'choose_intro', optionId: scene.decision.options[0]!.id });
+    }
+    expect(titles).toHaveLength(INTRO_SCENE_COUNT);
+    expect(new Set(titles).size).toBe(INTRO_SCENE_COUNT); // all distinct
+    // every context the whole intro run stamped is one of the three scene titles —
+    // no line anywhere still carries the old fused label.
+    const stamped = new Set(
+      s.log.entries.filter((e) => e.context !== undefined).map((e) => e.context),
+    );
+    expect([...stamped].sort()).toEqual([...new Set(titles)].sort());
+    expect(stamped.has('the cold open')).toBe(false);
   });
 });
 

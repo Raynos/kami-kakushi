@@ -69,6 +69,7 @@ import {
   introTopic,
   introSceneOption,
   introPerkLine,
+  introSceneTitle,
   beatReactVoice,
   beatReactSpeaker,
   type IntroStat,
@@ -228,7 +229,10 @@ function revealIntroBeat(state: GameState, index: number): GameState {
       speaker: l.speaker,
       // FB-262 — every VN line carries its scene label so the Story log can GROUP it
       // (the bordered "VN unit" treatments; the render-time scene-group stamps read this).
-      context: 'the cold open',
+      // FB-362 — the label is PER SCENE (introSceneTitle), so each intro act is its own
+      // 幕 card instead of one fused "the cold open" card. Old saves keep their baked
+      // contexts (TST2 — no migration).
+      context: introSceneTitle(scene),
     })),
   });
 }
@@ -368,7 +372,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             voice: 'player',
             speaker: playerSpeaker(next),
             chat: true,
-            context: 'the cold open', // FB-270 — the chat kicker names the scene
+            context: introSceneTitle(scene), // FB-270/FB-362 — the chat kicker names the SCENE
           },
           ...topic.answer.map((l) => ({
             channel: 'narration' as const,
@@ -376,7 +380,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             voice: l.voice,
             speaker: l.speaker,
             chat: true,
-            context: 'the cold open', // FB-316 — the answer shares the question's scene group
+            context: introSceneTitle(scene), // FB-316 — the answer shares the question's scene group
           })),
         ],
       });
@@ -400,14 +404,14 @@ export function reduce(state: GameState, intent: Intent): GameState {
             text: opt.say,
             voice: 'player',
             speaker: playerSpeaker(next),
-            context: 'the cold open', // FB-262
+            context: introSceneTitle(scene), // FB-262/FB-362 — the pick lands in ITS act's card
           },
           {
             channel: 'narration',
             text: opt.react,
             voice: beatReactVoice(scene),
             speaker: beatReactSpeaker(scene),
-            context: 'the cold open', // FB-316 — the react stays inside the scene's 幕 card
+            context: introSceneTitle(scene), // FB-316 — the react stays inside the scene's 幕 card
           },
         ],
       });

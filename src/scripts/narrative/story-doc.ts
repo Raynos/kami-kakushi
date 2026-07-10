@@ -148,14 +148,12 @@ export function emitStoryDoc(docs: readonly NarrativeDoc[]): string {
 
   // ── the intro scenes ──
   const intro = docs.flatMap((d) => d.blocks).filter((b) => b.kind === 'scene');
-  const introTitles: Record<string, string> = {
-    soan: `Sōan the physician`,
-    dream: 'The dream-fragment',
-    genemon: 'Genemon the steward',
-  };
   for (let i = 0; i < intro.length; i++) {
     const scene = intro[i]!;
-    L.push(`## Intro ${i + 1} · ${introTitles[scene.id] ?? scene.id}`, '');
+    // FB-362 — the heading reads the scene's authored `title:` (the 幕-head label the
+    // game itself stamps), single-source; the id is the fallback for an untitled take.
+    const title = scene.meta.get('title')?.value ?? scene.id;
+    L.push(`## Intro ${i + 1} · ${resolve(title)}`, '');
     L.push(...sceneLines(scene, resolve));
   }
 
