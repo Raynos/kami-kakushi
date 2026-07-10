@@ -2,7 +2,8 @@
 
 The finished game is a seven-tier estate-rise. Tiers run **T0–T6** (0-indexed): v1
 ships **T0–T3 complete** (T0 Estate-tutorial · T1 Estate-full · T2 Village · T3
-Region — the game ends at Region, `outcome: t3done`), with **T4 a stub
+Region — the game ends at Region; the T3-done ending is v1 frontier, no
+outcome token ships yet), with **T4 a stub
 cliff-hanger** (the castle-town / Daikan's-Office first-contact beat) and **T5–T6 a
 roadmap** (the Domain, then Edo). Progression is **sequential per tier** — climb the rungs (Phase 1),
 then grind the estate's pillars (Phase 2), then tier-up (§1.6.4); the tier-gate is

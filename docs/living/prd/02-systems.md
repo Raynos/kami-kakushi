@@ -190,7 +190,8 @@ The convalescence framing of the cold open uses this meter (rest and recover "a 
 hours — he is **not** a bedridden invalid).
 
 **(c) Rough DATA shape.**
-- `Vitals { hp, hpMax, satiety, satietyMax, fatigue }` (derived caps recomputed on load; `satietyMax = base
+- `Vitals { hp, hpMax, satiety, satietyMax }` — no stored `fatigue`; the hurt-body work impairment is
+  the **derived** `lowHpWorkMult` selector (derived caps recomputed on load; `satietyMax = base
   + per-(combat-)level growth`, scaling off the character (combat) level, §2.7/§4.4).
 - Action costs reference a `staminaCost` field; a soft-throttle function maps low satiety → a *rate
   multiplier* on labour/combat speed (never to zero), using the **labour floor** for work and the
@@ -272,9 +273,11 @@ into the house books** at the kura turns surplus to mon. Spend **mon** + materia
 on provisions, gear, crafting, and the estate works. A **small capped provisioning shop** is the **T0 personal coin sink**; the **estate TRADE
 engine** (converting surplus rice/goods to coin via brokers/shops) opens at **T2** — there is **no trade
 engine in T0 or T1**. **Rice and coin are what you grind and spend; koku STANDING and Influence are what
-you become.** A **market-saturation damper** (2.11/2.15) applies **PROGRESSIVELY per-unit** on bulk sales
-— **each unit walks the price down** (legible, un-gameable) — and recovers over in-game days, keeping
-grinding interesting and stopping trade running away (reinforced by the trade ≤ ⅓ cap).
+you become.** A **market-saturation damper** (2.11/2.15) — **PROGRESSIVELY per-unit** on bulk sales,
+**each unit walks the price down** (legible, un-gameable), recovering over in-game days, stopping
+trade running away (reinforced by the trade ≤ ⅓ cap) — is **T2 frontier, riding the trade engine;
+NOT built in T0**: the shipped T0 mon soft-cap is Yohei's finite per-visit purse + per-item stock
+caps (`content/market.ts`).
 
 **(c) Rough DATA shape.**
 - `ResourceDef { id, name, kind ('currency'|'rice'|'material'|'food'|'fibre'|'ore'…), revealPredicate,
@@ -291,7 +294,9 @@ grinding interesting and stopping trade running away (reinforced by the trade �
   the season-exit pipeline — ADR-163), so stored rice is not free/unbounded;
   **banked COIN stays uncapped and safe.**
 - `MarketState { perGoodPriceIndex, saturationByGood, recoveryRate, seasonalRicePrice }` — the **per-unit
-  progressive** damper **plus the season-swinging rice price**; numbers → §4.
+  progressive** damper **plus the season-swinging rice price**; numbers → §4. **T2-frontier sketch** —
+  of this, only the season rice price ships in T0 (`RICE_SELL_PRICE_BY_SEASON`, a `balance.ts`
+  constant, not a `MarketState` object).
 - **KOKU standing is NOT a resource.** Pillar values (and the derived koku standing score) live in
   `Influence` (2.16), kept structurally separate from `resources` so trade can never masquerade as
   standing and so koku can never be spent. The **Estate & Wealth pillar value is DERIVED** — summed

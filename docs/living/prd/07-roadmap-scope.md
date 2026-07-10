@@ -1,14 +1,15 @@
 # §7 — v1 Scope, Deployment & Risk
 
 §7 is the **definitive statement of what v1.0.0 ships** — the locked scope across
-the four tiers **T0–T3**, the pacing floor, the deployment path to itch.io, and the
+the four tiers **T0–T3**, the pacing floor, the deployment path (GitHub Pages via
+`/ship`; itch.io secondary), and the
 risk posture. It references the other sections by number and **defers all magnitudes
 to §4**; the ordered build sequence lives in the living
 [`roadmap.md`](../roadmap.md).
 
 **Cross-cutting invariants** (specified in full across §§1–6, gathered here): the
 game is **pure-core / deterministic** — one seed with per-named-stream persisted
-cursors `{ seed, cursors: { combat, loot, seasonal, worldgen } }` plus a stateless
+cursors `{ seed, cursors: { combat, loot, seasonal, worldgen, discovery } }` plus a stateless
 day-keyed weather/lunar derivation (derived-not-stored) and integer-only core math,
 so a fixed seed replays byte-identically across engines (§6.1, §6.2, §6.7, §6.7.1).
 v1 is **active-only — NO idle/offline layer**; with the tab **OPEN**, a tick-driven
@@ -37,7 +38,8 @@ fails on **undershoot only** (§7.1.2).
 2. **§7.2 Milestone roadmap** — a pointer to the living
    [`roadmap.md`](../roadmap.md), which owns the ordered build sequence (the single
    source).
-3. **§7.3 Deployment** — the static itch.io build, the multi-backend + export/import
+3. **§7.3 Deployment** — the gh-pages `/ship` train + the static itch.io
+   build, the multi-backend + export/import
    save path, the bundled asset set, the About/Credits + license + content
    descriptors, and the `pnpm run verify` release gate.
 4. **§7.4 Risk register + scope-risk posture** — the top risks, the gates that catch
@@ -195,8 +197,10 @@ locked scope & shape; the roadmap wins on sequence.**
 ## §7.3 Deployment & assets
 
 **No backend. Fully static.** Per §6.1: `vite build` emits a static `dist/` (a
-**single HTML bundle** + hashed JS/CSS + the **bundled asset set**, §7.3.1), zipped
-(contents-at-root) and uploaded to **itch.io**.
+**single HTML bundle** + hashed JS/CSS + the **bundled asset set**, §7.3.1). The
+**shipped primary deploy is GitHub Pages via `/ship`** (automated, git-tagged —
+§6.1); the **itch.io channel is the secondary path** — the same bundle zipped
+(contents-at-root) and uploaded by hand per the checklist below.
 
 - **Static itch.io build.** `pnpm run build:itch` = `vite build` + zip **the
   *contents* of** `dist/` (so `index.html` sits at the **archive root**, never

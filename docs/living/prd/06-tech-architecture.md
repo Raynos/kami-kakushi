@@ -144,7 +144,7 @@ src/scripts/       ← the repo's dev/verify/gen scripts (gates.ts owns the veri
 src/sim/           ← the ADR-132 balance sim (personas, envelopes) — pure-core consumer.
 src/telemetry/     ← FB-8 attended-time telemetry (DEV; drops to project/telemetry/).
 src/fixtures/      ← FB-6 generated scenario saves (specs.ts → saves/*.json).
-src/tests/e2e/     ← the Playwright mobile lane.
+src/tests/e2e/     ← the Playwright e2e lane (2 mobile profiles + a desktop project).
 ```
 
 *(The canonical directory map is [`docs/repo-map.md`](../../repo-map.md); this
@@ -161,7 +161,7 @@ The lint boundary rule (§6.1) makes a violation a build failure, not a code-rev
 | `core/state` | The `GameState` type, `createInitialState(seed)`, and the **stored vs. computed** split (§6.4). | yes |
 | `core/intents` | The typed `Intent` union (every player verb) + `reduce(state, intent) -> state` — the action reducer. | yes |
 | `core/step` | `tick(state, dtTicks) -> state` — the deterministic clock advance (whole-integer ticks) + the per-tick / per-day / per-week / per-reckoning scheduler. | yes |
-| `core/rng` | The **one** seeded RNG: **splitmix64**, persisted as **per-named-stream cursors** `{ seed, cursors: { combat, loot, seasonal, worldgen } }` (NOT a single counter, NOT child-RNGs-by-splitting). Pure `next(rng, stream) -> [value, rng']`; helpers (`int`, `chance`, `pick`, `weighted`) thread the advanced cursor back into `GameState`. **Plus** a pure **stateless day-keyed** helper `deriveDayKeyed(seed, 'weather'|'festival', day)` for weather/festival rolls, and a pure `lunarPhase(day)` **ephemeris** (real ~29.5-day cycle, no RNG) — both derived on read, **NOT** a persisted cursor (§6.7/§6.7.1). | yes |
+| `core/rng` | The **one** seeded RNG: **splitmix64**, persisted as **per-named-stream cursors** `{ seed, cursors: { combat, loot, seasonal, worldgen, discovery } }` (NOT a single counter, NOT child-RNGs-by-splitting). Pure `next(rng, stream) -> [value, rng']`; helpers (`int`, `chance`, `pick`, `weighted`) thread the advanced cursor back into `GameState`. **Plus** a pure **stateless day-keyed** helper `deriveDayKeyed(seed, 'weather'|'festival', day)` for weather/festival rolls, and a pure `lunarPhase(day)` **ephemeris** (real ~29.5-day cycle, no RNG) — both derived on read, **NOT** a persisted cursor (§6.7/§6.7.1). | yes |
 | `core/combat` | The deterministic, fixed-step auto-battler. **Feeds the character (combat) `level` track** (combat-XP from kills → `character.level`) and the **equipped weapon-line skill**; reads **per-mob `MobDef.level`**, **graded durability bands** on attackPower/defense, the **`satietyRate`** combat throttle on attackPower, and a **clean retreat**. Resolution uses the **5-attribute (STR/AGI/INT/SPD/LUCK) + accuracy/evasion** model (§4.6). Drives the **staggered reveal** of the stance / ability / item slots over a **bigger weapon roster** (~9–10 across v1; each an archetype + signature ability — §4.6.9). The interactive, resumable mid-fight layer (`CombatEncounterState`) is a **FORWARD-TIER (T1/T2)** depth layer; T0's spine is atomic auto-resolve (§6.4.1). Stepped by `core/step`. | yes |
 | `core/economy` | Producers, costs, resource flows (the **coin + rice** spine — rice is a REAL resource you EAT (satiety) / STORE in the kura (storing rice now carries a **holding cost** — spoilage/cap/fee, mechanism TBD, ADR-118) / SELL for coin at a **season-swinging price**; **coin (base unit mon 文) is the sole spendable currency** — all market/estate/repair costs are coin; the capped Estate & Wealth sub-engines: land / treasury / trade incl. the silk *meibutsu*, trade **≤⅓**-capped). Holds the **market-saturation** damper (the only non-derivable economy state; §6.4). **Koku is NOT here** — it is the House's assessed STANDING (`core/influence`), never a spendable/producer resource. | yes |
 | `core/skills` | Per-skill XP curves, per-event caps, visibility thresholds, milestone web. **Each skill (labour included) carries a per-skill PERKS track** (~2–8 perks / small flat combat bonuses, unlocked by leveling that skill) — the **bounded labour→combat channel**. The real bound is **incremental skill unlock** (skills reveal per rung/tier) + small per-perk magnitudes (the §6.6 verifier asserts *each perk* is small — **not** `== 0`, **not** a single global cap). **Conditioning stays the ZERO-stat enablement gate** (weak→capable), orthogonal to and never bypassed by these perks. | yes |
@@ -290,7 +290,7 @@ were away"); the unattended auto-resolve/auto-repeat runs **only while the tab i
 ## 6.4 GameState — stored vs. computed
 
 > **Illustrative sketch — the SHIPPED tree is `src/core/state.ts`
-> (SCHEMA_VERSION 8).** Material divergences from the block below: the ADR-137
+> (SCHEMA_VERSION 10).** Material divergences from the block below: the ADR-137
 > requirement model stores `rung` + `rungReqs` (the `ranks[tier]`
 > estateService/combatRank meters never shipped); `season` + `seasonsPassed`
 > ARE stored (ADR-153); the `discovery` RNG cursor and `discovered` latches

@@ -1,6 +1,6 @@
 # PRD/story-bible truth-sync vs `src/` — independent verification
 
-**Date:** 2026-07-10 · **Session:** s140 (this session) · **Scope:** the ADR-168
+**Date:** 2026-07-10 · **Session:** s141 (this session) · **Scope:** the ADR-168
 truth-sync commits (`46f5cb9` T1, `a45d200` T2a, `439096f` T2b+P) — does the
 shipped game in `src/` match what the freshly-rewritten PRD + story-bible now
 claim?

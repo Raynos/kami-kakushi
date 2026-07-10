@@ -48,3 +48,26 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
   `src/sim/envelopes.ts` names this item and deletes with it.
 - **Resolution:** _(open)_
 
+### HD-36 🔲 [R7 · story canon] — Munemasa speaks on-screen in T0, against the synced canon
+
+- **Question / fork:** two shipped R7 house-standing flavor lines
+  (`src/core/content/narrative/requirements.md:240,250` → compiled into
+  `requirements.gen.ts`) have `{lord}` = Munemasa speaking — "says from the
+  veranda" — while the freshly-synced canon says he is "a voice through a
+  wall, **never met in T0**; his one scene is T1's capstone"
+  (`story-bible/tiers/t0.md:177`, `04-cast.md:188`, `prd/05-narrative.md:47`).
+  The source's G4.1 flag deferred these pre-reboot lines to a re-derivation
+  pass under HD-30 — but HD-30 closed 2026-07-09 (RUN & BUILT, HR-17) without
+  touching them, so the contradiction is now uncovered (found by the s141
+  src-vs-PRD verification sweep; report:
+  `project/audit/reports/2026-07-10-prd-truth-sync-src-verification.md`).
+- **Options:** (a) re-derive the two lines via narrative-diverge (ADR-139) so
+  the R7 beat lands without staging the lord — canon holds · (b) amend the
+  bible: Munemasa may be *heard* (still unseen) at the R7 threshold, his
+  first *scene* stays T1 — lines stay · (c) accept as-is.
+- **Recommendation:** **(a)** — the bible is the human-signed canon, and
+  "from the veranda" stages him *visually*, which even (b) can't absorb; two
+  flavor lines are a cheap ADR-139 unit. Whoever executes should also repoint
+  the stale "(HD-30)" flag at `requirements.md:24` to this item.
+- **Resolution:** _(open)_
+
