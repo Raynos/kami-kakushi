@@ -31,3 +31,14 @@
   + hunger daily-cycle), queued for reading, NOT built (human ruling).
 - FB-343 💬 — eat-rice stays a zone action for now; its re-home is a named
   Phase-0 ruling in the body-split plan.
+- FB-338/FB-342 💬 — F-entries logged pointing at the ADR-177 rulings (estate
+  plan owns the builds); sidecars stamped with the ruling commit.
+- All 9 lane sidecars stamped done; the r1 bucket archived (every sidecar in
+  it done, incl. the log-panel + work-actions lanes' items); claim released.
+
+## Next intended steps
+
+- The body-split plan awaits the human's Phase-0 rulings (reading queue).
+- HR-27-adjacent: none — the drain surfaced no new HR items; the four forks
+  were ruled in-session via AskUserQuestion.
+- pending/ is EMPTY — the whole inbox is drained.
