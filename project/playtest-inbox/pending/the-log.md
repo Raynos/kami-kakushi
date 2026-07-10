@@ -126,3 +126,13 @@ The Now having next text should also change the background color of the button, 
 **Details:** `the-log/2026-07-10T18-27-58.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-331 · 2026-07-10T18:31:03+0200 — same-issue-the-chat
+
+same issue, the chat text i already read in VN is scrolling here.
+
+**Element:** panel "log" — "— with Genemon · The day-hand promotion —Nameless: "Why keep" · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(10)` · @942,550 493×57
+**Screenshot:** `the-log/2026-07-10T18-31-03.png`
+**Details:** `the-log/2026-07-10T18-31-03.json` — save + recent logs + full context
+
+---
