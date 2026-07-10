@@ -60,3 +60,13 @@ Continue button feels placed a bit small and off center, I think we can add more
 **Details:** `cold-open/2026-07-10T11-37-24.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:37:43+0200 — also-i-think-the
+
+Also i think the continue button can be a bit larger, and font size a bit larger.
+
+**Element:** button "Continue" — "Continue" · `div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > button` · @890,305 71×33
+**Screenshot:** `cold-open/2026-07-10T11-37-43.png`
+**Details:** `cold-open/2026-07-10T11-37-43.json` — save + recent logs + full context
+
+---
