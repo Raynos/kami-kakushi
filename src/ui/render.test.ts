@@ -2300,6 +2300,25 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
     // the reason is VISIBLE on the sheet (the 険 caption), never a dead grey box.
     expect(nav.textContent).toContain(`Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`);
   });
+
+  it('FB-341 — a revealed seal beyond one step is INERT: no travel wiring, no walk', () => {
+    const { seen, render } = spyRender();
+    // at the gate the ONLY neighbour is the forecourt — the woodshed, though revealed,
+    // is two hops away and must read disabled (aria-disabled, no button role, no
+    // pointer), not clickable-but-dead.
+    render(at('gate', ['room-gate', 'room-woodshed']), null);
+    openMapTab();
+    const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
+    const far = nav.querySelector<HTMLElement>('[data-far="woodshed"]');
+    expect(far).not.toBeNull();
+    expect(far!.getAttribute('aria-disabled')).toBe('true');
+    // never wired as a travel control — role=button + the pointer cursor are wireTravel's.
+    expect(far!.getAttribute('role')).toBeNull();
+    expect(far!.style.cursor).not.toBe('pointer');
+    // …and clicking it walks nowhere.
+    far!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(seen.some((i) => i.type === 'move_to')).toBe(false);
+  });
 });
 
 // ── FB-111 · the "Chat" log tab — the OPTIONAL Q&A you chose to ask, split off from the MANDATORY

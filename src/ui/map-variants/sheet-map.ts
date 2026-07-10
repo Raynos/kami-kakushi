@@ -118,10 +118,10 @@ const CSS = `
   .sheetmap-kanji { font-family:var(--font-head); font-size:46px; fill:var(--ink); }
   .sheetmap-caption { font-family:var(--font-body); font-size:30px; fill:var(--ink);
     paint-order:stroke; stroke:var(--steel-1); stroke-width:6px; stroke-linejoin:round; }
-  .sheetmap-node { cursor:pointer; outline:none; }
+  .sheetmap-node { outline:none; }
   .sheetmap-node[data-locked] { cursor:not-allowed; opacity:0.62; }
-  .sheetmap-node:not([data-locked]):hover .sheetmap-sealbox,
-  .sheetmap-node:not([data-locked]):focus-visible .sheetmap-sealbox {
+  .sheetmap-node[role="button"]:hover .sheetmap-sealbox,
+  .sheetmap-node[role="button"]:focus-visible .sheetmap-sealbox {
     stroke:var(--gold-hi); stroke-width:3; }
   .sheetmap-fog { font-family:var(--font-head); font-size:34px; fill:var(--ink-faint); }
   .sheetmap-gate-why { font-family:var(--font-body); font-size:22px; fill:var(--ink-faint); }
@@ -211,6 +211,12 @@ export function renderMapSheet(
           `険 — ${ctx.gateReason}`,
         ),
       );
+    } else if (!here) {
+      // FB-341 — revealed but beyond one step: INERT. The pointer cursor + gold
+      // hover belong to wireTravel'd seals only; a far seal must read disabled,
+      // never clickable-but-dead (its dim silver-wire stroke stays as drawn).
+      asHtml.dataset.far = node.id;
+      asHtml.setAttribute('aria-disabled', 'true');
     }
   }
 
