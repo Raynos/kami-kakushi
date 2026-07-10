@@ -107,6 +107,13 @@ grammar form + intro retags (FB-198), the fresh-divider made anchored + 30s
   the vitest unhandled-error push blocker were both relayed to w6:p2 and
   resolved same-session.
 
+## HR-22 closed — asagi sky locked
+
+- The human locked **A · asagi sky #8ec9ff** same-session ("lock in asagi
+  sky") — already the shipped token, so the close is pure cleanup: the DEV
+  Story swatch trio stripped from dev.ts (zero flag-debt), HR-22 →
+  archive.md. Git history keeps swatches B/C.
+
 ## Next intended steps
 
 - The human reads the HD-37 plan → step 1 (mechanical restore) can start on
