@@ -34,3 +34,13 @@ we want all of that which belongs together to fit togeth.
 **Details:** `the-log/2026-07-10T18-19-38.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-317 · 2026-07-10T18:20:17+0200 — each-card-section-needs
+
+Each card section needs a unique name and better grouping, its not clear to me.
+
+**Element:** panel "log" — "— the cold open —Water, above and below. What surfaces is co" · `section[data-panel=log] > div:nth-of-type(1)` · @935,128 507×525
+**Screenshot:** `the-log/2026-07-10T18-20-17.png`
+**Details:** `the-log/2026-07-10T18-20-17.json` — save + recent logs + full context
+
+---
