@@ -40,3 +40,13 @@ hmm i think i did see that it changed, like the rasterize is not perfect.
 **Details:** `feedback-ui/2026-07-10T18-55-10.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-349 · 2026-07-10T18:55:24+0200 — yeah-all-the-text
+
+Yeah all the text was lost during the rasterization.
+
+**Element:** panel "do" — "The estate 地図You stand at the home paddy & vegetable rows 田T" · `section[data-panel=do] > div:nth-of-type(7)` · @136,99 763×766
+**Screenshot:** `feedback-ui/2026-07-10T18-55-24.png`
+**Details:** `feedback-ui/2026-07-10T18-55-24.json` — save + recent logs + full context
+
+---
