@@ -3219,3 +3219,31 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   signs off. Estate tab R1→R6 + Inventory R3→R4 are pacing-visible moves owned
   by Phase 2 step 1. FB-338/FB-342's r1-lane sidecars still owe drain stamps.
   Per **ADR-022**, governs; supersedes the HR-9/HR-11 interim as direction.
+
+### ADR-178 ✅ — The body split rules Option C: Body 体 (stamina) + Belly 腹 (hunger), slow-only in T0 (Phase 0 of the body-split plan)
+- **created_date:** 2026-07-10
+- **Context:** FB-345 read the merged `satiety` store as TWO ideas wearing one
+  bar ("theres a bar for hunger and energy from food / And a bar for stamina
+  and how much you can work"); FB-334/FB-335 flagged the same surface. The
+  plan (`docs/plans/fable-2026-07-10-body-split-hunger-stamina.md`) framed
+  four Phase-0 forks; the human ruled all four in one AskUserQuestion round
+  (2026-07-10).
+- **Decision:** **(1)** Build **Option C** — `stamina` is the per-act
+  short-cycle fuel (today's satiety, numbers unchanged); `hunger` is a NEW
+  slow daily-cycle store food maintains, coupled only through a rest-quality/
+  rate multiplier. **(2)** Display names are canon: **Body 体** (the work/
+  stamina bar) + **Belly 腹** (the food/hunger bar) — internal field names
+  never surface (FB-334's law). **(3)** Hunger **only slows** in T0 — no
+  starvation death; a later tier (T1+) is explicitly *allowed* to add
+  starvation consequences. **(4)** FB-343 re-home: the food verbs (eat, cook)
+  **move to the Inventory tab** once Schedule A (ADR-177) lands; zones stop
+  carrying them.
+- **Why:** Option C honors the human's read (two bars on two clocks) without
+  re-tuning T0's act economy (ADR-172 stands) and leaves the eating-mends-HP
+  coupling untouched (ADR-050/ADR-076). Slow-only keeps T0 gentle while
+  pre-authorizing later-tier teeth. The Inventory re-home follows Schedule A's
+  one-home law (TST1).
+- **Consequences:** The plan's Phases 1–3 are startable in order (core model
+  test-first → two-bar header UI → ADR-132 balance verdict). The plan's
+  non-goal "no starvation death in T0" is confirmed and extended with the
+  T1+ allowance. Phase 2's bar naming is settled — no naming diverge needed.

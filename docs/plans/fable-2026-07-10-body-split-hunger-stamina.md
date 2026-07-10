@@ -1,8 +1,9 @@
 # The body split — hunger vs stamina as two legible stores
 
-**Status:** 📋 PROPOSED — authored from the r1 inbox drain (FB-345 ruling:
-_"Come up with a full on plan and schedule it in docs/plans/ but dont build
-it"_). Nothing here is built; Phase 0 is the human's ruling pass.
+**Status:** 🔒 LOCKED — Phase 0 ruled (2026-07-10, ADR-178) — Option C · Body 体 +
+Belly 腹 · hunger only slows in T0 (starvation consequences allowed T1+) ·
+food verbs re-home to the Inventory tab once Schedule A lands. Phases 1–3 are
+startable in order; nothing is built yet.
 **Confidence:** ( 30% Opus, 70% Fable ) — the load-bearing work is the design
 ruling + the balance re-tune feel (Phases 0/3); the core-model mechanics and
 UI transcription (Phases 1–2) are Opus-safe once ruled.
@@ -71,10 +72,13 @@ re-tuning every act cost in T0 (ADR-172 pacing stands), and it keeps the
 
 ## Phases (build order after Phase 0 rules)
 
-1. **Phase 0 — rulings (human):** pick A/B/C; name the two bars (body 体 +
-   what — belly 腹? provisions?); rule whether hunger can kill or only slow
-   (recommend: only slow, T0); rule the FB-343 re-home (do food verbs move to
-   the future Inventory tab once Schedule A lands, or stay zone actions?).
+1. **Phase 0 — rulings (human):** ✅ RULED 2026-07-10 (AskUserQuestion round,
+   ADR-178): **(1)** Option **C** — stamina short-cycle + hunger daily-cycle;
+   **(2)** display names **Body 体** (work/stamina) + **Belly 腹** (food/
+   hunger) — canon per FB-334's law; **(3)** hunger **only slows** in T0
+   (rest-quality/rate multiplier); a later tier (T1+) is *allowed* to add
+   starvation consequences; **(4)** FB-343: food verbs (eat, cook) **move to
+   the Inventory tab** once Schedule A lands — zones stop carrying them.
 2. **Phase 1 — core model (test-first, tdd skill):** the ruled store(s) +
    drain/refill in `step.ts`/`intents.ts`, selectors mirroring
    `satietyMax`/`staminaRate`, save-schema migration, autoplay/defeat
