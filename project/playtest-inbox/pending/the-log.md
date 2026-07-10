@@ -36,3 +36,13 @@ What if we used a white here, or even a bright white for narrator story text ?
 **Details:** `the-log/2026-07-10T14-19-48.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-308 · 2026-07-10T15:22:47+0200 — the-geneomon-flavor-text
+
+The geneomon flavor text is not indented correcly.
+
+**Element:** panel "log" — "Genemon: "So you put your hands to it. Rake what grain is st" · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(30)` · @942,489 493×96
+**Screenshot:** `the-log/2026-07-10T15-22-47.png`
+**Details:** `the-log/2026-07-10T15-22-47.json` — save + recent logs + full context
+
+---
