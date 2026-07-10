@@ -52,3 +52,13 @@ Feedback UI has some kind of really bad perf issue in it, it's not smooth at all
 **Details:** `feedback-ui/2026-07-10T12-20-46.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T12:21:14+0200 — yeah-the-delay-between
+
+Yeah the delay between clicking the select element and the text box section opening is too long, there's something borked here.
+
+**Element:** nav.nav — "WorkMap 地図Estate 家" · `div:nth-of-type(2) > nav` · @29,81 86×635
+**Screenshot:** `feedback-ui/2026-07-10T12-21-14.png`
+**Details:** `feedback-ui/2026-07-10T12-21-14.json` — save + recent logs + full context
+
+---
