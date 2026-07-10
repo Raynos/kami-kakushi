@@ -80,3 +80,13 @@ test rasterize.
 **Details:** `feedback-ui/2026-07-10T18-57-10.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-354 · 2026-07-10T19:05:16+0200 — test
+
+test
+
+**Element:** panel "do" · `div > svg > g:nth-of-type(1) > rect` · @53,153 1019×667
+**Screenshot:** `feedback-ui/2026-07-10T19-05-16.png`
+**Details:** `feedback-ui/2026-07-10T19-05-16.json` — save + recent logs + full context
+
+---
