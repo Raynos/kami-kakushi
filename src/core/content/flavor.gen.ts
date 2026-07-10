@@ -268,4 +268,196 @@ export const FLAVOR = {
     'The road bends toward the gate again — a favor asked of the house, a cart that slows without needing anything. The valley has resumed expecting things of it.',
   judgeLineExcellent:
     'The season closes on a house the valley measures by once more: its name given first in any accounting of names, as it was given in years nobody thought would come back.',
+  nodeWeirRiverbankBlurbWinter:
+    'The weir screens still want keeping whole, and the mending does not wait for a kinder month: bare arms in river water that aches to the bone.',
+  nodeWeirReedsBlurbWinter:
+    'The shallows above and below the weir, reeds dead and standing past the waist. Winter is their one harvest — dead reed cut dry for thatch and screen-mending — and the rats gnaw on regardless; the coin owed for a gnawed screen does not freeze.',
+  nodeGateGateyardBlurbWinter:
+    "The estate's face, kept barely, kept anyway: snow is swept from between the gateposts before anyone can see it lying there. Yohei's stall still comes on market days, smaller, and leaves while there is light to walk home by.",
+  nodeForecourtBlurbWinter:
+    "The outer court of the guest house, where the day's work is set out and seen to — set out in the dark now, the days being what they are, and often finished in it. Genemon's lamp is lit before the sky is; what is done here still gets written down.",
+  nodeWoodshedBlurbWinter:
+    "A mat, a chipped bowl, a nail for the coat, in the lean space between woodpiles — and the piles are the winter's work made visible, burned down armload by armload. The widening of your corner is the one count on the estate that runs your way.",
+  nodeKitchenThresholdBlurbWinter:
+    'Meals at the threshold, on the outer side of the sill, and the board within has its winter work too: portions set against what the kura still holds, your share discussed before it reaches you. The bowl is best eaten while it steams.',
+  nodeShrineCorridorBlurbWinter:
+    'A family altar set into a corridor, and the rites keep winter hours: the water bowl changed before it can freeze, the morning offering set by someone whose breath shows. You pass with the wood; you are not asked to put it down.',
+  nodeKuraBlurbWinter:
+    "The working storehouse, and winter is its narrowest season: nothing comes in, everything goes out, and the counting tightens with the pile. The grain-watch's stool stays by the iron-strapped door; cold is not entered in the book.",
+  nodeSickroomBlurbWinter:
+    "The lean-to surgery off the outer court. Winter is Sōan's working season: coughs come up from the village, split hands come in from the woodpile, and the pallet you woke on is rarely cold for long.",
+  nodeDrillYardBlurbWinter:
+    "The old stable court, Kihei's ground, and winter does not adjourn it: forms walked into the snow at first light, the yard scraped clean after, both in his order. The stave is warmed only by the hands on it.",
+  nodeHomePaddyBlurbWinter:
+    "The guest house's skirts, the paddy and the rows that pay for everything else. Winter lays the fields off — stubble, frost, the water let out — and moves their work indoors: the tools that will open them again are mended now or not at all.",
+  nodeFieldMarginsBlurbWinter:
+    "Setts at the paddy's edge — tanuki, badger — leaner now and bolder for it. The drying racks stand empty, so the whole winter watch is the seed store: what gets through to that gets through to spring.",
+  nodeWoodlotEdgeBlurbWinter:
+    "Kindling and forage country past the last fence, and in winter the estate's real employer: everything that burns comes out of it on somebody's back, mostly yours. A hundred paces in, the sound of the estate stops — sooner, with snow down.",
+  nodeRuinedCompoundBlurbWinter:
+    'Beyond the rope and the written warning: roofs down, the great gate across its own step, the ground the house calls waste. Winter finds work for every corner of the estate except this one — the snow in there lies untrodden, and nobody is sent to change that.',
+  nodeOvergrownOrchardBlurbWinter:
+    "The old orchard gone wild, the bramble stripped to wire by the cold, a winter's worth of deadwood standing in it. Nobody is sent to cut it: the dogs den in the hollow, and this is their hungry season.",
+  nodeBambooGroveBlurbWinter:
+    'Green dark behind the waste ground — the one green the season leaves standing, and its felling month: bamboo cuts best with the sap down, while the loaded stems crack overhead all night. The monkeys raid nearer the kitchen now the rows are done.',
+  nodeWeirRiverbankBlurbNewyear:
+    "In the year's first days the river runs low, clear, and quiet over the weir's sill, ice skinning the flat water below. The cold stands off the current like a wall.",
+  nodeWeirReedsBlurbNewyear:
+    "The shallows above and below the weir, the reeds standing dead and pale past the waist, hissing dry when you push through. Frost crusts the margin mud, and under it the rat-runs to Matsuzō's leased screens stay open in any cold.",
+  nodeGateGateyardBlurbNewyear:
+    "You smell the estate's face before you see it this week: cut pine, green and resin-sharp against the grey of the old gateposts. The ground inside is swept black against the frost.",
+  nodeForecourtBlurbNewyear:
+    "The outer court of the guest house, frozen hard enough that every footfall carries; the day's work is still set out here, breath showing over it. Genemon's window is lit early and late while the new year's book is opened — what is done out here goes into it.",
+  nodeWoodshedBlurbNewyear:
+    "A lean space between the woodpiles, where the stacks hold the night's cold off you like the walls of a better house. It smells of split wood and frost.",
+  nodeKitchenThresholdBlurbNewyear:
+    "Meals come to the threshold as ever, on the outer side of the sill, but in these first days the air through the doorway is thick with the board's new year — steam, sweet rice, a fire built higher than any working night. The warmth reaches exactly as far as the sill.",
+  nodeShrineCorridorBlurbNewyear:
+    'A family altar set into a corridor, met in passing as always — but this week it meets you back: fresh incense on the cold air, white rice-cakes new since morning, the lamp-flame standing dead still in the chill. You are still not asked to stop.',
+  nodeKuraBlurbNewyear:
+    "The working storehouse, its iron strapping furred white by morning, the good lock cold enough to bite bare fingers. The year opens on a count in there — rice carried in and out against the new book — and the grain-watch's stool keeps its post beside the door.",
+  nodeSickroomBlurbNewyear:
+    'The lean-to surgery off the outer court — brazier lit, moxa and charcoal warm on the air, the one doorway on the estate that breathes heat out into the cold.',
+  nodeDrillYardBlurbNewyear:
+    "The old stable court, swept bare and frozen so hard it rings under a heel. Kihei's ground keeps Kihei's order in any weather; in this one the stave stings the palms, and the breath of the work hangs after the work is done.",
+  nodeHomePaddyBlurbNewyear:
+    "The guest house's skirts at rest: grey ice skins the paddy water, and only the winter rows — daikon under straw — still want hands. The mud is iron all morning and mud again by noon, and the new year will be paid for from here like the old one.",
+  nodeFieldMarginsBlurbNewyear:
+    "The setts at the paddy's edge, and this is the season they can be read: every night's traffic printed in the frost by morning. The drying racks stand empty, so the tracks walk past them — it is the seed store they point at.",
+  nodeWoodlotEdgeBlurbNewyear:
+    'Kindling and forage country past the last fence, where the cold gives the quiet edges: a branch cracking anywhere on the slope arrives whole. Bare wood, low sun through it, your own breath the loudest thing working.',
+  nodeRuinedCompoundBlurbNewyear:
+    'Beyond the rope, the waste ground keeps its own weather — frost lying unbroken on the fallen roofs all day, blue in the shadow of the quarried walls, printed by nothing but the dogs. The whole valley has dressed its gates this week; the great gate lying across its own step wears frost.',
+  nodeOvergrownOrchardBlurbNewyear:
+    'The old orchard gone wild, stripped by the cold to black bramble and bare wands, the last windfalls frozen sweet-rotten underfoot. The dogs denned in the hollow are leanest now, and boldest — their breath shows before they do.',
+  nodeBambooGroveBlurbNewyear:
+    'Green dark behind the waste ground — the one growth on the estate the cold cannot strip — and louder for the season, the frost-stiff stems knocking and squealing in every gust. The monkeys keep to the canopy; Shinnosuke is forbidden the grove, and the frost at the path-fork keeps his prints, going in.',
+  nodeWeirRiverbankBlurbSpring:
+    "Thaw-water stands hard against Matsuzō's leased weir — the sill buried, the whole bank one cold noise, spray finding you at ten paces. They pulled you out of this river when it was gentler than it is now.",
+  nodeWeirReedsBlurbSpring:
+    "The reed shallows are under the melt: old stems flattened, this year's green just pricking the surface. Reaching the leased screens the rats gnaw is an arm in snow-water to the shoulder.",
+  nodeGateGateyardBlurbSpring:
+    "The estate's face, and in spring the face is mud — the swept ground gone to ruts that hold water to the ankle. On market days Yohei lays boards inside the posts and sets his stall on those.",
+  nodeForecourtBlurbSpring:
+    "The outer court where the day's work is set out has come up out of winter heaved and puddled, and the morning rake fights the thaw for it. Genemon's window stands open to the first mild air — which means it stands open to everything below it.",
+  nodeWoodshedBlurbSpring:
+    'Winter has eaten the piles down to daylight; the shed stands brighter and barer than you have known it, and smells of wet bark. The mat, the bowl, the nail keep — and the nights no longer bite through the one blanket.',
+  nodeKitchenThresholdBlurbSpring:
+    "Meals still come to the outer side of the sill, but the door stands open now on the mild evenings, and the board's talk — seed counts, planting order — walks out over you whether the household means it to or not. The stone under you has finally lost its cold.",
+  nodeShrineCorridorBlurbSpring:
+    'The corridor altar keeps its rites in passing, as ever; spring reaches it as a longer bar of light down the boards and something new-cut and green among the offerings. The passage stays the coldest air in the house.',
+  nodeKuraBlurbSpring:
+    "Planting turns the working storehouse inside out: the iron-strapped door stands open more mornings than shut, and the opened dark breathes last year's grain — dust, straw, stone-cold — into the first warm air. The counting does not soften with the weather.",
+  nodeSickroomBlurbSpring:
+    "Sōan has the lean-to surgery open to air for the first time since you woke in it — the pallet out in the sun, winter's moxa smell thinning, the year's first green cuttings drying in the drawer-trays.",
+  nodeDrillYardBlurbSpring:
+    "The old stable court thaws from the top down and goes soft underfoot by mid-morning; a boot-print taken now is kept a week. Drill moves to the hard ground along the stalls, in Kihei's order, like everything else here.",
+  nodeHomePaddyBlurbSpring:
+    "The paddies are flooding for the planting: cold water over the shins from first light, seedbeds greening at the margins, frog-song after dark where winter kept silence. The whole year's ledger stands in it.",
+  nodeFieldMarginsBlurbSpring:
+    'Fresh-turned earth at the setts — tanuki and badger are awake, and the seed rice standing out for the planting is the easiest meal of their year. The margins smell of opened burrow and cold mud.',
+  nodeWoodlotEdgeBlurbSpring:
+    "The forage country past the last fence wakes first: green out here beats the garden rows by a fortnight, and melt-water runs loud in every fold of the ground. A hundred paces in, the estate's sounds end and the water's begin.",
+  nodeRuinedCompoundBlurbSpring:
+    "Beyond the rope, spring comes up through the fallen roofs anyway — grass in the broken tiles, green along the downed gate, thick where no one tends it. The written warning has wintered better than the house's paint.",
+  nodeOvergrownOrchardBlurbSpring:
+    "The old orchard blossoms over its own ruin — full white crowns above the shoulder-high bramble, sweet enough to smell from the fence line. The dogs have whelped in the hollow, and Kihei's word on the dogs' yard this season is one word: don't.",
+  nodeBambooGroveBlurbSpring:
+    'Shoot season in the green dark: new bamboo comes up a hand a day, and everything that digs is in after it — the monkeys, the badgers, and Shinnosuke with a spade.',
+  nodeWeirRiverbankBlurbSummer:
+    "Matsuzō's weir, leased, and in the paddies' drinking months the house's whole year runs through it: the screens are walked morning and evening, and the flow over the sill is argued the way other seasons argue coin. The river that gave you up runs low and warm across the stones.",
+  nodeWeirReedsBlurbSummer:
+    "The shallows above and below the weir, the reeds stood head-high with the season and the rats breeding bold in them. Counting Matsuzō's screens is twice-a-day work now, waded warm, and the tally is never nothing.",
+  nodeGateGateyardBlurbSummer:
+    "Swept before the sun clears the hills or not at all. Yohei's stall keeps to the shadow of the gateposts on his days and shortens its hours at both ends.",
+  nodeForecourtBlurbSummer:
+    "The day's work is set out by lamplight in the hot months, so the heavy tasks are done before the ground throws the heat back. By midday the court stands empty under Genemon's window.",
+  nodeWoodshedBlurbSummer:
+    "A mat and a nail between the woodpiles, and in Summer the shed's real work is winter's: what you split in the heat is stacked green now to be dry by the cold. The space under the roof holds the day's warmth long into the dark.",
+  nodeKitchenThresholdBlurbSummer:
+    'Cold rice and pickle, carried out to the sill early, the fire within lit once and briefly. In the hot months the outer side is the cooler seat, and nobody within says so.',
+  nodeShrineCorridorBlurbSummer:
+    "The family altar in its corridor, its rites kept to their hours whatever the heat: the water changed before it warms, the offerings taken in before they turn. That work is other hands'; yours carries you past.",
+  nodeKuraBlurbSummer:
+    "The working storehouse in its leanest season, last year's rice going out by the measured scoop while this year's stands green in the water. The door is opened at first light to air the grain before the damp heat gets a smell into it; the count at the stool is quick, there being little to count.",
+  nodeSickroomBlurbSummer:
+    "Sōan's lean-to surgery, and Summer keeps it busy with the worked-flat: sun-struck hands carried in from the rows, given shade, salt, and a scolding. The herb drawers fill this season faster than they empty — everything he cuts is cut now.",
+  nodeDrillYardBlurbSummer:
+    "The old stable court, Kihei's ground, and his Summer order moves the drill to first light — forms finished in the long shadows before the swept dirt bakes too hot to stand on. The rest of the day the yard lies empty, which is also his order.",
+  nodeHomePaddyBlurbSummer:
+    "The guest house's skirts, and Summer is when the paddy asks the most of a back: weeding between the standing rice, minding water in and water out, leeches at the ankle. No work on the estate outranks this while the rice is green.",
+  nodeFieldMarginsBlurbSummer:
+    "The setts at the paddy's edge, and the season's cover stands so high the tanuki hardly trouble to hide — young in the grass, runs beaten fresh through the green. Watching the rows is a duty now that opens at first light and does not close.",
+  nodeWoodlotEdgeBlurbSummer:
+    "The one work the hot months favor: the shade is out here, and the forage at its thickest. Past the last fence the cicadas take over from the estate's sounds, and you work alone.",
+  nodeRuinedCompoundBlurbSummer:
+    "Beyond the rope, the fallen roofs and quarried walls the house calls the waste ground. No task on Genemon's slate crosses the rope in any season; in Summer only the vines do, taking the downed gate a hand's width at a time.",
+  nodeOvergrownOrchardBlurbSummer:
+    "The wild orchard sets fruit this season for nobody: green plums swelling over the bramble, early windfall souring in the grass, wasps at the sweetness. Picking it is on no one's list of work, and the dogs in the hollow lie flat through the heat.",
+  nodeBambooGroveBlurbSummer:
+    "The green dark behind the waste ground, and Summer is the monkeys' season: the troop works the vegetable rows at first light and last, and standing them off is work now, given out by name. Shinnosuke is forbidden the grove more often, to less effect.",
+  nodeWeirRiverbankBlurbBon:
+    "The river runs low and warm over Matsuzō's weir, and the screens the house keeps whole sit half out of the water. Some nights small lights come down the current from the village and go over the sill without stopping.",
+  nodeWeirReedsBlurbBon:
+    "Reed country past the waist, the mud blood-warm around your ankles and the air ticking with insects. The rats keep at Matsuzō's leased screens whatever week it is; the river is too low to cover the sound of your wading, or theirs.",
+  nodeGateGateyardBlurbBon:
+    "The gateyard swept as ever, the ground hot through your soles by mid-morning, the posts throwing their only shade at the edges of it. All week the road's dust hangs beyond the gate, raised by feet bound for other houses.",
+  nodeForecourtBlurbBon:
+    "The packed ground of the outer court gives back its heat by noon. Genemon's window stands open to the air, and the cicadas do most of the day's talking.",
+  nodeWoodshedBlurbBon:
+    'Between the woodpiles the resin smell thickens all day in the heat, over the mat, the chipped bowl, the nail. At night a drum carries up from the village, small with distance, and the boards tick as they cool.',
+  nodeKitchenThresholdBlurbBon:
+    'Meals come to the sill as ever, taken on the outer side; Bon week the smoke off the fire is of dishes nobody at the board will eat. The talk within runs low, and still goes over you.',
+  nodeShrineCorridorBlurbBon:
+    'The corridor altar is lit at hours it is not usually lit, and the incense stands the length of the passage. You pass through the smoke of it; you are still not asked to stop.',
+  nodeKuraBlurbBon:
+    "The working storehouse keeps its arithmetic through any season — rice in, counted; rice out, counted. By late day the door's iron straps are too hot to lay a hand flat on, and the grain-smell stands in the doorway thick as a second door.",
+  nodeSickroomBlurbBon:
+    'The lean-to surgery off the outer court, herb-drawers sweet in the heat, the smell of moxa sitting in air too still to move it. The door is propped for any wind going; the flies arrive ahead of it, and the pallet you first woke on stands stripped.',
+  nodeDrillYardBlurbBon:
+    "Kihei's ground, the old stable court, white with glare by mid-morning; drill moves to first light, and the dust stays on your lips until the well. Bon's one concession here is the hour.",
+  nodeHomePaddyBlurbBon:
+    "The paddy at the house's skirts, its water warm as the air by mid-morning, the rice standing green and heading; the work is still mud, water, backs. What the house will owe in autumn is growing around your shins.",
+  nodeFieldMarginsBlurbBon:
+    "The setts at the paddy's edge are busiest while the house is at its lanterns: the nights are warm enough to sleep out, and the runs in the margin grass are fresh each morning.",
+  nodeWoodlotEdgeBlurbBon:
+    'The pine shade stands thick past the last fence, the cicadas a solid wall of sound — and this week the axe sounds like the only work left in the valley.',
+  nodeRuinedCompoundBlurbBon:
+    "Beyond the rope, the fallen roofs hold the day's heat into the dark, and the grass over the quarried walls goes loud with crickets by dusk. All week the village lights doorways for its dead; nothing on this side of the rope is lit.",
+  nodeOvergrownOrchardBlurbBon:
+    "The old orchard gone wild, the bramble breathless in the heat, the first windfalls souring sweet underneath — wasp country now. The dogs keep to the hollow's shade through the day and own the rows after dark.",
+  nodeBambooGroveBlurbBon:
+    'Green dark and creaking, the coolest footing on the estate, the smell of wet earth holding out against the heat. The troop raids bolder in Bon than any week of the year, and back in the green one stem sways under more weight than wind — Shinnosuke should be at the lamps.',
+  nodeWeirRiverbankBlurbAutumn:
+    'Mist stands on the leased weir until the sun clears the ridge, and the cold comes off the river before the river is touched. The water runs low and quieter over the sill than you have heard it.',
+  nodeWeirReedsBlurbAutumn:
+    "The reeds have dried to a brown rattle that carries every wind, and the shallows around Matsuzō's screens numb the shins by the second step. The rats work on; the season has not slowed their teeth.",
+  nodeGateGateyardBlurbAutumn:
+    'The gateyard is swept twice as often now, leaves coming over the wall faster than the broom, and by mid-afternoon the low sun lies along the whole length of the bare gateposts. On his market days the stall smells of new straw and new rice.',
+  nodeForecourtBlurbAutumn:
+    "The outer court is laid over with drying mats, and the chaff off them hangs in the light and itches at the collar all day. Genemon's window stands open above the work; nothing crosses the court that is not entered.",
+  nodeWoodshedBlurbAutumn:
+    'The woodpiles either side of the mat have climbed to the eaves, and the shed smells of fresh-split pine day and night. The cold reaches the mat in the small hours; the coat spends less of the day on its nail.',
+  nodeKitchenThresholdBlurbAutumn:
+    "The meal steams where it never used to, the warm bowl against cold hands at the sill. Within, the board's talk has gone all to the year's sum, and none of it crosses to you.",
+  nodeShrineCorridorBlurbAutumn:
+    'The corridor keeps its dusk an hour earlier, and the altar set into it smells of new rice — first of the cut, offered before the house has eaten any. You pass it as always; the passage has gone cold enough to hurry you.',
+  nodeKuraBlurbAutumn:
+    "The smell of new grain stands ten paces from the storehouse door, and the door works all day — rice in, weighed, the good lock turned behind every load. The grain-watch's stool is a cold seat this season, and a more serious one.",
+  nodeSickroomBlurbAutumn:
+    "The year's herbs dry in bunches from the beam, and cutting season keeps the pallet busy — sickle hands, seized backs.",
+  nodeDrillYardBlurbAutumn:
+    "First drill raises breath-steam in the old stable court, and the swept ground has hardened enough to jar the heels through thin soles. Kihei's order stands here whatever the weather does.",
+  nodeHomePaddyBlurbAutumn:
+    "The paddies at the guest house's skirts are down to stubble and drained mud that takes a boot-print and keeps it, and the smell of cut straw sits over the rows from first light. What the house will answer the year with is off these fields, stood in sheaves to be counted.",
+  nodeFieldMarginsBlurbAutumn:
+    "Frost holds on the margin grass past sunrise and prints every night's traffic out of the setts for the morning to read. The drying racks along the paddy's edge stand as full as they will ever be, and nothing that dens here has failed to notice.",
+  nodeWoodlotEdgeBlurbAutumn:
+    'The woodlot past the last fence has let half its leaves down, and light gets in where summer kept it out; everything underfoot is dry enough to snap. Your own steps in the leaf-fall are the loudest thing left.',
+  nodeRuinedCompoundBlurbAutumn:
+    'The dieback shows more of what stands beyond the rope than summer ever let show — fallen roofs, quarried wall-lines running farther back into the grass than one look walks. The cold settles on the waste ground before anywhere else, and the frost there lies unbroken all morning; nothing has crossed it.',
+  nodeOvergrownOrchardBlurbAutumn:
+    'The old orchard smells of windfall gone to vinegar from the fence line on, and past the bramble every step lands soft and wrong on rotted fruit. The dogs are denning fat this year, and no longer trouble to be quiet about it.',
+  nodeBambooGroveBlurbAutumn:
+    'The grove keeps its green while the valley around it goes to stubble-brown, and the air under the stems holds a cellar cold the sun never reaches. The troop strips what the vegetable rows have left, and the creak overhead is the only account of where it went.',
 } as const;

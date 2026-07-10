@@ -6,8 +6,10 @@ import {
   getNode,
   canMove,
   reachableFrom,
+  nodeSeasonalBlurb,
   type MapNodeId,
 } from './map';
+import { SEASONS } from '../constants';
 import { AREAS } from './areas';
 import { T0_NODES } from '../../ui/map-sheets/nodes';
 
@@ -162,5 +164,20 @@ describe('reachableFrom — only revealed neighbours', () => {
 
   it('returns [] for an unknown node', () => {
     expect(reachableFrom('nowhere', ALL_REVEALED)).toEqual([]);
+  });
+});
+
+describe('C5a unit 5 — the per-season node reads (the key contract)', () => {
+  it('every blurbStem resolves a REAL FLAVOR variant for EVERY season (no typo ships dark)', () => {
+    const stems = MAP_NODES.filter((n) => n.blurbStem);
+    expect(stems.length).toBe(MAP_NODES.length); // all 16 breathe by season (C5a scope)
+    for (const n of stems) {
+      for (const s of SEASONS) {
+        const r = nodeSeasonalBlurb(n, s);
+        expect(r.key, `${n.id} has no seasonal read for ${s}`).toBeTruthy();
+        expect(r.text.length, `${n.id}/${s} resolves empty`).toBeGreaterThan(0);
+        expect(r.text).not.toBe(n.blurb); // the variant is a real seasonal read, not the static line
+      }
+    }
   });
 });

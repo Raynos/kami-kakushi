@@ -8,6 +8,7 @@
 // no RNG). Immutable-in/immutable-out; the caller passes a plain `revealed` set.
 
 import { FLAVOR } from './flavor';
+import type { Season } from '../constants';
 
 export type MapNodeId = string;
 
@@ -20,6 +21,11 @@ export interface MapNode {
    *  the ONE source the play card and the survey-sheet detail pane both read (C4.6/TST1).
    *  Absent where none is authored (the woodshed's warmth is earned). */
   readonly wrong?: string;
+  /** The node's FLAVOR key STEM (`nodeWeirRiverbank` …) — C5a unit 5: the per-season
+   *  reads live at `<stem>Blurb<Season>` and `nodeSeasonalBlurb` resolves them (05-world:
+   *  "nodes carry per-season flavor"). Absent ⇒ the static `blurb` serves all year. The
+   *  survey SHEET stays static — a drawn document does not change with the weather. */
+  readonly blurbStem?: string;
   /** Adjacent nodes (symmetric: if A lists B, B lists A — verified by the test). */
   readonly neighbors: readonly MapNodeId[];
   /** The surface/flag that must be in `revealed` before this node is walkable; an
@@ -48,6 +54,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The weir & riverbank',
     kanji: '堰',
     blurb: 'Where the river left him; the weir-jizō stands here.',
+    blurbStem: 'nodeWeirRiverbank',
     wrong: FLAVOR.nodeWeirRiverbankWrong,
     neighbors: ['weir-reeds', 'paddies'],
     rung: 0,
@@ -58,6 +65,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: "Sōan's sickroom",
     kanji: '薬',
     blurb: "A lean-to surgery off the outer court — where the river's gift is carried.",
+    blurbStem: 'nodeSickroom',
     wrong: FLAVOR.nodeSickroomWrong,
     neighbors: ['forecourt'],
     rung: 0,
@@ -67,6 +75,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The forecourt',
     kanji: '庭',
     blurb: "The working heart of the guest house's outer court — the first verb is here.",
+    blurbStem: 'nodeForecourt',
     wrong: FLAVOR.nodeForecourtWrong,
     neighbors: ['gate', 'kura', 'kitchen', 'woodshed', 'sickroom', 'drill-yard', 'paddies'],
     rung: 0,
@@ -76,6 +85,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The kitchen threshold',
     kanji: '竈',
     blurb: "Meals at the threshold; the board where the household's shape is overheard.",
+    blurbStem: 'nodeKitchenThreshold',
     wrong: FLAVOR.nodeKitchenThresholdWrong,
     neighbors: ['forecourt', 'shrine'],
     rung: 0,
@@ -85,6 +95,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The gate & gateyard',
     kanji: '門',
     blurb: "The estate's face, kept barely; Yohei's stall sets up here on market days.",
+    blurbStem: 'nodeGateGateyard',
     wrong: FLAVOR.nodeGateGateyardWrong,
     neighbors: ['forecourt'],
     revealFlag: 'room-gate',
@@ -95,6 +106,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The woodshed',
     kanji: '薪',
     blurb: 'His corner: a mat, a chipped bowl, the comfort floor.',
+    blurbStem: 'nodeWoodshed',
     neighbors: ['forecourt'],
     revealFlag: 'room-woodshed',
     rung: 1,
@@ -104,6 +116,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The home paddy & vegetable rows',
     kanji: '田',
     blurb: "The guest house's skirts; the labour baseline — the deed engine's heart.",
+    blurbStem: 'nodeHomePaddy',
     wrong: FLAVOR.nodeHomePaddyWrong,
     neighbors: ['forecourt', 'weir', 'field-margins', 'woodlot'],
     revealFlag: 'room-paddies',
@@ -116,6 +129,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The field margins',
     kanji: '畦',
     blurb: "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+    blurbStem: 'nodeFieldMargins',
     wrong: FLAVOR.nodeFieldMarginsWrong,
     neighbors: ['paddies', 'ruined'],
     revealFlag: 'room-field-margins',
@@ -127,6 +141,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The kura & grain-store',
     kanji: '蔵',
     blurb: "The working storehouse; the grain-watch's post.",
+    blurbStem: 'nodeKura',
     wrong: FLAVOR.nodeKuraWrong,
     neighbors: ['forecourt'],
     revealFlag: 'room-kura',
@@ -137,6 +152,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The woodlot edge',
     kanji: '林',
     blurb: "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+    blurbStem: 'nodeWoodlotEdge',
     wrong: FLAVOR.nodeWoodlotEdgeWrong,
     neighbors: ['paddies', 'orchard'],
     revealFlag: 'room-woodlot',
@@ -150,6 +166,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The weir reeds',
     kanji: '葦',
     blurb: 'River rats gnaw the weir screens the house leases from Matsuzō.',
+    blurbStem: 'nodeWeirReeds',
     wrong: FLAVOR.nodeWeirReedsWrong,
     neighbors: ['weir'],
     revealFlag: 'room-weir-reeds',
@@ -161,6 +178,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The drill yard',
     kanji: '稽',
     blurb: "The old stable court, repurposed — Kihei's ground. Opens at R4.",
+    blurbStem: 'nodeDrillYard',
     wrong: FLAVOR.nodeDrillYardWrong,
     neighbors: ['forecourt'],
     revealFlag: 'room-drill-yard',
@@ -171,6 +189,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The shrine-alcove corridor',
     kanji: '祠',
     blurb: 'A family altar in a corridor — glimpsed once in T0, entered in T1.',
+    blurbStem: 'nodeShrineCorridor',
     wrong: FLAVOR.nodeShrineCorridorWrong,
     neighbors: ['kitchen'],
     revealFlag: 'room-shrine',
@@ -181,6 +200,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The overgrown orchard',
     kanji: '園',
     blurb: "The old compound's orchard gone wild; feral dogs den in it, bold from lean winters.",
+    blurbStem: 'nodeOvergrownOrchard',
     wrong: FLAVOR.nodeOvergrownOrchardWrong,
     neighbors: ['woodlot', 'ruined', 'grove'],
     revealFlag: 'room-orchard',
@@ -192,6 +212,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The bamboo grove',
     kanji: '竹',
     blurb: 'Behind the compound; the monkey troop raids the vegetable rows from it.',
+    blurbStem: 'nodeBambooGrove',
     wrong: FLAVOR.nodeBambooGroveWrong,
     neighbors: ['orchard'],
     revealFlag: 'room-grove',
@@ -203,6 +224,7 @@ export const MAP_NODES: readonly MapNode[] = [
     label: 'The ruined compound',
     kanji: '廃',
     blurb: 'Beyond a rope and a warning: fallen roofs, a crumbled gate. Locked all tier.',
+    blurbStem: 'nodeRuinedCompound',
     wrong: FLAVOR.nodeRuinedCompoundWrong,
     neighbors: ['field-margins', 'orchard'],
     locked: true,
@@ -215,6 +237,30 @@ const NODE_BY_ID: ReadonlyMap<MapNodeId, MapNode> = new Map(MAP_NODES.map((n) =>
 
 function findNode(id: MapNodeId): MapNode | undefined {
   return NODE_BY_ID.get(id);
+}
+
+/** The Season → FLAVOR key suffix ('new-year' → 'Newyear'). Part of the C5a key contract;
+ *  the content test walks every stem × season so a missing/typo'd key goes RED. */
+const SEASON_KEY_SUFFIX: Readonly<Record<Season, string>> = {
+  winter: 'Winter',
+  'new-year': 'Newyear',
+  spring: 'Spring',
+  summer: 'Summer',
+  bon: 'Bon',
+  autumn: 'Autumn',
+};
+
+/** The node's you-are-here read for a season (C5a unit 5): the seasonal FLAVOR variant
+ *  when the node carries a stem, else the static blurb. Returns the key too — the DEV
+ *  story switcher live-swaps render-read flavor by key (dev.subFlavor). */
+export function nodeSeasonalBlurb(
+  node: MapNode,
+  season: Season,
+): { readonly key?: string; readonly text: string } {
+  if (!node.blurbStem) return { text: node.blurb };
+  const key = `${node.blurbStem}Blurb${SEASON_KEY_SUFFIX[season]}`;
+  const text = (FLAVOR as Record<string, string>)[key];
+  return text !== undefined ? { key, text } : { text: node.blurb };
 }
 
 export function getNode(id: MapNodeId): MapNode {

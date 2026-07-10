@@ -341,3 +341,27 @@ season.reckoned template kept for persisted entries. Alternates live in
 `takes/c5a-{overlays,discoveries,judge}/` (4 open bundles compile). Tests
 re-derived (the ascension judge-line assertion; the lacquer-path hint check
 now that the woodlot holds a second secret).
+
+## C5a (part 2) — the per-season node reads land; HR-18…HR-21 filed
+
+**Unit 5 (16 zones × 6 seasons, per-season units per the human's ruling):**
+picks Winter A (work-first 14✔2✘) · New Year B (senses 12✔4✘) · Spring B
+(senses 14✔2✘) · Summer A (work 11✔5✘) · Bon B (senses 12✔4✘) · Autumn B
+(senses 11✔5✘). All 22 Pass-2 flagged units redlined before landing — the
+systemic finding was anchor-span duplication (the canon base blurb's signature
+clauses re-typed inside seasonal variants; "This is where they pulled you
+out." appeared in four seasons' weir reads and now appears in none — the base
+blurb owns it). Engine: `MapNode.blurbStem` + `nodeSeasonalBlurb(node,
+season)` (map.ts) — the you-are-here card (render, DEV-swappable by key) and
+the arrival line (move_to) read the season's variant; the survey SHEET stays
+static (a drawn document does not change with the weather). The key contract
+is gated: map.test walks all 16 stems × 6 seasons (RED on a missing/typo'd
+key, and the variant must differ from the static line). Alternates in six
+`takes/c5a-nodes-<season>/` bundles (10 open bundles compile). Tests
+re-derived (arrival-line + flavor-card assertions read nodeSeasonalBlurb).
+**HR-18…HR-21 filed** (review.md): overlays · discoveries · judge lines ·
+the six node-season bundles — each with the live DEV-switcher review path
+(ADR-143), per-take scorecards, and pick rationales. NOTE: `verify:balance`
+now runs ~17 min — the repaired idler plays to the 1M-intent guard on every
+seed (the HD-34 expectation question); the report regen rides the next
+commit.

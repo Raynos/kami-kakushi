@@ -3,6 +3,7 @@
 // The feel-pass (Commit 8) render assertions: the pure ×N log formatter, the
 // unknown-foe fog gating, and the settings-modal a11y (textarea labels + Tab
 // focus-trap). DOM tests mount the real renderer and drive it like the app does.
+import { nodeSeasonalBlurb } from '../core';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { mount, formatLogText, NOW_TTL_MS, type AppHooks } from './render';
 import { createActionClock } from '../app/action-clock';
@@ -2035,7 +2036,7 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     const s0 = awakeAt('forecourt', [getNode(dest).revealFlag!]);
     const moved = reduce(s0, { type: 'move_to', to: dest }); // walk to the gate
     render(moved, s0);
-    const blurb = getNode(dest).blurb;
+    const blurb = nodeSeasonalBlurb(getNode(dest), moved.season).text; // seasonal since C5a
     const lines = root.querySelector<HTMLElement>('.log-lines')!;
     // the default Story view holds only mandatory beats — the nav flavor is absent.
     expect(lines.textContent ?? '').not.toContain(blurb);
@@ -2097,8 +2098,8 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
     const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
     expect(flavor).not.toBeNull();
     expect(nav).not.toBeNull();
-    // (a) the flavor carries the CURRENT node's immersive description…
-    expect(flavor.textContent).toContain(getNode('forecourt').blurb);
+    // (a) the flavor carries the CURRENT node's immersive description (seasonal, C5a)…
+    expect(flavor.textContent).toContain(nodeSeasonalBlurb(getNode('forecourt'), 'winter').text);
     // …and (b) the sheet is a SIBLING section, not nested inside the flavor card.
     expect(flavor.contains(nav)).toBe(false);
     // the sheet actually painted: the title cartouche is on the sheet.

@@ -12,7 +12,7 @@ import { createInitialState, type GameState } from '../state';
 import { reduce } from '../intents';
 import { peopleHere } from '../selectors';
 import { getPerson, presenceCtx } from './people';
-import { getNode } from './map';
+import { nodeSeasonalBlurb, getNode } from './map';
 import { YOHEI_MARKET_DAYS } from './market';
 import { dayOfWeek, DAYS_PER_WEEK, type DayOfWeek } from '../constants';
 
@@ -82,7 +82,8 @@ describe('D-116 — location flavor routes to a transient Now line, never the St
     const s1 = reduce(s0, { type: 'move_to', to: dest });
     expect(s1.location).toBe(dest); // the move actually happened
 
-    const blurb = getNode(dest).blurb; // source of truth for the arrival line's text
+    // source of truth for the arrival line's text — SEASONAL since C5a unit 5
+    const blurb = nodeSeasonalBlurb(getNode(dest), s1.season).text;
     const blurbEntries = s1.log.entries.filter((e) => e.text === blurb);
     expect(blurbEntries.length).toBeGreaterThan(0); // an arrival line WAS emitted
     // …and EVERY such entry is a fleeting Now line, never a permanent Story entry. Could-go-RED:

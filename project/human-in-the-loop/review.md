@@ -187,6 +187,72 @@ The commissions board (reveals R5). Three live takes ("VARIANT · Quests"):
     "Quests".
   - **Verdict:** _(awaiting your pick)_
 
+### HR-18 🔲 [R2+ · seasons] — the five season-turn overlays (C5a unit 1, ADR-139/ADR-167)
+
+The 05-world per-season-overlay lock, closed: `turn-winter/-new-year/-spring/
+-summer/-bon` scene-defs (narration-only, once, firing as each season first
+ENDS). **Pick: TAKE C "the land first"** (18✔2✘ — people enter each beat late
+and small; redlined per Pass-2: one stacked ornament cut, the season-handoff
+closing template broken in 3 of 5). Alternates: A "the ledger turns" (12✔7✘),
+B "the household's body" (3✔3✘ — its Bon scene near-duplicated sb-bon).
+Canon: `narrative/scenes.md` (the continuous read: `docs/content/t0-story.md`);
+alternates + briefs: `takes/c5a-overlays/`.
+
+  - **How to look LIVE:** `pnpm run dev` → any R2+ run (e.g. `?fixture=rung-R4`)
+    → DEV → **Story** → set-switcher entry **c5a-overlays** → End a season —
+    the overlay plays the selected take. (Each is once-per-run: replay via New
+    game/`toRung`, or read all five in "⤢ Explore story".)
+  - **Verdict:** _(awaiting your read)_
+
+### HR-19 🔲 [R0+ · discoveries] — the three hidden discoveries' fiction (C5a unit 2)
+
+The tiers/t0.md locked roster wired + voiced: the weir REEDS bundle (the
+water-ruined paper — reveals `search_reeds`), the silted SLUICE (reveals
+`clear_sluice`), the SETT under the ruined wall (seed-only — T2 pays it).
+**Pick: TAKE A "found by hand"** (11✔1✘; the settFound rope-maxim cut).
+Alternates: B "the estate remembers" (10✔2✘), C "nobody says" (9✔3✘).
+Canon keys `reeds*/sluice*/sett*` in `narrative/flavor.md`; alternates:
+`takes/c5a-discoveries/`.
+
+  - **How to look LIVE:** DEV → Story → **c5a-discoveries**; walk to the
+    weir/woodlot/field-margins — the hint ladder shows in the you-are-here
+    card and swaps with the take; keep working the node and the found line
+    lands in the log voicing the selected take (future latches swap; logged
+    history stays).
+  - **Verdict:** _(awaiting your read)_
+
+### HR-20 🔲 [R7 · Phase 2] — the per-grade day-book judge lines (C5a unit 4, ADR-159)
+
+Six lines, one per grade of the locked six-step ladder, replacing the single
+"accounts are reckoned" string. **Pick: TAKE C "as the valley sees it"** (tied
+5✔1✘ with B; C wins on TST3 — koku standing IS outside regard; the
+counted-twice canon echo redlined). Alternates: A "the board's arithmetic"
+(4✔2✘), B "the house as body" (5✔1✘ — a genuinely close second; read it).
+Canon keys `judgeLine*` in `narrative/flavor.md`; alternates: `takes/c5a-judge/`.
+
+  - **How to look LIVE:** DEV → Story → **c5a-judge**; DEV → Rungs →
+    "→ Phase 2", bank some estate growth, End the season — the day-book's
+    judge line voices the selected take at your current grade.
+  - **Verdict:** _(awaiting your read)_
+
+### HR-21 🔲 [all rungs · seasons] — the per-season node reads, 16 zones × 6 seasons (C5a unit 5)
+
+Every zone's you-are-here card + arrival line now breathes by season
+(05-world: "nodes carry per-season flavor"); the survey SHEET stays static (a
+drawn document). SIX bundles, one per season (your per-season-unit ruling):
+picks — Winter A (work-first 14✔2✘) · New Year B (senses 12✔4✘) · Spring B
+(senses 14✔2✘) · Summer A (work 11✔5✘) · Bon B (senses 12✔4✘) · Autumn B
+(senses 11✔5✘); every flagged anchor-span duplication redlined before landing.
+Canon keys `node<X>Blurb<Season>` in `narrative/flavor.md`; alternates:
+`takes/c5a-nodes-<season>/` (per-take briefs + scorecards in each bundle.md).
+
+  - **How to look LIVE:** DEV → Story → the **c5a-nodes-<season>** entries;
+    open the Map tab and walk a few zones — the you-are-here card reads the
+    standing season's take and swaps with the toggle; End seasons to walk the
+    year through one node.
+  - **Verdict:** _(awaiting your read — bundle-level verdicts are fine: pick
+    per SEASON, never per line)_
+
 ---
 
 > _Open reviews only. Closed reviews graduate to [`archive.md`](archive.md). The

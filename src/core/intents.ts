@@ -101,7 +101,7 @@ import {
   yoheiBuys,
   YOHEI_PURSE_MON,
 } from './content/market';
-import { canMove, getNode } from './content/map';
+import { canMove, getNode, nodeSeasonalBlurb } from './content/map';
 import { CONDITIONING_GATE_LEVEL } from './content/balance';
 import {
   getActivity,
@@ -1082,7 +1082,16 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // Emit it `ephemeral: true` → log-filter routes ephemeral entries to the `now` view ONLY and
       // hides them from Story/All, so the Story log keeps only mandatory beats (no nav noise).
       next = applyRewards(next, {
-        log: [{ channel: 'narration', text: dest.blurb, voice: 'narrator', ephemeral: true }],
+        // C5a unit 5 — the arrival line breathes by season (nodeSeasonalBlurb; static
+        // blurb where no seasonal variant is authored).
+        log: [
+          {
+            channel: 'narration',
+            text: nodeSeasonalBlurb(dest, next.season).text,
+            voice: 'narrator',
+            ephemeral: true,
+          },
+        ],
       });
       // ADR-146 — arriving can stumble onto a hidden discovery (the seeded visit roll; a no-op
       // when this node has no visit-triggered discovery).

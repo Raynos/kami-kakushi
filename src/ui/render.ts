@@ -43,6 +43,7 @@ import {
   hpMax,
   staminaRate,
   season,
+  nodeSeasonalBlurb,
   year,
   currentRank,
   RANKS,
@@ -5123,7 +5124,12 @@ export function mount(
         : __DEV_TOOLS__ && dev && hint.key !== undefined
           ? dev.subFlavor(hint.key, hint.text)
           : hint.text;
-    setText(r.blurb, hintText === '' ? here.blurb : `${here.blurb} ${hintText}`);
+    // C5a unit 5 — the node breathes by season (05-world): the you-are-here read resolves
+    // the seasonal FLAVOR variant (DEV story switcher live-swaps it by key, like the hint).
+    const sb = nodeSeasonalBlurb(here, season(state));
+    const blurbText =
+      __DEV_TOOLS__ && dev && sb.key !== undefined ? dev.subFlavor(sb.key, sb.text) : sb.text;
+    setText(r.blurb, hintText === '' ? blurbText : `${blurbText} ${hintText}`);
     // (b) the survey sheet — repaint ONLY when an input it reads changed (the sig guard): a move,
     // newly-surveyed ground, the conditioning gate, an estate stage, or a person arriving/leaving.
     const sig = mapSignature(state);

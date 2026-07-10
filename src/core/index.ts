@@ -35,6 +35,7 @@ export {
   getNode,
   canMove,
   reachableFrom,
+  nodeSeasonalBlurb,
 } from './content/map';
 export type { MapNode, MapNodeId } from './content/map';
 export {

@@ -664,7 +664,7 @@
         {
           "key": 65,
           "channel": "narration",
-          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "text": "The outer court of the guest house, where the day's work is set out and seen to — set out in the dark now, the days being what they are, and often finished in it. Genemon's lamp is lit before the sky is; what is done here still gets written down.",
           "tick": 2,
           "count": 1,
           "voice": "narrator",
@@ -673,7 +673,7 @@
         {
           "key": 66,
           "channel": "narration",
-          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "text": "The guest house's skirts, the paddy and the rows that pay for everything else. Winter lays the fields off — stubble, frost, the water let out — and moves their work indoors: the tools that will open them again are mended now or not at all.",
           "tick": 2,
           "count": 1,
           "voice": "narrator",
@@ -887,7 +887,7 @@
         {
           "key": 90,
           "channel": "narration",
-          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "text": "The outer court of the guest house, where the day's work is set out and seen to — set out in the dark now, the days being what they are, and often finished in it. Genemon's lamp is lit before the sky is; what is done here still gets written down.",
           "tick": 16,
           "count": 1,
           "voice": "narrator",
@@ -1203,7 +1203,7 @@
         {
           "key": 126,
           "channel": "narration",
-          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "text": "The guest house's skirts, the paddy and the rows that pay for everything else. Winter lays the fields off — stubble, frost, the water let out — and moves their work indoors: the tools that will open them again are mended now or not at all.",
           "tick": 6,
           "count": 1,
           "voice": "narrator",
@@ -1212,7 +1212,7 @@
         {
           "key": 127,
           "channel": "narration",
-          "text": "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+          "text": "Kindling and forage country past the last fence, and in winter the estate's real employer: everything that burns comes out of it on somebody's back, mostly yours. A hundred paces in, the sound of the estate stops — sooner, with snow down.",
           "tick": 6,
           "count": 1,
           "voice": "narrator",
@@ -1488,7 +1488,7 @@
         {
           "key": 158,
           "channel": "narration",
-          "text": "The guest house's skirts; the labour baseline — the deed engine's heart.",
+          "text": "The guest house's skirts, the paddy and the rows that pay for everything else. Winter lays the fields off — stubble, frost, the water let out — and moves their work indoors: the tools that will open them again are mended now or not at all.",
           "tick": 10,
           "count": 1,
           "voice": "narrator",
@@ -1497,7 +1497,7 @@
         {
           "key": 159,
           "channel": "narration",
-          "text": "The working heart of the guest house's outer court — the first verb is here.",
+          "text": "The outer court of the guest house, where the day's work is set out and seen to — set out in the dark now, the days being what they are, and often finished in it. Genemon's lamp is lit before the sky is; what is done here still gets written down.",
           "tick": 10,
           "count": 1,
           "voice": "narrator",
@@ -1782,7 +1782,7 @@
         {
           "key": 192,
           "channel": "narration",
-          "text": "The estate's face, kept barely; Yohei's stall sets up here on market days.",
+          "text": "The estate's face, kept barely, kept anyway: snow is swept from between the gateposts before anyone can see it lying there. Yohei's stall still comes on market days, smaller, and leaves while there is light to walk home by.",
           "tick": 10,
           "count": 1,
           "voice": "narrator",
