@@ -659,6 +659,15 @@ export function mount(
   // FB-153 — the beat modal held the promotion ceremony itself: skip the floating
   // rank-up overlay ONCE for the rung change that lands when the modal closes.
   let suppressRankUpOverlay = false;
+  // SLOP threshold gates (human, 2026-07-10) — armed ONLY by the player-initiated
+  // promotion controls (the rung-head trigger / the beat ceremony's Continue), so a
+  // DEV `__qa.toRung` teleport, a fixture jump, or a save import never trips the
+  // warning (and never strands a blocking scrim over the QA screenshot gallery).
+  let slopGateArmed = false;
+  // A gate that matched but had a VN still to play (R2's yard-hand scene) HOLDS here
+  // until the scene closes — the player goes through the rung-up story first, then
+  // meets the warning on the shell (human, 2026-07-10 follow-up).
+  let pendingSlopWarning: 'R1' | 'R2' | null = null;
   // per-scene mounted refs + append-only bookkeeping (ALL reset by teardownIntroScene).
   let introStoryLinesEl: HTMLElement | null = null; // the LEFT transcript column's line container
   let introPanelEl: HTMLElement | null = null; // the RIGHT interactive column (always present)
@@ -769,7 +778,10 @@ export function mount(
   rungHead.hidden = true;
   const rungHeadTrigger = el('button', 'rung-head-trigger') as HTMLButtonElement;
   rungHeadTrigger.type = 'button';
-  rungHeadTrigger.addEventListener('click', () => dispatch({ type: 'begin_rung_beat' }));
+  rungHeadTrigger.addEventListener('click', () => {
+    slopGateArmed = true; // a real player crosses the threshold — the SLOP gate may fire
+    dispatch({ type: 'begin_rung_beat' });
+  });
   const rungHeadName = el('span', 'rung-head-name');
   const rungHeadMeter = el('div', 'rung-head-meter');
   const rungHeadFill = el('span');
@@ -2544,6 +2556,7 @@ export function mount(
         cont.type = 'button';
         cont.addEventListener('click', () => {
           suppressRankUpOverlay = true; // the modal already held the ceremony
+          slopGateArmed = true; // re-arm: covers a run reloaded mid-beat (the trigger click was last session)
           dispatch({ type: 'choose_rung_option', optionId: optId });
         });
         cer.append(cont);
@@ -4800,6 +4813,93 @@ export function mount(
     window.setTimeout(() => overlay.remove(), 3200);
   }
 
+  // ── SLOP threshold gates (human, 2026-07-10) ────────────────────────────────
+  // R0 is the reviewed floor: everything past it is unreviewed ("slop"), and
+  // everything past R1 is untested vibe coding ("turbo slop"). Crossing each
+  // threshold interposes a warning, closable the house way (× / Escape — human
+  // follow-up, 2026-07-10); the R2 gate's CONFIRM still demands typed consent.
+  // Opens root-level at the modal layer, on the shell only — a live rung-up VN
+  // plays out first (the pendingSlopWarning hold). Fired from the render pass's
+  // exact-promotion diff, so a DEV fixture jump across rungs never trips it.
+  function showSlopWarning(target: 'R1' | 'R2'): void {
+    const scrim = el('div', 'modal-scrim slop-scrim');
+    const card = el('div', 'modal-card frame slop-card');
+    card.setAttribute('role', 'alertdialog');
+    card.setAttribute('aria-modal', 'true');
+    card.setAttribute('aria-label', 'Content warning');
+    const close = (): void => {
+      scrim.remove();
+      document.removeEventListener('keydown', onEsc);
+    };
+    const onEsc = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape') close();
+    };
+    document.addEventListener('keydown', onEsc);
+    const x = el('button', 'modal-close', '×');
+    x.type = 'button';
+    x.setAttribute('aria-label', 'Close');
+    x.addEventListener('click', close);
+    card.append(x);
+    card.append(
+      el('div', 'slop-kicker', target === 'R1' ? 'Warning — slop' : 'Warning — turbo slop'),
+      el(
+        'p',
+        'slop-body',
+        target === 'R1'
+          ? 'Slop is here. Everything past this rung is unreviewed.'
+          : 'Turbo slop is here. Everything past this rung is completely untested ' +
+              'pure vibe coding — Jake has not seen any of this yet.',
+      ),
+    );
+    const confirm = el('button', 'verb primary slop-confirm', 'Confirm to continue');
+    confirm.type = 'button';
+    confirm.addEventListener('click', close);
+    let focusTarget: HTMLElement = confirm;
+    if (target === 'R2') {
+      const sentence = 'Yes I really want to play the vibe slop let me in.';
+      confirm.disabled = true;
+      const gate = el('div', 'slop-gate');
+      gate.append(
+        el('div', 'slop-gate-label', 'Type this, exactly, to continue:'),
+        el('div', 'slop-sentence', `“${sentence}”`),
+      );
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'slop-input';
+      input.autocomplete = 'off';
+      input.spellcheck = false;
+      input.setAttribute('aria-label', 'Type the sentence to continue');
+      input.addEventListener('input', () => {
+        confirm.disabled = input.value.trim() !== sentence;
+      });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !confirm.disabled) confirm.click();
+      });
+      gate.append(input);
+      card.append(gate);
+      focusTarget = input;
+    }
+    card.append(confirm);
+    // the settings-modal Tab trap (D-Q-a11y), minus every close affordance
+    card.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const f = card.querySelectorAll<HTMLElement>('button:not([disabled]), input');
+      if (f.length === 0) return;
+      const first = f[0]!;
+      const last = f[f.length - 1]!;
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+    scrim.append(card);
+    root.append(scrim);
+    focusTarget.focus();
+  }
+
   function renderStorehouse(state: GameState): void {
     // the kura storehouse (batch-2 call 7 / ADR-113) — shelter CARRIED coin + rice from a lost-fight
     // penalty. Opens with the estate economy; spatially gated to the kura node in Step 5. ADR-107
@@ -5695,6 +5795,19 @@ export function mount(
       // FB-153 — the beat modal already performed the ceremony (skip-once).
       if (suppressRankUpOverlay) suppressRankUpOverlay = false;
       else showRankUp(state);
+      // SLOP threshold gates (human, 2026-07-10) — exact-step matches, and only
+      // when a player-initiated control armed the latch (never a DEV teleport).
+      if (slopGateArmed) {
+        slopGateArmed = false;
+        if (prev.rung === 'R0' && state.rung === 'R1') pendingSlopWarning = 'R1';
+        else if (prev.rung === 'R1' && state.rung === 'R2') pendingSlopWarning = 'R2';
+      }
+    }
+    // A pending SLOP warning waits out any live-or-queued VN (the rung-up story
+    // plays FIRST — human, 2026-07-10 follow-up), then opens on the shell.
+    if (pendingSlopWarning && !vnActive(state) && state.sceneQueue.length === 0) {
+      showSlopWarning(pendingSlopWarning);
+      pendingSlopWarning = null;
     }
     introEndingRender = false; // one-shot: the intro-reveal render is done
     firstRender = false;

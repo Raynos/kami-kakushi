@@ -99,6 +99,14 @@ test('rung-beat completes: summons → choice → promotion lands', async ({ pag
   // the promotion applied — rung advanced — and the shell restored
   await page.waitForFunction(`window.__qa.state().rung !== ${JSON.stringify(rungBefore)}`);
   await expect(page.locator('.vn-scene'), 'the beat never released the shell').toBeHidden();
+
+  // the SLOP threshold gate (human, 2026-07-10): the first rung-up crosses into
+  // unreviewed content, so the warning must interpose and Confirm must clear it.
+  const slop = page.locator('.slop-scrim');
+  await expect(slop, 'the R1 slop warning must interpose').toBeVisible();
+  await press(slop.locator('button.slop-confirm'));
+  await expect(slop, 'Confirm must clear the slop warning').toBeHidden();
+
   await expect(page.locator('.workspace')).toBeVisible();
   await expectNoHorizontalOverflow(page, 'shell after rung beat');
   expectNoPageErrors(errors);

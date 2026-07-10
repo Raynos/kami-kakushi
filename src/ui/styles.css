@@ -2674,6 +2674,57 @@ html {
   outline: none;
 }
 
+/* ── SLOP threshold gates (human, 2026-07-10) — the unreviewed-content warning
+   modals at R0→R1 ("slop") and R1→R2 ("turbo slop"). Closable the house way
+   (× / Escape); the R2 CONFIRM itself stays locked behind typed consent. */
+.slop-card {
+  max-width: 48ch;
+}
+.slop-kicker {
+  font-family: var(--font-head);
+  font-size: var(--fs-h3);
+  color: var(--shu);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 var(--space-4);
+}
+.slop-body {
+  color: var(--ink);
+  margin: 0 0 var(--space-6);
+}
+.slop-gate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-6);
+}
+.slop-gate-label {
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+}
+.slop-sentence {
+  font-style: italic;
+  color: var(--ink);
+}
+.slop-input {
+  width: 100%;
+  min-height: var(--tap-min);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  background: var(--washi);
+  color: var(--ink);
+}
+.slop-input:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 4px var(--ai);
+}
+
 /* ── rank-up seal press (the signature beat, ui-design §6.2) ──────────────── */
 .rankup-seal {
   position: fixed;
