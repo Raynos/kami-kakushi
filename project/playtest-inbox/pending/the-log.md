@@ -96,3 +96,13 @@ do you see what I mean its not italics or correct colors here as its scrolling.
 **Details:** `the-log/2026-07-10T18-24-03.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-323 · 2026-07-10T18:24:20+0200 — i-also-saw-this
+
+I also saw this pop in as new text, but it didnt say new remember all NEW text that gets written gets the NEW divider ( 60s to fade )
+
+**Element:** panel "log" — ""Still at it," Genemon says, passing the granary door withou" · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(36)` · @942,617 493×29
+**Screenshot:** `the-log/2026-07-10T18-24-20.png`
+**Details:** `the-log/2026-07-10T18-24-20.json` — save + recent logs + full context
+
+---
