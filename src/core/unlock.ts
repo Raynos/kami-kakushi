@@ -27,6 +27,8 @@ export function revealSurface(state: GameState, id: SurfaceId): GameState {
       // the same voice as the intro's narration, not as an un-voiced/plain line.
       log: pushLog(next.log, surface.revealLine.channel, surface.revealLine.text, next.clock.tick, {
         voice: surface.revealLine.voice,
+        // FB-273 — a fleeting reveal (readout-clock) lands in Now and fades, never Story.
+        ephemeral: surface.revealLine.ephemeral,
       }),
     };
   }

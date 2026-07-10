@@ -8,6 +8,7 @@ import {
   skillLevel,
   skillVisible,
   canDoActivity,
+  availableActions,
   getActivity,
   season,
   levelForXp,
@@ -34,8 +35,18 @@ import { SURFACES } from './content/surfaces';
 import { rakeLine } from './content/coldOpen';
 import { NAMES } from './content/names';
 
+// FB-265: work refuses at empty satiety (the manual player must rest, like the auto loop),
+// so the mass-grind drivers rest when short exactly as a real player is now forced to —
+// the requirement COUNTS still derive from the registry; rest adds no count tokens.
+const WORK_INTENTS = new Set(['rake_rice', 'do_activity']);
 function run(s: GameState, intents: Intent[]): GameState {
-  for (const i of intents) s = reduce(s, i);
+  for (const i of intents) {
+    if (WORK_INTENTS.has(i.type)) {
+      while (s.character.satiety < 6 && availableActions(s).includes('rest'))
+        s = reduce(s, { type: 'rest' });
+    }
+    s = reduce(s, i);
+  }
   return s;
 }
 function repeat(type: 'rake_rice' | 'rest', n: number): Intent[] {
@@ -404,12 +415,10 @@ describe('soft stamina + season', () => {
     const fresh = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
     const freshRice = (fresh.banked.rice ?? 0) - (s.banked.rice ?? 0);
     expect(freshRice).toBeGreaterThan(0); // a full pool + full belly banks real rice
-    // drain satiety hard (40 hauls × 4 satiety → the floor) — hauling is at the forecourt, a
-    // DIFFERENT site, so the paddy pool the tired-farm draws is still full (isolates satiety).
-    let drained: GameState = { ...s, location: 'forecourt' };
-    for (let i = 0; i < 40; i++)
-      drained = reduce(drained, { type: 'do_activity', activityId: 'haul_stores' });
-    expect(drained.character.satiety).toBeLessThan(20);
+    // a DEEPLY drained body — low but still able to pay the act (FB-265 refuses at the true
+    // floor now, so "drained yields less but never zero" is tested INSIDE the affordable band;
+    // the exactly-empty case is the refusal test below, not a throttle case).
+    const drained: GameState = { ...s, character: { ...s.character, satiety: 4 } };
     // walk the drained body back to the paddies for the tired-farm comparison
     const tired = reduce(
       { ...drained, location: 'paddies' },
@@ -418,6 +427,22 @@ describe('soft stamina + season', () => {
     const tiredRice = (tired.banked.rice ?? 0) - (drained.banked.rice ?? 0);
     expect(tiredRice).toBeGreaterThan(0); // never zero (the soft throttle floors, never blocks)
     expect(tiredRice).toBeLessThanOrEqual(freshRice);
+  });
+
+  it('work REFUSES at empty satiety — the reducer no-ops and the gate says why (FB-265)', () => {
+    // rake: an awake R0 body at 1 satiety (below SATIETY_PER_ACT) cannot rake for free
+    let s = reduce(createInitialState(1), { type: 'open_eyes' });
+    s = { ...s, character: { ...s.character, satiety: 1 } };
+    expect(reduce(s, { type: 'rake_rice' })).toBe(s); // refused, not a free act
+    // labour: the same predicate gates do_activity + the button's shown reason (AC-6)
+    let r2 = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
+    r2 = playBeat(run(r2, repeat('rake_rice', countFor('R0', 'act:rake_rice')))); // → R1
+    r2 = { ...r2, location: 'paddies', character: { ...r2.character, satiety: 1 } };
+    expect(canDoActivity(r2, getActivity('farm_paddy'))).toBe(false);
+    expect(reduce(r2, { type: 'do_activity', activityId: 'farm_paddy' })).toBe(r2);
+    // …and rest is the way back in
+    const rested = reduce(r2, { type: 'rest' });
+    expect(canDoActivity(rested, getActivity('farm_paddy'))).toBe(true);
   });
 
   it('the season is stored and turns ONLY by advance_season (the six-season wheel)', () => {

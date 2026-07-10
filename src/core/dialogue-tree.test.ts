@@ -143,14 +143,14 @@ describe('ask_topic — reveal the answer, mark asked, touch nothing else (plan 
     expect(after.introBeat).toBe(s.introBeat); // still in the hub — no advance
   });
 
-  it('is RE-ASKABLE: a second ask re-emits the answer but the asked-set stays (idempotent)', () => {
+  it('a SECOND ask is a full no-op — no duplicate Q+A in the permanent log (FB-269)', () => {
+    // FB-269 reverses the old re-emit: refresh-replays and double-clicks were stacking
+    // duplicate exchanges in Chat; the transcript already shows the asked Q+A permanently.
     const s = atScene('soan');
     const topic = introSceneAt(s.introBeat)!.topics[0]!;
     const once = reduce(s, { type: 'ask_topic', topicId: topic.id });
     const twice = reduce(once, { type: 'ask_topic', topicId: topic.id });
-    // the answer is re-emitted (the exchange grows)…
-    expect(twice.log.entries.length).toBeGreaterThan(once.log.entries.length);
-    // …but the id is recorded ONCE (idempotent — the dim set doesn't grow).
+    expect(twice).toBe(once); // identity — the reducer refuses outright
     expect(twice.askedTopics.filter((id) => id === topic.id).length).toBe(1);
   });
 

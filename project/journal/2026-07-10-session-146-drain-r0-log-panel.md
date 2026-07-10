@@ -12,7 +12,13 @@ cold-open rearc.
   `autoModeIntent`) + "Answer the summons" / `begin_scene` added to
   MANUAL_DISARM. RED-able test in `sim/sim.test.ts`.
 
+- FB-265/269/270/272-275 + the FB-262 core half: the drain's core set
+  (satiety refusal gate, no duplicate Q+A, chat/scene context labels,
+  ceremony-homed reveals, clock line to Now, estate + rice lines struck).
+  Also HEALS red main — 2b5d226 (w1's render.ts, carrying my consented
+  UI hunks) calls canAffordAct, defined in this set.
+
 ## Next intended steps
 
-- Work down the approved list (items 1, 3–12, VN pacing, FB-262 diverge).
-- Stamp sidecars as hashes land; archive both buckets; release claims.
+- Stamp sidecars as hashes land; F-entries; archive both buckets; release claims.
+- The FB-262 variants' DEV registry entry + HR items.

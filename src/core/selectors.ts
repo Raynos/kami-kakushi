@@ -9,6 +9,7 @@ import {
   STR_HP,
   SATIETY_BASE,
   SATIETY_PER_LEVEL,
+  SATIETY_PER_ACT,
   STAMINA_RATE_FLOOR,
   STAMINA_FLAT_ABOVE,
   LOW_HP_WORK_THRESHOLD,
@@ -267,6 +268,16 @@ export interface LabourOption {
   readonly reason?: string;
 }
 
+/** FB-265 — a labour act costs satiety, so at empty the act is REFUSED, not free: the reducer
+ *  no-ops and the button disables off this ONE predicate (AC-6 — shown gate == real gate),
+ *  forcing the manual player to "Rest a moment" exactly as the auto loop already does (it
+ *  rests at the 70% knee, so auto never even sees this floor). */
+export function canAffordAct(state: GameState): boolean {
+  return state.character.satiety >= SATIETY_PER_ACT;
+}
+/** The one user-facing refusal reason for an unaffordable act (TST4 — never a dead button). */
+export const OUT_OF_STRENGTH_REASON = 'Out of strength — rest a moment.';
+
 /** Revealed labour activities AT THE CURRENT NODE + whether they're currently doable (PRD §6.9).
  *  v0.3.1 Step 5 (batch-2 call 1): activities are SPATIAL — each belongs to one map node
  *  (`activity.area`), so only the current node's labours are listed. Walk (`move_to`) to work. */
@@ -283,6 +294,9 @@ export function availableLabours(state: GameState): LabourOption[] {
         available: false,
         reason: `Needs Conditioning Lv${CONDITIONING_GATE_LEVEL}`,
       });
+    } else if (!canAffordAct(state)) {
+      // FB-265 — same predicate the reducer refuses on: the button reads why, never lies.
+      out.push({ activity: a, available: false, reason: OUT_OF_STRENGTH_REASON });
     } else {
       out.push({ activity: a, available: true });
     }
@@ -297,6 +311,7 @@ export function canDoActivity(state: GameState, activity: ActivityDef): boolean 
 
   if (activity.dangerRing && skillLevel(state, 'conditioning') < CONDITIONING_GATE_LEVEL)
     return false;
+  if (!canAffordAct(state)) return false; // FB-265 — no free labour at empty satiety
   return true;
 }
 

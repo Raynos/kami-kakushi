@@ -306,6 +306,8 @@ export {
   workRate,
   availableLabours,
   canDoActivity,
+  canAffordAct,
+  OUT_OF_STRENGTH_REASON,
   peopleHere,
   ownsBelonging,
   ownedBelongingIds,

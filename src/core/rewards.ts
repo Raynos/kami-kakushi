@@ -29,6 +29,8 @@ export interface RewardBundle {
     readonly ephemeral?: boolean | undefined;
     /** Optional Q&A (FB-111) — routed to the "Chat" tab (+ `all`), kept off the mandatory "Story" tab. */
     readonly chat?: boolean | undefined;
+    /** Chat-group context label (FB-270) — see LogEntry.context. */
+    readonly context?: string | undefined;
   }[];
 }
 
@@ -63,6 +65,7 @@ export function applyRewards(state: GameState, rewards: RewardBundle): GameState
           voice: line.voice,
           ephemeral: line.ephemeral,
           chat: line.chat,
+          context: line.context,
           contentKey: line.contentKey,
           params: line.params,
         }),

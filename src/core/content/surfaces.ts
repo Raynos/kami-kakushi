@@ -27,7 +27,13 @@ export interface Surface {
     /** Speaker-voice tag (FB-91/FB-93). Absent on the milestone frontier beat; set to `narrator`
      *  by `narrate()` so every scene-reveal line renders in the same narrator voice as the intro. */
     readonly voice?: VoiceCategory;
+    /** FB-273 — fleeting flavor: the line lands in the "Now" view and fades (never Story). */
+    readonly ephemeral?: boolean;
   };
+  /** FB-272 — a SHORT "what opens" label the rung-up CEREMONY lists for the surfaces the new
+   *  rank unlocks (the reveal reads at the promotion, not as a post-ceremony Story flood).
+   *  A surface with a ceremonyLabel usually carries NO revealLine — one home per reveal. */
+  readonly ceremonyLabel?: string;
 }
 
 // FB-91/FB-93 — every surface-reveal line is scene NARRATION, so it carries the `narrator` voice
@@ -97,17 +103,18 @@ export const SURFACES: readonly Surface[] = [
     id: 'panel-estate',
     kind: 'panel',
     unlock: (s) => s.unlocked.includes('panel-rung-ladder'),
-    revealLine: narrate(
-      "The estate's own state of repair is yours to tend now — spend the house's surplus to shore it up.",
-    ),
+    // FB-274 — reveal line STRUCK (human, 2026-07-10): obvious by the time the Estate
+    // section is reached; the section itself needs a harder think first.
   },
   {
     id: 'readout-clock',
     kind: 'readout',
     unlock: () => false,
-    revealLine: narrate(
-      'You begin to mark the turning of the days, and the four seasons with them.',
-    ),
+    // FB-273 — fleeting Now flavor, not a Story beat (human, 2026-07-10).
+    revealLine: {
+      ...narrate('You begin to mark the turning of the days, and the four seasons with them.'),
+      ephemeral: true,
+    },
   },
   {
     // The player's HOME — "a place here is yours" made real (ADR-111 / FB-89). STATE-PREDICATE reveal
@@ -131,23 +138,21 @@ export const SURFACES: readonly Surface[] = [
     id: 'room-gate',
     kind: 'panel',
     unlock: () => false,
-    revealLine: narrate(
-      'The gate and gateyard are yours to work now — stores come and go here, and Yohei sets up his stall on market days.',
-    ),
+    // FB-272 — announced on the R1 ceremony (was a post-ceremony Story flood line).
+    ceremonyLabel: "The gate & gateyard — stores come and go; Yohei's stall on market days",
   },
   {
     id: 'room-paddies',
     kind: 'panel',
     unlock: () => false,
-    revealLine: narrate('The terraced home paddies open to you — the rice that feeds the house.'),
+    ceremonyLabel: 'The home paddies — the rice that feeds the house', // FB-272
   },
   {
     id: 'room-woodshed',
     kind: 'panel',
     unlock: () => false,
-    revealLine: narrate(
-      "They give you the lean space between the woodpiles: a mat, a chipped bowl, a nail for the coat. It is not much, and it is not anyone else's.",
-    ),
+    // FB-272 — the "your home area" beat belongs to the ceremony (human, 2026-07-10).
+    ceremonyLabel: 'The woodshed corner — a mat, a bowl, a nail for the coat: yours',
   },
   { id: 'verb-farm', kind: 'verb', unlock: () => false },
   { id: 'verb-haul', kind: 'verb', unlock: () => false },
@@ -197,9 +202,7 @@ export const SURFACES: readonly Surface[] = [
     id: 'verb-eat-rice',
     kind: 'verb',
     unlock: (s) => s.unlocked.includes('panel-estate'),
-    revealLine: narrate(
-      'The rice you clear and grow is food, not only trade — a plain bowl of it fills a hollow belly and puts you back to work the faster.',
-    ),
+    // FB-275 — no flavor text for eating & rice (human, 2026-07-10); the verb reveal is enough.
   },
   { id: 'skill-conditioning', kind: 'row', unlock: () => false },
   // G4.3 — the `verb-face-wolf` surface is deleted with the scripted wolf (→ R3 night round).

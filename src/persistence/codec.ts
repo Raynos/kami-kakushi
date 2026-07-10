@@ -160,6 +160,7 @@ function rehydrateLogEntry(raw: unknown): unknown {
     ...(e.voice !== undefined ? { voice: e.voice } : {}),
     ...(e.ephemeral !== undefined ? { ephemeral: e.ephemeral } : {}),
     ...(e.chat !== undefined ? { chat: e.chat } : {}),
+    ...(e.context !== undefined ? { context: e.context } : {}),
     contentKey: e.contentKey,
     ...(e.params !== undefined ? { params: e.params } : {}),
   };

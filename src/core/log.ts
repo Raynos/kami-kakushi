@@ -36,6 +36,9 @@ export interface LogEntry {
    *  keeps its voice/nameplate rendering) but routes to the "Chat" tab (and `all`), never the
    *  MANDATORY "Story" tab. Absent ⇒ a mandatory line (Story holds only the scene beats you must see). */
   readonly chat?: boolean;
+  /** Optional conversation CONTEXT for a chat group's opening line (FB-270 — "cold open",
+   *  "The day-hand promotion"): the render-time "— with X · context —" kicker reads it. */
+  readonly context?: string;
   /** Log-content registry key (shrink-save-file Stage C). Present ⇒ `text` is DERIVED via
    *  `renderLogLine(contentKey, params)` and the save persists this + `params`, not the prose.
    *  Absent ⇒ a legacy/inline line whose `text` is authoritative. */
@@ -69,6 +72,7 @@ export function pushLog(
     readonly voice?: VoiceCategory | undefined;
     readonly ephemeral?: boolean | undefined;
     readonly chat?: boolean | undefined;
+    readonly context?: string | undefined;
     readonly contentKey?: string | undefined;
     readonly params?: LogParams | undefined;
   },
@@ -90,6 +94,7 @@ export function pushLog(
     ...(meta?.voice !== undefined ? { voice: meta.voice } : {}),
     ...(meta?.ephemeral !== undefined ? { ephemeral: meta.ephemeral } : {}),
     ...(meta?.chat !== undefined ? { chat: meta.chat } : {}),
+    ...(meta?.context !== undefined ? { context: meta.context } : {}),
     ...(meta?.contentKey !== undefined ? { contentKey: meta.contentKey } : {}),
     ...(meta?.params !== undefined ? { params: meta.params } : {}),
   };

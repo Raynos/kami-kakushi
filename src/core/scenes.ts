@@ -105,6 +105,7 @@ export function beginScene(state: GameState, def: SceneDef): GameState {
       text: l.text,
       voice: l.voice,
       speaker: l.speaker,
+      context: def.id.replace(/-/g, ' '), // FB-262 — the scene is one VN group in Story
     })),
   });
 }
@@ -159,10 +160,23 @@ export function applySceneOption(state: GameState, def: SceneDef, optionId: stri
   if (!opt) return state;
   // (a) the exchange → Story: the MC's reply, then the speaker's reaction.
   const react = sceneReactVoiceSpeaker(def.scene, opt.reactNpc);
+  const sceneCtx = def.id.replace(/-/g, ' '); // FB-262 — same VN group as the greeting
   let next = applyRewards(state, {
     log: [
-      { channel: 'narration', text: opt.say, voice: 'player', speaker: playerSpeaker(state) },
-      { channel: 'narration', text: opt.react, voice: react.voice, speaker: react.speaker },
+      {
+        channel: 'narration',
+        text: opt.say,
+        voice: 'player',
+        speaker: playerSpeaker(state),
+        context: sceneCtx,
+      },
+      {
+        channel: 'narration',
+        text: opt.react,
+        voice: react.voice,
+        speaker: react.speaker,
+        context: sceneCtx,
+      },
     ],
   });
   // (b) ACCUMULATING relationship write(s) — deepenNpc, identical to the rung-beat path.

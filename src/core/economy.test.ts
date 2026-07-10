@@ -149,7 +149,11 @@ describe('skill → yield multiplier (audit #4)', () => {
         .filter((r) => r.type === 'count')
         .map((r) => (r.type === 'count' ? r.target : 0)),
     );
-    for (let i = 0; i < rakesToR1; i++) atR1 = reduce(atR1, { type: 'rake_rice' });
+    for (let i = 0; i < rakesToR1; i++) {
+      // FB-265: work refuses at empty satiety — rest back up like a real player must
+      while (atR1.character.satiety < 6) atR1 = reduce(atR1, { type: 'rest' });
+      atR1 = reduce(atR1, { type: 'rake_rice' });
+    }
     atR1 = playBeat(atR1); // R0 → R1 via the story beat (ADR-110)
     expect(atR1.rung).toBe('R1');
 
@@ -167,6 +171,8 @@ describe('skill → yield multiplier (audit #4)', () => {
       let s: GameState = { ...start, location: 'paddies' };
       let n = 0;
       while (!isRequirementDone(farmReq, s.rungReqs) && n < CAP) {
+        // FB-265: rest when the act would refuse (rests don't count as farm acts)
+        while (s.character.satiety < 6) s = reduce(s, { type: 'rest' });
         s = reduce(s, { type: 'do_activity', activityId: 'farm_paddy' });
         n++;
       }
@@ -748,7 +754,9 @@ describe('activityForecast — forecast == reality (FB-264, AC-6)', () => {
   // side drifting from the shared selector goes RED.
   const hungry = (s: GameState): GameState => ({
     ...s,
-    character: { ...s.character, satiety: 1 }, // deep inside the stamina throttle
+    // deep inside the stamina throttle, but still able to PAY the act — at/below the
+    // FB-265 floor the act refuses outright (0 = 0, trivially forecast == reality).
+    character: { ...s.character, satiety: 4 },
   });
   const hurt = (s: GameState): GameState => ({
     ...s,

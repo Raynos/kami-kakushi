@@ -25,6 +25,7 @@ import {
   hpMax,
   season,
   canDoActivity,
+  canAffordAct,
   activityForecast,
   homeRestBonus,
   ownsBelonging,
@@ -84,7 +85,7 @@ import {
 } from './scenes';
 import { beginNightRound } from './night-rounds';
 import { NPC_VOICE, NPC_NAME, type NpcId, type VoiceCategory } from './content/voices';
-import type { RankId } from './content/ranks';
+import { getRank, type RankId } from './content/ranks';
 import { getRecipe, canCraft } from './content/crafting';
 import { acceptQuest } from './quest-engine';
 import { applyProgressEvent, settleRequirements } from './progress-events';
@@ -223,6 +224,9 @@ function revealIntroBeat(state: GameState, index: number): GameState {
       text: l.text,
       voice: l.voice,
       speaker: l.speaker,
+      // FB-262 — every VN line carries its scene label so the Story log can GROUP it
+      // (the bordered "VN unit" treatments; the render-time scene-group stamps read this).
+      context: 'the cold open',
     })),
   });
 }
@@ -278,6 +282,7 @@ function revealRungBeat(state: GameState, target: RankId): GameState {
       text: l.text,
       voice: l.voice,
       speaker: l.speaker,
+      context: `${getRank(target).title} promotion`, // FB-262 — the beat is one VN group
     })),
   });
 }
@@ -345,6 +350,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       const topic = introTopic(scene, intent.topicId);
       if (!topic) return state; // a topic id not on THIS scene ⇒ no-op
       if (topic.gate && !topic.gate(new Set(state.askedTopics))) return state; // gate unmet ⇒ no-op
+      // FB-269 — an already-asked topic re-asks for FREE in the live VN transcript (it's derived
+      // from askedTopics, deduped by key), but must NOT re-append the Q+A to the permanent log:
+      // refresh-replays and double-clicks were stacking duplicate exchanges in Chat.
+      if (state.askedTopics.includes(topic.id)) return state;
       // 1) VOICE the MC's question (a `player` line, "You: …"), THEN 2) the NPC's answer line(s),
       //    each in its own authored voice + nameplate — the scrollback reads as a two-sided exchange.
       //    FB-111 — this is OPTIONAL Q&A the player chose to ask, so it's flagged `chat`: it routes to
@@ -357,6 +366,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             voice: 'player',
             speaker: playerSpeaker(next),
             chat: true,
+            context: 'the cold open', // FB-270 — the chat kicker names the scene
           },
           ...topic.answer.map((l) => ({
             channel: 'narration' as const,
@@ -367,7 +377,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
           })),
         ],
       });
-      // 3) mark asked (idempotent — a re-ask re-emits above but doesn't grow the set). Drives the
+      // 3) mark asked (FB-269 — the guard above makes a re-ask a full no-op). Drives the
       //    hub's DIM state + the branch gates; touches NOTHING else.
       next = markTopicAsked(next, topic.id);
       break;
@@ -382,7 +392,13 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // 1) the MC's spoken reply, then 2) the NPC's / narrator's reaction (voice-tagged, FB-23/FB-26)
       next = applyRewards(next, {
         log: [
-          { channel: 'narration', text: opt.say, voice: 'player', speaker: playerSpeaker(next) },
+          {
+            channel: 'narration',
+            text: opt.say,
+            voice: 'player',
+            speaker: playerSpeaker(next),
+            context: 'the cold open', // FB-262
+          },
           {
             channel: 'narration',
             text: opt.react,
@@ -444,6 +460,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       const topic = rungTopic(scene, intent.topicId);
       if (!topic) return state;
       if (topic.gate && !topic.gate(new Set(state.askedTopics))) return state;
+      if (state.askedTopics.includes(topic.id)) return state; // FB-269 — no duplicate log Q+A
       // FB-111 — an OPTIONAL rung-beat question is `chat` (routes to the Chat tab, off the Story tab).
       next = applyRewards(next, {
         log: [
@@ -453,6 +470,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
             voice: 'player',
             speaker: playerSpeaker(next),
             chat: true,
+            // FB-270 — the chat kicker names the beat ("The day-hand promotion")
+            context: `${getRank(target).title} promotion`,
           },
           ...topic.answer.map((l) => ({
             channel: 'narration' as const,
@@ -479,10 +498,23 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!opt) return state;
       // (a) the exchange → Story (FB-103): the MC's reply, then the speaker's reaction.
       const react = rungReactVoiceSpeaker(scene, opt.reactNpc);
+      const beatCtx = `${getRank(target).title} promotion`; // FB-262 — same group as the greeting
       next = applyRewards(next, {
         log: [
-          { channel: 'narration', text: opt.say, voice: 'player', speaker: playerSpeaker(next) },
-          { channel: 'narration', text: opt.react, voice: react.voice, speaker: react.speaker },
+          {
+            channel: 'narration',
+            text: opt.say,
+            voice: 'player',
+            speaker: playerSpeaker(next),
+            context: beatCtx,
+          },
+          {
+            channel: 'narration',
+            text: opt.react,
+            voice: react.voice,
+            speaker: react.speaker,
+            context: beatCtx,
+          },
         ],
       });
       // (b) ACCUMULATING relationship write(s) — Genemon's trust deepens across rungs (deepenNpc).
@@ -539,6 +571,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'rake_rice': {
       if (!metaLegal(state, 'rake_rice')) return state;
+      if (!canAffordAct(next)) return state; // FB-265 — empty satiety refuses the act (rest first)
       // ADR-163: the raked spilled rice goes into the KURA (in shō), never a carried pocket — the
       // household's grain is a kura commodity from the first handful.
       next = withBanked(next, 'rice', RICE_PER_RAKE);
