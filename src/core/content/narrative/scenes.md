@@ -116,6 +116,7 @@ Naoyuki: "Because nobody in this house knows what you are."
 Naoyuki: "Asked before the whole house, and he offers— note it down, steward.
 He offers nothing. Note that."
 
+say: "…"
 memory: naoyuki -1 (unreadable)
 flags: r5-stood
 

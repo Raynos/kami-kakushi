@@ -122,7 +122,7 @@ export const SCENES: readonly SceneDef[] = [
           {
             id: 'r5-stand',
             label: '"Say nothing. Stand for the count."',
-            say: '"Say nothing. Stand for the count."',
+            say: '"…"',
             react:
               '"Asked before the whole house, and he offers— note it down, steward. He offers nothing. Note that."',
             reactNpc: 'naoyuki',
