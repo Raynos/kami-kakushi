@@ -64,3 +64,15 @@ Also something that can show after the VN open
 **Details:** `the-log/2026-07-10T18-21-10.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-320 · 2026-07-10T18:22:21+0200 — i-m-thinking-we
+
+I'm thinking we want the Story to expand when selected and have a little toggle inside of it that says "vn / all" and you can select to look at all story text or only VN story text.
+
+Because VN text is the "MAIN MAIN STORY" and the rest is all flavor text you can see in all.
+
+**Element:** button "Story" — "Story" · `section[data-panel=log] > div:nth-of-type(2) > div:nth-of-type(1) > button:nth-of-type(1)` · @986,669 46×26
+**Screenshot:** `the-log/2026-07-10T18-22-21.png`
+**Details:** `the-log/2026-07-10T18-22-21.json` — save + recent logs + full context
+
+---
