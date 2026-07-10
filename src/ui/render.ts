@@ -5923,7 +5923,8 @@ export function mount(
       card.textContent = '';
       // FB-299 — the card names the act and says what it NEEDS and PRODUCES, for every timed
       // action (not just labour). Numbers come from the same balance constants / selectors the
-      // reducer spends (AC-6) — never re-typed literals.
+      // reducer spends (AC-6) — never re-typed literals. FB-334 — the unit reads "body" (the
+      // visible meter's name), never the internal field name "satiety".
       card.append(el('div', 'dev-act-card-title', btn.textContent?.trim() || key));
       const state = lastState;
       const line = (t: string): void => {
@@ -5937,20 +5938,20 @@ export function mount(
             .map(([r, n]) => `+${n} ${r === 'rice' ? 'shō (kura)' : r}`)
             .join(' · ');
           line(gains || 'no yield');
-          line(`+${f.xp} ${act.skill} xp · −${act.satietyCost} satiety`);
+          line(`+${f.xp} ${act.skill} xp · −${act.satietyCost} body`);
           break;
         }
         case 'rake_rice':
-          line(`+${balance.RICE_PER_RAKE} shō (kura) · −${balance.SATIETY_PER_ACT} satiety`);
+          line(`+${balance.RICE_PER_RAKE} shō (kura) · −${balance.SATIETY_PER_ACT} body`);
           break;
         case 'rest':
-          line(`+${balance.SATIETY_PER_REST + homeRestBonus(state)} satiety`);
+          line(`+${balance.SATIETY_PER_REST + homeRestBonus(state)} body`);
           break;
         case 'cook_meal':
           line(`−${balance.COOK_SANSAI_COST} sansai · +${balance.COOK_HP_RESTORE} hp`);
           break;
         case 'eat_rice':
-          line(`−${balance.EAT_RICE_COST} shō (kura) · +${balance.EAT_RICE_SATIETY} satiety`);
+          line(`−${balance.EAT_RICE_COST} shō (kura) · +${balance.EAT_RICE_SATIETY} body`);
           break;
         case 'repair_weapon':
           line(
