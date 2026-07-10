@@ -253,26 +253,6 @@ Canon keys `node<X>Blurb<Season>` in `narrative/flavor.md`; alternates:
   - **Verdict:** _(awaiting your read — bundle-level verdicts are fine: pick
     per SEASON, never per line)_
 
-### HR-24 🔲 [R0+ · Story log] — VN grouping units — pick a variant (FB-262, ADR-075)
-
-The Story log's fix for "just random linear scroll": consecutive lines from one
-VN scene (a rung beat, a generalized scene, the cold open) now read as ONE
-bordered unit with the scene's name as its header — scrolling back reads as VN
-blocks with ambient story between them. Three treatments, all working, all
-live-switchable. **Self-picked prod default: A · 幕 card.**
-
-  - **A · 幕 card** — a hairline gold box around the scene, its name as the
-    lintel. Quietest full enclosure; the "proper border VN section" as asked.
-  - **B · margin rail** — a 2px gold rail down the scene's left margin, the
-    name as a small ink side label. Lightest touch; groups without boxing.
-  - **C · raised plate** — the scene sits on its own steel plate (rounded,
-    inset), physically lifted off the ambient flow. Strongest separation.
-  - **How to look LIVE:** DEV → Variants → **Story log · VN groups**; play any
-    rung beat (or `?fixture=rung-beat-ready` → answer the summons) and open
-    Story. NOTE: lines from saves made before 2026-07-10 carry no scene tag —
-    grouping shows on new play.
-  - **Verdict:** _(awaiting your read)_
-
 ### HR-25 🔲 [R7 · story] — the lord unstaged: R7's two {lord} lines (HD-36, ADR-139)
 
 Your HD-36 (a) ruling applied: the two R7 house-standing lines re-derived so

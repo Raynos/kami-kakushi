@@ -4061,7 +4061,7 @@ export function mount(
   // as "one big log". Paint-order derived; reset with the painted view.
   let lastBlockKey: string | null = null;
   // FB-262 — the Story log's VN GROUPS: consecutive non-chat lines sharing a scene `context`
-  // read as ONE bordered unit (variants a/b/c style it via [data-vn-groups]). Paint-order
+  // read as ONE 幕-card unit (HR-24: A · 幕 card; the .scene-* classes are styled in styles.css). Paint-order
   // derived like the block breaks; the closing edge is `.scene-close` (stamped when the run
   // ends) or `:last-child` (the run is still the newest thing in the log).
   let lastSceneCtx: string | null = null;
@@ -4626,10 +4626,8 @@ export function mount(
     logLines.scrollTop = logLines.scrollHeight;
   }
   function renderLog(state: GameState): void {
-    // FB-262 — the VN-group treatment (diverge log-vn-groups): a = 幕 card (prod default),
-    // b = margin rail, c = raised plate. DEV live-switches via the Variants tab; prod ships 'a'.
-    const vnGroups = __DEV_TOOLS__ && dev ? dev.getVariant('log-vn-groups') || 'a' : 'a';
-    if (logSection.dataset.vnGroups !== vnGroups) logSection.dataset.vnGroups = vnGroups;
+    // FB-262 — VN groups: consecutive lines from one scene read as ONE 幕-card unit
+    // (HR-24 signed off on A · 幕 card, 2026-07-10; styles the .scene-* classes unconditionally).
     const entries = state.log.entries;
     // FB-165 — refresh the pure kicker map whenever the log advanced or reset.
     if (state.log.seq !== chatKickersSeq) {

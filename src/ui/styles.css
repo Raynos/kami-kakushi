@@ -1005,10 +1005,11 @@ h3 {
   border-top: 1px solid var(--silver-faint);
 }
 
-/* ── FB-262 — VN GROUPS in the Story log (diverge `log-vn-groups`) ──────────────
+/* ── FB-262 — VN GROUPS in the Story log · A · 幕 card ──────────────────────────
    Consecutive lines from one VN scene read as ONE unit; scrolling back reads as
-   "VN blocks + ambient story between them". Three treatments, switched live by
-   [data-vn-groups] on the log section (DEV Variants tab; prod ships `a`).
+   "VN blocks + ambient story between them". HR-24 signed off on A · 幕 card
+   (2026-07-10) — it ships unconditionally (the margin-rail / raised-plate takes
+   were stripped, zero flag-debt; git history keeps them).
    The closing edge is `.scene-close` (a later line ended the run) OR `:last-child`
    (the run is still the newest thing in the log). */
 .scene-head {
@@ -1019,60 +1020,22 @@ h3 {
   color: var(--gold);
   margin-bottom: var(--space-1);
 }
-/* A · 幕 card — a hairline gold box with the scene name as its lintel (prod default) */
-[data-vn-groups='a'] .log-line.scene-line {
+/* 幕 card — a hairline gold box with the scene name as its lintel */
+.log-line.scene-line {
   border-left: 1px solid var(--gold-faint, rgba(216, 185, 120, 0.28));
   border-right: 1px solid var(--gold-faint, rgba(216, 185, 120, 0.28));
   padding-left: var(--space-3);
   padding-right: var(--space-3);
   background: rgba(216, 185, 120, 0.03);
 }
-[data-vn-groups='a'] .log-line.scene-open {
+.log-line.scene-open {
   border-top: 1px solid var(--gold-faint, rgba(216, 185, 120, 0.28));
   padding-top: var(--space-2);
   margin-top: var(--space-3);
 }
-[data-vn-groups='a'] .log-line.scene-close,
-[data-vn-groups='a'] .log-line.scene-line:last-child {
+.log-line.scene-close,
+.log-line.scene-line:last-child {
   border-bottom: 1px solid var(--gold-faint, rgba(216, 185, 120, 0.28));
-  padding-bottom: var(--space-2);
-  margin-bottom: var(--space-3);
-}
-/* B · margin rail — a quiet gold rail down the scene's left margin, name as a side label */
-[data-vn-groups='b'] .log-line.scene-line {
-  border-left: 2px solid var(--gold-faint, rgba(216, 185, 120, 0.35));
-  padding-left: var(--space-3);
-}
-[data-vn-groups='b'] .log-line.scene-open {
-  margin-top: var(--space-3);
-}
-[data-vn-groups='b'] .scene-head {
-  color: var(--ink-soft);
-  letter-spacing: 0.1em;
-}
-[data-vn-groups='b'] .log-line.scene-close,
-[data-vn-groups='b'] .log-line.scene-line:last-child {
-  margin-bottom: var(--space-3);
-}
-/* C · raised plate — the scene sits on its own steel plate, inset from the ambient flow */
-[data-vn-groups='c'] .log-line.scene-line {
-  background: var(--steel-2);
-  padding-left: var(--space-3);
-  padding-right: var(--space-3);
-  margin-left: var(--space-1);
-  margin-right: var(--space-1);
-}
-[data-vn-groups='c'] .log-line.scene-open {
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-  padding-top: var(--space-2);
-  margin-top: var(--space-3);
-  box-shadow: inset 0 1px 0 rgba(216, 185, 120, 0.18);
-}
-[data-vn-groups='c'] .log-line.scene-close,
-[data-vn-groups='c'] .log-line.scene-line:last-child {
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
   padding-bottom: var(--space-2);
   margin-bottom: var(--space-3);
 }

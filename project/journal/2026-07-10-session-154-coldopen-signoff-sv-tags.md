@@ -38,3 +38,22 @@ prose swapped into canon). DEV Story pane now tags every take `SV{n}{LETTER}`.
 - Genemon Take A re-introduces the "being counted" register that Take C was
   self-picked to *avoid* across acts (dream act is also inventory/counting). The
   human made that override deliberately — noted, not a defect.
+
+---
+
+## Addendum — HR-24 signed off (V5A · 幕 card locked)
+
+The human picked **V5A** ("V5A i want to keep for the log") — the Story-log VN
+grouping surface (`log-vn-groups`, FB-262). Converged per ADR-075:
+- `src/ui/render.ts` — dropped the `data-vn-groups` DEV switch; the `.scene-*`
+  classes now carry the treatment unconditionally.
+- `src/ui/styles.css` — rebased A's 幕-card selectors off `[data-vn-groups='a']`
+  to plain `.log-line.scene-*`; deleted the B (margin rail) + C (raised plate)
+  rule blocks.
+- `src/ui/dev.ts` — removed the `log-vn-groups` surface from the SURFACES
+  registry (zero flag-debt). NOTE: this shifts the V-tags of later surfaces down
+  one (quests V6→V5, bestiary V7→V6, home V8→V7) — the panel computes them live
+  so nothing hardcoded drifts; review.md carries no V-numbers.
+- HR-24 removed from `review.md`, archived.
+- Verified headless in prod layout (`?dev=no`): the attribute is gone and
+  `.scene-line` still gets the 1px gold border + tint (幕 card ships).
