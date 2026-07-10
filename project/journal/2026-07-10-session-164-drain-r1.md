@@ -27,3 +27,7 @@
   `data-active-tab` stamp), sheet first, you-are-here card below.
 - FB-346 ✅ — tooltips standardized: every do-panel action carries a one-line
   cost/effect title from the paying selectors (AC-6); disabled reasons win.
+- FB-345 💬 — body-split plan authored (3 options, rec. C: stamina short-cycle
+  + hunger daily-cycle), queued for reading, NOT built (human ruling).
+- FB-343 💬 — eat-rice stays a zone action for now; its re-home is a named
+  Phase-0 ruling in the body-split plan.
