@@ -22,3 +22,15 @@ But I appreciated the rest you know, showing the rest of the unread messages one
 **Details:** `the-log/2026-07-10T18-17-36.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-316 · 2026-07-10T18:19:38+0200 — for-this-v5a-the
+
+For this V5A the grouping in the log, you can see all kinds of black space in between, the box is not clean, that looks like a UI / CSS mistake.
+
+we want all of that which belongs together to fit togeth.
+
+**Element:** panel "log" — "The house remembers— the cold open —Water, above and below. " · `section[data-panel=log]` · @921,83 536×622
+**Screenshot:** `the-log/2026-07-10T18-19-38.png`
+**Details:** `the-log/2026-07-10T18-19-38.json` — save + recent logs + full context
+
+---
