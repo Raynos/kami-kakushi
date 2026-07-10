@@ -38,9 +38,38 @@ adversarial verify, plus a gen-region opportunity scout) → report in
 
 ## 2 · PRD truth-audit (workflow `prd-truth-audit`)
 
-_Section filled in when the workflow lands: findings by section,
-refuted counts, the scout's gen-region shortlist, report path, plan
-path._
+Workflow `prd-truth-audit` (15 agents — 7 section auditors + 7
+per-section adversarial verifiers + 1 gen-region scout, all Fable;
+~1.38M tokens, 0 errors). **59 findings confirmed (18 high · 30
+medium · 11 low), 1 refuted and dropped.** Raw output snapshotted to
+`project/brainstorms/raw/2026-07-10-prd-truth-audit.json`
+(git-ignored); the distilled report is
+`project/audit/reports/2026-07-10-prd-truth-audit.md`.
+
+By section: §1 vision 8 (5 high — the §1.5 T0 rung table, the T2
+V-ladder with never-existed cast, the area registry, the reputation
+web vs the bible's one five-stage standing, the §1.12 reveal ladder);
+§2 systems 9 (defeat bleed says rice bleeds — it's kura-only); §3
+unlock ladder 9 (pre-ADR-137 meter/threshold rows, the pre-reboot
+cold-open script); §4 combat/balance 11 (the §4.8 pacing twin + 6
+stale mechanism spots beyond the known tables); §5 narrative 1 (the
+one healthy section — post-reboot pointer style works); §6 tech 13
+(the 6-command verify fossil vs 17 gates, stale scripts/save/DEV
+claims); §7 roadmap 8 ("no hosted CI, no deploy automation" — both
+exist).
+
+Scout: 8 ranked gen-region opportunities (t0-discoveries first —
+drift already live: PRD says 1 discovery, build ships 4).
+
+## 3 · The truth-sync plan
+
+`docs/plans/fable-2026-07-10-prd-truth-sync.md` (queued for the
+human, with the report): Phase G — 8 new gen-regions + 3
+strike-and-points (G1–G11); Phase T1 — the five §1 canon
+transcriptions; Phase T2 — the remaining sections top-down; Phase P —
+regression teeth (the audit's corpse-names into `prd-drift.ts`
+RETIRED TERMS) + `/prd-ripple` freeze-language relax + closure.
+Identity-in/tuning-out binds every region; ~20 commits estimated.
 
 ## Next intended steps
 

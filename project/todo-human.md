@@ -33,6 +33,14 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
+- [`docs/plans/fable-2026-07-10-prd-truth-sync.md`](../docs/plans/fable-2026-07-10-prd-truth-sync.md)
+  — the HD-33/ADR-168 PRD fix plan: 8 new gen-regions + 3 strike-and-points,
+  then transcription passes over the 59 audited stale spots. Execution is
+  agent-safe (text-sync, no intent moves); read to steer scope or ordering.
+- [`project/audit/reports/2026-07-10-prd-truth-audit.md`](../project/audit/reports/2026-07-10-prd-truth-audit.md)
+  — the audit behind that plan: 59 verified findings (18 high) — §1's rung/
+  T2/cast tables, §2's defeat bleed, §6's fossil architecture, §7's "no CI"
+  claim. Skim the section verdicts; the per-finding detail is for the agent.
 - [`docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`](../docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md)
   — the ready-to-build plan for T2 (Valley) map rungs + fog (you greenlit it
   2026-07-09; mechanics-only, no pin/HR). Skim before/whenever I build it.
