@@ -17,7 +17,14 @@
 
 ## TODO
 
-- _(none open — the `e2e/` → `src/tests/e2e/` move landed 2026-07-09.)_
+- **Audit the plans + gate a plan-quality template.** Have **Fable** audit
+  every archived plan (`project/archive/`), score them for quality, and distill a
+  "high-quality" **structured plan template**. Then enforce it with a pre-commit
+  / Claude hook that checks new plans against the template — e.g. that a plan is
+  "detailed" and includes the required sections: **PRD update**, **story-bible
+  update**, **`src/` implementation detail** (and the model-routing section,
+  etc.). Goal: every plan follows one structured template, gated so it can't be
+  skipped.
 
 ## Reading queue
 
