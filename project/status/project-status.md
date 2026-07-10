@@ -41,9 +41,6 @@ magic; no reset.
   the ADR-133 ratio at [0.95–0.97]; the ADR-148-interim scope DELETED — full
   R0–R6 band verdicts + the R7 ratio gate are the live `verify:balance` teeth.
   Greedy T0 ≈ 2.5 h sim wall. Combat curve R4+ kills still parked.
-- **✅ HD-34 RULED & APPLIED (s138, ADR-170):** Phase 2 re-tuned to the signed ≈1:1
-  (deed base 0.05→0.22; ratio [0.84–1.17] ∈ [0.8,1.2]) · idler ascension NOT a
-  promise (per-persona sim promises) · B8 no action.
 - **✅ COLD-OPEN REARC DONE (s143, HD-37 → ADR-173):** three acts live
   (memory→soan→genemon, three picks, reworked title card); both diverge units
   picked into canon — **HR-22/HR-23** review live (DEV → Story, incl. the new
@@ -113,8 +110,9 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    `docs/plans/fable-2026-07-10-estate-upgrades-redesign.md`) — Phase 1
    (fiction diverge) startable; or **T2 rungs/fog** (plan ready + greenlit:
    `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1 caveat: `T2_RUNG_LADDER`
-   is DEV-preview-only); or drain the inbox (ADR-171 claim first). Human-gated:
-   HR-1 + HR-18…25. Combat R4+ = a design call → inbox.
+   is DEV-preview-only); or drain the fresh `diverge` inbox bucket (ADR-171
+   claim first; all older lanes archived, s164). Human-gated: HR-1 + HR-18…25
+   + the body-split plan Phase-0 (reading queue). Combat R4+ → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 21/20 — REWRITE OWED (deferred: co-agent WIP in flight) · last full rewrite: 2026-07-09 -->
+<!-- rewrite-debt: 22/20 — REWRITE OWED (deferred: co-agent WIP in flight) · last full rewrite: 2026-07-09 -->
