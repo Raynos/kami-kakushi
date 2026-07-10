@@ -15,7 +15,7 @@ export const DIALOGUES: readonly DialogueDef[] = [
         id: 'gen-greet',
         speaker: NAMES.elder,
         voice: 'steward',
-        text: `On your feet, then. I am ${NAMES.elder}, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the ${NAMES.house} are samurai still — on the lord's rolls, if nowhere in the granary.`,
+        text: `Standing. Day four; the book said three, so the book gains a line. I am ${NAMES.elder}, steward of the ${NAMES.house} — what this house still has, I count, and you are counted in it now. Ask what you must; the entry is not closed.`,
       },
       {
         id: 'gen-stores',

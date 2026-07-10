@@ -17,9 +17,9 @@ unrouted: intro-support (gen-greet reused by intro.md; teach-by-reveal cursor)
 ### line gen-greet
 voice: steward
 
-On your feet, then. I am {elder}, steward of this house, and I keep the little
-it has left to keep. You'll not remember any of it, so hear it plain: the
-{house} are samurai still — on the lord's rolls, if nowhere in the granary.
+Standing. Day four; the book said three, so the book gains a line. I am
+{elder}, steward of the {house} — what this house still has, I count, and you
+are counted in it now. Ask what you must; the entry is not closed.
 
 ### line gen-stores
 voice: steward

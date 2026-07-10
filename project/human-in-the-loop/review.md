@@ -253,6 +253,49 @@ Canon keys `node<X>Blurb<Season>` in `narrative/flavor.md`; alternates:
   - **Verdict:** _(awaiting your read — bundle-level verdicts are fine: pick
     per SEASON, never per line)_
 
+### HR-22 🔲 [R0 · cold open] — the memory act + title card (HD-37 unit A, ADR-139)
+
+The rearc's first act (dream → soan → genemon is live; three picks per run) +
+the title card's lede/CTA, reworked to fit memory-first (your "rework the
+card line" ruling; the card's fiction moved out of render.ts hard-codes into
+`cold-open.md` and now swaps live — new `dev.subColdOpen`). **Pick: TAKE A
+"the inventory of what is left"** (12✔0✘, score 9): the memory surfaces as
+counted items, the name a blank entry — the counting register seeds the
+house's ledger faith, and "the kept item goes under, the habit stays" makes
+the verdicted wake echo read true after every pick. Card: *"A man is in the
+river above the weir…"* / CTA **"Make the count"**. Alternates: B "the grasp
+against the current" (8.5 — the name lost ON SCREEN; card CTA "Reach for
+it"), C "what the river keeps" (8.5 — the loss already finished; stillness).
+Canon: `cold-open.md` lede/cta/dream + `intro.md` scene dream; alternates:
+`takes/hd37-cold-open-a/`.
+
+  - **How to look LIVE:** DEV → Story → **The memory act — what the water
+    keeps**; the TITLE CARD re-inks in place as you toggle (lede + button).
+    For the act itself: New game → click through — the act swaps via the
+    same toggle (intro:dream), decide-only, straight into the choice grid.
+  - **Verdict:** _(awaiting your read)_
+
+### HR-23 🔲 [R0 · cold open] — Genemon's scene (HD-37 unit B, ADR-139)
+
+The restored third act, re-authored from the pre-C4.9 seed (which broke his
+locked voice — "a great name gone to seed" is a metaphor he'd never say).
+**Pick: TAKE C "the first entry is yours"** (8.5, zero blockers; won the
+tie-break on canon seams): probation in ink — he withholds everything not
+asked, every react is a ledger entry read aloud, "Day four; the book said
+three" locks onto Sōan's "Day four, by mine", the gen-work answer carries
+"Rakes; hauls. Wage: meals" as an already-written line, and "the entry is
+not closed" seeds the R7 name-writing payoff. Alternates: A "the intake
+entry" (8.5 — the condition-column scene; a strong twin, read it), B "the
+arithmetic of the house" (7.5 — rooms ten six shut; its three voice-law
+breaches literalized per the judge). Canon: `intro.md` scene genemon +
+`dialogue.md` gen-greet; alternates: `takes/hd37-cold-open-b/`.
+
+  - **How to look LIVE:** DEV → Story → **Genemon's scene — the entry is not
+    closed**; New game → play to the third act (two picks in) — the whole
+    scene (greeting, asks, the gated "Is the work safe?", reacts) voices the
+    selected take.
+  - **Verdict:** _(awaiting your read)_
+
 ---
 
 > _Open reviews only. Closed reviews graduate to [`archive.md`](archive.md). The

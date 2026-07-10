@@ -3046,3 +3046,32 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   dispatches; fixtures + pacing report regenerated (the diff is the
   before/after). Attended-play calibration of the [3, 22] band itself
   (sim-min vs felt-min) stays open under HR-1's live playthrough.
+
+### ADR-173 ✅ — the three-act cold open restored: dream → soan → genemon (HD-37; 🔁 re-opens C4.9's fusion)
+
+- **created_date:** 2026-07-10
+- **Context:** C4.9 (the G4.1 reshape) fused the pre-reboot three-scene
+  intro into the single take-a sickroom scene. Playing live v0.4.0 the
+  human hit the loss directly (FB-223): _"the Memory section is gone,
+  the discussion with genemon is gone, the ability to choose 3 perks is
+  gone… I saw a cold open that was better then what we have right now."_
+- **Decision (human, 2026-07-10, walkthrough asks):** restore ALL THREE
+  elements as a **hybrid + fresh diverge** — the human-verdicted take-a
+  sickroom prose stays as the middle act; the memory act + Genemon's
+  scene return re-authored via ADR-139 (seeded by `b221d6e~1`, never
+  copied). Act order **dream → soan → genemon** (memory fragments
+  before the rescue narration; soan keeps the name-flip beat, so the
+  genemon act reads `Nameless:`). The FB-14 title-card lede/CTA is
+  REWORKED to fit memory-first (not moved, not kept); the nine perks
+  restore at their old numbers (the sim is the gate); the ~2× cold-open
+  length is accepted (FB-8 telemetry watches).
+- **Consequences:** `INTRO_SCENE_ORDER` = [dream, soan, genemon]; zero
+  engine changes (the cursor walks scenes generically; the flip keys on
+  `scene.id === 'soan'`). §0.5 law 4 holds: the first act is drowned
+  MEMORY surfacing, never a dream — the first dream stays T0-R7. The
+  card's fiction moved out of render.ts hard-codes into `cold-open.md`
+  (`lede`/`cta` keys) with a live DEV swap (`dev.subColdOpen`). Diverge
+  picks: unit A take-a "the inventory of what is left" (HR-22) · unit B
+  take-c "the first entry is yours" (HR-23); alternates live in
+  `takes/hd37-cold-open-{a,b}/` until sign-off. `verify:balance` GREEN
+  with three net-zero picks + nine perks — no persona rule needed.

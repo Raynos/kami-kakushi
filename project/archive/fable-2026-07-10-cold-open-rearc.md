@@ -1,8 +1,12 @@
 # The cold-open re-arc — three acts, three picks (HD-37)
 
-**Status:** 🔨 IN-PROGRESS — steps 1–2 LANDED (2026-07-10: the three-act
-restore + the ADR-132 balance gate, `verify` 18/18 + `verify:balance` GREEN);
-next: step 3 (diverge unit A). Human ran the decision walkthrough in-session
+**Status:** ✅ DONE — all six steps landed 2026-07-10 (s143): restore +
+balance gate; both ADR-139 diverge units picked into canon (unit A take-a →
+HR-22 · unit B take-c → HR-23; alternates live in the DEV Story switcher,
+incl. the new `dev.subColdOpen` title-card swap); full-arc live capture in
+`project/audit/screens/2026-07-10-cold-open-rearc/`; PRD §3.1 + bible t0 R0
+rippled; ADR-173; HD-37 archived. Human review rides HR-22/HR-23.
+Human ran the decision walkthrough in-session
 (2026-07-10, supersedes the queued full read) and gave the go: full arc,
 this session. Verdicts: act order `dream → soan → genemon` ✓ · title-card
 lede REWORKED to fit dreaming-first (not moved, not kept) · nine perks

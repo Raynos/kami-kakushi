@@ -9,6 +9,7 @@ import {
   mount,
   formatLogText,
   NOW_TTL_MS,
+  NOW_KEEP_LAST,
   FRESH_DIVIDER_TTL_MS,
   FRESH_DIVIDER_FADE_MS,
   TYPE_CADENCE_MS,
@@ -1312,16 +1313,19 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     expect((lineTexts()[1] ?? '').length).toBeGreaterThan(0); // it started early, not at ~2s
   });
 
-  // FB-227 — the GBA caret (the cold open's co-typing primitive) rides the VN's typing
-  // line and clears once the block finishes (the panel takes over). RED before FB-227:
-  // no .co-typing ever appeared inside the VN.
-  it('F227 — the GBA caret rides the typing line and clears when the block finishes', () => {
+  // FB-227/FB-271 — the GBA caret (the cold open's co-typing primitive) rides the VN's
+  // typing line, and once the block finishes it RESTS on the last line (the "waiting for
+  // you" beat) instead of vanishing — it only moves when the next block starts typing.
+  it('F227/F271 — the GBA caret rides the typing line and rests on the last line at block end', () => {
     const render = spyMount();
     render(introState(SOAN_IDX), null);
     const typing = root.querySelector<HTMLElement>('.vn-line .vn-text')!;
     expect(typing.classList.contains('co-typing')).toBe(true); // riding line 0 mid-type
     vi.runAllTimers(); // the whole block types + auto-advances out
-    expect(root.querySelector('.vn-lines .co-typing')).toBeNull(); // yielded to the panel
+    const resting = [...root.querySelectorAll<HTMLElement>('.vn-lines .co-typing')];
+    expect(resting.length).toBe(1); // exactly ONE caret, resting (FB-271), never a trail
+    const lines = [...root.querySelectorAll<HTMLElement>('.vn-lines .vn-text')];
+    expect(resting[0]).toBe(lines[lines.length - 1]); // …on the block's LAST line
   });
 
   // FB-199 — the VN fresh divider lives FRESH_DIVIDER_TTL_MS past the last new line (the
@@ -2411,34 +2415,37 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
     expect(link.rel).toContain('noopener'); // new-tab safety
   });
 
-  // a single fleeting entry: `narration` + `ephemeral:true` (a rest / move-arrival flavor line).
-  function withEphemeral(): GameState {
-    return logged([
-      {
-        key: 0,
-        channel: 'narration',
-        text: 'A cold gust crosses the yard.',
-        tick: 0,
+  // fleeting entries: `narration` + `ephemeral:true` (rest / move-arrival flavor lines).
+  // FB-268: the NOW_KEEP_LAST newest never expire, so the expiry tests seed one MORE than
+  // the floor — key 0 is displaced beyond it and runs the TTL; keys 1..N hold.
+  function withEphemeral(n = 1): GameState {
+    return logged(
+      Array.from({ length: n }, (_, i) => ({
+        key: i,
+        channel: 'narration' as const,
+        text: i === 0 ? 'A cold gust crosses the yard.' : `The yard goes on (${i}).`,
+        tick: i,
         count: 1,
         ephemeral: true,
-      },
-    ]);
+      })),
+    );
   }
 
-  it('F115 — a Now entry expires on wall-clock even while Now is NOT the active view', () => {
+  it('F115/FB-268 — beyond the keep-last floor a Now entry expires on wall-clock even while Now is NOT the active view', () => {
     vi.useFakeTimers();
     try {
       const render = mount(root, () => {}, noopHooks());
-      // render on the Story tab (default) — the ephemeral line is stamped the moment it's SEEN,
-      // and its expiry clock ticks regardless of which tab is showing (FB-115).
-      render(withEphemeral(), null);
+      // render on the Story tab (default) — the ephemeral lines are stamped the moment they're SEEN,
+      // and the expiry clock ticks regardless of which tab is showing (FB-115).
+      render(withEphemeral(NOW_KEEP_LAST + 1), null);
       // wait out the TTL (derived from the SAME source the renderer uses) WHILE still on Story…
       vi.advanceTimersByTime(NOW_TTL_MS + 2000);
-      // …then open Now: the line already aged out (the OLD view-coupled timer would show it FRESH).
+      // …then open Now: the DISPLACED oldest line aged out; the keep-last floor still stands
+      // whole (FB-268 — the Now view always holds the recent beat, however old).
       clickFilter('Now');
-      expect(root.querySelectorAll('.log-lines .now-line').length).toBe(0);
-      // the calm placeholder stands in — the tab never reads broken.
-      expect(root.querySelector('.log-lines .log-empty')).not.toBeNull();
+      const lines = [...root.querySelectorAll<HTMLElement>('.log-lines .now-line')];
+      expect(lines.length).toBe(NOW_KEEP_LAST);
+      expect(lines.some((l) => l.textContent!.includes('A cold gust'))).toBe(false);
     } finally {
       vi.useRealTimers();
     }

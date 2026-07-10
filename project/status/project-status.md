@@ -43,9 +43,10 @@ magic; no reset.
 - **✅ HD-34 RULED & APPLIED (s138, ADR-170):** Phase 2 re-tuned to the signed ≈1:1
   (deed base 0.05→0.22; ratio [0.84–1.17] ∈ [0.8,1.2]) · idler ascension NOT a
   promise (per-persona sim promises) · B8 no action.
-- **🔨 COLD-OPEN REARC IN-PROGRESS (s143, HD-37):** three acts back
-  (dream→soan→genemon, three picks); steps 1–2 landed, seeds marked — next: the
-  two diverge units (`docs/plans/fable-2026-07-10-cold-open-rearc.md`).
+- **✅ COLD-OPEN REARC DONE (s143, HD-37 → ADR-173):** three acts live
+  (memory→soan→genemon, three picks, reworked title card); both diverge units
+  picked into canon — **HR-22/HR-23** review live (DEV → Story, incl. the new
+  title-card swap). Plan archived.
 - **🧊 PARKED:** Plan K authored-depth demo (`docs/plans/t1/`; prototypes ⭐
   `project/prototypes/authored-depth-demo/`) + the T1 emergent-node plan
   (`docs/plans/t1/`). Un-park = human.
@@ -116,4 +117,4 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    list`). Human-gated: HR-1 + HR-18…21. Combat R4+ = a design call → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 15/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 16/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->

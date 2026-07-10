@@ -27,6 +27,8 @@ import type {
 import {
   availableActions,
   availableLabours,
+  canAffordAct,
+  OUT_OF_STRENGTH_REASON,
   timingFor,
   getActivity,
   activityForecast,
@@ -49,6 +51,7 @@ import {
   year,
   currentRank,
   RANKS,
+  SURFACES,
   rungProgress,
   nextRankId,
   getRank,
@@ -133,6 +136,7 @@ import type { Sfx } from './sfx';
 // layout) since the old ezu.ts POS keyed to retired node ids and drew nothing for the G4 estate.
 import { renderMapSheet } from './map-variants/sheet-map';
 import type { MapCtx } from './map-variants/shared';
+import { COLD_OPEN } from '../core/content/coldOpen';
 import { actionKey, type ActionClock } from '../app/action-clock';
 // type-only (erased at compile → no runtime import) so the renderer can accept the DEV harness
 // without pulling ui/dev.ts into the prod bundle. The dev value is undefined in prod (main.ts).
@@ -152,7 +156,7 @@ function rakeCount(state: GameState): number {
 }
 
 const META_LABELS: Record<'open_eyes' | 'rake_rice' | 'rest', string> = {
-  open_eyes: 'Open your eyes',
+  open_eyes: COLD_OPEN.cta, // single-sourced with the title card's verb (AC-21)
   rake_rice: 'Rake the spilled rice',
   rest: 'Rest a moment',
 };
@@ -174,10 +178,11 @@ const STANCE_UI: Record<StanceId, { kanji: string; gloss: string; hint: string }
 };
 
 // the pre-awake cold-open title card (the dead .coldopen CSS now has a home).
+// HD-37 unit A: the lede + CTA are FICTION — authored in narrative/cold-open.md
+// (COLD_OPEN.lede / COLD_OPEN.cta), never hard-coded here, and live-swappable
+// via the DEV story switcher (dev.subColdOpen) like every diverged unit.
 const COLD_OPEN_TITLE = '神隠し';
 const COLD_OPEN_ROMAN = 'Kamikakushi';
-const COLD_OPEN_LEDE =
-  'Dark. Straw against your cheek, the smell of wet rice, a low roof you do not know. Your name, your past — gone, as if the night swallowed them whole.';
 
 // ── the interactive intro VN scene (ADR-104 / FB-43–FB-48) — the SOLE prod intro presentation ──
 // Voice → on-palette colour: the nameplate seal + name take it (mirrors the log voice colours).
@@ -348,8 +353,12 @@ export function formatLogText(entry: LogEntry): string {
 // never times this). Module-scope + exported so a test derives its fixtures from the SAME source the
 // renderer uses (ADR-086 — no copied magic numbers). FB-115: the expiry runs regardless of the active
 // view, so a fleeting line clears on schedule even while Now is hidden.
-export const NOW_TTL_MS = 15000; // a fleeting line lives ~15s from first appearance
+export const NOW_TTL_MS = 60000; // a fleeting line lives ~60s from first appearance (FB-268)
 export const NOW_FADE_MS = 900; // …and spends its last ~0.9s fading out
+// FB-268 — the two-way fade: the NEWEST 10 fleeting lines never age out (the Now view always
+// holds the recent beat); only lines displaced beyond the floor run the 60s TTL. The other
+// half of the law is the core's LOG_EPHEMERAL_MAX ring (101st line evicts the oldest).
+export const NOW_KEEP_LAST = 10;
 export const NOW_COLLAPSE_MS = 400; // an expired line collapses its height over ~0.4s so the rest glide up
 
 // FB-199 — the "新 · new" fresh-entries divider (log + VN, one source): it marks everything
@@ -1133,14 +1142,19 @@ export function mount(
   shell.append(header, nav, workspace, logSection, footer, clockDock);
 
   // ── pre-awake cold-open title card (sibling to the shell; shown until 'awake') ──
+  // The lede/CTA resolve through the DEV story switcher (HD-37 unit A) — canon in prod.
+  const cardLede = (): string =>
+    __DEV_TOOLS__ && dev ? dev.subColdOpen('lede', COLD_OPEN.lede) : COLD_OPEN.lede;
+  const cardCta = (): string =>
+    __DEV_TOOLS__ && dev ? dev.subColdOpen('cta', COLD_OPEN.cta) : COLD_OPEN.cta;
   const coldOpen = el('div', 'coldopen');
   const coFrame = el('div', 'frame');
   const coTitle = el('h1');
   coTitle.lang = 'ja';
   coTitle.textContent = COLD_OPEN_TITLE;
   const coRoman = el('p', 'coldopen-roman', COLD_OPEN_ROMAN);
-  const coLede = el('p', 'coldopen-lede', COLD_OPEN_LEDE);
-  const coVerb = el('button', 'verb primary', META_LABELS.open_eyes);
+  const coLede = el('p', 'coldopen-lede', cardLede());
+  const coVerb = el('button', 'verb primary', cardCta());
   coVerb.type = 'button';
   coVerb.addEventListener('click', () => dispatch({ type: 'open_eyes' }));
   // HD-24 (option B) — a quiet "restore a save" line so a returning player on a fresh device/profile
@@ -1234,7 +1248,7 @@ export function mount(
   // FB-86 — the intro typewriter AUTO-ADVANCES: after a line finishes typing it holds for this beat,
   // then the next line starts on its own (no click needed). A click only ever SPEEDS this up — it
   // completes an in-flight line, or skips the remaining hold — it never pauses the sequence. Tunable.
-  const INTRO_LINE_ADVANCE_MS = QA_INSTANT_TEXT ? 0 : 2000;
+  const INTRO_LINE_ADVANCE_MS = QA_INSTANT_TEXT ? 0 : 2800; // FB-271 — the human read 2.0s as "scrolls too fast"
   // FB-118 — when the human CLICKS to complete a line (actively reading through), the next line starts
   // on a much shorter beat than the atmospheric auto-hold above; clicking should feel snappy.
   const INTRO_CLICK_ADVANCE_MS = QA_INSTANT_TEXT ? 0 : 450;
@@ -2249,7 +2263,9 @@ export function mount(
   // ── the per-block typewriter (FB-62/FB-78) — types the NEWLY-appended lines one at a time; a click on
   //    the scene completes the current line (if mid-type) or advances to the next (one line/click). ──
   function introFinishBlock(): void {
-    setIntroCaret(null); // FB-227 — the block is done; the caret yields to the panel controls
+    // FB-271 — the caret RESTS on the block's last line until the scene advances (the GBA
+    // "waiting for you" beat the human missed): it clears on the next block's first line
+    // (setIntroCaret moves it) or on scene teardown — no longer the instant the block ends.
     if (introTypeTimer !== undefined) {
       window.clearTimeout(introTypeTimer);
       introTypeTimer = undefined;
@@ -2510,6 +2526,20 @@ export function mount(
         cer.append(
           el('div', 'vn-rung-flavor', `You've been promoted to ${rank?.title ?? 'a new rung'}.`),
         );
+        // FB-272 — the ceremony carries the "what opens" context (human, 2026-07-10): the
+        // rank's unlocked surfaces with a short ceremonyLabel list HERE, framed as the
+        // steward's expectation — instead of flooding Story after the ceremony closes.
+        const opens = (rank?.rewardOnReach?.unlock ?? [])
+          .map((id) => SURFACES.find((su) => su.id === id)?.ceremonyLabel)
+          .filter((l): l is string => l !== undefined);
+        if (opens.length > 0) {
+          const list = el('div', 'vn-rung-opens');
+          list.append(
+            el('div', 'vn-rung-opens-head', 'Now open to you — the house expects them worked:'),
+          );
+          for (const label of opens) list.append(el('div', 'vn-rung-opens-item', label));
+          cer.append(list);
+        }
         const cont = el('button', 'verb intro-continue', 'Continue');
         cont.type = 'button';
         cont.addEventListener('click', () => {
@@ -2575,7 +2605,7 @@ export function mount(
       }
       if (asked.has(t.id) && !b.classList.contains('asked')) {
         b.classList.add('asked');
-        b.title = 'Asked — ask again';
+        b.title = 'Asked'; // FB-269 — a re-ask is a no-op now (the answer stays in the transcript)
       }
     }
   }
@@ -2912,6 +2942,13 @@ export function mount(
       },
       patch: (node, a) => {
         if (a !== 'rake_rice') return;
+        // FB-265 — the rake refuses at empty satiety (same predicate as the reducer, AC-6):
+        // disable + say why, so the player is steered to "Rest a moment" instead of a dead grind.
+        const rakeBtn = node.querySelector<HTMLButtonElement>('.verb')!;
+        const affordable = canAffordAct(state);
+        setDisabled(rakeBtn, !affordable);
+        const rakeTitle = affordable ? '' : OUT_OF_STRENGTH_REASON;
+        if (rakeBtn.title !== rakeTitle) rakeBtn.title = rakeTitle;
         const auto = node.querySelector<HTMLButtonElement>('.auto-toggle')!;
         toggle(auto, rakeCount(state) >= RAKE_AUTO_REVEAL_COUNT);
         const on = state.autoRake;
@@ -3970,7 +4007,9 @@ export function mount(
         if (partner === null) partner = current; // mid-group player line
       }
       if (partner !== null && partner !== current) {
-        map.set(e.key, partner);
+        // FB-270 — the group opener may carry a scene context ("the cold open",
+        // "The day-hand promotion"); the kicker names it so the divider has meaning.
+        map.set(e.key, e.context !== undefined ? `${partner} · ${e.context}` : partner);
         current = partner;
       }
     }
@@ -4107,7 +4146,10 @@ export function mount(
   // once the line is fully typed (or the line was evicted), never on a cancel.
   function typeLine(entry: LogEntry, onDone: () => void): void {
     const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
-    const line = el('div', `log-line ${entry.channel}${voiceClass}`);
+    // FB-261 — same .spoken step-in as buildLogLine: a live-typed speech line must not sit
+    // flush-left while its refresh-repainted siblings indent (the two paths must agree).
+    const spokenClass = entry.voice && entry.voice !== 'narrator' ? ' spoken' : '';
+    const line = el('div', `log-line ${entry.channel}${voiceClass}${spokenClass}`);
     stampChatKicker(line, entry); // F127 — group-opener mark survives the post-type re-render
     stampBlockBreak(line, entry); // FB-167
     if (line.dataset.kicker !== undefined) line.append(kickerNode(line.dataset.kicker));
@@ -4128,7 +4170,11 @@ export function mount(
     armFreshDividerFade(); // FB-177 — a typing line keeps the fresh divider alive
 
     const full = formatLogText(entry);
-    const isNarrationQuote = entry.channel === 'narration' && entry.voice === undefined;
+    // FB-267 — narrator-VOICED lines need the finalize re-render too: their embedded quotes
+    // ('"So he can work," Genemon says') carry the FB-228 inferred speaker tint, which only
+    // renderLineContent applies. Excluding them left live-typed lines untinted until a refresh.
+    const isNarrationQuote =
+      entry.channel === 'narration' && (entry.voice === undefined || entry.voice === 'narrator');
     const finalize = (): void => {
       textNode.data = full;
       if (isNarrationQuote) renderLineContent(line, entry); // FB-23 .speech spans
@@ -4274,6 +4320,13 @@ export function mount(
     if (nowSeen.size > 0) ensureExpiryClock();
     refreshNowLive();
   }
+  // FB-268 — the keep-last floor: the NOW_KEEP_LAST newest stamped fleeting lines are exempt
+  // from the TTL (they hold the Now view's recent beat). Derived from the stamps themselves
+  // (nowSeen keys are the log keys, monotonic), so it needs no state threading.
+  function protectedNowKeys(): Set<number> {
+    const keys = [...nowSeen.keys()].sort((a, b) => b - a).slice(0, NOW_KEEP_LAST);
+    return new Set(keys);
+  }
   // FB-175 — the Now tab's ambient ACTIVITY lamp: fleeting text landed in the last 10s.
   // Deliberately NOT the red unread dot (Now's lines self-fade — FB-53); a distinct warm
   // "live" tint that lapses back to quiet on its own. Driven by the same wall-clock stamps
@@ -4333,8 +4386,21 @@ export function mount(
       pruneNowViewDom(now);
     } else {
       // Now is HIDDEN: no DOM to touch — just age the logical clock so lines are already gone when the
-      // player switches to Now next (the core of the FB-115 fix).
-      for (const [key, seen] of nowSeen) if (now - seen >= NOW_TTL_MS) nowSeen.delete(key);
+      // player switches to Now next (the core of the FB-115 fix). FB-268: the keep-last floor
+      // is exempt — those stamps survive any age.
+      const keep = protectedNowKeys();
+      for (const [key, seen] of nowSeen)
+        if (!keep.has(key) && now - seen >= NOW_TTL_MS) nowSeen.delete(key);
+      // only floor-protected stamps left and all past TTL ⇒ nothing changes until a new line
+      // lands (stampEphemeral re-arms the clock) — stop ticking rather than spin forever.
+      if (
+        nowSeen.size > 0 &&
+        [...nowSeen.entries()].every(([k, seen]) => keep.has(k) && now - seen >= NOW_TTL_MS)
+      ) {
+        stopExpiryClock();
+        refreshNowLive();
+        return;
+      }
     }
     if (nowSeen.size === 0 && logFilter !== 'now') stopExpiryClock();
     refreshNowLive(); // FB-175 — the live lamp ages off on the same clock
@@ -4342,6 +4408,7 @@ export function mount(
   // The DOM prune pass (Now active): fade lines entering their last NOW_FADE_MS, expire past NOW_TTL_MS.
   function pruneNowViewDom(now: number): void {
     const reduced = reduceMotion();
+    const keep = protectedNowKeys(); // FB-268 — the keep-last floor never fades
     let live = 0;
     for (const node of Array.from(logLines.children) as HTMLElement[]) {
       const raw = node.dataset.nowKey;
@@ -4350,6 +4417,11 @@ export function mount(
       const seen = nowSeen.get(Number(raw));
       if (seen === undefined) {
         node.remove();
+        continue;
+      }
+      if (keep.has(Number(raw))) {
+        node.classList.remove('now-fading'); // displaced back INTO the floor never half-fades
+        live += 1;
         continue;
       }
       const age = now - seen;
@@ -4377,8 +4449,10 @@ export function mount(
     const now = Date.now();
     const reduced = reduceMotion();
     // the ephemeral entries STILL inside their render window (newest at the bottom — log order).
+    const keep = protectedNowKeys(); // FB-268 — the keep-last floor is always visible
     const visible = state.log.entries.filter((e) => {
       if (e.ephemeral !== true) return false;
+      if (keep.has(e.key)) return true;
       const seen = nowSeen.get(e.key);
       return seen !== undefined && now - seen < NOW_TTL_MS;
     });
@@ -4399,7 +4473,11 @@ export function mount(
       patch: (line, e) => {
         const seen = nowSeen.get(e.key);
         const age = seen === undefined ? 0 : now - seen;
-        setClass(line, 'now-fading', !reduced && age >= NOW_TTL_MS - NOW_FADE_MS);
+        setClass(
+          line,
+          'now-fading',
+          !reduced && !keep.has(e.key) && age >= NOW_TTL_MS - NOW_FADE_MS,
+        );
       },
       order: true,
     });
@@ -4473,9 +4551,30 @@ export function mount(
     }
     stopTyping(); // P2 — cancel any in-flight typewriter (the view is being repainted)
     if (lastState) {
+      // FB-228 — opening a tab with UNREAD lines plays them like a live arrival: the READ
+      // history paints instantly (as before), then the unread tail flows through the fresh
+      // divider + cascade + typewriter — "as if the tab had been open the whole time".
+      // (The seen high-water is captured BEFORE refreshLogTabs below marks this tab seen;
+      // the >12 flush valve still protects a huge backlog. Now/all are excluded — no dots.)
+      const unreadFrom = f !== 'all' && f !== 'now' ? logSeen[f] : Number.MAX_SAFE_INTEGER;
       const wasFirst = firstRender;
       firstRender = true;
-      renderLog(lastState);
+      if (
+        !vnActive(lastState) &&
+        !reduceMotion() &&
+        lastState.log.entries.some(
+          (e) =>
+            e.key > unreadFrom &&
+            logFilterMatches(e.channel, f, e.ephemeral === true, e.chat === true),
+        )
+      ) {
+        const read = lastState.log.entries.filter((e) => e.key <= unreadFrom);
+        renderLog({ ...lastState, log: { ...lastState.log, entries: read } });
+        firstRender = false;
+        renderLog(lastState); // the unread tail — divider + cascade + typewriter
+      } else {
+        renderLog(lastState);
+      }
       firstRender = wasFirst;
     }
     paintLogFilterBar();
@@ -5383,7 +5482,8 @@ export function mount(
     // restore the full authored text — a cancelled prior run may have left slices
     coTitle.textContent = COLD_OPEN_TITLE;
     coRoman.textContent = COLD_OPEN_ROMAN;
-    coLede.textContent = COLD_OPEN_LEDE;
+    coLede.textContent = cardLede();
+    coVerb.textContent = cardCta();
     for (const it of items) it.classList.remove('in');
     // the wake verb and the quiet restore line (HD-24) wake in together, after the lede types out.
     const showButton = (): void => {
@@ -5403,7 +5503,7 @@ export function mount(
     const stages: { el: HTMLElement; text: string; per: number; holdAfter: number }[] = [
       { el: coTitle, text: COLD_OPEN_TITLE, per: TYPE_MS_PER_CHAR * 3, holdAfter: 380 },
       { el: coRoman, text: COLD_OPEN_ROMAN, per: TYPE_MS_PER_CHAR, holdAfter: 380 },
-      { el: coLede, text: COLD_OPEN_LEDE, per: TYPE_MS_PER_CHAR, holdAfter: 900 },
+      { el: coLede, text: cardLede(), per: TYPE_MS_PER_CHAR, holdAfter: 900 },
     ];
     let t = 350; // a beat of dark before the title strikes
     for (const s of stages) {
@@ -5438,6 +5538,17 @@ export function mount(
       openPersonId = null; // …and close any open who's-here conversation (ADR-114)
       logFilter = 'story';
       applyColdOpenReveal();
+      // DEV story switcher (HD-37 unit A): a take toggle re-inks the card in place —
+      // instantly, never re-typing, and never fighting a line mid-typewriter.
+      if (
+        __DEV_TOOLS__ &&
+        dev &&
+        coldOpenRevealStarted &&
+        !coLede.classList.contains('co-typing')
+      ) {
+        if (coLede.textContent !== cardLede()) coLede.textContent = cardLede();
+        if (coVerb.textContent !== cardCta()) coVerb.textContent = cardCta();
+      }
       return;
     }
     coldOpen.hidden = true;

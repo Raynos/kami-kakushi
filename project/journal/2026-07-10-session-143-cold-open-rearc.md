@@ -49,7 +49,7 @@ Shared tree with w2:p5 (HD-35 re-pace): landed sources + artifacts by
 pathspec only, NO push — w2:p5 commits theirs next, final-regens if needed,
 and pushes both.
 
-## Next intended steps
+## Next intended steps ~~(superseded same-session — steps 3–6 ran; see below)~~
 
 - Step 3 — narrative-diverge unit A: the memory/dream act (+ the reworked
   title-card lede), 3 blind takes, Story-switcher wiring, HR-item.
@@ -57,3 +57,41 @@ and pushes both.
   daybook/daybookVerbs reuse keys, the "rakes; hauls" wage line).
 - Step 5 — act seams + fresh-eyes playthrough capture; step 6 — /prd-ripple +
   story-bible sync.
+
+## Steps 3–6 (same session, continued)
+
+- **Unit A diverged & landed (HR-22).** 3 blind takes + 3 scorecard judges via
+  Workflow (one session-limit stall; resumed from cache). PICK: take-a "the
+  inventory of what is left" (12✔0✘, 9/10) — memory as counted items, the name
+  a blank entry; judge's one edit applied. The title card's lede/CTA moved out
+  of render.ts hard-codes into cold-open.md (`lede`/`cta`) — canon now *"A man
+  is in the river above the weir…"* / **"Make the count"** — with a NEW live
+  swap (`dev.subColdOpen` + LIVE_UNITS `cold-open:lede|cta`; instant re-ink,
+  never mid-typewriter). The C4.9-retired decision-only render test returned.
+- **Unit B diverged & landed (HR-23).** PICK: take-c "the first entry is
+  yours" (8.5, zero blockers; tie-break over take-a on canon seams — carries
+  "Rakes; hauls. Wage: meals" verbatim, "Day four; the book said three" locks
+  onto canon, the open entry seeds R7's name-writing). gen-greet re-voiced in
+  dialogue.md (the old seed's "gone to seed" metaphor broke Genemon's locked
+  voice). Take-b's three voice-law blockers literalized per its judge before
+  landing as an alternate.
+- **Verified live, fresh eyes:** full-arc Playwright drive (card → memory act
+  → sickroom → Genemon, the gen-danger gate appearing after gen-work, intro
+  completing at cursor 3) + the Story-switcher toggle re-inking the card to
+  take-b live. Screenshots: `project/audit/screens/2026-07-10-cold-open-rearc/`.
+  Two FB-5 parser lessons: a wrapped line must not OPEN with a
+  capitalized-word-then-colon ("Rakes; hauls. Wage:" parsed as a speaker), and
+  take files must INLINE prose — `@cold-open.X` compiles to a canon reference.
+- **Ripple:** PRD §3.1 rewritten to the three-act arc; bible t0 R0 row synced;
+  `prd:drift` CLEAN; ADR-173 appended; HD-37 → archive.
+- **Shared-tree coordination:** render.ts/render.test.ts carry w3:p3's green
+  log-panel hunks (their proposal — noted, consented); dev.ts (incl. my
+  subColdOpen seam) + takes.ts + storyTakes.gen.ts are w6:p1's to land right
+  after this commit — so the COMMITTED tree is CI-consistent only once w6:p1
+  lands; no push before then.
+
+## Next intended steps
+
+- Human: HR-22 + HR-23 picks (DEV → Story), then prune the losing takes.
+- w6:p1 lands dev.ts/takes.ts/storyTakes.gen.ts; then a green push carries
+  everything (incl. the earlier local e2e timed-rake fix, a1e0067).

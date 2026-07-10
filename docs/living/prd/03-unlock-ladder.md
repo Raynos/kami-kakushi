@@ -234,18 +234,21 @@ this template:
 The lone hand-authored, pre-ladder state — **one verb and a log**, no nav, no
 tabs, no map (the map opens as you earn the ground to walk). *(The step-by-step
 script table that lived here was struck 2026-07-10, ADR-168 — it quoted the
-pre-storywave cold open wholesale, kura-first; the shipped open begins at the
-**weir** — the river gives him up — then the sickroom, three days lost, the
-day-book.)* The cold open is authored in
-[`narrative/cold-open.md`](../../../src/core/content/narrative/cold-open.md) +
-`intro.md` (the Sōan examination scene, the You:→Nameless: flip, the R0
-decision) and compiled by `gen:narrative`; **read the shipped script in
+pre-storywave cold open wholesale, kura-first.)* The shipped open (HD-37 /
+ADR-173, re-opening C4.9's one-scene fusion) is a **three-act arc, one pick
+each**: the **memory act** (in the water — memory surfaces as counted items;
+never a dream, §0.5 law 4) → the **sickroom** (the weir rescue narration,
+Sōan's examination, the You:→Nameless: flip, the identity fork) → **Genemon's
+scene** (the day-book terms, the ask hub, the first entry). It is authored in
+[`narrative/cold-open.md`](../../../src/core/content/narrative/cold-open.md)
+(incl. the title card's `lede`/`cta`) + `intro.md` and compiled by
+`gen:narrative`; **read the shipped script in
 [`docs/content/t0-story.md`](../../content/t0-story.md)**. What stands as
-design intent: launch shows the persistent event log and a single verb; the
-body/rest readouts and the rice/coin rows light on first use through the
-reveal engine (§2.1); the first dream-fragment seeds the Origin thread as a
-log line with ZERO mechanical effect; after the examination scene the player
-is at **R0** and the T0 ladder (§3.2) takes over.
+design intent: launch shows the title card and a single verb; the body/rest
+readouts and the rice/coin rows light on first use through the reveal engine
+(§2.1); each act's pick is a net-zero ±1 attribute trade granting a named
+perk (nine perks across the arc); after the third act the player is at
+**R0** and the T0 ladder (§3.2) takes over.
 
 ---
 

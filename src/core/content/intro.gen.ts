@@ -16,14 +16,14 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
     greeting: [{ voice: 'narrator', text: COLD_OPEN.dream }],
     topics: [],
     decision: {
-      prompt: 'The fragment tugs. Do you follow it?',
+      prompt: 'One can be kept before the rest goes down. Which?',
       options: [
         {
           id: 'dream-dwell',
-          label: 'Dwell on it',
-          say: '"Hold the road. The rain. Almost a name."',
+          label: 'Hold the knot',
+          say: '"The knot. Tied twice. Why twice."',
           react:
-            'You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.',
+            'He turns it for as long as the water allows. The knot goes down with the rest; the looking stays — after this, anything put in his hands gets looked at twice before it gets an answer.',
           stat: { up: 'int', down: 'spd' },
           perk: {
             name: 'The Inward Turn',
@@ -32,9 +32,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         },
         {
           id: 'dream-shake',
-          label: 'Shake it off',
-          say: '"Later. The body is here; the past isn\'t."',
-          react: 'You let it go and the room sharpens — the slats of light, the way out.',
+          label: 'Strike the list',
+          say: '"Enough counting. Up is that way."',
+          react:
+            'The items go under and the water comes plain: one direction, lighter than the rest. What he keeps is the habit of it — any room he enters after this, the way out is the first thing counted.',
           stat: { up: 'spd', down: 'int' },
           perk: {
             name: 'The Clear Room',
@@ -43,10 +44,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         },
         {
           id: 'dream-hands',
-          label: 'Trust the hands',
-          say: '"A porter\'s knot. My hands know this much."',
+          label: 'Take up the load',
+          say: '"The load was mine. I know the weight."',
           react:
-            "Your fingers move before you decide to — a labourer's memory, still in the muscle.",
+            "The shoulders answer before the count does. The head kept nothing, but the hands kept the shape of the weight — a strap's width, the length of a carried step.",
           stat: { up: 'str', down: 'luck' },
           perk: {
             name: "The Porter's Hands",
@@ -207,7 +208,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           {
             voice: 'steward',
             speaker: NPC_NAME.genemon,
-            text: `"The ${NAMES.house}. A great name gone to seed — samurai on the rolls, paupers in the granary. I've kept it upright since the last master could not, and I'll keep it upright when you can't either."`,
+            text: `"The ${NAMES.house}. Samurai on the lord's rolls; in the granary, near nothing. Both facts are in the book."`,
           },
         ],
       },
@@ -218,43 +219,43 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           {
             voice: 'steward',
             speaker: NPC_NAME.genemon,
-            text: '"Rice to rake, a paddy to tend, a storehouse standing half-empty. Honest labour and no shortage of it. Earn your keep and there\'s a dry corner and a bowl in it — that\'s the whole of what I can promise."',
+            text: '"Rice, half a season\'s, spilled where the kura door gave in the rains. Rakes; hauls. Wage: meals — that line is already written."',
           },
         ],
       },
       {
         id: 'gen-you',
-        label: '"And who are you to me?"',
+        label: '"Who are you to me?"',
         answer: [
           {
             voice: 'steward',
             speaker: NPC_NAME.genemon,
-            text: "\"Steward. I run the estate; you'll learn it, or you won't eat. Do as I say on the house's matters and we'll get on well enough.\"",
+            text: '"The steward. I keep what can be counted, and I count what men work off. Whatever you left behind you, the book wants only your days."',
           },
         ],
       },
       {
         id: 'gen-danger',
-        label: '"Is it safe here?"',
+        label: '"Is the work safe?"',
         gate: (asked) => asked.has('gen-work'),
         answer: [
           {
             voice: 'steward',
             speaker: NPC_NAME.genemon,
-            text: "\"Safe as anywhere the lord's men don't ride. There's a wolf gone bold at the grain store, and worse up in the hills. But that's tomorrow's trouble. Today it's rice.\"",
+            text: '"One wolf, gone bold, comes at the grain store by night. It has cost this house two entries already. Work by daylight; count the sacks after."',
           },
         ],
       },
     ],
     decision: {
-      prompt: 'How do you answer the steward?',
+      prompt: 'The steward holds the brush over your line. What do you give the book?',
       options: [
         {
           id: 'genemon-earnest',
-          label: 'Earnest — point me at the work',
-          say: '"I\'ll earn my keep. Point me at it."',
+          label: 'Put me down for the heaviest',
+          say: '"Write me down for the heaviest of it. I\'ll carry it."',
           react:
-            '"...Good. The house has had its fill of hands that don\'t. We\'ll see if you mean it."',
+            '"Written: one back, offered whole; set to the heaviest. Sure hands over quick ones — the book keeps what stays lifted."',
           stat: { up: 'str', down: 'agi' },
           perk: {
             name: `${NAMES.elder}'s Charge`,
@@ -264,10 +265,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         },
         {
           id: 'genemon-wary',
-          label: "Wary — what's in it for me",
-          say: '"A samurai house with an empty granary. What\'s in it for me?"',
+          label: "What's in it for me",
+          say: '"Before you write — what do I get past the meals?"',
           react:
-            '"An honest question, and a cold one. Rice and a dry corner — that\'s the whole of what I can promise. Take it or walk."',
+            '"Meals; a roof; the entry itself, which will say you were here and worked. Written: asks the wage before the work — the house has lost less to careful men than to willing ones."',
           stat: { up: 'agi', down: 'str' },
           perk: {
             name: 'The Wary Foot',
@@ -277,9 +278,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         },
         {
           id: 'genemon-steady',
-          label: 'Silent — just get to work',
-          say: '(You say nothing, and reach for the spilled rice.)',
-          react: '"...A man who works before he talks. Rare. We\'ll get on."',
+          label: '(Take up the rake)',
+          say: '(You say nothing, and take up the rake by the door.)',
+          react:
+            '"Written: no answer given; rake taken, unasked. Work entered before words — the book counts that fastest, and luck not at all."',
           stat: { up: 'spd', down: 'luck' },
           perk: {
             name: 'Hands Before Words',

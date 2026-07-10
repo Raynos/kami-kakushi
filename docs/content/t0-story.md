@@ -9,11 +9,15 @@
 
 ## The cold open
 
+> A man is in the river above the weir. Carried on him: no papers, no coin, no name. The rest of the account is still under the water. <small>*(lede)*</small>
+
+> Make the count <small>*(cta)*</small>
+
 > The river gives you up at the weir. You keep none of it in order: hands in your collar, gravel under your back, the sky white and near, water leaving you in coughs. A stone jizō watches from the bank, rice at its feet, nobody on the road who could have left it. Someone says, carry him up, then. Then nothing. <small>*(weir)*</small>
 
 > Straw. A low roof. A fire kept small. Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it. You have been three days in a room you have never seen. <small>*(wake)*</small>
 
-> Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it. <small>*(dream)*</small>
+> Water, above and below. What surfaces is counted: one knot, tied twice; one road in grey rain; one load, set down somewhere and not taken up. The name is not among the items. Each is looked at once and goes under. <small>*(dream)*</small>
 
 > One man, name unknown. Taken at the weir. Fed, three days. Condition, poor; hands, good. <small>*(daybook)*</small>
 
@@ -25,18 +29,18 @@
 
 ## Intro 1 · The dream-fragment
 
-> Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it.
+> Water, above and below. What surfaces is counted: one knot, tied twice; one road in grey rain; one load, set down somewhere and not taken up. The name is not among the items. Each is looked at once and goes under.
 
-**Decide** — The fragment tugs. Do you follow it?
+**Decide** — One can be kept before the rest goes down. Which?
 
-- Dwell on it <small>· stat +int −spd · perk “The Inward Turn”</small>
-  *You chase it inward — and the ache in your skull chases you back. The name stays lost, but the habit of looking sets in.*
+- Hold the knot <small>· stat +int −spd · perk “The Inward Turn”</small>
+  *He turns it for as long as the water allows. The knot goes down with the rest; the looking stays — after this, anything put in his hands gets looked at twice before it gets an answer.*
 
-- Shake it off <small>· stat +spd −int · perk “The Clear Room”</small>
-  *You let it go and the room sharpens — the slats of light, the way out.*
+- Strike the list <small>· stat +spd −int · perk “The Clear Room”</small>
+  *The items go under and the water comes plain: one direction, lighter than the rest. What he keeps is the habit of it — any room he enters after this, the way out is the first thing counted.*
 
-- Trust the hands <small>· stat +str −luck · perk “The Porter's Hands”</small>
-  *Your fingers move before you decide to — a labourer's memory, still in the muscle.*
+- Take up the load <small>· stat +str −luck · perk “The Porter's Hands”</small>
+  *The shoulders answer before the count does. The head kept nothing, but the hands kept the shape of the weight — a strap's width, the length of a carried step.*
 
 ## Intro 2 · Sōan the physician
 
@@ -103,34 +107,34 @@
 
 ## Intro 3 · Genemon the steward
 
-**Genemon:** On your feet, then. I am Genemon, steward of this house, and I keep the little it has left to keep. You'll not remember any of it, so hear it plain: the Kurosawa are samurai still — on the lord's rolls, if nowhere in the granary.
+**Genemon:** Standing. Day four; the book said three, so the book gains a line. I am Genemon, steward of the Kurosawa — what this house still has, I count, and you are counted in it now. Ask what you must; the entry is not closed.
 
 **Ask** — "What house is this?"
 
-**Genemon:** "The Kurosawa. A great name gone to seed — samurai on the rolls, paupers in the granary. I've kept it upright since the last master could not, and I'll keep it upright when you can't either."
+**Genemon:** "The Kurosawa. Samurai on the lord's rolls; in the granary, near nothing. Both facts are in the book."
 
 **Ask** — "What work is there?"
 
-**Genemon:** "Rice to rake, a paddy to tend, a storehouse standing half-empty. Honest labour and no shortage of it. Earn your keep and there's a dry corner and a bowl in it — that's the whole of what I can promise."
+**Genemon:** "Rice, half a season's, spilled where the kura door gave in the rains. Rakes; hauls. Wage: meals — that line is already written."
 
-**Ask** — "And who are you to me?"
+**Ask** — "Who are you to me?"
 
-**Genemon:** "Steward. I run the estate; you'll learn it, or you won't eat. Do as I say on the house's matters and we'll get on well enough."
+**Genemon:** "The steward. I keep what can be counted, and I count what men work off. Whatever you left behind you, the book wants only your days."
 
-**Ask** — "Is it safe here?" *(after gen-work)*
+**Ask** — "Is the work safe?" *(after gen-work)*
 
-**Genemon:** "Safe as anywhere the lord's men don't ride. There's a wolf gone bold at the grain store, and worse up in the hills. But that's tomorrow's trouble. Today it's rice."
+**Genemon:** "One wolf, gone bold, comes at the grain store by night. It has cost this house two entries already. Work by daylight; count the sacks after."
 
-**Decide** — How do you answer the steward?
+**Decide** — The steward holds the brush over your line. What do you give the book?
 
-- Earnest — point me at the work <small>· memory genemon +1 (earnest) · stat +str −agi · perk “Genemon's Charge”</small>
-  **Genemon:** "...Good. The house has had its fill of hands that don't. We'll see if you mean it."
+- Put me down for the heaviest <small>· memory genemon +1 (earnest) · stat +str −agi · perk “Genemon's Charge”</small>
+  **Genemon:** "Written: one back, offered whole; set to the heaviest. Sure hands over quick ones — the book keeps what stays lifted."
 
-- Wary — what's in it for me <small>· memory genemon -1 (wary) · stat +agi −str · perk “The Wary Foot”</small>
-  **Genemon:** "An honest question, and a cold one. Rice and a dry corner — that's the whole of what I can promise. Take it or walk."
+- What's in it for me <small>· memory genemon -1 (wary) · stat +agi −str · perk “The Wary Foot”</small>
+  **Genemon:** "Meals; a roof; the entry itself, which will say you were here and worked. Written: asks the wage before the work — the house has lost less to careful men than to willing ones."
 
-- Silent — just get to work <small>· memory genemon +1 (steady) · stat +spd −luck · perk “Hands Before Words”</small>
-  **Genemon:** "...A man who works before he talks. Rare. We'll get on."
+- (Take up the rake) <small>· memory genemon +1 (steady) · stat +spd −luck · perk “Hands Before Words”</small>
+  **Genemon:** "Written: no answer given; rake taken, unasked. Work entered before words — the book counts that fastest, and luck not at all."
 
 ## R1 · The day-hand 日雇
 

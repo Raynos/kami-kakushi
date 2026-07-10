@@ -66,10 +66,11 @@
         {
           "key": 0,
           "channel": "narration",
-          "text": "Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it.",
+          "text": "Water, above and below. What surfaces is counted: one knot, tied twice; one road in grey rain; one load, set down somewhere and not taken up. The name is not among the items. Each is looked at once and goes under.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "context": "the cold open"
         },
         {
           "key": 1,

@@ -18,47 +18,51 @@
   dream + genemon return as their own scenes with their own picks (three picks
   per run), in the NEW order dream → soan → genemon (memory fragments before
   waking; soan keeps the name beat, so genemon's MC lines read Nameless:). The
-  take-a `soan` prose is human-verdicted and stays as authored. The dream +
-  genemon prose below is the pre-C4.9 SEED fiction (b221d6e~1), restored
-  mechanically for the engine walk — each is re-authored via narrative-diverge
-  (ADR-139) in the plan's steps 3–4 before ship. Plan:
-  docs/plans/fable-2026-07-10-cold-open-rearc.md. -->
+  take-a `soan` prose is human-verdicted and stays as authored. The dream act
+  is unit A's diverge CANON (2026-07-10, takes/hd37-cold-open-a/); the genemon
+  prose below is still the pre-C4.9 SEED (b221d6e~1), re-authored by unit B
+  before ship. Plan: docs/plans/fable-2026-07-10-cold-open-rearc.md. -->
 
-<!-- seed: pre-C4.9 (b221d6e~1), to be diverged — rearc plan step 3 (unit A).
-  The memory/dream act: pre-wake, so the MC has no name yet and no flip has
-  happened; MC lines here render You:. -->
+<!-- HD-37 unit A CANON (ADR-139 diverge, take a "The inventory of what is left",
+  picked 2026-07-10; alternates in takes/hd37-cold-open-a/). The memory act:
+  IN the water, pre-rescue — memory surfaces as counted items (never a dream:
+  the first dream is T0-R7, §0.5 law 4). No name yet; MC lines render You:. -->
 
 ## scene dream
 voice: narrator
 
 @cold-open.dream
 
-### decide · The fragment tugs. Do you follow it?
+### decide · One can be kept before the rest goes down. Which?
 
-#### dream-dwell · Dwell on it
-say: "Hold the road. The rain. Almost a name."
+#### dream-dwell · Hold the knot
+say: "The knot. Tied twice. Why twice."
 
-> You chase it inward — and the ache in your skull chases you back. The name
-> stays lost, but the habit of looking sets in.
+> He turns it for as long as the water allows. The knot goes down with the
+> rest; the looking stays — after this, anything put in his hands gets
+> looked at twice before it gets an answer.
 
 stat: +int -spd
 perk: The Inward Turn — A mind that deepens by dwelling, at the price of a
   slower body.
 
-#### dream-shake · Shake it off
-say: "Later. The body is here; the past isn't."
+#### dream-shake · Strike the list
+say: "Enough counting. Up is that way."
 
-> You let it go and the room sharpens — the slats of light, the way out.
+> The items go under and the water comes plain: one direction, lighter
+> than the rest. What he keeps is the habit of it — any room he enters
+> after this, the way out is the first thing counted.
 
 stat: +spd -int
 perk: The Clear Room — Senses sharpened to the way out — quick where thought is
   thin.
 
-#### dream-hands · Trust the hands
-say: "A porter's knot. My hands know this much."
+#### dream-hands · Take up the load
+say: "The load was mine. I know the weight."
 
-> Your fingers move before you decide to — a labourer's memory, still in the
-> muscle.
+> The shoulders answer before the count does. The head kept nothing, but
+> the hands kept the shape of the weight — a strap's width, the length of
+> a carried step.
 
 stat: +str -luck
 perk: The Porter's Hands — Hands that remember the work before the head does.
@@ -174,10 +178,14 @@ stat: +int -agi
 perk: The Notched Post — a day cut where fever cannot blur it.
 memory: soan +0 (methodical)
 
-<!-- seed: pre-C4.9 (b221d6e~1), to be diverged — rearc plan step 4 (unit B).
-  Genemon's own scene: post-flip (soan's pick latched Nameless:), so MC lines
-  here read Nameless:. Canon seams to keep in the diverge: the day-book idiom,
-  the daybook/daybookVerbs reuse keys, the R0 "rakes; hauls" wage line. -->
+<!-- HD-37 unit B CANON (ADR-139 diverge, take c "The first entry is yours",
+  picked 2026-07-10; alternates in takes/hd37-cold-open-b/). Probation in ink:
+  Genemon withholds everything not asked, surprise is answered by writing, and
+  the decide is the first line the man dictates into the house record — the
+  open entry seeds the R7 name-writing payoff. Post-flip: MC lines read
+  Nameless:. The gen-work answer quotes the daybookVerbs line ("Rakes; hauls.
+  Wage: meals") DELIBERATELY (§0.5 echo law) — the entry he wrote in the
+  sickroom, read back as already standing. -->
 
 ## scene genemon
 speaker: genemon
@@ -187,56 +195,55 @@ Genemon: @dialogue.genemon-open/gen-greet
 
 ### ask gen-house · "What house is this?"
 
-Genemon: "The {house}. A great name gone to seed — samurai on the rolls, paupers
-in the granary. I've kept it upright since the last master could not, and I'll
-keep it upright when you can't either."
+Genemon: "The {house}. Samurai on the lord's rolls; in the granary, near
+nothing. Both facts are in the book."
 
 ### ask gen-work · "What work is there?"
 
-Genemon: "Rice to rake, a paddy to tend, a storehouse standing half-empty.
-Honest labour and no shortage of it. Earn your keep and there's a dry corner and
-a bowl in it — that's the whole of what I can promise."
+Genemon: "Rice, half a season's, spilled where the kura door gave in the
+rains. Rakes; hauls. Wage: meals — that line is already written."
 
-### ask gen-you · "And who are you to me?"
+### ask gen-you · "Who are you to me?"
 
-Genemon: "Steward. I run the estate; you'll learn it, or you won't eat. Do as I
-say on the house's matters and we'll get on well enough."
+Genemon: "The steward. I keep what can be counted, and I count what men work
+off. Whatever you left behind you, the book wants only your days."
 
-### ask gen-danger · "Is it safe here?"
+### ask gen-danger · "Is the work safe?"
 after: gen-work
 
-Genemon: "Safe as anywhere the lord's men don't ride. There's a wolf gone bold
-at the grain store, and worse up in the hills. But that's tomorrow's trouble.
-Today it's rice."
+Genemon: "One wolf, gone bold, comes at the grain store by night. It has cost
+this house two entries already. Work by daylight; count the sacks after."
 
-### decide · How do you answer the steward?
+### decide · The steward holds the brush over your line. What do you give the book?
 
-#### genemon-earnest · Earnest — point me at the work
-say: "I'll earn my keep. Point me at it."
+#### genemon-earnest · Put me down for the heaviest
+say: "Write me down for the heaviest of it. I'll carry it."
 
-Genemon: "...Good. The house has had its fill of hands that don't. We'll see if
-you mean it."
+Genemon: "Written: one back, offered whole; set to the heaviest. Sure hands
+over quick ones — the book keeps what stays lifted."
 
 stat: +str -agi
 perk: {elder}'s Charge — Honest muscle set plainly to the task — sure over
   nimble.
 memory: genemon +1 (earnest)
 
-#### genemon-wary · Wary — what's in it for me
-say: "A samurai house with an empty granary. What's in it for me?"
+#### genemon-wary · What's in it for me
+say: "Before you write — what do I get past the meals?"
 
-Genemon: "An honest question, and a cold one. Rice and a dry corner — that's the
-whole of what I can promise. Take it or walk."
+Genemon: "Meals; a roof; the entry itself, which will say you were here and
+worked. Written: asks the wage before the work — the house has lost less to
+careful men than to willing ones."
 
 stat: +agi -str
 perk: The Wary Foot — A guard kept up and light on the feet — quick to move
   before committing.
 memory: genemon -1 (wary)
 
-#### genemon-steady · Silent — just get to work
-say: (You say nothing, and reach for the spilled rice.)
+#### genemon-steady · (Take up the rake)
+say: (You say nothing, and take up the rake by the door.)
 
-Genemon: "...A man who works before he talks. Rare. We'll get on."
+Genemon: "Written: no answer given; rake taken, unasked. Work entered before
+words — the book counts that fastest, and luck not at all."
 
 stat: +spd -luck
 perk: Hands Before Words — A steady quickness that answers with work — trusting

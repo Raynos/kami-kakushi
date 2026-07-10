@@ -15,6 +15,19 @@
 
 ## prose cold-open
 
+<!-- lede + cta: the pre-awake TITLE CARD (FB-14) — moved here from render.ts
+  hard-codes (HD-37 unit A: fiction-voiced text is authored in narrative/, and
+  the card line diverges with the dream act). `cta` is the card's one verb. -->
+
+### lede
+
+A man is in the river above the weir. Carried on him: no papers, no coin,
+no name. The rest of the account is still under the water.
+
+### cta
+
+Make the count
+
 ### weir
 
 The river gives you up at the weir. You keep none of it in order: hands in
@@ -31,8 +44,9 @@ have been three days in a room you have never seen.
 
 ### dream
 
-Something surfaces — a knot, a road in grey rain — and goes down again
-before you can put a hand to it.
+Water, above and below. What surfaces is counted: one knot, tied twice;
+one road in grey rain; one load, set down somewhere and not taken up. The
+name is not among the items. Each is looked at once and goes under.
 
 ### daybook
 
