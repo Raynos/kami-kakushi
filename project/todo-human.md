@@ -33,10 +33,6 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
-- [`project/audit/reports/2026-07-10-prd-truth-audit.md`](../project/audit/reports/2026-07-10-prd-truth-audit.md)
-  — the audit behind the (now-executed, archived) PRD truth-sync plan: 59
-  verified findings (18 high). Skim the section verdicts to see what the PRD
-  wrongly claimed until today; every finding is now fixed on main.
 - [`docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`](../docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md)
   — the ready-to-build plan for T2 (Valley) map rungs + fog (you greenlit it
   2026-07-09; mechanics-only, no pin/HR). Skim before/whenever I build it.

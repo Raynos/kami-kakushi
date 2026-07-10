@@ -196,3 +196,13 @@ prd:drift CLEAN with teeth. P2: /prd-ripple's freeze classes relaxed
 per ADR-168. P3: full verify GREEN (the co-agent's sim red cleared);
 plan → DONE, archived to project/archive/; the reading queue keeps
 only the audit report.
+
+## 9 · Checkpoint (session close)
+
+Snapshot gains the PRD-truth-sync bullet (debt 7/20); the audit report
+cleared from the reading queue (its findings were discussed + ruled
+this session — ADR-089 implicit sign-off; the report stays at
+`project/audit/reports/2026-07-10-prd-truth-audit.md`). Next
+autonomous frontier per the snapshot: T2 rungs/fog (greenlit plan).
+No workflows left running; the prd-truth-audit workflow completed and
+its raw output is snapshotted.

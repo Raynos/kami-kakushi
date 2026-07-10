@@ -26,13 +26,13 @@ magic; no reset.
 ## Where we are now
 
 - **✅ STORYWAVE CLOSURE DONE (s134, 2026-07-10):** every post-ship-review finding
-  fixed or human-ruled — ADR-166 (Autumn is a TRUE refusing gate) · ADR-167 (the
-  full fiction wave: 5 season overlays · 3 hidden discoveries · per-grade judge
-  lines · 16 zones × 6 seasons of node reads; HR-18…HR-21 review LIVE in DEV →
-  Story) · the dark side-beats/cast/log-texture wired · six-step grades · the
-  one-scene intro · prd-drift widened + RED-proven · the idler persona repaired
-  (fullLadder, all seeds). Finding→commit map: the review report's closing
-  addendum. Plan archived.
+  fixed or human-ruled — ADR-166 (Autumn refuses) · ADR-167 (the full fiction
+  wave; HR-18…HR-21 review LIVE in DEV → Story) · six-step grades · the idler
+  repaired. Finding→commit map: the review report's addendum. Plan archived.
+- **✅ PRD TRUTH-SYNC DONE (s136, ADR-168/ADR-169):** the freeze is CANCELLED;
+  the 59-finding audit is fully fixed — gen-regions 4→12, §1–§7 transcribed to
+  the shipped bible/src, 17 corpse-terms gate in `prd-drift`. The T2 reputation
+  WEB beats the bible's single track (ADR-169; T2 plan owes reconciliation).
 - **✅ STORYWAVE SHIPPED v0.4.0 (s125–131):** the bible-canon T0 rewrite is LIVE on
   gh-pages (tag `v0.4.0`); all three storywave plans archived.
 - **✅ HD-34 RULED & APPLIED (s138, ADR-170):** Phase 2 re-tuned to the signed ≈1:1
@@ -117,4 +117,4 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
    call, NOT a fix → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 6/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 7/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
