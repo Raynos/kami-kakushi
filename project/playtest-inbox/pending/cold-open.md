@@ -38,3 +38,15 @@ here too all text by the main character should be consistntly prefix with you: o
 **Details:** `cold-open/2026-07-10T11-34-03.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:36:21+0200 — the-new-section-renders
+
+The new section renders in determinitely I think the new section needs more consistent here. 
+
+I also think new can stick around for longer, like fade out after 30s or something.
+
+**Element:** div.log-fresh-divider — "新 · new" · `div:nth-of-type(2) > div:nth-of-type(1) > div > div` · @318,558 543×17
+**Screenshot:** `cold-open/2026-07-10T11-36-21.png`
+**Details:** `cold-open/2026-07-10T11-36-21.json` — save + recent logs + full context
+
+---
