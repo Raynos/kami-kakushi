@@ -35,3 +35,27 @@ Verified headlessly (rung-R2 fixture): toggle round-trips, card shows
 timing-only card; toggle-off hides it.
 **Scope note (v1):** instant actions (trade, collect-wage) carry no
 `data-act-key`, so they show no card yet — extendable if wanted.
+
+### FB-298 · DEV menu should default to Settings — ✅
+**Verbatim:** _"When you open the dev menu it should default to settings."_
+**Reading:** the panel opened on Variants (the old review focus); the human's
+working pane is Settings.
+**Fixed in:** `dev.ts` — `selectTab('settings')` at mount (was `'variants'`).
+
+### FB-299 · Action detail card: name the act + needs/produces everywhere — ✅
+**Verbatim:** _"Action detail is not fully implemented yet, it just says the
+time, it doesn't say 'what the action is' it just says 'work' and 'cooldown' it
+doesnt say what it needs and what it produces etc. ( Does raking still produce
++2rice?)"_
+**Reading:** the FB-264 v1 gave non-labour actions a timing-only card; the
+human wants every timed action to read like the labour ones — title + needs +
+produces. (Answer: yes — raking pays +2 shō, costs 2 satiety.)
+**Fixed in:** `render.ts` — the card now leads with a TITLE line (the button's
+own label) and a per-intent detail line, every number from the same balance
+constants / selectors the reducer spends (AC-6, never re-typed): rake
+(`+RICE_PER_RAKE shō · −SATIETY_PER_ACT satiety`), rest (`+SATIETY_PER_REST +
+homeRestBonus`), cook (`−sansai · +hp`), eat (`−shō · +satiety`), repair
+(wood + waivable coin fee), craft (recipe inputs → weapon), improve estate
+(next stage's coin cost), move (destination). Verified headlessly: rest
+`+18 satiety`, eat `−2 shō · +30 satiety`, cook `−2 sansai · +35 hp`, rake
+`+2 shō · −2 satiety`; the panel opens on Settings.

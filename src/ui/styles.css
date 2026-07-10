@@ -2192,6 +2192,10 @@ h3 {
   font-size: var(--fs-micro);
   color: var(--text-2);
 }
+.dev-act-card-title {
+  color: var(--ink);
+  font-family: var(--font-head);
+}
 .dev-act-card-timing {
   color: var(--ink-faint);
   font-style: italic;

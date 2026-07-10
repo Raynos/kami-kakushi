@@ -5645,16 +5645,63 @@ export function mount(
       const type = (sep === -1 ? key : key.slice(0, sep)) as Intent['type'];
       const arg = sep === -1 ? undefined : key.slice(sep + 1);
       card.textContent = '';
-      if (type === 'do_activity' && arg) {
-        const act = getActivity(arg as Parameters<typeof getActivity>[0]);
-        const f = activityForecast(lastState, act);
-        const gains = Object.entries(f.gained)
-          .map(([r, n]) => `+${n} ${r === 'rice' ? 'shō (kura)' : r}`)
-          .join(' · ');
-        card.append(el('div', 'dev-act-card-line', gains || 'no yield'));
-        card.append(
-          el('div', 'dev-act-card-line', `+${f.xp} ${act.skill} xp · −${act.satietyCost} satiety`),
-        );
+      // FB-299 — the card names the act and says what it NEEDS and PRODUCES, for every timed
+      // action (not just labour). Numbers come from the same balance constants / selectors the
+      // reducer spends (AC-6) — never re-typed literals.
+      card.append(el('div', 'dev-act-card-title', btn.textContent?.trim() || key));
+      const state = lastState;
+      const line = (t: string): void => {
+        card.append(el('div', 'dev-act-card-line', t));
+      };
+      switch (type) {
+        case 'do_activity': {
+          const act = getActivity(arg as Parameters<typeof getActivity>[0]);
+          const f = activityForecast(state, act);
+          const gains = Object.entries(f.gained)
+            .map(([r, n]) => `+${n} ${r === 'rice' ? 'shō (kura)' : r}`)
+            .join(' · ');
+          line(gains || 'no yield');
+          line(`+${f.xp} ${act.skill} xp · −${act.satietyCost} satiety`);
+          break;
+        }
+        case 'rake_rice':
+          line(`+${balance.RICE_PER_RAKE} shō (kura) · −${balance.SATIETY_PER_ACT} satiety`);
+          break;
+        case 'rest':
+          line(`+${balance.SATIETY_PER_REST + homeRestBonus(state)} satiety`);
+          break;
+        case 'cook_meal':
+          line(`−${balance.COOK_SANSAI_COST} sansai · +${balance.COOK_HP_RESTORE} hp`);
+          break;
+        case 'eat_rice':
+          line(`−${balance.EAT_RICE_COST} shō (kura) · +${balance.EAT_RICE_SATIETY} satiety`);
+          break;
+        case 'repair_weapon':
+          line(
+            `−${balance.REPAIR_WOOD_COST} wood · −up to ${balance.REPAIR_COIN_COST} coin ` +
+              `(waived if broke) · durability restored`,
+          );
+          break;
+        case 'craft_weapon': {
+          const recipe = RECIPES.find((r) => r.id === arg);
+          if (recipe) {
+            const needs = Object.entries(recipe.inputs)
+              .map(([m, q]) => `−${q} ${getMaterial(m).label}`)
+              .join(' · ');
+            line(`${needs} → ${getWeapon(recipe.outputWeapon).label}`);
+          }
+          break;
+        }
+        case 'improve_estate': {
+          const target = ESTATE_STAGES.find((s) => s.stage === state.estateStage + 1);
+          if (target) line(`−${formatCoin(target.coinCost)} → stage U${target.stage}`);
+          break;
+        }
+        case 'move_to':
+          if (arg) line(`→ ${getNode(arg).label}`);
+          break;
+        default:
+          break; // begin_night_round & co: the title + timing say it
       }
       const t = timingFor(type, {
         activityId: arg,

@@ -41,3 +41,14 @@ claimed and released per ADR-171; bucket archived.
   `log-panel` fix surface — a cluster lane for whoever claims them).
 - v1 scope note: instant actions (trade/collect-wage) show no card (no
   `data-act-key`); extend if the human wants them covered.
+
+## Addendum — second pass: FB-298 + FB-299 (same session)
+
+The human's live session refilled the bucket (FB-298–307) and picked the
+action-detail pair only. Landed: the DEV panel opens on **Settings** (FB-298),
+and the hover card now leads with the action's **title** plus a per-intent
+needs/produces line for every timed action — rake/rest/cook/eat/repair/craft/
+improve-estate/move — each number read from the balance constants / selectors
+the reducer spends (FB-299, AC-6). Verified headlessly (rest `+18 satiety`,
+eat `−2 shō · +30 satiety`, cook `−2 sansai · +35 hp`, rake `+2 shō · −2
+satiety`). FB-300–307 (the DEV-panel reorg batch) stay open in `pending/`.

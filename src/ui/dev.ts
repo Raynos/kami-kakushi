@@ -2293,8 +2293,8 @@ export function mountDevPanel(
     paint();
   }
 
-  // default active sub-tab = Variants (the review focus)
-  selectTab('variants');
+  // default active sub-tab = Settings (FB-298 — the human's most-reached pane; was Variants)
+  selectTab('settings');
 
   // FB-34/FB-37 — a PERMANENT New-game footer, TRULY fixed at the bottom of the panel column
   // (flex:0 0 auto, outside the scrolling panes) so it's reachable no matter which sub-tab is
