@@ -41,5 +41,6 @@
  "fb": 360,
  "surface": [
   "vn-overlay"
- ]
+ ],
+ "lane": "vn-overlay"
 }

@@ -154,5 +154,6 @@
  "fb": 327,
  "surface": [
   "vn-overlay"
- ]
+ ],
+ "lane": "vn-overlay"
 }
