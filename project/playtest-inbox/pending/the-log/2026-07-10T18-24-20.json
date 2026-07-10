@@ -143,5 +143,6 @@
  "fb": 323,
  "surface": [
   "log-panel"
- ]
+ ],
+ "lane": "log-panel"
 }
