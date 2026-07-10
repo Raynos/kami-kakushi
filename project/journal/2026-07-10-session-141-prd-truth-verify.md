@@ -29,6 +29,9 @@ contradiction (Munemasa speaking in T0).
   flavor lines have Munemasa speaking "from the veranda" vs the synced
   "never met in T0" canon; the covering HD-30 closed without touching them.
   Recommended: re-derive via narrative-diverge (ADR-139).
+- `project/status/project-status.md` — snapshot brought current at exit:
+  truth-sync bullet now carries the s141 verified-verdict + HD-36; HD-36
+  added to the waiting-on-human line.
 
 ## Next intended steps
 
