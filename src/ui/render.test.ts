@@ -5,7 +5,7 @@
 // The feel-pass (Commit 8) render assertions: the pure ×N log formatter, the
 // unknown-foe fog gating, and the settings-modal a11y (textarea labels + Tab
 // focus-trap). DOM tests mount the real renderer and drive it like the app does.
-import { nodeSeasonalBlurb } from '../core';
+import { nodeSeasonalBlurb, satietyMax } from '../core';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   mount,
@@ -531,6 +531,25 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       { ...combatReady, character: { ...combatReady.character, hp: 1 } },
     );
     expect(root.querySelector('.vital.health .bar')!.classList.contains('low')).toBe(false);
+  });
+
+  it('FB-335 — the body meter carries an exact number + a hover name (never a mystery strip)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const base = createInitialState(1);
+    const s: GameState = {
+      ...base,
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, 'readout-stamina'],
+      character: { ...base.character, satiety: 42 },
+    };
+    render(s, null);
+    const body = root.querySelector<HTMLElement>('.vital.stamina')!;
+    expect(body.hidden).toBe(false);
+    // the exact "current/max" readout, derived from the SAME selector the reducer spends (AC-6)
+    expect(body.textContent).toContain(`42/${Math.round(satietyMax(s))}`);
+    // the hover title says what the meter IS and what moves it (FB-334 vocabulary: "body")
+    expect(body.title).toMatch(/^Body 体/);
+    expect(body.title).not.toMatch(/satiety/i);
   });
 
   it('the Cook button becomes the PRIMARY "heal now" action when the MC is hurt (D-076 heal cue)', () => {

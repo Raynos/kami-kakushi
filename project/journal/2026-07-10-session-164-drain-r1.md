@@ -21,3 +21,5 @@
   moved Map → Zone (render.ts), tests updated (render.test.ts, e2e journeys).
 - FB-333 ✅ — day-name canon `DAY_OF_WEEK_NAMES` (day 0 = Monday 月); clock now
   season + weekday, year/day-counter dropped.
+- FB-335 ✅ — body meter gets life-style `cur/max` numbers + a hover title
+  naming what fills/drains it.

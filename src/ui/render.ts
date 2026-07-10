@@ -758,6 +758,11 @@ export function mount(
   const staminaFill = el('span');
   staminaBar.append(staminaFill);
   stamina.append(staminaBar);
+  // FB-335 — the bar alone was unreadable ("does this render satiety or body or stamina?"):
+  // give body the SAME exact-number readout life has, and say on hover what fills/drains it.
+  const staminaNum = el('span', 'value numeric');
+  stamina.append(staminaNum);
+  stamina.title = 'Body 体 — work draws it down; a rest or a meal refills it.';
   // HP — a life-or-death meter once combat opens (ADR-076: HP accumulates, no auto-heal, a lost fight
   // bites carried coin + rice). It sits beside `body` so the player can always SEE they're hurt + heal (eat).
   const health = el('div', 'vital health');
@@ -3940,9 +3945,13 @@ export function mount(
 
     stamina.hidden = !isUnlocked(state, 'readout-stamina');
     if (!stamina.hidden) {
-      const frac = state.character.satiety / satietyMax(state);
+      const max = satietyMax(state);
+      const frac = state.character.satiety / max;
       staminaFill.style.width = `${Math.round(frac * 100)}%`;
       staminaBar.classList.toggle('low', staminaRate(state) < 0.99);
+      // FB-335 — the exact number beside the bar (like life's), so the meter is never a
+      // mystery strip; the unit reads "body" everywhere (FB-334), never "satiety".
+      setText(staminaNum, `${Math.round(state.character.satiety)}/${Math.round(max)}`);
     }
 
     // HP — revealed the moment combat first matters (the R2 wolf beat), then always visible. Shows an
