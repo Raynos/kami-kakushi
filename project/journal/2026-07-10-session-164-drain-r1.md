@@ -45,3 +45,5 @@
 - e2e follow-up — the market-loop journey re-anchored to the Zone tab (the
   who's-here move); local e2e: 83/84 green, the one red being the documented
   webkit stale-hit-test flake under parallel load (passes solo, CI retries).
+- follow-up (human) — the Zone tab gets its kanji pairing: 場 ("place"),
+  matching the Map 地図 / Estate 家 idiom.

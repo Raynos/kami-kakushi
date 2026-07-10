@@ -1348,7 +1348,8 @@ export function mount(
   // IA reorg plan §8.4).
   const TAB_LABEL: Record<Tab, string> = {
     // FB-332 — "Work" reads as the ZONE tab: the place you stand, its actions, its people.
-    work: 'Zone',
+    // 場 (ba, "place") pairs it in the woodblock English+kanji idiom like Map 地図 / Estate 家.
+    work: 'Zone 場',
     map: 'Map 地図',
     estate: 'Estate 家',
     inventory: 'Inventory 蔵',
