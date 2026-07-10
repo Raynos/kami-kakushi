@@ -39,8 +39,7 @@ magic; no reset.
   [19.0–20.3] min ∈ [3,22] (XP_K 5→20, COOK_HP 14→35), deed base 0.22→0.6 keeps
   the ADR-133 ratio at [0.95–0.97]; the ADR-148-interim scope DELETED — full
   R0–R6 band verdicts + the R7 ratio gate are the live `verify:balance` teeth.
-  Greedy T0 ≈ 2.5 h sim wall. *(Commit local pending w1:p3's cold-open landing —
-  shared fixture/report artifacts.)* Combat curve R4+ kills still parked.
+  Greedy T0 ≈ 2.5 h sim wall. Combat curve R4+ kills still parked.
 - **✅ HD-34 RULED & APPLIED (s138, ADR-170):** Phase 2 re-tuned to the signed ≈1:1
   (deed base 0.05→0.22; ratio [0.84–1.17] ∈ [0.8,1.2]) · idler ascension NOT a
   promise (per-persona sim promises) · B8 no action.
@@ -117,4 +116,4 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    list`). Human-gated: HR-1 + HR-18…21. Combat R4+ = a design call → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 14/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 15/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
