@@ -4,6 +4,7 @@
 // → re-enabled. Every other spec asserts flows under instant mode; this is the spec
 // that keeps the clock itself honest.
 import { expect, test } from '@playwright/test';
+import { RAKE_TEACH_COOLDOWN_MS } from '../../core/content/timing';
 import { boot, expectNoPageErrors, press } from './helpers';
 
 test('timed rake: press → disabled + bar → effect at duration → cooldown → re-enabled', async ({
@@ -28,10 +29,14 @@ test('timed rake: press → disabled + bar → effect at duration → cooldown �
       timeout: 9_000,
     })
     .toBeGreaterThan(riceBefore);
-  // …then the button cools down (bar drains) before re-enabling
+  // …then the button cools down (bar drains) before re-enabling. FB-224: while
+  // Genemon's raked-gated teach lines are still landing, the FIRST rakes carry the
+  // LONG teach cooldown (typing-pace beat) — the bound derives from the source so a
+  // re-tuned cooldown flows through instead of going stale (this line went RED on
+  // main when FB-224 landed against the old hard-coded 5s).
   await expect(rake).toHaveClass(/act-cooldown/);
   await expect(rake).toBeDisabled();
-  await expect(rake).toBeEnabled({ timeout: 5_000 });
+  await expect(rake).toBeEnabled({ timeout: RAKE_TEACH_COOLDOWN_MS + 3_000 });
 
   expectNoPageErrors(errors);
 });
