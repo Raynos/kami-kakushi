@@ -2879,12 +2879,24 @@ export function mount(
     row.append(btn, auto, lock);
     return row;
   }
+  // FB-346 — every action button says on hover what it needs and produces (ONE line, from the
+  // SAME selectors/constants the reducer pays — AC-6, like the cook/eat titles). Ad-hoc titles
+  // on two buttons read as an inconsistency ("this button has alt text but the others don't").
+  function labourTitle(state: GameState, o: LabourOption): string {
+    const f = activityForecast(state, o.activity);
+    const gains = Object.entries(f.gained)
+      .map(([res, n]) => `+${n} ${res === 'rice' ? 'shō (kura)' : res}`)
+      .join(' · ');
+    return `${gains ? `${gains} · ` : ''}+${f.xp} ${o.activity.skill} xp · −${o.activity.satietyCost} body`;
+  }
+
   function patchLabourRow(row: HTMLElement, o: LabourOption, state: GameState): void {
     const btn = row.children[0] as HTMLButtonElement;
     const auto = row.children[1] as HTMLButtonElement;
     const lock = row.children[2] as HTMLElement;
     setDisabled(btn, !o.available);
-    const btnTitle = !o.available && o.reason ? o.reason : '';
+    // the disabled reason wins; an available act reads its cost/effect line (FB-346).
+    const btnTitle = !o.available && o.reason ? o.reason : labourTitle(state, o);
     if (btn.title !== btnTitle) btn.title = btnTitle;
     if (o.available) {
       toggle(auto, true);
@@ -2937,6 +2949,8 @@ export function mount(
         el('span', 'emoji', '🏮'),
         document.createTextNode(' Post the night watch 夜廻'),
       );
+      // FB-346 — say what posting means before the player commits to a night of stages.
+      nightBtn.title = 'Stand the grain-watch through the night stages — it can end in a fight.';
       nightBtn.addEventListener('click', () =>
         // C4.8 — the first round (the quest, wolf climax) plays ONCE; after the wolf is
         // survived the post serves the repeatable grain-watch (no scripted wolf replay —
@@ -2952,6 +2966,8 @@ export function mount(
       const wageRow = el('div', 'labour-row place-wage');
       const wageBtn = el('button', 'verb');
       wageBtn.type = 'button';
+      wageBtn.title =
+        'The day-book accrues your wage 給 by the worked day — collect what stands owed.';
       wageBtn.addEventListener('click', () => dispatch({ type: 'collect_wage' }));
       wageRow.append(wageBtn);
       placeStrip.append(nightBlurb, nightRow, wageRow);
@@ -3021,6 +3037,13 @@ export function mount(
         return btn;
       },
       patch: (node, a) => {
+        // FB-346 — rest carries its effect line too (the same number the reducer grants).
+        if (a === 'rest') {
+          const btn = node as HTMLButtonElement;
+          const t = `+${balance.SATIETY_PER_REST + homeRestBonus(state)} body — a free breather; a meal restores more.`;
+          if (btn.title !== t) btn.title = t;
+          return;
+        }
         if (a !== 'rake_rice') return;
         // FB-265 — the rake refuses at empty satiety (same predicate as the reducer, AC-6):
         // disable + say why, so the player is steered to "Rest a moment" instead of a dead grind.
@@ -3030,7 +3053,12 @@ export function mount(
         const exhausted = rakeExhausted(state);
         const affordable = canAffordAct(state);
         setDisabled(rakeBtn, exhausted || !affordable);
-        const rakeTitle = exhausted ? RAKE_DONE_REASON : affordable ? '' : OUT_OF_STRENGTH_REASON;
+        const rakeTitle = exhausted
+          ? RAKE_DONE_REASON
+          : affordable
+            ? // FB-346 — an able rake reads its cost/effect line, not a blank hover.
+              `+${balance.RICE_PER_RAKE} shō (kura) · −${balance.SATIETY_PER_ACT} body`
+            : OUT_OF_STRENGTH_REASON;
         if (rakeBtn.title !== rakeTitle) rakeBtn.title = rakeTitle;
         const auto = node.querySelector<HTMLButtonElement>('.auto-toggle')!;
         toggle(auto, rakeCount(state) >= RAKE_AUTO_REVEAL_COUNT);

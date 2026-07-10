@@ -25,3 +25,5 @@
   naming what fills/drains it.
 - FB-336 ✅ — Map tab defaults big: log column folds away (CSS off the
   `data-active-tab` stamp), sheet first, you-are-here card below.
+- FB-346 ✅ — tooltips standardized: every do-panel action carries a one-line
+  cost/effect title from the paying selectors (AC-6); disabled reasons win.

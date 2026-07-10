@@ -5,7 +5,7 @@
 // The feel-pass (Commit 8) render assertions: the pure ×N log formatter, the
 // unknown-foe fog gating, and the settings-modal a11y (textarea labels + Tab
 // focus-trap). DOM tests mount the real renderer and drive it like the app does.
-import { nodeSeasonalBlurb, satietyMax } from '../core';
+import { nodeSeasonalBlurb, satietyMax, activityForecast, getActivity } from '../core';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   mount,
@@ -385,6 +385,32 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     );
     expect(clickText('Work the home paddy')).toBe(true);
     expect(seen).toContainEqual({ type: 'do_activity', activityId: 'farm_paddy' });
+  });
+
+  it('FB-346 — every action button carries a one-line cost/effect title (no bare hovers)', () => {
+    const { render } = spyMount();
+    const base = createInitialState(1);
+    const s: GameState = {
+      ...base,
+      location: 'paddies',
+      // 'raked' is what puts Rest on offer (availableActions)
+      flags: { ...base.flags, awake: true, raked: true },
+      unlocked: [...base.unlocked, 'verb-farm', 'room-paddies'],
+    };
+    render(s, null);
+    // the labour button's title derives from the SAME forecast the reducer pays (AC-6)
+    const farm = [...root.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
+      (b.textContent ?? '').includes('Work the home paddy'),
+    )!;
+    const f = activityForecast(s, getActivity('farm_paddy'));
+    expect(farm.title).toContain(`+${f.xp} `);
+    expect(farm.title).toMatch(/−\d+ body$/);
+    // Rest reads its granted number too (the reducer's constant, not a copy)
+    const rest = [...root.querySelectorAll<HTMLButtonElement>('button')].find(
+      (b) => (b.textContent ?? '').trim() === 'Rest a moment',
+    )!;
+    expect(rest.title).toContain('body');
+    expect(rest.title).toMatch(/^\+\d+/);
   });
 
   it('a map node dispatches move_to (the survey-plan sheet — click the seal to walk)', () => {
