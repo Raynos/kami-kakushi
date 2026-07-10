@@ -71,3 +71,28 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
   the stale "(HD-30)" flag at `requirements.md:24` to this item.
 - **Resolution:** _(open)_
 
+### HD-37 🔲 [R0 · cold open] — re-open the C4.9 cold-open fusion (the human saw a better one)
+
+- **Question / fork:** the human, playing the live v0.4.0 cold open
+  (2026-07-10, FB-223): _"The cold open changed, completely, the Memory
+  section is gone, the discussion with genemon is gone, the ability to choose
+  3 perks is gone"_ — and on the FB-223 answer (the change is the deliberate
+  C4.9 storywave fusion): _"I want to really re-open that, I saw a cold open
+  that was better then what we have right now."_ The pre-C4.9 intro (three
+  scenes: the memory/dream beat · Sōan's sickroom · Genemon's grain-store,
+  one perk pick EACH — three picks total) lives in git history; C4.9 fused it
+  to the single take-a sickroom scene with one pick-of-three.
+- **What re-opens:** which elements return (the memory/dream beat? the
+  standalone Genemon scene? the three sequential perk picks?), and whether
+  the return is a restore, a hybrid (take-a's prose + the old structure), or
+  a fresh diverge (ADR-139 takes over the whole cold-open arc).
+- **Constraint:** intent-level (ADR-022 — newest steer wins over the C4.9
+  ADRs); the storywave's take-a prose is human-verdicted, so any hybrid
+  should keep its redlined lines where they survive the restructure.
+- **Resolution:** ✅ RULED (human, 2026-07-10, in-session): restore ALL THREE
+  elements, as a **hybrid + fresh diverge** — the take-a sickroom prose stays
+  as the middle act; the dream + Genemon acts return via narrative-diverge
+  (ADR-139), seeded by the pre-C4.9 fiction (`b221d6e~1`). Plan:
+  [`docs/plans/t0/fable-2026-07-10-cold-open-rearc.md`](../../docs/plans/t0/fable-2026-07-10-cold-open-rearc.md).
+  Graduates to an ADR when the plan lands.
+

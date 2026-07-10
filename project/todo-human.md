@@ -21,6 +21,10 @@
 
 ## Reading queue
 
+- [ ] [`docs/plans/t0/fable-2026-07-10-cold-open-rearc.md`](../docs/plans/t0/fable-2026-07-10-cold-open-rearc.md)
+      — the HD-37 cold-open re-arc plan (three acts, three picks; hybrid +
+      diverge). Your ruling is baked in; the read is for the STEPS + act order.
+
 > **What belongs here** — a durable doc whose purpose is for you to read or sign
 > off: a **plan** (`docs/plans/`), a **brainstorm / retrospective for adoption**
 > (`project/brainstorms/`), an **audit / battery report** (`project/audit/reports/`),

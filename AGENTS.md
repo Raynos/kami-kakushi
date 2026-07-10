@@ -128,6 +128,12 @@ philosophy wins.**
   red** — leave your commit local, never `SKIP_VERIFY=1` a red tree onto `main`.
   Full checklist + the exact commands:
   [`working-agreements.md → Checkpoint`](project/status/working-agreements.md).
+- **Cross-agent messages (herdr) need an explicit ENTER.** `herdr agent send
+  <pane> "msg"` only *types* into the target's input — it does **not** submit;
+  the message sits invisible until a human presses Enter. Always follow with
+  `herdr pane send-keys <pane> Enter`, then confirm delivery with `herdr agent
+  read <pane>` (the `❯` input line must be empty). Full recipe:
+  [`working-agreements.md → Cross-agent messaging`](project/status/working-agreements.md).
 - **Session start → surface what's waiting on the human.** A `SessionStart` hook
   runs [`src/scripts/session-brief.sh`](src/scripts/session-brief.sh) (wired in
   `.claude/settings.json`), which prints the open **human queue** — the unticked

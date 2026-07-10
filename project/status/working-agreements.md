@@ -38,6 +38,23 @@ idling — but **flag low-value ticks honestly** (never dress busy-work up as hi
 *current* build (the `battery` skill's diff re-audit, ~3 lenses) — check the delta, not the milestone; if it
 touched an approved design/balance pick, flag + offer to revert (P2).
 
+## Cross-agent messaging (herdr) — the ENTER gotcha
+
+Messages to a co-agent's pane are TWO commands, not one (learned 2026-07-10 —
+three lane-coordination messages sat unsubmitted until the human pressed Enter
+by hand):
+
+1. `herdr agent send <pane> "the message"` — this only **types** the text into
+   the target agent's input box. **It does not submit.**
+2. `herdr pane send-keys <pane> Enter` — this is the submit.
+3. Verify: `herdr agent read <pane>` — delivered means the message shows in the
+   transcript area and the `❯` input line is **empty**. If the text still sits
+   at the prompt, it was never received.
+
+`herdr pane run <pane> <command>` does text+Enter in one move, but it is meant
+for shell panes — for agent panes prefer send → send-keys → read, so a
+mid-typing collision with the agent's own input is visible before you submit.
+
 ## Checkpoint (run when asked to "checkpoint" or before exiting)
 
 1. **Commit** your own files by explicit **pathspec commit**:

@@ -92,3 +92,23 @@ grammar form + intro retags (FB-198), the fresh-divider made anchored + 30s
 - Queued next (human, mid-lane): RE-OPEN the cold-open design (FB-223 — the
   human saw a better cold open than the C4.9 fusion) — needs the design
   conversation, not a drain fix.
+
+## HD-37 — the cold-open re-arc (ruled + planned)
+
+- The human re-opened the C4.9 fusion mid-session (FB-223 → HD-37) and RULED:
+  restore all three acts + three sequential picks, hybrid (take-a soan prose
+  stays act 2) + fresh ADR-139 diverges for the dream + Genemon acts (seeded
+  from `b221d6e~1`). Plan authored + queued:
+  `docs/plans/t0/fable-2026-07-10-cold-open-rearc.md`.
+- Process hardening from this session's cross-agent friction: the herdr
+  send-needs-Enter recipe documented (AGENTS.md bullet +
+  working-agreements § Cross-agent messaging) after three coordination
+  messages sat unsubmitted; the capture tool's pre-allocated fb collision +
+  the vitest unhandled-error push blocker were both relayed to w6:p2 and
+  resolved same-session.
+
+## Next intended steps
+
+- The human reads the HD-37 plan → step 1 (mechanical restore) can start on
+  green-light; the two diverge units follow (Fable-routed briefs).
+- The r0 + dev buckets still hold open captures for whoever drains next.
