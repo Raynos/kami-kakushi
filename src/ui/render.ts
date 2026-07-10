@@ -260,7 +260,7 @@ function introNameplate(scene: {
 // The kura-works PURCHASE ladder (U1–U4, ADR-098) — indexed by estateStage. Stage 0 is
 // the un-worked starting state; the flavour words are the estate's condition after each
 // work. (The narrative CONDITION ladder E0–E5 is a separate axis, lives in the docs.)
-// exported for the DEV estate-section variants (dev.ts) — single source, no drift.
+// the estate stage names — single source for the estate section's shipped default.
 export const ESTATE_STAGE_NAMES = [
   "Foreclosure's edge",
   'U1 · Stabilising',
@@ -272,7 +272,6 @@ export const ESTATE_STAGE_NAMES = [
 // A8: the house physically REOPENS its rooms as your standing rises (omoya R4, workshops +
 // granary R6, the lord's study R7). Flavour — the estate's recovery made visible — not walkable
 // map nodes (the 7-node ceiling is untouched). Each row inks in when its rung reveal fires.
-// Exported for the DEV estate-section variants (dev.ts).
 export const HOUSE_ROOMS: readonly { surface: string; kanji: string; label: string }[] = [
   { surface: 'house-omoya', kanji: '母屋', label: 'The main house reopened' },
   { surface: 'house-workshops', kanji: '工房', label: 'The workshops woken' },
@@ -1516,16 +1515,6 @@ export function mount(
     const show = activeTab === 'estate' && isUnlocked(state, 'panel-estate');
     toggle(estatePane, show);
     if (!show) return;
-    // ── FB-157/M6 — the DIVERGED estate section (ADR-075): A (prod default, the quiet
-    //    de-framed sections) ships; B/C live DEV-only behind the variant toggle. The DEV
-    //    branch folds to dead code in prod; only a live DEV session takes the wholesale
-    //    clear-and-rebuild path (the incremental path below stays the prod/test route). ──
-    if (__DEV_TOOLS__ && dev) {
-      estateRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
-      estatePane.textContent = '';
-      if (dev.renderVariant('estate-section', estatePane, state, dispatch)) return;
-      // default A falls through to the incremental build below (fresh shell each render in DEV)
-    }
     // build the shell ONCE (FB-81): the improve card carries every mutable child up front (blurb /
     // hint / button toggle in place); the house-rooms card is a keyed row list that grows.
     if (!estateRefs) {
@@ -1560,10 +1549,7 @@ export function mount(
       estateRefs = { card, now, ladder, ladderRows, blurb, hint, btn, rooms, roomList };
     }
     const r = estateRefs;
-    // the build-tracker DIVERGE hook (ADR-075): a selected B/C repaints the ladder region only.
-    const trackerVaried =
-      __DEV_TOOLS__ && dev ? dev.renderVariant('build-tracker', r.ladder, state, dispatch) : false;
-    if (!trackerVaried) {
+    {
       const build = estateBuild(state);
       build.rows.forEach((rowData, i) => {
         const refs = r.ladderRows[i]!;
