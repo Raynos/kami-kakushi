@@ -107,6 +107,17 @@ describe('autoModeIntent — the extracted autoStep decision order (the app loop
     });
   });
 
+  it('pauses (null) under any VN surface — rung beat, scene, intro (FB-266)', () => {
+    // armed() would fight; a live VN surface must silence it without disarming.
+    expect(autoModeIntent(armed({ rungBeat: 'R1' }))).toBeNull();
+    expect(
+      autoModeIntent(
+        armed({ activeScene: { id: 'the-count', beat: 0 } as GameState['activeScene'] }),
+      ),
+    ).toBeNull();
+    expect(autoModeIntent(armed({ introBeat: 0 }))).toBeNull();
+  });
+
   it('auto-rake: rakes while legal, disarms itself once raking is gone (R1)', () => {
     const s = armed({ autoCombat: null, autoRake: true });
     expect(autoModeIntent(s)).toEqual({ type: 'rake_rice' });

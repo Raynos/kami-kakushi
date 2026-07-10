@@ -269,6 +269,10 @@ async function boot(): Promise<void> {
     'cook_meal',
     'eat_rice',
     'repair_weapon',
+    // FB-266 — entering a VN surface stops the armed auto outright: the player is
+    // stepping out of the grind, so the auto button must not keep running under the card.
+    'begin_rung_beat',
+    'begin_scene',
   ]);
   function disarmAutos(): void {
     if (state.autoRake) dispatch({ type: 'set_auto_rake', on: false });

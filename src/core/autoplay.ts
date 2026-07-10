@@ -118,6 +118,10 @@ export function cheapestEligibleGlobal(s: GameState): { id: ActivityId; node: st
 const FIGHT_MEND_HP_FRAC = 1;
 
 export function autoModeIntent(s: GameState): Intent | null {
+  // FB-266 — a VN surface (rung beat / generalized scene / intro) owns the screen: auto
+  // PAUSES under it (stays armed, resumes on close) rather than grinding beneath the card.
+  // The manual "Answer the summons" press additionally DISARMS via MANUAL_DISARM (main.ts).
+  if (s.rungBeat !== null || s.activeScene !== null || introActive(s.introBeat)) return null;
   const belowKnee = (): boolean =>
     s.character.satiety < satietyMax(s) * STAMINA_FLAT_ABOVE &&
     availableActions(s).includes('rest');
