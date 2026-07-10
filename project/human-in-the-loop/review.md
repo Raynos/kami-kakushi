@@ -295,8 +295,17 @@ save-load or DEV teleport never animates (only a real one-hop walk does).
     - **Scorecard (C):** 10✔ · 0✘ · 11— (note: the pan moves a surface the
       player may be studying — sanctioned here as a direct response to their
       own walk click, and it never touches their zoom).
+  - [ ] **D — footsteps + follow** _(built; DEV-only; the human's ask,
+    2026-07-10 — "I want both the map moving and the footsteps")_ — B+C fused:
+    the ink footprints stamp along the walked edge WHILE the sheet pans your
+    position to centre, the ring pressing in as you arrive. All concurrent and
+    brisk (prints from ~90ms, ring present throughout, ~0.8s end to end — no
+    dead beat); the prints ride the panning viewBox in SVG user-space.
+    Reduced-motion recentres instantly, sans footsteps. **Caveat:** the pan
+    only shows when the sheet is bigger than the viewport (zoomed past fit) —
+    at full fit there is no room to pan, same physical limit as C.
   - **How to look LIVE:** DEV panel → Variants → **Map travel presence
-    (FB-340)**, or `?travel-presence=presence-b|-c`; Map tab → walk
+    (FB-340)**, or `?travel-presence=presence-b|-c|-d`; Map tab → walk
     gate ⇄ forecourt a few times.
   - **Verdict:** _(awaiting your look — silence ships A)_
 

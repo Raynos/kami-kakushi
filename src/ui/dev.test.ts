@@ -210,25 +210,33 @@ describe('renderer variant routing — Map travel presence (D-075, FB-340)', () 
     const dev = createDevApi();
     expect(dev.getVariant('travel-presence')).toBe('presence-a');
     const s = dev.surfaces.find((x) => x.id === 'travel-presence')!;
-    expect(s.variants.map((v) => v.id)).toEqual(['presence-a', 'presence-b', 'presence-c']);
+    // D (presence-d) is the human's B+C combo (2026-07-10) — footsteps + follow.
+    expect(s.variants.map((v) => v.id)).toEqual([
+      'presence-a',
+      'presence-b',
+      'presence-c',
+      'presence-d',
+    ]);
   });
 
-  it('a non-default presence still renders the ONE working survey sheet — seals stay live', () => {
-    // B/C fork only the walk idiom (the `presence` mode), never the sheet: the cartouche
-    // paints and a seal click still dispatches the real move_to through the shared ctx.
-    const dev = createDevApi();
-    dev.setVariant('travel-presence', 'presence-b');
-    const seen: Intent[] = [];
-    const render = mount(root, (i) => seen.push(i), noopHooks(), dev);
-    render(mapState(), null);
-    openMap();
-    const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
-    expect(nav.textContent).toContain('黒沢家領内絵図');
-    const seal = nav.querySelector<HTMLElement>('[data-node="paddies"]:not([data-locked])')!;
-    expect(seal).not.toBeNull();
-    seal.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    expect(seen).toContainEqual({ type: 'move_to', to: 'paddies' });
-  });
+  for (const vid of ['presence-b', 'presence-d'] as const) {
+    it(`a non-default presence (${vid}) still renders the ONE working survey sheet — seals stay live`, () => {
+      // B/C/D fork only the walk idiom (the `presence` mode), never the sheet: the cartouche
+      // paints and a seal click still dispatches the real move_to through the shared ctx.
+      const dev = createDevApi();
+      dev.setVariant('travel-presence', vid);
+      const seen: Intent[] = [];
+      const render = mount(root, (i) => seen.push(i), noopHooks(), dev);
+      render(mapState(), null);
+      openMap();
+      const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
+      expect(nav.textContent).toContain('黒沢家領内絵図');
+      const seal = nav.querySelector<HTMLElement>('[data-node="paddies"]:not([data-locked])')!;
+      expect(seal).not.toBeNull();
+      seal.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      expect(seen).toContainEqual({ type: 'move_to', to: 'paddies' });
+    });
+  }
 
   it('the here-ring carries its presence hook on the prod path (dev undefined)', () => {
     const render = mount(root, () => {}, noopHooks()); // prod: always the shipped default A

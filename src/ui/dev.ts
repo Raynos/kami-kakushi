@@ -284,6 +284,12 @@ export const SURFACES: SurfaceDef[] = [
         blurb:
           'The ring presses in where you stand and the VIEW pans your position back to centre — at your zoom.',
       },
+      {
+        id: 'presence-d',
+        label: 'D · footsteps + follow',
+        blurb:
+          'B+C together — footprints stamp along the path WHILE the sheet pans to follow you; the ring presses in on arrival, the prints weather away.',
+      },
     ],
   },
 ];
@@ -540,7 +546,7 @@ function renderSurfaceVariant(
   return false;
 }
 
-/** The FB-340 travel-presence alternates (B/C): the SAME sheet render with a different
+/** The FB-340 travel-presence alternates (B/C/D): the SAME sheet render with a different
  *  presence mode — the whole surface is shared, only the walk idiom forks, so the variant
  *  is the `presence` parameter rather than a duplicated renderer (AC-19: the estate-style
  *  full-duplicate mechanism would fork the entire survey sheet). */
@@ -551,7 +557,13 @@ function renderTravelPresenceVariant(
   dispatch: (intent: Intent) => void,
 ): boolean {
   const mode: TravelPresence | null =
-    variantId === 'presence-b' ? 'steps' : variantId === 'presence-c' ? 'follow' : null;
+    variantId === 'presence-b'
+      ? 'steps'
+      : variantId === 'presence-c'
+        ? 'follow'
+        : variantId === 'presence-d'
+          ? 'trail'
+          : null;
   if (mode === null) return false; // presence-a — the caller renders the shipped default
   container.textContent = '';
   renderMapSheet(container, buildMapCtx(state, dispatch), state, dispatch, mode);

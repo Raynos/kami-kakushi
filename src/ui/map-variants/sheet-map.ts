@@ -33,10 +33,12 @@ let escWired = false;
 
 // ── FB-340 — travel presence: the marker + the move animation, played when a rebuild is a
 //    COMPLETED walk (here changed to an adjacent node — a load/teleport never animates).
-//    Three diverged idioms (ADR-075): 'glide' (A, ships) — the vermilion ring travels the
+//    Four diverged idioms (ADR-075): 'glide' (A, ships) — the vermilion ring travels the
 //    walked edge; 'steps' (B) — ink footprints stamp along it, the ring presses in;
-//    'follow' (C) — the ring presses in and the VIEW pans your position back to centre.
-export type TravelPresence = 'glide' | 'steps' | 'follow';
+//    'follow' (C) — the ring presses in and the VIEW pans your position back to centre;
+//    'trail' (D = B+C, human 2026-07-10) — the footprints stamp WHILE the sheet pans to
+//    follow you, ring pressing in on arrival, then the prints weather away.
+export type TravelPresence = 'glide' | 'steps' | 'follow' | 'trail';
 let prevHere: string | null = null;
 
 /** Is a node surveyed (its reveal flag met, or always-open) — and not locked scenery? */
@@ -477,8 +479,9 @@ export function renderMapSheet(
   const reduced =
     typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced) {
-    // instant, never omitted: the static ring is already drawn; C still recentres, sans glide.
-    if (presence === 'follow') {
+    // instant, never omitted: the static ring is already drawn; C and D (both follow the
+    // view) still recentre, sans glide/footsteps.
+    if (presence === 'follow' || presence === 'trail') {
       vb.x = ta.x - vb.w / 2;
       vb.y = ta.y - vb.h / 2;
       clampVb();
@@ -620,6 +623,72 @@ function runPresence(
           f.setAttribute('opacity', String(inO * fade));
         });
         if (ms >= pressAt) press((ms - pressAt) / 260);
+      },
+      done,
+    );
+    return;
+  }
+
+  if (mode === 'trail') {
+    // D (B+C) — the sheet walks with you AND leaves a trail: ink footprints stamp along the
+    // walked edge WHILE the VIEW pans that spot back to centre (at the player's own zoom),
+    // the ring pressing in as you arrive. Everything runs at once and briskly — the prints
+    // land from the first frame, the pan follows immediately, and a short tail weathers the
+    // trail away with no dead beat. The footprints live in SVG user-space, so they ride the
+    // panning viewBox — the trail slides with the sheet.
+    if (ring) ring.style.opacity = '0';
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const len = Math.hypot(dx, dy) || 1;
+    const nx = -dy / len;
+    const ny = dx / len;
+    const angle = ((Math.atan2(dy, dx) * 180) / Math.PI).toFixed(1);
+    const N = 6;
+    const feet: SVGElement[] = [];
+    for (let i = 1; i <= N; i++) {
+      const f = i / (N + 1);
+      const side = i % 2 === 0 ? 1 : -1;
+      const cx = from.x + dx * f + nx * side * 14;
+      const cy = from.y + dy * f + ny * side * 14;
+      const foot = sv('ellipse', {
+        cx: String(cx),
+        cy: String(cy),
+        rx: '15',
+        ry: '7',
+        transform: `rotate(${angle} ${cx} ${cy})`,
+        fill: 'var(--shu)',
+        opacity: '0',
+      });
+      overlay.append(foot);
+      feet.push(foot);
+    }
+    const walkMs = 520; // the prints land + the view arrives together
+    const tailMs = 240; // a short weather tail, overlapping arrival — no static pause
+    const total = walkMs + tailMs;
+    const sx = view.vb.x;
+    const sy = view.vb.y;
+    const txx = to.x - view.vb.w / 2;
+    const tyy = to.y - view.vb.h / 2;
+    animate(
+      total,
+      (t) => {
+        const ms = t * total;
+        // the sheet follows from the first frame, arriving as the walk completes
+        const e = ease(Math.min(1, ms / walkMs));
+        view.vb.x = sx + (txx - sx) * e;
+        view.vb.y = sy + (tyy - sy) * e;
+        view.clampVb();
+        view.applyVb();
+        feet.forEach((foot, i) => {
+          const born = (i / N) * (walkMs * 0.7); // first print ~0ms, last ~0.7·walk
+          if (ms < born) return;
+          const inO = Math.min(0.8, ((ms - born) / 90) * 0.8);
+          const fade = ms > walkMs ? Math.max(0, 1 - (ms - walkMs) / tailMs) : 1;
+          foot.setAttribute('opacity', String(inO * fade));
+        });
+        // the ring fades and settles across the whole walk — the marker is present throughout,
+        // never a void, and rests as a hanko stamp on arrival
+        press(Math.min(1, ms / walkMs));
       },
       done,
     );
