@@ -16,13 +16,24 @@ import {
 /** Rasterise `el` (the shotRoot — main passes document.body so modals mounted
  *  outside #app ride the shot, FB-195) to a PNG data URL, or null on failure —
  *  a screenshot is a best-effort viewing aid (§2.3), never allowed to break the
- *  capture; the deterministic save in the .md is the authoritative repro. The
- *  capture overlay's own UI (the note box, marked data-kami-capture) is
- *  filtered out so a body-rooted shot never photographs itself. */
+ *  capture; the deterministic save in the .md is the authoritative repro.
+ *
+ *  Every node the OVERLAY owns is filtered out, so a body-rooted shot never
+ *  photographs itself: the note box, the error dialog, and — since the shot now
+ *  runs at submit (FB-215), with the pen's canvas still mounted — the markup
+ *  canvas, whose strokes `compositeStrokes` re-draws into the PNG below. Leaving
+ *  it in would ink every annotation twice. The pick HIGHLIGHT is deliberately
+ *  NOT filtered: it is the whole point of the picture. */
+const OVERLAY_MARKS = ['kamiCapture', 'kamiCaptureError', 'kamiMarkup'] as const;
+
 export const snapshotDom: DomSnapshotter = async (el) => {
   try {
     return await domToPng(el, {
-      filter: (node) => !(node instanceof HTMLElement && node.dataset.kamiCapture !== undefined),
+      filter: (node) =>
+        !(
+          node instanceof HTMLElement &&
+          OVERLAY_MARKS.some((mark) => node.dataset[mark] !== undefined)
+        ),
     });
   } catch {
     return null;

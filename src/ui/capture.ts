@@ -5,6 +5,15 @@
 // the shot shows the whole page AND which element you meant. Evidence is frozen at PICK (§2.1).
 // All captures from one session (browser tab; the id survives a reload) land in ONE file
 // `pending/<session>.md`, screenshots in `pending/<session>/`.
+//
+// THE FREEZE (FB-215/FB-218/FB-219). `` ` `` freezes the whole shell — auto-play, the ActionClock,
+// every typewriter, all CSS animation (src/app/freeze-clock.ts) — and nothing thaws until the box
+// closes. Two things fall out of that. The human can aim at a dead-still screen, which is the point.
+// And because the screen CANNOT change between pick and send, the rasteriser runs at SUBMIT rather
+// than at pick, while still yielding the pick-time pixels. That matters: `domToPng` is one
+// unbroken ~600ms main-thread task (measured, 912 nodes @dpr2 — the cost is the DOM clone, not the
+// encode), so running it at pick left the note box unpainted for ~670ms and made Esc feel dead.
+// Running it at submit costs the same 600ms where a send is expected to take a beat.
 // The note box also carries a MARKUP pen (✎ Draw): draw bright-green freehand on the screen and it
 // is composited into the frozen screenshot on send, then discarded (ephemeral — it never touches
 // the live game). Undo/Clear tidy it; Esc leaves draw mode, a second Esc closes the box.
@@ -37,6 +46,8 @@ export const CAPTURE_SENTINEL = '__KAMI_PLAYTEST_CAPTURE__';
 /** The capture hotkey — Backquote (`` ` ``): free in-game, no browser default, one macOS keystroke.
  *  A single constant for a one-line human override. */
 const HOTKEY = 'Backquote';
+/** The note box's footer line — also the slot the missing-bucket nag borrows (FB-217). */
+const HINT_TEXT = '⌘/Ctrl+Enter send · Esc cancel · drag to move · ↘ resize';
 const TOAST_MS = 1600;
 const SESSION_KEY = 'kami-capture-session';
 /** localStorage key for the recent bucket names — powers the group input's datalist suggestions. */
@@ -96,6 +107,18 @@ export type ScreenshotCompositor = (
  *  pick; `hasScreenshot`, known after the shot; `element`, from the pick). main.ts supplies this. */
 export type CaptureEntryContext = Omit<CaptureContext, 'capturedAt' | 'hasScreenshot' | 'element'>;
 
+/** The shell freeze (src/app/freeze-clock.ts), injected so this module stays dependency-free.
+ *  `raw` hands back the UNPATCHED timers: the overlay's own chrome (toast, click-swallow guard,
+ *  after-paint hook) has to keep ticking during the very freeze it asked for. */
+export interface FreezeControl {
+  freeze(): void;
+  thaw(): void;
+  readonly raw: {
+    setTimeout(fn: () => void, ms: number): number;
+    clearTimeout(id: number): void;
+  };
+}
+
 export interface CaptureOptions {
   /** Where the toast/highlight mount, and the element rasterised for the screenshot (the #app root). */
   readonly host: HTMLElement;
@@ -111,6 +134,13 @@ export interface CaptureOptions {
   readonly snapshot?: DomSnapshotter;
   /** Bake markup strokes into the screenshot (submit-time); omitted ⇒ strokes stay on-screen only. */
   readonly composite?: ScreenshotCompositor;
+  /** Hold the game still from the `` ` `` keypress to the send. Omitted ⇒ no freeze (unit tests,
+   *  and any host that hasn't installed one) — the overlay still works, the world just keeps moving. */
+  readonly freeze?: FreezeControl;
+  /** Run `fn` once the browser has PAINTED the current DOM. Injectable so tests stay synchronous;
+   *  the default is `requestAnimationFrame` → raw `setTimeout(0)` (rAF fires BEFORE paint, so
+   *  scheduling the rasteriser from inside one would still block the very frame we're waiting for). */
+  readonly afterPaint?: (fn: () => void) => void;
   /** POST transport → did the write succeed? Injectable for tests; defaults to fetch. */
   readonly post?: (url: string, body: string) => Promise<boolean>;
   /** Clock, injectable for deterministic tests; defaults to `() => new Date()`. */
@@ -274,8 +304,28 @@ export function mountCapture(opts: CaptureOptions): () => void {
       }
     });
 
+  // The overlay's own timers must NOT be the ones we freeze — a frozen click-swallow guard would
+  // never self-remove, and a frozen toast would never fade. `freeze.raw` is the untouched native;
+  // the bare fallback is for hosts with no freeze installed (unit tests).
+  const rawSetTimeout =
+    opts.freeze?.raw.setTimeout ??
+    ((fn: () => void, ms: number): number => setTimeout(fn, ms) as unknown as number);
+  const rawClearTimeout =
+    opts.freeze?.raw.clearTimeout ?? ((id: number): void => void clearTimeout(id));
+
   const host = opts.host;
   const session = resolveSession(opts, now, storage);
+
+  /** Resolve once the browser has committed a frame — see `CaptureOptions.afterPaint`. */
+  const afterPaint = (fn: () => void): void => {
+    if (opts.afterPaint) return void opts.afterPaint(fn);
+    const view = doc.defaultView;
+    // rAF is deliberately NOT part of the freeze (nothing in the shell animates with it), so it
+    // still fires while the game is held still — which is exactly what we need here.
+    if (view?.requestAnimationFrame) view.requestAnimationFrame(() => rawSetTimeout(fn, 0));
+    else rawSetTimeout(fn, 0);
+  };
+  const nextPaint = (): Promise<void> => new Promise<void>((res) => afterPaint(() => res()));
 
   // Sticky across captures within this mount: the kind toggle (default Bug) and the current bucket
   // name ('' = ungrouped). So a run of "map feedback" questions is set once, not re-picked each time.
@@ -296,9 +346,12 @@ export function mountCapture(opts: CaptureOptions): () => void {
   interface OpenBox {
     readonly el: HTMLElement;
     readonly textarea: HTMLTextAreaElement;
+    /** The bucket field — a capture cannot be sent without one (FB-217), so submit focuses it. */
+    readonly groupInput: HTMLInputElement;
+    /** The footer line; doubles as the "name a bucket first" nag. */
+    readonly hintLine: HTMLElement;
     readonly capturedAt: string;
     readonly base: CaptureEntryContext;
-    readonly shot: Promise<string | null>;
     readonly element: ElementDescriptor | null;
   }
   let box: OpenBox | null = null;
@@ -428,6 +481,10 @@ export function mountCapture(opts: CaptureOptions): () => void {
 
   function enterPick(): void {
     picking = true;
+    // FB-215 — the world stops HERE, not when the box opens: the human is already choosing an
+    // element, and a typewriter running under the crosshair is exactly what they complained about.
+    // Every exit from pick/box thaws again (cancelPick, closeBox).
+    opts.freeze?.freeze();
     host.appendChild(highlight);
     showHint();
     doc.addEventListener('mousemove', onPickMove, true);
@@ -448,6 +505,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
   function cancelPick(): void {
     exitPickListeners();
     highlight.remove();
+    opts.freeze?.thaw();
   }
   function onPickMove(e: MouseEvent): void {
     const el = elementUnder(e);
@@ -466,10 +524,12 @@ export function mountCapture(opts: CaptureOptions): () => void {
       e.stopImmediatePropagation();
       remove();
     };
-    const t = setTimeout(() => remove(), 400);
+    // RAW: this guard is armed the instant the game freezes, so a frozen timer would strand it on
+    // `document` and eat the human's next real click.
+    const t = rawSetTimeout(() => remove(), 400);
     function remove(): void {
       doc.removeEventListener('click', swallow, true);
-      clearTimeout(t);
+      rawClearTimeout(t);
       if (dismissSwallow === remove) dismissSwallow = null;
     }
     doc.addEventListener('click', swallow, true);
@@ -490,16 +550,23 @@ export function mountCapture(opts: CaptureOptions): () => void {
     }
   }
 
+  /** Remember where/how big the human left the window, so the next capture reopens the same.
+   *  Skipped once the box is hidden for the shot — a `display:none` element measures 0×0. */
+  function rememberBoxRect(): void {
+    if (!box || box.el.style.display === 'none') return;
+    const r = box.el.getBoundingClientRect();
+    boxRect = { left: r.left, top: r.top, width: r.width, height: r.height };
+  }
+
   function closeBox(): void {
-    if (box) {
-      // Remember where/how big the human left the window, so the next capture reopens the same.
-      const r = box.el.getBoundingClientRect();
-      boxRect = { left: r.left, top: r.top, width: r.width, height: r.height };
-      box.el.remove();
-    }
+    rememberBoxRect();
+    box?.el.remove();
     box = null;
     highlight.remove(); // clear the locked highlight
     teardownMarkup(); // drop the ephemeral drawing + its canvas
+    // The last thing out of pick/box lets the game run again. Idempotent, so the plain Esc path and
+    // the submit path (which closes only after the rasteriser has read the frozen screen) agree.
+    opts.freeze?.thaw();
   }
 
   /** Drag the WHOLE feedback window (grab it anywhere) to move it and see what's underneath.
@@ -536,7 +603,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
       "padding:.5rem 1rem;font:0.85rem/1.4 'Hiragino Mincho ProN','Yu Mincho',serif;" +
       'box-shadow:0 2px 0 #00000030, 0 10px 26px #00000055;';
     host.appendChild(t);
-    setTimeout(() => t.remove(), TOAST_MS);
+    rawSetTimeout(() => t.remove(), TOAST_MS);
   }
 
   function downloadFallback(filename: string, markdown: string): void {
@@ -548,7 +615,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
     doc.body.appendChild(a);
     a.click();
     a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 0);
+    rawSetTimeout(() => URL.revokeObjectURL(url), 0);
   }
 
   function closeDialog(): void {
@@ -669,12 +736,42 @@ export function mountCapture(opts: CaptureOptions): () => void {
     retryBtn.focus();
   }
 
+  /** Rasterise the (still frozen) screen with the note box out of the way but the picked element's
+   *  highlight still lit — the pixels the human chose at pick, since nothing has moved since.
+   *  The markup canvas hides too: `composite` re-draws those strokes INTO the PNG below, so
+   *  photographing them as well would lay the ink down twice. */
+  async function shootFrozenScreen(): Promise<string | null> {
+    if (!box || !opts.snapshot) return null;
+    rememberBoxRect(); // measure before hiding — a display:none box has no rect
+    box.el.style.display = 'none';
+    if (drawCanvas) drawCanvas.style.display = 'none';
+    // Let the browser commit the frame where the box is gone; otherwise the ~600ms rasteriser
+    // steals the main thread first and the box lingers on screen for the whole shot.
+    await nextPaint();
+    return opts.snapshot(opts.shotRoot ?? host).catch(() => null);
+  }
+
+  /** FB-217 — a bucket is REQUIRED. Ungrouped captures land in a per-session file nobody names, so
+   *  `/drain-inbox <bucket>` can't scope a pass to them; the human would rather mint a new bucket
+   *  than fish a note out of a session dump. Refuses the send, points at the field, says why.
+   *  `capture-format` still knows how to write a session file — the archive is full of them — the
+   *  UI just never asks it to. */
+  function bucketMissing(): boolean {
+    if (!box || slugGroup(currentGroup)) return false;
+    box.groupInput.style.borderColor = '#D7402C';
+    box.hintLine.textContent = 'Name a bucket before sending — it routes the drain.';
+    box.hintLine.style.color = '#D7402C';
+    box.groupInput.focus();
+    return true;
+  }
+
   async function submit(): Promise<void> {
     if (!box) return;
+    if (bucketMissing()) return; // …and the world stays frozen: they're still writing this capture
     const { capturedAt, base, textarea, element } = box;
     const note = textarea.value;
-    let shot = await box.shot;
-    // Bake any markup into the frozen shot BEFORE teardown (closeBox drops the strokes). Only when
+    let shot = await shootFrozenScreen();
+    // Bake any markup into the shot BEFORE teardown (closeBox drops the strokes). Only when
     // something was drawn — no strokes ⇒ the base shot passes through byte-for-byte (no re-encode).
     if (shot && strokes.length > 0 && opts.composite) {
       try {
@@ -683,7 +780,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
         /* keep the un-annotated shot — the drawing is a viewing aid, never allowed to break send */
       }
     }
-    closeBox();
+    closeBox(); // …and thaws: the shot is taken, the world may move again
 
     const ctx: CaptureContext = {
       ...base,
@@ -740,12 +837,11 @@ export function mountCapture(opts: CaptureOptions): () => void {
 
   function openBox(element: ElementDescriptor | null): void {
     if (box) return; // one at a time
-    // Freeze the evidence at PICK — the highlight is already locked (in the shot), so snapshot now.
+    // Freeze the evidence at PICK: the clock reading and the game context are taken here. The
+    // PIXELS are not — the shell is held still (enterPick), so the screen at submit is this screen,
+    // and rasterising it there keeps this handler free to paint the box in ~1ms.
     const capturedAt = localIso(now());
     const base = opts.buildContext();
-    const shot: Promise<string | null> = opts.snapshot
-      ? opts.snapshot(opts.shotRoot ?? host).catch(() => null)
-      : Promise.resolve(null);
 
     const el = doc.createElement('div');
     el.dataset.kamiCapture = CAPTURE_SENTINEL; // strip-gate marker
@@ -855,7 +951,8 @@ export function mountCapture(opts: CaptureOptions): () => void {
     groupInput.dataset.kamiGroup = '1';
     groupInput.value = currentGroup;
     groupInput.setAttribute('list', datalist.id);
-    groupInput.placeholder = 'bucket — e.g. map feedback (blank = session)';
+    groupInput.required = true;
+    groupInput.placeholder = 'bucket — e.g. map feedback (required)';
     groupInput.title = 'Group this capture into a bucket so `/drain-inbox <bucket>` drains just it';
     groupInput.style.cssText =
       'flex:1 1 auto;min-width:0;background:#1A1713;color:#F3E9D2;border:1px solid #3A342C;' +
@@ -863,6 +960,10 @@ export function mountCapture(opts: CaptureOptions): () => void {
     groupInput.addEventListener('pointerdown', (ev) => ev.stopPropagation()); // don't drag the window
     groupInput.addEventListener('input', () => {
       currentGroup = groupInput.value;
+      if (!slugGroup(currentGroup)) return;
+      groupInput.style.borderColor = '#3A342C'; // they answered the nag — put the chrome back
+      hintLine.textContent = HINT_TEXT;
+      hintLine.style.color = '#B8A98C';
     });
     metaRow.append(kindWrap, groupInput, datalist);
 
@@ -873,7 +974,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
       'color:#F3E9D2;border:none;padding:.6rem;font:inherit;outline:none;cursor:text;';
 
     const hintLine = doc.createElement('div');
-    hintLine.textContent = '⌘/Ctrl+Enter send · Esc cancel · drag to move · ↘ resize';
+    hintLine.textContent = HINT_TEXT;
     hintLine.style.cssText =
       'flex:0 0 auto;padding:.35rem 1rem .35rem .6rem;font-size:0.72rem;color:#B8A98C;text-align:right;';
 
@@ -929,7 +1030,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
     el.append(bar, metaRow, textarea, toolbar, hintLine);
     doc.body.appendChild(el);
     textarea.focus();
-    box = { el, textarea, capturedAt, base, shot, element };
+    box = { el, textarea, groupInput, hintLine, capturedAt, base, element };
     updateMarkupControls(); // set initial control state (Undo/Clear disabled — nothing drawn yet)
   }
 
@@ -967,7 +1068,7 @@ export function mountCapture(opts: CaptureOptions): () => void {
     doc.removeEventListener('keydown', onKeyDown);
     exitPickListeners();
     dismissSwallow?.(); // don't leave a stale capture-phase click guard on `document`
-    closeBox();
+    closeBox(); // …thaws, so an unmount mid-pick can never strand the game frozen
     closeDialog();
   };
 }

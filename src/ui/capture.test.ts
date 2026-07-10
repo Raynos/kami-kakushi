@@ -72,7 +72,15 @@ function pick(el: Element | null): void {
   document.elementFromPoint = (): Element | null => el;
   document.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientX: 5, clientY: 5 }));
 }
-async function typeAndSend(note: string): Promise<void> {
+/** Name the bucket on the OPEN box. Mandatory since FB-217 — a capture with no bucket is refused. */
+function setBucket(name: string): void {
+  const g = boxEl()!.querySelector('[data-kami-group]') as HTMLInputElement;
+  g.value = name;
+  g.dispatchEvent(new Event('input', { bubbles: true }));
+}
+/** Send a note. `bucket: null` deliberately skips naming one — the FB-217 refusal path. */
+async function typeAndSend(note: string, bucket: string | null = 'feedback ui'): Promise<void> {
+  if (bucket !== null) setBucket(bucket);
   const ta = boxEl()!.querySelector('textarea')!;
   ta.value = note;
   ta.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', ctrlKey: true, bubbles: true }));
@@ -101,12 +109,36 @@ function mount(over: Partial<Parameters<typeof mountCapture>[0]> = {}): void {
     buildContext: baseCtx,
     now: () => new Date('2026-07-04T21:53:00Z'),
     sessionId: SESSION,
+    // Submit waits for a real paint before rasterising (FB-218/FB-219). jsdom's rAF would push every
+    // `await typeAndSend(...)` past its flush, so tests run the hook straight through; what the hook
+    // is FOR — ordering the box's disappearance ahead of the ~600ms shot — is asserted below.
+    afterPaint: (fn) => fn(),
     post: async (url, body) => {
       posts.push({ url, body: JSON.parse(body) });
       return true;
     },
     ...over,
   });
+}
+
+/** A stand-in for the shell freeze — records the freeze/thaw calls in order. `raw` is the real
+ *  timer (nothing is patched in a unit test), so the overlay's own chrome behaves normally. */
+function fakeFreeze(): {
+  calls: string[];
+  control: NonNullable<Parameters<typeof mountCapture>[0]['freeze']>;
+} {
+  const calls: string[] = [];
+  return {
+    calls,
+    control: {
+      freeze: () => void calls.push('freeze'),
+      thaw: () => void calls.push('thaw'),
+      raw: {
+        setTimeout: (fn, ms) => setTimeout(fn, ms) as unknown as number,
+        clearTimeout: (id) => clearTimeout(id),
+      },
+    },
+  };
 }
 
 beforeEach(() => {
@@ -237,8 +269,8 @@ describe('mountCapture — submit', () => {
     await typeAndSend('the open-eyes button sits off centre');
     expect(posts).toHaveLength(1);
     expect(posts[0]!.url).toBe('/__playtest-capture');
-    expect(posts[0]!.body.session).toBe(SESSION);
-    expect(posts[0]!.body.header).toContain('# Playtest session');
+    expect(posts[0]!.body.session).toBe('feedback-ui'); // keyed by the bucket (FB-217)
+    expect(posts[0]!.body.header).toContain('# Playtest bucket');
     expect(posts[0]!.body.entry).toContain('the open-eyes button sits off centre');
     expect(boxEl()).toBeNull();
   });
@@ -260,7 +292,7 @@ describe('mountCapture — submit', () => {
     pick(null);
     await typeAndSend('glitch');
     expect(posts[0]!.body.screenshot).toBe(png);
-    expect(posts[0]!.body.entry).toContain(`${SESSION}/`);
+    expect(posts[0]!.body.entry).toContain('feedback-ui/'); // the bucket's sidecar folder
   });
 
   it('bakes drawn markup into the screenshot via the injected compositor', async () => {
@@ -433,7 +465,7 @@ describe('mountCapture — submit', () => {
         expect(downloaded).toBe(''); // nothing until the human asks
         clearSwallow();
         dlgBtn(/Save \.md/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
-        expect(downloaded).toContain(SESSION);
+        expect(downloaded).toContain('feedback-ui');
         await flush();
       },
     );
@@ -459,13 +491,58 @@ describe('mountCapture — kind + bucket', () => {
     g.dispatchEvent(new Event('input', { bubbles: true }));
   };
 
-  it('defaults to Bug and an ungrouped session file', async () => {
+  it('defaults to Bug, and keys the file by the bucket slug', async () => {
     mount();
     pick(null);
-    await typeAndSend('a plain note');
-    expect(posts[0]!.body.session).toBe(SESSION); // ungrouped ⇒ keyed by session
-    expect(posts[0]!.body.header).toContain('# Playtest session');
+    await typeAndSend('a plain note', 'feedback ui');
+    expect(posts[0]!.body.session).toBe('feedback-ui');
+    expect(posts[0]!.body.header).toContain('# Playtest bucket — feedback ui');
     expect(posts[0]!.body.entry).toContain('## Bug ·');
+  });
+
+  // FB-217 — a bucket is required: an unbucketed note lands in a per-session file that
+  // `/drain-inbox <bucket>` can never scope to, so it just sits there.
+  it('refuses to send without a bucket, and says so where the caret is', async () => {
+    mount();
+    pick(null);
+    await typeAndSend('a homeless note', null);
+
+    expect(posts).toHaveLength(0); // nothing left the browser
+    expect(boxEl()).not.toBeNull(); // …and the note is still there to fix
+    const box = boxEl()!;
+    expect(box.textContent).toContain('Name a bucket before sending');
+    expect(document.activeElement).toBe(box.querySelector('[data-kami-group]'));
+  });
+
+  it('a bucket whose name is only whitespace is still no bucket', async () => {
+    mount();
+    pick(null);
+    await typeAndSend('spaces are not a name', '   ');
+    expect(posts).toHaveLength(0);
+    expect(boxEl()).not.toBeNull();
+  });
+
+  it('naming the bucket clears the nag and lets the note through', async () => {
+    mount();
+    pick(null);
+    await typeAndSend('second time lucky', null);
+    expect(posts).toHaveLength(0);
+
+    setBucket('dev tooling');
+    expect(boxEl()!.textContent).not.toContain('Name a bucket before sending');
+    const ta = boxEl()!.querySelector('textarea')!;
+    ta.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', ctrlKey: true, bubbles: true }));
+    await flush();
+    expect(posts[0]!.body.session).toBe('dev-tooling');
+    expect(posts[0]!.body.entry).toContain('second time lucky');
+  });
+
+  it('a refused send keeps the world frozen — the human is still writing the capture', async () => {
+    const f = fakeFreeze();
+    mount({ freeze: f.control });
+    pick(null);
+    await typeAndSend('no bucket yet', null);
+    expect(f.calls).toEqual(['freeze']); // NOT thawed: the box is still open
   });
 
   it('Question kind + a bucket re-key the file and its header', async () => {
@@ -474,7 +551,7 @@ describe('mountCapture — kind + bucket', () => {
     clearSwallow(); // consume the pick-follow click swallow before clicking a control
     kindBtn('question').dispatchEvent(new MouseEvent('click', { bubbles: true }));
     setGroup('Map feedback');
-    await typeAndSend('the weir seal is faint');
+    await typeAndSend('the weir seal is faint', null); // keep the bucket set above
     expect(posts[0]!.body.session).toBe('map-feedback'); // file keyed by the bucket slug
     expect(posts[0]!.body.header).toContain('# Playtest bucket — Map feedback');
     expect(posts[0]!.body.entry).toContain('## Question ·');
@@ -486,10 +563,10 @@ describe('mountCapture — kind + bucket', () => {
     clearSwallow();
     kindBtn('question').dispatchEvent(new MouseEvent('click', { bubbles: true }));
     setGroup('Dev tooling');
-    await typeAndSend('first');
+    await typeAndSend('first', null); // keep the bucket set above
     pick(null); // reopen — the toggle + bucket should be remembered (sticky within the mount)
     expect(groupField().value).toBe('Dev tooling');
-    await typeAndSend('second');
+    await typeAndSend('second', null);
     expect(posts[1]!.body.session).toBe('dev-tooling');
     expect(posts[1]!.body.entry).toContain('## Question ·');
   });
@@ -526,5 +603,114 @@ describe('FB-195/196 — the map sheet is capturable', () => {
     pick(null);
     await typeAndSend('general note');
     expect(seen).toEqual([document.body]); // NOT the #app host
+  });
+});
+
+// FB-215/FB-218/FB-219 — the shell freeze, and the rasteriser it lets us move to submit.
+describe('mountCapture — the shell freeze', () => {
+  it('freezes on the `` ` `` keypress, before the element is even picked', async () => {
+    const f = fakeFreeze();
+    mount({ freeze: f.control });
+    hotkey();
+    expect(f.calls).toEqual(['freeze']); // held still while the human hover-picks
+    document.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }));
+    expect(f.calls).toEqual(['freeze']); // still frozen with the box open
+    await typeAndSend('a note');
+    expect(f.calls).toEqual(['freeze', 'thaw']);
+  });
+
+  it('thaws when pick is abandoned with Esc — no box was ever opened', () => {
+    const f = fakeFreeze();
+    mount({ freeze: f.control });
+    hotkey();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    expect(f.calls).toEqual(['freeze', 'thaw']);
+  });
+
+  it('thaws when the box is cancelled with Esc', () => {
+    const f = fakeFreeze();
+    mount({ freeze: f.control });
+    pick(document.createElement('button'));
+    expect(boxEl()).not.toBeNull();
+    // Esc is handled on the note field (where the caret is), not on `document`.
+    const ta = boxEl()!.querySelector('textarea')!;
+    ta.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    expect(boxEl()).toBeNull();
+    expect(f.calls).toEqual(['freeze', 'thaw']);
+  });
+
+  it('never strands the game frozen when the overlay unmounts mid-pick', () => {
+    const f = fakeFreeze();
+    mount({ freeze: f.control });
+    hotkey();
+    unmount();
+    unmount = () => {};
+    expect(f.calls).toEqual(['freeze', 'thaw']);
+  });
+
+  it('opens the box WITHOUT rasterising — the ~600ms shot waits for submit', () => {
+    // The whole point of FB-219: at pick we do zero raster work, so the box paints immediately.
+    let shots = 0;
+    mount({
+      snapshot: async () => {
+        shots++;
+        return 'data:image/png;base64,x';
+      },
+    });
+    pick(document.createElement('button'));
+    expect(boxEl()).not.toBeNull();
+    expect(shots).toBe(0);
+  });
+
+  it('shoots a still screen: box hidden, highlight lit, game not yet thawed', async () => {
+    const f = fakeFreeze();
+    const observed: { box: string | undefined; highlight: boolean; thawed: boolean }[] = [];
+    mount({
+      freeze: f.control,
+      shotRoot: document.body,
+      snapshot: async () => {
+        observed.push({
+          box: boxEl()?.style.display,
+          highlight: highlightEl() !== null,
+          thawed: f.calls.includes('thaw'),
+        });
+        return 'data:image/png;base64,x';
+      },
+    });
+    pick(document.createElement('button'));
+    await typeAndSend('what is this element');
+
+    expect(observed).toHaveLength(1);
+    expect(observed[0]!.box).toBe('none'); // the note box is out of the picture…
+    expect(observed[0]!.highlight).toBe(true); // …but the picked element is still ringed
+    expect(observed[0]!.thawed).toBe(false); // and nothing moved while we shot it
+    expect(f.calls).toEqual(['freeze', 'thaw']); // thawed only after the shot
+    expect(posts[0]!.body.screenshot).toBe('data:image/png;base64,x');
+  });
+
+  it('waits for a paint between hiding the box and rasterising', async () => {
+    // Without this the ~600ms rasteriser steals the main thread before the browser can commit the
+    // frame where the box vanished, and the box sits on screen for the whole shot.
+    const order: string[] = [];
+    mount({
+      afterPaint: (fn) => {
+        order.push('paint');
+        fn();
+      },
+      snapshot: async () => {
+        order.push('shot');
+        return 'data:image/png;base64,x';
+      },
+    });
+    pick(document.createElement('button'));
+    await typeAndSend('note');
+    expect(order).toEqual(['paint', 'shot']);
+  });
+
+  it('works with no freeze installed — the overlay never depends on one', async () => {
+    mount({ snapshot: async () => 'data:image/png;base64,x' });
+    pick(document.createElement('button'));
+    await typeAndSend('no freeze here');
+    expect(posts[0]!.body.entry).toContain('no freeze here');
   });
 });

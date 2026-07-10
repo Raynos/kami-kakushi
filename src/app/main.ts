@@ -35,6 +35,7 @@ import { snapshotDom, compositeStrokes } from '../ui/capture-screenshot';
 import { createTelemetry } from '../telemetry';
 import { resolveDevGating } from './dev-gating';
 import { createActionClock, actionKey } from './action-clock';
+import { installFreezeClock, type TimerHost } from './freeze-clock';
 
 const DEFAULT_SEED = 20260626;
 const AUTOSAVE_DEBOUNCE_MS = 800;
@@ -84,6 +85,15 @@ export function planRungJump(
 async function boot(): Promise<void> {
   const root = document.getElementById('app');
   if (!root) return;
+
+  // FB-215 — the shell freeze that backs the playtest capture overlay. Installed FIRST, before the
+  // ActionClock, the auto-step heartbeat and the renderer's timers exist, because it works by
+  // wrapping `window`'s timer functions: anything armed before this line is invisible to it.
+  // DEV-only (the ternary folds to `undefined` in prod, so freeze-clock tree-shakes with the
+  // overlay it serves).
+  const freeze = import.meta.env.DEV
+    ? installFreezeClock(window as unknown as TimerHost, { doc: document })
+    : undefined;
 
   const save: SaveManager = createBrowserSaveManager();
 
@@ -707,6 +717,10 @@ async function boot(): Promise<void> {
       shotRoot: document.body,
       snapshot: snapshotDom,
       composite: compositeStrokes,
+      // FB-215 — hold the world still from the `` ` `` keypress to the send. This is what lets the
+      // ~600ms rasterisation happen at SUBMIT: with nothing running, the submit-time pixels ARE the
+      // pick-time pixels, so the box can open instantly and Esc stays responsive (FB-218/FB-219).
+      ...(freeze ? { freeze } : {}),
       build: { version: __VERSION__, sha: __BUILD_SHA__, date: __BUILD_DATE__ },
       buildContext: () => ({
         seed: state.rng.seed,
