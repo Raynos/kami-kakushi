@@ -17,8 +17,11 @@ is replaced by amend-batching — a burst of captures folds into ONE
   SVGs pre-rasterised (serialize + embed page CSS + resolve `var()` against the
   live cascade + Image→canvas at rect×DPR), swapped for a flat `<img>`, the
   original filtered out of the `domToPng` walk (hiding alone isn't enough — the
-  cloner walks `display:none` subtrees; measured 16 s, worse). Restore after;
-  every failure falls back to the slow walked path.
+  cloner walks `display:none` subtrees; measured 16 s, worse). A HIDDEN heavy
+  svg (the map pane persists in the DOM after its first visit) is marked +
+  filtered with no raster at all — round 3, human-caught: shots from other
+  tabs were still ~10 s. Restore after; every failure falls back to the slow
+  walked path.
 - `src/scripts/playtest-inbox.ts` — `commitCapture` amend-batches: HEAD an
   unpushed `chore(inbox): playtest captures` commit → `--amend` into it, else a
   fresh commit. One commit per burst instead of one per capture.

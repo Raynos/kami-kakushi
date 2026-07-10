@@ -256,13 +256,20 @@ they rasterised default-black on the near-black ground; the human caught the
 text loss live after my first eyeball check passed a shrunken full-page shot —
 a false green, PH3) and **custom properties** don't reach it (the var() pass;
 fonts are fine, `--font-head/body` are system stacks).
+Round 3 (human-caught live, again): the map pane persists in the DOM after its
+first visit, so on OTHER tabs the sheet sits `display:none` — zero-size, so the
+raster path skipped it, and the cloner (which walks hidden subtrees) still
+chewed all 15k nodes. A hidden heavy svg contributes nothing to the picture:
+it now gets marked + filtered with **no raster at all**. (The alternative —
+unmounting the sheet on tab-leave — was declined: it touches the map's
+sig-guard/TST2 no-repaint lifecycle for no extra gain.)
 **Verified in a real browser** (the captured save, 1496×752 @dpr2): map-open
-shot **10.4 s → 863 ms**, map-closed path unchanged, and the raw map raster
-dumped at full size and checked against the live SVG — every pill kanji
-(堰・竈・庭・薪・門・田・廃), caption, edge note and the title cartouche
-present. No unit test by design: this module is the injected DOM half of the
-capture split (jsdom has no canvas/Image); the headless timing run above is
-the repro record.
+shot **10.4 s → ~870 ms**, map-visited-then-hidden **~10 s → 670 ms**,
+map-never-opened unchanged; the raw map raster dumped at full size and checked
+against the live SVG — every pill kanji (堰・竈・庭・薪・門・田・廃), caption,
+edge note and the title cartouche present. No unit test by design: this module
+is the injected DOM half of the capture split (jsdom has no canvas/Image); the
+headless timing run above is the repro record.
 **Distilled rule:** a DOM-walking rasteriser and a huge retained-mode SVG don't
 mix — flatten the SVG through the native renderer first and shoot the flat
 pixels. (Joins the FB-218/219 family in qa-playtesting.md §9: observe without

@@ -54,7 +54,17 @@ async function flattenHeavySvgs(root: HTMLElement): Promise<(() => void)[]> {
   for (const svg of root.querySelectorAll('svg')) {
     if (svg.querySelectorAll('*').length < HEAVY_SVG_NODES) continue;
     const rect = svg.getBoundingClientRect();
-    if (rect.width < 1 || rect.height < 1) continue; // hidden (incl. inside an already-flattened svg)
+    if (rect.width < 1 || rect.height < 1) {
+      // A HIDDEN heavy svg (the map pane persists in the DOM after its first
+      // visit — on other tabs it sits display:none) contributes nothing to the
+      // picture, but the cloner still walks display:none subtrees. No raster
+      // needed: just mark it so the shot filter keeps the walker away.
+      svg.dataset.kamiHeavySvg = '';
+      restores.push(() => {
+        delete svg.dataset.kamiHeavySvg;
+      });
+      continue;
+    }
     try {
       const clone = svg.cloneNode(true) as SVGSVGElement;
       clone.setAttribute('width', String(rect.width));
