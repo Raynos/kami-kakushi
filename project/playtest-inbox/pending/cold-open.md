@@ -28,3 +28,13 @@ In the cold open the "No." is not prefixed with You:
 **Details:** `cold-open/2026-07-10T11-33-36.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:34:03+0200 — here-too-all-text
+
+here too all text by the main character should be consistntly prefix with you: or nameless: etc.
+
+**Element:** span.vn-speech — ""What name did I give? When they pulled me out."" · `div > p:nth-of-type(13) > span > span` · @318,508 326×20
+**Screenshot:** `cold-open/2026-07-10T11-34-03.png`
+**Details:** `cold-open/2026-07-10T11-34-03.json` — save + recent logs + full context
+
+---
