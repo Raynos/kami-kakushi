@@ -42,3 +42,13 @@ The feedback UI I want the bucket to be mandatory, so it dont want to be able to
 **Details:** `feedback-ui/2026-07-10T12-07-56.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T12:20:46+0200 — feedback-ui-has-some
+
+Feedback UI has some kind of really bad perf issue in it, it's not smooth at all. when you click some elements or hit esc.
+
+**Element:** header.vitals — "黒沢家lifebodywood0sansai0The day-hand 日雇Answer the summons ›Th" · `div:nth-of-type(2) > header:nth-of-type(2)` · @29,33 1438×48
+**Screenshot:** `feedback-ui/2026-07-10T12-20-46.png`
+**Details:** `feedback-ui/2026-07-10T12-20-46.json` — save + recent logs + full context
+
+---
