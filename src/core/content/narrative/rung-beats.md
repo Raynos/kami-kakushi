@@ -92,6 +92,7 @@ flags: r1-none-claimed
 Genemon: "Kept, then. The book carries what is claimed, and I keep my own
 margins."
 
+say: "…"
 memory: genemon +1 (kept-accounts)
 flags: r1-kept-owing
 

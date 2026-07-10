@@ -125,7 +125,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         {
           id: 'r1-kept',
           label: '"Say nothing."',
-          say: '"Say nothing."',
+          say: '"…"',
           react: '"Kept, then. The book carries what is claimed, and I keep my own margins."',
           memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'kept-accounts' }],
           flags: ['r1-kept-owing'],

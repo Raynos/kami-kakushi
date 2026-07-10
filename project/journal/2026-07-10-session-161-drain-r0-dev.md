@@ -27,3 +27,4 @@ FB-329 (map fog + travel gating already shipped).
 - FB-359/FB-360 fixed: teardownIntroScene() in the pre-awake render branch
   (RED-proven); the whole dev triplet was one cascade.
 - FB-334 fixed: the DEV action-card unit reads "body" (the meter's name).
+- FB-327 fixed: r1-kept silent option echoes as `Nameless: "…"` (say: override).
