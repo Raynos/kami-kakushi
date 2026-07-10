@@ -1,7 +1,11 @@
 # The cold-open re-arc — three acts, three picks (HD-37)
 
-**Status:** 🆕 proposed — awaiting the human's read (the ruling itself is
-already locked: HD-37, 2026-07-10).
+**Status:** 🔨 IN-PROGRESS — human ran the decision walkthrough in-session
+(2026-07-10, supersedes the queued full read) and gave the go: full arc,
+this session. Verdicts: act order `dream → soan → genemon` ✓ · title-card
+lede REWORKED to fit dreaming-first (not moved, not kept) · nine perks
+restore AS-WAS (sim is the gate) · ~2× cold-open length ACCEPTED (FB-8
+telemetry watches).
 **Confidence:** ( 30% Opus, 70% Fable ) — the engine/restore half is mechanical
 (Opus-safe); the two narrative-diverge units + the act-seam prose judgments
 concentrate taste (Fable-leaning).
@@ -76,4 +80,6 @@ the ADR-139 pattern; blind take agents inherit the session model (D-124).
   *fun* balance is HR territory, flagged in the unit-A/B HR-items.
 - The dream act pre-wake vs the FB-14 title-card lede ("Open your eyes")
   ordering needs one taste look in step 1 (the card currently narrates waking
-  BEFORE the VN opens).
+  BEFORE the VN opens). **RULED (human, 2026-07-10): rework the card line** —
+  a new lede that fits dreaming-first; fiction-voiced, so it diverges
+  (folded into unit A's scope, step 3).
