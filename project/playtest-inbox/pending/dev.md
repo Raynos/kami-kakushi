@@ -38,3 +38,13 @@ Anyway I'm supposed to be on another screen.
 **Details:** `dev/2026-07-10T19-17-01.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-359 · 2026-07-10T19:18:20+0200 — lol-in-this-state
+
+lol in this state i cant even press new game im just stuck in the cold open.
+
+**Element:** button "⟳ New game" — "⟳ New game" · `div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(9) > button:nth-of-type(2)` · @1286,689 163×25
+**Screenshot:** `dev/2026-07-10T19-18-20.png`
+**Details:** `dev/2026-07-10T19-18-20.json` — save + recent logs + full context
+
+---
