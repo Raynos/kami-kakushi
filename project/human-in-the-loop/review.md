@@ -253,6 +253,21 @@ Canon keys `node<X>Blurb<Season>` in `narrative/flavor.md`; alternates:
   - **Verdict:** _(awaiting your read — bundle-level verdicts are fine: pick
     per SEASON, never per line)_
 
+### HR-22 🔲 [R0+ · all surfaces] — the MC's colour — pick a swatch (FB-228/FB-216)
+
+The protagonist now speaks in ONE token everywhere (`--v-player` — VN, ask/chat,
+log; the legacy `.speech.player` rokushō rule removed), per your ruling in the
+feedback-ui drain. Three candidate blues ride live behind DEV → Story → **"MC
+colour"** (a pick re-tints every surface at once): **A · asagi sky #8ec9ff**
+(~10:1 on steel — the shipped default) · **B · pale asagi #9ed3ff** (brighter,
+~11:1) · **C · deep asagi #7db8f0** (moodier, ~8.4:1). All three are saturated
+sky-blues, far off the narrator's grey-blue hue — the "reads as narrator, but
+whiter" failure is dead in all three.
+
+  - **How to look LIVE:** DEV → Story → the three MC-colour swatch buttons;
+    start a new game (the cold open's `You:` lines) or open Chat with an ask.
+  - **Verdict:** _(awaiting your pick — A ships until you say otherwise)_
+
 ---
 
 > _Open reviews only. Closed reviews graduate to [`archive.md`](archive.md). The

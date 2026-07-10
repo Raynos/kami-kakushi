@@ -2043,6 +2043,40 @@ export function mountDevPanel(
   //    UI flavor lines (lock-hints) — dialogue/cold-open units read in the script-reader. ──
   storyTab.textContent =
     dev.storyBundles.length > 0 ? `Story (${dev.storyBundles.length})` : 'Story';
+  // FB-228/FB-216 — the MC-colour taste call (human ruling, 2026-07-10): the protagonist
+  // collapsed to ONE token (--v-player) with THREE candidate swatches reviewable LIVE.
+  // A pick paints :root's --v-player so every surface (VN, chat, log) re-tints at once;
+  // prod ships only the default (A) — the alternates are DEV-only, zero flag-debt.
+  {
+    const MC_SWATCHES: readonly { key: string; label: string; hex: string }[] = [
+      { key: 'A', label: 'A · asagi sky #8ec9ff (default)', hex: '#8ec9ff' },
+      { key: 'B', label: 'B · pale asagi #9ed3ff', hex: '#9ed3ff' },
+      { key: 'C', label: 'C · deep asagi #7db8f0', hex: '#7db8f0' },
+    ];
+    const wrap = el('div');
+    wrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:.2rem;';
+    const head = el('div', undefined, 'MC colour — --v-player (FB-228 taste call)');
+    head.style.cssText = 'color:#b08d4f;font-size:11px;text-transform:uppercase;width:100%;';
+    wrap.append(head);
+    const btns = new Map<string, HTMLButtonElement>();
+    const pick = (key: string): void => {
+      const sw = MC_SWATCHES.find((s) => s.key === key)!;
+      document.documentElement.style.setProperty('--v-player', sw.hex);
+      for (const [k, b] of btns) {
+        const on = k === key;
+        b.style.background = on ? '#b08d4f' : '#3a322a';
+        b.style.color = on ? '#1c1814' : '#e7d9bc';
+      }
+    };
+    for (const sw of MC_SWATCHES) {
+      const b = mono(sw.label, () => pick(sw.key));
+      b.style.borderLeft = `10px solid ${sw.hex}`;
+      btns.set(sw.key, b);
+      wrap.append(b);
+    }
+    pick('A'); // the committed default — buttons highlight it; :root gets the same value
+    storyPane.append(wrap);
+  }
   // T0/T1 review maps (2026-07-07 story reboot) — the rebooted tier-sheet zone rosters drawn
   // as full-screen survey sheets BEFORE the engine rebuild. Read-only review artifacts, fully
   // self-contained in map-sheets/ (ONE master geography; bible-distilled data, not core). Two

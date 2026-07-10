@@ -65,8 +65,8 @@
      distinct per character; the log voice-* classes + the VN VOICE_COLOR map
      (render.ts) consume these. Player reads BRIGHT (your words pop), narrator
      stays muted. ── */
-  --v-narrator: #9aa4c4;
-  --v-player: #e3ecff;
+  --v-narrator: #9aa4c4; /* FB-228 — THE narrator token, both surfaces (VN + log) */
+  --v-player: #8ec9ff; /* FB-228 — the MC's own asagi sky-blue: unmistakably blue, ~10:1 on steel (the old near-white read as narrator) */
   --v-physician: #8fbfc4;
   --v-steward: #c9975c; /* FB-143 — drier ochre, clear of the gold-hi CTA */
   --v-arms: #cf9a86;
@@ -935,15 +935,11 @@ h3 {
   color: var(--ink-soft);
 }
 /* quoted speech reads as a distinct VOICE from narrator prose (F23) — on-palette indigo,
-   lightly emphasised. Player speech (`.speech.player`) is reserved for the interactive intro. */
+   lightly emphasised (FB-228 — an unambiguous NPC quote gets its speaker's colour inline;
+   the dead `.speech.player` rokushō rule is removed — the MC has ONE token, --v-player). */
 .log-line.narration .speech {
   color: var(--ai);
   font-style: italic;
-}
-.log-line.narration .speech.player {
-  color: var(--rokusho);
-  font-style: normal;
-  font-weight: 600;
 }
 /* F26 — speaker/voice colours (interactive-intro plan §7). A line that carries a
    speaker `voice` takes that voice's on-palette colour for its WHOLE text, so who
@@ -977,6 +973,12 @@ h3 {
 }
 .log-line.voice-lord {
   color: var(--v-lord);
+}
+/* FB-228 — SPOKEN lines (a real speaker's voice, never the narrator) step in from the
+   narration margin, so dialogue reads as its own register at a glance (the human's
+   "indent character speech" ask — one shared idiom with the VN's .vn-spoken). */
+.log-line.spoken {
+  padding-left: var(--space-2);
 }
 /* F127 — chat grouping kicker: a quiet inline rule opening each conversation
    ("— with Sōan —") whenever the interlocutor changes, so chats with different
@@ -1434,10 +1436,18 @@ h3 {
   gap: var(--space-3);
   min-height: 3.5rem;
   text-align: left;
+  /* FB-228 — narration reads in the SAME muted narrator token as the log (one voice,
+     one colour, both surfaces); speech + nameplates carry the vivid voice colours. */
+  color: var(--v-narrator);
 }
 .vn-line {
   margin: 0;
   line-height: 1.6;
+}
+/* FB-228 — the VN's spoken lines step in from the narration margin (same idiom as
+   the log's .log-line.spoken). */
+.vn-line.vn-spoken {
+  padding-left: var(--space-2);
 }
 /* the decision prompt ("What do you say to him?") types into the STORY column too (F82/F83 — nothing
    pops in un-typed) — set apart from the spoken lines as a quiet, weightier question. */

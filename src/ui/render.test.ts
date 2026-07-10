@@ -1386,6 +1386,46 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     return { ...awake(), log: { entries, seq: entries.length } };
   }
 
+  // ── FB-228 — the vn-speech colour cluster: an embedded quote in narration is a
+  //    character SPEAKING (tinted by conservative one-name inference), and spoken
+  //    lines step in from the narration margin. RED before FB-228: narrator-voiced
+  //    lines skipped quote detection entirely, and no .spoken class existed.
+  it('F228 — a Genemon quote inside a NARRATOR line tints with the steward voice', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(
+      logged([{ ...narr(0, '"Still at it," Genemon says, passing the door.'), voice: 'narrator' }]),
+      null,
+    );
+    const span = root.querySelector<HTMLElement>('.log-line .speech')!;
+    expect(span).not.toBeNull();
+    expect(span.style.color).toBe('var(--v-steward)');
+  });
+
+  it('F228 — quotes stay NEUTRAL when two speakers are named (ambiguous inference)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(
+      logged([{ ...narr(0, '"Enough," Genemon says, but Kihei only laughs.'), voice: 'narrator' }]),
+      null,
+    );
+    const span = root.querySelector<HTMLElement>('.log-line .speech')!;
+    expect(span).not.toBeNull();
+    expect(span.style.color).toBe(''); // never mis-tint an ambiguous quote
+  });
+
+  it('F228 — a spoken line steps in (.spoken); narrator lines hold the margin', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(
+      logged([
+        { ...narr(0, 'The rain holds through the morning.'), voice: 'narrator' },
+        { ...narr(1, 'Rice, one quarter-sack, to vermin.'), voice: 'steward', speaker: 'Genemon' },
+      ]),
+      null,
+    );
+    const lines = [...root.querySelectorAll<HTMLElement>('.log-line')];
+    expect(lines[0]!.classList.contains('spoken')).toBe(false);
+    expect(lines[1]!.classList.contains('spoken')).toBe(true);
+  });
+
   it('locks byōbu folding-columns + soft cards as the sole prod rendering (no DEV toggle)', () => {
     const render = mount(root, () => {}, noopHooks()); // no dev harness = the prod path
     render(awake(), null);

@@ -2390,7 +2390,13 @@ export function mount(
       // stays neutral ink. A decision PROMPT is the scene's call to action and reads
       // BRIGHT GOLD whole-line (F132/FB-143 — gold-hi, clear of the steward amber).
       if (e.prompt) p.style.color = 'var(--gold-hi)';
-      else p.style.setProperty('--voice', VOICE_COLOR[e.voice]);
+      else {
+        // FB-228 — a narrator line's embedded quote is a character speaking: route the
+        // inferred speaker's colour through the SAME --voice the .vn-speech spans read.
+        const quoteVoice = e.voice === 'narrator' ? inferQuoteVoice(e.text) : null;
+        p.style.setProperty('--voice', VOICE_COLOR[quoteVoice ?? e.voice]);
+      }
+      if (e.speaker) p.classList.add('vn-spoken'); // FB-228 — spoken lines step in (indent)
       // FB-88/FB-50 — EVERY voiced line carries its speaker-name prefix ("Sōan: " / "Genemon: " / "You: "),
       // not just the player's: the NAME is the primary "who's talking" signal, colour only reinforces
       // it. The narrator/decision-prompt line has no speaker ⇒ no prefix. The name paints instantly;
@@ -3854,14 +3860,36 @@ export function mount(
   // channels paint as plain text.
   function appendNarration(line: HTMLElement, text: string): void {
     const re = /"[^"]*"|[“][^”]*[”]/g;
+    // FB-228 — a quote embedded in narration ('"…," Genemon says') is that character
+    // SPEAKING: tint it with their voice colour when the speaker is unambiguous.
+    const quoteColor = inferQuoteVoiceColor(text);
     let last = 0;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text)) !== null) {
       if (m.index > last) line.append(document.createTextNode(text.slice(last, m.index)));
-      line.append(el('span', 'speech', m[0]));
+      const span = el('span', 'speech', m[0]);
+      if (quoteColor) span.style.color = quoteColor;
+      line.append(span);
       last = m.index + m[0].length;
     }
     if (last < text.length) line.append(document.createTextNode(text.slice(last)));
+  }
+  // FB-228 — who speaks the quotes inside a narrator line? CONSERVATIVE inference:
+  // exactly ONE known NPC display name appearing in the line attributes its quotes to
+  // that NPC's voice; zero or several names ⇒ null (stay neutral, never mis-tint).
+  // One function feeds BOTH surfaces (the log's appendNarration + the VN's --voice).
+  function inferQuoteVoice(text: string): VoiceCategory | null {
+    let found: VoiceCategory | null = null;
+    for (const [id, name] of Object.entries(NPC_NAME) as [NpcId, string][]) {
+      if (!text.includes(name)) continue;
+      if (found !== null) return null; // two speakers named — ambiguous, stay neutral
+      found = NPC_VOICE[id];
+    }
+    return found;
+  }
+  function inferQuoteVoiceColor(text: string): string | null {
+    const v = inferQuoteVoice(text);
+    return v ? VOICE_COLOR[v] : null;
   }
   // FB-50 — a spoken line gets a "Name: " prefix (the speaker's display name). The stored
   // `entry.speaker` already IS the display name (NAMES.* / PLAYER_SPEAKER = "You"); NPC_NAME maps
@@ -3973,9 +4001,11 @@ export function mount(
     // FB-26 — when a line carries a speaker `voice`, the whole line takes that
     // voice's colour (via the `voice-<category>` class on the line, added in
     // buildLogLine), so who's talking reads at a glance. The FB-23 quote-detection
-    // (`.speech` spans) stays only as the FALLBACK for narration lines with NO
-    // voice tag — a voiced line renders as plain text and lets the class colour it.
-    if (entry.channel === 'narration' && entry.voice === undefined) appendNarration(line, text);
+    // (`.speech` spans) runs for NARRATOR-voiced and un-voiced narration (FB-228 —
+    // an embedded quote is a character speaking, tinted by inference); a line
+    // spoken in a real voice renders plain and lets the class colour it whole.
+    if (entry.channel === 'narration' && (entry.voice === undefined || entry.voice === 'narrator'))
+      appendNarration(line, text);
     else line.append(document.createTextNode(text));
   }
   // FB-167 — the paint-order key of the last-built line: when the SPEAKER-BLOCK
@@ -3999,9 +4029,11 @@ export function mount(
       return line;
     }
     // the voice-<category> class carries the speaker colour (FB-26); absent voice ⇒
-    // today's channel-only styling (narrator quote-detection fallback).
+    // today's channel-only styling (narrator quote-detection fallback). FB-228 — a
+    // line spoken in a real voice (never the narrator) also steps in (.spoken).
     const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
-    const line = el('div', `log-line ${entry.channel}${voiceClass}`);
+    const spokenClass = entry.voice && entry.voice !== 'narrator' ? ' spoken' : '';
+    const line = el('div', `log-line ${entry.channel}${voiceClass}${spokenClass}`);
     stampChatKicker(line, entry); // F127 — before content, so renderLineContent sees the stamp
     stampBlockBreak(line, entry); // FB-167 — breathing room when the speaker-block changes
     renderLineContent(line, entry);

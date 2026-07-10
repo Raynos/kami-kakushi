@@ -69,3 +69,26 @@ grammar form + intro retags (FB-198), the fresh-divider made anchored + 30s
 - **FB-227** (human ask mid-drain) — the cold open's GBA gold-block caret
   (`co-typing`) now rides the VN typing line too (same primitive, TST1);
   clears when the block yields to the panel. Test + live screenshot.
+
+## The vn-speech lane (human: "do the three parked ones + other buckets")
+
+- **FB-228..234** — the whole speech-colour cluster in one pass (3 parked
+  cold-open + 3 r0 + 1 feedback-ui): `--v-player` → #8ec9ff asagi (the
+  human's "obvious blue, more contrast"); VN narration unified on
+  `--v-narrator`; `.spoken`/`.vn-spoken` 8px speech indent; and
+  `inferQuoteVoice` — a narrator line's embedded quotes tint with the sole
+  named NPC's voice (ambiguous stays neutral), one inference feeding the
+  log's `.speech` spans and the VN's `--voice`. Three RED-able tests; live
+  verify against the r0 capture's save. Cold-open bucket fully done →
+  archived; r0/feedback-ui speech sidecars re-laned + stamped.
+- w6:p2's FB-216 handoff honoured: the dead `.speech.player` rokushō rule
+  removed (the MC's THIRD colour), and the human's mid-drain ruling (one
+  token + three swatches, live) shipped as the DEV → Story "MC colour"
+  swatch trio → **HR-22** (A #8ec9ff ships until picked).
+- F-number race survived: w6:p2's old relayed block (FB-215..224) collided
+  with my claim-tool block on FB-220 — caught by the inbox-ledger gate,
+  resolved by herdr message (they renumbered; my 220..227 were already
+  pushed). The claim tool is now the ONLY block source.
+- Queued next (human, mid-lane): RE-OPEN the cold-open design (FB-223 — the
+  human saw a better cold open than the C4.9 fusion) — needs the design
+  conversation, not a drain fix.

@@ -67,8 +67,8 @@
      distinct per character; the log voice-* classes + the VN VOICE_COLOR map
      (render.ts) consume these. Player reads BRIGHT (your words pop), narrator
      stays muted. ── */
-  --v-narrator: #9aa4c4;
-  --v-player: #e3ecff;
+  --v-narrator: #9aa4c4; /* FB-228 — THE narrator token, both surfaces (VN + log) */
+  --v-player: #8ec9ff; /* FB-228 — the MC's own asagi sky-blue: unmistakably blue, ~10:1 on steel (the old near-white read as narrator) */
   --v-physician: #8fbfc4;
   --v-steward: #c9975c; /* FB-143 — drier ochre, clear of the gold-hi CTA */
   --v-arms: #cf9a86;
