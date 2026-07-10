@@ -98,8 +98,7 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 ## How to resume
 
 > 🎮 **v0.4.0 "the storywave release" shipped 2026-07-09 via `/ship`** — the
-> bible-canon T0 rewrite, live at raynos.github.io/kami-kakushi; the s133 audit
-> + both closure plans (s134 storywave · s135 map-sheets) are ✅ DONE + archived.
+> bible-canon T0 rewrite, live at raynos.github.io/kami-kakushi (s133–s135 ✅).
 
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
@@ -109,12 +108,13 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    Use **`?dev=no`** for the true player layout. The page NEVER auto-reloads
    (FB-257) — hit F5 yourself to pick up new code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the closure work is DONE — the frontier is
-   **T2 rungs/fog** (plan ready + human-greenlit:
-   `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md` — carries the S1 caveat:
-   `T2_RUNG_LADDER` is DEV-preview-only; derive from core when the schedule
-   exists), or drain the inbox (ADR-171 claim first; one open: FB-310 unfocused
-   -tab autoplay). Human-gated: HR-1 + HR-18…25. Combat R4+ = a design call → inbox.
+4. **Next (autonomous):** the frontier is **T2 rungs/fog** (plan ready +
+   human-greenlit: `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1 caveat —
+   `T2_RUNG_LADDER` is DEV-preview-only, derive from core later), or drain the
+   inbox (ADR-171 claim first). Human-gated: HR-1 + HR-18…25; the **estate
+   redesign plan** (`docs/plans/fable-2026-07-10-estate-upgrades-redesign.md`)
+   waits on its Phase-0 direction lock — no estate build before the human rules
+   F1–F5 (HR-9/HR-11 closed INTERIM). Combat R4+ = a design call → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 18/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 19/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
