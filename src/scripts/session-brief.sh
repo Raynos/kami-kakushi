@@ -3,6 +3,8 @@
 #
 # Wired into the SessionStart hook (.claude/settings.json) so every cold pickup
 # surfaces what's waiting on the human WITHOUT being asked:
+#   0. playtest inbox headline (per-bucket in-progress capture counts, biggest
+#      bucket first — the very first line, so a "gm"/"gn" turn opens with it)
 #   1. human TODOs        (project/todo-human.md ## TODO — unticked tasks)
 #   2. the reading queue  (project/todo-human.md ## Reading queue — unticked sign-offs)
 #   3. pending PRD changes (project/status/pending-prd-changes.md — locked canon not yet applied)
@@ -93,26 +95,33 @@ herdr_shared_tree() {
   add ""
 }
 
-# --- Inbox headline: per-bucket OPEN capture counts, the very first line -------
-# The human wants the feedback-inbox shape at a glance without asking an agent.
-# A capture is OPEN until its <stamp>.json sidecar carries status:"done" (the
-# drain-inbox stamp; "parked" holds a bucket open, so it counts as open here).
-# Silent when nothing is open (the no-cry-wolf norm).
-inbox_line=""
+# --- Inbox headline: per-bucket in-progress capture counts, the very first line -
+# The human wants the feedback-inbox shape at a glance without asking an agent, in
+# the exact shape:
+#   Playtest inbox - r0 (25 in progress) dev (11 in progress) the-log (4 in progress)
+# Every capture still sitting in pending/ counts as IN PROGRESS — the bucket is the
+# unit, and it stays in progress until it is fully drained and ARCHIVED out of
+# pending/. A mid-drain status:"done" stamp on one sidecar does NOT retire that
+# capture from the human's view (the earlier "OPEN only" count read 8/22/4 while the
+# buckets actually held 11/25/4), so we count ALL sidecars, done or not. One capture
+# == one <stamp>.json sidecar. Biggest bucket first. Silent when pending/ is empty.
+inbox_rows=""
 for d in project/playtest-inbox/pending/*/; do
   [[ -d "$d" ]] || continue
   bucket="$(basename "$d")"
   [[ "$bucket" == ".claims" ]] && continue
-  open=0
+  n=0
   for j in "$d"*.json; do
     [[ -e "$j" ]] || continue
-    grep -q '"status"[[:space:]]*:[[:space:]]*"done"' "$j" && continue
-    open=$((open + 1))
+    n=$((n + 1))
   done
-  [[ "$open" -gt 0 ]] && inbox_line+="${inbox_line:+, }${bucket} ${open}"
+  [[ "$n" -gt 0 ]] && inbox_rows+="${n} ${bucket}"$'\n'
 done
-if [[ -n "$inbox_line" ]]; then
-  add "Inbox: ${inbox_line}"
+if [[ -n "$inbox_rows" ]]; then
+  # Biggest bucket first (numeric desc); render "<bucket> (<n> in progress)".
+  inbox_line="$(printf '%s' "$inbox_rows" | sort -rn \
+    | awk '{ printf "%s%s (%s in progress)", sep, $2, $1; sep=" " }')"
+  add "Playtest inbox - ${inbox_line}"
   add ""
 fi
 
