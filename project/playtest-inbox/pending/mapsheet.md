@@ -34,3 +34,13 @@ Maybe like a little 3D figurine that's sitting on top of the flat screen, or som
 **Details:** `mapsheet/2026-07-10T18-42-16.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-341 · 2026-07-10T18:44:54+0200 — when-tryign-to-navigate
+
+When tryign to navigate the map it appears that woodshed is reachable but its not, like it should be disabled and only the ones where we can go to are enabled.
+
+**Element:** panel "do" · `svg > g:nth-of-type(2) > g:nth-of-type(6) > rect:nth-of-type(2)` · @645,563 45×27
+**Screenshot:** `mapsheet/2026-07-10T18-44-54.png`
+**Details:** `mapsheet/2026-07-10T18-44-54.json` — save + recent logs + full context
+
+---
