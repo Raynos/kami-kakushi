@@ -18,3 +18,13 @@ Nice try lol, now the map is too big here, Like it still needs to fit in the vie
 **Details:** `mapsheet/2026-07-10T23-14-39.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-375 · 2026-07-10T23:17:16+0200 — why-is-weir-rendered
+
+Why is weir rendered here in R1 theres only three zones
+
+**Element:** panel "do" · `svg > g:nth-of-type(2) > g:nth-of-type(1) > rect:nth-of-type(2)` · @217,422 68×41
+**Screenshot:** `mapsheet/2026-07-10T23-17-16.png`
+**Details:** `mapsheet/2026-07-10T23-17-16.json` — save + recent logs + full context
+
+---
