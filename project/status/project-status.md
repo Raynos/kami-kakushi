@@ -64,8 +64,6 @@ magic; no reset.
 - **DEV-variant picks** 🔲 — kept live for a detailed pass: estate-section (HR-9) ·
   home (HR-6) · bestiary (HR-5) · the HR-2 bundle · Phase-2 build-beat + tracker
   (HR-10/HR-11). Picks → the agent strips the alternates (zero prod flag-debt).
-- Closed on the storywave ship: HR-8, HR-12, HR-14, HR-16, HR-17 (→
-  `human-in-the-loop/archive.md`).
 
 ## Toolchain
 
@@ -73,9 +71,10 @@ Vite 5 + TS (strict, `tsgo`) + Vitest 2 + oxlint + oxfmt. Pure-core oxlint bound
 (no Math.random/pow/DOM/Date.now in `src/core`). `pnpm run verify` runs in parallel
 via `verify-run.ts` (roster: [`gates.ts`](../../src/scripts/gates.ts)):
 <!-- gen:begin gate-roster (pnpm run checkpoint — do not edit inside) -->
-**17 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
+**18 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
 gen-docs, fixtures, gen-narrative, gen-prd-regions, pacing, playcheck,
-md-links, milestone-integrity, verify-changelog, doc-budgets, checkpoint.
+md-links, milestone-integrity, verify-changelog, doc-budgets, checkpoint,
+inbox-ledger.
 <!-- gen:end gate-roster -->
 **`pre-commit`** runs `verify` + reading-queue/journal/snapshot gates; **`pre-push`**
 blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` · `/ship`.
@@ -117,4 +116,4 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
    call, NOT a fix → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 8/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 9/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->

@@ -4152,6 +4152,15 @@ export function mount(
         mx = Math.max(mx, e.key);
     return mx;
   }
+  // FB-59/FB-222 — one-shot unread baseline: everything in the log at first render is
+  // history (no stale dots on load/refresh); everything after — including lines landing
+  // WHILE the VN cold open hides the shell — is a mid-session arrival that trips a dot.
+  function seedLogSeenOnce(state: GameState): void {
+    if (logSeenSeeded) return;
+    logSeenSeeded = true;
+    const loaded = state.log.entries;
+    for (const f of Object.keys(logSeen) as LogFilter[]) logSeen[f] = maxKeyForFilter(loaded, f);
+  }
   function refreshLogTabs(state: GameState): void {
     const entries = state.log.entries;
     logSeen[logFilter] = maxKeyForFilter(entries, logFilter); // viewing = seen
@@ -5416,6 +5425,11 @@ export function mount(
       activeTab = 'work';
       logFilter = 'story';
       renderLog(state); // instant while a VN scene is live (see renderLog) — no slow catch-up
+      // FB-222 — seed the unread baseline HERE too: this branch returns before the main
+      // seeding block, so without it the first seed ran on the intro-END render and
+      // swallowed every mid-intro arrival (the perk milestone) as "history" — the
+      // Progress tab never showed its dot after the cold open.
+      seedLogSeenOnce(state);
       syncIntroScene(state);
       return;
     }
@@ -5447,11 +5461,8 @@ export function mount(
     paintLogFilterBar();
     // FB-59 — first awake render: mark all loaded entries seen (history), so no channel shows a
     // stale unread dot on load/refresh. After this, only mid-session arrivals trip a dot.
-    if (!logSeenSeeded) {
-      logSeenSeeded = true;
-      const loaded = state.log.entries;
-      for (const f of Object.keys(logSeen) as LogFilter[]) logSeen[f] = maxKeyForFilter(loaded, f);
-    }
+    // (FB-222 — also runs in the VN-active branch above, so intro arrivals count as unread.)
+    seedLogSeenOnce(state);
     refreshLogTabs(state); // FB-20 — repaint per-tab unread dots
     workHead.hidden = activeTab !== 'work';
     renderEstate(state);

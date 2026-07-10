@@ -45,3 +45,15 @@ grammar form + intro retags (FB-198), the fresh-divider made anchored + 30s
 - Post-fix live verification (headless, `tmp/qa-drain-verify.mjs`): FB-197
   Space completes a mid-type line (10 → 309 chars); FB-198 the VN shows
   `You: "No."` / `You: "What name did I give?…"` in the real cold open.
+
+## Batch 2 (human go-ahead: "do the rest of the batches")
+
+- Lane claimed per ADR-171 (`inbox-claim.ts claim cold-open`, block
+  FB-220..233); batch-1 sidecars stamped done (FB-220/221 = per-capture alias
+  numbers for the two folded captures); the vn-speech colour cluster stamped
+  `parked` with `lane: vn-speech`.
+- **FB-222** — Progress unread dot after the cold open: the FB-59 baseline
+  seeding never ran while the VN early-returned `render()`, so the intro-END
+  render swallowed the mid-intro perk milestone as history. Seeding extracted
+  to `seedLogSeenOnce` and called in the VN branch too. RED-proven test (real
+  `choose_intro` flow) + live headless confirm.

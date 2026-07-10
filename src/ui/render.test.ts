@@ -926,6 +926,24 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     expect(root.querySelector('.intro-continue')).not.toBeNull();
   });
 
+  // FB-222 — the unread baseline seeds at the FIRST render (even mid-VN), so a milestone
+  // landing during the cold open counts as a mid-session arrival. RED before FB-222: the
+  // seed first ran on the intro-END render and swallowed the perk line as "history".
+  it('F222 — a milestone landing DURING the intro trips the Progress unread dot on reveal', () => {
+    const { render } = spyMount();
+    let s = introState(0);
+    render(s, null); // VN active — this render must seed the baseline
+    const opt = DIALOGUE_SCENES[0]!.decision.options[0]!;
+    s = reduce(s, { type: 'choose_intro', optionId: opt.id }); // the REAL pick → perk milestone
+    expect(s.log.entries.some((e) => e.channel === 'milestone')).toBe(true); // fixture self-check
+    render(s, null); // single-scene intro is over — the shell reveals
+    const progress = [...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab')].find((b) =>
+      (b.textContent ?? '').includes('Progress'),
+    )!;
+    expect(progress).not.toBeUndefined();
+    expect(progress.classList.contains('unread')).toBe(true);
+  });
+
   it('ONLY Continue dispatches choose_intro (advancing the scene)', () => {
     const { seen, render } = spyMount();
     render(introState(0), null);
