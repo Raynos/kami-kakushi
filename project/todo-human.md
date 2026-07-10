@@ -36,8 +36,4 @@
 - [`docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`](../docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md)
   — the ready-to-build plan for T2 (Valley) map rungs + fog (you greenlit it
   2026-07-09; mechanics-only, no pin/HR). Skim before/whenever I build it.
-- [`docs/plans/fable-2026-07-09-storywave-closure.md`](../docs/plans/fable-2026-07-09-storywave-closure.md)
-  — the follow-up plan to finish the rewrite cleanly: C0 forks (HD-31/32)
-  · C1 build fixes · C2 docs A5 completion · C3 gate hardening · C4
-  switch-the-written-world-on · C5 fiction wave + balance re-baseline.
 

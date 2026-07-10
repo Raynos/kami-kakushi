@@ -25,15 +25,20 @@ magic; no reset.
 
 ## Where we are now
 
-- **✅ STORYWAVE COMPLETE & SHIPPED v0.4.0 (s125–131, 2026-07-09):** the T0 rewrite
-  to the bible is LIVE on gh-pages (`4ac1ead`, tag `v0.4.0`). All THREE storywave
-  plans DONE & archived — Plan B (game, G0–G7), Plan A (docs, A0–A5: PRD
-  de-bannered, renamed, `prd:drift` CLEAN), and the story-bible-finish parent.
-  HR-17 signed off (Take C canon; the `hd30-nengu` diverge KEPT by human steer);
-  HR-8 closed moot.
-- **OWED → the playtest inbox (human steer 2026-07-09):** the rung-by-rung QA + the
-  balance re-baseline (pacing went liquid across the rewrite) become future FB
-  items via `/drain-inbox`, NOT a blocker. Combat curve R4+ kills still parked.
+- **✅ STORYWAVE CLOSURE DONE (s134, 2026-07-10):** every post-ship-review finding
+  fixed or human-ruled — ADR-166 (Autumn is a TRUE refusing gate) · ADR-167 (the
+  full fiction wave: 5 season overlays · 3 hidden discoveries · per-grade judge
+  lines · 16 zones × 6 seasons of node reads; HR-18…HR-21 review LIVE in DEV →
+  Story) · the dark side-beats/cast/log-texture wired · six-step grades · the
+  one-scene intro · prd-drift widened + RED-proven · the idler persona repaired
+  (fullLadder, all seeds). Finding→commit map: the review report's closing
+  addendum. Plan archived.
+- **✅ STORYWAVE SHIPPED v0.4.0 (s125–131):** the bible-canon T0 rewrite is LIVE on
+  gh-pages (tag `v0.4.0`); all three storywave plans archived.
+- **OWED → HD-34 (design):** the Phase-2 ratio breach ([4.0–4.9] vs [0.8,1.2]) ·
+  the idler-ascension expectation · B8's free pool refill — sim evidence attached.
+  `verify:balance` now runs ~17 min (the repaired idler plays to the guard).
+  Combat curve R4+ kills still parked.
 - **🧊 PARKED:** Plan K authored-depth demo (`docs/plans/t0/`; prototypes ⭐
   `project/prototypes/authored-depth-demo/`) + the T1 emergent-node plan
   (`docs/plans/t1/`). Un-park = human.
@@ -51,6 +56,9 @@ magic; no reset.
 
 - **HR-1** 🔲 — play/review the full T0 arc for fun & pacing (the LOOK is UI-v2
   certified; this is the fun/taste call on the live storywave build).
+- **HR-18…HR-21** 🔲 — the C5a fiction-wave picks (overlays · discoveries · judge
+  lines · node reads), reviewed LIVE via DEV → Story. **HD-33** 🔲 (the frozen
+  §1's pre-reboot tables) · **HD-34** 🔲 (the three balance design calls).
 - **DEV-variant picks** 🔲 — kept live for a detailed pass: estate-section (HR-9) ·
   home (HR-6) · bestiary (HR-5) · the HR-2 bundle · Phase-2 build-beat + tracker
   (HR-10/HR-11). Picks → the agent strips the alternates (zero prod flag-debt).
@@ -85,12 +93,11 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 > bible-canon T0 rewrite (six-season year, kura economy, body economies, new cast).
 > Live at raynos.github.io/kami-kakushi. Session 133 then AUDITED the whole wave
 > (6-agent review + map-sheets audit): ship real, engine sound, no src/ criticals —
-> but two closure debts were mapped into plans. Sessions 134+135 then executed
-> them in parallel: `storywave-closure` is IN EXECUTION (s134); the
-> **map-sheets fixes plan is ✅ DONE (s135, archived)** — the blind-pass loop is
-> now a 3-reader ensemble (majority verdicts, vote spreads, Opus-medium agents)
-> and ALL THREE sheets pass it (T0 M 7/7 · T1 M 12/12 · T2 M 6/6); canon
-> strings carry a 13-name retired-name guard test.
+> but two closure debts were mapped into plans. Sessions 134+135 executed them
+> in parallel and BOTH are ✅ DONE + archived: **storywave-closure (s134)** — see
+> "Where we are now" — and **map-sheets fixes (s135)** — the blind-pass loop is
+> now a 3-reader ensemble and ALL THREE sheets pass it (T0 M 7/7 · T1 M 12/12 ·
+> T2 M 6/6); canon strings carry a 13-name retired-name guard test.
 
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
@@ -99,14 +106,13 @@ blocks red. **HMR OFF** (`vite.config.ts`) — FB-5. `pnpm run dev` · `build` �
 2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. FB-5 to reload (HMR off).
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous): the storywave-closure plan is IN EXECUTION (s134,
-   Fable, human-ruled forks — ADR-166 refusing gate · ADR-167 full fiction
-   wave; rulings in `feedback-human/2026-07-09-storywave-closure-rulings.md`).**
-   Resume it phase-by-phase (C1→C5, per the plan's Status + this journal).
-   Also startable: **T2 rungs/fog** (plan ready + human-greenlit:
+4. **Next (autonomous):** the closure work is DONE — the frontier is
+   **T2 rungs/fog** (plan ready + human-greenlit:
    `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md` — carries the S1 caveat:
    `T2_RUNG_LADDER` is DEV-preview-only; derive from core when the schedule
-   exists). Combat R4+ = a design call, NOT a fix → inbox.
+   exists), or drain the playtest inbox as the human QAs. Human-gated:
+   HR-1 + HR-18…21 (DEV → Story) + HD-33/HD-34. Combat R4+ = a design
+   call, NOT a fix → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 4/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->
+<!-- rewrite-debt: 5/20 · last full rewrite: 2026-07-09 (bump on every edit; rewrite at 20) -->

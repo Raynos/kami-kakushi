@@ -162,3 +162,41 @@ ladder through a world that has been written but not yet switched on.*
    REDs next time.
 5. Minor sweeps when convenient: B4/B5 dead reads + stale comments,
    combat-rework test-debt, D8 AGENTS.md gate-budget prose.
+
+---
+
+## CLOSED — the closure addendum (session 134, 2026-07-10)
+
+The closure plan (`fable-2026-07-09-storywave-closure.md`, now archived)
+executed end-to-end by one Fable session under the human's live rulings
+(ADR-166 refusing gate · ADR-167 full fiction wave · Fable-routed · widened
+prd-drift). Finding → fixing commit:
+
+| Finding | Fixed by |
+|---|---|
+| B1 (O-Sato ×4) | `9b702d8` — + the RETIRED_NAMES content guard (integrity test, RED-proven) |
+| B2/B3 (night-fall bleed + registry-blind test) | `f0c954f` — one bleed home in defeat.ts; registry sweep RED-proven vs HEAD |
+| B4 (dead autoplay branch) | `f48b6c2` — re-pointed to the kura + market-day guard |
+| B5 (dead reads/comments) | `f0c954f` + `73ddc5f` |
+| B6 (nightRoundOnly engine law) | `463b532` — fight + set_auto_combat refuse; registry-derived invariant |
+| B7 (season.test.ts + reducer guards + the auto-reckon divergence) | `463b532` — ADR-166: the TRUE refusing gate (human ruled the non-default); the plan-named suite exists |
+| B8 (free pool refill) | measured under C5b → HD-34 sub-question (evidence: the greedy sim exploits it and per-rung bands hold) |
+| D1–D6, D8 (the A5 debt) | `6bb9348` + `c7768f4` + `cce03d4` + `b010898`; the frozen-§1 wholesale staleness → HD-33 |
+| D7 (prd-drift hardening) | `3b38743` — retired vocabulary + WIDENED scan (human-ruled) + whole-word; RED-proof: 37 items vs the pre-sweep tree |
+| Spirit: dark side-beats (+count-resolve, found en route) | `70eb5f1` — authored notes were the spec; reachability sweep gates the class |
+| Spirit: mute cast | `34a741f` — talk_to through the deliverDialogue cursor |
+| Spirit: silent log | `34a741f` — the texture emitter (worldgen stream, cockpit levers) |
+| Spirit: wolf/new-moon lines | `70eb5f1` — u3-B's staged lines migrated verbatim (the HD-30 "later chunk") |
+| Spirit: 4-step grades | `b221d6e` — the locked six-step ladder (ADR-159) |
+| Spirit: rounds don't grow | `70eb5f1` — the post-climax grain-watch round (wolf never replays) |
+| Spirit: legacy intro | `b221d6e` — dream+genemon deleted; the intro is the one fused soan scene |
+| The five season overlays + discoveries + judge lines + per-season node reads (ADR-167) | `73b8f31` + `0260776` — 27 blind takes, 27 Pass-2 judges; picks live, alternates DEV-only, HR-18…HR-21 |
+| The owed re-baseline | `2168a4b` — the idler's 4 missing verbs fixed (fullLadder on all seeds); the 2 design REDs → HD-34 |
+
+En route (the human's adjacent-fix grant): the qa-shots gallery revived
+(broken since the reboot — `8a8bb3e`), Yagōemon→Mohei, the enqueueScene
+repeatable-contract bug, the narrative flag grammar's snake_case widening.
+
+**The one-line truth this bought:** *"the shipped T0 plays the bible canon"*
+now holds with no known asterisks beyond the human-gated queue (HR-1,
+HR-18…21, HD-33, HD-34).

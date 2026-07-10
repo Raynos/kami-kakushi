@@ -365,3 +365,14 @@ the six node-season bundles — each with the live DEV-switcher review path
 now runs ~17 min — the repaired idler plays to the 1M-intent guard on every
 seed (the HD-34 expectation question); the report regen rides the next
 commit.
+
+## CLOSED — the plan is DONE
+
+The review report carries the closing addendum (finding → fixing commit);
+the plan flipped ✅ DONE and archived to `project/archive/`; the snapshot
+resume block now points at T2 rungs/fog + the inbox as the frontier.
+**Waiting on the human:** HR-1 (the big fun/pacing pass) · HR-18…HR-21 (the
+C5a picks, live in DEV → Story) · HD-33 (the frozen §1's pre-reboot tables)
+· HD-34 (the three balance design calls). The one-line truth this session
+bought: *"the shipped T0 plays the bible canon"* — with no known asterisks
+beyond that human-gated queue.
