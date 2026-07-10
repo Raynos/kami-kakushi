@@ -20,6 +20,17 @@ import { ANCHORS, T0_WINDOW } from '../map-sheets/layout';
 import { paintT0Ground } from '../map-sheets/t0-sheet';
 import { fogFrontier, wireGated, wireTravel, type MapCtx } from './shared';
 
+// ── FB-339 — the viewer interactions (zoom / pan / fit / full), ported from the DEV
+//    survey viewer (map-sheets/sheet.ts). The view + maximize state live at MODULE level
+//    so they survive the mapSignature rebuild and tab switches (TST2: the sheet never
+//    snaps back under the player mid-look). null view = the default fit framing.
+let mapView: { x: number; y: number; w: number; h: number } | null = null;
+let mapMaxed = false;
+/** The live sheet's exit-maximize hook — the one document-level Esc listener (installed
+ *  once; renderMapSheet repoints it at each rebuild) calls through this. */
+const exitMaxRef: { current: (() => void) | null } = { current: null };
+let escWired = false;
+
 /** Is a node surveyed (its reveal flag met, or always-open) — and not locked scenery? */
 function isSurveyed(id: string, revealed: ReadonlySet<string>): boolean {
   const n = getNode(id);
@@ -111,9 +122,27 @@ function drawSeal(
 }
 
 const CSS = `
-  .sheetmap-wrap { width:100%; }
+  .sheetmap-wrap { width:100%; position:relative; overflow:hidden;
+    user-select:none; -webkit-user-select:none; } /* drag-pan must never select SVG text */
   .sheetmap-wrap svg { display:block; width:100%; height:auto; background:var(--void);
-    border:1px solid var(--silver-faint); }
+    border:1px solid var(--silver-faint); cursor:grab; touch-action:none; }
+  .sheetmap-wrap svg.sheetmap-panning { cursor:grabbing; }
+  /* maximize: fill the viewport in NORMAL stacking (no Fullscreen top layer), so the
+     backtick-capture overlay + pen still paint over the map (the sheet.ts lesson). */
+  .sheetmap-wrap.sheetmap-max { position:fixed; inset:0; z-index:5000; background:var(--void); }
+  .sheetmap-wrap.sheetmap-max svg { height:100%; border:none; }
+  .sheetmap-controls { position:absolute; top:.5rem; right:.5rem; z-index:2;
+    display:flex; gap:.2rem; }
+  .sheetmap-zoom { font:12px/1.4 ui-monospace,SFMono-Regular,monospace; cursor:pointer;
+    border:1px solid var(--silver-faint); border-radius:3px; padding:.15rem .5rem;
+    background:var(--steel-2); color:var(--ink-soft); }
+  .sheetmap-zoom:hover { color:var(--ink); border-color:var(--silver); }
+  .sheetmap-hint { position:absolute; left:.6rem; bottom:.45rem; font-size:11px;
+    color:var(--ink-faint); pointer-events:none; }
+  /* the fine register FADES at the zoom gate (map-spec L10 — a hard display:none reads
+     as a rendering glitch); visibility keeps hidden text unhittable once the fade lands */
+  .ms-fine { transition: opacity .18s linear, visibility .18s linear; }
+  svg[data-zoom='far'] .ms-fine { opacity:0; visibility:hidden; }
   .sheetmap-cartouche { font-family:var(--font-head); fill:var(--ink); }
   .sheetmap-kanji { font-family:var(--font-head); font-size:46px; fill:var(--ink); }
   .sheetmap-caption { font-family:var(--font-body); font-size:30px; fill:var(--ink);
@@ -240,6 +269,178 @@ export function renderMapSheet(
     seals.append(t);
   }
 
+  // ── FB-339 — the view: pan (drag) + zoom (wheel / pinch / buttons) + fit + full,
+  //    viewBox-driven, ported from the DEV survey viewer (map-sheets/sheet.ts). The
+  //    persisted mapView re-applies across the sig-guard rebuild; seal clicks stay
+  //    live because the pointer is captured only once a REAL drag starts.
+  const FR = T0_WINDOW;
+  const vb: { x: number; y: number; w: number; h: number } = { ...(mapView ?? FR) };
+  const applyVb = (): void => {
+    svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+    // the fine-detail register reveals past the zoom gate (map-spec L10)
+    svg.setAttribute('data-zoom', vb.w <= FR.w * 0.62 ? 'near' : 'far');
+    mapView = { ...vb };
+  };
+  const clampVb = (): void => {
+    vb.w = Math.min(Math.max(vb.w, 320), FR.w * 1.15);
+    vb.h = (vb.w * FR.h) / FR.w;
+    const m = vb.w * 0.25; // let the sheet edge pull in a bit, never lose it
+    vb.x = Math.min(Math.max(vb.x, FR.x - m), FR.x + FR.w + m - vb.w);
+    vb.y = Math.min(
+      Math.max(vb.y, FR.y - (m * FR.h) / FR.w),
+      FR.y + FR.h + (m * FR.h) / FR.w - vb.h,
+    );
+  };
+  /** client → world coords (getScreenCTM handles viewBox + letterboxing). */
+  const toWorld = (cx: number, cy: number): { x: number; y: number } => {
+    const m = svg.getScreenCTM();
+    if (!m) return { x: 0, y: 0 };
+    const p = new DOMPoint(cx, cy).matrixTransform(m.inverse());
+    return { x: p.x, y: p.y };
+  };
+  const zoomAt = (cx: number, cy: number, factor: number): void => {
+    const p = toWorld(cx, cy);
+    vb.w *= factor;
+    vb.h *= factor;
+    clampVb();
+    applyVb();
+    // keep the world point under the cursor stationary: re-measure and shift
+    const now = toWorld(cx, cy);
+    vb.x += p.x - now.x;
+    vb.y += p.y - now.y;
+    clampVb();
+    applyVb();
+  };
+  svg.addEventListener(
+    'wheel',
+    (e) => {
+      e.preventDefault();
+      zoomAt(e.clientX, e.clientY, e.deltaY > 0 ? 1.18 : 1 / 1.18);
+    },
+    { passive: false },
+  );
+  let dragging = false;
+  let dragMoved = false;
+  let dragStart = { x: 0, y: 0 };
+  // live pointers — two fingers = pinch zoom. touch-action:none means WE own every
+  // gesture (the DEV viewer's G-9 lesson); gestures here must match that viewer's.
+  const pointers = new Map<number, { x: number; y: number }>();
+  let pinchDist = 0;
+  svg.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2) {
+      const [a, b] = [...pointers.values()];
+      pinchDist = Math.hypot(a!.x - b!.x, a!.y - b!.y);
+      dragging = false; // a second finger ends the pan; the gesture is a pinch
+      svg.classList.remove('sheetmap-panning');
+      return;
+    }
+    dragging = true;
+    dragMoved = false;
+    dragStart = toWorld(e.clientX, e.clientY);
+    svg.classList.add('sheetmap-panning');
+  });
+  svg.addEventListener('pointermove', (e) => {
+    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2) {
+      const [a, b] = [...pointers.values()];
+      const d = Math.hypot(a!.x - b!.x, a!.y - b!.y);
+      if (pinchDist > 0 && d > 0) {
+        // zoom about the finger midpoint; zoomAt keeps that world point still
+        zoomAt((a!.x + b!.x) / 2, (a!.y + b!.y) / 2, pinchDist / d);
+      }
+      pinchDist = d;
+      return;
+    }
+    if (!dragging) return;
+    const p = toWorld(e.clientX, e.clientY);
+    const dx = dragStart.x - p.x;
+    const dy = dragStart.y - p.y;
+    if (!dragMoved && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+      dragMoved = true;
+      // capture only once a REAL drag starts — capturing on pointerdown would
+      // retarget the derived click to the svg and seal travel would go dead
+      svg.setPointerCapture(e.pointerId);
+    }
+    if (!dragMoved) return;
+    vb.x += dx;
+    vb.y += dy;
+    clampVb();
+    applyVb();
+  });
+  const endDrag = (e: PointerEvent): void => {
+    pointers.delete(e.pointerId);
+    pinchDist = 0;
+    dragging = false;
+    svg.classList.remove('sheetmap-panning');
+  };
+  svg.addEventListener('pointerup', endDrag);
+  svg.addEventListener('pointercancel', endDrag);
+
+  const fit = (): void => {
+    Object.assign(vb, FR);
+    applyVb();
+  };
+  const controls = document.createElement('div');
+  controls.className = 'sheetmap-controls';
+  const zoomBtn = (label: string, act: () => void, aria: string): HTMLButtonElement => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'sheetmap-zoom';
+    b.textContent = label;
+    b.setAttribute('aria-label', aria);
+    b.addEventListener('click', () => act());
+    controls.append(b);
+    return b;
+  };
+  const centre = (): { x: number; y: number } => {
+    const r = svg.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  };
+  zoomBtn(
+    '⊕',
+    () => {
+      const c = centre();
+      zoomAt(c.x, c.y, 1 / 1.35);
+    },
+    'Zoom in',
+  );
+  zoomBtn(
+    '⊖',
+    () => {
+      const c = centre();
+      zoomAt(c.x, c.y, 1.35);
+    },
+    'Zoom out',
+  );
+  zoomBtn('⤢ fit', fit, 'Fit the whole sheet');
+  // Maximize the sheet to fill the viewport — a CSS blow-up in NORMAL stacking (not the
+  // native Fullscreen API), so the capture overlay keeps painting above it. Survives the
+  // sig-guard rebuild via the module flag; exits on the button or Esc.
+  const fsBtn = zoomBtn(
+    mapMaxed ? '⛶ exit' : '⛶ full',
+    () => setMax(!mapMaxed),
+    'Full-screen the map',
+  );
+  const setMax = (on: boolean): void => {
+    mapMaxed = on;
+    wrap.classList.toggle('sheetmap-max', on);
+    fsBtn.textContent = on ? '⛶ exit' : '⛶ full';
+  };
+  exitMaxRef.current = (): void => setMax(false);
+  if (!escWired) {
+    escWired = true;
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mapMaxed) exitMaxRef.current?.();
+    });
+  }
+  const hint = document.createElement('div');
+  hint.className = 'sheetmap-hint';
+  hint.textContent = 'drag to pan · scroll to zoom';
+  if (mapMaxed) wrap.classList.add('sheetmap-max');
+  applyVb();
+
   container.append(style, wrap);
-  wrap.append(svg);
+  wrap.append(svg, controls, hint);
 }

@@ -18,8 +18,15 @@ variants, HR-items). F-entries in
   forecourt is a legal step).
 - `src/ui/render.test.ts` — new RED-able test: at the gate a revealed woodshed
   seal is inert (no role, no pointer, click dispatches no `move_to`).
-- (this session, later commits) FB-339 interaction port + FB-340 diverge — see
-  the per-commit entries below.
+- `src/ui/map-variants/sheet-map.ts` — FB-339: the DEV survey viewer's
+  interaction layer ported onto the live map tab — wheel/pinch zoom, drag pan,
+  ⊕/⊖/fit/full controls, the map-spec L10 fine-register zoom gate. View +
+  maximize state live at module level so the sig-guard rebuild keeps the
+  player's framing (TST2). Golden pin green (no geometry change). Note for QA
+  scripts: `move_to` is TIMED (ADR-148) — a seal click's effect lands after the
+  walk duration; only `__qa.dispatch` is instant.
+- (this session, later commits) FB-340 diverge — see the per-commit entries
+  below.
 
 ## Next intended steps
 1. FB-339 — port wheel/pinch zoom, drag pan, fit + full from

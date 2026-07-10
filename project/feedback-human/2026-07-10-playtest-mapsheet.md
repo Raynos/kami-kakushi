@@ -24,7 +24,7 @@ class's. (TST4: the player never guesses state.)
 (wireTravel'd seals only). RED-able test: at the gate a revealed woodshed seal
 is inert (no role, no pointer, click walks nowhere).
 
-### FB-339 · Port the prototype viewer's interactions to the live map — 🔧
+### FB-339 · Port the prototype viewer's interactions to the live map — ✅
 **Verbatim:** _"High level, the T0 prottoype map is way better then the one
 actually integrated into the game. it has R0/R1 fog of war. / It has zoom
 capabilities, it has dragging ability, it has buttons for full screen and fit,
@@ -35,7 +35,12 @@ reveal + the 未測 fog frontier — the prototype's rung pill is a DEV preview 
 the same thing). What the live map lacks is the interaction layer: wheel/pinch
 zoom, drag pan, fit + fullscreen. Human approved porting it from the prototype
 viewer (`src/ui/map-sheets/sheet.ts`) onto `renderMapSheet`.
-**Fixed in:** (the port's commit — this drain)
+**Fixed in:** (this drain's FB-339 commit) — wheel/pinch zoom, drag pan (pointer
+captured only once a REAL drag starts, so seal taps stay live), ⊕/⊖/fit/full
+controls, the L10 fine-register zoom gate (`data-zoom`), and the view + maximize
+state persisted at module level so the sig-guard rebuild never snaps the sheet
+back under the player (TST2). Golden pin stayed green (geometry untouched);
+verified live headlessly: zoom → pan → timed seal-click walk → view kept.
 
 ### FB-340 · Travel presence: a real marker + animated movement — 🔧
 **Verbatim:** _"For the map I want to see my current position, some kind of

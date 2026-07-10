@@ -2450,6 +2450,21 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
     far!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(seen.some((i) => i.type === 'move_to')).toBe(false);
   });
+
+  it('FB-339 — the sheet carries its viewer chrome: zoom/fit/full controls + the L10 register', () => {
+    const { render } = spyRender();
+    render(at('forecourt', ['room-gate', 'room-paddies']), null);
+    openMapTab();
+    const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
+    // the ported control strip (zoom in/out · fit · full), each a real labelled button…
+    const labels = [...nav.querySelectorAll<HTMLButtonElement>('button.sheetmap-zoom')].map((b) =>
+      b.getAttribute('aria-label'),
+    );
+    expect(labels).toEqual(['Zoom in', 'Zoom out', 'Fit the whole sheet', 'Full-screen the map']);
+    // …and the fine-register zoom gate (map-spec L10) hangs off data-zoom from first paint
+    // (the default fit framing reads 'far' — the fit view stays composed).
+    expect(nav.querySelector('svg')!.getAttribute('data-zoom')).toBe('far');
+  });
 });
 
 // ── FB-111 · the "Chat" log tab — the OPTIONAL Q&A you chose to ask, split off from the MANDATORY
