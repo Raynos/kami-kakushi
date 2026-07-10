@@ -125,7 +125,7 @@ test('market loop: speak with Yohei, sell the rice, the coin rises', async ({ pa
     }
   `);
 
-  await press(page.locator('.nav-tab', { hasText: '地図' })); // Map
+  await press(page.locator('.nav-tab', { hasText: 'Zone' })); // FB-332 — who's-here lives on Zone
   // ADR-114 talk-to-open: the market shows ONLY after speaking with the pedlar
   await expect(page.locator('.market-sell')).toBeHidden();
   await press(page.locator('button.person-talk', { hasText: 'Speak with Yohei' }));

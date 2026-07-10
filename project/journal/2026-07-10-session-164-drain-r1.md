@@ -42,3 +42,6 @@
 - HR-27-adjacent: none — the drain surfaced no new HR items; the four forks
   were ruled in-session via AskUserQuestion.
 - pending/ is EMPTY — the whole inbox is drained.
+- e2e follow-up — the market-loop journey re-anchored to the Zone tab (the
+  who's-here move); local e2e: 83/84 green, the one red being the documented
+  webkit stale-hit-test flake under parallel load (passes solo, CI retries).
