@@ -24,3 +24,15 @@ Each "VN" is basically a grouping unit for lines in the log, so when you scroll 
 **Details:** `the-log/2026-07-10T14-17-31.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-263 · 2026-07-10T14:19:48+0200 — i-think-the-contrast
+
+I think the contrast is wrong here, the log is supposed to be something interesting, and the colors here all bleed, the blue of the text, the dark blue of the background, the other blues of the surrounding game.
+
+What if we used a white here, or even a bright white for narrator story text ?
+
+**Element:** panel "log" — "Under the silt, cut stone and a lift-board seized in its gro" · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(68)` · @942,427 493×74
+**Screenshot:** `the-log/2026-07-10T14-19-48.png`
+**Details:** `the-log/2026-07-10T14-19-48.json` — save + recent logs + full context
+
+---
