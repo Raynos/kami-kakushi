@@ -90,3 +90,13 @@ test
 **Details:** `feedback-ui/2026-07-10T19-05-16.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-355 · 2026-07-10T19:05:25+0200 — test-2
+
+test 2
+
+**Element:** button "Rest a moment" — "Rest a moment" · `section[data-panel=do] > div:nth-of-type(1) > div:nth-of-type(1) > button` · @187,148 280×33
+**Screenshot:** `feedback-ui/2026-07-10T19-05-25.png`
+**Details:** `feedback-ui/2026-07-10T19-05-25.json` — save + recent logs + full context
+
+---
