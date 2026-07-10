@@ -20,3 +20,17 @@ It has zoom capabilities, it has dragging ability, it has buttons for full scree
 **Details:** `mapsheet/2026-07-10T18-40-39.json` — save + recent logs + full context
 
 ---
+
+## Question · FB-340 · 2026-07-10T18:42:16+0200 — for-the-map-i
+
+For the map I want to see my current position, some kind of marker, or something that shows on the map that's really cool. 
+
+Then when you move from zone to zone on the map, I want that to be animated as if I'm moving.
+
+Maybe like a little 3D figurine that's sitting on top of the flat screen, or something else. I dont know, need to really think of a good idea.
+
+**Element:** rect · `div:nth-of-type(1) > svg > g:nth-of-type(1) > rect` · @-28,-25 1259×824
+**Screenshot:** `mapsheet/2026-07-10T18-42-16.png`
+**Details:** `mapsheet/2026-07-10T18-42-16.json` — save + recent logs + full context
+
+---
