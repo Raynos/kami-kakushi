@@ -59,7 +59,7 @@ import {
 import { DAY_WAGE_MON, isWaged } from './content/wage';
 import { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
 import { FLAVOR } from './content/flavor';
-import { rakeLine, RAKE_CAP_LINE } from './content/coldOpen';
+import { rakeLine, rakeCapLine } from './content/coldOpen';
 import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import {
   INTRO_SCENE_COUNT,
@@ -598,7 +598,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // narration line, not ephemeral — the "why the button died" record; TST4).
       if (rakeExhausted(next)) {
         next = applyRewards(next, {
-          log: [{ channel: 'narration', text: RAKE_CAP_LINE, voice: 'narrator' }],
+          log: [{ channel: 'narration', text: rakeCapLine(), voice: 'narrator' }],
         });
       }
       // reveal-as-plot, ONE line per rake (not the whole raked-gated monologue on the first click):

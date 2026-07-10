@@ -16,8 +16,24 @@ export function rakeLine(amount: number): string {
 
 // FB-324 — spoken once, on the rake that clears the last of the spill (balance.RAKE_CAP).
 // Hand-written beside rakeLine (the same hand-written seam FB-5 carves out for rake prose);
-// take (a) of the three offered, human-approved in the 2026-07-10 drain.
+// take (a) of the fb324-rake-cap bundle (ADR-139) — alternates live in
+// narrative/takes/fb324-rake-cap/, switchable in DEV → Story via the override below.
 export const RAKE_CAP_LINE =
   'The spilled rice is raked to the last grain. There is nothing left on the boards.';
+
+// ADR-139 — the cap line is CORE-emitted log text, so the DEV story switcher swaps it at
+// EMIT time through the declaring-module override (the discoveries.ts/requirements.ts
+// pattern): FUTURE emits voice the selected take; already-logged lines stay (TST2).
+let RAKE_CAP_LINE_OVERRIDE: string | null = null;
+
+/** DEV-only: overlay the rake-cap line by its `rakeCapLine` flavor key (null = canon). */
+export function __setRakeCapLineOverride(text: string | null): void {
+  RAKE_CAP_LINE_OVERRIDE = text;
+}
+
+/** The line the capping rake emits — the DEV overlay's take if set, else canon. */
+export function rakeCapLine(): string {
+  return RAKE_CAP_LINE_OVERRIDE ?? RAKE_CAP_LINE;
+}
 // The disabled rake button says why (AC-6 — same predicate as the reducer refusal).
 export const RAKE_DONE_REASON = 'Nothing left to rake — the boards are clean.';

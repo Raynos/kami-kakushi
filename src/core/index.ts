@@ -338,6 +338,7 @@ export {
 } from './content/dialogue';
 export type { DialogueLine, DialogueDef, NpcMemoryMap } from './content/dialogue';
 export * as balance from './content/balance';
+export { __setRakeCapLineOverride, rakeCapLine, RAKE_CAP_LINE } from './content/coldOpen';
 // FB-7 balance cockpit (DEV-only, ADR-059) — the live-tuning hook. Named exports so the cockpit imports
 // them tree-shakably; unused by prod code, so Rollup strips them (verify-dev-strip.sh proves it).
 export {

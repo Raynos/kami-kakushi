@@ -57,6 +57,7 @@ import {
   __setRequirementFlavorOverride,
   __setDiscoveryFlavorOverride,
   __setJudgeFlavorOverride,
+  __setRakeCapLineOverride,
   RUNG_REQUIREMENTS,
   getRank,
 } from '../core';
@@ -434,6 +435,9 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
     // the same effective flavor-take entries so FUTURE reckonings voice the selected take
     // (judgeLine* keys; other keys are ignored by the reader — flavor.ts JUDGE_KEY).
     __setJudgeFlavorOverride(Object.keys(discOverlay).length > 0 ? discOverlay : null);
+    // FB-324 (ADR-139) — the rake-cap line is core-emitted too (intents.ts rake_rice):
+    // forward the effective `rakeCapLine` flavor take so a FUTURE cap emit voices it.
+    __setRakeCapLineOverride(discOverlay['rakeCapLine'] ?? null);
   };
 
   // FB-18 — hydrate variant selections from the URL query params so a tweak survives a reload and a

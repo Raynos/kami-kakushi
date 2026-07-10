@@ -40,3 +40,11 @@ regenerated (state grew `rakesDone`); `verify:balance` GREEN, pacing report
 fingerprint-only diff (Δ 0.0 all rungs — the sim promotes at ~7 rakes, far
 under the cap). Telemetry step 0: the 2026-07-10 reports carry no completed
 R0→R1 climbs to compare against (short attended segments, no rung-ups).
+
+**FB-324 addendum (post-drain follow-up, same day):** the cap line is now a
+proper ADR-139 diverge — bundle `fb324-rake-cap` (rung R0) with takes (b) "you
+notice the repetition" and (c) "Genemon closes it" live-switchable in DEV →
+Story (or `?story-fb324-rake-cap=b|c`); the core emit path swaps at EMIT time
+via the declaring-module override (`__setRakeCapLineOverride`, the
+discoveries.ts pattern). Canon stays take (a). Verified headlessly: all three
+takes emit at the cap through the URL channel.

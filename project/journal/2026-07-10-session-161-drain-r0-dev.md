@@ -37,3 +37,7 @@ FB-329 (map fog + travel gating already shipped).
   rewrite (~render.ts:4211, FB-321/322) — written between my hunk-check and
   the pathspec commit. They confirmed it verified + intended (no revert) and
   reference fd934341 from their F-entries.
+- Post-drain follow-ups (human ask): (1) fb324-rake-cap ADR-139 bundle — the
+  cap line's 3 takes live-switchable via a core emit-time override; (2)
+  r5-stand echoes "…" too (+ R5+ fixture regen); (3) FB-329 visual map proof
+  shot at fresh R1 (screens/2026-07-10-fb329-map-fog/, local), verdict logged.

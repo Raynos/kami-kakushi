@@ -969,6 +969,39 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   },
 
   {
+    id: 'fb324-rake-cap',
+    title: 'The rake-cap line (the spill runs out)',
+    review: 'project/feedback-human/2026-07-10-playtest-work-actions.md',
+    rationale:
+      'Take A landed in the 2026-07-10 drain proposal (wholesale go-ahead) — plain narrator fact, the FB-91 rake-narration register, no maxim; wired switchable per ADR-139 so the pick can be overridden in play.',
+    canonLabel: 'A · nothing left on the boards',
+    rung: 0,
+    takes: [
+      {
+        id: 'b',
+        label: 'you notice the repetition',
+        brief:
+          "the exhaustion read through the MC's own hands — the work answers before the narrator does",
+        scorecard: '(offered in-thread, unscored)',
+        flavor: {
+          rakeCapLine:
+            'You rake where you have already raked. The boards are clean; the basket is as full as it will get.',
+        },
+      },
+      {
+        id: 'c',
+        label: 'Genemon closes it',
+        brief: "the steward's voice ends the job — the house notices the yard is clean",
+        scorecard: '(offered in-thread, unscored)',
+        flavor: {
+          rakeCapLine:
+            'Genemon looks the floor over once. "The yard is clean. Find a wall and rest against it."',
+        },
+      },
+    ],
+  },
+
+  {
     id: 'hd30-nengu',
     title: 'The nengu reckoning — the year against the house',
     review: 'project/human-in-the-loop/review.md',
