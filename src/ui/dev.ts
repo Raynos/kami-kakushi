@@ -1827,6 +1827,9 @@ export function mountDevPanel(
     caret.textContent = hidden ? '▾' : '▸';
     // FB-302 — expanded width 15rem → 24rem (the human: wider, with three-up tab rows).
     panel.style.width = hidden ? '24rem' : 'fit-content';
+    // FB-308 — expanded height is FIXED (never grows/shrinks with the active tab — a short
+    // pane just leaves whitespace); collapsed reverts to the head-only auto height.
+    panel.style.height = hidden ? 'min(42rem, 82vh)' : '';
   });
 
   // ── sub-tab bar: two panes (Settings / Variants) under one sub-header. Default = Variants
@@ -1874,11 +1877,12 @@ export function mountDevPanel(
   const tabBtn = (label: string): HTMLButtonElement => {
     const b = el('button', undefined, label);
     b.type = 'button';
-    // FB-302 — flex-basis 30% ⇒ THREE tabs per row inside the wrapping bar (was 40% / two);
-    // nowrap keeps each label on one line.
+    // FB-302 — THREE tabs per row inside the wrapping bar (was 40% / two); nowrap keeps each
+    // label on one line. FB-311 — the basis is FIXED (flex-grow 0), so a lone tab on the last
+    // row (Balance) stays one cell wide instead of stretching across the row.
     b.style.cssText =
-      'flex:1 1 30%;white-space:nowrap;border:1px solid #7a6c59;border-radius:3px;padding:.2rem .4rem;' +
-      'font:inherit;cursor:pointer;font-weight:700;';
+      'flex:0 0 calc((100% - .5rem)/3);box-sizing:border-box;white-space:nowrap;border:1px solid #7a6c59;' +
+      'border-radius:3px;padding:.2rem .4rem;font:inherit;cursor:pointer;font-weight:700;';
     return b;
   };
   type TabId = 'settings' | 'variants' | 'scenarios' | 'balance' | 'story' | 'rungs' | 'protos';
@@ -2090,6 +2094,9 @@ export function mountDevPanel(
   //    UI flavor lines (lock-hints) — dialogue/cold-open units read in the script-reader. ──
   storyTab.textContent =
     dev.storyBundles.length > 0 ? `Story (${dev.storyBundles.length})` : 'Story';
+  // FB-310 — Variants carries its open-surface count too, mirroring Story's badge.
+  variantsTab.textContent =
+    dev.surfaces.length > 0 ? `Variants (${dev.surfaces.length})` : 'Variants';
   // (FB-228/HR-22 — the MC-colour swatch trio lived here 2026-07-10 for the taste call;
   // the human LOCKED A · asagi sky #8ec9ff same day, so the toggle is stripped — the
   // pick IS the styles.css --v-player token, zero flag-debt. Git history keeps the trio.)
@@ -2329,9 +2336,12 @@ export function mountDevPanel(
   // FB-96 — the footer stacks two half-width rows: "goto last backup" ABOVE "New game". A flex COLUMN
   // so the buttons stack; each button is width:50% + align-self:flex-start (left-anchored).
   const footer = el('div');
+  // FB-309 — a 2×2 grid (was a stacked column) so the footer spends one less row and the
+  // scrolling panes above get the space; the FB-95 half-width accident guard holds (each
+  // cell is half the panel).
   footer.style.cssText =
     'flex:0 0 auto;margin-top:.15rem;padding-top:.4rem;border-top:1px solid #7a6c59;' +
-    'display:flex;flex-direction:column;gap:.25rem;';
+    'display:grid;grid-template-columns:1fr 1fr;gap:.25rem;';
 
   // FB-96 — "goto last backup": restores the snapshot New game takes before it wipes the run. Starts
   // DISABLED (dimmed) and is enabled once a backup exists — either found on mount (a prior session)
@@ -2339,8 +2349,6 @@ export function mountDevPanel(
   const restoreBtn = mono('↩ last backup', () => {
     if (!restoreBtn.disabled) void qa.restoreBackup();
   });
-  restoreBtn.style.width = '50%';
-  restoreBtn.style.alignSelf = 'flex-start';
   restoreBtn.disabled = true;
   restoreBtn.style.opacity = '.45';
   restoreBtn.style.cursor = 'not-allowed';
@@ -2392,8 +2400,6 @@ export function mountDevPanel(
     qa.newGame();
     enableRestore();
   });
-  newGameFooterBtn.style.width = '50%';
-  newGameFooterBtn.style.alignSelf = 'flex-start';
   newGameFooterBtn.style.fontWeight = '700';
   footer.append(newGameFooterBtn);
   // FB-301 — "NG (post open)": a fresh run with the cold open already answered — loads the
@@ -2401,8 +2407,6 @@ export function mountDevPanel(
   const ngPostBtn = mono('⟳ NG (post open)', () => {
     void Promise.resolve(qa.loadFixture('post-cold-open')).then(() => enableRestore());
   });
-  ngPostBtn.style.width = '50%';
-  ngPostBtn.style.alignSelf = 'flex-start';
   footer.append(ngPostBtn);
   body.append(footer);
 

@@ -123,3 +123,32 @@ parse/emit test). The DATA half (the ten `rung:` lines + the storyTakes.gen.ts
 regen) is QUEUED behind w1:p3's in-flight hd37-cold-open bundles — regenerating
 now would bake their untracked sources into the committed registry (CI red).
 Lands as a follow-up commit the moment their sources land.
+
+## Live steers during the drain (direct chat, 2026-07-10 — FB-308…311)
+
+Source: the human steering live in the drain conversation (not inbox captures —
+no sidecars). All verified headlessly (per-tab height probe + panel shots).
+
+### FB-308 · fixed panel height across tabs — ✅
+**Verbatim:** _"dev menu should have on fixed height, it shouldnt like get
+shorter or longer based on the tabs, you can just show empty whitespace inside
+the dev menu"_
+**Fixed in:** expanded height pinned to `min(42rem, 82vh)` (collapse reverts to
+head-only auto). Probe: all seven tabs measure identical.
+
+### FB-309 · footer buttons as a 2×2 grid — ✅
+**Verbatim:** _"The three butons on the bottom can be a 2x2 grid to give a bit
+more space to the scroll inside the dev menu"_
+**Fixed in:** the footer column → `grid-template-columns:1fr 1fr` (last backup ·
+New game / NG (post open) · empty); one row returned to the scroll panes; the
+FB-95 half-width accident guard holds.
+
+### FB-310 · Variants tab carries its count — ✅
+**Verbatim:** _"Add an actual (count) to variants like story"_
+**Fixed in:** `Variants (8)` from `dev.surfaces.length`, mirroring Story's badge.
+
+### FB-311 · Balance is one grid cell, not a full row — ✅
+**Verbatim:** _"balance can be a single fixed width button instead of taking up
+3 slots in the grid"_
+**Fixed in:** tab flex-basis fixed at a third (`flex:0 0 calc((100% - .5rem)/3)`),
+so the lone last-row tab no longer stretches: A A A / A A A / A · ·.
