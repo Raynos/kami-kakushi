@@ -229,22 +229,21 @@ this template:
 
 ## 3.1 The cold open — minute one (T0, before R0)
 
-The lone hand-authored, pre-ladder state. Built from **§2.1 (reveal engine + log)**, **§2.3 (soft stamina)**,
-and **§2.4 (rice & coin)**. This is the *only* moment with no nav, no tabs, no map — **one verb and a log.** You begin
-in the **kura** (there is no default node — the map opens as you earn the ground to walk).
-
-| Order | Trigger | What becomes visible | Diegetic event-log line |
-|---|---|---|---|
-| 1 | At launch (`STORY`: new game) | The **single screen**: the **persistent event log** (§2.1) — colour-coded, capped — and nothing else. | *"Cold. Wet straw. The dark smells of old rice. You do not know your name."* |
-| 2 | Log advances (`STORY`) | The **one verb button**: **"Open your eyes."** (the entire interactable UI). | *"Somewhere above, a bird. You make yourself look."* |
-| 3 | First verb pressed (`FIRST-USE`) | The **body / rest bar** (HP + soft satiety, §2.3) and the **rice counter** (§2.4) — the two readouts of the *kura*. The verb changes to **"Rake the spilled rice."** | *"You are in a storehouse — a* kura*. Your head is bound. A pallet, a rake, rice spilled across a cracked floor."* |
-| 4 | First rice raked (`FIRST-USE`: first rice) | The **rice row** lights its own panel (§2.4); a small **coin row** (*mon* 文) lights beside it as the work turns up its first few coins — labour makes **rice plus a little coin** (§2.4). The **rest verb** ("Lie back and breathe") appears beside the work verb (soft-stamina recovery, §2.3). Physician **Sōan** speaks (grounds the amnesia — no visions). | *"You rake. A grain at a time. Sōan, the physician: 'Head's been knocked, lad. You near drowned. Rest, and work when you can.'"* |
-
-> **Canon checks:** matches the **cold-open spec** (§5 T0.2 beat 1) — *kura*, one verb, persistent
-> log, body/rest bar + rice counter, "no visions." The **first dream-fragment** (§5 T0.2 beat 1, Origin thread)
-> is seeded as a log line here with **ZERO mechanical effect** (no panel, no bonus) — a **"presumed dead → back
-> from the dead"** seed, the find-spot jizō/weir co-located per §1/§5. After step 4 the player is at **R0**
-> and the T0 ladder (§3.2) takes over.
+The lone hand-authored, pre-ladder state — **one verb and a log**, no nav, no
+tabs, no map (the map opens as you earn the ground to walk). *(The step-by-step
+script table that lived here was struck 2026-07-10, ADR-168 — it quoted the
+pre-storywave cold open wholesale, kura-first; the shipped open begins at the
+**weir** — the river gives him up — then the sickroom, three days lost, the
+day-book.)* The cold open is authored in
+[`narrative/cold-open.md`](../../../src/core/content/narrative/cold-open.md) +
+`intro.md` (the Sōan examination scene, the You:→Nameless: flip, the R0
+decision) and compiled by `gen:narrative`; **read the shipped script in
+[`docs/content/t0-story.md`](../../content/t0-story.md)**. What stands as
+design intent: launch shows the persistent event log and a single verb; the
+body/rest readouts and the rice/coin rows light on first use through the
+reveal engine (§2.1); the first dream-fragment seeds the Origin thread as a
+log line with ZERO mechanical effect; after the examination scene the player
+is at **R0** and the T0 ladder (§3.2) takes over.
 
 ---
 
@@ -427,19 +426,38 @@ A focused expansion of the **separate T0 room/area reveals** (§5 T0.4): the est
 dump. This is the same data (`RevealableEntry kind:'area'`) as the rungs above, surfaced here as one view so the
 "rank ladder made of doors" (§1.12) is legible.
 
-| Estate room / area | Stage | Trigger | Diegetic event-log line |
-|---|---|---|---|
-| **The Kura Storehouse** | E0 | `STORY` (cold open) | *"A storehouse. A pallet. Spilled rice."* |
-| **The Gate & Forecourt (*genkan*)** | E0→E1 | `RANK` R1 | *"The forecourt gate, leaning on its post, opens to you."* |
-| **The Home Paddies & Dry Fields** | E0→E1 | `RANK` R1 | *"Fallow paddies and dry fields stretch below — yours to work."* |
-| **The Stables & Woodlot Edge** | E1 | `RANK` R2 *(revealed SEPARATELY)* | *"You're trusted past the yard — the stables, and the woodlot's edge."* |
-| **The Woodlot's forage grounds** (the near wild ring) | E1 | `FIRST-USE` (conditioning floor at R2) | *"The woodlot's edge opens — foraging groves, a bamboo stand. Something rustles deeper in."* |
-| **The Deeper Woods (奥山)** (the woodlot past the danger ring) | E1 | `FIRST-USE` (past the edge, at a higher satiety cost — the load-bearing walk) | *"One hill further, the trees close in. Richer forage than the edge — and something heavier has denned here."* |
-| **The Drill Yard** | E1 | `STORY` R3 (after the humbling fight) *(revealed SEPARATELY)* | *"Kihei kicks open the drill-yard gate. One post. One rack. Begin."* |
-| **The Main House / *Omoya*** (inner) | E1 | `RANK` R4 | *"The screens slide back — kitchen, inner rooms, the household shrine."* |
-| **The Workshops & Granary** | E1 (build continues) | `RANK` R6 | *"A workshop frame; a granary rising. The Kurosawa works begin."* (E1→E2 itself lands in **T1**, the full estate) |
-| **The lord's study** (ledgers) | E1 | `RANK` R7 | *"You are called to the lord's study, where the ledgers live."* |
-| **E1 "Stabilising" — the estate STANDS (build complete)** | **E1 (build)** | **`PILLAR` (Phase 2, post-R7; the final U4 stage of the deed-gated build — ADR-145; §2.17)** | *"The frames are filled, the fields bear, the ledger steadies. The house no longer falls — the first build stands."* |
+The room-by-room table is generated from the build (zones + the rung each inks
+in at); the **diegetic reveal lines** are canon — read them in
+`docs/content/t0-story.md` — and the estate **BUILD ladder** (the E-stages /
+U-works, whose U4 completion beat lands post-R7) is §2.17's domain (ADR-145).
+
+<!-- gen:begin t0-zone-reveals (pnpm run gen:prd-regions — do not edit inside) -->
+> **The T0 zones and when each inks in, as the build ships them** — GENERATED from
+> `AREAS` × `RANKS` `room-*` unlocks ([`areas.ts`](../../../src/core/content/areas.ts) /
+> [`ranks.ts`](../../../src/core/content/ranks.ts)) by `pnpm run gen:prd-regions`;
+> **do not edit between the markers**. Identity + reveal binding only — the diegetic
+> reveal lines are canon (`t0-story.md`), kept out. Adding a zone or moving a reveal
+> without regenerating turns the `gen-prd-regions` gate RED.
+>
+> | Zone | Label | Revealed |
+> |---|---|---|
+> | `weir` | The weir & riverbank | on the board from the open |
+> | `weir-reeds` | The weir reeds | inks in at **R3** |
+> | `gate` | The gate & gateyard | inks in at **R1** |
+> | `forecourt` | The forecourt | on the board from the open |
+> | `woodshed` | The woodshed | inks in at **R1** |
+> | `kitchen` | The kitchen threshold | on the board from the open |
+> | `shrine` | The shrine-alcove corridor | inks in at **R5** |
+> | `kura` | The kura & grain-store | inks in at **R3** |
+> | `sickroom` | Sōan's sickroom | on the board from the open |
+> | `drill-yard` | The drill yard | inks in at **R4** |
+> | `paddies` | The home paddy & vegetable rows | inks in at **R1** |
+> | `field-margins` | The field margins | inks in at **R2** |
+> | `woodlot` | The woodlot edge | inks in at **R2** |
+> | `ruined` | The ruined compound | locked scenery (visible, never walkable) |
+> | `orchard` | The overgrown orchard | inks in at **R5** |
+> | `grove` | The bamboo grove | inks in at **R7** |
+<!-- gen:end t0-zone-reveals -->
 
 > **Binding:** each is a diegetic beat; building/recruiting is **flavour / light systems wired to the reveal bus
 > — NOT a people-management sim** (no assignment panel, no labour-gang; §2.17). A **first hired hand**

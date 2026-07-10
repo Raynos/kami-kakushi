@@ -55,20 +55,43 @@ lockfile (everything is pinned — no ad-hoc toolchain). Output is
 
 ### `pnpm run verify` (the single gate)
 
-One command must pass before any commit and in CI:
+One command must pass before any commit and in CI. The roster is owned by
+`src/scripts/gates.ts` (the single source — gates run in **parallel**, wall
+clock vitest-dominated) and generated here:
 
-```
-pnpm run verify  =  tsgo --noEmit
-               && oxlint
-               && oxfmt --check
-               && vitest run
-               && node src/scripts/verify-content.ts      # the content verifier + invariants (§6.6/§6.6.1)
-               && node src/scripts/gen-docs.ts --check     # generated docs are up to date (§6.6)
-```
+<!-- gen:begin verify-gates (pnpm run gen:prd-regions — do not edit inside) -->
+> **The `pnpm run verify` gate roster, as it ships** — GENERATED from `GATES`
+> ([`gates.ts`](../../../src/scripts/gates.ts), the single source of the roster) by
+> `pnpm run gen:prd-regions`; **do not edit between the markers**. Gates run in
+> parallel; `scope` is the commit-time lane (`SKIP_CODE_VERIFY`/`SKIP_DOCS_VERIFY`
+> skip a lane at commit; a push always runs everything). Adding a gate without
+> regenerating turns the `gen-prd-regions` gate RED.
+>
+> | Gate | Command | Lane |
+> |---|---|---|
+> | tsgo | `tsgo --noEmit` | code |
+> | oxlint | `oxlint` | code |
+> | oxfmt | `oxfmt --check` | code |
+> | vitest | `vitest run` | code |
+> | verify-content | `tsx src/scripts/verify-content.ts` | code |
+> | verify-prd | `tsx src/scripts/verify-prd.ts` | docs |
+> | gen-docs | `tsx src/scripts/gen-docs.ts --check` | both |
+> | fixtures | `tsx src/scripts/gen-fixtures.ts --check` | code |
+> | gen-narrative | `tsx src/scripts/gen-narrative.ts --check` | code |
+> | gen-prd-regions | `tsx src/scripts/gen-prd-regions.ts --check` | both |
+> | pacing | `tsx src/scripts/pacing-report.ts --check` | code |
+> | playcheck | `tsx src/playcheck.ts --check` | code |
+> | md-links | `tsx src/scripts/check-md-links.ts` | both |
+> | milestone-integrity | `tsx src/scripts/milestone-integrity.ts` | both |
+> | verify-changelog | `tsx src/scripts/verify-changelog.ts` | both |
+> | doc-budgets | `tsx src/scripts/verify-doc-budgets.ts` | docs |
+> | checkpoint | `tsx src/scripts/checkpoint.ts --check` | both |
+<!-- gen:end verify-gates -->
 
-`gen:docs --check` regenerates the balance/content docs into a temp buffer and fails if they differ from
-what's committed — this is how *generate-don't-duplicate* is enforced mechanically: you cannot land a data
-change without regenerating its docs. `pnpm run gen:docs` (without `--check`) writes them.
+The `--check` gates (gen-docs, gen-prd-regions, gen-narrative, fixtures,
+checkpoint) regenerate into memory and fail on any byte diff — this is how
+*generate-don't-duplicate* is enforced mechanically: you cannot land a data
+change without regenerating what derives from it.
 
 **Scripts:** `dev` (Vite dev server), `build` (`vite build` → `dist/`), `preview`, `test`, `test:watch`,
 `verify`, `gen:docs`, `lint`, `format`. `build:itch` = `build` + zip `dist/` for upload.

@@ -86,3 +86,22 @@ first**. Plan Status → EXECUTING.
    each, verify-green.
 2. Then T1 (§1 canon transcriptions, T1.4 dropped), T2 (remaining
    sections), P (prd-drift teeth + /prd-ripple relax + closure).
+
+## 5 · Phase G built — the generation half lands
+
+`gen-prd-regions.ts` grew from 4 regions to **12**: G1 `t0-discoveries`
+(§2.6.1g) · G2 `t0-zone-reveals` (§3.3, replaces the 12-row hand table
+with its pre-reboot fictions) · G3 `t0-rung-reveals` (§1.12, replaces
+the hand ladder whose R3/R4 rows were wrong) · G4 `t0-quest-roster`
+(§2.12) · G5 `t0-activities` (§2.6) · G6 `t0-market-stock` (§2.4) ·
+G7 `t0-estate-works` (§2.17c) · G8 `verify-gates` (§6.1, replaces the
+fossil 6-command chain). 20 new could-go-RED tests (derived-from-
+registry containment, counts, tuning-exclusion — 28 total in the file).
+
+Strike-and-points: G9 §4.1.1 threshold table → t0-pacing.md pointer;
+G10 §3.1 cold-open script table (pre-storywave, kura-first — the
+shipped open begins at the WEIR) → narrative sources + t0-story.md;
+G11 §4.8 T0 Phase-1 pacing table (retired meter gates, old rung
+fictions) → t0-pacing.md + requirements.ts, locked intent kept as
+prose (escalation, the T1+ 30-min floor, ≤2–3× ratios, no Phase-1
+pillar deeds). Full verify green (17 gates).

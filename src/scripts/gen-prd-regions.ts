@@ -30,7 +30,19 @@ export {};
 import { readFileSync, writeFileSync, realpathSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { RANKS, WEAPONS, MOBS, ACTIVITIES, balance } from '../core';
+import {
+  RANKS,
+  WEAPONS,
+  MOBS,
+  ACTIVITIES,
+  balance,
+  DISCOVERIES,
+  AREAS,
+  QUESTS,
+  MARKET_ITEMS,
+  ESTATE_STAGES,
+} from '../core';
+import { GATES } from './gates';
 import { spliceRegion } from './gen-regions';
 
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
@@ -141,6 +153,180 @@ export function genT0DeedSources(): string {
   ].join('\n');
 }
 
+/** The T0 hidden discoveries (ADR-146/ADR-168 G1) — identity only (id · node · what it
+ *  unlocks · how found), derived from DISCOVERIES. The tuning floor/chances (minAttempts,
+ *  pity ramp) and the fiction text (hints, the discovery line — ADR-139 diverge-picked
+ *  canon, readable in t0-story/flavor) stay OUT. Pure fn; exported for test. */
+export function genT0Discoveries(): string {
+  const trig = (d: (typeof DISCOVERIES)[number]): string =>
+    d.trigger.kind === 'watch' ? `watching (\`${d.trigger.activity}\`)` : 'stumbled on arrival';
+  const rows = DISCOVERIES.map(
+    (d) =>
+      `| \`${d.id}\` | ${d.node} | ${d.reveals ? `\`${d.reveals}\`` : '*(seed-only find)*'} | ${trig(d)} |`,
+  );
+  return [
+    '> **The T0 hidden discoveries, as the build ships them (ADR-146)** — GENERATED from',
+    '> `DISCOVERIES` ([`discoveries.ts`](../../../src/core/content/discoveries.ts)) by',
+    '> `pnpm run gen:prd-regions`; **do not edit between the markers**. Identity only —',
+    '> the attempt floors / pity-ramp chances are §4 tuning, and the hint/reveal fiction',
+    '> is ADR-139 canon (read it in `docs/content/t0-story.md`), both kept out. Adding a',
+    '> discovery without regenerating turns the `gen-prd-regions` gate RED.',
+    '>',
+    '> | Discovery | Node | Unlocks | Found by |',
+    '> |---|---|---|---|',
+    ...rows.map((r) => `> ${r}`),
+  ].join('\n');
+}
+
+/** The T0 zone roster + reveal bindings (ADR-168 G2) — every AREAS zone with the rung
+ *  whose `rewardOnReach.unlock` carries its `room-<id>` flag (no flag = on the board
+ *  from the open; `locked` = scenery, never walkable). Derived from AREAS × RANKS —
+ *  the pair that staled the hand table silently every story wave. Pure fn; exported. */
+export function genT0ZoneReveals(): string {
+  const revealedBy = new Map<string, string>();
+  for (const r of RANKS) {
+    for (const u of r.rewardOnReach?.unlock ?? []) {
+      if (u.startsWith('room-')) revealedBy.set(u.slice('room-'.length), r.id);
+    }
+  }
+  const rows = AREAS.map((a) => {
+    const when = a.locked
+      ? 'locked scenery (visible, never walkable)'
+      : revealedBy.has(a.id)
+        ? `inks in at **${revealedBy.get(a.id)}**`
+        : 'on the board from the open';
+    return `| \`${a.id}\` | ${a.label} | ${when} |`;
+  });
+  return [
+    '> **The T0 zones and when each inks in, as the build ships them** — GENERATED from',
+    '> `AREAS` × `RANKS` `room-*` unlocks ([`areas.ts`](../../../src/core/content/areas.ts) /',
+    '> [`ranks.ts`](../../../src/core/content/ranks.ts)) by `pnpm run gen:prd-regions`;',
+    '> **do not edit between the markers**. Identity + reveal binding only — the diegetic',
+    '> reveal lines are canon (`t0-story.md`), kept out. Adding a zone or moving a reveal',
+    '> without regenerating turns the `gen-prd-regions` gate RED.',
+    '>',
+    '> | Zone | Label | Revealed |',
+    '> |---|---|---|',
+    ...rows.map((r) => `> ${r}`),
+  ].join('\n');
+}
+
+/** The T0 per-rung reveal ladder (ADR-168 G3) — each rung's full `rewardOnReach.unlock`
+ *  list, verbatim ids, derived from RANKS. Replaces §1.12's hand-typed reveal schedule
+ *  (the audit found its R3/R4 rows wrong). Pure fn; exported for test. */
+export function genT0RungReveals(): string {
+  const rows = RANKS.map((r) => {
+    const u = r.rewardOnReach?.unlock ?? [];
+    return `| ${r.id} — ${r.title} | ${u.length ? u.map((x) => `\`${x}\``).join(' · ') : '—'} |`;
+  });
+  return [
+    '> **The T0 reveal ladder, as the build ships it** — GENERATED from `RANKS`',
+    '> `rewardOnReach.unlock` ([`ranks.ts`](../../../src/core/content/ranks.ts)) by',
+    '> `pnpm run gen:prd-regions`; **do not edit between the markers**. The verbatim',
+    '> unlock ids per rung — tabs/panels/verbs/rooms/readouts as the running game opens',
+    '> them. Moving a reveal in `RANKS` without regenerating turns the',
+    '> `gen-prd-regions` gate RED.',
+    '>',
+    '> | Rung | Opens |',
+    '> |---|---|',
+    ...rows.map((r) => `> ${r}`),
+  ].join('\n');
+}
+
+/** The T0 quest roster (ADR-168 G4) — identity only (id · kind · title), derived from
+ *  QUESTS. Step events and rewards are content/tuning, kept out. Pure fn; exported. */
+export function genT0QuestRoster(): string {
+  const rows = QUESTS.map((q) => `| \`${q.id}\` | ${q.kind} | ${q.title} |`);
+  return [
+    '> **The T0 quest roster, as the build ships it** — GENERATED from `QUESTS`',
+    '> ([`quests.ts`](../../../src/core/content/quests.ts)) by `pnpm run gen:prd-regions`;',
+    '> **do not edit between the markers**. Identity only — step chains and rewards are',
+    '> content detail (read the script in `docs/content/t0-story.md`). Adding a quest',
+    '> without regenerating turns the `gen-prd-regions` gate RED.',
+    '>',
+    '> | Quest | Kind | Title |',
+    '> |---|---|---|',
+    ...rows.map((r) => `> ${r}`),
+  ].join('\n');
+}
+
+/** The T0 activity roster (ADR-168 G5) — identity + bindings (id · label · node · skill ·
+ *  deed source), derived from ACTIVITIES. Yields/satiety/xp are §4 tuning, out. */
+export function genT0Activities(): string {
+  const rows = ACTIVITIES.map(
+    (a) => `| \`${a.id}\` | ${a.label} | ${a.area} | ${a.skill} | ${a.deedSource ?? '—'} |`,
+  );
+  return [
+    '> **The T0 activity roster, as the build ships it** — GENERATED from `ACTIVITIES`',
+    '> ([`activities.ts`](../../../src/core/content/activities.ts)) by',
+    '> `pnpm run gen:prd-regions`; **do not edit between the markers**. Identity +',
+    '> bindings only — yields, satiety costs and xp are §4 tuning, kept out. A `—` deed',
+    '> source = not estate-relevant (feeds the pockets, not the house — ADR-145 Q4).',
+    '> Adding an activity without regenerating turns the `gen-prd-regions` gate RED.',
+    '>',
+    '> | Activity | Label | Node | Skill | Deed source |',
+    '> |---|---|---|---|---|',
+    ...rows.map((r) => `> ${r}`),
+  ].join('\n');
+}
+
+/** The T0 market stock (ADR-168 G6) — identity only (label · goods granted · season
+ *  window), derived from MARKET_ITEMS. Prices/stock caps are §4 tuning, out. */
+export function genT0MarketStock(): string {
+  const rows = MARKET_ITEMS.map((m) => {
+    const goods = Object.keys(m.grants).join(', ');
+    const when = m.seasons ? m.seasons.join(' · ') : 'every season';
+    return `| ${m.label} | ${goods} | ${when} |`;
+  });
+  return [
+    '> **The T0 provisioning-stall stock, as the build ships it** — GENERATED from',
+    '> `MARKET_ITEMS` ([`market.ts`](../../../src/core/content/market.ts)) by',
+    '> `pnpm run gen:prd-regions`; **do not edit between the markers**. Identity only —',
+    '> mon prices, stock caps and the pedlar purse are §4 tuning, kept out. The stall',
+    "> re-keys per season (ADR-163): a season column names each item's window. Adding an",
+    '> item without regenerating turns the `gen-prd-regions` gate RED.',
+    '>',
+    '> | Item | Grants | Stocked |',
+    '> |---|---|---|',
+    ...rows.map((r) => `> ${r}`),
+  ].join('\n');
+}
+
+/** The T0 estate works ladder (ADR-168 G7) — identity only (stage · label · blurb),
+ *  derived from ESTATE_STAGES. Coin costs and bonuses are sim-owned seeds, out. */
+export function genT0EstateWorks(): string {
+  const rows = ESTATE_STAGES.map((s) => `| U${s.stage} | ${s.label} | ${s.blurb} |`);
+  return [
+    '> **The T0 estate works (kura-works flywheel), as the build ships them** — GENERATED',
+    '> from `ESTATE_STAGES` ([`estate.ts`](../../../src/core/content/estate.ts)) by',
+    '> `pnpm run gen:prd-regions`; **do not edit between the markers**. Identity only —',
+    '> coin costs, satiety and yield bonuses are sim-owned seed tuning (ADR-132), kept',
+    '> out. The pending deed-reframe (ADR-145) will rename stages HERE, not by hand.',
+    '>',
+    '> | Stage | Work | What it is |',
+    '> |---|---|---|',
+    ...rows.map((r) => `> ${r}`),
+  ].join('\n');
+}
+
+/** The verify gate roster (ADR-168 G8) — name · command · lane, derived from GATES
+ *  (gates.ts, the roster's single source). Replaces §6's fossilized command chain. */
+export function genVerifyGates(): string {
+  const rows = GATES.map((g) => `| ${g.name} | \`${g.cmd}\` | ${g.scope} |`);
+  return [
+    '> **The `pnpm run verify` gate roster, as it ships** — GENERATED from `GATES`',
+    '> ([`gates.ts`](../../../src/scripts/gates.ts), the single source of the roster) by',
+    '> `pnpm run gen:prd-regions`; **do not edit between the markers**. Gates run in',
+    '> parallel; `scope` is the commit-time lane (`SKIP_CODE_VERIFY`/`SKIP_DOCS_VERIFY`',
+    '> skip a lane at commit; a push always runs everything). Adding a gate without',
+    '> regenerating turns the `gen-prd-regions` gate RED.',
+    '>',
+    '> | Gate | Command | Lane |',
+    '> |---|---|---|',
+    ...rows.map((r) => `> ${r}`),
+  ].join('\n');
+}
+
 // --- region wiring ------------------------------------------------------------
 
 interface RegionSpec {
@@ -149,10 +335,18 @@ interface RegionSpec {
   gen: () => string;
 }
 const REGIONS: ReadonlyArray<RegionSpec> = [
+  { file: 'docs/living/prd/01-vision.md', id: 't0-rung-reveals', gen: genT0RungReveals },
   { file: 'docs/living/prd/03-unlock-ladder.md', id: 't0-rung-titles', gen: genT0RungTitles },
   { file: 'docs/living/prd/03-unlock-ladder.md', id: 't0-deed-sources', gen: genT0DeedSources },
+  { file: 'docs/living/prd/03-unlock-ladder.md', id: 't0-zone-reveals', gen: genT0ZoneReveals },
   { file: 'docs/living/prd/02-systems.md', id: 't0-weapon-roster', gen: genT0WeaponRoster },
   { file: 'docs/living/prd/02-systems.md', id: 't0-bestiary', gen: genT0Bestiary },
+  { file: 'docs/living/prd/02-systems.md', id: 't0-discoveries', gen: genT0Discoveries },
+  { file: 'docs/living/prd/02-systems.md', id: 't0-quest-roster', gen: genT0QuestRoster },
+  { file: 'docs/living/prd/02-systems.md', id: 't0-activities', gen: genT0Activities },
+  { file: 'docs/living/prd/02-systems.md', id: 't0-market-stock', gen: genT0MarketStock },
+  { file: 'docs/living/prd/02-systems.md', id: 't0-estate-works', gen: genT0EstateWorks },
+  { file: 'docs/living/prd/06-tech-architecture.md', id: 'verify-gates', gen: genVerifyGates },
 ];
 
 /** Apply every region targeting `file` and return before/after. */

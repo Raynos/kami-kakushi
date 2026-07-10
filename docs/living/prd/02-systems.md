@@ -238,6 +238,24 @@ to a **trader** at a map node, on the vendor-as-person spectrum, **not** a bare 
 **TRADE engine** (selling the estate's surplus rice and crafted goods for coin) opens at **T2**. Early
 spending and grinding run on the player lane; the estate lane grows as the house recovers.
 
+<!-- gen:begin t0-market-stock (pnpm run gen:prd-regions — do not edit inside) -->
+> **The T0 provisioning-stall stock, as the build ships it** — GENERATED from
+> `MARKET_ITEMS` ([`market.ts`](../../../src/core/content/market.ts)) by
+> `pnpm run gen:prd-regions`; **do not edit between the markers**. Identity only —
+> mon prices, stock caps and the pedlar purse are §4 tuning, kept out. The stall
+> re-keys per season (ADR-163): a season column names each item's window. Adding an
+> item without regenerating turns the `gen-prd-regions` gate RED.
+>
+> | Item | Grants | Stocked |
+> |---|---|---|
+> | Sack of mountain greens | sansai | every season |
+> | Bundle of split kindling | wood | every season |
+> | Hone and ash-faggot | wood | every season |
+> | Pedlar's greens-basket | sansai | every season |
+> | Porter's road-rations | sansai, wood | every season |
+> | Smith's seasoned billet | wood | every season |
+<!-- gen:end t0-market-stock -->
+
 **Carried vs BANKED.** Wealth also splits by RISK: **carried** wealth (`state.resources` — coin, rice,
 materials) rides with the protagonist and is **at risk** — a lost fight bites a slice of it (§2.8) — while
 **banked** wealth (`state.banked`, the *kura* storehouse) is **sheltered and safe**. Deposit/withdraw move
@@ -336,8 +354,8 @@ tiers/regions.** Nodes are **tiered and season-gated**; clickable now, idle late
 labour** convenience (active-only — repeats the chosen action while the tab is open) is the grind
 convenience, **distinct from** the *late* auto-gather toggle / auto-producer (§2.5).
 
-**(b) Player-facing behaviour / loop.** Do the work manually (rake rice, farm the paddies, haul
-stores, cut wood, forage the woodlot's edge or its deeper woods, tap lacquer), or leave the
+**(b) Player-facing behaviour / loop.** Do the work manually (the shipped
+verb roster is generated below), or leave the
 **tab-open auto-repeat** running and check the progress;
 each action yields a **resource + skill XP + sometimes a quest event**. Higher ranks/offices add
 **jobs-as-offices** — e.g. the bailiff of the home fields takes on field administration as **his own
@@ -345,6 +363,26 @@ duties/quests**, never a city-builder panel. The texture stays **grind ("the her
 does")**, not micromanagement. **Grind depth is a FLOOR, not a ceiling** — a longer OSRS-rough grind with
 **enough grinding content, interleaved, never brick-walled**; §4.8 is a **minimum-grind** model
 (the pacing regression fails on **undershoot only**).
+
+<!-- gen:begin t0-activities (pnpm run gen:prd-regions — do not edit inside) -->
+> **The T0 activity roster, as the build ships it** — GENERATED from `ACTIVITIES`
+> ([`activities.ts`](../../../src/core/content/activities.ts)) by
+> `pnpm run gen:prd-regions`; **do not edit between the markers**. Identity +
+> bindings only — yields, satiety costs and xp are §4 tuning, kept out. A `—` deed
+> source = not estate-relevant (feeds the pockets, not the house — ADR-145 Q4).
+> Adding an activity without regenerating turns the `gen-prd-regions` gate RED.
+>
+> | Activity | Label | Node | Skill | Deed source |
+> |---|---|---|---|---|
+> | `farm_paddy` | Work the home paddy & rows | paddies | farming | fields |
+> | `haul_stores` | Haul stores at the forecourt | forecourt | conditioning | stores |
+> | `woodcut_edge` | Cut wood at the woodlot | woodlot | woodcutting | — |
+> | `forage_satoyama` | Forage the woodlot edge | woodlot | foraging | — |
+> | `search_reeds` | Search the reeds | weir | foraging | — |
+> | `clear_sluice` | Clear the silted sluice | woodlot | woodcutting | — |
+> | `forage_deepwoods` | Forage deep in the woodlot | woodlot | foraging | — |
+> | `tap_lacquer` | Tap the lacquer tree | woodlot | woodcutting | — |
+<!-- gen:end t0-activities -->
 
 **(c) Rough DATA shape.**
 - `LabourNode { id, skill, area (map-node binding — the SPATIAL model), resourceYields[],
@@ -391,11 +429,27 @@ without a hard wall). **Anti-checklist by design (human-locked):** no discovery-
 "NEW ACTION!" banner, no counters — the sharpened description + the log line are the whole
 signal; you can never be sure a node is done. Hiddenness is **derived** (an activity is hidden
 iff it is an unlatched discovery's reveals-target), so the action list and the latch can't
-drift. First shipped instance: the **woodlot lacquer tree** (repeat woodcutting, rare-ambient
-paced — floor 15, ~40–80 cuts typical — unlocking a coin-paying tap). **Future scope
-(frontier):** more discoverables per node and trigger type (the visit-stumble engine is built,
-content pending); **people-reveals** (a discovery grows the who's-here set, not just the action
+drift. The shipped discoveries are generated below (rare-ambient
+paced — attempt floors + a gentle pity ramp are §4 tuning). **Future scope
+(frontier):** more discoverables per node and trigger type (the visit-stumble engine is built),
+**people-reveals** (a discovery grows the who's-here set, not just the action
 set — ADR-114/115); and **portable rumors** (§2.13) once T1+ content justifies the web.
+
+<!-- gen:begin t0-discoveries (pnpm run gen:prd-regions — do not edit inside) -->
+> **The T0 hidden discoveries, as the build ships them (ADR-146)** — GENERATED from
+> `DISCOVERIES` ([`discoveries.ts`](../../../src/core/content/discoveries.ts)) by
+> `pnpm run gen:prd-regions`; **do not edit between the markers**. Identity only —
+> the attempt floors / pity-ramp chances are §4 tuning, and the hint/reveal fiction
+> is ADR-139 canon (read it in `docs/content/t0-story.md`), both kept out. Adding a
+> discovery without regenerating turns the `gen-prd-regions` gate RED.
+>
+> | Discovery | Node | Unlocks | Found by |
+> |---|---|---|---|
+> | `disc-woodlot-lacquer` | woodlot | `tap_lacquer` | watching (`woodcut_edge`) |
+> | `disc-weir-bundle` | weir | `search_reeds` | stumbled on arrival |
+> | `disc-woodlot-sluice` | woodlot | `clear_sluice` | watching (`forage_satoyama`) |
+> | `disc-margins-sett` | field-margins | *(seed-only find)* | stumbled on arrival |
+<!-- gen:end t0-discoveries -->
 
 ---
 
@@ -820,6 +874,22 @@ minute-to-minute behaviour is the **incremental grind.** **No fixed quest-type b
 HUNT, CLEAR, DEFEND** (the deeds-earner) are the **T0 STARTING set**, *not a cap* — author **whatever quest
 types fit each stage**, more/interesting welcome especially at later tiers
 (escort/patrol/bounty/duel/investigate/etc.).
+
+<!-- gen:begin t0-quest-roster (pnpm run gen:prd-regions — do not edit inside) -->
+> **The T0 quest roster, as the build ships it** — GENERATED from `QUESTS`
+> ([`quests.ts`](../../../src/core/content/quests.ts)) by `pnpm run gen:prd-regions`;
+> **do not edit between the markers**. Identity only — step chains and rewards are
+> content detail (read the script in `docs/content/t0-story.md`). Adding a quest
+> without regenerating turns the `gen-prd-regions` gate RED.
+>
+> | Quest | Kind | Title |
+> |---|---|---|
+> | `first_night_round` | DEFEND | Walk the first night round |
+> | `orchard_chain` | CLEAR | Take back the orchard |
+> | `defend_grove` | DEFEND | Drive the troop from the rows |
+> | `pest_weir_screens` | PEST | Keep the leased screens whole |
+> | `pest_field_margins` | PEST | Dig out the field-margin setts |
+<!-- gen:end t0-quest-roster -->
 
 **Intra-line dialogue branching.** A node carries a **flat `choices[]` list**; picking a
 choice applies its effect — `locksLineIds[]` (closes off other lines) and/or `flags` set — and the
@@ -1387,6 +1457,21 @@ city-builder/4X drift). **E3 "Prosperous" is authored as a coin/Arms sink folded
 - `BuildableStructure { id, costs (coin/materials/labour), martialPrereq?, pillarFloor, rankFloor,
   revealBeatId, contributesTo (idleProducerSlot|garrisonStrength|stationTier) }` — the coin PURCHASE
   upgrades (the flywheel "kura-works", `U1–U4`) are a distinct axis from the E# condition stage (§6).
+
+<!-- gen:begin t0-estate-works (pnpm run gen:prd-regions — do not edit inside) -->
+> **The T0 estate works (kura-works flywheel), as the build ships them** — GENERATED
+> from `ESTATE_STAGES` ([`estate.ts`](../../../src/core/content/estate.ts)) by
+> `pnpm run gen:prd-regions`; **do not edit between the markers**. Identity only —
+> coin costs, satiety and yield bonuses are sim-owned seed tuning (ADR-132), kept
+> out. The pending deed-reframe (ADR-145) will rename stages HERE, not by hand.
+>
+> | Stage | Work | What it is |
+> |---|---|---|
+> | U1 | Mend the weir screens | Mend the leased weir screens the river rats gnaw through. |
+> | U2 | Reclaim the orchard | Clear the overgrown orchard and bring it back to fruit. |
+> | U3 | Raise the granary | Raise a second granary; keep the stores past winter. |
+> | U4 | Set the house in order | Repairs hold and the reclamation bears — the estate stands. |
+<!-- gen:end t0-estate-works -->
 - `RosterMember { id, role, hookLine, contributionSlot, firstAppearsTier }` — **light card by default**;
   only a few get full arcs (existing cast reused: village artisans seconded, origin friends recruited).
 - **No** `assignmentPanel` / `labourGang` types (their absence is the guard).

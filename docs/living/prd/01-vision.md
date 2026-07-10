@@ -1011,16 +1011,36 @@ a section), each tab revealed only as it unlocks; the home of each capability wi
 pillar-grind)** model (§1.6.4). **Combat surfaces inside the FIRST tier (T0)** as an **incremental ladder**
 (the combat-reveal ladder, below), not a single mid-ladder dump.
 
-**T0 — Estate ladder reveals (sequential phasing):**
+**T0 — Estate ladder reveals (sequential phasing).** The verbatim reveal
+schedule is generated from the build (below); what each opening *means* — the
+beat, the granter, the fiction — is §3's and the bible tier sheet's domain
+(`docs/story-bible/tiers/t0.md`, read the script in `docs/content/t0-story.md`).
+The design intent that stands over the schedule: reveals arrive **one per
+beat**, combat surfaces mid-ladder after the humbling first fight (survived,
+not won), and **R7 (capstone) OPENS Phase 2** — the four-pillar
+**estate-influence grind** (the revealed pillar is **Estate** only at T0; Arms
+reveals at T1); clearing T0's **single-EXCELLENT Estate gate** (§1.6.3) is what
+**tiers up to T1.**
 
-- **R0** — body/rest bar + rice counter.
-- **R1** — labour loop + paddies + **rice + a little coin** (rice you eat / store / sell for coin).
-- **R2** — Skills tab + foraging/woodcutting + the woodlot's forage grounds.
-- **R3** — **drill yard + Combat panel + the carrying-pole + Equipment/Inventory + Bestiary + the bare auto-resolve loop + retreat** (after the humbling first fight; **character (combat) level begins**, fed by combat-XP).
-- **R4** — main-house interior + the household domestic economy; first *shinden* begun; **the simple Crafting loop as a top-level tab + graded durability bands** (never auto-unequip).
-- **R5** — **stance slot** + the **Quests top-level tab** (pest-control/hunt/clear/defend). *(Curated combat activities feed the **Combat Rank** rung-meter; **Arms PILLAR deeds do NOT accrue yet** — gated to Phase 2.)*
-- **R6** — workshops + granary + proto-industry levers; **the first errands past the estate gate** (the valley comes into view).
-- **R7 (capstone)** — **OPENS Phase 2**: the four-pillar **estate-influence grind**; the standing panel made visible (the **revealed** pillar — **Estate** only at T0; Arms reveals at T1); cash-crop levers; the tier-expansion map. Clearing T0's **single-EXCELLENT Estate gate** (§1.6.3) is what **tiers up to T1.**
+<!-- gen:begin t0-rung-reveals (pnpm run gen:prd-regions — do not edit inside) -->
+> **The T0 reveal ladder, as the build ships it** — GENERATED from `RANKS`
+> `rewardOnReach.unlock` ([`ranks.ts`](../../../src/core/content/ranks.ts)) by
+> `pnpm run gen:prd-regions`; **do not edit between the markers**. The verbatim
+> unlock ids per rung — tabs/panels/verbs/rooms/readouts as the running game opens
+> them. Moving a reveal in `RANKS` without regenerating turns the
+> `gen-prd-regions` gate RED.
+>
+> | Rung | Opens |
+> |---|---|
+> | R0 — The man from the weir | — |
+> | R1 — The day-hand | `room-gate` · `room-paddies` · `room-woodshed` · `verb-farm` · `verb-haul` · `readout-clock` · `readout-stamina` · `panel-rung-ladder` |
+> | R2 — The yard-hand | `tab-skills` · `room-woodlot` · `room-field-margins` · `verb-woodcut` · `verb-forage` · `row-wood` · `row-sansai` · `skill-conditioning` |
+> | R3 — The grain-watch | `tab-combat` · `panel-drill-yard` · `readout-combat-level` · `panel-bestiary` · `panel-house-influence` · `room-kura` · `room-weir-reeds` |
+> | R4 — The pupil | `readout-durability` · `panel-equipment` · `verb-repair` · `house-omoya` · `room-drill-yard` |
+> | R5 — The accused | `stance-control` · `tab-quests` · `room-shrine` · `room-orchard` |
+> | R6 — The trusted hand | `house-workshops` · `house-granary` |
+> | R7 — The named hand | `house-study` · `room-grove` |
+<!-- gen:end t0-rung-reveals -->
 
 **Combat-reveal ladder (incremental; one reveal per beat):** **R3** the carrying-pole + bare
 auto-resolve + retreat + Bestiary → **R4** graded **durability** bands → **R5** **stance** slot → **first

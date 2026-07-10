@@ -317,17 +317,13 @@ curated activities are richer/slower), so the threshold falls gently (fewer acti
 > wall-time bands. The threshold model below stands only as **frontier intent for T1+** until each
 > tier's own design pass decides whether it adopts the requirement model.
 
-**The T0 rung-meter thresholds** *(historical/frontier illustration — back-solved from 30 min × the rung's rate)*:
-
-| Rung | Meter | curated-activity examples (the one-to-many set) | rate (pts/min) | threshold (= 30·rate) |
-|---|---|---|---|---|
-| **R1 Day-labourer** | Estate Service | rake/recover rice · clear the forecourt · first paddy turns | ~0.60 | **~18** |
-| **R2 Bonded hand** | Estate Service | forage runs · woodcut · haul loads · stable chores | ~0.62 | **~19** |
-| **R3 Yard-hand** | Combat Rank | survive the first fight · drill reps · first pest skirmishes | ~0.55 | **~17** |
-| **R4 Trusted hand** | Estate Service | indoor errands · first *shinden* labour · craft a first tool | ~0.58 | **~17** |
-| **R5 Gate-guard** | Combat Rank | stand a watch · pest-control / hunt / clear sweeps | ~0.55 | **~17** |
-| **R6 Foreman** | Estate Service | drive workshop/granary works · proto-industry shifts | ~0.50 | **~15** |
-| **R7 Bailiff** *(capstone → opens Phase 2)* | Estate Service | field-office duties · record the first reclamation | ~0.46 | **~14** |
+**The T0 rung-meter thresholds** *(struck 2026-07-10, ADR-168 — the table
+hand-copied pre-reboot rung fictions and a retired meter model).* T0's shipped
+per-rung pacing is **measured, not back-solved**: the machine verdict lives in
+[`docs/content/t0-pacing.md`](../../content/t0-pacing.md) (regenerated on every
+ADR-132 balance pass), and the shipped rung titles/requirements are §3's
+generated tables. The threshold MODEL below stays as frontier intent for T1+
+only.
 
 The thresholds are deliberately **modest numbers** (the floor is enforced by *time*, not a huge meter): a player
 who races the curated activities still cannot beat the ~30-min floor, because the rate ceiling is what the floor
@@ -1499,24 +1495,19 @@ in rung activity-points (§4.1.1); "throughput" is the
 net rice/min from §4.7.1. *(The exact times, costs & thresholds are tunable; the ≥30-min floor — binding
 from T1, T0 exempt — and the per-tier hour FLOORS are locked.)*
 
-| Rung (what it gates — from §3) | Meter + story gate to LEAVE it (Phase 1) | Throughput | rice (rung) | ⏱ wall-clock |
-|---|---|---|---|---|
-| **R0 Stray** — cold open done; bare estate dashboard | *(story only — the cold open §3.1)*; meter n/a | n/a (tutorial) | ~0 | **~5 min** *(cold open)* |
-| **R1 Day-labourer** — paddies, basic labour loop, world-clock | **Estate Service ≥ ~18** (rake/recover rice · clear forecourt · first paddy turns) + Genemon assigns real work | ~25 rice/min | ~0.75K | **~30 min** |
-| **R2 Bonded hand** — Skills tab, foraging/woodcut/haul, the woodlot grounds | **Estate Service ≥ ~19** (forage · woodcut · haul · stable chores) + first season turns | ~35 rice/min | ~1.05K | **~30 min** |
-| **R3 Yard-hand under arms** — COMBAT LIVE; humbling first fight; drill yard, Bestiary, the starter **yari** | **Combat Rank ≥ ~17** (survive the **scripted** first wolf [a **guaranteed-survival** beat — win-or-soft-setback, the R3 story trigger] · drill reps · the **grindable** wolf/sparring + first pest skirmishes [where the **LOCKED 20–35 % win @ ≥0.7 satiety** is measured, §4.8.0/§4.6.7]) + drill-yard story | ~40 rice/min | ~1.2K | **~30 min** |
-| **R4 Trusted hand** — Main House, domestic economy, **first *shinden* (U1)**, **loot→craft loop + durability bands** | **Estate Service ≥ ~17** (indoor errands · first *shinden* labour · craft a first tool) + invited to the Main House; **build U1 (400 coin)** | ~60 rice/min | ~2.1K | **~35 min** |
-| **R5 Gate-guard** — Quest log + quest types; the **stance** slot | **Combat Rank ≥ ~17** (stand a watch · pest-control / hunt / clear sweeps) + posted to the gate | ~80 rice/min | ~3.2K | **~40 min** |
-| **R6 Foreman of works** — Workshops/Granary (U2), proto-industry, **village tier seed** | **Estate Service ≥ ~15** (drive workshop/granary works · proto-industry shifts) + works commissioned; **build U2 (2K coin)** | ~110 rice/min | ~4.95K | **~45 min** |
-| **R7 Bailiff** *(capstone → OPENS Phase 2)* — lord's study, four-bar Influence panel | **Estate Service ≥ ~14** (field-office duties · record the first reclamation) + the Lord's recognition — **the capstone OPENS the Phase-2 pillar grind (§4.8.1b)** | ~150 rice/min | ~8.25K | **~55 min** |
-
-**Totals & checks (T0 Phase 1):** wall-clock **5 + 30 + 30 + 30 + 35 + 40 + 45 + 55 = 270 min = 4.5 h** ✔
-(escalating ✔; T0 is exempt from the ≥30-min gate, which binds from T1). Lifetime rice produced ≈ **0.75K +
-1.05K + 1.2K + 2.1K + 3.2K + 4.95K + 8.25K = 21.5K ≈ ~21K** ✔ (the **same round figure** as the §4.0a T0 band;
-its coin sales clear U1@R4 and U2@R6 ✔; held ≈ **18–19K rice NET** at the gate after sinks). Consecutive within-rung *cost* ratios
-stay ≤ ~2× (0.75K→1.05K→1.2K→2.1K…), honouring the ≤2–3× rule ✔. **No pillar deeds appear in this table** — the
-~560 Estate / ~350 Arms deed-ip (§4.2.1) accrue **only in Phase 2** (§4.8.1b), which is what prevents the
-"half the rungs, maxed deeds" state.
+**The T0 Phase-1 per-rung table** *(struck 2026-07-10, ADR-168 — it modelled
+the pre-reboot game wholesale: retired rung fictions, the deleted
+meter/threshold gates [ADR-137], rice+coin labour).* The shipped T0 pacing —
+per-rung wall-time, throughput, and the sim's five-seed verdict — is generated
+into [`docs/content/t0-pacing.md`](../../content/t0-pacing.md) by the ADR-132
+balance flow; the shipped per-rung REQUIREMENTS (the authored gate list that
+replaced the meters) live in `content/requirements.ts` and §3's generated
+tables. What stands here as **locked intent**, independent of any table: the
+per-rung wall-clock **escalates toward the capstone**; the ≥30-min-per-rung
+floor **binds from T1** (T0 exempt); consecutive within-rung cost ratios stay
+**≤ ~2–3×**; and **no pillar deeds accrue in Phase 1** — the deed inventory
+(§4.2.1) opens with Phase 2 (§4.8.1b), which is what prevents the "half the
+rungs, maxed deeds" state.
 
 > **R0 is the ~5-min cold-open story rung** (the *kura* cold open, §3.1) — a scripted beat, not a grind rung,
 > exempt from any per-rung floor.
