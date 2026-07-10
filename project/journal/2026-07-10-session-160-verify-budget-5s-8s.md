@@ -59,3 +59,24 @@ roadmap, qa-playtesting, prd/06-tech-architecture (regen).
 
 - Follow-up (not in scope): `save-e2e` runs its playthrough at collect-time — move
   to `beforeAll` so the full lane parallelizes it. Polish only.
+
+## Addendum — a first real consequence of the lane split (checkpoint)
+
+At exit-checkpoint the full lane was RED at committed HEAD: `913ce02b` (FB-339,
+the live-map zoom/pan/fit controls) wired buttons that call `svg.getScreenCTM()`
+on click, and `affordance-coverage.test.ts`'s sweep clicks them — but jsdom
+doesn't implement `getScreenCTM`, so it threw `is not a function`.
+
+This is exactly the tradeoff ADR-176 buys: `913ce02b` landed AFTER `f113f2f6`, so
+it went through the fast COMMIT lane, which now defers `affordance-coverage`
+(`@slow`) to push/CI — the author's commit-time verify never ran it. Pre-ADR-176
+the full suite ran every commit and would've caught it there. The full lane DID
+catch it (at push), so the seam held — but it blocked the whole tree's pushes.
+
+Fix (mine, downstream of my change): a one-line jsdom stub in the test's
+`beforeEach` — `SVGElement.prototype.getScreenCTM ??= () => null` — parallel to
+the existing `scrollIntoView` stub. Production already guards a null CTM
+(`if (!m) return {x:0,y:0}`), so a null-returning stub is faithful; the sweep only
+needs the click to DISPATCH, not to compute real zoom math. Full lane green after
+(18 gates, 36s). Flagged the pattern for map-authors: a new clickable map control
+that calls an SVG-geometry API needs a jsdom stub in the sweep.

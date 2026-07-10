@@ -186,6 +186,11 @@ describe('intent → affordance coverage (the wiring-layer ratchet)', () => {
       }) as unknown as MediaQueryList;
     window.confirm = () => false; // never let a sweep trigger New Game
     Element.prototype.scrollIntoView ??= () => {};
+    // jsdom doesn't implement SVGGraphicsElement.getScreenCTM (the live map tab's
+    // zoom/pan/fit controls call it on click — FB-339). Production already guards a
+    // null CTM (`if (!m) return {x:0,y:0}`), so a null-returning stub is faithful:
+    // the sweep just needs the click to DISPATCH, not to compute real zoom math.
+    (SVGElement.prototype as unknown as { getScreenCTM?: () => null }).getScreenCTM ??= () => null;
   });
 
   it('every player-facing intent is dispatched by some control, somewhere', () => {
