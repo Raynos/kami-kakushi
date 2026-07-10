@@ -124,3 +124,13 @@ So we can time how long it takes for this text to render with geneemon, the two 
 **Details:** `cold-open/2026-07-10T11-40-40.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:42:28+0200 — the-second-button-also
+
+The second button also has flavor text, same thing, long extended cooldown for the second action click so the text can render.
+
+**Element:** panel "log" — "Genemon: "Clear it without my standing over you, and you'll " · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(27)` · @942,595 493×51
+**Screenshot:** `cold-open/2026-07-10T11-42-28.png`
+**Details:** `cold-open/2026-07-10T11-42-28.json` — save + recent logs + full context
+
+---
