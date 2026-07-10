@@ -18,3 +18,13 @@ In the VN you can click to advance, but you cant hit space to advance the text, 
 **Details:** `cold-open/2026-07-10T11-33-06.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:33:36+0200 — in-the-cold-open
+
+In the cold open the "No." is not prefixed with You:
+
+**Element:** span.vn-speech — ""No."" · `div > p:nth-of-type(5) > span > span` · @318,455 33×20
+**Screenshot:** `cold-open/2026-07-10T11-33-36.png`
+**Details:** `cold-open/2026-07-10T11-33-36.json` — save + recent logs + full context
+
+---
