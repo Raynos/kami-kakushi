@@ -1,5 +1,5 @@
 # bundle c5a-discoveries · The three hidden discoveries
-rung: R0
+rung: other · spans R1–R2 (weir find at R1 when travel opens, woodlot/margins at R2)
 review: project/human-in-the-loop/review.md
 rationale: Take A scored 11✔1✘ — tool-adjacent escalation ("gives like cloth, not like root"; "wider than the badger needs") lands the finds as plain fact with the strangeness visible and unremarked; the one flagged maxim cut per Pass-2.
 canon: A · found by hand

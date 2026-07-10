@@ -204,7 +204,7 @@ alternates + briefs: `takes/c5a-overlays/`.
     game/`toRung`, or read all five in "⤢ Explore story".)
   - **Verdict:** _(awaiting your read)_
 
-### HR-19 🔲 [R0+ · discoveries] — the three hidden discoveries' fiction (C5a unit 2)
+### HR-19 🔲 [R1–R2 · discoveries] — the three hidden discoveries' fiction (C5a unit 2)
 
 The tiers/t0.md locked roster wired + voiced: the weir REEDS bundle (the
 water-ruined paper — reveals `search_reeds`), the silted SLUICE (reveals

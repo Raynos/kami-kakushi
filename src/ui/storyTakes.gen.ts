@@ -15,7 +15,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     rationale:
       'Take A scored 11✔1✘ — tool-adjacent escalation ("gives like cloth, not like root"; "wider than the badger needs") lands the finds as plain fact with the strangeness visible and unremarked; the one flagged maxim cut per Pass-2.',
     canonLabel: 'A · found by hand',
-    rung: 0,
+    rungReason: 'spans R1–R2 (weir find at R1 when travel opens, woodlot/margins at R2)',
     takes: [
       {
         id: 'b',
