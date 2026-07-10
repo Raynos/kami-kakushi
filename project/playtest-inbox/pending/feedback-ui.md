@@ -50,3 +50,13 @@ Yeah all the text was lost during the rasterization.
 **Details:** `feedback-ui/2026-07-10T18-55-24.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-350 · 2026-07-10T18:55:33+0200 — the-japanese-icons-too
+
+The japanese icons too which i guess is font text.
+
+**Element:** panel "do" · `div > svg > g:nth-of-type(1) > path:nth-of-type(1562)` · @385,295 415×348
+**Screenshot:** `feedback-ui/2026-07-10T18-55-33.png`
+**Details:** `feedback-ui/2026-07-10T18-55-33.json` — save + recent logs + full context
+
+---
