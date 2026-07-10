@@ -106,3 +106,13 @@ I also saw this pop in as new text, but it didnt say new remember all NEW text t
 **Details:** `the-log/2026-07-10T18-24-20.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-325 · 2026-07-10T18:27:22+0200 — i-pressed-rake-the
+
+I pressed rake the spilled rice, but the color of the now tab didnt change to highlight it has new text.
+
+**Element:** button "Now" — "Now" · `section[data-panel=log] > div:nth-of-type(2) > button` · @935,669 43×26
+**Screenshot:** `the-log/2026-07-10T18-27-22.png`
+**Details:** `the-log/2026-07-10T18-27-22.json` — save + recent logs + full context
+
+---
