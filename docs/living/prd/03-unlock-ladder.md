@@ -16,8 +16,8 @@ coin-denomination rates).
 **Design constraints honoured throughout §3.** grounded / no-magic; a
 mediocre-start protagonist (no hidden edge of **birth, gift, or memory** — but
 **trained labour skills DO** grant small, bounded combat perks); **the core loop is
-the MC's own actions, NOT a management sim**; the four-pillar House Influence (Arms
-/ Estate & Wealth [trade ≤⅓] / Standing & Office / Name & Honour) with
+the MC's own actions, NOT a management sim**; the four-pillar House Influence (**Estate** 家産
+[trade ≤⅓] · **Arms** 武威 · **Office** 官威 · **Name** 家格 — ADR-159) with
 **achievement-jumps + per-season judged results**, **up-only with minor recoverable
 dents** (a small below-high-water seasonal **self-heal** that never advances the
 high-water); the tier-up gate is the **scaled grade-gate** (`1 EXCELLENT + 1 GREAT +
@@ -54,8 +54,8 @@ never silent menu growth** (§2.1a, §1.12).
 
 | Code | Trigger kind | Predicate source |
 |---|---|---|
-| **RANK** | a **Phase-1 rung** reached (a fresh `R0–R7` ladder per tier — the uniform rung scheme for every tier; T6's rungs are the HOUSE's Edo standing, `H0–H7`) | the rung's **per-rung-reset rung-meter** — **Estate Service** (labour) or **Combat Rank** (martial) — crossing its threshold (back-solved from the **≥30-min-per-rung floor** × that rung's curated-activity rate) **AND** the rung's **story milestones** (an **AND-gate**, §2.15.1 / §3.0.1). The meter is fed by **curated per-rung activities** — *never* raw XP/kills/deeds (those feed the character level / the pillars). Every RANK promotion is a **player-TRIGGERED, ignorable full-screen VN story beat** (choices remembered; not every rung a perk — **ADR-110** / §1.6.4(1) / §3.0.1(1)). |
-| **PILLAR** | the **Phase-2 TIER-UP gate** cleared — the **scaled grade-gate** over the tier's **revealed** pillars (Arms / Estate & Wealth / Standing & Office / Name & Honour) | the **scaled grade-gate** distribution (`1 EXC + 1 GRT + (N−2) GOOD` over the revealed pillars, all ≥ GOOD; NO overflow; §2.16/§4 — numbers → §4). Pillar **DEEDS accrue in PHASE 2 only** (post-final-rung), so PILLAR gates the **tier-up**, never an individual rung. |
+| **RANK** | a **Phase-1 rung** reached (a fresh `R0–R7` ladder per tier — the uniform rung scheme for every tier; T6's rungs are the HOUSE's Edo standing, `H0–H7`) | the rung's **authored hidden REQUIREMENT list** 100% done (**FB-121/ADR-137** — the old meter/threshold/storyGate AND-gate is **deleted**; requirements are authored in `narrative/requirements.md` → `content/requirements.ts`, and the player reads a rounded **% bar**, never the list). Requirements are **curated, story-consistent acts** — *never* raw XP/kills/deeds (those feed the character level / the pillars). Every RANK promotion is a **player-TRIGGERED, ignorable full-screen VN story beat** (choices remembered; not every rung a perk — **ADR-110** / §1.6.4(1) / §3.0.1(1)). |
+| **PILLAR** | the **Phase-2 TIER-UP gate** cleared — the **scaled grade-gate** over the tier's **revealed** pillars (**Estate** 家産 [trade ≤⅓] · **Arms** 武威 · **Office** 官威 · **Name** 家格 — ADR-159) | the **scaled grade-gate** distribution (`1 EXC + 1 GRT + (N−2) GOOD` over the revealed pillars, all ≥ GOOD; NO overflow; §2.16/§4 — numbers → §4). Pillar **DEEDS accrue in PHASE 2 only** (post-final-rung), so PILLAR gates the **tier-up**, never an individual rung. |
 | **STORY** | a story / quest / dialogue flag set | a `flagsSet` from a quest or `TextLine` (§2.12) |
 | **FIRST-USE** | first acquisition / first action / discover-by-doing | first resource gained, first XP in a skill, first entry into an area/danger ring (§2.4, §2.7, §2.9) |
 
@@ -117,12 +117,13 @@ curves/thresholds are **§4**. Every `R*/V*/G*` row below is read through this m
 
 **(1) Each tier is climbed in TWO ORDERED PHASES.**
 
-- **Phase 1 — climb the rungs** (`R0→R7`, the same scheme every tier). Each rung promotes on an **AND-gate**:
-  the rung's **per-rung-reset RUNG-METER** `≥ threshold` **AND** the rung's **story milestones** are satisfied
-  (the UI reads **"awaiting X"** when one side lags). The meter is fed by **curated, story-consistent
-  per-rung activities** — a designed **one-to-many** set (NOT a single repeat-counter), tagged by
-  `rungActivityTags`. Two meters run in parallel: **Estate Service** (labour rungs) and **Combat Rank** (martial
-  rungs). **Pillar DEEDS do NOT accrue in Phase 1** — this is the structural fix against a "half the rungs, maxed
+- **Phase 1 — climb the rungs** (`R0→R7`, the same scheme every tier). Each rung promotes when its
+  **authored hidden REQUIREMENT list is 100% done** (**FB-121/ADR-137** — the old
+  meter/threshold/storyGate AND-gate is deleted): requirements are curated,
+  story-consistent acts — a designed **one-to-many** set, NOT a single
+  repeat-counter — authored per rung in `narrative/requirements.md` and compiled
+  to `content/requirements.ts`; the player reads a rounded **% bar**, never the
+  list. **Pillar DEEDS do NOT accrue in Phase 1** — this is the structural fix against a "half the rungs, maxed
   deeds" state. A cleared AND-gate only **readies** the promotion — it **holds** (at the header rung element)
   until the **player triggers** it, and can be **ignored**; triggering plays the rung as a **player-triggered,
   full-screen VN story beat** with remembered choices (`npcMemory`) and only occasional small bonuses — **not
@@ -140,13 +141,14 @@ curves/thresholds are **§4**. Every `R*/V*/G*` row below is read through this m
   shortfall is surfaced EARLY + CONTINUOUSLY** from the first Phase-2 season (the lagging bar reads plainly, e.g.
   *"Name is behind"*) so a breadth shortfall is **never an end-of-Phase-2 surprise** (§2.16(b)).
 
-**(2) The rung-meter accrual law.** Both meters are **numeric and PER-RUNG-RESET** (each rung starts
-at 0). Each rung's threshold = **(the ≥30-min-per-rung FLOOR × that rung's eligible curated-activity rate)** —
-**back-solved from the SAME ≥30-min floor** the §4.8 pacing model and the §6.6 gate-monotonicity verifier use, so
-the meter and the floor stay in lockstep (race the curated activities and the meter is *still* short of
-threshold — you cannot skip the floor). The **Combat Rank** meter is fed by **per-rung CURATED combat
-activities, NOT raw kills/XP** — kills feed the character (combat) level instead (§2.8.1). Double-counting
-across streams is allowed, but **each stream sums independently** (verifier-asserted, §2.20).
+**(2) The requirement law (ADR-137, replacing the retired meter law).** Each rung's
+requirement counts are **provisional fun-first drafts**, tuned edit →
+`gen:narrative` → sim (ADR-132 — no `balance.ts` mirror); the pacing floor is
+enforced by **measurement** (the ADR-132 sim + `docs/content/t0-pacing.md`), not
+by a back-solved threshold — the **≥30-min-per-rung floor binds from T1** (T0 is
+tutorial-paced). Kills feed the **character (combat) level**, never rung progress,
+except where a rung's authored requirement names a fight (§2.8.1); the three
+combat-fed tracks stay separately stored (§2.20).
 
 **(3) The Phase-2 scaled grade-gate.** Phase 2 tiers up on the
 **scaled grade-gate over the pillars REVEALED by that tier** — exactly **`1 EXCELLENT + 1 GREAT + (N−2) GOOD`**
@@ -264,18 +266,23 @@ spatial**: every labour and every foe is bound to a **map node**, and you **walk
 fight — the weir gives you up at the cold open, then you walk out to the paddies to farm, the forecourt
 to haul, the woodlot to cut and forage; banking is at the kura. **Combat surfaces EARLY at R3** (the humbling first fight) and then
 deepens **incrementally** along the **combat-reveal ladder** (§3.5.1) — never a one-beat dump. Each rung
-promotes on the **per-rung RUNG-METER** — **Estate Service** (labour rungs) or **Combat Rank** (martial rungs),
-each **per-rung-reset**, its threshold back-solved from the **tutorial ramp** (T0 is **floor-exempt** — a gentle
-~10–15 min/rung; the ≥30-min floor binds from T1) — **AND** the rung's story milestones (the AND-gate; §3.0.1).
-The meter is fed by **curated per-rung activities** (a one-to-many set), **never** raw XP/kills/deeds. **No
-auto-producers appear** (early game is the MC's own active grind). The **House Influence panel reveals at R7**
-(its single **Estate** bar — T0 reveals one pillar; the other three stay **locked silhouettes**) — and
-that reveal is **ENTRY TO PHASE 2**: the player *climbs the rungs first*, then *grinds and sees* the standing he
-builds (the **Estate** pillar's deeds accrue only from R7 on; Arms reveals at T1).
+promotes when its **authored hidden requirement list is 100% done** (ADR-137; the
+player reads a rounded % bar — T0 is **floor-exempt**, tutorial-paced; the
+≥30-min floor binds from T1). Requirements are **curated, story-consistent acts**,
+**never** raw XP/kills/deeds. **No auto-producers appear** (early game is the MC's
+own active grind). The **House-Influence panel TEASES from R3** (the build's
+`panel-house-influence` unlock, on the Estate tab — its single **Estate** bar lit,
+the other three **locked silhouettes**), and **R7 (`t0-capstone`) is what OPENS
+Phase 2**: the player *climbs the rungs first*, then *grinds and sees* the
+standing he builds (the **Estate** pillar's deeds accrue only from R7 on; Arms
+reveals at T1).
 
-Estate stage span this tier: **E0 Foreclosure's Edge → E1 Stabilising** (§1.5.1, §5 T0.4) — the rooms reveal
-across Phase 1, but **the E1 "Stabilising" BUILD COMPLETES as a Phase-2 beat** (the staged U1–U4 build, each stage
-gated on banked Estate standing + coin — ADR-145; §3.3/§2.17).
+Estate stage span this tier: **E0 Foreclosure's Edge → E1 Stabilising**
+([`tiers/t0.md`](../../story-bible/tiers/t0.md)) — the zones reveal across
+Phase 1, while the **staged U1–U4 kura-works build** runs alongside (ADR-145;
+coin-gated as shipped, the deed reframe pending; the shipped stage log-lines
+carry the condition names — *U1 Stabilising → U2 Recovering → U3 Prosperous →
+U4 the reclamation capstone* — see §2.17's generated works table).
 
 <!-- gen:begin t0-rung-titles (pnpm run gen:prd-regions — do not edit inside) -->
 > **The T0 rung titles, as the build ships them** — GENERATED from `RANKS`
@@ -350,7 +357,7 @@ gated on banked Estate standing + coin — ADR-145; §3.3/§2.17).
 > ([`balance.ts`](../../../src/core/content/balance.ts) /
 > [`activities.ts`](../../../src/core/content/activities.ts)) by `pnpm run gen:prd-regions`;
 > **do not edit between the markers**. Identity only — the per-source multipliers are
-> §4 tuning (ripple-frozen, ADR-021). Estate-relevant work ONLY banks (ADR-145 Q4):
+> §4 tuning (provisional, sim-owned — ADR-132). Estate-relevant work ONLY banks (ADR-145 Q4):
 > woodcut/forage carry no source. Each source fires a one-time reveal beat on first bank.
 >
 > | Source | Banks from |
@@ -388,7 +395,7 @@ Two engines make a rise from "another mouth" to the house's **named hand** (Gonb
 tier:
 
 - **The house is dying and short-staffed.** The Kurosawa are a broke *gōshi* household of ~a dozen people,
-  buried in inherited debt (§5 T0.3), with a rusty door-bar for defence. A house this thin **can't be
+  buried in inherited debt ([`tiers/t0.md`](../../story-bible/tiers/t0.md)), with a rusty door-bar for defence. A house this thin **can't be
   choosy** — it spends its scarce trust on whoever keeps proving capable. Every promotion below is that
   necessity in action.
 - **You earn it on merit; identity is a later, lighter thread.** Across T0 you rise purely on demonstrated
@@ -421,7 +428,8 @@ capstone reads as earned *and* the tier-up is a distinct, deeds-driven beat.
 
 ## 3.3 T0 estate growth — room-by-room reveals (the separate-reveal rule, expanded)
 
-A focused expansion of the **separate T0 room/area reveals** (§5 T0.4): the estate dashboard
+A focused expansion of the **separate T0 room/area reveals** (bible
+[`tiers/t0.md`](../../story-bible/tiers/t0.md)): the estate dashboard
 **grows room by room**, each room its own reveal beat on its own trigger — never a single "estate unlocked"
 dump. This is the same data (`RevealableEntry kind:'area'`) as the rungs above, surfaced here as one view so the
 "rank ladder made of doors" (§1.12) is legible.
@@ -582,13 +590,14 @@ domain; §3 owns the reveal order).
 | Nav / screen reveal | Trigger | What appears | Diegetic event-log line |
 |---|---|---|---|
 | **(none) — single column** | cold open → R1 | Just the event log + verb(s) + the two readouts. **No nav exists yet.** | *(no nav line — there is only one place to be)* |
-| **First tab: "Skills"** | `RANK` R2 (Skills tab, §2.7) | The **first navigation appears** — the screen splits into *Work* + *Skills*. | *"You begin to notice you're getting better at this. (A way to track it appears.)"* |
+| **The nav appears: Map + Estate** | `RANK` R1 (`room-gate` / `panel-estate`) | The **first navigation appears** — *Work* is joined by the **Map** (the walkable node-map, nav's sole home) and the **Estate** improve card, the moment ≥2 tabs qualify. | *(diegetic lines are canon — `t0-story.md`)* |
+| **"Character" tab** | `RANK` R2 (`tab-skills`, §2.7) | The **Character** tab joins — **Skills first** (a Character *section*, not its own tab); attributes, the combat level and the Bestiary split in at R3. | *(canon — `t0-story.md`)* |
 | **"Combat" / "Yard" tab** | `RANK` R3 (Combat panel, §2.8) | A **Combat** nav node joins Work + Skills (drill yard + Bestiary live under it). | *"There is fighting to track now, too."* |
 | **"Inventory" tab** | `RANK` R3 (Equipment & belongings, §2.10) | A **top-level Inventory** tab joins the R3 wave — the storehouse + equipment + belongings (**staggered to R3** per **ADR-119**; no longer sharing R1 with Map/Estate). | *"What you carry — and what you've stored — now has a page."* |
 | **"Quests" tab** | `RANK` R5 (Quest log, §2.12 — **ADR-119**, Quests regains its own tab) | A **top-level Quests** nav tab opens as **its own R5 beat** (kept out of the R3 combat wave — ADR-037's cadence) — the quest log, its own page; the T0 starter set (PEST/HUNT/CLEAR/DEFEND — a starter set, not a cap) fills out here. | *"The work that finds you now has a page of its own: jobs taken, jobs done."* |
 | **Crafting SECTION** | `RANK` R4 (Crafting, §2.11) | The **Crafting SECTION** opens — a **section, NOT a top-level tab** (**ADR-119**) — the simple loot→craft loop at the estate forge, living under an existing tab (its home is `ui-design.md`'s call). | *"A bench, a hammer, a handful of stock. A place for making things appears."* |
-| **"Map" screen** | `RANK` R6 (errands authorised) | The estate's nodes are **walkable from R1** (the in-column paths strip you've crossed all along); at R6 the **full map screen** opens — the estate laid out with a **road leading out past the gate** (the tier-expansion seed toward the valley). | *"You can picture the land now — the estate you've crossed all along, and a road past the gate."* |
-| **"House" / Influence screen** | `RANK` R7 (Influence panel, §2.16 — **ENTRY to PHASE 2**) | A dedicated **House** screen (the Influence pillars — **Estate lit, the other three as locked silhouettes** — + the domain-ranking read, §2.18) — its reveal **opens Phase 2**, the page on which you now **raise the house itself** (the Estate pillar's deeds start accruing; Arms joins at T1). | *"A page for the house itself — not what *you* are, but what it can *become*. Now: raise it."* |
+| **The map fills in** | `RANK` R1→R7 (`room-*` reveals) | The **Map tab is live from R1** (the survey-sheet ezu — ADR-151); zones **ink in rung by rung** per the generated §3.3 table, the road past the gate arriving with the late rungs (the tier-expansion seed toward the valley). | *(canon — `t0-story.md`)* |
+| **House-Influence panel (on Estate)** | `RANK` R3 tease (`panel-house-influence`) → **R7 opens Phase 2** (`t0-capstone`) | The **House-Influence panel joins the Estate tab at R3** — the **Estate** bar lit, the other three **locked silhouettes** (no dedicated House screen ships). The **R7 capstone opens Phase 2**: the Estate pillar's deeds start accruing and the same panel becomes the page on which you **raise the house itself** (Arms joins at T1). | *(canon — `t0-story.md`)* |
 | **Map RE-LABEL — the guest-house/ruin reveal** | `STORY` T2 (the third signal; docket #6 / **ADR-157**) | The **map redraws its two labels** — *Main house → Guest house; the ruin → the Main house* — a watched surface changed once, composed (TST2). No new screen; the existing Map re-renders in the day-book's voice. | *"The day-book, in its own hand: what we called the main house was only ever the guest house. The ruin on the hill is the house."* |
 | **"Village" screen** | `RANK` T2-R0 (T2 opens) | A **Village** screen (shop row, reputation web, inn) joins the nav. | *"A new page: Asagiri, and everyone in it."* |
 | **"Region" screen** | `RANK` T2-R7 / `STORY` T2→T3 | A **Region** screen (the cluster map, the post-town, the roads) joins the nav. | *"The map grows a page wider: the region."* |
@@ -805,7 +814,7 @@ villages (a handful visitable).
     on-kill XP = `MobDef.level·COMBAT_XP_K`) — **§4.4/§4.6.1/§4.6.5**.
   - **Determinism:** any §3-implied curve obeys the **`Math.pow` ban in core (integer-pow only)** so reveals fire
     byte-identically cross-engine (§6).
-- **Final log-line wording → §5 authenticity pass** (macron romanization). The **Standing & Office** pillar's
+- **Final log-line wording → §5 authenticity pass** (macron romanization). The **Office** pillar's (ADR-159 rename from "Standing & Office")
   kanji is **官威 (*kan'i*)**. §3 fixes the **substance** of each `revealLogLineId`;
   copy may be polished. *("Standing" means the 官威 pillar; the martial rung-meter is **Combat Rank**.)*
 - **Data shapes → §2 / §6:** every reveal is a `RevealableEntry` with a pure `unlockPredicate` over `GameState`,

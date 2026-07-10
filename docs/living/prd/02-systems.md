@@ -157,18 +157,17 @@ not from any background or wall-time accrual.
   pillar carries a `PillarState { value,
   highWater, judged }` (§2.16); a reckoning fires a judged result only on a **new
   high-water mark**, never a repeatable maintenance award. There is **no
-  `pendingAppraisals` counter** — the judge advances one day per tick.
+  `pendingAppraisals` counter** — the judge fires **once per season exit** (the
+  manual `advance_season`), paying only on a new high-water mark.
 
 **(d) Ties to the four pillars.** The clock is the **timing source for accrual
 shape (B)** — periodic **judged results** (a season's harvest, an autumn audit, a
-security appraisal) for **all four pillars** (BUILT: on the day-interval cadence;
-forward: at each season exit). It never grants Influence by itself (no
+security appraisal) for **all four pillars** (BUILT: at each season exit — the exit pipeline). It never grants Influence by itself (no
 time-trickle).
 
-**(e) When introduced / fractal reveal.** **T0** — in the BUILT game the clock
-display reveals early (around R1, with the *rice* heartbeat); under docket #2 the
+**(e) When introduced / fractal reveal.** **T0** — as built (docket #2/ADR-153, shipped v0.4.0): the
 DAY OF THE WEEK shows from R0–R1 and the **seasons unlock at T0-R2** (the VN
-overlay + manual turn). Seasons/weather/festivals deepen at **T2** (the world-sim
+overlay + the manual turn; `advance_season` is engine-law refused pre-R2). Seasons/weather/festivals deepen at **T2** (the world-sim
 layer, §2.14).
 
 ---
@@ -256,16 +255,21 @@ spending and grinding run on the player lane; the estate lane grows as the house
 > | Smith's seasoned billet | wood | every season |
 <!-- gen:end t0-market-stock -->
 
-**Carried vs BANKED.** Wealth also splits by RISK: **carried** wealth (`state.resources` — coin, rice,
-materials) rides with the protagonist and is **at risk** — a lost fight bites a slice of it (§2.8) — while
-**banked** wealth (`state.banked`, the *kura* storehouse) is **sheltered and safe**. Deposit/withdraw move
-wealth between the two, and you bank only at the *kura* node (§2.6), so fighting far from home with a full
-purse is the gamble. (**koku STANDING is immune** — it is a score, not carried wealth, so a loss never
+**Carried vs BANKED (as built — ADR-158/ADR-163).** Wealth splits by RISK and by
+OWNER: **carried** wealth (`state.resources` — **coin + materials**) rides with the
+protagonist and is **at risk** — a lost fight bites a slice of it (§2.8) — while the
+**kura** (`state.banked`) is **sheltered and safe** and is the HOUSE's ledger:
+**rice is NEVER carried** — it banks kura-only, measured in **shō/bales**, never
+pocketed loot. Deposits happen at the *kura* node (§2.6), so fighting far from
+home with a full purse is the gamble. (**koku STANDING is immune** — it is a score, not carried wealth, so a loss never
 touches it; §2.8/§2.16.)
 
-**(b) Player-facing behaviour / loop.** Grind **rice** (+ a little coin) by farming; **eat it, store it,
-or sell it for coin** at the season price; spend **coin** + materials on crafting, gear, building, and
-tier-expansion. A **small capped provisioning shop** is the **T0 personal coin sink**; the **estate TRADE
+**(b) Player-facing behaviour / loop (the two coin lanes — docket #7/ADR-158).**
+Labour pays the **KIND lane** (rice into the kura in shō — the house's economy —
+plus goods to hand; combat drops materials, **never coin**); the **MON lane** is
+bounded — the fixed wage plus Yohei's finite market-day purse — and a **rice sale
+into the house books** at the kura turns surplus to mon. Spend **mon** + materials
+on provisions, gear, crafting, and the estate works. A **small capped provisioning shop** is the **T0 personal coin sink**; the **estate TRADE
 engine** (converting surplus rice/goods to coin via brokers/shops) opens at **T2** — there is **no trade
 engine in T0 or T1**. **Rice and coin are what you grind and spend; koku STANDING and Influence are what
 you become.** A **market-saturation damper** (2.11/2.15) applies **PROGRESSIVELY per-unit** on bulk sales
@@ -276,14 +280,16 @@ grinding interesting and stopping trade running away (reinforced by the trade �
 - `ResourceDef { id, name, kind ('currency'|'rice'|'material'|'food'|'fibre'|'ore'…), revealPredicate,
   stackable, perishable?, spoilTicks? }` — **`coin` is the sole `'currency'` def** (stored as one integer
   `mon` count; the mon → monme → ryō mixed denominations are a **DISPLAY** concern, §4, not separate
-  resources). **`rice` is a first-class `'rice'` ResourceDef** — eaten (§2.3), stored (banked), or sold
-  for coin at the season price; it is **NOT** koku.
-- `GameState.resources: Record<resourceId, amount>` — **carried** wealth (coin, rice, materials — at risk
-  in combat); **counts only, UNBOUNDED — no caps**; derived rates computed, never stored.
+  resources). **`rice` lives ONLY in the kura ledger** (`banked`, in shō — never a carried
+  stack); it feeds the house (satiety/meals, §2.3), sells into the house books at
+  the kura, and is **NOT** koku.
+- `GameState.resources: Record<resourceId, amount>` — **carried** wealth (coin +
+  materials — at risk in combat; rice never rides in the pocket); **counts only, UNBOUNDED — no caps**; derived rates computed, never stored.
 - `GameState.banked: Record<resourceId, amount>` — the **kura storehouse** (rice, coin, materials),
-  sheltered from combat loss; deposit/withdraw only at the *kura* node (§2.6/§2.8). **Banked RICE now
-  carries a holding cost** (spoilage / capacity cap / storehouse fee — mechanism TBD at build, **ADR-118**),
-  so stored rice is no longer free/unbounded/safe; **banked COIN stays uncapped and safe.**
+  sheltered from combat loss; deposit/withdraw only at the *kura* node (§2.6/§2.8). **Banked RICE carries its
+  holding cost as SEASON-EXIT SPOILAGE** (the shipped ADR-118 resolution, riding
+  the season-exit pipeline — ADR-163), so stored rice is not free/unbounded;
+  **banked COIN stays uncapped and safe.**
 - `MarketState { perGoodPriceIndex, saturationByGood, recoveryRate, seasonalRicePrice }` — the **per-unit
   progressive** damper **plus the season-swinging rice price**; numbers → §4.
 - **KOKU standing is NOT a resource.** Pillar values (and the derived koku standing score) live in
@@ -575,9 +581,10 @@ layer**; the T0 spine is atomic auto-resolve.)
 - **HP accumulates; no auto-heal (the fight keeps its stakes).** A fight is a visible **HP-attrition
   exchange** — you attack, the enemy attacks back, both lose HP until one reaches 0. HP **carries between
   fights and never auto-heals**: the only mend is **eating** (§2.3), so healing is a real pre-fight decision.
-  Reaching **0 HP is a lost fight** — it sets **HP → 1**, **bites a real slice of ALL THREE carried
-  resources — coin + rice + materials** (ADR-113; ~20% of carried **coin** + ~⅓ of carried **rice + materials**,
-  floored), and **STOPS the autopilot** (no grinding at the floor — you mend by hand and re-engage). **BANKED
+  Reaching **0 HP is a lost fight** — it sets **HP → 1**, **bites a real slice of the
+  carried wealth — coin + materials** (the shipped `defeat.ts` bleed; **rice CANNOT
+  bleed** — it is never carried, kura-only, ADR-155/ADR-163; the fractions are §4
+  tuning), and **STOPS the autopilot** (no grinding at the floor — you mend by hand and re-engage). **BANKED
   wealth sheltered in the *kura* storehouse is safe** (§2.4) — so banking before a risky fight is the play.
   A loss never costs levels, gear, or Influence (**koku STANDING is immune** — it is a score, not
   carried wealth; §2.16).
@@ -741,14 +748,14 @@ and rōnin (T3). Belief-beast one-shots arrive only via inn rumours
 **(a) What it is.** The gear pipeline. **Equipment slots with durability** (weapon, body/*dō*, head,
 hands, foot/*waraji*, charm) filled **two ways: FIND** (dropped gear — a dropped *nata*, a
 fallen rōnin's worn *kodachi*, a boar-hide vest) **AND CRAFT** (through the component chain — wood →
-charcoal → Smith Gonta's forge → spearheads/blades/tools; hides → tanner → armour). **Gear progression**
+charcoal → the forge (lit under **Tetsuji**, the T1-R6 first hiring) → spearheads/blades/tools; hides → tanner → armour). **Gear progression**
 is a measurable ladder (borrowed carrying-pole + crude hatchet → fitted *yari*, padded jacket,
 smith-forged blade), and the **weapon roster GROWS incrementally** (~9–10 across v1; T0 opens at 3 — pole +
 2, at least one craftable — then +3 / +4 per tier — §2.10.1). New weapons/styles are **FOUND and CRAFTED,
 never gifted.** Plus the **Inventory panel.**
 
-**(b) Player-facing behaviour / loop.** Defeat mobs / work nodes → seeded loot rolls drop materials,
-coin, occasional **found gear**. Equip gear into slots (with **graded durability bands** that wear a
+**(b) Player-facing behaviour / loop.** Defeat mobs / work nodes → seeded loot rolls drop materials and
+occasional **found gear** (**never coin** — the KIND lane, bible-locked; §2.4). Equip gear into slots (with **graded durability bands** that wear a
 **fixed amount per fight** and are repaired/re-crafted). Craft better gear via the component chain (quality
 from crafter skill + component quality + station tier, §2.11). Disassembly returns materials. Each gear
 tier is a clear power step on the combat track (and tools improve labour yields).
@@ -770,9 +777,9 @@ tier is a clear power step on the combat track (and tools improve labour yields)
 Gear itself is never a standing source — the *recognized deed* is.
 
 **(e) When introduced / fractal reveal.** **T0, R3** — first crude weapon + **Equipment & Inventory**
-panels reveal with the Combat panel. The **loot + craft loop** (Smith Gonta spearheads via the
-component chain) comes online at **R4** (trusted hand & houseman) — **graded durability bands reveal here**
-with it. Better loot/craft tiers + new weapons unlock per tier and per danger node (worn blades from rōnin
+panels reveal with the Combat panel. The **loot + craft loop** (the component
+chain; the smith-led forge tier waits for **Tetsuji's** T1-R6 hiring) comes online at
+**R4** (the pupil) — **graded durability bands reveal here** with it. Better loot/craft tiers + new weapons unlock per tier and per danger node (worn blades from rōnin
 at T3; Hanzaki's worn gear as a late FOUND prize).
 
 ### 2.10.1 The weapon roster (incremental, ~9–10 across v1)
@@ -802,7 +809,7 @@ milestones (L10 unlocks the ability/item slots; richer signatures ~L25/L50).
 > ([`weapons.ts`](../../../src/core/content/weapons.ts)) by `pnpm run
 > gen:prd-regions`; **do not edit between the markers**. Identity only — the
 > per-weapon `baseAttack`/`baseSpeed`/durability tuning lives in §4.6.9 (the
-> ripple-frozen provisional numbers, D-021), never here. Adding or renaming a
+> provisional sim-owned numbers, ADR-132), never here. Adding or renaming a
 > weapon in `WEAPONS` without regenerating turns the `gen-prd-regions` gate RED.
 >
 > | Weapon | 漢字 | Archetype | Note |
@@ -838,7 +845,7 @@ armour's durability to max** (the graded-band system, §2.8(b)/§2.10). Later: c
 varying quality and a station tier to influence the output's quality tier; build multi-step chains;
 disassemble to recover materials. **Bulk sales of a crafted good apply the saturation damper PROGRESSIVELY
 per-unit** (each unit walks the price down; §2.4). The **silk / sericulture *meibutsu*** is the
-signature late craft/trade chain (cocoons → reeled silk → woven/graded textile), led by **Weaver Onatsu**,
+signature late craft/trade chain (cocoons → reeled silk → woven/graded textile), led by the village weaver (the T2 cast is named at T2's build — bible `04-cast.md`),
 threading T2→T5 under the trade ≤ ⅓ cap; its trade/coin economics are detailed in §4 (§2.4).
 
 **(c) Rough DATA shape.**
@@ -969,7 +976,7 @@ with the personal-mystery payoff). New quest types are authored wherever they fi
 ## 2.13 Lore, inn rumours & the belief→cause engine
 
 **(a) What it is.** The **light-flavour folklore delivery system.** Folklore is **NOT the spine**; it
-arrives as **optional tidbits via the village inn's rumours board** (Innkeeper Sukezō), each a
+arrives as **optional tidbits via the village inn's rumours board**, each a
 lightweight yokai story the player **may** investigate. **Hard rules:** every rumour-quest is
 **optional** and **NONE gate tier progression**; each unlocks **organically and design-staggered** (per
 tier; more unlock as the estate & village grow — never an all-at-once dump); each resolves
@@ -1028,7 +1035,7 @@ tag: `lacquer`).
 **(a) What it is.** The living-world layer on top of the clock (2.2): **seasons** (kanji tags driving
 the rice cycle, foraging windows, and the seasonal judged results), **weather hazards** (cold/wet
 affecting labour/combat), **lunar phases**, **festivals** (Bon, seasonal rites — social/economic hubs,
-e.g. Brewer Tokuemon's festival hub), **vendor restocks**, and **food rotting/fermenting**. Weather hazards
+e.g. the brewer's festival hub), **vendor restocks**, and **food rotting/fermenting**. Weather hazards
 and festivals carry **MECHANICAL effects, bounded ±10%** on labour/combat rates (plus festival economic
 beats). **Active-only**, scheduler-driven, deterministic. **Weather and lunar phase are DERIVED** from
 the **day-keyed RNG sub-stream** (`deriveDayKeyed`, §2.2/§2.19), **not stored.**
@@ -1085,12 +1092,12 @@ docket #9's build lands.
 **(a) What it is.** Three starter factions, **deliberately distinct in SHAPE** so they never read as
 one bar painted three colours, plus the **Tama-vs-farmhand allegiance**. **More factions/zones bloom per
 tier** (the §1.7.1 / world-expansion cut-set; **v1 ships only the three starters + the six cross-cutting
-SEEDS** embedded in the starter region — porter's-knot, Sōan/Obaa Kuni, the artisans, the rice-broker,
+SEEDS** embedded in the starter region — porter's-knot, Sōan, the artisans, the rice-broker,
 Ryōa's shrine+register, Magobei/Yagōemon's skim).
 
 - **ESTATE (main) — a fresh rank LADDER per tier, climbed in TWO SEQUENTIAL PHASES (§2.15.1).** The only
   faction structured as a discrete, gated ladder (rising through it *is* the perseverance fantasy and the
-  dominant UI-reveal driver). **~8 rungs per tier** (T0 R0→R7, T1 R8→R15, T2 V0→V7, T3 enumerated). **Rungs interleave
+  dominant UI-reveal driver). **~8 rungs per tier** (each tier its own FRESH R0→R7 arc — bible `tiers/`; T3 enumerated). **Rungs interleave
   LABOUR and COMBAT**; **combat is first-class from T0** (incremental — the carrying-pole, then a growing roster).
   **Phase 1 (climb the rungs)** is driven by **two earned RUNG-METERS (per-rung progress meters, NOT economy
   currencies): Estate Service** (the labour rung-meter) and **Combat Rank** (the martial rung-meter). Each meter
@@ -1104,8 +1111,8 @@ Ryōa's shrine+register, Magobei/Yagōemon's skim).
   systems** (build/recruit — **NOT** a people-management sim; no labour-gang, no managed sub-economy, no
   assignment panel).
 - **VILLAGE of Asagiri (side) — a static reputation WEB.** Continuous, **multi-node** meters (not a
-  ladder): per-shop "patron/regular" standing (smith Gonta, dry-goods/rice broker, herbalist **Obaa Kuni**,
-  brewer Tokuemon, **weaver Onatsu — lead of the silk *meibutsu***), per-family goodwill (raised by
+  ladder): per-shop "patron/regular" standing (the village trades — **Kyūbei's mill** among them; the dry-goods/rice broker, the herbalist,
+  the brewer, and **the weaver — lead of the silk *meibutsu*** (T2 cast named at build)), per-family goodwill (raised by
   **open-ended help**), an artisans'/craft-guild standing, and the **Village Chief's regard** (headman
   Mohei — a weighted roll-up). **Gentle curves** (linear/soft-cap) for frequent small dopamine.
   **Cast mostly STATIC.** **Village standing NEVER gates the UI ladder or the tier climb** (ignoring it
@@ -1162,7 +1169,7 @@ and flavour*, never which pillars are reachable.
 
 **(e) When introduced / fractal reveal.** **T0** — the **estate-*tutorial*** ladder (R0→R7) and the
 rung-meter spine (Phase 1), then the **Estate-pillar grind** (Phase 2 — the single revealed pillar) after
-R7. **T1** — the **full estate ladder (R8→R15)** on its two **rung-meters** (Estate Service + Combat Rank,
+R7. **T1** — the **full estate ladder (its own fresh R0→R7 arc)** on its two **rung-meters** (Estate Service + Combat Rank,
 the AND-gate; **Arms** reveals). **T2** — the village web (one contact/one shop first, then meters fan out)
 + the silk sub-engine (**Office** reveals). **T3** — the origin support track opens at G2 (memory +
 travel-standing gated) as its own one-tier rep ladder (`O0→O5`, §3.6.2) and a fresh region estate ladder
@@ -1274,7 +1281,7 @@ gate). **Plus a per-tier transition STORY GATE** (see table).
 | Tier | Transition story gate (entry) | Phase-2 pillar profile (good/great/excellent) |
 |------|-------------------------------|-----------------------------------------------|
 | **T0 Estate-*tutorial*** | *(met at the open)* survive convalescence + first labour | **1-pillar** (revealed: **Estate** alone — the gate **collapses to EXCELLENT in Estate**): the humbling first fight is survived as an *activity* (**Arms deeds don't bank yet** — Phase 2 from T1); first *shinden* begun; *kura* stabilising — the **LINEAR rice/coin taste**; **no trade engine** (the personal provisioning shop is the coin sink). |
-| **T1 Estate-*full*** | **tutorial cleared** → the **first ascension lands BIG**; the full estate ladder (R8→R15) opens | Revealed: Estate **+ Arms** (the **2-pillar case**: **good in both, one excellent**) — the real estate grind; **Arms deeds now bank**; **E1→E2** + the first paid retinue; the coin/rice flywheel **branches into LAND/TREASURY/TRADE** (trade ≤⅓). |
+| **T1 Estate-*full*** | **tutorial cleared** → the **first ascension lands BIG**; the full estate ladder (its own fresh R0→R7 arc) opens | Revealed: Estate **+ Arms** (the **2-pillar case**: **good in both, one excellent**) — the real estate grind; **Arms deeds now bank**; **E1→E2** + the first paid retinue; the coin/rice flywheel **branches into LAND/TREASURY/TRADE** (trade ≤⅓). |
 | **T2 Village** | enough estate work + **basic repairs** → sent into the village | Revealed: Estate + Arms + **Office**. **Good in all three**, **great in 2** (errand-authority; headman's regard; cash-crops + the village silk market online). |
 | **T3 Region** | **"clean your room"** (estate healthy, village happy, fires out) → grow regional influence; the rival-house contest climaxes | Revealed: Estate + Arms + Office (+ **Name** surfacing → 4). **Estate + Office great/excellent, Arms good**; the **personal-mystery payoff** lands here. **v1 ends here** (`outcome: t3done`). |
 | **T4 Castle-town** *(stub in v1)* | **win the region** → the castle-town rulers confer regional leadership + **invite the house in** (the **castle-town / Daikan's-Office first-contact** beat) | **Office + Name excellent** (won socially); Arms/Estate as leverage. |
@@ -1309,7 +1316,7 @@ climb (multipliers) without changing what's reachable.
   pillar value is PURELY DERIVED — `land + treasury + trade` summed on read, NEVER a stored aggregate
   field** (so a dent on one strand can never desync the roll-up and trade-≤⅓ holds by construction —
   cross-ref §6.4).
-- `PillarState { value, highWater, judged }` per pillar — the judge folds one day at a time and fires a
+- `PillarState { value, highWater, judged }` per pillar — the judge fires once per season exit, paying a
   judged result only on a **new high-water mark** (§2.2).
 - **`kokuStanding` is a DERIVED read** over the four-pillar roll-up (a kokudaka-like score, read-only —
   like the banzuke rank, §2.18), **never a stored field, never spent, never in `resources`** (§2.4). The

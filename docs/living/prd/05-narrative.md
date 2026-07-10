@@ -104,8 +104,9 @@ log/VN split; a decide is never a morality dial) live in
 [`01-laws.md` §0.5](../../story-bible/01-laws.md) and bind every
 fiction-voiced line the game ships. Shipped fiction rides ADR-139
 three-take diverges + the FB-10 taste scorecard (§0.9). (One
-recorded exception: the T0 prose wave ships the judge's single
-pick per unit — ADR-162; the standing law resumes after it.)
+recorded exception, now SPENT: the v0.4.0 T0 prose wave shipped
+the judge's single pick per unit — ADR-162, wave-scoped; the
+ADR-139 three-take law is back in force.)
 
 ## 5.5 · What §5 no longer does
 

@@ -12,7 +12,7 @@
 //   • §2.9 bestiary, T0-reachable (MOBS)      — genT0Bestiary
 // IDENTITY only — labels/kanji/archetype/where-found. The provisional TUNING
 // numbers (thresholds, baseAttack, per-mob level) stay OUT: those are §4's
-// ripple-frozen domain (ADR-021), never transcluded.
+// provisional sim-owned domain (ADR-132; identity-in/tuning-out — ADR-168), never transcluded.
 //
 // Mechanism: the shared region splicer (gen-regions.ts, built once in the F1a
 // lane) replaces only the bytes between a marker pair and preserves every byte
@@ -77,7 +77,7 @@ export function genT0RungTitles(): string {
  *  derived from WEAPONS. Every current weapon is T0, so the whole registry ships;
  *  if a tier field is added later, filter here. The per-weapon tuning numbers
  *  (`baseAttack`/`baseSpeed`/durability) stay OUT — those are §4.6.9's provisional,
- *  ripple-frozen domain (ADR-021), never transcluded. Pure fn; exported for test. */
+ *  sim-owned domain (ADR-132), never transcluded. Pure fn; exported for test. */
 export function genT0WeaponRoster(): string {
   const rows = WEAPONS.map((w) => `| ${w.label} | ${w.kanji} | ${w.archetype} | ${w.blurb} |`);
   return [
@@ -85,7 +85,7 @@ export function genT0WeaponRoster(): string {
     '> ([`weapons.ts`](../../../src/core/content/weapons.ts)) by `pnpm run',
     '> gen:prd-regions`; **do not edit between the markers**. Identity only — the',
     '> per-weapon `baseAttack`/`baseSpeed`/durability tuning lives in §4.6.9 (the',
-    '> ripple-frozen provisional numbers, D-021), never here. Adding or renaming a',
+    '> provisional sim-owned numbers, ADR-132), never here. Adding or renaming a',
     '> weapon in `WEAPONS` without regenerating turns the `gen-prd-regions` gate RED.',
     '>',
     '> | Weapon | 漢字 | Archetype | Note |',
@@ -121,7 +121,7 @@ export function genT0Bestiary(): string {
  *  bindings. The non-activity feeders (workshop/watch/treasury) are reducer wiring
  *  (`intents.ts` / `fight.ts`), described here in fixed prose keyed BY the registry key —
  *  adding/renaming a source without regenerating turns the gate RED. The per-source
- *  MULTIPLIERS are §4 tuning (ripple-frozen, ADR-021) and stay OUT. Pure fn; exported for test. */
+ *  MULTIPLIERS are §4 tuning (provisional, sim-owned — ADR-132) and stay OUT. Pure fn; exported for test. */
 export function genT0DeedSources(): string {
   const feeders: Record<string, string> = {
     fields: 'the shinden/paddy labour',
@@ -144,7 +144,7 @@ export function genT0DeedSources(): string {
     '> ([`balance.ts`](../../../src/core/content/balance.ts) /',
     '> [`activities.ts`](../../../src/core/content/activities.ts)) by `pnpm run gen:prd-regions`;',
     '> **do not edit between the markers**. Identity only — the per-source multipliers are',
-    '> §4 tuning (ripple-frozen, ADR-021). Estate-relevant work ONLY banks (ADR-145 Q4):',
+    '> §4 tuning (provisional, sim-owned — ADR-132). Estate-relevant work ONLY banks (ADR-145 Q4):',
     '> woodcut/forage carry no source. Each source fires a one-time reveal beat on first bank.',
     '>',
     '> | Source | Banks from |',

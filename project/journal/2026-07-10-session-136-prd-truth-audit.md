@@ -135,3 +135,31 @@ work: sim.test.ts + stale fixtures) — not this workstream. This commit
 verified its own slices directly (38 tests green, oxfmt/oxlint clean)
 and rode SKIP_CODE_VERIFY; the docs gates (incl. gen-prd-regions,
 verify-prd, md-links) ran green.
+
+## 7 · Phase T2 — §2/§3/§4/§5 transcribed
+
+§2: the defeat bleed (coin+materials only — rice cannot bleed), the
+carried/banked split rewritten to ADR-158/163 (kura-only rice in shō,
+KIND vs MON lanes, the two-coin-lane loop), the ADR-118 mechanism
+stated as shipped (season-exit spoilage), loot drops de-coined, the
+judge re-cadenced to once-per-season-exit (3 spots), docket-#2
+contrast dropped (it shipped), Gonta→Tetsuji (forge = T1-R6 hiring),
+fresh per-tier R0→R7 numbering (3 spots), village-web cast de-named
+to bible roles (5 spots). §3: the RANK/meter law rewritten to the
+ADR-137 requirement-list model (3 spots), the House-Influence tease
+corrected to R3, the E/U stage span reconciled to the shipped stage
+names, dead §5 T0.x anchors repointed at the bible, ADR-159 pillar
+names (3 spots), the §3.5 nav rows fixed to the shipped cadence (nav
+at R1 with Map+Estate; Character at R2; no dedicated House screen;
+map live from R1), generator freeze-language purged (regen'd). §4:
+the ADR-117 sweep-gated header → ADR-168; koku-denominated T0
+standing; the six-season manual wheel replaces the 28-day calendar
+math; measured pacing replaces the season⇄minutes binding; the T0
+rice band struck → the shipped kura/shō/spoilage/nengu model; T0 =
+single-Estate pillar everywhere (the 2-pillar special case is gone);
+the T0 deed itemization → the ADR-145 multi-source per-act model
+(T1/T2 itemizations banner'd frontier); the shipped 3/7 high-water
+judge stated before the frontier pseudocode; the scripted
+survived-not-won wolf split from the monkey-measured 20–35% band;
+ADR-118 "mechanism TBD" resolved (2 spots). §5: the spent ADR-162
+exception moved to past tense.

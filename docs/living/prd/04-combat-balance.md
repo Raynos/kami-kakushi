@@ -1,11 +1,12 @@
 # §4 — Combat, Progression & Balance Model
 
-> **ADR-117 (2026-07-03) — ripple-frozen: no per-change hand-updates.** The
-> illustrative magnitudes below are **no longer hand-updated as balance
-> tunes**; `core/content/balance.ts` + the generated `docs/content/` tables
-> are the live truth (R2: the build wins). This section's numbers refresh at
-> the **T0 compression sweep** (ADR-117 — triggered when the R1 taste review
-> closes), not per-change.
+> **ADR-168 (2026-07-10) — this section tracks the shipped game.** The
+> illustrative magnitudes below are **never hand-updated as balance tunes**;
+> `core/content/balance.ts` + the generated `docs/content/` tables (above all
+> [`t0-pacing.md`](../../content/t0-pacing.md)) are the live truth (the build
+> wins). Derivable identity facts transclude as gen-regions; T0 mechanisms are
+> stated as built, and multi-tier models are tagged **frontier spec** — there
+> is no freeze and no sweep-gating.
 
 > This section is authored from the two-phase progression spine (§1.6.4 — the
 > sequential two-phase model + the three combat tracks) and the system shapes fixed in
@@ -52,21 +53,23 @@ fixed mixed denominations **mon → monme → ryō** — 1 ryō = 50 monme = 4,0
 wealth grows: mon at T0–T1, monme from T2, ryō by T4–T5), **koku** (the House's
 assessed **STANDING** — a kokudaka-like prestige SCORE, re-assessed seasonally,
 **NEVER spent**, gating ascension/unlocks; it re-expresses the House's overall
-Influence, it is **not** a spendable resource), **House Influence** in abstract
-**Influence points (ip)** per pillar, displayed with **K/M/B** abbreviation (not
-scientific, not myriad units). One **tick**
-= the atomic active-play time-step; **1 action ≈ 1–4 ticks**; **1 day ≈ 200 ticks**;
-**1 season = 28 days ≈ 5,600 ticks**; **1 year = 4 seasons = 112 days** (abstract,
-active-only — §2.2). These tick/day mappings are themselves levers.
+Influence, it is **not** a spendable resource), **House Influence** is
+denominated **directly in KOKU at T0** (ADR-133/ADR-159 — deeds bank sub-koku
+fractions; the T0 ascension gate is an Estate koku threshold on the six-step
+FAIL→EXCELLENT ladder; the standing panel shows the 10,000-koku daimyō horizon
+from the start). *(The abstract ip / K-M-B display scheme survives only as T1+
+frontier spec.)* Time runs on the **six-season MANUAL wheel** (winter → new-year
+→ spring → summer → bon → autumn — ADR-150/ADR-153): the season is stored state
+turned only by the player's `advance_season`, so a season has **no fixed
+day-count** — the retired 28-day/tick calendar math is gone with it.
 
-**Wall-clock anchor (the locked time budget reads as a FLOOR).** Because the saga
-length and the per-rank ≥30-min floor are stated in real minutes, the balance commits a
-**wall-clock ⇄ game-time binding**: at the intended active-play pace, **1 season ≈ 34
-min of real play** in T0, stretching to **~60 min/season in T1** and **~120 min/season
-in T2** (the player does more *per* season as the world enlarges, not more seasons).
-This lets the §4.8 pacing table be read in minutes. The binding itself is a **lever**
-(`SEASON_WALLCLOCK_MIN[tier]`), but the *floor* targets it serves (≥30 min/rank; the
-per-tier hour budgets, as **minimums**) are locked.
+**Wall-clock anchor (the locked time budget reads as a FLOOR).** The saga length
+and the per-rank ≥30-min floor are stated in real minutes; with the ADR-153
+manual wheel there is no fixed season⇄minutes binding — per-rung wall-time is
+**MEASURED** (the ADR-132 sim's five-seed verdict + FB-8 attended-time
+telemetry, reported in [`t0-pacing.md`](../../content/t0-pacing.md)). The
+*floor* targets (≥30 min/rank binding from T1; the per-tier hour budgets, as
+**minimums**) are locked.
 
 ---
 
@@ -81,12 +84,14 @@ spine has **two independent axes** — a **RESOURCE scale** (rice you produce/ho
 
 ### §4.0a The RESOURCE scale — rice produced/held + coin spent
 
-> **The T0 rice band (yields are already NET).** The T0 lifetime-produced band reads **~21K rice**, matching the
-> §4.8.1 rung-by-rung sum exactly (R1…R7 = 0.75K+1.05K+1.2K+2.1K+3.2K+4.95K+8.25K = **21.5K ≈ 21K**). Because
-> gathering yields are modelled **already net** of stamina/food/re-investment (§4.7.1), the **end-T0 HELD rice ≈
-> 18–19K NET**. The two figures the player sees — lifetime-produced ~21K, held ~18–19K NET — differ only by the
-> rice **eaten / re-invested** and the rice **sold to coin** to fund the genuine **coin sinks** (the U1/U2/U3
-> kura-works, tools, craft inputs — §4.7.5), not by a hidden upkeep tax.
+> **The T0 rice model** *(the produced/held-NET band + throughput bridge that
+> lived here was struck 2026-07-10, ADR-168 — it modelled the retired rice+coin
+> labour economy).* As built (ADR-158/ADR-163): rice is **kura-measured in shō**;
+> per-(site, season) yield **pools deplete and refill on the manual season
+> turn**; the household **eats a steady shō/day**; **~10%/season spoilage** hits
+> ALL held rice; and Autumn's **nengu** draws the koku demand from the kura.
+> The live magnitudes are `balance.ts` + the measured
+> [`t0-pacing.md`](../../content/t0-pacing.md).
 
 The **rice** bands are wide (a long-floor tier produces far more rice), while the **Influence-per-pillar** bands
 stay close to the gate magnitudes — Influence is the *slow, judged* measure, deliberately lagging the raw
@@ -194,7 +199,8 @@ capstone rung-meter + story gate** (§4.1.1), and it is **only ever checked agai
 tier** (never "good in ALL" against an unrevealed pillar).
 
 **The revealed-pillar set grows per tier** (matching the §3 reveal schedule and the §2.16(e) four-bar-panel
-reveal): **T0 = 2** (Arms + Estate — a **2-pillar special case**), **T1 = 3** (+ Office), **T2 = 4** (+ Name, a
+reveal): **T0 = 1** (Estate — the gate **collapses to a single EXCELLENT**; **Arms is
+T1-gated**), **T1 = 2** (+ Arms), **T2 = 3** (+ Office), **T3 = 4** (+ Name, a
 real gated pillar). The required pillars still **drift** as they reveal — early tiers lean **Arms + Estate**
 ("survive and get
 strong"), upper tiers lean **Office + Name** ("win it socially"). The only structural cap that survives is
@@ -260,12 +266,14 @@ great (~35 deeds × ~13 min ≈ **+7.5 h**) plus **one** to excellent stacks on 
 (§4.8.1b/§4.8.4). The supra-good inventory is **authored beyond** the 70 %-good base, obeys the same per-event
 cap, and never feeds the trade ratio or the gate-eligible accumulator (combos excluded, §4.3.1).
 
-**Reading the drift & the special cases.** **T0** is the **2-pillar special case**: only Arms + Estate are
-revealed, so the gate is **good in both + excellent in exactly one** (no phantom third pillar). **T1** reveals
-Office, so the gate is **good in all three + great in two**. **T2** surfaces Name (**4 revealed**), with the
-profile leaning **Estate + Office great/excellent, Arms & Name good** ("win it socially"). A pillar **not yet
-revealed** for a tier is **never** checked (never "good in ALL" against it). **T2's Name is a real gated
-pillar:** the gate is **good in all 4 + Estate/Office great/excellent, Arms & Name good** — Name's own **28K
+**Reading the drift & the special cases.** **T0** is the **single-pillar case as
+built**: only **Estate** is revealed (ADR-159 — Arms is T1-gated), so the gate
+collapses to **Estate ≥ EXCELLENT** on the six-step FAIL→EXCELLENT grade ladder.
+**T1** reveals Arms (**1 GREAT + 1 EXCELLENT**); **T2** adds Office (**1 EXC +
+1 GRT + 1 GOOD**); **T3** surfaces Name (**4 revealed**), the profile leaning
+**Estate + Office great/excellent** ("win it socially"). A pillar **not yet
+revealed** for a tier is **never** checked (never "good in ALL" against it).
+**T3's Name is a real gated pillar:** the gate is **good in all 4 + Estate/Office great/excellent, Arms & Name good** — Name's own **28K
 good band** (§4.1 table) is a live breadth-floor consumer, not a free pass. Each good-band sits at roughly the
 top of the prior tier's band (§4.0); T0→T1 good is ~**10×** T0's start; T1→T2 keeps ~**6–10×** on Arms/Estate
 but the **Office good-band steps ~25×** (2K → 50K) — the deliberate "win it socially" steepening, NOT a
@@ -416,15 +424,18 @@ deeds, every base ≤ its cap. (The residual 30 % comes from the seasonal stream
 PHASE 2 only** (post-final-rung), so their **cadence is read within the Phase-2 window** (~5 min/act at T0 ·
 ~8 min at T1 · ~13 min at T2), **not** spread across the whole tier.
 
-**T0 — good-band 70 % = 560 ip Estate / 350 ip Arms (NO trade strand):**
-- **Estate (560 ip, 26 deeds — LAND + TREASURY only):** **LAND** = 1 *shinden* (30) + 12 yield milestones
-  (12×16 = 192) = 222; **TREASURY** = 13 solvency steps (13×26 = 338) = 338 → **222 + 338 = 560** ✔.
-  *(No trade contracts at T0 — the LAND/TREASURY counts above absorb that ip.)*
-- **Arms (350 ip, 30 deeds):** 20 minor clears (20×8 = 160) + 5 road-clears (5×18 = 90) + 5 defends
-  (5×20 = 100) = **160 + 90 + 100 = 350** ✔.
-- **Cadence (within T0's Phase-2 window):** ~26 Estate + ~30 Arms recognised deeds at **~5 min/act**.
+**T0 — as BUILT (ADR-145/ADR-159; the itemized 560/350-ip inventory that lived
+here modelled the pre-reboot two-pillar T0):** the single revealed pillar is
+**Estate**, fed by the **multi-source per-act banking model** — each
+estate-relevant act banks a sub-koku fraction (`ESTATE_DEED_PER_ACT`) scaled by
+its source multiplier over the five sources (**fields · stores · workshop ·
+watch · treasury** — the generated §3 deed-sources table), with the per-deed cap
+(`PER_DEED_CAP_NUM`) bounding any single act. **There is no T0 Arms inventory**
+(Arms is T1-gated). Magnitudes: `balance.ts` + the ADR-132 verdict in
+`t0-pacing.md`.
 
-**T1 — good-band 70 % = 5,600 ip Estate / 3,500 Arms / 1,400 Office (trade strand now OPEN):**
+**T1 — frontier spec (the ip itemization model; re-derived at T1's build) —
+good-band 70 % = 5,600 ip Estate / 3,500 Arms / 1,400 Office (trade strand now OPEN):**
 - **Estate (5,600, 35 deeds):** 9 yield (9×130 = 1,170) + 19 solvency (19×200 = 3,800) + 7 trade
   (7×90 = 630) = **5,600** ✔ (trade = 630 ip = **11.25 %** of the Estate deed-ip — well under ≤⅓, §4.2.3).
 - **Arms (3,500, 35 deeds):** 25 minor (25×70 = 1,750) + 5 road (5×150 = 750) + 5 defend (5×200 = 1,000) =
@@ -483,6 +494,11 @@ trickle). Autumn is the headline (harvest), and **all revealed pillars are appra
 > reads as the appraisal sequence as the basis ramps to band-top.
 
 ```
+// FRONTIER SPEC (T1+). The SHIPPED T0 judge is simpler (ADR-163): once per
+// season exit, on a NEW deed high-water it pays (3/7) of the season's deed
+// GROWTH (the 70/30 share, SEASONAL_OVER_DEEDS) with a ±10% seeded swing,
+// never net-negative, banked-not-re-judged. No basis/sqrt/TIER_REF/JUDGE_K
+// appraisal ships at T0; the scheme below is the multi-pillar frontier model.
 // 1. Read the pillar's raw judged basis from accumulated state (domain-specific, any scale).
 rawBasis = b_pillar(accumulatedState)
 // 2. NORMALIZE by the tier reference magnitude so the basis is O(1) at the GOOD band-top.
@@ -973,9 +989,12 @@ mob.critChance  = MOB_CRIT      (default 0.02)        // mob.blockChance = MOB_B
 
 `MOB_HP_BASE = 24`, `MOB_HP_K = 8` (the MC's HP slope); `MOB_ATK_BASE = 8`,
 `MOB_ATK_K = 3`; `MOB_DEF_BASE = 1`, `MOB_DEF_K = 1`; `MOB_ACC_BASE = 10`, `MOB_ACC_K = 2`; `MOB_EVA_BASE = 2`,
-`MOB_EVA_K = 2`; `MOB_SPD = 0`, `MOB_CRIT = 0.05`, `MOB_BLOCK = 0`. **Defaults are set so the R3 first wolf
-(`MobDef.level ≈ 2`, the R3 dangerRing's expected character-level; wolf `baseSpeed 1.3`) lands the LOCKED
-20–35 % first-fight win-rate** (§4.6.6/§4.6.7) under the closed-form win-prob (§4.6.4b):
+`MOB_EVA_K = 2`; `MOB_SPD = 0`, `MOB_CRIT = 0.05`, `MOB_BLOCK = 0`. **As built, the two R3 beats split (the storywave semantics):** the **night-round
+wolf (L3) is a SCRIPTED survived-not-won story beat** — guaranteed survival,
+never a win — while the **LOCKED 20–35 % first-fight win-rate band is measured
+on the grindable first foe (the monkey, L1)** (§4.6.6/§4.6.7). The worked check
+below is the closed-form model illustration (§4.6.4b), kept as the derivation
+pattern:
 
 > **Worked R3 check (closed-form, no sampling).** Fresh MC (level 1, attrs 5, yari `weaponBase 3`, weaponSkill 0):
 > `attackPower 9 · defense 2.5 · HP 58 · accuracy 12 · evasion 3 · attackSpeed 1.025 · crit 0.035`. R3 wolf
@@ -1151,7 +1170,8 @@ on a lost fight) and **banked** (`state.banked` — sheltered in the kura storeh
 penalty). *(Koku standing is **not** wealth — it is never carried, banked, or at risk; it is the assessed
 prestige score of §4.0b.)* **Deposit/withdraw** move a
 resource between the two; spending + earning use carried (banked is a safe reserve). **Banked coin stays
-free/safe, but stored RICE now carries a cost** (spoilage / cap / holding fee — mechanism TBD, **ADR-118**), so
+free/safe, but stored RICE carries its shipped cost — **~10%/season spoilage on ALL
+held rice at the season turn** (the ADR-118 resolution, ADR-163), so
 store-vs-sell is a real choice rather than a free hoard. **Deposit/withdraw are
 gated to the kura node** — so banking your haul means physically returning home, and fighting far afield with a
 full purse becomes the gamble. The risk/reward — bank before a risky fight, or carry it and chance the bite —
@@ -1363,7 +1383,7 @@ rule, the yields-already-NET model, and the separate labour/combat throttle coef
   the score is already in [0,1].
 
 **Resource counts are UNBOUNDED** (no caps; K/M/B abbreviation reads them, §4.0) — **except stored RICE now
-carries a cost** (spoilage / cap / holding fee — mechanism TBD, **ADR-118**), so a banked rice hoard is no longer
+carries its shipped cost — ~10%/season spoilage at the turn (ADR-118 resolved, ADR-163)**, so a banked rice hoard is no longer
 free/safe and store-vs-sell stays a real choice; **coin remains unbounded and safe.** **Coin exists from T0** (base
 unit mon; higher denominations reveal later, §4.0a) — but the **market opens a real coin SINK from the Village
 tier:** the market row lets the player **spend coin on market purchases and component-buying** (buying
