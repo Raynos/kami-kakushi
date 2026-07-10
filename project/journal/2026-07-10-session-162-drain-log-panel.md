@@ -74,10 +74,20 @@ prefix). Nine fix groups A–I; one commit per group; F-entries in
   Verified live: 33→24 lines under vn (all scene-lines), hides on Chat,
   remembered on return.
 
-## Next intended steps
-- E · FB-321/FB-322 — typewriter styled reveal
-- F · FB-323 — divider re-anchor when pinned
-- G · FB-325/FB-326 — Now lamp coalesce re-stamp + bg wash
-- H · FB-320 — Story vn/all sub-toggle
-- I · FB-344 — zone arrival speaker prefix
-- Wrap: sidecars, archive `the-log`, release claim
+## Close-out
+
+All 14 captures fixed (9 fix groups, 7 commits + 1 hunk carried by w6:p1's
+`fd934341`). F-entries appended to
+`project/feedback-human/2026-07-10-playtest-log-panel.md` (second-pass
+section, FB-315..FB-344). All 14 sidecars stamped done+fb+commit; `the-log`
+bucket merge-archived onto its earlier archive (`archive/the-log.md`, second
+drain pass marker); the 2 r1 sidecars stamped in place — the r1 bucket stays
+pending (11 other captures open, unclaimed at the time). `log-panel` claim
+released.
+
+Remaining pending at close: r1 (11) · feedback-ui · new-game-screen (other
+lanes were being drained live by co-agents through this pass).
+
+Shared-tree note: heavy live co-editing with w6:p1 all session — surgical
+index staging both ways; one of my hunks (the FB-321 typeLine rewrite) rode
+their fd934341 (staging race, content intended + verified; cross-noted).

@@ -132,3 +132,77 @@ white here, or even a bright white for narrator story text?"_
 still separates by CHROMA — neutral ground, chromatic voices).
 **Doc-update plan:** ui-design.md §v-\* ramp line (narrator "muted blue-grey" →
 "bright near-white") — rides the next docs pass.
+
+---
+
+## Second pass — 2026-07-10 evening (session 162, `log-panel` cluster re-lane)
+
+12 `the-log` + 2 `r1` captures re-laned into this lane (ADR-171 collision
+announce → the human's steer: one owner for the whole fix surface). All 14
+capture-time-stamped (FB-315..FB-344); wholesale-approved: all fixed,
+re-anchor-when-pinned divider policy, speaker-style zone prefix.
+
+### FB-315 · VN-read chat replays in the log — ✅
+**Verbatim:** _"When you open the chat panel, I don't need to see the chat scrolling, like i already saw it scrolling in the VN … everything I read in the VN is fundamentally not unread … But I appreciated the rest, showing the rest of the unread messages one by one, that's a great idea, just not for these VN lines I already read."_
+**Reading:** VN-displayed lines must count as READ; the one-by-one unread reveal stays for genuinely-unseen lines.
+**Distilled rule:** a line the player already read on another surface is never "unread" on this one (TST4).
+**Fixed in:** 8abc9f03 — scene-context lines arriving while a VN is live pre-mark themselves seen per matching filter.
+
+### FB-316 · scene-card grouping shows black gaps — ✅
+**Verbatim:** _"…you can see all kinds of black space in between, the box is not clean, that looks like a UI / CSS mistake. we want all of that which belongs together to fit togeth."_
+**Reading:** the 幕 card fractured — in-card speaker-break margins split the bordered box; mid-scene lines (choose_intro react, ask answers) lacked the scene context.
+**Fixed in:** 76c73130 — every scene-emitted line carries its context (core) + in-card breaks become padding (CSS). Old saves keep their stored context-less lines; new runs heal.
+
+### FB-317 · card sections need unique names + grouping — ✅
+**Verbatim:** _"Each card section needs a unique name and better grouping, its not clear to me."_
+**Reading:** one clean box per scene, exactly one lintel naming it; no duplicate heads on reopened fragments.
+**Fixed in:** 8abc9f03 (lintel dedup) + 76c73130 (the grouping causes).
+
+### FB-318 · kura-count line shows too early — ✅
+**Verbatim:** _"This log line shows too early, I know that the kura open to me but it should show after the cold open VN"_
+**Fixed in:** 22d11325 — `readout-rice` gates on `awake && !introActive`; the reveal lands right after the cold open.
+
+### FB-319 · strength-count line too — ✅
+**Verbatim:** _"Also something that can show after the VN open"_
+**Fixed in:** 22d11325 — `readout-body`, same gate.
+
+### FB-320 · Story expands with a vn/all toggle — ✅
+**Verbatim:** _"I'm thinking we want the Story to expand when selected and have a little toggle inside of it that says 'vn / all' … Because VN text is the 'MAIN MAIN STORY' and the rest is all flavor text you can see in all."_
+**Fixed in:** 549c5652 — Story expands a mini vn/all segmented pair while selected; `vn` = scene lines only (the same context discriminator the 幕 cards group by). Default stays `all` — say the word if `vn` should lead.
+
+### FB-321 · typed text lacks colors/italics — ✅
+**Verbatim:** _"I fucking saw that lol, as the text scrolled it didnt have the correct colors or italics."_
+**Reading:** the typewriter typed into a bare text node; the `.speech` quote styling only applied at finalize.
+**Fixed in:** fd934341 — the line builds fully styled up front; the text reveals progressively ACROSS the styled spans. (The hunk rode w6:p1's FB-324 commit — a staging race, content is this fix; noted in both journals.)
+
+### FB-322 · same, mid-scroll — ✅
+**Verbatim:** _"do you see what I mean its not italics or correct colors here as its scrolling."_
+**Fixed in:** fd934341 (same fix as FB-321).
+
+### FB-323 · new text without the NEW divider — ✅
+**Verbatim:** _"I also saw this pop in as new text, but it didnt say new remember all NEW text that gets written gets the NEW divider ( 60s to fade )"_
+**Reading:** two holes — the anchored divider sat stale far up-log for a reader pinned at the foot; a coalesced ×N bump never marked at all.
+**Distilled rule:** the 新 divider marks the read/unread boundary — pinned-at-foot means it re-anchors with each arrival (your pick).
+**Fixed in:** d8c2d1b1.
+
+### FB-325 · Now tab didn't highlight on rake — ✅
+**Verbatim:** _"I pressed rake the spilled rice, but the color of the now tab didnt change to highlight it has new text."_
+**Reading:** a real hole, reproduced — a coalesced repeat (same key, ×N bump) never re-stamped, so the lamp stayed dark after its first 10s window.
+**Fixed in:** aab5b957 — `stampEphemeral` re-stamps on a count bump.
+
+### FB-326 · Now highlight should change the background — ✅
+**Verbatim:** _"The Now having next text should also change the background color of the button, not just the text."_
+**Fixed in:** aab5b957 — `.tab-now.live` gains a warm gold background wash.
+
+### FB-330 · logs rescroll when the rung-up VN ends — ✅
+**Verbatim:** _"I saw all the logs rescroll in when the rung up VN was done, that doesn't feel right, i dont think it should rescroll on render."_
+**Reading:** scroll writes were no-ops while the shell was hidden; the reveal then re-scrolled + re-animated in front of the player (TST2).
+**Fixed in:** 8abc9f03 — VN-end lands dead still: a real repaint for the VN-forced filter, no backlog reveal anim, instant pre-pin to the foot.
+
+### FB-331 · VN-read chat scrolling again — ✅
+**Verbatim:** _"same issue, the chat text i already read in VN is scrolling here."_
+**Fixed in:** 8abc9f03 (same fix as FB-315).
+
+### FB-344 · zone flavor needs a name prefix — ✅
+**Verbatim:** _"The zone flavor text here i think needs a prefix like 'Zone [name]: [text]'"_
+**Fixed in:** ec8f1b60 — the arrival line carries the node's label as its speaker → "Kura: <description>" via the existing styled prefix (your pick: speaker-style over the literal "Zone …:").
