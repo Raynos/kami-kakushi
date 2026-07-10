@@ -189,10 +189,13 @@ temper pigment (F137). Choice buttons and their perk cards share the `--attr-*` 
 ### 5.3 Meters & the four-pillar 家威 panel
 
 **Bar = shape, number = precision, colour = state — never a naked bar or number.** Steel groove, gold-thread
-fill (life = silver, satiety verdant, danger shu), threshold ticks, eased fills + count-ups, always the rate
-beside the total (`家威 4.20K koku (+12/season)`). **No per-tick number flash** (F148 — steady numerals; the
-meters carry the motion). Header vitals: **body** (satiety, shu warn when low) and **life** (HP — inks in at
-the R2 wolf beat, bar + exact `hp/max`, no auto-heal, low at ≤30%). The four-pillar panel reveals
+fill (life = silver, body verdant, belly rice-straw, danger shu), threshold ticks, eased fills + count-ups,
+always the rate beside the total (`家威 4.20K koku (+12/season)`). **No per-tick number flash** (F148 —
+steady numerals; the meters carry the motion). Header vitals: **body 体** (satiety, shu warn when low) +
+**belly 腹** (hunger, ADR-178 — reveals WITH body as the FB-345 two-bar group; shu warn exactly when rest
+quality is degraded) and **life** (HP — inks in at the R2 wolf beat, bar + exact `hp/max`, no auto-heal,
+low at ≤30%). All three vitals share ONE idiom: label + bar + exact `cur/max` + a hover name (FB-334/335 —
+display names only, never internal field names). The four-pillar panel reveals
 **bar-by-bar**; locked pillars are **unnamed `--ink-faint` silhouette teasers** (ADR-055). Estate shows its
 LAND/TREASURY/TRADE sub-segments with the trade-⅓ cap as a hard registration mark.
 

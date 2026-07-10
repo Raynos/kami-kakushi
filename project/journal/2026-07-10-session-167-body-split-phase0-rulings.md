@@ -78,3 +78,36 @@ embed no co-agent WIP content. Same pattern w2:p5 used for 0bb3b0b7 this hour.
 2. Phase 3 — telemetry step 0 → `verify:balance` → `balance:report` → commit
    the regenerated `docs/content/t0-pacing.md` (ADR-132).
 3. `/prd-ripple` for the vitals-model system change.
+
+## Phases 2–3 — the belly UI + the balance verdict (2026-07-11)
+
+- **Phase 2 (UI):** the belly bar joined the header vitals as the FB-345
+  two-bar group — the exact body idiom (column vital, 110px bar, quiet
+  `cur/max` number, hover name "Belly 腹"), a warm rice-straw fill (distinct
+  from body's verdant + life's silver), revealed WITH `readout-stamina`, low
+  flag exactly when `restQuality < 1` (AC-6). Eat/cook/rest hover titles +
+  the DEV act-cards re-derived from the new selectors (`restRefill` forecasts
+  the true degraded rest). Verified headless against the live :5173 server
+  (screenshot: body 100/100 · belly 60/100). Taste Pass 2: all briefed
+  constraints held (one idiom · build-once/patch · complete-or-absent ·
+  fiction-carrying hover · exact numbers); no blind spots.
+  Shared-tree wrinkle: the estate session's `b3921564` swept my in-flight
+  render.ts belly hunks into ITS commit (green — my Phase-1 exports were
+  already in HEAD); `26bb9ac7` landed the remaining CSS + test + alias
+  removal, again worktree-proven (18/18 at ba36efdc).
+- **Phase 3 (ADR-132):** telemetry step 0 — 6 reports read; only R0 has an
+  attended rung row (23.6 min vs sim 4.3, the known read-the-story gap) and
+  none cover the eat_rice loop, so no attended-pacing conclusion applies to
+  the split. `verify:balance` GREEN (3 personas × 5 seeds); `balance:report`
+  byte-identical (fingerprint 5ea9892eb4fa0ace) — **the split moved no T0
+  pacing** (by design: Option C left the act economy untouched; the kura
+  ration maintains the belly on the same rice sink that already existed).
+  Nothing to re-tune; no t0-pacing.md diff to commit.
+- **Ripple:** PRD §2.3 rewritten to the two-store model (+ index row + two
+  §2.4/§2.6 cross-refs); ui-design §5.3 vitals paragraph now names all three
+  vitals and the shared idiom; `prd:drift` CLEAN. fun-factor.md untouched —
+  the push-your-luck idle read is unchanged (rest still free, work still
+  satiety-priced).
+- **Plan:** Status → ✅ DONE, archived to `project/archive/`.
+- **Left open:** the FB-345/FB-334/FB-335 r1-lane sidecars still owe their
+  drain stamps (the r1 lane is claimed by another session — theirs to stamp).

@@ -1,9 +1,13 @@
 # The body split — hunger vs stamina as two legible stores
 
-**Status:** 🔒 LOCKED — Phase 0 ruled (2026-07-10, ADR-178) — Option C · Body 体 +
-Belly 腹 · hunger only slows in T0 (starvation consequences allowed T1+) ·
-food verbs re-home to the Inventory tab once Schedule A lands. Phases 1–3 are
-startable in order; nothing is built yet.
+**Status:** ✅ DONE (2026-07-11) — all phases built the day after the ruling.
+Phase 0 ruled 2026-07-10 (ADR-178): Option C · Body 体 + Belly 腹 · hunger only
+slows in T0 (starvation consequences allowed T1+) · food verbs re-home to the
+Inventory tab once Schedule A lands (that re-home is ADR-177 Phase-2 work, not
+this plan's). Phase 1 (core) `9a5e7d95` · Phase 2 (UI) `b3921564`+`26bb9ac7` ·
+Phase 3 (ADR-132 verdict): every rung in band, Δ vs HEAD ≈ 0 — the split moved
+no T0 pacing; report byte-identical, nothing to re-tune. PRD §2.3 + ui-design
+§5.3 rippled.
 **Confidence:** ( 30% Opus, 70% Fable ) — the load-bearing work is the design
 ruling + the balance re-tune feel (Phases 0/3); the core-model mechanics and
 UI transcription (Phases 1–2) are Opus-safe once ruled.

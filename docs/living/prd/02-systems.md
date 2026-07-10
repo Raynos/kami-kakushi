@@ -10,7 +10,7 @@ in the decision log, and the milestone order in the roadmap.
 |---|--------|------------------|--------------------|
 | 2.1 | UI-reveal engine + event log | T0 (exists from build one) | — (the meta-spine that surfaces every other system) |
 | 2.2 | Time, season & world clock (active-only) | T0 | feeds seasonal **judged results** for all four |
-| 2.3 | Soft stamina / satiety (throttles labour **and** combat) | T0 | — (paces the day; no pillar) |
+| 2.3 | The two soft vitals — Body 体 + Belly 腹 (throttle labour **and** rest) | T0 | — (paces the day; no pillar) |
 | 2.4 | Resources & currencies (coin, rice, pillars, materials) | T0 (coin + rice); coin denominations reveal per tier | Estate & Wealth; pillars are the macro layer |
 | 2.5 | Auto-producers (late-game only) | T4+ | Estate & Wealth (idle convenience, never early) |
 | 2.6 | Gathering / labour nodes & jobs-as-offices | T0 | **Estate & Wealth**, **Standing & Office** |
@@ -175,39 +175,51 @@ layer, §2.14).
 
 ---
 
-## 2.3 Soft stamina / satiety (throttles labour AND combat)
+## 2.3 The two soft vitals — Body 体 (satiety) + Belly 腹 (hunger); throttles labour AND combat
 
-**(a) What it is.** A **soft** energy/satiety meter that **slows** action when low — it **never
-hard-blocks** play. It throttles **BOTH labour AND combat**. Rest and eat to refill; it paces the day
-and gives food/cooking a purpose, and adds the "eat before you fight" texture to combat.
+**(a) What it is.** TWO **soft** stores on two clocks (**ADR-178**, the FB-345 body split — the old
+single merged meter read as "two ideas wearing one bar"): **Body 体** (`satiety`) is the per-act
+**work fuel** — spent by labour, refilled by rest; **Belly 腹** (`hunger`) is the **slow daily food
+store** — the day drains it, food maintains it. Both only **slow** play when low — **never a
+hard-block, no starvation death in T0** (T1+ may add starvation consequences — ADR-178 ruling 3).
 
-**(b) Player-facing behaviour / loop.** As the MC labours or fights, satiety/energy drains; depleted,
-actions get slower / less efficient (a gentle nudge to rest, eat, or change activity), never a wall or
-a punishing timer. The throttle curve is **flat above ~0.7** of `satietyMax`, then **knees down toward a
-~0.5 floor** (`STAMINA_RATE_FLOOR ≈ 0.5`) — a rate multiplier, never to zero.
+**(b) Player-facing behaviour / loop.** As the MC labours or fights, **body** drains; depleted,
+actions get slower / less efficient (a gentle nudge to rest), never a wall or a punishing timer. The
+throttle curve is **flat above ~0.7** of `satietyMax`, then **knees down toward a ~0.5 floor**
+(`STAMINA_RATE_FLOOR ≈ 0.5`) — a rate multiplier, never to zero.
 **Combat uses a SEPARATE `satietyRate` coefficient** from the labour floor (so the two can be tuned
 independently; §2.8/§4), and "**adequate satiety**" = **≥~0.7** — the level at which the **locked 20–35%
-first-fight win-rate** is measured (§2.8/§4.6.6), so an underfed protagonist fares worse still. Refill by
-resting (advances the clock) and eating cooked food (ties to the cooking skill and provisioning economy).
-The convalescence framing of the cold open uses this meter (rest and recover "a little" in the first
-hours — he is **not** a bedridden invalid).
+first-fight win-rate** is measured (§2.8/§4.6.6), so an overworked protagonist fares worse still.
+The **belly** moves on the day's clock instead: each day boundary drains it, and the household's
+daily kura ration (§2.4/ADR-163) restores it **pro-rated by what the kura could serve** — a stocked
+kura *maintains* the belly, famine is *felt*. Deliberate eating raises it: **`eat_rice` feeds the
+BELLY, never the work bar** (the split's headline); a cooked meal mends HP (§2.8) and adds a belly
+side. The belly's **only teeth are rest quality**: rest restores `restRefill = base × restQuality`,
+flat at a full-enough belly, ramping to a **~0.5 floor** when starved — a hungry rest is a poor
+rest, so food buys recovery, not work speed. The convalescence framing of the cold open uses these
+meters (rest and recover "a little" in the first hours — he is **not** a bedridden invalid).
 
 **(c) Rough DATA shape.**
-- `Vitals { hp, hpMax, satiety, satietyMax }` — no stored `fatigue`; the hurt-body work impairment is
-  the **derived** `lowHpWorkMult` selector (derived caps recomputed on load; `satietyMax = base
-  + per-(combat-)level growth`, scaling off the character (combat) level, §2.7/§4.4).
+- `Vitals { hp, hpMax, satiety, satietyMax, hunger }` — no stored `fatigue`; the hurt-body work
+  impairment is the **derived** `lowHpWorkMult` selector (derived caps recomputed on load;
+  `satietyMax = base + per-(combat-)level growth`, scaling off the character (combat) level,
+  §2.7/§4.4; the belly cap is **flat** — an appetite is a constant, `hungerMax`).
 - Action costs reference a `staminaCost` field; a soft-throttle function maps low satiety → a *rate
   multiplier* on labour/combat speed (never to zero), using the **labour floor** for work and the
   **separate `satietyRate` combat coefficient** for fights (floor ~0.5; bounded so the floor only costs a
-  few win-rate points, never below ~15%).
-- `FoodItem { restoreSatiety, buffs?, perishable, spoilTicks }`.
+  few win-rate points, never below ~15%). Low hunger maps to a **rest-quality multiplier only**
+  (`restQuality`, floor ~0.5) — it never throttles work or combat directly.
+- `FoodItem { restoreHunger, buffs?, perishable, spoilTicks }`.
 
-**(d) Ties to the four pillars.** None directly. It is a pacing/throttle system. (Cooking/provisioning that
-feeds it sits under Estate & Wealth's labour, §2.6; combat's satiety throttle is detailed at §2.8/§4.6.)
+**(d) Ties to the four pillars.** None directly. Both are pacing/throttle systems. (Cooking/provisioning
+that feeds the belly sits under Estate & Wealth's labour, §2.6; combat's satiety throttle is detailed at
+§2.8/§4.6.)
 
-**(e) When introduced / fractal reveal.** **T0** — the body/rest bar reveals at **R0** (in the *kura*,
-alongside the rice counter). The satiety soft-gate surfaces as the player leaves the storehouse and
-labour begins (R1–R2); the **combat** throttle surfaces with the first fight at **R3**.
+**(e) When introduced / fractal reveal.** **T0** — the body + belly bars reveal **together** at **R0**
+(the FB-345 two-bar group, in the *kura* alongside the rice counter). The satiety soft-gate surfaces as
+the player leaves the storehouse and labour begins (R1–R2); the **combat** throttle surfaces with the
+first fight at **R3**. Display names are canon (**Body 体** / **Belly 腹**, FB-334) — internal field
+names never surface.
 
 ---
 
@@ -220,7 +232,7 @@ denominations **revealed INCREMENTALLY as wealth grows** (mon at T0–T1 → mon
 **no moneychanger and no floating forex** — the mixed read is pure display over the one `mon` count, and
 **held coin reads as a comfortable NET figure, not gross.** **RICE is a real, first-class RESOURCE** (its
 own counter — the *rice* heartbeat — **NOT** a currency and **NOT** a synonym for koku): labour yields
-rice (+ a little coin), and you **EAT it** (satiety, §2.3), **STORE it** (the *kura*), or **SELL it for
+rice (+ a little coin), and you **EAT it** (the belly, §2.3), **STORE it** (the *kura*), or **SELL it for
 coin** at a **price that SWINGS BY SEASON** (the season rice price, §4). **Storing rice now COSTS
 something** (spoilage / a capacity cap / a small storehouse fee — the exact mechanism is a build-time
 call, **ADR-118**), so *store-vs-sell* is a real decision rather than free, unbounded, risk-free hoarding;
@@ -287,7 +299,7 @@ caps (`content/market.ts`).
   stackable, perishable?, spoilTicks? }` — **`coin` is the sole `'currency'` def** (stored as one integer
   `mon` count; the mon → monme → ryō mixed denominations are a **DISPLAY** concern, §4, not separate
   resources). **`rice` lives ONLY in the kura ledger** (`banked`, in shō — never a carried
-  stack); it feeds the house (satiety/meals, §2.3), sells into the house books at
+  stack); it feeds the house (the belly/meals, §2.3), sells into the house books at
   the kura, and is **NOT** koku.
 - `GameState.resources: Record<resourceId, amount>` — **carried** wealth (coin +
   materials — at risk in combat; rice never rides in the pocket); **counts only, UNBOUNDED — no caps**; derived rates computed, never stored.
