@@ -196,6 +196,7 @@ export {
   INTENT_TIMING,
   timingFor,
   COOLDOWN_SEED_MS,
+  RAKE_TEACH_COOLDOWN_MS,
   TRAVEL_SEED_MS,
   EDGE_WALK_MS,
   edgeKey,
@@ -328,6 +329,8 @@ export {
   getDialogueLine,
   nextDialogueLines,
   COLD_OPEN_DIALOGUE_ID,
+  RAKE_TEACH_LINE_IDS,
+  rakeTeachPending,
 } from './content/dialogue';
 export type { DialogueLine, DialogueDef, NpcMemoryMap } from './content/dialogue';
 export * as balance from './content/balance';

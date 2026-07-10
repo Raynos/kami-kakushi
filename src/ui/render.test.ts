@@ -11,6 +11,7 @@ import {
   NOW_TTL_MS,
   FRESH_DIVIDER_TTL_MS,
   FRESH_DIVIDER_FADE_MS,
+  TYPE_CADENCE_MS,
   type AppHooks,
 } from './render';
 import { createActionClock } from '../app/action-clock';
@@ -35,6 +36,11 @@ import {
   getWeapon,
   durabilityBand,
   FLAVOR,
+  getDialogue,
+  COLD_OPEN_DIALOGUE_ID,
+  RAKE_TEACH_LINE_IDS,
+  rakeTeachPending,
+  RAKE_TEACH_COOLDOWN_MS,
   type GameState,
   type Intent,
   type LogEntry,
@@ -1285,6 +1291,18 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     expect((lineTexts()[1] ?? '').length).toBeGreaterThan(0); // it started early, not at ~2s
   });
 
+  // FB-227 — the GBA caret (the cold open's co-typing primitive) rides the VN's typing
+  // line and clears once the block finishes (the panel takes over). RED before FB-227:
+  // no .co-typing ever appeared inside the VN.
+  it('F227 — the GBA caret rides the typing line and clears when the block finishes', () => {
+    const render = spyMount();
+    render(introState(0), null);
+    const typing = root.querySelector<HTMLElement>('.vn-line .vn-text')!;
+    expect(typing.classList.contains('co-typing')).toBe(true); // riding line 0 mid-type
+    vi.runAllTimers(); // the whole block types + auto-advances out
+    expect(root.querySelector('.vn-lines .co-typing')).toBeNull(); // yielded to the panel
+  });
+
   // FB-199 — the VN fresh divider lives FRESH_DIVIDER_TTL_MS past the last new line (the
   // source constant, ~30s), not the old hard-coded 4.5s. RED before FB-199: at ~5s the
   // divider was already fading out from under the reader.
@@ -2502,5 +2520,26 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
     expect(btn).not.toBeNull();
     btn.click();
     expect(seen.some((i) => i.type === 'buy_belonging')).toBe(true);
+  });
+});
+
+// ── FB-224 — the cold-open rake teach cooldown: while Genemon's three raked-gated teach
+//    lines land one-per-rake, the rake press cools down long enough for the arriving line
+//    to finish typing. The bound derives from the SAME registry + cadence the writer uses
+//    (ADR-086), so a longer authored line or an id rename goes RED here.
+describe('F224 — rake teach cooldown covers its own text', () => {
+  it('F224 — every teach id exists and the cooldown covers the LONGEST line at cadence', () => {
+    const def = getDialogue(COLD_OPEN_DIALOGUE_ID);
+    const teach = RAKE_TEACH_LINE_IDS.map((id) => def.lines.find((l) => l.id === id));
+    teach.forEach((l) => expect(l).toBeDefined()); // a dialogue.md rename REDs here
+    const longest = Math.max(...teach.map((l) => l!.text.length));
+    expect(longest).toBeGreaterThan(0);
+    expect(RAKE_TEACH_COOLDOWN_MS).toBeGreaterThanOrEqual(longest * TYPE_CADENCE_MS);
+  });
+
+  it('F224 — rakeTeachPending stays true until ALL three lines are delivered', () => {
+    expect(rakeTeachPending([])).toBe(true);
+    expect(rakeTeachPending(RAKE_TEACH_LINE_IDS.slice(0, 2))).toBe(true);
+    expect(rakeTeachPending([...RAKE_TEACH_LINE_IDS])).toBe(false);
   });
 });

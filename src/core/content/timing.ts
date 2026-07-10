@@ -46,6 +46,16 @@ export const ACTIVITY_TIMING: Readonly<Record<ActivityId, ActionTiming>> = {
  *  band (ADR-148: night rounds are TIMED). SEED ONLY; the human tunes via the cockpit. */
 export const NIGHT_ROUND_SEED_MS = 30000;
 
+/** FB-224 — the cold-open teach cooldown: while Genemon's three raked-gated teach
+ *  lines (dialogue.ts RAKE_TEACH_LINE_IDS, one per rake) are still landing, the
+ *  rake press cools down long enough for the arriving line to finish typing —
+ *  the human's cold-open pacing beat ("slow enough for the text to render",
+ *  pre-auto). Sized to cover the LONGEST teach line at the log typewriter cadence
+ *  (a render.test derives that bound from the registry, so a longer authored line
+ *  REDs it). SEED ONLY; the human tunes via the cockpit. The pacing sim's
+ *  intentWallMs deliberately ignores it — a one-off ≤ ~30s across the whole run. */
+export const RAKE_TEACH_COOLDOWN_MS = 12000;
+
 /** The fallback hop (an edge missing from EDGE_WALK_MS — the coverage test makes
  *  that a RED, so this only guards an unrevealed/DEV teleport path). */
 export const TRAVEL_SEED_MS = 6000;

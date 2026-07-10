@@ -57,3 +57,15 @@ grammar form + intro retags (FB-198), the fresh-divider made anchored + 30s
   render swallowed the mid-intro perk milestone as history. Seeding extracted
   to `seedLogSeenOnce` and called in the VN branch too. RED-proven test (real
   `choose_intro` flow) + live headless confirm.
+- **FB-223** 💬 — "the cold open changed completely" is the deliberate C4.9
+  fusion (v0.4.0), answered in the F-log; re-expanding the intro's decision
+  surface is an intent call the human can promote to an HD-item.
+- **FB-224/225/226** — the rake teach cooldown: `RAKE_TEACH_COOLDOWN_MS`
+  (12s seed) applies while `rakeTeachPending(deliveredDialogue)` (the three
+  gen-rake/keep/kept beats), so each teach line finishes typing before the
+  next press. Bound derived from the registry + `TYPE_CADENCE_MS` (test);
+  balance sim fingerprint unchanged (Δ 0.0, intentWallMs unmodelled by
+  design). Live-verified 7s → ~17s during the beat, 7s after.
+- **FB-227** (human ask mid-drain) — the cold open's GBA gold-block caret
+  (`co-typing`) now rides the VN typing line too (same primitive, TST1);
+  clears when the block yields to the panel. Test + live screenshot.

@@ -39,6 +39,16 @@ export interface DialogueDef {
 /** The id routed on the cold-open / R0 labour beat (no magic string at the call site). */
 export const COLD_OPEN_DIALOGUE_ID = 'genemon-open';
 
+/** FB-224 — Genemon's raked-gated teach beats, one per rake (#1 → #3). While any is
+ *  still undelivered, the shell extends the rake cooldown (timing.ts
+ *  RAKE_TEACH_COOLDOWN_MS) so each line finishes typing before the next press —
+ *  the cold-open pacing beat the human asked for. A dialogue.md rename REDs the
+ *  ids-exist test, so this list can't silently drift from the registry. */
+export const RAKE_TEACH_LINE_IDS: readonly string[] = ['gen-rake', 'gen-keep', 'gen-kept'];
+export function rakeTeachPending(deliveredDialogue: readonly string[]): boolean {
+  return RAKE_TEACH_LINE_IDS.some((id) => !deliveredDialogue.includes(id));
+}
+
 export { DIALOGUES } from './dialogue.gen';
 import { DIALOGUES } from './dialogue.gen';
 

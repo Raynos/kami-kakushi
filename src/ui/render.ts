@@ -357,6 +357,11 @@ export const NOW_COLLAPSE_MS = 400; // an expired line collapses its height over
 export const FRESH_DIVIDER_TTL_MS = 30000;
 export const FRESH_DIVIDER_FADE_MS = 800;
 
+// The GBA typewriter cadence (~30–34ms/char) — module-scope + exported so timing that
+// must OUTLAST typed text (FB-224's rake teach cooldown) derives its bound from the
+// SAME source the writer uses (ADR-086 — no copied magic numbers).
+export const TYPE_CADENCE_MS = 32;
+
 export function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
   className?: string,
@@ -662,6 +667,9 @@ export function mount(
   const introAuxTimers: number[] = []; // other pending intro timeouts (fresh-divider fades)
   let introFreshEl: HTMLElement | null = null; // FB-199 — the live VN fresh divider (anchored)
   let introFreshTimer: number | undefined; // …and its pending fade countdown
+  // FB-227 — the GBA caret (the cold open's co-typing primitive, TST1): rides the VN line
+  // being typed, stays blinking through the inter-line hold, clears when the block finishes.
+  let introCaretEl: HTMLElement | null = null;
   // FB-197 — Space/Enter advance the VN like a click; installed per scene, removed on teardown.
   let introKeyHandler: ((e: KeyboardEvent) => void) | null = null;
   // true for the SINGLE render on which the intro just ended, so the final beat's log lines paint
@@ -1219,7 +1227,7 @@ export function mount(
     import.meta.env.DEV &&
     typeof window !== 'undefined' &&
     new URLSearchParams(window.location.search).has('instanttext');
-  const TYPE_MS_PER_CHAR = QA_INSTANT_TEXT ? 0 : 32; // GBA typewriter cadence (~30–34ms/char)
+  const TYPE_MS_PER_CHAR = QA_INSTANT_TEXT ? 0 : TYPE_CADENCE_MS;
   const TYPE_NEXT_BEAT_MS = QA_INSTANT_TEXT ? 0 : 180; // pause after a typed line before the next cascades in
   // FB-86 — the intro typewriter AUTO-ADVANCES: after a line finishes typing it holds for this beat,
   // then the next line starts on its own (no click needed). A click only ever SPEEDS this up — it
@@ -2144,6 +2152,7 @@ export function mount(
     introAskEl = null;
     introDecideEl = null;
     introOutcomeEl = null;
+    introCaretEl = null; // FB-227 — the scene DOM (and its caret) is gone
     introTopicBtns.clear();
     introRenderedKeys.clear();
     introBlockNodes = [];
@@ -2238,6 +2247,7 @@ export function mount(
   // ── the per-block typewriter (FB-62/FB-78) — types the NEWLY-appended lines one at a time; a click on
   //    the scene completes the current line (if mid-type) or advances to the next (one line/click). ──
   function introFinishBlock(): void {
+    setIntroCaret(null); // FB-227 — the block is done; the caret yields to the panel controls
     if (introTypeTimer !== undefined) {
       window.clearTimeout(introTypeTimer);
       introTypeTimer = undefined;
@@ -2296,10 +2306,18 @@ export function mount(
       pos += seg.text.length;
     }
   }
+  // FB-227 — move the GBA caret to the given span (or clear it): one caret, ever.
+  function setIntroCaret(span: HTMLElement | null): void {
+    if (introCaretEl === span) return;
+    introCaretEl?.classList.remove('co-typing');
+    span?.classList.add('co-typing');
+    introCaretEl = span;
+  }
   function introStartLine(index: number): void {
     introBlockIndex = index;
     const node = introBlockNodes[index];
     node?.span.parentElement?.classList.remove('vn-pending'); // FB-152 — its turn: reveal the line
+    if (node) setIntroCaret(node.span); // FB-227 — the caret rides the typing line
     introScrollToBottom();
     if (!node || node.text.length === 0) {
       introLineComplete();

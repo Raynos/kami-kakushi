@@ -1781,8 +1781,11 @@ h3 {
   text-align: left;
 }
 /* M4 — the GBA caret: a gold block riding whichever cold-open element is
-   typing, blinking on a hard step (no fade — the retro cadence). */
-.coldopen .co-typing::after {
+   typing, blinking on a hard step (no fade — the retro cadence). FB-227 — the
+   VN scene shares the SAME primitive (TST1): the caret rides the line being
+   typed and blinks through the inter-line hold until the block finishes. */
+.coldopen .co-typing::after,
+.vn-lines .co-typing::after {
   content: '';
   display: inline-block;
   width: 0.55em;

@@ -9,6 +9,8 @@ import {
   autoModeIntent,
   nextHopToward,
   timingFor,
+  rakeTeachPending,
+  RAKE_TEACH_COOLDOWN_MS,
   getMob,
   nightRoundById,
   resolveNightStage,
@@ -302,10 +304,17 @@ async function boot(): Promise<void> {
       return;
     }
     if (MANUAL_DISARM.has(intent.type)) disarmAutos();
+    // FB-224 — the cold-open teach beat: while Genemon's three raked-gated teach lines
+    // are still landing (one per rake, pre-auto), the rake's cooldown extends so each
+    // arriving line finishes typing before the next press is possible.
+    const cooldownMs =
+      intent.type === 'rake_rice' && rakeTeachPending(state.deliveredDialogue)
+        ? RAKE_TEACH_COOLDOWN_MS
+        : t.cooldownMs;
     clock.press(
       actionKey(intent.type, timingPayload(intent)),
       t.durationMs / autoSpeed,
-      t.cooldownMs / autoSpeed,
+      cooldownMs / autoSpeed,
       () => playerBase(intent),
     );
   }
