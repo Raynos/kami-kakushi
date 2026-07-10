@@ -26,3 +26,17 @@ nothing." and keep-literal).
 regenerated registry. Verified live from the capture's save: the transcript
 now reads `Nameless: "…"`. (R5's "Say nothing. Stand for the count." is
 half-silent, half-action — left as-is deliberately; flag it if it grates.)
+
+### FB-329 · "3 zones open ⇒ fog of war + movement lock" — 💬 answered
+**Verbatim:** _"if you say that these 3 zones are open to me then / - The map
+better have fog of war hiding the rest. / - It should not be possible to move
+to anything else on the map because only those 3 are open to me."_
+**Answer:** the build already does both. Reproduced from this capture's exact
+save, through the ceremony to the map at fresh R1: only the estate core (weir /
+sickroom / kitchen / forecourt — the always-open R0 ground) plus the three
+ceremony zones (gate · paddies · woodshed) render; five 未測 "unsurveyed
+ground" fog markers hang one step past the frontier, deliberately UNNAMED
+(reveal-as-plot); and `canMove` refuses any unrevealed target — the seals
+aren't even wired as travel controls until their reveal flag unlocks. The
+capture element was the ceremony text, before the map was opened. If the map
+you saw in-game contradicted this, capture it ON the map tab and I'll chase it.

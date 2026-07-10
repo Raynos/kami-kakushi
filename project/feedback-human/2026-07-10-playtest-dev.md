@@ -205,3 +205,17 @@ invariant repairs above it; every overlay must be reconciled on EVERY branch.
 RED-proven jsdom test (VN open → fresh pre-awake render → scene gone, cold
 open owns the screen). Reproduced headlessly before the fix (stale VN, dead
 buttons, cold open typing underneath).
+
+### FB-353 · "all the scenarios are broken / stale" — 💬 answered
+**Verbatim:** _"I'm pretty sure all the scenarios are broken / stale. / how do
+we implement these in a non stale fashion that never breaks and is upto date
+with the src/ built ?"_
+**Answer:** they weren't stale — every one of the 9 fixtures imported clean
+(schemaVersion 10, full migrate→validate path) when probed headlessly; what you
+saw was FB-358: the fixture LOADED but the UI never followed, so a Load looked
+like a no-op. On the standing question: the system is already built never to
+rot silently — `src/fixtures/specs.ts` drives the REAL engine to each waypoint
+(nothing hand-authored), and the `fixtures` verify gate byte-compares the saves
+against a regen at every commit/push/CI, so any engine change that shifts them
+REDs the build until `fixtures:regen` is committed (exactly what FB-324's state
+growth did this pass). No further action.

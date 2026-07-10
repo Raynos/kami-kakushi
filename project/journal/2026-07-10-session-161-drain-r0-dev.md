@@ -31,3 +31,5 @@ FB-329 (map fog + travel gating already shipped).
 - FB-328 fixed: promotion kicker + target-rank line above the Rung up button.
 - FB-324 fixed: RAKE_CAP=50 total (balance lever + rakesDone counter + AC-6
   refusal + cap line + auto-rake disarm); fixtures regen; balance GREEN (Δ 0.0).
+- FB-353 + FB-329 answered (💬): fixtures provably current (the staleness was
+  FB-358's UI bug); map fog + movement lock already shipped.
