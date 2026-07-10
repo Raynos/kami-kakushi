@@ -38,7 +38,7 @@ timers so its own toast and click-swallow guard keep ticking.
 dropping `disarm()` fails 5 of them), plus a live browser probe: `.frozen` on
 pick, a game timer scheduled during the freeze does not fire, thaw after send.
 
-### FB-216 · The protagonist's speech colour — 💬 re-routed
+### FB-216 · The protagonist's speech colour — ✅ (landed by the vn-speech lane)
 **Verbatim:** _"The text color of my spoken text in the ask/chat mode is
 different color from in the intro text, we need a unique and specific color for
 the main cahracter, and it needs to be very obvouis, I think I like the blue idea
@@ -58,8 +58,12 @@ for a taste call (ADR-075). **Not landed here:** `src/ui/render.ts` and
 buckets, and the speaker-colour cluster is being re-grouped into a single lane
 (cross-agent notice, human go-ahead). The capture stays in `pending/` for that
 lane; the analysis above is the handoff.
-**Doc-update plan:** whichever lane lands it files the HR-item + the swatch
-toggle; `ui-design.md` absorbs "a voice is distinguished by chroma, not lightness".
+**Fixed in:** `85d8b43` — the **vn-speech lane** landed it as **FB-234**, collapsing
+the protagonist to one token and setting `--v-player: #8ec9ff` (asagi sky-blue,
+~10:1 on steel). Exactly the chroma-not-lightness diagnosis above. This FB-216
+entry stays as the analysis record; the capture's sidecar is stamped `fb: 234`.
+**Doc-update plan:** `ui-design.md` absorbs "a voice is distinguished by chroma,
+not lightness".
 
 ### FB-217 · The bucket must be mandatory — ✅
 **Verbatim:** _"The feedback UI I want the bucket to be mandatory, so it dont
@@ -216,3 +220,12 @@ made `querySelector` find the menu instead of the box — and it needs a z-index
 type-filters; mint-row present / absent when exact; arrows+Enter pick without
 sending; pointerdown picks; Escape closes menu-then-box; teardown leaves no
 orphan listbox on `<body>`), plus a screenshot of the real thing.
+
+### FB-260 · "Test" — ✅ not a defect
+**Verbatim:** _"Test"_ (picked element: `panel "do"` — the "What you can do" heading)
+**Reading:** a **smoke test** of the rebuilt capture UI, taken on build `b9abe14`
+right after FB-217 (mandatory bucket) and before the tab reloaded. It round-tripped
+correctly: the bucket was enforced, and the note, save, sidecar and screenshot all
+landed in `feedback-ui/`. No code change; the capture *is* the verification.
+**Fixed in:** `e5d3a01` (the capture-UI work it exercised). Stamped `done` so the
+bucket can archive — say the word and I will pull it back out.

@@ -180,3 +180,39 @@ capture tool". It isn't the overlay: `src/ui/capture.ts` contains zero reference
 `fb` or a high-water mark, and never has. The `fb` sidecar field is written by
 `src/scripts/playtest-inbox.ts` / `inbox-lanes.ts`, both introduced by `b66806a`
 (feat(inbox): parallel drain lanes, ADR-171). The stale high-water lives there.
+
+---
+
+## Closing the lane properly (ADR-171)
+
+I had logged the F-entries and landed the fixes, but never completed the drain: the
+protocol changed under me mid-session (ADR-171 replaced "archive the bucket" with
+"stamp each sidecar `done` + `fb` + `commit`, then archive when all are done"). The
+human caught it.
+
+Stamped all six `feedback-ui` sidecars:
+
+| capture | FB | commit |
+|---|---|---|
+| 11-34-29 shell freeze | 215 | `cf66f7c` |
+| 11-35-21 speech colour | 234 | `85d8b43` (vn-speech lane stamped it) |
+| 12-07-56 mandatory bucket | 217 | `cf66f7c` |
+| 12-20-46 capture-UI jank | 218 | `cf66f7c` |
+| 12-21-14 pick→box delay | 219 | `cf66f7c` |
+| 13-13-28 "Test" | 260 | `e5d3a01` |
+
+The last is a **smoke test** of the rebuilt capture UI (build `b9abe14`, note "Test",
+picked the "What you can do" heading) — no defect, and it round-tripped correctly.
+Logged as FB-260 ✅ so the bucket could close; trivially reversible.
+
+Reconciled **FB-216**: I had it as 💬 re-routed. The vn-speech lane landed exactly the
+diagnosis (chroma, not lightness) as **FB-234** — `--v-player: #8ec9ff` — so FB-216 is
+now ✅ with a pointer, and the sidecar carries `fb: 234`. My entry stays as the
+analysis record.
+
+`inbox-ledger` went RED on the fully-drained-but-unarchived bucket, exactly as
+designed, then green once `feedback-ui.md` + its six sidecars moved to `archive/`.
+Pending is now `dev` (1) and `r0` (22).
+
+**Lesson:** stamping is the completion signal other lanes read, not the F-entry. Do it
+in the same commit as the fix, not at checkpoint time.
