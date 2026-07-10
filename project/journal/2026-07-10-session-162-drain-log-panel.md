@@ -26,6 +26,12 @@ prefix). Nine fix groups A–I; one commit per group; F-entries in
   VN, never mid-scene. engine/m1 tests updated to the new timing (+ a new
   post-intro reveal test); fixtures regenerated.
 
+- **I · FB-344 — zone arrival prefix.** `move_to`'s ephemeral arrival line now
+  carries the node's `label` as its speaker → the Now view reads
+  "Kura: <the description>" via the existing styled speaker prefix (the
+  human's pick: speaker-style, not a literal "Zone …:"). people.test asserts
+  the speaker from the node registry; fixtures regenerated.
+
 ## Next intended steps
 
 - A · FB-315/FB-331 — VN-read lines pre-marked seen (no chat replay) —

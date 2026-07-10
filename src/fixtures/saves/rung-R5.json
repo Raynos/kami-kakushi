@@ -1473,6 +1473,7 @@
           "text": "The paddies are flooding for the planting: cold water over the shins from first light, seedbeds greening at the margins, frog-song after dark where winter kept silence. The whole year's ledger stands in it.",
           "tick": 0,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1482,6 +1483,7 @@
           "text": "Fresh-turned earth at the setts — tanuki and badger are awake, and the seed rice standing out for the planting is the easiest meal of their year. The margins smell of opened burrow and cold mud.",
           "tick": 0,
           "count": 1,
+          "speaker": "The field margins",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1543,6 +1545,7 @@
           "text": "The outer court where the day's work is set out has come up out of winter heaved and puddled, and the morning rake fights the thaw for it. Genemon's window stands open to the first mild air — which means it stands open to everything below it.",
           "tick": 14,
           "count": 1,
+          "speaker": "The forecourt",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1552,6 +1555,7 @@
           "text": "The paddies are flooding for the planting: cold water over the shins from first light, seedbeds greening at the margins, frog-song after dark where winter kept silence. The whole year's ledger stands in it.",
           "tick": 14,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1561,6 +1565,7 @@
           "text": "Fresh-turned earth at the setts — tanuki and badger are awake, and the seed rice standing out for the planting is the easiest meal of their year. The margins smell of opened burrow and cold mud.",
           "tick": 14,
           "count": 1,
+          "speaker": "The field margins",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1684,6 +1689,7 @@
           "text": "The outer court where the day's work is set out has come up out of winter heaved and puddled, and the morning rake fights the thaw for it. Genemon's window stands open to the first mild air — which means it stands open to everything below it.",
           "tick": 10,
           "count": 1,
+          "speaker": "The forecourt",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1693,6 +1699,7 @@
           "text": "The paddies are flooding for the planting: cold water over the shins from first light, seedbeds greening at the margins, frog-song after dark where winter kept silence. The whole year's ledger stands in it.",
           "tick": 10,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1702,6 +1709,7 @@
           "text": "Fresh-turned earth at the setts — tanuki and badger are awake, and the seed rice standing out for the planting is the easiest meal of their year. The margins smell of opened burrow and cold mud.",
           "tick": 10,
           "count": 1,
+          "speaker": "The field margins",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1752,6 +1760,7 @@
           "text": "The paddies are flooding for the planting: cold water over the shins from first light, seedbeds greening at the margins, frog-song after dark where winter kept silence. The whole year's ledger stands in it.",
           "tick": 16,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1761,6 +1770,7 @@
           "text": "The forage country past the last fence wakes first: green out here beats the garden rows by a fortnight, and melt-water runs loud in every fold of the ground. A hundred paces in, the estate's sounds end and the water's begin.",
           "tick": 16,
           "count": 1,
+          "speaker": "The woodlot edge",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1802,6 +1812,7 @@
           "text": "The paddies are flooding for the planting: cold water over the shins from first light, seedbeds greening at the margins, frog-song after dark where winter kept silence. The whole year's ledger stands in it.",
           "tick": 22,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1811,6 +1822,7 @@
           "text": "Fresh-turned earth at the setts — tanuki and badger are awake, and the seed rice standing out for the planting is the easiest meal of their year. The margins smell of opened burrow and cold mud.",
           "tick": 22,
           "count": 1,
+          "speaker": "The field margins",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -2007,6 +2019,7 @@
           "text": "The paddies are flooding for the planting: cold water over the shins from first light, seedbeds greening at the margins, frog-song after dark where winter kept silence. The whole year's ledger stands in it.",
           "tick": 22,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -2016,6 +2029,7 @@
           "text": "The forage country past the last fence wakes first: green out here beats the garden rows by a fortnight, and melt-water runs loud in every fold of the ground. A hundred paces in, the estate's sounds end and the water's begin.",
           "tick": 22,
           "count": 1,
+          "speaker": "The woodlot edge",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -2062,6 +2076,7 @@
           "text": "The paddies are flooding for the planting: cold water over the shins from first light, seedbeds greening at the margins, frog-song after dark where winter kept silence. The whole year's ledger stands in it.",
           "tick": 4,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -2071,6 +2086,7 @@
           "text": "Fresh-turned earth at the setts — tanuki and badger are awake, and the seed rice standing out for the planting is the easiest meal of their year. The margins smell of opened burrow and cold mud.",
           "tick": 4,
           "count": 1,
+          "speaker": "The field margins",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -2185,6 +2201,7 @@
           "text": "The paddies are flooding for the planting: cold water over the shins from first light, seedbeds greening at the margins, frog-song after dark where winter kept silence. The whole year's ledger stands in it.",
           "tick": 18,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -2493,6 +2510,7 @@
           "text": "The outer court where the day's work is set out has come up out of winter heaved and puddled, and the morning rake fights the thaw for it. Genemon's window stands open to the first mild air — which means it stands open to everything below it.",
           "tick": 18,
           "count": 1,
+          "speaker": "The forecourt",
           "voice": "narrator",
           "ephemeral": true
         },

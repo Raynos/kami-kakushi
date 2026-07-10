@@ -91,6 +91,9 @@ describe('D-116 — location flavor routes to a transient Now line, never the St
     for (const e of blurbEntries) {
       expect(e.ephemeral).toBe(true);
       expect(e.channel).toBe('narration');
+      // FB-344 — the zone's label rides as the line's speaker, so the Now view
+      // reads "Kura: <the description>" (source of truth: the node's own label).
+      expect(e.speaker).toBe(getNode(dest).label);
     }
   });
 });

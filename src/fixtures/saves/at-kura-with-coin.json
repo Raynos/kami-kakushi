@@ -739,6 +739,7 @@
           "text": "The outer court of the guest house, where the day's work is set out and seen to — set out in the dark now, the days being what they are, and often finished in it. Genemon's lamp is lit before the sky is; what is done here still gets written down.",
           "tick": 2,
           "count": 1,
+          "speaker": "The forecourt",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -748,6 +749,7 @@
           "text": "The guest house's skirts, the paddy and the rows that pay for everything else. Winter lays the fields off — stubble, frost, the water let out — and moves their work indoors: the tools that will open them again are mended now or not at all.",
           "tick": 2,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -962,6 +964,7 @@
           "text": "The outer court of the guest house, where the day's work is set out and seen to — set out in the dark now, the days being what they are, and often finished in it. Genemon's lamp is lit before the sky is; what is done here still gets written down.",
           "tick": 16,
           "count": 1,
+          "speaker": "The forecourt",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1284,6 +1287,7 @@
           "text": "The guest house's skirts, the paddy and the rows that pay for everything else. Winter lays the fields off — stubble, frost, the water let out — and moves their work indoors: the tools that will open them again are mended now or not at all.",
           "tick": 6,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1293,6 +1297,7 @@
           "text": "Kindling and forage country past the last fence, and in winter the estate's real employer: everything that burns comes out of it on somebody's back, mostly yours. A hundred paces in, the sound of the estate stops — sooner, with snow down.",
           "tick": 6,
           "count": 1,
+          "speaker": "The woodlot edge",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1569,6 +1574,7 @@
           "text": "The guest house's skirts, the paddy and the rows that pay for everything else. Winter lays the fields off — stubble, frost, the water let out — and moves their work indoors: the tools that will open them again are mended now or not at all.",
           "tick": 10,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1578,6 +1584,7 @@
           "text": "The outer court of the guest house, where the day's work is set out and seen to — set out in the dark now, the days being what they are, and often finished in it. Genemon's lamp is lit before the sky is; what is done here still gets written down.",
           "tick": 10,
           "count": 1,
+          "speaker": "The forecourt",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -1878,6 +1885,7 @@
           "text": "The working storehouse, and winter is its narrowest season: nothing comes in, everything goes out, and the counting tightens with the pile. The grain-watch's stool stays by the iron-strapped door; cold is not entered in the book.",
           "tick": 10,
           "count": 1,
+          "speaker": "The kura & grain-store",
           "voice": "narrator",
           "ephemeral": true
         }

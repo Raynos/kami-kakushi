@@ -3936,6 +3936,7 @@
           "text": "The guest house's skirts, the paddy and the rows that pay for everything else. Winter lays the fields off — stubble, frost, the water let out — and moves their work indoors: the tools that will open them again are mended now or not at all.",
           "tick": 2,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -4044,6 +4045,7 @@
           "text": "The outer court of the guest house, where the day's work is set out and seen to — set out in the dark now, the days being what they are, and often finished in it. Genemon's lamp is lit before the sky is; what is done here still gets written down.",
           "tick": 0,
           "count": 1,
+          "speaker": "The forecourt",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -4187,6 +4189,7 @@
           "text": "The guest house's skirts at rest: grey ice skins the paddy water, and only the winter rows — daikon under straw — still want hands. The mud is iron all morning and mud again by noon, and the new year will be paid for from here like the old one.",
           "tick": 0,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -4430,6 +4433,7 @@
           "text": "The outer court of the guest house, frozen hard enough that every footfall carries; the day's work is still set out here, breath showing over it. Genemon's window is lit early and late while the new year's book is opened — what is done out here goes into it.",
           "tick": 0,
           "count": 1,
+          "speaker": "The forecourt",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -4586,6 +4590,7 @@
           "text": "The paddies are flooding for the planting: cold water over the shins from first light, seedbeds greening at the margins, frog-song after dark where winter kept silence. The whole year's ledger stands in it.",
           "tick": 0,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -4726,6 +4731,7 @@
           "text": "The outer court where the day's work is set out has come up out of winter heaved and puddled, and the morning rake fights the thaw for it. Genemon's window stands open to the first mild air — which means it stands open to everything below it.",
           "tick": 0,
           "count": 1,
+          "speaker": "The forecourt",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -4873,6 +4879,7 @@
           "text": "The guest house's skirts, and Summer is when the paddy asks the most of a back: weeding between the standing rice, minding water in and water out, leeches at the ankle. No work on the estate outranks this while the rice is green.",
           "tick": 0,
           "count": 1,
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -4927,6 +4934,7 @@
           "text": "The day's work is set out by lamplight in the hot months, so the heavy tasks are done before the ground throws the heat back. By midday the court stands empty under Genemon's window.",
           "tick": 10,
           "count": 1,
+          "speaker": "The forecourt",
           "voice": "narrator",
           "ephemeral": true
         },
@@ -4936,6 +4944,7 @@
           "text": "The working storehouse in its leanest season, last year's rice going out by the measured scoop while this year's stands green in the water. The door is opened at first light to air the grain before the damp heat gets a smell into it; the count at the stool is quick, there being little to count.",
           "tick": 10,
           "count": 1,
+          "speaker": "The kura & grain-store",
           "voice": "narrator",
           "ephemeral": true
         },

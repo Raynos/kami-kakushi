@@ -1085,12 +1085,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // hides them from Story/All, so the Story log keeps only mandatory beats (no nav noise).
       next = applyRewards(next, {
         // C5a unit 5 — the arrival line breathes by season (nodeSeasonalBlurb; static
-        // blurb where no seasonal variant is authored).
+        // blurb where no seasonal variant is authored). FB-344 — the zone's label rides
+        // as the line's SPEAKER, so the Now view reads "Gateyard: <the description>" and
+        // the player never guesses which zone a floated read describes (TST4).
         log: [
           {
             channel: 'narration',
             text: nodeSeasonalBlurb(dest, next.season).text,
             voice: 'narrator',
+            speaker: dest.label,
             ephemeral: true,
           },
         ],
