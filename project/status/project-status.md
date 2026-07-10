@@ -102,7 +102,7 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-10-session-148-brief-inbox-counts.md`](../journal/2026-07-10-session-148-brief-inbox-counts.md)
+   [`journal/2026-07-10-session-150-inbox-headline-in-progress.md`](../journal/2026-07-10-session-150-inbox-headline-in-progress.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).
    Use **`?dev=no`** for the true player layout. The page NEVER auto-reloads
