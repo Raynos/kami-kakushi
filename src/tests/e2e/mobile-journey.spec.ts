@@ -4,7 +4,7 @@
 // (an overlay paints over a verb, a tab drifts offscreen, a modal traps the
 // page), these go RED. Runs on ALL projects. qa-playtesting.md §1.
 import { expect, test } from '@playwright/test';
-import { boot, expectNoHorizontalOverflow, expectNoPageErrors, press } from './helpers';
+import { boot, expectNoHorizontalOverflow, expectNoPageErrors, press, walkSheet } from './helpers';
 
 test('cold open: tapping "Open your eyes" wakes the game', async ({ page }) => {
   const errors = await boot(page);
@@ -47,10 +47,7 @@ test('R3: tabs switch by tap, actions land, the night round posts and resolves',
   // on rails (rats → marten → THE WOLF). Walk woodlot → paddies → forecourt → gate, then
   // post it from the Work tab's place strip.
   await press(page.locator('.nav-tab', { hasText: '地図' })); // Map
-  await press(page.locator('.map-nav [data-node="paddies"]:not([data-locked])'));
-  await press(page.locator('.map-nav [data-node="forecourt"]:not([data-locked])'));
-  await press(page.locator('.map-nav [data-node="gate"]:not([data-locked])'));
-  await page.waitForFunction(`window.__qa.state().location === 'gate'`);
+  await walkSheet(page, ['paddies', 'forecourt', 'gate']);
   await press(tabs.first()); // back to Work — the night-watch post lives on the place strip
 
   await press(page.locator('button.verb', { hasText: 'Post the night watch' }));

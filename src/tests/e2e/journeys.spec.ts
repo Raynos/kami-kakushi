@@ -8,7 +8,7 @@
 // promotion that doesn't land, a talk-to-open gate broken, a stranded recovery loop —
 // the reducer-level tests stay green while these go RED.
 import { expect, test, type Page } from '@playwright/test';
-import { boot, expectNoHorizontalOverflow, expectNoPageErrors, press } from './helpers';
+import { boot, expectNoHorizontalOverflow, expectNoPageErrors, press, walkSheet } from './helpers';
 
 /** Hurry the typewriter exactly as a player would — clicking the transcript
  *  advances a line — until one of the scene's interactive controls is visible. */
@@ -181,14 +181,10 @@ test('repair bind: chop wood, mend the blade, durability rises', async ({ page }
   const errors = await boot(page, 'worn-weapon-no-wood');
   const duraBefore = await page.evaluate<number>('__qa.state().weaponDurability');
 
-  // walk to the woodlot through the REAL map (sickroom → forecourt → paddies → woodlot).
+  // walk to the woodlot through the REAL map (sickroom → forecourt → paddies → woodlot),
+  // paced per hop — see walkSheet (the webkit stale-hit-test wedge).
   await press(page.locator('.nav-tab', { hasText: '地図' }));
-  // the survey-plan sheet (ADR-151): each zone's seal is an SVG travel control, not a <button>;
-  // move_to is single-hop, so tap the adjacency chain in order (forecourt is the estate hub).
-  await press(page.locator('.map-nav [data-node="forecourt"]:not([data-locked])'));
-  await press(page.locator('.map-nav [data-node="paddies"]:not([data-locked])'));
-  await press(page.locator('.map-nav [data-node="woodlot"]:not([data-locked])'));
-  await page.waitForFunction(`window.__qa.state().location === 'woodlot'`);
+  await walkSheet(page, ['forecourt', 'paddies', 'woodlot']);
 
   // chop twice (3 wood each; repair costs 5) — the recovery loop must not strand
   await press(page.locator('.nav-tab', { hasText: 'Work' }));
@@ -232,13 +228,10 @@ test('quest slice: take it on, do its act, the step marks done', async ({ page }
 
   // orchard_chain is ORDER-FREE (quests.ts): its `reclaim-rows` step listens for gather:wood, so
   // a wood-chop completes a step WITHOUT the feral-dog fight (an idler never trained combat).
-  // Walk kura → forecourt → paddies → woodlot. The survey-plan sheet (ADR-151): each zone's seal
-  // is an SVG travel control, not a <button>; move_to is single-hop, so tap the chain in order.
+  // Walk kura → forecourt → paddies → woodlot, paced per hop — see walkSheet (the webkit
+  // stale-hit-test wedge, surfaced by this very test when ADR-170 re-rolled the fixture's season).
   await press(page.locator('.nav-tab', { hasText: '地図' }));
-  await press(page.locator('.map-nav [data-node="forecourt"]:not([data-locked])'));
-  await press(page.locator('.map-nav [data-node="paddies"]:not([data-locked])'));
-  await press(page.locator('.map-nav [data-node="woodlot"]:not([data-locked])'));
-  await page.waitForFunction(`window.__qa.state().location === 'woodlot'`);
+  await walkSheet(page, ['forecourt', 'paddies', 'woodlot']);
   await press(page.locator('.nav-tab', { hasText: 'Work' }));
   await press(page.locator('button.verb', { hasText: 'Cut wood' }).first());
 

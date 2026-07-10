@@ -80,6 +80,25 @@ export async function boot(
   return errors;
 }
 
+/** Walk the survey sheet through the REAL map, one adjacency hop at a time (ADR-151: each
+ *  zone's seal is an SVG travel control, not a <button>; move_to is single-hop). Each hop
+ *  waits for the ARRIVAL, then lets headless webkit's compositor CATCH UP before the next
+ *  tap: rapid instant-action arrivals re-render the sheet faster than it repaints, and its
+ *  SVG hit-test region goes stale mid-chain — elementsFromPoint skips the svg entirely at a
+ *  point inside a painted node, so the tap "lands" on the scroll container, and the tap's
+ *  own retry loop (scroll-into-view every attempt) keeps re-wedging it, forever. A double-rAF
+ *  does NOT clear it (rAF fires off the main thread's clock, not the compositor's); a real
+ *  settle does (probed: tap-after-1200ms succeeds where 30s of retries never do). Surfaced
+ *  when the wealthy-idler fixture moved to a spring boot (ADR-170 re-rolled its season/day)
+ *  and under parallel-suite load on the other walks. */
+export async function walkSheet(page: Page, nodes: readonly string[]): Promise<void> {
+  for (const node of nodes) {
+    await press(page.locator(`.map-nav [data-node="${node}"]:not([data-locked])`));
+    await page.waitForFunction(`window.__qa.state().location === '${node}'`);
+    await page.waitForTimeout(1200);
+  }
+}
+
 /** THE core mobile invariant: the page never scrolls horizontally. (This is the
  *  check that catches an overflowing tab row, an unwrapped table, a fixed-width
  *  panel — the whole "hangs off the right edge" bug class.) */

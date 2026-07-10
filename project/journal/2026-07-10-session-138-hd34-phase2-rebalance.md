@@ -52,6 +52,20 @@ and the R3-band remainder is filed as **HD-35**.
 2. B8 stays no-action; mechanism options remain if the human's play feels the free
    season-turn refill cheap.
 
+## Follow-up (same session): the webkit map-walk wedge
+
+The push advisory was right: the regenerated wealthy-idler fixture (now a SPRING
+boot) turned the mobile-webkit `quest slice` e2e RED — reproducibly, not flake.
+Root-caused with in-page probes: rapid instant-action arrivals re-render the
+survey sheet faster than headless webkit repaints, and the SVG's hit-test region
+goes stale mid-chain (`elementsFromPoint` skips the svg entirely at a point inside
+a painted node), so the tap lands on the scroll container — and playwright's
+retry loop (scroll-into-view each attempt) re-wedges it forever. A double-rAF does
+NOT clear it; a real ~1.2 s settle does (probed: tap-after-settle succeeds where
+30 s of retries never do). Fix: a shared `walkSheet(page, nodes)` helper (press →
+arrival wait → 1200 ms settle per hop), adopted by all three map-walk sites
+(quest slice, repair bind, night-round walk). Full suite: 82/82 pass.
+
 ## Landmines
 
 - Session 137 (telemetry retention) is a CO-AGENT in this shared tree — this session
