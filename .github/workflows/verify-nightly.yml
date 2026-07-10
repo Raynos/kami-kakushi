@@ -21,7 +21,9 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run verify
+      - run: pnpm run verify # FULL vitest lane (incl. @slow) — the CI backstop, ADR-176
+        env:
+          VERIFY_FULL: 1
       - run: pnpm run build
       - run: bash src/scripts/verify-dev-strip.sh
       # The process-scaffolding meta-suite (context-hardening P2): git hooks,

@@ -1,3 +1,6 @@
+// @slow — drives a WHOLE T0 playthrough (~10s) to build a realistic save; runs at
+// push/CI, not the per-commit vitest lane (verify budget, ADR-072/ADR-176). See
+// src/scripts/vitest-verify.ts.
 import { describe, it, expect } from 'vitest';
 import {
   createInitialState,

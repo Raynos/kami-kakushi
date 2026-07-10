@@ -345,7 +345,7 @@ Personal rungs retire; the rungs become the **HOUSE's Edo standing, H0→H7** (k
 - **Process gates** — the **op-model v2 FINAL** ([`2026-06-29-operating-model-v2-final.md`](../../project/archive/2026-06-29-operating-model-v2-final.md),
   built by a concurrently-active op-model agent) is the **source of truth**: that plan *defines* the gates,
   this roadmap *bakes them in*. All three are now **BUILT**: (1) the **pre-commit gate runs the full `verify`**
-  (drift-bounded ~5s budget, never time-blocking; `SKIP_VERIFY=1`/`SKIP_JOURNAL=1` escape hatches); (2) the
+  (commit lane, 5s soft / 8s HARD budget — pre-commit blocks past 8s, ADR-176; `SKIP_VERIFY=1`/`SKIP_JOURNAL=1`/`SKIP_BUDGET=1` escape hatches); (2) the
   **`playcheck` fun-vector ratchet** (4 pacing/fun proxies, in `verify`) — so the **≥30-min floor** + the
   pacing/fun DoD lines above are **machine-enforced**, not merely asserted; (3) the **mandatory `diverge`
   contact-sheet skill** (DS#10, human's 2026-06-29 steer — mandatory for new/major UI surfaces, one-line tweaks

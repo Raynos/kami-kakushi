@@ -13,13 +13,19 @@
 //   --verbose, -v   also print every gate's captured output (pass AND fail) + a timing table
 //   --debug         --verbose + the resolved config up front (roster, cmds, scope, concurrency, env)
 //   --performance   a single pass/fail run PLUS the per-gate critical-path timing table (no budget gate)
-//   --budget        run the suite RUNS× · median total · per-gate critical-path breakdown · 5s hard check
+//   --budget        run the suite RUNS× · median total · per-gate critical-path breakdown · 8s HARD check (5s soft)
 //   --help, -h      usage + the full gate roster + the env knobs, then exit
 //
 // Lane flags (commit-time convenience; semantics in verify-scope.ts):
 //   SKIP_CODE_VERIFY=1  skip the 'code'-scoped gates (a docs-only commit — the docs gates still run)
 //   SKIP_DOCS_VERIFY=1  skip the 'docs'-scoped gates (a pure code commit)
 // Ignored by --budget (it measures the full roster) and by pre-push (a push always runs everything).
+//
+// VERIFY_FULL=1 — run the FULL vitest suite (incl. the @slow full-arc/full-mount tests that the
+// per-commit `vitest` gate defers). Set by pre-push + CI so nothing @slow leaves the machine
+// unverified; unset locally so a commit pays only the fast lane. See src/scripts/vitest-verify.ts.
+// The verify budget (5s soft / 8s HARD, ADR-176) is a COMMIT-lane target — VERIFY_FULL is ~30-40s
+// and deliberately unbudgeted (it's the push/CI backstop, like the Playwright e2e lane, ADR-072).
 //
 // The gate list itself now lives in `gates.ts` (the single source of truth — extracted so
 // checkpoint.ts can import the roster without running this runner). `pnpm run verify` → this;
@@ -142,7 +148,7 @@ const verbose = hasFlag('--verbose', '-v') || debug; // --debug implies --verbos
 const perf = hasFlag('--performance', '--perf');
 
 function printHelp(): void {
-  const budgetMs = fmt(Number(process.env.VERIFY_BUDGET_MS ?? 5000));
+  const budgetMs = fmt(Number(process.env.VERIFY_BUDGET_MS ?? 8000));
   console.log(`verify — run the ${GATES.length} verify gates in parallel and report pass/fail.
 
 Usage:
@@ -151,7 +157,7 @@ Usage:
   pnpm run verify --verbose         + every gate's captured output (pass and fail) + a timing table
   pnpm run verify --debug           --verbose + the resolved config before running
   pnpm run verify --performance     a real run + the per-gate timing table (the critical path)
-  pnpm run verify:budget            run the suite RUNS× · median total · hard ${budgetMs} budget check
+  pnpm run verify:budget            run the suite RUNS× · median total · HARD ${budgetMs} budget check (5s soft)
   pnpm run verify --help            this text
   (npm, if used, needs the \`--\` separator, e.g. \`npm run verify -- --verbose\`.)
 
@@ -159,7 +165,8 @@ Env knobs:
   VERIFY_CONCURRENCY   worker-pool size (default = CPU count, currently ${cpus().length})
   SKIP_CODE_VERIFY=1   skip the 'code'-scoped gates (a docs-only commit)
   SKIP_DOCS_VERIFY=1   skip the 'docs'-scoped gates (a pure code commit)
-  VERIFY_BUDGET_MS     --budget target in ms (default 5000)
+  VERIFY_FULL=1        run the FULL vitest suite incl. @slow tests (pre-push + CI set this)
+  VERIFY_BUDGET_MS     --budget HARD target in ms (default 8000; 5s is the soft warn)
   VERIFY_BUDGET_RUNS   --budget sample count (default 3)
 
 Gates (source of truth: src/scripts/gates.ts):
@@ -282,8 +289,12 @@ if (flags.skipCode || flags.skipDocs) {
   console.log('  ~ SKIP_CODE_VERIFY/SKIP_DOCS_VERIFY ignored: --budget measures the FULL roster.');
 }
 
-// --budget: the deliberate hard check — median of RUNS parallel runs + the per-gate critical path.
-const BUDGET_MS = Number(process.env.VERIFY_BUDGET_MS ?? 5000);
+// --budget: the deliberate HARD check — median of RUNS parallel runs + the per-gate critical path.
+// Two thresholds (ADR-176): 5s SOFT (a drift warn) and 8s HARD (the fail). Measures the COMMIT lane
+// (VERIFY_FULL unset), which is what pre-commit budgets — the full push/CI suite is deliberately
+// unbudgeted (~30-40s, the @slow full-arc backstop, like the Playwright e2e lane, ADR-072).
+const BUDGET_MS = Number(process.env.VERIFY_BUDGET_MS ?? 8000);
+const SOFT_MS = Number(process.env.VERIFY_SOFT_MS ?? 5000);
 const RUNS = Math.max(1, Number(process.env.VERIFY_BUDGET_RUNS ?? 3));
 if (!Number.isFinite(BUDGET_MS) || BUDGET_MS <= 0) {
   console.error(`  X VERIFY_BUDGET_MS is not a positive number: "${process.env.VERIFY_BUDGET_MS}"`);
@@ -313,11 +324,21 @@ for (const g of [...last].sort((a, b) => b.ms - a.ms)) {
 totals.sort((a, b) => a - b);
 const median = totals[Math.floor(totals.length / 2)]!;
 console.log(`\n  parallel runs: ${totals.map(fmt).join(' · ')}`);
-console.log(`  median: ${fmt(median)}   budget: ${fmt(BUDGET_MS)}`);
+console.log(`  median: ${fmt(median)}   soft: ${fmt(SOFT_MS)}   HARD: ${fmt(BUDGET_MS)}`);
 if (median > BUDGET_MS) {
   console.error(
-    `\n  X OVER BUDGET by ${fmt(median - BUDGET_MS)}. The critical path is the slowest gate above — trim or shard it.`,
+    `\n  X OVER the HARD ${fmt(BUDGET_MS)} budget by ${fmt(median - BUDGET_MS)}. The critical path is the slowest gate` +
+      ` above — trim/shard it, or lane a slow test to push/CI with a \`// @slow\` pragma (src/scripts/vitest-verify.ts).`,
   );
   process.exit(1);
 }
-console.log(`\n  OK — ${fmt(BUDGET_MS - median)} of headroom under the ${fmt(BUDGET_MS)} budget.`);
+if (median > SOFT_MS) {
+  console.log(
+    `\n  ~ over the ${fmt(SOFT_MS)} SOFT target (by ${fmt(median - SOFT_MS)}) but under the HARD ${fmt(BUDGET_MS)} —` +
+      ` worth trimming before it drifts into the hard fail.`,
+  );
+} else {
+  console.log(
+    `\n  OK — ${fmt(SOFT_MS - median)} of headroom under the ${fmt(SOFT_MS)} soft target.`,
+  );
+}

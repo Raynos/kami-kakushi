@@ -1,4 +1,6 @@
 // @vitest-environment jsdom
+// @slow — 24× full app-mount + click-sweep (~16s); runs at push/CI, not the
+// per-commit vitest lane (verify budget, ADR-072/ADR-176). See src/scripts/vitest-verify.ts.
 //
 // Intent → affordance coverage ratchet (fable-2026-07-05-desktop-journey-e2e P4):
 // every PLAYER-FACING intent must be dispatched by at least one clickable control

@@ -195,7 +195,7 @@ dispatched by ≥1 control across representative render states (a new intent fai
 typecheck until classified; an orphaned control fails the sweep).
 
 **Where it gates:** its own CI workflow (`.github/workflows/e2e.yml`, every push)
-— deliberately NOT a `verify` gate: the roster lives under the 5s budget (ADR-072)
+— deliberately NOT a `verify` gate: the commit lane lives under the 5s soft / 8s hard budget (ADR-072/ADR-176)
 and a browser suite (~50s local across 3 projects, minutes in CI) is the same
 RED-able backstop at the rung its cost affords. A **pre-push blast-radius advisory**
 (`.githooks/pre-push` — loud warn, never blocks; `SKIP_E2E_WARN=1` silences)

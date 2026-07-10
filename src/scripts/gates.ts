@@ -24,7 +24,8 @@ export const GATES: ReadonlyArray<Gate> = [
   { name: 'tsgo', cmd: 'tsgo --noEmit', scope: 'code' }, // native-preview TS compiler (typescript-go)
   { name: 'oxlint', cmd: 'oxlint', scope: 'code' }, // .oxlintrc.json; pure-core boundary in its src/core override
   { name: 'oxfmt', cmd: 'oxfmt --check', scope: 'code' }, // .oxfmtrc.json; *.md + docs dirs ignored there
-  { name: 'vitest', cmd: 'vitest run', scope: 'code' },
+  { name: 'vitest', cmd: 'tsx src/scripts/vitest-verify.ts', scope: 'code' }, // COMMIT lane (skips @slow); VERIFY_FULL=1 (push+CI) runs all — vitest-verify.ts
+
   { name: 'verify-content', cmd: 'tsx src/scripts/verify-content.ts', scope: 'code' }, // imports registries only
   { name: 'verify-prd', cmd: 'tsx src/scripts/verify-prd.ts', scope: 'docs' }, // reads docs/living/prd/* only
   { name: 'gen-docs', cmd: 'tsx src/scripts/gen-docs.ts --check', scope: 'both' }, // src registries -> docs/content

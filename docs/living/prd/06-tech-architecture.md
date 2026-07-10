@@ -72,7 +72,7 @@ clock vitest-dominated) and generated here:
 > | tsgo | `tsgo --noEmit` | code |
 > | oxlint | `oxlint` | code |
 > | oxfmt | `oxfmt --check` | code |
-> | vitest | `vitest run` | code |
+> | vitest | `tsx src/scripts/vitest-verify.ts` | code |
 > | verify-content | `tsx src/scripts/verify-content.ts` | code |
 > | verify-prd | `tsx src/scripts/verify-prd.ts` | docs |
 > | gen-docs | `tsx src/scripts/gen-docs.ts --check` | both |

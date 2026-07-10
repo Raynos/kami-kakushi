@@ -30,4 +30,9 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # VERIFY_FULL=1 → the vitest gate runs the FULL suite incl. the @slow full-arc/full-mount
+      # tests the per-commit lane defers (ADR-176). CI is the backstop, so nothing @slow lands
+      # on main unverified. (The atomic test.yml also runs the whole suite via `pnpm test`.)
       - run: pnpm run verify
+        env:
+          VERIFY_FULL: 1

@@ -667,7 +667,7 @@ design ADR.
 - **Options:** (A) keep ADR-070's deferral + ADR-071's subset · (B) **adopt v2 FINAL — run the full `verify` every commit (measured ~3.2s, fits the 5s box) + a noisy-but-non-blocking drift guard.**
 - **Decision:** **(B).** Pre-commit runs the **full `pnpm run verify`** (~3.2s measured — incl. the test suite ADR-071 skipped, its blind spot), wrapped in a soft 5s **drift timer** (green/amber/red; logs `tmp/precommit-timings.tsv`; **never blocks on time**). `SKIP_VERIFY=1` bypasses a docs-only commit. The hard budget check is the explicit **`pnpm run verify:budget`** (per-gate breakdown + median-of-3); a non-blocking `pre-push` surfaces it loudly. Principle: noisy about drift, never blocking the task in flight.
 - **Why:** Measurement reversed ADR-071's premise — the whole suite runs in ~3s, so the content-aware subset bought nothing and cost the test-suite blind spot. Run everything; let the drift guard catch the budget creeping as the codebase grows.
-- **Consequences:** **⛔ REVERSES ADR-070 and ADR-071** (both annotated). Built this session: [`../../.githooks/pre-commit`](../../.githooks/pre-commit), [`../../src/scripts/verify-run.ts`](../../src/scripts/verify-run.ts), [`../../.githooks/pre-push`](../../.githooks/pre-push). **Un-holds** the `diverge` gate (**ADR-073**) and the `playcheck` ratchet (**ADR-074**) that ADR-070 had held; the roadmap half is **ADR-060**. Plan: [`../../project/archive/2026-06-29-operating-model-v2-final.md`](../../project/archive/2026-06-29-operating-model-v2-final.md). **Refined 2026-06-29:** the gates run in **PARALLEL** via `verify-run.ts` (comfortably under the 5s box; exact wall-time drifts as the codebase grows — check it with `verify:budget` = `verify-run --budget`, don't hard-code a figure). Per **ADR-022**, governs.
+- **Consequences:** **⛔ REVERSES ADR-070 and ADR-071** (both annotated). Built this session: [`../../.githooks/pre-commit`](../../.githooks/pre-commit), [`../../src/scripts/verify-run.ts`](../../src/scripts/verify-run.ts), [`../../.githooks/pre-push`](../../.githooks/pre-push). **Un-holds** the `diverge` gate (**ADR-073**) and the `playcheck` ratchet (**ADR-074**) that ADR-070 had held; the roadmap half is **ADR-060**. Plan: [`../../project/archive/2026-06-29-operating-model-v2-final.md`](../../project/archive/2026-06-29-operating-model-v2-final.md). **Refined 2026-06-29:** the gates run in **PARALLEL** via `verify-run.ts` (comfortably under the 5s box; exact wall-time drifts as the codebase grows — check it with `verify:budget` = `verify-run --budget`, don't hard-code a figure). Per **ADR-022**, governs. **⤴ REFINED by ADR-176 (2026-07-10):** budget is now **5s soft / 8s HARD** (pre-commit BLOCKS past 8s — the drift guard is no longer "never blocks on time"), and the `vitest` gate splits into a fast **commit lane** (skips `// @slow` full-arc/full-mount tests) + a **full push/CI lane** (`VERIFY_FULL=1`).
 
 ### ADR-073 ✅ — Design by divergence: a mandatory `diverge` gate for new/major UI surfaces (branch-preserved)
 - **created_date:** 2026-06-29
@@ -797,7 +797,7 @@ design ADR.
 ### ADR-088 ✅ — A full-arc e2e + invariants test per tier is a hard DoD contract
 - **created_date:** 2026-06-30
 - **Context:** The retro's E2/AC-17: the end-to-end `t0-arc.test` + `invariants.test` (real-intent cold-open → ascension; no-NaN / write-once / monotonic-clock over the whole arc) gave more confidence than any fragment test, ran in ~30 ms, and are RED-able — they prove the **seams** between fragment tests hold. But in v0.3 they were authored late, not from the first milestone.
-- **Decision:** **Every tier ships a full-arc e2e test + an invariants test, named in its FIRST milestone's DoD** — not bolted on at the end. Backstopped by **ADR-054** milestone-integrity (a DoD that names a test which doesn't resolve can't pass silently). **Ration gate-time** (AC-17): full-arc/invariant tests can be O(n²) and spend the verify budget — optimize them (the 1 s → 169 ms win) and keep them within the 5 s budget (ADR-072).
+- **Decision:** **Every tier ships a full-arc e2e test + an invariants test, named in its FIRST milestone's DoD** — not bolted on at the end. Backstopped by **ADR-054** milestone-integrity (a DoD that names a test which doesn't resolve can't pass silently). **Ration gate-time** (AC-17): full-arc/invariant tests can be O(n²) and spend the verify budget — optimize them (the 1 s → 169 ms win) and tag them `// @slow` to lane them to push/CI when they can't fit the commit budget (5s soft / 8s hard, ADR-176).
 - **Why:** Human chose "hard DoD contract." Extends ADR-054 from feature-completeness to playtestability; the cheapest playtestability guarantee we have.
 - **Consequences:** An AGENTS.md `Test discipline` convention line + the `tdd` skill's deep procedure; roadmap per-tier DoDs name the two tests. **Enforcement (human, 2026-06-30, "your rec then yes"):** the **milestone-integrity gate** (battery #20, v0.3.1 Step 7) is the teeth; **per-test RED-ability stays a NORM, deliberately not gated** (gating it would cry wolf — AC-11). Per **ADR-022**, governs; refines **ADR-054**.
 
@@ -3133,3 +3133,44 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   in `takes/hd36-lord-unstaged/`, DEV → Story). The G4.1 verb-token
   re-derivation stays owed to the G4.2/G4.3 registry chunk (noted in
   `requirements.md`'s header).
+
+### ADR-176 ✅ — Verify budget 5s soft / 8s HARD; the `vitest` gate splits into a fast commit lane + a full push/CI lane (refines ADR-072)
+- **created_date:** 2026-07-10
+- **Context:** The per-commit `vitest` gate had regressed from ~3s to ~33s. Root
+  cause (measured): three legitimately-heavy tests — `persistence/save-e2e.test.ts`
+  (a whole-T0 playthrough run at `describe`-collect time, ~10s),
+  `ui/affordance-coverage.test.ts` (24× full app-mount + click-sweep, ~16s), and
+  `ui/render.test.ts` (a 103-test jsdom render suite, ~5.6s). The other 83 files
+  run in ~3s. ADR-072's "soft 5s drift timer that never blocks on time" let this
+  rot in silently. The human's steer: **5s is a soft cap, 8s is a HARD cap;
+  pre-commit hard-fails at 8s** (newest-steer-wins over ADR-072's never-block).
+- **Options:** (A) speed vitest up in place (config is already `threads` +
+  `isolate:false` — no lever left; the cost is the three tests) · (B) hard-fail at
+  8s with the suite as-is (blocks *every* commit — the suite is 33s) · (C) **split
+  the `vitest` gate: a fast COMMIT lane (skips the heavy tests) + a FULL push/CI
+  lane, and enforce 5s soft / 8s hard on the commit lane.**
+- **Decision:** **(C).** A test opts into the slow lane with a top-of-file
+  `// @slow` pragma (same per-file-pragma pattern as `// @vitest-environment
+  jsdom`; no hand-maintained list). `src/scripts/vitest-verify.ts` derives the
+  exclude set by scanning for it: the per-commit `vitest` gate runs everything
+  **except** `@slow`; `VERIFY_FULL=1` (set by **pre-push + CI**) runs the whole
+  suite. Budget is **5s soft / 8s HARD**: pre-commit is silent <5s, warns 5–8s,
+  and **BLOCKS past 8s** (`SKIP_BUDGET=1` bypass for a genuinely loaded box). The
+  commit lane measures **~3s**, so 8s is ~2.5× headroom — the hard fail trips on a
+  real regression (a slow test in the fast lane), not machine noise.
+- **Why:** This is the same call ADR-072 made for the Playwright e2e suite —
+  heavy, seam-proving tests run at push/CI, not on every keystroke-commit — now
+  applied to the vitest heavies. Nothing `@slow` reaches `main` unverified (pre-push
+  + verify.yml + the atomic test.yml all run the full suite). The hard cap keeps
+  the fast lane honest: a future O(n²) full-arc test can't quietly drag the commit
+  gate back to 30s. Preserves PH3 (done-is-earned: the remote is always fully
+  green) while restoring fast local feedback.
+- **Consequences:** New `src/scripts/vitest-verify.ts`; `gates.ts` `vitest` cmd →
+  it; the three files tagged `// @slow`. `verify-run.ts` `--budget` default
+  5000→8000 (+ a 5s soft note); `.githooks/pre-commit` hard-fails past 8s (was
+  warn-only); `.githooks/pre-push` + `verify.yml` + `verify-nightly.yml` set
+  `VERIFY_FULL=1`; `vite.config.ts` comment updated. Docs: AGENTS.md, qa-playtesting,
+  repo-map, roadmap, and the ADR-088 gate-time note re-pointed at the 5s/8s model.
+  **Follow-up (not in scope):** `save-e2e` runs its playthrough at collect-time
+  (describe body) even in the full lane — move to `beforeAll` for parallelism.
+  Per **ADR-022**, governs; refines **ADR-072**.

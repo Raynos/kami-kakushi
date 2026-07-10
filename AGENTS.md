@@ -65,19 +65,24 @@ philosophy wins.**
   generic "branch off main / commit only when asked" default.)* Each commit runs
   the **full `pnpm run verify`** (the gate roster is owned by
   `src/scripts/gates.ts` — the single source of truth — and the gates run in
-  **parallel**; the wall clock is **vitest-dominated, ~30–60 s**, so expect a
-  commit to sit at the gate for half a minute) and
+  **parallel**; the critical path is the `vitest` gate, which at commit time runs
+  the **COMMIT lane** — every test EXCEPT the few `// @slow` full-arc/full-mount
+  ones — so a commit sits at the gate for **~3 s**, well under the budget) and
   stages a `project/journal/` entry (enforced by `.githooks/pre-commit`;
   `SKIP_CODE_VERIFY=1` for a docs-only commit — skips the code lane, the
   docs gates still run (~1s); `SKIP_DOCS_VERIFY=1` is the code-lane mirror;
   `SKIP_VERIFY=1` skips *everything* — last resort;
-  `SKIP_JOURNAL=1` for trivial commits. A push always verifies the FULL
-  roster — the lane flags are commit-time only).
-  A soft **drift timer** warns (never blocks) when a run exceeds its target;
-  `pnpm run verify:budget` is the hard, on-demand budget check (ADR-072 — its
-  5 s target predates the vitest-heavy roster and reads as aspirational; the
-  per-gate breakdown is the useful part). Enable
-  the hook once per clone: `git config core.hooksPath .githooks`.
+  `SKIP_JOURNAL=1` for trivial commits. **A push always verifies the FULL vitest
+  suite** (`VERIFY_FULL=1`, incl. the `@slow` tests) — nothing slow leaves the
+  machine unverified; the lane flags are commit-time only).
+  The **verify budget is 5 s soft / 8 s HARD (ADR-176, refining ADR-072)**: the
+  pre-commit timer stays silent under 5 s, warns at 5–8 s, and **HARD-BLOCKS a
+  commit past 8 s** (`SKIP_BUDGET=1` for a genuinely loaded box) — the fast lane
+  can't silently rot back to a 30 s gate. `pnpm run verify:budget` is the
+  on-demand median-of-3 check with the per-gate breakdown. A test that's
+  legitimately slow (full-arc playthrough, full app-mount sweep) is tagged
+  `// @slow` to lane it to push/CI (`src/scripts/vitest-verify.ts`). Enable the
+  hook once per clone: `git config core.hooksPath .githooks`.
 - **Use Workflows for substantial / parallelizable work** (e.g. fan-out
   research, multi-file sweeps).
 - **Model routing — inherit the parent's model by default.** Every subagent and

@@ -1,21 +1,27 @@
 #!/usr/bin/env bash
-# Pre-commit gate (op-model v2 FINAL, Workstreams A+B — 2026-06-29):
-#   1. Run the FULL `pnpm run verify` (~5s measured) so a commit can never be red.
+# Pre-commit gate (op-model v2 FINAL, Workstreams A+B — 2026-06-29; budget model ADR-176 2026-07-10):
+#   1. Run the FULL `pnpm run verify` (COMMIT lane — the `vitest` gate skips the @slow
+#      full-arc/full-mount tests, which run at push/CI) so a commit can never be red.
 #      The gate roster is owned by src/scripts/gates.ts (the single source — do NOT
 #      re-list it here; that copy drifted). `pnpm run checkpoint` regenerates the
 #      human-facing roster docs from it.
-#   2. Wrap it in a soft 5s-budget DRIFT timer: green (<4s) silent · amber (4–5s) note ·
-#      red (>5s) loud nudge — but NEVER block on time (a slow machine must not fail a commit).
-#      Every run appends a row to tmp/precommit-timings.tsv so drift is a readable curve.
+#   2. Wrap it in a two-threshold budget timer (ADR-176): <5s silent · 5–8s soft warn ·
+#      >8s HARD FAIL — the commit is BLOCKED (SKIP_BUDGET=1 bypasses on a genuinely loaded box).
+#      The commit lane runs ~3s, so 8s is ~2.5× headroom — the hard fail trips on a real
+#      regression (a slow test crept into the fast lane), not machine noise. Tag a slow test
+#      `// @slow` to lane it to push/CI (src/scripts/vitest-verify.ts). Every run appends a
+#      row to tmp/precommit-timings.tsv so drift is a readable curve.
 #   3. Reading-queue gate: a brand-NEW docs/plans/*.md must be listed in project/todo-human.md (HARD
 #      block); a new brainstorm / audit report not listed is a LOUD WARN (judgment dirs). So a doc meant
 #      for the human can't silently miss their reading queue. See CLAUDE.md "Reading queue".
 #   4. Journal-hygiene gate (unchanged).
-# The HARD budget check is the explicit `pnpm run verify:budget`; the pre-push hook surfaces it
-# loudly-but-non-blocking. Principle (X-3): noisy about drift, never blocking the task in flight.
+# `pnpm run verify:budget` is the deliberate median-of-3 check with the per-gate breakdown; the
+# pre-push hook surfaces it. Principle (X-3): noisy about drift — and, now, a HARD stop at 8s so
+# the fast commit lane can't silently rot back to a 30s gate.
 #
 # Bypass:  SKIP_CODE_VERIFY=1 git commit …  (docs-only commit: skip the code gates, docs gates STILL run — ~1s)
 #          SKIP_DOCS_VERIFY=1 git commit …  (pure-code commit: skip the docs-lane gates)
+#          SKIP_BUDGET=1  git commit …   (skip the 8s HARD time cap — a genuinely loaded machine)
 #          SKIP_VERIFY=1  git commit …   (skip the WHOLE verify — last resort; prefer the lane flags above)
 #          SKIP_JOURNAL=1 git commit …   (skip the journal gate)
 #          SKIP_QUEUE=1   git commit …   (skip the reading-queue gate: a new plan genuinely not for the human)
@@ -24,8 +30,8 @@
 
 set -uo pipefail
 
-BUDGET_S="${PRECOMMIT_BUDGET_S:-5}"   # soft drift budget (seconds)
-AMBER_S="${PRECOMMIT_AMBER_S:-4}"     # warn when approaching the budget
+SOFT_S="${PRECOMMIT_SOFT_S:-5}"   # soft budget — warn (seconds) — ADR-176
+HARD_S="${PRECOMMIT_HARD_S:-8}"   # hard budget — BLOCK the commit (seconds) — ADR-176
 
 run_verify() {
   if [ "${SKIP_VERIFY:-0}" = "1" ]; then
@@ -45,7 +51,7 @@ run_verify() {
   end=$(date +%s)
   elapsed=$((end - start))
 
-  # --- drift timer: NOISY, never blocks on time (X-3) ---
+  # --- budget timer: warn at the soft cap, HARD-BLOCK past the hard cap (ADR-176) ---
   local loc=0 tests=0
   local srcfiles=()
   while IFS= read -r f; do [ -n "$f" ] && srcfiles+=("$f"); done \
@@ -56,11 +62,20 @@ run_verify() {
   tests=$(grep -rhoE "\b(it|test)\(" src --include='*.test.ts' 2>/dev/null | wc -l | tr -d ' ')
   printf '%s\t%s\t%s\t%s\n' "$(date +%s)" "$elapsed" "$loc" "$tests" >> tmp/precommit-timings.tsv 2>/dev/null || true
 
-  if [ "$elapsed" -gt "$BUDGET_S" ]; then
-    echo "  !! verify took ${elapsed}s - OVER the ${BUDGET_S}s budget. Worth trimming/speeding the gate when" >&2
-    echo "     you get a chance: run 'pnpm run verify:budget' for the per-gate breakdown. (NOT blocking this commit.)" >&2
-  elif [ "$elapsed" -ge "$AMBER_S" ]; then
-    echo "  ~ verify took ${elapsed}s - approaching the ${BUDGET_S}s budget." >&2
+  if [ "$elapsed" -gt "$HARD_S" ] && [ "${SKIP_BUDGET:-0}" != "1" ]; then
+    echo "" >&2
+    echo "  X commit BLOCKED - verify took ${elapsed}s, OVER the ${HARD_S}s HARD budget (ADR-176)." >&2
+    echo "    The per-commit lane is meant to run ~3s; ${elapsed}s means a slow test crept into it" >&2
+    echo "    (or the engine import graph bloated). Fix it: run 'pnpm run verify:budget' for the" >&2
+    echo "    per-gate breakdown, and tag any full-arc/full-mount test '// @slow' so it lanes to" >&2
+    echo "    push/CI (src/scripts/vitest-verify.ts). Genuinely just a loaded machine? SKIP_BUDGET=1 git commit …" >&2
+    echo "" >&2
+    return 1
+  elif [ "$elapsed" -gt "$HARD_S" ]; then
+    echo "  ~ verify took ${elapsed}s (> ${HARD_S}s HARD) — SKIP_BUDGET=1 set, allowing it." >&2
+  elif [ "$elapsed" -gt "$SOFT_S" ]; then
+    echo "  !! verify took ${elapsed}s - over the ${SOFT_S}s soft target (hard cap ${HARD_S}s). Trim it before it" >&2
+    echo "     drifts into the block: 'pnpm run verify:budget' for the per-gate breakdown." >&2
   fi
   return 0
 }

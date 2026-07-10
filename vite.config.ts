@@ -279,10 +279,12 @@ export default defineConfig(({ command }) => {
       // root is 'src' (above), so test globs are resolved relative to it.
       include: ['**/*.test.ts'],
       globals: true,
-      // Speed levers to keep the `vitest` verify gate well under the 5s drift
-      // budget (ADR-072). `threads` spawns workers faster than the default
-      // `forks`, and `isolate: false` reuses each worker's module registry
-      // across files instead of tearing it down per file — together ~4.8s → ~3s.
+      // Speed levers to keep the `vitest` verify gate well under the verify budget
+      // (5s soft / 8s hard, ADR-176 refining ADR-072). `threads` spawns workers faster
+      // than the default `forks`, and `isolate: false` reuses each worker's module
+      // registry across files instead of tearing it down per file — together ~4.8s → ~3s.
+      // The per-commit gate runs via src/scripts/vitest-verify.ts, which defers the few
+      // `// @slow`-tagged full-arc/full-mount tests to the push/CI lane (VERIFY_FULL=1).
       // Safe here because the suite is isolation-clean: the pure core has no
       // shared mutable module state, and every UI file re-declares its own jsdom
       // env; validated by 3× shuffled-order runs all-green. If a future test
