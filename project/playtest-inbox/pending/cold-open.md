@@ -90,3 +90,13 @@ When the cold open finished, the Progress did not have an unread symbol, it need
 **Details:** `cold-open/2026-07-10T11-38-45.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:39:11+0200 — the-text-color-of
+
+The text color of the narrator text is the same as the main character here, like the narrator text color in the cold open VN and the log panel are not consistent with each other.
+
+**Element:** panel "log" — "The river gives you up at the weir. You keep none of it in o" · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(1)` · @942,135 493×79
+**Screenshot:** `cold-open/2026-07-10T11-39-11.png`
+**Details:** `cold-open/2026-07-10T11-39-11.json` — save + recent logs + full context
+
+---
