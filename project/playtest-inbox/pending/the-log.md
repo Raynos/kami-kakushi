@@ -46,3 +46,13 @@ The geneomon flavor text is not indented correcly.
 **Details:** `the-log/2026-07-10T15-22-47.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-309 · 2026-07-10T15:24:29+0200 — lol-colors-for-genemon
+
+lol colors for genemon still wrong here, maybe another agent is working on it.
+
+**Element:** panel "log" — ""...You don't shirk the work," Genemon says, eyeing the clea" · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(34)` · @942,573 493×73
+**Screenshot:** `the-log/2026-07-10T15-24-29.png`
+**Details:** `the-log/2026-07-10T15-24-29.json` — save + recent logs + full context
+
+---
