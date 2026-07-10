@@ -216,3 +216,32 @@ Pending is now `dev` (1) and `r0` (22).
 
 **Lesson:** stamping is the completion signal other lanes read, not the F-entry. Do it
 in the same commit as the fix, not at checkpoint time.
+
+---
+
+## Graduating the distilled rules
+
+The F-log had promised two rules to their living docs and delivered neither — the
+drain's §5 says *graduate*, and I had only *logged the intent*. Both now land.
+
+**`qa-playtesting.md` §9** (the workshop bar) gains "a DEV tool that OBSERVES the
+game must not perturb it", with the failure behind each law: freeze the shell before
+photographing it (freeze the one thing every animation shares — `window`'s timers —
+not a per-call-site check; pin a live CSS transition first, since `transition: none`
+snaps to the target); never rasterise on the interaction the human waits on (~600 ms
+`domToPng`, so run it at submit; rAF fires *before* paint, so hop
+rAF → `setTimeout(0)`); never yank the ground from a live session. Also corrected
+that section's stale "HMR OFF during hand playtests" line.
+
+**`ui-design.md` §2** gains the colour rule — and measuring it sharpened it. I had
+been saying "chroma, not lightness". In CIELAB the old `--v-player` `#e3ecff` is C\*
+**10.2**, *below* the narrator's 17.9, despite reporting **100% HSL saturation**: it
+beat the narrator on lightness alone (ΔL\* +25.7). And its ΔE₇₆ (26.9) is *larger*
+than the fix's (20.5) — so the more-distinct colour is the nearer one. Both intuitive
+metrics lie. The axis of separation reads, not the distance.
+
+**Shared-file discipline:** that paragraph sits in `ui-design.md` alongside the
+vn-speech lane's uncommitted FB-228-laws hunk. A pathspec commit takes the whole
+working-tree file, so committing mine would have swept theirs. By agreement (they were
+at checkpoint) their lane carries both hunks in one commit; I committed only the two
+files that are clean of their work.

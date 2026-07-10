@@ -62,8 +62,11 @@ lane; the analysis above is the handoff.
 the protagonist to one token and setting `--v-player: #8ec9ff` (asagi sky-blue,
 ~10:1 on steel). Exactly the chroma-not-lightness diagnosis above. This FB-216
 entry stays as the analysis record; the capture's sidecar is stamped `fb: 234`.
-**Doc-update plan:** `ui-design.md` absorbs "a voice is distinguished by chroma,
-not lightness".
+**Distilled rule → `ui-design.md` §2 (graduated):** separate a voice by CHROMA,
+not lightness — and trust neither HSL saturation nor ΔE. The old `#e3ecff` read
+"100% saturated" yet carried CIELAB C* 10.2, *below* the narrator's 17.9, beating
+it on lightness alone; and its ΔE₇₆ was the *larger* of the two. The axis of
+separation is what the eye reads, not the distance.
 
 ### FB-217 · The bucket must be mandatory — ✅
 **Verbatim:** _"The feedback UI I want the bucket to be mandatory, so it dont
@@ -110,9 +113,16 @@ takes ~723 ms and posts a 580 KB PNG showing the ringed element and no note box.
 Plus 4 RED-able tests (no raster at pick; box hidden + highlight lit + not yet
 thawed when the shot runs; paint-before-shot ordering; works with no freeze).
 
-### Distilled rule → `docs/guides/qa-playtesting.md`
-A DEV tool that observes the game must not perturb it. Freeze the shell before
-you photograph it, and never rasterise on the interaction the human is waiting on.
+### Distilled rule → `docs/guides/qa-playtesting.md` §9 (graduated)
+**A DEV tool that OBSERVES the game must not perturb it.** Freeze the shell before
+you photograph it (pinning any live CSS transition — `transition: none` snaps it to
+its target); never rasterise on the interaction the human is waiting on (run the
+~600 ms `domToPng` at submit, where a beat is expected, and hop
+`requestAnimationFrame` → `setTimeout(0)` to let a hidden node paint first, since
+rAF fires *before* paint); and never yank the ground from under a live session
+(TST2) — the dev server serves an inert `/@vite/client`, and `index.html` *links*
+the stylesheet, because a JS-imported one is served as a JS module that imports
+that client back in.
 
 ### FB-256 · The action button's progress bar kept animating while frozen — ✅
 **Verbatim:** _"Well the progress bar on the action button didnt freeze"_ /

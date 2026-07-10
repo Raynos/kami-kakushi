@@ -476,8 +476,27 @@ player-facing standard) at the ADR-126 lock; evidence: the F-items in
   collapsible per-surface summaries; per-surface handles (number = surface,
   letter = variant: V6A/B/C); approve → promote the winner + strip the losers
   immediately (zero PROD flag-debt); selections round-trip the URL; list rows
-  stack title over muted detail; HMR OFF during hand playtests (the
-  playtester owns refresh). (FB-16 FB-17 FB-18 FB-21 FB-35 FB-36 FB-43 FB-49 FB-75 FB-101)
+  stack title over muted detail; the page NEVER auto-reloads — the playtester
+  owns refresh. (FB-16 FB-17 FB-18 FB-21 FB-35 FB-36 FB-43 FB-49 FB-75 FB-101)
+- **A DEV tool that OBSERVES the game must not perturb it** (FB-215 FB-218 FB-219
+  FB-256 FB-257). Three ways we broke this, and the rules they bought:
+  - **Freeze the shell before you photograph it.** Aiming at a moving target is
+    not aiming. `` ` `` now halts auto-play, the ActionClock, every typewriter and
+    all CSS motion (`src/app/freeze-clock.ts`) from the keypress to the send. It
+    freezes the ONE thing they share — `window`'s timers — rather than a `frozen`
+    check per call site, which could never stay exhaustive. Freezing a CSS
+    **transition** means pinning its live computed value first; `transition: none`
+    snaps the element to its target (a half-full progress bar slams to 100%).
+  - **Never rasterise on the interaction the human is waiting on.** `domToPng` is
+    one unbroken ~600 ms main-thread task (the DOM clone, not the encode: `scale`
+    and WebP change nothing, and no Worker can take it off-thread). Run it where a
+    beat is expected — at submit, not at pick. Once the shell is frozen the two
+    yield identical pixels. To let a hidden node paint first, hop
+    `requestAnimationFrame` → `setTimeout(0)`: rAF fires *before* paint.
+  - **Never yank the ground from under a live session** (TST2). The dev server
+    serves an inert `/@vite/client` — no websocket, no `location.reload()` — and
+    `index.html` *links* the stylesheet, because a JS-`import`ed one is served as a
+    JS module that imports that client back in. `hmr: false` closes neither path.
 
 > See also: **[`fun-factor.md`](../living/fun-factor.md)** (the *what/why* of fun — this harness measures its
 > targets), [`prd.md`](../living/prd.md) §4.8 (pacing targets), §6 (architecture / DEV play-API / save),
