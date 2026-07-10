@@ -189,3 +189,19 @@ repairs above it — reconcile derived UI state (activeTab) BEFORE bailing on
 **Fixed in:** this commit — the fallback hoisted above the early return (+ the
 FB-3 `data-active-tab` stamp kept in sync); RED-able jsdom test drives the exact
 swap (rich R1 map tab → fresh R0 render) and failed against the old order.
+
+### FB-359 · "can't even press new game, stuck in the cold open" — ✅
+**Verbatim:** _"lol in this state i cant even press new game im just stuck in
+the cold open."_
+**Reading:** the second leg of the FB-358 cascade: New game WHILE a VN scene is
+open swaps state to pre-awake, but `render()`'s pre-awake branch early-returns
+without `teardownIntroScene()` — the dead `.vn-scene` overlay (z-40) stays
+mounted over the cold open, eating clicks; the New game press actually DID
+reset state (the capture's save is a fresh pre-awake run), the screen just
+never followed, so it read as "can't press".
+**Distilled rule:** same as FB-358 — an early return must not skip the
+invariant repairs above it; every overlay must be reconciled on EVERY branch.
+**Fixed in:** this commit — `teardownIntroScene()` in the pre-awake branch;
+RED-proven jsdom test (VN open → fresh pre-awake render → scene gone, cold
+open owns the screen). Reproduced headlessly before the fix (stale VN, dead
+buttons, cold open typing underneath).

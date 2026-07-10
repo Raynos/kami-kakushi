@@ -24,3 +24,5 @@ FB-329 (map fog + travel gating already shipped).
 - Wholesale proposal approved; forks picked: rake cap = 50 total for R0,
   silent echo = `Nameless: "…"`, Rung-up = promotion kicker.
 - FB-358 fixed (this commit).
+- FB-359/FB-360 fixed: teardownIntroScene() in the pre-awake render branch
+  (RED-proven); the whole dev triplet was one cascade.

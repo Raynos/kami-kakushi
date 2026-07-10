@@ -5678,6 +5678,11 @@ export function mount(
     lastState = state;
     // pre-awake: show only the cold-open card; the shell (and its log) inks in on waking.
     if (!hasFlag(state, 'awake')) {
+      // FB-359/FB-360 — a New game pressed WHILE a VN scene is open swaps to a pre-awake
+      // state; without this teardown the early return below leaves the dead .vn-scene
+      // overlay (z-40) mounted over the cold open forever — its buttons dispatch intents
+      // the pre-awake reducer refuses, and every click outside it is eaten.
+      teardownIntroScene();
       coldOpen.hidden = false;
       shell.hidden = true;
       firstRender = false; // so the post-wake log cascades rather than dumping statically

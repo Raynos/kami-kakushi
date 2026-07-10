@@ -2845,3 +2845,41 @@ describe('FB-358 — a tab-set collapse resets activeTab to work', () => {
     expect(doPane.hidden).toBe(false); // …and the Work panel take its place
   });
 });
+
+// ── FB-359/FB-360 (inbox drain 2026-07-10) — New game DURING an open VN scene: the
+//    pre-awake render branch early-returns, and it used to skip teardownIntroScene(),
+//    leaving the dead .vn-scene overlay (z-40) mounted over the cold open forever —
+//    its buttons dispatch intents the pre-awake reducer refuses ("can't click
+//    continue", "can't even press new game"). RED against the old branch.
+describe('FB-359/FB-360 — a swap to pre-awake tears the VN scene down', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  it('New game while the intro VN is open drops the scene and shows the cold open', () => {
+    const base = createInitialState(1);
+    const inVn: GameState = { ...base, introBeat: 1, flags: { ...base.flags, awake: true } };
+    const render = mount(root, () => {}, noopHooks());
+    render(inVn, null);
+    expect(root.querySelector('.vn-scene')).not.toBeNull(); // the VN is up
+    // the New game swap: a fresh pre-awake state rendered over it
+    render(createInitialState(2), null);
+    expect(root.querySelector('.vn-scene')).toBeNull(); // the stale overlay must go…
+    const coldOpen = root.querySelector<HTMLElement>('.coldopen')!;
+    expect(coldOpen.hidden).toBe(false); // …and the cold open own the screen
+  });
+});
