@@ -36,5 +36,12 @@ grammar form + intro retags (FB-198), the fresh-divider made anchored + 30s
 - FB-198/FB-199 committed under SKIP_VERIFY in a co-agent red window
   (freeze-clock.ts / capture.ts / journeys.spec.ts, w6:p2 WIP); this lane's
   roster hand-run green each time. Held local until a green push window.
-- FB-200 (Continue button CSS) BLOCKED on styles.css carrying w6:p2's
-  uncommitted FB-215 hunk — committing the file would sweep their work.
+- FB-200 (Continue button CSS) waited out styles.css carrying w6:p2's
+  uncommitted FB-215 hunk (a background poll; ~2 min), then landed clean —
+  committing the file earlier would have swept their work.
+- **FB-200** — Continue centred in the outcome column, air above the perk
+  card, padding + font up to `--fs-body` (folds capture 6, same element).
+  Live headless verify against the capture's save: 71×33 → 91×36, centred.
+- Post-fix live verification (headless, `tmp/qa-drain-verify.mjs`): FB-197
+  Space completes a mid-type line (10 → 309 chars); FB-198 the VN shows
+  `You: "No."` / `You: "What name did I give?…"` in the real cold open.

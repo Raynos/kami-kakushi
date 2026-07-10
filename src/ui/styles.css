@@ -1494,9 +1494,14 @@ h3 {
   outline: 2px solid var(--ochre);
   outline-offset: 2px;
 }
-/* Continue — the ONLY control that advances to the next scene (picking a choice never jumps). */
+/* Continue — the ONLY control that advances to the next scene (picking a choice never jumps).
+   FB-200 — it is the scene's one onward control, not a chrome verb: centred in the outcome
+   column with air above the perk card, a size up from the compact .verb base. */
 .verb.intro-continue {
-  align-self: flex-start;
+  align-self: center;
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--fs-body);
   border-left: 3px solid var(--ochre);
 }
 /* classic VN pacing (F62): a click anywhere advances one line — completes the current line if it's
