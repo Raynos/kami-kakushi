@@ -20,3 +20,13 @@ We need a new strategy because the elements in the SVG are just too mcuh.
 **Details:** `feedback-ui/2026-07-10T18-34-28.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-347 · 2026-07-10T18:54:53+0200 — test-bug-for-how
+
+test bug for how fast we can screenshot the SVG now
+
+**Element:** panel "do" · `div > svg > g:nth-of-type(1) > path:nth-of-type(1)` · @-3,283 1082×549
+**Screenshot:** `feedback-ui/2026-07-10T18-54-53.png`
+**Details:** `feedback-ui/2026-07-10T18-54-53.json` — save + recent logs + full context
+
+---
