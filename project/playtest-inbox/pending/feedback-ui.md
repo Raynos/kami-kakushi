@@ -18,3 +18,13 @@ test a screenshto.
 **Details:** `feedback-ui/2026-07-10T19-16-38.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-357 · 2026-07-10T19:16:46+0200 — test-a-map-screenshot
+
+test a map screenshot.
+
+**Element:** panel "do" · `div > svg > g:nth-of-type(1) > rect` · @53,153 1019×667
+**Screenshot:** `feedback-ui/2026-07-10T19-16-46.png`
+**Details:** `feedback-ui/2026-07-10T19-16-46.json` — save + recent logs + full context
+
+---
