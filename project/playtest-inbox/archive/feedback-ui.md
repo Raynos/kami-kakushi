@@ -163,3 +163,22 @@ test 2
 **Details:** `feedback-ui/2026-07-10T19-05-25.json` — save + recent logs + full context
 
 ---
+## Bug · FB-356 · 2026-07-10T19:16:38+0200 — test-a-screenshto
+
+test a screenshto.
+
+**Element:** header.vitals — "黒沢家life58/60bodywood162sansai2The grain-watch 蔵番Answer the s" · `div:nth-of-type(2) > header:nth-of-type(2)` · @29,33 1438×72
+**Screenshot:** `feedback-ui/2026-07-10T19-16-38.png`
+**Details:** `feedback-ui/2026-07-10T19-16-38.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-357 · 2026-07-10T19:16:46+0200 — test-a-map-screenshot
+
+test a map screenshot.
+
+**Element:** panel "do" · `div > svg > g:nth-of-type(1) > rect` · @53,153 1019×667
+**Screenshot:** `feedback-ui/2026-07-10T19-16-46.png`
+**Details:** `feedback-ui/2026-07-10T19-16-46.json` — save + recent logs + full context
+
+---
