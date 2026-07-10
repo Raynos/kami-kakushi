@@ -48,3 +48,33 @@ I dont think we need combat / auto here anymore, these buttons can all go and al
 **Details:** `dev/2026-07-10T15-16-23.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-301 · 2026-07-10T15:16:44+0200 — let-s-add-a
+
+Let's add a top level button here that's "NG (post open)"
+
+**Element:** div — "↩ last backup⟳ New game" · `body > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(8)` · @1249,665 200×77
+**Screenshot:** `dev/2026-07-10T15-16-44.png`
+**Details:** `dev/2026-07-10T15-16-44.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-302 · 2026-07-10T15:17:19+0200 — let-s-make-the
+
+Let's make the dev menu wider, and let's add three buttons side by side for the sections of the dev menu.
+
+**Element:** div — "SettingsVariantsScenariosBalanceStory (10)RungsSpeed1×2×4×8×" · `html > body > div:nth-of-type(3) > div:nth-of-type(2)` · @1242,159 214×589
+**Screenshot:** `dev/2026-07-10T15-17-19.png`
+**Details:** `dev/2026-07-10T15-17-19.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-303 · 2026-07-10T15:17:47+0200 — balance-is-a-confusing
+
+Balance is a confusing section, I don't think I'll use it often so lets make that the last button in the group
+
+**Element:** div — "SettingsVariantsScenariosBalanceStory (10)RungsSpeed1×2×4×8×" · `html > body > div:nth-of-type(3) > div:nth-of-type(2)` · @1242,159 214×589
+**Screenshot:** `dev/2026-07-10T15-17-47.png`
+**Details:** `dev/2026-07-10T15-17-47.json` — save + recent logs + full context
+
+---
