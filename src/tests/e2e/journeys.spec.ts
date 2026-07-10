@@ -195,7 +195,7 @@ test('repair bind: chop wood, mend the blade, durability rises', async ({ page }
   await walkSheet(page, ['forecourt', 'paddies', 'woodlot']);
 
   // chop twice (3 wood each; repair costs 5) — the recovery loop must not strand
-  await press(page.locator('.nav-tab', { hasText: 'Work' }));
+  await press(page.locator('.nav-tab', { hasText: 'Zone' }));
   const chop = page.locator('button.verb', { hasText: 'Cut wood' }).first();
   await expect(chop).toBeVisible();
   await press(chop);
@@ -240,7 +240,7 @@ test('quest slice: take it on, do its act, the step marks done', async ({ page }
   // stale-hit-test wedge, surfaced by this very test when ADR-170 re-rolled the fixture's season).
   await press(page.locator('.nav-tab', { hasText: '地図' }));
   await walkSheet(page, ['forecourt', 'paddies', 'woodlot']);
-  await press(page.locator('.nav-tab', { hasText: 'Work' }));
+  await press(page.locator('.nav-tab', { hasText: 'Zone' }));
   await press(page.locator('button.verb', { hasText: 'Cut wood' }).first());
 
   // progress is VISIBLE (T4): back on Quests, the gather step reads ☑

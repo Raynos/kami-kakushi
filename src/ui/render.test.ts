@@ -444,7 +444,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       },
       null,
     );
-    openTab('地図'); // the pedlar's market is on the Map 地図 tab now (FB-109 / IA reorg ADR-112)
+    // FB-332 — the pedlar's who's-here row lives on the Zone tab (the default tab) now.
     // ADR-114 — his wares open only by TALKING to him (Yohei), never inline.
     expect(clickText('Speak with Yohei')).toBe(true);
     // ADR-163 — rice sells from the KURA; the button reads "Sell kura rice (N shō → …)".
@@ -1628,10 +1628,7 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
       },
       null,
     );
-    // the pedlar's market is on the Map 地図 tab now (FB-109 / IA reorg ADR-112).
-    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
-      .find((b) => (b.textContent ?? '').includes('地図'))
-      ?.click();
+    // FB-332 — the pedlar reads on the Zone tab (the default tab) now.
     // ADR-114 — talk to Yohei to open his wares (talk-to-reveal, never inline).
     [...root.querySelectorAll<HTMLButtonElement>('button')]
       .find((b) => (b.textContent ?? '').includes('Speak with Yohei'))
@@ -1882,7 +1879,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
       clock: { ...createInitialState(1).clock, day: 2 },
     });
     render(s, null);
-    openTab('地図');
+    // FB-332 — who's-here + wares live on the Zone tab (the default tab).
     talkToPedlar();
     const row = root.querySelector<HTMLElement>('.market-pane .market-row')!;
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
@@ -1905,7 +1902,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
       resources: { ...createInitialState(1).resources, coin: 0 },
     });
     render(s, null);
-    openTab('地図'); // the pedlar's market is on the Map tab now
+    // FB-332 — the pedlar reads on the Zone tab (the default tab) now.
     talkToPedlar(); // ADR-114 — open his wares by talking (never inline)
     const row = root.querySelector<HTMLElement>('.market-pane .market-row')!;
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
@@ -2220,11 +2217,6 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
       unlocked: [...base.unlocked, ...extraUnlocked],
     };
   }
-  function openTab(marker: string): void {
-    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
-      .find((b) => (b.textContent ?? '').includes(marker))
-      ?.click();
-  }
   function clickButton(substr: string): boolean {
     const btn = [...root.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
       (b.textContent ?? '').includes(substr),
@@ -2244,15 +2236,15 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
       },
       null,
     );
-    openTab('地図');
-    const whos = root.querySelector<HTMLElement>('.map-pane .whos-here')!;
+    // FB-332 — who's-here lives on the Zone tab (the default tab), beside the zone's actions.
+    const whos = root.querySelector<HTMLElement>('.slice-do .whos-here')!;
     expect(whos).not.toBeNull();
     expect(whos.hidden).toBe(false);
-    const rows = [...root.querySelectorAll<HTMLElement>('.map-pane .person-row')];
+    const rows = [...root.querySelectorAll<HTMLElement>('.whos-here .person-row')];
     expect(rows.some((r) => (r.textContent ?? '').includes(pedlar.name))).toBe(true);
     // …and a Speak affordance for him (talk-to-reveal — his shop is not dumped inline).
     expect(
-      [...root.querySelectorAll<HTMLButtonElement>('.map-pane .person-talk')].some((b) =>
+      [...root.querySelectorAll<HTMLButtonElement>('.whos-here .person-talk')].some((b) =>
         (b.textContent ?? '').includes(`Speak with ${pedlar.name}`),
       ),
     ).toBe(true);
@@ -2267,8 +2259,8 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
       },
       null,
     );
-    openTab('地図');
-    // BEFORE talking: the pedlar's wares are NOT rendered inline on the Map tab.
+    // FB-332 — the flow lives on the Zone tab (the default tab).
+    // BEFORE talking: the pedlar's wares are NOT rendered inline.
     expect(root.querySelector('.market-pane .market-row')).toBeNull();
     expect(root.querySelector<HTMLElement>('.market-pane')!.hidden).toBe(true);
     // talk → the trade panel opens (his MARKET_ITEMS rows + the sell-rice faucet).
@@ -2277,14 +2269,15 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     expect(root.querySelectorAll('.market-pane .market-row').length).toBeGreaterThan(0);
   });
 
-  it("the pedlar's shop is NEVER inline on the Work tab (talk-to-reveal only)", () => {
+  it("the pedlar's shop is NEVER inline on the Zone tab (talk-to-reveal only)", () => {
     const render = mount(root, () => {}, noopHooks());
-    // awake at the forecourt with the economy open, sitting on the default Work tab.
+    // awake at the forecourt with the economy open, sitting on the default Zone tab.
     render(awakeAt('gate', ['room-gate', 'panel-estate']), null);
-    // no wares are built on Work, and the market pane is hidden there.
+    // no wares are built before talking, and the market pane is hidden (FB-332 — the rows
+    // now live HERE on the Zone tab, but the shop still opens only by speaking, ADR-114).
     expect(root.querySelector('.market-pane .market-row')).toBeNull();
     expect(root.querySelector<HTMLElement>('.market-pane')!.hidden).toBe(true);
-    // there is no who's-here / person list on the Work tab either (nav's people live on Map).
+    // the person rows are the whos-here section, never dumped among the action buttons.
     expect(root.querySelector('.actions .person-row')).toBeNull();
   });
 
@@ -2300,9 +2293,9 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
       { ...awakeAt(yohei.node, ['room-gate', 'panel-estate']), clock: { ...clock, day: 1 } },
       null,
     );
-    openTab('地図');
+    // FB-332 — who's-here reads on the Zone tab (the default tab).
     expect(
-      [...root.querySelectorAll<HTMLElement>('.map-pane .person-row')].some((r) =>
+      [...root.querySelectorAll<HTMLElement>('.whos-here .person-row')].some((r) =>
         (r.textContent ?? '').includes(yohei.name),
       ),
     ).toBe(false);
@@ -2312,7 +2305,7 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
       null,
     );
     expect(
-      [...root.querySelectorAll<HTMLElement>('.map-pane .person-row')].some((r) =>
+      [...root.querySelectorAll<HTMLElement>('.whos-here .person-row')].some((r) =>
         (r.textContent ?? '').includes(yohei.name),
       ),
     ).toBe(true);

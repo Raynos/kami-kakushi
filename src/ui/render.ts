@@ -934,6 +934,15 @@ export function mount(
   const belongingsPane = el('div', 'belongings-pane'); // ADR-111 / FB-89 — the home + belongings (Inventory tab)
   const influence = el('div', 'influence');
   const actions = el('div', 'actions');
+  // FB-332 — the who's-here 衆 section lives on the Zone tab (was the Map tab, ADR-114): every
+  // zone action, including talking to the people standing in the zone, reads as ONE surface.
+  // Built once here; the person rows reconcile in renderWhosHere. Hidden (FB-72 ghost-box)
+  // when no one is present or off-tab.
+  const whosPane = el('div', 'whos-here');
+  whosPane.hidden = true;
+  whosPane.append(el('div', 'rung-now', 'Who’s here 衆'));
+  const whosList = el('div', 'whos-list');
+  whosPane.append(whosList);
   const skillsPane = el('div', 'skills-pane');
   const combatPane = el('div', 'combat-pane');
   const questsPane = el('div', 'quests-pane');
@@ -1039,10 +1048,7 @@ export function mount(
     // NOTHING (TST2), and only a real change (move / reveal / stage / presence) redraws the sheet.
     nav: HTMLElement;
     sig: string;
-    // ADR-114 — the Map "who's here" section (built ONCE; the person rows reconcile). Hidden (FB-72
-    // ghost-box) when no one is present, so an empty node never leaves a framed ghost card.
-    whos: HTMLElement;
-    whosList: HTMLElement;
+    // (FB-332 — the ADR-114 "who's here" section moved off this pane to the Zone tab: whosPane.)
   } | null = null;
   // ── Phase 2 (FB-81) — the two big flash offenders go incremental. `actions` (the Work hero, rebuilt
   //    ~2×/s) and `combatPane` (a 6-block composite) are split into named sub-containers built ONCE;
@@ -1113,7 +1119,7 @@ export function mount(
   //    tab's content (skills / combat / quests / map panes, which already hide by activeTab).
   const sliceDo = el('section', 'slice slice-do');
   sliceDo.dataset.panel = 'do';
-  sliceDo.setAttribute('aria-label', 'Work');
+  sliceDo.setAttribute('aria-label', 'Zone');
   // IA reorg (ADR-112) — Phase A keeps the current byōbu DOM grouping; the SIX tabs are realised by
   // re-gating each pane's `activeTab` check (§6.3). Only the active tab's panes are ever visible, so
   // the slice grouping is unchanged for layout. The Do slice hosts every single-column tab surface:
@@ -1124,6 +1130,7 @@ export function mount(
   sliceDo.append(
     workHead,
     actions,
+    whosPane,
     skillsPane,
     characterTrain,
     characterBestiary,
@@ -1334,7 +1341,8 @@ export function mount(
   // English+kanji pairing (ui-design §7/§9). Final glyphs are a taste call (surfaced, not locked —
   // IA reorg plan §8.4).
   const TAB_LABEL: Record<Tab, string> = {
-    work: 'Work',
+    // FB-332 — "Work" reads as the ZONE tab: the place you stand, its actions, its people.
+    work: 'Zone',
     map: 'Map 地図',
     estate: 'Estate 家',
     inventory: 'Inventory 蔵',
@@ -5402,12 +5410,13 @@ export function mount(
     if (sellBtn.title !== title) sellBtn.title = title;
   }
   function renderMarket(state: GameState): void {
-    // IA reorg (ADR-112 §2 / FB-109 / ADR-114) — the pedlar (Yohei) is now a TALKABLE PERSON on the Map
-    // tab's "who's here" list, not an inline menu. His wares (a `tiny` trader's shop) open ONLY while
+    // IA reorg (ADR-112 §2 / FB-109 / ADR-114 / FB-332) — the pedlar (Yohei) is a TALKABLE PERSON on
+    // the Zone tab's "who's here" list, not an inline menu. His wares (a `tiny` trader's shop) open ONLY while
     // he is the OPEN person: talk-to-reveal. Gate on `openPersonId === 'pedlar'` AND that he is
     // actually present (peopleHere) — so his shop is never dumped inline (on Work OR on Map).
     const pedlarPresent = peopleHere(state).some((p) => p.id === 'yohei');
-    const show = activeTab === 'map' && openPersonId === 'yohei' && pedlarPresent;
+    // FB-332 — talk-to-reveal follows the who's-here rows to the Zone tab.
+    const show = activeTab === 'work' && openPersonId === 'yohei' && pedlarPresent;
     toggle(marketPane, show);
     if (!show) return;
     // ── the diverged goods presentation (ADR-075) — A = the price-button list (default, ships).
@@ -5538,10 +5547,6 @@ export function mount(
     const show = activeTab === 'map';
     toggle(mapPane, show);
     if (!show) return;
-    // ADR-114 — if the person you were talking to is no longer here (you walked off, or a place-gate
-    // that had opened isn't satisfied), close the conversation so no stale wares/greeting linger.
-    const present = peopleHere(state);
-    if (openPersonId !== null && !present.some((p) => p.id === openPersonId)) openPersonId = null;
     // ── the Map body (FB-102 / ADR-115 / ADR-116 / HR-7) — TWO sections: (a) the bordered
     //    you-are-here FLAVOR card (the immersive current-node description), then (b) the estate
     //    map itself: the 絵図 SURVEY-PLAN sheet, the human-picked winner of the ADR-075 real-map
@@ -5570,14 +5575,8 @@ export function mount(
       // (b) the survey sheet's mount — a SIBLING of the flavor card, filled behind the sig guard.
       const nav = el('div', 'map-nav');
       mapPane.append(nav);
-      // ADR-114 — the who's-here section, a sibling of the flavor card (built ONCE; the person rows
-      // reconcile). Hidden below when no one is present (FB-72 ghost-box — no empty framed card).
-      const whos = el('div', 'whos-here');
-      whos.append(el('div', 'rung-now', 'Who’s here 衆'));
-      const whosList = el('div', 'whos-list');
-      whos.append(whosList);
-      mapPane.append(whos);
-      mapRefs = { card, loc, kanji, blurb, wrongEl, nav, sig: '', whos, whosList };
+      // (FB-332 — the who's-here section no longer lives here; it renders on the Zone tab.)
+      mapRefs = { card, loc, kanji, blurb, wrongEl, nav, sig: '' };
     }
     const r = mapRefs;
     const here = getNode(state.location);
@@ -5614,8 +5613,15 @@ export function mount(
       if (!(__DEV_TOOLS__ && dev && dev.renderVariant('travel-presence', r.nav, state, dispatch)))
         renderMapSheet(r.nav, mapCtx(state), state, dispatch);
     }
-    // ADR-114 who's-here — reconcile the present people; hide the whole section when the node is empty.
-    toggle(r.whos, fillWhosHere(r.whosList, present));
+  }
+
+  // FB-332 — the who's-here 衆 section on the Zone tab: reconcile the present people; close a
+  // conversation whose person left (you walked off, or a place-gate closed — ADR-114, so no
+  // stale wares/greeting linger); hide the whole section when the node is empty (FB-72).
+  function renderWhosHere(state: GameState): void {
+    const present = peopleHere(state);
+    if (openPersonId !== null && !present.some((p) => p.id === openPersonId)) openPersonId = null;
+    toggle(whosPane, activeTab === 'work' && fillWhosHere(whosList, present));
   }
 
   // build ONE quest card skeleton with every mutable element present (steps + reward line + accept
@@ -5898,6 +5904,7 @@ export function mount(
     refreshLogTabs(state); // FB-20 — repaint per-tab unread dots
     workHead.hidden = activeTab !== 'work';
     renderEstate(state);
+    renderWhosHere(state); // FB-332 — before renderMarket: it settles openPersonId for the wares gate
     renderMarket(state);
     renderStorehouse(state);
     renderBelongings(state);
