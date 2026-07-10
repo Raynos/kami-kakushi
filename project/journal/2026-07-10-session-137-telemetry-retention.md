@@ -75,12 +75,30 @@ in place, with the reason recorded.
 
 ## Next intended steps
 
-1. That 18.6-min untainted run is the first clean real-play data since the
-   Phase-2 rewrite. Worth a distillation pass (the README's diary rule) before
-   the next balance touch — HD-34's re-baseline is the obvious consumer. **But
-   re-read it after the capture fix below: its minutes are note-writing.**
-2. `/drain-inbox` — 23 bug captures from the same sitting are pending
-   (cold-open ×14, r0 ×6, feedback-ui ×2, dev ×1). User-invoked skill.
+1. **The owed distillation (README diary rule), and what it must say.** The
+   surviving corpus, read at exit — *nothing here is usable for the shipped
+   balance*, and that conclusion is the note's whole point:
+
+   | report | build | attended | rung-ups |
+   |---|---|---|---|
+   | `…1783339441` | v0.3.8 | 3.1 min | — |
+   | `…1783340369` | v0.3.8 | 4.6 min | — |
+   | `…1783420086` | v0.3.9 | 49.2 min | R0 in 6.2 (save-import origin) |
+   | `…1783675960` | v0.4.0 | 18.6 min | none |
+
+   Three of four predate the Phase-2 rewrite (v0.3.8/v0.3.9 vs today's v0.4.0);
+   the only current-build run is the note-inflated one from Entry 2, with zero
+   rung-ups. So **HD-34's re-baseline has no clean attended-vs-sim number to
+   quote** — it must not be decided against the 18.6, which is mostly typing.
+   Home + shape: `project/audit/reports/2026-07-07-telemetry-distill.md` (the
+   only prior distillation, `3ab10c9`).
+2. **Gap found, not fixed: retention filters on taint + length, never on BUILD.**
+   A v0.3.8 report survives into a v0.4.0 balance conversation looking exactly as
+   authoritative as a fresh one. Decide whether stale-build reports age out of
+   the folder, or are merely labelled in the distillation. Deliberately left
+   open — an auto-delete keyed on build is a data-loss call the human should make.
+3. `/drain-inbox` — 24 bug captures from the same sitting are pending
+   (cold-open ×14, r0 ×7, feedback-ui ×2, dev ×1). User-invoked skill.
 
 ---
 
