@@ -190,6 +190,14 @@ inbox_n="$(find project/playtest-inbox/pending -maxdepth 1 -name '*.md' 2>/dev/n
 if [[ "${inbox_n:-0}" -gt 0 ]]; then
   add "- 📥 **Playtest inbox:** ${inbox_n} capture(s) waiting in \`project/playtest-inbox/pending/\` — drain with \`/drain-inbox\`."
 fi
+# Live drain-lane claims (ADR-171) — parallel drains are sanctioned; surface who
+# holds which lane so a fresh session claims before touching the inbox. SILENT at
+# zero. Claims are git-ignored ephemera; liveness is checked at claim time, not here.
+claims_n="$(find project/playtest-inbox/pending/.claims -name '*.json' 2>/dev/null | wc -l | tr -d ' ' || true)"
+if [[ "${claims_n:-0}" -gt 0 ]]; then
+  claim_lanes="$(find project/playtest-inbox/pending/.claims -name '*.json' -exec basename {} .json \; 2>/dev/null | sort | tr '\n' ' ' || true)"
+  add "- 🔒 **Drain lanes claimed:** ${claim_lanes}— check \`tsx src/scripts/inbox-claim.ts list\` before draining (claim yours first; ADR-171)."
+fi
 # Real-play telemetry (F8) — the "morning shout": surface reports NEWER than the last
 # balance(t0) commit so fresh human-pacing data is ambient in every agent's context
 # (the delivery loop's card 3). SILENT at zero — a gate that cries wolf teaches deafness.

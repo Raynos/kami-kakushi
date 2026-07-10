@@ -1,10 +1,12 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, dirname, join } from 'node:path';
 import {
   commitCapture,
+  nextFbNumber,
   resolveCapture,
+  stampCapture,
   writeCapture,
   MAX_MARKDOWN_BYTES,
   type ResolvedCapture,
@@ -216,5 +218,54 @@ describe('commitCapture — auto-commit the .md (fail-soft, opt-outable)', () =>
       if (prev === undefined) delete process.env.KAMI_INBOX_NO_COMMIT;
       else process.env.KAMI_INBOX_NO_COMMIT = prev;
     }
+  });
+});
+
+describe('stampCapture + nextFbNumber — capture-time FB allocation (ADR-171)', () => {
+  const base = {
+    ok: true as const,
+    mdPath: '/x/pending/r0.md',
+    header: '# Playtest bucket — r0\n',
+    entry: '\n## Bug · 2026-07-10T13:00:00+0200 — some-slug\n\nnote\n',
+    sessionDir: '/x/pending/r0',
+    metadataPath: '/x/pending/r0/s.json',
+    metadata: '{"kind":"bug","save":"eyJ="}',
+  };
+
+  it('injects FB-<n> into the entry heading and the sidecar', () => {
+    const stamped = stampCapture(base, 255);
+    expect(stamped.entry).toContain('## Bug · FB-255 · 2026-07-10T13:00:00+0200');
+    expect((JSON.parse(stamped.metadata) as { fb: number }).fb).toBe(255);
+    expect((JSON.parse(stamped.metadata) as { save: string }).save).toBe('eyJ='); // payload survives
+  });
+
+  it('stamps a Question heading too, and tolerates unparseable metadata', () => {
+    const q = stampCapture(
+      { ...base, entry: '\n## Question · t — s\n', metadata: 'not json' },
+      256,
+    );
+    expect(q.entry).toContain('## Question · FB-256 ·');
+    expect(q.metadata).toBe('not json'); // heading still carries the number
+  });
+
+  it('nextFbNumber allocates above stamped sidecars AND live claim blocks', () => {
+    const dir = freshPending();
+    mkdirSync(join(dir, 'r0'), { recursive: true });
+    writeFileSync(join(dir, 'r0', 's1.json'), JSON.stringify({ kind: 'bug', fb: 240 }), 'utf-8');
+    mkdirSync(join(dir, '.claims'), { recursive: true });
+    writeFileSync(
+      join(dir, '.claims', 'dev.json'),
+      JSON.stringify({
+        lanes: ['dev'],
+        agent: 't',
+        pane: 'w9:p9',
+        pid: 1,
+        started: 'x',
+        fbLo: 250,
+        fbHi: 254,
+      }),
+      'utf-8',
+    );
+    expect(nextFbNumber(dir)).toBe(255); // above the sidecar 240 AND the claim's 254
   });
 });

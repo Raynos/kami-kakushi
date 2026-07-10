@@ -1,7 +1,7 @@
 ---
 name: drain-inbox
-description: Drain the playtest capture inbox — ONE bucket per pass, interactively, in batches of ≤5. Ask which bucket to drain, reproduce each pending capture from its embedded save, propose a fix/route (bug) or answer (question), get the human's go-ahead, then log an F-entry and archive it. Run as /drain-inbox [bucket]. User-invoked.
-argument-hint: [bucket]
+description: Drain the playtest capture inbox — CLAIM a lane first (parallel drains are sanctioned, ADR-171), then drain the WHOLE lane in one pass. Claim 1..N buckets (or a re-grouped cluster lane), relay the announce (live lanes + collisions) to the human, reproduce every capture from its embedded save, propose a fix/route (bug) or answer (question) for all of them in one go, get the human's go-ahead, then log F-entries, stamp the sidecars, and archive. Run as /drain-inbox [lane...]. User-invoked.
+argument-hint: [lane...]
 disable-model-invocation: true
 ---
 
@@ -22,27 +22,53 @@ context + `kind`/`group`/`session`/`build` — **committed**) and `<stamp>.png`
 established Fnn → fix → graduate loop, exactly as the human's live playtests do —
 the human plays whenever, you drain whenever.
 
-**Drain ONE bucket per pass, interactively and batched.** Buckets exist so a
-drain doesn't sweep every kind of feedback at once — so **each pass is scoped to a
-single bucket** (§1), takes **at most 5 captures**, reproduces them, then
+**Drain your CLAIMED lane(s) — the WHOLE lane in one pass.** Parallel drains are
+sanctioned (**ADR-171** — the old one-drain-at-a-time rule is cancelled): several
+agents may drain concurrently, each holding its own **lane** (a bucket, several
+buckets, or a re-grouped cross-bucket cluster like `speaker-style`). The claim
+protocol (§0) is what makes that safe — claim first, relay the announce to the
+human, then drain. A pass takes **every open capture in the lane** (human,
+2026-07-10 — the old ≤5 batch cap is retired), reproduces them all, then
 **proposes a fix/route/answer for each and waits for the human's go-ahead** before
-landing anything (§4). It's a back-and-forth — ask questions, take their steer —
-not an autonomous sweep.
+landing anything (§4). Still a back-and-forth — one wholesale proposal message,
+per-item steers welcome — not an autonomous sweep.
 
 **The capture is a claim, not the truth (PH2).** Reproduce and verify every
 capture against the *running* game before you touch code. Where the note and
 the build disagree, the build wins.
 
-## 0 · Stand-down check (shared tree / concurrent drains)
+## 0 · CLAIM your lane(s) before touching anything (ADR-171)
 
-If another drain is in flight — `git status` shows uncommitted `pending/ →
-archive/` moves, or an un-pushed `chore(inbox): intake …` sits at HEAD with
-pending files still moving — **stop**; one drain lane at a time. Otherwise
-proceed.
+Every drain pass starts by claiming — never drain unclaimed:
 
-## 1 · Pick the bucket — then take up to 5 entries from it
+```
+tsx src/scripts/inbox-regroup.ts scan          # seed fix-surfaces; see cross-bucket clusters
+tsx src/scripts/inbox-claim.ts claim <lane...> --pane <your w:p> --agent <model>
+```
 
-**A drain pass is scoped to exactly ONE bucket.** First list the inbox files:
+The claim is a git-ignored `pending/.claims/<lane>.json` (ephemeral — liveness-
+checked against the herdr pane roster, so a dead session's claim is reapable via
+`… inbox-claim.ts reap`, never a deadlock). It reserves your **F-number block**
+(§5) and prints the **announce**: which lanes are LIVE under other agents, and
+which of your items **share a fix surface** with another live lane.
+
+**Relay the announce to the human verbatim-in-substance** — this is the "hey,
+I'm marking this in progress; X and Y are already being drained; these N items
+of mine would collide — what should we do?" moment, and it is **mandatory when
+the announce shows a COLLISION**: stop and ask (coordinate / re-lane the cluster
+via `inbox-regroup.ts assign` / defer those items) before draining them. With no
+collisions, relay the claim line and proceed.
+
+If your claim is refused (lane held): pick another lane, or coordinate with the
+holder; if the holder is dead, `reap` and retry. A drain without a claimable
+lane is a pass that doesn't happen.
+
+## 1 · Pick the bucket — then take ALL its open entries
+
+**A drain pass is scoped to your CLAIMED lane(s) and takes the whole lane** —
+the sections below say "bucket" for the common one-bucket lane; a multi-bucket
+or cluster lane works the same, scoped to the lane's items. First list the
+inbox files:
 `project/playtest-inbox/pending/*.md` (the README is exempt). Classify each by its
 filename: a name matching the session-id shape
 `YYYY-MM-DDTHH-MM-SS-<token>` is an **ungrouped session file**; any other slug
@@ -61,13 +87,12 @@ filename: a name matching the session-id shape
 - If only one group is present (one bucket, or only ungrouped files), drain that
   without asking.
 
-**Then, within the chosen bucket only**, take a batch of **at most 5 captures
-(`##` entries), oldest-first** — for a bucket that's its one `.md`; for
-"Ungrouped" the batch may span several session `.md`s. Never process more than 5
-in one pass, and **never cross into another bucket** — the rest wait for the next
-pass (the human re-runs the skill / says "next 5" / names another bucket). Drain
-is **interactive by design**: 5 is small enough to reproduce, propose, and review
-together without overload.
+**Then, within the chosen lane only**, take **every open capture (`##` entry),
+oldest-first** — the old ≤5 batch cap is retired (human, 2026-07-10): reproduce
+the whole lane, propose the whole lane in one wholesale message (§4), land the
+whole lane on the go-ahead. **Never cross into a lane you haven't claimed.**
+Drain stays **interactive by design** — the wholesale proposal is the
+interaction point; the human steers per-item from there.
 
 **Empty (chosen bucket, or the whole inbox) → say so and stop** — this is the
 per-run stopping condition; don't manufacture work from an empty inbox.
@@ -86,12 +111,12 @@ git commit -m "chore(inbox): intake N file(s)" -- project/playtest-inbox/pending
 This makes the raw bytes durable in git history *before* processing, so the
 append-only/lossless norm holds even though each `.md` later moves to
 `archive/`. (The `<key>/` screenshot folders are git-ignored — never
-staged.) This intake commit is also the concurrency claim: a second drain
-seeing the clean intake at HEAD knows a drain is live.
+staged.) *(The intake commit is no longer the concurrency signal — the §0
+claim is; ADR-171.)*
 
 ## 3 · Per ENTRY — reproduce, then form a PROPOSAL (don't fix yet)
 
-For each of the ≤5 batch entries, oldest first — reproduce it and decide the
+For each of the lane's entries, oldest first — reproduce it and decide the
 fix/route, but **do not touch code or commit yet**. This step produces a
 *proposal* per item; §4 gets the human's go-ahead before any fix lands.
 
@@ -119,7 +144,7 @@ local aid; the save is authoritative.)
 `kind` in the `.json`) — it's the human's own signal for what they want back:
 
 - **`Question`** → the human is **exploring interactively**, not reporting a
-  defect. Reproduce it, then **answer/discuss** it in the §4 batch (what you
+  defect. Reproduce it, then **answer/discuss** it in the §4 proposal (what you
   found, the trade-off, options) — do **not** reflexively propose a code fix. If
   the answer implies a real change, surface it as its own route (bug fix / taste
   HR-item / design HD-item) for the human to green-light; otherwise the
@@ -141,10 +166,10 @@ explicit). In every case you produce a *proposed action*, not a landed change:
   **HD-item**, log the FB-nn as 💬 — **never auto-decide** (PH4: surface forks
   async).
 
-## 4 · Propose the batch → get the go-ahead (interactive gate)
+## 4 · Propose the lane → get the go-ahead (interactive gate)
 
 **This is the heart of an interactive drain — do not skip it.** Present the whole
-batch (≤5) to the human in one concise message, one short block per item:
+lane to the human in one concise message, one short block per item:
 
 - **What** — the capture's **kind** (Bug / Question), the note (paraphrased) +
   the picked element, if any.
@@ -164,14 +189,20 @@ Only once the human approves (in whole or with edits) do you proceed to §5+ and
 land the approved items. Items they defer/reject are left in `pending/` (or
 re-routed as they directed), not force-fixed.
 
-## 5 · Log the F-entry
+## 5 · Log the F-entry + stamp the sidecar
 
-F-numbering is **global** — the next free number after the current max across
-`project/feedback-human/*.md` (grep `\bF[0-9]+\b`). Append to a per-drain-day
-file `project/feedback-human/<YYYY-MM-DD>-playtest.md` (create it with the
-standard header if absent, source noted as *"async inbox capture"*), using the
-established per-item template + status legend (🔲 open · 🔧 in progress · ✅
-fixed · 🅿️ parked · 💬 needs-discussion):
+F-numbering is **global**, but you never grep for the max — **the capture
+already carries its number**: since ADR-171 the middleware stamps `FB-<n>` into
+the entry heading + sidecar **at capture time** (single writer — race-free by
+construction). Use that number. Only a legacy **unstamped** capture draws from
+your claim's reserved block (`FB-<fbLo>..<fbHi>` from §0), in order; the
+`inbox-ledger` verify gate REDs any duplicate above the FB-198 baseline, so a
+collision can't reach `main` either way. Append to a **per-lane** drain-day file
+`project/feedback-human/<YYYY-MM-DD>-playtest-<lane>.md` (create it with the
+standard header if absent, source noted as *"async inbox capture"* — per-lane
+so concurrent lanes never contend on one file), using the established per-item
+template + status legend (🔲 open · 🔧 in progress · ✅ fixed · 🅿️ parked · 💬
+needs-discussion):
 
 ```markdown
 ### F<nn> · <short title> — <status emoji>
@@ -186,14 +217,19 @@ fixed · 🅿️ parked · 💬 needs-discussion):
 as the FB-1–FB-117 loop does; ADR-worthy calls go to `decisions.md` **only with the
 human** (via the HD-item).
 
-## 6 · Complete a session = archive (not delete)
+## 6 · Complete = stamp the sidecar; archive when the whole BUCKET is done
 
-A file is done when **every** `##` entry in it is drained. Then move it
-from `pending/` to `archive/` along with its sidecar folder — completion is the
-archive move, keeping the raw feedback durable long-term (like
-`project/feedback-human/`). `<key>` is the bucket slug (or session id). The `.md`
-and the folder's `.json`s are tracked (`git mv`); the `.png`s are git-ignored
-(plain `mv`):
+**Per item**, completion is durable on the capture's own `<stamp>.json` sidecar
+(never the machine-written `.md` — a `guard-inbox-pending.sh` hook blocks that):
+write `status: "done"` + `fb` + `commit` (or `status: "parked"`) into it in the
+same commit as the fix. That is what tells every other lane the item is handled
+(ADR-171) — a cluster lane stamps items *inside buckets it doesn't otherwise
+own*, and the bucket's own lane skips them.
+
+**Per bucket**, archive when **every** sidecar in it is `done` (parked items
+hold it open; the `inbox-ledger` gate REDs a fully-done bucket left in
+`pending/`). Move the `.md` + the folder's `.json`s (`git mv`; the `.png`s are
+git-ignored, plain `mv`):
 
 ```
 git mv project/playtest-inbox/pending/<key>.md    project/playtest-inbox/archive/<key>.md
@@ -222,13 +258,17 @@ Full `pnpm run verify` runs per commit as normal. If the shared tree is red on a
 co-agent's WIP (not yours), commit locally and leave the push for a green window
 — don't `SKIP_VERIFY` a red tree onto the remote.
 
-## 8 · End of run
+## 8 · End of run — RELEASE the claim
 
-Journal a summary (items drained, Fnn range, any forks surfaced), then tell the
-human **how many captures remain in `pending/`** — if any are left (the batch
-capped at 5, or they deferred some), offer the next batch. Then the normal
-checkpoint loop. `pending/` need not be empty — only the approved batch is drained
-per pass.
+**Release your lane(s)** (`tsx src/scripts/inbox-claim.ts release <lane...>`) —
+holding a claim past the pass starves other agents (liveness only reaps *dead*
+sessions, not idle ones). Then journal a summary (items drained, FB range used
+from your block, any forks surfaced), and tell the human **how many captures
+remain in `pending/`** — if any are left (other lanes, or items they deferred),
+offer to claim the next lane; re-claim when you take it. Then the normal
+checkpoint loop. `pending/` need not be empty — only the approved items are
+drained per pass.
 
-Keep a **single drain lane** — never run two concurrent drains against the shared
-tree.
+Parallel lanes are sanctioned (ADR-171), but the shared tree is still shared:
+pathspec commits only, never touch another lane's files, and a red `verify` may
+be their WIP — don't fight it, don't `SKIP_VERIFY` past it.

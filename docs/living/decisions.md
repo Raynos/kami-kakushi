@@ -2945,3 +2945,62 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   unruled question). Fixtures `pre-ascension`/`wealthy-idler`
   regenerated; pacing report regenerated (the diff is the
   before/after).
+
+### ADR-171 ✅ — parallel inbox drains via lane claims; the single-lane rule is cancelled (🔁 refines FB-3's drain contract)
+
+- **created_date:** 2026-07-10
+- **Context:** the human added buckets to the capture inbox and began
+  running several `/drain-inbox` agents at once — three lanes live on
+  2026-07-10 — while the skill still said *"one drain lane at a time"*
+  and used the intake commit as a bucket-blind concurrency signal. The
+  F-number race was live (two lanes computing the same "next free"
+  number; FB-198 nearly double-allocated), the per-day F-log was a
+  shared append target, and the speaker-colour complaints spanned all
+  three buckets while pointing at ONE fix surface.
+- **Decision (human, 2026-07-10):** parallel drains are the design, not
+  a violation. **(1) Claim protocol** — a drain pass first claims its
+  **lane(s)** (1..N buckets, or a re-grouped cluster) via
+  `inbox-claim.ts`: an atomic, **git-ignored** `pending/.claims/` file
+  (ephemeral state stays out of git; no verify-run per lock), validated
+  by owner **liveness** (herdr pane roster, pid fallback) so a dead
+  lane is reapable, never a deadlock. The claim reserves a contiguous
+  **F-number block** and prints an **announce** (live lanes +
+  fix-surface collisions) the agent must relay to the human — asking,
+  not assuming, when items would collide. **(2) FB numbers are
+  allocated AT CAPTURE TIME** (human follow-up, same day): the capture
+  middleware — the single writer — stamps `FB-<n>` into the entry
+  heading and the sidecar as the capture lands, killing the
+  next-free-number race by construction; the claim's reserved block
+  survives only as the fallback for legacy unstamped captures.
+  **(3) Durable re-group** —
+  `inbox-regroup.ts` seeds each capture's `surface` tokens and re-lanes
+  cross-bucket clusters; the result lives **on each capture's own
+  `<stamp>.json` sidecar** (`lane`/`surface`/`status`/`fb`/`commit`,
+  defaults-by-absence — no migration), so no item is drained twice.
+  **(4) Per-lane F-logs** (`<date>-playtest-<lane>.md`) end the shared
+  append target. **(5) Completion** = sidecar stamp; a bucket archives
+  when every sidecar is done. **(6) A pass drains the WHOLE lane**
+  (human, same day) — the old ≤5 batch cap is retired; the wholesale
+  §4 proposal stays the interactive gate.
+- **Why sidecars, not a central ledger:** N lanes marking items done in
+  one ledger file recreates the very append race being killed; the
+  middleware writes each sidecar exactly once and never returns, so
+  per-item fields are contention-free by construction. **Why the claim
+  is ephemeral:** in-progress is liveness, not history — a commit per
+  lock would cost a full verify run and leave stale claims needing git
+  surgery.
+- **Consequences:** the inbox README's *"no status field to go stale"*
+  invariant is **superseded** — location alone can't encode completion
+  once a lane spans buckets. The replacement teeth, per the
+  highest-sound-rung ladder: the **`inbox-ledger` verify gate**
+  (content invariants only: F-numbers unique above the FB-198
+  grandfather baseline across the unified F/FB space; done items name
+  fb + commit; fully-done buckets must leave `pending/`), the
+  **`guard-inbox-pending.sh`** PreToolUse hook (pending `.md`s are
+  machine-written — drain state goes on sidecars), the rewritten
+  **drain-inbox skill** (claim → announce → drain → stamp → release),
+  and the **session brief** surfacing live claims. Worktree isolation
+  (the only real fix for two lanes editing one file / sharing one
+  `verify` tree) is **deliberately deferred** — accepted risk, its own
+  future ADR. Design doc:
+  `project/brainstorms/2026-07-10-concurrent-drain-safety.md`.

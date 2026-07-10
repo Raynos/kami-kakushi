@@ -274,10 +274,15 @@ Full version:
   whenever; an agent drains whenever with
   **`/drain-inbox`** — an **interactive** pass, batches of ≤5: reproduce each
   from the save → triage → **propose, and wait for the human's go-ahead** before
-  any fix lands → log a **FB-nn** in `project/feedback-human/` → **`git mv` the
-  capture to `archive/`** (completion is the archive move, not deletion). It's **agent-facing** (not the human queue); the session brief
-  surfaces the `pending/` count. See the
-  [`drain-inbox`](.claude/skills/drain-inbox/SKILL.md) skill.
+  any fix lands → log a **FB-nn** in `project/feedback-human/` → stamp the
+  capture's sidecar done → archive the bucket when every sidecar is done.
+  **Parallel drains are sanctioned (ADR-171)** — but only through the claim
+  protocol: `inbox-claim.ts claim <lane...>` FIRST (atomic git-ignored lane
+  lock + a reserved F-number block + the collision announce you relay to the
+  human), release at end of pass; the `inbox-ledger` gate REDs duplicate
+  F-numbers and unarchived done buckets. It's **agent-facing** (not the human
+  queue); the session brief surfaces the `pending/` count + live claims. See
+  the [`drain-inbox`](.claude/skills/drain-inbox/SKILL.md) skill.
 - **Build to the taste standard — the four taste values (ADR-126).** Before
   building or restyling **any** UI surface, feature, or narrative beat, read
   [`docs/living/taste.md`](docs/living/taste.md) (snapshot-class, hard-capped,

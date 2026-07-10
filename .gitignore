@@ -27,3 +27,8 @@ project/audit/screens/*
 # the note + save-JSON .md is the committed durable record (the save reproduces the
 # moment pixel-perfectly). Keep every capture's PNG out of git (human call 2026-07-04).
 project/playtest-inbox/**/*.png
+
+# Parallel-drain lane claims (ADR-171): EPHEMERAL who-holds-what state, validated
+# by owner liveness — never committed (a commit would cost a verify run per lock,
+# and a dead session's claim must be reapable without touching git history).
+project/playtest-inbox/pending/.claims/

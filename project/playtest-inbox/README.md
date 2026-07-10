@@ -70,23 +70,47 @@ and builds** — so each entry's `.json` records its own source session + build.
   are local-only viewing aids (human call, 2026-07-04); their absence never
   breaks a repro.
 
-## Lifecycle (the drain contract)
+## Lifecycle (the drain contract — parallel lanes, ADR-171)
 
 1. **Capture** — the dev-server middleware creates `pending/<session>.md` with
    its header on the first capture, then **appends** an entry per capture;
-   screenshots go in `pending/<session>/`.
-2. **Intake** — the drain's first act commits all pending `.md` verbatim
+   screenshots go in `pending/<session>/`. Each capture is **FB-stamped at
+   capture time** (ADR-171): the middleware — the single writer — allocates the
+   next global FB number into the entry heading (`## Bug · FB-255 · …`) and the
+   sidecar (`fb`), so no drain lane ever computes "the next free number".
+2. **Claim** — a drain pass starts by claiming its **lane(s)** (a bucket,
+   several, or a re-grouped cluster): `tsx src/scripts/inbox-claim.ts claim
+   <lane...>`. Claims are **git-ignored ephemera** under `pending/.claims/`
+   (liveness-checked, reapable when the owner dies) that reserve the lane AND
+   an F-number block, and print the announce (live lanes + fix-surface
+   collisions) the agent relays to the human. Parallel drains across different
+   lanes are sanctioned; a lane is single-holder.
+3. **Regroup (as needed)** — `tsx src/scripts/inbox-regroup.ts scan` seeds each
+   capture's `surface` tokens and reports cross-bucket clusters (same fix
+   surface, different buckets); `… assign <lane> <stamp...>` re-lanes them so
+   one agent fixes the cluster as a unit. The result is **durable on each
+   capture's own `<stamp>.json`** — every other lane sees the move, so nothing
+   is drained twice.
+4. **Intake** — before processing, commit all pending `.md` verbatim
    (`chore(inbox): intake N session(s)`), making the raw bytes durable in git
-   history before any processing.
-3. **Drain** — per **entry** in a session file: reproduce from that entry's
-   embedded save → triage (mechanical fix · taste → R-item/diverge · design fork
-   → H-item) → log the next **Fnn** in the feedback log. When every entry in a
-   session file is drained, **`git mv` the `.md` into `archive/`** (+ `mv` its
-   screenshot folder).
-4. **Empty `pending/` = drained.** No status field to go stale — a session file
-   is either in `pending/` (has undrained entries) or in `archive/` (fully
-   logged).
+   history.
+5. **Drain** — per **entry** in the lane: reproduce from that entry's embedded
+   save → triage (mechanical fix · taste → R-item/diverge · design fork →
+   H-item) → log the **FB-nn from the claim's reserved block** in the per-lane
+   feedback log → **stamp the sidecar** (`status: "done"` + `fb` + `commit`,
+   or `"parked"`) in the fix's commit. Release the claim at end of pass.
+6. **Archive when a bucket is fully done** — every sidecar `done` → **`git mv`
+   the `.md` + `.json`s into `archive/`** (+ plain `mv` the screenshots).
+
+**Durable state lives on the sidecars, never in the `.md`** (the middleware
+appends + auto-commits the `.md`, so hand-edits race live captures — a
+`guard-inbox-pending.sh` hook blocks them; absence of a `status` field means
+*open*, so pre-ADR-171 sidecars need no migration). The old "no status field"
+invariant is superseded: once a lane can span buckets, file location alone
+can't encode completion — the **`inbox-ledger` verify gate** is the teeth
+instead (unique F-numbers above the FB-198 baseline, done items carry fb +
+commit, fully-done buckets must be archived).
 
 A capture is inert markdown; the drain **verifies every claim against the
 running game before acting** (R2). The session brief surfaces the `pending/`
-count so cold-session drains happen.
+count and any live lane claims so cold-session drains happen — and coordinate.

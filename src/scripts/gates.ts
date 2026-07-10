@@ -38,4 +38,5 @@ export const GATES: ReadonlyArray<Gate> = [
   { name: 'verify-changelog', cmd: 'tsx src/scripts/verify-changelog.ts', scope: 'both' }, // package.json -> CHANGELOG
   { name: 'doc-budgets', cmd: 'tsx src/scripts/verify-doc-budgets.ts', scope: 'docs' }, // snapshot-doc caps (ADR-126)
   { name: 'checkpoint', cmd: 'tsx src/scripts/checkpoint.ts --check', scope: 'both' }, // gates.ts/plans -> process-doc regions
+  { name: 'inbox-ledger', cmd: 'tsx src/scripts/inbox-ledger.ts', scope: 'docs' }, // parallel-drain invariants (ADR-171)
 ];

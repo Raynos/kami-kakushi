@@ -11,9 +11,17 @@
 // connect-middleware glue. Tests hit the pure parts.
 
 import { execFileSync } from 'node:child_process';
-import { appendFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
-import { basename, resolve, sep } from 'node:path';
+import {
+  appendFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs';
+import { basename, join, resolve, sep } from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import { fbAllocations, fbHighWater, readClaims, readItems } from './inbox-lanes';
 
 // The POST path is single-sourced in the browser-safe format module so the client shares it
 // WITHOUT importing this fs/http-laden server module. Re-exported so vite.config.ts keeps
@@ -125,6 +133,53 @@ export function resolveCapture(body: unknown, pendingDir: string): ResolvedCaptu
   return { ...base, shotPath, pngBuffer };
 }
 
+/** Stamp a capture with its global FB number AT CAPTURE TIME (ADR-171). The middleware is the
+ *  single writer, so allocating here kills the two-drain-lanes-grab-the-same-number race by
+ *  construction — the number rides in the entry heading (`## Bug · FB-255 · …`) and the sidecar
+ *  (`fb: 255`) before any drain ever sees the capture. PURE: the caller supplies the number. */
+export function stampCapture(
+  resolved: Extract<ResolvedCapture, { ok: true }>,
+  fb: number,
+): Extract<ResolvedCapture, { ok: true }> {
+  const entry = resolved.entry.replace(/^## (Bug|Question) · /m, `## $1 · FB-${fb} · `);
+  let metadata = resolved.metadata;
+  try {
+    metadata = `${JSON.stringify({ ...(JSON.parse(metadata) as Record<string, unknown>), fb }, null, 1)}\n`;
+  } catch {
+    /* unparseable metadata — leave it; the entry heading still carries the number */
+  }
+  return { ...resolved, entry, metadata };
+}
+
+/** The next free FB number: one above everything anyone holds — committed F-log headings, live
+ *  claims' reserved blocks, and fb fields already stamped on sidecars (pending + archive).
+ *  Derived per capture, never a counter file. Fail-soft: any read error degrades to the baseline
+ *  rather than blocking a capture. */
+export function nextFbNumber(pendingDir: string): number {
+  try {
+    const inboxRoot = resolve(pendingDir, '..');
+    const flogDir = resolve(pendingDir, '..', '..', 'feedback-human');
+    let texts: string[] = [];
+    try {
+      texts = readdirSync(flogDir)
+        .filter((f) => f.endsWith('.md'))
+        .map((f) => readFileSync(join(flogDir, f), 'utf-8'));
+    } catch {
+      /* no F-log dir (tests) — sidecars + claims still bound the allocation */
+    }
+    const items = [...readItems(pendingDir), ...readItems(join(inboxRoot, 'archive'))];
+    return (
+      fbHighWater(
+        fbAllocations(texts),
+        readClaims(pendingDir).map((c) => c.claim),
+        items,
+      ) + 1
+    );
+  } catch {
+    return 999; // fail-soft sentinel block — visible, never a lost capture
+  }
+}
+
 /** Write a resolved capture: create the session file with its header (first capture) or append the
  *  entry, then write the screenshot into the session folder. The only impure step. */
 export function writeCapture(
@@ -212,11 +267,12 @@ export function playtestInboxHandler(
         respond(res, 400, { error: 'invalid JSON body' });
         return;
       }
-      const resolved = resolveCapture(body, pendingDir);
-      if (!resolved.ok) {
-        respond(res, resolved.status, { error: resolved.error });
+      const parsed = resolveCapture(body, pendingDir);
+      if (!parsed.ok) {
+        respond(res, parsed.status, { error: parsed.error });
         return;
       }
+      const resolved = stampCapture(parsed, nextFbNumber(pendingDir));
       try {
         writeCapture(resolved, pendingDir);
       } catch (e) {
