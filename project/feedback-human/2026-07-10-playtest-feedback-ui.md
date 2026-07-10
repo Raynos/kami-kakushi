@@ -275,6 +275,23 @@ mix — flatten the SVG through the native renderer first and shoot the flat
 pixels. (Joins the FB-218/219 family in qa-playtesting.md §9: observe without
 perturbing, and keep the shot off the interaction path.)
 
+### FB-348–350 · Rasterize is not perfect / text lost / kanji too — ✅
+**Verbatim:** _"hmm i think i did see that it changed, like the rasterize is
+not perfect."_ / _"Yeah all the text was lost during the rasterization."_ /
+_"The japanese icons too which i guess is font text."_
+**Reading:** the human's live captures of FB-337 round 2 — the first cut's
+standalone SVG lost the page's class rules, so every `<text>` (kanji seals and
+captions alike) rasterised black-on-black.
+**Fixed in:** `781344d` (the CSS-embed round of FB-337 — see that entry).
+
+### FB-347 / FB-351 / FB-352 / FB-354 / FB-355 · shot speed tests — ✅ not defects
+**Verbatim:** _"test bug for how fast we can screenshot the SVG now"_ /
+_"test capture."_ / _"test rasterize."_ / _"test"_ / _"test 2"_
+**Reading:** smoke tests of the FB-337 fix as it landed, from both the map and
+other tabs. They round-tripped through the inbox correctly and the human
+confirmed the speed live ("The speed was fixed though lol").
+**Fixed in:** `781344d` + `a0fe0af` (the work they exercised).
+
 ### FB-260 · "Test" — ✅ not a defect
 **Verbatim:** _"Test"_ (picked element: `panel "do"` — the "What you can do" heading)
 **Reading:** a **smoke test** of the rebuilt capture UI, taken on build `b9abe14`
