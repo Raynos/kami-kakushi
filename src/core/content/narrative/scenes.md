@@ -279,7 +279,7 @@ voice: steward
 
 > The third load goes past before you ask it.
 
-> "What do I carry?"
+You: "What do I carry?"
 
 O-Hisa: "Not this. If a year from now — well. Not this."
 
@@ -437,7 +437,7 @@ can't just change a crest, can you?"
 > as the gate's, and not the same flower. You count twice, because counting
 > is the one kind of reading you trust.
 
-> "Ask the steward."
+You: "Ask the steward."
 
 Shinnosuke: "I asked everyone. Grandmother said mind the lamp. Genemon wrote
 in his book. Mother said if I've time for petals I've time for copywork.
@@ -445,7 +445,7 @@ Nobody answers me. You ask. You work here — they have to answer you."
 
 > Asking costs you something every time. You pay it at the board that evening.
 
-> "The kura's crest. It has one petal more than the gate's."
+You: "The kura's crest. It has one petal more than the gate's."
 
 > It is not even a question, the way you say it. Genemon looks at you the way
 > he looked at the river-wet stranger the first morning — a thing to be

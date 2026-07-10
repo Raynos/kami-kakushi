@@ -6,7 +6,7 @@
 import type { GameState, ResourceId, FlagId } from './state';
 import { withResource, setFlag } from './state';
 import { pushLog, type LogChannel } from './log';
-import type { VoiceCategory } from './content/voices';
+import { playerSpeaker, type VoiceCategory } from './content/voices';
 import { renderLogLine, type LogParams } from './content/log-content';
 import { revealSurface } from './unlock';
 
@@ -53,7 +53,13 @@ export function applyRewards(state: GameState, rewards: RewardBundle): GameState
       next = {
         ...next,
         log: pushLog(next.log, line.channel, text, next.clock.tick, {
-          speaker: line.speaker,
+          // FB-198 — a player-voiced line authored with no static name (the narrative
+          // `You:` form) takes the G4.7 speaker-ladder label (You → Nameless → Gonbei)
+          // HERE, the one funnel every log emission crosses — no per-site resolution.
+          speaker:
+            line.voice === 'player' && line.speaker === undefined
+              ? playerSpeaker(next)
+              : line.speaker,
           voice: line.voice,
           ephemeral: line.ephemeral,
           chat: line.chat,

@@ -320,7 +320,7 @@ export const SCENES: readonly SceneDef[] = [
           text: 'Loads cross the forecourt all morning: trays, lamp-oil, cut flowers, a bundle of incense sticks O-Yae carries two-handed like a caught bird. Everyone is given something.',
         },
         { voice: 'narrator', text: 'The third load goes past before you ask it.' },
-        { voice: 'narrator', text: '"What do I carry?"' },
+        { voice: 'player', text: '"What do I carry?"' },
         {
           voice: 'steward',
           speaker: NPC_NAME.ohisa,
@@ -526,7 +526,7 @@ export const SCENES: readonly SceneDef[] = [
           voice: 'narrator',
           text: "You look. Above the seal-plate the mon is cut deep and old: the same flower as the gate's, and not the same flower. You count twice, because counting is the one kind of reading you trust.",
         },
-        { voice: 'narrator', text: '"Ask the steward."' },
+        { voice: 'player', text: '"Ask the steward."' },
         {
           voice: 'steward',
           speaker: NPC_NAME.shinnosuke,
@@ -536,7 +536,7 @@ export const SCENES: readonly SceneDef[] = [
           voice: 'narrator',
           text: 'Asking costs you something every time. You pay it at the board that evening.',
         },
-        { voice: 'narrator', text: '"The kura\'s crest. It has one petal more than the gate\'s."' },
+        { voice: 'player', text: '"The kura\'s crest. It has one petal more than the gate\'s."' },
         {
           voice: 'narrator',
           text: 'It is not even a question, the way you say it. Genemon looks at you the way he looked at the river-wet stranger the first morning — a thing to be entered under the correct heading. Then he opens the day-book, writes — not long — and closes it.',

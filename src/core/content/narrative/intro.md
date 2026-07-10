@@ -24,10 +24,10 @@
 speaker: soan
 voice: physician
 
-<!-- HD-30 / G4.7: take-a's MC speech lines (`You:`) render here as narrator `>`
-  quotes — the You:→Nameless: speaker-label flip is the speaker-ladder
-  (playerSpeaker(state)), a later G4 chunk; the quoted words are verbatim, only
-  the nameplate is deferred. The flip point is marked below. -->
+<!-- HD-30 / G4.7 / FB-198: take-a's MC speech lines are authored with the `You:`
+  player form — no static name compiles; the engine resolves the nameplate through
+  the speaker-ladder (playerSpeaker(state)), so the You:→Nameless: flip lands at
+  the marked point below without touching these lines. -->
 
 @cold-open.weir
 
@@ -40,7 +40,7 @@ voice: physician
 
 Sōan: "Do you know the year?"
 
-> "No."
+You: "No."
 
 Sōan: "An'ei nine. Now you know it again. Drink this."
 
@@ -59,7 +59,7 @@ Genemon: "Name, age, where from. In that order."
 > Three answers, and you do not have one of them. The silence goes on long
 > enough that the physician looks up.
 
-> "What name did I give? When they pulled me out."
+You: "What name did I give? When they pulled me out."
 
 Sōan: "None. You gave none. Three days I have had nothing to call you,
 and neither have you."

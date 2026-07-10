@@ -189,7 +189,8 @@
           "text": "\"No.\"",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "speaker": "You",
+          "voice": "player"
         },
         {
           "key": 5,
@@ -257,7 +258,8 @@
           "text": "\"What name did I give? When they pulled me out.\"",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "speaker": "You",
+          "voice": "player"
         },
         {
           "key": 13,
@@ -1942,7 +1944,8 @@
           "text": "\"What do I carry?\"",
           "tick": 2,
           "count": 1,
-          "voice": "narrator"
+          "speaker": "Nameless",
+          "voice": "player"
         },
         {
           "key": 752,
@@ -3197,7 +3200,8 @@
           "text": "\"Rats were in the store. Three nights, while I lay. A quarter-sack gone. Two more opened at the seam.\"",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "speaker": "Nameless",
+          "voice": "player"
         },
         {
           "key": 1339,
@@ -3205,7 +3209,8 @@
           "text": "\"The watch was mine.\"",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "speaker": "Nameless",
+          "voice": "player"
         },
         {
           "key": 1340,
@@ -3239,7 +3244,8 @@
           "text": "\"It isn't.\"",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "speaker": "Nameless",
+          "voice": "player"
         },
         {
           "key": 1344,
@@ -3279,7 +3285,8 @@
           "text": "\"Teach me.\"",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "speaker": "Nameless",
+          "voice": "player"
         },
         {
           "key": 1349,
@@ -3295,7 +3302,8 @@
           "text": "\"Will you?\"",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "speaker": "Nameless",
+          "voice": "player"
         },
         {
           "key": 1351,
@@ -3851,7 +3859,8 @@
           "text": "\"Forty.\"",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "speaker": "Nameless",
+          "voice": "player"
         },
         {
           "key": 1499,

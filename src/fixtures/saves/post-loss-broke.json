@@ -148,7 +148,8 @@
           "text": "\"No.\"",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "speaker": "You",
+          "voice": "player"
         },
         {
           "key": 5,
@@ -216,7 +217,8 @@
           "text": "\"What name did I give? When they pulled me out.\"",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "speaker": "You",
+          "voice": "player"
         },
         {
           "key": 13,

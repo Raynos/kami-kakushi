@@ -307,10 +307,10 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         text: "Genemon is there, the day-book open, the morning's entries not yet dry. He looks up, and waits, and does not help you begin.",
       },
       {
-        voice: 'narrator',
+        voice: 'player',
         text: '"Rats were in the store. Three nights, while I lay. A quarter-sack gone. Two more opened at the seam."',
       },
-      { voice: 'narrator', text: '"The watch was mine."' },
+      { voice: 'player', text: '"The watch was mine."' },
       {
         voice: 'narrator',
         text: 'Genemon writes before he answers. It is what he does with surprise, though nothing in his face has admitted to any.',
@@ -325,7 +325,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         speaker: NPC_NAME.genemon,
         text: '"Not under your name. No wage ran for the nights you lay. No watch stood — the gate cannot leave the gate. The account is even."',
       },
-      { voice: 'narrator', text: '"It isn\'t."' },
+      { voice: 'player', text: '"It isn\'t."' },
       {
         voice: 'narrator',
         text: 'The pen stops above the line a moment longer than the line needs. Then it moves on, and he says nothing, and writes nothing further.',
@@ -342,12 +342,12 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         voice: 'narrator',
         text: 'Stalls for twenty horses run down the long side of the court, and the house owns one mule. Kihei is at the rack, running a whetstone down a spear-head that has no war to go to. Two practice staves lean beside him. One is worn grey at the grip. The other is oiled, and looks as if it has never been anything else.',
       },
-      { voice: 'narrator', text: '"Teach me."' },
+      { voice: 'player', text: '"Teach me."' },
       {
         voice: 'narrator',
         text: 'That was the easy half. The question costs more than the walk did.',
       },
-      { voice: 'narrator', text: '"Will you?"' },
+      { voice: 'player', text: '"Will you?"' },
       {
         voice: 'narrator',
         text: 'Kihei sets down the whetstone. He looks at the strapping, at the way you keep your left side back, at the scars that were old before the river. He has looked at them before. He has never once asked.',
@@ -470,7 +470,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         text: 'He counts the coins into your palm one at a time, watching each one land.',
       },
       { voice: 'steward', speaker: NPC_NAME.genemon, text: '"Forty mon. Count them back."' },
-      { voice: 'narrator', text: '"Forty."' },
+      { voice: 'player', text: '"Forty."' },
       {
         voice: 'narrator',
         text: 'He watches the whole count. When it comes out even he does not nod. He enters something in the day-book, unasked.',

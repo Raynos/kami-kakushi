@@ -3,9 +3,9 @@
   Format spec: ./README.md. R0 has no beat — the intro IS the R0 beat.
 
   storywave G4.1 — migrated from the t0v2 VERDICT picks (u1-c, u2-c, u3-b, u4-b,
-  u6-c, u7-b) + each unit's redlines. MC speech (the pre-R7 `Nameless:` label /
-  the `You:` label) has no FB-5 speaker form, so those lines render as narrator
-  `>` quotes (the label flip stays a `native:` engine concern, 04-cast ladder).
+  u6-c, u7-b) + each unit's redlines. MC speech is authored with the `You:`
+  player form (FB-198) — no static name compiles; the engine resolves the
+  nameplate through the 04-cast speaker ladder (You → Nameless → Gonbei).
 
   Each rung keeps its CURRENT `motivates:` list (verbatim-equal to
   RANKS.<rung>.rewardOnReach.unlock, unchanged this chunk — the validator hard-
@@ -213,10 +213,10 @@ motivates: readout-durability, panel-equipment, verb-repair, house-omoya, room-d
 > Genemon is there, the day-book open, the morning's entries not yet dry. He
 > looks up, and waits, and does not help you begin.
 
-> "Rats were in the store. Three nights, while I lay. A quarter-sack gone. Two
-> more opened at the seam."
+You: "Rats were in the store. Three nights, while I lay. A quarter-sack gone.
+Two more opened at the seam."
 
-> "The watch was mine."
+You: "The watch was mine."
 
 > Genemon writes before he answers. It is what he does with surprise, though
 > nothing in his face has admitted to any.
@@ -227,7 +227,7 @@ thread. Entered under the store."
 Genemon: "Not under your name. No wage ran for the nights you lay. No watch
 stood — the gate cannot leave the gate. The account is even."
 
-> "It isn't."
+You: "It isn't."
 
 > The pen stops above the line a moment longer than the line needs. Then it
 > moves on, and he says nothing, and writes nothing further.
@@ -245,11 +245,11 @@ stood — the gate cannot leave the gate. The account is even."
 > grey at the grip. The other is oiled, and looks as if it has never been
 > anything else.
 
-> "Teach me."
+You: "Teach me."
 
 > That was the easy half. The question costs more than the walk did.
 
-> "Will you?"
+You: "Will you?"
 
 > Kihei sets down the whetstone. He looks at the strapping, at the way you keep
 > your left side back, at the scars that were old before the river. He has
@@ -319,7 +319,7 @@ voice: steward
 motivates: house-workshops, house-granary
 
 <!-- u6-c, redlined: "Everything walks downhill but the rain." cut from
-  r6-ford-news; the `You:` count reshaped to a narrator quote. The count-back
+  r6-ford-news; the `You:` count restored to the player form (FB-198). The count-back
   epilogue (`## scene r6-count-back`, native when:-gated post-decide prose) and
   its @-reuse of the R0 "one man, name unknown" echo have no rung-beat form —
   DEFERRED to a later chunk (a scene-def / native sidecar), noted HD-30. -->
@@ -337,7 +337,7 @@ morning. So."
 
 Genemon: "Forty mon. Count them back."
 
-> "Forty."
+You: "Forty."
 
 > He watches the whole count. When it comes out even he does not nod. He enters
 > something in the day-book, unasked.

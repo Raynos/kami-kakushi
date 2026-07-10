@@ -21,7 +21,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         text: 'The physician does not ask how you feel. He takes your wrist, then your jaw, then turns your hands over and looks at them longer than at anything else. He presses a thumb into the callus line across one palm and says nothing. There is a ledger open on his knee.',
       },
       { voice: 'physician', speaker: NPC_NAME.soan, text: '"Do you know the year?"' },
-      { voice: 'narrator', text: '"No."' },
+      { voice: 'player', text: '"No."' },
       {
         voice: 'physician',
         speaker: NPC_NAME.soan,
@@ -46,7 +46,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         voice: 'narrator',
         text: 'Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.',
       },
-      { voice: 'narrator', text: '"What name did I give? When they pulled me out."' },
+      { voice: 'player', text: '"What name did I give? When they pulled me out."' },
       {
         voice: 'physician',
         speaker: NPC_NAME.soan,

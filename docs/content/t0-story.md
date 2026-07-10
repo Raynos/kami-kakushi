@@ -33,7 +33,7 @@
 
 **Sōan:** "Do you know the year?"
 
-> "No."
+**You:** "No."
 
 **Sōan:** "An'ei nine. Now you know it again. Drink this."
 
@@ -49,7 +49,7 @@
 
 > Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.
 
-> "What name did I give? When they pulled me out."
+**You:** "What name did I give? When they pulled me out."
 
 **Sōan:** "None. You gave none. Three days I have had nothing to call you, and neither have you."
 
@@ -200,9 +200,9 @@
 
 > Genemon is there, the day-book open, the morning's entries not yet dry. He looks up, and waits, and does not help you begin.
 
-> "Rats were in the store. Three nights, while I lay. A quarter-sack gone. Two more opened at the seam."
+**You:** "Rats were in the store. Three nights, while I lay. A quarter-sack gone. Two more opened at the seam."
 
-> "The watch was mine."
+**You:** "The watch was mine."
 
 > Genemon writes before he answers. It is what he does with surprise, though nothing in his face has admitted to any.
 
@@ -210,7 +210,7 @@
 
 **Genemon:** "Not under your name. No wage ran for the nights you lay. No watch stood — the gate cannot leave the gate. The account is even."
 
-> "It isn't."
+**You:** "It isn't."
 
 > The pen stops above the line a moment longer than the line needs. Then it moves on, and he says nothing, and writes nothing further.
 
@@ -220,11 +220,11 @@
 
 > Stalls for twenty horses run down the long side of the court, and the house owns one mule. Kihei is at the rack, running a whetstone down a spear-head that has no war to go to. Two practice staves lean beside him. One is worn grey at the grip. The other is oiled, and looks as if it has never been anything else.
 
-> "Teach me."
+**You:** "Teach me."
 
 > That was the easy half. The question costs more than the walk did.
 
-> "Will you?"
+**You:** "Will you?"
 
 > Kihei sets down the whetstone. He looks at the strapping, at the way you keep your left side back, at the scars that were old before the river. He has looked at them before. He has never once asked.
 
@@ -277,7 +277,7 @@
 
 **Genemon:** "Forty mon. Count them back."
 
-> "Forty."
+**You:** "Forty."
 
 > He watches the whole count. When it comes out even he does not nod. He enters something in the day-book, unasked.
 
@@ -480,7 +480,7 @@
 
 > The third load goes past before you ask it.
 
-> "What do I carry?"
+**You:** "What do I carry?"
 
 **O-Hisa:** "Not this. If a year from now — well. Not this."
 
@@ -561,13 +561,13 @@
 
 > You look. Above the seal-plate the mon is cut deep and old: the same flower as the gate's, and not the same flower. You count twice, because counting is the one kind of reading you trust.
 
-> "Ask the steward."
+**You:** "Ask the steward."
 
 **Shinnosuke:** "I asked everyone. Grandmother said mind the lamp. Genemon wrote in his book. Mother said if I've time for petals I've time for copywork. Nobody answers me. You ask. You work here — they have to answer you."
 
 > Asking costs you something every time. You pay it at the board that evening.
 
-> "The kura's crest. It has one petal more than the gate's."
+**You:** "The kura's crest. It has one petal more than the gate's."
 
 > It is not even a question, the way you say it. Genemon looks at you the way he looked at the river-wet stranger the first morning — a thing to be entered under the correct heading. Then he opens the day-book, writes — not long — and closes it.
 

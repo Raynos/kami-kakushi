@@ -111,6 +111,15 @@ function resolveSpeaker(line: SpeechLine): ResolvedSpeaker {
 function emitProseLine(line: ProseLine): string {
   const expr = refExpr(line.text, line.loc) ?? textExpr(line.text, line.loc);
   if (line.kind === 'narr') return `{ voice: 'narrator', text: ${expr} },`;
+  // FB-198 — the player-speech form: `You: "…"` is the MC speaking. It emits NO static
+  // speaker — the engine resolves the nameplate at display time through the G4.7 ladder
+  // (playerSpeaker: You → Nameless → Gonbei), so the mid-story label flip lands for free.
+  if (line.speaker === 'You') {
+    if (line.voice !== undefined) {
+      throw new NarrativeError(line.loc, 'a `You:` player line never takes a (voice) override');
+    }
+    return `{ voice: 'player', text: ${expr} },`;
+  }
   const r = resolveSpeaker(line);
   return `{ voice: '${r.voice}', speaker: ${r.speakerExpr}, text: ${expr} },`;
 }

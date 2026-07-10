@@ -34,7 +34,7 @@ import {
   beatReactVoice,
   beatReactSpeaker,
   ATTR_META,
-  PLAYER_SPEAKER,
+  playerSpeaker,
   isUnlocked,
   hasFlag,
   formatKMB,
@@ -2139,8 +2139,21 @@ export function mount(
   // stable + append-only: a later state is always a prefix-superset of an earlier one within a scene.
   function introTranscript(scene: VnScene, state: GameState): VnEntry[] {
     const out: VnEntry[] = [];
+    // FB-198 — a player-voiced authored line (the narrative `You:` form) carries no static
+    // name; it takes the G4.7 speaker-ladder label here, same as the core's log funnel.
+    const authoredSpeaker = (line: {
+      voice: VoiceCategory;
+      speaker?: string;
+    }): string | undefined =>
+      line.voice === 'player' && line.speaker === undefined ? playerSpeaker(state) : line.speaker;
     scene.greeting.forEach((line, i) =>
-      out.push({ key: `greet:${i}`, voice: line.voice, text: line.text, speaker: line.speaker }),
+      out.push({
+        key: `greet:${i}`,
+        voice: line.voice,
+        text: line.text,
+        speaker: authoredSpeaker(line),
+        player: line.voice === 'player',
+      }),
     );
     const askedForScene = state.askedTopics
       .map((id) => scene.topics.find((t) => t.id === id))
@@ -2150,7 +2163,7 @@ export function mount(
         key: `askq:${t.id}`,
         voice: 'player',
         text: t.label,
-        speaker: PLAYER_SPEAKER,
+        speaker: playerSpeaker(state), // FB-198 — the ladder label, matching the core's log funnel
         player: true,
       });
       t.answer.forEach((line, i) =>
@@ -2158,7 +2171,8 @@ export function mount(
           key: `answ:${t.id}:${i}`,
           voice: line.voice,
           text: line.text,
-          speaker: line.speaker,
+          speaker: authoredSpeaker(line),
+          player: line.voice === 'player',
         }),
       );
     }
@@ -2173,7 +2187,7 @@ export function mount(
         key: `say:${pending.id}`,
         voice: 'player',
         text: pending.say,
-        speaker: PLAYER_SPEAKER,
+        speaker: playerSpeaker(state), // FB-198 — the ladder label, matching the core's log funnel
         player: true,
         fresh: true,
       });

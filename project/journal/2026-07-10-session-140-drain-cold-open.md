@@ -15,3 +15,10 @@ grammar form + intro retags (FB-198), the fresh-divider made anchored + 30s
   against focused controls + open modals; removed on teardown. Two RED-able
   tests (the first genuinely went RED against a `Document`-target crash in
   jsdom before the `instanceof HTMLElement` guard).
+- **FB-198** — the `You:` player-speech grammar form (the gap both intro.md and
+  rung-beats.md had documented as a deferral): emits `voice: 'player'` with no
+  static name; `playerSpeaker(state)` resolves the nameplate in the ONE log
+  funnel (`applyRewards`) + the VN transcript, so the You:→Nameless:→Gonbei
+  flips are automatic. All 11 narrator-quote MC lines retagged (intro 2,
+  scenes 3, rung-beats 6); compiler RED tests for the form + its (voice)
+  override rejection.

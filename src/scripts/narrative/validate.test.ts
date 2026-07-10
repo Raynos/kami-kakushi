@@ -317,6 +317,33 @@ flags: sb-dog-fed
     expect(gen).toContain('autumn');
   });
 
+  // FB-198 — the `You:` player-speech form: compiles to voice 'player' with NO static
+  // speaker (the engine resolves the nameplate via the G4.7 ladder at display time).
+  it("F198 — a `You:` line compiles to voice 'player' with no static speaker", () => {
+    const md = DOG.replace(
+      '> Kihei crosses the cleared ground on his round and stops beside you.',
+      'You: "Here, dog."',
+    );
+    const v = validate(md);
+    expect(v.errors).toEqual([]);
+    // quote-robust (emit is pre-oxfmt): the line is player-voiced, carries the text,
+    // and — the lever — compiles NO static speaker (the ladder resolves it at display).
+    const gen = emitScenes(parseNarrative(md, 'fixture.md'));
+    const line = gen.split('\n').find((l) => l.includes('Here, dog.'))!;
+    expect(line).toContain("voice: 'player'");
+    expect(line).not.toContain('speaker');
+  });
+
+  it('F198 RED — a `You:` line with a (voice) override', () => {
+    expectError(
+      DOG.replace(
+        '> Kihei crosses the cleared ground on his round and stops beside you.',
+        'You (villager): "Here, dog."',
+      ),
+      'a `You:` player line never takes a (voice) override',
+    );
+  });
+
   it('RED — an unknown trigger kind', () => {
     expectError(
       SILENT.replace('trigger: season-exit autumn', 'trigger: on-tuesday'),

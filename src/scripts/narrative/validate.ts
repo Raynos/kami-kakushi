@@ -133,6 +133,16 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
   const checkProse = (line: ProseLine, isReact: boolean): void => {
     checkText(line.text, line.loc);
     if (line.kind === 'narr') return;
+    // FB-198 — the player-speech form: `You:` is the MC speaking; the engine resolves the
+    // nameplate through the G4.7 ladder (You → Nameless → Gonbei), so no static name and
+    // no (voice) override are ever valid on it, and a react (an NPC's reply) can't be one.
+    if (line.speaker === 'You') {
+      if (line.voice !== undefined) {
+        err(line.loc, 'a `You:` player line never takes a (voice) override');
+      }
+      if (isReact) err(line.loc, "a react line's speaker must be an NPC, not the player");
+      return;
+    }
     const npc = NPC_BY_NAME.get(line.speaker);
     if (npc === undefined && !AMBIENT_NAMES.has(line.speaker)) {
       err(

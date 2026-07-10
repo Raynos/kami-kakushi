@@ -85,6 +85,12 @@ continuation lines indent two spaces).
   the `NPC_NAME` reverse map; its voice defaults to `NPC_VOICE[npc]`. A non-NPC
   (ambient) speaker or a voice override is explicit: `Yohei (villager): "…"`
   (resolved through `NAMES`). The quotes are part of the line, verbatim.
+- `You: "…"` — the MC speaking (FB-198). Compiles to `voice: 'player'` with NO
+  static name — the engine resolves the nameplate at display time through the
+  G4.7 speaker ladder (`playerSpeaker`: You → Nameless → Gonbei), so the
+  mid-story label flips land without touching the authored line. Never takes a
+  `(voice)` override, and a rung-beat react can't be one (a react is the NPC's
+  reply).
 
 Hard-wrap prose at ~80 chars; continuation lines are flush-left (speech) or
 `> `-prefixed (narrator) and rejoin with a single space — a wrap can only occur
