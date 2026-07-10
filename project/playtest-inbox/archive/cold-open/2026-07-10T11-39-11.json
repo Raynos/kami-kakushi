@@ -152,6 +152,8 @@
   "surface": [
     "log-panel"
   ],
-  "status": "parked",
-  "lane": "vn-speech"
+  "status": "done",
+  "lane": "vn-speech",
+  "fb": 228,
+  "commit": "85d8b43"
 }

@@ -1,155 +1,159 @@
 {
- "capturedAt": "2026-07-10T11:35:21+0200",
- "kind": "bug",
- "group": "feedback UI",
- "session": "2026-07-10T11-32-37-969c1b",
- "build": {
-  "version": "v0.4.0",
-  "sha": "caa6450",
-  "date": "2026-07-10"
- },
- "seed": 20260626,
- "clock": {
-  "day": 0,
-  "tick": 0
- },
- "location": "kura",
- "rung": "R0",
- "tier": 0,
- "activeTab": "work",
- "variants": {},
- "viewport": {
-  "w": 1496,
-  "h": 752,
-  "dpr": 2
- },
- "url": "/",
- "element": {
-  "label": "span.vn-speech",
-  "text": "\"How long was I in the river?\"",
-  "selector": "div > p:nth-of-type(20) > span:nth-of-type(2) > span",
-  "rect": {
-   "x": 353,
-   "y": 592,
-   "w": 191,
-   "h": 20
-  }
- },
- "screenshot": "2026-07-10T11-35-21.png",
- "logTail": [
-  {
-   "channel": "narration",
-   "text": "\"Do you know the year?\"",
-   "count": 1,
-   "speaker": "Sōan"
+  "capturedAt": "2026-07-10T11:35:21+0200",
+  "kind": "bug",
+  "group": "feedback UI",
+  "session": "2026-07-10T11-32-37-969c1b",
+  "build": {
+    "version": "v0.4.0",
+    "sha": "caa6450",
+    "date": "2026-07-10"
   },
-  {
-   "channel": "narration",
-   "text": "\"No.\"",
-   "count": 1
+  "seed": 20260626,
+  "clock": {
+    "day": 0,
+    "tick": 0
   },
-  {
-   "channel": "narration",
-   "text": "\"An'ei nine. Now you know it again. Drink this.\"",
-   "count": 1,
-   "speaker": "Sōan"
+  "location": "kura",
+  "rung": "R0",
+  "tier": 0,
+  "activeTab": "work",
+  "variants": {},
+  "viewport": {
+    "w": 1496,
+    "h": 752,
+    "dpr": 2
   },
-  {
-   "channel": "narration",
-   "text": "Whatever the hands told him goes into the ledger, two lines, too far off to read. The door slides, and he closes the book on his thumb.",
-   "count": 1
+  "url": "/",
+  "element": {
+    "label": "span.vn-speech",
+    "text": "\"How long was I in the river?\"",
+    "selector": "div > p:nth-of-type(20) > span:nth-of-type(2) > span",
+    "rect": {
+      "x": 353,
+      "y": 592,
+      "w": 191,
+      "h": 20
+    }
   },
-  {
-   "channel": "narration",
-   "text": "The man in the doorway is grey and dry and carries a book of his own. Two books in the room now, and only one of them open.",
-   "count": 1
-  },
-  {
-   "channel": "narration",
-   "text": "\"The weir man. Sōan — can he work?\"",
-   "count": 1,
-   "speaker": "Genemon"
-  },
-  {
-   "channel": "narration",
-   "text": "\"Ask him.\"",
-   "count": 1,
-   "speaker": "Sōan"
-  },
-  {
-   "channel": "narration",
-   "text": "\"Name, age, where from. In that order.\"",
-   "count": 1,
-   "speaker": "Genemon"
-  },
-  {
-   "channel": "narration",
-   "text": "Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.",
-   "count": 1
-  },
-  {
-   "channel": "narration",
-   "text": "\"What name did I give? When they pulled me out.\"",
-   "count": 1
-  },
-  {
-   "channel": "narration",
-   "text": "\"None. You gave none. Three days I have had nothing to call you, and neither have you.\"",
-   "count": 1,
-   "speaker": "Sōan"
-  },
-  {
-   "channel": "narration",
-   "text": "Nothing comes.",
-   "count": 1
-  },
-  {
-   "channel": "narration",
-   "text": "Genemon does not look surprised. He looks down and writes, and reads it back as he writes, aloud and once.",
-   "count": 1
-  },
-  {
-   "channel": "narration",
-   "text": "One man, name unknown. Taken at the weir. Fed, three days. Condition, poor; hands, good.",
-   "count": 1,
-   "speaker": "Genemon"
-  },
-  {
-   "channel": "narration",
-   "text": "\"When he can stand, he rakes. The kitchen wants water before it wants anything.\"",
-   "count": 1,
-   "speaker": "Genemon"
-  },
-  {
-   "channel": "narration",
-   "text": "He goes. Sōan opens his ledger again, where his thumb kept the place.",
-   "count": 1
-  },
-  {
-   "channel": "narration",
-   "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
-   "count": 1
-  },
-  {
-   "channel": "narration",
-   "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
-   "count": 1
-  },
-  {
-   "channel": "narration",
-   "text": "\"How long was I in the river?\"",
-   "count": 1,
-   "speaker": "You"
-  },
-  {
-   "channel": "narration",
-   "text": "\"That I can't write down. Three days here, fevered. Before that, ask the river.\"",
-   "count": 1,
-   "speaker": "Sōan"
-  }
- ],
- "save": "eyJhcHAiOiJrYW1pLWtha3VzaGkiLCJzY2hlbWFWZXJzaW9uIjoxMCwiZ2VuZXJhdGlvbiI6Miwic2F2ZUNvdW50ZXIiOjIxOCwic2F2ZWRBdCI6MTc4MzY3NjEyMTgyNywic3RhdGUiOnsic2NoZW1hVmVyc2lvbiI6MTAsInNlYXNvbiI6IndpbnRlciIsInNlYXNvbnNQYXNzZWQiOjAsInJuZyI6eyJzZWVkIjoyMDI2MDYyNiwiY3Vyc29ycyI6eyJjb21iYXQiOjAsImxvb3QiOjAsInNlYXNvbmFsIjowLCJ3b3JsZGdlbiI6MCwiZGlzY292ZXJ5IjowfX0sImNsb2NrIjp7InRpY2siOjAsImRheSI6MH0sImNoYXJhY3RlciI6eyJocCI6NTgsInNhdGlldHkiOjY0LCJhdHRyaWJ1dGVQb2ludHMiOjAsImF0dHJzIjp7InN0ciI6NSwiYWdpIjo1LCJpbnQiOjUsInNwZCI6NSwibHVjayI6NX0sImxldmVsIjoxLCJjb21iYXRYcCI6MH0sInJlc291cmNlcyI6eyJjb2luIjowfSwiYmFua2VkIjp7InJpY2UiOjB9LCJzaXRlUG9vbHMiOnsicGFkZGllcyI6MzAwLCJmb3JlY291cnQiOjEyMCwid29vZGxvdCI6MTYwLCJ3ZWlyIjoxMjB9LCJ3YWdlRGF5c0FjY3J1ZWQiOjAsImxhc3RXYWdlRGF5IjotMSwiZmxhZ3MiOnsiYXdha2UiOnRydWUsImRyZWFtLTEiOnRydWV9LCJ1bmxvY2tlZCI6WyJzY3JlZW4tY29sZC1vcGVuIiwidmVyYi1vcGVuLWV5ZXMiLCJyZWFkb3V0LWJvZHkiLCJyZWFkb3V0LXJpY2UiLCJ2ZXJiLXJha2UiXSwibG9nIjp7ImVudHJpZXMiOlt7ImtleSI6MCwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJUaGUgcml2ZXIgZ2l2ZXMgeW91IHVwIGF0IHRoZSB3ZWlyLiBZb3Uga2VlcCBub25lIG9mIGl0IGluIG9yZGVyOiBoYW5kcyBpbiB5b3VyIGNvbGxhciwgZ3JhdmVsIHVuZGVyIHlvdXIgYmFjaywgdGhlIHNreSB3aGl0ZSBhbmQgbmVhciwgd2F0ZXIgbGVhdmluZyB5b3UgaW4gY291Z2hzLiBBIHN0b25lIGppesWNIHdhdGNoZXMgZnJvbSB0aGUgYmFuaywgcmljZSBhdCBpdHMgZmVldCwgbm9ib2R5IG9uIHRoZSByb2FkIHdobyBjb3VsZCBoYXZlIGxlZnQgaXQuIFNvbWVvbmUgc2F5cywgY2FycnkgaGltIHVwLCB0aGVuLiBUaGVuIG5vdGhpbmcuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MSwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJTdHJhdy4gQSBsb3cgcm9vZi4gQSBmaXJlIGtlcHQgc21hbGwuIFNvbWV0aGluZyBzdXJmYWNlcyDigJQgYSBrbm90LCBhIHJvYWQgaW4gZ3JleSByYWluIOKAlCBhbmQgZ29lcyBkb3duIGFnYWluIGJlZm9yZSB5b3UgY2FuIHB1dCBhIGhhbmQgdG8gaXQuIFlvdSBoYXZlIGJlZW4gdGhyZWUgZGF5cyBpbiBhIHJvb20geW91IGhhdmUgbmV2ZXIgc2Vlbi4iLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5IjoyLCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlRoZSBwaHlzaWNpYW4gZG9lcyBub3QgYXNrIGhvdyB5b3UgZmVlbC4gSGUgdGFrZXMgeW91ciB3cmlzdCwgdGhlbiB5b3VyIGphdywgdGhlbiB0dXJucyB5b3VyIGhhbmRzIG92ZXIgYW5kIGxvb2tzIGF0IHRoZW0gbG9uZ2VyIHRoYW4gYXQgYW55dGhpbmcgZWxzZS4gSGUgcHJlc3NlcyBhIHRodW1iIGludG8gdGhlIGNhbGx1cyBsaW5lIGFjcm9zcyBvbmUgcGFsbSBhbmQgc2F5cyBub3RoaW5nLiBUaGVyZSBpcyBhIGxlZGdlciBvcGVuIG9uIGhpcyBrbmVlLiIsInRpY2siOjAsImNvdW50IjoxLCJ2b2ljZSI6Im5hcnJhdG9yIn0seyJrZXkiOjMsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCJEbyB5b3Uga25vdyB0aGUgeWVhcj9cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiU8WNYW4iLCJ2b2ljZSI6InBoeXNpY2lhbiJ9LHsia2V5Ijo0LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlwiTm8uXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5Ijo1LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlwiQW4nZWkgbmluZS4gTm93IHlvdSBrbm93IGl0IGFnYWluLiBEcmluayB0aGlzLlwiIiwidGljayI6MCwiY291bnQiOjEsInNwZWFrZXIiOiJTxY1hbiIsInZvaWNlIjoicGh5c2ljaWFuIn0seyJrZXkiOjYsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiV2hhdGV2ZXIgdGhlIGhhbmRzIHRvbGQgaGltIGdvZXMgaW50byB0aGUgbGVkZ2VyLCB0d28gbGluZXMsIHRvbyBmYXIgb2ZmIHRvIHJlYWQuIFRoZSBkb29yIHNsaWRlcywgYW5kIGhlIGNsb3NlcyB0aGUgYm9vayBvbiBoaXMgdGh1bWIuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6NywiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJUaGUgbWFuIGluIHRoZSBkb29yd2F5IGlzIGdyZXkgYW5kIGRyeSBhbmQgY2FycmllcyBhIGJvb2sgb2YgaGlzIG93bi4gVHdvIGJvb2tzIGluIHRoZSByb29tIG5vdywgYW5kIG9ubHkgb25lIG9mIHRoZW0gb3Blbi4iLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5Ijo4LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlwiVGhlIHdlaXIgbWFuLiBTxY1hbiDigJQgY2FuIGhlIHdvcms/XCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IkdlbmVtb24iLCJ2b2ljZSI6InN0ZXdhcmQifSx7ImtleSI6OSwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIkFzayBoaW0uXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IlPFjWFuIiwidm9pY2UiOiJwaHlzaWNpYW4ifSx7ImtleSI6MTAsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCJOYW1lLCBhZ2UsIHdoZXJlIGZyb20uIEluIHRoYXQgb3JkZXIuXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IkdlbmVtb24iLCJ2b2ljZSI6InN0ZXdhcmQifSx7ImtleSI6MTEsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiVGhyZWUgYW5zd2VycywgYW5kIHlvdSBkbyBub3QgaGF2ZSBvbmUgb2YgdGhlbS4gVGhlIHNpbGVuY2UgZ29lcyBvbiBsb25nIGVub3VnaCB0aGF0IHRoZSBwaHlzaWNpYW4gbG9va3MgdXAuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MTIsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCJXaGF0IG5hbWUgZGlkIEkgZ2l2ZT8gV2hlbiB0aGV5IHB1bGxlZCBtZSBvdXQuXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5IjoxMywiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIk5vbmUuIFlvdSBnYXZlIG5vbmUuIFRocmVlIGRheXMgSSBoYXZlIGhhZCBub3RoaW5nIHRvIGNhbGwgeW91LCBhbmQgbmVpdGhlciBoYXZlIHlvdS5cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiU8WNYW4iLCJ2b2ljZSI6InBoeXNpY2lhbiJ9LHsia2V5IjoxNCwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJOb3RoaW5nIGNvbWVzLiIsInRpY2siOjAsImNvdW50IjoxLCJ2b2ljZSI6Im5hcnJhdG9yIn0seyJrZXkiOjE1LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IkdlbmVtb24gZG9lcyBub3QgbG9vayBzdXJwcmlzZWQuIEhlIGxvb2tzIGRvd24gYW5kIHdyaXRlcywgYW5kIHJlYWRzIGl0IGJhY2sgYXMgaGUgd3JpdGVzLCBhbG91ZCBhbmQgb25jZS4iLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5IjoxNiwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJPbmUgbWFuLCBuYW1lIHVua25vd24uIFRha2VuIGF0IHRoZSB3ZWlyLiBGZWQsIHRocmVlIGRheXMuIENvbmRpdGlvbiwgcG9vcjsgaGFuZHMsIGdvb2QuIiwidGljayI6MCwiY291bnQiOjEsInNwZWFrZXIiOiJHZW5lbW9uIiwidm9pY2UiOiJzdGV3YXJkIn0seyJrZXkiOjE3LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlwiV2hlbiBoZSBjYW4gc3RhbmQsIGhlIHJha2VzLiBUaGUga2l0Y2hlbiB3YW50cyB3YXRlciBiZWZvcmUgaXQgd2FudHMgYW55dGhpbmcuXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IkdlbmVtb24iLCJ2b2ljZSI6InN0ZXdhcmQifSx7ImtleSI6MTgsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiSGUgZ29lcy4gU8WNYW4gb3BlbnMgaGlzIGxlZGdlciBhZ2Fpbiwgd2hlcmUgaGlzIHRodW1iIGtlcHQgdGhlIHBsYWNlLiIsInRpY2siOjAsImNvdW50IjoxLCJ2b2ljZSI6Im5hcnJhdG9yIn0seyJrZXkiOjE5LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IllvdSBoYXZlIHN0YXJ0ZWQgdG8ga2VlcCBjb3VudCBvZiB5b3VyIG93biBzdHJlbmd0aCDigJQgd2hhdCB0aGUgZGF5IGhhcyBkcmF3biBvdXQgb2YgeW91LCBhbmQgaG93IGZhciB0aGF0IGlzIGZyb20gU8WNYW4ncyBwYWxsZXQuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MjAsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiVGhlIGt1cmEncyBjb3VudCBpcyBvcGVuIHRvIHlvdSBub3c6IHJpY2UgaW4sIHJpY2Ugb3V0LCBhbmQgdGhlIHRoaW4gbGluZSBiZXR3ZWVuIHRoZSBzdG9yZSBhbmQgYSBsZWFuIHdpbnRlci4iLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5IjoyMSwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIkhvdyBsb25nIHdhcyBJIGluIHRoZSByaXZlcj9cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiWW91Iiwidm9pY2UiOiJwbGF5ZXIiLCJjaGF0Ijp0cnVlfSx7ImtleSI6MjIsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCJUaGF0IEkgY2FuJ3Qgd3JpdGUgZG93bi4gVGhyZWUgZGF5cyBoZXJlLCBmZXZlcmVkLiBCZWZvcmUgdGhhdCwgYXNrIHRoZSByaXZlci5cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiU8WNYW4iLCJ2b2ljZSI6InBoeXNpY2lhbiIsImNoYXQiOnRydWV9XSwic2VxIjoyM30sInNraWxsWHAiOnt9LCJkZWxpdmVyZWREaWFsb2d1ZSI6WyJnZW4tZ3JlZXQiLCJnZW4tc3RvcmVzIl0sIm5wY01lbW9yeSI6e30sImludHJvQmVhdCI6MCwicnVuZ0JlYXQiOm51bGwsImFza2VkVG9waWNzIjpbInNvYW4taG93LWxvbmciXSwicXVlc3RzIjp7ImFjY2VwdGVkIjpbXSwicHJvZ3Jlc3MiOnt9LCJjb21wbGV0ZWQiOltdfSwibWFya2V0Qm91Z2h0Ijp7fSwiYmVsb25naW5ncyI6W10sImxvY2F0aW9uIjoia3VyYSIsInJ1bmciOiJSMCIsInJ1bmdSZXFzIjp7fSwiZXN0YXRlU3RhZ2UiOjAsImRpc2NvdmVyZWQiOltdLCJkaXNjb3ZlcnlQcm9ncmVzcyI6e30sImF1dG9BY3Rpdml0eSI6bnVsbCwiYXV0b1Jha2UiOmZhbHNlLCJlcXVpcHBlZFdlYXBvbiI6ImNhcnJ5aW5nX3BvbGUiLCJ3ZWFwb25EdXJhYmlsaXR5Ijo0MCwiYXV0b0NvbWJhdCI6bnVsbCwiYXV0b0NvbWJhdFJldHJlYXQiOmZhbHNlLCJzdGFuY2UiOiJjaHVkYW4iLCJ0aWVyIjowLCJpbmZsdWVuY2UiOnsiZXN0YXRlIjp7InZhbHVlIjowLCJoaWdoV2F0ZXIiOjAsImp1ZGdlZCI6MCwiZnJhYyI6MH19LCJzY2VuZVF1ZXVlIjpbXSwiYWN0aXZlU2NlbmUiOm51bGwsInNjZW5lc1BsYXllZCI6W10sInJvdW5kU3RhdGUiOm51bGwsInNvYW5MZWRnZXIiOjB9fQ==",
- "surface": [
-  "vn-overlay"
- ]
+  "screenshot": "2026-07-10T11-35-21.png",
+  "logTail": [
+    {
+      "channel": "narration",
+      "text": "\"Do you know the year?\"",
+      "count": 1,
+      "speaker": "Sōan"
+    },
+    {
+      "channel": "narration",
+      "text": "\"No.\"",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "\"An'ei nine. Now you know it again. Drink this.\"",
+      "count": 1,
+      "speaker": "Sōan"
+    },
+    {
+      "channel": "narration",
+      "text": "Whatever the hands told him goes into the ledger, two lines, too far off to read. The door slides, and he closes the book on his thumb.",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "The man in the doorway is grey and dry and carries a book of his own. Two books in the room now, and only one of them open.",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "\"The weir man. Sōan — can he work?\"",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "narration",
+      "text": "\"Ask him.\"",
+      "count": 1,
+      "speaker": "Sōan"
+    },
+    {
+      "channel": "narration",
+      "text": "\"Name, age, where from. In that order.\"",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "narration",
+      "text": "Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "\"What name did I give? When they pulled me out.\"",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "\"None. You gave none. Three days I have had nothing to call you, and neither have you.\"",
+      "count": 1,
+      "speaker": "Sōan"
+    },
+    {
+      "channel": "narration",
+      "text": "Nothing comes.",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "Genemon does not look surprised. He looks down and writes, and reads it back as he writes, aloud and once.",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "One man, name unknown. Taken at the weir. Fed, three days. Condition, poor; hands, good.",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "narration",
+      "text": "\"When he can stand, he rakes. The kitchen wants water before it wants anything.\"",
+      "count": 1,
+      "speaker": "Genemon"
+    },
+    {
+      "channel": "narration",
+      "text": "He goes. Sōan opens his ledger again, where his thumb kept the place.",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
+      "count": 1
+    },
+    {
+      "channel": "narration",
+      "text": "\"How long was I in the river?\"",
+      "count": 1,
+      "speaker": "You"
+    },
+    {
+      "channel": "narration",
+      "text": "\"That I can't write down. Three days here, fevered. Before that, ask the river.\"",
+      "count": 1,
+      "speaker": "Sōan"
+    }
+  ],
+  "save": "eyJhcHAiOiJrYW1pLWtha3VzaGkiLCJzY2hlbWFWZXJzaW9uIjoxMCwiZ2VuZXJhdGlvbiI6Miwic2F2ZUNvdW50ZXIiOjIxOCwic2F2ZWRBdCI6MTc4MzY3NjEyMTgyNywic3RhdGUiOnsic2NoZW1hVmVyc2lvbiI6MTAsInNlYXNvbiI6IndpbnRlciIsInNlYXNvbnNQYXNzZWQiOjAsInJuZyI6eyJzZWVkIjoyMDI2MDYyNiwiY3Vyc29ycyI6eyJjb21iYXQiOjAsImxvb3QiOjAsInNlYXNvbmFsIjowLCJ3b3JsZGdlbiI6MCwiZGlzY292ZXJ5IjowfX0sImNsb2NrIjp7InRpY2siOjAsImRheSI6MH0sImNoYXJhY3RlciI6eyJocCI6NTgsInNhdGlldHkiOjY0LCJhdHRyaWJ1dGVQb2ludHMiOjAsImF0dHJzIjp7InN0ciI6NSwiYWdpIjo1LCJpbnQiOjUsInNwZCI6NSwibHVjayI6NX0sImxldmVsIjoxLCJjb21iYXRYcCI6MH0sInJlc291cmNlcyI6eyJjb2luIjowfSwiYmFua2VkIjp7InJpY2UiOjB9LCJzaXRlUG9vbHMiOnsicGFkZGllcyI6MzAwLCJmb3JlY291cnQiOjEyMCwid29vZGxvdCI6MTYwLCJ3ZWlyIjoxMjB9LCJ3YWdlRGF5c0FjY3J1ZWQiOjAsImxhc3RXYWdlRGF5IjotMSwiZmxhZ3MiOnsiYXdha2UiOnRydWUsImRyZWFtLTEiOnRydWV9LCJ1bmxvY2tlZCI6WyJzY3JlZW4tY29sZC1vcGVuIiwidmVyYi1vcGVuLWV5ZXMiLCJyZWFkb3V0LWJvZHkiLCJyZWFkb3V0LXJpY2UiLCJ2ZXJiLXJha2UiXSwibG9nIjp7ImVudHJpZXMiOlt7ImtleSI6MCwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJUaGUgcml2ZXIgZ2l2ZXMgeW91IHVwIGF0IHRoZSB3ZWlyLiBZb3Uga2VlcCBub25lIG9mIGl0IGluIG9yZGVyOiBoYW5kcyBpbiB5b3VyIGNvbGxhciwgZ3JhdmVsIHVuZGVyIHlvdXIgYmFjaywgdGhlIHNreSB3aGl0ZSBhbmQgbmVhciwgd2F0ZXIgbGVhdmluZyB5b3UgaW4gY291Z2hzLiBBIHN0b25lIGppesWNIHdhdGNoZXMgZnJvbSB0aGUgYmFuaywgcmljZSBhdCBpdHMgZmVldCwgbm9ib2R5IG9uIHRoZSByb2FkIHdobyBjb3VsZCBoYXZlIGxlZnQgaXQuIFNvbWVvbmUgc2F5cywgY2FycnkgaGltIHVwLCB0aGVuLiBUaGVuIG5vdGhpbmcuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MSwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJTdHJhdy4gQSBsb3cgcm9vZi4gQSBmaXJlIGtlcHQgc21hbGwuIFNvbWV0aGluZyBzdXJmYWNlcyDigJQgYSBrbm90LCBhIHJvYWQgaW4gZ3JleSByYWluIOKAlCBhbmQgZ29lcyBkb3duIGFnYWluIGJlZm9yZSB5b3UgY2FuIHB1dCBhIGhhbmQgdG8gaXQuIFlvdSBoYXZlIGJlZW4gdGhyZWUgZGF5cyBpbiBhIHJvb20geW91IGhhdmUgbmV2ZXIgc2Vlbi4iLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5IjoyLCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlRoZSBwaHlzaWNpYW4gZG9lcyBub3QgYXNrIGhvdyB5b3UgZmVlbC4gSGUgdGFrZXMgeW91ciB3cmlzdCwgdGhlbiB5b3VyIGphdywgdGhlbiB0dXJucyB5b3VyIGhhbmRzIG92ZXIgYW5kIGxvb2tzIGF0IHRoZW0gbG9uZ2VyIHRoYW4gYXQgYW55dGhpbmcgZWxzZS4gSGUgcHJlc3NlcyBhIHRodW1iIGludG8gdGhlIGNhbGx1cyBsaW5lIGFjcm9zcyBvbmUgcGFsbSBhbmQgc2F5cyBub3RoaW5nLiBUaGVyZSBpcyBhIGxlZGdlciBvcGVuIG9uIGhpcyBrbmVlLiIsInRpY2siOjAsImNvdW50IjoxLCJ2b2ljZSI6Im5hcnJhdG9yIn0seyJrZXkiOjMsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCJEbyB5b3Uga25vdyB0aGUgeWVhcj9cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiU8WNYW4iLCJ2b2ljZSI6InBoeXNpY2lhbiJ9LHsia2V5Ijo0LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlwiTm8uXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5Ijo1LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlwiQW4nZWkgbmluZS4gTm93IHlvdSBrbm93IGl0IGFnYWluLiBEcmluayB0aGlzLlwiIiwidGljayI6MCwiY291bnQiOjEsInNwZWFrZXIiOiJTxY1hbiIsInZvaWNlIjoicGh5c2ljaWFuIn0seyJrZXkiOjYsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiV2hhdGV2ZXIgdGhlIGhhbmRzIHRvbGQgaGltIGdvZXMgaW50byB0aGUgbGVkZ2VyLCB0d28gbGluZXMsIHRvbyBmYXIgb2ZmIHRvIHJlYWQuIFRoZSBkb29yIHNsaWRlcywgYW5kIGhlIGNsb3NlcyB0aGUgYm9vayBvbiBoaXMgdGh1bWIuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6NywiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJUaGUgbWFuIGluIHRoZSBkb29yd2F5IGlzIGdyZXkgYW5kIGRyeSBhbmQgY2FycmllcyBhIGJvb2sgb2YgaGlzIG93bi4gVHdvIGJvb2tzIGluIHRoZSByb29tIG5vdywgYW5kIG9ubHkgb25lIG9mIHRoZW0gb3Blbi4iLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5Ijo4LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlwiVGhlIHdlaXIgbWFuLiBTxY1hbiDigJQgY2FuIGhlIHdvcms/XCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IkdlbmVtb24iLCJ2b2ljZSI6InN0ZXdhcmQifSx7ImtleSI6OSwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIkFzayBoaW0uXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IlPFjWFuIiwidm9pY2UiOiJwaHlzaWNpYW4ifSx7ImtleSI6MTAsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCJOYW1lLCBhZ2UsIHdoZXJlIGZyb20uIEluIHRoYXQgb3JkZXIuXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IkdlbmVtb24iLCJ2b2ljZSI6InN0ZXdhcmQifSx7ImtleSI6MTEsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiVGhyZWUgYW5zd2VycywgYW5kIHlvdSBkbyBub3QgaGF2ZSBvbmUgb2YgdGhlbS4gVGhlIHNpbGVuY2UgZ29lcyBvbiBsb25nIGVub3VnaCB0aGF0IHRoZSBwaHlzaWNpYW4gbG9va3MgdXAuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MTIsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCJXaGF0IG5hbWUgZGlkIEkgZ2l2ZT8gV2hlbiB0aGV5IHB1bGxlZCBtZSBvdXQuXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5IjoxMywiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIk5vbmUuIFlvdSBnYXZlIG5vbmUuIFRocmVlIGRheXMgSSBoYXZlIGhhZCBub3RoaW5nIHRvIGNhbGwgeW91LCBhbmQgbmVpdGhlciBoYXZlIHlvdS5cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiU8WNYW4iLCJ2b2ljZSI6InBoeXNpY2lhbiJ9LHsia2V5IjoxNCwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJOb3RoaW5nIGNvbWVzLiIsInRpY2siOjAsImNvdW50IjoxLCJ2b2ljZSI6Im5hcnJhdG9yIn0seyJrZXkiOjE1LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IkdlbmVtb24gZG9lcyBub3QgbG9vayBzdXJwcmlzZWQuIEhlIGxvb2tzIGRvd24gYW5kIHdyaXRlcywgYW5kIHJlYWRzIGl0IGJhY2sgYXMgaGUgd3JpdGVzLCBhbG91ZCBhbmQgb25jZS4iLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5IjoxNiwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJPbmUgbWFuLCBuYW1lIHVua25vd24uIFRha2VuIGF0IHRoZSB3ZWlyLiBGZWQsIHRocmVlIGRheXMuIENvbmRpdGlvbiwgcG9vcjsgaGFuZHMsIGdvb2QuIiwidGljayI6MCwiY291bnQiOjEsInNwZWFrZXIiOiJHZW5lbW9uIiwidm9pY2UiOiJzdGV3YXJkIn0seyJrZXkiOjE3LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IlwiV2hlbiBoZSBjYW4gc3RhbmQsIGhlIHJha2VzLiBUaGUga2l0Y2hlbiB3YW50cyB3YXRlciBiZWZvcmUgaXQgd2FudHMgYW55dGhpbmcuXCIiLCJ0aWNrIjowLCJjb3VudCI6MSwic3BlYWtlciI6IkdlbmVtb24iLCJ2b2ljZSI6InN0ZXdhcmQifSx7ImtleSI6MTgsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiSGUgZ29lcy4gU8WNYW4gb3BlbnMgaGlzIGxlZGdlciBhZ2Fpbiwgd2hlcmUgaGlzIHRodW1iIGtlcHQgdGhlIHBsYWNlLiIsInRpY2siOjAsImNvdW50IjoxLCJ2b2ljZSI6Im5hcnJhdG9yIn0seyJrZXkiOjE5LCJjaGFubmVsIjoibmFycmF0aW9uIiwidGV4dCI6IllvdSBoYXZlIHN0YXJ0ZWQgdG8ga2VlcCBjb3VudCBvZiB5b3VyIG93biBzdHJlbmd0aCDigJQgd2hhdCB0aGUgZGF5IGhhcyBkcmF3biBvdXQgb2YgeW91LCBhbmQgaG93IGZhciB0aGF0IGlzIGZyb20gU8WNYW4ncyBwYWxsZXQuIiwidGljayI6MCwiY291bnQiOjEsInZvaWNlIjoibmFycmF0b3IifSx7ImtleSI6MjAsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiVGhlIGt1cmEncyBjb3VudCBpcyBvcGVuIHRvIHlvdSBub3c6IHJpY2UgaW4sIHJpY2Ugb3V0LCBhbmQgdGhlIHRoaW4gbGluZSBiZXR3ZWVuIHRoZSBzdG9yZSBhbmQgYSBsZWFuIHdpbnRlci4iLCJ0aWNrIjowLCJjb3VudCI6MSwidm9pY2UiOiJuYXJyYXRvciJ9LHsia2V5IjoyMSwiY2hhbm5lbCI6Im5hcnJhdGlvbiIsInRleHQiOiJcIkhvdyBsb25nIHdhcyBJIGluIHRoZSByaXZlcj9cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiWW91Iiwidm9pY2UiOiJwbGF5ZXIiLCJjaGF0Ijp0cnVlfSx7ImtleSI6MjIsImNoYW5uZWwiOiJuYXJyYXRpb24iLCJ0ZXh0IjoiXCJUaGF0IEkgY2FuJ3Qgd3JpdGUgZG93bi4gVGhyZWUgZGF5cyBoZXJlLCBmZXZlcmVkLiBCZWZvcmUgdGhhdCwgYXNrIHRoZSByaXZlci5cIiIsInRpY2siOjAsImNvdW50IjoxLCJzcGVha2VyIjoiU8WNYW4iLCJ2b2ljZSI6InBoeXNpY2lhbiIsImNoYXQiOnRydWV9XSwic2VxIjoyM30sInNraWxsWHAiOnt9LCJkZWxpdmVyZWREaWFsb2d1ZSI6WyJnZW4tZ3JlZXQiLCJnZW4tc3RvcmVzIl0sIm5wY01lbW9yeSI6e30sImludHJvQmVhdCI6MCwicnVuZ0JlYXQiOm51bGwsImFza2VkVG9waWNzIjpbInNvYW4taG93LWxvbmciXSwicXVlc3RzIjp7ImFjY2VwdGVkIjpbXSwicHJvZ3Jlc3MiOnt9LCJjb21wbGV0ZWQiOltdfSwibWFya2V0Qm91Z2h0Ijp7fSwiYmVsb25naW5ncyI6W10sImxvY2F0aW9uIjoia3VyYSIsInJ1bmciOiJSMCIsInJ1bmdSZXFzIjp7fSwiZXN0YXRlU3RhZ2UiOjAsImRpc2NvdmVyZWQiOltdLCJkaXNjb3ZlcnlQcm9ncmVzcyI6e30sImF1dG9BY3Rpdml0eSI6bnVsbCwiYXV0b1Jha2UiOmZhbHNlLCJlcXVpcHBlZFdlYXBvbiI6ImNhcnJ5aW5nX3BvbGUiLCJ3ZWFwb25EdXJhYmlsaXR5Ijo0MCwiYXV0b0NvbWJhdCI6bnVsbCwiYXV0b0NvbWJhdFJldHJlYXQiOmZhbHNlLCJzdGFuY2UiOiJjaHVkYW4iLCJ0aWVyIjowLCJpbmZsdWVuY2UiOnsiZXN0YXRlIjp7InZhbHVlIjowLCJoaWdoV2F0ZXIiOjAsImp1ZGdlZCI6MCwiZnJhYyI6MH19LCJzY2VuZVF1ZXVlIjpbXSwiYWN0aXZlU2NlbmUiOm51bGwsInNjZW5lc1BsYXllZCI6W10sInJvdW5kU3RhdGUiOm51bGwsInNvYW5MZWRnZXIiOjB9fQ==",
+  "surface": [
+    "vn-overlay"
+  ],
+  "status": "done",
+  "fb": 234,
+  "commit": "85d8b43",
+  "lane": "vn-speech"
 }
