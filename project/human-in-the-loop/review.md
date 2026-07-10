@@ -59,44 +59,14 @@ Wealth. Three live takes ("VARIANT · Travelling market"):
     day) → DEV → Variants → "Travelling market".
   - **Verdict:** _(awaiting your pick)_
 
-### HR-9 🔲 [R1 · build fills R7] — Estate SECTION redesign — pick a variant (FB-157, ADR-075)
-
-The Estate tab's improve + house-rooms cards (called "border soup"); the section
-is visible from R1, though the Phase-2 build content fills at R7. Three takes drive
-the real `improve_estate` intent + live stage/coin/rooms data:
-
-  - [ ] **estate-a — quiet sections** _(default)_ — the de-framed key-dim sections
-    the FB-157 quick-fix shipped.
-  - [ ] **estate-b — ledger strip** — one dense row (stage ··· dotted leader ···
-    Improve), payoff beneath, opened rooms as gold kanji chips.
-  - [ ] **estate-c — bimetal plaque** — a centred engraved plaque: stage in gold
-    serif, payoff etched silver, rooms as a mini-plaque rail.
-  - **How to look:** `pnpm run dev` → **Estate 家** tab → DEV → Variants → "Estate
-    section (FB-157)"; or `?estate-section=estate-b` / `estate-c`.
-  - **Verdict:** _(awaiting the human)_
-
-### HR-11 🔲 [R1 · tracker meaningful R7] — Build-progress tracker — pick a variant (ADR-145, ADR-075)
-
-A **tracker read** inside the Estate improve card; all three re-present the SAME
-pure-core `estateBuild` selector (AC-6 — the shown distance can't lie). The card is
-there from R1; the E0→E1 build it tracks runs in Phase 2 (R7).
-
-  - **Taste brief (pass 1):** P1 EXTENDS the improve card (no second home; CTA
-    stays put) · P2 reuse frame/meter/gold idioms · P4/P5 rows patched in place,
-    card never resizes · P15/TST3 locked future stages stay UNNAMED · P19/P20
-    chrome register, plain numbers · TST4 gate distance readable at a glance.
-  - [ ] **tracker-a — ladder rows** _(default; ships)_ — built ◆ gold · next ▹
-    with a standing gauge · locked ▢ unnamed. **Scorecard:** 19✔ · 0✘ · 2—
-  - [ ] **tracker-b — milestone rail** _(DEV-only)_ — a horizontal 4-pip rail, the
-    gold thread filling toward the next pip. **Scorecard:** 18✔ · 1✘ · 2— —
-    ✘P15 [briefed]: pips reveal the total stage COUNT while locked.
-  - [ ] **tracker-c — ledger entries** _(DEV-only)_ — built stages as closed
-    "Entered:" lines, the next an open dotted-leader "wants" line; locked absent.
-    **Scorecard:** 19✔ · 0✘ · 2— — strictest no-spoiler; boldest register.
-  - **How to look:** `pnpm run dev` → **Estate 家** tab → DEV → Variants → "Build
-    tracker (ADR-145)". NOTE: renders inside the DEFAULT estate section (HR-9
-    estate-a); pick that surface first if you want them merged.
-  - **Verdict:** _(awaiting the human)_
+> **HR-9 + HR-11 resolved (interim), 2026-07-10** — the human picked **V0A ·
+> estate-a** (Estate section) and **V1A · tracker-a** (Build tracker), *"for
+> now"*, explicitly flagging that **the whole Estate section + upgrades needs a
+> lot of love and thought**. Both picks are the shipped defaults, so prod is
+> unchanged and the DEV alternates are KEPT as reference (NOT stripped) pending
+> the redesign. Archived to `archive.md`; the redesign direction is parked in
+> [`../brainstorms/2026-07-10-estate-upgrades-redesign.md`](../brainstorms/2026-07-10-estate-upgrades-redesign.md)
+> + [`../BACKLOG.md`](../BACKLOG.md).
 
 ## ▸ R3 · combat & the wider house (Combat/Inventory tabs reveal)
 
