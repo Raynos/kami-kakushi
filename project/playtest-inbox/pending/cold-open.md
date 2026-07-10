@@ -110,3 +110,17 @@ I want all speech to stand out a bit more then the narrator text, other then fix
 **Details:** `cold-open/2026-07-10T11-39-59.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:40:40+0200 — this-flavor-text-is
+
+This flavor text is specific to the intro of the game, and it shows here in the log panel instead of the cold open
+
+But its still main story, can we for this introduction before <auto> button unlocks in the UI do a specific long cooldown on the Rake the spilled rice action
+
+So we can time how long it takes for this text to render with geneemon, the two pieces of flavor text coming form the firest rake the spilled rice button and then do a custom extended cooldown for the first action.
+
+**Element:** panel "log" — "Genemon: "So you put your hands to it. Rake what grain is st" · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(25)` · @942,573 493×73
+**Screenshot:** `cold-open/2026-07-10T11-40-40.png`
+**Details:** `cold-open/2026-07-10T11-40-40.json` — save + recent logs + full context
+
+---
