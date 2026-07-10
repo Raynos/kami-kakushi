@@ -100,3 +100,13 @@ The text color of the narrator text is the same as the main character here, like
 **Details:** `cold-open/2026-07-10T11-39-11.json` — save + recent logs + full context
 
 ---
+
+## Bug · 2026-07-10T11:39:59+0200 — i-want-all-speech
+
+I want all speech to stand out a bit more then the narrator text, other then fixing the narrator text color, can you indent the lines that are character speech with margin left or padding left by like 5px or 10px
+
+**Element:** panel "log" — "Sōan: "Can you stand? Then the rake is by the door, and the " · `section[data-panel=log] > div:nth-of-type(1) > div:nth-of-type(23)` · @942,573 493×73
+**Screenshot:** `cold-open/2026-07-10T11-39-59.png`
+**Details:** `cold-open/2026-07-10T11-39-59.json` — save + recent logs + full context
+
+---
