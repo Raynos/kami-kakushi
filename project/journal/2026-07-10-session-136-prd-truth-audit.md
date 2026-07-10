@@ -71,9 +71,18 @@ regression teeth (the audit's corpse-names into `prd-drift.ts`
 RETIRED TERMS) + `/prd-ripple` freeze-language relax + closure.
 Identity-in/tuning-out binds every region; ~20 commits estimated.
 
+## 4 · Plan forks locked (human, via AskUserQuestion)
+
+Four forks put to the human: **(1) T2 reputation — KEEP THE WEB**
+(§1.5.2 stands; the bible's single five-stage track is superseded in
+part → **ADR-169**, t2.md annotated, T1.4 dropped, reconciliation owed
+by the T2 plan); **(2) Phase G scope — all 8 regions**; **(3) routing —
+Fable executes everything in-session**; **(4) order — generation
+first**. Plan Status → EXECUTING.
+
 ## Next intended steps
 
-1. Land the audit report (`project/audit/reports/`) + the truth-sync
-   plan (`docs/plans/`, queued for the human).
-2. Execute the plan (gen-region expansion + strike-and-point +
-   transcription passes), section by section, committing per segment.
+1. Phase G: G1–G8 gen-regions + G9–G11 strike-and-points, one commit
+   each, verify-green.
+2. Then T1 (§1 canon transcriptions, T1.4 dropped), T2 (remaining
+   sections), P (prd-drift teeth + /prd-ripple relax + closure).

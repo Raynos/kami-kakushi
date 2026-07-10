@@ -2875,3 +2875,31 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   `docs/plans/` truth-sync plan execute this decision. `/prd-ripple`'s
   "frozen §1 → stop for the human" class relaxes to "intent change →
   stop for the human" (text-sync to shipped canon is agent-safe).
+
+### ADR-169 ✅ — T2 village reputation is the PRD's multi-node WEB; the bible's single track is superseded (🔁 refines the tiers/t2.md lock)
+
+- **created_date:** 2026-07-10
+- **Context:** the s136 PRD truth-audit flagged §1.5.2's "multi-node
+  reputation web" (per-shop patron standing · per-family goodwill ·
+  craft-guild standing · the Chief's-regard roll-up, gentle curves,
+  never gates the ladder) as contradicting the bible T2 sheet's locked
+  "village track" (ONE five-stage standing in the village's voice:
+  surcharge → fair price → the nod → named → vouched-for, can fall).
+  The sync plan's T1.4 would have transcribed the bible over the PRD.
+- **Decision:** **the WEB survives — the PRD §1.5.2 text stands; the
+  BIBLE is what updates** (human, 2026-07-10, via the plan-fork ask).
+  T2 village reputation is the continuous multi-node web. The bible's
+  five village-voiced stages are NOT discarded wholesale — they read
+  naturally as the surface voice of the web's overall/chief roll-up —
+  but reconciling the two is **T2 design work**, owned by the T2
+  planning pass, not by this doc sync. Until then the t2.md block
+  carries a superseded-pending note pointing here.
+- **Why:** the human's intent for T2's side faction is breadth — many
+  gentle meters, frequent small wins — deliberately unlike the
+  estate's one steep ladder; the bible's single track had quietly
+  narrowed that intent (ADR-022: newest steer is canon; the bible is
+  checked, not trusted — PH2).
+- **Consequences:** truth-sync plan T1.4 is dropped (no §1.5.2 edit);
+  `tiers/t2.md`'s village-track block annotated; the T2 rungs/fog plan
+  (or its successor) inherits the web↔five-stages reconciliation as a
+  design item; the five-stage *voice* is kept as flavor material.

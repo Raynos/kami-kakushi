@@ -1,7 +1,8 @@
 # PRD truth-sync — fix the PRD to the shipped game (HD-33 / ADR-168)
 
-**Status:** 📋 proposed — awaiting human read (execution is agent-safe per
-ADR-168; starts on go-ahead or silence-after-read).
+**Status:** ▶️ IN-PROGRESS (2026-07-10) — forks locked by the human via the
+plan-fork ask: T2 reputation web KEPT (ADR-169, T1.4 dropped) · all 8
+gen-regions · Fable executes all phases · generation first.
 **Confidence:** ( 30% Opus, 70% Fable ) — Phase G is mechanical enough for
 Opus; the §1 fiction transcriptions concentrate canon judgment.
 **Inputs:** the audit report
@@ -86,10 +87,10 @@ From the audit's five high findings in `01-vision.md`, sourced from
   reveal flags (kura at R3, drill-yard node at R4, no Deeper Woods node);
   T2 rows from the bible cast (Tetsuji is T1 works, Mohei, Ekai, Kyūbei,
   Funakichi…).
-- **T1.4** §1 T2 "reputation web" → the bible's locked ONE five-stage
-  village standing (surcharge → vouched-for, can fall). This is the
-  closest to an intent edge — the bible is human-locked, so transcribing
-  it is safe, but flag it in the landing commit body.
+- **T1.4** ~~§1 T2 "reputation web" → the bible's single standing~~
+  **DROPPED (2026-07-10, ADR-169):** the human kept the WEB — §1.5.2
+  stands; the bible's t2.md village-track block is annotated instead,
+  and the web↔five-stages reconciliation moves to the T2 plan.
 - **T1.5** §1.12 reveal ladder rows → G3 region + trimmed prose.
 
 ## Phase T2 — §2/§3/§4/§6/§7 transcription (the rest of high + medium)
