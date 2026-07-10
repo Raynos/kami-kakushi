@@ -105,7 +105,8 @@
           "text": "He turns it for as long as the water allows. The knot goes down with the rest; the looking stays — after this, anything put in his hands gets looked at twice before it gets an answer.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "context": "the cold open"
         },
         {
           "key": 5,
@@ -314,7 +315,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "chat": true
+          "chat": true,
+          "context": "the cold open"
         },
         {
           "key": 27,
@@ -335,7 +337,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "chat": true
+          "chat": true,
+          "context": "the cold open"
         },
         {
           "key": 29,
@@ -354,7 +357,8 @@
           "tick": 0,
           "count": 1,
           "speaker": "Sōan",
-          "voice": "physician"
+          "voice": "physician",
+          "context": "the cold open"
         },
         {
           "key": 31,
@@ -392,7 +396,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "chat": true
+          "chat": true,
+          "context": "the cold open"
         },
         {
           "key": 35,
@@ -413,7 +418,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "chat": true
+          "chat": true,
+          "context": "the cold open"
         },
         {
           "key": 37,
@@ -432,7 +438,8 @@
           "tick": 0,
           "count": 1,
           "speaker": "Genemon",
-          "voice": "steward"
+          "voice": "steward",
+          "context": "the cold open"
         },
         {
           "key": 39,

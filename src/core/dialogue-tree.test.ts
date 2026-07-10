@@ -203,6 +203,22 @@ describe('the DECISION still resolves after any asking — the net-zero invarian
   });
 });
 
+describe("FB-316 — every intro-emitted line carries the scene context ('the cold open')", () => {
+  it('greeting, ask Q+A, and decision say+react all group into ONE 幕 card (no context gaps)', () => {
+    // A context-less line inside the run fractures the Story log's scene card (the
+    // FB-316 "black space" fragmentation) — so the invariant is TOTAL coverage: every
+    // line the intro writes to the log carries the scene context. Derived from the
+    // real reducer path, not copied fixtures.
+    let s = atScene('soan');
+    const preIntro = s.log.entries.length; // pre-scene lines (open_eyes ran in atScene)
+    s = reduce(s, { type: 'ask_topic', topicId: sceneById('soan').topics[0]!.id });
+    s = reduce(s, { type: 'choose_intro', optionId: sceneById('soan').decision.options[0]!.id });
+    const introLines = s.log.entries.slice(preIntro).filter((e) => e.channel === 'narration'); // milestone perk box stays outside the card
+    expect(introLines.length).toBeGreaterThan(2); // Q + A + say + react at minimum
+    for (const e of introLines) expect(e.context).toBe('the cold open');
+  });
+});
+
 describe('markTopicAsked + createInitialState — the ask-hub state (plan §3.2)', () => {
   it('a fresh state seeds askedTopics: []', () => {
     expect(createInitialState(1).askedTopics).toEqual([]);

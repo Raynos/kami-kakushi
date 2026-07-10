@@ -374,6 +374,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             voice: l.voice,
             speaker: l.speaker,
             chat: true,
+            context: 'the cold open', // FB-316 — the answer shares the question's scene group
           })),
         ],
       });
@@ -404,6 +405,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             text: opt.react,
             voice: beatReactVoice(scene),
             speaker: beatReactSpeaker(scene),
+            context: 'the cold open', // FB-316 — the react stays inside the scene's 幕 card
           },
         ],
       });
@@ -479,6 +481,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
             voice: l.voice,
             speaker: l.speaker,
             chat: true,
+            // FB-316 — the answer shares the question's scene group
+            context: `${getRank(target).title} promotion`,
           })),
         ],
       });

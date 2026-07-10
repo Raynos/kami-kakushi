@@ -1039,6 +1039,14 @@ h3 {
   padding-bottom: var(--space-2);
   margin-bottom: var(--space-3);
 }
+/* FB-316 — a speaker-block break INSIDE a 幕 card must not fracture the box: the
+   FB-167 breathing room becomes padding (the borders stay continuous), never a
+   margin gap of raw background between two bordered lines. A card-opening line
+   keeps its margin (that gap is BETWEEN cards, not inside one). */
+.log-line.scene-line.log-break:not(.scene-open) {
+  margin-top: 0;
+  padding-top: var(--space-4);
+}
 .log-line.reward {
   color: var(--ink);
 }
