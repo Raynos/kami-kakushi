@@ -57,8 +57,6 @@
     "unlocked": [
       "screen-cold-open",
       "verb-open-eyes",
-      "readout-body",
-      "readout-rice",
       "verb-rake"
     ],
     "log": {
@@ -71,25 +69,9 @@
           "count": 1,
           "voice": "narrator",
           "context": "the cold open"
-        },
-        {
-          "key": 1,
-          "channel": "narration",
-          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 2,
-          "channel": "narration",
-          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
         }
       ],
-      "seq": 3
+      "seq": 1
     },
     "skillXp": {},
     "deliveredDialogue": [

@@ -20,11 +20,17 @@ prefix). Nine fix groups A–I; one commit per group; F-entries in
   lintel-dedup hunks ride the next render commit (w6:p1's surgical index was
   in flight — shared-tree discipline).
 
+- **D · FB-318/FB-319 — readout reveals post-intro.** `readout-body` /
+  `readout-rice` now unlock on `awake && !introActive`, so revealPass lands
+  their Story lines on the intro-completing reduce — right after the cold-open
+  VN, never mid-scene. engine/m1 tests updated to the new timing (+ a new
+  post-intro reveal test); fixtures regenerated.
+
 ## Next intended steps
 
-- A · FB-315/FB-331 — VN-read lines pre-marked seen (no chat replay)
+- A · FB-315/FB-331 — VN-read lines pre-marked seen (no chat replay) —
+  CODE DONE + verified live; commit waits on w6:p1's CLEAR (shared render.ts)
 - B · FB-330 — VN-end instant re-pin
-- D · FB-318/FB-319 — readout reveals post-intro
 - E · FB-321/FB-322 — typewriter styled reveal
 - F · FB-323 — divider re-anchor when pinned
 - G · FB-325/FB-326 — Now lamp coalesce re-stamp + bg wash

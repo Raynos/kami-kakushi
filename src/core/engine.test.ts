@@ -7,9 +7,12 @@ import {
   isUnlocked,
   hasFlag,
   INTRO_BEATS,
+  introActive,
+  introSceneAt,
   type Intent,
   type GameState,
 } from './index';
+import { SURFACES } from './content/surfaces';
 import { COLD_OPEN } from './content/coldOpen';
 
 function play(seed: number, intents: Intent[]): GameState {
@@ -27,13 +30,15 @@ describe('cold-open reducer flow', () => {
     expect(s.log.entries.length).toBe(0);
   });
 
-  it('open_eyes wakes, reveals the body/rice readouts, and STARTS the interactive intro', () => {
+  it('open_eyes wakes and STARTS the interactive intro; the readouts WAIT for its end', () => {
     let s = createInitialState(1);
     s = reduce(s, { type: 'open_eyes' });
     expect(hasFlag(s, 'awake')).toBe(true);
     expect(hasFlag(s, 'dream-1')).toBe(true);
-    expect(isUnlocked(s, 'readout-body')).toBe(true);
-    expect(isUnlocked(s, 'readout-rice')).toBe(true);
+    // FB-318/FB-319 — the body/rice reveals hold until the cold-open VN ENDS (they read
+    // as post-scene beats, never mid-VN noise); mid-intro they stay locked.
+    expect(isUnlocked(s, 'readout-body')).toBe(false);
+    expect(isUnlocked(s, 'readout-rice')).toBe(false);
     // the rake verb is legal once awake (the intro is a parallel presentation layer, plan §4.4)
     expect(availableActions(s)).toEqual(['rake_rice']);
     // waking no longer dumps the cold open — it starts Beat 0, revealed AFTER the click (FB-15),
@@ -52,6 +57,25 @@ describe('cold-open reducer flow', () => {
     // while the rake TEACHING stays deferred until you actually rake.
     expect(s.deliveredDialogue).toContain('gen-greet');
     expect(s.deliveredDialogue).not.toContain('gen-rake');
+  });
+
+  it('completing the intro reveals the body/rice readouts + lands their lines (FB-318/FB-319)', () => {
+    let s = reduce(createInitialState(1), { type: 'open_eyes' });
+    // march the intro to its end (first option each scene — fixtures derive from the registry)
+    while (introActive(s.introBeat)) {
+      const scene = introSceneAt(s.introBeat)!;
+      s = reduce(s, { type: 'choose_intro', optionId: scene.decision.options[0]!.id });
+    }
+    expect(isUnlocked(s, 'readout-body')).toBe(true);
+    expect(isUnlocked(s, 'readout-rice')).toBe(true);
+    // the reveal LINES land on the intro-completing reduce — after the VN, never mid-scene
+    for (const id of ['readout-body', 'readout-rice'] as const) {
+      const line = SURFACES.find((d) => d.id === id)!.revealLine!.text;
+      expect(
+        s.log.entries.some((e) => e.text === line),
+        `${id} reveal line missing post-intro`,
+      ).toBe(true);
+    }
   });
 
   it('raking earns rice, drains satiety, and reveals rest', () => {

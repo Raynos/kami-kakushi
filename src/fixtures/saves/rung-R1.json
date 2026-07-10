@@ -61,9 +61,9 @@
     "unlocked": [
       "screen-cold-open",
       "verb-open-eyes",
+      "verb-rake",
       "readout-body",
       "readout-rice",
-      "verb-rake",
       "verb-rest",
       "room-gate",
       "room-paddies",
@@ -90,22 +90,6 @@
         {
           "key": 1,
           "channel": "narration",
-          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 2,
-          "channel": "narration",
-          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 3,
-          "channel": "narration",
           "text": "\"The knot. Tied twice. Why twice.\"",
           "tick": 0,
           "count": 1,
@@ -114,7 +98,7 @@
           "context": "the cold open"
         },
         {
-          "key": 4,
+          "key": 2,
           "channel": "narration",
           "text": "He turns it for as long as the water allows. The knot goes down with the rest; the looking stays — after this, anything put in his hands gets looked at twice before it gets an answer.",
           "tick": 0,
@@ -123,14 +107,14 @@
           "context": "the cold open"
         },
         {
-          "key": 5,
+          "key": 3,
           "channel": "milestone",
           "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
           "tick": 0,
           "count": 1
         },
         {
-          "key": 6,
+          "key": 4,
           "channel": "narration",
           "text": "The river gives you up at the weir. You keep none of it in order: hands in your collar, gravel under your back, the sky white and near, water leaving you in coughs. A stone jizō watches from the bank, rice at its feet, nobody on the road who could have left it. Someone says, carry him up, then. Then nothing.",
           "tick": 0,
@@ -139,7 +123,7 @@
           "context": "the cold open"
         },
         {
-          "key": 7,
+          "key": 5,
           "channel": "narration",
           "text": "Straw. A low roof. A fire kept small. Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it. You have been three days in a room you have never seen.",
           "tick": 0,
@@ -148,7 +132,7 @@
           "context": "the cold open"
         },
         {
-          "key": 8,
+          "key": 6,
           "channel": "narration",
           "text": "The physician does not ask how you feel. He takes your wrist, then your jaw, then turns your hands over and looks at them longer than at anything else. He presses a thumb into the callus line across one palm and says nothing. There is a ledger open on his knee.",
           "tick": 0,
@@ -157,7 +141,7 @@
           "context": "the cold open"
         },
         {
-          "key": 9,
+          "key": 7,
           "channel": "narration",
           "text": "\"Do you know the year?\"",
           "tick": 0,
@@ -167,7 +151,7 @@
           "context": "the cold open"
         },
         {
-          "key": 10,
+          "key": 8,
           "channel": "narration",
           "text": "\"No.\"",
           "tick": 0,
@@ -177,7 +161,7 @@
           "context": "the cold open"
         },
         {
-          "key": 11,
+          "key": 9,
           "channel": "narration",
           "text": "\"An'ei nine. Now you know it again. Drink this.\"",
           "tick": 0,
@@ -187,7 +171,7 @@
           "context": "the cold open"
         },
         {
-          "key": 12,
+          "key": 10,
           "channel": "narration",
           "text": "Whatever the hands told him goes into the ledger, two lines, too far off to read. The door slides, and he closes the book on his thumb.",
           "tick": 0,
@@ -196,7 +180,7 @@
           "context": "the cold open"
         },
         {
-          "key": 13,
+          "key": 11,
           "channel": "narration",
           "text": "The man in the doorway is grey and dry and carries a book of his own. Two books in the room now, and only one of them open.",
           "tick": 0,
@@ -205,7 +189,7 @@
           "context": "the cold open"
         },
         {
-          "key": 14,
+          "key": 12,
           "channel": "narration",
           "text": "\"The weir man. Sōan — can he work?\"",
           "tick": 0,
@@ -215,7 +199,7 @@
           "context": "the cold open"
         },
         {
-          "key": 15,
+          "key": 13,
           "channel": "narration",
           "text": "\"Ask him.\"",
           "tick": 0,
@@ -225,7 +209,7 @@
           "context": "the cold open"
         },
         {
-          "key": 16,
+          "key": 14,
           "channel": "narration",
           "text": "\"Name, age, where from. In that order.\"",
           "tick": 0,
@@ -235,7 +219,7 @@
           "context": "the cold open"
         },
         {
-          "key": 17,
+          "key": 15,
           "channel": "narration",
           "text": "Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.",
           "tick": 0,
@@ -244,7 +228,7 @@
           "context": "the cold open"
         },
         {
-          "key": 18,
+          "key": 16,
           "channel": "narration",
           "text": "\"What name did I give? When they pulled me out.\"",
           "tick": 0,
@@ -254,7 +238,7 @@
           "context": "the cold open"
         },
         {
-          "key": 19,
+          "key": 17,
           "channel": "narration",
           "text": "\"None. You gave none. Three days I have had nothing to call you, and neither have you.\"",
           "tick": 0,
@@ -264,7 +248,7 @@
           "context": "the cold open"
         },
         {
-          "key": 20,
+          "key": 18,
           "channel": "narration",
           "text": "Nothing comes.",
           "tick": 0,
@@ -273,7 +257,7 @@
           "context": "the cold open"
         },
         {
-          "key": 21,
+          "key": 19,
           "channel": "narration",
           "text": "Genemon does not look surprised. He looks down and writes, and reads it back as he writes, aloud and once.",
           "tick": 0,
@@ -282,7 +266,7 @@
           "context": "the cold open"
         },
         {
-          "key": 22,
+          "key": 20,
           "channel": "narration",
           "text": "One man, name unknown. Taken at the weir. Fed, three days. Condition, poor; hands, good.",
           "tick": 0,
@@ -292,7 +276,7 @@
           "context": "the cold open"
         },
         {
-          "key": 23,
+          "key": 21,
           "channel": "narration",
           "text": "\"When he can stand, he rakes. The kitchen wants water before it wants anything.\"",
           "tick": 0,
@@ -302,7 +286,7 @@
           "context": "the cold open"
         },
         {
-          "key": 24,
+          "key": 22,
           "channel": "narration",
           "text": "He goes. Sōan opens his ledger again, where his thumb kept the place.",
           "tick": 0,
@@ -311,7 +295,7 @@
           "context": "the cold open"
         },
         {
-          "key": 25,
+          "key": 23,
           "channel": "narration",
           "text": "\"My hands know a knot. I'll keep that.\"",
           "tick": 0,
@@ -321,7 +305,7 @@
           "context": "the cold open"
         },
         {
-          "key": 26,
+          "key": 24,
           "channel": "narration",
           "text": "You tie it in the cord of your own bedding: a carrier's hitch, fast and one-handed, twice. Sōan watches it both times. He does not write it down while you are looking.",
           "tick": 0,
@@ -331,14 +315,14 @@
           "context": "the cold open"
         },
         {
-          "key": 27,
+          "key": 25,
           "channel": "milestone",
           "text": "Perk unlocked — The Carrier's Hitch: fast, one-handed, holds wet. (+1 AGI / −1 INT)",
           "tick": 0,
           "count": 1
         },
         {
-          "key": 28,
+          "key": 26,
           "channel": "narration",
           "text": "On your feet the fourth day — I have it written. I am Genemon, steward to the Kurosawa; what this house still holds, I keep counted. Your entry stands open: one man, name unknown, condition poor. We finish it now.",
           "tick": 0,
@@ -348,7 +332,7 @@
           "context": "the cold open"
         },
         {
-          "key": 29,
+          "key": 27,
           "channel": "narration",
           "text": "\"Give me the rake. I'll do whatever's put in front of me.\"",
           "tick": 0,
@@ -358,7 +342,7 @@
           "context": "the cold open"
         },
         {
-          "key": 30,
+          "key": 28,
           "channel": "narration",
           "text": "\"Condition: sound; willing. I enter you as my charge — mine to set to the task, mine to answer for.\"",
           "tick": 0,
@@ -368,11 +352,27 @@
           "context": "the cold open"
         },
         {
-          "key": 31,
+          "key": 29,
           "channel": "milestone",
           "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
           "tick": 0,
           "count": 1
+        },
+        {
+          "key": 30,
+          "channel": "narration",
+          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 31,
+          "channel": "narration",
+          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
         },
         {
           "key": 32,

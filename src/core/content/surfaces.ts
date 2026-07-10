@@ -9,6 +9,7 @@ import type { GameState, SurfaceId } from '../state';
 import type { LogChannel } from '../log';
 import type { VoiceCategory } from './voices';
 import { hasFlag } from '../state';
+import { introActive } from './intro';
 import { HOME_REVEAL_LINE } from './home';
 import { NAMES } from './names';
 import { R3_FRONTIER_COMBAT_LEVEL } from './balance';
@@ -58,17 +59,22 @@ export const SURFACES: readonly Surface[] = [
   { id: 'screen-cold-open', kind: 'screen', unlock: () => true },
   { id: 'verb-open-eyes', kind: 'verb', unlock: () => true },
   {
+    // FB-319 — gated on the intro ENDING, not `awake`: on `awake` the reveal line landed
+    // mid-cold-open (the VN still owns the screen), reading as a too-early Story beat.
+    // revealPass latches it on the intro-completing reduce, so the line lands right
+    // AFTER the cold-open VN — same predicate shape back-reveals any post-intro save.
     id: 'readout-body',
     kind: 'readout',
-    unlock: (s) => s.flags.awake === true,
+    unlock: (s) => s.flags.awake === true && !introActive(s.introBeat),
     revealLine: narrate(
       "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
     ),
   },
   {
+    // FB-318 — same intro-done gate as readout-body (the kura line showed too early).
     id: 'readout-rice',
     kind: 'readout',
-    unlock: (s) => s.flags.awake === true,
+    unlock: (s) => s.flags.awake === true && !introActive(s.introBeat),
     revealLine: narrate(
       "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
     ),
