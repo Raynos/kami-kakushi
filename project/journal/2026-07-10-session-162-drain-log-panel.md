@@ -32,11 +32,20 @@ prefix). Nine fix groups A–I; one commit per group; F-entries in
   human's pick: speaker-style, not a literal "Zone …:"). people.test asserts
   the speaker from the node registry; fixtures regenerated.
 
+- **A · FB-315/FB-331 — VN-read is READ.** Scene-context lines arriving while a
+  VN is live pre-mark themselves seen per matching filter; verified live — no
+  Chat dot post-VN, no one-by-one replay (was: dot + 4-line typewriter replay).
+  Context-less mid-VN arrivals keep their FB-222 dots.
+- **B · FB-330 — VN-end lands dead still.** The VN-forced story filter now goes
+  through a real `setLogFilter` repaint (no stale mixed DOM); the transcript
+  backlog appends with no reveal anim; the reveal render jumps the log to the
+  foot before the first visible frame (shell was display:none — every scroll
+  write had been a no-op). Verified live: footGap 0, zero .reveal on reveal.
+  Rides with the C renderer hunk (no duplicate lintel on a same-scene reopen).
+
 ## Next intended steps
 
-- A · FB-315/FB-331 — VN-read lines pre-marked seen (no chat replay) —
-  CODE DONE + verified live; commit waits on w6:p1's CLEAR (shared render.ts)
-- B · FB-330 — VN-end instant re-pin
+- B follow-through: none — verified
 - E · FB-321/FB-322 — typewriter styled reveal
 - F · FB-323 — divider re-anchor when pinned
 - G · FB-325/FB-326 — Now lamp coalesce re-stamp + bg wash

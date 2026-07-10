@@ -4091,6 +4091,10 @@ export function mount(
   // ends) or `:last-child` (the run is still the newest thing in the log).
   let lastSceneCtx: string | null = null;
   let lastSceneNode: HTMLElement | null = null;
+  // FB-317 — the ctx of the last card that PRINTED its lintel: a run interrupted by a
+  // stray non-scene line (an old save's mid-scene reveal) reopens its box WITHOUT a
+  // duplicate "— the cold open —" head; the name paints once per scene, not per fragment.
+  let lastHeadCtx: string | null = null;
   function stampSceneGroup(line: HTMLElement, entry: LogEntry): void {
     const ctx = entry.chat !== true && entry.context !== undefined ? entry.context : null;
     if (ctx !== lastSceneCtx && lastSceneNode?.isConnected) {
@@ -4104,7 +4108,10 @@ export function mount(
     line.classList.add('scene-line');
     if (ctx !== lastSceneCtx) {
       line.classList.add('scene-open');
-      line.dataset.sceneHead = ctx; // renderLineContent rebuilds the head from this (kicker pattern)
+      if (ctx !== lastHeadCtx) {
+        line.dataset.sceneHead = ctx; // renderLineContent rebuilds the head from this (kicker pattern)
+        lastHeadCtx = ctx;
+      }
     }
     lastSceneCtx = ctx;
     lastSceneNode = line;
@@ -4607,6 +4614,7 @@ export function mount(
     lastBlockKey = null; // FB-167 — the repaint re-derives block breaks
     lastSceneCtx = null; // FB-262 — scene groups re-derive with them
     lastSceneNode = null;
+    lastHeadCtx = null; // FB-317 — lintels re-derive with the repaint
     lastPaintedKey = -1;
     lastPaintedCount = 0;
     revealQueue.length = 0;
@@ -4670,6 +4678,7 @@ export function mount(
       lastBlockKey = null; // FB-167
       lastSceneCtx = null; // FB-262
       lastSceneNode = null;
+      lastHeadCtx = null; // FB-317
       lastPaintedKey = -1;
       lastPaintedCount = 0;
       revealQueue.length = 0;
@@ -4732,6 +4741,26 @@ export function mount(
     // already made. `introEndingRender` carries the same instant path onto the single reveal render.
     const introInstant = vnActive(state) || introEndingRender;
 
+    // FB-315/FB-331 — a line the VN overlay displayed is READ. While a VN scene is live, an
+    // arriving SCENE line (it carries `context` — greeting / Q&A / say / react, the exact lines
+    // the overlay renders) pre-marks itself seen for every filter it matches, so Chat/Story
+    // never dot for it — and never one-by-one replay it — after the shell reveals (the FB-228
+    // unread-tail path stays for lines that are genuinely unseen). Context-less mid-VN arrivals
+    // (a perk milestone, a surface reveal) keep their FB-222 unread dots.
+    if (introInstant) {
+      for (const e of fresh) {
+        if (e.context === undefined) continue;
+        for (const f of Object.keys(logSeen) as LogFilter[]) {
+          if (f === 'all' || f === 'now') continue; // never dotted anyway
+          if (
+            e.key > logSeen[f] &&
+            logFilterMatches(e.channel, f, e.ephemeral === true, e.chat === true)
+          )
+            logSeen[f] = e.key;
+        }
+      }
+    }
+
     // FB-27 — new lines flowing in over existing history get a transient divider before them (never
     // while the intro paints the hidden log — the player isn't watching the transcript build).
     if (
@@ -4756,7 +4785,10 @@ export function mount(
           revealQueue.push(e);
           pumpReveal();
         } else {
-          appendLine(e, !firstRender && !reduceMotion());
+          // FB-330 — the VN transcript backlog appends DEAD STILL (no .reveal fade, no smooth
+          // glide): the log must simply BE there when the shell reveals, never visibly
+          // re-scroll itself in front of the player.
+          appendLine(e, !firstRender && !reduceMotion() && !introInstant);
         }
       }
     } else {
@@ -5752,7 +5784,11 @@ export function mount(
       shell.hidden = true;
       firstRender = false; // the post-scene log resumes its cascade, not a static dump
       activeTab = 'work';
-      logFilter = 'story';
+      // FB-330 — the VN forces the story view; a player who was on Chat/All/Now when the
+      // beat opened must get a REAL repaint (setLogFilter's clear + rebuild), never a raw
+      // `logFilter = 'story'` over the old view's DOM — that stale mix is what re-scrolled
+      // wholesale when the scene ended. Same-filter renders keep the cheap incremental path.
+      if (logFilter !== 'story') setLogFilter('story');
       renderLog(state); // instant while a VN scene is live (see renderLog) — no slow catch-up
       // FB-222 — seed the unread baseline HERE too: this branch returns before the main
       // seeding block, so without it the first seed ran on the intro-END render and
@@ -5787,6 +5823,14 @@ export function mount(
     renderRungHead(state); // FB-106 — the header rung element + the player-triggered beat affordance
     renderNav(state);
     renderLog(state);
+    // FB-330 — while the shell was display:none (the VN owned the screen) every scroll write
+    // was a no-op (scrollHeight 0), so the log reveals stranded at the TOP and then visibly
+    // re-scrolls to the foot. On the single reveal render, JUMP to the newest line before the
+    // player sees a frame — the log is simply already-at-the-foot, no motion at all (TST2).
+    if (introEndingRender) {
+      logPinnedToBottom = true;
+      logLines.scrollTop = logLines.scrollHeight;
+    }
     paintLogFilterBar();
     // FB-59 — first awake render: mark all loaded entries seen (history), so no channel shows a
     // stale unread dot on load/refresh. After this, only mid-session arrivals trip a dot.
