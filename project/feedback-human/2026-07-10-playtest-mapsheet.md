@@ -42,7 +42,7 @@ state persisted at module level so the sig-guard rebuild never snaps the sheet
 back under the player (TST2). Golden pin stayed green (geometry untouched);
 verified live headlessly: zoom → pan → timed seal-click walk → view kept.
 
-### FB-340 · Travel presence: a real marker + animated movement — 🔧
+### FB-340 · Travel presence: a real marker + animated movement — ✅
 **Verbatim:** _"For the map I want to see my current position, some kind of
 marker, or something that shows on the map that's really cool. / Then when you
 move from zone to zone on the map, I want that to be animated as if I'm
@@ -55,3 +55,9 @@ travel-presence variants (marker + move animation) behind the DEV toggle,
 each an HR-item for the human's pick.
 **Doc-update plan:** the winning variant's idiom graduates to `ui-design.md`
 with the human's pick (not before).
+**Fixed in:** (this drain's FB-340 commit) — the ADR-075 diverge is BUILT and
+live: **HR-26** files the three variants (A · glide seal — self-picked prod
+default; B · ink footsteps; C · the sheet walks), all driving the ONE
+here-ring idiom, toggleable in DEV panel → Variants or
+`?travel-presence=<id>`. Only a real one-hop walk animates (a load/teleport
+never does); reduced-motion is instant. The human's pick closes HR-26.

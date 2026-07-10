@@ -96,7 +96,6 @@ import {
   ownedBelongingIds,
   HOME_TIERS,
   getNode,
-  reachableFrom,
   skillLevel,
   balance,
   PEOPLE,
@@ -135,7 +134,7 @@ import type { Sfx } from './sfx';
 // real-map diverge (HR-7). storywave G4.9: rebuilt on the map-sheets geometry (the ONE aligned
 // layout) since the old ezu.ts POS keyed to retired node ids and drew nothing for the G4 estate.
 import { renderMapSheet } from './map-variants/sheet-map';
-import type { MapCtx } from './map-variants/shared';
+import { buildMapCtx, type MapCtx } from './map-variants/shared';
 import { COLD_OPEN } from '../core/content/coldOpen';
 import { actionKey, type ActionClock } from '../app/action-clock';
 // type-only (erased at compile → no runtime import) so the renderer can accept the DEV harness
@@ -1911,15 +1910,8 @@ export function mount(
    *  clicking a node's seal IS the move (the real move_to — no separate "go" button), and a
    *  conditioning-gated edge carries the visible reason (§5.9), never a dead grey box. */
   function mapCtx(state: GameState): MapCtx {
-    const revealed = new Set(state.unlocked);
-    return {
-      here: state.location,
-      revealed,
-      condOk: skillLevel(state, 'conditioning') >= balance.CONDITIONING_GATE_LEVEL,
-      neighbours: reachableFrom(state.location, revealed),
-      move: (id) => dispatch({ type: 'move_to', to: id }),
-      gateReason: `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`,
-    };
+    // one ctx source, shared with the DEV travel-presence variants (TST1)
+    return buildMapCtx(state, dispatch);
   }
   /** Fingerprint of EVERY input the survey sheet reads — location, the revealed/unlocked set
    *  (which also carries house rooms + people place-gates), the conditioning gate, the estate
@@ -5507,11 +5499,16 @@ export function mount(
     setText(r.blurb, hintText === '' ? blurbText : `${blurbText} ${hintText}`);
     // (b) the survey sheet — repaint ONLY when an input it reads changed (the sig guard): a move,
     // newly-surveyed ground, the conditioning gate, an estate stage, or a person arriving/leaving.
-    const sig = mapSignature(state);
+    // The FB-340 presence variant folds into the sig (DEV-only) so the panel toggle repaints.
+    const presenceVariant = __DEV_TOOLS__ && dev ? dev.getVariant('travel-presence') : 'presence-a';
+    const sig = mapSignature(state) + '|' + presenceVariant;
     if (sig !== r.sig) {
       r.sig = sig;
       r.nav.textContent = '';
-      renderMapSheet(r.nav, mapCtx(state), state, dispatch);
+      // FB-340 diverge (ADR-075): a non-default presence renders via dev.ts; prod (dev
+      // undefined) always draws the shipped default A ('glide').
+      if (!(__DEV_TOOLS__ && dev && dev.renderVariant('travel-presence', r.nav, state, dispatch)))
+        renderMapSheet(r.nav, mapCtx(state), state, dispatch);
     }
     // ADR-114 who's-here — reconcile the present people; hide the whole section when the node is empty.
     toggle(r.whos, fillWhosHere(r.whosList, present));

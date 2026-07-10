@@ -4,7 +4,7 @@
 // THE prod map (imported by src/ui/render.ts), and the losing takes were
 // stripped (ADR-075 zero flag-debt). This module now ships in prod with it.
 import type { GameState, Intent } from '../../core';
-import { canMove, getNode, MAP_NODES } from '../../core';
+import { balance, canMove, getNode, MAP_NODES, reachableFrom, skillLevel } from '../../core';
 
 /** The navigation context dev.ts builds once per render — identical to the
  *  legacy MapNavCtx shape (structural). Every variant renders from THIS +
@@ -16,6 +16,20 @@ export interface MapCtx {
   readonly neighbours: readonly { readonly id: string }[];
   readonly move: (id: string) => void;
   readonly gateReason: string;
+}
+
+/** Build the MapCtx from live state — the ONE ctx source (render.ts's map tab and the
+ *  DEV travel-presence variants both call this, so the seam never forks — TST1). */
+export function buildMapCtx(state: GameState, dispatch: (intent: Intent) => void): MapCtx {
+  const revealed = new Set(state.unlocked);
+  return {
+    here: state.location,
+    revealed,
+    condOk: skillLevel(state, 'conditioning') >= balance.CONDITIONING_GATE_LEVEL,
+    neighbours: reachableFrom(state.location, revealed),
+    move: (id) => dispatch({ type: 'move_to', to: id }),
+    gateReason: `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`,
+  };
 }
 
 export type MapVariantRender = (

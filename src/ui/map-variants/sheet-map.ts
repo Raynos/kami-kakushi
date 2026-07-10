@@ -31,6 +31,14 @@ let mapMaxed = false;
 const exitMaxRef: { current: (() => void) | null } = { current: null };
 let escWired = false;
 
+// ── FB-340 — travel presence: the marker + the move animation, played when a rebuild is a
+//    COMPLETED walk (here changed to an adjacent node — a load/teleport never animates).
+//    Three diverged idioms (ADR-075): 'glide' (A, ships) — the vermilion ring travels the
+//    walked edge; 'steps' (B) — ink footprints stamp along it, the ring presses in;
+//    'follow' (C) — the ring presses in and the VIEW pans your position back to centre.
+export type TravelPresence = 'glide' | 'steps' | 'follow';
+let prevHere: string | null = null;
+
 /** Is a node surveyed (its reveal flag met, or always-open) — and not locked scenery? */
 function isSurveyed(id: string, revealed: ReadonlySet<string>): boolean {
   const n = getNode(id);
@@ -113,6 +121,7 @@ function drawSeal(
         stroke: 'var(--shu)',
         'stroke-width': '2',
         opacity: '0.85',
+        class: 'sheetmap-here-ring', // FB-340 — the presence layer animates THIS ring (P2)
       }),
     );
     tip(g, 'You are here');
@@ -163,6 +172,7 @@ export function renderMapSheet(
   ctx: MapCtx,
   state: GameState,
   dispatch: (intent: Intent) => void,
+  presence: TravelPresence = 'glide', // FB-340 — 'glide' ships; B/C only reachable from dev.ts
 ): void {
   void state;
   void dispatch; // movement flows through ctx.move (the real move_to)
@@ -449,4 +459,190 @@ export function renderMapSheet(
 
   container.append(style, wrap);
   wrap.append(svg, controls, hint);
+
+  // ── FB-340 — play the travel presence when THIS rebuild completed a walk: here changed,
+  //    and from an ADJACENT node (a save-load / teleport is never a walk, so never animates).
+  //    One-shot, a live response to the player's own move (P14); reduced-motion → instant (P12).
+  const from = prevHere;
+  prevHere = ctx.here;
+  const fa = from !== null ? ANCHORS[from] : undefined;
+  const ta = ANCHORS[ctx.here];
+  const walked =
+    from !== null &&
+    from !== ctx.here &&
+    fa !== undefined &&
+    ta !== undefined &&
+    getNode(ctx.here).neighbors.includes(from);
+  if (!walked || import.meta.env.MODE === 'test') return;
+  const reduced =
+    typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) {
+    // instant, never omitted: the static ring is already drawn; C still recentres, sans glide.
+    if (presence === 'follow') {
+      vb.x = ta.x - vb.w / 2;
+      vb.y = ta.y - vb.h / 2;
+      clampVb();
+      applyVb();
+    }
+    return;
+  }
+  runPresence(presence, svg, fa!, ta, { vb, clampVb, applyVb });
+}
+
+/** The FB-340 presence animations. All three drive the ONE here-ring idiom (P2) with a
+ *  rAF timeline that aborts the moment the sheet is replaced (svg.isConnected — TST2). */
+function runPresence(
+  mode: TravelPresence,
+  svg: SVGElement,
+  from: { readonly x: number; readonly y: number },
+  to: { readonly x: number; readonly y: number },
+  view: {
+    vb: { x: number; y: number; w: number; h: number };
+    clampVb: () => void;
+    applyVb: () => void;
+  },
+): void {
+  const ring = svg.querySelector<SVGCircleElement>('.sheetmap-here-ring');
+  const overlay = sv('g', { class: 'sheetmap-presence', 'pointer-events': 'none' });
+  svg.append(overlay);
+  const ease = (t: number): number => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+  const done = (): void => {
+    overlay.remove();
+    if (ring) {
+      ring.removeAttribute('style');
+      ring.setAttribute('r', '92');
+    }
+  };
+  const animate = (durMs: number, frame: (t: number) => void, end: () => void): void => {
+    const t0 = performance.now();
+    const step = (now: number): void => {
+      if (!svg.isConnected) return; // a rebuild replaced this sheet mid-flight — stop cold
+      const t = Math.min(1, (now - t0) / durMs);
+      frame(t);
+      if (t < 1) requestAnimationFrame(step);
+      else end();
+    };
+    requestAnimationFrame(step);
+  };
+  /** The hanko press: the ring settles from wide+faint to its resting stamp. */
+  const press = (t: number): void => {
+    if (!ring) return;
+    const p = Math.min(1, t);
+    ring.style.opacity = String(0.85 * p);
+    ring.setAttribute('r', String(92 + 36 * (1 - ease(p))));
+  };
+
+  if (mode === 'glide') {
+    // A — the seal glides: ring + plumb dot travel the walked edge; a dashed ink line
+    // draws the walk and fades once the seal has settled.
+    if (ring) ring.style.opacity = '0';
+    const line = sv('line', {
+      x1: String(from.x),
+      y1: String(from.y),
+      x2: String(to.x),
+      y2: String(to.y),
+      stroke: 'var(--shu)',
+      'stroke-width': '2.5',
+      'stroke-dasharray': '10 9',
+      opacity: '0.35',
+    });
+    const tRing = sv('circle', {
+      r: '92',
+      fill: 'none',
+      stroke: 'var(--shu)',
+      'stroke-width': '2',
+      opacity: '0.85',
+    });
+    const tDot = sv('circle', { r: '9', fill: 'var(--shu)', opacity: '0.9' });
+    overlay.append(line, tRing, tDot);
+    animate(
+      650,
+      (t) => {
+        const e = ease(t);
+        const x = from.x + (to.x - from.x) * e;
+        const y = from.y + (to.y - from.y) * e;
+        for (const c of [tRing, tDot]) {
+          c.setAttribute('cx', String(x));
+          c.setAttribute('cy', String(y));
+        }
+      },
+      () => {
+        if (ring) ring.style.opacity = '0.85';
+        tRing.remove();
+        tDot.remove();
+        animate(420, (t) => line.setAttribute('opacity', String(0.35 * (1 - t))), done);
+      },
+    );
+    return;
+  }
+
+  if (mode === 'steps') {
+    // B — ink footsteps: alternating brush dabs stamp along the walked edge, then the
+    // ring presses in at the destination like a hanko; the prints weather away after.
+    if (ring) ring.style.opacity = '0';
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const len = Math.hypot(dx, dy) || 1;
+    const px = -dy / len;
+    const py = dx / len;
+    const angle = ((Math.atan2(dy, dx) * 180) / Math.PI).toFixed(1);
+    const N = 6;
+    const feet: SVGElement[] = [];
+    for (let i = 1; i <= N; i++) {
+      const t = i / (N + 1);
+      const side = i % 2 === 0 ? 1 : -1;
+      const cx = from.x + dx * t + px * side * 14;
+      const cy = from.y + dy * t + py * side * 14;
+      const f = sv('ellipse', {
+        cx: String(cx),
+        cy: String(cy),
+        rx: '15',
+        ry: '7',
+        transform: `rotate(${angle} ${cx} ${cy})`,
+        fill: 'var(--shu)',
+        opacity: '0',
+      });
+      overlay.append(f);
+      feet.push(f);
+    }
+    const stepMs = 110;
+    const pressAt = N * stepMs + 120;
+    const total = pressAt + 260 + 420;
+    animate(
+      total,
+      (t) => {
+        const ms = t * total;
+        feet.forEach((f, i) => {
+          const born = (i + 1) * stepMs;
+          if (ms < born) return;
+          const inO = Math.min(0.75, ((ms - born) / 140) * 0.75);
+          const fade = ms > pressAt + 260 ? Math.max(0, 1 - (ms - pressAt - 260) / 420) : 1;
+          f.setAttribute('opacity', String(inO * fade));
+        });
+        if (ms >= pressAt) press((ms - pressAt) / 260);
+      },
+      done,
+    );
+    return;
+  }
+
+  // C — the sheet walks with you: the ring presses in where you now stand, and the VIEW
+  // pans so that spot glides back to centre — at the player's own zoom, never resetting it.
+  if (ring) ring.style.opacity = '0';
+  const sx = view.vb.x;
+  const sy = view.vb.y;
+  const txx = to.x - view.vb.w / 2;
+  const tyy = to.y - view.vb.h / 2;
+  animate(
+    700,
+    (t) => {
+      const e = ease(t);
+      view.vb.x = sx + (txx - sx) * e;
+      view.vb.y = sy + (tyy - sy) * e;
+      view.clampVb();
+      view.applyVb();
+      press(t / 0.4);
+    },
+    done,
+  );
 }

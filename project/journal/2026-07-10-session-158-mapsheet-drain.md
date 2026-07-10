@@ -25,8 +25,22 @@ variants, HR-items). F-entries in
   player's framing (TST2). Golden pin green (no geometry change). Note for QA
   scripts: `move_to` is TIMED (ADR-148) — a seal click's effect lands after the
   walk duration; only `__qa.dispatch` is instant.
-- (this session, later commits) FB-340 diverge — see the per-commit entries
-  below.
+- FB-340 diverge (ADR-075) BUILT — `sheet-map.ts` gains a `presence` mode
+  ('glide' ships; 'steps'/'follow' reachable only from dev.ts): three walk
+  idioms all driving the ONE here-ring (P2), animated only on a real one-hop
+  walk (load/teleport never animates; reduced-motion instant; the rAF timeline
+  aborts if the sheet is replaced — TST2). `dev.ts` registers
+  `travel-presence` (A · glide seal — self-picked default, rubric 22/24 · B ·
+  ink footsteps 20 · C · the sheet walks 18); `render.ts` folds the variant
+  into the map sig so the panel toggle repaints; `shared.ts` gains
+  `buildMapCtx` (the ONE ctx source — render.ts + dev.ts, TST1). **HR-26**
+  files the review bundle with the Pass-1 brief + per-variant scorecards.
+  Verified live headlessly per variant (overlay plays + cleans up; C pans the
+  view to centre at the player's zoom). Strip posture: T0 ships DEV tools
+  default-off (ADR-138) — variant code rides `?dev=yes` like every other
+  diverge; `verify-dev-strip.sh` green.
+- Sidecars stamped done (FB-339 913ce02b · FB-340 this commit · FB-341
+  975fa3cd); the `mapsheet` bucket archived; lane claim released end of pass.
 
 - `src/ui/map-variants/sheet-map.ts` + `src/ui/render.test.ts` — HOTFIX: the
   FB-339 chrome called `getScreenCTM`/`DOMPoint`/`setPointerCapture` unguarded;
@@ -36,8 +50,7 @@ variants, HR-items). F-entries in
   (proven RED unguarded via stash).
 
 ## Next intended steps
-1. FB-339 — port wheel/pinch zoom, drag pan, fit + full from
-   `src/ui/map-sheets/sheet.ts` onto `renderMapSheet`; blind-pass after.
-2. FB-340 — travel-presence diverge (marker + move animation), variants behind
-   the DEV toggle, HR-items filed.
-3. Stamp all 3 sidecars + archive the `mapsheet` bucket; release the claim.
+1. The human's HR-26 pick (travel presence) — promote if B/C wins, retire the
+   alternates; silence ships A.
+2. Remaining inbox lanes (the-log 12 · r1 12 · r0 4 · dev 3 · feedback-ui 2 ·
+   new-game-screen 1 · cold-open 1) — claim the next lane when picked up.

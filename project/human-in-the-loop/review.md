@@ -262,6 +262,44 @@ wall" (relayed via Genemon/Chiyo, 5✔1✘) · C "the house answers for him"
     history stays).
   - **Verdict:** _(awaiting your read)_
 
+### HR-26 🔲 [R1 · map] — Map travel presence (FB-340) — pick a variant (ADR-075)
+
+FB-340 asked for a position marker + animated zone-to-zone movement. All three
+variants drive the ONE existing here-ring idiom (no second marker primitive)
+over the same survey sheet; only the walk animation forks. **Self-picked prod
+default: A** (rubric 22/24 vs B 20, C 18 — B is the most diegetic but its
+footprints read small on a phone; C's camera-follow is the boldest and the
+least survey-sheet). Walk any zone edge on the Map tab to see each play; a
+save-load or DEV teleport never animates (only a real one-hop walk does).
+
+  - **Taste brief (pass 1):** P2 animate the ONE here-ring, never a second
+    marker · P4/TST2 the overlay rides the rebuilt frame and aborts if the
+    sheet is replaced; the player's pan/zoom is never reset · P12
+    reduced-motion → instant (C still recentres, sans glide) · P14 one-shot,
+    a live response to the player's own move · P15 the path spans only the
+    two revealed endpoints · P19 ceremony-light (≤1.6s end to end) · TST4
+    position glanceable during and after.
+  - [ ] **A — glide seal** _(self-picked prod default; ships)_ — the
+    vermilion ring + plumb dot travel the walked edge; a dashed ink line
+    draws and fades.
+    - **Scorecard (A):** 10✔ · 0✘ · 11—
+  - [ ] **B — ink footsteps** _(built; DEV-only)_ — vermilion footprint dabs
+    stamp along the path in walking rhythm; the ring presses in at the
+    destination like a hanko.
+    - **Scorecard (B):** 9✔ · 1✘ · 11— — ✘ P17/TST4 [briefed]: for the
+      ~0.8s stamp phase the ring is hidden, so position reads from the
+      moving trail, not a standing mark.
+  - [ ] **C — the sheet walks** _(built; DEV-only)_ — the ring presses in
+    where you stand and the VIEW pans your position back to centre, at your
+    own zoom (reduced-motion recentres instantly).
+    - **Scorecard (C):** 10✔ · 0✘ · 11— (note: the pan moves a surface the
+      player may be studying — sanctioned here as a direct response to their
+      own walk click, and it never touches their zoom).
+  - **How to look LIVE:** DEV panel → Variants → **Map travel presence
+    (FB-340)**, or `?travel-presence=presence-b|-c`; Map tab → walk
+    gate ⇄ forecourt a few times.
+  - **Verdict:** _(awaiting your look — silence ships A)_
+
 ---
 
 > _Open reviews only. Closed reviews graduate to [`archive.md`](archive.md). The
