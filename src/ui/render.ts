@@ -5730,6 +5730,13 @@ export function mount(
     coLede.textContent = cardLede();
     coVerb.textContent = cardCta();
     for (const it of items) it.classList.remove('in');
+    // FB-314 — pin each typed line's full height NOW (full text is present) before the
+    // typewriter empties + refills it below, so the card holds a fixed size as text fills
+    // in and the CTA never slides down (TST2: never resize a watched surface under the reader).
+    // A typed prefix never wraps to more lines than the full text, so this is a safe ceiling;
+    // no-op under jsdom (0 height) and the reduced-motion/QA everything-at-once path.
+    for (const it of [coTitle, coRoman, coLede])
+      it.style.minHeight = `${it.getBoundingClientRect().height}px`;
     // the wake verb and the quiet restore line (HD-24) wake in together, after the lede types out.
     const showButton = (): void => {
       coVerb.classList.add('in');

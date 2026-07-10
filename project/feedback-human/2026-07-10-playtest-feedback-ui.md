@@ -300,3 +300,18 @@ correctly: the bucket was enforced, and the note, save, sidecar and screenshot a
 landed in `feedback-ui/`. No code change; the capture *is* the verification.
 **Fixed in:** `e5d3a01` (the capture-UI work it exercised). Stamped `done` so the
 bucket can archive — say the word and I will pull it back out.
+
+### FB-356 · "test a screenshto" — ✅ not a defect
+**Verbatim:** _"test a screenshto."_ (picked element: `header.vitals`)
+**Reading:** a smoke test of the capture overlay, taken on build `723852d`
+(the note is literally "test a screenshot", typo and all). It round-tripped
+correctly — note, save, sidecar and screenshot all landed in `feedback-ui/`.
+No code change; the capture *is* the verification. Stamped `done` so the bucket
+can archive.
+
+### FB-357 · "test a map screenshot" — ✅ not a defect
+**Verbatim:** _"test a map screenshot."_ (picked element: the map `panel "do"` rect)
+**Reading:** the same smoke test, exercising the SVG-raster capture path from
+the map surface (the FB-337 fast-shot work). Round-tripped correctly. No code
+change; the capture *is* the verification. Stamped `done` so the bucket can
+archive.
