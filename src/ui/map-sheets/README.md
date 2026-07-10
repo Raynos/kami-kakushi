@@ -2,9 +2,10 @@
 
 The T0/T1 estate maps as full-screen **aizuri-night survey sheets** — hand-rolled
 SVG, drawn entirely from seeded primitives. **Player-bound** (ADR-149/151): the
-sheet IS the game's map; today it mounts from the DEV panel (Story tab) or the
-`?t0-map-demo` / `?t1-map-demo` boot params, and swaps into the real game with
-the storywave build. The rendering passed the human taste bar (HR-12) and is
+sheet IS the game's map: T0 ships live on the in-game Map tab (its DEV demo
+entry points were retired with it — FB-364; headless captures use
+`openTierMap('T0')`), while T1/T2 still mount from the DEV panel or the
+`?t1-map-demo` / `?t2-map-demo` boot params until their tiers ship. The rendering passed the human taste bar (HR-12) and is
 **frozen by a golden pin** — read the laws below before editing anything.
 
 **Start here if you're changing maps:** the

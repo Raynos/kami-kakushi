@@ -45,7 +45,7 @@ try {
   const openMap = async (tier) => {
     await page.evaluate(async (t) => {
       const m = await import('/ui/map-sheets/sheet.ts');
-      window.__mapScrim = t === 'T0' ? m.openT0V2Map() : t === 'T2' ? m.openT2Map() : m.openT1Map();
+      window.__mapScrim = m.openTierMap(t);
     }, tier);
     await page.waitForTimeout(700);
   };

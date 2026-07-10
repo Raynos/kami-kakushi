@@ -3,7 +3,8 @@
 // the night-rounds rail. The GROUND is painted by the per-tier compositions
 // (t0-sheet.ts / t1-sheet.ts) over the ONE geography (layout.ts); this module owns
 // everything that is chrome, not place. Replaces dev-t0v2-map.ts's modal wholesale
-// (same public API: openT0V2Map / openT1Map).
+// (public API: openTierMap / openT1Map / openT2Map — T0's DEV entry points were
+// retired once the real Map tab shipped the same geometry, FB-364).
 
 import { rng, scrawl, sv, tip } from './brush';
 import type { Pt } from './geom';
@@ -474,11 +475,6 @@ const CSS = `
   .t0v2-detail-wrong { font-size:13px; line-height:1.55; color:var(--shu); margin:0; opacity:.9; }
 `;
 
-/** Open the T0 review map as a full-screen modal. Returns the scrim. */
-export function openT0V2Map(): HTMLElement {
-  return openTierMap('T0');
-}
-
 /** Open the T1 review map — the same world seen whole. */
 export function openT1Map(): HTMLElement {
   return openTierMap('T1');
@@ -489,7 +485,7 @@ export function openT2Map(): HTMLElement {
   return openTierMap('T2');
 }
 
-function openTierMap(tier: Tier): HTMLElement {
+export function openTierMap(tier: Tier): HTMLElement {
   const scrim = hd('div', 'modal-scrim');
   // the DEV panel floats at z-index 9999 and would overlap the aside's corner —
   // this modal is a full-screen review surface, so it goes above the panel.

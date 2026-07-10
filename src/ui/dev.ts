@@ -55,6 +55,8 @@ import {
   __setDiscoveryFlavorOverride,
   __setJudgeFlavorOverride,
   __setRakeCapLineOverride,
+  __setWorksFlavorOverride,
+  __setIntroTitleOverride,
   RUNG_REQUIREMENTS,
   getRank,
 } from '../core';
@@ -64,7 +66,7 @@ import { COLD_OPEN } from '../core/content/coldOpen';
 import { FLAVOR } from '../core/content/flavor';
 import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
 import { mountRequirementsCheatlist } from './dev-cheatlist';
-import { openT0V2Map, openT1Map, openT2Map } from './map-sheets/sheet';
+import { openT1Map, openT2Map } from './map-sheets/sheet';
 import { openStampBook } from './stamp-book/book';
 import { openEstateSheet } from './estate-sheet/demo';
 import { openSceneCards } from './scene-cards/cards';
@@ -364,6 +366,24 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
     // FB-324 (ADR-139) — the rake-cap line is core-emitted too (intents.ts rake_rice):
     // forward the effective `rakeCapLine` flavor take so a FUTURE cap emit voices it.
     __setRakeCapLineOverride(discOverlay['rakeCapLine'] ?? null);
+    // ADR-177 (works-cause bundle) — the works discovery lines (day-book naming,
+    // zone sightings, the ladder hints + U1's stage strings) are core-emitted/-read:
+    // forward the same effective flavor-take entries (works.ts worksLine resolver).
+    __setWorksFlavorOverride(Object.keys(discOverlay).length > 0 ? discOverlay : null);
+    // FB-362 (ADR-139) — the intro scene titles are core-emitted contexts (intents.ts
+    // stamps introSceneTitle on every intro log line): forward the effective
+    // `## prose intro-title` take entries (keyed by scene id) so a FUTURE intro run's
+    // 幕-heads voice the selected take; logged history keeps its baked heads (TST2).
+    const titleOverlay: Record<string, string> = {};
+    for (const b of bundles) {
+      for (const t of b.takes) {
+        if (!t.introTitles) continue;
+        for (const [key, text] of Object.entries(t.introTitles)) {
+          if (effective(b.id, `intro-title:${key}`) === t.id) titleOverlay[key] = text;
+        }
+      }
+    }
+    __setIntroTitleOverride(Object.keys(titleOverlay).length > 0 ? titleOverlay : null);
   };
 
   // FB-18 — hydrate variant selections from the URL query params so a tweak survives a reload and a
@@ -1836,7 +1856,6 @@ export function mountDevPanel(
     protosPane.append(b);
   };
   protoGroup('Map sheets');
-  protoBtn('⤢ T0 V2 map — the story-bible zone draft', () => openT0V2Map());
   protoBtn('⤢ T1 map — the estate at its true scale', () => openT1Map());
   protoBtn('⤢ T2 map — the valley, Asagiri downstream', () => openT2Map());
   protoGroup('New UI (E3 / E1)');
@@ -2142,14 +2161,15 @@ export function mountDevPanel(
   // NO layout space — the game UI centers on the full viewport (playtest FB-2/FB-4). The old
   // `#app paddingRight:16rem` gutter (which de-centered the UI and exposed a white strip) is gone.
 
-  // ── boot params: `?t0-map-demo` / `?t1-map-demo` open the review sheet straight
+  // ── boot params: `?t1-map-demo` / `?t2-map-demo` open the review sheet straight
   //    from the URL (human, 2026-07-08 — a shareable "look at the map" link that
   //    skips the Story-tab click path). Lives HERE, not main.ts, so it rides the
-  //    DEV fold: no panel (prod, `?dev=no`) → no param. First one wins.
+  //    DEV fold: no panel (prod, `?dev=no`) → no param. First one wins. T0 has no
+  //    demo entry since the real Map tab ships it (FB-364); QA captures go through
+  //    openTierMap('T0').
   {
     const boot = new URLSearchParams(location.search);
-    if (boot.has('t0-map-demo')) openT0V2Map();
-    else if (boot.has('t1-map-demo')) openT1Map();
+    if (boot.has('t1-map-demo')) openT1Map();
     else if (boot.has('t2-map-demo')) openT2Map();
   }
 }
@@ -2217,6 +2237,8 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
     for (const d of t.dialogues ?? []) keys.add(`dialogue:${d.id}`);
     for (const k of Object.keys(t.flavor ?? {})) keys.add(`flavor:${k}`);
     for (const k of Object.keys(t.reqFlavor ?? {})) keys.add(`req-flavor:${k}`);
+    // FB-362 — the intro 幕-head labels, keyed by scene id (canon reads the scene's title).
+    for (const k of Object.keys(t.introTitles ?? {})) keys.add(`intro-title:${k}`);
   }
   // a req-flavor bundle reads as the WHOLE ladder: include every registry requirement,
   // canon-only ones too (their alternate columns show "no take — canon plays"), so a
@@ -2229,7 +2251,7 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
   const order = (k: string): number =>
     k.startsWith('cold-open:')
       ? 0
-      : k.startsWith('intro:')
+      : k.startsWith('intro:') || k.startsWith('intro-title:')
         ? 1
         : k.startsWith('scene:')
           ? 2
@@ -2286,6 +2308,12 @@ function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] 
   if (kind === 'flavor') {
     const text = take === 'canon' ? (FLAVOR as Record<string, string>)[key] : take.flavor?.[key];
     return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
+  }
+  if (kind === 'intro-title') {
+    // FB-362 — the scene's 幕-head label; canon reads the LIVE scene's `title:` (intro.gen).
+    const text =
+      take === 'canon' ? DIALOGUE_SCENES.find((x) => x.id === key)?.title : take.introTitles?.[key];
+    return text ? [{ voice: 'narrator', text: `— ${text} —`, kind: 'line' }] : null;
   }
   if (kind === 'req-flavor') {
     // FB-121 requirement-completion lines — canon reads the LIVE registry by requirement id.
@@ -2361,7 +2389,9 @@ function reqFlavorPlacement(reqId: string): { section: string; order: number } |
 // cold-open: only the RENDER-READ title-card keys swap live (subColdOpen); the
 // core-emitted keys (rake/haul/daybook…) stay reader-only — logged history never
 // rewrites (T2), and the intro-reused keys ride their scene's own intro: swap.
-const LIVE_UNITS = /^(rung|intro|scene|flavor|req-flavor):|^cold-open:(lede|cta)$/;
+// intro-title: FB-362 — live via the CORE overlay (__setIntroTitleOverride): a fresh
+// intro run's 幕-heads voice the selected take; logged history keeps its baked heads.
+const LIVE_UNITS = /^(rung|intro|intro-title|scene|flavor|req-flavor):|^cold-open:(lede|cta)$/;
 
 function readerUnitHeader(host: HTMLElement, unit: string, extra?: HTMLElement): void {
   const h = el('div');

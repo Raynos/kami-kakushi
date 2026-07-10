@@ -45,7 +45,9 @@ guides; this skill routes you and holds the non-negotiables.
    `nodes.ts`; tier state → `TIER_DELTA`; fog → `REVEAL` data. If you're
    hardcoding coordinates in a painter, stop (map-authoring §3.3).
 5. **Verify + ship.** `pnpm run verify` green → pathspec commit (shared
-   tree) → journal. Sheets on screen: `?t0-map-demo` / `?t1-map-demo`.
+   tree) → journal. Sheets on screen: `?t1-map-demo` / `?t2-map-demo`;
+   T0 ships on the real Map tab (FB-364) — headless review captures go
+   through `openTierMap('T0')` (see `map-audit-shots.mjs`).
 
 ## Escalate, don't improvise
 
