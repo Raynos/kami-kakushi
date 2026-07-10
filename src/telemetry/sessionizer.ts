@@ -30,11 +30,12 @@ export type TelemetryEvent =
   | { t: number; kind: 'auto'; armed: boolean } // any auto (labour/rake/combat) armed/disarmed
   | { t: number; kind: 'note' } // attention-worthy game notification (auto-stop, promotion-ready)
   | { t: number; kind: 'heartbeat' } // watchdog sample (sleep/freeze detection)
+  | { t: number; kind: 'capture'; open: boolean } // FB-3 note box opened/closed — writing ≠ playing
   | { t: number; kind: 'flush' }; // unload / run-change: close out now
 
 /** Why a segment closed — the report's closer histogram is the calibration read's raw material
  *  (which rule clipped what — plan §6.1). */
-export type SegmentCloser = 'hidden' | 'blur' | 'idle-ttl' | 'sleep-gap' | 'flush';
+export type SegmentCloser = 'hidden' | 'blur' | 'idle-ttl' | 'sleep-gap' | 'flush' | 'capture';
 
 /** A maximal contiguous attended span. active/idle interleave freely WITHIN a segment;
  *  hidden/blur/walk-away close it. `autosArmedMs` distinguishes watching-a-grind from
@@ -91,6 +92,11 @@ export interface SessionizerState {
   readonly config: TelemetryConfig;
   readonly visible: boolean;
   readonly focused: boolean;
+  /** The FB-3 capture note box is open: the human is WRITING FEEDBACK, not playing. A third
+   *  away-axis alongside visible/focused — deliberately NOT a taint, because tainting would
+   *  discard the very sessions the human cared enough to annotate (and retention.ts deletes
+   *  time-tainted runs). The clock just stops. */
+  readonly capturing: boolean;
   readonly autosArmed: boolean;
   readonly lastEventT: number;
   readonly lastInputT: number;
@@ -115,6 +121,7 @@ export function createSessionizer(
     config: { ...DEFAULT_TELEMETRY_CONFIG, ...config },
     visible: init.visible ?? true,
     focused: init.focused ?? true,
+    capturing: false,
     autosArmed: false,
     lastEventT: t,
     // Sentinel far past: no input yet, so no active/idle credit can accrue before the first one.
@@ -225,9 +232,19 @@ export function advance(state: SessionizerState, ev: TelemetryEvent): Sessionize
       s = close(s, t, 'blur');
       s = { ...s, focused: false };
       break;
+    case 'capture':
+      // Writing a playtest note keeps the tab visible AND focused and fires `input` on every
+      // keystroke — so without this edge the sessionizer credits note-writing as attended play.
+      // (It did: an 18.6-min R0 sitting on 2026-07-10 was mostly typing 23 captures.) Closing
+      // here rather than tainting keeps the run in the corpus, minus the minutes that weren't play.
+      if (ev.open) s = close(s, t, 'capture');
+      s = { ...s, capturing: ev.open };
+      break;
     case 'input':
     case 'intent': {
-      if (!s.open && s.visible && s.focused) {
+      // `capturing` blocks re-open for the same reason `visible`/`focused` do: the keystrokes
+      // landing here are the note box's, not the game's.
+      if (!s.open && s.visible && s.focused && !s.capturing) {
         // Re-engagement (§2.2, the flagged weakest rule): a note fired while unattended and the
         // human reacted within the window ⇒ they were watching — reopen back-dated to the note.
         // The gap BEFORE the note stays excluded (no retro-credit of the whole gap).
@@ -248,7 +265,9 @@ export function advance(state: SessionizerState, ev: TelemetryEvent): Sessionize
       break;
     case 'note':
       // Only meaningful while unattended-visible — that's the only state a note can rescue.
-      if (!s.open && s.visible && s.focused) s = { ...s, lastNoteT: t };
+      // Never while capturing: else the note→input re-engagement back-dates a segment across
+      // the minutes spent in the note box, re-crediting exactly what 'capture' just excluded.
+      if (!s.open && s.visible && s.focused && !s.capturing) s = { ...s, lastNoteT: t };
       break;
     case 'heartbeat':
       break; // its work (steps 1–3) is done by arriving at all

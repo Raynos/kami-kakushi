@@ -9,6 +9,12 @@ import type { TelemetryEvent } from './sessionizer';
  *  not in the sessionizer config — it shapes the event STREAM, not its interpretation. */
 export const INPUT_THROTTLE_MS = 5_000;
 
+/** The FB-3 capture note box carries this attribute (`capture.ts` sets `dataset.kamiCapture`)
+ *  and mounts as a DIRECT CHILD of `document.body`. Observing its presence — rather than having
+ *  capture.ts call telemetry — keeps this module the app's only telemetry producer, and keeps
+ *  the capture overlay ignorant of the instrument measuring it. */
+const CAPTURE_BOX_SELECTOR = '[data-kami-capture]';
+
 export interface SignalConfig {
   readonly inputThrottleMs: number;
   readonly heartbeatMs: number;
@@ -33,6 +39,20 @@ export function attachSignals(
   const onFocus = (): void => emit({ t: now(), kind: 'focus' });
   const onBlur = (): void => emit({ t: now(), kind: 'blur' });
   const onUnload = (): void => emit({ t: now(), kind: 'flush' });
+
+  // Capture mode: the note box opens ⇒ the human is writing feedback, not playing. Scoped to
+  // body's DIRECT children (`childList` without `subtree`) — a subtree observer over a live idle
+  // game would fire on every log line, and the shell must never affect the game it measures.
+  let capturing = false;
+  const scanCapture = (): void => {
+    const open = document.querySelector(CAPTURE_BOX_SELECTOR) !== null;
+    if (open === capturing) return;
+    capturing = open;
+    emit({ t: now(), kind: 'capture', open });
+  };
+  const captureObserver =
+    typeof MutationObserver === 'undefined' ? undefined : new MutationObserver(scanCapture);
+  captureObserver?.observe(document.body, { childList: true });
 
   document.addEventListener('visibilitychange', onVisibility);
   window.addEventListener('focus', onFocus);
@@ -62,6 +82,7 @@ export function attachSignals(
     window.removeEventListener('keydown', input);
     window.removeEventListener('wheel', input);
     window.removeEventListener('beforeunload', onUnload);
+    captureObserver?.disconnect();
     if (hbTimer !== undefined) window.clearTimeout(hbTimer);
   };
 }

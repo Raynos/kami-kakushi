@@ -75,6 +75,70 @@ in place, with the reason recorded.
 
 ## Next intended steps
 
-1. That 17.2-min untainted run is the first clean real-play data since the
+1. That 18.6-min untainted run is the first clean real-play data since the
    Phase-2 rewrite. Worth a distillation pass (the README's diary rule) before
-   the next balance touch — HD-34's re-baseline is the obvious consumer.
+   the next balance touch — HD-34's re-baseline is the obvious consumer. **But
+   re-read it after the capture fix below: its minutes are note-writing.**
+2. `/drain-inbox` — 23 bug captures from the same sitting are pending
+   (cold-open ×14, r0 ×6, feedback-ui ×2, dev ×1). User-invoked skill.
+
+---
+
+## Entry 2 — capture mode stops the clock (human: "fix capture-mode taint")
+
+The 18.6-min R0 run above had **zero rung-ups** — because the human spent most
+of it writing the 23 captures. The FB-3 note box keeps the tab visible AND
+focused, and every keystroke fires `input`, so the sessionizer credited feedback
+writing as attended play. Left alone, the one clean telemetry channel would have
+told HD-34's re-baseline that R0 takes 19 minutes.
+
+**It is NOT a taint** — the design call that shaped the fix. A `capture` time
+taint would have been backwards twice over: `retention.ts` (Entry 1, an hour
+old) *deletes* time-tainted runs, so the sessions the human cared enough to
+annotate would be the first thrown away. Instead the clock **stops**: capture
+mode is a third away-axis beside hidden/blurred, the run stays untainted and in
+the corpus, minus the minutes that weren't play.
+
+### What changed
+
+- `src/telemetry/sessionizer.ts` — new event `{kind:'capture', open}`, new state
+  axis `capturing`, new `SegmentCloser` value `'capture'`. Opening the box closes
+  the segment; `capturing` blocks re-open exactly as `visible`/`focused` do. The
+  `note` re-engagement rule also gained a `!capturing` guard — without it, a
+  note firing while the box is open lets the next keystroke back-date a segment
+  across the capture span and re-credit precisely what was just excluded.
+- `src/telemetry/signals.ts` — a `MutationObserver` on `document.body`'s **direct
+  children** watching for `[data-kami-capture]` (the note box mounts there and is
+  tagged at creation). Scoped without `subtree` on purpose: a subtree observer
+  over a live idle game fires on every log line, and the shell must never affect
+  the game it measures.
+- `src/telemetry/signals.test.ts` — **new.** `signals.ts` had no test; the
+  observer is the one piece of judgment the DOM shell owns, and one that would
+  silently restore the bug if it stopped firing.
+- `src/telemetry/sessionizer.test.ts` — four capture cases, incl. the note-
+  re-engagement trap and the idempotent open-with-nothing-open.
+- `src/telemetry/taints.ts`, `project/telemetry/README.md` — the taxonomy now
+  says why capture is deliberately *not* a taint.
+
+### Why capture.ts is untouched
+
+A co-agent has 148 lines of uncommitted WIP in `src/ui/capture.ts` (an
+inbox-unreachable dialog). Editing it would have swept their work into my
+pathspec commit. The observer approach avoids the file entirely — and is the
+better design regardless: `signals.ts` documents itself as "the ONLY telemetry
+producer in the app", so the capture overlay stays ignorant of the instrument
+measuring it.
+
+### Verification
+
+- Both reducer guards **red-proofed**: removing `!s.capturing` from the
+  `input`/`intent` re-open and from the `note` rule fails one capture test each.
+- The observer **red-proofed**: disabling `observe()` fails two signals tests.
+- **Live, headless, in the real bundle** (`tmp/probe-capture-taint.mjs`): the
+  `` ` `` hotkey opened the actual note box, and the run closed a segment with
+  closer `capture` — `[telemetry] segment closed (capture)`. The probe's own
+  0-minute run was refused a file by Entry 1's retention rule, which is the GC
+  keeping QA exhaust out of the corpus, on its first day.
+- Full suite 1018/1018, typecheck clean. `verify` is RED on `oxfmt` +
+  `fixtures` from the balance agent's uncommitted `src/core/content/balance.ts`
+  + `src/sim/*` — not this change; committed local, unpushed.

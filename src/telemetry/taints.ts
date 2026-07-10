@@ -10,6 +10,13 @@
 //     economy columns read unknown-origin.
 //   · TIME TAINT — everything else (speed>1, DEV jumps, instant-actions): the clock itself
 //     was distorted — excluded from vs-sim, the original FB-8 rule.
+//
+// NOT A TAINT: FB-3 capture mode. Writing a playtest note isn't playing, but it also isn't
+// dishonest — so the sessionizer simply STOPS THE CLOCK while the note box is open (a third
+// away-axis beside hidden/blurred; `kind: 'capture'`), and the run stays clean. Tainting it
+// would have been backwards twice over: retention.ts DELETES time-tainted runs, so the most
+// annotated sessions — the ones the human cared enough to mark up — would be the first thrown
+// away (2026-07-10).
 
 /** Agent-harness taints: a run carrying any of these never auto-drops a report file. */
 export const HARNESS_TAINTS: ReadonlySet<string> = new Set([

@@ -331,3 +331,70 @@ describe('sessionizer — determinism & config', () => {
     expect(attendedMs(s)).toBe(0);
   });
 });
+
+describe('sessionizer — capture mode (writing feedback is not playing)', () => {
+  it('the note-box span contributes zero; typing in it opens nothing', () => {
+    let s = createSessionizer(0);
+    s = fold(
+      [
+        { t: 0, kind: 'input' },
+        { t: MIN, kind: 'capture', open: true }, // S1 closes at 1:00
+        // The human types a capture for 5 minutes. The tab stayed visible AND focused, and every
+        // keystroke fired `input` — the exact shape that inflated the 2026-07-10 R0 sitting.
+        ...inputs(2 * MIN, 6 * MIN),
+        { t: 6 * MIN, kind: 'capture', open: false },
+        { t: 7 * MIN, kind: 'input' }, // back to the game → S2 opens here
+      ],
+      s,
+    );
+    s = finalize(s, 8 * MIN);
+
+    expect(s.segments.map((seg) => seg.closer)).toEqual(['capture', 'flush']);
+    expect(s.segments[0]).toMatchObject({ start: 0, end: MIN, activeMs: MIN });
+    expect(s.segments[1]).toMatchObject({ start: 7 * MIN, end: 8 * MIN });
+    expect(attendedMs(s)).toBe(2 * MIN); // the 5 minutes of typing counted nothing
+  });
+
+  it('a note firing while the box is open cannot re-engage across the capture span', () => {
+    let s = createSessionizer(0);
+    s = fold(
+      [
+        { t: 0, kind: 'input' },
+        { t: MIN, kind: 'capture', open: true },
+        { t: 2 * MIN, kind: 'note' }, // auto-stop fires while they're writing
+        { t: 2 * MIN + 10_000, kind: 'input' }, // a keystroke, 10s later — inside the reengage window
+      ],
+      s,
+    );
+    s = finalize(s, 3 * MIN);
+
+    // Without the `!capturing` guard on 'note', the input back-dates a segment to the note and
+    // re-credits the very span 'capture' excluded.
+    expect(s.segments.map((seg) => seg.closer)).toEqual(['capture']);
+    expect(attendedMs(s)).toBe(MIN);
+  });
+
+  it('closing the box does not itself resume — attention is re-proven by acting', () => {
+    let s = createSessionizer(0);
+    s = fold(
+      [
+        { t: 0, kind: 'input' },
+        { t: MIN, kind: 'capture', open: true },
+        { t: 2 * MIN, kind: 'capture', open: false },
+      ],
+      s,
+    );
+    s = finalize(s, 5 * MIN);
+
+    expect(s.capturing).toBe(false);
+    expect(s.segments.map((seg) => seg.closer)).toEqual(['capture']);
+    expect(attendedMs(s)).toBe(MIN); // the 3 idle minutes after the box closed are not play
+  });
+
+  it('opening the box with no segment open is a no-op (idempotent close)', () => {
+    let s = createSessionizer(0);
+    s = fold([{ t: 0, kind: 'capture', open: true }], s);
+    expect(s.segments).toEqual([]);
+    expect(s.capturing).toBe(true);
+  });
+});

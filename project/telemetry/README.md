@@ -24,6 +24,13 @@ time was distorted and is excluded from vs-sim comparisons). The third leg of
 the pacing triangle: sim bots (theory) · design bands (intent) · **these
 files (reality)**.
 
+**Time spent writing playtest captures is not play.** The FB-3 note box keeps
+the tab visible and focused and fires an input on every keystroke, so the
+sessionizer used to credit it as attended time (an 18.6-min R0 sitting on
+2026-07-10 was mostly typing 23 captures). The clock now **stops** while the
+box is open — a `capture` segment-closer, visible in the closer histogram, not
+a taint: annotating a session must never cost you the session.
+
 ## The contract (human-locked 2026-07-05)
 
 1. **Never commit report files.** They are one machine's disposable sensor
