@@ -35,12 +35,10 @@ import {
   QUESTS,
   RANKS,
   RECIPES,
-  type ActivityId,
   type BelongingDef,
   type GameState,
   type Intent,
   type MarketItem,
-  type MobId,
   type RankId,
   DIALOGUES,
   DIALOGUE_SCENES,
@@ -332,6 +330,11 @@ export interface DevApi {
    *  (ADR-139 — identity when everything is 'canon'). Called from render.ts behind the dev
    *  gate so a flavor-line diverge swaps LIVE in the running game, not just in the reader. */
   subFlavor(key: string, canon: string): string;
+  /** Substitute a cold-open keyed-prose line (`COLD_OPEN[key]`) with the active take's
+   *  version (HD-37 unit A — identity when everything is 'canon'). Live for the RENDER-READ
+   *  keys (the title card's `lede`/`cta`); core-emitted keys stay reader-only (T2 — logged
+   *  history never rewrites), and the intro-reused ones ride their scene's own swap. */
+  subColdOpen(key: string, canon: string): string;
   /** Bumps on every set/unit change — render.ts folds it into the VN scene key so a
    *  take swap rebuilds the (otherwise append-only) live transcript. */
   storyEpoch(): number;
@@ -511,6 +514,15 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
         const eff = effective(b.id, `flavor:${key}`);
         if (eff === 'canon') continue;
         const alt = b.takes.find((t) => t.id === eff)?.flavor?.[key];
+        if (alt !== undefined) return alt;
+      }
+      return canon;
+    },
+    subColdOpen: (key, canon) => {
+      for (const b of bundles) {
+        const eff = effective(b.id, `cold-open:${key}`);
+        if (eff === 'canon') continue;
+        const alt = b.takes.find((t) => t.id === eff)?.coldOpen?.[key];
         if (alt !== undefined) return alt;
       }
       return canon;
@@ -1732,8 +1744,6 @@ export interface DevQa {
   jumpToPhase2(): unknown;
   jumpToAscension(): void;
   toRung(id: RankId): unknown;
-  auto(id: ActivityId | null): void;
-  autoCombat(id: MobId | null): void;
   newGame(seed?: number): void;
   /** FB-96 save-backup safety net: `hasBackup` gates the "goto last backup" button; `restoreBackup`
    *  rewinds to the pre-New-game snapshot. Both async (they hit the redundant storage backends). */
@@ -1783,7 +1793,8 @@ export function mountDevPanel(
     // DEV chip bottom-aligns with the Settings button beside it. FB-162 — the right
     // inset tracks the CENTRED shell's edge (max-width 1440), not the viewport corner,
     // so on wide screens the chip sits inside the frame, not out in the whitespace.
-    'position:fixed;bottom:.25rem;right:max(.75rem, calc(50vw - 720px + .75rem));z-index:9999;width:fit-content;max-width:24rem;max-height:82vh;' +
+    // FB-302 — widened 24rem → 30rem (with the 3-up tab rows) so section rows breathe.
+    'position:fixed;bottom:.25rem;right:max(.75rem, calc(50vw - 720px + .75rem));z-index:9999;width:fit-content;max-width:30rem;max-height:82vh;' +
     'display:flex;flex-direction:column;overflow:hidden;' +
     'background:#1c1814;color:#e7d9bc;font:12px/1.45 ui-monospace,SFMono-Regular,monospace;' +
     'border:1px solid #b08d4f;border-radius:4px;box-shadow:0 2px 14px rgba(0,0,0,.45);';
@@ -1814,7 +1825,8 @@ export function mountDevPanel(
     const hidden = body.style.display === 'none';
     body.style.display = hidden ? 'flex' : 'none';
     caret.textContent = hidden ? '▾' : '▸';
-    panel.style.width = hidden ? '15rem' : 'fit-content';
+    // FB-302 — expanded width 15rem → 24rem (the human: wider, with three-up tab rows).
+    panel.style.width = hidden ? '24rem' : 'fit-content';
   });
 
   // ── sub-tab bar: two panes (Settings / Variants) under one sub-header. Default = Variants
@@ -1853,22 +1865,31 @@ export function mountDevPanel(
   const rungsPane = el('div');
   rungsPane.style.cssText = `display:none;flex-direction:column;gap:.4rem;${paneScroll}`;
 
+  // FB-305 — a seventh pane: the PROTOTYPES shelf. The six `⤢` full-screen launchers (maps,
+  // graphics explorations) lived at the top of Story and drowned the diverge bundles; they're
+  // review artifacts, not story, so they get their own tab (grouped per FB-306 below).
+  const protosPane = el('div');
+  protosPane.style.cssText = `display:none;flex-direction:column;gap:.2rem;${paneScroll}`;
+
   const tabBtn = (label: string): HTMLButtonElement => {
     const b = el('button', undefined, label);
     b.type = 'button';
-    // flex-basis 40% ⇒ two tabs per row inside the wrapping bar; nowrap keeps each label on one line.
+    // FB-302 — flex-basis 30% ⇒ THREE tabs per row inside the wrapping bar (was 40% / two);
+    // nowrap keeps each label on one line.
     b.style.cssText =
-      'flex:1 1 40%;white-space:nowrap;border:1px solid #7a6c59;border-radius:3px;padding:.2rem .4rem;' +
+      'flex:1 1 30%;white-space:nowrap;border:1px solid #7a6c59;border-radius:3px;padding:.2rem .4rem;' +
       'font:inherit;cursor:pointer;font-weight:700;';
     return b;
   };
-  type TabId = 'settings' | 'variants' | 'scenarios' | 'balance' | 'story' | 'rungs';
+  type TabId = 'settings' | 'variants' | 'scenarios' | 'balance' | 'story' | 'rungs' | 'protos';
   const settingsTab = tabBtn('Settings');
   const variantsTab = tabBtn('Variants');
   const scenariosTab = tabBtn('Scenarios');
   const balanceTab = tabBtn('Balance');
   const storyTab = tabBtn('Story');
-  const rungsTab = tabBtn('Rungs');
+  // FB-304 — "Rungs" read like the Rung teleports; it's the requirements cheatlist, so "Rung info".
+  const rungsTab = tabBtn('Rung info');
+  const protosTab = tabBtn('Prototypes');
   const tabs: Record<TabId, { tab: HTMLButtonElement; pane: HTMLElement }> = {
     settings: { tab: settingsTab, pane: settingsPane },
     variants: { tab: variantsTab, pane: variantsPane },
@@ -1876,6 +1897,7 @@ export function mountDevPanel(
     balance: { tab: balanceTab, pane: balancePane },
     story: { tab: storyTab, pane: storyPane },
     rungs: { tab: rungsTab, pane: rungsPane },
+    protos: { tab: protosTab, pane: protosPane },
   };
   const selectTab = (which: TabId): void => {
     for (const id of Object.keys(tabs) as TabId[]) {
@@ -1892,8 +1914,19 @@ export function mountDevPanel(
       selectTab(id);
     });
   }
-  tabBar.append(settingsTab, variantsTab, scenariosTab, balanceTab, storyTab, rungsTab);
-  body.append(tabBar, settingsPane, variantsPane, scenariosPane, balancePane, storyPane, rungsPane);
+  // FB-303 — Balance LAST (the human's least-reached pane); FB-302's 3-up rows make the order
+  // Settings · Variants · Scenarios / Story · Rung info · Prototypes / Balance.
+  tabBar.append(settingsTab, variantsTab, scenariosTab, storyTab, rungsTab, protosTab, balanceTab);
+  body.append(
+    tabBar,
+    settingsPane,
+    variantsPane,
+    scenariosPane,
+    balancePane,
+    storyPane,
+    rungsPane,
+    protosPane,
+  );
 
   const cheatlist = mountRequirementsCheatlist(rungsPane, qa.state);
   // refresh the cheatlist whenever its tab is selected + on a slow tick while visible
@@ -2015,16 +2048,9 @@ export function mountDevPanel(
   }
   markRung(qa.selectors.rung()); // highlight the rung the game is currently at
 
-  // combat + auto
-  const combat = section('Combat / Auto');
-  combat.append(mono('Auto: farm', () => qa.auto('farm_paddy' as ActivityId)));
-  combat.append(mono('Auto: monkey', () => qa.autoCombat('monkey' as MobId)));
-  combat.append(
-    mono('Stop auto', () => {
-      qa.auto(null);
-      qa.autoCombat(null);
-    }),
-  );
+  // (The Combat/Auto section — Auto: farm / Auto: monkey / Stop auto — was RETIRED here
+  // (FB-300): the in-game auto-toggles are the real feature, and the headless `__qa.auto` /
+  // `__qa.autoCombat` drive methods remain the QA path; the buttons earned nothing.)
 
   // FB-8 — Telemetry (MINIMAL by human lock 2026-07-05: one live line + drop/clear; the
   // copy/download/console.table buttons were cut — the project/telemetry/ folder drop is the
@@ -2067,59 +2093,40 @@ export function mountDevPanel(
   // (FB-228/HR-22 — the MC-colour swatch trio lived here 2026-07-10 for the taste call;
   // the human LOCKED A · asagi sky #8ec9ff same day, so the toggle is stripped — the
   // pick IS the styles.css --v-player token, zero flag-debt. Git history keeps the trio.)
-  // T0/T1 review maps (2026-07-07 story reboot) — the rebooted tier-sheet zone rosters drawn
-  // as full-screen survey sheets BEFORE the engine rebuild. Read-only review artifacts, fully
-  // self-contained in map-sheets/ (ONE master geography; bible-distilled data, not core). Two
-  // buttons on purpose: the human reviews T0 and T1 side by side (same world, grown roster).
-  const t0v2Btn = mono('⤢ T0 V2 map — the story-bible zone draft', () => {
-    openT0V2Map();
-  });
-  t0v2Btn.style.cssText += 'margin-bottom:.2rem;';
-  storyPane.append(t0v2Btn);
-  const t1Btn = mono('⤢ T1 map — the estate at its true scale', () => {
-    openT1Map();
-  });
-  t1Btn.style.cssText += 'margin-bottom:.2rem;';
-  storyPane.append(t1Btn);
-  const t2Btn = mono('⤢ T2 map — the valley, Asagiri downstream', () => {
-    openT2Map();
-  });
-  t2Btn.style.cssText += 'margin-bottom:.2rem;';
-  storyPane.append(t2Btn);
-  // E3 graphics exploration (fable-2026-07-08-graphics-explorations.md) — the shuinchō
-  // stamp-book + ink-thread progression prototype, drawn from a FIXTURE run history.
-  // DEV-only review artifact, zero game integration (the prototype-first law).
-  const sbkBtn = mono('⤢ Stamp book — E3 progression prototype', () => {
-    openStampBook();
-  });
-  sbkBtn.style.cssText += 'margin-bottom:.2rem;';
-  storyPane.append(sbkBtn);
-  // E1 graphics exploration — the okoshi-ezu estate cutaway: a STANDALONE
-  // prototype experiment (NOT part of the map-sheets system; it reuses the
-  // brush toolkit only — spec + rubric in src/ui/estate-sheet/README.md).
-  // Two look variants + three fixture eras inside the modal. DEV-only,
-  // fixture-fed, zero game integration (the prototype-first law). HR-16.
-  const eshBtn = mono('⤢ Estate sheet — E1 okoshi-ezu prototype', () => {
-    openEstateSheet();
-  });
-  eshBtn.style.cssText += 'margin-bottom:.2rem;';
-  storyPane.append(eshBtn);
-  // E2 graphics exploration — the VN scene-card pilot demos (two cold-open
-  // vignettes: Sōan's sickroom + Genemon's grain-store), human-pulled
-  // 2026-07-08 ahead of the E2.1 grammar spec, then PARKED by the human the
-  // same day with BOTH versions kept in code as concept references: v1
-  // (figurative — ruled slop) and v2 (kage-e + press — the kept look).
-  // DEV-only review artifacts, zero game integration (the prototype-first law).
-  const scnBtn = mono('⤢ Scene cards v2 — kage-e (E2 · parked)', () => {
-    openSceneCards();
-  });
-  scnBtn.style.cssText += 'margin-bottom:.2rem;';
-  storyPane.append(scnBtn);
-  const scnV1Btn = mono('⤢ Scene cards v1 — figurative (E2 · parked)', () => {
-    openSceneCardsV1();
-  });
-  scnV1Btn.style.cssText += 'margin-bottom:.2rem;';
-  storyPane.append(scnV1Btn);
+  // ── FB-305/FB-306 — the PROTOTYPES pane: the six `⤢` full-screen launchers, moved out of
+  //    Story (they drowned the diverge bundles) and grouped by shelf. The per-button history
+  //    comments ride along:
+  //    · Map sheets — T0/T1 review maps (2026-07-07 story reboot): the rebooted tier-sheet
+  //      zone rosters as full-screen survey sheets, read-only, self-contained in map-sheets/
+  //      (T0 + T1 side by side on purpose; T2 the valley downstream).
+  //    · New UI — E3 stamp book (fable-2026-07-08-graphics-explorations.md; fixture-fed) and
+  //      E1 estate sheet (okoshi-ezu cutaway, STANDALONE of map-sheets — spec in
+  //      src/ui/estate-sheet/README.md, HR-16). Prototype-first law: zero game integration.
+  //    · Parked — E2 scene-card pilots, human-parked 2026-07-08 with BOTH versions kept as
+  //      concept references: v2 (kage-e + press — the kept look) and v1 (figurative — ruled slop).
+  const protoGroup = (title: string): void => {
+    const hdr = el('div', undefined, title);
+    hdr.style.cssText =
+      'font-weight:700;color:#b08d4f;text-transform:uppercase;letter-spacing:.05em;font-size:10px;' +
+      `margin-top:${protosPane.childElementCount === 0 ? '0' : '.5rem'};padding-bottom:.15rem;border-bottom:1px solid #b08d4f;margin-bottom:.2rem;`;
+    protosPane.append(hdr);
+  };
+  const protoBtn = (label: string, open: () => void): void => {
+    const b = mono(label, open);
+    b.style.cssText += 'margin-bottom:.2rem;text-align:left;';
+    protosPane.append(b);
+  };
+  protoGroup('Map sheets');
+  protoBtn('⤢ T0 V2 map — the story-bible zone draft', () => openT0V2Map());
+  protoBtn('⤢ T1 map — the estate at its true scale', () => openT1Map());
+  protoBtn('⤢ T2 map — the valley, Asagiri downstream', () => openT2Map());
+  protoGroup('New UI (E3 / E1)');
+  protoBtn('⤢ Stamp book — E3 progression prototype', () => openStampBook());
+  protoBtn('⤢ Estate sheet — E1 okoshi-ezu prototype', () => openEstateSheet());
+  protoGroup('Parked UI prototypes');
+  protoBtn('⤢ Scene cards v2 — kage-e (E2 · parked)', () => openSceneCards());
+  protoBtn('⤢ Scene cards v1 — figurative (E2 · parked)', () => openSceneCardsV1());
+
   if (dev.storyBundles.length === 0) {
     const empty = el('div', undefined, 'No open story diverges — nothing awaiting review.');
     empty.style.cssText = 'color:#9b8e78;padding:.3rem .1rem;';
@@ -2127,7 +2134,26 @@ export function mountDevPanel(
   }
   // ONE explore page per diverge (human, 2026-07-07): each bundle section below carries
   // its OWN "⤢ Explore" link — no combined all-bundles modal.
-  for (const bundle of dev.storyBundles) {
+  // FB-307 — rung-ordered with `— rung RX —` headers, mirroring the Variants pane: bundles
+  // sort by the rung a player first meets them (authored as `rung:` in bundle.md).
+  const rungOrderedBundles = dev.storyBundles
+    .slice()
+    .sort((a, b) => (a.rung ?? 99) - (b.rung ?? 99));
+  let shownBundleRung: number | undefined;
+  let firstBundle = true;
+  for (const bundle of rungOrderedBundles) {
+    if (firstBundle || bundle.rung !== shownBundleRung) {
+      shownBundleRung = bundle.rung;
+      firstBundle = false;
+      const rh = el(
+        'div',
+        undefined,
+        bundle.rung !== undefined ? `— rung R${bundle.rung} —` : '— other —',
+      );
+      rh.style.cssText =
+        'color:#b08d4f;font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin:.35rem 0 .1rem;opacity:.85;';
+      storyPane.append(rh);
+    }
     const sec = el('div');
     sec.style.cssText = 'border:1px solid #3a322a;border-radius:3px;padding:.28rem .4rem;';
     const title = el('div', undefined, bundle.title);
@@ -2370,6 +2396,14 @@ export function mountDevPanel(
   newGameFooterBtn.style.alignSelf = 'flex-start';
   newGameFooterBtn.style.fontWeight = '700';
   footer.append(newGameFooterBtn);
+  // FB-301 — "NG (post open)": a fresh run with the cold open already answered — loads the
+  // FB-6 `post-cold-open` fixture (backup-first like every Load, so it's non-destructive).
+  const ngPostBtn = mono('⟳ NG (post open)', () => {
+    void Promise.resolve(qa.loadFixture('post-cold-open')).then(() => enableRestore());
+  });
+  ngPostBtn.style.width = '50%';
+  ngPostBtn.style.alignSelf = 'flex-start';
+  footer.append(ngPostBtn);
   body.append(footer);
 
   // enable "goto last backup" if a backup already exists from a prior session (async storage probe).
@@ -2600,7 +2634,10 @@ function reqFlavorPlacement(reqId: string): { section: string; order: number } |
 // req-flavor via the CORE overlay — ADR-139: every diverge unit reviews in the switcher).
 // dialogue + cold-open pin only the READER's display today (takes/README: wiring the
 // live-swap is part of diverging one).
-const LIVE_UNITS = /^(rung|intro|scene|flavor|req-flavor):/;
+// cold-open: only the RENDER-READ title-card keys swap live (subColdOpen); the
+// core-emitted keys (rake/haul/daybook…) stay reader-only — logged history never
+// rewrites (T2), and the intro-reused keys ride their scene's own intro: swap.
+const LIVE_UNITS = /^(rung|intro|scene|flavor|req-flavor):|^cold-open:(lede|cta)$/;
 
 function readerUnitHeader(host: HTMLElement, unit: string, extra?: HTMLElement): void {
   const h = el('div');

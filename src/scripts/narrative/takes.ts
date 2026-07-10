@@ -45,6 +45,10 @@ export interface BundleMeta {
   /** Short textual label for the CANON pill (human, 2026-07-07 — the switcher
    *  labels every option, canon included: "Canon — <label>"). */
   readonly canonLabel?: string;
+  /** The rung a player FIRST MEETS this diverge's content (FB-307 — the Story
+   *  pane groups bundles under `— rung RX —` headers exactly like Variants).
+   *  Authored as `rung: R2` in bundle.md; parsed to the bare number. */
+  readonly rung?: number;
   readonly takes: readonly TakeMeta[];
 }
 
@@ -140,12 +144,25 @@ export function parseBundleMeta(source: string, file: string): BundleMeta {
   const review = top.get('review');
   const rationale = top.get('rationale');
   const canonLabel = top.get('canon');
+  const rungRaw = top.get('rung');
+  let rung: number | undefined;
+  if (rungRaw !== undefined) {
+    const m = /^R(\d+)$/.exec(rungRaw);
+    if (!m) {
+      throw new NarrativeError(
+        { file, line: 1 },
+        `bundle "${id}": rung must be "R<n>" (got "${rungRaw}")`,
+      );
+    }
+    rung = Number(m[1]);
+  }
   return {
     id,
     title,
     ...(review !== undefined ? { review } : {}),
     ...(rationale !== undefined ? { rationale } : {}),
     ...(canonLabel !== undefined ? { canonLabel } : {}),
+    ...(rung !== undefined ? { rung } : {}),
     takes,
   };
 }
@@ -218,6 +235,7 @@ export function emitStoryTakes(bundles: readonly ParsedTakeBundle[]): string {
     if (b.meta.review) L.push(`review: ${str(b.meta.review)},`);
     if (b.meta.rationale) L.push(`rationale: ${str(b.meta.rationale)},`);
     if (b.meta.canonLabel) L.push(`canonLabel: ${str(b.meta.canonLabel)},`);
+    if (b.meta.rung !== undefined) L.push(`rung: ${b.meta.rung},`);
     L.push('takes: [');
     b.meta.takes.forEach((t, i) => L.push(emitTake(t, b.docs[i]!)));
     L.push('],');

@@ -83,6 +83,26 @@ describe('parseBundleMeta', () => {
   });
 });
 
+describe('bundle rung (FB-307)', () => {
+  const withRung = BUNDLE.replace(
+    'review: project/some/review.md',
+    'review: project/some/review.md\nrung: R2',
+  );
+
+  it('parses `rung: R2` to the bare number and emits it into the registry entry', () => {
+    const meta = parseBundleMeta(withRung, 'bundle.md');
+    expect(meta.rung).toBe(2);
+    const doc = parseNarrative(TAKE, 'take-b.md');
+    expect(emitStoryTakes([{ meta, docs: [doc] }])).toContain('rung: 2,');
+  });
+
+  it('stays absent when unauthored and rejects a malformed rung', () => {
+    expect(parseBundleMeta(BUNDLE, 'bundle.md').rung).toBeUndefined();
+    const bad = BUNDLE.replace('review: project/some/review.md', 'rung: 2');
+    expect(() => parseBundleMeta(bad, 'bundle.md')).toThrowError(/rung must be "R<n>"/);
+  });
+});
+
 describe('emitStoryTakes', () => {
   it('emits a registry entry whose take carries the compiled rung scene', () => {
     const meta = parseBundleMeta(BUNDLE, 'bundle.md');

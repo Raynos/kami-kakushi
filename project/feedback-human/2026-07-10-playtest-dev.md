@@ -59,3 +59,67 @@ homeRestBonus`), cook (`−sansai · +hp`), eat (`−shō · +satiety`), repair
 (next stage's coin cost), move (destination). Verified headlessly: rest
 `+18 satiety`, eat `−2 shō · +30 satiety`, cook `−2 sansai · +35 hp`, rake
 `+2 shō · −2 satiety`; the panel opens on Settings.
+
+## Dev-panel reshape (bucket `dev`, session of 2026-07-10 15:14 — FB-300…307)
+
+Second pass over the bucket (session 149): eight captures, all stamped at
+capture time, drained whole-lane per the retired-cap rule; wholesale proposal
+approved by the human 2026-07-10.
+
+### FB-300 · retire the Combat/Auto DEV section — ✅
+**Verbatim:** _"I dont think we need combat / auto here anymore, these buttons
+can all go and all that dev code can be deleted."_
+**Reading:** the Auto: farm / Auto: monkey / Stop auto buttons predate the
+in-game auto-toggles; the panel section is dead weight.
+**Fixed in:** section deleted from `dev.ts` + the `DevQa.auto`/`autoCombat`
+members + `dev.test.ts` stubs. The headless `__qa.auto`/`__qa.autoCombat`
+drive wrappers stay — they're the playtest-via-code QA path, not buttons.
+
+### FB-301 · "NG (post open)" footer shortcut — ✅
+**Verbatim:** _"Let's add a top level button here that's 'NG (post open)'"_
+**Reading:** a one-click fresh run that skips re-reading the cold open.
+**Fixed in:** footer button `⟳ NG (post open)` under `⟳ New game` — loads the
+existing FB-6 `post-cold-open` fixture (backup-first, lights "↩ last backup").
+Verified headlessly: click lands `introBeat -1 → 3` (done cursor), `awake`.
+
+### FB-302 · wider panel, three-up tab rows — ✅
+**Verbatim:** _"Let's make the dev menu wider, and let's add three buttons side
+by side for the sections of the dev menu."_
+**Fixed in:** expanded width 15rem → 24rem (max-width 24rem → 30rem); tab
+flex-basis 40% → 30%, so the seven tabs sit three per row.
+
+### FB-303 · Balance last — ✅
+**Verbatim:** _"Balance is a confusing section, I don't think I'll use it often
+so lets make that the last button in the group"_
+**Fixed in:** tab order Settings · Variants · Scenarios / Story · Rung info ·
+Prototypes / Balance.
+
+### FB-304 · rename Rungs → "Rung info" — ✅
+**Verbatim:** _"Rename rungs to 'rung info'"_
+**Fixed in:** the tab label ("Rungs" read like the Rung teleports; it's the
+requirements cheatlist).
+
+### FB-305 · a Prototypes section — ✅
+**Verbatim:** _"All these buttons in Story (10) are basically prototypes so lets
+add a new section for prorotypes."_
+**Fixed in:** a seventh tab/pane; the six `⤢` full-screen launchers moved out of
+Story, which now leads with the diverge bundles.
+
+### FB-306 · group the prototypes — ✅
+**Verbatim:** _"In the new prototype section let's group them / - Map sheets /
+- new UI (E3 / E1) / - Parked UI prototypes"_
+**Fixed in:** three scenario-style group headers: Map sheets (T0 V2 · T1 · T2),
+New UI (E3 / E1) (stamp book · estate sheet), Parked UI prototypes (scene cards
+v2 · v1).
+
+### FB-307 · story diverges grouped by rung — 🔧
+**Verbatim:** _"All of these stories diverge here need to be goruped by rung
+just like variants and secnarios"_
+**Reading:** the Story pane should mirror the Variants pane's `— rung RX —`
+headers.
+**Fixed in:** pipeline + UI landed (a `rung:` bundle.md field → takes.ts parse →
+`StoryTakeBundle.rung` → rung-sorted headers in the Story pane, with a RED-able
+parse/emit test). The DATA half (the ten `rung:` lines + the storyTakes.gen.ts
+regen) is QUEUED behind w1:p3's in-flight hd37-cold-open bundles — regenerating
+now would bake their untracked sources into the committed registry (CI red).
+Lands as a follow-up commit the moment their sources land.
