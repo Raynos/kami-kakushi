@@ -26,17 +26,116 @@ import {
  *  NOT filtered: it is the whole point of the picture. */
 const OVERLAY_MARKS = ['kamiCapture', 'kamiCaptureError', 'kamiCaptureMenu', 'kamiMarkup'] as const;
 
+/** An SVG with more descendants than this gets pre-rasterised (FB-337) instead
+ *  of walked. The map sheet is ~15k elements; everything else in the UI is two
+ *  orders of magnitude below, so the threshold has a wide safe band. */
+const HEAVY_SVG_NODES = 500;
+
+/** Escape a CSS value for substitution into a serialized XML attribute. */
+const xmlAttrEscape = (s: string): string =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+
+/** FB-337 — pre-rasterise element-heavy SVGs so the DOM walker never sees them.
+ *  `domToPng` clones every node and inlines its computed styles one by one; the
+ *  map sheet's ~15k-element SVG turned a ~0.7s shot into a ~10s stall. The
+ *  browser's own renderer draws that same SVG in ~160ms, so: serialize the SVG
+ *  (resolving `var(--…)` tokens against the live cascade — an SVG-as-image is a
+ *  separate document with no access to the page's custom properties), draw it
+ *  through an Image onto a canvas at its on-screen rect × DPR, drop the flat
+ *  <img> in its place, and hide + mark the original so the shot filter skips it
+ *  (hiding alone is not enough — the cloner walks display:none subtrees too).
+ *  The world is frozen during capture and the img is pixel-identical, so the
+ *  swap is invisible; the returned restore fns undo it after the shot. The flat
+ *  img is inserted in-flow with the SVG's on-screen box — the map sheet (the
+ *  only heavy SVG today) fills its wrap in normal flow, which is what makes
+ *  that placement exact. Per-SVG failures fall back to the slow walked path. */
+async function flattenHeavySvgs(root: HTMLElement): Promise<(() => void)[]> {
+  const restores: (() => void)[] = [];
+  for (const svg of root.querySelectorAll('svg')) {
+    if (svg.querySelectorAll('*').length < HEAVY_SVG_NODES) continue;
+    const rect = svg.getBoundingClientRect();
+    if (rect.width < 1 || rect.height < 1) continue; // hidden (incl. inside an already-flattened svg)
+    try {
+      const clone = svg.cloneNode(true) as SVGSVGElement;
+      clone.setAttribute('width', String(rect.width));
+      clone.setAttribute('height', String(rect.height));
+      // The sheet's class-styled internals (the zone pills' kanji + captions,
+      // `.t0v2-kanji { fill: var(--ink) }` & co) are styled by PAGE stylesheets
+      // a standalone SVG document never sees — without them the text rasterises
+      // default-black on the near-black ground and reads as lost. Embed every
+      // same-origin rule into the clone so the cascade rides along; the var()
+      // pass below then resolves custom properties inside those rules too.
+      let css = '';
+      for (const sheet of Array.from(document.styleSheets)) {
+        try {
+          for (const rule of Array.from(sheet.cssRules)) css += `${rule.cssText}\n`;
+        } catch {
+          /* cross-origin sheet — skip */
+        }
+      }
+      const styleEl = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+      styleEl.textContent = css;
+      clone.insertBefore(styleEl, clone.firstChild);
+      const cascade = getComputedStyle(svg);
+      const markup = new XMLSerializer()
+        .serializeToString(clone)
+        .replace(/var\((--[\w-]+)(?:,[^)]*)?\)/g, (token, name: string) => {
+          const v = cascade.getPropertyValue(name).trim();
+          return v ? xmlAttrEscape(v) : token;
+        });
+      const url = URL.createObjectURL(new Blob([markup], { type: 'image/svg+xml;charset=utf-8' }));
+      const img = new Image();
+      try {
+        await new Promise<void>((resolve, reject) => {
+          img.onload = () => resolve();
+          img.onerror = () => reject(new Error('heavy-svg raster failed to load'));
+          img.src = url;
+        });
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+      const dpr = window.devicePixelRatio || 1;
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+      const ctx = canvas.getContext('2d');
+      if (!ctx) continue;
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const flat = document.createElement('img');
+      flat.src = canvas.toDataURL('image/png');
+      flat.style.cssText = `display:block;width:${rect.width}px;height:${rect.height}px;`;
+      const prevDisplay = svg.style.display;
+      svg.before(flat);
+      svg.dataset.kamiHeavySvg = '';
+      svg.style.display = 'none';
+      restores.push(() => {
+        flat.remove();
+        svg.style.display = prevDisplay;
+        delete svg.dataset.kamiHeavySvg;
+      });
+    } catch {
+      /* this svg rides the slow walked path instead */
+    }
+  }
+  return restores;
+}
+
 export const snapshotDom: DomSnapshotter = async (el) => {
+  let restores: (() => void)[] = [];
   try {
+    restores = await flattenHeavySvgs(el);
     return await domToPng(el, {
       filter: (node) =>
         !(
-          node instanceof HTMLElement &&
-          OVERLAY_MARKS.some((mark) => node.dataset[mark] !== undefined)
+          (node instanceof HTMLElement || node instanceof SVGElement) &&
+          (OVERLAY_MARKS.some((mark) => node.dataset[mark] !== undefined) ||
+            node.dataset.kamiHeavySvg !== undefined)
         ),
     });
   } catch {
     return null;
+  } finally {
+    for (const restore of restores) restore();
   }
 };
 

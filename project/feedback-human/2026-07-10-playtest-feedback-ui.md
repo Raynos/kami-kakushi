@@ -231,6 +231,43 @@ type-filters; mint-row present / absent when exact; arrows+Enter pick without
 sending; pointerdown picks; Escape closes menu-then-box; teardown leaves no
 orphan listbox on `<body>`), plus a screenshot of the real thing.
 
+### FB-337 · Capture shot takes ~10 s with the map open — ✅
+**Verbatim:** _"Bug for feedback, if the map is open then the whole dom 2 png
+thing takes too long. / We need a new strategy because the elements in the SVG
+are just too mcuh."_
+**Reading:** exactly right, and measured: `domToPng` clones every DOM node and
+inlines its computed styles one by one. The map sheet is one SVG of **15,583
+elements**, so the shot goes 956 nodes / 722 ms (map closed) → 16,553 nodes /
+**10.4 s** (map open) — a ten-second main-thread stall at submit.
+**Fixed in:** `capture-screenshot.ts` — the new strategy the note asks for:
+don't let the walker see the big SVG at all. Any `<svg>` over 500 descendants
+is pre-rasterised by the **browser's own renderer** (~160 ms for the map):
+serialize it, embed the page's same-origin CSS into the clone, resolve the
+`var(--…)` tokens against the live cascade, draw it through an `Image` →
+canvas at its on-screen rect × DPR, swap the flat `<img>` in, and **filter the
+original out of the walk** — hiding alone is not enough, the cloner walks
+`display:none` subtrees too (measured: 16 s, *worse*). Restores the DOM after;
+any failure falls back to the slow walked path (a screenshot is a best-effort
+viewing aid, never allowed to break the capture).
+Two things an SVG-as-image loses, both restored explicitly: it is a separate
+document, so **page stylesheets** don't reach it (the pills' kanji + captions
+are `.t0v2-kanji { fill: var(--ink) }`-class-styled — without the embedded CSS
+they rasterised default-black on the near-black ground; the human caught the
+text loss live after my first eyeball check passed a shrunken full-page shot —
+a false green, PH3) and **custom properties** don't reach it (the var() pass;
+fonts are fine, `--font-head/body` are system stacks).
+**Verified in a real browser** (the captured save, 1496×752 @dpr2): map-open
+shot **10.4 s → 863 ms**, map-closed path unchanged, and the raw map raster
+dumped at full size and checked against the live SVG — every pill kanji
+(堰・竈・庭・薪・門・田・廃), caption, edge note and the title cartouche
+present. No unit test by design: this module is the injected DOM half of the
+capture split (jsdom has no canvas/Image); the headless timing run above is
+the repro record.
+**Distilled rule:** a DOM-walking rasteriser and a huge retained-mode SVG don't
+mix — flatten the SVG through the native renderer first and shoot the flat
+pixels. (Joins the FB-218/219 family in qa-playtesting.md §9: observe without
+perturbing, and keep the shot off the interaction path.)
+
 ### FB-260 · "Test" — ✅ not a defect
 **Verbatim:** _"Test"_ (picked element: `panel "do"` — the "What you can do" heading)
 **Reading:** a **smoke test** of the rebuilt capture UI, taken on build `b9abe14`
