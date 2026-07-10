@@ -31,15 +31,19 @@ let mapMaxed = false;
 const exitMaxRef: { current: (() => void) | null } = { current: null };
 let escWired = false;
 
-// ── FB-340 — travel presence: the marker + the move animation, played when a rebuild is a
-//    COMPLETED walk (here changed to an adjacent node — a load/teleport never animates).
-//    Four diverged idioms (ADR-075): 'glide' (A, ships) — the vermilion ring travels the
-//    walked edge; 'steps' (B) — ink footprints stamp along it, the ring presses in;
-//    'follow' (C) — the ring presses in and the VIEW pans your position back to centre;
-//    'trail' (D = B+C, human 2026-07-10) — the footprints stamp WHILE the sheet pans to
-//    follow you, ring pressing in on arrival, then the prints weather away.
-export type TravelPresence = 'glide' | 'steps' | 'follow' | 'trail';
-let prevHere: string | null = null;
+// ── FB-340 (HR-26) — travel presence: footsteps + follow (the human-picked idiom). When a
+//    move_to action STARTS, ink footprints stamp along the walked edge WHILE the sheet pans
+//    your position to centre and a ring presses in on arrival — ALL synced to the move's
+//    ActionClock timer (ADR-148), so the walk plays DURING the timer (never after) and arrives
+//    exactly as it completes. render.ts fires it via `travelPresenceRef`; the `sample` thunk is
+//    the clock's live fraction, so the animation respects pause / freeze / the speed multiplier.
+/** The live sheet's travel-presence player, repointed on every renderMapSheet. Null when no
+ *  sheet is mounted. `sample()` yields the ActionClock's {fraction 0→1, running} for the move. */
+export const travelPresenceRef: {
+  current:
+    | ((fromId: string, toId: string, sample: () => { fraction: number; running: boolean }) => void)
+    | null;
+} = { current: null };
 
 /** Is a node surveyed (its reveal flag met, or always-open) — and not locked scenery? */
 function isSurveyed(id: string, revealed: ReadonlySet<string>): boolean {
@@ -174,7 +178,6 @@ export function renderMapSheet(
   ctx: MapCtx,
   state: GameState,
   dispatch: (intent: Intent) => void,
-  presence: TravelPresence = 'glide', // FB-340 — 'glide' ships; B/C only reachable from dev.ts
 ): void {
   void state;
   void dispatch; // movement flows through ctx.move (the real move_to)
@@ -462,40 +465,35 @@ export function renderMapSheet(
   container.append(style, wrap);
   wrap.append(svg, controls, hint);
 
-  // ── FB-340 — play the travel presence when THIS rebuild completed a walk: here changed,
-  //    and from an ADJACENT node (a save-load / teleport is never a walk, so never animates).
-  //    One-shot, a live response to the player's own move (P14); reduced-motion → instant (P12).
-  const from = prevHere;
-  prevHere = ctx.here;
-  const fa = from !== null ? ANCHORS[from] : undefined;
-  const ta = ANCHORS[ctx.here];
-  const walked =
-    from !== null &&
-    from !== ctx.here &&
-    fa !== undefined &&
-    ta !== undefined &&
-    getNode(ctx.here).neighbors.includes(from);
-  if (!walked || import.meta.env.MODE === 'test') return;
-  const reduced =
-    typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) {
-    // instant, never omitted: the static ring is already drawn; C and D (both follow the
-    // view) still recentre, sans glide/footsteps.
-    if (presence === 'follow' || presence === 'trail') {
+  // ── FB-340 (HR-26) — arm the travel-presence player for THIS sheet. render.ts fires it the
+  //    instant a move_to action STARTS, so the footsteps + follow play DURING the move's
+  //    ActionClock timer (synced to it), not after. A save-load / teleport never presses a
+  //    timed move, so it never animates a non-walk (P14 — a live response to the player's move).
+  travelPresenceRef.current = (fromId, toId, sample) => {
+    const fa = ANCHORS[fromId];
+    const ta = ANCHORS[toId];
+    if (fa === undefined || ta === undefined || import.meta.env.MODE === 'test') return;
+    const reduced =
+      typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      // P12 — reduced-motion: no footsteps; the view simply follows to centre for the arrival.
       vb.x = ta.x - vb.w / 2;
       vb.y = ta.y - vb.h / 2;
       clampVb();
       applyVb();
+      return;
     }
-    return;
-  }
-  runPresence(presence, svg, fa!, ta, { vb, clampVb, applyVb });
+    runFootstepsFollow(svg, fa, ta, { vb, clampVb, applyVb }, sample);
+  };
 }
 
-/** The FB-340 presence animations. All three drive the ONE here-ring idiom (P2) with a
- *  rAF timeline that aborts the moment the sheet is replaced (svg.isConnected — TST2). */
-function runPresence(
-  mode: TravelPresence,
+/** FB-340 (HR-26) — the travel presence: ink footprints stamp along the walked edge WHILE the
+ *  sheet pans your position to centre and a destination ring presses in, ALL synced to the move
+ *  timer. `sample()` yields the ActionClock's live {fraction 0→1, running}; the animation reads
+ *  it each frame, so the walk's speed exactly matches the timer, it pauses/freezes with the clock,
+ *  and it arrives as the timer completes. The prints live in SVG user-space, so they ride the
+ *  panning viewBox. Aborts the instant the sheet is replaced (svg.isConnected — TST2). */
+function runFootstepsFollow(
   svg: SVGElement,
   from: { readonly x: number; readonly y: number },
   to: { readonly x: number; readonly y: number },
@@ -504,214 +502,88 @@ function runPresence(
     clampVb: () => void;
     applyVb: () => void;
   },
+  sample: () => { fraction: number; running: boolean },
 ): void {
-  const ring = svg.querySelector<SVGCircleElement>('.sheetmap-here-ring');
+  const clamp01 = (n: number): number => Math.min(1, Math.max(0, n));
+  const ease = (t: number): number => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+  // you are leaving `from`: hide its resting here-ring for the transit; restore it if the move
+  // is cancelled (on completion the sheet rebuilds with the real ring already at `to`).
+  const hereRing = svg.querySelector<SVGCircleElement>('.sheetmap-here-ring');
+  if (hereRing) hereRing.style.opacity = '0';
   const overlay = sv('g', { class: 'sheetmap-presence', 'pointer-events': 'none' });
   svg.append(overlay);
-  const ease = (t: number): number => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
   const done = (): void => {
     overlay.remove();
-    if (ring) {
-      ring.removeAttribute('style');
-      ring.setAttribute('r', '92');
-    }
-  };
-  const animate = (durMs: number, frame: (t: number) => void, end: () => void): void => {
-    const t0 = performance.now();
-    const step = (now: number): void => {
-      if (!svg.isConnected) return; // a rebuild replaced this sheet mid-flight — stop cold
-      const t = Math.min(1, (now - t0) / durMs);
-      frame(t);
-      if (t < 1) requestAnimationFrame(step);
-      else end();
-    };
-    requestAnimationFrame(step);
-  };
-  /** The hanko press: the ring settles from wide+faint to its resting stamp. */
-  const press = (t: number): void => {
-    if (!ring) return;
-    const p = Math.min(1, t);
-    ring.style.opacity = String(0.85 * p);
-    ring.setAttribute('r', String(92 + 36 * (1 - ease(p))));
+    if (hereRing) hereRing.removeAttribute('style'); // un-hide (move cancelled → stay at `from`)
   };
 
-  if (mode === 'glide') {
-    // A — the seal glides: ring + plumb dot travel the walked edge; a dashed ink line
-    // draws the walk and fades once the seal has settled.
-    if (ring) ring.style.opacity = '0';
-    const line = sv('line', {
-      x1: String(from.x),
-      y1: String(from.y),
-      x2: String(to.x),
-      y2: String(to.y),
-      stroke: 'var(--shu)',
-      'stroke-width': '2.5',
-      'stroke-dasharray': '10 9',
-      opacity: '0.35',
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  const len = Math.hypot(dx, dy) || 1;
+  const nx = -dy / len;
+  const ny = dx / len;
+  const angle = ((Math.atan2(dy, dx) * 180) / Math.PI).toFixed(1);
+  const N = 6;
+  const feet: SVGElement[] = [];
+  for (let i = 1; i <= N; i++) {
+    const f = i / (N + 1);
+    const side = i % 2 === 0 ? 1 : -1;
+    const cx = from.x + dx * f + nx * side * 14;
+    const cy = from.y + dy * f + ny * side * 14;
+    const foot = sv('ellipse', {
+      cx: String(cx),
+      cy: String(cy),
+      rx: '15',
+      ry: '7',
+      transform: `rotate(${angle} ${cx} ${cy})`,
+      fill: 'var(--shu)',
+      opacity: '0',
     });
-    const tRing = sv('circle', {
-      r: '92',
-      fill: 'none',
-      stroke: 'var(--shu)',
-      'stroke-width': '2',
-      opacity: '0.85',
-    });
-    const tDot = sv('circle', { r: '9', fill: 'var(--shu)', opacity: '0.9' });
-    overlay.append(line, tRing, tDot);
-    animate(
-      650,
-      (t) => {
-        const e = ease(t);
-        const x = from.x + (to.x - from.x) * e;
-        const y = from.y + (to.y - from.y) * e;
-        for (const c of [tRing, tDot]) {
-          c.setAttribute('cx', String(x));
-          c.setAttribute('cy', String(y));
-        }
-      },
-      () => {
-        if (ring) ring.style.opacity = '0.85';
-        tRing.remove();
-        tDot.remove();
-        animate(420, (t) => line.setAttribute('opacity', String(0.35 * (1 - t))), done);
-      },
-    );
-    return;
+    overlay.append(foot);
+    feet.push(foot);
   }
+  // the destination ring: a temp mark that presses in at `to` as you arrive (the real here-ring
+  // takes its place on the completion rebuild — same resting r/opacity, so the swap is seamless).
+  const destRing = sv('circle', {
+    cx: String(to.x),
+    cy: String(to.y),
+    r: '128',
+    fill: 'none',
+    stroke: 'var(--shu)',
+    'stroke-width': '2',
+    opacity: '0',
+  });
+  overlay.append(destRing);
 
-  if (mode === 'steps') {
-    // B — ink footsteps: alternating brush dabs stamp along the walked edge, then the
-    // ring presses in at the destination like a hanko; the prints weather away after.
-    if (ring) ring.style.opacity = '0';
-    const dx = to.x - from.x;
-    const dy = to.y - from.y;
-    const len = Math.hypot(dx, dy) || 1;
-    const px = -dy / len;
-    const py = dx / len;
-    const angle = ((Math.atan2(dy, dx) * 180) / Math.PI).toFixed(1);
-    const N = 6;
-    const feet: SVGElement[] = [];
-    for (let i = 1; i <= N; i++) {
-      const t = i / (N + 1);
-      const side = i % 2 === 0 ? 1 : -1;
-      const cx = from.x + dx * t + px * side * 14;
-      const cy = from.y + dy * t + py * side * 14;
-      const f = sv('ellipse', {
-        cx: String(cx),
-        cy: String(cy),
-        rx: '15',
-        ry: '7',
-        transform: `rotate(${angle} ${cx} ${cy})`,
-        fill: 'var(--shu)',
-        opacity: '0',
-      });
-      overlay.append(f);
-      feet.push(f);
-    }
-    const stepMs = 110;
-    const pressAt = N * stepMs + 120;
-    const total = pressAt + 260 + 420;
-    animate(
-      total,
-      (t) => {
-        const ms = t * total;
-        feet.forEach((f, i) => {
-          const born = (i + 1) * stepMs;
-          if (ms < born) return;
-          const inO = Math.min(0.75, ((ms - born) / 140) * 0.75);
-          const fade = ms > pressAt + 260 ? Math.max(0, 1 - (ms - pressAt - 260) / 420) : 1;
-          f.setAttribute('opacity', String(inO * fade));
-        });
-        if (ms >= pressAt) press((ms - pressAt) / 260);
-      },
-      done,
-    );
-    return;
-  }
-
-  if (mode === 'trail') {
-    // D (B+C) — the sheet walks with you AND leaves a trail: ink footprints stamp along the
-    // walked edge WHILE the VIEW pans that spot back to centre (at the player's own zoom),
-    // the ring pressing in as you arrive. Everything runs at once and briskly — the prints
-    // land from the first frame, the pan follows immediately, and a short tail weathers the
-    // trail away with no dead beat. The footprints live in SVG user-space, so they ride the
-    // panning viewBox — the trail slides with the sheet.
-    if (ring) ring.style.opacity = '0';
-    const dx = to.x - from.x;
-    const dy = to.y - from.y;
-    const len = Math.hypot(dx, dy) || 1;
-    const nx = -dy / len;
-    const ny = dx / len;
-    const angle = ((Math.atan2(dy, dx) * 180) / Math.PI).toFixed(1);
-    const N = 6;
-    const feet: SVGElement[] = [];
-    for (let i = 1; i <= N; i++) {
-      const f = i / (N + 1);
-      const side = i % 2 === 0 ? 1 : -1;
-      const cx = from.x + dx * f + nx * side * 14;
-      const cy = from.y + dy * f + ny * side * 14;
-      const foot = sv('ellipse', {
-        cx: String(cx),
-        cy: String(cy),
-        rx: '15',
-        ry: '7',
-        transform: `rotate(${angle} ${cx} ${cy})`,
-        fill: 'var(--shu)',
-        opacity: '0',
-      });
-      overlay.append(foot);
-      feet.push(foot);
-    }
-    const walkMs = 520; // the prints land + the view arrives together
-    const tailMs = 240; // a short weather tail, overlapping arrival — no static pause
-    const total = walkMs + tailMs;
-    const sx = view.vb.x;
-    const sy = view.vb.y;
-    const txx = to.x - view.vb.w / 2;
-    const tyy = to.y - view.vb.h / 2;
-    animate(
-      total,
-      (t) => {
-        const ms = t * total;
-        // the sheet follows from the first frame, arriving as the walk completes
-        const e = ease(Math.min(1, ms / walkMs));
-        view.vb.x = sx + (txx - sx) * e;
-        view.vb.y = sy + (tyy - sy) * e;
-        view.clampVb();
-        view.applyVb();
-        feet.forEach((foot, i) => {
-          const born = (i / N) * (walkMs * 0.7); // first print ~0ms, last ~0.7·walk
-          if (ms < born) return;
-          const inO = Math.min(0.8, ((ms - born) / 90) * 0.8);
-          const fade = ms > walkMs ? Math.max(0, 1 - (ms - walkMs) / tailMs) : 1;
-          foot.setAttribute('opacity', String(inO * fade));
-        });
-        // the ring fades and settles across the whole walk — the marker is present throughout,
-        // never a void, and rests as a hanko stamp on arrival
-        press(Math.min(1, ms / walkMs));
-      },
-      done,
-    );
-    return;
-  }
-
-  // C — the sheet walks with you: the ring presses in where you now stand, and the VIEW
-  // pans so that spot glides back to centre — at the player's own zoom, never resetting it.
-  if (ring) ring.style.opacity = '0';
   const sx = view.vb.x;
   const sy = view.vb.y;
   const txx = to.x - view.vb.w / 2;
   const tyy = to.y - view.vb.h / 2;
-  animate(
-    700,
-    (t) => {
-      const e = ease(t);
-      view.vb.x = sx + (txx - sx) * e;
-      view.vb.y = sy + (tyy - sy) * e;
-      view.clampVb();
-      view.applyVb();
-      press(t / 0.4);
-    },
-    done,
-  );
+  const LAY = 0.85; // the trail lays down over the first 85% of the walk; the ring settles by the end
+  const step = (): void => {
+    if (!svg.isConnected) return; // a rebuild replaced this sheet mid-walk — stop cold (TST2)
+    const s = sample();
+    const p = clamp01(s.fraction);
+    // the sheet follows the walk fraction — arriving exactly as the timer completes
+    const e = ease(p);
+    view.vb.x = sx + (txx - sx) * e;
+    view.vb.y = sy + (tyy - sy) * e;
+    view.clampVb();
+    view.applyVb();
+    // footprints stamp in walking order across the walk; each fades in when the walk reaches it
+    feet.forEach((foot, i) => {
+      const born = (i / N) * LAY;
+      foot.setAttribute(
+        'opacity',
+        p < born ? '0' : String(Math.min(0.8, ((p - born) / 0.12) * 0.8)),
+      );
+    });
+    // the destination ring presses in across the whole walk, resting as a hanko on arrival
+    const rp = ease(p);
+    destRing.setAttribute('opacity', String(0.85 * rp));
+    destRing.setAttribute('r', String(92 + 36 * (1 - rp)));
+    if (s.running && p < 1) requestAnimationFrame(step);
+    else done();
+  };
+  requestAnimationFrame(step);
 }

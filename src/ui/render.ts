@@ -141,7 +141,7 @@ import type { Sfx } from './sfx';
 // the SHIPPED estate map — the 絵図 survey-plan sheet, the human-picked winner of the ADR-075
 // real-map diverge (HR-7). storywave G4.9: rebuilt on the map-sheets geometry (the ONE aligned
 // layout) since the old ezu.ts POS keyed to retired node ids and drew nothing for the G4 estate.
-import { renderMapSheet } from './map-variants/sheet-map';
+import { renderMapSheet, travelPresenceRef } from './map-variants/sheet-map';
 import { buildMapCtx, type MapCtx } from './map-variants/shared';
 import { COLD_OPEN, RAKE_DONE_REASON } from '../core/content/coldOpen';
 import { actionKey, type ActionClock } from '../app/action-clock';
@@ -5633,16 +5633,13 @@ export function mount(
     setText(r.blurb, hintText === '' ? blurbText : `${blurbText} ${hintText}`);
     // (b) the survey sheet — repaint ONLY when an input it reads changed (the sig guard): a move,
     // newly-surveyed ground, the conditioning gate, an estate stage, or a person arriving/leaving.
-    // The FB-340 presence variant folds into the sig (DEV-only) so the panel toggle repaints.
-    const presenceVariant = __DEV_TOOLS__ && dev ? dev.getVariant('travel-presence') : 'presence-a';
-    const sig = mapSignature(state) + '|' + presenceVariant;
+    // The FB-340 travel presence (footsteps + follow) plays DURING the move timer, fired from the
+    // clock-driven hook below — not on this rebuild.
+    const sig = mapSignature(state);
     if (sig !== r.sig) {
       r.sig = sig;
       r.nav.textContent = '';
-      // FB-340 diverge (ADR-075): a non-default presence renders via dev.ts; prod (dev
-      // undefined) always draws the shipped default A ('glide').
-      if (!(__DEV_TOOLS__ && dev && dev.renderVariant('travel-presence', r.nav, state, dispatch)))
-        renderMapSheet(r.nav, mapCtx(state), state, dispatch);
+      renderMapSheet(r.nav, mapCtx(state), state, dispatch);
     }
   }
 
@@ -6051,7 +6048,28 @@ export function mount(
       paintActBar(btn, st.phase, st.fraction, st.remainingMs);
     }
   }
-  hooks.clock.onChange(() => paintActionClock());
+  // FB-340 (HR-26) — fire the travel-presence footsteps+follow the instant a move_to action
+  // STARTS, so the walk plays DURING the move timer (synced to the clock fraction), not after it
+  // completes. The `sample` thunk reads the live clock, so the animation matches the timer's
+  // length and pauses/freezes with it; the map's own player (travelPresenceRef) owns the view.
+  let presenceMoveKey: string | null = null;
+  function maybeStartTravelPresence(): void {
+    const key = hooks.clock.runningKey();
+    if (key === presenceMoveKey) return; // unchanged since last change event
+    presenceMoveKey = key;
+    if (key === null || !key.startsWith('move_to:')) return;
+    const toId = key.slice('move_to:'.length);
+    const fromId = lastState?.location;
+    if (fromId === undefined || fromId === toId) return;
+    travelPresenceRef.current?.(fromId, toId, () => {
+      const st = hooks.clock.status(key);
+      return { fraction: st.fraction, running: st.phase === 'running' };
+    });
+  }
+  hooks.clock.onChange(() => {
+    paintActionClock();
+    maybeStartTravelPresence();
+  });
 
   // ── FB-264 — the DEV action hover-detail card ────────────────────────────────
   // Toggled from the DEV panel's Settings pane (body[data-dev-act-hover]); one

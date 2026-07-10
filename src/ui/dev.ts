@@ -65,8 +65,6 @@ import { FLAVOR } from '../core/content/flavor';
 import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
 import { mountRequirementsCheatlist } from './dev-cheatlist';
 import { openT0V2Map, openT1Map, openT2Map } from './map-sheets/sheet';
-import { renderMapSheet, type TravelPresence } from './map-variants/sheet-map';
-import { buildMapCtx } from './map-variants/shared';
 import { openStampBook } from './stamp-book/book';
 import { openEstateSheet } from './estate-sheet/demo';
 import { openSceneCards } from './scene-cards/cards';
@@ -258,40 +256,10 @@ export const SURFACES: SurfaceDef[] = [
   //    render.ts stamps the two data-attributes as CONSTANTS and CSS does all the arranging. No
   //    dead variant code ships (the classic / 番付 / 巻物 layouts + woodblock-box / hairline
   //    framings were removed here and from styles.css). ──
-  // FB-340 — travel presence on the live estate map: the marker + the walk animation. All
-  //   three drive the ONE here-ring idiom (P2) over the SAME sheet render (sheet-map.ts's
-  //   `presence` mode); walk a zone edge on the Map tab to see each play.
-  {
-    id: 'travel-presence',
-    rung: 1,
-    label: 'Map travel presence (FB-340)',
-    variants: [
-      {
-        id: 'presence-a',
-        label: 'A · glide seal',
-        blurb:
-          'The vermilion ring glides along the walked edge; a dashed ink line draws and fades (the shipped default).',
-      },
-      {
-        id: 'presence-b',
-        label: 'B · ink footsteps',
-        blurb:
-          'Brush footprint dabs stamp along the path; the ring presses in at the destination like a hanko.',
-      },
-      {
-        id: 'presence-c',
-        label: 'C · the sheet walks',
-        blurb:
-          'The ring presses in where you stand and the VIEW pans your position back to centre — at your zoom.',
-      },
-      {
-        id: 'presence-d',
-        label: 'D · footsteps + follow',
-        blurb:
-          'B+C together — footprints stamp along the path WHILE the sheet pans to follow you; the ring presses in on arrival, the prints weather away.',
-      },
-    ],
-  },
+  // ── FB-340 travel presence (HR-26) — the human picked D (footsteps + follow) and it is now
+  //    the SOLE shipped behavior, driven by the move's ActionClock timer (sheet-map.ts's
+  //    `travelPresenceRef`). The A/B/C/D toggle was pruned (ADR-075 zero-flag-debt); no variant
+  //    code ships. Recover the alternates from git history if ever needed. ──
 ];
 
 export interface DevApi {
@@ -541,33 +509,7 @@ function renderSurfaceVariant(
   if (surface === 'quests') return renderQuestsVariant(variantId, container, state, dispatch);
   if (surface === 'bestiary') return renderBestiaryVariant(variantId, container, state);
   if (surface === 'home') return renderHomeVariant(variantId, container, state, dispatch);
-  if (surface === 'travel-presence')
-    return renderTravelPresenceVariant(variantId, container, state, dispatch);
   return false;
-}
-
-/** The FB-340 travel-presence alternates (B/C/D): the SAME sheet render with a different
- *  presence mode — the whole surface is shared, only the walk idiom forks, so the variant
- *  is the `presence` parameter rather than a duplicated renderer (AC-19: the estate-style
- *  full-duplicate mechanism would fork the entire survey sheet). */
-function renderTravelPresenceVariant(
-  variantId: string,
-  container: HTMLElement,
-  state: GameState,
-  dispatch: (intent: Intent) => void,
-): boolean {
-  const mode: TravelPresence | null =
-    variantId === 'presence-b'
-      ? 'steps'
-      : variantId === 'presence-c'
-        ? 'follow'
-        : variantId === 'presence-d'
-          ? 'trail'
-          : null;
-  if (mode === null) return false; // presence-a — the caller renders the shipped default
-  container.textContent = '';
-  renderMapSheet(container, buildMapCtx(state, dispatch), state, dispatch, mode);
-  return true;
 }
 
 /** The diverged Bestiary (B / C) — DEV-only, stripped from prod. Default A (the field-guide card
