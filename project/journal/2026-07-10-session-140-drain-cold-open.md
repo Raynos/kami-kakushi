@@ -114,6 +114,20 @@ grammar form + intro retags (FB-198), the fresh-divider made anchored + 30s
   Story swatch trio stripped from dev.ts (zero flag-debt), HR-22 →
   archive.md. Git history keeps swatches B/C.
 
+## Post-checkpoint follow-ups (human asks)
+
+- **FB-235** — the FB-228 collision's TRUE root cause found and fixed: claims
+  recorded `pane: 'unknown'` (the CLI only read `--pane`, never
+  `HERDR_PANE_ID`), failed the liveness probe as DEAD, and the capture-time
+  allocator rightly ignored the "dead" claim's reserved block. `inbox-claim`
+  now defaults the pane from `HERDR_PANE_ID` (+ a loud WARN when unknown);
+  proven live — a fresh claim reads `w6:p1 … alive`. The capture allocator
+  itself was already correct (new captures stamped FB-261..263, unique).
+- FB-228's distilled rules graduated to `ui-design.md` §2 (one token per
+  voice per surface · narration=ground/speech=figure+indent · quote-tint by
+  unambiguous inference); the chroma-vs-lightness law was already distilled
+  by the co-agent lane (FB-216/FB-234).
+
 ## Next intended steps
 
 - The human reads the HD-37 plan → step 1 (mechanical restore) can start on

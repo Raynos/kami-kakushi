@@ -107,8 +107,17 @@ if (cmd === 'claim') {
     console.error('claim: name the lane(s) to claim');
     process.exit(1);
   }
-  const pane = flags.get('pane') ?? 'unknown';
+  // FB-235 — default the pane from herdr's own env: a claim recorded 'unknown' fails
+  // the liveness probe (no such pane), reads as DEAD, and its reserved FB block gets
+  // silently handed to capture-time stamping — the exact FB-228 collision (2026-07-10).
+  const pane = flags.get('pane') ?? process.env.HERDR_PANE_ID ?? 'unknown';
   const agent = flags.get('agent') ?? 'claude';
+  if (pane === 'unknown') {
+    console.error(
+      '  ~ WARN: no --pane and no HERDR_PANE_ID — this claim will read as DEAD to the',
+      'liveness probe and its reserved FB block may be ignored. Pass --pane <w:p>.',
+    );
+  }
 
   const mine = items.filter((i) => lanes.includes(i.lane));
   const open = mine.filter((i) => i.status === 'open');
