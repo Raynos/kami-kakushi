@@ -2796,3 +2796,52 @@ describe('F224 — rake teach cooldown covers its own text', () => {
     expect(rakeTeachPending([...RAKE_TEACH_LINE_IDS])).toBe(false);
   });
 });
+
+// ── FB-358 (inbox drain 2026-07-10) — a state swap that COLLAPSES the tab set (the DEV
+//    "NG (post open)" fixture load: a deep-R1 run → a fresh R0 state) must not leave the
+//    old tab's panel on screen. renderNav's <2-tabs early return used to skip the
+//    activeTab-not-in-list fallback, so activeTab stayed 'map' and the map pane kept
+//    rendering over an R0 state (no map unlock). RED against that order.
+describe('FB-358 — a tab-set collapse resets activeTab to work', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  it('loading an R0 state while the Map tab is active falls back to the Work panel', () => {
+    const base = createInitialState(1);
+    const rich: GameState = {
+      ...base,
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, 'room-gate', 'panel-estate', 'panel-home'],
+    };
+    const render = mount(root, () => {}, noopHooks());
+    render(rich, null);
+    const mapTab = [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')].find((b) =>
+      (b.textContent ?? '').includes('地図'),
+    );
+    expect(mapTab).toBeDefined();
+    mapTab!.click(); // setTab('map') re-renders off lastState
+    const mapPane = root.querySelector<HTMLElement>('.map-pane')!;
+    expect(mapPane.hidden).toBe(false);
+    // the fixture-load swap: a fresh awake R0 state — no map content, tab set collapses
+    const r0: GameState = { ...createInitialState(1), flags: { awake: true } };
+    render(r0, null);
+    expect(mapPane.hidden).toBe(true); // the stale map pane must drop…
+    const doPane = root.querySelector<HTMLElement>('[data-panel=do]')!;
+    expect(doPane.hidden).toBe(false); // …and the Work panel take its place
+  });
+});

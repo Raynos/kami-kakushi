@@ -1371,11 +1371,17 @@ export function mount(
   }
   function renderNav(state: GameState): void {
     const tabs = visibleTabs(state);
+    // the activeTab-not-in-list fallback → 'work' (a tab that lost its content, or a stale save).
+    // FB-358 — this must run BEFORE the <2-tabs early return: a state swap that collapses the
+    // whole tab set (the DEV "NG (post open)" fixture load) used to skip it, leaving activeTab
+    // 'map' and the map pane rendering over an R0 state.
+    if (!tabs.includes(activeTab)) {
+      activeTab = 'work';
+      root.dataset.activeTab = activeTab; // keep the FB-3 capture-overlay stamp in sync
+    }
     // the nav bar shows only once ≥2 tabs qualify (unchanged: appears at R1 when Map joins).
     toggle(nav, tabs.length >= 2);
     if (tabs.length < 2) return;
-    // the activeTab-not-in-list fallback → 'work' (a tab that lost its content, or a stale save).
-    if (!tabs.includes(activeTab)) activeTab = 'work';
     // the tab SET changes rarely (a chip lights up at a rung boundary), so a wholesale rebuild of a
     // handful of buttons only WHEN the set or the active tab changes is cheap + idle-churn-free. The
     // reconcileList keeps each chip's node stable across idle ticks (node-identity, FB-81 / §7).

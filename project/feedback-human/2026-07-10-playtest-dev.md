@@ -166,3 +166,26 @@ its own header — an anonymous catch-all bucket hides information (TST4).
 the gate rung, not as a norm), and the Story pane renders each distinct reason
 as its own `— other · <reason> —` header. Today all 12 bundles carry a numeric
 rung, so no other-header renders; the tests pin both paths.
+
+## Fixture / reset cascade (bucket `dev`, session of 2026-07-10 19:04–19:18 — w6:p1 pass)
+
+Third pass over the bucket: three captures (all FB-stamped at capture time),
+drained whole-lane with the r0 + vn-overlay + work-actions cluster lanes;
+wholesale proposal approved by the human 2026-07-10.
+
+### FB-358 · "NG (post open)" leaves the old screen up — ✅
+**Verbatim:** _"When i click 'NG (post open)' It doesnt reset all the state
+correctly, im still on the map screen, like something is just completely fucked
+in the UI / DOM […] I feel like the new game button is implemented properly, and
+NG (post open) is buggy as shit."_
+**Reading:** the fixture LOADS correctly (state really becomes R0 post-cold-open;
+verified headlessly — all 9 fixtures import clean), but the UI never followed:
+`renderNav`'s <2-tabs early return skipped the activeTab-not-in-list fallback,
+so `activeTab` stayed `map` and the map pane (`show = activeTab === 'map'`, no
+unlock check) kept rendering the whole R1+ shell over the R0 state.
+**Distilled rule:** a state-driven early return must not skip the invariant
+repairs above it — reconcile derived UI state (activeTab) BEFORE bailing on
+"nothing to draw".
+**Fixed in:** this commit — the fallback hoisted above the early return (+ the
+FB-3 `data-active-tab` stamp kept in sync); RED-able jsdom test drives the exact
+swap (rich R1 map tab → fresh R0 render) and failed against the old order.
