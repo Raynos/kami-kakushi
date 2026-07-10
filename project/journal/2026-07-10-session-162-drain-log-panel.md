@@ -43,9 +43,14 @@ prefix). Nine fix groups A–I; one commit per group; F-entries in
   write had been a no-op). Verified live: footGap 0, zero .reveal on reveal.
   Rides with the C renderer hunk (no duplicate lintel on a same-scene reopen).
 
-## Next intended steps
+- **G · FB-325/FB-326 — the Now lamp.** Confirmed hole: a coalesced repeat
+  (same key, ×N bump) never re-stamped, so a player grinding one verb never
+  saw the lamp re-light after its first 10s window. `stampEphemeral` now
+  re-stamps on a count bump (lamp re-lights + that line's fade restarts);
+  `.tab-now.live` gains a warm gold background wash (the bare text tint read
+  as "no change"). Verified: re-lights on rake #2, lapses clean when idle.
 
-- B follow-through: none — verified
+## Next intended steps
 - E · FB-321/FB-322 — typewriter styled reveal
 - F · FB-323 — divider re-anchor when pinned
 - G · FB-325/FB-326 — Now lamp coalesce re-stamp + bg wash

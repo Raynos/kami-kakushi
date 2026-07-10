@@ -1220,6 +1220,9 @@ export function mount(
   // FB-115 — the high-water key already stamped; keys are monotonic (log.seq), so a stamp aged out of
   // `nowSeen` is NEVER re-created fresh when it's still present in the (permanent) log ring.
   let lastEphStampKey = -1;
+  // FB-325 — the ×N count already stamped for `lastEphStampKey`: a coalesce bump past it
+  // re-stamps (new text re-lights the lamp + restarts that line's fade clock).
+  let lastEphStampCount = 0;
   // F58b — pending height-collapse timers (one per expiring Now line); tracked so a reset tears them
   // all down (leak-free, per the FB-53 discipline).
   const nowCollapseTimers = new Set<number>();
@@ -4378,15 +4381,28 @@ export function mount(
   // The monotonic high-water key means an entry whose stamp already aged out of `nowSeen` is never
   // re-stamped fresh (it stays in the permanent log ring, but its render-life is over). Starts the
   // expiry clock the moment there's anything to age out.
+  // FB-325 — ONE exception to the never-re-stamp rule: a COALESCED repeat (the same key bumping
+  // its ×N count — a re-rake, a repeated flavor) IS new text arriving, so it re-stamps: the Now
+  // lamp re-lights and the line's fade clock restarts with the fresh arrival. Without this a
+  // player grinding one verb never saw the lamp again after its first 10s window lapsed.
   function stampEphemeral(state: GameState): void {
     const now = Date.now();
     let maxKey = lastEphStampKey;
+    let maxCount = lastEphStampCount;
     for (const e of state.log.entries) {
       if (e.ephemeral !== true) continue;
       if (e.key > lastEphStampKey) nowSeen.set(e.key, now);
-      if (e.key > maxKey) maxKey = e.key;
+      else if (e.key === lastEphStampKey && (e.count ?? 1) > lastEphStampCount)
+        nowSeen.set(e.key, now); // FB-325 — the coalesce bump re-stamps
+      if (e.key > maxKey) {
+        maxKey = e.key;
+        maxCount = e.count ?? 1;
+      } else if (e.key === maxKey) {
+        maxCount = Math.max(maxCount, e.count ?? 1);
+      }
     }
     lastEphStampKey = maxKey;
+    lastEphStampCount = maxCount;
     if (nowSeen.size > 0) ensureExpiryClock();
     refreshNowLive();
   }

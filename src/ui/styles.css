@@ -785,6 +785,10 @@ h3 {
   color: var(--gold-hi);
   border-color: var(--key);
   text-shadow: 0 0 6px rgba(216, 185, 120, 0.35);
+  /* FB-326 — the lamp lights the whole chip, not just its glyphs: a warm gold wash
+     makes "fleeting text just landed" legible at a glance (TST4), where the bare
+     text tint read as no change at all (FB-325). */
+  background: rgba(216, 185, 120, 0.16);
 }
 .log-filter-tab:focus-visible {
   outline: none;
