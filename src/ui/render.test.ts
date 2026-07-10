@@ -5,7 +5,14 @@
 // The feel-pass (Commit 8) render assertions: the pure ×N log formatter, the
 // unknown-foe fog gating, and the settings-modal a11y (textarea labels + Tab
 // focus-trap). DOM tests mount the real renderer and drive it like the app does.
-import { nodeSeasonalBlurb, satietyMax, activityForecast, getActivity } from '../core';
+import {
+  nodeSeasonalBlurb,
+  satietyMax,
+  hungerMax,
+  restQuality,
+  activityForecast,
+  getActivity,
+} from '../core';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   mount,
@@ -576,6 +583,32 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     // the hover title says what the meter IS and what moves it (FB-334 vocabulary: "body")
     expect(body.title).toMatch(/^Body 体/);
     expect(body.title).not.toMatch(/satiety/i);
+  });
+
+  it('D-178 — the belly meter reveals WITH body, exact number + hover name, low = degraded rest', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const base = createInitialState(1);
+    const s: GameState = {
+      ...base,
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, 'readout-stamina'],
+      character: { ...base.character, hunger: 33 },
+    };
+    render(s, null);
+    const belly = root.querySelector<HTMLElement>('.vital.belly')!;
+    expect(belly.hidden).toBe(false);
+    // the FB-335 idiom: the exact "current/max" number, never a mystery strip
+    expect(belly.textContent).toContain(`33/${Math.round(hungerMax(s))}`);
+    // FB-334's law — the display name, never the internal field name
+    expect(belly.title).toMatch(/^Belly 腹/);
+    expect(belly.title).not.toMatch(/hunger/i);
+    // the low flag fires exactly when the teeth bite (restQuality < 1, AC-6) …
+    expect(restQuality(s)).toBeLessThan(1);
+    expect(belly.querySelector('.bar')!.classList.contains('low')).toBe(true);
+    // … and clears on a fed belly.
+    const fed: GameState = { ...s, character: { ...s.character, hunger: hungerMax(s) } };
+    render(fed, s);
+    expect(belly.querySelector('.bar')!.classList.contains('low')).toBe(false);
   });
 
   it('the Cook button becomes the PRIMARY "heal now" action when the MC is hurt (D-076 heal cue)', () => {

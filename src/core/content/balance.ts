@@ -434,10 +434,6 @@ export let EAT_RICE_COST = 2; // R9 (2026-07-05): 3→2, narrow eat's coin gap v
  *  shō: a proper meal RAISES the belly where the ration only holds it. provisional (v0.2,
  *  liquid ADR-059). `let` for the FB-7 balance cockpit — see RICE_PER_RAKE. */
 export let EAT_RICE_HUNGER = 30;
-/** @deprecated ADR-178 transition alias — the pre-split UI strings (render.ts, currently carrying
- *  another session's WIP) still read the old name; the Phase-2 belly-UI commit deletes BOTH the
- *  last reads and this alias. Display-only (module-init copy); never read by the core. */
-export const EAT_RICE_SATIETY = EAT_RICE_HUNGER;
 
 /** Rice SELL price — COIN paid per unit of rice, SWINGING BY SEASON (ADR-107 / §14): DEAR in the
  *  lean spring, CHEAP at the autumn glut — a light store-vs-sell TIMING decision that pairs with

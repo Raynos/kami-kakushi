@@ -555,6 +555,11 @@ h3 {
   background: linear-gradient(90deg, #5f8a6d, #9fc79a 60%, #c3e6bd);
   box-shadow: 0 0 6px rgba(159, 199, 154, 0.3);
 }
+.vital.belly .bar > span {
+  /* the belly (ADR-178) — warm rice-straw, distinct from body's verdant + life's silver */
+  background: linear-gradient(90deg, #8a7a4f, #c7b06a 60%, #e6d79a);
+  box-shadow: 0 0 6px rgba(199, 176, 106, 0.3);
+}
 .bar.low > span {
   background: linear-gradient(90deg, var(--shu-deep), var(--shu-hi));
   box-shadow: 0 0 6px rgba(222, 90, 58, 0.4);
@@ -1984,12 +1989,15 @@ h3 {
   color: var(--ai);
   font-size: var(--fs-h3);
 }
-.vital.stamina {
+.vital.stamina,
+.vital.belly {
+  /* body + belly share ONE idiom (ADR-178/FB-345 — the two-bar group): label+bar up, number under */
   flex-direction: column;
   gap: var(--space-1);
   align-items: flex-start;
 }
-.vital.stamina .bar {
+.vital.stamina .bar,
+.vital.belly .bar {
   width: 110px;
 }
 
@@ -2007,7 +2015,8 @@ h3 {
   background: var(--rokusho);
 }
 .vital.health .value,
-.vital.stamina .value {
+.vital.stamina .value,
+.vital.belly .value {
   /* the survival-critical HP number ("1/20") must read at a glance — not the tiniest glyph on
      screen (was --fs-micro, half the koku size; ui-design §5.7 / §10 hierarchy). FB-335 — the
      body meter carries the same exact-number readout, in the same quiet register. */
