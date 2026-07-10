@@ -66,6 +66,14 @@ prefix). Nine fix groups A–I; one commit per group; F-entries in
   front of the bumped line. Verified live: burst→divider above it, second
   burst→re-anchored, coalesce→marked.
 
+- **H · FB-320 — the Story vn/all sub-toggle.** Story expands when selected: a
+  mini vn/all segmented pair beside the tab. `vn` keeps only the scene
+  (context-carrying) lines — the MAIN story; `all` is today's full channel
+  (default). Pure `storySubMatches` in log-filter.ts (unit-tested); every
+  current-view visibility check routes through one `lineVisible` helper.
+  Verified live: 33→24 lines under vn (all scene-lines), hides on Chat,
+  remembered on return.
+
 ## Next intended steps
 - E · FB-321/FB-322 — typewriter styled reveal
 - F · FB-323 — divider re-anchor when pinned

@@ -112,7 +112,13 @@ import {
   getMob,
   nightRoundById,
 } from '../core';
-import { LOG_FILTERS, logFilterMatches, type LogFilter } from './log-filter';
+import {
+  LOG_FILTERS,
+  logFilterMatches,
+  storySubMatches,
+  type LogFilter,
+  type StorySub,
+} from './log-filter';
 import {
   reconcileList,
   resetReconcile,
@@ -852,6 +858,26 @@ export function mount(
   // FB-176 — Now is NOT one of the channel filters: it's the fleeting-flavor scratch view.
   // It sits ALONE at the bar's left, visually apart from the six-tab channel group.
   const logFilterGroup = el('div', 'log-filter-group');
+  // FB-320 — the Story tab EXPANDS when selected: a small vn/all sub-toggle appears beside
+  // it. `vn` keeps only the scene lines (the MAIN story); `all` is the full story channel.
+  const storySubWrap = el('span', 'story-sub');
+  storySubWrap.hidden = true;
+  const storySubBtns = new Map<StorySub, HTMLButtonElement>();
+  for (const sub of ['vn', 'all'] as const) {
+    const sb = el('button', 'story-sub-btn', sub) as HTMLButtonElement;
+    sb.type = 'button';
+    sb.setAttribute(
+      'aria-label',
+      sub === 'vn' ? 'Show only the scene story lines' : 'Show all story lines',
+    );
+    sb.addEventListener('click', () => {
+      if (storySub === sub) return;
+      storySub = sub;
+      setLogFilter('story', true); // repaint the story view's content in place
+    });
+    storySubBtns.set(sub, sb);
+    storySubWrap.append(sb);
+  }
   for (const f of LOG_FILTERS) {
     const b = el('button', 'log-filter-tab', f.label) as HTMLButtonElement;
     b.type = 'button';
@@ -861,7 +887,10 @@ export function mount(
     if (f.id === 'now') {
       b.classList.add('tab-now');
       logFilterBar.prepend(b);
-    } else logFilterGroup.append(b);
+    } else {
+      logFilterGroup.append(b);
+      if (f.id === 'story') logFilterGroup.append(storySubWrap); // nests beside its tab
+    }
   }
   logFilterBar.append(logFilterGroup);
   // FB-74 — the per-log FONT stepper (A− / A+), tucked bottom-right of the filter bar. It scales ONLY
@@ -1196,6 +1225,14 @@ export function mount(
   let chatKickers = new Map<number, string>();
   let chatKickersSeq = -1;
   let logFilter: LogFilter = 'story';
+  // FB-320 — the Story tab's sub-view: 'vn' = only the scene (context-carrying) lines, the
+  // MAIN story; 'all' = the full story channel (default — today's view). Session-local.
+  let storySub: StorySub = 'all';
+  // Does `e` show under the CURRENT view? (the one place the FB-320 sub-view composes
+  // with the channel filter — every current-filter visibility check routes through here.)
+  const lineVisible = (e: LogEntry): boolean =>
+    logFilterMatches(e.channel, logFilter, e.ephemeral === true, e.chat === true) &&
+    (logFilter !== 'story' || storySubMatches(storySub, e.context !== undefined));
   // FB-20 — per-channel "highest key the reader has seen"; a tab whose channel has entries
   // beyond its seen-mark (that arrived while another tab was active) shows an unread dot.
   const logSeen: Record<LogFilter, number> = {
@@ -4301,6 +4338,9 @@ export function mount(
   function paintLogFilterBar(): void {
     logFilterBar.dataset.variant = 'log-filter-segmented'; // human pick (FB-21); A/B removed
     for (const [id, btn] of logFilterBtns) btn.classList.toggle('active', id === logFilter);
+    // FB-320 — the Story tab expands its vn/all sub-toggle only while selected
+    storySubWrap.hidden = logFilter !== 'story';
+    for (const [sub, sb] of storySubBtns) sb.classList.toggle('active', sub === storySub);
   }
   // FB-20 — the highest entry key that shows under filter `f`.
   function maxKeyForFilter(entries: readonly LogEntry[], f: LogFilter): number {
@@ -4603,8 +4643,10 @@ export function mount(
       }, FRESH_DIVIDER_FADE_MS);
     }, FRESH_DIVIDER_TTL_MS); // FB-199 — ~30s past the last line (was 4.5s)
   }
-  function setLogFilter(f: LogFilter): void {
-    if (f === logFilter) return;
+  // `force` repaints even when the filter is unchanged — the FB-320 sub-toggle flips the
+  // story view's CONTENT without changing the filter id.
+  function setLogFilter(f: LogFilter, force = false): void {
+    if (f === logFilter && !force) return;
     const wasNow = logFilter === 'now';
     logFilter = f;
     // a filter switch repaints the newly-filtered view instantly (statically, no cascade).
@@ -4641,11 +4683,7 @@ export function mount(
       if (
         !vnActive(lastState) &&
         !reduceMotion() &&
-        lastState.log.entries.some(
-          (e) =>
-            e.key > unreadFrom &&
-            logFilterMatches(e.channel, f, e.ephemeral === true, e.chat === true),
-        )
+        lastState.log.entries.some((e) => e.key > unreadFrom && lineVisible(e))
       ) {
         const read = lastState.log.entries.filter((e) => e.key <= unreadFrom);
         renderLog({ ...lastState, log: { ...lastState.log, entries: read } });
@@ -4714,7 +4752,7 @@ export function mount(
       // in-place ×N growth: the last entry kept its key but bumped its count (a coalesce).
       // Only paint while the reveal cascade is idle (it self-heals on the next render).
       if (
-        logFilterMatches(last.channel, logFilter, last.ephemeral === true, last.chat === true) &&
+        lineVisible(last) &&
         last.key === lastPaintedKey &&
         (last.count ?? 1) !== lastPaintedCount &&
         revealQueue.length === 0 &&
@@ -4740,9 +4778,7 @@ export function mount(
       return;
     }
     for (const e of fresh) lastKey = Math.max(lastKey, e.key);
-    let freshVisible = fresh.filter((e) =>
-      logFilterMatches(e.channel, logFilter, e.ephemeral === true, e.chat === true),
-    );
+    let freshVisible = fresh.filter(lineVisible);
     // FB-160/FB-161 — a FULL repaint (load / reset / tab switch) paints only the
     // newest LOG_DOM_MAX window; deeper history stays safe in core (never a
     // thousands-of-nodes DOM flood on a long run's tab switch).

@@ -36,6 +36,16 @@ const FILTER_CHANNELS: Record<
   all: null,
 };
 
+/** FB-320 — the Story tab's sub-view. `vn` keeps only the SCENE lines (a `context`-carrying
+ *  line is one a VN scene emitted — the MAIN story); `all` keeps the full story channel
+ *  (scene lines + ambient narration flavor). Only consulted while the active filter is
+ *  `story`; every other filter ignores it. */
+export type StorySub = 'vn' | 'all';
+
+export function storySubMatches(sub: StorySub, hasContext: boolean): boolean {
+  return sub === 'all' || hasContext;
+}
+
 /** Does a log entry (`channel` + its `ephemeral` / `chat` flags) show under the active `filter`?
  *  Two axes sit ORTHOGONAL to the channel mapping:
  *  - FB-53: `now` is the SOLE home of fleeting flavor — it matches ONLY ephemeral entries; every

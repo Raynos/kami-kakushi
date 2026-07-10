@@ -853,6 +853,36 @@ h3 {
   border-radius: 50%;
   background: var(--shu);
 }
+/* FB-320 — the Story tab's vn/all sub-toggle: appears beside Story only while it is the
+   active filter. Quiet mini-segments in the bar's own idiom; the active sub is inked the
+   same way the active tab is. */
+.story-sub {
+  display: inline-flex;
+  align-items: stretch;
+}
+.story-sub[hidden] {
+  display: none;
+}
+.story-sub-btn {
+  font-size: var(--fs-tiny, 0.72rem);
+  padding: 1px 6px;
+  border: 1px solid var(--ink-faint);
+  border-radius: 0;
+  margin-left: -1px;
+  background: none;
+  color: var(--ink-faint);
+  cursor: pointer;
+}
+.story-sub-btn:last-child {
+  border-top-right-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+.story-sub-btn.active {
+  background: var(--steel-hi);
+  color: var(--silver-hi);
+  border-color: var(--silver-wire);
+}
+
 /* F74 — the per-log FONT stepper (A− / A+), tucked bottom-right of the filter bar (`margin-left:auto`
    pushes it past the channel tabs). Small, quiet ink glyphs on washi — an unobtrusive affordance that
    scales ONLY the log reading text; disabled (dimmed) at the min/max bounds so the reader sees the

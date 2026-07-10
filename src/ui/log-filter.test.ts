@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { logFilterMatches, LOG_FILTERS, type LogFilter } from './log-filter';
+import { logFilterMatches, storySubMatches, LOG_FILTERS, type LogFilter } from './log-filter';
 import type { LogChannel } from '../core/log';
 
 // Derived from the source of truth (the LogChannel union), NOT a copied literal — if a channel
@@ -134,5 +134,14 @@ describe('logFilterMatches — reachability invariants', () => {
       const reachable = LOG_FILTERS.map((f) => f.id).filter((f) => logFilterMatches(c, f, true));
       expect(reachable).toEqual(['now']);
     }
+  });
+});
+
+describe('storySubMatches — the Story vn/all sub-view (FB-320)', () => {
+  it("'vn' keeps only scene (context-carrying) lines; 'all' keeps everything", () => {
+    expect(storySubMatches('vn', true)).toBe(true); // a VN scene line
+    expect(storySubMatches('vn', false)).toBe(false); // ambient story flavor — hidden under vn
+    expect(storySubMatches('all', true)).toBe(true);
+    expect(storySubMatches('all', false)).toBe(true);
   });
 });
