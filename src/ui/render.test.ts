@@ -2465,6 +2465,26 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
     // (the default fit framing reads 'far' — the fit view stays composed).
     expect(nav.querySelector('svg')!.getAttribute('data-zoom')).toBe('far');
   });
+
+  it('FB-339 — the viewer chrome survives jsdom: zoom clicks, wheel & drag never throw', () => {
+    // jsdom implements neither getScreenCTM nor DOMPoint nor setPointerCapture — this is
+    // the exact failure the pre-push full-mount sweep tripped on (2026-07-10). Exercising
+    // every interaction path here keeps the guard load-bearing regardless of sweep order.
+    const { render } = spyRender();
+    render(at('forecourt', ['room-gate', 'room-paddies']), null);
+    openMapTab();
+    const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
+    for (const b of nav.querySelectorAll<HTMLButtonElement>('button.sheetmap-zoom')) b.click();
+    const svg = nav.querySelector('svg')!;
+    expect(() => {
+      svg.dispatchEvent(new WheelEvent('wheel', { deltaY: -120, bubbles: true, cancelable: true }));
+      svg.dispatchEvent(
+        new MouseEvent('pointerdown', { button: 0, clientX: 10, clientY: 10, bubbles: true }),
+      );
+      svg.dispatchEvent(new MouseEvent('pointermove', { clientX: 80, clientY: 60, bubbles: true }));
+      svg.dispatchEvent(new MouseEvent('pointerup', { bubbles: true }));
+    }).not.toThrow();
+  });
 });
 
 // ── FB-111 · the "Chat" log tab — the OPTIONAL Q&A you chose to ask, split off from the MANDATORY

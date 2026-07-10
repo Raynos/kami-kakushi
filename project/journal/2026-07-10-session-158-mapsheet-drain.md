@@ -28,6 +28,13 @@ variants, HR-items). F-entries in
 - (this session, later commits) FB-340 diverge — see the per-commit entries
   below.
 
+- `src/ui/map-variants/sheet-map.ts` + `src/ui/render.test.ts` — HOTFIX: the
+  FB-339 chrome called `getScreenCTM`/`DOMPoint`/`setPointerCapture` unguarded;
+  jsdom implements none, so the pre-push FULL vitest lane went RED when a
+  full-mount sweep clicked the zoom buttons (blocked every push — flagged by
+  w2:p5). Feature-checked all three + a RED-able jsdom interaction test
+  (proven RED unguarded via stash).
+
 ## Next intended steps
 1. FB-339 — port wheel/pinch zoom, drag pan, fit + full from
    `src/ui/map-sheets/sheet.ts` onto `renderMapSheet`; blind-pass after.

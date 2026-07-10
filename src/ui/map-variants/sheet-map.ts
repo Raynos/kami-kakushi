@@ -291,9 +291,14 @@ export function renderMapSheet(
       FR.y + FR.h + (m * FR.h) / FR.w - vb.h,
     );
   };
-  /** client → world coords (getScreenCTM handles viewBox + letterboxing). */
+  /** client → world coords (getScreenCTM handles viewBox + letterboxing). Guarded for
+   *  jsdom, which implements neither getScreenCTM nor DOMPoint — the full-mount test
+   *  sweeps click the zoom buttons, and an unguarded call is a TypeError there. */
   const toWorld = (cx: number, cy: number): { x: number; y: number } => {
-    const m = svg.getScreenCTM();
+    const g = svg as unknown as SVGGraphicsElement;
+    if (typeof g.getScreenCTM !== 'function' || typeof DOMPoint === 'undefined')
+      return { x: 0, y: 0 };
+    const m = g.getScreenCTM();
     if (!m) return { x: 0, y: 0 };
     const p = new DOMPoint(cx, cy).matrixTransform(m.inverse());
     return { x: p.x, y: p.y };
@@ -361,7 +366,8 @@ export function renderMapSheet(
       dragMoved = true;
       // capture only once a REAL drag starts — capturing on pointerdown would
       // retarget the derived click to the svg and seal travel would go dead
-      svg.setPointerCapture(e.pointerId);
+      // (guarded: jsdom has no setPointerCapture)
+      if (typeof svg.setPointerCapture === 'function') svg.setPointerCapture(e.pointerId);
     }
     if (!dragMoved) return;
     vb.x += dx;
