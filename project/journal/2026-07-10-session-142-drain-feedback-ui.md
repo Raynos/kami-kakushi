@@ -245,3 +245,19 @@ vn-speech lane's uncommitted FB-228-laws hunk. A pathspec commit takes the whole
 working-tree file, so committing mine would have swept theirs. By agreement (they were
 at checkpoint) their lane carries both hunks in one commit; I committed only the two
 files that are clean of their work.
+
+---
+
+## Exit checkpoint
+
+Both distilled rules are live on `origin/main`. The vn-speech lane carried the
+`ui-design.md` chroma law in `ebbdef9` alongside its own FB-228 voice laws, crediting
+this lane — the shared-file handoff worked exactly as intended, and nothing was swept.
+
+Snapshot correction: I had written the pending inbox as "`dev` (1) + `r0` (22)". It is
+already `dev` (1), `r0` (24) and a new `the-log` (2). Counts drift with every capture,
+so a snapshot should not carry them — replaced with the bucket names plus
+`inbox-claim list`. Same line count; rewrite-debt 10 → 11.
+
+Reading queue untouched: its one item (the HD-37 cold-open re-arc plan) belongs to
+another lane and was never engaged here.
