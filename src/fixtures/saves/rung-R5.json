@@ -77,7 +77,8 @@
       "r4-it-returns": true,
       "rank-r4": true,
       "rank-r5": true,
-      "wall-weapon": true
+      "wall-weapon": true,
+      "r5-stood": true
     },
     "unlocked": [
       "screen-cold-open",
@@ -4474,9 +4475,248 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator"
+        },
+        {
+          "key": 1431,
+          "channel": "narration",
+          "text": "A hand shakes you awake in the dark of the woodshed. Rokusuke, with a lantern, looking mostly at the door.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1432,
+          "channel": "narration",
+          "text": "\"Board room. The whole house is called. You as well. I only fetch.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Rokusuke",
+          "voice": "villager"
+        },
+        {
+          "key": 1433,
+          "channel": "narration",
+          "text": "Lamps at the board at the wrong hour. The household stands in two rows — the hands by the door, the house by the book — and between the rows there is more floor than the room usually has. You are shown to the middle of it. Nobody arranged that.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1434,
+          "channel": "narration",
+          "text": "\"The alcove chest stands open. One item short against the book. A packet — cloth, bound with cord, a hand's length — entered as lamp-oil for the shrine. Counted at the evening rice. Gone since. The house will be counted before it sleeps.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 1435,
+          "channel": "narration",
+          "text": "Naoyuki stands at his father's place at the board. He does not look at you until he does.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1436,
+          "channel": "narration",
+          "text": "\"If the house must do this, then it does it properly — in order of service, eldest hands first, so that no one can say—\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Naoyuki",
+          "voice": "official"
+        },
+        {
+          "key": 1437,
+          "channel": "narration",
+          "text": "\"No. The weir man. Him first.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Naoyuki",
+          "voice": "official"
+        },
+        {
+          "key": 1438,
+          "channel": "narration",
+          "text": "Nobody objects. Some of the hands look at you; more look at the floor. It is the order the room was already thinking in.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1439,
+          "channel": "narration",
+          "text": "\"Say nothing. Stand for the count.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player"
+        },
+        {
+          "key": 1440,
+          "channel": "narration",
+          "text": "\"Asked before the whole house, and he offers— note it down, steward. He offers nothing. Note that.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Naoyuki",
+          "voice": "official"
+        },
+        {
+          "key": 1441,
+          "channel": "narration",
+          "text": "\"The kura tally. Who kept it today?\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 1442,
+          "channel": "narration",
+          "text": "Rokusuke has been standing where the lantern light mostly isn't. He comes forward the way a man wades cold water.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1443,
+          "channel": "narration",
+          "text": "\"Eleven loads in by dark, steward. His mark against each. Last mark at lamp-lighting, and the rice was long cleared by then. He never left the kura side of the yard. That's what the board says. The board's there to look at.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Rokusuke",
+          "voice": "villager"
+        },
+        {
+          "key": 1444,
+          "channel": "narration",
+          "text": "Genemon sets the tally board beside the day-book and reads one against the other. The room watches him do arithmetic.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1445,
+          "channel": "narration",
+          "text": "\"The packet was counted at the evening rice, in the inner house. From mid-day to lamp-lighting this man was under grain. The book holds no gap with him in it.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 1446,
+          "channel": "narration",
+          "text": "\"Then it is someone of the house.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Naoyuki",
+          "voice": "official"
+        },
+        {
+          "key": 1447,
+          "channel": "narration",
+          "text": "The door to the inner corridor slides. Toku stands in it, in her night-clothes, her hair down — a woman nobody sent for. She looks at no one in particular, and at the book last.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1448,
+          "channel": "narration",
+          "text": "\"It went up at the new moon.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Toku",
+          "voice": "steward"
+        },
+        {
+          "key": 1449,
+          "channel": "narration",
+          "text": "Nobody asks what went up. Nobody asks where. Genemon dips his brush, enters one line, and closes the day-book.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1450,
+          "channel": "narration",
+          "text": "\"The count is answered. The house is not short. Take the lamps.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 1451,
+          "channel": "narration",
+          "text": "The rows break up around you. Naoyuki passes you last.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1452,
+          "channel": "narration",
+          "text": "\"You were counted. That is all it was.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Naoyuki",
+          "voice": "official"
+        },
+        {
+          "key": 1453,
+          "channel": "narration",
+          "text": "At the morning board nobody speaks of the night. The hands keep a little more room around you than the work needs — for a day, then two — and then it is spent, needing nothing from you to end.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1454,
+          "channel": "narration",
+          "text": "\"From today the book carries you at a day-wage, in mon, paid against each day worked. It was due at the season's turn. It is the season's turn.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 1455,
+          "channel": "narration",
+          "text": "At the paddy Rokusuke works the row over from yours, as he did before, no nearer. You thank him for the tally.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1456,
+          "channel": "narration",
+          "text": "\"Kept it same as any day. It would have read the same if it hanged you.\"",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Rokusuke",
+          "voice": "villager"
+        },
+        {
+          "key": 1457,
+          "channel": "narration",
+          "text": "He bends back to the row.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1458,
+          "channel": "narration",
+          "text": "That evening the wage enters the day-book: so many mon, and against the entry, where a name would go, a mark. It is still not a name.",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator"
         }
       ],
-      "seq": 1431
+      "seq": 1459
     },
     "skillXp": {
       "farming": 204,
@@ -4499,6 +4739,10 @@
       "kihei": {
         "regard": "watchful",
         "warmth": 2
+      },
+      "naoyuki": {
+        "regard": "unreadable",
+        "warmth": -1
       }
     },
     "introBeat": 1,
@@ -4542,9 +4786,7 @@
         "frac": 0
       }
     },
-    "sceneQueue": [
-      "count"
-    ],
+    "sceneQueue": [],
     "activeScene": null,
     "scenesPlayed": [
       "r2-yard-hand",
@@ -4555,7 +4797,9 @@
       "turn-summer",
       "sb-bon",
       "turn-bon",
-      "nengu-autumn-frame"
+      "nengu-autumn-frame",
+      "count",
+      "count-resolve"
     ],
     "roundState": null,
     "soanLedger": 58

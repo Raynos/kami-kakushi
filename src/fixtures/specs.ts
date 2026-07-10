@@ -12,6 +12,7 @@
 import {
   createInitialState,
   reduce,
+  sceneById,
   hasFlag,
   ascensionAvailable,
   estateGrade,
@@ -465,10 +466,34 @@ export function getSpec(name: string): FixtureSpec | undefined {
   return FIXTURE_SPECS.find((spec) => spec.name === name);
 }
 
+/** Drain any live/queued VN scene the drive left pending (C5a: side-beats fire from
+ *  arrivals — a drive that walks THROUGH the kura queues sb-crest, and a fixture that
+ *  boots into a surprise VN defeats its load-X-look-at-Y purpose). A fixture is a
+ *  START-STATE: it loads with the shell visible, every mid-drive scene already played. */
+function drainScenes(s0: GameState): GameState {
+  let s = s0;
+  let guard = 0;
+  while ((s.activeScene !== null || s.sceneQueue.length > 0) && guard++ < 32) {
+    if (s.activeScene === null) {
+      s = reduce(s, { type: 'begin_scene', sceneId: s.sceneQueue[0]! });
+      continue;
+    }
+    const def = sceneById(s.activeScene.id);
+    const opts = def?.scene.decision.options ?? [];
+    s = reduce(
+      s,
+      opts.length > 0
+        ? { type: 'choose_scene_option', optionId: opts[0]!.id }
+        : { type: 'advance_scene_beat' },
+    );
+  }
+  return s;
+}
+
 /** Create the seeded initial state + drive it to the waypoint, asserting `expect` on the way out.
  *  Shared by the generator (GEN-time assert) and any test that wants the live state (not the JSON). */
 export function buildFixtureState(spec: FixtureSpec): GameState {
-  const s = spec.play(createInitialState(spec.seed));
+  const s = drainScenes(spec.play(createInitialState(spec.seed)));
   spec.expect(s); // fail loudly if a spec no longer reaches its own waypoint
   return s;
 }

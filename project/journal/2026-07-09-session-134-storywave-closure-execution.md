@@ -376,3 +376,14 @@ C5a picks, live in DEV → Story) · HD-33 (the frozen §1's pre-reboot tables)
 · HD-34 (the three balance design calls). The one-line truth this session
 bought: *"the shipped T0 plays the bible canon"* — with no known asterisks
 beyond that human-gated queue.
+
+## Post-close e2e red → fixed (the fixture VN-drain)
+
+CI e2e went red on the final push: the C5a-regenerated fixture drives walk
+THROUGH the kura at R4+, queuing sb-crest (C4.1's arrival wiring, working as
+designed) — and a fixture booting with a queued scene hands the VN the whole
+surface (nav invisible → tap timeouts on ALL projects). `buildFixtureState`
+now drains pending/live scenes after the drive (a fixture is a START-STATE);
+the full e2e lane is 82/82 locally — INCLUDING the two mobile-webkit journeys
+specs earlier bisected as a local quirk (the queued-scene geometry was a
+component of that too).

@@ -1135,9 +1135,58 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator"
+        },
+        {
+          "key": 120,
+          "channel": "narration",
+          "text": "First light. The broom stands against the gatepost where you left it. The hand who kept the yard's round quit for the lowlands; nobody has said whose it is now.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 121,
+          "channel": "narration",
+          "text": "You take the broom. Nobody takes it back.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 122,
+          "channel": "narration",
+          "text": "The round takes the morning: the gate swept, the forecourt raked, the water in, the wood up off the ground. Dusk round, then the kitchen threshold, the bowl. Genemon comes past with the day-book under his arm and does not slow.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 123,
+          "channel": "narration",
+          "text": "\"Rice from the new moon. One measure the day, dry, weighed at the kura door. Meals were terms for a man staying a week.\"",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 124,
+          "channel": "narration",
+          "text": "He is through the door before you can set the bowl down.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 125,
+          "channel": "narration",
+          "text": "A meal ends with the eating. Rice keeps.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
         }
       ],
-      "seq": 120
+      "seq": 126
     },
     "skillXp": {
       "farming": 134,
@@ -1188,11 +1237,11 @@
         "frac": 0
       }
     },
-    "sceneQueue": [
+    "sceneQueue": [],
+    "activeScene": null,
+    "scenesPlayed": [
       "r2-yard-hand"
     ],
-    "activeScene": null,
-    "scenesPlayed": [],
     "roundState": null,
     "soanLedger": 0
   }

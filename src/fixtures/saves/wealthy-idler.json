@@ -6688,9 +6688,117 @@
             "amount": 28879,
             "resource": "coin"
           }
+        },
+        {
+          "key": 5466,
+          "channel": "narration",
+          "text": "Loading at the kura. Shinnosuke is up on the stacked bales, where he is not allowed, counting something over your head.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 5467,
+          "channel": "narration",
+          "text": "\"Count them. The storehouse has one more than the gate. Why does the storehouse get one more petal than the gate? Who changes a crest — you can't just change a crest, can you?\"",
+          "tick": 22,
+          "count": 1,
+          "speaker": "Shinnosuke",
+          "voice": "steward"
+        },
+        {
+          "key": 5468,
+          "channel": "narration",
+          "text": "You look. Above the seal-plate the mon is cut deep and old: the same flower as the gate's, and not the same flower. You count twice, because counting is the one kind of reading you trust.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 5469,
+          "channel": "narration",
+          "text": "\"Ask the steward.\"",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 5470,
+          "channel": "narration",
+          "text": "\"I asked everyone. Grandmother said mind the lamp. Genemon wrote in his book. Mother said if I've time for petals I've time for copywork. Nobody answers me. You ask. You work here — they have to answer you.\"",
+          "tick": 22,
+          "count": 1,
+          "speaker": "Shinnosuke",
+          "voice": "steward"
+        },
+        {
+          "key": 5471,
+          "channel": "narration",
+          "text": "Asking costs you something every time. You pay it at the board that evening.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 5472,
+          "channel": "narration",
+          "text": "\"The kura's crest. It has one petal more than the gate's.\"",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 5473,
+          "channel": "narration",
+          "text": "It is not even a question, the way you say it. Genemon looks at you the way he looked at the river-wet stranger the first morning — a thing to be entered under the correct heading. Then he opens the day-book, writes — not long — and closes it.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 5474,
+          "channel": "narration",
+          "text": "\"The kura wants its hinges oiled before the rains. Take the small ladder.\"",
+          "tick": 22,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward"
+        },
+        {
+          "key": 5475,
+          "channel": "narration",
+          "text": "That is the answer. It is the same answer the boy got, in a different hand.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 5476,
+          "channel": "narration",
+          "text": "Shinnosuke is waiting on the woodpile to hear what you learned. You tell him: hinges. He nods like a man twice his age confirming a debt gone bad.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 5477,
+          "channel": "narration",
+          "text": "\"See. You're the other one they don't tell. What did he write — did you see what he wrote?\"",
+          "tick": 22,
+          "count": 1,
+          "speaker": "Shinnosuke",
+          "voice": "steward"
+        },
+        {
+          "key": 5478,
+          "channel": "narration",
+          "text": "You didn't. The boy climbs down and goes in to his copywork, and you oil the hinges under the crest, and the kura keeps whatever it keeps.",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator"
         }
       ],
-      "seq": 5466
+      "seq": 5479
     },
     "skillXp": {
       "farming": 6911,
@@ -6775,9 +6883,7 @@
         "frac": 0.037500000000143974
       }
     },
-    "sceneQueue": [
-      "sb-crest"
-    ],
+    "sceneQueue": [],
     "activeScene": null,
     "scenesPlayed": [
       "r2-yard-hand",
@@ -6791,7 +6897,8 @@
       "nengu-autumn-frame",
       "count",
       "count-resolve",
-      "r7-dream"
+      "r7-dream",
+      "sb-crest"
     ],
     "roundState": null,
     "soanLedger": 58

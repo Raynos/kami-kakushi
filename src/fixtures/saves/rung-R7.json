@@ -4983,9 +4983,90 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator"
+        },
+        {
+          "key": 1550,
+          "channel": "narration",
+          "text": "The woodshed, late. On the doorstep, folded under a stone against the wind: his straw coat, mended at the shoulder in small even stitches that no one will own to. He carries it in, lies down on the mat, and for once sleeps at once.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1551,
+          "channel": "narration",
+          "text": "— a road, climbing. Rain on it.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1552,
+          "channel": "narration",
+          "text": "The weight across his shoulders is right. Two loads and the pole, and his feet know the next stone without being asked. Below the road, water — he cannot see it, but it is there the way a wall is there in a dark room.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1553,
+          "channel": "narration",
+          "text": "Behind him on the climb, somebody calls a name. Short, worn smooth, thrown easy — a name that has landed a thousand times and expects to land now.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1554,
+          "channel": "narration",
+          "text": "He turns to answer.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1555,
+          "channel": "narration",
+          "text": "The mountain moves.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1556,
+          "channel": "narration",
+          "text": "After that there is only the water, and the road going away upward, and the voice still calling — smaller, and smaller. He knows the name is his. He cannot hear it.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1557,
+          "channel": "narration",
+          "text": "He wakes in the woodshed with his mouth open around a word that is not there. Rain, real rain, small on the roof. The coat is where he left it.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 1558,
+          "channel": "narration",
+          "text": "\"There was a road.\"",
+          "tick": 20,
+          "count": 1,
+          "speaker": "Gonbei",
+          "voice": "player"
+        },
+        {
+          "key": 1559,
+          "channel": "narration",
+          "text": "Nobody answers. It is a long while before he sleeps again, and the dream, that night, does not come back.",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator"
         }
       ],
-      "seq": 1550
+      "seq": 1560
     },
     "skillXp": {
       "farming": 254,
@@ -5067,9 +5148,7 @@
         "frac": 0
       }
     },
-    "sceneQueue": [
-      "r7-dream"
-    ],
+    "sceneQueue": [],
     "activeScene": null,
     "scenesPlayed": [
       "r2-yard-hand",
@@ -5082,7 +5161,8 @@
       "turn-bon",
       "nengu-autumn-frame",
       "count",
-      "count-resolve"
+      "count-resolve",
+      "r7-dream"
     ],
     "roundState": null,
     "soanLedger": 58
