@@ -30,7 +30,10 @@ together; inside, each prototype is one self-contained dir.
 
 ## Plan folders
 
-### [`map-token-presence/`](map-token-presence) — FB-340 / HR-26 follow-on (no plan yet)
+### [`map-token-presence/`](map-token-presence) — FB-340 / HR-26 follow-on
+
+Owner: [`docs/plans/fable-2026-07-11-map-porter-presence.md`](../../docs/plans/fable-2026-07-11-map-porter-presence.md)
+(the porter → live Map tab port, authored after the verdict below).
 
 Born 2026-07-11 from the human's direct ask: replace the flat shu marks (square /
 circle / footsteps) with a **physical piece sitting on the survey sheet** — "a
@@ -52,6 +55,10 @@ lands, the owning plan supersedes this note.
   takes were REJECTED ("not the fit"; builds recoverable at `73300fa1`), the
   first miniature set was too samey ("the same robe with one piece of flare")
   and too large vs the zone seals — this set answers both.*
+  **Round-2 verdict (2026-07-11): ⭐ POTENTIAL — the 根付 porter, with the
+  walk + footprints idiom** (human pick; the owning plan ports it to the live
+  Map tab). The painted lord / ink cutout / clay peon sculpts are
+  **REFERENCE** — passed over in the same pick.
 
 ### [`authored-depth-demo/`](authored-depth-demo) — Plan K (🧊 PARKED)
 

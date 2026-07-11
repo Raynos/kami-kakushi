@@ -67,3 +67,22 @@ BESIDE the label, never behind it (first vet showed it hidden by the seal box).
 
 Self-vetted headlessly per sculpt (zoomed crops via the `window.__proto` QA
 hook); porter + cutout were redrawn once after the first vet read muddled.
+
+---
+
+## Entry 3 — the verdict + the owning plan
+
+Human verdict: **⭐ the 根付 porter, walk + footprints idiom**; the other three
+sculpts are REFERENCE. Locked constraint: on the real map the piece is an
+**indicator only** — display-only, derived from game state, animated by real
+`move_to` actions (clicking a walkable seal); never freely movable — the
+prototype's click-anywhere travel is prototype-only.
+
+Authored the owning plan
+`docs/plans/fable-2026-07-11-map-porter-presence.md`: port the sculpt into
+`src/ui/map-variants/porter-token.ts` (+ pure walk-math helper), replace the
+resting here-ring, ride the existing `travelPresenceRef` / ActionClock driver
+(footprints + follow + P12/P14 kept), DEV toggle v1/v2 with v2 default,
+sequenced AFTER the in-flight map-viewer one-engine extraction (same file).
+Prototype README tagged (⭐/REFERENCE + owner), reading queue swapped to the
+plan (prototype entry cleared per ADR-089 — played & picked).
