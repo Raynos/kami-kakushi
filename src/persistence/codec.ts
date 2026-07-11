@@ -179,9 +179,24 @@ function mapLogEntries(env: unknown, fn: (e: unknown) => unknown): unknown {
   };
 }
 
+/** Strip every keyed entry's derivable `text` from an envelope (no gzip, no base64).
+ *  The store channel does this on the way out; the FIXTURE generator uses it too, so a committed
+ *  fixture save holds descriptors rather than prose — otherwise every reword churns 18 fixture
+ *  files and the fixtures quietly disagree with what the game actually persists. */
+export function stripEnvelopeLog(env: SaveEnvelope): unknown {
+  return mapLogEntries(env, (e) => stripLogEntry(e as LogEntry));
+}
+
+/** Rebuild every keyed entry's `text` from the registry (the inverse of `stripEnvelopeLog`).
+ *  A stripped fixture is rehydrated through THIS on load, so it crosses the same derive-from-src/
+ *  path a real save does — the fixtures exercise the rehydration rather than bypassing it. */
+export function rehydrateEnvelopeLog(env: unknown): SaveEnvelope {
+  return mapLogEntries(env, rehydrateLogEntry) as SaveEnvelope;
+}
+
 /** Encode an envelope for the STORE channel: descriptors → JSON → gzip → base64, magic-prefixed. */
 export async function encodeStore(env: SaveEnvelope): Promise<string> {
-  const stored = mapLogEntries(env, (e) => stripLogEntry(e as LogEntry));
+  const stored = stripEnvelopeLog(env);
   const bytes = new TextEncoder().encode(JSON.stringify(stored));
   const gz = await pipeBytes(bytes, new CompressionStream('gzip'));
   return GZIP_PREFIX + bytesToBase64(gz);

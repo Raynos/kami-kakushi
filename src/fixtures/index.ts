@@ -5,6 +5,7 @@
 // `gh-pages.sh` marker grep PROVES that per deploy (Ph3) rather than trusting it (R2).
 
 import type { SaveEnvelope } from '../persistence';
+import { rehydrateEnvelopeLog } from '../persistence/codec';
 import { FIXTURE_SPECS } from './specs';
 
 /** Stamped on the Scenarios pane's DOM node so the strip gate can grep for it in the bundle: it
@@ -46,7 +47,9 @@ export function getFixtures(): readonly FixtureEntry[] {
       blurb: spec.blurb,
       group: spec.group,
       hidden: spec.hidden ?? false,
-      env: mod.default,
+      // The saves on disk are STRIPPED descriptors; rehydrate their prose from the CURRENT
+      // registries — the same path a real load takes, so a fixture can never show stale text.
+      env: rehydrateEnvelopeLog(mod.default),
     };
   });
 }

@@ -4,8 +4,16 @@ import { fileURLToPath } from 'node:url';
 import { gunzipSync } from 'node:zlib';
 import { createInitialState, type GameState } from '../core';
 import { applyRewards } from '../core/rewards';
-import { renderLogLine } from '../core/content/log-content';
-import { makeEnvelope, encodeEnvelope, encodeStore, decodeStore } from './codec';
+// log-render: the composition module IS the renderer (it owns the namespace dispatch to the
+// content registries). The leaf log-content only knows the hand-written templates.
+import { renderLogLine } from '../core/content/log-render';
+import {
+  rehydrateEnvelopeLog,
+  makeEnvelope,
+  encodeEnvelope,
+  encodeStore,
+  decodeStore,
+} from './codec';
 
 /** Ungzip a stored blob back to its RAW envelope JSON (the on-disk descriptor form). */
 function inspectStored(stored: string): { state: { log: { entries: Record<string, unknown>[] } } } {
@@ -14,11 +22,15 @@ function inspectStored(stored: string): { state: { log: { entries: Record<string
   return JSON.parse(json);
 }
 
-/** The GameState inside a real FB-6 fixture save (a full 300-entry log — the worst case). */
+/** The GameState inside a real FB-6 fixture save (a full 300-entry log — the worst case).
+ *  The saves on disk are STRIPPED descriptors (gen-fixtures writes them through the same strip the
+ *  store channel uses), so the raw JSON is NOT a loadable state: its keyed entries have no `text`.
+ *  Rehydrate it exactly as `fixtures/index.ts` does — anything else tests a form the game never
+ *  actually holds in memory. */
 function fixtureState(name: string): GameState {
   const path = fileURLToPath(new URL(`../fixtures/saves/${name}.json`, import.meta.url));
-  const parsed = JSON.parse(readFileSync(path, 'utf-8')) as { state: GameState };
-  return parsed.state;
+  const parsed = JSON.parse(readFileSync(path, 'utf-8')) as unknown;
+  return rehydrateEnvelopeLog(parsed).state;
 }
 
 describe('gzip store codec (shrink-save-file)', () => {

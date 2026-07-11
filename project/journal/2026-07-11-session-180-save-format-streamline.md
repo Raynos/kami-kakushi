@@ -260,10 +260,35 @@ re-ordering a scene's greeting lines in the narrative `.md` re-points an old sav
 neighbour. The narrative grammar gives greeting lines no ids today. The orphan sensor cannot see
 this (the index still resolves), so it is a content RESTRUCTURE that needs a migration.
 
+### 10 · Step 1e — the FIXTURES strip too (the plan's promised shrink, finally real)
+
+The plan predicted step 1 would "SHRINK the fixtures ~5× and stop reword-churn". Keying alone did
+**not** deliver that, and the fixtures actually GREW (1560 → 1812 KB): `gen-fixtures.ts` wrote a
+plain `makeEnvelope` JSON and `fixtures/index.ts` consumed `mod.default` directly, so neither
+crossed `encodeStore`/`decodeStore` — where the strip/rehydrate lives. Keyed fixture entries kept
+their `text` AND gained a `contentKey`.
+
+Closed it: `codec.ts` now exposes the strip/rehydrate as gzip-free envelope transforms
+(`stripEnvelopeLog` / `rehydrateEnvelopeLog`), `gen-fixtures` writes STRIPPED saves, and
+`fixtures/index` rehydrates through the same codec path a real load uses — so a fixture can never
+show stale text, and it exercises rehydration instead of bypassing it.
+
+**1812 → 1264 KB, and 459 994 characters of prose on disk → 0.** A reword no longer churns 18
+fixture files.
+
+`codec.test.ts`'s `fixtureState()` helper read the fixture JSON straight off disk and treated it
+as a live GameState. With stripped saves that is no longer true — the raw JSON has no `text` on a
+keyed entry — so it now rehydrates like everything else. (It also imported `renderLogLine` from
+the LEAF, same latent trap that reddened `@slow` earlier; repointed.)
+
+- `src/persistence/codec.ts` — `stripEnvelopeLog` / `rehydrateEnvelopeLog`.
+- `src/scripts/gen-fixtures.ts`, `src/fixtures/index.ts`, `src/persistence/codec.test.ts`.
+
 ## Next intended steps
 
-Step 1's tail: make the FIXTURES strip their prose (they still carry ~460k chars —
-see landmine below), then the ADR + README amendment. Then the addendum work.
+Step 1's tail: the **ADR** (log = derived view; the keyless gate; the positional
+`greeting.<i>` limit) + the **README amendment**. Then the addendum work the human
+handed over (zone-derivation finding + the save-migration subsystem).
 
 Then the **addendum work the human handed over mid-session** — the zone-derivation
 finding + the save-migration subsystem routed here from the zone-rung-rebalance
@@ -274,12 +299,11 @@ session.
 - **Three co-agents are live on this tree.** Commit by explicit file pathspec only.
 - **`fixtures:regen` bakes the working tree into generated saves** — never run it while
   a co-agent has uncommitted core edits (nearly shipped exactly that; see step 1a).
-- **Fixtures do NOT strip their log prose today.** `gen-fixtures.ts` writes a plain
-  `makeEnvelope` JSON, and `fixtures/index.ts` consumes `mod.default` directly — neither
-  goes through `encodeStore`/`decodeStore`, where the strip/rehydrate lives. So the
-  plan's promised "fixtures SHRINK ~5× and stop reword-churn" does **not** happen from
-  keying alone: keyed fixture entries keep their `text`, and the fixtures actually grew
-  slightly (1560 → 1576 KB) from the added `contentKey`. Closing this is the last piece
-  of step 1.
+- ~~Fixtures do NOT strip their log prose.~~ **FIXED (step 1e)** — fixtures are stripped
+  descriptors now (1264 KB, zero prose chars). A fixture save on disk is NOT a loadable
+  state: rehydrate it (`rehydrateEnvelopeLog`) before treating it as one.
+- **Import `renderLogLine` from `log-render`, never from `log-content`.** The leaf only
+  knows the hand-written templates, so a namespaced key throws. This trap has now bitten
+  three separate test files.
 - Step 1 makes old saves' narrative prose re-render from current `src/`. That is the
   intended, human-ruled behaviour — not a regression to "fix" on sight.

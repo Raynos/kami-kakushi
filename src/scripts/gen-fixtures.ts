@@ -13,13 +13,17 @@ export {};
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { makeEnvelope } from '../persistence/codec';
+import { makeEnvelope, stripEnvelopeLog } from '../persistence/codec';
 import { FIXTURE_SPECS, buildFixtureState, type FixtureSpec } from '../fixtures/specs';
 
 const SAVES_DIR = fileURLToPath(new URL('../fixtures/saves/', import.meta.url));
 
 function render(spec: FixtureSpec): string {
-  const env = makeEnvelope(buildFixtureState(spec), 0, 0);
+  // STRIPPED, like a real save: a keyed entry's prose is derivable, so it does not belong on
+  // disk. Without this the fixtures keep every log line's text — ~460k characters of prose that
+  // re-churn all 18 files on every reword, and that disagree with what the game actually stores.
+  // `fixtures/index.ts` rehydrates through the same codec path a real load uses.
+  const env = stripEnvelopeLog(makeEnvelope(buildFixtureState(spec), 0, 0));
   return JSON.stringify(env, null, 2) + '\n';
 }
 
