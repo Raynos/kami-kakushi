@@ -22,3 +22,7 @@ rebalance plan get written, and the zone section gets a FULL ADR-075 diverge
   `clock.cancelAll()`s the in-flight timed action (main.ts playerDispatch) —
   it never completes under the card. New e2e case (timed-actions.spec.ts),
   proven RED without the fix.
+
+- **FB-399** — `label-nameless` now latches BEFORE the sickroom scene's
+  ask/decide say-lines are emitted (intents.ts), matching intro.md's flip
+  comment; the end-of-scene latch was deleted (single source). New test.

@@ -11,7 +11,6 @@ import {
   markTopicAsked,
   npcRegard,
   ATTR_IDS,
-  PLAYER_SPEAKER,
   type GameState,
   type DialogueScene,
 } from './index';
@@ -116,10 +115,11 @@ describe('ask_topic — reveal the answer, mark asked, touch nothing else (plan 
     expect(texts).toContain(topic.label); // the question was voiced
     for (const line of topic.answer) expect(texts).toContain(line.text); // + the answer
 
-    // the question is a `player` line with the 'You' nameplate, ordered BEFORE the answer
+    // the question is a `player` line, ordered BEFORE the answer. FB-399: the sickroom
+    // asks sit AFTER intro.md's You:→Nameless: flip, so the nameplate reads Nameless.
     const q = after.log.entries.find((e) => e.text === topic.label)!;
     expect(q.voice).toBe('player');
-    expect(q.speaker).toBe(PLAYER_SPEAKER);
+    expect(q.speaker).toBe('Nameless');
     const a = after.log.entries.find((e) => e.text === topic.answer[0]!.text)!;
     expect(a.voice).toBe(topic.answer[0]!.voice); // NPC voice, carried from the authored line
     expect(a.speaker).toBe(topic.answer[0]!.speaker);

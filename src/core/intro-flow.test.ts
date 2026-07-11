@@ -82,6 +82,16 @@ describe('interactive intro — reducer flow (plan §3.5)', () => {
     expect(say?.speaker).toBe('You');
   });
 
+  it("the sickroom scene's say lines are post-flip: speaker reads Nameless, not You (FB-399)", () => {
+    // intro.md's flip comment sits BEFORE the sickroom hub's asks/decide, so every
+    // MC line the soan scene emits carries the ladder's first rung.
+    const s = atBeat('soan');
+    const opt = beatById('soan').options![0]!;
+    const after = reduce(s, { type: 'choose_intro', optionId: opt.id });
+    const say = after.log.entries.find((e) => e.text === opt.say);
+    expect(say?.speaker).toBe('Nameless');
+  });
+
   it('the memory write lands on the RIGHT NPC only — never cross-fed', () => {
     const s = atBeat('soan');
     // The sickroom beat answers Sōan (writes soan only); every other NPC stays unwritten.

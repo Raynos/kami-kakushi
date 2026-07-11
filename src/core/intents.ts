@@ -371,6 +371,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // from askedTopics, deduped by key), but must NOT re-append the Q+A to the permanent log:
       // refresh-replays and double-clicks were stacking duplicate exchanges in Chat.
       if (state.askedTopics.includes(topic.id)) return state;
+      // FB-399 — THE FLIP fires before any post-flip MC line renders: the sickroom scene's
+      // linear beats carry the name-question ("Nothing comes."), and every MC line after it —
+      // the hub's asks and the decide — reads `Nameless:` (intro.md's flip comment is canon).
+      // Latching here (and in choose_intro) puts the ladder ahead of the say-line emit.
+      if (scene.id === 'soan') next = setFlag(next, 'label-nameless');
       // 1) VOICE the MC's question (a `player` line, "You: …"), THEN 2) the NPC's answer line(s),
       //    each in its own authored voice + nameplate — the scrollback reads as a two-sided exchange.
       //    FB-111 — this is OPTIONAL Q&A the player chose to ask, so it's flagged `chat`: it routes to
@@ -407,6 +412,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!scene) return state;
       const opt = introSceneOption(scene, intent.optionId);
       if (!opt) return state; // an option id that isn't on THIS scene's decision ⇒ no-op
+      // FB-399 — the flip precedes the decide's say line too (see ask_topic above).
+      if (scene.id === 'soan') next = setFlag(next, 'label-nameless');
       // 1) the MC's spoken reply, then 2) the NPC's / narrator's reaction (voice-tagged, FB-23/FB-26)
       next = applyRewards(next, {
         log: [
@@ -439,10 +446,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
       //    exact ±, landing AFTER the pick on the MILESTONE channel so it reads under Progress, not
       //    Work (FB-41). The UI renders it as a JRPG-style perk box in a later pass.
       next = applyRewards(next, { log: [{ channel: 'milestone', text: introPerkLine(opt) }] });
-      // 5b) G4 — the R0 FORCED name-question (bible: `You:` → `Nameless:`). Answering Sōan's "No name,
-      //     then. What do you keep instead?" (the `soan` scene) latches `label-nameless`, the first rung
-      //     of the speaker ladder (voices.ts playerSpeaker) — his nameplate is "Nameless" from here to R7.
-      if (scene.id === 'soan') next = setFlag(next, 'label-nameless');
+      // (G4's post-answer latch moved ABOVE the say-line emit — FB-399: the flip must
+      //  precede every post-flip MC line, per intro.md's flip comment.)
       // 6) advance to the next beat, or fire the intro-complete tail
       next = enterNextBeat(next, state.introBeat + 1);
       break;

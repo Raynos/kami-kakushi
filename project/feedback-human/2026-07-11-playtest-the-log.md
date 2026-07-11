@@ -53,3 +53,12 @@ already-running timed action kept its timer and its completion line landed
 mid-scene, fracturing the card.
 **Fixed in:** playerDispatch cancels the ActionClock on `begin_rung_beat` /
 `begin_scene`; e2e case in timed-actions.spec.ts (proven RED pre-fix).
+
+### FB-399 · sickroom say-lines should read "Nameless:", not "You:" — ✅
+**Verbatim:** _"You can flip the prefix here at this point from You: to Nameless:"_
+**Reading:** intro.md's flip comment ("every MC line from this point renders
+as Nameless:") sits before the sickroom hub's asks/decide, but the
+`label-nameless` latch fired only at scene END — so the asks and the decide's
+say line still printed "You:".
+**Fixed in:** the latch moved ahead of the say-line emit in `ask_topic` +
+`choose_intro` (soan scene); new RED-able test in intro-flow.test.ts.
