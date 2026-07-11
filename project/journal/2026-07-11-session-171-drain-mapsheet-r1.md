@@ -34,3 +34,8 @@ shown before landing.
 
 - Land the kitchen/sickroom reveal hooks once the human signs the draft.
 - T0 blind-pass after the look-bearing fog change (map-authoring §5).
+
+## Commits
+
+- `6003a78b` — the map fog/seal/layout batch (FB-377/378/379/380/384/385/386)
+- FB-387 header vital-stack rides the next commit with this journal line.

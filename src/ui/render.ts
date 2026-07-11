@@ -799,7 +799,11 @@ export function mount(
   health.append(healthNum);
   const wood = vital('wood', 'wood');
   const sansai = vital('sansai', 'sansai');
-  header.append(health, stamina, belly, wood.wrap, sansai.wrap);
+  // FB-387 — body + belly stack in one compact column (bars only; the exact numbers
+  // moved to the hover titles), so the pair costs the header no more width than one.
+  const vitalStack = el('div', 'vital-stack');
+  vitalStack.append(stamina, belly);
+  header.append(health, vitalStack, wood.wrap, sansai.wrap);
 
   // ── FB-106 (ADR-110) — the RUNG element in the fixed header, top-right: a compact rung name + a
   //    progress bar (the requirement percent toward the next rung, FB-121) with a HOVER card of detail. This is the
@@ -4148,9 +4152,10 @@ export function mount(
       const frac = state.character.satiety / max;
       staminaFill.style.width = `${Math.round(frac * 100)}%`;
       staminaBar.classList.toggle('low', staminaRate(state) < 0.99);
-      // FB-335 — the exact number beside the bar (like life's), so the meter is never a
-      // mystery strip; the unit reads "body" everywhere (FB-334), never "satiety".
+      // FB-387 (revising FB-335) — bars only in the header; the exact number lives on
+      // the hover title. The unit reads "body" everywhere (FB-334), never "satiety".
       setText(staminaNum, `${Math.round(state.character.satiety)}/${Math.round(max)}`);
+      stamina.title = `Body 体 ${Math.round(state.character.satiety)}/${Math.round(max)} — work draws it down; a rest refills it. Rest better on a full belly.`;
     }
 
     // The belly (ADR-178) — reveals WITH body (the two-bar group FB-345 asked for). The low flag
@@ -4162,9 +4167,10 @@ export function mount(
       const frac = max > 0 ? state.character.hunger / max : 0;
       bellyFill.style.width = `${Math.round(frac * 100)}%`;
       bellyBar.classList.toggle('low', restQuality(state) < 0.99);
-      // the exact number beside the bar (the FB-335 idiom); the unit reads "belly" everywhere
-      // (FB-334's law), never the internal field name.
+      // FB-387 — bars only (the FB-335 numeral moved to the hover title); the unit reads
+      // "belly" everywhere (FB-334's law), never the internal field name.
       setText(bellyNum, `${Math.round(state.character.hunger)}/${Math.round(max)}`);
+      belly.title = `Belly 腹 ${Math.round(state.character.hunger)}/${Math.round(max)} — the day draws it down; the house eats from the kura, a meal fills it. A hungry rest restores less.`;
     }
 
     // HP — revealed the moment combat first matters (the R2 wolf beat), then always visible. Shows an
