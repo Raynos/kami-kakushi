@@ -26,13 +26,17 @@ magic; no reset.
 
 ## Where we are now
 
-- **✅ ESTATE REDESIGN — PHASE 1 DONE (s168, ADR-177):** the works discovery
-  chain (works-cause diverge, pick C): day-book NAMES a concern → the walk SEES
-  the damage → Genemon's beat PRICES it → the ladder stage opens; the weir node
-  is fiction-gated (FB-338/FB-342 fixed). **HR-27** filed. Plan:
-  [`fable-2026-07-10-estate-upgrades-redesign.md`](../archive/fable-2026-07-10-estate-upgrades-redesign.md)
-  — **Phase 2 (Schedule A tab moves + the Works 普請/Estate 家 diverges) is the
-  next startable step**; Phase 3 (repair verbs + inputs) after.
+- **✅ ESTATE REDESIGN — ALL PHASES DONE (s168, ADR-177):** Phase 1 the works
+  discovery chain (works-cause diverge, pick C; weir fiction-gated,
+  FB-338/FB-342; **HR-27**) · Phase 2 Schedule A one-tab-per-rung + the Works
+  普請/Estate 家 diverges (**HR-29/HR-30**) · Phase 3 repair verbs + inputs.
+  Plan (archived):
+  [`fable-2026-07-10-estate-upgrades-redesign.md`](../archive/fable-2026-07-10-estate-upgrades-redesign.md).
+- **✅ FOG/REVEAL WAVE (s171, FB-377…387):** live-map fog covers the whole
+  window; the T0 sheet CLIPS to its window (no T1 world leak); ONE viewer
+  engine (`map-sheets/viewer.ts`) for the DEV sheets + the live map; and NO
+  zone predates its introduction — weir/kitchen/sickroom/forecourt all
+  fiction-revealed (the always-open set is EMPTY).
 - **✅ BODY SPLIT DONE (s167, ADR-178):** Body 体 (work fuel) + Belly 腹 (daily
   food store; teeth = rest quality) — core + two-bar UI + PRD §2.3; verdict Δ≈0.
 - **✅ FB DRAIN WAVE (s168+, FB-361…373):** titlebar retired (name+version in
@@ -99,12 +103,13 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true
    player layout. The page NEVER auto-reloads (FB-257) — F5 to pick up code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the **estate redesign Phase 2** (Schedule A tab
-   moves + the Works 普請/Estate 家 ADR-075 diverges; Phase 3 after); or **T2
-   rungs/fog** (greenlit: `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1
-   caveat: `T2_RUNG_LADDER` is DEV-preview-only); or drain the playtest inbox
-   (ADR-171 — claim a free lane first). Human-gated: HR-1 + the story/variant
-   picks above.
+4. **Next (autonomous):** **T2 rungs/fog** (greenlit:
+   `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1 caveat:
+   `T2_RUNG_LADDER` is DEV-preview-only); or **telemetry distillation** (6
+   usable FB-8 reports in `project/telemetry/` newer than the last balance
+   commit — read + commit the pacing note before any balance work); or drain
+   the playtest inbox when captures land (ADR-171 — claim a lane first).
+   Human-gated: HR-1 + the story/variant picks above.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 1/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 2/20 · last full rewrite: 2026-07-11 -->
