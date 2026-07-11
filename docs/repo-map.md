@@ -17,7 +17,10 @@ always-loaded context while being editable on its own.
 - [`docs/guides/`](../docs/guides) — **how-to guides** (living, but process not
   canon): [qa-playtesting.md](../docs/guides/qa-playtesting.md) (how Claude
   play-tests — harness, MCP tools, balance flows),
-  [sfx-spec.md](../docs/guides/sfx-spec.md) (the audio contract), and the **map
+  [sfx-spec.md](../docs/guides/sfx-spec.md) (the audio contract),
+  [plan-authoring.md](../docs/guides/plan-authoring.md) (the three plan
+  templates — `build`/`process`/`ops` — whose mandatory sections the
+  pre-commit `verify-plan-template` gate enforces on NEW plans), and the **map
   set**: [map-spec.md](../docs/guides/map-spec.md) (what T0/T1 depict + the
   blind-pass rubric), [map-authoring.md](../docs/guides/map-authoring.md) (build/
   edit/verify procedures — pin discipline, blind-pass loop, model routing),

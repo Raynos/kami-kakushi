@@ -1,5 +1,8 @@
 # Story salvage — the audit findings/fixes (+ the superseded 19 answers)
 
+> **REFERENCE, not a plan** (2026-07-11 plan audit) — an absorbed audit
+> record; exclude it from plan-quality sweeps and never execute it.
+
 **Status: 🗄️ SUPERSEDED (2026-07-07, human call — archived the same day
 the bible was blessed): the audit substance now lives in the bible
 (structural absorption), the cross-check

@@ -53,3 +53,13 @@ carry its mandatory sections (incl. the PRD/story-bible Sync ripple).
 whether the warn-rung citation check gets ignored (promote to HARD if so,
 per the F4 §3 pattern); consider "reference, not a plan" banners on the two
 misfiled archive docs.
+
+---
+
+**Tail (same session, human-directed):** banner'd the two misfiled archive
+docs ("REFERENCE, not a plan" — diverge-v1-branch-model, story-salvage);
+listed `plan-authoring.md` in repo-map's guides line; wrote the follow-on
+proposal `project/brainstorms/2026-07-11-plan-process-streamlining.md`
+(A `/write-plan` skill + scaffold flag · B write-time WARN hook · C
+AGENTS.md bullet · horizon items) — direction to be locked with the human
+before any of it is built.

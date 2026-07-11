@@ -32,6 +32,11 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
+- [`project/brainstorms/2026-07-11-plan-process-streamlining.md`](brainstorms/2026-07-11-plan-process-streamlining.md)
+  — 3 proposals to move the new plan contract earlier than commit time
+  (A `/write-plan` skill + scaffold · B write-time WARN hook · C AGENTS.md
+  bullet) + parked horizon items. Your pick unblocks the build.
+
 - [`project/audit/reports/2026-07-11-plan-quality-audit.md`](audit/reports/2026-07-11-plan-quality-audit.md)
   — all 78 plans scored (your "audit the plans + gate a template" TODO, done
   2026-07-11): verdict distribution, the systematic gaps (routing / sync /

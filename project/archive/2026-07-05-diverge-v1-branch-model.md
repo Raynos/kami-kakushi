@@ -1,5 +1,8 @@
 # diverge v1 — the retired branch/`?variant=`/contact-sheet/GC model (archived)
 
+> **REFERENCE, not a plan** (2026-07-11 plan audit) — a graduated skill
+> excerpt; exclude it from plan-quality sweeps and never execute it.
+
 > **Archived 2026-07-06 (context-hardening P4c2, ADR-140-era).** These are the
 > diverge skill's §0/§3/§4/§7/§8 (+ the one-correspondence line), graduated
 > here VERBATIM from `.claude/skills/diverge/SKILL.md`. They describe the
