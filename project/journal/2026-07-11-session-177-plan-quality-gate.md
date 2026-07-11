@@ -94,3 +94,10 @@ Landed:
   executor read-list (recommend-only, §2.8 of the skill), plan expiry dates
   (survey-date warn covers it), hard ownership header (guide + skill
   guidance instead). 26 vitest cases total.
+
+---
+
+**Exit checkpoint:** human cleared the audit report + guide from the reading
+queue (discussed in full this session, ADR-089); no snapshot edit needed —
+nothing in-flight, the template contract lives in AGENTS.md; `pnpm run
+checkpoint` reported regions current; no workflows/subagents running.

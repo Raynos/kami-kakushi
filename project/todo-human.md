@@ -32,14 +32,6 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
-- [`project/audit/reports/2026-07-11-plan-quality-audit.md`](audit/reports/2026-07-11-plan-quality-audit.md)
-  — all 78 plans scored (your "audit the plans + gate a template" TODO, done
-  2026-07-11): verdict distribution, the systematic gaps (routing / sync /
-  risks), and the back-test proving the new gate discriminates lazy from
-  strong. Companion (the enforced canon):
-  [`docs/guides/plan-authoring.md`](../docs/guides/plan-authoring.md) — the
-  three templates (`build`/`process`/`ops`) now HARD-gated on new plans.
-
 - [`docs/plans/fable-2026-07-11-save-format-streamline.md`](../docs/plans/fable-2026-07-11-save-format-streamline.md)
   — the save-format audit + streamline plan (your "audit the save-file format"
   TODO, done 2026-07-11): verdict, 5 findings (the log is ~90% of a save and
