@@ -28,6 +28,13 @@
 
 ## Reading queue
 
+- **Play the physical-token map prototype** —
+  [`project/prototypes/map-token-presence/physical-token/index.html`](prototypes/map-token-presence/physical-token/index.html)
+  (open in a browser): a physical piece (koma / miniature / go stone / pilgrim
+  hat) on the REAL T0 sheet, linear travel animation, three movement idioms,
+  camera follow — your requested feel-test for replacing the flat shu presence
+  marks (FB-340 / HR-26 territory).
+
 
 > **What belongs here** — a durable doc whose purpose is for you to read or sign
 > off: a **plan** (`docs/plans/`), a **brainstorm / retrospective for adoption**

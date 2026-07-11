@@ -30,6 +30,23 @@ together; inside, each prototype is one self-contained dir.
 
 ## Plan folders
 
+### [`map-token-presence/`](map-token-presence) — FB-340 / HR-26 follow-on (no plan yet)
+
+Born 2026-07-11 from the human's direct ask: replace the flat shu marks (square /
+circle / footsteps) with a **physical piece sitting on the survey sheet** — "a
+chess piece, a monopoly character, a peon, a miniature" — travelling between
+zones as a linear animation. Prototype precedes any plan; if the feel-test
+lands, the owning plan supersedes this note.
+
+- [`physical-token/`](map-token-presence/physical-token/index.html) — the REAL
+  baked T0 sheet (harvested render + CSS + Andon Steel tokens, 2026-07-11 —
+  `t0-sheet.svg` sits beside the HTML) with a token layer over it. Four
+  switchable pieces (将棋 koma · 人形 wooden miniature · 碁 go stone with the
+  house mon · 笠 top-down pilgrim hat), three movement idioms (walk with shu
+  footprints · slide · lift & place with shadow separation), optional camera
+  follow. Click any zone seal — or anywhere — to send the piece travelling
+  (linear, constant speed).
+
 ### [`authored-depth-demo/`](authored-depth-demo) — Plan K (🧊 PARKED)
 
 Owner: [`docs/plans/t1/fable-2026-07-09-authored-depth-demo.md`](../../docs/plans/t1/fable-2026-07-09-authored-depth-demo.md).

@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PROTOTYPE — physical token on the survey sheet (map travel presence)</title>
+<style>
+  /* Andon Steel tokens — copied from src/ui/styles.css resolved values, 2026-07-11 */
+  :root {
+    --steel-0: #0e1016; --steel-1: #161922; --steel-2: #1b1f29; --steel-hi: #20242f;
+    --void: #070810;
+    --ink: #c2c8d8; --ink-soft: #8a90a4; --ink-faint: #5c6274;
+    --silver: #cdd6ee; --silver-hi: #e7ecff; --silver-dim: #99a2bf;
+    --silver-wire: rgba(205, 214, 238, 0.55); --silver-faint: rgba(205, 214, 238, 0.14);
+    --gold: #d8b978; --gold-hi: #f2dca0; --gold-dim: #93794a;
+    --shu: #bf3b25; --shu-hi: #de5a3a; --shu-deep: #7e2414;
+    --key: rgba(216, 185, 120, 0.42); --key-dim: rgba(216, 185, 120, 0.15);
+    --font-head: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+    --font-kanji: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+    --radius: 3px; --dur: 320ms; --ease-ink: cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; background: var(--void); overflow: hidden; }
+  body { font-family: var(--font-head); color: var(--ink); }
+
+  /* ── stage: the sheet + the token overlay share one box, camera transforms it ── */
+  #viewport { position: fixed; inset: 0; overflow: hidden; }
+  #stage { position: absolute; transform-origin: 0 0; will-change: transform; }
+  #stage img, #stage svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  #overlay { cursor: crosshair; }
+
+  /* ── control panel ── */
+  #panel {
+    position: fixed; top: 14px; left: 14px; z-index: 10;
+    background: color-mix(in srgb, var(--steel-1) 92%, transparent);
+    border: 1px solid var(--key-dim); border-radius: var(--radius);
+    padding: 12px 14px; max-width: 300px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  }
+  #panel h1 { font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 2px; }
+  #panel .sub { font-size: 0.72rem; color: var(--ink-faint); margin-bottom: 10px; }
+  #panel .row { margin-bottom: 9px; }
+  #panel .lab { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-soft); margin-bottom: 4px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip {
+    font: inherit; font-size: 0.78rem; color: var(--silver-dim);
+    background: var(--steel-2); border: 1px solid var(--silver-faint);
+    border-radius: var(--radius); padding: 4px 9px; cursor: pointer;
+    transition: all var(--dur) var(--ease-ink);
+  }
+  .chip:hover { color: var(--silver); border-color: var(--silver-wire); }
+  .chip.on { color: var(--gold-hi); border-color: var(--key); background: var(--steel-hi); }
+  label.tog { display: flex; align-items: center; gap: 7px; font-size: 0.8rem;
+    color: var(--silver-dim); cursor: pointer; }
+  label.tog input { accent-color: var(--gold-dim); }
+  #where { font-size: 0.8rem; color: var(--silver); border-top: 1px solid var(--silver-faint);
+    padding-top: 8px; margin-top: 2px; }
+  #where b { color: var(--gold-hi); font-weight: 600; }
+  #hint { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+    font-size: 0.75rem; color: var(--ink-faint); letter-spacing: 0.06em;
+    background: color-mix(in srgb, var(--steel-1) 80%, transparent);
+    padding: 4px 12px; border-radius: var(--radius); pointer-events: none; }
+
+  /* zone hover ring */
+  .zone-hit { fill: transparent; cursor: pointer; }
+  .zone-ring { fill: none; stroke: var(--gold); stroke-width: 2.5; opacity: 0;
+    pointer-events: none; transition: opacity 180ms var(--ease-ink); }
+  .zone-hit:hover + .zone-ring { opacity: 0.75; }
+</style>
+</head>
+<body>
+<div id="viewport">
+  <div id="stage">
+    <img src="t0-sheet.svg" alt="T0 survey sheet (real render, baked 2026-07-11)" draggable="false" />
+    <svg id="overlay" viewBox="430 330 2220 1480" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+</div>
+
+<div id="panel">
+  <h1>Physical token — feel test</h1>
+  <div class="sub">MOCK · prototype only, nothing here is canon (FB-340 / HR-26 territory)</div>
+  <div class="row">
+    <div class="lab">Token</div>
+    <div class="chips" id="tokenChips"></div>
+  </div>
+  <div class="row">
+    <div class="lab">Movement</div>
+    <div class="chips" id="moveChips"></div>
+  </div>
+  <div class="row">
+    <label class="tog"><input type="checkbox" id="followTog" /> camera follows the piece</label>
+  </div>
+  <div id="where">at: <b id="whereName">Forecourt</b></div>
+</div>
+<div id="hint">click a zone seal — or anywhere on the sheet — to send the piece walking</div>
+
+<script>
+'use strict';
+// ══════════════════════════════════════════════════════════════════════════
+// MOCK DATA — T0 zone anchors copied from src/ui/map-sheets/layout.ts
+// (2026-07-11). World units; the sheet viewBox is 430 330 2220 1480.
+// ══════════════════════════════════════════════════════════════════════════
+const ZONES = [
+  { id: 'weir', name: 'Weir & riverbank', x: 585, y: 1105 },
+  { id: 'weir-reeds', name: 'Weir reeds', x: 610, y: 1372 },
+  { id: 'gate', name: 'Gate & gateyard', x: 2140, y: 1568 },
+  { id: 'forecourt', name: 'Forecourt', x: 2145, y: 1398 },
+  { id: 'woodshed', name: 'Woodshed', x: 1978, y: 1458 },
+  { id: 'kitchen', name: 'Kitchen', x: 2028, y: 1288, room: true },
+  { id: 'shrine', name: 'Shrine', x: 2130, y: 1178, room: true },
+  { id: 'kura', name: 'Kura & grain-store', x: 2310, y: 1030 },
+  { id: 'sickroom', name: 'Sickroom', x: 1950, y: 1332, room: true },
+  { id: 'drill-yard', name: 'Drill yard', x: 2272, y: 1346 },
+  { id: 'paddies', name: 'Home paddy', x: 1670, y: 1668 },
+  { id: 'field-margins', name: 'Field margins', x: 1424, y: 1652 },
+  { id: 'woodlot', name: 'Woodlot edge', x: 2565, y: 1145 },
+  { id: 'ruined', name: 'Ruined compound', x: 1650, y: 820 },
+  { id: 'orchard', name: 'Overgrown orchard', x: 1905, y: 1005 },
+  { id: 'grove', name: 'Bamboo grove', x: 2095, y: 425 },
+  { id: 'night-rounds', name: 'Night rounds', x: 2242, y: 1560 },
+];
+const VB = { x: 430, y: 330, w: 2220, h: 1480 };
+const NS = 'http://www.w3.org/2000/svg';
+const sv = (tag, attrs = {}) => {
+  const el = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+};
+
+const overlay = document.getElementById('overlay');
+
+// ── defs: soft shadow blur ──────────────────────────────────────────────────
+{
+  const defs = sv('defs');
+  const f = sv('filter', { id: 'soft', x: '-60%', y: '-60%', width: '220%', height: '220%' });
+  f.appendChild(sv('feGaussianBlur', { stdDeviation: 3.5 }));
+  defs.appendChild(f);
+  const f2 = sv('filter', { id: 'softer', x: '-80%', y: '-80%', width: '260%', height: '260%' });
+  f2.appendChild(sv('feGaussianBlur', { stdDeviation: 7 }));
+  defs.appendChild(f2);
+  // wood gradient for the koma
+  const lg = sv('linearGradient', { id: 'wood', x1: 0, y1: 0, x2: 0.7, y2: 1 });
+  lg.appendChild(sv('stop', { offset: '0%', 'stop-color': '#c9a668' }));
+  lg.appendChild(sv('stop', { offset: '45%', 'stop-color': '#a8875a' }));
+  lg.appendChild(sv('stop', { offset: '100%', 'stop-color': '#7d6440' }));
+  defs.appendChild(lg);
+  // polished stone gradient
+  const rg = sv('radialGradient', { id: 'stone', cx: 0.36, cy: 0.3, r: 0.85 });
+  rg.appendChild(sv('stop', { offset: '0%', 'stop-color': '#3a4152' }));
+  rg.appendChild(sv('stop', { offset: '55%', 'stop-color': '#20242f' }));
+  rg.appendChild(sv('stop', { offset: '100%', 'stop-color': '#0e1016' }));
+  defs.appendChild(rg);
+  // straw hat gradient
+  const hg = sv('radialGradient', { id: 'straw', cx: 0.42, cy: 0.38, r: 0.8 });
+  hg.appendChild(sv('stop', { offset: '0%', 'stop-color': '#e5c98c' }));
+  hg.appendChild(sv('stop', { offset: '60%', 'stop-color': '#c0a163' }));
+  hg.appendChild(sv('stop', { offset: '100%', 'stop-color': '#8a7145' }));
+  defs.appendChild(hg);
+  overlay.appendChild(defs);
+}
+
+// ── layers: footprints under, token above, zone hits on top ────────────────
+const trailLayer = sv('g');
+const shadowLayer = sv('g');
+const tokenLayer = sv('g');
+const hitLayer = sv('g');
+overlay.appendChild(trailLayer);
+overlay.appendChild(shadowLayer);
+overlay.appendChild(tokenLayer);
+overlay.appendChild(hitLayer);
+
+// click-anywhere travel + zone hits with hover rings
+{
+  const bg = sv('rect', { x: VB.x, y: VB.y, width: VB.w, height: VB.h, fill: 'transparent' });
+  bg.style.cursor = 'crosshair';
+  bg.addEventListener('click', (e) => travelToEvent(e));
+  hitLayer.appendChild(bg);
+  for (const z of ZONES) {
+    const r = z.room ? 34 : 48;
+    const hit = sv('circle', { cx: z.x, cy: z.y, r, class: 'zone-hit' });
+    const ring = sv('circle', { cx: z.x, cy: z.y, r: r - 6, class: 'zone-ring' });
+    hit.addEventListener('click', (e) => { e.stopPropagation(); travelTo(z.x, z.y, z.name); });
+    hitLayer.appendChild(hit);
+    hitLayer.appendChild(ring);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// The four token builds. Each returns { body, shadow, onWalk(t, moving), size }
+// body is centred on (0,0) = the point the piece occupies on the sheet.
+// ══════════════════════════════════════════════════════════════════════════
+
+function buildKoma() {
+  // shogi piece lying on the sheet, seen from above — pentagon, bevel, kanji
+  const shadow = sv('path', {
+    d: 'M 0 -41 L 27 -15 L 33 41 L -33 41 L -27 -15 Z',
+    fill: '#000', opacity: 0.55, filter: 'url(#soft)',
+  });
+  const body = sv('g');
+  body.appendChild(sv('path', {
+    d: 'M 0 -41 L 27 -15 L 33 41 L -33 41 L -27 -15 Z', fill: 'url(#wood)',
+    stroke: '#5c4a2e', 'stroke-width': 1.5,
+  }));
+  // bevel: lit top edges, shaded bottom
+  body.appendChild(sv('path', {
+    d: 'M 0 -41 L 27 -15 M 0 -41 L -27 -15', fill: 'none',
+    stroke: '#ecd9ad', 'stroke-width': 3, 'stroke-linecap': 'round', opacity: 0.8,
+  }));
+  body.appendChild(sv('path', {
+    d: 'M -33 41 L 33 41', fill: 'none', stroke: '#40311c',
+    'stroke-width': 3.5, 'stroke-linecap': 'round', opacity: 0.7,
+  }));
+  // faint grain
+  for (const [d, o] of [
+    ['M -20 -6 C -8 -12, 10 -2, 22 -8', 0.28],
+    ['M -26 14 C -6 8, 8 18, 28 12', 0.22],
+    ['M -29 30 C -10 26, 12 32, 30 28', 0.18],
+  ]) body.appendChild(sv('path', { d, fill: 'none', stroke: '#5c4a2e', 'stroke-width': 1.6, opacity: o }));
+  const kanji = sv('text', {
+    x: 0, y: 18, 'text-anchor': 'middle', 'font-size': 42, fill: '#241a0e',
+    'font-family': "'Hiragino Mincho ProN','Yu Mincho',serif", 'font-weight': 600,
+  });
+  kanji.textContent = '主';
+  body.appendChild(kanji);
+  return {
+    body, shadow, rotates: true, size: 41,
+    onWalk() {}, // a koma slides — no gait
+  };
+}
+
+function buildMiniature() {
+  // upright wooden standee (billboard) on a round base — the monopoly-piece read
+  const shadow = sv('ellipse', { cx: 4, cy: 6, rx: 30, ry: 12, fill: '#000', opacity: 0.5, filter: 'url(#soft)' });
+  const body = sv('g');
+  const fig = sv('g'); // the bobbing part
+  // base disc
+  body.appendChild(sv('ellipse', { cx: 0, cy: 0, rx: 24, ry: 10, fill: '#54432a', stroke: '#2e2417', 'stroke-width': 1.5 }));
+  body.appendChild(sv('ellipse', { cx: 0, cy: -4, rx: 24, ry: 10, fill: 'url(#wood)', stroke: '#5c4a2e', 'stroke-width': 1.2 }));
+  // robed figure silhouette, carved wood with silver-ink edge
+  fig.appendChild(sv('path', {
+    d: 'M 0 -88 C 10 -88, 15 -80, 14 -71 C 13 -64, 9 -60, 9 -57 C 20 -52, 26 -38, 27 -18 C 27.5 -10, 22 -6, 14 -6 L -14 -6 C -22 -6, -27.5 -10, -27 -18 C -26 -38, -20 -52, -9 -57 C -9 -60, -13 -64, -14 -71 C -15 -80, -10 -88, 0 -88 Z',
+    fill: '#8a6f45', stroke: '#3a2d1a', 'stroke-width': 2,
+  }));
+  // carved fold lines + a silver brush edge (catches the sheet's lantern light)
+  fig.appendChild(sv('path', { d: 'M -6 -52 C -9 -38, -10 -22, -9 -8', fill: 'none', stroke: '#3a2d1a', 'stroke-width': 1.6, opacity: 0.6 }));
+  fig.appendChild(sv('path', { d: 'M 6 -52 C 9 -38, 10 -22, 9 -8', fill: 'none', stroke: '#3a2d1a', 'stroke-width': 1.6, opacity: 0.6 }));
+  fig.appendChild(sv('path', {
+    d: 'M -14 -71 C -15 -80, -10 -88, 0 -88 C 10 -88, 15 -80, 14 -71', fill: 'none',
+    stroke: '#cdd6ee', 'stroke-width': 1.4, opacity: 0.5,
+  }));
+  // shu sash — the "you" accent, same red as the presence idiom
+  fig.appendChild(sv('path', { d: 'M -18 -34 C -4 -28, 6 -28, 19 -35', fill: 'none', stroke: '#bf3b25', 'stroke-width': 4.5, 'stroke-linecap': 'round' }));
+  body.appendChild(fig);
+  return {
+    body, shadow, rotates: false, size: 34,
+    onWalk(t, moving) {
+      if (!moving) { fig.setAttribute('transform', ''); return; }
+      const bob = Math.sin(t * 0.02) * 4;
+      const rock = Math.sin(t * 0.01) * 4;
+      fig.setAttribute('transform', `translate(0 ${bob}) rotate(${rock})`);
+    },
+  };
+}
+
+function buildStone() {
+  // polished go stone with the house mon brushed in gold — flattest, quietest
+  const shadow = sv('ellipse', { cx: 3, cy: 4, rx: 36, ry: 33, fill: '#000', opacity: 0.55, filter: 'url(#soft)' });
+  const body = sv('g');
+  body.appendChild(sv('circle', { cx: 0, cy: 0, r: 34, fill: 'url(#stone)', stroke: '#070810', 'stroke-width': 1.5 }));
+  // specular crescent
+  body.appendChild(sv('path', {
+    d: 'M -22 -14 A 26 26 0 0 1 10 -24', fill: 'none', stroke: '#cdd6ee',
+    'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.45, filter: 'url(#soft)',
+  }));
+  // the mon: a gold ring holding the master's kanji
+  body.appendChild(sv('circle', { cx: 0, cy: 0, r: 22, fill: 'none', stroke: '#d8b978', 'stroke-width': 2.2, opacity: 0.9 }));
+  const k = sv('text', {
+    x: 0, y: 10, 'text-anchor': 'middle', 'font-size': 27, fill: '#d8b978',
+    'font-family': "'Hiragino Mincho ProN','Yu Mincho',serif",
+  });
+  k.textContent = '黒';
+  body.appendChild(k);
+  return { body, shadow, rotates: false, size: 34, onWalk() {} };
+}
+
+function buildPilgrim() {
+  // true top-down: a sandogasa straw hat seen from directly above, shoulders
+  // and sandal-tips peeking — the piece IS a little person on the paper
+  const shadow = sv('ellipse', { cx: 5, cy: 6, rx: 34, ry: 30, fill: '#000', opacity: 0.5, filter: 'url(#soft)' });
+  const body = sv('g');
+  const sway = sv('g');
+  // shoulders under the brim (behind = south of hat centre when heading north)
+  sway.appendChild(sv('path', {
+    d: 'M -20 16 C -10 26, 10 26, 20 16 L 14 8 L -14 8 Z',
+    fill: '#4a3d5c', stroke: '#241d30', 'stroke-width': 1.5,
+  }));
+  // the hat — wide circle, radial cone ribs
+  sway.appendChild(sv('circle', { cx: 0, cy: 0, r: 30, fill: 'url(#straw)', stroke: '#5f4d2c', 'stroke-width': 1.6 }));
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2;
+    sway.appendChild(sv('line', {
+      x1: Math.cos(a) * 7, y1: Math.sin(a) * 7,
+      x2: Math.cos(a) * 28, y2: Math.sin(a) * 28,
+      stroke: '#7a633a', 'stroke-width': 1.3, opacity: 0.55,
+    }));
+  }
+  sway.appendChild(sv('circle', { cx: 0, cy: 0, r: 6.5, fill: '#8a7145', stroke: '#5f4d2c', 'stroke-width': 1.2 }));
+  // shu cord knot at the crown — the "you" accent
+  sway.appendChild(sv('circle', { cx: 0, cy: 0, r: 3, fill: '#bf3b25' }));
+  // sandal tips, alternate while walking
+  const footL = sv('ellipse', { cx: -9, cy: -30, rx: 4.5, ry: 7, fill: '#241d30', opacity: 0 });
+  const footR = sv('ellipse', { cx: 9, cy: -30, rx: 4.5, ry: 7, fill: '#241d30', opacity: 0 });
+  body.appendChild(footL);
+  body.appendChild(footR);
+  body.appendChild(sway);
+  return {
+    body, shadow, rotates: true, size: 32,
+    onWalk(t, moving) {
+      if (!moving) { sway.setAttribute('transform', ''); footL.setAttribute('opacity', 0); footR.setAttribute('opacity', 0); return; }
+      const s = Math.sin(t * 0.012);
+      sway.setAttribute('transform', `translate(${s * 3} 0) rotate(${s * 5})`);
+      footL.setAttribute('opacity', s > 0.2 ? 0.85 : 0);
+      footR.setAttribute('opacity', s < -0.2 ? 0.85 : 0);
+    },
+  };
+}
+
+const TOKENS = {
+  koma: { label: '将棋 koma', build: buildKoma },
+  miniature: { label: '人形 miniature', build: buildMiniature },
+  stone: { label: '碁 go stone', build: buildStone },
+  pilgrim: { label: '笠 pilgrim (top-down)', build: buildPilgrim },
+};
+const MOVES = {
+  walk: { label: 'walk (footprints)', speed: 200 },
+  slide: { label: 'slide (pushed)', speed: 340 },
+  lift: { label: 'lift & place', speed: 420 },
+};
+
+// ══════════════════════════════════════════════════════════════════════════
+// State + the animation driver
+// ══════════════════════════════════════════════════════════════════════════
+const state = {
+  x: 2145, y: 1398, heading: 0, // start at the forecourt, facing north
+  tokenKind: 'koma', moveKind: 'walk',
+  trip: null, // { fromX, fromY, toX, toY, dist, t0, dur, name }
+  token: null,
+  follow: false,
+};
+
+function mountToken() {
+  tokenLayer.innerHTML = '';
+  shadowLayer.innerHTML = '';
+  state.token = TOKENS[state.tokenKind].build();
+  shadowLayer.appendChild(state.token.shadow);
+  tokenLayer.appendChild(state.token.body);
+  positionToken(0, performance.now());
+}
+
+function positionToken(lift, now) {
+  const t = state.token;
+  const rot = t.rotates ? ` rotate(${state.heading})` : '';
+  const liftY = lift * 26;
+  t.body.setAttribute('transform',
+    `translate(${state.x} ${state.y - liftY})${rot} scale(${1 + lift * 0.1})`);
+  // shadow stays on the paper; separates + softens as the piece lifts
+  const so = 1 + lift * 2.2;
+  t.shadow.setAttribute('transform',
+    `translate(${state.x + 4 * so} ${state.y + 5 * so})${rot} scale(${1 - lift * 0.18})`);
+  t.shadow.setAttribute('opacity', 0.55 - lift * 0.3);
+  t.shadow.setAttribute('filter', lift > 0.3 ? 'url(#softer)' : 'url(#soft)');
+  t.onWalk(now, !!state.trip && state.moveKind === 'walk' && lift === 0);
+}
+
+// footprint trail (walk mode) — paired shu stamps that fade like drying ink
+let lastStamp = { x: 0, y: 0 };
+function stampFeet(x, y, heading) {
+  const dx = x - lastStamp.x, dy = y - lastStamp.y;
+  if (dx * dx + dy * dy < 34 * 34) return;
+  lastStamp = { x, y };
+  stampFeet.side = !stampFeet.side;
+  const a = (heading * Math.PI) / 180;
+  const px = Math.cos(a) * (stampFeet.side ? 7 : -7);
+  const py = Math.sin(a) * (stampFeet.side ? 7 : -7);
+  const g = sv('g', { transform: `translate(${x + px} ${y + py}) rotate(${heading})` });
+  g.appendChild(sv('ellipse', { cx: 0, cy: 0, rx: 3.2, ry: 5.5, fill: 'var(--shu, #bf3b25)' }));
+  g.style.opacity = 0.8;
+  g.style.transition = 'opacity 4s linear';
+  trailLayer.appendChild(g);
+  requestAnimationFrame(() => { g.style.opacity = 0; });
+  setTimeout(() => g.remove(), 4200);
+}
+
+function travelTo(x, y, name) {
+  if (state.trip) return; // one move at a time — matches the game's timed moves
+  const dist = Math.hypot(x - state.x, y - state.y);
+  if (dist < 4) return;
+  state.trip = {
+    fromX: state.x, fromY: state.y, toX: x, toY: y, dist,
+    t0: performance.now(),
+    dur: Math.max(500, (dist / MOVES[state.moveKind].speed) * 1000),
+    name: name || null,
+  };
+  state.heading = (Math.atan2(y - state.y, x - state.x) * 180) / Math.PI + 90;
+  lastStamp = { x: state.x, y: state.y };
+  document.getElementById('whereName').textContent = '…walking';
+}
+
+function travelToEvent(e) {
+  const pt = overlay.createSVGPoint();
+  pt.x = e.clientX; pt.y = e.clientY;
+  const p = pt.matrixTransform(overlay.getScreenCTM().inverse());
+  travelTo(p.x, p.y, null);
+}
+
+// lift-envelope for the lift & place move: up 0→15%, carry, down 85%→100%
+function liftEnvelope(u) {
+  if (state.moveKind !== 'lift') return 0;
+  if (u < 0.15) return easeOut(u / 0.15);
+  if (u > 0.85) return 1 - easeOut((u - 0.85) / 0.15);
+  return 1;
+}
+const easeOut = (u) => 1 - (1 - u) * (1 - u);
+
+// ── camera ──────────────────────────────────────────────────────────────────
+const stage = document.getElementById('stage');
+const cam = { x: 0, y: 0, s: 1, tx: 0, ty: 0, ts: 1 };
+let stagePx = { w: 0, h: 0, unit: 1 };
+function layoutStage() {
+  const vw = innerWidth, vh = innerHeight;
+  const scale = Math.min(vw / VB.w, vh / VB.h);
+  stagePx = { w: VB.w * scale, h: VB.h * scale, unit: scale };
+  stage.style.width = stagePx.w + 'px';
+  stage.style.height = stagePx.h + 'px';
+  stage.style.left = (vw - stagePx.w) / 2 + 'px';
+  stage.style.top = (vh - stagePx.h) / 2 + 'px';
+}
+addEventListener('resize', layoutStage);
+layoutStage();
+
+let settleTimer = 0;
+function cameraTargets(now) {
+  const FOLLOW_ZOOM = 2.1;
+  const wantFollow = state.follow && (state.trip || now < settleTimer);
+  if (wantFollow) {
+    cam.ts = FOLLOW_ZOOM;
+    // keep the token at viewport centre: token position in stage px
+    const px = (state.x - VB.x) * stagePx.unit;
+    const py = (state.y - VB.y) * stagePx.unit;
+    cam.tx = innerWidth / 2 - (stage.offsetLeft + px * FOLLOW_ZOOM);
+    cam.ty = innerHeight / 2 - (stage.offsetTop + py * FOLLOW_ZOOM);
+  } else {
+    cam.ts = 1; cam.tx = 0; cam.ty = 0;
+  }
+}
+
+// ── the driver ──────────────────────────────────────────────────────────────
+function frame(now) {
+  let lift = 0;
+  if (state.trip) {
+    const tr = state.trip;
+    const u = Math.min(1, (now - tr.t0) / tr.dur);
+    // LINEAR travel (the ask) — constant speed across the paper
+    state.x = tr.fromX + (tr.toX - tr.fromX) * u;
+    state.y = tr.fromY + (tr.toY - tr.fromY) * u;
+    lift = liftEnvelope(u);
+    if (state.moveKind === 'walk') stampFeet(state.x, state.y, state.heading);
+    if (u >= 1) {
+      const name = tr.name;
+      state.trip = null;
+      settleTimer = now + 900; // camera lingers, then eases back to the fit view
+      document.getElementById('whereName').textContent = name || 'the open ground';
+    }
+  }
+  positionToken(lift, now);
+  cameraTargets(now);
+  cam.s += (cam.ts - cam.s) * 0.06;
+  cam.x += (cam.tx - cam.x) * 0.06;
+  cam.y += (cam.ty - cam.y) * 0.06;
+  stage.style.transform = `translate(${cam.x}px, ${cam.y}px) scale(${cam.s})`;
+  stage.style.transformOrigin = `${-stage.offsetLeft}px ${-stage.offsetTop}px`;
+  requestAnimationFrame(frame);
+}
+
+// ── controls ────────────────────────────────────────────────────────────────
+function chips(elId, defs, current, onPick) {
+  const host = document.getElementById(elId);
+  for (const [key, def] of Object.entries(defs)) {
+    const b = document.createElement('button');
+    b.className = 'chip' + (key === current ? ' on' : '');
+    b.textContent = def.label;
+    b.addEventListener('click', () => {
+      host.querySelectorAll('.chip').forEach((c) => c.classList.remove('on'));
+      b.classList.add('on');
+      onPick(key);
+    });
+    host.appendChild(b);
+  }
+}
+chips('tokenChips', TOKENS, state.tokenKind, (k) => { state.tokenKind = k; mountToken(); });
+chips('moveChips', MOVES, state.moveKind, (k) => { state.moveKind = k; });
+document.getElementById('followTog').addEventListener('change', (e) => {
+  state.follow = e.target.checked;
+});
+
+mountToken();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
