@@ -51,12 +51,14 @@ import {
   RAKE_TEACH_LINE_IDS,
   rakeTeachPending,
   RAKE_TEACH_COOLDOWN_MS,
+  OUT_OF_STRENGTH_REASON,
   type GameState,
   type Intent,
   type LogEntry,
   rungRequirements,
   rungProgress,
 } from '../core';
+import { RAKE_DONE_REASON } from '../core/content/coldOpen';
 
 function entry(text: string, count: number, channel: LogEntry['channel'] = 'reward'): LogEntry {
   return { key: 0, channel, text, tick: 0, count };
@@ -2981,5 +2983,102 @@ describe('FB-359/FB-360 — a swap to pre-awake tears the VN scene down', () => 
     expect(root.querySelector('.vn-scene')).toBeNull(); // the stale overlay must go…
     const coldOpen = root.querySelector<HTMLElement>('.coldopen')!;
     expect(coldOpen.hidden).toBe(false); // …and the cold open own the screen
+  });
+});
+
+// ── FB-367/FB-368 (inbox drain 2026-07-10) — the rake row speaks the labour-row idioms
+//    (patchLabourRow / ADR-148): a PERMANENTLY exhausted rake hides its auto-toggle for
+//    good (a "waiting" idle would lie — the spill never refills), a merely out-of-strength
+//    rake keeps an ARMED auto visible as "⏸ waiting", and the refusal reason reads inline
+//    via the lock-hint — off the SAME predicates the button title uses (AC-6). Fixtures
+//    derive from balance.RAKE_CAP / SATIETY_PER_ACT (source of truth), never typed counts.
+describe('FB-367/FB-368 — rake row: dead auto hides, lock-hint reads the why', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    localStorage.clear();
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  // `satiety: 'full'` = topped up (derived via satietyMax); `'spent'` = one below the act
+  // cost (derived from balance.SATIETY_PER_ACT — the same constant canAffordAct gates on).
+  function rakeState(satiety: 'full' | 'spent', over: Partial<GameState> = {}): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      flags: { ...base.flags, awake: true },
+      character: {
+        ...base.character,
+        satiety: satiety === 'full' ? satietyMax(base) : balance.SATIETY_PER_ACT - 1,
+      },
+      ...over,
+    };
+  }
+  function rakeRow(): HTMLElement {
+    const btn = [...root.querySelectorAll<HTMLButtonElement>('.actions .verb')].find((b) =>
+      (b.textContent ?? '').includes('Rake the spilled rice'),
+    )!;
+    expect(btn).toBeDefined();
+    return btn.closest('.labour-row') as HTMLElement;
+  }
+
+  it('exhausted spill — auto-toggle hides even while armed; lock-hint reads the done line', () => {
+    const render = mount(root, () => {}, noopHooks());
+    // affordable (full body) — exhaustion is the sole gate. Rake progress high enough that
+    // the auto-toggle HAD been revealed (derived from the R0 requirement, like the % bar) —
+    // otherwise "hidden" could never have gone RED here.
+    const base = rakeState('full', { rakesDone: balance.RAKE_CAP, autoRake: true });
+    const rakeReq = rungRequirements(base.rung).find(
+      (r) => r.type === 'count' && r.token === 'act:rake_rice',
+    )!;
+    expect(rakeReq).toBeDefined();
+    const s: GameState = { ...base, rungReqs: { [rakeReq.id]: balance.RAKE_CAP } };
+    render(s, null);
+    const row = rakeRow();
+    expect(row.querySelector<HTMLButtonElement>('.verb')!.disabled).toBe(true);
+    expect(row.querySelector<HTMLButtonElement>('.auto-toggle')!.hidden).toBe(true); // no dead idle
+    const lock = row.querySelector<HTMLElement>('.lock-hint')!;
+    expect(lock.hidden).toBe(false);
+    expect(lock.textContent).toBe(RAKE_DONE_REASON);
+  });
+
+  it('out of strength, armed — auto idles visibly as waiting; lock-hint reads the rest line', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = rakeState('spent', { rakesDone: 0, autoRake: true }); // below the act cost
+    render(s, null);
+    const row = rakeRow();
+    const auto = row.querySelector<HTMLButtonElement>('.auto-toggle')!;
+    expect(auto.hidden).toBe(false); // ADR-148 — an armed auto never vanishes with its activity
+    expect(auto.classList.contains('waiting')).toBe(true);
+    expect(auto.textContent).toBe('⏸ waiting');
+    const lock = row.querySelector<HTMLElement>('.lock-hint')!;
+    expect(lock.hidden).toBe(false);
+    expect(lock.textContent).toBe(OUT_OF_STRENGTH_REASON);
+  });
+
+  it('out of strength, unarmed — auto stays hidden; recovering strength clears the hint', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const weary = rakeState('spent', { rakesDone: 0, autoRake: false });
+    render(weary, null);
+    const row = rakeRow();
+    expect(row.querySelector<HTMLButtonElement>('.auto-toggle')!.hidden).toBe(true);
+    expect(row.querySelector<HTMLElement>('.lock-hint')!.hidden).toBe(false);
+    // rested again → the hint clears and the verb re-arms
+    const rested = rakeState('full', { rakesDone: 0, autoRake: false });
+    render(rested, weary);
+    expect(row.querySelector<HTMLButtonElement>('.verb')!.disabled).toBe(false);
+    expect(row.querySelector<HTMLElement>('.lock-hint')!.hidden).toBe(true);
   });
 });
