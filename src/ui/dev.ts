@@ -67,6 +67,8 @@ import {
   WORKS_PROJECTS,
   stageDiscovery,
   getNode,
+  nodeSeasonalBlurb,
+  season,
   ESTATE_STAGES,
   availableLabours,
   availableActions,
@@ -145,6 +147,12 @@ export const SURFACES: SurfaceDef[] = [
         id: 'zone-c',
         label: 'C · ink-scene banner',
         blurb: 'The place as hero — a kanji banner, then one calm full-width verb stack.',
+      },
+      {
+        id: 'zone-d',
+        label: 'D · banner + standing line',
+        blurb:
+          "C's banner with the zone's standing line (the seasonal node read) between the hero and the verbs.",
       },
     ],
   },
@@ -635,21 +643,25 @@ function renderSurfaceVariant(
 }
 
 /** FB-410 (ADR-075) — the diverged ZONE do-panel (B · worktable ledger / C · ink-scene
- *  banner). DEV-only; the default A (zone placard over the classic groups) ships inline in
- *  render.ts. Both alternates re-present the SAME core reads (availableActions /
- *  availableLabours / the place-strip predicates) and drive the REAL intents — every
- *  variant works (ADR-075). Buttons are stamped with the clock's actionKey so the global
- *  paintActionClock sweep gives them the lock + progress bar for free. Rebuilds are
- *  signature-guarded: the pane only re-renders when a value it shows changed (an idle
- *  tick repaints nothing — TST2 holds even under the DEV toggle). */
+ *  banner / D · the banner carrying the zone's standing line). DEV-only; the default A
+ *  (zone placard over the classic groups) ships inline in render.ts. Every alternate
+ *  re-presents the SAME core reads (availableActions / availableLabours / the place-strip
+ *  predicates) and drives the REAL intents — every variant works (ADR-075). Buttons are
+ *  stamped with the clock's actionKey so the global paintActionClock sweep gives them the
+ *  lock + progress bar for free. Rebuilds are signature-guarded: the pane only re-renders
+ *  when a value it shows changed (an idle tick repaints nothing — TST2 holds even under the
+ *  DEV toggle). */
 function renderZoneVariant(
   variantId: string,
   container: HTMLElement,
   state: GameState,
   dispatch: (intent: Intent) => void,
 ): boolean {
-  if (variantId !== 'zone-b' && variantId !== 'zone-c') return false;
+  if (variantId !== 'zone-b' && variantId !== 'zone-c' && variantId !== 'zone-d') return false;
   const here = getNode(state.location);
+  // D · the standing line — the SAME seasonal node read the Map's you-are-here card resolves
+  // (map.ts nodeSeasonalBlurb, one source — TST1), so it breathes by season for free.
+  const standingLine = variantId === 'zone-d' ? nodeSeasonalBlurb(here, season(state)).text : '';
   const labours = availableLabours(state);
   const metas = availableActions(state).filter((a) => a !== 'open_eyes');
   const roundLive = state.roundState !== null;
@@ -667,6 +679,7 @@ function renderZoneVariant(
   const sig = [
     variantId,
     state.location,
+    standingLine, // the seasonal read changes with the season — repaint when it does
     state.rung,
     metas.join(','),
     labours.map((o) => `${o.activity.id}:${o.available ? 1 : 0}`).join(','),
@@ -854,6 +867,7 @@ function renderZoneVariant(
   }
 
   // ── C · ink-scene banner: the place as hero, then one calm full-width stack ──
+  // ── D · the same banner, with the zone's standing line read between the two ──
   const pane = el('div', 'zone-banner');
   const head = el('div', 'zb-head');
   const kanji = el('span', 'zb-kanji', here.kanji ?? '場');
@@ -863,6 +877,7 @@ function renderZoneVariant(
   nameCol.append(el('p', 'zb-kicker', 'what you can do here'));
   head.append(kanji, nameCol);
   pane.append(head);
+  if (standingLine !== '') pane.append(el('p', 'zb-blurb', standingLine));
   if (rows.length === 0) {
     pane.append(
       el(

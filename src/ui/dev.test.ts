@@ -42,6 +42,9 @@ import {
   rungRequirements,
   requirementFlavor,
   __setRequirementFlavorOverride,
+  getNode,
+  nodeSeasonalBlurb,
+  season,
 } from '../core';
 
 function noopHooks(): AppHooks {
@@ -355,6 +358,31 @@ describe('renderer variant routing — Zone do-panel (FB-410, D-075)', () => {
     expect(rest).toBeTruthy();
     rest!.click();
     expect(seen.some((i) => i.type === 'rest')).toBe(true); // every variant WORKS (ADR-075)
+  });
+
+  it('routes to zone-d — the banner carries the zone standing line before the verbs', () => {
+    const dev = createDevApi();
+    dev.setVariant('zone', 'zone-d');
+    const seen: Intent[] = [];
+    const render = mount(root, (i) => seen.push(i), noopHooks(), dev);
+    const state = zoneState();
+    render(state, null);
+    const banner = root.querySelector<HTMLElement>('.zone-banner')!;
+    expect(banner).not.toBeNull();
+    // the line is the SAME seasonal node read the Map card resolves (one source — derived
+    // here, never a copied string), and it sits BETWEEN the hero head and the first verb.
+    const line = banner.querySelector<HTMLElement>('.zb-blurb')!;
+    expect(line).not.toBeNull();
+    expect(line.textContent).toBe(nodeSeasonalBlurb(getNode(state.location), season(state)).text);
+    const kids = [...banner.children];
+    expect(kids.indexOf(line)).toBeGreaterThan(kids.findIndex((k) => k.matches('.zb-head')));
+    expect(kids.indexOf(line)).toBeLessThan(kids.findIndex((k) => k.querySelector('.verb')));
+    // C's frame, and it still WORKS (ADR-075) — the real intent, not a mock.
+    const rest = [...banner.querySelectorAll<HTMLButtonElement>('.verb')].find((b) =>
+      (b.textContent ?? '').includes('Rest'),
+    );
+    rest!.click();
+    expect(seen.some((i) => i.type === 'rest')).toBe(true);
   });
 });
 

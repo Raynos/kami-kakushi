@@ -3225,6 +3225,16 @@ html {
   color: var(--text-mute);
   margin: var(--space-2) 0 0;
 }
+/* D · the same banner, carrying the zone's standing line between the hero and the verbs —
+   a quiet ink read (not a heading): soft ink, an inked left rule, no box of its own. */
+.zone-banner .zb-blurb {
+  margin: 0;
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--silver-faint);
+  color: var(--ink-soft);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
 .zone-banner .verb {
   width: 100%;
   text-align: left;
