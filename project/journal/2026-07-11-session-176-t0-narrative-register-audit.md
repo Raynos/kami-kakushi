@@ -36,3 +36,17 @@ narrative" — does the built T0 prose read easily and match the 14–21
   cold open/intros → R0 lines).
 - Routing note (human, mid-session): near-term workflows/subagents run on
   **Opus**, not Fable (usage headroom).
+
+## Part 2 — the plan (same session)
+
+- The human asked for the audit to become a `docs/plans/` plan. Wrote
+  [`docs/plans/fable-2026-07-11-t0-narrative-revoice.md`](../../docs/plans/fable-2026-07-11-t0-narrative-revoice.md)
+  to the NEW hard-gated `build` template (w2's plan-quality gate landed
+  mid-session — `docs/guides/plan-authoring.md`): Wave 0 canon (ADR-181
+  audience lock + §0.5 clarity floor + Genemon two-voice + MC interiority)
+  → W1 works pages → W2 R1 terms + R0 lines → W4 gloss/collision sweep →
+  W3 cold open (blocked on HR-28) → W5 medium scenes + interiority pass →
+  close-out full-arc cold read + prd-ripple. Verification: blind
+  paraphrase test per take, voice check per wave, the human's R0→R1 play
+  as the acceptance test. Take authoring routed to Opus per the steer.
+- Status stays 📋 PROPOSED — the D1–D4 ruling gates Wave 0.

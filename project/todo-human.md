@@ -60,3 +60,9 @@
   target (your 2026-07-11 ask): findings + six recommendations + the D1–D4
   direction forks that need your call before any re-voicing starts.
 
+- [`docs/plans/fable-2026-07-11-t0-narrative-revoice.md`](../docs/plans/fable-2026-07-11-t0-narrative-revoice.md)
+  — the plan built from that audit: Wave 0 canon (audience ADR + §0.5
+  clarity floor + Genemon two-voice + MC interiority) then five worst-first
+  ADR-139 re-voice waves with a blind paraphrase test per take. Your D1–D4
+  ruling unblocks Wave 0.
+
