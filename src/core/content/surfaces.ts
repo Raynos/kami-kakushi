@@ -1,8 +1,12 @@
-// The data-driven surface registry (PRD §6.5 / §6.9). Each panel/screen/tab/row/
-// readout/verb is data with an unlock predicate; reduce/tick latch newly-earned
-// surfaces into the write-once `unlocked` set. Most M1 surfaces are revealed
-// EXPLICITLY by a rung's RewardBundle (predicate `() => false`) — the reveal reads
-// as plot; skill rows surface BY-DOING (predicate over skill visibility). Reveal
+// The data-driven surface registry (PRD §6.5 / §6.9, ADR-179). Each panel/screen/
+// tab/row/readout/verb is data with an unlock predicate; visibility is DERIVED
+// per state (core/unlock visibleSet), never stored. A surface named in a rung's
+// `rewardOnReach.unlock` (ranks.ts — the authored schedule) is visible from that
+// rung's latched `rank-rN` flag on, so its predicate here stays `() => false`
+// (the rung arm carries it); event-caused surfaces carry a FACT predicate (a
+// latched flag / discovery / skill — MONOTONE, never a fluctuating value, so a
+// visible surface can never vanish, TST2). A predicate may key to another
+// surface's visibility via its second arg (the in-progress visible set). Reveal
 // staggering is a DESIGN property of this authored schedule (FU4).
 
 import type { GameState, SurfaceId } from '../state';
@@ -14,14 +18,16 @@ import { HOME_REVEAL_LINE } from './home';
 import { NAMES } from './names';
 import { R3_FRONTIER_COMBAT_LEVEL } from './balance';
 import { skillVisible } from '../skills';
-import { isWaged } from './wage';
 
 export type SurfaceKind = 'screen' | 'panel' | 'tab' | 'readout' | 'verb' | 'row';
 
 export interface Surface {
   readonly id: SurfaceId;
   readonly kind: SurfaceKind;
-  readonly unlock: (s: GameState) => boolean;
+  /** The visibility predicate over progression FACTS (ADR-179): evaluated live,
+   *  every state — never latched. `vis` is the in-progress visible set (the
+   *  fixpoint arg) for predicates that key to another surface's visibility. */
+  readonly unlock: (s: GameState, vis: ReadonlySet<SurfaceId>) => boolean;
   readonly revealLine?: {
     readonly channel: LogChannel;
     readonly text: string;
@@ -81,12 +87,14 @@ export const SURFACES: readonly Surface[] = [
   },
   {
     // COIN is a "first wage" beat (ADR-107 / D4): the cold open is RICE-only, and the coin pill stays
-    // hidden until the player first EARNS coin — the porter's wage from hauling stores at the gate
-    // (~R1), or a combat spoil. STATE-PREDICATE reveal (keyed to carried-or-banked coin) so it
-    // back-reveals for any save. A no-op earlier: at R0 you only rake rice, so coin stays at 0.
+    // hidden until the player first EARNS coin. ADR-179 — keyed to the `coin-earned` FACT-flag
+    // (latched at the two earning sites: sell_rice / collect_wage), because raw coin FLUCTUATES —
+    // spending back to 0 must never hide a readout you've earned (the monotonicity law, TST2).
+    // The live-balance check stays as a belt for any state holding coin without the flag.
     id: 'readout-coin',
     kind: 'readout',
-    unlock: (s) => (s.resources.coin ?? 0) > 0 || (s.banked.coin ?? 0) > 0,
+    unlock: (s) =>
+      hasFlag(s, 'coin-earned') || (s.resources.coin ?? 0) > 0 || (s.banked.coin ?? 0) > 0,
     revealLine: narrate(
       'Coin, at last, and few enough to count on one hand. What little the house pays in mon, you keep your own tally of.',
     ),
@@ -138,7 +146,9 @@ export const SURFACES: readonly Surface[] = [
     // ADR-177 Schedule A — the Inventory tab staggers R3→R4 (tab-inventory, its own
     // rank reward), and the home/belongings reveal re-keys to IT so the promised
     // space still appears exactly when its tab does (the ADR-119 rule, one rung later).
-    unlock: (s) => s.unlocked.includes('tab-inventory'),
+    // ADR-179 — keyed to the DERIVED visible set (the fixpoint arg), so a re-rung of
+    // tab-inventory carries this along with zero edits here.
+    unlock: (_s, vis) => vis.has('tab-inventory'),
     revealLine: narrate(HOME_REVEAL_LINE),
   },
   { id: 'readout-stamina', kind: 'readout', unlock: () => false },
@@ -167,12 +177,14 @@ export const SURFACES: readonly Surface[] = [
     ceremonyLabel: 'The woodshed corner — a mat, a bowl, a nail for the coat: yours',
   },
   {
-    // Human 2026-07-11 — the forecourt is INTRODUCED, never pre-known: revealed by
-    // the intro-complete tail (completeIntroTail), the moment Genemon sets you to
-    // the outer court's work. No ceremonyLabel — it precedes every ceremony.
+    // Human 2026-07-11 — the forecourt is INTRODUCED, never pre-known: it exists the
+    // moment Genemon sets you to the outer court's work. ADR-179 — that moment IS
+    // "intro done" (completeIntroTail fired exactly when the cursor passed the last
+    // scene), so the fact predicate is the same awake+intro-done gate readout-body
+    // uses. No ceremonyLabel — it precedes every ceremony.
     id: 'room-forecourt',
     kind: 'panel',
-    unlock: () => false,
+    unlock: (s) => s.flags.awake === true && !introActive(s.introBeat),
     revealLine: narrate(
       'The outer court is given to you with the rake: the forecourt, swept ground sized for a household five times this one.',
     ),
@@ -186,12 +198,13 @@ export const SURFACES: readonly Surface[] = [
     ceremonyLabel: 'The kitchen threshold — meals at the board, morning and evening',
   },
   {
-    // FB-342 / ADR-177 — the weir path, locked after the cold open; revealed by
-    // worksPass when the works-intro beat's day-book naming latches works-named-weir
-    // (never a rank reward — the fiction causes the unlock, TST3).
+    // FB-342 / ADR-177 — the weir path, locked after the cold open; visible once the
+    // works-intro beat's day-book naming latches `works-named-weir` (never a rank
+    // reward — the fiction causes the unlock, TST3). ADR-179 — the flag IS the fact;
+    // the old worksPass push is deleted.
     id: 'room-weir',
     kind: 'panel',
-    unlock: () => false,
+    unlock: (s) => hasFlag(s, 'works-named-weir'),
   },
   { id: 'verb-farm', kind: 'verb', unlock: () => false },
   { id: 'verb-haul', kind: 'verb', unlock: () => false },
@@ -224,11 +237,11 @@ export const SURFACES: readonly Surface[] = [
   { id: 'row-wood', kind: 'row', unlock: () => false },
   { id: 'row-sansai', kind: 'row', unlock: () => false },
   {
-    // STATE-PREDICATE reveal (keyed to the sansai row) — the sansai→HP heal sink (FB-22: the
-    // HEALTH-recovery action; work-stamina is the separate `rest` verb).
+    // Keyed to the sansai row's visibility (the fixpoint arg) — the sansai→HP heal sink
+    // (FB-22: the HEALTH-recovery action; work-stamina is the separate `rest` verb).
     id: 'verb-cook',
     kind: 'verb',
-    unlock: (s) => s.unlocked.includes('row-sansai'),
+    unlock: (_s, vis) => vis.has('row-sansai'),
     revealLine: narrate(
       'You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.',
     ),
@@ -240,9 +253,9 @@ export const SURFACES: readonly Surface[] = [
     // it doesn't compete with the free `rest` before rice has a real alternative use (sell).
     id: 'verb-eat-rice',
     kind: 'verb',
-    // ADR-177 Schedule A — re-keyed to panel-rung-ladder (R1): panel-estate is now
+    // ADR-177 Schedule A — keyed to panel-rung-ladder (R1): panel-estate is now
     // cause-gated at R2+, and eating must keep its R1 timing (the belly, ADR-178).
-    unlock: (s) => s.unlocked.includes('panel-rung-ladder'),
+    unlock: (_s, vis) => vis.has('panel-rung-ladder'),
     // FB-275 — no flavor text for eating & rice (human, 2026-07-10); the verb reveal is enough.
   },
   { id: 'skill-conditioning', kind: 'row', unlock: () => false },
@@ -390,13 +403,14 @@ export const SURFACES: readonly Surface[] = [
     ),
   },
   {
-    // G4 — the MON lane collect-at-the-board verb (ADR-163 / wage.ts). Revealed the moment the MC is
-    // WAGED (R5+, isWaged) — a STATE-PREDICATE so it back-reveals for any R5+ save. The accrual +
+    // G4 — the MON lane collect-at-the-board verb (ADR-163 / wage.ts). Visible the moment the MC is
+    // WAGED (R5+). ADR-179 — keyed to the latched `rank-r5` fact-flag, not the transient `s.rung`
+    // (rung-monotone in T0, but the flag survives any later rung semantics). The accrual +
     // `collect_wage` intent are wired (intents.ts); the board BUTTON binds to this surface in the
     // G4.9 render sweep. Reveal line authored via HD-30 (2026-07-09).
     id: 'verb-collect-wage',
     kind: 'verb',
-    unlock: (s) => isWaged(s.rung),
+    unlock: (s) => hasFlag(s, 'rank-r5'),
     revealLine: narrate(
       'The house pays you in coin now — a fixed measure for each day worked. It waits at the board until you go and take it up.',
     ),

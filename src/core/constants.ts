@@ -27,8 +27,12 @@ export const APP_ID = 'kami-kakushi' as const;
  *  production pools, and the CLEAN BREAK — this is a new APP_GENERATION, so a
  *  pre-generation blob RETIRES (courteous notice + backup) rather than migrating
  *  (ADR-161). MIGRATIONS 1–9 are deleted; the chain restarts empty at v10.
- *  Pre-launch dev saves are wiped (ADR-067), but each forward step is a real, test-covered chain. */
-export const SCHEMA_VERSION = 10 as const;
+ *  Pre-launch dev saves are wiped (ADR-067), but each forward step is a real, test-covered chain.
+ *  v11 = DERIVED REVEAL (ADR-179): the stored `unlocked` visibility latch is DELETED — visibility
+ *  derives from progression facts (core/unlock visibleSet); the new `seenReveals` announce-once
+ *  ceremony latch is seeded from the old field (plus a `coin-earned` fact-flag where the old
+ *  latch is the only record of a first wage). */
+export const SCHEMA_VERSION = 11 as const;
 
 /** App GENERATION (ADR-161, storywave clean break): bumped when the state model breaks so
  *  hard that migration is not worth carrying. A saved blob with a generation below this

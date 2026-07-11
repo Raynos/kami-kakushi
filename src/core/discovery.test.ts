@@ -18,6 +18,7 @@ import { DISCOVERY_PITY_NUM, DISCOVERY_PITY_DEN, DISCOVERY_HINT_STEP } from './c
 import { availableLabours, season } from './selectors';
 import { getActivity, refillSitePools } from './content/activities';
 import { reduce } from './intents';
+import { factsForSurfaces } from './unlock';
 
 const WATCH_DEF: DiscoveryDef = {
   id: 'disc-test-watch',
@@ -140,8 +141,12 @@ describe('derived hiddenness gates the node action list (could-go-RED vs a stati
   it('an undiscovered reveals-target is ABSENT from availableLabours and un-doable', () => {
     // Stand at the woodlot with everything surface-unlocked; hide forage_deepwoods behind
     // the fixture discovery via the real (registry-defaulted) selector path's parametric core.
+    // ADR-179 — the verb's visibility derives from its rung fact (rank-r2).
     const s = at('woodlot');
-    const unlocked = { ...s, unlocked: [...s.unlocked, 'verb-forage'] } as GameState;
+    const unlocked = {
+      ...s,
+      flags: { ...s.flags, ...factsForSurfaces('verb-forage') },
+    } as GameState;
     // pre-discovery: hidden set contains the target…
     expect(hiddenActivityIds(unlocked, [WATCH_DEF]).has('forage_deepwoods')).toBe(true);
     // …post-latch it does not (the action now exists).
@@ -153,7 +158,10 @@ describe('derived hiddenness gates the node action list (could-go-RED vs a stati
     // The real content path (could-go-RED against a static list): at the woodlot with the
     // woodcut verb revealed, the lacquer action is ABSENT pre-discovery and appears post-latch.
     const s = at('woodlot');
-    const unlocked = { ...s, unlocked: [...s.unlocked, 'verb-woodcut'] } as GameState;
+    const unlocked = {
+      ...s,
+      flags: { ...s.flags, ...factsForSurfaces('verb-woodcut') }, // ADR-179 — derived visibility
+    } as GameState;
     expect(availableLabours(unlocked).map((o) => o.activity.id)).not.toContain('tap_lacquer');
     const found = { ...unlocked, discovered: ['disc-woodlot-lacquer'] } as GameState;
     expect(availableLabours(found).map((o) => o.activity.id)).toContain('tap_lacquer');
@@ -195,7 +203,7 @@ describe('the shipped content (disc-woodlot-lacquer) — registry invariants', (
     // then perform the grown action and watch coin move. RED against a static action list, a
     // broken reduce wiring, or a latch that doesn't gate the selector.
     let s = at('woodlot', 20260707);
-    s = { ...s, unlocked: [...s.unlocked, 'verb-woodcut'] } as GameState;
+    s = { ...s, flags: { ...s.flags, ...factsForSurfaces('verb-woodcut') } } as GameState;
     expect(availableLabours(s).map((o) => o.activity.id)).not.toContain('tap_lacquer');
     let acts = 0;
     while (!s.discovered.includes('disc-woodlot-lacquer') && acts < 200) {

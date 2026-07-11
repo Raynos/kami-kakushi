@@ -86,13 +86,13 @@ function rewardTrace(seed = SEED): boolean[] {
     if (!intent) break;
     const w = wealth(s);
     const pct = rungProgress(s).percent;
-    const reveals = s.unlocked.length;
+    const reveals = s.seenReveals.length;
     const level = s.character.level;
     s = reduce(s, intent);
     rewarded.push(
       wealth(s) > w ||
         rungProgress(s).percent > pct ||
-        s.unlocked.length > reveals ||
+        s.seenReveals.length > reveals ||
         s.character.level > level,
     );
   }

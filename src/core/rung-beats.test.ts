@@ -10,7 +10,7 @@ import {
   getWeapon,
   isUnlocked,
   hasFlag,
-  revealPass,
+  announcePass,
   INTRO_SCENE_COUNT,
   type GameState,
   type RankId,
@@ -140,8 +140,8 @@ describe('D-110 INVARIANT — no rung advances without its beat', () => {
     expect(isUnlocked(raked, 'verb-farm')).toBe(false); // R1's unlocks did NOT fire
     expect(promotionReady(raked)).toBe(true); // it still holds ready
 
-    // the finish() body (revealPass) alone likewise never promotes.
-    expect(revealPass(s).rung).toBe('R0');
+    // the finish() body (announcePass, ADR-179 — revealPass's successor) likewise never promotes.
+    expect(announcePass(s).rung).toBe('R0');
 
     // ONLY begin_rung_beat → choose_rung_option promotes.
     const opt = RUNG_BEATS.R1!.decision.options[0]!;

@@ -168,7 +168,7 @@ export function madeProgress(before: GameState, after: GameState): boolean {
   }
   if (after.character.combatXp > before.character.combatXp) return true;
   if (after.character.hp > before.character.hp) return true;
-  if (after.unlocked.length > before.unlocked.length) return true;
+  if (after.seenReveals.length > before.seenReveals.length) return true;
   if (after.introBeat !== before.introBeat || after.rungBeat !== before.rungBeat) return true;
   return false;
 }

@@ -3,6 +3,7 @@ import {
   createInitialState,
   reduce,
   applyGrindFight,
+  factsForSurfaces,
   hasFlag,
   hpMax,
   getWeapon,
@@ -43,27 +44,14 @@ function readyState(seed: number): GameState {
       'rank-r3': true,
       'combat-blooded': true,
       'combat-unlocked': true,
+      // ADR-179 — the old unlocked list DERIVES from facts now: the R1/R2 rank flags carry every
+      // labour verb / zone / row / skill it named (verb-farm…skill-conditioning; rank-r3 above
+      // carries tab-combat), and panel-estate rides its works-intro fact. panel-house-influence
+      // is DROPPED: it re-staged to R6 (ADR-177) and nothing here reads it — granting it would
+      // mean stamping rank-r6 on an R3 fixture.
+      ...factsForSurfaces('verb-farm', 'tab-skills', 'panel-estate'),
     },
     resources: { ...base.resources, coin: 500, wood: 0, sansai: 0 },
-    unlocked: [
-      ...new Set([
-        ...base.unlocked,
-        'tab-combat',
-        'tab-skills',
-        'panel-estate',
-        'panel-house-influence',
-        'verb-farm',
-        'verb-haul',
-        'verb-woodcut',
-        'verb-forage',
-        'room-paddies',
-        'room-woodlot',
-        'room-field-margins',
-        'row-wood',
-        'row-sansai',
-        'skill-conditioning',
-      ]),
-    ],
     location: 'kura',
   };
 }
@@ -128,10 +116,10 @@ describe('T0-M4 breadth seams close end-to-end via real intents', () => {
   });
 
   it('the estate map is walkable — move_to crosses to an adjacent revealed node, blocks the rest', () => {
-    // at the kura; the forecourt is reveal-gated since 2026-07-11 (the intro's
-    // close introduces it) — granted here so only walkability is under test.
-    const base = readyState(1);
-    const s = { ...base, unlocked: [...base.unlocked, 'room-forecourt'] };
+    // at the kura; the forecourt is reveal-gated since 2026-07-11 (the intro's close
+    // introduces it) — its facts already hold here (ADR-179: awake + no live intro,
+    // readyState's introBeat sits pre-wake at -1), so it derives visible with no grant.
+    const s = readyState(1);
     expect(s.location).toBe('kura');
     const moved = reduce(s, { type: 'move_to', to: 'forecourt' });
     expect(moved.location).toBe('forecourt'); // adjacent + revealed → you walk

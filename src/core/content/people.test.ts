@@ -9,6 +9,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { createInitialState, type GameState } from '../state';
+import { factsForSurfaces } from '../unlock';
 import { reduce } from '../intents';
 import { peopleHere } from '../selectors';
 import { getPerson, presenceCtx } from './people';
@@ -22,8 +23,9 @@ function awakeAt(location: string, opts: { day?: number; unlocked?: string[] } =
     ...base,
     location,
     clock: { ...base.clock, day: opts.day ?? base.clock.day },
-    flags: { ...base.flags, awake: true },
-    unlocked: [...base.unlocked, ...(opts.unlocked ?? [])],
+    // ADR-179 — `opts.unlocked` names SURFACES to make visible; visibility derives, so the
+    // fact bridge translates each to its entitling fact-flag(s) (room-kura → rank-r3).
+    flags: { ...base.flags, awake: true, ...factsForSurfaces(...(opts.unlocked ?? [])) },
   };
 }
 

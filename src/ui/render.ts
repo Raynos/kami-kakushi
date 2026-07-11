@@ -41,6 +41,7 @@ import {
   ATTR_META,
   playerSpeaker,
   isUnlocked,
+  unlockedSurfaces,
   hasFlag,
   formatKMB,
   formatCoin,
@@ -152,7 +153,7 @@ import type { Sfx } from './sfx';
 // the SHIPPED estate map — the 絵図 survey-plan sheet, the human-picked winner of the ADR-075
 // real-map diverge (HR-7). storywave G4.9: rebuilt on the map-sheets geometry (the ONE aligned
 // layout) since the old ezu.ts POS keyed to retired node ids and drew nothing for the G4 estate.
-import { renderMapSheet, travelPresenceRef } from './map-variants/sheet-map';
+import { presenceVariantRef, renderMapSheet, travelPresenceRef } from './map-variants/sheet-map';
 import { buildMapCtx, type MapCtx } from './map-variants/shared';
 import { COLD_OPEN, RAKE_DONE_REASON } from '../core/content/coldOpen';
 import { actionKey, type ActionClock } from '../app/action-clock';
@@ -2111,7 +2112,8 @@ export function mount(
       String(state.estateStage),
       skillLevel(state, 'conditioning') >= balance.CONDITIONING_GATE_LEVEL ? '1' : '0',
       presence,
-      state.unlocked.join(','),
+      presenceVariantRef.current, // FB-340 v2 — a DEV presence-variant flip repaints the sheet
+      unlockedSurfaces(state).join(','), // ADR-179 — derived, stable registry order
     ].join('|');
   }
 

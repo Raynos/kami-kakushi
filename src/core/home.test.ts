@@ -11,7 +11,8 @@ import {
   reduce,
   balance,
   setFlag,
-  revealPass,
+  announcePass,
+  factsForSurfaces,
   isUnlocked,
   satietyMax,
   ownsBelonging,
@@ -35,7 +36,9 @@ import {
 
 const { SATIETY_PER_REST } = balance;
 
-/** Awake + raked (so `rest` is legal) with the home GRANTED (panel-home unlocked) and some coin.
+/** Awake + raked (so `rest` is legal) with the home GRANTED (panel-home visible) and some coin.
+ *  ADR-179 — visibility is derived, so the grant is the entitling FACTS (panel-home keys to
+ *  tab-inventory, whose rung flag factsForSurfaces resolves from the ranks schedule).
  *  Satiety sits low so a rest has clear headroom (a bonus can't be hidden by the max clamp). */
 function atHome(coin = 0): GameState {
   const s = createInitialState(1);
@@ -43,8 +46,13 @@ function atHome(coin = 0): GameState {
     ...s,
     character: { ...s.character, satiety: 0 },
     resources: { ...s.resources, coin },
-    flags: { ...s.flags, awake: true, raked: true, 'rank-r1': true },
-    unlocked: [...s.unlocked, 'panel-home'],
+    flags: {
+      ...s.flags,
+      awake: true,
+      raked: true,
+      'rank-r1': true,
+      ...factsForSurfaces('panel-home'),
+    },
   };
 }
 
@@ -70,11 +78,13 @@ describe('T0-A — the home is GRANTED at R4 (ADR-177 — the reveal wiring, not
     expect(isUnlocked(s, 'panel-home')).toBe(false); // no home yet
     expect(ownsBelonging(s, 'bowl')).toBe(false);
     // reaching R1 no longer reveals the home — RED against the old `rank-r1` gate.
-    s = revealPass(setFlag(s, 'rank-r1', true));
+    // ADR-179 — visibility is DERIVED from the flag; no pass needed to see it.
+    s = setFlag(s, 'rank-r1', true);
     expect(isUnlocked(s, 'panel-home')).toBe(false);
     expect(ownsBelonging(s, 'bowl')).toBe(false);
     // the Inventory tab opening (tab-inventory, R4) reveals the home the instant its tab appears.
-    s = revealPass({ ...s, unlocked: [...s.unlocked, 'tab-inventory'] });
+    // ADR-179 — stamp the tab's entitling facts; announcePass plays the reveal LINE (ceremony only).
+    s = announcePass({ ...s, flags: { ...s.flags, ...factsForSurfaces('tab-inventory') } });
     expect(isUnlocked(s, 'panel-home')).toBe(true);
     expect(ownsBelonging(s, 'bowl')).toBe(true); // "a dry corner and a bowl" — cashed
     // the reveal fires "a place here is yours" into the log (dialogue.ts:81 made mechanical).

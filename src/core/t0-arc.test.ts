@@ -6,6 +6,7 @@ import {
   phaseOf,
   ascensionAvailable,
   estateGrade,
+  factsForSurfaces,
   focusedOptimalIntent,
   resolveNightStage,
   nightRoundById,
@@ -148,8 +149,8 @@ describe('the T0 arc — the DESIGN LEVERS at the gates (not collapsed metrics)'
     const base = createInitialState(1);
     const ready: GameState = {
       ...base,
-      flags: { ...base.flags, awake: true, raked: true },
-      unlocked: [...base.unlocked, 'verb-farm', 'room-paddies'],
+      // ADR-179 — verb-farm + room-paddies derive from their rung's fact-flag (rank-r1).
+      flags: { ...base.flags, awake: true, raked: true, ...factsForSurfaces('verb-farm') },
       location: 'paddies',
       character: { ...base.character, satiety: 100 },
     };

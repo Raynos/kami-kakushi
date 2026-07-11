@@ -6,7 +6,14 @@
 // each branch pinned, so a drift in the auto-loop's priorities goes RED here, not in the field).
 
 import { describe, it, expect } from 'vitest';
-import { createInitialState, autoModeIntent, balance, satietyMax, getWeapon } from '../core';
+import {
+  createInitialState,
+  autoModeIntent,
+  balance,
+  satietyMax,
+  getWeapon,
+  factsForSurfaces,
+} from '../core';
 import type { GameState } from '../core';
 import { idler, explorer, type Persona } from './personas';
 import { runPersona, SIM_SOFTLOCK_INTENTS } from './run';
@@ -60,8 +67,8 @@ describe('autoModeIntent — the extracted autoStep decision order (the app loop
     const s = createInitialState(1);
     const base: GameState = {
       ...s,
-      flags: { ...s.flags, awake: true, raked: true },
-      unlocked: [...s.unlocked, 'tab-combat'],
+      // ADR-179 — tab-combat derives from its rung's latched fact-flag, never a stored latch.
+      flags: { ...s.flags, awake: true, raked: true, ...factsForSurfaces('tab-combat') },
       autoCombat: 'monkey',
       resources: { ...s.resources, wood: 0 },
       ...patch,
@@ -129,7 +136,8 @@ describe('autoModeIntent — the extracted autoStep decision order (the app loop
     const s0 = armed({ autoCombat: null, autoActivity: 'farm_paddy' });
     const there: GameState = {
       ...s0,
-      unlocked: [...s0.unlocked, 'verb-farm', 'room-paddies'],
+      // ADR-179 — verb-farm + room-paddies derive from their rung's fact-flag (rank-r1).
+      flags: { ...s0.flags, ...factsForSurfaces('verb-farm', 'room-paddies') },
       location: 'paddies',
     };
     expect(autoModeIntent(there)).toEqual({ type: 'do_activity', activityId: 'farm_paddy' });

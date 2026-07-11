@@ -9,7 +9,6 @@
 import type { GameState } from './state';
 import { setFlag, hasFlag } from './state';
 import { pushLog } from './log';
-import { revealSurface } from './unlock';
 import { enqueueScene } from './scenes';
 import { rungNumber } from './ranks';
 import { FLAVOR } from './content/flavor';
@@ -148,7 +147,8 @@ export function worksPass(state: GameState): GameState {
   //     the scene (enqueueScene once-guards a played `once` def — never re-fires).
   if (rung >= 2 && next.location === 'forecourt') next = enqueueScene(next, 'works-intro');
   // (1) FB-342 — the weir path re-opens the moment the day-book names the lease.
-  if (hasFlag(next, 'works-named-weir')) next = revealSurface(next, 'room-weir');
+  //     ADR-179 — the `works-named-weir` flag IS the fact; room-weir's visibility
+  //     derives from it (surfaces.ts predicate), so there is nothing to push here.
   for (const p of WORKS_PROJECTS) {
     // Ladder order — a stage's discovery chain runs only while it is the NEXT stage
     // (the day-book names one concern at a time; Genemon never prices U3 over an

@@ -7,7 +7,7 @@
 import type { GameState } from './state';
 import { withBanked, adjustHunger } from './state';
 import { TICKS_PER_DAY, SEASONS } from './constants';
-import { revealPass } from './unlock';
+import { announcePass } from './unlock';
 import { phaseOf } from './ranks';
 import { seasonalJudge, gradeOf } from './pillars';
 import { judgeLine } from './content/flavor';
@@ -141,5 +141,5 @@ export function advanceClock(state: GameState, ticks: number): GameState {
 
 /** The clock advance contract (PRD §6.3): advance then run the reveal pass. */
 export function tick(state: GameState, dtTicks: number): GameState {
-  return revealPass(advanceClock(state, dtTicks));
+  return announcePass(advanceClock(state, dtTicks));
 }

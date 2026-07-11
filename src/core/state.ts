@@ -1,13 +1,14 @@
 // GameState — the stored vs. computed split (PRD §6.4). The M0 surface is
 // deliberately minimal (FU5): schemaVersion, the seeded RNG, the clock (tick+day
 // only — season/year DERIVED), the character vitals, the cold-open resources,
-// story flags, the write-once `unlocked` latch, and the event log. Rich per-system
-// fields (subEngines / combat / dialogue / quests) are added ADDITIVELY at their
-// milestone, never pre-declared here.
+// story flags, the announce-once `seenReveals` ceremony latch, and the event log.
+// Rich per-system fields (subEngines / combat / dialogue / quests) are added
+// ADDITIVELY at their milestone, never pre-declared here.
 //
 // Everything is immutable-in/immutable-out (structural sharing). Derived values
-// (satietyMax, hpMax, season, year, what's unlocked-by-predicate) are computed by
-// selectors — never stored.
+// (satietyMax, hpMax, season, year — and, per ADR-179, UI VISIBILITY itself:
+// core/unlock visibleSet over progression facts) are computed by selectors —
+// never stored. The save keeps FACTS + ceremony history, never what-is-shown.
 
 import type { Rng } from './rng';
 import { createRng } from './rng';
@@ -145,8 +146,13 @@ export interface GameState {
    *  yet. Additive; a pre-wage save defaults it -1. */
   readonly lastWageDay: number;
   readonly flags: Readonly<Record<FlagId, boolean>>;
-  /** Write-once reveal latch, in reveal order (PRD §6.2 core/unlock). A set, kept ordered. */
-  readonly unlocked: readonly SurfaceId[];
+  /** Announce-once CEREMONY latch (ADR-179, sibling of `scenesPlayed`): surface ids whose reveal
+   *  line/beat has already played, in announce order. NEVER read for visibility — what's visible
+   *  is DERIVED per state (core/unlock visibleSet) from progression facts, so a stale save can
+   *  never pin stale UI. This latch only keeps a reload from re-spamming reveals.
+   *  SCHEMA_VERSION 11 (replaces the old `unlocked` visibility latch — the v10→v11 migration
+   *  seeds it from that field). */
+  readonly seenReveals: readonly SurfaceId[];
   readonly log: LogState;
 
   // ── progression (M1+, additive) ──
@@ -285,7 +291,7 @@ export function createInitialState(seed: number): GameState {
     lastWageDay: -1,
     flags: {},
     // The cold open shows exactly one verb against the dark of the kura.
-    unlocked: ['screen-cold-open', 'verb-open-eyes'],
+    seenReveals: [],
     log: emptyLog(),
     skillXp: {},
     deliveredDialogue: [],

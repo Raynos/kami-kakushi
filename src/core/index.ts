@@ -286,7 +286,7 @@ export {
   deriveDayKeyed,
 } from './rng';
 
-export { isUnlocked, unlockedSurfaces, revealPass } from './unlock';
+export { isUnlocked, unlockedSurfaces, visibleSet, announcePass, factsForSurfaces } from './unlock';
 export { SURFACES, SURFACE_IDS } from './content/surfaces';
 export type { Surface, SurfaceKind } from './content/surfaces';
 

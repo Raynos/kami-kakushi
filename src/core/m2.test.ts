@@ -15,7 +15,8 @@ import {
   getRecipe,
   canCraft,
   balance,
-  revealPass,
+  announcePass,
+  factsForSurfaces,
   isUnlocked,
   getRank,
   applyRewards,
@@ -242,7 +243,7 @@ describe('HP carries between fights and heals only by eating (D-050)', () => {
       ...base,
       character: { ...base.character, hp: 5 },
       resources: { ...base.resources, sansai: 4 },
-      unlocked: [...base.unlocked, 'verb-cook'],
+      flags: { ...base.flags, ...factsForSurfaces('verb-cook') }, // ADR-179 — the entitling fact
     };
     const s1 = reduce(s0, { type: 'cook_meal' });
     expect(s1.character.hp).toBeGreaterThan(5);
@@ -316,15 +317,20 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
         // `raked` makes the free `rest` (work-stamina refuel) legal — an R3 fighter has long
         // since raked in the cold open. Needed post-F22: eating no longer doubles as a
         // work-rest, so the recovery loop must `rest` to keep satiety (combat power) up.
-        flags: { ...base.flags, awake: true, raked: true, 'rank-r3': true },
-        unlocked: [
-          ...base.unlocked,
-          'tab-combat',
-          'verb-woodcut',
-          'verb-forage',
-          'verb-cook',
-          'verb-repair',
-        ],
+        // ADR-179 — the entitling rank facts (r3 carries tab-combat, r2 the woodlot
+        // verbs + cook, r4 the repair verb); visibility derives from them.
+        flags: {
+          ...base.flags,
+          awake: true,
+          raked: true,
+          ...factsForSurfaces(
+            'tab-combat',
+            'verb-woodcut',
+            'verb-forage',
+            'verb-cook',
+            'verb-repair',
+          ),
+        },
         skillXp: { ...base.skillXp, conditioning: 10_000 }, // past the forage danger-ring gate
       };
     };
@@ -422,7 +428,7 @@ describe('loot→craft 2nd weapon (D-052) — found + crafted, not granted', () 
       ...base,
       rung: 'R3',
       resources: { ...base.resources, hardwood: 3, beast_sinew: 1 },
-      unlocked: [...base.unlocked, 'tab-combat'],
+      flags: { ...base.flags, ...factsForSurfaces('tab-combat') },
     };
     expect(canCraft(stocked.resources, recipe)).toBe(true);
     const crafted = reduce(stocked, { type: 'craft_weapon', recipeId: 'craft_wood_axe' });
@@ -438,7 +444,10 @@ describe('loot→craft 2nd weapon (D-052) — found + crafted, not granted', () 
   // it — a RED-able guard so a regression that re-allows the un-crafted axe can't pass green.
   it('the axe cannot be equipped until it has been crafted (D-052 never-gifted gate)', () => {
     const base = atFullSatiety(createInitialState(1));
-    const armed: GameState = { ...base, unlocked: [...base.unlocked, 'tab-combat'] };
+    const armed: GameState = {
+      ...base,
+      flags: { ...base.flags, ...factsForSurfaces('tab-combat') },
+    };
     // no `crafted-wood_axe` flag → equipping the axe is a structural no-op
     expect(armed.flags['crafted-wood_axe']).toBeUndefined();
     expect(reduce(armed, { type: 'equip_weapon', weaponId: 'wood_axe' })).toBe(armed);
@@ -456,10 +465,10 @@ describe('loot→craft 2nd weapon (D-052) — found + crafted, not granted', () 
 });
 
 // The R3 terminal beat + 2nd-dream payoff + macro-teaser (audit #2/#6/#13). The two
-// live-gated surfaces (frontier capstone + dream-2) latch via revealPass only once the
+// live-gated surfaces (frontier capstone + dream-2) DERIVE visible (ADR-179) only once the
 // gate-watch has actually fought (combat level ≥ the frontier gate); dream-2 is the FIRST
 // READER of the formerly write-only dream-1 + porters-knot flags; the macro teaser is
-// revealed by the R3 rank reward.
+// revealed by the R6 rank reward.
 describe('narrative — R3 terminal beat + 2nd dream payoff (audit #2/#6/#13)', () => {
   /** A state parked at R3 with the mystery flags written, before the new surfaces latch. */
   function atR3(level: number, flagOverrides: Record<string, boolean> = {}): GameState {
@@ -480,11 +489,12 @@ describe('narrative — R3 terminal beat + 2nd dream payoff (audit #2/#6/#13)', 
   }
 
   it('the frontier beat + 2nd dream are gated on real combat (level ≥ R3_FRONTIER_COMBAT_LEVEL)', () => {
-    const below = revealPass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL - 1));
+    // ADR-179 — visibility is derived straight from the state facts; no reveal pass to run.
+    const below = atR3(balance.R3_FRONTIER_COMBAT_LEVEL - 1);
     expect(isUnlocked(below, 'screen-demo-frontier')).toBe(false);
     expect(isUnlocked(below, 'dream-2')).toBe(false);
 
-    const at = revealPass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL));
+    const at = atR3(balance.R3_FRONTIER_COMBAT_LEVEL);
     expect(isUnlocked(at, 'screen-demo-frontier')).toBe(true);
     expect(isUnlocked(at, 'dream-2')).toBe(true);
   });
@@ -493,19 +503,19 @@ describe('narrative — R3 terminal beat + 2nd dream payoff (audit #2/#6/#13)', 
     // R3→R4 promotes at combat level 1, so a transient `s.rung === 'R3'` gate would go dead forever
     // before the player ever fights to the combat gate. The latched `rank-r3` flag back-reveals both
     // beats the moment combat level reaches the gate at any rung ≥ R3 (audit pass-2 arc-coherence fix).
-    const promotedPastR3 = revealPass({
+    const promotedPastR3: GameState = {
       ...atR3(balance.R3_FRONTIER_COMBAT_LEVEL),
       rung: 'R4',
-    });
+    };
     expect(isUnlocked(promotedPastR3, 'screen-demo-frontier')).toBe(true);
     expect(isUnlocked(promotedPastR3, 'dream-2')).toBe(true);
   });
 
   it('the 2nd dream reads the earlier mystery flags — no longer write-only', () => {
-    const noKnot = revealPass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL, { 'porters-knot': false }));
+    const noKnot = atR3(balance.R3_FRONTIER_COMBAT_LEVEL, { 'porters-knot': false });
     expect(isUnlocked(noKnot, 'dream-2')).toBe(false);
 
-    const noDream1 = revealPass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL, { 'dream-1': false }));
+    const noDream1 = atR3(balance.R3_FRONTIER_COMBAT_LEVEL, { 'dream-1': false });
     expect(isUnlocked(noDream1, 'dream-2')).toBe(false);
   });
 
@@ -516,10 +526,11 @@ describe('narrative — R3 terminal beat + 2nd dream payoff (audit #2/#6/#13)', 
     expect(isUnlocked(promoted, 'panel-house-influence')).toBe(true);
   });
 
-  it('the terminal beat fires exactly once (idempotent revealPass)', () => {
-    const once = revealPass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL));
-    const twice = revealPass(once);
-    expect(twice.unlocked.filter((id) => id === 'screen-demo-frontier')).toHaveLength(1);
+  it('the terminal beat fires exactly once (idempotent announcePass)', () => {
+    const once = announcePass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL));
+    const twice = announcePass(once);
+    // ADR-179 — the announce-once latch is `seenReveals` (visibility itself is derived).
+    expect(twice.seenReveals.filter((id) => id === 'screen-demo-frontier')).toHaveLength(1);
     const frontierLines = twice.log.entries.filter(
       (e) => e.channel === 'milestone' && e.text.includes('a soldier in you under the farmhand'),
     );
@@ -527,39 +538,38 @@ describe('narrative — R3 terminal beat + 2nd dream payoff (audit #2/#6/#13)', 
   });
 });
 
-// The load-path back-reveal (audit fix). The `unlocked` latch is write-once, but several surfaces
-// are STATE-PREDICATE reveals (readout-coin keyed to carried-or-banked coin, panel-estate/verb-eat
-// -rice keyed to a latched ladder, …). A loaded/migrated save can ALREADY satisfy such a predicate
-// while its stored `unlocked` set predates it — so the boot load path now runs ONE revealPass to
-// reconcile the latch BEFORE the first render (else the surface stays hidden until the first
-// dispatched intent). These test the pure core that path delegates to (main.ts is the comp root).
-describe('load-path back-reveal — a state-predicate surface latches on revealPass (audit fix)', () => {
-  /** A stale/migrated save that already meets a coin predicate but never latched the coin pill. */
-  function staleSave(carried: number, banked = 0): GameState {
+// The load-path reveal (ADR-179 rewrites the audit-era back-reveal). Visibility now DERIVES
+// from progression facts, so a loaded/migrated save can never pin a stale latch — a save whose
+// facts satisfy a predicate (readout-coin keyed to coin-earned / live coin) is visible the
+// moment it loads, with no reconcile pass. What the boot path still runs is ONE announcePass,
+// so a newly-entitled surface plays its reveal ceremony exactly once BEFORE the first render.
+describe('load-path reveal — a fact-entitled surface derives visible on load (ADR-179)', () => {
+  /** A save holding coin whose reveal ceremony never played (`seenReveals` predates the pill). */
+  function coinSave(carried: number, banked = 0): GameState {
     const base = createInitialState(1);
     return {
       ...base,
       resources: { ...base.resources, coin: carried },
       banked: { ...base.banked, coin: banked },
-      unlocked: base.unlocked.filter((id) => id !== 'readout-coin'),
     };
   }
 
-  it('a save CARRYING coin but missing readout-coin back-reveals the coin pill', () => {
-    const stale = staleSave(250);
-    expect(isUnlocked(stale, 'readout-coin')).toBe(false); // fixture guard: the latch predates the coin
-    const loaded = revealPass(stale); // exactly what the load path runs before the first render
-    expect(isUnlocked(loaded, 'readout-coin')).toBe(true); // back-revealed → the coin pill renders
+  it('a save CARRYING coin shows the coin pill on load, and announcePass latches its ceremony once', () => {
+    const stale = coinSave(250);
+    // ADR-179 — DERIVED: the coin fact alone entitles the pill; no pass needed to see it.
+    expect(isUnlocked(stale, 'readout-coin')).toBe(true);
+    const loaded = announcePass(stale); // exactly what the load path runs before the first render
+    expect(loaded.seenReveals).toContain('readout-coin'); // the ceremony latched…
+    expect(announcePass(loaded).seenReveals.filter((id) => id === 'readout-coin')).toHaveLength(1); // …once
   });
 
-  it('coin BANKED in the kura (nothing carried) still back-reveals it (predicate covers banked)', () => {
-    const stashed = staleSave(0, 500);
-    expect(isUnlocked(stashed, 'readout-coin')).toBe(false);
-    expect(isUnlocked(revealPass(stashed), 'readout-coin')).toBe(true);
+  it('coin BANKED in the kura (nothing carried) still shows it (predicate covers banked)', () => {
+    expect(isUnlocked(coinSave(0, 500), 'readout-coin')).toBe(true);
   });
 
   it('a genuinely coin-less save leaves the pill HIDDEN — the reveal is EARNED (the RED control)', () => {
-    const broke = staleSave(0, 0);
-    expect(isUnlocked(revealPass(broke), 'readout-coin')).toBe(false); // no coin anywhere → still fogged
+    const broke = coinSave(0, 0);
+    expect(isUnlocked(broke, 'readout-coin')).toBe(false); // no coin anywhere → still fogged
+    expect(announcePass(broke).seenReveals).not.toContain('readout-coin'); // and no ceremony plays
   });
 });

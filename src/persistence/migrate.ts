@@ -17,7 +17,28 @@ export type Migration = (state: unknown) => unknown;
 export type MigrateFn = (state: unknown, fromVersion: number) => unknown;
 
 const MIGRATIONS: Readonly<Record<number, Migration>> = {
-  // (empty — the storywave clean break retires every pre-v10 save; see the header note)
+  // v10 → v11 (ADR-179 derived reveal): the stored `unlocked` visibility latch is DELETED —
+  // visibility now DERIVES from progression facts (core/unlock visibleSet) — and the new
+  // `seenReveals` announce-once ceremony latch is seeded from it (the old latch is precisely
+  // "what has been announced", so the seed is lossless: no reveal line ever re-plays).
+  // One fact the old latch is the only record of: a first coin earned then spent back to 0 —
+  // synthesize the `coin-earned` flag from the latched readout so the readout can't vanish.
+  10: (state) => {
+    const s = state as {
+      unlocked?: readonly string[];
+      flags?: Readonly<Record<string, boolean>>;
+    };
+    const unlocked = Array.isArray(s.unlocked) ? s.unlocked : [];
+    const { unlocked: _dropped, ...rest } = s;
+    return {
+      ...rest,
+      seenReveals: unlocked,
+      flags: {
+        ...s.flags,
+        ...(unlocked.includes('readout-coin') ? { 'coin-earned': true } : {}),
+      },
+    };
+  },
 };
 
 export function migrate(

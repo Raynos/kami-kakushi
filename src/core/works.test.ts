@@ -12,24 +12,24 @@ import { ESTATE_STAGES } from './content/estate';
 import { estateBuild } from './selectors';
 import { WORKS_PROJECTS, worksPass, stageOpen, stageDiscovery } from './works';
 import { triggerFlagScenes } from './scenes';
+import { visibleSet, isUnlocked, factsForSurfaces } from './unlock';
 
 const U1 = WORKS_PROJECTS[0]!;
 
-/** An R2 hand at the board: the works-intro's firing position. */
+/** An R2 hand at the board: the works-intro's firing position. ADR-179 — visibility is
+ *  derived, so the fixture stamps the entitling FACTS (rank-r1 covers the ladder panel +
+ *  the gate/paddies/woodshed rooms). panel-estate is deliberately NOT pre-granted: it now
+ *  derives from `works-named-u1` — the very fact this chain's tests latch. */
 function atBoardR2(): GameState {
   const s = createInitialState(1);
   return {
     ...s,
     rung: 'R2',
     location: 'forecourt',
-    unlocked: [
-      ...s.unlocked,
-      'panel-rung-ladder',
-      'panel-estate',
-      'room-gate',
-      'room-paddies',
-      'room-woodshed',
-    ],
+    flags: {
+      ...s.flags,
+      ...factsForSurfaces('panel-rung-ladder', 'room-gate', 'room-paddies', 'room-woodshed'),
+    },
   };
 }
 
@@ -45,10 +45,12 @@ function playScene(s: GameState, id: string, optionId: string): GameState {
 describe('ADR-177 — the works discovery chain', () => {
   it('FB-342 regression — the weir path reads locked until the day-book names the lease', () => {
     const s = atBoardR2();
-    const revealed = new Set(s.unlocked);
-    expect(canMove('paddies', 'weir', revealed)).toBe(false); // locked at R1/R2 pre-naming
-    const named = worksPass({ ...s, flags: { ...s.flags, 'works-named-weir': true } });
-    expect(canMove('paddies', 'weir', new Set(named.unlocked))).toBe(true); // named → open
+    expect(canMove('paddies', 'weir', visibleSet(s))).toBe(false); // locked at R1/R2 pre-naming
+    // ADR-179 — the old worksPass push is deleted: room-weir DERIVES from the named flag,
+    // so the moment it latches the surface flips visible with no pass at all.
+    const named: GameState = { ...s, flags: { ...s.flags, 'works-named-weir': true } };
+    expect(isUnlocked(named, 'room-weir')).toBe(true);
+    expect(canMove('paddies', 'weir', visibleSet(named))).toBe(true); // named → open
   });
 
   it('the works-intro enqueues at the board at R2+ — and not before R2', () => {

@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { createInitialState, reduce, advanceClock, balance, type GameState } from './index';
+import {
+  createInitialState,
+  reduce,
+  advanceClock,
+  balance,
+  factsForSurfaces,
+  type GameState,
+} from './index';
 import { hungerMax, restQuality, restRefill, satietyMax, staminaRate } from './selectors';
 import { TICKS_PER_DAY } from './constants';
 
@@ -28,8 +35,10 @@ function withVitals(over: {
       satiety: over.satiety ?? s.character.satiety,
     },
     banked: { ...s.banked, rice: over.kuraRice ?? 0 },
-    flags: { ...s.flags, awake: true, raked: true },
-    unlocked: [...s.unlocked, ...(over.unlocked ?? [])],
+    // ADR-179 — `over.unlocked` names SURFACES to make visible; visibility derives, so the fact
+    // bridge translates each to its entitling fact-flag(s) (verb-eat-rice → rank-r1, verb-cook →
+    // rank-r2 via its row).
+    flags: { ...s.flags, awake: true, raked: true, ...factsForSurfaces(...(over.unlocked ?? [])) },
   };
 }
 

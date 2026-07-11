@@ -21,6 +21,7 @@ import {
   balance,
   hpMax,
   TICKS_PER_DAY,
+  factsForSurfaces,
   type GameState,
 } from './index';
 
@@ -33,13 +34,13 @@ function mc(level = 1, satiety = 100): GameState {
 function combatLines(s: GameState): string[] {
   return s.log.entries.filter((e) => e.channel === 'combat').map((e) => e.text);
 }
-/** Awake, the estate economy open (the deposit/withdraw gate), carrying `coin`. */
+/** Awake, the estate economy open (the deposit/withdraw gate), carrying `coin`.
+ *  ADR-179 — panel-estate derives from its event fact (`works-named-u1`), never stored. */
 function economyReady(coin = 100): GameState {
   const s = createInitialState(1);
   return {
     ...s,
-    flags: { ...s.flags, awake: true },
-    unlocked: [...s.unlocked, 'panel-estate'],
+    flags: { ...s.flags, awake: true, ...factsForSurfaces('panel-estate') },
     resources: { ...s.resources, coin },
   };
 }
@@ -254,10 +255,11 @@ describe('5c · banking is spatial — you store/draw only at the kura (batch-2 
 });
 
 describe('5b · foes are spatial — you fight where the foe stands (batch-2 map call)', () => {
-  /** A ready L5 fighter (guaranteed win vs monkey) with the combat tab open, at `location`. */
+  /** A ready L5 fighter (guaranteed win vs monkey) with the combat tab open, at `location`.
+   *  ADR-179 — the tab derives from its rung fact (rank-r3), never a stored latch. */
   function fighterAt(location: string): GameState {
     const s = mc(5);
-    return { ...s, location, unlocked: [...s.unlocked, 'tab-combat'] };
+    return { ...s, location, flags: { ...s.flags, ...factsForSurfaces('tab-combat') } };
   }
 
   it('the monkey lives on the bamboo grove — fighting it there WORKS, elsewhere is a no-op', () => {
@@ -303,12 +305,12 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
     const at = fighterAt('forecourt');
     const grinding: GameState = {
       ...at,
-      flags: { awake: true },
+      // the kitchen is reveal-gated since FB-381 (the R1 terms beat names it) —
+      // its entitling fact (rank-r1, ADR-179) granted here so only the walk-away
+      // behaviour is under test.
+      flags: { ...at.flags, awake: true, ...factsForSurfaces('room-kitchen') },
       autoCombat: 'monkey',
       autoCombatRetreat: false,
-      // the kitchen is reveal-gated since FB-381 (the R1 terms beat names it) —
-      // granted here so only the walk-away behaviour is under test.
-      unlocked: [...at.unlocked, 'room-kitchen'],
     };
     const walked = reduce(grinding, { type: 'move_to', to: 'kitchen' });
     expect(walked.location).toBe('kitchen');

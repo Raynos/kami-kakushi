@@ -20,7 +20,7 @@ import { getBelonging } from './content/home';
 import { ESTATE_STAGES } from './content/estate';
 import { getWeapon } from './content/weapons';
 import { durabilityBand } from './combat';
-import { isUnlocked } from './unlock';
+import { isUnlocked, visibleSet } from './unlock';
 import { skillLevel } from './skills';
 import {
   CONDITIONING_GATE_LEVEL,
@@ -83,7 +83,7 @@ export function nextHopToward(
  *  excluded, so the harness only ever heads for a labour it can actually reach and do. */
 export function cheapestEligibleGlobal(s: GameState): { id: ActivityId; node: string } | null {
   const elig = new Set(getRank(s.rung).eligible);
-  const revealed = new Set(s.unlocked);
+  const revealed = visibleSet(s);
   const opts = ACTIVITIES.filter((a) => {
     if (!elig.has(a.id)) return false;
     if (!isUnlocked(s, a.surface)) return false;
@@ -200,7 +200,7 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
   // Phase-3 policy covers count (act:/kill:) + the R2 flag req — the whole harness reach
   // today (R0→R3); state-predicate driving (coin/belonging/estate) is the Phase-5 sim
   // rework, keyed to each req's `drive:` hint.
-  const revealed = new Set(s.unlocked);
+  const revealed = visibleSet(s);
   const unfinished = rungRequirements(s.rung).filter((d) => !isRequirementDone(d, s.rungReqs));
   // G4.3 — the scripted grain-store wolf drive is deleted; the wolf moves to the R3 night round
   // (its 'first-fight-survived' req is driven through the night-round staging in a later chunk).

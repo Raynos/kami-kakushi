@@ -17,7 +17,7 @@ import {
   markTopicAsked,
 } from './state';
 import { applyRewards } from './rewards';
-import { revealPass } from './unlock';
+import { announcePass, visibleSet } from './unlock';
 import { worksPass, stageOpen, stageLogLine, stageLabel, canWorkProject } from './works';
 import { discoveryPass } from './discovery';
 import { advanceClock, advanceSeason } from './step';
@@ -186,7 +186,7 @@ function finish(state: GameState): GameState {
   // orchard-reclaimed, sb-dog-coda on sb-dog-fed), so a flag latching anywhere is noticed this tick.
   // ADR-177 — the works discovery pass runs FIRST so a naming/sighting latched this
   // tick is seen by the same tick's flag-scene pass (the pricing beat enqueues at once).
-  return revealPass(triggerFlagScenes(settleRequirements(worksPass(state))));
+  return announcePass(triggerFlagScenes(settleRequirements(worksPass(state))));
 }
 
 /** Deliver any not-yet-shown, gate-satisfied lines of a dialogue into the story log (the
@@ -271,8 +271,10 @@ function completeIntroTail(state: GameState): GameState {
   // The forecourt reveals HERE, not at R0-start (human, 2026-07-11): you wake
   // INSIDE the kura — the outer court exists on your map only once Genemon has
   // put you to its work (the fiction causes the map, TST3 — the FB-381/382
-  // pattern; with it, NO zone predates its own introduction).
-  return applyRewards(state, { unlock: ['room-forecourt'] });
+  // pattern; with it, NO zone predates its own introduction). ADR-179 — the
+  // cursor passing the last scene IS the fact; room-forecourt's predicate
+  // (surfaces.ts, awake + !introActive) derives from it, so nothing to push.
+  return state;
 }
 
 /** Move the cursor to `newIndex`, revealing the next scene's greeting — or firing the tail once the
@@ -882,6 +884,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       const coinGain = soldSho * price;
       next = withBanked(next, 'rice', -soldSho);
       next = withResource(next, 'coin', coinGain);
+      // ADR-179 — "has ever earned coin" is a progression FACT (readout-coin derives
+      // from it; raw coin fluctuates, so the balance alone can't carry the reveal).
+      next = setFlag(next, 'coin-earned', true);
       next = applyRewards(next, {
         log: [
           {
@@ -904,6 +909,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (next.wageDaysAccrued <= 0) return state;
       const pay = next.wageDaysAccrued * DAY_WAGE_MON;
       next = withResource(next, 'coin', pay);
+      next = setFlag(next, 'coin-earned', true); // ADR-179 — the first-wage FACT (readout-coin)
       next = { ...next, wageDaysAccrued: 0 };
       next = applyRewards(next, {
         log: [
@@ -1149,7 +1155,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
     case 'move_to': {
       // walk the small estate map (T0-M4-F4 / ADR-065): adjacent + revealed (nodes reuse the
       // existing room-unlock surfaces), and the danger ring needs the conditioning gate.
-      if (!canMove(next.location, intent.to, new Set(next.unlocked))) return state;
+      if (!canMove(next.location, intent.to, visibleSet(next))) return state;
       const dest = getNode(intent.to);
       if (dest.dangerRing && skillLevel(next, 'conditioning') < CONDITIONING_GATE_LEVEL)
         return state;

@@ -12,6 +12,8 @@ import {
   promotionReady,
   playerSpeaker,
   hpMax,
+  visibleSet,
+  factsForSurfaces,
   getMob,
   MOBS,
   balance,
@@ -113,17 +115,39 @@ describe('structural invariants hold across the full real playthrough', () => {
     }
   });
 
-  it('the reveal latch is WRITE-ONCE — unlocked only ever grows, never loses a surface', () => {
+  // ADR-179 — `unlocked` is deleted; visibility is DERIVED. The invariant splits in two:
+  // the announce latch (`seenReveals`) stays write-once, and the derived visible set must
+  // be MONOTONE across real play (TST2 — a fact predicate may never un-reveal a surface).
+  it('the announce latch is WRITE-ONCE — seenReveals only ever grows, never loses a surface', () => {
     const seen = new Set<string>();
     let prevRef: readonly string[] | null = null;
     for (let i = 0; i < arc.states.length; i++) {
-      const u = arc.states[i]!.unlocked;
+      const u = arc.states[i]!.seenReveals;
       if (u === prevRef) continue;
       prevRef = u;
-      expect(u.length, `unlocked shrank at step ${i}`).toBeGreaterThanOrEqual(seen.size);
-      for (const id of seen) expect(u.includes(id), `lost surface '${id}' at step ${i}`).toBe(true);
+      expect(u.length, `seenReveals shrank at step ${i}`).toBeGreaterThanOrEqual(seen.size);
+      for (const id of seen) expect(u.includes(id), `lost reveal '${id}' at step ${i}`).toBe(true);
       for (const id of u) seen.add(id);
     }
+  });
+
+  it('the DERIVED visible set only ever grows — no surface un-reveals mid-play (ADR-179 / TST2)', () => {
+    // checkState-style: report only the first offender (a per-id expect over the whole
+    // arc would be ~50k assertions for nothing on the green path).
+    let fail: string | null = null;
+    let prevVis: ReadonlySet<string> = new Set();
+    for (let i = 0; i < arc.states.length && fail === null; i++) {
+      const vis = visibleSet(arc.states[i]!);
+      for (const id of prevVis) {
+        if (!vis.has(id)) {
+          fail = `visible surface '${id}' vanished at step ${i}`;
+          break;
+        }
+      }
+      prevVis = vis;
+    }
+    expect(fail).toBeNull();
+    expect(prevVis.size).toBeGreaterThan(0); // never vacuous — the arc revealed real surfaces
   });
 
   it('the clock and the log sequence are MONOTONIC (time and history never run backwards)', () => {
@@ -323,11 +347,13 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
     const nightFoes = MOBS.filter((m) => m.nightRoundOnly);
     expect(nightFoes.length).toBeGreaterThan(0); // never vacuous
     for (const mob of nightFoes) {
+      const base = createInitialState(1);
       const s: GameState = {
-        ...createInitialState(1),
+        ...base,
         rung: 'R4',
         location: mob.area,
-        unlocked: [...createInitialState(1).unlocked, 'tab-combat'],
+        // ADR-179 — tab-combat derives from its rung fact (rank-r3), never a stored latch.
+        flags: { ...base.flags, ...factsForSurfaces('tab-combat') },
       };
       expect(reduce(s, { type: 'fight', mobId: mob.id }), `fight ${mob.id}`).toBe(s);
       expect(reduce(s, { type: 'set_auto_combat', mobId: mob.id }), `arm ${mob.id}`).toBe(s);

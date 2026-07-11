@@ -173,6 +173,35 @@ describe('migration wiring + pre-migration backup', () => {
     expect(await backend.get('kk:pre-reboot-backup')).toBe(JSON.stringify(old));
   });
 
+  it('MIGRATES a this-generation v10 save on load: unlocked → seenReveals + the coin fact (ADR-179)', async () => {
+    const backend = new MemoryBackend();
+    // a v10 state: carries the old stored `unlocked` visibility latch, no `seenReveals` yet.
+    const v10state = { ...sample() } as Record<string, unknown>;
+    delete v10state.seenReveals;
+    v10state.unlocked = ['verb-rake', 'readout-coin'];
+    await backend.set(
+      'kk:save:1',
+      JSON.stringify({
+        app: 'kami-kakushi',
+        schemaVersion: 10,
+        generation: APP_GENERATION,
+        saveCounter: 1,
+        savedAt: 1,
+        state: v10state,
+      }),
+    );
+    const mgr = new SaveManager({ backends: [backend], now: () => 1 });
+    const loaded = await mgr.load();
+    expect(loaded).not.toBeNull(); // same generation ⇒ migrated, never retired
+    expect(loaded!.migrated).toBe(true);
+    // the old latch became the announce-once ceremony latch (lossless — no reveal re-plays)…
+    expect(loaded!.state.seenReveals).toEqual(['verb-rake', 'readout-coin']);
+    // …the visibility latch itself is GONE (visibility derives from facts now)…
+    expect('unlocked' in (loaded!.state as unknown as Record<string, unknown>)).toBe(false);
+    // …and the latched coin readout synthesized its entitling fact.
+    expect(loaded!.state.flags['coin-earned']).toBe(true);
+  });
+
   it('clamps a corrupt `location` to the kura on load (a bad node id would crash the renderer)', async () => {
     const backend = new MemoryBackend();
     // a save whose location is not a real map node — getNode() would throw and crash the UI on load

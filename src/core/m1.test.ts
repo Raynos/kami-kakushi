@@ -4,6 +4,7 @@ import {
   reduce,
   tick,
   isUnlocked,
+  factsForSurfaces,
   hasFlag,
   skillLevel,
   skillVisible,
@@ -328,9 +329,13 @@ describe('walkable estate map (T0-M4-F4 / D-065)', () => {
     const atForecourt: GameState = {
       ...base,
       location: 'forecourt',
-      flags: { ...base.flags, awake: true },
-      // the paddies + the danger-ring field-margins revealed (field-margins is NOT off the forecourt).
-      unlocked: [...base.unlocked, 'room-paddies', 'room-field-margins'],
+      // the paddies + the danger-ring field-margins revealed (field-margins is NOT off the
+      // forecourt) — via their entitling rung facts (ADR-179: visibility derives, never stored).
+      flags: {
+        ...base.flags,
+        awake: true,
+        ...factsForSurfaces('room-paddies', 'room-field-margins'),
+      },
     };
     // adjacent + revealed → you move
     expect(reduce(atForecourt, { type: 'move_to', to: 'paddies' }).location).toBe('paddies');
@@ -357,8 +362,8 @@ describe("porter's-knot is mechanically inert (no-magic / mediocre-start)", () =
       ...base,
       rung: 'R2',
       location: 'paddies', // v0.3.1 Step 5: farm_paddy is spatial — stand where the labour runs
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, 'verb-farm', 'tab-combat'],
+      // ADR-179 — the farm verb + combat tab derive from their rung facts (rank-r1/rank-r3).
+      flags: { ...base.flags, awake: true, ...factsForSurfaces('verb-farm', 'tab-combat') },
     };
     const withKnot: GameState = {
       ...plain,
@@ -497,8 +502,8 @@ describe('ephemeral flavor tagging (F53 + F58a)', () => {
       ...base,
       rung: 'R2',
       location: 'paddies',
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, 'verb-farm'],
+      // ADR-179 — verb-farm derives from its rung fact (rank-r1), never a stored latch.
+      flags: { ...base.flags, awake: true, ...factsForSurfaces('verb-farm') },
     };
     const farmed = reduce(atPaddies, { type: 'do_activity', activityId: 'farm_paddy' });
     const farmLine = lastByChannel(farmed, 'reward');

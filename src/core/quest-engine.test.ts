@@ -2,6 +2,7 @@ import {
   createInitialState,
   reduce,
   applyQuestEvent,
+  factsForSurfaces,
   getQuest,
   hasFlag,
   type GameState,
@@ -22,8 +23,8 @@ function combatReady(): GameState {
   return {
     ...s,
     rung: 'R3',
-    flags: { ...s.flags, awake: true, 'rank-r3': true },
-    unlocked: [...s.unlocked, 'tab-combat', 'verb-woodcut'],
+    // ADR-179 — tab-combat derives from rank-r3; verb-woodcut from its rung's flag (rank-r2).
+    flags: { ...s.flags, awake: true, 'rank-r3': true, ...factsForSurfaces('verb-woodcut') },
   };
 }
 

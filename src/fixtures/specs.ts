@@ -39,6 +39,8 @@ import {
   type Intent,
   type MobId,
   remainingRequirements,
+  isUnlocked,
+  visibleSet,
 } from '../core';
 
 export interface FixtureSpec {
@@ -124,7 +126,7 @@ export function drive(s0: GameState, stop: StopFn): GameState {
 export function walkTo(s: GameState, node: string): GameState {
   let guard = 0;
   while (s.location !== node && guard++ < 64) {
-    const hop = nextHopToward(s.location, node, new Set(s.unlocked));
+    const hop = nextHopToward(s.location, node, visibleSet(s));
     if (!hop) break;
     s = reduce(s, { type: 'move_to', to: hop });
   }
@@ -411,7 +413,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
         (s.resources.wood ?? 0) < balance.REPAIR_WOOD_COST,
         `expected carried wood < ${balance.REPAIR_WOOD_COST} (can't repair), got ${s.resources.wood ?? 0}`,
       );
-      must(s.unlocked.includes('verb-repair'), 'the Repair CTA must be revealed (R4 unlock)');
+      must(isUnlocked(s, 'verb-repair'), 'the Repair CTA must be revealed (R4 unlock)');
     },
   },
   {
@@ -466,7 +468,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     expect: (s) => {
       must(s.flags['works-open-u1'] === true, 'the pricing beat must have closed U1 open');
       must(s.estateStage === 0, 'the buy must still be ahead (priced, unbought)');
-      must(s.unlocked.includes('room-weir'), 'the lease naming must have opened the weir path');
+      must(isUnlocked(s, 'room-weir'), 'the lease naming must have opened the weir path');
       must(
         (s.resources.coin ?? 0) >= ESTATE_STAGES[0]!.coinCost,
         'the commissioning must be LIVE (coin for U1 in hand)',
@@ -514,7 +516,7 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
       must(s.location === 'gate', `expected the gate, got ${s.location}`);
       must((s.banked.rice ?? 0) > 0, 'kura rice to sell — the loop needs stock');
       must(
-        s.unlocked.includes('panel-estate'),
+        isUnlocked(s, 'panel-estate'),
         'panel-estate must be revealed (Yohei stands the gate on it)',
       );
     },

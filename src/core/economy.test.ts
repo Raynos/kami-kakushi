@@ -33,6 +33,7 @@ import {
   type GameState,
   rungRequirements,
   isRequirementDone,
+  factsForSurfaces,
 } from './index';
 import { validateState } from '../persistence/validate';
 import { YOHEI_MARKET_DAYS, YOHEI_PURSE_MON } from './content/market';
@@ -66,7 +67,7 @@ function playBeat(s: GameState): GameState {
 
 const SEASON_SPRING_SAFE = 1; // day 0 is spring → no autumn harvest multiplier
 
-/** A fresh state with the labour verb latched + full satiety (rate = 1, no throttle). */
+/** A fresh state with the labour verb entitled + full satiety (rate = 1, no throttle). */
 function farmReady(seed = SEASON_SPRING_SAFE): GameState {
   const s = createInitialState(seed);
   return {
@@ -74,7 +75,8 @@ function farmReady(seed = SEASON_SPRING_SAFE): GameState {
     // G4: farm_paddy is SPATIAL — it only runs at its 'paddies' node.
     location: 'paddies',
     character: { ...s.character, satiety: satietyMax(s) },
-    unlocked: [...s.unlocked, 'verb-farm'],
+    // ADR-179 — visibility DERIVES from facts: stamp the entitling rank flag, no latch.
+    flags: { ...s.flags, ...factsForSurfaces('verb-farm') },
   };
 }
 
@@ -227,7 +229,7 @@ describe('cook_meal — the sansai → HP heal sink (F22 / D-050)', () => {
       ...s,
       character: { ...s.character, hp },
       resources: { ...s.resources, sansai },
-      unlocked: [...s.unlocked, 'row-sansai', 'verb-cook'],
+      flags: { ...s.flags, ...factsForSurfaces('row-sansai', 'verb-cook') },
     };
   }
 
@@ -265,8 +267,12 @@ describe('F22 — work-stamina (rest) and health (cook) are DISTINCT recovery ac
       // well below both maxes so a recovery has clear headroom (can go RED if it heals nothing)
       character: { ...s.character, hp: 5, satiety: 10 },
       resources: { ...s.resources, sansai: 5 },
-      flags: { ...s.flags, awake: true, raked: true },
-      unlocked: [...s.unlocked, 'row-sansai', 'verb-cook'],
+      flags: {
+        ...s.flags,
+        awake: true,
+        raked: true,
+        ...factsForSurfaces('row-sansai', 'verb-cook'),
+      },
     };
   }
 
@@ -305,10 +311,13 @@ describe('improve_estate — the coin → estateStage sink (audit #5 / D-107)', 
     return {
       ...s,
       resources: { ...s.resources, coin },
-      unlocked: [...s.unlocked, 'panel-rung-ladder', 'panel-estate'],
       // ADR-177 — close the discovery chain (derived from the source of truth) so
       // each no-op case below tests ITS OWN gate, never masked by the works gate.
-      flags: { ...s.flags, ...Object.fromEntries(WORKS_PROJECTS.map((p) => [p.openFlag, true])) },
+      flags: {
+        ...s.flags,
+        ...factsForSurfaces('panel-rung-ladder', 'panel-estate'),
+        ...Object.fromEntries(WORKS_PROJECTS.map((p) => [p.openFlag, true])),
+      },
     };
   }
 
@@ -317,7 +326,9 @@ describe('improve_estate — the coin → estateStage sink (audit #5 / D-107)', 
     const unopened: GameState = {
       ...rich,
       resources: { ...rich.resources, coin: 10_000 },
-      unlocked: [...rich.unlocked, 'panel-rung-ladder', 'panel-estate'],
+      // ADR-179 — panel-estate's fact (works-named-u1) only NAMES the stage; the works
+      // OPEN flag stays unset, so the commissioning must still refuse.
+      flags: { ...rich.flags, ...factsForSurfaces('panel-rung-ladder', 'panel-estate') },
     };
     expect(reduce(unopened, { type: 'improve_estate' })).toBe(unopened);
   });
@@ -455,7 +466,7 @@ describe('the tiny capped market (T0-M4-F3 / D-008)', () => {
       // ADR-163: Yohei's stall is open only on his MARKET DAYS — sit the clock on one.
       clock: { ...s.clock, day: MARKET_DAY },
       resources: { ...s.resources, coin: 1000 },
-      unlocked: [...s.unlocked, 'panel-estate'],
+      flags: { ...s.flags, ...factsForSurfaces('panel-estate') },
     };
   }
 
@@ -495,7 +506,7 @@ describe('v0.3.1 Step 4 — coin sinks tighten the economy (D-086 scarcity / cal
     const base = createInitialState(1);
     const ready: GameState = {
       ...base,
-      unlocked: [...base.unlocked, 'verb-repair'],
+      flags: { ...base.flags, ...factsForSurfaces('verb-repair') },
       weaponDurability: 1, // worn
       resources: { ...base.resources, wood: 10, coin: 30 },
     };
@@ -513,7 +524,7 @@ describe('v0.3.1 Step 4 — coin sinks tighten the economy (D-086 scarcity / cal
     const base = createInitialState(1);
     const broke: GameState = {
       ...base,
-      unlocked: [...base.unlocked, 'verb-repair'],
+      flags: { ...base.flags, ...factsForSurfaces('verb-repair') },
       weaponDurability: 1,
       resources: { ...base.resources, wood: 10, coin: 0 }, // wood, no coin
     };
@@ -551,7 +562,7 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
       season: seas, // season is STORED now (storywave G1), not derived from the day
       clock: { ...s.clock, day: MARKET_DAY }, // ADR-163: Yohei buys only on his market days
       banked: { ...s.banked, rice }, // ADR-163: rice lives in the KURA (shō), sold from there
-      unlocked: [...s.unlocked, 'panel-estate'],
+      flags: { ...s.flags, ...factsForSurfaces('panel-estate') },
     };
   }
 
@@ -636,7 +647,7 @@ describe('D-107 Phase 2 / D-178 — eat_rice: the plain-rice BELLY path', () => 
       ...s,
       character: { ...s.character, hunger },
       banked: { ...s.banked, rice }, // ADR-163: the meal is drawn from the KURA (shō)
-      unlocked: [...s.unlocked, 'panel-estate', 'verb-eat-rice'],
+      flags: { ...s.flags, ...factsForSurfaces('panel-estate', 'verb-eat-rice') },
     };
   }
 
@@ -672,7 +683,7 @@ describe('D-107 Phase 2 — the kura shelters RICE beside coin (deposit/withdraw
       ...s,
       location: 'kura',
       resources: { ...s.resources, rice },
-      unlocked: [...s.unlocked, 'panel-estate'],
+      flags: { ...s.flags, ...factsForSurfaces('panel-estate') },
     };
   }
 
@@ -821,7 +832,7 @@ describe('activityForecast — forecast == reality (FB-264, AC-6)', () => {
       ...base,
       location: 'forecourt',
       character: { ...base.character, satiety: satietyMax(base) },
-      unlocked: [...base.unlocked, 'verb-haul'],
+      flags: { ...base.flags, ...factsForSurfaces('verb-haul') },
     };
     const f = activityForecast(s, getActivity('haul_stores'));
     const after = reduce(s, { type: 'do_activity', activityId: 'haul_stores' });

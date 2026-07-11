@@ -49,6 +49,7 @@ import {
   satietyMax,
   remainingRequirements,
   GRINDABLE_MOBS,
+  visibleSet,
 } from '../core';
 
 // The ONE runtime list of all intent types (FB-4 §1). When the game grows an intent, `tsc`
@@ -181,7 +182,7 @@ function combatLegIntent(s: GameState): Intent | null {
     if ((s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST) return { type: 'repair_weapon' };
     const wood = getActivity('woodcut_edge');
     if (canDoActivity(s, wood)) return { type: 'do_activity', activityId: 'woodcut_edge' };
-    const hop = nextHopToward(s.location, wood.area, new Set(s.unlocked));
+    const hop = nextHopToward(s.location, wood.area, visibleSet(s));
     if (hop) return { type: 'move_to', to: hop };
     // can't reach wood — fall through and fight with what's in hand rather than stall.
   }
@@ -204,7 +205,7 @@ function combatLegIntent(s: GameState): Intent | null {
   // (4) walk to the monkey's ground and stand the watch (one real grind fight sets the flag).
   const foe = getMob('monkey');
   if (s.location === foe.area) return { type: 'fight', mobId: 'monkey' };
-  const hop = nextHopToward(s.location, foe.area, new Set(s.unlocked));
+  const hop = nextHopToward(s.location, foe.area, visibleSet(s));
   return hop ? { type: 'move_to', to: hop } : null;
 }
 
@@ -325,7 +326,7 @@ export const idler: Persona = {
         if (s.location === forage.area) {
           return { type: 'do_activity', activityId: 'forage_satoyama' };
         }
-        const fhop = nextHopToward(s.location, forage.area, new Set(s.unlocked));
+        const fhop = nextHopToward(s.location, forage.area, visibleSet(s));
         if (fhop) return { type: 'move_to', to: fhop };
       }
       // ADR-148 — the divided targets leave no wood SURPLUS: a Battered/Broken blade
@@ -341,7 +342,7 @@ export const idler: Persona = {
         if (poolDry('woodcut_edge') && canTurnWheel) return { type: 'advance_season' };
         const woodlot = getActivity('woodcut_edge');
         if (s.location === woodlot.area) return { type: 'do_activity', activityId: 'woodcut_edge' };
-        const hop = nextHopToward(s.location, woodlot.area, new Set(s.unlocked));
+        const hop = nextHopToward(s.location, woodlot.area, visibleSet(s));
         if (hop) return { type: 'move_to', to: hop };
       }
       const target = getMob(killReq.token.slice('kill:'.length) as Parameters<typeof getMob>[0]);
@@ -356,7 +357,7 @@ export const idler: Persona = {
           const retreatHp = Math.round(balance.AUTO_RETREAT_FRAC * hpMax(s));
           return { type: 'set_auto_combat', mobId: foe.id, retreat: s.character.hp > retreatHp };
         }
-        const hop = nextHopToward(s.location, foe.area, new Set(s.unlocked));
+        const hop = nextHopToward(s.location, foe.area, visibleSet(s));
         if (hop) return { type: 'move_to', to: hop };
       }
     } else if (s.autoCombat !== null) {
@@ -385,7 +386,7 @@ export const idler: Persona = {
         if (s.location === forage.area) {
           return { type: 'do_activity', activityId: 'forage_satoyama' };
         }
-        const fhop = nextHopToward(s.location, forage.area, new Set(s.unlocked));
+        const fhop = nextHopToward(s.location, forage.area, visibleSet(s));
         if (fhop) return { type: 'move_to', to: fhop };
       }
       if (s.character.satiety < satietyMax(s) * 0.9 && acts.includes('rest')) {
@@ -432,7 +433,7 @@ export const idler: Persona = {
         return { type: 'set_auto', activityId: id };
       }
       if (act.area !== s.location) {
-        const hop = nextHopToward(s.location, act.area, new Set(s.unlocked));
+        const hop = nextHopToward(s.location, act.area, visibleSet(s));
         if (hop) return { type: 'move_to', to: hop };
       }
     }
@@ -463,7 +464,7 @@ function explorerCandidates(s: GameState): Intent[] {
     for (const t of scene?.topics ?? []) out.push({ type: 'ask_rung_topic', topicId: t.id });
   }
   // walk every revealed, adjacent node (registry order)
-  const revealed = new Set(s.unlocked);
+  const revealed = visibleSet(s);
   for (const n of MAP_NODES) {
     if (n.id !== s.location && canMove(s.location, n.id, revealed)) {
       out.push({ type: 'move_to', to: n.id });

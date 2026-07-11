@@ -57,6 +57,7 @@ import {
   type LogEntry,
   rungRequirements,
   rungProgress,
+  factsForSurfaces,
 } from '../core';
 import { RAKE_DONE_REASON } from '../core/content/coldOpen';
 
@@ -133,8 +134,9 @@ function awakeCombatState(): GameState {
     // Step 5b / G4 cutover: foes are spatial — stand on the field margins (the first grindable
     // combat zone: tanuki + badger at the paddy's edge) so the combat pane's "watch" has foes.
     location: 'field-margins',
-    flags: { ...base.flags, awake: true },
-    unlocked: [...base.unlocked, 'readout-rice', 'tab-combat'],
+    // ADR-179 — visibility derives from FACTS: rank-r3 entitles tab-combat; readout-rice
+    // derives from awake + intro-not-active (base introBeat is -1, pre-wake).
+    flags: { ...base.flags, awake: true, ...factsForSurfaces('tab-combat') },
   };
 }
 
@@ -250,9 +252,16 @@ describe('render — settings a11y + unknown-foe fog', () => {
       ...s,
       rung: 'R7',
       tier: 1,
-      flags: { ...s.flags, awake: true, 'rank-r7': true, 't0-capstone': true, 'ascended-t0': true },
       // ADR-177 Schedule A — tab-estate (R6) lights the Estate 家 tab, the koku standing's home.
-      unlocked: [...s.unlocked, 'panel-rung-ladder', 'tab-estate', 'panel-house-influence'],
+      // ADR-179 — the surfaces derive from their rungs' latched facts (r1 + r6).
+      flags: {
+        ...s.flags,
+        awake: true,
+        'rank-r7': true,
+        't0-capstone': true,
+        'ascended-t0': true,
+        ...factsForSurfaces('panel-rung-ladder', 'tab-estate', 'panel-house-influence'),
+      },
       influence: { estate: { value: excellent, highWater: excellent, judged: 0 } },
       character: { ...s.character, attributePoints: 5 },
     };
@@ -277,10 +286,15 @@ describe('render — settings a11y + unknown-foe fog', () => {
       ...s,
       rung: 'R7',
       tier: 0, // pre-ascension: still climbing toward the EXCELLENT gate
-      flags: { ...s.flags, awake: true, 't0-capstone': true }, // phaseOf === 2 → the pillar is live
       // tab-estate lights the Estate tab (the koku standing's IA home); panel-house-influence
-      // makes the standing live. Both are unlocked by R7 in real play.
-      unlocked: [...s.unlocked, 'panel-rung-ladder', 'tab-estate', 'panel-house-influence'],
+      // makes the standing live. Both are unlocked by R7 in real play (ADR-179 — derived
+      // from the latched rank-r1/rank-r6 facts, never a stored list).
+      flags: {
+        ...s.flags,
+        awake: true,
+        't0-capstone': true, // phaseOf === 2 → the pillar is live
+        ...factsForSurfaces('panel-rung-ladder', 'tab-estate', 'panel-house-influence'),
+      },
       influence: { estate: { value, highWater: value, judged: 0 } },
     };
   }
@@ -387,8 +401,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       {
         ...base,
         location: 'paddies',
-        flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'verb-farm', 'room-paddies'],
+        flags: { ...base.flags, awake: true, ...factsForSurfaces('verb-farm', 'room-paddies') },
       },
       null,
     );
@@ -403,8 +416,12 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       ...base,
       location: 'paddies',
       // 'raked' is what puts Rest on offer (availableActions)
-      flags: { ...base.flags, awake: true, raked: true },
-      unlocked: [...base.unlocked, 'verb-farm', 'room-paddies'],
+      flags: {
+        ...base.flags,
+        awake: true,
+        raked: true,
+        ...factsForSurfaces('verb-farm', 'room-paddies'),
+      },
     };
     render(s, null);
     // the labour button's title derives from the SAME forecast the reducer pays (AC-6)
@@ -430,8 +447,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
         ...base,
         // stand at the forecourt (the R0 hub) — the paddy is one of its walkable neighbours.
         location: 'forecourt',
-        flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'room-gate', 'room-paddies'],
+        flags: { ...base.flags, awake: true, ...factsForSurfaces('room-gate', 'room-paddies') },
       },
       null,
     );
@@ -452,8 +468,8 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       {
         ...base,
         location: 'kura',
-        flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'panel-estate', 'tab-inventory'], // ADR-177 — Inventory tab reveals at R4
+        // ADR-177 — the Inventory tab reveals at R4 (ADR-179: rank-r4 + works-named-u1 facts)
+        flags: { ...base.flags, awake: true, ...factsForSurfaces('panel-estate', 'tab-inventory') },
         resources: { ...base.resources, coin: 50 },
       },
       null,
@@ -473,8 +489,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
         // (dayOfWeek 2) so Yohei stands his stall; and kura rice to sell (rice is kura-only now).
         location: 'gate',
         clock: { ...base.clock, day: 2 },
-        flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'panel-estate', 'room-gate'],
+        flags: { ...base.flags, awake: true, ...factsForSurfaces('panel-estate', 'room-gate') },
         banked: { ...base.banked, rice: 30 },
       },
       null,
@@ -493,8 +508,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     render(
       {
         ...base,
-        flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'panel-estate', 'verb-eat-rice'],
+        flags: { ...base.flags, awake: true, ...factsForSurfaces('panel-estate', 'verb-eat-rice') },
         // ADR-163 — the meal is drawn from the KURA (shō), never a carried pile.
         banked: { ...base.banked, rice: 30 },
       },
@@ -511,8 +525,12 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       {
         ...base,
         location: 'field-margins', // the tanuki/badger node (the paddy's edge)
-        flags: { ...base.flags, awake: true, 'mob-tanuki': true },
-        unlocked: [...base.unlocked, 'tab-combat'],
+        flags: {
+          ...base.flags,
+          awake: true,
+          'mob-tanuki': true,
+          ...factsForSurfaces('tab-combat'),
+        },
       },
       null,
     );
@@ -528,8 +546,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       {
         ...base,
         location: 'forecourt',
-        flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'room-gate', 'room-paddies'],
+        flags: { ...base.flags, awake: true, ...factsForSurfaces('room-gate', 'room-paddies') },
       },
       null,
     );
@@ -549,8 +566,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     const base = createInitialState(1);
     const combatReady: GameState = {
       ...base,
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, 'tab-combat'],
+      flags: { ...base.flags, awake: true, ...factsForSurfaces('tab-combat') },
     };
     // hurt: HP is invisible-no-more — the number shows AND the bar flags danger.
     render({ ...combatReady, character: { ...combatReady.character, hp: 1 } }, null);
@@ -573,8 +589,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     const base = createInitialState(1);
     const s: GameState = {
       ...base,
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, 'readout-stamina'],
+      flags: { ...base.flags, awake: true, ...factsForSurfaces('readout-stamina') },
       character: { ...base.character, satiety: 42 },
     };
     render(s, null);
@@ -592,8 +607,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     const base = createInitialState(1);
     const s: GameState = {
       ...base,
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, 'readout-stamina'],
+      flags: { ...base.flags, awake: true, ...factsForSurfaces('readout-stamina') },
       character: { ...base.character, hunger: 33 },
     };
     render(s, null);
@@ -618,8 +632,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     const base = createInitialState(1);
     const ready: GameState = {
       ...base,
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, 'verb-cook'],
+      flags: { ...base.flags, awake: true, ...factsForSurfaces('verb-cook') },
       resources: { ...base.resources, sansai: 20 },
     };
     const cookBtn = (): HTMLButtonElement =>
@@ -662,11 +675,13 @@ describe('D-119/ADR-177 — tabs reveal one beat at a time (Schedule A)', () => 
       (b) => b.textContent ?? '',
     );
   }
-  function at(unlocked: string[]): void {
+  function at(surfaces: string[]): void {
     const base = createInitialState(1);
     const render = mount(root, () => {}, noopHooks());
+    // ADR-179 — stamp the FACTS that entitle each surface (rank-rN / event flags);
+    // visibility derives, so a rung's whole grant-list travels together.
     render(
-      { ...base, flags: { ...base.flags, awake: true }, unlocked: [...base.unlocked, ...unlocked] },
+      { ...base, flags: { ...base.flags, awake: true, ...factsForSurfaces(...surfaces) } },
       null,
     );
   }
@@ -688,8 +703,7 @@ describe('D-119/ADR-177 — tabs reveal one beat at a time (Schedule A)', () => 
     render(
       {
         ...base,
-        flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'room-gate', 'panel-estate'],
+        flags: { ...base.flags, awake: true, ...factsForSurfaces('room-gate', 'panel-estate') },
       },
       null,
     );
@@ -697,18 +711,22 @@ describe('D-119/ADR-177 — tabs reveal one beat at a time (Schedule A)', () => 
   });
 
   it('R3 (combat live) does NOT bring Inventory — it waits for its own R4 beat', () => {
-    at(['room-gate', 'panel-estate', 'panel-home', 'tab-combat']);
+    // ADR-179 — panel-home DERIVES from tab-inventory (its facts are rank-r4), so it can
+    // no longer be granted at R3 without dragging the Inventory tab along: the R3 state
+    // simply doesn't have the home yet (they travel together at R4).
+    at(['room-gate', 'panel-estate', 'tab-combat']);
     expect(tabLabels().some((l) => l.includes('Inventory'))).toBe(false);
     expect(tabLabels().some((l) => l.includes('Quests'))).toBe(false);
   });
 
   it('R4 (tab-inventory granted) is where the Inventory tab reveals — its own beat', () => {
-    at(['room-gate', 'panel-estate', 'panel-home', 'tab-combat', 'tab-inventory']);
+    // ADR-179 — panel-home rides tab-inventory's rank-r4 fact; no separate grant needed.
+    at(['room-gate', 'panel-estate', 'tab-combat', 'tab-inventory']);
     expect(tabLabels().some((l) => l.includes('Inventory'))).toBe(true);
   });
 
   it('R5 (tab-quests granted) is where the Quests tab reveals — its own beat', () => {
-    at(['room-gate', 'panel-estate', 'panel-home', 'tab-combat', 'tab-inventory', 'tab-quests']);
+    at(['room-gate', 'panel-estate', 'tab-combat', 'tab-inventory', 'tab-quests']);
     expect(tabLabels().some((l) => l.includes('Quests'))).toBe(true);
   });
 
@@ -743,18 +761,21 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     return {
       ...base,
       location: 'field-margins', // G4: the first grindable combat zone (tanuki/badger)
-      flags: { ...base.flags, awake: true },
       // the full R3 combat surface set: the Combat tab + its floor, plus the Character-tab surfaces
       // (tab-skills R2, readout-combat-level + panel-bestiary R3) that light the split-out sheet.
-      unlocked: [
-        ...base.unlocked,
-        'readout-rice',
-        'tab-skills',
-        'readout-combat-level',
-        'tab-combat',
-        'panel-bestiary',
-        ...extra,
-      ],
+      // ADR-179 — the set derives from the rank-r2 + rank-r3 facts; readout-rice derives
+      // from awake (the base introBeat is -1, pre-wake ⇒ intro not active).
+      flags: {
+        ...base.flags,
+        awake: true,
+        ...factsForSurfaces(
+          'tab-skills',
+          'readout-combat-level',
+          'tab-combat',
+          'panel-bestiary',
+          ...extra,
+        ),
+      },
     };
   }
   function openCombat(): void {
@@ -843,7 +864,11 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     // R4: `verb-repair` unlocks — the SAME worn blade now offers the real mend CTA and the hint retires.
     const r4: GameState = {
       ...battered,
-      unlocked: [...battered.unlocked, 'readout-durability', 'panel-equipment', 'verb-repair'],
+      // ADR-179 — all three are R4-scheduled; the rank-r4 fact entitles them.
+      flags: {
+        ...battered.flags,
+        ...factsForSurfaces('readout-durability', 'panel-equipment', 'verb-repair'),
+      },
     };
     render(r4, battered);
     const hintR4 = root.querySelector<HTMLElement>('.weapon-card .lock-hint');
@@ -1627,12 +1652,12 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     document.body.append(root);
   });
 
-  function awake(extraUnlocked: string[] = []): GameState {
+  function awake(surfaces: string[] = []): GameState {
     const base = createInitialState(1);
+    // ADR-179 — visibility derives from facts; stamp what entitles each named surface.
     return {
       ...base,
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, ...extraUnlocked],
+      flags: { ...base.flags, awake: true, ...factsForSurfaces(...surfaces) },
     };
   }
   const narr = (key: number, text: string): LogEntry => ({
@@ -1759,8 +1784,15 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     // Work-column ladder no longer exists — the header rung element is the single progress home.
     render(
       {
-        ...awake(['panel-rung-ladder']),
-        flags: { ...createInitialState(1).flags, awake: true, raked: true },
+        ...awake(),
+        // ADR-179 — the flags literal must carry the ladder's entitling fact itself
+        // (a bare override would silently drop what awake() stamped).
+        flags: {
+          ...createInitialState(1).flags,
+          awake: true,
+          raked: true,
+          ...factsForSurfaces('panel-rung-ladder'),
+        },
       },
       null,
     );
@@ -1920,12 +1952,12 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     document.body.append(root);
   });
 
-  function awake(extraUnlocked: string[] = [], over: Partial<GameState> = {}): GameState {
+  function awake(surfaces: string[] = [], over: Partial<GameState> = {}): GameState {
     const base = createInitialState(1);
+    // ADR-179 — visibility derives from facts; stamp what entitles each named surface.
     return {
       ...base,
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, ...extraUnlocked],
+      flags: { ...base.flags, awake: true, ...factsForSurfaces(...surfaces) },
       ...over,
     };
   }
@@ -2026,17 +2058,17 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderSkills — a skill card + meter survive a re-render, empty pane stays empty (F72)', () => {
     const render = mount(root, () => {}, noopHooks());
-    // tab-skills open but no skill has any XP yet → the skills pane renders ZERO cards.
-    // readout-combat-level gives the Character tab OTHER content (the training/attrs section) so the
-    // tab reveals while skills is genuinely empty — the exact FB-72 ghost-box case (a shown-but-empty
-    // SECTION inside a non-empty tab). (ADR-119 — quests moved to their own tab, so they no longer keep
-    // Character non-empty here.)
+    // tab-skills open but no skill has any XP yet. ADR-179 — tab-skills is a rank-r2 grant,
+    // and rank-r2 ALSO grants skill-conditioning (rung-granted surfaces travel together), so
+    // the pane can no longer be literally empty at R2: the conditioning gate card rides in.
+    // The FB-72 ghost-box contract holds in its coarser form — ONLY the schedule-granted
+    // card renders; no XP-earned row appears un-earned.
     const s = awake(['tab-skills', 'readout-combat-level']);
     render(s, null);
     openTab('己'); // skills is a section of the Character 己 tab now (IA reorg ADR-112)
-    expect(root.querySelector('.skills-pane .skill-row')).toBeNull();
-    // FB-72 ghost-box: a shown-but-empty pane leaves NO element children (no orphan keeps a slice up).
-    expect(root.querySelector<HTMLElement>('.skills-pane')!.childElementCount).toBe(0);
+    const rows0 = [...root.querySelectorAll<HTMLElement>('.skills-pane .skill-row')];
+    expect(rows0.length).toBe(1); // the rank-granted conditioning card, nothing else
+    expect(rows0[0]!.textContent).toContain('Conditioning');
 
     // give farming enough XP to surface its skill card, then prove identity across a tick.
     const withSkill = awake(['tab-skills', 'readout-combat-level'], {
@@ -2178,12 +2210,12 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     document.body.append(root);
   });
 
-  function awake(extraUnlocked: string[] = [], over: Partial<GameState> = {}): GameState {
+  function awake(surfaces: string[] = [], over: Partial<GameState> = {}): GameState {
     const base = createInitialState(1);
+    // ADR-179 — visibility derives from facts; stamp what entitles each named surface.
     return {
       ...base,
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, ...extraUnlocked],
+      flags: { ...base.flags, awake: true, ...factsForSurfaces(...surfaces) },
       ...over,
     };
   }
@@ -2324,13 +2356,13 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     document.body.append(root);
   });
 
-  function awakeAt(location: string, extraUnlocked: string[] = []): GameState {
+  function awakeAt(location: string, surfaces: string[] = []): GameState {
     const base = createInitialState(1);
+    // ADR-179 — visibility derives from facts; stamp what entitles each named surface.
     return {
       ...base,
       location,
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, ...extraUnlocked],
+      flags: { ...base.flags, awake: true, ...factsForSurfaces(...surfaces) },
     };
   }
   function clickButton(substr: string): boolean {
@@ -2473,13 +2505,13 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
       .find((b) => (b.textContent ?? '').includes('地図'))
       ?.click();
   }
-  function at(location: string, extra: string[] = []): GameState {
+  function at(location: string, surfaces: string[] = []): GameState {
     const base = createInitialState(1);
+    // ADR-179 — visibility derives from facts; stamp what entitles each named surface.
     return {
       ...base,
       location,
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, ...extra],
+      flags: { ...base.flags, awake: true, ...factsForSurfaces(...surfaces) },
     };
   }
   function spyRender(): { seen: Intent[]; render: ReturnType<typeof mount> } {
@@ -2799,19 +2831,24 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
   // surface as its tab, so the home is announced exactly when its tab appears.
   function homeState(extra?: Partial<GameState>): GameState {
     const s = createInitialState(1);
+    // ADR-179 — the facts: rank-r1 (gate/paddies/ladder), works-named-u1 (panel-estate),
+    // rank-r4 (tab-inventory, which panel-home keys to — ADR-177: the home appears exactly
+    // when its tab does); readout-rice derives from awake + intro-not-active.
     return {
       ...s,
-      flags: { ...s.flags, awake: true, raked: true, 'rank-r1': true },
-      unlocked: [
-        ...s.unlocked,
-        'readout-rice',
-        'room-gate',
-        'room-paddies',
-        'panel-rung-ladder',
-        'panel-estate',
-        'panel-home',
-        'tab-inventory', // ADR-177 — the Inventory tab reveals at R4; without it the tab won't appear
-      ],
+      flags: {
+        ...s.flags,
+        awake: true,
+        raked: true,
+        ...factsForSurfaces(
+          'room-gate',
+          'room-paddies',
+          'panel-rung-ladder',
+          'panel-estate',
+          'panel-home',
+          'tab-inventory',
+        ),
+      },
       ...extra,
     };
   }
@@ -2948,8 +2985,11 @@ describe('FB-358 — a tab-set collapse resets activeTab to work', () => {
     const base = createInitialState(1);
     const rich: GameState = {
       ...base,
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, 'room-gate', 'panel-estate', 'panel-home'],
+      flags: {
+        ...base.flags,
+        awake: true,
+        ...factsForSurfaces('room-gate', 'panel-estate', 'panel-home'),
+      },
     };
     const render = mount(root, () => {}, noopHooks());
     render(rich, null);

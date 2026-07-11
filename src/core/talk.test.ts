@@ -4,13 +4,14 @@
 // the live registries (PEOPLE / DIALOGUES), never copied ids or prose.
 
 import { describe, expect, it } from 'vitest';
-import { createInitialState, reduce, type GameState } from './index';
+import { createInitialState, reduce, factsForSurfaces, type GameState } from './index';
 import { PEOPLE, getPerson } from './content/people';
 import { getDialogue } from './content/dialogue';
 import { peopleHere } from './selectors';
 
 /** Stand the MC at a person's node with their gates satisfied (seam-forced rung; the
- *  full real-path presence is t0-arc's concern). */
+ *  full real-path presence is t0-arc's concern). ADR-179 — a placeGate is satisfied by
+ *  stamping its entitling FACTS (visibility derives, never a stored latch). */
 function standingWith(personId: string): GameState {
   const p = getPerson(personId);
   const s = createInitialState(1);
@@ -18,7 +19,7 @@ function standingWith(personId: string): GameState {
     ...s,
     rung: 'R4',
     location: p.node,
-    unlocked: p.placeGate ? [...s.unlocked, p.placeGate] : s.unlocked,
+    flags: p.placeGate ? { ...s.flags, ...factsForSurfaces(p.placeGate) } : s.flags,
   };
 }
 

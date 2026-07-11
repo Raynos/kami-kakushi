@@ -1,11 +1,11 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 10,
+    "schemaVersion": 11,
     "season": "winter",
     "seasonsPassed": 0,
     "rng": {
@@ -65,23 +65,23 @@
       "works-named-u1": true,
       "works-named-weir": true
     },
-    "unlocked": [
+    "seenReveals": [
       "screen-cold-open",
       "verb-open-eyes",
       "verb-rake",
-      "room-forecourt",
       "readout-body",
       "readout-rice",
+      "room-forecourt",
       "verb-rest",
+      "panel-rung-ladder",
+      "readout-clock",
+      "readout-stamina",
       "room-gate",
       "room-paddies",
       "room-woodshed",
       "room-kitchen",
       "verb-farm",
       "verb-haul",
-      "readout-clock",
-      "readout-stamina",
-      "panel-rung-ladder",
       "verb-eat-rice",
       "skill-farming",
       "readout-coin",
@@ -92,10 +92,10 @@
       "verb-forage",
       "row-wood",
       "row-sansai",
-      "skill-conditioning",
       "verb-cook",
-      "room-weir",
-      "panel-estate"
+      "skill-conditioning",
+      "panel-estate",
+      "room-weir"
     ],
     "log": {
       "entries": [
@@ -382,7 +382,7 @@
         {
           "key": 30,
           "channel": "narration",
-          "text": "The outer court is given to you with the rake: the forecourt, swept ground sized for a household five times this one.",
+          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -390,7 +390,7 @@
         {
           "key": 31,
           "channel": "narration",
-          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
+          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -398,7 +398,7 @@
         {
           "key": 32,
           "channel": "narration",
-          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
+          "text": "The outer court is given to you with the rake: the forecourt, swept ground sized for a household five times this one.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -714,15 +714,6 @@
         },
         {
           "key": 67,
-          "channel": "narration",
-          "text": "You begin to mark the turning of the days, and the four seasons with them.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 68,
           "channel": "milestone",
           "text": "Rank ↑ — The day-hand 日雇",
           "tick": 2,
@@ -732,6 +723,15 @@
             "title": "The day-hand",
             "kanji": "日雇"
           }
+        },
+        {
+          "key": 68,
+          "channel": "narration",
+          "text": "You begin to mark the turning of the days, and the four seasons with them.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
           "key": 69,
@@ -1184,30 +1184,6 @@
         },
         {
           "key": 119,
-          "channel": "narration",
-          "text": "A way to track what your hands are learning takes shape — your Skills.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 120,
-          "channel": "narration",
-          "text": "The woodlot edge opens to you — kindling and timber to cut, wild greens to gather along its margin.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 121,
-          "channel": "narration",
-          "text": "Out past the last worked row the setts begin — tanuki, badger — and the nightly raids on the drying racks and the seed store.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 122,
           "channel": "milestone",
           "text": "Rank ↑ — The yard-hand 庭男",
           "tick": 6,
@@ -1217,6 +1193,30 @@
             "title": "The yard-hand",
             "kanji": "庭男"
           }
+        },
+        {
+          "key": 120,
+          "channel": "narration",
+          "text": "A way to track what your hands are learning takes shape — your Skills.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 121,
+          "channel": "narration",
+          "text": "The woodlot edge opens to you — kindling and timber to cut, wild greens to gather along its margin.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 122,
+          "channel": "narration",
+          "text": "Out past the last worked row the setts begin — tanuki, badger — and the nightly raids on the drying racks and the seed store.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
         },
         {
           "key": 123,

@@ -4,7 +4,15 @@
 // THE prod map (imported by src/ui/render.ts), and the losing takes were
 // stripped (ADR-075 zero flag-debt). This module now ships in prod with it.
 import type { GameState, Intent } from '../../core';
-import { balance, canMove, getNode, MAP_NODES, reachableFrom, skillLevel } from '../../core';
+import {
+  balance,
+  canMove,
+  getNode,
+  MAP_NODES,
+  reachableFrom,
+  skillLevel,
+  visibleSet,
+} from '../../core';
 
 /** The navigation context dev.ts builds once per render — identical to the
  *  legacy MapNavCtx shape (structural). Every variant renders from THIS +
@@ -21,7 +29,7 @@ export interface MapCtx {
 /** Build the MapCtx from live state — the ONE ctx source (render.ts's map tab and the
  *  DEV travel-presence variants both call this, so the seam never forks — TST1). */
 export function buildMapCtx(state: GameState, dispatch: (intent: Intent) => void): MapCtx {
-  const revealed = new Set(state.unlocked);
+  const revealed = visibleSet(state);
   return {
     here: state.location,
     revealed,

@@ -16,7 +16,9 @@ import {
   resolveNightStage,
   applyPromotion,
   nextRankId,
-  revealPass,
+  announcePass,
+  unlockedSurfaces,
+  visibleSet,
   RANKS,
   balance,
   type GameState,
@@ -40,6 +42,18 @@ import { createActionClock, actionKey } from './action-clock';
 import { installFreezeClock, type TimerHost } from './freeze-clock';
 
 const DEFAULT_SEED = 20260626;
+
+/** ADR-179 — the cumulative rank fact-flags up to (and incl.) `target`, exactly what organic
+ *  play latches rung by rung (applyPromotion). DEV teleports stamp these; visibility derives. */
+function rankFlagsUpTo(target: RankId): Record<string, boolean> {
+  const flags: Record<string, boolean> = {};
+  for (const r of RANKS) {
+    if (r.id !== 'R0') flags[`rank-${r.id.toLowerCase()}`] = true;
+    if (r.id === target) break;
+  }
+  return flags;
+}
+
 const AUTOSAVE_DEBOUNCE_MS = 800;
 const AUTOSAVE_TICK_INTERVAL_MS = 15_000;
 const { AUTO_REPEAT_MS } = balance; // the "leave it running" cadence (active-only), single-sourced
@@ -163,18 +177,17 @@ async function boot(): Promise<void> {
     }
   }
 
-  // Load-path reveal reconciliation (audit fix). The `unlocked` latch is write-once, but several
-  // surfaces are STATE-PREDICATE reveals (readout-coin on coin>0, panel-estate/verb-eat-rice on a
-  // latched ladder, …). A loaded/migrated save can ALREADY satisfy such a predicate while its
-  // stored `unlocked` set predates it — so run ONE revealPass now (mirroring what a tick/reduce
-  // does via finish()) to latch every already-earned surface BEFORE the first render. Without it a
-  // back-revealable surface stays hidden until the player's first dispatched intent.
-  state = revealPass(state);
+  // Load-path announce reconciliation (ADR-179). Visibility is DERIVED, so a loaded save
+  // shows everything its facts entitle with no pass at all — but a surface the save's
+  // facts entitle that was never ANNOUNCED (e.g. a save from before that surface shipped)
+  // gets its reveal line exactly once, before the first render. A plain reload announces
+  // nothing (`seenReveals` already carries every played reveal).
+  state = announcePass(state);
 
   let prev: GameState | null = null;
 
   // reveal tracking (for the __qa reveal-cadence proxy)
-  const reveals: RevealMark[] = state.unlocked.map((id) => ({ id, tick: state.clock.tick }));
+  const reveals: RevealMark[] = state.seenReveals.map((id) => ({ id, tick: state.clock.tick }));
   let actionCount = 0;
   let paused = false;
   let crashed = false;
@@ -198,9 +211,8 @@ async function boot(): Promise<void> {
         if ('state' in res) {
           prev = null;
           clock.cancelAll(); // ADR-148 — a state swap drops any in-flight action
-          // reconcile the imported save's write-once latch against its state predicates (same
-          // load-path back-reveal as boot) before the first render.
-          state = revealPass(res.state);
+          // announce any entitled-but-never-announced surface (same load-path rule as boot).
+          state = announcePass(res.state);
           telemetry?.onRunStart('import', state); // FB-8: an imported save is a new (tainted) run
           safely(() => render(state, null));
         } else {
@@ -329,9 +341,9 @@ async function boot(): Promise<void> {
   await save.clearCrashCount(); // booted cleanly
 
   function trackReveals(before: GameState, after: GameState): void {
-    if (after.unlocked.length === before.unlocked.length) return;
-    for (const id of after.unlocked) {
-      if (!before.unlocked.includes(id)) reveals.push({ id, tick: after.clock.tick });
+    // ADR-179 — `seenReveals` is the append-only announce cursor, so the diff is its tail.
+    for (const id of after.seenReveals.slice(before.seenReveals.length)) {
+      reveals.push({ id, tick: after.clock.tick });
     }
   }
 
@@ -458,7 +470,7 @@ async function boot(): Promise<void> {
     const walkTo = (node: string): string => {
       let guard = 0;
       while (state.location !== node && guard++ < 64) {
-        const hop = nextHopToward(state.location, node, new Set(state.unlocked));
+        const hop = nextHopToward(state.location, node, visibleSet(state));
         if (!hop) break;
         const from = state.location;
         dispatch({ type: 'move_to', to: hop });
@@ -559,14 +571,15 @@ async function boot(): Promise<void> {
         if (autoSpeed > 1) qaTaint('speed>1'); // FB-8: distorted time — pacing data unusable
         return autoSpeed;
       },
-      /** Jump to the R7 capstone (Phase 2 open) so the live macro spine is reachable at once. */
+      /** Jump to the R7 capstone (Phase 2 open) so the live macro spine is reachable at once.
+       *  ADR-179 — a teleport stamps the CUMULATIVE rank fact-flags (what organic play
+       *  latches rung by rung); every surface visibility then DERIVES, nothing hand-patched. */
       jumpToPhase2: () => {
         qaTaint('jumpToPhase2');
         commit({
           ...state,
           rung: 'R7',
-          flags: { ...state.flags, awake: true, 'rank-r7': true, 't0-capstone': true },
-          unlocked: [...new Set([...state.unlocked, 'panel-house-influence'])],
+          flags: { ...state.flags, ...rankFlagsUpTo('R7'), awake: true, 't0-capstone': true },
         });
         return state.rung;
       },
@@ -580,12 +593,11 @@ async function boot(): Promise<void> {
           tier: 0,
           flags: {
             ...state.flags,
+            ...rankFlagsUpTo('R7'), // ADR-179 — cumulative rank facts; visibility derives
             awake: true,
-            'rank-r7': true,
             't0-capstone': true,
             'porters-knot': true,
           },
-          unlocked: [...new Set([...state.unlocked, 'panel-house-influence'])],
           influence: { estate: { value: exc, highWater: exc, judged: 0 } },
         });
       },
@@ -645,9 +657,8 @@ async function boot(): Promise<void> {
         if ('state' in res) {
           prev = null;
           clock.cancelAll(); // ADR-148 — a state swap drops any in-flight action
-          // reconcile the imported save's write-once latch against its state predicates (same
-          // load-path back-reveal as boot) before the first render.
-          state = revealPass(res.state);
+          // announce any entitled-but-never-announced surface (same load-path rule as boot).
+          state = announcePass(res.state);
           telemetry?.onRunStart('import', state); // FB-8: tainted `save-import` run
           safely(() => render(state, null));
         }
@@ -697,7 +708,7 @@ async function boot(): Promise<void> {
       }),
       reveals: () => reveals.slice(),
       selectors: {
-        unlocked: () => state.unlocked.slice(),
+        unlocked: () => [...unlockedSurfaces(state)], // ADR-179 — derived, registry order
         tier: () => state.tier,
         rung: () => state.rung,
         combatLevel: () => state.character.level,

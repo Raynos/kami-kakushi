@@ -11,7 +11,7 @@
 // at R5 — both the rung assert and the "no stale higher-rung unlock" assert flip red.
 import { describe, it, expect } from 'vitest';
 import { planRungJump } from './main';
-import { createInitialState, getRank, type GameState } from '../core';
+import { createInitialState, getRank, isUnlocked, type GameState } from '../core';
 
 /** Climb a fresh game up to `rung` using the same pure engine the teleport uses (an upward jump,
  *  so no reset is involved — this is the honest "we are genuinely AT rung X" fixture to jump from). */
@@ -27,23 +27,25 @@ describe('planRungJump — DEV rung teleport, both directions (F68)', () => {
     const r = planRungJump(createInitialState(1), 'R4');
     expect(r.reset).toBe(false);
     expect(r.state.rung).toBe('R4');
-    // R4's own reveal (the durability/equipment beat) is present.
-    for (const u of unlocksOf('R4')) expect(r.state.unlocked).toContain(u);
+    // R4's own reveal (the durability/equipment beat) is present — DERIVED from the
+    // latched rank flags the climb stamped (ADR-179; no stored unlocked latch to read).
+    for (const u of unlocksOf('R4')) expect(isUnlocked(r.state, u)).toBe(true);
   });
 
   it('DESCENDS by resetting first, then re-climbing to the lower rung', () => {
     const high = climbedTo('R5');
     // sanity: the fixture really carries R5's exclusive unlock (else the test proves nothing).
-    for (const u of unlocksOf('R5')) expect(high.unlocked).toContain(u);
+    for (const u of unlocksOf('R5')) expect(isUnlocked(high, u)).toBe(true);
 
     const down = planRungJump(high, 'R3');
     expect(down.reset).toBe(true);
     expect(down.state.rung).toBe('R3');
     // R3's unlocks are re-granted…
-    for (const u of unlocksOf('R3')) expect(down.state.unlocked).toContain(u);
-    // …and every stale higher-rung unlock (R4's durability/equip, R5's stance) is GONE.
+    for (const u of unlocksOf('R3')) expect(isUnlocked(down.state, u)).toBe(true);
+    // …and every stale higher-rung unlock (R4's durability/equip, R5's stance) is GONE —
+    // the reset dropped the higher rank flags, so the derived set shrank with them (ADR-179).
     for (const u of [...unlocksOf('R4'), ...unlocksOf('R5')]) {
-      expect(down.state.unlocked).not.toContain(u);
+      expect(isUnlocked(down.state, u)).toBe(false);
     }
   });
 

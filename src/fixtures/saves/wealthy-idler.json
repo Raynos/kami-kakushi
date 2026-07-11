@@ -1,11 +1,11 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 10,
+    "schemaVersion": 11,
     "season": "spring",
     "seasonsPassed": 20,
     "rng": {
@@ -84,6 +84,7 @@
       "r5-stood": true,
       "r6-flat": true,
       "rank-r6": true,
+      "coin-earned": true,
       "works-seen-gate": true,
       "works-seen-woodshed": true,
       "works-seen-u1": true,
@@ -117,23 +118,23 @@
       "estate-stands": true,
       "nengu-reckoned-y2": true
     },
-    "unlocked": [
+    "seenReveals": [
       "screen-cold-open",
       "verb-open-eyes",
       "verb-rake",
-      "room-forecourt",
       "readout-body",
       "readout-rice",
+      "room-forecourt",
       "verb-rest",
+      "panel-rung-ladder",
+      "readout-clock",
+      "readout-stamina",
       "room-gate",
       "room-paddies",
       "room-woodshed",
       "room-kitchen",
       "verb-farm",
       "verb-haul",
-      "readout-clock",
-      "readout-stamina",
-      "panel-rung-ladder",
       "verb-eat-rice",
       "skill-farming",
       "readout-coin",
@@ -144,39 +145,39 @@
       "verb-forage",
       "row-wood",
       "row-sansai",
-      "skill-conditioning",
       "verb-cook",
-      "room-weir",
+      "skill-conditioning",
       "panel-estate",
+      "room-weir",
       "skill-woodcutting",
       "skill-foraging",
+      "room-kura",
+      "room-weir-reeds",
+      "room-sickroom",
       "tab-combat",
       "panel-drill-yard",
       "readout-combat-level",
       "panel-bestiary",
-      "room-kura",
-      "room-weir-reeds",
-      "room-sickroom",
       "screen-demo-frontier",
       "dream-2",
+      "panel-home",
+      "room-drill-yard",
+      "tab-inventory",
       "readout-durability",
       "panel-equipment",
       "verb-repair",
       "house-omoya",
-      "room-drill-yard",
-      "tab-inventory",
-      "panel-home",
-      "stance-control",
-      "tab-quests",
       "room-shrine",
       "room-orchard",
+      "stance-control",
+      "tab-quests",
       "verb-collect-wage",
+      "tab-estate",
       "house-workshops",
       "house-granary",
-      "tab-estate",
       "panel-house-influence",
-      "house-study",
-      "room-grove"
+      "room-grove",
+      "house-study"
     ],
     "log": {
       "entries": [
@@ -463,7 +464,7 @@
         {
           "key": 30,
           "channel": "narration",
-          "text": "The outer court is given to you with the rake: the forecourt, swept ground sized for a household five times this one.",
+          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -471,7 +472,7 @@
         {
           "key": 31,
           "channel": "narration",
-          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
+          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -479,7 +480,7 @@
         {
           "key": 32,
           "channel": "narration",
-          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
+          "text": "The outer court is given to you with the rake: the forecourt, swept ground sized for a household five times this one.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -695,7 +696,7 @@
           "context": "The day-hand promotion"
         },
         {
-          "key": 68,
+          "key": 67,
           "channel": "milestone",
           "text": "Rank ↑ — The day-hand 日雇",
           "tick": 2,
@@ -740,30 +741,6 @@
         },
         {
           "key": 119,
-          "channel": "narration",
-          "text": "A way to track what your hands are learning takes shape — your Skills.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 120,
-          "channel": "narration",
-          "text": "The woodlot edge opens to you — kindling and timber to cut, wild greens to gather along its margin.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 121,
-          "channel": "narration",
-          "text": "Out past the last worked row the setts begin — tanuki, badger — and the nightly raids on the drying racks and the seed store.",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 122,
           "channel": "milestone",
           "text": "Rank ↑ — The yard-hand 庭男",
           "tick": 6,
@@ -773,6 +750,30 @@
             "title": "The yard-hand",
             "kanji": "庭男"
           }
+        },
+        {
+          "key": 120,
+          "channel": "narration",
+          "text": "A way to track what your hands are learning takes shape — your Skills.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 121,
+          "channel": "narration",
+          "text": "The woodlot edge opens to you — kindling and timber to cut, wild greens to gather along its margin.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 122,
+          "channel": "narration",
+          "text": "Out past the last worked row the setts begin — tanuki, badger — and the nightly raids on the drying racks and the seed store.",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator"
         },
         {
           "key": 123,
@@ -1099,38 +1100,6 @@
         },
         {
           "key": 198,
-          "channel": "narration",
-          "text": "The drill yard opens to you — a place to train, and foes that must be met.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 199,
-          "channel": "narration",
-          "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 200,
-          "channel": "narration",
-          "text": "The storehouse is opened to you: the iron-strapped door, the good lock, the grain-watch's stool beside it. What is counted in and out is the house's whole year.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 201,
-          "channel": "narration",
-          "text": "The shallows above and below the weir, reeds past the waist. River rats gnaw the screens the house leases from Matsuzō, and every screen lost is coin owed across the water.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 202,
           "channel": "milestone",
           "text": "Rank ↑ — The grain-watch 蔵番",
           "tick": 10,
@@ -1140,6 +1109,38 @@
             "title": "The grain-watch",
             "kanji": "蔵番"
           }
+        },
+        {
+          "key": 199,
+          "channel": "narration",
+          "text": "The storehouse is opened to you: the iron-strapped door, the good lock, the grain-watch's stool beside it. What is counted in and out is the house's whole year.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 200,
+          "channel": "narration",
+          "text": "The shallows above and below the weir, reeds past the waist. River rats gnaw the screens the house leases from Matsuzō, and every screen lost is coin owed across the water.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 201,
+          "channel": "narration",
+          "text": "The drill yard opens to you — a place to train, and foes that must be met.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 202,
+          "channel": "narration",
+          "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator"
         },
         {
           "key": 207,
@@ -1933,46 +1934,6 @@
         },
         {
           "key": 400,
-          "channel": "narration",
-          "text": "You learn to read the wear on an edge — a blade dulls and chips with use, and a dull edge bites less. Mind your weapon's condition now.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 401,
-          "channel": "narration",
-          "text": "The woodlot smithy is yours to use — strip what the carcasses give up, forge a real edge, keep it repaired, and take up whichever weapon suits the watch.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 402,
-          "channel": "narration",
-          "text": "The omoya — the main house — is opened to you. Its shuttered rooms, closed since the lean years, are aired and swept; you walk floors the family walks.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 403,
-          "channel": "narration",
-          "text": "The old stable court, swept bare and given a new use. Kihei's ground now, and yours to enter: things happen here in his order or not at all.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 404,
-          "channel": "narration",
-          "text": "What is yours and what is banked now have a place of their own — the stores open to you.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 405,
           "channel": "milestone",
           "text": "Rank ↑ — The pupil 弟子",
           "tick": 18,
@@ -1984,9 +1945,49 @@
           }
         },
         {
-          "key": 406,
+          "key": 401,
           "channel": "narration",
           "text": "A lean corner of the woodshed is kept back for you now — a straw mat, a bowl, a nail for your coat, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 402,
+          "channel": "narration",
+          "text": "The old stable court, swept bare and given a new use. Kihei's ground now, and yours to enter: things happen here in his order or not at all.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 403,
+          "channel": "narration",
+          "text": "What is yours and what is banked now have a place of their own — the stores open to you.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 404,
+          "channel": "narration",
+          "text": "You learn to read the wear on an edge — a blade dulls and chips with use, and a dull edge bites less. Mind your weapon's condition now.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 405,
+          "channel": "narration",
+          "text": "The woodlot smithy is yours to use — strip what the carcasses give up, forge a real edge, keep it repaired, and take up whichever weapon suits the watch.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 406,
+          "channel": "narration",
+          "text": "The omoya — the main house — is opened to you. Its shuttered rooms, closed since the lean years, are aired and swept; you walk floors the family walks.",
           "tick": 18,
           "count": 1,
           "voice": "narrator"
@@ -2025,19 +2026,27 @@
         },
         {
           "key": 452,
-          "channel": "narration",
-          "text": "The drillmaster teaches you to set your stance before a foe — press the attack and take more in return, or guard and give up some bite. The call is yours, fight by fight.",
+          "channel": "milestone",
+          "text": "You mount your worn carrying-pole on the wall of your corner — the weapon you carry, and proof of the road you have walked. A servant with a place, and a token of it on the wall.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "rank.wallWeapon",
+          "params": {
+            "weapon": "worn carrying-pole"
+          }
         },
         {
           "key": 453,
-          "channel": "narration",
-          "text": "You begin to keep a book of undertakings — the tasks and errands the house sets you, and the ones you take on yourself. A place to see what still stands unfinished.",
+          "channel": "milestone",
+          "text": "Rank ↑ — The accused 咎人",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "contentKey": "rank.marker",
+          "params": {
+            "title": "The accused",
+            "kanji": "咎人"
+          }
         },
         {
           "key": 454,
@@ -2057,27 +2066,19 @@
         },
         {
           "key": 456,
-          "channel": "milestone",
-          "text": "You mount your worn carrying-pole on the wall of your corner — the weapon you carry, and proof of the road you have walked. A servant with a place, and a token of it on the wall.",
+          "channel": "narration",
+          "text": "The drillmaster teaches you to set your stance before a foe — press the attack and take more in return, or guard and give up some bite. The call is yours, fight by fight.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator",
-          "contentKey": "rank.wallWeapon",
-          "params": {
-            "weapon": "worn carrying-pole"
-          }
+          "voice": "narrator"
         },
         {
           "key": 457,
-          "channel": "milestone",
-          "text": "Rank ↑ — The accused 咎人",
+          "channel": "narration",
+          "text": "You begin to keep a book of undertakings — the tasks and errands the house sets you, and the ones you take on yourself. A place to see what still stands unfinished.",
           "tick": 0,
           "count": 1,
-          "contentKey": "rank.marker",
-          "params": {
-            "title": "The accused",
-            "kanji": "咎人"
-          }
+          "voice": "narrator"
         },
         {
           "key": 458,
@@ -2512,38 +2513,6 @@
         },
         {
           "key": 543,
-          "channel": "narration",
-          "text": "The estate's workshops wake again — a smith's forge, a joiner's bench — the crafts of a house that makes as well as grows.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 544,
-          "channel": "narration",
-          "text": "A second granary, the itakura, is raised board by board — the house’s stores have outgrown the old kura at last.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 545,
-          "channel": "narration",
-          "text": "The house itself comes under your eye — its rooms, its standing, its slow rise.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 546,
-          "channel": "narration",
-          "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 547,
           "channel": "milestone",
           "text": "Rank ↑ — The trusted hand 用人",
           "tick": 18,
@@ -2553,6 +2522,38 @@
             "title": "The trusted hand",
             "kanji": "用人"
           }
+        },
+        {
+          "key": 544,
+          "channel": "narration",
+          "text": "The house itself comes under your eye — its rooms, its standing, its slow rise.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 545,
+          "channel": "narration",
+          "text": "The estate's workshops wake again — a smith's forge, a joiner's bench — the crafts of a house that makes as well as grows.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 546,
+          "channel": "narration",
+          "text": "A second granary, the itakura, is raised board by board — the house’s stores have outgrown the old kura at last.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 547,
+          "channel": "narration",
+          "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator"
         },
         {
           "key": 554,
@@ -2786,22 +2787,6 @@
         },
         {
           "key": 621,
-          "channel": "narration",
-          "text": "The lord opens his study — the shoin, the writing-room where the house's business is truly done — to you. Few servants ever cross that threshold.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 622,
-          "channel": "narration",
-          "text": "Green dark and creaking, close behind the waste ground. The monkey troop raids the rows from here and is up the stems before you have turned around.",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 623,
           "channel": "milestone",
           "text": "Rank ↑ — The named hand 名代",
           "tick": 2,
@@ -2813,9 +2798,25 @@
           }
         },
         {
-          "key": 624,
+          "key": 622,
           "channel": "narration",
           "text": "\"There is rice against winter. There was a saying for that — I had it once,\" Munemasa is heard saying to the dark of the inner house, and nobody who hears it goes in.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 623,
+          "channel": "narration",
+          "text": "Green dark and creaking, close behind the waste ground. The monkey troop raids the rows from here and is up the stems before you have turned around.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 624,
+          "channel": "narration",
+          "text": "The lord opens his study — the shoin, the writing-room where the house's business is truly done — to you. Few servants ever cross that threshold.",
           "tick": 2,
           "count": 1,
           "voice": "narrator"

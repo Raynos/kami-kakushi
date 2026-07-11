@@ -311,7 +311,9 @@ export class SaveManager {
       state: v.state,
       saveCounter: res.saveCounter,
       coerced: v.coerced,
-      migrated: false,
+      // validateEnvelope ran the forward chain on the imported blob too — report it
+      // honestly (was hardcoded `false`, hiding a real migration from the caller).
+      migrated: v.migrated,
       safeMode: false,
       source: 'import',
     };

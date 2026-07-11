@@ -43,9 +43,47 @@ the derivation needs are already in the save.
 
 ## Next intended steps
 
-- Execute S1–S7 (this session continues; direction fully locked).
-- S7 closes with the PRD §6.2 ripple + checkpoint.
+- ~~Execute S1–S7 (this session continues; direction fully locked).~~ S1–S6 ✅
+  (the landing commit below); S7 (PRD §6.2 ripple + checkpoint) next.
+
+## The landing (same session)
+
+S1–S6 built and verified in one sweep:
+
+- **Engine** — `unlock.ts` rewritten: `visibleSet` (fixpoint over the registry,
+  WeakMap-memoized, `isUnlocked` keeps its name and every call site),
+  `announcePass` (replaces the push `revealPass` at finish()/tick/load),
+  `factsForSurfaces` (the test/DEV bridge: surface → entitling flags, resolved
+  through the RANKS schedule so re-rungs can't drift it).
+- **Schedule** — `rewardOnReach.unlock` reinterpreted declaratively (one home
+  stays ranks.ts; the ceremony consumer unchanged); `applyRewards` no longer
+  latches; works/intro pushes deleted; `coin-earned` fact-flag latches at the
+  two earning sites; DEV `jumpTo*` teleports stamp cumulative rank flags.
+- **Persistence** — v10→v11 (drop `unlocked`, seed `seenReveals`, synthesize
+  `coin-earned` from a latched readout); validate swapped; **drive-by fix:**
+  `importState` hardcoded `migrated: false` even when the chain ran — now
+  reports honestly.
+- **Test conversion** — four parallel agents swept the 21 affected test files
+  (disjoint sets); every group green, no assertions weakened. Honest premise
+  shifts recorded by the agents: home+Inventory travel together at R4; the
+  Skills pane is never empty at R2 (pins "exactly Conditioning"); the old
+  ascension seasonal fixture was accidentally relying on an unwalkable map —
+  rebuilt legitimately. Two dead surface ids (`room-gate-forecourt`,
+  `room-home-paddies`) found squatting in dev.test fixtures — dropped.
+- **New tests** — `unlock.test.ts` (14: derivation table FROM the RANKS
+  schedule, "a stale save cannot pin a stale surface", announce-once/no-respam,
+  facts bridge) + the S6 monotonicity invariant across the real arc
+  (invariants.test.ts) + v10→v11 migration coverage (migrate/save tests).
+- **Verified** — tsgo 0 errors · full vitest 1195/1195 (91 files) · verify 18/18
+  · fixtures regenerated through the real engine (v11 shape confirmed) ·
+  **headless live smoke on the shared :5173**: a doctored v10 save with a
+  stale cold-open `unlocked` latch + R3 rank facts loads, migrates, and renders
+  the full R3 tab bar — the reported bug class reproduced and killed.
+- Worth a glance later (agent note): economy's "visible panel, unopened stage"
+  premise now leans on works `named ≠ open` (`works-named-u1` vs
+  `works-open-u1`) — fine today, flagged for the ADR-177 owner.
 
 ## Commits
 
-- (this commit) — ADR-179 + the derived-reveal plan + queue + this entry
+- `d7893081` — ADR-179 + the derived-reveal plan + queue + this entry
+- (this commit) — the S1–S6 landing (core + persistence + UI + tests + fixtures)

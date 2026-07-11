@@ -1,11 +1,11 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 10,
+    "schemaVersion": 11,
     "season": "winter",
     "seasonsPassed": 0,
     "rng": {
@@ -57,13 +57,13 @@
       "dream-1": true,
       "label-nameless": true
     },
-    "unlocked": [
+    "seenReveals": [
       "screen-cold-open",
       "verb-open-eyes",
       "verb-rake",
-      "room-forecourt",
       "readout-body",
-      "readout-rice"
+      "readout-rice",
+      "room-forecourt"
     ],
     "log": {
       "entries": [
@@ -438,7 +438,7 @@
         {
           "key": 38,
           "channel": "narration",
-          "text": "The outer court is given to you with the rake: the forecourt, swept ground sized for a household five times this one.",
+          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -446,7 +446,7 @@
         {
           "key": 39,
           "channel": "narration",
-          "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
+          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"
@@ -454,7 +454,7 @@
         {
           "key": 40,
           "channel": "narration",
-          "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
+          "text": "The outer court is given to you with the rake: the forecourt, swept ground sized for a household five times this one.",
           "tick": 0,
           "count": 1,
           "voice": "narrator"

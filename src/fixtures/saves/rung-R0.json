@@ -1,11 +1,11 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 10,
+    "schemaVersion": 11,
     "season": "winter",
     "seasonsPassed": 0,
     "rng": {
@@ -56,7 +56,7 @@
       "awake": true,
       "dream-1": true
     },
-    "unlocked": [
+    "seenReveals": [
       "screen-cold-open",
       "verb-open-eyes",
       "verb-rake"

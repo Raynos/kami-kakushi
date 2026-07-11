@@ -165,7 +165,7 @@ export function validateState(rawState: unknown): ValidateResult {
   // --- collections (structural shape; default-safe) ---
   if (!isObject(rawState.resources)) return { ok: false, reason: 'resources-corrupt' };
   if (!isObject(rawState.flags)) return { ok: false, reason: 'flags-corrupt' };
-  if (!Array.isArray(rawState.unlocked)) return { ok: false, reason: 'unlocked-corrupt' };
+  if (!Array.isArray(rawState.seenReveals)) return { ok: false, reason: 'seen-reveals-corrupt' };
   const log = rawState.log;
   if (!isObject(log) || !Array.isArray(log.entries) || typeof log.seq !== 'number') {
     return { ok: false, reason: 'log-corrupt' };
@@ -199,7 +199,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'rakesDone'
     | 'lastWageDay'
     | 'flags'
-    | 'unlocked'
+    | 'seenReveals'
     | 'log'
     | 'skillXp'
     | 'deliveredDialogue'
@@ -269,7 +269,7 @@ export function validateState(rawState: unknown): ValidateResult {
     // FB-324 rake cap counter (v10, additive). Absent/malformed → 0.
     rakesDone: typeof base.rakesDone === 'number' ? Math.max(0, Math.floor(base.rakesDone)) : 0,
     flags: rawState.flags as GameState['flags'],
-    unlocked: rawState.unlocked as GameState['unlocked'],
+    seenReveals: rawState.seenReveals as GameState['seenReveals'],
     // Normalize each loaded entry's coalescing count to ≥1 so a later pushLog onto a
     // pre-v0.2 (count-less) entry bumps a real number, never NaN.
     log: {

@@ -35,6 +35,7 @@ import {
   createInitialState,
   getBelonging,
   setFlag,
+  factsForSurfaces,
   type GameState,
   type Intent,
   type RankId,
@@ -67,15 +68,21 @@ function noopHooks(): AppHooks {
 
 /** A Phase-2 state with the live House-Influence pillar — phaseOf===2 needs R7 + t0-capstone
  *  (ranks.ts). IA reorg (ADR-112 §8.3): the koku panel MOVED from Work to the Estate 家 tab, so it
- *  shows once `panel-house-influence` is unlocked AND the Estate tab is active. `tab-estate`
- *  (an R6 reward — ADR-177 Schedule A) is present so the Estate tab chip is reachable. */
+ *  shows once `panel-house-influence` is unlocked AND the Estate tab is active. ADR-179 — both it
+ *  and `tab-estate` (R6 rewards, Schedule A) derive from the rank-r6 fact; readout-rice derives
+ *  from `awake` + intro-done (a fresh state's introBeat is pre-wake, so intro-done holds). */
 function livingInfluenceState(value = 300): GameState {
   const base = createInitialState(1);
   return {
     ...base,
     rung: 'R7',
-    flags: { ...base.flags, awake: true, 't0-capstone': true, 'rank-r7': true },
-    unlocked: [...base.unlocked, 'readout-rice', 'tab-estate', 'panel-house-influence'],
+    flags: {
+      ...base.flags,
+      awake: true,
+      't0-capstone': true,
+      'rank-r7': true,
+      ...factsForSurfaces('tab-estate', 'panel-house-influence'),
+    },
     influence: { estate: { value, highWater: value, judged: 0 } },
   };
 }
@@ -187,7 +194,9 @@ describe('renderer variant routing — Works 普請 + Estate 家 (ADR-177 Phase 
     document.body.append(root);
   });
 
-  /** An R2+ state with the works chain open through U1 (named + priced). */
+  /** An R2+ state with the works chain open through U1 (named + priced). ADR-179 —
+   *  panel-estate derives from the `works-named-u1` fact already stamped below, and
+   *  readout-rice from `awake` + intro-done; no stored latch to seed. */
   function worksState(): GameState {
     const base = createInitialState(1);
     return {
@@ -201,7 +210,6 @@ describe('renderer variant routing — Works 普請 + Estate 家 (ADR-177 Phase 
         'works-open-u1': true,
       },
       resources: { ...base.resources, coin: 500 },
-      unlocked: [...base.unlocked, 'readout-rice', 'panel-estate'],
     };
   }
   function estateHouseState(): GameState {
@@ -209,8 +217,12 @@ describe('renderer variant routing — Works 普請 + Estate 家 (ADR-177 Phase 
     return {
       ...base,
       rung: 'R6',
-      flags: { ...base.flags, awake: true },
-      unlocked: [...base.unlocked, 'readout-rice', 'tab-estate', 'house-omoya', 'house-workshops'],
+      // ADR-179 — tab-estate/house-workshops (R6) + house-omoya (R4) derive from rank facts.
+      flags: {
+        ...base.flags,
+        awake: true,
+        ...factsForSurfaces('tab-estate', 'house-omoya', 'house-workshops'),
+      },
     };
   }
   const openTab = (label: string): void => {
@@ -308,8 +320,8 @@ describe('renderer variant routing — Bestiary (D-075, A7)', () => {
       {
         ...base,
         location: 'home-paddies',
-        flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'tab-combat', 'panel-bestiary'],
+        // ADR-179 — the combat tab + Bestiary derive from their rung fact (rank-r3).
+        flags: { ...base.flags, awake: true, ...factsForSurfaces('tab-combat', 'panel-bestiary') },
       },
       'mob-monkey',
     );
@@ -378,23 +390,20 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
   });
 
   // the home granted (panel-home) + coin in the purse (so a comfort piece is affordable — the buy
-  // button is live). tab-inventory is present so the Inventory tab is REVEALED and the home is
-  // granted (ADR-177 Schedule A — panel-home now gates on tab-inventory, like the tab).
+  // button is live). ADR-179 — the grants are the entitling FACTS: rank-r4 reveals tab-inventory,
+  // which carries panel-home (ADR-177 Schedule A); panel-estate rides `works-named-u1`; the
+  // rank-r1 flag covers the ladder panel + rooms; readout-rice derives from awake + intro-done.
   function homeState(extra?: Partial<GameState>): GameState {
     const base = createInitialState(1);
     return {
       ...base,
-      flags: { ...base.flags, awake: true, raked: true, 'rank-r1': true },
-      unlocked: [
-        ...base.unlocked,
-        'readout-rice',
-        'room-gate-forecourt',
-        'room-home-paddies',
-        'panel-rung-ladder',
-        'panel-estate',
-        'panel-home',
-        'tab-inventory', // ADR-177 — the Inventory tab reveals at R4
-      ],
+      flags: {
+        ...base.flags,
+        awake: true,
+        raked: true,
+        'rank-r1': true,
+        ...factsForSurfaces('panel-rung-ladder', 'panel-estate', 'panel-home', 'tab-inventory'),
+      },
       resources: { ...base.resources, coin: 500 },
       ...extra,
     };

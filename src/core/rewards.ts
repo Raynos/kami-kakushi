@@ -8,11 +8,14 @@ import { withResource, setFlag } from './state';
 import { pushLog, type LogChannel } from './log';
 import { playerSpeaker, type VoiceCategory } from './content/voices';
 import { renderLogLine, type LogParams } from './content/log-content';
-import { revealSurface } from './unlock';
 
 export interface RewardBundle {
   readonly resources?: Readonly<Record<ResourceId, number>>;
   readonly flags?: readonly FlagId[];
+  /** DECLARATIVE since ADR-179: the surfaces this grant makes visible from here on.
+   *  Read by the schedule builder (core/unlock SURFACE_RUNG) + the promotion ceremony
+   *  (ceremonyLabels) — applyRewards itself no longer latches anything; visibility
+   *  derives from the flags/facts this same bundle sets. */
   readonly unlock?: readonly string[];
   readonly log?: readonly {
     readonly channel: LogChannel;
@@ -71,9 +74,6 @@ export function applyRewards(state: GameState, rewards: RewardBundle): GameState
         }),
       };
     }
-  }
-  if (rewards.unlock) {
-    for (const id of rewards.unlock) next = revealSurface(next, id);
   }
   return next;
 }

@@ -8,8 +8,11 @@ import {
   estateGrade,
   balance,
   focusedOptimalIntent,
+  factsForSurfaces,
   gradeOf,
   judgeLine,
+  rungRequirements,
+  MAX_ESTATE_STAGE,
   type GameState,
 } from './index';
 
@@ -98,8 +101,8 @@ describe('ascend — tier bump + grade-scaled boon + dream beat (D-049/D-062)', 
 // deeds up to the gate, and ascend T0→T1. Driven through the real reducer end-to-end.
 describe('the spine CLOSES end-to-end (M2·5)', () => {
   it('grinds Estate deeds to EXCELLENT in Phase 2, then ascends T0→T1', () => {
+    // labour available: verb-farm DERIVES from the rank-r1 flag atPhase2 already stamps (ADR-179).
     let s: GameState = atPhase2();
-    s = { ...s, unlocked: [...s.unlocked, 'verb-farm'] }; // labour available
     // Seed the estate just below the EXCELLENT gate. This closure test proves the reducer→deed→
     // gate→ascend CHAIN fires; the FULL ~1:1 grind duration (ADR-133) is owned by the sim + t0-arc,
     // so we grind only the last koku or two here rather than ~12k fractional-deed acts (AC-17).
@@ -129,9 +132,22 @@ describe('the spine CLOSES end-to-end (M2·5)', () => {
     // pile of UNJUDGED Estate growth banked, the optimal steward ENDS the season to collect the owed
     // seasonal share (the manual replacement for the retired 3-day auto-reckon) — and the exit
     // pipeline reckons. RED if autoplay never issues advance_season, or the judge never banks.
+    //
+    // ADR-179 — the fixture changed with derived reveal: the old one relied on a stale `unlocked`
+    // latch (verb-farm + panel-estate only) that left the map UNWALKABLE, which silenced every
+    // earlier policy branch by accident. An R7 hand's rank facts now derive full visibility, so
+    // the collect branch is reached legitimately instead: the works chain is BUILT (estateStage
+    // maxed) and the R7 plan requirements are met, leaving "end the season" as the next
+    // worthwhile act. Same lever under test, honest premise.
     const s: GameState = {
       ...atPhase2(),
-      unlocked: [...atPhase2().unlocked, 'verb-farm', 'panel-estate'],
+      // panel-estate rides its works-intro fact (`works-named-u1`), granted via the fact bridge.
+      flags: { ...atPhase2().flags, ...factsForSurfaces('panel-estate') },
+      estateStage: MAX_ESTATE_STAGE, // nothing left to commission/walk in the works chain
+      // every R7 plan requirement met (derived from the registry, never literals)
+      rungReqs: Object.fromEntries(
+        rungRequirements('R7').map((r) => [r.id, r.type === 'count' ? r.target : 1]),
+      ),
       // unjudged growth well above the collect threshold ⇒ a payout is owed
       influence: { estate: { value: 100, highWater: 100, judged: 0, frac: 0 } },
     };
