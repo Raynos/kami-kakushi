@@ -48,9 +48,26 @@ export function paintFurniture(art: SVGElement, frame: Frame, tier: Tier): void 
   art.append(fg);
 }
 
-/** Paint the T0 ground; returns seal-anchor refinements for the shell. */
+/** Paint the T0 ground; returns seal-anchor refinements for the shell.
+ *  The world is CLIPPED to the frame (FB-378 root cause): paintWorld draws the
+ *  whole T1 geography and the viewBox alone was the only crop, so panning or
+ *  zooming leaked beyond-window world art (the east woods, the north hills)
+ *  onto a sheet that is fictionally the T0 survey. The sheet furniture pins to
+ *  the frame OUTSIDE the clip (the border rides the edge). */
 export function paintT0Ground(art: SVGElement, frame: Frame): Map<string, Pt> {
-  const overrides = paintWorld(art, 'T0');
+  const uid = `t0-window-clip-${frame.x}-${frame.y}`;
+  const clip = sv('clipPath', { id: uid });
+  clip.append(
+    sv('rect', {
+      x: String(frame.x),
+      y: String(frame.y),
+      width: String(frame.w),
+      height: String(frame.h),
+    }),
+  );
+  const world = sv('g', { 'clip-path': `url(#${uid})` });
+  art.append(clip, world);
+  const overrides = paintWorld(world, 'T0');
   paintFurniture(art, frame, 'T0');
   return overrides;
 }

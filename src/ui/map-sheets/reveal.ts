@@ -147,13 +147,11 @@ export function paintReveal(
     const holes = FURNITURE_HOLES.map(
       ([hx, hy, hw, hh]) => `M${fr.x + hx} ${fr.y + hy} h${hw} v${hh} h${-hw} Z`,
     ).join(' ');
-    // FB-378/385 — the fog sheet overshoots the window by the pan clamp's reach
-    // (±25% of the widest view), so beyond-the-frame world art (the east woods,
-    // the south outskirts) can never peek out unfogged at a panned edge.
-    const mw = fr.w * 0.35;
-    const mh = fr.h * 0.35;
+    // FB-378/385 — the fog covers the WHOLE window, edge to edge (the old 20-unit
+    // inset left an unfogged ring). Beyond-the-window world art can't leak at all
+    // since the t0-sheet window clip; off-sheet reads as off-sheet.
     paths.push({
-      d: `M${fr.x - mw} ${fr.y - mh} H${fr.x + fr.w + mw} V${fr.y + fr.h + mh} H${fr.x - mw} Z ${poly(stage.known)} ${holes}`,
+      d: `M${fr.x} ${fr.y} H${fr.x + fr.w} V${fr.y + fr.h} H${fr.x} Z ${poly(stage.known)} ${holes}`,
       rule: 'evenodd',
       edge: stage.known,
     });

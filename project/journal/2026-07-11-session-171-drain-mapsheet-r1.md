@@ -49,3 +49,8 @@ shown before landing.
 - `8686618e` — FB-381/382 landed; mapsheet bucket archived (10/10 done);
   pending/ is EMPTY. T0 blind pass PASSED (7/7 M · 3/4 S; the R9 orchard
   S-miss is a pre-existing content gap) — report committed.
+- Human steer mid-session: the live sheet was showing T1-scale world (forest,
+  hills) — root-caused to paintWorld drawing the whole world with only the
+  viewBox as crop. paintT0Ground now CLIPS the world to the T0 window (the
+  furniture stays on the frame); the fog rect simplifies back to window-exact.
+  Golden pin regenerated deliberately; captures eyeballed; verify green.
