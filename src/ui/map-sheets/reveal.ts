@@ -108,6 +108,14 @@ const FURNITURE_HOLES: readonly (readonly [number, number, number, number])[] = 
 const poly = (pts: readonly Pt[]): string =>
   pts.map((p, i) => `${i ? 'L' : 'M'}${p[0]} ${p[1]}`).join(' ') + ' Z';
 
+/** The fog stage for `rung` — the nearest REVEAL stage at-or-below it (stages
+ *  are sparse data). Null ⇒ no fog (the full sheet). ONE lookup for both the
+ *  DEV previewer and the live map. */
+export function stageAtRung(rung: number): RevealStage | null {
+  const stages = REVEAL.filter((s) => s.rung <= rung);
+  return stages.length > 0 ? stages[stages.length - 1]! : null;
+}
+
 /** Zones visible at `rung` (RUNG_LADDER absent ⇒ always visible). */
 export function zonesAtRung(rung: number): (id: string) => boolean {
   return (id) => (RUNG_LADDER[id] ?? 1) <= rung;

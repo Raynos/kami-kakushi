@@ -17,7 +17,8 @@ import { getNode, MAP_NODES } from '../../core';
 import type { GameState, Intent } from '../../core';
 import { rng, sv, tip } from '../map-sheets/brush';
 import { ANCHORS, T0_WINDOW } from '../map-sheets/layout';
-import { isFogged, paintReveal, REVEAL } from '../map-sheets/reveal';
+import { isFogged, paintReveal, stageAtRung } from '../map-sheets/reveal';
+import { attachSheetViewer } from '../map-sheets/viewer';
 import { paintT0Ground } from '../map-sheets/t0-sheet';
 import { fogFrontier, wireGated, wireTravel, type MapCtx } from './shared';
 
@@ -207,8 +208,7 @@ export function renderMapSheet(
   //    lookup the DEV previewer uses; placeholder geography, human-approved to ship).
   //    Seal gating stays core-`revealed`-driven — the fog only stops the DRAWING.
   const rungN = Number(state.rung.slice(1)) || 0;
-  const fogStages = REVEAL.filter((s) => s.rung <= rungN);
-  const revealStage = fogStages.length > 0 ? fogStages[fogStages.length - 1]! : null;
+  const revealStage = stageAtRung(rungN);
   paintReveal(svg, art, seals, revealStage);
 
   // the title cartouche (top-right of the window) — the survey's name.
@@ -322,10 +322,10 @@ export function renderMapSheet(
     seals.append(t);
   }
 
-  // ── FB-339 — the view: pan (drag) + zoom (wheel / pinch / buttons) + fit + full,
-  //    viewBox-driven, ported from the DEV survey viewer (map-sheets/sheet.ts). The
-  //    persisted mapView re-applies across the sig-guard rebuild; seal clicks stay
-  //    live because the pointer is captured only once a REAL drag starts.
+  // ── FB-339 — the view: the SHARED sheet-viewer engine (map-sheets/viewer.ts —
+  //    one engine for the DEV viewers and this live map). The persisted mapView
+  //    re-applies across the sig-guard rebuild; seal clicks stay live because the
+  //    engine captures the pointer only once a REAL drag starts.
   const FR = T0_WINDOW;
   // FB-374 — the DEFAULT framing opens on the surveyed ground (the reveal stage's known
   // polygon, padded, stretched to the frame's aspect and always including where you stand),
@@ -360,120 +360,17 @@ export function renderMapSheet(
     h = Math.min(h, FR.h);
     return { x, y, w, h };
   };
-  const vb: { x: number; y: number; w: number; h: number } = { ...(mapView ?? defaultVb()) };
-  const applyVb = (): void => {
-    svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
-    // the fine-detail register reveals past the zoom gate (map-spec L10)
-    svg.setAttribute('data-zoom', vb.w <= FR.w * 0.62 ? 'near' : 'far');
-    mapView = { ...vb };
-  };
-  const clampVb = (): void => {
-    vb.w = Math.min(Math.max(vb.w, 320), FR.w * 1.15);
-    vb.h = (vb.w * FR.h) / FR.w;
-    const m = vb.w * 0.25; // let the sheet edge pull in a bit, never lose it
-    vb.x = Math.min(Math.max(vb.x, FR.x - m), FR.x + FR.w + m - vb.w);
-    vb.y = Math.min(
-      Math.max(vb.y, FR.y - (m * FR.h) / FR.w),
-      FR.y + FR.h + (m * FR.h) / FR.w - vb.h,
-    );
-  };
-  /** client → world coords (getScreenCTM handles viewBox + letterboxing). Guarded for
-   *  jsdom, which implements neither getScreenCTM nor DOMPoint — the full-mount test
-   *  sweeps click the zoom buttons, and an unguarded call is a TypeError there. */
-  const toWorld = (cx: number, cy: number): { x: number; y: number } => {
-    const g = svg as unknown as SVGGraphicsElement;
-    if (typeof g.getScreenCTM !== 'function' || typeof DOMPoint === 'undefined')
-      return { x: 0, y: 0 };
-    const m = g.getScreenCTM();
-    if (!m) return { x: 0, y: 0 };
-    const p = new DOMPoint(cx, cy).matrixTransform(m.inverse());
-    return { x: p.x, y: p.y };
-  };
-  const zoomAt = (cx: number, cy: number, factor: number): void => {
-    const p = toWorld(cx, cy);
-    vb.w *= factor;
-    vb.h *= factor;
-    clampVb();
-    applyVb();
-    // keep the world point under the cursor stationary: re-measure and shift
-    const now = toWorld(cx, cy);
-    vb.x += p.x - now.x;
-    vb.y += p.y - now.y;
-    clampVb();
-    applyVb();
-  };
-  svg.addEventListener(
-    'wheel',
-    (e) => {
-      e.preventDefault();
-      zoomAt(e.clientX, e.clientY, e.deltaY > 0 ? 1.18 : 1 / 1.18);
+  const viewer = attachSheetViewer(svg, FR, {
+    panningClass: 'sheetmap-panning',
+    initialVb: mapView ?? defaultVb(),
+    onApply: (v) => {
+      mapView = { ...v };
     },
-    { passive: false },
-  );
-  let dragging = false;
-  let dragMoved = false;
-  let dragStart = { x: 0, y: 0 };
-  // live pointers — two fingers = pinch zoom. touch-action:none means WE own every
-  // gesture (the DEV viewer's G-9 lesson); gestures here must match that viewer's.
-  const pointers = new Map<number, { x: number; y: number }>();
-  let pinchDist = 0;
-  svg.addEventListener('pointerdown', (e) => {
-    if (e.button !== 0) return;
-    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-    if (pointers.size === 2) {
-      const [a, b] = [...pointers.values()];
-      pinchDist = Math.hypot(a!.x - b!.x, a!.y - b!.y);
-      dragging = false; // a second finger ends the pan; the gesture is a pinch
-      svg.classList.remove('sheetmap-panning');
-      return;
-    }
-    dragging = true;
-    dragMoved = false;
-    dragStart = toWorld(e.clientX, e.clientY);
-    svg.classList.add('sheetmap-panning');
   });
-  svg.addEventListener('pointermove', (e) => {
-    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-    if (pointers.size === 2) {
-      const [a, b] = [...pointers.values()];
-      const d = Math.hypot(a!.x - b!.x, a!.y - b!.y);
-      if (pinchDist > 0 && d > 0) {
-        // zoom about the finger midpoint; zoomAt keeps that world point still
-        zoomAt((a!.x + b!.x) / 2, (a!.y + b!.y) / 2, pinchDist / d);
-      }
-      pinchDist = d;
-      return;
-    }
-    if (!dragging) return;
-    const p = toWorld(e.clientX, e.clientY);
-    const dx = dragStart.x - p.x;
-    const dy = dragStart.y - p.y;
-    if (!dragMoved && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
-      dragMoved = true;
-      // capture only once a REAL drag starts — capturing on pointerdown would
-      // retarget the derived click to the svg and seal travel would go dead
-      // (guarded: jsdom has no setPointerCapture)
-      if (typeof svg.setPointerCapture === 'function') svg.setPointerCapture(e.pointerId);
-    }
-    if (!dragMoved) return;
-    vb.x += dx;
-    vb.y += dy;
-    clampVb();
-    applyVb();
-  });
-  const endDrag = (e: PointerEvent): void => {
-    pointers.delete(e.pointerId);
-    pinchDist = 0;
-    dragging = false;
-    svg.classList.remove('sheetmap-panning');
-  };
-  svg.addEventListener('pointerup', endDrag);
-  svg.addEventListener('pointercancel', endDrag);
-
-  const fit = (): void => {
-    Object.assign(vb, FR);
-    applyVb();
-  };
+  const vb = viewer.vb;
+  const applyVb = viewer.applyVb;
+  const clampVb = viewer.clampVb;
+  const fit = viewer.fit;
   const controls = document.createElement('div');
   controls.className = 'sheetmap-controls';
   const zoomBtn = (label: string, act: () => void, aria: string): HTMLButtonElement => {
@@ -486,26 +383,8 @@ export function renderMapSheet(
     controls.append(b);
     return b;
   };
-  const centre = (): { x: number; y: number } => {
-    const r = svg.getBoundingClientRect();
-    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-  };
-  zoomBtn(
-    '⊕',
-    () => {
-      const c = centre();
-      zoomAt(c.x, c.y, 1 / 1.35);
-    },
-    'Zoom in',
-  );
-  zoomBtn(
-    '⊖',
-    () => {
-      const c = centre();
-      zoomAt(c.x, c.y, 1.35);
-    },
-    'Zoom out',
-  );
+  zoomBtn('⊕', () => viewer.zoomCentre(1 / 1.35), 'Zoom in');
+  zoomBtn('⊖', () => viewer.zoomCentre(1.35), 'Zoom out');
   zoomBtn('⤢ fit', fit, 'Fit the whole sheet');
   // Maximize the sheet to fill the viewport — a CSS blow-up in NORMAL stacking (not the
   // native Fullscreen API), so the capture overlay keeps painting above it. Survives the

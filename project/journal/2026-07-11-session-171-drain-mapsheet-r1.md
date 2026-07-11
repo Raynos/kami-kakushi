@@ -54,3 +54,9 @@ shown before landing.
   viewBox as crop. paintT0Ground now CLIPS the world to the T0 window (the
   furniture stays on the frame); the fog rect simplifies back to window-exact.
   Golden pin regenerated deliberately; captures eyeballed; verify green.
+- Human steer #2 — "one engine, one source of truth" for the map sheets: new
+  `map-sheets/viewer.ts` (the shared pan/zoom/pinch/fit engine, superset of
+  the two drifted copies) + `stageAtRung()` in reveal.ts; sheet.ts and
+  sheet-map.ts now consume it (~230 duplicated lines deleted). Seal painters
+  stay separate by design (roster vs travel semantics — the plan doc records
+  the scope). Pin GREEN; both surfaces smoke-tested live headlessly.

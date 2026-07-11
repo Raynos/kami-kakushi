@@ -12,9 +12,10 @@ import { ANCHORS, NIGHT_ROUTE, NIGHT_ROUTE_T1, T0_WINDOW, WORLD } from './layout
 import { NIGHT_ROUTE_T2, VALLEY } from './valley';
 import type { SheetNode, Tier, ZoneKind } from './nodes';
 import { KIND_META, rosterFor, T1_IDS, T1_NODES, T1_NOTES, T2_IDS } from './nodes';
-import { paintReveal, REVEAL, zonesAtRung } from './reveal';
+import { paintReveal, stageAtRung, zonesAtRung } from './reveal';
 import { paintT0Ground } from './t0-sheet';
 import { paintT1Ground } from './t1-sheet';
+import { attachSheetViewer } from './viewer';
 import { paintT2Ground } from './t2-sheet';
 
 function hd<K extends keyof HTMLElementTagNameMap>(
@@ -533,148 +534,20 @@ export function openTierMap(tier: Tier): HTMLElement {
   body.append(mapWrap, aside);
   card.append(body);
 
-  // ── the view: pan (drag) + zoom (wheel / buttons), viewBox-driven ──
-  const vb: { x: number; y: number; w: number; h: number } = { ...FR };
-  const applyVb = (): void => {
-    svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
-    // the fine-detail register reveals past ~1.6× zoom (spec L10)
-    svg.setAttribute('data-zoom', vb.w <= FR.w * 0.62 ? 'near' : 'far');
-  };
-  const clampVb = (): void => {
-    vb.w = Math.min(Math.max(vb.w, 320), FR.w * 1.15);
-    vb.h = (vb.w * FR.h) / FR.w;
-    const m = vb.w * 0.25; // let the sheet edge pull in a bit, never lose it
-    vb.x = Math.min(Math.max(vb.x, FR.x - m), FR.x + FR.w + m - vb.w);
-    vb.y = Math.min(
-      Math.max(vb.y, FR.y - (m * FR.h) / FR.w),
-      FR.y + FR.h + (m * FR.h) / FR.w - vb.h,
-    );
-  };
-  /** client → world coords (getScreenCTM handles viewBox + letterboxing). */
-  const toWorld = (cx: number, cy: number): { x: number; y: number } => {
-    const m = svg.getScreenCTM();
-    if (!m) return { x: 0, y: 0 };
-    const p = new DOMPoint(cx, cy).matrixTransform(m.inverse());
-    return { x: p.x, y: p.y };
-  };
-  // The paper-warp displacement filter costs ~10ms/frame while ZOOMING (the
-  // browser re-rasterises the filtered group at each new scale — measured
-  // 24ms→14ms p50 without it). Suspend it during zoom, restore on idle: crisp
-  // warp at rest, 60fps in motion. Pan is attribute-only and never pays this.
-  const artGroup = (): SVGElement | null => svg.children[1] as SVGElement | null;
-  let artFilter: string | null = null;
-  let filterIdle: ReturnType<typeof setTimeout> | undefined;
-  const suspendFilterForZoom = (): void => {
-    const art = artGroup();
-    if (art && artFilter === null) {
-      artFilter = art.getAttribute('filter');
-      if (artFilter) art.removeAttribute('filter');
-    }
-    clearTimeout(filterIdle);
-    filterIdle = setTimeout(() => {
-      const a = artGroup();
-      if (a && artFilter) a.setAttribute('filter', artFilter);
-      artFilter = null;
-    }, 160);
-  };
-  const zoomAt = (cx: number, cy: number, factor: number): void => {
-    suspendFilterForZoom();
-    const p = toWorld(cx, cy);
-    vb.w *= factor;
-    vb.h *= factor;
-    clampVb();
-    applyVb();
-    // keep the world point under the cursor stationary: re-measure and shift
-    const now = toWorld(cx, cy);
-    vb.x += p.x - now.x;
-    vb.y += p.y - now.y;
-    clampVb();
-    applyVb();
-  };
-  svg.addEventListener(
-    'wheel',
-    (e) => {
-      e.preventDefault();
-      zoomAt(e.clientX, e.clientY, e.deltaY > 0 ? 1.18 : 1 / 1.18);
-    },
-    { passive: false },
-  );
-  let dragging = false;
-  let dragMoved = false;
-  let dragStart = { x: 0, y: 0 };
-  // live pointers — two fingers = pinch zoom. touch-action:none means WE own
-  // every gesture; without this, touch could pan but never zoom (G-9 — and
-  // this DEV viewer's geometry is player-bound through
-  // map-variants/sheet-map.ts (ADR-151), so gestures here must match the
-  // live map's).
-  const pointers = new Map<number, { x: number; y: number }>();
-  let pinchDist = 0;
-  svg.addEventListener('pointerdown', (e) => {
-    if (e.button !== 0) return;
-    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-    if (pointers.size === 2) {
-      const [a, b] = [...pointers.values()];
-      pinchDist = Math.hypot(a!.x - b!.x, a!.y - b!.y);
-      dragging = false; // a second finger ends the pan; the gesture is a pinch
-      svg.classList.remove('t0v2-panning');
-      return;
-    }
-    dragging = true;
-    dragMoved = false;
-    dragStart = toWorld(e.clientX, e.clientY);
-    svg.classList.add('t0v2-panning');
+  // ── the view — the SHARED sheet-viewer engine (map-sheets/viewer.ts): pan /
+  //    wheel-zoom / pinch / fit, viewBox-driven, identical to the live map's.
+  //    The paper-warp filter suspends while zooming (re-rasterising the
+  //    filtered group each scale cost ~10ms/frame; pan is attribute-only).
+  const viewer = attachSheetViewer(svg, FR, {
+    panningClass: 't0v2-panning',
+    filterGroup: () => svg.children[1] as SVGElement | null,
   });
-  svg.addEventListener('pointermove', (e) => {
-    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-    if (pointers.size === 2) {
-      const [a, b] = [...pointers.values()];
-      const d = Math.hypot(a!.x - b!.x, a!.y - b!.y);
-      if (pinchDist > 0 && d > 0) {
-        // zoom about the finger midpoint; zoomAt keeps that world point still
-        zoomAt((a!.x + b!.x) / 2, (a!.y + b!.y) / 2, pinchDist / d);
-      }
-      pinchDist = d;
-      return;
-    }
-    if (!dragging) return;
-    const p = toWorld(e.clientX, e.clientY);
-    const dx = dragStart.x - p.x;
-    const dy = dragStart.y - p.y;
-    if (!dragMoved && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
-      dragMoved = true;
-      // capture only once a REAL drag starts — capturing on pointerdown would
-      // retarget the derived click to the svg and node selection would go dead
-      svg.setPointerCapture(e.pointerId);
-    }
-    if (!dragMoved) return;
-    vb.x += dx;
-    vb.y += dy;
-    clampVb();
-    applyVb();
-  });
-  const endDrag = (e: PointerEvent): void => {
-    pointers.delete(e.pointerId);
-    pinchDist = 0;
-    dragging = false;
-    svg.classList.remove('t0v2-panning');
-  };
-  svg.addEventListener('pointerup', endDrag);
-  svg.addEventListener('pointercancel', endDrag);
-
-  const fit = (): void => {
-    Object.assign(vb, FR);
-    applyVb();
-  };
+  const fit = viewer.fit;
   /** Fly the view to a node (roster navigation) — a readable close-up. */
   const focusNode = (id: string): void => {
     const a = ANCHORS[id];
     if (!a) return;
-    vb.w = tier === 'T2' ? 1500 : tier === 'T1' ? 1100 : 900;
-    vb.h = (vb.w * FR.h) / FR.w;
-    vb.x = a.x - vb.w / 2;
-    vb.y = a.y - vb.h / 2;
-    clampVb();
-    applyVb();
+    viewer.focusAt(a.x, a.y, tier === 'T2' ? 1500 : tier === 'T1' ? 1100 : 900);
   };
 
   // zoom buttons + layer pills
@@ -686,26 +559,8 @@ export function openTierMap(tier: Tier): HTMLElement {
     b.addEventListener('click', () => act());
     zoomGroup.append(b);
   };
-  const centre = (): { x: number; y: number } => {
-    const r = svg.getBoundingClientRect();
-    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-  };
-  zoomBtn(
-    '⊕',
-    () => {
-      const c = centre();
-      zoomAt(c.x, c.y, 1 / 1.35);
-    },
-    'Zoom in',
-  );
-  zoomBtn(
-    '⊖',
-    () => {
-      const c = centre();
-      zoomAt(c.x, c.y, 1.35);
-    },
-    'Zoom out',
-  );
+  zoomBtn('⊕', () => viewer.zoomCentre(1 / 1.35), 'Zoom in');
+  zoomBtn('⊖', () => viewer.zoomCentre(1.35), 'Zoom out');
   zoomBtn('⤢ fit', fit, 'Fit the whole sheet');
   // Maximize the map pane to fill the viewport so the survey can be read close.
   // A CSS blow-up on purpose — NOT the native Fullscreen API, which promotes the
@@ -734,7 +589,7 @@ export function openTierMap(tier: Tier): HTMLElement {
 
   const nodeEls = new Map<string, SVGGElement>();
   paintSheet(svg, nodeEls, tier);
-  applyVb();
+  viewer.applyVb();
 
   // ── the T0 rung-reveal previewer (ADR-151): fog = unsurveyed paper, seals
   //    gate by RUNG_LADDER (the REAL schedule, derived from core ranks.ts).
@@ -759,8 +614,7 @@ export function openTierMap(tier: Tier): HTMLElement {
       for (const [id, g] of nodeEls) {
         g.style.display = visible(typeof id === 'string' ? id : '') ? '' : 'none';
       }
-      const fogStages = rung === null ? [] : REVEAL.filter((s) => s.rung <= rung);
-      const stage = fogStages.length > 0 ? fogStages[fogStages.length - 1]! : null;
+      const stage = rung === null ? null : stageAtRung(rung);
       // svg children: [defs, art, seals] — paintSheet's own layer order
       const art = svg.children[1] as SVGElement;
       const sealLayer = svg.children[svg.children.length - 1] as SVGElement;
@@ -796,7 +650,7 @@ export function openTierMap(tier: Tier): HTMLElement {
     g.setAttribute('tabindex', '0');
     g.setAttribute('role', 'button');
     g.addEventListener('click', () => {
-      if (dragMoved) return; // a pan that ended on a seal is not a selection
+      if (viewer.panned()) return; // a pan that ended on a seal is not a selection
       select(selected === id ? null : id);
     });
     g.addEventListener('keydown', (e) => {
@@ -806,7 +660,7 @@ export function openTierMap(tier: Tier): HTMLElement {
   select(null);
 
   const dismiss = (): void => {
-    clearTimeout(filterIdle); // never restore a filter onto a removed sheet
+    viewer.dispose(); // never restore a suspended filter onto a removed sheet
     document.removeEventListener('keydown', onKey);
     scrim.remove();
   };
