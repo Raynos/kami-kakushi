@@ -1993,13 +1993,10 @@ h3 {
   color: var(--ai);
   font-size: var(--fs-h3);
 }
-.vital.stamina,
-.vital.belly {
-  /* body + belly share ONE idiom (ADR-178/FB-345 — the two-bar group): label+bar up, number under */
-  flex-direction: column;
-  gap: var(--space-1);
-  align-items: flex-start;
-}
+/* body + belly share ONE idiom (ADR-178/FB-345 — the two-bar group), and each
+   reads as a single baseline row `label ▬▬▬ 100/100` (FB-371 — the stacked
+   3-line form ate the header's vertical space; the exact number stays inline,
+   FB-335). Both inherit the base .vital row. */
 .vital.stamina .bar,
 .vital.belly .bar {
   width: 110px;
@@ -2007,11 +2004,6 @@ h3 {
 
 /* HP / life meter (D-076) — a verdigris "life" fill (distinct from satiety's teal), the exact
    number beside it, turning vermilion (.bar.low) when hurt so "heal now" reads at a glance. */
-.vital.health {
-  flex-direction: column;
-  gap: var(--space-1);
-  align-items: flex-start;
-}
 .vital.health .bar {
   width: 110px;
 }
