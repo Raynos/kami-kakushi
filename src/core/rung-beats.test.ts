@@ -280,3 +280,24 @@ describe('D-110 deepenNpc — relationships ACCUMULATE across rungs', () => {
     });
   });
 });
+
+describe('FB-388 — a promotion beat can MOVE you (RankDef.arriveAt)', () => {
+  it("completing the R0→R1 beat stands you at the rank's arriveAt, not where you triggered it", () => {
+    const arrive = getRank('R1').arriveAt;
+    expect(arrive).toBeDefined(); // R1 declares one (the forecourt terms — FB-388)
+    let s = atDoneIntro();
+    expect(s.location).not.toBe(arrive); // the cold open wakes you elsewhere (the kura)
+    s = makeReady(s);
+    s = reduce(s, { type: 'begin_rung_beat' });
+    const opt = RUNG_BEATS.R1!.decision.options[0]!;
+    s = reduce(s, { type: 'choose_rung_option', optionId: opt.id });
+    expect(s.rung).toBe('R1');
+    expect(s.location).toBe(arrive); // derived from the RankDef, never a copied literal
+  });
+
+  it('a rank WITHOUT arriveAt leaves you standing where you were', () => {
+    expect(getRank('R4').arriveAt).toBeUndefined();
+    const s = applyPromotion({ ...atDoneIntro(), rung: 'R3', location: 'grove' }, 'R4');
+    expect(s.location).toBe('grove');
+  });
+});

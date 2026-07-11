@@ -22,6 +22,10 @@ export interface RankDef {
   readonly eligible: readonly string[];
   /** Fired when promoted INTO this rank. */
   readonly rewardOnReach?: RewardBundle;
+  /** FB-388 — where the promotion beat LEAVES you (the fiction moves you: the
+   *  R1 terms are set at the forecourt, so completing the beat stands you
+   *  there). Applied by `applyPromotion`; omitted = you stay where you were. */
+  readonly arriveAt?: string;
 }
 
 export const RANKS: readonly RankDef[] = [
@@ -40,6 +44,9 @@ export const RANKS: readonly RankDef[] = [
     title: 'The day-hand',
     kanji: '日雇',
     granter: NAMES.elder,
+    // FB-388 — the terms beat sets the day's work out at the forecourt: completing
+    // the R0→R1 VN stands you there (no manual walk out of the kura).
+    arriveAt: 'forecourt',
     eligible: ['farm_paddy', 'haul_stores'],
     rewardOnReach: {
       // Each rung stamps its own `rank-rN` marker — a deliberate SYMMETRIC set (battery #19 audit):

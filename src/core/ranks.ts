@@ -58,6 +58,11 @@ export function pendingPromotionTarget(state: GameState): RankId | null {
 export function applyPromotion(state: GameState, target: RankId): GameState {
   const rank = getRank(target);
   let next: GameState = { ...state, rung: target, rungReqs: {} };
+  // FB-388 — the beat's fiction can MOVE you (R1: the terms leave you at the
+  // forecourt, no manual walk out of the kura). Data on the RankDef; walking
+  // away also ends any auto-grind, same as move_to.
+  if (rank.arriveAt !== undefined && rank.arriveAt !== next.location)
+    next = { ...next, location: rank.arriveAt, autoCombat: null };
   if (rank.rewardOnReach) next = applyRewards(next, rank.rewardOnReach);
   // ADR-122 — the T0 status token: a rung that grants `wall-weapon` mounts the weapon you WIELD at that
   // moment on your home wall (the status-mirror). The reveal names your ACTUAL weapon (never a generic

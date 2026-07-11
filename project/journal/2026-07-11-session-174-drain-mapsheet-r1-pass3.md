@@ -31,3 +31,6 @@ to `w6:p1` and kept the rest.
   fiction leaves you; R1 arrives at the forecourt. RED-able tests in
   rung-beats.test.ts; proven live through the real VN UI (kura → beat →
   forecourt). Fixture saves regenerate (ride the shared-tree batch).
+- Map fog fixes landed as `0fdf3d14` (FB-390/391/396). The FB-388 core change
+  follows as its own commit; fixture saves ride the shared-tree batch (they
+  reflect this + w6:p1's timing change together).
