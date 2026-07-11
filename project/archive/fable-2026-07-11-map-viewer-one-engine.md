@@ -1,6 +1,6 @@
 # Map sheets — one viewer engine (kill the sheet.ts ↔ sheet-map.ts copy-pasta)
 
-**Status:** ▶️ in progress (human-ordered 2026-07-11, mid-session steer)
+**Status:** ✅ done — landed as 8a3f83c9 (2026-07-11, same session)
 **Confidence:** ( 90% Opus, 10% Fable ) — mechanical extraction under a green
 pin; the taste-bearing look is untouched.
 

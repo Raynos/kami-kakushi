@@ -29,16 +29,15 @@
 ## Reading queue
 
 - **Map viewer one-engine refactor plan** —
-  [`docs/plans/fable-2026-07-11-map-viewer-one-engine.md`](../docs/plans/fable-2026-07-11-map-viewer-one-engine.md):
+  [`project/archive/fable-2026-07-11-map-viewer-one-engine.md`](archive/fable-2026-07-11-map-viewer-one-engine.md):
   the extraction you ordered mid-session (shared pan/zoom/fog-stage engine for
   the DEV sheets + the live Map tab) — records scope + what stays separate.
 
-- **Play the physical-token map prototype** —
-  [`project/prototypes/map-token-presence/physical-token/index.html`](prototypes/map-token-presence/physical-token/index.html)
-  (open in a browser): four divergent miniature sculpts (porter / painted lord /
-  ink cutout / clay peon) on the REAL T0 sheet, linear travel, three movement
-  idioms, camera follow + scroll-zoom — your requested feel-test for replacing
-  the flat shu presence marks (FB-340 / HR-26 territory).
+- **Porter map-presence plan** —
+  [`docs/plans/fable-2026-07-11-map-porter-presence.md`](../docs/plans/fable-2026-07-11-map-porter-presence.md):
+  ports your picked porter (walk + footprints) onto the live Map tab as the
+  FB-340 presence layer — indicator-only, animated by real `move_to` actions,
+  never freely movable. Sequenced after the map-viewer one-engine extraction.
 
 
 > **What belongs here** — a durable doc whose purpose is for you to read or sign
