@@ -1470,9 +1470,14 @@ export function mount(
         // labour is always reachable (rake/rest at R0); the Work tab never empties.
         return true;
       case 'map':
-        // the walkable node-map opens once the gate does (R1 — you can step off the kura floor). Nav's
-        // sole home (FB-107); the market/pedlar lives here too, but the node-map is the primary content.
-        return isUnlocked(state, 'room-gate');
+        // The walkable node-map — nav's SOLE home (FB-107). ADR-184: it opens when there is somewhere
+        // to GO, i.e. once a second zone exists. It used to key on `room-gate`, which was an R1 rung
+        // reward; the gate now earns its own VN (R2), and keying the only travel affordance to it
+        // stranded the R1 day-hand in the forecourt — with a farm requirement in a paddy he could not
+        // walk to. The live playtest caught what no engine test could: the reducer happily accepts
+        // `move_to` whether or not a tab exists to press. Derived from the visible set, so any future
+        // re-mapping carries it (TST1) and this can never drift again.
+        return unlockedSurfaces(state).filter((id) => id.startsWith('room-')).length >= 2;
       case 'works':
         // ADR-177 Schedule A — the projects home (普請): cause-gated on the works-intro
         // beat's day-book naming (panel-estate's predicate), R2+ at the board.

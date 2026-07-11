@@ -685,6 +685,54 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
 // ── ADR-119 — the seven-tab reveal CADENCE (Work R0 · Map/Estate R1 · Character R2 · Combat/Inventory
 //    R3 · Quests R5). These assert the NAV chips that light at each beat, so a mis-gated tab (e.g. the
 //    old Inventory-at-R1 triple-reveal, or a Quests-at-R3 batch) flips them RED. ──
+describe('ADR-184 — a rung can always REACH the labour it demands (the R1 strand)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  it('the Map tab exists the moment a SECOND zone does — the only way to walk anywhere', () => {
+    // The live-playtest bug, pinned. R1 opens exactly one zone (the paddy) and R1→R2 is 30 farm
+    // acts sited in it; the Map is nav's sole home (FB-107), so if it does not light at R1 the
+    // player is stranded in the forecourt with a requirement they cannot reach. Derived, not
+    // rung-keyed: one zone ⇒ nowhere to go ⇒ no map; two ⇒ the map.
+    const base = createInitialState(1);
+    const render = mount(root, () => {}, noopHooks());
+    const labels = (): string[] =>
+      [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')].map((b) => b.textContent ?? '');
+
+    // the cold open: the forecourt alone — there is only one place to be, so no map.
+    render({ ...base, flags: { ...base.flags, awake: true } }, null);
+    expect(labels().some((l) => l.includes('地図'))).toBe(false);
+
+    // R1: the paddy joins the forecourt — somewhere to go, so the map opens.
+    render(
+      {
+        ...base,
+        flags: { ...base.flags, awake: true, ...factsForSurfaces('room-paddies') },
+      },
+      null,
+    );
+    expect(
+      labels().some((l) => l.includes('地図')),
+      'the R1 day-hand must be able to walk',
+    ).toBe(true);
+  });
+});
+
 describe('D-119/ADR-177 — tabs reveal one beat at a time (Schedule A)', () => {
   let root: HTMLElement;
   beforeEach(() => {
@@ -720,7 +768,11 @@ describe('D-119/ADR-177 — tabs reveal one beat at a time (Schedule A)', () => 
   }
 
   it('R1 is Map ALONE — Estate, Works, and Inventory all wait (no triple-reveal)', () => {
-    at(['room-gate']);
+    // ADR-184 — R1's one zone is the PADDY now (the gate earns its own VN at R2). The Map must
+    // still light here: it is the only travel affordance in the game, and R1→R2 is farm work in a
+    // paddy you have to walk to. Keying the Map to `room-gate` (as it was) stranded the day-hand
+    // in the forecourt — a soft-lock no engine test could see, because `move_to` needs no tab.
+    at(['room-paddies']);
     const labels = tabLabels();
     expect(labels.some((l) => l.includes('地図'))).toBe(true); // Map
     // RED against the old schedule: Estate used to light at R1 (ADR-177 moved it to R6).
