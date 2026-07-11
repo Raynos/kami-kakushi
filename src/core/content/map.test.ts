@@ -49,11 +49,12 @@ describe('MAP_NODES — the T0 estate node-graph', () => {
   });
 
   it('reveal-gates every node except the R0 cold-open zones', () => {
-    // The sickroom/forecourt/kitchen are the always-open outer court. The weir is
-    // GATED since ADR-177 (FB-342): the cold open happens there, but the path back
-    // reads locked until the works-intro's day-book naming reveals room-weir. Every
-    // other zone inks in on its rung beat via a revealFlag.
-    expect(UNGATED).toEqual(['sickroom', 'forecourt', 'kitchen']);
+    // Only the forecourt stays always-open. The weir is GATED since ADR-177
+    // (FB-342): the cold open happens there, but the path back reads locked until
+    // the works-intro's day-book naming reveals room-weir; the kitchen + sickroom
+    // joined it (FB-381/382 — the R1 terms beat / the R3 grain-watch name them).
+    // Every other zone inks in on its rung beat via a revealFlag.
+    expect(UNGATED).toEqual(['forecourt']);
   });
 
   it('holds the ruined compound as locked scenery — visible, never walkable', () => {
@@ -128,8 +129,8 @@ describe('canMove — adjacency AND reveal gating', () => {
     expect(canMove('forecourt', 'paddies', new Set(['room-paddies']))).toBe(true);
   });
 
-  it('always allows reaching an ungated neighbour (the R0 kitchen)', () => {
-    expect(canMove('forecourt', 'kitchen', new Set())).toBe(true);
+  it('always allows reaching an ungated neighbour (the R0 forecourt)', () => {
+    expect(canMove('kitchen', 'forecourt', new Set())).toBe(true);
   });
 
   it('returns false for unknown endpoints (total + safe, never throws)', () => {
@@ -140,17 +141,19 @@ describe('canMove — adjacency AND reveal gating', () => {
 
 describe('reachableFrom — only revealed neighbours', () => {
   it('returns only ungated neighbours when nothing is revealed', () => {
-    // forecourt's always-open neighbours are the kitchen + the sickroom (both R0, no flag).
+    // every forecourt neighbour is reveal-gated since FB-381/382 (kitchen + sickroom
+    // joined the flagged set) — an empty revealed set reaches nothing.
     const reach = reachableFrom('forecourt', new Set())
       .map((n) => n.id)
       .sort();
-    expect(reach).toEqual(['kitchen', 'sickroom']);
+    expect(reach).toEqual([]);
   });
 
   it('widens as rooms are revealed', () => {
-    const reach = reachableFrom('forecourt', new Set(['room-paddies', 'room-kura'])).map(
-      (n) => n.id,
-    );
+    const reach = reachableFrom(
+      'forecourt',
+      new Set(['room-paddies', 'room-kura', 'room-kitchen', 'room-sickroom']),
+    ).map((n) => n.id);
     expect(reach.sort()).toEqual(['kitchen', 'kura', 'paddies', 'sickroom']);
   });
 

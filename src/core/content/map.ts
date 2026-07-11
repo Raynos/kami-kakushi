@@ -72,6 +72,10 @@ export const MAP_NODES: readonly MapNode[] = [
     wrong: FLAVOR.nodeSickroomWrong,
     neighbors: ['forecourt'],
     rung: 0,
+    // FB-382 / ADR-177 pattern — the cold open is tended here, but the map names it
+    // only when hurt starts existing: R3, the grain-watch (the wolf, the ribs). The
+    // reveal always precedes any defeat relocation (combat opens at the same rung).
+    revealFlag: 'room-sickroom',
   },
   {
     id: 'forecourt',
@@ -92,6 +96,9 @@ export const MAP_NODES: readonly MapNode[] = [
     wrong: FLAVOR.nodeKitchenThresholdWrong,
     neighbors: ['forecourt', 'shrine'],
     rung: 0,
+    // FB-381 / ADR-177 pattern — revealed by the R1 terms beat, where Genemon names
+    // it: "Meals at the threshold, morning and evening" (the fiction causes the map).
+    revealFlag: 'room-kitchen',
   },
   {
     id: 'gate',

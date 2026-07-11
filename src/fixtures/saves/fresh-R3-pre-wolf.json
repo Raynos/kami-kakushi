@@ -86,6 +86,7 @@
       "room-gate",
       "room-paddies",
       "room-woodshed",
+      "room-kitchen",
       "verb-farm",
       "verb-haul",
       "readout-clock",
@@ -113,6 +114,7 @@
       "panel-bestiary",
       "room-kura",
       "room-weir-reeds",
+      "room-sickroom",
       "screen-demo-frontier",
       "dream-2"
     ],

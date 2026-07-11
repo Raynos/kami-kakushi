@@ -306,8 +306,10 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
       flags: { awake: true },
       autoCombat: 'monkey',
       autoCombatRetreat: false,
+      // the kitchen is reveal-gated since FB-381 (the R1 terms beat names it) —
+      // granted here so only the walk-away behaviour is under test.
+      unlocked: [...at.unlocked, 'room-kitchen'],
     };
-    // the kitchen is an always-open R0 neighbour of the forecourt (no reveal/danger gate).
     const walked = reduce(grinding, { type: 'move_to', to: 'kitchen' });
     expect(walked.location).toBe('kitchen');
     expect(walked.autoCombat).toBeNull();

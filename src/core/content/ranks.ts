@@ -56,6 +56,9 @@ export const RANKS: readonly RankDef[] = [
         'room-gate',
         'room-paddies',
         'room-woodshed',
+        // FB-381 — the kitchen threshold reveals with the terms that name it
+        // ("Meals at the threshold, morning and evening" — this very beat).
+        'room-kitchen',
         'verb-farm',
         'verb-haul',
         'readout-clock',
@@ -121,6 +124,10 @@ export const RANKS: readonly RankDef[] = [
         'panel-bestiary',
         'room-kura',
         'room-weir-reeds',
+        // FB-382 — the sickroom reveals when hurt starts existing (the grain-watch's
+        // wolf); it must precede any defeat relocation there (defeat.ts), and does —
+        // combat opens this same rung.
+        'room-sickroom',
       ],
       // FB-103 / ADR-110: story prose → RUNG_BEATS.R3.greeting (Kihei's full VN meet); terse marker only.
     },

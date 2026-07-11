@@ -42,3 +42,7 @@ shown before landing.
 - Bookkeeping: sidecars stamped (9 done: FB-377…380, 383…387); the r1 bucket
   archived (entry merged into the existing archive file); mapsheet stays in
   pending/ on the two open fiction-led items (FB-381/382).
+- FB-381/382 landed (human-approved draft): `room-kitchen` reveals at the R1
+  terms beat, `room-sickroom` at R3 with combat (ADR-177 pattern); ceremony
+  labels announce both; tests updated to the new schedule; fixtures +
+  narrative registries + PRD regions regenerated.

@@ -457,10 +457,10 @@ U-works, whose U4 completion beat lands post-R7) is §2.17's domain (ADR-145).
 > | `gate` | The gate & gateyard | inks in at **R1** |
 > | `forecourt` | The forecourt | on the board from the open |
 > | `woodshed` | The woodshed | inks in at **R1** |
-> | `kitchen` | The kitchen threshold | on the board from the open |
+> | `kitchen` | The kitchen threshold | inks in at **R1** |
 > | `shrine` | The shrine-alcove corridor | inks in at **R5** |
 > | `kura` | The kura & grain-store | inks in at **R3** |
-> | `sickroom` | Sōan's sickroom | on the board from the open |
+> | `sickroom` | Sōan's sickroom | inks in at **R3** |
 > | `drill-yard` | The drill yard | inks in at **R4** |
 > | `paddies` | The home paddy & vegetable rows | inks in at **R1** |
 > | `field-margins` | The field margins | inks in at **R2** |

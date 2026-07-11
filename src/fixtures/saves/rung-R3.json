@@ -81,6 +81,7 @@
       "room-gate",
       "room-paddies",
       "room-woodshed",
+      "room-kitchen",
       "verb-farm",
       "verb-haul",
       "readout-clock",
@@ -107,7 +108,8 @@
       "readout-combat-level",
       "panel-bestiary",
       "room-kura",
-      "room-weir-reeds"
+      "room-weir-reeds",
+      "room-sickroom"
     ],
     "log": {
       "entries": [

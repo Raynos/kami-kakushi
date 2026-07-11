@@ -17,6 +17,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       'room-gate',
       'room-paddies',
       'room-woodshed',
+      'room-kitchen',
       'verb-farm',
       'verb-haul',
       'readout-clock',
@@ -154,6 +155,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       'panel-bestiary',
       'room-kura',
       'room-weir-reeds',
+      'room-sickroom',
     ],
     greeting: [
       {

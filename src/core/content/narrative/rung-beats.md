@@ -22,8 +22,8 @@
 ## rung R1 · rung-r1
 speaker: genemon
 voice: steward
-motivates: room-gate, room-paddies, room-woodshed, verb-farm, verb-haul,
-  readout-clock, readout-stamina, panel-rung-ladder
+motivates: room-gate, room-paddies, room-woodshed, room-kitchen, verb-farm,
+  verb-haul, readout-clock, readout-stamina, panel-rung-ladder
 
 > Morning at the board. The hands take their rice at the threshold; the
 > steward's papers hold the table's far end — an estate's worth of paper on a
@@ -112,7 +112,7 @@ flags: r1-asked-owing
 speaker: kihei
 voice: arms
 motivates: tab-combat, panel-drill-yard, readout-combat-level, panel-bestiary,
-  room-kura, room-weir-reeds
+  room-kura, room-weir-reeds, room-sickroom
 
 > Dawn comes grey through the kura door. The blood on the sill has dried black,
 > and most of it is yours. Inside, the rice sits in its rows, untouched, exactly

@@ -167,6 +167,14 @@ export const SURFACES: readonly Surface[] = [
     ceremonyLabel: 'The woodshed corner — a mat, a bowl, a nail for the coat: yours',
   },
   {
+    // FB-381 / ADR-177 pattern — hidden R0 ground until the R1 terms beat names it
+    // ("Meals at the threshold, morning and evening"); announced on the ceremony.
+    id: 'room-kitchen',
+    kind: 'panel',
+    unlock: () => false,
+    ceremonyLabel: 'The kitchen threshold — meals at the board, morning and evening',
+  },
+  {
     // FB-342 / ADR-177 — the weir path, locked after the cold open; revealed by
     // worksPass when the works-intro beat's day-book naming latches works-named-weir
     // (never a rank reward — the fiction causes the unlock, TST3).
@@ -247,6 +255,14 @@ export const SURFACES: readonly Surface[] = [
     revealLine: narrate(
       'The shallows above and below the weir, reeds past the waist. River rats gnaw the screens the house leases from Matsuzō, and every screen lost is coin owed across the water.',
     ),
+  },
+  {
+    // FB-382 / ADR-177 pattern — hidden R0 ground until hurt starts existing (the
+    // grain-watch's wolf, this rung); announced on the R3 ceremony.
+    id: 'room-sickroom',
+    kind: 'panel',
+    unlock: () => false,
+    ceremonyLabel: "Sōan's sickroom — where the night-watch's hurts are carried",
   },
   {
     id: 'room-drill-yard',

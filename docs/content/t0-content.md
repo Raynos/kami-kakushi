@@ -101,9 +101,9 @@
 | id | node | neighbours | revealFlag | dangerRing |
 |---|---|---|---|
 | weir | The weir & riverbank 堰 | weir-reeds, paddies | room-weir |  |
-| sickroom | Sōan's sickroom 薬 | forecourt | — |  |
+| sickroom | Sōan's sickroom 薬 | forecourt | room-sickroom |  |
 | forecourt | The forecourt 庭 | gate, kura, kitchen, woodshed, sickroom, drill-yard, paddies | — |  |
-| kitchen | The kitchen threshold 竈 | forecourt, shrine | — |  |
+| kitchen | The kitchen threshold 竈 | forecourt, shrine | room-kitchen |  |
 | gate | The gate & gateyard 門 | forecourt | room-gate |  |
 | woodshed | The woodshed 薪 | forecourt | room-woodshed |  |
 | paddies | The home paddy & vegetable rows 田 | forecourt, weir, field-margins, woodlot | room-paddies |  |
@@ -272,6 +272,7 @@ Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (th
 | `room-gate` | panel |
 | `room-paddies` | panel |
 | `room-woodshed` | panel |
+| `room-kitchen` | panel |
 | `room-weir` | panel |
 | `verb-farm` | verb |
 | `verb-haul` | verb |
@@ -287,6 +288,7 @@ Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (th
 | `skill-conditioning` | row |
 | `room-kura` | panel |
 | `room-weir-reeds` | panel |
+| `room-sickroom` | panel |
 | `room-drill-yard` | panel |
 | `room-shrine` | panel |
 | `room-orchard` | panel |
