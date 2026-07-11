@@ -52,19 +52,44 @@ so under the v1 rule the skill printed **no banner at all** — and the human
    (`working-agreements.md` step 4), since the skill deliberately holds no copy
    of the steps.
 
+## Appended — what the banner actually ASKS (the final semantics)
+
+The human then sharpened what OOPS *means*, commit `17d8732b`. The two banners
+answer exactly one question, and it is **not** "did the git commands succeed":
+
+> **Is it safe to KILL this pane right now?**
+
+- **BYE** — safe to close: checkpoint done, nothing left in the session, green,
+  at a coherent stopping point.
+- **OOPS** — do NOT close. **Two** cases, weighted the same:
+  1. **Something is wrong** — red, broken, a stranded push … *or you don't
+     know*. Uncertainty is an OOPS on purpose: a safety signal fails **loud**,
+     not optimistic.
+  2. **The session is half-built** — `/prepare-to-exit` was run **too early**;
+     the work is mid-implementation and killing the pane leaves it half
+     implemented. **A clean `git status` does NOT mean done**, and committing
+     half-finished work does not launder it into a BYE. The skill forces the
+     question outright: *if this pane were killed right now, would anything be
+     left half-implemented?*
+
 ## Next intended steps
 
 1. If the banner proves useful, promote the skill to a **global**
    `~/.claude/skills/prepare-to-exit/` so every project's sessions sign off the
    same way (today only this repo has the skill — verified: no global copy
-   exists).
+   exists). **This is the one gap against the human's stated goal** ("I enter a
+   *random* Claude Code tab and see the banner") — today that only holds for
+   panes sitting in *this* repo.
 
 ## Landmines
 
-- **Alignment is load-bearing and easy to break.** The box interior is pure
+- **Alignment is load-bearing and easy to break.** The box interiors are pure
   ASCII + box-drawing chars on purpose — **no emoji, no CJK**, both of which are
   double-width and would skew the right border. Verified mechanically (not by
-  eye): all 8 lines render at exactly 67 display columns. If you ever edit the
-  art, re-check widths with an east-asian-width count rather than trusting a
-  character count.
+  eye): BYE renders at 67 display columns on all 8 lines, OOPS at 74. If you
+  ever edit the art, re-check with an **east-asian-width** count — a plain
+  character count will lie to you.
 - The skill is repo-local; a session in another project won't print it.
+- **The OOPS banner has never actually fired in a live run** — its criteria are
+  written but unexercised. First agent to hit a genuinely half-built exit is the
+  one who proves it.
