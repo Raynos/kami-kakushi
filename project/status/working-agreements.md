@@ -98,7 +98,12 @@ way**. Never branch on `$?` — merge the streams and parse the JSON.
    and clear from [`../todo-human.md`](../todo-human.md) only reading-queue docs the human engaged *this session*
    (ADR-089; sign-off is implicit, the agent owns cleanup). **Don't over-ask:** an untouched doc stays — never
    `AskUserQuestion` about a doc the session never mentioned.
-4. **Push** `git push origin main` — fires the pre-push gate (`verify`, blocks red). Green `origin/main` is the proof.
+4. **Push (BEST EFFORT)** `git push origin main` — fires the pre-push gate (`verify`, blocks red). Green
+   `origin/main` is the proof. **A push blocked by a CO-AGENT's red is a non-event, not a failed checkpoint**
+   (human, 2026-07-12): leave the commit local, note it, carry on — the next agent to go green pushes it out
+   with theirs. It only *matters* if nobody is left to carry it, so check `herdr agent list`: **others live →
+   shrug**; **you are the only / last agent → the commit is STRANDED**, say so loudly (and, if the red is your
+   own, fix it). Never `SKIP_VERIFY=1` either way.
 5. **Confirm** — `git status` clean, `git log origin/main..main` empty (or note what's left + why).
 
 Four rules, learned the hard way:
