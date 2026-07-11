@@ -170,6 +170,8 @@ test('cook/heal cue: hurt MC cooks a meal, HP rises (D-076)', async ({ page }) =
   const errors = await boot(page, 'post-loss-broke');
   const hpBefore = await page.evaluate<number>('__qa.state().character.hp');
 
+  // FB-343/FB-369 — cook lives on the Character 己 tab's Body card now.
+  await press(page.locator('.nav-tab', { hasText: 'Character' }));
   const cook = page.locator('button.verb', { hasText: 'Cook a meal' }).first();
   await expect(cook).toBeVisible();
   // hurt ⇒ the cook verb must read as the PRIMARY affordance (the cue, not just the verb)

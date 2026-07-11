@@ -119,4 +119,8 @@ hunger 60→90 through the real timed-action path.
 - `d7893081` — ADR-179 + the derived-reveal plan + queue + this entry
 - `712dc0b5` — the S1–S6 landing (core + persistence + UI + tests + fixtures)
 - `a165bd68` — the S7 PRD ripple + plan archive
-- (this commit) — the FB-343/FB-369 eat-rice re-home (Character Body card)
+- `29e3ec30` — the FB-343/FB-369 eat-rice re-home (Character Body card)
+- (this commit) — e2e: cook journey follows the re-home (Character tab); the
+  fixture-drift test's PRE-EXISTING red healed (works-u1-priced/-underway had
+  joined the registry without e2e coverage — red since before this session;
+  both now carry the per-fixture layout tests, mobile + desktop, 88/88)

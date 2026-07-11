@@ -23,6 +23,9 @@ export const FIXTURES = [
   'post-loss-broke',
   'worn-weapon-no-wood',
   'wealthy-idler',
+  // ADR-177 — the works-chain waypoints (were missing here; the drift test was RED)
+  'works-u1-priced',
+  'works-u1-underway',
   'rice-at-gate',
   'at-kura-with-coin',
 ] as const;
