@@ -10,9 +10,9 @@
 
 ## 1. Rung ladder (T1 — Estate, full)
 
-Eight new full-estate rungs (R8→R15, ~16 estate rungs total; D-052 + reshape, resolves OQ-6). Promotion is the **Phase-1 AND-gate** (§1.6.4 / §2.15.1 / §4.1.1): a rung promotes only when **both** rung sub-meters are ≥ their per-rung-reset threshold **AND** the rung's story milestone is met. Thresholds are **back-solved from the ≥30-min floor × eligible-activity rate** — T1 per-rung floor ≈ **≥40 min** (§4.1.1). The **two sub-meters**: **Estate Service** 家役 (labour) + **Combat Rank** 武鍛 (martial). "Track focus" = which sub-meter the rung's curated activities chiefly feed; **both sub-meters still gate every rung**. The capstone **R15 opens Phase 2** (the pillar grind) — pillar DEEDS accrue only in Phase 2 (FU7).
+Eight new full-estate rungs (R8→R15, ~16 estate rungs total; D-052 + reshape, resolves OQ-6). Promotion runs the **requirements model** (§1.6.4 / §2.15.1 / §4.1.1; D-137, all-tiers per D-182): every rung binds an authored, **hidden list of objective requirements** — counted acts, quest-token goals, economy/state predicates, story beats — as many or as few as that rung needs, in any order. The player sees only a **rounded-integer % rung meter**; **100% alone readies the rung's beat.** There is no separate story gate: a rung's story precondition is simply one of its requirements. Pacing is **measured, not back-solved** — the lists are authored for the fiction first and the FB-4 sim measures the result against T1's per-rung band of ≈ **≥40 min** (§4.1.1). The ladder still runs **two tracks**: **Estate Service** 家役 (labour) + **Combat Rank** 武鍛 (martial) (D-025). "Track focus" = which track the rung's curated activities chiefly belong to; the requirement list is what actually gates the rung. The capstone **R15 opens Phase 2** (the pillar grind) — pillar DEEDS accrue only in Phase 2 (FU7).
 
-| rung | title (proposed) | kanji (proposed) | track focus | story milestone / gate (to-author, proposed) | granter |
+| rung | title (proposed) | kanji (proposed) | track focus | key requirements / story beat (to-author, proposed) | granter |
 |---|---|---|---|---|---|
 | R8 | Kura Warden | 蔵番 | Estate Service | secure & inventory the storehouse; **patch the kura (E1)** | Genemon |
 | R9 | Field Reeve | 田司 | Estate Service | oversee the home paddies; **open the first shinden reclamation (LAND)** | Genemon |
@@ -21,15 +21,15 @@ Eight new full-estate rungs (R8→R15, ~16 estate rungs total; D-052 + reshape, 
 | R12 | Ledger-hand | 勘定方 | Estate Service | sit with Tanomo; **open the debt ledger (TREASURY)**; first *goyōkin* | Tanomo / Genemon |
 | R13 | Armsman of the House | 武者 | Combat Rank | **take up the Sword line (Line 2)**; first recognised DEFEND | Kihei |
 | R14 | Under-steward | 用人 | Estate Service | **hire the first retinue (Gohei & Yatarō)**; patrol the Near Satoyama | Genemon |
-| R15 | **Trusted Man of the House** (capstone) | 家宰 | both (AND-gate) | the estate names you its trusted man — **OPENS Phase 2** | Lord Shigemasa |
+| R15 | **Trusted Man of the House** (capstone) | 家宰 | both tracks | the estate names you its trusted man — **OPENS Phase 2** | Lord Shigemasa |
 
 *Build mapping (loose, system-themed not rung-banded): the ladder + floor land in T1-M1; the Sword line / drill-yard / stance / Arms-lane in T1-M2; LAND/TREASURY maturation + retinue + map growth in T1-M3; the R15 capstone → Phase 2 → two-pillar gate → ascension in T1-M4. Rung↔milestone exact split is to-author.*
 
 ### T1 labour & training activities (proposed — extends the T0 set)
 
-T0 shipped `farm_paddy · haul_stores · woodcut_edge · forage_satoyama`. T1 deepens the labour/skill web (discover-by-doing, no skill menu) and adds curated drill-yard activities feeding **Combat Rank**. Yields/satiety/xp are **(to-author)**.
+T0 shipped `farm_paddy · haul_stores · woodcut_edge · forage_satoyama`. T1 deepens the labour/skill web (discover-by-doing, no skill menu) and adds curated drill-yard activities on the **Combat Rank** track — the acts a Combat-Rank rung's requirement list counts. Yields/satiety/xp are **(to-author)**.
 
-| id (proposed) | skill | feeds | area | note |
+| id (proposed) | skill | track / feeds | area | note |
 |---|---|---|---|---|
 | `reclaim_shinden` | farming / conditioning | Estate Service + LAND | home paddies & dry fields | drains/reclaims marsh → new yield-bearing paddy |
 | `tally_ledger` | clerking (to-author skill) | Estate Service + TREASURY | main house / study | debt-paydown & *goyōkin* bookkeeping |
@@ -60,7 +60,7 @@ T0 shipped `farm_paddy · haul_stores · woodcut_edge · forage_satoyama`. T1 de
 | signal | feeds |
 |---|---|
 | one **kill** | character level |
-| one **curated rung activity** (drill-yard) | the **Combat-Rank** rung sub-meter |
+| one **curated rung activity** (drill-yard) | a **Combat-Rank** rung *requirement* (shown as its % rung meter) |
 | one **recognised DEED** | **Arms 武威** influence |
 
 ### Deed bands & per-deed cap (proposed v1 balance — D-059; re-confirm vs D-049)
@@ -222,7 +222,7 @@ No fixed quest-type budget (D-032); an **order-free advance-event set** surfaced
 
 | criterion | T1 binding |
 |---|---|
-| **≥30-min/rung floor** | **BINDS for the first time** (T0 floor-exempt; D-049, D-056). T1 per-rung floor ≈ **≥40 min**; thresholds back-solved on rung-meter points (§4.1.1). The **floor regression test goes live at T1-M1** (M6 fails on undershoot only). |
+| **≥30-min/rung floor** | **BINDS for the first time** (T0 floor-exempt; D-049, D-056). T1 per-rung band ≈ **≥40 min** — a **measured** pacing target: requirement lists are authored for the fiction, the FB-4 sim measures what they produce, and the band re-signs from that (never back-solved into a rung number — D-137/D-182, §4.1.1). The **floor regression test goes live at T1-M1** (M6 fails on undershoot only). |
 | **Phase-1 hour budget** | provisional **~5–8h** (≈8 rungs × ≥40 min/rung); re-derives at the Ship-M1 6-tier **~28.5h** rescale (§4.8). |
 | **70/30** | deeds / seasonal split (Phase-2-gated). |
 | **per-deed cap** | **0.04 · good** — Arms **20 ip**, Estate **32 ip**. |
@@ -242,7 +242,7 @@ No fixed quest-type budget (D-032); an **order-free advance-event set** surfaced
 
 1. **Per-tier hour floor** — T1 ~5–8h provisional; the §4.8 ~28.5h budget re-derives across all 4 v1 tiers at Ship-M1-F2. *(proposal open-fork #1)*
 2. **E-stage → tier mapping + retinue** — default: **E1→E2 in T1**, E2→E3+ slips to T2+, first paid retinue (Gohei & Yatarō) belongs to T1. *(proposal open-fork #2; digest ambiguity #1)*
-3. **R8→R15 rung titles + two-track sub-meter split** — proposed shape accepted; titles/kanji easily restyled. *(proposal open-fork #3; digest ambiguity #3)*
+3. **R8→R15 rung titles + two-track split** (Estate Service / Combat Rank — D-025) — proposed shape accepted; titles/kanji easily restyled. *(proposal open-fork #3; digest ambiguity #3)*
 4. **Deed-band magnitudes** — Arms 0.5K/0.72K/0.95K (cap 20 ip) + Estate 0.8K/1.1K/1.5K (cap 32 ip); provisional (PRD §4 liquid, D-059), re-confirm vs D-049. *(proposal open-fork #5)*
 5. **T1 TRADE vs silk timing** — T1 = estate-internal surplus + deepened tiny-market; silk *meibutsu* + broker standing wait for T2. *(digest ambiguity #2)*
 6. **T1 bestiary breadth** — grounded beasts only; first human threat (nobushi/bandits) held for T2. *(digest ambiguity #4)*

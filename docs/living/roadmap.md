@@ -137,7 +137,7 @@ the **BIG ceremonial T0→T1 one-pillar (Estate 家産) ascension** (decision #1
 | Fun-slice | Status | The fun | DoD |
 |---|---|---|---|
 | **T0-M1-F1** Cold open & first rake | ✅ | the woodblock cold-open hook; log cascades in | first-interactable <5s; rake → RICE ticks (+ a little coin) → log line |
-| **T0-M1-F2** Labour loop + estate inks in (R0→R2) | ✅ | numbers climb, nav/rooms reveal one-per-beat | R0→R2 AND-gate; reveal stagger; G-NO-DEAD-VALUES |
+| **T0-M1-F2** Labour loop + estate inks in (R0→R2) | ✅ | numbers climb, nav/rooms reveal one-per-beat | R0→R2 requirement lists complete → 100% readies the beat (ADR-137); reveal stagger; G-NO-DEAD-VALUES |
 | **T0-M1-F3** **Meet your mentor (diegetic onboarding opens)** | ✅ | an in-world character greets you and teaches the labour loop as *story*, not a tooltip — adds a face to the estate | the labour mentor (**Genemon**, of the domain-split cast — Kihei teaches arms in T1-M2-F2, Sōan healing) greets you; dialogue is **data-not-script** (ADR-039); teaches by reveal-as-plot, **non-hand-holdy — no hint popups** (#17, ADR-015); **DIVERGE** on the dialogue panel |
 | **T0-M1-F4** **Juice + dev-tools pass — minimal SFX + speed/teleport** | ✅ | per-deed hit cue, rice/coin tally-flash, rank-up flourish — *the biggest remaining fun lever* (#2) | **traditional-palette SFX** (#12 — taiko / shamisen-koto / shakuhachi / temple-bell 鈴; synth Web Audio, reduced-motion/mute-safe); DEV **speed toggle + jump-to-rung/tier teleport** (#16) gated out of prod; **DIVERGE** if any new surface |
 
@@ -394,6 +394,15 @@ All six of this proposal's original open questions are resolved by the 2026-06-2
 
 **Finalized 2026-06-29 — all forks CLOSED (the human confirmed every default; none block the build).** Ledger:
 [`2026-06-29-roadmap-forks-finalized.md`](../../project/feedback-human/2026-06-29-roadmap-forks-finalized.md).
+
+> **⚠ Mechanism superseded 2026-07-11 — [ADR-182](decisions.md) (extending ADR-137).** This ledger is a
+> RECORD of what the human signed on 2026-06-29 and is left verbatim. Two entries name a progression
+> mechanism that is now dead **at every tier**: the per-rung-reset points **sub-meter**, its back-solved
+> **threshold**, and the **AND-gate** with story milestones. What stands from them: the **hour floors and
+> the ≈≥40-min per-rung band** (now pacing targets the FB-4 sim **measures against**, never numbers a rung
+> is back-solved from) and the **two-track Estate-Service / Combat-Rank split** (ADR-025). What replaces
+> the mechanism: each rung binds an **authored list of objective requirements**; 100% of it alone readies
+> the rung beat. Read entries 1 and 3 with that substitution.
 1. **Per-tier hour floors** (#1) → **ACCEPTED AS PROVISIONAL.** T1 ~5–8h · T2 ~8–10h · per-rung ≈ ≥40 min set
    rung thresholds only; PRD §4 is liquid (ADR-059), playtest re-tunes, and the §4.8 ~28.5h budget **re-derives
    across all 4 v1 tiers together at Ship-M1-F2**.

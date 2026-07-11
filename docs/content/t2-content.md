@@ -12,20 +12,20 @@
 
 ## 1. Rung ladder (T2 — Asagiri, V0→V7)
 
-Numbering **resets** to a fresh ~8-rung valley house-service ladder (D-012). Promotion is the **Phase-1 AND-gate** (per-rung-reset rung-meter ≥ floor **AND** the rung's story milestone, §4.1.1). Two sub-meters carry over from T1 — **House-Service** (labour/errands/standing-work) + **Combat-Rank** (martial). The **≥30-min/rung floor binds** here too (per-rung ≈ ≥40 min; only T0 is floor-exempt). The capstone **V7 opens Phase 2** (pillar deeds accrue only then, FU7). **The village web never gates this ladder.**
+Numbering **resets** to a fresh ~8-rung valley house-service ladder (D-012). Promotion runs the same **requirements model** as every other tier (D-137, all-tiers per D-182, §4.1.1): each rung binds an authored, **hidden list of objective requirements** (counted acts, quest-token goals, economy/state predicates, story beats — as many or as few as the rung needs, order-free), the player sees only a **rounded-integer % rung meter**, and **100% alone readies the rung's beat** — the story precondition is one of the requirements, not a second gate. Two **tracks** carry over from T1 — **House-Service** (labour/errands/standing-work) + **Combat-Rank** (martial) (D-025). The **≥30-min/rung floor binds** here too as a measured pacing band (per-rung ≈ ≥40 min; only T0 is floor-exempt). The capstone **V7 opens Phase 2** (pillar deeds accrue only then, FU7). **The village web never gates this ladder.**
 
-| rung | title | kanji | track / gate | milestone | what it opens / gates on |
+| rung | title | kanji | track | milestone | what it opens / gates on |
 |---|---|---|---|---|---|
 | V0 | Errand-runner for the house | (to-author) | House-Service | T2-M1-F1 | first valley errands; opens market/coin (one shop); seeds the rep web |
 | V1 | Recognised hand | (to-author) | House-Service | T2-M1-F5 | chief's house + inn & rumours board; valley pest clears (hornet nest, wolf pack) |
-| V2 | Road-warden | (to-author) | **Combat-Rank gate** | T2-M1-F5 | make a valley road / the ford safe — **first human threat (nobushi)**; **opens the Staff line (Line 3)** |
+| V2 | Road-warden | (to-author) | **Combat-Rank** | T2-M1-F5 | make a valley road / the ford safe — **first human threat (nobushi)**; **opens the Staff line (Line 3)** |
 | V3 | Steward of the valley economy | (to-author) | House-Service | T2-M2-F1 | the silk/sericulture *meibutsu* begins (Onatsu); broker standing meters; TRADE matures |
 | V4 | Trusted of the headman | (to-author) | House-Service | T2-M2-F2 | **Magobei's skim surfaces**; building the case raises the Chief's regard → **triggers the Office pillar to NAME** (M3 opener) |
-| V5 | Sworn man-at-arms | (to-author) | **Combat-Rank gate** | T2-M3-F4 | valley watch; DEFEND; retinue (Gohei & Yatarō) deployed alongside; the **Naoyuki rivalry→respect bridge beat** |
+| V5 | Sworn man-at-arms | (to-author) | **Combat-Rank** | T2-M3-F4 | valley watch; DEFEND; retinue (Gohei & Yatarō) deployed alongside; the **Naoyuki rivalry→respect bridge beat** |
 | V6 | Right-hand-in-waiting | (to-author) | House-Service | T2-M3-F4 | authority across the valley; levers pointing at the region |
 | V7 | Agent of the house, valley anchored | (to-author) | capstone | T2-M4-F1 | **opens Phase 2**; clearing the 3-pillar gate opens the Region map + rival houses (T3 teaser) |
 
-*Kanji are **to-author** — set in the registry on build (titles are easily restyled later; roadmap flagged-default #3). Per-rung floor ≈ ≥40 min, back-solved from the ≥30-min floor × eligible-activity rate (§4.1.1); re-derives in the 6-tier ~28.5h rescale at Ship-M1-F2.*
+*Kanji are **to-author** — set in the registry on build (titles are easily restyled later; roadmap flagged-default #3). Per-rung band ≈ ≥40 min is a **measured** pacing target, not a back-solved number: the requirement lists are authored for the fiction and the FB-4 sim measures what they produce (§4.1.1); re-derives in the 6-tier ~28.5h rescale at Ship-M1-F2.*
 
 ---
 
@@ -35,7 +35,7 @@ Office is the **3rd pillar**; it **names + activates mid-tier** (T2-M3-F1) — t
 
 - **Earned via:** offices granted · territory secured · alliances sealed · rivals eclipsed (§1.6.1, §4.2.1).
 - **Phase-2-gated (FU7):** Office DEEDS accrue **only post-V7 capstone**. M3 reveals the pillar + builds standing; the **grade banks in Phase 2**.
-- **Distinct lanes (the likeliest regression):** 1 kill → character level · 1 curated activity → Combat-Rank rung-meter · 1 recognised **DEED** → a pillar. Office deeds are contested by the rival houses (see §4).
+- **Distinct lanes (the likeliest regression):** 1 kill → character level · 1 curated activity → a Combat-Rank rung *requirement* (its % rung meter) · 1 recognised **DEED** → a pillar. Office deeds are contested by the rival houses (see §4).
 - **70/30** deeds/seasonal split; **per-deed cap = 0.04·good**.
 
 ### Deed bands (proposed v1 balance — three revealed pillars this tier)
