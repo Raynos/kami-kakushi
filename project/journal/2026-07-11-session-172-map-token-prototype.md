@@ -42,3 +42,28 @@ HR-26 territory). Lives in `project/prototypes/map-token-presence/`.
   git-ignored scratch; the journal is their record).
 - Headless QA hook blocks the playwright MCP (headed) — drive prototype shots
   through node playwright scripts, same as the game.
+
+---
+
+## Entry 2 — round 2: the human steers the feel-test live
+
+Live feedback while iterating: (1) koma / go stone / pilgrim hat are "not the
+fit" — REMOVED (builds recoverable at `73300fa1`); the miniature/peon idiom is
+the theme. (2) First miniature set was too samey ("the same robe with one
+piece of flare") and mis-sized — first too large vs the zone-seal labels, then
+0.55 too small; landed on 0.82 (+50%, the human's middle ground). (3) Needed to
+zoom in AND STAY zoomed to compare sculpts — added a persistent manual camera
+(scroll-to-zoom at cursor, drag-to-pan, drag suppresses travel clicks; camera
+follow now zooms at least as far as the manual view).
+
+New sculpt set — divergent in material / silhouette / base / gait:
+- 根付 **porter** — boxwood netsuke, bundle high on the back, staff, heavy waddle
+- 塗 **painted lord** — indigo kamishimo wings + gold mon, lacquer base, glides
+- 切絵 **ink cutout** — flat sumi paper-cut walker on a wood block, tilts
+- 埴輪 **clay peon** — fired-clay flared cylinder, hollow eyes, stomps
+
+Zone landings now offset ~46 units south of the seal so the piece stands
+BESIDE the label, never behind it (first vet showed it hidden by the seal box).
+
+Self-vetted headlessly per sculpt (zoomed crops via the `window.__proto` QA
+hook); porter + cutout were redrawn once after the first vet read muddled.

@@ -41,11 +41,17 @@ lands, the owning plan supersedes this note.
 - [`physical-token/`](map-token-presence/physical-token/index.html) — the REAL
   baked T0 sheet (harvested render + CSS + Andon Steel tokens, 2026-07-11 —
   `t0-sheet.svg` sits beside the HTML) with a token layer over it. Four
-  switchable pieces (将棋 koma · 人形 wooden miniature · 碁 go stone with the
-  house mon · 笠 top-down pilgrim hat), three movement idioms (walk with shu
-  footprints · slide · lift & place with shadow separation), optional camera
-  follow. Click any zone seal — or anywhere — to send the piece travelling
-  (linear, constant speed).
+  switchable **miniature sculpts** — deliberately divergent in material,
+  silhouette, base and gait (根付 boxwood porter · 塗 painted lord on a lacquer
+  base · 切絵 flat sumi ink cutout on a wood block · 埴輪 clay peon) — three
+  movement idioms (walk with shu footprints · slide · lift & place with shadow
+  separation), camera follow, and a persistent manual camera (scroll to zoom,
+  drag to pan). Click any zone seal — or anywhere — to send the piece
+  travelling (linear, constant speed; lands beside the seal, never behind it).
+  *Round-1 verdicts (2026-07-11): the 将棋 koma / 碁 go stone / 笠 pilgrim-hat
+  takes were REJECTED ("not the fit"; builds recoverable at `73300fa1`), the
+  first miniature set was too samey ("the same robe with one piece of flare")
+  and too large vs the zone seals — this set answers both.*
 
 ### [`authored-depth-demo/`](authored-depth-demo) — Plan K (🧊 PARKED)
 
