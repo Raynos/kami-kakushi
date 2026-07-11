@@ -5667,7 +5667,8 @@ export function mount(
     //    seal (the real move_to). It repaints wholesale but DETERMINISTICALLY (seeded jitter), so
     //    it mounts behind the mapSignature guard: an idle tick repaints nothing (TST2). ──
     if (!mapRefs) {
-      mapPane.append(el('h2', undefined, 'The estate 地図'));
+      // No pane heading — the active "Map 地図" tab and the sheet's own 黒沢家領内絵図
+      // cartouche already title it (FB-373, TST1).
       // (a) the bordered you-are-here FLAVOR card (FB-102): the immersive current-node
       // description. FB-336 — it reads BELOW the sheet now (appended after nav): the map is
       // the tab's hero, the zone description is the scroll's second beat.
