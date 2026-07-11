@@ -59,6 +59,55 @@ the **R0 reward lines stay third-person** (the whole R0–R7 ladder is; the
 human's flag was the **Terms speech**), and the **cold open needs no re-lead**
 (already concrete-first — the burden is **Intro 1**).
 
+## Standing rulings for the solo run (human, 2026-07-12, before going AFK)
+
+The human front-loaded every decision that would otherwise have stalled the
+build overnight. These bind W1–W6 and **override any agent judgment call**.
+
+1. **W1's pick is made: take B, "Man to man."** Genemon sets the brush down and
+   leads with the arithmetic — six needed, five here, you are the sixth — and
+   says *"You will not be paid coin. Hear that now, because men hear it late and
+   grow angry."* His coldness becomes **candor**. Takes A (*the book speaks*)
+   and C (*minimum change*) stay DEV-only.
+2. **The standing pick rule is BEST READ WINS — not minimum-change.** When the
+   minimal repair clears the floor but a bolder take reads better, **the bolder
+   take ships.** The agent is licensed to change how T0 *sounds*, not merely how
+   it parses. (This is the human's explicit choice over the conservative option;
+   it is why W1 picked B over C.) The conservative take is still authored every
+   wave — it is the DEV-only floor and the rollback path, not the default.
+3. **W4 may RE-FRAME the intro choice; mechanics stay byte-identical.** The
+   three option ids, the stat deltas (`+int −spd` / `+spd −int` / `+str −luck`)
+   and the perk grants (The Inward Turn / The Clear Room / The Porter's Hands)
+   **do not move**. What may change is *what the player understands themselves to
+   be choosing* — the knot, the road, the load as **things**, not as items on an
+   abstract list. Zero engine change, zero balance change; this does **not**
+   breach the plan's "no engine changes" non-goal.
+4. **Run all six waves.**
+5. **One HR-item per wave** (the ADR-139 default — the human chose granularity
+   over a single mega-bundle, so W1 can be accepted while W4 is rejected).
+6. **W5 interiority is SPARSE** — roughly **one** interior line per scene, and
+   only where the scene earns it; **many scenes carry none**. His blankness is
+   the character, not a deficit to fill. The bounds from ADR-185 D3 still bind
+   absolutely: never memory; things, counts and withheld actions, never
+   adjectives about feelings.
+7. **W6 has no protected zones — but no silent edits.** Anything failing the
+   paraphrase test gets repaired, *including* the U9 ambient pool and the season
+   turns. **Every** line touched inside that already-good calibration set is
+   listed explicitly in the wave's HR-item, so the human sees exactly what was
+   second-guessed.
+8. **The R0 reward lines get their own item — as a LEGIBILITY problem, not a
+   prose one.** The coldness is kernel #3 and is the R7 payoff, so it **stays**;
+   what fails is that the player cannot tell the line *is* the reward, or that
+   anything advanced (TST4 — the player never guesses state). It may well turn
+   out to be UI, not text. It is **investigated and filed as its own item**, and
+   is explicitly **NOT** smuggled into a re-voice wave.
+
+**Agent defaults taken without asking** (reversible; flagged for override):
+the W3 collision renames go **mon**(紋) → *"crest"* in prose and **board**(the
+count board) → *"tally"*; **HR-28** (the three intro card titles) stays a
+separate item unless W4's reframe changes what the cards should be called, in
+which case it folds into W4's bundle.
+
 ## Who builds this — Fable or Opus?
 
 *Revised 2026-07-12 (Fable at its weekly cap; the canon judgment was the

@@ -87,3 +87,49 @@ plan re-ranked to W1–W6 and flipped to 🔧 LOCKED.
 (*plain-and-warm* / *plain-and-dry* / *minimum-change*) → blind paraphrase pass
 → scorecard Pass 2 per take → pick + redlines → `takes/` bundle on the DEV
 story switcher → HR item. The human's acceptance test is playing R0→R1 live.
+
+---
+
+## Addendum — the human front-loaded the whole run before going AFK
+
+The human asked, correctly, whether I was "just running the plan" — and then did
+the right thing instead: **front-loaded every decision that would have stalled a
+solo overnight build.** I audited the plan for vagueness (8 gaps) and put them
+all up at once. The rulings are now in the plan's **"Standing rulings for the
+solo run"** block; the load-bearing ones:
+
+- **W1's pick is made: take B, "Man to man."** Genemon sets the brush down and
+  leads with the arithmetic; his coldness becomes candor.
+- **BEST READ WINS** is the standing rule — explicitly *not* minimum-change. The
+  agent is licensed to change how T0 **sounds**, not merely how it parses. The
+  conservative take is still authored each wave, as the DEV-only floor and the
+  rollback path.
+- **W4 may re-frame the intro choice** with the mechanics byte-identical (ids,
+  stat deltas, perks untouched) — so the game's first choice can stop being a
+  pick among three abstractions.
+- **All six waves**, one HR-item each.
+- **Interiority stays sparse** (~1 per scene, often none — his blankness IS the
+  character).
+- **The sweep has no protected zones but no silent edits** — the U9 pool may be
+  repaired, and every line touched in it is named in the HR-item.
+- **The R0 reward lines get their own item, as a LEGIBILITY problem** (TST4), not
+  a prose one — the coldness is kernel #3 and stays.
+
+## BLOCKER found immediately after — w3 holds the narrative sources
+
+Before writing a single line I checked the tree: **`w3` (zone-rung-rebalance) has
+`rung-beats.md` AND `scenes.md` dirty**, and is editing **the exact R1 beat W1
+re-voices** — cutting `room-gate`/`room-woodshed`/`room-kitchen` from R1's
+`motivates:` and stripping the meals-and-woodshed line from the Terms speech to
+match.
+
+This is a **content dependency, not just a merge conflict**: take B promises *"you
+eat at the threshold… you sleep in the corner of the woodshed"*, and if R1 no
+longer unlocks those rooms, that prose is a story promise the game stops keeping
+(taste P10). **W1 must be authored against w3's NEW motivates list, not the old
+one.** I did not touch the file.
+
+Blocked by w3's WIP: **W1, W2, W3, W5, W6** (rung-beats.md + scenes.md).
+Clear: **W4** (`intro.md`, `cold-open.md`).
+
+**Re-ordered the run: W4 first**, then the rest as w3 lands. w3 notified.
