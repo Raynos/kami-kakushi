@@ -19,7 +19,7 @@ import {
   QUESTS,
   SURFACE_IDS,
   DISCOVERIES,
-  DIALOGUE_IDS,
+  DIALOGUES,
   SCENES,
   MARKET_ITEM_IDS,
   BELONGING_IDS,
@@ -45,6 +45,16 @@ export interface OrphanReport {
 function liveQuestStepIds(): ReadonlySet<string> {
   const ids = new Set<string>();
   for (const q of QUESTS) for (const step of q.steps) ids.add(step.id);
+  return ids;
+}
+
+/** Every authored dialogue LINE id. `deliveredDialogue` stores LINE ids (`gen-rake`), NOT the
+ *  dialogue's own id (`genemon-open`) — diffing it against DIALOGUE_IDS reported every delivered
+ *  line as an orphan, i.e. the sensor cried wolf on a perfectly clean save. A sensor with false
+ *  positives is worse than no sensor: it teaches everyone to ignore it. */
+function liveDialogueLineIds(): ReadonlySet<string> {
+  const ids = new Set<string>();
+  for (const d of DIALOGUES) for (const line of d.lines) ids.add(line.id);
   return ids;
 }
 
@@ -79,7 +89,12 @@ export function findOrphanedIds(state: GameState): OrphanReport {
     new Set(DISCOVERIES.map((d) => d.id)),
     'a found secret reverts to un-found',
   );
-  add('deliveredDialogue', state.deliveredDialogue, DIALOGUE_IDS, 'a delivered line may repeat');
+  add(
+    'deliveredDialogue',
+    state.deliveredDialogue,
+    liveDialogueLineIds(),
+    'a delivered line may repeat',
+  );
   add(
     'scenesPlayed',
     state.scenesPlayed,

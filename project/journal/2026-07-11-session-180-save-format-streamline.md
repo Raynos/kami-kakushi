@@ -332,10 +332,8 @@ Re-checked live: the panel now reads **"No orphaned ids — this save matches sr
 live proof of BOTH states, which is what makes the sensor trustworthy — it displayed the orphan
 table AND badged the tab `Settings (5⚠)` when orphans existed, and goes silent when they don't.
 
-**Status:** the fix (`src/persistence/orphans.ts` + its test) is **NOT yet committed** — the shared
-tree's code lane is red on a co-agent's in-flight fixture regen (their core changes staled
-`rung-R2/3/4`), and regenerating would bake their WIP into my commit. Committing it the moment
-their regen lands.
+**Status:** ✅ committed once the co-agent's fixture regen landed and the shared tree went green
+(I waited rather than regenerate their WIP into my commit).
 
 ## Next intended steps
 

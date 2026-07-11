@@ -3,7 +3,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { findOrphanedIds, formatOrphanReport } from './orphans';
-import { createInitialState, QUESTS, SURFACES } from '../core';
+import { createInitialState, QUESTS, SURFACES, DIALOGUES } from '../core';
 import type { GameState } from '../core';
 
 const base = (over: Partial<GameState> = {}): GameState => ({ ...createInitialState(1), ...over });
@@ -55,6 +55,23 @@ describe('findOrphanedIds — the save-vs-src/ id diff (step 4)', () => {
       }),
     );
     expect(report.total).toBe(0);
+  });
+
+  it('a REAL delivered dialogue line is not an orphan (the cry-wolf RED)', () => {
+    // deliveredDialogue stores LINE ids ('gen-rake'), not the dialogue's own id
+    // ('genemon-open'). Diffing against DIALOGUE_IDS flagged EVERY delivered line as orphaned —
+    // the live DEV panel reported "5 orphaned id(s)" on a clean fixture. The unit tests missed it
+    // because they only ever used an EMPTY deliveredDialogue. This is that bug's RED.
+    const line = DIALOGUES[0]!.lines[0]!;
+    const report = findOrphanedIds(base({ deliveredDialogue: [line.id] }));
+    expect(report.groups.find((g) => g.kind === 'deliveredDialogue')).toBeUndefined();
+    expect(report.total).toBe(0);
+  });
+
+  it('but a dialogue line src/ HAS renamed is still caught', () => {
+    const report = findOrphanedIds(base({ deliveredDialogue: ['a-line-we-renamed'] }));
+    expect(report.groups[0]!.kind).toBe('deliveredDialogue');
+    expect(report.groups[0]!.ids).toEqual(['a-line-we-renamed']);
   });
 
   it('groups several orphans across kinds and totals them', () => {
