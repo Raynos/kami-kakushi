@@ -1,16 +1,10 @@
 # Rewrite the PRD's rung-meter prose to the ADR-137 requirements model
 
-**Status:** 🔧 IN PROGRESS (2026-07-11, session-180) — **rescoped by ADR-182**.
-**Doc sweep DONE** (`33a524ae` six PRD sections · `b7565615` roadmap + t1/t2
-content · pushed, full-verify green). **Remaining: the code lane** — ~6 stale
-comments that describe the dead model as live (`intents.ts:458` claims the
-promotion guard is "meter + storyGate" when the code calls `promotionReady()`
-alone; `activities.ts:4`; `telemetry/milestones.ts:32`; `playcheck.ts:67`;
-`rung-beats.test.ts:133`; `render.ts:1545`; and `sim/pacing-envelope.test.ts:5`
-names `RUNG_METER_THRESHOLDS`, a constant that no longer exists) **+ the step-4
-`prd-drift.ts` RETIRED teeth**. BLOCKED on a clean tree: co-agents currently hold
-`intents.ts` and `render.ts`, and a code-lane commit runs `verify` against their
-in-flight WIP. Pick up when the tree settles.
+**Status:** ✅ DONE (2026-07-11, session-180) — **rescoped mid-flight by ADR-182**.
+Landed: `6e9fa877` ADR-182 · `33a524ae` six PRD sections · `b7565615` roadmap +
+t1/t2 content · `abcce5c3` code comments + the `prd-drift` RETIRED teeth (proven
+RED-able) · `45ab45e2` ADR-183 (the HD-39 both-tracks ruling this sweep surfaced).
+All pushed, full 18-gate verify green.
 **Confidence:** ( 90% Opus, 10% Fable ) — the judgment this plan reserved for
 Fable (per-hit frontier-vs-shipped classification) was **ruled by the human**
 (ADR-182): the requirements model is the progression model at EVERY tier, so

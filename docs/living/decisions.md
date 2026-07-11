@@ -3374,7 +3374,7 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   retires the dead vocabulary (`rungMeter`, `thresholdForRung`, AND-gate,
   `RUNG_POINTS_PER_ACT`) — sound now that no frontier prose survives for it to cry
   wolf on (AC-11); the bare phrase "rung meter" stays legal.
-- **Plan:** [`docs/plans/fable-2026-07-11-prd-rungmeter-textsync.md`](../plans/fable-2026-07-11-prd-rungmeter-textsync.md).
+- **Plan:** [`fable-2026-07-11-prd-rungmeter-textsync.md`](../../project/archive/fable-2026-07-11-prd-rungmeter-textsync.md) (✅ done, archived).
 
 ### ADR-183 ✅ — T1+: every rung's requirement list must span BOTH tracks (HD-39)
 

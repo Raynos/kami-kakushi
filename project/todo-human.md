@@ -26,7 +26,6 @@
   the zone→rung re-mapping ("too many zones in R1"): purpose audit table +
   proposed moves (gate→R2, kitchen→R2, woodshed→R4 with the home); Phase 0
   is your sign-off.
-- [ ] [`docs/plans/fable-2026-07-11-prd-rungmeter-textsync.md`](../docs/plans/fable-2026-07-11-prd-rungmeter-textsync.md) —
   the plan you asked for covering what remains after the session-179 PRD
   ripple: sweep the ~90 stale rung-meter/AND-gate lines in §1–§7 to the
   ADR-137 requirements model, keeping T1+ frontier prose. Agent-safe to
