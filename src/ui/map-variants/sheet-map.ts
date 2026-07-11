@@ -17,6 +17,7 @@ import { getNode, MAP_NODES } from '../../core';
 import type { GameState, Intent } from '../../core';
 import { rng, sv, tip } from '../map-sheets/brush';
 import { ANCHORS, T0_WINDOW } from '../map-sheets/layout';
+import { paintReveal, REVEAL } from '../map-sheets/reveal';
 import { paintT0Ground } from '../map-sheets/t0-sheet';
 import { fogFrontier, wireGated, wireTravel, type MapCtx } from './shared';
 
@@ -30,6 +31,10 @@ let mapMaxed = false;
  *  once; renderMapSheet repoints it at each rebuild) calls through this. */
 const exitMaxRef: { current: (() => void) | null } = { current: null };
 let escWired = false;
+/** FB-370 — the live sheet's height-cap re-measure, repointed each rebuild (one window
+ *  resize listener, same install-once pattern as Esc). */
+const capRef: { current: (() => void) | null } = { current: null };
+let capWired = false;
 
 // ── FB-340 (HR-26) — travel presence: footsteps + follow (the human-picked idiom). When a
 //    move_to action STARTS, ink footprints stamp along the walked edge WHILE the sheet pans
@@ -169,6 +174,8 @@ const CSS = `
     stroke:var(--gold-hi); stroke-width:3; }
   .sheetmap-fog { font-family:var(--font-head); font-size:34px; fill:var(--ink-faint); }
   .sheetmap-gate-why { font-family:var(--font-body); font-size:22px; fill:var(--ink-faint); }
+  /* the reveal layer's ghost chips (未) ride paintReveal's shared class (FB-374) */
+  .sheetmap-wrap .t0v2-kanji { font-family:var(--font-head); font-size:30px; fill:var(--ink); }
 `;
 
 /** Render the live estate map into `container` (the `.map-nav` host render.ts owns).
@@ -179,7 +186,6 @@ export function renderMapSheet(
   state: GameState,
   dispatch: (intent: Intent) => void,
 ): void {
-  void state;
   void dispatch; // movement flows through ctx.move (the real move_to)
   const style = document.createElement('style');
   style.textContent = CSS;
@@ -190,11 +196,20 @@ export function renderMapSheet(
     role: 'img',
     'aria-label': 'The estate survey plan — walk by tapping a zone seal',
     preserveAspectRatio: 'xMidYMid meet',
-  });
+  }) as SVGSVGElement;
   const art = sv('g');
   const seals = sv('g');
-  svg.append(art, seals);
+  svg.append(sv('defs'), art, seals);
   paintT0Ground(art, T0_WINDOW);
+
+  // ── FB-374 — the ADR-151 fog of war, LIVE: unsurveyed paper masks the ground art at
+  //    the nearest REVEAL stage at-or-below the player's rung (the same sparse-stage
+  //    lookup the DEV previewer uses; placeholder geography, human-approved to ship).
+  //    Seal gating stays core-`revealed`-driven — the fog only stops the DRAWING.
+  const rungN = Number(state.rung.slice(1)) || 0;
+  const fogStages = REVEAL.filter((s) => s.rung <= rungN);
+  const revealStage = fogStages.length > 0 ? fogStages[fogStages.length - 1]! : null;
+  paintReveal(svg, art, seals, revealStage);
 
   // the title cartouche (top-right of the window) — the survey's name.
   const cart = sv(
@@ -231,7 +246,27 @@ export function renderMapSheet(
       (g as unknown as HTMLElement).setAttribute('aria-disabled', 'true');
       continue;
     }
-    if (!isSurveyed(node.id, revealed)) continue;
+    if (!isSurveyed(node.id, revealed)) {
+      // FB-376 (adjacent) — you can stand on unsurveyed ground (the cold open wakes you at
+      // the kura before it's surveyed): your POSITION is always known to you (TST4), so the
+      // here-ring draws even where the survey hasn't — just the ring, never the zone's seal
+      // or name (reveal-as-plot holds).
+      if (here) {
+        const ring = sv('circle', {
+          cx: String(a.x),
+          cy: String(a.y),
+          r: '92',
+          fill: 'none',
+          stroke: 'var(--shu)',
+          'stroke-width': '2',
+          opacity: '0.85',
+          class: 'sheetmap-here-ring',
+        });
+        tip(ring, 'You are here — unsurveyed ground');
+        seals.append(ring);
+      }
+      continue;
+    }
     const nb = isNeighbour(node.id);
     const gated = nb && !!node.dangerRing && !ctx.condOk;
     const walkable = nb && !gated && !here;
@@ -289,7 +324,40 @@ export function renderMapSheet(
   //    persisted mapView re-applies across the sig-guard rebuild; seal clicks stay
   //    live because the pointer is captured only once a REAL drag starts.
   const FR = T0_WINDOW;
-  const vb: { x: number; y: number; w: number; h: number } = { ...(mapView ?? FR) };
+  // FB-374 — the DEFAULT framing opens on the surveyed ground (the reveal stage's known
+  // polygon, padded, stretched to the frame's aspect and always including where you stand),
+  // not the full-sheet fit: at early rungs the known world is small — open on IT. A
+  // user-chosen view (mapView) always wins (TST2); ⤢ fit still gives the whole sheet.
+  const defaultVb = (): { x: number; y: number; w: number; h: number } => {
+    if (!revealStage?.known) return { ...FR };
+    const hereA = ANCHORS[ctx.here];
+    const xs = revealStage.known.map((p) => p[0]).concat(hereA ? [hereA.x] : []);
+    const ys = revealStage.known.map((p) => p[1]).concat(hereA ? [hereA.y] : []);
+    const pad = 90;
+    let x = Math.min(...xs) - pad;
+    let y = Math.min(...ys) - pad;
+    let w = Math.max(...xs) - Math.min(...xs) + pad * 2;
+    let h = Math.max(...ys) - Math.min(...ys) + pad * 2;
+    const ar = FR.h / FR.w; // grow to the frame's aspect so clamping never distorts
+    if (h / w > ar) {
+      const nw = h / ar;
+      x -= (nw - w) / 2;
+      w = nw;
+    } else {
+      const nh = w * ar;
+      y -= (nh - h) / 2;
+      h = nh;
+    }
+    // the DEFAULT frame stays strictly on the sheet — aspect growth must not slide the
+    // view past the window edge onto beyond-the-frame world art (panning there is the
+    // player's own choice; opening there is a leak).
+    x = Math.min(Math.max(x, FR.x), FR.x + Math.max(0, FR.w - w));
+    y = Math.min(Math.max(y, FR.y), FR.y + Math.max(0, FR.h - h));
+    w = Math.min(w, FR.w);
+    h = Math.min(h, FR.h);
+    return { x, y, w, h };
+  };
+  const vb: { x: number; y: number; w: number; h: number } = { ...(mapView ?? defaultVb()) };
   const applyVb = (): void => {
     svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
     // the fine-detail register reveals past the zoom gate (map-spec L10)
@@ -448,6 +516,7 @@ export function renderMapSheet(
     mapMaxed = on;
     wrap.classList.toggle('sheetmap-max', on);
     fsBtn.textContent = on ? '⛶ exit' : '⛶ full';
+    capRef.current?.(); // maximize owns the height; the cap re-applies on exit (FB-370)
   };
   exitMaxRef.current = (): void => setMax(false);
   if (!escWired) {
@@ -464,6 +533,35 @@ export function renderMapSheet(
 
   container.append(style, wrap);
   wrap.append(svg, controls, hint);
+
+  // ── FB-370 — cap the sheet's CSS box to the VISIBLE pane. `width:100%; height:auto`
+  //    sized the svg from width alone (3:2 window aspect), so on a wide-short viewport
+  //    the sheet ran ~280px past the fold and the walkable seals sat below it; the ⤢ fit
+  //    button resets the viewBox, never the CSS box. The wrap is sized to the sheet's OWN
+  //    aspect at whichever of width/available-height binds — never letterboxed (an svg
+  //    paints beyond-viewBox art into letterbox bands, leaking unrevealed world ground).
+  //    Measured live (the chrome above the pane changes — FB-372 just retired the
+  //    titlebar), re-measured on window resize.
+  const cap = (): void => {
+    if (mapMaxed) {
+      wrap.style.width = '';
+      wrap.style.margin = '';
+      return;
+    }
+    const top = wrap.getBoundingClientRect().top;
+    const foot = document.querySelector('.appbar-footer')?.getBoundingClientRect().height ?? 0;
+    const availH = Math.max(240, Math.round(window.innerHeight - top - foot - 14));
+    const hostW = container.clientWidth || wrap.clientWidth || FR.w;
+    const w = Math.min(hostW, Math.round((availH * FR.w) / FR.h));
+    wrap.style.width = `${w}px`;
+    wrap.style.margin = '0 auto';
+  };
+  capRef.current = cap;
+  if (!capWired) {
+    capWired = true;
+    window.addEventListener('resize', () => capRef.current?.());
+  }
+  cap();
 
   // ── FB-340 (HR-26) — arm the travel-presence player for THIS sheet. render.ts fires it the
   //    instant a move_to action STARTS, so the footsteps + follow play DURING the move's
