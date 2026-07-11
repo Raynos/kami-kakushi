@@ -65,10 +65,10 @@ magic; no reset.
 - **Story picks (DEV → Story)** 🔲 — HR-18…HR-21 (overlays · discoveries ·
   judge lines · node reads) + **HR-27** (the works discovery chain, incl. the
   R2-silence note) + **HR-28** (the three intro scene heads, FB-362).
-- **DEV-variant picks (ADR-075)** 🔲 — home (HR-6) · bestiary (HR-5) · the
-  HR-2A–D bundle (market · influence · craft · quests). Picks → the agent
-  strips the alternates. *(HR-31 porter presence CONFIRMED 2026-07-11 —
-  rings deleted, travel ×2 + band [3, 25], piece on the kanji.)*
+- **DEV-variant picks (ADR-075)** 🔲 — home (HR-6) · bestiary (HR-5) · HR-2A–D
+  (market · influence · craft · quests) · works (HR-29) · estate (HR-30). Picks
+  → the agent strips the alternates. *(Resolved: HR-31 porter presence · HR-32
+  zone panel — D locked 2026-07-12, the banner ships, `zone` surface deleted.)*
 
 ## Toolchain
 
@@ -117,4 +117,4 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    the audited-worst-first T0 re-voice; audit: s176).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 6/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 7/20 · last full rewrite: 2026-07-11 -->
