@@ -211,6 +211,22 @@ if [ "${SKIP_QUEUE:-0}" != "1" ]; then
   fi
 fi
 
+# --- Plan-template gate (2026-07-11 plan audit — HARD BLOCK): a brand-NEW docs/plans/**/*.md
+#     must declare **Template:** build|process|ops and carry that class's mandatory sections,
+#     each non-trivially filled (canon: docs/guides/plan-authoring.md; checker:
+#     src/scripts/verify-plan-template.ts — it prints exactly which section to add). Fires on
+#     ADDED files only, so editing an active plan or archiving (git mv) a done one never trips
+#     it, and the historical corpus is grandfathered by construction. The grep guard keeps the
+#     tsx startup cost off every plan-less commit.
+#     Bypass (rare — a genuinely exempt doc):  SKIP_PLAN_TEMPLATE=1 git commit … ---
+if [ "${SKIP_PLAN_TEMPLATE:-0}" != "1" ]; then
+  if git diff --cached --name-only --diff-filter=A | grep -qE '^docs/plans/.+\.md$'; then
+    if ! pnpm exec tsx src/scripts/verify-plan-template.ts --staged >&2; then
+      exit 1
+    fi
+  fi
+fi
+
 # --- Human-TODO ownership gate (human, 2026-07-06 — HARD BLOCK): the '## TODO' section of
 #     project/todo-human.md is the HUMAN's list — tasks only they can do, authored by them.
 #     An agent surfacing a finding/question files it in project/human-in-the-loop/
