@@ -38,3 +38,13 @@ This text is not hidden under fog of war, no reason to make it visible, just fog
 **Details:** `mapsheet/2026-07-11T09-29-37.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-380 · 2026-07-11T09:29:55+0200 — dont-preview-things-under
+
+Dont preview things under fog of war, the ruined compound, fully hidden under fog of war
+
+**Element:** map node "ruined" · `g[data-node=ruined] > rect:nth-of-type(2)` · @799,221 81×49
+**Screenshot:** `mapsheet/2026-07-11T09-29-55.png`
+**Details:** `mapsheet/2026-07-11T09-29-55.json` — save + recent logs + full context
+
+---
