@@ -484,7 +484,10 @@ h3 {
 /* header / vitals */
 .vitals {
   display: flex;
-  align-items: baseline;
+  /* FB-404/FB-405 — the strip centers its children: the FB-387 bar-stack and the
+     house-mark must sit mid-strip like the rung element (baseline was meaningless
+     once the stack hid its numerals). */
+  align-items: center;
   /* F73 — the vitals bar is dense HUD chrome: tighter inter-stat gap + slimmer padding (was
      --space-6 gap / --space-3·--space-6 padding) pull the resource/stat row into a compact strip. */
   gap: var(--space-4);
