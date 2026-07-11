@@ -3308,3 +3308,23 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   + v1 deletion. The prototype (porter ⭐) stays as the verdict record. A
   future map-piece idea (NPC pieces, caravan pieces) extends the same
   piece-on-sheet idiom, not a new marker primitive.
+
+### ADR-181 ✅ — The promotion beat can relocate you: `RankDef.arriveAt` (FB-388)
+
+- **created_date:** 2026-07-11
+- **Context:** Completing the R0→R1 rung-up VN left the player standing inside
+  the kura, walking out to the forecourt by hand — the beat's fiction ("the
+  terms are set where the day's work is set out") had already moved the story
+  there, but not the piece. FB-388 (the human's own inbox capture) named the
+  gap.
+- **Decision:** A `RankDef` may declare an optional **`arriveAt`** map node;
+  `applyPromotion` (the sole rung-advance point) stands the player there,
+  ending any auto-grind exactly as `move_to` does. R1 declares `forecourt`.
+  The move is **fiction-caused** (TST3): a rank only declares `arriveAt` when
+  its beat's story physically takes you somewhere — it is never a convenience
+  teleport. Arrival is derived from the `RankDef`, never a literal in the
+  reducer (RED-able tests in `rung-beats.test.ts`; a rank without `arriveAt`
+  leaves you in place).
+- **Consequences:** Landed in `4bb513eb`; §6's `content/ranks.ts` catalogue
+  row documents the field. Future rungs (and T1+ ladders) reuse the same
+  declarative field rather than growing bespoke post-beat scripting.

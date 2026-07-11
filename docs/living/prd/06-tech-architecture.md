@@ -417,9 +417,11 @@ collapse into one bar.** Each writes to a *different* field, and **one kill** ma
 **The sequential per-tier phase gate.** Each tier is climbed in two phases, and the phase marker is
 **DERIVED from the current `rung`** — there is **no stored phase flag**:
 
-- **Phase 1 — climb the rungs.** The two rung-meters (`estateService` labour, `combatRank` martial) advance
-  on their **per-rung-RESET** thresholds; each promotion is the **AND-gate** (meter **≥** threshold **AND**
-  the rung's story flags). Pillar **DEEDS do NOT accrue** here.
+- **Phase 1 — climb the rungs.** Each promotion **readies** when the rung's authored hidden
+  **REQUIREMENT list** (`content/requirements.ts` — ADR-137; the old meter/threshold AND-gate is
+  deleted, the two-meter shape survives only as T1+ frontier) is **100% done**, then fires as the
+  player-triggered VN beat — which may **relocate** you (`RankDef.arriveAt`, FB-388: R1 stands you
+  at the forecourt where the terms are set). Pillar **DEEDS do NOT accrue** here.
 - **Phase 2 — grind the house up.** Reaching the tier's **final rung OPENS** the estate-influence / pillar
   grind; **now** `pillarDeltas` accrue (deeds + the seasonal judged result, up-only/new-high-water-mark).
   Clearing the **scaled grade-gate** (`gateProfile` — `1 EXC + 1 GRT + (N−2) GOOD`) is what
@@ -459,10 +461,10 @@ frontier modules — the shipped roster is the `src/core/content/` directory.)*
 | `content/quests.ts` | quests — an **UNORDERED SET of advance-events** (`advanceEvents: QuestEventId[]`, **no `step` cursor, no fixed order**), rewards (open-ended, non-waypoint). A quest moves `taken → active` when accepted, completes (`done`) once its required advance-events are all in `advancedBy` **in any order**, and can `abandon`/`fail`; the `advance_quest` intent (§6.3) folds one event into the set. **NO quest-type budget:** the PEST/HUNT/CLEAR/DEFEND taxonomy is the **T0 starting set**, not a cap — author as many quests as fit each stage, more/interesting ones welcome (esp. later tiers). | `QuestId` |
 | `content/scrolls.ts` | lore scrolls — in-game-time cost, the subsystem they unlock | `ScrollId` |
 | `content/surfaces.ts` | every panel / screen / tab / row / button — its **unlock predicate** + which screen it lives on (drives the UI-reveal engine and multi-screen nav). **Includes the About/Credits surface** (authorship, the commit-SHA build stamp, font/audio attributions, the license note). | `SurfaceId` |
-| `content/ranks.ts` | the **fresh rank ladder PER TIER** (T0/T1/T2 enumerated for v1) — rung, track (labour/combat/mixed), earn-condition, unlock. **Each rung carries its rung-meter threshold + the AND-gate (meter ≥ threshold AND story flags)** and references the per-rung **CURATED** activity set that feeds the meter. **Encodes the combat-reveal ladder** (starter weapon + auto-resolve + retreat → durability bands → stance → first weapon-L10 ability/item slots → 2nd line T1 / 3rd line T2). | `RankId` |
+| `content/ranks.ts` | the **fresh rank ladder PER TIER** (T0/T1/T2 enumerated for v1) — rung, track (labour/combat/mixed), unlock. **Each rung binds its authored hidden REQUIREMENT list** (`content/requirements.ts`, gen'd from `narrative/requirements.md` — FB-121/ADR-137; the old meter/threshold AND-gate is deleted) and may declare **`arriveAt`** — the node the promotion beat stands you at (FB-388/ADR-181; the fiction causes the move). **Encodes the combat-reveal ladder** (starter weapon + auto-resolve + retreat → durability bands → stance → first weapon-L10 ability/item slots → 2nd line T1 / 3rd line T2). | `RankId` |
 | `content/influence.ts` | the four pillars + the **per-pillar-per-tier good/great/excellent band triples** (not simple ratios; balanced against the fixed deed inventory; values cross-ref §4) + the **phase-2 deed gating** + the **cross-pillar combos** (a combo credits **BOTH paired pillars'** display `value`, computed post trade-clamp; it does **NOT** write either pillar's deed-only `gateEligibleValue` — so a combo can never satisfy a required gate band nor breach trade-≤⅓) | `PillarId` / `DeedId` |
 | `content/effects.ts` | buffs/injuries/status — magnitude, duration, stacking | `EffectId` |
-| `content/balance.ts` | shared curve/constant definitions — the *single* home for tunables; §4 sets the values. The set includes: **rung-meter thresholds**, the **good/great/excellent gate bands**, **per-skill perk magnitudes**, **durability bands** (75+/50+/1+/0 → 1.0/0.9/0.75/0.55), the **satiety throttle** (flat ≥~0.7 → ~0.5 floor), **weather ±10%**, the **combat-XP→level curve** + **`mobLevel` defaults** — **all integer-pow only (no `Math.pow`, §6.1)**. | (named) |
+| `content/balance.ts` | shared curve/constant definitions — the *single* home for tunables; §4 sets the values. The set includes: the **good/great/excellent gate bands**, **per-skill perk magnitudes**, **durability bands** (75+/50+/1+/0 → 1.0/0.9/0.75/0.55), the **satiety throttle** (flat ≥~0.7 → ~0.5 floor), **weather ±10%**, the **combat-XP→level curve** + **`mobLevel` defaults** — **all integer-pow only (no `Math.pow`, §6.1)**. | (named) |
 
 **Rewards are one shape everywhere.** Dialogue, **dialogue choices**, quests, gathering thresholds, and
 combat all grant the same `Rewards` object (`{ items?, xp?, resources?, unlocks?, areas?, recipes?, quests?,
