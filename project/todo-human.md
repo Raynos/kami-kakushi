@@ -26,6 +26,15 @@
   etc.). Goal: every plan follows one structured template, gated so it can't be
   skipped.
 
+- **Audit & review of the save-file format.** Review the persisted save schema
+  end-to-end — shape, versioning/migration, what's stored vs derived, forward-
+  compat and validation (`src/persistence/`). Surface risks and cleanups.
+
+- **Audit & review of the narrative.** Review how the cast speaks, how the
+  prose is written, whether it reads easily, and whether the register matches
+  the **14–21 target audience**. Cover voice consistency, readability, and tone
+  fit across the T0 narrative content.
+
 ## Reading queue
 
 - **Map viewer one-engine refactor plan** —
