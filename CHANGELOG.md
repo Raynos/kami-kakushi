@@ -12,6 +12,54 @@ in-game version is single-sourced from `package.json` (footer: `vX.Y.Z · build
 
 ## [Unreleased]
 
+## [0.4.1] — 2026-07-11
+
+Polish on the storywave. The estate map becomes a place you can move through,
+your body splits into the strength you spend and the hunger you carry, and a
+long wave of playtest notes is answered across the log, the clock, and the
+opening scenes.
+
+### Added
+
+- **A map you move through.** The estate map is live now — pan it, zoom it, fit
+  it to the pane or throw it full-width while the log folds away. A **fog of
+  war** lies over the ground you haven't walked and lifts as you go, a ring
+  marks where you stand, and a **porter** works the paths while your own
+  **footsteps** walk the route in real time as you travel.
+- **Work becomes commissions.** The house's projects are real undertakings now,
+  each with a site and a chain of discovery that reveals as the works progress.
+
+### Changed
+
+- **Your body is two things now.** The single meter splits into **Body (体)** —
+  the strength a day's labour spends and a fight can break — and **Belly (腹)**,
+  the hunger you carry, each its own bar. Eating and resting live together on a
+  Character Body card.
+- **The Zone tab (場).** The old Work tab is now the Zone: the day's actions and
+  the people you can speak to sit together in one place.
+- **The clock reads the year, not a counter.** It names the season and the day
+  of the week rather than showing raw numbers.
+- **The house reveals itself through the story.** New rooms — the kitchen, the
+  sickroom, the forecourt — are introduced by the fiction as you reach them
+  rather than appearing pre-known, and what's shown now follows from what's true
+  in the run.
+- **The cold open re-arcs** — the dream, the hut, and Genemon's arrival play as
+  three distinct acts.
+
+### Fixed
+
+- **The rice spill ends.** The forecourt holds a finite fifty rakes' worth —
+  clear it and the ground is clean, no endless raking.
+- **The story log reads clean.** VN lines speak once — no chat replay, no
+  jump-back when a scene ends — scene cards stay whole, the "new" divider holds
+  its place for a reader who's scrolled up, and the promotion kicker sits above
+  the Rung-up button where you'll see it.
+- **The vitals read at a glance.** Body and belly stack as labelled one-line
+  bars in the header; the titlebar retires and the house name and version move
+  to the footer.
+- **Every action button now carries a cost/effect title**, and a disabled verb
+  no longer lifts on hover as though you could press it.
+
 ## [0.4.0] — 2026-07-09
 
 The storywave release. The whole of the opening tier is rebuilt on the story
