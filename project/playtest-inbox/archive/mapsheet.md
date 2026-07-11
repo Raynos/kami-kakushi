@@ -44,3 +44,33 @@ When tryign to navigate the map it appears that woodshed is reachable but its no
 **Details:** `mapsheet/2026-07-10T18-44-54.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-370 · 2026-07-10T23:14:39+0200 — nice-try-lol-now
+
+Nice try lol, now the map is too big here, Like it still needs to fit in the view pan.
+
+**Element:** panel "do" — "What you can doRest a moment🏮 Post the night watch 夜廻No wor" · `section[data-panel=do]` · @125,115 1332×1002
+**Screenshot:** `mapsheet/2026-07-10T23-14-39.png`
+**Details:** `mapsheet/2026-07-10T23-14-39.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-375 · 2026-07-10T23:17:16+0200 — why-is-weir-rendered
+
+Why is weir rendered here in R1 theres only three zones
+
+**Element:** panel "do" · `svg > g:nth-of-type(2) > g:nth-of-type(1) > rect:nth-of-type(2)` · @217,422 68×41
+**Screenshot:** `mapsheet/2026-07-10T23-17-16.png`
+**Details:** `mapsheet/2026-07-10T23-17-16.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-376 · 2026-07-10T23:17:30+0200 — why-is-soans-sickroom
+
+Why is soans sickroom rendered here theres onl 3 zones available in R1
+
+**Element:** panel "do" · `svg > g:nth-of-type(2) > g:nth-of-type(2) > rect:nth-of-type(2)` · @916,538 68×41
+**Screenshot:** `mapsheet/2026-07-10T23-17-30.png`
+**Details:** `mapsheet/2026-07-10T23-17-30.json` — save + recent logs + full context
+
+---

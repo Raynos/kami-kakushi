@@ -350,3 +350,23 @@ Canon: `narrative/scenes.md` + `narrative/flavor.md` (continuous read:
     boots straight into take A — the ladder label flips to "Close the oldest
     lines"). U2–U4 beats: `toRung('R5'/'R6'/'R7')` with the prior stage built.
   - **Verdict:** _(awaiting your read)_
+
+### HR-28 🔲 [cold open · story] — the three intro scene heads (FB-362, ADR-139)
+
+The cold open now splits into one 幕 card per VN scene (FB-362, `cd10b315`);
+the three scene heads are new fiction-voiced text, diverged per ADR-139
+(bundle `fb362-intro-titles`, 3 blind takes):
+
+- **Pick: TAKE B "taken · unnamed · entered"** (20✔0✘1—) — dream = **what the
+  water takes** · sickroom = **no name to give** · ledger = **entered in the
+  book**. Each head names its act's literal on-screen event; the ledger head
+  points at the day-book entry the R7 name-writing pays off.
+- Alternates: A "the ground it happens on" (19✔1✘ — place-anchored; ✘ "the
+  book room" names a place the game doesn't have), C "the counted week"
+  (19✔1~ — time-anchored; two clock-shaped heads blur).
+
+  - **How to look LIVE:** new game → play the cold open — the Story view now
+    shows three cards with take B's heads. DEV → Story → **fb362-intro-titles**
+    swaps takes live; `?story-fb362-intro-titles=a|c` boots into an alternate.
+    Old saves keep their baked single "— the cold open —" card (TST2).
+  - **Verdict:** _(awaiting your read)_
