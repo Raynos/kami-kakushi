@@ -43,12 +43,6 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
-- [`docs/plans/fable-2026-07-11-save-format-streamline.md`](../docs/plans/fable-2026-07-11-save-format-streamline.md)
-  — the save-format audit + streamline plan (your "audit the save-file format"
-  TODO, done 2026-07-11): verdict, 5 findings (the log is ~90% of a save and
-  mostly stale-able prose), and the steps to make `src/` the only truth on
-  load. Companion format doc: `src/persistence/README.md`.
-
 - [`docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`](../docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md)
   — the ready-to-build plan for T2 (Valley) map rungs + fog (you greenlit it
   2026-07-09; mechanics-only, no pin/HR). Skim before/whenever I build it.
