@@ -98,3 +98,13 @@ The bottom and right and outskirts of the map beyond the lines of the house/esta
 **Details:** `mapsheet/2026-07-11T09-31-20.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-386 · 2026-07-11T09:31:38+0200 — with-the-map-moved
+
+With the map moved to kind of pin or fit to the top left; we can move this zone description text to the right hand remaining panel floating next to the map.
+
+**Element:** panel "do" — "You stand at the home paddy & vegetable rows 田The guest hous" · `section[data-panel=do] > div:nth-of-type(8) > div:nth-of-type(2)` · @148,590 1298×107
+**Screenshot:** `mapsheet/2026-07-11T09-31-38.png`
+**Details:** `mapsheet/2026-07-11T09-31-38.json` — save + recent logs + full context
+
+---
