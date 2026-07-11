@@ -66,6 +66,20 @@ function validateInfluence(v: unknown): GameState['influence'] {
   return { estate: pillar(o.estate) };
 }
 
+/** Hydrate the production pools PER KEY against the live site roster (save-format plan, step 3).
+ *  A stored pool wins (a drawn-down site stays drawn; a 0 stays worked-out — depletion is a FACT);
+ *  a site the save has never heard of is born FULL for the season, never dead-by-omission. A
+ *  non-numeric stored value is junk, not a fact, and falls back to the fresh refill. */
+function hydrateSitePools(stored: unknown, season: Season): GameState['sitePools'] {
+  const pools: Record<string, number> = refillSitePools(season);
+  if (isObject(stored)) {
+    for (const [site, value] of Object.entries(stored)) {
+      if (typeof value === 'number' && Number.isFinite(value)) pools[site] = Math.max(0, value);
+    }
+  }
+  return pools as GameState['sitePools'];
+}
+
 /** Validate a candidate envelope; returns the (possibly coerced/migrated) GameState or a reject reason. */
 export function validateEnvelope(raw: unknown, opts?: { migrate?: MigrateFn }): ValidateResult {
   if (!isObject(raw)) return { ok: false, reason: 'not-an-object' };
@@ -279,11 +293,14 @@ export function validateState(rawState: unknown): ValidateResult {
     // additive (batch-2 call 7): the kura storehouse. Absent in any pre-bank save → empty (all
     // wealth carried), which is the correct fresh-bank default.
     banked: isObject(base.banked) ? (base.banked as GameState['banked']) : { rice: 0 },
-    // ── the measured-kura production pools (v10, ADR-163 / G4.5). Absent/malformed → refilled for
-    // the resolved season (the correct fresh default). ──
-    sitePools: isObject(base.sitePools)
-      ? (base.sitePools as GameState['sitePools'])
-      : refillSitePools(resolvedSeason),
+    // ── the measured-kura production pools (v10, ADR-163 / G4.5) ──────────────────────────
+    // Hydrated PER KEY, not all-or-nothing: readers do `sitePools[site] ?? 0`, so a key that is
+    // merely MISSING reads as a worked-out site (yield 0). A site added or renamed in src/
+    // mid-generation was therefore born DEAD until the next season refill — stale-by-omission,
+    // the exact "the save out-votes src/" failure this plan exists to remove. A missing key now
+    // hydrates from refillSitePools(season) — born full. A PRESENT key always wins, so a
+    // drawn-down pool stays drawn and a 0 stays 0 (a depleted site is a fact, not a hole).
+    sitePools: hydrateSitePools(base.sitePools, resolvedSeason),
     // MON lane wage accrual (v10, additive). Absent/malformed → not yet waged (0 / -1).
     wageDaysAccrued:
       typeof base.wageDaysAccrued === 'number' ? Math.max(0, Math.floor(base.wageDaysAccrued)) : 0,

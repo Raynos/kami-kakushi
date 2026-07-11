@@ -5,7 +5,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { validateState } from './validate';
-import { createInitialState, getWeapon } from '../core';
+import { createInitialState, getWeapon, refillSitePools, LABOUR_SITES } from '../core';
 
 /** A structurally-valid raw save blob, with `over` merged over it. */
 function rawSave(over: Record<string, unknown> = {}): Record<string, unknown> {
@@ -50,5 +50,43 @@ describe('the equipped weapon + its wear derive from the CURRENT weapon def (ste
     const res = loaded({ equippedWeapon: 'carrying_pole', weaponDurability: worn });
     expect(res.state.weaponDurability).toBe(worn);
     expect(res.coerced).toBe(false);
+  });
+});
+
+describe('sitePools: a MISSING key is a fresh site, not a depleted one (step 3)', () => {
+  const season = 'winter' as const;
+
+  it('a site absent from the save is born FULL, not worked-out', () => {
+    // The bug: `state.sitePools[site] ?? 0` reads a missing key as yield-0. A site added or
+    // renamed in src/ mid-run therefore showed as depleted until the next season refill.
+    const fresh = refillSitePools(season);
+    const someSite = LABOUR_SITES[0]!.site;
+    const withHole = { ...fresh };
+    delete (withHole as Record<string, number>)[someSite];
+
+    const res = loaded({ season, sitePools: withHole });
+    expect(res.state.sitePools[someSite]).toBe(fresh[someSite]);
+    expect(res.state.sitePools[someSite]).toBeGreaterThan(0);
+  });
+
+  it('a PRESENT drawn-down pool wins over the refill (progress is never handed back)', () => {
+    const fresh = refillSitePools(season);
+    const someSite = LABOUR_SITES[0]!.site;
+    const res = loaded({ season, sitePools: { ...fresh, [someSite]: 1 } });
+    expect(res.state.sitePools[someSite]).toBe(1);
+  });
+
+  it('a DEPLETED (zero) pool stays depleted — 0 is a fact, not a hole', () => {
+    const fresh = refillSitePools(season);
+    const someSite = LABOUR_SITES[0]!.site;
+    const res = loaded({ season, sitePools: { ...fresh, [someSite]: 0 } });
+    expect(res.state.sitePools[someSite]).toBe(0);
+  });
+
+  it('every live site has a pool after load, whatever the save carried', () => {
+    const res = loaded({ season, sitePools: {} });
+    for (const { site } of LABOUR_SITES) {
+      expect(res.state.sitePools[site]).toBeDefined();
+    }
   });
 });

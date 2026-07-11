@@ -66,9 +66,27 @@ caught the bug it was guarding (the ADR-086 rule, applied to itself).
 - `src/persistence/README.md` — a "clamp it to the registry on load" rule: a
   stored id is only as good as the registry it points at.
 
+### 3 · Step 3 — a missing sitePool is a FRESH site, not a depleted one
+
+Readers do `state.sitePools[site] ?? 0`, so a key that was merely *missing* read as
+a worked-out site (yield 0). A site added or renamed in `src/` mid-generation was
+therefore born **dead** until the next season refill — stale-by-omission, exactly
+the "the save out-votes `src/`" failure this plan exists to remove.
+
+`sitePools` now hydrates **per key** against the live roster: a stored pool always
+wins (drawn stays drawn; a `0` stays worked-out — depletion is a *fact*, not a
+hole), and a site the save has never heard of is born full for the season. Both
+failing cases were written and watched go RED before the fix.
+
+Known, accepted quirk (ruled): a site the player had depleted and that is then
+*renamed* in `src/` is reborn full under its new key.
+
+- `src/persistence/validate.ts` — `hydrateSitePools()`.
+- `src/persistence/validate.test.ts` — 4 cases incl. the two that went RED.
+
 ## Next intended steps
 
-Steps 3 → 2 → 4 → 1 of the plan, in that order. Step 1 is the bulk and ends with a
+Steps 2 → 4 → 1 of the plan, in that order. Step 1 is the bulk and ends with a
 single coordinated `pnpm run fixtures:regen`.
 
 ## Landmines
