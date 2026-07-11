@@ -32,8 +32,9 @@ together; inside, each prototype is one self-contained dir.
 
 ### [`map-token-presence/`](map-token-presence) — FB-340 / HR-26 follow-on
 
-Owner: [`docs/plans/fable-2026-07-11-map-porter-presence.md`](../../docs/plans/fable-2026-07-11-map-porter-presence.md)
-(the porter → live Map tab port, authored after the verdict below).
+Owner: [`project/archive/fable-2026-07-11-map-porter-presence.md`](../archive/fable-2026-07-11-map-porter-presence.md)
+(the porter → live Map tab port, authored after the verdict below; DONE —
+HR-31 confirmed 2026-07-11, plan archived).
 
 Born 2026-07-11 from the human's direct ask: replace the flat shu marks (square /
 circle / footsteps) with a **physical piece sitting on the survey sheet** — "a

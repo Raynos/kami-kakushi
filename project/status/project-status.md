@@ -66,9 +66,9 @@ magic; no reset.
   judge lines · node reads) + **HR-27** (the works discovery chain, incl. the
   R2-silence note) + **HR-28** (the three intro scene heads, FB-362).
 - **DEV-variant picks (ADR-075)** 🔲 — home (HR-6) · bestiary (HR-5) · the
-  HR-2A–D bundle (market · influence · craft · quests) · **HR-31** porter map
-  presence LIVE (FB-340 v2, ADR-180 — walk gate ⇄ forecourt; confirm → v1
-  rings delete; supersedes HR-26). Picks → the agent strips the alternates.
+  HR-2A–D bundle (market · influence · craft · quests). Picks → the agent
+  strips the alternates. *(HR-31 porter presence CONFIRMED 2026-07-11 —
+  rings deleted, travel ×2 + band [3, 25], piece on the kanji.)*
 
 ## Toolchain
 
@@ -88,8 +88,9 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 
 - `src/core` — pure (rng, state, intents/reduce, step/tick, unlock/rewards/log,
   skills, ranks, combat, ascension, pillars, works, selectors, `content/*` incl.
-  `narrative/`, `scenes`, seasons) · `src/persistence` (save layer, SCHEMA 10,
-  clean-break) · `src/ui` (render.ts + dev.ts) · `src/app/main.ts` (root +
+  `narrative/`, `scenes`, seasons) · `src/persistence` (save layer, SCHEMA 11
+  — ADR-179 derived reveal; clean-break at v10) · `src/ui` (render.ts +
+  dev.ts) · `src/app/main.ts` (root +
   `window.__qa`) · `src/scripts/*`. ADR ledger: `docs/living/decisions.md`.
 - **3 top-level dirs:** `docs/` (truth) · `project/` (process) · `src/` (code).
 
@@ -97,7 +98,7 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-11-session-173-derived-reveal-plan.md`](../journal/2026-07-11-session-173-derived-reveal-plan.md)
+   [`journal/2026-07-11-session-176-t0-narrative-register-audit.md`](../journal/2026-07-11-session-176-t0-narrative-register-audit.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev server on
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true
@@ -112,4 +113,4 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    Human-gated: HR-1 + the story/variant picks above.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 3/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 4/20 · last full rewrite: 2026-07-11 -->

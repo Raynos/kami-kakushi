@@ -1,8 +1,8 @@
 # Map travel presence — the porter piece (FB-340 v2, closes HR-26)
 
-**Status:** ▶️ in progress (this Fable session; human-picked 2026-07-11:
-porter sculpt, walk + footprints idiom, from the `map-token-presence`
-prototype rounds)
+**Status:** DONE ✅ (landed b3ecef58; HR-31 CONFIRMED in-session 2026-07-11 —
+v1 rings + toggle deleted, travel ×2 with the band re-signed [3, 25], the
+piece re-anchored ON the kanji, arrival afterglow + preserved facing)
 **Confidence:** ( 60% Opus, 40% Fable )
 
 **Human decisions (AskUserQuestion, 2026-07-11):** arrival is the porter
