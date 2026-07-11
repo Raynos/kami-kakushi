@@ -74,3 +74,103 @@ Why is soans sickroom rendered here theres onl 3 zones available in R1
 **Details:** `mapsheet/2026-07-10T23-17-30.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-377 · 2026-07-11T09:28:41+0200 — place-the-actual-map
+
+Place the actual map to the left, add a bit more padding / margin at the bottom of the screen, but anchor the map closer to the top of the box, with a bit less padding / margin at the top.
+
+**Element:** panel "do" — ".sheetmap-wrap { width:100%; position:relative; overflow:hid" · `section[data-panel=do] > div:nth-of-type(8) > div:nth-of-type(1)` · @148,70 1298×632
+**Screenshot:** `mapsheet/2026-07-11T09-28-41.png`
+**Details:** `mapsheet/2026-07-11T09-28-41.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-378 · 2026-07-11T09:29:14+0200 — the-fog-of-war
+
+The fog of war is partially implemented, it does not include the actual foreset.
+
+**Element:** panel "do" · `div > svg > g:nth-of-type(1) > path:nth-of-type(1)` · @61,118 1168×593
+**Screenshot:** `mapsheet/2026-07-11T09-29-14.png`
+**Details:** `mapsheet/2026-07-11T09-29-14.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-379 · 2026-07-11T09:29:37+0200 — this-text-is-not
+
+This text is not hidden under fog of war, no reason to make it visible, just fog of war it.
+
+**Element:** panel "do" · `g:nth-of-type(1) > g:nth-of-type(330) > g:nth-of-type(4) > path:nth-of-type(1)` · @875,294 111×326
+**Screenshot:** `mapsheet/2026-07-11T09-29-37.png`
+**Details:** `mapsheet/2026-07-11T09-29-37.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-380 · 2026-07-11T09:29:55+0200 — dont-preview-things-under
+
+Dont preview things under fog of war, the ruined compound, fully hidden under fog of war
+
+**Element:** map node "ruined" · `g[data-node=ruined] > rect:nth-of-type(2)` · @799,221 81×49
+**Screenshot:** `mapsheet/2026-07-11T09-29-55.png`
+**Details:** `mapsheet/2026-07-11T09-29-55.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-381 · 2026-07-11T09:30:14+0200 — i-still-ahve-no
+
+I still ahve no idea why kitchen threshold is shown in R1 as an area you could walk to why is it not completely removed from the map to be revealed later ?
+
+**Element:** panel "do" · `svg > g:nth-of-type(3) > g:nth-of-type(4) > rect:nth-of-type(2)` · @681,207 80×48
+**Screenshot:** `mapsheet/2026-07-11T09-30-14.png`
+**Details:** `mapsheet/2026-07-11T09-30-14.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-382 · 2026-07-11T09:30:35+0200 — same-with-sick-room
+
+Same with sick room
+
+**Element:** panel "do" · `svg > g:nth-of-type(3) > g:nth-of-type(2) > rect:nth-of-type(2)` · @633,234 81×49
+**Screenshot:** `mapsheet/2026-07-11T09-30-35.png`
+**Details:** `mapsheet/2026-07-11T09-30-35.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-383 · 2026-07-11T09:30:40+0200 — the-r0-rung-up
+
+The R0 rung up only mentioned three zones, paddies, gate, forecourt, it didnt mention wood shed, these 4 zones make sense for R1 but they should be mentioned
+
+**Element:** panel "do" · `svg > g:nth-of-type(3) > g:nth-of-type(6) > rect:nth-of-type(2)` · @651,311 80×48
+**Screenshot:** `mapsheet/2026-07-11T09-30-40.png`
+**Details:** `mapsheet/2026-07-11T09-30-40.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-384 · 2026-07-11T09:31:07+0200 — if-home-paddies-is
+
+If home paddies is reachable it should not be in the fog of war.
+
+**Element:** panel "do" · `div > svg > g:nth-of-type(2) > path:nth-of-type(1)` · @-238,-345 1338×882
+**Screenshot:** `mapsheet/2026-07-11T09-31-07.png`
+**Details:** `mapsheet/2026-07-11T09-31-07.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-385 · 2026-07-11T09:31:20+0200 — the-bottom-and-right
+
+The bottom and right and outskirts of the map beyond the lines of the house/estate should also be fog of war
+
+**Element:** panel "do" · `div > svg > g:nth-of-type(1) > path:nth-of-type(1)` · @80,-5 1168×593
+**Screenshot:** `mapsheet/2026-07-11T09-31-20.png`
+**Details:** `mapsheet/2026-07-11T09-31-20.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-386 · 2026-07-11T09:31:38+0200 — with-the-map-moved
+
+With the map moved to kind of pin or fit to the top left; we can move this zone description text to the right hand remaining panel floating next to the map.
+
+**Element:** panel "do" — "You stand at the home paddy & vegetable rows 田The guest hous" · `section[data-panel=do] > div:nth-of-type(8) > div:nth-of-type(2)` · @148,590 1298×107
+**Screenshot:** `mapsheet/2026-07-11T09-31-38.png`
+**Details:** `mapsheet/2026-07-11T09-31-38.json` — save + recent logs + full context
+
+---

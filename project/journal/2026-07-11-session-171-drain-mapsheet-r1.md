@@ -46,3 +46,6 @@ shown before landing.
   terms beat, `room-sickroom` at R3 with combat (ADR-177 pattern); ceremony
   labels announce both; tests updated to the new schedule; fixtures +
   narrative registries + PRD regions regenerated.
+- `8686618e` — FB-381/382 landed; mapsheet bucket archived (10/10 done);
+  pending/ is EMPTY. T0 blind pass PASSED (7/7 M · 3/4 S; the R9 orchard
+  S-miss is a pre-existing content gap) — report committed.
