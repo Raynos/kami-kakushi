@@ -26,10 +26,6 @@
   etc.). Goal: every plan follows one structured template, gated so it can't be
   skipped.
 
-- **Audit & review of the save-file format.** Review the persisted save schema
-  end-to-end — shape, versioning/migration, what's stored vs derived, forward-
-  compat and validation (`src/persistence/`). Surface risks and cleanups.
-
 - **Audit & review of the narrative.** Review how the cast speaks, how the
   prose is written, whether it reads easily, and whether the register matches
   the **14–21 target audience**. Cover voice consistency, readability, and tone
@@ -50,7 +46,18 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
+- [`docs/plans/fable-2026-07-11-save-format-streamline.md`](../docs/plans/fable-2026-07-11-save-format-streamline.md)
+  — the save-format audit + streamline plan (your "audit the save-file format"
+  TODO, done 2026-07-11): verdict, 5 findings (the log is ~90% of a save and
+  mostly stale-able prose), and the steps to make `src/` the only truth on
+  load. Companion format doc: `src/persistence/README.md`.
+
 - [`docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`](../docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md)
   — the ready-to-build plan for T2 (Valley) map rungs + fog (you greenlit it
   2026-07-09; mechanics-only, no pin/HR). Skim before/whenever I build it.
+
+- [`project/audit/reports/2026-07-11-t0-narrative-register-audit.md`](audit/reports/2026-07-11-t0-narrative-register-audit.md)
+  — the T0 narrative readability/register audit vs the 14–21 light-novel
+  target (your 2026-07-11 ask): findings + six recommendations + the D1–D4
+  direction forks that need your call before any re-voicing starts.
 
