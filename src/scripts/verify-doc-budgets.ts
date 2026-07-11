@@ -107,7 +107,23 @@ if (existsSync(RD_PATH)) {
       head = '';
     }
     const headDebt = head ? parseDebt(head) : null;
-    if (head && headDebt && stripGen(cur) !== stripGen(head) && curDebt.n <= headDebt.n) {
+    // The sanctioned reset: a FULL rewrite sets the counter to 0 AND advances
+    // the `last full rewrite:` date — that pair is what the threshold WARN
+    // instructs, so it must pass (the plain monotonic check would block the
+    // very reset it demands). A 0 without a new date is still a scam.
+    const parseRewriteDate = (s: string): string | null =>
+      /last full rewrite:\s*(\d{4}-\d{2}-\d{2})/.exec(s)?.[1] ?? null;
+    const isFullRewrite =
+      curDebt.n === 0 &&
+      parseRewriteDate(cur) !== null &&
+      parseRewriteDate(cur) !== parseRewriteDate(head);
+    if (
+      head &&
+      headDebt &&
+      stripGen(cur) !== stripGen(head) &&
+      curDebt.n <= headDebt.n &&
+      !isFullRewrite
+    ) {
       console.error(
         `  X doc-budgets: ${RD_PATH} body changed but rewrite-debt did not rise (${headDebt.n} → ${curDebt.n}).`,
       );
