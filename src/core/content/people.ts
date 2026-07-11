@@ -21,7 +21,7 @@ import type { VoiceCategory } from './voices';
 import type { RankId } from './ranks';
 import type { Season } from '../constants';
 import { dayOfWeek, type DayOfWeek } from '../constants';
-import { YOHEI_MARKET_DAYS } from './market';
+import { marketDaysKanji, YOHEI_MARKET_DAYS } from './market';
 import { NAMES } from './names';
 
 /** The ADR-114 depth spectrum — how much authoring a vendor carries:
@@ -88,6 +88,10 @@ export interface NodePerson {
   readonly shopId?: string;
   /** A one-line who's-here tell (like `foeTell`) — the person's role, at a glance. */
   readonly tell?: string;
+  /** FB-408 — the schedule hint shown on a DIMMED row when this person's presence rule holds
+   *  them away from their own node ("comes on market days 水・土"). Only a scheduled person
+   *  (one with a `presence` predicate) carries one; undefined = no away row. */
+  readonly awayTell?: string;
 }
 
 // The FULL T0 cast placement (bible §04-cast; the storywave migration map, session 125). One entry
@@ -181,6 +185,8 @@ export const PEOPLE: readonly NodePerson[] = [
     presence: (c) => YOHEI_MARKET_DAYS.includes(c.dayOfWeek),
     shopId: 'yohei',
     tell: 'the pedlar — coin, greens, wood, a whetstone',
+    // FB-408 — off-market the gate must not read purposeless: the dimmed row says when he's back.
+    awayTell: `sets up on market days ${marketDaysKanji()} — wait for one`,
   },
   {
     // O-Yae — the scullery day-girl; the news service both ways, at the kitchen by day.

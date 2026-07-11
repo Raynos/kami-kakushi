@@ -73,6 +73,7 @@ import {
   skillYieldNum,
   foesHere,
   peopleHere,
+  peopleAwayHere,
   bestiaryEntries,
   combatXpProgress,
   durabilityBand,
@@ -5815,14 +5816,38 @@ export function mount(
   }
   // render the who's-here list into a host (shared by the incremental + DEV-default map paths so the
   // DEV default never drifts from prod, §6.5). Returns whether anyone is present (⇒ show the host).
-  function fillWhosHere(list: HTMLElement, present: readonly NodePerson[]): boolean {
-    reconcileList(list, present, {
-      key: (p) => p.id,
-      build: (p) => buildPersonRow(p),
-      patch: (row, p) => patchPersonRow(row, p),
+  function fillWhosHere(
+    list: HTMLElement,
+    present: readonly NodePerson[],
+    away: readonly NodePerson[] = [],
+  ): boolean {
+    // present people first, then the dimmed away rows (FB-408). One reconciled list —
+    // the `away:` key prefix means a person flipping present↔away rebuilds their row.
+    const rows = [
+      ...present.map((p) => ({ p, away: false })),
+      ...away.map((p) => ({ p, away: true })),
+    ];
+    reconcileList(list, rows, {
+      key: (r) => (r.away ? `away:${r.p.id}` : r.p.id),
+      build: (r) => (r.away ? buildAwayRow(r.p) : buildPersonRow(r.p)),
+      patch: (row, r) => {
+        if (!r.away) patchPersonRow(row, r.p);
+      },
       order: true,
     });
-    return present.length > 0;
+    return rows.length > 0;
+  }
+  // FB-408 — a dimmed, button-less row for a scheduled person who is NOT here right now:
+  // the same seal + name idiom as a present row, with the awayTell as the schedule hint.
+  function buildAwayRow(p: NodePerson): HTMLElement {
+    const row = el('div', 'person-row frame person-away');
+    const head = el('div', 'person-head');
+    const seal = el('span', 'person-seal', VOICE_SEAL[p.voice]);
+    seal.lang = 'ja';
+    head.append(seal, el('span', 'person-name', p.name));
+    if (p.awayTell) head.append(el('span', 'person-tell lock-hint', p.awayTell));
+    row.append(head);
+    return row;
   }
   function renderMap(state: GameState): void {
     const show = activeTab === 'map';
@@ -5902,7 +5927,11 @@ export function mount(
   function renderWhosHere(state: GameState): void {
     const present = peopleHere(state);
     if (openPersonId !== null && !present.some((p) => p.id === openPersonId)) openPersonId = null;
-    toggle(whosPane, activeTab === 'work' && fillWhosHere(whosList, present));
+    // FB-408 — the node's absent REGULARS ride the same list as dimmed schedule rows
+    // (Yohei off-market: "sets up on market days 水・土"), so scheduled ground never
+    // reads purposeless.
+    const away = peopleAwayHere(state);
+    toggle(whosPane, activeTab === 'work' && fillWhosHere(whosList, present, away));
   }
 
   // build ONE quest card skeleton with every mutable element present (steps + reward line + accept

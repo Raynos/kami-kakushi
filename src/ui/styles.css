@@ -3149,6 +3149,12 @@ html {
   font-family: var(--font-head);
   font-weight: 700;
 }
+/* FB-408 — a scheduled person's ABSENT row: dimmed, button-less, carrying the
+   schedule hint ("sets up on market days 水・土") so the ground still shows its
+   purpose while the person is away. */
+.person-row.person-away {
+  opacity: 0.55;
+}
 .person-tell {
   font-size: var(--fs-small);
 }

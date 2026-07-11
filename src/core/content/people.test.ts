@@ -11,11 +11,11 @@ import { describe, it, expect } from 'vitest';
 import { createInitialState, type GameState } from '../state';
 import { factsForSurfaces } from '../unlock';
 import { reduce } from '../intents';
-import { peopleHere } from '../selectors';
+import { peopleAwayHere, peopleHere } from '../selectors';
 import { getPerson, presenceCtx } from './people';
 import { nodeSeasonalBlurb, getNode } from './map';
 import { YOHEI_MARKET_DAYS } from './market';
-import { dayOfWeek, DAYS_PER_WEEK, type DayOfWeek } from '../constants';
+import { DAY_OF_WEEK_NAMES, dayOfWeek, DAYS_PER_WEEK, type DayOfWeek } from '../constants';
 
 function awakeAt(location: string, opts: { day?: number; unlocked?: string[] } = {}): GameState {
   const base = createInitialState(1);
@@ -87,5 +87,24 @@ describe("FB-406 — a move emits no log flavor; the Map tab is the zone read's 
     // source of truth for the retired line's text — the emit is gone, not re-routed.
     const blurb = nodeSeasonalBlurb(getNode(dest), s1.season).text;
     expect(s1.log.entries.some((e) => e.text === blurb)).toBe(false);
+  });
+});
+
+describe("FB-408 — peopleAwayHere: the absent regular's dimmed schedule row", () => {
+  it('lists Yohei at the gate OFF-market, with the market-day kanji derived from the schedule', () => {
+    const away = peopleAwayHere(awakeAt('gate', { day: NON_MARKET_DOW }));
+    expect(away.map((p) => p.id)).toContain('yohei');
+    const hint = away.find((p) => p.id === 'yohei')!.awayTell!;
+    // the hint's day names derive from YOHEI_MARKET_DAYS (AC-21) — a re-scheduled
+    // market flows through; a hand-typed 水・土 would go stale and fail here.
+    for (const d of YOHEI_MARKET_DAYS) expect(hint).toContain(DAY_OF_WEEK_NAMES[d]!.kanji);
+  });
+  it('is empty ON a market day (he is present, not away), and empty off his node', () => {
+    expect(peopleAwayHere(awakeAt('gate', { day: MARKET_DOW })).map((p) => p.id)).not.toContain(
+      'yohei',
+    );
+    expect(peopleAwayHere(awakeAt('kura', { day: NON_MARKET_DOW })).map((p) => p.id)).not.toContain(
+      'yohei',
+    );
   });
 });

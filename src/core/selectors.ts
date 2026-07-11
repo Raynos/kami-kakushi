@@ -370,6 +370,18 @@ export function peopleHere(state: GameState): NodePerson[] {
   });
 }
 
+/** FB-408 — the zone's ABSENT regulars: people whose home node is here (and whose place-gate is
+ *  open) but whose presence rule holds them away right now, and who carry an `awayTell`. The Zone
+ *  tab shows a dimmed row with the schedule hint so scheduled ground never reads purposeless. */
+export function peopleAwayHere(state: GameState): NodePerson[] {
+  const ctx = presenceCtx(state);
+  return PEOPLE.filter((p) => {
+    if (p.node !== state.location || p.awayTell === undefined) return false;
+    if (p.placeGate !== undefined && !isUnlocked(state, p.placeGate)) return false;
+    return p.presence !== undefined && !p.presence(ctx);
+  });
+}
+
 // ── ADR-145 Phase 4 — the estate BUILD read (AC-6: the ONE source the tracker UI, the improve
 // gate, and any sim/forecast consult; the reducer enforces the same constants, so the shown
 // distance can never drift from the real gate). ──────────────────────────────────────────────

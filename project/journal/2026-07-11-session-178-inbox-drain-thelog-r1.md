@@ -37,3 +37,9 @@ rebalance plan get written, and the zone section gets a FULL ADR-075 diverge
   reveal line agree. Tests re-anchored (breadth-arc, combat-rework's
   economyReady pins the kura for the deposit gate, rung-beats FB-388 steps
   off the arriveAt first). Fixtures regenerated.
+
+- **FB-408** — the gate's absent-merchant affordance: `peopleAwayHere`
+  (selectors.ts) + `awayTell` (people.ts, kanji derived via marketDaysKanji,
+  AC-21) render a dimmed button-less schedule row in who's-here. Tests in
+  people.test.ts. Market-day facts answered in the F-entry; the wait-a-day
+  lever routed to its own plan.

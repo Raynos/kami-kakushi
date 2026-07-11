@@ -9,7 +9,7 @@
 // playtest.
 
 import type { DayOfWeek, Season } from '../constants';
-import { dayOfWeek } from '../constants';
+import { DAY_OF_WEEK_NAMES, dayOfWeek } from '../constants';
 
 export type MarketItemId = string;
 
@@ -111,6 +111,12 @@ export const YOHEI_BUYS: ReadonlySet<string> = new Set(['rice']);
 /** Is Yohei's stall open on this absolute day? (market-day clamp for sell/buy.) */
 export function isMarketDay(day: number): boolean {
   return YOHEI_MARKET_DAYS.includes(dayOfWeek(day));
+}
+
+/** The market days as their kanji day-names ("水・土") — derived from YOHEI_MARKET_DAYS +
+ *  the day-name canon (AC-21: never hand-typed where a schedule hint is shown). */
+export function marketDaysKanji(): string {
+  return YOHEI_MARKET_DAYS.map((d) => DAY_OF_WEEK_NAMES[d]!.kanji).join('・');
 }
 
 /** Is this market item STOCKED this season? (absent `seasons` ⇒ every season.) */

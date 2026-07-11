@@ -337,6 +337,7 @@ export {
   rakeExhausted,
   OUT_OF_STRENGTH_REASON,
   peopleHere,
+  peopleAwayHere,
   ownsBelonging,
   ownedBelongingIds,
   ownedBelongings,
