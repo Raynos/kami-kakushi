@@ -36,6 +36,12 @@ format doc; no code changed.
 1. Human reads the plan → greenlight → build steps 1–5 (step 1 is one commit
    per emitter file, C2…C8 cadence; regenerate fixtures once at the end).
 
+## Checkpoint (end of session)
+
+Snapshot's "Next (autonomous)" now leads with the save-format streamline
+plan. fd73d92d reached origin via a co-agent's push; this checkpoint commit
+carries only the snapshot + this note.
+
 ## Landmines
 
 - Shared tree: `src/ui/dev.ts`, `src/ui/render.ts`, `src/ui/map-variants/*`

@@ -104,13 +104,15 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true
    player layout. The page NEVER auto-reloads (FB-257) — F5 to pick up code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** **T2 rungs/fog** (greenlit:
-   `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1 caveat:
-   `T2_RUNG_LADDER` is DEV-preview-only); or **telemetry distillation** (6
-   usable FB-8 reports in `project/telemetry/` newer than the last balance
-   commit — read + commit the pacing note before any balance work); or drain
-   the playtest inbox when captures land (ADR-171 — claim a lane first).
-   Human-gated: HR-1 + the story/variant picks above.
+4. **Next (autonomous):** **save-format streamline** (audited s175, human
+   wants src-as-truth: `docs/plans/fable-2026-07-11-save-format-streamline.md`
+   — steps 2–5 small, step 1 = per-emitter log-descriptor commits); or **T2
+   rungs/fog** (greenlit: `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1
+   caveat: `T2_RUNG_LADDER` is DEV-preview-only); or **telemetry distillation**
+   (6 usable FB-8 reports newer than the last balance commit — read + commit
+   the pacing note before any balance work); or drain the playtest inbox when
+   captures land (ADR-171 — claim a lane first). Human-gated: HR-1 + the
+   story/variant picks above.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 4/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 5/20 · last full rewrite: 2026-07-11 -->
