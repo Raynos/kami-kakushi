@@ -1169,9 +1169,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // you can't keep auto-fighting a foe you've left behind). autoCombatRetreat is inert here.
       next = { ...next, location: intent.to, autoCombat: null };
       // FB-406 (supersedes ADR-116's arrival-line half) — a move emits NO flavor at all:
-      // the human doesn't want zone reads floating through Now on every walk. The one home
-      // for the description (TST1) is the Map tab's you-are-here read, which already
-      // renders the same seasonal blurb (render.ts nodeSeasonalBlurb) — nothing is lost.
+      // the human doesn't want zone reads floating through Now on every walk. The description
+      // is a RENDERED read, not a log line: the Map's you-are-here card and (since HR-32's
+      // locked variant D) the Zone banner both resolve the same seasonal blurb source
+      // (nodeSeasonalBlurb — one value, two reads; TST1 holds) — nothing is lost.
       // ADR-146 — arriving can stumble onto a hidden discovery (the seeded visit roll; a no-op
       // when this node has no visit-triggered discovery).
       next = discoveryPass(next, { kind: 'visit' });

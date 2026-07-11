@@ -48,7 +48,43 @@ still earn its place as the *survey* read while the Zone panel carries the
 *standing* read). Prod default stays **A** until the human toggles (zero prod
 flag-debt — ADR-075).
 
+## The human locked D, same session — the diverge is CLOSED
+
+> "Yeah lets lock in V0D its decided, remove the other variants, remove the
+> variant from the dev menu."
+
+So D stopped being a variant and became **the Zone panel**:
+
+- **Shipped by re-dressing the PROD path, NOT by promoting the variant's code.**
+  This is the load-bearing call. D-as-a-variant was a *simplified* re-presentation
+  — it lacked the rake auto's reveal-after-N + "⏸ waiting" armed state (FB-367/
+  FB-368), the inline lock-hints (FB-368), the rake's exhaustion refusal
+  (FB-324), the rest effect-line (FB-346), the live-round stage blurb, and the
+  "walk to the gate to post the watch" summons. Promoting the variant file would
+  have silently regressed all of them. Instead `render.ts` keeps its incremental
+  machinery and now wears D's frame: `.zone-banner` (hero kanji + name + kicker)
+  → `.zb-blurb` (the seasonal standing line) → the existing verb rows.
+- **Deleted:** the `zone` surface from `SURFACES` (no toggle in the DEV menu),
+  `renderZoneVariant` + `areaLabelOf` (~260 lines), the zone-placard / zone-ledger
+  / `.zb-rowline` CSS, the `.zone-variant-host`, the `What you can do` h2 (the
+  banner's kicker carries it), and the per-area `h3` head + static area blurb —
+  labours are spatial, so that group only ever names the ground the banner just
+  named. `.area-head` is now dead CSS; gone too. The zone variants were the sole
+  users of 16 imports in `dev.ts` — a clean cut, not a load-bearing one.
+- **Tests:** the four variant-routing tests are replaced by (a) one dev.test that
+  the DEV registry carries **no** zone surface (zero flag-debt, ADR-075), and (b)
+  a render.test on the SHIPPED banner — hero names the node, the standing line is
+  derived from `nodeSeasonalBlurb` (never a copied string), it sits between the
+  hero and the first verb, no `.area-head` survives, and an idle re-render churns
+  nothing (P4/TST2). Full suite green incl. the `@slow` lane (18 gates, 45s).
+- **Doc ripple (the map was wrong, so the map got fixed):** ADR-116's FB-406 note
+  claimed the Map card is "the ONE home for the zone text". It isn't any more —
+  amended: the standing read now renders in **two surfaces off one source**
+  (`nodeSeasonalBlurb` — one value, two reads; TST1 holds). What FB-406 actually
+  forbade — zone text spamming the Now/Story log on every move — stands. The
+  matching comments in `intents.ts` + `render.test.ts` were fixed with it.
+- **HR-32 closed** → graduated to `human-in-the-loop/archive.md`.
+
 ## Next intended steps
 
-- Await the HR-32 pick (A / B / C / D).
 - The three plans in the reading queue remain unstarted.

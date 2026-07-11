@@ -1250,7 +1250,15 @@ design ADR.
 - **⤷ superseded in part (human, 2026-07-11 — FB-406):** the **(b) transient
   "Now" arrival line is RETIRED** — a move now emits no flavor at all; the
   Map-node description (a), which already renders the C5a seasonal read, is
-  the ONE home for the zone text (TST1). Half (a) and the Story-log rule stand.
+  the ~~ONE home~~ home for the zone text (TST1). Half (a) and the Story-log
+  rule stand.
+- **⤷ amended (human, 2026-07-12 — HR-32 / FB-410):** the standing zone read now
+  renders in **TWO surfaces** — the Map's you-are-here card **and** the Zone
+  banner (the locked variant D sets it between the hero and the verbs). This is
+  **not** a TST1 break: both resolve the **same single source**
+  (`nodeSeasonalBlurb`), so there is one *value* with two *reads*, never two
+  copies of the prose. What FB-406 actually forbade — the zone text spamming the
+  **Now/Story log** on every move — stands untouched.
 - **Context:** Navigation/location flavor (e.g. "The grain-store where you woke —
   dark, dry…", "The estate gate and its swept forecourt…") was being spammed into
   the **Story log** on every move — but it isn't story. **FB-114** flagged the

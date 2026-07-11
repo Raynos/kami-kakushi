@@ -2331,6 +2331,35 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     expect(seen.some((i) => i.type === 'set_auto')).toBe(true);
   });
 
+  it('FB-410 (HR-32) — the zone banner names the place and carries its standing line before the verbs', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const s = awake(['verb-farm', 'room-paddies'], { location: 'paddies' });
+    render(s, null);
+    const banner = root.querySelector<HTMLElement>('.zone-banner')!;
+    expect(banner).not.toBeNull();
+    expect(banner.hidden).toBe(false);
+    // the hero names WHERE you stand (TST4) — kanji + label, both off the node (one source).
+    const here = getNode(s.location);
+    expect(banner.querySelector('.zb-kanji')!.textContent).toBe(here.kanji);
+    expect(banner.querySelector('.zb-name')!.textContent).toBe(here.label);
+    // the standing line is the SAME seasonal read the Map card resolves — derived here from the
+    // source, never a copied string, so re-authoring the prose can't leave this test green-but-stale.
+    const line = banner.querySelector<HTMLElement>('.zb-blurb')!;
+    expect(line.textContent).toBe(nodeSeasonalBlurb(here, s.season).text);
+    // …and it reads BETWEEN the hero and the first verb (the human's pick: text in the gap).
+    const kids = [...banner.children];
+    expect(kids.findIndex((k) => k.matches('.zb-blurb'))).toBeGreaterThan(
+      kids.findIndex((k) => k.matches('.zb-head')),
+    );
+    expect(banner.compareDocumentPosition(root.querySelector('.actions .verb')!)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    // the group under it carries the rows ONLY — no second name for the same ground.
+    expect(root.querySelector('.area-head')).toBeNull();
+    // and the banner patches in place: an idle re-render churns nothing (P4/TST2).
+    expect(churnOnReRender(banner, s, render)).toEqual([]);
+  });
+
   it('renderCombat — the XP card + a foe-watch row survive a re-render; idle churns nothing', () => {
     const render = mount(root, () => {}, noopHooks());
     const s = combat();
@@ -2496,9 +2525,10 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     ).toBe(true);
   });
 
-  it('FB-406 — a move emits NO log flavor at all; the zone read lives on the Map tab only', () => {
+  it('FB-406 — a move emits NO log flavor at all; the zone read is RENDERED, never logged', () => {
     // Supersedes the D-116 arrival-line half: the human doesn't want zone reads floating
-    // through Now on every walk — the Map tab's you-are-here card is the ONE home (TST1).
+    // through Now on every walk. The read is rendered where you look — the Map's you-are-here
+    // card and (HR-32) the Zone banner, both off the same source — but it never enters the log.
     const dest = 'gate';
     // stand at the forecourt (adjacent to the gate) so the walk is a real one-step move.
     const s0 = awakeAt('forecourt', [getNode(dest).revealFlag!]);

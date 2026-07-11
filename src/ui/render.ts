@@ -968,21 +968,22 @@ export function mount(
   logSection.append(logFilterBar);
 
   const work = el('section', 'work');
-  // FB-410 A — the ZONE PLACARD: the Zone tab opens with WHERE you are (the node's
-  // kanji seal + label), so even a sparse zone reads anchored (TST4 — the player
-  // never guesses which ground the verbs belong to). Identity ONLY — the standing
-  // description keeps its one home on the Map tab (TST1, FB-406).
-  const zonePlacard = el('div', 'zone-placard');
-  const zoneSeal = el('span', 'zone-seal');
+  // FB-410 (HR-32, human-locked 2026-07-11) — the ZONE BANNER: the Zone tab opens with the
+  // place as hero (the node's kanji + name + kicker), then the zone's STANDING LINE, then the
+  // verbs. The line is the seasonal node read (`nodeSeasonalBlurb` — the SAME source the Map's
+  // you-are-here card resolves, TST1: one source, two reads), so it breathes by season for free.
+  // (The banner carries the tab's heading — there is no separate "What you can do" h2.)
+  const zoneBanner = el('div', 'zone-banner');
+  const zbHead = el('div', 'zb-head');
+  const zoneSeal = el('span', 'zb-kanji');
   zoneSeal.lang = 'ja';
-  const zoneName = el('span', 'zone-name');
-  zonePlacard.append(zoneSeal, zoneName);
-  zonePlacard.hidden = true;
-  // FB-410 B/C — the diverged zone do-panel variants render into this host (DEV-only;
-  // dev.renderVariant('zone', …) — prod always draws the inline default).
-  const zoneHost = el('div', 'zone-variant-host');
-  zoneHost.hidden = true;
-  const workHead = el('h2', undefined, 'What you can do');
+  const zoneNameCol = el('div');
+  const zoneName = el('h2', 'zb-name');
+  zoneNameCol.append(zoneName, el('p', 'zb-kicker', 'what you can do here'));
+  zbHead.append(zoneSeal, zoneNameCol);
+  const zoneLine = el('p', 'zb-blurb');
+  zoneBanner.append(zbHead, zoneLine);
+  zoneBanner.hidden = true;
   const estatePane = el('div', 'estate-pane');
   // ADR-177 Schedule A — the Works 普請 pane (the projects/upgrades home; split out of Estate 家).
   const worksPane = el('div', 'estate-pane works-pane');
@@ -1192,9 +1193,7 @@ export function mount(
   // re-homes are Map/Inventory/Estate — self-gated, FB-100-style). Phase B (deferred) gives each tab
   // its own container section.
   sliceDo.append(
-    zonePlacard,
-    workHead,
-    zoneHost,
+    zoneBanner,
     actions,
     whosPane,
     characterBody,
@@ -3083,26 +3082,25 @@ export function mount(
 
   function renderActions(state: GameState): void {
     const onZone = activeTab === 'work';
-    // FB-410 A — the zone placard: patch the current node's seal + label in place.
-    // (Guarded lookup — some test fixtures stand on non-map ground; the placard just hides.)
+    // FB-410 — the zone banner: patch the node's kanji + name + standing line in place (P4/TST2 —
+    // the head never rebuilds under the player). (Guarded lookup — some test fixtures stand on
+    // non-map ground; the banner just hides.)
     const here = MAP_NODE_IDS.has(state.location) ? getNode(state.location) : null;
     if (here) {
       if (zoneSeal.textContent !== (here.kanji ?? '')) setText(zoneSeal, here.kanji ?? '');
       toggle(zoneSeal, Boolean(here.kanji));
       if (zoneName.textContent !== here.label) setText(zoneName, here.label);
+      // the standing line — the SAME seasonal read the Map card resolves (one source), so a
+      // season turn re-inks it here too. The DEV story switcher live-swaps it by key, as there.
+      const sb = nodeSeasonalBlurb(here, season(state));
+      const lineText =
+        __DEV_TOOLS__ && dev && sb.key !== undefined ? dev.subFlavor(sb.key, sb.text) : sb.text;
+      setText(zoneLine, lineText);
     }
-    toggle(zonePlacard, onZone && here !== null && hasFlag(state, 'awake'));
-    // FB-410 B/C — DEV variant fall-through (ADR-075): when a zone variant is selected
-    // it takes over the ACTIONS half (the placard + who's-here keep their own homes).
-    const variantActive =
-      __DEV_TOOLS__ && dev ? dev.renderVariant('zone', zoneHost, state, dispatch) : false;
-    toggle(zoneHost, onZone && variantActive);
-    toggle(actions, onZone && !variantActive);
-    // a zone variant owns its heading + identity chrome (FB-410) — the default h2 and
-    // the placard hide under it so the surface never shows two heads.
-    workHead.hidden = !onZone || variantActive;
-    if (variantActive) toggle(zonePlacard, false);
-    if (!onZone || variantActive) return;
+    toggle(zoneLine, here !== null && zoneLine.textContent !== '');
+    toggle(zoneBanner, onZone && here !== null && hasFlag(state, 'awake'));
+    toggle(actions, onZone);
+    if (!onZone) return;
 
     // (the interactive intro no longer renders here — while it's live the shell is hidden and the
     // full-screen VN scene owns the screen; render() returns before renderActions is ever reached.)
@@ -3326,6 +3324,10 @@ export function mount(
 
     // labour activities, grouped by estate room (each: do-once + auto-repeat toggle). Outer keyed
     // list over the areas that HAVE labour here; each group's rows are an inner keyed list.
+    // FB-410 (HR-32) — the group carries NO head/blurb of its own any more: labours are spatial
+    // (availableLabours filters to state.location), so the ONE area here is the zone the banner
+    // already names, and its standing line is the banner's. Two names for one ground read as
+    // chrome; the group is now just the reconcile host for its rows.
     const labours = availableLabours(state);
     const areasWithLabour = AREAS.filter((area) =>
       labours.some((o) => o.activity.area === area.id),
@@ -3333,12 +3335,7 @@ export function mount(
     toggle(r.areaGroups, areasWithLabour.length > 0);
     reconcileList(r.areaGroups, areasWithLabour, {
       key: (area) => area.id,
-      build: (area) => {
-        const group = el('div', 'area-group');
-        group.append(el('h3', 'area-head', area.label));
-        group.append(el('p', 'area-blurb', area.blurb));
-        return group;
-      },
+      build: () => el('div', 'area-group'),
       patch: (group, area) => {
         // reconcile the labour rows DIRECTLY into the group (its head/blurb are foreign siblings the
         // reconcile never touches; the activity set here is stable so no reorder is needed).
