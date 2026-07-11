@@ -441,7 +441,8 @@
           "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.readout-body"
         },
         {
           "key": 39,
@@ -449,7 +450,8 @@
           "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.readout-rice"
         },
         {
           "key": 40,
@@ -457,7 +459,8 @@
           "text": "The outer court is given to you with the rake: the forecourt, swept ground sized for a household five times this one.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.room-forecourt"
         }
       ],
       "seq": 41

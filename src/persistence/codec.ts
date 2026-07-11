@@ -7,7 +7,7 @@
 import type { GameState } from '../core';
 import { APP_ID, SCHEMA_VERSION, APP_GENERATION } from '../core';
 import type { LogEntry } from '../core/log';
-import { renderLogLine, type LogParams } from '../core/content/log-content';
+import { renderLogLine, type LogParams } from '../core/content/log-render';
 
 export interface SaveEnvelope {
   readonly app: typeof APP_ID;

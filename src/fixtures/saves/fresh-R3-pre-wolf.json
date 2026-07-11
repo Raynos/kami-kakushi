@@ -407,7 +407,8 @@
           "text": "You have started to keep count of your own strength — what the day has drawn out of you, and how far that is from Sōan's pallet.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.readout-body"
         },
         {
           "key": 31,
@@ -415,7 +416,8 @@
           "text": "The kura's count is open to you now: rice in, rice out, and the thin line between the store and a lean winter.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.readout-rice"
         },
         {
           "key": 32,
@@ -423,7 +425,8 @@
           "text": "The outer court is given to you with the rake: the forecourt, swept ground sized for a household five times this one.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.room-forecourt"
         },
         {
           "key": 34,
@@ -440,7 +443,8 @@
           "text": "You can stop now, when the day is done — set the work down, and let the body take back what it can.",
           "tick": 2,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.verb-rest"
         },
         {
           "key": 37,
@@ -669,7 +673,8 @@
           "text": "Coin, at last, and few enough to count on one hand. What little the house pays in mon, you keep your own tally of.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.readout-coin"
         },
         {
           "key": 115,
@@ -697,7 +702,8 @@
           "text": "A way to track what your hands are learning takes shape — your Skills.",
           "tick": 6,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.tab-skills"
         },
         {
           "key": 118,
@@ -705,7 +711,8 @@
           "text": "The woodlot edge opens to you — kindling and timber to cut, wild greens to gather along its margin.",
           "tick": 6,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.room-woodlot"
         },
         {
           "key": 119,
@@ -713,7 +720,8 @@
           "text": "Out past the last worked row the setts begin — tanuki, badger — and the nightly raids on the drying racks and the seed store.",
           "tick": 6,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.room-field-margins"
         },
         {
           "key": 120,
@@ -721,7 +729,8 @@
           "text": "You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.",
           "tick": 6,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.verb-cook"
         },
         {
           "key": 121,
@@ -1146,7 +1155,8 @@
           "text": "The storehouse is opened to you: the iron-strapped door, the good lock, the grain-watch's stool beside it. What is counted in and out is the house's whole year.",
           "tick": 10,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.room-kura"
         },
         {
           "key": 193,
@@ -1154,7 +1164,8 @@
           "text": "The shallows above and below the weir, reeds past the waist. River rats gnaw the screens the house leases from Matsuzō, and every screen lost is coin owed across the water.",
           "tick": 10,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.room-weir-reeds"
         },
         {
           "key": 194,
@@ -1162,7 +1173,8 @@
           "text": "The drill yard opens to you — a place to train, and foes that must be met.",
           "tick": 10,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.tab-combat"
         },
         {
           "key": 195,
@@ -1170,7 +1182,8 @@
           "text": "You begin to keep a bestiary — a field-guide of the beasts of the estate, filling in as you face each one.",
           "tick": 10,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.panel-bestiary"
         },
         {
           "key": 196,
@@ -1568,7 +1581,8 @@
           "channel": "milestone",
           "text": "You have become what the house needed at its gate — a hand it can trust with an edge to it. Kihei watches you drill at first light and almost smiles. \"There's a soldier in you under the farmhand. We'll find the rest of it yet.\" Past the gate the valley road climbs out of sight — toward the house's standing, its rivals, and the name you still cannot reach. That climb is for the days to come.",
           "tick": 14,
-          "count": 1
+          "count": 1,
+          "contentKey": "reveal.screen-demo-frontier"
         },
         {
           "key": 231,
@@ -1576,7 +1590,8 @@
           "text": "That night the dream comes again, and stays longer. The grey rain, the road — and now a load on your back, roped with the porter's knot your hands already knew. Water rising over the planks of a low bridge. A woman's voice behind you, calling a name through the flood — your name, you are almost sure, though the water closes over it before you can catch its shape.",
           "tick": 14,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "reveal.dream-2"
         },
         {
           "key": 232,

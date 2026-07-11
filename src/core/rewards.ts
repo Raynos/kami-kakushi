@@ -7,7 +7,7 @@ import type { GameState, ResourceId, FlagId } from './state';
 import { withResource, setFlag } from './state';
 import { pushLog, type LogChannel } from './log';
 import { playerSpeaker, type VoiceCategory } from './content/voices';
-import { renderLogLine, type LogParams } from './content/log-content';
+import { renderLogLine, type LogParams } from './content/log-render';
 
 export interface RewardBundle {
   readonly resources?: Readonly<Record<ResourceId, number>>;

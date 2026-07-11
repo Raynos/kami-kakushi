@@ -133,6 +133,10 @@ export function announcePass(state: GameState): GameState {
           voice: s.revealLine.voice,
           // FB-273 — a fleeting reveal (readout-clock) lands in Now and fades, never Story.
           ephemeral: s.revealLine.ephemeral,
+          // The save persists this KEY, not the prose (save-format plan, step 1). The text above
+          // is for the live session; on load it re-renders from THIS surface's revealLine, so a
+          // reworded reveal updates every existing save instead of freezing the old words.
+          contentKey: `reveal.${s.id}`,
         }),
       };
     }

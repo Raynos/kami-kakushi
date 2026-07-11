@@ -142,16 +142,52 @@ would cry wolf, and the fix (a migration) belongs to the author.
 uncommitted `project-status.md`. Left it alone (don't fight someone else's red); they
 committed and it cleared on its own. All 18 gates green at commit.
 
+### 6 · Step 1a — `log-render.ts`, and the reveal emitter keyed
+
+The load-bearing change. `src/core/content/log-render.ts` is the namespace dispatch
+and the ONE place a stored descriptor becomes prose: it imports `log-content` AND the
+content registries, so `log-content.ts` stays a leaf and each registry keeps its own
+text (a reveal line belongs to its SURFACE — no second home, no drift). `codec.ts` and
+`rewards.ts` now call `renderLogLine` from there.
+
+Resolution order is **static-registry-first, then namespace dispatch** — the
+hand-written keys already contain dots (`combat.win`, `season.reckoned`), so
+dispatching on the dot first would hijack them. That ordering has its own test.
+
+First emitter keyed: reveal lines (`unlock.ts`) as `reveal.<surfaceId>`.
+
+The marquee test is falsifiable and passes: a save carrying **stale prose** under a
+live key loads showing `src/`'s CURRENT words, and the store blob never carried the
+prose at all. An unkeyed legacy line still keeps its text verbatim.
+
+**Shared-tree hazard, caught before it landed:** `fixtures:regen` drives the REAL
+engine, so it bakes whatever is in the working tree into the generated saves — and a
+co-agent had uncommitted `intents.ts` / `activities.ts` edits at the moment I ran it.
+Those fixtures would have silently encoded another agent's WIP. Waited for their
+commit, re-regenerated against a clean tree, re-verified. **Rule for the next agent:
+never regen fixtures while someone else's core edits are uncommitted.**
+
 ## Next intended steps
 
-Step 1 — the log-descriptor migration (the bulk), ending with a single coordinated
-`pnpm run fixtures:regen`.
+Rest of step 1, in order: key the discovery, works and scene/dialogue emitters; then
+make the FIXTURES strip their prose too (see landmine below); then the zero-keyless
+gate (locked decision 2); then the ADR + README.
 
-Then the **addendum work the human handed over mid-session** (see the zone-derivation
-entry below, appended after step 1).
+Then the **addendum work the human handed over mid-session** — the zone-derivation
+finding + the save-migration subsystem routed here from the zone-rung-rebalance
+session.
 
 ## Landmines
 
 - **Three co-agents are live on this tree.** Commit by explicit file pathspec only.
-- Step 1 will make old saves' narrative prose re-render from current `src/`. That
-  is the intended, human-ruled behaviour — not a regression to "fix" on sight.
+- **`fixtures:regen` bakes the working tree into generated saves** — never run it while
+  a co-agent has uncommitted core edits (nearly shipped exactly that; see step 1a).
+- **Fixtures do NOT strip their log prose today.** `gen-fixtures.ts` writes a plain
+  `makeEnvelope` JSON, and `fixtures/index.ts` consumes `mod.default` directly — neither
+  goes through `encodeStore`/`decodeStore`, where the strip/rehydrate lives. So the
+  plan's promised "fixtures SHRINK ~5× and stop reword-churn" does **not** happen from
+  keying alone: keyed fixture entries keep their `text`, and the fixtures actually grew
+  slightly (1560 → 1576 KB) from the added `contentKey`. Closing this is the last piece
+  of step 1.
+- Step 1 makes old saves' narrative prose re-render from current `src/`. That is the
+  intended, human-ruled behaviour — not a regression to "fix" on sight.
