@@ -1,9 +1,10 @@
 # Session 180 — 2026-07-12 — a fixed sign-off banner for /prepare-to-exit
 
-**Summary:** `/prepare-to-exit` now ends by printing one **byte-stable ASCII
-banner**, so the human can scan a grid of idle herdr panes and tell at a glance
-which sessions have already checkpointed — the silhouette is the signal, no
-reading required. Tooling-only; no game code touched.
+**Summary:** `/prepare-to-exit` now ends by **always** printing one of two
+byte-stable ASCII banners — **BYE** (clean) or **OOPS** (didn't finish clean) —
+so the human can scan a grid of idle herdr panes and tell at a glance which
+sessions have checkpointed, and how it went. The push became **best effort** in
+the same pass. Tooling-only; no game code touched.
 
 ## What changed
 
@@ -27,6 +28,29 @@ The human chose the design from three candidates (sleeping fox · block wordmark
 · torii gate); the block wordmark won on the one axis that matters here —
 legibility when the pane is squished, where the softer art blurs into ordinary
 log output.
+
+## Appended — the first run of the skill exposed two design holes
+
+Ran `/prepare-to-exit` for real; the co-agent WIP in the tree blocked the push,
+so under the v1 rule the skill printed **no banner at all** — and the human
+(rightly, loudly) objected. Two fixes, commit `7b3bb27d`:
+
+1. **A banner ALWAYS prints — a failure switches it, it doesn't suppress it.**
+   The v1 rule ("push refused ⇒ no banner") was self-defeating: *a silent
+   failure looks exactly like a session that never ran the skill*, and you
+   cannot read "did this checkpoint?" off an empty pane. So there is now a
+   second banner — **OOPS** (heavy double border, squarer silhouette, so it's
+   still distinguishable from BYE when the pane is squished/blurred). PH3 is
+   still honoured: a BYE never flies over a half-done checkpoint. The *detail*
+   lives in the report; the *banner* only answers "did it run, and did it land".
+2. **The push is BEST EFFORT** (human steer). A push blocked by a **co-agent's**
+   red is the shared tree working as designed, **not** a failed checkpoint —
+   leave the commit local and shrug; the next agent to go green carries it out.
+   It only *matters* when nobody is left to carry it, so the rule keys on
+   `herdr agent list`: **others live → BYE**; **you are the only/last agent →
+   the commit is STRANDED → OOPS**. Encoded in the ritual itself
+   (`working-agreements.md` step 4), since the skill deliberately holds no copy
+   of the steps.
 
 ## Next intended steps
 
