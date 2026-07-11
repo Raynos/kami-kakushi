@@ -88,3 +88,13 @@ If home paddies is reachable it should not be in the fog of war.
 **Details:** `mapsheet/2026-07-11T09-31-07.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-385 · 2026-07-11T09:31:20+0200 — the-bottom-and-right
+
+The bottom and right and outskirts of the map beyond the lines of the house/estate should also be fog of war
+
+**Element:** panel "do" · `div > svg > g:nth-of-type(1) > path:nth-of-type(1)` · @80,-5 1168×593
+**Screenshot:** `mapsheet/2026-07-11T09-31-20.png`
+**Details:** `mapsheet/2026-07-11T09-31-20.json` — save + recent logs + full context
+
+---
