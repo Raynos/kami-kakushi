@@ -71,3 +71,16 @@ zone read keeps one home (TST1) and the C5a seasonal reads lose nothing.
 **Doc-update plan:** ADR-116 struck-and-pointed in decisions.md.
 **Fixed in:** move_to no longer emits; render tests rewritten (D-116 case now
 asserts NO emit; the D-123 Now-reconcile case feeds off a rest line).
+
+### FB-401 · the three R0 messages + where am I raking? — ✅ (answer + fix)
+**Verbatim:** _"In R0 I should be in one location, the court or the Kura, like I don't even know where I am and where I am raking the spilled rice. … Can you explain what these messages are … Also where am I raking the spilled rice ?"_
+**Reading (the answer):** they are three *capability* reveals, not three zone
+unlocks — (1) "keep count of your own strength" = the body readout appearing;
+(2) "the kura's count" = the rice readout (the store's tally); (3) "the outer
+court is given to you with the rake" = the one real zone reveal (forecourt).
+The confusion was real: the run *started* at the kura while the reveal (and
+the rake fiction — "the court is long", "spilled in the kura court") pointed
+at the forecourt.
+**Fixed in:** the R0 start moved to the forecourt (state.ts; human-picked via
+ask-tool) — the raking ground and the reveal line now agree; the save-clamp
+fallback follows; fixtures regenerated; three tests re-anchored.

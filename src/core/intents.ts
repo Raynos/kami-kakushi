@@ -268,10 +268,12 @@ function applyIntroStat(state: GameState, stat: IntroStat): GameState {
  *  (Self-picked deviation from the plan's §4.4 "reveal the closing narration in the tail" — the
  *  lines pre-exist on the surface-reveal path, so emitting them here would duplicate, not add.) */
 function completeIntroTail(state: GameState): GameState {
-  // The forecourt reveals HERE, not at R0-start (human, 2026-07-11): you wake
-  // INSIDE the kura — the outer court exists on your map only once Genemon has
-  // put you to its work (the fiction causes the map, TST3 — the FB-381/382
-  // pattern; with it, NO zone predates its own introduction). ADR-179 — the
+  // The forecourt reveals HERE, not at R0-start: the outer court exists on your
+  // map only once Genemon has put you to its work (the fiction causes the map,
+  // TST3 — the FB-381/382 pattern). FB-401 (human, 2026-07-11, superseding the
+  // same-day wake-in-the-kura call): the run now STANDS on the forecourt from
+  // t=0 — the rake's authored ground — but the zone still INKS IN here, and
+  // R0 has no map, so nothing player-visible predates this reveal. ADR-179 — the
   // cursor passing the last scene IS the fact; room-forecourt's predicate
   // (surfaces.ts, awake + !introActive) derives from it, so nothing to push.
   return state;

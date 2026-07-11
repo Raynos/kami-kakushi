@@ -116,9 +116,8 @@ describe('T0-M4 breadth seams close end-to-end via real intents', () => {
   });
 
   it('the estate map is walkable — move_to crosses to an adjacent revealed node, blocks the rest', () => {
-    // at the kura; the forecourt is reveal-gated since 2026-07-11 (the intro's close
-    // introduces it) — its facts already hold here (ADR-179: awake + no live intro,
-    // readyState's introBeat sits pre-wake at -1), so it derives visible with no grant.
+    // readyState pins the kura; the forecourt is its revealed neighbour, so the
+    // first walk crosses kura → forecourt.
     const s = readyState(1);
     expect(s.location).toBe('kura');
     const moved = reduce(s, { type: 'move_to', to: 'forecourt' });

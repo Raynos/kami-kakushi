@@ -302,7 +302,7 @@ export function createInitialState(seed: number): GameState {
     quests: { accepted: [], progress: {}, completed: [] },
     marketBought: {},
     belongings: [], // no bought furniture yet; the granted mat + bowl arrive with the home at R1
-    location: 'kura',
+    location: 'forecourt', // FB-401 — the run opens on the rake's authored ground ("the first verb is here")
     rung: 'R0',
     rungReqs: {},
     estateStage: 0,

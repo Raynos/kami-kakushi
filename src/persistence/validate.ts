@@ -180,7 +180,9 @@ export function validateState(rawState: unknown): ValidateResult {
   // crashes the whole UI on load. Clamp to a real map node (fallback the always-open kura); only a
   // PRESENT-but-invalid value counts as a coercion (a missing one is a fresh/old-save default).
   const location: GameState['location'] =
-    typeof base.location === 'string' && MAP_NODE_IDS.has(base.location) ? base.location : 'kura';
+    typeof base.location === 'string' && MAP_NODE_IDS.has(base.location)
+      ? base.location
+      : 'forecourt';
   if (base.location !== undefined && location !== base.location) coerced = true;
 
   // Compile-time ledger: every GameState key must be handled in the literal below.

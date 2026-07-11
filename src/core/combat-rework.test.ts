@@ -42,6 +42,7 @@ function economyReady(coin = 100): GameState {
     ...s,
     flags: { ...s.flags, awake: true, ...factsForSurfaces('panel-estate') },
     resources: { ...s.resources, coin },
+    location: 'kura', // the deposit/withdraw gate lives AT the kura (FB-401 moved the start to the forecourt)
   };
 }
 

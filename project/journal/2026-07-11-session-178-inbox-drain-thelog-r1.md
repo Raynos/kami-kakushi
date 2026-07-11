@@ -30,3 +30,10 @@ rebalance plan get written, and the zone section gets a FULL ADR-075 diverge
 - **FB-406** — `move_to` no longer emits the arrival flavor line (ADR-116's
   (b) half retired, struck in decisions.md); the Map tab's you-are-here card
   stays the one home for the seasonal zone read. Render tests rewritten.
+
+- **FB-401** — answered the three R0 reveal messages (body readout · rice
+  readout · the forecourt zone) and fixed the ground: the run starts at the
+  FORECOURT now (state.ts + validate.ts clamp), so the rake fiction and the
+  reveal line agree. Tests re-anchored (breadth-arc, combat-rework's
+  economyReady pins the kura for the deposit gate, rung-beats FB-388 steps
+  off the arriveAt first). Fixtures regenerated.

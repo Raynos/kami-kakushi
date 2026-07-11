@@ -285,8 +285,10 @@ describe('FB-388 — a promotion beat can MOVE you (RankDef.arriveAt)', () => {
   it("completing the R0→R1 beat stands you at the rank's arriveAt, not where you triggered it", () => {
     const arrive = getRank('R1').arriveAt;
     expect(arrive).toBeDefined(); // R1 declares one (the forecourt terms — FB-388)
-    let s = atDoneIntro();
-    expect(s.location).not.toBe(arrive); // the cold open wakes you elsewhere (the kura)
+    // FB-401 moved the R0 start onto the forecourt (= R1's arriveAt), so step
+    // OFF it first — the mechanism under test is the MOVE, which needs distance.
+    let s: GameState = { ...atDoneIntro(), location: 'kura' };
+    expect(s.location).not.toBe(arrive);
     s = makeReady(s);
     s = reduce(s, { type: 'begin_rung_beat' });
     const opt = RUNG_BEATS.R1!.decision.options[0]!;

@@ -219,7 +219,7 @@ describe('migration wiring + pre-migration backup', () => {
     const mgr = createMemorySaveManager([backend], () => 9);
     const loaded = await mgr.load();
     expect(loaded).not.toBeNull();
-    expect(loaded!.state.location).toBe('kura'); // clamped to a real node → getNode() can't throw
+    expect(loaded!.state.location).toBe('forecourt'); // clamped to a real node → getNode() can't throw
     expect(loaded!.coerced).toBe(true); // the "mended a small problem" notice fires
   });
 
