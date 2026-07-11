@@ -18,3 +18,13 @@ Place the actual map to the left, add a bit more padding / margin at the bottom 
 **Details:** `mapsheet/2026-07-11T09-28-41.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-378 · 2026-07-11T09:29:14+0200 — the-fog-of-war
+
+The fog of war is partially implemented, it does not include the actual foreset.
+
+**Element:** panel "do" · `div > svg > g:nth-of-type(1) > path:nth-of-type(1)` · @61,118 1168×593
+**Screenshot:** `mapsheet/2026-07-11T09-29-14.png`
+**Details:** `mapsheet/2026-07-11T09-29-14.json` — save + recent logs + full context
+
+---
