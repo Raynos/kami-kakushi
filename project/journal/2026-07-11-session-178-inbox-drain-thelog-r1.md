@@ -90,3 +90,9 @@ HR-32 (Zone do-panel variants). Claims released at end of pass.
   (property) vs `homeRestBonus` (sited live value) — don't merge them back.
 - `?zone=zone-b|c` boots the Zone variants only with the DEV harness ON
   (`?dev=no` disables the whole variant machinery).
+- The B/C zone variants are deliberately LEANER than default A: no FB-368
+  inline lock-hints, no rake-auto ⏸-waiting state (reasons live in hover
+  titles). Promoting B or C to the inline default means adding those back.
+- The save-format streamline plan's survey (session 175) predates this
+  session's `validate.ts` clamp change + fixture regens — re-ground before
+  starting it (note also stamped on the plan's Status).

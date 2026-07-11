@@ -1,6 +1,10 @@
 # Streamline the save-file format — facts only, src/ is truth
 
 **Status:** 🆕 proposed — audit done (session 175); no step started.
+**⚠ Grounding note (session 178, 2026-07-11):** the survey predates the drain
+session — `persistence/validate.ts`'s location clamp changed (kura→forecourt,
+FB-401, `19752d9d`) and `src/fixtures/saves/` regenerated several times.
+Re-verify "What exists today" against HEAD before starting step 1 (PH2).
 **Confidence:** ( 25% Opus, 75% Fable ) — steps 2–5 are mechanical once the
 descriptor pattern is followed; step 1's registry-lookup design has one cycle
 risk worth a careful eye.
