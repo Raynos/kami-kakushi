@@ -56,7 +56,6 @@
       "awake": true,
       "dream-1": true,
       "label-nameless": true,
-      "tended-by-soan": true,
       "raked": true,
       "r1-none-claimed": true,
       "rank-r1": true
@@ -68,7 +67,6 @@
       "readout-body",
       "readout-rice",
       "room-forecourt",
-      "room-sickroom",
       "verb-rest",
       "panel-rung-ladder",
       "readout-clock",
@@ -385,92 +383,6 @@
         },
         {
           "key": 33,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.0"
-        },
-        {
-          "key": 34,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.1"
-        },
-        {
-          "key": 35,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician",
-          "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.2"
-        },
-        {
-          "key": 36,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.3"
-        },
-        {
-          "key": 37,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician",
-          "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.4"
-        },
-        {
-          "key": 38,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician",
-          "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.5"
-        },
-        {
-          "key": 39,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.6"
-        },
-        {
-          "key": 40,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Nameless",
-          "voice": "player",
-          "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.opt.sb-sickroom-mend.say"
-        },
-        {
-          "key": 41,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician",
-          "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.opt.sb-sickroom-mend.react"
-        },
-        {
-          "key": 42,
           "channel": "reward",
           "tick": 0,
           "count": 1,
@@ -482,7 +394,7 @@
           }
         },
         {
-          "key": 43,
+          "key": 34,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -491,7 +403,7 @@
           "contentKey": "dialogue.genemon-open.gen-rake"
         },
         {
-          "key": 44,
+          "key": 35,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -499,7 +411,7 @@
           "contentKey": "reveal.verb-rest"
         },
         {
-          "key": 45,
+          "key": 36,
           "channel": "reward",
           "tick": 2,
           "count": 1,
@@ -511,7 +423,7 @@
           }
         },
         {
-          "key": 46,
+          "key": 37,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -520,7 +432,7 @@
           "contentKey": "dialogue.genemon-open.gen-keep"
         },
         {
-          "key": 47,
+          "key": 38,
           "channel": "reward",
           "tick": 4,
           "count": 1,
@@ -532,7 +444,7 @@
           }
         },
         {
-          "key": 48,
+          "key": 39,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -540,7 +452,7 @@
           "contentKey": "dialogue.genemon-open.gen-kept"
         },
         {
-          "key": 49,
+          "key": 40,
           "channel": "reward",
           "tick": 18,
           "count": 7,
@@ -552,7 +464,7 @@
           }
         },
         {
-          "key": 50,
+          "key": 41,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -560,7 +472,7 @@
           "contentKey": "requirement.rake-the-first-rows"
         },
         {
-          "key": 51,
+          "key": 42,
           "channel": "reward",
           "tick": 14,
           "count": 10,
@@ -572,7 +484,7 @@
           }
         },
         {
-          "key": 52,
+          "key": 43,
           "channel": "narration",
           "tick": 14,
           "count": 1,
@@ -580,7 +492,7 @@
           "contentKey": "requirement.rake-through-the-night"
         },
         {
-          "key": 53,
+          "key": 44,
           "channel": "system",
           "tick": 16,
           "count": 1,
@@ -589,7 +501,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 54,
+          "key": 45,
           "channel": "reward",
           "tick": 22,
           "count": 3,
@@ -601,7 +513,7 @@
           }
         },
         {
-          "key": 55,
+          "key": 46,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -610,7 +522,7 @@
           "contentKey": "flavor.gossipWeddingMissed"
         },
         {
-          "key": 56,
+          "key": 47,
           "channel": "reward",
           "tick": 10,
           "count": 6,
@@ -622,7 +534,7 @@
           }
         },
         {
-          "key": 57,
+          "key": 48,
           "channel": "system",
           "tick": 12,
           "count": 1,
@@ -631,7 +543,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 58,
+          "key": 49,
           "channel": "reward",
           "tick": 0,
           "count": 6,
@@ -643,7 +555,7 @@
           }
         },
         {
-          "key": 59,
+          "key": 50,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -651,7 +563,7 @@
           "contentKey": "requirement.rake-the-spill"
         },
         {
-          "key": 60,
+          "key": 51,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -660,7 +572,7 @@
           "contentKey": "beat.R1.greeting.0"
         },
         {
-          "key": 61,
+          "key": 52,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -670,7 +582,7 @@
           "contentKey": "beat.R1.greeting.1"
         },
         {
-          "key": 62,
+          "key": 53,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -679,7 +591,7 @@
           "contentKey": "beat.R1.greeting.2"
         },
         {
-          "key": 63,
+          "key": 54,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -689,7 +601,7 @@
           "contentKey": "beat.R1.greeting.3"
         },
         {
-          "key": 64,
+          "key": 55,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -698,7 +610,7 @@
           "contentKey": "beat.R1.greeting.4"
         },
         {
-          "key": 65,
+          "key": 56,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -708,7 +620,7 @@
           "contentKey": "beat.R1.greeting.5"
         },
         {
-          "key": 66,
+          "key": 57,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -717,7 +629,7 @@
           "contentKey": "beat.R1.greeting.6"
         },
         {
-          "key": 67,
+          "key": 58,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -726,7 +638,7 @@
           "contentKey": "beat.R1.greeting.7"
         },
         {
-          "key": 68,
+          "key": 59,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -736,7 +648,7 @@
           "contentKey": "beat.R1.greeting.8"
         },
         {
-          "key": 69,
+          "key": 60,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -745,7 +657,7 @@
           "contentKey": "beat.R1.greeting.9"
         },
         {
-          "key": 70,
+          "key": 61,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -755,7 +667,7 @@
           "contentKey": "beat.R1.greeting.10"
         },
         {
-          "key": 71,
+          "key": 62,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -764,7 +676,7 @@
           "contentKey": "beat.R1.greeting.11"
         },
         {
-          "key": 72,
+          "key": 63,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -773,7 +685,7 @@
           "contentKey": "beat.R1.greeting.12"
         },
         {
-          "key": 73,
+          "key": 64,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -783,7 +695,7 @@
           "contentKey": "beat.R1.greeting.13"
         },
         {
-          "key": 74,
+          "key": 65,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -793,7 +705,7 @@
           "contentKey": "beat.R1.opt.r1-none-claimed.say"
         },
         {
-          "key": 75,
+          "key": 66,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -803,7 +715,7 @@
           "contentKey": "beat.R1.opt.r1-none-claimed.react"
         },
         {
-          "key": 76,
+          "key": 67,
           "channel": "milestone",
           "tick": 2,
           "count": 1,
@@ -814,7 +726,7 @@
           }
         },
         {
-          "key": 77,
+          "key": 68,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -823,7 +735,7 @@
           "contentKey": "reveal.readout-clock"
         }
       ],
-      "seq": 78
+      "seq": 69
     },
     "skillXp": {},
     "deliveredDialogue": [
@@ -835,8 +747,8 @@
     ],
     "npcMemory": {
       "soan": {
-        "regard": "holds-still",
-        "warmth": 2
+        "regard": "noted",
+        "warmth": 1
       },
       "genemon": {
         "regard": "earnest",
@@ -879,9 +791,7 @@
     },
     "sceneQueue": [],
     "activeScene": null,
-    "scenesPlayed": [
-      "sb-sickroom"
-    ],
+    "scenesPlayed": [],
     "roundState": null,
     "soanLedger": 0
   }

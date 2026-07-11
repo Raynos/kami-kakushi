@@ -16,6 +16,7 @@
 
 import type { GameState } from './state';
 import { hpMax } from './selectors';
+import { isUnlocked } from './unlock';
 import { rungNumber } from './ranks';
 import { enqueueScene } from './scenes';
 import { COOK_SANSAI_COST } from './content/balance';
@@ -65,11 +66,17 @@ export function revealsPass(state: GameState): GameState {
   //    option to carry one).
   if (rung >= 3 && dayOfWeek(next.clock.day) === LEASE_DAY) next = enqueueScene(next, 'sb-lease');
 
-  // ── the sickroom — the first hurt. FB-382's own stated intent made literal: the room
-  //    where the river's gift was carried is named the moment hurt starts existing (in
-  //    practice the R3 night round's wolf). It precedes any defeat relocation (defeat.ts),
-  //    because you cannot be beaten without first being hurt.
-  if (next.character.hp < hpMax(next)) next = enqueueScene(next, 'sb-sickroom');
+  // ── the sickroom — the first hurt THAT COUNTS. FB-382's stated intent is "the sickroom
+  //    reveals when hurt starts existing", and hurt starts existing when COMBAT does (the
+  //    grain-watch's wolf, in practice). The naive `hp < hpMax` test fires in the COLD OPEN —
+  //    the MC is river-found and wakes damaged, so it would open the room at R0, before there
+  //    is any such thing as a wound taken in the house's service, and Sōan's beat (which is
+  //    about cracked ribs and a body he has mended once already) would play to a man who has
+  //    not yet held a blade. So: hurt, AND combat exists. It still precedes any defeat
+  //    relocation (defeat.ts) — you cannot be beaten without first being hurt.
+  if (next.character.hp < hpMax(next) && isUnlocked(next, 'tab-combat')) {
+    next = enqueueScene(next, 'sb-sickroom');
+  }
 
   return next;
 }
