@@ -293,6 +293,11 @@ async function boot(): Promise<void> {
   }
   function playerDispatch(intent: Intent): void {
     if (MANUAL_DISARM.has(intent.type)) disarmAutos();
+    // FB-403 — entering a VN surface also CANCELS the in-flight timed action
+    // outright (it never completes): a work line landing mid-scene fractured
+    // the card. Disarming the autos (FB-266) wasn't enough — the already-
+    // running action kept its timer and fired under the VN.
+    if (intent.type === 'begin_rung_beat' || intent.type === 'begin_scene') clock.cancelAll();
     dispatch(intent);
   }
   // ADR-148 — the timing payload timingFor understands, pulled off the intent union.

@@ -17,3 +17,8 @@ rebalance plan get written, and the zone section gets a FULL ADR-075 diverge
 - **FB-398** — restored the spoken-line indent inside 幕 cards: composed
   `.log-line.scene-line.spoken` padding (card + speech) so FB-262's card
   padding no longer overrides FB-228's speech indent. Verified headlessly.
+
+- **FB-403** — a VN entry (`begin_rung_beat`/`begin_scene`) now
+  `clock.cancelAll()`s the in-flight timed action (main.ts playerDispatch) —
+  it never completes under the card. New e2e case (timed-actions.spec.ts),
+  proven RED without the fix.

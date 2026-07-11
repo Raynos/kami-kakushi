@@ -45,3 +45,11 @@ narration.
 **Distilled rule:** compose additive indents (`calc(card + speech)`), never
 let two idioms fight over one `padding-left`.
 **Fixed in:** styles.css `.log-line.scene-line.spoken` composed rule.
+
+### FB-403 · rung-up VN must cancel the in-flight auto action — ✅
+**Verbatim:** _"The moment you click the rung up VN it should CANCEL the current action that's auto looping mid action and CANCEL the auto. The action that's in flight DOES NOT COMPLETE."_
+**Reading:** FB-266 already disarmed the *armed* autos on VN entry, but the
+already-running timed action kept its timer and its completion line landed
+mid-scene, fracturing the card.
+**Fixed in:** playerDispatch cancels the ActionClock on `begin_rung_beat` /
+`begin_scene`; e2e case in timed-actions.spec.ts (proven RED pre-fix).

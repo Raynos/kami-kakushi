@@ -4,7 +4,7 @@
 // → re-enabled. Every other spec asserts flows under instant mode; this is the spec
 // that keeps the clock itself honest.
 import { expect, test } from '@playwright/test';
-import { RAKE_TEACH_COOLDOWN_MS } from '../../core/content/timing';
+import { INTENT_TIMING, RAKE_TEACH_COOLDOWN_MS } from '../../core/content/timing';
 import { boot, expectNoPageErrors, press } from './helpers';
 
 test('timed rake: press → disabled + bar → effect at duration → cooldown → re-enabled', async ({
@@ -37,6 +37,28 @@ test('timed rake: press → disabled + bar → effect at duration → cooldown �
   await expect(rake).toHaveClass(/act-cooldown/);
   await expect(rake).toBeDisabled();
   await expect(rake).toBeEnabled({ timeout: RAKE_TEACH_COOLDOWN_MS + 3_000 });
+
+  expectNoPageErrors(errors);
+});
+
+test('entering a rung-up VN cancels the in-flight timed action (FB-403)', async ({ page }) => {
+  const errors = await boot(page, 'rung-beat-ready', { timedActions: true });
+  const rest = page.locator('button[data-act-key="rest"]');
+  await expect(rest).toBeEnabled();
+  const logLen = await page.evaluate<number>('window.__qa.state().log.entries.length');
+
+  await press(rest);
+  await expect(rest).toBeDisabled(); // the action is in flight
+  // the banked promotion's summons — clicking it enters the VN and must CANCEL
+  // the running action outright (FB-403: it never completes, no line lands mid-scene)
+  await page.locator('.rung-head-trigger').click();
+  // wait past the action's full duration: a surviving timer would fire in here
+  const restTiming = INTENT_TIMING.rest;
+  await page.waitForTimeout((restTiming.kind === 'timed' ? restTiming.durationMs : 0) + 1_500);
+  const texts = await page.evaluate<string[]>(
+    `window.__qa.state().log.entries.slice(${logLen}).map((l) => l.text)`,
+  );
+  expect(texts.filter((t) => /You lie down|You stop where/i.test(t))).toEqual([]);
 
   expectNoPageErrors(errors);
 });
