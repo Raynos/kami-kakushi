@@ -72,3 +72,27 @@ In R1 the resting flavor text can be the woodshed but only if you rest in the lo
 **Details:** `the-log/2026-07-11T16-19-04.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-403 · 2026-07-11T16:20:53+0200 — this-is-a-stupid
+
+This is a stupid bug right there, how the VN log text be interrupted by "raking the spilled rice to the last grain"
+
+The moment you click the rung up VN it should CANCEL the current action that's auto looping mid action and CANCEL the auto.
+
+The action that's in flight DOES NOT COMPLETE.
+
+**Element:** panel "log" — "The spilled rice is raked to the last grain. There is nothin" · `section[data-panel=log] > div:nth-of-type(2) > div:nth-of-type(52)` · @942,482 493×52
+**Screenshot:** `the-log/2026-07-11T16-20-53.png`
+**Details:** `the-log/2026-07-11T16-20-53.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-406 · 2026-07-11T16:24:21+0200 — ok-all-this-flavor
+
+Ok all this flavor text that renders in Now when you navigate from one zone to the other zone, I dont want it. I want this to be in the zone description in the Map tab instead.
+
+**Element:** panel "log" — "The gate & gateyard: The estate's face, kept barely, kept an" · `section[data-panel=log] > div:nth-of-type(2) > div:nth-of-type(9)` · @942,444 493×96
+**Screenshot:** `the-log/2026-07-11T16-24-21.png`
+**Details:** `the-log/2026-07-11T16-24-21.json` — save + recent logs + full context
+
+---
