@@ -41,30 +41,35 @@ magic; no reset.
   yet** (no track field in code; the check ships with T1 authoring).
 - **✅ ESTATE REDESIGN — ALL PHASES DONE (s168, ADR-177):** works discovery chain
   (**HR-27**) · Works 普請/Estate 家 diverges (**HR-29/HR-30**) · repair verbs.
-- **✅ FOG/REVEAL WAVE (s171):** live-map fog; the T0 sheet CLIPS (no T1 leak); ONE
-  viewer engine; no zone predates its introduction (always-open set is EMPTY).
+- **✅ ZONE-REVEAL LAW (s182, ADR-184):** a zone opens **only inside a VN**; a rung-up
+  VN opens **≤2** (a `verify-content` gate). R1 opened 4 zones, 3 empty (FB-407/8/9) →
+  now **1**. Five zones earn side-quest VNs (`core/reveals.ts`): gate · kitchen ·
+  margins · reeds (`sb-lease` — it already existed) · sickroom; the woodshed rides to
+  R4, where the home it promises is granted. `seenReveals` **re-arms** (a re-rung zone
+  re-announces). Pacing ±0.0. Fog wave (s171) stands: sheet CLIPS, one viewer engine.
 - **✅ BODY SPLIT (s167, ADR-178):** Body 体 (work fuel) + Belly 腹 (food store;
   teeth = rest quality) — core + two-bar UI + PRD §2.3; verdict Δ≈0.
 - **✅ v0.4.0 STORYWAVE SHIPPED & CLOSED (s125–144):** bible-canon T0 live on
   gh-pages (tag `v0.4.0`); PRD truth-synced, freeze CANCELLED (ADR-168/169); HD-35
   re-pace ruled (ADR-172 — R3 ≈20 min; the bands are the `verify:balance` teeth).
-- **✅ FOUNDATIONS:** bible blessed (ADR-150) · UI-v2 Andon Steel + taste.md's
-  21-principle lock (ADR-144/126) · T0/T1 map sheets = the player map (golden pin,
-  blind-pass); T2 sheet BUILT (`?t2-map-demo`) — **NOT DONE: T2 rungs/fog** ·
-  Phase-2 economy (ADR-145) · timed actions (ADR-148).
-- **🧊 PARKED:** Plan K authored-depth demo + the T1 emergent-node plan (both
-  `docs/plans/t1/`). Un-park = human.
+- **✅ FOUNDATIONS:** bible blessed (ADR-150) · UI-v2 Andon Steel + taste.md's 21-principle
+  lock (ADR-144/126) · T0/T1 map sheets = the player map (golden pin, blind-pass); T2 sheet
+  BUILT (`?t2-map-demo`) — **NOT DONE: T2 rungs/fog** · Phase-2 economy · timed actions.
+- **🧊 PARKED:** Plan K + the T1 emergent-node plan (`docs/plans/t1/`). Un-park = human.
 
 ## Waiting on the human
 
 - **HR-1** 🔲 — play/review the full T0 arc for fun & pacing (the LOOK is UI-v2
   certified; this is the fun/taste call on the live storywave build).
-- **Story picks (DEV → Story)** 🔲 — HR-18…HR-21 (overlays · discoveries ·
-  judge lines · node reads) + **HR-27** (the works discovery chain, incl. the
-  R2-silence note) + **HR-28** (the three intro scene heads, FB-362).
-- **DEV-variant picks (ADR-075)** 🔲 — home (HR-6) · bestiary (HR-5) · HR-2A–D
-  (market · influence · craft · quests) · works (HR-29) · estate (HR-30). Picks
-  → the agent strips the alternates.
+- **HD-40** 🔲 — **the kitchen-only pot.** You picked it, it is BUILT, one line turns
+  it on — held because the sim prices its walk at **R3 22.7 → 31.6 wall-min, outside
+  the signed [3,25] band** (ADR-056 is yours to move). Four levers in the item.
+- **HR-33** 🔲 (story) + **HR-32b** 🔲 (announce) — the four zone-reveal VNs (take A
+  canon; **take B is the one that answers "the people are pure flavor"**), and
+  VN-only vs VN+map-ink. Both live in the DEV panel.
+- **Story picks (DEV → Story)** 🔲 — HR-18…HR-21 · **HR-27** (works chain) ·
+  **HR-28** (intro heads). **DEV-variant picks (ADR-075)** 🔲 — HR-6 · HR-5 ·
+  HR-2A–D · HR-29 · HR-30. A pick → the agent strips the alternates.
 
 ## Toolchain
 
@@ -100,21 +105,16 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true
    player layout. The page NEVER auto-reloads (FB-257) — F5 to pick up code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** **zone-reveal law** (🔒 LOCKED,
-   `…zone-rung-rebalance.md`: a zone opens only in a VN, ≤2 per rung-up —
-   w3 building it s181); or **T2 rungs/fog** (`docs/plans/t2/…`;
-   `T2_RUNG_LADDER` is DEV-preview-only); or **telemetry distillation** (6
-   usable FB-8 reports newer than the last balance commit). The
-   **save-format streamline is DONE** (s180, ADR-186 — archived); its
-   **addendum** is the live follow-up: the reveal-ceremony **re-arm**
-   (`seenReveals` never re-arms, so a re-rung zone silently never
-   re-announces — overlaps the zone plan's Stage 1), the two `SPECIAL_FACTS`
-   surfaces that bypass the rung schedule, and the **save-migration policy**
-   (machinery exists: `migrate.ts` + the ADR-161 courteous-restart path;
-   the missing rule is *when a content move bumps the generation vs. ships a
-   migration step*). Human-gated: HR-1 + the story/variant picks above.
+4. **Next (autonomous):** **T2 rungs/fog** (`docs/plans/t2/…`; `T2_RUNG_LADDER` is
+   DEV-preview-only) · **telemetry distillation** (6 usable FB-8 reports newer than
+   the last balance commit) · the save-format **addendum** (the re-arm is DONE with
+   ADR-184; what remains is the two `SPECIAL_FACTS` surfaces bypassing the rung
+   schedule, and the **save-migration policy** — machinery exists (`migrate.ts` + the
+   ADR-161 courteous restart); the missing rule is *when a content move bumps the
+   generation vs. ships a migration step*). **In flight:** wait-a-day (w2) ·
+   T0 re-voice (w6, ADR-185). Human-gated: **HD-40** + HR-1 + the picks above.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
    **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
    `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 11/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 12/20 · last full rewrite: 2026-07-11 -->
