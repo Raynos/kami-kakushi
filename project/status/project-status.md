@@ -99,22 +99,19 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true
    player layout. The page NEVER auto-reloads (FB-257) — F5 to pick up code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** **zone-reveal law** — 🔒 LOCKED 2026-07-12
-   (`docs/plans/fable-2026-07-11-zone-rung-rebalance.md`): *a zone opens only
-   in a VN; a rung-up VN opens ≤2*. Stages 0–2 (ADR + ≤2 gate · derived
-   `seenReveals` re-arm · rewire `ranks.ts`) are cheap; Stage 3 is the five-VN
-   wave and nothing ships until it lands. Adds no save field, by design. Or
-   **save-format streamline** (audited s175, human
-   wants src-as-truth: `docs/plans/fable-2026-07-11-save-format-streamline.md`
-   — steps 2–5 small, step 1 = per-emitter log-descriptor commits); or **T2
-   rungs/fog** (greenlit: `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1
-   caveat: `T2_RUNG_LADDER` is DEV-preview-only); or **telemetry distillation**
-   (6 usable FB-8 reports newer than the last balance commit — read + commit
-   the pacing note before any balance work); or drain the playtest inbox when
-   captures land (ADR-171 — claim a lane first). Human-gated: HR-1 + the
-   story/variant picks above + **HD-38** (the T0 narrative register ruling
-   D1–D4 — unblocks `docs/plans/fable-2026-07-11-t0-narrative-revoice.md`,
-   the audited-worst-first T0 re-voice; audit: s176).
+4. **Next (autonomous):** **save-format streamline** — 🔒 LOCKED, IN PROGRESS
+   (s180, `docs/plans/fable-2026-07-11-save-format-streamline.md`; 8 human
+   rulings recorded in the plan). Steps 5·3·2·4 DONE; **step 1 (log =
+   derived view) is mid-flight** — reveal/discovery/works/scene emitters
+   keyed; REMAINING: intro · dialogue · perk · rake/rest, then the
+   zero-keyless gate, the fixture strip, the ADR. Or **zone-reveal law**
+   (🔒 LOCKED, `…zone-rung-rebalance.md`: a zone opens only in a VN, ≤2 per
+   rung-up); or **T2 rungs/fog** (`docs/plans/t2/…`; `T2_RUNG_LADDER` is
+   DEV-preview-only); or **telemetry distillation** (6 usable FB-8 reports
+   newer than the last balance commit). Human-gated: HR-1 + the story/variant
+   picks above + **HD-38** (the T0 register ruling — unblocks the re-voice).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
+   **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
+   `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 9/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 10/20 · last full rewrite: 2026-07-11 -->
