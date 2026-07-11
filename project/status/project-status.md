@@ -26,31 +26,31 @@ magic; no reset.
 
 ## Where we are now
 
-- **✅ ESTATE REDESIGN — ALL PHASES DONE (s168, ADR-177):** Phase 1 the works
-  discovery chain (works-cause diverge, pick C; weir fiction-gated,
-  FB-338/FB-342; **HR-27**) · Phase 2 Schedule A one-tab-per-rung + the Works
-  普請/Estate 家 diverges (**HR-29/HR-30**) · Phase 3 repair verbs + inputs.
-  Plan (archived):
-  [`fable-2026-07-10-estate-upgrades-redesign.md`](../archive/fable-2026-07-10-estate-upgrades-redesign.md).
-- **✅ FOG/REVEAL WAVE (s171, FB-377…387):** live-map fog covers the whole
-  window; the T0 sheet CLIPS to its window (no T1 world leak); ONE viewer
-  engine (`map-sheets/viewer.ts`) for the DEV sheets + the live map; and NO
-  zone predates its introduction — weir/kitchen/sickroom/forecourt all
-  fiction-revealed (the always-open set is EMPTY).
-- **✅ BODY SPLIT DONE (s167, ADR-178):** Body 体 (work fuel) + Belly 腹 (daily
-  food store; teeth = rest quality) — core + two-bar UI + PRD §2.3; verdict Δ≈0.
-- **✅ v0.4.0 STORYWAVE SHIPPED & CLOSED (s125–144):** the bible-canon T0
-  rewrite live on gh-pages (tag `v0.4.0`); post-ship review fully closed
-  (ADR-166/167); PRD truth-synced, freeze CANCELLED (ADR-168/169, verified
-  s141); cold open re-arced to three acts (ADR-173); HD-35 re-pace ruled
-  (ADR-172 — R3 ≈20 min, full R0–R6 band verdicts + the R7 ratio gate are the
-  live `verify:balance` teeth; greedy T0 ≈ 2.5 h sim wall). Combat curve R4+
-  kills still parked (inbox).
-- **✅ FOUNDATIONS:** the bible done & blessed (s116, ADR-150) · UI-v2 Andon
-  Steel + the taste.md 21-principle lock (ADR-144/126) · T0/T1 map sheets =
-  the player map (golden pin, blind-pass); T2 valley sheet BUILT
-  (`?t2-map-demo`) — **NOT DONE: T2 rungs/fog** · Phase-2 economy (ADR-145) ·
-  timed actions (ADR-148).
+- **✅ PROGRESSION = ONE MODEL, ALL TIERS (s180, ADR-182/183):** the flat-points
+  rung-meter (threshold table, AND-gate with story flags) is **DEAD at every
+  tier**, not just T0 — a rung promotes when its **authored objective-requirement
+  list** is 100% done. PRD (6 sections) + roadmap + t1/t2-content rewritten;
+  `prd-drift` RETIRES the dead vocabulary (proven RED-able). **ADR-183:** every
+  T1+ rung's list must hold ≥1 requirement from EACH track — **canon, no teeth
+  yet** (no track field in code; the check ships with T1 authoring).
+- **✅ ESTATE REDESIGN — ALL PHASES DONE (s168, ADR-177):** works discovery chain
+  (**HR-27**) · Schedule A one-tab-per-rung + Works 普請/Estate 家 diverges
+  (**HR-29/HR-30**) · repair verbs + inputs. Plan archived.
+- **✅ FOG/REVEAL WAVE (s171):** live-map fog covers the window; the T0 sheet
+  CLIPS (no T1 leak); ONE viewer engine for DEV sheets + live map; no zone
+  predates its introduction (the always-open set is EMPTY).
+- **✅ BODY SPLIT (s167, ADR-178):** Body 体 (work fuel) + Belly 腹 (food store;
+  teeth = rest quality) — core + two-bar UI + PRD §2.3; verdict Δ≈0.
+- **✅ v0.4.0 STORYWAVE SHIPPED & CLOSED (s125–144):** bible-canon T0 rewrite live
+  on gh-pages (tag `v0.4.0`); post-ship review closed (ADR-166/167); PRD
+  truth-synced, freeze CANCELLED (ADR-168/169); cold open re-arced (ADR-173);
+  HD-35 re-pace ruled (ADR-172 — R3 ≈20 min; the R0–R6 bands + R7 ratio gate are
+  the live `verify:balance` teeth; greedy T0 ≈ 2.5 h sim). Combat R4+ kills
+  parked (inbox).
+- **✅ FOUNDATIONS:** bible blessed (s116, ADR-150) · UI-v2 Andon Steel + the
+  taste.md 21-principle lock (ADR-144/126) · T0/T1 map sheets = the player map
+  (golden pin, blind-pass); T2 valley sheet BUILT (`?t2-map-demo`) — **NOT DONE:
+  T2 rungs/fog** · Phase-2 economy (ADR-145) · timed actions (ADR-148).
 - **🧊 PARKED:** Plan K authored-depth demo + the T1 emergent-node plan (both
   `docs/plans/t1/`). Un-park = human.
 
@@ -117,4 +117,4 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    the audited-worst-first T0 re-voice; audit: s176).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 8/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 9/20 · last full rewrite: 2026-07-11 -->

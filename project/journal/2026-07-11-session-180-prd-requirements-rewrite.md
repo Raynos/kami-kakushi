@@ -180,12 +180,35 @@ files PLUS `fun-factor.md` / `ui-design.md` / `qa-playtesting.md` — but NOT
 the words "AND-gate" and "sub-meter" verbatim, and would have RED-ed the gate had
 roadmap been in scope. It isn't, so the record and the teeth coexist.
 
+## 7 · HD-39 ruled the same session → ADR-183
+
+The human ruled **(b)**: **every T1+ rung's requirement list must contain ≥1
+requirement from EACH track.** No rung climbs on one kind of work alone. I had
+recommended **(a)** (free-form lists, anti-specialization carried by authoring
+taste) and was **overridden** — the guarantee is a rule, not a habit. That is
+ADR-025's anti-specialization intent, kept as canon after ADR-182 retired the
+two-meter mechanism that used to carry it structurally.
+
+**Landed as ADR-183** (`45ab45e2`), rippled into PRD §1.5.1 + t1-content +
+t2-content; HD-39 closed and graduated to the archive row.
+
+**The honest gap, recorded in the ADR rather than papered over:** the **track
+concept exists in NO code**. `RequirementDef` (`requirements-engine.ts`) carries
+`id`/`flavor`/`drive` + a `count`|`state`|`flag` body — **no track attribution** —
+and `RankDef` has no `track` field either (tracks live only in the design docs,
+because T0 ships one ladder). So ADR-183 is **canon without teeth today, by
+design**: a `verify-content` check with no T1 rungs to check is a vacuous green,
+which is worse than no check (PH3). It ships with T1 authoring, and needs first:
+(1) a **per-requirement track attribution** — proposed, not locked: derive from
+the `count` token namespace where unambiguous (`act:<labour>` → Estate Service,
+`kill:*` → Combat Rank) and require an explicit `track` tag for `state`/`flag`
+requirements, which have no natural track. That is a **grammar growth** (FB-5), so
+it is a design call at T1's build, not an agent's to self-serve. Then (2) the
+invariant itself.
+
 ## Open questions surfaced for the human (not decided)
 
-- **Does a T1 rung's requirement list have to span BOTH tracks?** The old text
-  said "both sub-meters still gate every rung" — under one list per rung that
-  clause has no mechanism, so it was dropped rather than reinvented. If every T1
-  rung must contain both labour AND martial requirements, that is now unstated.
+- ~~Does a T1 rung's list span both tracks?~~ **RULED (b) → ADR-183** (§7 above).
 - **The per-tier transition STORY GATE (`TierGate.storyGateFlag`) survives.**
   ADR-137/182 kill the *rung*-level story gate; the *tier*-level one is a separate
   Phase-2 mechanism. Left alone — dissolving it too would be an intent call.
@@ -197,11 +220,39 @@ roadmap been in scope. It isn't, so the record and the teeth coexist.
   *retired rice+coin economy*, a different dead model. Out of this ruling's scope;
   flagged rather than guessed at.
 
+## 8 · Exit state — work is DONE, the push is BLOCKED (not by me)
+
+At checkpoint: **my four commits are local and unpushed**, stuck behind a
+co-agent's red. `main` is currently **unpushable**.
+
+- Mine: `abcce5c3` (teeth + comments) · `45ab45e2` (ADR-183) · `4b54bf47` (plan
+  archive) · plus `6e9fa877`/`33a524ae`/`b7565615` which **are** already on
+  `origin/main`.
+- **The red is w2:p5's** (save-format, mid step-1 descriptor migration):
+  `core/scenes.test.ts` failing 4 tests, `save-e2e.test.ts` failing its
+  "rebuilds every keyed entry text from the registry on load" case — which is the
+  exact done-when proof their own plan step 1 names. Their commits (`05573a1d`,
+  `94c77ae5`, `cf9f8e03`) sit interleaved above mine, so a `git push` carries
+  their breakage; I did **not** `SKIP_VERIFY` it (working-agreements: don't fight
+  someone else's red).
+- Messaged w2:p5 via herdr with the repro (`VERIFY_FULL=1 pnpm run verify`).
+- **Nothing is stranded.** Shared clone → the next successful green push from ANY
+  agent on this tree carries my commits out automatically.
+
 ## Landmines
 
 - **Shared tree, 3 co-agents live** (w2:p5 save-format, w6:p1 story takes, w3:p3
-  zone-rung) with WIP in `src/ui/`. This sweep is docs-only — commit by explicit
-  file pathspec, `SKIP_CODE_VERIFY=1`, and never stage their paths.
+  zone-rung). This sweep is docs-only — commit by explicit file pathspec,
+  `SKIP_CODE_VERIFY=1`, and never stage their paths.
+- **`todo-human.md`'s reading-queue entry for this plan came BACK** after
+  `4b54bf47` cleared it (stale editor buffer, most likely). It then pointed at
+  `docs/plans/…`, which no longer exists → **dead link → `md-links` RED → every
+  commit blocked**. Repointed at `project/archive/` and ticked ✅ rather than
+  silently re-deleting a line the human may have restored on purpose. If a queue
+  entry ever reappears for an archived plan, this is why.
+- **The `@slow` lane only runs at PUSH**, not at commit. A co-agent can commit
+  green and leave `main` unpushable — as happened here. `VERIFY_FULL=1 pnpm run
+  verify` is how you see it before the push gate does.
 - **gen-regions are not hand-editable.** `01-vision.md` and `03-unlock-ladder.md`
   carry `<!-- gen:begin … -->` regions; edits inside them are reverted by the
   `gen-prd-regions` gate. Rewrite around them.
