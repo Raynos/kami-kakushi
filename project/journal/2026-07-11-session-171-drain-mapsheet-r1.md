@@ -39,3 +39,6 @@ shown before landing.
 
 - `6003a78b` — the map fog/seal/layout batch (FB-377/378/379/380/384/385/386)
 - FB-387 header vital-stack rides the next commit with this journal line.
+- Bookkeeping: sidecars stamped (9 done: FB-377…380, 383…387); the r1 bucket
+  archived (entry merged into the existing archive file); mapsheet stays in
+  pending/ on the two open fiction-led items (FB-381/382).
