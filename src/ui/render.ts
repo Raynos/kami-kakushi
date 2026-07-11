@@ -710,8 +710,10 @@ export function mount(
 
   const shell = el('div', 'shell paper');
 
-  // ── title bar (the game's name + the settings entry) ──
-  const titlebar = el('header', 'titlebar');
+  // ── the game's name — lives in the fixed FOOTER, not a title row (FB-372:
+  //    the full-width titlebar bought 33px of chrome for a name; the footer
+  //    already carries the version + Settings, so the name joins them and the
+  //    grid loses a row) ──
   const title = el('span', 'game-title');
   title.lang = 'ja';
   title.append(el('span', 'kami', '神隠し'));
@@ -726,9 +728,6 @@ export function mount(
   settingsBtn.setAttribute('aria-haspopup', 'dialog');
   const settings = buildSettings(hooks);
   settingsBtn.addEventListener('click', () => settings.open());
-  // the Settings control now lives in the fixed footer (playtest FB-5); the titlebar shows the name.
-  titlebar.append(title);
-  shell.append(titlebar);
 
   // ── header / vitals ──
   const header = el('header', 'vitals');
@@ -1201,7 +1200,10 @@ export function mount(
   versionBtn.setAttribute('aria-haspopup', 'dialog');
   versionBtn.setAttribute('aria-label', `About Kami-kakushi ${__VERSION__}`);
   versionBtn.addEventListener('click', () => settings.open('about'));
-  footer.append(versionBtn, settingsBtn);
+  // FB-372 — name leftmost, the version stamp right beside it, Settings at the right edge.
+  const footLeft = el('span', 'foot-left');
+  footLeft.append(title, versionBtn);
+  footer.append(footLeft, settingsBtn);
   // FB-92 — the DEV toggle floats as a fixed overlay at the bottom-right corner (dev.ts). Reserve its
   // corner in the footer (DEV builds only) so the Settings button sits clear of it — no collision.
   if (__DEV_TOOLS__ && dev) footer.classList.add('has-dev-toggle');
