@@ -24,6 +24,25 @@ import { FLAVOR } from './flavor';
 import { sceneById } from './scenes';
 import { RUNG_BEATS, rungOption, type RungScene } from './rungBeats';
 import type { RankId } from './ranks';
+import {
+  DIALOGUE_SCENES,
+  introSceneOption,
+  introTopic,
+  introPerkLine,
+  type DialogueScene,
+} from './intro';
+import { ACTIVITIES, activityLine, type LabourResource } from './activities';
+import { rakeLine } from './coldOpen';
+import { homeRestLine } from './home';
+import { DIALOGUES } from './dialogue';
+import { RUNG_REQUIREMENTS, requirementFlavor } from './requirements';
+import { NIGHT_ROUNDS } from './nightRounds';
+import { ESTATE_STAGES } from './estate';
+import { RECIPES } from './crafting';
+import { BELONGINGS } from './home';
+import { judgeLine } from './flavor';
+// TYPE-only (erased at runtime), so importing from the pillars reducer cannot create a cycle.
+import type { Grade } from '../pillars';
 
 /** A namespace resolver: given the key's tail (everything after the first dot) + params, render.
  *  Returns undefined when the id is unknown to the registry — a content id that src/ has since
@@ -86,6 +105,106 @@ const beatText = (tail: string): string | undefined => {
   return beat ? vnText(beat, tail.slice(dot + 1)) : undefined;
 };
 
+// ── the intro (a DialogueScene: greeting lines · ask-hub topics · the terminal decision) ─────
+//   intro.<sceneId>.greeting.<i>
+//   intro.<sceneId>.topic.<topicId>.ask | .answer.<i>
+//   intro.<sceneId>.opt.<optionId>.say | .react | .perk
+const introScene = (id: string): DialogueScene | undefined =>
+  DIALOGUE_SCENES.find((s) => s.id === id);
+
+function introText(tail: string): string | undefined {
+  const dot = tail.indexOf('.');
+  if (dot <= 0) return undefined;
+  const scene = introScene(tail.slice(0, dot));
+  if (!scene) return undefined;
+  const part = tail.slice(dot + 1);
+
+  const greeting = part.match(/^greeting\.(\d+)$/);
+  if (greeting) return scene.greeting[Number(greeting[1])]?.text;
+
+  const topic = part.match(/^topic\.(.+?)\.(ask|answer\.(\d+))$/);
+  if (topic) {
+    const t = introTopic(scene, topic[1]!);
+    if (!t) return undefined;
+    if (topic[2] === 'ask') return t.label;
+    return t.answer[Number(topic[3])]?.text;
+  }
+
+  const opt = part.match(/^opt\.(.+)\.(say|react|perk)$/);
+  if (opt) {
+    const o = introSceneOption(scene, opt[1]!);
+    if (!o) return undefined;
+    if (opt[2] === 'say') return o.say;
+    if (opt[2] === 'react') return o.react;
+    return introPerkLine(o); // the perk line is DERIVED from the option — never a stored copy
+  }
+  return undefined;
+}
+
+/** A labour line: the activity's own prose + the gains it actually paid out. The gains are the
+ *  DYNAMIC part, so they ride in `params` (rice: 2, coin: 1) and the line rebuilds from the
+ *  CURRENT activity def — rename the activity's prose and every old save's labour lines follow. */
+function activityText(id: string, params: LogParams): string | undefined {
+  const act = ACTIVITIES.find((a) => a.id === id);
+  if (!act) return undefined;
+  const gained: Partial<Record<LabourResource, number>> = {};
+  for (const [k, v] of Object.entries(params)) {
+    if (typeof v === 'number') gained[k as LabourResource] = v;
+  }
+  return activityLine(act, gained);
+}
+
+/** A dialogue-tree line: `dialogue.<dialogueId>.<lineId>`. Reads DIALOGUES directly rather than
+ *  `getDialogueLine()`, which THROWS on an unknown id — here an unknown id is the ordinary
+ *  "src/ renamed this line" case, and the caller (codec) wants `undefined` so it can fall back to
+ *  the entry's stored text, not an exception that would take the whole save down. */
+function dialogueText(tail: string): string | undefined {
+  const dot = tail.indexOf('.');
+  if (dot <= 0) return undefined;
+  const def = DIALOGUES.find((d) => d.id === tail.slice(0, dot));
+  return def?.lines.find((l) => l.id === tail.slice(dot + 1))?.text;
+}
+
+/** A rung requirement's completion line: `requirement.<reqId>`. */
+function requirementText(id: string): string | undefined {
+  for (const reqs of Object.values(RUNG_REQUIREMENTS)) {
+    const req = reqs.find((r) => r.id === id);
+    if (req) return requirementFlavor(req);
+  }
+  return undefined;
+}
+
+/** A night-round STAGE's authored narration: `nightRound.<roundId>.stage.<i>`. */
+function nightRoundText(tail: string): string | undefined {
+  const m = tail.match(/^(.+)\.stage\.(\d+)$/);
+  if (!m) return undefined;
+  return NIGHT_ROUNDS.find((r) => r.id === m[1])?.stages[Number(m[2])]?.narration;
+}
+
+/** A belonging's acquire line: `belonging.<id>.acquire` (the def owns the prose). */
+function belongingText(tail: string): string | undefined {
+  const m = tail.match(/^(.+)\.acquire$/);
+  if (!m) return undefined;
+  return BELONGINGS.find((b) => b.id === m[1])?.acquireLine;
+}
+
+/** An estate ladder stage's completion line: `estate.stage.<n>.done`.
+ *  Reads the stage def's own `logLine` rather than works.ts's `stageLogLine()` — works.ts is a
+ *  REDUCER (it imports scenes.ts), and the DEV take it layers on applies to future emissions only
+ *  (ADR-143), so canon is the right answer on rehydrate. Same call as the `works` namespace. */
+function estateStageText(tail: string): string | undefined {
+  const m = tail.match(/^stage\.(\d+)\.done$/);
+  if (!m) return undefined;
+  return ESTATE_STAGES.find((st) => st.stage === Number(m[1]))?.logLine;
+}
+
+/** A craft recipe's completion blurb: `recipe.<id>.blurb`. */
+function recipeText(tail: string): string | undefined {
+  const m = tail.match(/^(.+)\.blurb$/);
+  if (!m) return undefined;
+  return RECIPES.find((r) => r.id === m[1])?.blurb;
+}
+
 /** namespace → resolver. Each namespace's prose stays in ITS registry — one home (TST1). */
 const RESOLVERS: Readonly<Record<string, Resolver>> = {
   reveal: (id) => surfaceRevealText(id),
@@ -94,6 +213,27 @@ const RESOLVERS: Readonly<Record<string, Resolver>> = {
   flavor: (key) => (FLAVOR as Readonly<Record<string, string>>)[key],
   scene: (tail) => sceneText(tail),
   beat: (tail) => beatText(tail),
+  intro: (tail) => introText(tail),
+  dialogue: (tail) => dialogueText(tail),
+  requirement: (id) => requirementText(id),
+  nightRound: (tail) => nightRoundText(tail),
+  recipe: (tail) => recipeText(tail),
+  estate: (tail) => estateStageText(tail),
+  belonging: (tail) => belongingText(tail),
+  // The day-book judge line. The GRADE is the FACT the save stores (plus the koku the engine
+  // paid); the words come from FLAVOR via judgeLine, so a re-authored judge line — or the DEV
+  // take switcher — reaches every existing save. Lives here, not in log-content: log-content is
+  // a leaf and must not reach into the flavor registry.
+  pillar: (part, params) =>
+    part === 'judge' ? `${judgeLine(params.grade as Grade)} (+${params.bonus} koku)` : undefined,
+
+  activity: (id, params) => activityText(id, params),
+  // The cold-open rake: authored prose + the amount it credited (the amount is the only variable).
+  coldOpen: (part, params) =>
+    part === 'rake' ? rakeLine(typeof params.amount === 'number' ? params.amount : 0) : undefined,
+  // The at-home rest line — which of the two it is depends on owning bedding, a FACT, so it rides
+  // in params rather than being frozen as prose.
+  home: (part, params) => (part === 'rest' ? homeRestLine(params.bedding === true) : undefined),
 };
 
 /** The namespaces this module can resolve — exported so a test can prove every emitted key

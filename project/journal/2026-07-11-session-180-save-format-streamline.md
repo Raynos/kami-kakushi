@@ -219,11 +219,51 @@ Full lane now green: **1258 tests, 95 files, `@slow` included.**
 - `src/core/rewards.ts` — emit-text wins over the key; the key is for the SAVE.
 - `src/persistence/save-e2e.test.ts` — repointed at the real renderer.
 
+### 9 · Step 1d — ZERO keyless: every emitter keyed, gated by a test that can go RED
+
+Wrote the **keyless gate FIRST** (locked decision 2) and let it enumerate the work rather than
+guessing: it drives every FIXTURE SPEC through the REAL engine (cold open → R7 → pre-ascension)
+and fails with a ranked list of the prose still reaching the save. That took it from **302
+distinct keyless lines → 0**, one emitter at a time.
+
+Keyed, with each line's prose staying in the registry that already owns it (TST1 — no second
+home, no drift): reveal · discovery · works · scene VN (greeting/say/react/bonus) · rung-beat VN
+(greeting/topics/decision) · intro (greeting/ask-hub/decision/**perk**) · dialogue tree ·
+requirement flavor · activity labour lines · rake · rest · texture/ambient · night-round stages ·
+deed-source reveals · estate stage-done + commission + work-progress · first wage · nengu ·
+day-book judge · belongings · craft recipes.
+
+Two design notes worth keeping:
+- **`texture.ts` threw the FLAVOR key away** and kept only the rolled string, so ambient lines had
+  no stable id. Now it carries `[key, text]` through — still **sorted by TEXT**, so the seeded
+  pick for a given RNG draw is byte-for-byte the line it always was. The refactor must not move
+  the world, and it doesn't.
+- Prose that genuinely lived **inline in a reducer** (the nengu reckoning, the commission line,
+  the first wage) moved into `LOG_CONTENT` — a hand-written registry is exactly its job. Prose
+  owned by a content registry keys to THAT registry instead (`log-render.ts`).
+
+The gate has a second half that matters as much: **every key a full arc emits must RESOLVE.** A
+keyed entry whose key doesn't resolve is *worse* than a keyless one — codec falls back to the
+stored text, so it looks fine today and silently stops tracking `src/` forever. It caught 3 such
+keys (I keyed the dialogue emitter before writing its resolver).
+
+**Two tests asserted things the plan makes false, and both were fixed honestly, not silenced:**
+- `save-e2e` asserted a full arc emits BOTH keyed and keyless lines. True during the Stage-C
+  migration; now false BY DESIGN. Re-pointed at the new invariant (descriptors only) + a NEW
+  explicit test that a LEGACY keyless entry still rehydrates, so old saves keep loading.
+- `log-content.test` requires a SAMPLE for every registry key — added for the four new ones.
+
+Full lane: **1261 tests green, `@slow` included; all 18 gates.**
+
+**Known limit (goes in the ADR):** `greeting.<i>` and `stage.<i>` are POSITIONAL, not id-keyed —
+re-ordering a scene's greeting lines in the narrative `.md` re-points an old save's line to its
+neighbour. The narrative grammar gives greeting lines no ids today. The orphan sensor cannot see
+this (the index still resolves), so it is a content RESTRUCTURE that needs a migration.
+
 ## Next intended steps
 
-Rest of step 1, in order: key the discovery, works and scene/dialogue emitters; then
-make the FIXTURES strip their prose too (see landmine below); then the zero-keyless
-gate (locked decision 2); then the ADR + README.
+Step 1's tail: make the FIXTURES strip their prose (they still carry ~460k chars —
+see landmine below), then the ADR + README amendment. Then the addendum work.
 
 Then the **addendum work the human handed over mid-session** — the zone-derivation
 finding + the save-migration subsystem routed here from the zone-rung-rebalance

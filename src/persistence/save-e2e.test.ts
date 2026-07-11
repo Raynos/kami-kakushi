@@ -15,6 +15,7 @@ import {
 // dispatch to the content registries, and it is what codec.ts calls). Importing the leaf here
 // would only ever see the hand-written templates, so a namespaced key would throw.
 import { renderLogLine } from '../core/content/log-render';
+import { pushLog } from '../core/log';
 import { createMemorySaveManager, MemoryBackend } from './index';
 
 // End-to-end save/load: drive the WHOLE T0 arc through the REAL reducer (no forced flags — the
@@ -42,13 +43,27 @@ function playToAscension(seed: number): GameState {
 describe('save/load e2e — a full-arc playthrough round-trips through the real SaveManager', () => {
   const rich = playToAscension(20260626);
 
-  it('drives a log with BOTH keyed descriptors and keyless content lines', () => {
+  it('drives a log of DESCRIPTORS ONLY — no prose reaches the save', () => {
+    // This used to assert the arc produced BOTH keyed and keyless entries — true during the
+    // Stage-C migration, and now false BY DESIGN: every emitter is keyed (save-format plan,
+    // step 1), so a real arc emits zero keyless lines. The keyless PATH still exists for legacy
+    // saves and is exercised below + in core/content/log-render.test.ts; what must never come
+    // back is prose in a NEW save. (The dedicated ratchet is core/content/log-keyless.test.ts.)
     const keyed = rich.log.entries.filter((e) => e.contentKey !== undefined);
     const keyless = rich.log.entries.filter((e) => e.contentKey === undefined);
-    // The whole test is only meaningful if the arc actually produced both kinds — assert it could
-    // have gone RED (a drive that emitted no keyed lines would prove nothing about descriptors).
-    expect(keyed.length).toBeGreaterThan(0);
-    expect(keyless.length).toBeGreaterThan(0);
+    expect(keyed.length).toBeGreaterThan(0); // could have gone RED: a drive that emitted nothing
+    expect(keyless).toEqual([]);
+  });
+
+  it('still rehydrates a LEGACY keyless entry (an old save must keep loading)', async () => {
+    const legacy: GameState = {
+      ...rich,
+      log: pushLog(rich.log, 'narration', 'prose from before descriptors existed', 0),
+    };
+    const mgr = createMemorySaveManager([new MemoryBackend()], () => 1000);
+    await mgr.save(legacy);
+    const loaded = await mgr.load();
+    expect(loaded!.state.log.entries.at(-1)!.text).toBe('prose from before descriptors existed');
   });
 
   it('round-trips byte-identically through save()/load() (gzip + descriptor rehydrate)', async () => {

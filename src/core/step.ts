@@ -43,6 +43,8 @@ function onReckoning(state: GameState): GameState {
         channel: 'milestone',
         voice: 'narrator',
         text: `${judgeLine(gradeOf(pillar.value))} (+${bonus} koku)`,
+        contentKey: 'pillar.judge',
+        params: { grade: gradeOf(pillar.value), bonus },
       },
     ],
   });

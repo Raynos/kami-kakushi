@@ -215,6 +215,8 @@ function deliverDialogue(state: GameState, dialogueId: string, cap?: number): Ga
       text: l.text,
       voice: l.voice,
       speaker: l.voice === 'narrator' ? undefined : l.speaker,
+      // The save persists the LINE'S ID; the words re-render from the dialogue registry.
+      contentKey: `dialogue.${dialogueId}.${l.id}`,
     })),
   });
 }
@@ -227,11 +229,12 @@ function revealIntroBeat(state: GameState, index: number): GameState {
   const scene = introSceneAt(index);
   if (!scene) return state;
   return applyRewards(state, {
-    log: scene.greeting.map((l) => ({
+    log: scene.greeting.map((l, i) => ({
       channel: 'narration' as const,
       text: l.text,
       voice: l.voice,
       speaker: l.speaker,
+      contentKey: `intro.${scene.id}.greeting.${i}`,
       // FB-262 — every VN line carries its scene label so the Story log can GROUP it
       // (the bordered "VN unit" treatments; the render-time scene-group stamps read this).
       // FB-362 — the label is PER SCENE (introSceneTitle), so each intro act is its own
@@ -296,11 +299,12 @@ function revealRungBeat(state: GameState, target: RankId): GameState {
   const scene = RUNG_BEATS[target];
   if (!scene) return state;
   return applyRewards(state, {
-    log: scene.greeting.map((l) => ({
+    log: scene.greeting.map((l, i) => ({
       channel: 'narration' as const,
       text: l.text,
       voice: l.voice,
       speaker: l.speaker,
+      contentKey: `beat.${target}.greeting.${i}`,
       context: `${getRank(target).title} promotion`, // FB-262 — the beat is one VN group
     })),
   });
@@ -390,14 +394,16 @@ export function reduce(state: GameState, intent: Intent): GameState {
             voice: 'player',
             speaker: playerSpeaker(next),
             chat: true,
+            contentKey: `intro.${scene.id}.topic.${topic.id}.ask`,
             context: introSceneTitle(scene), // FB-270/FB-362 — the chat kicker names the SCENE
           },
-          ...topic.answer.map((l) => ({
+          ...topic.answer.map((l, i) => ({
             channel: 'narration' as const,
             text: l.text,
             voice: l.voice,
             speaker: l.speaker,
             chat: true,
+            contentKey: `intro.${scene.id}.topic.${topic.id}.answer.${i}`,
             context: introSceneTitle(scene), // FB-316 — the answer shares the question's scene group
           })),
         ],
@@ -424,6 +430,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             text: opt.say,
             voice: 'player',
             speaker: playerSpeaker(next),
+            contentKey: `intro.${scene.id}.opt.${intent.optionId}.say`,
             context: introSceneTitle(scene), // FB-262/FB-362 — the pick lands in ITS act's card
           },
           {
@@ -431,6 +438,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             text: opt.react,
             voice: beatReactVoice(scene),
             speaker: beatReactSpeaker(scene),
+            contentKey: `intro.${scene.id}.opt.${intent.optionId}.react`,
             context: introSceneTitle(scene), // FB-316 — the react stays inside the scene's 幕 card
           },
         ],
@@ -447,7 +455,17 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // 5) the post-pick PERK-UNLOCK line (FB-56) — the granted perk's name + standalone desc + the
       //    exact ±, landing AFTER the pick on the MILESTONE channel so it reads under Progress, not
       //    Work (FB-41). The UI renders it as a JRPG-style perk box in a later pass.
-      next = applyRewards(next, { log: [{ channel: 'milestone', text: introPerkLine(opt) }] });
+      // The perk line is DERIVED from the option (name + desc + the ± the reducer actually
+      // applies), so it persists as a key and re-renders — a reworded perk blurb reaches old saves.
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'milestone',
+            text: introPerkLine(opt),
+            contentKey: `intro.${scene.id}.opt.${intent.optionId}.perk`,
+          },
+        ],
+      });
       // (G4's post-answer latch moved ABOVE the say-line emit — FB-399: the flip must
       //  precede every post-flip MC line, per intro.md's flip comment.)
       // 6) advance to the next beat, or fire the intro-complete tail
@@ -497,15 +515,17 @@ export function reduce(state: GameState, intent: Intent): GameState {
             voice: 'player',
             speaker: playerSpeaker(next),
             chat: true,
+            contentKey: `beat.${target}.topic.${topic.id}.ask`,
             // FB-270 — the chat kicker names the beat ("The day-hand promotion")
             context: `${getRank(target).title} promotion`,
           },
-          ...topic.answer.map((l) => ({
+          ...topic.answer.map((l, i) => ({
             channel: 'narration' as const,
             text: l.text,
             voice: l.voice,
             speaker: l.speaker,
             chat: true,
+            contentKey: `beat.${target}.topic.${topic.id}.answer.${i}`,
             // FB-316 — the answer shares the question's scene group
             context: `${getRank(target).title} promotion`,
           })),
@@ -535,11 +555,13 @@ export function reduce(state: GameState, intent: Intent): GameState {
             text: opt.say,
             voice: 'player',
             speaker: playerSpeaker(next),
+            contentKey: `beat.${target}.opt.${intent.optionId}.say`,
             context: beatCtx,
           },
           {
             channel: 'narration',
             text: opt.react,
+            contentKey: `beat.${target}.opt.${intent.optionId}.react`,
             voice: react.voice,
             speaker: react.speaker,
             context: beatCtx,
@@ -615,7 +637,14 @@ export function reduce(state: GameState, intent: Intent): GameState {
         // FB-91/FB-93 — the rake RESULT line is scene narration, so it carries the `narrator` voice
         // (matching the intro's narration convention), never plain/unstyled.
         log: [
-          { channel: 'reward', text: rakeLine(RICE_PER_RAKE), voice: 'narrator', ephemeral: true },
+          {
+            channel: 'reward',
+            text: rakeLine(RICE_PER_RAKE),
+            voice: 'narrator',
+            ephemeral: true,
+            contentKey: 'coldOpen.rake',
+            params: { amount: RICE_PER_RAKE },
+          },
         ],
       });
       // FB-324 — the rake that clears the LAST of the spill says so, once (a durable
@@ -649,8 +678,19 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // the permanent Work/All channels.
       // FB-91/FB-93 — the rest RESULT line is scene narration → `narrator` voice, consistent with
       // the intro's narration (not an un-voiced/plain line).
+      // The save persists WHICH rest line + the fact that chose it (bedding), never the prose.
+      const restKey = atHome ? 'home.rest' : 'flavor.restOpen';
       next = applyRewards(next, {
-        log: [{ channel: 'system', text: restLine, voice: 'narrator', ephemeral: true }],
+        log: [
+          {
+            channel: 'system',
+            text: restLine,
+            voice: 'narrator',
+            ephemeral: true,
+            contentKey: restKey,
+            ...(atHome ? { params: { bedding: ownsBelonging(next, 'bedding') } } : {}),
+          },
+        ],
       });
       next = advanceClock(next, TICKS_PER_ACT);
       break;
@@ -694,6 +734,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
             text: activityLine(act, gained),
             voice: 'narrator',
             ephemeral: true,
+            // The activity's PROSE re-renders from its def; the gains it actually paid are the
+            // dynamic part, so they ride as params.
+            contentKey: `activity.${act.id}`,
+            params: gained as Record<string, number>,
           },
         ],
       });
@@ -925,6 +969,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
             voice: 'narrator',
             // HD-30 (2026-07-09): the wage-collect beat — the day-wage counted into the hand.
             text: `You are handed ${pay} mon at the board, counted once into your palm — the first the house has paid you in coin, and yours to keep.`,
+            contentKey: 'wage.first',
+            params: { pay },
             ephemeral: true,
           },
         ],
@@ -958,6 +1004,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
           {
             channel: 'milestone',
             text: `Commissioned: ${stageLabel(target)} — timber and coin set aside; the work waits at the site.`,
+            contentKey: 'estate.commissioned',
+            params: { stage: stageLabel(target) },
             voice: 'narrator',
           },
         ],
@@ -980,6 +1028,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
             {
               channel: 'reward',
               text: `The work goes forward — ${stageLabel(target)}, ${done} of ${target.workActs}.`,
+              contentKey: 'estate.workProgress',
+              params: { stage: stageLabel(target), done, total: target.workActs },
               voice: 'narrator',
               ephemeral: true,
             },
@@ -991,13 +1041,28 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // the closing act — the stage completes: the ladder advances and the canon
       // completion line lands (stageLogLine — take-aware, ADR-143).
       next = { ...next, estateStage: target.stage, estateCommission: 0, estateWorkDone: 0 };
-      next = applyRewards(next, { log: [{ channel: 'milestone', text: stageLogLine(target) }] });
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'milestone',
+            text: stageLogLine(target),
+            contentKey: `estate.stage.${target.stage}.done`,
+          },
+        ],
+      });
       next = applyProgressEvent(next, 'act:work_project');
       // ADR-145 — the E1 build-complete beat: the estate STANDS (fires exactly once, at U4).
       if (target.stage === MAX_ESTATE_STAGE && !hasFlag(next, 'estate-stands')) {
         next = applyRewards(next, {
           flags: ['estate-stands'],
-          log: [{ channel: 'milestone', text: FLAVOR.estateStands, voice: 'narrator' }],
+          log: [
+            {
+              channel: 'milestone',
+              text: FLAVOR.estateStands,
+              voice: 'narrator',
+              contentKey: 'flavor.estateStands',
+            },
+          ],
         });
       }
       break;
@@ -1037,7 +1102,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       };
       next = applyRewards(next, {
         flags: [`crafted-${recipe.outputWeapon}`],
-        log: [{ channel: 'milestone', text: recipe.blurb }],
+        log: [
+          { channel: 'milestone', text: recipe.blurb, contentKey: `recipe.${recipe.id}.blurb` },
+        ],
       });
       // ADR-145 — the workshop's recorded yield: a WORKSHOP Estate deed (Phase-2 only).
       next = bankEstateDeed(next, 'workshop');
@@ -1092,7 +1159,12 @@ export function reduce(state: GameState, intent: Intent): GameState {
         // plain buy uses the registry template (Stage C).
         log: [
           def.acquireLine !== undefined
-            ? { channel: 'milestone', voice: 'narrator', text: def.acquireLine }
+            ? {
+                channel: 'milestone',
+                voice: 'narrator',
+                text: def.acquireLine,
+                contentKey: `belonging.${def.id}.acquire`,
+              }
             : {
                 channel: 'milestone',
                 voice: 'narrator',

@@ -87,7 +87,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "what the water takes"
+          "context": "what the water takes",
+          "contentKey": "intro.dream.greeting.0"
         },
         {
           "key": 1,
@@ -97,7 +98,8 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "what the water takes"
+          "context": "what the water takes",
+          "contentKey": "intro.dream.opt.dream-dwell.say"
         },
         {
           "key": 2,
@@ -106,14 +108,16 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "what the water takes"
+          "context": "what the water takes",
+          "contentKey": "intro.dream.opt.dream-dwell.react"
         },
         {
           "key": 3,
           "channel": "milestone",
           "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "intro.dream.opt.dream-dwell.perk"
         },
         {
           "key": 4,
@@ -122,7 +126,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.0"
         },
         {
           "key": 5,
@@ -131,7 +136,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.1"
         },
         {
           "key": 6,
@@ -140,7 +146,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.2"
         },
         {
           "key": 7,
@@ -150,7 +157,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.3"
         },
         {
           "key": 8,
@@ -160,7 +168,8 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.4"
         },
         {
           "key": 9,
@@ -170,7 +179,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.5"
         },
         {
           "key": 10,
@@ -179,7 +189,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.6"
         },
         {
           "key": 11,
@@ -188,7 +199,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.7"
         },
         {
           "key": 12,
@@ -198,7 +210,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.8"
         },
         {
           "key": 13,
@@ -208,7 +221,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.9"
         },
         {
           "key": 14,
@@ -218,7 +232,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.10"
         },
         {
           "key": 15,
@@ -227,7 +242,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.11"
         },
         {
           "key": 16,
@@ -237,7 +253,8 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.12"
         },
         {
           "key": 17,
@@ -247,7 +264,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.13"
         },
         {
           "key": 18,
@@ -256,7 +274,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.14"
         },
         {
           "key": 19,
@@ -265,7 +284,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.15"
         },
         {
           "key": 20,
@@ -275,7 +295,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.16"
         },
         {
           "key": 21,
@@ -285,7 +306,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.17"
         },
         {
           "key": 22,
@@ -294,7 +316,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.18"
         },
         {
           "key": 23,
@@ -304,7 +327,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.opt.soan-knot.say"
         },
         {
           "key": 24,
@@ -314,14 +338,16 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.opt.soan-knot.react"
         },
         {
           "key": 25,
           "channel": "milestone",
           "text": "Perk unlocked — The Carrier's Hitch: fast, one-handed, holds wet. (+1 AGI / −1 INT)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "intro.soan.opt.soan-knot.perk"
         },
         {
           "key": 26,
@@ -331,7 +357,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.greeting.0"
         },
         {
           "key": 27,
@@ -341,7 +368,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.opt.genemon-earnest.say"
         },
         {
           "key": 28,
@@ -351,14 +379,16 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.opt.genemon-earnest.react"
         },
         {
           "key": 29,
           "channel": "milestone",
           "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "intro.genemon.opt.genemon-earnest.perk"
         },
         {
           "key": 30,
@@ -394,7 +424,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "coldOpen.rake",
+          "params": {
+            "amount": 2
+          }
         },
         {
           "key": 34,
@@ -403,7 +437,8 @@
           "tick": 0,
           "count": 1,
           "speaker": "Genemon",
-          "voice": "steward"
+          "voice": "steward",
+          "contentKey": "dialogue.genemon-open.gen-rake"
         },
         {
           "key": 35,
@@ -421,7 +456,11 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "coldOpen.rake",
+          "params": {
+            "amount": 2
+          }
         },
         {
           "key": 37,
@@ -430,7 +469,8 @@
           "tick": 2,
           "count": 1,
           "speaker": "Genemon",
-          "voice": "steward"
+          "voice": "steward",
+          "contentKey": "dialogue.genemon-open.gen-keep"
         },
         {
           "key": 38,
@@ -439,7 +479,11 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "coldOpen.rake",
+          "params": {
+            "amount": 2
+          }
         },
         {
           "key": 39,
@@ -447,7 +491,8 @@
           "text": "\"...You don't shirk the work,\" Genemon says, eyeing the cleared boards and the filling basket. \"The house has had its fill of hands that do. Earn your keep, and a place here is yours.\"",
           "tick": 4,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "dialogue.genemon-open.gen-kept"
         },
         {
           "key": 40,
@@ -456,7 +501,11 @@
           "tick": 18,
           "count": 7,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "coldOpen.rake",
+          "params": {
+            "amount": 2
+          }
         },
         {
           "key": 41,
@@ -464,7 +513,8 @@
           "text": "\"So he can work,\" Genemon says, in the way another man says good morning.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.rake-the-first-rows"
         },
         {
           "key": 42,
@@ -473,7 +523,11 @@
           "tick": 14,
           "count": 10,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "coldOpen.rake",
+          "params": {
+            "amount": 2
+          }
         },
         {
           "key": 43,
@@ -481,7 +535,8 @@
           "text": "\"Still at it,\" Genemon says, passing the granary door without stopping.",
           "tick": 14,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.rake-through-the-night"
         },
         {
           "key": 44,
@@ -490,7 +545,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 45,
@@ -499,7 +555,11 @@
           "tick": 22,
           "count": 3,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "coldOpen.rake",
+          "params": {
+            "amount": 2
+          }
         },
         {
           "key": 46,
@@ -508,7 +568,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.gossipWeddingMissed"
         },
         {
           "key": 47,
@@ -517,7 +578,11 @@
           "tick": 10,
           "count": 6,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "coldOpen.rake",
+          "params": {
+            "amount": 2
+          }
         },
         {
           "key": 48,
@@ -526,7 +591,8 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 49,
@@ -535,7 +601,11 @@
           "tick": 0,
           "count": 6,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "coldOpen.rake",
+          "params": {
+            "amount": 2
+          }
         },
         {
           "key": 50,
@@ -543,7 +613,8 @@
           "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.rake-the-spill"
         },
         {
           "key": 51,
@@ -552,7 +623,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.0"
         },
         {
           "key": 52,
@@ -562,7 +634,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.1"
         },
         {
           "key": 53,
@@ -571,7 +644,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.2"
         },
         {
           "key": 54,
@@ -581,7 +655,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.3"
         },
         {
           "key": 55,
@@ -590,7 +665,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.4"
         },
         {
           "key": 56,
@@ -600,7 +676,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.5"
         },
         {
           "key": 57,
@@ -609,7 +686,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.6"
         },
         {
           "key": 58,
@@ -618,7 +696,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.7"
         },
         {
           "key": 59,
@@ -628,7 +707,8 @@
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.8"
         },
         {
           "key": 60,
@@ -637,7 +717,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.9"
         },
         {
           "key": 61,
@@ -647,7 +728,8 @@
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.10"
         },
         {
           "key": 62,
@@ -656,7 +738,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.11"
         },
         {
           "key": 63,
@@ -665,7 +748,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.12"
         },
         {
           "key": 64,
@@ -675,7 +759,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.13"
         },
         {
           "key": 65,
@@ -685,7 +770,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.opt.r1-none-claimed.say"
         },
         {
           "key": 66,
@@ -695,7 +781,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.opt.r1-none-claimed.react"
         },
         {
           "key": 67,

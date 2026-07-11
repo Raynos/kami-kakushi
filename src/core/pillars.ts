@@ -131,7 +131,14 @@ export function bankEstateDeed(state: GameState, source: EstateDeedSource | unde
   const flag = `deed-source-${source}`;
   if (banked.flags[flag]) return banked;
   return applyRewards(setFlag(banked, flag), {
-    log: [{ channel: 'milestone', text: DEED_SOURCE_REVEAL[source], voice: 'narrator' }],
+    log: [
+      {
+        channel: 'milestone',
+        text: DEED_SOURCE_REVEAL[source],
+        voice: 'narrator',
+        contentKey: `flavor.${DEED_SOURCE_KEY[source]}`,
+      },
+    ],
   });
 }
 
@@ -143,6 +150,17 @@ const DEED_SOURCE_REVEAL: Record<EstateDeedSource, string> = {
   workshop: FLAVOR.estateSourceWorkshop,
   watch: FLAVOR.estateSourceWatch,
   treasury: FLAVOR.estateSourceTreasury,
+};
+
+/** The FLAVOR key each reveal renders from — the SAVE stores this, never the prose, so a
+ *  reworded reveal reaches every existing save (save-format plan, step 1). One home: the keys
+ *  mirror DEED_SOURCE_REVEAL above, which is the map that actually reads them. */
+const DEED_SOURCE_KEY: Record<EstateDeedSource, string> = {
+  fields: 'estateSourceFields',
+  stores: 'estateSourceStores',
+  workshop: 'estateSourceWorkshop',
+  watch: 'estateSourceWatch',
+  treasury: 'estateSourceTreasury',
 };
 
 /** The live Estate grade (the ascension gate + the UI bar read it). */

@@ -188,7 +188,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "what the water takes"
+          "context": "what the water takes",
+          "contentKey": "intro.dream.greeting.0"
         },
         {
           "key": 1,
@@ -198,7 +199,8 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "what the water takes"
+          "context": "what the water takes",
+          "contentKey": "intro.dream.opt.dream-dwell.say"
         },
         {
           "key": 2,
@@ -207,14 +209,16 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "what the water takes"
+          "context": "what the water takes",
+          "contentKey": "intro.dream.opt.dream-dwell.react"
         },
         {
           "key": 3,
           "channel": "milestone",
           "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "intro.dream.opt.dream-dwell.perk"
         },
         {
           "key": 4,
@@ -223,7 +227,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.0"
         },
         {
           "key": 5,
@@ -232,7 +237,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.1"
         },
         {
           "key": 6,
@@ -241,7 +247,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.2"
         },
         {
           "key": 7,
@@ -251,7 +258,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.3"
         },
         {
           "key": 8,
@@ -261,7 +269,8 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.4"
         },
         {
           "key": 9,
@@ -271,7 +280,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.5"
         },
         {
           "key": 10,
@@ -280,7 +290,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.6"
         },
         {
           "key": 11,
@@ -289,7 +300,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.7"
         },
         {
           "key": 12,
@@ -299,7 +311,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.8"
         },
         {
           "key": 13,
@@ -309,7 +322,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.9"
         },
         {
           "key": 14,
@@ -319,7 +333,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.10"
         },
         {
           "key": 15,
@@ -328,7 +343,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.11"
         },
         {
           "key": 16,
@@ -338,7 +354,8 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.12"
         },
         {
           "key": 17,
@@ -348,7 +365,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.13"
         },
         {
           "key": 18,
@@ -357,7 +375,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.14"
         },
         {
           "key": 19,
@@ -366,7 +385,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.15"
         },
         {
           "key": 20,
@@ -376,7 +396,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.16"
         },
         {
           "key": 21,
@@ -386,7 +407,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.17"
         },
         {
           "key": 22,
@@ -395,7 +417,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.18"
         },
         {
           "key": 23,
@@ -405,7 +428,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.opt.soan-knot.say"
         },
         {
           "key": 24,
@@ -415,14 +439,16 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.opt.soan-knot.react"
         },
         {
           "key": 25,
           "channel": "milestone",
           "text": "Perk unlocked — The Carrier's Hitch: fast, one-handed, holds wet. (+1 AGI / −1 INT)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "intro.soan.opt.soan-knot.perk"
         },
         {
           "key": 26,
@@ -432,7 +458,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.greeting.0"
         },
         {
           "key": 27,
@@ -442,7 +469,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.opt.genemon-earnest.say"
         },
         {
           "key": 28,
@@ -452,14 +480,16 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.opt.genemon-earnest.react"
         },
         {
           "key": 29,
           "channel": "milestone",
           "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "intro.genemon.opt.genemon-earnest.perk"
         },
         {
           "key": 30,
@@ -495,7 +525,8 @@
           "tick": 0,
           "count": 1,
           "speaker": "Genemon",
-          "voice": "steward"
+          "voice": "steward",
+          "contentKey": "dialogue.genemon-open.gen-rake"
         },
         {
           "key": 35,
@@ -513,7 +544,8 @@
           "tick": 2,
           "count": 1,
           "speaker": "Genemon",
-          "voice": "steward"
+          "voice": "steward",
+          "contentKey": "dialogue.genemon-open.gen-keep"
         },
         {
           "key": 39,
@@ -521,7 +553,8 @@
           "text": "\"...You don't shirk the work,\" Genemon says, eyeing the cleared boards and the filling basket. \"The house has had its fill of hands that do. Earn your keep, and a place here is yours.\"",
           "tick": 4,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "dialogue.genemon-open.gen-kept"
         },
         {
           "key": 41,
@@ -529,7 +562,8 @@
           "text": "\"So he can work,\" Genemon says, in the way another man says good morning.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.rake-the-first-rows"
         },
         {
           "key": 43,
@@ -537,7 +571,8 @@
           "text": "\"Still at it,\" Genemon says, passing the granary door without stopping.",
           "tick": 14,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.rake-through-the-night"
         },
         {
           "key": 50,
@@ -545,7 +580,8 @@
           "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.rake-the-spill"
         },
         {
           "key": 51,
@@ -554,7 +590,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.0"
         },
         {
           "key": 52,
@@ -564,7 +601,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.1"
         },
         {
           "key": 53,
@@ -573,7 +611,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.2"
         },
         {
           "key": 54,
@@ -583,7 +622,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.3"
         },
         {
           "key": 55,
@@ -592,7 +632,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.4"
         },
         {
           "key": 56,
@@ -602,7 +643,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.5"
         },
         {
           "key": 57,
@@ -611,7 +653,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.6"
         },
         {
           "key": 58,
@@ -620,7 +663,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.7"
         },
         {
           "key": 59,
@@ -630,7 +674,8 @@
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.8"
         },
         {
           "key": 60,
@@ -639,7 +684,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.9"
         },
         {
           "key": 61,
@@ -649,7 +695,8 @@
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.10"
         },
         {
           "key": 62,
@@ -658,7 +705,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.11"
         },
         {
           "key": 63,
@@ -667,7 +715,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.12"
         },
         {
           "key": 64,
@@ -677,7 +726,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.13"
         },
         {
           "key": 65,
@@ -687,7 +737,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.opt.r1-none-claimed.say"
         },
         {
           "key": 66,
@@ -697,7 +748,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.opt.r1-none-claimed.react"
         },
         {
           "key": 67,
@@ -717,7 +769,8 @@
           "text": "The first rows he plants alone come up as straight as anyone's.",
           "tick": 20,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.first-rows-of-his-own"
         },
         {
           "key": 91,
@@ -725,7 +778,8 @@
           "text": "The paddy women no longer point out which rows are his; he has learned them.",
           "tick": 14,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.take-to-the-fields"
         },
         {
           "key": 93,
@@ -742,7 +796,8 @@
           "text": "At the gate the porters shift a strap for him without being asked, as they do among their own.",
           "tick": 4,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.a-porters-back"
         },
         {
           "key": 116,
@@ -954,7 +1009,8 @@
           "text": "The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean.",
           "tick": 22,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.learn-the-woodlot"
         },
         {
           "key": 159,
@@ -971,7 +1027,8 @@
           "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
           "tick": 8,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.walk-the-hills"
         },
         {
           "key": 175,
@@ -979,7 +1036,8 @@
           "text": "Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.",
           "tick": 8,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.keep-the-stores-moving"
         },
         {
           "key": 176,
@@ -988,7 +1046,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.0"
         },
         {
           "key": 177,
@@ -997,7 +1056,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.1"
         },
         {
           "key": 178,
@@ -1007,7 +1067,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.2"
         },
         {
           "key": 179,
@@ -1016,7 +1077,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.3"
         },
         {
           "key": 180,
@@ -1025,7 +1087,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.4"
         },
         {
           "key": 181,
@@ -1035,7 +1098,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.5"
         },
         {
           "key": 182,
@@ -1044,7 +1108,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.6"
         },
         {
           "key": 183,
@@ -1054,7 +1119,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.7"
         },
         {
           "key": 184,
@@ -1063,7 +1129,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.8"
         },
         {
           "key": 185,
@@ -1073,7 +1140,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.9"
         },
         {
           "key": 186,
@@ -1082,7 +1150,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.10"
         },
         {
           "key": 187,
@@ -1092,7 +1161,8 @@
           "count": 1,
           "speaker": "O-Hisa",
           "voice": "steward",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.11"
         },
         {
           "key": 188,
@@ -1101,7 +1171,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.12"
         },
         {
           "key": 189,
@@ -1111,7 +1182,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.opt.r3-track.say"
         },
         {
           "key": 190,
@@ -1121,7 +1193,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.opt.r3-track.react"
         },
         {
           "key": 191,
@@ -1370,7 +1443,8 @@
           "text": "\"Quiet in the kura tonight,\" Kihei lets drop, cleaning his blade by lamplight.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.clear-the-kura-rats"
         },
         {
           "key": 224,
@@ -1421,7 +1495,8 @@
           "text": "\"The monkeys have learned his shape,\" Kihei is heard to say, almost pleased.",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.drive-off-the-thieves"
         },
         {
           "key": 230,
@@ -1446,7 +1521,8 @@
           "text": "\"The fields don't miss him while he drills,\" Genemon notes, half to himself.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.the-fields-hold"
         },
         {
           "key": 254,
@@ -1454,7 +1530,8 @@
           "text": "\"Watch or no watch, his rows never fell behind,\" Genemon says over the evening rice.",
           "tick": 2,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.keep-the-rows"
         },
         {
           "key": 280,
@@ -1462,7 +1539,8 @@
           "text": "\"The palisade wood is his cutting,\" Kihei says, striking a post with the flat of his hand.",
           "tick": 16,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.timber-for-the-palisade"
         },
         {
           "key": 284,
@@ -1699,7 +1777,8 @@
           "text": "On the dark of the moon a lantern crosses the far edge of the yard — hooded low, held steady, going upstream. By the time the round brings you back the yard is empty, and in the morning no one has missed a lantern. It is not your watch's business. You watch for it anyway.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "flavor.nightRoundNewMoon"
         },
         {
           "key": 332,
@@ -1707,7 +1786,8 @@
           "text": "Rats in the store, where Kihei said. You learn the sound grain makes when something small is stealing it — a dry whisper under the floor, gone the moment you stop walking. The spear-butt does the rest. In the morning you sweep up what they spoiled and say what you took. The number is never nothing.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "nightRound.first-night-round.stage.0"
         },
         {
           "key": 333,
@@ -1715,7 +1795,8 @@
           "text": "A marten, quick as spilled water, dead by more luck than spear-work. Behind the back bales, where it hunted, you find what the rats had all along — a seed-rice bale gnawed open at the seam, half gone into the walls. You make the count alone, by lantern, twice. It does not improve the second time. You bar the door on it and tell no one yet.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "nightRound.first-night-round.stage.1"
         },
         {
           "key": 334,
@@ -1723,7 +1804,8 @@
           "text": "At the kura door the lantern finds two eyes at the height of your waist, and the dark around them is the wrong shape for a dog. The bar is behind you. So is the rice.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "nightRound.first-night-round.stage.2"
         },
         {
           "key": 335,
@@ -1731,7 +1813,8 @@
           "text": "The night the wolf came you stood between it and the stores, and were still there at dawn — bleeding, ribs cracked, the rice untouched. Not won. Survived.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.the-wolf-survived-not-won"
         },
         {
           "key": 336,
@@ -1740,7 +1823,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.0"
         },
         {
           "key": 337,
@@ -1749,7 +1833,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.1"
         },
         {
           "key": 338,
@@ -1758,7 +1843,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.2"
         },
         {
           "key": 339,
@@ -1768,7 +1854,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.3"
         },
         {
           "key": 340,
@@ -1778,7 +1865,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.4"
         },
         {
           "key": 341,
@@ -1787,7 +1875,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.5"
         },
         {
           "key": 342,
@@ -1797,7 +1886,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.6"
         },
         {
           "key": 343,
@@ -1807,7 +1897,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.7"
         },
         {
           "key": 344,
@@ -1817,7 +1908,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.8"
         },
         {
           "key": 345,
@@ -1826,7 +1918,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.9"
         },
         {
           "key": 346,
@@ -1835,7 +1928,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.10"
         },
         {
           "key": 347,
@@ -1844,7 +1938,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.11"
         },
         {
           "key": 348,
@@ -1853,7 +1948,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.12"
         },
         {
           "key": 349,
@@ -1863,7 +1959,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.13"
         },
         {
           "key": 350,
@@ -1872,7 +1969,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.14"
         },
         {
           "key": 351,
@@ -1882,7 +1980,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.15"
         },
         {
           "key": 352,
@@ -1891,7 +1990,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.16"
         },
         {
           "key": 353,
@@ -1901,7 +2001,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.17"
         },
         {
           "key": 354,
@@ -1910,7 +2011,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.18"
         },
         {
           "key": 355,
@@ -1920,7 +2022,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.19"
         },
         {
           "key": 356,
@@ -1929,7 +2032,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.20"
         },
         {
           "key": 357,
@@ -1939,7 +2043,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.21"
         },
         {
           "key": 358,
@@ -1948,7 +2053,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.22"
         },
         {
           "key": 359,
@@ -1958,7 +2064,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.23"
         },
         {
           "key": 360,
@@ -1968,7 +2075,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.opt.r4-it-returns.say"
         },
         {
           "key": 361,
@@ -1978,7 +2086,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.opt.r4-it-returns.react"
         },
         {
           "key": 362,
@@ -2052,7 +2161,8 @@
           "text": "The house learns he keeps coin of his own, strung and counted, spent on nothing foolish.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.a-hundred-mon-held"
         },
         {
           "key": 384,
@@ -2060,7 +2170,8 @@
           "text": "The porters have stopped counting his loads against their own.",
           "tick": 20,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.a-load-among-loads"
         },
         {
           "key": 397,
@@ -2068,7 +2179,8 @@
           "text": "When the kura needs moving in a hurry, it is his name the yard calls first.",
           "tick": 8,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.first-name-in-the-yard"
         },
         {
           "key": 412,
@@ -2076,7 +2188,8 @@
           "text": "New porters are told to watch how he stacks; nobody remembers deciding that.",
           "tick": 22,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.the-stores-know-you"
         },
         {
           "key": 413,
@@ -2448,7 +2561,8 @@
           "text": "The first deep-hill baskets come back full, and no one mentions the danger line twice.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.first-deep-baskets"
         },
         {
           "key": 463,
@@ -2456,7 +2570,8 @@
           "text": "He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up.",
           "tick": 4,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.past-the-danger-line"
         },
         {
           "key": 485,
@@ -2464,7 +2579,8 @@
           "text": "Whatever else he is now, the paddies get his mornings first, and Genemon sees that they do.",
           "tick": 14,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.the-paddies-still-first"
         },
         {
           "key": 487,
@@ -2472,7 +2588,8 @@
           "text": "You lay a quilted futon over the straw in your corner. The nights come easier now.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "belonging.bedding.acquire"
         },
         {
           "key": 488,
@@ -2480,7 +2597,8 @@
           "text": "There is bedding in the north corner, bought with his own coin, and the maids sweep around it now.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.a-made-corner"
         },
         {
           "key": 489,
@@ -2489,7 +2607,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The trusted hand promotion"
+          "context": "The trusted hand promotion",
+          "contentKey": "beat.R6.greeting.0"
         },
         {
           "key": 490,
@@ -2499,7 +2618,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The trusted hand promotion"
+          "context": "The trusted hand promotion",
+          "contentKey": "beat.R6.greeting.1"
         },
         {
           "key": 491,
@@ -2509,7 +2629,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The trusted hand promotion"
+          "context": "The trusted hand promotion",
+          "contentKey": "beat.R6.greeting.2"
         },
         {
           "key": 492,
@@ -2518,7 +2639,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The trusted hand promotion"
+          "context": "The trusted hand promotion",
+          "contentKey": "beat.R6.greeting.3"
         },
         {
           "key": 493,
@@ -2528,7 +2650,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The trusted hand promotion"
+          "context": "The trusted hand promotion",
+          "contentKey": "beat.R6.greeting.4"
         },
         {
           "key": 494,
@@ -2538,7 +2661,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The trusted hand promotion"
+          "context": "The trusted hand promotion",
+          "contentKey": "beat.R6.greeting.5"
         },
         {
           "key": 495,
@@ -2547,7 +2671,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The trusted hand promotion"
+          "context": "The trusted hand promotion",
+          "contentKey": "beat.R6.greeting.6"
         },
         {
           "key": 496,
@@ -2557,7 +2682,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The trusted hand promotion"
+          "context": "The trusted hand promotion",
+          "contentKey": "beat.R6.greeting.7"
         },
         {
           "key": 497,
@@ -2566,7 +2692,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The trusted hand promotion"
+          "context": "The trusted hand promotion",
+          "contentKey": "beat.R6.greeting.8"
         },
         {
           "key": 498,
@@ -2576,7 +2703,8 @@
           "count": 1,
           "speaker": "Yohei",
           "voice": "villager",
-          "context": "The trusted hand promotion"
+          "context": "The trusted hand promotion",
+          "contentKey": "beat.R6.greeting.9"
         },
         {
           "key": 499,
@@ -2586,7 +2714,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The trusted hand promotion"
+          "context": "The trusted hand promotion",
+          "contentKey": "beat.R6.opt.r6-count-flat.say"
         },
         {
           "key": 500,
@@ -2596,7 +2725,8 @@
           "count": 1,
           "speaker": "Yohei",
           "voice": "villager",
-          "context": "The trusted hand promotion"
+          "context": "The trusted hand promotion",
+          "contentKey": "beat.R6.opt.r6-count-flat.react"
         },
         {
           "key": 501,
@@ -2652,7 +2782,8 @@
           "text": "\"The store-room count is early this month,\" Chiyo says, not yet naming why.",
           "tick": 20,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.the-count-comes-early"
         },
         {
           "key": 532,
@@ -2660,7 +2791,8 @@
           "text": "\"The ledgers agree tonight,\" Chiyo says, which is her whole praise.",
           "tick": 22,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.the-ledgers-agree"
         },
         {
           "key": 546,
@@ -2682,7 +2814,8 @@
           "text": "\"His purse holds steady,\" Chiyo lets fall, \"which is more than this house has managed.\"",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.three-hundred-mon-steady"
         },
         {
           "key": 548,
@@ -2783,14 +2916,19 @@
           "text": "Commissioned: Stem the first rot — timber and coin set aside; the work waits at the site.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "estate.commissioned",
+          "params": {
+            "stage": "Stem the first rot"
+          }
         },
         {
           "key": 565,
           "channel": "milestone",
           "text": "The gatepost stands dry at the foot, the bunds carry their water where it is wanted, and the woodshed roof turns the rain it used to pass. Three lines the land held open are closed against it — the first the book has closed in years. (U1 · Stabilising)",
           "tick": 4,
-          "count": 1
+          "count": 1,
+          "contentKey": "estate.stage.1.done"
         },
         {
           "key": 566,
@@ -2807,7 +2945,8 @@
           "text": "\"He put his own coin into the kura-works,\" Chiyo tells Genemon, twice, to be sure he heard.",
           "tick": 4,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.coin-into-the-works"
         },
         {
           "key": 568,
@@ -2816,7 +2955,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "The named hand promotion"
+          "context": "The named hand promotion",
+          "contentKey": "beat.R7.greeting.0"
         },
         {
           "key": 569,
@@ -2826,7 +2966,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The named hand promotion"
+          "context": "The named hand promotion",
+          "contentKey": "beat.R7.greeting.1"
         },
         {
           "key": 570,
@@ -2836,7 +2977,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The named hand promotion"
+          "context": "The named hand promotion",
+          "contentKey": "beat.R7.greeting.2"
         },
         {
           "key": 571,
@@ -2845,7 +2987,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "The named hand promotion"
+          "context": "The named hand promotion",
+          "contentKey": "beat.R7.greeting.3"
         },
         {
           "key": 572,
@@ -2855,7 +2998,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The named hand promotion"
+          "context": "The named hand promotion",
+          "contentKey": "beat.R7.greeting.4"
         },
         {
           "key": 573,
@@ -2864,7 +3008,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "The named hand promotion"
+          "context": "The named hand promotion",
+          "contentKey": "beat.R7.greeting.5"
         },
         {
           "key": 574,
@@ -2874,7 +3019,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The named hand promotion"
+          "context": "The named hand promotion",
+          "contentKey": "beat.R7.opt.r7-plain.say"
         },
         {
           "key": 575,
@@ -2884,7 +3030,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The named hand promotion"
+          "context": "The named hand promotion",
+          "contentKey": "beat.R7.opt.r7-plain.react"
         },
         {
           "key": 576,
@@ -2904,7 +3051,8 @@
           "text": "\"There is rice against winter. There was a saying for that — I had it once,\" Munemasa is heard saying to the dark of the inner house, and nobody who hears it goes in.",
           "tick": 4,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.a-granary-against-winter"
         },
         {
           "key": 578,
@@ -3031,7 +3179,8 @@
           "text": "Entered: rice from the new paddies, credited to the house's own account. The old books carried this line once; it is carried again.",
           "tick": 4,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "flavor.estateSourceFields"
         },
         {
           "key": 593,
@@ -3039,7 +3188,8 @@
           "text": "\"The fields keep a man's hours now, and not mine — if mine ever held them,\" comes Munemasa's voice through the shoji of the inner house, unanswered; the yard knows whose hours he means.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.the-fields-run-on-you"
         },
         {
           "key": 599,
@@ -3056,7 +3206,8 @@
           "text": "\"Even the woodlot answers to him,\" Kihei says to Genemon, who does not disagree.",
           "tick": 14,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.the-woodlot-runs-on-you"
         },
         {
           "key": 604,
@@ -3064,7 +3215,12 @@
           "text": "On the village road the house's name is said in the low voice kept for endings. Nobody wishes it ill; the valley is only deciding, early, what its fields will come to. (+5 koku)",
           "tick": 16,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "FAIL",
+            "bonus": 5
+          }
         },
         {
           "key": 607,
@@ -3345,7 +3501,8 @@
           "text": "The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.",
           "tick": 16,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "nengu.reckoned"
         },
         {
           "key": 639,
@@ -3353,7 +3510,8 @@
           "text": "You stood in the room while the year was measured against the house — the reckoning read out, the gap named plainly and once, and nothing asked of you but to be there for it. A full year, lived through.",
           "tick": 16,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.the-nengu-reckoned"
         },
         {
           "key": 640,
@@ -3438,7 +3596,8 @@
           "text": "Entered: rice sold at market, the coin set down in the house books — owed to no man. The steward has waited some years to write that word.",
           "tick": 20,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "flavor.estateSourceTreasury"
         },
         {
           "key": 651,
@@ -3474,7 +3633,8 @@
           "text": "Entered: the granary takes in more than it pays out. A full storehouse needs no remark — this one has earned it all the same.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "flavor.estateSourceStores"
         },
         {
           "key": 684,
@@ -3482,7 +3642,12 @@
           "text": "On the village road the house's name is said in the low voice kept for endings. Nobody wishes it ill; the valley is only deciding, early, what its fields will come to. (+8 koku)",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "FAIL",
+            "bonus": 8
+          }
         },
         {
           "key": 693,
@@ -3574,7 +3739,12 @@
           "text": "On the village road the house's name is said in the low voice kept for endings. Nobody wishes it ill; the valley is only deciding, early, what its fields will come to. (+9 koku)",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "FAIL",
+            "bonus": 9
+          }
         },
         {
           "key": 737,
@@ -3596,14 +3766,19 @@
           "text": "Commissioned: Reclaim the orchard — timber and coin set aside; the work waits at the site.",
           "tick": 14,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "estate.commissioned",
+          "params": {
+            "stage": "Reclaim the orchard"
+          }
         },
         {
           "key": 757,
           "channel": "milestone",
           "text": "The dens stand empty and the wild rows are cut back — sound fruit trees found under the choke. The day-book opens a line it has not carried in years: orchard. (U2 · Recovering)",
           "tick": 20,
-          "count": 1
+          "count": 1,
+          "contentKey": "estate.stage.2.done"
         },
         {
           "key": 758,
@@ -3819,7 +3994,12 @@
           "text": "The house's word is worth less down the valley than it was: at the stall its name still buys, but the amounts are counted slowly. (+9 koku)",
           "tick": 8,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "BAD",
+            "bonus": 9
+          }
         },
         {
           "key": 818,
@@ -3841,7 +4021,12 @@
           "text": "The house's word is worth less down the valley than it was: at the stall its name still buys, but the amounts are counted slowly. (+10 koku)",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "BAD",
+            "bonus": 10
+          }
         },
         {
           "key": 853,
@@ -3863,7 +4048,12 @@
           "text": "The valley lets the house be — greeted on the road, owed nothing, promised nothing. This year, being left alone is a kind of standing. (+10 koku)",
           "tick": 2,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "OK",
+            "bonus": 10
+          }
         },
         {
           "key": 857,
@@ -3969,7 +4159,12 @@
           "text": "The valley lets the house be — greeted on the road, owed nothing, promised nothing. This year, being left alone is a kind of standing. (+8 koku)",
           "tick": 10,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "OK",
+            "bonus": 8
+          }
         },
         {
           "key": 913,
@@ -4083,7 +4278,8 @@
           "text": "The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "nengu.reckoned"
         },
         {
           "key": 929,
@@ -4091,7 +4287,12 @@
           "text": "The valley lets the house be — greeted on the road, owed nothing, promised nothing. This year, being left alone is a kind of standing. (+9 koku)",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "OK",
+            "bonus": 9
+          }
         },
         {
           "key": 931,
@@ -4099,14 +4300,19 @@
           "text": "Commissioned: Raise the granary — timber and coin set aside; the work waits at the site.",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "estate.commissioned",
+          "params": {
+            "stage": "Raise the granary"
+          }
         },
         {
           "key": 947,
           "channel": "milestone",
           "text": "A second granary is raised board by board and the kura kept past this winter's need. The storehouse takes in more than it pays out at last. (U3 · Prosperous)",
           "tick": 20,
-          "count": 1
+          "count": 1,
+          "contentKey": "estate.stage.3.done"
         },
         {
           "key": 948,
@@ -4211,7 +4417,12 @@
           "text": "Word goes down the valley ahead of the season's close: the gate is kept, the roofs hold, and the house's name is said plainly again, without the pause that used to follow it. (+8 koku)",
           "tick": 2,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "GOOD",
+            "bonus": 8
+          }
         },
         {
           "key": 1025,
@@ -4219,7 +4430,12 @@
           "text": "Word goes down the valley ahead of the season's close: the gate is kept, the roofs hold, and the house's name is said plainly again, without the pause that used to follow it. (+8 koku)",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "GOOD",
+            "bonus": 8
+          }
         },
         {
           "key": 1036,
@@ -4241,7 +4457,12 @@
           "text": "Word goes down the valley ahead of the season's close: the gate is kept, the roofs hold, and the house's name is said plainly again, without the pause that used to follow it. (+9 koku)",
           "tick": 14,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "GOOD",
+            "bonus": 9
+          }
         },
         {
           "key": 1075,
@@ -4263,7 +4484,12 @@
           "text": "Word goes down the valley ahead of the season's close: the gate is kept, the roofs hold, and the house's name is said plainly again, without the pause that used to follow it. (+10 koku)",
           "tick": 2,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "GOOD",
+            "bonus": 10
+          }
         },
         {
           "key": 1080,
@@ -4383,7 +4609,12 @@
           "text": "The road bends toward the gate again — a favor asked of the house, a cart that slows without needing anything. The valley has resumed expecting things of it. (+9 koku)",
           "tick": 6,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "GREAT",
+            "bonus": 9
+          }
         },
         {
           "key": 1131,
@@ -4391,7 +4622,11 @@
           "text": "Commissioned: Set the house in order — timber and coin set aside; the work waits at the site.",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "estate.commissioned",
+          "params": {
+            "stage": "Set the house in order"
+          }
         },
         {
           "key": 1144,
@@ -4400,7 +4635,13 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "estate.workProgress",
+          "params": {
+            "stage": "Set the house in order",
+            "done": 10,
+            "total": 14
+          }
         },
         {
           "key": 1145,
@@ -4409,7 +4650,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1146,
@@ -4418,7 +4660,13 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "estate.workProgress",
+          "params": {
+            "stage": "Set the house in order",
+            "done": 11,
+            "total": 14
+          }
         },
         {
           "key": 1147,
@@ -4427,7 +4675,13 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "estate.workProgress",
+          "params": {
+            "stage": "Set the house in order",
+            "done": 12,
+            "total": 14
+          }
         },
         {
           "key": 1148,
@@ -4436,7 +4690,13 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "estate.workProgress",
+          "params": {
+            "stage": "Set the house in order",
+            "done": 13,
+            "total": 14
+          }
         },
         {
           "key": 1149,
@@ -4445,14 +4705,16 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1150,
           "channel": "milestone",
           "text": "Repairs holding, reclamation bearing fruit, the barn full past need — surplus and order, written down. Let it be entered plainly: the estate stands. (U4 · Risen)",
           "tick": 22,
-          "count": 1
+          "count": 1,
+          "contentKey": "estate.stage.4.done"
         },
         {
           "key": 1151,
@@ -4460,7 +4722,8 @@
           "text": "Let it be entered plainly, for whoever keeps these books hereafter: the estate stands. Every line above this one was the building of it.",
           "tick": 22,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "flavor.estateStands"
         },
         {
           "key": 1152,
@@ -4469,7 +4732,11 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 8
+          }
         },
         {
           "key": 1153,
@@ -4478,7 +4745,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1154,
@@ -4501,7 +4769,11 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 20
+          }
         },
         {
           "key": 1156,
@@ -4524,7 +4796,11 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 17
+          }
         },
         {
           "key": 1158,
@@ -4547,7 +4823,11 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 14
+          }
         },
         {
           "key": 1160,
@@ -4605,7 +4885,8 @@
           "text": "The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.",
           "tick": 8,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "nengu.reckoned"
         },
         {
           "key": 1166,
@@ -4613,7 +4894,12 @@
           "text": "The road bends toward the gate again — a favor asked of the house, a cart that slows without needing anything. The valley has resumed expecting things of it. (+8 koku)",
           "tick": 8,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "GREAT",
+            "bonus": 8
+          }
         },
         {
           "key": 1167,
@@ -4622,7 +4908,8 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.seasonWinter2"
         },
         {
           "key": 1168,
@@ -4631,7 +4918,11 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 49
+          }
         },
         {
           "key": 1169,
@@ -4654,7 +4945,11 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 41
+          }
         },
         {
           "key": 1171,
@@ -4677,7 +4972,11 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 34
+          }
         },
         {
           "key": 1173,
@@ -4686,7 +4985,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1174,
@@ -4709,7 +5009,11 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 30
+          }
         },
         {
           "key": 1176,
@@ -4732,7 +5036,11 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 24
+          }
         },
         {
           "key": 1178,
@@ -4755,7 +5063,11 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 20
+          }
         },
         {
           "key": 1180,
@@ -4778,7 +5090,11 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 17
+          }
         },
         {
           "key": 1182,
@@ -4787,7 +5103,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 19
+          }
         },
         {
           "key": 1183,
@@ -4796,7 +5116,11 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 16
+          }
         },
         {
           "key": 1184,
@@ -4805,7 +5129,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1185,
@@ -4814,7 +5139,11 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 14
+          }
         },
         {
           "key": 1186,
@@ -4823,7 +5152,11 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 12
+          }
         },
         {
           "key": 1187,
@@ -4832,7 +5165,11 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 10
+          }
         },
         {
           "key": 1188,
@@ -4841,7 +5178,11 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 8
+          }
         },
         {
           "key": 1189,
@@ -4850,7 +5191,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1190,
@@ -4859,7 +5201,11 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 7
+          }
         },
         {
           "key": 1191,
@@ -4868,7 +5214,11 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 6
+          }
         },
         {
           "key": 1192,
@@ -4877,7 +5227,11 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 5
+          }
         },
         {
           "key": 1193,
@@ -4886,7 +5240,11 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 4
+          }
         },
         {
           "key": 1194,
@@ -4895,7 +5253,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.seasonWinter2"
         },
         {
           "key": 1195,
@@ -4904,7 +5263,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 13
+          }
         },
         {
           "key": 1196,
@@ -4913,7 +5276,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1197,
@@ -4922,7 +5286,11 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 12
+          }
         },
         {
           "key": 1198,
@@ -4931,7 +5299,11 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 10
+          }
         },
         {
           "key": 1199,
@@ -4940,7 +5312,11 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 8
+          }
         },
         {
           "key": 1200,
@@ -4949,7 +5325,11 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 7
+          }
         },
         {
           "key": 1201,
@@ -4958,7 +5338,11 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 6
+          }
         },
         {
           "key": 1202,
@@ -4966,7 +5350,12 @@
           "text": "The road bends toward the gate again — a favor asked of the house, a cart that slows without needing anything. The valley has resumed expecting things of it. (+9 koku)",
           "tick": 14,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "GREAT",
+            "bonus": 9
+          }
         },
         {
           "key": 1203,
@@ -4988,7 +5377,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.seasonNewyear2"
         },
         {
           "key": 1205,
@@ -4997,7 +5387,11 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 48
+          }
         },
         {
           "key": 1206,
@@ -5006,7 +5400,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1207,
@@ -5015,7 +5410,11 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 43
+          }
         },
         {
           "key": 1208,
@@ -5024,7 +5423,11 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 35
+          }
         },
         {
           "key": 1209,
@@ -5033,7 +5436,11 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 29
+          }
         },
         {
           "key": 1210,
@@ -5042,7 +5449,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.gossipMatchmaker"
         },
         {
           "key": 1211,
@@ -5065,7 +5473,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 20
+          }
         },
         {
           "key": 1213,
@@ -5074,7 +5486,11 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 17
+          }
         },
         {
           "key": 1214,
@@ -5083,7 +5499,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1215,
@@ -5092,7 +5509,11 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 15
+          }
         },
         {
           "key": 1216,
@@ -5101,7 +5522,11 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 12
+          }
         },
         {
           "key": 1217,
@@ -5110,7 +5535,11 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 10
+          }
         },
         {
           "key": 1218,
@@ -5119,7 +5548,11 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 8
+          }
         },
         {
           "key": 1219,
@@ -5128,7 +5561,11 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 7
+          }
         },
         {
           "key": 1220,
@@ -5137,7 +5574,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1221,
@@ -5146,7 +5584,11 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 6
+          }
         },
         {
           "key": 1222,
@@ -5155,7 +5597,11 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 5
+          }
         },
         {
           "key": 1223,
@@ -5164,7 +5610,11 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 4
+          }
         },
         {
           "key": 1224,
@@ -5173,7 +5623,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 23
+          }
         },
         {
           "key": 1225,
@@ -5182,7 +5636,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1226,
@@ -5191,7 +5646,11 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 21
+          }
         },
         {
           "key": 1227,
@@ -5200,7 +5659,11 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 17
+          }
         },
         {
           "key": 1228,
@@ -5209,7 +5672,11 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 14
+          }
         },
         {
           "key": 1229,
@@ -5218,7 +5685,11 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 12
+          }
         },
         {
           "key": 1230,
@@ -5227,7 +5698,11 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 10
+          }
         },
         {
           "key": 1231,
@@ -5236,7 +5711,11 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 8
+          }
         },
         {
           "key": 1232,
@@ -5245,7 +5724,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1233,
@@ -5254,7 +5734,11 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 7
+          }
         },
         {
           "key": 1234,
@@ -5263,7 +5747,11 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 6
+          }
         },
         {
           "key": 1235,
@@ -5271,7 +5759,12 @@
           "text": "The road bends toward the gate again — a favor asked of the house, a cart that slows without needing anything. The valley has resumed expecting things of it. (+8 koku)",
           "tick": 22,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "GREAT",
+            "bonus": 8
+          }
         },
         {
           "key": 1236,
@@ -5293,7 +5786,8 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.seasonSpring1"
         },
         {
           "key": 1238,
@@ -5302,7 +5796,11 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 50
+          }
         },
         {
           "key": 1239,
@@ -5311,7 +5809,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.seasonSpring1"
         },
         {
           "key": 1240,
@@ -5320,7 +5819,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 20
+          }
         },
         {
           "key": 1241,
@@ -5329,7 +5832,11 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 17
+          }
         },
         {
           "key": 1242,
@@ -5338,7 +5845,11 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 14
+          }
         },
         {
           "key": 1243,
@@ -5347,7 +5858,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1244,
@@ -5356,7 +5868,11 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 13
+          }
         },
         {
           "key": 1245,
@@ -5365,7 +5881,11 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 10
+          }
         },
         {
           "key": 1246,
@@ -5374,7 +5894,11 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 8
+          }
         },
         {
           "key": 1247,
@@ -5383,7 +5907,11 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 7
+          }
         },
         {
           "key": 1248,
@@ -5392,7 +5920,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1249,
@@ -5401,7 +5930,11 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 6
+          }
         },
         {
           "key": 1250,
@@ -5410,7 +5943,11 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 5
+          }
         },
         {
           "key": 1251,
@@ -5419,7 +5956,11 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 4
+          }
         },
         {
           "key": 1252,
@@ -5428,7 +5969,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 41
+          }
         },
         {
           "key": 1253,
@@ -5437,7 +5982,11 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 34
+          }
         },
         {
           "key": 1254,
@@ -5446,7 +5995,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1255,
@@ -5455,7 +6005,11 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 30
+          }
         },
         {
           "key": 1256,
@@ -5464,7 +6018,11 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 24
+          }
         },
         {
           "key": 1257,
@@ -5473,7 +6031,11 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 20
+          }
         },
         {
           "key": 1258,
@@ -5482,7 +6044,11 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 17
+          }
         },
         {
           "key": 1259,
@@ -5491,7 +6057,11 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 14
+          }
         },
         {
           "key": 1260,
@@ -5500,7 +6070,11 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 11
+          }
         },
         {
           "key": 1261,
@@ -5509,7 +6083,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1262,
@@ -5518,7 +6093,11 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 10
+          }
         },
         {
           "key": 1263,
@@ -5527,7 +6106,11 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 8
+          }
         },
         {
           "key": 1264,
@@ -5564,7 +6147,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "wage.first",
+          "params": {
+            "pay": 336
+          }
         },
         {
           "key": 1267,

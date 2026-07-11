@@ -74,7 +74,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "what the water takes"
+          "context": "what the water takes",
+          "contentKey": "intro.dream.greeting.0"
         },
         {
           "key": 1,
@@ -84,7 +85,8 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "what the water takes"
+          "context": "what the water takes",
+          "contentKey": "intro.dream.opt.dream-dwell.say"
         },
         {
           "key": 2,
@@ -93,14 +95,16 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "what the water takes"
+          "context": "what the water takes",
+          "contentKey": "intro.dream.opt.dream-dwell.react"
         },
         {
           "key": 3,
           "channel": "milestone",
           "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "intro.dream.opt.dream-dwell.perk"
         },
         {
           "key": 4,
@@ -109,7 +113,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.0"
         },
         {
           "key": 5,
@@ -118,7 +123,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.1"
         },
         {
           "key": 6,
@@ -127,7 +133,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.2"
         },
         {
           "key": 7,
@@ -137,7 +144,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.3"
         },
         {
           "key": 8,
@@ -147,7 +155,8 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.4"
         },
         {
           "key": 9,
@@ -157,7 +166,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.5"
         },
         {
           "key": 10,
@@ -166,7 +176,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.6"
         },
         {
           "key": 11,
@@ -175,7 +186,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.7"
         },
         {
           "key": 12,
@@ -185,7 +197,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.8"
         },
         {
           "key": 13,
@@ -195,7 +208,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.9"
         },
         {
           "key": 14,
@@ -205,7 +219,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.10"
         },
         {
           "key": 15,
@@ -214,7 +229,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.11"
         },
         {
           "key": 16,
@@ -224,7 +240,8 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.12"
         },
         {
           "key": 17,
@@ -234,7 +251,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.13"
         },
         {
           "key": 18,
@@ -243,7 +261,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.14"
         },
         {
           "key": 19,
@@ -252,7 +271,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.15"
         },
         {
           "key": 20,
@@ -262,7 +282,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.16"
         },
         {
           "key": 21,
@@ -272,7 +293,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.17"
         },
         {
           "key": 22,
@@ -281,7 +303,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.18"
         },
         {
           "key": 23,
@@ -292,7 +315,8 @@
           "speaker": "Nameless",
           "voice": "player",
           "chat": true,
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.topic.soan-where.ask"
         },
         {
           "key": 24,
@@ -303,7 +327,8 @@
           "speaker": "Sōan",
           "voice": "physician",
           "chat": true,
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.topic.soan-where.answer.0"
         },
         {
           "key": 25,
@@ -314,7 +339,8 @@
           "speaker": "Nameless",
           "voice": "player",
           "chat": true,
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.topic.soan-kami.ask"
         },
         {
           "key": 26,
@@ -325,7 +351,8 @@
           "speaker": "Sōan",
           "voice": "physician",
           "chat": true,
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.topic.soan-kami.answer.0"
         },
         {
           "key": 27,
@@ -335,7 +362,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.opt.soan-knot.say"
         },
         {
           "key": 28,
@@ -345,14 +373,16 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.opt.soan-knot.react"
         },
         {
           "key": 29,
           "channel": "milestone",
           "text": "Perk unlocked — The Carrier's Hitch: fast, one-handed, holds wet. (+1 AGI / −1 INT)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "intro.soan.opt.soan-knot.perk"
         },
         {
           "key": 30,
@@ -362,7 +392,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.greeting.0"
         },
         {
           "key": 31,
@@ -373,7 +404,8 @@
           "speaker": "Nameless",
           "voice": "player",
           "chat": true,
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.topic.gen-house.ask"
         },
         {
           "key": 32,
@@ -384,7 +416,8 @@
           "speaker": "Genemon",
           "voice": "steward",
           "chat": true,
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.topic.gen-house.answer.0"
         },
         {
           "key": 33,
@@ -395,7 +428,8 @@
           "speaker": "Nameless",
           "voice": "player",
           "chat": true,
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.topic.gen-work.ask"
         },
         {
           "key": 34,
@@ -406,7 +440,8 @@
           "speaker": "Genemon",
           "voice": "steward",
           "chat": true,
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.topic.gen-work.answer.0"
         },
         {
           "key": 35,
@@ -416,7 +451,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.opt.genemon-earnest.say"
         },
         {
           "key": 36,
@@ -426,14 +462,16 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.opt.genemon-earnest.react"
         },
         {
           "key": 37,
           "channel": "milestone",
           "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "intro.genemon.opt.genemon-earnest.perk"
         },
         {
           "key": 38,

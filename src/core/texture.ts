@@ -17,13 +17,20 @@ import { FLAVOR } from './content/flavor';
 import { isMarketDay } from './content/market';
 import { TEXTURE_DAY_CHANCE, TEXTURE_MARKET_CHANCE } from './content/balance';
 
-/** FLAVOR keys by prefix — derived from the generated registry, never a hand list, so a
- *  newly-authored gossip/weather line joins its pool by existing (FB-5). */
-function pool(prefix: string): string[] {
+/** FLAVOR entries by prefix — derived from the generated registry, never a hand list, so a
+ *  newly-authored gossip/weather line joins its pool by existing (FB-5).
+ *
+ *  Carries the FLAVOR **key** alongside the text (it used to drop it and keep the string only).
+ *  The key is a stable id, so a texture line persists as `flavor.<key>` and re-renders from
+ *  FLAVOR on load — reword an ambient line and every existing save follows (save-format plan,
+ *  step 1). Still sorted BY TEXT, exactly as before, so the seeded pick for a given RNG draw is
+ *  byte-for-byte the line it always was: this refactor must not move the world. */
+type TextureLine = readonly [key: string, text: string];
+function pool(prefix: string): TextureLine[] {
   return Object.entries(FLAVOR)
     .filter(([k, v]) => k.startsWith(prefix) && typeof v === 'string')
-    .map(([, v]) => v as string)
-    .sort(); // key order is object order — sort for a stable, insertion-independent pool
+    .map(([k, v]) => [k, v as string] as TextureLine)
+    .sort((a, b) => (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0));
 }
 
 /** The season key prefix ('new-year' → 'seasonNewyear', 'winter' → 'seasonWinter'). */
@@ -32,13 +39,21 @@ function seasonPrefix(season: Season): string {
   return `season${flat[0]!.toUpperCase()}${flat.slice(1).toLowerCase()}`;
 }
 
-function emit(state: GameState, text: string): GameState {
+function emit(state: GameState, line: TextureLine): GameState {
   return applyRewards(state, {
-    log: [{ channel: 'narration', voice: 'narrator', text, ephemeral: true }],
+    log: [
+      {
+        channel: 'narration',
+        voice: 'narrator',
+        text: line[1],
+        ephemeral: true,
+        contentKey: `flavor.${line[0]}`,
+      },
+    ],
   });
 }
 
-function roll(state: GameState, lines: readonly string[]): [string | null, GameState] {
+function roll(state: GameState, lines: readonly TextureLine[]): [TextureLine | null, GameState] {
   if (lines.length === 0) return [null, state];
   const [v, rng] = nextFloat(state.rng, 'worldgen');
   const next = { ...state, rng };

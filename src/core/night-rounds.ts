@@ -67,7 +67,8 @@ function advanceStage(state: GameState, def: NightRoundDef): GameState {
 /** Resolve the CURRENT stage of an in-flight round through the seeded combat resolver. */
 export function resolveNightStage(state: GameState, def: NightRoundDef): GameState {
   if (state.roundState === null || state.roundState.roundId !== def.id) return state;
-  const stage = def.stages[state.roundState.stage];
+  const stageIndex = state.roundState.stage;
+  const stage = def.stages[stageIndex];
   if (!stage) return state; // no stage under the cursor (round already past its last)
   const mob = getMob(stage.foe);
   const result = resolveFight(state.rng, mcCombatStats(state), mobCombatStats(mob));
@@ -83,7 +84,7 @@ export function resolveNightStage(state: GameState, def: NightRoundDef): GameSta
     next = setFlag(next, 'wolf-survived-not-won');
     // C4.4 — the stage's authored encounter read (u3-B's night-round-wolf), the beat this
     // return used to name and never emit. The dawn aftermath is the R3 rung beat's.
-    next = emitStageNarration(next, stage);
+    next = emitStageNarration(next, stage, def.id, stageIndex);
     return advanceStage(next, def);
   }
 
@@ -94,7 +95,7 @@ export function resolveNightStage(state: GameState, def: NightRoundDef): GameSta
     const { reward, rng: lootRng } = nightStageReward(next.rng, stage);
     next = { ...next, rng: lootRng };
     for (const [id, qty] of Object.entries(reward.materials)) next = withResource(next, id, qty);
-    next = emitStageNarration(next, stage); // C4.4 — the won stage's authored aftermath
+    next = emitStageNarration(next, stage, def.id, stageIndex); // C4.4 — the won stage's aftermath
     return advanceStage(next, def);
   }
 
@@ -123,7 +124,12 @@ export function resolveNightStage(state: GameState, def: NightRoundDef): GameSta
       },
       // C4.4 — the authored sickroom-wake read (u3-B's night-round-fall) rides WITH the
       // mechanical cost line above (which carries the numbers; this carries the fiction).
-      { channel: 'narration', voice: 'narrator', text: FLAVOR.nightRoundFall },
+      {
+        channel: 'narration',
+        voice: 'narrator',
+        text: FLAVOR.nightRoundFall,
+        contentKey: 'flavor.nightRoundFall',
+      },
     ],
   });
   next = applyDefeatConsequences(next);
@@ -132,10 +138,22 @@ export function resolveNightStage(state: GameState, def: NightRoundDef): GameSta
 
 /** Emit a stage's authored LOG narration (C4.4 — u3-B's staged native lines). A stage
  *  without one stays silent (nothing invented — bible §0.5). */
-function emitStageNarration(state: GameState, stage: NightRoundStage): GameState {
+function emitStageNarration(
+  state: GameState,
+  stage: NightRoundStage,
+  roundId: string,
+  index: number,
+): GameState {
   if (!stage.narration) return state;
   return applyRewards(state, {
-    log: [{ channel: 'narration', voice: 'narrator', text: stage.narration }],
+    log: [
+      {
+        channel: 'narration',
+        voice: 'narrator',
+        text: stage.narration,
+        contentKey: `nightRound.${roundId}.stage.${index}`,
+      },
+    ],
   });
 }
 
@@ -148,7 +166,13 @@ export function beginNightRound(state: GameState, def: NightRoundDef): GameState
   let next: GameState = { ...state, roundState: { roundId: def.id, stage: 0 } };
   next = applyRewards(next, {
     log: [
-      { channel: 'narration', voice: 'narrator', text: FLAVOR.nightRoundPost, ephemeral: true },
+      {
+        channel: 'narration',
+        voice: 'narrator',
+        text: FLAVOR.nightRoundPost,
+        ephemeral: true,
+        contentKey: 'flavor.nightRoundPost',
+      },
     ],
   });
   if (isNewMoon(next)) {
@@ -157,7 +181,14 @@ export function beginNightRound(state: GameState, def: NightRoundDef): GameState
       next = enqueueScene(next, 'sb-dog-coda');
     } else {
       next = applyRewards(next, {
-        log: [{ channel: 'narration', voice: 'narrator', text: FLAVOR.nightRoundNewMoon }],
+        log: [
+          {
+            channel: 'narration',
+            voice: 'narrator',
+            text: FLAVOR.nightRoundNewMoon,
+            contentKey: 'flavor.nightRoundNewMoon',
+          },
+        ],
       });
     }
   }

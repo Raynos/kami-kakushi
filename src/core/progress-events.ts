@@ -31,8 +31,16 @@ function foldAdvance(state: GameState, result: AdvanceResult): GameState {
 
 function voiceFlavor(state: GameState, req: RequirementDef): GameState {
   // requirementFlavor = canon, or the DEV switcher's selected take (ADR-139 review).
+  // The save persists the requirement's ID; its words re-render from the requirements registry.
   return applyRewards(state, {
-    log: [{ channel: 'narration', text: requirementFlavor(req), voice: 'narrator' }],
+    log: [
+      {
+        channel: 'narration',
+        text: requirementFlavor(req),
+        voice: 'narrator',
+        contentKey: `requirement.${req.id}`,
+      },
+    ],
   });
 }
 

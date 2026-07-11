@@ -139,7 +139,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "what the water takes"
+          "context": "what the water takes",
+          "contentKey": "intro.dream.greeting.0"
         },
         {
           "key": 1,
@@ -149,7 +150,8 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "what the water takes"
+          "context": "what the water takes",
+          "contentKey": "intro.dream.opt.dream-dwell.say"
         },
         {
           "key": 2,
@@ -158,14 +160,16 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "what the water takes"
+          "context": "what the water takes",
+          "contentKey": "intro.dream.opt.dream-dwell.react"
         },
         {
           "key": 3,
           "channel": "milestone",
           "text": "Perk unlocked — The Inward Turn: A mind that deepens by dwelling, at the price of a slower body. (+1 INT / −1 SPD)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "intro.dream.opt.dream-dwell.perk"
         },
         {
           "key": 4,
@@ -174,7 +178,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.0"
         },
         {
           "key": 5,
@@ -183,7 +188,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.1"
         },
         {
           "key": 6,
@@ -192,7 +198,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.2"
         },
         {
           "key": 7,
@@ -202,7 +209,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.3"
         },
         {
           "key": 8,
@@ -212,7 +220,8 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.4"
         },
         {
           "key": 9,
@@ -222,7 +231,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.5"
         },
         {
           "key": 10,
@@ -231,7 +241,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.6"
         },
         {
           "key": 11,
@@ -240,7 +251,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.7"
         },
         {
           "key": 12,
@@ -250,7 +262,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.8"
         },
         {
           "key": 13,
@@ -260,7 +273,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.9"
         },
         {
           "key": 14,
@@ -270,7 +284,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.10"
         },
         {
           "key": 15,
@@ -279,7 +294,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.11"
         },
         {
           "key": 16,
@@ -289,7 +305,8 @@
           "count": 1,
           "speaker": "You",
           "voice": "player",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.12"
         },
         {
           "key": 17,
@@ -299,7 +316,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.13"
         },
         {
           "key": 18,
@@ -308,7 +326,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.14"
         },
         {
           "key": 19,
@@ -317,7 +336,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.15"
         },
         {
           "key": 20,
@@ -327,7 +347,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.16"
         },
         {
           "key": 21,
@@ -337,7 +358,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.17"
         },
         {
           "key": 22,
@@ -346,7 +368,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.18"
         },
         {
           "key": 23,
@@ -356,7 +379,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.opt.soan-knot.say"
         },
         {
           "key": 24,
@@ -366,14 +390,16 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "no name to give"
+          "context": "no name to give",
+          "contentKey": "intro.soan.opt.soan-knot.react"
         },
         {
           "key": 25,
           "channel": "milestone",
           "text": "Perk unlocked — The Carrier's Hitch: fast, one-handed, holds wet. (+1 AGI / −1 INT)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "intro.soan.opt.soan-knot.perk"
         },
         {
           "key": 26,
@@ -383,7 +409,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.greeting.0"
         },
         {
           "key": 27,
@@ -393,7 +420,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.opt.genemon-earnest.say"
         },
         {
           "key": 28,
@@ -403,14 +431,16 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "entered in the book"
+          "context": "entered in the book",
+          "contentKey": "intro.genemon.opt.genemon-earnest.react"
         },
         {
           "key": 29,
           "channel": "milestone",
           "text": "Perk unlocked — Genemon's Charge: Honest muscle set plainly to the task — sure over nimble. (+1 STR / −1 AGI)",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "contentKey": "intro.genemon.opt.genemon-earnest.perk"
         },
         {
           "key": 30,
@@ -446,7 +476,8 @@
           "tick": 0,
           "count": 1,
           "speaker": "Genemon",
-          "voice": "steward"
+          "voice": "steward",
+          "contentKey": "dialogue.genemon-open.gen-rake"
         },
         {
           "key": 35,
@@ -464,7 +495,8 @@
           "tick": 2,
           "count": 1,
           "speaker": "Genemon",
-          "voice": "steward"
+          "voice": "steward",
+          "contentKey": "dialogue.genemon-open.gen-keep"
         },
         {
           "key": 39,
@@ -472,7 +504,8 @@
           "text": "\"...You don't shirk the work,\" Genemon says, eyeing the cleared boards and the filling basket. \"The house has had its fill of hands that do. Earn your keep, and a place here is yours.\"",
           "tick": 4,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "dialogue.genemon-open.gen-kept"
         },
         {
           "key": 41,
@@ -480,7 +513,8 @@
           "text": "\"So he can work,\" Genemon says, in the way another man says good morning.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.rake-the-first-rows"
         },
         {
           "key": 43,
@@ -488,7 +522,8 @@
           "text": "\"Still at it,\" Genemon says, passing the granary door without stopping.",
           "tick": 14,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.rake-through-the-night"
         },
         {
           "key": 50,
@@ -496,7 +531,8 @@
           "text": "\"Dawn, and he is still raking,\" Genemon says to the dark, as if the dark had asked.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.rake-the-spill"
         },
         {
           "key": 51,
@@ -505,7 +541,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.0"
         },
         {
           "key": 52,
@@ -515,7 +552,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.1"
         },
         {
           "key": 53,
@@ -524,7 +562,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.2"
         },
         {
           "key": 54,
@@ -534,7 +573,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.3"
         },
         {
           "key": 55,
@@ -543,7 +583,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.4"
         },
         {
           "key": 56,
@@ -553,7 +594,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.5"
         },
         {
           "key": 57,
@@ -562,7 +604,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.6"
         },
         {
           "key": 58,
@@ -571,7 +614,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.7"
         },
         {
           "key": 59,
@@ -581,7 +625,8 @@
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.8"
         },
         {
           "key": 60,
@@ -590,7 +635,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.9"
         },
         {
           "key": 61,
@@ -600,7 +646,8 @@
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.10"
         },
         {
           "key": 62,
@@ -609,7 +656,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.11"
         },
         {
           "key": 63,
@@ -618,7 +666,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.12"
         },
         {
           "key": 64,
@@ -628,7 +677,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.13"
         },
         {
           "key": 65,
@@ -638,7 +688,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.opt.r1-none-claimed.say"
         },
         {
           "key": 66,
@@ -648,7 +699,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The day-hand promotion"
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.opt.r1-none-claimed.react"
         },
         {
           "key": 67,
@@ -668,7 +720,8 @@
           "text": "The first rows he plants alone come up as straight as anyone's.",
           "tick": 20,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.first-rows-of-his-own"
         },
         {
           "key": 91,
@@ -676,7 +729,8 @@
           "text": "The paddy women no longer point out which rows are his; he has learned them.",
           "tick": 14,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.take-to-the-fields"
         },
         {
           "key": 93,
@@ -693,7 +747,8 @@
           "text": "At the gate the porters shift a strap for him without being asked, as they do among their own.",
           "tick": 4,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.a-porters-back"
         },
         {
           "key": 116,
@@ -905,7 +960,8 @@
           "text": "The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean.",
           "tick": 22,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.learn-the-woodlot"
         },
         {
           "key": 159,
@@ -922,7 +978,8 @@
           "text": "The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.",
           "tick": 8,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.walk-the-hills"
         },
         {
           "key": 175,
@@ -930,7 +987,8 @@
           "text": "Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.",
           "tick": 8,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.keep-the-stores-moving"
         },
         {
           "key": 176,
@@ -939,7 +997,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.0"
         },
         {
           "key": 177,
@@ -948,7 +1007,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.1"
         },
         {
           "key": 178,
@@ -958,7 +1018,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.2"
         },
         {
           "key": 179,
@@ -967,7 +1028,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.3"
         },
         {
           "key": 180,
@@ -976,7 +1038,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.4"
         },
         {
           "key": 181,
@@ -986,7 +1049,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.5"
         },
         {
           "key": 182,
@@ -995,7 +1059,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.6"
         },
         {
           "key": 183,
@@ -1005,7 +1070,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.7"
         },
         {
           "key": 184,
@@ -1014,7 +1080,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.8"
         },
         {
           "key": 185,
@@ -1024,7 +1091,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.9"
         },
         {
           "key": 186,
@@ -1033,7 +1101,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.10"
         },
         {
           "key": 187,
@@ -1043,7 +1112,8 @@
           "count": 1,
           "speaker": "O-Hisa",
           "voice": "steward",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.11"
         },
         {
           "key": 188,
@@ -1052,7 +1122,8 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.12"
         },
         {
           "key": 189,
@@ -1062,7 +1133,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.opt.r3-track.say"
         },
         {
           "key": 190,
@@ -1072,7 +1144,8 @@
           "count": 1,
           "speaker": "Sōan",
           "voice": "physician",
-          "context": "The grain-watch promotion"
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.opt.r3-track.react"
         },
         {
           "key": 191,
@@ -1158,7 +1231,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.seasonNewyear1"
         },
         {
           "key": 200,
@@ -1301,7 +1375,12 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.forage_satoyama",
+          "params": {
+            "sansai": 16,
+            "coin": 1
+          }
         },
         {
           "key": 214,
@@ -1379,7 +1458,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.weatherDry"
         },
         {
           "key": 220,
@@ -1403,7 +1483,8 @@
           "text": "\"Quiet in the kura tonight,\" Kihei lets drop, cleaning his blade by lamplight.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.clear-the-kura-rats"
         },
         {
           "key": 222,
@@ -1510,7 +1591,8 @@
           "text": "\"The monkeys have learned his shape,\" Kihei is heard to say, almost pleased.",
           "tick": 12,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.drive-off-the-thieves"
         },
         {
           "key": 230,
@@ -1536,7 +1618,11 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 60
+          }
         },
         {
           "key": 233,
@@ -1545,7 +1631,11 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 50
+          }
         },
         {
           "key": 234,
@@ -1554,7 +1644,11 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 43
+          }
         },
         {
           "key": 235,
@@ -1563,7 +1657,11 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 36
+          }
         },
         {
           "key": 236,
@@ -1572,7 +1670,11 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 30
+          }
         },
         {
           "key": 237,
@@ -1581,7 +1683,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 25
+          }
         },
         {
           "key": 238,
@@ -1590,7 +1696,11 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 21
+          }
         },
         {
           "key": 239,
@@ -1599,7 +1709,11 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 17
+          }
         },
         {
           "key": 240,
@@ -1608,7 +1722,11 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 15
+          }
         },
         {
           "key": 241,
@@ -1617,7 +1735,11 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 12
+          }
         },
         {
           "key": 242,
@@ -1626,7 +1748,11 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 9
+          }
         },
         {
           "key": 243,
@@ -1635,7 +1761,11 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 8
+          }
         },
         {
           "key": 244,
@@ -1644,7 +1774,11 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 7
+          }
         },
         {
           "key": 245,
@@ -1653,7 +1787,11 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 6
+          }
         },
         {
           "key": 246,
@@ -1662,7 +1800,11 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 4
+          }
         },
         {
           "key": 247,
@@ -1670,7 +1812,8 @@
           "text": "\"The fields don't miss him while he drills,\" Genemon notes, half to himself.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.the-fields-hold"
         },
         {
           "key": 248,
@@ -1679,7 +1822,11 @@
           "tick": 22,
           "count": 2,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 3
+          }
         },
         {
           "key": 249,
@@ -1688,7 +1835,11 @@
           "tick": 4,
           "count": 3,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 2
+          }
         },
         {
           "key": 250,
@@ -1697,7 +1848,11 @@
           "tick": 12,
           "count": 4,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 1
+          }
         },
         {
           "key": 251,
@@ -1706,7 +1861,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 252,
@@ -1715,7 +1871,11 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 1
+          }
         },
         {
           "key": 253,
@@ -1724,7 +1884,11 @@
           "tick": 2,
           "count": 5,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 0
+          }
         },
         {
           "key": 254,
@@ -1732,7 +1896,8 @@
           "text": "\"Watch or no watch, his rows never fell behind,\" Genemon says over the evening rice.",
           "tick": 2,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.keep-the-rows"
         },
         {
           "key": 255,
@@ -1741,7 +1906,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 256,
@@ -1750,7 +1916,11 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 21
+          }
         },
         {
           "key": 257,
@@ -1759,7 +1929,11 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 17
+          }
         },
         {
           "key": 258,
@@ -1768,7 +1942,11 @@
           "tick": 10,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 14
+          }
         },
         {
           "key": 259,
@@ -1777,7 +1955,11 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 11
+          }
         },
         {
           "key": 260,
@@ -1786,7 +1968,11 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 9
+          }
         },
         {
           "key": 261,
@@ -1795,7 +1981,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 262,
@@ -1804,7 +1991,11 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 8
+          }
         },
         {
           "key": 263,
@@ -1813,7 +2004,11 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 6
+          }
         },
         {
           "key": 264,
@@ -1822,7 +2017,11 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 5
+          }
         },
         {
           "key": 265,
@@ -1831,7 +2030,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.gossipRiverMan"
         },
         {
           "key": 266,
@@ -1840,7 +2040,11 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 4
+          }
         },
         {
           "key": 267,
@@ -1849,7 +2053,8 @@
           "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 268,
@@ -1858,7 +2063,11 @@
           "tick": 6,
           "count": 2,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 4
+          }
         },
         {
           "key": 269,
@@ -1867,7 +2076,11 @@
           "tick": 10,
           "count": 2,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 3
+          }
         },
         {
           "key": 270,
@@ -1876,7 +2089,11 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 2
+          }
         },
         {
           "key": 271,
@@ -1885,7 +2102,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 272,
@@ -1894,7 +2112,11 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 2
+          }
         },
         {
           "key": 273,
@@ -1903,7 +2125,11 @@
           "tick": 22,
           "count": 3,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 1
+          }
         },
         {
           "key": 274,
@@ -1912,7 +2138,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.weatherDry"
         },
         {
           "key": 275,
@@ -1921,7 +2148,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 276,
@@ -1930,7 +2158,11 @@
           "tick": 6,
           "count": 3,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 1
+          }
         },
         {
           "key": 277,
@@ -1939,7 +2171,11 @@
           "tick": 10,
           "count": 2,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 0
+          }
         },
         {
           "key": 278,
@@ -1948,7 +2184,8 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 279,
@@ -1957,7 +2194,11 @@
           "tick": 16,
           "count": 2,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 0
+          }
         },
         {
           "key": 280,
@@ -1965,7 +2206,8 @@
           "text": "\"The palisade wood is his cutting,\" Kihei says, striking a post with the flat of his hand.",
           "tick": 16,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.timber-for-the-palisade"
         },
         {
           "key": 281,
@@ -2001,7 +2243,8 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.seasonSpring2"
         },
         {
           "key": 284,
@@ -2050,7 +2293,12 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.forage_satoyama",
+          "params": {
+            "sansai": 22,
+            "coin": 1
+          }
         },
         {
           "key": 289,
@@ -2088,7 +2336,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.seasonSpring2"
         },
         {
           "key": 292,
@@ -2184,7 +2433,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.weatherThunder"
         },
         {
           "key": 299,
@@ -2193,7 +2443,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.gossipBirth"
         },
         {
           "key": 300,
@@ -2202,7 +2453,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.weatherFrost"
         },
         {
           "key": 301,
@@ -2280,7 +2532,12 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.forage_satoyama",
+          "params": {
+            "sansai": 19,
+            "coin": 1
+          }
         },
         {
           "key": 307,
@@ -2289,7 +2546,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 308,
@@ -2499,7 +2757,12 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "activity.forage_satoyama",
+          "params": {
+            "sansai": 18,
+            "coin": 1
+          }
         },
         {
           "key": 323,
@@ -2563,7 +2826,8 @@
           "tick": 12,
           "count": 4,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 328,
@@ -2600,7 +2864,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.nightRoundPost"
         },
         {
           "key": 331,
@@ -2608,7 +2873,8 @@
           "text": "On the dark of the moon a lantern crosses the far edge of the yard — hooded low, held steady, going upstream. By the time the round brings you back the yard is empty, and in the morning no one has missed a lantern. It is not your watch's business. You watch for it anyway.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "flavor.nightRoundNewMoon"
         },
         {
           "key": 332,
@@ -2616,7 +2882,8 @@
           "text": "Rats in the store, where Kihei said. You learn the sound grain makes when something small is stealing it — a dry whisper under the floor, gone the moment you stop walking. The spear-butt does the rest. In the morning you sweep up what they spoiled and say what you took. The number is never nothing.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "nightRound.first-night-round.stage.0"
         },
         {
           "key": 333,
@@ -2624,7 +2891,8 @@
           "text": "A marten, quick as spilled water, dead by more luck than spear-work. Behind the back bales, where it hunted, you find what the rats had all along — a seed-rice bale gnawed open at the seam, half gone into the walls. You make the count alone, by lantern, twice. It does not improve the second time. You bar the door on it and tell no one yet.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "nightRound.first-night-round.stage.1"
         },
         {
           "key": 334,
@@ -2632,7 +2900,8 @@
           "text": "At the kura door the lantern finds two eyes at the height of your waist, and the dark around them is the wrong shape for a dog. The bar is behind you. So is the rice.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "nightRound.first-night-round.stage.2"
         },
         {
           "key": 335,
@@ -2640,7 +2909,8 @@
           "text": "The night the wolf came you stood between it and the stores, and were still there at dawn — bleeding, ribs cracked, the rice untouched. Not won. Survived.",
           "tick": 18,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "requirement.the-wolf-survived-not-won"
         },
         {
           "key": 336,
@@ -2649,7 +2919,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.0"
         },
         {
           "key": 337,
@@ -2658,7 +2929,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.1"
         },
         {
           "key": 338,
@@ -2667,7 +2939,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.2"
         },
         {
           "key": 339,
@@ -2677,7 +2950,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.3"
         },
         {
           "key": 340,
@@ -2687,7 +2961,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.4"
         },
         {
           "key": 341,
@@ -2696,7 +2971,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.5"
         },
         {
           "key": 342,
@@ -2706,7 +2982,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.6"
         },
         {
           "key": 343,
@@ -2716,7 +2993,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.7"
         },
         {
           "key": 344,
@@ -2726,7 +3004,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.8"
         },
         {
           "key": 345,
@@ -2735,7 +3014,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.9"
         },
         {
           "key": 346,
@@ -2744,7 +3024,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.10"
         },
         {
           "key": 347,
@@ -2753,7 +3034,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.11"
         },
         {
           "key": 348,
@@ -2762,7 +3044,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.12"
         },
         {
           "key": 349,
@@ -2772,7 +3055,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.13"
         },
         {
           "key": 350,
@@ -2781,7 +3065,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.14"
         },
         {
           "key": 351,
@@ -2791,7 +3076,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.15"
         },
         {
           "key": 352,
@@ -2800,7 +3086,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.16"
         },
         {
           "key": 353,
@@ -2810,7 +3097,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.17"
         },
         {
           "key": 354,
@@ -2819,7 +3107,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.18"
         },
         {
           "key": 355,
@@ -2829,7 +3118,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.19"
         },
         {
           "key": 356,
@@ -2838,7 +3128,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.20"
         },
         {
           "key": 357,
@@ -2848,7 +3139,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.21"
         },
         {
           "key": 358,
@@ -2857,7 +3149,8 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.22"
         },
         {
           "key": 359,
@@ -2867,7 +3160,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.23"
         },
         {
           "key": 360,
@@ -2877,7 +3171,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.opt.r4-it-returns.say"
         },
         {
           "key": 361,
@@ -2887,7 +3182,8 @@
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
-          "context": "The pupil promotion"
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.opt.r4-it-returns.react"
         },
         {
           "key": 362,
@@ -2990,7 +3286,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.seasonSpring1"
         },
         {
           "key": 372,
@@ -3014,7 +3311,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.seasonSpring2"
         },
         {
           "key": 374,
@@ -3023,7 +3321,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.gossipGanzo"
         },
         {
           "key": 375,
@@ -3047,7 +3346,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.gossipMatchmaker"
         },
         {
           "key": 377,
@@ -3071,7 +3371,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.weatherFrost"
         },
         {
           "key": 379,
@@ -3080,7 +3381,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.gossipMatchmaker"
         },
         {
           "key": 380,
@@ -3104,7 +3406,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.gossipMatchmaker"
         },
         {
           "key": 382,
@@ -3143,7 +3446,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.gossipTownRice"
         },
         {
           "key": 385,
@@ -3152,7 +3456,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.gossipMatchmaker"
         },
         {
           "key": 386,
@@ -3176,7 +3481,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true
+          "ephemeral": true,
+          "contentKey": "flavor.weatherRain"
         },
         {
           "key": 388,

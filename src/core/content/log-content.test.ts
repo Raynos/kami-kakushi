@@ -135,6 +135,10 @@ describe('log-content registry — golden line equality', () => {
 describe('log-content registry — coverage', () => {
   const SAMPLE: Readonly<Record<string, LogParams>> = {
     'season.reckoned': { bonus: 1 },
+    'nengu.reckoned': {},
+    'estate.workProgress': { stage: 'Set the house in order', done: 3, total: 14 },
+    'estate.commissioned': { stage: 'Stem the first rot' },
+    'wage.first': { pay: 8 },
     'season.spoilage': { total: 1 },
     'rank.wallWeapon': { weapon: 'bo staff' },
     'rank.marker': { title: 'Steward', kanji: '家令' },

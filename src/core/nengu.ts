@@ -51,6 +51,7 @@ export function reckonNengu(state: GameState): GameState {
         voice: 'narrator',
         // HD-30 (2026-07-09): the nengu reckoning line — felt, never numbered (no koku/shō figure).
         text: 'The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.',
+        contentKey: 'nengu.reckoned',
       },
     ],
   });

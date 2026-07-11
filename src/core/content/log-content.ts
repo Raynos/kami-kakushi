@@ -91,6 +91,15 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
   'market.sellRice': (p) =>
     `You sell ${p.rice} rice to the pedlar at ${formatCoin(Number(p.price))} the measure. (+${formatCoin(Number(p.coinGain))})`,
   'market.buyItem': (p) => `You barter ${formatCoin(Number(p.coin))} for a ${p.item}.`,
+  // save-format plan, step 1 — lines whose prose used to sit inline in a reducer. They live here
+  // now so the SAVE stores a key, not the words: reword one and every existing save follows.
+  'nengu.reckoned': () =>
+    'The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.',
+  'estate.workProgress': (p) => `The work goes forward — ${p.stage}, ${p.done} of ${p.total}.`,
+  'wage.first': (p) =>
+    `You are handed ${p.pay} mon at the board, counted once into your palm — the first the house has paid you in coin, and yours to keep.`,
+  'estate.commissioned': (p) =>
+    `Commissioned: ${p.stage} — timber and coin set aside; the work waits at the site.`,
   'belonging.acquire': (p) => `You bring a ${p.item} into your corner.`,
   'bank.deposit': (p) =>
     `You store ${p.resource === 'coin' ? formatCoin(Number(p.amount)) : `${p.amount} ${p.resource}`} safe in the kura storehouse.`,
