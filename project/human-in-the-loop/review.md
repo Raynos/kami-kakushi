@@ -262,53 +262,6 @@ wall" (relayed via Genemon/Chiyo, 5✔1✘) · C "the house answers for him"
     history stays).
   - **Verdict:** _(awaiting your read)_
 
-### HR-26 🔲 [R1 · map] — Map travel presence (FB-340) — pick a variant (ADR-075)
-
-FB-340 asked for a position marker + animated zone-to-zone movement. All three
-variants drive the ONE existing here-ring idiom (no second marker primitive)
-over the same survey sheet; only the walk animation forks. **Self-picked prod
-default: A** (rubric 22/24 vs B 20, C 18 — B is the most diegetic but its
-footprints read small on a phone; C's camera-follow is the boldest and the
-least survey-sheet). Walk any zone edge on the Map tab to see each play; a
-save-load or DEV teleport never animates (only a real one-hop walk does).
-
-  - **Taste brief (pass 1):** P2 animate the ONE here-ring, never a second
-    marker · P4/TST2 the overlay rides the rebuilt frame and aborts if the
-    sheet is replaced; the player's pan/zoom is never reset · P12
-    reduced-motion → instant (C still recentres, sans glide) · P14 one-shot,
-    a live response to the player's own move · P15 the path spans only the
-    two revealed endpoints · P19 ceremony-light (≤1.6s end to end) · TST4
-    position glanceable during and after.
-  - [ ] **A — glide seal** _(self-picked prod default; ships)_ — the
-    vermilion ring + plumb dot travel the walked edge; a dashed ink line
-    draws and fades.
-    - **Scorecard (A):** 10✔ · 0✘ · 11—
-  - [ ] **B — ink footsteps** _(built; DEV-only)_ — vermilion footprint dabs
-    stamp along the path in walking rhythm; the ring presses in at the
-    destination like a hanko.
-    - **Scorecard (B):** 9✔ · 1✘ · 11— — ✘ P17/TST4 [briefed]: for the
-      ~0.8s stamp phase the ring is hidden, so position reads from the
-      moving trail, not a standing mark.
-  - [ ] **C — the sheet walks** _(built; DEV-only)_ — the ring presses in
-    where you stand and the VIEW pans your position back to centre, at your
-    own zoom (reduced-motion recentres instantly).
-    - **Scorecard (C):** 10✔ · 0✘ · 11— (note: the pan moves a surface the
-      player may be studying — sanctioned here as a direct response to their
-      own walk click, and it never touches their zoom).
-  - [ ] **D — footsteps + follow** _(built; DEV-only; the human's ask,
-    2026-07-10 — "I want both the map moving and the footsteps")_ — B+C fused:
-    the ink footprints stamp along the walked edge WHILE the sheet pans your
-    position to centre, the ring pressing in as you arrive. All concurrent and
-    brisk (prints from ~90ms, ring present throughout, ~0.8s end to end — no
-    dead beat); the prints ride the panning viewBox in SVG user-space.
-    Reduced-motion recentres instantly, sans footsteps. **Caveat:** the pan
-    only shows when the sheet is bigger than the viewport (zoomed past fit) —
-    at full fit there is no room to pan, same physical limit as C.
-  - **How to look LIVE:** DEV panel → Variants → **Map travel presence
-    (FB-340)**, or `?travel-presence=presence-b|-c|-d`; Map tab → walk
-    gate ⇄ forecourt a few times.
-  - **Verdict:** _(awaiting your look — silence ships A)_
-
 ---
 
 > _Open reviews only. Closed reviews graduate to [`archive.md`](archive.md). The
@@ -441,3 +394,33 @@ work wears the gold 新):
   - **How to review:** `?fixture=rung-R6` (or R7/wealthy-idler for more rooms) → the
     Estate 家 tab → DEV panel → "Estate 家 (the house)" toggle.
   - **Verdict:** _(awaiting your read)_
+
+### HR-31 🔲 [R1 · map] — Porter presence live (FB-340 v2, ADR-180) — confirm & delete v1
+
+HR-26's successor: you picked the **根付 porter piece + walk & footprints**
+from the map-token-presence prototype (2026-07-11, two rounds, 11 takes), plus
+the decision round (porter-only arrival — the destination press-in ring is
+gone; the here-seal keeps its shu stroke; camera follow stays). It is now LIVE
+as the prod default: the piece stands beside your zone's seal and walks the
+edge (netsuke waddle + shu footprints, ActionClock-synced) on every real
+`move_to`. Indicator only — never clickable, never freely movable.
+
+  - **Taste brief (pass 1):** P1/TST1 the piece is the ONE "you are here" (both
+    rings deleted in v2; seal keeps shu stroke as the ZONE-state signal) ·
+    P2 reuse the footprint stamps + clock driver + `--piece-*` tokens ·
+    P4/TST2 transform-patched, mid-walk repaint never yanks the piece ·
+    P6 complete at every zoom, south offset clear of the seal box ·
+    P15 no destination ghost/preview · P17 far-zoom position stays readable ·
+    TST3 the piece reads as the surveyor's marker ON the sheet artifact ·
+    V/map-law-1 gait is clock-fraction-driven, no Math.random.
+  - **Scorecard (porter):** 8✔ · 0✘ · 13— — borderline ✔ P6 flagged: standing at
+    the forecourt, the piece's feet graze the 門 gate seal's top border (dense
+    cluster; diegetically a piece sits ON the printed sheet, pointer-events
+    none so nothing is blocked — tune `PORTER_STAND_Y` if it bothers the eye).
+  - **How to look LIVE:** Map tab — the porter stands at your zone; walk
+    gate ⇄ forecourt to see the waddle + prints; DEV panel → Variants →
+    **Map travel presence** flips back to **A · shu rings (v1)** for
+    comparison (`?presence=presence-rings`).
+  - **On your confirm:** v1's ring code + the toggle are DELETED (ADR-075 zero
+    flag-debt); captures in `project/audit/screens/2026-07-11-porter-presence/`.
+  - **Verdict:** _(awaiting your look)_

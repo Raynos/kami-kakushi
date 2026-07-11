@@ -66,9 +66,9 @@ magic; no reset.
   judge lines · node reads) + **HR-27** (the works discovery chain, incl. the
   R2-silence note) + **HR-28** (the three intro scene heads, FB-362).
 - **DEV-variant picks (ADR-075)** 🔲 — home (HR-6) · bestiary (HR-5) · the
-  HR-2A–D bundle (market · influence · craft · quests) · map travel presence
-  (HR-26 — walk a zone edge; silence ships A). Picks → the agent strips the
-  alternates.
+  HR-2A–D bundle (market · influence · craft · quests) · **HR-31** porter map
+  presence LIVE (FB-340 v2, ADR-180 — walk gate ⇄ forecourt; confirm → v1
+  rings delete; supersedes HR-26). Picks → the agent strips the alternates.
 
 ## Toolchain
 
@@ -112,4 +112,4 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    Human-gated: HR-1 + the story/variant picks above.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 2/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 3/20 · last full rewrite: 2026-07-11 -->

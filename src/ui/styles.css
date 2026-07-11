@@ -44,6 +44,17 @@
   --shu-deep: #7e2414;
   --beni: #bf3b25; /* legacy secondary red → vermillion */
 
+  /* ── THE PIECE — the porter game-piece on the survey sheet (FB-340 v2):
+     boxwood tones for a physical object ON the map artifact — deliberately
+     warmer than the sheet's silver/gold survey inks, single-sourced here
+     (AC-21; map law 2 spirit — the piece is foreign to the drawing). ── */
+  --piece-wood-hi: #c9a668;
+  --piece-wood-mid: #a8875a;
+  --piece-wood-lo: #7d6440;
+  --piece-rope: #5c4a2e;
+  --piece-carve: #3a2d1a;
+  --piece-skin: #b99a68;
+
   /* ── legacy earth pigments → the 3-metal collapse ────────────────────── */
   --kihada: #d8b978;
   --ochre: #93794a;

@@ -86,3 +86,64 @@ resting here-ring, ride the existing `travelPresenceRef` / ActionClock driver
 sequenced AFTER the in-flight map-viewer one-engine extraction (same file).
 Prototype README tagged (⭐/REFERENCE + owner), reading queue swapped to the
 plan (prototype entry cleared per ADR-089 — played & picked).
+
+---
+
+## Entry 4 — the porter goes LIVE (plan executed)
+
+Built FB-340 v2 end-to-end per the plan + the AskUserQuestion decisions:
+
+- `src/ui/map-variants/porter-math.ts` — pure walk math (linear `walkPoint`,
+  bounded `gaitAt`, `PORTER_STAND_Y`/`PORTER_SCALE`), unit-tested (7 tests,
+  fixtures derived from the module's own constants).
+- `src/ui/map-variants/porter-token.ts` — the sculpt, ported from the
+  prototype onto new `--piece-*` tokens (styles.css; ui-tokens.md regenerated).
+  Display-only: pointer-events none, aria-hidden. jsdom-tested (4 tests:
+  contract class, per-mount gradient ids, no hex leaks).
+- `sheet-map.ts` — `presenceVariantRef` ('porter' default | 'rings' v1);
+  resting porter mounts beside the here seal (both branches, incl. unsurveyed
+  ground); the travel player walks the piece on the STANDING lane
+  (anchor + PORTER_STAND_Y) so departure/arrival match the resting spot
+  exactly; destination ring is v1-only (dropped in v2 — human call); westward
+  walks mirror the sculpt; gait freezes when the clock pauses.
+- `dev.ts` — `presence` variant surface (porter default, rings kept for
+  comparison until HR-31 confirms → then v1 deletes); `syncPresence()` mirrors
+  the pick into the declaring-module ref; `render.ts` mapSignature carries the
+  variant so a DEV flip repaints.
+- Verified: full `VERIFY_FULL=1 pnpm run verify` green (18 gates); live
+  headless run on the shared :5173 — resting mount ✓, real move_to fired the
+  walk ✓, two porters only during transit ✓, zero destination rings ✓, overlay
+  removed + one resting porter on arrival ✓, no console errors. Captures in
+  `project/audit/screens/2026-07-11-porter-presence/`.
+- Paperwork: ADR-180 · HR-26 archived (superseded) · HR-31 filed (confirm +
+  v1 deletion) with the Pass-1 brief + Pass-2 scorecard (8✔ · 0✘ · 13—; P6
+  borderline flagged: forecourt feet graze the 門 seal top). PRD: no §edit —
+  the PRD never describes the presence marker (prd:drift currently red on a
+  co-agent's mid-flight ADR-179 refactor, not this change).
+
+## Next intended steps
+1. Human looks at HR-31 live → confirm → delete v1 rings + the DEV toggle.
+2. If the 門 graze bothers the eye: tune `PORTER_STAND_Y` (test guards >95).
+
+## Landmines
+- The presence variant ref is module-level state in sheet-map.ts — prod never
+  writes it; only dev.ts's syncPresence touches it.
+- The walking piece uses gradient id `porter-wood-walk` vs `-rest` — two
+  porters legitimately coexist during transit; tests pin the namespacing.
+
+### Taste Pass 2 — the full 21-walk (porter variant; v1 unchanged, not re-walked)
+
+P1 ✔ piece is the one here-mark (v2 deletes both rings; v1 survives only as
+the named HR-31 comparison toggle) · P2 ✔ reused footprints/driver/tokens ·
+P3 — · P4 ✔ transform-patched, overlay torn down whole, sig-guard untouched ·
+P5 — · P6 ✔ borderline (forecourt feet graze the 門 seal top — named in
+HR-31) · P7 — · P8 — · P9 — · P10 — · P11 — · P12 — (typewriter n/a; the
+motion-reduce path is the presence P12 guard, kept) · P13 — · P14 ✔ the walk
+is a live response to the player's own move (P14 guard kept) · P15 ✔ no
+destination preview, piece exists only where you are · P16 — · P17 ✔ shu seal
+stroke + piece; far-zoom position readable · P18 — · P19 ✔ the piece stays in
+the quiet chrome register (no ceremony, ~walk-length animation only) ·
+P20 — · P21 — · TST1–4 ✔ (TST3: the piece is the surveyor's marker ON the
+sheet artifact; TST2: mid-walk rebuild aborts cold via svg.isConnected).
+Tally: 8✔ · 0✘ · 13— — zero knew-and-missed, zero blind spots; one borderline
+✔ (P6) named forward.

@@ -37,17 +37,6 @@
 
 ## Reading queue
 
-- **Map viewer one-engine refactor plan** —
-  [`project/archive/fable-2026-07-11-map-viewer-one-engine.md`](archive/fable-2026-07-11-map-viewer-one-engine.md):
-  the extraction you ordered mid-session (shared pan/zoom/fog-stage engine for
-  the DEV sheets + the live Map tab) — records scope + what stays separate.
-
-- **Porter map-presence plan** —
-  [`docs/plans/fable-2026-07-11-map-porter-presence.md`](../docs/plans/fable-2026-07-11-map-porter-presence.md):
-  ports your picked porter (walk + footprints) onto the live Map tab as the
-  FB-340 presence layer — indicator-only, animated by real `move_to` actions,
-  never freely movable. Sequenced after the map-viewer one-engine extraction.
-
 - **Derived-reveal plan** —
   [`docs/plans/fable-2026-07-11-derived-reveal.md`](../docs/plans/fable-2026-07-11-derived-reveal.md):
   your 2026-07-11 ruling made a plan — `unlocked` leaves the save, visibility

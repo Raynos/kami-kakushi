@@ -3283,3 +3283,28 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   at the same call sites; PRD §6.2 (core/unlock latch language) needs the
   ripple (S7). The FB-343/FB-369 eat-rice re-home stays owned by ADR-178 —
   this ADR only makes that move save-proof.
+
+### ADR-180 ✅ — Map travel presence v2: the physical porter piece (FB-340 v2, closes HR-26)
+
+- **created_date:** 2026-07-11
+- **Context:** FB-340 v1 marked position with flat shu marks (resting
+  here-ring, footprints, a destination press-in ring). The human asked for the
+  position to read as a PHYSICAL PIECE on the survey sheet — "a chess piece, a
+  monopoly character, a peon, a miniature" — and took the question through the
+  `map-token-presence` prototype: round 1 rejected the koma / go stone /
+  pilgrim-hat takes and a samey four-robe miniature set; round 2's four
+  divergent sculpts produced the pick.
+- **Decision:** The **根付 boxwood porter** (bundle, staff, shu carry-cord) is
+  THE presence idiom: it stands beside the here-zone's seal (south offset) and
+  WALKS the edge — linear, ActionClock-synced, netsuke waddle + the v1 shu
+  footprints — on every real `move_to`. It is an **indicator, never an
+  avatar**: display-only, pointer-events none, never freely movable. Arrival
+  is the piece settling (the v1 destination ring is dropped); the here-seal
+  keeps its shu stroke for far-zoom legibility; camera follow stays. Sculpt in
+  `porter-token.ts` (`--piece-*` tokens), math pure in `porter-math.ts`; v1's
+  rings survive ONLY behind the DEV `presence` toggle until the human confirms
+  live (HR-31), then delete (ADR-075 zero flag-debt).
+- **Consequences:** HR-26 archived (superseded); HR-31 tracks the live confirm
+  + v1 deletion. The prototype (porter ⭐) stays as the verdict record. A
+  future map-piece idea (NPC pieces, caravan pieces) extends the same
+  piece-on-sheet idiom, not a new marker primitive.
