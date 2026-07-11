@@ -992,6 +992,11 @@ export function mount(
   // rows + the bestiary field-guide (they live with the character sheet, not the fight surface).
   // Own containers so each is a build-once/patch surface on the Character tab (FB-81), and so the
   // per-tab anti-empty guard can see them (§7). Points are still EARNED in Combat (the coupling holds).
+  // FB-343/FB-369 (human-ruled 2026-07-11) — the BODY section: the food verbs' one
+  // home (eat rice · cook), beside the Body 体/Belly 腹 readouts they feed. Zones
+  // stopped carrying them (ADR-178 §4; the hearth's owned-cook affordance, ADR-120,
+  // is the deliberate fiction-sited exception and stays).
+  const characterBody = el('div', 'character-body');
   const characterTrain = el('div', 'character-train');
   const characterBestiary = el('div', 'character-bestiary');
   // ── incremental-render refs (append-only migration, FB-81 generalised via ui/reconcile.ts) ──
@@ -1105,11 +1110,7 @@ export function mount(
     worksBtn: HTMLButtonElement;
     areaGroups: HTMLElement;
     noWork: HTMLElement;
-    cookRow: HTMLElement;
-    cookBtn: HTMLButtonElement;
-    // ADR-107 Phase 2 — eat plain rice → satiety (the rice food path, beside cook).
-    eatRiceRow: HTMLElement;
-    eatRiceBtn: HTMLButtonElement;
+    // (FB-343/FB-369 — cook + eat-rice left for the Character Body card; see characterBodyRefs.)
   } | null = null;
   // IA reorg (ADR-112) — the Combat tab keeps ONLY the fight surface: XP · weapon · craft · stance ·
   // watch. Training (attrs) + the bestiary SPLIT OUT to the Character tab (their refs live in
@@ -1137,6 +1138,15 @@ export function mount(
   // each a build-once/patch surface (FB-81). Reveal at R3 (`readout-combat-level` / `panel-bestiary`).
   // Each half builds lazily + independently (both reveal at R3 in practice, but the refs never
   // assume the other is present), so a null field means "that half not yet built".
+  // FB-343/FB-369 — the Character BODY card: vitals readouts + the re-homed food verbs.
+  let characterBodyRefs: {
+    bodyVal: HTMLElement;
+    bellyVal: HTMLElement;
+    cookRow: HTMLElement;
+    cookBtn: HTMLButtonElement;
+    eatRiceRow: HTMLElement;
+    eatRiceBtn: HTMLButtonElement;
+  } | null = null;
   let characterTrainRefs: { train: HTMLElement; trainPts: HTMLElement } | null = null;
   let characterBestiaryRefs: {
     host: HTMLElement;
@@ -1169,6 +1179,7 @@ export function mount(
     workHead,
     actions,
     whosPane,
+    characterBody,
     skillsPane,
     characterTrain,
     characterBestiary,
@@ -1420,6 +1431,8 @@ export function mount(
       SKILLS.some((def) => skillVisible(state, def.id) || isUnlocked(state, `skill-${def.id}`));
     return (
       skillsHaveCard ||
+      isUnlocked(state, 'verb-cook') || // the Body card (FB-343/FB-369 — food verbs re-homed here)
+      isUnlocked(state, 'verb-eat-rice') ||
       isUnlocked(state, 'readout-combat-level') || // training (attrs)
       isUnlocked(state, 'panel-bestiary') // the bestiary
       // ADR-119 — quests are NO LONGER a Character section; they have their own tab (revealed at R5),
@@ -3110,21 +3123,10 @@ export function mount(
         'area-blurb',
         'No work to be had where you stand — open the Map 地図 tab to walk on.',
       );
-      const cookRow = el('div', 'labour-row');
-      const cookBtn = el('button', 'verb');
-      cookBtn.type = 'button';
-      stampAct(cookBtn, 'cook_meal');
-      cookBtn.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
-      cookRow.append(cookBtn);
-      const eatRiceRow = el('div', 'labour-row');
-      const eatRiceBtn = el('button', 'verb');
-      eatRiceBtn.type = 'button';
-      stampAct(eatRiceBtn, 'eat_rice');
-      eatRiceBtn.addEventListener('click', () => dispatch({ type: 'eat_rice' }));
-      eatRiceRow.append(eatRiceBtn);
       // FB-107 (ADR-112) — the "Walk on 道" nav strip is GONE from Work: the Map tab is navigation's
-      // SOLE home. Labour is all the Work tab holds now.
-      actions.append(metaRow, placeStrip, areaGroups, noWork, cookRow, eatRiceRow);
+      // SOLE home. Labour is all the Work tab holds now. FB-343/FB-369 — the food verbs
+      // (cook · eat rice) left too: they live on the Character 己 tab's Body card.
+      actions.append(metaRow, placeStrip, areaGroups, noWork);
       actionsRefs = {
         metaRow,
         placeStrip,
@@ -3137,10 +3139,6 @@ export function mount(
         worksBtn,
         areaGroups,
         noWork,
-        cookRow,
-        cookBtn,
-        eatRiceRow,
-        eatRiceBtn,
       };
     }
     const r = actionsRefs;
@@ -3329,38 +3327,9 @@ export function mount(
         isUnlocked(state, 'room-gate'),
     );
 
-    // cook a meal — sansai → HP mend + a belly side (ADR-050/ADR-076/ADR-178). Say so, and make it
-    // the PRIMARY (prominent) action when the MC is hurt — the "heal now" companion to the red life bar.
-    const showCook = isUnlocked(state, 'verb-cook');
-    toggle(r.cookRow, showCook);
-    if (showCook) {
-      const cost = balance.COOK_SANSAI_COST;
-      setClass(r.cookBtn, 'primary', state.character.hp < hpMax(state));
-      setText(r.cookBtn, `Cook a meal (${cost} sansai)`);
-      const short = (state.resources.sansai ?? 0) < cost;
-      setDisabled(r.cookBtn, short);
-      const title = short
-        ? `Needs ${cost} sansai — forage the woodlot to gather it.`
-        : 'A hot meal mends your wounds and fills your belly — eating is the only way to heal.';
-      if (r.cookBtn.title !== title) r.cookBtn.title = title;
-    }
-
-    // eat plain rice — rice → BELLY (ADR-178: food feeds the belly, never the work bar), the rice
-    // food path beside cook. A deliberate meal RAISES what the daily kura ration only maintains.
-    const showEatRice = isUnlocked(state, 'verb-eat-rice');
-    toggle(r.eatRiceRow, showEatRice);
-    if (showEatRice) {
-      const cost = balance.EAT_RICE_COST;
-      // ADR-163 — the meal is drawn from the kura; meal amounts read in shō (TST4).
-      setText(r.eatRiceBtn, `Eat plain rice (${cost} shō)`);
-      const short = (state.banked.rice ?? 0) < cost;
-      setDisabled(r.eatRiceBtn, short);
-      const title = short
-        ? `Needs ${cost} shō in the kura — rake or farm the paddies to gather it.`
-        : `A plain bowl of rice fills ${balance.EAT_RICE_HUNGER} belly — you rest better fed, at the cost of ${cost} shō.`;
-      if (r.eatRiceBtn.title !== title) r.eatRiceBtn.title = title;
-    }
     // (FB-107 — no "Walk on" strip here anymore: navigation lives ONLY on the Map tab.)
+    // (FB-343/FB-369 — no food verbs here anymore either: cook + eat-rice live on the
+    //  Character 己 tab's Body card, beside the vitals they feed.)
   }
 
   function renderSkills(state: GameState): void {
@@ -4013,6 +3982,84 @@ export function mount(
   function renderCharacterSheet(state: GameState): void {
     const onCharacter = activeTab === 'character';
     const devMode = __DEV_TOOLS__ && dev;
+
+    // ── BODY (R2, with the Character tab itself) — FB-343/FB-369 (human-ruled 2026-07-11):
+    //    the food verbs' ONE home, beside the Body 体/Belly 腹 readouts they feed (TST3/TST4;
+    //    zones stopped carrying them, ADR-178 §4). The card appears with either verb. ──
+    const showBody =
+      onCharacter && (isUnlocked(state, 'verb-cook') || isUnlocked(state, 'verb-eat-rice'));
+    toggle(characterBody, showBody);
+    if (showBody) {
+      if (!characterBodyRefs) {
+        const card = el('div', 'weapon-card frame');
+        const bh = el('div', 'skill-head');
+        bh.append(el('span', 'skill-name', 'Body 体'));
+        const bodyVal = el('span', 'skill-lvl');
+        bh.append(bodyVal);
+        card.append(bh);
+        const bellyRow = el('div', 'attr-row');
+        const bellyLabel = el('span', 'attr-label');
+        bellyLabel.append(el('span', 'attr-name', 'Belly 腹'));
+        const bellyVal = el('span', 'attr-val');
+        bellyLabel.append(bellyVal);
+        bellyRow.append(bellyLabel);
+        card.append(bellyRow);
+        const cookRow = el('div', 'labour-row');
+        const cookBtn = el('button', 'verb');
+        cookBtn.type = 'button';
+        stampAct(cookBtn, 'cook_meal');
+        cookBtn.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
+        cookRow.append(cookBtn);
+        const eatRiceRow = el('div', 'labour-row');
+        const eatRiceBtn = el('button', 'verb');
+        eatRiceBtn.type = 'button';
+        stampAct(eatRiceBtn, 'eat_rice');
+        eatRiceBtn.addEventListener('click', () => dispatch({ type: 'eat_rice' }));
+        eatRiceRow.append(eatRiceBtn);
+        card.append(cookRow, eatRiceRow);
+        characterBody.append(card);
+        characterBodyRefs = { bodyVal, bellyVal, cookRow, cookBtn, eatRiceRow, eatRiceBtn };
+      }
+      const b = characterBodyRefs;
+      // vitals readouts — numerals live here (the header vital-stack keeps bars-only, FB-387).
+      setText(
+        b.bodyVal,
+        `${Math.round(state.character.satiety)}/${Math.round(satietyMax(state))} work left in the day`,
+      );
+      setText(b.bellyVal, ` ${Math.round(state.character.hunger)}/${Math.round(hungerMax(state))}`);
+
+      // cook a meal — sansai → HP mend + a belly side (ADR-050/ADR-076/ADR-178). Say so, and make it
+      // the PRIMARY (prominent) action when the MC is hurt — the "heal now" companion to the red life bar.
+      const showCook = isUnlocked(state, 'verb-cook');
+      toggle(b.cookRow, showCook);
+      if (showCook) {
+        const cost = balance.COOK_SANSAI_COST;
+        setClass(b.cookBtn, 'primary', state.character.hp < hpMax(state));
+        setText(b.cookBtn, `Cook a meal (${cost} sansai)`);
+        const short = (state.resources.sansai ?? 0) < cost;
+        setDisabled(b.cookBtn, short);
+        const title = short
+          ? `Needs ${cost} sansai — forage the woodlot to gather it.`
+          : 'A hot meal mends your wounds and fills your belly — eating is the only way to heal.';
+        if (b.cookBtn.title !== title) b.cookBtn.title = title;
+      }
+
+      // eat plain rice — rice → BELLY (ADR-178: food feeds the belly, never the work bar), the rice
+      // food path beside cook. A deliberate meal RAISES what the daily kura ration only maintains.
+      const showEatRice = isUnlocked(state, 'verb-eat-rice');
+      toggle(b.eatRiceRow, showEatRice);
+      if (showEatRice) {
+        const cost = balance.EAT_RICE_COST;
+        // ADR-163 — the meal is drawn from the kura; meal amounts read in shō (TST4).
+        setText(b.eatRiceBtn, `Eat plain rice (${cost} shō)`);
+        const short = (state.banked.rice ?? 0) < cost;
+        setDisabled(b.eatRiceBtn, short);
+        const title = short
+          ? `Needs ${cost} shō in the kura — rake or farm the paddies to gather it.`
+          : `A plain bowl of rice fills ${balance.EAT_RICE_HUNGER} belly — you rest better fed, at the cost of ${cost} shō.`;
+        if (b.eatRiceBtn.title !== title) b.eatRiceBtn.title = title;
+      }
+    }
 
     // ── TRAINING (attrs) — reveals at R3 with combat (readout-combat-level). The +1 buttons spend
     //    attributePoints EARNED from combat leveling (the coupling holds — points still fire from the

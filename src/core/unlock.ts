@@ -69,7 +69,7 @@ export function isUnlocked(state: GameState, id: SurfaceId): boolean {
 // from the predicates above it (surfaces.ts) without this file in the same review.
 const SPECIAL_FACTS: Readonly<Record<string, () => Record<string, boolean>>> = {
   'verb-cook': () => factsForSurfaces('row-sansai'),
-  'verb-eat-rice': () => factsForSurfaces('panel-rung-ladder'),
+  'verb-eat-rice': () => factsForSurfaces('tab-skills'), // FB-369 re-home: keys to the Character tab's anchor (R2)
   'panel-home': () => factsForSurfaces('tab-inventory'),
   'panel-estate': () => ({ 'works-named-u1': true }),
   'room-weir': () => ({ 'works-named-weir': true }),

@@ -253,9 +253,12 @@ export const SURFACES: readonly Surface[] = [
     // it doesn't compete with the free `rest` before rice has a real alternative use (sell).
     id: 'verb-eat-rice',
     kind: 'verb',
-    // ADR-177 Schedule A — keyed to panel-rung-ladder (R1): panel-estate is now
-    // cause-gated at R2+, and eating must keep its R1 timing (the belly, ADR-178).
-    unlock: (_s, vis) => vis.has('panel-rung-ladder'),
+    // FB-343/FB-369 (human-ruled 2026-07-11) — eat-rice re-homed to the Character 己
+    // tab's Body card, so it keys to tab-skills (what makes that tab appear, R2) — the
+    // ADR-119 "no dangling promise" pattern: the verb reveals exactly when its home
+    // does. (Supersedes the ADR-177 R1 timing; the small R1 gap was accepted with the
+    // Character-tab ruling — the kura ration + rest carry the belly through R1.)
+    unlock: (_s, vis) => vis.has('tab-skills'),
     // FB-275 — no flavor text for eating & rice (human, 2026-07-10); the verb reveal is enough.
   },
   { id: 'skill-conditioning', kind: 'row', unlock: () => false },

@@ -514,8 +514,37 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       },
       null,
     );
+    // FB-343/FB-369 — the food verbs live on the Character 己 tab's Body card now.
+    expect(clickText('Character')).toBe(true);
     expect(clickText('Eat plain rice')).toBe(true);
     expect(seen).toContainEqual({ type: 'eat_rice' });
+  });
+
+  it('FB-343/FB-369 — the food verbs live ONLY on the Character Body card, never the zone column', () => {
+    const { render } = spyMount();
+    const base = createInitialState(1);
+    const s: GameState = {
+      ...base,
+      flags: { ...base.flags, awake: true, ...factsForSurfaces('verb-cook', 'verb-eat-rice') },
+      banked: { ...base.banked, rice: 30 },
+      resources: { ...base.resources, sansai: 20 },
+    };
+    render(s, null);
+    // the Work tab (default) must NOT carry them — the reported regression.
+    const visibleButtons = (): string[] =>
+      [...root.querySelectorAll<HTMLButtonElement>('button')]
+        .filter((b) => !b.closest('[hidden]') && !b.hidden)
+        .map((b) => b.textContent ?? '');
+    expect(visibleButtons().join('|')).not.toMatch(/Eat plain rice|Cook a meal/);
+    // …and the Character 己 tab's Body card is their one home, vitals beside them (TST4).
+    expect(clickText('Character')).toBe(true);
+    const shown = visibleButtons().join('|');
+    expect(shown).toContain('Eat plain rice');
+    expect(shown).toContain('Cook a meal');
+    const body = root.querySelector<HTMLElement>('.character-body')!;
+    expect(body.hidden).toBe(false);
+    expect(body.textContent).toContain('Body 体');
+    expect(body.textContent).toContain('Belly 腹');
   });
 
   it('a foe Fight button dispatches fight for the foe on THIS node', () => {
@@ -641,6 +670,10 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       )!;
     // hurt → cook is emphasised (primary), the heal cue pairing with the red life bar.
     render({ ...ready, character: { ...ready.character, hp: 1 } }, null);
+    // FB-343/FB-369 — cook lives on the Character 己 tab's Body card now; open its chip.
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes('Character'))
+      ?.click();
     expect(cookBtn().classList.contains('primary')).toBe(true);
     expect(cookBtn().title).toMatch(/only way to heal/);
     // at full HP → cook is a plain option, not shouting.

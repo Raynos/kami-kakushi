@@ -92,8 +92,31 @@ no-revealQueue callout · the selectors list) — notably resolving §6.8(c)'s o
 along. `prd:drift` CLEAN. Plan flipped DONE → `project/archive/`, queue entry
 removed in the same move.
 
+## The eat-rice re-home (FB-343/FB-369, same session)
+
+The human reported the rice verb still on the zone panel after body-split
+closed — correctly: the body-split plan had explicitly scoped the re-home
+OUT ("ADR-177 Phase-2 work"), leaving it unblocked but un-owned. The wrinkle
+that had parked it: the ruled home (Inventory) doesn't exist until R4, but
+eating starts at R1. Presented the fork (belly-bar header home · Character 己
+tab · literal-R4); **human ruled: Character 己 tab** (the small R1 gap
+accepted — the kura ration + rest carry the belly through R1).
+
+Landed: a **Body 体 card** on the Character sheet (build-once, the Training
+idiom) — Body/Belly numerals (the header vital-stack stays bars-only, FB-387)
+plus the re-homed cook + eat-rice rows with their show/patch logic moved
+verbatim; the zone column stopped carrying them (the hearth's owned-cook
+affordance, ADR-120, stays — the deliberate fiction-sited exception).
+`verb-eat-rice` re-keyed to `tab-skills` (the ADR-119 "no dangling promise"
+pattern — the verb reveals exactly when its home tab does, R2), a one-line
+predicate change under ADR-179. New RED-able regression test: the verbs
+exist ONLY on the Body card, never the zone column. Full suite 1196/1196;
+headless smoke: Work column clean, Body card renders at R2, eat click →
+hunger 60→90 through the real timed-action path.
+
 ## Commits
 
 - `d7893081` — ADR-179 + the derived-reveal plan + queue + this entry
 - `712dc0b5` — the S1–S6 landing (core + persistence + UI + tests + fixtures)
-- (this commit) — the S7 PRD ripple + plan archive
+- `a165bd68` — the S7 PRD ripple + plan archive
+- (this commit) — the FB-343/FB-369 eat-rice re-home (Character Body card)
