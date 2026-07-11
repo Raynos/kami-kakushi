@@ -78,3 +78,13 @@ The R0 rung up only mentioned three zones, paddies, gate, forecourt, it didnt me
 **Details:** `mapsheet/2026-07-11T09-30-40.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-384 · 2026-07-11T09:31:07+0200 — if-home-paddies-is
+
+If home paddies is reachable it should not be in the fog of war.
+
+**Element:** panel "do" · `div > svg > g:nth-of-type(2) > path:nth-of-type(1)` · @-238,-345 1338×882
+**Screenshot:** `mapsheet/2026-07-11T09-31-07.png`
+**Details:** `mapsheet/2026-07-11T09-31-07.json` — save + recent logs + full context
+
+---
