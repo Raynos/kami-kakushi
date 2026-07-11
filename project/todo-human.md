@@ -37,12 +37,6 @@
 
 ## Reading queue
 
-- **Derived-reveal plan** —
-  [`docs/plans/fable-2026-07-11-derived-reveal.md`](../docs/plans/fable-2026-07-11-derived-reveal.md):
-  your 2026-07-11 ruling made a plan — `unlocked` leaves the save, visibility
-  derives from rung/fact-flags, `seenReveals` keeps reloads silent (ADR-179).
-  You locked the direction in-session; skim for the mechanics if you want.
-
 
 > **What belongs here** — a durable doc whose purpose is for you to read or sign
 > off: a **plan** (`docs/plans/`), a **brainstorm / retrospective for adoption**

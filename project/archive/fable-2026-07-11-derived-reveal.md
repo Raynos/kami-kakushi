@@ -1,6 +1,8 @@
 # Derived reveal — visibility is a function of progression, never a saved list
 
-**Status:** IN-PROGRESS (S0 ✅ ruled · S1–S7 queued)
+**Status:** DONE ✅ (landed 2026-07-11 — ADR-179 `d7893081` · the S1–S6 code landing
+`712dc0b5` · the S7 PRD §6 ripple in the archiving commit; full suite 1195/1195,
+verify 18/18, stale-save smoke PASS on :5173)
 
 - **Author:** Fable session, 2026-07-11 (investigation + ruling this session)
 - **Confidence:** ( 40% Opus, 60% Fable ) — the spec is fully pinned below, so

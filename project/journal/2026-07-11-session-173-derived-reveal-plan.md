@@ -83,7 +83,17 @@ S1–S6 built and verified in one sweep:
   premise now leans on works `named ≠ open` (`works-named-u1` vs
   `works-open-u1`) — fine today, flagged for the ADR-177 owner.
 
+## S7 — the ripple + close-out
+
+PRD §6 re-described to the derived engine (core/unlock row · the reveal-authority
+paragraph · the GameState sketch `unlocked` → `seenReveals`, v11 · the
+no-revealQueue callout · the selectors list) — notably resolving §6.8(c)'s own
+"recompute what's unlocked on load" line, which had aspired to derivation all
+along. `prd:drift` CLEAN. Plan flipped DONE → `project/archive/`, queue entry
+removed in the same move.
+
 ## Commits
 
 - `d7893081` — ADR-179 + the derived-reveal plan + queue + this entry
-- (this commit) — the S1–S6 landing (core + persistence + UI + tests + fixtures)
+- `712dc0b5` — the S1–S6 landing (core + persistence + UI + tests + fixtures)
+- (this commit) — the S7 PRD ripple + plan archive

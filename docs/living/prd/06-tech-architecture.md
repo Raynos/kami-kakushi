@@ -167,7 +167,7 @@ The lint boundary rule (§6.1) makes a violation a build failure, not a code-rev
 | `core/economy` | Producers, costs, resource flows (the **coin + rice** spine — rice is a REAL resource you EAT (satiety) / STORE in the kura (storing rice now carries a **holding cost** — spoilage/cap/fee, mechanism TBD, ADR-118) / SELL for coin at a **season-swinging price**; **coin (base unit mon 文) is the sole spendable currency** — all market/estate/repair costs are coin; the capped Estate & Wealth sub-engines: land / treasury / trade incl. the silk *meibutsu*, trade **≤⅓**-capped). Holds the **market-saturation** damper (the only non-derivable economy state; §6.4). **Koku is NOT here** — it is the House's assessed STANDING (`core/influence`), never a spendable/producer resource. | yes |
 | `core/skills` | Per-skill XP curves, per-event caps, visibility thresholds, milestone web. **Each skill (labour included) carries a per-skill PERKS track** (~2–8 perks / small flat combat bonuses, unlocked by leveling that skill) — the **bounded labour→combat channel**. The real bound is **incremental skill unlock** (skills reveal per rung/tier) + small per-perk magnitudes (the §6.6 verifier asserts *each perk* is small — **not** `== 0`, **not** a single global cap). **Conditioning stays the ZERO-stat enablement gate** (weak→capable), orthogonal to and never bypassed by these perks. | yes |
 | `core/rewards` | The universal **rewards/unlock bus** — `applyRewards(state, rewards) -> state` — the one funnel through which dialogue, **dialogue choices**, quests, thresholds, and combat grant items/xp/coin/locations/recipes/quests/**flags & unlocks**/`pillarDeltas`, and emit diegetic log lines. (`pillarDeltas` deed-accrual is **Phase-2-gated**, §6.5.) | yes |
-| `core/unlock` | Predicate evaluation for the UI-reveal engine: each panel/screen/tab/row/node is data with an unlock predicate over `GameState`. **`reduce`/`tick` evaluate the predicates to ADD newly-earned surfaces to the stored write-once `unlocked` latch** (§6.3/§6.4); the reads `isUnlocked(state, id)` (per-id) and `unlockedSurfaces(state)` (the **ONE** set-selector name) are **pure projections of that stored Set**, never a live predicate re-eval. **Reveal staggering is a DESIGN property of the authored unlock schedule** (one-at-a-time **by construction**) — there is **NO** stored runtime reveal-queue; genuine multi-element single-feature reveals are bespoke one-offs designed per case. | yes |
+| `core/unlock` | The DERIVED UI-reveal engine (**ADR-179**): each panel/screen/tab/row/node is data with an unlock predicate over `GameState`, and **visibility is a pure function of progression FACTS** — the latched `rank-rN` flags (a surface named in a rung's `rewardOnReach.unlock` schedule is visible from that rung on), event fact-flags, discoveries, skills. `visibleSet(state)` computes it live (registry fixpoint, memoized per state); the reads `isUnlocked(state, id)` (per-id) and `unlockedSurfaces(state)` (the **ONE** set-selector name) project from it. **Nothing visibility-shaped is stored** — a stale save can never pin stale UI. `announcePass` (run by `reduce`/`tick`/load) plays each surface's reveal line **once**, latched by the stored `seenReveals` ceremony cursor (§6.4). **Reveal staggering is a DESIGN property of the authored unlock schedule** — there is **NO** stored runtime reveal-queue; genuine multi-element single-feature reveals are bespoke one-offs designed per case. | yes |
 | `core/influence` | The four House-Influence pillars (Arms / Estate & Wealth / Standing & Office / Name & Honour), **re-expressed as the House's assessed koku STANDING** — a kokudaka-like prestige SCORE that is **NEVER spent, is NOT an income multiplier, GATES ascension/unlocks, and is re-assessed SEASONALLY (`seasonalJudge`)** + a big "the assessors arrive" event at tier jumps (the tier→koku ladder T0 tens → T4 = 10,000 *daimyō* → T5 100,000+; a PERSONAL koku stipend appears only from T4+). Accrual is achievement-jump + seasonal judged-result (new-high-water-mark, up-only + per-pillar recoverable dents). **Tier-up is the scaled grade-gate** (the hybrid gate scaled by pillar-count): **1 EXCELLENT + 1 GREAT + (N−2) GOOD** over the tier's **N revealed** pillars, all ≥ GOOD (**T0 = 1 pillar → collapses to a single EXCELLENT**); **NO** overflow-substitution — §1.6.3/§1.6.4). Pillar **DEEDS accrue only in each tier's Phase 2** (post-final-rung). The **Estate & Wealth** pillar holds the nested `subEngines { land, treasury, trade }` with the **trade ≤⅓ HARD clamp**; **cross-pillar combos are computed POST-clamp** and excluded from the gate-threshold check (§4.3.1). | yes |
 | `core/ranks` | The **per-tier rung ladder**. **BUILT (T0, ADR-137/FB-121):** each rung carries an authored **hidden requirement list** (`core/requirements-engine` + the gen'd `content/requirements` registry); progress is a **per-rung-reset `rungReqs` map**, the player-facing read is a rounded integer % (100 ⟺ ready — the gate), and completions voice diegetic flavor lines through the AC-20 `progress-events` glue (one advance-token stream shared with quests). **Frontier (T1+):** the two sub-tracks (`estateService` labour / `combatRank` martial, per-rung-reset, ≥30-min floor-paced) — meter vs requirement-list mechanism is each tier's design pass. Owns the **phase-1 → phase-2** gate per tier; the phase marker is **DERIVED from the current rung**, never a separate stored flag. | yes |
 | `core/content` | The **data registries** (one module per content type; §6.5) + the registry index. Data-as-code. | yes |
@@ -231,12 +231,12 @@ function tick(state: GameState, dtTicks: number): GameState;
 ```
 
 **`reduce`** validates the intent against current state (e.g. enough *coin*, node reachable, rung high
-enough), applies the change, runs any triggered rewards through `core/rewards`, and re-checks unlock and
-tier-threshold predicates so newly-earned surfaces flip to unlocked and push their diegetic log line. An
+enough), applies the change, and runs any triggered rewards through `core/rewards`; newly-entitled surfaces
+are simply **derived visible** on the next read (ADR-179 — no latch write). An
 illegal intent is a no-op (returns the same state) plus an optional rejection note — never a throw.
-**`reduce`/`tick` are the SINGLE reveal authority and only ever ADD to the stored `unlocked` Set (write-once
-latch — a surface, once entered, is never removed); the once-per-game reveal log-line is emitted by this same
-latch transition, not by the renderer diff.**
+**`reduce`/`tick`/load are the SINGLE announce authority: `announcePass` pushes each newly-visible surface's
+diegetic reveal line exactly once, latched by the stored `seenReveals` ceremony cursor (append-only — a
+reload announces nothing); the line is emitted by that latch transition, not by the renderer diff.**
 **Intra-line dialogue is data, not scripting:** an `advance_dialogue` carrying a `choiceId` writes
 **only chosen-flags** (the choice's `locksLineIds[]`/`flags` effects ride the *same* rewards bus) — it is
 deterministic and **save-light** (only the chosen flag persists, in `flags`; §6.4/§6.5).
@@ -291,7 +291,7 @@ were away"); the unattended auto-resolve/auto-repeat runs **only while the tab i
 ## 6.4 GameState — stored vs. computed
 
 > **Illustrative sketch — the SHIPPED tree is `src/core/state.ts`
-> (SCHEMA_VERSION 10).** Material divergences from the block below: the ADR-137
+> (SCHEMA_VERSION 11).** Material divergences from the block below: the ADR-137
 > requirement model stores `rung` + `rungReqs` (the `ranks[tier]`
 > estateService/combatRank meters never shipped); `season` + `seasonsPassed`
 > ARE stored (ADR-153); the `discovery` RNG cursor and `discovered` latches
@@ -341,7 +341,7 @@ interface GameState {
   reputation: Record<FactionNodeId, number>;     // village per-node meters; origin ties as the O0→O5 rung meter
   allegiance: number;                            // Tama ↔ farmhand lean, continuous
   flags: Set<FlagId>;                            // story/finished/one-shot flags (serialized as array) — also the home of dialogue CHOSEN-FLAGS (the only thing an intra-line choice persists)
-  unlocked: Set<SurfaceId>;                       // panels/screens/nodes the player has earned — the ONLY reveal state; a WRITE-ONCE latch (reduce/tick only ADD, never remove — see the no-revealQueue callout below + §6.6.1)
+  seenReveals: SurfaceId[];                       // ADR-179 — the ONLY reveal-shaped stored state, and it is CEREMONY ONLY: the announce-once cursor of reveal lines already played (append-only; sibling of scenesPlayed). VISIBILITY is never stored — it derives from facts (rank-rN flags, event flags) via core/unlock visibleSet (see the callout below + §6.6.1)
   deliveredDialogue: Set<DialogueLineId>;         // dialogue lines already delivered (the diegetic-mentor cursor; serialized as array)
   quests: Record<QuestId, { status: QuestStatus; advancedBy: Set<QuestEventId> }>;
                                                  // ORDER-FREE quests: NO `step` cursor. `advancedBy` is the UNORDERED SET of advance-events already satisfied (a quest is a SET of advance-events with no fixed order). QuestStatus = 'taken' | 'active' | 'abandoned' | 'done' | 'failed' (serialized as array).
@@ -359,11 +359,14 @@ interface GameState {
 }
 ```
 
-> **NON-field callout — there is NO `revealQueue` in `GameState`.** Reveal staggering
-> is a **design property of the authored unlock schedule** (one-at-a-time **by construction**) — **not**
-> stored runtime state. `unlocked: Set<SurfaceId>` is the *only* reveal state; a surface flips when its
-> predicate passes (§6.2 `core/unlock`). Genuine multi-element single-feature reveals are bespoke one-offs
-> designed per case.
+> **NON-field callout — there is NO `revealQueue` and NO stored visibility in `GameState`
+> (ADR-179).** Reveal staggering is a **design property of the authored unlock schedule**
+> (one-at-a-time **by construction**) — **not** stored runtime state. Visibility is **derived**:
+> a surface shows iff its rung has been reached (the `rank-rN` fact-flag) or its predicate over
+> progression facts passes (§6.2 `core/unlock`) — so a save carries *where you are*, never
+> *what is shown*, and a stale save can't pin stale UI. `seenReveals` is the only reveal-shaped
+> field, and it gates ceremony (announce-once), never visibility. Genuine multi-element
+> single-feature reveals are bespoke one-offs designed per case.
 
 > **Additive-schema rule.** New stored fields are always added **optional-with-a-default, never removed or
 > repurposed**. So the stored surface grows additively: the heavier optional fields — the forward-tier
@@ -382,8 +385,8 @@ interface GameState {
 `skillCombatBonus` perks); `satietyMax(state)` (base + per-level growth off `character.level`);
 `durabilityBand(state, slot)` (maps the stored durability integer to the 4-band multiplier);
 `gateProfile(state)` (the good/great/excellent distribution across the **revealed** pillars for the hybrid
-tier-gate); `productionPerTick(state)`; `unlockedSurfaces(state)` (a pure projection of the stored `unlocked` Set — **not**
-a live predicate re-eval); `currentTier(state)` and
+tier-gate); `productionPerTick(state)`; `unlockedSurfaces(state)` (a projection of the DERIVED
+`visibleSet(state)` — ADR-179; visibility is computed from facts, never stored); `currentTier(state)` and
 `tierThresholdProgress(state)` (against the hybrid per-pillar-per-tier bands); `skillLevel(skillId, state)`
 (from xp + curve); `timeToNextGoal(state)` (for the greyed next-purchase); and the clock derivations off the
 **0-based** day index (day-of-week, the lunar ephemeris). The SEASON is not derived — it is STORED,
