@@ -70,3 +70,23 @@ rebalance plan get written, and the zone section gets a FULL ADR-075 diverge
   intents with sig-guarded rebuilds. Routing tests in dev.test.ts; headless
   shots of all three in tmp/drain-shots/FB-410-zone-*.png; HR-32 filed with
   the Pass-1 brief + per-variant scorecards; DEV_SENTINEL strip-proof 0 hits.
+
+## Close of pass
+
+Both lanes fully drained and archived (the-log 7/7 · r1 6/6 — `pending/` is
+empty). FB range FB-398…FB-410 (all capture-stamped; no reserved block).
+Forks surfaced for the human: HD — none new (the two plans carry their own
+Phase-0 picks in the reading queue); HR — HR-31 (open-rest line takes) +
+HR-32 (Zone do-panel variants). Claims released at end of pass.
+
+## Next intended steps
+1. Human: read the two plans (wait-a-day · zone-rung rebalance) — each Phase 0
+   is a pick; then HD-38 still blocks the re-voice plan's Wave 0.
+2. Human: toggle HR-31/HR-32 takes in the DEV panel when playing next.
+3. Agent: on the rebalance pick, apply the ranks.ts mapping (Opus-safe).
+
+## Landmines
+- The FB-402/409 rest siting means comfort tallies use `cornerRestBonus`
+  (property) vs `homeRestBonus` (sited live value) — don't merge them back.
+- `?zone=zone-b|c` boots the Zone variants only with the DEV harness ON
+  (`?dev=no` disables the whole variant machinery).
