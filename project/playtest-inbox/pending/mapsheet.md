@@ -68,3 +68,13 @@ Same with sick room
 **Details:** `mapsheet/2026-07-11T09-30-35.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-383 · 2026-07-11T09:30:40+0200 — the-r0-rung-up
+
+The R0 rung up only mentioned three zones, paddies, gate, forecourt, it didnt mention wood shed, these 4 zones make sense for R1 but they should be mentioned
+
+**Element:** panel "do" · `svg > g:nth-of-type(3) > g:nth-of-type(6) > rect:nth-of-type(2)` · @651,311 80×48
+**Screenshot:** `mapsheet/2026-07-11T09-30-40.png`
+**Details:** `mapsheet/2026-07-11T09-30-40.json` — save + recent logs + full context
+
+---
