@@ -19,6 +19,14 @@
 
 ## Reading queue
 
+- [ ] [`docs/plans/fable-2026-07-11-wait-a-day.md`](../docs/plans/fable-2026-07-11-wait-a-day.md) —
+  the wait-a-day lever you asked for (FB-408): full option map A–F with
+  pros/cons + balance analysis; recommendation D+F; Phase 0 is YOUR pick.
+- [ ] [`docs/plans/fable-2026-07-11-zone-rung-rebalance.md`](../docs/plans/fable-2026-07-11-zone-rung-rebalance.md) —
+  the zone→rung re-mapping ("too many zones in R1"): purpose audit table +
+  proposed moves (gate→R2, kitchen→R2, woodshed→R4 with the home); Phase 0
+  is your sign-off.
+
 
 > **What belongs here** — a durable doc whose purpose is for you to read or sign
 > off: a **plan** (`docs/plans/`), a **brainstorm / retrospective for adoption**

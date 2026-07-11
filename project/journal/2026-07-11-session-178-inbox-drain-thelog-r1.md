@@ -55,3 +55,10 @@ rebalance plan get written, and the zone section gets a FULL ADR-075 diverge
   new `restOpen` flavor line — ADR-139 bundle `fb402-rest-open` (3 blind
   takes, pick = C "the tool set down", HR-31 filed; live-swappable via
   __setRestOpenLineOverride). Balance flow ADR-132 run: Δ ~0, in band.
+
+- **Plans** — two human-requested plans authored + queued: the wait-a-day
+  lever (FB-408; option map A–F, recommendation D "sleep until morning" +
+  F "wait for the market day", priced by the existing day-boundary sink)
+  and the zone→rung rebalance ("too many zones in R1"; gate→R2,
+  kitchen→R2, woodshed→R4-with-the-home proposed). Both Phase-0 gated on
+  the human's pick.
