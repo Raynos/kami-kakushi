@@ -28,28 +28,28 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 | R3 | 6 | 59 | 12 | 31 | 164 | 22.7 | [21.2–23.2] | 47.1 |
 | R4 | 4 | 75 | 12 | 1 | 89 | 11.4 | [11.4–11.4] | 58.4 |
 | R5 | 4 | 50 | 7 | 3 | 67 | 10.1 | [10.1–10.1] | 68.5 |
-| R6 | 4 | 88 | 12 | 8 | 123 | 15.5 | [15.3–16.0] | 84.0 |
-| R7 | 4 | 417 | 69 | 55 | 762 | 88.1 | [86.9–90.0] | 172.0 |
+| R6 | 4 | 86 | 15 | 8 | 124 | 15.3 | [15.1–15.9] | 83.8 |
+| R7 | 4 | 414 | 88 | 56 | 786 | 90.1 | [89.5–92.5] | 173.8 |
 
 ## greedy — arc + economy (per seed)
 
 | seed | ascended | intents | wall-min | Phase-2 min | first-coin min | end coin | end rice | estate | P2 intent mix | stages | judges |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| 20260626 | ✅ | 1397 | 172.3 | 6.1 | 0.6 | 15375 | 257 | 480 | 12: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option do_activity improve_estate move_to rest sell_rice work_project | U4 | 16 |
-| 1 | ✅ | 1413 | 173.9 | 6.2 | 0.6 | 15539 | 123 | 480 | 12: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option do_activity improve_estate move_to rest sell_rice work_project | U4 | 16 |
-| 7 | ✅ | 1413 | 174.3 | 6.2 | 0.6 | 15179 | 128 | 480 | 12: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option do_activity improve_estate move_to rest sell_rice work_project | U4 | 16 |
-| 11 | ✅ | 1382 | 169.4 | 6.1 | 0.6 | 16329 | 5 | 480 | 12: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option do_activity improve_estate move_to rest sell_rice work_project | U4 | 16 |
-| 13 | ✅ | 1395 | 172.0 | 6.1 | 0.6 | 15412 | 257 | 480 | 12: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option do_activity improve_estate move_to rest sell_rice work_project | U4 | 16 |
+| 20260626 | ✅ | 1422 | 174.2 | 6.3 | 0.6 | 16193 | 77 | 480 | 12: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option do_activity improve_estate move_to rest sell_rice work_project | U4 | 16 |
+| 1 | ✅ | 1438 | 176.6 | 6.4 | 0.6 | 15525 | 22 | 480 | 12: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option do_activity improve_estate move_to rest sell_rice work_project | U4 | 16 |
+| 7 | ✅ | 1430 | 175.5 | 6.4 | 0.6 | 15612 | 9 | 480 | 12: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option do_activity improve_estate move_to rest sell_rice work_project | U4 | 16 |
+| 11 | ✅ | 1400 | 171.9 | 6.2 | 0.6 | 15503 | 107 | 480 | 12: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option do_activity improve_estate move_to rest sell_rice work_project | U4 | 17 |
+| 13 | ✅ | 1422 | 174.2 | 6.3 | 0.6 | 16213 | 58 | 480 | 12: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option do_activity improve_estate move_to rest sell_rice work_project | U4 | 16 |
 
 ## greedy — combat · starvation · durability (per seed)
 
 | seed | fights | W/L/R | coin bled | rice bled | satiety-0 | below-knee | battered | max no-progress |
 |---|---|---|---|---|---|---|---|---|
-| 20260626 | 14 | 12/2/0 | 44 | 0 | 0 | 1266 | 3 | 26 |
-| 1 | 15 | 12/3/0 | 59 | 0 | 0 | 1281 | 7 | 24 |
-| 7 | 15 | 12/3/0 | 60 | 0 | 0 | 1277 | 3 | 26 |
-| 11 | 13 | 12/1/0 | 24 | 0 | 0 | 1252 | 4 | 25 |
-| 13 | 14 | 12/2/0 | 44 | 0 | 0 | 1263 | 4 | 26 |
+| 20260626 | 14 | 12/2/0 | 44 | 0 | 0 | 1291 | 3 | 27 |
+| 1 | 15 | 12/3/0 | 59 | 0 | 0 | 1306 | 7 | 24 |
+| 7 | 15 | 12/3/0 | 60 | 0 | 0 | 1294 | 3 | 24 |
+| 11 | 13 | 12/1/0 | 24 | 0 | 0 | 1270 | 4 | 26 |
+| 13 | 14 | 12/2/0 | 44 | 0 | 0 | 1290 | 4 | 26 |
 
 ## idler — time-to-rung
 
@@ -63,28 +63,28 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 | R3 | 6 | 55 | 11 | 8 | 143 | 22.4 | [17.0–29.6] | 47.4 |
 | R4 | 4 | 75 | 15 | 1 | 100 | 11.9 | [11.7–11.9] | 59.3 |
 | R5 | 4 | 50 | 10 | 3 | 76 | 10.4 | [10.3–10.4] | 69.7 |
-| R6 | 4 | 65 | 10 | 4 | 98 | 11.8 | [11.8–11.8] | 81.5 |
-| R7 | 4 | 0 | 0 | 0 | 0 | 0.0 | [0.0–0.0] | 81.5 |
+| R6 | 4 | 65 | 13 | 4 | 101 | 12.1 | [12.1–12.1] | 81.8 |
+| R7 | 4 | 0 | 0 | 0 | 0 | 0.0 | [0.0–0.0] | 81.8 |
 
 ## idler — arc + economy (per seed)
 
 | seed | ascended | intents | wall-min | Phase-2 min | first-coin min | end coin | end rice | estate | P2 intent mix | stages | judges |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| 20260626 | — ladder ✓ (ascension not promised) | 633 | 80.8 | — | 0.7 | 1315 | 0 | 0 | 1: choose_rung_option | U1 | 0 |
-| 1 | — ladder ✓ (ascension not promised) | 759 | 88.6 | — | 0.7 | 751 | 0 | 0 | 1: choose_rung_option | U1 | 0 |
-| 7 | — ladder ✓ (ascension not promised) | 758 | 88.6 | — | 0.7 | 751 | 0 | 0 | 1: choose_rung_option | U1 | 0 |
-| 11 | — ladder ✓ (ascension not promised) | 627 | 76.1 | — | 0.7 | 1450 | 0 | 0 | 1: choose_rung_option | U1 | 0 |
-| 13 | — ladder ✓ (ascension not promised) | 637 | 81.2 | — | 0.7 | 1315 | 0 | 0 | 1: choose_rung_option | U1 | 0 |
+| 20260626 | — ladder ✓ (ascension not promised) | 636 | 81.1 | — | 0.7 | 1315 | 0 | 0 | 1: choose_rung_option | U1 | 0 |
+| 1 | — ladder ✓ (ascension not promised) | 762 | 88.9 | — | 0.7 | 751 | 0 | 0 | 1: choose_rung_option | U1 | 0 |
+| 7 | — ladder ✓ (ascension not promised) | 761 | 88.9 | — | 0.7 | 751 | 0 | 0 | 1: choose_rung_option | U1 | 0 |
+| 11 | — ladder ✓ (ascension not promised) | 630 | 76.4 | — | 0.7 | 1450 | 0 | 0 | 1: choose_rung_option | U1 | 0 |
+| 13 | — ladder ✓ (ascension not promised) | 640 | 81.5 | — | 0.7 | 1315 | 0 | 0 | 1: choose_rung_option | U1 | 0 |
 
 ## idler — combat · starvation · durability (per seed)
 
 | seed | fights | W/L/R | coin bled | rice bled | satiety-0 | below-knee | battered | max no-progress |
 |---|---|---|---|---|---|---|---|---|
-| 20260626 | 9 | 7/0/2 | 0 | 0 | 0 | 97 | 0 | 12 |
-| 1 | 57 | 57/0/0 | 0 | 0 | 0 | 86 | 19 | 12 |
-| 7 | 56 | 56/0/0 | 0 | 0 | 0 | 86 | 15 | 12 |
-| 11 | 11 | 7/0/4 | 0 | 0 | 0 | 97 | 85 | 12 |
-| 13 | 10 | 8/0/2 | 0 | 0 | 0 | 92 | 0 | 12 |
+| 20260626 | 9 | 7/0/2 | 0 | 0 | 0 | 95 | 0 | 12 |
+| 1 | 57 | 57/0/0 | 0 | 0 | 0 | 92 | 19 | 12 |
+| 7 | 56 | 56/0/0 | 0 | 0 | 0 | 92 | 15 | 12 |
+| 11 | 11 | 7/0/4 | 0 | 0 | 0 | 95 | 85 | 12 |
+| 13 | 10 | 8/0/2 | 0 | 0 | 0 | 94 | 0 | 12 |
 
 ## explorer — time-to-rung
 
@@ -92,34 +92,34 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 
 | rung | threshold | acts | rests | moves | intents | wall-min | across seeds | cum med |
 |---|---|---|---|---|---|---|---|---|
-| R0 | 3 | 35 | 2 | 1 | 61 | 4.6 | [4.6–4.6] | 4.6 |
-| R1 | 3 | 55 | 7 | 8 | 71 | 10.0 | [10.0–10.0] | 14.6 |
-| R2 | 3 | 67 | 10 | 8 | 102 | 11.8 | [11.8–12.0] | 26.3 |
-| R3 | 6 | 55 | 11 | 18 | 141 | 18.0 | [17.9–18.7] | 44.3 |
-| R4 | 4 | 75 | 12 | 3 | 93 | 11.7 | [11.7–12.2] | 56.0 |
-| R5 | 4 | 50 | 5 | 7 | 71 | 10.6 | [10.2–10.6] | 66.6 |
-| R6 | 4 | 252 | 49 | 8 | 344 | 41.4 | [41.1–41.8] | 108.0 |
-| R7 | 4 | 430 | 86 | 66 | 802 | 91.7 | [90.3–93.8] | 199.6 |
+| R0 | 3 | 35 | 2 | 0 | 60 | 4.5 | [4.5–4.5] | 4.5 |
+| R1 | 3 | 55 | 7 | 8 | 71 | 10.0 | [10.0–10.0] | 14.4 |
+| R2 | 3 | 67 | 10 | 8 | 102 | 11.8 | [11.8–12.0] | 26.2 |
+| R3 | 6 | 55 | 11 | 18 | 141 | 18.0 | [17.9–18.7] | 44.2 |
+| R4 | 4 | 75 | 12 | 3 | 93 | 11.7 | [11.7–12.2] | 55.9 |
+| R5 | 4 | 50 | 6 | 7 | 72 | 10.7 | [10.3–10.7] | 66.5 |
+| R6 | 4 | 244 | 69 | 8 | 356 | 42.3 | [41.8–42.5] | 108.9 |
+| R7 | 4 | 410 | 118 | 66 | 829 | 96.1 | [93.9–98.0] | 205.0 |
 
 ## explorer — arc + economy (per seed)
 
 | seed | ascended | intents | wall-min | Phase-2 min | first-coin min | end coin | end rice | estate | P2 intent mix | stages | judges |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| 20260626 | ✅ | 1685 | 202.5 | 6.4 | 0.8 | 13876 | 267 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 16 |
-| 1 | ✅ | 1674 | 199.1 | 6.4 | 0.8 | 15522 | 6 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 16 |
-| 7 | ✅ | 1678 | 199.6 | 6.4 | 0.8 | 15375 | 16 | 482 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 17 |
-| 11 | ✅ | 1677 | 201.5 | 6.4 | 0.8 | 13759 | 233 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 16 |
-| 13 | ✅ | 1685 | 199.5 | 6.4 | 0.8 | 16196 | 1 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 16 |
+| 20260626 | ✅ | 1724 | 203.5 | 6.6 | 0.8 | 15648 | 42 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 17 |
+| 1 | ✅ | 1727 | 204.8 | 6.7 | 0.8 | 15289 | 18 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 16 |
+| 7 | ✅ | 1728 | 204.7 | 6.7 | 0.8 | 15394 | 21 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 16 |
+| 11 | ✅ | 1731 | 205.1 | 6.7 | 0.8 | 15144 | 17 | 485 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 17 |
+| 13 | ✅ | 1748 | 207.9 | 6.8 | 0.8 | 14470 | 159 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 16 |
 
 ## explorer — combat · starvation · durability (per seed)
 
 | seed | fights | W/L/R | coin bled | rice bled | satiety-0 | below-knee | battered | max no-progress |
 |---|---|---|---|---|---|---|---|---|
-| 20260626 | 15 | 12/3/0 | 60 | 0 | 0 | 1532 | 4 | 25 |
-| 1 | 15 | 12/3/0 | 59 | 0 | 0 | 1521 | 2 | 25 |
-| 7 | 15 | 12/3/0 | 61 | 0 | 0 | 1523 | 2 | 25 |
-| 11 | 15 | 12/3/0 | 59 | 0 | 0 | 1524 | 2 | 25 |
-| 13 | 16 | 12/4/0 | 64 | 0 | 0 | 1531 | 3 | 25 |
+| 20260626 | 15 | 12/3/0 | 60 | 0 | 0 | 1571 | 4 | 27 |
+| 1 | 15 | 12/3/0 | 59 | 0 | 0 | 1574 | 2 | 25 |
+| 7 | 15 | 12/3/0 | 61 | 0 | 0 | 1573 | 2 | 25 |
+| 11 | 15 | 12/3/0 | 60 | 0 | 0 | 1578 | 2 | 25 |
+| 13 | 16 | 12/4/0 | 63 | 0 | 0 | 1594 | 3 | 25 |
 
 ## Skipped intents (per persona — loud, never a silent gap)
 

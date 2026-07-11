@@ -22,6 +22,17 @@ The edge is going. Not yet mine to mend — climb higher, then set it right.
 
 The spilled rice is raked to the last grain. There is nothing left on the boards.
 
+<!-- FB-402 open-rest line (bundle fb402-rest-open) — CORE-emitted by intents.ts's
+  `rest` arm whenever you rest AWAY from your woodshed corner (pre-home, or post-home
+  anywhere else — FB-409 sited the comfort bonus at the woodshed). Canon = take c
+  "the tool set down" (location-proof, the human's suggested standing rest, flat
+  double-closer in the FB-91 rest register). Alternates in takes/fb402-rest-open/
+  until sign-off; live-swapped via flavor.ts __setRestOpenLineOverride. -->
+
+### restOpen
+
+You find a stretch of wall out of the wind, set your back to it, and let your arms hang. The work will keep. So will you.
+
 <!-- ADR-145 Phase-2 build beats (CORE-emitted one-time log milestones, not
   renderer hints): the five deed-source reveals + the E1 build-complete beat.
   Canon = the "steward's ledger" take (ADR-139 diverge, bundle

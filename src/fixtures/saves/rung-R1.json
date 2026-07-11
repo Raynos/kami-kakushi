@@ -482,7 +482,7 @@
         {
           "key": 44,
           "channel": "system",
-          "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
+          "text": "You find a stretch of wall out of the wind, set your back to it, and let your arms hang. The work will keep. So will you.",
           "tick": 16,
           "count": 1,
           "voice": "narrator",
@@ -518,7 +518,7 @@
         {
           "key": 48,
           "channel": "system",
-          "text": "You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.",
+          "text": "You find a stretch of wall out of the wind, set your back to it, and let your arms hang. The work will keep. So will you.",
           "tick": 12,
           "count": 1,
           "voice": "narrator",

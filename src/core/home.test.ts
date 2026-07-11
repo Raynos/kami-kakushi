@@ -24,6 +24,8 @@ import {
   homeHasCook,
   homeSetComplete,
   homeRestLine,
+  restOpenLine,
+  restRefill,
   getBelonging,
   BELONGINGS,
   BELONGING_IDS,
@@ -92,29 +94,46 @@ describe('T0-A — the home is GRANTED at R4 (ADR-177 — the reveal wiring, not
   });
 });
 
-describe('T0-A — rest RE-SITES to the home (F89: "a place here is yours")', () => {
-  // C1.5 (was a TODO(g4-tests) tautology): the pre-home siting is the WOODSHED-corner line
-  // (the `rest` arm's pre-home branch, intents.ts) — anchored on its distinctive siting words,
-  // so it goes RED if rest silently re-sites early or the pre-home branch dies.
-  it('pre-home, rest is sited in the bare woodshed corner (the cold-open siting)', () => {
+describe('T0-A / FB-402+FB-409 — rest is SITED: home lines & comfort belong to the woodshed corner', () => {
+  const atWoodshed = (over: Partial<GameState> = {}): GameState => ({
+    ...atHome(),
+    location: 'woodshed',
+    ...over,
+  });
+
+  it('pre-home, rest is the OPEN line — it never names the woodshed you have not earned', () => {
     const after = reduce(preHome(), { type: 'rest' });
-    expect(restLineOf(after)).toMatch(/bare corner of the woodshed/i);
+    expect(restLineOf(after)).toBe(restOpenLine()); // canon from the FLAVOR registry
+    expect(restLineOf(after)).not.toMatch(/woodshed/i);
     expect(restLineOf(after)).not.toBe(homeRestLine(false));
   });
 
-  it('once the home exists, rest happens in your corner — NOT against the woodshed boards', () => {
-    const after = reduce(atHome(), { type: 'rest' });
-    // could go RED: if the re-siting broke, this would still be the pre-home line.
+  it('post-home AT the woodshed, rest happens in your corner', () => {
+    const after = reduce(atWoodshed(), { type: 'rest' });
     expect(restLineOf(after)).toBe(homeRestLine(false));
-    expect(restLineOf(after)).not.toMatch(/bare corner of the woodshed/i);
+  });
+
+  it('post-home AWAY from the woodshed, rest stays the open line (FB-402: siting is real)', () => {
+    const after = reduce(atHome(), { type: 'rest' }); // atHome() stands at the start node
+    expect(restLineOf(after)).toBe(restOpenLine());
+    expect(restLineOf(after)).not.toBe(homeRestLine(false));
   });
 
   it('the home rest line reflects the bedding you own (bare mat vs futon)', () => {
-    const bare = reduce(atHome(), { type: 'rest' });
+    const bare = reduce(atWoodshed(), { type: 'rest' });
     expect(restLineOf(bare)).toBe(homeRestLine(false));
-    const withBedding = reduce({ ...atHome(), belongings: ['bedding'] }, { type: 'rest' });
+    const withBedding = reduce(atWoodshed({ belongings: ['bedding'] }), { type: 'rest' });
     expect(restLineOf(withBedding)).toBe(homeRestLine(true));
     expect(homeRestLine(true)).not.toBe(homeRestLine(false));
+  });
+
+  it('FB-409 — the comfort rest bonus applies ONLY at the woodshed (restRefill is sited)', () => {
+    // owned bedding carries a rest comfort bonus; the SAME state elsewhere gets none.
+    const here = atWoodshed({ belongings: ['bedding'] });
+    const away = { ...here, location: 'forecourt' as const };
+    expect(homeRestBonus(here)).toBeGreaterThan(0); // could go RED: unsited bonus
+    expect(homeRestBonus(away)).toBe(0);
+    expect(restRefill(here)).toBeGreaterThan(restRefill(away));
   });
 });
 
@@ -170,7 +189,8 @@ describe('T0-C — comfort furniture improves its TARGET (assert the lever, not 
     if (!bedding.comfort || bedding.comfort.kind !== 'rest') {
       throw new Error('fixture: bedding must grant a rest bonus');
     }
-    const base = atHome();
+    // FB-409 — the comfort bonus is SITED at the woodshed corner; stand there.
+    const base = { ...atHome(), location: 'woodshed' as const };
     const withBedding = { ...base, belongings: ['bedding'] };
     // the LEVER: homeRestBonus rises by exactly the bedding amount (0 → amount).
     expect(homeRestBonus(base)).toBe(0);
@@ -213,9 +233,11 @@ describe('T0-C — comfort furniture improves its TARGET (assert the lever, not 
   it('the settled-home SET is worth MORE than the sum of its parts (synergy), and loses it on removal', () => {
     const chest = getBelonging('chest');
     const chestRest = chest.comfort?.kind === 'rest' ? chest.comfort.amount : 0;
-    const full = { ...atHome(), belongings: [...SETTLED_HOME_SET] };
+    // FB-409 — sited at the woodshed corner.
+    const full = { ...atHome(), location: 'woodshed' as const, belongings: [...SETTLED_HOME_SET] };
     const withoutChest = {
       ...atHome(),
+      location: 'woodshed' as const,
       belongings: SETTLED_HOME_SET.filter((id) => id !== 'chest'),
     };
     expect(homeSetComplete(ownedBelongingIds(full))).toBe(true);
@@ -271,7 +293,8 @@ describe('D-088 — the housing full-arc: earn coin → buy bedding → rest rec
       throw new Error('fixture: bedding must be a buyable rest piece');
     }
     // rest BEFORE furnishing…
-    const poor = atHome(bedding.source.coinCost);
+    // FB-409 — rest is sited: the futon improves rests taken AT the woodshed corner.
+    const poor = { ...atHome(bedding.source.coinCost), location: 'woodshed' as const };
     const restedBefore = reduce(poor, { type: 'rest' });
     const gainBefore = restedBefore.character.satiety - poor.character.satiety;
     // …buy the futon (coin → belonging)…

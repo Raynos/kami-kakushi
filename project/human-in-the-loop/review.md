@@ -325,6 +325,27 @@ the three scene heads are new fiction-voiced text, diverged per ADR-139
     Old saves keep their baked single "— the cold open —" card (TST2).
   - **Verdict:** _(awaiting your read)_
 
+### HR-31 🔲 [all rungs · story] — the open-rest line (FB-402, ADR-139)
+
+Rest is now SITED (FB-402/FB-409): the woodshed-corner lines + the comfort
+bonus fire only when resting AT the woodshed; resting anywhere else emits the
+new **open-rest** line — diverged per ADR-139 (bundle `fb402-rest-open`, 3
+blind takes):
+
+- **Pick: TAKE C "the tool set down"** (20✔0✘1—) — _"You find a stretch of
+  wall out of the wind, set your back to it, and let your arms hang. The work
+  will keep. So will you."_ Most location-proof (a wall exists on every
+  ground), matches your suggested standing rest, flat double-closer in the
+  FB-91 rest register.
+- Alternates: A "the body ledger" (19✔1✘ — strong daybook register, but lies
+  him down mid-court), B "borrowed ground" (18✔2✘ — the stacked bale is
+  zone-specific; the closer swells lyrical).
+
+  - **How to look LIVE:** any save → rest anywhere but the woodshed — the Now
+    view shows take C. DEV → Story → **fb402-rest-open** swaps takes live for
+    future rests; `?story-fb402-rest-open=a|b` boots into an alternate.
+  - **Verdict:** _(awaiting your read)_
+
 ### HR-29 🔲 [R2+ · works] — Works 普請 tab surface — pick a variant (ADR-075, estate Phase 2)
 
 The projects' new home (Schedule A). All three read the SAME estateBuild/works

@@ -162,7 +162,13 @@ export {
   __setWorksFlavorOverride,
 } from './works';
 export { isWaged, WAGE_START_RUNG, DAY_WAGE_MON } from './content/wage';
-export { FLAVOR, judgeLine, __setJudgeFlavorOverride } from './content/flavor';
+export {
+  FLAVOR,
+  judgeLine,
+  __setJudgeFlavorOverride,
+  restOpenLine,
+  __setRestOpenLineOverride,
+} from './content/flavor';
 export {
   gradeOf,
   perDeedCap,
@@ -342,6 +348,7 @@ export {
   ownedBelongingIds,
   ownedBelongings,
   homeRestBonus,
+  cornerRestBonus,
   homeSatietyBonus,
   homeStorageBonus,
   homeHasCook,

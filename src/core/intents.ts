@@ -61,7 +61,7 @@ import {
 } from './content/balance';
 import { DAY_WAGE_MON, isWaged } from './content/wage';
 import { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
-import { FLAVOR } from './content/flavor';
+import { FLAVOR, restOpenLine } from './content/flavor';
 import { rakeLine, rakeCapLine } from './content/coldOpen';
 import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import {
@@ -633,18 +633,17 @@ export function reduce(state: GameState, intent: Intent): GameState {
     }
     case 'rest': {
       if (!metaLegal(state, 'rest')) return state;
-      // ADR-111 / FB-89 — rest is RE-SITED to your home once the corner exists (T0-A). Pre-home it's the
-      // cold-open post ("against the cool post"); once "a place here is yours" (panel-home, R1) it's
-      // your corner, and bedding/the settled-home set add to the satiety it restores (homeRestBonus —
-      // 0 pre-home + for a bare corner, so the base rest is byte-identical until you earn comfort).
-      const atHome = isUnlocked(next, 'panel-home');
+      // ADR-111 / FB-89 / FB-402+FB-409 — rest is SITED: the home lines (and the comfort
+      // bonus, homeRestBonus) belong to your woodshed corner ONLY — resting there once
+      // "a place here is yours" (panel-home) reads and restores as home; resting anywhere
+      // else (any rung, pre- or post-home) is the open rest — base refill, the restOpen
+      // flavor line (canon in narrative/flavor.md; ADR-139 bundle fb402-rest-open).
+      const atHome = isUnlocked(next, 'panel-home') && next.location === 'woodshed';
       // ADR-178 — the refill routes through restRefill (base + comfort, × the belly's rest
       // quality): a hungry rest is a POOR rest — the belly's only teeth. AC-6: the shown
       // rest forecast reads the SAME selector, so a degraded rest never surprises.
       next = adjustSatiety(next, restRefill(next));
-      const restLine = atHome
-        ? homeRestLine(ownsBelonging(next, 'bedding'))
-        : 'You lie down in the bare corner of the woodshed — no mat yet, the woodpile at your back, the cold coming up through the boards. It is somewhere to stop.';
+      const restLine = atHome ? homeRestLine(ownsBelonging(next, 'bedding')) : restOpenLine();
       // FB-53 — resting is fleeting flavor: it lands in the "Now" view and fades, never clutters
       // the permanent Work/All channels.
       // FB-91/FB-93 — the rest RESULT line is scene narration → `narrator` voice, consistent with

@@ -99,7 +99,7 @@ import {
   BELONGINGS,
   ownsBelonging,
   ownedBelongings,
-  homeRestBonus,
+  cornerRestBonus,
   homeSatietyBonus,
   homeStorageBonus,
   homeHasCook,
@@ -5394,7 +5394,7 @@ export function mount(
   // ADR-120 — the home's live-comfort summary line: rest recovery, any warmth buffer, the chest's
   // storage capacity, and the hearth-cook note — read through the SAME selectors the reducer uses (AC-6).
   function comfortSummaryText(state: GameState, settled: boolean): string {
-    const restB = homeRestBonus(state);
+    const restB = cornerRestBonus(state); // the corner's property (FB-409 — restRefill applies it only AT the corner)
     const bodyB = homeSatietyBonus(state);
     const storageB = homeStorageBonus(state);
     const parts: string[] = [];

@@ -8,6 +8,8 @@ import { NAMES } from './names';
 export const FLAVOR = {
   mendHint: 'The edge is going. Not yet mine to mend — climb higher, then set it right.',
   rakeCapLine: 'The spilled rice is raked to the last grain. There is nothing left on the boards.',
+  restOpen:
+    'You find a stretch of wall out of the wind, set your back to it, and let your arms hang. The work will keep. So will you.',
   estateSourceFields:
     "Entered: rice from the new paddies, credited to the house's own account. The old books carried this line once; it is carried again.",
   estateSourceStores:

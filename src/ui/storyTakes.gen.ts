@@ -1039,6 +1039,41 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   },
 
   {
+    id: 'fb402-rest-open',
+    title: 'The open-rest line (resting away from your corner)',
+    review: 'project/feedback-human/2026-07-11-playtest-the-log.md',
+    rationale:
+      'Take C picked — the most location-proof (a wall exists on every ground), the human\'s suggested standing rest, and the flat double-closer ("The work will keep. So will you.") sits closest to the FB-91 rest register; A\'s ledger voice is strong but lies him down mid-court, B leans on a zone-specific bale and swells lyrical at the close.',
+    canonLabel: 'C · the tool set down',
+    rung: 0,
+    takes: [
+      {
+        id: 'a',
+        label: 'the body ledger',
+        brief:
+          "rest as the body taking its own count — what the day drew out, what returns; the daybook world's measuring register turned inward",
+        scorecard: '19✔ 1✘ [briefed: lies down mid-court — weaker on "reads true anywhere"] 1—',
+        flavor: {
+          restOpen:
+            'You stretch out on the packed earth and let the body take its own tally — what the day drew from the arms and back, what returns while you lie still. Most of it does.',
+        },
+      },
+      {
+        id: 'b',
+        label: 'borrowed ground',
+        brief:
+          'placelessness — he rests on ground that is not his while the estate keeps its own hours around him; the missing corner felt, never named',
+        scorecard:
+          '18✔ 2✘ [blind spot: the stacked bale is zone-specific; the closer swells lyrical] 1—',
+        flavor: {
+          restOpen:
+            'You rest where the work stopped, back against a stacked bale that is not yours to lean on. Around you the estate keeps its own hours; you borrow one of them.',
+        },
+      },
+    ],
+  },
+
+  {
     id: 'hd30-nengu',
     title: 'The nengu reckoning — the year against the house',
     review: 'project/human-in-the-loop/review.md',

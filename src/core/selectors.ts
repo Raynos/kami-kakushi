@@ -99,6 +99,18 @@ export function ownedBelongings(state: GameState): BelongingDef[] {
 /** Extra satiety a `rest` restores from owned comfort furniture (bedding + the settled-home set).
  *  0 until you own comfort furniture, so it is inert pre-home and for a bare corner. */
 export function homeRestBonus(state: GameState): number {
+  // FB-409 — comfort is SITED: the mat/bedding rest bonus applies only where they lie,
+  // the woodshed corner (TST3 — your corner is mechanically the best sleep on the
+  // estate). A rest anywhere else is the base rest. AC-6: the shown rest forecast
+  // reads restRefill → here, so the sited bonus reads correctly before it's taken.
+  if (state.location !== 'woodshed') return 0;
+  return cornerRestBonus(state);
+}
+
+/** The corner's own comfort rest bonus — the furniture PROPERTY the Inventory/home
+ *  tallies describe (what a rest AT your corner gains), regardless of where you stand.
+ *  homeRestBonus above is the SITED live value restRefill actually applies (FB-409). */
+export function cornerRestBonus(state: GameState): number {
   return comfortBonus(ownedBelongingIds(state), 'rest');
 }
 

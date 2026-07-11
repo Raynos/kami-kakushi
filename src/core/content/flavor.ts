@@ -36,3 +36,20 @@ export function judgeLine(grade: Grade): string {
   const key = JUDGE_KEY[grade];
   return JUDGE_OVERRIDE?.[key] ?? FLAVOR[key];
 }
+
+// ── FB-402 — the open-rest line (bundle fb402-rest-open) ─────────────────────────────
+// Core-EMITTED text (intents.ts `rest`, away from the woodshed corner), so the DEV
+// story switcher swaps it through the declaring-module setter (the rakeCapLine pattern):
+// future emissions voice the selected take; logged history stays (TST2).
+
+let REST_OPEN_OVERRIDE: string | null = null;
+
+/** DEV-only: overlay the open-rest line by its `restOpen` flavor key (null = canon). */
+export function __setRestOpenLineOverride(text: string | null): void {
+  REST_OPEN_OVERRIDE = text;
+}
+
+/** The line a rest away from your corner emits — the DEV overlay's take if set, else canon. */
+export function restOpenLine(): string {
+  return REST_OPEN_OVERRIDE ?? FLAVOR.restOpen;
+}

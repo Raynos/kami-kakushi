@@ -48,3 +48,10 @@ rebalance plan get written, and the zone section gets a FULL ADR-075 diverge
   (render.ts stampSceneGroup keyed `chat:<partner>`, opener label as lintel);
   the F127 inline chat-kicker rule is retired (styles.css). Test added;
   verified headlessly.
+
+- **FB-402 + FB-409** — rest is SITED: home lines + comfort bonus only when
+  resting AT the woodshed (intents.ts, selectors.ts homeRestBonus; new
+  cornerRestBonus property feeds the Inventory tallies); away-rests emit the
+  new `restOpen` flavor line — ADR-139 bundle `fb402-rest-open` (3 blind
+  takes, pick = C "the tool set down", HR-31 filed; live-swappable via
+  __setRestOpenLineOverride). Balance flow ADR-132 run: Δ ~0, in band.

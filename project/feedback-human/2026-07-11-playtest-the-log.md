@@ -94,3 +94,14 @@ groups as the 幕 card, its identity string as the lintel.
 **Fixed in:** stampSceneGroup now groups chat runs by conversation partner
 ("with Genemon · entered in the book" as lintel); the inline kicker rule is
 retired. New RED-able card test; verified headlessly on the capture's save.
+
+### FB-402 · R0 rest flavor named the unearned woodshed — ✅
+**Verbatim:** _"The resting flavor text in R0 references the woodshed but the woodshed unlocks in R1 … In R1 the resting flavor text can be the woodshed but only if you rest in the location of the woodshed zone."_
+**Reading:** the pre-home rest branch hardcoded the "bare corner of the
+woodshed" line (its own comment said "against the cool post" — drift). Rest is
+now SITED: home lines fire only when resting AT the woodshed with the home
+granted; anywhere else emits the new open-rest line.
+**Doc-update plan:** ADR-139 bundle `fb402-rest-open` (3 blind takes; pick =
+take C "the tool set down"); review = HR-31.
+**Fixed in:** see commit trailer (intents.ts rest arm + narrative/flavor.md
+`restOpen` + live-swap wiring per the rakeCapLine pattern).

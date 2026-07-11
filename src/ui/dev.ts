@@ -22,7 +22,7 @@ import {
   BELONGINGS,
   HOME_TIERS,
   homeSetComplete,
-  homeRestBonus,
+  cornerRestBonus,
   homeSatietyBonus,
   homeStorageBonus,
   homeHasCook,
@@ -56,6 +56,7 @@ import {
   __setDiscoveryFlavorOverride,
   __setJudgeFlavorOverride,
   __setRakeCapLineOverride,
+  __setRestOpenLineOverride,
   __setWorksFlavorOverride,
   __setIntroTitleOverride,
   RUNG_REQUIREMENTS,
@@ -423,6 +424,9 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
     // FB-324 (ADR-139) — the rake-cap line is core-emitted too (intents.ts rake_rice):
     // forward the effective `rakeCapLine` flavor take so a FUTURE cap emit voices it.
     __setRakeCapLineOverride(discOverlay['rakeCapLine'] ?? null);
+    // FB-402 (ADR-139) — the open-rest line is core-emitted too (intents.ts rest):
+    // forward the effective `restOpen` flavor take so a FUTURE rest emit voices it.
+    __setRestOpenLineOverride(discOverlay['restOpen'] ?? null);
     // ADR-177 (works-cause bundle) — the works discovery lines (day-book naming,
     // zone sightings, the ladder hints + U1's stage strings) are core-emitted/-read:
     // forward the same effective flavor-take entries (works.ts worksLine resolver).
@@ -941,7 +945,7 @@ function renderHomeVariant(
   const tier = HOME_TIERS[0]!;
   const owned = ownedBelongings(state);
   const ownedIds = ownedBelongingIds(state);
-  const restB = homeRestBonus(state);
+  const restB = cornerRestBonus(state); // the corner's property (FB-409 — restRefill applies it only AT the corner)
   const bodyB = homeSatietyBonus(state);
   const storageB = homeStorageBonus(state);
   const settled = homeSetComplete(ownedIds);
