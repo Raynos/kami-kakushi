@@ -22,14 +22,13 @@
 - [ ] [`docs/plans/fable-2026-07-11-wait-a-day.md`](../docs/plans/fable-2026-07-11-wait-a-day.md) —
   the wait-a-day lever you asked for (FB-408): full option map A–F with
   pros/cons + balance analysis; recommendation D+F; Phase 0 is YOUR pick.
-- [ ] [`docs/plans/fable-2026-07-11-zone-rung-rebalance.md`](../docs/plans/fable-2026-07-11-zone-rung-rebalance.md) —
-  the zone→rung re-mapping ("too many zones in R1"): purpose audit table +
-  proposed moves (gate→R2, kitchen→R2, woodshed→R4 with the home); Phase 0
-  is your sign-off.
-  the plan you asked for covering what remains after the session-179 PRD
-  ripple: sweep the ~90 stale rung-meter/AND-gate lines in §1–§7 to the
-  ADR-137 requirements model, keeping T1+ frontier prose. Agent-safe to
-  run (ADR-168); queued so you know it exists before it starts.
+- [x] [`fable-2026-07-11-prd-rungmeter-textsync.md`](archive/fable-2026-07-11-prd-rungmeter-textsync.md) —
+  ✅ **DONE + archived** (session-180). It did NOT run as written: you ruled the
+  rung-meter dead at **every** tier (**ADR-182**), which deleted the plan's whole
+  "keep T1+ frontier prose" premise. Became a full rewrite — 6 PRD sections +
+  roadmap + t1/t2-content, the lying code comments, and the `prd-drift` teeth
+  (proven RED-able). Surfaced **HD-39**, which you ruled → **ADR-183**. Drop this
+  line whenever; kept only because it reappeared in the queue after I cleared it.
 
 
 > **What belongs here** — a durable doc whose purpose is for you to read or sign

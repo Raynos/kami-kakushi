@@ -39,10 +39,6 @@ magic; no reset.
   fiction-revealed (the always-open set is EMPTY).
 - **✅ BODY SPLIT DONE (s167, ADR-178):** Body 体 (work fuel) + Belly 腹 (daily
   food store; teeth = rest quality) — core + two-bar UI + PRD §2.3; verdict Δ≈0.
-- **✅ FB DRAIN WAVE (s168+, FB-361…373):** titlebar retired (name+version in
-  footer), vitals as one-line rows, no hover-raise on disabled verbs, Map-tab
-  heading dropped, cold-open cards split per scene, rakeCapLine into FLAVOR,
-  T0 map-demo entries retired, travel footsteps synced to the move timer.
 - **✅ v0.4.0 STORYWAVE SHIPPED & CLOSED (s125–144):** the bible-canon T0
   rewrite live on gh-pages (tag `v0.4.0`); post-ship review fully closed
   (ADR-166/167); PRD truth-synced, freeze CANCELLED (ADR-168/169, verified
@@ -67,8 +63,7 @@ magic; no reset.
   R2-silence note) + **HR-28** (the three intro scene heads, FB-362).
 - **DEV-variant picks (ADR-075)** 🔲 — home (HR-6) · bestiary (HR-5) · HR-2A–D
   (market · influence · craft · quests) · works (HR-29) · estate (HR-30). Picks
-  → the agent strips the alternates. *(Resolved: HR-31 porter presence · HR-32
-  zone panel — D locked 2026-07-12, the banner ships, `zone` surface deleted.)*
+  → the agent strips the alternates.
 
 ## Toolchain
 
@@ -104,7 +99,12 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true
    player layout. The page NEVER auto-reloads (FB-257) — F5 to pick up code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** **save-format streamline** (audited s175, human
+4. **Next (autonomous):** **zone-reveal law** — 🔒 LOCKED 2026-07-12
+   (`docs/plans/fable-2026-07-11-zone-rung-rebalance.md`): *a zone opens only
+   in a VN; a rung-up VN opens ≤2*. Stages 0–2 (ADR + ≤2 gate · derived
+   `seenReveals` re-arm · rewire `ranks.ts`) are cheap; Stage 3 is the five-VN
+   wave and nothing ships until it lands. Adds no save field, by design. Or
+   **save-format streamline** (audited s175, human
    wants src-as-truth: `docs/plans/fable-2026-07-11-save-format-streamline.md`
    — steps 2–5 small, step 1 = per-emitter log-descriptor commits); or **T2
    rungs/fog** (greenlit: `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1
@@ -117,4 +117,4 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    the audited-worst-first T0 re-voice; audit: s176).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 7/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 8/20 · last full rewrite: 2026-07-11 -->
