@@ -58,3 +58,13 @@ I still ahve no idea why kitchen threshold is shown in R1 as an area you could w
 **Details:** `mapsheet/2026-07-11T09-30-14.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-382 · 2026-07-11T09:30:35+0200 — same-with-sick-room
+
+Same with sick room
+
+**Element:** panel "do" · `svg > g:nth-of-type(3) > g:nth-of-type(2) > rect:nth-of-type(2)` · @633,234 81×49
+**Screenshot:** `mapsheet/2026-07-11T09-30-35.png`
+**Details:** `mapsheet/2026-07-11T09-30-35.json` — save + recent logs + full context
+
+---
