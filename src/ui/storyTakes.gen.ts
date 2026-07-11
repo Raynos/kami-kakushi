@@ -2065,4 +2065,766 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
       },
     ],
   },
+
+  {
+    id: 'zone-reveals',
+    title: 'The four side-quest VNs that open four zones (ADR-184)',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      "Take A carries the mechanics diegetically — these four beats are the player's ONLY teaching for coin (ten mon, two days in seven), the pot (the only mend there is), the hunt (where the raiders come up) and the wound (six days, and what it costs the house) — so the take that states the account is the take that leaves nobody guessing (TST4). It is also the register the surrounding canon already speaks (works-intro, sb-lease, the R1 terms), so four new beats do not read as a tonal island. B and C both score level on craft; C alone breaks P10 twice (it promises a gateyard-sweeping duty and an overnight ash-steep that exist nowhere in the game).",
+    canonLabel: 'A · the house tells you what it needs',
+    rung: 2,
+    takes: [
+      {
+        id: 'b',
+        label: 'somebody notices you',
+        brief:
+          'every zone opens because a person breaks their own protocol to look at you — the map grows by favour and confidence, not because the house needed a slot filled',
+        scorecard:
+          '21✔ 0✘ 1— (the strongest CHARACTER take: Genemon\'s one hone in thirty-one years, O-Hisa crossing a yard she never crosses, Rokusuke\'s "the noticed hand is the blamed one", Sōan who knows what your ribs were like when they were whole. Prices/quantities go unstated — a slightly weaker TST4 read than canon, which is the whole of the gap between them. This is the take that most directly answers the human\'s own diagnosis that R1\'s people are "pure flavor with no purpose".)',
+        scenes: {
+          'sb-market': {
+            id: 'sb-market',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The errand at the board is finished and you are still standing at it, because your hand is shut around the first coin the work has put in it and there is nowhere in this yard to open it.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Genemon does not look up when you come to the board. He does not look up when you fail to leave it. Then he does — at the fist, not at the face.',
+              },
+              {
+                voice: 'narrator',
+                text: "Something crosses the steward's face that you have not seen on it before, quick, and gone the way a spark goes off a wet stone. He dips the brush and writes a line the day does not need.",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Thirty-one years I have kept this house\'s book, and every hand I ever paid stood in that spot holding it exactly as you are. Open your hand before you sweat the copper green."',
+              },
+              {
+                voice: 'narrator',
+                text: 'You open your hand. The coin has gone a little green already.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"There is nothing inside these walls that will take it from you. The house pays in rice and eats what it grows; coin in this yard is coin standing still. The gate is where the outside comes to us — Yohei sets his mat in the gateyard two days in seven, with greens and wood and a hone and whatever the season left on his cart. Twice a year a monk sleeps under that same roof-beam and asks for nothing. That is the whole of the world that calls here."',
+              },
+              {
+                voice: 'narrator',
+                text: 'He is back in the book before he has finished saying it, which is how the steward leaves a room without moving.',
+              },
+            ],
+            topics: [
+              {
+                id: 'sb-market-ask-a',
+                label: '"Do you buy from him yourself?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Once. A hone, my first season keeping this book. I paid a stranger\'s price for it because I did not yet know how to stand at a stall. I have it still. I have not needed a second."',
+                  },
+                  {
+                    voice: 'narrator',
+                    text: 'That is more of himself than the board has ever handed you. He closes it off by ruling a line under nothing.',
+                  },
+                ],
+              },
+              {
+                id: 'sb-market-ask-b',
+                label: '"Is it mine to spend?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"It came out of the work and the book knows which work. Nobody in this house will ask you for it, and I will not ask you what you did with it. That is the whole of what yours means here."',
+                  },
+                  {
+                    voice: 'narrator',
+                    text: 'He writes nothing down. It is the only answer he has given you that the book had no room for.',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The coin is warm in your open hand.',
+              options: [
+                {
+                  id: 'sb-market-go',
+                  label: '"Then I\'ll go on his day, and count it in front of him."',
+                  say: '"Then I\'ll go on his day, and count it in front of him."',
+                  react:
+                    '"Do that. Yohei prices a stranger once and a regular ever after, and he decides which you are at the first coin, not the fifth. Count it out where he can watch your hands doing it — and do not thank him for the price. He will put it back up."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'counts-his-coin' }],
+                  flags: ['told-of-the-stall'],
+                },
+                {
+                  id: 'sb-market-hold',
+                  label: '"It keeps. Copper doesn\'t spoil."',
+                  say: '"It keeps. Copper doesn\'t spoil."',
+                  react:
+                    '"It does not. And a man may hold the first thing he has ever owned as long as it pleases him; I will not enter an opinion on it. The stall stands at the gate two days in seven, on its own days, whether or not you come to it."',
+                  memory: [{ npc: 'genemon', warmthDelta: 0, regard: 'keeps-his-coin' }],
+                  flags: ['told-of-the-stall'],
+                },
+              ],
+            },
+          },
+          'sb-cook': {
+            id: 'sb-cook',
+            voice: 'steward',
+            speaker: 'ohisa',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The greens have been in your fist since the woodlot — fern-shoots, a knot of butterbur, bitter enough to smell from where you hold them. You are standing in the middle of the forecourt with nowhere to put them and no reason to carry them further, and one of them is already halfway to your mouth.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Across the yard, at the kitchen threshold, O-Hisa stops with a wet pan in her hands. She does not come out into the yard. Anyone in this house could tell you that: the yard is where the hands are, and she keeps the threshold.',
+              },
+              { voice: 'narrator', text: 'She comes out into the yard.' },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.ohisa,
+                text: '"Not raw. Bracken raw will take the lining out of a man\'s—"',
+              },
+              {
+                voice: 'narrator',
+                text: 'She takes the greens out of your hand. She does it the way she takes a knife off the boy: without asking, and without any hurry at all.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.ohisa,
+                text: '"Nobody has shown you. Of course nobody has shown you. You have eaten whatever was set in front of you since the spring, and not one person in this house has thought to ask what you would do the day it wasn\'t."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.ohisa,
+                text: '"There is a pot on the fire at the threshold from first light to dark. Wood-ash out of the hearth, a hard boil, then it stands until it has stopped fighting you — an hour, near enough, and then it is food. A hot bowl puts a man back on his feet after a beating and a cold one leaves him where he fell. I have watched it do both."',
+              },
+            ],
+            topics: [
+              {
+                id: 'sb-cook-ask-a',
+                label: '"Why come out for it?"',
+                answer: [
+                  {
+                    voice: 'narrator',
+                    text: 'She looks at the greens, and not at you, long enough that you think she has decided against answering.',
+                  },
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.ohisa,
+                    text: '"Because I have watched a grown man eat standing up in that yard, out of his fist, every day since the spring — and today he was going to put something in his mouth that would have—"',
+                  },
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.ohisa,
+                    text: '"It is not a thing a person can watch. That is the whole of it."',
+                  },
+                ],
+              },
+              {
+                id: 'sb-cook-ask-b',
+                label: '"Whose pot is it?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.ohisa,
+                    text: '"The house\'s. Mine at the hours I stand over it, which is most of them. O-Yae carries the water up from the well and carries the talk back down again, and the boy will be at your elbow asking you things nobody has answered him either. Mind him. And mind the lid — he steals the lid."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The greens are in her hands, and she is waiting.',
+              options: [
+                {
+                  id: 'sb-cook-learn',
+                  label: '"Show me the ash and the boil."',
+                  say: '"Show me the ash and the boil."',
+                  react:
+                    '"Come to the threshold, then, and stand where I put you. You hold a ladle like a man holding a rake, and I\'ll not have that in my kitchen — so. Like that. A man who knows the pot can keep himself, if there is ever nobody to— well. Come. It\'s on the fire."',
+                  memory: [{ npc: 'ohisa', warmthDelta: 1, regard: 'learns-the-pot' }],
+                  flags: ['taught-to-cook'],
+                },
+                {
+                  id: 'sb-cook-thanks',
+                  label: '"The bowl, then. Thank you."',
+                  say: '"The bowl, then. Thank you."',
+                  react:
+                    '"Don\'t thank me for a pot that was boiling anyway. Sit at the threshold and eat it hot — hot, not warm; there\'s a difference, and it is the whole of what the pot is for. And leave the fist for the field. A man who eats out of his hand ends up eating like one. Sit down."',
+                  memory: [{ npc: 'ohisa', warmthDelta: 0, regard: 'takes-the-bowl' }],
+                  flags: ['taught-to-cook'],
+                },
+              ],
+            },
+          },
+          'sb-racks': {
+            id: 'sb-racks',
+            voice: 'villager',
+            speaker: 'rokusuke',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The rows, mid-morning. Rokusuke has worked the row over from yours since the spring — near enough to hand a tool across, and no nearer — and in all that time he has said nothing to you that the work did not say first.',
+              },
+              {
+                voice: 'narrator',
+                text: 'He straightens. He looks once at the blade on your hip. Then he looks, for a good while, at your feet.',
+              },
+              {
+                voice: 'villager',
+                speaker: NPC_NAME.rokusuke,
+                text: '"You walk the top of the bund. Every man in this field walks the low side, out of the wind, where the mud holds him. You\'ve walked the top since the day they put you in the rows."',
+              },
+              {
+                voice: 'villager',
+                speaker: NPC_NAME.rokusuke,
+                text: "\"I don't say it's wrong. I watch where a man puts his feet, is all. It's not a thing I'd carry to the board.\"",
+              },
+              {
+                voice: 'villager',
+                speaker: NPC_NAME.rokusuke,
+                text: "\"The drying racks at the far end are stripped again. Third night running — sheaves down, and the seed store's been at. It isn't birds. There's holes under the bank where the worked ground stops: setts, badger and tanuki both, dug out wider this year than last. That strip is the margin. It's nobody's ground and nobody's job, and you could stand on it from where you're standing and see the racks.\"",
+              },
+              {
+                voice: 'villager',
+                speaker: NPC_NAME.rokusuke,
+                text: "\"I don't tell the steward. The man who tells him what's gone is the man who was there when it went — that's the yard's arithmetic and it has never once been wrong. You've a blade, and you walk the top of the bund. Do as you like with it.\"",
+              },
+              {
+                voice: 'villager',
+                speaker: NPC_NAME.rokusuke,
+                text: "\"Old O-Ume's plot borders the worst of it. She'll not say a word against them either. She thanks the kami for what's left standing and calls that a good year.\"",
+              },
+            ],
+            topics: [
+              {
+                id: 'sb-racks-ask-a',
+                label: '"Why tell me?"',
+                answer: [
+                  {
+                    voice: 'narrator',
+                    text: 'He bends back to the row to answer, so that anyone watching from the forecourt would see two men working and one of them talking to the mud.',
+                  },
+                  {
+                    voice: 'villager',
+                    speaker: NPC_NAME.rokusuke,
+                    text: '"You\'re not of this house. Nor am I, twelve years in. A man tells his own kind, and then he says he never told anybody, and both of those are true enough to live with."',
+                  },
+                ],
+              },
+              {
+                id: 'sb-racks-ask-b',
+                label: '"A season is a long time to watch a man\'s feet."',
+                answer: [
+                  {
+                    voice: 'villager',
+                    speaker: NPC_NAME.rokusuke,
+                    text: "\"It's how I've kept a place here twelve years while better hands went down the road. The noticed hand is the blamed one. So I do the noticing, and I keep it where the board can't reach it.\"",
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The margin is a hundred paces off, and nobody is watching it.',
+              options: [
+                {
+                  id: 'sb-racks-take',
+                  label: '"I\'ll walk the margin tonight."',
+                  say: '"I\'ll walk the margin tonight."',
+                  react:
+                    "\"That's right, that's right. Setts on the bank side, racks on the paddy side, and the wind comes off the water, so they'll not hear you coming. — I never said any of it. You've eyes of your own. You'd have got there.\"",
+                  memory: [{ npc: 'rokusuke', warmthDelta: 1, regard: 'walks-the-margin' }],
+                  flags: ['racks-raided'],
+                },
+                {
+                  id: 'sb-racks-ask',
+                  label: '"The steward should hear it first."',
+                  say: '"The steward should hear it first."',
+                  react:
+                    "\"The board's the board. Tell him, then, and tell it as your own — you saw the racks, you saw the holes, you counted the nights. Leave my name out of the telling. It's a small name and it doesn't stand being written down.\"",
+                  memory: [{ npc: 'rokusuke', warmthDelta: 0, regard: 'asks-first' }],
+                  flags: ['racks-raided'],
+                },
+              ],
+            },
+          },
+          'sb-sickroom': {
+            id: 'sb-sickroom',
+            voice: 'physician',
+            speaker: 'soan',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'You sat down when it was over and you have not stood up since. It got light while you were deciding whether to.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Sōan comes across the outer court with his sleeves already tied back and his box under his arm. Nobody sent for him. You did not call out, and the yard has not been told anything.',
+              },
+              {
+                voice: 'physician',
+                speaker: NPC_NAME.soan,
+                text: '"Breathe in for me. All the way in — and don\'t help me. I can see you doing it."',
+              },
+              {
+                voice: 'narrator',
+                text: 'He sets two fingers under the rib, and you find out what last night did.',
+              },
+              {
+                voice: 'physician',
+                speaker: NPC_NAME.soan,
+                text: '"Cracked, not sprung. — I have had this body on my mat once already, so I will tell you a thing nobody else in this valley can. I know what your ribs were like when they were whole. I know what your hands were like before the rake got at them. You have no memory of those four days. I have all four."',
+              },
+              {
+                voice: 'narrator',
+                text: 'Behind him, on the shelf where he sets his box down, there is a ledger. He does not open it. When you look at it he moves, so that it stands behind him, and goes on talking.',
+              },
+              {
+                voice: 'physician',
+                speaker: NPC_NAME.soan,
+                text: '"Off the outer court there is a lean-to: a bench, a brazier, and a door that does not lock. It is where they carried you the morning the river gave you up, and you have never once walked into it on your own feet. Walk into it today."',
+              },
+            ],
+            topics: [
+              {
+                id: 'sb-sickroom-ask-a',
+                label: '"How long was I on the mat?"',
+                answer: [
+                  {
+                    voice: 'physician',
+                    speaker: NPC_NAME.soan,
+                    text: '"Four days. You woke on the fourth and asked for water before you asked for your name — which told me more about you than the fever did."',
+                  },
+                  { voice: 'narrator', text: 'He says it without looking anything up.' },
+                ],
+              },
+              {
+                id: 'sb-sickroom-ask-b',
+                label: '"Why come out to me? Men come to you."',
+                answer: [
+                  {
+                    voice: 'physician',
+                    speaker: NPC_NAME.soan,
+                    text: '"They do not. A man with a cracked rib sits down on the nearest thing to hand and calls it resting, and by the third day he has a fever and a story about how it was nothing. I have been fetching men off sills for thirty years. You are not even an interesting case."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'He is waiting to be argued with.',
+              options: [
+                {
+                  id: 'sb-sickroom-mend',
+                  label: '"Do what you have to. I\'ll hold still."',
+                  say: '"Do what you have to. I\'ll hold still."',
+                  react:
+                    '"Then hold still, and go on holding still when it stops being easy. Wrapped, not bound — a bound rib is a lung fever waiting on a cold night. Willow bark morning and evening, food hot and never cold, and six days of my bench. Come on all six. The men who come on five are the men I see twice."',
+                  memory: [{ npc: 'soan', warmthDelta: 1, regard: 'holds-still' }],
+                  flags: ['tended-by-soan'],
+                },
+                {
+                  id: 'sb-sickroom-refuse',
+                  label: '"It\'s cracked, not broken. There\'s work."',
+                  say: '"It\'s cracked, not broken. There\'s work."',
+                  react:
+                    '"There is always work. There was work the morning they carried you off the weir, and the work waited. — Walk it off, then. The lean-to is off the outer court, past the well-path; the door does not lock and I do not ask twice. On the third night you will find you cannot lie down. They always come on the third night, and always at an hour that suits nobody."',
+                  memory: [{ npc: 'soan', warmthDelta: 0, regard: 'walks-it-off' }],
+                  flags: ['tended-by-soan'],
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        id: 'c',
+        label: 'the thing itself is wrong',
+        brief:
+          'every reveal opens on a material fact already wrong — copper that buys nothing, bracken that is poison raw, gnawed rack-cords and a furrow to a hole in the bank, a sleeve bled through twice — and the person arrives second, only to read it aloud',
+        scorecard:
+          '19✔ 2✘ (both [blind spot]: P10 — the gate scene hands the MC a sweeping duty at the gateyard, and the cook scene an overnight ash-steep; neither exists as a mechanic, and a story promise is a contract. Best single scene in the bundle is its sb-racks: counting the cut cords and following the drag-furrow to the sett IS the reveal.)',
+        scenes: {
+          'sb-market': {
+            id: 'sb-market',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'Copper. Rounds of it, square-holed, the rims worn thin by hands that were not yours. They have gone warm from being carried in a fist all morning, and they knock against each other when you walk, which is how you came to be standing still in the middle of the forecourt.',
+              },
+              {
+                voice: 'narrator',
+                text: 'You have counted them twice. Both counts came out the same.',
+              },
+              {
+                voice: 'narrator',
+                text: "Nothing inside these walls will take them. The rice is weighed dry at the kura door and entered against your name; the bowl is the kitchen's; the mat is the woodshed's. The village road runs out past the gate and the day's work does not let go of you long enough to walk it. The coin is metal, and metal keeps, and that is the whole of what it does here.",
+              },
+              {
+                voice: 'narrator',
+                text: 'Genemon comes to the board with the day-book under his arm and stops, because a man standing still in a swept yard is a thing out of order.',
+              },
+              { voice: 'steward', speaker: NPC_NAME.genemon, text: '"Open the hand."' },
+              {
+                voice: 'narrator',
+                text: 'You open it. He looks at the coins the way he looks at everything that is put in front of him: he counts them, and then he waits to be told what they are for.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"That is enough for the smallest thing on a pedlar\'s cart — a sack of mountain greens, ten mon. There is nothing else this side of the pass that your money reaches."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Two days in seven, Yohei brings the cart up from the valley and sets his stall in the gateyard. Greens, kindling, a hone. He buys rice off a man and sells him what a man on foot can carry away again. Those two days are the reach of it. There is a monk who lodges at the gate at the New Year and at Bon, and he sells nothing and asks for nothing, and past those, nothing comes to that gate at all."',
+              },
+              {
+                voice: 'narrator',
+                text: 'From the board you can see the whole of the gateyard through the open posts: hard dirt, bare of everything, and the crest board hung above it in wood newer than the posts that carry it. Nobody has swept out there since the hand who swept it left for the lowlands.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"It is the first ground anyone sees of this house, and it has been dirt for two years. It goes with the round. It is yours."',
+              },
+            ],
+            topics: [
+              {
+                id: 'sb-market-ask-a',
+                label: '"What does he stock?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"A sack of mountain greens, ten mon — the cheapest thing he carries. A bundle of split kindling above that. A river-stone hone and a faggot of ash, for a man who means to keep an edge on something. The rest of the cart turns with the season: one straw coat this winter, and when it is gone it is gone until the wheel comes round to winter again."',
+                  },
+                ],
+              },
+              {
+                id: 'sb-market-ask-b',
+                label: '"And if I never spend it?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Then it sits, and it will sit well; copper is patient. A hone is twenty-eight mon. An edge that is not kept fails in the middle of a day\'s work and costs you the rest of that day. Put the two numbers beside each other and you have my whole opinion. It is arithmetic. It is not advice."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'Coin in the one hand. The broom in the other.',
+              options: [
+                {
+                  id: 'sb-market-go',
+                  label: '"I\'ll be at the gate on his day."',
+                  say: '"I\'ll be at the gate on his day."',
+                  react:
+                    '"Then be there with it counted before you go, and count what comes back into your palm before you shut it. He prices a stranger high the first time and a square dealer fairly ever after — that is his trade, not his friendship, and the trade is the part you can hold him to."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'counts-his-coin' }],
+                  flags: ['told-of-the-stall'],
+                },
+                {
+                  id: 'sb-market-hold',
+                  label: '"It keeps. Copper doesn\'t rot."',
+                  say: '"It keeps. Copper doesn\'t rot."',
+                  react:
+                    '"Copper does not. The cart does — his stock turns with the weather, and the coat that hangs on it this winter will not hang there in the spring. Hold it, then; a shut fist has never yet been an error in this house. You will be sweeping the ground he stands on either way."',
+                  memory: [{ npc: 'genemon', warmthDelta: 0, regard: 'keeps-his-coin' }],
+                  flags: ['told-of-the-stall'],
+                },
+              ],
+            },
+          },
+          'sb-cook': {
+            id: 'sb-cook',
+            voice: 'steward',
+            speaker: 'ohisa',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The bundle has gone heavy on your back the way green things go heavy: fern-shoots and butterbur stalks, a double armful, cut at the woodlot edge where the light gets down through. The cut ends have browned and gone sticky. The tight-curled heads that stood up straight this morning are lying over on themselves.',
+              },
+              {
+                voice: 'narrator',
+                text: "You ate one raw up there, because you were hungry and it was in your hand. Bracken raw is bitter enough to close a throat, and an hour later your mouth still knows about it. Raw, this is not food. By tomorrow it is not anything at all — greens cut in the morning are rot by the next morning, and you are carrying two days' worth of nothing.",
+              },
+              {
+                voice: 'narrator',
+                text: 'Across the forecourt the kitchen door stands open and smoke is going up through the roof-hole, because there is one pot on this estate and it is in there, on its hook, over the only fire the house permits. O-Hisa is on the threshold with a basin against her hip, watching a man stand in a yard holding an armful of greens he cannot eat.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.ohisa,
+                text: '"Bring it. No — not to me, to the step, and set it down instead of squeezing the life out of it. There was not much life in it to start."',
+              },
+              {
+                voice: 'narrator',
+                text: "Past her shoulder: the pot, the crocks in a row along the wall, and the steward's papers stacked on the same shelf as the crocks, because in this house there is nowhere better to put them.",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.ohisa,
+                text: '"Bracken is bitter and it is worse than bitter. Cold ash out from under the pot, water off the boil poured over it, the greens in that till morning. Then boil them and throw the water out, and boil them again and throw that water out too. What is left is food. It wants a fire, a pot, and somebody who will not wander off in the middle of it."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.ohisa,
+                text: '"The fire is here. The pot is here. Neither of them leaves this threshold, so neither does the man who wants them used — you stand where the pot is or you eat your rice cold, the same as you have been."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.ohisa,
+                text: '"And you will want it hot. A man comes in off a bad night with something torn in him and thinks lying down will put it back. Lying down puts nothing back. Sōan will bind what is broken; putting the flesh back on your bones is this pot\'s work and there is no other pot."',
+              },
+            ],
+            topics: [
+              {
+                id: 'sb-cook-ask-a',
+                label: '"Why can I not eat it raw?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.ohisa,
+                    text: '"Because it is bracken. Eat it as it comes off the hill and you are two days no use to anybody, and the two days are worse than the hunger was — I have watched a hired man learn it, and I have scrubbed the step after. Everything that grows up there wants boiling before it wants eating. That is the hill. It is not a rule I made up to keep you here."',
+                  },
+                ],
+              },
+              {
+                id: 'sb-cook-ask-b',
+                label: '"Why must it be your pot?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.ohisa,
+                    text: '"Because it is the only one, and because a fire anywhere else on this yard is a fire in the thatch. The woodshed is dry as tinder and you sleep in it. When you have a hearth of your own you may boil what you like on it, and if it comes to that — well. Until then the pot is here."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The greens are on the step, going over.',
+              options: [
+                {
+                  id: 'sb-cook-learn',
+                  label: '"Show me the ash-water."',
+                  say: '"Show me the ash-water."',
+                  react:
+                    '"Then stand where you can see. Cold ash, one fist — more than that and it comes out tasting of the hearth. Water off the boil, not on it. You will do the second boil yourself and you will do it badly the first time. A man who can feed himself does not have to wait on anybody\'s kindness, and if a year from now you are still — well. Mind the rim, it catches."',
+                  memory: [{ npc: 'ohisa', warmthDelta: 1, regard: 'learns-the-pot' }],
+                  flags: ['taught-to-cook'],
+                },
+                {
+                  id: 'sb-cook-thanks',
+                  label: '"Cook them. I\'ll take the bowl."',
+                  say: '"Cook them. I\'ll take the bowl."',
+                  react:
+                    '"I will cook them. Come at the hour I give you and hold the bowl out with both hands, because it will be too hot for one and I am not scrubbing this step twice in a season. It is greens. Do not go looking for anything in it past greens."',
+                  memory: [{ npc: 'ohisa', warmthDelta: 0, regard: 'takes-the-bowl' }],
+                  flags: ['taught-to-cook'],
+                },
+              ],
+            },
+          },
+          'sb-racks': {
+            id: 'sb-racks',
+            voice: 'villager',
+            speaker: 'rokusuke',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: "The drying rack stands at the paddy's end: two forked posts, a cross-pole, and the straw cords that hold the sheaves up off the wet. You count the cords, because counting is the reading you trust. Three gnawed clean through. One chewed halfway and holding. The pole is down at the near end and last night's sheaves are lying in the mud beneath it, half of them stripped and scattered wide.",
+              },
+              {
+                voice: 'narrator',
+                text: "The mud has kept what did it. Five toes and a long claw-mark ahead of each, crossing and doubling and crossing again — and a dragged furrow going away from the rack toward the field's edge, where the ground lifts and the grass has not been cut in years.",
+              },
+              {
+                voice: 'narrator',
+                text: 'The furrow does not stop at the last worked row. It goes on into the margin and ends at a hole in the bank that you can see from where you stand, and have never once walked out to.',
+              },
+              {
+                voice: 'narrator',
+                text: 'Rokusuke is working the row over from yours. He straightens when your shadow crosses his water, and looks at the rack, and then at the blade Kihei hung on your hip, and then back at the rack.',
+              },
+              {
+                voice: 'villager',
+                speaker: NPC_NAME.rokusuke,
+                text: '"Tanuki, mostly. Badger for the digging — that hole is dug, not worn. The board writes down the sheaves, and the sheaves is what the board wants written. Nobody has written down the hole."',
+              },
+              {
+                voice: 'narrator',
+                text: 'He takes hold of the fallen pole and lifts it back up onto its fork, where it sits, and does nothing at all, because the cords are still cut.',
+              },
+              {
+                voice: 'villager',
+                speaker: NPC_NAME.rokusuke,
+                text: '"There. That\'s the rack seen to."',
+              },
+            ],
+            topics: [
+              {
+                id: 'sb-racks-ask-a',
+                label: '"How many nights has it been?"',
+                answer: [
+                  {
+                    voice: 'villager',
+                    speaker: NPC_NAME.rokusuke,
+                    text: "\"Three. Four, if you count the night they only chewed the cords and carried nothing off — I don't count that one, and I'd thank you not to count it to the board either. Sheaves lost: eleven, near enough; I'd say eleven. I keep a count of what crosses my hands. Keeping a count and telling somebody are two different jobs and only one of them is mine.\"",
+                  },
+                ],
+              },
+              {
+                id: 'sb-racks-ask-b',
+                label: '"What\'s out there, past the bank?"',
+                answer: [
+                  {
+                    voice: 'villager',
+                    speaker: NPC_NAME.rokusuke,
+                    text: "\"Setts. Old ones. The holes go in under the grass and come out somewhere else, and there's one at the far end that was there before I was. Drying racks all along that side — ours, and O-Ume's; she has her plot at the worst of it and she is out among it at first light, every light. That ground has never been anybody's work. So nobody has ever done it.\"",
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'The rack. The furrow. The hole in the bank.',
+              options: [
+                {
+                  id: 'sb-racks-take',
+                  label: '"I\'ll walk the margin tonight."',
+                  say: '"I\'ll walk the margin tonight."',
+                  react:
+                    "\"You'll walk it. That's right — you're the one wearing the blade. Take a light and carry it low; they come out in the dark and they come out where they have always come out. And if it's asked after, the rack fell. I'll have said the rack fell. It did fall.\"",
+                  memory: [{ npc: 'rokusuke', warmthDelta: 1, regard: 'walks-the-margin' }],
+                  flags: ['racks-raided'],
+                },
+                {
+                  id: 'sb-racks-ask',
+                  label: '"Whose ground is that? I\'ll ask before I dig it."',
+                  say: '"Whose ground is that? I\'ll ask before I dig it."',
+                  react:
+                    '"Ask, then. O-Ume is at the edge by first light and the steward is at his board after. Go into that ground with somebody\'s yes behind you and it is their ground you dug, not yours, and their sheaves you were saving. It is slower. That is how a man keeps a place here."',
+                  memory: [{ npc: 'rokusuke', warmthDelta: 0, regard: 'asks-first' }],
+                  flags: ['racks-raided'],
+                },
+              ],
+            },
+          },
+          'sb-sickroom': {
+            id: 'sb-sickroom',
+            voice: 'physician',
+            speaker: 'soan',
+            motivates: [],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: 'The rag was your sleeve. You tore it at the seam, wound it twice around the ribs, pulled the knot with your teeth because the left hand had stopped being any use to you, and it went through in the dark. You wound a second layer over the first. It has gone through that as well, and the wet edge of it is still spreading while you look down at it.',
+              },
+              {
+                voice: 'narrator',
+                text: 'A half-breath goes in. A whole one catches on something low on the right that grinds, so you have stopped taking whole breaths.',
+              },
+              {
+                voice: 'narrator',
+                text: "There is blood dried on the kura's sill in a smear the length of your forearm. Most of it is yours. The rice behind the door was not touched.",
+              },
+              {
+                voice: 'narrator',
+                text: 'Sōan crosses the yard at the pace he does everything and crouches, and does not ask how you feel. He takes the wet edge of the wrapping between two fingers, and looks at what comes away on them, and looks at it for longer than you would like.',
+              },
+              {
+                voice: 'physician',
+                speaker: NPC_NAME.soan,
+                text: '"Which side did it put you down on, and did you get up by yourself?"',
+              },
+              { voice: 'player', text: '"The sill. I got up."' },
+              {
+                voice: 'physician',
+                speaker: NPC_NAME.soan,
+                text: '"Then they are cracked and not driven in, or you would not have got up and you would not be answering me in whole words. That is the best thing I will say today. The rest is that your wrapping is a sleeve, and a sleeve does not close a wound. It drinks."',
+              },
+              {
+                voice: 'physician',
+                speaker: NPC_NAME.soan,
+                text: '"There is a lean-to off the outer court, north side, with a door that does not latch. Boiled water, clean cloth, a board to lie on, and light enough to see by. You have been in it. They carried you up from the weir on a door taken off its runners and you were never awake for the room — which is why you are sitting in a yard, bleeding, forty paces from the only place on this estate that can stop it."',
+              },
+            ],
+            topics: [
+              {
+                id: 'sb-sickroom-ask-a',
+                label: '"What are you writing?"',
+                answer: [
+                  {
+                    voice: 'narrator',
+                    text: 'He has the ledger open on his knee and the brush already wet. He is writing while he speaks, which is not a thing a man does unless he means to.',
+                  },
+                  {
+                    voice: 'physician',
+                    speaker: NPC_NAME.soan,
+                    text: '"When did the bleeding slow? — Then it is slowing, and that is your answer, and it is the only one you need while you are upright. The book is mine. It holds how fast a man knits and where. It is a physician\'s business."',
+                  },
+                  {
+                    voice: 'narrator',
+                    text: 'The book is shut before you have finished looking at it. He does not hurry it shut. He simply closes it.',
+                  },
+                ],
+              },
+              {
+                id: 'sb-sickroom-ask-b',
+                label: '"And if I don\'t get up next time?"',
+                answer: [
+                  {
+                    voice: 'physician',
+                    speaker: NPC_NAME.soan,
+                    text: '"Then you are carried, and the door comes off its runners again, and four men bring you to the room I have just told you about. It has no lock and it never had one. What it takes from you is days — the work not done, the season going on outside without you, a man on a board counting the roof-beams. Now stop talking and breathe out."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'Forty paces, and a door that does not latch.',
+              options: [
+                {
+                  id: 'sb-sickroom-mend',
+                  label: '"Take it off, then. Do it properly."',
+                  say: '"Take it off, then. Do it properly."',
+                  react:
+                    '"Sit. Arms down — I will lift them when I want them lifted. Six days wrapped if you are dull about it; three weeks if you are clever. Hold still now, and understand that I am about to hurt you and that it will not be an accident."',
+                  memory: [{ npc: 'soan', warmthDelta: 1, regard: 'holds-still' }],
+                  flags: ['tended-by-soan'],
+                },
+                {
+                  id: 'sb-sickroom-refuse',
+                  label: '"It\'ll knit. The rice won\'t."',
+                  say: '"It\'ll knit. The rice won\'t."',
+                  react:
+                    '"It will knit. Bone does that whether the man consents to it or not — crooked, if it is carrying sacks while it works, and crooked is for life. Go back to your grain, then. The door is where I said it is, it does not latch, and I am behind it most hours. I will write down that you were offered."',
+                  memory: [{ npc: 'soan', warmthDelta: 0, regard: 'walks-it-off' }],
+                  flags: ['tended-by-soan'],
+                },
+              ],
+            },
+          },
+        },
+      },
+    ],
+  },
 ];

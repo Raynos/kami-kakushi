@@ -8,7 +8,7 @@
 // directly. Pure-core: no DOM, no Math/Date — determinism rides the caller's state.
 
 import type { GameState } from './state';
-import { deepenNpc } from './state';
+import { deepenNpc, setFlag } from './state';
 import { applyRewards } from './rewards';
 import {
   SCENES,
@@ -139,6 +139,10 @@ function applySceneCompletionEffects(state: GameState, def: SceneDef): GameState
   // second beat"): closing `count` queues `count-resolve` (the tally, Toku, the morning
   // wage). It was authored but had no enqueuer — dark until now.
   if (def.id === 'count') return enqueueScene(state, 'count-resolve');
+  // ADR-184 — `sb-lease` IS the weir-reeds' reveal VN (Matsuzō up from the river: the screens are
+  // rat-gnawed, "send your man down while the year turns"). It is a narration-only beat, so it has
+  // no decision option to carry the fact — the CLOSE latches it, and room-weir-reeds derives.
+  if (def.id === 'sb-lease') return setFlag(state, 'screens-charged');
   return state;
 }
 

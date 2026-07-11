@@ -24,10 +24,15 @@
 
 import type { RankId } from './ranks';
 
-/** The surface id that IS the home — revealed at R1 (surfaces.ts). `rest` re-sites here, the
- *  Inventory tab's belongings section gates on it, and a `granted` belonging is auto-owned once it
- *  latches. */
+/** The surface id that IS the home — revealed with the Inventory tab (ADR-177; ADR-184 rides the
+ *  woodshed ZONE to the same rung, so the corner and the space that holds it arrive together).
+ *  `rest` re-sites here, the Inventory tab's belongings section gates on it, and a `granted`
+ *  belonging is auto-owned once it latches. */
 export const HOME_SURFACE = 'panel-home';
+
+/** The map node your corner IS (the lean space between the woodpiles). ONE source (TST1): the sited
+ *  rest bonus (FB-409), the home affordances, and the hearth's cook locus (ADR-184) all read it. */
+export const HOME_NODE = 'woodshed';
 
 /** The COMFORT channels a belonging can grant. A CLOSED, prestige-only set — NEVER a combat stat
  *  (the ADR-111 guard; the invariant test pins it). Each routes through an EXISTING pure-core system so

@@ -146,7 +146,15 @@ describe('C4.1 — every authored scene is REACHABLE (no authored-but-dark conte
   //    option's flags, or an engine setFlag literal);
   //  - rung/season triggers must name a real rank / season.
   const coreDir = fileURLToPath(new URL('.', import.meta.url));
-  const coreSrc = ['intents.ts', 'night-rounds.ts', 'scenes.ts', 'step.ts', 'nengu.ts', 'works.ts']
+  const coreSrc = [
+    'intents.ts',
+    'night-rounds.ts',
+    'scenes.ts',
+    'step.ts',
+    'nengu.ts',
+    'works.ts',
+    'reveals.ts', // ADR-184 — the zone-reveal VNs' enqueuer (the settle-pass glue)
+  ]
     .map((f) => readFileSync(coreDir + f, 'utf8'))
     .join('\n');
   const enqueuedIds = new Set(

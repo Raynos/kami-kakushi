@@ -293,6 +293,8 @@ export {
 } from './rng';
 
 export { isUnlocked, unlockedSurfaces, visibleSet, announcePass, factsForSurfaces } from './unlock';
+// ADR-184 (HR-32b) — the zone-ANNOUNCE diverge, both modes live behind the DEV toggle.
+export { __setZoneRevealMode, zoneRevealMode, type ZoneRevealMode } from './unlock';
 export { SURFACES, SURFACE_IDS } from './content/surfaces';
 export type { Surface, SurfaceKind } from './content/surfaces';
 
@@ -352,6 +354,8 @@ export {
   homeSatietyBonus,
   homeStorageBonus,
   homeHasCook,
+  cookLoci, // ADR-184 — where a meal can be boiled (kitchen board / your hearth)
+  canCookHere,
   estateBuild,
 } from './selectors';
 export type { LabourOption, ActivityForecast, EstateBuild, EstateBuildRow } from './selectors';

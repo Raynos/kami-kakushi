@@ -1,0 +1,75 @@
+// The zone-reveal pass (ADR-184 — a zone opens only in a VN). A rung-up VN may open at
+// most two zones (the `verify-content` law); every OTHER zone earns its reveal from the
+// fiction, through a side-quest VN of its own. This module is the AC-20 glue that fires
+// those VNs: it runs from the `finish()` settle pass beside `worksPass`, enqueues each
+// reveal scene the tick its fictional moment arrives, and does nothing else — the scene's
+// own decision options set the zone's fact-flag (works-intro's pattern: EVERY option sets
+// it, so a graceless answer colours the relationship, never the map), and surfaces.ts
+// derives the zone's visibility from that flag (ADR-179 — visibility is never stored).
+//
+// The conditions below are deliberately made of labour the player is ALREADY doing at that
+// rung (the human's rule, 2026-07-12: a side-quest gating a rung-up is fine — an OBTUSE
+// trigger is not). Each one is reached by the sim bot's own requirement-driven route, so
+// the arc proves them: coin + greens accumulate at the forecourt/woodlot at R2, R3's
+// requirement list stands the MC in the paddies, and the R3 night round is what first
+// draws blood.
+
+import type { GameState } from './state';
+import { hpMax } from './selectors';
+import { rungNumber } from './ranks';
+import { enqueueScene } from './scenes';
+import { COOK_SANSAI_COST } from './content/balance';
+import { CHEAPEST_STALL_ITEM_COST } from './content/market';
+import { LEASE_DAY } from './content/people';
+import { dayOfWeek } from './constants';
+
+/** One settle-pass step of the zone-reveal chain (pure; idempotent per tick — `enqueueScene`
+ *  once-guards a played `once` def, so a satisfied condition re-fires nothing). */
+export function revealsPass(state: GameState): GameState {
+  let next = state;
+  const rung = rungNumber(next.rung);
+
+  // ── the gate — "the first coin you need to spend" (human, 2026-07-12). You are at the
+  //    board with mon in your fist and nowhere within a day's walk to spend it; Genemon
+  //    names Yohei's stall and the market days. Threshold = the cheapest thing the stall
+  //    stocks (derived from MARKET_ITEMS — never a copied number).
+  if (
+    rung >= 2 &&
+    next.location === 'forecourt' &&
+    (next.resources.coin ?? 0) >= CHEAPEST_STALL_ITEM_COST
+  ) {
+    next = enqueueScene(next, 'sb-market');
+  }
+
+  // ── the kitchen — you are carrying wild greens you cannot eat raw. O-Hisa teaches the
+  //    pot (which is what `verb-cook` has always been: the ONLY mend for a fought body).
+  //    From here cooking is SITED (intents.ts): the kitchen board, or your own hearth.
+  if (
+    rung >= 2 &&
+    next.location === 'forecourt' &&
+    (next.resources.sansai ?? 0) >= COOK_SANSAI_COST
+  ) {
+    next = enqueueScene(next, 'sb-cook');
+  }
+
+  // ── the field margins — the raided drying racks, seen from the rows you work. R3+, so
+  //    the ground opens with the blade that can answer it (R3's own requirement list keeps
+  //    the MC in the paddies, so this fires from the rung's own labour).
+  if (rung >= 3 && next.location === 'paddies') next = enqueueScene(next, 'sb-racks');
+
+  // ── the weir reeds — `sb-lease` (authored long before this law) IS this beat: Matsuzō up
+  //    from the river, the screens rat-gnawed, "send your man down". It already enqueues at
+  //    the season turn; the LEASE DAY (the weekday the old man walks up — people.ts) fires
+  //    it within a week of R3 instead of within a season. Its completion latches the flag
+  //    (scenes.ts `applySceneCompletionEffects` — it is a narration-only beat, so it has no
+  //    option to carry one).
+  if (rung >= 3 && dayOfWeek(next.clock.day) === LEASE_DAY) next = enqueueScene(next, 'sb-lease');
+
+  // ── the sickroom — the first hurt. FB-382's own stated intent made literal: the room
+  //    where the river's gift was carried is named the moment hurt starts existing (in
+  //    practice the R3 night round's wolf). It precedes any defeat relocation (defeat.ts),
+  //    because you cannot be beaten without first being hurt.
+  if (next.character.hp < hpMax(next)) next = enqueueScene(next, 'sb-sickroom');
+
+  return next;
+}

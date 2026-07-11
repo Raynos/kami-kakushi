@@ -1063,10 +1063,10 @@ reveals at T1); clearing T0's **single-EXCELLENT Estate gate** (§1.6.3) is what
 > | Rung | Opens |
 > |---|---|
 > | R0 — The man from the weir | — |
-> | R1 — The day-hand | `room-gate` · `room-paddies` · `room-woodshed` · `room-kitchen` · `verb-farm` · `verb-haul` · `readout-clock` · `readout-stamina` · `panel-rung-ladder` |
-> | R2 — The yard-hand | `tab-skills` · `room-woodlot` · `room-field-margins` · `verb-woodcut` · `verb-forage` · `row-wood` · `row-sansai` · `skill-conditioning` |
-> | R3 — The grain-watch | `tab-combat` · `panel-drill-yard` · `readout-combat-level` · `panel-bestiary` · `room-kura` · `room-weir-reeds` · `room-sickroom` |
-> | R4 — The pupil | `readout-durability` · `panel-equipment` · `verb-repair` · `house-omoya` · `room-drill-yard` · `tab-inventory` |
+> | R1 — The day-hand | `room-paddies` · `verb-farm` · `verb-haul` · `readout-clock` · `readout-stamina` · `panel-rung-ladder` |
+> | R2 — The yard-hand | `tab-skills` · `room-woodlot` · `verb-woodcut` · `verb-forage` · `row-wood` · `row-sansai` · `skill-conditioning` |
+> | R3 — The grain-watch | `tab-combat` · `panel-drill-yard` · `readout-combat-level` · `panel-bestiary` · `room-kura` |
+> | R4 — The pupil | `readout-durability` · `panel-equipment` · `verb-repair` · `house-omoya` · `room-drill-yard` · `tab-inventory` · `room-woodshed` |
 > | R5 — The accused | `stance-control` · `tab-quests` · `room-shrine` · `room-orchard` |
 > | R6 — The trusted hand | `house-workshops` · `house-granary` · `tab-estate` · `panel-house-influence` |
 > | R7 — The named hand | `house-study` · `room-grove` |

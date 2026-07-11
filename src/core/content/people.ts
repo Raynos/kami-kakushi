@@ -55,8 +55,10 @@ function rungAtLeast(rung: RankId, min: RankId): boolean {
 }
 
 /** The weir lease is settled on one weekday a week — Matsuzō walks up from the water then. A
- *  placement-scheduling constant (not fiction), sibling to YOHEI_MARKET_DAYS. */
-const LEASE_DAY: DayOfWeek = 0;
+ *  placement-scheduling constant (not fiction), sibling to YOHEI_MARKET_DAYS. Exported because
+ *  the weir-reeds reveal rides the same day (reveals.ts: the `sb-lease` beat IS that zone's VN,
+ *  so it must fire when the old man is actually up from the river — one source, TST1). */
+export const LEASE_DAY: DayOfWeek = 0;
 
 export interface NodePerson {
   /** Stable id — the bible NpcId ('genemon', 'yohei', …); also the who's-here reconcile key + the

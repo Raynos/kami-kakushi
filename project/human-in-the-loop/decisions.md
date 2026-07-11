@@ -31,5 +31,48 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
 - **Resolution:** {filled in when the human answers — then graduate + archive per the lifecycle}
 -->
 
-_(No open decisions.)_
+### HD-40 🔲 [R3 · cooking] — the kitchen-only pot costs R3 nine minutes. Which lever moves?
+
+- **Context.** You picked **"kitchen-only cook"** for ADR-184: the pot hangs at the
+  kitchen board (or over your own hearth once bought), so a hurt fighter walks back
+  from the reeds to mend. It is what gives the kitchen threshold a verb instead of
+  three people and a promise (FB-407). **It is built** — `cookLoci` / `canCookHere`
+  (selectors.ts), the auto-loop's walk, the sim's, and the reducer gate — and turning
+  it on is **one line** in `intents.ts` (`if (!canCookHere(next)) return state;`).
+- **Why it is held.** The sim priced it, and the price is real:
+
+  | | R3 wall-min | band [3, 25] (ADR-056) |
+  |---|---|---|
+  | cooking anywhere (shipped) | **22.7** | in band |
+  | kitchen-only pot | **31.6** | **OUT by 6.6** |
+
+  The cost is **pure walking**, and it is structural: every T0 foe is 3–4 hops from
+  the only pot (the reeds and the margins hang off the paddies; the kitchen hangs off
+  the forecourt), and a fighter must mend between fights — mending hurt loses. I tried
+  the obvious player-model fixes and they made it **worse**, not better: batching the
+  greens before the walk bought 1 min; mending to two-thirds instead of full made the
+  bot fight hurt, lose more, and pay MORE trips. R3 was already 22.7 of a 25 ceiling,
+  so *any* cost blows it.
+- **The fork — four ways out, all yours to pick:**
+  - **(a) Re-sign the band.** Raise `T0_PACING_BAND_MAX` (25 → ~35) or make R3's ceiling
+    its own number. R3 is the biggest rung in the game (combat opens, five kills, the
+    night round, the labour). Cheapest to do; it is your signature (ADR-056), not mine.
+  - **(b) Buy the walk back with a balance lever.** Raise `COOK_HP_RESTORE` (35) so a
+    trip mends more, or cut R3's requirement counts (`requirements.md` — provisional by
+    design). Both are sliders in the DEV Balance cockpit; you tune, I transcribe (ADR-134).
+  - **(c) A second pot near the fighting.** New content: a watch-brazier at the kura
+    (the grain-watch's post, opens at R3 — period-true, and it is where a hurt watchman
+    already stands). Costs a narrative diverge; buys the siting at full price elsewhere.
+  - **(d) Leave it as shipped.** The kitchen still earns its keep: `verb-cook` now
+    reveals *with* `room-kitchen`, so cooking exists at all **only because O-Hisa taught
+    you the pot** (TST3 — the fiction causes the mechanic). You just don't have to stand
+    there. This is what is on `main` today.
+- **Recommendation: (a), then reconsider (c) at T1.** The measurement says R3's ceiling
+  is the thing that is wrong, not the siting — a rung that opens combat, blooding, two
+  hunting grounds and a night round is not the same size as "walk to the woodlot and
+  cut twenty trees", and one band for all eight rungs was always going to bind first
+  here. If you'd rather not touch a signed number tonight, **(d) is a coherent ship** —
+  it is what is running.
+- **Resolution:** _(awaiting the human)_
+
 

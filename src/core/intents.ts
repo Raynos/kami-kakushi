@@ -19,6 +19,7 @@ import {
 import { applyRewards } from './rewards';
 import { announcePass, visibleSet } from './unlock';
 import { worksPass, stageOpen, stageLogLine, stageLabel, canWorkProject } from './works';
+import { revealsPass } from './reveals';
 import { discoveryPass } from './discovery';
 import { advanceClock, advanceSeason } from './step';
 import { clamp } from './math';
@@ -186,7 +187,11 @@ function finish(state: GameState): GameState {
   // orchard-reclaimed, sb-dog-coda on sb-dog-fed), so a flag latching anywhere is noticed this tick.
   // ADR-177 — the works discovery pass runs FIRST so a naming/sighting latched this
   // tick is seen by the same tick's flag-scene pass (the pricing beat enqueues at once).
-  return announcePass(triggerFlagScenes(settleRequirements(worksPass(state))));
+  // ADR-184 — the zone-reveal pass sits beside it (AC-20 glue, same shape): a side-quest VN whose
+  // fictional moment has arrived (coin in the fist, greens in the basket, the raided racks, the
+  // lease day, the first wound) enqueues here, and the zone it opens derives from the flag that
+  // scene sets. It runs BEFORE the flag-scene pass for the same reason worksPass does.
+  return announcePass(triggerFlagScenes(settleRequirements(revealsPass(worksPass(state)))));
 }
 
 /** Deliver any not-yet-shown, gate-satisfied lines of a dialogue into the story log (the
@@ -861,6 +866,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // (FB-22: "rest from work" ≠ "recover from a fight" — one action must not refill both).
       // Costs greens, so a heal always costs something (ADR-076: no free/auto-heal).
       if (!isUnlocked(next, 'verb-cook')) return state;
+      // ADR-184 / HD-40 — cooking is NOT yet sited. The human asked for a kitchen-only pot (you walk
+      // back from the reeds to mend), and it is built and measured: `canCookHere` (selectors) is the
+      // gate, and turning it on is exactly one line HERE. It is held because the sim priced it — the
+      // walk costs R3 nine minutes (22.7 → 31.6 wall-min), outside the signed [3,25] pacing band
+      // (ADR-056), and no player-model tweak recovers it: the pot is three hops from the woodlot and
+      // four from the reeds, and a fighter must mend between fights. The band is the human's
+      // signature, so the fork is theirs (HD-40). The kitchen is NOT purposeless meanwhile: it is
+      // where the pot is TAUGHT — `verb-cook` reveals with `room-kitchen` (surfaces.ts), so cooking
+      // exists at all only because O-Hisa showed you how (TST3).
       if ((next.resources.sansai ?? 0) < COOK_SANSAI_COST) return state;
       next = withResource(next, 'sansai', -COOK_SANSAI_COST);
       const hpBefore = next.character.hp;

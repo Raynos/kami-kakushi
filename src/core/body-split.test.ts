@@ -116,11 +116,12 @@ describe('D-178 — food feeds the BELLY, never the work bar (the split itself)'
   });
 
   it('cook_meal mends HP (FB-22, unchanged) AND fills the belly — a meal is food', () => {
-    const s = withVitals({ hunger: 10, satiety: 20, unlocked: ['verb-cook'] });
+    const s = withVitals({ hunger: 10, satiety: 20, unlocked: ['verb-cook', 'room-kitchen'] });
     const fed = {
       ...s,
       resources: { ...s.resources, sansai: 5 },
       character: { ...s.character, hp: 5 },
+      location: 'kitchen', // ADR-184 — cooking is sited at the pot; the belly math is the subject
     };
     const after = reduce(fed, { type: 'cook_meal' });
     expect(after.character.hp).toBe(5 + balance.COOK_HP_RESTORE);

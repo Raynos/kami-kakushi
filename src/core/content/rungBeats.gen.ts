@@ -14,10 +14,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     voice: 'steward',
     speaker: 'genemon',
     motivates: [
-      'room-gate',
       'room-paddies',
-      'room-woodshed',
-      'room-kitchen',
       'verb-farm',
       'verb-haul',
       'readout-clock',
@@ -38,7 +35,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       {
         voice: 'steward',
         speaker: NPC_NAME.genemon,
-        text: '"Terms. Work, sun to sun, at what the yard wants doing — hired by the day, counted in the book. Meals at the threshold, morning and evening. The woodshed corner and a mat. No coin: the house\'s coin is spoken for before it reaches the yard. Objections are heard now or kept. The paddies want you by full light."',
+        text: '"Terms. Work, sun to sun, at what the yard wants doing — hired by the day, counted in the book. No coin: the house\'s coin is spoken for before it reaches the yard. Objections are heard now or kept. The paddies want you by full light."',
       },
       {
         voice: 'narrator',
@@ -101,17 +98,6 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
           },
         ],
       },
-      {
-        id: 'r1-the-meals',
-        label: '"Just the meals?"',
-        answer: [
-          {
-            voice: 'steward',
-            speaker: NPC_NAME.genemon,
-            text: '"Six hands\' work, five men fed. The sixth eats. That is the whole of it."',
-          },
-        ],
-      },
     ],
     decision: {
       prompt: 'Is anything owing on you?',
@@ -154,8 +140,6 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       'readout-combat-level',
       'panel-bestiary',
       'room-kura',
-      'room-weir-reeds',
-      'room-sickroom',
     ],
     greeting: [
       {
@@ -294,6 +278,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       'house-omoya',
       'room-drill-yard',
       'tab-inventory',
+      'room-woodshed',
     ],
     greeting: [
       {

@@ -31,6 +31,7 @@ import { stageDiscovery, stageOpen } from './works';
 import {
   BELONGINGS,
   HOME_SURFACE,
+  HOME_NODE,
   comfortBonus,
   homeHasCookLocus,
   type BelongingDef,
@@ -112,6 +113,26 @@ export function homeRestBonus(state: GameState): number {
  *  homeRestBonus above is the SITED live value restRefill actually applies (FB-409). */
 export function cornerRestBonus(state: GameState): number {
   return comfortBonus(ownedBelongingIds(state), 'rest');
+}
+
+/** ADR-184 — the COOK LOCI: the places a meal can actually be boiled. The KITCHEN board (the
+ *  estate's pot, and the whole reason the threshold is a place — O-Hisa teaches it in the `sb-cook`
+ *  VN), plus your OWN corner once you have cut a hearth into its floor: ADR-120 gave the hearth the
+ *  job of "homing" the cook verb, but the verb worked from anywhere, so the 120-mon piece bought a
+ *  button, not a capability. Now it buys the walk back. Cooking is the ONLY mend for a fought body
+ *  (FB-22/ADR-050), so this is a real cost on the combat loop — and the reason the kitchen exists.
+ *  ONE source (AC-6): the reducer's gate, the renderer's affordance + its explainer, the shipped
+ *  auto-loop and the sim personas all read THIS. */
+export function cookLoci(state: GameState): readonly string[] {
+  const loci: string[] = ['kitchen'];
+  if (homeHasCookLocus(ownedBelongingIds(state))) loci.push(HOME_NODE);
+  return loci;
+}
+
+/** Can a meal be cooked where you stand right now? (The sited half of `verb-cook`'s gate — the
+ *  surface being revealed is the other half.) */
+export function canCookHere(state: GameState): boolean {
+  return cookLoci(state).includes(state.location);
 }
 
 /** satietyMax buffer from owned comfort furniture (`body` comfort) — the personal-scale mirror of the

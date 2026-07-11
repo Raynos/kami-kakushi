@@ -54,6 +54,24 @@ for (const r of RANKS) {
 // 3b. (RETIRED with FB-121/ADR-137: the RUNG_METER_THRESHOLDS/meterThreshold mirror is gone —
 //     requirement-registry consistency is owned by src/core/content/requirements.test.ts.)
 
+// 3c. ADR-184 — THE ZONE-REVEAL LAW: a zone opens only inside a VN, and a RUNG-UP VN may open at
+//     most TWO. The rung-up beat is a story moment, not a reward dispenser; four zones dumped at R1
+//     is what made the early estate read as empty ground (FB-407/FB-408/FB-409). Counting `room-*`
+//     ids in each rank's `rewardOnReach.unlock` is mechanically exact — it cannot cry wolf, so this
+//     is the highest rung the rule can soundly hold (a gate, not a norm). Every zone above the cap
+//     must earn a side-quest VN of its own (core/reveals.ts).
+const RUNG_UP_ZONE_CAP = 2;
+for (const r of RANKS) {
+  const zones = (r.rewardOnReach?.unlock ?? []).filter((u) => u.startsWith('room-'));
+  if (zones.length > RUNG_UP_ZONE_CAP) {
+    errors.push(
+      `rank ${r.id}: ${zones.length} zones open on one rung-up VN (${zones.join(', ')}) — ` +
+        `the ADR-184 cap is ${RUNG_UP_ZONE_CAP}. Give the extra zone(s) their own reveal VN ` +
+        `(src/core/reveals.ts) instead of hanging them on the promotion.`,
+    );
+  }
+}
+
 // 4. Bestiary: grounded mobs only (no belief-creatures in spawn tables, canon §E),
 //    ids mirror, levels ≥ 1; weapons mirror + sane stats.
 if (MOBS.length !== MOB_IDS.size) errors.push('MOB_IDS does not mirror MOBS');

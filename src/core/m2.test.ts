@@ -243,7 +243,10 @@ describe('HP carries between fights and heals only by eating (D-050)', () => {
       ...base,
       character: { ...base.character, hp: 5 },
       resources: { ...base.resources, sansai: 4 },
-      flags: { ...base.flags, ...factsForSurfaces('verb-cook') }, // ADR-179 — the entitling fact
+      // ADR-184 — cooking is SITED: stand at the pot (the kitchen board). The heal MATH is the
+      // subject here; where the verb is legal is economy.test's "the pot is a PLACE".
+      location: 'kitchen',
+      flags: { ...base.flags, ...factsForSurfaces('verb-cook', 'room-kitchen') }, // ADR-179 — the entitling facts
     };
     const s1 = reduce(s0, { type: 'cook_meal' });
     expect(s1.character.hp).toBeGreaterThan(5);
@@ -359,9 +362,12 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
         // eat via the real cook intent to mend HEALTH — forage for sansai if short (FB-22: cook
         // heals hp only now, no longer refuels work-stamina)
         if (s.character.hp < hpMax(s) * 0.8) {
+          // ADR-184 — the mend is SITED: carry the greens back to the pot (the kitchen board) and
+          // boil them there. The walk is the point — this arc proves a fighter can still close the
+          // loop with cooking sited, which is the whole risk the siting introduces.
           s =
             (s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST
-              ? reduce(s, { type: 'cook_meal' })
+              ? reduce({ ...s, location: 'kitchen' }, { type: 'cook_meal' })
               : reduce(
                   { ...s, location: 'woodlot' },
                   { type: 'do_activity', activityId: 'forage_satoyama' },

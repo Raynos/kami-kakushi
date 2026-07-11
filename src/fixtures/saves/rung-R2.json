@@ -56,6 +56,7 @@
       "awake": true,
       "dream-1": true,
       "label-nameless": true,
+      "tended-by-soan": true,
       "raked": true,
       "r1-none-claimed": true,
       "rank-r1": true,
@@ -63,7 +64,8 @@
       "rank-r2": true,
       "porters-knot": true,
       "works-named-u1": true,
-      "works-named-weir": true
+      "works-named-weir": true,
+      "told-of-the-stall": true
     },
     "seenReveals": [
       "screen-cold-open",
@@ -72,30 +74,27 @@
       "readout-body",
       "readout-rice",
       "room-forecourt",
+      "room-sickroom",
       "verb-rest",
       "panel-rung-ladder",
       "readout-clock",
       "readout-stamina",
-      "room-gate",
       "room-paddies",
-      "room-woodshed",
-      "room-kitchen",
       "verb-farm",
       "verb-haul",
       "skill-farming",
       "readout-coin",
       "tab-skills",
       "room-woodlot",
-      "room-field-margins",
       "verb-woodcut",
       "verb-forage",
       "row-wood",
       "row-sansai",
-      "verb-cook",
       "verb-eat-rice",
       "skill-conditioning",
       "panel-estate",
-      "room-weir"
+      "room-weir",
+      "room-gate"
     ],
     "log": {
       "entries": [
@@ -405,6 +404,92 @@
         },
         {
           "key": 33,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.0"
+        },
+        {
+          "key": 34,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.1"
+        },
+        {
+          "key": 35,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.2"
+        },
+        {
+          "key": 36,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.3"
+        },
+        {
+          "key": 37,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.4"
+        },
+        {
+          "key": 38,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.5"
+        },
+        {
+          "key": 39,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.6"
+        },
+        {
+          "key": 40,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.opt.sb-sickroom-mend.say"
+        },
+        {
+          "key": 41,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.opt.sb-sickroom-mend.react"
+        },
+        {
+          "key": 42,
           "channel": "reward",
           "tick": 0,
           "count": 1,
@@ -416,7 +501,7 @@
           }
         },
         {
-          "key": 34,
+          "key": 43,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -425,7 +510,7 @@
           "contentKey": "dialogue.genemon-open.gen-rake"
         },
         {
-          "key": 35,
+          "key": 44,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -433,7 +518,7 @@
           "contentKey": "reveal.verb-rest"
         },
         {
-          "key": 36,
+          "key": 45,
           "channel": "reward",
           "tick": 2,
           "count": 1,
@@ -445,7 +530,7 @@
           }
         },
         {
-          "key": 37,
+          "key": 46,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -454,7 +539,7 @@
           "contentKey": "dialogue.genemon-open.gen-keep"
         },
         {
-          "key": 38,
+          "key": 47,
           "channel": "reward",
           "tick": 4,
           "count": 1,
@@ -466,7 +551,7 @@
           }
         },
         {
-          "key": 39,
+          "key": 48,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -474,7 +559,7 @@
           "contentKey": "dialogue.genemon-open.gen-kept"
         },
         {
-          "key": 40,
+          "key": 49,
           "channel": "reward",
           "tick": 18,
           "count": 7,
@@ -486,7 +571,7 @@
           }
         },
         {
-          "key": 41,
+          "key": 50,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -494,7 +579,7 @@
           "contentKey": "requirement.rake-the-first-rows"
         },
         {
-          "key": 42,
+          "key": 51,
           "channel": "reward",
           "tick": 14,
           "count": 10,
@@ -506,7 +591,7 @@
           }
         },
         {
-          "key": 43,
+          "key": 52,
           "channel": "narration",
           "tick": 14,
           "count": 1,
@@ -514,7 +599,7 @@
           "contentKey": "requirement.rake-through-the-night"
         },
         {
-          "key": 44,
+          "key": 53,
           "channel": "system",
           "tick": 16,
           "count": 1,
@@ -523,7 +608,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 45,
+          "key": 54,
           "channel": "reward",
           "tick": 22,
           "count": 3,
@@ -535,7 +620,7 @@
           }
         },
         {
-          "key": 46,
+          "key": 55,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -544,7 +629,7 @@
           "contentKey": "flavor.gossipWeddingMissed"
         },
         {
-          "key": 47,
+          "key": 56,
           "channel": "reward",
           "tick": 10,
           "count": 6,
@@ -556,7 +641,7 @@
           }
         },
         {
-          "key": 48,
+          "key": 57,
           "channel": "system",
           "tick": 12,
           "count": 1,
@@ -565,7 +650,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 49,
+          "key": 58,
           "channel": "reward",
           "tick": 0,
           "count": 6,
@@ -577,7 +662,7 @@
           }
         },
         {
-          "key": 50,
+          "key": 59,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -585,7 +670,7 @@
           "contentKey": "requirement.rake-the-spill"
         },
         {
-          "key": 51,
+          "key": 60,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -594,7 +679,7 @@
           "contentKey": "beat.R1.greeting.0"
         },
         {
-          "key": 52,
+          "key": 61,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -604,7 +689,7 @@
           "contentKey": "beat.R1.greeting.1"
         },
         {
-          "key": 53,
+          "key": 62,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -613,7 +698,7 @@
           "contentKey": "beat.R1.greeting.2"
         },
         {
-          "key": 54,
+          "key": 63,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -623,7 +708,7 @@
           "contentKey": "beat.R1.greeting.3"
         },
         {
-          "key": 55,
+          "key": 64,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -632,7 +717,7 @@
           "contentKey": "beat.R1.greeting.4"
         },
         {
-          "key": 56,
+          "key": 65,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -642,7 +727,7 @@
           "contentKey": "beat.R1.greeting.5"
         },
         {
-          "key": 57,
+          "key": 66,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -651,7 +736,7 @@
           "contentKey": "beat.R1.greeting.6"
         },
         {
-          "key": 58,
+          "key": 67,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -660,7 +745,7 @@
           "contentKey": "beat.R1.greeting.7"
         },
         {
-          "key": 59,
+          "key": 68,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -670,7 +755,7 @@
           "contentKey": "beat.R1.greeting.8"
         },
         {
-          "key": 60,
+          "key": 69,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -679,7 +764,7 @@
           "contentKey": "beat.R1.greeting.9"
         },
         {
-          "key": 61,
+          "key": 70,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -689,7 +774,7 @@
           "contentKey": "beat.R1.greeting.10"
         },
         {
-          "key": 62,
+          "key": 71,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -698,7 +783,7 @@
           "contentKey": "beat.R1.greeting.11"
         },
         {
-          "key": 63,
+          "key": 72,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -707,7 +792,7 @@
           "contentKey": "beat.R1.greeting.12"
         },
         {
-          "key": 64,
+          "key": 73,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -717,7 +802,7 @@
           "contentKey": "beat.R1.greeting.13"
         },
         {
-          "key": 65,
+          "key": 74,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -727,7 +812,7 @@
           "contentKey": "beat.R1.opt.r1-none-claimed.say"
         },
         {
-          "key": 66,
+          "key": 75,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -737,7 +822,7 @@
           "contentKey": "beat.R1.opt.r1-none-claimed.react"
         },
         {
-          "key": 67,
+          "key": 76,
           "channel": "milestone",
           "tick": 2,
           "count": 1,
@@ -748,7 +833,7 @@
           }
         },
         {
-          "key": 68,
+          "key": 77,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -757,7 +842,7 @@
           "contentKey": "reveal.readout-clock"
         },
         {
-          "key": 69,
+          "key": 78,
           "channel": "reward",
           "tick": 2,
           "count": 1,
@@ -769,7 +854,7 @@
           }
         },
         {
-          "key": 70,
+          "key": 79,
           "channel": "reward",
           "tick": 4,
           "count": 1,
@@ -781,7 +866,7 @@
           }
         },
         {
-          "key": 71,
+          "key": 80,
           "channel": "reward",
           "tick": 6,
           "count": 1,
@@ -793,7 +878,7 @@
           }
         },
         {
-          "key": 72,
+          "key": 81,
           "channel": "reward",
           "tick": 8,
           "count": 1,
@@ -805,7 +890,7 @@
           }
         },
         {
-          "key": 73,
+          "key": 82,
           "channel": "reward",
           "tick": 10,
           "count": 1,
@@ -817,7 +902,7 @@
           }
         },
         {
-          "key": 74,
+          "key": 83,
           "channel": "reward",
           "tick": 12,
           "count": 1,
@@ -829,7 +914,7 @@
           }
         },
         {
-          "key": 75,
+          "key": 84,
           "channel": "reward",
           "tick": 14,
           "count": 1,
@@ -841,7 +926,7 @@
           }
         },
         {
-          "key": 76,
+          "key": 85,
           "channel": "reward",
           "tick": 16,
           "count": 1,
@@ -853,7 +938,7 @@
           }
         },
         {
-          "key": 77,
+          "key": 86,
           "channel": "reward",
           "tick": 18,
           "count": 1,
@@ -865,7 +950,7 @@
           }
         },
         {
-          "key": 78,
+          "key": 87,
           "channel": "reward",
           "tick": 20,
           "count": 1,
@@ -877,7 +962,7 @@
           }
         },
         {
-          "key": 79,
+          "key": 88,
           "channel": "narration",
           "tick": 20,
           "count": 1,
@@ -885,7 +970,7 @@
           "contentKey": "requirement.first-rows-of-his-own"
         },
         {
-          "key": 80,
+          "key": 89,
           "channel": "reward",
           "tick": 22,
           "count": 1,
@@ -897,7 +982,7 @@
           }
         },
         {
-          "key": 81,
+          "key": 90,
           "channel": "reward",
           "tick": 0,
           "count": 1,
@@ -909,7 +994,7 @@
           }
         },
         {
-          "key": 82,
+          "key": 91,
           "channel": "reward",
           "tick": 2,
           "count": 1,
@@ -921,7 +1006,7 @@
           }
         },
         {
-          "key": 83,
+          "key": 92,
           "channel": "reward",
           "tick": 4,
           "count": 1,
@@ -933,7 +1018,7 @@
           }
         },
         {
-          "key": 84,
+          "key": 93,
           "channel": "reward",
           "tick": 6,
           "count": 1,
@@ -945,7 +1030,7 @@
           }
         },
         {
-          "key": 85,
+          "key": 94,
           "channel": "reward",
           "tick": 10,
           "count": 2,
@@ -957,7 +1042,7 @@
           }
         },
         {
-          "key": 86,
+          "key": 95,
           "channel": "reward",
           "tick": 16,
           "count": 3,
@@ -969,7 +1054,7 @@
           }
         },
         {
-          "key": 87,
+          "key": 96,
           "channel": "reward",
           "tick": 2,
           "count": 5,
@@ -981,7 +1066,7 @@
           }
         },
         {
-          "key": 88,
+          "key": 97,
           "channel": "reward",
           "tick": 4,
           "count": 1,
@@ -993,7 +1078,7 @@
           }
         },
         {
-          "key": 89,
+          "key": 98,
           "channel": "system",
           "tick": 6,
           "count": 1,
@@ -1002,7 +1087,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 90,
+          "key": 99,
           "channel": "reward",
           "tick": 14,
           "count": 4,
@@ -1014,7 +1099,7 @@
           }
         },
         {
-          "key": 91,
+          "key": 100,
           "channel": "narration",
           "tick": 14,
           "count": 1,
@@ -1022,7 +1107,7 @@
           "contentKey": "requirement.take-to-the-fields"
         },
         {
-          "key": 92,
+          "key": 101,
           "channel": "reward",
           "tick": 16,
           "count": 1,
@@ -1034,7 +1119,7 @@
           }
         },
         {
-          "key": 93,
+          "key": 102,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -1042,7 +1127,7 @@
           "contentKey": "reveal.readout-coin"
         },
         {
-          "key": 94,
+          "key": 103,
           "channel": "system",
           "tick": 18,
           "count": 1,
@@ -1051,7 +1136,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 95,
+          "key": 104,
           "channel": "reward",
           "tick": 20,
           "count": 1,
@@ -1063,7 +1148,7 @@
           }
         },
         {
-          "key": 96,
+          "key": 105,
           "channel": "reward",
           "tick": 22,
           "count": 1,
@@ -1075,7 +1160,7 @@
           }
         },
         {
-          "key": 97,
+          "key": 106,
           "channel": "reward",
           "tick": 0,
           "count": 1,
@@ -1087,7 +1172,7 @@
           }
         },
         {
-          "key": 98,
+          "key": 107,
           "channel": "reward",
           "tick": 2,
           "count": 1,
@@ -1099,7 +1184,7 @@
           }
         },
         {
-          "key": 99,
+          "key": 108,
           "channel": "reward",
           "tick": 4,
           "count": 1,
@@ -1111,7 +1196,7 @@
           }
         },
         {
-          "key": 100,
+          "key": 109,
           "channel": "system",
           "tick": 6,
           "count": 1,
@@ -1120,7 +1205,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 101,
+          "key": 110,
           "channel": "reward",
           "tick": 8,
           "count": 1,
@@ -1132,7 +1217,7 @@
           }
         },
         {
-          "key": 102,
+          "key": 111,
           "channel": "reward",
           "tick": 10,
           "count": 1,
@@ -1144,7 +1229,7 @@
           }
         },
         {
-          "key": 103,
+          "key": 112,
           "channel": "reward",
           "tick": 12,
           "count": 1,
@@ -1156,7 +1241,7 @@
           }
         },
         {
-          "key": 104,
+          "key": 113,
           "channel": "reward",
           "tick": 14,
           "count": 1,
@@ -1168,7 +1253,7 @@
           }
         },
         {
-          "key": 105,
+          "key": 114,
           "channel": "system",
           "tick": 16,
           "count": 1,
@@ -1177,7 +1262,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 106,
+          "key": 115,
           "channel": "reward",
           "tick": 18,
           "count": 1,
@@ -1189,7 +1274,7 @@
           }
         },
         {
-          "key": 107,
+          "key": 116,
           "channel": "reward",
           "tick": 2,
           "count": 4,
@@ -1201,7 +1286,7 @@
           }
         },
         {
-          "key": 108,
+          "key": 117,
           "channel": "system",
           "tick": 4,
           "count": 1,
@@ -1210,7 +1295,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 109,
+          "key": 118,
           "channel": "reward",
           "tick": 12,
           "count": 4,
@@ -1222,7 +1307,7 @@
           }
         },
         {
-          "key": 110,
+          "key": 119,
           "channel": "system",
           "tick": 14,
           "count": 1,
@@ -1231,7 +1316,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 111,
+          "key": 120,
           "channel": "reward",
           "tick": 16,
           "count": 1,
@@ -1243,7 +1328,7 @@
           }
         },
         {
-          "key": 112,
+          "key": 121,
           "channel": "reward",
           "tick": 0,
           "count": 4,
@@ -1255,7 +1340,7 @@
           }
         },
         {
-          "key": 113,
+          "key": 122,
           "channel": "system",
           "tick": 2,
           "count": 1,
@@ -1264,7 +1349,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 114,
+          "key": 123,
           "channel": "reward",
           "tick": 4,
           "count": 1,
@@ -1276,7 +1361,7 @@
           }
         },
         {
-          "key": 115,
+          "key": 124,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -1284,7 +1369,7 @@
           "contentKey": "requirement.a-porters-back"
         },
         {
-          "key": 116,
+          "key": 125,
           "channel": "milestone",
           "tick": 6,
           "count": 1,
@@ -1295,7 +1380,7 @@
           }
         },
         {
-          "key": 117,
+          "key": 126,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1303,7 +1388,7 @@
           "contentKey": "reveal.tab-skills"
         },
         {
-          "key": 118,
+          "key": 127,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1311,23 +1396,7 @@
           "contentKey": "reveal.room-woodlot"
         },
         {
-          "key": 119,
-          "channel": "narration",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "reveal.room-field-margins"
-        },
-        {
-          "key": 120,
-          "channel": "narration",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "reveal.verb-cook"
-        },
-        {
-          "key": 121,
+          "key": 128,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1336,7 +1405,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.0"
         },
         {
-          "key": 122,
+          "key": 129,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1345,7 +1414,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.1"
         },
         {
-          "key": 123,
+          "key": 130,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1354,7 +1423,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.2"
         },
         {
-          "key": 124,
+          "key": 131,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1364,7 +1433,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.3"
         },
         {
-          "key": 125,
+          "key": 132,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1373,7 +1442,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.4"
         },
         {
-          "key": 126,
+          "key": 133,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1382,7 +1451,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.5"
         },
         {
-          "key": 127,
+          "key": 134,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1391,7 +1460,7 @@
           "contentKey": "scene.works-intro.greeting.0"
         },
         {
-          "key": 128,
+          "key": 135,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1401,7 +1470,7 @@
           "contentKey": "scene.works-intro.greeting.1"
         },
         {
-          "key": 129,
+          "key": 136,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1411,7 +1480,7 @@
           "contentKey": "scene.works-intro.greeting.2"
         },
         {
-          "key": 130,
+          "key": 137,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1420,7 +1489,7 @@
           "contentKey": "scene.works-intro.greeting.3"
         },
         {
-          "key": 131,
+          "key": 138,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1430,7 +1499,7 @@
           "contentKey": "scene.works-intro.greeting.4"
         },
         {
-          "key": 132,
+          "key": 139,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1440,7 +1509,7 @@
           "contentKey": "scene.works-intro.greeting.5"
         },
         {
-          "key": 133,
+          "key": 140,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1450,7 +1519,7 @@
           "contentKey": "scene.works-intro.opt.works-intro-go.say"
         },
         {
-          "key": 134,
+          "key": 141,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1458,9 +1527,77 @@
           "voice": "steward",
           "context": "works intro",
           "contentKey": "scene.works-intro.opt.works-intro-go.react"
+        },
+        {
+          "key": 142,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb market",
+          "contentKey": "scene.sb-market.greeting.0"
+        },
+        {
+          "key": 143,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb market",
+          "contentKey": "scene.sb-market.greeting.1"
+        },
+        {
+          "key": 144,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "sb market",
+          "contentKey": "scene.sb-market.greeting.2"
+        },
+        {
+          "key": 145,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "sb market",
+          "contentKey": "scene.sb-market.greeting.3"
+        },
+        {
+          "key": 146,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "sb market",
+          "contentKey": "scene.sb-market.greeting.4"
+        },
+        {
+          "key": 147,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "sb market",
+          "contentKey": "scene.sb-market.opt.sb-market-go.say"
+        },
+        {
+          "key": 148,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "sb market",
+          "contentKey": "scene.sb-market.opt.sb-market-go.react"
         }
       ],
-      "seq": 135
+      "seq": 149
     },
     "skillXp": {
       "farming": 134,
@@ -1475,12 +1612,12 @@
     ],
     "npcMemory": {
       "soan": {
-        "regard": "noted",
-        "warmth": 1
+        "regard": "holds-still",
+        "warmth": 2
       },
       "genemon": {
-        "regard": "walked-the-book",
-        "warmth": 2
+        "regard": "counts-his-coin",
+        "warmth": 3
       }
     },
     "introBeat": 3,
@@ -1520,8 +1657,10 @@
     "sceneQueue": [],
     "activeScene": null,
     "scenesPlayed": [
+      "sb-sickroom",
       "r2-yard-hand",
-      "works-intro"
+      "works-intro",
+      "sb-market"
     ],
     "roundState": null,
     "soanLedger": 0

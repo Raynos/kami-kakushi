@@ -229,7 +229,10 @@ describe('cook_meal — the sansai → HP heal sink (F22 / D-050)', () => {
       ...s,
       character: { ...s.character, hp },
       resources: { ...s.resources, sansai },
-      flags: { ...s.flags, ...factsForSurfaces('row-sansai', 'verb-cook') },
+      // ADR-184 — the kitchen is what TEACHES the pot (verb-cook keys to room-kitchen), so the
+      // entitling facts below open the threshold too; standing there is not required (HD-40).
+      location: 'kitchen',
+      flags: { ...s.flags, ...factsForSurfaces('row-sansai', 'verb-cook', 'room-kitchen') },
     };
   }
 
@@ -259,7 +262,8 @@ describe('F22 — work-stamina (rest) and health (cook) are DISTINCT recovery ac
   // action refills both. All fixtures derive their expected deltas from the balance source of
   // truth (SATIETY_PER_REST / COOK_HP_RESTORE / COOK_SANSAI_COST), never a copied magic number.
 
-  /** Hurt on BOTH meters, with the rest-loop live (awake+raked) and the cook verb revealed. */
+  /** Hurt on BOTH meters, with the rest-loop live (awake+raked) and the cook verb revealed —
+   *  standing AT the pot (ADR-184: cooking is sited), since the subject here is the two meters. */
   function hurtOnBoth(): GameState {
     const s = createInitialState(1);
     return {
@@ -267,11 +271,12 @@ describe('F22 — work-stamina (rest) and health (cook) are DISTINCT recovery ac
       // well below both maxes so a recovery has clear headroom (can go RED if it heals nothing)
       character: { ...s.character, hp: 5, satiety: 10 },
       resources: { ...s.resources, sansai: 5 },
+      location: 'kitchen',
       flags: {
         ...s.flags,
         awake: true,
         raked: true,
-        ...factsForSurfaces('row-sansai', 'verb-cook'),
+        ...factsForSurfaces('row-sansai', 'verb-cook', 'room-kitchen'),
       },
     };
   }

@@ -41,6 +41,12 @@ export interface Surface {
    *  rank unlocks (the reveal reads at the promotion, not as a post-ceremony Story flood).
    *  A surface with a ceremonyLabel usually carries NO revealLine — one home per reveal. */
   readonly ceremonyLabel?: string;
+  /** ADR-184 — this zone is revealed INSIDE a side-quest VN (reveals.ts), so the VN's own prose
+   *  IS the reveal: `announcePass` SUPPRESSES the `revealLine` below in the shipped mode. The line
+   *  is kept because the announce is an open diverge (human, 2026-07-12: "implement both") — the
+   *  DEV Reveal-mode toggle flips to `vn+ink`, where the zone also inks onto the map with this
+   *  line after the scene closes. Prod default: the VN carries it alone. */
+  readonly vnReveal?: boolean;
 }
 
 // FB-91/FB-93 — every surface-reveal line is scene NARRATION, so it carries the `narrator` voice
@@ -157,11 +163,17 @@ export const SURFACES: readonly Surface[] = [
   // reveal LINES for the newly-sited nodes have no migrated t0v2 flavor key yet ⇒ authored via HD-30 (2026-07-09)
   // placeholders (HD-30); the two that carry forward (gate, paddies) keep their prior reveal copy.
   {
+    // ADR-184 — the gate LEFT the R1 reward: at R1 you had nothing to trade and Yohei's stall was
+    // a promise about two days in seven you could not use (FB-408). It opens in `sb-market`, the
+    // VN that fires when you first hold coin with nowhere to spend it (reveals.ts).
     id: 'room-gate',
     kind: 'panel',
-    unlock: () => false,
-    // FB-272 — announced on the R1 ceremony (was a post-ceremony Story flood line).
-    ceremonyLabel: "The gate & gateyard — stores come and go; Yohei's stall on market days",
+    unlock: (s) => hasFlag(s, 'told-of-the-stall'),
+    // No revealLine: in the shipped mode the VN is the whole reveal, and in the DEV 'vn+ink'
+    // alternate the zone inks in with its MAP BLURB — resolved at announce time (unlock.ts), never
+    // here: this registry is built at module init, and reaching into map.ts from the array literal
+    // is a cycle (surfaces → map → flavor → …) that dies with a TDZ ReferenceError.
+    vnReveal: true,
   },
   {
     id: 'room-paddies',
@@ -170,6 +182,9 @@ export const SURFACES: readonly Surface[] = [
     ceremonyLabel: 'The home paddies — the rice that feeds the house', // FB-272
   },
   {
+    // ADR-184 — the woodshed rides R1 → R4, where ADR-177 actually grants the home: the line below
+    // was a LIE at R1 (a mat and a bowl you did not receive for three rungs) and is TRUE at R4, the
+    // rung `tab-inventory` (and with it `panel-home`) arrives. Still a rung reveal — its ceremony.
     id: 'room-woodshed',
     kind: 'panel',
     unlock: () => false,
@@ -190,12 +205,14 @@ export const SURFACES: readonly Surface[] = [
     ),
   },
   {
-    // FB-381 / ADR-177 pattern — hidden R0 ground until the R1 terms beat names it
-    // ("Meals at the threshold, morning and evening"); announced on the ceremony.
+    // ADR-184 — the kitchen LEFT the R1 reward (FB-407: the terms beat NAMED it, but there was
+    // nothing there — three people and no verb). It opens in `sb-cook`, the VN where O-Hisa teaches
+    // the pot: the cooking loop `verb-cook` has always been built but HOMELESS, and siting it here
+    // is what gives the threshold a reason to exist (intents.ts `cook_meal` is now sited).
     id: 'room-kitchen',
     kind: 'panel',
-    unlock: () => false,
-    ceremonyLabel: 'The kitchen threshold — meals at the board, morning and evening',
+    unlock: (s) => hasFlag(s, 'taught-to-cook'),
+    vnReveal: true, // ink line (the DEV alternate) = the node's map blurb, resolved in announcePass
   },
   {
     // FB-342 / ADR-177 — the weir path, locked after the cold open; visible once the
@@ -225,9 +242,13 @@ export const SURFACES: readonly Surface[] = [
     ),
   },
   {
+    // ADR-184 — the margins LEFT the R2 reward: at R2 they held no verb at all (the tanuki and the
+    // badger are FOES, and combat opens at R3). The pest beat IS the reveal — `sb-racks` fires in
+    // the paddies at R3, when the raided racks are a problem you can finally answer.
     id: 'room-field-margins',
     kind: 'panel',
-    unlock: () => false,
+    unlock: (s) => hasFlag(s, 'racks-raided'),
+    vnReveal: true,
     revealLine: narrate(
       'Out past the last worked row the setts begin — tanuki, badger — and the nightly raids on the drying racks and the seed store.',
     ),
@@ -237,11 +258,16 @@ export const SURFACES: readonly Surface[] = [
   { id: 'row-wood', kind: 'row', unlock: () => false },
   { id: 'row-sansai', kind: 'row', unlock: () => false },
   {
-    // Keyed to the sansai row's visibility (the fixpoint arg) — the sansai→HP heal sink
-    // (FB-22: the HEALTH-recovery action; work-stamina is the separate `rest` verb).
+    // The sansai→HP heal sink (FB-22: the HEALTH-recovery action; work-stamina is the separate
+    // `rest` verb). ADR-184 — keyed to the KITCHEN, not the sansai row: cooking is sited now, so a
+    // cook verb revealed before there is a pot to cook at is a control with no legal place to be
+    // used (the player would guess at state — TST4 — and an auto-loop would spin trying to mend).
+    // O-Hisa's `sb-cook` VN is what teaches the pot AND opens the threshold, so the verb and its
+    // home arrive in the same beat (the ADR-119 "no dangling promise" rule). The hearth in your own
+    // corner is the second locus, and it is bought later — it never precedes this.
     id: 'verb-cook',
     kind: 'verb',
-    unlock: (_s, vis) => vis.has('row-sansai'),
+    unlock: (_s, vis) => vis.has('room-kitchen'),
     revealLine: narrate(
       'You could boil the wild greens into a hot meal — plain fare, but a warm meal is what closes wounds and mends a body after a fight.',
     ),
@@ -276,20 +302,27 @@ export const SURFACES: readonly Surface[] = [
     ),
   },
   {
+    // ADR-184 — the reeds LEFT the R3 reward, into the beat that already caused them: `sb-lease`
+    // (Matsuzō up from the river, the screens rat-gnawed, "send your man down while the year
+    // turns"). That scene is narration-only, so its completion latches the flag through
+    // `applySceneCompletionEffects` (scenes.ts) rather than through a decision option.
     id: 'room-weir-reeds',
     kind: 'panel',
-    unlock: () => false,
+    unlock: (s) => hasFlag(s, 'screens-charged'),
+    vnReveal: true,
     revealLine: narrate(
       'The shallows above and below the weir, reeds past the waist. River rats gnaw the screens the house leases from Matsuzō, and every screen lost is coin owed across the water.',
     ),
   },
   {
-    // FB-382 / ADR-177 pattern — hidden R0 ground until hurt starts existing (the
-    // grain-watch's wolf, this rung); announced on the R3 ceremony.
+    // ADR-184 / FB-382 made literal — "the sickroom reveals when hurt starts existing" was the
+    // stated intent, but it shipped as an R3 rung reward. It now rides the FIRST HURT itself
+    // (reveals.ts → `sb-sickroom`: Sōan tending a body he has mended once already, off the weir),
+    // so the reveal can never lag the wound — nor the defeat relocation that lands you in it.
     id: 'room-sickroom',
     kind: 'panel',
-    unlock: () => false,
-    ceremonyLabel: "Sōan's sickroom — where the night-watch's hurts are carried",
+    unlock: (s) => hasFlag(s, 'tended-by-soan'),
+    vnReveal: true, // ink line (the DEV alternate) = the node's map blurb, resolved in announcePass
   },
   {
     id: 'room-drill-yard',

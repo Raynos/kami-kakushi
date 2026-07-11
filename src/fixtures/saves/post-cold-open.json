@@ -55,7 +55,8 @@
     "flags": {
       "awake": true,
       "dream-1": true,
-      "label-nameless": true
+      "label-nameless": true,
+      "tended-by-soan": true
     },
     "seenReveals": [
       "screen-cold-open",
@@ -63,7 +64,8 @@
       "verb-rake",
       "readout-body",
       "readout-rice",
-      "room-forecourt"
+      "room-forecourt",
+      "room-sickroom"
     ],
     "log": {
       "entries": [
@@ -458,9 +460,95 @@
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.room-forecourt"
+        },
+        {
+          "key": 41,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.0"
+        },
+        {
+          "key": 42,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.1"
+        },
+        {
+          "key": 43,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.2"
+        },
+        {
+          "key": 44,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.3"
+        },
+        {
+          "key": 45,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.4"
+        },
+        {
+          "key": 46,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.5"
+        },
+        {
+          "key": 47,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.6"
+        },
+        {
+          "key": 48,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.opt.sb-sickroom-mend.say"
+        },
+        {
+          "key": 49,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.opt.sb-sickroom-mend.react"
         }
       ],
-      "seq": 41
+      "seq": 50
     },
     "skillXp": {},
     "deliveredDialogue": [
@@ -469,8 +557,8 @@
     ],
     "npcMemory": {
       "soan": {
-        "regard": "noted",
-        "warmth": 1
+        "regard": "holds-still",
+        "warmth": 2
       },
       "genemon": {
         "regard": "earnest",
@@ -518,7 +606,9 @@
     },
     "sceneQueue": [],
     "activeScene": null,
-    "scenesPlayed": [],
+    "scenesPlayed": [
+      "sb-sickroom"
+    ],
     "roundState": null,
     "soanLedger": 0
   }

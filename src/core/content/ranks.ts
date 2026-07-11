@@ -57,15 +57,16 @@ export const RANKS: readonly RankDef[] = [
       // beat → Story channel); `applyPromotion` emits the single terse "Rank ↑" marker to Progress.
       // So `rewardOnReach` carries NO log line — only the flags + the surfaces the beat motivates.
       // G4 — the room-<id> reveal ids match content/map.ts `revealFlag`s (the 16-node zone spine).
-      // R1 opens the gate (haul + Yohei's stall), the home paddy (farm), and the woodshed corner —
-      // the labour R1→R2 requires (farm_paddy, haul_stores) must be REACHABLE the moment you're R1.
+      // ADR-184 — R1 opens ONE zone: the home paddy, because R1→R2's requirement list is farm
+      // work (`farm_paddy`) and the labour a rung requires must be REACHABLE the moment you are
+      // promoted into it. The gate, the kitchen threshold and the woodshed corner LEFT this list
+      // (they had nothing in them at R1 — FB-407/FB-408/FB-409): the first two earn their own
+      // side-quest VNs (reveals.ts), and the woodshed RIDES TO R4, where the home it promises
+      // ("a mat, a bowl, a nail for the coat: yours") is actually granted — ADR-177 moved the
+      // grant, so R1 was promising a bed you did not receive for three rungs. R1 now says nothing
+      // about where you sleep, because you are nobody and you have no bed (human, signed).
       unlock: [
-        'room-gate',
         'room-paddies',
-        'room-woodshed',
-        // FB-381 — the kitchen threshold reveals with the terms that name it
-        // ("Meals at the threshold, morning and evening" — this very beat).
-        'room-kitchen',
         'verb-farm',
         'verb-haul',
         'readout-clock',
@@ -87,13 +88,14 @@ export const RANKS: readonly RankDef[] = [
       // RUNG_BEATS.R2.greeting (the beat's closing narrator line), so all of R2's story prose lives
       // in one place (Story channel). `rewardOnReach` keeps only flags + unlocks; `applyPromotion`
       // emits the terse "Rank ↑" marker to Progress.
-      // G4 — R2 opens the woodlot (woodcut + forage both site there now, activities.ts) and the
-      // field margins (the tanuki/badger PEST beat) — the labour R2→R3 requires (woodcut_edge,
-      // forage_satoyama). The retired near/deep wilderness nodes fold into the woodlot.
+      // G4 — R2 opens the woodlot (woodcut + forage both site there now, activities.ts) — the
+      // labour R2→R3 requires (woodcut_edge, forage_satoyama). The retired near/deep wilderness
+      // nodes fold into the woodlot. ADR-184 — the field margins LEFT this list: the tanuki/badger
+      // PEST beat IS their reveal (reveals.ts `sb-racks`), and it fires at R3, where you finally
+      // carry a blade to answer the raids with. Opened at R2 the margins held no verb at all.
       unlock: [
         'tab-skills',
         'room-woodlot',
-        'room-field-margins',
         'verb-woodcut',
         'verb-forage',
         'row-wood',
@@ -120,21 +122,19 @@ export const RANKS: readonly RankDef[] = [
       // the auto-resolve fight loop (verb, auto-modes, retreat), and the Bestiary. Durability +
       // repair + craft/equip wait for R4 (`readout-durability`/`panel-equipment`); the stance
       // control waits for R5 (`stance-control`) — one beat per rung, not the whole tab at once.
-      // G4 — R3 opens the kura (the grain-watch's post, where the night round is walked) and the
-      // weir reeds (the leased-screen rat PEST beat, Matsuzō's water). `room-drill-yard` waits for R4.
-      // ADR-177 Schedule A — panel-house-influence moved R3 → R6 (it joins the Estate
-      // 家 tab when THAT arrives; pre-R6 the Works ladder's standing gauge carries it).
+      // G4 — R3 opens the kura (the grain-watch's post, where the night round is walked).
+      // `room-drill-yard` waits for R4. ADR-177 Schedule A — panel-house-influence moved R3 → R6
+      // (it joins the Estate 家 tab when THAT arrives; pre-R6 the Works ladder's standing gauge
+      // carries it). ADR-184 — the weir reeds and the sickroom LEFT this list, into the VNs that
+      // already caused them: the reeds ride `sb-lease` (Matsuzō up from the river — "send your man
+      // down"), and the sickroom rides the FIRST HURT (FB-382's own stated intent, made literal:
+      // hurt starts existing at the night round's wolf, and the reveal cannot lag the wound).
       unlock: [
         'tab-combat',
         'panel-drill-yard',
         'readout-combat-level',
         'panel-bestiary',
         'room-kura',
-        'room-weir-reeds',
-        // FB-382 — the sickroom reveals when hurt starts existing (the grain-watch's
-        // wolf); it must precede any defeat relocation there (defeat.ts), and does —
-        // combat opens this same rung.
-        'room-sickroom',
       ],
       // FB-103 / ADR-110: story prose → RUNG_BEATS.R3.greeting (Kihei's full VN meet); terse marker only.
     },
@@ -156,6 +156,9 @@ export const RANKS: readonly RankDef[] = [
       // loop (the craft panel + the equip switcher) reveal here, one rung after combat opens.
       // G4 — R4 opens the drill yard NODE (Kihei's ground on the map), where the drills happen.
       // ADR-177 Schedule A — the Inventory tab arrives HERE (R3→R4 stagger, its own rung).
+      // ADR-184 — the WOODSHED rides here from R1, so its ceremony line ("a mat, a bowl, a nail
+      // for the coat: yours") is TRUE the moment it is spoken: ADR-177 put the home grant on
+      // `tab-inventory`, which is this rung. Two zones — the cap's ceiling, deliberately.
       unlock: [
         'readout-durability',
         'panel-equipment',
@@ -163,6 +166,7 @@ export const RANKS: readonly RankDef[] = [
         'house-omoya',
         'room-drill-yard',
         'tab-inventory',
+        'room-woodshed',
       ],
       // FB-103 / ADR-110: story prose → RUNG_BEATS.R4.greeting (Genemon + Kihei); terse marker only.
     },

@@ -907,3 +907,302 @@ tiring. The line is ruled. The omoya has waited years for a hand; it can
 wait a season more. It should not wait two."
 
 flags: works-open-u4
+
+<!-- ── The zone-reveal beats (ADR-184, the `zone-reveals` bundle) ─────────────
+  THE LAW (human, 2026-07-12): a zone opens only inside a VN, and a rung-up VN
+  may open at most two. These four are the side-quest VNs that open the four
+  zones which LEFT the rung schedule — the gate (FB-408: empty five days in
+  seven), the kitchen threshold (FB-407: named by the R1 terms and holding
+  nothing), the field margins (no verb until a blade exists), and Sōan's
+  sickroom (FB-382's own intent: it should reveal when hurt starts existing).
+  A fifth zone, the weir reeds, needed no new beat: `sb-lease` above already IS
+  it (Matsuzō, the gnawed screens, "send your man down"), so its CLOSE latches
+  the flag (scenes.ts applySceneCompletionEffects).
+
+  Each is `scripted` — core/reveals.ts enqueues it the tick its fictional moment
+  arrives (coin in the fist with nowhere to spend it · greens you cannot eat raw
+  · the raided racks seen from the rows you work · the first wound). BOTH options
+  of every scene set the reveal flag: the pick colours the relationship, never
+  the map — a player may be graceless, never locked out.
+
+  Canon = take A ("the house tells you what it needs" — the institutional
+  register: each zone opens because the estate has an open account and you are
+  the instrument that closes it). It carries the mechanics diegetically, which
+  these four beats must (they are the player's only teaching for coin, the pot,
+  the hunt and the mend). Alternates: takes/zone-reveals/ (B — "somebody notices
+  you"; C — "the thing itself is wrong"). -->
+
+## scene-def sb-market
+trigger: scripted
+once: true
+speaker: genemon
+voice: steward
+
+> The forecourt, mid-morning. The week's coppers ride knotted in a rag at
+> your belt, and they have ridden there for days, because there is nowhere
+> on this estate to put a single one of them down.
+
+> Genemon hears the knot before he sees it. He looks up from the board
+> anyway, which is not the same as being interrupted.
+
+Genemon: "Coin. Yours — entered against your name, every mon of it, so I
+know what you are carrying to the piece. And you have carried it about the
+yard a week now and bought nothing with it, because nobody has told you
+where coin goes."
+
+Genemon: "Then hear it. Coin does one thing on this estate: it crosses the
+gate. Yohei sets his stall in the gateyard on market days, and what he
+unloads off his back is the whole of the buying and selling this house can
+reach without a cart. A sack of mountain greens is ten mon. That is the
+smallest thing sold here; below it there is nothing to want."
+
+Genemon: "You were never told. That is my omission and not your fault, and
+I am closing it. A hand who cannot price a sack of greens cannot be sent
+with a purse that is not his. Go down and learn the prices on your own
+coin. It is the cheapest schooling this house will ever buy."
+
+### ask sb-market-ask-a · "Which days does he come?"
+
+Genemon: "Two days in seven, the same two all year. If you walk down and
+the gateyard is empty, you have walked fifty paces for nothing and learned
+one of the two days by subtraction. That is not the worst way to learn it."
+
+### ask sb-market-ask-b · "Why does it matter what I know?"
+
+Genemon: "Because a day is coming when the book sends a man to that gate
+with money that is not his, and the book would rather send a man who has
+stood at the stall before. Nobody is being kind to you. I am shortening an
+argument about a purse that has not happened yet."
+
+### decide · The coin is yours. Genemon waits to hear what you will do with it.
+
+#### sb-market-go · "Then I'll learn what things cost."
+
+Genemon: "You will. Yohei will price you as a stray the first time and as a
+regular the fourth, and the whole of the lesson is the difference between
+those two prices. Your own coin, mind. The house's is not loose yet."
+
+memory: genemon +1 (counts-his-coin)
+flags: told-of-the-stall
+
+#### sb-market-hold · "It keeps. I need nothing."
+
+Genemon: "Then it sits, and it is yours to sit on. The stall goes up on its
+days whether you come to it or not, and the prices will not have improved
+by the time you do. You know the gate now. That was the errand."
+
+memory: genemon +0 (keeps-his-coin)
+flags: told-of-the-stall
+
+## scene-def sb-cook
+trigger: scripted
+once: true
+speaker: ohisa
+voice: steward
+
+> The greens have been in your hand since the woodlot: fern-shoots and
+> butterbur, cut this morning, wilting by noon. Raw, they are worth nothing.
+> Tomorrow they will be worth less.
+
+> O-Hisa is at the kitchen threshold across the yard with the household's
+> rice on. She has watched you carry a handful of fern back and forth over
+> the forecourt for about as long as it takes a pot to come to the boil.
+
+O-Hisa: "Boiled. That is what they are for. Bring them over here — I am not
+crossing a yard for a handful of fern, and you are not eating them like a
+goat."
+
+O-Hisa: "There is one pot in this house that anything is cooked in, and it
+is standing behind me, and nobody has shown it to you. That is nobody's
+fault and it still wants mending. The fire is lit before dawn for the
+house's rice. While it burns, it costs the house nothing to boil your
+greens on it. That is the whole of the reason, and it is reason enough."
+
+O-Hisa: "And you will want it. Rice keeps a man upright; it does not mend
+him. A hot meal does — the greens boiled soft, the water drunk off, and sat
+down for the length of it. There is nothing else in this house that mends a
+body. There is the pot, and there is what you carry to it."
+
+### ask sb-cook-ask-a · "Why greens?"
+
+O-Hisa: "Because they grow at the woodlot edge and cost nobody anything,
+and because Sōan says a man mends on hot food and green stuff, and I have
+watched him be right about it as long as I have been in this house. The
+rice is the house's. The greens you cut are yours. Boiled, they are a meal.
+Left in your hand, they are a wilted handful, and I sweep them out of my
+doorway."
+
+### ask sb-cook-ask-b · "Whose pot is it?"
+
+O-Hisa: "The house's. The fire is the house's. The greens are yours — that
+is the whole of the difference, and it is the difference the steward would
+want made, so I have made it aloud and you have heard me make it. What
+comes out of the pot is yours as well. Nobody enters that against you."
+
+### decide · The pot is behind her. The greens are wilting in your hand.
+
+#### sb-cook-learn · "Show me the pot."
+
+O-Hisa: "Stand where you can see, then, and do not crowd the fire. Water to
+the scratch inside the rim, not above it. Greens in when it moves, not
+before. Two handfuls — the pot is smaller than it looks and it will not
+forgive a third — and off the heat while the stalks still hold their shape.
+There. You can feed yourself now. A man who can feed himself is a man who —
+the handle takes the heat. Use the cloth."
+
+memory: ohisa +1 (learns-the-pot)
+flags: taught-to-cook
+
+#### sb-cook-thanks · "Boil them, then. I'll take the bowl."
+
+O-Hisa: "You will. Two handfuls, no more, and I will not be doing it for
+you twice. The pot is there. The fire is there. I will not always be
+standing at it on the day you come across that yard needing it. Eat it
+sitting down — standing, it does you half the good."
+
+memory: ohisa +0 (takes-the-bowl)
+flags: taught-to-cook
+
+## scene-def sb-racks
+trigger: scripted
+once: true
+speaker: rokusuke
+voice: villager
+
+> The rows, past noon. Rokusuke works the row over from yours, no nearer,
+> the way he has worked it every day since you came. Then he is at the end
+> of your row with his hands where you can see them, which is how he stands
+> when he means to say something.
+
+Rokusuke: "That is a blade you are carrying. Not saying anything about it.
+Only — you carry one and I do not, and that is the whole difference between
+us this week."
+
+Rokusuke: "Four bundles off the drying racks last night. Barley. The seed
+store gnawed open at the corner, second time. Every night this week, and
+every night the same road: up out of the margin, along the bunds, from the
+setts at the paddy's edge where the ground goes soft."
+
+Rokusuke: "And at the week's end the steward asks me for the number,
+because I keep it — I keep it same as any day — and the number I hand him
+is four, and then twenty-eight for the week, and I would rather hand him a
+smaller one. That is all this is. I do not say what work gets done. I keep
+the count."
+
+### ask sb-racks-ask-a · "What comes up out of the margin?"
+
+Rokusuke: "Tanuki. Badgers where the ground goes soft. Big ones this year —
+they have been eating well, and what they have been eating is ours. The old
+women at the well will tell you what a tanuki is when it grows fat and bold
+and comes at a house nightly, and you may listen to them if you like. It is
+a tanuki. There is a sett under every third bund down there, dug in since
+before my time, and nobody has ever gone at them, because nobody had a
+reason to be down there with a blade."
+
+### ask sb-racks-ask-b · "Why tell me and not the board?"
+
+Rokusuke: "I told the board. I tell the board everything — that is why I am
+still here and better men are not. The steward entered it. Entered is
+entered and I am not saying it is wrong. Only the entry does not come out
+at night and stand at the racks. You might."
+
+### decide · Four bundles a night, and the margin lies at the end of your row.
+
+#### sb-racks-take · "Show me where they come in."
+
+Rokusuke: "End of the third bund, where the ground goes soft. Follow the
+drag-marks — they do not hide them, they have never had call to. Go before
+dark or after; they do not keep our hours. And you had it off the racks,
+not off me. The racks are there for anyone to count."
+
+memory: rokusuke +1 (walks-the-margin)
+flags: racks-raided
+
+#### sb-racks-ask · "The board should hear it before I go."
+
+Rokusuke: "It has heard it. It heard it three days ago and it will hear it
+again at the week's end and it will say what the board says. Tell them
+again if you like — tell them the number is four; four is the number. Then
+walk down past the third bund, since you are going that way regardless. The
+ground goes soft there. That is where they come up."
+
+memory: rokusuke +0 (asks-first)
+flags: racks-raided
+
+## scene-def sb-sickroom
+trigger: scripted
+once: true
+speaker: soan
+voice: physician
+
+> The lean-to off the outer court: a plank bed, a brazier gone low, a shelf
+> of jars with their labels worn off and written again in a smaller hand,
+> and a low table with a ledger closed on it.
+
+> You have been in this room once before, on your back, with the river still
+> in you. You did not look at it then. You look at it now. Sōan does not
+> look up from the wrap he is rolling.
+
+Sōan: "Breathe in. Again — shallower. Now turn toward me. Which of the two
+was worse?"
+
+> You tell him. He puts two fingers somewhere you did not name, and stops
+> there, and does not say anything about being right.
+
+Sōan: "Two of your ribs are cracked. Neither is through, and that is the
+whole of your luck; you may keep it. Six days in the wrap. Twelve before
+you carry a full load without paying for it afterwards. There is nothing
+for the pain worth what it costs. Sleep on the side that hurts — the other
+side is worse."
+
+Sōan: "Now the cost, since nobody else in this house will put it to you
+plainly. A cracked rib mends in one of two places: in this room, in six
+days — or out in the rows, over a season, crooked. The house pays for it
+either way, and for six days it pays without getting anything back. That is
+not a reproach. It is an entry. I keep the book of what this estate spends
+on keeping its people whole, and you have a page in it now, the same as the
+mule."
+
+> He writes. The brush stops, and starts again, and puts down a second line
+> that is not about your ribs. You do not ask what it says.
+
+### ask sb-sickroom-ask-a · "What are you writing?"
+
+> You ask it from the plank bed, and it comes out flatter than you meant it.
+
+Sōan: "A physician's book. What came in, what it cost, what mended and how
+fast. Yours is not the only page in it, and it is not the longest."
+
+> He closes the book with the hand that is not on your wrap. It does not go
+> back on the shelf until you are looking at the ceiling.
+
+### ask sb-sickroom-ask-b · "What does it cost?"
+
+Sōan: "You? Nothing you have. The house physics its own, and you are its
+own now, whatever the day-book calls you. When you draw a wage — and you
+will; they all do in the end — it will come out of the wage, and you will
+find you resent that less than you resent lying here. Ask me again then."
+
+### decide · Sōan holds the wrap and waits.
+
+#### sb-sickroom-mend · "Then I'll hold still."
+
+Sōan: "Good. Arms down. Down. It goes on tight or it does nothing, and I
+would rather do it once. Six days. You will be in this room again before
+the year turns, and next time you will know the way — which is worth rather
+more to this house than the six days cost it."
+
+memory: soan +1 (holds-still)
+flags: tended-by-soan
+
+#### sb-sickroom-refuse · "It'll mend while I work."
+
+Sōan: "It will not. It will knit crooked and you will carry it the rest of
+a life spent carrying things — but you are not mine to keep, and a man who
+will not lie down cannot be made to. Take the wrap with you and put it on
+before the swelling does the arguing. The room is the lean-to off the outer
+court; the door is the one you came through. You will come back through it.
+They all do. I would rather you came in on your feet."
+
+memory: soan +0 (walks-it-off)
+flags: tended-by-soan

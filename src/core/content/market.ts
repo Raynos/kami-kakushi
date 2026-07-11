@@ -89,6 +89,11 @@ export const MARKET_ITEMS: readonly MarketItem[] = [
 
 export const MARKET_ITEM_IDS: ReadonlySet<string> = new Set(MARKET_ITEMS.map((m) => m.id));
 
+/** The cheapest thing the stall stocks — DERIVED from the roster (never a copied number). It is the
+ *  threshold of "coin you have nowhere to spend": the gate's reveal VN (reveals.ts `sb-market`)
+ *  fires once the purse first covers it, which is the moment a stall starts to mean something. */
+export const CHEAPEST_STALL_ITEM_COST: number = Math.min(...MARKET_ITEMS.map((m) => m.coinCost));
+
 // ── Yohei's stall (ADR-163 / G4.5) — the MON lane's market side ─────────────────────────────────
 // The pedlar Yohei sets up on named MARKET DAYS only (scarcity that pulls the wheel), carries a
 // FINITE purse per visit (he stops BUYING when it's empty — the kind-overflow soft cap, so selling

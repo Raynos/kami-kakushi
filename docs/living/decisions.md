@@ -3464,6 +3464,75 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   decisions" block holds all 8 rulings) · extends the Stage-C descriptor work · relates ADR-179
   (derived visibility — the same doctrine, applied to surfaces), ADR-143 (story takes), ADR-161.
 
+### ADR-184 ✅ — the zone-reveal law: a zone opens only in a VN; a rung-up VN opens at most two
+
+- **created_date:** 2026-07-12
+- **Context:** the human, playing the live T0: *"Kitchen does not hit in R1 lol.
+  Which zones fit in which rungs is totally open to rebalance and polish; there's
+  too many zones unlocking in R1."* The captures behind it — **FB-407** (the
+  kitchen threshold *"has no purpose … it should go to a different rung when it
+  has purpose, actions or main-question impact"*), **FB-408** (the gate is empty
+  five days in seven), **FB-409** (the woodshed *"serves no purpose"*). R1 was
+  opening **four** zones as a promotion reward, three of which held nothing a
+  player could do. The diagnosis underneath it, which outlives this ADR: *"Opening
+  the kitchen zone in the R0→R1 rung-up because meals are promised is a bit weak
+  gameplay-wise. There's nothing there in R1."*
+- **Decision (human, signed 2026-07-12):** **a zone opens only inside a VN, and a
+  rung-up VN may open AT MOST TWO.** *"If for a zone it's better to reveal it
+  through a side quest with its own VN, I'm more than happy to do that … the more
+  side quests the better."* Every zone above the cap earns a **side-quest VN of its
+  own**; the rung-up beat is a story moment, not a reward dispenser (a lean
+  promotion is correct — **no floor**, and R6 legally opens none).
+- **The mapping.** Rung-up VNs: R1 paddies · R2 woodlot · R3 kura · R4 drill-yard +
+  **woodshed** · R5 shrine + orchard · R6 none · R7 grove. Five zones LEAVE the rung
+  schedule for a VN of their own: **gate** (the first coin you have nowhere to spend)
+  · **kitchen** (O-Hisa teaches the pot) · **field-margins** (the raided drying racks)
+  · **weir-reeds** (`sb-lease` — Matsuzō and the gnawed screens — which was ALREADY
+  this beat; it needed a flag, not new prose) · **sickroom** (the first hurt — FB-382's
+  own stated intent, made literal).
+- **The woodshed MOVES rather than leaves.** Its ceremony line — *"a mat, a bowl, a
+  nail for the coat: yours"* — was a **lie**: [ADR-177](#adr-177) moved the home grant
+  to R4 (`tab-inventory`), so R1 promised a bed the player did not receive for three
+  rungs. Riding the zone to R4 makes the line true the moment it is spoken. R1
+  consequently never says where you sleep — *you are a nobody; you have no bed*
+  (human, signed). The R1 terms beat's two promises (the kitchen threshold, the
+  woodshed corner) are **deleted mechanically**; the re-voice plan (ADR-185) rewrites
+  that beat properly when it runs.
+- **A side quest MAY gate a rung-up (human, 2026-07-12).** The field margins and the
+  weir reeds hold the only `tanuki` and `river_rats` on the estate, and fights are
+  spatial — so R3→R4's kill requirements now depend on two side-quest VNs having
+  fired. That is the design, not a defect: *"you unlock zones incrementally as you
+  play … making these side quests a mandatory requirement for rung-up is fine. You
+  don't have to force-feed players."* The **only** failure mode is an **obtuse
+  trigger**, so every reveal fires from labour the player is already doing at that
+  rung (and which the sim bot's own requirement-driven route reaches — the arc is
+  the proof).
+- **Consequences.**
+  - **A gate, not a norm** (`verify-content`): `room-*` ids per rank's
+    `rewardOnReach.unlock` — **>2 is RED**. Mechanically exact, so it cannot cry wolf.
+  - **`core/reveals.ts`** — the AC-20 glue that enqueues each reveal VN from the
+    settle pass, beside `worksPass`. Each scene sets its zone's fact-flag on **every**
+    decision option (the `works-intro` pattern): the pick colours the relationship,
+    never the map.
+  - **The derived reveal re-arm** (`unlock.ts`): a `room-*` id latched in `seenReveals`
+    but no longer visible **drops out of the latch**, so a re-mapped zone re-announces
+    with its new ceremony instead of silently re-granting. Zero new save fields;
+    self-healing for every future re-mapping.
+  - **Cooking is SITED** (human: *"kitchen-only cook"*): `cook_meal` — the only mend
+    for a fought body — now needs a **cook locus**, the kitchen board or your own
+    hearth ([ADR-120](#adr-120)'s `homesCook` belonging, which until now bought a
+    button for a verb that already worked everywhere). That walk is what makes the
+    kitchen a place.
+  - **The announce is an open diverge** (human: *"diverge and implement both"*): the
+    VN's prose alone (shipped default), or the VN plus a map-ink line — DEV-toggled,
+    HR-32b.
+- **Record:** the plan
+  [`docs/plans/fable-2026-07-11-zone-rung-rebalance.md`](../plans/fable-2026-07-11-zone-rung-rebalance.md)
+  · FB-407 / FB-408 / FB-409 · builds on **ADR-177** (the fiction causes the unlock —
+  `room-weir`) and **ADR-179** (visibility is DERIVED, never stored) · **TST3** (the
+  fiction causes the mechanics) · the story wave rides **ADR-139** (3+ blind takes) and
+  **ADR-135** (the two-pass scorecard).
+
 ### ADR-185 ✅ — the register ruling: a 14–21 audience, a clarity floor, Genemon's two voices, the MC's inner line (HD-38)
 
 - **created_date:** 2026-07-12

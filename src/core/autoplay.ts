@@ -116,7 +116,9 @@ export function cheapestEligibleGlobal(s: GameState): { id: ActivityId; node: st
  * stay in main.ts; they are app concerns, not decisions.
  */
 /** Mend-before-fight threshold for the focused-optimal driver: FULL health. A level-1
- *  half-HP fighter loses ~always; at full the odds are real, and sansai is cheap. */
+ *  half-HP fighter loses ~always; at full the odds are real, and sansai is cheap. (ADR-184/HD-40:
+ *  if the pot is ever SITED at the kitchen, this splits into a trigger/target pair — you do not walk
+ *  home over a scratch, but once at the pot you leave full. Held with the siting.) */
 const FIGHT_MEND_HP_FRAC = 1;
 
 export function autoModeIntent(s: GameState): Intent | null {

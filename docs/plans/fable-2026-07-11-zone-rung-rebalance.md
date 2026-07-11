@@ -144,6 +144,51 @@ The ≤2 cap binds **rung-up VNs only** (human, signed). A side-quest VN is boug
 with the player's own action — it earns whatever it reveals (in practice, one
 each).
 
+## The reveal triggers — signed 2026-07-12 (session 181)
+
+The build survey found the mapping table under-specified in exactly one place:
+**what fires each VN**. Four rulings closed it.
+
+**A zone gating a rung-up is FINE (human).** The worry that R3→R4 breaks — the
+tanuki lives only at the field margins, the river rats only at the weir reeds,
+fights are spatial (`intents.ts:725`), and R3's authored requirements are
+`kill:tanuki 2` + `kill:river_rats 3` — is not a soft-lock but the *design*:
+_"you unlock zones incrementally as you play … making these side quests a
+mandatory requirement for rung-up is fine. You don't have to force-feed
+players."_ The only real failure is an **obtuse trigger**, so every trigger below
+falls out of labour the player (and the sim bot) is already doing.
+
+**The fifth VN already exists.** `sb-lease` (scenes.md) IS the weir-reeds beat —
+Matsuzō up from the river, the screens rat-gnawed, _"send your man down."_ It
+needs a completion-effect flag, not new prose. **Four** new VNs, not five.
+
+| VN | Fires when | Opens |
+|---|---|---|
+| `sb-market` **(new)** | R2+, at the forecourt, holding coin ≥ the cheapest thing Yohei stocks — *"the first coin you need to spend"* (human) | gate |
+| `sb-cook` **(new)** | R2+, at the forecourt, holding sansai ≥ a meal's worth (you have foraged and don't know what to do with it) | kitchen |
+| `sb-racks` **(new)** | R3+, standing in the paddies (the raided drying racks — R3 requires `farm_paddy`, so it fires from the rung's own labour) | field-margins |
+| `sb-lease` **(exists)** | R3+, on the lease day (or the season turn — its current enqueue) | weir-reeds |
+| `sb-sickroom` **(new)** | the first hurt — `hp < hpMax` (the night-round wolf, in practice) | sickroom |
+
+Each VN **sets its zone flag on EVERY decision option** (the `works-intro`
+pattern — no pick can lock you out); narration-only beats (`sb-lease`) latch
+theirs through `applySceneCompletionEffects`. `core/reveals.ts` is the AC-20 glue
+that enqueues them from the `finish()` settle pass, beside `worksPass`.
+
+**Cooking becomes location-gated (human: "kitchen-only cook").** `cook_meal` — the
+only mend for combat wounds — today fires from anywhere; it now needs a **cook
+locus**: the kitchen board, **or your own corner once you own the hearth**
+(`homesCook`, ADR-120 — which today grants a UI affordance for a verb that
+already worked everywhere, i.e. the hearth is currently a lie). That is what
+gives the kitchen a verb, and gives the 120-mon hearth its point. The
+auto-loop + sim personas learn to walk to a locus before eating.
+
+**The reveal's announce is a DIVERGE (human: "diverge and implement both").** Both
+readings ship behind a DEV toggle for a live call: (A) the VN prose is the whole
+reveal, nothing else fires; (B) the VN closes and a short narrator line inks the
+zone onto the map (the `revealLine` shape the rung zones use). Prod default: A.
+Its own HR line item.
+
 ## Steps
 
 Staged; **one plan, nothing lands until the VNs are authored** (human, signed).

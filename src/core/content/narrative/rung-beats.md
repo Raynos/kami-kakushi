@@ -22,8 +22,8 @@
 ## rung R1 · rung-r1
 speaker: genemon
 voice: steward
-motivates: room-gate, room-paddies, room-woodshed, room-kitchen, verb-farm,
-  verb-haul, readout-clock, readout-stamina, panel-rung-ladder
+motivates: room-paddies, verb-farm, verb-haul, readout-clock, readout-stamina,
+  panel-rung-ladder
 
 > Morning at the board. The hands take their rice at the threshold; the
 > steward's papers hold the table's far end — an estate's worth of paper on a
@@ -35,8 +35,7 @@ they left, lines struck. The yard is short. The work is not."
 > It is the first you have heard of any leaving.
 
 Genemon: "Terms. Work, sun to sun, at what the yard wants doing — hired by the
-day, counted in the book. Meals at the threshold, morning and evening. The
-woodshed corner and a mat. No coin: the house's coin is spoken for before it
+day, counted in the book. No coin: the house's coin is spoken for before it
 reaches the yard. Objections are heard now or kept. The paddies want you by full
 light."
 
@@ -75,9 +74,15 @@ in winter; I could not argue the sum, so I did not argue it."
 Genemon: "The paddies take six hands at the least. Five sleep here now. You are
 the sixth. If a better sixth comes by, the book will say so."
 
-### ask r1-the-meals · "Just the meals?"
-
-Genemon: "Six hands' work, five men fed. The sixth eats. That is the whole of it."
+<!-- ADR-184 (human-signed, 2026-07-12) — the `r1-the-meals` topic is DELETED with the
+  two promises it hung on. The terms beat used to name the kitchen threshold ("Meals
+  at the threshold, morning and evening") and the woodshed corner ("and a mat"), and
+  BOTH were lies by the time they were spoken: ADR-177 moved the home grant to R4, and
+  the kitchen held nothing at R1 (FB-407). R1 now says nothing about where you eat or
+  where you sleep, because you are a nobody and you have no bed. The kitchen is earned
+  in `sb-cook` (O-Hisa's pot); the corner arrives at R4 with the tab that holds it.
+  MECHANICAL deletion only — no new prose here; the T0 re-voice plan (HD-38) rewrites
+  this beat properly when it runs. -->
 
 ### decide · Is anything owing on you?
 
@@ -112,7 +117,7 @@ flags: r1-asked-owing
 speaker: kihei
 voice: arms
 motivates: tab-combat, panel-drill-yard, readout-combat-level, panel-bestiary,
-  room-kura, room-weir-reeds, room-sickroom
+  room-kura
 
 > Dawn comes grey through the kura door. The blood on the sill has dried black,
 > and most of it is yours. Inside, the rice sits in its rows, untouched, exactly
@@ -201,7 +206,7 @@ flags: r3-mend
 speaker: kihei
 voice: arms
 motivates: readout-durability, panel-equipment, verb-repair, house-omoya,
-  room-drill-yard, tab-inventory
+  room-drill-yard, tab-inventory, room-woodshed
 
 > Sōan strapped the ribs for walking. Not for work. It is thirty paces from
 > the sickroom door to the board. You count them.

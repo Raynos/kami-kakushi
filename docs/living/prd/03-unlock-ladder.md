@@ -469,17 +469,17 @@ U-works, whose U4 completion beat lands post-R7) is §2.17's domain (ADR-145).
 > | Zone | Label | Revealed |
 > |---|---|---|
 > | `weir` | The weir & riverbank | on the board from the open |
-> | `weir-reeds` | The weir reeds | inks in at **R3** |
-> | `gate` | The gate & gateyard | inks in at **R1** |
+> | `weir-reeds` | The weir reeds | on the board from the open |
+> | `gate` | The gate & gateyard | on the board from the open |
 > | `forecourt` | The forecourt | on the board from the open |
-> | `woodshed` | The woodshed | inks in at **R1** |
-> | `kitchen` | The kitchen threshold | inks in at **R1** |
+> | `woodshed` | The woodshed | inks in at **R4** |
+> | `kitchen` | The kitchen threshold | on the board from the open |
 > | `shrine` | The shrine-alcove corridor | inks in at **R5** |
 > | `kura` | The kura & grain-store | inks in at **R3** |
-> | `sickroom` | Sōan's sickroom | inks in at **R3** |
+> | `sickroom` | Sōan's sickroom | on the board from the open |
 > | `drill-yard` | The drill yard | inks in at **R4** |
 > | `paddies` | The home paddy & vegetable rows | inks in at **R1** |
-> | `field-margins` | The field margins | inks in at **R2** |
+> | `field-margins` | The field margins | on the board from the open |
 > | `woodlot` | The woodlot edge | inks in at **R2** |
 > | `ruined` | The ruined compound | locked scenery (visible, never walkable) |
 > | `orchard` | The overgrown orchard | inks in at **R5** |

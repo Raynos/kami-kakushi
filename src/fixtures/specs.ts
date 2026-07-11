@@ -247,7 +247,13 @@ function playWorksU1Priced(s0: GameState): GameState {
     s = reduce(s, { type: 'begin_scene', sceneId: 'works-intro' });
     s = reduce(s, { type: 'choose_scene_option', optionId: 'works-intro-go' });
   }
+  // ADR-184 — the gate is opened by `sb-market` (the first coin with nowhere to spend it), which
+  // the settle pass queues at the board; drain it before the sighting walk, or the gate is not a
+  // place yet. The woodshed rides to R4, so `walkTo` no-ops there and the chain prices what is
+  // reachable (works.ts step 4) — its sighting line still lands when the corner opens.
+  s = drainScenes(s);
   for (const z of ['gate', 'woodshed', 'paddies'] as const) s = walkTo(s, z);
+  s = drainScenes(s); // the sighting walk can itself queue a beat (sb-cook, with greens in hand)
   s = reduce(s, { type: 'begin_scene', sceneId: 'works-u1' });
   s = reduce(s, { type: 'choose_scene_option', optionId: 'works-u1-begin' });
   // earn the inputs honestly so the commissioning button is LIVE in this save —
@@ -507,11 +513,10 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     // node id; `gate-forecourt` was the pre-cutover name.)
     // ADR-177 Schedule A — driven to R4 (was R3): the Inventory 蔵 tab (the sale's
     // readout home in the e2e market loop) now reveals at R4.
-    play: (s0) =>
-      walkTo(
-        drive(s0, (st) => st.rung === 'R4'),
-        'gate',
-      ),
+    // ADR-184 — the gate is no longer an R1 rung reward: `sb-market` opens it (Genemon names
+    // Yohei's stall the first time coin sits in your fist with nowhere to go). Drain the queue
+    // before walking, so the market loop's start-state stands where the stall actually is.
+    play: (s0) => walkTo(drainScenes(drive(s0, (st) => st.rung === 'R4')), 'gate'),
     expect: (s) => {
       must(s.location === 'gate', `expected the gate, got ${s.location}`);
       must((s.banked.rice ?? 0) > 0, 'kura rice to sell — the loop needs stock');
@@ -553,7 +558,10 @@ export function getSpec(name: string): FixtureSpec | undefined {
 /** Drain any live/queued VN scene the drive left pending (C5a: side-beats fire from
  *  arrivals — a drive that walks THROUGH the kura queues sb-crest, and a fixture that
  *  boots into a surprise VN defeats its load-X-look-at-Y purpose). A fixture is a
- *  START-STATE: it loads with the shell visible, every mid-drive scene already played. */
+ *  START-STATE: it loads with the shell visible, every mid-drive scene already played.
+ *  ADR-184 — it is also what OPENS the VN-revealed zones (the gate's `sb-market`, the
+ *  kitchen's `sb-cook`): a spec that means to stand at the gate must first have been told
+ *  where the gate is. Every option of a reveal beat sets the flag, so the pick can't matter. */
 function drainScenes(s0: GameState): GameState {
   let s = s0;
   let guard = 0;

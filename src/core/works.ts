@@ -6,11 +6,13 @@
 // enqueues its pricing beat the same tick. Naming for U2–U4 derives from the RUNG
 // (not a rank reward), so an old save past the rung self-heals on its next settle.
 
-import type { GameState } from './state';
+import type { GameState, SurfaceId } from './state';
 import { setFlag, hasFlag } from './state';
 import { pushLog } from './log';
 import { enqueueScene } from './scenes';
 import { rungNumber } from './ranks';
+import { visibleSet } from './unlock';
+import { getNode } from './content/map';
 import { FLAVOR } from './content/flavor';
 import type { EstateStageDef } from './content/estate';
 
@@ -196,8 +198,24 @@ export function worksPass(state: GameState): GameState {
         next = setFlag(next, z.seenFlag);
       }
     }
-    // (4) every zone seen → the project's seen flag (its pricing beat's trigger).
-    if (!hasFlag(next, p.seenFlag) && p.zones.every((z) => hasFlag(next, z.seenFlag))) {
+    // (4) every REACHABLE zone seen → the project's seen flag (its pricing beat's trigger).
+    //     ADR-184 — a named zone the player cannot yet walk to does not hold the chain hostage:
+    //     U1's concerns are the gate, the paddies and the WOODSHED, and the woodshed corner now
+    //     opens at R4 (it rides the home grant it promises). Requiring a sighting there would have
+    //     stalled the whole works ladder from R2 to R4. So the chain prices what you can actually
+    //     get to and look at — and the un-walked zone still emits its own sighting line later, when
+    //     it opens (step 3 above keeps its per-zone latch). Derived from the SAME visible set the
+    //     map is gated by (ADR-179), so any future re-mapping carries this for free.
+    const vis = visibleSet(next);
+    const reachable = p.zones.filter((z) => {
+      const flag = getNode(z.node).revealFlag;
+      return flag === undefined || vis.has(flag as SurfaceId);
+    });
+    if (
+      !hasFlag(next, p.seenFlag) &&
+      reachable.length > 0 &&
+      reachable.every((z) => hasFlag(next, z.seenFlag))
+    ) {
       next = setFlag(next, p.seenFlag);
     }
   }

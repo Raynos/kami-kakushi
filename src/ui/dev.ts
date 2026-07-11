@@ -46,6 +46,9 @@ import {
   RUNG_BEATS,
   sceneById,
   isUnlocked,
+  __setZoneRevealMode,
+  zoneRevealMode,
+  type ZoneRevealMode,
 } from '../core';
 import { el, pct, HOUSE_ROOMS, ESTATE_STAGE_NAMES } from './render';
 import { findOrphanedIds, formatOrphanReport } from '../persistence';
@@ -2051,6 +2054,35 @@ export function mountDevPanel(
   }, 1000);
 
   // teleports
+  // ADR-184 (HR-32b) — the zone-ANNOUNCE diverge, both modes live (human, 2026-07-12: "diverge and
+  // implement both"). A zone now opens INSIDE its VN; the open question is whether the scene's own
+  // prose is the whole reveal, or whether the zone also inks onto the map with a line afterwards.
+  // Flip the mode, then play a reveal (load `rung-R2`, haul at the board until coin ≥ 10 → the
+  // gate's `sb-market`; or forage, then stand at the board → the kitchen's `sb-cook`) and watch the
+  // Story log AFTER the scene closes. PROD ships 'vn' — the toggle is stripped with this panel.
+  const reveal = section('Zone reveal (ADR-184)');
+  const revealBtns = new Map<ZoneRevealMode, HTMLButtonElement>();
+  const markReveal = (active: ZoneRevealMode): void => {
+    for (const [id, b] of revealBtns) {
+      const on = id === active;
+      b.style.background = on ? '#b08d4f' : '#3a322a';
+      b.style.color = on ? '#1c1814' : '#e7d9bc';
+    }
+  };
+  for (const [mode, label, tip] of [
+    ['vn', 'VN only', 'The scene that opened the zone IS the reveal — nothing else fires (prod).'],
+    ['vn+ink', 'VN + map-ink', 'The scene closes, then the zone inks onto the map with a line.'],
+  ] as const) {
+    const b = mono(label, () => {
+      __setZoneRevealMode(mode);
+      markReveal(mode);
+    });
+    b.title = tip;
+    revealBtns.set(mode, b);
+    reveal.append(b);
+  }
+  markReveal(zoneRevealMode());
+
   const jump = section('Jump');
   jump.append(mono('→ Phase 2', () => qa.jumpToPhase2()));
   jump.append(mono('→ Ascend-ready', () => qa.jumpToAscension()));

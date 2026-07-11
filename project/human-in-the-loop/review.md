@@ -416,3 +416,51 @@ work wears the gold 新):
     Estate 家 tab → DEV panel → "Estate 家 (the house)" toggle.
   - **Verdict:** _(awaiting your read)_
 
+### HR-32b 🔲 [R2+ · zones] — how a zone ANNOUNCES itself: VN-only, or VN + map-ink (ADR-184)
+
+You asked me to **"diverge and implement both"** — both are in, live, one click apart.
+
+**How to review (DEV panel → Settings → "Zone reveal (ADR-184)"):**
+1. Load the `rung-R2` scenario (DEV → Scenarios), stand at the forecourt and haul until
+   you hold 10 mon — Genemon's **`sb-market`** VN fires and opens the gate.
+2. Watch the **Story log right after the scene closes**, then flip the toggle and do the
+   same for the kitchen (forage, then stand at the board → O-Hisa's **`sb-cook`**).
+
+| mode | what happens when the VN closes | the case for it |
+|---|---|---|
+| **VN only** (prod default) | Nothing. The scene said it; the zone is simply on your map now. | One home per reveal (TST1). The VN *is* the ceremony — a line after it is the game explaining a story you just watched. |
+| **VN + map-ink** | One narrator line inks the zone in (the node's own map blurb). | The player never guesses state (TST4): the map grew, and the log says so. It is also the shape the rung-reward zones already use. |
+
+I shipped **VN-only** as the default because a second line felt like the game
+under-trusting its own scene. Say the word and the ink ships instead — it is a
+one-constant flip, no rework.
+
+### HR-33 🔲 [R2–R3 · story] — the four zone-reveal VNs (`zone-reveals` bundle, ADR-139/ADR-184)
+
+Four new side-quest VNs, each of which is now the ONLY way its zone opens — the gate
+(`sb-market`), the kitchen threshold (`sb-cook`), the field margins (`sb-racks`) and
+Sōan's sickroom (`sb-sickroom`). Three complete blind takes; **canon is take A**.
+
+**How to review LIVE (DEV panel → Story → bundle `zone-reveals`):** pick a take, then
+play to the beat — load `rung-R2`, haul at the board to 10 mon (the gate VN), forage
+then stand at the board (the kitchen VN); the margins and sickroom fire at R3 (work the
+rows; take the night round's wolf). The switcher swaps the scene body live.
+
+| take | what it commits the story to | scorecard |
+|---|---|---|
+| **A · the house tells you what it needs** *(canon)* | Every zone opens because the estate has an **open account** and you are the instrument that closes it. Nobody asks how you are; the warmth is that four people bothered to explain their account to you at all. Genemon prices a sack of greens at ten mon so you can be trusted with a purse that isn't yours; Sōan enters you in his book *"the same as the mule."* | 21✔ 0✘ |
+| **B · somebody notices you** | Every zone opens because **a person breaks their own protocol** to look at you. Genemon has bought one thing from Yohei in thirty-one years and still has it; O-Hisa crosses a yard she never crosses; Rokusuke has watched where you put your feet for a season; Sōan knows what your ribs were like when they were whole. | 21✔ 0✘ 1— |
+| **C · the thing itself is wrong** | Every reveal opens on a **material fact already wrong** — copper that buys nothing, bracken that is poison raw, gnawed rack-cords and a furrow to a hole in the bank, a sleeve bled through twice — and the person arrives second. Best single scene in the bundle (its `sb-racks`). | 19✔ 2✘ (P10 ×2) |
+
+**Why A, and where I'd expect you to overrule me.** These four beats are the player's
+only teaching for coin, the pot, the hunt and the wound — A states the account, so
+nobody is left guessing (TST4), and it speaks the register the surrounding canon already
+speaks (works-intro, sb-lease, the Terms). **But B is the take that answers your own
+diagnosis** — *"the people and the talking is weak as implemented in R1; it's pure flavor
+with no gameplay/story purpose"* — because in B the people **cause** things and have lives
+that predate you. If you want the estate to feel peopled rather than administered, B is
+the pick and I'll swap canon to it. C I ruled out on P10: it promises a gateyard-sweeping
+duty and an overnight ash-steep that exist nowhere in the game (story promises are
+contracts) — but its `sb-racks` is the best scene any of the three wrote, and it can be
+grafted.
+
