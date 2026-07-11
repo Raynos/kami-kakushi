@@ -1312,7 +1312,11 @@ h3 {
     background var(--dur-fast) var(--ease-ink),
     transform var(--dur-fast) var(--ease-ink);
 }
-.verb:hover,
+/* FB-365/FB-366 — a disabled verb never plays the hover raise (a dead button
+   that lights up reads as clickable). :not([disabled]) guards hover only;
+   focus-visible needs no guard (disabled buttons can't take focus). No
+   pointer-events:none — the title tooltip must keep carrying the disabled-why. */
+.verb:not([disabled]):hover,
 .verb:focus-visible {
   background: var(--steel-hi);
   border-color: var(--silver-wire);
