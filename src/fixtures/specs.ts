@@ -417,6 +417,54 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     },
   },
   {
+    name: 'works-u1-priced',
+    group: G_EARLY,
+    blurb:
+      'R2 with the works chain walked to the priced U1 — the day-book named, the zones seen, the beat closed, the buy one press away (ADR-177).',
+    seed: T0_ARC_SEED,
+    // ADR-177 — drive the DISCOVERY chain through the real engine: the works-intro
+    // naming at the board, the three R1-zone sightings, the pricing beat. Stops
+    // BEFORE the buy so the priced-open state is loadable (QA + the affordance sweep).
+    play: (s0) => {
+      let s = drive(s0, (st) => st.rung === 'R2');
+      if (!s.scenesPlayed.includes('works-intro')) {
+        s = walkTo(s, 'paddies');
+        s = walkTo(s, 'forecourt'); // the settle AT the board enqueues the naming beat
+        s = reduce(s, { type: 'begin_scene', sceneId: 'works-intro' });
+        s = reduce(s, { type: 'choose_scene_option', optionId: 'works-intro-go' });
+      }
+      for (const z of ['gate', 'woodshed', 'paddies'] as const) s = walkTo(s, z);
+      s = reduce(s, { type: 'begin_scene', sceneId: 'works-u1' });
+      s = reduce(s, { type: 'choose_scene_option', optionId: 'works-u1-begin' });
+      // earn the price honestly so the priced button is LIVE in this save — the
+      // affordance sweep clicks enabled controls: the coin-paying haul while the
+      // forecourt pool holds, then forage's pocket-coin (the sim's own faucet order).
+      let guard = 0;
+      while ((s.resources.coin ?? 0) < ESTATE_STAGES[0]!.coinCost && guard++ < 400) {
+        const haulPool = s.sitePools[getActivity('haul_stores').area] ?? 0;
+        const act = haulPool > 0 ? 'haul_stores' : 'forage_satoyama';
+        const area = getActivity(act).area;
+        if (s.location !== area) {
+          s = walkTo(s, area);
+          continue;
+        }
+        const before = s;
+        s = reduce(s, { type: 'do_activity', activityId: act });
+        if (s === before) s = reduce(s, { type: 'rest' }); // stamina floor — sleep it off
+      }
+      return walkTo(s, 'forecourt');
+    },
+    expect: (s) => {
+      must(s.flags['works-open-u1'] === true, 'the pricing beat must have closed U1 open');
+      must(s.estateStage === 0, 'the buy must still be ahead (priced, unbought)');
+      must(s.unlocked.includes('room-weir'), 'the lease naming must have opened the weir path');
+      must(
+        (s.resources.coin ?? 0) >= ESTATE_STAGES[0]!.coinCost,
+        'the priced button must be LIVE (coin for U1 in hand)',
+      );
+    },
+  },
+  {
     name: 'rice-at-gate',
     group: G_ECONOMY,
     blurb:

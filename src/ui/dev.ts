@@ -46,7 +46,7 @@ import {
   RUNG_BEATS,
   sceneById,
 } from '../core';
-import { el, pct } from './render';
+import { el, pct, HOUSE_ROOMS, ESTATE_STAGE_NAMES } from './render';
 import { FIXTURES_SENTINEL } from '../fixtures';
 // ADR-139 story take-sets — imported ONLY here, so the registry rides this module's DEV fold.
 import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
@@ -59,6 +59,13 @@ import {
   __setIntroTitleOverride,
   RUNG_REQUIREMENTS,
   getRank,
+  estateBuild,
+  stageLabel,
+  stageBlurb,
+  WORKS_PROJECTS,
+  stageDiscovery,
+  getNode,
+  ESTATE_STAGES,
 } from '../core';
 import type { RungScene } from '../core/content/rungBeats';
 import type { DialogueScene } from '../core/content/intro';
@@ -142,6 +149,57 @@ export const SURFACES: SurfaceDef[] = [
         id: 'craft-c',
         label: 'C · diegetic assembly',
         blurb: 'Each material shown as the part it becomes; a 整/未 verdict at the foot.',
+      },
+    ],
+  },
+  {
+    // ADR-177 Phase 2 (ADR-075) — the Works 普請 projects home. A (the day-book page)
+    // ships inline in render.ts; B/C live here, DEV-only.
+    id: 'works',
+    rung: 2,
+    label: 'Works 普請 (projects home)',
+    variants: [
+      {
+        id: 'works-a',
+        label: 'A · the day-book page',
+        blurb:
+          'shipped default — projects as ledger lines: closed entries ruled through, the open entry priced, the future unruled',
+      },
+      {
+        id: 'works-b',
+        label: 'B · the work-site board',
+        blurb:
+          'one site card per project — the zones you walk, each carrying its concern state and the commissioning',
+      },
+      {
+        id: 'works-c',
+        label: 'C · the build ladder (interim)',
+        blurb: 'the pre-ADR-177 tracker shape — ladder rows + improve card, kept for comparison',
+      },
+    ],
+  },
+  {
+    // ADR-177 Phase 2 (ADR-075, F5) — Estate 家: the house itself. A (the drawn sheet,
+    // the E1 fold-in) ships inline; B/C live here, DEV-only.
+    id: 'estate-house',
+    rung: 6,
+    label: 'Estate 家 (the house)',
+    variants: [
+      {
+        id: 'estate-house-a',
+        label: 'A · the house, drawn',
+        blurb:
+          'shipped default — the okoshi-ezu survey sheet as the tab anchor; rooms ink in as they reopen',
+      },
+      {
+        id: 'estate-house-b',
+        label: "B · the steward's reckoning",
+        blurb: 'the rooms as day-book lines — open/shut per room, the standing as the footing',
+      },
+      {
+        id: 'estate-house-c',
+        label: 'C · the rooms list (interim)',
+        blurb: 'the pre-ADR-177 shape — the plain reopened-rooms card',
       },
     ],
   },
@@ -529,7 +587,198 @@ function renderSurfaceVariant(
   if (surface === 'quests') return renderQuestsVariant(variantId, container, state, dispatch);
   if (surface === 'bestiary') return renderBestiaryVariant(variantId, container, state);
   if (surface === 'home') return renderHomeVariant(variantId, container, state, dispatch);
+  if (surface === 'works') return renderWorksVariant(variantId, container, state, dispatch);
+  if (surface === 'estate-house') return renderEstateHouseVariant(variantId, container, state);
   return false;
+}
+
+/** The diverged Works 普請 (B / C) — DEV-only, stripped from prod. Default A (the day-book
+ *  page) ships inline in render.ts; both alternates re-present the SAME estateBuild/works
+ *  reads and drive the REAL improve_estate intent (ADR-075: every variant works). */
+function renderWorksVariant(
+  variantId: string,
+  container: HTMLElement,
+  state: GameState,
+  dispatch: (intent: Intent) => void,
+): boolean {
+  if (variantId !== 'works-b' && variantId !== 'works-c') return false;
+  const build = estateBuild(state);
+  const n = build.next;
+  const carried = state.resources.coin ?? 0;
+  const banked = state.banked.coin ?? 0;
+  const commissionBtn = (): HTMLButtonElement => {
+    const btn = el('button', 'verb') as HTMLButtonElement;
+    btn.type = 'button';
+    btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
+    if (n) {
+      btn.textContent = `${stageLabel(n.def)} (${formatCoin(n.def.coinCost)})`;
+      btn.disabled = carried < n.def.coinCost || n.deedsShort > 0;
+      btn.title = btn.disabled
+        ? n.deedsShort > 0
+          ? `The house's standing must reach ${n.deedGate} koku first (now ${n.standing})`
+          : banked >= n.def.coinCost
+            ? 'Draw coin from the kura storehouse first'
+            : `Needs ${formatCoin(n.def.coinCost)}`
+        : '';
+    }
+    return btn;
+  };
+  container.replaceChildren();
+  const stageName =
+    ESTATE_STAGE_NAMES[state.estateStage] ?? ESTATE_STAGE_NAMES[ESTATE_STAGE_NAMES.length - 1]!;
+  if (variantId === 'works-b') {
+    // B · THE WORK-SITE BOARD — one card per project, anchored on the zones you walk:
+    // the sites carry the discovery state; the open site carries the commissioning.
+    const card = el('div', 'rung-card frame works-board');
+    card.append(el('div', 'rung-now', `Works 普請 — Estate · ${stageName}`));
+    const boardEl = el('div', 'works-board-row');
+    for (const proj of WORKS_PROJECTS) {
+      const def = ESTATE_STAGES.find((d) => d.stage === proj.stage)!;
+      const built = state.estateStage >= proj.stage;
+      const isNext = proj.stage === state.estateStage + 1;
+      const disc = stageDiscovery(state, proj.stage);
+      const site = el(
+        'div',
+        `works-site ${built ? 'is-built' : isNext ? `is-${disc}` : 'is-faint'}`,
+      );
+      const kanji = proj.zones.map((z) => getNode(z.node)?.kanji ?? '?').join('');
+      site.append(el('div', 'works-site-kanji', kanji));
+      if (built) {
+        site.append(el('div', 'works-site-name', stageLabel(def)));
+        site.append(el('div', 'works-site-note', 'done — the seal holds'));
+      } else if (isNext && disc === 'open' && n) {
+        site.append(el('div', 'works-site-name', stageLabel(n.def)));
+        site.append(el('div', 'works-site-note', stageBlurb(n.def)));
+        if (n.deedGate > 0)
+          site.append(
+            el(
+              'div',
+              'works-site-note',
+              `standing ${Math.min(n.standing, n.deedGate)} / ${n.deedGate} koku`,
+            ),
+          );
+        site.append(commissionBtn());
+      } else if (isNext && disc === 'named') {
+        site.append(el('div', 'works-site-name is-hint', FLAVOR.worksLadderNamed));
+      } else {
+        site.append(
+          el(
+            'div',
+            'works-site-name is-hint',
+            isNext ? FLAVOR.worksLadderUnnamed : 'the works continue',
+          ),
+        );
+      }
+      boardEl.append(site);
+    }
+    card.append(boardEl);
+    container.append(card);
+    return true;
+  }
+  // C · THE BUILD LADDER (interim) — the pre-ADR-177 tracker shape, kept for live comparison.
+  const card = el('div', 'rung-card frame');
+  card.append(el('div', 'rung-now', `Works 普請 — Estate · ${stageName}`));
+  const ladder = el('div', 'build-ladder');
+  for (const row of build.rows) {
+    const line = el('div', `build-ladder-row is-${row.status}`);
+    const nextOpen = n?.open ?? true;
+    line.append(
+      el(
+        'span',
+        'build-ladder-mark',
+        row.status === 'built' ? '◆' : row.status === 'next' ? '▹' : '▢',
+      ),
+      el(
+        'span',
+        'build-ladder-name',
+        row.status === 'locked' || (row.status === 'next' && !nextOpen)
+          ? 'the works continue'
+          : stageLabel(row.def),
+      ),
+    );
+    if (row.status === 'next' && nextOpen && row.deedGate > 0)
+      line.append(
+        el(
+          'span',
+          'build-ladder-gauge',
+          `standing ${Math.min(state.influence.estate.value, row.deedGate)} / ${row.deedGate} koku`,
+        ),
+      );
+    ladder.append(line);
+  }
+  card.append(ladder);
+  if (n && n.discovery === 'open') {
+    card.append(el('div', 'skill-blurb', stageBlurb(n.def)));
+    card.append(
+      el(
+        'div',
+        'rung-hint',
+        `+${n.def.yieldBonusNum}% labour output · +${n.def.satietyMaxBonus} max body`,
+      ),
+    );
+    card.append(commissionBtn());
+  } else if (n) {
+    card.append(
+      el(
+        'div',
+        'rung-hint',
+        n.discovery === 'named' ? FLAVOR.worksLadderNamed : FLAVOR.worksLadderUnnamed,
+      ),
+    );
+  } else {
+    card.append(el('div', 'rung-hint', 'The estate stands restored.'));
+  }
+  container.append(card);
+  return true;
+}
+
+/** The diverged Estate 家 house surface (B / C) — DEV-only. Default A (the drawn sheet)
+ *  ships inline in render.ts; both alternates re-present the SAME room/standing reads. */
+function renderEstateHouseVariant(
+  variantId: string,
+  container: HTMLElement,
+  state: GameState,
+): boolean {
+  if (variantId !== 'estate-house-b' && variantId !== 'estate-house-c') return false;
+  container.replaceChildren();
+  const opened = HOUSE_ROOMS.filter((room) => state.unlocked.includes(room.surface));
+  if (variantId === 'estate-house-b') {
+    // B · THE STEWARD'S RECKONING — the house as day-book lines: each wing a ruled
+    // entry, open or shut; the standing as the page's footing.
+    const card = el('div', 'rung-card frame estate-reckoning');
+    card.append(el('div', 'rung-now', 'Estate 家 · the second reckoning'));
+    const page = el('div', 'ledger-page');
+    for (const room of HOUSE_ROOMS) {
+      const isOpen = state.unlocked.includes(room.surface);
+      const line = el('div', `ledger-line ${isOpen ? 'is-open' : 'is-faint'}`);
+      // P15 — a room not yet reopened stays UNNAMED (a silhouette line, never a preview).
+      line.append(
+        el('span', 'ledger-rule', isOpen ? '〇' : '▢'),
+        el('span', 'ledger-name', isOpen ? `${room.kanji} · ${room.label}` : '————'),
+        el('span', 'ledger-note', isOpen ? 'open' : ''),
+      );
+      page.append(line);
+    }
+    page.append(
+      el(
+        'div',
+        'ledger-line is-footing',
+        `The house stands at ${state.influence.estate.value} koku.`,
+      ),
+    );
+    card.append(page);
+    container.append(card);
+    return true;
+  }
+  // C · THE ROOMS LIST (interim) — the pre-ADR-177 shape.
+  const card = el('div', 'rung-card frame');
+  card.append(el('div', 'rung-now', 'The house reopens 家'));
+  const list = el('div', 'house-room-list');
+  for (const room of opened) list.append(el('div', 'rung-hint', `${room.kanji} · ${room.label}`));
+  if (opened.length === 0) list.append(el('div', 'rung-hint', 'The inner house waits, shuttered.'));
+  card.append(list);
+  container.append(card);
+  return true;
 }
 
 /** The diverged Bestiary (B / C) — DEV-only, stripped from prod. Default A (the field-guide card

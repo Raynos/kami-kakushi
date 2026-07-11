@@ -342,8 +342,9 @@ Canon: `narrative/scenes.md` + `narrative/flavor.md` (continuous read:
 `takes/works-cause/`.
 
   - **How to look LIVE:** `?fixture=rung-R2` → move once and return to the
-    forecourt — **works-intro** auto-plays (the naming; the weir path opens);
-    Estate 家 now reads "go and see them where they stand" with NO buy button;
+    forecourt — **works-intro** auto-plays (the naming; the weir path opens —
+    and the **Works 普請 tab lights**, Schedule A); Works reads "go and see
+    them where they stand" with NO buy button;
     walk gate → paddies → woodshed (sighting lines land in Story); the
     **works-u1** beat fires → the ladder inks in "Stem the first rot" priced.
     DEV → Story → **works-cause** swaps every unit live (`?story-works-cause=a`
@@ -369,4 +370,70 @@ the three scene heads are new fiction-voiced text, diverged per ADR-139
     shows three cards with take B's heads. DEV → Story → **fb362-intro-titles**
     swaps takes live; `?story-fb362-intro-titles=a|c` boots into an alternate.
     Old saves keep their baked single "— the cold open —" card (TST2).
+  - **Verdict:** _(awaiting your read)_
+
+### HR-29 🔲 [R2+ · works] — Works 普請 tab surface — pick a variant (ADR-075, estate Phase 2)
+
+The projects' new home (Schedule A). All three read the SAME estateBuild/works
+chain and drive the real `improve_estate`:
+
+- **Works 普請** (the projects/upgrades surface) — ✅ **all three LIVE in the DEV panel**:
+  - **Taste brief (pass 1):** P9/TST3 nothing named before its beat (unnamed rows stay
+    unruled) · P15 no future-zone previews · P19 chrome register — tight, ruled, ink
+    tokens only · TST4 the chain's position always readable (unnamed → named → priced) ·
+    P4/TST2 signature-gated rebuild, zero idle churn · AC-6 price/gate reads = reducer's.
+  - [ ] **A — the day-book page** _(self-picked prod default; ships)_ — projects as
+    ledger lines: closed entries ruled through in gold, the open entry priced with
+    payoff + button, the future faint and unruled. The works-cause fiction as chrome.
+    - **Scorecard (A):** 19✔ · 2✘ — P6 [blind spot] the price column can crowd at
+      390px (nowrap; watch it); P17 [briefed] closed entries rely on strikethrough
+      alone for their explored-state read.
+  - [ ] **B — the work-site board** _(built; DEV-only)_ — one site card per project,
+    anchored on the zones you walk (門田薪 → 園 → 蔵 → 庭), the open site carrying
+    the commissioning.
+    - **Scorecard (B):** 16✔ · 5✘ — P6 [briefed] pre-discovery sites read as
+      near-empty ghost frames; P15 [blind spot] the future sites' zone kanji preview
+      where later works land (the ladder forms never leak this); P19 frame-in-frame.
+  - [ ] **C — the build ladder (interim)** _(built; DEV-only)_ — the pre-ADR-177
+    tracker shape, kept for live comparison.
+    - **Scorecard (C):** 17✔ · 4✘ — the twice-bounced shape (FB-157 "border soup"
+      lineage): ladder, blurb, payoff, and button stack as four unrelated bands.
+  - **How to review:** `?fixture=works-u1-priced` → the Works 普請 tab → DEV panel →
+    "Works 普請 (projects home)" toggle. The fixture holds U1 priced-and-affordable
+    so every variant shows its full read (and the buy actually works — it's real).
+  - **Verdict:** _(awaiting your read)_
+
+### HR-30 🔲 [R6 · estate] — Estate 家 tab surface (the E1 fold-in) — pick a variant (ADR-075, F5, HR-16)
+
+Estate 家 at R6: the house itself. The E1 okoshi-ezu cutaway FOLDS IN as the
+shipped anchor (HR-16's "needs more work" iteration happened here — the sheet
+is now state-driven: rooms ink in as they reopen; the freshest commissioned
+work wears the gold 新):
+
+- **Estate 家** (the house surface) — ✅ **all three LIVE in the DEV panel**:
+  - **Taste brief (pass 1):** P9/TST3 rooms appear on their reveal beats, never as a
+    menu (locked rooms unnamed everywhere) · TST1 one home — the sheet replaces the
+    rooms list, never duplicates it · P14 the drawing owns the ceremony register ·
+    TST4 a caption carries the glance-read the drawing can't · TST2 repaint only when
+    the house moves (signature-gated).
+  - [ ] **A — the house, drawn** _(self-picked prod default; ships)_ — the survey
+    sheet as the tab's one anchor (paintSheetA over live state), reopened rooms
+    listed in the caption; the influence pane sits beneath.
+    - **Scorecard (A):** 18✔ · 3✘ — P20 [briefed] the tall sheet compresses on a
+      phone (labels go small; the caption is the mitigation); TST4 [briefed] shutter
+      marks are a subtle open/shut read; P2 [blind spot] the sheet's legend/cartouche
+      idiom is prototype-native (shared with map-sheets' brush, but not the app's
+      card idiom).
+  - [ ] **B — the steward's reckoning** _(built; DEV-only)_ — the rooms as day-book
+    lines (open rooms named, shut rooms unnamed silhouettes) with the standing as
+    the page's footing. Redlined in Pass 2: locked rooms no longer named (P15).
+    - **Scorecard (B):** 17✔ · 4✘ — TST1 [blind spot] the koku footing duplicates
+      the influence pane's number on the same tab; the register overlaps the Works
+      ledger (two book-pages, one app).
+  - [ ] **C — the rooms list (interim)** _(built; DEV-only)_ — the pre-ADR-177 plain
+    reopened-rooms card.
+    - **Scorecard (C):** 15✔ · 4✘ — no anchor; the tab reads as a leftover staple
+      (exactly the FB-157 complaint the redesign answers).
+  - **How to review:** `?fixture=rung-R6` (or R7/wealthy-idler for more rooms) → the
+    Estate 家 tab → DEV panel → "Estate 家 (the house)" toggle.
   - **Verdict:** _(awaiting your read)_

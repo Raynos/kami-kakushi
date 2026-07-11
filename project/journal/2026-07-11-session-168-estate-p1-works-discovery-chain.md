@@ -101,3 +101,21 @@ The signed one-tab-per-rung table (ADR-177 F1) built and verified live:
 ⚠ Shared-tree note (again): the drain agent's `84cb7747` swept this session's
 render.ts Schedule-A hunks; this commit restores HEAD's consistency (the
 surfaces/ranks/tests side).
+
+## Phase 2 step 2 — the two surface diverges (same session, 2026-07-11)
+
+ADR-075 FULL diverges for both Schedule-A surfaces; six working variants, all
+live in the DEV panel, prod ships only the self-picked defaults:
+
+- **Works 普請** — A · the day-book page (ships; the works-cause fiction as
+  chrome: ledger lines, closed entries ruled through, the open entry priced) ·
+  B · the work-site board · C · the interim build ladder. **HR-29.**
+- **Estate 家** — A · the house, drawn (ships; the E1 okoshi-ezu FOLD-IN —
+  `estate-sheet/from-state.ts` derives the sheet's ink from live state, ending
+  HR-16's parked status per F5) · B · the steward's reckoning (Pass-2 redline:
+  locked rooms unnamed) · C · the interim rooms list. **HR-30.**
+- New fixture **works-u1-priced** (the chain walked to a live priced U1 —
+  drives the affordance sweep and the human's HR-29 review).
+- Defaults rebuild signature-gated (zero idle churn, TST2); variant routing
+  tests added (dev.test.ts); strip-safety per `verify-dev-strip.sh` (T0 ships
+  DEV default-off by design — the skill's grep satisfied by intent, AC-19).

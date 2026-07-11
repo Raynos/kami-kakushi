@@ -168,6 +168,119 @@ describe('renderer variant routing — House-Influence grade (D-075)', () => {
   });
 });
 
+describe('renderer variant routing — Works 普請 + Estate 家 (ADR-177 Phase 2, D-075)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  /** An R2+ state with the works chain open through U1 (named + priced). */
+  function worksState(): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      rung: 'R2',
+      flags: {
+        ...base.flags,
+        awake: true,
+        'works-named-u1': true,
+        'works-seen-u1': true,
+        'works-open-u1': true,
+      },
+      resources: { ...base.resources, coin: 500 },
+      unlocked: [...base.unlocked, 'readout-rice', 'panel-estate'],
+    };
+  }
+  function estateHouseState(): GameState {
+    const base = createInitialState(1);
+    return {
+      ...base,
+      rung: 'R6',
+      flags: { ...base.flags, awake: true },
+      unlocked: [...base.unlocked, 'readout-rice', 'tab-estate', 'house-omoya', 'house-workshops'],
+    };
+  }
+  const openTab = (label: string): void => {
+    [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
+      .find((b) => (b.textContent ?? '').includes(label))
+      ?.click();
+  };
+
+  it('Works: default A (the day-book page) renders with no DEV harness (= prod)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(worksState(), null);
+    openTab('普請');
+    expect(root.querySelector('.works-ledger .ledger-page')).not.toBeNull();
+    expect(root.querySelector('.works-board')).toBeNull();
+  });
+
+  it('Works: routes to B (work-site board) when selected — and its button drives the REAL intent', () => {
+    const dev = createDevApi();
+    dev.setVariant('works', 'works-b');
+    const intents: string[] = [];
+    const render = mount(root, (i) => void intents.push(i.type), noopHooks(), dev);
+    render(worksState(), null);
+    openTab('普請');
+    expect(root.querySelector('.works-board-row')).not.toBeNull();
+    expect(root.querySelector('.works-ledger')).toBeNull();
+    const btn = [...root.querySelectorAll<HTMLButtonElement>('.works-board button.verb')][0];
+    expect(btn).toBeDefined();
+    btn!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(intents).toContain('improve_estate'); // ADR-075: every variant WORKS
+  });
+
+  it('Works: routes to C (the interim build ladder) when selected', () => {
+    const dev = createDevApi();
+    dev.setVariant('works', 'works-c');
+    const render = mount(root, () => {}, noopHooks(), dev);
+    render(worksState(), null);
+    openTab('普請');
+    expect(root.querySelector('.build-ladder')).not.toBeNull();
+    expect(root.querySelector('.works-ledger')).toBeNull();
+  });
+
+  it('Estate 家: default A (the drawn sheet) renders with no DEV harness (= prod)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(estateHouseState(), null);
+    openTab('家');
+    expect(root.querySelector('.estate-sheet-svg')).not.toBeNull();
+    expect(root.querySelector('.estate-reckoning')).toBeNull();
+  });
+
+  it('Estate 家: routes to B (the steward’s reckoning) when selected', () => {
+    const dev = createDevApi();
+    dev.setVariant('estate-house', 'estate-house-b');
+    const render = mount(root, () => {}, noopHooks(), dev);
+    render(estateHouseState(), null);
+    openTab('家');
+    expect(root.querySelector('.estate-reckoning')).not.toBeNull();
+    expect(root.querySelector('.estate-sheet-svg')).toBeNull();
+  });
+
+  it('Estate 家: routes to C (the interim rooms list) when selected', () => {
+    const dev = createDevApi();
+    dev.setVariant('estate-house', 'estate-house-c');
+    const render = mount(root, () => {}, noopHooks(), dev);
+    render(estateHouseState(), null);
+    openTab('家');
+    expect(root.querySelector('.house-room-list')).not.toBeNull();
+    expect(root.querySelector('.estate-sheet-svg')).toBeNull();
+  });
+});
+
 describe('renderer variant routing — Bestiary (D-075, A7)', () => {
   let root: HTMLElement;
   beforeEach(() => {

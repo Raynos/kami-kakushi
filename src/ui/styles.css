@@ -3328,3 +3328,129 @@ html {
   color: var(--shu);
   opacity: 0.85;
 }
+
+/* ── ADR-177 Phase 2 — Works 普請 · the day-book page (default A) ─────────────
+   The projects as ledger lines: closed entries ruled through, the open entry
+   priced, the future faint. Chrome register (P19) — tight, ruled, ink tokens. */
+.works-ledger .ledger-page {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ledger-line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--fs-small);
+  min-height: 18px;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink-faint) 24%, transparent);
+  padding-bottom: 1px;
+}
+.ledger-rule {
+  width: 1.2em;
+  text-align: center;
+  color: var(--silver-dim);
+}
+.ledger-line.is-closed .ledger-rule {
+  color: var(--gold);
+}
+.ledger-line.is-closed .ledger-name {
+  color: var(--ink-soft);
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--gold) 55%, transparent);
+  text-decoration-thickness: 1px;
+}
+.ledger-line.is-open .ledger-name {
+  color: var(--ink);
+}
+.ledger-line.is-named .ledger-name,
+.ledger-line.is-unnamed .ledger-name,
+.ledger-name.is-hint {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.ledger-line.is-faint {
+  border-bottom-style: dashed;
+}
+.ledger-line.is-faint .ledger-name {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.ledger-note {
+  margin-left: auto;
+  color: var(--gold-dim);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ledger-entry {
+  padding: var(--space-1) 0 var(--space-2) calc(1.2em + var(--space-2));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.ledger-gauge {
+  font-size: var(--fs-small);
+  color: var(--gold-dim);
+  font-variant-numeric: tabular-nums;
+}
+.ledger-line.is-footing {
+  border-bottom: none;
+  color: var(--ink-soft);
+  font-style: italic;
+  justify-content: center;
+  padding-top: var(--space-1);
+}
+
+/* ── Works variant B · the work-site board (DEV-only) ──────────────────────── */
+.works-board-row {
+  margin-top: var(--space-2);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-2);
+}
+.works-site {
+  border: 1px solid color-mix(in srgb, var(--ink-faint) 35%, transparent);
+  padding: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--fs-small);
+}
+.works-site-kanji {
+  font-size: var(--fs-large);
+  color: var(--ink-soft);
+  letter-spacing: 0.15em;
+}
+.works-site.is-built {
+  border-color: color-mix(in srgb, var(--gold) 45%, transparent);
+}
+.works-site.is-built .works-site-kanji {
+  color: var(--gold);
+}
+.works-site.is-faint,
+.works-site.is-unnamed,
+.works-site.is-named {
+  opacity: 0.75;
+}
+.works-site-name.is-hint {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.works-site-note {
+  color: var(--ink-soft);
+}
+
+/* ── ADR-177 F5 — Estate 家 · the house, drawn (default A: the E1 fold-in) ──── */
+.estate-sheet-holder {
+  margin-top: var(--space-2);
+  overflow: hidden;
+}
+.estate-sheet-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.estate-sheet-caption {
+  margin-top: var(--space-1);
+}

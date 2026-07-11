@@ -84,7 +84,6 @@ import {
   estateBuild,
   stageLabel,
   stageBlurb,
-  stageDiscovery,
   NAMES,
   RECIPES,
   MATERIALS,
@@ -126,6 +125,10 @@ import {
   type LogFilter,
   type StorySub,
 } from './log-filter';
+// ADR-177 F5 — the E1 okoshi-ezu fold-in: the SHIPPED Estate 家 anchor paints the
+// prototype's sheet-A from live GameState (from-state.ts derives the ink).
+import { paintSheetA, SHEET_A_W, SHEET_A_H } from './estate-sheet/sheet-a';
+import { estateFixtureFromState, estateSheetSignature } from './estate-sheet/from-state';
 import {
   reconcileList,
   resetReconcile,
@@ -988,20 +991,11 @@ export function mount(
   //    Each easy surface builds its card shell ONCE (lazily on first show) and PATCHES in place
   //    after, so an idle re-render of unchanged state produces zero DOM churn (meter transitions
   //    survive, focus survives, the ~2×/s tick stops flashing). null ⇒ not yet built.
-  // ADR-177 Schedule A — the improve card lives on Works 普請; Estate 家 keeps the rooms.
-  let worksRefs: {
-    card: HTMLElement;
-    now: HTMLElement;
-    ladder: HTMLElement;
-    ladderRows: { row: HTMLElement; mark: HTMLElement; name: HTMLElement; gauge: HTMLElement }[];
-    blurb: HTMLElement;
-    hint: HTMLElement;
-    btn: HTMLButtonElement;
-  } | null = null;
-  let estateRefs: {
-    rooms: HTMLElement;
-    roomList: HTMLElement;
-  } | null = null;
+  // ADR-177 / ADR-075 — Works 普請 (the day-book page) + Estate 家 (the house, drawn)
+  // rebuild ONLY when their signature moves (TST2: idle ticks are zero-churn; a
+  // DEV-variant switch clears the signature so the default re-inks cleanly).
+  let worksSig: string | null = null;
+  let estateSig: string | null = null;
   let storehouseRefs: {
     card: HTMLElement;
     when: HTMLElement;
@@ -1554,132 +1548,157 @@ export function mount(
     const show = activeTab === 'works' && isUnlocked(state, 'panel-estate');
     toggle(worksPane, show);
     if (!show) return;
-    // build the shell ONCE (FB-81): the improve card carries every mutable child up front (blurb /
-    // hint / button toggle in place).
-    if (!worksRefs) {
-      const card = el('div', 'rung-card frame');
-      const now = el('div', 'rung-now');
-      // ADR-145 Phase 4 — the BUILD LADDER (the tracker's shipped default A): one keyed row per
-      // stage, patched in place (P4 append-only). Locked stages stay UNNAMED (P15/TST3 — the U4
-      // reveal is a story beat, not a menu spoiler).
-      const ladder = el('div', 'build-ladder');
-      const ladderRows = ESTATE_STAGES.map(() => {
-        const row = el('div', 'build-ladder-row');
-        const mark = el('span', 'build-ladder-mark');
-        const name = el('span', 'build-ladder-name');
-        const gauge = el('span', 'build-ladder-gauge');
-        row.append(mark, name, gauge);
-        ladder.append(row);
-        return { row, mark, name, gauge };
-      });
-      const blurb = el('div', 'skill-blurb');
-      const hint = el('div', 'rung-hint');
-      const btn = el('button', 'verb');
-      btn.type = 'button';
-      stampAct(btn, 'improve_estate');
-      btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
-      card.append(now, ladder, blurb, hint, btn);
-      worksPane.append(card);
-      worksRefs = { card, now, ladder, ladderRows, blurb, hint, btn };
+    // ADR-075 — DEV variant fall-through (B · work-site board / C · the interim ladder).
+    if (__DEV_TOOLS__ && dev && dev.renderVariant('works', worksPane, state, dispatch)) {
+      worksSig = null; // switching back to A rebuilds the default page cleanly
+      return;
     }
-    const r = worksRefs;
-    {
-      const build = estateBuild(state);
-      const nextOpen = build.next?.open ?? true;
-      build.rows.forEach((rowData, i) => {
-        const refs = r.ladderRows[i]!;
-        const built = rowData.status === 'built';
-        const cls = `build-ladder-row is-${rowData.status}`;
-        if (refs.row.className !== cls) refs.row.className = cls;
-        setText(refs.mark, built ? '◆' : rowData.status === 'next' ? '▹' : '▢');
-        // a locked stage is a promise, not a preview — the name inks in when it becomes next.
-        // ADR-177: the NEXT stage also stays unnamed until its pricing beat opens it (the
-        // day-book → walk → beat chain is the reveal, never the menu). stageLabel is take-aware.
-        setText(
-          refs.name,
-          rowData.status === 'locked' || (rowData.status === 'next' && !nextOpen)
-            ? 'the works continue'
-            : stageLabel(rowData.def),
+    // ── Default A · THE DAY-BOOK PAGE (self-picked, ships) — the works-cause fiction as
+    //    chrome: each project is a ledger line. Closed entries are ruled through; the open
+    //    entry carries its price, payoff, and the commissioning button; a named-but-unseen
+    //    concern shows the go-and-see line; the future stays a faint unruled line (TST3).
+    const build = estateBuild(state);
+    const stageName =
+      ESTATE_STAGE_NAMES[state.estateStage] ?? ESTATE_STAGE_NAMES[ESTATE_STAGE_NAMES.length - 1]!;
+    const carried = state.resources.coin ?? 0;
+    const banked = state.banked.coin ?? 0;
+    const n = build.next;
+    const sig = JSON.stringify([
+      state.estateStage,
+      n?.discovery ?? 'done',
+      n ? n.coinShort > 0 : false,
+      n ? n.deedsShort > 0 : false,
+      n?.standing ?? 0,
+      n ? banked >= n.def.coinCost : false,
+      __DEV_TOOLS__ && dev ? dev.storyEpoch() : 0,
+    ]);
+    if (sig === worksSig) return;
+    worksSig = sig;
+    worksPane.replaceChildren();
+    const card = el('div', 'rung-card frame works-ledger');
+    card.append(el('div', 'rung-now', `Works 普請 — Estate · ${stageName}`));
+    const page = el('div', 'ledger-page');
+    for (const row of build.rows) {
+      if (row.status === 'built') {
+        // a closed line: ruled through, kept — the book remembers (take-C's register).
+        const line = el('div', 'ledger-line is-closed');
+        line.append(
+          el('span', 'ledger-rule', '〆'),
+          el('span', 'ledger-name', stageLabel(row.def)),
         );
-        setText(
-          refs.gauge,
-          rowData.status === 'next' && nextOpen && rowData.deedGate > 0
-            ? `standing ${Math.min(state.influence.estate.value, rowData.deedGate)} / ${rowData.deedGate} koku`
-            : '',
-        );
-      });
+        line.append(el('span', 'ledger-note', 'closed'));
+        page.append(line);
+        continue;
+      }
+      if (row.status === 'next' && n) {
+        if (n.discovery === 'open') {
+          const line = el('div', 'ledger-line is-open');
+          line.append(el('span', 'ledger-rule', '▹'), el('span', 'ledger-name', stageLabel(n.def)));
+          line.append(el('span', 'ledger-note', formatCoin(n.def.coinCost)));
+          page.append(line);
+          const body = el('div', 'ledger-entry');
+          body.append(el('div', 'skill-blurb', stageBlurb(n.def)));
+          // the mechanical PAYOFF, read from the source-of-truth stage fields (AC-6).
+          body.append(
+            el(
+              'div',
+              'rung-hint',
+              `+${n.def.yieldBonusNum}% labour output · +${n.def.satietyMaxBonus} max body`,
+            ),
+          );
+          if (n.deedGate > 0) {
+            body.append(
+              el(
+                'div',
+                'ledger-gauge',
+                `standing ${Math.min(n.standing, n.deedGate)} / ${n.deedGate} koku`,
+              ),
+            );
+          }
+          const btn = el('button', 'verb');
+          btn.type = 'button';
+          stampAct(btn, 'improve_estate');
+          btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
+          btn.textContent = `${stageLabel(n.def)} (${formatCoin(n.def.coinCost)})`;
+          setDisabled(btn, carried < n.def.coinCost || n.deedsShort > 0);
+          // don't lie "Needs N coin" when the coin merely sits safe in the kura (AC-6/TST4).
+          btn.title = btn.disabled
+            ? n.deedsShort > 0
+              ? `The house's standing must reach ${n.deedGate} koku first (now ${n.standing})`
+              : banked >= n.def.coinCost
+                ? 'Draw coin from the kura storehouse first'
+                : `Needs ${formatCoin(n.def.coinCost)}`
+            : '';
+          body.append(btn);
+          page.append(body);
+        } else {
+          // named-but-unpriced (go and see) or nothing named yet — the chain's read (TST4);
+          // both lines are FB-5 canon, live-swappable in DEV (ADR-143).
+          const hintKey = n.discovery === 'named' ? 'worksLadderNamed' : 'worksLadderUnnamed';
+          const line = el('div', `ledger-line is-${n.discovery}`);
+          line.append(
+            el('span', 'ledger-rule', '▹'),
+            el(
+              'span',
+              'ledger-name is-hint',
+              __DEV_TOOLS__ && dev ? dev.subFlavor(hintKey, FLAVOR[hintKey]) : FLAVOR[hintKey],
+            ),
+          );
+          page.append(line);
+        }
+        continue;
+      }
+      // a stage beyond the next — a faint unruled line; a promise, never a preview (P15/TST3).
+      const line = el('div', 'ledger-line is-faint');
+      line.append(el('span', 'ledger-rule', '　'), el('span', 'ledger-name', 'the works continue'));
+      page.append(line);
     }
-    const stage = state.estateStage;
-    const name = ESTATE_STAGE_NAMES[stage] ?? ESTATE_STAGE_NAMES[ESTATE_STAGE_NAMES.length - 1]!;
-    setText(r.now, `Estate · ${name}`);
-    const next = ESTATE_STAGES.find((s) => s.stage === stage + 1);
-    const nextDiscovery = next ? stageDiscovery(state, next.stage) : 'open';
-    if (next && nextDiscovery !== 'open') {
-      // ADR-177 — the discovery chain hasn't closed: no name, no price, no button (TST3).
-      // The card states the chain's position plainly instead (TST4): nothing named yet,
-      // or named-go-and-see. Both lines are FB-5 canon, live-swappable in DEV (ADR-143).
-      toggle(r.blurb, false);
-      toggle(r.btn, false);
-      const hintKey = nextDiscovery === 'named' ? 'worksLadderNamed' : 'worksLadderUnnamed';
-      setText(
-        r.hint,
-        __DEV_TOOLS__ && dev ? dev.subFlavor(hintKey, FLAVOR[hintKey]) : FLAVOR[hintKey],
-      );
-      if (r.btn.title !== '') r.btn.title = '';
-    } else if (next) {
-      toggle(r.blurb, true);
-      setText(r.blurb, stageBlurb(next));
-      // the mechanical PAYOFF (the coin flywheel — the whole reason to sink coin into the estate),
-      // read from the source-of-truth stage fields so it never drifts (R6: an invisible mechanic).
-      setText(r.hint, `+${next.yieldBonusNum}% labour output · +${next.satietyMaxBonus} max body`);
-      toggle(r.btn, true);
-      setText(r.btn, `${stageLabel(next)} (${formatCoin(next.coinCost)})`);
-      const carried = state.resources.coin ?? 0;
-      const banked = state.banked.coin ?? 0;
-      // ADR-145 (the B half) — the build stage is ALSO deed-gated: read the SAME source-of-truth
-      // gate the reducer enforces (AC-6/TST4 — the shown reason can never drift from the real gate).
-      const deedGate = balance.ESTATE_STAGE_DEED_GATES[next.stage - 1] ?? 0;
-      const deedsShort = state.influence.estate.value < deedGate;
-      setDisabled(r.btn, carried < next.coinCost || deedsShort);
-      // don't lie "Needs N coin" when the coin is merely sitting safe in the kura — point at the bank.
-      const title = r.btn.disabled
-        ? deedsShort
-          ? `The house's standing must reach ${deedGate} koku first (now ${state.influence.estate.value})`
-          : banked >= next.coinCost
-            ? 'Draw coin from the kura storehouse first'
-            : `Needs ${formatCoin(next.coinCost)}`
-        : '';
-      if (r.btn.title !== title) r.btn.title = title;
-    } else {
-      toggle(r.blurb, false);
-      toggle(r.btn, false);
-      setText(r.hint, 'The estate stands restored.');
-    }
+    if (build.complete)
+      page.append(el('div', 'ledger-line is-footing', 'The estate stands restored.'));
+    card.append(page);
+    worksPane.append(card);
   }
 
   function renderEstate(state: GameState): void {
-    // ADR-177 Schedule A — Estate 家 (R6): the house itself. The reopening rooms render
-    // here; the influence pane (renderHouseInfluence) shares the tab; the E1 cutaway
-    // fold-in is the tab's Phase-2 diverge.
+    // ADR-177 Schedule A — Estate 家 (R6): the house ITSELF is the tab's anchor (F5 —
+    // the E1 okoshi-ezu cutaway folds in, state-driven); the influence pane shares the tab.
     const show = activeTab === 'estate' && isUnlocked(state, 'tab-estate');
     toggle(estatePane, show);
     if (!show) return;
-    if (!estateRefs) {
-      const rooms = el('div', 'rung-card frame');
-      rooms.append(el('div', 'rung-now', 'The house reopens 家'));
-      const roomList = el('div', 'house-room-list');
-      rooms.append(roomList);
-      estatePane.append(rooms);
-      estateRefs = { rooms, roomList };
+    // ADR-075 — DEV variant fall-through (B · the steward's reckoning / C · the rooms list).
+    if (__DEV_TOOLS__ && dev && dev.renderVariant('estate-house', estatePane, state, dispatch)) {
+      estateSig = null;
+      return;
     }
-    const r = estateRefs;
+    // ── Default A · THE HOUSE, DRAWN (self-picked, ships) — the survey sheet as the tab's
+    //    one anchor: rooms ink in as they reopen; the freshest work wears gold (H5). The
+    //    paint is signature-gated (the sheet re-inks only when the house moves — TST2).
+    const sig = estateSheetSignature(state);
+    if (sig === estateSig) return;
+    estateSig = sig;
+    estatePane.replaceChildren();
+    const card = el('div', 'rung-card frame estate-sheet-card');
+    card.append(el('div', 'rung-now', 'Estate 家 · the house, drawn'));
+    const holder = el('div', 'estate-sheet-holder');
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', `0 0 ${SHEET_A_W} ${SHEET_A_H}`);
+    svg.setAttribute('class', 'estate-sheet-svg');
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'The estate survey sheet — the house as it stands');
+    paintSheetA(svg, estateFixtureFromState(state));
+    holder.append(svg);
+    card.append(holder);
     const opened = HOUSE_ROOMS.filter((room) => isUnlocked(state, room.surface));
-    toggle(r.rooms, opened.length > 0);
-    reconcileList(r.roomList, opened, {
-      key: (room) => room.surface,
-      build: (room) => el('div', 'rung-hint', `${room.kanji} · ${room.label}`),
-      order: true,
-    });
+    card.append(
+      el(
+        'div',
+        'rung-hint estate-sheet-caption',
+        opened.length > 0
+          ? `Reopened: ${opened.map((room) => `${room.kanji} ${room.label}`).join(' · ')}`
+          : 'The inner house waits, shuttered.',
+      ),
+    );
+    estatePane.append(card);
   }
 
   function silhouetteRow(): HTMLElement {
