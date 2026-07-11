@@ -73,12 +73,12 @@ lock, same label, new content.)*
 
 | Dimension | v1 cut-set | Source |
 |---|---|---|
-| **Rank ladders** | **one unbroken `R0–R7` rung ladder per tier** — 8 rungs × 4 v1 tiers (T0 the household · T1 the land · T2 the Valley · T3 the Region) = **32 rungs total** (the old fresh-per-tier `R8–R15`/`V0–V7`/`G0–G7` numbering is dead — ADR-152 / docket #1; each tier now carries its OWN `R0–R7`). Each rung promotes on its **authored hidden requirement list, 100% done** (ADR-137 — the old meter/threshold AND-gate is deleted; the player reads a rounded % bar). **Each tier is climbed in TWO SEQUENTIAL PHASES** — **Phase 1**: climb the 8 rungs; **Phase 2**: the estate-influence / four-pillar **grind unlocks after the final rung** (the capstone OPENS it). | §1.6.4, §3.2 / §3.4 / §3.6, §2.15.1 |
+| **Rank ladders** | **one unbroken `R0–R7` rung ladder per tier** — 8 rungs × 4 v1 tiers (T0 the household · T1 the land · T2 the Valley · T3 the Region) = **32 rungs total** (the old fresh-per-tier `R8–R15`/`V0–V7`/`G0–G7` numbering is dead — ADR-152 / docket #1; each tier now carries its OWN `R0–R7`). Each rung promotes on its **authored, HIDDEN requirement list, 100% satisfied** — one model at **every** tier (**ADR-137 / ADR-182**); the player reads a **rounded integer % bar**, never the list, and 100% alone readies the rung beat. **Each tier is climbed in TWO SEQUENTIAL PHASES** — **Phase 1**: climb the 8 rungs; **Phase 2**: the estate-influence / four-pillar **grind unlocks after the final rung** (the capstone OPENS it). | §1.6.4, §3.2 / §3.4 / §3.6, §2.15.1 |
 | **Bestiary** | **grounded mobs only** (the shipped T0 roster is the generated §2 bestiary — rats → marten → the R3 wolf arc, 10+ MobDefs in `enemies.ts`; per-tier rosters from the bible tier sheets), each carrying a **`MobDef.level`** — NO belief-creatures in spawn tables | §4.6, `enemies.ts` |
 | **Quest types** | the **4 STARTER types**: PEST-CONTROL · HUNT · CLEAR · DEFEND (DEFEND is the Arms-deed earner) — a **taxonomy, not a count budget**: the actual per-tier quests are the **side-beat rosters in the story-bible tier sheets** ([`tiers/`](../../story-bible/tiers/)) — author to the roster, don't re-inventory it here; more / more-interesting welcome at later tiers | §2.12, §3.2 R5, [`03-tiers.md`](../../story-bible/03-tiers.md) |
 | **World** | **full walkable maps T0–T3** (full maps every tier, not abstract boards); the **per-tier zone lists live in the story-bible tier sheets** ([`tiers/`](../../story-bible/tiers/)) — this section points at them, it does not inventory the nodes | §1.7, §3, [`03-tiers.md`](../../story-bible/03-tiers.md) |
 | **Skills (LOCKED v1 set)** | **farming · foraging · woodcutting · fishing · smithing · cooking** + **conditioning** + the **incremental weapon roster** (below). Each skill (labour included) carries a bounded **per-skill PERKS** track — ~2–8 small, stackable labour→combat bonuses, no global cap, each small-magnitude; **conditioning stays the ZERO-stat enablement gate**, orthogonal to and never bypassed by the perks. (Fishing surfaces at T2 — the Village.) | §1.5.1, §2.7/§2.7.1, §4.5/§4.5.4 |
-| **Combat** | an **idle/auto-resolve auto-battler** (active-only; tab-open auto-resolve + auto-repeat) revealed **INCREMENTALLY** on the **combat-reveal ladder** (R3 starter weapon + auto-resolve loop + retreat → R4 graded durability bands → R5 stance → first weapon-line L10 ability/item slots → 2nd combat line at T1 → 3rd at T2; one reveal per beat); **satiety-throttled**; **graded 4-band durability** (never auto-unequipped); feeding **THREE clean separately-stored tracks** — kills/combat-XP → the **character (combat) level**, recognised deeds → the **Arms pillar** (Phase-2-gated), per-rung curated activities → the **Combat Rank rung-meter** | §1.6.4, §2.8/§2.8.1/§2.8.2, §4.6 |
+| **Combat** | an **idle/auto-resolve auto-battler** (active-only; tab-open auto-resolve + auto-repeat) revealed **INCREMENTALLY** on the **combat-reveal ladder** (R3 starter weapon + auto-resolve loop + retreat → R4 graded durability bands → R5 stance → first weapon-line L10 ability/item slots → 2nd combat line at T1 → 3rd at T2; one reveal per beat); **satiety-throttled**; **graded 4-band durability** (never auto-unequipped); feeding **THREE clean separately-stored tracks** — kills/combat-XP → the **character (combat) level**, recognised deeds → the **Arms pillar** (Phase-2-gated), acts that satisfy the rung's **authored hidden requirements** → the **Combat Rank rung meter** (the rounded % bar) | §1.6.4, §2.8/§2.8.1/§2.8.2, §4.6 |
 | **Weapon roster (incremental)** | a **growing ~9–10-weapon roster** across **3 archetype lines** (spear T0 · sword T1 · the **Staff/polearm line at T2 Village**) — **T0 starts with the carrying-pole and unlocks +2 across the tier** (at least one of the two craftable); **+3 at T1**, **+4 at T2** → **roster complete by end-of-T2**; **T3 Region adds combat DEPTH, no new line** (each weapon an **archetype** — per-weapon `baseSpeed` / `reach` / `targetCount` / `attackProfile` — **+ a signature ability**; FOUND and CRAFTED, never gifted) | §2.8.2, §2.10.1, §4.6.9 |
 | **Estate stages** | **E0 → E1 → E2 → E3** (Foreclosure's Edge → Stabilising → Recovering → **Prosperous**) — the narrative CONDITION ladder; E3 authored in v1 (folded into the T3 coin/Arms spend, §4.7.5); **E4–E5 parked** | §1.5.1, §4.7.5 |
 | **House Influence** | the **four pillars** (**Estate** 家産 [trade ≤⅓] · **Arms** 武威 · **Office** 官威 · **Name** 家格 — ADR-159), the four-bar panel revealing **bar-by-bar** as each pillar first scores; achievement-jump (**≈70%**) + seasonal-judged-on-high-water-mark (**≈30%**) accrual, **pillar DEEDS gated to PHASE 2**; the tier-gate is the **scaled grade-gate** (`1 EXCELLENT + 1 GREAT + (N−2) GOOD` for N *revealed* pillars, all ≥ GOOD; **NO overflow**; **T0 collapses to a single EXCELLENT** — T0 is a **1-pillar** tier, Estate only) — a **per-pillar-per-tier overhaul**, not simple ratios | §1.6, §2.16, §4.1–§4.2 |
@@ -142,18 +142,25 @@ deliberately**; nothing here is a design hedge — the *shape* is decided, only 
 
 Every content tier is internally **SEQUENTIAL, in two phases** (§1.6.4, §2.15.1):
 
-- **Phase 1 — climb the rungs.** Two **rung-meters** drive the ~8-rung ladder in
-  parallel: **Estate Service** (the labour rung-meter) and **Combat Rank** (the
-  martial rung-meter; "Standing" is reserved for the **官威** *Standing & Office*
-  pillar). Each rung promotes on a **numeric per-rung-reset rung-meter** — a real
-  §4.1.1 curve whose threshold is **back-solved from the SAME ≥30-min floor §4.8
-  pacing uses** × that rung's eligible-activity rate — **AND** the rung's **story
-  milestone** (an **AND-gate**; the UI reads "awaiting X" when one lags). The meter
-  is fed by **curated, story-consistent per-rung activities** (a designed
-  *one-to-many* set, **NOT** a single repeat-counter). A **pre-R3 taste of variety
-  is FRONT-LOADED** into Phase 1's first hour: a small log-driven hazard/skirmish
-  beat (or extra loop) **without the full combat UI**, so first-session retention
-  isn't riding on labour alone before combat opens at R3.
+- **Phase 1 — climb the rungs.** Two **rung meters** drive the ~8-rung ladder in
+  parallel: **Estate Service** (the labour track) and **Combat Rank** (the martial
+  track; "Standing" is reserved for the **官威** *Standing & Office* pillar). Each
+  rung binds an **authored, HIDDEN list of objective requirements** (the
+  `requirements.ts` registry, generated from the FB-5 narrative sources —
+  **ADR-137 / ADR-182**, one model at every tier), and promotes when that list is
+  **100% satisfied**. A requirement is anything internally consistent with the game
+  and the story — counted acts, quest-token goals, economy/state predicates, story
+  beats — **as many or as few as that rung needs**, and **order-free**. **100%
+  alone readies the rung beat** (the player-triggered VN): there is **no separate
+  story gate**, because a story precondition simply *is* one of the rung's
+  requirements. The player sees **only a rounded integer % bar** — the **rung
+  meter** — never a checklist and never a task HUD (§2.15.1). Pacing
+  **re-derives** from what the authored lists produce: the fiction is authored
+  first, the sim **measures**, and the §4.8 bands re-sign against the measurement
+  (§7.1.2) — the rungs are never back-solved from a pacing target. A **pre-R3 taste
+  of variety is FRONT-LOADED** into Phase 1's first hour: a small log-driven
+  hazard/skirmish beat (or extra loop) **without the full combat UI**, so
+  first-session retention isn't riding on labour alone before combat opens at R3.
 - **Phase 2 — grind the house up.** **After the final rung** of the tier, the
   **estate-influence / four-pillar grind unlocks** (the capstone rung **OPENS**
   Phase 2; it does not merely confirm it). The tier's **pillar DEEDS accrue here and
@@ -167,10 +174,10 @@ Every content tier is internally **SEQUENTIAL, in two phases** (§1.6.4, §2.15.
 - **The three clean combat tracks** thread through both phases and never collapse
   into one bar: **kills / combat-XP → the character (combat) level** (which scales
   HP, attribute points, and `satietyMax`); **recognised martial DEEDS → the Arms
-  pillar** (Phase-2-gated, the influence economy); **per-rung curated activities →
-  the Combat Rank rung-meter** (the Phase-1 martial rung-gate). One kill writes to
-  your **level**; one recognised deed writes to **Arms**; one curated rung activity
-  writes to the **meter** (§1.6.4, §2.8.1, §4.0.1).
+  pillar** (Phase-2-gated, the influence economy); **the rung's authored hidden
+  requirements → the Combat Rank rung meter** (the Phase-1 martial rung-gate). One
+  kill writes to your **level**; one recognised deed writes to **Arms**; one act
+  that satisfies a rung requirement moves the **% bar** (§1.6.4, §2.8.1, §4.0.1).
 
 This per-tier shape is the skeleton the milestone roadmap
 ([`roadmap.md`](../roadmap.md)) hangs on: each v1 tier (T0–T3) stands up its
@@ -298,7 +305,7 @@ All of it is bundled into `dist/`; the offline smoke asserts **zero network call
 | # | Risk | Likelihood / impact | Mitigation (+ the gate that catches it) |
 |---|---|---|---|
 | **R1 — Scope creep on T3** (the widest, warmest tier: region map + Origin faction + two payoffs + Kuzuhara + rivals) blows the timeline | **High / High** | Hold the **~6–8-node** cut-set and the **hard caps** (exactly 2 neighbouring valleys; 2–3-man detail; ~5 mobs) as *invariants*, not suggestions; build T3 **rung-by-rung** so progress is always verify-green; park anything not on the §1.7.1 spine list. **v1 ships full T0–T3 — no pre-planned descope (§7.4.2)**; if genuinely blocked, the forward-migratable multi-backend save (§6.8) lets a later update add tiers. **Caught by:** the cut-set invariants + a verify-green tree at every rung (§7.4.2). |
-| **R2 — Balance-tuning time to the FLOOR** (lengthening the grind to **at least** the per-tier hour minimums + the ≥30-min floor (from T1) + ≈70/30 split across the 32 v1 rungs) is open-ended | **High / Medium** | The §4.8 curve is a **minimum-grind model** derived to be **AT LEAST** the floor, so tuning adjusts *yields* to clear a fixed target — **lengthening / interleaving** the grind, never chasing a fixed total nor retuning the floor; the **headless pacing regression** makes **undershoot** (too fast / under budget) a `verify`-gate failure while **overshoot never fails** (§4.8.4) — tuning is measured, not vibes; every number lives in `balance.ts` (§6.4) and reflows with **no save migration**. **Caught by:** the pacing gate (undershoot-only). |
+| **R2 — Balance-tuning time to the FLOOR** (lengthening the grind to **at least** the per-tier hour minimums + the ≥30-min floor (from T1) + ≈70/30 split across the 32 v1 rungs) is open-ended | **High / Medium** | The §4.8 curve is a **minimum-grind model** held to be **AT LEAST** the floor: the rungs' hidden requirement lists are **authored for the fiction first** (ADR-137 / ADR-182), the sim **measures** what they produce, and tuning then adjusts *yields and requirement counts* to clear the floor — **lengthening / interleaving** the grind, never chasing a fixed total, never back-solving a rung from the floor, nor retuning the floor itself; the **headless pacing regression** makes **undershoot** (too fast / under budget) a `verify`-gate failure while **overshoot never fails** (§4.8.4) — tuning is measured, not vibes; every number lives in `balance.ts` (§6.4) and reflows with **no save migration**. **Caught by:** the pacing gate (undershoot-only). |
 | **R3 — Save migration / save-loss** (a stored-shape change orphans saves; the itch iframe partitions storage) | **Medium / High** | Store **only non-derivable state** (§6.4) so the migratable surface is minimal; the **multi-backend redundant write** (IndexedDB + localStorage + sessionStorage) + the **magic-field reject-to-recovery** + the **monotonic-counter + timestamp newest-wins** selector + the **additive backwards-compatible schema** (never remove/repurpose) + **ordered, unit-tested migrations** + a **pre-migration raw backup** + **base64 export**; degrade gracefully on a bad save. The stored/computed split means balance retunes **never** migrate. **Caught by:** the cross-origin-iframe save-survival test (Chromium + WebKit, §7.3). |
 | **R4 — Art / feel** (inline SVG + emoji + CSS + a small audio set + system font stacks must read as a *coherent Andon Steel world* (ADR-127), not a spreadsheet) | **Medium / Medium** | The register is a **small curated asset set** — inline-SVG load-bearing motifs + a synth/CC0 audio set + pure system font stacks (ADR-127 — zero font pipeline), **low-risk** (no asset pipeline at all); a dedicated **polish pass** + a **`capture-game-states` audit** sweep catch feel regressions; the diegetic event log carries most of the "feel," so feel scales with *writing* (a known quantity) more than with art production. **Caught by:** the `capture-game-states` visual audit sweep. |
 | **R5 — The combat slice is the densest stretch** and could stall the whole roadmap | **Medium / Medium** | The combat surface is split at the R3→R4 seam into fixed, shippable checkpoints (auto-resolve + first fight, then bestiary/gear), so it lands as verify-green increments by design; the deterministic seeded auto-battler is **unit-testable in isolation** (§6.7) before it's wired to the UI; the first-fight win-rate band (**20–35%** at adequate satiety) and soft-setback shape are **LOCKED**, so the target is fixed. **Caught by:** the deterministic combat unit tests + the LOCKED 20–35% first-fight band (verify gate). |

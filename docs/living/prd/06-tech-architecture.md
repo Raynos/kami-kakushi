@@ -169,7 +169,7 @@ The lint boundary rule (§6.1) makes a violation a build failure, not a code-rev
 | `core/rewards` | The universal **rewards/unlock bus** — `applyRewards(state, rewards) -> state` — the one funnel through which dialogue, **dialogue choices**, quests, thresholds, and combat grant items/xp/coin/locations/recipes/quests/**flags & unlocks**/`pillarDeltas`, and emit diegetic log lines. (`pillarDeltas` deed-accrual is **Phase-2-gated**, §6.5.) | yes |
 | `core/unlock` | The DERIVED UI-reveal engine (**ADR-179**): each panel/screen/tab/row/node is data with an unlock predicate over `GameState`, and **visibility is a pure function of progression FACTS** — the latched `rank-rN` flags (a surface named in a rung's `rewardOnReach.unlock` schedule is visible from that rung on), event fact-flags, discoveries, skills. `visibleSet(state)` computes it live (registry fixpoint, memoized per state); the reads `isUnlocked(state, id)` (per-id) and `unlockedSurfaces(state)` (the **ONE** set-selector name) project from it. **Nothing visibility-shaped is stored** — a stale save can never pin stale UI. `announcePass` (run by `reduce`/`tick`/load) plays each surface's reveal line **once**, latched by the stored `seenReveals` ceremony cursor (§6.4). **Reveal staggering is a DESIGN property of the authored unlock schedule** — there is **NO** stored runtime reveal-queue; genuine multi-element single-feature reveals are bespoke one-offs designed per case. | yes |
 | `core/influence` | The four House-Influence pillars (Arms / Estate & Wealth / Standing & Office / Name & Honour), **re-expressed as the House's assessed koku STANDING** — a kokudaka-like prestige SCORE that is **NEVER spent, is NOT an income multiplier, GATES ascension/unlocks, and is re-assessed SEASONALLY (`seasonalJudge`)** + a big "the assessors arrive" event at tier jumps (the tier→koku ladder T0 tens → T4 = 10,000 *daimyō* → T5 100,000+; a PERSONAL koku stipend appears only from T4+). Accrual is achievement-jump + seasonal judged-result (new-high-water-mark, up-only + per-pillar recoverable dents). **Tier-up is the scaled grade-gate** (the hybrid gate scaled by pillar-count): **1 EXCELLENT + 1 GREAT + (N−2) GOOD** over the tier's **N revealed** pillars, all ≥ GOOD (**T0 = 1 pillar → collapses to a single EXCELLENT**); **NO** overflow-substitution — §1.6.3/§1.6.4). Pillar **DEEDS accrue only in each tier's Phase 2** (post-final-rung). The **Estate & Wealth** pillar holds the nested `subEngines { land, treasury, trade }` with the **trade ≤⅓ HARD clamp**; **cross-pillar combos are computed POST-clamp** and excluded from the gate-threshold check (§4.3.1). | yes |
-| `core/ranks` | The **per-tier rung ladder**. **BUILT (T0, ADR-137/FB-121):** each rung carries an authored **hidden requirement list** (`core/requirements-engine` + the gen'd `content/requirements` registry); progress is a **per-rung-reset `rungReqs` map**, the player-facing read is a rounded integer % (100 ⟺ ready — the gate), and completions voice diegetic flavor lines through the AC-20 `progress-events` glue (one advance-token stream shared with quests). **Frontier (T1+):** the two sub-tracks (`estateService` labour / `combatRank` martial, per-rung-reset, ≥30-min floor-paced) — meter vs requirement-list mechanism is each tier's design pass. Owns the **phase-1 → phase-2** gate per tier; the phase marker is **DERIVED from the current rung**, never a separate stored flag. | yes |
+| `core/ranks` | The **per-tier rung ladder** (ADR-137/FB-121, all tiers per **ADR-182**). Each rung carries an authored **HIDDEN requirement list** (`core/requirements-engine` + the gen'd `content/requirements` registry) — as many or as few objective criteria as that rung needs (counted acts, quest-token goals, economy/state predicates, story beats), completable in any order. Progress is the **per-rung-reset `rungReqs` map**; the player-facing read is a rounded integer % (**100 ⟺ ready — 100% alone IS the gate**, no separate story gate), and completions voice diegetic flavor lines through the AC-20 `progress-events` glue (one advance-token stream shared with quests). The **Estate Service** and **Combat Rank** tracks (ADR-025) name *what kind of duty* a rung asks for — they are not numeric meters. Owns the **phase-1 → phase-2** gate per tier; the phase marker is **DERIVED from the current rung**, never a separate stored flag. | yes |
 | `core/content` | The **data registries** (one module per content type; §6.5) + the registry index. Data-as-code. | yes |
 | `core/log` | The event/story log model (append, severity/colour tag) — data only; the renderer paints it. A **true ring buffer** with a pinned hard cap **`LOG_RING_MAX ≈ 300`** (oldest entries evicted on overflow — never an unbounded list). | yes |
 | `core/selectors` | Derived/computed reads (current production rates, effective stats, `satietyMax`, `durabilityBand`, the gate profile, what's unlocked, current tier). **Pure functions of `GameState`; nothing stored.** | yes |
@@ -291,12 +291,10 @@ were away"); the unattended auto-resolve/auto-repeat runs **only while the tab i
 ## 6.4 GameState — stored vs. computed
 
 > **Illustrative sketch — the SHIPPED tree is `src/core/state.ts`
-> (SCHEMA_VERSION 11).** Material divergences from the block below: the ADR-137
-> requirement model stores `rung` + `rungReqs` (the `ranks[tier]`
-> estateService/combatRank meters never shipped); `season` + `seasonsPassed`
-> ARE stored (ADR-153); the `discovery` RNG cursor and `discovered` latches
-> exist (ADR-146); `producers`, `market.saturation`, `reputation`,
-> `allegiance`, `settings`, per-slot `equipment`, `effects[]` are
+> (SCHEMA_VERSION 11).** Material divergences from the block below: `season` +
+> `seasonsPassed` ARE stored (ADR-153); the `discovery` RNG cursor and
+> `discovered` latches exist (ADR-146); `producers`, `market.saturation`,
+> `reputation`, `allegiance`, `settings`, per-slot `equipment`, `effects[]` are
 > frontier-tier, not built. Read `state.ts` for truth; the sketch fixes the
 > save-minimal PRINCIPLE.
 
@@ -336,9 +334,9 @@ interface GameState {
   koku: number;                                   // the House's assessed STANDING — the kokudaka-like prestige SCORE that re-expresses the influence pillars (part of the standing/influence system). It is NEVER spent, is NOT an income multiplier, and GATES ascension/unlocks; it is IMMUNE to the combat loss-bite (that bites carried COIN, not standing). RE-ASSESSED at each seasonal `seasonalJudge` + the big "the assessors arrive" event at tier jumps — stored as the last-assessed value (the tier→koku ladder: T0 tens → T1 ~100–1,000 → T2 ~1,000–5,000 → T3 ~5,000–10,000 → T4 = 10,000 *daimyō* → T5 (Domain) ~100,000 → T6 (Edo) 1,000,000+; bands PROVISIONAL). A PERSONAL koku stipend appears only from T4+ (House-only before).
   tier: TierId;                                   // current macro tier T0..T6 — the built enum targets 0..6 (ADR-152); T0 is reachable + shipped today, T1+ content arrives per tier. Set by the ascension/tier-up intent; threshold-progress is DERIVED, never stored
   estateStage: number;                            // the COIN PURCHASE-ladder step — the U1..U4 "kura-works" (estate upgrades you BUY: patch-kura → clear-drill-yard → reclaim-shinden → raise-long-house), the T0 coin flywheel sink. A separate axis from the E0–E5 narrative CONDITION of the house (§2.17) and from `influence.subEngines` (the T1+ estate-value engine).
-  ranks: Record<TierId, { estateService: number; combatRank: number; rung: RankId }>;
-                                                 // PER-RUNG-RESET progression: at T0 the `rungReqs` requirement-progress map (ADR-137); T1+ frontier adds estateService/combatRank sub-tracks. The phase-1/phase-2 marker is DERIVED from `rung` — there is NO separate stored phase flag.
-  reputation: Record<FactionNodeId, number>;     // village per-node meters; origin ties as the O0→O5 rung meter
+  rung: RankId;                                   // the current rung on this tier's ladder — the ONE progression cursor (ADR-137/ADR-182). Advanced only by `applyPromotion` behind the rung beat (ADR-110).
+  rungReqs: Record<string, number>;               // PER-RUNG-RESET requirement progress, keyed by the authored requirement id (ADR-137/ADR-182 — the progression model at EVERY tier): counted requirements hold 0..target, atomic ones (state predicate / story flag) hold 0|1, and completion LATCHES. Reset to {} on promotion. This is the whole of stored rung progression — there is NO points meter and NO threshold: the player-facing % bar and the promotion gate are both DERIVED from this map against the rung's authored list (`rungProgress`; 100 ⟺ every requirement done ⟺ ready). The phase-1/phase-2 marker is DERIVED from `rung` — there is NO separate stored phase flag.
+  reputation: Record<FactionNodeId, number>;     // village per-node meters; origin ties as the O0→O5 ladder
   allegiance: number;                            // Tama ↔ farmhand lean, continuous
   flags: Set<FlagId>;                            // story/finished/one-shot flags (serialized as array) — also the home of dialogue CHOSEN-FLAGS (the only thing an intra-line choice persists)
   seenReveals: SurfaceId[];                       // ADR-179 — the ONLY reveal-shaped stored state, and it is CEREMONY ONLY: the announce-once cursor of reveal lines already played (append-only; sibling of scenesPlayed). VISIBILITY is never stored — it derives from facts (rank-rN flags, event flags) via core/unlock visibleSet (see the callout below + §6.6.1)
@@ -410,16 +408,16 @@ collapse into one bar.** Each writes to a *different* field, and **one kill** ma
 
 | # | Track | Stored in | Fed by — what **one kill** writes | Distinct from |
 |---|---|---|---|---|
-| 1 | **Character (combat) level** | `character.level` + `character.combatXp` | the kill's **combat-XP** (`MobDef.level · COMBAT_XP_K`, §4.6.5) → `combatXp` → `level`; **plus** the equipped **weapon-line skill** XP (in `skills`). HP, attribute-points, and (derived) `satietyMax` scale off `level`. | Arms (no pillar value) and the meter (no rung progress) |
-| 2 | **The Arms pillar** | `influence[Arms]` (value/highWater) | **nothing** — *unless* the kill is a **recognised** clear/defend **deed**, and **only in the tier's Phase 2** (post-final-rung). A deed writes a `pillarDelta` via the rewards bus. | character level (kills don't grant pillar value) and the meter |
-| 3 | **Rung progress (ADR-137)** | `rung` + `rungReqs` (the per-requirement progress map — SCHEMA_VERSION 8 replaced the old `rungMeter`; the two-meter `ranks[tier]` shape is T1+ frontier) | **nothing** — requirements are authored curated acts, not raw kills/XP. | character level and Arms |
+| 1 | **Character (combat) level** | `character.level` + `character.combatXp` | the kill's **combat-XP** (`MobDef.level · COMBAT_XP_K`, §4.6.5) → `combatXp` → `level`; **plus** the equipped **weapon-line skill** XP (in `skills`). HP, attribute-points, and (derived) `satietyMax` scale off `level`. | Arms (no pillar value) and rung progress (XP never advances a requirement) |
+| 2 | **The Arms pillar** | `influence[Arms]` (value/highWater) | **nothing** — *unless* the kill is a **recognised** clear/defend **deed**, and **only in the tier's Phase 2** (post-final-rung). A deed writes a `pillarDelta` via the rewards bus. | character level (kills don't grant pillar value) and rung progress |
+| 3 | **Rung progress (ADR-137/ADR-182)** | `rung` + `rungReqs` (the per-requirement progress map — the whole of stored rung progression) | **nothing from the XP** — a kill ticks rung progress **only** where the current rung authored a `kill:<mob>` **count requirement** (R3's `kill:river_rats` / `kill:tanuki`), and then it advances **that requirement**, never a points total. | character level and Arms |
 
 **The sequential per-tier phase gate.** Each tier is climbed in two phases, and the phase marker is
 **DERIVED from the current `rung`** — there is **no stored phase flag**:
 
 - **Phase 1 — climb the rungs.** Each promotion **readies** when the rung's authored hidden
-  **REQUIREMENT list** (`content/requirements.ts` — ADR-137; the old meter/threshold AND-gate is
-  deleted, the two-meter shape survives only as T1+ frontier) is **100% done**, then fires as the
+  **REQUIREMENT list** (`content/requirements.ts` — ADR-137, at every tier per ADR-182) is
+  **100% done** — 100% **alone** is the gate — then fires as the
   player-triggered VN beat — which may **relocate** you (`RankDef.arriveAt`, FB-388: R1 stands you
   at the forecourt where the terms are set). Pillar **DEEDS do NOT accrue** here.
 - **Phase 2 — grind the house up.** Reaching the tier's **final rung OPENS** the estate-influence / pillar
@@ -448,7 +446,7 @@ frontier modules — the shipped roster is the `src/core/content/` directory.)*
 | Registry module | Holds | Keyed by |
 |---|---|---|
 | `content/resources.ts` | resources (**coin, rice**, wood, fish, materials…) + display/emoji + caps. **Coin carries the fixed mixed-denomination display config** — ONE underlying value (base unit **mon** 文) shown as **mon → monme → ryō** (1 ryō = 50 monme = 4,000 mon; 1 monme = 80 mon), higher denominations revealed INCREMENTALLY as wealth grows (mon T0–T1 → monme → ryō T4–T5; no moneychanger, no floating forex). **Koku is NOT a resource here** — it is the House's assessed STANDING (`core/influence`), never spendable. | `ResourceId` |
-| `content/activities.ts` | jobs/labour nodes (farm/forage/woodcut/fish/craft) — yields (**labour yields RICE + a little COIN — NEVER koku**; koku is standing, never a labour tick), skill, season/node gates (each labour is bound to a map node). **Plus per-rung CURATED activity sets** (tagged by rung) that feed the **rung-meter** — authored **SEPARATELY** from the pillar-deed inventory (a designed one-to-many set, never a single repeat-counter). | `ActivityId` |
+| `content/activities.ts` | jobs/labour nodes (farm/forage/woodcut/fish/craft) — yields (**labour yields RICE + a little COIN — NEVER koku**; koku is standing, never a labour tick), skill, season/node gates (each labour is bound to a map node). **Plus the per-rung CURATED activity set** (`RankDef.eligible` — the rung's labour pool, also what the sim/auto-play harness draws from): those acts ARE what a rung's counted requirements are authored over (`act:<id>` advance tokens), **not** a separate meter feed — and they are authored **SEPARATELY** from the pillar-deed inventory (a designed one-to-many set, never a single repeat-counter). | `ActivityId` |
 | `content/producers.ts` | late-game auto-producers — cost curve refs, output, unlock predicate | `ProducerId` |
 | `content/skills.ts` | skills — xp curve refs, per-event cap, visibility threshold, milestones. **Plus a per-skill PERKS track** (~2–8 perks / small flat combat bonuses, **unlocked by leveling that skill**) — the bounded labour→combat channel. The §6.6 verifier asserts **each perk's magnitude is small** (not `== 0`, not a single global cap); **conditioning stays the ZERO-stat gate**. | `SkillId` |
 | `content/items.ts` | items/equipment/consumables — slots, stats, rarity, quality rules. **Weapons are the growing roster: ~9–10 across v1** (T0 **starts with the carrying-pole + 2 more, ≥1 craftable**, then **+3 T1 / +4 T2**), spread over **3 archetype lines (spear / sword / staff)**, **each weapon carrying archetype params (`baseSpeed` / `reach` / `targetCount`) + a signature ability** — byte-identical with §2.8/§2.10, §3 reveal rows, and §4.6. | `ItemId` |
@@ -461,7 +459,8 @@ frontier modules — the shipped roster is the `src/core/content/` directory.)*
 | `content/quests.ts` | quests — an **UNORDERED SET of advance-events** (`advanceEvents: QuestEventId[]`, **no `step` cursor, no fixed order**), rewards (open-ended, non-waypoint). A quest moves `taken → active` when accepted, completes (`done`) once its required advance-events are all in `advancedBy` **in any order**, and can `abandon`/`fail`; the `advance_quest` intent (§6.3) folds one event into the set. **NO quest-type budget:** the PEST/HUNT/CLEAR/DEFEND taxonomy is the **T0 starting set**, not a cap — author as many quests as fit each stage, more/interesting ones welcome (esp. later tiers). | `QuestId` |
 | `content/scrolls.ts` | lore scrolls — in-game-time cost, the subsystem they unlock | `ScrollId` |
 | `content/surfaces.ts` | every panel / screen / tab / row / button — its **unlock predicate** + which screen it lives on (drives the UI-reveal engine and multi-screen nav). **Includes the About/Credits surface** (authorship, the commit-SHA build stamp, font/audio attributions, the license note). | `SurfaceId` |
-| `content/ranks.ts` | the **fresh rank ladder PER TIER** (T0/T1/T2 enumerated for v1) — rung, track (labour/combat/mixed), unlock. **Each rung binds its authored hidden REQUIREMENT list** (`content/requirements.ts`, gen'd from `narrative/requirements.md` — FB-121/ADR-137; the old meter/threshold AND-gate is deleted) and may declare **`arriveAt`** — the node the promotion beat stands you at (FB-388/ADR-181; the fiction causes the move). **Encodes the combat-reveal ladder** (starter weapon + auto-resolve + retreat → durability bands → stance → first weapon-L10 ability/item slots → 2nd line T1 / 3rd line T2). | `RankId` |
+| `content/ranks.ts` | the **fresh rank ladder PER TIER** (T0/T1/T2 enumerated for v1) — rung, track (labour/combat/mixed), the curated `eligible` labour pool, unlock. **Each rung binds its authored hidden REQUIREMENT list** (`content/requirements.ts`, gen'd from `narrative/requirements.md` — FB-121/ADR-137, at every tier per ADR-182: as many or as few objective criteria as the rung needs, order-free, 100% done ⟺ the beat readies) and may declare **`arriveAt`** — the node the promotion beat stands you at (FB-388/ADR-181; the fiction causes the move). **Encodes the combat-reveal ladder** (starter weapon + auto-resolve + retreat → durability bands → stance → first weapon-L10 ability/item slots → 2nd line T1 / 3rd line T2). | `RankId` |
+| `content/requirements.ts` | the **hidden per-rung requirement lists** — the progression model itself (ADR-137/ADR-182). Authored prose-first in `narrative/requirements.md` and compiled to `requirements.gen.ts` by `gen:narrative` (**never edit the `.gen.ts`**); the module hand-writes only the helpers (`rungRequirements`) + the DEV flavor overlay. Each requirement is a **`count`** (N of an advance token — `act:farm_paddy`, `kill:tanuki`, the ONE token grammar shared with quests), a **`state`** predicate (`resource` / `banked` / `belonging` / `skill`, plus a `native:` escape hatch resolving into `NATIVE_PREDICATES`), or a **`flag`** (a story beat turning true — this is where the old separate story gate now lives, as just another requirement), each carrying its authored **`flavor`** completion line + a **`drive`** hint for the sim bot. The shapes live in `core/requirements-engine`. | `RankId` → `RequirementDef[]` |
 | `content/influence.ts` | the four pillars + the **per-pillar-per-tier good/great/excellent band triples** (not simple ratios; balanced against the fixed deed inventory; values cross-ref §4) + the **phase-2 deed gating** + the **cross-pillar combos** (a combo credits **BOTH paired pillars'** display `value`, computed post trade-clamp; it does **NOT** write either pillar's deed-only `gateEligibleValue` — so a combo can never satisfy a required gate band nor breach trade-≤⅓) | `PillarId` / `DeedId` |
 | `content/effects.ts` | buffs/injuries/status — magnitude, duration, stacking | `EffectId` |
 | `content/balance.ts` | shared curve/constant definitions — the *single* home for tunables; §4 sets the values. The set includes: the **good/great/excellent gate bands**, **per-skill perk magnitudes**, **durability bands** (75+/50+/1+/0 → 1.0/0.9/0.75/0.55), the **satiety throttle** (flat ≥~0.7 → ~0.5 floor), **weather ±10%**, the **combat-XP→level curve** + **`mobLevel` defaults** — **all integer-pow only (no `Math.pow`, §6.1)**. | (named) |
@@ -529,7 +528,11 @@ hand-typed derived value can never silently drift from its generated source.
 > **Enforced today vs spec.** The shipped `verify-content.ts` checks:
 > surface/mob/weapon id mirroring, activity refs, rank eligibility, no
 > belief-creature in spawn tables, no human foe below T2, estate-stage sanity,
-> and the real-name denylist (plus the vitest invariants suite). The rest of
+> and the real-name denylist. The **rung-requirement** checks live one rung up,
+> in vitest + the gates: `src/core/content/requirements.test.ts` (token/predicate
+> reachability, ≥3 per rung, unique ids), `src/core/invariants.test.ts` (the
+> 100 ⟺ ready bar, the never-demoting ladder), and the `pacing` gate
+> (`pacing-report.ts --check`, the measured per-rung wall-time). The rest of
 > this cluster — the macron/romaji lint, per-perk magnitude, accrual tie-outs,
 > the trade-≤⅓-post-combo proof, gate-distribution — is **spec, not yet
 > wired**; treat each as a claim only once it lands in the verifier.
@@ -538,20 +541,37 @@ A cluster of machine checks (collected here; specified for `verify-content.ts` a
 §6.6 canon invariants) so the load-bearing properties **cannot silently regress** — especially
 the three-track separation and the hybrid gate.
 
-- **Gate-monotonicity & ceiling.** No rung's rung-meter threshold and no tier's hybrid gate require
-  **more than that tier can grant** (the meter target exists and is reachable from its eligible activities;
-  the gate band is achievable from the tier's available deeds). Asserted against the **same ≥30-min floor**
-  the §4.8 pacing model uses — so the rung-meter thresholds and the §4.8 pacing curve cannot diverge.
+- **Gate-monotonicity & ceiling.** No tier's hybrid gate requires **more than that tier can grant**
+  (the gate band is achievable from the tier's available deeds), and the rung ladder only ever
+  climbs — a rung never demotes mid-play (**wired**: `invariants.test.ts`, over a full
+  playthrough). **Rung pacing is MEASURED, never back-solved:** the `pacing` gate
+  (`pacing-report.ts --check`) drives the **real engine** through each rung's authored
+  requirements and holds the measured wall-minutes to the §4.8 band — so the authored
+  requirement lists and the §4.8 pacing curve cannot diverge (edit the list → the sim
+  re-measures; there is no threshold table to keep in step).
 - **Accrual tie-out.** The tier's **deed inventory sums to the gate share within tolerance** — the
   fixed Phase-2 deed inventory (e.g. T0's Estate/Arms deeds) ties out against the re-derived hybrid bands, so
   a balance edit on one side that breaks the other fails the build.
-- **Per-rung-meter reachability.** Each rung's meter target is reachable from its **eligible curated
-  activities** at the back-solved rate; an un-feedable meter is a build failure.
+- **Rung-requirement satisfiability (the reachability check).** Every requirement in a rung's
+  authored list must be **completable from what that rung reveals** — an un-satisfiable
+  requirement is a silent never-promotes, the worst failure the model can have. **Wired**
+  (`src/core/content/requirements.test.ts`): every `count` requirement's token is one a reducer
+  **actually emits**; every `state` predicate names real vocabulary (a real belonging / skill /
+  registered `native:` key); ids are unique within their rung and each carries its `flavor` +
+  `drive`; and every rung R0–R7 carries **at least 3** requirements (one requirement is one flavor
+  beat across a whole climb). The authoring-time twin runs in `gen-narrative`'s validator, so a
+  bad list can't even compile.
+- **The bar cannot lie about the gate.** `rungProgress` reads **exactly 100 ⟺ every requirement is
+  done ⟺ `promotionReady`** (the engine 99-clamps every other state, so rounding can never fake
+  readiness), and progress is monotonic within a rung (completion latches). **Wired**:
+  `invariants.test.ts` asserts `100 ⟺ promotionReady` across the full playthrough. This is the
+  AC-6 same-function rule — the bar, the sim and the gate all read `rungPercentOf`.
 - **Per-skill-perk magnitude.** Each per-skill perk's `skillCombatBonus` is **small /
   bounded** (a per-perk magnitude check) — **not** `== 0` and **not** a
   single global `≤ CAP`; **conditioning is asserted ZERO** (still the gate). Each of the **three combat
-  tracks sums INDEPENDENTLY** (a kill's XP never reaches Arms or the rung-meter; a deed never reaches level
-  or the meter; a curated activity never reaches level or Arms).
+  tracks sums INDEPENDENTLY** (combat-XP only ever writes `combatXp`/`level`; a Phase-2 deed only ever
+  writes a pillar; an act or kill only advances a rung requirement that **authored** its token — and a
+  requirement completion grants **no** level and **no** pillar value).
 - **Trade-≤⅓-holds-post-combo proof.** The verifier proves the **trade sub-engine ≤⅓ of
   Estate & Wealth even after cross-pillar combos**. Combos credit BOTH paired pillars'
   display `value`, computed post-clamp, and **never write the deed-only `gateEligibleValue`** — and since
@@ -693,7 +713,9 @@ per-system fields are added additively later.
   deed-only **`gateEligibleValue`**; non-Estate `value` — but **Estate value is DERIVED from the
   `subEngines`, NOT stored**, §6.4), the assessed **koku standing** (`koku` — the last-assessed
   kokudaka-like prestige score; §6.4), stored tier, the estate purchase-ladder step (`estateStage`), the
-  **per-rung-reset rung-meters** (`estateService` / `combatRank`), reputation, allegiance, the auto-loop
+  **rung progression FACTS** — the current `rung` + the **per-rung-reset `rungReqs`** requirement-progress
+  map (counts / latched atomics; the % bar and the promotion gate are DERIVED from it against the
+  authored list, never stored — §6.4), reputation, allegiance, the auto-loop
   targets/modes (`autoActivity` / `autoRake` / `autoCombat` / `autoCombatRetreat`),
   flags (incl. **dialogue chosen-flags**),
   unlocked surfaces, delivered-dialogue cursor, **quest status (the order-free `advancedBy` set, no step cursor)**, counts,
@@ -780,7 +802,7 @@ with ordered migrations as a rare safety net.
   with a default** applied on read, and existing fields are **never removed or repurposed**. An older save
   loaded by a newer build simply reads the new fields as their defaults — **no migration needed.** This is why
   the minimal cold-open state (`{ hp, satiety, attributePoints, character.level }`) can grow into the full
-  state (`combat?`, `subEngines`, dialogue chosen-flags, the rung-meters…) **additively**, without a migration
+  state (`combat?`, `subEngines`, dialogue chosen-flags, `rungReqs`…) **additively**, without a migration
   per field.
 - **Safety net — ordered migrations (rare).** For the unavoidable **structural** change that additivity can't
   express, `schemaVersion` is stored and an ordered list of `migrate_vN_to_vN+1(save)` steps runs on load to

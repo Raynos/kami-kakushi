@@ -76,14 +76,90 @@ now go IN (AC-11: the gate is finally the sound rung).
 - `docs/plans/fable-2026-07-11-prd-rungmeter-textsync.md` — rescope block.
 - `docs/plans/README.md` — regenerated index (Status 📋 → 🔧).
 
+## 4 · The sweep (six PRD sections, in parallel)
+
+One agent per section file, all briefed from ONE canonical statement of the live
+model so the six sections wouldn't drift into six dialects. Every diff was
+checked by hand for the three things that could go wrong: a touched gen-region
+(0), an introduced strikethrough (0), a moved balance magnitude (0).
+
+**Two independent agents converged on a real PRD error.** §4 and §6 — working
+blind of each other — both found that the PRD's flat claim *"a kill does NOT bump
+the rung-meter"* is **false**: R3 authors `kill:river_rats` / `kill:tanuki` count
+requirements, so a kill moves the bar whenever the current rung's list counts it.
+Corrected in both. §6 also discovered `content/requirements.ts` had **no PRD row
+at all** in the §6.5 registry table — the live model's own registry was
+undocumented, which is plausibly *why* the dead model kept re-surfacing there.
+
+**Two agent outputs I rejected rather than shipped:**
+
+- §2 **invented example numbers** ("thresh 40 sheaves", "the kura holds 20 koku")
+  to illustrate requirement shape. The brief forbade inventing numbers — an
+  illustration hardens into canon on the next read. Replaced with the REAL
+  authored example (`count act:rake_rice 10`) plus a pointer to the source.
+- The roadmap agent rewrote two entries **inside the "Finalized 2026-06-29 — all
+  forks CLOSED (the human confirmed every default)" ledger**. That block is a
+  RECORD of what the human signed, and in June they signed the two-track
+  **sub-meter split with the Phase-1 AND-gate**. Rewriting it would have made the
+  record claim they signed a model that did not yet exist. **Restored both entries
+  verbatim** and added a forward-pointer notice above the ledger (supersede, never
+  falsify). The milestone DoD row was kept updated — that table is a living
+  tracker of the build, not a signed decision.
+
+## 5 · Scope was wider than the plan knew
+
+The plan scoped six PRD files. The ruling ("every tier") reaches further:
+`docs/content/t1-content.md` and `t2-content.md` **stated the AND-gate as T1's and
+T2's promotion model** — the exact drift ADR-182 kills — and `roadmap.md` carried
+it in two places. Swept all three.
+
+`project/feedback-human/2026-06-29-roadmap-forks-finalized.md` also states the old
+model; **deliberately left** — it is an append-only record of a human session, not
+a living doc.
+
+## Verification
+
+- Docs gates GREEN (9/9 in the docs lane); `pnpm run prd:drift` **CLEAN**.
+- **The RED-able proof:** re-grepping the dead vocabulary across all nine swept
+  docs returns only (a) negations ("never back-solved"), (b) the *pillar*
+  `JUDGE_K` back-solve (a different, live system), (c) the superseded-notice
+  itself, and (d) the preserved signed ledger. **Zero** lines describe the dead
+  model as live.
+- Cross-ref integrity: §4.1.1 kept its NUMBER (only its title changed), so all
+  18 inbound `§4.1.1` references still resolve.
+
 ## Next intended steps
 
-1. Sweep the six PRD sections — one commit per section file, docs-only lane,
-   rewriting flat-points/threshold/AND-gate prose to the requirements model.
-2. Add the dead vocabulary to `prd-drift.ts` RETIRED (`rungMeter`,
-   `thresholdForRung`, `RUNG_POINTS_PER_ACT`, AND-gate) — **not** the bare
-   phrase "rung meter", which stays legal.
-3. `pnpm run prd:drift` clean + full `verify` → snapshot → push.
+1. **Code-comment follow-up (deferred, needs a clean tree).** ~6 comments still
+   describe the dead model as live — `intents.ts:458` claims the promotion guard
+   is "(meter + storyGate)" when the code calls `promotionReady()` alone;
+   `activities.ts:4` says labour "feeds the Estate Service rung-meter";
+   `telemetry/milestones.ts:32`, `playcheck.ts:67`, `rung-beats.test.ts:133`,
+   `render.ts:1545`. `sim/pacing-envelope.test.ts:5` names `RUNG_METER_THRESHOLDS`,
+   a constant that **no longer exists**. Code is correct; the comments lie.
+   Deferred because `render.ts` is a co-agent's live WIP and a code-lane commit
+   would run `verify` against their unfinished tree.
+2. **`prd-drift.ts` RETIRED teeth** (`rungMeter`, `thresholdForRung`,
+   `RUNG_POINTS_PER_ACT`, AND-gate — **not** the bare phrase "rung meter"). Same
+   blocker: code lane, needs a clean tree.
+3. Push once the co-agent's tree settles.
+
+## Open questions surfaced for the human (not decided)
+
+- **Does a T1 rung's requirement list have to span BOTH tracks?** The old text
+  said "both sub-meters still gate every rung" — under one list per rung that
+  clause has no mechanism, so it was dropped rather than reinvented. If every T1
+  rung must contain both labour AND martial requirements, that is now unstated.
+- **The per-tier transition STORY GATE (`TierGate.storyGateFlag`) survives.**
+  ADR-137/182 kill the *rung*-level story gate; the *tier*-level one is a separate
+  Phase-2 mechanism. Left alone — dissolving it too would be an intent call.
+- **`RankDef.eligible` is unenforced.** Nothing checks that a rung's `act:`
+  requirement tokens are a subset of its curated `eligible` pool. `ranks.ts` has a
+  self-note to "re-audit this field at Phase 5". If that subset relation is meant
+  to hold, it needs a real check.
+- **One strikethrough corpse remains in §4** (line 88) — but it concerns the
+  *retired rice+coin economy*, a different dead model. Out of this ruling's scope;
+  flagged rather than guessed at.
 
 ## Landmines
 

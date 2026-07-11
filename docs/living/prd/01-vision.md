@@ -93,7 +93,7 @@ for itch.io.
    clean, separately-stored tracks** (never one fused bar — §1.6.4): **kills/combat-XP → character (combat)
    level** (which scales HP, attribute points, and satietyMax); **recognised martial DEEDS → the Arms pillar**
    (House Influence — clear bandits, secure roads, defend the estate; gated to each tier's **Phase 2**); and
-   **per-rung curated activities → the Combat Rank rung-meter** (the martial rung-gate). The mediocre-start
+   **the martial rung's authored requirements → the Combat Rank rung-meter** (the martial rung-gate). The mediocre-start
    contract holds on the combat track too: start weak, the first real fight is humbling/near-fatal (**measured
    at adequate satiety, ≥~0.7** — combat is satiety-throttled, "eat before you fight"; §1.4/§4), capacity is
    **enabled** by labour-built conditioning (a **zero-stat** weak→capable gate), and **trained labour skills
@@ -233,14 +233,16 @@ reliable hand who became a fighting one.
 
 **Each tier is climbed in TWO SEQUENTIAL PHASES** (formalised at §1.6.4):
 
-- **Phase 1 — climb the rungs.** **At T0 (BUILT — ADR-137/FB-121)** each rung carries a finite **authored
-  list of hidden requirements** (counted acts, event goals, economy predicates, story beats — order-free,
-  story-consistent, a designed *one-to-many* set); the player sees a **rounded % bar**, completions land
-  as diegetic flavor lines, and **100% alone** opens the player-triggered rung beat. **From T1 (frontier
-  intent)** the ladder splits into two sub-tracks — **Estate Service** (labour) and **Combat Rank**
-  (martial) — each per-rung-reset and floor-paced (≥30 min/rung from T1; whether T1+ keeps a numeric
-  meter or adopts the T0 requirement model is that tier's design pass). Smaller responsibility/perk
-  drips fill between gates so there is always a "next reveal" on either track.
+- **Phase 1 — climb the rungs.** Every rung, at **every tier**, binds a finite **authored, hidden list
+  of objective requirements** (counted acts, quest-token goals, economy/state predicates, story beats —
+  order-free, story-consistent, **as many or as few as that rung needs**; **ADR-137/ADR-182**). The
+  player sees **only a rounded % bar**; completions land as diegetic flavor lines, and **100% alone**
+  readies the player-triggered rung beat — story preconditions are requirements **in the list**, never a
+  separate gate. The lists **reset per rung**. **From T1** the ladder runs two sub-tracks — **Estate
+  Service** (labour) and **Combat Rank** (martial) — each rung on either track carrying its own list,
+  authored to the ≥30-min-per-rung pacing band (a band the sim **measures**, §4.8 — never a number the
+  lists are back-solved from). Smaller responsibility/perk drips fill between gates so there is always a
+  "next reveal" on either track.
 - **Phase 2 — grind the house up.** **After the final rung** of the tier, the **estate-influence / four-pillar
   grind unlocks** (the capstone rung **OPENS** Phase 2; it does not merely confirm it). The tier's **pillar
   DEEDS accrue here and only here** — they do **not** accrue while climbing the rungs, which prevents the
@@ -287,7 +289,8 @@ The same one estate at **full depth** — the deliberate **≥30-min-per-rung** 
 tutorial cadence ends). Standing climbs **tolerated → friendly**. The **Arms pillar reveals** and its
 **deeds first bank** (in T1's Phase 2); the **coin/rice** flywheel **branches into LAND / TREASURY / TRADE** (trade
 **≤⅓**); the **first hired hands** are won (the bible's T1-R6 first hiring — Tetsuji's forge lit; [`tiers/t1.md`](../../story-bible/tiers/t1.md)) and the **E1→E2** estate stage lands. New verbs,
-same familiar domain — and the **first ascension (T0→T1) lands BIG**. The rung-meters reset per rung;
+same familiar domain — and the **first ascension (T0→T1) lands BIG**. Each rung binds its own authored
+requirement list (the % bar resets per rung);
 the weapon roster grows **+3** and the **2nd archetype line — the sword** opens here (a Combat Rank rung-gate;
 the blade is a full-estate reveal, §3). T1 mints its own ~8-rung R0→R7 arc
 (the career unbroken, docket #1; built game trails on `R8→R15`) where the grind-floor first bites; per-rung
@@ -298,7 +301,7 @@ unbroken, docket #1; built game trails on the old `V0→V7` labels).**
 The HOUSE's standing climbs **friendly → TRUSTED**, and its domain grows from bare *survival* to **anchoring its
 valley**. Rank is still a rung **within the house's theme**; at every rung you act **FOR THE ESTATE** across the
 village + estate + surrounding roads. Labour and combat keep interleaving, now reaching past the estate gate.
-The rung-meters **reset per rung** afresh, T2 grows the weapon roster **+4** and opens the **3rd combat line**
+Each rung binds its own requirement list (the % bar **resets per rung**), T2 grows the weapon roster **+4** and opens the **3rd combat line**
 (the staff/polearm; on a **Combat Rank** rung-gate), and **T2's Arms-pillar
 deeds accrue only in T2's Phase 2**.
 *(The **village reputation web** — §1.5.2 — runs **alongside** this as a parallel **optional accelerant**, never
@@ -444,12 +447,13 @@ forward; the **Origin track** (Tahei's living family/friends; the reunion an OPT
 Sawatari-juku) is a **reputation side-track** (§3.6), never a parallel rung ladder.
 
 **Separate earned tracks** keep these from collapsing into one bar. The **estate spine** is gated, **per
-tier**, by **Phase-1 rung progression** — at T0 the authored requirement lists (ADR-137); from T1 the
-Estate-Service/Combat-Rank sub-tracks (frontier) — each **per-rung-reset**;
+tier**, by **Phase-1 rung progression** — each rung's authored requirement list taken to **100%**
+(**ADR-137/ADR-182**), across the **Estate-Service** and **Combat-Rank** sub-tracks — each
+**per-rung-reset**;
 then, in **Phase 2**, by the separate **four-pillar hybrid tier-gate** (§1.6.3/§1.6.4). Distinctly, the **combat
 systems feed THREE clean, separately-stored tracks** that must never collapse into one: **(1)** kills/combat-XP →
 the **character (combat) level** (HP + attribute points + satietyMax); **(2)** recognised **deeds** → the **Arms
-pillar** (House Influence, Phase-2-gated); **(3)** per-rung curated activities → the **Combat Rank rung-meter**
+pillar** (House Influence, Phase-2-gated); **(3)** the martial rung's authored requirements → the **Combat Rank rung-meter**
 (the martial rung-gate above). Alongside the spine sit the optional side-track meters: **Village Reputation**
 (gentle per-node meters — the T2 side-track) and **Origin Ties** (the T3 reputation side-track).
 Above all of them sits **House Influence** (家威), the macro-measure the tier-gate reads — **never spent** (§1.6):
@@ -542,8 +546,9 @@ so the grind stays load-bearing.
 > **The Arms pillar vs. the other two combat tracks (§1.6.4).** Arms grows **only** on **recognised DEEDS**
 > (the influence economy) and, like every pillar, **accrues in each tier's Phase 2** — *not* while climbing the
 > rungs. It is **distinct** from the **character (combat) level** (fed by combat-XP from kills) and from
-> the **Combat Rank rung-meter** (fed by per-rung curated activities): **one kill** writes XP to your
-> **level**; **one recognised deed** writes to **Arms**; **one curated rung activity** writes to the **meter**.
+> the **Combat Rank rung-meter** (fed by the martial rung's authored requirements): **one kill** writes XP to your
+> **level**; **one recognised deed** writes to **Arms**; **one satisfied rung requirement** advances the
+> rung's **% bar**.
 > Reconflating these three is the single likeliest regression — they stay separate by design.
 
 > **Trade is demoted to 1-of-3 sub-engines inside Estate & Wealth and hard-capped to ~⅓ of that one pillar**
@@ -595,7 +600,7 @@ floor. The **revealed-pillar set grows one per tier**: **T0 = 1**
 the gate is **only ever checked against revealed pillars** (never against an unrevealed one).
 
 This sits **after** the **sequential** climb (§1.5.1/§1.6.4): **Phase 1** — climb **all** the tier's rungs
-(at T0 the per-rung requirement lists, ADR-137; T1+ per that tier's design); **Phase 2** — the estate-influence/pillar grind unlocks and the
+(each rung's authored requirement list taken to 100%, **ADR-137/ADR-182**); **Phase 2** — the estate-influence/pillar grind unlocks and the
 **scaled grade-gate** above is what tiers up. The required pillars still **drift** as they reveal — early
 tiers lean **Estate then Arms** ("survive and get strong"); upper tiers lean **Office + Name** ("win it socially").
 The **per-pillar-per-tier thresholds** are **back-solved against the fixed §4 deed inventory**; the numbers
@@ -626,7 +631,8 @@ over years.
 | **T5 — the Domain** *(roadmap)* | **Caretaker administration of a broken domain** — the inherited debt at scale (the MC stays *yōnin*; the arc shifts to the HOUSE). THE RUNG-UP INVERTS: each rung an audience-day, the domain summoned to HIM; beneath it **Genemon**'s failing, the handover, the chair. Ends at **THE STEWARD**. | **T4→T5:** the taken castle town cedes → the house is charged with the **broken domain's** caretaker administration. | Deepen the four (**provisional** — the profile is set at sim time). |
 | **T6 — Edo** *(roadmap; reserved)* | Personal rungs retire; the rungs become the **HOUSE's Edo standing, H0→H7**; **Shinnosuke** is lord — restore **and** surpass the grandeur of three generations ago. Deliberately **RESERVED** (the mediated capital ceiling; the man is never received). | **T5→T6:** the house is called to the capital — it staffs & runs the **domain's** Edo establishment under the daimyō's biennial *sankin-kōtai* (never its own). | **Provisional (—)** — the national *banzuke* on all four pillars; reserved. |
 
-> **Every tier is Phase-1-then-Phase-2.** The rung-meter + story milestones (Phase 1, §1.5.1/§1.6.4)
+> **Every tier is Phase-1-then-Phase-2.** The rungs (Phase 1, §1.5.1/§1.6.4) — each cleared by taking its
+> authored requirement list, **story beats included**, to 100% —
 > **precede** the pillar profile above (Phase 2): you climb the rungs first, then grind the **revealed** pillars
 > to the profile, then tier-up. (The T0 entry is "met at the open"; the deed-bearing Phase-2 grind that *proves*
 > the profile begins only **after R7**.)
@@ -639,19 +645,25 @@ over years.
 ### 1.6.4 Progression structure — the sequential two-phase model & the three combat tracks
 
 This subsection is the **single load-bearing home** for the progression spine; §1.5.1, §1.6.3 and §1.12 all
-reference it (exact curves/thresholds live in §4).
+reference it (the pillar thresholds and balance curves live in §4; the per-rung **requirement lists** are
+authored content — `narrative/requirements.md` → `content/requirements.ts`).
 
 **(1) Sequential per-tier progression.** Each tier is climbed in **two ordered
 phases**:
 
-- **Phase 1 — climb the rungs.** Every rung of the tier's ladder promotes when its progression is
-  **fully earned** — **at T0 (BUILT, ADR-137)**: the rung's authored **hidden requirement list** is 100%
-  done (story preconditions are requirements IN the list; the % bar is the read; per-rung-reset). **From
-  T1 (frontier)**: floor-paced per-rung progression (the ≥30-min floor the §4.8 pacing model and the
-  §6.6 gate-monotonicity verifier use), fed by **curated, story-consistent per-rung activities** — a
-  designed **one-to-many** set, **not** a single repeat-counter; meter vs requirement-list mechanism is
-  each tier's design pass. Two sub-tracks run in
-  parallel: **Estate Service** (labour) and **Combat Rank** (martial).
+- **Phase 1 — climb the rungs.** Every rung of every tier's ladder promotes on **one model**
+  (**ADR-137**; all tiers, **ADR-182**): the rung binds an **authored, HIDDEN list of objective
+  requirements** — counted acts, quest-token goals, economy/state predicates, story beats — **order-free**,
+  story-consistent, **as many or as few as that rung needs** (a designed **one-to-many** set, **not** a
+  single repeat-counter; authored in `narrative/requirements.md`, generated to
+  `content/requirements.ts` — FB-5/FB-121). The player sees **only a rounded integer % bar** — no
+  checklist, no task HUD: counted requirements move it in **quantized chunks**, atomic ones **jump** it,
+  and every completion fires a **diegetic flavor line**. **100% ALONE readies the rung beat** — story
+  preconditions ARE requirements **in the list**, so there is **no separate story gate**. The lists
+  **reset per rung**. Pacing **re-derives from what the lists produce**: they are authored to the
+  fiction first, and the **≥30-min-per-rung floor** is a band the **§4.8 pacing model measures** (and
+  the §6.6 monotonicity verifier holds to) — never a number the lists are back-solved from. Two
+  sub-tracks run in parallel: **Estate Service** (labour) and **Combat Rank** (martial).
 - **Phase 2 — grind the house up.** The **capstone (final) rung OPENS Phase 2** — the **estate-influence /
   four-pillar grind**. **Pillar DEEDS accrue here and ONLY here** (gated post-final-rung), which
   structurally prevents "half the rungs, maxed deeds." Clearing the tier's **hybrid pillar profile** (below) is
@@ -659,7 +671,7 @@ phases**:
   **derivable from the current rung**: pre-capstone = Phase 1, post-capstone = Phase 2.)*
 
 > **Every rung-up is a player-TRIGGERED story beat, not a silent number-fill (ADR-110, extending ADR-104).**
-> Clearing a rung's AND-gate only **readies** the promotion — it **holds** (surfaced at the header rung
+> Taking a rung's requirement list to **100%** only **readies** the promotion — it **holds** (surfaced at the header rung
 > element) until the player chooses to stop grinding and **trigger** it, and a ready rung can be **ignored**
 > (grind combat forever, never advance; never a forced modal every few seconds). Triggering plays the rung as
 > a **full-screen VN beat** on the same scene engine as an NPC first-meet (ADR-104): **some** rungs introduce a
@@ -676,10 +688,10 @@ tracks that never collapse into one bar.** What **one kill** writes makes the di
 |---|---|---|---|
 | **Character (combat) level** | kills → **combat-XP** (labour and deeds **never** raise it) | **HP** (`hpMax = 40 + 8·characterLevel`), **+1 attribute point / 2 levels**, **satietyMax** (base + per-level growth) | personal power; per-mob `MobDef.level` sets on-kill XP (§4) |
 | **The Arms pillar** (武威) | recognised martial **DEEDS** (a road declared safe; a nest cleared; the grain store defended) | one of the **four House-Influence pillars** | **Phase-2** tier-gate input (the scaled grade-gate) |
-| **The Combat Rank rung-meter** | **per-rung curated** combat activities | the **per-rung-reset martial rung-meter** | **Phase-1** martial rung-gate |
+| **The Combat Rank rung-meter** | the martial rung's **authored requirements** (satisfied, not scored) | the **per-rung-reset % bar** on the martial track | **Phase-1** martial rung-gate |
 
-So: **one kill** → character-level XP; **one recognised deed** → Arms; **one curated rung activity** → the
-Combat Rank meter. *("**Combat Rank**" is the martial rung-meter; "**Standing**" means the
+So: **one kill** → character-level XP; **one recognised deed** → Arms; **one satisfied rung requirement**
+→ the Combat Rank rung's **% bar**. *("**Combat Rank**" is the martial rung-meter; "**Standing**" means the
 **官威 Office** pillar **only**.)* **Labour conditioning** stays the **zero-stat enablement gate** on
 the combat rungs — orthogonal to, and never a back-door past, the small bounded **per-skill combat perks**:
 conditioning is **weak→capable**; the perks are a small **capable→a-bit-more-capable** polish.
@@ -701,7 +713,7 @@ and excluded from the gate-check.
 > unnamed silhouettes** — the player sees there are more pillars coming (and roughly how many) **without** their
 > names or mechanics being spelled out, so each reveal still lands as a story beat (§2.16(e); ui-design.md).
 
-Together: **climb the rungs (Phase 1: rung-meter + story) → unlock and grind the revealed pillars (Phase 2) →
+Together: **climb the rungs (Phase 1: each rung's requirement list to 100%) → unlock and grind the revealed pillars (Phase 2) →
 clear the scaled grade-gate → tier-up.** Every reveal along the way is **design-staggered one-at-a-time** (no
 runtime reveal-queue).
 
@@ -1082,7 +1094,7 @@ The time/budget model is a **FLOOR, not a ceiling**: the **~28.5 h budget is a m
 over GameState), deterministic under the one seeded RNG, with balance/unlock tables generated into `docs/` and
 headlessly regression-testable via the DEV play API. The estate, village, and origin tracks differ in **shape**
 to keep pacing varied (estate steep-geometric per-tier ladders; village gentle per-node meters; origin a short
-reputation side-track), and the **per-rung-reset rung-meter** is the numeric per-rung curve that
+reputation side-track), and each rung's **authored requirement list** — read as a **per-rung-reset % bar** —
 drives the Phase-1 reveals. The side factions act as Influence **multipliers** (shave **~10–15%** off
 time-to-tier — felt, never a wall). The presentation register throughout is **text + emoji + CSS art**
 (the Andon Steel bimetal palette, ADR-127; kanji season tags; colour-coded rarities), with **load-bearing
@@ -1124,7 +1136,7 @@ Guardrails that hold through §§2–7:
 - **Combat-track lexicon.** The Arms rank-gate is **"Combat Rank"** — so **"Standing"** means the
   **官威 Office** pillar **only**. The three combat tracks stay
   lexically and mechanically distinct: **character (combat) level** (kills/XP) · the **Arms pillar** (deeds) ·
-  the **Combat Rank rung-meter** (curated rung activities; §1.6.4). Macronize *gōshi* and *rōnin* forms
+  the **Combat Rank rung-meter** (the martial rung's authored requirements; §1.6.4). Macronize *gōshi* and *rōnin* forms
   project-wide.
 - **Office pillar kanji = 官威 (*kan'i*)**, "authority of office". The top-rung title is
   **chief steward / *yōnin*** ("the lord's right hand"); grand *karō*/adoption vocabulary stays

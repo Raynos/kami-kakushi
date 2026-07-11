@@ -151,28 +151,30 @@ are **§2.8.1 / §2.15.1 / §2.16**). Two structural facts drive every curve bel
 
 **(1) THREE independent, separately-stored tracks — never one fused bar.** Reconflating them is the single
 likeliest regression (a fused "Combat Level = a Combat Deeds pool" would collapse all three). What **one
-kill / one recognised deed / one curated rung activity** writes makes the distinction concrete:
+kill / one recognised deed / one completed rung requirement** writes makes the distinction concrete:
 
 | Track | Fed by | Writes / scales | Gate role | §4 home for its curve |
 |---|---|---|---|---|
 | **Character (combat) level** | kills → **combat-XP** only (labour and deeds **never** raise it) | **HP** (`hpMax = 40 + 8·characterLevel`), **satietyMax** (base + per-level growth), **+1 attribute point / 2 levels** | personal **power**; per-mob `MobDef.level` sets on-kill XP | the curve is **§4.6.5** (one definition, referenced everywhere) |
 | **The Arms pillar** (武威) | recognised martial **DEEDS** (a road declared safe; a nest cleared; the grain store defended) | one of the **four House-Influence pillars** | **Phase-2** tier-gate input (the hybrid profile) | §4.1 / §4.2 |
-| **The Combat Rank rung-meter** | **per-rung CURATED** combat activities (not raw kills/XP) | the **per-rung-reset martial rung-meter** | **Phase-1** martial rung-gate | §4.1.1 |
+| **Combat Rank** (the martial rung meter) | the **authored objective requirements** of the rung you are on (counted martial acts, state predicates, story beats — not raw kills/XP) | the rung's **rounded % bar**; at **100 %** the rung beat is ready | **Phase-1** martial rung-gate | §4.1.1 |
 
-So: **one kill → character-level combat-XP (only)**; **one recognised deed → Arms**; **one curated rung
-activity → the Combat Rank meter.** Each stream **sums independently** (the §6.6 verifier asserts no leakage).
-*(The martial rung-meter is **Combat Rank**; "**Standing**" means the **官威 Standing & Office** pillar
+So: **one kill → character-level combat-XP (only)**; **one recognised deed → Arms**; **one completed rung
+requirement → the Combat Rank % bar.** Each stream **sums independently** (the §6.6 verifier asserts no leakage).
+*(The martial rung meter is **Combat Rank**; "**Standing**" means the **官威 Standing & Office** pillar
 **only**.)* `character.level` is the **only** one of the three that scales personal power; the
 other two are *standing*/*gate* meters. **No section may re-derive its own "level" concept** — the one
 combat-fed character-level curve (§4.6.5) is the sole driver of `hpMax`, `satietyMax`, and attribute points.
 
 **(2) TWO ordered phases per tier — Phase 1 (climb rungs) then Phase 2 (pillar grind).**
 
-- **Phase 1 — climb the rungs (R0→R7 etc.).** Each rung promotes on **BOTH** the **per-rung-reset rung-meter**
-  (§4.1.1) **AND** the rung's **story milestones** (an **AND-gate**; the UI reads "awaiting X" when one side
-  lags). The meter is fed by **curated, story-consistent per-rung activities** (a designed one-to-many set,
-  authored **separately from** the pillar-deed inventory). Two meters run in parallel: **Estate Service**
-  (labour) and **Combat Rank** (martial). **Pillar DEEDS do NOT accrue in Phase 1.**
+- **Phase 1 — climb the rungs (R0→R7 etc.).** Each rung binds an **authored, hidden list of objective
+  requirements** (§4.1.1) — counted acts, quest-token goals, state predicates, story beats, **as many or as
+  few as that rung needs**, in any order. Completing **all** of them takes the rung's meter to **100 %**,
+  which readies the rung beat; there is **no separate story gate** (a story precondition *is* one of the
+  requirements). The requirements are authored **separately from** the pillar-deed inventory. Two rung meters
+  run in parallel: **Estate Service** (labour) and **Combat Rank** (martial). **Pillar DEEDS do NOT accrue in
+  Phase 1.**
 - **Phase 2 — grind the house up.** The **capstone (final) rung OPENS Phase 2** — the **estate-influence /
   four-pillar grind.** The tier's **pillar DEEDS accrue here and ONLY here** (gated post-final-rung),
   which structurally prevents the **"half the rungs, maxed deeds"** exploit. Clearing the tier's **hybrid
@@ -181,9 +183,10 @@ combat-fed character-level curve (§4.6.5) is the sole driver of `hpMax`, `satie
 
 **Consequence for the pacing tables (§4.8).** A tier's wall-clock = **Phase-1 rung climb + Phase-2 pillar
 grind**, both ≥ their floors. The §4.8 rank-by-rank tables therefore split into a **Phase-1 rung block** (gated
-on the rung-meter + story, §4.1.1) and a **Phase-2 grind block** (the deed + seasonal accrual to the hybrid
-gate, §4.2). Every number ties out against the same **≥30-min-per-rung FLOOR** that §4.1.1 back-solves and that
-the §6.6 gate-monotonicity verifier asserts.
+on each rung's requirement list, §4.1.1) and a **Phase-2 grind block** (the deed + seasonal accrual to the
+hybrid gate, §4.2). Phase-1 wall-clock is **MEASURED** — the ADR-132 sim plays the authored requirement lists
+and reports what they cost — and that measurement is what the **≥30-min-per-rung FLOOR** and the §6.6
+gate-monotonicity verifier are asserted against (§4.1.1).
 
 ---
 
@@ -195,7 +198,7 @@ you must be **good in ALL revealed pillars** (a **breadth floor**), **great in 2
 **with NO overflow/substitution** (a surplus in one pillar can never stand in for a deficit in another). The
 semantics are **authored levels, not ratios**: **good = the expected baseline · great = really strong ·
 excellent = above-and-beyond**. This profile is the **Phase-2 tier-gate** — it is **ANDed with the Phase-1
-capstone rung-meter + story gate** (§4.1.1), and it is **only ever checked against pillars REVEALED by that
+capstone rung** (whose own requirement list must be 100 % done, §4.1.1), and it is **only ever checked against pillars REVEALED by that
 tier** (never "good in ALL" against an unrevealed pillar).
 
 **The revealed-pillar set grows per tier** (matching the §3 reveal schedule and the §2.16(e) four-bar-panel
@@ -289,61 +292,61 @@ magnitudes, never the floor, if a playtest time-to-tier *undershoots*.
 
 ---
 
-## §4.1.1 The rung-meter accrual law (the third progression curve)
+## §4.1.1 The rung REQUIREMENTS law (the third progression curve)
 
-**Shape (canon §1.6.4, §2.15.1 — fixed).** Phase 1's two parallel rung-meters — **Estate Service** (labour) and
-**Combat Rank** (martial) — are **numeric and PER-RUNG-RESET** (each rung starts its meter at 0). A rung
-promotes on an **AND-gate**: `rungMeter ≥ thresholdForRung` **AND** all the rung's `requiredStoryFlags` are set
-— the UI reads **"awaiting X"** when one side lags. The meter is
-fed **only** by that rung's **curated, story-consistent activities** (a designed one-to-many set tagged by
-`rungActivityTags`, authored **separately from** the pillar-deed inventory of §4.2.1) — **not** by raw
-kills/XP (those feed the character level, §4.6.5) and **not** by pillar deeds (those are Phase-2, §4.2).
+**Shape (canon §1.6.4, §2.15.1; ADR-137 + ADR-182 — fixed).** Phase 1's two parallel rung meters — **Estate
+Service** (labour) and **Combat Rank** (martial) — are **criteria meters, not point pools.** Each rung binds
+an **authored, HIDDEN list of objective requirements** — the source of truth is
+[`src/core/content/narrative/requirements.md`](../../../src/core/content/narrative/README.md), compiled to the
+`content/requirements.ts` registry (FB-5 / FB-121). A requirement can be anything internally consistent with
+the game and the story:
 
-**The back-solve — the ≥30-min FLOOR is enforced on the METER POINTS.** Each rung's threshold is
-back-solved against the **maximum** eligible-activity completion rate so that **even optimal FOCUSED play
-cannot fill the rung's numeric-points objective in < 30 min** — the *meter threshold* is the runtime
-enforcement of the ≥30-min floor (not a wall-clock check). **Unfocused play** (multi-skilling, side-quests,
-off-objective wandering) earns the curated points more slowly and so takes **LONGER — ~60–120 min/rung**. The
-§4.8.1 per-rung **wall-clock column** (35/40/45/55 min, etc.) is therefore **EXPECTED real, somewhat-unfocused
-play — it sits ABOVE the 30-min focused-optimal floor and is NOT a contradiction with it.** The threshold is
-in lockstep with the §4.8.1 rice column and asserted by the §6.6 gate-monotonicity verifier:
+- **counted acts / quest-token goals** — N advance tokens on a verb:subject ("rake the spill — 35 rows");
+- **state predicates** — a held or kura-banked resource ≥ N, an owned home comfort, a skill ≥ level;
+- **story beats** — a flag turning true (the night round survived, the *nengu* reckoned);
+- a hand-written **native predicate** where the declared grammar cannot say it.
 
-```
-thresholdForRung(rung) = RUNG_FLOOR_MIN · eligibleActivityRate(rung)        // RUNG_FLOOR_MIN = 30 (min, a FLOOR)
-//   eligibleActivityRate = curated activity-points the rung yields per minute at the intended pace
-//   meter is measured in "rung activity-points (cap)"; per-event-capped like every other accrual
-```
+A rung takes **as many or as few as it needs** (ADR-182 — no fixed shape per rung), and they are **order-free**:
+the player may satisfy them in any order. The list is authored **separately from** the pillar-deed inventory of
+§4.2.1 — a rung requirement is **not** raw kills/XP (those feed the character level, §4.6.5) and **not** a
+pillar deed (those are Phase-2, §4.2), though a rung may legitimately *count* a martial act as one of its
+criteria.
 
-So the meter and the time floor are the **same constraint expressed two ways**: clear the curated activities
-faster than the floor and the meter is *still* short of threshold (you cannot skip the floor); clear them at
-pace and the meter and the floor land together. The activity *rate* drops slightly at higher rungs (their
-curated activities are richer/slower), so the threshold falls gently (fewer activity-points fill the same ≥30-min floor as each activity is worth less per minute) while every rung stays ≥ 30 min.
+**What the player sees — one % bar, never the list.** The rung meter renders as a **rounded integer %** and
+nothing else: no checklist, no task HUD. A **counted** requirement moves the bar in quantized chunks as its
+tally fills; an **atomic** one (a flag, a predicate) jumps it when it flips. Every completion fires a
+**diegetic flavor line** in the log — that line is the only "checklist" the fiction allows. **100 %
+alone readies the rung beat** (the player-triggered VN scene, §3). There is **no separate story gate**: a story
+precondition simply *is* one of the rung's requirements, so the promotion condition is a single fact — the list
+is done.
 
-> **SUPERSEDED for T0 (ADR-137/FB-121, built):** T0's ladder no longer uses a meter/threshold at all —
-> each rung is an authored **hidden requirement list** (`requirements.md` → gen; counts are markdown
-> numbers tuned edit → gen → sim, no balance.ts mirror), and the ADR-132 sim re-signs the per-rung
-> wall-time bands. The threshold model below stands only as **frontier intent for T1+** until each
-> tier's own design pass decides whether it adopts the requirement model.
+**Pacing is MEASURED, not back-solved.** The list is authored for the **fiction first** (what the rung's beat
+demands of you); the FB-4 / ADR-132 balance sim then **plays the authored lists and reports what they cost**,
+and the per-rung wall-time bands are **re-signed from what the model produces** — the machine verdict lives in
+[`docs/content/t0-pacing.md`](../../content/t0-pacing.md), regenerated on every balance pass, and §3's
+generated tables carry the shipped rung titles. The **≥30-min-per-rung floor** (`RUNG_FLOOR_MIN = 30`, binding
+from T1; the T0 tutorial is exempt) and the §4.8 per-tier hour FLOORs survive as the **target the sim checks
+those measurements against** — *not* as an input a threshold is derived from. If a rung measures **under** its
+floor, the fix is a **heavier requirement list** (more criteria, or bigger counts, in `requirements.md`), never
+a tuned points number: there is no points meter to tune. Tuning is **edit → `gen:narrative` → sim**, with no
+`balance.ts` mirror.
 
-**The T0 rung-meter thresholds** *(struck 2026-07-10, ADR-168 — the table
-hand-copied pre-reboot rung fictions and a retired meter model).* T0's shipped
-per-rung pacing is **measured, not back-solved**: the machine verdict lives in
-[`docs/content/t0-pacing.md`](../../content/t0-pacing.md) (regenerated on every
-ADR-132 balance pass), and the shipped rung titles/requirements are §3's
-generated tables. The threshold MODEL below stays as frontier intent for T1+
-only.
+**Unfocused play** (multi-skilling, side-quests, off-objective wandering) satisfies a rung's requirements more
+slowly and so takes **LONGER — ~60–120 min/rung**. The per-rung **wall-clock figures** of §4.8 are therefore
+**EXPECTED real, somewhat-unfocused play — they sit ABOVE the focused-optimal floor and are NOT a contradiction
+with it.** The measured per-rung times are asserted by the §6.6 gate-monotonicity verifier.
 
-The thresholds are deliberately **modest numbers** (the floor is enforced by *time*, not a huge meter): a player
-who races the curated activities still cannot beat the ~30-min floor, because the rate ceiling is what the floor
-is computed against. **Combat Rank** and **Estate Service** advance **independently** (a rung may gate on one,
-the next on the other; both reset per rung). T1/T2 rung-meter thresholds scale the same way against their
-longer per-rung floors (≥ ~40 min at T1, ≥ ~75 min at T2; §4.8.2/§4.8.3).
+**Combat Rank** and **Estate Service** advance **independently** (one rung's list may lean on the martial
+track, the next on the labour track), and each rung's bar is **its own** — a promoted rung's progress never
+carries forward; the new rung starts at **0 %** against its own list. T1/T2/T3 rungs are authored the same way
+against their longer per-rung floors (≥ ~40 min at T1, ≥ ~75 min at T2; §4.8.2/§4.8.3) — **one model at every
+tier** (ADR-182).
 
-**Levers (T1+ frontier):** `RUNG_FLOOR_MIN = 30` *(a FLOOR — the value is the minimum, not a ceiling)*;
-each rung's `eligibleActivityRate` and the curated-activity set that realises it. For **T0 (built)** the
-levers are the authored requirement **counts** in `requirements.md` (ADR-137). The **per-rung-reset rule**
-and the **≥30-min floor (T1+; T0 exempt — ADR-056)** stay canon; the AND-gate is superseded at T0 (100% of
-the requirement list IS the gate).
+**Levers:** each rung's **requirement list** — which criteria it binds and, for the counted ones, their counts
+(all authored in `requirements.md`; the sim re-derives the bands). **Not levers (canon):** the hidden,
+order-free **list shape** and its single **% bar**; **100 % is the whole gate** (no separate story gate); the
+**flavor line on every completion**; and the **≥30-min floor as a measured target** (binds from T1; T0 exempt —
+ADR-056).
 
 ---
 
@@ -1101,15 +1104,17 @@ deeds **never** raise it; no other section re-derives a "level."
   12`. **`mobLevel` = the explicit per-mob `MobDef.level` field** (hand-tunable; defaults ~ the
   `dangerRing`'s expected character-level; §2.9).
 - **Skill XP → the equipped weapon line** (separately per-event capped).
-- **It does NOT bump the rung-meter** (per-rung *curated activities* do that, §4.1.1) and **does NOT accrue a
+- **It does NOT move the rung meter by itself** — the rung's bar moves only when one of *that rung's authored
+  requirements* completes (§4.1.1; a rung may count a martial act among its criteria, but a kill outside its
+  list writes nothing) — and it **does NOT accrue a
   pillar deed** — **EXCEPT** a *recognized* clear/defend, which fires an **Arms** achievement jump (§4.2.1,
   per-event capped) **in Phase 2 only.** So grinding boars does **not** balloon Arms; the *recognized* road-
   cleared deed does — and only post-final-rung.
 - **Loot** = one seeded roll on the mob's `LootTable` (§4.7.3); rare-tier weight scaled by `+0.5%·LUCK`.
 
 This is the clean THREE-track separation (§4.0.1): **one kill → character-level XP (only); one recognised deed →
-Arms (Phase 2); one curated rung activity → the Combat Rank meter** — the three sum independently (verifier-
-asserted, §6.6). **Levers:** `CL_BASE`, `CL_GROWTH`, `COMBAT_XP_K`, `MobDef.level` defaults, the HP/satiety/
+Arms (Phase 2); one completed rung requirement → the Combat Rank % bar** — the three sum independently
+(verifier-asserted, §6.6). **Levers:** `CL_BASE`, `CL_GROWTH`, `COMBAT_XP_K`, `MobDef.level` defaults, the HP/satiety/
 attr-point coefficients (§4.4/§4.6.1). The **combat-XP-only feed, the three-track separation, and the single
 level curve** are **not levers** (canon).
 
@@ -1260,7 +1265,7 @@ staggered one beat at a time (no R3 UI-dump):
 |---|---|
 | **R3** — combat rung | The **single starter weapon (yari)** + the **bare auto-resolve loop** + **retreat** + the **Bestiary** (character (combat) **level** begins). Combat stats start near-zero. |
 | **R4** — loot→craft loop | **Graded weapon-durability bands** (§4.6.1c) surface with the simple Crafting loop + **Equipment/Inventory** (never auto-unequipped). |
-| **R5** — combat rung | The **stance** slot. *(Curated combat activities feed the **Combat Rank** rung-meter; **Arms PILLAR deeds do NOT accrue yet** — Phase 2.)* |
+| **R5** — combat rung | The **stance** slot. *(The rung's own martial requirements move the **Combat Rank** % bar, §4.1.1; **Arms PILLAR deeds do NOT accrue yet** — Phase 2.)* |
 | **First weapon-line L10 milestone** — weapon-skill milestone | The **ability + item** intervention slots. |
 | **T1** *(Estate-full)* — combat rung | The **2nd archetype line (Sword)** opens on a Combat Rank rung-gate; **+3 weapons across T1.** |
 | **T2** *(Village)* — combat rung | The **3rd archetype line (Staff/polearm)** opens; **+4 weapons across T2.** *(T3 Region adds combat DEPTH, no new line.)* |
@@ -1464,9 +1469,10 @@ stays within the winnable / soft-setback / no-dead-end guardrails). **The ≈28.
 FLOOR, NOT the total** — the FLOOR sum across the 4 v1 tiers T0–T3: the full **v1 saga ≈ ~60 h FLOOR = ~28.5 h
 Phase-1 climb + a ~+32 h Phase-2 pillar-grind floor** (§4.8.1b/§4.8.4).
 
-> **The ≥30-min floor is enforced on the RUNG-METER POINTS, not the wall-clock.** The runtime floor is the
-> per-rung meter threshold (§4.1.1), back-solved so that **even optimal FOCUSED play cannot fill a rung's
-> numeric-points objective in < 30 min** — the meter is the enforcement, the time follows. **Unfocused play**
+> **The ≥30-min floor is a MEASURED target on the authored requirement lists.** A rung's cost is whatever its
+> **authored requirement list** (§4.1.1) demands; the ADR-132 sim plays those lists and **measures** the
+> per-rung wall-time, and the floor is asserted against that measurement — a rung that measures under it is
+> fixed by **authoring a heavier list**, never by tuning a points threshold (there is none). **Unfocused play**
 > (multi-skilling, side-quests, off-objective wandering) takes **LONGER — ~60–120 min/rung**. The per-rung
 > **wall-clock column** in the tables below is **EXPECTED real, somewhat-unfocused play — NOT a contradiction**
 > with the 30-min focused-optimal floor: it sits *above* the floor by design.
@@ -1505,29 +1511,24 @@ but the Arms pillar DEEDS bank only from T1). Its rungs escalate from a ~5-min c
 capstone — a real but gentle ramp; the **≥30-min per-rung FLOOR (the CI acceptance gate) binds from T1**, and T0
 is exempt from it.
 
-This is the table the rest of §4 is tuned to satisfy. **It is the PHASE-1 rung climb** (§4.0.1/§4.1.1): each
-rung promotes on an **AND-gate** — its **per-rung-reset rung-meter ≥ threshold** (fed by that rung's **curated
-activities**, §4.1.1) **AND** its **story flags** (the UI reads "awaiting X" when one side lags) — **NOT** on
-accumulating pillar deeds (those are **Phase 2**, §4.8.1b). Each grind rung's expected wall-clock escalates
-toward the capstone, **summing to ≈4.5 h**. The **rice column is lifetime-produced** (the labour RESOURCE,
-already NET, §4.7.1 — sold for coin to fund the sinks; rice is **not** a currency); the **meter threshold** is
-in rung activity-points (§4.1.1); "throughput" is the
-net rice/min from §4.7.1. *(The exact times, costs & thresholds are tunable; the ≥30-min floor — binding
+This is the pacing the rest of §4 is tuned to satisfy. **It is the PHASE-1 rung climb** (§4.0.1/§4.1.1): each
+rung promotes when its **authored requirement list is 100 % done** (§4.1.1) — **NOT** on accumulating pillar
+deeds (those are **Phase 2**, §4.8.1b). Each grind rung's expected wall-clock escalates toward the capstone,
+**summing to ≈4.5 h**. *(The exact times, costs & requirement counts are tunable; the ≥30-min floor — binding
 from T1, T0 exempt — and the per-tier hour FLOORS are locked.)*
 
-**The T0 Phase-1 per-rung table** *(struck 2026-07-10, ADR-168 — it modelled
-the pre-reboot game wholesale: retired rung fictions, the deleted
-meter/threshold gates [ADR-137], rice+coin labour).* The shipped T0 pacing —
-per-rung wall-time, throughput, and the sim's five-seed verdict — is generated
-into [`docs/content/t0-pacing.md`](../../content/t0-pacing.md) by the ADR-132
-balance flow; the shipped per-rung REQUIREMENTS (the authored gate list that
-replaced the meters) live in `content/requirements.ts` and §3's generated
-tables. What stands here as **locked intent**, independent of any table: the
-per-rung wall-clock **escalates toward the capstone**; the ≥30-min-per-rung
-floor **binds from T1** (T0 exempt); consecutive within-rung cost ratios stay
-**≤ ~2–3×**; and **no pillar deeds accrue in Phase 1** — the deed inventory
-(§4.2.1) opens with Phase 2 (§4.8.1b), which is what prevents the "half the
-rungs, maxed deeds" state.
+**The shipped T0 pacing is GENERATED, not tabled here.** Per-rung wall-time,
+throughput, and the sim's five-seed verdict live in
+[`docs/content/t0-pacing.md`](../../content/t0-pacing.md), regenerated by the
+ADR-132 balance flow on every balance pass; the shipped per-rung REQUIREMENTS —
+the authored list that *is* each rung's gate (§4.1.1) — live in
+`content/requirements.ts` (authored in `narrative/requirements.md`) and §3's
+generated tables. What stands here as **locked intent**, independent of any
+generated table: the per-rung wall-clock **escalates toward the capstone**; the
+≥30-min-per-rung floor **binds from T1** (T0 exempt); consecutive within-rung
+cost ratios stay **≤ ~2–3×**; and **no pillar deeds accrue in Phase 1** — the
+deed inventory (§4.2.1) opens with Phase 2 (§4.8.1b), which is what prevents the
+"half the rungs, maxed deeds" state.
 
 > **R0 is the ~5-min cold-open story rung** (the *kura* cold open, §3.1) — a scripted beat, not a grind rung,
 > exempt from any per-rung floor.
@@ -1566,20 +1567,20 @@ pacing regression fails on **undershoot only**, §4.8.4).
 The Village tier's Phase-1 (V0→V7) spends its **~8–10 h** floor on **wider** content (market, coin, component
 crafting, silk *meibutsu*, rumours board, valley-scale combat, the **3rd weapon line — Staff/polearm**) at
 **~60 min/season** wall-clock. Throughput rises ~10× over the prior tier (rice into the tens-of-thousands). Each
-rung gates on the **rung-meter + story** (not deeds); **Office is revealed** here and becomes a *required*
-Phase-2 gate (§4.1). The **first HUMAN threat** (bandits / *nobushi*) and the rival-house contest also begin
-here. Each grind rung ≥ ~40 min (the ≥30-min floor binds from T1); capstone longest.
+rung gates on its **authored requirement list** (§4.1.1 — not deeds); **Office is revealed** here and becomes a
+*required* Phase-2 gate (§4.1). The **first HUMAN threat** (bandits / *nobushi*) and the rival-house contest
+also begin here. Each grind rung ≥ ~40 min (the ≥30-min floor binds from T1); capstone longest.
 
-| Rung (§3.4) | Meter + story gate to leave it (summary) | ⏱ wall-clock |
+| Rung (§3.4) | The rung's requirement list (summary — the whole gate) | ⏱ wall-clock |
 |---|---|---|
-| **V0 Errand-runner** — market/coin opens (one shop first) | Estate Service ≥ thr + first valley errands; coin row lit | **~40 min** |
-| **V1 Recognised hand** — chief's house, inn & rumours board | Estate Service ≥ thr + shop+headman standing | **~55 min** |
-| **V2 Road-warden** — HUNT/CLEAR at valley scale; first HUMAN threat (*nobushi*); ford safe; **Staff/polearm line opens** *(3rd line)* | **Combat Rank ≥ thr** (valley clears; road-safe curated activities) + the ford story | **~60 min** |
-| **V3 Steward of the valley economy** — silk *meibutsu* + component crafting | Estate Service ≥ thr + recorded seasonal result; **TRADE strand opens** (≤⅓-capped, §4.2.3) | **~65 min** |
-| **V4 Trusted of the headman** — **Office bar lights** (first Office reveal) | Estate Service ≥ thr + the headman's trust beat | **~70 min** |
-| **V5 Sworn man-at-arms** — paid retinue (flavour), DEFEND quests; **Naoyuki beat** | **Combat Rank ≥ thr** (valley DEFEND watches) + the man-at-arms oath | **~70 min** |
-| **V6 Right-hand-in-waiting** — authority across the valley; region seed | Estate Service ≥ thr + STORY (alliance/standing) | **~55 min** |
-| **V7 Agent of the house** *(capstone → OPENS Phase 2)* — "clean your room"; region opens | Estate Service ≥ thr + the Lord sends you to the region — **opens the Village Phase-2 grind to the hybrid gate (§4.8.1b)** | **~65 min** |
+| **V0 Errand-runner** — market/coin opens (one shop first) | **Estate Service** — the first valley errands; the coin row lit | **~40 min** |
+| **V1 Recognised hand** — chief's house, inn & rumours board | **Estate Service** — shop + headman standing | **~55 min** |
+| **V2 Road-warden** — HUNT/CLEAR at valley scale; first HUMAN threat (*nobushi*); ford safe; **Staff/polearm line opens** *(3rd line)* | **Combat Rank** — valley clears / road-safe acts + the ford beat | **~60 min** |
+| **V3 Steward of the valley economy** — silk *meibutsu* + component crafting | **Estate Service** — the recorded seasonal result; **TRADE strand opens** (≤⅓-capped, §4.2.3) | **~65 min** |
+| **V4 Trusted of the headman** — **Office bar lights** (first Office reveal) | **Estate Service** — the headman's trust beat | **~70 min** |
+| **V5 Sworn man-at-arms** — paid retinue (flavour), DEFEND quests; **Naoyuki beat** | **Combat Rank** — the valley DEFEND watches + the man-at-arms oath | **~70 min** |
+| **V6 Right-hand-in-waiting** — authority across the valley; region seed | **Estate Service** — the alliance/standing beat | **~55 min** |
+| **V7 Agent of the house** *(capstone → OPENS Phase 2)* — "clean your room"; region opens | **Estate Service** — the Lord sends you to the region — **opens the Village Phase-2 grind to the hybrid gate (§4.8.1b)** | **~65 min** |
 
 **Totals & checks (Village Phase 1):** **40+55+60+65+70+70+55+65 = 480 min = 8.0 h** ✔ (the Phase-1 FLOOR). The
 **Phase-2 deeds** (Estate 5,600 / Arms 3,500 / Office 1,400 ip — §4.2.1) + seasonal (2,400 / 1,500 / 600)
@@ -1598,16 +1599,16 @@ the **FULL 4-pillar cross-pillar combo set** completes here (§4.3.1). Each grin
 the longest. The Region tier's **Phase 2** weaves in the **full 4-pillar cross-pillar combos** (§4.3.1) and
 lands **U3 "Prosperous"** (§4.7.5).
 
-| Rung (§3.6) | Meter + story gate to leave it (summary) | ⏱ wall-clock |
+| Rung (§3.6) | The rung's requirement list (summary — the whole gate) | ⏱ wall-clock |
 |---|---|---|
-| **G0 Valley-envoy** — trade backbone opens minimally; first Origin contact | Estate Service ≥ thr + first off-the-books consignment | **~75 min** |
-| **G1 Road-captain** — *sekisho* layer; region-scale combat (rōnin/bandits); **combat DEPTH on the completed roster (no new line — the roster completed at the Village tier)** | **Combat Rank ≥ thr** (secure cluster roads — curated combat) + first pass obtained | **~110 min** |
-| **G2 Broker of the post-town** *(Origin OPENS)* — Sawatari-juku, *toiya* | Estate Service ≥ thr + **STORY (dream) AND travel-standing** (the doubly-earned Origin gate, §3.6.2) | **~120 min** |
-| **G3 Arbiter between valleys** — Hibara + Tōge-mura (capped at 2) | Estate Service ≥ thr + out-supply/arbitrate story | **~130 min** |
-| **G4 Recognised regional retainer** — Kuzuhara river-works (LAND mega-lever) | Estate Service ≥ thr **+ STORY** (commit the multi-stage *seki*) — **lands the U3 "Prosperous" kura-work** (40K coin sink, §4.7.5) | **~140 min** |
-| **G5 Captain of the road-detail** — brigand roost; **Hanzaki survived**; **Naoyuki ally-flip** | **Combat Rank ≥ thr** (secure the trade pass — curated combat) + the roost broken | **~140 min** |
-| **G6 Alliance-broker** *(Otsuru/Tama TRUTH — spine-guaranteed)* — Tahei-name-reclaim is **Origin-O5 missable** (§3.6.2) | Estate Service ≥ thr + STORY (alliance) | **~120 min** |
-| **G7 Leading house of the region** *(capstone → OPENS Phase 2)* — rivals eclipsed | Estate Service ≥ thr + the Lord names the house first of the region — **opens the Region Phase-2 grind to the v1 end-gate (§4.8.1b)** | **~125 min** |
+| **G0 Valley-envoy** — trade backbone opens minimally; first Origin contact | **Estate Service** — the first off-the-books consignment | **~75 min** |
+| **G1 Road-captain** — *sekisho* layer; region-scale combat (rōnin/bandits); **combat DEPTH on the completed roster (no new line — the roster completed at the Village tier)** | **Combat Rank** — secure the cluster roads; the first pass obtained | **~110 min** |
+| **G2 Broker of the post-town** *(Origin OPENS)* — Sawatari-juku, *toiya* | **Estate Service** — the **dream beat** *and* the travel-standing criterion (the doubly-earned Origin gate, §3.6.2) | **~120 min** |
+| **G3 Arbiter between valleys** — Hibara + Tōge-mura (capped at 2) | **Estate Service** — the out-supply / arbitrate beats | **~130 min** |
+| **G4 Recognised regional retainer** — Kuzuhara river-works (LAND mega-lever) | **Estate Service** — commit the multi-stage *seki* — **lands the U3 "Prosperous" kura-work** (40K coin sink, §4.7.5) | **~140 min** |
+| **G5 Captain of the road-detail** — brigand roost; **Hanzaki survived**; **Naoyuki ally-flip** | **Combat Rank** — secure the trade pass; the roost broken | **~140 min** |
+| **G6 Alliance-broker** *(Otsuru/Tama TRUTH — spine-guaranteed)* — Tahei-name-reclaim is **Origin-O5 missable** (§3.6.2) | **Estate Service** — the alliance beat | **~120 min** |
+| **G7 Leading house of the region** *(capstone → OPENS Phase 2)* — rivals eclipsed | **Estate Service** — the Lord names the house first of the region — **opens the Region Phase-2 grind to the v1 end-gate (§4.8.1b)** | **~125 min** |
 
 **Totals & checks (Region Phase 1):** **75+110+120+130+140+140+120+125 = 960 min = 16.0 h** ✔ (the Phase-1
 FLOOR). The **Phase-2 deeds** (Estate 42,000 / Arms 21,000 / Office 35,000 / **Name 19,600** ip — §4.2.1) +
@@ -1635,7 +1636,7 @@ T1**; the **T0 tutorial is floor-exempt**) — enforced as a CI pacing floor: if
 pacing regression **fails on UNDERSHOOT ONLY, never on overshoot**, because the two-phase tier (climb + grind)
 is *meant* to run past its Phase-1 floor; and (3) the **goal-to-goal ratio ≤ 2–3×** *within* a tier (canon) —
 the gentle intra-tier growth keeps consecutive costs soft, while the ~10× tier step (Office ~25×) is the
-deliberate chapter break. **Levers:** all per-rung *times / costs / meter-thresholds* and the Phase-2 window
+deliberate chapter break. **Levers:** all per-rung *times / costs / requirement counts* and the Phase-2 window
 minutes are tunable, but the **< 5 s first action**, the **≤2–3× never-balloon rule**, the **≥30-min per-rung
 FLOOR (from T1; T0 exempt)**, and the **per-tier hour FLOORS** (T0 floor-exempt · T1 ~5–8 h · T2 ~8–10 h · T3
 ~16 h) are constraints the tuning must always satisfy (the last two are locked FLOORS).
@@ -1645,9 +1646,10 @@ FLOOR (from T1; T0 exempt)**, and the **per-tier hour FLOORS** (T0 floor-exempt 
 ## §4.9 Levers index (the tuning dashboard) & the LOCKED-constants index
 
 **Master dials:** `TIER_MAG = 10`, `r_intra = 1.15`, `SEASON_WALLCLOCK_MIN[tier]` (T0≈34 / T1≈60 / T2≈120 — a
-binding that *serves* the FLOORs, itself a lever). **Rung-meter — the third curve (§4.1.1):** `RUNG_FLOOR_MIN
-= 30` *(a FLOOR — the value is the minimum, not a ceiling)*, each rung's `eligibleActivityRate` + its curated-
-activity set + the per-rung thresholds (T0 ~14–19). **Accrual:** **`PER_EVENT_CAP_FRACTION = 0.04`** *(a small
+binding that *serves* the FLOORs, itself a lever). **Rung requirements — the third curve (§4.1.1):** each
+rung's **authored requirement list** (which criteria it binds + the counts on the counted ones, in
+`narrative/requirements.md`), measured against `RUNG_FLOOR_MIN = 30` *(a FLOOR — the value is the minimum, not
+a ceiling; the sim checks the authored list against it, ADR-132)*. **Accrual:** **`PER_EVENT_CAP_FRACTION = 0.04`** *(a small
 cap is the locked direction)*, the **deeds/seasonal split ≈ 70/30** *(deeds-dominate is locked; the exact 70/30
 is tunable)*, the **deed-base table** (§4.2.1, every base ≤ its 0.04·good-band cap), **`SEASONAL_SHARE =
 0.30`** (the single dial setting the whole seasonal stream), the derived **`JUDGE_K[pillar][tier] =
@@ -1656,7 +1658,7 @@ SEASONAL_SHARE · goodBand`** table, the **`TIER_REF[pillar][tier]`** + **`TIER_
 0.10` + the dent self-heal rate. **HYBRID gate (§4.1):** the **good/great/excellent triple per revealed pillar
 per tier** **+ the great/excellent COUNTS** (how many pillars must be great vs excellent); the revealed-pillar
 set (T0=2 / T1=3 / T2=4 — Name gated). **Gating:** the hybrid profile **ANDed with** the Phase-1 capstone
-rung-meter + story gate, **+ the per-tier hour FLOORS the gates must take to fill**. **Skills:** `XP_BASE = 50`,
+rung (its requirement list 100 % done), **+ the per-tier hour FLOORS the gates must take to fill**. **Skills:** `XP_BASE = 50`,
 `XP_GROWTH
 = 1.18`, `PER_EVENT_XP_CAP_FRACTION = 0.25`, visibility 30, per-tier soft caps, milestone levels/perks.
 **Per-skill perks (§4.5.4):** each perk's `combatBonus` magnitude, the per-skill perk counts (~2–8), the
@@ -1676,7 +1678,7 @@ displayed == tested == same-for-every-player); the **light active layer** (§4.6
 item slots); `SATIETY_COMBAT_FLOOR = 0.5` + the 0.7 knee + the attackSpeed-touch weight;
 the 4 durability bands (75/50/1/0 → 1.0/0.9/0.75/0.55) + `WEAR_PER_FIGHT ≈ 3 %`; the **win-rate bands**
 (§4.6.7) per combat-entry rung; the **retreat clock cost** + the **0-HP forced-rest** loop (§4.6.6b/§4.6.8). **Pacing (§4.8):** all per-rung times /
-costs / meter-thresholds + the Phase-2 window minutes under the **≥30-min FLOOR (binds from T1; T0
+costs / requirement counts + the Phase-2 window minutes under the **≥30-min FLOOR (binds from T1; T0
 tutorial exempt) + the per-tier hour FLOORS (T0 exempt · T1 ~5–8 h · T2 ~8–10 h · T3 ~16 h; LOCKED as FLOORS)**.
 **Producers/costs (§4.7):** gather base yields/ticks + per-rung net throughput, autumn `×3`,
 `STAMINA_RATE_FLOOR = 0.5` + the 0.7 knee, the weather `±10 %` band, crafting quality weights (0.4/0.4/0.2,
@@ -1703,8 +1705,10 @@ runs longer) · the **≥30-min per-rung FLOOR (from T1)** · **first-fight win-
 injury + **a real bite of carried wealth** — ~20 % coin + ~⅓ materials/rice, banked wealth in the kura is safe;
 never levels/gear/Influence) · **deeds-dominate accrual split (~70 % deeds / ~30 % seasonal)** · **deed-jump
 size small (a per-event cap well under 0.08)** · **no respec in v1** · the **HYBRID good/great/excellent
-tier-gate** (breadth floor + no overflow) · the **THREE clean combat tracks** (character level / Arms pillar /
-Combat Rank meter — never reconflated) · the **SEQUENTIAL two-phase model** (rungs → pillar grind; deeds
+tier-gate** (breadth floor + no overflow) · the **THREE clean combat tracks** (character level ← combat-XP /
+Arms pillar ← deeds / Combat Rank ← its rung's authored criteria — never reconflated) · the **rung
+REQUIREMENTS law** (a hidden, order-free authored criteria list per rung; one rounded **% bar**; **100 % is
+the whole gate** — no separate story gate; §4.1.1) · the **SEQUENTIAL two-phase model** (rungs → pillar grind; deeds
 Phase-2-only) · **graded durability bands, never auto-unequip / never weaponless** · **satiety throttles
 combat** (floor never below ~15 % win-rate).
 

@@ -25,7 +25,7 @@ high-water); the tier-up gate is the **scaled grade-gate** (`1 EXCELLENT + 1 GRE
 EXCELLENT; **NO overflow**); progression is **SEQUENTIAL per tier** — climb the
 rungs (**Phase 1**), THEN grind the estate's pillars (**Phase 2**), THEN tier-up
 (§3.0.1); combat is **THREE clean separately-stored tracks** (character level · the
-Arms pillar · the Combat Rank rung-meter — §2.8.1/§3.0.1) and **INCREMENTAL** (T0
+Arms pillar · the Combat Rank rung track — §2.8.1/§3.0.1) and **INCREMENTAL** (T0
 starts with the carrying-pole, a growing **~9–10**-weapon roster, +2/+3/+4 per tier,
 surfaced one-at-a-time on the **combat-reveal ladder** §3.5.1); combat is
 first-class & **EARLY (T0-R3)**, satiety-throttled ("eat before you fight"); tiers
@@ -54,7 +54,7 @@ never silent menu growth** (§2.1a, §1.12).
 
 | Code | Trigger kind | Predicate source |
 |---|---|---|
-| **RANK** | a **Phase-1 rung** reached (a fresh `R0–R7` ladder per tier — the uniform rung scheme for every tier; T6's rungs are the HOUSE's Edo standing, `H0–H7`) | the rung's **authored hidden REQUIREMENT list** 100% done (**FB-121/ADR-137** — the old meter/threshold/storyGate AND-gate is **deleted**; requirements are authored in `narrative/requirements.md` → `content/requirements.ts`, and the player reads a rounded **% bar**, never the list). Requirements are **curated, story-consistent acts** — *never* raw XP/kills/deeds (those feed the character level / the pillars). Every RANK promotion is a **player-TRIGGERED, ignorable full-screen VN story beat** (choices remembered; not every rung a perk — **ADR-110** / §1.6.4(1) / §3.0.1(1)). |
+| **RANK** | a **Phase-1 rung** reached (a fresh `R0–R7` ladder per tier — the uniform rung scheme for every tier; T6's rungs are the HOUSE's Edo standing, `H0–H7`) | the rung's **authored hidden REQUIREMENT list** 100% done — the promotion model at **every tier** (**ADR-137 / ADR-182**). A requirement is any **objective criterion** consistent with the game and the story (a counted act, a quest-token goal, an economy/state predicate, a story beat), **as many or as few as that rung needs**, order-free — authored in `narrative/requirements.md` → `content/requirements.ts`; the player reads a rounded **% bar**, never the list, and every completion fires a **diegetic flavor line**. Requirements are **curated, story-consistent acts** — *never* raw XP/kills/deeds (those feed the character level / the pillars). **100% alone readies** the rung, and every RANK promotion is a **player-TRIGGERED, ignorable full-screen VN story beat** (choices remembered; not every rung a perk — **ADR-110** / §1.6.4(1) / §3.0.1(1)). |
 | **PILLAR** | the **Phase-2 TIER-UP gate** cleared — the **scaled grade-gate** over the tier's **revealed** pillars (**Estate** 家産 [trade ≤⅓] · **Arms** 武威 · **Office** 官威 · **Name** 家格 — ADR-159) | the **scaled grade-gate** distribution (`1 EXC + 1 GRT + (N−2) GOOD` over the revealed pillars, all ≥ GOOD; NO overflow; §2.16/§4 — numbers → §4). Pillar **DEEDS accrue in PHASE 2 only** (post-final-rung), so PILLAR gates the **tier-up**, never an individual rung. |
 | **STORY** | a story / quest / dialogue flag set | a `flagsSet` from a quest or `TextLine` (§2.12) |
 | **FIRST-USE** | first acquisition / first action / discover-by-doing | first resource gained, first XP in a skill, first entry into an area/danger ring (§2.4, §2.7, §2.9) |
@@ -62,8 +62,9 @@ never silent menu growth** (§2.1a, §1.12).
 > **The THREE combat-fed tracks (never one fused bar — §2.8.1/§3.0.1).** Wherever a combat reveal
 > appears below, keep them distinct: **one kill** writes **combat-XP → the character (combat) level** (HP +
 > attribute points + satietyMax); **one recognised martial DEED** writes **→ the Arms pillar** (House Influence,
-> **Phase-2-gated**); **one curated per-rung activity** writes **→ the Combat Rank rung-meter** (the Phase-1
-> martial rung-gate). Reconflating these three is the single likeliest regression — they stay separate by design.
+> **Phase-2-gated**); **one curated per-rung act** completes a **Combat Rank rung REQUIREMENT** (the Phase-1
+> martial rung track — that rung's authored criteria list; ADR-025's three-track de-confliction stands, its
+> mechanism per ADR-182). Reconflating these three is the single likeliest regression — they stay separate by design.
 
 **Reading the tables.** Each tier is **one coherent ladder table** (a *fresh* ladder, never a continuation;
 §1.5.1). Rows are in **reveal order**. Each reveal gives: the **trigger**, **what becomes
@@ -109,7 +110,7 @@ visible**, and the **diegetic event-log line** that announces it (the `revealLog
 
 ---
 
-## 3.0.1 The two-phase per-tier model, the rung-meter law & the Phase-2 tier-gate (the spine every table below builds on)
+## 3.0.1 The two-phase per-tier model, the requirement law & the Phase-2 tier-gate (the spine every table below builds on)
 
 This makes the progression spine **concrete and cross-cutting before the tier tables.** The canonical
 conceptual statement is **§1.6.4**; the system shapes are **§2.15.1 / §2.16 / §2.8.1**; the exact
@@ -118,21 +119,25 @@ curves/thresholds are **§4**. Every `R*/V*/G*` row below is read through this m
 **(1) Each tier is climbed in TWO ORDERED PHASES.**
 
 - **Phase 1 — climb the rungs** (`R0→R7`, the same scheme every tier). Each rung promotes when its
-  **authored hidden REQUIREMENT list is 100% done** (**FB-121/ADR-137** — the old
-  meter/threshold/storyGate AND-gate is deleted): requirements are curated,
-  story-consistent acts — a designed **one-to-many** set, NOT a single
-  repeat-counter — authored per rung in `narrative/requirements.md` and compiled
-  to `content/requirements.ts`; the player reads a rounded **% bar**, never the
-  list. **Pillar DEEDS do NOT accrue in Phase 1** — this is the structural fix against a "half the rungs, maxed
-  deeds" state. A cleared AND-gate only **readies** the promotion — it **holds** (at the header rung element)
+  **authored hidden REQUIREMENT list is 100% done** (**ADR-137 / ADR-182** — one
+  progression model at every tier): the list is a designed **one-to-many** set of
+  **objective criteria** — counted acts, quest-token goals, economy/state
+  predicates, story beats — **as many or as few as that rung needs**, order-free,
+  NOT a single repeat-counter; authored per rung in `narrative/requirements.md`
+  and compiled to `content/requirements.ts`. The player reads a rounded **% bar**,
+  never the list: counted requirements move it in quantized chunks, atomic ones
+  jump it, and **every completion fires a diegetic flavor line**.
+  **Pillar DEEDS do NOT accrue in Phase 1** — this is the structural fix against a "half the rungs, maxed
+  deeds" state. **100% alone READIES the promotion** — there is **no separate story gate**; a story
+  precondition is a requirement IN the list — and a readied rung **holds** (at the header rung element)
   until the **player triggers** it, and can be **ignored**; triggering plays the rung as a **player-triggered,
   full-screen VN story beat** with remembered choices (`npcMemory`) and only occasional small bonuses — **not
   every rung grants a perk** (**ADR-110** / §1.6.4(1); the VN engine is ADR-104 / §2.12).
 - **Phase 2 — grind the house up.** The **capstone (final) rung OPENS Phase 2** — the **estate-influence /
   four-pillar grind** — and the tier's **pillar DEEDS accrue here and ONLY here**. Clearing the tier's
   **hybrid good/great/excellent pillar profile** (below) is then what **tiers up** to the next, larger canvas.
-  *(The capstone rung confirms **Phase 1**; the **Phase-2 hybrid pillar gate is the actual tier-gate**, ANDed
-  with the capstone rung-meter + story.)* **Phase 2 is NOT a dead consolidation half:** it carries its
+  *(The capstone rung confirms **Phase 1**; the **Phase-2 hybrid pillar gate is the actual tier-gate**, sitting
+  on top of the cleared capstone rung.)* **Phase 2 is NOT a dead consolidation half:** it carries its
   own **authored reveals** — the tier's **estate BUILD** completing (the estate's visible stage advancing per
   tier from **E0→E1 at T0** onward — see each tier's stage span — gated
   on the pillar-Influence floor, **not** the Phase-1 rungs; §2.17/§4.7.5), new **deed categories** opening
@@ -141,14 +146,22 @@ curves/thresholds are **§4**. Every `R*/V*/G*` row below is read through this m
   shortfall is surfaced EARLY + CONTINUOUSLY** from the first Phase-2 season (the lagging bar reads plainly, e.g.
   *"Name is behind"*) so a breadth shortfall is **never an end-of-Phase-2 surprise** (§2.16(b)).
 
-**(2) The requirement law (ADR-137, replacing the retired meter law).** Each rung's
-requirement counts are **provisional fun-first drafts**, tuned edit →
-`gen:narrative` → sim (ADR-132 — no `balance.ts` mirror); the pacing floor is
-enforced by **measurement** (the ADR-132 sim + `docs/content/t0-pacing.md`), not
-by a back-solved threshold — the **≥30-min-per-rung floor binds from T1** (T0 is
-tutorial-paced). Kills feed the **character (combat) level**, never rung progress,
-except where a rung's authored requirement names a fight (§2.8.1); the three
-combat-fed tracks stay separately stored (§2.20).
+**(2) The requirement law (ADR-137 · ADR-182 — the progression model at EVERY
+tier).** A rung binds an authored, **hidden list of objective requirements**. A
+requirement may be anything internally consistent with the game and the story — a
+counted act, a quest-token goal, an economy/state predicate, a story beat — and a
+rung carries **as many or as few as it needs**, order-free. The player-facing
+**rung meter** is exactly the rounded integer **% bar** over that list (counted
+requirements move it in chunks; atomic ones jump it), and **100% alone readies the
+rung beat**. Each rung's requirement counts are **provisional fun-first drafts**,
+tuned edit → `gen:narrative` → sim (ADR-132 — no `balance.ts` mirror). **Pacing
+RE-DERIVES from the model**: author the rung for the fiction first, let the
+ADR-132 sim **measure** what it costs (`docs/content/t0-pacing.md`), and re-sign
+the pacing bands from what the model produces — the **≥30-min-per-rung floor binds
+from T1** (T0 is tutorial-paced) as a *measured* floor, never a quantity a rung's
+contents are back-solved from. Kills feed the **character (combat) level**, never
+rung progress, except where a rung's authored requirement names a fight (§2.8.1);
+the three combat-fed tracks stay separately stored (§2.20).
 
 **(3) The Phase-2 scaled grade-gate.** Phase 2 tiers up on the
 **scaled grade-gate over the pillars REVEALED by that tier** — exactly **`1 EXCELLENT + 1 GREAT + (N−2) GOOD`**
@@ -163,8 +176,9 @@ per-pillar-per-tier thresholds are back-solved against the fixed §4.2.1 deed in
 
 **(4) The THREE clean combat tracks.** As §3.0 notes: **one kill → character-level combat-XP**
 (scales HP / satietyMax / attribute points); **one recognised deed → the Arms pillar** (Phase-2 gated); **one
-curated rung activity → the Combat Rank rung-meter** (the Phase-1 martial gate). `character.level` is the only
-one of the three that scales personal power; the other two are *standing*/*gate* meters.
+curated rung act → a Combat Rank rung REQUIREMENT** (the Phase-1 martial gate — that rung's authored criteria
+list). `character.level` is the only one of the three that scales personal power; the other two are
+*standing* / *gate* tracks.
 
 **(5) NO stored "phase" flag.** The current phase is **derivable from the current rung** (pre-capstone = Phase 1;
 post-capstone = Phase 2) — no extra `GameState` field (§6.4).
@@ -176,8 +190,8 @@ to *great/excellent* in Phase 2 **extends** Phase 2 beyond its floor by design. 
 progress" feel comes from **tab-open auto-resolve combat + auto-repeat labour** (active-only), **not**
 from offline accrual or early idle producers (auto-producers are T4+ only, §2.5).
 
-So, read every tier table below as: **climb the rungs (Phase 1: rung-meter + story AND-gate) → the capstone opens
-Phase 2 → grind the REVEALED pillars to the hybrid profile → tier-up.**
+So, read every tier table below as: **climb the rungs (Phase 1: each rung's authored requirement list to 100%)
+→ the capstone opens Phase 2 → grind the REVEALED pillars to the hybrid profile → tier-up.**
 
 ---
 
@@ -269,10 +283,11 @@ spatial**: every labour and every foe is bound to a **map node**, and you **walk
 fight — the weir gives you up at the cold open, then you walk out to the paddies to farm, the forecourt
 to haul, the woodlot to cut and forage; banking is at the kura. **Combat surfaces EARLY at R3** (the humbling first fight) and then
 deepens **incrementally** along the **combat-reveal ladder** (§3.5.1) — never a one-beat dump. Each rung
-promotes when its **authored hidden requirement list is 100% done** (ADR-137; the
-player reads a rounded % bar — T0 is **floor-exempt**, tutorial-paced; the
-≥30-min floor binds from T1). Requirements are **curated, story-consistent acts**,
-**never** raw XP/kills/deeds. **No auto-producers appear** (early game is the MC's
+promotes when its **authored hidden requirement list is 100% done** (ADR-137 /
+ADR-182 — the one model at every tier; the player reads a rounded % bar — T0 is
+**floor-exempt**, tutorial-paced; the ≥30-min floor binds from T1). Requirements
+are **curated, story-consistent acts** — counted acts, quest-token goals,
+economy/state predicates, story beats — **never** raw XP/kills/deeds. **No auto-producers appear** (early game is the MC's
 own active grind). The **House-Influence panel TEASES from R3** (the build's
 `panel-house-influence` unlock, on the Estate tab — its single **Estate** bar lit,
 the other three **locked silhouettes**), and **R7 (`t0-capstone`) is what OPENS
@@ -385,14 +400,15 @@ U4 the reclamation capstone* — see §2.17's generated works table).
 > the house's **own people** (the steward **Genemon**, the drillmaster **Kihei**), **never a lord** —
 > **the lord is not met in T0**.
 >
-> **The trigger mechanism (BUILT, ADR-137/FB-121):** each T0 rung carries a finite **authored list of
-> hidden requirements** (counted acts, quest-token goals, economy/state predicates, story flags —
-> order-free), authored in `src/core/content/narrative/requirements.md` and compiled by gen-narrative;
-> the readable lists live in [`docs/content/t0-story.md`](../../content/t0-story.md) § "The hidden rung
+> **The trigger mechanism (BUILT — ADR-137 / ADR-182):** each T0 rung carries a finite **authored list of
+> hidden requirements** (counted acts, quest-token goals, economy/state predicates, story beats — as many
+> or as few as the rung needs, order-free), authored in `src/core/content/narrative/requirements.md` and
+> compiled by gen-narrative; the readable lists live in
+> [`docs/content/t0-story.md`](../../content/t0-story.md) § "The hidden rung
 > requirements" (generated — never re-typed here). The player sees only a **rounded integer % bar**;
 > every completion fires a diegetic flavor line, and **100% alone** opens the player-triggered rung
-> beat (ADR-110). The former **rung-meter + storyGate AND-gate is deleted** — story preconditions are
-> requirements IN the list. The table below is the per-rung **fiction intent** those lists realise.
+> beat (ADR-110) — there is **no separate story gate**: a story precondition is simply a requirement
+> IN the list. The table below is the per-rung **fiction intent** those lists realise.
 
 Two engines make a rise from "another mouth" to the house's **named hand** (Gonbei) believable inside one
 tier:
@@ -411,13 +427,13 @@ tier:
 
 | Promotion | Earned by (the fiction the requirement list realises) | Why the house grants it | Granter |
 |---|---|---|---|
-| **R0 → R1** | Complete the cold-open work (rake, haul water); the rest-bar recovers enough to labour (the requirement list + story) | Charity bought a pallet, not a place — and two hands have just quit for the lowlands. Raking proves he'll work despite his state → casual day-labour, kept "by arithmetic" | Genemon *(states the terms at the board)* |
+| **R0 → R1** | Complete the cold-open work (rake, haul water); the rest-bar recovers enough to labour (all of it entries on the rung's requirement list — the cold-open beats among them) | Charity bought a pallet, not a place — and two hands have just quit for the lowlands. Raking proves he'll work despite his state → casual day-labour, kept "by arithmetic" | Genemon *(states the terms at the board)* |
 | **R1 → R2** | A stretch of reliable labour, never shirking (the requirement list); **the silent rung** — a task simply not taken back | A day-hand is a transient the house owes nothing. Reliable work no one has to re-assign proves he can be left to it → the yard's round quietly becomes his. *(Porter's-knot beat foreshadows the Origin thread.)* | *(no one — the silent rung; the house simply stops watching)* |
 | **R2 → R3** | Stand the grain-store's **night watch** (the requirement list puts him at the post where the danger is) | The thin, undefended house has no guard; the willing hand holds the store at night → he is set the **grain-watch** | Kihei *(sets the watch)* |
 | **R3 → R4** | Survive the **wolf** (survived, not won); then **confess the loss** at the board and **BEG Kihei for drills** | Shamed at being thrashed and honest about the loss, he asks to be trained; an understaffed house that can't hire a guard drills the willing hand it has → he becomes **the pupil** | Kihei *(the drill yard opens as his need)* |
-| **R4 → R5** | Earn a place near the household's affairs — the requirement list + the **Count-night** story (Toku's packet missing) | Trusted enough to stand near the house's small valuables, he is **accused** when a packet goes missing — and the **day-book clears him**, on the record, no apology | Genemon *(the record clears him)* |
+| **R4 → R5** | Earn a place near the household's affairs — the rung's requirement list, the **Count-night** beat among its entries (Toku's packet missing) | Trusted enough to stand near the house's small valuables, he is **accused** when a packet goes missing — and the **day-book clears him**, on the record, no apology | Genemon *(the record clears him)* |
 | **R5 → R6** | Proven honest at the Count — the requirement list; the first coin errand run clean | A broke house needs an honest hand at its purse more than another field-hand. Cleared and reliable, he is sent to **Yohei's stall with the house's small purse, counted back to the mon** → the **trusted hand** | Genemon *(hands him the purse)* |
-| **R6 → R7** | A full career of proven work — labour, the watch, honesty, the counted purse — the requirement list **+ story** — **NOT** a pillar threshold; the **Phase-2 EXCELLENT-in-Estate gate (the 1-pillar collapse) is the separate T0→T1 tier-up** | The house has learned his hands over a whole tier. It marks that trust the only way it keeps names: **Genemon opens the day-book and writes him a use-name — GONBEI** — the hand-me-down name every Kurosawa hired man has carried — *ending Phase 1*. *(The lord is **never met** in T0: no bailiff-naming, no lord scene — the house's own steward confers the name.)* | **Genemon** *(the day-book's use-name page)* |
+| **R6 → R7** | A full career of proven work — labour, the watch, honesty, the counted purse — the rung's requirement list, its story beats among the entries — and **NOT** a pillar gate; the **Phase-2 EXCELLENT-in-Estate gate (the 1-pillar collapse) is the separate T0→T1 tier-up** | The house has learned his hands over a whole tier. It marks that trust the only way it keeps names: **Genemon opens the day-book and writes him a use-name — GONBEI** — the hand-me-down name every Kurosawa hired man has carried — *ending Phase 1*. *(The lord is **never met** in T0: no bailiff-naming, no lord scene — the house's own steward confers the name.)* | **Genemon** *(the day-book's use-name page)* |
 
 The capabilities **stack** (labour → reliability → the watch → honesty → the counted purse → a full career)
 and the granters stay **house-side** (Genemon and Kihei — **never a lord**; the lord is not met in T0) — so at
@@ -497,8 +513,9 @@ U-works, whose U4 completion beat lands post-R7) is §2.17's domain (ADR-145).
 > profile** — the scaled grade-gate over **Estate + Arms** (**1 GREAT + 1 EXCELLENT**, both ≥ GOOD).
 > Office/Name stay **locked silhouettes** (Office reveals at T2, Name at T3).
 
-**T1 is the SAME two-phase motion as T0 (§3.0.1).** **Phase 1** = climb `R0→R7`, each rung an **AND-gate**:
-the per-rung rung-meter / requirement list **AND** the rung's story milestones; **pillar DEEDS do NOT accrue in
+**T1 is the SAME two-phase motion as T0 (§3.0.1).** **Phase 1** = climb `R0→R7`, each rung promoted by its
+**authored hidden requirement list at 100%** — the same model as T0 (ADR-137 / ADR-182); the rung's story
+beats are requirements IN that list, not a second gate; **pillar DEEDS do NOT accrue in
 Phase 1**. The capstone **R7 OPENS Phase 2** — the **Estate + Arms** grind to the 2-pillar hybrid gate — and
 **clearing it opens the valley (T2 / §3.4)**.
 
@@ -522,8 +539,8 @@ T2); the **first paid retinue** as a light roster card; the **DEBT PANEL unlocks
 
 > **Milestone-level authoring of T1 — the per-rung story beats and log lines — lives in the bible sheet
 > [`tiers/t1.md`](../../story-bible/tiers/t1.md) and the roadmap
-> ([`../roadmap.md`](../roadmap.md), Tier T1).** What §3 fixes here: T1 = `R0→R7`, the **two-track AND-gate**,
-> the **Arms-pillar reveal**, the **2nd weapon line (sword, roster +3)**, the **first retinue**, the **debt
+> ([`../roadmap.md`](../roadmap.md), Tier T1).** What §3 fixes here: T1 = `R0→R7`, the **authored per-rung
+> requirement lists**, the **Arms-pillar reveal**, the **2nd weapon line (sword, roster +3)**, the **first retinue**, the **debt
 > panel**, the **E1→E2** build, and the **capstone-opens-valley** spine.
 
 > **Dream / mystery cadence.** A **dream/mystery beat fires at every tier seam** (T0→T1, T1→T2, …); the **full
@@ -571,8 +588,9 @@ Stabilising → E2 Recovering**.
 | **R6** | ⛩ | The house's voice | He speaks for the house at the headman's table; the bandit camp is answered as a CAMPAIGN |
 | **R7** | ⌂ | The yard-officer *(capstone)* | Daily operations his; the regency leans on him in fact; the house has bones again. The **Estate + Arms + Office** 3-pillar gate is the T2→T3 tier-up → the Region opens |
 
-> **Earned-transition spine (T2).** As at T0 (§3.2.1), no rung is granted for free: each is a rung-meter /
-> requirement + story AND-gate, the **granters are HOUSE-side** (the regency / **Genemon**), the valley's
+> **Earned-transition spine (T2).** As at T0 (§3.2.1), no rung is granted for free: each promotes on its own
+> **authored hidden requirement list at 100%** (ADR-137 / ADR-182 — the rung's story beats sit inside that
+> list), the **granters are HOUSE-side** (the regency / **Genemon**), the valley's
 > figures merely **acknowledge**. The per-rung why-it-happens fiction lives in the bible sheet
 > [`tiers/t2.md`](../../story-bible/tiers/t2.md). The **village reputation web** runs alongside as a parallel
 > **optional** accelerant (~10–15% off the climb; §2.15) — it **never** gates the spine.
@@ -623,7 +641,7 @@ beat**. Numbers/params → §4.6; the roster table lives at §2.10.1 / §4.6.9 /
 |---|---|---|
 | **R3** | combat rung (`STORY`/`RANK`) | The **carrying-pole** (your crude improvised starting weapon) + the **auto-resolve HP-attrition loop** — **HP ACCUMULATES between fights, NO auto-heal; you mend only by EATING** — in **two auto-modes per foe** (**fight-to-death** / **auto-retreat @~20% HP**; a flee costs nothing but you're hurt and the autopilot stops) + the **loss bite** (0 HP → HP→1, ~20% of carried **coin** + ~⅓ of carried materials lost — the **koku standing is immune** — **coin and rice banked in the kura are safe**, autopilot stops) + the **Bestiary**. The character (combat) **level** begins (kills → combat-XP only). Combat stats start near-zero. The **satiety→combat throttle** ("eat before you fight") is live from here. |
 | **R4** | loot→craft loop (`RANK`) | **Graded weapon-durability bands** surface with the simple Crafting loop (shown in the **Inventory/Equipment** tab already opened at R3, §2.10) — a **4-band** scale (75%+ / 50%+ / 1%+ / 0 → multipliers per §4.6.1c); a weapon degrades but is **NEVER auto-unequipped**. The **first found/crafted weapon** joins the roster here. |
-| **R5** | combat rung (`RANK` Combat Rank) | The **stance** slot on the Combat panel — the **glass-cannon ↔ tank** choice (aggressive: deal more, take more; defensive: take less, deal less). *(Curated combat activities now feed the **Combat Rank** rung-meter; the **Arms PILLAR deeds do NOT accrue yet** — Phase 2.)* |
+| **R5** | combat rung (`RANK` Combat Rank) | The **stance** slot on the Combat panel — the **glass-cannon ↔ tank** choice (aggressive: deal more, take more; defensive: take less, deal less). *(Curated combat acts now complete **Combat Rank** rung REQUIREMENTS; the **Arms PILLAR deeds do NOT accrue yet** — Phase 2.)* |
 | **First weapon-line L10 milestone** | weapon-skill milestone (`FIRST-USE`/`STORY`) | The **ability + item** intervention slots unlock. |
 | **T1** (a full-estate combat rung) | combat rung (`RANK` Combat Rank) | The **2nd archetype line — the sword** opens on a Combat Rank rung-gate. |
 | **T2** (a Valley combat rung) | combat rung (`RANK` Combat Rank) | The **3rd archetype line — the Staff / polearm** opens (**T3 Region adds no new line, only depth**). |
@@ -646,8 +664,8 @@ the 0th IMPROVISED starter**, not a line; §2.10.1). Signature abilities deepen 
 | **T2 (the Valley, a combat rung)** | the **3rd archetype LINE — the Staff / polearm**; **+4** across the tier's rungs | combat rung (Combat Rank) |
 
 These feed the **THREE clean tracks** (§2.8.1/§3.0.1), never one fused bar: a weapon improves the **character
-(combat) level**'s damage and enables more **Arms** deeds (Phase 2), while the **Combat Rank rung-meter** is fed
-only by curated per-rung activities. The **T0-starts-with-the-pole / +2/+3/+4 cadence, the 3-line shape, the
+(combat) level**'s damage and enables more **Arms** deeds (Phase 2), while a **Combat Rank** rung advances only
+on its own authored requirements (curated per-rung acts). The **T0-starts-with-the-pole / +2/+3/+4 cadence, the 3-line shape, the
 FOUND/CRAFTED-not-gifted rule, and one-reveal-per-beat** are canon, not levers (§4.6.9).
 
 ---
@@ -792,12 +810,15 @@ villages (a handful visitable).
 
 ## 3.8 Cross-references & deferrals
 
-- **Numbers → §4** (combat/progression/balance): every rung threshold, pillar threshold, the fixed
+- **Numbers → §4** (combat/progression/balance): every pillar threshold, the fixed
   coin-denomination rates, cost
   curve, soft-stamina rate, market-saturation rate, and the **K/M/B** formatting rules are deferred. §3 fixes the
   **order and the triggers' kinds**, never the values. Specifically deferred to §4:
-  - the **rung-meter accrual curve + the per-rung thresholds** (per-rung-reset; back-solved from the ≥30-min
-    floor × each rung's curated-activity rate) — **§4.1.1**;
+  - the **rung REQUIREMENT model** — **§4.1.1**. The per-rung requirement lists themselves are **NOT** a §4
+    number table: they are **authored** in `narrative/requirements.md` (compiled to
+    `content/requirements.ts` — no `balance.ts` mirror), and their pacing is **measured** by the ADR-132 sim
+    into `docs/content/t0-pacing.md`, with the pacing bands re-signed from what the model produces
+    (§3.0.1(2));
   - the **fixed coin-denomination rates** (one underlying base unit **mon** 文: **1 monme = 80 mon**,
     **1 ryō = 50 monme = 4,000 mon**; no moneychanger, no floating forex) + the wealth thresholds at which each
     higher denomination (monme → ryō) is first **revealed** — **§4**;
@@ -819,7 +840,7 @@ villages (a handful visitable).
     byte-identically cross-engine (§6).
 - **Final log-line wording → §5 authenticity pass** (macron romanization). The **Office** pillar's (ADR-159 rename from "Standing & Office")
   kanji is **官威 (*kan'i*)**. §3 fixes the **substance** of each `revealLogLineId`;
-  copy may be polished. *("Standing" means the 官威 pillar; the martial rung-meter is **Combat Rank**.)*
+  copy may be polished. *("Standing" means the 官威 pillar; the martial rung track is **Combat Rank**.)*
 - **Data shapes → §2 / §6:** every reveal is a `RevealableEntry` with a pure `unlockPredicate` over `GameState`,
   fired via the `process_rewards` bus as one event (§2.1, §6.3); the renderer does one `render(state)`
   reconciliation showing only unlocked entries (§6.9); every reveal is **headlessly regression-testable** via
