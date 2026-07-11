@@ -28,3 +28,13 @@ The fog of war is partially implemented, it does not include the actual foreset.
 **Details:** `mapsheet/2026-07-11T09-29-14.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-379 · 2026-07-11T09:29:37+0200 — this-text-is-not
+
+This text is not hidden under fog of war, no reason to make it visible, just fog of war it.
+
+**Element:** panel "do" · `g:nth-of-type(1) > g:nth-of-type(330) > g:nth-of-type(4) > path:nth-of-type(1)` · @875,294 111×326
+**Screenshot:** `mapsheet/2026-07-11T09-29-37.png`
+**Details:** `mapsheet/2026-07-11T09-29-37.json` — save + recent logs + full context
+
+---
