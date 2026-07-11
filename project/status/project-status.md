@@ -45,9 +45,8 @@ magic; no reset.
   (memory→soan→genemon, three picks, reworked title card); both diverge units
   picked into canon — **HR-22/HR-23** review live (DEV → Story, incl. the new
   title-card swap). Plan archived.
-- **🧊 PARKED:** Plan K authored-depth demo (`docs/plans/t1/`; prototypes ⭐
-  `project/prototypes/authored-depth-demo/`) + the T1 emergent-node plan
-  (`docs/plans/t1/`). Un-park = human.
+- **🧊 PARKED:** Plan K authored-depth demo (prototypes ⭐ `authored-depth-demo/`)
+  + the T1 emergent-node plan — both in `docs/plans/t1/`. Un-park = human.
 - **✅ THE BIBLE — DONE & BLESSED (s109–116, ADR-150):** 7 tier sheets · full cast ·
   register-rules law · THE FALL. The human signed off the whole read (s116).
 - **✅ UI-v2 Andon Steel SHIPPED + PH5-CERTIFIED (s98):** the steel palette
@@ -57,6 +56,8 @@ magic; no reset.
   rungs/fog (§6.1).**
 - **✅ PHASE-2 ECONOMY (ADR-145):** the A+B deed-source loop; FB-121 rungs (hidden
   lists + %-bar, points meter dead). **✅ TIMED ACTIONS (ADR-148):** ActionClock.
+- **✅ BODY SPLIT DONE (s167, ADR-178):** Body 体 (work fuel) + Belly 腹 (daily food
+  store; teeth = rest quality) — core + two-bar UI + PRD §2.3; verdict Δ≈0. Archived.
 
 ## Waiting on the human
 
@@ -112,8 +113,8 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    (Schedule A tab moves + the Works 普請/Estate 家 diverges) startable; or **T2 rungs/fog** (plan ready + greenlit:
    `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1 caveat: `T2_RUNG_LADDER`
    is DEV-preview-only); or drain the fresh `diverge` inbox bucket (ADR-171
-   claim first; all older lanes archived, s164). Human-gated: HR-1 + HR-18…25
-   + the body-split plan Phase-0 (reading queue). Combat R4+ → inbox.
+   claim first; all older lanes archived, s164). Human-gated: HR-1 + HR-18…25.
+   Combat R4+ → inbox.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 23/20 — REWRITE OWED (deferred: co-agent WIP in flight) · last full rewrite: 2026-07-09 -->
+<!-- rewrite-debt: 24/20 — REWRITE OWED (deferred: co-agent WIP in flight) · last full rewrite: 2026-07-09 -->
