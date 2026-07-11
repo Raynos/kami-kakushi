@@ -79,7 +79,8 @@
 | eat_rice | timed | 3s | 2s |
 | sell_rice | instant | — | — |
 | collect_wage | instant | — | — |
-| improve_estate | timed | 60s | 2s |
+| improve_estate | timed | 30s | 2s |
+| work_project | timed | 8s | 2s |
 | spend_attribute | instant | — | — |
 | craft_weapon | timed | 45s | 2s |
 | accept_quest | instant | — | — |

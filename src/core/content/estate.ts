@@ -16,6 +16,12 @@ export interface EstateStageDef {
   readonly label: string;
   /** Integer coin price (base unit mon) — the estate coin sink (ADR-107). */
   readonly coinCost: number;
+  /** ADR-177 F3 — the material input: wood paid at the commissioning (coin is no
+   *  longer the sole gate; projects are WORK). SEED / sim-owned. */
+  readonly woodCost: number;
+  /** ADR-177 F3 — sited work: `work_project` acts at the project's zones (works.ts
+   *  WORKS_PROJECTS) to complete a commissioned stage. SEED / sim-owned. */
+  readonly workActs: number;
   readonly satietyMaxBonus: number;
   /** Labour-yield bonus this stage adds, in fixed-point /100 (T0-M4-F2 / ADR-051 / ADR-066): the
    *  coin flywheel — a higher estate raises every labour act's output, so work→coin→upgrade→
@@ -36,6 +42,8 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
     stage: 1,
     label: FLAVOR.worksU1Label,
     coinCost: 100, // SEED (sim-owned) — coin-gate retained this chunk; deed reframe is next
+    woodCost: 10, // SEED (sim-owned) — the F3 material input
+    workActs: 6, // SEED (sim-owned) — sited work_project acts to complete
     satietyMaxBonus: 20,
     yieldBonusNum: 15, // +15% labour output — the flywheel's first turn
     logLine: FLAVOR.worksU1Done,
@@ -45,6 +53,8 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
     stage: 2,
     label: 'Reclaim the orchard',
     coinCost: 300, // SEED (sim-owned)
+    woodCost: 25, // SEED (sim-owned) — the F3 material input
+    workActs: 10, // SEED (sim-owned) — sited work_project acts to complete
     satietyMaxBonus: 20,
     yieldBonusNum: 20, // cumulative +35%
     logLine:
@@ -55,6 +65,8 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
     stage: 3,
     label: 'Raise the granary',
     coinCost: 700, // SEED (sim-owned)
+    woodCost: 60, // SEED (sim-owned) — the F3 material input
+    workActs: 12, // SEED (sim-owned) — sited work_project acts to complete
     satietyMaxBonus: 30,
     yieldBonusNum: 30, // cumulative +65% — a full storehouse, real output
     logLine:
@@ -67,6 +79,8 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
     stage: 4,
     label: 'Set the house in order',
     coinCost: 1400, // SEED (sim-owned)
+    woodCost: 80, // SEED (sim-owned) — the F3 material input
+    workActs: 14, // SEED (sim-owned) — sited work_project acts to complete
     satietyMaxBonus: 30,
     yieldBonusNum: 30, // cumulative +95% — surplus and order, written down
     logLine:

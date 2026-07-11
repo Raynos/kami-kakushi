@@ -91,6 +91,7 @@ export const ALL_INTENTS = {
   deposit: true,
   withdraw: true,
   move_to: true,
+  work_project: true,
   ascend: true,
   advance_season: true,
   talk_to: true,

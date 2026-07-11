@@ -19,7 +19,7 @@
       }
     },
     "clock": {
-      "tick": 0,
+      "tick": 2,
       "day": 51
     },
     "character": {
@@ -39,7 +39,7 @@
     },
     "resources": {
       "coin": 262,
-      "wood": 276,
+      "wood": 266,
       "sansai": 68,
       "beast_sinew": 5
     },
@@ -1974,66 +1974,12 @@
           "voice": "narrator"
         },
         {
-          "key": 430,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 431,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 22,
-          "count": 5,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 432,
-          "channel": "narration",
-          "text": "Seed rice out of the kura, counted twice. The paddies want water, the rows want hands, and the day is suddenly short.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 433,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
-          "key": 434,
-          "channel": "reward",
-          "text": "Haul stores at the forecourt. ()",
-          "tick": 8,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true
-        },
-        {
           "key": 435,
           "channel": "narration",
           "text": "When the kura needs moving in a hurry, it is his name the yard calls first.",
           "tick": 8,
           "count": 1,
           "voice": "narrator"
-        },
-        {
-          "key": 436,
-          "channel": "system",
-          "text": "You lie down in your corner, on the thin straw mat. The ache dulls; the light through the slats shifts.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true
         },
         {
           "key": 437,
@@ -3556,124 +3502,186 @@
         {
           "key": 602,
           "channel": "milestone",
-          "text": "The gatepost stands dry at the foot, the bunds carry their water where it is wanted, and the woodshed roof turns the rain it used to pass. Three lines the land held open are closed against it — the first the book has closed in years. (U1 · Stabilising)",
+          "text": "Commissioned: Stem the first rot — timber and coin set aside; the work waits at the site.",
           "tick": 0,
-          "count": 1
+          "count": 1,
+          "voice": "narrator"
         },
         {
           "key": 603,
-          "channel": "milestone",
-          "text": "A new line in the day-book, entered like weather: orchard — gone wild, rows under the choke, dens in the hollow; the land's oldest holding on this side of the wall, Genemon notes, and the first the house means to contest.",
+          "channel": "reward",
+          "text": "The work goes forward — Stem the first rot, 1 of 6.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
           "key": 604,
-          "channel": "narration",
-          "text": "\"He put his own coin into the kura-works,\" Chiyo tells Genemon, twice, to be sure he heard.",
+          "channel": "reward",
+          "text": "The work goes forward — Stem the first rot, 2 of 6.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
           "key": 605,
-          "channel": "narration",
-          "text": "The board, past supper, past the year's tax. The household's noises are done for the day. Genemon has the day-book open under the lamp and a fresh page ruled, and he does not look up until the last column of the old one is footed.",
+          "channel": "reward",
+          "text": "The work goes forward — Stem the first rot, 3 of 6.",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "The named hand promotion"
+          "ephemeral": true
         },
         {
           "key": 606,
-          "channel": "narration",
-          "text": "\"Stand where I can see you. This is quick.\"",
+          "channel": "system",
+          "text": "You lie down on the futon in your corner. The ache dulls, and you wake the better for it.",
           "tick": 0,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "The named hand promotion"
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
           "key": 607,
-          "channel": "narration",
-          "text": "\"A full year and more, this book has said 'one man, name unknown.' Every entry, the same six strokes spent on a man the whole yard knows on sight. Paper is not free. Neither is my evening.\"",
-          "tick": 0,
+          "channel": "reward",
+          "text": "The work goes forward — Stem the first rot, 4 of 6.",
+          "tick": 2,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "The named hand promotion"
+          "voice": "narrator",
+          "ephemeral": true
         },
         {
           "key": 608,
-          "channel": "narration",
-          "text": "He turns back through the pages — a winter, a wolf, a harvest — to the first entry, and reads it aloud, once. One man, name unknown. Then he dips the brush, and holds it over the page a breath longer than any entry needs.",
-          "tick": 0,
+          "channel": "reward",
+          "text": "The work goes forward — Stem the first rot, 5 of 6.",
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
-          "context": "The named hand promotion"
+          "ephemeral": true
         },
         {
           "key": 609,
-          "channel": "narration",
-          "text": "\"Gonbei. Every hired man this house has kept has carried it before you. The house's name for you, then. Earn a better.\"",
-          "tick": 0,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "The named hand promotion"
+          "channel": "milestone",
+          "text": "The gatepost stands dry at the foot, the bunds carry their water where it is wanted, and the woodshed roof turns the rain it used to pass. Three lines the land held open are closed against it — the first the book has closed in years. (U1 · Stabilising)",
+          "tick": 2,
+          "count": 1
         },
         {
           "key": 610,
-          "channel": "narration",
-          "text": "He writes it small and square — the hand of a man who has written all his life and never once for pleasure — and the thing is done. One man, Gonbei, sound.",
-          "tick": 0,
+          "channel": "milestone",
+          "text": "A new line in the day-book, entered like weather: orchard — gone wild, rows under the choke, dens in the hollow; the land's oldest holding on this side of the wall, Genemon notes, and the first the house means to contest.",
+          "tick": 2,
           "count": 1,
-          "voice": "narrator",
-          "context": "The named hand promotion"
+          "voice": "narrator"
         },
         {
           "key": 611,
           "channel": "narration",
+          "text": "\"He put his own coin into the kura-works,\" Chiyo tells Genemon, twice, to be sure he heard.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator"
+        },
+        {
+          "key": 612,
+          "channel": "narration",
+          "text": "The board, past supper, past the year's tax. The household's noises are done for the day. Genemon has the day-book open under the lamp and a fresh page ruled, and he does not look up until the last column of the old one is footed.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "context": "The named hand promotion"
+        },
+        {
+          "key": 613,
+          "channel": "narration",
+          "text": "\"Stand where I can see you. This is quick.\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "The named hand promotion"
+        },
+        {
+          "key": 614,
+          "channel": "narration",
+          "text": "\"A full year and more, this book has said 'one man, name unknown.' Every entry, the same six strokes spent on a man the whole yard knows on sight. Paper is not free. Neither is my evening.\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "The named hand promotion"
+        },
+        {
+          "key": 615,
+          "channel": "narration",
+          "text": "He turns back through the pages — a winter, a wolf, a harvest — to the first entry, and reads it aloud, once. One man, name unknown. Then he dips the brush, and holds it over the page a breath longer than any entry needs.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "context": "The named hand promotion"
+        },
+        {
+          "key": 616,
+          "channel": "narration",
+          "text": "\"Gonbei. Every hired man this house has kept has carried it before you. The house's name for you, then. Earn a better.\"",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "The named hand promotion"
+        },
+        {
+          "key": 617,
+          "channel": "narration",
+          "text": "He writes it small and square — the hand of a man who has written all his life and never once for pleasure — and the thing is done. One man, Gonbei, sound.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "context": "The named hand promotion"
+        },
+        {
+          "key": 618,
+          "channel": "narration",
           "text": "\"It will do.\"",
-          "tick": 0,
+          "tick": 2,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
           "context": "The named hand promotion"
         },
         {
-          "key": 612,
+          "key": 619,
           "channel": "narration",
           "text": "\"So it will. Take what is left in the pot as you pass the kitchen. It is paid for.\"",
-          "tick": 0,
+          "tick": 2,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The named hand promotion"
         },
         {
-          "key": 613,
+          "key": 620,
           "channel": "narration",
           "text": "The lord opens his study — the shoin, the writing-room where the house's business is truly done — to you. Few servants ever cross that threshold.",
-          "tick": 0,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 614,
+          "key": 621,
           "channel": "narration",
           "text": "Green dark and creaking, close behind the waste ground. The monkey troop raids the rows from here and is up the stems before you have turned around.",
-          "tick": 0,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 615,
+          "key": 622,
           "channel": "milestone",
           "text": "Rank ↑ — The named hand 名代",
-          "tick": 0,
+          "tick": 2,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -3682,81 +3690,18 @@
           }
         },
         {
-          "key": 616,
+          "key": 623,
           "channel": "narration",
           "text": "\"There is rice against winter. There was a saying for that — I had it once,\" Munemasa is heard saying to the dark of the inner house, and nobody who hears it goes in.",
-          "tick": 0,
+          "tick": 2,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 617,
-          "channel": "narration",
-          "text": "The woodshed, late. On the doorstep, folded under a stone against the wind: his straw coat, mended at the shoulder in small even stitches that no one will own to. He carries it in, lies down on the mat, and for once sleeps at once.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "context": "r7 dream"
-        },
-        {
-          "key": 618,
-          "channel": "narration",
-          "text": "— a road, climbing. Rain on it.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "context": "r7 dream"
-        },
-        {
-          "key": 619,
-          "channel": "narration",
-          "text": "The weight across his shoulders is right. Two loads and the pole, and his feet know the next stone without being asked. Below the road, water — he cannot see it, but it is there the way a wall is there in a dark room.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "context": "r7 dream"
-        },
-        {
-          "key": 620,
-          "channel": "narration",
-          "text": "Behind him on the climb, somebody calls a name. Short, worn smooth, thrown easy — a name that has landed a thousand times and expects to land now.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "context": "r7 dream"
-        },
-        {
-          "key": 621,
-          "channel": "narration",
-          "text": "He turns to answer.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "context": "r7 dream"
-        },
-        {
-          "key": 622,
-          "channel": "narration",
-          "text": "The mountain moves.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "context": "r7 dream"
-        },
-        {
-          "key": 623,
-          "channel": "narration",
-          "text": "After that there is only the water, and the road going away upward, and the voice still calling — smaller, and smaller. He knows the name is his. He cannot hear it.",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "context": "r7 dream"
-        },
-        {
           "key": 624,
           "channel": "narration",
-          "text": "He wakes in the woodshed with his mouth open around a word that is not there. Rain, real rain, small on the roof. The coat is where he left it.",
-          "tick": 0,
+          "text": "The woodshed, late. On the doorstep, folded under a stone against the wind: his straw coat, mended at the shoulder in small even stitches that no one will own to. He carries it in, lies down on the mat, and for once sleeps at once.",
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "context": "r7 dream"
@@ -3764,24 +3709,87 @@
         {
           "key": 625,
           "channel": "narration",
+          "text": "— a road, climbing. Rain on it.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "context": "r7 dream"
+        },
+        {
+          "key": 626,
+          "channel": "narration",
+          "text": "The weight across his shoulders is right. Two loads and the pole, and his feet know the next stone without being asked. Below the road, water — he cannot see it, but it is there the way a wall is there in a dark room.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "context": "r7 dream"
+        },
+        {
+          "key": 627,
+          "channel": "narration",
+          "text": "Behind him on the climb, somebody calls a name. Short, worn smooth, thrown easy — a name that has landed a thousand times and expects to land now.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "context": "r7 dream"
+        },
+        {
+          "key": 628,
+          "channel": "narration",
+          "text": "He turns to answer.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "context": "r7 dream"
+        },
+        {
+          "key": 629,
+          "channel": "narration",
+          "text": "The mountain moves.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "context": "r7 dream"
+        },
+        {
+          "key": 630,
+          "channel": "narration",
+          "text": "After that there is only the water, and the road going away upward, and the voice still calling — smaller, and smaller. He knows the name is his. He cannot hear it.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "context": "r7 dream"
+        },
+        {
+          "key": 631,
+          "channel": "narration",
+          "text": "He wakes in the woodshed with his mouth open around a word that is not there. Rain, real rain, small on the roof. The coat is where he left it.",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "context": "r7 dream"
+        },
+        {
+          "key": 632,
+          "channel": "narration",
           "text": "\"There was a road.\"",
-          "tick": 0,
+          "tick": 2,
           "count": 1,
           "speaker": "Gonbei",
           "voice": "player",
           "context": "r7 dream"
         },
         {
-          "key": 626,
+          "key": 633,
           "channel": "narration",
           "text": "Nobody answers. It is a long while before he sleeps again, and the dream, that night, does not come back.",
-          "tick": 0,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "context": "r7 dream"
         }
       ],
-      "seq": 627
+      "seq": 634
     },
     "skillXp": {
       "farming": 315,
@@ -3836,6 +3844,8 @@
       "a-granary-against-winter": 1
     },
     "estateStage": 1,
+    "estateCommission": 0,
+    "estateWorkDone": 0,
     "discovered": [
       "disc-woodlot-sluice"
     ],

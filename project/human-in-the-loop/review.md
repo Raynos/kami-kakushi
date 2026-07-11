@@ -400,7 +400,11 @@ chain and drive the real `improve_estate`:
       lineage): ladder, blurb, payoff, and button stack as four unrelated bands.
   - **How to review:** `?fixture=works-u1-priced` → the Works 普請 tab → DEV panel →
     "Works 普請 (projects home)" toggle. The fixture holds U1 priced-and-affordable
-    so every variant shows its full read (and the buy actually works — it's real).
+    so every variant shows its full read (and the commissioning actually works).
+    **Phase 3 note:** the buy is now a two-step WORK (F3): Commission pays coin +
+    wood, then "Work the repairs 普請" at the site (`?fixture=works-u1-underway`
+    boots mid-work at the gate). The commissioning log line is mechanical register,
+    not diverged fiction — bounce it here if it reads as story.
   - **Verdict:** _(awaiting your read)_
 
 ### HR-30 🔲 [R6 · estate] — Estate 家 tab surface (the E1 fold-in) — pick a variant (ADR-075, F5, HR-16)

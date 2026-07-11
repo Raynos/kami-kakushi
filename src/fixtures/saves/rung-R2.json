@@ -1387,6 +1387,8 @@
     "rung": "R2",
     "rungReqs": {},
     "estateStage": 0,
+    "estateCommission": 0,
+    "estateWorkDone": 0,
     "discovered": [],
     "discoveryProgress": {},
     "autoActivity": null,

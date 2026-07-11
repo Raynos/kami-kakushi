@@ -83,8 +83,21 @@ describe('ADR-177 — the works discovery chain', () => {
     expect(s.sceneQueue).toContain('works-u1'); // the pricing beat queued the same pass
     s = playScene(s, 'works-u1', 'works-u1-begin');
     expect(stageOpen(s, 1)).toBe(true);
-    const bought = reduce(s, { type: 'improve_estate' });
-    expect(bought.estateStage).toBe(1); // the chain is the ONLY thing that was in the way
+    // ADR-177 F3 — the two-step build: the commissioning pays coin + WOOD…
+    const noWood = reduce(s, { type: 'improve_estate' });
+    expect(noWood).toBe(s); // wood-short refuses (coin alone no longer builds)
+    s = { ...s, resources: { ...s.resources, wood: ESTATE_STAGES[0]!.woodCost } };
+    s = reduce(s, { type: 'improve_estate' });
+    expect(s.estateCommission).toBe(1);
+    expect(s.estateStage).toBe(0); // commissioned, not built — the work is ahead
+    expect(s.resources.wood ?? 0).toBe(0); // the timber went into the works
+    // …and the stage completes through sited work_project acts at the project's zones.
+    const away = reduce({ ...s, location: 'kitchen' }, { type: 'work_project' });
+    expect(away.estateWorkDone).toBe(0); // not at a work zone — refused (canWorkProject)
+    s = { ...s, location: 'gate', character: { ...s.character, satiety: 999 } };
+    for (let i = 0; i < ESTATE_STAGES[0]!.workActs; i++) s = reduce(s, { type: 'work_project' });
+    expect(s.estateStage).toBe(1); // the closing act advances the ladder
+    expect(s.estateCommission).toBe(0);
   });
 
   it('names in ladder order — U2 waits for U1 to be BUILT, even past its rung', () => {

@@ -433,6 +433,10 @@ export let EAT_RICE_COST = 2; // R9 (2026-07-05): 3→2, narrow eat's coin gap v
  *  (HUNGER_MEAL_RESTORE) on purpose — the DESIGN LEVER that makes deliberate eating worth the
  *  shō: a proper meal RAISES the belly where the ration only holds it. provisional (v0.2,
  *  liquid ADR-059). `let` for the FB-7 balance cockpit — see RICE_PER_RAKE. */
+/** ADR-177 F3 — the body cost of one `work_project` act (the sited works labour).
+ *  SEED / sim-owned; sits in the labour-act band (activities.ts satietyCost). */
+export const WORKS_ACT_SATIETY = 6;
+
 export let EAT_RICE_HUNGER = 30;
 
 /** Rice SELL price — COIN paid per unit of rice, SWINGING BY SEASON (ADR-107 / §14): DEAR in the

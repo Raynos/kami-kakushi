@@ -611,17 +611,29 @@ function renderWorksVariant(
     btn.type = 'button';
     btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
     if (n) {
-      btn.textContent = `${stageLabel(n.def)} (${formatCoin(n.def.coinCost)})`;
-      btn.disabled = carried < n.def.coinCost || n.deedsShort > 0;
+      const woodShort = (state.resources.wood ?? 0) < n.def.woodCost;
+      btn.textContent = `Commission — ${stageLabel(n.def)} (${formatCoin(n.def.coinCost)} · wood ${n.def.woodCost})`;
+      btn.disabled = carried < n.def.coinCost || woodShort || n.deedsShort > 0;
       btn.title = btn.disabled
         ? n.deedsShort > 0
           ? `The house's standing must reach ${n.deedGate} koku first (now ${n.standing})`
-          : banked >= n.def.coinCost
-            ? 'Draw coin from the kura storehouse first'
-            : `Needs ${formatCoin(n.def.coinCost)}`
+          : woodShort
+            ? `Needs ${n.def.woodCost} wood`
+            : banked >= n.def.coinCost
+              ? 'Draw coin from the kura storehouse first'
+              : `Needs ${formatCoin(n.def.coinCost)}`
         : '';
     }
     return btn;
+  };
+  // ADR-177 F3 — a live commission renders as progress (the acts happen at the site).
+  const commissionRead = (): HTMLElement | null => {
+    if (!n || state.estateCommission !== n.def.stage) return null;
+    return el(
+      'div',
+      'rung-hint',
+      `Under way — ${stageLabel(n.def)}: ${state.estateWorkDone} / ${n.def.workActs} (work it at the site)`,
+    );
   };
   container.replaceChildren();
   const stageName =
@@ -657,7 +669,9 @@ function renderWorksVariant(
               `standing ${Math.min(n.standing, n.deedGate)} / ${n.deedGate} koku`,
             ),
           );
-        site.append(commissionBtn());
+        const read = commissionRead();
+        if (read) site.append(read);
+        else site.append(commissionBtn());
       } else if (isNext && disc === 'named') {
         site.append(el('div', 'works-site-name is-hint', FLAVOR.worksLadderNamed));
       } else {
@@ -716,7 +730,9 @@ function renderWorksVariant(
         `+${n.def.yieldBonusNum}% labour output · +${n.def.satietyMaxBonus} max body`,
       ),
     );
-    card.append(commissionBtn());
+    const read = commissionRead();
+    if (read) card.append(read);
+    else card.append(commissionBtn());
   } else if (n) {
     card.append(
       el(

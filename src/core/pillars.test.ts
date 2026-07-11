@@ -210,12 +210,24 @@ describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', (
       ...s,
       estateStage: stage,
       unlocked: [...s.unlocked, 'panel-estate'],
-      resources: { ...s.resources, coin: 99999 },
+      resources: { ...s.resources, coin: 99999, wood: 99999 },
       influence: { estate: { value: deedValue, highWater: deedValue, judged: 0 } },
       // ADR-177 — close every discovery chain (source-of-truth-derived) so these
       // cases test the DEED gate alone, never the works gate.
       flags: { ...s.flags, ...Object.fromEntries(WORKS_PROJECTS.map((p) => [p.openFlag, true])) },
     };
+  };
+
+  /** ADR-177 F3 — drive one full stage: commission, then the sited work acts. */
+  const buildStage = (s: GameState): GameState => {
+    let next = reduce(s, { type: 'improve_estate' });
+    const stage = next.estateCommission;
+    if (stage === 0) return next; // refused — the caller asserts on it
+    const def = ESTATE_STAGES.find((d) => d.stage === stage)!;
+    const zone = WORKS_PROJECTS.find((p) => p.stage === stage)!.zones[0]!.node;
+    next = { ...next, location: zone, character: { ...next.character, satiety: 999 } };
+    for (let i = 0; i < def.workActs; i++) next = reduce(next, { type: 'work_project' });
+    return next;
   };
 
   it('a stage is BLOCKED below its deed gate even with the coin (the B-half lever)', () => {
@@ -227,7 +239,7 @@ describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', (
       expect(gate).toBeGreaterThan(0);
       const blocked = richPhase2(gate - 1, stage - 1);
       expect(reduce(blocked, { type: 'improve_estate' })).toBe(blocked); // RED if the gate is dropped
-      const allowed = reduce(richPhase2(gate, stage - 1), { type: 'improve_estate' });
+      const allowed = buildStage(richPhase2(gate, stage - 1));
       expect(allowed.estateStage).toBe(stage);
     }
   });
@@ -241,8 +253,8 @@ describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', (
   it('the build advances in ORDER and the E1 "estate stands" beat fires exactly once (TST2)', () => {
     let s = richPhase2(balance.ESTATE_BANDS.excellent); // standing high enough for every gate
     for (let stage = 1; stage <= ESTATE_STAGES.length; stage++) {
-      s = reduce(s, { type: 'improve_estate' });
-      expect(s.estateStage).toBe(stage); // strictly one stage per commissioning — never skips
+      s = buildStage(s);
+      expect(s.estateStage).toBe(stage); // strictly one stage per work cycle — never skips
     }
     expect(s.flags['estate-stands']).toBe(true);
     // Match the completion BEAT precisely (FLAVOR.estateStands) — the U4 stage's own commissioning

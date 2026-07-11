@@ -3014,6 +3014,8 @@
     "rung": "R4",
     "rungReqs": {},
     "estateStage": 0,
+    "estateCommission": 0,
+    "estateWorkDone": 0,
     "discovered": [
       "disc-woodlot-sluice"
     ],

@@ -85,6 +85,21 @@ export const WORKS_PROJECTS: readonly WorksProjectDef[] = [
   },
 ];
 
+/** ADR-177 F3 — can a `work_project` act run right now? One predicate, shared by the
+ *  reducer, the render affordance, and the sim (AC-6: shown == enforced). True iff a
+ *  stage is commissioned and the player stands at one of its work zones. */
+export function canWorkProject(state: GameState): boolean {
+  if (state.estateCommission <= 0) return false;
+  const p = WORKS_PROJECTS.find((x) => x.stage === state.estateCommission);
+  if (!p) return false;
+  return p.zones.some((z) => z.node === state.location);
+}
+
+/** The commissioned stage's work zones (for the site read / the sim's walk). */
+export function worksSiteZones(stage: number): readonly string[] {
+  return WORKS_PROJECTS.find((x) => x.stage === stage)?.zones.map((z) => z.node) ?? [];
+}
+
 /** Is the estate ladder stage open to commission (its pricing beat has closed)? */
 export function stageOpen(state: GameState, stage: number): boolean {
   const p = WORKS_PROJECTS.find((x) => x.stage === stage);

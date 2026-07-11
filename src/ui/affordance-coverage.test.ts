@@ -46,6 +46,7 @@ const PLAYER_INTENTS = [
   'eat_rice',
   'sell_rice',
   'improve_estate',
+  'work_project',
   'spend_attribute',
   'craft_weapon',
   'accept_quest',

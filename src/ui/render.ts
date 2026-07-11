@@ -84,6 +84,8 @@ import {
   estateBuild,
   stageLabel,
   stageBlurb,
+  canWorkProject,
+  worksSiteZones,
   NAMES,
   RECIPES,
   MATERIALS,
@@ -1093,6 +1095,9 @@ export function mount(
     nightBlurb: HTMLElement;
     wageRow: HTMLElement;
     wageBtn: HTMLButtonElement;
+    // ADR-177 F3 — the sited works verb: work the commissioned project at its zone.
+    worksRow: HTMLElement;
+    worksBtn: HTMLButtonElement;
     areaGroups: HTMLElement;
     noWork: HTMLElement;
     cookRow: HTMLElement;
@@ -1565,11 +1570,14 @@ export function mount(
     const n = build.next;
     const sig = JSON.stringify([
       state.estateStage,
+      state.estateCommission,
+      state.estateWorkDone,
       n?.discovery ?? 'done',
       n ? n.coinShort > 0 : false,
       n ? n.deedsShort > 0 : false,
       n?.standing ?? 0,
       n ? banked >= n.def.coinCost : false,
+      n ? (state.resources.wood ?? 0) >= n.def.woodCost : false,
       __DEV_TOOLS__ && dev ? dev.storyEpoch() : 0,
     ]);
     if (sig === worksSig) return;
@@ -1591,6 +1599,29 @@ export function mount(
         continue;
       }
       if (row.status === 'next' && n) {
+        if (state.estateCommission === n.def.stage) {
+          // ADR-177 F3 — COMMISSIONED: the entry is open and the work is under way at
+          // the site. The page reads the progress; the acts happen at the zone (TST3).
+          const line = el('div', 'ledger-line is-open');
+          line.append(
+            el('span', 'ledger-rule', '普'),
+            el('span', 'ledger-name', stageLabel(n.def)),
+          );
+          line.append(el('span', 'ledger-note', `${state.estateWorkDone} / ${n.def.workActs}`));
+          page.append(line);
+          const body = el('div', 'ledger-entry');
+          body.append(
+            el(
+              'div',
+              'rung-hint',
+              `The work stands at the site — ${worksSiteZones(n.def.stage)
+                .map((z) => getNode(z)?.kanji ?? z)
+                .join(' · ')}. Go and work it.`,
+            ),
+          );
+          page.append(body);
+          continue;
+        }
         if (n.discovery === 'open') {
           const line = el('div', 'ledger-line is-open');
           line.append(el('span', 'ledger-rule', '▹'), el('span', 'ledger-name', stageLabel(n.def)));
@@ -1606,6 +1637,13 @@ export function mount(
               `+${n.def.yieldBonusNum}% labour output · +${n.def.satietyMaxBonus} max body`,
             ),
           );
+          body.append(
+            el(
+              'div',
+              'ledger-gauge',
+              `inputs: ${formatCoin(n.def.coinCost)} · wood ${n.def.woodCost}`,
+            ),
+          );
           if (n.deedGate > 0) {
             body.append(
               el(
@@ -1619,15 +1657,18 @@ export function mount(
           btn.type = 'button';
           stampAct(btn, 'improve_estate');
           btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
-          btn.textContent = `${stageLabel(n.def)} (${formatCoin(n.def.coinCost)})`;
-          setDisabled(btn, carried < n.def.coinCost || n.deedsShort > 0);
+          btn.textContent = `Commission — ${stageLabel(n.def)}`;
+          const woodShort = (state.resources.wood ?? 0) < n.def.woodCost;
+          setDisabled(btn, carried < n.def.coinCost || woodShort || n.deedsShort > 0);
           // don't lie "Needs N coin" when the coin merely sits safe in the kura (AC-6/TST4).
           btn.title = btn.disabled
             ? n.deedsShort > 0
               ? `The house's standing must reach ${n.deedGate} koku first (now ${n.standing})`
-              : banked >= n.def.coinCost
-                ? 'Draw coin from the kura storehouse first'
-                : `Needs ${formatCoin(n.def.coinCost)}`
+              : woodShort
+                ? `Needs ${n.def.woodCost} wood — the woodlot pays in timber`
+                : banked >= n.def.coinCost
+                  ? 'Draw coin from the kura storehouse first'
+                  : `Needs ${formatCoin(n.def.coinCost)}`
             : '';
           body.append(btn);
           page.append(body);
@@ -3048,7 +3089,15 @@ export function mount(
         'The day-book accrues your wage 給 by the worked day — collect what stands owed.';
       wageBtn.addEventListener('click', () => dispatch({ type: 'collect_wage' }));
       wageRow.append(wageBtn);
-      placeStrip.append(nightBlurb, nightRow, wageRow);
+      // (c) ADR-177 F3 — the works site: one sited act of the commissioned project.
+      //     Same place-beat idiom as the night post; shown only AT a work zone (TST3).
+      const worksRow = el('div', 'labour-row place-works');
+      const worksBtn = el('button', 'verb primary');
+      worksBtn.type = 'button';
+      stampAct(worksBtn, 'work_project');
+      worksBtn.addEventListener('click', () => dispatch({ type: 'work_project' }));
+      worksRow.append(worksBtn);
+      placeStrip.append(nightBlurb, nightRow, wageRow, worksRow);
       const areaGroups = el('div', 'actions-group');
       const noWork = el(
         'p',
@@ -3078,6 +3127,8 @@ export function mount(
         nightBlurb,
         wageRow,
         wageBtn,
+        worksRow,
+        worksBtn,
         areaGroups,
         noWork,
         cookRow,
@@ -3212,6 +3263,21 @@ export function mount(
           : 'Wage board 給 — nothing owed',
       );
       setDisabled(r.wageBtn, owed <= 0);
+    }
+    // (c) ADR-177 F3 — the works site verb: visible only where the reducer would accept
+    //     it (canWorkProject — AC-6: shown == enforced). The label carries the progress.
+    const canWork = canWorkProject(state);
+    toggle(r.worksRow, canWork);
+    if (canWork) {
+      const def = ESTATE_STAGES.find((d) => d.stage === state.estateCommission);
+      if (def) {
+        setText(r.worksBtn, `Work the repairs 普請 (${state.estateWorkDone} / ${def.workActs})`);
+        setDisabled(r.worksBtn, state.character.satiety < balance.WORKS_ACT_SATIETY);
+        r.worksBtn.title =
+          state.character.satiety < balance.WORKS_ACT_SATIETY
+            ? 'Too spent — rest or eat before working the site.'
+            : `One act of the commissioned work — ${stageLabel(def)}.`;
+      }
     }
     toggle(r.placeStrip, nightPending || roundLive || waged);
 

@@ -229,7 +229,9 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'activeScene'
     | 'scenesPlayed'
     | 'roundState'
-    | 'soanLedger';
+    | 'soanLedger'
+    | 'estateCommission'
+    | 'estateWorkDone';
   type _AssertAllHandled = keyof GameState extends _Handled ? true : never;
   const _exhaustive: _AssertAllHandled = true;
   void _exhaustive;
@@ -320,6 +322,9 @@ export function validateState(rawState: unknown): ValidateResult {
     // the current rung restarts -- the same deliberate default as the v7->v8 migration).
     rungReqs: isObject(base.rungReqs) ? (base.rungReqs as GameState['rungReqs']) : {},
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,
+    // ADR-177 F3 — commission fields (older saves default to no work under way)
+    estateCommission: typeof base.estateCommission === 'number' ? base.estateCommission : 0,
+    estateWorkDone: typeof base.estateWorkDone === 'number' ? base.estateWorkDone : 0,
     // ── emergent node discovery (v9, additive; ADR-146): the write-once latch + attempt
     // counters. Absent (any pre-discovery save) → empty (found nothing yet — the correct fresh
     // default); malformed → empty. Matches the v8→v9 migration.

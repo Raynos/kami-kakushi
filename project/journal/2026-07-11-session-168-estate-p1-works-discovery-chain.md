@@ -119,3 +119,38 @@ live in the DEV panel, prod ships only the self-picked defaults:
 - Defaults rebuild signature-gated (zero idle churn, TST2); variant routing
   tests added (dev.test.ts); strip-safety per `verify-dev-strip.sh` (T0 ships
   DEV default-off by design — the skill's grep satisfied by intent, AC-19).
+
+## Phase 3 — the upgrade economy: repair verbs + inputs (same session, 2026-07-11)
+
+F3 built (ADR-177 ruling: projects become WORK; coin demoted from sole gate):
+
+- **The two-step build:** `improve_estate` is now the COMMISSIONING — it pays
+  coin + WOOD (`woodCost` per stage: 10/25/60/80, SEED) and opens the work;
+  the stage completes through sited **`work_project`** acts (`workActs`:
+  6/10/12/14) at the project's own zones (works.ts `canWorkProject` — ONE
+  predicate shared by reducer, affordance, and sim; AC-6). The canon
+  completion line still lands at the close; U4's estate-stands beat moved
+  with it.
+- **State:** `estateCommission` + `estateWorkDone` (validate.ts defaults keep
+  old saves loading). Timing: commissioning 30s; a work act 8s (labour band).
+- **UI:** the Works ledger's open entry reads `inputs: coin · wood`, the
+  commission button gates on both; a commissioned entry shows 普 progress +
+  the site kanji; the Zone tab grows a place-strip verb "Work the repairs
+  普請 (n/m)" only AT a work zone. Variants B/C carry the same states.
+- **Sim:** autoplay cuts timber when short, commissions, walks to the site,
+  works the acts (rests at the satiety floor). **ADR-132 verdict: every rung
+  in band; Phase-2 window 76.3 → 83.4 min, ratio 1.04–1.07 in [0.8, 1.2] —
+  ADR-172 magnitudes STAND, no retune.** Report regenerated + committed.
+- **Fixtures:** works-u1-priced now earns wood too; NEW works-u1-underway
+  (commissioned, standing at the gate site). Tests updated to the two-step
+  flow (economy/pillars/works) — wood-short refusal and wrong-zone refusal
+  are RED-able cases.
+- Live headless proof: commission → the site verb at the gate → six acts →
+  U1 completes with the canon line; the verb hides off-site.
+- **Flag for the human:** the commissioning log line ("Commissioned: … the
+  work waits at the site.") is mechanical register, not a diverged fiction
+  line — bounce it via HR-29 if it reads as story.
+
+**The plan's build phases are all DONE** — Phase 1 (works-cause chain),
+Phase 2 (Schedule A + the two diverges, HR-29/HR-30), Phase 3 (this). Open
+sign-offs: HR-27/29/30; the plan graduates to project/archive/.

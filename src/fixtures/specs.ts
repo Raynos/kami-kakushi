@@ -235,6 +235,45 @@ const RUNG_START_SPECS: readonly FixtureSpec[] = RANKS.map((r) => ({
   expect: (s: GameState) => must(s.rung === r.id, `expected rung ${r.id}, got ${s.rung}`),
 }));
 
+/** ADR-177 — drive the works chain to a PRICED, affordable U1 (shared by the
+ *  works-u1-priced and works-u1-underway specs; real intents only). */
+function playWorksU1Priced(s0: GameState): GameState {
+  let s = drive(s0, (st) => st.rung === 'R2');
+  if (!s.scenesPlayed.includes('works-intro')) {
+    s = walkTo(s, 'paddies');
+    s = walkTo(s, 'forecourt'); // the settle AT the board enqueues the naming beat
+    s = reduce(s, { type: 'begin_scene', sceneId: 'works-intro' });
+    s = reduce(s, { type: 'choose_scene_option', optionId: 'works-intro-go' });
+  }
+  for (const z of ['gate', 'woodshed', 'paddies'] as const) s = walkTo(s, z);
+  s = reduce(s, { type: 'begin_scene', sceneId: 'works-u1' });
+  s = reduce(s, { type: 'choose_scene_option', optionId: 'works-u1-begin' });
+  // earn the inputs honestly so the commissioning button is LIVE in this save —
+  // the affordance sweep clicks enabled controls: the coin-paying haul while the
+  // forecourt pool holds, then forage's pocket-coin; the timber from the woodlot.
+  let guard = 0;
+  const inputsShort = (st: GameState): boolean =>
+    (st.resources.coin ?? 0) < ESTATE_STAGES[0]!.coinCost ||
+    (st.resources.wood ?? 0) < ESTATE_STAGES[0]!.woodCost;
+  while (inputsShort(s) && guard++ < 500) {
+    const act =
+      (s.resources.wood ?? 0) < ESTATE_STAGES[0]!.woodCost
+        ? 'woodcut_edge'
+        : (s.sitePools[getActivity('haul_stores').area] ?? 0) > 0
+          ? 'haul_stores'
+          : 'forage_satoyama';
+    const area = getActivity(act).area;
+    if (s.location !== area) {
+      s = walkTo(s, area);
+      continue;
+    }
+    const before = s;
+    s = reduce(s, { type: 'do_activity', activityId: act });
+    if (s === before) s = reduce(s, { type: 'rest' }); // stamina floor — sleep it off
+  }
+  return walkTo(s, 'forecourt');
+}
+
 export const FIXTURE_SPECS: readonly FixtureSpec[] = [
   POST_COLD_OPEN_SPEC,
   ...RUNG_START_SPECS,
@@ -422,46 +461,37 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     blurb:
       'R2 with the works chain walked to the priced U1 — the day-book named, the zones seen, the beat closed, the buy one press away (ADR-177).',
     seed: T0_ARC_SEED,
-    // ADR-177 — drive the DISCOVERY chain through the real engine: the works-intro
-    // naming at the board, the three R1-zone sightings, the pricing beat. Stops
-    // BEFORE the buy so the priced-open state is loadable (QA + the affordance sweep).
-    play: (s0) => {
-      let s = drive(s0, (st) => st.rung === 'R2');
-      if (!s.scenesPlayed.includes('works-intro')) {
-        s = walkTo(s, 'paddies');
-        s = walkTo(s, 'forecourt'); // the settle AT the board enqueues the naming beat
-        s = reduce(s, { type: 'begin_scene', sceneId: 'works-intro' });
-        s = reduce(s, { type: 'choose_scene_option', optionId: 'works-intro-go' });
-      }
-      for (const z of ['gate', 'woodshed', 'paddies'] as const) s = walkTo(s, z);
-      s = reduce(s, { type: 'begin_scene', sceneId: 'works-u1' });
-      s = reduce(s, { type: 'choose_scene_option', optionId: 'works-u1-begin' });
-      // earn the price honestly so the priced button is LIVE in this save — the
-      // affordance sweep clicks enabled controls: the coin-paying haul while the
-      // forecourt pool holds, then forage's pocket-coin (the sim's own faucet order).
-      let guard = 0;
-      while ((s.resources.coin ?? 0) < ESTATE_STAGES[0]!.coinCost && guard++ < 400) {
-        const haulPool = s.sitePools[getActivity('haul_stores').area] ?? 0;
-        const act = haulPool > 0 ? 'haul_stores' : 'forage_satoyama';
-        const area = getActivity(act).area;
-        if (s.location !== area) {
-          s = walkTo(s, area);
-          continue;
-        }
-        const before = s;
-        s = reduce(s, { type: 'do_activity', activityId: act });
-        if (s === before) s = reduce(s, { type: 'rest' }); // stamina floor — sleep it off
-      }
-      return walkTo(s, 'forecourt');
-    },
+    // ADR-177 — the shared chain driver (real intents only; see playWorksU1Priced).
+    play: playWorksU1Priced,
     expect: (s) => {
       must(s.flags['works-open-u1'] === true, 'the pricing beat must have closed U1 open');
       must(s.estateStage === 0, 'the buy must still be ahead (priced, unbought)');
       must(s.unlocked.includes('room-weir'), 'the lease naming must have opened the weir path');
       must(
         (s.resources.coin ?? 0) >= ESTATE_STAGES[0]!.coinCost,
-        'the priced button must be LIVE (coin for U1 in hand)',
+        'the commissioning must be LIVE (coin for U1 in hand)',
       );
+      must(
+        (s.resources.wood ?? 0) >= ESTATE_STAGES[0]!.woodCost,
+        'the commissioning must be LIVE (timber for U1 in hand)',
+      );
+    },
+  },
+  {
+    name: 'works-u1-underway',
+    group: G_EARLY,
+    blurb:
+      'U1 commissioned and the hand standing at the gate site, work in hand — one work_project press from progress (ADR-177 F3).',
+    seed: T0_ARC_SEED,
+    play: (s0) => {
+      let s = playWorksU1Priced(s0);
+      s = reduce(s, { type: 'improve_estate' });
+      return walkTo(s, 'gate'); // a U1 work zone — the site verb shows here
+    },
+    expect: (s) => {
+      must(s.estateCommission === 1, 'U1 must be commissioned (work under way)');
+      must(s.location === 'gate', `expected the gate site, got ${s.location}`);
+      must(s.estateWorkDone === 0, 'no acts yet — the press is the player’s');
     },
   },
   {

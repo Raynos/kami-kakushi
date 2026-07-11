@@ -3,9 +3,11 @@
 **Status:** LOCKED — direction signed; **Phase 0 CLOSED 2026-07-10, ADR-177**
 (all forks ruled in-session; see **Direction** below +
 `project/feedback-human/2026-07-10-estate-phase0-rulings.md` for verbatims).
-**Phase 1 BUILT 2026-07-11 (session 168)** — the works-cause diverge + the
-discovery chain shipped (HR-27 open for the taste read; FB-338/FB-342 fixed
-in-engine). Phase 2 (Schedule A + the two surface diverges) is next.
+**✅ ALL BUILD PHASES DONE 2026-07-11 (session 168):** Phase 1 (the works-cause
+diverge + discovery chain; HR-27) · Phase 2 (Schedule A one-tab-per-rung +
+the Works 普請/Estate 家 diverges with the E1 fold-in; HR-29/HR-30) · Phase 3
+(commission + sited work_project economy; sim in band, ADR-172 stands).
+Open sign-offs live in HR-27/29/30; interim variants retire on those.
 **Confidence:** ( 35% Opus, 65% Fable ) — the load-bearing work is fiction +
 taste judgment (Phases 1–2); the mechanical tail (Step 0, Phase 3 transcription)
 is Opus-safe.

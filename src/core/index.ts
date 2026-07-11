@@ -150,6 +150,8 @@ export type { SceneDef, SceneId, SceneTrigger } from './content/scenes';
 // ADR-177 — the works discovery chain (day-book names → walk sees → beat opens).
 export {
   WORKS_PROJECTS,
+  canWorkProject,
+  worksSiteZones,
   stageOpen,
   stageDiscovery,
   stageLabel,

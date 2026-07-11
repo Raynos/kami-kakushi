@@ -196,6 +196,11 @@ export interface GameState {
   /** Kura-works PURCHASE stage U0…U4 (the coin upgrade ladder; ADR-098/ADR-107). The narrative
    *  CONDITION ladder E0–E5 is a SEPARATE axis (docs only). Flavour, not a sim; PRD §2.17. */
   readonly estateStage: number;
+  /** ADR-177 F3 — the stage currently COMMISSIONED (coin+wood paid, work under way);
+   *  0 = none. Completing its workActs advances estateStage and clears this. */
+  readonly estateCommission: number;
+  /** ADR-177 F3 — `work_project` acts done toward the commissioned stage. */
+  readonly estateWorkDone: number;
   /** Write-once DISCOVERY latch (ADR-146, mirrors `unlocked`): ids of node discoveries the player
    *  has found, in found order. Permanent ratchet — never cleared, survives ascension.
    *  SCHEMA_VERSION 9. */
@@ -295,6 +300,8 @@ export function createInitialState(seed: number): GameState {
     rung: 'R0',
     rungReqs: {},
     estateStage: 0,
+    estateCommission: 0,
+    estateWorkDone: 0,
     discovered: [],
     discoveryProgress: {},
     autoActivity: null,

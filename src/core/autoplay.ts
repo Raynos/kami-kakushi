@@ -27,6 +27,7 @@ import {
   STAMINA_FLAT_ABOVE,
   REPAIR_WOOD_COST,
   COOK_SANSAI_COST,
+  WORKS_ACT_SATIETY,
 } from './content/balance';
 import { rungRequirements } from './content/requirements';
 import { isRequirementDone } from './requirements-engine';
@@ -35,7 +36,7 @@ import { hasFlag } from './state';
 import { introActive, introSceneAt } from './content/intro';
 import { promotionReady, pendingPromotionTarget, phaseOf, rungNumber } from './ranks';
 import { estateBuild } from './selectors';
-import { WORKS_PROJECTS, stageOpen } from './works';
+import { WORKS_PROJECTS, stageOpen, canWorkProject, worksSiteZones } from './works';
 import { RUNG_BEATS } from './content/rungBeats';
 
 /** ADR-145 Phase-2 player-model knob (NOT canon): the KURA rice pile (shō) at which the
@@ -239,6 +240,20 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
     }
     return null; // all seen — the beat is queued; the scene drain plays it
   };
+  // ADR-177 F3 — finish a LIVE commission: walk to a work zone and put the acts in
+  // (rest when too spent; the reducer's satiety floor mirrors here via canWorkProject+cost).
+  const driveCommission = (): Intent | null => {
+    if (s.estateCommission <= 0) return null;
+    if (canWorkProject(s)) {
+      if (s.character.satiety < WORKS_ACT_SATIETY && acts.includes('rest')) return { type: 'rest' };
+      return { type: 'work_project' };
+    }
+    for (const node of worksSiteZones(s.estateCommission)) {
+      const hop = nextHopToward(s.location, node, revealed);
+      if (hop) return { type: 'move_to', to: hop };
+    }
+    return null;
+  };
   // earn coin: the accrued day-wage first (R5+ tactile board faucet), then sell surplus kura rice
   // on a market day; else the coin-paying haul while the forecourt pool holds, and when it's worked
   // out forage's steady pocket-coin (a SECONDARY yield, NOT pool-limited) keeps the faucet flowing.
@@ -378,6 +393,9 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
       continue;
     }
     if (p.kind === 'native' && p.key === 'estate-u1') {
+      // ADR-177 F3 — a live commission finishes first (the acts at the site).
+      const working = driveCommission();
+      if (working) return working;
       const target = ESTATE_STAGES.find((x) => x.stage === s.estateStage + 1);
       if (target && isUnlocked(s, 'panel-estate')) {
         // ADR-177 — the stage prices only after its discovery chain closes: walk the
@@ -385,6 +403,10 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
         if (!stageOpen(s, target.stage)) {
           const go = driveWorks(target.stage);
           if (go) return go;
+        } else if ((s.resources.wood ?? 0) < target.woodCost) {
+          // F3 — the material input: cut the timber before the commissioning.
+          const cut = driveLabour('woodcut_edge');
+          if (cut) return cut;
         } else if ((s.resources.coin ?? 0) >= target.coinCost) {
           return { type: 'improve_estate' };
         }
@@ -435,13 +457,22 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
   // (rotation keys off the day parity — no RNG), so runs reproduce.
   if (phaseOf(s) === 2 && isUnlocked(s, 'panel-estate')) {
     const b = estateBuild(s);
-    // (1) the staged build: buy the stage the moment standing + coin clear its gates —
-    //     ADR-177: after its discovery chain opens it (walk the chain when it hasn't).
+    // (1) the staged build: ADR-177 F3 — finish a live commission, else walk the
+    //     discovery chain, gather the timber, and commission when every gate clears.
+    {
+      const working = driveCommission();
+      if (working) return working;
+    }
     if (b.next && !b.next.open) {
       const go = driveWorks(b.next.def.stage);
       if (go) return go;
     } else if (b.next && b.next.deedsShort === 0 && b.next.coinShort === 0) {
-      return { type: 'improve_estate' };
+      if ((s.resources.wood ?? 0) < b.next.def.woodCost) {
+        const cut = driveLabour('woodcut_edge');
+        if (cut) return cut;
+      } else {
+        return { type: 'improve_estate' };
+      }
     }
     // (2) the rice lever: sell a worthwhile KURA pile at the stall (PHASE2_SELL_RICE_AT is a
     //     player-model knob like GREEDY_MEND_HP_FRAC — what a sensible steward batches, never

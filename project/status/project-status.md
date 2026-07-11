@@ -30,7 +30,7 @@ magic; no reset.
   chain (works-cause diverge, pick C): day-book NAMES a concern → the walk SEES
   the damage → Genemon's beat PRICES it → the ladder stage opens; the weir node
   is fiction-gated (FB-338/FB-342 fixed). **HR-27** filed. Plan:
-  [`fable-2026-07-10-estate-upgrades-redesign.md`](../../docs/plans/fable-2026-07-10-estate-upgrades-redesign.md)
+  [`fable-2026-07-10-estate-upgrades-redesign.md`](../archive/fable-2026-07-10-estate-upgrades-redesign.md)
   — **Phase 2 (Schedule A tab moves + the Works 普請/Estate 家 diverges) is the
   next startable step**; Phase 3 (repair verbs + inputs) after.
 - **✅ BODY SPLIT DONE (s167, ADR-178):** Body 体 (work fuel) + Belly 腹 (daily
@@ -107,4 +107,4 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    picks above.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 0/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 1/20 · last full rewrite: 2026-07-11 -->

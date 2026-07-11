@@ -19,12 +19,12 @@
       }
     },
     "clock": {
-      "tick": 16,
+      "tick": 18,
       "day": 8
     },
     "character": {
       "hp": 58,
-      "satiety": 85,
+      "satiety": 81,
       "hunger": 60,
       "attributePoints": 0,
       "attrs": {
@@ -39,7 +39,8 @@
     },
     "resources": {
       "coin": 100,
-      "sansai": 100
+      "wood": 27,
+      "sansai": 83
     },
     "banked": {
       "rice": 355
@@ -47,7 +48,7 @@
     "sitePools": {
       "paddies": 0,
       "forecourt": 0,
-      "woodlot": 62,
+      "woodlot": 51,
       "weir": 120
     },
     "wageDaysAccrued": 0,
@@ -100,6 +101,7 @@
       "verb-cook",
       "room-weir",
       "panel-estate",
+      "skill-woodcutting",
       "skill-foraging"
     ],
     "log": {
@@ -1476,7 +1478,7 @@
         {
           "key": 149,
           "channel": "reward",
-          "text": "Forage the woodlot edge. (+27 sansai, +1 coin)",
+          "text": "Cut wood at the woodlot. (+27 wood)",
           "tick": 6,
           "count": 1,
           "voice": "narrator",
@@ -1503,7 +1505,7 @@
         {
           "key": 152,
           "channel": "reward",
-          "text": "Forage the woodlot edge. (+17 sansai, +1 coin)",
+          "text": "Forage the woodlot edge. (+16 sansai, +1 coin)",
           "tick": 12,
           "count": 1,
           "voice": "narrator",
@@ -1520,38 +1522,38 @@
         },
         {
           "key": 154,
-          "channel": "narration",
-          "text": "The guest house's skirts, the paddy and the rows that pay for everything else. Winter lays the fields off — stubble, frost, the water let out — and moves their work indoors: the tools that will open them again are mended now or not at all.",
+          "channel": "reward",
+          "text": "Forage the woodlot edge. (+11 sansai, +1 coin)",
           "tick": 16,
           "count": 1,
-          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 155,
           "channel": "narration",
-          "text": "The outer court of the guest house, where the day's work is set out and seen to — set out in the dark now, the days being what they are, and often finished in it. Genemon's lamp is lit before the sky is; what is done here still gets written down.",
-          "tick": 16,
+          "text": "The guest house's skirts, the paddy and the rows that pay for everything else. Winter lays the fields off — stubble, frost, the water let out — and moves their work indoors: the tools that will open them again are mended now or not at all.",
+          "tick": 18,
           "count": 1,
-          "speaker": "The forecourt",
+          "speaker": "The home paddy & vegetable rows",
           "voice": "narrator",
           "ephemeral": true
         },
         {
           "key": 156,
           "channel": "narration",
-          "text": "First light. The broom stands against the gatepost where you left it. The hand who kept the yard's round quit for the lowlands; nobody has said whose it is now.",
-          "tick": 16,
+          "text": "The outer court of the guest house, where the day's work is set out and seen to — set out in the dark now, the days being what they are, and often finished in it. Genemon's lamp is lit before the sky is; what is done here still gets written down.",
+          "tick": 18,
           "count": 1,
+          "speaker": "The forecourt",
           "voice": "narrator",
-          "context": "r2 yard hand"
+          "ephemeral": true
         },
         {
           "key": 157,
           "channel": "narration",
-          "text": "You take the broom. Nobody takes it back.",
-          "tick": 16,
+          "text": "First light. The broom stands against the gatepost where you left it. The hand who kept the yard's round quit for the lowlands; nobody has said whose it is now.",
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "context": "r2 yard hand"
@@ -1559,8 +1561,8 @@
         {
           "key": 158,
           "channel": "narration",
-          "text": "The round takes the morning: the gate swept, the forecourt raked, the water in, the wood up off the ground. Dusk round, then the kitchen threshold, the bowl. Genemon comes past with the day-book under his arm and does not slow.",
-          "tick": 16,
+          "text": "You take the broom. Nobody takes it back.",
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "context": "r2 yard hand"
@@ -1568,37 +1570,47 @@
         {
           "key": 159,
           "channel": "narration",
+          "text": "The round takes the morning: the gate swept, the forecourt raked, the water in, the wood up off the ground. Dusk round, then the kitchen threshold, the bowl. Genemon comes past with the day-book under his arm and does not slow.",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "r2 yard hand"
+        },
+        {
+          "key": 160,
+          "channel": "narration",
           "text": "\"Rice from the new moon. One measure the day, dry, weighed at the kura door. Meals were terms for a man staying a week.\"",
-          "tick": 16,
+          "tick": 18,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
           "context": "r2 yard hand"
         },
         {
-          "key": 160,
+          "key": 161,
           "channel": "narration",
           "text": "He is through the door before you can set the bowl down.",
-          "tick": 16,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "context": "r2 yard hand"
         },
         {
-          "key": 161,
+          "key": 162,
           "channel": "narration",
           "text": "A meal ends with the eating. Rice keeps.",
-          "tick": 16,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "context": "r2 yard hand"
         }
       ],
-      "seq": 162
+      "seq": 163
     },
     "skillXp": {
       "farming": 134,
       "conditioning": 97,
+      "woodcutting": 5,
       "foraging": 25
     },
     "deliveredDialogue": [
@@ -1631,11 +1643,15 @@
     "location": "forecourt",
     "rung": "R2",
     "rungReqs": {
+      "learn-the-woodlot": 1,
       "walk-the-hills": 5
     },
     "estateStage": 0,
+    "estateCommission": 0,
+    "estateWorkDone": 0,
     "discovered": [],
     "discoveryProgress": {
+      "disc-woodlot-lacquer": 1,
       "disc-woodlot-sluice": 5
     },
     "autoActivity": null,

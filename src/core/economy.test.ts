@@ -322,14 +322,25 @@ describe('improve_estate — the coin → estateStage sink (audit #5 / D-107)', 
     expect(reduce(unopened, { type: 'improve_estate' })).toBe(unopened);
   });
 
-  it('spends coin, advances the stage, and lifts satietyMax by the stage bonus', () => {
-    const s = estateReady(150);
+  it('commissions on coin + wood, completes through sited work, lifts satietyMax', () => {
+    // ADR-177 F3 — projects are WORK: the commissioning pays the inputs; the stage
+    // lands only after the sited work_project acts.
+    const u1 = ESTATE_STAGES[0]!;
+    let s: GameState = {
+      ...estateReady(150),
+      resources: { ...estateReady(150).resources, coin: 150, wood: u1.woodCost },
+    };
     const beforeMax = satietyMax(s);
     expect(estateSatietyBonus(s)).toBe(0);
-    const after = reduce(s, { type: 'improve_estate' });
-    expect(after.estateStage).toBe(1);
-    expect(after.resources.coin).toBe(150 - ESTATE_STAGES[0]!.coinCost);
-    expect(satietyMax(after)).toBe(beforeMax + ESTATE_STAGES[0]!.satietyMaxBonus);
+    s = reduce(s, { type: 'improve_estate' });
+    expect(s.estateCommission).toBe(1);
+    expect(s.estateStage).toBe(0); // not yet — the work is ahead (RED if F3 dropped)
+    expect(s.resources.coin).toBe(150 - u1.coinCost);
+    expect(s.resources.wood ?? 0).toBe(0);
+    s = { ...s, location: 'gate', character: { ...s.character, satiety: 999 } };
+    for (let i = 0; i < u1.workActs; i++) s = reduce(s, { type: 'work_project' });
+    expect(s.estateStage).toBe(1);
+    expect(satietyMax(s)).toBe(beforeMax + u1.satietyMaxBonus);
   });
 
   it('is a no-op when too poor, when fully built out, or while the panel is unrevealed', () => {
@@ -610,9 +621,11 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
     const opened: GameState = {
       ...s,
       flags: { ...s.flags, [WORKS_PROJECTS[0]!.openFlag]: true }, // ADR-177 — chain closed
+      resources: { ...s.resources, wood: ESTATE_STAGES[0]!.woodCost }, // F3 — the timber input
     };
     const built = reduce(opened, { type: 'improve_estate' });
-    expect(built.estateStage).toBe(1); // and the sink actually accepts the coin
+    expect(built.estateCommission).toBe(1); // and the sink actually accepts the coin
+    expect(built.resources.coin ?? 0).toBeLessThan(opened.resources.coin ?? 0);
   });
 });
 

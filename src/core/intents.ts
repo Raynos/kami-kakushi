@@ -18,7 +18,7 @@ import {
 } from './state';
 import { applyRewards } from './rewards';
 import { revealPass } from './unlock';
-import { worksPass, stageOpen, stageLogLine } from './works';
+import { worksPass, stageOpen, stageLogLine, stageLabel, canWorkProject } from './works';
 import { discoveryPass } from './discovery';
 import { advanceClock, advanceSeason } from './step';
 import { clamp } from './math';
@@ -57,6 +57,7 @@ import {
   riceSellPrice,
   kuraRiceCap,
   ESTATE_STAGE_DEED_GATES,
+  WORKS_ACT_SATIETY,
 } from './content/balance';
 import { DAY_WAGE_MON, isWaged } from './content/wage';
 import { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
@@ -144,6 +145,7 @@ export type Intent =
   | { type: 'collect_wage' } // MON lane (ADR-163): collect the accrued day-wage at the board (R5+)
   | { type: 'advance_season' } // storywave G1: end the season (the manual six-season wheel)
   | { type: 'improve_estate' }
+  | { type: 'work_project' }
   | { type: 'spend_attribute'; attr: AttrId }
   | { type: 'craft_weapon'; recipeId: string }
   | { type: 'accept_quest'; questId: string }
@@ -913,8 +915,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'improve_estate': {
-      // coin → estateStage (audit #5 / ADR-107). A commissioning (no clock cost, like equipping).
+      // ADR-177 F3 — the COMMISSIONING half: coin + wood are paid up front; the stage
+      // then completes through sited `work_project` acts (projects are WORK, not buys).
       if (!isUnlocked(next, 'panel-estate')) return state;
+      if (next.estateCommission > 0) return state; // one work under way at a time
       const target = ESTATE_STAGES.find((s) => s.stage === next.estateStage + 1);
       if (!target) return state;
       // ADR-177 (TST3) — a stage is commissionable only after its discovery chain
@@ -926,12 +930,53 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (next.influence.estate.value < (ESTATE_STAGE_DEED_GATES[target.stage - 1] ?? 0))
         return state;
       if ((next.resources.coin ?? 0) < target.coinCost) return state;
+      if ((next.resources.wood ?? 0) < target.woodCost) return state;
       next = withResource(next, 'coin', -target.coinCost);
-      next = { ...next, estateStage: target.stage };
-      // stageLogLine — take-aware (the DEV story switcher swaps future emissions).
+      next = withResource(next, 'wood', -target.woodCost);
+      next = { ...next, estateCommission: target.stage, estateWorkDone: 0 };
+      // mechanical marker (inventory register, not fiction): the entry opens; the
+      // COMPLETION line (stageLogLine, fiction-voiced canon) still lands at the close.
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'milestone',
+            text: `Commissioned: ${stageLabel(target)} — timber and coin set aside; the work waits at the site.`,
+            voice: 'narrator',
+          },
+        ],
+      });
+      break;
+    }
+    case 'work_project': {
+      // ADR-177 F3 — one sited act of the commissioned work. Same predicate the UI
+      // affordance and the sim read (canWorkProject — AC-6).
+      if (!canWorkProject(next)) return state;
+      const target = ESTATE_STAGES.find((s) => s.stage === next.estateCommission);
+      if (!target) return state;
+      if (next.character.satiety < WORKS_ACT_SATIETY) return state;
+      next = adjustSatiety(next, -WORKS_ACT_SATIETY);
+      const done = next.estateWorkDone + 1;
+      if (done < target.workActs) {
+        next = { ...next, estateWorkDone: done };
+        next = applyRewards(next, {
+          log: [
+            {
+              channel: 'reward',
+              text: `The work goes forward — ${stageLabel(target)}, ${done} of ${target.workActs}.`,
+              voice: 'narrator',
+              ephemeral: true,
+            },
+          ],
+        });
+        next = applyProgressEvent(next, 'act:work_project');
+        break;
+      }
+      // the closing act — the stage completes: the ladder advances and the canon
+      // completion line lands (stageLogLine — take-aware, ADR-143).
+      next = { ...next, estateStage: target.stage, estateCommission: 0, estateWorkDone: 0 };
       next = applyRewards(next, { log: [{ channel: 'milestone', text: stageLogLine(target) }] });
-      // ADR-145 — the E1 build-complete beat: the estate STANDS (fires exactly once, at U4;
-      // the PRD's §3.2/§3.3 promised Phase-2 payoff the tier never shipped).
+      next = applyProgressEvent(next, 'act:work_project');
+      // ADR-145 — the E1 build-complete beat: the estate STANDS (fires exactly once, at U4).
       if (target.stage === MAX_ESTATE_STAGE && !hasFlag(next, 'estate-stands')) {
         next = applyRewards(next, {
           flags: ['estate-stands'],
