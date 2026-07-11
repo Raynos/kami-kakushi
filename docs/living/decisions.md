@@ -3247,3 +3247,39 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   test-first → two-bar header UI → ADR-132 balance verdict). The plan's
   non-goal "no starvation death in T0" is confirmed and extended with the
   T1+ allowance. Phase 2's bar naming is settled — no naming diverge needed.
+
+### ADR-179 ▶️ — Reveal is derived, never stored: visibility = f(progression facts); the save keeps only facts + an announce-once latch
+
+- **created_date:** 2026-07-11
+- **Context:** The human refreshed with an old save and the UI (tabs, the
+  eat-rice zone action) came from flags baked into that save, not from what
+  the current build entitles ("the tabs visible to me are based on the save
+  file im loading and not based on the actual game"). The reveal system is a
+  write-once `state.unlocked` latch pushed by rank rewards/events and
+  serialized whole; `state.rung` is never consulted for visibility. The
+  registry had accumulated six-plus per-surface "STATE-PREDICATE so it
+  back-reveals for any save" patches plus a load-time `revealPass` — each a
+  local fix for the same architectural drift.
+- **Decision:** **Full derivation** (human, 2026-07-11, over a load-time
+  reconcile). **(1)** Visibility is a pure function of progression FACTS —
+  the latched `rank-rN` flags (the human's `[r0, r1, r2]`), event fact-flags
+  (the `[r1:postX]` markers, e.g. `works-named-weir`), `discovered`, skills.
+  **(2)** `state.unlocked` leaves the save; `rewardOnReach.unlock` is
+  reinterpreted as the declarative from-this-rung-on schedule (one home
+  stays `ranks.ts`). **(3)** Derived visibility must be MONOTONE — a
+  predicate over a fluctuating value (coin > 0) converts to a latched
+  fact-flag at the causing event. **(4)** The save's only reveal-shaped
+  field is `seenReveals`, the announce-once ceremony latch (sibling of
+  `scenesPlayed`) — never read for visibility. Schema v10→v11 seeds it from
+  the old `unlocked`.
+- **Why:** A save can no longer pin stale UI: re-classify, re-rung, or
+  delete a surface and every save reflects it on next load, no migration
+  per surface. The latch's one real job — "reloading never re-spams
+  reveals" — is exactly the ceremony latch, kept. Completes the
+  state-predicate trajectory the registry was already converging toward,
+  instead of a seventh patch.
+- **Consequences:** Plan `docs/plans/fable-2026-07-11-derived-reveal.md`
+  (S1–S7). `revealSurface`/push-`revealPass` delete; `announcePass` replaces
+  at the same call sites; PRD §6.2 (core/unlock latch language) needs the
+  ripple (S7). The FB-343/FB-369 eat-rice re-home stays owned by ADR-178 —
+  this ADR only makes that move save-proof.
