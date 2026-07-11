@@ -46,3 +46,34 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
   terms + R0 lines → gloss sweep → cold open after HR-28 → medium scenes).
 - **Resolution:** _(open)_
 
+
+### HD-39 🔲 [T1+ · progression] — must a rung's requirement list span BOTH tracks?
+
+- **Question / fork:** surfaced by the ADR-182 PRD rewrite (session-180). Under
+  the OLD model, T1/T2 ran **two numeric sub-meters** (Estate Service 家役 ·
+  Combat Rank 武鍛) and the canon read *"both sub-meters still gate every rung"* —
+  i.e. every rung demanded labour AND martial progress. ADR-182 replaces the
+  meters with **one authored requirement list per rung**, so that clause has no
+  mechanism left. It was **dropped, not reinvented** (inventing a rule is an
+  intent call). The question is now unstated in canon: **may a T1 rung be purely
+  labour or purely martial, or must every rung's list contain at least one of
+  each?**
+- **Why it matters:** it decides whether the two tracks are a *pacing* structure
+  (a rung leans labour or martial; the ladder alternates) or a *gating* one
+  (no rung climbs on one kind of work alone — the ADR-025 anti-specialization
+  intent). It shapes every T1 rung's authored list, so it wants ruling before T1
+  content authoring, not during.
+- **Options:** **(a)** each rung's list is free-form; the *track label* is just
+  which kind of work it leans on (simplest; a pure-labour rung is legal). ·
+  **(b)** every rung's list must contain ≥1 requirement from each track (preserves
+  the old both-gate intent; enforceable as a content invariant). · **(c)** the
+  ladder alternates by rung, and the track label is binding (each rung is one
+  track only).
+- **Recommendation:** **(a)**, with the anti-specialization intent carried by
+  *authoring* rather than a hard rule — ADR-137's whole move was from a mechanical
+  gate to authored criteria, and (b)/(c) re-import a mechanism the ruling just
+  removed. If the human wants (b), it should ship as a real `verify-content` check,
+  not a norm.
+- **Not blocking:** T0 is unaffected (one ladder, no sub-tracks). This binds at T1
+  content authoring.
+- **Resolution:** _(open)_
