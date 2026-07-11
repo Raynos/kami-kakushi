@@ -33,14 +33,18 @@ export interface RevealStage {
 export const REVEAL: readonly RevealStage[] = [
   {
     rung: 1,
+    // FB-384 — the SW pocket covers the home paddies (unlocked AT R1): reachable
+    // ground is never under fog. No ghost chip: the live sheet's fogFrontier
+    // already marks the next ground (field-margins) with its own 未測.
     known: [
       [1830, 900],
       [2420, 900],
       [2450, 1700],
       [2050, 1740],
-      [1820, 1660],
+      [1545, 1775],
+      [1555, 1545],
+      [1820, 1500],
     ],
-    ghosts: [[1670, 1668]],
     notes: [
       { x: 2160, y: 1730, text: 'beyond this, not yet walked' },
       { x: 1730, y: 1290, text: 'the old fields, they say' },
@@ -93,9 +97,10 @@ export const REVEAL: readonly RevealStage[] = [
 ];
 
 /** The sheet furniture never fogs — the family OWNS the document; the LAND is
- *  what's unfinished (frame-relative holes: cartouche · north arrow · scale). */
+ *  what's unfinished (frame-relative holes: north arrow · scale). The cartouche
+ *  slip fogs WITH the land (FB-379 — the live sheet draws its own title above
+ *  fog, so the art-level slip carried no information a fogged sheet needs). */
 const FURNITURE_HOLES: readonly (readonly [number, number, number, number])[] = [
-  [1950, 10, 270, 320], // cartouche slip + gloss (frame-relative x,y,w,h)
   [20, 20, 130, 230], // north arrow
   [230, 1330, 340, 110], // scale bar
 ];
@@ -142,8 +147,13 @@ export function paintReveal(
     const holes = FURNITURE_HOLES.map(
       ([hx, hy, hw, hh]) => `M${fr.x + hx} ${fr.y + hy} h${hw} v${hh} h${-hw} Z`,
     ).join(' ');
+    // FB-378/385 — the fog sheet overshoots the window by the pan clamp's reach
+    // (±25% of the widest view), so beyond-the-frame world art (the east woods,
+    // the south outskirts) can never peek out unfogged at a panned edge.
+    const mw = fr.w * 0.35;
+    const mh = fr.h * 0.35;
     paths.push({
-      d: `M${fr.x + 20} ${fr.y + 20} H${fr.x + fr.w - 20} V${fr.y + fr.h - 20} H${fr.x + 20} Z ${poly(stage.known)} ${holes}`,
+      d: `M${fr.x - mw} ${fr.y - mh} H${fr.x + fr.w + mw} V${fr.y + fr.h + mh} H${fr.x - mw} Z ${poly(stage.known)} ${holes}`,
       rule: 'evenodd',
       edge: stage.known,
     });
@@ -224,6 +234,14 @@ export function paintReveal(
   }
   // the caller removes BOTH groups by class; return the fog for convenience
   return fog;
+}
+
+/** Is world point (x,y) under `stage`'s fog? (FB-380 — seal painters consult this
+ *  so nothing under unsurveyed paper is previewed by name.) No stage ⇒ no fog. */
+export function isFogged(stage: RevealStage | null, x: number, y: number): boolean {
+  if (!stage) return false;
+  if (stage.known) return !pointInBox(x, y, stage.known);
+  return (stage.blobs ?? []).some((b) => pointInBox(x, y, b));
 }
 
 /** cheap bbox containment (the reveal is an illustration mask, not physics) */

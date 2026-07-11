@@ -515,6 +515,28 @@ h3 {
   font-size: var(--fs-micro);
   color: var(--text-mute);
 }
+/* FB-387 — body & belly stacked as two slim rows, bars only (the numerals hide;
+   exact values stay on the hover title), no taller than the old single row. */
+.vital-stack {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+.vital-stack .vital {
+  align-items: center;
+}
+.vital-stack .vital .label {
+  font-size: var(--fs-micro);
+  line-height: 1;
+  min-width: 3.2em;
+}
+.vital-stack .vital .value {
+  display: none;
+}
+.vital-stack .bar {
+  height: 5px;
+}
 
 /* satiety / vital bar */
 /* ── meters (B.4) — gold thread in a dark steel groove; the width transition
@@ -3054,11 +3076,23 @@ html {
 .market-grant {
   font-size: var(--fs-small);
 }
-/* T0-M4-F4 / F102 / HR-7: the estate map. The Map splits into (a) the bordered you-are-here
-   FLAVOR card (.map-here) and (b) the 絵図 survey-plan sheet (.map-nav) below it — a sibling of
-   the flavor card. The sheet styles itself (map-variants/ezu.ts injects its own scoped rules). */
+/* T0-M4-F4 / F102 / HR-7: the estate map. The Map splits into (a) the 絵図 survey-plan sheet
+   (.map-nav) pinned top-LEFT and (b) the bordered you-are-here FLAVOR card (.map-here) floating
+   in the remaining right-hand column (FB-377/FB-386) — wrapping below on a narrow pane. The
+   sheet styles itself (map-variants/sheet-map.ts injects its own scoped rules). */
+.map-pane {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
 .map-nav {
-  margin-top: var(--space-3);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.map-pane .map-here {
+  flex: 0 1 300px;
+  min-width: 240px;
 }
 /* ── D-114 vendors-as-people: the Map "who's here 衆" list — a talk affordance per present person
    (a category-coloured hanko seal + name + a one-line tell + a Speak button). ── */

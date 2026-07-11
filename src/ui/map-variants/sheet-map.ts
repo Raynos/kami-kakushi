@@ -17,7 +17,7 @@ import { getNode, MAP_NODES } from '../../core';
 import type { GameState, Intent } from '../../core';
 import { rng, sv, tip } from '../map-sheets/brush';
 import { ANCHORS, T0_WINDOW } from '../map-sheets/layout';
-import { paintReveal, REVEAL } from '../map-sheets/reveal';
+import { isFogged, paintReveal, REVEAL } from '../map-sheets/reveal';
 import { paintT0Ground } from '../map-sheets/t0-sheet';
 import { fogFrontier, wireGated, wireTravel, type MapCtx } from './shared';
 
@@ -234,6 +234,9 @@ export function renderMapSheet(
     if (!a) continue;
     const here = node.id === ctx.here;
     if (node.locked) {
+      // FB-380 — nothing under unsurveyed paper is previewed by name: while the
+      // scenery's ground is fogged, its seal waits with the fog.
+      if (isFogged(revealStage, a.x, a.y)) continue;
       // locked scenery (the ruined compound): visible, greyed, NEVER walkable.
       const g = drawSeal(seals, node.id, a.x, a.y, {
         here,
@@ -550,11 +553,13 @@ export function renderMapSheet(
     }
     const top = wrap.getBoundingClientRect().top;
     const foot = document.querySelector('.appbar-footer')?.getBoundingClientRect().height ?? 0;
-    const availH = Math.max(240, Math.round(window.innerHeight - top - foot - 14));
+    // FB-377 — a touch more air below the sheet (26, was 14); the sheet PINS top-left
+    // (margin 0, not auto-centred) so the you-are-here card floats in the right column.
+    const availH = Math.max(240, Math.round(window.innerHeight - top - foot - 26));
     const hostW = container.clientWidth || wrap.clientWidth || FR.w;
     const w = Math.min(hostW, Math.round((availH * FR.w) / FR.h));
     wrap.style.width = `${w}px`;
-    wrap.style.margin = '0 auto';
+    wrap.style.margin = '0';
   };
   capRef.current = cap;
   if (!capWired) {
