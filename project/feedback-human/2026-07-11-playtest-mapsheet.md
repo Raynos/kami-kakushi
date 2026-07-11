@@ -150,3 +150,83 @@ coat: yours". It never lists the forecourt because the forecourt is R0 ground,
 not an R1 unlock (likely the memory slip). If the kitchen reveal (FB-381)
 lands at R1, the ceremony will name it as a fourth line via its
 `ceremonyLabel`.
+
+---
+
+## Third pass — 2026-07-11 (9 items, FB-389…FB-397)
+
+Same lane, drained under an ADR-171 claim (`w1:p3`); wholesale proposal
+approved with two steers: FB-389 covers travel TIME too (ruled ×2 here, then
+superseded mid-drain by the human's direct walk-table steer in the `w6:p1`
+porter session — that lane owns `timing.ts` now), and the shared files
+(`sheet-map.ts`, `dev.ts`) were ceded to `w6:p1` mid-pass.
+
+## The porter piece
+
+### F389 · walking animations are too fast — 🔧
+**Verbatim:** _"Walking animations are too fast. tbh"_
+**Reading:** two halves — the traverse (clock-synced) felt fast because the
+per-edge walk table is short, AND the free-running netsuke waddle cycled at
+0.4s/0.8s.
+**Fixed in:** the gait halving (bob ~0.8s, rock ~1.6s cycles) is folded into
+`w6:p1`'s porter batch (with the walk-table change) — stamp on its landing.
+
+## Fog of war — the corners
+
+### F390 · top-left corner is not in fog of war — ✅
+**Verbatim:** _"This top left corner is not in forg of war lol"_
+**Reading:** the fog's `FURNITURE_HOLES` (north arrow) exposed the world art
+beneath — the river + "upstream" sketch read as an unfogged corner.
+**Distilled rule:** never punch a HOLE in a mask to keep chrome visible —
+raise the chrome ABOVE the mask; a hole shows everything beneath it.
+**Fixed in:** `0fdf3d14` — holes deleted; north arrow + scale bar ride a
+`.ms-furn-lift` group raised above the fog.
+
+### F391 · bottom-left corner neither — ✅
+**Verbatim:** _"Neither is this bottom left corner"_
+**Reading:** the scale-bar hole — same mechanism as F390 (the old-fields grid
++ its label showed through).
+**Fixed in:** `0fdf3d14` (with F390).
+
+## Fog of war — the frontier marks
+
+### F392 · random floating kanji means nothing at R1 — 🔧
+**Verbatim:** _"Random floating kanji in the fog of war means nothing in the
+R1 stage"_
+**Reading:** the fog-frontier 未測 washes draw at hidden zones' anchors; three
+of six at R1 sit on BLANK paper fog, reading as noise.
+**Fixed in:** the `isFogged` guard in the fogFrontier loop — implemented in
+`w6:p1`'s in-tree `sheet-map.ts` batch (per the mid-drain coordination) —
+stamp on its landing. Washes over drawn ground stay (they mark visible but
+unsurveyed ground).
+
+### F393 · more floating kanji — 🔧
+**Verbatim:** _"More floating kanji that has no meaning in R1"_
+**Fixed in:** with F392.
+
+### F394 · this kanji too — 🔧
+**Verbatim:** _"This knaji too."_
+**Fixed in:** with F392.
+
+### F397 · kanji here has no meaning — 🔧
+**Verbatim:** _"Kanji here has no meaning"_
+**Fixed in:** with F392.
+
+## The sheet's English notes
+
+### F395 · the english hint is nice — ✅ (praise)
+**Verbatim:** _"This english hint is nice."_
+**Reading:** reinforcement of the FB-181/183 English-notes policy (the
+surveyor's hand writes English on the player-bound sheet). No change.
+
+### F396 · nice flavor text, but cut off — ✅
+**Verbatim:** _"This flavor text is nice too. But its cut off."_
+**Reading:** world-art text labels were not fog-aware — the mask sliced
+"to the village — half a ri" mid-glyph (and "the old stables — stalls
+for…", reproduced at HEAD).
+**Distilled rule:** a text label is ATOMIC against any reveal mask — show it
+whole or not at all; never let a mask cut a sentence mid-glyph.
+**Fixed in:** `0fdf3d14` — `ms-sheet-note` labels hide when anchored under
+fog, lift whole above it otherwise. (Known bbox imprecision: `isFogged` is
+bbox-cheap, same semantics the seal painters use, so a note just outside the
+known POLY but inside its bbox lifts whole — reads as a rumor note, accepted.)

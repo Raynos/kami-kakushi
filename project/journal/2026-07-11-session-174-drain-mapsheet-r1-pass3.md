@@ -34,3 +34,8 @@ to `w6:p1` and kept the rest.
 - Map fog fixes landed as `0fdf3d14` (FB-390/391/396). The FB-388 core change
   follows as its own commit; fixture saves ride the shared-tree batch (they
   reflect this + w6:p1's timing change together).
+- Recovery note: 6 fresh r1 captures (FB-404…FB-410, 16:2x) landed WHILE the
+  bucket was being archived and were swept along by the wildcard move — split
+  back out to `pending/` undrained (only the drained FB-388 stays archived).
+  Lesson: archive by NAMED stamp, never `mv <bucket>/*` — a live bucket grows
+  under you.
