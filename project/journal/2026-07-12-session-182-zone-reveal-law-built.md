@@ -79,6 +79,23 @@ costs nothing. (`balance-sim --summary` in the commit body.)
   TDZ ReferenceError and reddened the shared tree for two other agents. The ink line is
   resolved at *announce* time now, never in the registry literal.
 
+## The bug the SCREENSHOT found (and nothing else could)
+
+The engine tests, the sim, the fixtures and the full arc were all green — and the game was
+**broken at R1**. The Map tab is nav's sole home (FB-107) and the only travel affordance
+there is, and it was keyed to `room-gate`, which used to be an R1 rung reward. The gate now
+earns its own VN at R2, so at R1 **the Map tab did not exist**: the day-hand stood in the
+forecourt with a 30-act farm requirement sited in a paddy he had no way to walk to.
+
+Every test was right to stay green. `move_to` is a reducer intent and needs no tab to press,
+so the arc, the sim and the fixtures all walked to the paddy quite happily. **Only
+screenshotting the real game at R1 showed a screen with no way off it** — which is the whole
+of PH6, learned the hard way: *what counts as built is what a human player can reach.*
+
+Fixed by deriving the tab from the visible set — the map opens the moment a SECOND zone
+exists (one zone means there is nowhere to go), so no future re-mapping can strand anyone
+again. Shots: [`project/audit/screens/2026-07-12-zone-reveal-law/`](../audit/screens/2026-07-12-zone-reveal-law).
+
 ## Next intended steps
 
 - HD-40 (the cook siting) and HR-33 (the story canon pick) are the two things waiting on
