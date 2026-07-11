@@ -375,7 +375,7 @@ h3 {
   .shell > .log:not(.m-expanded) {
     cursor: pointer;
   }
-  .shell > .log:not(.m-expanded) > h2,
+  .shell > .log:not(.m-expanded) > .log-head,
   .shell > .log:not(.m-expanded) .log-filter-bar {
     display: none;
   }
@@ -397,10 +397,10 @@ h3 {
     border-radius: 6px 6px 0 0;
     border-bottom: 0;
   }
-  .shell > .log.m-expanded > h2 {
+  .shell > .log.m-expanded .log-head h2 {
     cursor: pointer;
   }
-  .shell > .log.m-expanded > h2::after {
+  .shell > .log.m-expanded .log-head h2::after {
     content: '▾ fold';
     margin-left: auto;
     float: right;
@@ -716,17 +716,24 @@ h3 {
   display: flex;
   flex-direction: column;
 }
-.log > h2 {
+/* FB-363 — the log head is a row: title left, the story vn/all sub-toggle right */
+.log-head {
   flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-1);
+  border-bottom: 1px solid var(--key-dim);
+}
+.log-head h2 {
   font-family: var(--font-num);
   font-size: var(--fs-small);
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--silver);
-  padding-bottom: var(--space-2);
-  margin-bottom: var(--space-1);
-  border-bottom: 1px solid var(--key-dim);
 }
 .log-lines {
   flex: 1 1 auto;
@@ -867,9 +874,9 @@ h3 {
   border-radius: 50%;
   background: var(--shu);
 }
-/* FB-320 — the Story tab's vn/all sub-toggle: appears beside Story only while it is the
-   active filter. Quiet mini-segments in the bar's own idiom; the active sub is inked the
-   same way the active tab is. */
+/* FB-320 — the story vn/all sub-toggle: visible only while Story is the active filter.
+   Quiet mini-segments; the active sub is inked the same way the active tab is. FB-363
+   re-homed it from the filter bar to the log head's right edge. */
 .story-sub {
   display: inline-flex;
   align-items: stretch;

@@ -317,11 +317,11 @@ const RESOURCE_LABEL: Record<string, string> = {
 };
 
 type Dispatch = (intent: Intent) => void;
-// The six-tab IA (ADR-112): every capability lives in exactly one thematic tab, each revealed only
-// once it has content (§3 of the IA reorg plan). Work R0 → Map/Estate/Inventory R1 → Character R2
-// → Combat R3. `skills`/`quests` are folded into Character; `map` now means the node-map (nav's
-// sole home), not the old "Estate 地図".
-type Tab = 'work' | 'map' | 'estate' | 'inventory' | 'character' | 'combat' | 'quests';
+// The eight-tab IA (ADR-112 → ADR-177 Schedule A): every capability lives in exactly one
+// thematic tab, each revealed only once it has content — ONE tab per rung. Work R0 →
+// Map R1 (alone) → Works+Character R2 (the one accepted double; Works is cause-gated on
+// the works-intro naming) → Combat R3 (alone) → Inventory R4 → Quests R5 → Estate 家 R6.
+type Tab = 'work' | 'map' | 'works' | 'estate' | 'inventory' | 'character' | 'combat' | 'quests';
 
 export interface AppHooks {
   exportSave: () => string;
@@ -849,7 +849,11 @@ export function mount(
   const logSection = el('section', 'log');
   logSection.setAttribute('aria-live', 'polite');
   logSection.setAttribute('aria-label', 'Story log');
-  logSection.append(el('h2', undefined, 'The house remembers'));
+  // FB-363 — the head is a ROW: the title left, the story vn/all sub-toggle right
+  // (the toggle lives in the story SECTION, not the filter bar — the tab row stays uniform).
+  const logHead = el('div', 'log-head');
+  logHead.append(el('h2', undefined, 'The house remembers'));
+  logSection.append(logHead);
   const logLines = el('div', 'log-lines');
   logSection.append(logLines);
   // Track whether the reader is pinned to the foot (within tolerance). Our own programmatic pin
@@ -869,7 +873,7 @@ export function mount(
     if (!mobileLogBand.matches) return;
     const t = e.target as HTMLElement;
     if (logSection.classList.contains('m-expanded')) {
-      if (t.closest('.log > h2')) logSection.classList.remove('m-expanded');
+      if (t.closest('.log-head h2')) logSection.classList.remove('m-expanded');
       return;
     }
     if (t.closest('button')) return;
@@ -882,8 +886,9 @@ export function mount(
   // FB-176 — Now is NOT one of the channel filters: it's the fleeting-flavor scratch view.
   // It sits ALONE at the bar's left, visually apart from the six-tab channel group.
   const logFilterGroup = el('div', 'log-filter-group');
-  // FB-320 — the Story tab EXPANDS when selected: a small vn/all sub-toggle appears beside
-  // it. `vn` keeps only the scene lines (the MAIN story); `all` is the full story channel.
+  // FB-320 — a small vn/all sub-toggle appears while Story is the active filter: `vn` keeps
+  // only the scene lines (the MAIN story); `all` is the full story channel. FB-363 moved it
+  // from beside the Story tab (it made the tab read double-width) into the log head's right.
   const storySubWrap = el('span', 'story-sub');
   storySubWrap.hidden = true;
   const storySubBtns = new Map<StorySub, HTMLButtonElement>();
@@ -902,6 +907,7 @@ export function mount(
     storySubBtns.set(sub, sb);
     storySubWrap.append(sb);
   }
+  logHead.append(storySubWrap);
   for (const f of LOG_FILTERS) {
     const b = el('button', 'log-filter-tab', f.label) as HTMLButtonElement;
     b.type = 'button';
@@ -913,7 +919,6 @@ export function mount(
       logFilterBar.prepend(b);
     } else {
       logFilterGroup.append(b);
-      if (f.id === 'story') logFilterGroup.append(storySubWrap); // nests beside its tab
     }
   }
   logFilterBar.append(logFilterGroup);
@@ -953,6 +958,8 @@ export function mount(
   const work = el('section', 'work');
   const workHead = el('h2', undefined, 'What you can do');
   const estatePane = el('div', 'estate-pane');
+  // ADR-177 Schedule A — the Works 普請 pane (the projects/upgrades home; split out of Estate 家).
+  const worksPane = el('div', 'estate-pane works-pane');
   const marketPane = el('div', 'market-pane');
   const storehousePane = el('div', 'storehouse-pane');
   const belongingsPane = el('div', 'belongings-pane'); // ADR-111 / FB-89 — the home + belongings (Inventory tab)
@@ -981,7 +988,8 @@ export function mount(
   //    Each easy surface builds its card shell ONCE (lazily on first show) and PATCHES in place
   //    after, so an idle re-render of unchanged state produces zero DOM churn (meter transitions
   //    survive, focus survives, the ~2×/s tick stops flashing). null ⇒ not yet built.
-  let estateRefs: {
+  // ADR-177 Schedule A — the improve card lives on Works 普請; Estate 家 keeps the rooms.
+  let worksRefs: {
     card: HTMLElement;
     now: HTMLElement;
     ladder: HTMLElement;
@@ -989,6 +997,8 @@ export function mount(
     blurb: HTMLElement;
     hint: HTMLElement;
     btn: HTMLButtonElement;
+  } | null = null;
+  let estateRefs: {
     rooms: HTMLElement;
     roomList: HTMLElement;
   } | null = null;
@@ -1162,6 +1172,7 @@ export function mount(
     questsPane,
     mapPane,
     estatePane,
+    worksPane,
   );
   // P2 · Path & Progress — REMOVED (FB-116). The rung/progress display is now the SOLE responsibility
   // of the header rung element (renderRungHead, FB-106, top-right); the old Work-column ladder was a
@@ -1372,6 +1383,7 @@ export function mount(
     // 場 (ba, "place") pairs it in the woodblock English+kanji idiom like Map 地図 / Estate 家.
     work: 'Zone 場',
     map: 'Map 地図',
+    works: 'Works 普請',
     estate: 'Estate 家',
     inventory: 'Inventory 蔵',
     character: 'Character 己',
@@ -1383,14 +1395,17 @@ export function mount(
   //    surface predicate — NO new flags — and is the anti-empty-tab guard (§7) lifted to the tab
   //    level: it answers "would this tab have visible content if active?" WITHOUT switching activeTab.
   //    Work R0 always · Map/Estate R1 · Character R2 · Combat/Inventory R3 · Quests R5 (ADR-119).
+  // ADR-177 Schedule A — display order follows the REVEAL order (a new chip always
+  // lights at the end of the row, so arrival reads as growth; Estate 家 is the R6 capstone).
   const TAB_ORDER: readonly Tab[] = [
     'work',
     'map',
-    'estate',
-    'inventory',
+    'works',
     'character',
     'combat',
+    'inventory',
     'quests',
+    'estate',
   ];
   // does the Character tab have any visible content? — the true anti-empty guard (§7): a skill card
   // to show (skills visible via by-doing OR a skill row unlocked), OR the R3 sections (training /
@@ -1421,16 +1436,18 @@ export function mount(
         // the walkable node-map opens once the gate does (R1 — you can step off the kura floor). Nav's
         // sole home (FB-107); the market/pedlar lives here too, but the node-map is the primary content.
         return isUnlocked(state, 'room-gate');
-      case 'estate':
-        // the kura-works improve card (panel-estate, ~R1) + House-Influence (joins at R3).
+      case 'works':
+        // ADR-177 Schedule A — the projects home (普請): cause-gated on the works-intro
+        // beat's day-book naming (panel-estate's predicate), R2+ at the board.
         return isUnlocked(state, 'panel-estate');
+      case 'estate':
+        // ADR-177 Schedule A — Estate 家 arrives at R6 (tab-estate, its rank reward):
+        // the pillars/influence pane + the reopening house rooms. The upgrades left for Works.
+        return isUnlocked(state, 'tab-estate');
       case 'inventory':
-        // ADR-119 — the Inventory tab STAGGERS to R3 (was R1), ending the Map+Estate+Inventory
-        // triple-reveal so R1 isn't a slam of three tabs. It reveals with combat (tab-combat/R3):
-        // banking only matters once a lost fight can bite your carried wealth, so R3 is its natural
-        // beat. Its content (the kura bank, panel-estate ~R1, + the home/belongings, panel-home R1)
-        // is already unlocked by then; the tab is just held back until R3.
-        return isUnlocked(state, 'tab-combat');
+        // ADR-177 Schedule A — the Inventory tab staggers R3 → R4 (tab-inventory, its own
+        // rung): banking + belongings, one tab per rung after Combat's R3.
+        return isUnlocked(state, 'tab-inventory');
       case 'character':
         // Skills first (R2), attrs + bestiary + quests at R3 — but only once something actually shows.
         return characterHasContent(state);
@@ -1531,15 +1548,15 @@ export function mount(
   // element (renderRungHead, FB-106), which is now the SOLE home of the rung name + progress meter
   // (top-right, always on screen, with the hover-detail card + the ready-to-advance summons).
 
-  function renderEstate(state: GameState): void {
-    // FB-100 (ADR-112) — the estate-improve card (kura-works flywheel) is the Estate tab's home. It
-    // self-gates to the Estate tab; on every other tab it stays hidden (no ghost slice).
-    const show = activeTab === 'estate' && isUnlocked(state, 'panel-estate');
-    toggle(estatePane, show);
+  function renderWorks(state: GameState): void {
+    // ADR-177 Schedule A (F4) — the projects/upgrades home is the Works 普請 tab, cause-gated
+    // on the works-intro naming (panel-estate's predicate). Estate 家 keeps the house itself.
+    const show = activeTab === 'works' && isUnlocked(state, 'panel-estate');
+    toggle(worksPane, show);
     if (!show) return;
     // build the shell ONCE (FB-81): the improve card carries every mutable child up front (blurb /
-    // hint / button toggle in place); the house-rooms card is a keyed row list that grows.
-    if (!estateRefs) {
+    // hint / button toggle in place).
+    if (!worksRefs) {
       const card = el('div', 'rung-card frame');
       const now = el('div', 'rung-now');
       // ADR-145 Phase 4 — the BUILD LADDER (the tracker's shipped default A): one keyed row per
@@ -1562,15 +1579,10 @@ export function mount(
       stampAct(btn, 'improve_estate');
       btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
       card.append(now, ladder, blurb, hint, btn);
-      estatePane.append(card);
-      const rooms = el('div', 'rung-card frame');
-      rooms.append(el('div', 'rung-now', 'The house reopens 家'));
-      const roomList = el('div', 'house-room-list');
-      rooms.append(roomList);
-      estatePane.append(rooms);
-      estateRefs = { card, now, ladder, ladderRows, blurb, hint, btn, rooms, roomList };
+      worksPane.append(card);
+      worksRefs = { card, now, ladder, ladderRows, blurb, hint, btn };
     }
-    const r = estateRefs;
+    const r = worksRefs;
     {
       const build = estateBuild(state);
       const nextOpen = build.next?.open ?? true;
@@ -1643,7 +1655,24 @@ export function mount(
       toggle(r.btn, false);
       setText(r.hint, 'The estate stands restored.');
     }
+  }
 
+  function renderEstate(state: GameState): void {
+    // ADR-177 Schedule A — Estate 家 (R6): the house itself. The reopening rooms render
+    // here; the influence pane (renderHouseInfluence) shares the tab; the E1 cutaway
+    // fold-in is the tab's Phase-2 diverge.
+    const show = activeTab === 'estate' && isUnlocked(state, 'tab-estate');
+    toggle(estatePane, show);
+    if (!show) return;
+    if (!estateRefs) {
+      const rooms = el('div', 'rung-card frame');
+      rooms.append(el('div', 'rung-now', 'The house reopens 家'));
+      const roomList = el('div', 'house-room-list');
+      rooms.append(roomList);
+      estatePane.append(rooms);
+      estateRefs = { rooms, roomList };
+    }
+    const r = estateRefs;
     const opened = HOUSE_ROOMS.filter((room) => isUnlocked(state, room.surface));
     toggle(r.rooms, opened.length > 0);
     reconcileList(r.roomList, opened, {
@@ -6016,6 +6045,7 @@ export function mount(
     seedLogSeenOnce(state);
     refreshLogTabs(state); // FB-20 — repaint per-tab unread dots
     workHead.hidden = activeTab !== 'work';
+    renderWorks(state);
     renderEstate(state);
     renderWhosHere(state); // FB-332 — before renderMarket: it settles openPersonId for the wares gate
     renderMarket(state);
