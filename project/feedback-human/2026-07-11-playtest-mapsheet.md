@@ -120,21 +120,22 @@ seal waits under fog until the paper is surveyed.
 **Distilled rule:** nothing under unsurveyed paper is previewed by name
 (reveal-as-plot, TST3) — fog gates *names*, not just ground art.
 
-### FB-381 · kitchen threshold shouldn't show at R1 — 🔧 (fiction-led reveal, drafted)
+### FB-381 · kitchen threshold shouldn't show at R1 — ✅
 **Verbatim:** _"I still ahve no idea why kitchen threshold is shown in R1 as
 an area you could walk to why is it not completely removed from the map to be
 revealed later ?"_
 **Reading:** the FB-375 design fork, now taken: the human wants the R0
 bible-anchor ground gated. Direction locked in-session: separate, fiction-led
-beats (ADR-177 weir pattern). Draft: `room-kitchen` revealed by the R1 terms
-beat (Genemon names "meals at the threshold"). Lands after the human reads
-the drafted hooks.
+beats (ADR-177 weir pattern): `room-kitchen` revealed by the R1 terms beat
+(Genemon names "meals at the threshold"), announced on the ceremony.
+**Fixed in:** `8686618e` (draft approved in-session).
 
-### FB-382 · same for Sōan's sickroom — 🔧 (fiction-led reveal, drafted)
+### FB-382 · same for Sōan's sickroom — ✅
 **Verbatim:** _"Same with sick room"_
-**Reading:** as FB-381. Draft: `room-sickroom` revealed at R3 with combat
-(the grain-watch/wolf beat — hurt men go to Sōan; defeat relocation lands
-there only after combat exists, so the reveal always precedes it).
+**Reading:** as FB-381: `room-sickroom` revealed at R3 with combat (the
+grain-watch/wolf beat — hurt men go to Sōan; defeat relocation lands there
+only after combat exists, so the reveal always precedes it).
+**Fixed in:** `8686618e` (draft approved in-session).
 
 ## The rung-up ceremony
 
