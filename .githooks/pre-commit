@@ -172,6 +172,8 @@ if [ "${SKIP_QUEUE:-0}" != "1" ]; then
     case "$f" in
       docs/plans/README.md)
         : ;;  # the dir's own README documents the convention; never a for-the-human plan
+      docs/plans/templates/*)
+        : ;;  # the GENERATED template skeletons — not plans, never for the queue
       docs/plans/*.md)
         grep -Fq "$f" <<<"$queue_now" || unqueued_plans="${unqueued_plans}    - ${f}"$'\n'
         # Model-prefix convention (human, 2026-07-03): plan filenames carry the AUTHORING
@@ -220,7 +222,8 @@ fi
 #     tsx startup cost off every plan-less commit.
 #     Bypass (rare — a genuinely exempt doc):  SKIP_PLAN_TEMPLATE=1 git commit … ---
 if [ "${SKIP_PLAN_TEMPLATE:-0}" != "1" ]; then
-  if git diff --cached --name-only --diff-filter=A | grep -qE '^docs/plans/.+\.md$'; then
+  if git diff --cached --name-only --diff-filter=A | grep -E '^docs/plans/.+\.md$' \
+    | grep -qv '^docs/plans/templates/'; then
     if ! pnpm exec tsx src/scripts/verify-plan-template.ts --staged >&2; then
       exit 1
     fi

@@ -404,7 +404,13 @@ Full version:
   [`project/brainstorms/`](project/brainstorms)**; **implementation plans /
   reel-backs / option-maps → [`docs/plans/`](docs/plans)**; **settled design →
   [`docs/`](docs)**. The test before you act: *if this session vanished right
-  now, is the idea still on disk?* If no, write it first.
+  now, is the idea still on disk?* If no, write it first. **A NEW plan follows
+  the template contract**: start from the [`write-plan`
+  skill](.claude/skills/write-plan/SKILL.md) or the generated skeletons in
+  [`docs/plans/templates/`](docs/plans/templates) — the `verify-plan-template`
+  pre-commit gate HARD-blocks a new plan missing its class's mandatory
+  sections, incl. the Sync ripple (PRD · story-bible · living docs). Canon:
+  [`docs/guides/plan-authoring.md`](docs/guides/plan-authoring.md).
 - **Durable capture of workflow / subagent outputs.** `Workflow` results live
   only in ephemeral session scratch and **die with the session** — so after
   **every workflow**: **snapshot** the raw `.output` verbatim into

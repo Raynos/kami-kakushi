@@ -2,8 +2,14 @@
 // specific mutilation of a valid plan flips the verdict (or that the escape
 // hatches hold). Fixtures are built from a minimal in-test valid plan, not
 // copied from the corpus, so corpus edits never stale them.
+import { readFileSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
-import { validatePlan, splitSections } from './verify-plan-template';
+import {
+  validatePlan,
+  splitSections,
+  scaffoldTemplate,
+  templateFileContent,
+} from './verify-plan-template';
 
 const HEADER = `# A porter on the sheet
 
@@ -166,6 +172,65 @@ describe('validatePlan', () => {
     const noTemplate = VALID.replace(/^\*\*Template:.*$/m, '');
     const v = validatePlan(noTemplate, 'project/archive/old.md', 'build');
     expect(v.failures.filter((f) => f.includes('Template'))).toEqual([]);
+  });
+});
+
+describe('first-principles warns (2026-07-11 fresh pass)', () => {
+  it('warns when grounding cites a path that does not exist (anti-hallucination)', () => {
+    const bogus = VALID.replace('src/ui/map-variants/sheet-map.ts', 'src/ui/never/exists-nope.ts');
+    const v = validatePlan(bogus, 'p.md');
+    expect(v.failures).toEqual([]);
+    expect(v.warns.some((w) => w.includes('do not exist'))).toBe(true);
+  });
+
+  it('warns when grounding carries no survey date (grounding rots)', () => {
+    const v = validatePlan(VALID, 'p.md'); // fixture grounding has no date
+    expect(v.warns.some((w) => w.includes('survey date'))).toBe(true);
+    const dated = VALID.replace('carries the v1 ring', 'carries the v1 ring (surveyed 2026-07-11)');
+    expect(validatePlan(dated, 'p.md').warns.some((w) => w.includes('survey date'))).toBe(false);
+  });
+
+  it('warns when Status is LOCKED but no human is named', () => {
+    const locked = VALID.replace('📋 PROPOSED', '✅ LOCKED').replace(
+      'the human picked',
+      'we picked',
+    );
+    const v = validatePlan(locked, 'p.md');
+    expect(v.warns.some((w) => w.includes('LOCKED but no human'))).toBe(true);
+  });
+
+  it('warns when a build plan verifies by unit checks only (no player-reach, PH6)', () => {
+    const unitOnly = VALID.replace(
+      /## Verification[\s\S]*?(?=## Sync ripple)/,
+      '## Verification\n\nUnit the pure walk-math thoroughly: fraction to position, cadence\nmonotonicity, and the reduced-motion branch; pnpm run verify green.\n\n',
+    );
+    const v = validatePlan(unitOnly, 'p.md');
+    expect(v.warns.some((w) => w.includes('player-reach'))).toBe(true);
+  });
+});
+
+describe('scaffold (docs/plans/templates/ single-source)', () => {
+  const CLASSES = ['build', 'process', 'ops'] as const;
+  const FILLER =
+    '1. PRD line checked with story-bible coverage noted for the sweep.\n' +
+    '2. Second concrete step lands its own commit cleanly in src/scripts.\n' +
+    '3. Third verifies with a live capture and an e2e fixture, surveyed 2026-07-11.';
+
+  it.each(CLASSES)('committed templates/%s.md matches the generator (no drift)', (cls) => {
+    expect(readFileSync(`docs/plans/templates/${cls}.md`, 'utf-8')).toBe(templateFileContent(cls));
+  });
+
+  it.each(CLASSES)('a filled %s scaffold passes the gate', (cls) => {
+    const filledPlan = scaffoldTemplate(cls)
+      .replace(/<!--[\s\S]*?-->/g, FILLER)
+      .replace('(<YYYY-MM-DD>, <session>)', '(2026-07-11, test)');
+    const v = validatePlan(filledPlan, `docs/plans/fable-2026-07-11-${cls}-fixture.md`);
+    expect(v.failures).toEqual([]);
+  });
+
+  it('an UNFILLED scaffold fails the gate (guidance comments are not content)', () => {
+    const v = validatePlan(scaffoldTemplate('build'), 'docs/plans/fable-x.md');
+    expect(v.failures.length).toBeGreaterThan(0);
   });
 });
 

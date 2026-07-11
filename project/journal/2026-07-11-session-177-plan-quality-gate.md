@@ -63,3 +63,34 @@ proposal `project/brainstorms/2026-07-11-plan-process-streamlining.md`
 (A `/write-plan` skill + scaffold flag · B write-time WARN hook · C
 AGENTS.md bullet · horizon items) — direction to be locked with the human
 before any of it is built.
+
+---
+
+**Wave 2 (same session, human ruling):** A + C adopted, B parked, plus two
+human additions — visible template files and an independent fresh pass.
+Landed:
+
+- **`docs/plans/templates/{build,process,ops}.md`** — GENERATED skeletons
+  (`--scaffold-write`), single-sourced from the validator's
+  `REQUIRED`/`SECTION_HEADING`/`SECTION_GUIDE` tables; a vitest case REDs
+  on drift; guidance lives in HTML comments so an unfilled skeleton still
+  fails the gate. Both pre-commit gates (plan-template + reading-queue)
+  exempt `templates/`; `checkpoint` never saw subdirs.
+- **`.claude/skills/write-plan/SKILL.md`** — scaffold → judgment pass
+  (ground THIS session + survey date, cite the record, honest sync lines,
+  name the seam vs live plans/peers, player-reach proof, routing, taste
+  obligations) → validate → queue → pathspec commit.
+- **AGENTS.md** — the Durable-by-default bullet now carries the template
+  contract (~6 lines; the file sits past its 420 soft warn, under the 500
+  cap — accepted consciously).
+- **First-principles pass (beyond the dictated rules), new WARN checks:**
+  (1) grounding-cited paths must EXIST on disk (anti-hallucination, PH2);
+  (2) grounding must carry its survey DATE (grounding rots); (3) a LOCKED
+  status without a human attribution shape is a contradiction (PH4/ADR-022)
+  — first cut was unsound (`/human/` matched the Human-in-the-loop heading;
+  its own test caught it, tightened to attribution shapes); (4) build-plan
+  verification naming no player-reach proof (PH6) warns — unit tests alone
+  can green an unreachable feature. Considered and rejected: mandatory
+  executor read-list (recommend-only, §2.8 of the skill), plan expiry dates
+  (survey-date warn covers it), hard ownership header (guide + skill
+  guidance instead). 26 vitest cases total.

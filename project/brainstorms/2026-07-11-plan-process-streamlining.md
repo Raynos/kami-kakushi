@@ -1,9 +1,11 @@
 # Streamlining the planning process — proposals (2026-07-11)
 
-**Status:** 📋 PROPOSED — follow-on to the plan-quality audit
-(`project/audit/reports/2026-07-11-plan-quality-audit.md`). The gate ships;
-these are the *ergonomics* around it, surfaced for the human's pick before
-any build (process-shape changes lock direction first).
+**Status:** ✅ RULED (human, 2026-07-11, same day) — **A + C ADOPTED and
+built** (the `write-plan` skill + `--scaffold` mode + the AGENTS.md contract
+line; plus the human's addition: visible GENERATED skeletons in
+`docs/plans/templates/`). **B parked** (write-time hook — revisit if plans
+prove to be drafted across many Write calls). Horizon items stay parked.
+Original proposal below for the record.
 
 The gap the gate leaves: it fires at **commit time** — the latest possible
 moment. Everything below moves the contract earlier in the authoring loop.

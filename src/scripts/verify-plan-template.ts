@@ -13,16 +13,18 @@
 // describes it.
 //
 // Modes:
-//   tsx verify-plan-template.ts <file...>   validate specific files (exit 1 on fail)
-//   tsx verify-plan-template.ts --staged    validate staged ADDED docs/plans files
-//   tsx verify-plan-template.ts --backtest  score the whole corpus (report, exit 0)
+//   tsx verify-plan-template.ts <file...>         validate specific files (exit 1 on fail)
+//   tsx verify-plan-template.ts --staged          validate staged ADDED docs/plans files
+//   tsx verify-plan-template.ts --backtest        score the whole corpus (report, exit 0)
+//   tsx verify-plan-template.ts --scaffold <cls>  print a compliant skeleton to stdout
+//   tsx verify-plan-template.ts --scaffold-write  regenerate docs/plans/templates/*.md
 //
 // Invoked by .githooks/pre-commit (HARD block on new plans; escape:
 // SKIP_PLAN_TEMPLATE=1). Not a verify gate: it is staged-set-aware, which only
 // the hook rung can be — and archived/existing plans are grandfathered by
 // construction (--diff-filter=A never re-fires on a graduation git mv).
 
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { parseStatusToken, CLOSED_TOKENS } from './checkpoint';
@@ -107,6 +109,112 @@ const SECTION_LABEL: Record<string, string> = {
   goConditions: '## Go conditions (blocking preconditions)',
   aftermath: '## Aftermath (cleanup, comms, re-sync)',
 };
+
+// ── scaffold source (docs/plans/templates/ is GENERATED from these) ────────
+// Clean canonical headings per section (each MUST match its own alias regex —
+// the scaffold-sync vitest case proves it), with per-class overrides where a
+// class reads better ("Goal"/"Procedure" for ops).
+const SECTION_HEADING: Record<string, string> = {
+  routing: 'Who builds this — Fable or Opus?',
+  why: 'Why',
+  grounding: 'What exists today',
+  steps: 'Steps',
+  verification: 'Verification',
+  sync: 'Sync ripple',
+  hitl: 'Human-in-the-loop',
+  scope: 'Non-goals',
+  risks: 'Risks',
+  teeth: 'Teeth',
+  rollback: 'Rollback',
+  goConditions: 'Go conditions',
+  aftermath: 'Aftermath',
+};
+const HEADING_OVERRIDE: Partial<Record<PlanClass, Record<string, string>>> = {
+  ops: { why: 'Goal', steps: 'Procedure' },
+};
+
+// Guidance lives in HTML comments so an UNFILLED scaffold reads as EMPTY to
+// the gate (stripNoise drops comments) — committing a skeleton fails loudly.
+const SECTION_GUIDE: Record<string, string> = {
+  routing:
+    'Per-phase: where does judgment concentrate (taste, fiction, look) vs\n' +
+    'mechanical execution? Doubt favors Fable.',
+  why:
+    "The problem in the player's / project's terms. Cite the record: FB-nn,\n" +
+    'ADR-nnn, HR/HD items, human quotes with dates.',
+  grounding:
+    'Verify, do not trust (PH2): the current build, SOURCE-VERIFIED THIS\n' +
+    'session — file paths, commit hashes, what is reusable, what this\n' +
+    'replaces. State the survey DATE (grounding rots). Cited paths must\n' +
+    'exist — the gate warns on any that do not.',
+  steps:
+    'Sequenced, file-level, >=3 steps, each independently committable +\n' +
+    'verify-green. Name the ordering rationale where it matters.',
+  verification:
+    'Done is earned (PH3): checks that could go RED, named — which unit\n' +
+    'test / e2e / sim envelope / golden pin. Build plans: also the\n' +
+    'player-reach proof (PH6) — a capture, fixture, or live drive.',
+  sync:
+    'What ELSE moves — one line each, concrete edit or "none — <reason>":\n' +
+    '- **PRD:** <section + edit, via /prd-ripple> | none — <reason>\n' +
+    '- **Story-bible:** <section / tier sheet> | none — <reason>\n' +
+    '- **Living docs / registries:** <roadmap, gen:narrative, fixtures,\n' +
+    '  t0-pacing (ADR-132 if balance moves)> | none — <reason>\n' +
+    '- **CHANGELOG:** <if a version bump ships this> | none',
+  hitl:
+    'Bias to motion (PH4): HR/HD items this files or closes; open questions\n' +
+    'WITH proposed defaults (never blocking); taste-scorecard Pass 1/2 for\n' +
+    'UI surfaces; diverge obligations (ADR-075 / ADR-139) named.',
+  scope:
+    'What this plan deliberately does NOT do — parked, deferred, or\nrejected, each with a pointer if it lives on.',
+  risks:
+    'Landmines, migration hazards, rollback story — and the SEAM: which\n' +
+    'files this plan owns vs what in-flight plans / co-agents on this\n' +
+    'shared tree touch (name them; check herdr peers + docs/plans/).',
+  teeth:
+    'Which rung holds each new invariant (gate > hook > skill > norm) and\n' +
+    'the PROOF the gate can go RED. Budget: what it adds to the <=8s\n' +
+    'commit lane (ADR-176).',
+  rollback:
+    'How this unwinds if it misfires: the flag, the revert seam, the\n' + 'escape hatch env var.',
+  goConditions:
+    'Blocking preconditions: coordination (other agents parked?), human\n' +
+    'sign-offs already in hand, backups taken.',
+  aftermath: 'Cleanup, comms to co-agents, what re-syncs, what gets archived.',
+};
+
+/** The compliant skeleton for a class — SINGLE-SOURCED from REQUIRED +
+ *  SECTION_HEADING/GUIDE; docs/plans/templates/<class>.md is generated from
+ *  this (--scaffold-write) and a vitest case REDs on drift. */
+export function scaffoldTemplate(cls: PlanClass): string {
+  const heading = (id: string): string => HEADING_OVERRIDE[cls]?.[id] ?? SECTION_HEADING[id] ?? id;
+  const lines: string[] = [
+    '# <imperative title — what lands when this plan is done>',
+    '',
+    '**Status:** 📋 PROPOSED (<YYYY-MM-DD>, <session>)',
+    '**Confidence:** ( <X>% Opus, <Y>% Fable ) — <one clause: where judgment sits>',
+    `**Template:** ${cls}`,
+    '',
+  ];
+  const req = REQUIRED[cls];
+  for (const id of [...req.hard, ...req.warn]) {
+    const optional = req.warn.includes(id) ? ' <!-- optional (warn-rung) -->' : '';
+    lines.push(`## ${heading(id)}${optional}`, '');
+    lines.push(`<!-- ${SECTION_GUIDE[id] ?? ''} -->`, '');
+  }
+  return lines.join('\n');
+}
+
+const TEMPLATE_BANNER =
+  '<!-- GENERATED — do not hand-edit. Source: src/scripts/verify-plan-template.ts\n' +
+  '     (REQUIRED + SECTION_HEADING/GUIDE). Regenerate: pnpm exec tsx\n' +
+  '     src/scripts/verify-plan-template.ts --scaffold-write. The vitest\n' +
+  '     scaffold-sync case REDs on drift. To start a plan: copy this file (or\n' +
+  '     run --scaffold <class>), fill EVERY section, delete the comments. -->\n\n';
+
+export function templateFileContent(cls: PlanClass): string {
+  return TEMPLATE_BANNER + scaffoldTemplate(cls) + '\n';
+}
 
 interface Section {
   ids: string[]; // ALL alias hits — one heading may serve several roles
@@ -300,6 +408,53 @@ export function validatePlan(
       )
     )
       warns.push("grounding: cites no file path or commit — verify, don't trust (PH2)");
+
+    // First-principles (2026-07-11 fresh pass): grounding claims are only as
+    // good as their verifiability. Two cheap, sound-at-warn checks:
+    // (a) every repo path the grounding CITES must exist — a missing one is a
+    //     hallucination or rot, exactly the PH2 failure a reviewer can't see;
+    // (b) grounding ROTS — it should carry the date it was surveyed, so an
+    //     executor weeks later knows to re-verify before building on it.
+    const cited = body.match(/(?:src|docs|project|\.claude|\.githooks|\.github)\/[\w./-]+/g) ?? [];
+    const missing = [
+      ...new Set(
+        cited
+          .map((p) => p.replace(/[.,;:)]+$/, ''))
+          .filter((p) => !p.includes('*') && !existsSync(p)),
+      ),
+    ];
+    if (missing.length > 0)
+      warns.push(
+        `grounding: cited path(s) do not exist on disk — hallucination or rot (PH2): ${missing.join(', ')}`,
+      );
+    if (!/20\d{2}-\d{2}-\d{2}/.test(body))
+      warns.push(
+        'grounding: no survey date — state WHEN this was verified (grounding rots; an executor must know to re-check)',
+      );
+  }
+
+  // ── a LOCKED plan implies a human ratified it — name them (PH4/ADR-022).
+  //    Match attribution SHAPES ("(human, 2026-…)", "human call/ruling") —
+  //    a bare /human/ would false-green on the Human-in-the-loop heading. ──
+  if (
+    st?.token === 'LOCKED' &&
+    !/\(human|human[, ]+20\d\d|human call|human ruling|human steer|human-locked|human,/i.test(
+      content,
+    )
+  )
+    warns.push('status: LOCKED but no human attribution anywhere — locked by whom, when?');
+
+  // ── build plans must prove the player can REACH the change (PH6) ──
+  if (effective === 'build' && verifSecs.some((s) => filled(s.body))) {
+    const vbody = verifSecs.map((s) => s.body).join('\n');
+    if (
+      !/(captures?|screenshots?|e2e|fixtures?|playtest|blind[- ]pass|headless|browser|\blive\b)/i.test(
+        vbody,
+      )
+    )
+      warns.push(
+        'verification: unit checks only — name the player-reach proof (PH6): a capture, e2e, fixture, or live drive',
+      );
   }
 
   // ── why should cite the record ──
@@ -325,7 +480,12 @@ function stagedNewPlans(): string[] {
   const out = execFileSync('git', ['diff', '--cached', '--name-only', '--diff-filter=A'], {
     encoding: 'utf-8',
   });
-  return out.split('\n').filter((f) => /^docs\/plans\/.+\.md$/.test(f) && !f.endsWith('README.md'));
+  return out.split('\n').filter(
+    (f) =>
+      /^docs\/plans\/.+\.md$/.test(f) &&
+      !f.endsWith('README.md') &&
+      !f.startsWith('docs/plans/templates/'), // the skeletons are NOT plans
+  );
 }
 
 function mdFilesUnder(dir: string): string[] {
@@ -346,11 +506,30 @@ function report(v: PlanVerdict): void {
 function main(): void {
   const argv = process.argv.slice(2);
 
+  if (argv[0] === '--scaffold') {
+    const cls = argv[1];
+    if (cls !== 'build' && cls !== 'process' && cls !== 'ops') {
+      console.error('usage: verify-plan-template.ts --scaffold build|process|ops');
+      process.exit(1);
+    }
+    process.stdout.write(scaffoldTemplate(cls) + '\n');
+    return;
+  }
+
+  if (argv[0] === '--scaffold-write') {
+    for (const cls of ['build', 'process', 'ops'] as PlanClass[]) {
+      const p = `docs/plans/templates/${cls}.md`;
+      writeFileSync(p, templateFileContent(cls));
+      console.log(`  ✓ plan-template: wrote ${p}`);
+    }
+    return;
+  }
+
   if (argv[0] === '--backtest') {
     // Corpus sweep: classless plans are scored against all three classes and
     // take their BEST fit (fewest failures) — fair to pre-template eras.
     const roots = argv.slice(1).length ? argv.slice(1) : ['project/archive', 'docs/plans'];
-    const skip = /prd-v1\.md$|prd-05-narrative-old-canon\.md$/;
+    const skip = /prd-v1\.md$|prd-05-narrative-old-canon\.md$|docs\/plans\/templates\//;
     // The Confidence/Template header lines post-date most of the corpus —
     // split them out so the sweep measures SUBSTANCE: would this plan pass
     // if it merely declared its class?

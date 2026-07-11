@@ -7,8 +7,10 @@ steps awaiting or under execution. This directory holds **active plans only**.
 `ops` — declared by a `**Template:**` header line; the mandatory sections
 (incl. the Sync ripple: PRD · story-bible · living docs) are HARD-gated at
 commit by `src/scripts/verify-plan-template.ts` (2026-07-11 plan audit;
-`SKIP_PLAN_TEMPLATE=1` escape). Skeletons + guidance:
-[`docs/guides/plan-authoring.md`](../guides/plan-authoring.md).
+`SKIP_PLAN_TEMPLATE=1` escape). Start from the `write-plan` skill or copy a
+GENERATED skeleton from [`templates/`](templates) (never hand-edit those —
+`--scaffold-write` regenerates them, a vitest case REDs on drift); rationale
++ gate contract: [`docs/guides/plan-authoring.md`](../guides/plan-authoring.md).
 
 - **A plan lives here while it's live** (proposed, approved-but-unstarted, or in
   progress). Add a new plan to the [reading queue](../../project/todo-human.md) in
