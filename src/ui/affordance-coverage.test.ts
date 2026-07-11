@@ -34,6 +34,7 @@ const PLAYER_INTENTS = [
   'choose_rung_option',
   'rake_rice',
   'rest',
+  'sleep', // ADR-187 — "Sleep till morning", beside Rest in the meta-verb row (woodshed corner, R4+)
   'do_activity',
   'set_auto',
   'set_auto_rake',
@@ -247,6 +248,11 @@ describe('intent → affordance coverage (the wiring-layer ratchet)', () => {
       { ...gate, clock: { ...gate.clock, day: 2 }, resources: { ...gate.resources, coin: 500 } },
       seen,
     );
+    // sleep (ADR-187): the day-skip is a HOME verb — the woodshed corner is the only bed in the
+    // game, and it becomes yours at R4 (panel-home → tab-inventory). So stand an R4 player in it;
+    // anywhere else, or any rung below, the button correctly does not exist.
+    const r4 = fixtureState('rung-R4');
+    sweep({ ...r4, location: 'woodshed' }, seen);
     // ask_rung_topic: the R1/R2 beats are decide-only — R3's beat carries topics
     sweep({ ...inBeat, rungBeat: 'R3' }, seen);
     const r3 = fixtureState('fresh-R3-pre-wolf');

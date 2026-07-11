@@ -132,6 +132,11 @@ export const INTENT_TIMING: Readonly<Record<IntentType, ActionTiming>> = {
   begin_night_round: timed(NIGHT_ROUND_SEED_MS),
   rake_rice: timed(5000), // the capture's own example: "takes 5 seconds"
   rest: timed(4000),
+  // ADR-187 — sleeping the day away is INSTANT, deliberately. A "waiting" bar (the rejected
+  // option C) would convert dead GAME time into dead REAL time — strictly worse than playing,
+  // and against the active-only contract (PRD §6.9). The safety on a costly, irreversible press
+  // is LEGIBILITY, not delay: the button's hover reads the exact price (AC-6, sleepForecast).
+  sleep: INSTANT,
   do_activity: timed(7000), // fallback — timingFor routes to ACTIVITY_TIMING
   set_auto: INSTANT,
   set_auto_rake: INSTANT,

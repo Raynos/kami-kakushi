@@ -23,9 +23,11 @@ import type {
   LabourOption,
   NodePerson,
   BelongingDef,
+  MetaVerb,
 } from '../core';
 import {
   availableActions,
+  sleepForecast,
   availableLabours,
   canAffordAct,
   OUT_OF_STRENGTH_REASON,
@@ -176,10 +178,14 @@ function rakeCount(state: GameState): number {
   return req ? (state.rungReqs[req.id] ?? 0) : 0;
 }
 
-const META_LABELS: Record<'open_eyes' | 'rake_rice' | 'rest', string> = {
+const META_LABELS: Record<MetaVerb, string> = {
   open_eyes: COLD_OPEN.cta, // single-sourced with the title card's verb (AC-21)
   rake_rice: 'Rake the spilled rice',
   rest: 'Rest a moment',
+  // ADR-187 — the day-skip. The label says what it COSTS in the only currency that matters here:
+  // the day. Not "wait" (you are not waiting, you are spending), not "skip" (that is chrome, not
+  // fiction — TST3): you lie down in your corner and the day goes on without you.
+  sleep: 'Sleep till morning',
 };
 
 // the active combat decision (kendo kamae) — kanji avoid the foe-tier word collision
@@ -3222,6 +3228,19 @@ export function mount(
           const btn = node as HTMLButtonElement;
           const hungry = restQuality(state) < 0.99;
           const t = `+${restRefill(state)} body — a free breather${hungry ? ' (poor on an empty belly — eat to rest well)' : ''}.`;
+          if (btn.title !== t) btn.title = t;
+          return;
+        }
+        // ADR-187 — the slept day reads its FULL price before it is taken (AC-6): sleepForecast is
+        // the SAME selector the reducer spends, so the hover can never flatter the button. A day-skip
+        // is instant and irreversible, so legibility IS the safety (there is no bar to think during).
+        if (a === 'sleep') {
+          const btn = node as HTMLButtonElement;
+          const f = sleepForecast(state);
+          const t =
+            `Wake at dawn — the day goes on without you. ` +
+            `The house eats ${f.riceDrawn} shō from the kura · −${Math.round(f.bellyLost)} belly ` +
+            `(you sleep through the pot) · no body back — sleeping is not resting.`;
           if (btn.title !== t) btn.title = t;
           return;
         }
@@ -6455,6 +6474,14 @@ export function mount(
           // rest forecasts its true, reduced number instead of the full base.
           line(`+${restRefill(state)} body`);
           break;
+        case 'sleep': {
+          // ADR-187 — sleepForecast is the SAME selector the reducer spends (AC-6). The day is the
+          // real price and it is not a number, so it leads in words; the stores/belly follow.
+          const f = sleepForecast(state);
+          line('the day is spent — you wake at dawn');
+          line(`−${f.riceDrawn} shō (kura) · −${Math.round(f.bellyLost)} belly · no body back`);
+          break;
+        }
         case 'cook_meal':
           line(
             `−${balance.COOK_SANSAI_COST} sansai · +${balance.COOK_HP_RESTORE} hp · ` +

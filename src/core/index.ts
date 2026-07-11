@@ -84,7 +84,7 @@ export type {
 export { NPC_IDS, NPC_NAME, NPC_VOICE, PLAYER_SPEAKER } from './content/voices';
 export type { NpcId, VoiceCategory } from './content/voices';
 
-export type { Intent, IntentType } from './intents';
+export type { Intent, IntentType, MetaVerb } from './intents';
 export { reduce, availableActions } from './intents';
 export {
   focusedOptimalIntent,
@@ -325,6 +325,8 @@ export {
   hungerMax,
   restQuality,
   restRefill,
+  canSleep, // ADR-187 — the day-skip's gate (a bed, at your corner, R4+)
+  sleepForecast, // ADR-187 — its price; the reducer AND the hover read THIS (AC-6)
   estateSatietyBonus,
   estateYieldNum,
   season,

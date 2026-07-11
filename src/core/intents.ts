@@ -34,6 +34,8 @@ import {
   restRefill,
   ownsBelonging,
   peopleHere,
+  canSleep,
+  sleepForecast,
 } from './selectors';
 import { getPerson, PEOPLE_IDS } from './content/people';
 import { getBelonging, homeRestLine } from './content/home';
@@ -62,7 +64,7 @@ import {
 } from './content/balance';
 import { DAY_WAGE_MON, isWaged } from './content/wage';
 import { ESTATE_STAGES, MAX_ESTATE_STAGE } from './content/estate';
-import { FLAVOR, restOpenLine } from './content/flavor';
+import { FLAVOR, restOpenLine, sleepLine } from './content/flavor';
 import { rakeLine, rakeCapLine } from './content/coldOpen';
 import { nextDialogueLines, COLD_OPEN_DIALOGUE_ID } from './content/dialogue';
 import {
@@ -132,6 +134,7 @@ export type Intent =
   | { type: 'talk_to'; personId: string } // C4.2: a vn person's talk delivers their next authored line
   | { type: 'rake_rice' }
   | { type: 'rest' }
+  | { type: 'sleep' } // ADR-187: end the day at your corner — the ONLY way time moves without an act
   | { type: 'do_activity'; activityId: ActivityId }
   | { type: 'set_auto'; activityId: ActivityId | null }
   | { type: 'set_auto_rake'; on: boolean }
@@ -160,15 +163,21 @@ export type Intent =
 export type IntentType = Intent['type'];
 
 /** The currently-legal no-arg meta verbs (the cold-open / rest loop). */
-export function availableActions(state: GameState): ('open_eyes' | 'rake_rice' | 'rest')[] {
+export function availableActions(state: GameState): MetaVerb[] {
   if (!hasFlag(state, 'awake')) return ['open_eyes'];
-  const acts: ('rake_rice' | 'rest')[] = [];
+  const acts: MetaVerb[] = [];
   if (!hasFlag(state, 'rank-r1')) acts.push('rake_rice'); // day-labour, before being kept on
   if (hasFlag(state, 'raked')) acts.push('rest');
+  // ADR-187 — `sleep` rides beside `rest` (TST1: one home for the no-arg body verbs), but ONLY
+  // where there is a bed to sleep in: your woodshed corner, from R4 (canSleep).
+  if (canSleep(state)) acts.push('sleep');
   return acts;
 }
 
-function metaLegal(state: GameState, type: 'open_eyes' | 'rake_rice' | 'rest'): boolean {
+/** The no-arg verbs the Do panel renders as bare buttons. */
+export type MetaVerb = 'open_eyes' | 'rake_rice' | 'rest' | 'sleep';
+
+function metaLegal(state: GameState, type: MetaVerb): boolean {
   return availableActions(state).includes(type);
 }
 
@@ -698,6 +707,37 @@ export function reduce(state: GameState, intent: Intent): GameState {
         ],
       });
       next = advanceClock(next, TICKS_PER_ACT);
+      break;
+    }
+    case 'sleep': {
+      // ADR-187 — the day-skip. The ONLY verb that moves time without doing work, and it needs a
+      // bed: your woodshed corner, R4+ (canSleep; ADR-184 signed the fiction — at R1 "you are a
+      // nobody; you have no bed", so the R1 player who ASKED for this deliberately has no lever).
+      if (!metaLegal(next, 'sleep')) return state;
+      // ONE source for the price (AC-6): the reducer spends exactly what the button's hover shows.
+      const f = sleepForecast(next);
+      // Wake at dawn. Whole ticks through the SAME advanceClock every act uses, so exactly one
+      // onDayBoundary fires and the household's ration draw is today's code, untouched — and the
+      // acts left in today are simply gone (teeth: sleep early, lose more).
+      next = advanceClock(next, f.ticks);
+      // ...then pay for the pot you slept through: the ration reached you only in part (teeth —
+      // without this a slept day on a stocked kura is belly-NEUTRAL, i.e. near-free, because
+      // HUNGER_MEAL_RESTORE == HUNGER_PER_DAY by design). Pro-rated inside sleepForecast by what
+      // the kura could actually serve, so an empty kura serves no meal to sleep through.
+      next = adjustHunger(next, -f.missedMeal);
+      // NOTE: no body refill. Sleeping is not resting (ADR-187) — `rest` stays the only thing that
+      // puts the body back, and the cheaper way to get it. Sleep buys time, and only time.
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'system',
+            text: sleepLine(),
+            voice: 'narrator',
+            ephemeral: true,
+            contentKey: 'flavor.sleep',
+          },
+        ],
+      });
       break;
     }
     case 'do_activity': {

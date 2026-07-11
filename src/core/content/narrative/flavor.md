@@ -33,6 +33,17 @@ The spilled rice is raked to the last grain. There is nothing left on the boards
 
 You find a stretch of wall out of the wind, set your back to it, and let your arms hang. The work will keep. So will you.
 
+<!-- ADR-187 slept-day line (bundle adr187-sleep) — CORE-emitted by intents.ts's `sleep`
+  arm: the day-skip, taken at your woodshed corner (R4+, the only place there is a bed).
+  It must carry the price without stating numbers: the day is GONE, the house ate while
+  you lay there, and you were not up for the pot — you wake hungrier than you lay down.
+  Not a restful line: sleeping is not resting (no body refill). Alternates in
+  takes/adr187-sleep/ until sign-off; live-swapped via flavor.ts __setSleepLineOverride. -->
+
+### sleep
+
+You lie down in your corner with the day still going on outside, and let it go on without you. When you wake it is dawn, the pot is long cold, and nothing you own has changed but the light.
+
 <!-- ADR-145 Phase-2 build beats (CORE-emitted one-time log milestones, not
   renderer hints): the five deed-source reveals + the E1 build-complete beat.
   Canon = the "steward's ledger" take (ADR-139 diverge, bundle

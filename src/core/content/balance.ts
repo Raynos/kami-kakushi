@@ -37,6 +37,17 @@ export const HUNGER_PER_DAY = 25;
  *  purpose: a stocked kura MAINTAINS the belly; only deliberate eating (eat_rice / cook) raises
  *  it — so the bar moves on the kura's clock, not the act loop's. */
 export const HUNGER_MEAL_RESTORE = 25;
+/** ADR-187 — what a SLEPT day's ration restores, as a fraction of the worked day's
+ *  (HUNGER_MEAL_RESTORE above). You were not at the pot when it was served: the house still
+ *  eats its CONSUMPTION_SHO_PER_DAY out of the kura, but you get only this much of the belly
+ *  back. THE teeth of the day-skip — because HUNGER_MEAL_RESTORE == HUNGER_PER_DAY by design
+ *  (a stocked kura MAINTAINS the belly), a slept day priced by the day-boundary sink ALONE
+ *  would cost 3 shō and nothing else; this is what makes the belly SLIDE on a run of sleeps,
+ *  into ADR-178's teeth (a hungry body rests poorly and works slowly). Pro-rated by what the
+ *  kura could actually serve, so an EMPTY kura serves no meal to sleep through and a starving
+ *  sleeper is never double-punished. SIM-OWNED SEED (ADR-132) — the human tunes it in the
+ *  balance cockpit (ADR-134), never by hand. */
+export const SLEEP_MEAL_FRACTION = 0.5;
 /** Rest quality is FLAT (1.0) at/above this belly fraction, ramping down below it. */
 export const HUNGER_FLAT_ABOVE = 0.5;
 /** The starved-rest floor — a rest on an empty belly still restores half. Never 0 (T0 gentle). */

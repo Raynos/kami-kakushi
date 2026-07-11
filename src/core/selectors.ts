@@ -17,6 +17,10 @@ import {
   HUNGER_MAX,
   HUNGER_FLAT_ABOVE,
   HUNGER_REST_FLOOR,
+  HUNGER_PER_DAY,
+  HUNGER_MEAL_RESTORE,
+  SLEEP_MEAL_FRACTION,
+  CONSUMPTION_SHO_PER_DAY,
   LOW_HP_WORK_THRESHOLD,
   LOW_HP_WORK_MULT,
   CONDITIONING_GATE_LEVEL,
@@ -42,8 +46,10 @@ import {
   LUNAR_PERIOD_DAYS,
   SHO_PER_BALE,
   SHO_PER_KOKU,
+  TICKS_PER_DAY,
   type Season,
 } from './constants';
+import { introActive } from './content/intro';
 import { clamp } from './math';
 import { ACTIVITIES, type ActivityDef, type LabourResource } from './content/activities';
 import { PEOPLE, presenceCtx, type NodePerson } from './content/people';
@@ -305,6 +311,44 @@ export function restQuality(state: GameState): number {
  *  forecast == reality), so a hungry rest reads poor before it is taken. */
 export function restRefill(state: GameState): number {
   return Math.round((SATIETY_PER_REST + homeRestBonus(state)) * restQuality(state));
+}
+
+// ── ADR-187 — the day-skip (`sleep`, a HOME verb at your woodshed corner) ───────────────
+
+/** Can you sleep the day away right now? Sleep is a HOME verb: it needs a bed, and the bed
+ *  arrives with the corner (`panel-home` → tab-inventory → R4, ADR-184). Below that rung you
+ *  are a nobody with no bed and there is nothing to sleep in — which is why the R1 player who
+ *  ASKED for a wait-a-day button (FB-408) does not get one (ADR-187, signed). Refused inside a
+ *  VN too: the pure core says no on its own, never leaving the guard to the shell's hidden
+ *  verb row. */
+export function canSleep(state: GameState): boolean {
+  if (!isUnlocked(state, HOME_SURFACE) || state.location !== HOME_NODE) return false;
+  return !introActive(state.introBeat) && state.rungBeat === null && state.activeScene === null;
+}
+
+/** What a slept day COSTS, exactly — the ONE source the `sleep` reducer spends and the Sleep
+ *  button's hover shows (AC-6: forecast == reality). Three teeth, per ADR-187:
+ *  - `ticks` — every remaining tick of today. You wake at dawn, so the acts you would have
+ *    worked are simply gone (sleep early and you throw away more). The verb prices itself.
+ *  - `riceDrawn` — the house still eats: its CONSUMPTION_SHO_PER_DAY leaves the kura on a slept
+ *    boundary exactly as on a worked one (this is today's `onDayBoundary`, untouched).
+ *  - `missedMeal` — you slept through the pot: the ration restores only SLEEP_MEAL_FRACTION of
+ *    the belly it would have. Pro-rated by what the kura could ACTUALLY serve, so an empty kura
+ *    (which serves no meal) cannot double-punish a starving sleeper.
+ *  `bellyLost` is the net the player sees — the day's drain less the fraction of the ration that
+ *  reached you — clamped to the belly you actually have. */
+export function sleepForecast(state: GameState): {
+  readonly ticks: number;
+  readonly riceDrawn: number;
+  readonly missedMeal: number;
+  readonly bellyLost: number;
+} {
+  const ticks = TICKS_PER_DAY - state.clock.tick; // → tick 0 of the next day, always exactly one boundary
+  const riceDrawn = Math.min(state.banked.rice ?? 0, CONSUMPTION_SHO_PER_DAY);
+  const served = HUNGER_MEAL_RESTORE * (riceDrawn / CONSUMPTION_SHO_PER_DAY);
+  const missedMeal = served * (1 - SLEEP_MEAL_FRACTION);
+  const bellyLost = Math.min(state.character.hunger, HUNGER_PER_DAY - served + missedMeal);
+  return { ticks, riceDrawn, missedMeal, bellyLost };
 }
 
 /**

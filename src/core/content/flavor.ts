@@ -53,3 +53,20 @@ export function __setRestOpenLineOverride(text: string | null): void {
 export function restOpenLine(): string {
   return REST_OPEN_OVERRIDE ?? FLAVOR.restOpen;
 }
+
+// ── ADR-187 — the slept-day line (bundle adr187-sleep) ───────────────────────────────
+// Core-EMITTED text (intents.ts `sleep`, at your woodshed corner), so the DEV story
+// switcher swaps it through the declaring-module setter (the restOpenLine pattern above):
+// future emissions voice the selected take; logged history stays (TST2).
+
+let SLEEP_OVERRIDE: string | null = null;
+
+/** DEV-only: overlay the slept-day line by its `sleep` flavor key (null = canon). */
+export function __setSleepLineOverride(text: string | null): void {
+  SLEEP_OVERRIDE = text;
+}
+
+/** The line sleeping the day away emits — the DEV overlay's take if set, else canon. */
+export function sleepLine(): string {
+  return SLEEP_OVERRIDE ?? FLAVOR.sleep;
+}
