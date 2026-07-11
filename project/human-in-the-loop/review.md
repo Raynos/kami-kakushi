@@ -274,6 +274,16 @@ wall" (relayed via Genemon/Chiyo, 5✔1✘) · C "the house answers for him"
 
 ### HR-27 🔲 [R2+ · estate] — the works discovery chain (estate Phase 1, works-cause, ADR-139/ADR-177)
 
+> ⚠️ **SUPERSEDED by HR-36 (2026-07-12) — do not review the takes below.** All three
+> `works-cause` takes were authored BEFORE ADR-185, so every one of them is written in
+> the land-as-ledger metaphor that the ADR retired — and that the cast sheet already
+> forbade ("he has never in his life reached for a metaphor"). Picking among them would
+> mean judging against a bar that no longer exists. W2 of the re-voice re-authored these
+> five scenes from scratch under the new laws; **HR-36 is the live review.** The
+> DISCOVERY MECHANISM described below is untouched and still correct — it is only the
+> PROSE that was replaced. If you'd rather keep one of the old takes, say so and I'll
+> restore it.
+
 FB-338's fix, built: the estate projects are now DISCOVERED, not spawned. The
 day-book names a concern → you walk the zone and SEE the damage (a sighting
 line lands) → Genemon's beat prices the work → only then does the ladder show
@@ -537,4 +547,50 @@ perk, has been one word away from coherent this whole time.
 
   - **How to look LIVE:** new game → the cold open → act 1. DEV → Story →
     **hd38-w4-intro** swaps takes live.
+  - **Verdict:** _(awaiting your read)_
+
+### HR-36 🔲 [R2+ · story] — the works pages, re-voiced (W2, ADR-185) — SUPERSEDES HR-27
+
+**A bug fix, not a taste call.** The shipped works pages ran wall-to-wall on a
+land-as-ledger metaphor — *"the land keeps the better book"*, *"the autumn will inspect
+the work for us"*, *"mend one and the water keeps its other appointments"* — from the man
+your own cast sheet says **"has never in his life reached for a metaphor."** The build and
+the doc disagreed, and the build was wrong. They were also the densest, hardest-reading
+text in the tier.
+
+- **Pick: TAKE B "the page he never shows anyone."** It is the only take that gives
+  Genemon a *reason* to be doing this. The ruled-off page is not a work order — it is
+  thirty-one years of everything he watched fail and could not pay to save, kept in his
+  own hand and shown to nobody. Handing it to a penniless stranger is a confession he has
+  no procedure for and will never name: *"Thirty-one years I have written this house's
+  losses on this page, in this hand, and shown it to nobody."*
+- His *"Do not take my word for any of it. Go and see."* stops being procedure and becomes
+  a man who cannot bear to be taken on trust about this. And his answer to *why now* is the
+  best line in the batch: **"Because there is a man in this yard with two hands who owes
+  nothing to anyone else. That is new. The page is not."**
+- The blind reader: *"A and C are one man at two volumes. B is a different man."* Same
+  shape as W1 — the bolder take won on both axes.
+
+**Two structural bugs the blind read found in ALL THREE takes** (so: holes in the original
+design, not versioning):
+1. **The no-wage fact lived only inside an OPTIONAL ask.** A player who never clicked it
+   was never told they'd be working for nothing. It's now in the main speech.
+2. **Every take had Genemon call you "Gonbei"** — the name the house doesn't write until
+   **R7**. That would have spent the naming payoff two rungs early. Redlined out of canon
+   *and* the alternates.
+
+**Plus the continuity bug w3 and I both caught:** `works-intro` said the woodshed roof
+leaks *"over where you sleep."* Under ADR-184 you have **no bed** — the woodshed isn't
+yours until R4. Genemon now names it as a failing building of the house, which is what it
+is.
+
+- Grafted from the losers: take A's clearest explanation (*"Because all three are the same
+  fault: water where it should not be"*) and take C's best epigram (*"Rot shows better by
+  daylight"*).
+- Alternates: **A** "the land is not a metaphor" (clearest, flattest — and it commits the
+  worst violation in the batch: *"Your face says the page did not lie to you"* gives the
+  **book** intent) · **C** "minimum change" (hallucinated a callback that exists nowhere).
+
+  - **How to look LIVE:** reach R2+ and cross the forecourt (or DEV → Scenarios). DEV →
+    Story → **hd38-w2-works** swaps takes live.
   - **Verdict:** _(awaiting your read)_

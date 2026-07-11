@@ -184,3 +184,44 @@ positional, so the added narration re-indexed them).
 W2 (works pages) · W3 (gloss + collisions) · W5 (sparse interiority) · W6 (full sweep) —
 all now unblocked, since w3 released `scenes.md`. Plus the R0 reward-line **legibility**
 item (TST4), which the human ruled gets its own investigation, not a re-voice wave.
+
+## W2 landed — the works pages (HR-36, supersedes HR-27)
+
+Ships **take B, "the page he never shows anyone"** — the only take that gives Genemon a
+*reason* to be doing this: the ruled-off page is thirty-one years of everything he
+watched fail and could not pay to save, kept in his own hand and shown to nobody, and
+handing it to a penniless stranger is a confession he has no procedure for. Blind reader:
+*"A and C are one man at two volumes. B is a different man."* Same shape as W1 — the
+bolder take won on both axes, which is the human's best-read-wins rule earning its keep
+twice.
+
+**W2 superseded an open review.** The works pages were already an ADR-139 diverge
+(`works-cause`, HR-27) — and all three of its takes predate the clarity floor, so every
+one is written in the land-as-ledger metaphor the cast sheet already forbade. Asking the
+human to pick among them would have been asking them to judge against a dead bar. HR-27
+is marked superseded with an escape hatch; HR-36 is the live review.
+
+**Two structural bugs the blind read found in ALL THREE takes** — so they were holes in
+the original design, not versioning:
+
+1. The **no-wage fact lived only inside an OPTIONAL ask**. A player who never clicked was
+   never told they work for nothing. Promoted into the main speech.
+2. Every take had Genemon call the MC **"Gonbei"** — the name the house does not write
+   until R7. That spends the naming payoff two rungs early. Redlined out of canon AND the
+   alternates.
+
+Plus the continuity bug w3 and I both caught independently: `works-intro` said the
+woodshed roof leaks *"over where you sleep"* — but under ADR-184 the MC has no bed, and
+the woodshed is not his until R4.
+
+**Two grammar traps worth knowing for the next wave** (both cost real time): an option may
+carry only **ONE** react line; and the parser reads **any** line beginning `Word:` as a
+speaker — so a wrapped book-voice item ("Bunds, three: cut back…") compiles as an unknown
+character. Use an em-dash in ledger lists.
+
+**A process trap worth knowing:** the `guard-git-add-all` PreToolUse hook blocks the WHOLE
+bash command, not just the git call — so a compound `journal-append && git add && git
+commit` loses the append too. Keep the journal write in its own command.
+
+Verified: 18/18 gates green; zero metaphors and zero premature-name uses left in the
+generated script; the no-wage line confirmed present outside the optional ask.

@@ -625,9 +625,24 @@ voice: narrator
   NAMES a concern → the walk SEES it (works.ts sighting lines) → these beats PRICE
   it (flags works-open-u1..u4 gate the ladder). works-intro is `scripted` — worksPass
   enqueues it on forecourt presence at R2+; the four project beats fire off their
-  works-seen-u<N> flags, ladder-ordered. Canon = take C ("the land keeps its own
-  book" — the c5a land-first register), redlined per Pass-2 (the sill→weir fix; the
-  kura fullness claim softened in flavor.md). Alternates: takes/works-cause/. -->
+  works-seen-u<N> flags, ladder-ordered.
+
+  RE-VOICED 2026-07-12 — W2 of the T0 re-voice (HD-38 / ADR-185), superseding the
+  old `works-cause` pick. The previous canon ("the land keeps its own book") ran
+  wall-to-wall on a land-as-ledger metaphor — from the man the cast sheet says "has
+  never in his life reached for a metaphor". That was not a taste call to revisit; it
+  was OFF-SPEC against canon that already existed, and it was the densest text in the
+  tier. All three works-cause takes were authored before the clarity floor, so the
+  whole bundle is stale: HR-27 is marked superseded, and HR-36 is the live review.
+
+  Canon = the `hd38-w2-works` take B ("the page he never shows anyone"), redlined: the
+  page is Genemon's thirty-one-year private record of everything he watched fail and
+  could not pay to save, and handing it to a stranger is a confession he will never
+  admit to. Two structural fixes the blind reader caught in ALL THREE takes: the
+  NO-WAGE fact was buried in an optional `ask` (a player who never clicked was never
+  told — it is now in the main speech), and every take had Genemon address the MC as
+  "Gonbei" ~2 rungs before the house writes that name at R7. Alternates:
+  takes/hd38-w2-works/. -->
 
 ## scene-def works-intro
 trigger: scripted
@@ -636,60 +651,74 @@ speaker: genemon
 voice: steward
 
 > The board, an evening some weeks into the rice terms. The day's wages are
-> footed and the book should be closed, but Genemon has turned instead to a
-> page ruled off from the rest — older ink at the head of it, this morning's
-> at the foot.
+> footed and the book should be closed. Genemon does not close it. He turns
+> back to a page ruled off from the rest and sets it in front of you.
+
+> The ink at the head of it has gone brown. The line at the foot was written
+> this morning. It is all one hand.
 
 Genemon: "The wages are settled. This is the other page."
 
-Genemon: "Gate: the west post takes water at the foot, second winter
-running. Paddies: three bunds slumped, the water going through them at its
-own level. Woodshed: rain through the north corner of the roof, over where
-you sleep. None of that is news to the land. It is only now news to the book."
+Genemon: "Gate, west post — takes water at the foot, second winter. Paddy
+bunds, three — slumped, the water going through them at its own level.
+Woodshed, north corner of the roof — rain comes through it. The shed holds
+this house's tools and this house's firewood, and it is failing."
 
-> He enters nothing. The lines are already there, dated, the way a man
-> records frost.
+> He enters nothing. Every line is already there, and dated.
 
-Genemon: "And one line the house carries whether I write it or not. The weir
-screens are Matsuzō's — leased, and the keeping of them ours. River rats gnaw
-them at the waterline; every slat through is coin owed across the water. The
-river feeds the rats and the house pays the difference. That account was open
-before the river gave you up at the weir."
+Genemon: "One more the house carries whether I write it or not. The weir
+screens are Matsuzō's. We lease them; the keeping of them is ours. River rats
+gnaw them at the waterline, and every slat they take through is coin this
+house owes across the water. That was owing before you washed up against
+them."
+
+Genemon: "Understand what I am asking and what I am not. There is no coin in
+this for you — no coin, not a mon, the same as the day I took you on. What
+mends any of this is work, and whatever coin the man doing the work puts in
+beside it. I enter what is put in, and the name that put it."
 
 Genemon: "I commission nothing that has not been looked at. Walk the three,
-and the weir path, and look with your own eyes. Rot reads better by daylight.
-The book will keep."
+and the weir path. Look at each of them with your own eyes. Rot shows better
+by daylight."
+
+> He is holding the page flat with two fingers, though nothing is moving it.
+
+Genemon: "Do not take my word for any of it. Go and see."
 
 ### ask works-intro-ask-a · "Why now? It's stood this long."
 
-Genemon: "Stood is the wrong word. It has been going, at the pace rot keeps,
-which is slow enough that a busy man calls it standing. There is ground on
-the far side of the orchard where nobody argued with the rain. Roofs, once.
-The land entered it line by line, and no hand wrote anything against it.
-I do not intend to copy that page."
+Genemon: "It has not stood. It has been going the whole time, slowly enough
+that a busy man calls that standing. Walk out past the orchard and you will
+find flat ground with old stones set in it. Houses, once. Nobody mended them.
+Nobody wrote them down anywhere either."
 
-### ask works-intro-ask-b · "Whose coin mends it?"
+Genemon: "Why now. Because there is a man in this yard with two hands who owes
+nothing to anyone else. That is new. The page is not."
 
-Genemon: "Not the house's; the house's coin is spoken for before it reaches
-the yard — you were told that the first morning, and it has not improved.
-What goes against the land here is labour, and whatever coin the labourer
-chooses to set beside it. The book credits what is put in, under the name
-that put it."
+### ask works-intro-ask-b · "Whose coin mends it, then?"
 
-### decide · The page is read out. What do you do with it?
+Genemon: "Nobody's, if you are waiting for a purse to open. I told you the
+morning I took you on: what coin this house sees is sent out before it reaches
+the yard, and I am the man who sends it. Nothing about that has changed."
+
+Genemon: "So it is hands. Yours, and whatever you choose to put in beside
+them. That is the whole of the fund."
+
+### decide · The page lies open in front of you.
 
 #### works-intro-go · "I'll walk it today, while the light holds."
 
-Genemon: "Then the page has an answerer. Take it in the land's own order —
-water first. It is the oldest hand the land has."
+Genemon: "Then it has someone to answer it. It never has. Go before the light
+turns. The post first — you will see the water standing in the foot of it.
+Then the bunds. Then the shed."
 
 memory: genemon +1 (walked-the-book)
 flags: works-named-u1, works-named-weir
 
-#### works-intro-hold · "The land got there first. It can wait for me a day."
+#### works-intro-hold · "It's waited this long. It can wait for me a day."
 
-Genemon: "It can. It will not return the courtesy. The lines stand entered;
-walk them when you walk them, and know the land is not resting meanwhile."
+Genemon: "It can. A day changes nothing on this page. Walk it when you walk
+it. I will not ask twice."
 
 flags: works-named-u1, works-named-weir
 
@@ -699,49 +728,48 @@ once: true
 speaker: genemon
 voice: steward
 
-> The board again. Genemon watches you cross the forecourt, sets the day-book
-> open at the ruled-off page, and takes up the brush before you have spoken.
+> The board again. Genemon sees you cross the forecourt and has the day-book
+> open at the ruled page before you reach him. The brush is already wet.
 
-Genemon: "You walked it. Your face says the page is honest."
+Genemon: "You went. You saw them."
 
-Genemon: "Then hear the work. Post, one, drawn and reset on dry footing.
-Bunds, three, cut back to sound earth and rammed. Roof, one corner — boards
-and thatch. One work, the three together. The land does not press in single
-file, and I will not mend in it."
+Genemon: "Then hear the work. Post, one — drawn and reset on dry footing.
+Bunds, three — cut back to sound earth and rammed. Roof, one corner — boards
+and thatch. One work, the three together. I will not mend them one at a time."
 
-> He rules the line and leaves it open, the brush held off the paper.
+> He rules the line and holds the brush off the paper. He does not fill it in.
 
-Genemon: "Taken up, it goes against your name — your labour, and any coin
-you put beside it. The book credits what is put in."
+Genemon: "Taken up, it goes under your name. Your work, and any coin you set
+beside it. I enter what is put in."
 
 ### ask works-u1-ask-a · "Why the three together?"
 
-Genemon: "Because they are one entry on the land's side, whatever they are
-on ours. Water at the post, water through the bunds, water through the roof.
-Mend one and the water keeps its other appointments. Close the account whole
-or watch it reopen."
+Genemon: "Because all three are the same fault: water where it should not be.
+It runs down the slope into the foot of the post, it goes through the bunds,
+and it comes through the shed roof when it comes as rain. Mend the post alone
+and the other two are still open, and next winter I write the post again."
 
 ### ask works-u1-ask-b · "Where do I begin?"
 
-Genemon: "Water first, always. The post and the bunds while the weather
-holds; the roof before the autumn rains, or the autumn will inspect the work
-for us. The land sets the order. I only copy it."
+Genemon: "Water first, always. The post and the bunds while the weather holds.
+The roof before the autumn rains. Leave it past them and you will be replacing
+the boards underneath it as well."
 
-### decide · The line is ruled and open.
+### decide · The line is ruled. The brush is waiting.
 
 #### works-u1-begin · "Set it against my name."
 
-Genemon: "Entered. Three concerns, one work, your name on the answering
-side. It is the first entry this page has carried against the land in some
-years. We will see whose line stands."
+Genemon: "Entered. Three concerns, one work, and your name against them. That
+is the first thing written on this page in nine years that is not a loss. Do
+not make me strike it out."
 
 memory: genemon +1 (set-to-it)
 flags: works-open-u1
 
-#### works-u1-hold · "When the yard can spare me. It's slow work, losing."
+#### works-u1-hold · "When the yard can spare me."
 
-Genemon: "Slow is the land's own gait; do not admire it too long. The line
-stays open. So, be sure, does the land's."
+Genemon: "The line stays open. It has stayed open before. Come to me when you
+are ready and I will fill it in."
 
 flags: works-open-u1
 
@@ -751,48 +779,50 @@ once: true
 speaker: genemon
 voice: steward
 
-> Genemon finds you at the forecourt with the orchard's brambles still on
-> your sleeves, and does not ask where you have been. The day-book comes to
-> the ruled page as if it had been waiting open.
+> Genemon finds you in the forecourt with the orchard's brambles still caught
+> in your sleeves. He does not ask where you have been. He has the day-book
+> with him, already open at the ruled page.
 
-Genemon: "The orchard. That is the land's longest entry on this side of the
-wall — taken a row at a time, over years, and no hand wrote a word against
-it. Trees a household set out with paths in mind, gone under the choke, and
-dogs denned in the hollow where fruit was dried once."
+Genemon: "The orchard. That is the oldest thing on this page."
 
-Genemon: "The work: the wild rows cut back to the sound wood, and the dens
-broken and emptied. Not a mending — a taking-back. The land will contest it."
+Genemon: "Someone set those trees out in rows, with paths between them, meaning
+to walk there. No one has walked there in thirty years. The bramble took the
+rows a few at a time, and dogs are denned in the hollow where fruit was dried."
+
+Genemon: "The work: the wild growth cut back to sound wood, the dens broken and
+emptied. It is not a mending. There is nothing there left to mend. It is taking
+the ground back."
 
 ### ask works-u2-ask-a · "The dogs first, or the cutting?"
 
-Genemon: "The dens first, or every arm that swings a billhook is feeding
-them. Bold from lean winters — they hold ground the way roots do, by staying.
-Break the pack and what is left is dogs. Kihei will tell you the same, in
-fewer words, and drill you for it if you ask him plainly."
+Genemon: "The dens first. Cut with dogs still in there and every man swinging a
+billhook has his back to them. They are bold from lean winters. Break the pack
+and what is left is only dogs. Kihei will tell you the same in fewer words, and
+drill you for it if you ask him plainly."
 
 ### ask works-u2-ask-b · "Is anything left in there worth the taking?"
 
-Genemon: "Sound trees under the choke — the stock outlasts the state of it;
-that is usually the way. Whoever planted them expected paths between the
-rows, and lanterns. The land has spent thirty years unwriting that. It did
-not finish."
+Genemon: "Sound trees, under the choke. I went in with a knife myself and cut
+down to the green, to know. Thirty years of bramble has not killed them. Cut it
+off them and they will bear."
 
-### decide · The orchard's line stands the oldest on the page.
+Genemon: "I never had the hands to do more than look."
+
+### decide · The orchard stands the oldest line on the page.
 
 #### works-u2-begin · "Cut it back. Row by row, the way it was lost."
 
-Genemon: "Entered. Ground taken back is a line I have not written since I
-was a younger man's clerk. Mind the dogs, and bring me the rows one at a
-time. I will strike the land's entry as they come."
+Genemon: "Entered. Mind the dogs. Bring me the rows one at a time and I will
+strike them off as they come. I have not struck a line off this page in
+years."
 
 memory: genemon +1 (ground-taken-back)
 flags: works-open-u2
 
 #### works-u2-hold · "Thirty years of choke. It'll keep another season."
 
-Genemon: "It will keep the way it has kept — by growing. Every season the
-cutting is a season heavier. The line is entered; take it up before the
-bramble takes the arithmetic out of your hands."
+Genemon: "It will keep by growing. Every season you leave it, the cutting is a
+season heavier, and the arms are the same arms. The line stays open."
 
 flags: works-open-u2
 
@@ -802,50 +832,53 @@ once: true
 speaker: genemon
 voice: steward
 
-> Evening at the board. Genemon has the kura's tallies out beside the
-> day-book, one read against the other, and he speaks without looking up —
-> the way he speaks when the figures have already argued the matter.
+> Evening at the board. Genemon has the kura's tallies out beside the day-book
+> and is reading the one against the other. He speaks without looking up.
 
-Genemon: "You have seen it. The kura is sound and full, and those are two
-different worries. It holds this year's rice and not a measure over. A poor
-year starves the house; a good year would embarrass it — grain standing in
-the damp for want of a roof. The land collects either way."
+Genemon: "You have seen it. The kura is sound and the kura is full. Those are
+two different worries."
 
-Genemon: "So: a second granary, raised at the kura, on its own footings.
-Stores past the winter's need. Every work on this page till now has answered
-a loss the land already entered. This one is made before the loss. I have
-waited a long time to rule a line of that kind."
+Genemon: "It holds this year's rice and not a measure over. In a poor year this
+house starves. In a good year we lose the surplus anyway — it stands out in the
+wet, because there is no roof to put it under."
+
+Genemon: "So: a second granary. Raised at the kura, on its own footings. Room
+for stores past the winter's need."
+
+Genemon: "Every line on this page until now is a loss I wrote down after it
+happened. This one is not. I have wanted to rule a line of that kind for a long
+time."
 
 ### ask works-u3-ask-a · "Why a second? Widen the one that stands."
 
-Genemon: "The kura is sound, and sound is kept, not cut open. A second
-stands on its own feet, its own roof, its own lock — two roofs do not fail
-in one night, and two counts keep each other honest. The land takes buildings
-one at a time. Give it two."
+Genemon: "The kura is sound, and you do not cut open a sound building. A second
+stands on its own footings, under its own roof, behind its own lock. A fire
+takes the building it starts in; it does not take the one across the yard. And
+two stores are counted apart, so a shortfall in one shows the day it happens."
 
 ### ask works-u3-ask-b · "Stores past need — for what, exactly?"
 
-Genemon: "For the year the valley has instead of the year we plan for. The
-land keeps no schedule and sends no word ahead. A full storehouse is the one
-argument it hears; everything else is entered under losses. Ask the ground
-past the orchard how far a lean year reaches when nothing stands in its way."
+Genemon: "For the year we get instead of the year we planned for. Nobody sends
+word ahead of a bad harvest. Grain already in the store is the only thing that
+answers one. Everything else is a loss I write down afterward."
 
 ### decide · The footings can be cut this season or not at all.
 
 #### works-u3-begin · "Raise it. Board by board, ahead of the weather."
 
-Genemon: "Entered — and mark it: the first line on this page the land did
-not write first. Green wood dries crooked; buy seasoned, or cut early and
-wait. The winter will weigh the work, whichever."
+Genemon: "Entered. Green wood dries crooked — buy seasoned, or cut early and
+let it stand. Do not put wet timber under next year's rice. And mark the date:
+it is the first line I have written on this page before the damage, and not
+after it."
 
 memory: genemon +1 (past-winters-need)
 flags: works-open-u3
 
 #### works-u3-hold · "A whole granary. That's past my scale of mending."
 
-Genemon: "It is past mending altogether; that is its virtue. The line is
-ruled and stands open. Footings before the frost, or the year is lost and
-the land holds the page another winter."
+Genemon: "It is past mending. Nothing there is broken; that is the point of it.
+Footings before the frost, or the ground goes hard and the year is gone. The
+line stays open. It has a whole winter to stay open in."
 
 flags: works-open-u3
 
@@ -855,58 +888,60 @@ once: true
 speaker: genemon
 voice: steward
 
-> Past supper, the board, the lamp low. Genemon has the day-book open to the
-> ruled page, and for once he is not writing — he is reading it back, line by
-> line, the way a man walks a fence he mended himself.
+> Past supper, the board, the lamp low. The day-book is open at the ruled page
+> and for once he is not writing. He is reading it back from the top, line by
+> line, and he does not hurry.
 
-Genemon: "Gonbei. Stand where I can see you; this is the last of the page."
+Genemon: "Stand where I can see you. This is the last of the page."
 
-Genemon: "The omoya. You have seen it from the forecourt — half this house
-shut, moss on the ridge, rooms going back to the land indoors, which is the
-quiet way: dust, damp, screens that no hand slides. The land does not need
-weather to take a room. It only needs the room left alone."
+Genemon: "The omoya. You have seen it from the forecourt. Half this house is
+shut — moss on the ridge, damp under the boards, screens no hand has slid in
+years. A room does not need weather to go. It only needs to be left alone."
 
-Genemon: "I told you I rule a second reckoning from this season — walls that
-held, ground taken back, one line a season in plain words. This is that
-reckoning's first great line. The house set in order: roofs sound, screens
-mended, air and use in every room. Thirty-one years I have written this
-house's losses. The land has kept the better book all that time. I mean to
-even the ledgers before I am done."
+Genemon: "The work: roofs sound, screens mended, rooms opened, air and use in
+every one of them. The house set in order."
+
+Genemon: "Thirty-one years I have written this house's losses on this page, in
+this hand, and shown it to nobody."
+
+> He straightens the book square to the edge of the board.
+
+Genemon: "Roof and ridge first. Then the rooms, one at a time."
 
 ### ask works-u4-ask-a · "Why the omoya last?"
 
-Genemon: "Because the rest holds now, and it did not. The gate is dry at the
-foot, the bunds carry their water, the orchard bears, grain stands past the
-winter's need. The land's book against this house is shorter than it has
-been in thirty years. The omoya is the longest line left on it — and a house
-is answered from the outside in."
+Genemon: "Because the rest of it holds now, and it did not before. The post is
+dry at the foot. The bunds carry their water. The orchard bears. There is grain
+standing past the winter's need. What is left on this page is the house itself,
+and a house is mended from the outside in."
 
 ### ask works-u4-ask-b · "What does 'in order' come to, in the doing?"
 
-Genemon: "Roof and ridge first — a room is lost from above. Then the shut
-rooms, opened one at a time: screens repapered, boards taken up where the
-damp has been under them, braziers lit until the walls forget the wet. Then
-use. A room is kept by being lived in; there is no other keeping. The doing
-is long. The entry is one line."
+Genemon: "Roof and ridge first — a room is lost from above. Then the shut rooms,
+opened one at a time: screens repapered, boards lifted where the damp has been
+under them, braziers lit until the walls are dry again. Then use. A room is kept
+by being lived in; there is no other way to keep one. The doing is long. The line
+is short."
 
-### decide · The last line of the page waits on an answer.
+### decide · The last line on the page waits on an answer.
 
 #### works-u4-begin · "Open the rooms. All of them."
 
-Genemon: "Entered. When it is done, the season-line writes itself, and it
-will not be a loss. The land may have the far bank and the winter. This
-ground is spoken for."
+Genemon: "Entered. The last line, and the largest. When the rooms are open and
+the house is dry, I will close this page and rule a new one. I have never had
+cause to think what goes on it."
 
 memory: genemon +1 (the-house-stands)
 flags: works-open-u4
 
 #### works-u4-hold · "A whole house. Give me the winter to look at it."
 
-Genemon: "Look, then — but look as the land looks, every day, without
-tiring. The line is ruled. The omoya has waited years for a hand; it can
-wait a season more. It should not wait two."
+Genemon: "Look at it, then. Look at it every day, and do not get used to it —
+getting used to it is how it came this far. The line is ruled. The omoya has
+waited years for a hand. It can wait one more season. It should not wait two."
 
 flags: works-open-u4
+
 
 <!-- ── The zone-reveal beats (ADR-184, the `zone-reveals` bundle) ─────────────
   THE LAW (human, 2026-07-12): a zone opens only inside a VN, and a rung-up VN

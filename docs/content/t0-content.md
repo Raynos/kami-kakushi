@@ -68,6 +68,7 @@
 | begin_night_round | timed | 30s | 2s |
 | rake_rice | timed | 5s | 2s |
 | rest | timed | 4s | 2s |
+| sleep | instant | — | — |
 | set_auto | instant | — | — |
 | set_auto_rake | instant | — | — |
 | fight | instant | — | — |

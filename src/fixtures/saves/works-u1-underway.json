@@ -1352,8 +1352,7 @@
           "channel": "narration",
           "tick": 6,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
+          "voice": "narrator",
           "context": "works intro",
           "contentKey": "scene.works-intro.greeting.1"
         },
@@ -1372,7 +1371,8 @@
           "channel": "narration",
           "tick": 6,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Genemon",
+          "voice": "steward",
           "context": "works intro",
           "contentKey": "scene.works-intro.greeting.3"
         },
@@ -1381,8 +1381,7 @@
           "channel": "narration",
           "tick": 6,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
+          "voice": "narrator",
           "context": "works intro",
           "contentKey": "scene.works-intro.greeting.4"
         },
@@ -1401,10 +1400,10 @@
           "channel": "narration",
           "tick": 6,
           "count": 1,
-          "speaker": "Nameless",
-          "voice": "player",
+          "speaker": "Genemon",
+          "voice": "steward",
           "context": "works intro",
-          "contentKey": "scene.works-intro.opt.works-intro-go.say"
+          "contentKey": "scene.works-intro.greeting.6"
         },
         {
           "key": 128,
@@ -1414,10 +1413,49 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works intro",
-          "contentKey": "scene.works-intro.opt.works-intro-go.react"
+          "contentKey": "scene.works-intro.greeting.7"
         },
         {
           "key": 129,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.8"
+        },
+        {
+          "key": 130,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.9"
+        },
+        {
+          "key": 131,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "works intro",
+          "contentKey": "scene.works-intro.opt.works-intro-go.say"
+        },
+        {
+          "key": 132,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro",
+          "contentKey": "scene.works-intro.opt.works-intro-go.react"
+        },
+        {
+          "key": 133,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1426,7 +1464,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.0"
         },
         {
-          "key": 130,
+          "key": 134,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1435,7 +1473,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.1"
         },
         {
-          "key": 131,
+          "key": 135,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1444,7 +1482,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.2"
         },
         {
-          "key": 132,
+          "key": 136,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1454,7 +1492,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.3"
         },
         {
-          "key": 133,
+          "key": 137,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1463,7 +1501,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.4"
         },
         {
-          "key": 134,
+          "key": 138,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1472,7 +1510,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.5"
         },
         {
-          "key": 135,
+          "key": 139,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1481,53 +1519,13 @@
           "contentKey": "scene.sb-market.greeting.0"
         },
         {
-          "key": 136,
+          "key": 140,
           "channel": "narration",
           "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "sb market",
           "contentKey": "scene.sb-market.greeting.1"
-        },
-        {
-          "key": 137,
-          "channel": "narration",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "sb market",
-          "contentKey": "scene.sb-market.greeting.2"
-        },
-        {
-          "key": 138,
-          "channel": "narration",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "sb market",
-          "contentKey": "scene.sb-market.greeting.3"
-        },
-        {
-          "key": 139,
-          "channel": "narration",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "sb market",
-          "contentKey": "scene.sb-market.greeting.4"
-        },
-        {
-          "key": 140,
-          "channel": "narration",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Nameless",
-          "voice": "player",
-          "context": "sb market",
-          "contentKey": "scene.sb-market.opt.sb-market-go.say"
         },
         {
           "key": 141,
@@ -1537,32 +1535,37 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "sb market",
-          "contentKey": "scene.sb-market.opt.sb-market-go.react"
+          "contentKey": "scene.sb-market.greeting.2"
         },
         {
           "key": 142,
           "channel": "narration",
           "tick": 6,
           "count": 1,
-          "voice": "narrator",
-          "contentKey": "works.worksSeenGate"
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "sb market",
+          "contentKey": "scene.sb-market.greeting.3"
         },
         {
           "key": 143,
           "channel": "narration",
           "tick": 6,
           "count": 1,
-          "voice": "narrator",
-          "contentKey": "works.worksSeenPaddies"
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "sb market",
+          "contentKey": "scene.sb-market.greeting.4"
         },
         {
           "key": 144,
           "channel": "narration",
           "tick": 6,
           "count": 1,
-          "voice": "narrator",
-          "context": "works u1",
-          "contentKey": "scene.works-u1.greeting.0"
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "sb market",
+          "contentKey": "scene.sb-market.opt.sb-market-go.say"
         },
         {
           "key": 145,
@@ -1571,18 +1574,16 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u1",
-          "contentKey": "scene.works-u1.greeting.1"
+          "context": "sb market",
+          "contentKey": "scene.sb-market.opt.sb-market-go.react"
         },
         {
           "key": 146,
           "channel": "narration",
           "tick": 6,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u1",
-          "contentKey": "scene.works-u1.greeting.2"
+          "voice": "narrator",
+          "contentKey": "works.worksSeenGate"
         },
         {
           "key": 147,
@@ -1590,28 +1591,26 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "works u1",
-          "contentKey": "scene.works-u1.greeting.3"
+          "contentKey": "works.worksSeenPaddies"
         },
         {
           "key": 148,
           "channel": "narration",
           "tick": 6,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
+          "voice": "narrator",
           "context": "works u1",
-          "contentKey": "scene.works-u1.greeting.4"
+          "contentKey": "scene.works-u1.greeting.0"
         },
         {
           "key": 149,
           "channel": "narration",
           "tick": 6,
           "count": 1,
-          "speaker": "Nameless",
-          "voice": "player",
+          "speaker": "Genemon",
+          "voice": "steward",
           "context": "works u1",
-          "contentKey": "scene.works-u1.opt.works-u1-begin.say"
+          "contentKey": "scene.works-u1.greeting.1"
         },
         {
           "key": 150,
@@ -1621,7 +1620,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works u1",
-          "contentKey": "scene.works-u1.opt.works-u1-begin.react"
+          "contentKey": "scene.works-u1.greeting.2"
         },
         {
           "key": 151,
@@ -1630,7 +1629,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "works u1",
-          "contentKey": "scene.works-u1.greeting.0"
+          "contentKey": "scene.works-u1.greeting.3"
         },
         {
           "key": 152,
@@ -1640,39 +1639,10 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works u1",
-          "contentKey": "scene.works-u1.greeting.1"
-        },
-        {
-          "key": 153,
-          "channel": "narration",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u1",
-          "contentKey": "scene.works-u1.greeting.2"
-        },
-        {
-          "key": 154,
-          "channel": "narration",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "context": "works u1",
-          "contentKey": "scene.works-u1.greeting.3"
-        },
-        {
-          "key": 155,
-          "channel": "narration",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u1",
           "contentKey": "scene.works-u1.greeting.4"
         },
         {
-          "key": 156,
+          "key": 153,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1682,7 +1652,7 @@
           "contentKey": "scene.works-u1.opt.works-u1-begin.say"
         },
         {
-          "key": 157,
+          "key": 154,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -1692,7 +1662,75 @@
           "contentKey": "scene.works-u1.opt.works-u1-begin.react"
         },
         {
+          "key": 155,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works u1",
+          "contentKey": "scene.works-u1.greeting.0"
+        },
+        {
+          "key": 156,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u1",
+          "contentKey": "scene.works-u1.greeting.1"
+        },
+        {
+          "key": 157,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u1",
+          "contentKey": "scene.works-u1.greeting.2"
+        },
+        {
           "key": 158,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works u1",
+          "contentKey": "scene.works-u1.greeting.3"
+        },
+        {
+          "key": 159,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u1",
+          "contentKey": "scene.works-u1.greeting.4"
+        },
+        {
+          "key": 160,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "works u1",
+          "contentKey": "scene.works-u1.opt.works-u1-begin.say"
+        },
+        {
+          "key": 161,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u1",
+          "contentKey": "scene.works-u1.opt.works-u1-begin.react"
+        },
+        {
+          "key": 162,
           "channel": "reward",
           "tick": 6,
           "count": 1,
@@ -1704,7 +1742,7 @@
           }
         },
         {
-          "key": 159,
+          "key": 163,
           "channel": "reward",
           "tick": 8,
           "count": 1,
@@ -1717,7 +1755,7 @@
           }
         },
         {
-          "key": 160,
+          "key": 164,
           "channel": "reward",
           "tick": 10,
           "count": 1,
@@ -1730,7 +1768,7 @@
           }
         },
         {
-          "key": 161,
+          "key": 165,
           "channel": "reward",
           "tick": 12,
           "count": 1,
@@ -1743,7 +1781,7 @@
           }
         },
         {
-          "key": 162,
+          "key": 166,
           "channel": "reward",
           "tick": 14,
           "count": 1,
@@ -1756,7 +1794,7 @@
           }
         },
         {
-          "key": 163,
+          "key": 167,
           "channel": "reward",
           "tick": 16,
           "count": 1,
@@ -1769,7 +1807,7 @@
           }
         },
         {
-          "key": 164,
+          "key": 168,
           "channel": "milestone",
           "tick": 18,
           "count": 1,
@@ -1780,7 +1818,7 @@
           }
         },
         {
-          "key": 165,
+          "key": 169,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -1789,53 +1827,13 @@
           "contentKey": "scene.sb-cook.greeting.0"
         },
         {
-          "key": 166,
+          "key": 170,
           "channel": "narration",
           "tick": 18,
           "count": 1,
           "voice": "narrator",
           "context": "sb cook",
           "contentKey": "scene.sb-cook.greeting.1"
-        },
-        {
-          "key": 167,
-          "channel": "narration",
-          "tick": 18,
-          "count": 1,
-          "speaker": "O-Hisa",
-          "voice": "steward",
-          "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.2"
-        },
-        {
-          "key": 168,
-          "channel": "narration",
-          "tick": 18,
-          "count": 1,
-          "speaker": "O-Hisa",
-          "voice": "steward",
-          "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.3"
-        },
-        {
-          "key": 169,
-          "channel": "narration",
-          "tick": 18,
-          "count": 1,
-          "speaker": "O-Hisa",
-          "voice": "steward",
-          "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.4"
-        },
-        {
-          "key": 170,
-          "channel": "narration",
-          "tick": 18,
-          "count": 1,
-          "speaker": "Nameless",
-          "voice": "player",
-          "context": "sb cook",
-          "contentKey": "scene.sb-cook.opt.sb-cook-learn.say"
         },
         {
           "key": 171,
@@ -1845,10 +1843,50 @@
           "speaker": "O-Hisa",
           "voice": "steward",
           "context": "sb cook",
-          "contentKey": "scene.sb-cook.opt.sb-cook-learn.react"
+          "contentKey": "scene.sb-cook.greeting.2"
         },
         {
           "key": 172,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "O-Hisa",
+          "voice": "steward",
+          "context": "sb cook",
+          "contentKey": "scene.sb-cook.greeting.3"
+        },
+        {
+          "key": 173,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "O-Hisa",
+          "voice": "steward",
+          "context": "sb cook",
+          "contentKey": "scene.sb-cook.greeting.4"
+        },
+        {
+          "key": 174,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "sb cook",
+          "contentKey": "scene.sb-cook.opt.sb-cook-learn.say"
+        },
+        {
+          "key": 175,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "O-Hisa",
+          "voice": "steward",
+          "context": "sb cook",
+          "contentKey": "scene.sb-cook.opt.sb-cook-learn.react"
+        },
+        {
+          "key": 176,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -1856,7 +1894,7 @@
           "contentKey": "reveal.verb-cook"
         }
       ],
-      "seq": 173
+      "seq": 177
     },
     "skillXp": {
       "farming": 134,
