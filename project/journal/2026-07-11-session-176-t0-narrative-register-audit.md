@@ -50,3 +50,12 @@ narrative" — does the built T0 prose read easily and match the 14–21
   paraphrase test per take, voice check per wave, the human's R0→R1 play
   as the acceptance test. Take authoring routed to Opus per the steer.
 - Status stays 📋 PROPOSED — the D1–D4 ruling gates Wave 0.
+
+## Part 3 — checkpoint (session close)
+
+- Filed **HD-38** (the D1–D4 register ruling, ⛔ blocks the plan's Wave 0)
+  so the fork survives in the session brief; snapshot's Human-gated line
+  points at it. Cleared the human's "Audit & review of the narrative" TODO
+  (delivered s176) and the audit's reading-queue entry (findings fully
+  relayed + acted on in-session; the plan entry carries the pointer).
+- Pushed `main` clean. Next session: HD-38 ruling → Wave 0 canon → W1.

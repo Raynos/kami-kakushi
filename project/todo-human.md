@@ -17,11 +17,6 @@
 
 ## TODO
 
-- **Audit & review of the narrative.** Review how the cast speaks, how the
-  prose is written, whether it reads easily, and whether the register matches
-  the **14–21 target audience**. Cover voice consistency, readability, and tone
-  fit across the T0 narrative content.
-
 ## Reading queue
 
 
@@ -55,14 +50,11 @@
   — the ready-to-build plan for T2 (Valley) map rungs + fog (you greenlit it
   2026-07-09; mechanics-only, no pin/HR). Skim before/whenever I build it.
 
-- [`project/audit/reports/2026-07-11-t0-narrative-register-audit.md`](audit/reports/2026-07-11-t0-narrative-register-audit.md)
-  — the T0 narrative readability/register audit vs the 14–21 light-novel
-  target (your 2026-07-11 ask): findings + six recommendations + the D1–D4
-  direction forks that need your call before any re-voicing starts.
-
 - [`docs/plans/fable-2026-07-11-t0-narrative-revoice.md`](../docs/plans/fable-2026-07-11-t0-narrative-revoice.md)
-  — the plan built from that audit: Wave 0 canon (audience ADR + §0.5
-  clarity floor + Genemon two-voice + MC interiority) then five worst-first
-  ADR-139 re-voice waves with a blind paraphrase test per take. Your D1–D4
-  ruling unblocks Wave 0.
+  — the plan from the 2026-07-11 narrative register audit (findings fully
+  relayed in-session; the audit report stays at
+  `project/audit/reports/2026-07-11-t0-narrative-register-audit.md`):
+  Wave 0 canon (audience ADR + §0.5 clarity floor + Genemon two-voice + MC
+  interiority) then five worst-first ADR-139 re-voice waves with a blind
+  paraphrase test per take. Your **HD-38 (D1–D4) ruling** unblocks Wave 0.
 

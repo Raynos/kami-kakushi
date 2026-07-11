@@ -31,5 +31,18 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
 - **Resolution:** {filled in when the human answers — then graduate + archive per the lifecycle}
 -->
 
-_(No open decisions — closed items live in [`archive.md`](archive.md).)_
+### HD-38 🔲 [cross-cutting · T0 narrative] — the register ruling (D1–D4) ⛔ blocks the re-voice plan's Wave 0
+
+- **Question / fork:** rule the four direction forks from the 2026-07-11
+  narrative register audit
+  ([report](../audit/reports/2026-07-11-t0-narrative-register-audit.md) §Open
+  decisions · [plan](../../docs/plans/fable-2026-07-11-t0-narrative-revoice.md)):
+  **D1** lock the 14–21/light-novel audience + §0.5 clarity floor · **D2**
+  Genemon two-voice split (book voice for entries, plain man voice for talk) ·
+  **D3** MC interior-narration allowance · **D4** re-voice scope.
+- **Options:** each of D1–D3 adopt/reject; D4 full-T0 sweep vs worst-first
+  bundles.
+- **Recommendation:** adopt D1+D2+D3; D4 worst-first (works pages → R1
+  terms + R0 lines → gloss sweep → cold open after HR-28 → medium scenes).
+- **Resolution:** _(open)_
 

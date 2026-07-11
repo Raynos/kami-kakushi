@@ -112,7 +112,9 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    (6 usable FB-8 reports newer than the last balance commit — read + commit
    the pacing note before any balance work); or drain the playtest inbox when
    captures land (ADR-171 — claim a lane first). Human-gated: HR-1 + the
-   story/variant picks above.
+   story/variant picks above + **HD-38** (the T0 narrative register ruling
+   D1–D4 — unblocks `docs/plans/fable-2026-07-11-t0-narrative-revoice.md`,
+   the audited-worst-first T0 re-voice; audit: s176).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 5/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 6/20 · last full rewrite: 2026-07-11 -->
