@@ -455,7 +455,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'begin_rung_beat': {
-      // ADR-110: player-TRIGGERED promotion. Guard: a promotion is ready (meter + storyGate), no beat
+      // ADR-110: player-TRIGGERED promotion. Guard: a promotion is ready (the rung's requirement list
+      // is 100% done — ADR-137/ADR-182; there is no separate story gate), no beat
       // is already live, and the intro is done (the VN surfaces never overlap). Opens the target
       // rung's beat — reveals its greeting into the Story channel. A ready promotion HOLDS until this
       // fires; the player may ignore it and grind on. No-op on a rank with no registered beat.

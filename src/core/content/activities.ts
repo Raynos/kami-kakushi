@@ -1,7 +1,8 @@
 // Labour activities (PRD §2.6 / §4.7.1). Each is a curated, story-consistent act
 // that yields resources, grants its skill XP (under the per-event cap), drains
-// satiety (soft-throttled, never blocked), and — when eligible for the current rung
-// — feeds the Estate Service rung-meter. Availability is gated by its verb-surface
+// satiety (soft-throttled, never blocked), and — when the current rung's requirement
+// list counts this act — advances the rung's % bar (ADR-137/ADR-182: rungs promote on
+// an authored requirement list, never a points meter). Availability is gated by its verb-surface
 // being revealed (and the conditioning gate, for a danger ring).
 
 import type { SkillId } from './skills';

@@ -138,6 +138,28 @@ const RETIRED: readonly { term: string; adr: string; successor?: string }[] = [
     adr: 'story reboot (rival house CUT — the canon antagonist ladder)',
     successor: 'tomita',
   },
+  // ADR-182 (extending ADR-137, human 2026-07-11): the flat-points rung-meter is
+  // dead at EVERY tier — a rung promotes when its authored objective-requirement
+  // list is 100% done. These four name the dead MECHANISM, so they can be retired
+  // soundly (AC-11: no surviving frontier prose for them to cry wolf on — the
+  // T1+/T2 content docs were swept to the requirements model in the same pass).
+  // NOT retired: the bare phrase "rung meter", which stays legal as the NAME of
+  // the player-facing % bar (the human's own words: "rung meters … are always
+  // objective and criteria based"). Retiring it would cry wolf on live prose.
+  {
+    term: 'rungmeter',
+    adr: 'ADR-137/ADR-182 (requirements model, all tiers)',
+    successor: 'the rung requirement list',
+  },
+  {
+    term: 'thresholdforrung',
+    adr: 'ADR-137/ADR-182 (no threshold — 100% of the authored list readies the beat)',
+  },
+  { term: 'rung_points_per_act', adr: 'ADR-137/ADR-182 (the points model is deleted)' },
+  {
+    term: 'and-gate',
+    adr: 'ADR-137/ADR-182 (no story gate — story preconditions ARE requirements)',
+  },
   { term: 'oyuki', adr: 'bible cast sweep (origin mother)', successor: 'o-nobu' },
   { term: 'okimi', adr: 'bible cast sweep (origin sister)', successor: 'suzu' },
   { term: 'o-sato', adr: 'bible cast sweep (B1 closure)', successor: 'o-hisa' },

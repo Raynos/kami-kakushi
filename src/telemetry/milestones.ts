@@ -29,7 +29,7 @@ export type MilestoneEvent =
    *  (the two-tier idle TTL) and the segment's autosArmedMs. */
   | { kind: 'auto'; armed: boolean }
   /** An attention-worthy notification the re-engagement heuristic can rescue (§2.2): an
-   *  auto-target stopping, or the rung meter crossing its promotion threshold. */
+   *  auto-target stopping, or the rung's requirement list reaching 100% (ADR-137/ADR-182). */
   | { kind: 'note' };
 
 /** True when any leave-it-running mode is armed (labour, rake, or combat). */

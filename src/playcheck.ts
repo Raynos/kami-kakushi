@@ -64,7 +64,7 @@ function mcAtLevel(lvl: number): GameState {
 /**
  * Trace the cold-open → play loop (driving the SHARED focused-optimal policy), recording whether
  * each intent produced a reward. A "reward" = any visible forward beat: wealth up (rice or coin),
- * rung-meter up, a new reveal, or a level-up. (If a future content type rewards in another
+ * rung progress up (the % bar), a new reveal, or a level-up. (If a future content type rewards in another
  * currency, extend here.)
  */
 function rewardTrace(seed = SEED): boolean[] {

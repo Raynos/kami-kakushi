@@ -228,9 +228,11 @@ with a clipboard-copy + file-download fallback if the dev server is unreachable.
 2. **Stale-canon guard:** if any `canon` value in the Touched-levers table ≠ the value currently
    in `balance.ts`, **STOP and ask** — the file moved since the session; never merge by guess.
 3. **Apply the exact `old → new` edits** the artifact lists (scalars are `export let` lines;
-   structured paths name the object field), plus any listed `src/core/content/ranks.ts`
-   `meterThreshold` mirror (a `RUNG_METER_THRESHOLDS.*` tune requires it — verify-content enforces
-   the 1:1). The agent picks **NO** numbers and widens **NO** bands.
+   structured paths name the object field). Rung pacing has **no `balance.ts` mirror to keep in
+   step** — a rung's cost is its authored requirement list in
+   `src/core/content/narrative/requirements.md` (ADR-137/ADR-182), so a rung-pacing tune is a
+   `count` edit there, re-generated with `pnpm run gen:narrative`. The agent picks **NO** numbers
+   and widens **NO** bands.
 4. **Run the re-verify block** the artifact prints (`pnpm run gen:docs && pnpm run verify`; then the
    balance-sim flow `pnpm run verify:balance && pnpm run balance:report`, §2 above). An honest RED
    (gen-docs bakes `EAT_RICE_*` / the price table; a moved arc trips `pacing:check` or a signed

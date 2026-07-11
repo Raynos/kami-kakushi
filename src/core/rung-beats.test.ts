@@ -130,7 +130,7 @@ describe('D-122 — the R5 wall-weapon status token (the one T0 home token)', ()
 describe('D-110 INVARIANT — no rung advances without its beat', () => {
   it('filling the meter to READY never promotes; only the beat does (RED vs old auto-promote)', () => {
     const s = makeReady(atDoneIntro());
-    expect(promotionReady(s)).toBe(true); // the AND-gate is open…
+    expect(promotionReady(s)).toBe(true); // the requirement list is 100% done…
 
     // …but a REAL action on the hot path (rake runs finish()) HOLDS the rung. Against the retired
     // auto-promote, this raked-over-threshold state promoted in finish(); now it must not.

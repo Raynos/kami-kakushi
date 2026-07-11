@@ -1542,11 +1542,12 @@ export function mount(
     if (!show) return;
     const rank = currentRank(state);
     const prog = rungProgress(state);
-    // READY (the affordance) = the AND-gate is open, a NEXT rung actually exists, no beat is already
-    // live, and we're out of the intro. `begin_rung_beat` guards the same in core; the UI only OFFERS
-    // it here (ADR-110). The `target !== null` guard is load-bearing at the terminal rung (R7): its
-    // meter keeps refilling and promotionReady stays true, but there is no next rank to advance to —
-    // without this the header would light a 'summons' that no-ops on click (a dead capstone button).
+    // READY (the affordance) = the rung's requirement list is 100% done (ADR-137/ADR-182), a NEXT rung
+    // actually exists, no beat is already live, and we're out of the intro. `begin_rung_beat` guards the
+    // same in core; the UI only OFFERS it here (ADR-110). The `target !== null` guard is load-bearing at
+    // the terminal rung (R7): its requirements stay satisfied so promotionReady stays true, but there is
+    // no next rank to advance to — without this the header would light a 'summons' that no-ops on click
+    // (a dead capstone button).
     const target = pendingPromotionTarget(state);
     const ready =
       promotionReady(state) &&

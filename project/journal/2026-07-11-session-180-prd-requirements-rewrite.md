@@ -144,6 +144,42 @@ a living doc.
    blocker: code lane, needs a clean tree.
 3. Push once the co-agent's tree settles.
 
+## 6 · The code lane + the teeth (landed once the tree went quiet)
+
+The comments that lied are fixed — `intents.ts:458` claimed the promotion guard
+was "(meter + storyGate)" when the code calls `promotionReady()` alone;
+`activities.ts:4` said labour "feeds the Estate Service rung-meter";
+`telemetry/milestones.ts`, `playcheck.ts`, `rung-beats.test.ts`, `render.ts` all
+spoke the dead model. `sim/pacing-envelope.test.ts` was the worst of them: it
+stated its own RED-ability proof as *"flip a `RUNG_METER_THRESHOLDS` entry ×3"* —
+**a constant that no longer exists**. A test whose how-this-goes-RED claim is
+stale is the exact false-green PH3 warns about; it now names the real lever (a
+`count` edit in `narrative/requirements.md`).
+
+**`qa-playtesting.md` was actively misinstructing agents** — its balance-apply
+flow told them to keep a `ranks.ts` `meterThreshold` mirror in step with
+`RUNG_METER_THRESHOLDS`. Neither exists. Rewritten to the real lever. (This file
+is inside `prd-drift`'s widened RETIRED scan, so it had to be clean before the
+teeth could go in anyway.)
+
+**The teeth (step 4 — INVERTED from the plan).** The plan rejected adding the
+dead vocabulary to `prd-drift.ts`'s RETIRED terms, reasoning that surviving T1+
+frontier prose would make the gate cry wolf forever. ADR-182 deleted that prose,
+so the objection died with it. Retired: `rungMeter`, `thresholdForRung`,
+`RUNG_POINTS_PER_ACT`, `AND-gate`. **NOT** the bare phrase "rung meter" — it stays
+legal as the name of the player-facing % bar (the human's own words), and
+retiring it would cry wolf on live prose.
+
+**Proven RED-able, not assumed:** injected `"a rung promotes on an AND-gate:
+rungMeter >= thresholdForRung"` into §2 → gate went RED naming the file; restored
+→ CLEAN. A gate that has never been seen to fail is not a gate.
+
+**Scan-set check before adding the teeth:** the RETIRED scan covers the 7 PRD
+files PLUS `fun-factor.md` / `ui-design.md` / `qa-playtesting.md` — but NOT
+`roadmap.md`. That matters: the preserved 2026-06-29 signed ledger still contains
+the words "AND-gate" and "sub-meter" verbatim, and would have RED-ed the gate had
+roadmap been in scope. It isn't, so the record and the teeth coexist.
+
 ## Open questions surfaced for the human (not decided)
 
 - **Does a T1 rung's requirement list have to span BOTH tracks?** The old text
