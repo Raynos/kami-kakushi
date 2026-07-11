@@ -94,7 +94,7 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-12-session-182-zone-reveal-law-built.md`](../journal/2026-07-12-session-182-zone-reveal-law-built.md)
+   [`journal/2026-07-12-session-183-sleep-the-day-away.md`](../journal/2026-07-12-session-183-sleep-the-day-away.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev server on
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true

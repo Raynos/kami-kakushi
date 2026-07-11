@@ -3615,3 +3615,78 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   (new), §0.9.6 (new), and `04-cast.md` (Genemon, the MC) · rides ADR-139 (story
   diverges) + ADR-135 (the two-pass scorecard) · ADR-022 (the human's steer is canon;
   where the bible disagreed, the bible was what was wrong).
+
+### ADR-187 ✅ — you may sleep the day away, but only in a bed you own: the day-skip is a HOME verb, and an idle day is a hungrier day
+
+- **created_date:** 2026-07-12
+- **Context:** **FB-408** (human capture, 2026-07-11, standing at the gate on a
+  non-market day): *"What are the market days, are they frequent enough? Should we
+  implement a wait a day button?"* — asked in a zone whose only content (Yohei's
+  stall) is elsewhere in **time**, not in space. Its siblings FB-407/FB-409 name the
+  same itch from the other side: rungs where a zone holds nothing to DO right now.
+  Time in this game moves **only through acts** (`advanceClock`, `TICKS_PER_ACT = 2`
+  against `TICKS_PER_DAY = 24` — twelve acts to a day); there is no wall-clock idle
+  (PRD §6.9). So "wait three days for 水" today means "grind twelve acts of filler,
+  three times" — which is exactly the complaint. The option map (A–F) lives in the
+  plan [`fable-2026-07-11-wait-a-day.md`](../plans/fable-2026-07-11-wait-a-day.md).
+- **Decision (human, signed 2026-07-12 over the option map):** ship **option D
+  alone** — a **`sleep` verb, sited at your woodshed corner**, that ends the day and
+  wakes you at dawn. **One press = one day boundary, always** (three presses to reach
+  水 from 日; no multi-day jump, no "skip to the next market morning" button). The
+  agent's proposed **D + F** pairing is **rejected**: the gate grows no wait button.
+- **Sleep is a HOME verb — R4+, and R1 is deliberately left unserved.** The verb is
+  gated on `panel-home` at the `woodshed` node, which
+  [ADR-184](#adr-184--the-zone-reveal-law-a-zone-opens-only-in-a-vn-a-rung-up-vn-opens-at-most-two)
+  put at **R4**. So the player who ASKED for this (FB-408, at R1) does not get it —
+  **on purpose**, and it is not a hole in the design: ADR-184 already signed the
+  fiction that makes it inevitable — *"R1 never says where you sleep — you are a
+  nobody; you have no bed."* **A man with no bed cannot sleep the day away.** The
+  offered alternative (a rough sleep anywhere from R0, mirroring the FB-402/FB-409
+  open-rest law) was **considered and declined**: it would buy the R1 player a lever
+  at the price of the one thing R4's corner is *for*. The R1–R3 empty-zone itch is
+  therefore answered by **content**, not by a skip — that is the sibling plan's job
+  (the zone-rung rebalance, ADR-184), and it is the correct lever.
+- **What a slept day COSTS — an idle day is a hungrier day.** The plan claimed the
+  existing day-boundary sink was price enough; **it is not**, and the claim was
+  checked rather than trusted: `HUNGER_MEAL_RESTORE (25) == HUNGER_PER_DAY (25)` by
+  design (a stocked kura *maintains* the belly), so on a full kura a skipped day
+  would cost **3 shō and nothing else** — near-free. The human ruled for **teeth on
+  both levers**:
+  1. **You earn nothing.** Sleep forfeits every remaining tick of today and wakes you
+     at dawn, so the acts you would have worked are simply gone. Sleeping early in
+     the day throws away more — the verb prices itself, with no new constant.
+  2. **The house still eats.** The day boundary draws its `CONSUMPTION_SHO_PER_DAY`
+     from the kura exactly as it does on a worked day. Sleeping through a lean winter
+     empties the stores that were feeding you.
+  3. **You slept through the pot.** On a **slept** boundary the household's ration
+     restores only a **fraction** of the belly it would have (`SLEEP_MEAL_FRACTION`,
+     a SIM-OWNED SEED at 0.5 — the human tunes it in the balance cockpit, ADR-134):
+     you were not at the pot when it was served. The belly therefore **slides on a
+     run of sleeps** — into [ADR-178](#adr-178)'s teeth (a hungry body rests poorly
+     and works slowly), which is precisely where a skip-spammer should land.
+  4. **Sleeping is not resting.** The verb grants **no body refill** — `rest` (2
+     ticks, `restRefill`) remains the only thing that puts the body back, and stays
+     strictly the more efficient way to get it. Sleep buys **time**, and only time.
+- **Sleep is INSTANT (ADR-148), not a timed bar.** Option C — a 20–30 s "waiting"
+  bar — is rejected outright: it converts dead *game* time into dead *real* time,
+  which is strictly worse than playing and breaks the active-only contract (PRD §6.9).
+  The safety is not a delay, it is **legibility**: the button's forecast reads the
+  exact price (shō drawn, belly lost) through the **same selector the reducer
+  applies** (AC-6), so nothing about a slept day can surprise.
+- **The balance sim stays SKIP-BLIND (standing ruling).** The greedy persona does
+  **not** learn to sleep: `docs/content/t0-pacing.md`'s bands go on measuring **real
+  play**, and a convenience the sim doesn't model cannot drag a rung under the signed
+  3-minute floor. This is deliberate insulation — it is what keeps this build from
+  stalling on a band violation the way the kitchen-pot siting did (HD-40). A
+  regenerated, **byte-identical** `t0-pacing.md` is the proof the ruling held.
+- **Consequences.** Time gains a second way to move — the first that is not an act —
+  so the clock contract (PRD §6.3) grows one intent. The 水・土 market rhythm survives
+  intact: the only way to reach a market day early is to own a bed, sleep, and pay for
+  each dawn in rice and hunger. Seasons stay **manual** (`advance_season`) — a sleep
+  never crosses a season boundary. **Non-goals:** no wall-clock/offline time, no
+  season skip, no gate wait-button.
+- **Record:** FB-408 (the capture that asked) · the plan's option map A–F ·
+  ADR-184 (the bed you do not have at R1) · ADR-178 (the belly's teeth this rides) ·
+  ADR-163 (the day-boundary ration it prices against) · ADR-148 (the instant/timed
+  taxonomy) · ADR-132/ADR-134 (the seed is the sim's and the cockpit's, not
+  hand-tuned) · AC-6 (forecast == reality).

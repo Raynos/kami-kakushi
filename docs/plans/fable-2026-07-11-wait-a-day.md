@@ -1,6 +1,7 @@
 # Give the player a way to pass dead time — the wait-a-day lever
 
-**Status:** 📋 PROPOSED (2026-07-11, session 178)
+**Status:** 🔨 LOCKED & BUILDING (ruled 2026-07-12, session 183 — **ADR-187**;
+Phase 0 closed: the human picked **D alone**, R4-home-sited, with teeth)
 **Confidence:** ( 15% Opus, 85% Fable ) — the mechanics are small; the judgment
 is a pacing/design call (what waiting *means* in this game), which sits with
 the human over this option map first.
@@ -8,13 +9,14 @@ the human over this option map first.
 
 ## Who builds this — Fable or Opus?
 
-- **Phase 0 (this doc): the design pick** — human decision over the option
-  map below; no build until an option is picked (the pick is the plan's
-  whole point — FB-408 asked "Should we implement a wait a day button?").
+- **Phase 0 (this doc): the design pick** — ✅ **CLOSED** (human, 2026-07-12 —
+  ADR-187). The pick was the plan's whole point (FB-408 asked "Should we
+  implement a wait a day button?"); every fork below is now ruled.
 - **Phase 1 (build the picked option):** mechanical — a new intent + a
   sited button + tests; **Opus-safe** once the option and its guard-rails
   are picked. The only taste-bearing piece is the one flavor line a skip
-  emits (ADR-139 mini-diverge, any session can run it).
+  emits (ADR-139 mini-diverge, any session can run it). **Opus is building
+  it** (this session).
 
 ## Why
 
@@ -108,77 +110,128 @@ The FB-408 dimmed row grows a button: skip to the NEXT market morning
   refuse while a quest step or watch is pending, same guard class as the
   VN/timed-action refusals).
 
-**Recommendation (self-picked default, PH4 — override freely):** **D + F**,
-as a pair: D gives every rung a universal, fiction-caused day-ender; F
-answers the specific market itch where it was felt, with the price shown.
-B/C rejected outright (TST3 / active-only violations); E is already ~covered
-by the autos. If only one may ship, ship **D** — it strengthens the home
-loop the FB-409 fix just built, and the market wait then reads "sleep, walk
-over in the morning", which is honest fiction.
+~~**Recommendation (self-picked default, PH4 — override freely):** **D + F**,
+as a pair.~~ → **SUPERSEDED by the human's ruling, 2026-07-12 (ADR-187): D
+ALONE.** The gate grows no wait button. See "The ruling" below.
 
-**How it balances (applies to D and F):**
+## The ruling (human, 2026-07-12 — ADR-187)
 
-- The **price is the existing day-boundary sink** (ADR-163/ADR-178): shō/day
-  from the kura + belly drain — no new constants; a skip on a short kura is
-  felt immediately (hunger → poor rests → slow work, the ADR-178 teeth).
-- **Forecast = reality (AC-6):** the button's hover shows the exact skip
-  price through the same selector the reducer applies.
-- **Refusal guards** reuse the FB-403 class: no skip during a timed action,
-  a live VN, or a pending night-watch stage.
-- **Pacing bands:** the sim's greedy persona gets the skip so t0-pacing.md's
-  bands stay honest; expected effect — R1–R2 medians shrink slightly (less
-  filler labour while waiting on 水・土), which the band [3,25] absorbs.
+Phase 0 is closed. The five forks, as ruled:
+
+1. **The option: D alone.** A `sleep` verb at your woodshed corner. **F is
+   rejected** — no wait-button on the gate's Yohei row.
+2. **Sleep is a HOME verb: R4+, and R1 is left unserved — on purpose.**
+   `panel-home` chains to `tab-inventory`, which ADR-184 put at **R4**, so
+   the FB-408 player (at R1, at the gate) does **not** get this lever. That
+   is not a hole: ADR-184 already signed the fiction — *"R1 never says where
+   you sleep — you are a nobody; you have no bed"* — and **a man with no bed
+   cannot sleep the day away.** The offered alternative (a rough sleep
+   anywhere from R0, mirroring the open-rest law) was declined: it would buy
+   R1 a lever at the cost of the one thing R4's corner is for. The R1–R3
+   empty-zone itch is a **content** problem, answered by the sibling
+   zone-rung rebalance — not by a skip.
+3. **One press = one day boundary, always.** Wake at dawn; three presses to
+   reach 水 from 日. No multi-day jump.
+4. **Teeth on both levers** (the plan's "the day-boundary sink is price
+   enough" was **checked and found false** — see below).
+5. **The balance sim stays SKIP-BLIND** (standing ruling): the greedy
+   persona never sleeps, so the pacing bands keep measuring real play and
+   this build cannot stall on a band violation (the HD-40 failure mode).
+
+**How it balances — the price of a slept day.** The plan's claim that the
+existing day-boundary sink prices a skip is **wrong**, and the survey caught
+it: `HUNGER_MEAL_RESTORE (25) == HUNGER_PER_DAY (25)` *by design* — a stocked
+kura MAINTAINS the belly — so a skipped day on a full kura would cost **3 shō
+and nothing else**. Near-free. The ruled price:
+
+- **You earn nothing** — sleep forfeits every remaining tick of today (the
+  acts you'd have worked are gone). Sleeping early costs more; the verb
+  prices itself, no constant needed.
+- **The house still eats** — `CONSUMPTION_SHO_PER_DAY` leaves the kura on a
+  slept boundary exactly as on a worked one.
+- **You slept through the pot** — on a slept boundary the ration restores only
+  `SLEEP_MEAL_FRACTION` (SIM-OWNED SEED, 0.5) of the belly it would have. The
+  belly **slides on a run of sleeps**, into ADR-178's teeth (a hungry body
+  rests poorly and works slowly) — exactly where a skip-spammer belongs.
+- **Sleeping is not resting** — no body refill. `rest` (2 ticks) stays the only
+  way to put the body back, and strictly the efficient one. Sleep buys time,
+  and only time.
+- **Forecast = reality (AC-6):** the button's hover reads the exact price (shō
+  drawn, belly lost) through the **same selector the reducer applies**.
+- **INSTANT, not a timed bar** (ADR-148): a waiting bar would convert dead game
+  time into dead real time (option C's fatal flaw). The safety is legibility,
+  not delay.
+- **Refusal guards:** no sleep mid-VN (intro / rung beat / live scene) or away
+  from your corner; the shell already hides the verb row behind a live VN, and
+  the reducer refuses independently (pure-core guard, not a UI accident).
 
 ## Steps
 
-> Step 1 is the decision; steps 2–4 build ONLY the picked option.
+> Step 1 is the decision (✅ closed — ADR-187); steps 2–5 build **option D only**.
 
-1. **Human picks an option** (the map above; my recommendation: **D + F**).
-   Recorded as an ADR via the HD flow — this changes what the game's time
-   is.
-2. **Core intent** — add the picked skip intent(s) to `src/core/intents.ts`
-   (guards: no in-flight timed action, intro done, no live VN; the skip
-   advances whole ticks through the existing `advanceClock`, so day-boundary
-   pricing fires exactly as today) + INTENT_TIMING classification.
-3. **UI affordance** — site the button per the picked option (gate away-row
-   / rest verb upgrade); AC-6: the hover forecast shows the price ("the
-   house will eat N shō; belly −M") through the same selector the reducer
-   uses. One skip flavor line, ADR-139 mini-diverge (3 takes).
-4. **Balance pass** — ADR-132: `verify:balance` + `balance:report`, commit
-   the regenerated `docs/content/t0-pacing.md`; extend the sim's greedy
-   persona to use the skip where optimal so the pacing envelope sees it.
+1. ✅ **Human picks an option** — **D alone**, R4-home-sited, teeth on both
+   levers, one day per press, sim skip-blind. Recorded as **ADR-187** (it
+   changes what the game's time is).
+2. **Core** — the `sleep` intent (`src/core/intents.ts`) + its
+   `INTENT_TIMING` classification (INSTANT); the `SLEEP_MEAL_FRACTION` seed
+   (`content/balance.ts`); a `sleepForecast` selector (`selectors.ts`) that
+   is the ONE source both the reducer and the hover read (AC-6). Sleep
+   advances `TICKS_PER_DAY − tick` whole ticks through the existing
+   `advanceClock`, so exactly ONE `onDayBoundary` fires and the ration draw
+   is today's code, unchanged; the missed-pot belly loss is applied on top,
+   pro-rated by what the kura could actually serve (an empty kura serves no
+   meal to sleep through — it cannot double-punish).
+3. **UI** — `sleep` joins the meta-verb row beside "Rest a moment"
+   (`availableActions` → `META_LABELS`), visible ONLY at the woodshed with
+   `panel-home`. Its hover reads the exact price from `sleepForecast` ("the
+   house eats N shō · belly −M · you wake at dawn").
+4. **Narrative** — one sleep line, ADR-139 mini-diverge (3 blind takes, DEV
+   story-switcher swap, HR bundle). Core-emitted → the declaring-module
+   setter pattern (`__setSleepLineOverride`, the `restOpenLine` idiom).
+5. **Balance pass** — ADR-132: `verify:balance` + `balance:report`. The sim
+   is **skip-blind by ruling**, so `docs/content/t0-pacing.md` must
+   regenerate **byte-identical** — that no-op diff IS the proof the ruling
+   held (a moved band would mean the sim learned to sleep, which is a RED).
 
 ## Verification
 
-- Unit (could go RED): a skip fires `onDayBoundary` exactly N times (rice
-  drawn = N × shō/day, derived from the balance source, never a literal);
-  refusal guards no-op mid-action / mid-VN / on a pending watch.
-- Sim: `verify:balance` GREEN with the skip-aware persona; the t0-pacing.md
-  diff IS the before/after (ADR-132).
-- Player-reach (PH6): e2e — load the `rung-R1` fixture at the gate
-  off-market, press the wait affordance, assert Yohei's live row appears and
-  the kura count dropped by the forecast amount; capture a screenshot of the
-  price forecast for the review.
+- Unit (could go RED): a sleep fires `onDayBoundary` **exactly once** (rice
+  drawn == `CONSUMPTION_SHO_PER_DAY`, read from the balance source, never a
+  literal); it lands at `tick === 0` of `day + 1` from ANY starting tick; the
+  belly loss == the day's drain minus the **fractioned** ration (so a run of
+  sleeps slides it, and a full-kura sleep is NOT belly-neutral — the exact
+  bug the survey caught); an EMPTY kura sleeps without double-punishing; the
+  body is **unchanged** (sleeping is not resting); refusal guards no-op away
+  from the corner, pre-`panel-home`, and mid-VN.
+- Sim: `verify:balance` GREEN and `t0-pacing.md` **byte-identical** (the
+  skip-blind ruling's proof).
+- Player-reach (PH6): the `rung-R4` fixture (generated — the rung where the
+  corner becomes yours), walk to the woodshed, press Sleep, assert the day
+  advanced by one, the kura dropped by the ration, the belly slid, and the
+  sleep line landed. Screenshot the hover forecast for the review.
 
 ## Sync ripple
 
-- **PRD:** §6.3 (clock contract) gains the skip intent's classification —
-  via `/prd-ripple` after the build lands; none until then (plan-stage).
-- **Story-bible:** none — waiting is mechanics; the one flavor line rides
-  the ADR-139 bundle, not bible canon.
+- **PRD:** §6.3 (clock contract) gains the `sleep` intent's classification —
+  time now moves by a second means, and that is a PRD-visible fact. Via
+  `/prd-ripple` once the build lands.
+- **Story-bible:** none — waiting is mechanics; the one sleep line rides the
+  ADR-139 bundle, not bible canon. (The *fiction* it leans on — "no bed at
+  R1" — is already ADR-184's, signed.)
 - **Living docs / registries:** `docs/content/t0-pacing.md` regenerates
-  (ADR-132); `gen:narrative` for the skip-line bundle; roadmap untouched
-  (this is a T0 polish item, not a milestone).
+  (ADR-132) — and must come back **byte-identical**; `gen:narrative` for the
+  sleep-line bundle; roadmap untouched (a T0 polish item, not a milestone).
 - **CHANGELOG:** rides the next version bump's section; none now.
+- **decisions.md:** ADR-187 ✅ (landed with this plan's lock).
 
 ## Human-in-the-loop
 
-- **The pick itself** — this plan IS the decision surface; on your read,
-  either name an option here or I file it as an HD-item with D+F as the
-  proposed default. Locking it becomes an ADR (it changes what time means).
-- The skip flavor line: ADR-139 3-take diverge + its HR bundle (build
-  phase).
-- No taste-scorecard Pass 1 yet — no surface is being built until the pick.
+- ✅ **The pick itself** — ruled 2026-07-12 (D alone, R4-sited, teeth, one day
+  per press, sim skip-blind) → **ADR-187**.
+- **HR-36** — the sleep line's ADR-139 3-take bundle, reviewed live in the DEV
+  Story switcher (build phase).
+- **Taste-scorecard Pass 1** — runs on the verb row before the button is built
+  (the surface is small: one button + its forecast hover).
 
 ## Non-goals
 
@@ -192,16 +245,22 @@ over in the morning", which is honest fiction.
 
 ## Risks
 
-- **Scarcity erosion** is the real risk (option F especially): if playtest
-  shows the 水・土 rhythm stops mattering, the fallback is D-only (one day
-  per sleep, walk home first) — cheap rollback, the intent is additive.
-- **Pacing-band drift:** a skip-aware sim may pull R1–R2 under the 3-min
-  floor; if so the band or the market cadence (not the skip) is the lever
-  to revisit, with the human.
-- **Seam:** this plan owns `src/core/intents.ts` (skip intent), the gate
-  away-row (`src/ui/render.ts` who's-here block), and reads `step.ts`
-  read-only. In-flight neighbours: the zone-rung rebalance plan (same
-  Do-panel region — land AFTER it or rebase the button siting) and the
-  FB-410 zone-section diverge (owns the Do-panel's look — the away-row
-  button must ride whichever variant wins). No live herdr peer holds these
-  files (w2:p5 is on plan-audit docs).
+- ~~**Scarcity erosion**~~ — **retired by the ruling.** F is dead, so the 水・土
+  rhythm is only reachable by owning a bed and paying rice + hunger per dawn.
+  The rhythm survives.
+- ~~**Pacing-band drift**~~ — **retired by the ruling.** The sim is skip-blind,
+  so no band can move. If a future session teaches the persona to sleep, that
+  is a new decision and it reopens this risk.
+- **The R1 player still has nothing** (accepted, eyes open). FB-408 asked at
+  R1 and gets no lever from this plan. If the zone-rung rebalance does not
+  fill R1–R3's empty zones with real content, the itch returns — and the
+  answer is still content, not a skip (ADR-187).
+- **Teeth calibration.** `SLEEP_MEAL_FRACTION = 0.5` is a SEED: three sleeps
+  to reach a market day cost ~9 shō and slide the belly ~37 points. If that
+  reads punishing in play, it is a **cockpit** dial (ADR-134), not a redesign.
+- **Seam:** this plan owns the `sleep` intent (`src/core/intents.ts`), the
+  meta-verb row's Sleep button (`src/ui/render.ts`), `SLEEP_MEAL_FRACTION`
+  (`content/balance.ts`), `sleepForecast` (`selectors.ts`) and the sleep line
+  (`content/narrative/flavor.md` + `flavor.ts`); it reads `step.ts` read-only.
+  The zone-rung rebalance plan it was told to land after is **✅ done and
+  archived** (ADR-184, `a4863592`/`5f667ef9`), so that seam is clear.
