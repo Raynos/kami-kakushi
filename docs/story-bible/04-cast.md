@@ -31,7 +31,30 @@
   what the register finally says is his choice at the end (the ink
   thread, [`03-tiers.md`](03-tiers.md)).
 - **Sentence shape:** plainest voice in the game — short declaratives,
-  no figures of speech; a question visibly costs him.
+  no figures of speech; a question visibly costs him. That law binds
+  what he SAYS. It has never bound what the narration may notice on his
+  behalf — see the next bullet.
+- **He has an inner line (locked 2026-07-12, HD-38 / ADR-185).** The
+  narration may carry his **attention and his intent** — what he
+  notices, weighs, wants, fears, and *decides not to say*. This is the
+  light-novel anchor, and the corpus's two best lines already are it:
+  *"You think of the gnawed seed-bale at the back wall, and the count
+  you made twice by lantern, and you do not correct him. Not yet."* ·
+  *"That was the easy half. The question costs more than the walk did."*
+  Two hard bounds keep it from eating the game:
+  - **Never MEMORY.** He remembers nothing, and recall is the **dream's**
+    job on the dream's cadence (§0.5.4 — the metronome to T3). An
+    interior line that lets him remember cannibalizes the dream, the T3
+    reunion, and every misreading in the cast at once. Forbidden:
+    *"You had carried loads like this before, on a road in grey rain…"*
+  - **Things, counts, and withheld actions — never adjectives about
+    feelings.** The R3 line above is a seed-bale, a count, and a
+    swallowed correction; not one word says how he feels. Forbidden:
+    *"You feel a deep loneliness settle in you."*
+
+  No per-scene quota: a scene may carry none, and rarely more than two
+  or three. Second person, per §0.5.8. His *speech* stays plainest in
+  the game — nothing above softens that.
 - **The ORIGIN (relocked by the human, 2026-07-07 — the PRD design
   restored):** his birth name is **TAHEI** (working canon; §0.9
   recasting stays open at the name sweep). He fled NOTHING — a kaidō
@@ -95,8 +118,21 @@ without changing substance.)*
   MC in at R1 by arithmetic, not kindness, and privately reads the
   man's silence as a defaulter's — a fled debt being worked off — and
   respects the working-off. He answers surprise by writing something
-  down; he speaks in item, count, condition, and has never in his life
-  reached for a metaphor. He runs the accusation night by the book and
+  down, and he has never in his life reached for a metaphor.
+  **He has two voices (locked 2026-07-12, HD-38 / ADR-185):** *item,
+  count, condition* is his **BOOK voice** — it binds what he reads off
+  the page or writes into it (*"Post, one, drawn and reset on dry
+  footing."*), and rationing it there is what makes it mean something:
+  when he clips, you hear the ledger. When he **explains, instructs,
+  negotiates, or answers a question**, he speaks in his **MAN voice** —
+  plain, complete sentences (*"The paddies take six hands at the least.
+  Five sleep here now. You are the sixth."*). The clip leaking out of
+  the book and into his talk (*"Six hands' work, five men fed. The
+  sixth eats. That is the whole of it."*) is the defect this rule
+  retires — and it matters most because he is the game's tutorial
+  channel: terms, wages, works and promotions all arrive through him,
+  and none of them may arrive as a riddle.
+  He runs the accusation night by the book and
   hands over no apology; he writes the use-name at R7; he pays the
   **Kuzuhara silver** on a dead man's standing instruction, decade
   after decade — anonymous compensation to the drowned hamlet's

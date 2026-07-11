@@ -3414,3 +3414,135 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
 - **Record:** HD-39 (filed session-180 with (a) recommended, ruled (b)) · ADR-025
   (the three-track de-confliction this rule protects) · ADR-182 (the model that
   dropped the clause).
+
+### ADR-186 ✅ — the log is a DERIVED VIEW, not a transcript: the save stores descriptors, never prose
+
+- **Date:** 2026-07-12 · **Session:** 180 · **Human-ruled** (all 8 open calls on the
+  save-format plan were put to the human before a line was built).
+- **Context.** The human's standing requirement: *"When we change how the game works, move
+  content from rung to rung, or change UIs, I don't want to hard reset. On load the game must
+  reflect `src/` — not render stale data from the save."* The log was the last and largest
+  violation: it was **86–97% of every save**, and ~85% of its entries were **keyless prose** —
+  authored text copied into the save at the moment it was emitted. Reword a line in `src/` and
+  every existing save kept showing the OLD words, forever. It also churned all 18 fixture files
+  on every reword.
+- **Decision.** The event log is a **derived view over stored facts**, not a transcript of what
+  the player read. Every log line persists as a **descriptor** — `contentKey` + `params` — and
+  its words are **re-rendered from the current `src/` registries on every load**. A reworded
+  beat therefore rewrites what an existing save's scrollback shows. That is intended, and it
+  applies to narrative prose and chosen dialogue too, not just mechanical lines.
+  - **`core/content/log-render.ts`** is the one place a descriptor becomes prose: a **static
+    composition module** that imports `log-content` (the hand-written templates, still a LEAF)
+    plus the content registries, and owns the namespace dispatch (`reveal.` `scene.` `beat.`
+    `intro.` `dialogue.` `requirement.` `activity.` `flavor.` …). Each line's prose stays in the
+    registry that already owns it — no second home, no drift (TST1).
+  - **Rejected:** a resolver registry (content modules registering themselves into `log-content`
+    at module init). It needs no new module, but it makes rehydration **order-dependent**: a
+    content module not yet imported when `codec.ts` rehydrates falls back *silently* to the stale
+    stored text — the exact bug this exists to kill, made invisible. A static import graph cannot.
+  - **Emit vs persist are different channels.** At emit time the caller's words are authoritative
+    (they may carry a DEV story-take override, ADR-143). The KEY is what the SAVE stores. Before
+    this, `applyRewards` let `contentKey` win at emit, which silently discarded story-take
+    overrides on keyed narrative lines.
+  - **Gated, not a norm** (the human ruled the rung explicitly): `log-keyless.test.ts` drives
+    every fixture spec through the real engine and **fails if ANY prose reaches the save**, and a
+    second half fails if any emitted key does not RESOLVE. A keyed entry whose key doesn't
+    resolve is *worse* than a keyless one — codec falls back to the stored text, so it looks fine
+    today and silently stops tracking `src/` forever.
+  - Fixtures are stripped descriptors too, and rehydrate through the same codec path a real load
+    uses (they no longer bypass it).
+- **Consequences.** A keyless (legacy) entry still rehydrates verbatim, so old saves keep loading.
+  New narrative lines MUST go through a registry + key — that is a real cost to authoring speed,
+  accepted deliberately, because the alternative rots back silently. Result: 302 distinct keyless
+  lines → **0**; fixtures 1812 KB → 1264 KB with **zero** prose characters on disk.
+- **Known limit.** `greeting.<i>` and `stage.<i>` are **positional**, not id-keyed — re-ordering a
+  scene's greeting lines in the narrative `.md` re-points an old save's line to its neighbour. The
+  narrative grammar gives greeting lines no ids today. The orphaned-id sensor cannot see this (the
+  index still resolves), so it is a content **restructure** that needs a migration. Giving greeting
+  lines authored ids would close it.
+- **Record:** the plan `docs/plans/fable-2026-07-11-save-format-streamline.md` (its "Locked
+  decisions" block holds all 8 rulings) · extends the Stage-C descriptor work · relates ADR-179
+  (derived visibility — the same doctrine, applied to surfaces), ADR-143 (story takes), ADR-161.
+
+### ADR-185 ✅ — the register ruling: a 14–21 audience, a clarity floor, Genemon's two voices, the MC's inner line (HD-38)
+
+- **created_date:** 2026-07-12
+- **Context.** The human's steer (2026-07-11, canon per ADR-022): *"a nice and
+  easy to read story narrative to follow that makes sense and is engaging, like a
+  captivating light novel, for the target audience of age 14–21."* The built T0
+  prose reads dense — Genemon at the R0→R1 rung-up flagged by name. A register
+  audit ([`project/audit/reports/2026-07-11-t0-narrative-register-audit.md`](../../project/audit/reports/2026-07-11-t0-narrative-register-audit.md))
+  found the difficulty is **mandated, not accidental**: §0.5.1's *"when in doubt,
+  cut: the empty space is load-bearing"*, executed at full density, produces
+  ellipsis and withheld referents on nearly every line. The prose is good; it is
+  written for a 25-year-old. The project had **no audience statement anywhere** —
+  not in the PRD, not in the bible — so every story diverge to date scored against
+  a bar that never mentioned readability. HD-38 put the four direction forks
+  (D1–D4) to the human; this ADR is the ruling.
+- **Decision (human, 2026-07-12 — HD-38).** Four rulings, all adopted:
+  1. **D1 · The audience is canon, and the floor is an OUTCOME test.** §0.9.6 locks
+     the 14–21 / light-novel reader. §0.5.5 is extended from mystery lines to **all**
+     fiction text: every line parses as scene logic on FIRST read. §0.5.1 is reworded
+     so *"cut"* means **say less**, never *make the reader assemble the sentence*.
+     **The proposed per-scene device quota — one inversion, one litotes, one verbless
+     fragment — was REJECTED** (agent recommendation, human agreed): it misdiagnoses.
+     The disease is **inference load**, not grammar — *"Water first, always."* is a
+     verbless fragment and perfectly clear, while *"You are learning the house's true
+     size by what it will let itself be seen without."* is a well-formed sentence and
+     a wall. A quota is also unenforceable and gameable (spend your one inversion,
+     feel licensed). The teeth is instead the **blind paraphrase pass**: a fresh
+     reader states each paragraph's WHAT cold; a WHAT-failure or a second read is a
+     **redline**, not a taste argument. Deliberately a scorecard rung, **not** a
+     `verify` gate — a lint cannot judge parseability without crying wolf (AC-11).
+     **Binds all new fiction immediately**, T1+ included; only the *re-voicing work*
+     is scoped to T0.
+  2. **D2 · Genemon has two voices.** *Item, count, condition* is rationed to his
+     **book voice** (what he reads off the page or writes into it) — which is what
+     finally makes it MEAN something: when he clips, you hear the ledger. His **man
+     voice** (explaining, instructing, negotiating, answering) is plain complete
+     sentences, which his readable half already speaks. This is a **gain, not a
+     compromise** — and it restores cast-sheet compliance for free: the shipped works
+     pages run wall-to-wall on an extended land-ledger metaphor from the man the sheet
+     says *"has never in his life reached for a metaphor."* That text is **off-spec
+     against canon that already existed** (PH2: the build and the doc disagreed; the
+     build was wrong), so rewriting it is a bug fix, not a taste change.
+  3. **D3 · The MC gets an inner line — bounded.** Narration may carry his
+     **attention and intent** (what he notices, weighs, wants, fears, decides not to
+     say); §0.5.2's *"plainest voice"* binds his SPEECH and never bound the narration.
+     Two bounds, both load-bearing: **never MEMORY** — he remembers nothing, recall is
+     the **dream's** job on the dream's cadence (§0.5.4, the metronome to T3), and an
+     interior line that lets him remember cannibalizes the dream, the T3 reunion, and
+     every misreading in the cast at once — and **things, counts, withheld actions,
+     never adjectives about feelings**. No per-scene quota (the D1 argument applies
+     again).
+  4. **D4 · Worst-first, then a full sweep.** Five targeted waves clear the acute
+     pain (Terms scene → works pages → gloss/collisions → Intro 1 → medium scenes +
+     the interiority thread), then a **full-T0 sweep** carries the rest of the tier to
+     the floor so no register seam is left between old and new text.
+- **Also locked — §0.5.8, person.** *"You"* is what you live (all narration + the
+  MC's interior lines); **third person is reserved for the OVERHEARD register** — the
+  house talking *about* you, where you are not addressed, until R7 writes your name.
+  The corpus currently mixes them **inside a single scene** (*"The river gives you up
+  at the weir"* … *"He turns it for as long as the water allows"*), which is a defect.
+- **Two audit findings this ADR OVERRULES** (checked against source this session, PH2):
+  - **The R0 reward lines stay third-person.** The audit read them as an R0 misstep
+    and proposed flipping them to second person. They are not a misstep: **every** rung
+    reward line, R0 through R7, is third-person overheard speech — it is the device
+    that makes the R7 naming land. The human confirmed the R0→R1 flag was the **Terms
+    speech** (the R1 beat, which fires at that rung-up), not these lines.
+  - **The cold open does not need re-leading.** The audit says it *"leads with the
+    dream inventory"*; the authored order is `lede → weir → wake → dream` — already
+    concrete-first. The real burden is **Intro 1**, which replays the dream verbatim
+    and then makes the game's **first choice** a pick among three abstractions.
+- **Consequences.** No story changes: kernel, spine, scene structure, motives and the
+  naming arc all stand. No tone change: no modern slang, no softening, no explained
+  mystery — the fix is **syntax and information delivery**. Restraint survives as a
+  *value* ("say less"), not as a per-line default. The U9 ambient pool and the season
+  turns are the **calibration set**, not targets — they already hit the bar, which is
+  the proof that voice and readability coexist here.
+- **Record:** HD-38 (the four forks, ruled 2026-07-12) · the audit report above · the
+  plan [`docs/plans/fable-2026-07-11-t0-narrative-revoice.md`](../plans/fable-2026-07-11-t0-narrative-revoice.md)
+  (Wave 0 = this ADR; the waves are D4) · amends story-bible §0.5.1, §0.5.5, §0.5.8
+  (new), §0.9.6 (new), and `04-cast.md` (Genemon, the MC) · rides ADR-139 (story
+  diverges) + ADR-135 (the two-pass scorecard) · ADR-022 (the human's steer is canon;
+  where the bible disagreed, the bible was what was wrong).

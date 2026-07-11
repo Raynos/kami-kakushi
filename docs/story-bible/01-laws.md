@@ -12,7 +12,10 @@ the design.
    scenes end a beat earlier than comfort asks; ceremony is brief
    because the house's dignity doesn't perform. Ornament — a maxim, a
    flourish, a hot accent — is earned by rarity. When in doubt, cut:
-   the empty space is load-bearing. The VISUAL language is owned by
+   the empty space is load-bearing. **"Cut" means SAY LESS. It never
+   means make the reader assemble the sentence** *(amended 2026-07-12,
+   HD-38 / ADR-185 — read with §0.5.5, which is the floor this rule
+   may not cut through).* The VISUAL language is owned by
    [`ui-design.md`](../living/ui-design.md) — this law defers to it
    entirely. For fiction-voiced text the test is blunt: if a line could
    appear in any game, it does not belong in this one.
@@ -39,10 +42,29 @@ the design.
    never repeats verbatim (the echo craft rule below); the dream is
    the memory's metronome, pacing the return toward T3.
 
-5. **Vague-but-parseable.** A mystery-withholding line must still
-   parse as scene logic: the player always knows WHAT happened even
-   when the WHY is hidden. Withholding is done with clear surfaces —
-   curiosity is the tool, never confusion.
+5. **Parseable on first read — the clarity floor.** *(Extended
+   2026-07-12, HD-38 / ADR-185, from mystery lines to ALL fiction text.)*
+   **Every** line of fiction-voiced text parses as scene logic on FIRST
+   read: the player always knows WHAT happened, even when the WHY is
+   hidden. Withholding is done with clear surfaces — curiosity is the
+   tool, never confusion.
+
+   What this forbids is **inference load**, not grammar. No device is
+   banned and none is rationed by count: a verbless fragment can be
+   perfectly clear (*"Water first, always."*) and a well-formed sentence
+   can be a wall (*"You are learning the house's true size by what it
+   will let itself be seen without."*). The question is never *which
+   device* — it is *how much must the reader reconstruct*.
+
+   **The test is the blind paraphrase pass** (§Verification of the
+   re-voice plan): a fresh reader takes the text cold, with no bible and
+   no brief, and states each paragraph's WHAT in one sentence. A
+   WHAT-failure, or a line they had to read twice, is a **redline back
+   to the author** — not a taste argument. This floor is a scorecard /
+   skill rung, deliberately **not** a `verify` gate: no lint can judge
+   parseability without crying wolf (AC-11).
+
+   Audience it is calibrated to: §0.9.6.
 
 6. **The log and the VN split the work (the human's form).** A mixture
    as-and-when-needed: **flavor and texture live in the log** (prices,
@@ -57,6 +79,17 @@ the design.
    Consequences arrive from an unexpected quarter (the smith answers
    instead of the steward); different people read the same choice
    differently; the warmest answer is not always the rewarded one.
+
+8. **Person: "you" is what you live; "he" is what the house says.**
+   *(Locked 2026-07-12, HD-38 / ADR-185.)* Narration and the MC's
+   interior lines are **second person** — what you see, do, weigh, and
+   decide not to say. **Third person is reserved for the OVERHEARD
+   register**: the house talking *about* you where you are not addressed
+   — the rung reward lines (*"So he can work," Genemon says*) — right up
+   until R7 writes your name. The pronoun IS the arc, so it is never
+   mixed inside a scene: prose that narrates *"The river gives you up at
+   the weir"* and then, two beats later, *"He turns it for as long as the
+   water allows"* is a defect, not a flourish.
 
 **Craft rule — echo is a choice.** Deliberate repetition goes through
 the `@`-reuse mechanism and means something; accidental
@@ -87,3 +120,15 @@ is WRITTEN; this says what the game inescapably REMAINS.)
 5. **Scope.** T0 is designed in full detail and built first; the
    currently-shipped T0 keeps shipping until the reboot's build wave
    replaces it.
+6. **The reader is 14–21, and the book is a light novel.** *(Locked by
+   the human 2026-07-12, HD-38 / ADR-185 — the first audience statement
+   this project has ever had.)* The target reader is **14–21**, and the
+   promised experience is *"a nice and easy to read story narrative to
+   follow that makes sense and is engaging, like a captivating light
+   novel."* Every piece of fiction-voiced text is written for that
+   reader, and every story diverge scores against them. This constrains
+   **register**, never **content**: the period texture, the restraint,
+   the grief, the partial justice, and the difficulty of the *world* all
+   stand — what may not stand is a line the reader has to assemble
+   (§0.5.5). Not licensed by this, and never will be: modern slang, a
+   softened tone, or an explained mystery.

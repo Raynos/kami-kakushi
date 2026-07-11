@@ -154,6 +154,14 @@ light. Justice, where the side-mysteries reach it, is **partial**: the reachable
 powerful largely escape — the same thesis made structural by the honest **ceiling** at Edo. Relationships are
 **narrative-only** (no dating-sim).
 
+**Reader & register (ADR-185, human-locked 2026-07-12).** The target reader is **14–21**, and the promised
+read is *"a nice and easy to read story narrative to follow that makes sense and is engaging, like a
+captivating **light novel**."* This constrains **register, never content**: everything above — the period
+texture, the restraint, the grief, the partial justice — stands unchanged; what may not stand is a line the
+reader has to *assemble*. Story-bible §0.5.5 is the floor (**every line of fiction text parses on first
+read**; withholding is done with clear surfaces, never with inference load) and §0.9.6 the audience lock. Not
+licensed by this, and never will be: modern slang, a softened tone, or an explained mystery.
+
 ## 1.4 The protagonist & the mediocre-start contract
 
 The protagonist is an **authored, fixed male character** (~18–20) — there is **no name/appearance/gender
