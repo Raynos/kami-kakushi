@@ -301,6 +301,42 @@ the save-migration POLICY question the human routed here from the zone-rung sess
 machinery — `migrate.ts` + the ADR-161 courteous-restart path — already exists; what's missing is
 the rule for when a content move bumps the generation vs. ships a migration step).
 
+### 12 · LIVE verification — and the bug only the real game could show
+
+Tests green is not "done" (PH3/PH6). Drove the actual game headlessly against my green HEAD in an
+isolated worktree on a throwaway port (`:5174`, `KAMI_ALLOW_MULTI_DEV=1` — the shared `:5173`
+server was never touched, and it serves a co-agent's in-flight red anyway).
+
+**The marquee proof, in the running game.** Loaded the `rung-R3` fixture — a save whose log holds
+**zero prose on disk** — and it rehydrated to **196/196 keyed entries, 0 keyless, 0 empty, 0 raw
+keys leaking, 0 page errors**. Then I **reworded the kura reveal line in `src/`** and reloaded the
+SAME already-written save. The log rendered:
+
+> "REWORDED-IN-SRC: the kura stands open, and every grain that crosses its sill is written down."
+
+An existing save showed the NEW words. No migration, no reset. That is the entire plan, working
+for a real player.
+
+**The bug the unit tests could not see.** The DEV panel's Save-health block reported **"5 orphaned
+id(s)"** on a perfectly CLEAN fixture: `deliveredDialogue: gen-greet, gen-stores, gen-rake,
+gen-keep, gen-kept`. Cause: `deliveredDialogue` stores **LINE** ids (`gen-rake`), but I diffed it
+against `DIALOGUE_IDS`, which is the set of **dialogue** ids (`genemon-open`). So every delivered
+line read as an orphan.
+
+That is the worst failure mode a sensor has — **a false positive teaches everyone to ignore it**,
+and it would have shipped looking fine. My own tests missed it because they only ever used an
+EMPTY `deliveredDialogue`. Fixed (`liveDialogueLineIds()`), and pinned with the RED it would have
+had: a real delivered line must NOT be flagged, while a genuinely renamed one still is.
+
+Re-checked live: the panel now reads **"No orphaned ids — this save matches src/."** And I have
+live proof of BOTH states, which is what makes the sensor trustworthy — it displayed the orphan
+table AND badged the tab `Settings (5⚠)` when orphans existed, and goes silent when they don't.
+
+**Status:** the fix (`src/persistence/orphans.ts` + its test) is **NOT yet committed** — the shared
+tree's code lane is red on a co-agent's in-flight fixture regen (their core changes staled
+`rung-R2/3/4`), and regenerating would bake their WIP into my commit. Committing it the moment
+their regen lands.
+
 ## Next intended steps
 
 **The plan is DONE — all five steps built, green, pushed.** What remains is the
