@@ -86,6 +86,9 @@ export const MAP_NODES: readonly MapNode[] = [
     wrong: FLAVOR.nodeForecourtWrong,
     neighbors: ['gate', 'kura', 'kitchen', 'woodshed', 'sickroom', 'drill-yard', 'paddies'],
     rung: 0,
+    // Human 2026-07-11 — you wake INSIDE the kura: the forecourt is introduced
+    // by the intro's close (completeIntroTail), when Genemon puts you to work.
+    revealFlag: 'room-forecourt',
   },
   {
     id: 'kitchen',

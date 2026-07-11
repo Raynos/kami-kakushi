@@ -268,7 +268,11 @@ function applyIntroStat(state: GameState, stat: IntroStat): GameState {
  *  (Self-picked deviation from the plan's §4.4 "reveal the closing narration in the tail" — the
  *  lines pre-exist on the surface-reveal path, so emitting them here would duplicate, not add.) */
 function completeIntroTail(state: GameState): GameState {
-  return state;
+  // The forecourt reveals HERE, not at R0-start (human, 2026-07-11): you wake
+  // INSIDE the kura — the outer court exists on your map only once Genemon has
+  // put you to its work (the fiction causes the map, TST3 — the FB-381/382
+  // pattern; with it, NO zone predates its own introduction).
+  return applyRewards(state, { unlock: ['room-forecourt'] });
 }
 
 /** Move the cursor to `newIndex`, revealing the next scene's greeting — or firing the tail once the

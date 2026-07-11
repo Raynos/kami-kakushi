@@ -102,7 +102,7 @@
 |---|---|---|---|
 | weir | The weir & riverbank 堰 | weir-reeds, paddies | room-weir |  |
 | sickroom | Sōan's sickroom 薬 | forecourt | room-sickroom |  |
-| forecourt | The forecourt 庭 | gate, kura, kitchen, woodshed, sickroom, drill-yard, paddies | — |  |
+| forecourt | The forecourt 庭 | gate, kura, kitchen, woodshed, sickroom, drill-yard, paddies | room-forecourt |  |
 | kitchen | The kitchen threshold 竈 | forecourt, shrine | room-kitchen |  |
 | gate | The gate & gateyard 門 | forecourt | room-gate |  |
 | woodshed | The woodshed 薪 | forecourt | room-woodshed |  |
@@ -272,6 +272,7 @@ Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (th
 | `room-gate` | panel |
 | `room-paddies` | panel |
 | `room-woodshed` | panel |
+| `room-forecourt` | panel |
 | `room-kitchen` | panel |
 | `room-weir` | panel |
 | `verb-farm` | verb |

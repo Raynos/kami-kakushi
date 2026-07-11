@@ -60,3 +60,7 @@ shown before landing.
   sheet-map.ts now consume it (~230 duplicated lines deleted). Seal painters
   stay separate by design (roster vs travel semantics — the plan doc records
   the scope). Pin GREEN; both surfaces smoke-tested live headlessly.
+- Human steer #3 — the forecourt joins the gated set: you wake INSIDE the
+  kura, so `room-forecourt` reveals at the intro-complete tail (Genemon sets
+  you to the outer court's work). The always-open zone set is now EMPTY — no
+  zone predates its own introduction. Tests updated; fixtures + docs regen.

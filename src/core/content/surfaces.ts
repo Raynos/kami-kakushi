@@ -167,6 +167,17 @@ export const SURFACES: readonly Surface[] = [
     ceremonyLabel: 'The woodshed corner — a mat, a bowl, a nail for the coat: yours',
   },
   {
+    // Human 2026-07-11 — the forecourt is INTRODUCED, never pre-known: revealed by
+    // the intro-complete tail (completeIntroTail), the moment Genemon sets you to
+    // the outer court's work. No ceremonyLabel — it precedes every ceremony.
+    id: 'room-forecourt',
+    kind: 'panel',
+    unlock: () => false,
+    revealLine: narrate(
+      'The outer court is given to you with the rake: the forecourt, swept ground sized for a household five times this one.',
+    ),
+  },
+  {
     // FB-381 / ADR-177 pattern — hidden R0 ground until the R1 terms beat names it
     // ("Meals at the threshold, morning and evening"); announced on the ceremony.
     id: 'room-kitchen',

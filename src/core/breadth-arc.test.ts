@@ -128,10 +128,13 @@ describe('T0-M4 breadth seams close end-to-end via real intents', () => {
   });
 
   it('the estate map is walkable — move_to crosses to an adjacent revealed node, blocks the rest', () => {
-    const s = readyState(1); // at the kura, the forecourt (its R0 neighbour) always open
+    // at the kura; the forecourt is reveal-gated since 2026-07-11 (the intro's
+    // close introduces it) — granted here so only walkability is under test.
+    const base = readyState(1);
+    const s = { ...base, unlocked: [...base.unlocked, 'room-forecourt'] };
     expect(s.location).toBe('kura');
     const moved = reduce(s, { type: 'move_to', to: 'forecourt' });
-    expect(moved.location).toBe('forecourt'); // adjacent + always-open → you walk
+    expect(moved.location).toBe('forecourt'); // adjacent + revealed → you walk
     // a non-adjacent hop straight from the kura is refused (no teleporting across the estate)
     expect(reduce(s, { type: 'move_to', to: 'field-margins' })).toBe(s);
   });

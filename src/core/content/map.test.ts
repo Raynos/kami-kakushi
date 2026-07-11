@@ -48,13 +48,12 @@ describe('MAP_NODES — the T0 estate node-graph', () => {
     expect(danger).toEqual(['field-margins', 'woodlot', 'weir-reeds', 'orchard', 'grove']);
   });
 
-  it('reveal-gates every node except the R0 cold-open zones', () => {
-    // Only the forecourt stays always-open. The weir is GATED since ADR-177
-    // (FB-342): the cold open happens there, but the path back reads locked until
-    // the works-intro's day-book naming reveals room-weir; the kitchen + sickroom
-    // joined it (FB-381/382 — the R1 terms beat / the R3 grain-watch name them).
-    // Every other zone inks in on its rung beat via a revealFlag.
-    expect(UNGATED).toEqual(['forecourt']);
+  it('reveal-gates EVERY node — no zone predates its own introduction', () => {
+    // Since 2026-07-11 the always-open set is EMPTY: the weir (ADR-177/FB-342),
+    // kitchen + sickroom (FB-381/382), and finally the forecourt (you wake INSIDE
+    // the kura; the intro-complete tail reveals it when Genemon sets you to work)
+    // are all named by the fiction before they exist on the map.
+    expect(UNGATED).toEqual([]);
   });
 
   it('holds the ruined compound as locked scenery — visible, never walkable', () => {
@@ -129,8 +128,8 @@ describe('canMove — adjacency AND reveal gating', () => {
     expect(canMove('forecourt', 'paddies', new Set(['room-paddies']))).toBe(true);
   });
 
-  it('always allows reaching an ungated neighbour (the R0 forecourt)', () => {
-    expect(canMove('kitchen', 'forecourt', new Set())).toBe(true);
+  it('allows reaching a revealed neighbour without other reveals', () => {
+    expect(canMove('kitchen', 'forecourt', new Set(['room-forecourt']))).toBe(true);
   });
 
   it('returns false for unknown endpoints (total + safe, never throws)', () => {
