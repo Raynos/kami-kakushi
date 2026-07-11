@@ -65,6 +65,14 @@ the same rule. The tests for membership:
 - the event log — the house's durable memory (FB-160/161) — as **descriptors**
   where possible (see below)
 
+**Clamp it to the registry on load** if the fact NAMES a piece of content: a
+stored id is only as good as the registry it points at, so `location` clamps to
+a live map node and `equippedWeapon` clamps to a live weapon (`getWeapon` throws
+on an unknown id — an un-clamped stale id crashes the UI at first render, it does
+not degrade gracefully). Bounds come from the def, never a literal:
+`weaponDurability` is clamped to the CURRENT `durabilityMax`, so rebalancing a
+weapon down in `src/` re-clamps every existing save's wear on load.
+
 **Derive it** (never store) if the current code can compute it from facts:
 - every derived stat (`hpMax`, `satietyMax`, season/year from the calendar)
 - **UI visibility** — what surfaces/tabs/verbs are shown derives per-load from

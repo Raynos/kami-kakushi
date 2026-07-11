@@ -18,8 +18,11 @@ import {
   HUNGER_MAX,
   INTRO_BEAT_COUNT,
   RANK_IDS,
+  WEAPON_IDS,
+  getWeapon,
   refillSitePools,
 } from '../core';
+import type { WeaponId } from '../core';
 import type { SaveEnvelope } from './codec';
 import { migrate, type MigrateFn } from './migrate';
 
@@ -243,6 +246,23 @@ export function validateState(rawState: unknown): ValidateResult {
       ? (base.season as Season)
       : 'winter';
 
+  // ── the equipped weapon + its wear (step 5 of the save-format plan) ────────────────────
+  // `getWeapon` THROWS on an unknown id, so a weapon RENAMED or removed in src/ would ride
+  // through a save and crash the UI at first render — the same class of bug the `location`
+  // clamp above exists to prevent. Clamp to a real weapon (fallback: the starting pole).
+  const resolvedWeapon: WeaponId =
+    typeof base.equippedWeapon === 'string' && WEAPON_IDS.has(base.equippedWeapon)
+      ? (base.equippedWeapon as WeaponId)
+      : 'carrying_pole';
+  if (base.equippedWeapon !== undefined && resolvedWeapon !== base.equippedWeapon) coerced = true;
+  // Durability is bounded by the CURRENT def's durabilityMax, never a hardcoded 40: src/ is the
+  // truth for how much wear a weapon can hold, so a rebalanced max re-clamps an old save's wear
+  // on load. Absent → a full weapon (additive hydration, not a repair).
+  const durabilityMax = getWeapon(resolvedWeapon).durabilityMax;
+  const rawDurability = numAdditive(base.weaponDurability, durabilityMax);
+  const resolvedDurability = Math.min(durabilityMax, Math.max(0, rawDurability.value));
+  if (rawDurability.coerced || resolvedDurability !== rawDurability.value) coerced = true;
+
   const state: GameState = {
     ...base,
     // Always current after migrate+validate (closes the inner/outer divergence, audit §3 #9).
@@ -342,8 +362,8 @@ export function validateState(rawState: unknown): ValidateResult {
     // not an active target — it only bites once autoCombat is re-armed — so it survives.)
     autoActivity: null,
     autoRake: false,
-    equippedWeapon: base.equippedWeapon ?? 'carrying_pole',
-    weaponDurability: typeof base.weaponDurability === 'number' ? base.weaponDurability : 40,
+    equippedWeapon: resolvedWeapon,
+    weaponDurability: resolvedDurability,
     autoCombat: null,
     autoCombatRetreat: base.autoCombatRetreat === true, // additive (call 6): default fight-to-death
     stance: (base.stance as StanceId) ?? 'chudan',
