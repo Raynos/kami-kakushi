@@ -14,15 +14,21 @@ function sample(seed = 7): GameState {
   return reduce(reduce(createInitialState(seed), { type: 'open_eyes' }), { type: 'rake_rice' });
 }
 
+// These round-trips assert VALUE identity (toEqual), not byte identity of the JSON. They used to
+// compare JSON.stringify(a) === JSON.stringify(b), which also pinned KEY ORDER — and validateState
+// is now a whitelist rebuild (save-format plan, step 2), so it emits the literal's key order rather
+// than the stored blob's. Key order carries no meaning in a JSON save, and deep equality is the
+// STRONGER guard for what these tests are actually for: a non-JSON-safe field (a Set/Map) sneaking
+// into GameState used to stringify to "{}" on BOTH sides and pass; it fails toEqual.
 describe('multi-backend redundant save', () => {
-  it('round-trips a state byte-identically', async () => {
+  it('round-trips a state with every value intact', async () => {
     const mgr = createMemorySaveManager([new MemoryBackend()], () => 1000);
     const s = sample();
     const res = await mgr.save(s);
     expect(res.ok).toBe(true);
     const loaded = await mgr.load();
     expect(loaded).not.toBeNull();
-    expect(JSON.stringify(loaded!.state)).toBe(JSON.stringify(s));
+    expect(loaded!.state).toEqual(s);
   });
 
   it('round-trips a POPULATED v0.3 state (tier/influence/quests/location/marketBought) byte-identically', async () => {
@@ -45,7 +51,7 @@ describe('multi-backend redundant save', () => {
     expect((await mgr.save(rich)).ok).toBe(true);
     const loaded = await mgr.load();
     expect(loaded).not.toBeNull();
-    expect(JSON.stringify(loaded!.state)).toBe(JSON.stringify(rich)); // nothing dropped/mangled
+    expect(loaded!.state).toEqual(rich); // nothing dropped/mangled
     // and the new fields specifically survive (not just an incidental byte-match)
     expect(loaded!.state.tier).toBe(1);
     expect(loaded!.state.influence.estate.judged).toBe(240);
@@ -70,7 +76,7 @@ describe('multi-backend redundant save', () => {
     await mgr.save(s1);
     await mgr.save(s2);
     const loaded = await mgr.load();
-    expect(JSON.stringify(loaded!.state)).toBe(JSON.stringify(s2));
+    expect(loaded!.state).toEqual(s2);
     expect(loaded!.saveCounter).toBe(2);
   });
 
@@ -96,7 +102,7 @@ describe('multi-backend redundant save', () => {
     const fresh = createMemorySaveManager([new MemoryBackend()], () => 2);
     const res = await fresh.importState(b64);
     expect('state' in res).toBe(true);
-    if ('state' in res) expect(JSON.stringify(res.state)).toBe(JSON.stringify(s));
+    if ('state' in res) expect(res.state).toEqual(s);
   });
 
   it('rejects a corrupt base64 import gracefully', async () => {
@@ -123,7 +129,7 @@ describe('multi-backend redundant save', () => {
     await mgr.save(s2);
     const rb = await mgr.loadRollback();
     expect(rb).not.toBeNull();
-    expect(JSON.stringify(rb!.state)).toBe(JSON.stringify(s1));
+    expect(rb!.state).toEqual(s1);
   });
 
   it('a loaded save starts IDLE — active auto targets are cleared on load (F32)', async () => {
@@ -327,7 +333,7 @@ describe('backup / restore slot (F96)', () => {
     const res = await mgr.restoreBackup();
     expect('state' in res).toBe(true);
     if ('state' in res) {
-      expect(JSON.stringify(res.state)).toBe(JSON.stringify(s)); // nothing dropped/mangled
+      expect(res.state).toEqual(s); // nothing dropped/mangled
       expect(res.source).toBe('backup');
     }
   });
@@ -343,7 +349,7 @@ describe('backup / restore slot (F96)', () => {
     await mgr.restoreBackup();
     // a fresh manager over the same backend loads what restore adopted, not the old current.
     const reloaded = await createMemorySaveManager([backend], () => 1).load();
-    expect(JSON.stringify(reloaded!.state)).toBe(JSON.stringify(backedUp));
+    expect(reloaded!.state).toEqual(backedUp);
   });
 
   it('restore fails cleanly when no backup exists', async () => {

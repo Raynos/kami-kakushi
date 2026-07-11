@@ -277,8 +277,16 @@ export function validateState(rawState: unknown): ValidateResult {
   const resolvedDurability = Math.min(durabilityMax, Math.max(0, rawDurability.value));
   if (rawDurability.coerced || resolvedDurability !== rawDurability.value) coerced = true;
 
+  // ── a WHITELIST rebuild, not a spread (save-format plan, step 2) ──────────────────────────
+  // This literal is built from the explicitly-validated fields ONLY — there is deliberately no
+  // `...base` spread. The `_Handled` ledger above makes that safe by construction: a new GameState
+  // field without a validated default here is a tsc error, so the literal can never fall behind
+  // the type. What the spread used to carry was therefore only ever JUNK — fields retired from
+  // GameState (ADR-056's `balanceProfile`, and its successors) riding in saves forever. They now
+  // age out on the first load. Note this is ONE-WAY per save: an unknown field is dropped, not
+  // preserved. That is the point — the save holds the player's facts, and src/ decides what a fact
+  // IS. A field we might want back needs a migration, not a spread.
   const state: GameState = {
-    ...base,
     // Always current after migrate+validate (closes the inner/outer divergence, audit §3 #9).
     schemaVersion: SCHEMA_VERSION,
     rng: rng as unknown as GameState['rng'],
@@ -398,10 +406,6 @@ export function validateState(rawState: unknown): ValidateResult {
     roundState: isObject(base.roundState) ? (base.roundState as GameState['roundState']) : null,
     // Sōan's defeat ledger (G3) — a non-negative counter; absent/malformed → 0 (fresh).
     soanLedger: typeof base.soanLedger === 'number' ? Math.max(0, Math.floor(base.soanLedger)) : 0,
-    // (ADR-056: the balanceProfile field is RETIRED from GameState — nothing reads it any more.
-    // A legacy save's stray `balanceProfile` rides through inertly via the `...base` spread above
-    // [harmless dead data; this builder is additive-tolerant by design, NOT a whitelist rebuild];
-    // new games never write it, so it simply ages out.)
   };
 
   return { ok: true, state, coerced, migrated: false };

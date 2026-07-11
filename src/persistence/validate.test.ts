@@ -53,6 +53,41 @@ describe('the equipped weapon + its wear derive from the CURRENT weapon def (ste
   });
 });
 
+describe('validateState is a WHITELIST rebuild — retired fields age out (step 2)', () => {
+  it('a retired field (ADR-056 balanceProfile) does not survive the round-trip', () => {
+    const res = loaded({ balanceProfile: 'brutal', someFieldWeDeletedIn2025: { deep: 1 } });
+    expect(res.state).not.toHaveProperty('balanceProfile');
+    expect(res.state).not.toHaveProperty('someFieldWeDeletedIn2025');
+  });
+
+  it('dropping junk is NOT reported as a repair (no "we mended your save" notice)', () => {
+    // The load notice must mean "your save was damaged and we fixed it". Ageing out a field
+    // src/ no longer knows about is routine hydration, not damage — if this flips true, every
+    // player with an old save gets a scary notice for a non-event.
+    const res = loaded({ balanceProfile: 'brutal' });
+    expect(res.coerced).toBe(false);
+  });
+
+  it('every live GameState field still survives the rebuild', () => {
+    // The guard on the guard: the whitelist is only safe because the _Handled ledger forces the
+    // literal to stay complete. If someone adds a GameState field and defaults it wrong, this
+    // catches the ones that would silently reset a real player fact.
+    const fresh = createInitialState(1);
+    const res = loaded({});
+    for (const key of Object.keys(fresh) as (keyof typeof fresh)[]) {
+      expect(res.state).toHaveProperty(key);
+    }
+  });
+
+  it('a real player fact is preserved verbatim through the rebuild', () => {
+    const res = loaded({ rung: 'R3', tier: 1, belongings: ['a-real-thing'], soanLedger: 2 });
+    expect(res.state.rung).toBe('R3');
+    expect(res.state.tier).toBe(1);
+    expect(res.state.belongings).toEqual(['a-real-thing']);
+    expect(res.state.soanLedger).toBe(2);
+  });
+});
+
 describe('sitePools: a MISSING key is a fresh site, not a depleted one (step 3)', () => {
   const season = 'winter' as const;
 

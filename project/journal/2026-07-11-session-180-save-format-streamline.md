@@ -84,10 +84,39 @@ Known, accepted quirk (ruled): a site the player had depleted and that is then
 - `src/persistence/validate.ts` — `hydrateSitePools()`.
 - `src/persistence/validate.test.ts` — 4 cases incl. the two that went RED.
 
+### 4 · Step 2 — `validateState` is a whitelist rebuild
+
+Dropped the `...base` spread. The state is now built from the explicitly-validated
+fields only, so a field retired from `GameState` (ADR-056's `balanceProfile`, and
+its successors) ages out on the next load instead of riding in every save forever.
+Safe by construction: the `_Handled` ledger makes a new `GameState` field without a
+validated default a **tsc error**, so the literal can't fall behind the type.
+
+**Seven pre-existing tests went red, and the reason mattered.** They asserted
+`JSON.stringify(loaded) === JSON.stringify(original)` — "byte-identical" — which
+also pins **key order**, and the whitelist rebuild emits the literal's key order
+rather than the stored blob's. Before touching them I probed the actual difference:
+**identical key sets, identical values, order-only diff** — nothing was being
+dropped. Converted those assertions to `toEqual`.
+
+That is a *strengthening*, not a loosening. Their stated purpose (see the comment
+in `save.test.ts`) is to catch a non-JSON-safe field — a `Set`/`Map` — sneaking into
+`GameState`. Such a field stringifies to `"{}"` on **both** sides of the old
+assertion and passes; it fails deep equality.
+
+- `src/persistence/validate.ts` — the spread is gone; the rationale is in-file.
+- `src/persistence/validate.test.ts` — 4 cases: junk dropped, junk-drop is NOT
+  reported as a repair (a scary "we mended your save" notice for a non-event), every
+  live field still survives, a real player fact preserved verbatim.
+- `src/persistence/save.test.ts`, `save-e2e.test.ts` — value-identity, not
+  byte-identity, with the why recorded in-file. (`codec.test.ts`'s byte-identity
+  assertions are untouched and still pass: they round-trip envelopes without a
+  rebuild, so their key order IS stable.)
+
 ## Next intended steps
 
-Steps 2 → 4 → 1 of the plan, in that order. Step 1 is the bulk and ends with a
-single coordinated `pnpm run fixtures:regen`.
+Steps 4 → 1 of the plan, in that order. Step 1 is the bulk and ends with a single
+coordinated `pnpm run fixtures:regen`.
 
 ## Landmines
 

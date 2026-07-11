@@ -53,7 +53,7 @@ describe('save/load e2e — a full-arc playthrough round-trips through the real 
     expect((await mgr.save(rich)).ok).toBe(true);
     const loaded = await mgr.load();
     expect(loaded).not.toBeNull();
-    expect(JSON.stringify(loaded!.state)).toBe(JSON.stringify(rich));
+    expect(loaded!.state).toEqual(rich);
   });
 
   it('rebuilds every keyed entry text from the registry on load (re-derived, not stored)', async () => {
@@ -73,6 +73,6 @@ describe('save/load e2e — a full-arc playthrough round-trips through the real 
     const fresh = createMemorySaveManager([new MemoryBackend()], () => 2000);
     const res = await fresh.importState(b64);
     expect('state' in res && res.state).toBeTruthy();
-    if ('state' in res) expect(JSON.stringify(res.state)).toBe(JSON.stringify(rich));
+    if ('state' in res) expect(res.state).toEqual(rich);
   });
 });
