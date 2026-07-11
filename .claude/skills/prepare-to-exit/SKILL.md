@@ -25,4 +25,29 @@ Two guardrails up front:
 **Report** at the end: what was committed/pushed, the `origin/main` SHA, the verify result, and anything left
 local (incl. any workflow still running) — so the user knows it's safe to exit.
 
-> Holds no copy of the steps by design — if the ritual changes, edit `working-agreements.md` only.
+## Last step — the sign-off banner (MANDATORY)
+
+The **final thing in your final message**, after the report, is the banner below — printed **verbatim, inside a
+fenced code block**, as the last lines you emit. Nothing follows it: no sign-off prose, no "let me know if…",
+no further tool calls.
+
+It is a **fixed, byte-stable signal**, not decoration. The human scans a grid of idle panes and reads *"this
+session checkpointed"* off the silhouette alone — so it only works if it is **always the same**. Copy it
+character-for-character: don't retype it from memory, don't restyle it, don't personalize it, don't append a
+run summary inside the box, don't swap the block letters. If the checkpoint did **not** fully succeed
+(something left local, a red gate, a push refused), **do not print it** — say what's outstanding instead. The
+banner means *done and pushed*; a banner over a half-finished checkpoint is a false green (PH3).
+
+```
+   ┌──────────────────────────────────────────────────────────────┐
+   │  ██████╗ ██╗   ██╗███████╗██╗                                │
+   │  ██╔══██╗╚██╗ ██╔╝██╔════╝██║  prepare-to-exit is complete.  │
+   │  ██████╔╝ ╚████╔╝ █████╗  ██║  committed - verified - pushed │
+   │  ██╔══██╗  ╚██╔╝  ██╔══╝  ╚═╝                                │
+   │  ██████╔╝   ██║   ███████╗██╗  you may close this session.   │
+   │  ╚═════╝    ╚═╝   ╚══════╝╚═╝                                │
+   └──────────────────────────────────────────────────────────────┘
+```
+
+> Holds no copy of the steps by design — if the ritual changes, edit `working-agreements.md` only. The banner
+> is the one exception: it lives here because it must be reproduced byte-for-byte.
