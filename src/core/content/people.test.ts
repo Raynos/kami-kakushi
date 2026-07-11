@@ -76,26 +76,16 @@ describe('peopleHere (D-114) — the spatial "who\'s here" selector, mirroring f
   });
 });
 
-describe('D-116 — location flavor routes to a transient Now line, never the Story log', () => {
-  it('move_to emits the destination blurb as an EPHEMERAL narration entry (the Now channel)', () => {
+describe("FB-406 — a move emits no log flavor; the Map tab is the zone read's one home", () => {
+  it('move_to appends NO blurb entry to any channel (supersedes the D-116 arrival line)', () => {
     // stand at the forecourt with the kura open, then walk to the kura.
     const dest = 'kura';
     const s0 = awakeAt('forecourt', { unlocked: [getNode(dest).revealFlag!] });
     const s1 = reduce(s0, { type: 'move_to', to: dest });
     expect(s1.location).toBe(dest); // the move actually happened
 
-    // source of truth for the arrival line's text — SEASONAL since C5a unit 5
+    // source of truth for the retired line's text — the emit is gone, not re-routed.
     const blurb = nodeSeasonalBlurb(getNode(dest), s1.season).text;
-    const blurbEntries = s1.log.entries.filter((e) => e.text === blurb);
-    expect(blurbEntries.length).toBeGreaterThan(0); // an arrival line WAS emitted
-    // …and EVERY such entry is a fleeting Now line, never a permanent Story entry. Could-go-RED:
-    // emitting `{ channel: 'narration' }` with no `ephemeral` fails here.
-    for (const e of blurbEntries) {
-      expect(e.ephemeral).toBe(true);
-      expect(e.channel).toBe('narration');
-      // FB-344 — the zone's label rides as the line's speaker, so the Now view
-      // reads "Kura: <the description>" (source of truth: the node's own label).
-      expect(e.speaker).toBe(getNode(dest).label);
-    }
+    expect(s1.log.entries.some((e) => e.text === blurb)).toBe(false);
   });
 });

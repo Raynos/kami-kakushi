@@ -26,3 +26,7 @@ rebalance plan get written, and the zone section gets a FULL ADR-075 diverge
 - **FB-399** — `label-nameless` now latches BEFORE the sickroom scene's
   ask/decide say-lines are emitted (intents.ts), matching intro.md's flip
   comment; the end-of-scene latch was deleted (single source). New test.
+
+- **FB-406** — `move_to` no longer emits the arrival flavor line (ADR-116's
+  (b) half retired, struck in decisions.md); the Map tab's you-are-here card
+  stays the one home for the seasonal zone read. Render tests rewritten.

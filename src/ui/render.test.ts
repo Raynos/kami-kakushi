@@ -2165,10 +2165,12 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     // lines instead of `textContent=''` + rebuild. RED against the old rebuild — every idle tick
     // recreated the node (churn) and dropped its identity.
     const render = mount(root, () => {}, noopHooks());
-    let s = awake(['room-gate', 'room-paddies'], { location: 'forecourt' });
-    // a move emits an EPHEMERAL arrival line (the sole feed of the Now view). forecourt→paddies
-    // is a real one-step walk (gate is not adjacent to the paddy).
-    s = reduce(s, { type: 'move_to', to: 'paddies' });
+    // FB-406 retired the move-arrival line, so the ephemeral feed here is a REST
+    // (its result line is `ephemeral: true` — FB-53), which still feeds the Now view.
+    // verb-rest's fact is the `raked` flag, so set it the way the game does.
+    let s = awake([], { location: 'forecourt' });
+    s = { ...s, flags: { ...s.flags, raked: true } };
+    s = reduce(s, { type: 'rest' });
     render(s, null);
     // switch the log to the "Now" filter so the ephemeral line is stamped + painted.
     [...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab')]
@@ -2492,23 +2494,16 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     ).toBe(true);
   });
 
-  it("D-116 — a move's arrival flavor is a transient Now line, NOT a permanent Story line", () => {
-    const render = mount(root, () => {}, noopHooks());
+  it('FB-406 — a move emits NO log flavor at all; the zone read lives on the Map tab only', () => {
+    // Supersedes the D-116 arrival-line half: the human doesn't want zone reads floating
+    // through Now on every walk — the Map tab's you-are-here card is the ONE home (TST1).
     const dest = 'gate';
     // stand at the forecourt (adjacent to the gate) so the walk is a real one-step move.
     const s0 = awakeAt('forecourt', [getNode(dest).revealFlag!]);
     const moved = reduce(s0, { type: 'move_to', to: dest }); // walk to the gate
-    render(moved, s0);
-    const blurb = nodeSeasonalBlurb(getNode(dest), moved.season).text; // seasonal since C5a
-    const lines = root.querySelector<HTMLElement>('.log-lines')!;
-    // the default Story view holds only mandatory beats — the nav flavor is absent.
-    expect(lines.textContent ?? '').not.toContain(blurb);
-    // switch to the Now view → the fleeting arrival line surfaces there (and fades on its own).
-    [...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab')]
-      .find((b) => (b.textContent ?? '') === 'Now')
-      ?.click();
-    const nowLines = [...root.querySelectorAll<HTMLElement>('.log-lines .now-line')];
-    expect(nowLines.some((l) => (l.textContent ?? '').includes(blurb))).toBe(true);
+    const blurb = nodeSeasonalBlurb(getNode(dest), moved.season).text;
+    // no entry in ANY view carries the zone read — the emit is gone, not just re-routed.
+    expect(moved.log.entries.some((e) => e.text.includes(blurb))).toBe(false);
   });
 });
 

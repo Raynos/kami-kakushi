@@ -102,7 +102,7 @@ import {
   yoheiBuys,
   YOHEI_PURSE_MON,
 } from './content/market';
-import { canMove, getNode, nodeSeasonalBlurb } from './content/map';
+import { canMove, getNode } from './content/map';
 import { CONDITIONING_GATE_LEVEL } from './content/balance';
 import {
   getActivity,
@@ -1167,26 +1167,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // Walking away from a foe's node ends the auto-grind on it (Step 5b — foes are spatial, so
       // you can't keep auto-fighting a foe you've left behind). autoCombatRetreat is inert here.
       next = { ...next, location: intent.to, autoCombat: null };
-      // ADR-116 (resolves FB-114) — location/navigation flavor does NOT belong in the Story log. The
-      // STANDING "you are looking around" description lives on the Map node (the renderer reads
-      // `getNode(location).blurb`); the ARRIVAL line is a light TRANSIENT "Now" line that FADES.
-      // Emit it `ephemeral: true` → log-filter routes ephemeral entries to the `now` view ONLY and
-      // hides them from Story/All, so the Story log keeps only mandatory beats (no nav noise).
-      next = applyRewards(next, {
-        // C5a unit 5 — the arrival line breathes by season (nodeSeasonalBlurb; static
-        // blurb where no seasonal variant is authored). FB-344 — the zone's label rides
-        // as the line's SPEAKER, so the Now view reads "Gateyard: <the description>" and
-        // the player never guesses which zone a floated read describes (TST4).
-        log: [
-          {
-            channel: 'narration',
-            text: nodeSeasonalBlurb(dest, next.season).text,
-            voice: 'narrator',
-            speaker: dest.label,
-            ephemeral: true,
-          },
-        ],
-      });
+      // FB-406 (supersedes ADR-116's arrival-line half) — a move emits NO flavor at all:
+      // the human doesn't want zone reads floating through Now on every walk. The one home
+      // for the description (TST1) is the Map tab's you-are-here read, which already
+      // renders the same seasonal blurb (render.ts nodeSeasonalBlurb) — nothing is lost.
       // ADR-146 — arriving can stumble onto a hidden discovery (the seeded visit roll; a no-op
       // when this node has no visit-triggered discovery).
       next = discoveryPass(next, { kind: 'visit' });

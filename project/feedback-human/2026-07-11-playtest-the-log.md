@@ -62,3 +62,12 @@ as Nameless:") sits before the sickroom hub's asks/decide, but the
 say line still printed "You:".
 **Fixed in:** the latch moved ahead of the say-line emit in `ask_topic` +
 `choose_intro` (soan scene); new RED-able test in intro-flow.test.ts.
+
+### FB-406 · zone flavor out of the log, into the Map tab — ✅
+**Verbatim:** _"Ok all this flavor text that renders in Now when you navigate from one zone to the other zone, I dont want it. I want this to be in the zone description in the Map tab instead."_
+**Reading:** ADR-116's (b) half — the transient arrival line — is retired; the
+Map tab's you-are-here card already renders the same seasonal blurb, so the
+zone read keeps one home (TST1) and the C5a seasonal reads lose nothing.
+**Doc-update plan:** ADR-116 struck-and-pointed in decisions.md.
+**Fixed in:** move_to no longer emits; render tests rewritten (D-116 case now
+asserts NO emit; the D-123 Now-reconcile case feeds off a rest line).

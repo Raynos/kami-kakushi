@@ -1243,8 +1243,12 @@ design ADR.
 
 ## ADR-116 — 2026-07-02 location/navigation flavor routes to the Map node, not the Story log (resolves FB-114)
 
-### ADR-116 ✅ — Location flavor lives as the Map-node DESCRIPTION (standing, hint-carrying) + a transient "Now" line on move; the Story log holds only mandatory story beats
+### ADR-116 ✅ — Location flavor lives as the Map-node DESCRIPTION (standing, hint-carrying) + ~~a transient "Now" line on move~~; the Story log holds only mandatory story beats
 - **created_date:** 2026-07-02
+- **⤷ superseded in part (human, 2026-07-11 — FB-406):** the **(b) transient
+  "Now" arrival line is RETIRED** — a move now emits no flavor at all; the
+  Map-node description (a), which already renders the C5a seasonal read, is
+  the ONE home for the zone text (TST1). Half (a) and the Story-log rule stand.
 - **Context:** Navigation/location flavor (e.g. "The grain-store where you woke —
   dark, dry…", "The estate gate and its swept forecourt…") was being spammed into
   the **Story log** on every move — but it isn't story. **FB-114** flagged the
