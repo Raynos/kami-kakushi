@@ -433,13 +433,24 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   // painted) and roads read as internal lanes; R5/R6/R8 failed because the
   // nesting/shrinkage/stable story lived only in inference and DEV tooltips.
   // Fit-visible on purpose — the misses happen at fit zoom, never in .ms-fine.
+  // FB-396 — the `ms-sheet-note` class makes each note FOG-ATOMIC: paintReveal
+  // hides a note whose anchor is under fog and lifts the rest above it, so the
+  // mask never slices a sentence mid-glyph ("to the village — half a r…").
   for (const n of NOTES) {
     if (n.t1Only && tier === 'T0') continue;
-    inkText(art, n.x, n.y, n.text, { size: 14, color: 'var(--ink-soft)', opacity: 0.92 });
+    inkText(art, n.x, n.y, n.text, {
+      size: 14,
+      color: 'var(--ink-soft)',
+      opacity: 0.92,
+    }).classList.add('ms-sheet-note');
   }
   for (const n of SURVEY_NOTES) {
     if (n.t1Only && tier === 'T0') continue;
-    inkText(art, n.x, n.y, n.text, { size: 13, color: 'var(--ink-soft)', opacity: 0.85 });
+    inkText(art, n.x, n.y, n.text, {
+      size: 13,
+      color: 'var(--ink-soft)',
+      opacity: 0.85,
+    }).classList.add('ms-sheet-note');
   }
 
   // ── 6 · the old precinct — the RUIN (G4): footings, standing runs, fallen roofs ──

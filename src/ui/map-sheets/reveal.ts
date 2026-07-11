@@ -96,15 +96,6 @@ export const REVEAL: readonly RevealStage[] = [
   { rung: 7 },
 ];
 
-/** The sheet furniture never fogs — the family OWNS the document; the LAND is
- *  what's unfinished (frame-relative holes: north arrow · scale). The cartouche
- *  slip fogs WITH the land (FB-379 — the live sheet draws its own title above
- *  fog, so the art-level slip carried no information a fogged sheet needs). */
-const FURNITURE_HOLES: readonly (readonly [number, number, number, number])[] = [
-  [20, 20, 130, 230], // north arrow
-  [230, 1330, 340, 110], // scale bar
-];
-
 const poly = (pts: readonly Pt[]): string =>
   pts.map((p, i) => `${i ? 'L' : 'M'}${p[0]} ${p[1]}`).join(' ') + ' Z';
 
@@ -129,6 +120,10 @@ export function paintReveal(
   seals: SVGElement,
   stage: RevealStage | null,
 ): SVGGElement | null {
+  // FB-396 reset — every stage repaint re-evaluates every sheet note (the DEV
+  // previewer swaps stages in place; a note hidden by a prior stage must not
+  // stay hidden on a stage that reveals its ground).
+  for (const note of svg.querySelectorAll('.ms-sheet-note')) note.removeAttribute('visibility');
   if (!stage || (!stage.known && !stage.blobs)) return null;
   const fr = T0_WINDOW;
   const uid = `msr-${stage.rung}-${Math.abs(fr.x)}`;
@@ -149,17 +144,33 @@ export function paintReveal(
   }
   const fog = sv('g', { class: 'ms-reveal', filter: `url(#${uid})` }) as SVGGElement;
   art.after(fog);
+  // FB-390/391 — the family OWNS the document: the north arrow + scale bar read
+  // even on unsurveyed paper. They ride their own lift group (t0-sheet
+  // paintFurniture), raised ABOVE the fog — never a hole in it (a hole showed
+  // the world art beneath). Idempotent across stage repaints.
+  for (const lift of svg.querySelectorAll(':scope > g .ms-furn-lift, :scope > .ms-furn-lift'))
+    fog.after(lift);
+  // FB-396 — sheet notes are FOG-ATOMIC: a note anchored under the fog hides
+  // entirely (its tail must not poke out of the paper); one on surveyed ground
+  // lifts above the fog and reads WHOLE (the mask otherwise slices sentences
+  // mid-glyph — "to the village — half a r…").
+  for (const note of Array.from(svg.querySelectorAll('.ms-sheet-note'))) {
+    const nx = Number(note.getAttribute('x'));
+    const ny = Number(note.getAttribute('y'));
+    if (isFogged(stage, nx, ny)) note.setAttribute('visibility', 'hidden');
+    else fog.after(note);
+  }
 
   const paths: { d: string; rule: 'evenodd' | 'nonzero'; edge: readonly Pt[] }[] = [];
   if (stage.known) {
-    const holes = FURNITURE_HOLES.map(
-      ([hx, hy, hw, hh]) => `M${fr.x + hx} ${fr.y + hy} h${hw} v${hh} h${-hw} Z`,
-    ).join(' ');
     // FB-378/385 — the fog covers the WHOLE window, edge to edge (the old 20-unit
     // inset left an unfogged ring). Beyond-the-window world art can't leak at all
-    // since the t0-sheet window clip; off-sheet reads as off-sheet.
+    // since the t0-sheet window clip; off-sheet reads as off-sheet. FB-390/391 —
+    // NO furniture holes either: a hole showed the world art beneath the north
+    // arrow / scale bar (the corner leaks); the furniture LIFTS above the fog
+    // instead (the `.ms-furn-lift` re-append below).
     paths.push({
-      d: `M${fr.x} ${fr.y} H${fr.x + fr.w} V${fr.y + fr.h} H${fr.x} Z ${poly(stage.known)} ${holes}`,
+      d: `M${fr.x} ${fr.y} H${fr.x + fr.w} V${fr.y + fr.h} H${fr.x} Z ${poly(stage.known)}`,
       rule: 'evenodd',
       edge: stage.known,
     });

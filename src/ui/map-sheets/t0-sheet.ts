@@ -32,20 +32,28 @@ export function paintFurniture(art: SVGElement, frame: Frame, tier: Tier): void 
   const fg = sv('g', { transform: `translate(${frame.x} ${frame.y})` });
   sheetBorder(fg, frame.w, frame.h, { seed: `border-${tier}` });
   foldCreases(fg, frame.w, frame.h, { seed: `creases-${tier}` });
-  northArrow(fg, 84, 96, { seed: `north-${tier}` });
   cartouche(fg, frame.w - 112, 48, {
     seed: `cart-${tier}`,
     title: '黒沢家領内絵図・改',
     sub: CART_SUB[tier],
     gloss: CART_GLOSS[tier],
   });
+  // FB-390/391 — the north arrow + scale bar live in their own LIFT group: on a
+  // fogged sheet paintReveal raises this group ABOVE the fog (the old fog HOLES
+  // showed the world art beneath them — a corner leak). The cartouche stays in
+  // `fg`, fogging WITH the land (FB-379).
+  const lift = sv('g', {
+    class: 'ms-furn-lift',
+    transform: `translate(${frame.x} ${frame.y})`,
+  });
+  northArrow(lift, 84, 96, { seed: `north-${tier}` });
   // valley scale reads in 里 (a wider sheet); the estate sheets in 町
-  scaleBar(fg, 264, frame.h - 54, {
+  scaleBar(lift, 264, frame.h - 54, {
     seed: `scale-${tier}`,
     label: tier === 'T2' ? '一里' : '一町',
     ticks: 2,
   });
-  art.append(fg);
+  art.append(fg, lift);
 }
 
 /** Paint the T0 ground; returns seal-anchor refinements for the shell.
