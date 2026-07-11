@@ -48,6 +48,7 @@ import {
   isUnlocked,
 } from '../core';
 import { el, pct, HOUSE_ROOMS, ESTATE_STAGE_NAMES } from './render';
+import { findOrphanedIds, formatOrphanReport } from '../persistence';
 import { FIXTURES_SENTINEL } from '../fixtures';
 // ADR-139 story take-sets — imported ONLY here, so the registry rides this module's DEV fold.
 import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
@@ -2020,6 +2021,34 @@ export function mountDevPanel(
   // (The UI-v2 temp-toggle section lived here through the migration; RETIRED with
   // the human's PH5 certification, 2026-07-06 — attr palette locked 'temper'; the
   // open variant picks live in the Variants pane, not here.)
+
+  // ── Save health: the orphaned-id sensor (save-format plan, step 4) ─────────────────────
+  // Ids this save carries that src/ no longer defines — i.e. a content RENAME that needed a
+  // migration and didn't get one. Normally EMPTY, so it earns no tab of its own and no
+  // permanent real estate: it renders a single calm "matches src/" line when clean, and only
+  // when something IS orphaned does it list the ids and badge the Settings tab (the Balance-tab
+  // precedent) so it can't be missed by someone who isn't watching the console. TST4 — the dev
+  // never has to guess whether their rename broke an old save.
+  const saveHealth = section('Save health');
+  const orphanLine = el('div');
+  orphanLine.style.cssText =
+    'flex:1 1 100%;white-space:pre-wrap;font-size:11px;line-height:1.35;color:#9c8f7a;';
+  saveHealth.append(orphanLine);
+  const refreshOrphans = (): void => {
+    const report = findOrphanedIds(qa.state());
+    const bad = report.total > 0;
+    orphanLine.textContent = bad
+      ? `${report.total} orphaned id(s) — this save references content src/ no longer defines. ` +
+        `A rename needs a migration.\n${formatOrphanReport(report)}`
+      : 'No orphaned ids — this save matches src/.';
+    orphanLine.style.color = bad ? '#c8813f' : '#9c8f7a';
+    settingsTab.textContent = bad ? `Settings (${report.total}⚠)` : 'Settings';
+  };
+  refreshOrphans();
+  settingsTab.addEventListener('click', () => refreshOrphans());
+  setInterval(() => {
+    if (settingsPane.style.display !== 'none') refreshOrphans();
+  }, 1000);
 
   // teleports
   const jump = section('Jump');

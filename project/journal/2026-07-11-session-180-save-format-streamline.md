@@ -113,10 +113,42 @@ assertion and passes; it fails deep equality.
   assertions are untouched and still pass: they round-trip envelopes without a
   rebuild, so their key order IS stable.)
 
+### 5 · Step 4 — the orphaned-id sensor
+
+`findOrphanedIds(state)` (pure, in `src/persistence/orphans.ts`) diffs a loaded
+save's stored ids against the live registries — reveals, discoveries, dialogue,
+scenes, belongings, market purchases, site pools, quest ids AND quest STEP ids,
+rung requirements, the equipped weapon, the location. Each group carries the
+*consequence* of leaving it un-migrated, because "orphan: 3" tells a human nothing;
+"a done quest step reads as undone — the quest can never close" tells them why they
+care.
+
+Surfaced two ways: `console.info` on load in DEV (`main.ts`), and a **Save health**
+block in the DEV panel's Settings pane that badges the tab (`Settings (2⚠)`) only
+when something is actually orphaned — the Balance-tab precedent. Normally empty, so
+it earns no tab of its own and no permanent real estate.
+
+`flags` is excluded on purpose: free-form facts have no roster to diff against.
+
+Not a gate, per the ruling: a rename is a legitimate authoring act, so a red build
+would cry wolf, and the fix (a migration) belongs to the author.
+
+- `src/persistence/orphans.ts` + `orphans.test.ts` — NEW. 6 cases, incl. the nastiest
+  orphan (a renamed quest STEP: the quest still exists so nothing *looks* wrong, but
+  it can never complete) and the anti-cry-wolf case (live ids stay silent). A sensor
+  that always reports "all clear" is worse than no sensor, because it gets trusted.
+
+**Shared-tree note:** the `doc-budgets` gate went red mid-step on a co-agent's
+uncommitted `project-status.md`. Left it alone (don't fight someone else's red); they
+committed and it cleared on its own. All 18 gates green at commit.
+
 ## Next intended steps
 
-Steps 4 → 1 of the plan, in that order. Step 1 is the bulk and ends with a single
-coordinated `pnpm run fixtures:regen`.
+Step 1 — the log-descriptor migration (the bulk), ending with a single coordinated
+`pnpm run fixtures:regen`.
+
+Then the **addendum work the human handed over mid-session** (see the zone-derivation
+entry below, appended after step 1).
 
 ## Landmines
 

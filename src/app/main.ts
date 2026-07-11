@@ -28,7 +28,13 @@ import {
   type MobId,
   type StanceId,
 } from '../core';
-import { createBrowserSaveManager, type SaveManager, toBase64 } from '../persistence';
+import {
+  createBrowserSaveManager,
+  findOrphanedIds,
+  formatOrphanReport,
+  type SaveManager,
+  toBase64,
+} from '../persistence';
 import { getFixtures, getFixture } from '../fixtures';
 import { FIXTURE_GROUP_ORDER } from '../fixtures/specs';
 import { mount } from '../ui';
@@ -137,6 +143,24 @@ async function boot(): Promise<void> {
       note(root, 'We updated your saved game to the latest version of Kamikakushi.');
     } else if (loaded.coerced) {
       note(root, 'We mended a small problem in your saved game and carried on — nothing was lost.');
+    }
+    // ── orphaned-id sensor (save-format plan, step 4) — DEV only, zero prod cost ──────────
+    // This save may reference content ids that src/ has since RENAMED. Access and visibility
+    // re-derive from src/ on every load, so a rename does not corrupt the run — but the FACT
+    // the old id recorded is orphaned (a rung requirement never completes, a quest can never
+    // close), and nothing else would ever tell us. Print it the moment it happens. A sensor,
+    // not a gate: a rename is a legitimate authoring act whose fix (a migration) belongs to
+    // the author. The DEV panel carries the same report, badged, for anyone not watching the
+    // console.
+    if (import.meta.env.DEV) {
+      const orphans = findOrphanedIds(state);
+      if (orphans.total > 0) {
+        console.info(
+          `[save] ${orphans.total} orphaned id(s) — this save references content src/ no longer defines.\n` +
+            `${formatOrphanReport(orphans)}\n` +
+            `A rename needs a migration (src/persistence/README.md → "Schema growth: the three rungs").`,
+        );
+      }
     }
   } else {
     state = createInitialState(DEFAULT_SEED);

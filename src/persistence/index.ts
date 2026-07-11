@@ -23,6 +23,10 @@ export type { StorageBackend } from './backends';
 export type { SaveEnvelope } from './codec';
 export { exportBase64, importBase64, toBase64 } from './codec';
 export { migrate } from './migrate';
+// The orphaned-id sensor (DEV-only in practice — main.ts gates the call on import.meta.env.DEV,
+// so the prod bundle tree-shakes it; the DEV panel reads the same pure report).
+export { findOrphanedIds, formatOrphanReport } from './orphans';
+export type { OrphanReport, OrphanGroup } from './orphans';
 
 /** The real browser save manager: three redundant backends + the wall clock. */
 export function createBrowserSaveManager(overrides: Partial<SaveManagerOptions> = {}): SaveManager {
