@@ -346,6 +346,41 @@ blind takes):
     future rests; `?story-fb402-rest-open=a|b` boots into an alternate.
   - **Verdict:** _(awaiting your read)_
 
+### HR-32 🔲 [all rungs · zone] — the Zone do-panel (FB-410) — pick a variant (ADR-075)
+
+- **Zone do-panel** (the "What you can do" surface, FB-410 "needs some love and
+  redesign") — ✅ **all three LIVE in the DEV panel** ("VARIANT · Zone do-panel"),
+  or boot one with `?zone=zone-b|zone-c`:
+  - **Taste brief (pass 1):** P1 identity only — the placard/banner shows WHERE,
+    never the Map tab's standing description (FB-406) · P2 reuse the verb /
+    labour-row / auto-toggle / seal primitives · P4 the default patches in place;
+    variants sig-guard their rebuilds (idle ticks repaint nothing) · P5 fixed
+    frames — nothing resizes per tick · P6 an empty zone reads composed (placard
+    + noWork + FB-408 away rows) · P15 no destination hints · P19 chrome
+    register: tight and dense, no ceremony in the work fold · P20 the pane
+    scrolls internally.
+  - [ ] **A — zone placard** _(self-picked prod default; ships)_ — the node's
+    kanji seal + label as a thin identity rule above the classic verb groups.
+    - **Scorecard (A):** 20✔ · 0✘ · 1— (P21 n/a). Rubric 21/24 — Int 2 ·
+      Hier 3 (verb-first scan path holds) · Leg 3 · Fit 3 (smallest diff).
+  - [ ] **B — worktable ledger** _(built; DEV-only)_ — one dense ruled board;
+    every verb a uniform row with its area + numbers inline (the
+    yet-another-idle-rpg density touchstone).
+    - **Scorecard (B):** 18✔ · 2✘ · 1— — ✘ P2 [briefed] a new row-grid idiom
+      beside the labour-row primitive · ✘ P7/mobile [blind spot] the 3-column
+      grid squeezes at 390px. Rubric 14/24 — Int 2 · Hier 2 · Leg 1 · Fit 2.
+  - [ ] **C — ink-scene banner** _(built; DEV-only)_ — the place as hero: a big
+    kanji banner, then one calm full-width verb stack.
+    - **Scorecard (C):** 19✔ · 1✘ · 1— — ✘ P19 [briefed] ceremony register in
+      the work fold (the banner breathes where chrome should be tight). Rubric
+      16/24 — Int 2 · Hier 2 · Leg 3 · Fit 2.
+  - **Pick rationale:** A — highest rubric total; keeps the verb-first scan
+    path and the chrome register (P19) while fixing the actual FB-410 itch
+    (zones read anchored, sparse zones composed). B/C are honest alternates:
+    pick B if you want the numbers-forward board, C if you want the place-first
+    drama — both drive the real intents.
+  - **Verdict:** _(awaiting your toggle)_
+
 ### HR-29 🔲 [R2+ · works] — Works 普請 tab surface — pick a variant (ADR-075, estate Phase 2)
 
 The projects' new home (Schedule A). All three read the SAME estateBuild/works

@@ -62,3 +62,11 @@ rebalance plan get written, and the zone section gets a FULL ADR-075 diverge
   and the zone→rung rebalance ("too many zones in R1"; gate→R2,
   kitchen→R2, woodshed→R4-with-the-home proposed). Both Phase-0 gated on
   the human's pick.
+
+- **FB-410** — the Zone do-panel FULL diverge (ADR-075): A "zone placard"
+  ships inline (render.ts — node kanji + label above the verb groups, guarded
+  for off-map fixtures); B "worktable ledger" + C "ink-scene banner" live in
+  ui/dev.ts behind the SURFACES toggle (surface id `zone`), driving the real
+  intents with sig-guarded rebuilds. Routing tests in dev.test.ts; headless
+  shots of all three in tmp/drain-shots/FB-410-zone-*.png; HR-32 filed with
+  the Pass-1 brief + per-variant scorecards; DEV_SENTINEL strip-proof 0 hits.

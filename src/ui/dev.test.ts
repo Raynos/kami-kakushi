@@ -293,6 +293,71 @@ describe('renderer variant routing — Works 普請 + Estate 家 (ADR-177 Phase 
   });
 });
 
+// FB-410 (ADR-075) — the ZONE do-panel diverge. A (zone placard over the classic groups)
+// ships inline in render.ts; B (worktable ledger) / C (ink-scene banner) live DEV-only.
+// Every variant re-presents the SAME core reads and drives the REAL intents (rest here).
+describe('renderer variant routing — Zone do-panel (FB-410, D-075)', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  /** Awake at the forecourt with rest revealed (raked) — the smallest real zone surface. */
+  function zoneState(): GameState {
+    const base = createInitialState(1);
+    return { ...base, flags: { ...base.flags, awake: true, raked: true } };
+  }
+
+  it('renders default A with the zone placard (no DEV harness = prod)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(zoneState(), null);
+    const placard = root.querySelector<HTMLElement>('.zone-placard');
+    expect(placard).not.toBeNull();
+    expect(placard!.hidden).toBe(false);
+    expect(placard!.textContent).toContain('The forecourt'); // where you stand (TST4)
+    expect(root.querySelector('.zone-ledger')).toBeNull();
+    expect(root.querySelector('.zone-banner')).toBeNull();
+  });
+
+  it('routes to zone-b (worktable ledger) — the classic groups are replaced', () => {
+    const dev = createDevApi();
+    dev.setVariant('zone', 'zone-b');
+    const render = mount(root, () => {}, noopHooks(), dev);
+    render(zoneState(), null);
+    expect(root.querySelector('.zone-ledger')).not.toBeNull();
+    const actions = root.querySelector<HTMLElement>('.actions')!;
+    expect(actions.hidden).toBe(true); // the default half hides under the variant
+  });
+
+  it('routes to zone-c (ink-scene banner) and its rest button drives the REAL intent', () => {
+    const dev = createDevApi();
+    dev.setVariant('zone', 'zone-c');
+    const seen: Intent[] = [];
+    const render = mount(root, (i) => seen.push(i), noopHooks(), dev);
+    render(zoneState(), null);
+    expect(root.querySelector('.zone-banner')).not.toBeNull();
+    const rest = [...root.querySelectorAll<HTMLButtonElement>('.zone-banner .verb')].find((b) =>
+      (b.textContent ?? '').includes('Rest'),
+    );
+    expect(rest).toBeTruthy();
+    rest!.click();
+    expect(seen.some((i) => i.type === 'rest')).toBe(true); // every variant WORKS (ADR-075)
+  });
+});
+
 describe('renderer variant routing — Bestiary (D-075, A7)', () => {
   let root: HTMLElement;
   beforeEach(() => {

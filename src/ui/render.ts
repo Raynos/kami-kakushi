@@ -53,6 +53,7 @@ import {
   staminaRate,
   season,
   nodeSeasonalBlurb,
+  MAP_NODE_IDS,
   dayOfWeek,
   DAY_OF_WEEK_NAMES,
   currentRank,
@@ -967,6 +968,20 @@ export function mount(
   logSection.append(logFilterBar);
 
   const work = el('section', 'work');
+  // FB-410 A — the ZONE PLACARD: the Zone tab opens with WHERE you are (the node's
+  // kanji seal + label), so even a sparse zone reads anchored (TST4 — the player
+  // never guesses which ground the verbs belong to). Identity ONLY — the standing
+  // description keeps its one home on the Map tab (TST1, FB-406).
+  const zonePlacard = el('div', 'zone-placard');
+  const zoneSeal = el('span', 'zone-seal');
+  zoneSeal.lang = 'ja';
+  const zoneName = el('span', 'zone-name');
+  zonePlacard.append(zoneSeal, zoneName);
+  zonePlacard.hidden = true;
+  // FB-410 B/C — the diverged zone do-panel variants render into this host (DEV-only;
+  // dev.renderVariant('zone', …) — prod always draws the inline default).
+  const zoneHost = el('div', 'zone-variant-host');
+  zoneHost.hidden = true;
   const workHead = el('h2', undefined, 'What you can do');
   const estatePane = el('div', 'estate-pane');
   // ADR-177 Schedule A — the Works 普請 pane (the projects/upgrades home; split out of Estate 家).
@@ -1177,7 +1192,9 @@ export function mount(
   // re-homes are Map/Inventory/Estate — self-gated, FB-100-style). Phase B (deferred) gives each tab
   // its own container section.
   sliceDo.append(
+    zonePlacard,
     workHead,
+    zoneHost,
     actions,
     whosPane,
     characterBody,
@@ -3065,8 +3082,27 @@ export function mount(
   }
 
   function renderActions(state: GameState): void {
-    toggle(actions, activeTab === 'work');
-    if (activeTab !== 'work') return;
+    const onZone = activeTab === 'work';
+    // FB-410 A — the zone placard: patch the current node's seal + label in place.
+    // (Guarded lookup — some test fixtures stand on non-map ground; the placard just hides.)
+    const here = MAP_NODE_IDS.has(state.location) ? getNode(state.location) : null;
+    if (here) {
+      if (zoneSeal.textContent !== (here.kanji ?? '')) setText(zoneSeal, here.kanji ?? '');
+      toggle(zoneSeal, Boolean(here.kanji));
+      if (zoneName.textContent !== here.label) setText(zoneName, here.label);
+    }
+    toggle(zonePlacard, onZone && here !== null && hasFlag(state, 'awake'));
+    // FB-410 B/C — DEV variant fall-through (ADR-075): when a zone variant is selected
+    // it takes over the ACTIONS half (the placard + who's-here keep their own homes).
+    const variantActive =
+      __DEV_TOOLS__ && dev ? dev.renderVariant('zone', zoneHost, state, dispatch) : false;
+    toggle(zoneHost, onZone && variantActive);
+    toggle(actions, onZone && !variantActive);
+    // a zone variant owns its heading + identity chrome (FB-410) — the default h2 and
+    // the placard hide under it so the surface never shows two heads.
+    workHead.hidden = !onZone || variantActive;
+    if (variantActive) toggle(zonePlacard, false);
+    if (!onZone || variantActive) return;
 
     // (the interactive intro no longer renders here — while it's live the shell is hidden and the
     // full-screen VN scene owns the screen; render() returns before renderActions is ever reached.)
@@ -6224,7 +6260,6 @@ export function mount(
     // (FB-222 — also runs in the VN-active branch above, so intro arrivals count as unread.)
     seedLogSeenOnce(state);
     refreshLogTabs(state); // FB-20 — repaint per-tab unread dots
-    workHead.hidden = activeTab !== 'work';
     renderWorks(state);
     renderEstate(state);
     renderWhosHere(state); // FB-332 — before renderMarket: it settles openPersonId for the wares gate

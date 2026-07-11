@@ -68,10 +68,25 @@ import {
   stageDiscovery,
   getNode,
   ESTATE_STAGES,
+  availableLabours,
+  availableActions,
+  activityForecast,
+  restRefill,
+  restQuality,
+  canAffordAct,
+  rakeExhausted,
+  OUT_OF_STRENGTH_REASON,
+  isWaged,
+  DAY_WAGE_MON,
+  canWorkProject,
+  hasFlag,
+  AREAS,
+  type ActivityId,
 } from '../core';
 import type { RungScene } from '../core/content/rungBeats';
 import type { DialogueScene } from '../core/content/intro';
-import { COLD_OPEN } from '../core/content/coldOpen';
+import { COLD_OPEN, RAKE_DONE_REASON } from '../core/content/coldOpen';
+import { actionKey } from '../app/action-clock';
 import { FLAVOR } from '../core/content/flavor';
 import { mountBalanceCockpit, type BalanceCockpit } from './dev-cockpit';
 import { mountRequirementsCheatlist } from './dev-cheatlist';
@@ -110,6 +125,29 @@ export interface SurfaceDef {
 /** The registry of diverged surfaces + their variants — the single source the panel toggle
  *  and the renderer both read. Grows as Step 2 adds craft / market / quests. */
 export const SURFACES: SurfaceDef[] = [
+  {
+    id: 'zone',
+    rung: 0,
+    label: 'Zone do-panel',
+    variants: [
+      {
+        id: 'zone-a',
+        label: 'A · zone placard',
+        blurb:
+          'The inline default: a where-you-stand placard over the classic verb groups (ships).',
+      },
+      {
+        id: 'zone-b',
+        label: 'B · worktable ledger',
+        blurb: 'One dense ruled board — every verb a uniform row with its numbers inline.',
+      },
+      {
+        id: 'zone-c',
+        label: 'C · ink-scene banner',
+        blurb: 'The place as hero — a kanji banner, then one calm full-width verb stack.',
+      },
+    ],
+  },
   {
     id: 'influence',
     rung: 3,
@@ -584,6 +622,7 @@ function renderSurfaceVariant(
   state: GameState,
   dispatch: (intent: Intent) => void,
 ): boolean {
+  if (surface === 'zone') return renderZoneVariant(variantId, container, state, dispatch);
   if (surface === 'influence') return renderInfluenceGrade(variantId, container, state);
   if (surface === 'craft') return renderCraftVariant(variantId, container, state);
   if (surface === 'market') return renderMarketVariant(variantId, container, state, dispatch);
@@ -593,6 +632,258 @@ function renderSurfaceVariant(
   if (surface === 'works') return renderWorksVariant(variantId, container, state, dispatch);
   if (surface === 'estate-house') return renderEstateHouseVariant(variantId, container, state);
   return false;
+}
+
+/** FB-410 (ADR-075) — the diverged ZONE do-panel (B · worktable ledger / C · ink-scene
+ *  banner). DEV-only; the default A (zone placard over the classic groups) ships inline in
+ *  render.ts. Both alternates re-present the SAME core reads (availableActions /
+ *  availableLabours / the place-strip predicates) and drive the REAL intents — every
+ *  variant works (ADR-075). Buttons are stamped with the clock's actionKey so the global
+ *  paintActionClock sweep gives them the lock + progress bar for free. Rebuilds are
+ *  signature-guarded: the pane only re-renders when a value it shows changed (an idle
+ *  tick repaints nothing — TST2 holds even under the DEV toggle). */
+function renderZoneVariant(
+  variantId: string,
+  container: HTMLElement,
+  state: GameState,
+  dispatch: (intent: Intent) => void,
+): boolean {
+  if (variantId !== 'zone-b' && variantId !== 'zone-c') return false;
+  const here = getNode(state.location);
+  const labours = availableLabours(state);
+  const metas = availableActions(state).filter((a) => a !== 'open_eyes');
+  const roundLive = state.roundState !== null;
+  const nightPending =
+    hasFlag(state, 'rank-r3') && !hasFlag(state, 'wolf-survived-not-won') && !roundLive;
+  const atGate = state.location === 'gate';
+  const waged = isWaged(state.rung);
+  const owed = state.wageDaysAccrued;
+  const canWork = canWorkProject(state);
+  const workDef = canWork
+    ? ESTATE_STAGES.find((d) => d.stage === state.estateCommission)
+    : undefined;
+  const exhausted = rakeExhausted(state);
+  const affordable = canAffordAct(state);
+  const sig = [
+    variantId,
+    state.location,
+    state.rung,
+    metas.join(','),
+    labours.map((o) => `${o.activity.id}:${o.available ? 1 : 0}`).join(','),
+    Math.round(restRefill(state)),
+    String(state.autoRake),
+    String(state.autoActivity),
+    roundLive ? `live:${state.roundState!.stage}` : nightPending && atGate ? 'night' : '',
+    waged ? `wage:${owed}` : '',
+    canWork ? `works:${state.estateWorkDone}` : '',
+    exhausted ? 'rx' : affordable ? '' : 'poor',
+  ].join('|');
+  if (container.dataset.zoneSig === sig) return true;
+  container.dataset.zoneSig = sig;
+  container.textContent = '';
+
+  const verb = (
+    label: string,
+    title: string,
+    onClick: () => void,
+    opts: { primary?: boolean; disabled?: boolean; act?: Parameters<typeof actionKey> } = {},
+  ): HTMLButtonElement => {
+    const b = el('button', opts.primary ? 'verb primary' : 'verb', label) as HTMLButtonElement;
+    b.type = 'button';
+    b.title = title;
+    if (opts.disabled) b.disabled = true;
+    if (opts.act) b.dataset.actKey = actionKey(...opts.act);
+    b.addEventListener('click', onClick);
+    return b;
+  };
+  const autoToggle = (activityId: ActivityId | null): HTMLButtonElement => {
+    // activityId === null ⇒ the rake's auto (set_auto_rake); else the labour auto (set_auto).
+    const on = activityId === null ? state.autoRake : state.autoActivity === activityId;
+    const b = el('button', `auto-toggle${on ? ' on' : ''}`, on ? '■ stop' : '▶ auto');
+    b.type = 'button';
+    b.setAttribute('aria-pressed', String(on));
+    b.addEventListener('click', () =>
+      dispatch(
+        activityId === null
+          ? { type: 'set_auto_rake', on: !on }
+          : { type: 'set_auto', activityId: on ? null : activityId },
+      ),
+    );
+    return b;
+  };
+  const labourTitle = (o: (typeof labours)[number]): string => {
+    const f = activityForecast(state, o.activity);
+    const gains = Object.entries(f.gained)
+      .map(([res, n]) => `+${n} ${res === 'rice' ? 'shō (kura)' : res}`)
+      .join(' · ');
+    return `${gains ? `${gains} · ` : ''}+${f.xp} ${o.activity.skill} xp · −${o.activity.satietyCost} body`;
+  };
+  const restTitle = (): string => {
+    const hungry = restQuality(state) < 0.99;
+    return `+${restRefill(state)} body — a free breather${hungry ? ' (poor on an empty belly)' : ''}.`;
+  };
+
+  // ── the shared row model: [button, auto?, areaLabel, numbers] per affordance ──
+  interface Row {
+    btn: HTMLButtonElement;
+    auto?: HTMLButtonElement | undefined;
+    area: string;
+    nums: string;
+  }
+  const rows: Row[] = [];
+  for (const a of metas) {
+    if (a === 'rake_rice') {
+      rows.push({
+        btn: verb(
+          'Rake the spilled rice',
+          exhausted
+            ? RAKE_DONE_REASON
+            : affordable
+              ? `+${balance.RICE_PER_RAKE} shō (kura) · −${balance.SATIETY_PER_ACT} body`
+              : OUT_OF_STRENGTH_REASON,
+          () => dispatch({ type: 'rake_rice' }),
+          { disabled: exhausted || !affordable, act: ['rake_rice', undefined] },
+        ),
+        auto: exhausted ? undefined : autoToggle(null),
+        area: here.label,
+        nums: `+${balance.RICE_PER_RAKE} shō`,
+      });
+    } else if (a === 'rest') {
+      rows.push({
+        btn: verb('Rest a moment', restTitle(), () => dispatch({ type: 'rest' }), {
+          act: ['rest', undefined],
+        }),
+        area: '—',
+        nums: `+${restRefill(state)} body`,
+      });
+    }
+  }
+  if (nightPending && atGate) {
+    rows.push({
+      btn: verb(
+        '🏮 Post the night watch 夜廻',
+        'Stand the grain-watch through the night stages — it can end in a fight.',
+        () =>
+          dispatch({
+            type: 'begin_night_round',
+            roundId: hasFlag(state, 'wolf-survived-not-won') ? 'grain-watch' : 'first-night-round',
+          }),
+        { primary: true },
+      ),
+      area: here.label,
+      nums: 'night',
+    });
+  }
+  if (waged) {
+    rows.push({
+      btn: verb(
+        owed > 0
+          ? `Collect your wage 給 (${owed * DAY_WAGE_MON} mon)`
+          : 'Wage board 給 — nothing owed',
+        'The day-book accrues your wage 給 by the worked day — collect what stands owed.',
+        () => dispatch({ type: 'collect_wage' }),
+        { disabled: owed <= 0 },
+      ),
+      area: '—',
+      nums: owed > 0 ? `${owed * DAY_WAGE_MON} mon` : '0',
+    });
+  }
+  if (canWork && workDef) {
+    rows.push({
+      btn: verb(
+        `Work the repairs 普請 (${state.estateWorkDone} / ${workDef.workActs})`,
+        `One act of the commissioned work — ${stageLabel(workDef)}.`,
+        () => dispatch({ type: 'work_project' }),
+        {
+          primary: true,
+          disabled: state.character.satiety < balance.WORKS_ACT_SATIETY,
+          act: ['work_project', undefined],
+        },
+      ),
+      area: here.label,
+      nums: `${state.estateWorkDone}/${workDef.workActs}`,
+    });
+  }
+  for (const o of labours) {
+    rows.push({
+      btn: verb(
+        o.activity.label,
+        labourTitle(o),
+        () => dispatch({ type: 'do_activity', activityId: o.activity.id }),
+        { disabled: !o.available, act: ['do_activity', { activityId: o.activity.id }] },
+      ),
+      auto: autoToggle(o.activity.id),
+      area: areaLabelOf(o.activity.area),
+      nums: (() => {
+        const f = activityForecast(state, o.activity);
+        const first = Object.entries(f.gained)[0];
+        return first ? `+${first[1]} ${first[0] === 'rice' ? 'shō' : first[0]}` : `+${f.xp} xp`;
+      })(),
+    });
+  }
+
+  if (variantId === 'zone-b') {
+    // ── B · worktable ledger: one dense ruled board, uniform rows, numbers inline ──
+    const board = el('div', 'zone-ledger');
+    const head = el('div', 'zl-head');
+    const seal = el('span', 'zone-seal', here.kanji ?? '場');
+    seal.lang = 'ja';
+    head.append(seal, el('span', undefined, here.label), el('span', 'zl-area', 'what you can do'));
+    board.append(head);
+    if (rows.length === 0) {
+      const empty = el('div', 'zl-row');
+      empty.append(
+        el(
+          'span',
+          'area-blurb',
+          'No work to be had where you stand — open the Map 地図 tab to walk on.',
+        ),
+      );
+      board.append(empty);
+    }
+    for (const r of rows) {
+      const rowEl = el('div', 'zl-row');
+      const cell = el('div', 'zb-rowline');
+      cell.append(r.btn);
+      if (r.auto) cell.append(r.auto);
+      rowEl.append(cell, el('span', 'zl-area', r.area), el('span', 'zl-num', r.nums));
+      board.append(rowEl);
+    }
+    container.append(board);
+    return true;
+  }
+
+  // ── C · ink-scene banner: the place as hero, then one calm full-width stack ──
+  const pane = el('div', 'zone-banner');
+  const head = el('div', 'zb-head');
+  const kanji = el('span', 'zb-kanji', here.kanji ?? '場');
+  kanji.lang = 'ja';
+  const nameCol = el('div');
+  nameCol.append(el('div', 'zb-name', here.label));
+  nameCol.append(el('p', 'zb-kicker', 'what you can do here'));
+  head.append(kanji, nameCol);
+  pane.append(head);
+  if (rows.length === 0) {
+    pane.append(
+      el(
+        'p',
+        'area-blurb',
+        'No work to be had where you stand — open the Map 地図 tab to walk on.',
+      ),
+    );
+  }
+  for (const r of rows) {
+    const line = el('div', 'zb-rowline');
+    line.append(r.btn);
+    if (r.auto) line.append(r.auto);
+    pane.append(line);
+  }
+  container.append(pane);
+  return true;
+}
+/** The area label for a labour row (the ledger's middle column). */
+function areaLabelOf(id: string): string {
+  return AREAS.find((a) => a.id === id)?.label ?? id;
 }
 
 /** The diverged Works 普請 (B / C) — DEV-only, stripped from prod. Default A (the day-book
