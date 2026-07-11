@@ -69,7 +69,7 @@ got here" log is [`../../project/journal/`](../../project/journal).
 <!-- gen:begin active-plans (pnpm run checkpoint — do not edit inside) -->
 **5 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
-- [`fable-2026-07-11-prd-rungmeter-textsync.md`](fable-2026-07-11-prd-rungmeter-textsync.md) — PROPOSED
+- [`fable-2026-07-11-prd-rungmeter-textsync.md`](fable-2026-07-11-prd-rungmeter-textsync.md) — IN-PROGRESS
 - [`fable-2026-07-11-save-format-streamline.md`](fable-2026-07-11-save-format-streamline.md) — PROPOSED
 - [`fable-2026-07-11-t0-narrative-revoice.md`](fable-2026-07-11-t0-narrative-revoice.md) — PROPOSED
 - [`fable-2026-07-11-wait-a-day.md`](fable-2026-07-11-wait-a-day.md) — PROPOSED

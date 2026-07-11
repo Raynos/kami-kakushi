@@ -279,12 +279,14 @@ that list is hand-maintained, and no gate can soundly know a rename happened (au
 ### ADR-023 ✅ — Sequential per-tier progression — Phase 1 (climb rungs) then Phase 2 (estate-influence/pillar grind); pillar DEEDS gated to Phase 2
 - **created_date:** 2026-06-26
 - **Driven by:** FU7, FU11, Q30, Q7. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **ADR-022**.
-### ADR-024 ✅ — The rung-meter accrual law — numeric per-rung-reset meter, threshold = ≥30-min floor × eligible curated-activity rate, AND-gated with story milestones
+### ADR-024 ⛔ SUPERSEDED — The rung-meter accrual law — numeric per-rung-reset meter, threshold = ≥30-min floor × eligible curated-activity rate, AND-gated with story milestones
 - **created_date:** 2026-06-26
 - **Driven by:** FU6, Q30, Q28. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **ADR-022**.
+- **⛔ SUPERSEDED (2026-07-11) by [ADR-182](#adr-182--canon-the-requirements-model-is-the-progression-model-at-every-tier-the-flat-points-rung-meter-is-dead-extends-adr-137)** — via **ADR-137**, extended to all tiers. The flat-points accrual, the threshold table, and the meter-AND-story gate are dead everywhere; a rung promotes when its authored list of objective criteria is 100% done.
 ### ADR-025 ✅ — Three clean combat tracks de-conflated — character level←combat-XP (HP/attr/satietyMax), Arms pillar←recognised deeds, Combat Rank meter←per-rung curated activities; one defined combat-level curve + per-mob MobDef.level
 - **created_date:** 2026-06-26
 - **Driven by:** FU14, Q1, Q47, FU15, FU5. Recorded for PRD V2; supersedes any conflicting earlier ADR/lock per **ADR-022**.
+- **🔁 PARTLY SUPERSEDED (2026-07-11) by [ADR-182](#adr-182--canon-the-requirements-model-is-the-progression-model-at-every-tier-the-flat-points-rung-meter-is-dead-extends-adr-137)** — the **three-track de-confliction stands**; only the third track's *mechanism* changes: "Combat Rank **meter** ← per-rung curated activities" becomes **Combat Rank ← that rung's authored list of objective criteria** (ADR-137's requirements model, all tiers). Character-level←combat-XP and Arms←deeds are untouched.
 ### ADR-026 ✅ — Incremental combat + growing weapon roster + combat-reveal ladder — T0 starts with exactly ONE weapon; +2/+3/+4 per tier (~9-10); R3→R4→R5→weapon-L10→2nd line T1/3rd T2, one reveal per beat
 
 > 🔁 **Stale tier vocab (ADR-048):** the weapon-roster / reveal cadence is keyed to the old 3-tier v1 — re-map onto
@@ -3332,3 +3334,36 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
 - **Consequences:** Landed in `4bb513eb`; §6's `content/ranks.ts` catalogue
   row documents the field. Future rungs (and T1+ ladders) reuse the same
   declarative field rather than growing bespoke post-beat scripting.
+
+### ADR-182 ✅ — canon: the requirements model is the progression model at EVERY tier; the flat-points rung-meter is dead (extends ADR-137)
+
+- **created_date:** 2026-07-11
+- **Context:** session-179's `/prd-ripple` synced §6 to ADR-137, but ~105 lines
+  across six PRD sections still described the OLD model — a flat per-rung-reset
+  points meter, a threshold table, and an AND-gate with story flags. §4 and §6
+  had been hand-annotated to read "T1+ frontier", implying the meter survived as
+  the T1/T2 plan, while **ADR-024** ("the rung-meter accrual law") still stood
+  unsuperseded on paper. The build said otherwise: nothing but a tombstone
+  remains (`state.ts:200` — "SCHEMA_VERSION 8 replaces `rungMeter`"). Surfaced to
+  the human as an intent-level question before the text-sync sweep could run.
+- **Decision (human, 2026-07-11):** *"rung meters are no longer flat points, they
+  are always objective and criteria based that are unique per rung, and can be as
+  many or as few as needed."* The **ADR-137 requirements model is the progression
+  model at EVERY tier**, not just T0. A "rung meter" survives as the NAME of the
+  player-facing rounded % bar — but what it measures is that rung's authored list
+  of **objective criteria** (counts, predicates, or story beats; as many or as few
+  as the rung needs), never points accrued against a threshold. The flat-points
+  accrual, the per-rung threshold table, and the meter-AND-story gate are dead at
+  **all** tiers.
+- **Consequences:** **SUPERSEDES ADR-024** (the accrual law) and the meter clause
+  of **ADR-025** (Combat Rank becomes a criteria list, not a curated-activity
+  meter) — both annotated in place, never deleted (ADR-022). The PRD is
+  **REWRITTEN, not struck** (human, same ruling: *"I have no idea why we would
+  strike stuff, the PRD is a living document, git history exists"*) — §§1/2/3/4/6/7
+  describe ONE progression model. §4.1.1's accrual law is rewritten as the
+  requirements model; §6's `GameState` meter fields (`estateService` /
+  `combatRank`) go — they exist nowhere in code and never will. `prd-drift.ts`
+  retires the dead vocabulary (`rungMeter`, `thresholdForRung`, AND-gate,
+  `RUNG_POINTS_PER_ACT`) — sound now that no frontier prose survives for it to cry
+  wolf on (AC-11); the bare phrase "rung meter" stays legal.
+- **Plan:** [`docs/plans/fable-2026-07-11-prd-rungmeter-textsync.md`](../plans/fable-2026-07-11-prd-rungmeter-textsync.md).

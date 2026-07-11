@@ -1,10 +1,44 @@
-# Sync the PRD's rung-meter prose to the shipped ADR-137 requirements model
+# Rewrite the PRD's rung-meter prose to the ADR-137 requirements model
 
-**Status:** 📋 PROPOSED (2026-07-11, session-179)
-**Confidence:** ( 20% Opus, 80% Fable ) — the per-hit frontier-vs-shipped
-classification is canon judgment; the rewording itself is mechanical once
-classified.
+**Status:** 🔧 IN PROGRESS (2026-07-11, session-180) — **rescoped by ADR-182**
+**Confidence:** ( 90% Opus, 10% Fable ) — the judgment this plan reserved for
+Fable (per-hit frontier-vs-shipped classification) was **ruled by the human**
+(ADR-182): the requirements model is the progression model at EVERY tier, so
+there is no frontier bucket to adjudicate. What remains is a mechanical rewrite
+against one known-correct model.
 **Template:** ops
+
+## ⚠ Rescope (human ruling, 2026-07-11 — ADR-182)
+
+The plan below was written assuming the rung-meter survived as **T1+ frontier
+intent**, making each hit a judgment call. The human ruled otherwise:
+
+> *"rung meters are no longer flat points, they are always objective and
+> criteria based that are unique per rung, and can be as many or as few as
+> needed."*
+
+> *"I have no idea why we would strike stuff, the PRD is a living document, git
+> history exists. We rewrite the PRD to reflect the current live plan."*
+
+Three consequences, which override the corresponding steps below:
+
+1. **No frontier bucket.** Every hit describing flat-points accrual, a threshold
+   table, or the meter-AND-story gate is **drift at every tier** — rewrite it.
+   The classification step collapses to a find-and-rewrite worklist.
+2. **Rewrite in place; NO strikethroughs.** The PRD reflects the live plan; git
+   carries the history. (The `decisions.md` ADR log keeps its
+   annotate-don't-delete rule — that's the lossless record.)
+3. **Step 4 inverts.** Adding the dead vocabulary to `prd-drift.ts`'s RETIRED
+   terms was rejected only because surviving frontier prose would cry wolf. No
+   such prose survives, so the gate is now the sound rung (AC-11) and the teeth
+   go IN. Retire `rungMeter`, `thresholdForRung`, `RUNG_POINTS_PER_ACT`, and the
+   AND-gate phrasing — **not** the bare phrase "rung meter", which stays legal as
+   the name of the player-facing % bar.
+
+Measured scope (re-grepped 2026-07-11, HEAD): **105 hits** across six section
+files — 01-vision (16) · 02-systems (27) · 03-unlock-ladder (19) ·
+04-combat-balance (20) · 06-tech-architecture (12) · 07-roadmap-scope (11).
+(The survey below said ~90 / §6 said 7; both undercounted.)
 
 ## Goal
 
