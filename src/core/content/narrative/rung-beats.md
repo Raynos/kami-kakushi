@@ -112,7 +112,7 @@ flags: r1-asked-owing
 speaker: kihei
 voice: arms
 motivates: tab-combat, panel-drill-yard, readout-combat-level, panel-bestiary,
-  panel-house-influence, room-kura, room-weir-reeds
+  room-kura, room-weir-reeds
 
 > Dawn comes grey through the kura door. The blood on the sill has dried black,
 > and most of it is yours. Inside, the rice sits in its rows, untouched, exactly
@@ -200,7 +200,8 @@ flags: r3-mend
 ## rung R4 · rung-r4
 speaker: kihei
 voice: arms
-motivates: readout-durability, panel-equipment, verb-repair, house-omoya, room-drill-yard
+motivates: readout-durability, panel-equipment, verb-repair, house-omoya,
+  room-drill-yard, tab-inventory
 
 > Sōan strapped the ribs for walking. Not for work. It is thirty paces from
 > the sickroom door to the board. You count them.
@@ -317,7 +318,7 @@ flags: r4-not-carried
 ## rung R6 · rung-r6
 speaker: genemon
 voice: steward
-motivates: house-workshops, house-granary
+motivates: house-workshops, house-granary, tab-estate, panel-house-influence
 
 <!-- u6-c, redlined: "Everything walks downhill but the rain." cut from
   r6-ford-news; the `You:` count restored to the player form (FB-198). The count-back

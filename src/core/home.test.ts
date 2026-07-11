@@ -61,11 +61,11 @@ function preHome(): GameState {
 const restLineOf = (s: GameState): string =>
   s.log.entries.filter((e) => e.channel === 'system').at(-1)?.text ?? '';
 
-describe('T0-A — the home is GRANTED at R3 (moved from R1; the reveal wiring, not a hand-set fixture)', () => {
-  it('R1 does NOT reveal the home; combat opening (R3, tab-combat) does — with the mat + bowl real', () => {
-    // ADR-111's "home at R1" timing was moved to R3 (human, 2026-07-03): the home/belongings pane lives
-    // in the Inventory tab, which staggers to R3 (ADR-119), so the home is announced exactly when its
-    // tab appears — no reveal promising a space with no tab to open. Gated on the SAME `tab-combat`.
+describe('T0-A — the home is GRANTED at R4 (ADR-177 — the reveal wiring, not a hand-set fixture)', () => {
+  it('R1 does NOT reveal the home; the Inventory tab opening (R4, tab-inventory) does — with the mat + bowl real', () => {
+    // ADR-111's "home at R1" timing moved to R3 (2026-07-03), then to R4 with Schedule A
+    // (ADR-177): the home/belongings pane lives in the Inventory tab (now its own R4 rung),
+    // so the home is announced exactly when its tab appears. Gated on the SAME `tab-inventory`.
     let s = setFlag(createInitialState(1), 'awake', true);
     expect(isUnlocked(s, 'panel-home')).toBe(false); // no home yet
     expect(ownsBelonging(s, 'bowl')).toBe(false);
@@ -73,8 +73,8 @@ describe('T0-A — the home is GRANTED at R3 (moved from R1; the reveal wiring, 
     s = revealPass(setFlag(s, 'rank-r1', true));
     expect(isUnlocked(s, 'panel-home')).toBe(false);
     expect(ownsBelonging(s, 'bowl')).toBe(false);
-    // combat opening (tab-combat, R3) reveals the home the instant its Inventory tab appears.
-    s = revealPass({ ...s, unlocked: [...s.unlocked, 'tab-combat'] });
+    // the Inventory tab opening (tab-inventory, R4) reveals the home the instant its tab appears.
+    s = revealPass({ ...s, unlocked: [...s.unlocked, 'tab-inventory'] });
     expect(isUnlocked(s, 'panel-home')).toBe(true);
     expect(ownsBelonging(s, 'bowl')).toBe(true); // "a dry corner and a bowl" — cashed
     // the reveal fires "a place here is yours" into the log (dialogue.ts:81 made mechanical).

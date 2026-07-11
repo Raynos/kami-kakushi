@@ -67,15 +67,15 @@ function noopHooks(): AppHooks {
 
 /** A Phase-2 state with the live House-Influence pillar — phaseOf===2 needs R7 + t0-capstone
  *  (ranks.ts). IA reorg (ADR-112 §8.3): the koku panel MOVED from Work to the Estate 家 tab, so it
- *  shows once `panel-house-influence` is unlocked AND the Estate tab is active. `panel-estate` (an
- *  R1 reward — long unlocked by the R7 capstone) is present so the Estate tab chip is reachable. */
+ *  shows once `panel-house-influence` is unlocked AND the Estate tab is active. `tab-estate`
+ *  (an R6 reward — ADR-177 Schedule A) is present so the Estate tab chip is reachable. */
 function livingInfluenceState(value = 300): GameState {
   const base = createInitialState(1);
   return {
     ...base,
     rung: 'R7',
     flags: { ...base.flags, awake: true, 't0-capstone': true, 'rank-r7': true },
-    unlocked: [...base.unlocked, 'readout-rice', 'panel-estate', 'panel-house-influence'],
+    unlocked: [...base.unlocked, 'readout-rice', 'tab-estate', 'panel-house-influence'],
     influence: { estate: { value, highWater: value, judged: 0 } },
   };
 }
@@ -265,8 +265,8 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
   });
 
   // the home granted (panel-home) + coin in the purse (so a comfort piece is affordable — the buy
-  // button is live). tab-combat is present so the Inventory tab is REVEALED and the home is granted
-  // (ADR-111 timing moved to R3, human 2026-07-03 — panel-home now gates on tab-combat, like the tab).
+  // button is live). tab-inventory is present so the Inventory tab is REVEALED and the home is
+  // granted (ADR-177 Schedule A — panel-home now gates on tab-inventory, like the tab).
   function homeState(extra?: Partial<GameState>): GameState {
     const base = createInitialState(1);
     return {
@@ -280,7 +280,7 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
         'panel-rung-ladder',
         'panel-estate',
         'panel-home',
-        'tab-combat', // ADR-119 — the Inventory tab reveals at R3
+        'tab-inventory', // ADR-177 — the Inventory tab reveals at R4
       ],
       resources: { ...base.resources, coin: 500 },
       ...extra,

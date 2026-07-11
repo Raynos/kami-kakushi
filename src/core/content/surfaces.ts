@@ -108,9 +108,12 @@ export const SURFACES: readonly Surface[] = [
     // for any mid-game save with no migrate() — the coin→estate sink dashboard.
     id: 'panel-estate',
     kind: 'panel',
-    unlock: (s) => s.unlocked.includes('panel-rung-ladder'),
-    // FB-274 — reveal line STRUCK (human, 2026-07-10): obvious by the time the Estate
-    // section is reached; the section itself needs a harder think first.
+    // ADR-177 Schedule A — the projects surface is CAUSE-GATED: it exists once the
+    // works-intro beat's day-book naming latches (R2+, at the board), never a rung
+    // reward. It now lights the Works 普請 tab (the upgrades LEFT Estate 家, F4).
+    // State-predicate so any old save back-reveals on its next settle.
+    unlock: (s) => s.flags['works-named-u1'] === true,
+    // FB-274 — reveal line STRUCK (human, 2026-07-10): the works-intro beat IS the cause.
   },
   {
     id: 'readout-clock',
@@ -132,7 +135,10 @@ export const SURFACES: readonly Surface[] = [
     // re-sites here, the granted mat + bowl become owned, and the belongings section opens.
     id: 'panel-home',
     kind: 'panel',
-    unlock: (s) => s.unlocked.includes('tab-combat'),
+    // ADR-177 Schedule A — the Inventory tab staggers R3→R4 (tab-inventory, its own
+    // rank reward), and the home/belongings reveal re-keys to IT so the promised
+    // space still appears exactly when its tab does (the ADR-119 rule, one rung later).
+    unlock: (s) => s.unlocked.includes('tab-inventory'),
     revealLine: narrate(HOME_REVEAL_LINE),
   },
   { id: 'readout-stamina', kind: 'readout', unlock: () => false },
@@ -215,7 +221,9 @@ export const SURFACES: readonly Surface[] = [
     // it doesn't compete with the free `rest` before rice has a real alternative use (sell).
     id: 'verb-eat-rice',
     kind: 'verb',
-    unlock: (s) => s.unlocked.includes('panel-estate'),
+    // ADR-177 Schedule A — re-keyed to panel-rung-ladder (R1): panel-estate is now
+    // cause-gated at R2+, and eating must keep its R1 timing (the belly, ADR-178).
+    unlock: (s) => s.unlocked.includes('panel-rung-ladder'),
     // FB-275 — no flavor text for eating & rice (human, 2026-07-10); the verb reveal is enough.
   },
   { id: 'skill-conditioning', kind: 'row', unlock: () => false },
@@ -283,6 +291,26 @@ export const SURFACES: readonly Surface[] = [
     ),
   },
   { id: 'panel-drill-yard', kind: 'panel', unlock: () => false },
+  {
+    // ADR-177 Schedule A — the Inventory tab's OWN gate (was piggybacked on tab-combat
+    // at R3): granted by the R4 rank reward, one tab per rung.
+    id: 'tab-inventory',
+    kind: 'tab',
+    unlock: () => false,
+    revealLine: narrate(
+      'What is yours and what is banked now have a place of their own — the stores open to you.',
+    ),
+  },
+  {
+    // ADR-177 Schedule A — Estate 家 arrives at R6 (the house-rooms rung): the pillars,
+    // the house standing, and the house itself, once there is a house worth the tab.
+    id: 'tab-estate',
+    kind: 'tab',
+    unlock: () => false,
+    revealLine: narrate(
+      'The house itself comes under your eye — its rooms, its standing, its slow rise.',
+    ),
+  },
   { id: 'readout-combat-level', kind: 'readout', unlock: () => false },
   // A7 — the Bestiary reveals WITH combat at R3 (the field-guide of the foes you meet). It fogs a
   // foe until you've faced it (its `mob-<id>` flag) — reveal-as-plot, then scout-by-fighting.

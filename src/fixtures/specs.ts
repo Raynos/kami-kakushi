@@ -420,14 +420,16 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     name: 'rice-at-gate',
     group: G_ECONOMY,
     blurb:
-      'R3 standing at the gate on Yohei’s market ground, the kura rice ready to sell — the market loop’s start.',
+      'R4 standing at the gate on Yohei’s market ground, the kura rice ready to sell — the market loop’s start.',
     seed: T0_ARC_SEED,
     // G4 cutover: rice is KURA-ONLY (never carried), sold at Yohei's gate stall — so the market-loop
     // start is standing at the GATE with a stocked kura, not rice "on the back". (`gate` is the real
     // node id; `gate-forecourt` was the pre-cutover name.)
+    // ADR-177 Schedule A — driven to R4 (was R3): the Inventory 蔵 tab (the sale's
+    // readout home in the e2e market loop) now reveals at R4.
     play: (s0) =>
       walkTo(
-        drive(s0, (st) => st.rung === 'R3'),
+        drive(s0, (st) => st.rung === 'R4'),
         'gate',
       ),
     expect: (s) => {
@@ -442,12 +444,14 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
   {
     name: 'at-kura-with-coin',
     group: G_ECONOMY,
-    blurb: 'R3, standing in the kura with wage-coin in the sleeve — the deposit one press away.',
+    blurb: 'R4, standing in the kura with wage-coin in the sleeve — the deposit one press away.',
     seed: T0_ARC_SEED,
     // The kura-deposit journey's start (P2): coin earned by the coin-paying haul (the wage labour),
     // walked home to the storehouse. (G4: coin comes from the haul/market, not carried-rice sales.)
+    // ADR-177 Schedule A — driven to R4 (was R3): the deposit UI lives on the
+    // Inventory 蔵 tab, which now reveals at R4.
     play: (s0) => {
-      let s = drive(s0, (st) => st.rung === 'R3');
+      let s = drive(s0, (st) => st.rung === 'R4');
       s = walkTo(s, getActivity('haul_stores').area); // forecourt — the coin-paying wage labour
       let guard = 0;
       while ((s.resources.coin ?? 0) <= 0 && guard++ < 20) {

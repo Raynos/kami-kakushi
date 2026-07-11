@@ -292,6 +292,8 @@ Set — the "settled home" (bedding + hearth + chest) grants +4 rest synergy (th
 | `room-grove` | panel |
 | `tab-combat` | tab |
 | `panel-drill-yard` | panel |
+| `tab-inventory` | tab |
+| `tab-estate` | tab |
 | `readout-combat-level` | readout |
 | `panel-bestiary` | panel |
 | `readout-durability` | readout |

@@ -509,8 +509,8 @@ describe('narrative — R3 terminal beat + 2nd dream payoff (audit #2/#6/#13)', 
     expect(isUnlocked(noDream1, 'dream-2')).toBe(false);
   });
 
-  it('the macro-teaser panel unlocks on reaching R3 (revealed by the rank reward)', () => {
-    const reward = getRank('R3').rewardOnReach;
+  it('the macro-teaser panel unlocks on reaching R6 (ADR-177 — it joins the Estate 家 tab)', () => {
+    const reward = getRank('R6').rewardOnReach;
     expect(reward).toBeDefined();
     const promoted = applyRewards(createInitialState(1), reward!);
     expect(isUnlocked(promoted, 'panel-house-influence')).toBe(true);

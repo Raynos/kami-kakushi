@@ -46,8 +46,9 @@ test('fixture registry drift — every scenario save has mobile coverage', async
 });
 
 test('landscape — the worst-case tab row still fits', async ({ warmPage: page, warmErrors }) => {
-  // wealthy-idler carries the fullest tab strip (7 tabs) — the state that used to
-  // push the page to 474px wide at a 375px viewport.
+  // wealthy-idler carries the fullest tab strip (8 tabs since ADR-177 Schedule A:
+  // Works 普請 + Estate 家 both live at R7) — the state that used to push the page
+  // to 474px wide at a 375px viewport.
   await loadFixtureWarm(page, 'wealthy-idler');
   const vp = page.viewportSize();
   await page.setViewportSize({ width: vp!.height, height: vp!.width }); // rotate

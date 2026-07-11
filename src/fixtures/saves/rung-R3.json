@@ -86,7 +86,6 @@
       "readout-clock",
       "readout-stamina",
       "panel-rung-ladder",
-      "panel-estate",
       "verb-eat-rice",
       "skill-farming",
       "readout-coin",
@@ -100,16 +99,15 @@
       "skill-conditioning",
       "verb-cook",
       "room-weir",
+      "panel-estate",
       "skill-woodcutting",
       "skill-foraging",
       "tab-combat",
       "panel-drill-yard",
       "readout-combat-level",
       "panel-bestiary",
-      "panel-house-influence",
       "room-kura",
-      "room-weir-reeds",
-      "panel-home"
+      "room-weir-reeds"
     ],
     "log": {
       "entries": [
@@ -1930,7 +1928,7 @@
         {
           "key": 199,
           "channel": "narration",
-          "text": "Standing in the drill yard, you begin to grasp how a house like this is truly weighed — not by its rice alone, but by its arms, its lands and coin, its standing before the lord, and the worth of its name. That reckoning sits far above a gate-watch. For now, you only see that it is there.",
+          "text": "The storehouse is opened to you: the iron-strapped door, the good lock, the grain-watch's stool beside it. What is counted in and out is the house's whole year.",
           "tick": 10,
           "count": 1,
           "voice": "narrator"
@@ -1938,21 +1936,13 @@
         {
           "key": 200,
           "channel": "narration",
-          "text": "The storehouse is opened to you: the iron-strapped door, the good lock, the grain-watch's stool beside it. What is counted in and out is the house's whole year.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator"
-        },
-        {
-          "key": 201,
-          "channel": "narration",
           "text": "The shallows above and below the weir, reeds past the waist. River rats gnaw the screens the house leases from Matsuzō, and every screen lost is coin owed across the water.",
           "tick": 10,
           "count": 1,
           "voice": "narrator"
         },
         {
-          "key": 202,
+          "key": 201,
           "channel": "milestone",
           "text": "Rank ↑ — The grain-watch 蔵番",
           "tick": 10,
@@ -1962,17 +1952,9 @@
             "title": "The grain-watch",
             "kanji": "蔵番"
           }
-        },
-        {
-          "key": 203,
-          "channel": "narration",
-          "text": "A lean corner of the woodshed is kept back for you now — a straw mat, a bowl, a nail for your coat, a place to lay your head. \"A place here is yours,\" the old man said. Small, but yours to keep.",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator"
         }
       ],
-      "seq": 204
+      "seq": 202
     },
     "skillXp": {
       "farming": 134,

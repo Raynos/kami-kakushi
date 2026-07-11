@@ -251,8 +251,8 @@ describe('render — settings a11y + unknown-foe fog', () => {
       rung: 'R7',
       tier: 1,
       flags: { ...s.flags, awake: true, 'rank-r7': true, 't0-capstone': true, 'ascended-t0': true },
-      // panel-estate (via panel-rung-ladder) is what lights the Estate tab, the koku standing's home.
-      unlocked: [...s.unlocked, 'panel-rung-ladder', 'panel-estate', 'panel-house-influence'],
+      // ADR-177 Schedule A — tab-estate (R6) lights the Estate 家 tab, the koku standing's home.
+      unlocked: [...s.unlocked, 'panel-rung-ladder', 'tab-estate', 'panel-house-influence'],
       influence: { estate: { value: excellent, highWater: excellent, judged: 0 } },
       character: { ...s.character, attributePoints: 5 },
     };
@@ -278,9 +278,9 @@ describe('render — settings a11y + unknown-foe fog', () => {
       rung: 'R7',
       tier: 0, // pre-ascension: still climbing toward the EXCELLENT gate
       flags: { ...s.flags, awake: true, 't0-capstone': true }, // phaseOf === 2 → the pillar is live
-      // panel-estate lights the Estate tab (the koku standing's IA home); panel-house-influence
+      // tab-estate lights the Estate tab (the koku standing's IA home); panel-house-influence
       // makes the standing live. Both are unlocked by R7 in real play.
-      unlocked: [...s.unlocked, 'panel-rung-ladder', 'panel-estate', 'panel-house-influence'],
+      unlocked: [...s.unlocked, 'panel-rung-ladder', 'tab-estate', 'panel-house-influence'],
       influence: { estate: { value, highWater: value, judged: 0 } },
     };
   }
@@ -453,7 +453,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
         ...base,
         location: 'kura',
         flags: { ...base.flags, awake: true },
-        unlocked: [...base.unlocked, 'panel-estate', 'tab-combat'], // ADR-119 — Inventory tab reveals at R3
+        unlocked: [...base.unlocked, 'panel-estate', 'tab-inventory'], // ADR-177 — Inventory tab reveals at R4
         resources: { ...base.resources, coin: 50 },
       },
       null,
@@ -639,7 +639,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
 // ── ADR-119 — the seven-tab reveal CADENCE (Work R0 · Map/Estate R1 · Character R2 · Combat/Inventory
 //    R3 · Quests R5). These assert the NAV chips that light at each beat, so a mis-gated tab (e.g. the
 //    old Inventory-at-R1 triple-reveal, or a Quests-at-R3 batch) flips them RED. ──
-describe('D-119 — tabs reveal one beat at a time (Inventory R3, Quests R5)', () => {
+describe('D-119/ADR-177 — tabs reveal one beat at a time (Schedule A)', () => {
   let root: HTMLElement;
   beforeEach(() => {
     document.body.innerHTML = '';
@@ -671,26 +671,50 @@ describe('D-119 — tabs reveal one beat at a time (Inventory R3, Quests R5)', (
     );
   }
 
-  it('R1 (Map+Estate live) reveals Map + Estate but NOT Inventory — no triple-reveal', () => {
-    at(['room-gate', 'panel-estate', 'panel-home']);
+  it('R1 is Map ALONE — Estate, Works, and Inventory all wait (no triple-reveal)', () => {
+    at(['room-gate']);
     const labels = tabLabels();
     expect(labels.some((l) => l.includes('地図'))).toBe(true); // Map
-    expect(labels.some((l) => l.includes('家') && !l.includes('武'))).toBe(true); // Estate
-    // RED against the old gate: Inventory used to light here (panel-estate/panel-home).
+    // RED against the old schedule: Estate used to light at R1 (ADR-177 moved it to R6).
+    expect(labels.some((l) => l.includes('家') && !l.includes('武'))).toBe(false);
+    expect(labels.some((l) => l.includes('普請'))).toBe(false);
     expect(labels.some((l) => l.includes('Inventory'))).toBe(false);
     expect(labels.some((l) => l.includes('Quests'))).toBe(false);
   });
 
-  it('R3 (combat live) is where the Inventory tab finally reveals', () => {
+  it('Works 普請 lights on the works-intro NAMING (cause-gated), not on a rung', () => {
+    const base = createInitialState(1);
+    const render = mount(root, () => {}, noopHooks());
+    render(
+      {
+        ...base,
+        flags: { ...base.flags, awake: true },
+        unlocked: [...base.unlocked, 'room-gate', 'panel-estate'],
+      },
+      null,
+    );
+    expect(tabLabels().some((l) => l.includes('普請'))).toBe(true);
+  });
+
+  it('R3 (combat live) does NOT bring Inventory — it waits for its own R4 beat', () => {
     at(['room-gate', 'panel-estate', 'panel-home', 'tab-combat']);
-    expect(tabLabels().some((l) => l.includes('Inventory'))).toBe(true);
-    // …but Quests is still held for its own R5 beat, not batched into the R3 combat wave.
+    expect(tabLabels().some((l) => l.includes('Inventory'))).toBe(false);
     expect(tabLabels().some((l) => l.includes('Quests'))).toBe(false);
   });
 
+  it('R4 (tab-inventory granted) is where the Inventory tab reveals — its own beat', () => {
+    at(['room-gate', 'panel-estate', 'panel-home', 'tab-combat', 'tab-inventory']);
+    expect(tabLabels().some((l) => l.includes('Inventory'))).toBe(true);
+  });
+
   it('R5 (tab-quests granted) is where the Quests tab reveals — its own beat', () => {
-    at(['room-gate', 'panel-estate', 'panel-home', 'tab-combat', 'tab-quests']);
+    at(['room-gate', 'panel-estate', 'panel-home', 'tab-combat', 'tab-inventory', 'tab-quests']);
     expect(tabLabels().some((l) => l.includes('Quests'))).toBe(true);
+  });
+
+  it('R6 (tab-estate granted) is where Estate 家 finally reveals — the capstone tab', () => {
+    at(['room-gate', 'tab-estate']);
+    expect(tabLabels().some((l) => l.includes('家') && !l.includes('武'))).toBe(true);
   });
 });
 
@@ -1763,23 +1787,22 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
   it('F100 (D-112) — the estate-improve card lives on the Estate tab, not the Work tab', () => {
     const render = mount(root, () => {}, noopHooks());
     render(awake(['panel-estate', 'room-gate']), null);
-    const estatePane = root.querySelector<HTMLElement>('.estate-pane')!;
+    const worksPane = root.querySelector<HTMLElement>('.works-pane')!;
     // structural: it's grouped in the Do slice, NOT the Work-column Estate/economy slice.
-    expect(root.querySelector('.slice-do .estate-pane')).not.toBeNull();
-    expect(root.querySelector('.slice-estate .estate-pane')).toBeNull();
+    expect(root.querySelector('.slice-do .works-pane')).not.toBeNull();
+    expect(root.querySelector('.slice-estate .works-pane')).toBeNull();
     // on the default Work tab the estate-improve card is hidden (no empty ghost in the Work column).
-    expect(estatePane.hidden).toBe(true);
-    // switch to the Estate (家) tab → the estate-improve card renders there (the Map 地図 tab is the
-    // node-map now, a separate tab — proving the improve card is NOT on Map).
+    expect(worksPane.hidden).toBe(true);
+    // switch to Map — the improve card is NOT there either; it lives on Works 普請 (ADR-177).
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
       .find((b) => (b.textContent ?? '').includes('地図'))
       ?.click();
-    expect(estatePane.hidden).toBe(true); // NOT on the Map tab
+    expect(worksPane.hidden).toBe(true); // NOT on the Map tab
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
-      .find((b) => (b.textContent ?? '').includes('家'))
+      .find((b) => (b.textContent ?? '').includes('普請'))
       ?.click();
-    expect(estatePane.hidden).toBe(false);
-    expect(estatePane.textContent ?? '').toContain('Estate ·');
+    expect(worksPane.hidden).toBe(false);
+    expect(worksPane.textContent ?? '').toContain('Estate ·');
   });
 });
 
@@ -2048,7 +2071,7 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
 
   it('renderStorehouse — the kura card survives a re-render; idle ticks churn nothing', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s = awake(['panel-estate', 'tab-combat'], { location: 'kura' }); // ADR-119 — Inventory reveals R3
+    const s = awake(['panel-estate', 'tab-inventory'], { location: 'kura' }); // ADR-177 — Inventory reveals R4
     render(s, null);
     openTab('蔵'); // the kura bank is on the Inventory 蔵 tab now (FB-108 / IA reorg ADR-112)
     const card = root.querySelector<HTMLElement>('.storehouse-pane .rung-card')!;
@@ -2060,18 +2083,16 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     ).toEqual([]);
   });
 
-  it('renderEstate — the improve card survives a re-render (Estate tab); rooms grow, not rebuild', () => {
+  it('renderWorks — the improve card survives a re-render (Works tab, ADR-177)', () => {
     const render = mount(root, () => {}, noopHooks());
     const s = awake(['panel-estate', 'room-gate']);
     render(s, null);
-    openTab('家'); // IA reorg (ADR-112) — the estate-improve card lives on the Estate 家 tab now
-    const card = root.querySelector<HTMLElement>('.estate-pane .rung-card')!;
+    openTab('普請'); // ADR-177 Schedule A — the improve card lives on the Works 普請 tab now
+    const card = root.querySelector<HTMLElement>('.works-pane .rung-card')!;
     expect(card.textContent).toContain('Estate ·');
     render(s, s);
-    expect(root.querySelector('.estate-pane .rung-card')).toBe(card); // reused
-    expect(churnOnReRender(root.querySelector<HTMLElement>('.estate-pane')!, s, render)).toEqual(
-      [],
-    );
+    expect(root.querySelector('.works-pane .rung-card')).toBe(card); // reused
+    expect(churnOnReRender(root.querySelector<HTMLElement>('.works-pane')!, s, render)).toEqual([]);
   });
 
   it('renderNowView — a fleeting Now line survives a re-render; idle ticks churn nothing (D-123)', () => {
@@ -2774,8 +2795,8 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
   });
 
   // the home GRANTED (panel-home) + the estate economy open, and combat live so the Inventory tab is
-  // REVEALED. ADR-111 timing moved to R3 (human 2026-07-03) — panel-home now gates on tab-combat, the
-  // same R3 surface as its tab, so the home is announced exactly when its tab appears.
+  // REVEALED. ADR-177 Schedule A — panel-home now gates on tab-inventory, the same R4
+  // surface as its tab, so the home is announced exactly when its tab appears.
   function homeState(extra?: Partial<GameState>): GameState {
     const s = createInitialState(1);
     return {
@@ -2789,7 +2810,7 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
         'panel-rung-ladder',
         'panel-estate',
         'panel-home',
-        'tab-combat', // ADR-119 — the Inventory tab reveals at R3; without it the tab won't appear
+        'tab-inventory', // ADR-177 — the Inventory tab reveals at R4; without it the tab won't appear
       ],
       ...extra,
     };

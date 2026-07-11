@@ -71,3 +71,33 @@ routing approved as proposed) and stamped into the plan (`ea12987e`).
 - **R2 is no longer fully silent** (ADR-165): the works-intro plays after
   r2-yard-hand, cause-gated on walking to the board — flagged in HR-27 for
   the human's read.
+
+## Phase 2 step 1 — Schedule A lands (same session, 2026-07-11)
+
+The signed one-tab-per-rung table (ADR-177 F1) built and verified live:
+
+- **Works 普請 (NEW, R2 cause-gated):** the projects/improve card moved off
+  Estate onto its own tab; `panel-estate`'s unlock predicate IS the cause
+  (`works-named-u1` — the works-intro naming), so the chip lights the moment
+  the beat closes. `verb-eat-rice` re-keyed to `panel-rung-ladder` to keep its
+  R1 timing (the belly, ADR-178).
+- **Inventory R3 → R4:** new `tab-inventory` surface, granted by the R4 rank
+  reward; `panel-home` re-keys to it (the home is announced when its tab is).
+  The two banking fixtures (`rice-at-gate`, `at-kura-with-coin`) re-driven to
+  R4 so the e2e market/deposit journeys keep their readout home.
+- **Estate 家 R1 → R6:** new `tab-estate` surface (R6 reward); the tab now
+  holds the reopening house rooms + the influence pane. `panel-house-influence`
+  moved R3 → R6 with it — pre-R6, the Works ladder's standing gauge carries
+  the koku signal (the deferred "influence teaser home" call, decided here).
+- **Tab order is reveal order** (work · map · works · character · combat ·
+  inventory · quests · estate) — a new chip always lights at the row's end.
+- rung-beats motivates lists updated in lockstep (the gen-narrative validator
+  holds them verbatim-equal to the rank rewards); render/dev/home/m2 tests
+  updated to the new schedule with a new 6-case D-119/ADR-177 ladder; the
+  8-tab mobile fit + the affected journeys proven green in the real e2e lane.
+- Live headless proof: R1 = Map alone · Works lights on the naming · R3 has
+  no Inventory · R4 Inventory · R6 Estate with rooms + influence.
+
+⚠ Shared-tree note (again): the drain agent's `84cb7747` swept this session's
+render.ts Schedule-A hunks; this commit restores HEAD's consistency (the
+surfaces/ranks/tests side).

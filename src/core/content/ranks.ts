@@ -112,12 +112,13 @@ export const RANKS: readonly RankDef[] = [
       // control waits for R5 (`stance-control`) — one beat per rung, not the whole tab at once.
       // G4 — R3 opens the kura (the grain-watch's post, where the night round is walked) and the
       // weir reeds (the leased-screen rat PEST beat, Matsuzō's water). `room-drill-yard` waits for R4.
+      // ADR-177 Schedule A — panel-house-influence moved R3 → R6 (it joins the Estate
+      // 家 tab when THAT arrives; pre-R6 the Works ladder's standing gauge carries it).
       unlock: [
         'tab-combat',
         'panel-drill-yard',
         'readout-combat-level',
         'panel-bestiary',
-        'panel-house-influence',
         'room-kura',
         'room-weir-reeds',
       ],
@@ -140,12 +141,14 @@ export const RANKS: readonly RankDef[] = [
       // v0.3.2 A7 — the loot→craft beat: weapon durability bands + repair + the Equipment/craft
       // loop (the craft panel + the equip switcher) reveal here, one rung after combat opens.
       // G4 — R4 opens the drill yard NODE (Kihei's ground on the map), where the drills happen.
+      // ADR-177 Schedule A — the Inventory tab arrives HERE (R3→R4 stagger, its own rung).
       unlock: [
         'readout-durability',
         'panel-equipment',
         'verb-repair',
         'house-omoya',
         'room-drill-yard',
+        'tab-inventory',
       ],
       // FB-103 / ADR-110: story prose → RUNG_BEATS.R4.greeting (Genemon + Kihei); terse marker only.
     },
@@ -183,7 +186,9 @@ export const RANKS: readonly RankDef[] = [
     eligible: ['farm_paddy', 'haul_stores', 'woodcut_edge', 'forage_satoyama'],
     rewardOnReach: {
       flags: ['rank-r6'],
-      unlock: ['house-workshops', 'house-granary'],
+      // ADR-177 Schedule A — Estate 家 arrives at R6 (the tab + the influence pane join
+      // the reopening house-rooms; the upgrades live on Works 普請 since R2).
+      unlock: ['house-workshops', 'house-granary', 'tab-estate', 'panel-house-influence'],
       // FB-103 / ADR-110: story prose → RUNG_BEATS.R6.greeting (Genemon's coin-errand meet); terse marker only.
     },
   },

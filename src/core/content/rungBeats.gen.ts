@@ -152,7 +152,6 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       'panel-drill-yard',
       'readout-combat-level',
       'panel-bestiary',
-      'panel-house-influence',
       'room-kura',
       'room-weir-reeds',
     ],
@@ -292,6 +291,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       'verb-repair',
       'house-omoya',
       'room-drill-yard',
+      'tab-inventory',
     ],
     greeting: [
       {
@@ -449,7 +449,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     rank: 'R6',
     voice: 'steward',
     speaker: 'genemon',
-    motivates: ['house-workshops', 'house-granary'],
+    motivates: ['house-workshops', 'house-granary', 'tab-estate', 'panel-house-influence'],
     greeting: [
       {
         voice: 'narrator',
