@@ -173,7 +173,8 @@ export function worksPass(state: GameState): GameState {
           'milestone',
           worksLine(p.namedKey, FLAVOR[p.namedKey]),
           next.clock.tick,
-          { voice: 'narrator' },
+          // The save persists the KEY; the words re-render from FLAVOR on load.
+          { voice: 'narrator', contentKey: `works.${p.namedKey}` },
         ),
       };
       next = setFlag(next, p.namedLoggedFlag);
@@ -189,7 +190,7 @@ export function worksPass(state: GameState): GameState {
             'narration',
             worksLine(z.seenKey, FLAVOR[z.seenKey]),
             next.clock.tick,
-            { voice: 'narrator' },
+            { voice: 'narrator', contentKey: `works.${z.seenKey}` },
           ),
         };
         next = setFlag(next, z.seenFlag);

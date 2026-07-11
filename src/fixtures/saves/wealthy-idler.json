@@ -931,7 +931,8 @@
           "text": "Water threads through the slumped bund while you stand there — patient, soundless, finding its level through a gap it has been widening all season. Two more bunds down the row are going the same quiet way.",
           "tick": 6,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksSeenPaddies"
         },
         {
           "key": 152,
@@ -947,7 +948,8 @@
           "text": "Under the silt, cut stone and a lift-board seized in its groove: a sluice-gate, made well and left to choke. Clearing it is days of honest digging, and nobody at the house knows it is there to clear.",
           "tick": 10,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "discovery.disc-woodlot-sluice"
         },
         {
           "key": 165,
@@ -2629,7 +2631,8 @@
           "text": "Rain-water stands at the foot of the west gatepost, and the wood at its waterline gives under a thumbnail, the grain letting go a little more with this season's standing wet. It is happening now, at the pace rot keeps.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksSeenGate"
         },
         {
           "key": 549,
@@ -2637,7 +2640,8 @@
           "text": "Rain has been through the north corner again: a drip is still working somewhere back of the piles, keeping its own slow count, and the edge of your mat is dark where it drinks.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksSeenWoodshed"
         },
         {
           "key": 550,
@@ -2728,7 +2732,8 @@
           "text": "A new line in the day-book, entered like weather: orchard — gone wild, rows under the choke, dens in the hollow; the land's oldest holding on this side of the wall, Genemon notes, and the first the house means to contest.",
           "tick": 4,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksNamedOrchard"
         },
         {
           "key": 567,
@@ -2966,7 +2971,8 @@
           "text": "The nose knew it first, then the palm, and last the word: urushi. A lacquer tree, hidden all this time among the common pine, and the beading sap already worth more than the day's whole stack.",
           "tick": 0,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "discovery.disc-woodlot-lacquer"
         },
         {
           "key": 603,
@@ -3252,7 +3258,8 @@
           "text": "A runner of bramble has a young fruit tree by the throat and is climbing it at the pace of years, tightening as it goes. Down in the hollow something moves through the dens without hurry, at home.",
           "tick": 16,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksSeenOrchard"
         },
         {
           "key": 641,
@@ -3496,7 +3503,8 @@
           "text": "Ruled at the season's head, dry as a frost report: the kura holds the year and not a measure over — a second granary wanted at its side before the land decides the matter its own way.",
           "tick": 20,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksNamedGranary"
         },
         {
           "key": 760,
@@ -3504,7 +3512,8 @@
           "text": "Inside, this year's rice wants most of the room there is, with the harvest still to come. Along the north wall the damp is at its patient work, a hand's width up the boards and climbing.",
           "tick": 22,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksSeenKura"
         },
         {
           "key": 761,
@@ -3974,7 +3983,8 @@
           "text": "The day-book takes up its longest-carried concern in one plain line: the omoya, half-shut, the rooms going back to the land indoors — dust and damp, Genemon writes, being weather too.",
           "tick": 20,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksNamedHouse"
         },
         {
           "key": 950,
@@ -3982,7 +3992,8 @@
           "text": "From the forecourt the omoya's shut rooms show as a row of weathered screens no hand has slid in years, and moss holds the ridge where the thatch keeps water. The roof is going back to ground, slower than anyone is coming to stop it.",
           "tick": 22,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksSeenHouse"
         },
         {
           "key": 951,

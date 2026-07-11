@@ -881,7 +881,8 @@
           "text": "Water threads through the slumped bund while you stand there — patient, soundless, finding its level through a gap it has been widening all season. Two more bunds down the row are going the same quiet way.",
           "tick": 6,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksSeenPaddies"
         },
         {
           "key": 152,
@@ -897,7 +898,8 @@
           "text": "Under the silt, cut stone and a lift-board seized in its groove: a sluice-gate, made well and left to choke. Clearing it is days of honest digging, and nobody at the house knows it is there to clear.",
           "tick": 10,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "discovery.disc-woodlot-sluice"
         },
         {
           "key": 165,

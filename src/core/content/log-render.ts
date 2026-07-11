@@ -20,6 +20,7 @@
 import { LOG_CONTENT, type LogParams } from './log-content';
 import { SURFACES } from './surfaces';
 import { DISCOVERIES, discoveryEmitLine } from './discoveries';
+import { FLAVOR } from './flavor';
 
 /** A namespace resolver: given the key's tail (everything after the first dot) + params, render.
  *  Returns undefined when the id is unknown to the registry — a content id that src/ has since
@@ -35,10 +36,19 @@ const discoveryText = (id: string): string | undefined => {
   return def ? discoveryEmitLine(def) : undefined;
 };
 
+/** A works line's canon is its FLAVOR entry. Deliberately reads FLAVOR (a content leaf) rather
+ *  than `works.ts`'s `worksLine()`: works.ts is a REDUCER that imports scenes.ts, and pulling a
+ *  reducer in here would risk the very cycle this module exists to avoid. The DEV story-take
+ *  override that `worksLine()` layers on applies to FUTURE emissions only (ADR-143 — same
+ *  semantics as `discoveryEmitLine`), so canon is the right answer on rehydrate. */
+const worksText = (key: string): string | undefined =>
+  (FLAVOR as Readonly<Record<string, string>>)[key];
+
 /** namespace → resolver. Each namespace's prose stays in ITS registry — one home (TST1). */
 const RESOLVERS: Readonly<Record<string, Resolver>> = {
   reveal: (id) => surfaceRevealText(id),
   discovery: (id) => discoveryText(id),
+  works: (key) => worksText(key),
 };
 
 /** The namespaces this module can resolve — exported so a test can prove every emitted key

@@ -1299,7 +1299,8 @@
           "text": "Rain-water stands at the foot of the west gatepost, and the wood at its waterline gives under a thumbnail, the grain letting go a little more with this season's standing wet. It is happening now, at the pace rot keeps.",
           "tick": 6,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksSeenGate"
         },
         {
           "key": 130,
@@ -1307,7 +1308,8 @@
           "text": "Rain has been through the north corner again: a drip is still working somewhere back of the piles, keeping its own slow count, and the edge of your mat is dark where it drinks.",
           "tick": 6,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksSeenWoodshed"
         },
         {
           "key": 131,
@@ -1315,7 +1317,8 @@
           "text": "Water threads through the slumped bund while you stand there — patient, soundless, finding its level through a gap it has been widening all season. Two more bunds down the row are going the same quiet way.",
           "tick": 6,
           "count": 1,
-          "voice": "narrator"
+          "voice": "narrator",
+          "contentKey": "works.worksSeenPaddies"
         },
         {
           "key": 132,

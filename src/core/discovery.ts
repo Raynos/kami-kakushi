@@ -99,6 +99,8 @@ export function discoveryPass(
         // FUTURE emissions (ADR-143); canon everywhere else.
         log: pushLog(next.log, 'narration', discoveryEmitLine(d), next.clock.tick, {
           voice: 'narrator',
+          // The save persists the KEY; the words re-render from this discovery's def on load.
+          contentKey: `discovery.${d.id}`,
         }),
       };
     }

@@ -167,6 +167,25 @@ Those fixtures would have silently encoded another agent's WIP. Waited for their
 commit, re-regenerated against a clean tree, re-verified. **Rule for the next agent:
 never regen fixtures while someone else's core edits are uncommitted.**
 
+### 7 · Step 1b — the discovery + works emitters keyed
+
+`discovery.<id>` resolves through the discovery def (`discoveryEmitLine`), `works.<flavorKey>`
+through `FLAVOR`.
+
+The works resolver deliberately reads `FLAVOR` (a content leaf) rather than calling
+`works.ts`'s `worksLine()`: **works.ts is a REDUCER that imports scenes.ts**, and pulling a
+reducer into `log-render` would risk the very cycle this module exists to avoid. The DEV
+story-take override that `worksLine()` layers on applies to FUTURE emissions only (ADR-143 —
+the same semantics `discoveryEmitLine` already documents), so canon is the correct answer when
+rehydrating a save.
+
+**Shared-tree:** the `checkpoint` gate went red mid-step on a co-agent's staged plan deletion +
+stale plans index. Did NOT regenerate their file to force my commit through (that would have
+clobbered their working copy) — waited; they landed it and verify went green on its own.
+
+- `src/core/content/log-render.ts` — the `works` namespace.
+- `src/core/discovery.ts`, `src/core/works.ts` — emitters keyed.
+
 ## Next intended steps
 
 Rest of step 1, in order: key the discovery, works and scene/dialogue emitters; then
