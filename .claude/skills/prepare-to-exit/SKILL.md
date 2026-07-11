@@ -44,14 +44,26 @@ the answer off the **silhouette alone**, before reading a word. A silent failure
 that never ran the skill — which is the one outcome that breaks the signal. So a failed checkpoint doesn't
 *suppress* the banner, it **switches** it.
 
-Which one:
-- **BYE** — the checkpoint is clean: your work is committed, your gates are green, and the push either
+The two banners answer **one** question, and it is not "did the git commands succeed" — it is:
+
+> **Is it safe to KILL this pane right now?**
+
+- **BYE — safe to close.** The checkpoint is done and there is **nothing left in this session**: your work is
+  committed, your gates are green, the session is at a coherent stopping point, and the push either
   **succeeded** *or* was blocked by a **co-agent's** red **while other agents are still live** (best-effort;
   a non-event per the guardrail above — just say so in the report).
-- **OOPS** — anything else: your own work is uncommitted or red, the checkpoint couldn't complete, or the push
-  failed **and you are the only / last agent** (the commit is stranded). Never print BYE over this — a BYE on a
-  half-finished checkpoint is a false green (PH3), and it is the *report*, not the banner, that carries the
-  detail.
+- **OOPS — do NOT close.** Either of these, and they weigh the same:
+  1. **Something is wrong.** Not green, broken, a gate you couldn't fix, a push that stranded the work because
+     you're the last agent — or you simply **don't know** whether it's sound. Uncertainty is an OOPS: the
+     banner is a safety signal, so it fails *loud*, not *optimistic*.
+  2. **The session is half-built.** `/prepare-to-exit` was run **too early** — the work is mid-implementation,
+     a plan is stopped between steps, a feature is wired but unreachable, a refactor landed on one side only.
+     **A clean `git status` does NOT mean done.** Ask it straight: *if this pane were killed right now, would
+     anything be left half-implemented?* If yes → **OOPS**, and the report names exactly what's half-done and
+     where to resume. Committing half-finished work does not launder it into a BYE.
+
+Never print BYE over either case — a BYE on a half-finished session is a false green (PH3), and it is the
+*report*, not the banner, that carries the detail.
 
 Both are **fixed, byte-stable signals**, not decoration — they only work if they are **always the same**. Copy
 them character-for-character: don't retype from memory, don't restyle, don't personalize, don't append a run
@@ -71,17 +83,17 @@ squished: BYE is light-bordered and 4 glyphs, OOPS is heavy double-bordered and 
    └──────────────────────────────────────────────────────────────┘
 ```
 
-**OOPS — prepare-to-exit ran, but did NOT finish clean:**
+**OOPS — prepare-to-exit ran, but this session is NOT safe to close:**
 
 ```
-   ╔═══════════════════════════════════════════════════════════════════╗
-   ║   ██████╗  ██████╗ ██████╗ ███████╗                               ║
-   ║  ██╔═══██╗██╔═══██╗██╔══██╗██╔════╝  prepare-to-exit ran, but     ║
-   ║  ██║   ██║██║   ██║██████╔╝███████╗  it did not finish clean.     ║
-   ║  ██║   ██║██║   ██║██╔═══╝ ╚════██║                               ║
-   ║  ╚██████╔╝╚██████╔╝██║     ███████║  work is LOCAL - read the     ║
-   ║   ╚═════╝  ╚═════╝ ╚═╝     ╚══════╝  report above before closing. ║
-   ╚═══════════════════════════════════════════════════════════════════╝
+   ╔═════════════════════════════════════════════════════════════════════╗
+   ║   ██████╗  ██████╗ ██████╗ ███████╗                                 ║
+   ║  ██╔═══██╗██╔═══██╗██╔══██╗██╔════╝  prepare-to-exit ran, but       ║
+   ║  ██║   ██║██║   ██║██████╔╝███████╗  this session is NOT done.      ║
+   ║  ██║   ██║██║   ██║██╔═══╝ ╚════██║                                 ║
+   ║  ╚██████╔╝╚██████╔╝██║     ███████║  something is red or half-done  ║
+   ║   ╚═════╝  ╚═════╝ ╚═╝     ╚══════╝  read the report; DON'T close.  ║
+   ╚═════════════════════════════════════════════════════════════════════╝
 ```
 
 > Holds no copy of the steps by design — if the ritual changes, edit `working-agreements.md` only. The banners
