@@ -13,3 +13,7 @@ rebalance plan get written, and the zone section gets a FULL ADR-075 diverge
   (styles.css): the FB-387 bar-stack and the 黒沢家 house-mark hugged the top
   while the rung element centered; baseline lost its meaning when the stack
   hid its numerals. Verified with a headless before/after shot.
+
+- **FB-398** — restored the spoken-line indent inside 幕 cards: composed
+  `.log-line.scene-line.spoken` padding (card + speech) so FB-262's card
+  padding no longer overrides FB-228's speech indent. Verified headlessly.

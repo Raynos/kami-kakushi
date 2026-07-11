@@ -33,3 +33,15 @@ wider then the rest and has a toggle embedded inside it."_
 (FB-320 placement) to the log head's right edge (title left, toggle right);
 the tab row reads uniform; same show-only-on-Story logic; the mobile band's
 collapse selectors follow.
+
+## 2026-07-11 evening pass (FB-398…FB-406)
+
+### FB-398 · spoken-line indent lost in the log — ✅
+**Verbatim:** _"We lost the phrased spoken have an indentation effect."_
+**Reading:** the FB-228 `.log-line.spoken` indent was overridden inside 幕
+cards: `.log-line.scene-line` (FB-262) sets its own `padding-left` later in
+the sheet at equal specificity, so card dialogue actually sat LEFT of card
+narration.
+**Distilled rule:** compose additive indents (`calc(card + speech)`), never
+let two idioms fight over one `padding-left`.
+**Fixed in:** styles.css `.log-line.scene-line.spoken` composed rule.

@@ -1074,6 +1074,12 @@ h3 {
 .log-line.spoken {
   padding-left: var(--space-2);
 }
+/* FB-398 — inside a 幕 card the card's own padding (.scene-line, below) would
+   otherwise override this at equal specificity and dialogue OUTDENTS relative
+   to narration; compose the two so speech still steps in from the card margin. */
+.log-line.scene-line.spoken {
+  padding-left: calc(var(--space-3) + var(--space-2));
+}
 /* F127 — chat grouping kicker: a quiet inline rule opening each conversation
    ("— with Sōan —") whenever the interlocutor changes, so chats with different
    people never read as one context-less feed. Lives INSIDE the first line of
