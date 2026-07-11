@@ -48,3 +48,13 @@ Dont preview things under fog of war, the ruined compound, fully hidden under fo
 **Details:** `mapsheet/2026-07-11T09-29-55.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-381 · 2026-07-11T09:30:14+0200 — i-still-ahve-no
+
+I still ahve no idea why kitchen threshold is shown in R1 as an area you could walk to why is it not completely removed from the map to be revealed later ?
+
+**Element:** panel "do" · `svg > g:nth-of-type(3) > g:nth-of-type(4) > rect:nth-of-type(2)` · @681,207 80×48
+**Screenshot:** `mapsheet/2026-07-11T09-30-14.png`
+**Details:** `mapsheet/2026-07-11T09-30-14.json` — save + recent logs + full context
+
+---
