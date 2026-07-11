@@ -37,3 +37,12 @@ human-steered text-sync) rather than this targeted ripple.
 
 - None owed from this ripple. The §3/§4 meter-language question above is the
   one open thread if anyone wants it.
+
+## Addendum — the remainder became a plan
+
+The human asked for a small plan covering everything left. Authored
+`docs/plans/fable-2026-07-11-prd-rungmeter-textsync.md` (ops class, via
+`/write-plan`): inventory-classify the ~90 rung-meter/AND-gate lines,
+reword T0-shipped descriptions to the ADR-137 requirements model,
+annotate kept T1+ frontier prose, reject the retired-term teeth (AC-11).
+Queued for the human; startable agent-side per ADR-168.
