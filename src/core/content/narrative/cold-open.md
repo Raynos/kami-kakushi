@@ -44,7 +44,7 @@ have been three days in a room you have never seen.
 
 ### dream
 
-Water, above and below. What surfaces is counted: one knot, tied twice;
+Water, above and below. Whatever surfaces is counted: one knot, tied twice;
 one road in grey rain; one load, set down somewhere and not taken up. The
 name is not among the items. Each is looked at once and goes under.
 

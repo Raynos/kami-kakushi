@@ -4,6 +4,7 @@
 // Data only — the types + helpers stay hand-written in storyTakes.ts, which re-exports this.
 
 import type { StoryTakeBundle } from './storyTakes';
+import { COLD_OPEN } from '../core/content/coldOpen';
 import { NAMES } from '../core/content/names';
 import { NPC_NAME } from '../core/content/voices';
 
@@ -1222,6 +1223,446 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             'The paddies keep his hours now; the hands go out when he goes out, and no one remembers the last order given.',
           'a-granary-against-winter': `There is rice against winter in the kura, and ${NAMES.elder} opens a page in the day-book the house has not needed in years to say so.`,
         },
+      },
+    ],
+  },
+
+  {
+    id: 'hd38-w1-terms',
+    title: 'The R1 Terms scene (the tutorial contract)',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      "Take B (canon) is the only version where all five terms — sun-to-sun labour, hired-by-the-day, NO COIN, objections-now-or-never, paddies-by-full-light — plus the no-bed fact land in plain language, at one re-read for the whole scene. It also converts Genemon's coldness into CANDOR: he sets the brush down, looks at you (the only man in the room who does), leads with the arithmetic that is the sole reason you are standing there, and tells you the parts that do not flatter the house. The blind reader's verdict: \"A's Genemon is fascinating to watch; B's is someone you want to ask things\" — and for a tutorial whose mechanical job is to teach the player that asking is worth doing, that is the whole ballgame.",
+    canonLabel: 'B · man to man (the steward levels with you)',
+    rung: 1,
+    takes: [
+      {
+        id: 'a',
+        label: 'the book speaks',
+        brief:
+          'The terms arrive as a LEDGER ENTRY, read aloud as he writes it — you hear yourself being written down. Book voice for the entry; man voice when he lifts his eyes off the page. The chill is bureaucratic, not personal, and the clarity is a gift of the FORM.',
+        scorecard:
+          '18✔ 3✘ — ✘ opens on canon\'s hardest line ("Wages drawn through the day they left, lines struck" — two stacked idioms in the tutorial\'s third line); ✘ "against your board" is genuinely opaque (board = table? board = lodging, which he has just been denied?); ✘ the no-bed fact lands only by INFERENCE ("no line for where you sleep") — elegant, but a 14-year-old may not make it.',
+        rungBeats: {
+          R1: {
+            id: 'rung-r1',
+            rank: 'R1',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [
+              'room-paddies',
+              'verb-farm',
+              'verb-haul',
+              'readout-clock',
+              'readout-stamina',
+              'panel-rung-ladder',
+            ],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: "Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon calls you up from the step without looking up.",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Two hands took the lowland road this week. Wages drawn through the day they left, lines struck. The yard is short. The work is not."',
+              },
+              { voice: 'narrator', text: 'It is the first you have heard of any leaving.' },
+              {
+                voice: 'narrator',
+                text: 'He opens the day-book to a page already half-filled with other men, wets the brush, and begins to write you into it. He reads each line aloud as it goes down, the way a man checks a sum against the page.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Hired by the day. Day-hand, no rank."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Labour: sun to sun, at whatever the yard wants doing."',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Counted each day in this book. A day worked is a line. A day not worked is a line as well."',
+              },
+              { voice: 'steward', speaker: NPC_NAME.genemon, text: '"Wage: none."' },
+              {
+                voice: 'narrator',
+                text: 'The brush stops on that line. It is the shortest one on the page and it takes him the longest to write.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Objections: heard now, or kept."',
+              },
+              {
+                voice: 'narrator',
+                text: 'Then he lifts his eyes off the page, and his voice comes up out of it — slower, and pitched to a man rather than a book.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"That last one is not a formality. Hear the wage line again, because it is the one men mishear. The house pays you nothing. Every coin this house takes in is owed to somebody in the town before it ever reaches this yard, and the yard is where you stand. There will be no coin. Not late, not small. None. A man who agrees to that and then waits for it will hate us by autumn."',
+              },
+              {
+                voice: 'narrator',
+                text: 'The entry sits there, finished. Work, by day, no coin. There is no line for where you eat. There is no line for where you sleep. Written out, a man comes to very little.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"The paddies want you by full light. Say now if you will not."',
+              },
+              {
+                voice: 'narrator',
+                text: "Nobody stops eating. Two hands lost was a morning's talk; one stray kept is not even that. The bowls go on.",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"The board has heard it. That serves for witness."',
+              },
+              {
+                voice: 'narrator',
+                text: 'On the veranda above the step, Naoyuki has stopped — the second son, papers of his own under one arm. Passing, and made a witness like the rest of the room.',
+              },
+              { voice: 'official', speaker: NPC_NAME.naoyuki, text: '"The house is glad of —"' },
+              {
+                voice: 'narrator',
+                text: 'The sentence stops. He stands with it a moment, as if he has read it back and found it not worth the ink.',
+              },
+              {
+                voice: 'official',
+                speaker: NPC_NAME.naoyuki,
+                text: '"Two hands left. You were here. That is all it is."',
+              },
+              { voice: 'narrator', text: 'He goes on along the veranda. He looked at you once.' },
+              {
+                voice: 'narrator',
+                text: 'Then Genemon takes up the brush again, and asks it plainly, at board volume. The room hears without listening.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"One thing before the ink dries. If a claim follows you here, I enter it against your board. Is anything owing on you?"',
+              },
+            ],
+            topics: [
+              {
+                id: 'r1-the-two',
+                label: '"The two that left?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"Left owed nothing, owing nothing. Struck clean. The lowlands pay coin in winter; I could not argue the sum, so I did not argue it."',
+                  },
+                ],
+              },
+              {
+                id: 'r1-why-keep',
+                label: '"Why keep me?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"The paddies take six hands at the least. Five sleep here now. You are the sixth. If a better sixth comes by, the book will say so."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'Is anything owing on you?',
+              options: [
+                {
+                  id: 'r1-none-claimed',
+                  label: '"Not that I know."',
+                  say: '"Not that I know."',
+                  react: '"Then the book says none claimed. It has lived with worse."',
+                  flags: ['r1-none-claimed'],
+                },
+                {
+                  id: 'r1-kept',
+                  label: '"Say nothing."',
+                  say: '"…"',
+                  react:
+                    '"Kept, then. The book carries what is claimed, and I keep my own margins."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'kept-accounts' }],
+                  flags: ['r1-kept-owing'],
+                },
+                {
+                  id: 'r1-and-if',
+                  label: '"And if there were?"',
+                  say: '"And if there were?"',
+                  react:
+                    '"Then the house\'s claim comes first, while you eat its rice. After that — whoever can find you. So far nobody has asked."',
+                  flags: ['r1-asked-owing'],
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        id: 'c',
+        label: 'minimum change',
+        brief:
+          "Canon's exact dramatic shape; repair ONLY what breaks the clarity floor. The conservative floor of the diverge and the rollback path.",
+        scorecard:
+          '14✔ 6✘ — REJECTED, and the finding is the interesting one: minimum-change is NOT the safe option here. ✘ "No coin" is sentence 3 of 6 in a flat recitation, with no beat before and no reaction after, and its reason rides on an idiom ("the house\'s coin is spoken for"); ✘ "objections… now or kept" reads as *kept on file* — the reverse of the meaning; ✘ the no-bed fact is ABSENT from the text entirely; ✘ highest re-read count of the three. The blind reader: "C is the version in which a 15-year-old can finish the tutorial not knowing they are working for NOTHING and sleeping NOWHERE. In a tutorial, that isn\'t restraint — it\'s a bug."',
+        rungBeats: {
+          R1: {
+            id: 'rung-r1',
+            rank: 'R1',
+            voice: 'steward',
+            speaker: 'genemon',
+            motivates: [
+              'room-paddies',
+              'verb-farm',
+              'verb-haul',
+              'readout-clock',
+              'readout-stamina',
+              'panel-rung-ladder',
+            ],
+            greeting: [
+              {
+                voice: 'narrator',
+                text: "Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon calls you up from the step without looking up.",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Two hands took the lowland road this week. Wages drawn through the day they left, lines struck. The yard is short. The work is not."',
+              },
+              { voice: 'narrator', text: 'It is the first you have heard of any leaving.' },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Terms. You work sun to sun, at whatever the yard wants doing. You are hired by the day, and the day is counted in the book. You are paid no coin. The house\'s coin is spoken for before it reaches the yard. Objections are heard now or kept. The paddies want you by full light."',
+              },
+              {
+                voice: 'narrator',
+                text: "Nobody stops eating. Two hands lost was a morning's talk; one stray kept is not even that. The bowls go on.",
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"The board has heard it. That serves for witness."',
+              },
+              {
+                voice: 'narrator',
+                text: 'He opens the day-book to a page already half-filled with other men.',
+              },
+              {
+                voice: 'narrator',
+                text: 'On the veranda above the step, Naoyuki has stopped — the second son, papers of his own under one arm. Passing, and made a witness like the rest of the room.',
+              },
+              { voice: 'official', speaker: NPC_NAME.naoyuki, text: '"The house is glad of —"' },
+              {
+                voice: 'narrator',
+                text: 'The sentence stops. He stands with it a moment, as if he has read it back and found it not worth the ink.',
+              },
+              {
+                voice: 'official',
+                speaker: NPC_NAME.naoyuki,
+                text: '"Two hands left. You were here. That is all it is."',
+              },
+              { voice: 'narrator', text: 'He goes on along the veranda. He looked at you once.' },
+              {
+                voice: 'narrator',
+                text: 'Then Genemon takes up the brush, and asks it plainly, at board volume. The room hears without listening.',
+              },
+              {
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"One thing before the ink. If a claim follows you here, I enter it against your board. Is anything owing on you?"',
+              },
+            ],
+            topics: [
+              {
+                id: 'r1-the-two',
+                label: '"The two that left?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"They were owed nothing, and they owed nothing. I struck them clean. The lowlands pay coin in winter; I could not argue the sum, so I did not argue it."',
+                  },
+                ],
+              },
+              {
+                id: 'r1-why-keep',
+                label: '"Why keep me?"',
+                answer: [
+                  {
+                    voice: 'steward',
+                    speaker: NPC_NAME.genemon,
+                    text: '"The paddies take six hands at the least. Five sleep here now. You are the sixth. If a better sixth comes by, the book will say so."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'Is anything owing on you?',
+              options: [
+                {
+                  id: 'r1-none-claimed',
+                  label: '"Not that I know."',
+                  say: '"Not that I know."',
+                  react: '"Then the book says none claimed. It has lived with worse."',
+                  flags: ['r1-none-claimed'],
+                },
+                {
+                  id: 'r1-kept',
+                  label: '"Say nothing."',
+                  say: '"…"',
+                  react:
+                    '"Kept, then. The book carries what is claimed, and I keep my own margins."',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'kept-accounts' }],
+                  flags: ['r1-kept-owing'],
+                },
+                {
+                  id: 'r1-and-if',
+                  label: '"And if there were?"',
+                  say: '"And if there were?"',
+                  react:
+                    '"Then the house\'s claim comes first, while you eat its rice. After that — whoever can find you. So far nobody has asked."',
+                  flags: ['r1-asked-owing'],
+                },
+              ],
+            },
+          },
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'hd38-w4-intro',
+    title: "Intro 1 — the dream, and the game's first choice",
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'Canon is take C plus three redlines. (1) The three options now map one-to-one onto the three things the dream actually names — knot, road, load — so the menu and the list finally agree, and "The Clear Room" is at last granted by the ROAD it describes. (2) The labels became body verbs — Hold / Kick / Shoulder — grafted from take B, the one thing B\'s menu did better than anyone: a 14-year-old reads them and instantly knows they are choosing between the thinker, the runner and the ox. (3) The LOAD option finally gets its plain "from now on…" habit sentence — it failed the what-test in ALL THREE takes, which means it was a hole in the original design, not a versioning problem. Its siblings both told you what you had permanently become; it handed you a strap and a step and let you guess.',
+    canonLabel: 'C+ · three things, three verbs, one hand (minimum change, redlined)',
+    rung: 0,
+    takes: [
+      {
+        id: 'a',
+        label: 'three things, one hand',
+        brief:
+          'The straight structural fix — three things surface, the water takes all of them, you have one hand and time for one. Whichever you hold becomes the habit you carry for life, because the head kept nothing.',
+        scorecard:
+          '17✔ 3✘ — ✘ CONTINUITY BREAK: "You come out coughing, alive" resolves the rescue three scenes early, and in only ONE of the three options — so the same menu forks the plot, and a replaying player learns one choice also survives the water; ✘ turns a surfacing MEMORY into a physical swimming direction (take C keeps the logic airtight: the items go under, THEN the water clears to a direction); ✘ the load option still fails the what-test.',
+        introScenes: [
+          {
+            id: 'dream',
+            title: 'what the water takes',
+            voice: 'narrator',
+            greeting: [{ voice: 'narrator', text: COLD_OPEN.dream }],
+            topics: [],
+            decision: {
+              prompt: 'Three things, and one hand free. Which do you close it on?',
+              options: [
+                {
+                  id: 'dream-dwell',
+                  label: 'The knot, tied twice',
+                  say: '"Twice. Why would a man tie it twice."',
+                  react:
+                    'You stop swimming to turn it over. The knot goes down anyway — but the turning stays. From now on, whatever is put in your hands, you look at it a second time before you answer.',
+                  stat: { up: 'int', down: 'spd' },
+                  perk: {
+                    name: 'The Inward Turn',
+                    desc: 'A mind that deepens by dwelling, at the price of a slower body.',
+                  },
+                },
+                {
+                  id: 'dream-shake',
+                  label: 'The road in grey rain',
+                  say: '"The road went somewhere. Up is a road too."',
+                  react:
+                    'You let the knot and the load go and take the road — it is only a direction, and the direction is up. You come out coughing, alive. From now on, any room you enter, you find the door before you find the people.',
+                  stat: { up: 'spd', down: 'int' },
+                  perk: {
+                    name: 'The Clear Room',
+                    desc: 'Senses sharpened to the way out — quick where thought is thin.',
+                  },
+                },
+                {
+                  id: 'dream-hands',
+                  label: 'The load, set down',
+                  say: '"That was mine. I know what it weighed."',
+                  react:
+                    "Your shoulders answer before your head can. The load goes under with everything else, and still the hands keep it: a strap's width, the length of a carried step, a weight your body will not put down.",
+                  stat: { up: 'str', down: 'luck' },
+                  perk: {
+                    name: "The Porter's Hands",
+                    desc: 'Hands that remember the work before the head does.',
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        id: 'b',
+        label: 'the body chooses first',
+        brief:
+          'He does not decide — his body decides, and he learns what he is by watching what it did. Agency is retroactive: the first act of self-knowledge is an act of OBSERVATION, and this is a man who will spend the whole game learning who he was from evidence rather than memory.',
+        scorecard:
+          '15✔ 5✘ — the best PROSE in the set and it still loses, which is the finding. ✘✘✘ WHAT-TEST FAILURE 3/3: every option resolves into an abstract noun — "the asking / the aim / the carrying" — so a player finishes all three paragraphs and still cannot say what their permanent perk DOES. On the first screen, that quietly teaches them the game\'s choices are vibes. ✘ the labels are declarative sentences ("Your fingers close on the knot") — narration, not buttons: strange to CLICK. ✘ "It finds you carrying nothing, correctly" — a genuinely great line, and a wall for the target reader. KEPT ANYWAY, because its label idea is grafted into canon and because "The head arrives late, the way it always will" is the best line any of these agents wrote. Human: if you want that line in canon, say so and I will find it a home.',
+        introScenes: [
+          {
+            id: 'dream',
+            title: 'what the water takes',
+            voice: 'narrator',
+            greeting: [{ voice: 'narrator', text: COLD_OPEN.dream }],
+            topics: [],
+            decision: {
+              prompt: 'There is no time to choose. Something in you chooses anyway. What?',
+              options: [
+                {
+                  id: 'dream-dwell',
+                  label: 'Your fingers close on the knot',
+                  say: '"...Twice. It was tied twice. Why."',
+                  react:
+                    'Your hand shuts before you tell it to. The knot is inside your fist and your fist will not open, not for the water, not for the road going by.  The head arrives late, the way it always will. It finds you holding a thing and asking it a question.  The knot goes under. The asking stays.',
+                  stat: { up: 'int', down: 'spd' },
+                  perk: {
+                    name: 'The Inward Turn',
+                    desc: 'A mind that deepens by dwelling, at the price of a slower body.',
+                  },
+                },
+                {
+                  id: 'dream-shake',
+                  label: 'Your legs kick for the grey',
+                  say: '"...That way. I went that way. I don\'t know why I know."',
+                  react:
+                    'Your legs go before the count is finished. They do not pick the knot. They do not pick the load. They pick the grey — the one direction with light in it — and they drive.  The head arrives late. It finds you already moving, already aimed, the water splitting off your shoulders.  The road goes under. The aim stays.',
+                  stat: { up: 'spd', down: 'int' },
+                  perk: {
+                    name: 'The Clear Room',
+                    desc: 'Senses sharpened to the way out — quick where thought is thin.',
+                  },
+                },
+                {
+                  id: 'dream-hands',
+                  label: 'Your shoulders take the weight',
+                  say: '"...I know this weight. I don\'t know whose it was."',
+                  react:
+                    'Your back braces. Nothing is on it. Your shoulders take the load anyway — the strap sits where a strap has sat a thousand mornings, and the body leans into a road that is not there.  The head arrives late. It finds you carrying nothing, correctly.  The load goes under. The carrying stays.',
+                  stat: { up: 'str', down: 'luck' },
+                  perk: {
+                    name: "The Porter's Hands",
+                    desc: 'Hands that remember the work before the head does.',
+                  },
+                },
+              ],
+            },
+          },
+        ],
       },
     ],
   },

@@ -605,7 +605,8 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Genemon",
+          "voice": "steward",
           "context": "The day-hand promotion",
           "contentKey": "beat.R1.greeting.4"
         },
@@ -633,7 +634,8 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Genemon",
+          "voice": "steward",
           "context": "The day-hand promotion",
           "contentKey": "beat.R1.greeting.7"
         },
@@ -642,8 +644,7 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "speaker": "Naoyuki",
-          "voice": "official",
+          "voice": "narrator",
           "context": "The day-hand promotion",
           "contentKey": "beat.R1.greeting.8"
         },
@@ -680,7 +681,8 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Naoyuki",
+          "voice": "official",
           "context": "The day-hand promotion",
           "contentKey": "beat.R1.greeting.12"
         },
@@ -689,8 +691,7 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
+          "voice": "narrator",
           "context": "The day-hand promotion",
           "contentKey": "beat.R1.greeting.13"
         },
@@ -699,10 +700,9 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "speaker": "Nameless",
-          "voice": "player",
+          "voice": "narrator",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.opt.r1-none-claimed.say"
+          "contentKey": "beat.R1.greeting.14"
         },
         {
           "key": 66,
@@ -712,10 +712,30 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.opt.r1-none-claimed.react"
+          "contentKey": "beat.R1.greeting.15"
         },
         {
           "key": 67,
+          "channel": "narration",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.opt.r1-none-claimed.say"
+        },
+        {
+          "key": 68,
+          "channel": "narration",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.opt.r1-none-claimed.react"
+        },
+        {
+          "key": 69,
           "channel": "milestone",
           "tick": 2,
           "count": 1,
@@ -726,7 +746,7 @@
           }
         },
         {
-          "key": 68,
+          "key": 70,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -735,7 +755,7 @@
           "contentKey": "reveal.readout-clock"
         }
       ],
-      "seq": 69
+      "seq": 71
     },
     "skillXp": {},
     "deliveredDialogue": [

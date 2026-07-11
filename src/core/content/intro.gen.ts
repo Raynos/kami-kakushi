@@ -24,7 +24,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           label: 'Hold the knot',
           say: '"The knot. Tied twice. Why twice."',
           react:
-            'He turns it for as long as the water allows. The knot goes down with the rest; the looking stays — after this, anything put in his hands gets looked at twice before it gets an answer.',
+            'You turn it for as long as the water allows. The knot goes down with the rest; the looking stays. From now on, anything put in your hands gets looked at twice before it gets an answer.',
           stat: { up: 'int', down: 'spd' },
           perk: {
             name: 'The Inward Turn',
@@ -33,10 +33,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         },
         {
           id: 'dream-shake',
-          label: 'Strike the list',
-          say: '"Enough counting. Up is that way."',
+          label: 'Kick for the road',
+          say: '"The road. It went somewhere. Up is that way."',
           react:
-            'The items go under and the water comes plain: one direction, lighter than the rest. What he keeps is the habit of it — any room he enters after this, the way out is the first thing counted.',
+            'The items go under, and the water clears to one direction, brighter than the rest. The road goes down with them; the way out stays. From now on, any room you enter, the door is the first thing you count.',
           stat: { up: 'spd', down: 'int' },
           perk: {
             name: 'The Clear Room',
@@ -45,10 +45,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         },
         {
           id: 'dream-hands',
-          label: 'Take up the load',
+          label: 'Shoulder the load',
           say: '"The load was mine. I know the weight."',
           react:
-            "The shoulders answer before the count does. The head kept nothing, but the hands kept the shape of the weight — a strap's width, the length of a carried step.",
+            "Your shoulders answer before your head does. The load goes down with the rest; the carrying stays — a strap's width, the length of a carried step. From now on, a weight you take up sits where your body already knew to put it.",
           stat: { up: 'str', down: 'luck' },
           perk: {
             name: "The Porter's Hands",

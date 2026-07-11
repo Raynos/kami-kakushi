@@ -9,7 +9,7 @@ export const COLD_OPEN = {
   weir: 'The river gives you up at the weir. You keep none of it in order: hands in your collar, gravel under your back, the sky white and near, water leaving you in coughs. A stone jizō watches from the bank, rice at its feet, nobody on the road who could have left it. Someone says, carry him up, then. Then nothing.',
   wake: 'Straw. A low roof. A fire kept small. Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it. You have been three days in a room you have never seen.',
   dream:
-    'Water, above and below. What surfaces is counted: one knot, tied twice; one road in grey rain; one load, set down somewhere and not taken up. The name is not among the items. Each is looked at once and goes under.',
+    'Water, above and below. Whatever surfaces is counted: one knot, tied twice; one road in grey rain; one load, set down somewhere and not taken up. The name is not among the items. Each is looked at once and goes under.',
   daybook:
     'One man, name unknown. Taken at the weir. Fed, three days. Condition, poor; hands, good.',
   daybookVerbs: 'Rakes; hauls. Wage: meals.',

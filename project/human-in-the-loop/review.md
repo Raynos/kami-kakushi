@@ -464,3 +464,77 @@ duty and an overnight ash-steep that exist nowhere in the game (story promises a
 contracts) — but its `sb-racks` is the best scene any of the three wrote, and it can be
 grafted.
 
+
+### HR-34 🔲 [R1 · story] — the Terms scene, re-voiced (W1 of the T0 re-voice, ADR-185)
+
+**Your original complaint, fixed.** You flagged "Genemon at the R0 rung-up" — which is
+this beat, the one that fires at the R0→R1 rung-up. Canon's Terms speech was six
+verbless fragments with **"No coin"** — the most consequential fact in the scene —
+buried in a subordinate clause, at the exact moment the player must learn what deal
+they have just accepted.
+
+- **Pick: TAKE B "man to man"** — which is **the take you picked live**, and a blind
+  fresh-reader paraphrase pass then reached the same verdict *independently*, winning
+  on **both** clarity and pull (a rare non-trade). Genemon sets the brush down, looks
+  at you (the only man in the room who does), and leads with the arithmetic that is the
+  sole reason you are standing there. His coldness becomes **candor**.
+- **Canon = take B + two transplants from take A**: the brush stalling on the wage line,
+  and *"There is no line for where you eat, and none for where you sleep. Written out, a
+  man comes to very little."*
+- **Authored against w3's new R1** (same day): R1 opens the paddy and nothing else — so
+  the Terms promise **no meals and no bed**, and Genemon now says it out loud: *"I have
+  no bed for you either. Five hands sleep here, and there is no sixth place."* The
+  six-hands arithmetic that is his reason for hiring you is the same arithmetic that has
+  no room for you.
+- **The finding worth your attention:** the *minimum-change* take (C) turned out to be
+  the **least clear** of the three, not the safest. The blind reader: *"C is the version
+  in which a 15-year-old can finish the tutorial not knowing they are working for
+  NOTHING and sleeping NOWHERE. In a tutorial, that isn't restraint — it's a bug."*
+  That retroactively justifies your best-read-wins rule.
+- Alternates: **A** "the book speaks" (the terms read aloud as a ledger entry — owns the
+  best passage anyone wrote, but opens on canon's hardest line and leaves the no-bed fact
+  to inference) · **C** "minimum change" (the rollback path).
+
+  - **How to look LIVE:** new game → play to the R1 rung-up (or DEV → Scenarios →
+    `rung-R1`). DEV → Story → **hd38-w1-terms** swaps takes live.
+  - **The acceptance test is yours:** play R0→R1 and tell me whether the original
+    complaint is dead.
+  - **Verdict:** _(awaiting your read)_
+
+### HR-35 🔲 [R0 · story] — Intro 1: the game's first choice (W4, ADR-185)
+
+**This was a structural bug, not a prose one** — which is why re-voicing alone could
+never have fixed it, and why your "reframe the choice, keep the mechanics" ruling was
+the one that mattered.
+
+The dream names **three things**: *one knot, one road, one load*. The menu then offered
+**Hold the knot / Strike the list / Take up the load** — the **road had no option**, and
+"Strike the list" was not one of the three things at all. Meanwhile the perk that option
+grants is *"The Clear Room — senses sharpened to **the way out**"* — which describes the
+road exactly. The game's first choice, which hands out a permanent stat and a permanent
+perk, has been one word away from coherent this whole time.
+
+- **Pick: TAKE C + redlines.** The three options now map one-to-one onto the three things
+  the dream actually names, and the labels became **body verbs** — **Hold** the knot /
+  **Kick** for the road / **Shoulder** the load — so a 14-year-old can see they are
+  choosing between the thinker, the runner and the ox *before* they click.
+- **The load option failed the what-test in ALL THREE takes** — a hole in the original
+  design, not a versioning problem. Its siblings each told you what you had permanently
+  become; it handed you a strap and a step and let you guess. It now gets its plain
+  "from now on…" sentence like the others.
+- **Mechanics are byte-identical**, as you ruled: the three ids, both stat deltas each,
+  and all three perk lines (name *and* description) are untouched. Zero engine change.
+- Also fixed: the shared dream line was a garden-path — *"What surfaces is counted"* reads
+  "surfaces" as a **noun** on first pass. Now *"Whatever surfaces is counted"*.
+- Alternates: **A** "three things, one hand" (has a continuity break — *"You come out
+  coughing, alive"* resolves the rescue three scenes early, in only one of three options)
+  · **B** "the body chooses first" (**the best prose in the set — and it loses**: it fails
+  the what-test 3/3, resolving every option into an abstract noun, "the asking / the aim /
+  the carrying", so the player cannot say what their perk *does*).
+- **One thing I want from you:** take B wrote *"The head arrives late, the way it always
+  will."* It is the best line any of these agents produced and it is not in canon. Say the
+  word and I will find it a home.
+
+  - **How to look LIVE:** new game → the cold open → act 1. DEV → Story →
+    **hd38-w4-intro** swaps takes live.
+  - **Verdict:** _(awaiting your read)_

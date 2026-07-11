@@ -45,31 +45,32 @@ title: what the water takes
 #### dream-dwell · Hold the knot
 say: "The knot. Tied twice. Why twice."
 
-> He turns it for as long as the water allows. The knot goes down with the
-> rest; the looking stays — after this, anything put in his hands gets
+> You turn it for as long as the water allows. The knot goes down with the
+> rest; the looking stays. From now on, anything put in your hands gets
 > looked at twice before it gets an answer.
 
 stat: +int -spd
 perk: The Inward Turn — A mind that deepens by dwelling, at the price of a
   slower body.
 
-#### dream-shake · Strike the list
-say: "Enough counting. Up is that way."
+#### dream-shake · Kick for the road
+say: "The road. It went somewhere. Up is that way."
 
-> The items go under and the water comes plain: one direction, lighter
-> than the rest. What he keeps is the habit of it — any room he enters
-> after this, the way out is the first thing counted.
+> The items go under, and the water clears to one direction, brighter than
+> the rest. The road goes down with them; the way out stays. From now on,
+> any room you enter, the door is the first thing you count.
 
 stat: +spd -int
 perk: The Clear Room — Senses sharpened to the way out — quick where thought is
   thin.
 
-#### dream-hands · Take up the load
+#### dream-hands · Shoulder the load
 say: "The load was mine. I know the weight."
 
-> The shoulders answer before the count does. The head kept nothing, but
-> the hands kept the shape of the weight — a strap's width, the length of
-> a carried step.
+> Your shoulders answer before your head does. The load goes down with the
+> rest; the carrying stays — a strap's width, the length of a carried step.
+> From now on, a weight you take up sits where your body already knew to
+> put it.
 
 stat: +str -luck
 perk: The Porter's Hands — Hands that remember the work before the head does.

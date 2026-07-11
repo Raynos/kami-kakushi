@@ -17,7 +17,7 @@
 
 > Straw. A low roof. A fire kept small. Something surfaces — a knot, a road in grey rain — and goes down again before you can put a hand to it. You have been three days in a room you have never seen. <small>*(wake)*</small>
 
-> Water, above and below. What surfaces is counted: one knot, tied twice; one road in grey rain; one load, set down somewhere and not taken up. The name is not among the items. Each is looked at once and goes under. <small>*(dream)*</small>
+> Water, above and below. Whatever surfaces is counted: one knot, tied twice; one road in grey rain; one load, set down somewhere and not taken up. The name is not among the items. Each is looked at once and goes under. <small>*(dream)*</small>
 
 > One man, name unknown. Taken at the weir. Fed, three days. Condition, poor; hands, good. <small>*(daybook)*</small>
 
@@ -29,18 +29,18 @@
 
 ## Intro 1 · what the water takes
 
-> Water, above and below. What surfaces is counted: one knot, tied twice; one road in grey rain; one load, set down somewhere and not taken up. The name is not among the items. Each is looked at once and goes under.
+> Water, above and below. Whatever surfaces is counted: one knot, tied twice; one road in grey rain; one load, set down somewhere and not taken up. The name is not among the items. Each is looked at once and goes under.
 
 **Decide** — One can be kept before the rest goes down. Which?
 
 - Hold the knot <small>· stat +int −spd · perk “The Inward Turn”</small>
-  *He turns it for as long as the water allows. The knot goes down with the rest; the looking stays — after this, anything put in his hands gets looked at twice before it gets an answer.*
+  *You turn it for as long as the water allows. The knot goes down with the rest; the looking stays. From now on, anything put in your hands gets looked at twice before it gets an answer.*
 
-- Strike the list <small>· stat +spd −int · perk “The Clear Room”</small>
-  *The items go under and the water comes plain: one direction, lighter than the rest. What he keeps is the habit of it — any room he enters after this, the way out is the first thing counted.*
+- Kick for the road <small>· stat +spd −int · perk “The Clear Room”</small>
+  *The items go under, and the water clears to one direction, brighter than the rest. The road goes down with them; the way out stays. From now on, any room you enter, the door is the first thing you count.*
 
-- Take up the load <small>· stat +str −luck · perk “The Porter's Hands”</small>
-  *The shoulders answer before the count does. The head kept nothing, but the hands kept the shape of the weight — a strap's width, the length of a carried step.*
+- Shoulder the load <small>· stat +str −luck · perk “The Porter's Hands”</small>
+  *Your shoulders answer before your head does. The load goes down with the rest; the carrying stays — a strap's width, the length of a carried step. From now on, a weight you take up sits where your body already knew to put it.*
 
 ## Intro 2 · no name to give
 
@@ -138,52 +138,56 @@
 
 ## R1 · The day-hand 日雇
 
-> Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon calls you up from the step without looking up.
+> Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon sets the brush down. He looks at you while he speaks, which nobody else in the room does.
 
-**Genemon:** "Two hands took the lowland road this week. Wages drawn through the day they left, lines struck. The yard is short. The work is not."
+**Genemon:** "The paddies want six hands. Two of ours took the lowland road this week, so five sleep here now. You are the sixth. That is the whole reason you are standing in my kitchen, and you may as well hear it from me."
 
 > It is the first you have heard of any leaving.
 
-**Genemon:** "Terms. Work, sun to sun, at what the yard wants doing — hired by the day, counted in the book. No coin: the house's coin is spoken for before it reaches the yard. Objections are heard now or kept. The paddies want you by full light."
+**Genemon:** "So. The terms, and they are thin. You work from first light to last, at whatever the yard wants that day — some days that is the paddy, some days it is carrying. You are hired by the day. Every day you work, I write in this book. A day I do not write is a day you were not hired."
+
+**Genemon:** "You are paid no coin. Not a mon. What coin this house sees is owed out before it ever reaches the yard — I am the man who sends it, so you can take that as true. I have no bed for you either. Five hands sleep here, and there is no sixth place."
+
+**Genemon:** "If you have an objection, it is heard now or it is not heard at all. The paddies want you by full light."
 
 > Nobody stops eating. Two hands lost was a morning's talk; one stray kept is not even that. The bowls go on.
 
 **Genemon:** "The board has heard it. That serves for witness."
 
-> He opens the day-book to a page already half-filled with other men.
+> He opens the day-book to a page already half-filled with other men, and writes you onto it. Work, by the day. No coin. There is no line for where you eat, and none for where you sleep. Written out, a man comes to very little. The wage is the shortest line on the page, and it takes him the longest to write.
 
-> On the veranda above the step, Naoyuki has stopped — the second son, papers of his own under one arm. Passing, and made a witness like the rest of the room.
+> On the veranda above the step, Naoyuki has stopped — the second son, papers of his own under one arm. He was only passing. The room has made him a witness like everyone else in it.
 
 **Naoyuki:** "The house is glad of —"
 
-> The sentence stops. He stands with it a moment, as if he has read it back and found it not worth the ink.
+> The sentence stops. He stands a moment holding the rest of it, as if he has read it back and found it not worth the ink.
 
-**Naoyuki:** "Two hands left. You were here. That is all it is."
+**Naoyuki:** "Two hands left. You were standing here. That is all this is."
 
 > He goes on along the veranda. He looked at you once.
 
-> Then Genemon takes up the brush, and asks it plainly, at board volume. The room hears without listening.
+> Genemon takes up the brush again. He asks the last of it plainly, at the volume he keeps for the board — the room hears him and does not listen.
 
-**Genemon:** "One thing before the ink. If a claim follows you here, I enter it against your board. Is anything owing on you?"
+**Genemon:** "One thing before the ink. If a claim follows you here — a debt, a master, a magistrate — I have to write it in the book against your name. So I ask you once. Is anything owing on you?"
 
 **Ask** — "The two that left?"
 
-**Genemon:** "Left owed nothing, owing nothing. Struck clean. The lowlands pay coin in winter; I could not argue the sum, so I did not argue it."
+**Genemon:** "They left owing nothing, and nothing was owed to them. I struck their lines clean. The lowlands pay in coin, and they pay in winter, when a man has none. I could not argue against that, so I did not try."
 
 **Ask** — "Why keep me?"
 
-**Genemon:** "The paddies take six hands at the least. Five sleep here now. You are the sixth. If a better sixth comes by, the book will say so."
+**Genemon:** "You are the sixth. Understand what that means. I did not choose you — you were standing where a hand was missing. If a better sixth comes up that road, I will write him in and strike you out, and I will not be sorry. I would tell you the same day I wrote it. That is not a threat. It is what the book is for."
 
 **Decide** — Is anything owing on you?
 
 - "Not that I know." <small>· flags r1-none-claimed</small>
-  **Genemon:** "Then the book says none claimed. It has lived with worse."
+  **Genemon:** "Then the book says none claimed. It has carried worse than a man who cannot remember."
 
 - "Say nothing." <small>· memory genemon +1 (kept-accounts) · flags r1-kept-owing</small>
-  **Genemon:** "Kept, then. The book carries what is claimed, and I keep my own margins."
+  **Genemon:** "Kept, then. The book carries what is claimed. What I think, I keep in my own margins."
 
 - "And if there were?" <small>· flags r1-asked-owing</small>
-  **Genemon:** "Then the house's claim comes first, while you eat its rice. After that — whoever can find you. So far nobody has asked."
+  **Genemon:** "Then the house is paid first, for as long as you eat its rice. Whoever else holds the claim can come and find you after that. So far nobody has come."
 
 ## R3 · The grain-watch 蔵番
 

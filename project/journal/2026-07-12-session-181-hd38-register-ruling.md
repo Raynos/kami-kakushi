@@ -133,3 +133,54 @@ Blocked by w3's WIP: **W1, W2, W3, W5, W6** (rung-beats.md + scenes.md).
 Clear: **W4** (`intro.md`, `cold-open.md`).
 
 **Re-ordered the run: W4 first**, then the rest as w3 lands. w3 notified.
+
+---
+
+## W1 + W4 landed (both live-verified)
+
+**W1 — the Terms scene (HR-34).** Ships **take B**, the human's live pick — and a blind
+fresh-reader paraphrase pass reached the same verdict **independently**, winning on
+*both* clarity and pull. Canon = B + two transplants from A (the brush stalling on the
+wage line; *"Written out, a man comes to very little."*).
+
+Re-authored against w3's new R1 after their landing: R1 opens the paddy and nothing
+else, so the Terms now promise **no meals and no bed** — *"I have no bed for you either.
+Five hands sleep here, and there is no sixth place."* The six-hands arithmetic that is
+his reason for hiring you is the same arithmetic with no room for you.
+
+**The finding that justifies the human's best-read-wins rule:** the *minimum-change*
+take was the **least clear** of the three, not the safest. Blind reader: *"C is the
+version in which a 15-year-old can finish the tutorial not knowing they are working for
+NOTHING and sleeping NOWHERE. In a tutorial, that isn't restraint — it's a bug."*
+
+**W4 — Intro 1 (HR-35).** A **structural bug, not a prose one**, and the audit missed
+it entirely. The dream names three things (knot, road, load); the menu offered *Hold the
+knot / Strike the list / Take up the load* — the **road had no option**, and "Strike the
+list" was not one of the three things. The perk that option grants is *"The Clear Room —
+senses sharpened to **the way out**"*: it describes the road. The game's first choice has
+been one word from coherent since it was written.
+
+Canon = take C + redlines: the options map one-to-one onto the three things, and the
+labels became **body verbs** (Hold / Kick / Shoulder) grafted from take B — the player
+sees the thinker, the runner and the ox before clicking. The **load option failed the
+what-test in all three takes** (a hole in the original design) and now gets its plain
+habit sentence. Mechanics byte-identical per the human's ruling. Shared dream line
+de-garden-pathed: *"What surfaces is counted"* → *"Whatever surfaces is counted"*.
+
+**Take B lost with the best writing in the exercise** — it fails the what-test 3/3,
+resolving every option into an abstract noun ("the asking / the aim / the carrying"), so
+the player cannot say what their permanent perk *does*. On screen one, that teaches them
+the game's choices are vibes. Kept DEV-only; its line *"The head arrives late, the way it
+always will"* is flagged to the human as a graft candidate.
+
+**Verified, not assumed (PH3/PH6):** 18/18 gates green, and both waves driven **live in
+the headless browser** — the intro choice renders `Hold the knot / Kick for the road /
+Shoulder the load` with the stat kanji, and the R1 log carries the no-bed line, the plain
+"not a mon", and the transplanted narration. Fixtures regenerated (stage lines are
+positional, so the added narration re-indexed them).
+
+## Next
+
+W2 (works pages) · W3 (gloss + collisions) · W5 (sparse interiority) · W6 (full sweep) —
+all now unblocked, since w3 released `scenes.md`. Plus the R0 reward-line **legibility**
+item (TST4), which the human ruled gets its own investigation, not a re-voice wave.
