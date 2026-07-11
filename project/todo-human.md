@@ -19,6 +19,8 @@
 
 ## Reading queue
 
+- [ ] [`project/brainstorms/2026-07-12-quest-shapes-that-emerged.md`](brainstorms/2026-07-12-quest-shapes-that-emerged.md) —
+      the four quest shapes ADR-184's reveal wave actually produced (emergent, deliberately not an ADR — your call)
 - [ ] [`docs/plans/fable-2026-07-11-wait-a-day.md`](../docs/plans/fable-2026-07-11-wait-a-day.md) —
   the wait-a-day lever you asked for (FB-408): full option map A–F with
   pros/cons + balance analysis; recommendation D+F; Phase 0 is YOUR pick.

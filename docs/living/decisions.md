@@ -3527,7 +3527,7 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
     VN's prose alone (shipped default), or the VN plus a map-ink line — DEV-toggled,
     HR-32b.
 - **Record:** the plan
-  [`docs/plans/fable-2026-07-11-zone-rung-rebalance.md`](../plans/fable-2026-07-11-zone-rung-rebalance.md)
+  [`project/archive/fable-2026-07-11-zone-rung-rebalance.md`](../../project/archive/fable-2026-07-11-zone-rung-rebalance.md)
   · FB-407 / FB-408 / FB-409 · builds on **ADR-177** (the fiction causes the unlock —
   `room-weir`) and **ADR-179** (visibility is DERIVED, never stored) · **TST3** (the
   fiction causes the mechanics) · the story wave rides **ADR-139** (3+ blind takes) and

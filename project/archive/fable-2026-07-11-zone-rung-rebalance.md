@@ -1,9 +1,15 @@
 # A zone opens only in a VN — the reveal law + the T0 zone re-mapping
 
-**Status:** 🔒 LOCKED (mapping signed by the human 2026-07-12, session 180) —
-ready to build, staged. Supersedes the 2026-07-11 PROPOSED draft (git history),
-whose scope was "re-time three reveals"; the human's sign-off pass turned it into
-a reveal-architecture change.
+**Status:** ✅ DONE (built 2026-07-12, session 182 — ADR-184, commits `a4863592` +
+`5f667ef9`). Shipped: the law + its gate, the re-arm, the rewired schedule, the four
+new reveal VNs (3 blind takes, canon = A), the R1 prose surgery, and the sweeps.
+**TWO things did not ship as signed, both surfaced rather than fudged:** the
+kitchen-only cook siting is **built and held** on **HD-40** (the sim prices its walk at
+R3 22.7 → 31.6 wall-min, outside the signed [3,25] band — ADR-056 is the human's
+signature to move), and the reveal ANNOUNCE ships as a live DEV diverge (**HR-32b**,
+per the human's "implement both"). Story canon awaits **HR-33**.
+Supersedes the 2026-07-11 PROPOSED draft (git history), whose scope was "re-time three
+reveals"; the human's sign-off pass turned it into a reveal-architecture change.
 **Confidence:** ( 100% Opus, 0% Fable ) — human steer 2026-07-11 routes all
 subagents/workflows to Opus while Fable sits near its cap.
 **Template:** build
