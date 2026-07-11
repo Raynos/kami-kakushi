@@ -163,13 +163,14 @@ porter session — that lane owns `timing.ts` now), and the shared files
 
 ## The porter piece
 
-### F389 · walking animations are too fast — 🔧
+### F389 · walking animations are too fast — ✅
 **Verbatim:** _"Walking animations are too fast. tbh"_
 **Reading:** two halves — the traverse (clock-synced) felt fast because the
 per-edge walk table is short, AND the free-running netsuke waddle cycled at
 0.4s/0.8s.
-**Fixed in:** the gait halving (bob ~0.8s, rock ~1.6s cycles) is folded into
-`w6:p1`'s porter batch (with the walk-table change) — stamp on its landing.
+**Fixed in:** `09c04284` — the porter batch: gait halved (bob ~0.8s, rock
+~1.6s cycles) + the walk table ×2 (human-revised from the 500% ask; the R3
+pacing band re-signed [3,25]).
 
 ## Fog of war — the corners
 
@@ -190,25 +191,24 @@ raise the chrome ABOVE the mask; a hole shows everything beneath it.
 
 ## Fog of war — the frontier marks
 
-### F392 · random floating kanji means nothing at R1 — 🔧
+### F392 · random floating kanji means nothing at R1 — ✅
 **Verbatim:** _"Random floating kanji in the fog of war means nothing in the
 R1 stage"_
 **Reading:** the fog-frontier 未測 washes draw at hidden zones' anchors; three
 of six at R1 sit on BLANK paper fog, reading as noise.
-**Fixed in:** the `isFogged` guard in the fogFrontier loop — implemented in
-`w6:p1`'s in-tree `sheet-map.ts` batch (per the mid-drain coordination) —
-stamp on its landing. Washes over drawn ground stay (they mark visible but
-unsurveyed ground).
+**Fixed in:** `09c04284` — the `isFogged` guard in the fogFrontier loop
+(folded into the porter batch per the mid-drain coordination). Washes over
+drawn ground stay (they mark visible but unsurveyed ground).
 
-### F393 · more floating kanji — 🔧
+### F393 · more floating kanji — ✅
 **Verbatim:** _"More floating kanji that has no meaning in R1"_
 **Fixed in:** with F392.
 
-### F394 · this kanji too — 🔧
+### F394 · this kanji too — ✅
 **Verbatim:** _"This knaji too."_
 **Fixed in:** with F392.
 
-### F397 · kanji here has no meaning — 🔧
+### F397 · kanji here has no meaning — ✅
 **Verbatim:** _"Kanji here has no meaning"_
 **Fixed in:** with F392.
 

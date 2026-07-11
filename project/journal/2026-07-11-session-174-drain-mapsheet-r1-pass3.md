@@ -39,3 +39,9 @@ to `w6:p1` and kept the rest.
   back out to `pending/` undrained (only the drained FB-388 stays archived).
   Lesson: archive by NAMED stamp, never `mv <bucket>/*` — a live bucket grows
   under you.
+- Close-out: `w6:p1`'s porter batch (`09c04284`) landed the folded FB-389 gait
+  + walk-table ×2 (human revised the 500% ask down; T0 band re-signed [3,25])
+  and the FB-392/393/394/397 未測 guard. All five sidecars stamped `09c04284`,
+  ledger flipped to ✅, the mapsheet bucket archived (named stamps this time).
+  Pass complete: 10/10 items closed; pending/ holds r1 (6 fresh, undrained)
+  + the-log (unclaimed).
