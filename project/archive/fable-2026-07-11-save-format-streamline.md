@@ -1,8 +1,15 @@
 # Streamline the save-file format — facts only, src/ is truth
 
-**Status:** LOCKED — audit done (session 175); all open questions ruled by the
-human (session 180, 2026-07-11 — see "Locked decisions" below). Ready to build,
-in the order **5 → 3 → 2 → 4 → 1**.
+**Status:** DONE — all five steps built & pushed (session 180, 2026-07-12). Every
+gate green on the FULL lane (18 gates, 1261 tests incl. `@slow`). Doctrine landed as
+**ADR-186**. Two follow-ups fell OUT of this plan and are recorded in the addendum at
+the bottom (they are NOT done): the **reveal-ceremony re-arm** and the
+**save-migration subsystem** the human routed here from the zone-rung session.
+
+**Outcome:** 302 distinct keyless log lines → **0** (gated). Fixtures 1812 → 1264 KB
+with **zero** prose characters on disk. `validateState` is a whitelist rebuild; weapon
+wear + `sitePools` derive from `src/`; an orphaned-id sensor reports content renames in
+the DEV panel.
 **✅ Grounding re-check (session 180, HEAD):** findings 2, 4, 5 all still hold
 (`validate.ts:247` `...base`; `validate.ts:346` hardcoded `40`); `renderLogLine`
 lives in `src/core/content/log-content.ts` and is still a leaf (imports only
@@ -206,9 +213,40 @@ verifies the `@slow` lane.
 
 ## Sync ripple (PRD · story-bible · living docs)
 
-- **ADR** (`docs/living/decisions.md`) — the log-is-a-derived-view doctrine
-  (locked decision 1) + the keyless gate (decision 2), with step 1.
-- **`src/persistence/README.md`** — amended in step 5 (see above).
-- **PRD / story-bible** — no ripple: this is a persistence-layer change; no
-  system, narrative beat, or content registry changes meaning. (Re-check with
-  `pnpm run prd:drift` after step 1 regardless.)
+- ✅ **ADR-186** (`docs/living/decisions.md`) — the log-is-a-derived-view doctrine +
+  the keyless gate + the positional-`greeting.<i>` limit.
+- ✅ **`src/persistence/README.md`** — the log section rewritten as settled doctrine;
+  the clamp-to-registry rule; the whitelist rebuild.
+- **PRD / story-bible** — no ripple: a persistence-layer change; no system, narrative
+  beat, or content registry changes meaning.
+
+## Addendum — what this plan did NOT close (session 180, human steer mid-build)
+
+The human's mid-build steer ("zones must derive from rung; the save is an INPUT") was
+**verified against HEAD and is already true** — see the journal. `room-*` surfaces are
+`unlock: () => false`, so they are granted ONLY by the ranks.ts rung schedule, and travel
+is gated by `canMove(from, to, visibleSet(next))`, recomputed from current `src/` every
+move. There is no `zonesUnlocked` in the save (ADR-179 deleted it). Move a zone R2→R4 and
+an old save at R2 loses access on load, correctly.
+
+Three residuals came out of that check. **None is built:**
+
+1. **The reveal ceremony does not RE-ARM.** `seenReveals` latches the announce-once
+   record forever, so a zone moved R2→R4 will never re-announce for a player who already
+   saw it at R2. Access is right; the BEAT is silently missing. (The zone-rung-rebalance
+   plan's Stage 1 names a "derived `seenReveals` re-arm" — that is this.)
+2. **Two surfaces bypass the rung schedule by design** — `room-weir` opens on the
+   `works-named-weir` flag and `room-forecourt` on `awake` (the `SPECIAL_FACTS` chain).
+   Re-rung those zones and the already-set flag keeps them open. Intentional today, but it
+   IS the save out-voting `src/`; wants an explicit ruling.
+3. **`discovered` latches hidden ACTIVITIES at a node** (not node access) — same re-arm
+   question as (1).
+
+**Save migration, routed here from the zone-rung session** (human, in that session:
+"Hand it to the save-format plan"): migrate an old save at load where it can be migrated,
+else show a "sorry — development; please restart" modal. **Most of this already exists**
+and should be verified before anything new is built: `migrate.ts` is the ordered forward
+chain, and `APP_GENERATION` (ADR-161) is exactly the courteous-restart path — it backs the
+save up and boots fresh with an authored notice rather than crashing. The open question is
+policy, not machinery: **when does a content move bump the generation vs. ship a migration
+step?** That deserves its own small plan.

@@ -284,11 +284,30 @@ the LEAF, same latent trap that reddened `@slow` earlier; repointed.)
 - `src/persistence/codec.ts` — `stripEnvelopeLog` / `rehydrateEnvelopeLog`.
 - `src/scripts/gen-fixtures.ts`, `src/fixtures/index.ts`, `src/persistence/codec.test.ts`.
 
+### 11 · Step 1f — ADR-186 + the README, and the plan closes
+
+`ADR-186` records the doctrine so a future agent doesn't re-litigate it: why the renderer is a
+static composition module (a module-init resolver registry would make a stale-text fallback
+**silent**), why emit-time text and persist-time keys are different channels, why the keyless ban
+is a **gate** and not a norm, and the known positional-`greeting.<i>` limit.
+
+`src/persistence/README.md`'s log section is rewritten as settled doctrine — including the trap
+that has now bitten three test files: **import `renderLogLine` from `log-render`, never from the
+`log-content` leaf.**
+
+The plan is marked DONE with an **addendum** naming what it did NOT close, so nothing is lost:
+the reveal-ceremony re-arm, the two `SPECIAL_FACTS` surfaces that bypass the rung schedule, and
+the save-migration POLICY question the human routed here from the zone-rung session (the
+machinery — `migrate.ts` + the ADR-161 courteous-restart path — already exists; what's missing is
+the rule for when a content move bumps the generation vs. ships a migration step).
+
 ## Next intended steps
 
-Step 1's tail: the **ADR** (log = derived view; the keyless gate; the positional
-`greeting.<i>` limit) + the **README amendment**. Then the addendum work the human
-handed over (zone-derivation finding + the save-migration subsystem).
+**The plan is DONE — all five steps built, green, pushed.** What remains is the
+ADDENDUM (recorded in the plan, not started): the reveal-ceremony re-arm · the two
+`SPECIAL_FACTS` surfaces that bypass the rung schedule · the save-migration policy
+question. The re-arm overlaps the zone-rung-rebalance plan's Stage 1 — coordinate
+with that agent (w3:p3) rather than both building it.
 
 Then the **addendum work the human handed over mid-session** — the zone-derivation
 finding + the save-migration subsystem routed here from the zone-rung-rebalance

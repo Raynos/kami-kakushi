@@ -86,17 +86,39 @@ weapon down in `src/` re-clamps every existing save's wear on load.
 (`autoActivity`, `autoRake`, `autoCombat`) — a loaded save starts idle (FB-32);
 `autoCombatRetreat` survives because it is a preference, not a target.
 
-## The log: descriptors, not prose
+## The log: descriptors, not prose (ADR-186)
 
-The log dominates the save (~90% of bytes raw). A **keyed** entry
-(`contentKey` + `params`) drops its `text` in the store channel and re-renders
-it on load from `core/content/log-content.ts` — so a reword in `src/` updates
-all history on next load ("re-derivation is fine", human 2026-07-05), and old
-prose can never go stale. A **keyless** entry keeps its text verbatim
-(legacy/transitional). When adding a log emit site, give it a `contentKey` —
-inline prose is the exception, not the rule. (Migrating the remaining keyless
-emitters — narrative beats, reveal lines, discovery/works/perk lines — is
-planned: `docs/plans/fable-2026-07-11-save-format-streamline.md`.)
+The log dominates the save. Every entry persists as a **descriptor** —
+`contentKey` + `params` — and its words are **re-rendered from the current `src/`
+registries on load**. The log is a *derived view*, not a transcript: reword a
+line in `src/` and every existing save shows the new words. This is settled
+doctrine, not a migration in progress.
+
+- **`core/content/log-render.ts` is the renderer** — the one place a descriptor
+  becomes prose. **Import `renderLogLine` from THERE, never from `log-content`**:
+  the latter is a deliberate LEAF that only knows the hand-written templates, so a
+  namespaced key (`reveal.…`, `scene.…`) throws. This trap has bitten three test
+  files; it is the first thing to check if rehydration explodes.
+- **Each line's prose lives in the registry that owns it** — a reveal line in its
+  SURFACE, a beat in its SCENE, a labour line in its ACTIVITY. `log-content.ts`
+  holds only lines with no other home. Never copy prose into a second place.
+- **Adding an emit site? Give it a `contentKey`.** This is GATED, not advisory:
+  `core/content/log-keyless.test.ts` drives every fixture spec through the real
+  engine and goes RED if ANY prose reaches the save — and equally RED if a key you
+  emit does not RESOLVE. (An unresolvable key is *worse* than a keyless line: codec
+  falls back to the stored text, so it looks fine and silently stops tracking
+  `src/` forever.)
+- **Emit vs persist are different channels.** At emit time the caller's `text`
+  wins (it may carry a DEV story-take override, ADR-143); the `contentKey` is what
+  the SAVE stores. Do not conflate them.
+- A **keyless** entry still rehydrates verbatim — that is the legacy path, so old
+  saves keep loading. It is not a form new code may emit.
+- **Fixtures are stripped descriptors too** (`gen-fixtures` → `stripEnvelopeLog`),
+  rehydrated on load through the same codec path a real save takes. A fixture JSON
+  on disk is NOT a loadable state — rehydrate it (`rehydrateEnvelopeLog`) first.
+- **Known limit:** `greeting.<i>` / `stage.<i>` are POSITIONAL. Re-ordering a
+  scene's greeting lines re-points an old save's line to its neighbour — that is a
+  restructure and needs a migration (rung 2 below). The orphan sensor cannot see it.
 
 ## Schema growth: the three rungs
 

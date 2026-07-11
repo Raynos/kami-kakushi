@@ -26,6 +26,12 @@ magic; no reset.
 
 ## Where we are now
 
+- **✅ SAVE = FACTS ONLY, `src/` IS TRUTH (s180, ADR-186):** the log is a DERIVED
+  VIEW — every line persists as a descriptor and re-renders from current `src/`,
+  so a reword reaches every existing save (302 keyless lines → **0**, gated).
+  `validateState` is a whitelist rebuild (retired fields age out); weapon wear +
+  `sitePools` derive from the registries; a DEV orphaned-id sensor reports content
+  renames. Fixtures store descriptors (zero prose on disk).
 - **✅ PROGRESSION = ONE MODEL, ALL TIERS (s180, ADR-182/183):** the flat-points
   rung-meter (threshold table, AND-gate with story flags) is **DEAD at every
   tier**, not just T0 — a rung promotes when its **authored objective-requirement
@@ -34,23 +40,18 @@ magic; no reset.
   T1+ rung's list must hold ≥1 requirement from EACH track — **canon, no teeth
   yet** (no track field in code; the check ships with T1 authoring).
 - **✅ ESTATE REDESIGN — ALL PHASES DONE (s168, ADR-177):** works discovery chain
-  (**HR-27**) · Schedule A one-tab-per-rung + Works 普請/Estate 家 diverges
-  (**HR-29/HR-30**) · repair verbs + inputs. Plan archived.
-- **✅ FOG/REVEAL WAVE (s171):** live-map fog covers the window; the T0 sheet
-  CLIPS (no T1 leak); ONE viewer engine for DEV sheets + live map; no zone
-  predates its introduction (the always-open set is EMPTY).
+  (**HR-27**) · Works 普請/Estate 家 diverges (**HR-29/HR-30**) · repair verbs.
+- **✅ FOG/REVEAL WAVE (s171):** live-map fog; the T0 sheet CLIPS (no T1 leak); ONE
+  viewer engine; no zone predates its introduction (always-open set is EMPTY).
 - **✅ BODY SPLIT (s167, ADR-178):** Body 体 (work fuel) + Belly 腹 (food store;
   teeth = rest quality) — core + two-bar UI + PRD §2.3; verdict Δ≈0.
-- **✅ v0.4.0 STORYWAVE SHIPPED & CLOSED (s125–144):** bible-canon T0 rewrite live
-  on gh-pages (tag `v0.4.0`); post-ship review closed (ADR-166/167); PRD
-  truth-synced, freeze CANCELLED (ADR-168/169); cold open re-arced (ADR-173);
-  HD-35 re-pace ruled (ADR-172 — R3 ≈20 min; the R0–R6 bands + R7 ratio gate are
-  the live `verify:balance` teeth; greedy T0 ≈ 2.5 h sim). Combat R4+ kills
-  parked (inbox).
-- **✅ FOUNDATIONS:** bible blessed (s116, ADR-150) · UI-v2 Andon Steel + the
-  taste.md 21-principle lock (ADR-144/126) · T0/T1 map sheets = the player map
-  (golden pin, blind-pass); T2 valley sheet BUILT (`?t2-map-demo`) — **NOT DONE:
-  T2 rungs/fog** · Phase-2 economy (ADR-145) · timed actions (ADR-148).
+- **✅ v0.4.0 STORYWAVE SHIPPED & CLOSED (s125–144):** bible-canon T0 live on
+  gh-pages (tag `v0.4.0`); PRD truth-synced, freeze CANCELLED (ADR-168/169); HD-35
+  re-pace ruled (ADR-172 — R3 ≈20 min; the bands are the `verify:balance` teeth).
+- **✅ FOUNDATIONS:** bible blessed (ADR-150) · UI-v2 Andon Steel + taste.md's
+  21-principle lock (ADR-144/126) · T0/T1 map sheets = the player map (golden pin,
+  blind-pass); T2 sheet BUILT (`?t2-map-demo`) — **NOT DONE: T2 rungs/fog** ·
+  Phase-2 economy (ADR-145) · timed actions (ADR-148).
 - **🧊 PARKED:** Plan K authored-depth demo + the T1 emergent-node plan (both
   `docs/plans/t1/`). Un-park = human.
 
@@ -93,25 +94,27 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-11-session-180-prd-requirements-rewrite.md`](../journal/2026-07-11-session-180-prd-requirements-rewrite.md)
+   [`journal/2026-07-12-session-181-hd38-register-ruling.md`](../journal/2026-07-12-session-181-hd38-register-ruling.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev server on
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true
    player layout. The page NEVER auto-reloads (FB-257) — F5 to pick up code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** **save-format streamline** — 🔒 LOCKED, IN PROGRESS
-   (s180, `docs/plans/fable-2026-07-11-save-format-streamline.md`; 8 human
-   rulings recorded in the plan). Steps 5·3·2·4 DONE; **step 1 (log =
-   derived view) is mid-flight** — reveal/discovery/works/scene emitters
-   keyed; REMAINING: intro · dialogue · perk · rake/rest, then the
-   zero-keyless gate, the fixture strip, the ADR. Or **zone-reveal law**
-   (🔒 LOCKED, `…zone-rung-rebalance.md`: a zone opens only in a VN, ≤2 per
-   rung-up); or **T2 rungs/fog** (`docs/plans/t2/…`; `T2_RUNG_LADDER` is
-   DEV-preview-only); or **telemetry distillation** (6 usable FB-8 reports
-   newer than the last balance commit). Human-gated: HR-1 + the story/variant
-   picks above + **HD-38** (the T0 register ruling — unblocks the re-voice).
+4. **Next (autonomous):** **zone-reveal law** (🔒 LOCKED,
+   `…zone-rung-rebalance.md`: a zone opens only in a VN, ≤2 per rung-up —
+   w3 building it s181); or **T2 rungs/fog** (`docs/plans/t2/…`;
+   `T2_RUNG_LADDER` is DEV-preview-only); or **telemetry distillation** (6
+   usable FB-8 reports newer than the last balance commit). The
+   **save-format streamline is DONE** (s180, ADR-186 — archived); its
+   **addendum** is the live follow-up: the reveal-ceremony **re-arm**
+   (`seenReveals` never re-arms, so a re-rung zone silently never
+   re-announces — overlaps the zone plan's Stage 1), the two `SPECIAL_FACTS`
+   surfaces that bypass the rung schedule, and the **save-migration policy**
+   (machinery exists: `migrate.ts` + the ADR-161 courteous-restart path;
+   the missing rule is *when a content move bumps the generation vs. ships a
+   migration step*). Human-gated: HR-1 + the story/variant picks above.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
    **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
    `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 10/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 11/20 · last full rewrite: 2026-07-11 -->
