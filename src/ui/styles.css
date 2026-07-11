@@ -1080,27 +1080,8 @@ h3 {
 .log-line.scene-line.spoken {
   padding-left: calc(var(--space-3) + var(--space-2));
 }
-/* F127 — chat grouping kicker: a quiet inline rule opening each conversation
-   ("— with Sōan —") whenever the interlocutor changes, so chats with different
-   people never read as one context-less feed. Lives INSIDE the first line of
-   the group (reconcile-safe), managed via data-kicker in render.ts. */
-.chat-kicker {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-num);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--silver-dim);
-  margin: var(--space-2) 0 var(--space-1);
-}
-.chat-kicker::before,
-.chat-kicker::after {
-  content: '';
-  flex: 1;
-  border-top: 1px solid var(--silver-faint);
-}
+/* F127 → FB-400: the inline chat kicker rule is RETIRED — chat runs now group as
+   the same 幕 card as VN scenes (.scene-* below), the "with X · ctx" label as lintel. */
 
 /* ── FB-262 — VN GROUPS in the Story log · A · 幕 card ──────────────────────────
    Consecutive lines from one VN scene read as ONE unit; scrolling back reads as

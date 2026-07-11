@@ -2471,25 +2471,27 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     const render = mount(root, () => {}, noopHooks());
     const yohei = getPerson('yohei');
     const clock = createInitialState(1).clock;
-    // an OFF day (dayOfWeek 1) → Yohei is not at the gate, so no row.
+    // an OFF day (dayOfWeek 1) → Yohei is not at the gate: his row is the FB-408
+    // dimmed AWAY row (schedule hint, no Speak button), never a live person row.
     render(
       { ...awakeAt(yohei.node, ['room-gate', 'panel-estate']), clock: { ...clock, day: 1 } },
       null,
     );
     // FB-332 — who's-here reads on the Zone tab (the default tab).
-    expect(
-      [...root.querySelectorAll<HTMLElement>('.whos-here .person-row')].some((r) =>
+    const yoheiRows = () =>
+      [...root.querySelectorAll<HTMLElement>('.whos-here .person-row')].filter((r) =>
         (r.textContent ?? '').includes(yohei.name),
-      ),
-    ).toBe(false);
-    // a MARKET day (dayOfWeek 2) → Yohei joins the who's-here list.
+      );
+    expect(yoheiRows().every((r) => r.classList.contains('person-away'))).toBe(true);
+    expect(yoheiRows().some((r) => r.querySelector('.person-talk') !== null)).toBe(false);
+    // a MARKET day (dayOfWeek 2) → Yohei joins the who's-here list as a LIVE row.
     render(
       { ...awakeAt(yohei.node, ['room-gate', 'panel-estate']), clock: { ...clock, day: 2 } },
       null,
     );
     expect(
-      [...root.querySelectorAll<HTMLElement>('.whos-here .person-row')].some((r) =>
-        (r.textContent ?? '').includes(yohei.name),
+      yoheiRows().some(
+        (r) => !r.classList.contains('person-away') && r.querySelector('.person-talk') !== null,
       ),
     ).toBe(true);
   });
@@ -2737,6 +2739,34 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
     clickFilter('Chat');
     expect(logText()).toContain(ASKED); // the optional Q&A lives here…
     expect(logText()).not.toContain(MANDATORY); // …and the mandatory beat does not leak in
+  });
+
+  it('FB-400 — a chat run wears the 幕 card: scene-line classes + a "with <partner>" lintel', () => {
+    // one grouping idiom (TST1): the chat run's lines carry the same .scene-* card
+    // classes as VN scene runs, and the opener's head names the interlocutor.
+    const render = mount(root, () => {}, noopHooks());
+    const s = logged([
+      { key: 0, channel: 'narration', text: 'Who found me?', tick: 0, count: 1, chat: true },
+      {
+        key: 1,
+        channel: 'narration',
+        text: 'The river did.',
+        tick: 0,
+        count: 1,
+        chat: true,
+        voice: 'physician',
+        speaker: 'Sōan',
+      },
+    ] as LogEntry[]);
+    render(s, null);
+    clickFilter('Chat');
+    const lines = [...root.querySelectorAll<HTMLElement>('.log-lines .log-line')];
+    expect(lines.length).toBe(2);
+    expect(lines.every((l) => l.classList.contains('scene-line'))).toBe(true);
+    const head = root.querySelector<HTMLElement>('.log-lines .scene-head');
+    expect(head?.textContent ?? '').toContain('with Sōan');
+    // the retired inline kicker never renders
+    expect(root.querySelector('.chat-kicker')).toBeNull();
   });
 
   it('F111 — an asked ask_topic line is flagged chat in the pure core (routing source of truth)', () => {

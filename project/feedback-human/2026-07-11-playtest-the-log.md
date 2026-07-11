@@ -84,3 +84,13 @@ at the forecourt.
 **Fixed in:** the R0 start moved to the forecourt (state.ts; human-picked via
 ask-tool) — the raking ground and the reveal line now agree; the save-clamp
 fallback follows; fixtures regenerated; three tests re-anchored.
+
+### FB-400 · one grouping idiom — chat groups become 幕 cards — ✅
+**Verbatim:** _"We now have to grouping UIs in the log … Can you change the grouping behavior / logic / UI here in the Chat panel to match the VN/Story grouping with the full border"_
+**Reading:** chat runs wore the F127 inline "— with X —" kicker rule while VN
+scene runs wore the FB-262 full-border 幕 card — two idioms for one job (TST1).
+**Distilled rule:** one grouping primitive: any log run-unit (scene or chat)
+groups as the 幕 card, its identity string as the lintel.
+**Fixed in:** stampSceneGroup now groups chat runs by conversation partner
+("with Genemon · entered in the book" as lintel); the inline kicker rule is
+retired. New RED-able card test; verified headlessly on the capture's save.

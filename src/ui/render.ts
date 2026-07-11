@@ -1284,6 +1284,9 @@ export function mount(
   // entries list (recomputed in renderLog), so a player's opening question wears
   // the kicker via lookahead to the NPC's reply — never out of order.
   let chatKickers = new Map<number, string>();
+  // FB-400 — key → partner for EVERY chat line (not just openers): the chat 幕-card
+  // grouping needs each line's conversation identity, recomputed with the kickers.
+  let chatPartners = new Map<number, string>();
   let chatKickersSeq = -1;
   let logFilter: LogFilter = 'story';
   // FB-320 — the Story tab's sub-view: 'vn' = only the scene (context-carrying) lines, the
@@ -4337,14 +4340,17 @@ export function mount(
     if (idx < mechanics.length) out.append(document.createTextNode(mechanics.slice(idx)));
     return out;
   }
-  // F127/FB-165 — a chat line that OPENS a conversation group (new interlocutor)
-  // marks itself with data-kicker; the kicker div renders inside the line, so the
-  // reconcilers/coalesce repaints never see a foreign sibling. The map is a PURE
-  // function of the entries: a PLAYER line that opens a run finds its partner by
-  // LOOKAHEAD to the NPC's reply, so the "— with X —" header sits above the
-  // player's opening question, never mid-conversation.
-  function computeChatKickers(entries: readonly LogEntry[]): Map<number, string> {
-    const map = new Map<number, string>();
+  // F127/FB-165/FB-400 — chat grouping: a PURE function of the entries maps every chat
+  // line to its conversation partner (a player line finds its partner by LOOKAHEAD to
+  // the NPC's reply, so the group opens above the opening question, never mid-run).
+  // FB-400 retired the inline "— with X —" kicker rule: chat runs now wear the SAME
+  // 幕-card idiom as VN scene runs (stampSceneGroup), the opener's label as the lintel.
+  function computeChatKickers(entries: readonly LogEntry[]): {
+    openers: Map<number, string>;
+    partners: Map<number, string>;
+  } {
+    const openers = new Map<number, string>();
+    const partners = new Map<number, string>(); // FB-400 — every chat line's conversation identity
     let current: string | null = null; // the active conversation partner
     for (let i = 0; i < entries.length; i++) {
       const e = entries[i]!;
@@ -4367,19 +4373,13 @@ export function mount(
       }
       if (partner !== null && partner !== current) {
         // FB-270 — the group opener may carry a scene context ("the cold open",
-        // "The day-hand promotion"); the kicker names it so the divider has meaning.
-        map.set(e.key, e.context !== undefined ? `${partner} · ${e.context}` : partner);
+        // "The day-hand promotion"); the head names it so the card has meaning.
+        openers.set(e.key, e.context !== undefined ? `${partner} · ${e.context}` : partner);
         current = partner;
       }
+      if (partner !== null) partners.set(e.key, partner);
     }
-    return map;
-  }
-  function stampChatKicker(line: HTMLElement, entry: LogEntry): void {
-    const partner = chatKickers.get(entry.key);
-    if (partner !== undefined) line.dataset.kicker = partner;
-  }
-  function kickerNode(partner: string): HTMLElement {
-    return el('div', 'chat-kicker', `— with ${partner} —`);
+    return { openers, partners };
   }
   function renderLineContent(line: HTMLElement, entry: LogEntry): void {
     const perk = parsePerkLine(entry);
@@ -4394,7 +4394,6 @@ export function mount(
       head.setAttribute('aria-hidden', 'true');
       line.append(head);
     }
-    if (line.dataset.kicker !== undefined) line.append(kickerNode(line.dataset.kicker));
     const bullet = CHANNEL_BULLET[entry.channel];
     if (bullet) {
       const b = el('span', 'bullet emoji', bullet); // .emoji ties the bullet to the palette
@@ -4430,7 +4429,17 @@ export function mount(
   // duplicate "— the cold open —" head; the name paints once per scene, not per fragment.
   let lastHeadCtx: string | null = null;
   function stampSceneGroup(line: HTMLElement, entry: LogEntry): void {
-    const ctx = entry.chat !== true && entry.context !== undefined ? entry.context : null;
+    // FB-400 — ONE grouping idiom (TST1): chat runs wear the same 幕 card as VN scene
+    // runs. A chat line's group identity is its conversation partner (chatPartners);
+    // its card head is the opener's "with <partner> · <context>" label (the retired
+    // inline kicker's text, now a lintel).
+    const chatPartner = entry.chat === true ? (chatPartners.get(entry.key) ?? null) : null;
+    const ctx =
+      chatPartner !== null
+        ? `chat:${chatPartner}`
+        : entry.chat !== true && entry.context !== undefined
+          ? entry.context
+          : null;
     if (ctx !== lastSceneCtx && lastSceneNode?.isConnected) {
       lastSceneNode.classList.add('scene-close'); // the previous run ended — close its box
     }
@@ -4443,7 +4452,9 @@ export function mount(
     if (ctx !== lastSceneCtx) {
       line.classList.add('scene-open');
       if (ctx !== lastHeadCtx) {
-        line.dataset.sceneHead = ctx; // renderLineContent rebuilds the head from this (kicker pattern)
+        // a chat card's lintel: the opener's label; a mid-run repaint falls back to the partner.
+        line.dataset.sceneHead =
+          chatPartner !== null ? `with ${chatKickers.get(entry.key) ?? chatPartner}` : ctx;
         lastHeadCtx = ctx;
       }
     }
@@ -4471,7 +4482,6 @@ export function mount(
     const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
     const spokenClass = entry.voice && entry.voice !== 'narrator' ? ' spoken' : '';
     const line = el('div', `log-line ${entry.channel}${voiceClass}${spokenClass}`);
-    stampChatKicker(line, entry); // F127 — before content, so renderLineContent sees the stamp
     stampBlockBreak(line, entry); // FB-167 — breathing room when the speaker-block changes
     stampSceneGroup(line, entry); // FB-262 — VN-unit grouping in the Story log
     renderLineContent(line, entry);
@@ -4556,7 +4566,7 @@ export function mount(
     const walker = document.createTreeWalker(line, NodeFilter.SHOW_TEXT);
     const nodes: { node: Text; full: string }[] = [];
     for (let n = walker.nextNode(); n; n = walker.nextNode()) {
-      if (n.parentElement?.closest('.scene-head, .chat-kicker, .bullet, .log-speaker')) continue;
+      if (n.parentElement?.closest('.scene-head, .bullet, .log-speaker')) continue;
       const t = n as Text;
       nodes.push({ node: t, full: t.data });
       t.data = '';
@@ -4998,7 +5008,9 @@ export function mount(
     const entries = state.log.entries;
     // FB-165 — refresh the pure kicker map whenever the log advanced or reset.
     if (state.log.seq !== chatKickersSeq) {
-      chatKickers = computeChatKickers(entries);
+      const maps = computeChatKickers(entries);
+      chatKickers = maps.openers;
+      chatPartners = maps.partners;
       chatKickersSeq = state.log.seq;
     }
     // a state replacement (new game / import) rewinds log.seq — clear the stale painted

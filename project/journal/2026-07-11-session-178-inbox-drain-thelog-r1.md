@@ -43,3 +43,8 @@ rebalance plan get written, and the zone section gets a FULL ADR-075 diverge
   AC-21) render a dimmed button-less schedule row in who's-here. Tests in
   people.test.ts. Market-day facts answered in the F-entry; the wait-a-day
   lever routed to its own plan.
+
+- **FB-400** — chat runs now group as the SAME 幕 card as VN scenes
+  (render.ts stampSceneGroup keyed `chat:<partner>`, opener label as lintel);
+  the F127 inline chat-kicker rule is retired (styles.css). Test added;
+  verified headlessly.
