@@ -3375,3 +3375,42 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   `RUNG_POINTS_PER_ACT`) — sound now that no frontier prose survives for it to cry
   wolf on (AC-11); the bare phrase "rung meter" stays legal.
 - **Plan:** [`docs/plans/fable-2026-07-11-prd-rungmeter-textsync.md`](../plans/fable-2026-07-11-prd-rungmeter-textsync.md).
+
+### ADR-183 ✅ — T1+: every rung's requirement list must span BOTH tracks (HD-39)
+
+- **created_date:** 2026-07-11
+- **Context:** [ADR-182](#adr-182--canon-the-requirements-model-is-the-progression-model-at-every-tier-the-flat-points-rung-meter-is-dead-extends-adr-137)
+  replaced the two numeric sub-meters with **one authored requirement list per
+  rung**. That silently dropped a rule the old model carried structurally: the
+  pre-182 canon read *"both sub-meters still gate every rung"* — every rung
+  demanded labour **and** martial progress, which is ADR-025's
+  anti-specialization intent expressed as a mechanism. With one list per rung
+  that clause had no mechanism left, so the session-180 PRD sweep **dropped it
+  rather than invent a replacement** and filed **HD-39**.
+- **Decision (human, 2026-07-11 — HD-39, option (b)):** **every rung's authored
+  requirement list must contain at least one requirement from EACH track**
+  (Estate Service 家役 / Combat Rank 武鍛; House-Service / Combat-Rank at T2). No
+  rung climbs on one kind of work alone. The agent recommended (a) — free-form
+  lists, anti-specialization carried by authoring taste — and the human
+  **overrode it**: the both-tracks guarantee is a rule, not a habit.
+- **Scope:** binds **T1 and up**. **T0 is unaffected** — it ships a single ladder
+  with no sub-tracks, so there is nothing for the rule to bind against.
+- **Consequences — and the honest gap.** The **track concept does not exist in
+  code**: `RequirementDef` (`requirements-engine.ts`) carries `id` / `flavor` /
+  `drive` and a `count` | `state` | `flag` body — **no track attribution** — and
+  `RankDef` has no `track` field either. So this ADR is **canon without teeth
+  today**, and deliberately so: a check with no T1 rungs to check is a vacuous
+  green, which is worse than no check (PH3). The rule ships with T1 authoring, and
+  it needs TWO things first:
+  1. **A per-requirement track attribution.** Proposed (not locked): derive it
+     from the `count` token namespace where it's unambiguous (`act:<labour verb>`
+     → Estate Service; `kill:*` → Combat Rank), and require an explicit `track`
+     tag in `narrative/requirements.md` for `state` / `flag` requirements, which
+     have no natural track. This is a **grammar growth** (FB-5), so it is a design
+     call at T1's build, not an agent's to self-serve now.
+  2. **A `verify-content` invariant** — once (1) exists: every T1+ rung's list
+     contains ≥1 requirement per track, RED otherwise. That is the sound rung for
+     it (a content invariant, never crying wolf); a norm would rot.
+- **Record:** HD-39 (filed session-180 with (a) recommended, ruled (b)) · ADR-025
+  (the three-track de-confliction this rule protects) · ADR-182 (the model that
+  dropped the clause).

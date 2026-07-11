@@ -239,10 +239,12 @@ reliable hand who became a fighting one.
   player sees **only a rounded % bar**; completions land as diegetic flavor lines, and **100% alone**
   readies the player-triggered rung beat — story preconditions are requirements **in the list**, never a
   separate gate. The lists **reset per rung**. **From T1** the ladder runs two sub-tracks — **Estate
-  Service** (labour) and **Combat Rank** (martial) — each rung on either track carrying its own list,
-  authored to the ≥30-min-per-rung pacing band (a band the sim **measures**, §4.8 — never a number the
-  lists are back-solved from). Smaller responsibility/perk drips fill between gates so there is always a
-  "next reveal" on either track.
+  Service** (labour) and **Combat Rank** (martial) — each rung carrying its own list, authored to the
+  ≥30-min-per-rung pacing band (a band the sim **measures**, §4.8 — never a number the lists are
+  back-solved from). **Every T1+ rung's list holds at least one requirement from EACH track**
+  (**ADR-183**): no rung climbs on one kind of work alone — ADR-025's anti-specialization intent, kept
+  as a rule when ADR-182 retired the two-meter mechanism that used to carry it. Smaller
+  responsibility/perk drips fill between gates so there is always a "next reveal" on either track.
 - **Phase 2 — grind the house up.** **After the final rung** of the tier, the **estate-influence / four-pillar
   grind unlocks** (the capstone rung **OPENS** Phase 2; it does not merely confirm it). The tier's **pillar
   DEEDS accrue here and only here** — they do **not** accrue while climbing the rungs, which prevents the
