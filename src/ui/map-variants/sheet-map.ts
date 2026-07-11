@@ -45,6 +45,40 @@ let capWired = false;
 //    ActionClock timer (ADR-148), so the walk plays DURING the timer (never after) and arrives
 //    exactly as it completes. render.ts fires it via `travelPresenceRef`; the `sample` thunk is
 //    the clock's live fraction, so the animation respects pause / freeze / the speed multiplier.
+/** The porter's FACING, preserved across sheet rebuilds (human, 2026-07-11: an arrival
+ *  must keep the walk's direction — the resting mount snapping back east read as a
+ *  jarring flip). 1 = east (the sculpt's native facing), -1 = west. Session-scoped. */
+const porterFacingRef: { current: 1 | -1 } = { current: 1 };
+
+/** The just-finished walk's footprint trail, handed ACROSS the arrival rebuild (human,
+ *  2026-07-11: the overlay died with the swapped-out svg in one frame — a flash). The
+ *  new sheet mounts these marks already fading (CSS-driven) and clears the ref. */
+const trailAfterglowRef: {
+  current: { marks: readonly { cx: number; cy: number; angle: string }[]; p: number } | null;
+} = { current: null };
+
+/** The shared footprint geometry — the walk overlay stamps these live; the afterglow
+ *  re-mounts the same marks across the rebuild so the trail never pops. */
+function footprintMarks(
+  A: { x: number; y: number },
+  B: { x: number; y: number },
+): { cx: number; cy: number; angle: string }[] {
+  const dx = B.x - A.x;
+  const dy = B.y - A.y;
+  const len = Math.hypot(dx, dy) || 1;
+  const nx = -dy / len;
+  const ny = dx / len;
+  const angle = ((Math.atan2(dy, dx) * 180) / Math.PI).toFixed(1);
+  const N = 6;
+  const out: { cx: number; cy: number; angle: string }[] = [];
+  for (let i = 1; i <= N; i++) {
+    const f = i / (N + 1);
+    const side = i % 2 === 0 ? 1 : -1;
+    out.push({ cx: A.x + dx * f + nx * side * 14, cy: A.y + dy * f + ny * side * 14, angle });
+  }
+  return out;
+}
+
 /** The live sheet's travel-presence player, repointed on every renderMapSheet. Null when no
  *  sheet is mounted. `sample()` yields the ActionClock's {fraction 0→1, running} for the move. */
 export const travelPresenceRef: {
@@ -53,19 +87,16 @@ export const travelPresenceRef: {
     | null;
 } = { current: null };
 
-// ── FB-340 v2 (closes HR-26) — the presence VARIANT: 'porter' (the 根付 piece, the prod
-//    default — human-picked 2026-07-11) vs 'rings' (v1's shu here-ring + destination ring,
-//    kept ONLY behind the DEV toggle until the human confirms the porter live; then deleted —
-//    ADR-075 zero flag-debt). dev.ts syncs this ref from its variant switcher (the
-//    declaring-module DEV-setter pattern); prod never writes it.
-export const presenceVariantRef: { current: 'porter' | 'rings' } = { current: 'porter' };
+// ── FB-340 v2 (closes HR-26/HR-31) — the porter piece IS the presence (human-confirmed
+//    2026-07-11): v1's shu rings + the DEV toggle are DELETED (ADR-075 zero flag-debt).
 
 /** Mount the resting porter piece beside the zone anchor (south offset — the piece
  *  stands BESIDE the seal box, never behind the label). Display-only (TST4 position
  *  read; P15 — no destination preview, the piece exists only where you ARE). */
 function mountRestingPorter(parent: SVGElement, x: number, y: number, tipText: string): void {
   const piece = buildPorter('rest');
-  piece.setAttribute('transform', `translate(${x} ${y + PORTER_STAND_Y})`);
+  const flip = porterFacingRef.current < 0 ? ' scale(-1 1)' : '';
+  piece.setAttribute('transform', `translate(${x} ${y + PORTER_STAND_Y})${flip}`);
   tip(piece, tipText);
   parent.append(piece);
 }
@@ -143,24 +174,9 @@ function drawSeal(
     ),
   );
   if (opts.here) {
-    if (presenceVariantRef.current === 'porter') {
-      // FB-340 v2 — the porter piece IS "you are here" (TST1: the ring's old home);
-      // the seal keeps its shu stroke for far-zoom legibility (human call 2026-07-11).
-      mountRestingPorter(g, x, y, 'You are here');
-    } else {
-      g.append(
-        sv('circle', {
-          cx: String(x),
-          cy: String(y),
-          r: '92',
-          fill: 'none',
-          stroke: 'var(--shu)',
-          'stroke-width': '2',
-          opacity: '0.85',
-          class: 'sheetmap-here-ring', // FB-340 v1 — the presence layer animates THIS ring
-        }),
-      );
-    }
+    // FB-340 v2 — the porter piece IS "you are here" (TST1: the ring's old home);
+    // the seal keeps its shu stroke for far-zoom legibility (human call 2026-07-11).
+    mountRestingPorter(g, x, y, 'You are here');
     tip(g, 'You are here');
   }
   seals.append(g);
@@ -168,6 +184,8 @@ function drawSeal(
 }
 
 const CSS = `
+  .sheetmap-print-fade { animation: sheetmapPrintFade 2200ms ease-out forwards; }
+  @keyframes sheetmapPrintFade { from { opacity: 0.8; } to { opacity: 0; } }
   .sheetmap-wrap { width:100%; position:relative; overflow:hidden;
     user-select:none; -webkit-user-select:none; } /* drag-pan must never select SVG text */
   .sheetmap-wrap svg { display:block; width:100%; height:auto; background:var(--void);
@@ -226,6 +244,28 @@ export function renderMapSheet(
   const art = sv('g');
   const seals = sv('g');
   svg.append(sv('defs'), art, seals);
+  // FB (human, 2026-07-11) — the arrival afterglow: the walk's footprints survive the
+  // rebuild and FADE (~2.2s, CSS-driven) instead of vanishing in one frame (the flash).
+  // Only an ARRIVED walk (p ≥ 0.85) glows; a mid-walk repaint keeps its live overlay.
+  const glow = trailAfterglowRef.current;
+  trailAfterglowRef.current = null;
+  if (glow && glow.p >= 0.85) {
+    const trail = sv('g', { class: 'sheetmap-print-fade', 'pointer-events': 'none' });
+    for (const m of glow.marks) {
+      trail.append(
+        sv('ellipse', {
+          cx: String(m.cx),
+          cy: String(m.cy),
+          rx: '15',
+          ry: '7',
+          transform: `rotate(${m.angle} ${m.cx} ${m.cy})`,
+          fill: 'var(--shu)',
+        }),
+      );
+    }
+    trail.addEventListener('animationend', () => trail.remove(), { once: true });
+    seals.append(trail);
+  }
   paintT0Ground(art, T0_WINDOW);
 
   // ── FB-374 — the ADR-151 fog of war, LIVE: unsurveyed paper masks the ground art at
@@ -277,25 +317,10 @@ export function renderMapSheet(
     if (!isSurveyed(node.id, revealed)) {
       // FB-376 (adjacent) — you can stand on unsurveyed ground (the cold open wakes you at
       // the kura before it's surveyed): your POSITION is always known to you (TST4), so the
-      // here-ring draws even where the survey hasn't — just the ring, never the zone's seal
+      // porter draws even where the survey hasn't — just the piece, never the zone's seal
       // or name (reveal-as-plot holds).
       if (here) {
-        if (presenceVariantRef.current === 'porter') {
-          mountRestingPorter(seals, a.x, a.y, 'You are here — unsurveyed ground');
-        } else {
-          const ring = sv('circle', {
-            cx: String(a.x),
-            cy: String(a.y),
-            r: '92',
-            fill: 'none',
-            stroke: 'var(--shu)',
-            'stroke-width': '2',
-            opacity: '0.85',
-            class: 'sheetmap-here-ring',
-          });
-          tip(ring, 'You are here — unsurveyed ground');
-          seals.append(ring);
-        }
+        mountRestingPorter(seals, a.x, a.y, 'You are here — unsurveyed ground');
       }
       continue;
     }
@@ -337,6 +362,9 @@ export function renderMapSheet(
     if (getNode(id).locked) continue;
     const a = ANCHORS[id];
     if (!a) continue;
+    // FB-392/FB-394/FB-397 (w1 drain, 2026-07-11) — a frontier whose anchor sits under
+    // the rung's fog stays a SECRET: no 未測 wash floating on the fog wash.
+    if (isFogged(revealStage, a.x, a.y)) continue;
     const t = sv('text', {
       x: String(a.x),
       y: String(a.y),
@@ -517,13 +545,9 @@ function runFootstepsFollow(
 ): void {
   const clamp01 = (n: number): number => Math.min(1, Math.max(0, n));
   const ease = (t: number): number => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
-  const porterMode = presenceVariantRef.current === 'porter';
-  // you are leaving `from`: hide its resting presence mark (v2 porter / v1 ring) for the
-  // transit; restore it if the move is cancelled (on completion the sheet rebuilds with the
-  // real mark already at `to`).
-  const resting = svg.querySelector<SVGElement>(
-    porterMode ? '.sheetmap-porter' : '.sheetmap-here-ring',
-  );
+  // you are leaving `from`: hide its resting piece for the transit; restore it if the
+  // move is cancelled (on completion the sheet rebuilds with the piece already at `to`).
+  const resting = svg.querySelector<SVGElement>('.sheetmap-porter');
   if (resting) resting.style.opacity = '0';
   const overlay = sv('g', { class: 'sheetmap-presence', 'pointer-events': 'none' });
   svg.append(overlay);
@@ -535,57 +559,35 @@ function runFootstepsFollow(
   // v2 — the piece walks the STANDING lane (the south offset it rests at), so it departs
   // from exactly where it stood and settles exactly where the completion rebuild mounts it:
   // the arrival IS the settle (the v1 destination press-in ring is dropped — human call).
-  const A = porterMode ? { x: from.x, y: from.y + PORTER_STAND_Y } : from;
-  const B = porterMode ? { x: to.x, y: to.y + PORTER_STAND_Y } : to;
+  const A = { x: from.x, y: from.y + PORTER_STAND_Y };
+  const B = { x: to.x, y: to.y + PORTER_STAND_Y };
   const dx = B.x - A.x;
-  const dy = B.y - A.y;
-  const len = Math.hypot(dx, dy) || 1;
-  const nx = -dy / len;
-  const ny = dx / len;
-  const angle = ((Math.atan2(dy, dx) * 180) / Math.PI).toFixed(1);
-  const N = 6;
-  const feet: SVGElement[] = [];
-  for (let i = 1; i <= N; i++) {
-    const f = i / (N + 1);
-    const side = i % 2 === 0 ? 1 : -1;
-    const cx = A.x + dx * f + nx * side * 14;
-    const cy = A.y + dy * f + ny * side * 14;
+  const marks = footprintMarks(A, B);
+  const N = marks.length;
+  const feet: SVGElement[] = marks.map((m) => {
     const foot = sv('ellipse', {
-      cx: String(cx),
-      cy: String(cy),
+      cx: String(m.cx),
+      cy: String(m.cy),
       rx: '15',
       ry: '7',
-      transform: `rotate(${angle} ${cx} ${cy})`,
+      transform: `rotate(${m.angle} ${m.cx} ${m.cy})`,
       fill: 'var(--shu)',
       opacity: '0',
     });
     overlay.append(foot);
-    feet.push(foot);
-  }
-  // v1 only — the destination ring: a temp mark that presses in at `to` as you arrive (the
-  // real here-ring takes its place on the completion rebuild — same resting r/opacity, so the
-  // swap is seamless). In v2 the porter settling IS the arrival beat (human call, 2026-07-11).
-  const destRing = porterMode
-    ? null
-    : sv('circle', {
-        cx: String(B.x),
-        cy: String(B.y),
-        r: '128',
-        fill: 'none',
-        stroke: 'var(--shu)',
-        'stroke-width': '2',
-        opacity: '0',
-      });
-  if (destRing) overlay.append(destRing);
-  // v2 — the walking piece itself: departs the standing lane at `from`, arrives at the exact
-  // spot the completion rebuild mounts the resting piece. Faces its travel direction (the
-  // sculpt faces east; a westward walk mirrors it about the feet).
-  const walker = porterMode ? buildPorter('walk') : null;
+    return foot;
+  });
+  // the walk's direction is STATE (human, 2026-07-11): the resting mount keeps it on
+  // arrival (no snap-flip east), and the trail survives the arrival rebuild as a fade.
+  if (dx !== 0) porterFacingRef.current = dx < 0 ? -1 : 1;
+  // the walking piece itself: departs the standing lane at `from`, arrives at the exact
+  // spot the completion rebuild mounts the resting piece (the settle IS the arrival beat —
+  // human call, 2026-07-11). Faces its travel direction (the sculpt faces east; a westward
+  // walk mirrors it about the feet).
+  const walker = buildPorter('walk');
   const flip = dx < 0 ? ' scale(-1 1)' : '';
-  if (walker) {
-    walker.setAttribute('transform', `translate(${A.x} ${A.y})${flip}`);
-    overlay.append(walker);
-  }
+  walker.setAttribute('transform', `translate(${A.x} ${A.y})${flip}`);
+  overlay.append(walker);
 
   const sx = view.vb.x;
   const sy = view.vb.y;
@@ -596,6 +598,9 @@ function runFootstepsFollow(
     if (!svg.isConnected) return; // a rebuild replaced this sheet mid-walk — stop cold (TST2)
     const s = sample();
     const p = clamp01(s.fraction);
+    // hand the trail across the ARRIVAL rebuild (which kills this loop cold): keep the
+    // ref fresh each frame; renderMapSheet mounts the afterglow when p arrived (≥0.85).
+    trailAfterglowRef.current = { marks, p };
     // the sheet follows the walk fraction — arriving exactly as the timer completes
     const e = ease(p);
     view.vb.x = sx + (txx - sx) * e;
@@ -610,22 +615,14 @@ function runFootstepsFollow(
         p < born ? '0' : String(Math.min(0.8, ((p - born) / 0.12) * 0.8)),
       );
     });
-    if (walker) {
-      // the piece walks the edge LINEARLY at the clock's own pace (the human ask); the
-      // netsuke waddle plays only while the clock runs (a pause freezes mid-stride).
-      const pos = walkPoint(A, B, p);
-      const g = s.running && p < 1 ? gaitAt(now) : { bob: 0, rock: 0 };
-      walker.setAttribute(
-        'transform',
-        `translate(${pos.x} ${pos.y + g.bob})${flip} rotate(${g.rock})`,
-      );
-    }
-    if (destRing) {
-      // v1 — the destination ring presses in across the walk, resting as a hanko on arrival
-      const rp = ease(p);
-      destRing.setAttribute('opacity', String(0.85 * rp));
-      destRing.setAttribute('r', String(92 + 36 * (1 - rp)));
-    }
+    // the piece walks the edge LINEARLY at the clock's own pace (the human ask); the
+    // netsuke waddle plays only while the clock runs (a pause freezes mid-stride).
+    const pos = walkPoint(A, B, p);
+    const g = s.running && p < 1 ? gaitAt(now) : { bob: 0, rock: 0 };
+    walker.setAttribute(
+      'transform',
+      `translate(${pos.x} ${pos.y + g.bob})${flip} rotate(${g.rock})`,
+    );
     if (s.running && p < 1) requestAnimationFrame(step);
     else done();
   };

@@ -95,10 +95,18 @@ export async function boot(
  *  when the wealthy-idler fixture moved to a spring boot (ADR-170 re-rolled its season/day)
  *  and under parallel-suite load on the other walks. */
 export async function walkSheet(page: Page, nodes: readonly string[]): Promise<void> {
-  for (const node of nodes) {
-    await press(page.locator(`.map-nav [data-node="${node}"]:not([data-locked])`));
-    await page.waitForFunction(`window.__qa.state().location === '${node}'`);
-    await page.waitForTimeout(1200);
+  // 2026-07-11 — the walk table slowed ×5 (real hops are 15–35s now): compress the
+  // ActionClock through the DEV speed multiplier so the e2e drives the SAME UI path
+  // (press → timer → arrival) without waiting real journey time.
+  await page.evaluate('window.__qa.speed(8)');
+  try {
+    for (const node of nodes) {
+      await press(page.locator(`.map-nav [data-node="${node}"]:not([data-locked])`));
+      await page.waitForFunction(`window.__qa.state().location === '${node}'`);
+      await page.waitForTimeout(1200);
+    }
+  } finally {
+    await page.evaluate('window.__qa.speed(1)');
   }
 }
 

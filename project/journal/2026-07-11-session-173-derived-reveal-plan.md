@@ -114,6 +114,39 @@ exist ONLY on the Body card, never the zone column. Full suite 1196/1196;
 headless smoke: Work column clean, Body card renders at R2, eat click →
 hunger 60→90 through the real timed-action path.
 
+## The porter confirm + travel re-pace (HR-31, live-steered)
+
+The human took over the porter review live, mid-session, with three orders plus
+two playtest notes, all landed:
+
+- **HR-31 CONFIRMED** — the porter piece is THE presence; v1's shu rings + the
+  DEV "Map travel presence" toggle deleted (ADR-075 zero flag-debt), incl. the
+  `presenceVariantRef` seam and the `?presence=` boot sync.
+- **Travel ×2** (ordered 500%→revised ×2 after the pacing consequence surfaced):
+  the whole `EDGE_WALK_MS` table + `TRAVEL_SEED_MS` doubled (texture preserved,
+  6–14s); the **T0 band re-signed [3, 22] → [3, 25]** (human authorized) — R3,
+  the walking-est rung, honestly measures 21.2–23.2 min in the slower world.
+  `verify:balance` GREEN; `t0-pacing.md` regenerated. The e2e `walkSheet`
+  compresses the ActionClock (`__qa.speed(8)`) so CI drives the same UI path
+  without journey-time waits.
+- **Anchor on the kanji** — `PORTER_STAND_Y` 128 → 16: the piece stands ON the
+  seal (feet at the kanji baseline, above the English caption), superseding the
+  south-lane call; `pointer-events: none` keeps the seal tappable.
+- **Arrival flash fixed** — the walk's footprints now hand across the arrival
+  REBUILD (`trailAfterglowRef`) and fade ~2.2s CSS-driven instead of dying with
+  the swapped-out svg in one frame.
+- **Facing preserved** — `porterFacingRef`: a westward arrival keeps the piece
+  facing west (the resting mount honored only the sculpt's native east before).
+- **Cross-agent coordination (ADR-171-adjacent):** deconflicted live with the
+  w1 drain session over herdr — they ceded `timing.ts` (their ×2 reverted for
+  mine), I folded their two human-approved hunks with credit (FB-389 gait
+  halving; FB-388 `arriveAt` — R1 arrives at the forecourt, which the fixture
+  regen bakes in so core+saves land together), and added their FB-392/394/397
+  fog-frontier guard in sheet-map.ts (no 未測 wash under fog). Their map-sheets
+  fog fixes + FB tests follow in their own commits.
+- Verified: full verify 18/18 · headless smoke (rings gone · 6.1s gate walk ·
+  afterglow fades+removes · facing `scale(-1 1)` preserved · anchor at y+16).
+
 ## Commits
 
 - `d7893081` — ADR-179 + the derived-reveal plan + queue + this entry

@@ -80,7 +80,6 @@ import { openEstateSheet } from './estate-sheet/demo';
 import { openSceneCards } from './scene-cards/cards';
 import { openSceneCardsV1 } from './scene-cards/cards-v1';
 import { loadActionHover, saveActionHover } from './ui-prefs';
-import { presenceVariantRef } from './map-variants/sheet-map';
 // Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
 // here, riding this module's DEV fold + sentinel graph (FB-7 / ADR-059).
 export { createBalanceCockpit, buildTuneArtifact } from './dev-cockpit';
@@ -318,32 +317,8 @@ export const SURFACES: SurfaceDef[] = [
   //    render.ts stamps the two data-attributes as CONSTANTS and CSS does all the arranging. No
   //    dead variant code ships (the classic / 番付 / 巻物 layouts + woodblock-box / hairline
   //    framings were removed here and from styles.css). ──
-  // ── FB-340 travel presence (HR-26) — the human picked D (footsteps + follow) and it shipped
-  //    as the sole behavior; the A/B/C/D toggle was pruned (ADR-075 zero-flag-debt). FB-340 v2
-  //    (2026-07-11) re-opens ONE narrow toggle: the human picked the 根付 porter PIECE from the
-  //    map-token-presence prototype, so the piece ships as the default and v1's rings are kept
-  //    ONLY here until the human confirms the porter live — then v1 is deleted (zero flag-debt
-  //    again). sheet-map.ts consumes the pick via `presenceVariantRef` (declaring-module
-  //    DEV-setter pattern), synced below. ──
-  {
-    id: 'presence',
-    rung: 0,
-    label: 'Map travel presence',
-    variants: [
-      {
-        id: 'presence-porter',
-        label: 'B · 根付 porter piece',
-        blurb:
-          'FB-340 v2, the prod default — a carved boxwood porter stands beside your zone seal and WALKS the edge (waddle + shu footprints) during a real move; arrival is the piece settling.',
-      },
-      {
-        id: 'presence-rings',
-        label: 'A · shu rings + footsteps (v1)',
-        blurb:
-          'The old presence: a resting shu here-ring, footprints on the walk, a destination ring pressing in on arrival. Kept for comparison until the porter is confirmed; then deleted.',
-      },
-    ],
-  },
+  // ── FB-340 v2 (HR-31 confirmed 2026-07-11) — the porter piece IS the presence; the
+  //    A/B rings toggle was deleted on the human's confirm (ADR-075 zero flag-debt). ──
 ];
 
 export interface DevApi {
@@ -488,19 +463,10 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
 
   syncReqFlavor(); // honour a ?story-<bundle>= URL selection from the first emission
 
-  // FB-340 v2 — mirror the presence pick into sheet-map's declaring-module ref (the sheet
-  // renders from the ref, so prod — where this DEV api never exists — always gets the default).
-  const syncPresence = (): void => {
-    presenceVariantRef.current =
-      (variant['presence'] ?? defaultOf('presence')) === 'presence-rings' ? 'rings' : 'porter';
-  };
-  syncPresence(); // honour a ?presence= URL selection from boot
-
   return {
     getVariant: (s) => variant[s] ?? defaultOf(s),
     setVariant: (s, id) => {
       variant[s] = id;
-      if (s === 'presence') syncPresence(); // FB-340 v2 — repoint sheet-map's ref
       // FB-18 — mirror the pick back into the URL so a reload restores it (and the URL is shareable).
       // Drop the param when the pick is the surface's DEFAULT (variants[0]) so a clean state keeps
       // a clean URL; otherwise write `?<s>=<id>`.

@@ -88,7 +88,7 @@
 | buy_belonging | instant | — | — |
 | deposit | instant | — | — |
 | withdraw | instant | — | — |
-| move_to | timed | 6s | 2s |
+| move_to | timed | 12s | 2s |
 | ascend | instant | — | — |
 | advance_season | instant | — | — |
 | talk_to | instant | — | — |

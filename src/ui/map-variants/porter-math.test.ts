@@ -45,7 +45,10 @@ describe('gaitAt — the bounded netsuke waddle', () => {
 
 describe('placement constants', () => {
   it('the piece stands SOUTH of the anchor, clear of the 78-tall seal box + its caption (~y+95)', () => {
-    expect(PORTER_STAND_Y).toBeGreaterThan(78 / 2 + 56); // below box bottom + caption line
+    // Human re-anchor 2026-07-11: the piece stands ON the seal (feet at the kanji
+    // baseline, y+16), never below the English caption (~y+73) — the old south lane.
+    expect(PORTER_STAND_Y).toBeLessThan(78 / 2); // inside the seal box
+    expect(PORTER_STAND_Y).toBeGreaterThanOrEqual(0); // at/under the kanji line, not floating over the box top
   });
 
   it('the sculpt scale keeps the piece smaller than the 132-wide seal label (the human size call)', () => {

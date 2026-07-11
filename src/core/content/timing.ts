@@ -58,7 +58,7 @@ export const RAKE_TEACH_COOLDOWN_MS = 12000;
 
 /** The fallback hop (an edge missing from EDGE_WALK_MS — the coverage test makes
  *  that a RED, so this only guards an unrevealed/DEV teleport path). */
-export const TRAVEL_SEED_MS = 6000;
+export const TRAVEL_SEED_MS = 12000;
 
 /** ADR-148 Phase 3 — travel is PER-EDGE data from day one (the human's call):
  *  each map edge declares its own walk seconds; distance texture is content,
@@ -66,27 +66,32 @@ export const TRAVEL_SEED_MS = 6000;
  *  "a|b". Travel carries NO cooldown seed — you arrive and keep moving; a
  *  per-edge cooldown stays one number away if the map ever wants weary roads.
  *  The timing.test derives edge coverage from MAP_NODES: a new edge without a
- *  walk time here is RED. */
+ *  walk time here is RED.
+ *  2026-07-11 (human order, transcribed — ADR-134): the whole table slowed ×2
+ *  (revised down from a first ×5 ask in the same session) — travel reads as a
+ *  real walk, not a flicker. The original 3–7s texture is preserved ×2 (6–14s);
+ *  the R3 band was re-signed [3, 25] with it (the walking-est rung honestly
+ *  runs longer in a slower world — see decisions.md). */
 export const EDGE_WALK_MS: Readonly<Record<string, number>> = {
   // The estate core — steps apart around the forecourt hub.
-  'forecourt|gate': 3000,
-  'forecourt|kura': 4000, // the forecourt is steps from the kura door
-  'forecourt|kitchen': 3000,
-  'forecourt|woodshed': 3000,
-  'forecourt|sickroom': 3000,
-  'drill-yard|forecourt': 4000, // the yard adjoins the forecourt
-  'kitchen|shrine': 3000, // the alcove is just off the kitchen threshold
+  'forecourt|gate': 6000,
+  'forecourt|kura': 8000, // the forecourt is steps from the kura door
+  'forecourt|kitchen': 6000,
+  'forecourt|woodshed': 6000,
+  'forecourt|sickroom': 6000,
+  'drill-yard|forecourt': 8000, // the yard adjoins the forecourt
+  'kitchen|shrine': 6000, // the alcove is just off the kitchen threshold
   // Out to the working ground.
-  'forecourt|paddies': 5000,
-  'field-margins|paddies': 5000,
-  'paddies|woodlot': 6000,
-  'paddies|weir': 6000, // down the work path to the river
-  'weir|weir-reeds': 4000,
+  'forecourt|paddies': 10000,
+  'field-margins|paddies': 10000,
+  'paddies|woodlot': 12000,
+  'paddies|weir': 12000, // down the work path to the river
+  'weir|weir-reeds': 8000,
   // The old compound's wild edge — farther, past the danger ring (ADR-078).
-  'orchard|woodlot': 6000,
-  'grove|orchard': 6000,
-  'field-margins|ruined': 7000, // locked scenery, but the graph edge is timed for coverage
-  'orchard|ruined': 7000,
+  'orchard|woodlot': 12000,
+  'grove|orchard': 12000,
+  'field-margins|ruined': 14000, // locked scenery, but the graph edge is timed for coverage
+  'orchard|ruined': 14000,
 };
 
 export function edgeKey(a: string, b: string): string {

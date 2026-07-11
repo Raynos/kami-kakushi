@@ -87,7 +87,11 @@ export const RUNG_WALL_FLOOR_MIN = 30;
  *  DEMO-trivial, fast enough to stay a tutorial tier. Targets: R0 ≈ 5-min cold-open, climb
  *  rungs ≈ 10–15 min. Liquid (ADR-059) — widen by playtest, never below the floor by stealth. */
 export const T0_PACING_BAND_MIN = 3;
-export const T0_PACING_BAND_MAX = 22;
+/** Re-signed 22 → 25 (human, 2026-07-11) with the ×2 walk table: travel reads as a
+ *  real walk now, and R3 — the walking-est rung (kill reqs across the fight grounds)
+ *  — honestly runs 21–24 min in the slower world. The ceiling covers it with ~2 min
+ *  of headroom; every other rung sits well under. */
+export const T0_PACING_BAND_MAX = 25;
 /** Phase 2 ≈ Phase 1 in wall-time (ADR-133, HD-19): the capstone→ascension grind should take roughly
  *  as long as the R0→R7 climb. A GENERAL rule across tiers (a tunable playtest default, not frozen)
  *  — expressed as a RATIO (phase2Wall / phase1Wall) so it single-sources the "equal time" law and
