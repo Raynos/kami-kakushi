@@ -739,7 +739,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "r2 yard hand"
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.0"
         },
         {
           "key": 122,
@@ -748,7 +749,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "r2 yard hand"
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.1"
         },
         {
           "key": 123,
@@ -757,7 +759,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "r2 yard hand"
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.2"
         },
         {
           "key": 124,
@@ -767,7 +770,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "r2 yard hand"
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.3"
         },
         {
           "key": 125,
@@ -776,7 +780,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "r2 yard hand"
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.4"
         },
         {
           "key": 126,
@@ -785,7 +790,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "r2 yard hand"
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.5"
         },
         {
           "key": 127,
@@ -794,7 +800,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.0"
         },
         {
           "key": 128,
@@ -804,7 +811,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.1"
         },
         {
           "key": 129,
@@ -814,7 +822,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.2"
         },
         {
           "key": 130,
@@ -823,7 +832,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.3"
         },
         {
           "key": 131,
@@ -833,7 +843,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.4"
         },
         {
           "key": 132,
@@ -843,7 +854,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.5"
         },
         {
           "key": 133,
@@ -853,7 +865,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.opt.works-intro-go.say"
         },
         {
           "key": 134,
@@ -863,7 +876,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.opt.works-intro-go.react"
         },
         {
           "key": 135,
@@ -1246,7 +1260,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "turn winter"
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.0"
         },
         {
           "key": 201,
@@ -1255,7 +1270,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "turn winter"
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.1"
         },
         {
           "key": 202,
@@ -1264,7 +1280,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "turn winter"
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.2"
         },
         {
           "key": 203,
@@ -1273,7 +1290,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "turn winter"
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.3"
         },
         {
           "key": 204,
@@ -1282,7 +1300,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.0"
         },
         {
           "key": 205,
@@ -1292,7 +1311,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.1"
         },
         {
           "key": 206,
@@ -1302,7 +1322,8 @@
           "count": 1,
           "speaker": "Matsuzō",
           "voice": "villager",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.2"
         },
         {
           "key": 207,
@@ -1311,7 +1332,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.3"
         },
         {
           "key": 208,
@@ -1321,7 +1343,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.4"
         },
         {
           "key": 209,
@@ -1330,7 +1353,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.5"
         },
         {
           "key": 210,
@@ -1340,7 +1364,8 @@
           "count": 1,
           "speaker": "Matsuzō",
           "voice": "villager",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.6"
         },
         {
           "key": 211,
@@ -1349,7 +1374,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.7"
         },
         {
           "key": 212,
@@ -1358,7 +1384,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.8"
         },
         {
           "key": 213,
@@ -2076,7 +2103,8 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "context": "turn new year"
+          "context": "turn new year",
+          "contentKey": "scene.turn-new-year.greeting.0"
         },
         {
           "key": 285,
@@ -2085,7 +2113,8 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "context": "turn new year"
+          "context": "turn new year",
+          "contentKey": "scene.turn-new-year.greeting.1"
         },
         {
           "key": 286,
@@ -2094,7 +2123,8 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "context": "turn new year"
+          "context": "turn new year",
+          "contentKey": "scene.turn-new-year.greeting.2"
         },
         {
           "key": 287,
@@ -2103,7 +2133,8 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "context": "turn new year"
+          "context": "turn new year",
+          "contentKey": "scene.turn-new-year.greeting.3"
         },
         {
           "key": 288,

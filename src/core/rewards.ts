@@ -49,12 +49,17 @@ export function applyRewards(state: GameState, rewards: RewardBundle): GameState
   }
   if (rewards.log) {
     for (const line of rewards.log) {
-      // A keyed line derives its text from the registry (the single source, T1); an inline
-      // line uses its prose verbatim (transitional, until every emit site is migrated).
+      // EMIT-time text vs PERSIST-time key — two different channels, do not conflate them.
+      // If the caller gives us words, those words are authoritative for THIS emission: they may
+      // carry a DEV story-take override (ADR-143 — takes overlay future emissions), or belong to
+      // a scene that exists only in a test. The `contentKey` is what the SAVE stores; on load,
+      // codec re-renders the line from the registry (log-render), which is where "src/ is the
+      // truth" actually bites. A key with NO text is the Stage-C mechanical form — render it.
+      // (Before this, contentKey WON at emit, which silently discarded a story-take override on
+      // every keyed narrative line and threw on any scene outside the shipped registry.)
       const text =
-        line.contentKey !== undefined
-          ? renderLogLine(line.contentKey, line.params)
-          : (line.text ?? '');
+        line.text ??
+        (line.contentKey !== undefined ? renderLogLine(line.contentKey, line.params) : '');
       next = {
         ...next,
         log: pushLog(next.log, line.channel, text, next.clock.tick, {

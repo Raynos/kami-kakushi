@@ -186,6 +186,39 @@ clobbered their working copy) — waited; they landed it and verify went green o
 - `src/core/content/log-render.ts` — the `works` namespace.
 - `src/core/discovery.ts`, `src/core/works.ts` — emitters keyed.
 
+### 8 · Step 1c — scene/VN lines keyed, and a real bug the keying exposed
+
+Keyed the VN payload (shared by SCENES and RUNG_BEATS): `scene.<id>.greeting.<i>`,
+`scene.<id>.opt.<optionId>.say|react|bonus`, plus a `flavor.<key>` namespace (the rest line and
+friends live in FLAVOR) and a `beat.<rank>.…` namespace for rung beats.
+
+**The rewards bus conflated two channels, and keying exposed it.** `applyRewards` rendered a
+line from its `contentKey` *in preference to* the `text` the caller passed. That is right for
+the Stage-C mechanical lines (they pass a key and no text) but WRONG the moment a narrative line
+carries both: it silently discarded the **DEV story-take override** (ADR-143 — takes overlay
+future emissions) on every keyed narrative line, and it threw outright on any scene outside the
+shipped registry (which is why 4 scene tests went red — they use synthetic scene defs).
+
+The two channels are now separated, which is the actual doctrine:
+- **emit time** — the caller's words are authoritative (they may carry a DEV take, or be a test).
+- **persist time** — the KEY is what the save stores; on load `codec` re-renders from the
+  registry. That is where "src/ is the truth" bites, and it is the only place it should.
+
+**A co-agent (w1:p3) caught my commit `05573a1d` reddening the `@slow` lane** — `save-e2e`'s
+"rebuilds every keyed entry text from the registry on load", which is *precisely* this plan's
+step-1 done-when proof. Cause: that test imported `renderLogLine` from `log-content` (the leaf),
+which cannot see the namespace dispatch, so a namespaced key threw. Repointed it at `log-render`
+— the module that IS the renderer and what `codec.ts` calls. The assertion is unchanged and can
+still go RED. **Lesson: the COMMIT lane doesn't run `@slow`, so a green commit can still red the
+push.** Run `VERIFY_FULL=1 pnpm run verify` when touching the persistence/render seam.
+
+Full lane now green: **1258 tests, 95 files, `@slow` included.**
+
+- `src/core/scenes.ts` — greeting/say/react/bonus keyed.
+- `src/core/content/log-render.ts` — `scene`, `beat`, `flavor` namespaces.
+- `src/core/rewards.ts` — emit-text wins over the key; the key is for the SAVE.
+- `src/persistence/save-e2e.test.ts` — repointed at the real renderer.
+
 ## Next intended steps
 
 Rest of step 1, in order: key the discovery, works and scene/dialogue emitters; then

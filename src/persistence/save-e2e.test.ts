@@ -11,7 +11,10 @@ import {
   focusedOptimalIntent,
   type GameState,
 } from '../core';
-import { renderLogLine } from '../core/content/log-content';
+// log-render, not log-content: the composition module IS the renderer (it owns the namespace
+// dispatch to the content registries, and it is what codec.ts calls). Importing the leaf here
+// would only ever see the hand-written templates, so a namespaced key would throw.
+import { renderLogLine } from '../core/content/log-render';
 import { createMemorySaveManager, MemoryBackend } from './index';
 
 // End-to-end save/load: drive the WHOLE T0 arc through the REAL reducer (no forced flags — the

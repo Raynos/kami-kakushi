@@ -100,12 +100,15 @@ export function beginScene(state: GameState, def: SceneDef): GameState {
     sceneQueue: state.sceneQueue.filter((id) => id !== def.id),
   };
   return applyRewards(opened, {
-    log: def.scene.greeting.map((l) => ({
+    log: def.scene.greeting.map((l, i) => ({
       channel: 'narration' as const,
       text: l.text,
       voice: l.voice,
       speaker: l.speaker,
       context: def.id.replace(/-/g, ' '), // FB-262 — the scene is one VN group in Story
+      // The save persists the KEY; the words re-render from THIS scene's def on load, so a
+      // reworded beat updates every existing save (save-format plan, step 1).
+      contentKey: `scene.${def.id}.greeting.${i}`,
     })),
   });
 }
@@ -169,6 +172,7 @@ export function applySceneOption(state: GameState, def: SceneDef, optionId: stri
         voice: 'player',
         speaker: playerSpeaker(state),
         context: sceneCtx,
+        contentKey: `scene.${def.id}.opt.${optionId}.say`,
       },
       {
         channel: 'narration',
@@ -176,6 +180,7 @@ export function applySceneOption(state: GameState, def: SceneDef, optionId: stri
         voice: react.voice,
         speaker: react.speaker,
         context: sceneCtx,
+        contentKey: `scene.${def.id}.opt.${optionId}.react`,
       },
     ],
   });
@@ -204,7 +209,14 @@ export function applySceneOption(state: GameState, def: SceneDef, optionId: stri
       },
     };
     next = applyRewards(next, {
-      log: [{ channel: 'system', text: opt.statBonus.note, voice: 'narrator' }],
+      log: [
+        {
+          channel: 'system',
+          text: opt.statBonus.note,
+          voice: 'narrator',
+          contentKey: `scene.${def.id}.opt.${optionId}.bonus`,
+        },
+      ],
     });
   }
   // (e) the story-DEFAULT opening stance (if the pick sets one).

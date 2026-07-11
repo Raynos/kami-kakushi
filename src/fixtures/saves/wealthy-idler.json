@@ -799,7 +799,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "r2 yard hand"
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.0"
         },
         {
           "key": 122,
@@ -808,7 +809,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "r2 yard hand"
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.1"
         },
         {
           "key": 123,
@@ -817,7 +819,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "r2 yard hand"
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.2"
         },
         {
           "key": 124,
@@ -827,7 +830,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "r2 yard hand"
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.3"
         },
         {
           "key": 125,
@@ -836,7 +840,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "r2 yard hand"
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.4"
         },
         {
           "key": 126,
@@ -845,7 +850,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "r2 yard hand"
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.5"
         },
         {
           "key": 127,
@@ -854,7 +860,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.0"
         },
         {
           "key": 128,
@@ -864,7 +871,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.1"
         },
         {
           "key": 129,
@@ -874,7 +882,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.2"
         },
         {
           "key": 130,
@@ -883,7 +892,8 @@
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.3"
         },
         {
           "key": 131,
@@ -893,7 +903,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.4"
         },
         {
           "key": 132,
@@ -903,7 +914,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.5"
         },
         {
           "key": 133,
@@ -913,7 +925,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.opt.works-intro-go.say"
         },
         {
           "key": 134,
@@ -923,7 +936,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works intro"
+          "context": "works intro",
+          "contentKey": "scene.works-intro.opt.works-intro-go.react"
         },
         {
           "key": 135,
@@ -1180,7 +1194,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "turn winter"
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.0"
         },
         {
           "key": 201,
@@ -1189,7 +1204,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "turn winter"
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.1"
         },
         {
           "key": 202,
@@ -1198,7 +1214,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "turn winter"
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.2"
         },
         {
           "key": 203,
@@ -1207,7 +1224,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "turn winter"
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.3"
         },
         {
           "key": 204,
@@ -1216,7 +1234,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.0"
         },
         {
           "key": 205,
@@ -1226,7 +1245,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.1"
         },
         {
           "key": 206,
@@ -1236,7 +1256,8 @@
           "count": 1,
           "speaker": "Matsuzō",
           "voice": "villager",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.2"
         },
         {
           "key": 207,
@@ -1245,7 +1266,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.3"
         },
         {
           "key": 208,
@@ -1255,7 +1277,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.4"
         },
         {
           "key": 209,
@@ -1264,7 +1287,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.5"
         },
         {
           "key": 210,
@@ -1274,7 +1298,8 @@
           "count": 1,
           "speaker": "Matsuzō",
           "voice": "villager",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.6"
         },
         {
           "key": 211,
@@ -1283,7 +1308,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.7"
         },
         {
           "key": 212,
@@ -1292,7 +1318,8 @@
           "tick": 14,
           "count": 1,
           "voice": "narrator",
-          "context": "sb lease"
+          "context": "sb lease",
+          "contentKey": "scene.sb-lease.greeting.8"
         },
         {
           "key": 216,
@@ -1444,7 +1471,8 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "context": "turn new year"
+          "context": "turn new year",
+          "contentKey": "scene.turn-new-year.greeting.0"
         },
         {
           "key": 285,
@@ -1453,7 +1481,8 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "context": "turn new year"
+          "context": "turn new year",
+          "contentKey": "scene.turn-new-year.greeting.1"
         },
         {
           "key": 286,
@@ -1462,7 +1491,8 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "context": "turn new year"
+          "context": "turn new year",
+          "contentKey": "scene.turn-new-year.greeting.2"
         },
         {
           "key": 287,
@@ -1471,7 +1501,8 @@
           "tick": 20,
           "count": 1,
           "voice": "narrator",
-          "context": "turn new year"
+          "context": "turn new year",
+          "contentKey": "scene.turn-new-year.greeting.3"
         },
         {
           "key": 290,
@@ -2123,7 +2154,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count"
+          "context": "count",
+          "contentKey": "scene.count.greeting.0"
         },
         {
           "key": 421,
@@ -2133,7 +2165,8 @@
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
-          "context": "count"
+          "context": "count",
+          "contentKey": "scene.count.greeting.1"
         },
         {
           "key": 422,
@@ -2142,7 +2175,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count"
+          "context": "count",
+          "contentKey": "scene.count.greeting.2"
         },
         {
           "key": 423,
@@ -2152,7 +2186,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "count"
+          "context": "count",
+          "contentKey": "scene.count.greeting.3"
         },
         {
           "key": 424,
@@ -2161,7 +2196,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count"
+          "context": "count",
+          "contentKey": "scene.count.greeting.4"
         },
         {
           "key": 425,
@@ -2171,7 +2207,8 @@
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
-          "context": "count"
+          "context": "count",
+          "contentKey": "scene.count.greeting.5"
         },
         {
           "key": 426,
@@ -2181,7 +2218,8 @@
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
-          "context": "count"
+          "context": "count",
+          "contentKey": "scene.count.greeting.6"
         },
         {
           "key": 427,
@@ -2190,7 +2228,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count"
+          "context": "count",
+          "contentKey": "scene.count.greeting.7"
         },
         {
           "key": 428,
@@ -2200,7 +2239,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "count"
+          "context": "count",
+          "contentKey": "scene.count.opt.r5-stand.say"
         },
         {
           "key": 429,
@@ -2210,7 +2250,8 @@
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
-          "context": "count"
+          "context": "count",
+          "contentKey": "scene.count.opt.r5-stand.react"
         },
         {
           "key": 430,
@@ -2220,7 +2261,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.0"
         },
         {
           "key": 431,
@@ -2229,7 +2271,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.1"
         },
         {
           "key": 432,
@@ -2239,7 +2282,8 @@
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.2"
         },
         {
           "key": 433,
@@ -2248,7 +2292,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.3"
         },
         {
           "key": 434,
@@ -2258,7 +2303,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.4"
         },
         {
           "key": 435,
@@ -2268,7 +2314,8 @@
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.5"
         },
         {
           "key": 436,
@@ -2277,7 +2324,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.6"
         },
         {
           "key": 437,
@@ -2287,7 +2335,8 @@
           "count": 1,
           "speaker": "Toku",
           "voice": "steward",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.7"
         },
         {
           "key": 438,
@@ -2296,7 +2345,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.8"
         },
         {
           "key": 439,
@@ -2306,7 +2356,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.9"
         },
         {
           "key": 440,
@@ -2315,7 +2366,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.10"
         },
         {
           "key": 441,
@@ -2325,7 +2377,8 @@
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.11"
         },
         {
           "key": 442,
@@ -2334,7 +2387,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.12"
         },
         {
           "key": 443,
@@ -2344,7 +2398,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.13"
         },
         {
           "key": 444,
@@ -2353,7 +2408,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.14"
         },
         {
           "key": 445,
@@ -2363,7 +2419,8 @@
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.15"
         },
         {
           "key": 446,
@@ -2372,7 +2429,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.16"
         },
         {
           "key": 447,
@@ -2381,7 +2439,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "count resolve"
+          "context": "count resolve",
+          "contentKey": "scene.count-resolve.greeting.17"
         },
         {
           "key": 455,
@@ -2650,7 +2709,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "works u1"
+          "context": "works u1",
+          "contentKey": "scene.works-u1.greeting.0"
         },
         {
           "key": 551,
@@ -2660,7 +2720,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u1"
+          "context": "works u1",
+          "contentKey": "scene.works-u1.greeting.1"
         },
         {
           "key": 552,
@@ -2670,7 +2731,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u1"
+          "context": "works u1",
+          "contentKey": "scene.works-u1.greeting.2"
         },
         {
           "key": 553,
@@ -2679,7 +2741,8 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "works u1"
+          "context": "works u1",
+          "contentKey": "scene.works-u1.greeting.3"
         },
         {
           "key": 554,
@@ -2689,7 +2752,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u1"
+          "context": "works u1",
+          "contentKey": "scene.works-u1.greeting.4"
         },
         {
           "key": 555,
@@ -2699,7 +2763,8 @@
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
-          "context": "works u1"
+          "context": "works u1",
+          "contentKey": "scene.works-u1.opt.works-u1-begin.say"
         },
         {
           "key": 556,
@@ -2709,7 +2774,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u1"
+          "context": "works u1",
+          "contentKey": "scene.works-u1.opt.works-u1-begin.react"
         },
         {
           "key": 557,
@@ -2865,7 +2931,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "r7 dream"
+          "context": "r7 dream",
+          "contentKey": "scene.r7-dream.greeting.0"
         },
         {
           "key": 581,
@@ -2874,7 +2941,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "r7 dream"
+          "context": "r7 dream",
+          "contentKey": "scene.r7-dream.greeting.1"
         },
         {
           "key": 582,
@@ -2883,7 +2951,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "r7 dream"
+          "context": "r7 dream",
+          "contentKey": "scene.r7-dream.greeting.2"
         },
         {
           "key": 583,
@@ -2892,7 +2961,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "r7 dream"
+          "context": "r7 dream",
+          "contentKey": "scene.r7-dream.greeting.3"
         },
         {
           "key": 584,
@@ -2901,7 +2971,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "r7 dream"
+          "context": "r7 dream",
+          "contentKey": "scene.r7-dream.greeting.4"
         },
         {
           "key": 585,
@@ -2910,7 +2981,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "r7 dream"
+          "context": "r7 dream",
+          "contentKey": "scene.r7-dream.greeting.5"
         },
         {
           "key": 586,
@@ -2919,7 +2991,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "r7 dream"
+          "context": "r7 dream",
+          "contentKey": "scene.r7-dream.greeting.6"
         },
         {
           "key": 587,
@@ -2928,7 +3001,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "r7 dream"
+          "context": "r7 dream",
+          "contentKey": "scene.r7-dream.greeting.7"
         },
         {
           "key": 588,
@@ -2938,7 +3012,8 @@
           "count": 1,
           "speaker": "Gonbei",
           "voice": "player",
-          "context": "r7 dream"
+          "context": "r7 dream",
+          "contentKey": "scene.r7-dream.greeting.8"
         },
         {
           "key": 589,
@@ -2947,7 +3022,8 @@
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "r7 dream"
+          "context": "r7 dream",
+          "contentKey": "scene.r7-dream.greeting.9"
         },
         {
           "key": 591,
@@ -2997,7 +3073,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "turn spring"
+          "context": "turn spring",
+          "contentKey": "scene.turn-spring.greeting.0"
         },
         {
           "key": 608,
@@ -3006,7 +3083,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "turn spring"
+          "context": "turn spring",
+          "contentKey": "scene.turn-spring.greeting.1"
         },
         {
           "key": 609,
@@ -3015,7 +3093,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "turn spring"
+          "context": "turn spring",
+          "contentKey": "scene.turn-spring.greeting.2"
         },
         {
           "key": 610,
@@ -3024,7 +3103,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "turn spring"
+          "context": "turn spring",
+          "contentKey": "scene.turn-spring.greeting.3"
         },
         {
           "key": 613,
@@ -3033,7 +3113,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "turn summer"
+          "context": "turn summer",
+          "contentKey": "scene.turn-summer.greeting.0"
         },
         {
           "key": 614,
@@ -3042,7 +3123,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "turn summer"
+          "context": "turn summer",
+          "contentKey": "scene.turn-summer.greeting.1"
         },
         {
           "key": 615,
@@ -3051,7 +3133,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "turn summer"
+          "context": "turn summer",
+          "contentKey": "scene.turn-summer.greeting.2"
         },
         {
           "key": 616,
@@ -3060,7 +3143,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "turn summer"
+          "context": "turn summer",
+          "contentKey": "scene.turn-summer.greeting.3"
         },
         {
           "key": 619,
@@ -3069,7 +3153,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "sb bon"
+          "context": "sb bon",
+          "contentKey": "scene.sb-bon.greeting.0"
         },
         {
           "key": 620,
@@ -3078,7 +3163,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "sb bon"
+          "context": "sb bon",
+          "contentKey": "scene.sb-bon.greeting.1"
         },
         {
           "key": 621,
@@ -3088,7 +3174,8 @@
           "count": 1,
           "speaker": "Gonbei",
           "voice": "player",
-          "context": "sb bon"
+          "context": "sb bon",
+          "contentKey": "scene.sb-bon.greeting.2"
         },
         {
           "key": 622,
@@ -3098,7 +3185,8 @@
           "count": 1,
           "speaker": "O-Hisa",
           "voice": "steward",
-          "context": "sb bon"
+          "context": "sb bon",
+          "contentKey": "scene.sb-bon.greeting.3"
         },
         {
           "key": 623,
@@ -3107,7 +3195,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "sb bon"
+          "context": "sb bon",
+          "contentKey": "scene.sb-bon.greeting.4"
         },
         {
           "key": 624,
@@ -3116,7 +3205,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "sb bon"
+          "context": "sb bon",
+          "contentKey": "scene.sb-bon.greeting.5"
         },
         {
           "key": 625,
@@ -3125,7 +3215,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "sb bon"
+          "context": "sb bon",
+          "contentKey": "scene.sb-bon.greeting.6"
         },
         {
           "key": 626,
@@ -3135,7 +3226,8 @@
           "count": 1,
           "speaker": "Iori",
           "voice": "monk",
-          "context": "sb bon"
+          "context": "sb bon",
+          "contentKey": "scene.sb-bon.greeting.7"
         },
         {
           "key": 627,
@@ -3144,7 +3236,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "sb bon"
+          "context": "sb bon",
+          "contentKey": "scene.sb-bon.greeting.8"
         },
         {
           "key": 628,
@@ -3153,7 +3246,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "sb bon"
+          "context": "sb bon",
+          "contentKey": "scene.sb-bon.greeting.9"
         },
         {
           "key": 629,
@@ -3162,7 +3256,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "turn bon"
+          "context": "turn bon",
+          "contentKey": "scene.turn-bon.greeting.0"
         },
         {
           "key": 630,
@@ -3171,7 +3266,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "turn bon"
+          "context": "turn bon",
+          "contentKey": "scene.turn-bon.greeting.1"
         },
         {
           "key": 631,
@@ -3180,7 +3276,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "turn bon"
+          "context": "turn bon",
+          "contentKey": "scene.turn-bon.greeting.2"
         },
         {
           "key": 632,
@@ -3189,7 +3286,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "turn bon"
+          "context": "turn bon",
+          "contentKey": "scene.turn-bon.greeting.3"
         },
         {
           "key": 633,
@@ -3198,7 +3296,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.0"
         },
         {
           "key": 634,
@@ -3207,7 +3306,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.1"
         },
         {
           "key": 635,
@@ -3216,7 +3316,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.2"
         },
         {
           "key": 636,
@@ -3225,7 +3326,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.3"
         },
         {
           "key": 637,
@@ -3234,7 +3336,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.4"
         },
         {
           "key": 638,
@@ -3268,7 +3371,8 @@
           "tick": 16,
           "count": 1,
           "voice": "narrator",
-          "context": "works u2"
+          "context": "works u2",
+          "contentKey": "scene.works-u2.greeting.0"
         },
         {
           "key": 642,
@@ -3278,7 +3382,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u2"
+          "context": "works u2",
+          "contentKey": "scene.works-u2.greeting.1"
         },
         {
           "key": 643,
@@ -3288,7 +3393,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u2"
+          "context": "works u2",
+          "contentKey": "scene.works-u2.greeting.2"
         },
         {
           "key": 644,
@@ -3298,7 +3404,8 @@
           "count": 1,
           "speaker": "Gonbei",
           "voice": "player",
-          "context": "works u2"
+          "context": "works u2",
+          "contentKey": "scene.works-u2.opt.works-u2-begin.say"
         },
         {
           "key": 645,
@@ -3308,7 +3415,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u2"
+          "context": "works u2",
+          "contentKey": "scene.works-u2.opt.works-u2-begin.react"
         },
         {
           "key": 648,
@@ -3522,7 +3630,8 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.0"
         },
         {
           "key": 762,
@@ -3532,7 +3641,8 @@
           "count": 1,
           "speaker": "Shinnosuke",
           "voice": "steward",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.1"
         },
         {
           "key": 763,
@@ -3541,7 +3651,8 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.2"
         },
         {
           "key": 764,
@@ -3551,7 +3662,8 @@
           "count": 1,
           "speaker": "Gonbei",
           "voice": "player",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.3"
         },
         {
           "key": 765,
@@ -3561,7 +3673,8 @@
           "count": 1,
           "speaker": "Shinnosuke",
           "voice": "steward",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.4"
         },
         {
           "key": 766,
@@ -3570,7 +3683,8 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.5"
         },
         {
           "key": 767,
@@ -3580,7 +3694,8 @@
           "count": 1,
           "speaker": "Gonbei",
           "voice": "player",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.6"
         },
         {
           "key": 768,
@@ -3589,7 +3704,8 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.7"
         },
         {
           "key": 769,
@@ -3599,7 +3715,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.8"
         },
         {
           "key": 770,
@@ -3608,7 +3725,8 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.9"
         },
         {
           "key": 771,
@@ -3617,7 +3735,8 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.10"
         },
         {
           "key": 772,
@@ -3627,7 +3746,8 @@
           "count": 1,
           "speaker": "Shinnosuke",
           "voice": "steward",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.11"
         },
         {
           "key": 773,
@@ -3636,7 +3756,8 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "context": "sb crest"
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.12"
         },
         {
           "key": 774,
@@ -3645,7 +3766,8 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "context": "works u3"
+          "context": "works u3",
+          "contentKey": "scene.works-u3.greeting.0"
         },
         {
           "key": 775,
@@ -3655,7 +3777,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u3"
+          "context": "works u3",
+          "contentKey": "scene.works-u3.greeting.1"
         },
         {
           "key": 776,
@@ -3665,7 +3788,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u3"
+          "context": "works u3",
+          "contentKey": "scene.works-u3.greeting.2"
         },
         {
           "key": 777,
@@ -3675,7 +3799,8 @@
           "count": 1,
           "speaker": "Gonbei",
           "voice": "player",
-          "context": "works u3"
+          "context": "works u3",
+          "contentKey": "scene.works-u3.opt.works-u3-begin.say"
         },
         {
           "key": 778,
@@ -3685,7 +3810,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u3"
+          "context": "works u3",
+          "contentKey": "scene.works-u3.opt.works-u3-begin.react"
         },
         {
           "key": 783,
@@ -3908,7 +4034,8 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.0"
         },
         {
           "key": 924,
@@ -3917,7 +4044,8 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.1"
         },
         {
           "key": 925,
@@ -3926,7 +4054,8 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.2"
         },
         {
           "key": 926,
@@ -3935,7 +4064,8 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.3"
         },
         {
           "key": 927,
@@ -3944,7 +4074,8 @@
           "tick": 12,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.4"
         },
         {
           "key": 928,
@@ -4002,7 +4133,8 @@
           "tick": 22,
           "count": 1,
           "voice": "narrator",
-          "context": "works u4"
+          "context": "works u4",
+          "contentKey": "scene.works-u4.greeting.0"
         },
         {
           "key": 952,
@@ -4012,7 +4144,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u4"
+          "context": "works u4",
+          "contentKey": "scene.works-u4.greeting.1"
         },
         {
           "key": 953,
@@ -4022,7 +4155,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u4"
+          "context": "works u4",
+          "contentKey": "scene.works-u4.greeting.2"
         },
         {
           "key": 954,
@@ -4032,7 +4166,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u4"
+          "context": "works u4",
+          "contentKey": "scene.works-u4.greeting.3"
         },
         {
           "key": 955,
@@ -4042,7 +4177,8 @@
           "count": 1,
           "speaker": "Gonbei",
           "voice": "player",
-          "context": "works u4"
+          "context": "works u4",
+          "contentKey": "scene.works-u4.opt.works-u4-begin.say"
         },
         {
           "key": 956,
@@ -4052,7 +4188,8 @@
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
-          "context": "works u4"
+          "context": "works u4",
+          "contentKey": "scene.works-u4.opt.works-u4-begin.react"
         },
         {
           "key": 982,
@@ -4419,7 +4556,8 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.0"
         },
         {
           "key": 1161,
@@ -4428,7 +4566,8 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.1"
         },
         {
           "key": 1162,
@@ -4437,7 +4576,8 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.2"
         },
         {
           "key": 1163,
@@ -4446,7 +4586,8 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.3"
         },
         {
           "key": 1164,
@@ -4455,7 +4596,8 @@
           "tick": 8,
           "count": 1,
           "voice": "narrator",
-          "context": "nengu autumn frame"
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.4"
         },
         {
           "key": 1165,

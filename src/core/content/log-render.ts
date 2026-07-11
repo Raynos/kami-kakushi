@@ -21,6 +21,9 @@ import { LOG_CONTENT, type LogParams } from './log-content';
 import { SURFACES } from './surfaces';
 import { DISCOVERIES, discoveryEmitLine } from './discoveries';
 import { FLAVOR } from './flavor';
+import { sceneById } from './scenes';
+import { RUNG_BEATS, rungOption, type RungScene } from './rungBeats';
+import type { RankId } from './ranks';
 
 /** A namespace resolver: given the key's tail (everything after the first dot) + params, render.
  *  Returns undefined when the id is unknown to the registry — a content id that src/ has since
@@ -44,11 +47,53 @@ const discoveryText = (id: string): string | undefined => {
 const worksText = (key: string): string | undefined =>
   (FLAVOR as Readonly<Record<string, string>>)[key];
 
+// ── the VN payload (scenes AND rung beats share `RungScene`, so one reader serves both) ──────
+// A line inside a scene is addressed as `<part>` after the scene id:
+//   greeting.<i>          the i-th greeting line
+//   opt.<optionId>.say    the MC's reply        · opt.<optionId>.react  the speaker's reaction
+//   opt.<optionId>.bonus  the rare stat-nudge note
+// The INDEX in `greeting.<i>` is the one address that is positional rather than id-keyed —
+// re-ordering a scene's greeting lines in the narrative .md therefore re-points an old save's
+// line. That is a content RESTRUCTURE (README: "Schema growth, rung 2"), and the orphan sensor
+// cannot see it because the index still resolves. Named ids would be immune; the narrative
+// grammar does not give greeting lines ids today, so this is a KNOWN limit, recorded in the ADR.
+function vnText(scene: RungScene, part: string): string | undefined {
+  const greeting = part.match(/^greeting\.(\d+)$/);
+  if (greeting) return scene.greeting[Number(greeting[1])]?.text;
+
+  const opt = part.match(/^opt\.(.+)\.(say|react|bonus)$/);
+  if (opt) {
+    const o = rungOption(scene, opt[1]!);
+    if (!o) return undefined;
+    if (opt[2] === 'say') return o.say;
+    if (opt[2] === 'react') return o.react;
+    return o.statBonus?.note;
+  }
+  return undefined;
+}
+
+const sceneText = (tail: string): string | undefined => {
+  const dot = tail.indexOf('.');
+  if (dot <= 0) return undefined;
+  const def = sceneById(tail.slice(0, dot));
+  return def ? vnText(def.scene, tail.slice(dot + 1)) : undefined;
+};
+
+const beatText = (tail: string): string | undefined => {
+  const dot = tail.indexOf('.');
+  if (dot <= 0) return undefined;
+  const beat = RUNG_BEATS[tail.slice(0, dot) as RankId];
+  return beat ? vnText(beat, tail.slice(dot + 1)) : undefined;
+};
+
 /** namespace → resolver. Each namespace's prose stays in ITS registry — one home (TST1). */
 const RESOLVERS: Readonly<Record<string, Resolver>> = {
   reveal: (id) => surfaceRevealText(id),
   discovery: (id) => discoveryText(id),
   works: (key) => worksText(key),
+  flavor: (key) => (FLAVOR as Readonly<Record<string, string>>)[key],
+  scene: (tail) => sceneText(tail),
+  beat: (tail) => beatText(tail),
 };
 
 /** The namespaces this module can resolve — exported so a test can prove every emitted key
