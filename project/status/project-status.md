@@ -16,8 +16,9 @@ metadata:
 
 A grounded, story-driven **incremental RPG** in mid-Edo (1780, fictional) rural
 Japan: a nameless man rises through a declining *gōshi* house. **The shipped game
-is the story-bible canon** as of **v0.4.0** — the storywave T0 rewrite is live.
-Canon = [`docs/story-bible/`](../../docs/story-bible/README.md): **SEVEN tiers**
+is the story-bible canon** as of **v0.4.0** — the storywave T0 rewrite is live at
+raynos.github.io/kami-kakushi. Canon =
+[`docs/story-bible/`](../../docs/story-bible/README.md): **SEVEN tiers**
 (Estate-household · Estate-land · Valley · Region · Castle-town · Domain · Edo),
 time-skips, the ruin/guest-house twist, the succession knot. **T0 is BUILT &
 shipped; T1+ are specced, not built** ([`prd.md`](../../docs/living/prd.md)). No
@@ -25,51 +26,45 @@ magic; no reset.
 
 ## Where we are now
 
-- **✅ STORYWAVE CLOSURE DONE (s134, 2026-07-10):** every post-ship-review finding
-  fixed or human-ruled — ADR-166 (Autumn refuses) · ADR-167 (the full fiction
-  wave; HR-18…HR-21 review LIVE in DEV → Story) · six-step grades · the idler
-  repaired. Finding→commit map: the review report's addendum. Plan archived.
-- **✅ PRD TRUTH-SYNC DONE (s136) & VERIFIED (s141):** freeze CANCELLED
-  (ADR-168/169); §1–§7 speak the shipped game. s141 sweep (~110 claims vs
-  src/): 7 doc residues fixed; its canon breach closed s153 (HD-36 → ADR-175,
-  HR-25). T2 reputation WEB beats the bible's single track (ADR-169; T2 plan
-  owes reconciliation).
-- **✅ STORYWAVE SHIPPED v0.4.0 (s125–131):** the bible-canon T0 rewrite is LIVE on
-  gh-pages (tag `v0.4.0`); all three storywave plans archived.
-- **✅ HD-35 RULED & APPLIED (s144, ADR-172):** R3/Phase-2 re-paced — R3 20.0
-  [19.0–20.3] min ∈ [3,22] (XP_K 5→20, COOK_HP 14→35), deed base 0.22→0.6 keeps
-  the ADR-133 ratio at [0.95–0.97]; the ADR-148-interim scope DELETED — full
-  R0–R6 band verdicts + the R7 ratio gate are the live `verify:balance` teeth.
-  Greedy T0 ≈ 2.5 h sim wall. Combat curve R4+ kills still parked.
-- **✅ COLD-OPEN REARC DONE (s143, HD-37 → ADR-173):** three acts live
-  (memory→soan→genemon, three picks, reworked title card); both diverge units
-  picked into canon — **HR-22/HR-23** review live (DEV → Story, incl. the new
-  title-card swap). Plan archived.
-- **🧊 PARKED:** Plan K authored-depth demo (prototypes ⭐ `authored-depth-demo/`)
-  + the T1 emergent-node plan — both in `docs/plans/t1/`. Un-park = human.
-- **✅ THE BIBLE — DONE & BLESSED (s109–116, ADR-150):** 7 tier sheets · full cast ·
-  register-rules law · THE FALL. The human signed off the whole read (s116).
-- **✅ UI-v2 Andon Steel SHIPPED + PH5-CERTIFIED (s98):** the steel palette
-  (ADR-144); `taste.md` 21-principle lock (ADR-126) + the FB-10 two-pass flow.
-- **✅ MAPS PLAYER-BOUND (s112–119):** T0/T1 sheets = the player map (HR-12 ✅, golden
-  pin, blind-pass); T2 valley sheet BUILT (`?t2-map-demo`) — **NOT DONE: T2
-  rungs/fog (§6.1).**
-- **✅ PHASE-2 ECONOMY (ADR-145):** the A+B deed-source loop; FB-121 rungs (hidden
-  lists + %-bar, points meter dead). **✅ TIMED ACTIONS (ADR-148):** ActionClock.
-- **✅ BODY SPLIT DONE (s167, ADR-178):** Body 体 (work fuel) + Belly 腹 (daily food
-  store; teeth = rest quality) — core + two-bar UI + PRD §2.3; verdict Δ≈0. Archived.
+- **✅ ESTATE REDESIGN — PHASE 1 DONE (s168, ADR-177):** the works discovery
+  chain (works-cause diverge, pick C): day-book NAMES a concern → the walk SEES
+  the damage → Genemon's beat PRICES it → the ladder stage opens; the weir node
+  is fiction-gated (FB-338/FB-342 fixed). **HR-27** filed. Plan:
+  [`fable-2026-07-10-estate-upgrades-redesign.md`](../../docs/plans/fable-2026-07-10-estate-upgrades-redesign.md)
+  — **Phase 2 (Schedule A tab moves + the Works 普請/Estate 家 diverges) is the
+  next startable step**; Phase 3 (repair verbs + inputs) after.
+- **✅ BODY SPLIT DONE (s167, ADR-178):** Body 体 (work fuel) + Belly 腹 (daily
+  food store; teeth = rest quality) — core + two-bar UI + PRD §2.3; verdict Δ≈0.
+- **✅ FB DRAIN WAVE (s168+, FB-361…373):** titlebar retired (name+version in
+  footer), vitals as one-line rows, no hover-raise on disabled verbs, Map-tab
+  heading dropped, cold-open cards split per scene, rakeCapLine into FLAVOR,
+  T0 map-demo entries retired, travel footsteps synced to the move timer.
+- **✅ v0.4.0 STORYWAVE SHIPPED & CLOSED (s125–144):** the bible-canon T0
+  rewrite live on gh-pages (tag `v0.4.0`); post-ship review fully closed
+  (ADR-166/167); PRD truth-synced, freeze CANCELLED (ADR-168/169, verified
+  s141); cold open re-arced to three acts (ADR-173); HD-35 re-pace ruled
+  (ADR-172 — R3 ≈20 min, full R0–R6 band verdicts + the R7 ratio gate are the
+  live `verify:balance` teeth; greedy T0 ≈ 2.5 h sim wall). Combat curve R4+
+  kills still parked (inbox).
+- **✅ FOUNDATIONS:** the bible done & blessed (s116, ADR-150) · UI-v2 Andon
+  Steel + the taste.md 21-principle lock (ADR-144/126) · T0/T1 map sheets =
+  the player map (golden pin, blind-pass); T2 valley sheet BUILT
+  (`?t2-map-demo`) — **NOT DONE: T2 rungs/fog** · Phase-2 economy (ADR-145) ·
+  timed actions (ADR-148).
+- **🧊 PARKED:** Plan K authored-depth demo + the T1 emergent-node plan (both
+  `docs/plans/t1/`). Un-park = human.
 
 ## Waiting on the human
 
 - **HR-1** 🔲 — play/review the full T0 arc for fun & pacing (the LOOK is UI-v2
   certified; this is the fun/taste call on the live storywave build).
-- **HR-18…HR-21 + HR-25** 🔲 — the fiction-wave picks (overlays · discoveries ·
-  judge lines · node reads) + the R7 lord-unstaged lines (HD-36 → ADR-175), all
-  reviewed LIVE via DEV → Story. *(HD-33…36 closed 2026-07-10; none open.)*
-- **DEV-variant picks** 🔲 — kept live for a detailed pass: home (HR-6) ·
-  bestiary (HR-5) · the HR-2 bundle · map travel presence (HR-26 — walk a zone
-  edge; silence ships A). Picks → the agent strips the alternates.
-  *(HR-9/HR-11 closed INTERIM 2026-07-10 — they retire with the ADR-177 redesign.)*
+- **Story picks (DEV → Story)** 🔲 — HR-18…HR-21 (overlays · discoveries ·
+  judge lines · node reads) + **HR-27** (the works discovery chain, incl. the
+  R2-silence note) + **HR-28** (the three intro scene heads, FB-362).
+- **DEV-variant picks (ADR-075)** 🔲 — home (HR-6) · bestiary (HR-5) · the
+  HR-2A–D bundle (market · influence · craft · quests) · map travel presence
+  (HR-26 — walk a zone edge; silence ships A). Picks → the agent strips the
+  alternates.
 
 ## Toolchain
 
@@ -88,7 +83,7 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 ## Code & repo layout
 
 - `src/core` — pure (rng, state, intents/reduce, step/tick, unlock/rewards/log,
-  skills, ranks, combat, ascension, pillars, selectors, `content/*` incl.
+  skills, ranks, combat, ascension, pillars, works, selectors, `content/*` incl.
   `narrative/`, `scenes`, seasons) · `src/persistence` (save layer, SCHEMA 10,
   clean-break) · `src/ui` (render.ts + dev.ts) · `src/app/main.ts` (root +
   `window.__qa`) · `src/scripts/*`. ADR ledger: `docs/living/decisions.md`.
@@ -96,25 +91,20 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 
 ## How to resume
 
-> 🎮 **v0.4.0 "the storywave release" shipped 2026-07-09 via `/ship`** — the
-> bible-canon T0 rewrite, live at raynos.github.io/kami-kakushi (s133–s135 ✅).
-
 1. Read the **newest journal** (then skim prior) + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-11-session-168-estate-p1-works-discovery-chain.md`](../journal/2026-07-11-session-168-estate-p1-works-discovery-chain.md)
+   [`journal/2026-07-11-session-169-status-snapshot-rewrite.md`](../journal/2026-07-11-session-169-status-snapshot-rewrite.md)
    <!-- gen:end resume-journal -->
-2. `pnpm install` → `pnpm run verify` (green) → `pnpm run dev` (→ localhost:5173).
-   Use **`?dev=no`** for the true player layout. The page NEVER auto-reloads
-   (FB-257) — hit F5 yourself to pick up new code.
+2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev server on
+   localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true
+   player layout. The page NEVER auto-reloads (FB-257) — F5 to pick up code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the **estate redesign**
-   (`docs/plans/fable-2026-07-10-estate-upgrades-redesign.md`): Phase 1 SHIPPED
-   (s168 — the works discovery chain, HR-27 awaiting the taste read); Phase 2
-   (Schedule A tab moves + the Works 普請/Estate 家 diverges) startable; or **T2 rungs/fog** (plan ready + greenlit:
-   `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1 caveat: `T2_RUNG_LADDER`
-   is DEV-preview-only); or drain the fresh `diverge` inbox bucket (ADR-171
-   claim first; all older lanes archived, s164). Human-gated: HR-1 + HR-18…25.
-   Combat R4+ → inbox.
+4. **Next (autonomous):** the **estate redesign Phase 2** (Schedule A tab
+   moves + the Works 普請/Estate 家 ADR-075 diverges; Phase 3 after); or **T2
+   rungs/fog** (greenlit: `docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`; S1
+   caveat: `T2_RUNG_LADDER` is DEV-preview-only); or drain the playtest inbox
+   (ADR-171 — claim a free lane first). Human-gated: HR-1 + the story/variant
+   picks above.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
 
-<!-- rewrite-debt: 24/20 — REWRITE OWED (deferred: co-agent WIP in flight) · last full rewrite: 2026-07-09 -->
+<!-- rewrite-debt: 0/20 · last full rewrite: 2026-07-11 -->
