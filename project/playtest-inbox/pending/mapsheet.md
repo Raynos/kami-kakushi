@@ -58,3 +58,43 @@ More floating kanji that has no meaning in R1
 **Details:** `mapsheet/2026-07-11T12-09-08.json` — save + recent logs + full context
 
 ---
+
+## Bug · FB-394 · 2026-07-11T12:09:20+0200 — this-knaji-too
+
+This knaji too.
+
+**Element:** panel "do" — "測" · `svg > g:nth-of-type(3) > text:nth-of-type(7) > tspan:nth-of-type(2)` · @821,380 24×33
+**Screenshot:** `mapsheet/2026-07-11T12-09-20.png`
+**Details:** `mapsheet/2026-07-11T12-09-20.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-395 · 2026-07-11T12:10:19+0200 — this-english-hint-is
+
+This english hint is nice.
+
+**Element:** panel "do" — "the old fields, they say" · `svg > g:nth-of-type(3) > g:nth-of-type(1) > text:nth-of-type(2)` · @560,350 66×9
+**Screenshot:** `mapsheet/2026-07-11T12-10-19.png`
+**Details:** `mapsheet/2026-07-11T12-10-19.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-396 · 2026-07-11T12:10:29+0200 — this-flavor-text-is
+
+This flavor text is nice too. But its cut off.
+
+**Element:** panel "do" — "to the village — half a ri" · `svg > g:nth-of-type(1) > g:nth-of-type(1) > text:nth-of-type(1)` · @481,438 286×37
+**Screenshot:** `mapsheet/2026-07-11T12-10-29.png`
+**Details:** `mapsheet/2026-07-11T12-10-29.json` — save + recent logs + full context
+
+---
+
+## Bug · FB-397 · 2026-07-11T12:10:44+0200 — kanji-here-has-no
+
+Kanji here has no meaning
+
+**Element:** panel "do" — "未" · `svg > g:nth-of-type(3) > text:nth-of-type(4) > tspan:nth-of-type(1)` · @633,336 47×64
+**Screenshot:** `mapsheet/2026-07-11T12-10-44.png`
+**Details:** `mapsheet/2026-07-11T12-10-44.json` — save + recent logs + full context
+
+---
