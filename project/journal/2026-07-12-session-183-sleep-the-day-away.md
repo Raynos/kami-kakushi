@@ -131,6 +131,14 @@ dimmed fleeting style as the rest line directly above it.
   window silently shifts and hides the new line. Compare against a shipped verb first.
 - The **balance-freshness gate only WARNS** at commit; it does not block. That is how
   session 182's pacing drift went a whole session unreported.
+- **A co-agent's commit RESURRECTED a file I had archived.** `aa6a86ad` re-added
+  `docs/plans/fable-2026-07-11-wait-a-day.md` — a *stale, mid-session* copy of a plan I
+  had `git mv`'d to `project/archive/` — because a commit taken from the SHARED INDEX
+  carried an entry my rename had superseded. It reds the `checkpoint` gate at HEAD (the
+  plans region counts 2, the README says 1) while the working tree looks perfectly clean.
+  **This is only visible from the committed tree**: `pnpm run verify` in the working tree
+  is GREEN. Proving HEAD green in a throwaway worktree before pushing is what caught it —
+  do not skip that step on a shared tree.
 
 ## Ripple + close-out
 
