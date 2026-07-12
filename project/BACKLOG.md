@@ -62,3 +62,15 @@
   extension in `docs/plans/t1/opus-2026-07-07-emergent-node-extensions.md`): a
   posted rumour can carry a discovery tag alongside its yokai one-shots. Depends
   on the T1 rumor engine landing first.
+
+- [ ] **The generated reading script hides R2 and R5** (found by the W6 full-tier
+  cold read, 2026-07-12 — parked as minor). `docs/content/t0-story.md` runs
+  **R1 → R3 → R4 → R6 → R7**: R2's beat (`r2-yard-hand`, the silent rung) and R5's
+  (`count` / `count-resolve`, the accusation night) are scene-defs, so
+  `gen-narrative` files them under "Generalized scenes" instead of in the rung
+  ladder. A cold reader — *including the human reviewing story* — hits two holes in
+  the spine and cannot tell the tier is continuous. Nothing is wrong with the GAME;
+  it plays in the right order. It is the reading script, and therefore the review
+  surface, that misleads. Fix = teach `gen-narrative` to interleave rung-triggered
+  scene-defs into the ladder by rung. Parked because it is cosmetic to play and only
+  bites at review time.

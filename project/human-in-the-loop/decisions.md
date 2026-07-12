@@ -110,3 +110,27 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
   so under ADR-075 it wants a diverge — which is why I stopped at the diagnosis rather than
   self-serving it.
 - **Resolution:** _(open)_
+
+### HD-42 🔲 [process] — adopt "write the reviewer's redlines to disk" as a norm?
+
+- **The failure it answers (this session, for real).** The W6 sweep returned **12
+  redlines**. I applied **10**, reported the wave complete, and `verify` was green the
+  entire time the other two sat unfixed — plus two "borderline" flags I never returned
+  to. The author is the **last** person who will notice, because he remembers
+  *intending* to apply them. Only the human asking *"did you fix everything?"* caught
+  it. A textbook **PH3 false green**.
+- **Why no gate can hold this.** The list existed only in an agent's context. A lint
+  cannot know what a blind reader asked for, so per the "push each rule to the highest
+  rung that can **soundly** hold it" doctrine, a gate here would either be impossible
+  or would cry wolf. The honest rung is a **norm** (or a step inside the reviewing
+  skills).
+- **The proposed norm:** *when a reviewer / blind reader hands back a redline or
+  findings list, write it to disk as a checklist FIRST and tick items off as they land
+  — never hold it in context.* One line in `AGENTS.md` under Conventions, or a step in
+  the `diverge` / `narrative-diverge` / `battery` skills.
+- **Why this is yours, not mine:** editing `AGENTS.md` is process canon. An agent
+  proposing a rule that binds all future agents should not also adopt it.
+- **Recommendation:** adopt, as a **skill step** rather than an AGENTS.md line — it
+  fires exactly where the risk lives (the diverge/battery/sweep flows) and does not add
+  a always-loaded line for a situation most sessions never hit.
+- **Resolution:** _(open)_

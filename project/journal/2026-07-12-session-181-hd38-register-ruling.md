@@ -522,3 +522,25 @@ it "dead text", implying a bug. It is dead **by design** — `intents.ts:362` de
 edit believing they ship. And it is **not a simple delete** — the ids are seeded into
 `deliveredDialogue`, so removing the lines would likely trip the new orphaned-id sensor. Written
 down with that wrinkle, rather than filed as "delete the dead lines".
+
+## Checkpoint — the leftover-work sweep found two MORE quiet ones
+
+The ritual warns that step 4 is the step most likely to be skipped because everything *looks*
+clean. It was right. A clean `git status` and 19 green gates hid two findings that existed only
+in a chat message:
+
+1. **The generated reading script hides R2 and R5.** `docs/content/t0-story.md` runs
+   R1 → R3 → R4 → R6 → R7: R2's silent-rung beat and R5's accusation night are scene-defs, so
+   `gen-narrative` files them under "Generalized scenes" instead of in the ladder. A cold reader —
+   **including the human reviewing story** — hits two holes in the spine. The GAME plays in the
+   right order; it is the **review surface** that misleads, which is worse than it sounds given
+   five HR-items now ask the human to read exactly this file. → **`BACKLOG.md`** (parked; the fix
+   is teaching `gen-narrative` to interleave rung-triggered scene-defs by rung).
+2. **The redline-checklist norm.** Proposing a rule that binds all future agents, and then
+   adopting it myself into `AGENTS.md`, is not mine to do. → **HD-42** (a human call), with a
+   recommendation: adopt it as a **skill step** in the diverge/battery/sweep flows rather than an
+   always-loaded AGENTS.md line — it fires where the risk actually lives.
+
+That makes **three** times this session the honest answer to "is it all written down?" was no,
+and **three** times the thing that caught it was a question rather than a gate. The gates were
+green every single time.

@@ -103,18 +103,18 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true
    player layout. The page NEVER auto-reloads (FB-257) — F5 to pick up code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** **T2 rungs/fog** (`docs/plans/t2/…`; `T2_RUNG_LADDER` is
-   DEV-preview-only) · **telemetry distillation** (6 usable FB-8 reports newer than
-   the last balance commit) · the save-format **addendum** (the re-arm is DONE with
-   ADR-184; what remains is the two `SPECIAL_FACTS` surfaces bypassing the rung
-   schedule, and the **save-migration policy** — machinery exists (`migrate.ts` + the
-   ADR-161 courteous restart); the missing rule is *when a content move bumps the
-   generation vs. ships a migration step*). **FIRST:** the **sleep-verb announce beat**
-   — RULED, NOT built → [`docs/plans/opus-2026-07-12-sleep-announce-beat.md`](../../docs/plans/opus-2026-07-12-sleep-announce-beat.md)
-   (ADR-187 follow-up). **In flight:** T0
-   re-voice (w6, ADR-185). Human-gated: **HD-40** + HR-1 + the picks (**HR-36** is new).
+4. **Next (autonomous):** **T2 rungs/fog** (`docs/plans/t2/…`) · **telemetry
+   distillation** (6 usable FB-8 reports) · the save-format **addendum** (two
+   `SPECIAL_FACTS` surfaces bypass the rung schedule; the **save-migration policy** is
+   still unwritten — ADR-186). **T0 re-voice: ✅ DONE** (HD-38 → **ADR-185**; 6 waves).
+   Two RULED-NOT-BUILT plans, both in `docs/plans/`:
+   [`sleep-announce-beat`](../../docs/plans/opus-2026-07-12-sleep-announce-beat.md)
+   (ADR-187) and
+   [`rung-reward-legibility`](../../docs/plans/opus-2026-07-12-rung-reward-legibility.md)
+   (**HD-41** — rung rewards read as ambient prose, not rewards; TST4/UI, blocked).
+   Human-gated: **HD-40** · **HD-41** · HR-1 · **HR-34…HR-38** · the older picks.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
    **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
    `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 15/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 16/20 · last full rewrite: 2026-07-11 -->
