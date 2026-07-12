@@ -1094,7 +1094,15 @@ it). Each tier is the same **Phase-1-then-Phase-2** motion repeating, never an e
 
 Because the climb is **active-only with no offline progress**, time is an **abstract clock advanced by active
 play** (days/seasons drive harvest/weather/festivals and the seasonal **judged** Influence results — fired on a
-**new high-water mark**, never a repeatable per-season maintenance trickle, per §1.6.2). To give the
+**new high-water mark**, never a repeatable per-season maintenance trickle, per §1.6.2). **One verb, and only
+one, advances the clock without work: `sleep`** (ADR-187) — you end the day at your **own woodshed corner**
+(R4+, the only bed in the game), waking at dawn one day on. It is **INSTANT, never a timed "waiting" bar** —
+a bar would convert dead *game* time into dead *real* time, which is the active-only contract inverted — and
+it is **priced, not free**: the day's remaining acts are forfeited, the household still eats its ration from
+the kura, and you slept through the pot, so you wake hungrier than you lay down. It exists because a zone
+whose content sits elsewhere in *time* (the market days 水・土) otherwise forces filler grinding; it is a lever
+for **skipping dead time, never for skipping the game**. Seasons stay **manual** — a sleep never crosses one.
+To give the
 "leave it running, check the progress" feel within active-only, **tab-open AUTO-RESOLVE + AUTO-REPEAT** keep a
 loop ticking while you watch; **auto-producers stay late-game (T4+)** — early game is the MC's own active
 grind (combat, skills, jobs, crafting; **no assignment/management panel and no labour-gang to manage**, ever).

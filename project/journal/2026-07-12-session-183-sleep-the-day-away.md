@@ -132,10 +132,24 @@ dimmed fleeting style as the rest line directly above it.
 - The **balance-freshness gate only WARNS** at commit; it does not block. That is how
   session 182's pacing drift went a whole session unreported.
 
+## Ripple + close-out
+
+- **PRD** — the clock contract said time is *"an abstract clock advanced by active play"*.
+  It now names the single exception: `sleep`, at your own corner, instant and priced, a
+  lever for skipping **dead time, never the game**. `prd:drift` CLEAN.
+- **Plan DONE + archived** to `project/archive/`; dropped from the reading queue. Its
+  Status names what did **not** ship (option F; the R1 player) and why both were
+  deliberate — so a cold reader cannot mistake the gaps for oversights.
+- **Snapshot** records the verb, HR-36 and the skip-blind ruling; culled back to its
+  120-line cap (the doc-budgets gate made me displace, which is the point of the cap).
+
 ## Next intended steps
 
-1. `/prd-ripple` §6.3 (the clock contract gains the `sleep` intent's classification).
-2. HR-36 awaits the human: press Sleep three times running and see if the line wears out.
+1. **HR-36 is the human's** — press Sleep three times running (the market-day wait) and
+   judge whether the line wears out. If it does, the fix is a **shorter canon line**, not
+   a different take.
+2. Nothing else here is open. Next autonomous work is unchanged: T2 rungs/fog, the
+   telemetry distillation (6 usable FB-8 reports), the save-format addendum.
 
 ## Landmines
 

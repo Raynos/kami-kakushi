@@ -3628,7 +3628,7 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   against `TICKS_PER_DAY = 24` — twelve acts to a day); there is no wall-clock idle
   (PRD §6.9). So "wait three days for 水" today means "grind twelve acts of filler,
   three times" — which is exactly the complaint. The option map (A–F) lives in the
-  plan [`fable-2026-07-11-wait-a-day.md`](../plans/fable-2026-07-11-wait-a-day.md).
+  plan [`fable-2026-07-11-wait-a-day.md`](../../project/archive/fable-2026-07-11-wait-a-day.md).
 - **Decision (human, signed 2026-07-12 over the option map):** ship **option D
   alone** — a **`sleep` verb, sited at your woodshed corner**, that ends the day and
   wakes you at dawn. **One press = one day boundary, always** (three presses to reach

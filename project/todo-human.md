@@ -21,9 +21,11 @@
 
 - [ ] [`project/brainstorms/2026-07-12-quest-shapes-that-emerged.md`](brainstorms/2026-07-12-quest-shapes-that-emerged.md) —
       the four quest shapes ADR-184's reveal wave actually produced (emergent, deliberately not an ADR — your call)
-- [ ] [`docs/plans/fable-2026-07-11-wait-a-day.md`](../docs/plans/fable-2026-07-11-wait-a-day.md) —
-  the wait-a-day lever you asked for (FB-408): full option map A–F with
-  pros/cons + balance analysis; recommendation D+F; Phase 0 is YOUR pick.
+- [x] [`fable-2026-07-11-wait-a-day.md`](archive/fable-2026-07-11-wait-a-day.md) —
+  ✅ **BUILT + archived** (session-183). You ruled Phase 0 (**D alone**, at your corner,
+  R4+, teeth on both levers, one day per press, sim skip-blind) → **ADR-187**; it is in
+  the game. What is left for you is **HR-36** (the line, three takes, live in DEV →
+  Story) — the review, not the plan. Drop this line whenever.
 - [x] [`fable-2026-07-11-prd-rungmeter-textsync.md`](archive/fable-2026-07-11-prd-rungmeter-textsync.md) —
   ✅ **DONE + archived** (session-180). It did NOT run as written: you ruled the
   rung-meter dead at **every** tier (**ADR-182**), which deleted the plan's whole
