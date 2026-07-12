@@ -29,6 +29,16 @@
   ADR said "is NOT built" and no queue anywhere carried it. This is the error mode the
   gate exists to catch — it had been sitting unowned since ADR-135.)*
 
+- [ ] **Make the balance-freshness check BLOCK, not warn** — today the pre-commit
+  balance gate only **warns** when a commit moves design inputs without regenerating
+  `docs/content/t0-pacing.md`, and a warn is easy to walk past. It was: session 182's
+  ADR-184 zone re-mapping shifted pacing across the whole ladder and the report went
+  **a full session unreported** — session 183 found the drift only because a new
+  constant forced a regen (see its journal). *Parked, not planned:* blocking may cry
+  wolf on content changes that don't really move pacing, so the fix needs a cheap
+  "did the numbers actually move?" test before it earns teeth (AGENTS.md: a gate must
+  never cry wolf). Pull forward if the drift recurs.
+
 ## Graphics concepts — parked shelves live in their register
 
 - [ ] **Parked graphics concepts** — the one home for the whole slate
