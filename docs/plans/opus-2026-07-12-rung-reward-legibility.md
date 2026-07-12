@@ -184,6 +184,32 @@ Done is earned (PH3) — each check RED-able:
 
 ---
 
+## Leftovers from the T0 re-voice — queued here so they do not vanish
+
+The re-voice (HD-38 / ADR-185) is DONE and archived. These are the only loose
+ends it left, written down because *"if it isn't in the queue, it doesn't
+exist"* (human, 2026-07-12) — a chat message is not a queue.
+
+1. **`gen-stores` / `gen-greet` are unreachable text (content-debt, not a bug).**
+   `src/core/intents.ts:362-368` deliberately marks both **delivered** on
+   `open_eyes` so the intro beat does not double-greet — the comment says so. The
+   consequence: two authored lines in
+   `src/core/content/narrative/dialogue.md` (incl. `gen-stores`, which carries a
+   `kura` mention) **can never reach a player**, and a future author could edit
+   them believing they ship. *Not urgent, and NOT a simple delete:* the ids are
+   pushed into `deliveredDialogue`, so removing the lines would likely trip the
+   **orphaned-id sensor** (`cf9f8e03`). Correct fix is probably to delete the
+   lines *and* stop seeding the ids — one small, careful commit. **Agent-pickable.**
+2. **`flavor.md`'s *"dry as a frost report"* — deliberately NOT changed.** The W3
+   audit listed it among surviving works metaphors. It is a simile in
+   **narration**, not in Genemon's mouth, and the metaphor ban binds **him**, not
+   the narrator. Recorded so a future sweep does not "fix" it and flatten a good
+   line. **No action.**
+3. **The Count's price, the "your name" sweep, and Intro 2's unpriced question**
+   were all filed as findings and then **fixed** on the human's ruling
+   (`4586ec7b`). Nothing outstanding — noted only so the HR-37 findings list is
+   not mistaken for open work.
+
 ## A process finding this plan does NOT fix (surfaced for the human)
 
 Worth recording where someone will see it, because it bit this session:

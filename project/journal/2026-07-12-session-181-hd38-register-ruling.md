@@ -499,3 +499,26 @@ hand-applied redline list with no gate behind it silently loses items, and the a
 last to notice. Proposed rung — a norm/skill step ("write the reviewer's redlines to disk as a
 checklist; never hold them in context"), not a gate, because no lint can know what a blind
 reader asked for.
+
+## "Is everything written down?" — no, and the answer was two questions deep
+
+The human asked twice, and both times the honest answer was no:
+
+1. **"Did you fix everything?"** → I had applied **10 of the W6 sweep's 12 redlines** and
+   reported the wave done. Fixed (`5520b536`).
+2. **"Is everything in the follow-up plan?"** → I checked instead of assuming, and **two items
+   existed only in a chat message**: the `gen-stores` dead-text finding, and the reasoning for
+   deliberately NOT changing "dry as a frost report". A chat message is not a queue. Both now
+   live in the plan's **Leftovers** section.
+
+This is the exact failure the `deferred-work` gate a co-agent landed today exists to catch —
+and it caught nothing here, because the work wasn't *shouted* in canon, it was simply **spoken
+and never written**. No gate can see that. The human asking twice is what saw it.
+
+**On `gen-stores`, the finding sharpened when I actually read the code (PH2):** the audit called
+it "dead text", implying a bug. It is dead **by design** — `intents.ts:362` deliberately marks
+`gen-greet`/`gen-stores` delivered so the intro beat does not double-greet. The real residue is
+**content-debt**: two authored lines that can never reach a player, which a future author could
+edit believing they ship. And it is **not a simple delete** — the ids are seeded into
+`deliveredDialogue`, so removing the lines would likely trip the new orphaned-id sensor. Written
+down with that wrinkle, rather than filed as "delete the dead lines".
