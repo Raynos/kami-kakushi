@@ -343,7 +343,7 @@
 
 **Genemon:** "His prices are his own. The house's figures are mine. Go."
 
-> Market morning at the gate. Yohei's boards are up and the gateyard has people in it for once — baskets, a mule, talk. The woman ahead of you pulls her basket an inch closer when you stop beside her. The talk is rain over the pass and the price of salt, and it thins a little when you step to the boards, and it is not about you either.
+> Market morning at the gate. Yohei's boards are up and the gateyard has people in it for once — baskets, a mule, talk. The woman ahead of you pulls her basket an inch closer when you stop beside her. The talk is rain over the pass and the price of salt, and it thins a little when you step to the boards, and then picks up again. It was never about you.
 
 **Yohei:** "The house's hand, and carrying the house's purse — there's news by itself. Rain over the pass, the dye-man's held at the ford a week, so waxed thread is scarce, so the thread is eleven. Salt fifteen, the oil fourteen — fair as water, those two. Eleven for the thread, then?"
 
@@ -452,7 +452,7 @@
 
 > The question costs you something to ask. Genemon does not notice the price.
 
-**Genemon:** "You are counted. The whole house is counted. Accusation is for after the book speaks."
+**Genemon:** "You are counted. The whole house is counted. Accusation comes after the book, not before it."
 
 **Ask** — "Why me first?"
 
@@ -584,7 +584,7 @@
 
 > Nobody asks you. A line in the day-book, a nod toward the water, and a season of your evenings is settled between two old men. Three to of rice. It is the first time you have been worth a number. The number is small.
 
-> At the gate the old man stops, level with you, and looks at you the way he looked at the paint. He goes back down the way he came, having made nothing of it. He has been making nothing of it for a year.
+> At the gate the old man stops, level with you, and looks at you the way he looked at the paint. He goes back down the way he came without a word. He has passed you in this gateyard a dozen times and never once made anything of you.
 
 ### sb-dog
 
@@ -931,7 +931,7 @@
 
 **Genemon:** "Then hear it. Coin does one thing on this estate: it crosses the gate. Yohei sets his stall in the gateyard on market days, and what he unloads off his back is the whole of the buying and selling this house can reach without a cart. A sack of mountain greens is ten mon. That is the smallest thing sold here; below it there is nothing to want."
 
-**Genemon:** "You were never told. That is my omission and not your fault, and I am closing it. A hand who cannot price a sack of greens cannot be sent with a purse that is not his. Go down and learn the prices on your own coin. It is the cheapest schooling this house will ever buy."
+**Genemon:** "You were never told. That is my omission and not your fault, and I am closing it. A hand who cannot price a sack of greens cannot be sent with a purse that is not his. Go down and learn the prices on your own coin. It will cost you less to learn them there than here."
 
 **Ask** — "Which days does he come?"
 

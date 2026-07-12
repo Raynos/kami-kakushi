@@ -391,7 +391,7 @@ Genemon: "His prices are his own. The house's figures are mine. Go."
 > in it for once — baskets, a mule, talk. The woman ahead of you pulls her
 > basket an inch closer when you stop beside her. The talk is rain over the pass
 > and the price of salt, and it thins a little when you step to the boards, and
-> it is not about you either.
+> then picks up again. It was never about you.
 
 Yohei: "The house's hand, and carrying the house's purse — there's news by
 itself. Rain over the pass, the dye-man's held at the ford a week, so waxed

@@ -449,3 +449,31 @@ the loop, and it explains the human's original unease at R0 far better than the 
 is also a reward*, so it wants its own channel and treatment — is a **new UI treatment**, which
 under ADR-075 wants a diverge and a human pick. Filed as **HD-41** with four options and a
 recommendation rather than self-served.
+
+## Honest correction — I dropped four fixes, and the human caught it
+
+Asked "did you fix everything we spoke about", I checked instead of answering from memory, and
+the answer was **no**. The W6 sweep produced **12 redlines and I applied 10**, silently dropping:
+
+- **S10** (`rung-beats.md`) — *"and it is not about you either"*: "either" with no antecedent.
+- **S11** (`sb-lease`) — *"He has been making nothing of it for a year"*: "it" unanchored, and
+  nothing in the scene establishes that a year has passed.
+
+And I never went back to the two Genemon metaphors the sweep called "borderline, worth a look".
+Borderline is not a category the cast law has: *he has never in his life reached for a metaphor.*
+Both were violations:
+
+- *"Accusation is for after the book speaks"* — the book speaks. → *"Accusation comes after the
+  book, not before it."*
+- *"It is the cheapest schooling this house will ever buy"* — schooling is not bought. → *"It will
+  cost you less to learn them there than here."*
+
+**The lesson, and it is the session's most useful one:** a redline list applied by hand, in a
+batch, with no gate behind it, silently loses items — and the author is the last person who will
+notice, because he remembers *intending* to apply them. The `verify` gates were green the entire
+time these four sat unfixed, because no gate can check a list that exists only in an agent's
+context. This is exactly PH3's false green, and the only thing that caught it was a human asking
+the blunt question.
+
+*(One flagged item deliberately NOT changed: `flavor.md`'s "dry as a frost report". It is a simile
+in NARRATION, not in Genemon's mouth — the metaphor ban binds him, not the narrator.)*

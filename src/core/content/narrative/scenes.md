@@ -103,8 +103,8 @@ Naoyuki: "No. The weir man. Him first."
 
 > The question costs you something to ask. Genemon does not notice the price.
 
-Genemon: "You are counted. The whole house is counted. Accusation is for
-after the book speaks."
+Genemon: "You are counted. The whole house is counted. Accusation comes after
+the book, not before it."
 
 ### ask r5-why-first · "Why me first?"
 
@@ -353,8 +353,8 @@ winter."
 > It is the first time you have been worth a number. The number is small.
 
 > At the gate the old man stops, level with you, and looks at you the way he
-> looked at the paint. He goes back down the way he came, having made nothing
-> of it. He has been making nothing of it for a year.
+> looked at the paint. He goes back down the way he came without a word. He has
+> passed you in this gateyard a dozen times and never once made anything of you.
 
 <!-- Beat 4 · the dog — TAKE C (scene + decide), with redline 3: the fed dog's
   rice re-priced onto the MC's own measure (Genemon's entry agrees with "from
@@ -1008,8 +1008,8 @@ smallest thing sold here; below it there is nothing to want."
 
 Genemon: "You were never told. That is my omission and not your fault, and
 I am closing it. A hand who cannot price a sack of greens cannot be sent
-with a purse that is not his. Go down and learn the prices on your own
-coin. It is the cheapest schooling this house will ever buy."
+with a purse that is not his. Go down and learn the prices on your own coin.
+It will cost you less to learn them there than here."
 
 ### ask sb-market-ask-a · "Which days does he come?"
 

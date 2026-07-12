@@ -497,7 +497,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       },
       {
         voice: 'narrator',
-        text: "Market morning at the gate. Yohei's boards are up and the gateyard has people in it for once — baskets, a mule, talk. The woman ahead of you pulls her basket an inch closer when you stop beside her. The talk is rain over the pass and the price of salt, and it thins a little when you step to the boards, and it is not about you either.",
+        text: "Market morning at the gate. Yohei's boards are up and the gateyard has people in it for once — baskets, a mule, talk. The woman ahead of you pulls her basket an inch closer when you stop beside her. The talk is rain over the pass and the price of salt, and it thins a little when you step to the boards, and then picks up again. It was never about you.",
       },
       {
         voice: 'villager',

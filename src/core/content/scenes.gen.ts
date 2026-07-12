@@ -99,7 +99,7 @@ export const SCENES: readonly SceneDef[] = [
             {
               voice: 'steward',
               speaker: NPC_NAME.genemon,
-              text: '"You are counted. The whole house is counted. Accusation is for after the book speaks."',
+              text: '"You are counted. The whole house is counted. Accusation comes after the book, not before it."',
             },
           ],
         },
@@ -417,7 +417,7 @@ export const SCENES: readonly SceneDef[] = [
         },
         {
           voice: 'narrator',
-          text: 'At the gate the old man stops, level with you, and looks at you the way he looked at the paint. He goes back down the way he came, having made nothing of it. He has been making nothing of it for a year.',
+          text: 'At the gate the old man stops, level with you, and looks at you the way he looked at the paint. He goes back down the way he came without a word. He has passed you in this gateyard a dozen times and never once made anything of you.',
         },
       ],
       topics: [],
@@ -1292,7 +1292,7 @@ export const SCENES: readonly SceneDef[] = [
         {
           voice: 'steward',
           speaker: NPC_NAME.genemon,
-          text: '"You were never told. That is my omission and not your fault, and I am closing it. A hand who cannot price a sack of greens cannot be sent with a purse that is not his. Go down and learn the prices on your own coin. It is the cheapest schooling this house will ever buy."',
+          text: '"You were never told. That is my omission and not your fault, and I am closing it. A hand who cannot price a sack of greens cannot be sent with a purse that is not his. Go down and learn the prices on your own coin. It will cost you less to learn them there than here."',
         },
       ],
       topics: [
