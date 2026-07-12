@@ -20,6 +20,7 @@
 ## Reading queue
 
 - [ ] [`project/brainstorms/2026-07-12-quest-shapes-that-emerged.md`](brainstorms/2026-07-12-quest-shapes-that-emerged.md) —
+- [ ] [`docs/plans/opus-2026-07-12-rung-reward-legibility.md`](../docs/plans/opus-2026-07-12-rung-reward-legibility.md) — the HD-41 build plan (blocked on your ruling)
       the four quest shapes ADR-184's reveal wave actually produced (emergent, deliberately not an ADR — your call)
 - [x] [`fable-2026-07-11-wait-a-day.md`](archive/fable-2026-07-11-wait-a-day.md) —
   ✅ **BUILT + archived** (session-183). You ruled Phase 0 (**D alone**, at your corner,

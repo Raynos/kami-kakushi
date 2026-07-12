@@ -67,8 +67,9 @@ Settled design graduates to [`../living/`](../living); the chronological "how it
 got here" log is [`../../project/journal/`](../../project/journal).
 
 <!-- gen:begin active-plans (pnpm run checkpoint — do not edit inside) -->
-**1 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
+**2 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
+- [`opus-2026-07-12-rung-reward-legibility.md`](opus-2026-07-12-rung-reward-legibility.md) — PROPOSED
 - [`opus-2026-07-12-sleep-announce-beat.md`](opus-2026-07-12-sleep-announce-beat.md) — PROPOSED
 <!-- gen:end active-plans -->
 

@@ -477,3 +477,25 @@ the blunt question.
 
 *(One flagged item deliberately NOT changed: `flavor.md`'s "dry as a frost report". It is a simile
 in NARRATION, not in Genemon's mouth — the metaphor ban binds him, not the narrator.)*
+
+## A plan for what's left (the human's suggestion)
+
+Rather than leave HD-41 as a decision with no build path, wrote
+**`docs/plans/opus-2026-07-12-rung-reward-legibility.md`** (📋 PROPOSED, blocked on the HD-41
+ruling). It carries the source-verified diagnosis, the ADR-075 diverge obligation, and the two
+hazards that make it not-a-one-liner:
+
+- **Kernel #6 is the real constraint.** The lazy fix ("Progress: 1/3") is *forbidden* — no
+  abstract game-word has ever reached this player. The hard design question is what a
+  period-true progress line even SAYS when the requirement list is deliberately hidden. If no
+  such line exists, option (d) (make the % bar's movement visible) is the honest fallback and a
+  coherent ship on its own.
+- **Kernel #3 cuts the other way.** Praise is scarce and earned. A treatment that turns every
+  requirement completion into a fanfare breaks the tone as badly as the current invisibility
+  breaks the legibility. The variants must span quiet→loud so the human can pick the floor.
+
+The plan also records the **process finding** rather than unilaterally editing AGENTS.md: a
+hand-applied redline list with no gate behind it silently loses items, and the author is the
+last to notice. Proposed rung — a norm/skill step ("write the reviewer's redlines to disk as a
+checklist; never hold them in context"), not a gate, because no lint can know what a blind
+reader asked for.
