@@ -1,7 +1,12 @@
 # Re-voice T0 to the 14–21 light-novel register
 
-**Status:** 🔧 LOCKED & IN PROGRESS — **Wave 0 (canon) landed 2026-07-12**
-(HD-38 ruled → **ADR-185**); W1 is next.
+**Status:** ✅ **DONE (2026-07-12)** — all six waves shipped, pushed and
+live-verified. Wave 0 = **ADR-185** · W1 Terms (HR-34) · W2 works pages (HR-36,
+supersedes HR-27) · W3 gloss + two lies · W4 the first choice (HR-35) · W5 the
+inner line (HR-37) · W6 the full sweep (HR-38). The one thing deliberately NOT
+done: the **R0 reward-line legibility** item — the human ruled it a TST4 problem
+(likely UI, not prose) that gets its own investigation and is explicitly not
+smuggled into a re-voice wave.
 **Confidence:** ( 100% Opus ) — *revised 2026-07-12: Fable is at its weekly cap,
 and the register judgment the canon needed was made by the **human** at the
 HD-38 walkthrough, not by a model. What remains is take-authoring (blind Opus

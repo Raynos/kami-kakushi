@@ -62,7 +62,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       },
       {
         voice: 'narrator',
-        text: 'He opens the day-book to a page already half-filled with other men, and writes you onto it. Work, by the day. No coin. There is no line for where you eat, and none for where you sleep. Written out, a man comes to very little. The wage is the shortest line on the page, and it takes him the longest to write.',
+        text: 'He opens the day-book to a page already half-filled with other men, and writes you onto it. Work, by the day. No coin. There is no line for where you eat, and none for where you sleep. Written out, a man comes to very little. The wage is the shortest line on the page, and it takes Genemon the longest to write.',
       },
       {
         voice: 'narrator',

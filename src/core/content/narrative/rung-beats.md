@@ -61,7 +61,8 @@ Genemon: "The board has heard it. That serves for witness."
 > He opens the day-book to a page already half-filled with other men, and writes
 > you onto it. Work, by the day. No coin. There is no line for where you eat,
 > and none for where you sleep. Written out, a man comes to very little. The
-> wage is the shortest line on the page, and it takes him the longest to write.
+> wage is the shortest line on the page, and it takes Genemon the longest to
+> write.
 
 > On the veranda above the step, Naoyuki has stopped — the second son, papers of
 > his own under one arm. He was only passing. The room has made him a witness

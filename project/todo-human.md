@@ -51,7 +51,6 @@
   — the ready-to-build plan for T2 (Valley) map rungs + fog (you greenlit it
   2026-07-09; mechanics-only, no pin/HR). Skim before/whenever I build it.
 
-- [`docs/plans/fable-2026-07-11-t0-narrative-revoice.md`](../docs/plans/fable-2026-07-11-t0-narrative-revoice.md)
   — the plan from the 2026-07-11 narrative register audit (findings fully
   relayed in-session; the audit report stays at
   `project/audit/reports/2026-07-11-t0-narrative-register-audit.md`):

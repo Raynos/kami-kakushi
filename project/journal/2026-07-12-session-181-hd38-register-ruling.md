@@ -372,3 +372,24 @@ W5 the inner line · W6 the sweep. Reviews: **HR-34…HR-38** (HR-27 superseded)
 **Still open, deliberately not done:** the **R0 reward-line legibility** item — the human ruled
 it a TST4 problem (the player cannot tell the line IS the reward), likely UI rather than prose,
 and explicitly NOT to be smuggled into a re-voice wave. It needs its own investigation.
+
+## Close-out
+
+Plan flipped to ✅ DONE and archived to `project/archive/`. Reading-queue entry drained
+(ADR-089 — the agent owns the cleanup). `prd:drift` **CLEAN** — six waves of narrative change
+produced no game→PRD fact drift, which is the gen-region design doing its job. ADR-185's plan
+pointer repointed to the archive (the archive move reds the md-links gate until every ADR
+citing the plan is repointed — worth knowing before archiving anything).
+
+**Late catch:** W6's commit pathspec omitted `rung-beats.md`, so the R1 pronoun fix ("it takes
+Genemon the longest to write") did not land with its wave. Caught by reading `git status` before
+the close-out, not by any gate — **a pathspec commit only commits what you name, and no gate can
+tell you what you forgot to name.** It ships here.
+
+**And the trap I had already journaled, walked into anyway:** the `guard-git-add-all` PreToolUse
+hook blocks the WHOLE bash command, so a compound `journal-append && git commit` silently loses
+the append. I wrote that warning down after W2 and then hit it again at close-out. Keep the
+journal write in its own command — every time.
+
+**Final live check:** R1 renders the no-bed line, the new interior line, and the pronoun fix;
+the intro choice renders Hold / Kick / Shoulder with the dead option gone.

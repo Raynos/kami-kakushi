@@ -3610,7 +3610,7 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   turns are the **calibration set**, not targets — they already hit the bar, which is
   the proof that voice and readability coexist here.
 - **Record:** HD-38 (the four forks, ruled 2026-07-12) · the audit report above · the
-  plan [`docs/plans/fable-2026-07-11-t0-narrative-revoice.md`](../plans/fable-2026-07-11-t0-narrative-revoice.md)
+  plan [`project/archive/fable-2026-07-11-t0-narrative-revoice.md`](../../project/archive/fable-2026-07-11-t0-narrative-revoice.md)
   (Wave 0 = this ADR; the waves are D4) · amends story-bible §0.5.1, §0.5.5, §0.5.8
   (new), §0.9.6 (new), and `04-cast.md` (Genemon, the MC) · rides ADR-139 (story
   diverges) + ADR-135 (the two-pass scorecard) · ADR-022 (the human's steer is canon;
