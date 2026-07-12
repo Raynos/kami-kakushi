@@ -47,6 +47,12 @@
 > When a plan/doc is archived, remove its queue entry in the same move (any still-owed
 > bit lives as an HR-item in `human-in-the-loop/review.md`, not here).
 
+- [`docs/plans/opus-2026-07-12-sleep-announce-beat.md`](../docs/plans/opus-2026-07-12-sleep-announce-beat.md)
+  — the follow-up you ruled at the exit of session 183: the Sleep verb ships
+  **unannounced** (the taste scorecard's one ✘), so it gets its **own tiny beat at
+  the corner**. Plan is written; NOT built. Skim the Step-1 fork (narration beat vs
+  full VN — I self-picked the narration beat, matching your word "tiny").
+
 - [`docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`](../docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md)
   — the ready-to-build plan for T2 (Valley) map rungs + fog (you greenlit it
   2026-07-09; mechanics-only, no pin/HR). Skim before/whenever I build it.

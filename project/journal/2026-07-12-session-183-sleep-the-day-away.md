@@ -173,10 +173,12 @@ checkpoint would have left it half-wired.
 
 ## Next intended steps
 
-1. **BUILD THE ANNOUNCE BEAT (the named resume point).** Ruled, specced, unstarted. It
-   needs: the beat itself (**fiction-voiced → a 3-take ADR-139 diverge**), a **first-visit
-   trigger + write-once flag** (the `seenReveals`/discovery latch idiom is the pattern),
-   and its HR bundle. ADR-187's follow-up bullet is the spec.
+1. **BUILD THE ANNOUNCE BEAT** — now a real plan:
+   [`opus-2026-07-12-sleep-announce-beat.md`](../../docs/plans/opus-2026-07-12-sleep-announce-beat.md),
+   in the reading queue. *(It was originally recorded ONLY as an ADR bullet + a snapshot
+   line + a journal entry — see "The recording bug" below.)* The plan **corrects ADR-187's
+   follow-up**: no new write-once flag is needed — `enqueueScene` already once-guards a
+   played scene, and `works.ts` has a per-node seen-flag idiom, so the latch is free.
 2. **HR-36 is the human's** — press Sleep three times running (the market-day wait) and
    judge whether the line wears out. If it does, the fix is a **shorter canon line**, not
    a different take.
@@ -193,3 +195,22 @@ checkpoint would have left it half-wired.
 - The missed-pot belly loss is **pro-rated by what the kura could actually serve** — an
   empty kura serves no meal to sleep through, so a starving player is not
   double-punished.
+
+## The recording bug — leftover work that isn't a plan VANISHES
+
+The human, on reading where I had recorded the ruled-but-unbuilt announce beat (ADR-187
+follow-up + snapshot line + journal + HR-36):
+
+> **"If it's not in `docs/plans/` it will be lost and not built."**
+> "When I wake up and look at the project, I think: if it's not in human-in-the-loop, or
+> in my reading queue, or in `docs/plans/`, then it doesn't exist — it just vanishes into
+> the 100s of commits."
+
+He is right, and the failure is structural, not a lapse of memory. **The session brief
+names startable work from `docs/plans/`.** An ADR bullet is *canon* (read when you already
+know to look); a journal entry is *history*; a snapshot line is *prose a human skims*. None
+of them is a **queue**. Work recorded only there is read, never picked up.
+
+So the ruling became a real plan
+([`opus-2026-07-12-sleep-announce-beat.md`](../../docs/plans/opus-2026-07-12-sleep-announce-beat.md)),
+and the error mode itself is being fixed at three rungs (this session, below).
