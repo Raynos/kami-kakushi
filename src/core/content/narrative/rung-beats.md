@@ -52,6 +52,10 @@ The paddies want you by full light."
 > Nobody stops eating. Two hands lost was a morning's talk; one stray kept is
 > not even that. The bowls go on.
 
+> Six hands wanted. Five sleep here. You are the sixth, and there is no sixth
+> place — the sum was short before you stood in this kitchen. Nobody at the
+> table says it aloud. Neither do you.
+
 Genemon: "The board has heard it. That serves for witness."
 
 > He opens the day-book to a page already half-filled with other men, and writes
@@ -259,6 +263,9 @@ You: "It isn't."
 > The pen stops above the line a moment longer than the line needs. Then it
 > moves on, and he says nothing, and writes nothing further.
 
+> He had taken the loss off your name. Two words put it back. There is no wage
+> for it to come out of, and you said them anyway.
+
 > At the kitchen threshold O-Hisa has stopped with a bowl in her hands, as if
 > there were something to say to somebody. She sets it down where you will pass,
 > and goes in.
@@ -292,6 +299,10 @@ So you will work."
 
 > He takes the oiled staff from the rack and holds it out. He does not say how
 > long it has stood there, and you do not ask.
+
+> Your hands take the staff and set themselves on it without being told — and
+> then stop. They know how to hold it. They know nothing about what to do with
+> it, and Kihei is watching the difference.
 
 Kihei: "The house has one man who can stand a watch, and he is grey. Dawn,
 before the others. Every day the ribs allow, and some they don't."
@@ -368,6 +379,10 @@ You: "Forty."
 
 > He watches the whole count. When it comes out even he does not nod. He enters
 > something in the day-book, unasked.
+
+> You did not work the number out. It was there before the last coin landed, and
+> you could not say how it got there. Whatever he has entered, it is not the
+> count.
 
 Genemon: "His prices are his own. The house's figures are mine. Go."
 
@@ -455,6 +470,9 @@ The house's name for you, then. Earn a better."
 > He writes it small and square — the hand of a man who has written all his life
 > and never once for pleasure — and the thing is done. One man, Gonbei, sound.
 
+> The book has your hands in it: the loads, the counts that came out even, the
+> night at the sill. It has never had anything else of you. Neither have you.
+
 ### ask r7-what-changes · "What changes?"
 
 Genemon: "Your name, on the page. A day-wage, as before, and the house's purse
@@ -469,7 +487,7 @@ else before I am done."
 
 ### ask r7-before · "Who carried it before me?"
 
-> The question costs him something to ask, and Genemon looks up as if a chair
+> The question costs you something to ask, and Genemon looks up as if a chair
 > had spoken. Then he turns the book back further than he turned it for the ink,
 > to a page the lamp barely reaches.
 

@@ -631,3 +631,50 @@ nothing back.
   - **The thing I could not test for you:** press it three times running and see whether the
     line wears out. If it does, the fix is a shorter canon line, not a different take.
   - **Verdict:** _(awaiting your read)_
+
+### HR-37 🔲 [R1–R7 · story] — the MC's inner line (W5, ADR-185 D3)
+
+**The change that alters who your protagonist is.** He had no inner voice at all — a camera.
+He now has eight interior lines across the whole tier, sparse exactly as you ruled: many
+scenes carry none, and the empty scenes were argued for as hard as the written ones.
+
+- **Pick: TAKE C "the body knows and the head does not"** — a man estranged from his own
+  hands. He ties knots nobody taught him; he sets a load exactly right; the head arrives
+  afterwards and finds the work already done by a man it cannot name. Blind reader: *"A is a
+  man, but a narrow one. B is a device — its through-line is a null act. **C is a person**,
+  and the one I'd follow ten hours."*
+- **It produced a rule I want in canon, and I'd like your blessing on it:**
+  > **The hands may testify; only the dream may translate.**
+
+  That is your never-memory bound restated so an author can actually apply it. Every C line
+  hands the body a capability and then *refuses the account* — so it **feeds** the dream
+  rather than pre-spending it, which was the exact risk you were protecting against.
+- **Three grafts from the losers:** take A's opener at R1 (*"Six hands wanted. Five sleep
+  here. You are the sixth, and there is no sixth place — the sum was short before you stood
+  in this kitchen."*) · take B's R4 line, the only one in any take where he **acts against his
+  own interest** (*"He had taken the loss off your name. Two words put it back. There is no
+  wage for it to come out of, and you said them anyway."*) · and C's own R3 line **cut**,
+  because R3 already carries the model line.
+- The close, at the naming: *"The book has your hands in it: the loads, the counts that came
+  out even, the night at the sill. It has never had anything else of you. Neither have you."*
+
+**Four bugs these takes found in the shipped corpus** (one fixed, three are findings for you):
+
+1. ✅ **FIXED — `ask r7-what-changes` narrated the MC's interior in THIRD person** (*"The
+   question costs **him** something to ask"*). A direct §0.5.8 violation, in canon, locked the
+   same morning we locked the law.
+2. 🔲 **The Count's only stated price is behind an OPTIONAL click.** A player who never opens
+   `r5-accused` stands accused in the middle of the floor all night and is charged nothing.
+3. 🔲 **Pre-R7 scenes keep saying "against your name"** — the house doesn't write him one until
+   R7. Same class as the "Gonbei" bug W2 fixed.
+4. 🔲 **Intro 2's *"What name did I give? When they pulled me out."*** is the first question he
+   ever asks, it is about himself, and it is completely unpriced.
+
+  - **How to look LIVE:** just play — these are ordinary narration in their scenes. R1, R4
+    (both halves), R6, R7, the Count's resolution, the grove, the sickroom.
+  - **NOT a DEV toggle, and here's why:** the other waves replaced whole scenes, so their
+    alternates swap live. W5 *inserts* lines into eight different scenes — a "take" is a set of
+    insertions, not a scene, and wiring it as a swap would mean forking every host scene. The
+    two not-picked takes are archived in full at
+    [`project/brainstorms/2026-07-12-hd38-w5-interiority-takes.md`](../brainstorms/2026-07-12-hd38-w5-interiority-takes.md).
+  - **Verdict:** _(awaiting your read)_

@@ -152,6 +152,8 @@
 
 > Nobody stops eating. Two hands lost was a morning's talk; one stray kept is not even that. The bowls go on.
 
+> Six hands wanted. Five sleep here. You are the sixth, and there is no sixth place — the sum was short before you stood in this kitchen. Nobody at the table says it aloud. Neither do you.
+
 **Genemon:** "The board has heard it. That serves for witness."
 
 > He opens the day-book to a page already half-filled with other men, and writes you onto it. Work, by the day. No coin. There is no line for where you eat, and none for where you sleep. Written out, a man comes to very little. The wage is the shortest line on the page, and it takes him the longest to write.
@@ -264,6 +266,8 @@
 
 > The pen stops above the line a moment longer than the line needs. Then it moves on, and he says nothing, and writes nothing further.
 
+> He had taken the loss off your name. Two words put it back. There is no wage for it to come out of, and you said them anyway.
+
 > At the kitchen threshold O-Hisa has stopped with a bowl in her hands, as if there were something to say to somebody. She sets it down where you will pass, and goes in.
 
 > From the board, the woodshed is one way and the old stable court is the other. Your ribs are for the woodshed. You go the other way.
@@ -285,6 +289,8 @@
 **Kihei:** "Terms, then. Once. Talent is a story the lucky tell. You are not lucky. So you will work."
 
 > He takes the oiled staff from the rack and holds it out. He does not say how long it has stood there, and you do not ask.
+
+> Your hands take the staff and set themselves on it without being told — and then stop. They know how to hold it. They know nothing about what to do with it, and Kihei is watching the difference.
 
 **Kihei:** "The house has one man who can stand a watch, and he is grey. Dawn, before the others. Every day the ribs allow, and some they don't."
 
@@ -331,6 +337,8 @@
 
 > He watches the whole count. When it comes out even he does not nod. He enters something in the day-book, unasked.
 
+> You did not work the number out. It was there before the last coin landed, and you could not say how it got there. Whatever he has entered, it is not the count.
+
 **Genemon:** "His prices are his own. The house's figures are mine. Go."
 
 > Market morning at the gate. Yohei's boards are up and the gateyard has people in it for once — baskets, a mule, talk. The woman ahead of you pulls her basket an inch closer when you stop beside her. The talk is rain over the pass and the price of salt, and it thins a little when you step to the boards, and it is not about you either.
@@ -370,6 +378,8 @@
 
 > He writes it small and square — the hand of a man who has written all his life and never once for pleasure — and the thing is done. One man, Gonbei, sound.
 
+> The book has your hands in it: the loads, the counts that came out even, the night at the sill. It has never had anything else of you. Neither have you.
+
 **Ask** — "What changes?"
 
 **Genemon:** "Your name, on the page. A day-wage, as before, and the house's purse when it's sent out with you. And watched — as every name on this book is watched."
@@ -378,7 +388,7 @@
 
 **Ask** — "Who carried it before me?"
 
-> The question costs him something to ask, and Genemon looks up as if a chair had spoken. Then he turns the book back further than he turned it for the ink, to a page the lamp barely reaches.
+> The question costs you something to ask, and Genemon looks up as if a chair had spoken. Then he turns the book back further than he turned it for the ink, to a page the lamp barely reaches.
 
 **Genemon:** "Four, in my years. Two served their seasons out and went to the lowlands. One died of a winter chest, in the house's service; his dates are here. The fourth was let go. There was a year this house could keep no one it did not have to keep. That is the whole of it."
 
@@ -495,6 +505,8 @@
 
 > He bends back to the row.
 
+> Eleven marks on a board, kept by a man who has never worked nearer to you than the next row. It is the fullest account of you that exists, and nobody asked you for any of it.
+
 > That evening the wage enters the day-book: so many mon, and against the entry, where a name would go, a mark. It is still not a name.
 
 ### sb-grove
@@ -510,6 +522,8 @@
 > You come up the slow way, on the uphill side, and stand where the male can weigh you. It goes when going is its own idea. It takes a seed-pouch with it.
 
 **Shinnosuke:** "I had a plan. Did you see it take the pouch? That wasn't my fault."
+
+> Uphill, on the slow side, not looking straight at it — you did all three before you chose any of them. If he asks who taught you that, you have nothing to give him.
 
 **Decide** — The boy is looking at you.
 
@@ -1004,6 +1018,8 @@
 **Sōan:** "Now the cost, since nobody else in this house will put it to you plainly. A cracked rib mends in one of two places: in this room, in six days — or out in the rows, over a season, crooked. The house pays for it either way, and for six days it pays without getting anything back. That is not a reproach. It is an entry. I keep the book of what this estate spends on keeping its people whole, and you have a page in it now, the same as the mule."
 
 > He writes. The brush stops, and starts again, and puts down a second line that is not about your ribs. You do not ask what it says.
+
+> Two books in this house keep an account of your body, and you have read neither. Your hands told him something in this room once. They have never told you.
 
 **Ask** — "What are you writing?"
 

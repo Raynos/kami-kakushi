@@ -230,6 +230,10 @@ export const SCENES: readonly SceneDef[] = [
         { voice: 'narrator', text: 'He bends back to the row.' },
         {
           voice: 'narrator',
+          text: 'Eleven marks on a board, kept by a man who has never worked nearer to you than the next row. It is the fullest account of you that exists, and nobody asked you for any of it.',
+        },
+        {
+          voice: 'narrator',
           text: 'That evening the wage enters the day-book: so many mon, and against the entry, where a name would go, a mark. It is still not a name.',
         },
       ],
@@ -269,6 +273,10 @@ export const SCENES: readonly SceneDef[] = [
           voice: 'steward',
           speaker: NPC_NAME.shinnosuke,
           text: '"I had a plan. Did you see it take the pouch? That wasn\'t my fault."',
+        },
+        {
+          voice: 'narrator',
+          text: 'Uphill, on the slow side, not looking straight at it — you did all three before you chose any of them. If he asks who taught you that, you have nothing to give him.',
         },
       ],
       topics: [],
@@ -1536,6 +1544,10 @@ export const SCENES: readonly SceneDef[] = [
         {
           voice: 'narrator',
           text: 'He writes. The brush stops, and starts again, and puts down a second line that is not about your ribs. You do not ask what it says.',
+        },
+        {
+          voice: 'narrator',
+          text: 'Two books in this house keep an account of your body, and you have read neither. Your hands told him something in this room once. They have never told you.',
         },
       ],
       topics: [

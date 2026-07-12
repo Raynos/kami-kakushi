@@ -198,6 +198,10 @@ you."
 
 > He bends back to the row.
 
+> Eleven marks on a board, kept by a man who has never worked nearer to you than
+> the next row. It is the fullest account of you that exists, and nobody asked
+> you for any of it.
+
 > That evening the wage enters the day-book: so many mon, and against the
 > entry, where a name would go, a mark. It is still not a name.
 
@@ -237,6 +241,10 @@ tell anyone I'm here."
 
 Shinnosuke: "I had a plan. Did you see it take the pouch? That wasn't my
 fault."
+
+> Uphill, on the slow side, not looking straight at it — you did all three
+> before you chose any of them. If he asks who taught you that, you have nothing
+> to give him.
 
 ### decide · The boy is looking at you.
 
@@ -1200,6 +1208,10 @@ mule."
 
 > He writes. The brush stops, and starts again, and puts down a second line
 > that is not about your ribs. You do not ask what it says.
+
+> Two books in this house keep an account of your body, and you have read
+> neither. Your hands told him something in this room once. They have never told
+> you.
 
 ### ask sb-sickroom-ask-a · "What are you writing?"
 

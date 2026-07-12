@@ -571,8 +571,7 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
+          "voice": "narrator",
           "context": "The day-hand promotion",
           "contentKey": "beat.R1.greeting.7"
         },
@@ -581,7 +580,8 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Genemon",
+          "voice": "steward",
           "context": "The day-hand promotion",
           "contentKey": "beat.R1.greeting.8"
         },
@@ -599,8 +599,7 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "speaker": "Naoyuki",
-          "voice": "official",
+          "voice": "narrator",
           "context": "The day-hand promotion",
           "contentKey": "beat.R1.greeting.10"
         },
@@ -609,7 +608,8 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Naoyuki",
+          "voice": "official",
           "context": "The day-hand promotion",
           "contentKey": "beat.R1.greeting.11"
         },
@@ -618,8 +618,7 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "speaker": "Naoyuki",
-          "voice": "official",
+          "voice": "narrator",
           "context": "The day-hand promotion",
           "contentKey": "beat.R1.greeting.12"
         },
@@ -628,7 +627,8 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Naoyuki",
+          "voice": "official",
           "context": "The day-hand promotion",
           "contentKey": "beat.R1.greeting.13"
         },
@@ -646,13 +646,22 @@
           "channel": "narration",
           "tick": 2,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
+          "voice": "narrator",
           "context": "The day-hand promotion",
           "contentKey": "beat.R1.greeting.15"
         },
         {
           "key": 67,
+          "channel": "narration",
+          "tick": 2,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "The day-hand promotion",
+          "contentKey": "beat.R1.greeting.16"
+        },
+        {
+          "key": 68,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -662,7 +671,7 @@
           "contentKey": "beat.R1.opt.r1-none-claimed.say"
         },
         {
-          "key": 68,
+          "key": 69,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -672,7 +681,7 @@
           "contentKey": "beat.R1.opt.r1-none-claimed.react"
         },
         {
-          "key": 69,
+          "key": 70,
           "channel": "milestone",
           "tick": 2,
           "count": 1,
@@ -683,7 +692,7 @@
           }
         },
         {
-          "key": 81,
+          "key": 82,
           "channel": "narration",
           "tick": 20,
           "count": 1,
@@ -691,7 +700,7 @@
           "contentKey": "requirement.first-rows-of-his-own"
         },
         {
-          "key": 93,
+          "key": 94,
           "channel": "narration",
           "tick": 14,
           "count": 1,
@@ -699,7 +708,7 @@
           "contentKey": "requirement.take-to-the-fields"
         },
         {
-          "key": 95,
+          "key": 96,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -707,7 +716,7 @@
           "contentKey": "reveal.readout-coin"
         },
         {
-          "key": 117,
+          "key": 118,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -715,7 +724,7 @@
           "contentKey": "requirement.a-porters-back"
         },
         {
-          "key": 118,
+          "key": 119,
           "channel": "milestone",
           "tick": 6,
           "count": 1,
@@ -726,7 +735,7 @@
           }
         },
         {
-          "key": 119,
+          "key": 120,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -734,21 +743,12 @@
           "contentKey": "reveal.tab-skills"
         },
         {
-          "key": 120,
-          "channel": "narration",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "reveal.room-woodlot"
-        },
-        {
           "key": 121,
           "channel": "narration",
           "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "context": "r2 yard hand",
-          "contentKey": "scene.r2-yard-hand.greeting.0"
+          "contentKey": "reveal.room-woodlot"
         },
         {
           "key": 122,
@@ -757,7 +757,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r2 yard hand",
-          "contentKey": "scene.r2-yard-hand.greeting.1"
+          "contentKey": "scene.r2-yard-hand.greeting.0"
         },
         {
           "key": 123,
@@ -766,10 +766,19 @@
           "count": 1,
           "voice": "narrator",
           "context": "r2 yard hand",
-          "contentKey": "scene.r2-yard-hand.greeting.2"
+          "contentKey": "scene.r2-yard-hand.greeting.1"
         },
         {
           "key": 124,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "r2 yard hand",
+          "contentKey": "scene.r2-yard-hand.greeting.2"
+        },
+        {
+          "key": 125,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -779,7 +788,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.3"
         },
         {
-          "key": 125,
+          "key": 126,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -788,7 +797,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.4"
         },
         {
-          "key": 126,
+          "key": 127,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -797,7 +806,7 @@
           "contentKey": "scene.r2-yard-hand.greeting.5"
         },
         {
-          "key": 127,
+          "key": 128,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -806,23 +815,13 @@
           "contentKey": "scene.works-intro.greeting.0"
         },
         {
-          "key": 128,
+          "key": 129,
           "channel": "narration",
           "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "works intro",
           "contentKey": "scene.works-intro.greeting.1"
-        },
-        {
-          "key": 129,
-          "channel": "narration",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.2"
         },
         {
           "key": 130,
@@ -832,26 +831,26 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.3"
+          "contentKey": "scene.works-intro.greeting.2"
         },
         {
           "key": 131,
           "channel": "narration",
           "tick": 6,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Genemon",
+          "voice": "steward",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.4"
+          "contentKey": "scene.works-intro.greeting.3"
         },
         {
           "key": 132,
           "channel": "narration",
           "tick": 6,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
+          "voice": "narrator",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.5"
+          "contentKey": "scene.works-intro.greeting.4"
         },
         {
           "key": 133,
@@ -861,7 +860,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.6"
+          "contentKey": "scene.works-intro.greeting.5"
         },
         {
           "key": 134,
@@ -871,10 +870,20 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.7"
+          "contentKey": "scene.works-intro.greeting.6"
         },
         {
           "key": 135,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works intro",
+          "contentKey": "scene.works-intro.greeting.7"
+        },
+        {
+          "key": 136,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -883,7 +892,7 @@
           "contentKey": "scene.works-intro.greeting.8"
         },
         {
-          "key": 136,
+          "key": 137,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -893,7 +902,7 @@
           "contentKey": "scene.works-intro.greeting.9"
         },
         {
-          "key": 137,
+          "key": 138,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -903,7 +912,7 @@
           "contentKey": "scene.works-intro.opt.works-intro-go.say"
         },
         {
-          "key": 138,
+          "key": 139,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -913,7 +922,7 @@
           "contentKey": "scene.works-intro.opt.works-intro-go.react"
         },
         {
-          "key": 139,
+          "key": 140,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -922,23 +931,13 @@
           "contentKey": "scene.sb-market.greeting.0"
         },
         {
-          "key": 140,
+          "key": 141,
           "channel": "narration",
           "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "sb market",
           "contentKey": "scene.sb-market.greeting.1"
-        },
-        {
-          "key": 141,
-          "channel": "narration",
-          "tick": 6,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "sb market",
-          "contentKey": "scene.sb-market.greeting.2"
         },
         {
           "key": 142,
@@ -948,7 +947,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "sb market",
-          "contentKey": "scene.sb-market.greeting.3"
+          "contentKey": "scene.sb-market.greeting.2"
         },
         {
           "key": 143,
@@ -958,10 +957,20 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "sb market",
-          "contentKey": "scene.sb-market.greeting.4"
+          "contentKey": "scene.sb-market.greeting.3"
         },
         {
           "key": 144,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "sb market",
+          "contentKey": "scene.sb-market.greeting.4"
+        },
+        {
+          "key": 145,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -971,7 +980,7 @@
           "contentKey": "scene.sb-market.opt.sb-market-go.say"
         },
         {
-          "key": 145,
+          "key": 146,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -981,7 +990,7 @@
           "contentKey": "scene.sb-market.opt.sb-market-go.react"
         },
         {
-          "key": 146,
+          "key": 147,
           "channel": "narration",
           "tick": 6,
           "count": 1,
@@ -989,7 +998,7 @@
           "contentKey": "works.worksSeenPaddies"
         },
         {
-          "key": 163,
+          "key": 164,
           "channel": "narration",
           "tick": 22,
           "count": 1,
@@ -997,7 +1006,7 @@
           "contentKey": "requirement.learn-the-woodlot"
         },
         {
-          "key": 170,
+          "key": 171,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1005,21 +1014,12 @@
           "contentKey": "discovery.disc-woodlot-sluice"
         },
         {
-          "key": 176,
+          "key": 177,
           "channel": "narration",
           "tick": 8,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.walk-the-hills"
-        },
-        {
-          "key": 177,
-          "channel": "narration",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.0"
         },
         {
           "key": 178,
@@ -1028,17 +1028,16 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.1"
+          "contentKey": "scene.sb-cook.greeting.0"
         },
         {
           "key": 179,
           "channel": "narration",
           "tick": 10,
           "count": 1,
-          "speaker": "O-Hisa",
-          "voice": "steward",
+          "voice": "narrator",
           "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.2"
+          "contentKey": "scene.sb-cook.greeting.1"
         },
         {
           "key": 180,
@@ -1048,7 +1047,7 @@
           "speaker": "O-Hisa",
           "voice": "steward",
           "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.3"
+          "contentKey": "scene.sb-cook.greeting.2"
         },
         {
           "key": 181,
@@ -1058,10 +1057,20 @@
           "speaker": "O-Hisa",
           "voice": "steward",
           "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.4"
+          "contentKey": "scene.sb-cook.greeting.3"
         },
         {
           "key": 182,
+          "channel": "narration",
+          "tick": 10,
+          "count": 1,
+          "speaker": "O-Hisa",
+          "voice": "steward",
+          "context": "sb cook",
+          "contentKey": "scene.sb-cook.greeting.4"
+        },
+        {
+          "key": 183,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1071,7 +1080,7 @@
           "contentKey": "scene.sb-cook.opt.sb-cook-learn.say"
         },
         {
-          "key": 183,
+          "key": 184,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1081,7 +1090,7 @@
           "contentKey": "scene.sb-cook.opt.sb-cook-learn.react"
         },
         {
-          "key": 184,
+          "key": 185,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1089,21 +1098,12 @@
           "contentKey": "reveal.verb-cook"
         },
         {
-          "key": 194,
+          "key": 195,
           "channel": "narration",
           "tick": 8,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.keep-the-stores-moving"
-        },
-        {
-          "key": 195,
-          "channel": "narration",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.0"
         },
         {
           "key": 196,
@@ -1112,10 +1112,19 @@
           "count": 1,
           "voice": "narrator",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.1"
+          "contentKey": "beat.R3.greeting.0"
         },
         {
           "key": 197,
+          "channel": "narration",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "context": "The grain-watch promotion",
+          "contentKey": "beat.R3.greeting.1"
+        },
+        {
+          "key": 198,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1125,7 +1134,7 @@
           "contentKey": "beat.R3.greeting.2"
         },
         {
-          "key": 198,
+          "key": 199,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1134,7 +1143,7 @@
           "contentKey": "beat.R3.greeting.3"
         },
         {
-          "key": 199,
+          "key": 200,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1143,7 +1152,7 @@
           "contentKey": "beat.R3.greeting.4"
         },
         {
-          "key": 200,
+          "key": 201,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1153,7 +1162,7 @@
           "contentKey": "beat.R3.greeting.5"
         },
         {
-          "key": 201,
+          "key": 202,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1162,7 +1171,7 @@
           "contentKey": "beat.R3.greeting.6"
         },
         {
-          "key": 202,
+          "key": 203,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1172,7 +1181,7 @@
           "contentKey": "beat.R3.greeting.7"
         },
         {
-          "key": 203,
+          "key": 204,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1181,7 +1190,7 @@
           "contentKey": "beat.R3.greeting.8"
         },
         {
-          "key": 204,
+          "key": 205,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1191,7 +1200,7 @@
           "contentKey": "beat.R3.greeting.9"
         },
         {
-          "key": 205,
+          "key": 206,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1200,7 +1209,7 @@
           "contentKey": "beat.R3.greeting.10"
         },
         {
-          "key": 206,
+          "key": 207,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1210,7 +1219,7 @@
           "contentKey": "beat.R3.greeting.11"
         },
         {
-          "key": 207,
+          "key": 208,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1219,7 +1228,7 @@
           "contentKey": "beat.R3.greeting.12"
         },
         {
-          "key": 208,
+          "key": 209,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1229,7 +1238,7 @@
           "contentKey": "beat.R3.opt.r3-track.say"
         },
         {
-          "key": 209,
+          "key": 210,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1239,7 +1248,7 @@
           "contentKey": "beat.R3.opt.r3-track.react"
         },
         {
-          "key": 210,
+          "key": 211,
           "channel": "milestone",
           "tick": 10,
           "count": 1,
@@ -1250,7 +1259,7 @@
           }
         },
         {
-          "key": 211,
+          "key": 212,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1258,7 +1267,7 @@
           "contentKey": "reveal.room-kura"
         },
         {
-          "key": 212,
+          "key": 213,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1266,7 +1275,7 @@
           "contentKey": "reveal.tab-combat"
         },
         {
-          "key": 213,
+          "key": 214,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1274,7 +1283,7 @@
           "contentKey": "reveal.panel-bestiary"
         },
         {
-          "key": 214,
+          "key": 215,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1283,7 +1292,7 @@
           "contentKey": "scene.sb-lease.greeting.0"
         },
         {
-          "key": 215,
+          "key": 216,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1293,7 +1302,7 @@
           "contentKey": "scene.sb-lease.greeting.1"
         },
         {
-          "key": 216,
+          "key": 217,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1303,7 +1312,7 @@
           "contentKey": "scene.sb-lease.greeting.2"
         },
         {
-          "key": 217,
+          "key": 218,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1312,7 +1321,7 @@
           "contentKey": "scene.sb-lease.greeting.3"
         },
         {
-          "key": 218,
+          "key": 219,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1322,7 +1331,7 @@
           "contentKey": "scene.sb-lease.greeting.4"
         },
         {
-          "key": 219,
+          "key": 220,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1331,7 +1340,7 @@
           "contentKey": "scene.sb-lease.greeting.5"
         },
         {
-          "key": 220,
+          "key": 221,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1341,7 +1350,7 @@
           "contentKey": "scene.sb-lease.greeting.6"
         },
         {
-          "key": 221,
+          "key": 222,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1350,7 +1359,7 @@
           "contentKey": "scene.sb-lease.greeting.7"
         },
         {
-          "key": 222,
+          "key": 223,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1359,7 +1368,7 @@
           "contentKey": "scene.sb-lease.greeting.8"
         },
         {
-          "key": 223,
+          "key": 224,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1368,7 +1377,7 @@
           "contentKey": "scene.sb-sickroom.greeting.0"
         },
         {
-          "key": 224,
+          "key": 225,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1377,7 +1386,7 @@
           "contentKey": "scene.sb-sickroom.greeting.1"
         },
         {
-          "key": 225,
+          "key": 226,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1387,23 +1396,13 @@
           "contentKey": "scene.sb-sickroom.greeting.2"
         },
         {
-          "key": 226,
+          "key": 227,
           "channel": "narration",
           "tick": 10,
           "count": 1,
           "voice": "narrator",
           "context": "sb sickroom",
           "contentKey": "scene.sb-sickroom.greeting.3"
-        },
-        {
-          "key": 227,
-          "channel": "narration",
-          "tick": 10,
-          "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician",
-          "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.4"
         },
         {
           "key": 228,
@@ -1413,10 +1412,20 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.5"
+          "contentKey": "scene.sb-sickroom.greeting.4"
         },
         {
           "key": 229,
+          "channel": "narration",
+          "tick": 10,
+          "count": 1,
+          "speaker": "Sōan",
+          "voice": "physician",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.5"
+        },
+        {
+          "key": 230,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1425,7 +1434,16 @@
           "contentKey": "scene.sb-sickroom.greeting.6"
         },
         {
-          "key": 230,
+          "key": 231,
+          "channel": "narration",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb sickroom",
+          "contentKey": "scene.sb-sickroom.greeting.7"
+        },
+        {
+          "key": 232,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1435,7 +1453,7 @@
           "contentKey": "scene.sb-sickroom.opt.sb-sickroom-mend.say"
         },
         {
-          "key": 231,
+          "key": 233,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -1445,33 +1463,13 @@
           "contentKey": "scene.sb-sickroom.opt.sb-sickroom-mend.react"
         },
         {
-          "key": 233,
+          "key": 235,
           "channel": "narration",
           "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "sb racks",
           "contentKey": "scene.sb-racks.greeting.0"
-        },
-        {
-          "key": 234,
-          "channel": "narration",
-          "tick": 12,
-          "count": 1,
-          "speaker": "Rokusuke",
-          "voice": "villager",
-          "context": "sb racks",
-          "contentKey": "scene.sb-racks.greeting.1"
-        },
-        {
-          "key": 235,
-          "channel": "narration",
-          "tick": 12,
-          "count": 1,
-          "speaker": "Rokusuke",
-          "voice": "villager",
-          "context": "sb racks",
-          "contentKey": "scene.sb-racks.greeting.2"
         },
         {
           "key": 236,
@@ -1481,17 +1479,17 @@
           "speaker": "Rokusuke",
           "voice": "villager",
           "context": "sb racks",
-          "contentKey": "scene.sb-racks.greeting.3"
+          "contentKey": "scene.sb-racks.greeting.1"
         },
         {
           "key": 237,
           "channel": "narration",
           "tick": 12,
           "count": 1,
-          "speaker": "Nameless",
-          "voice": "player",
+          "speaker": "Rokusuke",
+          "voice": "villager",
           "context": "sb racks",
-          "contentKey": "scene.sb-racks.opt.sb-racks-take.say"
+          "contentKey": "scene.sb-racks.greeting.2"
         },
         {
           "key": 238,
@@ -1501,10 +1499,30 @@
           "speaker": "Rokusuke",
           "voice": "villager",
           "context": "sb racks",
-          "contentKey": "scene.sb-racks.opt.sb-racks-take.react"
+          "contentKey": "scene.sb-racks.greeting.3"
         },
         {
           "key": 239,
+          "channel": "narration",
+          "tick": 12,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "sb racks",
+          "contentKey": "scene.sb-racks.opt.sb-racks-take.say"
+        },
+        {
+          "key": 240,
+          "channel": "narration",
+          "tick": 12,
+          "count": 1,
+          "speaker": "Rokusuke",
+          "voice": "villager",
+          "context": "sb racks",
+          "contentKey": "scene.sb-racks.opt.sb-racks-take.react"
+        },
+        {
+          "key": 241,
           "channel": "combat",
           "tick": 12,
           "count": 1,
@@ -1519,7 +1537,7 @@
           }
         },
         {
-          "key": 240,
+          "key": 242,
           "channel": "system",
           "tick": 14,
           "count": 1,
@@ -1531,7 +1549,7 @@
           }
         },
         {
-          "key": 241,
+          "key": 243,
           "channel": "narration",
           "tick": 14,
           "count": 1,
@@ -1540,7 +1558,7 @@
           "contentKey": "flavor.seasonNewyear1"
         },
         {
-          "key": 242,
+          "key": 244,
           "channel": "narration",
           "tick": 14,
           "count": 1,
@@ -1549,7 +1567,7 @@
           "contentKey": "scene.turn-winter.greeting.0"
         },
         {
-          "key": 243,
+          "key": 245,
           "channel": "narration",
           "tick": 14,
           "count": 1,
@@ -1558,7 +1576,7 @@
           "contentKey": "scene.turn-winter.greeting.1"
         },
         {
-          "key": 244,
+          "key": 246,
           "channel": "narration",
           "tick": 14,
           "count": 1,
@@ -1567,7 +1585,7 @@
           "contentKey": "scene.turn-winter.greeting.2"
         },
         {
-          "key": 245,
+          "key": 247,
           "channel": "narration",
           "tick": 14,
           "count": 1,
@@ -1576,7 +1594,7 @@
           "contentKey": "scene.turn-winter.greeting.3"
         },
         {
-          "key": 246,
+          "key": 248,
           "channel": "reward",
           "tick": 14,
           "count": 1,
@@ -1589,7 +1607,7 @@
           }
         },
         {
-          "key": 247,
+          "key": 249,
           "channel": "system",
           "tick": 16,
           "count": 1,
@@ -1602,7 +1620,7 @@
           }
         },
         {
-          "key": 248,
+          "key": 250,
           "channel": "system",
           "tick": 18,
           "count": 1,
@@ -1615,7 +1633,7 @@
           }
         },
         {
-          "key": 249,
+          "key": 251,
           "channel": "combat",
           "tick": 20,
           "count": 1,
@@ -1630,7 +1648,7 @@
           }
         },
         {
-          "key": 250,
+          "key": 252,
           "channel": "milestone",
           "tick": 20,
           "count": 1,
@@ -1640,7 +1658,7 @@
           }
         },
         {
-          "key": 251,
+          "key": 253,
           "channel": "system",
           "tick": 22,
           "count": 1,
@@ -1653,7 +1671,7 @@
           }
         },
         {
-          "key": 252,
+          "key": 254,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -1662,7 +1680,7 @@
           "contentKey": "flavor.weatherDry"
         },
         {
-          "key": 253,
+          "key": 255,
           "channel": "combat",
           "tick": 0,
           "count": 1,
@@ -1677,7 +1695,7 @@
           }
         },
         {
-          "key": 254,
+          "key": 256,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -1685,7 +1703,7 @@
           "contentKey": "requirement.clear-the-kura-rats"
         },
         {
-          "key": 255,
+          "key": 257,
           "channel": "system",
           "tick": 2,
           "count": 1,
@@ -1698,7 +1716,7 @@
           }
         },
         {
-          "key": 256,
+          "key": 258,
           "channel": "system",
           "tick": 4,
           "count": 1,
@@ -1711,7 +1729,7 @@
           }
         },
         {
-          "key": 257,
+          "key": 259,
           "channel": "combat",
           "tick": 6,
           "count": 1,
@@ -1726,7 +1744,7 @@
           }
         },
         {
-          "key": 258,
+          "key": 260,
           "channel": "system",
           "tick": 8,
           "count": 1,
@@ -1739,7 +1757,7 @@
           }
         },
         {
-          "key": 259,
+          "key": 261,
           "channel": "system",
           "tick": 10,
           "count": 1,
@@ -1752,7 +1770,7 @@
           }
         },
         {
-          "key": 260,
+          "key": 262,
           "channel": "combat",
           "tick": 12,
           "count": 1,
@@ -1767,7 +1785,7 @@
           }
         },
         {
-          "key": 261,
+          "key": 263,
           "channel": "milestone",
           "tick": 12,
           "count": 1,
@@ -1777,7 +1795,7 @@
           }
         },
         {
-          "key": 262,
+          "key": 264,
           "channel": "narration",
           "tick": 12,
           "count": 1,
@@ -1785,14 +1803,14 @@
           "contentKey": "requirement.drive-off-the-thieves"
         },
         {
-          "key": 263,
+          "key": 265,
           "channel": "milestone",
           "tick": 14,
           "count": 1,
           "contentKey": "reveal.screen-demo-frontier"
         },
         {
-          "key": 264,
+          "key": 266,
           "channel": "narration",
           "tick": 14,
           "count": 1,
@@ -1800,7 +1818,7 @@
           "contentKey": "reveal.dream-2"
         },
         {
-          "key": 265,
+          "key": 267,
           "channel": "reward",
           "tick": 14,
           "count": 1,
@@ -1812,7 +1830,7 @@
           }
         },
         {
-          "key": 266,
+          "key": 268,
           "channel": "reward",
           "tick": 16,
           "count": 1,
@@ -1824,7 +1842,7 @@
           }
         },
         {
-          "key": 267,
+          "key": 269,
           "channel": "reward",
           "tick": 18,
           "count": 1,
@@ -1836,7 +1854,7 @@
           }
         },
         {
-          "key": 268,
+          "key": 270,
           "channel": "reward",
           "tick": 20,
           "count": 1,
@@ -1848,7 +1866,7 @@
           }
         },
         {
-          "key": 269,
+          "key": 271,
           "channel": "reward",
           "tick": 22,
           "count": 1,
@@ -1860,7 +1878,7 @@
           }
         },
         {
-          "key": 270,
+          "key": 272,
           "channel": "reward",
           "tick": 0,
           "count": 1,
@@ -1872,7 +1890,7 @@
           }
         },
         {
-          "key": 271,
+          "key": 273,
           "channel": "reward",
           "tick": 2,
           "count": 1,
@@ -1884,7 +1902,7 @@
           }
         },
         {
-          "key": 272,
+          "key": 274,
           "channel": "reward",
           "tick": 4,
           "count": 1,
@@ -1896,7 +1914,7 @@
           }
         },
         {
-          "key": 273,
+          "key": 275,
           "channel": "reward",
           "tick": 6,
           "count": 1,
@@ -1908,7 +1926,7 @@
           }
         },
         {
-          "key": 274,
+          "key": 276,
           "channel": "reward",
           "tick": 8,
           "count": 1,
@@ -1920,7 +1938,7 @@
           }
         },
         {
-          "key": 275,
+          "key": 277,
           "channel": "reward",
           "tick": 10,
           "count": 1,
@@ -1932,7 +1950,7 @@
           }
         },
         {
-          "key": 276,
+          "key": 278,
           "channel": "reward",
           "tick": 12,
           "count": 1,
@@ -1944,7 +1962,7 @@
           }
         },
         {
-          "key": 277,
+          "key": 279,
           "channel": "reward",
           "tick": 14,
           "count": 1,
@@ -1956,7 +1974,7 @@
           }
         },
         {
-          "key": 278,
+          "key": 280,
           "channel": "reward",
           "tick": 16,
           "count": 1,
@@ -1968,7 +1986,7 @@
           }
         },
         {
-          "key": 279,
+          "key": 281,
           "channel": "reward",
           "tick": 18,
           "count": 1,
@@ -1980,7 +1998,7 @@
           }
         },
         {
-          "key": 280,
+          "key": 282,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -1988,7 +2006,7 @@
           "contentKey": "requirement.the-fields-hold"
         },
         {
-          "key": 281,
+          "key": 283,
           "channel": "reward",
           "tick": 22,
           "count": 2,
@@ -2000,7 +2018,7 @@
           }
         },
         {
-          "key": 282,
+          "key": 284,
           "channel": "reward",
           "tick": 4,
           "count": 3,
@@ -2012,7 +2030,7 @@
           }
         },
         {
-          "key": 283,
+          "key": 285,
           "channel": "reward",
           "tick": 12,
           "count": 4,
@@ -2024,7 +2042,7 @@
           }
         },
         {
-          "key": 284,
+          "key": 286,
           "channel": "system",
           "tick": 14,
           "count": 1,
@@ -2033,7 +2051,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 285,
+          "key": 287,
           "channel": "reward",
           "tick": 16,
           "count": 1,
@@ -2045,7 +2063,7 @@
           }
         },
         {
-          "key": 286,
+          "key": 288,
           "channel": "reward",
           "tick": 2,
           "count": 5,
@@ -2057,7 +2075,7 @@
           }
         },
         {
-          "key": 287,
+          "key": 289,
           "channel": "narration",
           "tick": 2,
           "count": 1,
@@ -2065,7 +2083,7 @@
           "contentKey": "requirement.keep-the-rows"
         },
         {
-          "key": 288,
+          "key": 290,
           "channel": "system",
           "tick": 4,
           "count": 1,
@@ -2074,7 +2092,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 289,
+          "key": 291,
           "channel": "reward",
           "tick": 6,
           "count": 1,
@@ -2086,7 +2104,7 @@
           }
         },
         {
-          "key": 290,
+          "key": 292,
           "channel": "reward",
           "tick": 8,
           "count": 1,
@@ -2098,7 +2116,7 @@
           }
         },
         {
-          "key": 291,
+          "key": 293,
           "channel": "reward",
           "tick": 10,
           "count": 1,
@@ -2110,7 +2128,7 @@
           }
         },
         {
-          "key": 292,
+          "key": 294,
           "channel": "reward",
           "tick": 12,
           "count": 1,
@@ -2122,7 +2140,7 @@
           }
         },
         {
-          "key": 293,
+          "key": 295,
           "channel": "reward",
           "tick": 14,
           "count": 1,
@@ -2134,7 +2152,7 @@
           }
         },
         {
-          "key": 294,
+          "key": 296,
           "channel": "system",
           "tick": 16,
           "count": 1,
@@ -2143,7 +2161,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 295,
+          "key": 297,
           "channel": "reward",
           "tick": 18,
           "count": 1,
@@ -2155,7 +2173,7 @@
           }
         },
         {
-          "key": 296,
+          "key": 298,
           "channel": "reward",
           "tick": 20,
           "count": 1,
@@ -2167,7 +2185,7 @@
           }
         },
         {
-          "key": 297,
+          "key": 299,
           "channel": "reward",
           "tick": 22,
           "count": 1,
@@ -2179,7 +2197,7 @@
           }
         },
         {
-          "key": 298,
+          "key": 300,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2188,7 +2206,7 @@
           "contentKey": "flavor.gossipRiverMan"
         },
         {
-          "key": 299,
+          "key": 301,
           "channel": "reward",
           "tick": 0,
           "count": 1,
@@ -2200,7 +2218,7 @@
           }
         },
         {
-          "key": 300,
+          "key": 302,
           "channel": "system",
           "tick": 2,
           "count": 1,
@@ -2209,7 +2227,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 301,
+          "key": 303,
           "channel": "reward",
           "tick": 6,
           "count": 2,
@@ -2221,7 +2239,7 @@
           }
         },
         {
-          "key": 302,
+          "key": 304,
           "channel": "reward",
           "tick": 10,
           "count": 2,
@@ -2233,7 +2251,7 @@
           }
         },
         {
-          "key": 303,
+          "key": 305,
           "channel": "reward",
           "tick": 12,
           "count": 1,
@@ -2245,7 +2263,7 @@
           }
         },
         {
-          "key": 304,
+          "key": 306,
           "channel": "system",
           "tick": 14,
           "count": 1,
@@ -2254,7 +2272,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 305,
+          "key": 307,
           "channel": "reward",
           "tick": 16,
           "count": 1,
@@ -2266,7 +2284,7 @@
           }
         },
         {
-          "key": 306,
+          "key": 308,
           "channel": "reward",
           "tick": 22,
           "count": 3,
@@ -2278,7 +2296,7 @@
           }
         },
         {
-          "key": 307,
+          "key": 309,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2287,7 +2305,7 @@
           "contentKey": "flavor.weatherDry"
         },
         {
-          "key": 308,
+          "key": 310,
           "channel": "system",
           "tick": 0,
           "count": 1,
@@ -2296,7 +2314,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 309,
+          "key": 311,
           "channel": "reward",
           "tick": 6,
           "count": 3,
@@ -2308,7 +2326,7 @@
           }
         },
         {
-          "key": 310,
+          "key": 312,
           "channel": "reward",
           "tick": 10,
           "count": 2,
@@ -2320,7 +2338,7 @@
           }
         },
         {
-          "key": 311,
+          "key": 313,
           "channel": "system",
           "tick": 12,
           "count": 1,
@@ -2329,7 +2347,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 312,
+          "key": 314,
           "channel": "reward",
           "tick": 16,
           "count": 2,
@@ -2341,7 +2359,7 @@
           }
         },
         {
-          "key": 313,
+          "key": 315,
           "channel": "narration",
           "tick": 16,
           "count": 1,
@@ -2349,7 +2367,7 @@
           "contentKey": "requirement.timber-for-the-palisade"
         },
         {
-          "key": 314,
+          "key": 316,
           "channel": "system",
           "tick": 18,
           "count": 1,
@@ -2362,7 +2380,7 @@
           }
         },
         {
-          "key": 315,
+          "key": 317,
           "channel": "system",
           "tick": 20,
           "count": 1,
@@ -2374,7 +2392,7 @@
           }
         },
         {
-          "key": 316,
+          "key": 318,
           "channel": "narration",
           "tick": 20,
           "count": 1,
@@ -2383,7 +2401,7 @@
           "contentKey": "flavor.seasonSpring2"
         },
         {
-          "key": 317,
+          "key": 319,
           "channel": "narration",
           "tick": 20,
           "count": 1,
@@ -2392,7 +2410,7 @@
           "contentKey": "scene.turn-new-year.greeting.0"
         },
         {
-          "key": 318,
+          "key": 320,
           "channel": "narration",
           "tick": 20,
           "count": 1,
@@ -2401,7 +2419,7 @@
           "contentKey": "scene.turn-new-year.greeting.1"
         },
         {
-          "key": 319,
+          "key": 321,
           "channel": "narration",
           "tick": 20,
           "count": 1,
@@ -2410,7 +2428,7 @@
           "contentKey": "scene.turn-new-year.greeting.2"
         },
         {
-          "key": 320,
+          "key": 322,
           "channel": "narration",
           "tick": 20,
           "count": 1,
@@ -2419,7 +2437,7 @@
           "contentKey": "scene.turn-new-year.greeting.3"
         },
         {
-          "key": 321,
+          "key": 323,
           "channel": "reward",
           "tick": 20,
           "count": 1,
@@ -2432,7 +2450,7 @@
           }
         },
         {
-          "key": 322,
+          "key": 324,
           "channel": "system",
           "tick": 22,
           "count": 1,
@@ -2445,7 +2463,7 @@
           }
         },
         {
-          "key": 323,
+          "key": 325,
           "channel": "combat",
           "tick": 0,
           "count": 1,
@@ -2459,7 +2477,7 @@
           }
         },
         {
-          "key": 324,
+          "key": 326,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2468,7 +2486,7 @@
           "contentKey": "flavor.seasonSpring2"
         },
         {
-          "key": 325,
+          "key": 327,
           "channel": "system",
           "tick": 10,
           "count": 2,
@@ -2481,7 +2499,7 @@
           }
         },
         {
-          "key": 326,
+          "key": 328,
           "channel": "system",
           "tick": 12,
           "count": 1,
@@ -2494,7 +2512,7 @@
           }
         },
         {
-          "key": 327,
+          "key": 329,
           "channel": "combat",
           "tick": 14,
           "count": 1,
@@ -2509,7 +2527,7 @@
           }
         },
         {
-          "key": 328,
+          "key": 330,
           "channel": "system",
           "tick": 16,
           "count": 1,
@@ -2522,7 +2540,7 @@
           }
         },
         {
-          "key": 329,
+          "key": 331,
           "channel": "system",
           "tick": 18,
           "count": 1,
@@ -2535,7 +2553,7 @@
           }
         },
         {
-          "key": 330,
+          "key": 332,
           "channel": "combat",
           "tick": 20,
           "count": 1,
@@ -2549,7 +2567,7 @@
           }
         },
         {
-          "key": 331,
+          "key": 333,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2558,7 +2576,7 @@
           "contentKey": "flavor.weatherThunder"
         },
         {
-          "key": 332,
+          "key": 334,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2567,7 +2585,7 @@
           "contentKey": "flavor.gossipBirth"
         },
         {
-          "key": 333,
+          "key": 335,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2576,7 +2594,7 @@
           "contentKey": "flavor.weatherFrost"
         },
         {
-          "key": 334,
+          "key": 336,
           "channel": "system",
           "tick": 6,
           "count": 2,
@@ -2589,7 +2607,7 @@
           }
         },
         {
-          "key": 335,
+          "key": 337,
           "channel": "system",
           "tick": 8,
           "count": 1,
@@ -2602,7 +2620,7 @@
           }
         },
         {
-          "key": 336,
+          "key": 338,
           "channel": "combat",
           "tick": 10,
           "count": 1,
@@ -2617,7 +2635,7 @@
           }
         },
         {
-          "key": 337,
+          "key": 339,
           "channel": "milestone",
           "tick": 10,
           "count": 1,
@@ -2627,7 +2645,7 @@
           }
         },
         {
-          "key": 338,
+          "key": 340,
           "channel": "system",
           "tick": 14,
           "count": 2,
@@ -2640,7 +2658,7 @@
           }
         },
         {
-          "key": 339,
+          "key": 341,
           "channel": "reward",
           "tick": 16,
           "count": 1,
@@ -2653,7 +2671,7 @@
           }
         },
         {
-          "key": 340,
+          "key": 342,
           "channel": "system",
           "tick": 18,
           "count": 1,
@@ -2662,7 +2680,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 341,
+          "key": 343,
           "channel": "system",
           "tick": 20,
           "count": 1,
@@ -2675,7 +2693,7 @@
           }
         },
         {
-          "key": 342,
+          "key": 344,
           "channel": "combat",
           "tick": 22,
           "count": 1,
@@ -2690,7 +2708,7 @@
           }
         },
         {
-          "key": 343,
+          "key": 345,
           "channel": "system",
           "tick": 2,
           "count": 2,
@@ -2703,7 +2721,7 @@
           }
         },
         {
-          "key": 344,
+          "key": 346,
           "channel": "system",
           "tick": 4,
           "count": 1,
@@ -2716,7 +2734,7 @@
           }
         },
         {
-          "key": 345,
+          "key": 347,
           "channel": "combat",
           "tick": 6,
           "count": 1,
@@ -2731,7 +2749,7 @@
           }
         },
         {
-          "key": 346,
+          "key": 348,
           "channel": "milestone",
           "tick": 6,
           "count": 1,
@@ -2741,7 +2759,7 @@
           }
         },
         {
-          "key": 347,
+          "key": 349,
           "channel": "system",
           "tick": 8,
           "count": 1,
@@ -2754,7 +2772,7 @@
           }
         },
         {
-          "key": 348,
+          "key": 350,
           "channel": "system",
           "tick": 10,
           "count": 1,
@@ -2767,7 +2785,7 @@
           }
         },
         {
-          "key": 349,
+          "key": 351,
           "channel": "system",
           "tick": 12,
           "count": 1,
@@ -2780,7 +2798,7 @@
           }
         },
         {
-          "key": 350,
+          "key": 352,
           "channel": "combat",
           "tick": 12,
           "count": 1,
@@ -2795,7 +2813,7 @@
           }
         },
         {
-          "key": 351,
+          "key": 353,
           "channel": "system",
           "tick": 14,
           "count": 1,
@@ -2808,7 +2826,7 @@
           }
         },
         {
-          "key": 352,
+          "key": 354,
           "channel": "system",
           "tick": 16,
           "count": 1,
@@ -2821,7 +2839,7 @@
           }
         },
         {
-          "key": 353,
+          "key": 355,
           "channel": "combat",
           "tick": 18,
           "count": 1,
@@ -2836,7 +2854,7 @@
           }
         },
         {
-          "key": 354,
+          "key": 356,
           "channel": "system",
           "tick": 20,
           "count": 1,
@@ -2849,7 +2867,7 @@
           }
         },
         {
-          "key": 355,
+          "key": 357,
           "channel": "reward",
           "tick": 22,
           "count": 1,
@@ -2862,7 +2880,7 @@
           }
         },
         {
-          "key": 356,
+          "key": 358,
           "channel": "system",
           "tick": 0,
           "count": 1,
@@ -2875,7 +2893,7 @@
           }
         },
         {
-          "key": 357,
+          "key": 359,
           "channel": "system",
           "tick": 2,
           "count": 1,
@@ -2888,7 +2906,7 @@
           }
         },
         {
-          "key": 358,
+          "key": 360,
           "channel": "combat",
           "tick": 4,
           "count": 1,
@@ -2903,7 +2921,7 @@
           }
         },
         {
-          "key": 359,
+          "key": 361,
           "channel": "milestone",
           "tick": 4,
           "count": 1,
@@ -2913,7 +2931,7 @@
           }
         },
         {
-          "key": 360,
+          "key": 362,
           "channel": "system",
           "tick": 12,
           "count": 4,
@@ -2922,7 +2940,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 361,
+          "key": 363,
           "channel": "system",
           "tick": 14,
           "count": 1,
@@ -2935,7 +2953,7 @@
           }
         },
         {
-          "key": 362,
+          "key": 364,
           "channel": "system",
           "tick": 16,
           "count": 1,
@@ -2948,7 +2966,7 @@
           }
         },
         {
-          "key": 363,
+          "key": 365,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -2957,7 +2975,7 @@
           "contentKey": "flavor.nightRoundPost"
         },
         {
-          "key": 364,
+          "key": 366,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -2965,7 +2983,7 @@
           "contentKey": "flavor.nightRoundNewMoon"
         },
         {
-          "key": 365,
+          "key": 367,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -2973,7 +2991,7 @@
           "contentKey": "nightRound.first-night-round.stage.0"
         },
         {
-          "key": 366,
+          "key": 368,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -2981,7 +2999,7 @@
           "contentKey": "nightRound.first-night-round.stage.1"
         },
         {
-          "key": 367,
+          "key": 369,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -2989,30 +3007,12 @@
           "contentKey": "nightRound.first-night-round.stage.2"
         },
         {
-          "key": 368,
-          "channel": "narration",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "requirement.the-wolf-survived-not-won"
-        },
-        {
-          "key": 369,
-          "channel": "narration",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.0"
-        },
-        {
           "key": 370,
           "channel": "narration",
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.1"
+          "contentKey": "requirement.the-wolf-survived-not-won"
         },
         {
           "key": 371,
@@ -3021,10 +3021,28 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.2"
+          "contentKey": "beat.R4.greeting.0"
         },
         {
           "key": 372,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.1"
+        },
+        {
+          "key": 373,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.2"
+        },
+        {
+          "key": 374,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3034,7 +3052,7 @@
           "contentKey": "beat.R4.greeting.3"
         },
         {
-          "key": 373,
+          "key": 375,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3044,7 +3062,7 @@
           "contentKey": "beat.R4.greeting.4"
         },
         {
-          "key": 374,
+          "key": 376,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3053,7 +3071,7 @@
           "contentKey": "beat.R4.greeting.5"
         },
         {
-          "key": 375,
+          "key": 377,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3063,7 +3081,7 @@
           "contentKey": "beat.R4.greeting.6"
         },
         {
-          "key": 376,
+          "key": 378,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3073,7 +3091,7 @@
           "contentKey": "beat.R4.greeting.7"
         },
         {
-          "key": 377,
+          "key": 379,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3083,7 +3101,7 @@
           "contentKey": "beat.R4.greeting.8"
         },
         {
-          "key": 378,
+          "key": 380,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3092,7 +3110,7 @@
           "contentKey": "beat.R4.greeting.9"
         },
         {
-          "key": 379,
+          "key": 381,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3101,7 +3119,7 @@
           "contentKey": "beat.R4.greeting.10"
         },
         {
-          "key": 380,
+          "key": 382,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3110,7 +3128,7 @@
           "contentKey": "beat.R4.greeting.11"
         },
         {
-          "key": 381,
+          "key": 383,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3119,119 +3137,98 @@
           "contentKey": "beat.R4.greeting.12"
         },
         {
-          "key": 382,
-          "channel": "narration",
-          "tick": 18,
-          "count": 1,
-          "speaker": "Nameless",
-          "voice": "player",
-          "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.13"
-        },
-        {
-          "key": 383,
+          "key": 384,
           "channel": "narration",
           "tick": 18,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.14"
-        },
-        {
-          "key": 384,
-          "channel": "narration",
-          "tick": 18,
-          "count": 1,
-          "speaker": "Nameless",
-          "voice": "player",
-          "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.15"
+          "contentKey": "beat.R4.greeting.13"
         },
         {
           "key": 385,
           "channel": "narration",
           "tick": 18,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Nameless",
+          "voice": "player",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.16"
+          "contentKey": "beat.R4.greeting.14"
         },
         {
           "key": 386,
           "channel": "narration",
           "tick": 18,
           "count": 1,
-          "speaker": "Kihei",
-          "voice": "arms",
+          "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.17"
+          "contentKey": "beat.R4.greeting.15"
         },
         {
           "key": 387,
           "channel": "narration",
           "tick": 18,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Nameless",
+          "voice": "player",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.18"
+          "contentKey": "beat.R4.greeting.16"
         },
         {
           "key": 388,
           "channel": "narration",
           "tick": 18,
           "count": 1,
-          "speaker": "Kihei",
-          "voice": "arms",
+          "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.19"
+          "contentKey": "beat.R4.greeting.17"
         },
         {
           "key": 389,
           "channel": "narration",
           "tick": 18,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Kihei",
+          "voice": "arms",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.20"
+          "contentKey": "beat.R4.greeting.18"
         },
         {
           "key": 390,
           "channel": "narration",
           "tick": 18,
           "count": 1,
-          "speaker": "Kihei",
-          "voice": "arms",
+          "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.21"
+          "contentKey": "beat.R4.greeting.19"
         },
         {
           "key": 391,
           "channel": "narration",
           "tick": 18,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Kihei",
+          "voice": "arms",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.22"
+          "contentKey": "beat.R4.greeting.20"
         },
         {
           "key": 392,
           "channel": "narration",
           "tick": 18,
           "count": 1,
-          "speaker": "Kihei",
-          "voice": "arms",
+          "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.23"
+          "contentKey": "beat.R4.greeting.21"
         },
         {
           "key": 393,
           "channel": "narration",
           "tick": 18,
           "count": 1,
-          "speaker": "Nameless",
-          "voice": "player",
+          "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.opt.r4-it-returns.say"
+          "contentKey": "beat.R4.greeting.22"
         },
         {
           "key": 394,
@@ -3241,10 +3238,49 @@
           "speaker": "Kihei",
           "voice": "arms",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.opt.r4-it-returns.react"
+          "contentKey": "beat.R4.greeting.23"
         },
         {
           "key": 395,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.24"
+        },
+        {
+          "key": 396,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Kihei",
+          "voice": "arms",
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.greeting.25"
+        },
+        {
+          "key": 397,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Nameless",
+          "voice": "player",
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.opt.r4-it-returns.say"
+        },
+        {
+          "key": 398,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Kihei",
+          "voice": "arms",
+          "context": "The pupil promotion",
+          "contentKey": "beat.R4.opt.r4-it-returns.react"
+        },
+        {
+          "key": 399,
           "channel": "milestone",
           "tick": 18,
           "count": 1,
@@ -3255,7 +3291,7 @@
           }
         },
         {
-          "key": 396,
+          "key": 400,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3263,7 +3299,7 @@
           "contentKey": "reveal.panel-home"
         },
         {
-          "key": 397,
+          "key": 401,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3271,7 +3307,7 @@
           "contentKey": "reveal.room-drill-yard"
         },
         {
-          "key": 398,
+          "key": 402,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3279,7 +3315,7 @@
           "contentKey": "reveal.tab-inventory"
         },
         {
-          "key": 399,
+          "key": 403,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3287,7 +3323,7 @@
           "contentKey": "reveal.readout-durability"
         },
         {
-          "key": 400,
+          "key": 404,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3295,7 +3331,7 @@
           "contentKey": "reveal.panel-equipment"
         },
         {
-          "key": 401,
+          "key": 405,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3303,7 +3339,7 @@
           "contentKey": "reveal.house-omoya"
         },
         {
-          "key": 402,
+          "key": 406,
           "channel": "system",
           "tick": 18,
           "count": 1,
@@ -3315,7 +3351,7 @@
           }
         },
         {
-          "key": 403,
+          "key": 407,
           "channel": "combat",
           "tick": 18,
           "count": 1,
@@ -3329,7 +3365,7 @@
           }
         },
         {
-          "key": 404,
+          "key": 408,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3338,7 +3374,7 @@
           "contentKey": "flavor.seasonSpring1"
         },
         {
-          "key": 405,
+          "key": 409,
           "channel": "combat",
           "tick": 2,
           "count": 1,
@@ -3352,7 +3388,7 @@
           }
         },
         {
-          "key": 406,
+          "key": 410,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3361,7 +3397,7 @@
           "contentKey": "flavor.seasonSpring2"
         },
         {
-          "key": 407,
+          "key": 411,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3370,7 +3406,7 @@
           "contentKey": "flavor.gossipGanzo"
         },
         {
-          "key": 408,
+          "key": 412,
           "channel": "combat",
           "tick": 10,
           "count": 1,
@@ -3384,7 +3420,7 @@
           }
         },
         {
-          "key": 409,
+          "key": 413,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3393,7 +3429,7 @@
           "contentKey": "flavor.gossipMatchmaker"
         },
         {
-          "key": 410,
+          "key": 414,
           "channel": "combat",
           "tick": 18,
           "count": 1,
@@ -3407,7 +3443,7 @@
           }
         },
         {
-          "key": 411,
+          "key": 415,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3416,7 +3452,7 @@
           "contentKey": "flavor.weatherFrost"
         },
         {
-          "key": 412,
+          "key": 416,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3425,7 +3461,7 @@
           "contentKey": "flavor.gossipMatchmaker"
         },
         {
-          "key": 413,
+          "key": 417,
           "channel": "combat",
           "tick": 2,
           "count": 1,
@@ -3439,7 +3475,7 @@
           }
         },
         {
-          "key": 414,
+          "key": 418,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3448,7 +3484,7 @@
           "contentKey": "flavor.gossipMatchmaker"
         },
         {
-          "key": 415,
+          "key": 419,
           "channel": "combat",
           "tick": 10,
           "count": 1,
@@ -3462,7 +3498,7 @@
           }
         },
         {
-          "key": 416,
+          "key": 420,
           "channel": "combat",
           "tick": 18,
           "count": 1,
@@ -3476,7 +3512,7 @@
           }
         },
         {
-          "key": 417,
+          "key": 421,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3485,7 +3521,7 @@
           "contentKey": "flavor.gossipTownRice"
         },
         {
-          "key": 418,
+          "key": 422,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3494,7 +3530,7 @@
           "contentKey": "flavor.gossipMatchmaker"
         },
         {
-          "key": 419,
+          "key": 423,
           "channel": "combat",
           "tick": 2,
           "count": 1,
@@ -3508,7 +3544,7 @@
           }
         },
         {
-          "key": 420,
+          "key": 424,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3517,7 +3553,7 @@
           "contentKey": "flavor.weatherRain"
         },
         {
-          "key": 421,
+          "key": 425,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3526,7 +3562,7 @@
           "contentKey": "scene.sb-crest.greeting.0"
         },
         {
-          "key": 422,
+          "key": 426,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3536,7 +3572,7 @@
           "contentKey": "scene.sb-crest.greeting.1"
         },
         {
-          "key": 423,
+          "key": 427,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3545,7 +3581,7 @@
           "contentKey": "scene.sb-crest.greeting.2"
         },
         {
-          "key": 424,
+          "key": 428,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3555,7 +3591,7 @@
           "contentKey": "scene.sb-crest.greeting.3"
         },
         {
-          "key": 425,
+          "key": 429,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3565,7 +3601,7 @@
           "contentKey": "scene.sb-crest.greeting.4"
         },
         {
-          "key": 426,
+          "key": 430,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3574,7 +3610,7 @@
           "contentKey": "scene.sb-crest.greeting.5"
         },
         {
-          "key": 427,
+          "key": 431,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3584,7 +3620,7 @@
           "contentKey": "scene.sb-crest.greeting.6"
         },
         {
-          "key": 428,
+          "key": 432,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3593,7 +3629,7 @@
           "contentKey": "scene.sb-crest.greeting.7"
         },
         {
-          "key": 429,
+          "key": 433,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3603,7 +3639,7 @@
           "contentKey": "scene.sb-crest.greeting.8"
         },
         {
-          "key": 430,
+          "key": 434,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3612,7 +3648,7 @@
           "contentKey": "scene.sb-crest.greeting.9"
         },
         {
-          "key": 431,
+          "key": 435,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3621,7 +3657,7 @@
           "contentKey": "scene.sb-crest.greeting.10"
         },
         {
-          "key": 432,
+          "key": 436,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3631,7 +3667,7 @@
           "contentKey": "scene.sb-crest.greeting.11"
         },
         {
-          "key": 433,
+          "key": 437,
           "channel": "narration",
           "tick": 10,
           "count": 1,
@@ -3640,7 +3676,7 @@
           "contentKey": "scene.sb-crest.greeting.12"
         }
       ],
-      "seq": 434
+      "seq": 438
     },
     "skillXp": {
       "farming": 265,

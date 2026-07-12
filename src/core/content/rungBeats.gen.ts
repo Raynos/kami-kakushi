@@ -52,6 +52,10 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         text: "Nobody stops eating. Two hands lost was a morning's talk; one stray kept is not even that. The bowls go on.",
       },
       {
+        voice: 'narrator',
+        text: 'Six hands wanted. Five sleep here. You are the sixth, and there is no sixth place — the sum was short before you stood in this kitchen. Nobody at the table says it aloud. Neither do you.',
+      },
+      {
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"The board has heard it. That serves for witness."',
@@ -331,6 +335,10 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       },
       {
         voice: 'narrator',
+        text: 'He had taken the loss off your name. Two words put it back. There is no wage for it to come out of, and you said them anyway.',
+      },
+      {
+        voice: 'narrator',
         text: 'At the kitchen threshold O-Hisa has stopped with a bowl in her hands, as if there were something to say to somebody. She sets it down where you will pass, and goes in.',
       },
       {
@@ -365,6 +373,10 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       {
         voice: 'narrator',
         text: 'He takes the oiled staff from the rack and holds it out. He does not say how long it has stood there, and you do not ask.',
+      },
+      {
+        voice: 'narrator',
+        text: 'Your hands take the staff and set themselves on it without being told — and then stop. They know how to hold it. They know nothing about what to do with it, and Kihei is watching the difference.',
       },
       {
         voice: 'arms',
@@ -473,6 +485,10 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       {
         voice: 'narrator',
         text: 'He watches the whole count. When it comes out even he does not nod. He enters something in the day-book, unasked.',
+      },
+      {
+        voice: 'narrator',
+        text: 'You did not work the number out. It was there before the last coin landed, and you could not say how it got there. Whatever he has entered, it is not the count.',
       },
       {
         voice: 'steward',
@@ -584,6 +600,10 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         voice: 'narrator',
         text: 'He writes it small and square — the hand of a man who has written all his life and never once for pleasure — and the thing is done. One man, Gonbei, sound.',
       },
+      {
+        voice: 'narrator',
+        text: 'The book has your hands in it: the loads, the counts that came out even, the night at the sill. It has never had anything else of you. Neither have you.',
+      },
     ],
     topics: [
       {
@@ -608,7 +628,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         answer: [
           {
             voice: 'narrator',
-            text: 'The question costs him something to ask, and Genemon looks up as if a chair had spoken. Then he turns the book back further than he turned it for the ink, to a page the lamp barely reaches.',
+            text: 'The question costs you something to ask, and Genemon looks up as if a chair had spoken. Then he turns the book back further than he turned it for the ink, to a page the lamp barely reaches.',
           },
           {
             voice: 'steward',

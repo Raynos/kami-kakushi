@@ -270,3 +270,52 @@ Also: `shoji` → `screen` (the corpus says "screen" everywhere else — one out
 **Shared-tree note:** committed with SKIP_VERIFY and held local — a co-agent has
 `project-status.md` dirty and 2 lines over its cap, which reds the gate for everyone. My
 changes were proven green first on the FULL 18-gate suite against a clean HEAD worktree.
+
+## W5 landed — the MC's inner line (HR-37)
+
+The change that alters *who the protagonist is*. Ships **take C, "the body knows and the head
+does not"** — a man estranged from his own hands, who keeps producing competence he cannot
+account for. Blind reader: *"A is a man, but a narrow one — ten counts in a row becomes a tic.
+B is a device — its through-line is a null act. **C is a person**, and the one I'd follow ten
+hours."*
+
+**Take C produced a formulation that deserves to be canon**, and it is the best thing any
+agent wrote today:
+
+> **The hands may testify; only the dream may translate.**
+
+That restates ADR-185's never-memory bound so an author can actually apply it. Every C line
+hands the body a capability and then flatly refuses the account — so it FEEDS the dream
+instead of pre-spending it. Flagged to the human for a blessing into `04-cast.md`.
+
+**Three grafts from the losers** (the judge-panel pattern — synthesize from the winner,
+graft the best of the runners-up): take A's R1 opener; take B's R4 line, the only one in any
+take where he **acts against his own interest**; and C's own R3 line **cut**, because R3
+already carries the corpus's model line and two interior lines in one scene is a tic.
+
+**Dosage honoured:** 8 lines across ~25 scenes. Every take was required to justify its
+SILENCES, and that section separated them more than the written lines did — C's argument for
+leaving the silent rung silent (*"the body going first, in eight words"*) and B's for leaving
+the works pages silent (*"his costs never reach a book — Genemon's page is the ONE ledger that
+will, and the exception IS the payoff"*) are better craft reasoning than most of the lines.
+
+**Four bugs the takes found in the shipped corpus** — the value of asking three writers to
+read the whole tier closely:
+
+1. **FIXED: `ask r7-what-changes` narrated the MC's interior in THIRD person** ("The question
+   costs **him** something to ask") — a direct §0.5.8 violation, in canon, locked the same
+   morning we locked the law.
+2. The Count's only stated price sits behind an OPTIONAL ask — a player who never clicks is
+   charged nothing on the night the house accuses him.
+3. Pre-R7 scenes keep saying "against your name" when the house has not written him one (same
+   class as the "Gonbei" defect).
+4. Intro 2's "What name did I give? When they pulled me out." — the first question he ever
+   asks, about himself — is unpriced.
+
+(2)–(4) are filed as findings on HR-37, not silently fixed: they are the human's call.
+
+**A note on the review surface, honestly stated:** W5 is the one wave whose alternates are
+NOT live-swappable. The other waves replaced whole scenes; W5 inserts lines into eight
+different ones, so a "take" is a set of insertions and wiring it as a DEV swap would mean
+forking every host scene. The takes are archived in full instead. The shipped lines review by
+just playing.
