@@ -75,10 +75,10 @@ Vite 5 + TS (strict, `tsgo`) + Vitest 2 + oxlint + oxfmt. Pure-core oxlint bound
 (no Math.random/pow/DOM/Date.now in `src/core`). `pnpm run verify` runs in parallel
 via `verify-run.ts` (roster: [`gates.ts`](../../src/scripts/gates.ts)):
 <!-- gen:begin gate-roster (pnpm run checkpoint — do not edit inside) -->
-**18 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
+**19 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
 gen-docs, fixtures, gen-narrative, gen-prd-regions, pacing, playcheck,
 md-links, milestone-integrity, verify-changelog, doc-budgets, checkpoint,
-inbox-ledger.
+inbox-ledger, deferred-work.
 <!-- gen:end gate-roster -->
 **`pre-commit`** runs `verify` + reading-queue/journal/snapshot gates; **`pre-push`**
 blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`·`/ship`.
@@ -110,11 +110,11 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    schedule, and the **save-migration policy** — machinery exists (`migrate.ts` + the
    ADR-161 courteous restart); the missing rule is *when a content move bumps the
    generation vs. ships a migration step*). **FIRST:** the **sleep-verb announce beat**
-   — RULED (ADR-187 follow-up), NOT built: its own tiny beat the first time you stand in
-   your corner after R4 (3-take diverge + first-visit trigger/flag). **In flight:** T0
+   — RULED, NOT built → [`docs/plans/opus-2026-07-12-sleep-announce-beat.md`](../../docs/plans/opus-2026-07-12-sleep-announce-beat.md)
+   (ADR-187 follow-up). **In flight:** T0
    re-voice (w6, ADR-185). Human-gated: **HD-40** + HR-1 + the picks (**HR-36** is new).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
    **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
    `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 14/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 15/20 · last full rewrite: 2026-07-11 -->

@@ -16,10 +16,10 @@ per-fact memory here.
 (both enforced by `.githooks/pre-commit`; `SKIP_JOURNAL=1` for trivial commits). The roster is owned by
 [`gates.ts`](../../src/scripts/gates.ts) — the single source, so the count can't drift here:
 <!-- gen:begin gate-roster (pnpm run checkpoint — do not edit inside) -->
-**18 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
+**19 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
 gen-docs, fixtures, gen-narrative, gen-prd-regions, pacing, playcheck,
 md-links, milestone-integrity, verify-changelog, doc-budgets, checkpoint,
-inbox-ledger.
+inbox-ledger, deferred-work.
 <!-- gen:end gate-roster -->
 Run `pnpm run checkpoint` after adding / removing a gate to regenerate that list.
 
@@ -98,13 +98,31 @@ way**. Never branch on `$?` — merge the streams and parse the JSON.
    and clear from [`../todo-human.md`](../todo-human.md) only reading-queue docs the human engaged *this session*
    (ADR-089; sign-off is implicit, the agent owns cleanup). **Don't over-ask:** an untouched doc stays — never
    `AskUserQuestion` about a doc the session never mentioned.
-4. **Push (BEST EFFORT)** `git push origin main` — fires the pre-push gate (`verify`, blocks red). Green
+4. **Leftover-work sweep — "if it isn't in the queue, it doesn't exist" (human, 2026-07-12).**
+   Name every piece of work this session **ruled, discovered, deferred, or decided but did not
+   build** — then give each one a **home the human actually reads**, and cite it:
+   - **[`docs/plans/`](../../docs/plans)** — work an agent should pick up. Use
+     [`/write-plan`](../../.claude/skills/write-plan/SKILL.md). **This is the only queue the
+     session brief starts from.**
+   - **`HR-nn` / `HD-nn`** in [`human-in-the-loop/`](../human-in-the-loop) — a call only the
+     human can make.
+   - **[`BACKLOG.md`](../BACKLOG.md)** — deliberately parked; never nagged.
+
+   **An ADR bullet, a journal "next steps" line, and a snapshot sentence are a RECORD, not a
+   QUEUE.** Work parked *only* there is read, never resumed — it vanishes into the commit log.
+   This is not hypothetical: session 183 recorded a ruling the human had just made in an ADR
+   bullet + the snapshot + the journal + an HR-item, and the human's answer was *"if it's not
+   in `docs/plans/` it will be lost and not built."* A plan takes ten minutes; a lost ruling
+   costs the decision itself. The **`deferred-work` gate** enforces the shouted case (a
+   `NOT built` in canon/snapshot must cite a home); **the undeclared case is on you** — the
+   gate cannot read a journal's intent, which is exactly why this step is in the ritual.
+5. **Push (BEST EFFORT)** `git push origin main` — fires the pre-push gate (`verify`, blocks red). Green
    `origin/main` is the proof. **A push blocked by a CO-AGENT's red is a non-event, not a failed checkpoint**
    (human, 2026-07-12): leave the commit local, note it, carry on — the next agent to go green pushes it out
    with theirs. It only *matters* if nobody is left to carry it, so check `herdr agent list`: **others live →
    shrug**; **you are the only / last agent → the commit is STRANDED**, say so loudly (and, if the red is your
    own, fix it). Never `SKIP_VERIFY=1` either way.
-5. **Confirm** — `git status` clean, `git log origin/main..main` empty (or note what's left + why).
+6. **Confirm** — `git status` clean, `git log origin/main..main` empty (or note what's left + why).
 
 Four rules, learned the hard way:
 - **Never kill running subagents/workflows to exit.** A checkpoint resumes *committed* state; it doesn't tear

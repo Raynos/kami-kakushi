@@ -398,7 +398,7 @@ pre-R3 variety**; **53-bit-safe RNG + fixed pow order**; **interim perf budgets 
 - **Context:** ADR-021 deferred the docs-explosion to *after* the first MS0+MS1 build-and-play cycle. That cycle is now done: **MS0/MS1/M2a/M2b are built, verify-green (51 tests), and play-tested** (commits `8bf6ac9`, `248bf93`, `fc36172`), against PRD V2.2 (all 32 Block N + 7 Block N.1 decisions applied, commit `2b8d5e9`). The toolchain (Vite+TS+Vitest+ESLint, `pnpm run verify`) is in place. So the ADR-021 docs-explosion trigger has fired, and the playtest produced its first steer.
 - **Options:** (A) Hold the explosion until the *full* V1 is built · (B) Fire the explosion trigger now — create the living roadmap + start generating content — but defer the §1 vision-freeze + the full §4-balance-to-generated until the human signs off · (C) Do the whole explosion (freeze §1, generate all balance) immediately.
 - **Decision:** **(B)** Partially action the explosion: **`docs/living/roadmap.md` is created** (the living milestone tracker — MS0–M2b SHIPPED, MS3–MS7 provisional) and **`docs/content/` is generating** (`t0-content.md`, generated); the **§1 vision-freeze + the full §4-balance-to-generated remain DEFERRED pending the human's sign-off**. The playtest's first steer is recorded: it **caught and fixed a combat dead-end** via a **sampled-win-rate forecast** + a **winnable starter foe**.
-- **Why:** The ADR-021 trigger fired, so the cheap, reversible half of the explosion (living roadmap + generated content) should land now — it makes post-playtest re-tuning cheap and keeps the milestone state honest. The locked-intent half (freezing §1 as a tagged vision snapshot) is a one-way door that needs the human's sign-off, so it stays queued. MS3–MS7 and T3/T4 are genuinely NOT built and remain provisional.
+- **Why:** The ADR-021 trigger fired, so the cheap, reversible half of the explosion (living roadmap + generated content) should land now — it makes post-playtest re-tuning cheap and keeps the milestone state honest. The locked-intent half (freezing §1 as a tagged vision snapshot) is a one-way door that needs the human's sign-off, so it stays queued. MS3–MS7 and T3/T4 are genuinely NOT built and remain provisional — they are tracked in [`roadmap.md`](roadmap.md) (their home; the deferred-work gate).
 - **Consequences:** **REFINES (does not delete) ADR-021** — its docs-explosion trigger is now marked fired; `docs/living/roadmap.md` (living) + `docs/content/` (generated) exist; the QA-playtesting doc was reclassified from a "plan" to a LIVING GUIDE (`docs/guides/qa-playtesting.md`). The §1 freeze + the full §4-balance-to-generated stay deferred pending human sign-off. **ADR-044/ADR-045** already recorded the crash-recovery + a11y-ink decisions carried into this cycle. NPC names landed as lord Shigemasa, drillmaster Kihei, physician Sōan (renamed off real-name echoes per ADR-042). Supersedes any conflicting earlier ADR/lock per **ADR-022**. **🔁 Refined (2026-06-29) by ADR-059:** the still-deferred §1 vision-freeze is now scheduled for **end-of-v1** (after v1 is fully built + play-tested), not merely "pending sign-off" — keep the PRD liquid through T0–T2 (maybe T3), then convert the whole PRD to living docs.
 
 ### ADR-047 ✅ — v0.2 audit-fix build; the combat stance pulled forward to R3 (provisional)
@@ -1889,7 +1889,9 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
 - **Deferred (named, human call — shape B):** the closed distill loop —
   logging human-vs-scorecard mismatches as F-items feeding `/distill-taste`,
   with the prediction test re-run as a regression harness — is NOT built;
-  re-distill of taste.md stays **manual only** (the human invokes it).
+  re-distill of taste.md stays **manual only** (the human invokes it). **Parked
+  in [`BACKLOG.md`](../../project/BACKLOG.md)** (its home — found homeless by the
+  deferred-work gate on its first run, 2026-07-12).
   Blind-spot tags accumulate in HR-items/journals meanwhile, so the evidence
   corpus exists whenever the human fires a re-distill.
 - **Anti-theater tripwire:** if scorecards trend all-✔ with never a ✘, the
@@ -3685,16 +3687,23 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   each dawn in rice and hunger. Seasons stay **manual** (`advance_season`) — a sleep
   never crosses a season boundary. **Non-goals:** no wall-clock/offline time, no
   season skip, no gate wait-button.
-- **FOLLOW-UP, RULED BUT NOT YET BUILT (human, 2026-07-12).** The taste scorecard's one
+- **FOLLOW-UP, RULED BUT NOT YET BUILT (human, 2026-07-12)** — its home is the plan
+  [`opus-2026-07-12-sleep-announce-beat.md`](../plans/opus-2026-07-12-sleep-announce-beat.md).
+  The taste scorecard's one
   ✘: **nothing tells the player the verb exists.** The R4 beat grants the corner and the
   button then simply appears beside Rest — visible where the player already looks, but
   **unannounced**, which risks leaving FB-408's itch alive for the very player this
   shipped for. The human ruled the fix: **its own tiny beat at the corner** — a one-off
   moment the first time you stand in your corner after R4, so the verb is **discovered in
-  place** (TST3/P9) rather than promised in advance on the grant line. **Not built.** It
-  needs: the beat (an ADR-139 3-take diverge — it is fiction-voiced), a first-visit
-  trigger + its write-once flag (the `seenReveals`/discovery latch idiom), and its HR
-  bundle. Until it lands, the verb ships discoverable-by-looking only.
+  place** (TST3/P9) rather than promised in advance on the grant line. **NOT built — its
+  home is the plan
+  [`opus-2026-07-12-sleep-announce-beat.md`](../plans/opus-2026-07-12-sleep-announce-beat.md)**
+  (in the reading queue). That plan **corrects this bullet**: it needs **no new write-once
+  flag** — `enqueueScene` already once-guards a played scene, and `works.ts` carries a
+  per-node seen-flag idiom, so the latch is free and no schema bump is required. What it
+  does need: the beat itself (an **ADR-139 3-take diverge** — it is fiction-voiced), the
+  first-visit trigger, and its HR bundle. Until it lands, the verb ships
+  discoverable-by-looking only.
 - **Record:** FB-408 (the capture that asked) · the plan's option map A–F ·
   ADR-184 (the bed you do not have at R1) · ADR-178 (the belly's teeth this rides) ·
   ADR-163 (the day-boundary ration it prices against) · ADR-148 (the instant/timed

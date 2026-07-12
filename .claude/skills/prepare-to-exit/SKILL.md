@@ -15,12 +15,23 @@ The snapshot/queue step is now half mechanical: **`pnpm run checkpoint`** regene
 regions (gate roster, active-plans list) and graduates any DONE plan to `project/archive/` — run it, then finish
 the judgment half by hand (snapshot prose, clearing engaged reading-queue items).
 
-Three guardrails up front:
+Four guardrails up front:
 - **Don't kill running subagents / workflows to exit.** A checkpoint resumes *committed* state; it doesn't tear
   down live work (results notify the loop when done). Leave it running (note it in-flight); `TaskStop` only if
   the user asks.
 - **Don't over-ask the reading-queue step.** Reconcile only docs engaged *this session*; never `AskUserQuestion`
   about an untouched queue doc. If none were engaged, ask nothing — just report the queue.
+- **Leftover work needs a QUEUE, not a record (human, 2026-07-12).** Step 4 of the ritual is the
+  **leftover-work sweep**, and it is the step most likely to be skipped because everything *looks*
+  clean. Anything this session **ruled, discovered, deferred, or decided but did not build** must
+  land in **`docs/plans/`** (an agent picks it up — use `/write-plan`), an **HR/HD item** (only the
+  human can call it), or **`BACKLOG.md`** (parked). An **ADR bullet, a journal line, or a snapshot
+  sentence is a RECORD, not a QUEUE** — the session brief starts from `docs/plans/`, so work parked
+  anywhere else is read but never resumed. The human's words, after this exact failure: *"if it's
+  not in `docs/plans/` it will be lost and not built … it just vanishes into the 100s of commits."*
+  The `deferred-work` gate catches the **shouted** case (a `NOT built` in canon/snapshot with no
+  home); **the quiet case is yours to catch** — a gate cannot read your intent, which is why it is
+  a banner precondition below.
 - **The push is BEST EFFORT (human, 2026-07-12).** Try it. If the pre-push gate blocks you on a **co-agent's**
   red WIP — their dirty/untracked files, not yours — that is the shared tree working as designed, **not** a
   failed checkpoint: leave the commit local, note it in the report, move on. **Never** `SKIP_VERIFY=1` past it.
@@ -49,14 +60,21 @@ The two banners answer **one** question, and it is not "did the git commands suc
 > **Is it safe to KILL this pane right now?**
 
 - **BYE — safe to close.** The checkpoint is done and there is **nothing left in this session**: your work is
-  committed, your gates are green, the session is at a coherent stopping point, and the push either
+  committed, your gates are green, the session is at a coherent stopping point, the push either
   **succeeded** *or* was blocked by a **co-agent's** red **while other agents are still live** (best-effort;
-  a non-event per the guardrail above — just say so in the report).
+  a non-event per the guardrail above — just say so in the report), **and the leftover-work sweep is done —
+  every ruling, finding and deferral this session produced has a home in `docs/plans/` / an HR-HD item /
+  `BACKLOG.md`, not merely a mention in an ADR, a journal or the snapshot.** A BYE is a claim that nothing
+  here will be lost; work recorded only in prose *will* be.
 - **OOPS — do NOT close.** Either of these, and they weigh the same:
   1. **Something is wrong.** Not green, broken, a gate you couldn't fix, a push that stranded the work because
      you're the last agent — or you simply **don't know** whether it's sound. Uncertainty is an OOPS: the
      banner is a safety signal, so it fails *loud*, not *optimistic*.
-  2. **The session is half-built.** `/prepare-to-exit` was run **too early** — the work is mid-implementation,
+  2. **Leftover work has no queue.** Something this session ruled, found or deferred lives only in an ADR
+     bullet, a journal entry, a snapshot line or a chat message — and not in `docs/plans/`, an HR/HD item, or
+     `BACKLOG.md`. It will vanish into the commit log. Write the plan (it is ten minutes) and *then* BYE; if
+     you cannot, OOPS and name it.
+  3. **The session is half-built.** `/prepare-to-exit` was run **too early** — the work is mid-implementation,
      a plan is stopped between steps, a feature is wired but unreachable, a refactor landed on one side only.
      **A clean `git status` does NOT mean done.** Ask it straight: *if this pane were killed right now, would
      anything be left half-implemented?* If yes → **OOPS**, and the report names exactly what's half-done and

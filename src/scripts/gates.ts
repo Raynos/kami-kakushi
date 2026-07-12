@@ -40,4 +40,7 @@ export const GATES: ReadonlyArray<Gate> = [
   { name: 'doc-budgets', cmd: 'tsx src/scripts/verify-doc-budgets.ts', scope: 'docs' }, // snapshot-doc caps (ADR-126)
   { name: 'checkpoint', cmd: 'tsx src/scripts/checkpoint.ts --check', scope: 'both' }, // gates.ts/plans -> process-doc regions
   { name: 'inbox-ledger', cmd: 'tsx src/scripts/inbox-ledger.ts', scope: 'docs' }, // parallel-drain invariants (ADR-171)
+  // "if it isn't in the queue, it doesn't exist" (human, 2026-07-12): a SHOUTED "NOT built"
+  // in canon/snapshot must name a home the human reads (plan / HR / HD / BACKLOG / roadmap).
+  { name: 'deferred-work', cmd: 'tsx src/scripts/verify-deferred-work.ts', scope: 'docs' },
 ];

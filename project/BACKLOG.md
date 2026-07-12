@@ -17,6 +17,18 @@
 > target no longer exists** so a stale pointer can't survive a commit.
 > Organized by the **tier the work lands in**.
 
+## Process — parked by the human
+
+- [ ] **The closed distill loop (ADR-135, shape B)** — logging human-vs-scorecard
+  mismatches as F-items that feed `/distill-taste`, with the prediction test re-run
+  as a regression harness. **Deliberately parked** by the human when ADR-135 landed:
+  re-distilling `taste.md` stays **manual only** (the human invokes it), and blind-spot
+  tags accumulate in HR-items/journals meanwhile, so the evidence is not lost. Pull it
+  forward when the tags outgrow a manual read.
+  *(Found homeless by the new `deferred-work` gate on its first run, 2026-07-12: the
+  ADR said "is NOT built" and no queue anywhere carried it. This is the error mode the
+  gate exists to catch — it had been sitting unowned since ADR-135.)*
+
 ## Graphics concepts — parked shelves live in their register
 
 - [ ] **Parked graphics concepts** — the one home for the whole slate

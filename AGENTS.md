@@ -411,6 +411,22 @@ Full version:
   pre-commit gate HARD-blocks a new plan missing its class's mandatory
   sections, incl. the Sync ripple (PRD · story-bible · living docs). Canon:
   [`docs/guides/plan-authoring.md`](docs/guides/plan-authoring.md).
+- **Leftover work is a PLAN, not a sentence — "if it isn't in the queue, it doesn't
+  exist" (human, 2026-07-12).** Work you **ruled, discovered, deferred, or decided but
+  did not build** gets a home in a queue the human READS: **[`docs/plans/`](docs/plans)**
+  (an agent picks it up — the session brief starts *here*) · **`HR-nn`/`HD-nn`** in
+  [`human-in-the-loop/`](project/human-in-the-loop) (only a human can call it) ·
+  **[`BACKLOG.md`](project/BACKLOG.md)** (deliberately parked, never nagged). An **ADR
+  bullet, a journal "next steps" line, and the snapshot are a RECORD, not a QUEUE** —
+  canon you read once you already know to look, history, and prose a human skims. Work
+  parked *only* there **vanishes into the commit log**: it is read, never resumed. This
+  has bitten for real — session 183 recorded a fresh human ruling in an ADR + the snapshot
+  + the journal + an HR-item, and the human's verdict was *"if it's not in `docs/plans/`
+  it will be lost and not built."* Highest sound rung: the **`deferred-work` gate** REDs a
+  shouted `NOT built` in canon/snapshot that names no home; the **quiet** case is caught by
+  the **leftover-work sweep** (Checkpoint step 4,
+  [`working-agreements.md`](project/status/working-agreements.md)), which
+  `/prepare-to-exit` must pass before it may print a BYE.
 - **Durable capture of workflow / subagent outputs.** `Workflow` results live
   only in ephemeral session scratch and **die with the session** — so after
   **every workflow**: **snapshot** the raw `.output` verbatim into

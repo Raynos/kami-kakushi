@@ -214,3 +214,38 @@ of them is a **queue**. Work recorded only there is read, never picked up.
 So the ruling became a real plan
 ([`opus-2026-07-12-sleep-announce-beat.md`](../../docs/plans/opus-2026-07-12-sleep-announce-beat.md)),
 and the error mode itself is being fixed at three rungs (this session, below).
+
+## The fix — three rungs, and the gate found year-old debt on its first run
+
+Per AGENTS.md's own law (*push each rule to the highest rung that can **soundly** hold it —
+gate > hook > skill > norm, calibrated so a gate never cries wolf*):
+
+- **GATE (teeth) — `deferred-work`, the 19th gate** (`src/scripts/verify-deferred-work.ts`).
+  A **shouted** `NOT built` / `RULED BUT NOT` in canon (`decisions.md`) or the snapshot must
+  cite a **home** — a path into `plans/`, `BACKLOG.md`, `roadmap.md` or `human-in-the-loop/` —
+  **within a line of the declaration**. RED otherwise.
+- **RITUAL (judgment) — Checkpoint step 4, the leftover-work sweep**
+  (`working-agreements.md`), and `/prepare-to-exit` may now only print **BYE** if the sweep is
+  done. A new OOPS case: *"leftover work has no queue."* The gate cannot read a journal's
+  intent; this step is what covers the quiet case.
+- **CONTEXT (reach) — AGENTS.md**, always loaded, so it fires without anyone invoking a skill.
+
+**Calibration is the whole job here, and it took three passes against the real tree** — a gate
+that cries wolf gets bypassed within a week, and one with a hole is a false green (PH3):
+
+1. Matching the bare word `UNBUILT` immediately red **ADR-117**, whose *title* is "the PRD's
+   primary job is the forward spec of the **UNBUILT**" — a noun, not deferred work. Dropped.
+2. Accepting a home cited **anywhere in the bullet** let the snapshot's resume line pass while
+   citing **no plan of its own** — an unrelated T2 plan link elsewhere in the same numbered item
+   covered for it. Tightened to a **±1-line window**.
+3. Accepting a bare **`HR-nn`/`HD-nn`** let it pass again — those ids are sprinkled everywhere
+   ("Human-gated: HD-40 + HR-1"), so *proximity to an id proves nothing*. Homes must now be
+   **paths**. A pointer you can follow cannot be satisfied by accident.
+
+RED-proved both ways: strip the plan pointer from ADR-187's follow-up (my original sin) or from
+the snapshot's resume line, and the gate reds on exactly that line; restore it and it greens.
+
+**On its first run it found real, orphaned debt:** **ADR-135** deferred the closed distill loop
+("*is NOT built*") with the human's blessing — and no queue anywhere carried it. It has been
+unowned since. Now parked in [`BACKLOG.md`](../BACKLOG.md), which is where the human's own
+ruling said it belonged all along.
