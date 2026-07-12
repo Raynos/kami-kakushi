@@ -3685,6 +3685,16 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   each dawn in rice and hunger. Seasons stay **manual** (`advance_season`) — a sleep
   never crosses a season boundary. **Non-goals:** no wall-clock/offline time, no
   season skip, no gate wait-button.
+- **FOLLOW-UP, RULED BUT NOT YET BUILT (human, 2026-07-12).** The taste scorecard's one
+  ✘: **nothing tells the player the verb exists.** The R4 beat grants the corner and the
+  button then simply appears beside Rest — visible where the player already looks, but
+  **unannounced**, which risks leaving FB-408's itch alive for the very player this
+  shipped for. The human ruled the fix: **its own tiny beat at the corner** — a one-off
+  moment the first time you stand in your corner after R4, so the verb is **discovered in
+  place** (TST3/P9) rather than promised in advance on the grant line. **Not built.** It
+  needs: the beat (an ADR-139 3-take diverge — it is fiction-voiced), a first-visit
+  trigger + its write-once flag (the `seenReveals`/discovery latch idiom), and its HR
+  bundle. Until it lands, the verb ships discoverable-by-looking only.
 - **Record:** FB-408 (the capture that asked) · the plan's option map A–F ·
   ADR-184 (the bed you do not have at R1) · ADR-178 (the belly's teeth this rides) ·
   ADR-163 (the day-boundary ration it prices against) · ADR-148 (the instant/timed

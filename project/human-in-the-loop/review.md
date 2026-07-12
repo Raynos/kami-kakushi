@@ -595,7 +595,12 @@ is.
     Story → **hd38-w2-works** swaps takes live.
   - **Verdict:** _(awaiting your read)_
 
-### HR-36 🔲 [R4 · story] — the slept-day line (`adr187-sleep` bundle, ADR-139/ADR-187)
+### HR-39 🔲 [R4 · story] — the slept-day line (`adr187-sleep` bundle, ADR-139/ADR-187)
+
+> *(Renumbered HR-36 → HR-39 by w6, 2026-07-12: this item and the works-pages re-voice were
+> filed under the same id by concurrent agents. HR-36 landed first (01:56 vs 02:09), so this
+> one moved. Its content is untouched; only the id changed. Note the authoring commit
+> `b92b859c` and its bundle still cite HR-36 — this line is the crosswalk.)*
 
 The one line the new **Sleep till morning** verb emits (ADR-187 — the day-skip you ruled:
 option D alone, at your corner, R4+). It fires **every** press, and a player waiting for a
@@ -630,6 +635,38 @@ nothing back.
     **adr187-sleep** swaps takes live.
   - **The thing I could not test for you:** press it three times running and see whether the
     line wears out. If it does, the fix is a shorter canon line, not a different take.
+
+  - **Taste scorecard (ADR-135) — PASS 2 ONLY, and that is a miss I am owning.** The
+    two-pass flow wants a constraint brief BEFORE the build; I did not run one, and
+    retro-writing a "before" brief would be a lie. So this is the after-scorecard alone,
+    on the surface as shipped (the button, its hover forecast, the line's routing):
+    **14 ✔ · 1 ✘ · 6 —**.
+    - ✔ **P1/P2 (one home, one primitive):** `sleep` has exactly one entry point — the
+      meta-verb row, at the corner. It reuses the existing verb-button + `title` idiom
+      that Rest uses (same keyed row, patched not rebuilt); no new control was forked.
+    - ✔ **P3/P16 (voice at the source, routed by weight):** the line is core-emitted with
+      `voice: narrator` and a `flavor.sleep` descriptor, and lands **fleeting → the Now
+      channel** — exactly where Rest's line lands, never cluttering the permanent
+      channels. Verified live, not assumed.
+    - ✔ **P10 (story promises are contracts):** the strongest mark on the card. The R4
+      ceremony promised *"a mat, a bowl, a nail for the coat"* — and canon take C is built
+      from those three objects, so the promise is what the mechanic is made of.
+    - ✔ **P17 (controls advertise their state):** the hover reads the exact price off the
+      same selector the reducer spends (AC-6). A day-skip is instant and irreversible, so
+      legibility is the only safety it gets — and it is honest.
+    - ✘ **P9 (discover, don't spawn) — [blind spot]. NOTHING TELLS THE PLAYER THE VERB
+      EXISTS.** The corner is granted in the R4 beat, and the button quietly appears in the
+      verb row from then on. A player who never idles at the woodshed may never learn they
+      can end a day at all — which would leave FB-408's itch alive for the very player this
+      shipped for. It is *visible* (it sits under "Rest a moment" wherever you already
+      look), just **unannounced**. The fix is one clause in a beat the human owns, so I am
+      **not** writing it unilaterally. **RULED (2026-07-12): its own tiny beat at the
+      corner** — a one-off moment the first time you stand in your corner after R4, so the
+      verb is discovered in place rather than promised in advance. **Not built yet** (it is
+      fiction-voiced → a 3-take diverge + a first-visit trigger/flag); recorded on ADR-187
+      as the follow-up, and it is the named next task.
+    - — **P7 · P8 · P11 · P13 · P14 · P21** — not applicable (no type scaling, no crash
+      path, no VN, no reward box, no full-screen reveal, no app-info surface).
   - **Verdict:** _(awaiting your read)_
 
 ### HR-37 🔲 [R1–R7 · story] — the MC's inner line (W5, ADR-185 D3)

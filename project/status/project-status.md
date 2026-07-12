@@ -49,8 +49,7 @@ magic; no reset.
   (s171) stands: sheet CLIPS, one viewer engine.
 - **✅ BODY SPLIT (s167, ADR-178):** Body 体 (work fuel) + Belly 腹 (food store; teeth =
   rest quality) — core + two-bar UI + PRD §2.3.
-- **✅ v0.4.0 STORYWAVE SHIPPED (s125–144):** bible-canon T0 live on gh-pages (tag
-  `v0.4.0`); PRD truth-synced, freeze CANCELLED (ADR-168/169); HD-35 re-paced (ADR-172).
+- **✅ v0.4.0 STORYWAVE SHIPPED (s125–144):** bible-canon T0 live on gh-pages (tag `v0.4.0`); PRD truth-synced, freeze CANCELLED (ADR-168/169); HD-35 re-paced (ADR-172).
 - **✅ FOUNDATIONS:** bible blessed (ADR-150) · UI-v2 Andon Steel + taste.md's 21-principle
   lock (ADR-144/126) · T0/T1 map sheets = the player map; T2 sheet BUILT (`?t2-map-demo`)
   — **NOT DONE: T2 rungs/fog** · Phase-2 economy · timed actions.
@@ -63,8 +62,7 @@ magic; no reset.
 - **HD-40** 🔲 — **the kitchen-only pot.** Picked, BUILT, one line turns it on — held
   because the sim prices its walk at **R3 31.6 wall-min, outside the signed [3,25]
   band** (ADR-056 is yours to move). Four levers in the item.
-- **HR-33** 🔲 (story) + **HR-32b** 🔲 (announce) — the four zone-reveal VNs (take A
-  canon; **B answers "the people are pure flavor"**) + VN-only vs VN+map-ink.
+- **HR-33** 🔲 (story) + **HR-32b** 🔲 (announce) — the four zone-reveal VNs (take A canon; **B answers "the people are pure flavor"**) + VN-only vs VN+map-ink.
 - **HR-36** 🔲 (story) — the **slept-day line** (3 takes, canon = C). Your acceptance
   test: press Sleep three times running and see whether the line wears out.
 - **Story picks (DEV → Story)** 🔲 — HR-18…HR-21 · **HR-27** · **HR-28**. **DEV-variant
@@ -111,10 +109,12 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    ADR-184; what remains is the two `SPECIAL_FACTS` surfaces bypassing the rung
    schedule, and the **save-migration policy** — machinery exists (`migrate.ts` + the
    ADR-161 courteous restart); the missing rule is *when a content move bumps the
-   generation vs. ships a migration step*). **In flight:** T0 re-voice (w6, ADR-185).
-   Human-gated: **HD-40** + HR-1 + the picks above (**HR-36** is new).
+   generation vs. ships a migration step*). **FIRST:** the **sleep-verb announce beat**
+   — RULED (ADR-187 follow-up), NOT built: its own tiny beat the first time you stand in
+   your corner after R4 (3-take diverge + first-visit trigger/flag). **In flight:** T0
+   re-voice (w6, ADR-185). Human-gated: **HD-40** + HR-1 + the picks (**HR-36** is new).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
    **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
    `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 13/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 14/20 · last full rewrite: 2026-07-11 -->

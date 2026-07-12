@@ -151,13 +151,37 @@ dimmed fleeting style as the rest line directly above it.
 - **Snapshot** records the verb, HR-36 and the skip-blind ruling; culled back to its
   120-line cap (the doc-budgets gate made me displace, which is the point of the cap).
 
+## The taste scorecard — run late, and it found something real
+
+I **skipped the ADR-135 two-pass flow** during the build and only caught it when the
+human asked what was left. Ran **Pass 2 alone** (retro-writing a "before" brief would be
+a lie): **14 ✔ · 1 ✘ · 6 —** on the button, its hover and the line's routing. The card is
+on HR-36.
+
+The **✘ is the useful part — P9, discover-don't-spawn: nothing tells the player the verb
+exists.** The R4 beat grants the corner and the button simply appears beside Rest. It is
+visible where the player already looks, but **unannounced** — which risks leaving FB-408's
+itch alive for the very player this shipped for. A scorecard run *before* the build would
+have caught it before the build; that is exactly the cost of skipping Pass 1, and it is
+the argument for the rule.
+
+**Ruled by the human (2026-07-12): the verb gets its OWN TINY BEAT AT THE CORNER** — a
+one-off moment the first time you stand in your corner after R4, so it is **discovered in
+place** rather than promised in advance on the grant line. Recorded on **ADR-187** as the
+follow-up. **NOT BUILT** — it arrived at the exit, and starting a fresh feature mid-
+checkpoint would have left it half-wired.
+
 ## Next intended steps
 
-1. **HR-36 is the human's** — press Sleep three times running (the market-day wait) and
+1. **BUILD THE ANNOUNCE BEAT (the named resume point).** Ruled, specced, unstarted. It
+   needs: the beat itself (**fiction-voiced → a 3-take ADR-139 diverge**), a **first-visit
+   trigger + write-once flag** (the `seenReveals`/discovery latch idiom is the pattern),
+   and its HR bundle. ADR-187's follow-up bullet is the spec.
+2. **HR-36 is the human's** — press Sleep three times running (the market-day wait) and
    judge whether the line wears out. If it does, the fix is a **shorter canon line**, not
    a different take.
-2. Nothing else here is open. Next autonomous work is unchanged: T2 rungs/fog, the
-   telemetry distillation (6 usable FB-8 reports), the save-format addendum.
+3. Then unchanged: T2 rungs/fog · telemetry distillation (6 usable FB-8 reports) · the
+   save-format addendum.
 
 ## Landmines
 
