@@ -225,3 +225,48 @@ commit` loses the append too. Keep the journal write in its own command.
 
 Verified: 18/18 gates green; zero metaphors and zero premature-name uses left in the
 generated script; the no-wage line confirmed present outside the optional ask.
+
+## W3 landed — the gloss + collision sweep
+
+An audit-first wave (the terms are mechanical; only NEW gloss clauses are fiction). The
+audit was **honest in the right direction — it cut the work down**, and it found two live
+bugs nobody was looking for.
+
+**Two bugs, both shipping today:**
+
+1. **`u9-gen-terms` was a live lie.** Genemon's node-talk line still promised *"Meals at the
+   threshold. Straw in the woodshed."* — the **exact two promises ADR-184 deleted from R1
+   as lies**. The rung beat got fixed that morning; this reachable talk-line did not. The
+   game was offering the player a bed it will never give him. Now: *"Hired by the day, and
+   no coin."*
+2. **`flavor.md`'s works block was stale** — W2 re-voiced `scenes.md` and killed the
+   land-as-ledger metaphor, but its sibling flavor lines still shipped it verbatim ("the
+   rooms going back to the land indoors", "at the pace rot keeps", "the land keeps the only
+   running account"). **Half the bundle was re-voiced.** Purged.
+
+**What the audit talked me OUT of** (the valuable half): **koku is already glossed
+correctly** and first, by the model line (*"a year's eating for one man"*); **`nengu` and
+`kaidō` never render at all** — nengu is a scene-id and a flag, kaidō is not in the corpus;
+and **mon(coin), shō, masu, jizō, Bon, kamikakushi, urushi, tanuki, mamushi** all self-gloss
+from their own line. A gloss the reader didn't need is clutter, and clutter is the defect
+we're fixing. Four glosses, not eleven.
+
+**The koku/to arithmetic — the one that mattered.** `sb-lease` expected the reader to
+already know 1 koku = 10 to, so that *"Due today: rice, one koku. In the store, against it:
+seven to"* would land as "a third short" BEFORE Genemon says it. It also silently killed
+the beat's whole emotional payload three lines later: *"Three to of rice. It is the first
+time you have been worth a number. The number is small."* Without the ten, three is just a
+number. Fixed in his own bookkeeping voice — *"one koku — that is ten to"* — four words, and
+he now **confirms** the reader's arithmetic instead of informing it.
+
+**Collisions:** `mon`(coin)/`mon`(crest) turned out to be **one line** — everything else in
+the corpus already said "crest". And the board/board collision resolved to a single required
+edit (Rokusuke's *"That's what the board says"* → *"the tally"*), which also **repairs a line
+I would have broken**: his *"The board's the board"* elsewhere is his deference to the
+household's authority, and it only reads correctly once "board" means one thing everywhere.
+
+Also: `shoji` → `screen` (the corpus says "screen" everywhere else — one outlier).
+
+**Shared-tree note:** committed with SKIP_VERIFY and held local — a co-agent has
+`project-status.md` dirty and 2 lines over its cap, which reds the gate for everyone. My
+changes were proven green first on the FULL 18-gate suite against a clean HEAD worktree.

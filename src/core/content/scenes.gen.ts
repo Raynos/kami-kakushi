@@ -173,7 +173,7 @@ export const SCENES: readonly SceneDef[] = [
         {
           voice: 'villager',
           speaker: NPC_NAME.rokusuke,
-          text: '"Eleven loads in by dark, steward. His mark against each. Last mark at lamp-lighting, and the rice was long cleared by then. He never left the kura side of the yard. That\'s what the board says. The board\'s there to look at."',
+          text: '"Eleven loads in by dark, steward. His mark against each. Last mark at lamp-lighting, and the rice was long cleared by then. He never left the kura side of the yard. That\'s what the tally says. The tally\'s there to look at."',
         },
         {
           voice: 'narrator',
@@ -374,7 +374,7 @@ export const SCENES: readonly SceneDef[] = [
         {
           voice: 'steward',
           speaker: NPC_NAME.genemon,
-          text: '"The weir lease. Due today: rice, one koku. In the store, against it: seven to. The house is short a third, and I will not count it smaller than it is."',
+          text: '"The weir lease. Due today: rice, one koku — that is ten to. In the store, against it: seven to. The house is short a third, and I will not count it smaller than it is."',
         },
         {
           voice: 'villager',
@@ -524,7 +524,7 @@ export const SCENES: readonly SceneDef[] = [
         },
         {
           voice: 'narrator',
-          text: "You look. Above the seal-plate the mon is cut deep and old: the same flower as the gate's, and not the same flower. You count twice, because counting is the one kind of reading you trust.",
+          text: "You look. Above the seal-plate the crest is cut deep and old: the same flower as the gate's, and not the same flower. You count twice, because counting is the one kind of reading you trust.",
         },
         { voice: 'player', text: '"Ask the steward."' },
         {

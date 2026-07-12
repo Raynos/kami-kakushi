@@ -222,7 +222,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           {
             voice: 'steward',
             speaker: NPC_NAME.genemon,
-            text: '"Rice. Half a season\'s stores, spilled in the kura court where the door gave way in the rains. You rake it in before the rain spoils what\'s left to count; wage stands as entered — meals."',
+            text: "\"Rice. Half a season's stores, spilled in the kura court where the door gave way in the rains — the kura is the storehouse; it holds the year's rice. You rake it in before the rain spoils what's left to count; wage stands as entered — meals.\"",
           },
         ],
       },

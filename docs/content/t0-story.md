@@ -115,7 +115,7 @@
 
 **Ask** — "What's the work?"
 
-**Genemon:** "Rice. Half a season's stores, spilled in the kura court where the door gave way in the rains. You rake it in before the rain spoils what's left to count; wage stands as entered — meals."
+**Genemon:** "Rice. Half a season's stores, spilled in the kura court where the door gave way in the rains — the kura is the storehouse; it holds the year's rice. You rake it in before the rain spoils what's left to count; wage stands as entered — meals."
 
 **Ask** — "Who are you to me?"
 
@@ -465,7 +465,7 @@
 
 > Rokusuke has been standing where the lantern light mostly isn't. He comes forward the way a man wades cold water.
 
-**Rokusuke:** "Eleven loads in by dark, steward. His mark against each. Last mark at lamp-lighting, and the rice was long cleared by then. He never left the kura side of the yard. That's what the board says. The board's there to look at."
+**Rokusuke:** "Eleven loads in by dark, steward. His mark against each. Last mark at lamp-lighting, and the rice was long cleared by then. He never left the kura side of the yard. That's what the tally says. The tally's there to look at."
 
 > Genemon sets the tally board beside the day-book and reads one against the other. The room watches him do arithmetic.
 
@@ -552,7 +552,7 @@
 
 > Matsuzō comes up from the river at the pace of a man nothing has hurried in sixty years. Genemon meets him in the forecourt with the day-book already open — which is how you learn the house knew it was short before the knock.
 
-**Genemon:** "The weir lease. Due today: rice, one koku. In the store, against it: seven to. The house is short a third, and I will not count it smaller than it is."
+**Genemon:** "The weir lease. Due today: rice, one koku — that is ten to. In the store, against it: seven to. The house is short a third, and I will not count it smaller than it is."
 
 **Matsuzō:** "Screens took a beating in the spring water. Rats after. Hard year on everything downstream."
 
@@ -609,7 +609,7 @@
 
 **Shinnosuke:** "Count them. The storehouse has one more than the gate. Why does the storehouse get one more petal than the gate? Who changes a crest — you can't just change a crest, can you?"
 
-> You look. Above the seal-plate the mon is cut deep and old: the same flower as the gate's, and not the same flower. You count twice, because counting is the one kind of reading you trust.
+> You look. Above the seal-plate the crest is cut deep and old: the same flower as the gate's, and not the same flower. You count twice, because counting is the one kind of reading you trust.
 
 **You:** "Ask the steward."
 
@@ -1081,7 +1081,7 @@
 
 ### R7 · The named hand 名代
 
-- "The fields keep a man's hours now, and not mine — if mine ever held them," comes Munemasa's voice through the shoji of the inner house, unanswered; the yard knows whose hours he means. <small>*(the-fields-run-on-you — act:farm_paddy ×20)*</small>
+- "The fields keep a man's hours now, and not mine — if mine ever held them," comes Munemasa's voice through the screen of the inner house, unanswered; the yard knows whose hours he means. <small>*(the-fields-run-on-you — act:farm_paddy ×20)*</small>
 - "Even the woodlot answers to him," Kihei says to Genemon, who does not disagree. <small>*(the-woodlot-runs-on-you — act:woodcut_edge ×20)*</small>
 - "There is rice against winter. There was a saying for that — I had it once," Munemasa is heard saying to the dark of the inner house, and nobody who hears it goes in. <small>*(a-granary-against-winter — banked rice ≥ 200)*</small>
 - You stood in the room while the year was measured against the house — the reckoning read out, the gap named plainly and once, and nothing asked of you but to be there for it. A full year, lived through. <small>*(the-nengu-reckoned — flag nengu-reckoned)*</small>

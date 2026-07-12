@@ -212,8 +212,9 @@ suggest, and I will not write the number for a stranger."
 ### ask gen-work · "What's the work?"
 
 Genemon: "Rice. Half a season's stores, spilled in the kura court where the
-door gave way in the rains. You rake it in before the rain spoils what's left
-to count; wage stands as entered — meals."
+door gave way in the rains — the kura is the storehouse; it holds the year's
+rice. You rake it in before the rain spoils what's left to count; wage stands
+as entered — meals."
 
 ### ask gen-you · "Who are you to me?"
 

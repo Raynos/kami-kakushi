@@ -256,7 +256,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       type: 'count',
       token: 'act:farm_paddy',
       target: 20,
-      flavor: `"The fields keep a man's hours now, and not mine — if mine ever held them," comes ${NAMES.lord}'s voice through the shoji of the inner house, unanswered; the yard knows whose hours he means.`,
+      flavor: `"The fields keep a man's hours now, and not mine — if mine ever held them," comes ${NAMES.lord}'s voice through the screen of the inner house, unanswered; the yard knows whose hours he means.`,
       drive: 'farm_paddy',
     },
     {

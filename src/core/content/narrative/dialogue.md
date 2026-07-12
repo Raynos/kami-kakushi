@@ -115,8 +115,8 @@ unrouted: t0v2-staged-node-talk
 ### line u9-gen-terms
 voice: steward
 
-Meals at the threshold. Straw in the woodshed. The rest when the day-book has
-a reason to say more.
+Hired by the day, and no coin. The rest when the day-book has a reason to say
+more.
 
 ### line u9-gen-entry
 voice: steward

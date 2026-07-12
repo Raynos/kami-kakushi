@@ -242,7 +242,7 @@ drive: buy estate_upgrade
 
 ### req the-fields-run-on-you · count act:farm_paddy 20
 
-flavor: "The fields keep a man's hours now, and not mine — if mine ever held them," comes {lord}'s voice through the shoji of the inner house, unanswered; the yard knows whose hours he means.
+flavor: "The fields keep a man's hours now, and not mine — if mine ever held them," comes {lord}'s voice through the screen of the inner house, unanswered; the yard knows whose hours he means.
 drive: farm_paddy
 
 ### req the-woodlot-runs-on-you · count act:woodcut_edge 20

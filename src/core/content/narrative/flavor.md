@@ -1139,20 +1139,21 @@ decides the matter its own way.
 ### worksNamedHouse
 
 The day-book takes up its longest-carried concern in one plain line: the
-omoya, half-shut, the rooms going back to the land indoors — dust and damp,
-{elder} writes, being weather too.
+omoya, the main house, half-shut — the rooms damp, the dust deep, the boards
+going soft where nobody walks.
 
 ### worksSeenGate
 
 Rain-water stands at the foot of the west gatepost, and the wood at its
 waterline gives under a thumbnail, the grain letting go a little more with
-this season's standing wet. It is happening now, at the pace rot keeps.
+this season's standing wet. It is not waiting for anyone. It is happening now.
 
 ### worksSeenPaddies
 
-Water threads through the slumped bund while you stand there — patient,
-soundless, finding its level through a gap it has been widening all season.
-Two more bunds down the row are going the same quiet way.
+The bund is the low earth wall between one paddy and the next, and this one
+has slumped. Water threads through it while you stand there, soundless,
+finding its level through a gap that has widened all season. Two more bunds
+down the row are going the same way.
 
 ### worksSeenWoodshed
 
@@ -1176,12 +1177,11 @@ hand's width up the boards and climbing.
 
 From the forecourt the omoya's shut rooms show as a row of weathered
 screens no hand has slid in years, and moss holds the ridge where the
-thatch keeps water. The roof is going back to ground, slower than anyone
-is coming to stop it.
+thatch keeps water. The roof is failing, and nobody is coming to stop it.
 
 ### worksLadderUnnamed
 
-No works named yet; the land keeps the only running account.
+No works named yet. Nothing out there has been written down against.
 
 ### worksLadderNamed
 

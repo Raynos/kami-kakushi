@@ -148,7 +148,7 @@ Genemon: "The kura tally. Who kept it today?"
 
 Rokusuke: "Eleven loads in by dark, steward. His mark against each. Last mark
 at lamp-lighting, and the rice was long cleared by then. He never left the
-kura side of the yard. That's what the board says. The board's there to look
+kura side of the yard. That's what the tally says. The tally's there to look
 at."
 
 > Genemon sets the tally board beside the day-book and reads one against the
@@ -314,9 +314,9 @@ voice: villager
 > sixty years. Genemon meets him in the forecourt with the day-book already
 > open — which is how you learn the house knew it was short before the knock.
 
-Genemon: "The weir lease. Due today: rice, one koku. In the store, against
-it: seven to. The house is short a third, and I will not count it smaller
-than it is."
+Genemon: "The weir lease. Due today: rice, one koku — that is ten to. In the
+store, against it: seven to. The house is short a third, and I will not count
+it smaller than it is."
 
 Matsuzō: "Screens took a beating in the spring water. Rats after. Hard year
 on everything downstream."
@@ -434,7 +434,7 @@ Shinnosuke: "Count them. The storehouse has one more than the gate. Why does
 the storehouse get one more petal than the gate? Who changes a crest — you
 can't just change a crest, can you?"
 
-> You look. Above the seal-plate the mon is cut deep and old: the same flower
+> You look. Above the seal-plate the crest is cut deep and old: the same flower
 > as the gate's, and not the same flower. You count twice, because counting
 > is the one kind of reading you trust.
 

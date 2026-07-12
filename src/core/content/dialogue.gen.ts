@@ -105,7 +105,7 @@ export const DIALOGUES: readonly DialogueDef[] = [
         id: 'u9-gen-terms',
         speaker: NAMES.elder,
         voice: 'steward',
-        text: 'Meals at the threshold. Straw in the woodshed. The rest when the day-book has a reason to say more.',
+        text: 'Hired by the day, and no coin. The rest when the day-book has a reason to say more.',
       },
       {
         id: 'u9-gen-entry',
