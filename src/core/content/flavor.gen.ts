@@ -11,7 +11,7 @@ export const FLAVOR = {
   restOpen:
     'You find a stretch of wall out of the wind, set your back to it, and let your arms hang. The work will keep. So will you.',
   sleep:
-    'You lie down in your corner with the day still going on outside, and let it go on without you. When you wake it is dawn, the pot is long cold, and nothing you own has changed but the light.',
+    "The coat stays on its nail; you lie down on the mat that is yours, in the corner that is yours, and the day's work goes on outside without you. You wake at dawn with the ache you lay down with. The bowl by your head is dry: the house ate at its hours, as it always does, and you rise hungrier than you lay down.",
   estateSourceFields:
     "Entered: rice from the new paddies, credited to the house's own account. The old books carried this line once; it is carried again.",
   estateSourceStores:

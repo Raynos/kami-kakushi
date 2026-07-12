@@ -594,3 +594,40 @@ is.
   - **How to look LIVE:** reach R2+ and cross the forecourt (or DEV → Scenarios). DEV →
     Story → **hd38-w2-works** swaps takes live.
   - **Verdict:** _(awaiting your read)_
+
+### HR-36 🔲 [R4 · story] — the slept-day line (`adr187-sleep` bundle, ADR-139/ADR-187)
+
+The one line the new **Sleep till morning** verb emits (ADR-187 — the day-skip you ruled:
+option D alone, at your corner, R4+). It fires **every** press, and a player waiting for a
+market day may press it three times in a row — so it has to survive repetition, which is
+the one thing a single read cannot tell you. That is the acceptance test.
+
+The line must carry the whole price **without a number in it**: the day is gone, the house
+ate anyway, you were not up for the pot (so you wake hungrier), and sleeping gave the body
+nothing back.
+
+- **Pick: TAKE C** — *"the coat keeps its nail"*. It is the only take whose fiction
+  **causes** the mechanic (TST3): sleep exists at R4 and nowhere else because the corner is
+  the only bed in the game, and C is built from the exact three props the R4 ceremony line
+  grants you — *"a mat, a bowl, a nail for the coat: yours"* (ADR-184). The coat that never
+  leaves its nail **is** the forfeited day; the bowl that stays dry **is** the pot you slept
+  through. The corner you finally earned, spent on nothing.
+
+  > The coat stays on its nail; you lie down on the mat that is yours, in the corner that is
+  > yours, and the day's work goes on outside without you. You wake at dawn with the ache you
+  > lay down with. The bowl by your head is dry: the house ate at its hours, as it always
+  > does, and you rise hungrier than you lay down.
+
+- Alternates: **A** *"the day spent like coin"* (the deliberate spender — a day entered in
+  the debit column of his own life; strong ledger register, but it says the design out loud:
+  *"spend it the way you would spend a coin — on a thing you want more than the hours"*) ·
+  **B** *"the day heard from sleep"* (the estate's working day as the sound-track of your
+  absence — **the best prose in the bundle**, and the worst fit: it never once touches the
+  bed, and the bed is the entire reason this verb exists).
+
+  - **How to look LIVE:** DEV → Scenarios → `rung-R4` → walk to the woodshed → **Sleep till
+    morning** (hover it first — the forecast reads the exact price). DEV → Story →
+    **adr187-sleep** swaps takes live.
+  - **The thing I could not test for you:** press it three times running and see whether the
+    line wears out. If it does, the fix is a shorter canon line, not a different take.
+  - **Verdict:** _(awaiting your read)_

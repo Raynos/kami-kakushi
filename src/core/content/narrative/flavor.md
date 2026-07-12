@@ -37,12 +37,16 @@ You find a stretch of wall out of the wind, set your back to it, and let your ar
   arm: the day-skip, taken at your woodshed corner (R4+, the only place there is a bed).
   It must carry the price without stating numbers: the day is GONE, the house ate while
   you lay there, and you were not up for the pot — you wake hungrier than you lay down.
-  Not a restful line: sleeping is not resting (no body refill). Alternates in
-  takes/adr187-sleep/ until sign-off; live-swapped via flavor.ts __setSleepLineOverride. -->
+  Not a restful line: sleeping is not resting (no body refill). Canon = take c "the coat
+  keeps its nail" (ADR-139 diverge, 3 blind takes) — built from the three props of the R4
+  home grant (mat · bowl · nail, ADR-184's ceremony line), so the corner he EARNED is the
+  thing he spends on nothing: the coat never leaves its nail, and the bowl stays dry.
+  Alternates in takes/adr187-sleep/ until sign-off; live-swapped via flavor.ts
+  __setSleepLineOverride. -->
 
 ### sleep
 
-You lie down in your corner with the day still going on outside, and let it go on without you. When you wake it is dawn, the pot is long cold, and nothing you own has changed but the light.
+The coat stays on its nail; you lie down on the mat that is yours, in the corner that is yours, and the day's work goes on outside without you. You wake at dawn with the ache you lay down with. The bowl by your head is dry: the house ate at its hours, as it always does, and you rise hungrier than you lay down.
 
 <!-- ADR-145 Phase-2 build beats (CORE-emitted one-time log milestones, not
   renderer hints): the five deed-source reveals + the E1 build-complete beat.

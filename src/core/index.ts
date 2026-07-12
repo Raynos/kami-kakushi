@@ -168,6 +168,8 @@ export {
   __setJudgeFlavorOverride,
   restOpenLine,
   __setRestOpenLineOverride,
+  sleepLine,
+  __setSleepLineOverride,
 } from './content/flavor';
 export {
   gradeOf,

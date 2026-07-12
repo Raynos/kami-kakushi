@@ -88,10 +88,54 @@ Rather than assume, I proved the attribution — regenerated `t0-pacing.md` from
 (it does not block), so a content change that shifts pacing can land without its report.
 That is how 182's drift went unreported for a session. The warn is easy to walk past.
 
+## The line (ADR-139 diverge → HR-36)
+
+Three blind authors, three distinct dramatic briefs (the deliberate spender · the day
+heard from sleep · the bed turned against him). **Canon = take C, "the coat keeps its
+nail"** — the only take whose fiction *causes* the mechanic: it is built from the exact
+three props the R4 ceremony line grants (*"a mat, a bowl, a nail for the coat: yours"*,
+ADR-184), so the coat that never leaves its nail IS the forfeited day and the dry bowl
+IS the pot he slept through. Take B was the best prose in the bundle and the worst fit —
+it never touches the bed, and the bed is the entire reason the verb exists. All three
+swap live in DEV → Story (`__setSleepLineOverride`, the `restOpenLine` pattern).
+
+## Live playtest — the real PH6 proof (and the scare it gave me)
+
+Drove the actual game headlessly at `:5173` (the shared herdr server, reused): loaded
+`rung-R4`, walked to the corner, pressed the button. Everything the ADR promised is true
+in the running game — button reachable only at the corner; day +1 waking at dawn; the
+house eats 3 shō; the belly slides **12.5**; the body is untouched. Three presses in a
+row (the market-day wait) = 3 days, **−9 shō, −37.5 belly** — exactly the price the ADR
+predicted, and a real decision on a short kura.
+
+**The scare:** my first DOM check said the sleep line *was not rendering*. The state had
+the descriptor (`flavor.sleep`, correct prose) but `document.body.innerText` did not.
+Before touching anything I ran the control — pressed **Rest**, the shipped verb — and its
+line did not render either. The line lands on the log's **Now** channel (FB-53: fleeting
+flavor never clutters the permanent channels) and the pane was filtered to **Story**. Not
+a bug; my check was reading a filtered view. Switching the filter shows it, in the same
+dimmed fleeting style as the rest line directly above it.
+
+## Landmines
+
+- **Body ≠ belly.** `satiety` is the **body 体** (rest refills it); `hunger` is the
+  **belly** (the kura ration refills it). The ruling's phrase "no rest refill → the
+  belly slides" is not implementable literally — withholding a rest refill touches the
+  *body*. The belly's only lever is the day-boundary ration, so that is where the
+  teeth went (`SLEEP_MEAL_FRACTION`).
+- The missed-pot belly loss is **pro-rated by what the kura could actually serve** — an
+  empty kura serves no meal to sleep through, so a starving player is not
+  double-punished.
+- **Do not "fix" a missing log line before running the control.** An ephemeral push at
+  the ring cap evicts the OLDEST ephemeral entry, so a naive `entries.slice(before)`
+  window silently shifts and hides the new line. Compare against a shipped verb first.
+- The **balance-freshness gate only WARNS** at commit; it does not block. That is how
+  session 182's pacing drift went a whole session unreported.
+
 ## Next intended steps
 
-1. Narrative: the sleep line, ADR-139 3-take diverge → HR-36.
-2. Live playtest at the R4 corner (the real PH6 proof), then `/prd-ripple` §6.3.
+1. `/prd-ripple` §6.3 (the clock contract gains the `sleep` intent's classification).
+2. HR-36 awaits the human: press Sleep three times running and see if the line wears out.
 
 ## Landmines
 
