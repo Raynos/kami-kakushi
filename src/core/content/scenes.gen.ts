@@ -21,7 +21,7 @@ export const SCENES: readonly SceneDef[] = [
         },
         {
           voice: 'narrator',
-          text: "Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the one thing the house owes the land, that must be answered before the season is allowed to turn.",
+          text: "Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the land tax, owed to the lord in rice, which must be paid before the season is allowed to turn.",
         },
         {
           voice: 'narrator',
@@ -29,7 +29,7 @@ export const SCENES: readonly SceneDef[] = [
         },
         {
           voice: 'narrator',
-          text: "Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. You are learning the house's true size by what it will let itself be seen without.",
+          text: 'Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. The house is poorer than it looks. You are learning how much poorer by what leaves it.',
         },
         {
           voice: 'narrator',
@@ -182,7 +182,7 @@ export const SCENES: readonly SceneDef[] = [
         {
           voice: 'steward',
           speaker: NPC_NAME.genemon,
-          text: '"The packet was counted at the evening rice, in the inner house. From mid-day to lamp-lighting this man was under grain. The book holds no gap with him in it."',
+          text: '"The packet was counted at the evening rice, in the inner house. From mid-day to lamp-lighting this man was under grain. There is no hour of his day the book does not account for."',
         },
         {
           voice: 'official',
@@ -349,7 +349,7 @@ export const SCENES: readonly SceneDef[] = [
         {
           voice: 'monk',
           speaker: NPC_NAME.iori,
-          text: '"Sit. Two bowls, one mouth. I\'ll be gone before you learn my face."',
+          text: '"Sit. I have two bowls and only the one mouth. I\'ll be gone before you learn my face."',
         },
         {
           voice: 'narrator',
@@ -400,7 +400,7 @@ export const SCENES: readonly SceneDef[] = [
         },
         {
           voice: 'narrator',
-          text: 'Genemon bows. Not deeply — the exact depth a Kurosawa steward has never before had to measure for a weir-keeper, measured now, got right the first time because he will not let it be seen twice.',
+          text: 'Genemon bows. Not deeply. No Kurosawa steward has ever had to bow to a weir-keeper before. He gets the depth right the first time, because he does not intend to do it again.',
         },
         {
           voice: 'villager',
@@ -499,7 +499,7 @@ export const SCENES: readonly SceneDef[] = [
         },
         {
           voice: 'narrator',
-          text: 'The rats said nothing. The marten, the time it came, said nothing. The dog barks once — once — at the lantern, and then is quiet.',
+          text: 'The rats never drew a bark out of it. Nor the marten, the time it came. The dog barks once — once — at the lantern, and then is quiet.',
         },
         {
           voice: 'narrator',
@@ -547,7 +547,7 @@ export const SCENES: readonly SceneDef[] = [
         { voice: 'player', text: '"The kura\'s crest. It has one petal more than the gate\'s."' },
         {
           voice: 'narrator',
-          text: 'It is not even a question, the way you say it. Genemon looks at you the way he looked at the river-wet stranger the first morning — a thing to be entered under the correct heading. Then he opens the day-book, writes — not long — and closes it.',
+          text: 'It is not even a question, the way you say it. Genemon looks at you the way he looked at you the first morning, river-wet and unentered — a thing to be put under the correct heading. Then he opens the day-book, writes — not long — and closes it.',
         },
         {
           voice: 'steward',
@@ -619,8 +619,9 @@ export const SCENES: readonly SceneDef[] = [
       greeting: [
         {
           voice: 'narrator',
-          text: 'The woodshed, late. On the doorstep, folded under a stone against the wind: his straw coat, mended at the shoulder in small even stitches that no one will own to. He carries it in, lies down on the mat, and for once sleeps at once.',
+          text: 'The woodshed, late. On the doorstep, folded under a stone against the wind: your straw coat, mended at the shoulder in small even stitches that no one will own to. You carry it in, lie down on the mat, and for once sleep at once.',
         },
+        { voice: 'narrator', text: 'The book has a name in it now. The dream does not use it.' },
         { voice: 'narrator', text: '— a road, climbing. Rain on it.' },
         {
           voice: 'narrator',
@@ -1577,7 +1578,7 @@ export const SCENES: readonly SceneDef[] = [
             {
               voice: 'physician',
               speaker: NPC_NAME.soan,
-              text: '"You? Nothing you have. The house physics its own, and you are its own now, whatever the day-book calls you. When you draw a wage — and you will; they all do in the end — it will come out of the wage, and you will find you resent that less than you resent lying here. Ask me again then."',
+              text: '"You? Nothing you have. The house doctors its own, and you are its own now, whatever the day-book calls you. When you draw a wage — and you will; they all do in the end — it will come out of the wage, and you will find you resent that less than you resent lying here. Ask me again then."',
             },
           ],
         },

@@ -245,8 +245,8 @@ memory: genemon +1 (earnest)
 say: "Before I rake anything — what do I get, and what do you get?"
 
 Genemon: "Terms asked before work; I have seen worse habits in honest
-men. Condition: guarded — a man who counts before he lifts keeps his feet
-under him."
+men. Condition: guarded — a man who counts before he lifts does not get
+dropped on."
 
 stat: +agi -str
 perk: The Wary Foot — A guard kept up and light on the feet — quick to move

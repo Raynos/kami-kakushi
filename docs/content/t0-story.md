@@ -131,7 +131,7 @@
   **Genemon:** "Condition: sound; willing. I enter you as my charge — mine to set to the task, mine to answer for."
 
 - First, what's in it for me <small>· memory genemon -1 (wary) · stat +agi −str · perk “The Wary Foot”</small>
-  **Genemon:** "Terms asked before work; I have seen worse habits in honest men. Condition: guarded — a man who counts before he lifts keeps his feet under him."
+  **Genemon:** "Terms asked before work; I have seen worse habits in honest men. Condition: guarded — a man who counts before he lifts does not get dropped on."
 
 - Just get to work <small>· memory genemon +1 (steady) · stat +spd −luck · perk “Hands Before Words”</small>
   **Genemon:** "No answer; the rake already moving. Condition: answers with hands — I enter it so, and luck has no column in this book."
@@ -156,7 +156,7 @@
 
 **Genemon:** "The board has heard it. That serves for witness."
 
-> He opens the day-book to a page already half-filled with other men, and writes you onto it. Work, by the day. No coin. There is no line for where you eat, and none for where you sleep. Written out, a man comes to very little. The wage is the shortest line on the page, and it takes him the longest to write.
+> He opens the day-book to a page already half-filled with other men, and writes you onto it. Work, by the day. No coin. There is no line for where you eat, and none for where you sleep. Written out, a man comes to very little. The wage is the shortest line on the page, and it takes Genemon the longest to write.
 
 > On the veranda above the step, Naoyuki has stopped — the second son, papers of his own under one arm. He was only passing. The room has made him a witness like everyone else in it.
 
@@ -416,11 +416,11 @@
 
 > Autumn thins to its last day, and the board comes out at an hour it does not usually keep. The whole house comes with it: the family by the book, the hands by the door, and you in the corner — counted as part of the room, and not asked into it.
 
-> Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the one thing the house owes the land, that must be answered before the season is allowed to turn.
+> Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the land tax, owed to the lord in rice, which must be paid before the season is allowed to turn.
 
 > Nobody reads the sum aloud. It arrives the way weather arrives: the room goes still around it, a breath drawn and not let go, every eye on the book and none on one another.
 
-> Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. You are learning the house's true size by what it will let itself be seen without.
+> Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. The house is poorer than it looks. You are learning how much poorer by what leaves it.
 
 > The book closes. The house has answered for the land; its autumn can end. You are still in the corner. Nobody tells you the season is over. It is.
 
@@ -479,7 +479,7 @@
 
 > Genemon sets the tally board beside the day-book and reads one against the other. The room watches him do arithmetic.
 
-**Genemon:** "The packet was counted at the evening rice, in the inner house. From mid-day to lamp-lighting this man was under grain. The book holds no gap with him in it."
+**Genemon:** "The packet was counted at the evening rice, in the inner house. From mid-day to lamp-lighting this man was under grain. There is no hour of his day the book does not account for."
 
 **Naoyuki:** "Then it is someone of the house."
 
@@ -554,7 +554,7 @@
 
 > At the gate, the monk Iori has his lodging and his one small fire.
 
-**Iori:** "Sit. Two bowls, one mouth. I'll be gone before you learn my face."
+**Iori:** "Sit. I have two bowls and only the one mouth. I'll be gone before you learn my face."
 
 > Through the corridor screen, past shoulders: a small tray set out for somebody, and straw sandals beside it, toes toward the gate.
 
@@ -574,7 +574,7 @@
 
 **Genemon:** "Three to owing. I ask the season's grace on it. The house asks."
 
-> Genemon bows. Not deeply — the exact depth a Kurosawa steward has never before had to measure for a weir-keeper, measured now, got right the first time because he will not let it be seen twice.
+> Genemon bows. Not deeply. No Kurosawa steward has ever had to bow to a weir-keeper before. He gets the depth right the first time, because he does not intend to do it again.
 
 **Matsuzō:** "The river can wait a season. The screens can't — rats are in them now. Send your man down while the year turns and we'll call it even weight by winter."
 
@@ -611,7 +611,7 @@
 
 > New moon, and the round goes out into it. Rats in the store: cleared. The store settles. Then, at the yard's far edge, a lantern crosses with its light hooded, going upstream, unhurried, sure of the path.
 
-> The rats said nothing. The marten, the time it came, said nothing. The dog barks once — once — at the lantern, and then is quiet.
+> The rats never drew a bark out of it. Nor the marten, the time it came. The dog barks once — once — at the lantern, and then is quiet.
 
 > The lantern does not stop. Kihei does not turn his head. The dog watches it the whole way upstream, and nobody enters a bark in any book.
 
@@ -633,7 +633,7 @@
 
 **You:** "The kura's crest. It has one petal more than the gate's."
 
-> It is not even a question, the way you say it. Genemon looks at you the way he looked at the river-wet stranger the first morning — a thing to be entered under the correct heading. Then he opens the day-book, writes — not long — and closes it.
+> It is not even a question, the way you say it. Genemon looks at you the way he looked at you the first morning, river-wet and unentered — a thing to be put under the correct heading. Then he opens the day-book, writes — not long — and closes it.
 
 **Genemon:** "The kura wants its hinges oiled before the rains. Take the small ladder."
 
@@ -665,7 +665,9 @@
 
 *(trigger: scripted, once)*
 
-> The woodshed, late. On the doorstep, folded under a stone against the wind: his straw coat, mended at the shoulder in small even stitches that no one will own to. He carries it in, lies down on the mat, and for once sleeps at once.
+> The woodshed, late. On the doorstep, folded under a stone against the wind: your straw coat, mended at the shoulder in small even stitches that no one will own to. You carry it in, lie down on the mat, and for once sleep at once.
+
+> The book has a name in it now. The dream does not use it.
 
 > — a road, climbing. Rain on it.
 
@@ -1031,7 +1033,7 @@
 
 **Ask** — "What does it cost?"
 
-**Sōan:** "You? Nothing you have. The house physics its own, and you are its own now, whatever the day-book calls you. When you draw a wage — and you will; they all do in the end — it will come out of the wage, and you will find you resent that less than you resent lying here. Ask me again then."
+**Sōan:** "You? Nothing you have. The house doctors its own, and you are its own now, whatever the day-book calls you. When you draw a wage — and you will; they all do in the end — it will come out of the wage, and you will find you resent that less than you resent lying here. Ask me again then."
 
 **Decide** — Sōan holds the wrap and waits.
 

@@ -678,3 +678,58 @@ scenes carry none, and the empty scenes were argued for as hard as the written o
     two not-picked takes are archived in full at
     [`project/brainstorms/2026-07-12-hd38-w5-interiority-takes.md`](../brainstorms/2026-07-12-hd38-w5-interiority-takes.md).
   - **Verdict:** _(awaiting your read)_
+
+### HR-38 🔲 [whole tier · story] — the full sweep, and the seam question (W6, ADR-185)
+
+The close-out you asked for: *"worst-first, **then a full sweep**"* — a cold read of the whole
+regenerated tier, front to back, by a reader who had never seen it.
+
+**The question that mattered was the seam**, not the redline list. ~40% of T0 was rewritten
+yesterday and ~60% was not. **A fresh reader could see the join — and it was not where I
+expected.**
+
+> *"Character voice does NOT seam. Genemon, Kihei, Sōan, O-Hisa and Rokusuke are consistent
+> across touched and untouched scenes. **The drift is entirely in the connective tissue.**"*
+
+Specifically: **re-voiced scenes close on an object; untouched scenes close on an
+abstraction.** R1 ends on *"The wage is the shortest line on the page"*; `nengu` ended on
+*"You are learning the house's true size by what it will let itself be seen without."* Read
+one straight into the other and the gear-change is audible. That's a useful, generalizable
+finding about this game's prose, and it's now the sweep's redline rule.
+
+**The worst scene in the tier was one I never touched — and it's a major beat.**
+`nengu-autumn-frame`, the annual tax reckoning. A 14-year-old finishes it **not knowing what
+happened**: the word "nengu" appears only in a section heading the player never sees, and the
+scene never says what is owed or to whom. Worse, **it contradicts its own R7 reward line**,
+which claims *"the reckoning read out, the gap named plainly and once"* — while the scene
+insists nobody says it aloud. Genemon now names it once, plainly (*"the land tax, owed to the
+lord in rice"*), and then the room goes still exactly as before. The WHY stays hidden; the
+WHAT no longer does.
+
+**Twelve redlines applied**, including two in text *I* shipped yesterday — my own R1 closer had
+a pronoun collision (*"a man"* = you, *"him"* = Genemon), which is exactly the kind of thing
+the author cannot see and a cold reader catches instantly.
+
+**A surviving Genemon metaphor**, found at last: *"a man who counts before he lifts keeps his
+feet under him."* From the man who has never in his life reached for one. Now literal.
+
+**The `r7-dream` call — I want your eye on this one.** The reader flagged the whole scene as a
+person violation (it narrates *"his straw coat… He carries it in"* and tags the MC as
+`Gonbei:`). I **half-agreed**: the *waking* half was a genuine slip and is now second person —
+but I kept the **dream itself** in third person, because the distance is the point (he does not
+recognise himself), and earned it with a cue line the reader proposed:
+
+> **"The book has a name in it now. The dream does not use it."**
+
+If you'd rather the dream be "you" throughout, say so and I'll convert it.
+
+**The calibration set passed, and I touched almost nothing in it** (your no-silent-edits rule):
+the five season turns are called *"the cleanest prose in the file"*. Two ambient lines were
+redlined and both are named here: Sōan's *"The house physics its own"* → *"doctors"* ("physics"
+as a verb is 18th-century English), and Iori's *"Two bowls, one mouth"* → a plain sentence.
+Nothing else in the U9 pool was altered.
+
+  - **The reader's verdict:** *"Reading as a 14-year-old… I was never bored."* Best passage in
+    the tier: **`count` → `count-resolve`** — *"This is the law executed perfectly, and it
+    should be the reference the rest of the tier is tuned against."*
+  - **Verdict:** _(awaiting your read)_

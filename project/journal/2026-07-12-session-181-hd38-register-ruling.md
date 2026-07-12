@@ -319,3 +319,56 @@ NOT live-swappable. The other waves replaced whole scenes; W5 inserts lines into
 different ones, so a "take" is a set of insertions and wiring it as a DEV swap would mean
 forking every host scene. The takes are archived in full instead. The shipped lines review by
 just playing.
+
+## W6 landed — the full sweep (HR-38). The re-voice plan is DONE.
+
+A cold read of the whole regenerated tier by a reader who had never seen it.
+
+**The seam finding is the one worth keeping.** ~40% of T0 was rewritten and ~60% was not, and
+the reader COULD see the join — but not where I expected:
+
+> *"Character voice does NOT seam… **The drift is entirely in the connective tissue.**"*
+
+**Re-voiced scenes close on an OBJECT; untouched scenes close on an ABSTRACTION.** R1 ends on
+"The wage is the shortest line on the page"; nengu ended on "You are learning the house's true
+size by what it will let itself be seen without." That is a generalizable fact about this
+game's prose and it should govern future authoring: *the closer carries the seam.*
+
+**The worst scene in the tier was one nobody had flagged** — `nengu-autumn-frame`, the annual
+tax reckoning, a MAJOR beat. A 14-year-old finishes it not knowing what happened: "nengu"
+appears only in a section heading the player never sees, and the scene never says what is owed
+or to whom. It also **contradicts its own R7 reward line** ("the reckoning read out, the gap
+named plainly and once") by insisting nobody says it aloud. Genemon now names the land tax
+once, plainly; the room still goes silent. WHY hidden, WHAT no longer.
+
+**Twelve redlines, two of them in my own day-old text** — the R1 closer had a pronoun collision
+("a man" = you, "him" = Genemon). The author cannot see that; a cold reader catches it in one
+pass. That is the whole argument for the sweep.
+
+**A surviving Genemon metaphor, found at last:** "a man who counts before he lifts keeps his
+feet under him" — from the man who has never in his life reached for one. Six waves in, and it
+was hiding in an intro perk line.
+
+**The r7-dream judgment call.** The reader called the whole scene a person violation. I
+half-agreed: the WAKING half was a real slip (now "you"), but the DREAM keeps its third person
+on purpose — the distance IS the point, he does not recognise himself — and now earns it with
+the reader's own proposed cue: *"The book has a name in it now. The dream does not use it."*
+Flagged to the human on HR-38; easily converted if they disagree.
+
+**The calibration set passed** (the human's no-silent-edits rule honoured): the five season
+turns are "the cleanest prose in the file". Exactly two ambient lines were touched and BOTH are
+named in HR-38 — Sōan's "physics" (an 18th-century verb no teenager parses) and Iori's riddle.
+
+**Reader's verdict:** *"I was never bored."* Best passage: `count` → `count-resolve` — *"the law
+executed perfectly, and it should be the reference the rest of the tier is tuned against."*
+
+---
+
+## The plan is complete. All six waves shipped.
+
+Wave 0 (canon/ADR-185) · W1 Terms · W2 works pages · W3 gloss+lies · W4 the first choice ·
+W5 the inner line · W6 the sweep. Reviews: **HR-34…HR-38** (HR-27 superseded).
+
+**Still open, deliberately not done:** the **R0 reward-line legibility** item — the human ruled
+it a TST4 problem (the player cannot tell the line IS the reward), likely UI rather than prose,
+and explicitly NOT to be smuggled into a re-voice wave. It needs its own investigation.

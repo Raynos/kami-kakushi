@@ -4362,8 +4362,7 @@
           "channel": "narration",
           "tick": 4,
           "count": 1,
-          "speaker": "Gonbei",
-          "voice": "player",
+          "voice": "narrator",
           "context": "r7 dream",
           "contentKey": "scene.r7-dream.greeting.8"
         },
@@ -4372,12 +4371,22 @@
           "channel": "narration",
           "tick": 4,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Gonbei",
+          "voice": "player",
           "context": "r7 dream",
           "contentKey": "scene.r7-dream.greeting.9"
+        },
+        {
+          "key": 630,
+          "channel": "narration",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "context": "r7 dream",
+          "contentKey": "scene.r7-dream.greeting.10"
         }
       ],
-      "seq": 630
+      "seq": 631
     },
     "skillXp": {
       "farming": 315,

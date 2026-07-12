@@ -271,7 +271,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           label: "First, what's in it for me",
           say: '"Before I rake anything — what do I get, and what do you get?"',
           react:
-            '"Terms asked before work; I have seen worse habits in honest men. Condition: guarded — a man who counts before he lifts keeps his feet under him."',
+            '"Terms asked before work; I have seen worse habits in honest men. Condition: guarded — a man who counts before he lifts does not get dropped on."',
           stat: { up: 'agi', down: 'str' },
           perk: {
             name: 'The Wary Foot',
