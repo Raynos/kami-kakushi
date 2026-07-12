@@ -7,7 +7,7 @@
 
 - Seeds: 20260626, 1, 7, 11, 13 (canonical: 20260626)
 - Personas: greedy, idler, explorer
-- Input fingerprint: `59b51942ee08b747` (the evaluated design inputs —
+- Input fingerprint: `f5d0cec7aaf7edf6` (the evaluated design inputs —
   `balance-sim --check-fresh` compares this against the live constants, so a balance
   VALUE change without a regenerated report is caught; comments/formatting never fire it)
 - Wall model (ADR-148 — timed actions): a TIMED intent costs its duration + cooldown from the core timing table (move_to per edge); an instant intent costs one 480 ms heartbeat.
@@ -22,10 +22,10 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 
 | rung | threshold | acts | rests | moves | intents | wall-min | across seeds | cum med |
 |---|---|---|---|---|---|---|---|---|
-| R0 | 3 | 35 | 2 | 0 | 45 | 4.3 | [4.3–4.3] | 4.3 |
+| R0 | 3 | 35 | 2 | 0 | 43 | 4.3 | [4.3–4.3] | 4.3 |
 | R1 | 3 | 55 | 7 | 2 | 65 | 9.4 | [9.4–9.4] | 13.7 |
 | R2 | 3 | 65 | 9 | 4 | 88 | 10.7 | [10.7–10.7] | 24.4 |
-| R3 | 6 | 59 | 12 | 31 | 166 | 22.7 | [21.3–23.2] | 47.1 |
+| R3 | 6 | 59 | 12 | 31 | 168 | 22.7 | [21.3–23.2] | 47.1 |
 | R4 | 4 | 75 | 12 | 1 | 89 | 11.4 | [11.4–11.4] | 58.5 |
 | R5 | 4 | 50 | 7 | 3 | 67 | 10.1 | [10.1–10.1] | 68.6 |
 | R6 | 4 | 86 | 15 | 8 | 124 | 15.3 | [15.1–15.9] | 83.8 |
@@ -45,11 +45,11 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 
 | seed | fights | W/L/R | coin bled | rice bled | satiety-0 | below-knee | battered | max no-progress |
 |---|---|---|---|---|---|---|---|---|
-| 20260626 | 14 | 12/2/0 | 44 | 0 | 0 | 1295 | 3 | 27 |
-| 1 | 15 | 12/3/0 | 59 | 0 | 0 | 1310 | 7 | 24 |
-| 7 | 15 | 12/3/0 | 60 | 0 | 0 | 1298 | 3 | 24 |
-| 11 | 13 | 12/1/0 | 24 | 0 | 0 | 1274 | 4 | 26 |
-| 13 | 14 | 12/2/0 | 44 | 0 | 0 | 1294 | 4 | 26 |
+| 20260626 | 14 | 12/2/0 | 44 | 0 | 0 | 1293 | 3 | 27 |
+| 1 | 15 | 12/3/0 | 59 | 0 | 0 | 1308 | 7 | 24 |
+| 7 | 15 | 12/3/0 | 60 | 0 | 0 | 1296 | 3 | 24 |
+| 11 | 13 | 12/1/0 | 24 | 0 | 0 | 1272 | 4 | 26 |
+| 13 | 14 | 12/2/0 | 44 | 0 | 0 | 1292 | 4 | 26 |
 
 ## idler — time-to-rung
 
@@ -57,10 +57,10 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 
 | rung | threshold | acts | rests | moves | intents | wall-min | across seeds | cum med |
 |---|---|---|---|---|---|---|---|---|
-| R0 | 3 | 35 | 5 | 0 | 49 | 4.7 | [4.7–4.7] | 4.7 |
-| R1 | 3 | 55 | 9 | 2 | 71 | 9.6 | [9.6–9.6] | 14.3 |
+| R0 | 3 | 35 | 5 | 0 | 47 | 4.6 | [4.6–4.6] | 4.6 |
+| R1 | 3 | 55 | 9 | 2 | 71 | 9.6 | [9.6–9.6] | 14.2 |
 | R2 | 3 | 65 | 12 | 2 | 100 | 10.7 | [10.7–10.7] | 25.0 |
-| R3 | 6 | 55 | 11 | 12 | 178 | 24.7 | [16.1–36.0] | 49.6 |
+| R3 | 6 | 55 | 11 | 12 | 180 | 24.7 | [16.2–36.0] | 49.6 |
 | R4 | 4 | 75 | 15 | 1 | 100 | 11.7 | [11.7–11.9] | 61.3 |
 | R5 | 4 | 50 | 10 | 3 | 76 | 10.4 | [10.4–10.4] | 71.7 |
 | R6 | 4 | 65 | 13 | 4 | 101 | 12.1 | [12.1–12.1] | 83.8 |
@@ -80,11 +80,11 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 
 | seed | fights | W/L/R | coin bled | rice bled | satiety-0 | below-knee | battered | max no-progress |
 |---|---|---|---|---|---|---|---|---|
-| 20260626 | 17 | 12/1/4 | 58 | 0 | 0 | 96 | 3 | 12 |
-| 1 | 9 | 6/1/2 | 58 | 0 | 0 | 96 | 0 | 12 |
-| 7 | 12 | 9/1/2 | 58 | 0 | 0 | 96 | 3 | 12 |
-| 11 | 10 | 7/1/2 | 58 | 0 | 0 | 96 | 0 | 12 |
-| 13 | 9 | 6/1/2 | 58 | 0 | 0 | 96 | 0 | 12 |
+| 20260626 | 17 | 12/1/4 | 58 | 0 | 0 | 94 | 3 | 12 |
+| 1 | 9 | 6/1/2 | 58 | 0 | 0 | 94 | 0 | 12 |
+| 7 | 12 | 9/1/2 | 58 | 0 | 0 | 94 | 3 | 12 |
+| 11 | 10 | 7/1/2 | 58 | 0 | 0 | 94 | 0 | 12 |
+| 13 | 9 | 6/1/2 | 58 | 0 | 0 | 94 | 0 | 12 |
 
 ## explorer — time-to-rung
 
@@ -92,37 +92,37 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 
 | rung | threshold | acts | rests | moves | intents | wall-min | across seeds | cum med |
 |---|---|---|---|---|---|---|---|---|
-| R0 | 3 | 35 | 2 | 2 | 63 | 4.7 | [4.7–4.7] | 4.7 |
-| R1 | 3 | 55 | 7 | 2 | 65 | 9.4 | [9.4–9.4] | 14.1 |
-| R2 | 3 | 67 | 10 | 10 | 110 | 11.9 | [11.9–12.2] | 25.9 |
-| R3 | 6 | 55 | 11 | 19 | 145 | 18.4 | [18.1–18.5] | 44.3 |
-| R4 | 4 | 75 | 12 | 5 | 95 | 12.5 | [11.9–12.5] | 56.8 |
-| R5 | 4 | 50 | 6 | 7 | 72 | 10.3 | [10.3–10.7] | 67.1 |
-| R6 | 4 | 295 | 93 | 4 | 432 | 51.2 | [51.2–51.2] | 118.3 |
-| R7 | 4 | 419 | 120 | 64 | 831 | 96.3 | [95.3–96.6] | 214.7 |
+| R0 | 3 | 35 | 2 | 0 | 59 | 4.5 | [4.5–4.5] | 4.5 |
+| R1 | 3 | 55 | 7 | 4 | 67 | 9.7 | [9.7–9.7] | 14.2 |
+| R2 | 3 | 67 | 10 | 10 | 110 | 12.4 | [12.4–12.7] | 26.6 |
+| R3 | 6 | 55 | 11 | 21 | 147 | 18.6 | [18.3–18.8] | 45.2 |
+| R4 | 4 | 75 | 12 | 5 | 95 | 12.5 | [11.9–12.5] | 57.7 |
+| R5 | 4 | 50 | 6 | 7 | 73 | 10.4 | [10.3–10.7] | 68.1 |
+| R6 | 4 | 282 | 89 | 4 | 412 | 50.5 | [48.1–50.7] | 118.6 |
+| R7 | 4 | 417 | 120 | 62 | 833 | 95.7 | [94.7–96.9] | 214.4 |
 
 ## explorer — arc + economy (per seed)
 
 | seed | ascended | intents | wall-min | Phase-2 min | first-coin min | end coin | end rice | estate | P2 intent mix | stages | judges |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| 20260626 | ✅ | 1813 | 213.6 | 6.6 | 0.8 | 15197 | 9 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 15 |
-| 1 | ✅ | 1821 | 214.9 | 6.7 | 0.8 | 15145 | 30 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 15 |
-| 7 | ✅ | 1819 | 214.6 | 6.7 | 0.8 | 15020 | 23 | 487 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 16 |
-| 11 | ✅ | 1816 | 214.1 | 6.7 | 0.8 | 15219 | 9 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 15 |
-| 13 | ✅ | 1821 | 214.8 | 6.7 | 0.8 | 15155 | 20 | 487 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 16 |
+| 20260626 | ✅ | 1796 | 211.2 | 6.7 | 0.5 | 15597 | 50 | 480 | 15: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice withdraw work_project | U4 | 16 |
+| 1 | ✅ | 1823 | 215.2 | 6.7 | 0.5 | 15136 | 30 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 15 |
+| 7 | ✅ | 1800 | 211.7 | 6.7 | 0.5 | 15499 | 9 | 483 | 15: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice withdraw work_project | U4 | 17 |
+| 11 | ✅ | 1818 | 214.4 | 6.7 | 0.5 | 15193 | 9 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 15 |
+| 13 | ✅ | 1821 | 215.7 | 6.7 | 0.5 | 14585 | 99 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 16 |
 
 ## explorer — combat · starvation · durability (per seed)
 
 | seed | fights | W/L/R | coin bled | rice bled | satiety-0 | below-knee | battered | max no-progress |
 |---|---|---|---|---|---|---|---|---|
-| 20260626 | 16 | 12/4/0 | 84 | 0 | 0 | 1656 | 2 | 27 |
-| 1 | 16 | 12/4/0 | 84 | 0 | 0 | 1667 | 3 | 26 |
-| 7 | 16 | 12/4/0 | 84 | 0 | 0 | 1666 | 3 | 26 |
-| 11 | 16 | 12/4/0 | 84 | 0 | 0 | 1662 | 3 | 26 |
-| 13 | 16 | 12/4/0 | 84 | 0 | 0 | 1667 | 3 | 26 |
+| 20260626 | 16 | 12/4/0 | 70 | 0 | 0 | 1635 | 2 | 26 |
+| 1 | 16 | 12/4/0 | 85 | 0 | 0 | 1663 | 3 | 26 |
+| 7 | 16 | 12/4/0 | 70 | 0 | 0 | 1643 | 3 | 26 |
+| 11 | 16 | 12/4/0 | 85 | 0 | 0 | 1658 | 3 | 26 |
+| 13 | 16 | 12/4/0 | 85 | 0 | 0 | 1661 | 3 | 26 |
 
 ## Skipped intents (per persona — loud, never a silent gap)
 
-- **greedy** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, begin_scene, advance_scene_beat, choose_scene_option, begin_night_round, set_auto, set_auto_rake, set_auto_combat, equip_weapon, set_stance, eat_rice, sell_rice, collect_wage, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw, work_project, advance_season, talk_to
-- **idler** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, equip_weapon, set_stance, cook_meal, eat_rice, sell_rice, collect_wage, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw, work_project, talk_to
-- **explorer** never issues: advance_intro, advance_rung_beat, begin_scene, advance_scene_beat, choose_scene_option, begin_night_round, set_auto, set_auto_rake, set_auto_combat, collect_wage, work_project, advance_season, talk_to
+- **greedy** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, begin_scene, advance_scene_beat, choose_scene_option, begin_night_round, set_auto, set_auto_rake, set_auto_combat, equip_weapon, set_stance, eat_rice, sell_rice, collect_wage, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw, work_project, advance_season, talk_to, sleep
+- **idler** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, equip_weapon, set_stance, cook_meal, eat_rice, sell_rice, collect_wage, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw, work_project, talk_to, sleep
+- **explorer** never issues: advance_intro, advance_rung_beat, begin_scene, advance_scene_beat, choose_scene_option, begin_night_round, set_auto, set_auto_rake, set_auto_combat, collect_wage, work_project, advance_season, talk_to, sleep

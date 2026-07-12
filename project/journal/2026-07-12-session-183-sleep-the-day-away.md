@@ -66,12 +66,32 @@ belly slides on a run of sleeps", and the AC-6 forecast==reality test. The empty
 test stayed green, which is correct (no pot to sleep through). The teeth are load-bearing
 and the tests can see them.
 
+## The balance pass — and a stale report that was NOT mine (ADR-132)
+
+The pacing report came back with **33 moved table rows**, which should have been
+impossible: the sim is skip-blind by ruling, so `sleep` cannot move a single number.
+Rather than assume, I proved the attribution — regenerated `t0-pacing.md` from a
+**git worktree at `9b692a61`** (the tree *without* the sleep commit) and diffed:
+
+- **Every pacing table is byte-identical** to the one my tree produces. The sleep verb
+  moved **nothing** in the sim. The skip-blind ruling holds, demonstrably.
+- My change contributes exactly **two lines**: the input fingerprint (a new design
+  input), and each persona's never-issues list now ending in `sleep` — the ruling,
+  printed in the report itself.
+- **The 33 moved rows are session 182's.** ADR-184 re-mapped which zones open at which
+  rungs, which changes travel and act counts across the whole ladder, and the report
+  was never regenerated with it (the ADR-132 step was missed). This session's commit
+  finally reports it. `verify:balance` GREEN; every climb rung is inside the signed
+  [3,25] band (greedy R3 = 22.7, the ceiling).
+
+**Landmine for the next session:** the balance-freshness gate only WARNS at commit time
+(it does not block), so a content change that shifts pacing can land without its report.
+That is how 182's drift went unreported for a session. The warn is easy to walk past.
+
 ## Next intended steps
 
 1. Narrative: the sleep line, ADR-139 3-take diverge → HR-36.
-2. Balance: `verify:balance` + `balance:report` — `t0-pacing.md` must come back
-   **byte-identical** (the skip-blind ruling's proof).
-3. Live playtest at the R4 corner (the real PH6 proof), then `/prd-ripple` §6.3.
+2. Live playtest at the R4 corner (the real PH6 proof), then `/prd-ripple` §6.3.
 
 ## Landmines
 
