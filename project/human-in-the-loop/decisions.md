@@ -76,3 +76,37 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
 - **Resolution:** _(awaiting the human)_
 
 
+
+### HD-41 🔲 [R0 · UI/TST4] — the rung-reward lines are invisible AS rewards. Which lever?
+
+- **Where this came from.** The other half of your original HD-38 complaint. We correctly ruled
+  the R0 lines' *coldness* is kernel #3 and stays (it is what the R7 naming pays off) — but you
+  were still right that something was wrong, and it is **not the prose**. It is TST4: *the player
+  never guesses state.*
+- **The diagnosis (source-verified).** When a rung requirement completes, `progress-events.ts`
+  emits its flavor line on the **`narration`** channel. Per `log-filter.ts` that routes it to the
+  **Story** tab — mixed into every other line of ambient prose. Meanwhile the **Progress** tab shows
+  only the **`milestone`** channel (rung-ups, unlocks, crafts), so an individual requirement
+  completion **never appears there at all**.
+- **So:** the player's first three progress rewards ("So he can work," etc.) land in a stream of
+  story text with **nothing marking them as earned**, and the one tab whose whole job is *what have
+  I achieved* never mentions them. The hidden-rung design is deliberate (the player sees only the %
+  bar and each completion's line) — but the line and the bar are never visibly connected.
+- **The fork:**
+  - **(a) Companion milestone line.** Keep the prose in Story (taste 16: *"a scene's stat-grant LINE
+    is Progress; its prose is Story"*) and ALSO emit a **`milestone`** entry so Progress registers
+    the step. Must be diegetic — kernel #6 forbids "Requirement 1/3 complete". Open question: what
+    does a period-true progress line even *say* when the requirement list is hidden from the player?
+  - **(b) Re-channel to `reward`.** A one-line change; the line renders as earned. But `reward`
+    routes to the **Work** tab, which is labour spam — arguably a worse home than Story, and it
+    pulls the fiction out of the story stream.
+  - **(c) Its own channel + treatment.** The rung line is genuinely its own class — *story that is
+    also a reward*. Give it a channel and a distinct in-log treatment (the fresh-entries divider is
+    the precedent), showing in **both** Story and Progress.
+  - **(d) It's the % bar, not the log.** The line is fine; what's missing is that the bar visibly
+    MOVES when it lands. Fix the connection, not the text.
+- **Recommendation: (c), with (d) as a cheap companion.** The line really is both things at once, and
+  forcing it into an existing channel is what created the defect. But that is a **new UI treatment**,
+  so under ADR-075 it wants a diverge — which is why I stopped at the diagnosis rather than
+  self-serving it.
+- **Resolution:** _(open)_

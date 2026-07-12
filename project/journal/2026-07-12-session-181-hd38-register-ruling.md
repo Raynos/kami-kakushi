@@ -431,3 +431,21 @@ review. Mine landed first (01:56 vs 02:09), so theirs was renumbered to **HR-39*
 untouched, with a crosswalk note (their authoring commit `b92b859c` still cites HR-36). IDs are
 never reused; two concurrent agents both reading "the highest HR is 35" is exactly how that
 happens on a shared tree.
+
+## The R0 legibility item — diagnosed, filed as HD-41, NOT built
+
+The last loose thread from HD-38, and the human was right that it was not a prose problem.
+
+**Source-verified:** `progress-events.ts` emits a completed rung requirement's flavor line on the
+**`narration`** channel; `log-filter.ts` routes `narration` → the **Story** tab. The **Progress**
+tab shows only the **`milestone`** channel. So an individual requirement completion lands in the
+story stream with nothing marking it as *earned*, and **never appears in Progress at all** — the
+one tab whose entire job is "what have I achieved".
+
+That is TST4 (*the player never guesses state*) failing at the exact moment the game is teaching
+the loop, and it explains the human's original unease at R0 far better than the prose ever did.
+
+**Stopped at the diagnosis on purpose.** The fix that actually fits — the rung line is *story that
+is also a reward*, so it wants its own channel and treatment — is a **new UI treatment**, which
+under ADR-075 wants a diverge and a human pick. Filed as **HD-41** with four options and a
+recommendation rather than self-served.
