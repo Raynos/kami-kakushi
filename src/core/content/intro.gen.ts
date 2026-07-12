@@ -97,6 +97,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         voice: 'narrator',
         text: 'Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.',
       },
+      {
+        voice: 'narrator',
+        text: 'It is the first thing you have asked anyone. Standing up cost you less.',
+      },
       { voice: 'player', text: '"What name did I give? When they pulled me out."' },
       {
         voice: 'physician',

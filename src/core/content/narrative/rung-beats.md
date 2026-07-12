@@ -81,8 +81,8 @@ Naoyuki: "Two hands left. You were standing here. That is all this is."
 > volume he keeps for the board — the room hears him and does not listen.
 
 Genemon: "One thing before the ink. If a claim follows you here — a debt, a
-master, a magistrate — I have to write it in the book against your name. So I
-ask you once. Is anything owing on you?"
+master, a magistrate — I have to write it in the book against you. So I ask you
+once. Is anything owing on you?"
 
 ### ask r1-the-two · "The two that left?"
 

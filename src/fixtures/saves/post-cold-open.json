@@ -221,8 +221,7 @@
           "channel": "narration",
           "tick": 0,
           "count": 1,
-          "speaker": "You",
-          "voice": "player",
+          "voice": "narrator",
           "context": "no name to give",
           "contentKey": "intro.soan.greeting.12"
         },
@@ -231,8 +230,8 @@
           "channel": "narration",
           "tick": 0,
           "count": 1,
-          "speaker": "Sōan",
-          "voice": "physician",
+          "speaker": "You",
+          "voice": "player",
           "context": "no name to give",
           "contentKey": "intro.soan.greeting.13"
         },
@@ -241,7 +240,8 @@
           "channel": "narration",
           "tick": 0,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Sōan",
+          "voice": "physician",
           "context": "no name to give",
           "contentKey": "intro.soan.greeting.14"
         },
@@ -259,8 +259,7 @@
           "channel": "narration",
           "tick": 0,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
+          "voice": "narrator",
           "context": "no name to give",
           "contentKey": "intro.soan.greeting.16"
         },
@@ -279,12 +278,22 @@
           "channel": "narration",
           "tick": 0,
           "count": 1,
-          "voice": "narrator",
+          "speaker": "Genemon",
+          "voice": "steward",
           "context": "no name to give",
           "contentKey": "intro.soan.greeting.18"
         },
         {
           "key": 23,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "no name to give",
+          "contentKey": "intro.soan.greeting.19"
+        },
+        {
+          "key": 24,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -295,7 +304,7 @@
           "contentKey": "intro.soan.topic.soan-where.ask"
         },
         {
-          "key": 24,
+          "key": 25,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -306,7 +315,7 @@
           "contentKey": "intro.soan.topic.soan-where.answer.0"
         },
         {
-          "key": 25,
+          "key": 26,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -317,7 +326,7 @@
           "contentKey": "intro.soan.topic.soan-kami.ask"
         },
         {
-          "key": 26,
+          "key": 27,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -328,7 +337,7 @@
           "contentKey": "intro.soan.topic.soan-kami.answer.0"
         },
         {
-          "key": 27,
+          "key": 28,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -338,7 +347,7 @@
           "contentKey": "intro.soan.opt.soan-knot.say"
         },
         {
-          "key": 28,
+          "key": 29,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -348,14 +357,14 @@
           "contentKey": "intro.soan.opt.soan-knot.react"
         },
         {
-          "key": 29,
+          "key": 30,
           "channel": "milestone",
           "tick": 0,
           "count": 1,
           "contentKey": "intro.soan.opt.soan-knot.perk"
         },
         {
-          "key": 30,
+          "key": 31,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -365,7 +374,7 @@
           "contentKey": "intro.genemon.greeting.0"
         },
         {
-          "key": 31,
+          "key": 32,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -376,7 +385,7 @@
           "contentKey": "intro.genemon.topic.gen-house.ask"
         },
         {
-          "key": 32,
+          "key": 33,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -387,7 +396,7 @@
           "contentKey": "intro.genemon.topic.gen-house.answer.0"
         },
         {
-          "key": 33,
+          "key": 34,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -398,7 +407,7 @@
           "contentKey": "intro.genemon.topic.gen-work.ask"
         },
         {
-          "key": 34,
+          "key": 35,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -409,7 +418,7 @@
           "contentKey": "intro.genemon.topic.gen-work.answer.0"
         },
         {
-          "key": 35,
+          "key": 36,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -419,7 +428,7 @@
           "contentKey": "intro.genemon.opt.genemon-earnest.say"
         },
         {
-          "key": 36,
+          "key": 37,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -429,19 +438,11 @@
           "contentKey": "intro.genemon.opt.genemon-earnest.react"
         },
         {
-          "key": 37,
+          "key": 38,
           "channel": "milestone",
           "tick": 0,
           "count": 1,
           "contentKey": "intro.genemon.opt.genemon-earnest.perk"
-        },
-        {
-          "key": 38,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "reveal.readout-body"
         },
         {
           "key": 39,
@@ -449,7 +450,7 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "contentKey": "reveal.readout-rice"
+          "contentKey": "reveal.readout-body"
         },
         {
           "key": 40,
@@ -457,10 +458,18 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
+          "contentKey": "reveal.readout-rice"
+        },
+        {
+          "key": 41,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
           "contentKey": "reveal.room-forecourt"
         }
       ],
-      "seq": 41
+      "seq": 42
     },
     "skillXp": {},
     "deliveredDialogue": [

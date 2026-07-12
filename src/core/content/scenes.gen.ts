@@ -64,6 +64,10 @@ export const SCENES: readonly SceneDef[] = [
           text: 'Lamps at the board at the wrong hour. The household stands in two rows — the hands by the door, the house by the book — and between the rows there is more floor than the room usually has. You are shown to the middle of it. Nobody arranged that.',
         },
         {
+          voice: 'narrator',
+          text: 'Nobody asks you anything. You stand in the floor they have made and are looked at, and it takes more out of you than the night at the sill did.',
+        },
+        {
           voice: 'steward',
           speaker: NPC_NAME.genemon,
           text: '"The alcove chest stands open. One item short against the book. A packet — cloth, bound with cord, a hand\'s length — entered as lamp-oil for the shrine. Counted at the evening rice. Gone since. The house will be counted before it sleeps."',
@@ -844,7 +848,7 @@ export const SCENES: readonly SceneDef[] = [
         {
           voice: 'steward',
           speaker: NPC_NAME.genemon,
-          text: '"Understand what I am asking and what I am not. There is no coin in this for you — no coin, not a mon, the same as the day I took you on. What mends any of this is work, and whatever coin the man doing the work puts in beside it. I enter what is put in, and the name that put it."',
+          text: '"Understand what I am asking and what I am not. There is no coin in this for you — no coin, not a mon, the same as the day I took you on. What mends any of this is work, and whatever coin the man doing the work puts in beside it. I enter what is put in, and the hand that put it."',
         },
         {
           voice: 'steward',
@@ -947,7 +951,7 @@ export const SCENES: readonly SceneDef[] = [
         {
           voice: 'steward',
           speaker: NPC_NAME.genemon,
-          text: '"Taken up, it goes under your name. Your work, and any coin you set beside it. I enter what is put in."',
+          text: '"Taken up, it goes against your line. Your work, and any coin you set beside it. I enter what is put in."',
         },
       ],
       topics: [
@@ -1278,7 +1282,7 @@ export const SCENES: readonly SceneDef[] = [
         {
           voice: 'steward',
           speaker: NPC_NAME.genemon,
-          text: '"Coin. Yours — entered against your name, every mon of it, so I know what you are carrying to the piece. And you have carried it about the yard a week now and bought nothing with it, because nobody has told you where coin goes."',
+          text: '"Coin. Yours — entered against your line, every mon of it, so I know what you are carrying to the piece. And you have carried it about the yard a week now and bought nothing with it, because nobody has told you where coin goes."',
         },
         {
           voice: 'steward',

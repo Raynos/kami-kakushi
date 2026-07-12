@@ -68,6 +68,8 @@
 
 > Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.
 
+> It is the first thing you have asked anyone. Standing up cost you less.
+
 **You:** "What name did I give? When they pulled me out."
 
 **Sōan:** "None. You gave none. Three days I have had nothing to call you, and neither have you."
@@ -170,7 +172,7 @@
 
 > Genemon takes up the brush again. He asks the last of it plainly, at the volume he keeps for the board — the room hears him and does not listen.
 
-**Genemon:** "One thing before the ink. If a claim follows you here — a debt, a master, a magistrate — I have to write it in the book against your name. So I ask you once. Is anything owing on you?"
+**Genemon:** "One thing before the ink. If a claim follows you here — a debt, a master, a magistrate — I have to write it in the book against you. So I ask you once. Is anything owing on you?"
 
 **Ask** — "The two that left?"
 
@@ -433,6 +435,8 @@
 **Rokusuke:** "Board room. The whole house is called. You as well. I only fetch."
 
 > Lamps at the board at the wrong hour. The household stands in two rows — the hands by the door, the house by the book — and between the rows there is more floor than the room usually has. You are shown to the middle of it. Nobody arranged that.
+
+> Nobody asks you anything. You stand in the floor they have made and are looked at, and it takes more out of you than the night at the sill did.
 
 **Genemon:** "The alcove chest stands open. One item short against the book. A packet — cloth, bound with cord, a hand's length — entered as lamp-oil for the shrine. Counted at the evening rice. Gone since. The house will be counted before it sleeps."
 
@@ -763,7 +767,7 @@
 
 **Genemon:** "One more the house carries whether I write it or not. The weir screens are Matsuzō's. We lease them; the keeping of them is ours. River rats gnaw them at the waterline, and every slat they take through is coin this house owes across the water. That was owing before you washed up against them."
 
-**Genemon:** "Understand what I am asking and what I am not. There is no coin in this for you — no coin, not a mon, the same as the day I took you on. What mends any of this is work, and whatever coin the man doing the work puts in beside it. I enter what is put in, and the name that put it."
+**Genemon:** "Understand what I am asking and what I am not. There is no coin in this for you — no coin, not a mon, the same as the day I took you on. What mends any of this is work, and whatever coin the man doing the work puts in beside it. I enter what is put in, and the hand that put it."
 
 **Genemon:** "I commission nothing that has not been looked at. Walk the three, and the weir path. Look at each of them with your own eyes. Rot shows better by daylight."
 
@@ -803,7 +807,7 @@
 
 > He rules the line and holds the brush off the paper. He does not fill it in.
 
-**Genemon:** "Taken up, it goes under your name. Your work, and any coin you set beside it. I enter what is put in."
+**Genemon:** "Taken up, it goes against your line. Your work, and any coin you set beside it. I enter what is put in."
 
 **Ask** — "Why the three together?"
 
@@ -923,7 +927,7 @@
 
 > Genemon hears the knot before he sees it. He looks up from the board anyway, which is not the same as being interrupted.
 
-**Genemon:** "Coin. Yours — entered against your name, every mon of it, so I know what you are carrying to the piece. And you have carried it about the yard a week now and bought nothing with it, because nobody has told you where coin goes."
+**Genemon:** "Coin. Yours — entered against your line, every mon of it, so I know what you are carrying to the piece. And you have carried it about the yard a week now and bought nothing with it, because nobody has told you where coin goes."
 
 **Genemon:** "Then hear it. Coin does one thing on this estate: it crosses the gate. Yohei sets his stall in the gateyard on market days, and what he unloads off his back is the whole of the buying and selling this house can reach without a cart. A sack of mountain greens is ten mon. That is the smallest thing sold here; below it there is nothing to want."
 

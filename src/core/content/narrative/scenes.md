@@ -80,6 +80,9 @@ fetch."
 > is more floor than the room usually has. You are shown to the middle of it.
 > Nobody arranged that.
 
+> Nobody asks you anything. You stand in the floor they have made and are looked
+> at, and it takes more out of you than the night at the sill did.
+
 Genemon: "The alcove chest stands open. One item short against the book. A
 packet — cloth, bound with cord, a hand's length — entered as lamp-oil for
 the shrine. Counted at the evening rice. Gone since. The house will be
@@ -687,7 +690,7 @@ them."
 Genemon: "Understand what I am asking and what I am not. There is no coin in
 this for you — no coin, not a mon, the same as the day I took you on. What
 mends any of this is work, and whatever coin the man doing the work puts in
-beside it. I enter what is put in, and the name that put it."
+beside it. I enter what is put in, and the hand that put it."
 
 Genemon: "I commission nothing that has not been looked at. Walk the three,
 and the weir path. Look at each of them with your own eyes. Rot shows better
@@ -751,7 +754,7 @@ and thatch. One work, the three together. I will not mend them one at a time."
 
 > He rules the line and holds the brush off the paper. He does not fill it in.
 
-Genemon: "Taken up, it goes under your name. Your work, and any coin you set
+Genemon: "Taken up, it goes against your line. Your work, and any coin you set
 beside it. I enter what is put in."
 
 ### ask works-u1-ask-a · "Why the three together?"
@@ -992,7 +995,7 @@ voice: steward
 > Genemon hears the knot before he sees it. He looks up from the board
 > anyway, which is not the same as being interrupted.
 
-Genemon: "Coin. Yours — entered against your name, every mon of it, so I
+Genemon: "Coin. Yours — entered against your line, every mon of it, so I
 know what you are carrying to the piece. And you have carried it about the
 yard a week now and bought nothing with it, because nobody has told you
 where coin goes."

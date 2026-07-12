@@ -115,6 +115,8 @@ Genemon: "Name, age, where from. In that order."
 > Three answers, and you do not have one of them. The silence goes on long
 > enough that the physician looks up.
 
+> It is the first thing you have asked anyone. Standing up cost you less.
+
 You: "What name did I give? When they pulled me out."
 
 Sōan: "None. You gave none. Three days I have had nothing to call you,

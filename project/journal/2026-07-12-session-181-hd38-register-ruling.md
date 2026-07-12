@@ -393,3 +393,41 @@ journal write in its own command — every time.
 
 **Final live check:** R1 renders the no-bed line, the new interior line, and the pronoun fix;
 the intro choice renders Hold / Kick / Shoulder with the dead option gone.
+
+## The human's post-sweep rulings (2026-07-12, on waking)
+
+Four calls, all made from the ask-tool box:
+
+1. **"The hands may testify; only the dream may translate" stays a BUNDLE NOTE, not canon.**
+   The human declined to formalize it — the D3 bounds as written are enough, and a slogan risks
+   becoming something authors write *toward* rather than a bound they write *within*. Noted, and
+   the temptation to canonize a good line is exactly the kind of thing worth being told no about.
+2. **The `r7-dream` call stands** — the waking half is second person; the dream keeps its
+   third-person distance, earned by the cue line.
+3. **Fix ALL THREE parked bugs** (below).
+4. **Next: the R0 reward-line legibility item.**
+
+## The three parked bugs, now fixed
+
+1. **The Count's only price was behind an optional click.** On the night the whole house accuses
+   him, the ONLY line saying it costs him anything sat inside `ask r5-accused` — a player who
+   never clicked stood in the middle of that floor all night and was charged nothing. The toll is
+   now in the main body, written in the picked take's register (a comparison, a withheld act, no
+   feeling-adjective): *"Nobody asks you anything. You stand in the floor they have made and are
+   looked at, and it takes more out of you than the night at the sill did."*
+2. **"Against your name" — before the house has written him one.** Four sites (R1, works-intro,
+   works-u1, sb-market), and **one of them was my own W1 text**. Every use dilutes the R7 payoff,
+   where the whole point is that the house finally writes a name. Now "against you" / "against
+   your line" / "the hand that put it" — all in-world ledger idiom, and the R7 punch is intact.
+3. **Intro 2's first question was unpriced.** *"What name did I give? When they pulled me out."*
+   is the first thing he ever asks anyone and it is about himself. Now: *"It is the first thing
+   you have asked anyone. Standing up cost you less."* — which also seeds R4's model line ("the
+   question costs more than the walk did") as a deliberate echo, per the §0.5 echo law.
+
+## Also: an HR id collision, found and fixed
+
+A departed co-agent filed their slept-day review under **HR-36** — the same id as my works-pages
+review. Mine landed first (01:56 vs 02:09), so theirs was renumbered to **HR-39**, content
+untouched, with a crosswalk note (their authoring commit `b92b859c` still cites HR-36). IDs are
+never reused; two concurrent agents both reading "the highest HR is 35" is exactly how that
+happens on a shared tree.

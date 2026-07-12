@@ -86,7 +86,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
       {
         voice: 'steward',
         speaker: NPC_NAME.genemon,
-        text: '"One thing before the ink. If a claim follows you here — a debt, a master, a magistrate — I have to write it in the book against your name. So I ask you once. Is anything owing on you?"',
+        text: '"One thing before the ink. If a claim follows you here — a debt, a master, a magistrate — I have to write it in the book against you. So I ask you once. Is anything owing on you?"',
       },
     ],
     topics: [
