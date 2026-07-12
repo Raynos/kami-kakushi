@@ -97,24 +97,24 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 
 1. Read the **newest journal** + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-12-session-183-sleep-the-day-away.md`](../journal/2026-07-12-session-183-sleep-the-day-away.md)
+   [`journal/2026-07-12-session-184-the-adr-log-as-a-todo-list.md`](../journal/2026-07-12-session-184-the-adr-log-as-a-todo-list.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev server on
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true
    player layout. The page NEVER auto-reloads (FB-257) — F5 to pick up code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** **T2 rungs/fog** (`docs/plans/t2/…`) · **telemetry
-   distillation** (6 usable FB-8 reports) · the save-format **addendum** (two
-   `SPECIAL_FACTS` surfaces bypass the rung schedule; the **save-migration policy** is
-   still unwritten — ADR-186). **T0 re-voice: ✅ DONE** (HD-38 → **ADR-185**; 6 waves).
-   Two RULED-NOT-BUILT plans, both in `docs/plans/`:
-   [`sleep-announce-beat`](../../docs/plans/opus-2026-07-12-sleep-announce-beat.md)
-   (ADR-187) and
-   [`rung-reward-legibility`](../../docs/plans/opus-2026-07-12-rung-reward-legibility.md)
-   (**HD-41** — rung rewards read as ambient prose, not rewards; TST4/UI, blocked).
-   Human-gated: **HD-40** · **HD-41** · HR-1 · **HR-34…HR-38** · the older picks.
+4. **Next (autonomous):** the **ADR-log sweep**
+   ([`adr-embedded-work`](../../docs/plans/opus-2026-07-12-adr-embedded-work.md), s184) —
+   work agents buried in `decisions.md` instead of a plan. **S1 is docs-only, start
+   there:** the log misleads *both* ways — four `BUILD TODO`s are stale (shipped), while
+   ADR-068/ADR-164/ADR-184 read ✅ for mechanisms absent from `src/`. Its S4 also writes
+   the still-unwritten **save-migration policy** (ADR-186 greeting ids). Then **T2
+   rungs/fog** (`docs/plans/t2/…`) · **telemetry distillation** (6 FB-8 reports).
+   Human-gated: **HD-40** · **HD-41** · HR-1 · **HR-34…HR-38** · older picks — **plus two
+   the sweep files: the ADR-068 audio call** (the game ships muted — HR-1 would judge
+   silence) and the **ADR-148 combat-timing review**, never run.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
    **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
    `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 16/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 17/20 · last full rewrite: 2026-07-11 -->
