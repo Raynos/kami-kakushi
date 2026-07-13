@@ -114,6 +114,7 @@ function noopHooks(): AppHooks {
     setReducedMotion: () => {},
     setTextScale: () => {},
     togglePause: () => false,
+    isPaused: () => false,
     sfx: {
       hit: () => {},
       reward: () => {},
@@ -3281,5 +3282,33 @@ describe('FB-367/FB-368 — rake row: dead auto hides, lock-hint reads the why',
     render(rested, weary);
     expect(row.querySelector<HTMLButtonElement>('.verb')!.disabled).toBe(false);
     expect(row.querySelector<HTMLElement>('.lock-hint')!.hidden).toBe(true);
+  });
+  // The human's report (2026-07-13): "I press auto and it doesn't start raking — it just toggles
+  // the button auto→stop and back", and a REFRESH fixed it. Pause is shell state (never saved), it
+  // silences the auto loop and NOTHING else — a manual rake still resolves — so a paused game was
+  // invisible everywhere except on the auto buttons, which went on reading a confident "■ stop"
+  // while nothing happened. Now the button says which of the two it is. RED against the old build:
+  // it painted '■ stop' regardless of pause.
+  it('paused game, armed auto — the button says PAUSED, not a lying "■ stop"', () => {
+    const paused = { ...noopHooks(), isPaused: () => true };
+    const render = mount(root, () => {}, paused);
+    // full body + spill remaining: the ONLY reason this auto is standing still is the pause.
+    const s = rakeState('full', { rakesDone: 1, autoRake: true });
+    render(s, null);
+    const auto = rakeRow().querySelector<HTMLButtonElement>('.auto-toggle')!;
+    expect(auto.hidden).toBe(false);
+    expect(auto.textContent).toBe('⏸ paused');
+    expect(auto.classList.contains('waiting')).toBe(true);
+    expect(auto.title).toMatch(/paused/i); // …and the hover says where to un-pause it
+  });
+
+  it('running game, armed auto — still reads "■ stop" (the paused read never cries wolf)', () => {
+    const render = mount(root, () => {}, noopHooks()); // isPaused: false
+    const s = rakeState('full', { rakesDone: 1, autoRake: true });
+    render(s, null);
+    const auto = rakeRow().querySelector<HTMLButtonElement>('.auto-toggle')!;
+    expect(auto.textContent).toBe('■ stop');
+    expect(auto.classList.contains('waiting')).toBe(false);
+    expect(auto.hasAttribute('title')).toBe(false);
   });
 });

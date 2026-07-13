@@ -100,6 +100,7 @@ function noopHooks(): AppHooks {
     setReducedMotion: () => {},
     setTextScale: () => {},
     togglePause: () => false,
+    isPaused: () => false,
     sfx: {
       hit: () => {},
       reward: () => {},

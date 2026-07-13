@@ -46,6 +46,7 @@ import { createTelemetry } from '../telemetry';
 import { resolveDevGating } from './dev-gating';
 import { createActionClock, actionKey } from './action-clock';
 import { installFreezeClock, type TimerHost } from './freeze-clock';
+import { startFreezeWatchdog } from './freeze-watchdog';
 
 const DEFAULT_SEED = 20260626;
 
@@ -264,8 +265,14 @@ async function boot(): Promise<void> {
     },
     togglePause: (): boolean => {
       paused = !paused;
+      // Repaint immediately: pause silences the auto loop and NOTHING else, so the armed auto
+      // toggles are the only surface that changes — they must say so on the press, not on the
+      // next commit (which, paused, may never come). A paused game with a live-looking auto
+      // button is exactly the "the auto button is broken" report this fixes.
+      safely(() => render(state, prev));
       return paused;
     },
+    isPaused: (): boolean => paused,
   };
 
   // The ADR-075 variant harness — undefined when the panel isn't active (the ternary folds to
@@ -769,7 +776,26 @@ async function boot(): Promise<void> {
   //    and is fully stripped from any prod bundle. Evidence (context + screenshot) is frozen at
   //    box-OPEN by mountCapture; buildContext reads the LIVE `state` each open.
   if (import.meta.env.DEV) {
-    mountCapture({
+    // The BOTH-clocks freeze control, named because two things now hold it: the capture overlay
+    // (which asks for the freeze) and the watchdog below (which takes it back if the overlay ever
+    // drops it). Freezing halts the ActionClock's wall clock FIRST — silently, because a repaint
+    // here would re-arm the progress-bar transition the freeze is about to pin — then banks the
+    // shell's timers. Thawing mirrors it: un-pin and re-arm, THEN let the ActionClock notify, so
+    // every bar repaints from its true remaining time instead of resuming a stale one (FB-256).
+    const shellFreeze = freeze
+      ? {
+          raw: freeze.raw,
+          freeze: (): void => {
+            clock.setFrozen(true);
+            freeze.freeze();
+          },
+          thaw: (): void => {
+            freeze.thaw();
+            clock.setFrozen(false);
+          },
+        }
+      : undefined;
+    const capture = mountCapture({
       host: root,
       // rasterise the whole BODY, not #app: full-screen scrims (the map sheet
       // modal) mount outside the app root and were invisible in every map
@@ -780,27 +806,7 @@ async function boot(): Promise<void> {
       // FB-215 — hold the world still from the `` ` `` keypress to the send. This is what lets the
       // ~600ms rasterisation happen at SUBMIT: with nothing running, the submit-time pixels ARE the
       // pick-time pixels, so the box can open instantly and Esc stays responsive (FB-218/FB-219).
-      //
-      // TWO clocks stop, in this order (FB-256). Freezing: halt the ActionClock's wall clock FIRST
-      // — silently, because a repaint here would re-arm the progress bar's CSS transition that the
-      // freeze is about to pin — then bank the shell's timers and pin the transitions. Thawing
-      // mirrors it: un-pin and re-arm, THEN let the ActionClock notify, so every bar repaints from
-      // its true remaining time instead of resuming a stale one.
-      ...(freeze
-        ? {
-            freeze: {
-              raw: freeze.raw,
-              freeze: (): void => {
-                clock.setFrozen(true);
-                freeze.freeze();
-              },
-              thaw: (): void => {
-                freeze.thaw();
-                clock.setFrozen(false);
-              },
-            },
-          }
-        : {}),
+      ...(shellFreeze ? { freeze: shellFreeze } : {}),
       build: { version: __VERSION__, sha: __BUILD_SHA__, date: __BUILD_DATE__ },
       buildContext: () => ({
         seed: state.rng.seed,
@@ -828,6 +834,20 @@ async function boot(): Promise<void> {
         })),
       }),
     });
+    // …and the backstop: a freeze the overlay does NOT own is stranded — the shell's timers are
+    // banked, so every auto and every timed action is silently dead and only an F5 clears it. Poll
+    // on the RAW timers (the patched ones are precisely what a freeze banks) and take the world
+    // back. Never fires in a healthy session; when it does, it shouts, because a strand is a bug.
+    if (shellFreeze && freeze) {
+      startFreezeWatchdog({
+        frozen: () => freeze.frozen(),
+        captureActive: () => capture.active(),
+        thaw: () => shellFreeze.thaw(),
+        warn: (msg) => console.warn(msg),
+        setTimer: (fn, ms) => freeze.raw.setTimeout(fn, ms),
+        clearTimer: (id) => freeze.raw.clearTimeout(id),
+      });
+    }
   }
 }
 

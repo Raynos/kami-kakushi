@@ -283,8 +283,20 @@ function describeElement(el: Element): ElementDescriptor {
   return { label, text, selector: cssPath(el), rect };
 }
 
-/** Mount the capture overlay. Returns an unmount fn (removes listeners + any open box/highlight). */
-export function mountCapture(opts: CaptureOptions): () => void {
+/** The mounted overlay's control surface. `active` is the LIVENESS probe the shell's freeze
+ *  watchdog asks (src/app/freeze-watchdog.ts): the overlay freezes the whole shell clock from
+ *  `` ` `` to the send, so a freeze it does NOT own is a stranded one — the game's timers are
+ *  banked and only an F5 clears it. Deliberately a live predicate, not an event: a throw between
+ *  `freeze()` and the box opening leaves no callback to fire, and that is precisely the case the
+ *  watchdog exists to catch. */
+export interface CaptureHandle {
+  unmount: () => void;
+  /** Is a pick or a note box open right now — i.e. does the overlay own the freeze? */
+  active: () => boolean;
+}
+
+/** Mount the capture overlay. Returns its handle (unmount + the freeze-liveness probe). */
+export function mountCapture(opts: CaptureOptions): CaptureHandle {
   const doc = opts.doc ?? document;
   const now = opts.now ?? ((): Date => new Date());
   const storage =
@@ -543,12 +555,24 @@ export function mountCapture(opts: CaptureOptions): () => void {
     const el = elementUnder(e);
     exitPickListeners();
     armSwallow();
-    if (el) {
-      positionHighlight(el); // lock it — stays on (with any hover popover) for the screenshot
-      openBox(describeElement(el));
-    } else {
+    try {
+      if (el) {
+        positionHighlight(el); // lock it — stays on (with any hover popover) for the screenshot
+        openBox(describeElement(el));
+      } else {
+        highlight.remove();
+        openBox(null); // pressed empty → a general whole-page note
+      }
+    } catch (err) {
+      // The world froze at `enterPick`, and only the box's exits thaw it. If the box never opens,
+      // there is nothing left to give the world back: the shell would sit frozen — every timer
+      // banked, every auto silent — with no overlay on screen to explain it, and only an F5 to
+      // clear it. So the world comes back FIRST. The error is not swallowed (it shouts on the
+      // console), but it is not rethrown either: a broken note box is a DEV-tool failure, and it
+      // must not also take the game down with it.
       highlight.remove();
-      openBox(null); // pressed empty → a general whole-page note
+      opts.freeze?.thaw();
+      console.error('[kami-kakushi] the capture note box failed to open — game thawed', err);
     }
   }
 
@@ -1196,11 +1220,14 @@ export function mountCapture(opts: CaptureOptions): () => void {
   }
 
   doc.addEventListener('keydown', onKeyDown);
-  return (): void => {
-    doc.removeEventListener('keydown', onKeyDown);
-    exitPickListeners();
-    dismissSwallow?.(); // don't leave a stale capture-phase click guard on `document`
-    closeBox(); // …thaws, so an unmount mid-pick can never strand the game frozen
-    closeDialog();
+  return {
+    active: () => picking || box !== null,
+    unmount: (): void => {
+      doc.removeEventListener('keydown', onKeyDown);
+      exitPickListeners();
+      dismissSwallow?.(); // don't leave a stale capture-phase click guard on `document`
+      closeBox(); // …thaws, so an unmount mid-pick can never strand the game frozen
+      closeDialog();
+    },
   };
 }

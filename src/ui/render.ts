@@ -145,6 +145,7 @@ import {
   setClass,
   setDisabled,
   setStyle,
+  setTitle,
 } from './reconcile';
 import {
   LOG_SCALE_MIN,
@@ -178,6 +179,15 @@ function rakeCount(state: GameState): number {
   );
   return req ? (state.rungReqs[req.id] ?? 0) : 0;
 }
+
+/** The armed-but-standing-still read for a PAUSED auto, and the why. Pause (Settings ⚙) stops the
+ *  auto loop and nothing else — a manual act still resolves — so a paused game is INVISIBLE except
+ *  on the buttons it silences. Left unsaid, an armed auto that never fires reads as a broken button
+ *  (it did: the human hit exactly this, and only an F5 cleared it — `paused` is shell state, never
+ *  saved). It wears the '⏸' the illegal-but-armed auto already wears (ADR-148) — same idiom, one
+ *  home (TST1), and the player never guesses state (TST4). */
+const AUTO_PAUSED_LABEL = '⏸ paused';
+const AUTO_PAUSED_REASON = 'The game is paused — resume it in Settings ⚙.';
 
 const META_LABELS: Record<MetaVerb, string> = {
   open_eyes: COLD_OPEN.cta, // single-sourced with the title card's verb (AC-21)
@@ -345,6 +355,10 @@ export interface AppHooks {
   setReducedMotion: (on: boolean) => void;
   setTextScale: (scale: number) => void;
   togglePause: () => boolean;
+  /** Is the shell's auto loop paused? A shell flag (never saved), and pause stops exactly ONE
+   *  thing — the auto loop — so every auto toggle paints from it (TST4: the player never guesses
+   *  why an armed auto is standing still). */
+  isPaused: () => boolean;
   /** The synth SFX engine (T0-M1-F4 juice). Owned by the app; cue points fire via this. */
   sfx: Sfx;
   /** ADR-148 — the shell's ActionClock: the renderer reads per-key phases to paint
@@ -427,6 +441,10 @@ function brushRule(): HTMLElement {
 function buildSettings(hooks: AppHooks): {
   modal: HTMLElement;
   open: (tab?: string) => void;
+  /** Repaint the state-derived controls (the Pause/Resume label) — called from every render, so a
+   *  pause flipped from anywhere (the DEV `__qa.pause`, a future hotkey) can never leave the
+   *  button lying about the game it controls. */
+  paint: () => void;
 } {
   const scrim = el('div', 'modal-scrim');
   scrim.hidden = true;
@@ -545,11 +563,18 @@ function buildSettings(hooks: AppHooks): {
   ts.append(minus, plus, tsLabel);
   const pause = el('button', 'auto-toggle', 'Pause');
   pause.type = 'button';
+  // The label is DERIVED, never latched: `paintPause` reads the shell flag and is called both here
+  // and from every render, so the button can never disagree with the game it controls (TST4).
+  const paintPause = (): void => {
+    const p = hooks.isPaused();
+    setText(pause, p ? 'Resume' : 'Pause');
+    setClass(pause, 'on', p);
+  };
   pause.addEventListener('click', () => {
-    const p = hooks.togglePause();
-    pause.textContent = p ? 'Resume' : 'Pause';
-    pause.classList.toggle('on', p);
+    hooks.togglePause();
+    paintPause();
   });
+  paintPause();
   comfort.append(rm, ts, pause);
   settingsSec.append(comfort);
 
@@ -643,6 +668,7 @@ function buildSettings(hooks: AppHooks): {
   scrim.append(card);
   return {
     modal: scrim,
+    paint: paintPause,
     // FB-104 — an optional `tab` opens the modal straight on that sub-tab (the footer version opens it
     // on "about"); called with no arg (the gear button) it keeps whichever tab was last shown.
     open: (tab?: string) => {
@@ -3092,9 +3118,11 @@ export function mount(
       toggle(auto, true);
       toggle(lock, false);
       const on = state.autoActivity === o.activity.id;
+      const paused = on && hooks.isPaused();
       setClass(auto, 'on', on);
-      setClass(auto, 'waiting', false);
-      setText(auto, on ? '■ stop' : '▶ auto');
+      setClass(auto, 'waiting', paused);
+      setText(auto, on ? (paused ? AUTO_PAUSED_LABEL : '■ stop') : '▶ auto');
+      setTitle(auto, paused ? AUTO_PAUSED_REASON : '');
       const pressed = String(on);
       if (auto.getAttribute('aria-pressed') !== pressed) auto.setAttribute('aria-pressed', pressed);
     } else {
@@ -3289,21 +3317,25 @@ export function mount(
         const auto = node.querySelector<HTMLButtonElement>('.auto-toggle')!;
         const lock = node.querySelector<HTMLElement>('.lock-hint')!;
         const on = state.autoRake;
+        // A PAUSED game outranks both reads: an armed auto is standing still because the loop is
+        // stopped, not because the belly is empty — say the true reason (TST4).
+        const paused = on && hooks.isPaused();
         if (exhausted) {
           toggle(auto, false);
-        } else if (!affordable) {
+        } else if (!affordable || paused) {
           toggle(auto, on);
           if (on) {
             setClass(auto, 'on', true);
             setClass(auto, 'waiting', true);
-            setText(auto, '⏸ waiting');
-            if (auto.title !== OUT_OF_STRENGTH_REASON) auto.title = OUT_OF_STRENGTH_REASON;
+            setText(auto, paused ? AUTO_PAUSED_LABEL : '⏸ waiting');
+            setTitle(auto, paused ? AUTO_PAUSED_REASON : OUT_OF_STRENGTH_REASON);
           }
         } else {
           toggle(auto, rakeCount(state) >= RAKE_AUTO_REVEAL_COUNT);
           setClass(auto, 'on', on);
           setClass(auto, 'waiting', false);
           setText(auto, on ? '■ stop' : '▶ auto');
+          setTitle(auto, '');
           const pressed = String(on);
           if (auto.getAttribute('aria-pressed') !== pressed)
             auto.setAttribute('aria-pressed', pressed);
@@ -3604,10 +3636,18 @@ export function mount(
     const deathOn = autoOn && !state.autoCombatRetreat;
     const retreatOn = autoOn && state.autoCombatRetreat;
     const toggles = row.querySelectorAll<HTMLButtonElement>('.auto-toggle');
+    const paused = autoOn && hooks.isPaused(); // an armed auto-fight says WHY it isn't swinging
     setClass(toggles[0]!, 'on', deathOn);
-    setText(toggles[0]!, deathOn ? '■ stop' : '▶ auto · to the end');
+    setClass(toggles[0]!, 'waiting', deathOn && paused);
+    setText(toggles[0]!, deathOn ? (paused ? AUTO_PAUSED_LABEL : '■ stop') : '▶ auto · to the end');
+    setTitle(toggles[0]!, deathOn && paused ? AUTO_PAUSED_REASON : '');
     setClass(toggles[1]!, 'on', retreatOn);
-    setText(toggles[1]!, retreatOn ? '■ stop' : '▶ auto · flee @20%');
+    setClass(toggles[1]!, 'waiting', retreatOn && paused);
+    setText(
+      toggles[1]!,
+      retreatOn ? (paused ? AUTO_PAUSED_LABEL : '■ stop') : '▶ auto · flee @20%',
+    );
+    setTitle(toggles[1]!, retreatOn && paused ? AUTO_PAUSED_REASON : '');
   }
 
   // one Bestiary field-guide card (FB-81) — built once per foe; the fog→inked flip patches in place.
@@ -6233,6 +6273,7 @@ export function mount(
   }
   function render(state: GameState, prev: GameState | null): void {
     lastState = state;
+    settings.paint(); // the Pause/Resume label is derived, never latched
     // pre-awake: show only the cold-open card; the shell (and its log) inks in on waking.
     if (!hasFlag(state, 'awake')) {
       // FB-359/FB-360 — a New game pressed WHILE a VN scene is open swaps to a pre-awake

@@ -98,12 +98,14 @@ interface Post {
   };
 }
 let unmount: () => void = () => {};
+/** The mounted overlay's liveness probe — the shell's freeze watchdog asks exactly this. */
+let captureActive: () => boolean = () => false;
 let host: HTMLElement;
 let posts: Post[];
 
 function mount(over: Partial<Parameters<typeof mountCapture>[0]> = {}): void {
   posts = [];
-  unmount = mountCapture({
+  const handle = mountCapture({
     host,
     build: { version: 'v0.3.5', sha: 'abc1234', date: '2026-07-03' },
     buildContext: baseCtx,
@@ -119,6 +121,8 @@ function mount(over: Partial<Parameters<typeof mountCapture>[0]> = {}): void {
     },
     ...over,
   });
+  unmount = handle.unmount;
+  captureActive = handle.active;
 }
 
 /** A stand-in for the shell freeze — records the freeze/thaw calls in order. `raw` is the real
@@ -665,6 +669,45 @@ describe('mountCapture — the shell freeze', () => {
     unmount();
     unmount = () => {};
     expect(f.calls).toEqual(['freeze', 'thaw']);
+  });
+
+  // `active()` is the liveness probe the shell's FREEZE WATCHDOG asks (src/app/freeze-watchdog.ts):
+  // frozen + !active ⇒ the freeze is stranded and the watchdog takes the world back. So the probe
+  // must be TRUE for exactly as long as the overlay legitimately holds the freeze — no wider (the
+  // watchdog would never rescue anything) and no narrower (it would thaw the world under a human
+  // mid-note). It is deliberately read from the live pick/box state, not tracked by events.
+  it('reports the overlay as ACTIVE for exactly as long as it holds the freeze', async () => {
+    mount();
+    expect(captureActive()).toBe(false); // idle — a freeze now could only be a stranded one
+    hotkey();
+    expect(captureActive()).toBe(true); // picking: the human is choosing an element
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    expect(captureActive()).toBe(false); // pick abandoned — the overlay let the freeze go
+    pick(document.createElement('button'));
+    expect(captureActive()).toBe(true); // note box open: the human is typing
+    await typeAndSend('a note');
+    expect(captureActive()).toBe(false); // sent — and the overlay thawed on the way out
+  });
+
+  it('thaws even when opening the note box THROWS — the world is never left frozen', () => {
+    const f = fakeFreeze();
+    const errs = vi.spyOn(console, 'error').mockImplementation(() => {});
+    mount({
+      freeze: f.control,
+      // The class of bug the watchdog exists for, caught at its source: anything that throws
+      // between the freeze and the box appearing (here, building the entry context) used to leave
+      // the shell frozen with no overlay on screen — every auto and timed action silently dead
+      // until an F5. The world must come back even when the DEV tool breaks.
+      buildContext: () => {
+        throw new Error('boom');
+      },
+    });
+    pick(document.createElement('button'));
+    expect(f.calls).toEqual(['freeze', 'thaw']); // the world is running again…
+    expect(captureActive()).toBe(false); // …and nothing is left holding the freeze
+    expect(boxEl()).toBeNull(); // the box genuinely failed to open (this could have gone RED)
+    expect(errs).toHaveBeenCalled(); // …and the failure shouted rather than being swallowed
+    errs.mockRestore();
   });
 
   it('opens the box WITHOUT rasterising — the ~600ms shot waits for submit', () => {

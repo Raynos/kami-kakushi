@@ -101,6 +101,16 @@ export function setClass(el: HTMLElement, name: string, on: boolean): void {
   if (el.classList.contains(name) !== on) el.classList.toggle(name, on);
 }
 
+/** Set a node's hover title only on a real change; `''` REMOVES it (an empty `title=""` still
+ *  suppresses an inherited tooltip, so clearing must mean absent, not blank). */
+export function setTitle(el: HTMLElement, title: string): void {
+  if (title === '') {
+    if (el.hasAttribute('title')) el.removeAttribute('title');
+    return;
+  }
+  if (el.title !== title) el.title = title;
+}
+
 /** Set a form control's `disabled` only on a real change (guards the reflected attribute). */
 export function setDisabled(el: HTMLButtonElement | HTMLInputElement, on: boolean): void {
   if (el.disabled !== on) el.disabled = on;
