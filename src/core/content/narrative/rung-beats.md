@@ -25,73 +25,92 @@ voice: steward
 motivates: room-paddies, verb-farm, verb-haul, readout-clock, readout-stamina,
   panel-rung-ladder
 
+<!--#morning-at-the-board-the-hands-->
 > Morning at the board. The hands take their rice at the threshold; the
 > steward's papers hold the table's far end — an estate's worth of paper on a
 > kitchen table. Genemon sets the brush down. He looks at you while he speaks,
 > which nobody else in the room does.
 
+<!--#the-paddies-want-six-hands-two-->
 Genemon: "The paddies want six hands. Two of ours took the lowland road this
 week, so five sleep here now. You are the sixth. That is the whole reason you
 are standing in my kitchen, and you may as well hear it from me."
 
+<!--#it-is-the-first-you-have-->
 > It is the first you have heard of any leaving.
 
+<!--#so-the-terms-and-they-are-->
 Genemon: "So. The terms, and they are thin. You work from first light to last,
 at whatever the yard wants that day — some days that is the paddy, some days it
 is carrying. You are hired by the day. Every day you work, I write in this book.
 A day I do not write is a day you were not hired."
 
+<!--#you-are-paid-no-coin-not-->
 Genemon: "You are paid no coin. Not a mon. What coin this house sees is owed out
 before it ever reaches the yard — I am the man who sends it, so you can take
 that as true. I have no bed for you either. Five hands sleep here, and there is
 no sixth place."
 
+<!--#if-you-have-an-objection-it-->
 Genemon: "If you have an objection, it is heard now or it is not heard at all.
 The paddies want you by full light."
 
+<!--#nobody-stops-eating-two-hands-lost-->
 > Nobody stops eating. Two hands lost was a morning's talk; one stray kept is
 > not even that. The bowls go on.
 
+<!--#six-hands-wanted-five-sleep-here-->
 > Six hands wanted. Five sleep here. You are the sixth, and there is no sixth
 > place — the sum was short before you stood in this kitchen. Nobody at the
 > table says it aloud. Neither do you.
 
+<!--#the-board-has-heard-it-that-->
 Genemon: "The board has heard it. That serves for witness."
 
+<!--#he-opens-the-day-book-to-a-->
 > He opens the day-book to a page already half-filled with other men, and writes
 > you onto it. Work, by the day. No coin. There is no line for where you eat,
 > and none for where you sleep. Written out, a man comes to very little. The
 > wage is the shortest line on the page, and it takes Genemon the longest to
 > write.
 
+<!--#on-the-veranda-above-the-step-->
 > On the veranda above the step, Naoyuki has stopped — the second son, papers of
 > his own under one arm. He was only passing. The room has made him a witness
 > like everyone else in it.
 
+<!--#the-house-is-glad-of-->
 Naoyuki: "The house is glad of —"
 
+<!--#the-sentence-stops-he-stands-a-->
 > The sentence stops. He stands a moment holding the rest of it, as if he has
 > read it back and found it not worth the ink.
 
+<!--#two-hands-left-you-were-standing-->
 Naoyuki: "Two hands left. You were standing here. That is all this is."
 
+<!--#he-goes-on-along-the-veranda-->
 > He goes on along the veranda. He looked at you once.
 
+<!--#genemon-takes-up-the-brush-again-->
 > Genemon takes up the brush again. He asks the last of it plainly, at the
 > volume he keeps for the board — the room hears him and does not listen.
 
+<!--#one-thing-before-the-ink-if-->
 Genemon: "One thing before the ink. If a claim follows you here — a debt, a
 master, a magistrate — I have to write it in the book against you. So I ask you
 once. Is anything owing on you?"
 
 ### ask r1-the-two · "The two that left?"
 
+<!--#they-left-owing-nothing-and-nothing-->
 Genemon: "They left owing nothing, and nothing was owed to them. I struck their
 lines clean. The lowlands pay in coin, and they pay in winter, when a man has
 none. I could not argue against that, so I did not try."
 
 ### ask r1-why-keep · "Why keep me?"
 
+<!--#you-are-the-sixth-understand-what-->
 Genemon: "You are the sixth. Understand what that means. I did not choose you —
 you were standing where a hand was missing. If a better sixth comes up that
 road, I will write him in and strike you out, and I will not be sorry. I would
@@ -144,60 +163,77 @@ voice: arms
 motivates: tab-combat, panel-drill-yard, readout-combat-level, panel-bestiary,
   room-kura
 
+<!--#dawn-comes-grey-through-the-kura-->
 > Dawn comes grey through the kura door. The blood on the sill has dried black,
 > and most of it is yours. Inside, the rice sits in its rows, untouched, exactly
 > as it was put. Sōan has strapped your ribs so tight that breathing is a
 > decision.
 
+<!--#kihei-crouches-at-the-sill-a-->
 > Kihei crouches at the sill a long time, reading the blood the way Genemon
 > reads a column of figures. The trail goes west, into the trees, in drops that
 > get no smaller.
 
+<!--#alive-good-->
 Kihei: "…Alive. Good."
 
+<!--#for-a-moment-there-is-more-->
 > For a moment there is more in him than the verdict. He checks the broken bar
 > instead.
 
+<!--#genemon-stands-in-the-doorway-whatever-->
 > Genemon stands in the doorway. Whatever he came to say, he writes something in
 > the day-book first.
 
+<!--#screen-one-torn-bar-one-broken-->
 Genemon: "Screen, one, torn. Bar, one, broken. Grain — none lost. Hand, one.
 Standing."
 
+<!--#none-lost-you-think-of-the-->
 > None lost. You think of the gnawed seed-bale at the back wall, and the count
 > you made twice by lantern, and you do not correct him. Not yet.
 
+<!--#the-bar-was-old-it-goes-->
 Genemon: "The bar was old. It goes against the house, not your wage."
 
+<!--#kihei-stands-takes-the-boar-spear-off-->
 > Kihei stands, takes the boar-spear off the sill, and puts it back in your
 > hands, butt first.
 
+<!--#you-didn-t-win-the-house-->
 Kihei: "You didn't win. The house lost nothing. Keep the watch."
 
+<!--#by-evening-the-padded-coat-is-->
 > By evening the padded coat is folded at the woodshed step, the torn shoulder
 > closed with stitches smaller than the tear deserved. O-Hisa is still three
 > steps from the kitchen when you come round the corner, caught.
 
+<!--#it-tore-clean-at-least-if-->
 O-Hisa: "It tore clean, at least. If the ribs knit as straight — well."
 
+<!--#she-is-back-inside-before-you-->
 > She is back inside before you find anything to say to that.
 
 ### ask r3-wolf · "Will it come back?"
 
+<!--#it-left-more-blood-past-the-->
 Kihei: "It left more blood past the woodlot than a wolf keeps spare. If the
 winter doesn't finish it, it remembers this door. So do you. That makes you
 even."
 
 ### ask r3-ribs · "How long?"
 
+<!--#breathe-to-the-bottom-of-it-->
 Sōan: "Breathe to the bottom of it. Cracked, not broken. Three weeks
 strapped, nothing heavier than the lantern, and you come to me before you decide
 you are healed."
 
+<!--#he-writes-a-line-in-his-->
 > He writes a line in his ledger and closes it when you turn your head.
 
 ### ask r3-rice · "The rice?"
 
+<!--#where-it-was-put-last-night-->
 Kihei: "Where it was put. Last night's, at least. The rest is the board's
 arithmetic, not mine."
 
@@ -233,99 +269,128 @@ voice: arms
 motivates: readout-durability, panel-equipment, verb-repair, house-omoya,
   room-drill-yard, tab-inventory, room-woodshed
 
+<!--#soan-strapped-the-ribs-for-walking-->
 > Sōan strapped the ribs for walking. Not for work. It is thirty paces from
 > the sickroom door to the board. You count them.
 
+<!--#past-the-kitchen-passage-a-screen-->
 > Past the kitchen passage a screen stands open on a corridor you have never
 > been sent down. An altar set into the passage wall; rites laid out for
 > somebody; a pair of straw sandals, new this year, facing away from the
 > house. You look a breath too long. The screen slides shut from inside.
 > Nobody says anything to you about it, then or after.
 
+<!--#genemon-is-there-the-day-book-open-->
 > Genemon is there, the day-book open, the morning's entries not yet dry. He
 > looks up, and waits, and does not help you begin.
 
+<!--#rats-were-in-the-store-three-->
 You: "Rats were in the store. Three nights, while I lay. A quarter-sack gone.
 Two more opened at the seam."
 
+<!--#the-watch-was-mine-->
 You: "The watch was mine."
 
+<!--#genemon-writes-before-he-answers-it-->
 > Genemon writes before he answers. It is what he does with surprise, though
 > nothing in his face has admitted to any.
 
+<!--#rice-one-quarter-sack-to-vermin-two-->
 Genemon: "Rice, one quarter-sack, to vermin. Two sacks to resew — O-Hisa has
 thread. Entered under the store."
 
+<!--#not-under-your-name-no-wage-->
 Genemon: "Not under your name. No wage ran for the nights you lay. No watch
 stood — the gate cannot leave the gate. The account is even."
 
+<!--#it-isn-t-->
 You: "It isn't."
 
+<!--#the-pen-stops-above-the-line-->
 > The pen stops above the line a moment longer than the line needs. Then it
 > moves on, and he says nothing, and writes nothing further.
 
+<!--#he-had-taken-the-loss-off-->
 > He had taken the loss off your name. Two words put it back. There is no wage
 > for it to come out of, and you said them anyway.
 
+<!--#at-the-kitchen-threshold-o-hisa-has-->
 > At the kitchen threshold O-Hisa has stopped with a bowl in her hands, as if
 > there were something to say to somebody. She sets it down where you will pass,
 > and goes in.
 
+<!--#from-the-board-the-woodshed-is-->
 > From the board, the woodshed is one way and the old stable court is the other.
 > Your ribs are for the woodshed. You go the other way.
 
+<!--#stalls-for-twenty-horses-run-down-->
 > Stalls for twenty horses run down the long side of the court, and the house
 > owns one mule. Kihei is at the rack, running a whetstone down a spear-head
 > that has no war to go to. Two practice staves lean beside him. One is worn
 > grey at the grip. The other is oiled, and looks as if it has never been
 > anything else.
 
+<!--#teach-me-->
 You: "Teach me."
 
+<!--#that-was-the-easy-half-the-->
 > That was the easy half. The question costs more than the walk did.
 
+<!--#will-you-->
 You: "Will you?"
 
+<!--#kihei-sets-down-the-whetstone-he-->
 > Kihei sets down the whetstone. He looks at the strapping, at the way you keep
 > your left side back, at the scars that were old before the river. He has
 > looked at them before. He has never once asked.
 
+<!--#you-walked-here-on-cracked-ribs-->
 Kihei: "...You walked here on cracked ribs to ask for more of what cracked
 them."
 
+<!--#it-is-not-a-question-so-->
 > It is not a question, so you do not answer it.
 
+<!--#terms-then-once-talent-is-a-->
 Kihei: "Terms, then. Once. Talent is a story the lucky tell. You are not lucky.
 So you will work."
 
+<!--#he-takes-the-oiled-staff-from-->
 > He takes the oiled staff from the rack and holds it out. He does not say how
 > long it has stood there, and you do not ask.
 
+<!--#your-hands-take-the-staff-and-->
 > Your hands take the staff and set themselves on it without being told — and
 > then stop. They know how to hold it. They know nothing about what to do with
 > it, and Kihei is watching the difference.
 
+<!--#the-house-has-one-man-who-->
 Kihei: "The house has one man who can stand a watch, and he is grey. Dawn,
 before the others. Every day the ribs allow, and some they don't."
 
+<!--#on-the-wall-above-the-empty-->
 > On the wall above the empty stalls a boy sits very still, the way boys sit
 > when they believe stillness is the same as not being there.
 
+<!--#one-thing-before-the-staff-why-->
 Kihei: "One thing before the staff. Why."
 
 ### ask r4-what-first · "What will you teach me?"
 
+<!--#feet-first-then-the-staff-the-->
 Kihei: "Feet first. Then the staff. The spear when the staff says so. Not the
 sword — the sword is not yours to carry, and that is the law's affair, not a
 judgment."
 
 ### ask r4-whose-staff · "Whose staff is this?"
 
+<!--#one-that-was-kept-oiled-oil-->
 Kihei: "One that was kept oiled. Oil is cheap. Ask again when you can hold it
 right."
 
 ### ask r4-wolf · "Will the wolf come back?"
 
+<!--#it-went-off-bleeding-into-a-->
 Kihei: "It went off bleeding into a lean winter. It comes back, or it dies out
 there. Train for the one that comes back."
 
@@ -363,36 +428,47 @@ motivates: house-workshops, house-granary, tab-estate, panel-house-influence
   its @-reuse of the R0 "one man, name unknown" echo have no rung-beat form —
   DEFERRED to a later chunk (a scene-def / native sidecar), noted HD-30. -->
 
+<!--#morning-the-forecourt-genemon-s-window-->
 > Morning, the forecourt. Genemon's window stands open, the day-book out, and
 > beside it a purse the size of a fist, dark with handling.
 
+<!--#salt-one-sho-waxed-thread-two-->
 Genemon: "Salt, one shō. Waxed thread, two hanks. Lamp oil, one masu. Yohei sets
 his boards up at the gate by mid-morning."
 
+<!--#two-hands-short-since-spring-and-->
 Genemon: "Two hands short since spring, and I cannot leave the book on a market
 morning. So."
 
+<!--#he-counts-the-coins-into-your-->
 > He counts the coins into your palm one at a time, watching each one land.
 
+<!--#forty-mon-count-them-back-->
 Genemon: "Forty mon. Count them back."
 
+<!--#forty-->
 You: "Forty."
 
+<!--#he-watches-the-whole-count-when-->
 > He watches the whole count. When it comes out even he does not nod. He enters
 > something in the day-book, unasked.
 
+<!--#you-did-not-work-the-number-->
 > You did not work the number out. It was there before the last coin landed, and
 > you could not say how it got there. Whatever he has entered, it is not the
 > count.
 
+<!--#his-prices-are-his-own-the-->
 Genemon: "His prices are his own. The house's figures are mine. Go."
 
+<!--#market-morning-at-the-gate-yohei-->
 > Market morning at the gate. Yohei's boards are up and the gateyard has people
 > in it for once — baskets, a mule, talk. The woman ahead of you pulls her
 > basket an inch closer when you stop beside her. The talk is rain over the pass
 > and the price of salt, and it thins a little when you step to the boards, and
 > then picks up again. It was never about you.
 
+<!--#the-house-s-hand-and-carrying-->
 Yohei: "The house's hand, and carrying the house's purse — there's news by
 itself. Rain over the pass, the dye-man's held at the ford a week, so waxed
 thread is scarce, so the thread is eleven. Salt fifteen, the oil fourteen — fair
@@ -400,12 +476,14 @@ as water, those two. Eleven for the thread, then?"
 
 ### ask r6-stray-price · "You priced me high, my first market."
 
+<!--#i-did-first-market-you-were-->
 Yohei: "I did. First market, you were the road's — a road man pays the road's
 price, carries it off, and is gone. A house man comes back twelve markets a
 year. I price the coming back."
 
 ### ask r6-ford-news · "What holds the dye-man?"
 
+<!--#the-ford-swollen-and-no-hurry-->
 Yohei: "The ford, swollen, and no hurry in him — lowland wages are fat this year
 and half the carriers went down for them. Your house lost two hands to the same
 road, I hear."
@@ -451,35 +529,44 @@ motivates: house-study, room-grove
   scenes.md as the `r7-dream` scene-def, where the "fine as sieved ash" simile
   is cut. The name-flip Nameless:→Gonbei: on the decide labels stays native. -->
 
+<!--#the-board-past-supper-past-the-->
 > The board, past supper, past the year's tax. The household's noises are done
 > for the day. Genemon has the day-book open under the lamp and a fresh page
 > ruled, and he does not look up until the last column of the old one is footed.
 
+<!--#stand-where-i-can-see-you-->
 Genemon: "Stand where I can see you. This is quick."
 
+<!--#a-full-year-and-more-this-->
 Genemon: "A full year and more, this book has said 'one man, name unknown.'
 Every entry, the same six strokes spent on a man the whole yard knows on sight.
 Paper is not free. Neither is my evening."
 
+<!--#he-turns-back-through-the-pages-->
 > He turns back through the pages — a winter, a wolf, a harvest — to the first
 > entry, and reads it aloud, once. One man, name unknown. Then he dips the
 > brush, and holds it over the page a breath longer than any entry needs.
 
+<!--#gonbei-every-hired-man-this-house-->
 Genemon: "Gonbei. Every hired man this house has kept has carried it before you.
 The house's name for you, then. Earn a better."
 
+<!--#he-writes-it-small-and-square-->
 > He writes it small and square — the hand of a man who has written all his life
 > and never once for pleasure — and the thing is done. One man, Gonbei, sound.
 
+<!--#the-book-has-your-hands-in-->
 > The book has your hands in it: the loads, the counts that came out even, the
 > night at the sill. It has never had anything else of you. Neither have you.
 
 ### ask r7-what-changes · "What changes?"
 
+<!--#your-name-on-the-page-a-->
 Genemon: "Your name, on the page. A day-wage, as before, and the house's purse
 when it's sent out with you. And watched — as every name on this book is
 watched."
 
+<!--#and-one-thing-more-from-this-->
 Genemon: "And one thing more. From this season's close I rule a second
 reckoning — not the hands. The house. Stores past the winter's need, walls that
 held, ground taken back. One line, each season, in this book's plain words. I
@@ -488,15 +575,18 @@ else before I am done."
 
 ### ask r7-before · "Who carried it before me?"
 
+<!--#the-question-costs-you-something-to-->
 > The question costs you something to ask, and Genemon looks up as if a chair
 > had spoken. Then he turns the book back further than he turned it for the ink,
 > to a page the lamp barely reaches.
 
+<!--#four-in-my-years-two-served-->
 Genemon: "Four, in my years. Two served their seasons out and went to the
 lowlands. One died of a winter chest, in the house's service; his dates are
 here. The fourth was let go. There was a year this house could keep no one it
 did not have to keep. That is the whole of it."
 
+<!--#the-same-name-four-times-over-->
 > The same name, four times over, each line ruled through — dated, footed,
 > closed. He answers the rest of the question by writing the date on the fifth,
 > and the fifth stands open.

@@ -29,8 +29,8 @@ function makeScene(): RungScene {
     voice: 'steward',
     speaker: NPC,
     greeting: [
-      { voice: 'narrator', text: 'The lamp gutters in the side room.' },
-      { voice: 'steward', text: 'You came when I called.', speaker: 'Genemon' },
+      { id: 'lamp-gutters', voice: 'narrator', text: 'The lamp gutters in the side room.' },
+      { id: 'you-came', voice: 'steward', text: 'You came when I called.', speaker: 'Genemon' },
     ],
     topics: [],
     decision: {

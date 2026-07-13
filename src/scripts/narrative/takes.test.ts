@@ -33,8 +33,10 @@ speaker: genemon
 voice: steward
 motivates: ${R1_UNLOCK.join(', ')}
 
+<!--#narr-->
 > A narrator line.
 
+<!--#greet-->
 ${GENEMON}: "A greeting line."
 
 ### decide · A prompt?

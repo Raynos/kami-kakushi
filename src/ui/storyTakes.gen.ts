@@ -762,18 +762,22 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-wood-is-counted-down-to',
                 voice: 'narrator',
                 text: 'The wood is counted down to what is left, and what is left is not measured against anything — winter has stopped asking. The mended things go back to their walls, each worth a line the day it broke and none now that it holds.',
               },
               {
+                id: 'before-the-year-is-let-go',
                 voice: 'narrator',
                 text: 'Before the year is let go, the book settles with it. What the house owes is called in and answered where it can be; what cannot be answered is not forgiven — it is carried forward, in a hand that writes smaller than the rest of the page.',
               },
               {
+                id: 'genemon-warms-water-for-the-ink',
                 voice: 'narrator',
                 text: 'Genemon warms water for the ink stone — the one warmth the board room is allowed — and rules the year off. A whole winter fits above the line.',
               },
               {
+                id: 'the-new-year-is-at-the',
                 voice: 'narrator',
                 text: 'The New Year is at the gate before the ink is dry. A fresh page, headed and empty: the one morning of the year the book holds nothing against anyone. It does not last the week.',
               },
@@ -787,18 +791,22 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-pine-comes-down-from-the',
                 voice: 'narrator',
                 text: 'The pine comes down from the gate and goes to the kitchen as kindling. The house does not keep ornaments; it keeps what they burn down to, and the book sees it to the stove.',
               },
               {
+                id: 'the-quiet-weeks-end-at-the',
                 voice: 'narrator',
                 text: 'The quiet weeks end at the board first. The entries turn forward: so much seed against so many rows, so many days between here and the water. For a season the book will count things that do not exist yet. It is the only reckless thing the book does all year.',
               },
               {
+                id: 'the-dull-tools-go-down-to',
                 voice: 'narrator',
                 text: 'The dull tools go down to the smith and come back with edges. The charge is entered against a season that has not earned anything.',
               },
               {
+                id: 'the-new-year-is-spent-down',
                 voice: 'narrator',
                 text: 'The New Year is spent down to its last slow morning. Spring next — the page is already headed, and the paddies are already in it.',
               },
@@ -812,18 +820,22 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-last-row-goes-in-with',
                 voice: 'narrator',
                 text: 'The last row goes in with the light failing, and the count goes into the ground with it. What left the kura as a number stands in the mud as rows, and cannot be counted again until autumn proves it.',
               },
               {
+                id: 'the-book-holds-the-difference-as',
                 voice: 'narrator',
                 text: "The book holds the difference as owing. The ground has the house's rice now, and the ground signs nothing.",
               },
               {
+                id: 'the-planting-days-are-entered-by',
                 voice: 'narrator',
                 text: 'The planting days are entered by the day, never by the back that did them. Yours are in there with the rest, worth the same line.',
               },
               {
+                id: 'spring-is-finished-the-hour-the',
                 voice: 'narrator',
                 text: 'Spring is finished the hour the water stands level in the last paddy. Summer takes the valley from the morning side — heat before the dew is off — and the book goes quiet, waiting on the ground.',
               },
@@ -837,18 +849,22 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-weeding-is-done-for-the',
                 voice: 'narrator',
                 text: 'The weeding is done for the doing again, and the walking begins. Genemon goes along the paddy dikes with the day-book shut under his arm. Whatever he counts out there he counts by eye, and enters none of it.',
               },
               {
+                id: 'the-bon-goods-come-up-from',
                 voice: 'narrator',
                 text: 'The Bon goods come up from the stall: lamp-oil, incense, cut flowers. They are entered like any goods, at their price. It is the one page of the year nobody argues smaller.',
               },
               {
+                id: 'the-kitchen-cooks-ahead-the-tools',
                 voice: 'narrator',
                 text: 'The kitchen cooks ahead. The tools are set down where they stand. Work is entered until it stops, and then the stopping is not entered at all.',
               },
               {
+                id: 'summer-closes-with-the-valley-still',
                 voice: 'narrator',
                 text: 'Summer closes with the valley still green and unproven. Bon is next, and the house turns from what it grows to what it owes its dead.',
               },
@@ -862,14 +878,17 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'three-days-stand-blank-in-the',
                 voice: 'narrator',
                 text: 'Three days stand blank in the day-book — the only blank the year is allowed. Genemon rules around them and leaves them, the way a field is left around a stone.',
               },
               {
+                id: 'what-the-lamps-burned-is-not',
                 voice: 'narrator',
                 text: 'What the lamps burned is not asked after. The oil went where it was sent; no line calls it back. Of everything the house buys in a year, only this is spent without being watched.',
               },
               {
+                id: 'then-the-blank-days-are-spent',
                 voice: 'narrator',
                 text: 'Then the blank days are spent too. Autumn, and the book sharpens with the sickles: whetstones out, racks up, everything that grew on trust about to be weighed. The book has been patient since spring. It is done being patient.',
               },
@@ -891,18 +910,22 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'winter-leaves-the-house-through-the',
                 voice: 'narrator',
                 text: "Winter leaves the house through the back door, in baskets. Brazier ash, the year's soot knocked off the beams with green bamboo — the kitchen works with everything open, letting in cold it spent three months keeping out.",
               },
               {
+                id: 'the-good-bowls-come-down-off',
                 voice: 'narrator',
                 text: "The good bowls come down off the high shelf, unwrapped onto trays you have not seen used. Behind the screens the family is up late; the light in the main room outlasts the house's habit.",
               },
               {
+                id: 'rice-is-set-to-soak-in',
                 voice: 'narrator',
                 text: 'Rice is set to soak in the big tub — not an eating quantity. A pounding quantity.',
               },
               {
+                id: 'winter-is-done-the-house-has',
                 voice: 'narrator',
                 text: 'Winter is done. The house has swept it out and shut the door on it, and what it opens the front gate to instead, it calls the New Year.',
               },
@@ -916,18 +939,22 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-new-year-is-put-away',
                 voice: 'narrator',
                 text: 'The New Year is put away in the order it came out. Bowls wrapped and boxed to the storehouse shelf, the gate greens taken down and burned small, the last of the pounded rice gone hard enough for the soup pot and nothing else.',
               },
               {
+                id: 'the-pegs-by-the-kitchen-door',
                 voice: 'narrator',
                 text: 'The pegs by the kitchen door change: town cloth in, work cloth out. Hoes and mattocks stand along the yard wall to have their handles looked at, one by one.',
               },
               {
+                id: 'mud-takes-the-threshold-stones-again',
                 voice: 'narrator',
                 text: 'Mud takes the threshold stones again. Nobody wipes it twice.',
               },
               {
+                id: 'the-visiting-season-is-over-what',
                 voice: 'narrator',
                 text: 'The visiting season is over. What stands in the yard now, wanting hands before it wants anything, is spring.',
               },
@@ -941,18 +968,22 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-house-changes-its-skin-the',
                 voice: 'narrator',
                 text: 'The house changes its skin. The papered doors come off their grooves and go up to the loft, and reed screens hang in their places; for one afternoon, between the old walls and the new, you can see straight through the house — the family at their low tables, arranged just as they were behind the paper.',
               },
               {
+                id: 'quilts-go-over-the-poles-in',
                 voice: 'narrator',
                 text: "Quilts go over the poles in the sun. Padded jackets come apart under Chiyo's needle into flat cloth, washed, and folded away with the winter.",
               },
               {
+                id: 'the-lamps-are-filled-less-the',
                 voice: 'narrator',
                 text: 'The lamps are filled less. The day does most of the lighting now, and stays in the rooms longer than anyone asks it to.',
               },
               {
+                id: 'spring-is-finished-what-the-opened',
                 voice: 'narrator',
                 text: 'Spring is finished. What the opened house lets through it, wall to wall, is summer.',
               },
@@ -966,18 +997,22 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'field-tools-go-up-early-and',
                 voice: 'narrator',
                 text: 'Field tools go up early and stay up. The house turns inward instead: the altar room is opened and aired, and Chiyo wipes each tablet and sets it back before the next comes down. You are not asked to help with that room.',
               },
               {
+                id: 'lanterns-come-out-of-the-loft',
                 voice: 'narrator',
                 text: 'Lanterns come out of the loft and are checked for their candles — more lanterns than the house has people.',
               },
               {
+                id: 'at-dusk-a-small-fire-is',
                 voice: 'narrator',
                 text: 'At dusk a small fire is laid at the gate, ready for lighting. The doors are left open onto the dark, for guests who will not come by the road.',
               },
               {
+                id: 'summer-is-over-the-season-the',
                 voice: 'narrator',
                 text: 'Summer is over. The season the house has dressed itself for is Bon.',
               },
@@ -991,18 +1026,22 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'a-second-fire-at-the-gate',
                 voice: 'narrator',
                 text: "A second fire at the gate, at dusk, to send off what the first one welcomed. The lanterns are emptied of their stubs and go back to the loft; the altar room is closed, and the house's doors remember their daytime shapes.",
               },
               {
+                id: 'the-loft-gives-up-sacks-and',
                 voice: 'narrator',
                 text: 'The loft gives up sacks and carrying-baskets next, down into the yard for mending. The kura is swept out to the bare boards — emptied, so far as you can see, in order to be filled.',
               },
               {
+                id: 'the-kitchen-fires-earlier-and-cooks',
                 voice: 'narrator',
                 text: 'The kitchen fires earlier and cooks longer. Whatever is coming will be fed in the field, out of boxes, at the hours the work sets.',
               },
               {
+                id: 'bon-is-over-and-its-guests',
                 voice: 'narrator',
                 text: 'Bon is over, and its guests are seen off. The house stands with its hands full, facing autumn.',
               },
@@ -1147,37 +1186,45 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'autumn-thins-to-its-last-week',
                 voice: 'narrator',
                 text: 'Autumn thins to its last week, and the board is lit at an hour that is not for hands. The household stands along the walls. You are sent for, to carry a lamp and hold it steady — light to read a reckoning by, and no more part in it than that.',
               },
               {
+                id: 'the-day-book-lies-open-genemon-reads',
                 voice: 'narrator',
                 text: 'The day-book lies open. Genemon reads what the land owes against what the store holds, and the two do not meet. He does not say by how much. In this house the figure is never spoken; it is only stood in front of, the way the room is standing in front of it now.',
               },
               {
+                id: 'above-the-book-where-the-lamp',
                 voice: 'narrator',
                 text: 'Above the book, where the lamp does not quite reach, Chiyo does the other arithmetic — the one that is never entered.',
               },
               {
+                id: 'the-painted-screen-from-the-far',
                 voice: 'steward',
                 speaker: NPC_NAME.chiyo,
                 text: '"The painted screen from the far room. It goes to the town, quietly, and not through the valley. The room keeps its door shut after. No one is shown a bare wall."',
               },
               {
+                id: 'if-the-screen-sells-well-the',
                 voice: 'steward',
                 speaker: NPC_NAME.chiyo,
                 text: '"If the screen sells well, the gate is painted before the New Year. If it sells poorly, the gate is painted still, and the far room gives up its second screen for it."',
               },
               {
+                id: 'no-one-asks-the-hired-man',
                 voice: 'narrator',
                 text: "No one asks the hired man what a screen is worth, or by what road such things leave a house, or how a year's due is paid out of the walls of one's own quiet rooms. You hold the lamp. You are learning the house's true size by what it will let itself be seen without.",
               },
               {
+                id: 'enter-it-met-what-we-cannot',
                 voice: 'steward',
                 speaker: NPC_NAME.chiyo,
                 text: '"Enter it met. What we cannot pay in rice we will pay in screens, and no one at the gate will know the difference."',
               },
               {
+                id: 'genemon-dips-his-brush-and-enters',
                 voice: 'narrator',
                 text: 'Genemon dips his brush and enters one line — the reckoning met, though you never hear with what. The book closes. The lamps are taken up. Autumn is let go with no word raised in the whole house: the silence the house has just paid for.',
               },
@@ -1201,33 +1248,40 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-board-the-year-s-turn',
                 voice: 'narrator',
                 text: "The board, the year's turn. Genemon foots the last column of the season by lamplight and reads it down aloud — item, count, condition — the whole house standing to hear its own account. You stand at the edge of it. Nobody set you there. Nobody sends you off.",
               },
               {
+                id: 'autumn-rice-in-weighed-under-the',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Autumn rice: in, weighed, under the store roof. Woodlot: cut and stacked for winter, dry. Weir screens: three mended, one owed downstream against the spring. The reclaimed rows bore — entered to the house, not to any wage."',
               },
               {
+                id: 'behind-the-board-a-paler-square',
                 voice: 'narrator',
                 text: 'Behind the board a paler square marks the wall where a screen used to hang. Nobody looks at it. Nobody names what met the difference. The house does not discuss its arithmetic; it settles it in rooms you are not shown.',
               },
               {
+                id: 'and-the-nengu-the-year-s',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"And the nengu. The year\'s tax against the year\'s yield. Paid. The store stands level after it — level, not over. That closes the season."',
               },
               {
+                id: 'he-names-the-tax-and-does',
                 voice: 'narrator',
                 text: 'He names the tax and does not count it — the one line at this board he never reads as a figure. The house carries it wordless, and every man standing feels the size of it anyway.',
               },
               {
+                id: 'the-book-is-the-better-for',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The book is the better for a hand on it this year. The store, the screens, the rows — held or gained, each entered. The hand that did it carries no name yet. The account holds a mark as well as it holds a name."',
               },
               {
+                id: 'he-dips-the-brush-enters-the',
                 voice: 'narrator',
                 text: "He dips the brush, enters the season closed, and squares the day-book with the lamp. The year is reckoned. You are in its book — the season's wages set against a mark where a name has not been written — and you are still at its edge.",
               },
@@ -1311,91 +1365,128 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             ],
             greeting: [
               {
+                id: 'morning-at-the-board-the-hands',
                 voice: 'narrator',
                 text: "Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon calls you up from the step without looking up.",
               },
               {
+                id: 'two-hands-took-the-lowland-road',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Two hands took the lowland road this week. Wages drawn through the day they left, lines struck. The yard is short. The work is not."',
               },
-              { voice: 'narrator', text: 'It is the first you have heard of any leaving.' },
               {
+                id: 'it-is-the-first-you-have',
+                voice: 'narrator',
+                text: 'It is the first you have heard of any leaving.',
+              },
+              {
+                id: 'he-opens-the-day-book-to-a',
                 voice: 'narrator',
                 text: 'He opens the day-book to a page already half-filled with other men, wets the brush, and begins to write you into it. He reads each line aloud as it goes down, the way a man checks a sum against the page.',
               },
               {
+                id: 'hired-by-the-day-day-hand-no',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Hired by the day. Day-hand, no rank."',
               },
               {
+                id: 'labour-sun-to-sun-at-whatever',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Labour: sun to sun, at whatever the yard wants doing."',
               },
               {
+                id: 'counted-each-day-in-this-book',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Counted each day in this book. A day worked is a line. A day not worked is a line as well."',
               },
-              { voice: 'steward', speaker: NPC_NAME.genemon, text: '"Wage: none."' },
               {
+                id: 'wage-none',
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Wage: none."',
+              },
+              {
+                id: 'the-brush-stops-on-that-line',
                 voice: 'narrator',
                 text: 'The brush stops on that line. It is the shortest one on the page and it takes him the longest to write.',
               },
               {
+                id: 'objections-heard-now-or-kept',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Objections: heard now, or kept."',
               },
               {
+                id: 'then-he-lifts-his-eyes-off',
                 voice: 'narrator',
                 text: 'Then he lifts his eyes off the page, and his voice comes up out of it — slower, and pitched to a man rather than a book.',
               },
               {
+                id: 'that-last-one-is-not-a',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"That last one is not a formality. Hear the wage line again, because it is the one men mishear. The house pays you nothing. Every coin this house takes in is owed to somebody in the town before it ever reaches this yard, and the yard is where you stand. There will be no coin. Not late, not small. None. A man who agrees to that and then waits for it will hate us by autumn."',
               },
               {
+                id: 'the-entry-sits-there-finished-work',
                 voice: 'narrator',
                 text: 'The entry sits there, finished. Work, by day, no coin. There is no line for where you eat. There is no line for where you sleep. Written out, a man comes to very little.',
               },
               {
+                id: 'the-paddies-want-you-by-full',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The paddies want you by full light. Say now if you will not."',
               },
               {
+                id: 'nobody-stops-eating-two-hands-lost',
                 voice: 'narrator',
                 text: "Nobody stops eating. Two hands lost was a morning's talk; one stray kept is not even that. The bowls go on.",
               },
               {
+                id: 'the-board-has-heard-it-that',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The board has heard it. That serves for witness."',
               },
               {
+                id: 'on-the-veranda-above-the-step',
                 voice: 'narrator',
                 text: 'On the veranda above the step, Naoyuki has stopped — the second son, papers of his own under one arm. Passing, and made a witness like the rest of the room.',
               },
-              { voice: 'official', speaker: NPC_NAME.naoyuki, text: '"The house is glad of —"' },
               {
+                id: 'the-house-is-glad-of',
+                voice: 'official',
+                speaker: NPC_NAME.naoyuki,
+                text: '"The house is glad of —"',
+              },
+              {
+                id: 'the-sentence-stops-he-stands-with',
                 voice: 'narrator',
                 text: 'The sentence stops. He stands with it a moment, as if he has read it back and found it not worth the ink.',
               },
               {
+                id: 'two-hands-left-you-were-here',
                 voice: 'official',
                 speaker: NPC_NAME.naoyuki,
                 text: '"Two hands left. You were here. That is all it is."',
               },
-              { voice: 'narrator', text: 'He goes on along the veranda. He looked at you once.' },
               {
+                id: 'he-goes-on-along-the-veranda',
+                voice: 'narrator',
+                text: 'He goes on along the veranda. He looked at you once.',
+              },
+              {
+                id: 'then-genemon-takes-up-the-brush',
                 voice: 'narrator',
                 text: 'Then Genemon takes up the brush again, and asks it plainly, at board volume. The room hears without listening.',
               },
               {
+                id: 'one-thing-before-the-ink-dries',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"One thing before the ink dries. If a claim follows you here, I enter it against your board. Is anything owing on you?"',
@@ -1407,6 +1498,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"The two that left?"',
                 answer: [
                   {
+                    id: 'left-owed-nothing-owing-nothing-struck',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Left owed nothing, owing nothing. Struck clean. The lowlands pay coin in winter; I could not argue the sum, so I did not argue it."',
@@ -1418,6 +1510,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why keep me?"',
                 answer: [
                   {
+                    id: 'the-paddies-take-six-hands-at',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"The paddies take six hands at the least. Five sleep here now. You are the sixth. If a better sixth comes by, the book will say so."',
@@ -1480,53 +1573,77 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             ],
             greeting: [
               {
+                id: 'morning-at-the-board-the-hands',
                 voice: 'narrator',
                 text: "Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon calls you up from the step without looking up.",
               },
               {
+                id: 'two-hands-took-the-lowland-road',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Two hands took the lowland road this week. Wages drawn through the day they left, lines struck. The yard is short. The work is not."',
               },
-              { voice: 'narrator', text: 'It is the first you have heard of any leaving.' },
               {
+                id: 'it-is-the-first-you-have',
+                voice: 'narrator',
+                text: 'It is the first you have heard of any leaving.',
+              },
+              {
+                id: 'terms-you-work-sun-to-sun',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Terms. You work sun to sun, at whatever the yard wants doing. You are hired by the day, and the day is counted in the book. You are paid no coin. The house\'s coin is spoken for before it reaches the yard. Objections are heard now or kept. The paddies want you by full light."',
               },
               {
+                id: 'nobody-stops-eating-two-hands-lost',
                 voice: 'narrator',
                 text: "Nobody stops eating. Two hands lost was a morning's talk; one stray kept is not even that. The bowls go on.",
               },
               {
+                id: 'the-board-has-heard-it-that',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The board has heard it. That serves for witness."',
               },
               {
+                id: 'he-opens-the-day-book-to-a',
                 voice: 'narrator',
                 text: 'He opens the day-book to a page already half-filled with other men.',
               },
               {
+                id: 'on-the-veranda-above-the-step',
                 voice: 'narrator',
                 text: 'On the veranda above the step, Naoyuki has stopped — the second son, papers of his own under one arm. Passing, and made a witness like the rest of the room.',
               },
-              { voice: 'official', speaker: NPC_NAME.naoyuki, text: '"The house is glad of —"' },
               {
+                id: 'the-house-is-glad-of',
+                voice: 'official',
+                speaker: NPC_NAME.naoyuki,
+                text: '"The house is glad of —"',
+              },
+              {
+                id: 'the-sentence-stops-he-stands-with',
                 voice: 'narrator',
                 text: 'The sentence stops. He stands with it a moment, as if he has read it back and found it not worth the ink.',
               },
               {
+                id: 'two-hands-left-you-were-here',
                 voice: 'official',
                 speaker: NPC_NAME.naoyuki,
                 text: '"Two hands left. You were here. That is all it is."',
               },
-              { voice: 'narrator', text: 'He goes on along the veranda. He looked at you once.' },
               {
+                id: 'he-goes-on-along-the-veranda',
+                voice: 'narrator',
+                text: 'He goes on along the veranda. He looked at you once.',
+              },
+              {
+                id: 'then-genemon-takes-up-the-brush',
                 voice: 'narrator',
                 text: 'Then Genemon takes up the brush, and asks it plainly, at board volume. The room hears without listening.',
               },
               {
+                id: 'one-thing-before-the-ink-if',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"One thing before the ink. If a claim follows you here, I enter it against your board. Is anything owing on you?"',
@@ -1538,6 +1655,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"The two that left?"',
                 answer: [
                   {
+                    id: 'they-were-owed-nothing-and-they',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"They were owed nothing, and they owed nothing. I struck them clean. The lowlands pay coin in winter; I could not argue the sum, so I did not argue it."',
@@ -1549,6 +1667,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why keep me?"',
                 answer: [
                   {
+                    id: 'the-paddies-take-six-hands-at',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"The paddies take six hands at the least. Five sleep here now. You are the sixth. If a better sixth comes by, the book will say so."',
@@ -1616,34 +1735,41 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-board-an-evening-some-weeks',
                 voice: 'narrator',
                 text: "The board, an evening some weeks into the rice terms. The day's wages are footed and the book should be closed. Genemon turns instead to a page ruled off from the rest and sets it where you can see it — old ink at the head of it, this morning's at the foot.",
               },
               {
+                id: 'the-wages-are-settled-this-is',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The wages are settled. This is the other page."',
               },
               {
+                id: 'gate-west-post-standing-in-wet',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Gate, west post: standing in wet ground, second winter running. Paddies — three bunds slumped, the water going through them instead of round. Woodshed, north corner — rain comes in through the roof. The wood under it does not dry, and the boards it lands on are going soft."',
               },
               {
+                id: 'every-one-of-those-is-worse',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Every one of those is worse this year than it was last year. I have been writing them down for thirty years. Writing them down is all I have been able to do about them."',
               },
               {
+                id: 'he-adds-nothing-to-the-page',
                 voice: 'narrator',
                 text: 'He adds nothing to the page. The lines are already there, each with the date it was first entered.',
               },
               {
+                id: 'one-more-and-this-one-the',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"One more, and this one the house pays for in coin. The weir screens belong to Matsuzō. We lease them; the keeping of them is ours. River rats chew through the slats at the waterline, and every slat they take, we buy him a new one. We were paying for those screens before you washed up against them."',
               },
               {
+                id: 'i-do-not-commission-work-i',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"I do not commission work I have not had looked at. Walk the gate, the paddies, the woodshed, and the weir path. Look at them yourself, in daylight. Then come back and I will price them."',
@@ -1655,6 +1781,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why now? It\'s stood this long."',
                 answer: [
                   {
+                    id: 'it-has-not-stood-it-has',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"It has not stood. It has been going down, slowly enough that a busy man calls it standing. Walk past the orchard and you will find the ground where houses used to be. Roofs, once. Nobody had the money to keep them up, and now there is nothing to see but humps in the grass. I have watched this estate go the same way, a little each year. I would like to stop."',
@@ -1666,6 +1793,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Whose coin mends it?"',
                 answer: [
                   {
+                    id: 'not-the-house-s-i-told',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Not the house\'s. I told you your first morning: what coin this house sees is owed out before it ever reaches the yard, and I am the man who sends it. That has not changed. What mends these is labour, and whatever coin the man doing the labour chooses to put down beside it. I write in what is put in, under the name that put it."',
@@ -1703,24 +1831,29 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-board-again-genemon-watches-you',
                 voice: 'narrator',
                 text: 'The board again. Genemon watches you cross the forecourt, sets the day-book open at the ruled page, and takes up the brush before you have spoken.',
               },
               {
+                id: 'you-walked-it-your-face-says',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"You walked it. Your face says the page did not lie to you."',
               },
               {
+                id: 'then-hear-the-work-post-one',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Then hear the work. Post, one: drawn out and reset on dry footing. Bunds, three — cut back to sound earth and rammed. Roof, one corner — boards and thatch. One work, the three together."',
               },
               {
+                id: 'he-rules-the-line-and-leaves',
                 voice: 'narrator',
                 text: 'He rules the line and leaves it open, the brush held off the paper.',
               },
               {
+                id: 'taken-up-it-goes-against-your',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Taken up, it goes against your name — your labour, and any coin you put beside it. I credit what is put in."',
@@ -1732,6 +1865,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why the three together?"',
                 answer: [
                   {
+                    id: 'because-all-three-are-the-same',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because all three are the same fault: water where it should not be. Reset the post and the bunds still slide. Ram the bunds and the roof still lets the rain in. And whichever two you leave are worse by the time you get back to them. Do the three and the water is out for good."',
@@ -1743,6 +1877,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Where do I begin?"',
                 answer: [
                   {
+                    id: 'water-first-the-post-and-the',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Water first. The post and the bunds while the weather holds. The roof before the autumn rains start — after that you are laying boards on wet thatch, and you will be doing it twice."',
@@ -1780,15 +1915,18 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'genemon-finds-you-at-the-forecourt',
                 voice: 'narrator',
                 text: "Genemon finds you at the forecourt with the orchard's brambles still on your sleeves, and does not ask where you have been. He opens the day-book at the ruled page.",
               },
               {
+                id: 'the-orchard-that-is-the-oldest',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The orchard. That is the oldest thing on this page. It went a row at a time, over years, and there were never hands enough to stop it. Somebody planted those trees with paths between them. The bramble is over the paths now, and there are dogs denned in the hollow where fruit was dried."',
               },
               {
+                id: 'the-work-the-wild-rows-cut',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The work: the wild rows cut back to sound wood, the dens broken and emptied. This is not a mending. It is ground taken back."',
@@ -1800,6 +1938,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"The dogs first, or the cutting?"',
                 answer: [
                   {
+                    id: 'the-dens-first-swing-a-billhook',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"The dens first. Swing a billhook in there with the pack still in it and you are feeding them your arms. They are bold — lean winters do that. Break the pack and what is left is only dogs. Kihei will tell you the same in fewer words, and drill you for it if you ask him plainly."',
@@ -1811,6 +1950,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Is anything left in there worth the taking?"',
                 answer: [
                   {
+                    id: 'there-are-sound-trees-under-the',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"There are sound trees under the choke. That is usually the way — the stock lives, the keeping fails. Thirty years of bramble has not killed them. Cut it off them and they will bear."',
@@ -1848,15 +1988,18 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'evening-at-the-board-genemon-has',
                 voice: 'narrator',
                 text: "Evening at the board. Genemon has the kura's tallies out beside the day-book, one read against the other, and he speaks without looking up at you.",
               },
               {
+                id: 'you-have-seen-it-the-kura',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"You have seen it. The kura is sound, and the kura is full, and those are two different problems. It holds this year\'s rice and not a measure over. A bad year starves us. A good year would shame us — grain standing out in the damp because there is no roof to put it under."',
               },
               {
+                id: 'so-a-second-granary-raised-beside',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"So: a second granary, raised beside the kura, on its own footings. Room for stores past the winter\'s need. Everything on this page until now is damage already done. This one would be built before the damage. I have waited a long time to rule a line of that kind."',
@@ -1868,6 +2011,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why a second? Widen the one that stands."',
                 answer: [
                   {
+                    id: 'because-the-kura-is-sound-and',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because the kura is sound, and you do not cut open a sound building to make it larger. A second stands on its own footings, under its own roof, behind its own lock. If one roof goes in a storm, the other store is still dry. And two stores are counted separately, so a shortfall shows the moment it happens."',
@@ -1879,6 +2023,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Stores past need — for what, exactly?"',
                 answer: [
                   {
+                    id: 'for-the-year-we-get-instead',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"For the year we get instead of the year we planned for. A flood, a failed harvest, a levy called early. When one of those comes, the only thing that answers it is grain already in the store. Go and stand on the empty ground past the orchard. Those households had nothing put by."',
@@ -1916,20 +2061,24 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'past-supper-the-board-the-lamp',
                 voice: 'narrator',
                 text: 'Past supper, the board, the lamp low. Genemon has the day-book open at the ruled page, and for once he is not writing. He is reading it back, line by line, and he waits until you are standing in front of him.',
               },
               {
+                id: 'stand-where-i-can-see-you',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Stand where I can see you. This is the last of the page."',
               },
               {
+                id: 'the-omoya-you-have-seen-it',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The omoya. You have seen it from the forecourt. Half this house is shut — moss on the ridge, damp in the boards, screens no hand has slid in years. A room nobody uses goes bad. It does not need a storm to do it. It only needs to be left."',
               },
               {
+                id: 'the-work-roofs-sound-screens-mended',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The work: roofs sound, screens mended, air and use in every room. Thirty-one years I have written this house\'s losses down. I would like to write something else before I am finished."',
@@ -1941,6 +2090,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why the omoya last?"',
                 answer: [
                   {
+                    id: 'because-the-rest-holds-now-and',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because the rest holds now, and it did not. The post is dry at the foot. The bunds carry their water. The orchard bears. There is grain in store past the winter. The house is the largest thing still going down, and it is the last thing left on this page. You mend a house from the outside in — the roof first, or every day\'s work indoors is undone by the next rain."',
@@ -1952,6 +2102,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"What does \'in order\' come to, in the doing?"',
                 answer: [
                   {
+                    id: 'roof-and-ridge-first-a-room',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Roof and ridge first; a room is lost from above. Then the shut rooms, opened one at a time — screens repapered, boards lifted where the damp has got under them, braziers lit until the wood is dry through. Then use. A room stays sound because people are in it. There is no other way to keep one. The doing is long. The entry is one line."',
@@ -1999,26 +2150,35 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-board-an-evening-some-weeks',
                 voice: 'narrator',
                 text: "The board, an evening some weeks into the rice terms. The day's wages are footed and the book should be closed, but Genemon has turned instead to a page ruled off from the rest — older ink at the head of it, this morning's at the foot.",
               },
               {
+                id: 'the-wages-are-settled-this-is',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The wages are settled. This is the other page."',
               },
               {
+                id: 'gate-the-west-post-takes-water',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Gate: the west post takes water at the foot, second winter running. Paddies: three bunds slumped, the water going through them at its own level. Woodshed: rain through the north corner of the roof, into the stacked wood. None of that is new. It has all been there for years. It is only now in the book."',
               },
-              { voice: 'narrator', text: 'He enters nothing. The lines are already there, dated.' },
               {
+                id: 'he-enters-nothing-the-lines-are',
+                voice: 'narrator',
+                text: 'He enters nothing. The lines are already there, dated.',
+              },
+              {
+                id: 'and-one-line-the-house-carries',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"And one line the house carries whether I write it or not. The weir screens are Matsuzō\'s — leased, and the keeping of them ours. River rats gnaw them at the waterline; every slat through is coin we owe him. The rats come back every season, and the house pays every season. That account was open before you were pulled out of the water at the weir."',
               },
               {
+                id: 'i-commission-nothing-that-has-not',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"I commission nothing that has not been looked at. Walk the three, and the weir path, and look with your own eyes. Rot shows better by daylight. The book will keep."',
@@ -2030,6 +2190,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why now? It\'s stood this long."',
                 answer: [
                   {
+                    id: 'stood-is-the-wrong-word-it',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Stood is the wrong word. It has been going, at the pace rot keeps, which is slow enough that a busy man calls it standing. There is ground on the far side of the orchard where nobody mended anything. Roofs, once. It went a year at a time, and no one put a hand to it. This house will not go the same way."',
@@ -2041,6 +2202,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Whose coin mends it?"',
                 answer: [
                   {
+                    id: 'not-the-house-s-what-coin',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Not the house\'s. What coin this house sees is owed out before it reaches the yard — I told you that the first morning, and it has not improved since. What mends any of it is labour, and whatever coin the labourer chooses to put in himself. The book credits what is put in, under the name that put it."',
@@ -2078,24 +2240,29 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-board-again-genemon-watches-you',
                 voice: 'narrator',
                 text: 'The board again. Genemon watches you cross the forecourt, sets the day-book open at the ruled-off page, and takes up the brush before you have spoken.',
               },
               {
+                id: 'you-walked-it-then-you-know',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"You walked it. Then you know I did not overstate it."',
               },
               {
+                id: 'then-hear-the-work-post-one',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Then hear the work. Post, one, drawn and reset on dry footing. Bunds, three, cut back to sound earth and rammed. Roof, one corner — boards and thatch. One work, the three together. Water is at all three, and I will not mend one at a time."',
               },
               {
+                id: 'he-rules-the-line-and-leaves',
                 voice: 'narrator',
                 text: 'He rules the line and leaves it open, the brush held off the paper.',
               },
               {
+                id: 'taken-up-it-goes-against-your',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Taken up, it goes against your name — your labour, and any coin you put beside it. The book credits what is put in."',
@@ -2107,6 +2274,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why the three together?"',
                 answer: [
                   {
+                    id: 'because-it-is-one-fault-whatever',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because it is one fault, whatever three names we give it. Water at the post, water through the bunds, water through the roof. Mend one and the water still comes in at the other two. Close the account whole, or I open it again in a season."',
@@ -2118,6 +2286,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Where do I begin?"',
                 answer: [
                   {
+                    id: 'water-first-always-the-post-and',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Water first, always. The post and the bunds while the weather holds; the roof before the autumn rains — after them it is too late, and the corner is worse than when you started. The weather sets the order. I do not."',
@@ -2155,15 +2324,18 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'genemon-finds-you-at-the-forecourt',
                 voice: 'narrator',
                 text: "Genemon finds you at the forecourt with the orchard's brambles still on your sleeves, and does not ask where you have been. The day-book comes open at the ruled page.",
               },
               {
+                id: 'the-orchard-nothing-on-this-side',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The orchard. Nothing on this side of the wall has been let go longer — a row at a time, over years, and nobody cut it back. Trees a household set out with paths in mind, gone under the choke, and dogs denned in the hollow where fruit was dried once."',
               },
               {
+                id: 'the-work-the-wild-rows-cut',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The work: the wild rows cut back to the sound wood, and the dens broken and emptied. Not a mending — a taking-back. It will grow in again behind you if you stop."',
@@ -2175,6 +2347,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"The dogs first, or the cutting?"',
                 answer: [
                   {
+                    id: 'the-dens-first-cut-with-them',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"The dens first. Cut with them still in there and they will come at your back. Bold from lean winters, and they do not run. Break the pack and what is left is dogs. Kihei will tell you the same, in fewer words, and drill you for it if you ask him plainly."',
@@ -2186,6 +2359,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Is anything left in there worth the taking?"',
                 answer: [
                   {
+                    id: 'sound-trees-under-the-choke-trees',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Sound trees under the choke. Trees outlast neglect; that is usually the way. Whoever planted them expected paths between the rows, and lanterns. Thirty years of bramble have gone over the paths. The paths are still under it."',
@@ -2223,15 +2397,18 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'evening-at-the-board-genemon-has',
                 voice: 'narrator',
                 text: "Evening at the board. Genemon has the kura's tallies out beside the day-book, one read against the other, and he speaks without looking up. He has done the sums already.",
               },
               {
+                id: 'you-have-seen-it-the-kura',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"You have seen it. The kura is sound and full, and those are two different worries. It holds this year\'s rice and not a measure over. A poor year starves the house; a good year would embarrass it — grain standing in the damp for want of a roof. We lose the grain either way."',
               },
               {
+                id: 'so-a-second-granary-raised-at',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"So: a second granary, raised at the kura, on its own footings. Stores past the winter\'s need. Every work on this page till now has answered a loss already taken. This one is made before the loss. I have waited a long time to rule a line of that kind."',
@@ -2243,6 +2420,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why a second? Widen the one that stands."',
                 answer: [
                   {
+                    id: 'the-kura-is-sound-and-sound',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"The kura is sound, and sound is kept, not cut open. A second stands on its own feet, its own roof, its own lock — two roofs do not fail in one night, and two counts can be checked one against the other. A fire takes the building it starts in. It does not take the one across the yard."',
@@ -2254,6 +2432,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Stores past need — for what, exactly?"',
                 answer: [
                   {
+                    id: 'for-the-year-the-valley-has',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"For the year the valley has instead of the year we plan for. A bad year comes without warning. A full storehouse is the only thing that carries a house through one; nothing else does. Look at the ground past the orchard. Households stood there once, with nothing stored, and a lean year finished them."',
@@ -2291,20 +2470,24 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'past-supper-the-board-the-lamp',
                 voice: 'narrator',
                 text: 'Past supper, the board, the lamp low. Genemon has the day-book open to the ruled page, and for once he is not writing — he is reading it back, line by line.',
               },
               {
+                id: 'stand-where-i-can-see-you',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Stand where I can see you; this is the last of the page."',
               },
               {
+                id: 'the-omoya-you-have-seen-it',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The omoya. You have seen it from the forecourt — half this house shut, moss on the ridge, and indoors the same rot with no weather to blame: dust, damp, screens that no hand slides. A room does not need rain to be lost. It only needs to be left alone."',
               },
               {
+                id: 'the-house-set-in-order-roofs',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The house set in order: roofs sound, screens mended, air and use in every room. Thirty-one years I have written this house\'s losses and little else. I mean to write something else before I am done."',
@@ -2316,6 +2499,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why the omoya last?"',
                 answer: [
                   {
+                    id: 'because-the-rest-holds-now-and',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because the rest holds now, and it did not. The gate is dry at the foot, the bunds carry their water, the orchard bears, grain stands past the winter\'s need. What is still wrong with this house is less than it has been in thirty years. The omoya is the longest line left on the page — and a house is mended from the outside in."',
@@ -2327,6 +2511,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"What does \'in order\' come to, in the doing?"',
                 answer: [
                   {
+                    id: 'roof-and-ridge-first-a-room',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Roof and ridge first — a room is lost from above. Then the shut rooms, opened one at a time: screens repapered, boards taken up where the damp has been under them, braziers lit until the walls are dry through. Then use. A room is kept by being lived in; there is no other keeping. The doing is long. The entry is one line."',
@@ -2384,7 +2569,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             id: 'dream',
             title: 'what the water takes',
             voice: 'narrator',
-            greeting: [{ voice: 'narrator', text: COLD_OPEN.dream }],
+            greeting: [{ id: 'dream', voice: 'narrator', text: COLD_OPEN.dream }],
             topics: [],
             decision: {
               prompt: 'Three things, and one hand free. Which do you close it on?',
@@ -2442,7 +2627,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             id: 'dream',
             title: 'what the water takes',
             voice: 'narrator',
-            greeting: [{ voice: 'narrator', text: COLD_OPEN.dream }],
+            greeting: [{ id: 'dream', voice: 'narrator', text: COLD_OPEN.dream }],
             topics: [],
             decision: {
               prompt: 'There is no time to choose. Something in you chooses anyway. What?',
@@ -2651,43 +2836,52 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'morning-the-forecourt-genemon-s-window',
                 voice: 'narrator',
                 text: "Morning, the forecourt. Genemon's window stands open on the board and the day-book is out — turned back, for once, from the working page to the old ones, the corners gone soft with handling. He does not call you. He waits until the round brings you past, which he knew it would.",
               },
               {
+                id: 'stand-where-you-can-see-the',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Stand where you can see the page. This concerns you now — you are on the book, and the book has other lines than wages."',
               },
               {
+                id: 'he-reads-them-the-way-he',
                 voice: 'narrator',
                 text: 'He reads them the way he reads everything, at board volume, one figure at a time, and each one lands like a thing set down and not thrown.',
               },
               {
+                id: 'gate-posts-two-sound-paint-gone',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Gate. Posts, two, sound. Paint, gone. Lower hinge, crying since the year before your river. Carried open four years. Charged to no man."',
               },
               {
+                id: 'home-paddies-bunds-slumping-at-the',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Home paddies. Bunds, slumping at the water-edges — two hand-spans lost to the mud each spring, entered each spring, mended never. Carried open six years."',
               },
               {
+                id: 'woodshed-roof-north-slope-taking-water',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Woodshed. Roof, north slope, taking water. The damp goes against the house. The man who sleeps under the damp does not."',
               },
               {
+                id: 'he-turns-further-back-to-a',
                 voice: 'narrator',
                 text: 'He turns further back, to a page ruled tighter than the rest, and lays the book flat so the line faces you.',
               },
               {
+                id: 'and-this-one-which-does-not',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"And this one, which does not close. Weir screens, leased of Matsuzō, across the river. The rats gnaw them at the waterline; every slat gnawed is coin owed off the estate. I have entered that damage every season for nine years, the way I enter rain. The weir path is open to you. It was always the house\'s to walk; it is time a hand walked it."',
               },
               {
+                id: 'that-is-the-reading-now-the',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"That is the reading. Now the checking. Go and stand where the figures stand — the gate, the paddies, your own roof. An entry is worth what the eye that checks it is worth. Come back when you have looked."',
@@ -2699,6 +2893,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why show me the book?"',
                 answer: [
                   {
+                    id: 'because-you-are-in-it-a',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because you are in it. A man on this book eats from these figures whether he reads them or not — every open line above your line leans on your line. The others know the yard by their years here. You will know it the way I know it, or not at all."',
@@ -2710,6 +2905,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Who pays for the mending?"',
                 answer: [
                   {
+                    id: 'not-the-house-its-coin-is',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Not the house — its coin is spoken for before it reaches the yard; that was your first day\'s lesson and it has not improved. What a hand puts in of his own — labour, and coin when he has coin — the book carries under his mark, dated. It forgets nothing it is given. That is the one promise I am in a position to make."',
@@ -2747,22 +2943,30 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-board-evening-the-day-book-stands',
                 voice: 'narrator',
                 text: "The board, evening. The day-book stands open at a page ruled fresh — the gate's line, the bunds' line, the woodshed's, copied out of their years and set together under one head, in ink already dry. He did the copying before you had crossed the yard.",
               },
               {
+                id: 'the-gate-hinge-the-bunds-the',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The gate hinge. The bunds. The slope over your mat. You stood where the figures stand. Tell me if they lied."',
               },
-              { voice: 'player', text: '"They didn\'t."' },
+              { id: 'they-didn-t', voice: 'player', text: '"They didn\'t."' },
               {
+                id: 'they-never-do-that-is-the',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"They never do. That is the whole of their use."',
               },
-              { voice: 'narrator', text: 'He rules a bracket down the three lines, joining them.' },
               {
+                id: 'he-rules-a-bracket-down-the',
+                voice: 'narrator',
+                text: 'He rules a bracket down the three lines, joining them.',
+              },
+              {
+                id: 'one-work-then-taken-as-one',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"One work, then, taken as one: board and hinge-iron for the gate, clay and stone for the water-edges, straw for the roof. The tools are the house\'s — their wear I enter against the house, as I enter my own pen. The rest goes in as you can put it in, and is entered as it goes."',
@@ -2774,6 +2978,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why these three first?"',
                 answer: [
                   {
+                    id: 'because-they-are-the-oldest-lines',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because they are the oldest lines still cheap. The gate has waited four years; a fifth costs a post. The bund gives up more each spring than the spring before. Old damage compounds like a debt, and these three have not yet learned to. Close them before they do."',
@@ -2785,6 +2990,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"And when it\'s done?"',
                 answer: [
                   {
+                    id: 'the-line-closes-a-house-stands',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"The line closes. A house stands on closed lines; there is no other material. And the closing carries the mark of the hand that closed it — dated, footed, kept. The yard forgets a mended hinge by the next rain. The book does not."',
@@ -2822,15 +3028,18 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-board-genemon-has-the-day-book',
                 voice: 'narrator',
                 text: 'The board. Genemon has the day-book turned back further than you have seen it go — years back, to a line ruled open and never carried forward, never struck, sitting on its page like a door left unlocked in an empty house.',
               },
               {
+                id: 'orchard-last-entered-bearing-the-year',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Orchard. Last entered bearing the year before the dogs. Since then — nothing against it. No fruit, no loss, no line. I did not strike it. A struck line is a judgment. This one was only waiting."',
               },
               {
+                id: 'you-have-seen-the-rows-now',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"You have seen the rows now. Sound trees under the choke, planted in order by people who expected to walk between them. Wild wood over the top, and the dens under. Clearing it is billhook work and den work — weeks of the one, and the other is not work I can enter for you."',
@@ -2842,6 +3051,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"You kept the line open all this time?"',
                 answer: [
                   {
+                    id: 'ink-is-cheap-judgment-is-not',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Ink is cheap. Judgment is not. Whoever set those trees out expected paths, and lanterns, and years — I do not close another man\'s expectation until it is proved wrong. Six stewards\' worth of pages carry that line open. I was not going to be the one who ended it for tidiness."',
@@ -2853,6 +3063,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"And the dogs?"',
                 answer: [
                   {
+                    id: 'kihei-s-column-not-mine-mine',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Kihei\'s column, not mine. Mine says only this: the year the dens filled, the fruit line emptied. The book has watched the two trade for six years, one for one. Empty the dens, and I know what the other line does. I have the figures."',
@@ -2890,15 +3101,18 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'genemon-meets-you-at-the-kura',
                 voice: 'narrator',
                 text: 'Genemon meets you at the kura door itself, the day-book carried out into the yard under his arm — a thing you have not seen him do in a year of watching him not do it.',
               },
               {
+                id: 'you-have-stood-the-watch-here',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: "\"You have stood the watch here. Then you know what I know: the count is honest and the walls are not equal to it. For eleven years this book has entered 'stored to the rafters' as a limit. It should have been a boast. One good harvest and the house's own rice would sleep in the weather.\"",
               },
               {
+                id: 'a-second-granary-then-raised-beside',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"A second granary, then, raised beside the first. Timber, stone footing, board by board. The ground it stands on is the house\'s — that much costs you nothing. The rest is put in as it has been put in: your labour, your coin as you have it, entered as it goes. The term of the work is three words. Stores past need. This book has never once been able to write them."',
@@ -2910,6 +3124,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Eleven years. Why now?"',
                 answer: [
                   {
+                    id: 'because-for-eleven-years-the-house',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because for eleven years the house was bleeding, and a bleeding house does not build. Look at the book, not at me: the lease\'s damage line, empty. The gate, the bunds, the roof — closed. The orchard — open and moving. A book that has stopped bleeding can afford to plan. The figures changed. Most of the hands in the changing are one hand\'s."',
@@ -2921,6 +3136,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"And if the harvests don\'t fill it?"',
                 answer: [
                   {
+                    id: 'then-it-stands-empty-and-i',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Then it stands empty, and I enter an empty granary, which costs nothing to carry and shames no one but the weather. I have carried worse lines for poorer reasons. But I have footed this year twice, once for the house and once against my own doubt, and the two counts agree. It does not stand empty long."',
@@ -2958,15 +3174,18 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-board-late-the-lamp-down',
                 voice: 'narrator',
                 text: "The board, late, the lamp down to its last width of oil. The day-book lies open at the newest page — the second reckoning, ruled at the season's close: one line a season, in the book's plain words. Most of the page is still to come. Genemon sits before the empty part of it the way other men sit before a fire.",
               },
               {
+                id: 'you-have-looked-at-the-omoya',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"You have looked at the omoya. From the forecourt — everyone looks from the forecourt; the house is arranged so that nobody sees further. The south rooms, shuttered since before your river. Nine years I have entered no repair against those rooms. Not because nothing wanted repairing."',
               },
               {
+                id: 'the-second-reckoning-wants-its-capstone',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The second reckoning wants its capstone. Stores past need — rising. Ground taken back — taken. Walls that held — they held. One head remains, and in thirty-one years I have not had the standing to rule it. The house itself. Set in order, room by shut room, until this book can write of the omoya what it writes of the kura. Sound."',
@@ -2978,6 +3197,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Nine years of silence on it. Why?"',
                 answer: [
                   {
+                    id: 'because-a-repair-entered-is-a',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because a repair entered is a repair owed. To write the omoya\'s wants into this book while the house could not answer them — that is not stewardship, that is accusation, one line a season, forever. So I kept the rooms shut and the page shut with them, and charged the silence to nobody. Both open now, or neither. The figures say now."',
@@ -2989,11 +3209,13 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why tell me?"',
                 answer: [
                   {
+                    id: 'because-the-book-says-gonbei-against',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because the book says Gonbei against more closed lines than any name in it — count them yourself, the pages are numbered. When this house stands in order, the order will be made of entries, and most of the entries are yours. That is not thanks. It is arithmetic. Thanks is not my column."',
                   },
                   {
+                    id: 'he-says-it-to-the-page',
                     voice: 'narrator',
                     text: 'He says it to the page, not to you, and enters nothing, which from him is the same as looking up.',
                   },
@@ -3065,30 +3287,40 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'morning-at-the-board-after-rain',
                 voice: 'narrator',
                 text: 'Morning at the board, after rain. O-Hisa crosses the gateyard the long way, around a hollow that holds water — the same long way she took yesterday, and dry days too, the detour worn smoother than the reason for it. Rokusuke is in early, mud to the knee, saying nothing about where the mud came from. Nobody says anything. The house has its ways around its own sore places, and the ways stopped being noticed years ago.',
               },
               {
+                id: 'genemon-has-the-day-book-open-and',
                 voice: 'narrator',
                 text: 'Genemon has the day-book open, and for once he is not writing. He is reading back — pages of it, a season at a time — with the face of a man counting a debt he has been letting stand.',
               },
               {
+                id: 'the-gate-board-is-wedged-it-has',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The gate-board is wedged. It has been wedged four winters. The wedge is in this book as kindling, which it is not."',
               },
               {
+                id: 'the-east-bund-weeps-rokusuke-stakes',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The east bund weeps. Rokusuke stakes it after every rain — his own straw, his own hour, no entry. The woodshed roof: the wood in there is stacked to miss a drip. Whoever stacks it knows where the drip falls. The book does not."',
               },
-              { voice: 'narrator', text: 'He turns a page as if the page had argued with him.' },
               {
+                id: 'he-turns-a-page-as-if',
+                voice: 'narrator',
+                text: 'He turns a page as if the page had argued with him.',
+              },
+              {
+                id: 'and-the-weir-the-screens-the',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"And the weir. The screens the house leases from Matsuzō — rats in them, coin owed across the water every season the gnawing runs ahead of the mending. The lease line has carried the damage so long that the carrying has started to look like the lease."',
               },
               {
+                id: 'named-then-since-the-yard-has',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Named, then — since the yard has plainly known it all along. The gate. The bund. The roof. The lease. Go and look at each with your own eyes; the book takes no man\'s word for damage, mine included. Then we will talk of work, and what work costs."',
@@ -3100,6 +3332,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why name it now?"',
                 answer: [
                   {
+                    id: 'because-the-yard-has-been-naming',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because the yard has been naming it for years — in wedges, in straw, in the long way round a puddle. A book that will not carry what the whole yard carries is not a record; it is a lie of omission. I keep worse things than losses out of this book. I will not keep that."',
@@ -3111,6 +3344,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Whose coin mends it?"',
                 answer: [
                   {
+                    id: 'not-the-house-s-the-house',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: "\"Not the house's. The house's coin is spoken for before it reaches the yard — you were told so your first morning, and it has not changed. A man who puts his own coin and his own hours into a house is entered as having done so, and the book remembers longer than men do. What that is worth, ask me at a season's close.\"",
@@ -3148,24 +3382,29 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-board-evening-word-that-you',
                 voice: 'narrator',
                 text: 'The board, evening. Word that you walked the named places has beaten you back to it — Shinnosuke watched you stare at the woodshed roof from the woodpile and told the kitchen, and the kitchen has told the pot: the bowl at the threshold is a little fuller tonight than the terms say. Genemon waits with the day-book open at a clean line.',
               },
               {
+                id: 'you-have-seen-them-say-what',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"You have seen them. Say what you saw."',
               },
               {
+                id: 'the-gate-board-is-soft-behind-the',
                 voice: 'player',
                 text: '"The gate-board is soft behind the wedge. The east bund is Rokusuke\'s straw, not the house\'s earth. The roof shows daylight over my own mat."',
               },
               {
+                id: 'so-the-book-has-it-from',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"So the book has it from a hand that looked, and not from four winters of wedges. Board-wood, stone and straw, thatch. Small work, all of it, and all of it one lot — the kind that is never worth a day until it has cost a season."',
               },
               {
+                id: 'the-house-s-coin-is-spoken',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"The house\'s coin is spoken for. If this is done, it is done on your own coin and your own hours, entered against your name. The book remembers what a man puts in. So, I find, does the yard."',
@@ -3177,6 +3416,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Who set the wedge?"',
                 answer: [
                   {
+                    id: 'the-hand-before-you-or-the',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"The hand before you, or the one before him. It passed to whoever slept nearest — things do, here, when the book is silent. Nobody was ever asked; nobody ever entered it. That is the habit I mean to end, starting with the wedge."',
@@ -3188,6 +3428,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why one lot?"',
                 answer: [
                   {
+                    id: 'because-the-yard-treats-them-as',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because the yard treats them as one: three places it steps around in a single round. Mend one, and the round still bends. Mend all three, and the yard walks straight — and knows exactly who straightened it. That last part is not nothing, for a man in your position."',
@@ -3225,15 +3466,18 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-board-again-on-it-beside',
                 voice: 'narrator',
                 text: "The board again. On it, beside the day-book, sits a small dish of bought plums — O-Hisa's, set down this morning without one word said. Genemon has been looking at the dish longer than a dish wants looking at.",
               },
               {
+                id: 'nine-years-the-kitchen-has-bought',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Nine years the kitchen has bought what this house once grew. The entry is one small line each market: plums, so many mon. Set the nine years end to end and it is not a small line. The kitchen has known it. The stall has known it. The dish is O-Hisa\'s way of asking when the book will."',
               },
               {
+                id: 'you-have-seen-the-rows-sound',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"You have seen the rows. Sound trees under the choke, and dens dug in the hollow. The cutting-back is long work; the dens are Kihei\'s kind of work, and yours. The house calls the place the dogs\' yard. I mean to strike that name."',
@@ -3245,6 +3489,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Whose orchard was it?"',
                 answer: [
                   {
+                    id: 'the-house-s-planted-for-a',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"The house\'s. Planted for a larger house than this one — you have seen how the rows are laid: for paths between, and room to walk them. Who walked them is an old page. The trees are this year\'s business, and they are alive, which is more than the old page can say."',
@@ -3256,6 +3501,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"And the dogs?"',
                 answer: [
                   {
+                    id: 'kihei-s-word-on-them-is',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Kihei\'s word on them is one word, and it has kept the yard whole this long. The dens come first — there is no cutting bramble over a den. Go to him before you go near the hollow, and go in his order. He will have one."',
@@ -3293,16 +3539,19 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'genemon-is-at-the-kura-when',
                 voice: 'narrator',
                 text: 'Genemon is at the kura when you come back to it, and for once he is not counting rice — he is counting wall. Rokusuke stands by with the look of a man whose private arrangement is about to be read aloud.',
               },
-              { voice: 'steward', speaker: NPC_NAME.genemon, text: '"Show him."' },
+              { id: 'show-him', voice: 'steward', speaker: NPC_NAME.genemon, text: '"Show him."' },
               {
+                id: 'bottom-bales-go-musty-against-the',
                 voice: 'villager',
                 speaker: NPC_NAME.rokusuke,
                 text: '"Bottom bales go musty against the north wall, so they get turned. Week about, all winter. The marks on the beam say whose week. It\'s not in any book. It never seemed a thing for a book."',
               },
               {
+                id: 'a-wall-s-worth-of-labour',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"A wall\'s worth of labour every winter, spent standing still. And last autumn three bales sat a week in the forecourt under oilcloth, because the floor was full. If the wild rows come back to bearing, the harvests grow, and this kura will not grow with them. A second granary, raised at its side. Board by board, on your coin, against your name."',
@@ -3314,6 +3563,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why was it never raised before?"',
                 answer: [
                   {
+                    id: 'it-was-to-be-the-year',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"It was to be. The year it was to be raised was a year this house could keep no one it did not have to keep, and after that year, nobody asked again. Rokusuke\'s beam-marks have done the asking since — quietly, week about, for longer than he will say. I have decided to hear them."',
@@ -3325,6 +3575,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Where does it stand?"',
                 answer: [
                   {
+                    id: 'against-the-kura-s-south-side',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Against the kura\'s south side, on the dry ground the oilcloth found last autumn. The forecourt taught the house where a granary should stand. We build on the lesson; it was dearly enough bought."',
@@ -3362,29 +3613,35 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'evening-the-forecourt-the-omoya-s',
                 voice: 'narrator',
                 text: "Evening, the forecourt, the omoya's shut screens going grey with the last light. Naoyuki is there before you — standing where you stood to look at them, which means he saw you looking, or was told.",
               },
               {
+                id: 'when-i-was-a-boy-those',
                 voice: 'official',
                 speaker: NPC_NAME.naoyuki,
                 text: '"When I was a boy, those rooms —"',
               },
               {
+                id: 'the-sentence-stops-the-way-his',
                 voice: 'narrator',
                 text: 'The sentence stops, the way his sentences do, as if he has read it back and found it not worth the ink. He goes in along the veranda. Genemon comes out by the same boards, the day-book under his arm, and stands where Naoyuki stood.',
               },
               {
+                id: 'you-have-seen-the-shut-rooms',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"You have seen the shut rooms. Everyone has. The house walks past its own best rooms daily, by the shortest way, the way a man walks past a debt. And still the veranda edge is wiped clean along its whole length — you will have seen that too."',
               },
               {
+                id: 'thirty-one-years-i-have-written-the',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Thirty-one years I have written the closing of this house, door by door. A room shut is one line, and cheap. Opening is dearer. I rule a second reckoning now — walls that held, ground taken back, stores past need — and that page wants the omoya on it, or the page is a lie of a new kind."',
               },
               {
+                id: 'it-is-the-last-work-and',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"It is the last work, and the largest: your coin, your hours, against your name in this book. Set the house in order, and whatever else this book has been, it ends as the record of a house that stands."',
@@ -3396,6 +3653,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Who keeps the veranda edge clean?"',
                 answer: [
                   {
+                    id: 'o-hisa-when-she-thinks-the-yard',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"O-Hisa, when she thinks the yard is empty. Nobody set her to it, and she would not thank the book for noticing. Houses are kept alive by such hands long after they are shut, and none of it has ever been entered. That is the arrears I mean to clear."',
@@ -3407,6 +3665,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why me?"',
                 answer: [
                   {
+                    id: 'because-every-work-on-this-page',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Because every work on this page went in against your name, and the yard watched each one done. When this house asks, someday, who set it in order, the book should answer with a name it can stand behind. Yours is the one written on the doing."',
@@ -3492,32 +3751,39 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-errand-at-the-board-is',
                 voice: 'narrator',
                 text: 'The errand at the board is finished and you are still standing at it, because your hand is shut around the first coin the work has put in it and there is nowhere in this yard to open it.',
               },
               {
+                id: 'genemon-does-not-look-up-when',
                 voice: 'narrator',
                 text: 'Genemon does not look up when you come to the board. He does not look up when you fail to leave it. Then he does — at the fist, not at the face.',
               },
               {
+                id: 'something-crosses-the-steward-s-face',
                 voice: 'narrator',
                 text: "Something crosses the steward's face that you have not seen on it before, quick, and gone the way a spark goes off a wet stone. He dips the brush and writes a line the day does not need.",
               },
               {
+                id: 'thirty-one-years-i-have-kept-this',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Thirty-one years I have kept this house\'s book, and every hand I ever paid stood in that spot holding it exactly as you are. Open your hand before you sweat the copper green."',
               },
               {
+                id: 'you-open-your-hand-the-coin',
                 voice: 'narrator',
                 text: 'You open your hand. The coin has gone a little green already.',
               },
               {
+                id: 'there-is-nothing-inside-these-walls',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"There is nothing inside these walls that will take it from you. The house pays in rice and eats what it grows; coin in this yard is coin standing still. The gate is where the outside comes to us — Yohei sets his mat in the gateyard two days in seven, with greens and wood and a hone and whatever the season left on his cart. Twice a year a monk sleeps under that same roof-beam and asks for nothing. That is the whole of the world that calls here."',
               },
               {
+                id: 'he-is-back-in-the-book',
                 voice: 'narrator',
                 text: 'He is back in the book before he has finished saying it, which is how the steward leaves a room without moving.',
               },
@@ -3528,11 +3794,13 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Do you buy from him yourself?"',
                 answer: [
                   {
+                    id: 'once-a-hone-my-first-season',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Once. A hone, my first season keeping this book. I paid a stranger\'s price for it because I did not yet know how to stand at a stall. I have it still. I have not needed a second."',
                   },
                   {
+                    id: 'that-is-more-of-himself-than',
                     voice: 'narrator',
                     text: 'That is more of himself than the board has ever handed you. He closes it off by ruling a line under nothing.',
                   },
@@ -3543,11 +3811,13 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Is it mine to spend?"',
                 answer: [
                   {
+                    id: 'it-came-out-of-the-work',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"It came out of the work and the book knows which work. Nobody in this house will ask you for it, and I will not ask you what you did with it. That is the whole of what yours means here."',
                   },
                   {
+                    id: 'he-writes-nothing-down-it-is',
                     voice: 'narrator',
                     text: 'He writes nothing down. It is the only answer he has given you that the book had no room for.',
                   },
@@ -3585,29 +3855,39 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-greens-have-been-in-your',
                 voice: 'narrator',
                 text: 'The greens have been in your fist since the woodlot — fern-shoots, a knot of butterbur, bitter enough to smell from where you hold them. You are standing in the middle of the forecourt with nowhere to put them and no reason to carry them further, and one of them is already halfway to your mouth.',
               },
               {
+                id: 'across-the-yard-at-the-kitchen',
                 voice: 'narrator',
                 text: 'Across the yard, at the kitchen threshold, O-Hisa stops with a wet pan in her hands. She does not come out into the yard. Anyone in this house could tell you that: the yard is where the hands are, and she keeps the threshold.',
               },
-              { voice: 'narrator', text: 'She comes out into the yard.' },
               {
+                id: 'she-comes-out-into-the-yard',
+                voice: 'narrator',
+                text: 'She comes out into the yard.',
+              },
+              {
+                id: 'not-raw-bracken-raw-will-take',
                 voice: 'steward',
                 speaker: NPC_NAME.ohisa,
                 text: '"Not raw. Bracken raw will take the lining out of a man\'s—"',
               },
               {
+                id: 'she-takes-the-greens-out-of',
                 voice: 'narrator',
                 text: 'She takes the greens out of your hand. She does it the way she takes a knife off the boy: without asking, and without any hurry at all.',
               },
               {
+                id: 'nobody-has-shown-you-of-course',
                 voice: 'steward',
                 speaker: NPC_NAME.ohisa,
                 text: '"Nobody has shown you. Of course nobody has shown you. You have eaten whatever was set in front of you since the spring, and not one person in this house has thought to ask what you would do the day it wasn\'t."',
               },
               {
+                id: 'there-is-a-pot-on-the',
                 voice: 'steward',
                 speaker: NPC_NAME.ohisa,
                 text: '"There is a pot on the fire at the threshold from first light to dark. Wood-ash out of the hearth, a hard boil, then it stands until it has stopped fighting you — an hour, near enough, and then it is food. A hot bowl puts a man back on his feet after a beating and a cold one leaves him where he fell. I have watched it do both."',
@@ -3619,15 +3899,18 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why come out for it?"',
                 answer: [
                   {
+                    id: 'she-looks-at-the-greens-and',
                     voice: 'narrator',
                     text: 'She looks at the greens, and not at you, long enough that you think she has decided against answering.',
                   },
                   {
+                    id: 'because-i-have-watched-a-grown',
                     voice: 'steward',
                     speaker: NPC_NAME.ohisa,
                     text: '"Because I have watched a grown man eat standing up in that yard, out of his fist, every day since the spring — and today he was going to put something in his mouth that would have—"',
                   },
                   {
+                    id: 'it-is-not-a-thing-a',
                     voice: 'steward',
                     speaker: NPC_NAME.ohisa,
                     text: '"It is not a thing a person can watch. That is the whole of it."',
@@ -3639,6 +3922,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Whose pot is it?"',
                 answer: [
                   {
+                    id: 'the-house-s-mine-at-the',
                     voice: 'steward',
                     speaker: NPC_NAME.ohisa,
                     text: '"The house\'s. Mine at the hours I stand over it, which is most of them. O-Yae carries the water up from the well and carries the talk back down again, and the boy will be at your elbow asking you things nobody has answered him either. Mind him. And mind the lid — he steals the lid."',
@@ -3677,34 +3961,41 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-rows-mid-morning-rokusuke-has-worked',
                 voice: 'narrator',
                 text: 'The rows, mid-morning. Rokusuke has worked the row over from yours since the spring — near enough to hand a tool across, and no nearer — and in all that time he has said nothing to you that the work did not say first.',
               },
               {
+                id: 'he-straightens-he-looks-once-at',
                 voice: 'narrator',
                 text: 'He straightens. He looks once at the blade on your hip. Then he looks, for a good while, at your feet.',
               },
               {
+                id: 'you-walk-the-top-of-the',
                 voice: 'villager',
                 speaker: NPC_NAME.rokusuke,
                 text: '"You walk the top of the bund. Every man in this field walks the low side, out of the wind, where the mud holds him. You\'ve walked the top since the day they put you in the rows."',
               },
               {
+                id: 'i-don-t-say-it-s',
                 voice: 'villager',
                 speaker: NPC_NAME.rokusuke,
                 text: "\"I don't say it's wrong. I watch where a man puts his feet, is all. It's not a thing I'd carry to the board.\"",
               },
               {
+                id: 'the-drying-racks-at-the-far',
                 voice: 'villager',
                 speaker: NPC_NAME.rokusuke,
                 text: "\"The drying racks at the far end are stripped again. Third night running — sheaves down, and the seed store's been at. It isn't birds. There's holes under the bank where the worked ground stops: setts, badger and tanuki both, dug out wider this year than last. That strip is the margin. It's nobody's ground and nobody's job, and you could stand on it from where you're standing and see the racks.\"",
               },
               {
+                id: 'i-don-t-tell-the-steward',
                 voice: 'villager',
                 speaker: NPC_NAME.rokusuke,
                 text: "\"I don't tell the steward. The man who tells him what's gone is the man who was there when it went — that's the yard's arithmetic and it has never once been wrong. You've a blade, and you walk the top of the bund. Do as you like with it.\"",
               },
               {
+                id: 'old-o-ume-s-plot-borders-the',
                 voice: 'villager',
                 speaker: NPC_NAME.rokusuke,
                 text: "\"Old O-Ume's plot borders the worst of it. She'll not say a word against them either. She thanks the kami for what's left standing and calls that a good year.\"",
@@ -3716,10 +4007,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why tell me?"',
                 answer: [
                   {
+                    id: 'he-bends-back-to-the-row',
                     voice: 'narrator',
                     text: 'He bends back to the row to answer, so that anyone watching from the forecourt would see two men working and one of them talking to the mud.',
                   },
                   {
+                    id: 'you-re-not-of-this-house',
                     voice: 'villager',
                     speaker: NPC_NAME.rokusuke,
                     text: '"You\'re not of this house. Nor am I, twelve years in. A man tells his own kind, and then he says he never told anybody, and both of those are true enough to live with."',
@@ -3731,6 +4024,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"A season is a long time to watch a man\'s feet."',
                 answer: [
                   {
+                    id: 'it-s-how-i-ve-kept',
                     voice: 'villager',
                     speaker: NPC_NAME.rokusuke,
                     text: "\"It's how I've kept a place here twelve years while better hands went down the road. The noticed hand is the blamed one. So I do the noticing, and I keep it where the board can't reach it.\"",
@@ -3769,32 +4063,39 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'you-sat-down-when-it-was',
                 voice: 'narrator',
                 text: 'You sat down when it was over and you have not stood up since. It got light while you were deciding whether to.',
               },
               {
+                id: 'soan-comes-across-the-outer-court',
                 voice: 'narrator',
                 text: 'Sōan comes across the outer court with his sleeves already tied back and his box under his arm. Nobody sent for him. You did not call out, and the yard has not been told anything.',
               },
               {
+                id: 'breathe-in-for-me-all-the',
                 voice: 'physician',
                 speaker: NPC_NAME.soan,
                 text: '"Breathe in for me. All the way in — and don\'t help me. I can see you doing it."',
               },
               {
+                id: 'he-sets-two-fingers-under-the',
                 voice: 'narrator',
                 text: 'He sets two fingers under the rib, and you find out what last night did.',
               },
               {
+                id: 'cracked-not-sprung-i-have-had',
                 voice: 'physician',
                 speaker: NPC_NAME.soan,
                 text: '"Cracked, not sprung. — I have had this body on my mat once already, so I will tell you a thing nobody else in this valley can. I know what your ribs were like when they were whole. I know what your hands were like before the rake got at them. You have no memory of those four days. I have all four."',
               },
               {
+                id: 'behind-him-on-the-shelf-where',
                 voice: 'narrator',
                 text: 'Behind him, on the shelf where he sets his box down, there is a ledger. He does not open it. When you look at it he moves, so that it stands behind him, and goes on talking.',
               },
               {
+                id: 'off-the-outer-court-there-is',
                 voice: 'physician',
                 speaker: NPC_NAME.soan,
                 text: '"Off the outer court there is a lean-to: a bench, a brazier, and a door that does not lock. It is where they carried you the morning the river gave you up, and you have never once walked into it on your own feet. Walk into it today."',
@@ -3806,11 +4107,16 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"How long was I on the mat?"',
                 answer: [
                   {
+                    id: 'four-days-you-woke-on-the',
                     voice: 'physician',
                     speaker: NPC_NAME.soan,
                     text: '"Four days. You woke on the fourth and asked for water before you asked for your name — which told me more about you than the fever did."',
                   },
-                  { voice: 'narrator', text: 'He says it without looking anything up.' },
+                  {
+                    id: 'he-says-it-without-looking-anything',
+                    voice: 'narrator',
+                    text: 'He says it without looking anything up.',
+                  },
                 ],
               },
               {
@@ -3818,6 +4124,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why come out to me? Men come to you."',
                 answer: [
                   {
+                    id: 'they-do-not-a-man-with',
                     voice: 'physician',
                     speaker: NPC_NAME.soan,
                     text: '"They do not. A man with a cracked rib sits down on the nearest thing to hand and calls it resting, and by the third day he has a fever and a story about how it was nothing. I have been fetching men off sills for thirty years. You are not even an interesting case."',
@@ -3866,41 +4173,55 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'copper-rounds-of-it-square-holed-the',
                 voice: 'narrator',
                 text: 'Copper. Rounds of it, square-holed, the rims worn thin by hands that were not yours. They have gone warm from being carried in a fist all morning, and they knock against each other when you walk, which is how you came to be standing still in the middle of the forecourt.',
               },
               {
+                id: 'you-have-counted-them-twice-both',
                 voice: 'narrator',
                 text: 'You have counted them twice. Both counts came out the same.',
               },
               {
+                id: 'nothing-inside-these-walls-will-take',
                 voice: 'narrator',
                 text: "Nothing inside these walls will take them. The rice is weighed dry at the kura door and entered against your name; the bowl is the kitchen's; the mat is the woodshed's. The village road runs out past the gate and the day's work does not let go of you long enough to walk it. The coin is metal, and metal keeps, and that is the whole of what it does here.",
               },
               {
+                id: 'genemon-comes-to-the-board-with',
                 voice: 'narrator',
                 text: 'Genemon comes to the board with the day-book under his arm and stops, because a man standing still in a swept yard is a thing out of order.',
               },
-              { voice: 'steward', speaker: NPC_NAME.genemon, text: '"Open the hand."' },
               {
+                id: 'open-the-hand',
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Open the hand."',
+              },
+              {
+                id: 'you-open-it-he-looks-at',
                 voice: 'narrator',
                 text: 'You open it. He looks at the coins the way he looks at everything that is put in front of him: he counts them, and then he waits to be told what they are for.',
               },
               {
+                id: 'that-is-enough-for-the-smallest',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"That is enough for the smallest thing on a pedlar\'s cart — a sack of mountain greens, ten mon. There is nothing else this side of the pass that your money reaches."',
               },
               {
+                id: 'two-days-in-seven-yohei-brings',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"Two days in seven, Yohei brings the cart up from the valley and sets his stall in the gateyard. Greens, kindling, a hone. He buys rice off a man and sells him what a man on foot can carry away again. Those two days are the reach of it. There is a monk who lodges at the gate at the New Year and at Bon, and he sells nothing and asks for nothing, and past those, nothing comes to that gate at all."',
               },
               {
+                id: 'from-the-board-you-can-see',
                 voice: 'narrator',
                 text: 'From the board you can see the whole of the gateyard through the open posts: hard dirt, bare of everything, and the crest board hung above it in wood newer than the posts that carry it. Nobody has swept out there since the hand who swept it left for the lowlands.',
               },
               {
+                id: 'it-is-the-first-ground-anyone',
                 voice: 'steward',
                 speaker: NPC_NAME.genemon,
                 text: '"It is the first ground anyone sees of this house, and it has been dirt for two years. It goes with the round. It is yours."',
@@ -3912,6 +4233,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"What does he stock?"',
                 answer: [
                   {
+                    id: 'a-sack-of-mountain-greens-ten',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"A sack of mountain greens, ten mon — the cheapest thing he carries. A bundle of split kindling above that. A river-stone hone and a faggot of ash, for a man who means to keep an edge on something. The rest of the cart turns with the season: one straw coat this winter, and when it is gone it is gone until the wheel comes round to winter again."',
@@ -3923,6 +4245,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"And if I never spend it?"',
                 answer: [
                   {
+                    id: 'then-it-sits-and-it-will',
                     voice: 'steward',
                     speaker: NPC_NAME.genemon,
                     text: '"Then it sits, and it will sit well; copper is patient. A hone is twenty-eight mon. An edge that is not kept fails in the middle of a day\'s work and costs you the rest of that day. Put the two numbers beside each other and you have my whole opinion. It is arithmetic. It is not advice."',
@@ -3961,37 +4284,45 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-bundle-has-gone-heavy-on',
                 voice: 'narrator',
                 text: 'The bundle has gone heavy on your back the way green things go heavy: fern-shoots and butterbur stalks, a double armful, cut at the woodlot edge where the light gets down through. The cut ends have browned and gone sticky. The tight-curled heads that stood up straight this morning are lying over on themselves.',
               },
               {
+                id: 'you-ate-one-raw-up-there',
                 voice: 'narrator',
                 text: "You ate one raw up there, because you were hungry and it was in your hand. Bracken raw is bitter enough to close a throat, and an hour later your mouth still knows about it. Raw, this is not food. By tomorrow it is not anything at all — greens cut in the morning are rot by the next morning, and you are carrying two days' worth of nothing.",
               },
               {
+                id: 'across-the-forecourt-the-kitchen-door',
                 voice: 'narrator',
                 text: 'Across the forecourt the kitchen door stands open and smoke is going up through the roof-hole, because there is one pot on this estate and it is in there, on its hook, over the only fire the house permits. O-Hisa is on the threshold with a basin against her hip, watching a man stand in a yard holding an armful of greens he cannot eat.',
               },
               {
+                id: 'bring-it-no-not-to-me',
                 voice: 'steward',
                 speaker: NPC_NAME.ohisa,
                 text: '"Bring it. No — not to me, to the step, and set it down instead of squeezing the life out of it. There was not much life in it to start."',
               },
               {
+                id: 'past-her-shoulder-the-pot-the',
                 voice: 'narrator',
                 text: "Past her shoulder: the pot, the crocks in a row along the wall, and the steward's papers stacked on the same shelf as the crocks, because in this house there is nowhere better to put them.",
               },
               {
+                id: 'bracken-is-bitter-and-it-is',
                 voice: 'steward',
                 speaker: NPC_NAME.ohisa,
                 text: '"Bracken is bitter and it is worse than bitter. Cold ash out from under the pot, water off the boil poured over it, the greens in that till morning. Then boil them and throw the water out, and boil them again and throw that water out too. What is left is food. It wants a fire, a pot, and somebody who will not wander off in the middle of it."',
               },
               {
+                id: 'the-fire-is-here-the-pot',
                 voice: 'steward',
                 speaker: NPC_NAME.ohisa,
                 text: '"The fire is here. The pot is here. Neither of them leaves this threshold, so neither does the man who wants them used — you stand where the pot is or you eat your rice cold, the same as you have been."',
               },
               {
+                id: 'and-you-will-want-it-hot',
                 voice: 'steward',
                 speaker: NPC_NAME.ohisa,
                 text: '"And you will want it hot. A man comes in off a bad night with something torn in him and thinks lying down will put it back. Lying down puts nothing back. Sōan will bind what is broken; putting the flesh back on your bones is this pot\'s work and there is no other pot."',
@@ -4003,6 +4334,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why can I not eat it raw?"',
                 answer: [
                   {
+                    id: 'because-it-is-bracken-eat-it',
                     voice: 'steward',
                     speaker: NPC_NAME.ohisa,
                     text: '"Because it is bracken. Eat it as it comes off the hill and you are two days no use to anybody, and the two days are worse than the hunger was — I have watched a hired man learn it, and I have scrubbed the step after. Everything that grows up there wants boiling before it wants eating. That is the hill. It is not a rule I made up to keep you here."',
@@ -4014,6 +4346,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"Why must it be your pot?"',
                 answer: [
                   {
+                    id: 'because-it-is-the-only-one',
                     voice: 'steward',
                     speaker: NPC_NAME.ohisa,
                     text: '"Because it is the only one, and because a fire anywhere else on this yard is a fire in the thatch. The woodshed is dry as tinder and you sleep in it. When you have a hearth of your own you may boil what you like on it, and if it comes to that — well. Until then the pot is here."',
@@ -4052,31 +4385,38 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-drying-rack-stands-at-the',
                 voice: 'narrator',
                 text: "The drying rack stands at the paddy's end: two forked posts, a cross-pole, and the straw cords that hold the sheaves up off the wet. You count the cords, because counting is the reading you trust. Three gnawed clean through. One chewed halfway and holding. The pole is down at the near end and last night's sheaves are lying in the mud beneath it, half of them stripped and scattered wide.",
               },
               {
+                id: 'the-mud-has-kept-what-did',
                 voice: 'narrator',
                 text: "The mud has kept what did it. Five toes and a long claw-mark ahead of each, crossing and doubling and crossing again — and a dragged furrow going away from the rack toward the field's edge, where the ground lifts and the grass has not been cut in years.",
               },
               {
+                id: 'the-furrow-does-not-stop-at',
                 voice: 'narrator',
                 text: 'The furrow does not stop at the last worked row. It goes on into the margin and ends at a hole in the bank that you can see from where you stand, and have never once walked out to.',
               },
               {
+                id: 'rokusuke-is-working-the-row-over',
                 voice: 'narrator',
                 text: 'Rokusuke is working the row over from yours. He straightens when your shadow crosses his water, and looks at the rack, and then at the blade Kihei hung on your hip, and then back at the rack.',
               },
               {
+                id: 'tanuki-mostly-badger-for-the-digging',
                 voice: 'villager',
                 speaker: NPC_NAME.rokusuke,
                 text: '"Tanuki, mostly. Badger for the digging — that hole is dug, not worn. The board writes down the sheaves, and the sheaves is what the board wants written. Nobody has written down the hole."',
               },
               {
+                id: 'he-takes-hold-of-the-fallen',
                 voice: 'narrator',
                 text: 'He takes hold of the fallen pole and lifts it back up onto its fork, where it sits, and does nothing at all, because the cords are still cut.',
               },
               {
+                id: 'there-that-s-the-rack-seen',
                 voice: 'villager',
                 speaker: NPC_NAME.rokusuke,
                 text: '"There. That\'s the rack seen to."',
@@ -4088,6 +4428,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"How many nights has it been?"',
                 answer: [
                   {
+                    id: 'three-four-if-you-count-the',
                     voice: 'villager',
                     speaker: NPC_NAME.rokusuke,
                     text: "\"Three. Four, if you count the night they only chewed the cords and carried nothing off — I don't count that one, and I'd thank you not to count it to the board either. Sheaves lost: eleven, near enough; I'd say eleven. I keep a count of what crosses my hands. Keeping a count and telling somebody are two different jobs and only one of them is mine.\"",
@@ -4099,6 +4440,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"What\'s out there, past the bank?"',
                 answer: [
                   {
+                    id: 'setts-old-ones-the-holes-go',
                     voice: 'villager',
                     speaker: NPC_NAME.rokusuke,
                     text: "\"Setts. Old ones. The holes go in under the grass and come out somewhere else, and there's one at the far end that was there before I was. Drying racks all along that side — ours, and O-Ume's; she has her plot at the worst of it and she is out among it at first light, every light. That ground has never been anybody's work. So nobody has ever done it.\"",
@@ -4137,33 +4479,40 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             motivates: [],
             greeting: [
               {
+                id: 'the-rag-was-your-sleeve-you',
                 voice: 'narrator',
                 text: 'The rag was your sleeve. You tore it at the seam, wound it twice around the ribs, pulled the knot with your teeth because the left hand had stopped being any use to you, and it went through in the dark. You wound a second layer over the first. It has gone through that as well, and the wet edge of it is still spreading while you look down at it.',
               },
               {
+                id: 'a-half-breath-goes-in-a-whole',
                 voice: 'narrator',
                 text: 'A half-breath goes in. A whole one catches on something low on the right that grinds, so you have stopped taking whole breaths.',
               },
               {
+                id: 'there-is-blood-dried-on-the',
                 voice: 'narrator',
                 text: "There is blood dried on the kura's sill in a smear the length of your forearm. Most of it is yours. The rice behind the door was not touched.",
               },
               {
+                id: 'soan-crosses-the-yard-at-the',
                 voice: 'narrator',
                 text: 'Sōan crosses the yard at the pace he does everything and crouches, and does not ask how you feel. He takes the wet edge of the wrapping between two fingers, and looks at what comes away on them, and looks at it for longer than you would like.',
               },
               {
+                id: 'which-side-did-it-put-you',
                 voice: 'physician',
                 speaker: NPC_NAME.soan,
                 text: '"Which side did it put you down on, and did you get up by yourself?"',
               },
-              { voice: 'player', text: '"The sill. I got up."' },
+              { id: 'the-sill-i-got-up', voice: 'player', text: '"The sill. I got up."' },
               {
+                id: 'then-they-are-cracked-and-not',
                 voice: 'physician',
                 speaker: NPC_NAME.soan,
                 text: '"Then they are cracked and not driven in, or you would not have got up and you would not be answering me in whole words. That is the best thing I will say today. The rest is that your wrapping is a sleeve, and a sleeve does not close a wound. It drinks."',
               },
               {
+                id: 'there-is-a-lean-to-off-the',
                 voice: 'physician',
                 speaker: NPC_NAME.soan,
                 text: '"There is a lean-to off the outer court, north side, with a door that does not latch. Boiled water, clean cloth, a board to lie on, and light enough to see by. You have been in it. They carried you up from the weir on a door taken off its runners and you were never awake for the room — which is why you are sitting in a yard, bleeding, forty paces from the only place on this estate that can stop it."',
@@ -4175,15 +4524,18 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"What are you writing?"',
                 answer: [
                   {
+                    id: 'he-has-the-ledger-open-on',
                     voice: 'narrator',
                     text: 'He has the ledger open on his knee and the brush already wet. He is writing while he speaks, which is not a thing a man does unless he means to.',
                   },
                   {
+                    id: 'when-did-the-bleeding-slow-then',
                     voice: 'physician',
                     speaker: NPC_NAME.soan,
                     text: '"When did the bleeding slow? — Then it is slowing, and that is your answer, and it is the only one you need while you are upright. The book is mine. It holds how fast a man knits and where. It is a physician\'s business."',
                   },
                   {
+                    id: 'the-book-is-shut-before-you',
                     voice: 'narrator',
                     text: 'The book is shut before you have finished looking at it. He does not hurry it shut. He simply closes it.',
                   },
@@ -4194,6 +4546,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
                 label: '"And if I don\'t get up next time?"',
                 answer: [
                   {
+                    id: 'then-you-are-carried-and-the',
                     voice: 'physician',
                     speaker: NPC_NAME.soan,
                     text: '"Then you are carried, and the door comes off its runners again, and four men bring you to the room I have just told you about. It has no lock and it never had one. What it takes from you is days — the work not done, the season going on outside without you, a man on a board counting the roof-beams. Now stop talking and breathe out."',

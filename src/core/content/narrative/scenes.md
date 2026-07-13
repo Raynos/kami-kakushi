@@ -32,24 +32,29 @@
 trigger: scripted
 voice: narrator
 
+<!--#autumn-thins-to-its-last-day-->
 > Autumn thins to its last day, and the board comes out at an hour it does not
 > usually keep. The whole house comes with it: the family by the book, the hands
 > by the door, and you in the corner — counted as part of the room, and not
 > asked into it.
 
+<!--#genemon-reads-the-year-against-the-->
 > Genemon reads the year against the house. The harvest in and weighed, the
 > lease, the winter's wood — and then the land tax, owed to the lord in rice,
 > which must be paid before the season is allowed to turn.
 
+<!--#nobody-reads-the-sum-aloud-it-->
 > Nobody reads the sum aloud. It arrives the way weather arrives: the room goes
 > still around it, a breath drawn and not let go, every eye on the book and none
 > on one another.
 
+<!--#chiyo-looks-once-and-briefly-at-->
 > Chiyo looks once, and briefly, at a screen that will not be in its room by
 > spring. That is all that is shown of it, and none of it is explained. The
 > house is poorer than it looks. You are learning how much poorer by what leaves
 > it.
 
+<!--#the-book-closes-the-house-has-->
 > The book closes. The house has answered for the land; its autumn can end. You
 > are still in the corner. Nobody tells you the season is over. It is.
 
@@ -69,48 +74,61 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#a-hand-shakes-you-awake-in-->
 > A hand shakes you awake in the dark of the woodshed. Rokusuke, with a
 > lantern, looking mostly at the door.
 
+<!--#board-room-the-whole-house-is-->
 Rokusuke: "Board room. The whole house is called. You as well. I only
 fetch."
 
+<!--#lamps-at-the-board-at-the-->
 > Lamps at the board at the wrong hour. The household stands in two rows —
 > the hands by the door, the house by the book — and between the rows there
 > is more floor than the room usually has. You are shown to the middle of it.
 > Nobody arranged that.
 
+<!--#nobody-asks-you-anything-you-stand-->
 > Nobody asks you anything. You stand in the floor they have made and are looked
 > at, and it takes more out of you than the night at the sill did.
 
+<!--#the-alcove-chest-stands-open-one-->
 Genemon: "The alcove chest stands open. One item short against the book. A
 packet — cloth, bound with cord, a hand's length — entered as lamp-oil for
 the shrine. Counted at the evening rice. Gone since. The house will be
 counted before it sleeps."
 
+<!--#naoyuki-stands-at-his-father-s-->
 > Naoyuki stands at his father's place at the board. He does not look at you
 > until he does.
 
+<!--#if-the-house-must-do-this-->
 Naoyuki: "If the house must do this, then it does it properly — in order of
 service, eldest hands first, so that no one can say—"
 
+<!--#no-the-weir-man-him-first-->
 Naoyuki: "No. The weir man. Him first."
 
+<!--#nobody-objects-some-of-the-hands-->
 > Nobody objects. Some of the hands look at you; more look at the floor. It
 > is the order the room was already thinking in.
 
 ### ask r5-accused · "Am I accused?"
 
+<!--#the-question-costs-you-something-to-->
 > The question costs you something to ask. Genemon does not notice the price.
 
+<!--#you-are-counted-the-whole-house-->
 Genemon: "You are counted. The whole house is counted. Accusation comes after
 the book, not before it."
 
 ### ask r5-why-first · "Why me first?"
 
+<!--#because-the-book-carries-ten-years-->
 Naoyuki: "Because the book carries ten years on every other man here, and on
 you it carries—"
 
+<!--#because-nobody-in-this-house-knows-->
 Naoyuki: "Because nobody in this house knows what you are."
 
 ### decide · The room waits on you.
@@ -145,31 +163,40 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#the-kura-tally-who-kept-it-->
 Genemon: "The kura tally. Who kept it today?"
 
+<!--#rokusuke-has-been-standing-where-the-->
 > Rokusuke has been standing where the lantern light mostly isn't. He comes
 > forward the way a man wades cold water.
 
+<!--#eleven-loads-in-by-dark-steward-->
 Rokusuke: "Eleven loads in by dark, steward. His mark against each. Last mark
 at lamp-lighting, and the rice was long cleared by then. He never left the
 kura side of the yard. That's what the tally says. The tally's there to look
 at."
 
+<!--#genemon-sets-the-tally-board-beside-->
 > Genemon sets the tally board beside the day-book and reads one against the
 > other. The room watches him do arithmetic.
 
+<!--#the-packet-was-counted-at-the-->
 Genemon: "The packet was counted at the evening rice, in the inner house.
 From mid-day to lamp-lighting this man was under grain. There is no hour of his
 day the book does not account for."
 
+<!--#then-it-is-someone-of-the-->
 Naoyuki: "Then it is someone of the house."
 
+<!--#the-door-to-the-inner-corridor-->
 > The door to the inner corridor slides. Toku stands in it, in her
 > night-clothes, her hair down — a woman nobody sent for. She looks at no one
 > in particular, and at the book last.
 
+<!--#it-went-up-at-the-new-->
 Toku: "It went up at the new moon."
 
+<!--#nobody-asks-what-went-up-nobody-->
 > Nobody asks what went up. Nobody asks where. Genemon dips his brush, enters
 > one line, and closes the day-book.
 
@@ -181,31 +208,41 @@ Toku: "It went up at the new moon."
   texture only, never latched), so it is cut here, the authorized option. The
   new-moon lantern crossing still lives as night-round flavor (sb-dog-coda). -->
 
+<!--#the-count-is-answered-the-house-->
 Genemon: "The count is answered. The house is not short. Take the lamps."
 
+<!--#the-rows-break-up-around-you-->
 > The rows break up around you. Naoyuki passes you last.
 
+<!--#you-were-counted-that-is-all-->
 Naoyuki: "You were counted. That is all it was."
 
+<!--#at-the-morning-board-nobody-speaks-->
 > At the morning board nobody speaks of the night. The hands keep a little
 > more room around you than the work needs — for a day, then two — and then
 > it is spent, needing nothing from you to end.
 
+<!--#from-today-the-book-carries-you-->
 Genemon: "From today the book carries you at a day-wage, in mon, paid against
 each day worked. It was due at the season's turn. It is the season's turn."
 
+<!--#at-the-paddy-rokusuke-works-the-->
 > At the paddy Rokusuke works the row over from yours, as he did before, no
 > nearer. You thank him for the tally.
 
+<!--#kept-it-same-as-any-day-->
 Rokusuke: "Kept it same as any day. It would have read the same if it hanged
 you."
 
+<!--#he-bends-back-to-the-row-->
 > He bends back to the row.
 
+<!--#eleven-marks-on-a-board-kept-->
 > Eleven marks on a board, kept by a man who has never worked nearer to you than
 > the next row. It is the fullest account of you that exists, and nobody asked
 > you for any of it.
 
+<!--#that-evening-the-wage-enters-the-->
 > That evening the wage enters the day-book: so many mon, and against the
 > entry, where a name would go, a mark. It is still not a name.
 
@@ -227,25 +264,31 @@ once: true
 speaker: shinnosuke
 voice: steward
 
+<!--#the-grove-past-noon-yesterday-s-->
 > The grove, past noon. Yesterday's cut stalks lie where the work stopped.
 > The troop is loud up the slope — and under the troop, smaller, a voice that
 > has no business being here.
 
+<!--#shinnosuke-stands-with-his-back-to-->
 > Shinnosuke stands with his back to green bamboo, holding a stripped branch
 > out in front of him the way nobody taught him. The big male is down on the
 > ground. It is closer to the boy than monkeys come when things are going
 > well.
 
+<!--#you-re-the-new-one-do-->
 Shinnosuke: "You're the new one. Do they bite? They bite, don't they — don't
 tell anyone I'm here."
 
+<!--#you-come-up-the-slow-way-->
 > You come up the slow way, on the uphill side, and stand where the male can
 > weigh you. It goes when going is its own idea. It takes a seed-pouch with
 > it.
 
+<!--#i-had-a-plan-did-you-->
 Shinnosuke: "I had a plan. Did you see it take the pouch? That wasn't my
 fault."
 
+<!--#uphill-on-the-slow-side-not-->
 > Uphill, on the slow side, not looking straight at it — you did all three
 > before you chose any of them. If he asks who taught you that, you have nothing
 > to give him.
@@ -286,30 +329,40 @@ once: true
 speaker: ohisa
 voice: steward
 
+<!--#loads-cross-the-forecourt-all-morning-->
 > Loads cross the forecourt all morning: trays, lamp-oil, cut flowers, a
 > bundle of incense sticks O-Yae carries two-handed like a caught bird.
 > Everyone is given something.
 
+<!--#the-third-load-goes-past-before-->
 > The third load goes past before you ask it.
 
+<!--#what-do-i-carry-->
 You: "What do I carry?"
 
+<!--#not-this-if-a-year-from-->
 O-Hisa: "Not this. If a year from now — well. Not this."
 
+<!--#the-house-files-toward-the-alcove-->
 > The house files toward the alcove corridor. The forecourt is yours all day.
 > For once, nobody crosses it.
 
+<!--#at-dusk-from-the-weir-path-->
 > At dusk, from the weir path: O-Ume sets her lantern on the water and talks
 > it out past the reeds, the way you'd see a guest to the road.
 
+<!--#at-the-gate-the-monk-iori-->
 > At the gate, the monk Iori has his lodging and his one small fire.
 
+<!--#sit-i-have-two-bowls-and-->
 Iori: "Sit. I have two bowls and only the one mouth. I'll be gone before you
 learn my face."
 
+<!--#through-the-corridor-screen-past-shoulders-->
 > Through the corridor screen, past shoulders: a small tray set out for
 > somebody, and straw sandals beside it, toes toward the gate.
 
+<!--#morning-the-trays-are-cleared-the-->
 > Morning. The trays are cleared, the lanterns down, the monk gone north. The
 > sandals are new.
 
@@ -323,35 +376,44 @@ once: true
 speaker: matsuzo
 voice: villager
 
+<!--#matsuzo-comes-up-from-the-river-->
 > Matsuzō comes up from the river at the pace of a man nothing has hurried in
 > sixty years. Genemon meets him in the forecourt with the day-book already
 > open — which is how you learn the house knew it was short before the knock.
 
+<!--#the-weir-lease-due-today-rice-->
 Genemon: "The weir lease. Due today: rice, one koku — that is ten to. In the
 store, against it: seven to. The house is short a third, and I will not count
 it smaller than it is."
 
+<!--#screens-took-a-beating-in-the-->
 Matsuzō: "Screens took a beating in the spring water. Rats after. Hard year
 on everything downstream."
 
+<!--#he-does-not-say-on-you-->
 > He does not say: on you too. He looks at the gate's paint, and at you, and
 > back toward the river, the way he looks at everything — weather that will
 > pass over his weir eventually.
 
+<!--#three-to-owing-i-ask-the-->
 Genemon: "Three to owing. I ask the season's grace on it. The house asks."
 
+<!--#genemon-bows-not-deeply-no-kurosawa-->
 > Genemon bows. Not deeply. No Kurosawa steward has ever had to bow to a
 > weir-keeper before. He gets the depth right the first time, because he does
 > not intend to do it again.
 
+<!--#the-river-can-wait-a-season-->
 Matsuzō: "The river can wait a season. The screens can't — rats are in them
 now. Send your man down while the year turns and we'll call it even weight by
 winter."
 
+<!--#nobody-asks-you-a-line-in-->
 > Nobody asks you. A line in the day-book, a nod toward the water, and a
 > season of your evenings is settled between two old men. Three to of rice.
 > It is the first time you have been worth a number. The number is small.
 
+<!--#at-the-gate-the-old-man-->
 > At the gate the old man stops, level with you, and looks at you the way he
 > looked at the paint. He goes back down the way he came without a word. He has
 > passed you in this gateyard a dozen times and never once made anything of you.
@@ -370,17 +432,21 @@ once: true
 speaker: kihei
 voice: arms
 
+<!--#the-last-of-the-pack-went-->
 > The last of the pack went over the wall two days ago. This one stayed. An
 > old dog, grey to the jaw, one ear ragged from winters, lying in the dead
 > leaves under the far fruit trees like the orchard is a post it was never
 > relieved from.
 
+<!--#it-does-not-run-and-it-->
 > It does not run and it does not beg. When you work, it watches. When you
 > eat, it watches the food, then you — and then it looks away first.
 
+<!--#kihei-crosses-the-cleared-ground-on-->
 > Kihei crosses the cleared ground on his round and stops beside you, reading
 > the dog the way he reads a blade for rust.
 
+<!--#the-old-one-too-slow-for-->
 Kihei: "The old one. Too slow for the pack, too proud for the village
 middens. Drive it, feed it, or bring it to me. Don't leave it half-decided."
 
@@ -420,13 +486,16 @@ trigger: scripted
 once: true
 voice: narrator
 
+<!--#new-moon-and-the-round-goes-->
 > New moon, and the round goes out into it. Rats in the store: cleared. The
 > store settles. Then, at the yard's far edge, a lantern crosses with its
 > light hooded, going upstream, unhurried, sure of the path.
 
+<!--#the-rats-never-drew-a-bark-->
 > The rats never drew a bark out of it. Nor the marten, the time it came. The
 > dog barks once — once — at the lantern, and then is quiet.
 
+<!--#the-lantern-does-not-stop-kihei-->
 > The lantern does not stop. Kihei does not turn his head. The dog watches it
 > the whole way upstream, and nobody enters a bark in any book.
 
@@ -440,43 +509,56 @@ once: true
 speaker: shinnosuke
 voice: steward
 
+<!--#loading-at-the-kura-shinnosuke-is-->
 > Loading at the kura. Shinnosuke is up on the stacked bales, where he is not
 > allowed, counting something over your head.
 
+<!--#count-them-the-storehouse-has-one-->
 Shinnosuke: "Count them. The storehouse has one more than the gate. Why does
 the storehouse get one more petal than the gate? Who changes a crest — you
 can't just change a crest, can you?"
 
+<!--#you-look-above-the-seal-plate-the-->
 > You look. Above the seal-plate the crest is cut deep and old: the same flower
 > as the gate's, and not the same flower. You count twice, because counting
 > is the one kind of reading you trust.
 
+<!--#ask-the-steward-->
 You: "Ask the steward."
 
+<!--#i-asked-everyone-grandmother-said-mind-->
 Shinnosuke: "I asked everyone. Grandmother said mind the lamp. Genemon wrote
 in his book. Mother said if I've time for petals I've time for copywork.
 Nobody answers me. You ask. You work here — they have to answer you."
 
+<!--#asking-costs-you-something-every-time-->
 > Asking costs you something every time. You pay it at the board that evening.
 
+<!--#the-kura-s-crest-it-has-->
 You: "The kura's crest. It has one petal more than the gate's."
 
+<!--#it-is-not-even-a-question-->
 > It is not even a question, the way you say it. Genemon looks at you the way he
 > looked at you the first morning, river-wet and unentered — a thing to be put
 > under the correct heading. Then he opens the day-book, writes — not
 > long — and closes it.
 
+<!--#the-kura-wants-its-hinges-oiled-->
 Genemon: "The kura wants its hinges oiled before the rains. Take the small
 ladder."
 
+<!--#that-is-the-answer-it-is-->
 > That is the answer. It is the same answer the boy got, in a different hand.
 
+<!--#shinnosuke-is-waiting-on-the-woodpile-->
 > Shinnosuke is waiting on the woodpile to hear what you learned. You tell
 > him: hinges. He nods like a man twice his age confirming a debt gone bad.
 
+<!--#see-you-re-the-other-one-->
 Shinnosuke: "See. You're the other one they don't tell. What did he write —
 did you see what he wrote?"
 
+<!--#you-didn-t-the-boy-climbs-->
 > You didn't. The boy climbs down and goes in to his copywork, and you oil the
 > hinges under the crest, and the kura keeps whatever it keeps.
 
@@ -496,21 +578,27 @@ trigger: rung R2
 once: true
 voice: narrator
 
+<!--#first-light-the-broom-stands-against-->
 > First light. The broom stands against the gatepost where you left it. The hand
 > who kept the yard's round quit for the lowlands; nobody has said whose it is
 > now.
 
+<!--#you-take-the-broom-nobody-takes-->
 > You take the broom. Nobody takes it back.
 
+<!--#the-round-takes-the-morning-the-->
 > The round takes the morning: the gate swept, the forecourt raked, the water
 > in, the wood up off the ground. Dusk round, then the kitchen threshold, the
 > bowl. Genemon comes past with the day-book under his arm and does not slow.
 
+<!--#rice-from-the-new-moon-one-->
 Genemon: "Rice from the new moon. One measure the day, dry, weighed at the kura
 door. Meals were terms for a man staying a week."
 
+<!--#he-is-through-the-door-before-->
 > He is through the door before you can set the bowl down.
 
+<!--#a-meal-ends-with-the-eating-->
 > A meal ends with the eating. Rice keeps.
 
 <!-- ── The first dream (u7 take-b) ───────────────────────────────────────────
@@ -527,34 +615,45 @@ trigger: scripted
 once: true
 voice: narrator
 
+<!--#the-woodshed-late-on-the-doorstep-->
 > The woodshed, late. On the doorstep, folded under a stone against the wind:
 > your straw coat, mended at the shoulder in small even stitches that no one
 > will own to. You carry it in, lie down on the mat, and for once sleep at once.
 
+<!--#the-book-has-a-name-in-->
 > The book has a name in it now. The dream does not use it.
 
+<!--#a-road-climbing-rain-on-it-->
 > — a road, climbing. Rain on it.
 
+<!--#the-weight-across-his-shoulders-is-->
 > The weight across his shoulders is right. Two loads and the pole, and his feet
 > know the next stone without being asked. Below the road, water — he cannot see
 > it, but it is there the way a wall is there in a dark room.
 
+<!--#behind-him-on-the-climb-somebody-->
 > Behind him on the climb, somebody calls a name. Short, worn smooth, thrown
 > easy — a name that has landed a thousand times and expects to land now.
 
+<!--#he-turns-to-answer-->
 > He turns to answer.
 
+<!--#the-mountain-moves-->
 > The mountain moves.
 
+<!--#after-that-there-is-only-the-->
 > After that there is only the water, and the road going away upward, and the
 > voice still calling — smaller, and smaller. He knows the name is his. He
 > cannot hear it.
 
+<!--#he-wakes-in-the-woodshed-with-->
 > He wakes in the woodshed with his mouth open around a word that is not there.
 > Rain, real rain, small on the roof. The coat is where he left it.
 
+<!--#there-was-a-road-->
 Gonbei (player): "There was a road."
 
+<!--#nobody-answers-it-is-a-long-->
 > Nobody answers. It is a long while before he sleeps again, and the dream, that
 > night, does not come back.
 
@@ -575,12 +674,16 @@ trigger: season-exit winter
 once: true
 voice: narrator
 
+<!--#the-snow-quits-the-valley-floor-->
 > The snow quits the valley floor first — gray at the edges, then standing water in the wheel-ruts. The ridge keeps its white and means to keep it.
 
+<!--#the-river-runs-black-and-narrow-->
 > The river runs black and narrow between its shelves of ice. Past the rope, the old garden's snow lies whole: a winter's worth, and not one track across it.
 
+<!--#the-light-stretches-work-that-used-->
 > The light stretches. Work that used to end at the woodshed door now ends past it, and the cold stays on, but it has stopped arguing.
 
+<!--#small-on-the-road-below-a-->
 > Small on the road below, a man comes up from the village with new straw rope coiled over his shoulder, for the gates. The year is going out. The New Year comes up the valley behind him.
 
 ## scene-def turn-new-year
@@ -588,12 +691,16 @@ trigger: season-exit new-year
 once: true
 voice: narrator
 
+<!--#ice-lets-go-of-the-shaded-->
 > Ice lets go of the shaded bank a plate at a time, each one turning once in the current and gone.
 
+<!--#the-ground-gives-underfoot-where-all-->
 > The ground gives underfoot where all winter it rang. The well-path grows a margin of mud, and the mud holds each footprint till noon.
 
+<!--#up-the-woodlot-the-bark-of-->
 > Up the woodlot, the bark of the young trees is chewed to the pale — deer, down off the ridge in the dark and gone again by light. Whatever they came for, the ridge no longer had it.
 
+<!--#last-and-small-under-all-that-->
 > Last, and small under all that water-light, the villagers walk their field-bunds, looking at what the thaw left them. Spring is on the valley, and everything from here on is work.
 
 ## scene-def turn-spring
@@ -601,12 +708,16 @@ trigger: season-exit spring
 once: true
 voice: narrator
 
+<!--#the-green-closes-ranks-what-was-->
 > The green closes ranks. What was rows in the paddies is one surface now, and when the wind crosses it, the whole valley floor moves together.
 
+<!--#the-river-drops-slow-over-its-->
 > The river drops slow over its gravel, clear and warm in the shallows by noon.
 
+<!--#in-the-grove-the-new-bamboo-->
 > In the grove, the new bamboo has gone up taller than a man in a fortnight — pale among the old canes, then not.
 
+<!--#people-show-late-in-this-weather-->
 > People show late in this weather, and low: hats in the deep green, moving slow along the rows. Summer has the valley now.
 
 ## scene-def turn-summer
@@ -614,12 +725,16 @@ trigger: season-exit summer
 once: true
 voice: narrator
 
+<!--#the-heat-loosens-its-grip-at-->
 > The heat loosens its grip at the edges first: a haze on the river that burns off later each morning, and at dusk the cicadas trade their noon voice for the thin evening one.
 
+<!--#the-light-comes-in-slantwise-now-->
 > The light comes in slantwise now and finds the dust hanging in the forecourt air. The ridge stands closer in it, the way it does before weather.
 
+<!--#on-the-hill-above-the-village-->
 > On the hill above the village, small figures move among the stones with sickles and water-buckets, tidying — one household first, then by week's end all of them.
 
+<!--#smoke-stands-over-the-village-at-->
 > Smoke stands over the village at dusk, more fires than there are suppers. Bon is here, and the valley is making itself ready to be visited.
 
 ## scene-def turn-bon
@@ -627,12 +742,16 @@ trigger: season-exit bon
 once: true
 voice: narrator
 
+<!--#the-river-carries-the-first-leaves-->
 > The river carries the first leaves down from the ridge, one and two at a time, red before anything on the valley floor has thought of turning.
 
+<!--#the-mornings-come-in-cold-enough-->
 > The mornings come in cold enough to name. Mist stands knee-deep in the paddies, and the heavy heads of rice bow through it, all leaning the same way.
 
+<!--#the-road-empties-back-out-over-->
 > The road empties back out over the pass. The valley keeps what belongs to it and lets the rest go.
 
+<!--#from-the-village-at-dusk-the-->
 > From the village at dusk, the sound of whetstones — one, then several, no hurry in any of them. Bon has gone home. It is autumn, and the valley's whole year is standing out in the fields, waiting to be carried in.
 
 <!-- ── The works discovery beats (works-cause bundle, ADR-139/ADR-177) ─────────
@@ -665,57 +784,71 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#the-board-an-evening-some-weeks-->
 > The board, an evening some weeks into the rice terms. The day's wages are
 > footed and the book should be closed. Genemon does not close it. He turns
 > back to a page ruled off from the rest and sets it in front of you.
 
+<!--#the-ink-at-the-head-of-->
 > The ink at the head of it has gone brown. The line at the foot was written
 > this morning. It is all one hand.
 
+<!--#the-wages-are-settled-this-is-->
 Genemon: "The wages are settled. This is the other page."
 
+<!--#gate-west-post-takes-water-at-->
 Genemon: "Gate, west post — takes water at the foot, second winter. Paddy
 bunds, three — slumped, the water going through them at its own level.
 Woodshed, north corner of the roof — rain comes through it. The shed holds
 this house's tools and this house's firewood, and it is failing."
 
+<!--#he-enters-nothing-every-line-is-->
 > He enters nothing. Every line is already there, and dated.
 
+<!--#one-more-the-house-carries-whether-->
 Genemon: "One more the house carries whether I write it or not. The weir
 screens are Matsuzō's. We lease them; the keeping of them is ours. River rats
 gnaw them at the waterline, and every slat they take through is coin this
 house owes across the water. That was owing before you washed up against
 them."
 
+<!--#understand-what-i-am-asking-and-->
 Genemon: "Understand what I am asking and what I am not. There is no coin in
 this for you — no coin, not a mon, the same as the day I took you on. What
 mends any of this is work, and whatever coin the man doing the work puts in
 beside it. I enter what is put in, and the hand that put it."
 
+<!--#i-commission-nothing-that-has-not-->
 Genemon: "I commission nothing that has not been looked at. Walk the three,
 and the weir path. Look at each of them with your own eyes. Rot shows better
 by daylight."
 
+<!--#he-is-holding-the-page-flat-->
 > He is holding the page flat with two fingers, though nothing is moving it.
 
+<!--#do-not-take-my-word-for-->
 Genemon: "Do not take my word for any of it. Go and see."
 
 ### ask works-intro-ask-a · "Why now? It's stood this long."
 
+<!--#it-has-not-stood-it-has-->
 Genemon: "It has not stood. It has been going the whole time, slowly enough
 that a busy man calls that standing. Walk out past the orchard and you will
 find flat ground with old stones set in it. Houses, once. Nobody mended them.
 Nobody wrote them down anywhere either."
 
+<!--#why-now-because-there-is-a-->
 Genemon: "Why now. Because there is a man in this yard with two hands who owes
 nothing to anyone else. That is new. The page is not."
 
 ### ask works-intro-ask-b · "Whose coin mends it, then?"
 
+<!--#nobody-s-if-you-are-waiting-->
 Genemon: "Nobody's, if you are waiting for a purse to open. I told you the
 morning I took you on: what coin this house sees is sent out before it reaches
 the yard, and I am the man who sends it. Nothing about that has changed."
 
+<!--#so-it-is-hands-yours-and-->
 Genemon: "So it is hands. Yours, and whatever you choose to put in beside
 them. That is the whole of the fund."
 
@@ -743,22 +876,28 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#the-board-again-genemon-sees-you-->
 > The board again. Genemon sees you cross the forecourt and has the day-book
 > open at the ruled page before you reach him. The brush is already wet.
 
+<!--#you-went-you-saw-them-->
 Genemon: "You went. You saw them."
 
+<!--#then-hear-the-work-post-one-->
 Genemon: "Then hear the work. Post, one — drawn and reset on dry footing.
 Bunds, three — cut back to sound earth and rammed. Roof, one corner — boards
 and thatch. One work, the three together. I will not mend them one at a time."
 
+<!--#he-rules-the-line-and-holds-->
 > He rules the line and holds the brush off the paper. He does not fill it in.
 
+<!--#taken-up-it-goes-against-your-->
 Genemon: "Taken up, it goes against your line. Your work, and any coin you set
 beside it. I enter what is put in."
 
 ### ask works-u1-ask-a · "Why the three together?"
 
+<!--#because-all-three-are-the-same-->
 Genemon: "Because all three are the same fault: water where it should not be.
 It runs down the slope into the foot of the post, it goes through the bunds,
 and it comes through the shed roof when it comes as rain. Mend the post alone
@@ -766,6 +905,7 @@ and the other two are still open, and next winter I write the post again."
 
 ### ask works-u1-ask-b · "Where do I begin?"
 
+<!--#water-first-always-the-post-and-->
 Genemon: "Water first, always. The post and the bunds while the weather holds.
 The roof before the autumn rains. Leave it past them and you will be replacing
 the boards underneath it as well."
@@ -794,22 +934,27 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#genemon-finds-you-in-the-forecourt-->
 > Genemon finds you in the forecourt with the orchard's brambles still caught
 > in your sleeves. He does not ask where you have been. He has the day-book
 > with him, already open at the ruled page.
 
+<!--#the-orchard-that-is-the-oldest-->
 Genemon: "The orchard. That is the oldest thing on this page."
 
+<!--#someone-set-those-trees-out-in-->
 Genemon: "Someone set those trees out in rows, with paths between them, meaning
 to walk there. No one has walked there in thirty years. The bramble took the
 rows a few at a time, and dogs are denned in the hollow where fruit was dried."
 
+<!--#the-work-the-wild-growth-cut-->
 Genemon: "The work: the wild growth cut back to sound wood, the dens broken and
 emptied. It is not a mending. There is nothing there left to mend. It is taking
 the ground back."
 
 ### ask works-u2-ask-a · "The dogs first, or the cutting?"
 
+<!--#the-dens-first-cut-with-dogs-->
 Genemon: "The dens first. Cut with dogs still in there and every man swinging a
 billhook has his back to them. They are bold from lean winters. Break the pack
 and what is left is only dogs. Kihei will tell you the same in fewer words, and
@@ -817,10 +962,12 @@ drill you for it if you ask him plainly."
 
 ### ask works-u2-ask-b · "Is anything left in there worth the taking?"
 
+<!--#sound-trees-under-the-choke-i-->
 Genemon: "Sound trees, under the choke. I went in with a knife myself and cut
 down to the green, to know. Thirty years of bramble has not killed them. Cut it
 off them and they will bear."
 
+<!--#i-never-had-the-hands-to-->
 Genemon: "I never had the hands to do more than look."
 
 ### decide · The orchard stands the oldest line on the page.
@@ -847,25 +994,31 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#evening-at-the-board-genemon-has-->
 > Evening at the board. Genemon has the kura's tallies out beside the day-book
 > and is reading the one against the other. He speaks without looking up.
 
+<!--#you-have-seen-it-the-kura-->
 Genemon: "You have seen it. The kura is sound and the kura is full. Those are
 two different worries."
 
+<!--#it-holds-this-year-s-rice-->
 Genemon: "It holds this year's rice and not a measure over. In a poor year this
 house starves. In a good year we lose the surplus anyway — it stands out in the
 wet, because there is no roof to put it under."
 
+<!--#so-a-second-granary-raised-at-->
 Genemon: "So: a second granary. Raised at the kura, on its own footings. Room
 for stores past the winter's need."
 
+<!--#every-line-on-this-page-until-->
 Genemon: "Every line on this page until now is a loss I wrote down after it
 happened. This one is not. I have wanted to rule a line of that kind for a long
 time."
 
 ### ask works-u3-ask-a · "Why a second? Widen the one that stands."
 
+<!--#the-kura-is-sound-and-you-->
 Genemon: "The kura is sound, and you do not cut open a sound building. A second
 stands on its own footings, under its own roof, behind its own lock. A fire
 takes the building it starts in; it does not take the one across the yard. And
@@ -873,6 +1026,7 @@ two stores are counted apart, so a shortfall in one shows the day it happens."
 
 ### ask works-u3-ask-b · "Stores past need — for what, exactly?"
 
+<!--#for-the-year-we-get-instead-->
 Genemon: "For the year we get instead of the year we planned for. Nobody sends
 word ahead of a bad harvest. Grain already in the store is the only thing that
 answers one. Everything else is a loss I write down afterward."
@@ -903,28 +1057,36 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#past-supper-the-board-the-lamp-->
 > Past supper, the board, the lamp low. The day-book is open at the ruled page
 > and for once he is not writing. He is reading it back from the top, line by
 > line, and he does not hurry.
 
+<!--#stand-where-i-can-see-you-->
 Genemon: "Stand where I can see you. This is the last of the page."
 
+<!--#the-omoya-you-have-seen-it-->
 Genemon: "The omoya. You have seen it from the forecourt. Half this house is
 shut — moss on the ridge, damp under the boards, screens no hand has slid in
 years. A room does not need weather to go. It only needs to be left alone."
 
+<!--#the-work-roofs-sound-screens-mended-->
 Genemon: "The work: roofs sound, screens mended, rooms opened, air and use in
 every one of them. The house set in order."
 
+<!--#thirty-one-years-i-have-written-this-->
 Genemon: "Thirty-one years I have written this house's losses on this page, in
 this hand, and shown it to nobody."
 
+<!--#he-straightens-the-book-square-to-->
 > He straightens the book square to the edge of the board.
 
+<!--#roof-and-ridge-first-then-the-->
 Genemon: "Roof and ridge first. Then the rooms, one at a time."
 
 ### ask works-u4-ask-a · "Why the omoya last?"
 
+<!--#because-the-rest-of-it-holds-->
 Genemon: "Because the rest of it holds now, and it did not before. The post is
 dry at the foot. The bunds carry their water. The orchard bears. There is grain
 standing past the winter's need. What is left on this page is the house itself,
@@ -932,6 +1094,7 @@ and a house is mended from the outside in."
 
 ### ask works-u4-ask-b · "What does 'in order' come to, in the doing?"
 
+<!--#roof-and-ridge-first-a-room-->
 Genemon: "Roof and ridge first — a room is lost from above. Then the shut rooms,
 opened one at a time: screens repapered, boards lifted where the damp has been
 under them, braziers lit until the walls are dry again. Then use. A room is kept
@@ -988,24 +1151,29 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#the-forecourt-mid-morning-the-week-s-->
 > The forecourt, mid-morning. The week's coppers ride knotted in a rag at
 > your belt, and they have ridden there for days, because there is nowhere
 > on this estate to put a single one of them down.
 
+<!--#genemon-hears-the-knot-before-he-->
 > Genemon hears the knot before he sees it. He looks up from the board
 > anyway, which is not the same as being interrupted.
 
+<!--#coin-yours-entered-against-your-line-->
 Genemon: "Coin. Yours — entered against your line, every mon of it, so I
 know what you are carrying to the piece. And you have carried it about the
 yard a week now and bought nothing with it, because nobody has told you
 where coin goes."
 
+<!--#then-hear-it-coin-does-one-->
 Genemon: "Then hear it. Coin does one thing on this estate: it crosses the
 gate. Yohei sets his stall in the gateyard on market days, and what he
 unloads off his back is the whole of the buying and selling this house can
 reach without a cart. A sack of mountain greens is ten mon. That is the
 smallest thing sold here; below it there is nothing to want."
 
+<!--#you-were-never-told-that-is-->
 Genemon: "You were never told. That is my omission and not your fault, and
 I am closing it. A hand who cannot price a sack of greens cannot be sent
 with a purse that is not his. Go down and learn the prices on your own coin.
@@ -1013,12 +1181,14 @@ It will cost you less to learn them there than here."
 
 ### ask sb-market-ask-a · "Which days does he come?"
 
+<!--#two-days-in-seven-the-same-->
 Genemon: "Two days in seven, the same two all year. If you walk down and
 the gateyard is empty, you have walked fifty paces for nothing and learned
 one of the two days by subtraction. That is not the worst way to learn it."
 
 ### ask sb-market-ask-b · "Why does it matter what I know?"
 
+<!--#because-a-day-is-coming-when-->
 Genemon: "Because a day is coming when the book sends a man to that gate
 with money that is not his, and the book would rather send a man who has
 stood at the stall before. Nobody is being kind to you. I am shortening an
@@ -1050,24 +1220,29 @@ once: true
 speaker: ohisa
 voice: steward
 
+<!--#the-greens-have-been-in-your-->
 > The greens have been in your hand since the woodlot: fern-shoots and
 > butterbur, cut this morning, wilting by noon. Raw, they are worth nothing.
 > Tomorrow they will be worth less.
 
+<!--#o-hisa-is-at-the-kitchen-threshold-->
 > O-Hisa is at the kitchen threshold across the yard with the household's
 > rice on. She has watched you carry a handful of fern back and forth over
 > the forecourt for about as long as it takes a pot to come to the boil.
 
+<!--#boiled-that-is-what-they-are-->
 O-Hisa: "Boiled. That is what they are for. Bring them over here — I am not
 crossing a yard for a handful of fern, and you are not eating them like a
 goat."
 
+<!--#there-is-one-pot-in-this-->
 O-Hisa: "There is one pot in this house that anything is cooked in, and it
 is standing behind me, and nobody has shown it to you. That is nobody's
 fault and it still wants mending. The fire is lit before dawn for the
 house's rice. While it burns, it costs the house nothing to boil your
 greens on it. That is the whole of the reason, and it is reason enough."
 
+<!--#and-you-will-want-it-rice-->
 O-Hisa: "And you will want it. Rice keeps a man upright; it does not mend
 him. A hot meal does — the greens boiled soft, the water drunk off, and sat
 down for the length of it. There is nothing else in this house that mends a
@@ -1075,6 +1250,7 @@ body. There is the pot, and there is what you carry to it."
 
 ### ask sb-cook-ask-a · "Why greens?"
 
+<!--#because-they-grow-at-the-woodlot-->
 O-Hisa: "Because they grow at the woodlot edge and cost nobody anything,
 and because Sōan says a man mends on hot food and green stuff, and I have
 watched him be right about it as long as I have been in this house. The
@@ -1084,6 +1260,7 @@ doorway."
 
 ### ask sb-cook-ask-b · "Whose pot is it?"
 
+<!--#the-house-s-the-fire-is-->
 O-Hisa: "The house's. The fire is the house's. The greens are yours — that
 is the whole of the difference, and it is the difference the steward would
 want made, so I have made it aloud and you have heard me make it. What
@@ -1119,20 +1296,24 @@ once: true
 speaker: rokusuke
 voice: villager
 
+<!--#the-rows-past-noon-rokusuke-works-->
 > The rows, past noon. Rokusuke works the row over from yours, no nearer,
 > the way he has worked it every day since you came. Then he is at the end
 > of your row with his hands where you can see them, which is how he stands
 > when he means to say something.
 
+<!--#that-is-a-blade-you-are-->
 Rokusuke: "That is a blade you are carrying. Not saying anything about it.
 Only — you carry one and I do not, and that is the whole difference between
 us this week."
 
+<!--#four-bundles-off-the-drying-racks-->
 Rokusuke: "Four bundles off the drying racks last night. Barley. The seed
 store gnawed open at the corner, second time. Every night this week, and
 every night the same road: up out of the margin, along the bunds, from the
 setts at the paddy's edge where the ground goes soft."
 
+<!--#and-at-the-week-s-end-->
 Rokusuke: "And at the week's end the steward asks me for the number,
 because I keep it — I keep it same as any day — and the number I hand him
 is four, and then twenty-eight for the week, and I would rather hand him a
@@ -1141,6 +1322,7 @@ the count."
 
 ### ask sb-racks-ask-a · "What comes up out of the margin?"
 
+<!--#tanuki-badgers-where-the-ground-goes-->
 Rokusuke: "Tanuki. Badgers where the ground goes soft. Big ones this year —
 they have been eating well, and what they have been eating is ours. The old
 women at the well will tell you what a tanuki is when it grows fat and bold
@@ -1151,6 +1333,7 @@ reason to be down there with a blade."
 
 ### ask sb-racks-ask-b · "Why tell me and not the board?"
 
+<!--#i-told-the-board-i-tell-->
 Rokusuke: "I told the board. I tell the board everything — that is why I am
 still here and better men are not. The steward entered it. Entered is
 entered and I am not saying it is wrong. Only the entry does not come out
@@ -1185,26 +1368,32 @@ once: true
 speaker: soan
 voice: physician
 
+<!--#the-lean-to-off-the-outer-court-->
 > The lean-to off the outer court: a plank bed, a brazier gone low, a shelf
 > of jars with their labels worn off and written again in a smaller hand,
 > and a low table with a ledger closed on it.
 
+<!--#you-have-been-in-this-room-->
 > You have been in this room once before, on your back, with the river still
 > in you. You did not look at it then. You look at it now. Sōan does not
 > look up from the wrap he is rolling.
 
+<!--#breathe-in-again-shallower-now-turn-->
 Sōan: "Breathe in. Again — shallower. Now turn toward me. Which of the two
 was worse?"
 
+<!--#you-tell-him-he-puts-two-->
 > You tell him. He puts two fingers somewhere you did not name, and stops
 > there, and does not say anything about being right.
 
+<!--#two-of-your-ribs-are-cracked-->
 Sōan: "Two of your ribs are cracked. Neither is through, and that is the
 whole of your luck; you may keep it. Six days in the wrap. Twelve before
 you carry a full load without paying for it afterwards. There is nothing
 for the pain worth what it costs. Sleep on the side that hurts — the other
 side is worse."
 
+<!--#now-the-cost-since-nobody-else-->
 Sōan: "Now the cost, since nobody else in this house will put it to you
 plainly. A cracked rib mends in one of two places: in this room, in six
 days — or out in the rows, over a season, crooked. The house pays for it
@@ -1213,25 +1402,31 @@ not a reproach. It is an entry. I keep the book of what this estate spends
 on keeping its people whole, and you have a page in it now, the same as the
 mule."
 
+<!--#he-writes-the-brush-stops-and-->
 > He writes. The brush stops, and starts again, and puts down a second line
 > that is not about your ribs. You do not ask what it says.
 
+<!--#two-books-in-this-house-keep-->
 > Two books in this house keep an account of your body, and you have read
 > neither. Your hands told him something in this room once. They have never told
 > you.
 
 ### ask sb-sickroom-ask-a · "What are you writing?"
 
+<!--#you-ask-it-from-the-plank-->
 > You ask it from the plank bed, and it comes out flatter than you meant it.
 
+<!--#a-physician-s-book-what-came-->
 Sōan: "A physician's book. What came in, what it cost, what mended and how
 fast. Yours is not the only page in it, and it is not the longest."
 
+<!--#he-closes-the-book-with-the-->
 > He closes the book with the hand that is not on your wrap. It does not go
 > back on the shelf until you are looking at the ceiling.
 
 ### ask sb-sickroom-ask-b · "What does it cost?"
 
+<!--#you-nothing-you-have-the-house-->
 Sōan: "You? Nothing you have. The house doctors its own, and you are its
 own now, whatever the day-book calls you. When you draw a wage — and you
 will; they all do in the end — it will come out of the wage, and you will

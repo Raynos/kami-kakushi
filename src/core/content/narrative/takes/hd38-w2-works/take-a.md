@@ -4,36 +4,44 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#the-board-an-evening-some-weeks-->
 > The board, an evening some weeks into the rice terms. The day's wages are
 > footed and the book should be closed. Genemon turns instead to a page ruled
 > off from the rest and sets it where you can see it — old ink at the head of
 > it, this morning's at the foot.
 
+<!--#the-wages-are-settled-this-is-->
 Genemon: "The wages are settled. This is the other page."
 
+<!--#gate-west-post-standing-in-wet-->
 Genemon: "Gate, west post: standing in wet ground, second winter running.
 Paddies — three bunds slumped, the water going through them instead of round.
 Woodshed, north corner — rain comes in through the roof. The wood under it
 does not dry, and the boards it lands on are going soft."
 
+<!--#every-one-of-those-is-worse-->
 Genemon: "Every one of those is worse this year than it was last year. I have
 been writing them down for thirty years. Writing them down is all I have been
 able to do about them."
 
+<!--#he-adds-nothing-to-the-page-->
 > He adds nothing to the page. The lines are already there, each with the date
 > it was first entered.
 
+<!--#one-more-and-this-one-the-->
 Genemon: "One more, and this one the house pays for in coin. The weir screens
 belong to Matsuzō. We lease them; the keeping of them is ours. River rats chew
 through the slats at the waterline, and every slat they take, we buy him a new
 one. We were paying for those screens before you washed up against them."
 
+<!--#i-do-not-commission-work-i-->
 Genemon: "I do not commission work I have not had looked at. Walk the gate,
 the paddies, the woodshed, and the weir path. Look at them yourself, in
 daylight. Then come back and I will price them."
 
 ### ask works-intro-ask-a · "Why now? It's stood this long."
 
+<!--#it-has-not-stood-it-has-->
 Genemon: "It has not stood. It has been going down, slowly enough that a busy
 man calls it standing. Walk past the orchard and you will find the ground
 where houses used to be. Roofs, once. Nobody had the money to keep them up,
@@ -42,6 +50,7 @@ estate go the same way, a little each year. I would like to stop."
 
 ### ask works-intro-ask-b · "Whose coin mends it?"
 
+<!--#not-the-house-s-i-told-->
 Genemon: "Not the house's. I told you your first morning: what coin this house
 sees is owed out before it ever reaches the yard, and I am the man who sends
 it. That has not changed. What mends these is labour, and whatever coin the
@@ -72,22 +81,28 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#the-board-again-genemon-watches-you-->
 > The board again. Genemon watches you cross the forecourt, sets the day-book
 > open at the ruled page, and takes up the brush before you have spoken.
 
+<!--#you-walked-it-your-face-says-->
 Genemon: "You walked it. Your face says the page did not lie to you."
 
+<!--#then-hear-the-work-post-one-->
 Genemon: "Then hear the work. Post, one: drawn out and reset on dry footing.
 Bunds, three — cut back to sound earth and rammed. Roof, one corner — boards
 and thatch. One work, the three together."
 
+<!--#he-rules-the-line-and-leaves-->
 > He rules the line and leaves it open, the brush held off the paper.
 
+<!--#taken-up-it-goes-against-your-->
 Genemon: "Taken up, it goes against your name — your labour, and any coin you
 put beside it. I credit what is put in."
 
 ### ask works-u1-ask-a · "Why the three together?"
 
+<!--#because-all-three-are-the-same-->
 Genemon: "Because all three are the same fault: water where it should not be.
 Reset the post and the bunds still slide. Ram the bunds and the roof still
 lets the rain in. And whichever two you leave are worse by the time you get
@@ -95,6 +110,7 @@ back to them. Do the three and the water is out for good."
 
 ### ask works-u1-ask-b · "Where do I begin?"
 
+<!--#water-first-the-post-and-the-->
 Genemon: "Water first. The post and the bunds while the weather holds. The
 roof before the autumn rains start — after that you are laying boards on wet
 thatch, and you will be doing it twice."
@@ -122,20 +138,24 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#genemon-finds-you-at-the-forecourt-->
 > Genemon finds you at the forecourt with the orchard's brambles still on your
 > sleeves, and does not ask where you have been. He opens the day-book at the
 > ruled page.
 
+<!--#the-orchard-that-is-the-oldest-->
 Genemon: "The orchard. That is the oldest thing on this page. It went a row at
 a time, over years, and there were never hands enough to stop it. Somebody
 planted those trees with paths between them. The bramble is over the paths
 now, and there are dogs denned in the hollow where fruit was dried."
 
+<!--#the-work-the-wild-rows-cut-->
 Genemon: "The work: the wild rows cut back to sound wood, the dens broken and
 emptied. This is not a mending. It is ground taken back."
 
 ### ask works-u2-ask-a · "The dogs first, or the cutting?"
 
+<!--#the-dens-first-swing-a-billhook-->
 Genemon: "The dens first. Swing a billhook in there with the pack still in it
 and you are feeding them your arms. They are bold — lean winters do that.
 Break the pack and what is left is only dogs. Kihei will tell you the same in
@@ -143,6 +163,7 @@ fewer words, and drill you for it if you ask him plainly."
 
 ### ask works-u2-ask-b · "Is anything left in there worth the taking?"
 
+<!--#there-are-sound-trees-under-the-->
 Genemon: "There are sound trees under the choke. That is usually the way — the
 stock lives, the keeping fails. Thirty years of bramble has not killed them.
 Cut it off them and they will bear."
@@ -172,14 +193,17 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#evening-at-the-board-genemon-has-->
 > Evening at the board. Genemon has the kura's tallies out beside the day-book,
 > one read against the other, and he speaks without looking up at you.
 
+<!--#you-have-seen-it-the-kura-->
 Genemon: "You have seen it. The kura is sound, and the kura is full, and those
 are two different problems. It holds this year's rice and not a measure over.
 A bad year starves us. A good year would shame us — grain standing out in the
 damp because there is no roof to put it under."
 
+<!--#so-a-second-granary-raised-beside-->
 Genemon: "So: a second granary, raised beside the kura, on its own footings.
 Room for stores past the winter's need. Everything on this page until now is
 damage already done. This one would be built before the damage. I have waited
@@ -187,6 +211,7 @@ a long time to rule a line of that kind."
 
 ### ask works-u3-ask-a · "Why a second? Widen the one that stands."
 
+<!--#because-the-kura-is-sound-and-->
 Genemon: "Because the kura is sound, and you do not cut open a sound building
 to make it larger. A second stands on its own footings, under its own roof,
 behind its own lock. If one roof goes in a storm, the other store is still
@@ -195,6 +220,7 @@ it happens."
 
 ### ask works-u3-ask-b · "Stores past need — for what, exactly?"
 
+<!--#for-the-year-we-get-instead-->
 Genemon: "For the year we get instead of the year we planned for. A flood, a
 failed harvest, a levy called early. When one of those comes, the only thing
 that answers it is grain already in the store. Go and stand on the empty
@@ -225,23 +251,28 @@ once: true
 speaker: genemon
 voice: steward
 
+<!--#past-supper-the-board-the-lamp-->
 > Past supper, the board, the lamp low. Genemon has the day-book open at the
 > ruled page, and for once he is not writing. He is reading it back, line by
 > line, and he waits until you are standing in front of him.
 
+<!--#stand-where-i-can-see-you-->
 Genemon: "Stand where I can see you. This is the last of the page."
 
+<!--#the-omoya-you-have-seen-it-->
 Genemon: "The omoya. You have seen it from the forecourt. Half this house is
 shut — moss on the ridge, damp in the boards, screens no hand has slid in
 years. A room nobody uses goes bad. It does not need a storm to do it. It only
 needs to be left."
 
+<!--#the-work-roofs-sound-screens-mended-->
 Genemon: "The work: roofs sound, screens mended, air and use in every room.
 Thirty-one years I have written this house's losses down. I would like to
 write something else before I am finished."
 
 ### ask works-u4-ask-a · "Why the omoya last?"
 
+<!--#because-the-rest-holds-now-and-->
 Genemon: "Because the rest holds now, and it did not. The post is dry at the
 foot. The bunds carry their water. The orchard bears. There is grain in store
 past the winter. The house is the largest thing still going down, and it is
@@ -250,6 +281,7 @@ roof first, or every day's work indoors is undone by the next rain."
 
 ### ask works-u4-ask-b · "What does 'in order' come to, in the doing?"
 
+<!--#roof-and-ridge-first-a-room-->
 Genemon: "Roof and ridge first; a room is lost from above. Then the shut rooms,
 opened one at a time — screens repapered, boards lifted where the damp has got
 under them, braziers lit until the wood is dry through. Then use. A room stays

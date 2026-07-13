@@ -9,8 +9,14 @@
 import { ATTR_META, type AttrId } from './balance';
 import { NPC_NAME, NPC_VOICE, PLAYER_SPEAKER, type NpcId, type VoiceCategory } from './voices';
 
-/** One line of a beat's setup (the NPC/narrator lines revealed when the beat opens). */
+/** One line of a beat's setup (the NPC/narrator lines revealed when the beat opens).
+ *
+ *  `id` is the line's AUTHORED name — its `<!--#slug-->` marker in the narrative .md. The save's
+ *  log addresses the line by it (`greeting.<id>` / `topic.<t>.answer.<id>`), so re-ordering or
+ *  deleting a line can no longer re-point an old save's entry at its neighbour, while a REWORD
+ *  still reaches every existing save (ADR-186's known limit, closed 2026-07-13). */
 export interface IntroSetupLine {
+  readonly id: string;
   readonly voice: VoiceCategory;
   readonly text: string;
   /** Nameplate; absent for narrator prose. */

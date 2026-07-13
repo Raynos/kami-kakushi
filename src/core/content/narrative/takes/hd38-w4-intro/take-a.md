@@ -2,6 +2,7 @@
 voice: narrator
 title: what the water takes
 
+<!--#dream-->
 @cold-open.dream
 
 ### decide · Three things, and one hand free. Which do you close it on?

@@ -2,6 +2,7 @@
 voice: narrator
 title: what the water takes
 
+<!--#dream-->
 @cold-open.dream
 
 ### decide · There is no time to choose. Something in you chooses anyway. What?

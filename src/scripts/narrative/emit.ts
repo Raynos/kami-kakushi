@@ -108,9 +108,16 @@ function resolveSpeaker(line: SpeechLine): ResolvedSpeaker {
   );
 }
 
+// Serves EXACTLY the two line classes the save log addresses by name — a scene's `greeting` and a
+// topic's `answer` — so the authored `<!--#slug-->` id is emitted here, unconditionally. Everything
+// else a scene holds (an option's say/react, a dialogue line) is already addressed by its OWN id.
 function emitProseLine(line: ProseLine): string {
   const expr = refExpr(line.text, line.loc) ?? textExpr(line.text, line.loc);
-  if (line.kind === 'narr') return `{ voice: 'narrator', text: ${expr} },`;
+  if (line.id === undefined) {
+    throw new NarrativeError(line.loc, 'a greeting / answer line needs a `<!--#slug-->` id marker');
+  }
+  const id = `id: ${str(line.id)}, `;
+  if (line.kind === 'narr') return `{ ${id}voice: 'narrator', text: ${expr} },`;
   // FB-198 — the player-speech form: `You: "…"` is the MC speaking. It emits NO static
   // speaker — the engine resolves the nameplate at display time through the G4.7 ladder
   // (playerSpeaker: You → Nameless → Gonbei), so the mid-story label flip lands for free.
@@ -118,10 +125,10 @@ function emitProseLine(line: ProseLine): string {
     if (line.voice !== undefined) {
       throw new NarrativeError(line.loc, 'a `You:` player line never takes a (voice) override');
     }
-    return `{ voice: 'player', text: ${expr} },`;
+    return `{ ${id}voice: 'player', text: ${expr} },`;
   }
   const r = resolveSpeaker(line);
-  return `{ voice: '${r.voice}', speaker: ${r.speakerExpr}, text: ${expr} },`;
+  return `{ ${id}voice: '${r.voice}', speaker: ${r.speakerExpr}, text: ${expr} },`;
 }
 
 // ── rung beats ──────────────────────────────────────────────────────────────

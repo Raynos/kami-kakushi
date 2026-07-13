@@ -782,7 +782,7 @@ describe('ADR-139 story take-sets', () => {
     id: 'rung-r1',
     rank: 'R1' as RankId,
     voice: 'steward',
-    greeting: [{ voice: 'narrator', text }],
+    greeting: [{ id: 'g0', voice: 'narrator', text }],
     topics: [],
     decision: { prompt: 'p?', options: [{ id: 'o1', label: 'l', say: 's', react: 'r' }] },
     motivates: [],
@@ -836,7 +836,7 @@ describe('ADR-139 story take-sets', () => {
   const sceneDef = (text: string): RungScene => ({
     id: 'nengu-autumn-frame',
     voice: 'narrator',
-    greeting: [{ voice: 'narrator', text }],
+    greeting: [{ id: 'g0', voice: 'narrator', text }],
     topics: [],
     decision: { prompt: '', options: [] },
     motivates: [],
@@ -889,7 +889,7 @@ describe('ADR-139 story take-sets', () => {
     const liveCanon: RungScene = {
       id: 'nengu-autumn-frame',
       voice: 'narrator',
-      greeting: [{ voice: 'narrator', text: 'canon' }],
+      greeting: [{ id: 'g0', voice: 'narrator', text: 'canon' }],
       topics: [],
       decision: { prompt: '', options: [] },
       motivates: [],
@@ -1054,7 +1054,7 @@ describe('ADR-139 story reader modal', () => {
     id: 'rung-r1',
     rank: 'R1' as RankId,
     voice: 'steward',
-    greeting: [{ voice: 'narrator', text }],
+    greeting: [{ id: 'g0', voice: 'narrator', text }],
     topics: [],
     decision: {
       prompt: 'How?',

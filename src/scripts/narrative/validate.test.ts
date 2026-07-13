@@ -8,7 +8,7 @@
 import { describe, it, expect } from 'vitest';
 import { parseNarrative, NarrativeError } from './parse';
 import { validateNarrative } from './validate';
-import { emitScenes } from './emit';
+import { emitScenes, emitRungBeats } from './emit';
 import { RANKS } from '../../core/content/ranks';
 
 const R1_UNLOCK = RANKS.find((r) => r.id === 'R1')!.rewardOnReach!.unlock!;
@@ -19,17 +19,21 @@ speaker: genemon
 voice: steward
 motivates: ${R1_UNLOCK.join(', ')}
 
+<!--#narr-->
 > A narrator line.
 
+<!--#greet-->
 Genemon: "A greeting line."
 
 ### ask t-one · "First question?"
 
+<!--#a-one-->
 Genemon: "First answer."
 
 ### ask t-two · "Second question?"
 after: t-one
 
+<!--#a-two-->
 Genemon: "Second answer."
 
 ### decide · The prompt?
@@ -224,7 +228,7 @@ Munemasa: "The react."
 
   it('errors cite the authoring file:line', () => {
     const v = validate(BASE.replace('Genemon: "A greeting line."', 'Kihie: "A greeting line."'));
-    expect(v.errors[0]).toMatch(/^fixture\.md:8 — /);
+    expect(v.errors[0]).toMatch(/^fixture\.md:10 — /); // the line the misspelt speaker sits on
   });
 
   it('react lines take no (voice) override', () => {
@@ -254,8 +258,10 @@ trigger: season-exit autumn
 once: true
 voice: narrator
 
+<!--#first-light-->
 > First light. The broom stands against the gatepost where you left it.
 
+<!--#take-the-broom-->
 > You take the broom. Nobody takes it back.
 `;
 
@@ -267,8 +273,10 @@ once: true
 speaker: kihei
 voice: arms
 
+<!--#kihei-crosses-->
 > Kihei crosses the cleared ground on his round and stops beside you.
 
+<!--#half-decided-->
 Kihei: "Drive it, feed it, or bring it to me. Don't leave it half-decided."
 
 ### decide · The dog watches you decide.
@@ -378,5 +386,66 @@ flags: sb-dog-fed
       ),
       'a scene-def react must be a speech line spoken by an NPC',
     );
+  });
+});
+
+// ── the line-id grammar (2026-07-13 — ADR-186's "known limit", closed) ──────────────────────
+// The save's log addresses a greeting / answer line by its AUTHORED id. Before ids it addressed
+// them by INDEX, so re-ordering a scene's lines re-pointed an old save's entry at its NEIGHBOUR.
+// These prove the grammar carries the id, that it is REQUIRED where the log addresses a line, and
+// — the point of the whole change — that an id STAYS WITH ITS TEXT across a reorder.
+describe('line ids (the save log addresses prose by name, not by position)', () => {
+  /** The two greeting lines, in the given order — each keeps the id authored ABOVE it. */
+  const scene = (order: readonly ('grain' | 'wall')[]): string => `## rung R1 · rung-r1
+speaker: genemon
+voice: steward
+motivates: ${R1_UNLOCK.join(', ')}
+${order
+  .map((l) =>
+    l === 'grain'
+      ? '\n<!--#the-grain-->\nGenemon: "The grain is counted."'
+      : '\n<!--#the-wall-->\nGenemon: "The wall is stopped."',
+  )
+  .join('\n')}
+
+### decide · The prompt?
+
+#### o-one · "The label."
+
+Genemon: "The react."
+`;
+
+  /** The id the emitter attached to the line carrying `needle`. Emit runs PRE-oxfmt and puts one
+   *  line object per source line, so match on the id and stay agnostic about its quoting. */
+  const idOf = (gen: string, needle: string): string => {
+    const line = gen.split('\n').find((l) => l.includes(needle) && l.includes('id:'));
+    return /id: ["']([a-z0-9-]+)["']/.exec(line ?? '')?.[1] ?? 'NOT-FOUND';
+  };
+
+  it('compiles the `<!--#slug-->` marker into the line it sits above', () => {
+    const gen = emitRungBeats(parseNarrative(scene(['grain', 'wall']), 'fixture.md'));
+    expect(idOf(gen, 'The grain is counted.')).toBe('the-grain');
+    expect(idOf(gen, 'The wall is stopped.')).toBe('the-wall');
+  });
+
+  it('THE POINT: the id stays with its TEXT when the lines are re-ordered', () => {
+    // Swap the two greeting lines — exactly the edit an ADR-185 re-voice wave makes. The ids
+    // travel WITH their prose, so an old save's `greeting.the-grain` still means the grain line.
+    // Under the old positional scheme `greeting.0` would now silently mean the WALL line: a
+    // neighbour's words, in a save the player already owns.
+    const after = emitRungBeats(parseNarrative(scene(['wall', 'grain']), 'fixture.md'));
+
+    expect(idOf(after, 'The grain is counted.')).toBe('the-grain'); // now the SECOND line
+    expect(idOf(after, 'The wall is stopped.')).toBe('the-wall'); // now the FIRST
+  });
+
+  it('a greeting line with no marker is REJECTED (the log could not address it)', () => {
+    const naked = scene(['grain', 'wall']).replace('<!--#the-grain-->\n', '');
+    expect(() => emitRungBeats(parseNarrative(naked, 'fixture.md'))).toThrow(/id marker/);
+  });
+
+  it('a marker with no prose line under it is REJECTED (a lost id is a lost log entry)', () => {
+    const dangling = scene(['grain', 'wall']).replace('Genemon: "The grain is counted."', '');
+    expect(() => parseNarrative(dangling, 'fixture.md')).toThrow(/no prose line under it/);
   });
 });

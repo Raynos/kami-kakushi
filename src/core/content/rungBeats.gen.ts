@@ -23,67 +23,94 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     ],
     greeting: [
       {
+        id: 'morning-at-the-board-the-hands',
         voice: 'narrator',
         text: "Morning at the board. The hands take their rice at the threshold; the steward's papers hold the table's far end — an estate's worth of paper on a kitchen table. Genemon sets the brush down. He looks at you while he speaks, which nobody else in the room does.",
       },
       {
+        id: 'the-paddies-want-six-hands-two',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"The paddies want six hands. Two of ours took the lowland road this week, so five sleep here now. You are the sixth. That is the whole reason you are standing in my kitchen, and you may as well hear it from me."',
       },
-      { voice: 'narrator', text: 'It is the first you have heard of any leaving.' },
       {
+        id: 'it-is-the-first-you-have',
+        voice: 'narrator',
+        text: 'It is the first you have heard of any leaving.',
+      },
+      {
+        id: 'so-the-terms-and-they-are',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"So. The terms, and they are thin. You work from first light to last, at whatever the yard wants that day — some days that is the paddy, some days it is carrying. You are hired by the day. Every day you work, I write in this book. A day I do not write is a day you were not hired."',
       },
       {
+        id: 'you-are-paid-no-coin-not',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"You are paid no coin. Not a mon. What coin this house sees is owed out before it ever reaches the yard — I am the man who sends it, so you can take that as true. I have no bed for you either. Five hands sleep here, and there is no sixth place."',
       },
       {
+        id: 'if-you-have-an-objection-it',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"If you have an objection, it is heard now or it is not heard at all. The paddies want you by full light."',
       },
       {
+        id: 'nobody-stops-eating-two-hands-lost',
         voice: 'narrator',
         text: "Nobody stops eating. Two hands lost was a morning's talk; one stray kept is not even that. The bowls go on.",
       },
       {
+        id: 'six-hands-wanted-five-sleep-here',
         voice: 'narrator',
         text: 'Six hands wanted. Five sleep here. You are the sixth, and there is no sixth place — the sum was short before you stood in this kitchen. Nobody at the table says it aloud. Neither do you.',
       },
       {
+        id: 'the-board-has-heard-it-that',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"The board has heard it. That serves for witness."',
       },
       {
+        id: 'he-opens-the-day-book-to-a',
         voice: 'narrator',
         text: 'He opens the day-book to a page already half-filled with other men, and writes you onto it. Work, by the day. No coin. There is no line for where you eat, and none for where you sleep. Written out, a man comes to very little. The wage is the shortest line on the page, and it takes Genemon the longest to write.',
       },
       {
+        id: 'on-the-veranda-above-the-step',
         voice: 'narrator',
         text: 'On the veranda above the step, Naoyuki has stopped — the second son, papers of his own under one arm. He was only passing. The room has made him a witness like everyone else in it.',
       },
-      { voice: 'official', speaker: NPC_NAME.naoyuki, text: '"The house is glad of —"' },
       {
+        id: 'the-house-is-glad-of',
+        voice: 'official',
+        speaker: NPC_NAME.naoyuki,
+        text: '"The house is glad of —"',
+      },
+      {
+        id: 'the-sentence-stops-he-stands-a',
         voice: 'narrator',
         text: 'The sentence stops. He stands a moment holding the rest of it, as if he has read it back and found it not worth the ink.',
       },
       {
+        id: 'two-hands-left-you-were-standing',
         voice: 'official',
         speaker: NPC_NAME.naoyuki,
         text: '"Two hands left. You were standing here. That is all this is."',
       },
-      { voice: 'narrator', text: 'He goes on along the veranda. He looked at you once.' },
       {
+        id: 'he-goes-on-along-the-veranda',
+        voice: 'narrator',
+        text: 'He goes on along the veranda. He looked at you once.',
+      },
+      {
+        id: 'genemon-takes-up-the-brush-again',
         voice: 'narrator',
         text: 'Genemon takes up the brush again. He asks the last of it plainly, at the volume he keeps for the board — the room hears him and does not listen.',
       },
       {
+        id: 'one-thing-before-the-ink-if',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"One thing before the ink. If a claim follows you here — a debt, a master, a magistrate — I have to write it in the book against you. So I ask you once. Is anything owing on you?"',
@@ -95,6 +122,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         label: '"The two that left?"',
         answer: [
           {
+            id: 'they-left-owing-nothing-and-nothing',
             voice: 'steward',
             speaker: NPC_NAME.genemon,
             text: '"They left owing nothing, and nothing was owed to them. I struck their lines clean. The lowlands pay in coin, and they pay in winter, when a man has none. I could not argue against that, so I did not try."',
@@ -106,6 +134,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         label: '"Why keep me?"',
         answer: [
           {
+            id: 'you-are-the-sixth-understand-what',
             voice: 'steward',
             speaker: NPC_NAME.genemon,
             text: '"You are the sixth. Understand what that means. I did not choose you — you were standing where a hand was missing. If a better sixth comes up that road, I will write him in and strike you out, and I will not be sorry. I would tell you the same day I wrote it. That is not a threat. It is what the book is for."',
@@ -159,55 +188,70 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     ],
     greeting: [
       {
+        id: 'dawn-comes-grey-through-the-kura',
         voice: 'narrator',
         text: 'Dawn comes grey through the kura door. The blood on the sill has dried black, and most of it is yours. Inside, the rice sits in its rows, untouched, exactly as it was put. Sōan has strapped your ribs so tight that breathing is a decision.',
       },
       {
+        id: 'kihei-crouches-at-the-sill-a',
         voice: 'narrator',
         text: 'Kihei crouches at the sill a long time, reading the blood the way Genemon reads a column of figures. The trail goes west, into the trees, in drops that get no smaller.',
       },
-      { voice: 'arms', speaker: NPC_NAME.kihei, text: '"…Alive. Good."' },
+      { id: 'alive-good', voice: 'arms', speaker: NPC_NAME.kihei, text: '"…Alive. Good."' },
       {
+        id: 'for-a-moment-there-is-more',
         voice: 'narrator',
         text: 'For a moment there is more in him than the verdict. He checks the broken bar instead.',
       },
       {
+        id: 'genemon-stands-in-the-doorway-whatever',
         voice: 'narrator',
         text: 'Genemon stands in the doorway. Whatever he came to say, he writes something in the day-book first.',
       },
       {
+        id: 'screen-one-torn-bar-one-broken',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"Screen, one, torn. Bar, one, broken. Grain — none lost. Hand, one. Standing."',
       },
       {
+        id: 'none-lost-you-think-of-the',
         voice: 'narrator',
         text: 'None lost. You think of the gnawed seed-bale at the back wall, and the count you made twice by lantern, and you do not correct him. Not yet.',
       },
       {
+        id: 'the-bar-was-old-it-goes',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"The bar was old. It goes against the house, not your wage."',
       },
       {
+        id: 'kihei-stands-takes-the-boar-spear-off',
         voice: 'narrator',
         text: 'Kihei stands, takes the boar-spear off the sill, and puts it back in your hands, butt first.',
       },
       {
+        id: 'you-didn-t-win-the-house',
         voice: 'arms',
         speaker: NPC_NAME.kihei,
         text: '"You didn\'t win. The house lost nothing. Keep the watch."',
       },
       {
+        id: 'by-evening-the-padded-coat-is',
         voice: 'narrator',
         text: 'By evening the padded coat is folded at the woodshed step, the torn shoulder closed with stitches smaller than the tear deserved. O-Hisa is still three steps from the kitchen when you come round the corner, caught.',
       },
       {
+        id: 'it-tore-clean-at-least-if',
         voice: 'steward',
         speaker: NPC_NAME.ohisa,
         text: '"It tore clean, at least. If the ribs knit as straight — well."',
       },
-      { voice: 'narrator', text: 'She is back inside before you find anything to say to that.' },
+      {
+        id: 'she-is-back-inside-before-you',
+        voice: 'narrator',
+        text: 'She is back inside before you find anything to say to that.',
+      },
     ],
     topics: [
       {
@@ -215,6 +259,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         label: '"Will it come back?"',
         answer: [
           {
+            id: 'it-left-more-blood-past-the',
             voice: 'arms',
             speaker: NPC_NAME.kihei,
             text: '"It left more blood past the woodlot than a wolf keeps spare. If the winter doesn\'t finish it, it remembers this door. So do you. That makes you even."',
@@ -226,11 +271,13 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         label: '"How long?"',
         answer: [
           {
+            id: 'breathe-to-the-bottom-of-it',
             voice: 'physician',
             speaker: NPC_NAME.soan,
             text: '"Breathe to the bottom of it. Cracked, not broken. Three weeks strapped, nothing heavier than the lantern, and you come to me before you decide you are healed."',
           },
           {
+            id: 'he-writes-a-line-in-his',
             voice: 'narrator',
             text: 'He writes a line in his ledger and closes it when you turn your head.',
           },
@@ -241,6 +288,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         label: '"The rice?"',
         answer: [
           {
+            id: 'where-it-was-put-last-night',
             voice: 'arms',
             speaker: NPC_NAME.kihei,
             text: '"Where it was put. Last night\'s, at least. The rest is the board\'s arithmetic, not mine."',
@@ -298,96 +346,125 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     ],
     greeting: [
       {
+        id: 'soan-strapped-the-ribs-for-walking',
         voice: 'narrator',
         text: 'Sōan strapped the ribs for walking. Not for work. It is thirty paces from the sickroom door to the board. You count them.',
       },
       {
+        id: 'past-the-kitchen-passage-a-screen',
         voice: 'narrator',
         text: 'Past the kitchen passage a screen stands open on a corridor you have never been sent down. An altar set into the passage wall; rites laid out for somebody; a pair of straw sandals, new this year, facing away from the house. You look a breath too long. The screen slides shut from inside. Nobody says anything to you about it, then or after.',
       },
       {
+        id: 'genemon-is-there-the-day-book-open',
         voice: 'narrator',
         text: "Genemon is there, the day-book open, the morning's entries not yet dry. He looks up, and waits, and does not help you begin.",
       },
       {
+        id: 'rats-were-in-the-store-three',
         voice: 'player',
         text: '"Rats were in the store. Three nights, while I lay. A quarter-sack gone. Two more opened at the seam."',
       },
-      { voice: 'player', text: '"The watch was mine."' },
+      { id: 'the-watch-was-mine', voice: 'player', text: '"The watch was mine."' },
       {
+        id: 'genemon-writes-before-he-answers-it',
         voice: 'narrator',
         text: 'Genemon writes before he answers. It is what he does with surprise, though nothing in his face has admitted to any.',
       },
       {
+        id: 'rice-one-quarter-sack-to-vermin-two',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"Rice, one quarter-sack, to vermin. Two sacks to resew — O-Hisa has thread. Entered under the store."',
       },
       {
+        id: 'not-under-your-name-no-wage',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"Not under your name. No wage ran for the nights you lay. No watch stood — the gate cannot leave the gate. The account is even."',
       },
-      { voice: 'player', text: '"It isn\'t."' },
+      { id: 'it-isn-t', voice: 'player', text: '"It isn\'t."' },
       {
+        id: 'the-pen-stops-above-the-line',
         voice: 'narrator',
         text: 'The pen stops above the line a moment longer than the line needs. Then it moves on, and he says nothing, and writes nothing further.',
       },
       {
+        id: 'he-had-taken-the-loss-off',
         voice: 'narrator',
         text: 'He had taken the loss off your name. Two words put it back. There is no wage for it to come out of, and you said them anyway.',
       },
       {
+        id: 'at-the-kitchen-threshold-o-hisa-has',
         voice: 'narrator',
         text: 'At the kitchen threshold O-Hisa has stopped with a bowl in her hands, as if there were something to say to somebody. She sets it down where you will pass, and goes in.',
       },
       {
+        id: 'from-the-board-the-woodshed-is',
         voice: 'narrator',
         text: 'From the board, the woodshed is one way and the old stable court is the other. Your ribs are for the woodshed. You go the other way.',
       },
       {
+        id: 'stalls-for-twenty-horses-run-down',
         voice: 'narrator',
         text: 'Stalls for twenty horses run down the long side of the court, and the house owns one mule. Kihei is at the rack, running a whetstone down a spear-head that has no war to go to. Two practice staves lean beside him. One is worn grey at the grip. The other is oiled, and looks as if it has never been anything else.',
       },
-      { voice: 'player', text: '"Teach me."' },
+      { id: 'teach-me', voice: 'player', text: '"Teach me."' },
       {
+        id: 'that-was-the-easy-half-the',
         voice: 'narrator',
         text: 'That was the easy half. The question costs more than the walk did.',
       },
-      { voice: 'player', text: '"Will you?"' },
+      { id: 'will-you', voice: 'player', text: '"Will you?"' },
       {
+        id: 'kihei-sets-down-the-whetstone-he',
         voice: 'narrator',
         text: 'Kihei sets down the whetstone. He looks at the strapping, at the way you keep your left side back, at the scars that were old before the river. He has looked at them before. He has never once asked.',
       },
       {
+        id: 'you-walked-here-on-cracked-ribs',
         voice: 'arms',
         speaker: NPC_NAME.kihei,
         text: '"...You walked here on cracked ribs to ask for more of what cracked them."',
       },
-      { voice: 'narrator', text: 'It is not a question, so you do not answer it.' },
       {
+        id: 'it-is-not-a-question-so',
+        voice: 'narrator',
+        text: 'It is not a question, so you do not answer it.',
+      },
+      {
+        id: 'terms-then-once-talent-is-a',
         voice: 'arms',
         speaker: NPC_NAME.kihei,
         text: '"Terms, then. Once. Talent is a story the lucky tell. You are not lucky. So you will work."',
       },
       {
+        id: 'he-takes-the-oiled-staff-from',
         voice: 'narrator',
         text: 'He takes the oiled staff from the rack and holds it out. He does not say how long it has stood there, and you do not ask.',
       },
       {
+        id: 'your-hands-take-the-staff-and',
         voice: 'narrator',
         text: 'Your hands take the staff and set themselves on it without being told — and then stop. They know how to hold it. They know nothing about what to do with it, and Kihei is watching the difference.',
       },
       {
+        id: 'the-house-has-one-man-who',
         voice: 'arms',
         speaker: NPC_NAME.kihei,
         text: '"The house has one man who can stand a watch, and he is grey. Dawn, before the others. Every day the ribs allow, and some they don\'t."',
       },
       {
+        id: 'on-the-wall-above-the-empty',
         voice: 'narrator',
         text: 'On the wall above the empty stalls a boy sits very still, the way boys sit when they believe stillness is the same as not being there.',
       },
-      { voice: 'arms', speaker: NPC_NAME.kihei, text: '"One thing before the staff. Why."' },
+      {
+        id: 'one-thing-before-the-staff-why',
+        voice: 'arms',
+        speaker: NPC_NAME.kihei,
+        text: '"One thing before the staff. Why."',
+      },
     ],
     topics: [
       {
@@ -395,6 +472,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         label: '"What will you teach me?"',
         answer: [
           {
+            id: 'feet-first-then-the-staff-the',
             voice: 'arms',
             speaker: NPC_NAME.kihei,
             text: '"Feet first. Then the staff. The spear when the staff says so. Not the sword — the sword is not yours to carry, and that is the law\'s affair, not a judgment."',
@@ -406,6 +484,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         label: '"Whose staff is this?"',
         answer: [
           {
+            id: 'one-that-was-kept-oiled-oil',
             voice: 'arms',
             speaker: NPC_NAME.kihei,
             text: '"One that was kept oiled. Oil is cheap. Ask again when you can hold it right."',
@@ -417,6 +496,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         label: '"Will the wolf come back?"',
         answer: [
           {
+            id: 'it-went-off-bleeding-into-a',
             voice: 'arms',
             speaker: NPC_NAME.kihei,
             text: '"It went off bleeding into a lean winter. It comes back, or it dies out there. Train for the one that comes back."',
@@ -463,43 +543,57 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     motivates: ['house-workshops', 'house-granary', 'tab-estate', 'panel-house-influence'],
     greeting: [
       {
+        id: 'morning-the-forecourt-genemon-s-window',
         voice: 'narrator',
         text: "Morning, the forecourt. Genemon's window stands open, the day-book out, and beside it a purse the size of a fist, dark with handling.",
       },
       {
+        id: 'salt-one-sho-waxed-thread-two',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"Salt, one shō. Waxed thread, two hanks. Lamp oil, one masu. Yohei sets his boards up at the gate by mid-morning."',
       },
       {
+        id: 'two-hands-short-since-spring-and',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"Two hands short since spring, and I cannot leave the book on a market morning. So."',
       },
       {
+        id: 'he-counts-the-coins-into-your',
         voice: 'narrator',
         text: 'He counts the coins into your palm one at a time, watching each one land.',
       },
-      { voice: 'steward', speaker: NPC_NAME.genemon, text: '"Forty mon. Count them back."' },
-      { voice: 'player', text: '"Forty."' },
       {
+        id: 'forty-mon-count-them-back',
+        voice: 'steward',
+        speaker: NPC_NAME.genemon,
+        text: '"Forty mon. Count them back."',
+      },
+      { id: 'forty', voice: 'player', text: '"Forty."' },
+      {
+        id: 'he-watches-the-whole-count-when',
         voice: 'narrator',
         text: 'He watches the whole count. When it comes out even he does not nod. He enters something in the day-book, unasked.',
       },
       {
+        id: 'you-did-not-work-the-number',
         voice: 'narrator',
         text: 'You did not work the number out. It was there before the last coin landed, and you could not say how it got there. Whatever he has entered, it is not the count.',
       },
       {
+        id: 'his-prices-are-his-own-the',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"His prices are his own. The house\'s figures are mine. Go."',
       },
       {
+        id: 'market-morning-at-the-gate-yohei',
         voice: 'narrator',
         text: "Market morning at the gate. Yohei's boards are up and the gateyard has people in it for once — baskets, a mule, talk. The woman ahead of you pulls her basket an inch closer when you stop beside her. The talk is rain over the pass and the price of salt, and it thins a little when you step to the boards, and then picks up again. It was never about you.",
       },
       {
+        id: 'the-house-s-hand-and-carrying',
         voice: 'villager',
         speaker: NPC_NAME.yohei,
         text: "\"The house's hand, and carrying the house's purse — there's news by itself. Rain over the pass, the dye-man's held at the ford a week, so waxed thread is scarce, so the thread is eleven. Salt fifteen, the oil fourteen — fair as water, those two. Eleven for the thread, then?\"",
@@ -511,6 +605,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         label: '"You priced me high, my first market."',
         answer: [
           {
+            id: 'i-did-first-market-you-were',
             voice: 'villager',
             speaker: NPC_NAME.yohei,
             text: '"I did. First market, you were the road\'s — a road man pays the road\'s price, carries it off, and is gone. A house man comes back twelve markets a year. I price the coming back."',
@@ -522,6 +617,7 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         label: '"What holds the dye-man?"',
         answer: [
           {
+            id: 'the-ford-swollen-and-no-hurry',
             voice: 'villager',
             speaker: NPC_NAME.yohei,
             text: '"The ford, swollen, and no hurry in him — lowland wages are fat this year and half the carriers went down for them. Your house lost two hands to the same road, I hear."',
@@ -574,33 +670,40 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     motivates: ['house-study', 'room-grove'],
     greeting: [
       {
+        id: 'the-board-past-supper-past-the',
         voice: 'narrator',
         text: "The board, past supper, past the year's tax. The household's noises are done for the day. Genemon has the day-book open under the lamp and a fresh page ruled, and he does not look up until the last column of the old one is footed.",
       },
       {
+        id: 'stand-where-i-can-see-you',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"Stand where I can see you. This is quick."',
       },
       {
+        id: 'a-full-year-and-more-this',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"A full year and more, this book has said \'one man, name unknown.\' Every entry, the same six strokes spent on a man the whole yard knows on sight. Paper is not free. Neither is my evening."',
       },
       {
+        id: 'he-turns-back-through-the-pages',
         voice: 'narrator',
         text: 'He turns back through the pages — a winter, a wolf, a harvest — to the first entry, and reads it aloud, once. One man, name unknown. Then he dips the brush, and holds it over the page a breath longer than any entry needs.',
       },
       {
+        id: 'gonbei-every-hired-man-this-house',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"Gonbei. Every hired man this house has kept has carried it before you. The house\'s name for you, then. Earn a better."',
       },
       {
+        id: 'he-writes-it-small-and-square',
         voice: 'narrator',
         text: 'He writes it small and square — the hand of a man who has written all his life and never once for pleasure — and the thing is done. One man, Gonbei, sound.',
       },
       {
+        id: 'the-book-has-your-hands-in',
         voice: 'narrator',
         text: 'The book has your hands in it: the loads, the counts that came out even, the night at the sill. It has never had anything else of you. Neither have you.',
       },
@@ -611,11 +714,13 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         label: '"What changes?"',
         answer: [
           {
+            id: 'your-name-on-the-page-a',
             voice: 'steward',
             speaker: NPC_NAME.genemon,
             text: '"Your name, on the page. A day-wage, as before, and the house\'s purse when it\'s sent out with you. And watched — as every name on this book is watched."',
           },
           {
+            id: 'and-one-thing-more-from-this',
             voice: 'steward',
             speaker: NPC_NAME.genemon,
             text: "\"And one thing more. From this season's close I rule a second reckoning — not the hands. The house. Stores past the winter's need, walls that held, ground taken back. One line, each season, in this book's plain words. I have written this house's losses for thirty-one years. I mean to write something else before I am done.\"",
@@ -627,15 +732,18 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         label: '"Who carried it before me?"',
         answer: [
           {
+            id: 'the-question-costs-you-something-to',
             voice: 'narrator',
             text: 'The question costs you something to ask, and Genemon looks up as if a chair had spoken. Then he turns the book back further than he turned it for the ink, to a page the lamp barely reaches.',
           },
           {
+            id: 'four-in-my-years-two-served',
             voice: 'steward',
             speaker: NPC_NAME.genemon,
             text: '"Four, in my years. Two served their seasons out and went to the lowlands. One died of a winter chest, in the house\'s service; his dates are here. The fourth was let go. There was a year this house could keep no one it did not have to keep. That is the whole of it."',
           },
           {
+            id: 'the-same-name-four-times-over',
             voice: 'narrator',
             text: 'The same name, four times over, each line ruled through — dated, footed, closed. He answers the rest of the question by writing the date on the fifth, and the fifth stands open.',
           },

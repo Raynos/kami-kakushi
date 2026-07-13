@@ -25,6 +25,19 @@ export class NarrativeError extends Error {
   }
 }
 
+/** The AUTHORED id of a prose line — its `<!--#slug-->` marker (ADR-186's "known limit", closed).
+ *
+ *  A greeting line and a topic answer are addressed in the save's log as `greeting.<id>` /
+ *  `topic.<t>.answer.<id>`. Before ids they were addressed by INDEX, so re-ordering or deleting a
+ *  line in the .md silently re-pointed an old save's log entry at its NEIGHBOUR — and the orphan
+ *  sensor could not see it, because the index still resolved. The id travels WITH the line, so a
+ *  reorder is now a no-op and a REWORD still reaches every existing save (which a text-derived id
+ *  could not do — it would orphan on the very edit the re-voice waves exist to make).
+ *
+ *  The marker is an HTML comment ON PURPOSE (human, 2026-07-13): these files are authored to READ
+ *  as a script in any markdown preview, and a comment renders as nothing. */
+export type LineId = string;
+
 export interface SpeechLine {
   readonly kind: 'speech';
   /** The display-name token as written (e.g. 'Kihei', 'Yohei') — resolved by emit. */
@@ -34,12 +47,16 @@ export interface SpeechLine {
   /** The line verbatim, hard-wraps rejoined with single spaces (quotes included).
    *  A text of the form `@file.key` / `@dialogue.<def>/<line>` is a REUSE reference. */
   readonly text: string;
+  /** The `<!--#slug-->` marker above the line. Required on greeting + answer lines (validate). */
+  readonly id?: LineId;
   readonly loc: Loc;
 }
 
 export interface NarrLine {
   readonly kind: 'narr';
   readonly text: string;
+  /** The `<!--#slug-->` marker above the line. Required on greeting + answer lines (validate). */
+  readonly id?: LineId;
   readonly loc: Loc;
 }
 
@@ -312,6 +329,8 @@ const RE_ANNOTATION = /^([a-z-]+): (.*)$/;
 const RE_SPEECH = /^(\p{Lu}[^:()]*?)(?: \(([a-z-]+)\))?: (.*)$/u;
 // A bare reuse-reference line (narrator voice), e.g. `@cold-open.wake`.
 const RE_REF = /^@[a-z-]+\.\S+$/;
+/** `<!--#the-slug-->` — the authored id of the prose line beneath it (see `LineId`). */
+const RE_LINE_ID = /^<!--#([a-z0-9][a-z0-9-]*)-->$/;
 
 /** Parse `memory: kihei +1 (disciplined)` / `genemon +0, kihei +1 (friend)`. */
 function parseMemory(raw: string, loc: Loc): MemoryEffect[] {
@@ -442,6 +461,8 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
   let pentry: { key: string; text: string; loc: Loc } | undefined;
   let open: OpenPara | undefined;
   let inComment = false;
+  /** The `<!--#slug-->` seen above the next prose block, consumed when that block opens. */
+  let pendingId: LineId | undefined;
 
   const fail = (line: number, msg: string): never => {
     throw new NarrativeError({ file, line }, msg);
@@ -457,6 +478,16 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     option = undefined;
     dline = undefined;
     pentry = undefined;
+  };
+
+  /** Consume the `<!--#slug-->` seen above this block, if any — a marker binds to exactly ONE
+   *  prose line, so it is cleared as it is taken. Spread into the node so an id-less line (an
+   *  option's say/react, a dialogue line — already addressed by their own ids) carries no field. */
+  const takeId = (): { id?: LineId } => {
+    if (pendingId === undefined) return {};
+    const id = pendingId;
+    pendingId = undefined;
+    return { id };
   };
 
   /** Close the open paragraph/annotation, committing it to its context. */
@@ -569,13 +600,22 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     const raw = lines[i]!;
     const n = i + 1;
 
-    // HTML comments are authorial notes — skipped entirely (may span lines).
+    // HTML comments are authorial notes — skipped entirely (may span lines). The ONE exception is
+    // the `<!--#slug-->` line-id marker, which binds to the prose block directly beneath it.
     if (inComment) {
       if (raw.includes('-->')) inComment = false;
       continue;
     }
     if (raw.trimStart().startsWith('<!--')) {
       close();
+      const idM = RE_LINE_ID.exec(raw.trim());
+      if (idM) {
+        if (pendingId !== undefined) {
+          return fail(n, `line-id "#${pendingId}" has no prose line under it`) as never;
+        }
+        pendingId = idM[1]!;
+        continue;
+      }
       if (!raw.includes('-->')) inComment = true;
       continue;
     }
@@ -596,6 +636,12 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     }
 
     // ── block headings ──
+    // A line-id marker binds DOWNWARD to a prose line; a heading beneath one means the author
+    // labelled nothing (a rename that outran its line, a deleted block). Loud, never silent — a
+    // dropped id is a log entry that will orphan on the next load.
+    if (pendingId !== undefined && raw.startsWith('#')) {
+      return fail(n, `line-id "#${pendingId}" has no prose line under it`) as never;
+    }
     const rungM = RE_RUNG.exec(raw);
     const sceneDefM = RE_SCENEDEF.exec(raw);
     const sceneM = sceneDefM ? null : RE_SCENE.exec(raw);
@@ -770,7 +816,10 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
         open.node.text += ' ' + narrM[1]!;
       } else {
         close();
-        open = { type: 'prose', node: { kind: 'narr', text: narrM[1]!, loc: { file, line: n } } };
+        open = {
+          type: 'prose',
+          node: { kind: 'narr', text: narrM[1]!, ...takeId(), loc: { file, line: n } },
+        };
       }
       continue;
     }
@@ -778,7 +827,10 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     // A bare reuse reference (`@cold-open.wake`) — a narrator-voiced reused line.
     if (RE_REF.test(raw)) {
       close();
-      open = { type: 'prose', node: { kind: 'narr', text: raw.trim(), loc: { file, line: n } } };
+      open = {
+        type: 'prose',
+        node: { kind: 'narr', text: raw.trim(), ...takeId(), loc: { file, line: n } },
+      };
       continue;
     }
 
@@ -792,10 +844,18 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     const speechM = RE_SPEECH.exec(raw);
     if (speechM) {
       close();
-      const node: { kind: 'speech'; speaker: string; voice?: string; text: string; loc: Loc } = {
+      const node: {
+        kind: 'speech';
+        speaker: string;
+        voice?: string;
+        text: string;
+        id?: LineId;
+        loc: Loc;
+      } = {
         kind: 'speech',
         speaker: speechM[1]!,
         text: speechM[3]!,
+        ...takeId(),
         loc: { file, line: n },
       };
       if (speechM[2] !== undefined) node.voice = speechM[2];

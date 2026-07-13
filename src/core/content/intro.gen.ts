@@ -14,7 +14,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
     id: 'dream',
     title: 'what the water takes',
     voice: 'narrator',
-    greeting: [{ voice: 'narrator', text: COLD_OPEN.dream }],
+    greeting: [{ id: 'dream', voice: 'narrator', text: COLD_OPEN.dream }],
     topics: [],
     decision: {
       prompt: 'One can be kept before the rest goes down. Which?',
@@ -65,60 +65,85 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
     voice: 'physician',
     speaker: 'soan',
     greeting: [
-      { voice: 'narrator', text: COLD_OPEN.weir },
-      { voice: 'narrator', text: COLD_OPEN.wake },
+      { id: 'weir', voice: 'narrator', text: COLD_OPEN.weir },
+      { id: 'wake', voice: 'narrator', text: COLD_OPEN.wake },
       {
+        id: 'the-physician-does-not-ask-how',
         voice: 'narrator',
         text: 'The physician does not ask how you feel. He takes your wrist, then your jaw, then turns your hands over and looks at them longer than at anything else. He presses a thumb into the callus line across one palm and says nothing. There is a ledger open on his knee.',
       },
-      { voice: 'physician', speaker: NPC_NAME.soan, text: '"Do you know the year?"' },
-      { voice: 'player', text: '"No."' },
       {
+        id: 'do-you-know-the-year',
+        voice: 'physician',
+        speaker: NPC_NAME.soan,
+        text: '"Do you know the year?"',
+      },
+      { id: 'no', voice: 'player', text: '"No."' },
+      {
+        id: 'an-ei-nine-now-you-know',
         voice: 'physician',
         speaker: NPC_NAME.soan,
         text: '"An\'ei nine. Now you know it again. Drink this."',
       },
       {
+        id: 'whatever-the-hands-told-him-goes',
         voice: 'narrator',
         text: 'Whatever the hands told him goes into the ledger, two lines, too far off to read. The door slides, and he closes the book on his thumb.',
       },
       {
+        id: 'the-man-in-the-doorway-is',
         voice: 'narrator',
         text: 'The man in the doorway is grey and dry and carries a book of his own. Two books in the room now, and only one of them open.',
       },
-      { voice: 'steward', speaker: NPC_NAME.genemon, text: '"The weir man. Sōan — can he work?"' },
-      { voice: 'physician', speaker: NPC_NAME.soan, text: '"Ask him."' },
       {
+        id: 'the-weir-man-soan-can-he',
+        voice: 'steward',
+        speaker: NPC_NAME.genemon,
+        text: '"The weir man. Sōan — can he work?"',
+      },
+      { id: 'ask-him', voice: 'physician', speaker: NPC_NAME.soan, text: '"Ask him."' },
+      {
+        id: 'name-age-where-from-in-that',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"Name, age, where from. In that order."',
       },
       {
+        id: 'three-answers-and-you-do-not',
         voice: 'narrator',
         text: 'Three answers, and you do not have one of them. The silence goes on long enough that the physician looks up.',
       },
       {
+        id: 'it-is-the-first-thing-you',
         voice: 'narrator',
         text: 'It is the first thing you have asked anyone. Standing up cost you less.',
       },
-      { voice: 'player', text: '"What name did I give? When they pulled me out."' },
       {
+        id: 'what-name-did-i-give-when',
+        voice: 'player',
+        text: '"What name did I give? When they pulled me out."',
+      },
+      {
+        id: 'none-you-gave-none-three-days',
         voice: 'physician',
         speaker: NPC_NAME.soan,
         text: '"None. You gave none. Three days I have had nothing to call you, and neither have you."',
       },
-      { voice: 'narrator', text: 'Nothing comes.' },
+      { id: 'nothing-comes', voice: 'narrator', text: 'Nothing comes.' },
       {
+        id: 'genemon-does-not-look-surprised-he',
         voice: 'narrator',
         text: 'Genemon does not look surprised. He looks down and writes, and reads it back as he writes, aloud and once.',
       },
-      { voice: 'steward', speaker: NPC_NAME.genemon, text: COLD_OPEN.daybook },
+      { id: 'daybook', voice: 'steward', speaker: NPC_NAME.genemon, text: COLD_OPEN.daybook },
       {
+        id: 'when-he-can-stand-he-rakes',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: '"When he can stand, he rakes. The kitchen wants water before it wants anything."',
       },
       {
+        id: 'he-goes-soan-opens-his-ledger',
         voice: 'narrator',
         text: 'He goes. Sōan opens his ledger again, where his thumb kept the place.',
       },
@@ -129,6 +154,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         label: '"Where is this?"',
         answer: [
           {
+            id: 'the-house-house-the-estate-or',
             voice: 'physician',
             speaker: NPC_NAME.soan,
             text: `"The ${NAMES.house} house — the estate, or what answers to the word. This is my sickroom, off the outer court, and you will be out of it by tomorrow. I need the mat."`,
@@ -140,6 +166,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         label: '"Someone on the bank said a god hid me."',
         answer: [
           {
+            id: 'kamikakushi-the-valley-says-it-of',
             voice: 'physician',
             speaker: NPC_NAME.soan,
             text: '"Kamikakushi. The valley says it of every man the river takes and every child who runs off. Let them say it; it comforts them and costs you nothing. What took you was water."',
@@ -151,6 +178,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         label: '"How long was I in the river?"',
         answer: [
           {
+            id: 'that-i-can-t-write-down',
             voice: 'physician',
             speaker: NPC_NAME.soan,
             text: '"That I can\'t write down. Three days here, fevered. Before that, ask the river."',
@@ -202,6 +230,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
     speaker: 'genemon',
     greeting: [
       {
+        id: 'genemon-open-gen-greet',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
         text: getDialogueLine('genemon-open', 'gen-greet').text,
@@ -213,6 +242,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         label: '"What house is this?"',
         answer: [
           {
+            id: 'the-house-on-the-lord-s',
             voice: 'steward',
             speaker: NPC_NAME.genemon,
             text: `"The ${NAMES.house}. On the lord's rolls: samurai, one house, standing since before my hand kept the book. In the granary: less than the rolls would suggest, and I will not write the number for a stranger."`,
@@ -224,6 +254,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         label: '"What\'s the work?"',
         answer: [
           {
+            id: 'rice-half-a-season-s-stores',
             voice: 'steward',
             speaker: NPC_NAME.genemon,
             text: "\"Rice. Half a season's stores, spilled in the kura court where the door gave way in the rains — the kura is the storehouse; it holds the year's rice. You rake it in before the rain spoils what's left to count; wage stands as entered — meals.\"",
@@ -235,6 +266,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         label: '"Who are you to me?"',
         answer: [
           {
+            id: 'the-steward-i-count-what-the',
             voice: 'steward',
             speaker: NPC_NAME.genemon,
             text: '"The steward. I count what the house holds and what it is owed; you came in under the second column. A man working a thing off gets fair terms from me, and no questions the book does not ask."',
@@ -247,6 +279,7 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         gate: (asked) => asked.has('gen-work'),
         answer: [
           {
+            id: 'a-wolf-one-gone-bold-at',
             voice: 'steward',
             speaker: NPC_NAME.genemon,
             text: '"A wolf, one, gone bold at the grain store. Grain lost: some. Men lost: none — work by daylight and I intend that count to hold."',

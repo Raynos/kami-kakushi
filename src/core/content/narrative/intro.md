@@ -38,6 +38,7 @@
 voice: narrator
 title: what the water takes
 
+<!--#dream-->
 @cold-open.dream
 
 ### decide · One can be kept before the rest goes down. Which?
@@ -85,73 +86,96 @@ title: no name to give
   the speaker-ladder (playerSpeaker(state)), so the You:→Nameless: flip lands at
   the marked point below without touching these lines. -->
 
+<!--#weir-->
 @cold-open.weir
 
+<!--#wake-->
 @cold-open.wake
 
+<!--#the-physician-does-not-ask-how-->
 > The physician does not ask how you feel. He takes your wrist, then your
 > jaw, then turns your hands over and looks at them longer than at
 > anything else. He presses a thumb into the callus line across one palm
 > and says nothing. There is a ledger open on his knee.
 
+<!--#do-you-know-the-year-->
 Sōan: "Do you know the year?"
 
+<!--#no-->
 You: "No."
 
+<!--#an-ei-nine-now-you-know-->
 Sōan: "An'ei nine. Now you know it again. Drink this."
 
+<!--#whatever-the-hands-told-him-goes-->
 > Whatever the hands told him goes into the ledger, two lines, too far off
 > to read. The door slides, and he closes the book on his thumb.
 
+<!--#the-man-in-the-doorway-is-->
 > The man in the doorway is grey and dry and carries a book of his own.
 > Two books in the room now, and only one of them open.
 
+<!--#the-weir-man-soan-can-he-->
 Genemon: "The weir man. Sōan — can he work?"
 
+<!--#ask-him-->
 Sōan: "Ask him."
 
+<!--#name-age-where-from-in-that-->
 Genemon: "Name, age, where from. In that order."
 
+<!--#three-answers-and-you-do-not-->
 > Three answers, and you do not have one of them. The silence goes on long
 > enough that the physician looks up.
 
+<!--#it-is-the-first-thing-you-->
 > It is the first thing you have asked anyone. Standing up cost you less.
 
+<!--#what-name-did-i-give-when-->
 You: "What name did I give? When they pulled me out."
 
+<!--#none-you-gave-none-three-days-->
 Sōan: "None. You gave none. Three days I have had nothing to call you,
 and neither have you."
 
+<!--#nothing-comes-->
 > Nothing comes.
 
 <!-- native: THE FLIP — the speaker label changes here, You: → Nameless:,
   witnessed: it happens on screen with both men in the room. Every MC line
   from this point renders as Nameless:. -->
 
+<!--#genemon-does-not-look-surprised-he-->
 > Genemon does not look surprised. He looks down and writes, and reads it
 > back as he writes, aloud and once.
 
+<!--#daybook-->
 Genemon: @cold-open.daybook
 
+<!--#when-he-can-stand-he-rakes-->
 Genemon: "When he can stand, he rakes. The kitchen wants water before it
 wants anything."
 
+<!--#he-goes-soan-opens-his-ledger-->
 > He goes. Sōan opens his ledger again, where his thumb kept the place.
 
 ### ask soan-where · "Where is this?"
 
+<!--#the-house-house-the-estate-or-->
 Sōan: "The {house} house — the estate, or what answers to the word. This
 is my sickroom, off the outer court, and you will be out of it by
 tomorrow. I need the mat."
 
 ### ask soan-kami · "Someone on the bank said a god hid me."
 
+<!--#kamikakushi-the-valley-says-it-of-->
 Sōan: "Kamikakushi. The valley says it of every man the river takes and
 every child who runs off. Let them say it; it comforts them and costs you
 nothing. What took you was water."
 
 ### ask soan-how-long · "How long was I in the river?"
 
+<!--#that-i-can-t-write-down-->
 Sōan: "That I can't write down. Three days here, fevered. Before that,
 ask the river."
 
@@ -203,16 +227,19 @@ speaker: genemon
 voice: steward
 title: entered in the book
 
+<!--#genemon-open-gen-greet-->
 Genemon: @dialogue.genemon-open/gen-greet
 
 ### ask gen-house · "What house is this?"
 
+<!--#the-house-on-the-lord-s-->
 Genemon: "The {house}. On the lord's rolls: samurai, one house, standing since
 before my hand kept the book. In the granary: less than the rolls would
 suggest, and I will not write the number for a stranger."
 
 ### ask gen-work · "What's the work?"
 
+<!--#rice-half-a-season-s-stores-->
 Genemon: "Rice. Half a season's stores, spilled in the kura court where the
 door gave way in the rains — the kura is the storehouse; it holds the year's
 rice. You rake it in before the rain spoils what's left to count; wage stands
@@ -220,6 +247,7 @@ as entered — meals."
 
 ### ask gen-you · "Who are you to me?"
 
+<!--#the-steward-i-count-what-the-->
 Genemon: "The steward. I count what the house holds and what it is owed; you
 came in under the second column. A man working a thing off gets fair terms
 from me, and no questions the book does not ask."
@@ -227,6 +255,7 @@ from me, and no questions the book does not ask."
 ### ask gen-danger · "Is the work safe?"
 after: gen-work
 
+<!--#a-wolf-one-gone-bold-at-->
 Genemon: "A wolf, one, gone bold at the grain store. Grain lost: some. Men
 lost: none — work by daylight and I intend that count to hold."
 
