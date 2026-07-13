@@ -124,3 +124,12 @@ conflict — the cost is only the lock/push races already covered by
 
 Neither is started; direction is the human's call (design/process
 fork — lock before building).
+
+---
+
+**Outcome (2026-07-13, session 203):** the render-split plan landed —
+render.ts 6,766 → 1,594 (12 view modules), dev.ts 2,774 → 611 (the
+dev/ module set), styles.css → a 9-file @import index, render.test.ts
+mirror-split. Contention unit is now the surface module, not the
+god-file. Re-run `tmp/hotfiles.py` after ~5 days to confirm the heat
+actually dispersed.

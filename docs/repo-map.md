@@ -136,6 +136,18 @@ always-loaded context while being editable on its own.
   registries the hand-written modules re-export, plus the one-page reading
   script [`docs/content/t0-story.md`](../docs/content/t0-story.md). Story edits
   land HERE, never in the `.gen.ts`.
+- `src/ui/` — the renderer, split per-surface (2026-07-13 render-split, ADR-196 §6):
+  [`render.ts`](../src/ui/render.ts) is the SHELL (element construction, tabs/nav,
+  the `render()` master, shared helpers/consts) over **[`src/ui/render/`](../src/ui/render)**
+  — one `create<X>View(ctx)` module per surface (market · quests · inventory · combat ·
+  character · estate · map · settings · modals · actions · log + log-lines · vn ·
+  vitals), tests mirror-split beside them (`test-utils.ts` holds shared fixtures).
+  [`dev.ts`](../src/ui/dev.ts) is likewise the DEV-panel shell over
+  **[`src/ui/dev/`](../src/ui/dev)** (pane modules + widgets + take-subs +
+  variant-renderers + story-reader). [`styles.css`](../src/ui/styles.css) is a pure
+  `@import` INDEX over **[`src/ui/styles/`](../src/ui/styles)** — the import order IS
+  the cascade; never reorder it (the `:root` tokens live in `styles/tokens-base.css`,
+  where gen-docs reads them).
 - [`src/tests/e2e/`](../src/tests/e2e) — the **mobile e2e lane**: Playwright specs (`mobile-layout` /
   `mobile-journey` + `helpers`) driven by root `playwright.config.ts` on two real
   mobile profiles (Android Chrome + iOS-floor WebKit) against the DEV server.

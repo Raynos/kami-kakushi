@@ -1,7 +1,7 @@
 # Split the four UI god-files in one overnight worktree job
 
-**Status:** ▶️ IN PROGRESS (2026-07-13, session 203 — approved by
-the human; see Rulings)
+**Status:** ✅ DONE (2026-07-13, session 203 — landed on main; see
+the Outcome section)
 **Confidence:** ( 0% Opus, 100% Fable ) — human-routed: "Fable
 overnight" (ADR-196 §6 / grill capture Q5). Closure-extraction
 boundaries in render.ts are the judgment core.
@@ -145,3 +145,30 @@ mechanical (an Opus subagent inside the job is fine)~~ —
 superseded by Ruling 3 (2026-07-13): the whole job runs Fable in
 one session, no subagent delegation. Step 2 (closure/state
 boundaries) and every abort/land judgment stay with Fable.
+
+## Outcome (session 203)
+
+Landed in one quiet-window worktree job, 16 commits, every one
+full-suite green (1,397 tests unchanged):
+
+- **Step 1** — dev.ts 2,774 → 611: shell over `src/ui/dev/`
+  (5 pane modules + widgets + take-subs + variant-renderers +
+  story-reader; dev-cockpit/dev-cheatlist already were the
+  balance/rungs panes). All six DEV-tab captures byte-identical.
+- **Step 2** — render.ts 6,766 → 1,594: twelve `src/ui/render/`
+  view modules (market, quests, inventory, combat, character,
+  estate, map, settings, modals, actions, log + log-lines, vn,
+  vitals), each a `create<X>View(ctx)` factory — surface refs as
+  instance state, shared mount state via getters/setters.
+- **Step 3** — styles.css → a pure @import index over nine
+  `src/ui/styles/*.css`; reconstruction identical to the
+  original modulo blank lines (cascade provably unchanged).
+- **Step 4** — render.test.ts mirror-split: nine per-surface
+  test files + test-utils; suite count before == after (1,397);
+  all keep `@slow`, commit lane still ~4.5s.
+- **Proof** — FULL verify 20 gates green; e2e 115 green; final
+  gallery byte-identical outside two pre-measured noise classes
+  (typewriter-timing shots; the About modal's build-hash stamp).
+- **Bycatch** — qa-shots.mjs intro rot fixed on main pre-job
+  (de212d25); a latent log reveal-timer teardown leak fixed
+  (the tickExpiry guard's missing sibling).

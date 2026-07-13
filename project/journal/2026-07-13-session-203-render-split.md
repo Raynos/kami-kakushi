@@ -60,19 +60,35 @@ stamp (explained, rejected). Extraction pattern: create<X>View
 shared mount state (activeTab, openPersonId, lastState, paused)
 threads as getters/setters — never a copied snapshot.
 
+## 4 · Steps 2j–4 + the proof + the landing
+
+Log (createLogView + pure log-lines), VN (createVnView), and
+vitals extracted — render.ts ends at 1,594 (the shell). Step 3:
+styles.css → a pure @import index over nine styles/*.css files
+(reconstruction identical modulo blank lines). Step 4:
+render.test.ts mirror-split into nine per-surface files +
+test-utils, all @slow, suite count unchanged (1,397). The split
+surfaced a latent leak — a log reveal timer outliving its mount
+(thrown after jsdom teardown) — fixed with the same
+isConnected guard tickExpiry already carried. Proof: FULL
+verify 20 gates green ×3, e2e 115 green, final gallery + DEV
+tabs byte-identical outside the two pre-measured noise classes
+(typewriter timing; the About build-hash stamp). Landed as a
+fast-forward of main inside the quiet window (main never moved
+off the base). Plan archived; repo-map carries the module map;
+merchant-state unblocked against render/market.ts.
+
 ## Next intended steps (current)
 
-1. Watch for the quiet window (w1:p3 done, four files clean).
-2. Baseline: full verify green, e2e lane, golden screenshots.
-3. Worktree job: dev.ts → render.ts → styles.css →
-   render.test.ts, per the plan's procedure.
-4. Prove nothing changed (FULL verify + pixel diff), land
-   atomically through the push mutex, announce, archive the plan.
+1. Regenerate + commit the QA gallery on landed main (the
+   harness's intro fix renamed the 02b/02c shots).
+2. Re-run tmp/hotfiles.py after ~5 days (the Aftermath watch).
+3. Merchant-state is next in docs/plans/ — Opus-routed, builds
+   against render/market.ts.
 
 ## Landmines (current)
 
-- w1:p3 ("take-B2") is live in this tree — do NOT start the
-  split, and do NOT commit anything beyond these docs, until it
-  finishes; its WIP would poison the atomic rebase.
-- Merchant-state is sequencing-blocked on this plan — an agent
-  picking it up early recreates the render.ts contention.
+- styles.css is now an @import INDEX — its import order IS the
+  cascade; never reorder, never add rules to the index itself.
+- Muscle memory says "edit render.ts / dev.ts" — surface work
+  now lands in src/ui/render/ and src/ui/dev/ modules.

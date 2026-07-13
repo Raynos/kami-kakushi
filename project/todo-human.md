@@ -44,10 +44,6 @@
   — split 2/5: your merchant ruling (permanent purse + stock,
   general-store price sag) as a build plan
   satiety-only)
-- [ ]
-  [`docs/plans/fable-2026-07-13-render-split.md`](../docs/plans/fable-2026-07-13-render-split.md)
-  — ADR-196 3/3: the Fable-overnight worktree split (render + tests
-  + styles + dev.ts → 8 files) — needs your quiet-window go
 - [x]
   [`fable-2026-07-11-wait-a-day.md`](archive/fable-2026-07-11-wait-a-day.md)
   — ✅ **BUILT + archived** (session-183). You ruled Phase 0 (**D
