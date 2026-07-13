@@ -535,6 +535,13 @@ export function createLogView(ctx: {
     typeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
   }
   function pumpReveal(): void {
+    // A discarded view stops its cascade: once this log's DOM has left the document
+    // (a test's next mount, never live play), a pending reveal timer must not keep
+    // scheduling work against a dead — or torn-down (jsdom) — window.
+    if (!logLines.isConnected) {
+      revealQueue.length = 0;
+      return;
+    }
     if (revealTimer !== undefined || typeTimer !== undefined) return; // no overlap
     const entry = revealQueue.shift();
     if (!entry) return;
