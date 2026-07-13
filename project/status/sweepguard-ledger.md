@@ -13,3 +13,4 @@ record. If a pattern of entries clusters on one rule, that rule needs
 redesign, not more bypasses.
 
 ## Entries
+- 2026-07-13 17:14 · w1:p3 · `git diff --cached --name-only && SKIP_VERIFY=1 SKIP_JOURNAL=1 SKIP_SWEEPGUARD=1 git commit -m "fix(core): the rake-cap line emits KEYED — takes can reach it  fb324-rake-cap never flipped live (human r`
