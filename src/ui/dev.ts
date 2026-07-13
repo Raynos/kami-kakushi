@@ -53,17 +53,8 @@ import { FIXTURES_SENTINEL } from '../fixtures';
 // ADR-139 story take-sets — imported ONLY here, so the registry rides this module's DEV fold.
 import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
 import {
-  __setRequirementFlavorOverride,
-  __setDiscoveryFlavorOverride,
-  __setJudgeFlavorOverride,
-  __setRakeCapLineOverride,
-  __setRestOpenLineOverride,
-  __setSleepLineOverride,
-  __setSleepAnnounceLineOverride,
-  __setWorksFlavorOverride,
-  __setIntroTitleOverride,
-  __setDialogueTextOverride,
-  __setLogTakeOverrides,
+  __setStoryOverlay,
+  type IntroSetupLine,
   RUNG_REQUIREMENTS,
   getRank,
   estateBuild,
@@ -172,119 +163,39 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
   const effective = (b: string, unit: string): string =>
     unitOverride[b]?.[unit] ?? storyTake[b] ?? 'canon';
 
-  // FB-121 — push the effective requirement-flavor overlay into the CORE (the
-  // declaring-module DEV setter, like the balance cockpit's levers): completion lines
-  // are core-emitted log text, so the switcher swaps FUTURE emissions there, not at
-  // render time. Recomputed on every set/unit change; null (all-canon) clears it.
-  const syncReqFlavor = (): void => {
-    const overlay: Record<string, string> = {};
+  // step B (session-200) — the ONE story overlay: flatten the EFFECTIVE takes'
+  // gen-canonicalized text maps + narration-run sequences and push them into the core
+  // in one call. Every reader (emit-time, save-load, the DEV log repaint, the render-read
+  // surfaces) consults storyText/storySeq — this replaced the eleven per-concern setters
+  // this function used to hand-mirror. Recomputed on every set/unit change; all-canon
+  // clears it.
+  const unitOfKey = (key: string): string => {
+    const [ns, a] = key.split('.');
+    if (ns === 'beat') return `rung:${a}`;
+    if (ns === 'intro') return `intro:${a}`;
+    if (ns === 'scene') return `scene:${a}`;
+    if (ns === 'dialogue') return `dialogue:${a}`;
+    if (ns === 'requirement') return `req-flavor:${a}`;
+    if (ns === 'req-objective') return `req-objective:${a}`;
+    if (ns === 'cold-open') return `cold-open:${a}`;
+    if (ns === 'intro-title') return `intro-title:${a}`;
+    return `flavor:${a}`;
+  };
+  const syncStoryOverlay = (): void => {
+    const text: Record<string, string> = {};
+    const seq: Record<string, readonly IntroSetupLine[]> = {};
     for (const b of bundles) {
       for (const t of b.takes) {
-        if (!t.reqFlavor) continue;
-        for (const [key, text] of Object.entries(t.reqFlavor)) {
-          if (effective(b.id, `req-flavor:${key}`) === t.id) overlay[key] = text;
+        for (const [key, v] of Object.entries(t.text ?? {})) {
+          if (effective(b.id, unitOfKey(key)) === t.id) text[key] = v;
+        }
+        for (const [key, v] of Object.entries(t.seq ?? {})) {
+          if (effective(b.id, unitOfKey(key)) === t.id) seq[key] = v;
         }
       }
     }
-    __setRequirementFlavorOverride(Object.keys(overlay).length > 0 ? overlay : null);
-    // ADR-146 — the discovery-moment line is core-emitted too: forward the effective FLAVOR
-    // take entries so FUTURE latches voice the selected take (already-logged lines stay, T2).
-    // Keyed by flavor key; only defs whose lineKey matches are affected (discoveries.ts).
-    const discOverlay: Record<string, string> = {};
-    for (const b of bundles) {
-      for (const t of b.takes) {
-        if (!t.flavor) continue;
-        for (const [key, text] of Object.entries(t.flavor)) {
-          if (effective(b.id, `flavor:${key}`) === t.id) discOverlay[key] = text;
-        }
-      }
-    }
-    __setDiscoveryFlavorOverride(Object.keys(discOverlay).length > 0 ? discOverlay : null);
-    // C5a unit 4 — the seasonal-judge line is core-emitted (step.ts onReckoning): forward
-    // the same effective flavor-take entries so FUTURE reckonings voice the selected take
-    // (judgeLine* keys; other keys are ignored by the reader — flavor.ts JUDGE_KEY).
-    __setJudgeFlavorOverride(Object.keys(discOverlay).length > 0 ? discOverlay : null);
-    // FB-324 (ADR-139) — the rake-cap line is core-emitted too (intents.ts rake_rice):
-    // forward the effective `rakeCapLine` flavor take so a FUTURE cap emit voices it.
-    __setRakeCapLineOverride(discOverlay['rakeCapLine'] ?? null);
-    // FB-402 (ADR-139) — the open-rest line is core-emitted too (intents.ts rest):
-    // forward the effective `restOpen` flavor take so a FUTURE rest emit voices it.
-    __setRestOpenLineOverride(discOverlay['restOpen'] ?? null);
-    // ADR-187 (ADR-139) — the slept-day line is core-emitted too (intents.ts sleep):
-    // forward the effective `sleep` flavor take so a FUTURE sleep emit voices it. Without
-    // this the bundle would be a doc-only review, which is not a review (human, 2026-07-07).
-    __setSleepLineOverride(discOverlay['sleep'] ?? null);
-    // ADR-187 follow-up (ADR-139) — the sleep-announce beat is core-emitted too (reveals.ts,
-    // first stand at the corner): forward the effective `sleepAnnounce` flavor take so a
-    // FUTURE first-arrival emit voices it (load a pre-R4 fixture to replay the moment).
-    __setSleepAnnounceLineOverride(discOverlay['sleepAnnounce'] ?? null);
-    // ADR-177 (works-cause bundle) — the works discovery lines (day-book naming,
-    // zone sightings, the ladder hints + U1's stage strings) are core-emitted/-read:
-    // forward the same effective flavor-take entries (works.ts worksLine resolver).
-    __setWorksFlavorOverride(Object.keys(discOverlay).length > 0 ? discOverlay : null);
-    // FB-362 (ADR-139) — the intro scene titles are core-emitted contexts (intents.ts
-    // stamps introSceneTitle on every intro log line): forward the effective
-    // `## prose intro-title` take entries (keyed by scene id) so a FUTURE intro run's
-    // 幕-heads voice the selected take; logged history keeps its baked heads (TST2).
-    const titleOverlay: Record<string, string> = {};
-    for (const b of bundles) {
-      for (const t of b.takes) {
-        if (!t.introTitles) continue;
-        for (const [key, text] of Object.entries(t.introTitles)) {
-          if (effective(b.id, `intro-title:${key}`) === t.id) titleOverlay[key] = text;
-        }
-      }
-    }
-    __setIntroTitleOverride(Object.keys(titleOverlay).length > 0 ? titleOverlay : null);
-    // M7 (2026-07-13) — dialogue-tree lines are core-emitted too (intents.ts deliverDialogue):
-    // forward the effective `dialogue:` take defs as a TEXT overlay keyed `<dialogueId>.<lineId>`
-    // (whole-dialogue units; line ids + gates stay canon — human ruling, session-200). The
-    // overlay is read at emit, at save-load, AND at the DEV log repaint (render.ts derives
-    // keyed entries from the registries per paint), so a flip re-voices logged lines too.
-    const dlgOverlay: Record<string, string> = {};
-    for (const b of bundles) {
-      for (const t of b.takes) {
-        for (const d of t.dialogues ?? []) {
-          if (effective(b.id, `dialogue:${d.id}`) !== t.id) continue;
-          for (const l of d.lines) dlgOverlay[`${d.id}.${l.id}`] = l.text;
-        }
-      }
-    }
-    __setDialogueTextOverride(Object.keys(dlgOverlay).length > 0 ? dlgOverlay : null);
-    // Session-200 (human bug report: hd38-w4-intro didn't live-swap) — the LOG's resolvers
-    // read canon registries, so a flip re-voiced dialogue lines but not logged intro/beat/
-    // scene/flavor lines. Forward the effective take DEFS into log-render's take overlay;
-    // the DEV log repaint (render.ts devRederivedEntry) then re-derives every keyed line
-    // under the selected takes. The maps mirror subIntroScene/subRungScene/subScene/
-    // subFlavor — same effective() rule, pushed once per set/unit change instead of read
-    // per render call.
-    const introOverlay: Record<string, DialogueScene> = {};
-    const rungOverlay: Partial<Record<RankId, RungScene>> = {};
-    const sceneOverlay: Record<string, RungScene> = {};
-    for (const b of bundles) {
-      for (const t of b.takes) {
-        for (const s of t.introScenes ?? []) {
-          if (effective(b.id, `intro:${s.id}`) === t.id) introOverlay[s.id] = s;
-        }
-        for (const [rank, sc] of Object.entries(t.rungBeats ?? {})) {
-          if (effective(b.id, `rung:${rank}`) === t.id) rungOverlay[rank as RankId] = sc;
-        }
-        for (const [id, sc] of Object.entries(t.scenes ?? {})) {
-          if (effective(b.id, `scene:${id}`) === t.id && sc) sceneOverlay[id] = sc;
-        }
-      }
-    }
-    const anyScenes =
-      Object.keys(introOverlay).length +
-        Object.keys(rungOverlay).length +
-        Object.keys(sceneOverlay).length +
-        Object.keys(discOverlay).length >
-      0;
-    __setLogTakeOverrides(
-      anyScenes
-        ? { intro: introOverlay, rung: rungOverlay, scene: sceneOverlay, flavor: discOverlay }
-        : null,
-    );
+    const any = Object.keys(text).length + Object.keys(seq).length > 0;
+    __setStoryOverlay(any ? text : null, any && Object.keys(seq).length > 0 ? seq : null);
   };
 
   // FB-18 — hydrate variant selections from the URL query params so a tweak survives a reload and a
@@ -308,7 +219,7 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
     }
   }
 
-  syncReqFlavor(); // honour a ?story-<bundle>= URL selection from the first emission
+  syncStoryOverlay(); // honour a ?story-<bundle>= URL selection from the first emission
 
   return {
     getVariant: (s) => variant[s] ?? defaultOf(s),
@@ -342,7 +253,7 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
       if (!validTake(b, id)) return;
       storyTake[b] = id;
       storyEpoch++;
-      syncReqFlavor();
+      syncStoryOverlay();
       // mirror to the URL like variant picks — 'canon' (the default) keeps a clean URL.
       if (
         typeof location !== 'undefined' &&
@@ -361,13 +272,13 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
       if (id === undefined) {
         delete unitOverride[b]?.[unit];
         storyEpoch++;
-        syncReqFlavor();
+        syncStoryOverlay();
         return;
       }
       if (!validTake(b, id)) return;
       (unitOverride[b] ??= {})[unit] = id;
       storyEpoch++;
-      syncReqFlavor();
+      syncStoryOverlay();
     },
     storyEpoch: () => storyEpoch,
     subRungScene: (scene) => {

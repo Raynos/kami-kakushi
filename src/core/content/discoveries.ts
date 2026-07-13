@@ -6,6 +6,7 @@
 // `hidden:` flag to drift. All fiction text here (hints, the discovery line) is ADR-139
 // diverge-picked canon — alternates live DEV-only until the human signs the bundle.
 
+import { storyText } from './story-overlay';
 import type { MapNodeId } from './map';
 import type { ActivityId } from './activities';
 import { FLAVOR } from './flavor.gen';
@@ -128,23 +129,12 @@ export function getDiscovery(id: DiscoveryId): DiscoveryDef {
   return d;
 }
 
-// ── DEV-only flavor overlay (ADR-139 / ADR-143 — the story set-switcher) ────────────
-// The discovery line is CORE-emitted log text, so the switcher swaps FUTURE emissions
-// here (the same declaring-module pattern as requirements.ts __setRequirementFlavorOverride);
-// already-logged lines stay (T2 — history never rewrites). INERT unless the DEV story
-// switcher calls it; tests, sims and the shipped game read canon.
-let FLAVOR_OVERRIDE: Readonly<Record<string, string>> | null = null;
-
-/** DEV-only: overlay discovery-moment lines by their `## prose flavor` key (null = canon). */
-export function __setDiscoveryFlavorOverride(map: Readonly<Record<string, string>> | null): void {
-  FLAVOR_OVERRIDE = map;
-}
-
-/** The line a latch should emit — the DEV overlay's take if one targets this def's lineKey,
- *  else the authored canon line. The ONE read discoveryPass uses. */
+/** The line a latch should emit — the active take's if one targets this def's lineKey
+ *  (step B, session-200: the ONE story overlay replaced the per-concern setter), else
+ *  the authored canon line. The ONE read discoveryPass uses. */
 export function discoveryEmitLine(def: DiscoveryDef): string {
   if (def.lineKey !== undefined) {
-    const over = FLAVOR_OVERRIDE?.[def.lineKey];
+    const over = storyText(`flavor.${def.lineKey}`);
     if (over !== undefined) return over;
   }
   return def.discoveryLine;

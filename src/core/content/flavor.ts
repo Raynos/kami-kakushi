@@ -1,25 +1,23 @@
 // UI flavor lines (ADR-139) — fiction-voiced micro-copy the renderer shows outside a VN
 // scene (lock-hints, gate explainers). The PROSE is authored in `narrative/flavor.md`
 // (FB-5 — the source of truth) and compiled to `flavor.gen.ts`; this module re-exports it.
-// Each key is live-switchable in the DEV story set-switcher: a diverge on a flavor line
-// ships its alternates as a `takes/` bundle (the mend-hint is HR-10's first user).
+// Each key is live-switchable in the DEV story set-switcher through the ONE story overlay
+// (step B, session-200): every reader asks `flavorLine(key)`, which consults the active
+// take's `flavor.<key>` entry and falls back to canon. The four per-concern setters that
+// used to live here (judge / rest-open / sleep / sleep-announce) are retired.
 
 export { FLAVOR } from './flavor.gen';
 import { FLAVOR } from './flavor.gen';
+import { storyText } from './story-overlay';
 import type { Grade } from '../pillars';
 
-// ── C5a unit 4 — the per-grade seasonal-judge line (ADR-159/ADR-167) ─────────────────
-// Core-EMITTED text (step.ts onReckoning), so the DEV story switcher swaps it through
-// the declaring-module setter (the requirements.ts __setRequirementFlavorOverride
-// pattern): future emissions voice the selected take; logged history stays (TST2).
-
-let JUDGE_OVERRIDE: Readonly<Record<string, string>> | null = null;
-
-/** DEV-only (the story set-switcher): override the judge lines by FLAVOR key, or null
- *  to restore canon. */
-export function __setJudgeFlavorOverride(map: Readonly<Record<string, string>> | null): void {
-  JUDGE_OVERRIDE = map;
+/** A flavor key's effective prose — the active take's if set, else canon. The one
+ *  funnel every flavor-keyed reader (emit-time, save-load, render-read) goes through. */
+export function flavorLine(key: keyof typeof FLAVOR): string {
+  return storyText(`flavor.${key}`) ?? FLAVOR[key];
 }
+
+// ── C5a unit 4 — the per-grade seasonal-judge line (ADR-159/ADR-167) ─────────────────
 
 const JUDGE_KEY: Readonly<Record<Grade, keyof typeof FLAVOR>> = {
   FAIL: 'judgeLineFail',
@@ -33,57 +31,25 @@ const JUDGE_KEY: Readonly<Record<Grade, keyof typeof FLAVOR>> = {
 /** The day-book's judge line for a grade — the valley's regard read at the season's
  *  close (TAKE C of the C5a diverge; TST3: koku standing IS outside regard). */
 export function judgeLine(grade: Grade): string {
-  const key = JUDGE_KEY[grade];
-  return JUDGE_OVERRIDE?.[key] ?? FLAVOR[key];
+  return flavorLine(JUDGE_KEY[grade]);
 }
 
-// ── FB-402 — the open-rest line (bundle fb402-rest-open) ─────────────────────────────
-// Core-EMITTED text (intents.ts `rest`, away from the woodshed corner), so the DEV
-// story switcher swaps it through the declaring-module setter (the rakeCapLine pattern):
-// future emissions voice the selected take; logged history stays (TST2).
+// ── FB-402 — the open-rest line · ADR-187 — the slept-day + sleep-announce lines ─────
+// Core-EMITTED text (intents.ts rest/sleep, reveals.ts first-stand); all three read
+// through the overlay funnel, so a take flip reaches future emissions AND (via the
+// log repaint's re-derive) the lines already in the log.
 
-let REST_OPEN_OVERRIDE: string | null = null;
-
-/** DEV-only: overlay the open-rest line by its `restOpen` flavor key (null = canon). */
-export function __setRestOpenLineOverride(text: string | null): void {
-  REST_OPEN_OVERRIDE = text;
-}
-
-/** The line a rest away from your corner emits — the DEV overlay's take if set, else canon. */
+/** The line a rest away from your corner emits. */
 export function restOpenLine(): string {
-  return REST_OPEN_OVERRIDE ?? FLAVOR.restOpen;
+  return flavorLine('restOpen');
 }
 
-// ── ADR-187 — the slept-day line (bundle adr187-sleep) ───────────────────────────────
-// Core-EMITTED text (intents.ts `sleep`, at your woodshed corner), so the DEV story
-// switcher swaps it through the declaring-module setter (the restOpenLine pattern above):
-// future emissions voice the selected take; logged history stays (TST2).
-
-let SLEEP_OVERRIDE: string | null = null;
-
-/** DEV-only: overlay the slept-day line by its `sleep` flavor key (null = canon). */
-export function __setSleepLineOverride(text: string | null): void {
-  SLEEP_OVERRIDE = text;
-}
-
-/** The line sleeping the day away emits — the DEV overlay's take if set, else canon. */
+/** The line sleeping the day away emits. */
 export function sleepLine(): string {
-  return SLEEP_OVERRIDE ?? FLAVOR.sleep;
+  return flavorLine('sleep');
 }
 
-// ── ADR-187 follow-up — the sleep-announce beat (bundle sleep-announce) ──────────────
-// Core-EMITTED text (reveals.ts, first stand at the corner with the verb live), so the
-// DEV story switcher swaps it through the declaring-module setter (the sleepLine pattern
-// above): future emissions voice the selected take; logged history stays (TST2).
-
-let SLEEP_ANNOUNCE_OVERRIDE: string | null = null;
-
-/** DEV-only: overlay the sleep-announce beat by its `sleepAnnounce` flavor key (null = canon). */
-export function __setSleepAnnounceLineOverride(text: string | null): void {
-  SLEEP_ANNOUNCE_OVERRIDE = text;
-}
-
-/** The line the first stand at your corner emits — the DEV overlay's take if set, else canon. */
+/** The line the first stand at your corner emits. */
 export function sleepAnnounceLine(): string {
-  return SLEEP_ANNOUNCE_OVERRIDE ?? FLAVOR.sleepAnnounce;
+  return flavorLine('sleepAnnounce');
 }

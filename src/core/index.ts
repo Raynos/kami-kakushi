@@ -69,7 +69,6 @@ export {
   introStatDelta,
   introPerkLine,
   introSceneTitle,
-  __setIntroTitleOverride,
   beatReactVoice,
   beatReactSpeaker,
 } from './content/intro';
@@ -122,7 +121,6 @@ export {
   rungRequirements,
   requirementById,
   requirementFlavor,
-  __setRequirementFlavorOverride,
 } from './content/requirements';
 export {
   advanceOnToken,
@@ -161,20 +159,9 @@ export {
   stageLogLine,
   worksPass,
   worksLine,
-  __setWorksFlavorOverride,
 } from './works';
 export { isWaged, WAGE_START_RUNG, DAY_WAGE_MON } from './content/wage';
-export {
-  FLAVOR,
-  judgeLine,
-  __setJudgeFlavorOverride,
-  restOpenLine,
-  __setRestOpenLineOverride,
-  sleepLine,
-  __setSleepLineOverride,
-  sleepAnnounceLine,
-  __setSleepAnnounceLineOverride,
-} from './content/flavor';
+export { FLAVOR, judgeLine, restOpenLine, sleepLine, sleepAnnounceLine } from './content/flavor';
 export {
   gradeOf,
   perDeedCap,
@@ -316,12 +303,7 @@ export {
   nodeHint,
 } from './discovery';
 export type { DiscoveryEvent } from './discovery';
-export {
-  DISCOVERIES,
-  getDiscovery,
-  discoveryEmitLine,
-  __setDiscoveryFlavorOverride,
-} from './content/discoveries';
+export { DISCOVERIES, getDiscovery, discoveryEmitLine } from './content/discoveries';
 export type { DiscoveryDef, DiscoveryId, DiscoveryTrigger } from './content/discoveries';
 export type { NodeHint } from './discovery';
 
@@ -389,15 +371,15 @@ export {
   COLD_OPEN_DIALOGUE_ID,
   RAKE_TEACH_LINE_IDS,
   rakeTeachPending,
-  __setDialogueTextOverride,
   dialogueLineText,
 } from './content/dialogue';
-// session-200 — the DEV log repaint's take overlay: a story-take flip re-voices logged
-// intro/beat/scene/flavor lines too (log-render reads through it; dev.ts is the one setter).
-export { __setLogTakeOverrides } from './content/log-render';
+// step B (session-200) — the ONE story overlay: dev.ts flattens the effective takes into a
+// single contentKey→text map (+ narration-run sequences); every reader consults
+// storyText/storySeq and falls back to canon. The ten per-concern setters are retired.
+export { __setStoryOverlay, storyText, storySeq } from './content/story-overlay';
 export type { DialogueLine, DialogueDef, NpcMemoryMap } from './content/dialogue';
 export * as balance from './content/balance';
-export { __setRakeCapLineOverride, rakeCapLine, RAKE_CAP_LINE } from './content/coldOpen';
+export { rakeCapLine, RAKE_CAP_LINE } from './content/coldOpen';
 // FB-7 balance cockpit (DEV-only, ADR-059) — the live-tuning hook. Named exports so the cockpit imports
 // them tree-shakably; unused by prod code, so Rollup strips them (verify-dev-strip.sh proves it).
 export {

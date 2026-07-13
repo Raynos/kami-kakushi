@@ -62,17 +62,13 @@ import {
   type RankId,
   rungRequirements,
   requirementFlavor,
-  __setRequirementFlavorOverride,
-  __setDialogueTextOverride,
-  __setLogTakeOverrides,
+  __setStoryOverlay,
   __setZoneRevealMode,
   zoneRevealMode,
   getDialogueLine,
   COLD_OPEN_DIALOGUE_ID,
   DIALOGUES,
   DIALOGUE_SCENES,
-  type DialogueDef,
-  type DialogueScene,
 } from '../core';
 import { renderLogLine } from '../core/content/log-render';
 
@@ -1032,13 +1028,13 @@ describe('FB-121 req-flavor — the CORE overlay rides the switcher', () => {
         id: 'b',
         label: 'alt voice',
         brief: 'the alternate register',
-        reqFlavor: { 'rake-the-spill': 'ALT rake line' },
+        text: { 'requirement.rake-the-spill': 'ALT rake line' },
       },
     ],
   };
   const rakeReq = rungRequirements('R0').find((r) => r.id === 'rake-the-spill')!;
 
-  afterEach(() => __setRequirementFlavorOverride(null));
+  afterEach(() => __setStoryOverlay(null));
 
   it('selecting a take overlays FUTURE emissions; canon restores on switch-back', () => {
     const dev = createDevApi([bundle]);
@@ -1064,19 +1060,21 @@ describe('FB-121 req-flavor — the CORE overlay rides the switcher', () => {
 // and `dialogue:` units rendered "(reader-only)". ──
 describe('M7 dialogue — the CORE overlay rides the switcher', () => {
   const canonLine = DIALOGUES.find((d) => d.id === COLD_OPEN_DIALOGUE_ID)!.lines[0]!;
-  const altDef: DialogueDef = {
-    id: COLD_OPEN_DIALOGUE_ID,
-    speaker: canonLine.speaker,
-    lines: [{ id: canonLine.id, speaker: canonLine.speaker, text: 'ALT teach line' }],
-  };
   const bundle: StoryTakeBundle = {
     id: 'dlg-test',
     title: 'Dialogue test',
     hr: 'none · test fixture',
-    takes: [{ id: 'b', label: 'alt voice', brief: 'the alternate register', dialogues: [altDef] }],
+    takes: [
+      {
+        id: 'b',
+        label: 'alt voice',
+        brief: 'the alternate register',
+        text: { [`dialogue.${COLD_OPEN_DIALOGUE_ID}.${canonLine.id}`]: 'ALT teach line' },
+      },
+    ],
   };
 
-  afterEach(() => __setDialogueTextOverride(null));
+  afterEach(() => __setStoryOverlay(null));
 
   it('selecting a take overlays the core read; canon restores on switch-back', () => {
     const dev = createDevApi([bundle]);
@@ -1101,35 +1099,40 @@ describe('M7 dialogue — the CORE overlay rides the switcher', () => {
   });
 });
 
-// ── Session-200 (human bug report: hd38-w4-intro didn't live-swap) — a take flip must reach
-// the LOG's resolvers too, not just the VN render path: renderLogLine drives both the DEV
-// log repaint (devRederivedEntry) and a save load, so the switcher pushes the effective
-// scene-shaped take defs into log-render's take overlay. RED on main before this landed:
-// the intro resolver read canon DIALOGUE_SCENES unconditionally. ──
-describe('session-200 — logged intro/scene lines re-derive under the selected take', () => {
+// ── Session-200 / step B — logged scene lines re-derive under the selected take. A take's
+// narration RUN compiles as a free-length SEQUENCE with the take's own blind slugs; the log
+// addresses lines by CANON id, so the resolver maps canon id → canon position → the take's
+// line there (min-bounded). RED before step B: the intro resolver read canon unconditionally. ──
+describe('session-200 — logged intro lines re-derive under the selected take', () => {
   const canonScene = DIALOGUE_SCENES[0]!;
   const canonFirst = canonScene.greeting[0]!;
-  const altScene: DialogueScene = {
-    ...canonScene,
-    greeting: [{ ...canonFirst, text: 'ALT dream line' }],
-  };
   const bundle: StoryTakeBundle = {
     id: 'intro-log-test',
     title: 'Intro log test',
     hr: 'none · test fixture',
     takes: [
-      { id: 'b', label: 'alt intro', brief: 'the alternate register', introScenes: [altScene] },
+      {
+        id: 'b',
+        label: 'alt intro',
+        brief: 'the alternate register',
+        // the take's OWN slug — blind authorship; position maps it onto canon.
+        seq: {
+          [`intro.${canonScene.id}.greeting`]: [
+            { id: 'blind-authored-slug', voice: canonFirst.voice, text: 'ALT dream line' },
+          ],
+        },
+      },
     ],
   };
   const key = `intro.${canonScene.id}.greeting.${canonFirst.id}`;
 
-  afterEach(() => __setLogTakeOverrides(null));
+  afterEach(() => __setStoryOverlay(null));
 
   it('selecting a take re-voices a LOGGED intro line via renderLogLine; canon restores', () => {
     const dev = createDevApi([bundle]);
     expect(renderLogLine(key)).toBe(canonFirst.text); // canon by default
     dev.setStoryTake('intro-log-test', 'b');
-    expect(renderLogLine(key)).toBe('ALT dream line'); // the flip reaches the log resolver
+    expect(renderLogLine(key)).toBe('ALT dream line'); // canon id → position → take line
     dev.setStoryTake('intro-log-test', 'canon');
     expect(renderLogLine(key)).toBe(canonFirst.text); // cleared, not stuck
   });
@@ -1142,29 +1145,12 @@ describe('session-200 — logged intro/scene lines re-derive under the selected 
     expect(renderLogLine(key)).toBe(canonFirst.text);
   });
 
-  // The POSITIONAL TWIN: takes are authored BLIND (ADR-139) with their own <!--#slug-->
-  // markers, so a logged line's canon-baked id usually misses the take def (the sweep found
-  // hd30-nengu at 100% dead, hd38-w1/w2 and works-cause partially). When the id lookup
-  // misses, the resolver finds the id's place in the CANON def and reads the take's element
-  // at the same position. RED without the fallback: renamed slugs resolve to undefined and
-  // the logged line silently stays canon.
-  it('a take with its OWN line slugs still re-voices logged lines (positional twin)', () => {
-    const renamed: DialogueScene = {
-      ...canonScene,
-      greeting: [{ ...canonFirst, id: 'blind-authored-slug', text: 'TWIN dream line' }],
-    };
-    const dev = createDevApi([
-      {
-        id: 'twin-test',
-        title: 'Twin test',
-        hr: 'none · test fixture',
-        takes: [{ id: 'b', label: 'renamed slugs', brief: 'blind slugs', introScenes: [renamed] }],
-      },
-    ]);
-    dev.setStoryTake('twin-test', 'b');
-    expect(renderLogLine(key)).toBe('TWIN dream line'); // canon id → position → take line
-    dev.setStoryTake('twin-test', 'canon');
-    expect(renderLogLine(key)).toBe(canonFirst.text);
+  it("a canon line past the take run's end keeps its canon prose (min-bounded)", () => {
+    const second = canonScene.greeting[1];
+    if (!second) return; // canon dream has one line — nothing past the end to probe
+    const dev = createDevApi([bundle]);
+    dev.setStoryTake('intro-log-test', 'b');
+    expect(renderLogLine(`intro.${canonScene.id}.greeting.${second.id}`)).toBe(second.text);
   });
 });
 

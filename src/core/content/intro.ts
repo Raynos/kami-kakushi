@@ -6,6 +6,7 @@
 // Pure-core: no DOM, no Math/Date; immutable-in/out. The renderer + typewriter + voice colours
 // are LATER phases — this module only carries the data.
 
+import { storyText } from './story-overlay';
 import { ATTR_META, type AttrId } from './balance';
 import { NPC_NAME, NPC_VOICE, PLAYER_SPEAKER, type NpcId, type VoiceCategory } from './voices';
 
@@ -122,23 +123,14 @@ export const INTRO_BEATS: readonly IntroBeat[] = DIALOGUE_SCENES.map((s) => ({
 export const INTRO_BEAT_COUNT = INTRO_SCENE_COUNT;
 
 // ── FB-362 — the per-scene 幕-head label (ADR-139 live-switchable) ────────────────────
-// The label is CORE-emitted log text (baked into each entry's `context` at emit time), so
-// the DEV story switcher swaps it through the declaring-module override (the
-// requirements.ts/coldOpen.ts pattern): FUTURE emissions voice the selected take;
-// already-logged lines keep their baked context (TST2 — history never rewrites).
+// The label is CORE-emitted log text (baked into each entry's `context` at emit time);
+// a take flip reaches FUTURE emissions through the ONE story overlay (step B,
+// session-200). Already-logged lines keep their baked context until step D keys it.
 
-let INTRO_TITLE_OVERRIDE: Readonly<Record<string, string>> | null = null;
-
-/** DEV-only (the story set-switcher): override the intro scene titles by SCENE id
- *  (`## prose intro-title` take keys), or null to restore canon. */
-export function __setIntroTitleOverride(map: Readonly<Record<string, string>> | null): void {
-  INTRO_TITLE_OVERRIDE = map;
-}
-
-/** The 幕-head context an intro scene's log lines stamp — the DEV overlay's take if set,
+/** The 幕-head context an intro scene's log lines stamp — the active take's if set,
  *  else the authored `title:`, else the pre-FB-362 shared label (old take bundles). */
 export function introSceneTitle(scene: DialogueScene): string {
-  return INTRO_TITLE_OVERRIDE?.[scene.id] ?? scene.title ?? 'the cold open';
+  return storyText(`intro-title.${scene.id}`) ?? scene.title ?? 'the cold open';
 }
 
 /** True while the intro is live (a scene is being shown). Pre-wake (-1) and done (≥count) → false. */

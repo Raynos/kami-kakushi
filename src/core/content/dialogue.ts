@@ -10,6 +10,7 @@
 // they exist as SHORT stubs. Teaching is in-world (no tooltip/hint phrasing) — onboarding by
 // plot, not popup. Pure-core: no DOM, no Math.*, no Date; immutable-in/immutable-out.
 
+import { storyText } from './story-overlay';
 import type { NpcId, VoiceCategory } from './voices';
 import type { NpcMemory } from '../state';
 
@@ -54,26 +55,16 @@ import { DIALOGUES } from './dialogue.gen';
 
 export const DIALOGUE_IDS: ReadonlySet<string> = new Set(DIALOGUES.map((d) => d.id));
 
-// ── ADR-139 / M7 (2026-07-13) — the DEV story switcher's dialogue overlay ────────────────
-// Dialogue lines are CORE-emitted log text (intents.ts deliverDialogue), so takes swap
-// through the declaring-module override (the coldOpen.ts/requirements.ts pattern). Keyed
-// `<dialogueId>.<lineId>` → take text, TEXT ONLY: line ids and gate/memGate stay canon, so
-// delivered-tracking and the rake-teach pacing never fork per take. Every reader consults
-// it — the cursor (fresh emissions), getDialogueLine (intro reuse), and log-render's
-// resolver (save-load AND the DEV log repaint) — so a flip re-voices future and logged
-// lines alike (the 2026-07-13 ruling: a DEV switch re-renders everything).
+// ── ADR-139 / M7 (2026-07-13) — dialogue lines ride the ONE story overlay (step B) ──────
+// Dialogue lines are CORE-emitted log text (intents.ts deliverDialogue). Takes overlay
+// TEXT ONLY, keyed `dialogue.<dialogueId>.<lineId>` (the log's own address): line ids and
+// gate/memGate stay canon, so delivered-tracking and the rake-teach pacing never fork per
+// take. Every reader consults it — the cursor (fresh emissions), getDialogueLine (intro
+// reuse), and log-render's resolver (save-load AND the DEV log repaint).
 
-let DIALOGUE_TEXT_OVERRIDE: Readonly<Record<string, string>> | null = null;
-
-/** DEV-only (the story set-switcher): overlay dialogue line TEXT by `<dialogueId>.<lineId>`
- *  (null = all canon). */
-export function __setDialogueTextOverride(map: Readonly<Record<string, string>> | null): void {
-  DIALOGUE_TEXT_OVERRIDE = map;
-}
-
-/** The line, voiced by the active overlay if one covers it, else as authored. */
+/** The line, voiced by the active take if one covers it, else as authored. */
 function effectiveLine(dialogueId: string, line: DialogueLine): DialogueLine {
-  const alt = DIALOGUE_TEXT_OVERRIDE?.[`${dialogueId}.${line.id}`];
+  const alt = storyText(`dialogue.${dialogueId}.${line.id}`);
   return alt !== undefined && alt !== line.text ? { ...line, text: alt } : line;
 }
 

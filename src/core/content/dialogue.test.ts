@@ -7,8 +7,8 @@ import {
   getDialogueLine,
   nextDialogueLines,
   dialogueLineText,
-  __setDialogueTextOverride,
 } from './dialogue';
+import { __setStoryOverlay } from './story-overlay';
 import { renderLogLine } from './log-render';
 import { NAMES } from './names';
 
@@ -105,12 +105,12 @@ describe('nextDialogueLines cursor', () => {
 describe('M7 dialogue live-swap — the DEV text overlay', () => {
   const def = getDialogue(COLD_OPEN_DIALOGUE_ID);
   const first = def.lines[0]!;
-  const key = `${COLD_OPEN_DIALOGUE_ID}.${first.id}`;
+  const key = `dialogue.${COLD_OPEN_DIALOGUE_ID}.${first.id}`;
 
-  afterEach(() => __setDialogueTextOverride(null));
+  afterEach(() => __setStoryOverlay(null));
 
   it('overlays TEXT ONLY by <dialogueId>.<lineId>; ids/gates/voice stay canon', () => {
-    __setDialogueTextOverride({ [key]: 'TAKE voice' });
+    __setStoryOverlay({ [key]: 'TAKE voice' });
     const line = getDialogueLine(COLD_OPEN_DIALOGUE_ID, first.id);
     expect(line.text).toBe('TAKE voice');
     expect(line.id).toBe(first.id); // identity is canon — delivered-tracking never forks
@@ -122,16 +122,16 @@ describe('M7 dialogue live-swap — the DEV text overlay', () => {
 
   it('clears back to canon (null), and an uncovered line is untouched', () => {
     const second = def.lines[1]!;
-    __setDialogueTextOverride({ [key]: 'TAKE voice' });
+    __setStoryOverlay({ [key]: 'TAKE voice' });
     expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, second.id).text).toBe(second.text);
-    __setDialogueTextOverride(null);
+    __setStoryOverlay(null);
     expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, first.id).text).toBe(first.text);
   });
 
   it('reaches the log resolver — a saved/logged keyed line re-derives to the take', () => {
-    expect(renderLogLine(`dialogue.${key}`)).toBe(first.text); // canon first
-    __setDialogueTextOverride({ [key]: 'TAKE voice' });
-    expect(renderLogLine(`dialogue.${key}`)).toBe('TAKE voice');
+    expect(renderLogLine(key)).toBe(first.text); // canon first
+    __setStoryOverlay({ [key]: 'TAKE voice' });
+    expect(renderLogLine(key)).toBe('TAKE voice');
     expect(dialogueLineText('no-such-dialogue', 'nope')).toBeUndefined(); // codec fallback path
   });
 });

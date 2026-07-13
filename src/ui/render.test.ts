@@ -49,7 +49,6 @@ import {
   FLAVOR,
   getDialogue,
   COLD_OPEN_DIALOGUE_ID,
-  __setDialogueTextOverride,
   RAKE_TEACH_LINE_IDS,
   rakeTeachPending,
   RAKE_TEACH_COOLDOWN_MS,
@@ -63,6 +62,7 @@ import {
   factsForSurfaces,
 } from '../core';
 import { RAKE_DONE_REASON } from '../core/content/coldOpen';
+import { __setStoryOverlay } from '../core/content/story-overlay';
 
 function entry(text: string, count: number, channel: LogEntry['channel'] = 'reward'): LogEntry {
   return { key: 0, channel, text, tick: 0, count };
@@ -3442,7 +3442,7 @@ describe('HD-41 — the earned line: two readings, and a pulse that means someth
 // entries from the current registries + overlays, so a story-take flip re-voices logged
 // lines too. RED on main before this landed: devRederivedEntry did not exist. ──
 describe('devRederivedEntry — keyed log prose re-derives under the active take', () => {
-  afterEach(() => __setDialogueTextOverride(null));
+  afterEach(() => __setStoryOverlay(null));
 
   it('re-derives a keyed entry; unkeyed and unresolvable entries keep their stored prose', () => {
     const line = getDialogue(COLD_OPEN_DIALOGUE_ID).lines[0]!;
@@ -3455,7 +3455,7 @@ describe('devRederivedEntry — keyed log prose re-derives under the active take
       contentKey: `dialogue.${COLD_OPEN_DIALOGUE_ID}.${line.id}`,
     };
     expect(devRederivedEntry(keyed).text).toBe(line.text); // canon registry read
-    __setDialogueTextOverride({ [`${COLD_OPEN_DIALOGUE_ID}.${line.id}`]: 'TAKE voice' });
+    __setStoryOverlay({ [`dialogue.${COLD_OPEN_DIALOGUE_ID}.${line.id}`]: 'TAKE voice' });
     expect(devRederivedEntry(keyed).text).toBe('TAKE voice'); // the flip reaches history
     // an unresolvable key (renamed content id) degrades to the stored prose, same as codec
     expect(devRederivedEntry({ ...keyed, contentKey: 'dialogue.gone.gone' }).text).toBe(

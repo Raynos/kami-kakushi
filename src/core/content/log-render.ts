@@ -18,6 +18,7 @@
 // exact bug this plan exists to kill, made invisible. A static import graph cannot do that.
 
 import { LOG_CONTENT, type LogParams } from './log-content';
+import { storyText, storySeq } from './story-overlay';
 import { SURFACES } from './surfaces';
 import { DISCOVERIES, discoveryEmitLine } from './discoveries';
 import { FLAVOR } from './flavor';
@@ -28,7 +29,6 @@ import {
   DIALOGUE_SCENES,
   introSceneOption,
   introPerkLine,
-  type DialogueScene,
   type DialogueTopic,
   type IntroSetupLine,
 } from './intro';
@@ -51,30 +51,31 @@ import type { Grade } from '../pillars';
  *  degrades to its frozen prose rather than losing the line. */
 type Resolver = (id: string, params: LogParams) => string | undefined;
 
-// ── the DEV story-take overlay (session-200 ruling: a DEV switch re-renders EVERYTHING) ─────
-// dev.ts syncs the EFFECTIVE take defs here on every set/unit change, and the resolvers below
-// read through them — so renderLogLine (the DEV log repaint AND a save load) voices the
-// selected takes for scene-shaped units, the same way dialogue.ts's own overlay covers
-// dialogue lines. Without this, a take flip only reached the VN render path (dev.subX) and
-// every already-LOGGED intro/beat/scene/flavor line kept reading canon — the human's
-// hd38-w4-intro bug report. null = all canon; prod never calls the setter (strip-checked
-// via the DEV panel being the only caller).
-interface LogTakeOverrides {
-  readonly intro?: Readonly<Record<string, DialogueScene>>;
-  readonly rung?: Readonly<Partial<Record<RankId, RungScene>>>;
-  readonly scene?: Readonly<Record<string, RungScene>>;
-  readonly flavor?: Readonly<Record<string, string>>;
-}
-let LOG_TAKES: LogTakeOverrides | null = null;
-
-/** DEV-only (the story set-switcher): overlay the log's take-swappable registries. */
-export function __setLogTakeOverrides(o: LogTakeOverrides | null): void {
-  LOG_TAKES = o;
-}
+// ── step B (session-200) — the ONE story overlay ────────────────────────────────────────
+// renderLogLine consults `storyText(contentKey)` FIRST: every flat-keyed class (dialogue,
+// flavor, requirement, option say/react/bonus, topic asks, works…) re-voices through one
+// exact-key lookup, for all three read moments (emit, save-load, the DEV log repaint).
+// The free-length narration RUNS (greetings, topic answers) resolve through `storySeq`
+// inside the scene readers below: the stored canon id finds its CANON position, and the
+// take's line at that position speaks (min-bounded — a shorter take leaves the tail on
+// its stored prose). This replaced the per-class def overlay + the runtime positional
+// twin that briefly lived here.
 
 /** A flavor key's effective prose — the active take's if set, else canon FLAVOR. */
 const effFlavor = (key: string): string | undefined =>
-  LOG_TAKES?.flavor?.[key] ?? (FLAVOR as Readonly<Record<string, string>>)[key];
+  storyText(`flavor.${key}`) ?? (FLAVOR as Readonly<Record<string, string>>)[key];
+
+/** A narration run's take line for a canon-id address, or undefined ⇒ read canon. */
+function runText(
+  seqKey: string,
+  canonLines: readonly IntroSetupLine[],
+  id: string,
+): string | undefined {
+  const s = storySeq(seqKey);
+  if (!s) return undefined;
+  const i = canonLines.findIndex((l) => l.id === id);
+  return i >= 0 ? s[i]?.text : undefined;
+}
 
 const surfaceRevealText = (id: string): string | undefined =>
   SURFACES.find((s) => s.id === id)?.revealLine?.text;
@@ -87,7 +88,7 @@ const discoveryText = (id: string): string | undefined => {
 /** A works line's canon is its FLAVOR entry. Deliberately reads FLAVOR (a content leaf) rather
  *  than `works.ts`'s `worksLine()`: works.ts is a REDUCER that imports scenes.ts, and pulling a
  *  reducer in here would risk the very cycle this module exists to avoid. Reads through the
- *  session-200 take overlay (effFlavor), so a DEV flip reaches logged works lines too. */
+ *  overlay (effFlavor), so a DEV flip reaches logged works lines too. */
 const worksText = (key: string): string | undefined => effFlavor(key);
 
 /** One authored prose line, BY NAME — the address a save's log actually stores.
@@ -115,12 +116,18 @@ function lineText(lines: readonly IntroSetupLine[], id: string): string | undefi
  *  `.answer.<i>` for every rung beat while `vnText` had no topic branch to read them back, so all
  *  16 rung-beat asks and their answers were unresolvable: they fell back to their stored prose,
  *  invisible to a re-voice and to the DEV take switcher, and no test could see it. */
-function topicText(topics: readonly DialogueTopic[], part: string): string | undefined {
+function topicText(
+  nsUnit: string,
+  topics: readonly DialogueTopic[],
+  part: string,
+): string | undefined {
   const m = part.match(/^topic\.(.+?)\.(?:ask|answer\.(.+))$/);
   if (!m) return undefined;
   const t = topics.find((x) => x.id === m[1]);
   if (!t) return undefined;
-  return m[2] === undefined ? t.label : lineText(t.answer, m[2]);
+  if (m[2] === undefined) return t.label; // asks are flat-keyed — the overlay hit them upstream
+  // an answer is a narration RUN: the take's sequence at the canon position, else canon.
+  return runText(`${nsUnit}.topic.${t.id}.answer`, t.answer, m[2]) ?? lineText(t.answer, m[2]);
 }
 
 // ── the VN payload (scenes AND rung beats share `RungScene`, so one reader serves both) ──────
@@ -134,11 +141,16 @@ function topicText(topics: readonly DialogueTopic[], part: string): string | und
 // neighbour — silently, because the index still resolved (ADR-186's known limit). Ids travel with
 // the prose, so a reorder is a no-op and a reword still reaches every save. `lineText` keeps the
 // legacy numeric path for a descriptor written before the v12 migration.
-function vnText(scene: RungScene, part: string): string | undefined {
+function vnText(nsUnit: string, scene: RungScene, part: string): string | undefined {
   const greeting = part.match(/^greeting\.(.+)$/);
-  if (greeting) return lineText(scene.greeting, greeting[1]!);
+  if (greeting) {
+    return (
+      runText(`${nsUnit}.greeting`, scene.greeting, greeting[1]!) ??
+      lineText(scene.greeting, greeting[1]!)
+    );
+  }
 
-  const topic = topicText(scene.topics, part);
+  const topic = topicText(nsUnit, scene.topics, part);
   if (topic !== undefined) return topic;
 
   const opt = part.match(/^opt\.(.+)\.(say|react|bonus)$/);
@@ -152,52 +164,12 @@ function vnText(scene: RungScene, part: string): string | undefined {
   return undefined;
 }
 
-// A logged line is addressed by the id BAKED under canon, but a take was authored BLIND
-// (ADR-139) with its own `<!--#slug-->` markers — so an id lookup against the take def
-// usually misses. The POSITIONAL TWIN closes that: find the id's place in the CANON def,
-// read the take's element at the same position. DEV-review display only (the overlay is
-// never set in prod); a take with fewer elements leaves the tail on its stored prose.
-function vnTakeText(
-  canon: RungScene | undefined,
-  take: RungScene,
-  part: string,
-): string | undefined {
-  const direct = vnText(take, part);
-  if (direct !== undefined || !canon) return direct;
-  const greeting = part.match(/^greeting\.(.+)$/);
-  if (greeting) {
-    const i = canon.greeting.findIndex((l) => l.id === greeting[1]);
-    return i >= 0 ? take.greeting[i]?.text : undefined;
-  }
-  const topic = part.match(/^topic\.(.+?)\.(?:(ask)|answer\.(.+))$/);
-  if (topic) {
-    const i = canon.topics.findIndex((t) => t.id === topic[1]);
-    const tt = i >= 0 ? take.topics[i] : undefined;
-    if (!tt) return undefined;
-    if (topic[2] === 'ask') return tt.label;
-    const ai = canon.topics[i]!.answer.findIndex((l) => l.id === topic[3]);
-    return ai >= 0 ? tt.answer[ai]?.text : undefined;
-  }
-  const opt = part.match(/^opt\.(.+)\.(say|react|bonus)$/);
-  if (opt) {
-    const i = canon.decision.options.findIndex((o) => o.id === opt[1]);
-    const to = i >= 0 ? take.decision.options[i] : undefined;
-    if (!to) return undefined;
-    if (opt[2] === 'say') return to.say;
-    if (opt[2] === 'react') return to.react;
-    return to.statBonus?.note;
-  }
-  return undefined;
-}
-
 const sceneText = (tail: string): string | undefined => {
   const dot = tail.indexOf('.');
   if (dot <= 0) return undefined;
   const id = tail.slice(0, dot);
   const canon = sceneById(id)?.scene;
-  const take = LOG_TAKES?.scene?.[id];
-  if (take) return vnTakeText(canon, take, tail.slice(dot + 1));
-  return canon ? vnText(canon, tail.slice(dot + 1)) : undefined;
+  return canon ? vnText(`scene.${id}`, canon, tail.slice(dot + 1)) : undefined;
 };
 
 const beatText = (tail: string): string | undefined => {
@@ -205,20 +177,31 @@ const beatText = (tail: string): string | undefined => {
   if (dot <= 0) return undefined;
   const rank = tail.slice(0, dot) as RankId;
   const canon = RUNG_BEATS[rank];
-  const take = LOG_TAKES?.rung?.[rank];
-  if (take) return vnTakeText(canon, take, tail.slice(dot + 1));
-  return canon ? vnText(canon, tail.slice(dot + 1)) : undefined;
+  return canon ? vnText(`beat.${rank}`, canon, tail.slice(dot + 1)) : undefined;
 };
 
 // ── the intro (a DialogueScene: greeting lines · ask-hub topics · the terminal decision) ─────
 //   intro.<sceneId>.greeting.<i>
 //   intro.<sceneId>.topic.<topicId>.ask | .answer.<i>
 //   intro.<sceneId>.opt.<optionId>.say | .react | .perk
-function introSceneText(scene: DialogueScene, part: string): string | undefined {
-  const greeting = part.match(/^greeting\.(.+)$/);
-  if (greeting) return lineText(scene.greeting, greeting[1]!);
+function introText(tail: string): string | undefined {
+  const dot = tail.indexOf('.');
+  if (dot <= 0) return undefined;
+  const id = tail.slice(0, dot);
+  const scene = DIALOGUE_SCENES.find((s) => s.id === id);
+  if (!scene) return undefined;
+  const part = tail.slice(dot + 1);
+  const nsUnit = `intro.${id}`;
 
-  const topic = topicText(scene.topics, part);
+  const greeting = part.match(/^greeting\.(.+)$/);
+  if (greeting) {
+    return (
+      runText(`${nsUnit}.greeting`, scene.greeting, greeting[1]!) ??
+      lineText(scene.greeting, greeting[1]!)
+    );
+  }
+
+  const topic = topicText(nsUnit, scene.topics, part);
   if (topic !== undefined) return topic;
 
   const opt = part.match(/^opt\.(.+)\.(say|react|perk)$/);
@@ -230,51 +213,6 @@ function introSceneText(scene: DialogueScene, part: string): string | undefined 
     return introPerkLine(o); // the perk line is DERIVED from the option — never a stored copy
   }
   return undefined;
-}
-
-/** The intro's positional twin — same rule as `vnTakeText`, on the DialogueScene shape. */
-function introTakeText(
-  canon: DialogueScene | undefined,
-  take: DialogueScene,
-  part: string,
-): string | undefined {
-  const direct = introSceneText(take, part);
-  if (direct !== undefined || !canon) return direct;
-  const greeting = part.match(/^greeting\.(.+)$/);
-  if (greeting) {
-    const i = canon.greeting.findIndex((l) => l.id === greeting[1]);
-    return i >= 0 ? take.greeting[i]?.text : undefined;
-  }
-  const topic = part.match(/^topic\.(.+?)\.(?:(ask)|answer\.(.+))$/);
-  if (topic) {
-    const i = canon.topics.findIndex((t) => t.id === topic[1]);
-    const tt = i >= 0 ? take.topics[i] : undefined;
-    if (!tt) return undefined;
-    if (topic[2] === 'ask') return tt.label;
-    const ai = canon.topics[i]!.answer.findIndex((l) => l.id === topic[3]);
-    return ai >= 0 ? tt.answer[ai]?.text : undefined;
-  }
-  const opt = part.match(/^opt\.(.+)\.(say|react|perk)$/);
-  if (opt) {
-    const i = canon.decision.options.findIndex((o) => o.id === opt[1]);
-    const to = i >= 0 ? take.decision.options[i] : undefined;
-    if (!to) return undefined;
-    if (opt[2] === 'say') return to.say;
-    if (opt[2] === 'react') return to.react;
-    return introPerkLine(to);
-  }
-  return undefined;
-}
-
-function introText(tail: string): string | undefined {
-  const dot = tail.indexOf('.');
-  if (dot <= 0) return undefined;
-  const id = tail.slice(0, dot);
-  const canon = DIALOGUE_SCENES.find((s) => s.id === id);
-  const take = LOG_TAKES?.intro?.[id];
-  const part = tail.slice(dot + 1);
-  if (take) return introTakeText(canon, take, part);
-  return canon ? introSceneText(canon, part) : undefined;
 }
 
 /** A labour line: the activity's own prose + the gains it actually paid out. The gains are the
@@ -387,6 +325,11 @@ export const LOG_NAMESPACES: readonly string[] = Object.keys(RESOLVERS);
  * so a removed contentKey degrades one line instead of nuking a save.
  */
 export function renderLogLine(contentKey: string, params: LogParams = {}): string {
+  // step B (session-200) — the ONE story overlay wins on an exact key hit: every
+  // flat-keyed take class re-voices here, for emit, save-load, and the DEV repaint alike.
+  const take = storyText(contentKey);
+  if (take !== undefined) return take;
+
   const tmpl = LOG_CONTENT[contentKey];
   if (tmpl !== undefined) return tmpl(params);
 

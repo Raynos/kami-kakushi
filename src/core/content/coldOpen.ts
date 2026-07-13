@@ -7,6 +7,7 @@
 
 export { COLD_OPEN } from './coldOpen.gen';
 import { FLAVOR } from './flavor.gen';
+import { storyText } from './story-overlay';
 
 export function rakeLine(amount: number): string {
   // The rake credits RICE (RICE_PER_RAKE) — the honest noun now (ADR-107): what you clear off the
@@ -23,19 +24,10 @@ export function rakeLine(amount: number): string {
 // Imported from flavor.gen directly (not ./flavor) so this leaf module adds no cycle.
 export const RAKE_CAP_LINE: string = FLAVOR.rakeCapLine;
 
-// ADR-139 — the cap line is CORE-emitted log text, so the DEV story switcher swaps it at
-// EMIT time through the declaring-module override (the discoveries.ts/requirements.ts
-// pattern): FUTURE emits voice the selected take; already-logged lines stay (TST2).
-let RAKE_CAP_LINE_OVERRIDE: string | null = null;
-
-/** DEV-only: overlay the rake-cap line by its `rakeCapLine` flavor key (null = canon). */
-export function __setRakeCapLineOverride(text: string | null): void {
-  RAKE_CAP_LINE_OVERRIDE = text;
-}
-
-/** The line the capping rake emits — the DEV overlay's take if set, else canon. */
+/** The line the capping rake emits — the active take's if set (step B, session-200:
+ *  the ONE story overlay replaced the per-line setter), else canon. */
 export function rakeCapLine(): string {
-  return RAKE_CAP_LINE_OVERRIDE ?? RAKE_CAP_LINE;
+  return storyText('flavor.rakeCapLine') ?? RAKE_CAP_LINE;
 }
 // The disabled rake button says why (AC-6 — same predicate as the reducer refusal).
 export const RAKE_DONE_REASON = 'Nothing left to rake — the boards are clean.';

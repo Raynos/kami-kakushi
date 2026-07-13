@@ -130,6 +130,23 @@ hard-gated. Additive: the def-shaped fields remain until step B
 migrates the consumers. Compiler + type + 16 tests; consumers
 untouched.
 
+## Follow-up (same session) — step B1: the ONE story overlay
+
+The funnel is in: `core/content/story-overlay.ts` (a leaf) holds the
+single `__setStoryOverlay(text, seq)` + `storyText`/`storySeq` reads.
+`renderLogLine` consults the overlay FIRST on an exact key; narration
+RUNS resolve via `storySeq` (canon id → canon position → the take's
+line, min-bounded). All TEN per-concern setters deleted (requirement/
+discovery/judge/rake-cap/rest/sleep/sleep-announce/works/intro-title/
+dialogue) plus the short-lived `__setLogTakeOverrides` + positional
+twin; every reader now goes through the funnel; `dev.ts`'s sync
+collapsed to one flatten over the gen-canonicalized `text`/`seq`
+maps. Remaining as B2: migrate the `sub*` render-read path + the
+reader galley onto the flat maps, then drop the def-shaped take
+fields from the compiler. (Mid-refactor the stale index.ts re-export
+briefly took the shared dev server down — w3:p3 flagged it; restored
+within the same slice.)
+
 ## Landmines
 
 - Shared tree: `src/core/index.ts` was co-dirty with w3:p3's M3

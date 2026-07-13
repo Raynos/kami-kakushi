@@ -6,29 +6,19 @@
 // engine both this data and the reducers bind to). Counts are provisional fun-first
 // drafts — tuning is edit → gen:narrative → sim (ADR-132; no balance.ts mirror).
 
+import { storyText } from './story-overlay';
 import type { RankId } from './ranks';
 import type { RequirementDef } from '../requirements-engine';
 import { RUNG_REQUIREMENTS } from './requirements.gen';
 
 export { RUNG_REQUIREMENTS };
 
-// ── DEV-only flavor overlay (ADR-139 / ADR-143 — the story set-switcher) ────────────
-// INERT unless called: only the DEV story switcher (src/ui/dev.ts) ever sets this, and
-// the DEV branch dead-code-eliminates from a strip build — tests, sims and the shipped
-// game read canon. Same declaring-module pattern as balance's __setBalanceLever. The
-// overlay affects FUTURE emissions only; lines already in the log stay (T2 — a watched
-// surface never rewrites history).
-let FLAVOR_OVERRIDE: Readonly<Record<string, string>> | null = null;
-
-/** DEV-only: overlay requirement-completion flavor by requirement id (null = canon). */
-export function __setRequirementFlavorOverride(map: Readonly<Record<string, string>> | null): void {
-  FLAVOR_OVERRIDE = map;
-}
-
-/** The flavor line a completion should voice — the DEV overlay's take if one is
- *  selected, else the authored canon line. The ONE read progress-events uses. */
+/** The flavor line a completion should voice — the active take's if one is selected
+ *  (step B, session-200: the ONE story overlay replaced the per-concern setter), else
+ *  the authored canon line. The ONE read progress-events uses. */
 export function requirementFlavor(req: RequirementDef): string {
-  return FLAVOR_OVERRIDE?.[req.id] ?? req.flavor;
+  // step B (session-200) — one story overlay; `requirement.<id>` is the log's own address.
+  return storyText(`requirement.${req.id}`) ?? req.flavor;
 }
 
 /** HD-41 — every authored requirement, keyed by its id (ids are unique across the whole

@@ -6,6 +6,7 @@
 // enqueues its pricing beat the same tick. Naming for U2–U4 derives from the RUNG
 // (not a rank reward), so an old save past the rung self-heals on its next settle.
 
+import { storyText } from './content/story-overlay';
 import type { GameState, SurfaceId } from './state';
 import { setFlag, hasFlag } from './state';
 import { pushLog } from './log';
@@ -116,18 +117,10 @@ export function stageDiscovery(state: GameState, stage: number): 'unnamed' | 'na
   return hasFlag(state, p.namedFlag) ? 'named' : 'unnamed';
 }
 
-// ── ADR-143 — the DEV story set-switcher's core overlay (declaring-module setter,
-//    the req-flavor/discovery pattern): works lines are CORE-emitted log text, so a
-//    selected take swaps FUTURE emissions here; already-logged lines stay (T2). ──
-let WORKS_OVERRIDE: Readonly<Record<string, string>> | null = null;
-
-export function __setWorksFlavorOverride(map: Readonly<Record<string, string>> | null): void {
-  WORKS_OVERRIDE = map;
-}
-
-/** Resolve a works line: the DEV take overlay wins, else the canon text. */
+/** Resolve a works line: the active take wins (step B, session-200 — the ONE story
+ *  overlay; works keys live in the flavor space), else the canon text. */
 export function worksLine(key: string, canon: string): string {
-  return WORKS_OVERRIDE?.[key] ?? canon;
+  return storyText(`flavor.${key}`) ?? canon;
 }
 
 /** The ladder stage's display strings, take-aware (U1's live in FLAVOR — worksU1*). */
