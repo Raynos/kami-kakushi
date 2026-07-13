@@ -88,6 +88,33 @@ Note for reviewers: hd38-w4-intro's takes share canon's dream
 NARRATION byte-for-byte — the diverge lives in the decision
 option lines (say/react), so that's where a flip visibly moves.
 
+## Follow-up (same session) — the full-sweep audit, and three more fixes
+
+The human asked the right question: did I check ALL the diverges?
+No — so a programmatic sweep ran every bundle × take × unit through
+the switcher and compared resolved text. Findings + fixes:
+
+1. **Positional twin (log-render.ts):** takes are authored BLIND
+   with their own `<!--#slug-->` line ids, so a logged line's
+   canon-baked id missed the take def — hd30-nengu was 100% dead,
+   c5a-overlays / hd38-w1 / hd38-w2 / works-cause partially. When
+   the id lookup misses now, the resolver finds the id's position
+   in the CANON def and reads the take's element there. Residual
+   NO-RESOLVEs are takes with fewer elements than canon (nothing to
+   map to — they keep stored prose).
+2. **rake-cap emitted keyless (intents.ts):** the human's live
+   repro — fb324-rake-cap never flipped because the cap line had no
+   contentKey. Now keyed `flavor.rakeCapLine`; fixtures regen rides
+   the same commit.
+3. **adr190-nudge was never broken** — my first sweep skipped the
+   `opt.*.bonus`/`.perk` keys; with them included it flips.
+
+Human sign-offs the same sitting: **fb402-rest-open (HR-31 closed),
+fb362-intro-titles (HR-28 closed), fb324-rake-cap** — all locked to
+canon and pruned from the DEV area (git history + the review
+records keep the alternates); the m7-dlg-proof synthetic deleted
+(purpose served). Registry now 19 open bundles.
+
 ## Landmines
 
 - Shared tree: `src/core/index.ts` was co-dirty with w3:p3's M3
