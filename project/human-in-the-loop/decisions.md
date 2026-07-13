@@ -43,6 +43,9 @@ marks a blocker.
 
 ### HD-40 🔲 [R3 · cooking] — the kitchen-only pot costs R3 nine minutes. Which lever moves?
 
+- **Waiting on:** you — pick a lever, (a)–(d) below, in chat. No DEV
+  toggle for this one: it is a signed-band call ((d) = ship what runs
+  today).
 - **Context.** You picked **"kitchen-only cook"** for ADR-184: the
   pot hangs at the kitchen board (or over your own hearth once
   bought), so a hurt fighter walks back from the reeds to mend. It is
@@ -94,43 +97,3 @@ marks a blocker.
   first here. If you'd rather not touch a signed number tonight,
   **(d) is a coherent ship** — it is what is running.
 - **Resolution:** _(awaiting the human)_
-
-
-
-### HD-41 ⏳ [R0 · UI/TST4] — the rung-reward lines are invisible AS rewards. Which lever?
-
-- **Status (2026-07-13, session 185): DIRECTION GIVEN, build-first —
-  not yet locked.** The human's working direction is **(a) + (c), and
-  "maybe a bit of (d)"** — the rung line as its own channel/class
-  (*story that is also earned*), rendering in both Story and
-  Progress, with the % bar's movement made visible where cheap. But
-  the human explicitly held the lock: *"before we can make a real
-  decision on HD-41 we should build out the doc/plan with a diverge
-  and see it and play it and then lock it in as an ADR."* So: the
-  plan
-  [`docs/plans/opus-2026-07-12-rung-reward-legibility.md`](../../docs/plans/opus-2026-07-12-rung-reward-legibility.md)
-  is **UNBLOCKED** to build the ADR-075 diverge under that direction;
-  the ADR is written only **after** the human plays the variants and
-  picks. (b) is dead.
-- **The diagnosis (source-verified).** When a rung requirement
-  completes, `progress-events.ts` emits its flavor line on the
-  **`narration`** channel. Per `log-filter.ts` that routes it to the
-  **Story** tab — mixed into every other line of ambient prose.
-  Meanwhile the **Progress** tab shows only the **`milestone`**
-  channel (rung-ups, unlocks, crafts), so an individual requirement
-  completion **never appears there at all**. The prose's coldness is
-  kernel #3 and stays (HD-38 / ADR-185) — the defect is TST4, not
-  register.
-- **The fork (for the record; (b) eliminated):**
-  - **(a) Companion milestone line** — keep the prose in Story
-    (taste 16) and ALSO register the step in Progress. Diegetic only —
-    kernel #6 forbids "Requirement 1/3 complete".
-  - ~~**(b) Re-channel to `reward`.**~~ Dead — `reward` routes to the
-    Work tab's labour spam.
-  - **(c) Its own channel + treatment** — *story that is also a
-    reward*, distinct in-log treatment, showing in both Story and
-    Progress.
-  - **(d) The % bar visibly MOVES when the line lands** — fix the
-    connection, not the text.
-- **Resolution:** _(⏳ after the diverge is played — then the ADR +
-  archive row)_

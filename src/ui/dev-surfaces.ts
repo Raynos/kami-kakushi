@@ -52,11 +52,11 @@ export const surfaceTag = (surfaceIndex: number): string => `V${surfaceIndex}`;
 export const variantTag = (surfaceIndex: number, variantIndex: number): string =>
   `V${surfaceIndex}${LETTERS[variantIndex] ?? String(variantIndex)}`;
 
-// HD-41 — the `earned-line` surface (A ledger dot · B ruled entry · C docket) is GONE: the
-// human played it and picked B (2026-07-13), so the ruled entry is the unconditional treatment
-// and ADR-075's zero-flag-debt rule says a settled surface keeps no toggle. What her pick left
-// open is the WORDS, not the treatment — the Progress-tab objective line — and words review as
-// an ADR-139 story bundle (hd41-progress-objective, SV18), never as a variant.
+// HD-41 (closed → ADR-191) — the `earned-line` surface (A ledger dot · B ruled entry · C
+// docket) is GONE: the human played it and picked B (2026-07-13), so the ruled entry is the
+// unconditional treatment and ADR-075's zero-flag-debt rule says a settled surface keeps no
+// toggle. The WORDS locked the same day too (HR-41 → take B "the world, changed"), so the
+// hd41-progress-objective story bundle is pruned as well — the objective lines ship in canon.
 export const SURFACES: SurfaceDef[] = [
   {
     id: 'influence',

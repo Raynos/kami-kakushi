@@ -44,3 +44,18 @@ When an item closes:
 
 **Status:** 🔲 open · ⏳ waiting on Claude prep · ✅ done. IDs are never reused. Keep these current —
 surface a new item the moment a fork or unverifiable result appears.
+
+## Every open item leads with WHAT it is waiting on (human, 2026-07-13)
+
+An open HD/HR entry's **first body line** is a bold blocker line:
+
+    **Waiting on:** you — <the exact action + the exact place>
+
+e.g. `**Waiting on:** you — pick a take: DEV panel → Review → Story →
+the hd41-progress-objective row.` If an item is `⏳` (Claude prep), the
+line names the prep instead. The rule exists because HD-41 sat "awaiting
+the human" while the actual actionable thing (a take-picker in the DEV
+panel, filed as HR-41) was named only three bullets deep — the human
+went looking and couldn't find what the decision was actually blocked
+on. Status alone ("awaiting the human") is not a blocker line: say
+**what to click and what verdict to give**, first.

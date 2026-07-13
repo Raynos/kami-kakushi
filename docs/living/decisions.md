@@ -3860,3 +3860,38 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
 - **Refs:** HD-44 · HR-42 · ADR-139 (story diverge) · ADR-186 (keyed log
   descriptors) · `ea5710e3` (where it was lost) · the plan in
   `project/archive/opus-2026-07-13-r3-stat-nudge.md`
+
+### ADR-191 ✅ — HD-41 locked: a rung reward reads as a reward, and Progress speaks in the changed world (HR-41)
+
+- **Date:** 2026-07-13 (session 196) · **Status:** locked (human)
+- **The decision, whole.** The rung-reward legibility fork (HD-41) is
+  closed with all three of its levers landed and human-picked:
+  - **Treatment: variant B, the ruled entry** (picked 2026-07-13) —
+    the Progress tab registers each completed rung requirement as its
+    own ruled line; the A/C variants are pruned (ADR-075 zero
+    flag-debt).
+  - **The pulse means completion.** The % bar's flash rides
+    `rungProgress().done` — it fires when a requirement COMPLETES,
+    never on rounded-percent growth (which moved on nearly every act
+    and so said nothing).
+  - **The voice: take B, "the world, changed"** (human override of
+    the self-picked A "the house's book", this session). The Progress
+    objective line states the changed physical fact of the estate —
+    *"The spill by the granary door lies raked into heaps."* — the
+    man never appears as a subject. All 31 requirement lines R0–R7
+    are take B's; A and C live in the HR-41 review record (git
+    history) only.
+- **Why B over A.** A recorded (day-book register), C confessed (the
+  body), B shows the estate itself changed by the work. The human's
+  pick weights *evidence in the world* over *entry in a ledger* — the
+  reward is that the place is different now, which is also the game's
+  larger promise (the house rises because you worked).
+- **The original defect, for the record.** Requirement completions
+  emitted only on `narration` (Story tab, drowned in ambient prose)
+  and never reached Progress at all; the % bar flashed on rounding
+  noise. The coldness of the prose was never the bug (HD-38/ADR-185
+  keep the overheard third person) — the player simply could not tell
+  a reward had happened (TST4).
+- **Refs:** HD-41 · HR-41 · ADR-139 (the takes) · ADR-075 (zero
+  flag-debt) · ADR-185/HD-38 (register stays) · the plan in
+  `project/archive/opus-2026-07-12-rung-reward-legibility.md`

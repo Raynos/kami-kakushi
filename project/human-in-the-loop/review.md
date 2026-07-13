@@ -58,58 +58,6 @@ build is git history.)
     rung.
   - **Verdict:** _(awaiting the human)_
 
-## ▸ R0 · the first climb (the earned line)
-
-### HR-41 🔲 [R0+ · story/TST4] — the objective line (what Progress SAYS) — pick a take, then HD-41 locks (ADR-139)
-
-**The treatment is settled — you picked B, the ruled entry (2026-07-13),
-and it now ships as the only one** (the A/C toggle is pruned, ADR-075
-zero flag-debt). Two things changed on your word, and both are live:
-
-  - **the meter's flash now MEANS something.** It rode the rounded
-    percent, which grows on nearly every rake — so it flashed constantly
-    and said nothing. It now fires when a rung **objective completes**.
-    R0 has three; R0 flashes three times.
-  - **Progress no longer speaks story.** Story keeps the overheard
-    flavor line; **Progress states the work you just finished** — its
-    own authored line, one per requirement (31, R0→R7), so the register
-    never stamps the same sentence twice.
-
-What is left for you is the **voice of that Progress line** — 3 blind
-takes (ADR-139), authored across all 31 requirements, swappable live.
-Your verdict here **writes the HD-41 ADR**.
-
-  - [ ] **canon · A "the house's book"** _(self-picked; ships)_ — the
-    day-book entry: dry, nominal, the work and its measure as a clerk
-    would set it down. R0 reads: _"The spilled stores, the first rows
-    raked back in."_ → _"The spill, worked past the hour of the ox."_ →
-    _"The spill taken up entire, the floor bare by dawn."_
-    - **Why it was picked:** it is the only one of the three that reads
-      as a **record** rather than as more prose — and it ties Progress
-      to the day-book fiction the cold open and the works pages already
-      own (TST1: one record fiction).
-  - [ ] **take b · "the world, changed"** _(DEV-only)_ — the changed
-    physical fact is the only evidence; the man never appears. _"The
-    spill by the granary door lies raked into heaps."_
-  - [ ] **take c · "the hands keep the account"** _(DEV-only)_ — the
-    work read off the body: palms, back, the habit worn in. _"He raked
-    the first rows until both palms blistered."_
-  - **The call you are actually making:** A records, B describes, C
-    confesses. A is the coldest and the most legible (kernel #3 — praise
-    stays scarce); C is the warmest and the closest to the Story voice
-    we just separated Progress FROM. If C reads better to you, that is a
-    real signal that the two tabs should sound closer than I judged.
-  - **How to look:** load the **post-cold-open** scenario (DEV →
-    Scenarios) → rake ~10 rows → the line lands in **Story** as
-    Genemon's remark and in **Progress** as the record of the work; the
-    meter pulses once, there. DEV → Story → `hd41-progress-objective` to
-    swap takes — the whole visible Progress register re-reads on the
-    flip, so you can compare without replaying.
-  - **In the DEV panel:** Review → Story → **SV19**
-    <!-- dev-tags: kept true by the review-link gate -->
-  - **Verdict:** _(awaiting your pick — this verdict writes the HD-41
-    ADR)_
-
 ## ▸ R1 · the estate opens (Map/Estate tab reveals)
 
 ### HR-2A 🔲 [~R1] — Travelling market — pick a variant (ADR-075)
@@ -433,7 +381,7 @@ alternates + briefs + Pass-1 constraint brief: `takes/works-cause/`.
     (`?story-works-cause=a` boots straight into take A — the ladder
     label flips to "Close the oldest lines"). U2–U4 beats:
     `toRung('R5'/'R6'/'R7')` with the prior stage built.
-  - **In the DEV panel:** Review → Story → **SV21** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV20** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -632,7 +580,7 @@ and an overnight ash-steep that exist nowhere in the game (story
 promises are contracts) — but its `sb-racks` is the best scene any of
 the three wrote, and it can be grafted.
 
-  - **In the DEV panel:** Review → Story → **SV22** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV21** <!-- dev-tags: kept
     true by the review-link gate -->
 
 ### HR-34 🔲 [R1 · story] — the Terms scene, re-voiced (W1 of the T0 re-voice, ADR-185)
@@ -938,7 +886,7 @@ view; a re-visit stays silent.
   comes out clean (one flag, no state migration).
 - **Verdict:** _(awaiting your read)_
 
-  - **In the DEV panel:** Review → Story → **SV20** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV19** <!-- dev-tags: kept
     true by the review-link gate -->
 
 ### HR-37 🔲 [R1–R7 · story] — the MC's inner line (W5, ADR-185 D3)

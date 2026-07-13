@@ -59,11 +59,9 @@ The live queue: [`../human-in-the-loop/`](../human-in-the-loop).
 - **HD-40** 🔲 — **the kitchen-only pot.** BUILT, one line turns it on;
   held — the sim prices its walk **outside the signed [3,25] band**
   (R3 31.6 wall-min). Four levers in the item.
-- **HR-41** 🔲 — the objective line: the treatment is settled (B
-  shipped), the open call is its **voice** (3 takes at DEV → Story
-  `SV19`; the pick writes the HD-41 ADR).
 - **HR-42** 🔲 — the R3 **delight line**: the one pick in T0 that pays
-  (+1 agi) is back (ADR-190); 3 takes at DEV → Story `SV1`.
+  (+1 agi) is back (ADR-190); 3 takes at DEV → Story
+  `adr190-nudge`.
 - **HR-33** + **HR-32b** 🔲 — the four zone-reveal VNs; and does a zone
   announce itself VN-only, or VN + map-ink?
 - **ONE home for every pick: DEV → Review** — Story ⇄ Variants behind
@@ -101,7 +99,7 @@ FB-257. `dev`·`build`·`/ship`.
 
 1. Read the **newest journal** + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-13-session-195-the-queue-reads-at-72.md`](../journal/2026-07-13-session-195-the-queue-reads-at-72.md)
+   [`journal/2026-07-13-session-196-hd41-locks-take-b.md`](../journal/2026-07-13-session-196-hd41-locks-take-b.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev
    server on localhost:5173 (never spawn/kill your own). **`?dev=no`**
@@ -117,4 +115,4 @@ FB-257. `dev`·`build`·`/ship`.
    commit. **`VERIFY_FULL=1 pnpm run verify` before you push** — the
    commit lane skips `@slow`, so a green commit can still red a push.
 
-<!-- rewrite-debt: 1/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 2/20 · last full rewrite: 2026-07-13 -->
