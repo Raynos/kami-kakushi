@@ -178,3 +178,12 @@ Deliberately not built; each says why. Never nagged.
   gain a cost or a gate** (then: either repair spends banked wood,
   or a wood-withdraw row returns). Evidence: session-200 journal
   ("the sickroom land's e2e fallout").
+
+- **Render-split heat re-check (session 203, 2026-07-13).** Around
+  2026-07-18 re-run `tmp/hotfiles.py` (or recreate it from the
+  contention-analysis brainstorm) to confirm the commit heat
+  actually dispersed off the old god-files onto the
+  `src/ui/render|dev/` modules — the split's whole point. While
+  there: `render/variant-renderers.ts` sits at 1,199 lines (the
+  wc-l cap); if a new ADR-075 diverge grows it, split it
+  per-surface then.
