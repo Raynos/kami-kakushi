@@ -127,3 +127,57 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
   fires exactly where the risk lives (the diverge/battery/sweep flows) and does not add
   a always-loaded line for a situation most sessions never hit.
 - **Resolution:** _(open)_
+
+### HD-43 🔲 [R1–R3 · story] — three side-beat scenes carry ask-topics no player can reach
+
+- **Context.** `scenes.md` authors ask-topics for the side-beat scenes:
+  `sb-sickroom` (two topics, four answer lines), `sb-cook`, `sb-racks`.
+  The renderer's `projectScene` drops them on the floor — `topics: []`,
+  with the comment *"scenes have no ask-topic reducer of their own, so a
+  scene opens straight in decide"*. The intro has `ask_topic` and the
+  rung beats have `ask_rung_topic`; a generalized scene has neither.
+- **So:** the prose is authored, compiled into `scenes.gen.ts`, and
+  **unreachable** — PH6, if a player can't reach it, it doesn't exist.
+  Found 2026-07-13 (session-192) while sweeping the log's resolvers.
+- **Question / fork:** wire scene asks, or cut the topics?
+- **Options:**
+  - **(a) Wire an `ask_scene_topic` reducer.** A near-copy of
+    `ask_rung_topic` (reveal the answer to Chat, mark asked, free and
+    re-askable), and `projectScene` stops dropping `topics`. The
+    side-beats become real VN meets — the sickroom especially, where
+    asking after your own state *is* the scene. The answers are already
+    written; the cost is the reducer + the asked-set plumbing.
+  - **(b) Cut the topics from `scenes.md`.** The side-beats stay
+    narration + decide. Free — but it deletes prose written on purpose.
+- **Recommendation:** **(a)**. The content exists and the reducer is a
+  near-copy of one that already ships; (b) pays a deletion to keep the
+  gap.
+- **Resolution:** _(open)_
+
+### HD-44 🔲 [R3 · design] — the rare stat-nudge (BQ2) was lost in the FB-5 migration
+
+- **Context.** `RungOption.statBonus` is a designed lever: a one-time
+  small attribute nudge on a rung-beat pick, carrying a `note` — "the
+  delight line". Its own type comment still reads *"Present on EXACTLY
+  ONE option (R3 'disciplined'); everything else omits it."* It appears
+  **nowhere** in the compiled registries or the narrative `.md`. The
+  narrative grammar has **no `bonus:` field**, so when the rung beats
+  moved to markdown (FB-5) the lever had no way to survive — and didn't.
+  The type field, `vnText`'s `.bonus` branch and `scenes.ts`'s whole
+  bonus-emit block are dead code. Found 2026-07-13 (session-192).
+- **Question / fork:** restore it, or retire it?
+- **Options:**
+  - **(a) Restore.** Extend the narrative grammar with a `bonus:` field
+    on a rung option, re-author the R3 'disciplined' delight line
+    (fiction-voiced ⇒ ADR-139, 3+ takes), regenerate. Everything that
+    receives it is still wired. Note `intents.ts:610` logs the beat's
+    bonus line **unkeyed** — key it `beat.<rank>.opt.<id>.bonus` while
+    restoring, or it freezes in old saves the way the topics did.
+  - **(b) Retire.** Delete `statBonus`, the resolver branch and the emit
+    block. The rung pick keeps its net-zero lean and its memory/flag
+    writes; the rare-delight beat goes away.
+- **Recommendation:** **(a)** — but it is a *design* call: this was the
+  one asymmetric reward in an otherwise net-zero choice system, and only
+  you can say whether T0 still wants it. If yes it needs a re-authored
+  line (a story unit), so it is a small plan, not a fix.
+- **Resolution:** _(open)_

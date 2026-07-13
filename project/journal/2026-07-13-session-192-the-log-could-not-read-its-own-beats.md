@@ -1,0 +1,77 @@
+# Session 192 — the log could not read back its own rung beats
+
+**Date:** 2026-07-13 · **Branch:** main · **Model:** Claude Opus 4.8
+
+## Why I was here
+
+Picked up
+[`fable-2026-07-13-greeting-line-ids.md`](../../docs/plans/fable-2026-07-13-greeting-line-ids.md)
+— the ADR-186 "known limit" the human promoted to a build (H4): greeting
+lines are addressed **positionally** (`greeting.<i>`), so re-ordering a
+scene's lines re-points an old save's log entry at its *neighbour*. It
+is urgent because the ADR-185 re-voice waves (HR-34/36/37/38, all open)
+are exactly the edit that reorders lines.
+
+Verifying the plan's survey against the source (PH2) turned up something
+worse, sitting *underneath* it.
+
+## What I found
+
+The log's descriptor system promises one thing: **a line's prose is not
+a transcript — it re-renders from the current registries on every
+load**, so a reword reaches every existing save. Three places quietly
+break that promise, all the same shape — an **emitter and a resolver
+that disagree**:
+
+1. **Every rung-beat topic line was unreadable.** `intents.ts` writes
+   `beat.<rank>.topic.<id>.ask` and `.answer.<i>` for all 16 beat topics
+   (R1/R3/R4/R6/R7); `vnText` had a `greeting` branch and an `opt`
+   branch and **no topic branch**. The intro's resolver — a hand-written
+   copy of the same code — had all three. So every rung-beat question
+   and answer threw on rehydrate, fell back to its stored prose, and
+   froze there: invisible to a re-voice, invisible to the DEV take
+   switcher, invisible to the tests. **This is the bug an ADR-185 wave
+   would have shipped.**
+2. **Side-beat scene topics are authored but unreachable.**
+   `sb-sickroom`, `sb-cook`, `sb-racks` carry ask-topics in `scenes.md`;
+   `projectScene` drops them (`topics: []`, deliberately — scenes have
+   no ask reducer), so no player ever sees them. Prose that exists and
+   cannot be reached (PH6).
+3. **The rare stat-nudge is gone.** `RungOption.statBonus` — BQ2's
+   one-time +attr with a "delight line", per its own comment "present on
+   EXACTLY ONE option (R3 'disciplined')" — appears **nowhere** in the
+   registries or the narrative `.md`. The narrative grammar has no
+   `bonus:` field, so the FB-5 migration dropped the lever on the floor.
+   The type field, `vnText`'s `.bonus` branch and `scenes.ts`'s whole
+   emit block are dead code.
+
+(2) and (3) are content calls, not agent calls — they went to the
+decision queue as **HD-43** and **HD-44**, not into a commit.
+
+## What I built (this commit)
+
+**One reader, shared.** `topicText(topics, part)` now serves both
+`vnText` and `introText` — the beat side gets the branch it never had,
+and the two resolvers can no longer drift apart, which is *how* this
+happened.
+
+**The sensor that should have existed.** The old test proved every
+*namespace* resolves; it was blind to a namespace that resolves only
+*some* of its keys. The new sweep builds every addressable VN key **from
+the registries** (`beat.*`, `scene.*`, `intro.*` × greeting · topic ·
+opt) and asserts each renders back to **its own registry line** — so a
+new beat, scene, topic or option joins the sweep for free, and
+emitter/resolver drift is RED on the next run. It carries a dead-ratchet
+guard (the sweep must actually contain topic keys, else an empty sweep
+would pass by checking nothing), and a codec-level test proving an old
+save's rung-beat answer now picks up the registry's current words.
+
+Both new tests were proven RED against the unfixed resolver before
+landing.
+
+## Next intended steps
+
+The plan I actually came for — **authored ids** for greeting/answer
+lines — is next, and now rests on a resolver that can reach the lines it
+keys. Note the positional class is wider than the plan says:
+`greeting.<i>` **and** `topic.<id>.answer.<i>`, across three namespaces.

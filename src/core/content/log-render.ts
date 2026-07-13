@@ -27,9 +27,9 @@ import type { RankId } from './ranks';
 import {
   DIALOGUE_SCENES,
   introSceneOption,
-  introTopic,
   introPerkLine,
   type DialogueScene,
+  type DialogueTopic,
 } from './intro';
 import { ACTIVITIES, activityLine, type LabourResource } from './activities';
 import { rakeLine } from './coldOpen';
@@ -66,19 +66,40 @@ const discoveryText = (id: string): string | undefined => {
 const worksText = (key: string): string | undefined =>
   (FLAVOR as Readonly<Record<string, string>>)[key];
 
+/** A hub topic's line: `topic.<topicId>.ask` (the MC's question) or `.answer.<i>` (the reply).
+ *
+ *  ONE reader for BOTH scene shapes — `RungScene` and `DialogueScene` carry the same
+ *  `DialogueTopic[]`. It is shared on purpose: two hand-written copies is precisely how the beat
+ *  side came to have NONE. Until 2026-07-13 `intents.ts` wrote `beat.<rank>.topic.<id>.ask` and
+ *  `.answer.<i>` for every rung beat while `vnText` had no topic branch to read them back, so all
+ *  16 rung-beat asks and their answers were unresolvable: they fell back to their stored prose,
+ *  invisible to a re-voice and to the DEV take switcher, and no test could see it. */
+function topicText(topics: readonly DialogueTopic[], part: string): string | undefined {
+  const m = part.match(/^topic\.(.+?)\.(ask|answer\.(\d+))$/);
+  if (!m) return undefined;
+  const t = topics.find((x) => x.id === m[1]);
+  if (!t) return undefined;
+  if (m[2] === 'ask') return t.label;
+  return t.answer[Number(m[3])]?.text;
+}
+
 // ── the VN payload (scenes AND rung beats share `RungScene`, so one reader serves both) ──────
 // A line inside a scene is addressed as `<part>` after the scene id:
-//   greeting.<i>          the i-th greeting line
-//   opt.<optionId>.say    the MC's reply        · opt.<optionId>.react  the speaker's reaction
-//   opt.<optionId>.bonus  the rare stat-nudge note
-// The INDEX in `greeting.<i>` is the one address that is positional rather than id-keyed —
-// re-ordering a scene's greeting lines in the narrative .md therefore re-points an old save's
-// line. That is a content RESTRUCTURE (README: "Schema growth, rung 2"), and the orphan sensor
-// cannot see it because the index still resolves. Named ids would be immune; the narrative
-// grammar does not give greeting lines ids today, so this is a KNOWN limit, recorded in the ADR.
+//   greeting.<i>              the i-th greeting line
+//   topic.<topicId>.ask       the MC's question    · topic.<topicId>.answer.<i>  the i-th reply
+//   opt.<optionId>.say        the MC's reply       · opt.<optionId>.react        the reaction
+//   opt.<optionId>.bonus      the rare stat-nudge note
+// The INDEXES (`greeting.<i>`, `answer.<i>`) are the addresses that are positional rather than
+// id-keyed — re-ordering a scene's lines in the narrative .md therefore re-points an old save's
+// line at its NEIGHBOUR. That is a content RESTRUCTURE (README: "Schema growth, rung 2"), and the
+// orphan sensor cannot see it because the index still resolves. Named ids would be immune; the
+// narrative grammar does not give lines ids today, so this is a KNOWN limit, recorded in the ADR.
 function vnText(scene: RungScene, part: string): string | undefined {
   const greeting = part.match(/^greeting\.(\d+)$/);
   if (greeting) return scene.greeting[Number(greeting[1])]?.text;
+
+  const topic = topicText(scene.topics, part);
+  if (topic !== undefined) return topic;
 
   const opt = part.match(/^opt\.(.+)\.(say|react|bonus)$/);
   if (opt) {
@@ -122,13 +143,8 @@ function introText(tail: string): string | undefined {
   const greeting = part.match(/^greeting\.(\d+)$/);
   if (greeting) return scene.greeting[Number(greeting[1])]?.text;
 
-  const topic = part.match(/^topic\.(.+?)\.(ask|answer\.(\d+))$/);
-  if (topic) {
-    const t = introTopic(scene, topic[1]!);
-    if (!t) return undefined;
-    if (topic[2] === 'ask') return t.label;
-    return t.answer[Number(topic[3])]?.text;
-  }
+  const topic = topicText(scene.topics, part);
+  if (topic !== undefined) return topic;
 
   const opt = part.match(/^opt\.(.+)\.(say|react|perk)$/);
   if (opt) {
