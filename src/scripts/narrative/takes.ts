@@ -293,11 +293,7 @@ function sceneTextPairs(
   // the greeting run — the take's OWN sequence (voice/speaker per line, take length).
   // The log re-voices positionally up to min(canon, take) length; a fresh VN run plays
   // the take's full sequence. Take lines keep their own slugs (blind authorship).
-  const seq = [
-    `${str(`${ns}.greeting`)}: [`,
-    ...take.greeting.map((l) => emitProseLine(l)),
-    '],',
-  ];
+  const seq = [`${str(`${ns}.greeting`)}: [`, ...take.greeting.map((l) => emitProseLine(l)), '],'];
   if (take.topics.length !== canon.topics.length) {
     throw gateError(
       loc,
@@ -328,11 +324,13 @@ function sceneTextPairs(
     pair(`${ns}.opt.${co.id}.label`, textExpr(o.label, o.loc));
     pair(`${ns}.opt.${co.id}.say`, textExpr(o.say ?? o.label, o.loc));
     if (o.react) pair(`${ns}.opt.${co.id}.react`, textExpr(o.react.text, o.react.loc));
-    if (o.bonus !== undefined !== (co.bonus !== undefined)) {
+    const takeHasBonus = o.bonus !== undefined;
+    const canonHasBonus = co.bonus !== undefined;
+    if (takeHasBonus !== canonHasBonus) {
       throw gateError(
         loc,
         unit,
-        `option "${co.id}": the stat-nudge note exists on ${co.bonus ? 'canon' : 'the take'} only — presence must match`,
+        `option "${co.id}": the stat-nudge note exists on ${canonHasBonus ? 'canon' : 'the take'} only — presence must match`,
       );
     }
     if (o.bonus) pair(`${ns}.opt.${co.id}.bonus`, textExpr(o.bonus.note, o.loc));

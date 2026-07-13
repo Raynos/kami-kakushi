@@ -207,7 +207,7 @@ describe('the flat text map — keys carry CANON ids, blind slugs notwithstandin
     expect(src).not.toContain('"beat.R1.opt.opt-a.say"'); // the take slug never leaks
   });
 
-  it('the greeting run emits as a SEQUENCE (free length — pacing is the take\'s voice)', () => {
+  it("the greeting run emits as a SEQUENCE (free length — pacing is the take's voice)", () => {
     const src = compile();
     expect(src).toContain('"beat.R1.greeting": [');
     expect(src).toContain('id: "narr"'); // the take keeps its own line slugs in the seq
@@ -226,7 +226,7 @@ describe('the prose-only HARD gate', () => {
     );
   });
 
-  it('REDs an option-count mismatch (structure is canon\'s, words are the take\'s)', () => {
+  it("REDs an option-count mismatch (structure is canon's, words are the take's)", () => {
     const extra = `${TAKE}
 #### opt-b · "A second label."
 

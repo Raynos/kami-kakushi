@@ -170,7 +170,10 @@ try {
   });
   // Step A (session-200) — takes canonicalize against CANON at gen time (the flat text map
   // + the hard prose-only gate), so the canon parsed docs feed the takes emitter too.
-  const takesGenerated = format(emitStoryTakes(bundles, buildCanonIndex([...docs.values()])), TAKES_OUT);
+  const takesGenerated = format(
+    emitStoryTakes(bundles, buildCanonIndex([...docs.values()])),
+    TAKES_OUT,
+  );
   const takesOutAbs = join(repoRoot, TAKES_OUT);
   if (check) {
     const onDisk = existsSync(takesOutAbs) ? readFileSync(takesOutAbs, 'utf-8') : '';
