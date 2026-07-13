@@ -181,3 +181,38 @@ Status: 🔲 open · ⏳ waiting on Claude prep. (Closed items move to the archi
   you can say whether T0 still wants it. If yes it needs a re-authored
   line (a story unit), so it is a small plan, not a fix.
 - **Resolution:** _(open)_
+
+### HD-45 🔲 [process] — the e2e lane went red on `main` and nobody saw it
+
+- **Context.** The Playwright lane is CI-only by budget (D-072 — a real
+  browser suite is orders of magnitude past `verify`'s 5s/8s gate). On
+  2026-07-13 (session-191) I found it **3 failed / 88 passed** locally.
+  It had been red since `a4863592` (ADR-184 — a zone opens only in a
+  VN): the reveal VNs the feature *correctly* added hid the shell, and
+  the R3 journey walked past them. Two CI `e2e.yml` runs had already
+  failed, unread. I only looked because the **push-time blast-radius
+  warning** (advisory) nagged me about `styles.css`. Fixed in
+  `8f746f54` — but the *hole* is unfixed: a green `verify`, a green
+  commit and a green push all coexist with a red e2e lane, and the only
+  thing standing between that and a rotting suite is an agent choosing
+  to read an advisory line.
+- **Question / fork:** what rung does the e2e lane sit on? "Push each
+  quality rule to the highest rung that can **soundly** hold it" — and
+  an advisory warning is the lowest rung there is.
+- **Options:**
+  - **(a) Block the push when the blast radius is hit.** If a push
+    touches e2e-covered surface, run the lane (~60s) and refuse a red.
+    Sound (it can only fire on a real red), but it puts a minute on
+    every UI push — and CI runs it anyway, 60s later.
+  - **(b) Read the lane's CI result at session start.** The brief
+    already prints `verify.yml`'s conclusion; print `e2e.yml`'s too, so
+    a red is in front of the next agent within one turn instead of
+    whenever someone happens to push CSS. Cheap, no push cost — but it
+    catches the red *after* it lands, not before.
+  - **(c) Leave it advisory.** It did work this time.
+- **Recommendation:** **(b)**, and cheap enough to do alongside (a) if
+  you want the belt as well as the braces. The failure here wasn't that
+  the red escaped to CI — it's that CI's answer was **never read**. (b)
+  fixes exactly that, for the price of one line in the session brief;
+  (a) pays 60s on every UI push to buy ~an hour of earlier notice.
+- **Resolution:** _(open)_

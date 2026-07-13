@@ -103,18 +103,18 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true
    player layout. The page NEVER auto-reloads (FB-257) — F5 to pick up code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the **ADR-sweep split** (s187 — every
-   finding human-ruled; record: journal s187 entry 2). Start with
+4. **Next (autonomous):** the **ADR-sweep split** (s187, every finding
+   human-ruled — journal s187 entry 2). Start with
    `docs/plans/fable-2026-07-13-log-truth-and-small-fixes.md`
-   (docs-only, rulings pre-made), then its `fable-2026-07-13-*`
-   siblings — merchant-state · sickroom-hp-mend · greeting-line-ids ·
-   dialogue-live-swap — **sequenced** (they share `intents.ts`).
-   Then **T2 rungs/fog** · **telemetry distillation** (6 FB-8 reports).
-   Human-gated: **HD-40** · **HR-41** (earned-line pick, BUILT s185 —
-   its verdict writes the HD-41 ADR) · HR-1 · **HR-34…HR-38** · older
-   picks (the sweep's audio/timing calls were ruled s187).
+   (docs-only, rulings pre-made), then its `fable-2026-07-13-*` siblings
+   — merchant-state · sickroom-hp-mend · greeting-line-ids ·
+   dialogue-live-swap — **sequenced** (they share `intents.ts`). Then
+   **T2 rungs/fog** · **telemetry** (6 FB-8 reports). Human-gated:
+   **HD-40** · **HD-45** · **HR-41** (treatment settled, B shipped s191;
+   the open call is the **objective line's voice** — 3 takes at DEV →
+   Story `SV18`, and it writes the HD-41 ADR) · HR-1 · **HR-34…HR-38**.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
    **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
    `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 21/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 22/20 · last full rewrite: 2026-07-11 -->

@@ -101,4 +101,9 @@ put it in front of me.
 
 1. **HR-41** — the human picks the objective-line take; that verdict
    **writes the HD-41 ADR** (and closes the plan).
-2. `/prd-ripple` + `pnpm run prd:drift` at close-out.
+2. **HD-45** (new) — what rung the e2e lane sits on. I fixed the red;
+   I did **not** fix the hole that let it sit there unread. Queued as a
+   decision because the answer costs either push-time or a brief line,
+   and that is the human's call to make.
+3. `/prd-ripple` at close-out (`pnpm run prd:drift` is **CLEAN** as of
+   this session — no game→PRD fact drift from the objective lines).
