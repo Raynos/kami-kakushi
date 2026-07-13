@@ -54,25 +54,25 @@ its own commit after theirs landed. The lesson is the cheap one: in this
 tree, `git status` **before** the first edit, not after the first
 conflict.
 
-## An open defect I found and did NOT cause (needs a plan)
+## A defect I reported and then disproved (the harness was the bug)
 
-Driving the live game headlessly, the earned line **does not appear in
-the Story tab incrementally** — it only shows once something forces a
-full repaint (a tab switch). The same drive showed **ordinary teach
-lines missing too** (36 story-visible entries in state, 32 in the DOM),
-so this is the log's incremental-append path, not HD-41: my only new
-branch there forces a *full* repaint, which cannot drop lines. It
-predates this work, and it matters — if a completion's line doesn't land
-until the player changes tabs, the legibility fix is invisible at the
-exact moment it should pay off. **Queued as a plan** (see next steps) —
-not left in this journal, where it would be read once and never resumed.
+~~An open defect: story lines never land in the log incrementally — 36
+story-visible entries in state, 32 in the DOM, the earned line among the
+missing.~~ **Wrong — there is no defect.** The lines were sitting in the
+log's reveal cascade + typewriter queue. My headless drive fired ten
+rakes in ~1.5 s, which no human does; the queue needs ~25 s to type four
+long narration lines. Waiting 30 s instead of 6 s, **all 36 land**, the
+earned line included.
+
+Worth keeping because the mistake is instructive: **a headless driver
+plays at a speed the game was never paced for, so "the UI didn't update"
+is a claim about the DRIVER until proven otherwise.** The tell was there
+and I nearly missed it — the same drive was "losing" ordinary teach
+lines too, which no HD-41 change could touch. Check the harness before
+you accuse the build.
 
 ## Next intended steps
 
-1. **The log-append defect** — write the plan (`docs/plans/`), reproduce
-   it against `HEAD~` in an isolated worktree to date it, then fix. This
-   is the highest-value thing in the queue: it silently swallows story
-   lines.
-2. **HR-41** — the human picks the objective-line take; that verdict
+1. **HR-41** — the human picks the objective-line take; that verdict
    **writes the HD-41 ADR** (and closes the plan).
-3. `/prd-ripple` + `pnpm run prd:drift` at close-out.
+2. `/prd-ripple` + `pnpm run prd:drift` at close-out.
