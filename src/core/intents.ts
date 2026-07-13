@@ -685,8 +685,18 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // FB-324 — the rake that clears the LAST of the spill says so, once (a durable
       // narration line, not ephemeral — the "why the button died" record; TST4).
       if (rakeExhausted(next)) {
+        // Keyed (session-200): the save persists the key, so a re-voice — or the DEV take
+        // switcher's log repaint — reaches the line; it emitted keyless before, which is
+        // why fb324-rake-cap never flipped live (human repro).
         next = applyRewards(next, {
-          log: [{ channel: 'narration', text: rakeCapLine(), voice: 'narrator' }],
+          log: [
+            {
+              channel: 'narration',
+              text: rakeCapLine(),
+              voice: 'narrator',
+              contentKey: 'flavor.rakeCapLine',
+            },
+          ],
         });
       }
       // reveal-as-plot, ONE line per rake (not the whole raked-gated monologue on the first click):
