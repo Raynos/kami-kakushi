@@ -31,7 +31,6 @@ import {
   ownsBelonging,
   MARKET_ITEMS,
   QUESTS,
-  RANKS,
   RECIPES,
   type BelongingDef,
   type GameState,
@@ -1562,7 +1561,6 @@ export interface DevQa {
   speed(mult: number): number;
   jumpToPhase2(): unknown;
   jumpToAscension(): void;
-  toRung(id: RankId): unknown;
   newGame(seed?: number): void;
   /** FB-96 save-backup safety net: `hasBackup` gates the "goto last backup" button; `restoreBackup`
    *  rewinds to the pre-New-game snapshot. Both async (they hit the redundant storage backends). */
@@ -1923,35 +1921,11 @@ export function mountDevPanel(
   const jump = section('Jump');
   jump.append(mono('→ Phase 2', () => qa.jumpToPhase2()));
   jump.append(mono('→ Ascend-ready', () => qa.jumpToAscension()));
-  // FB-68 — a button for EVERY rung in the roster (source of truth: RANKS/ranks.ts), not a partial
-  // set. Clicking LOADS that rung's hidden `rung-RX` scenario (human, 2026-07-07): the old `toRung`
-  // teleport left an INCOHERENT run (applyPromotion-only — no real unlocks/panels/resources for the
-  // rung), so it read as broken; the fixture is the REAL climb driven to the first tick at that
-  // rung, a coherent state in EITHER direction. Backup-first (like every Load), so it's non-destructive.
-  // The CURRENT rung reads highlighted (the gold #b08d4f idiom); id + kanji on the face, English title
-  // in the tooltip.
-  const rungs = section('Rung');
-  const rungBtns = new Map<RankId, HTMLButtonElement>();
-  const markRung = (active: RankId): void => {
-    for (const [id, b] of rungBtns) {
-      const on = id === active;
-      b.style.background = on ? '#b08d4f' : '#3a322a';
-      b.style.color = on ? '#1c1814' : '#e7d9bc';
-      b.style.fontWeight = on ? '700' : 'normal';
-    }
-  };
-  for (const r of RANKS) {
-    const b = mono(`${r.id} ${r.kanji}`, () => {
-      void Promise.resolve(qa.loadFixture(`rung-${r.id}`)).then(() => {
-        markRung(qa.selectors.rung());
-        enableRestore();
-      });
-    });
-    b.title = r.title;
-    rungBtns.set(r.id, b);
-    rungs.append(b);
-  }
-  markRung(qa.selectors.rung()); // highlight the rung the game is currently at
+  // (The Settings→Rung strip — one R0…R7 button per rank — was RETIRED here, 2026-07-13 (human).
+  //  Since FB-68 those buttons did not teleport: each one LOADED that rung's `rung-RX` scenario, the
+  //  exact thing the Scenarios tab exists to do. Two doors on one act. The rung-start set is no
+  //  longer `hidden` from the pane, so it now lists there under "Rung starts (R0–R7)" — with the
+  //  current rung marked — and this strip is gone. TST1: one home for everything.)
 
   // (The Combat/Auto section — Auto: farm / Auto: monkey / Stop auto — was RETIRED here
   // (FB-300): the in-game auto-toggles are the real feature, and the headless `__qa.auto` /
@@ -2297,6 +2271,18 @@ export function mountDevPanel(
   // can grep-prove these DEV bytes never ship (Ph3, R2).
   scenariosPane.dataset.sentinel = FIXTURES_SENTINEL;
   let lastGroup: string | null = null;
+  // The rung-start rows carry the gold "now" mark the retired Settings→Rung strip used to: the row
+  // for the rung the run is actually AT reads highlighted, and re-marks after every load. TST4 — the
+  // dev never has to guess which rung a loaded save landed on.
+  const rungRows = new Map<string, HTMLElement>();
+  const markRung = (): void => {
+    const active = `rung-${qa.selectors.rung()}`;
+    for (const [name, nm] of rungRows) {
+      const on = name === active;
+      nm.style.color = on ? '#b08d4f' : '#e7d9bc';
+      nm.textContent = on ? `${name} · now` : name;
+    }
+  };
   for (const { name, blurb, group } of qa.fixtures()) {
     if (group !== lastGroup) {
       const hdr = el('div', undefined, group);
@@ -2313,8 +2299,12 @@ export function mountDevPanel(
     top.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:.5rem;';
     const nm = el('div', undefined, name);
     nm.style.cssText = 'font-weight:700;font-family:ui-monospace,Menlo,Consolas,monospace;';
+    if (name.startsWith('rung-')) rungRows.set(name, nm);
     const loadBtn = mono('Load', () => {
-      void Promise.resolve(qa.loadFixture(name)).then(() => enableRestore());
+      void Promise.resolve(qa.loadFixture(name)).then(() => {
+        markRung();
+        enableRestore();
+      });
     });
     top.append(nm, loadBtn);
     const bl = el('div', undefined, blurb);
@@ -2322,6 +2312,7 @@ export function mountDevPanel(
     row.append(top, bl);
     scenariosPane.append(row);
   }
+  markRung(); // mark the rung the game is currently at
 
   // FB-95 — New game is HALF WIDTH + left-anchored (was flex:1 / full width) so an accidental
   // double-click on the compact dev menu can't land on it and wipe the run; the right half is empty.

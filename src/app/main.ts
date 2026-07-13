@@ -724,7 +724,6 @@ async function boot(): Promise<void> {
           return i < 0 ? FIXTURE_GROUP_ORDER.length : i;
         };
         return getFixtures()
-          .filter((f) => !f.hidden)
           .map(({ name, blurb, group }, i) => ({ name, blurb, group, i }))
           .sort((a, b) => order(a.group) - order(b.group) || a.i - b.i)
           .map(({ name, blurb, group }) => ({ name, blurb, group }));

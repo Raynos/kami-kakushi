@@ -52,10 +52,6 @@ export interface FixtureSpec {
    *  block; groups (and the specs within them) are AUTHORED earliest-in-game first, so the pane sorts
    *  itself by progression (§ FB-6 grouping) with no extra sort key. */
   readonly group: string;
-  /** DEV-only MECHANICAL scenarios (the R0–R7 rung-start set) — loadable by name (the rung buttons +
-   *  `?fixture=rung-RX` route here) but HIDDEN from the Scenarios pane list, which stays the
-   *  hand-authored playtest waypoints. */
-  readonly hidden?: boolean;
   /** Fixed per fixture ⇒ regen determinism (the RNG is seed + integer cursors in GameState). */
   readonly seed: number;
   /** Drive from `createInitialState(seed)` to the waypoint via REAL intents (reduce) — the shared
@@ -162,7 +158,7 @@ const T0_ARC_SEED = 20260626;
 
 // ── Scenarios-pane section headers (authored earliest-in-game first) ─────────────────────────────
 const G_FRESH = 'Fresh start';
-const G_RUNG_STARTS = 'Rung starts (R0–R7) · DEV';
+const G_RUNG_STARTS = 'Rung starts (R0–R7)';
 const G_EARLY = 'Early climb (R1–R2)';
 const G_ECONOMY = 'Economy loop (R3)';
 const G_SETBACKS = 'Setbacks (R3–R4)';
@@ -223,15 +219,18 @@ const POST_COLD_OPEN_SPEC: FixtureSpec = {
 };
 
 // ── the R0–R7 rung-start scenarios (human ask, 2026-07-07) ───────────────────────────────────────
-// One mechanical waypoint per rung: drive the REAL climb from the cold open and stop at the FIRST
-// tick the run reaches that rung — so the DEV panel's rung buttons land in a COHERENT run (real
-// unlocks/panels/resources for that rung) instead of the applyPromotion-only state the old `toRung`
-// teleport left behind. HIDDEN from the pane (mechanical, not a playtest waypoint); loaded by name.
+// One waypoint per rung: drive the REAL climb from the cold open and stop at the FIRST tick the run
+// reaches that rung, so a jump lands in a COHERENT run (real unlocks/panels/resources for the rung)
+// instead of the applyPromotion-only state the old `toRung` teleport left behind.
+//
+// These used to be `hidden` from the Scenarios pane, reachable only from a rung-button strip in
+// Settings. That strip is GONE (human, 2026-07-13): jumping to a rung and loading a scenario were
+// the same act behind two doors, so the set now lists in Scenarios like every other waypoint —
+// one home for everything (TST1). The `?fixture=rung-RX` route is unchanged.
 const RUNG_START_SPECS: readonly FixtureSpec[] = RANKS.map((r) => ({
   name: `rung-${r.id}`,
-  blurb: `Mechanical DEV start — the real climb driven to the first tick at ${r.id} ${r.kanji} (${r.title}).`,
+  blurb: `${r.kanji} ${r.title} — the real climb driven to the first tick at ${r.id}.`,
   group: G_RUNG_STARTS,
-  hidden: true,
   seed: T0_ARC_SEED,
   play: (s0: GameState) => drive(s0, (s) => s.rung === r.id),
   expect: (s: GameState) => must(s.rung === r.id, `expected rung ${r.id}, got ${s.rung}`),

@@ -24,8 +24,6 @@ export interface FixtureEntry {
   readonly blurb: string;
   /** The Scenarios-pane section header (FB-6 grouping) — mirrors the spec's `group`. */
   readonly group: string;
-  /** DEV mechanical fixtures (R0–R7 rung starts) — loadable by name, hidden from the pane list. */
-  readonly hidden: boolean;
   readonly env: SaveEnvelope;
 }
 
@@ -46,7 +44,6 @@ export function getFixtures(): readonly FixtureEntry[] {
       name: spec.name,
       blurb: spec.blurb,
       group: spec.group,
-      hidden: spec.hidden ?? false,
       // The saves on disk are STRIPPED descriptors; rehydrate their prose from the CURRENT
       // registries — the same path a real load takes, so a fixture can never show stale text.
       env: rehydrateEnvelopeLog(mod.default),

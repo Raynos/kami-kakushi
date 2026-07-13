@@ -65,6 +65,22 @@
 
 Deliberately not built; each says why. Never nagged.
 
+- [ ] **The DEV `Jump` section is the same duplication the rung strip
+  was.** Session 201 killed Settings→Rung (its eight buttons already
+  just loaded the `rung-RX` scenarios — one mechanism, two doors) and
+  folded the set into the Scenarios tab. The `Jump` section's two
+  survivors, `→ Phase 2` and `→ Ascend-ready`, are the same shape one
+  layer down: `wealthy-idler` IS Phase 2 and `pre-ascension` IS
+  ascend-ready, and both already sit in Scenarios. Unlike the rung
+  buttons, though, these two are still TRUE teleports — the
+  `applyPromotion`-style jump whose incoherent end-state (no real
+  unlocks/resources for the destination) is exactly what FB-68
+  complained about. So folding them in finishes the TST1 sweep, but it
+  also *deletes a capability*: an instant jump with no climb behind it.
+  **Parked for the human's call** — do the teleports carry QA value the
+  coherent fixtures don't? If not, delete the section and the
+  `jumpToPhase2`/`jumpToAscension` panel decls with it.
+
 - [ ] **No gate proves "an old save still opens."** Session 192 bumped
   the save schema (v11 → v12, log lines re-addressed by NAME) and the
   only proof a pre-bump save survives was a throwaway browser script:
