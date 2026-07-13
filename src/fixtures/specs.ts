@@ -410,15 +410,33 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
       if ((s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST) {
         s = reduce(s, { type: 'deposit', resource: 'wood' });
       }
-      return grindUntil(s, 'badger', (st) => bandName(st) === 'Battered');
+      // The climb drains the woodlot's ADR-163 site pool to 0 — turn the season (the
+      // manual G1 wheel, a real player verb) so the RECOVERY the journey drives (chop →
+      // repair) has a live pool. Banked wood is deliberately unreachable (spend-from-store),
+      // so the chop is the bind's only exit.
+      s = reduce(s, { type: 'advance_season' });
+      s = grindUntil(s, 'badger', (st) => bandName(st) === 'Battered');
+      // ADR-164/ADR-197 — nothing mends in-field any more, so the grind leaves the body
+      // spent (the old arc cook-healed through it). Close at the sickroom pallet so the
+      // waypoint is PLAYABLE — the e2e journey chops wood from here.
+      s = walkTo(s, 'sickroom');
+      return reduce(s, { type: 'rest_sickroom' });
     },
     expect: (s) => {
       must(bandName(s) === 'Battered', `expected a Battered weapon, got ${bandName(s)}`);
+      must(
+        s.character.hp >= balance.REST_SICKROOM_HP,
+        `the waypoint must be playable — a pallet day should leave hp ≥ ${balance.REST_SICKROOM_HP}, got ${s.character.hp}`,
+      );
       must(
         (s.resources.wood ?? 0) < balance.REPAIR_WOOD_COST,
         `expected carried wood < ${balance.REPAIR_WOOD_COST} (can't repair), got ${s.resources.wood ?? 0}`,
       );
       must(isUnlocked(s, 'verb-repair'), 'the Repair CTA must be revealed (R4 unlock)');
+      must(
+        (s.sitePools.woodlot ?? 0) > 0,
+        `the woodlot pool must be live (the recovery chops) — got ${s.sitePools.woodlot ?? 0}`,
+      );
     },
   },
   {

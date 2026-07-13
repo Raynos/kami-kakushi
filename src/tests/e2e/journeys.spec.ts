@@ -129,22 +129,32 @@ test('kura deposit: store the coin, the banked figure updates', async ({ page })
   expectNoPageErrors(errors);
 });
 
-test('cook/heal cue: hurt MC cooks a meal, HP rises (D-076)', async ({ page }) => {
+test('mend lane: food is satiety-only; the sickroom pallet heals (ADR-164/ADR-197)', async ({
+  page,
+}) => {
+  // post-loss-broke: hurt, coinless, AT the sickroom — the ADR-155 defeat landing.
   const errors = await boot(page, 'post-loss-broke');
   const hpBefore = await page.evaluate<number>('__qa.state().character.hp');
 
-  // FB-343/FB-369 — cook lives on the Character 己 tab's Body card now.
+  // (1) food is satiety-only now — the cook verb neither cues nor heals (ADR-164 severed
+  //     COOK_HP_RESTORE; the old D-076 heal-cue journey inverted).
   await press(page.locator('.nav-tab', { hasText: 'Character' }));
   const cook = page.locator('button.verb', { hasText: 'Cook a meal' }).first();
   await expect(cook).toBeVisible();
-  // hurt ⇒ the cook verb must read as the PRIMARY affordance (the cue, not just the verb)
-  await expect(cook, 'a hurt MC must see Cook as primary').toHaveClass(/\bprimary\b/);
-  await expect(cook).toBeEnabled();
+  await expect(cook, 'food is never the heal cue (ADR-197)').not.toHaveClass(/\bprimary\b/);
 
-  await press(cook);
+  // (2) the mend lanes live at the sickroom (ADR-197): the paid treat row (this fixture
+  //     still carries coin) and the free pallet day. Drive the FREE lane — it can never
+  //     strand a player, which is the design's floor.
+  await press(page.locator('.nav-tab', { hasText: 'Zone' }));
+  const pallet = page.locator('button.verb', { hasText: 'Rest on the pallet' }).first();
+  await expect(pallet, 'the free mend lane must be reachable').toBeVisible();
+  await expect(pallet).toBeEnabled();
+
+  await press(pallet);
   await expect
     .poll(() => page.evaluate<number>('__qa.state().character.hp'), {
-      message: 'the meal must heal',
+      message: 'the pallet day must mend',
     })
     .toBeGreaterThan(hpBefore);
   expectNoPageErrors(errors);
@@ -163,7 +173,11 @@ test('repair bind: chop wood, mend the blade, durability rises', async ({ page }
   await press(page.locator('.nav-tab', { hasText: 'Zone' }));
   const chop = page.locator('button.verb', { hasText: 'Cut wood' }).first();
   await expect(chop).toBeVisible();
+  // chop is a TIMED action — the second press must wait for the first to credit and the
+  // button to re-arm (the blind double-press landed on a busy button once timings grew).
   await press(chop);
+  await page.waitForFunction('(window.__qa.state().resources.wood ?? 0) >= 3');
+  await expect(chop).toBeEnabled();
   await press(chop);
   await page.waitForFunction('(window.__qa.state().resources.wood ?? 0) >= 5');
 

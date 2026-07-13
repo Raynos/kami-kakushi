@@ -185,6 +185,25 @@ takes right now (fb362 was signed off + pruned this same session),
 so the live behavior is covered by the resolver/codec tests until
 the next intro-title diverge.
 
+## Follow-up (same session) — the sickroom land's e2e fallout
+
+The mobile e2e lane (not a verify gate) was red from the landed
+sickroom mechanism: the cook/heal journey still expected a meal to
+heal (ADR-164 severed it), and the worn-weapon fixture regenerated
+DEGENERATE — hp 1 (nothing mends in-field on the new arc) and the
+woodlot site pool at 0 (the rebalanced climb drains it), so the
+repair journey's chop yielded nothing. Fixes: the cook journey is
+now the ADR-197 mend-lane journey (cook never cues nor heals; the
+free pallet day mends); the fixture spec turns the season (the
+manual G1 verb — pools refill) and closes on a pallet day, with a
+RED-able pool expectation. Full e2e 115 green.
+
+**Finding, not built:** banked wood is deliberately unreachable
+(spend-from-store) but REPAIR consumes CARRIED wood only — with a
+drained pool, the bind's only exit is the free `advance_season`
+verb. Fine while the season verb is free; re-check if seasons ever
+gain a cost.
+
 ## Landmines
 
 - Shared tree: `src/core/index.ts` was co-dirty with w3:p3's M3

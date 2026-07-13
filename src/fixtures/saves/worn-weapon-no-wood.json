@@ -6,26 +6,26 @@
   "savedAt": 0,
   "state": {
     "schemaVersion": 13,
-    "season": "winter",
-    "seasonsPassed": 0,
+    "season": "new-year",
+    "seasonsPassed": 1,
     "rng": {
       "seed": 20260626,
       "cursors": {
         "combat": 1018,
         "loot": 13,
         "seasonal": 0,
-        "worldgen": 87,
+        "worldgen": 92,
         "discovery": 38
       }
     },
     "clock": {
-      "tick": 16,
-      "day": 70
+      "tick": 0,
+      "day": 71
     },
     "character": {
-      "hp": 1,
+      "hp": 33,
       "satiety": 120,
-      "hunger": 25,
+      "hunger": 12.5,
       "attributePoints": 3,
       "attrs": {
         "str": 6,
@@ -44,13 +44,13 @@
       "beast_sinew": 2
     },
     "banked": {
-      "rice": 169,
+      "rice": 142,
       "wood": 157
     },
     "sitePools": {
-      "paddies": 0,
-      "forecourt": 0,
-      "woodlot": 0,
+      "paddies": 300,
+      "forecourt": 120,
+      "woodlot": 160,
       "weir": 120
     },
     "wageDaysAccrued": 0,
@@ -754,18 +754,6 @@
           "contentKey": "reveal.readout-coin"
         },
         {
-          "key": 118,
-          "channel": "reward",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.haul_stores",
-          "params": {
-            "coin": 0
-          }
-        },
-        {
           "key": 119,
           "channel": "narration",
           "tick": 4,
@@ -1046,66 +1034,6 @@
           "count": 1,
           "voice": "narrator",
           "contentKey": "works.worksSeenPaddies"
-        },
-        {
-          "key": 149,
-          "channel": "reward",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 27
-          }
-        },
-        {
-          "key": 150,
-          "channel": "reward",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 23
-          }
-        },
-        {
-          "key": 151,
-          "channel": "reward",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 19
-          }
-        },
-        {
-          "key": 152,
-          "channel": "reward",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 17
-          }
-        },
-        {
-          "key": 153,
-          "channel": "reward",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 14
-          }
         },
         {
           "key": 154,
@@ -3363,6 +3291,27 @@
         },
         {
           "key": 370,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "season.spoilage",
+          "params": {
+            "total": 24
+          }
+        },
+        {
+          "key": 371,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.seasonNewyear1"
+        },
+        {
+          "key": 372,
           "channel": "combat",
           "tick": 0,
           "count": 1,
@@ -3376,7 +3325,7 @@
           }
         },
         {
-          "key": 371,
+          "key": 373,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3385,7 +3334,7 @@
           "contentKey": "flavor.weatherFrost"
         },
         {
-          "key": 372,
+          "key": 374,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3394,33 +3343,10 @@
           "contentKey": "flavor.gossipBirth"
         },
         {
-          "key": 373,
-          "channel": "combat",
-          "tick": 8,
-          "count": 4,
-          "contentKey": "combat.loss",
-          "params": {
-            "mob": "badger",
-            "hpBefore": 1,
-            "hpAfter": 1,
-            "lostCoin": 0,
-            "lostMats": 0
-          }
-        },
-        {
-          "key": 374,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.weatherRain"
-        },
-        {
           "key": 375,
           "channel": "combat",
           "tick": 16,
-          "count": 1,
+          "count": 2,
           "contentKey": "combat.loss",
           "params": {
             "mob": "badger",
@@ -3437,7 +3363,7 @@
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "flavor.seasonWinter1"
+          "contentKey": "flavor.gossipLowlandWages"
         },
         {
           "key": 377,
@@ -3456,16 +3382,92 @@
         {
           "key": 378,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.gossipLowlandWages"
+        },
+        {
+          "key": 379,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.seasonNewyear2"
+        },
+        {
+          "key": 380,
+          "channel": "combat",
+          "tick": 0,
+          "count": 2,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 381,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.gossipMatchmaker"
+        },
+        {
+          "key": 382,
+          "channel": "combat",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 1,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostMats": 0
+          }
+        },
+        {
+          "key": 383,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.seasonNewyear2"
+        },
+        {
+          "key": 384,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.rest",
+          "params": {
+            "hpGain": 32
+          }
+        },
+        {
+          "key": 385,
+          "channel": "narration",
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "sb crest",
           "contentKey": "scene.sb-crest.greeting.loading-at-the-kura-shinnosuke-is"
         },
         {
-          "key": 379,
+          "key": 386,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
           "count": 1,
           "speaker": "Shinnosuke",
           "voice": "steward",
@@ -3473,18 +3475,18 @@
           "contentKey": "scene.sb-crest.greeting.count-them-the-storehouse-has-one"
         },
         {
-          "key": 380,
+          "key": 387,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "sb crest",
           "contentKey": "scene.sb-crest.greeting.you-look-above-the-seal-plate-the"
         },
         {
-          "key": 381,
+          "key": 388,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -3492,9 +3494,9 @@
           "contentKey": "scene.sb-crest.greeting.ask-the-steward"
         },
         {
-          "key": 382,
+          "key": 389,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
           "count": 1,
           "speaker": "Shinnosuke",
           "voice": "steward",
@@ -3502,18 +3504,18 @@
           "contentKey": "scene.sb-crest.greeting.i-asked-everyone-grandmother-said-mind"
         },
         {
-          "key": 383,
+          "key": 390,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "sb crest",
           "contentKey": "scene.sb-crest.greeting.asking-costs-you-something-every-time"
         },
         {
-          "key": 384,
+          "key": 391,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -3521,18 +3523,18 @@
           "contentKey": "scene.sb-crest.greeting.the-kura-s-crest-it-has"
         },
         {
-          "key": 385,
+          "key": 392,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "sb crest",
           "contentKey": "scene.sb-crest.greeting.it-is-not-even-a-question"
         },
         {
-          "key": 386,
+          "key": 393,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -3540,27 +3542,27 @@
           "contentKey": "scene.sb-crest.greeting.the-kura-wants-its-hinges-oiled"
         },
         {
-          "key": 387,
+          "key": 394,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "sb crest",
           "contentKey": "scene.sb-crest.greeting.that-is-the-answer-it-is"
         },
         {
-          "key": 388,
+          "key": 395,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "sb crest",
           "contentKey": "scene.sb-crest.greeting.shinnosuke-is-waiting-on-the-woodpile"
         },
         {
-          "key": 389,
+          "key": 396,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
           "count": 1,
           "speaker": "Shinnosuke",
           "voice": "steward",
@@ -3568,16 +3570,52 @@
           "contentKey": "scene.sb-crest.greeting.see-you-re-the-other-one"
         },
         {
-          "key": 390,
+          "key": 397,
           "channel": "narration",
-          "tick": 16,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "sb crest",
           "contentKey": "scene.sb-crest.greeting.you-didn-t-the-boy-climbs"
+        },
+        {
+          "key": 398,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.the-snow-quits-the-valley-floor"
+        },
+        {
+          "key": 399,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.the-river-runs-black-and-narrow"
+        },
+        {
+          "key": 400,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.the-light-stretches-work-that-used"
+        },
+        {
+          "key": 401,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.small-on-the-road-below-a"
         }
       ],
-      "seq": 391
+      "seq": 402
     },
     "skillXp": {
       "farming": 203,
@@ -3665,7 +3703,8 @@
       "sb-lease",
       "sb-sickroom",
       "sb-racks",
-      "sb-crest"
+      "sb-crest",
+      "turn-winter"
     ],
     "roundState": null,
     "soanLedger": 11
