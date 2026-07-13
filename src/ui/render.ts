@@ -102,8 +102,6 @@ import {
   getMaterial,
   canCraft,
   QUESTS,
-  MARKET_ITEMS,
-  canBuy,
   BELONGINGS,
   ownsBelonging,
   ownedBelongings,
@@ -172,6 +170,7 @@ import { actionKey, type ActionClock } from '../app/action-clock';
 // type-only (erased at compile → no runtime import) so the renderer can accept the DEV harness
 // without pulling ui/dev.ts into the prod bundle. The dev value is undefined in prod (main.ts).
 import type { DevApi } from './dev';
+import { createMarketView } from './render/market';
 
 // rake COUNT at which the R0 rake gains its auto-repeat toggle — a few manual rakes' worth,
 // so the first rakes land as juice before the grind can be automated (FB-121: read from the
@@ -318,7 +317,7 @@ export const HOUSE_ROOMS: readonly { surface: string; kanji: string; label: stri
 
 // Static pane blurbs — hoisted so the incremental (prod/test) path and the DEV-variant
 // wholesale fallback render the SAME copy (single source of truth, no drift).
-const MARKET_BLURB =
+export const MARKET_BLURB =
   'A pedlar passes now and then. A little of your OWN coin for the things you need — greens for the pot, wood to keep an edge. Your purse, not the house’s.';
 const QUESTS_BLURB = 'Goals beyond the daily grind — take one on, then earn it in the field.';
 
@@ -331,7 +330,7 @@ const CHANNEL_BULLET: Record<LogChannel, string> = {
   milestone: '❖',
 };
 
-const SEASON_TAG: Record<Season, { kanji: string; emoji: string; name: string }> = {
+export const SEASON_TAG: Record<Season, { kanji: string; emoji: string; name: string }> = {
   winter: { kanji: '冬', emoji: '❄️', name: 'Winter' },
   'new-year': { kanji: '正月', emoji: '🎍', name: 'New Year' },
   spring: { kanji: '春', emoji: '🌸', name: 'Spring' },
@@ -1122,13 +1121,6 @@ export function mount(
     cookBtn: HTMLButtonElement;
     acquireHead: HTMLElement;
     acquireList: HTMLElement;
-  } | null = null;
-  // marketRefs — the buy rows + (ADR-107 Phase 2) the sell-rice faucet (season price + sell button).
-  let marketRefs: {
-    card: HTMLElement;
-    rows: HTMLElement;
-    sellPrice: HTMLElement;
-    sellBtn: HTMLButtonElement;
   } | null = null;
   let questsRefs: { list: HTMLElement } | null = null;
   // renderHouseInfluence refs (IA reorg — migrated to append-only, FB-81). The card shell + the
@@ -5872,156 +5864,15 @@ export function mount(
   }
 
   // the pedlar's grant string ("+2 sansai, +1 wood") — static per item (grants never change).
-  function marketGrantStr(item: (typeof MARKET_ITEMS)[number]): string {
-    return Object.entries(item.grants)
-      .map(([r, n]) => `+${n} ${r}`)
-      .join(', ');
-  }
-  // build ONE pedlar row skeleton (FB-67/FB-72 vertical stack: item copy, then the buy cell). The
-  // price label + click listener are stable; patchMarketRow fills the mutable state.
-  function buildMarketRow(item: (typeof MARKET_ITEMS)[number]): HTMLElement {
-    const row = el('div', 'market-row');
-    const left = el('div', 'market-item');
-    left.append(el('span', 'market-name', item.label));
-    left.append(el('span', 'market-grant lock-hint'));
-    // the WHEN/WHY blurb (authored in market.ts) — so trade isn't a bare price list.
-    left.append(el('span', 'skill-blurb market-blurb', item.blurb));
-    row.append(left);
-    // FB-67/FB-72 — the buy control sits in its OWN in-flow cell BELOW the item copy (the row is a
-    // vertical stack, styles.css), so a narrow byōbu column can't let the price float over the copy.
-    const buy = el('div', 'market-buy');
-    const btn = el('button', 'auto-toggle', formatCoin(item.coinCost));
-    btn.type = 'button';
-    btn.addEventListener('click', () => dispatch({ type: 'buy_item', itemId: item.id }));
-    buy.append(btn);
-    row.append(buy);
-    return row;
-  }
-  function patchMarketRow(
-    row: HTMLElement,
-    item: (typeof MARKET_ITEMS)[number],
-    state: GameState,
-  ): void {
-    const bought = state.marketBought[item.id] ?? 0;
-    const capped = bought >= item.stockCap;
-    const grantStr = marketGrantStr(item);
-    setText(row.querySelector('.market-grant')!, `${grantStr}${capped ? ' · sold out' : ''}`);
-    const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
-    // a11y: the visible label is just the price — a full accessible name so a screen-reader hears
-    // WHAT it buys, not a bare "10 mon" (ADR-045 a11y-ink).
-    const aria = `Buy ${item.label} (${grantStr}) for ${formatCoin(item.coinCost)}${capped ? ' — sold out' : ''}`;
-    if (btn.getAttribute('aria-label') !== aria) btn.setAttribute('aria-label', aria);
-    setDisabled(btn, !canBuy(state.resources, item, bought));
-    const title = capped
-      ? "You've taken all the pedlar carries this run."
-      : btn.disabled && (state.banked.coin ?? 0) >= item.coinCost
-        ? 'Draw coin from the kura storehouse first'
-        : '';
-    if (btn.title !== title) btn.title = title;
-  }
-  // ── the SELL-RICE faucet (ADR-107 Phase 2 / §14): rice → coin at the SEASON-swinging price. The
-  //    pedlar buys your rice — DEAR in the lean spring, CHEAP at the autumn glut — so store-or-sell
-  //    is a light timing call. Built ONCE; the price line + sell button patch in place (zero churn). ──
-  function buildSellRice(): {
-    sell: HTMLElement;
-    sellPrice: HTMLElement;
-    sellBtn: HTMLButtonElement;
-  } {
-    const sell = el('div', 'market-sell');
-    sell.append(el('div', 'rung-now', 'Sell your rice 米'));
-    const sellPrice = el('div', 'skill-blurb');
-    const buy = el('div', 'market-buy');
-    const sellBtn = el('button', 'auto-toggle');
-    sellBtn.type = 'button';
-    sellBtn.addEventListener('click', () => dispatch({ type: 'sell_rice' }));
-    buy.append(sellBtn);
-    sell.append(sellPrice, buy);
-    return { sell, sellPrice, sellBtn };
-  }
-  function patchSellRice(
-    sellPrice: HTMLElement,
-    sellBtn: HTMLButtonElement,
-    state: GameState,
-  ): void {
-    const s = season(state);
-    const price = balance.riceSellPrice(s);
-    const prices = Object.values(balance.RICE_SELL_PRICE_BY_SEASON);
-    const gloss =
-      price >= Math.max(...prices)
-        ? 'rice sells dear — a good season to sell'
-        : price <= Math.min(...prices)
-          ? 'the autumn glut — rice sells cheap; hold it in the kura if you can'
-          : 'a fair price';
-    setText(
-      sellPrice,
-      `The pedlar pays ${formatCoin(price)} the measure now — ${SEASON_TAG[s].name}, ${gloss}.`,
-    );
-    // ADR-163 — rice sells from the KURA (shō); the sale is clamped by Yohei's market-day + purse
-    // (the full stall UI — day/purse legibility — lands in the later render sweep).
-    const rice = state.banked.rice ?? 0;
-    setText(sellBtn, `Sell kura rice (${rice} shō → ${formatCoin(rice * price)})`);
-    // a11y: a full accessible name so a screen-reader hears WHAT the sell does + the live price.
-    const aria = `Sell ${rice} shō of kura rice for ${formatCoin(rice * price)} at the ${SEASON_TAG[s].name} price of ${formatCoin(price)} each`;
-    if (sellBtn.getAttribute('aria-label') !== aria) sellBtn.setAttribute('aria-label', aria);
-    setDisabled(sellBtn, rice <= 0);
-    const title = rice <= 0 ? 'No kura rice to sell — rake or farm to gather it.' : '';
-    if (sellBtn.title !== title) sellBtn.title = title;
-  }
-  function renderMarket(state: GameState): void {
-    // IA reorg (ADR-112 §2 / FB-109 / ADR-114 / FB-332) — the pedlar (Yohei) is a TALKABLE PERSON on
-    // the Zone tab's "who's here" list, not an inline menu. His wares (a `tiny` trader's shop) open ONLY while
-    // he is the OPEN person: talk-to-reveal. Gate on `openPersonId === 'pedlar'` AND that he is
-    // actually present (peopleHere) — so his shop is never dumped inline (on Work OR on Map).
-    const pedlarPresent = peopleHere(state).some((p) => p.id === 'yohei');
-    // FB-332 — talk-to-reveal follows the who's-here rows to the Zone tab.
-    const show = activeTab === 'work' && openPersonId === 'yohei' && pedlarPresent;
-    toggle(marketPane, show);
-    if (!show) return;
-    // ── the diverged goods presentation (ADR-075) — A = the price-button list (default, ships).
-    //    B/C live DEV-only behind the variant toggle (ui/dev.ts). This DEV branch folds to dead code
-    //    in a STRIP build (`__DEV_TOOLS__` → false, tree-shaken) and `dev` is undefined there AND
-    //    tests, so ONLY a live DEV session takes it — where the variant toggle needs the wholesale
-    //    clear-and-rebuild. Prod/tests use the incremental path below (FB-81, zero idle churn). ──
-    if (__DEV_TOOLS__ && dev) {
-      marketRefs = null; // drop the incremental shell so returning to default rebuilds cleanly
-      marketPane.textContent = '';
-      const card = el('div', 'rung-card frame market-card');
-      card.append(el('div', 'rung-now', 'The pedlar 市'));
-      card.append(el('div', 'skill-blurb', MARKET_BLURB));
-      if (!dev.renderVariant('market', card, state, dispatch)) {
-        for (const item of MARKET_ITEMS) {
-          const row = buildMarketRow(item);
-          patchMarketRow(row, item, state);
-          card.append(row);
-        }
-      }
-      // the sell-rice faucet is always present (a fresh build per wholesale render — DEV-only path).
-      const { sell, sellPrice, sellBtn } = buildSellRice();
-      patchSellRice(sellPrice, sellBtn, state);
-      card.append(sell);
-      marketPane.append(card);
-      return;
-    }
-    // prod / test — build the card + rows container + sell section ONCE, then patch in place.
-    if (!marketRefs) {
-      const card = el('div', 'rung-card frame market-card');
-      card.append(el('div', 'rung-now', 'The pedlar 市'));
-      card.append(el('div', 'skill-blurb', MARKET_BLURB));
-      const rows = el('div', 'market-rows');
-      card.append(rows);
-      const { sell, sellPrice, sellBtn } = buildSellRice();
-      card.append(sell);
-      marketPane.append(card);
-      marketRefs = { card, rows, sellPrice, sellBtn };
-    }
-    reconcileList(marketRefs.rows, MARKET_ITEMS, {
-      key: (item) => item.id,
-      build: (item) => buildMarketRow(item),
-      patch: (row, item) => patchMarketRow(row, item, state),
-      order: true,
-    });
-    patchSellRice(marketRefs.sellPrice, marketRefs.sellBtn, state);
-  }
+  // The market surface lives in render/market.ts (render-split); it reads the shared
+  // shell state (active tab / open person) through getters, never a copied snapshot.
+  const { renderMarket } = createMarketView({
+    pane: marketPane,
+    dispatch,
+    dev,
+    activeTab: () => activeTab,
+    openPersonId: () => openPersonId,
+  });
 
   // fill the you-are-here card's header (the incremental map shell builds it ONCE, this patches).
   function fillMapHere(
