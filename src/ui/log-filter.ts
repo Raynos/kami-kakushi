@@ -36,6 +36,13 @@ const FILTER_CHANNELS: Record<
   all: null,
 };
 
+/** HD-41 — is a log entry an EARNED line (a rung-requirement completion)? Detected by its
+ *  ADR-186 descriptor (`contentKey: 'requirement.<id>'`) — the entry already carries it, so
+ *  the routing needs no core change and pre-change saves classify identically on re-render. */
+export function isEarnedLine(contentKey: string | undefined): boolean {
+  return contentKey !== undefined && contentKey.startsWith('requirement.');
+}
+
 /** FB-320 — the Story tab's sub-view. `vn` keeps only the SCENE lines (a `context`-carrying
  *  line is one a VN scene emitted — the MAIN story); `all` keeps the full story channel
  *  (scene lines + ambient narration flavor). Only consulted while the active filter is
@@ -58,6 +65,7 @@ export function logFilterMatches(
   filter: LogFilter,
   ephemeral: boolean,
   chat = false,
+  earned = false,
 ): boolean {
   // ephemeral axis first (FB-53): Now shows only ephemeral; no permanent view shows ephemeral.
   if (filter === 'now') return ephemeral;
@@ -65,6 +73,9 @@ export function logFilterMatches(
   // chat axis (FB-111): the optional Q&A lives in Chat + All, and is withheld from Story/etc.
   if (filter === 'chat') return chat;
   if (chat) return filter === 'all';
+  // HD-41 — an EARNED line (a rung-requirement completion) is story that is ALSO a reward
+  // (taste P16: Progress = earned): it keeps its narration home AND shows under Progress.
+  if (earned && filter === 'progression') return true;
   // permanent, non-chat lines: the channel→category mapping.
   const set = FILTER_CHANNELS[filter];
   return set === null || set.has(channel);

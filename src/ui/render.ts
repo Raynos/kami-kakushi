@@ -126,6 +126,7 @@ import {
   nightRoundById,
 } from '../core';
 import {
+  isEarnedLine,
   LOG_FILTERS,
   logFilterMatches,
   storySubMatches,
@@ -1311,13 +1312,22 @@ export function mount(
   let chatPartners = new Map<number, string>();
   let chatKickersSeq = -1;
   let logFilter: LogFilter = 'story';
+  // HD-41 — the active DEV earned-line treatment (A ships; B/C are DEV-only). Prod never
+  // stamps the attribute, so the attribute-less CSS default IS variant A.
+  let earnedStyle = 'earned-a';
   // FB-320 — the Story tab's sub-view: 'vn' = only the scene (context-carrying) lines, the
   // MAIN story; 'all' = the full story channel (default — today's view). Session-local.
   let storySub: StorySub = 'all';
   // Does `e` show under the CURRENT view? (the one place the FB-320 sub-view composes
   // with the channel filter — every current-filter visibility check routes through here.)
   const lineVisible = (e: LogEntry): boolean =>
-    logFilterMatches(e.channel, logFilter, e.ephemeral === true, e.chat === true) &&
+    logFilterMatches(
+      e.channel,
+      logFilter,
+      e.ephemeral === true,
+      e.chat === true,
+      isEarnedLine(e.contentKey),
+    ) &&
     (logFilter !== 'story' || storySubMatches(storySub, e.context !== undefined));
   // FB-20 — per-channel "highest key the reader has seen"; a tab whose channel has entries
   // beyond its seen-mark (that arrived while another tab was active) shows an unread dot.
@@ -1545,6 +1555,9 @@ export function mount(
   // "Answer the summons" affordance (dispatches `begin_rung_beat`) — never auto, and ignorable. The
   // hover card carries the meter numbers + the current/next rung. All writes go through the reconcile
   // helpers (patch-if-changed), so an idle re-render mutates nothing (zero churn, FB-81).
+  // HD-41 (d) — the last-painted rung percent: a GROWN fill pulses once, so the earned
+  // line and the meter's jump read as one event (never on the first paint / a load).
+  let lastRungPct = -1;
   function renderRungHead(state: GameState): void {
     // the rung's home once the ladder is meaningful (first rake / the R1 reveal) — gated like the
     // Work-column ladder but WITHOUT the tab check (the header is always on screen).
@@ -1569,6 +1582,14 @@ export function mount(
     // FB-121: the fill IS the rounded requirement percent (rungProgress/AC-6 — the same
     // engine read as the gate, so 100 ⟺ ready and the old "gated at 92%" state is gone).
     setStyle(rungHeadFill, 'width', `${prog.percent}%`);
+    // HD-41 (d) — the bar's movement is VISIBLE: when the requirement percent grows, the
+    // meter pulses once (remove → reflow → re-add restarts a rapid succession cleanly).
+    if (prog.percent > lastRungPct && lastRungPct >= 0 && !reduceMotion()) {
+      rungHeadMeter.classList.remove('bump');
+      void rungHeadMeter.offsetWidth;
+      rungHeadMeter.classList.add('bump');
+    }
+    lastRungPct = prog.percent;
     setClass(rungHead, 'ready', ready);
     setDisabled(rungHeadTrigger, !ready); // clickable ONLY when a promotion is ready — never auto
     toggle(rungHeadCue, ready);
@@ -4446,6 +4467,20 @@ export function mount(
       return;
     }
     line.textContent = '';
+    // HD-41 variant C (DEV-only, stripped from prod): in the PROGRESS view the earned line
+    // renders as its terse day-book docket instead of the Story prose — the same entry, its
+    // record-side reading. Story (and every other view) keeps the full flavor line.
+    if (
+      __DEV_TOOLS__ &&
+      dev &&
+      logFilter === 'progression' &&
+      isEarnedLine(entry.contentKey) &&
+      dev.getVariant('earned-line') === 'earned-c'
+    ) {
+      line.classList.add('docket');
+      line.append(document.createTextNode(dev.subFlavor('earnedEntry', FLAVOR.earnedEntry)));
+      return;
+    }
     // FB-262 — the VN-group header survives content re-renders (same pattern as the kicker).
     if (line.dataset.sceneHead !== undefined) {
       const head = el('div', 'scene-head', `— ${line.dataset.sceneHead} —`);
@@ -4539,7 +4574,10 @@ export function mount(
     // line spoken in a real voice (never the narrator) also steps in (.spoken).
     const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
     const spokenClass = entry.voice && entry.voice !== 'narrator' ? ' spoken' : '';
-    const line = el('div', `log-line ${entry.channel}${voiceClass}${spokenClass}`);
+    // HD-41 — a rung-requirement completion is story that is ALSO earned: the class carries
+    // the treatment (A quiet ledger dot by default; B/C via the DEV earned-line variant).
+    const earnedClass = isEarnedLine(entry.contentKey) ? ' earned' : '';
+    const line = el('div', `log-line ${entry.channel}${voiceClass}${spokenClass}${earnedClass}`);
     stampBlockBreak(line, entry); // FB-167 — breathing room when the speaker-block changes
     stampSceneGroup(line, entry); // FB-262 — VN-unit grouping in the Story log
     renderLineContent(line, entry);
@@ -4704,7 +4742,15 @@ export function mount(
   function maxKeyForFilter(entries: readonly LogEntry[], f: LogFilter): number {
     let mx = -1;
     for (const e of entries)
-      if (logFilterMatches(e.channel, f, e.ephemeral === true, e.chat === true))
+      if (
+        logFilterMatches(
+          e.channel,
+          f,
+          e.ephemeral === true,
+          e.chat === true,
+          isEarnedLine(e.contentKey),
+        )
+      )
         mx = Math.max(mx, e.key);
     return mx;
   }
@@ -5061,6 +5107,20 @@ export function mount(
     logLines.scrollTop = logLines.scrollHeight;
   }
   function renderLog(state: GameState): void {
+    // HD-41 — the DEV earned-line treatment switch: a change repaints the whole view via
+    // the SAME sanctioned path as a tab switch (the C docket is build-time content, and a
+    // watched log is never mutated line-by-line under the reader — TST2).
+    if (__DEV_TOOLS__ && dev) {
+      const es = dev.getVariant('earned-line');
+      if (es !== earnedStyle) {
+        earnedStyle = es;
+        logSection.dataset.earnedStyle = es;
+        if (lastState) {
+          setLogFilter(logFilter, true);
+          return;
+        }
+      }
+    }
     // FB-262 — VN groups: consecutive lines from one scene read as ONE 幕-card unit
     // (HR-24 signed off on A · 幕 card, 2026-07-10; styles the .scene-* classes unconditionally).
     const entries = state.log.entries;
@@ -5164,7 +5224,13 @@ export function mount(
           if (f === 'all' || f === 'now') continue; // never dotted anyway
           if (
             e.key > logSeen[f] &&
-            logFilterMatches(e.channel, f, e.ephemeral === true, e.chat === true)
+            logFilterMatches(
+              e.channel,
+              f,
+              e.ephemeral === true,
+              e.chat === true,
+              isEarnedLine(e.contentKey),
+            )
           )
             logSeen[f] = e.key;
         }

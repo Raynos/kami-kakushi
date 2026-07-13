@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { logFilterMatches, storySubMatches, LOG_FILTERS, type LogFilter } from './log-filter';
+import {
+  isEarnedLine,
+  logFilterMatches,
+  storySubMatches,
+  LOG_FILTERS,
+  type LogFilter,
+} from './log-filter';
 import type { LogChannel } from '../core/log';
 
 // Derived from the source of truth (the LogChannel union), NOT a copied literal — if a channel
@@ -134,6 +140,32 @@ describe('logFilterMatches — reachability invariants', () => {
       const reachable = LOG_FILTERS.map((f) => f.id).filter((f) => logFilterMatches(c, f, true));
       expect(reachable).toEqual(['now']);
     }
+  });
+});
+
+describe('logFilterMatches — the HD-41 earned axis (a rung reward is story AND earned)', () => {
+  it('an EARNED narration line shows in Progress AND keeps its Story home', () => {
+    // the defect this fixes (taste P16: Progress = earned): a requirement-completion
+    // line routed to Story only, and the Progress tab never registered the step.
+    expect(logFilterMatches('narration', 'progression', false, false, true)).toBe(true);
+    expect(logFilterMatches('narration', 'story', false, false, true)).toBe(true);
+  });
+
+  it('a PLAIN narration line still never reaches Progress (the axis is the descriptor, not the channel)', () => {
+    expect(logFilterMatches('narration', 'progression', false, false, false)).toBe(false);
+  });
+
+  it('the earned axis never leaks into Work/Combat/Chat, and never overrides ephemeral', () => {
+    expect(logFilterMatches('narration', 'work', false, false, true)).toBe(false);
+    expect(logFilterMatches('narration', 'combat', false, false, true)).toBe(false);
+    expect(logFilterMatches('narration', 'chat', false, false, true)).toBe(false);
+    expect(logFilterMatches('narration', 'progression', true, false, true)).toBe(false); // ephemeral wins
+  });
+
+  it('isEarnedLine keys off the ADR-186 requirement descriptor, nothing else', () => {
+    expect(isEarnedLine('requirement.r0_rake')).toBe(true);
+    expect(isEarnedLine('scene.intro')).toBe(false);
+    expect(isEarnedLine(undefined)).toBe(false);
   });
 });
 
