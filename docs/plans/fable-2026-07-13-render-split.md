@@ -1,10 +1,24 @@
 # Split the four UI god-files in one overnight worktree job
 
-**Status:** 📋 PROPOSED (2026-07-13, session 199)
+**Status:** ▶️ IN PROGRESS (2026-07-13, session 203 — approved by
+the human; see Rulings)
 **Confidence:** ( 0% Opus, 100% Fable ) — human-routed: "Fable
 overnight" (ADR-196 §6 / grill capture Q5). Closure-extraction
 boundaries in render.ts are the judgment core.
 **Template:** ops
+
+## Rulings (human, 2026-07-13, session 203)
+
+1. **Start now if quiet** — no waiting for night; the job begins
+   as soon as w1:p3 finishes and the go-conditions re-verify
+   green. This conversation satisfies the "human has been told"
+   go-condition.
+2. **Render-split lands first** — merchant-state (which edits the
+   market UI in render.ts) builds only after this plan lands; a
+   sequencing note is stamped on that plan.
+3. **All Fable, no delegation** — the whole job runs in the one
+   Fable session, including steps 1/3/4. Supersedes the "an Opus
+   subagent inside the job is fine" allowance below.
 
 ## Goal
 
@@ -28,7 +42,9 @@ work.
   in-flight plan touching them landed (today that is
   dialogue-live-swap (dev.ts Story switcher) and the w2:p5
   rungs settings→scenarios DEV-panel work — re-check at run
-  time, this list rots).
+  time, this list rots). *Session-203 check: both named plans
+  are landed & archived; all four files clean; w1:p3 still live
+  (watching for it to finish).*
 - Human has been told the run is happening (overnight, their
   call per ADR-196); push mutex from
   [fable-2026-07-13-contention-locks.md](../../project/archive/fable-2026-07-13-contention-locks.md)
@@ -124,7 +140,8 @@ early commits de-risk nothing-changed proof:
 
 ## Who builds this — Fable or Opus?
 
-**Fable, overnight, human-routed (ADR-196).** Steps 1 and 3–4
-are mechanical (an Opus subagent inside the job is fine); Step 2
-(closure/state boundaries) and every abort/land judgment stay
-with Fable.
+**Fable, human-routed (ADR-196).** ~~Steps 1 and 3–4 are
+mechanical (an Opus subagent inside the job is fine)~~ —
+superseded by Ruling 3 (2026-07-13): the whole job runs Fable in
+one session, no subagent delegation. Step 2 (closure/state
+boundaries) and every abort/land judgment stay with Fable.

@@ -5,6 +5,11 @@
 under an already-ruled design; the only judgment is curve-shape
 defaults, and those are sim-owned (ADR-132).
 **Template:** build
+**Sequencing (human, 2026-07-13):** builds only AFTER
+[fable-2026-07-13-render-split.md](fable-2026-07-13-render-split.md)
+lands — this plan edits the market UI inside `src/ui/render.ts`,
+the god-file that job splits. Do not start while render-split is
+open; build against the post-split module map.
 
 ## Who builds this — Fable or Opus?
 
