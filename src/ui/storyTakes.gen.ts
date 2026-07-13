@@ -12,6 +12,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'adr187-sleep',
     title: 'The slept-day line (sleeping the day away at your corner)',
+    hr: 'HR-39',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Take C picked — it is the only take whose fiction CAUSES the mechanic (TST3). Sleep exists at R4 and nowhere else because the corner is the only bed in the game, and C is built from the exact three props the R4 ceremony line grants ("a mat, a bowl, a nail for the coat: yours" — ADR-184): the coat that never leaves its nail IS the forfeited day, the mat "that is yours" is the promotion spent on nothing, and the dry bowl is the pot he was not up for. A explains the design out loud ("spend it the way you would spend a coin — on a thing you want more than the hours") — a fine metaphor, but it narrates the RATIONALE rather than the world. B is the strongest prose in the bundle and the weakest fit: it is a beautiful day-heard-from-sleep that never once touches the bed — and a line that could be spoken anywhere misses the whole point of a verb that can only be taken in one place.',
@@ -48,6 +49,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'c5a-discoveries',
     title: 'The three hidden discoveries',
+    hr: 'HR-19',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Take A scored 11✔1✘ — tool-adjacent escalation ("gives like cloth, not like root"; "wider than the badger needs") lands the finds as plain fact with the strangeness visible and unremarked; the one flagged maxim cut per Pass-2.',
@@ -124,6 +126,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'c5a-judge',
     title: 'The per-grade day-book judge lines',
+    hr: 'HR-20',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Takes B and C tied 5✔1✘; C wins on TST3 — koku standing IS the valley\'s regard, so the outside-eyes register is the mechanic\'s own fiction ("without the pause that used to follow it"); the counted-twice echo redlined per Pass-2.',
@@ -176,6 +179,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'c5a-nodes-autumn',
     title: 'The autumn node reads (16 zones)',
+    hr: 'HR-21',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Take B (senses-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.',
@@ -269,6 +273,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'c5a-nodes-bon',
     title: 'The bon node reads (16 zones)',
+    hr: 'HR-21',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Take B (senses-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.',
@@ -362,6 +367,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'c5a-nodes-newyear',
     title: 'The newyear node reads (16 zones)',
+    hr: 'HR-21',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Take B (senses-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.',
@@ -455,6 +461,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'c5a-nodes-spring',
     title: 'The spring node reads (16 zones)',
+    hr: 'HR-21',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Take B (senses-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.',
@@ -548,6 +555,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'c5a-nodes-summer',
     title: 'The summer node reads (16 zones)',
+    hr: 'HR-21',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Take A (work-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.',
@@ -641,6 +649,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'c5a-nodes-winter',
     title: 'The winter node reads (16 zones)',
+    hr: 'HR-21',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Take A (work-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.',
@@ -734,6 +743,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'c5a-overlays',
     title: 'The five season-turn overlays',
+    hr: 'HR-18',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       "Take C scored 18✔2✘ — the land-first frame keeps people late and small (the register the nengu frame set), every image this valley's own; redlined per Pass-2 (one stacked ornament; the handoff template broken in 3 of 5).",
@@ -1008,6 +1018,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'fb324-rake-cap',
     title: 'The rake-cap line (the spill runs out)',
+    hr: 'none · Take A landed wholesale in the 2026-07-10 drain; kept switchable so the pick can be overridden in play',
     review: 'project/feedback-human/2026-07-10-playtest-work-actions.md',
     rationale:
       'Take A landed in the 2026-07-10 drain proposal (wholesale go-ahead) — plain narrator fact, the FB-91 rake-narration register, no maxim; wired switchable per ADR-139 so the pick can be overridden in play.',
@@ -1041,6 +1052,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'fb362-intro-titles',
     title: "The cold open's act titles (the 幕-heads)",
+    hr: 'HR-28',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Take B names each act by its event — what the water takes / no name to give / entered in the book — every head canon-true and on-screen in its own act, distinct at a glance (TST4), and the genemon head points straight at the open day-book entry the R7 name-writing pays off (TST3). Take A invents a "book room" the game has no place for; take C\'s clock labels blur at a glance and misdate the soan act.',
@@ -1078,6 +1090,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'fb402-rest-open',
     title: 'The open-rest line (resting away from your corner)',
+    hr: 'HR-31',
     review: 'project/feedback-human/2026-07-11-playtest-the-log.md',
     rationale:
       'Take C picked — the most location-proof (a wall exists on every ground), the human\'s suggested standing rest, and the flat double-closer ("The work will keep. So will you.") sits closest to the FB-91 rest register; A\'s ledger voice is strong but lies him down mid-court, B leans on a zone-specific bale and swells lyrical at the close.',
@@ -1113,6 +1126,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'hd30-nengu',
     title: 'The nengu reckoning — the year against the house',
+    hr: 'none · signed off at HR-17 (Take C canon); kept as a reference diverge by the human’s steer, 2026-07-09',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       "Take C keeps the strictest §0.5 register — the sum is never read aloud, the MC is counted as part of the room and not asked into it, and the house's true size is learned only by what it lets itself be seen without. No epigram, no priced aside; the felt-never-numbered debt carries wordless.",
@@ -1229,6 +1243,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'hd36-lord-unstaged',
     title: "The lord unstaged — R7's word through the wall",
+    hr: 'HR-25',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       "Take B ties the scorecard and wins on TST3 — R7's title (\"Trusted of the house\") needs the house's summit to have noticed, and B delivers that notice inside the bible's own device: heard through the shoji, unanswered, never met — pre-sounding the damaged voice T1's shoin capstone pays off.",
@@ -1266,6 +1281,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'hd38-w1-terms',
     title: 'The R1 Terms scene (the tutorial contract)',
+    hr: 'HR-34',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       "Take B (canon) is the only version where all five terms — sun-to-sun labour, hired-by-the-day, NO COIN, objections-now-or-never, paddies-by-full-light — plus the no-bed fact land in plain language, at one re-read for the whole scene. It also converts Genemon's coldness into CANDOR: he sets the brush down, looks at you (the only man in the room who does), leads with the arithmetic that is the sole reason you are standing there, and tells you the parts that do not flatter the house. The blind reader's verdict: \"A's Genemon is fascinating to watch; B's is someone you want to ask things\" — and for a tutorial whose mechanical job is to teach the player that asking is worth doing, that is the whole ballgame.",
@@ -1578,6 +1594,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'hd38-w2-works',
     title: "The works pages (Genemon's ruled-off page)",
+    hr: 'HR-36',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Take B is the only take that gives Genemon a REASON to be doing this. The page is not a work order — it is thirty-one years of everything he watched fail and could not pay to save, kept in his own hand and shown to nobody, and handing it to a penniless stranger is a confession he has no procedure for and will never name. The blind reader: "A and C are one man at two volumes. B is a different man." His insistence on "Do not take my word for any of it. Go and see." stops being procedure and becomes a man who cannot bear to be taken on trust about this. It runs forward to T5, where this same man is looking for someone fit to hand the house to before he dies — and this page is the first test, which he has not admitted to himself that it is.',
@@ -2348,6 +2365,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'hd38-w4-intro',
     title: "Intro 1 — the dream, and the game's first choice",
+    hr: 'HR-35',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Canon is take C plus three redlines. (1) The three options now map one-to-one onto the three things the dream actually names — knot, road, load — so the menu and the list finally agree, and "The Clear Room" is at last granted by the ROAD it describes. (2) The labels became body verbs — Hold / Kick / Shoulder — grafted from take B, the one thing B\'s menu did better than anyone: a 14-year-old reads them and instantly knows they are choosing between the thinker, the runner and the ox. (3) The LOAD option finally gets its plain "from now on…" habit sentence — it failed the what-test in ALL THREE takes, which means it was a hole in the original design, not a versioning problem. Its siblings both told you what you had permanently become; it handed you a strap and a step and let you guess.',
@@ -2474,32 +2492,98 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   },
 
   {
-    id: 'hd41-earned-entry',
-    title: 'The earned-entry docket (Progress-side terse line)',
+    id: 'hd41-progress-objective',
+    title: 'The Progress-tab objective line (the work you just finished)',
+    hr: 'HR-41',
     review: 'project/human-in-the-loop/review.md',
     rationale:
-      "Take A picked — the ledger stance ties the Progress tab to the day-book fiction the works pages already own (TST1: one record fiction); B's watched-and-unspoken is strong but reads eerie on the fortieth stamp; C's tally-stick is period-true but invents a second record-object beside the day-book.",
-    canonLabel: 'A · the ledger',
+      'Take A picked — the day-book register is the only one of the three that reads as a RECORD of finished work; B (the world, changed) and C (the hands keep the account) are both fine prose but drift back toward the Story voice, which is exactly the register the human asked Progress to stop speaking in. A also ties Progress to the day-book fiction the cold open and the works pages already own (TST1: one record fiction, one home).',
+    canonLabel: "A · the house's book",
     rung: 0,
     takes: [
       {
         id: 'b',
-        label: 'the overheard notice',
+        label: 'the world, changed',
         brief:
-          'someone in the household noticed, tersely — the sibling of "So he can work."; the notice is real, the praise absent',
+          'the changed physical fact of the estate is the only evidence — the floor, the rows, the stacks; the man never appears as a subject',
         scorecard: '18✔ 2✘ 1—',
-        flavor: {
-          earnedEntry: 'It is seen. No one says anything.',
+        reqObjective: {
+          'rake-the-first-rows': 'The spill by the granary door lies raked into heaps.',
+          'rake-through-the-night': 'Half the granary floor shows swept boards under the lamp.',
+          'rake-the-spill': 'At dawn the granary floor stands bare, wall to wall.',
+          'first-rows-of-his-own': 'The first rows set alone stand straight in the water.',
+          'take-to-the-fields': 'The paddy stands planted, not a row out of true.',
+          'a-porters-back': 'The carrying-pole is worn smooth where a new grip sits.',
+          'learn-the-woodlot': 'Split wood is stacked head-high along the woodlot path.',
+          'walk-the-hills': "The kitchen's drying racks are full of hill mushrooms.",
+          'keep-the-stores-moving': 'No bale sits long enough at the gate to sour.',
+          'clear-the-kura-rats': 'The weir screens hold whole, no rat-run gnawed through them.',
+          'drive-off-the-thieves': 'The tanuki runs at the field margins lie empty.',
+          'the-fields-hold': 'Not a paddy lies untended while the watch is kept.',
+          'keep-the-rows': 'The rows run green to the bund with no gap.',
+          'timber-for-the-palisade':
+            'New posts stand in the palisade, pale against the weathered wood.',
+          'the-wolf-survived-not-won': 'Blood on the granary step, and not a grain gone.',
+          'a-load-among-loads': "The kura's floor is squared and roped, load by load.",
+          'first-name-in-the-yard': "A kura's worth of bales moves between dawn and dusk.",
+          'the-stores-know-you': 'Every stack in the kura leans the same way now.',
+          'a-hundred-mon-held': 'A hundred mon, strung and hidden in the north corner.',
+          'first-deep-baskets': 'Deep-hill baskets stand full at the kitchen door.',
+          'past-the-danger-line': "The path past the charcoal-burners' marker is beaten flat now.",
+          'the-paddies-still-first': 'No morning passes with the paddies left to wait.',
+          'a-made-corner': 'There is bedding in the north corner that no one moves.',
+          'the-count-comes-early': 'The store-room is empty of unshifted bales by mid-month.',
+          'the-ledgers-agree': 'No sack goes missing between the gate and the kura.',
+          'three-hundred-mon-steady':
+            'Three hundred mon sit strung under the floorboard, none spent.',
+          'coin-into-the-works': 'The kura-works stand mended with timber no lord paid for.',
+          'the-fields-run-on-you': 'The fields keep his hours, and the water follows them.',
+          'the-woodlot-runs-on-you': 'The woodlot is cut on his rotation, stand by stand.',
+          'a-granary-against-winter': 'The granary is full to the rafters against the winter.',
+          'the-nengu-reckoned': 'The nengu bales stand roped at the gate, the year closed.',
         },
       },
       {
         id: 'c',
-        label: 'the tally of things',
+        label: 'the hands keep the account',
         brief:
-          "the physical count stands for the credit — a notch, a mark; the world's arithmetic advanced by one, no observer",
-        scorecard: '19✔ 1✘ 1—',
-        flavor: {
-          earnedEntry: 'Another notch on the tally-stick.',
+          "the finished work read off the worker's body — palms, back, wind, the habit worn in; the account is kept in the man, not in a book",
+        scorecard: '17✔ 3✘ 1—',
+        reqObjective: {
+          'rake-the-first-rows': 'He raked the first rows until both palms blistered.',
+          'rake-through-the-night': 'He raked through the night on burst, bleeding hands.',
+          'rake-the-spill': 'He raked the last of the spill past feeling.',
+          'first-rows-of-his-own': 'He planted his first rows alone, back learning the stoop.',
+          'take-to-the-fields': "He plants a full day's rows and rises without stiffening.",
+          'a-porters-back': 'He carried bales until the strap calloused his shoulder.',
+          'learn-the-woodlot': 'He cleared the woodlot edge, hands gone hard as horn.',
+          'walk-the-hills': 'He came down the near hills basket-full and breathing easy.',
+          'keep-the-stores-moving': 'He moved bales through the gate without setting one down.',
+          'clear-the-kura-rats': 'He killed three weir rats with his hands still shaking.',
+          'drive-off-the-thieves': 'He killed two tanuki at the margins, hands steady now.',
+          'the-fields-hold': 'He kept the rows planted on legs spent by night watch.',
+          'keep-the-rows': 'His hands set the rows while the rest of him sleeps.',
+          'timber-for-the-palisade':
+            'He cut palisade timber until his jacket bound at the shoulders.',
+          'the-wolf-survived-not-won': 'He stood the wolf off the stores till dawn, ribs cracked.',
+          'a-load-among-loads': "He carried the day's bales and woke without stiffness.",
+          'first-name-in-the-yard': 'He hauled all day and lifted again at the second call.',
+          'the-stores-know-you': 'He stacks the kura in the dark, by weight alone.',
+          'a-hundred-mon-held': 'He keeps a hundred mon strung and eats no better.',
+          'first-deep-baskets': 'He brought the first deep baskets down, heart still hammering.',
+          'past-the-danger-line':
+            "He passes the charcoal-burners' marker now without his heart lifting.",
+          'the-paddies-still-first':
+            'He plants the morning rows on whatever sleep the hills leave.',
+          'a-made-corner': 'He sleeps on bedding he paid for, and wakes without aching.',
+          'the-count-comes-early': 'He had the store-room hauled early with strength to spare.',
+          'the-ledgers-agree': "His arms know a bale's weight truer than the scale.",
+          'three-hundred-mon-steady': 'He carries three hundred mon and still walks to the fields.',
+          'coin-into-the-works': 'He emptied his purse into the kura-works and worked on.',
+          'the-fields-run-on-you': 'He plants at his own pace and the field keeps it.',
+          'the-woodlot-runs-on-you': 'He swings, and the woodlot cuts to his stroke.',
+          'a-granary-against-winter': "Winter's rice is banked, every bale up on his back.",
+          'the-nengu-reckoned': 'He stood through the reckoning, the whole year in his hands.',
         },
       },
     ],
@@ -2508,6 +2592,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'sleep-announce',
     title: 'The sleep-announce beat (the corner tells you the day is yours to end)',
+    hr: 'HR-40',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Take A picked — the only take that is simultaneously LEGIBLE (the verb is unmistakable: "the day ends when you lie down on your own mat"), TIME-PROOF (the beat fires on first arrival, which can be any tick of day — A asserts no hour), and at the ruled weight ("a tiny beat" — human, 2026-07-12). Its "the house keeps its hours" quietly foreshadows the slept-day line\'s "the house ate at its hours" without stealing its imagery. B is the most atmospheric but the most oblique — the exact "player still does not learn the verb" failure the plan names — and needed a Pass-2 fix for a false present-tense dusk. C lands the verb clearly but at twice the ruled weight; its length is its character, kept as the alternate for a human who wants the beat to breathe.',
@@ -2544,6 +2629,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'works-cause',
     title: 'The works discovery chain (estate Phase 1)',
+    hr: 'HR-27',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Take C\'s sighting lines are the FB-338 fix itself — the damage caught mid-act answers "why did you notice it\'s broken" on sight; naming lines are location-free (mechanically safest) and the land-first register matches the c5a-overlays canon pick. Redlined per Pass-2 (sill→weir; the kura fullness claim softened).',
@@ -3384,6 +3470,7 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   {
     id: 'zone-reveals',
     title: 'The four side-quest VNs that open four zones (ADR-184)',
+    hr: 'HR-33',
     review: 'project/human-in-the-loop/review.md',
     rationale:
       "Take A carries the mechanics diegetically — these four beats are the player's ONLY teaching for coin (ten mon, two days in seven), the pot (the only mend there is), the hunt (where the raiders come up) and the wound (six days, and what it costs the house) — so the take that states the account is the take that leaves nobody guessing (TST4). It is also the register the surrounding canon already speaks (works-intro, sb-lease, the R1 terms), so four new beats do not read as a tonal island. B and C both score level on craft; C alone breaks P10 twice (it promises a gateyard-sweeping duty and an overnight ash-steep that exist nowhere in the game).",

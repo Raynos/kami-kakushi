@@ -119,6 +119,7 @@ export {
 export {
   RUNG_REQUIREMENTS,
   rungRequirements,
+  requirementById,
   requirementFlavor,
   __setRequirementFlavorOverride,
 } from './content/requirements';

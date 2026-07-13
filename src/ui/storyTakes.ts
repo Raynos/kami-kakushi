@@ -40,6 +40,11 @@ export interface StoryTake {
    *  (`__setRequirementFlavorOverride`): FUTURE completions emit from the
    *  selected take; already-logged lines stay (T2 — history never rewrites). */
   readonly reqFlavor?: Readonly<Record<string, string>>;
+  /** HD-41 — the PROGRESS-tab statement of the finished work, keyed by requirement id
+   *  (`## prose req-objective`). Render-read (the log paints it from the registry each
+   *  time the Progress view is drawn), so `dev.subReqObjective` swaps it live — flipping
+   *  the take re-reads the whole visible register, no replay needed. */
+  readonly reqObjective?: Readonly<Record<string, string>>;
   /** FB-362 — the intro scenes' 幕-head labels (`## prose intro-title`), keyed by
    *  intro SCENE id. Core-emitted (baked into each log entry's `context`), so the
    *  switcher swaps FUTURE emissions through `__setIntroTitleOverride`; logged
@@ -47,9 +52,21 @@ export interface StoryTake {
   readonly introTitles?: Readonly<Record<string, string>>;
 }
 
+/** A bundle's SV-tag: registry POSITION (`SV10`), the story sibling of a surface's V-tag. Shared
+ *  by the DEV panel and the `review-link` gate so the two can never disagree about what "SV10"
+ *  means. Positional ⇒ append, never insert (a reorder renumbers, and review.md would be stale —
+ *  which the gate catches). */
+export const bundleTag = (bundleIndex: number): string => `SV${bundleIndex}`;
+
 export interface StoryTakeBundle {
   readonly id: string;
   readonly title: string;
+  /** The HR-item this bundle awaits (`HR-33`), or `none · <why>` when it awaits nobody — a
+   *  settled bundle the human asked to KEEP for comparison (hd30-nengu after HR-17,
+   *  fb324-rake-cap after its drain). Authored as `hr:` in bundle.md, required by the takes
+   *  generator; the `review-link` gate binds the HR- form to an OPEN item in review.md. The
+   *  Review tab renders it as the row's chip, and counts only the HR- ones. */
+  readonly hr: string;
   /** Repo-relative path of the bundle's review doc (the archive-of-record). */
   readonly review?: string;
   /** Why the canon take was picked (the pick itself lives in canon). */

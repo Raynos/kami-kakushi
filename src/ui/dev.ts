@@ -52,7 +52,7 @@ import { el, pct, HOUSE_ROOMS, ESTATE_STAGE_NAMES } from './render';
 import { findOrphanedIds, formatOrphanReport } from '../persistence';
 import { FIXTURES_SENTINEL } from '../fixtures';
 // ADR-139 story take-sets — imported ONLY here, so the registry rides this module's DEV fold.
-import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
+import { STORY_TAKE_BUNDLES, bundleTag, type StoryTake, type StoryTakeBundle } from './storyTakes';
 import {
   __setRequirementFlavorOverride,
   __setDiscoveryFlavorOverride,
@@ -94,305 +94,11 @@ export type { BalanceCockpit, TuneMeta, TouchedLever, LeverDef } from './dev-coc
  *  it and refuses to deploy if it leaked — proof the DEV harness + variants were stripped. */
 export const DEV_SENTINEL = '__KAMI_DEV_PANEL__';
 
-export interface VariantDef {
-  id: string;
-  label: string;
-  /** A one-line gloss shown under the toggle so the human knows what they are picking. */
-  blurb: string;
-}
-export interface SurfaceDef {
-  id: string;
-  label: string;
-  /** The rung a player first meets this surface — the Review tab groups by it so the panel
-   *  tracks a rung-by-rung QA (2026-07-09; matches review.md's rung grouping). Display-only;
-   *  V-tags stay registry-ordered. Omit ⇒ sorts last ("other"). */
-  rung?: number;
-  /** A MODE surface flips a declaring-module DEV setter instead of rendering an alternate
-   *  pane (the core reads the mode at play time — `renderSurfaceVariant` has no arm for it).
-   *  Called on every pick AND once at hydration, so a `?<id>=<variant>` URL restores the mode
-   *  on reload exactly as a click sets it. Inert in prod: the whole fold is stripped. */
-  apply?: (variantId: string) => void;
-  /** variants[0] is the prod DEFAULT (self-picked); the rest are DEV-only alternates. */
-  variants: VariantDef[];
-}
-
-/** The registry of diverged surfaces + their variants — the single source the panel toggle
- *  and the renderer both read. Grows as Step 2 adds craft / market / quests. */
-// (The FB-410 Zone do-panel diverge is CLOSED — the human locked D on 2026-07-11 and it now
-//  SHIPS inline in render.ts (the banner + the standing line). Its A/B/C alternates are deleted,
-//  per ADR-075's zero-flag-debt rule: a settled surface keeps no toggle.)
-export const SURFACES: SurfaceDef[] = [
-  {
-    // HD-41 (ADR-075) — the EARNED line: a rung-requirement completion as "story that is
-    // also earned". Not a pane surface: render.ts reads getVariant('earned-line') at log
-    // paint time (the data-earned-style stamp + the C docket branch), so this entry only
-    // feeds the toggle — renderSurfaceVariant has no arm for it.
-    id: 'earned-line',
-    rung: 0,
-    label: 'Earned line (rung reward)',
-    variants: [
-      {
-        id: 'earned-a',
-        label: 'A · the ledger dot',
-        blurb:
-          'shipped default — quiet: a small gold registry dot on the line, same prose in Story and Progress',
-      },
-      {
-        id: 'earned-b',
-        label: 'B · the ruled entry',
-        blurb:
-          'the line as a day-book row — hairline rules + a gold left post; same prose in both tabs',
-      },
-      {
-        id: 'earned-c',
-        label: 'C · the day-book docket',
-        blurb:
-          'Story keeps the prose; Progress shows the terse docket line in the milestone register (loudest)',
-      },
-    ],
-  },
-  {
-    id: 'influence',
-    rung: 3,
-    label: 'House-Influence grade',
-    variants: [
-      {
-        id: 'influence-a',
-        label: 'A · continuous bar',
-        blurb: 'Indigo→gold ink bar, ticks at Good/Great/Excellent (the shipped default).',
-      },
-      {
-        id: 'influence-b',
-        label: 'B · segmented bands',
-        blurb: 'Three lacquer band-boxes (Good/Great/Excellent); the current band fills.',
-      },
-      {
-        id: 'influence-c',
-        label: 'C · standing marks',
-        blurb: 'A row of ink marks ◆◇ filling toward Excellent — a diegetic tally.',
-      },
-    ],
-  },
-  {
-    id: 'craft',
-    rung: 4,
-    label: 'Crafting',
-    variants: [
-      {
-        id: 'craft-a',
-        label: 'A · work-order checklist',
-        blurb: 'Name…have/need rows, green once met, one Forge button (the shipped default).',
-      },
-      {
-        id: 'craft-b',
-        label: "B · smith's measures",
-        blurb: 'Each material a continuous ink fill-gauge toward the needed amount.',
-      },
-      {
-        id: 'craft-c',
-        label: 'C · diegetic assembly',
-        blurb: 'Each material shown as the part it becomes; a 整/未 verdict at the foot.',
-      },
-    ],
-  },
-  {
-    // ADR-177 Phase 2 (ADR-075) — the Works 普請 projects home. A (the day-book page)
-    // ships inline in render.ts; B/C live here, DEV-only.
-    id: 'works',
-    rung: 2,
-    label: 'Works 普請 (projects home)',
-    variants: [
-      {
-        id: 'works-a',
-        label: 'A · the day-book page',
-        blurb:
-          'shipped default — projects as ledger lines: closed entries ruled through, the open entry priced, the future unruled',
-      },
-      {
-        id: 'works-b',
-        label: 'B · the work-site board',
-        blurb:
-          'one site card per project — the zones you walk, each carrying its concern state and the commissioning',
-      },
-      {
-        id: 'works-c',
-        label: 'C · the build ladder (interim)',
-        blurb: 'the pre-ADR-177 tracker shape — ladder rows + improve card, kept for comparison',
-      },
-    ],
-  },
-  {
-    // ADR-177 Phase 2 (ADR-075, F5) — Estate 家: the house itself. A (the drawn sheet,
-    // the E1 fold-in) ships inline; B/C live here, DEV-only.
-    id: 'estate-house',
-    rung: 6,
-    label: 'Estate 家 (the house)',
-    variants: [
-      {
-        id: 'estate-house-a',
-        label: 'A · the house, drawn',
-        blurb:
-          'shipped default — the okoshi-ezu survey sheet as the tab anchor; rooms ink in as they reopen',
-      },
-      {
-        id: 'estate-house-b',
-        label: "B · the steward's reckoning",
-        blurb: 'the rooms as day-book lines — open/shut per room, the standing as the footing',
-      },
-      {
-        id: 'estate-house-c',
-        label: 'C · the rooms list (interim)',
-        blurb: 'the pre-ADR-177 shape — the plain reopened-rooms card',
-      },
-    ],
-  },
-  {
-    id: 'market',
-    rung: 1,
-    label: 'Travelling market',
-    variants: [
-      {
-        id: 'market-a',
-        label: 'A · price-button list',
-        blurb: 'Flat rows: name + grant, a bare coin buy-button (the calm, shipped default).',
-      },
-      {
-        id: 'market-b',
-        label: 'B · posted price-board',
-        blurb: 'One notice: name … grant · price · 求, with stock/shortfall beneath.',
-      },
-      {
-        id: 'market-c',
-        label: "C · pedlar's ground-cloth",
-        blurb: 'Purse up top, emoji goods, remaining stock as continuous ochre ink.',
-      },
-    ],
-  },
-  // FB-262 — the Story log's VN GROUPS: HR-24 signed off on A · 幕 card (2026-07-10), so it
-  // ships as THE prod rendering (render.ts stamps .scene-line/.scene-open/.scene-close; the
-  // 幕-card look is unconditional in styles.css). The B/C alternates were stripped (zero
-  // flag-debt); git history keeps the margin-rail + raised-plate takes.
-  {
-    id: 'quests',
-    rung: 5,
-    label: 'Quests',
-    variants: [
-      {
-        id: 'quests-a',
-        label: 'A · woodblock cards',
-        blurb:
-          'Square .frame cards: title, blurb, ☑/☐ checklist, Take this on (the shipped default).',
-      },
-      {
-        id: 'quests-b',
-        label: 'B · 高札 notice-board',
-        blurb: 'Commission-bills on a board; a continuous-ink deeds stroke; 請ける to take.',
-      },
-      {
-        id: 'quests-c',
-        label: 'C · 用帳 field-ledger',
-        blurb: 'Aligned ledger rows: kind · note · ink tally · right-aligned coin column.',
-      },
-    ],
-  },
-  {
-    id: 'bestiary',
-    rung: 3,
-    label: 'Bestiary',
-    variants: [
-      {
-        id: 'bestiary-a',
-        label: 'A · field-guide cards',
-        blurb:
-          'Foe cards: kanji seal · tell · win-rate · haunt; unfaced foes fogged (the default).',
-      },
-      {
-        id: 'bestiary-b',
-        label: 'B · danger ledger',
-        blurb: 'A ranked ink table easiest→deadliest, each foe a continuous danger-gauge (A19).',
-      },
-      {
-        id: 'bestiary-c',
-        label: 'C · 図鑑 scroll',
-        blurb:
-          'Diegetic scroll entries: a silhouette that inks into a portrait as you learn a foe.',
-      },
-    ],
-  },
-  // FB-102 / ADR-115 / ADR-116 / HR-7 — the Estate map surface is RESOLVED: the human picked
-  //   H · 絵図 survey plan from the real-map diverge (2026-07-07, "V7D"), so the sheet now ships
-  //   as THE prod map (render.ts imports map-variants/sheet-map.ts directly) and the losing takes
-  //   (B/G schematics + I/J/K/L real-map takes) were stripped — ADR-075 zero flag-debt. NOTE:
-  //   removing this group renumbered the DEV panel's V-tags for LATER surfaces (home V8→V7).
-  // ADR-111 / FB-89 — the home / belongings panel (the deep-housing pass shipped ONE prod default,
-  //   renderBelongings; this diverge adds the mandatory live DEV alternates). Every variant shows
-  //   the SAME home data (header, owned belongings + comfort badges, the live comfort tally, and the
-  //   buyable acquire list wired to `buy_belonging`) — only the PRESENTATION differs.
-  {
-    id: 'home',
-    rung: 3,
-    label: 'Home / belongings',
-    variants: [
-      {
-        id: 'home-a',
-        label: 'A · functional list',
-        blurb:
-          'The shipped default — owned keepsakes + furniture as inked rows, a comfort tally, a coin acquire list.',
-      },
-      {
-        id: 'home-b',
-        label: 'B · 一間 room cutaway',
-        blurb:
-          'A diegetic woodblock room: each belonging sits in its corner, comfort read from where it rests; the acquire list is "what the room still lacks".',
-      },
-      {
-        id: 'home-c',
-        label: 'C · 持ち物帳 ledger',
-        blurb:
-          'A household register: what you own as ruled ledger lines, comfort as marginal notes, buyable pieces as unfilled lines.',
-      },
-    ],
-  },
-  // ── Workspace layout + framing (multi-panel, M2) — LOCKED, not toggleable. The human picked
-  //    屏風 folding-columns (`layout-byobu`) + soft cards (`framing-cards`) as the sole prod
-  //    rendering (ADR-075 zero-flag-debt), so the `layout`/`framing` variant surfaces were pruned:
-  //    render.ts stamps the two data-attributes as CONSTANTS and CSS does all the arranging. No
-  //    dead variant code ships (the classic / 番付 / 巻物 layouts + woodblock-box / hairline
-  //    framings were removed here and from styles.css). ──
-  // ── FB-340 v2 (HR-31 confirmed 2026-07-11) — the porter piece IS the presence; the
-  //    A/B rings toggle was deleted on the human's confirm (ADR-075 zero flag-debt). ──
-  {
-    // ADR-184 / HR-32b — how a zone ANNOUNCES itself. A MODE surface (see `apply`): the core
-    // reads `zoneRevealMode()` when the reveal fires, so the pick bridges to unlock.ts's
-    // DEV setter rather than rendering an alternate pane.
-    //
-    // It lived as a hand-placed section in the SETTINGS tab from a4863592 until 2026-07-13.
-    // That put a review toggle in a tool pane — the human never found it, which is the whole
-    // of TST1 ("one home for everything"): a thing awaiting a human verdict belongs in the
-    // Review tab with every other thing awaiting a human verdict, whatever its mechanism.
-    //
-    // To feel it: load `rung-R2`, haul at the board until coin ≥ 10 (the gate's `sb-market`),
-    // or forage then stand at the board (the kitchen's `sb-cook`), and watch the Story log
-    // AFTER the scene closes. PROD ships 'vn' — the toggle strips with this panel.
-    id: 'zone-reveal',
-    rung: 2,
-    label: 'Zone announce (reveal mode)',
-    apply: (id) => __setZoneRevealMode(id === 'zone-reveal-ink' ? 'vn+ink' : 'vn'),
-    variants: [
-      {
-        id: 'zone-reveal-vn',
-        label: 'A · VN only',
-        blurb:
-          'shipped default — the scene that opened the zone IS the reveal; nothing fires after it closes',
-      },
-      {
-        id: 'zone-reveal-ink',
-        label: 'B · VN + map-ink',
-        blurb: 'the scene closes, then the zone inks onto the map with a line of its own',
-      },
-    ],
-  },
-];
+// The diverged-surface REGISTRY moved to `dev-surfaces.ts` (2026-07-13): a gate has to read it,
+// and a gate script cannot import this module (the fixtures pane pulls in `import.meta.glob`).
+// Re-exported here so every existing importer — and the renderer's variant routing — is unmoved.
+import { SURFACES, variantTag, type SurfaceDef } from './dev-surfaces';
+export { SURFACES, surfaceTag, variantTag, type SurfaceDef, type VariantDef } from './dev-surfaces';
 
 export interface DevApi {
   getVariant(surface: string): string;
@@ -428,6 +134,10 @@ export interface DevApi {
    *  keys (the title card's `lede`/`cta`); core-emitted keys stay reader-only (T2 — logged
    *  history never rewrites), and the intro-reused ones ride their scene's own swap. */
   subColdOpen(key: string, canon: string): string;
+  /** HD-41 — substitute a requirement's PROGRESS-tab objective line with the active take's
+   *  version (identity when everything is 'canon'). Render-read, not core-emitted: the log
+   *  paints the Progress view from the registry, so a flip re-reads every visible line. */
+  subReqObjective(id: string, canon: string): string;
   /** Bumps on every set/unit change — render.ts folds it into the VN scene key so a
    *  take swap rebuilds the (otherwise append-only) live transcript. */
   storyEpoch(): number;
@@ -643,6 +353,15 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
         const eff = effective(b.id, `flavor:${key}`);
         if (eff === 'canon') continue;
         const alt = b.takes.find((t) => t.id === eff)?.flavor?.[key];
+        if (alt !== undefined) return alt;
+      }
+      return canon;
+    },
+    subReqObjective: (id, canon) => {
+      for (const b of bundles) {
+        const eff = effective(b.id, `req-objective:${id}`);
+        if (eff === 'canon') continue;
+        const alt = b.takes.find((t) => t.id === eff)?.reqObjective?.[id];
         if (alt !== undefined) return alt;
       }
       return canon;
@@ -1858,6 +1577,23 @@ export interface DevQa {
       };
 }
 
+// ── the QUEUE CHIP (2026-07-13) — every review row names the HR-item it is waiting on, so
+//    the panel and `human-in-the-loop/review.md` point AT each other: the doc names the tag
+//    to click, the row names the item to answer. A row whose `hr` is `none · <why>` is not
+//    waiting on anybody — a settled bundle the human asked to KEEP for comparison (hd30-nengu,
+//    fb324-rake-cap) — and reads as a muted "reference" chip that no count includes. ──
+const isAwaitingVerdict = (hr: string): boolean => hr.startsWith('HR-');
+const hrChip = (hr: string): HTMLElement => {
+  const open = isAwaitingVerdict(hr);
+  const chip = el('span', undefined, open ? hr : 'reference');
+  chip.title = open ? `awaiting your verdict — ${hr} in review.md` : hr.replace(/^none · /, '');
+  chip.style.cssText =
+    'margin-left:auto;flex:0 0 auto;font-size:10px;letter-spacing:.04em;padding:0 .25rem;' +
+    'border-radius:2px;text-transform:none;' +
+    (open ? 'color:#1c1814;background:#b08d4f;' : 'color:#9b8e78;border:1px solid #3a322a;');
+  return chip;
+};
+
 export function mountDevPanel(
   host: HTMLElement,
   opts: { qa: DevQa; dev: DevApi; rerender: () => void; cockpit: BalanceCockpit },
@@ -2242,9 +1978,11 @@ export function mountDevPanel(
   //    (rung beats + intro scenes + generalized scene-defs — season-exit/scripted beats) +
   //    UI flavor lines (lock-hints) — dialogue/cold-open units read in the script-reader. ──
   // FB-310 — each half carries its own open count; the Review TAB carries the total, so the
-  // collapsed panel answers "how much is waiting on me" without opening anything.
-  const openUi = dev.surfaces.length;
-  const openStory = dev.storyBundles.length;
+  // collapsed panel answers "how much is waiting on me" without opening anything. The count is
+  // what AWAITS A VERDICT (2026-07-13): a settled bundle kept as reference still renders, but
+  // counting it would make the badge lie about the size of the queue.
+  const openUi = dev.surfaces.filter((s) => isAwaitingVerdict(s.hr)).length;
+  const openStory = dev.storyBundles.filter((b) => isAwaitingVerdict(b.hr)).length;
   halves.story.btn.textContent = openStory > 0 ? `Story (${openStory})` : 'Story';
   halves.variants.btn.textContent = openUi > 0 ? `Variants (${openUi})` : 'Variants';
   reviewTab.textContent = openUi + openStory > 0 ? `Review (${openUi + openStory})` : 'Review';
@@ -2302,7 +2040,7 @@ export function mountDevPanel(
   // Each take then reads `SV{n}{LETTER}` (canon = `SV{n}·Canon`), so the human can reference a
   // story take as tersely as a UI variant ("lock SV12A"). Computed once, read into the labels below.
   const stag = new Map<string, string>();
-  dev.storyBundles.forEach((b, bi) => stag.set(b.id, `SV${bi}`));
+  dev.storyBundles.forEach((b, bi) => stag.set(b.id, bundleTag(bi)));
 
   const bundleHeader = (b: StoryTakeBundle): string =>
     b.rung !== undefined ? `— rung R${b.rung} —` : `— other · ${b.rungReason ?? '?'} —`;
@@ -2319,15 +2057,37 @@ export function mountDevPanel(
       storyPane.append(rh);
     }
     const sec = el('div');
-    sec.style.cssText = 'border:1px solid #3a322a;border-radius:3px;padding:.28rem .4rem;';
-    const title = el('div', undefined, `${stag.get(bundle.id)} · ${bundle.title}`);
-    title.style.cssText = 'color:#b08d4f;text-transform:uppercase;font-size:11px;';
-    sec.append(title);
+    sec.style.cssText = 'border:1px solid #3a322a;border-radius:3px;';
+
+    // ── the row reads EXACTLY like a Variants row (human, 2026-07-13: "I like the variants UI
+    //    with click to expand, but the story review UI is always expanded"). Same collapsed
+    //    two-line summary, same caret, same details fold. Two idioms for one job is the TST1
+    //    failure this whole tab exists to fix — a story diverge and a UI diverge are different
+    //    THINGS, but "pick one of these" is one gesture, so it gets one shape. ──
+    const summary = el('div');
+    summary.style.cssText =
+      'display:flex;flex-direction:column;gap:.05rem;padding:.28rem .4rem;cursor:pointer;user-select:none;min-width:0;';
+    const sTitle = el('div');
+    sTitle.style.cssText = 'display:flex;align-items:baseline;gap:.35rem;min-width:0;';
+    const sCaret = el('span', undefined, '▸');
+    sCaret.style.cssText = 'color:#b08d4f;flex:0 0 auto;';
+    const sLabel = el('span', undefined, `${stag.get(bundle.id)} · ${bundle.title}`);
+    sLabel.style.cssText = 'color:#b08d4f;text-transform:uppercase;font-size:11px;min-width:0;';
+    sTitle.append(sCaret, sLabel, hrChip(bundle.hr));
+    // line 2 — the take currently live, so a collapsed row still says where the story stands
+    const sPick = el('span', undefined, '');
+    sPick.style.cssText =
+      'color:#9b8e78;font-size:11px;padding-left:1.05rem;overflow-wrap:anywhere;min-width:0;';
+    summary.append(sTitle, sPick);
+    sec.append(summary);
+
+    const details = el('div');
+    details.style.cssText = 'display:none;flex-direction:column;gap:.25rem;padding:0 .4rem .35rem;';
     const explore = mono('⤢ Explore this diverge', () => {
       openStoryReader(bundle, dev);
     });
     explore.style.cssText += 'margin:.2rem 0;';
-    sec.append(explore);
+    details.append(explore);
 
     // the active take's brief (or the pick rationale on Canon) — refreshed on every click.
     const brief = el('div', undefined, '');
@@ -2349,6 +2109,8 @@ export function mountDevPanel(
         active === 'canon'
           ? (bundle.rationale ?? 'Canon — the live pick.')
           : (takeOf(active)?.brief ?? '');
+      // the collapsed row's second line: which take is live right now
+      sPick.textContent = setBtns.get(active)?.textContent ?? '';
     };
     const takeBtn = (id: string, label: string): void => {
       const b = mono(label, () => {
@@ -2363,7 +2125,7 @@ export function mountDevPanel(
     const st = stag.get(bundle.id);
     takeBtn('canon', `${st}·Canon — ${bundle.canonLabel ?? 'the pick'}`);
     for (const t of bundle.takes) takeBtn(t.id, `${st}${t.id.toUpperCase()} — ${t.label}`);
-    sec.append(setRow, brief);
+    details.append(setRow, brief);
     // Per-unit overrides moved to the per-diverge explore page (human, 2026-07-07) —
     // this section stays focused: the labeled set toggle + the explore link.
     const hint = el(
@@ -2372,7 +2134,15 @@ export function mountDevPanel(
       'Swaps are display-only. To see a rung beat live: Settings → Rung → jump to it.',
     );
     hint.style.cssText = 'color:#9b8e78;font-size:10px;margin-top:.25rem;opacity:.8;';
-    sec.append(hint);
+    details.append(hint);
+    sec.append(details);
+
+    summary.addEventListener('click', () => {
+      const hidden = details.style.display === 'none';
+      details.style.display = hidden ? 'flex' : 'none';
+      sCaret.textContent = hidden ? '▾' : '▸';
+    });
+
     refresh();
     storyPane.append(sec);
   }
@@ -2386,12 +2156,12 @@ export function mountDevPanel(
   // the variant's index (A/B/C). So quests (registry #6) → V6A/V6B/V6C. Registry order (not the
   // recency-reversed DISPLAY order) keeps a tag pinned to its variant: it never shifts when the
   // panel reorders rows or a later surface is removed. Computed once, read into every label below.
+  // (the tag FORMULA lives in dev-surfaces.ts — the `review-link` gate computes the very same
+  //  tags when it checks review.md, so the panel and the gate can never disagree about what
+  //  "V6A" means.)
   const vtag = new Map<string, string>();
-  const LETTERS = 'ABCDEFGHIJ';
   dev.surfaces.forEach((s, si) => {
-    s.variants.forEach((v, vi) => {
-      vtag.set(v.id, `V${si}${LETTERS[vi] ?? String(vi)}`);
-    });
+    s.variants.forEach((v, vi) => vtag.set(v.id, variantTag(si, vi)));
   });
 
   // Rung-ordered (2026-07-09) — surfaces sort by the RUNG a player first meets them, so the
@@ -2430,7 +2200,7 @@ export function mountDevPanel(
     sCaret.style.cssText = 'color:#b08d4f;flex:0 0 auto;';
     const sLabel = el('span', undefined, surface.label);
     sLabel.style.cssText = 'color:#b08d4f;text-transform:uppercase;font-size:11px;min-width:0;';
-    sTitle.append(sCaret, sLabel);
+    sTitle.append(sCaret, sLabel, hrChip(surface.hr));
     // line 2 — current pick, indented under the name, wraps within the panel width
     const sPick = el('span', undefined, '');
     sPick.style.cssText =
@@ -2656,15 +2426,21 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
     for (const d of t.dialogues ?? []) keys.add(`dialogue:${d.id}`);
     for (const k of Object.keys(t.flavor ?? {})) keys.add(`flavor:${k}`);
     for (const k of Object.keys(t.reqFlavor ?? {})) keys.add(`req-flavor:${k}`);
+    for (const k of Object.keys(t.reqObjective ?? {})) keys.add(`req-objective:${k}`);
     // FB-362 — the intro 幕-head labels, keyed by scene id (canon reads the scene's title).
     for (const k of Object.keys(t.introTitles ?? {})) keys.add(`intro-title:${k}`);
   }
-  // a req-flavor bundle reads as the WHOLE ladder: include every registry requirement,
-  // canon-only ones too (their alternate columns show "no take — canon plays"), so a
-  // rung's section is its complete set, never just the diverged subset.
+  // a req-flavor / req-objective bundle reads as the WHOLE ladder: include every registry
+  // requirement, canon-only ones too (their alternate columns show "no take — canon plays"),
+  // so a rung's section is its complete set, never just the diverged subset.
   if (bundle.takes.some((t) => t.reqFlavor)) {
     for (const reqs of Object.values(RUNG_REQUIREMENTS)) {
       for (const r of reqs) keys.add(`req-flavor:${r.id}`);
+    }
+  }
+  if (bundle.takes.some((t) => t.reqObjective)) {
+    for (const reqs of Object.values(RUNG_REQUIREMENTS)) {
+      for (const r of reqs) keys.add(`req-objective:${r.id}`);
     }
   }
   const order = (k: string): number =>
@@ -2678,15 +2454,17 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
             ? 2
             : k.startsWith('flavor:')
               ? 4
-              : k.startsWith('req-flavor:')
+              : k.startsWith('req-flavor:') || k.startsWith('req-objective:')
                 ? 5
                 : 3;
-  // req-flavor keys order by their REGISTRY placement (rung, then authored position),
-  // never alphabetically — the explore page reads as the ladder.
+  // req-flavor / req-objective keys order by their REGISTRY placement (rung, then authored
+  // position), never alphabetically — the explore page reads as the ladder.
   const sub = (k: string): number =>
     k.startsWith('req-flavor:')
       ? (reqFlavorPlacement(k.slice('req-flavor:'.length))?.order ?? 9999)
-      : 0;
+      : k.startsWith('req-objective:')
+        ? (reqFlavorPlacement(k.slice('req-objective:'.length))?.order ?? 9999)
+        : 0;
   return [...keys].sort((a, b) => order(a) - order(b) || sub(a) - sub(b) || a.localeCompare(b));
 }
 
@@ -2742,6 +2520,16 @@ function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] 
             .flat()
             .find((r) => r.id === key)?.flavor
         : take.reqFlavor?.[key];
+    return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
+  }
+  if (kind === 'req-objective') {
+    // HD-41 — the Progress-tab statement of the finished work; canon reads the LIVE registry.
+    const text =
+      take === 'canon'
+        ? Object.values(RUNG_REQUIREMENTS)
+            .flat()
+            .find((r) => r.id === key)?.objective
+        : take.reqObjective?.[key];
     return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
   }
   const text = take === 'canon' ? (COLD_OPEN as Record<string, string>)[key] : take.coldOpen?.[key];
@@ -2810,7 +2598,8 @@ function reqFlavorPlacement(reqId: string): { section: string; order: number } |
 // rewrites (T2), and the intro-reused keys ride their scene's own intro: swap.
 // intro-title: FB-362 — live via the CORE overlay (__setIntroTitleOverride): a fresh
 // intro run's 幕-heads voice the selected take; logged history keeps its baked heads.
-const LIVE_UNITS = /^(rung|intro|intro-title|scene|flavor|req-flavor):|^cold-open:(lede|cta)$/;
+const LIVE_UNITS =
+  /^(rung|intro|intro-title|scene|flavor|req-flavor|req-objective):|^cold-open:(lede|cta)$/;
 
 function readerUnitHeader(host: HTMLElement, unit: string, extra?: HTMLElement): void {
   const h = el('div');
@@ -2830,7 +2619,9 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: De
     // a heading lands whenever the section changes — the page reads as the ladder.
     const section = unit.startsWith('req-flavor:')
       ? (reqFlavorPlacement(unit.slice('req-flavor:'.length))?.section ?? null)
-      : null;
+      : unit.startsWith('req-objective:')
+        ? (reqFlavorPlacement(unit.slice('req-objective:'.length))?.section ?? null)
+        : null;
     if (section !== null && section !== lastSection) {
       const sh = el('div', undefined, section);
       sh.style.cssText =
@@ -2874,7 +2665,11 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: De
       for (const t of bundle.takes) uBtn(t.id, t.id.toUpperCase(), `${t.id} — ${t.label}`);
       uRefresh();
     }
-    const chipLabel = unit.startsWith('req-flavor:') ? unit.slice('req-flavor:'.length) : unit;
+    const chipLabel = unit.startsWith('req-flavor:')
+      ? unit.slice('req-flavor:'.length)
+      : unit.startsWith('req-objective:')
+        ? unit.slice('req-objective:'.length)
+        : unit;
     readerUnitHeader(host, LIVE_UNITS.test(unit) ? chipLabel : `${chipLabel} (reader-only)`, extra);
     const scroll = el('div');
     scroll.style.cssText = 'overflow-x:auto;';

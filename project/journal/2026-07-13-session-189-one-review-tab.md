@@ -66,22 +66,76 @@ tabs for "what is waiting on me".
 ### A shared-tree slip, logged
 
 Copying a regenerated `project-status.md` back from a scratch worktree,
-I overwrote the co-agent's UNSTAGED copy of it — I had checked
-`git status` two minutes earlier, not immediately before the write.
-No harm survived (w6:p1 rewrote the file, and their commit carries both
-their prose and the gen line), and they were told. The rule that would
-have caught it is the one already written down: **re-check the working
-tree immediately before any write to a file you did not author.**
+I overwrote the co-agent's UNSTAGED copy of it — I had checked `git
+status` two minutes earlier, not immediately before the write. No harm
+survived (w6:p1 rewrote the file, and their commit carries both their
+prose and the gen line), and they were told. The rule that would have
+caught it is the one already written down: **re-check the working tree
+immediately before any write to a file you did not author.**
+
+## 3 · the HR ↔ V/SV link, gated both ways
+
+The link the human named: the DEV panel never said which HR-item a
+toggle was waiting on, and `review.md` never said which toggle to click.
+Both halves were written by hand, so they rotted — HR-32b still told her
+to look under **Settings** for a toggle I had just moved. A hand-copied
+cross-reference rots; a computed one cannot.
+
+- **The registry is the source of the TAG.** `SURFACES` moved out of
+  `dev.ts` into **`dev-surfaces.ts`** — a gate script cannot import
+  `dev.ts` (the fixtures pane pulls in `import.meta.glob`), and the
+  registry is *data a gate must read*. The tag formulas (`surfaceTag`,
+  `variantTag`, `bundleTag`) now live beside the data, so the panel and
+  the gate can never disagree about what "V6A" means.
+- **Every entry names its HR-item.** `SurfaceDef.hr` is REQUIRED (the
+  typechecker is the gate); a bundle authors `hr:` in its `bundle.md`
+  (the takes generator throws without it). A bundle — never a surface —
+  may say `none · <why>`: two are SETTLED and kept live for comparison
+  by the human's own steer (`hd30-nengu` after HR-17, `fb324-rake-cap`
+  after its drain). They render with a muted **reference** chip and are
+  excluded from the counts, so `Review (30)` means thirty things
+  actually await her, not thirty rows exist.
+- **`review.md` names the tag**, as a generated `In the DEV panel:` line
+  under each item — 24 items carry one.
+- **The `review-link` gate** (roster, `scope: both`) binds all three
+  directions: every entry's HR resolves to an **open** item · that item
+  names the entry's **current** tag · and no item names a tag belonging
+  to someone else (the stale-tag case). Proven RED twice: strip HR-32b's
+  tag line → RED; insert a surface at the head of the registry (which
+  renumbers every tag after it) → 19 broken links.
+
+## 4 · the Story half, restyled to match (human, mid-session)
+
+*"I like the variants UI with click to expand, but the story review UI
+is always expanded and has no click to expand."* Two idioms for one
+gesture is precisely the TST1 failure this tab exists to fix. The story
+rows now use the SAME collapsed two-line summary as a variant row —
+caret, SV-tag + title, HR chip, and the live take on line 2 — with the
+explore link, the take buttons and the rationale in the fold. Twenty-two
+bundles now scan in one screen instead of scrolling forever.
+
+(The §2 counts above are historical: once the two reference bundles stop
+counting, the badges read `Variants (10)` · `Story (20)` · `Review
+(30)`.)
 
 ## Next intended steps
 
-1. The HR ↔ V/SV link + its gate (HR numbers into the DEV panel, V/SV
-   tags into `review.md`, a gate binding both directions).
+1. Commit — held on a co-agent (see Landmines).
 
 ## Landmines
 
 - **V/SV tags are position-derived** (`V{registryIndex}{letter}` /
   `SV{bundleIndex}`). Appending is safe; **reordering or removing** a
   surface renumbers every later tag — and once `review.md` carries those
-  tags (step 3), a reorder silently staled the doc. That is exactly what
-  the step-3 gate is for.
+  tags, a reorder silently stales the doc. That is exactly what the
+  `review-link` gate catches (proven: an insert at the head → 19 broken
+  links).
+- **Held on w3:p3 (the HD-41 rung-reward agent).** We are INTERLEAVED in
+  `src/ui/storyTakes.ts` (their `reqObjective` + my `hr`/`bundleTag`),
+  `src/scripts/narrative/takes.ts` (their parser + my required `hr:`),
+  and the regenerated `src/ui/storyTakes.gen.ts` (both). Their in-flight
+  parser change — requiring an `objective:` line that `requirements.md`
+  does not carry yet — REDs `gen-narrative` + 5 requirements tests, so
+  neither of us can commit. They were told; the agreement is **they
+  commit first, I commit on top and never touch their hunks.** Do not
+  "fix" their red, and do not `SKIP_VERIFY` past it.

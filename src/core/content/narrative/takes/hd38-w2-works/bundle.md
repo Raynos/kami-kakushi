@@ -19,6 +19,7 @@
   woodshed as a failing building of the house, which is what it is. -->
 
 # bundle hd38-w2-works · The works pages (Genemon's ruled-off page)
+hr: HR-36
 rung: R2
 review: project/human-in-the-loop/review.md
 rationale: Take B is the only take that gives Genemon a REASON to be doing this. The

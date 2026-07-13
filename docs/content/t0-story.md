@@ -1049,61 +1049,93 @@
 
 ## The hidden rung requirements
 
-> The player never sees this list — only the rounded % bar and each
-> completion's flavor line. Counts are provisional (the FB-4 sim tunes
-> them; ADR-132).
+> The player never sees this list — only the rounded % bar, each
+> completion's flavor line (Story) and its objective line (Progress —
+> HD-41: the register states the work that was finished). Counts are
+> provisional (the FB-4 sim tunes them; ADR-132).
 
 ### R0 · The man from the weir 無名
 
 - "So he can work," Genemon says, in the way another man says good morning. <small>*(rake-the-first-rows — act:rake_rice ×10)*</small>
+  - <small>Progress: The spilled stores, the first rows raked back in.</small>
 - "Still at it," Genemon says, passing the granary door without stopping. <small>*(rake-through-the-night — act:rake_rice ×20)*</small>
+  - <small>Progress: The spill, worked past the hour of the ox.</small>
 - "Dawn, and he is still raking," Genemon says to the dark, as if the dark had asked. <small>*(rake-the-spill — act:rake_rice ×35)*</small>
+  - <small>Progress: The spill taken up entire, the floor bare by dawn.</small>
 
 ### R1 · The day-hand 日雇
 
 - The first rows he plants alone come up as straight as anyone's. <small>*(first-rows-of-his-own — act:farm_paddy ×10)*</small>
+  - <small>Progress: The near paddy, first rows planted to his own hand.</small>
 - The paddy women no longer point out which rows are his; he has learned them. <small>*(take-to-the-fields — act:farm_paddy ×30)*</small>
+  - <small>Progress: The whole block planted, his rows no longer marked apart.</small>
 - At the gate the porters shift a strap for him without being asked, as they do among their own. <small>*(a-porters-back — act:haul_stores ×25)*</small>
+  - <small>Progress: The forecourt bales, carried a full turn with the porters.</small>
 
 ### R2 · The yard-hand 庭男
 
 - The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean. <small>*(learn-the-woodlot — act:woodcut_edge ×20)*</small>
+  - <small>Progress: The woodlot edge, cut clean, the stumps standing level.</small>
 - The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon. <small>*(walk-the-hills — act:forage_satoyama ×25)*</small>
+  - <small>Progress: The near hills walked out; baskets home before noon.</small>
 - Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted. <small>*(keep-the-stores-moving — act:haul_stores ×20)*</small>
+  - <small>Progress: The storehouse floor cleared; no bale left standing to spoil.</small>
 
 ### R3 · The grain-watch 蔵番
 
 - "Quiet in the kura tonight," Kihei lets drop, cleaning his blade by lamplight. <small>*(clear-the-kura-rats — kill:river_rats ×3)*</small>
+  - <small>Progress: Three rats off the weir screens, taken and laid out.</small>
 - "The monkeys have learned his shape," Kihei is heard to say, almost pleased. <small>*(drive-off-the-thieves — kill:tanuki ×2)*</small>
+  - <small>Progress: Two thieving tanuki put down at the field margins.</small>
 - "The fields don't miss him while he drills," Genemon notes, half to himself. <small>*(the-fields-hold — act:farm_paddy ×15)*</small>
+  - <small>Progress: The paddies kept up through the watch-days, nothing let slip.</small>
 - "Watch or no watch, his rows never fell behind," Genemon says over the evening rice. <small>*(keep-the-rows — act:farm_paddy ×30)*</small>
+  - <small>Progress: The rows held out the season, drills or no.</small>
 - "The palisade wood is his cutting," Kihei says, striking a post with the flat of his hand. <small>*(timber-for-the-palisade — act:woodcut_edge ×25)*</small>
+  - <small>Progress: The palisade timber, cut to measure from his axe alone.</small>
 - The night the wolf came you stood between it and the stores, and were still there at dawn — bleeding, ribs cracked, the rice untouched. Not won. Survived. <small>*(the-wolf-survived-not-won — flag wolf-survived-not-won)*</small>
+  - <small>Progress: The wolf turned from the stores; rice untouched, ribs cracked.</small>
 
 ### R4 · The pupil 弟子
 
 - The porters have stopped counting his loads against their own. <small>*(a-load-among-loads — act:haul_stores ×25)*</small>
+  - <small>Progress: Kura loads carried, and no longer counted against the porters'.</small>
 - When the kura needs moving in a hurry, it is his name the yard calls first. <small>*(first-name-in-the-yard — act:haul_stores ×50)*</small>
+  - <small>Progress: The kura moved in haste, his the first name called.</small>
 - New porters are told to watch how he stacks; nobody remembers deciding that. <small>*(the-stores-know-you — act:haul_stores ×75)*</small>
+  - <small>Progress: The kura stacked his way; new porters set to learn it.</small>
 - The house learns he keeps coin of his own, strung and counted, spent on nothing foolish. <small>*(a-hundred-mon-held — resource coin ≥ 100)*</small>
+  - <small>Progress: One hundred mon, strung and held, spent on nothing foolish.</small>
 
 ### R5 · The accused 咎人
 
 - The first deep-hill baskets come back full, and no one mentions the danger line twice. <small>*(first-deep-baskets — act:forage_deepwoods ×10)*</small>
+  - <small>Progress: The deep hills entered; the first baskets carried back full.</small>
 - He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up. <small>*(past-the-danger-line — act:forage_deepwoods ×25)*</small>
+  - <small>Progress: Beyond the burners' marker, walked now as common ground.</small>
 - Whatever else he is now, the paddies get his mornings first, and Genemon sees that they do. <small>*(the-paddies-still-first — act:farm_paddy ×25)*</small>
+  - <small>Progress: The paddies given his mornings first, whatever else is asked.</small>
 - There is bedding in the north corner, bought with his own coin, and the maids sweep around it now. <small>*(a-made-corner — own bedding)*</small>
+  - <small>Progress: Bedding, his own coin, laid down in the north corner.</small>
 
 ### R6 · The trusted hand 用人
 
 - "The store-room count is early this month," Chiyo says, not yet naming why. <small>*(the-count-comes-early — act:haul_stores ×25)*</small>
+  - <small>Progress: The store-room count taken early this month, and it held.</small>
 - "The ledgers agree tonight," Chiyo says, which is her whole praise. <small>*(the-ledgers-agree — act:haul_stores ×65)*</small>
+  - <small>Progress: Stores hauled and told over; the ledgers agree.</small>
 - "His purse holds steady," Chiyo lets fall, "which is more than this house has managed." <small>*(three-hundred-mon-steady — resource coin ≥ 300)*</small>
+  - <small>Progress: Three hundred mon held steady, and no month yet short.</small>
 - "He put his own coin into the kura-works," Chiyo tells Genemon, twice, to be sure he heard. <small>*(coin-into-the-works — native estate-u1)*</small>
+  - <small>Progress: Own coin, laid into the kura-works and entered as such.</small>
 
 ### R7 · The named hand 名代
 
 - "The fields keep a man's hours now, and not mine — if mine ever held them," comes Munemasa's voice through the screen of the inner house, unanswered; the yard knows whose hours he means. <small>*(the-fields-run-on-you — act:farm_paddy ×20)*</small>
+  - <small>Progress: The paddy year kept to his hours, and not the house's.</small>
 - "Even the woodlot answers to him," Kihei says to Genemon, who does not disagree. <small>*(the-woodlot-runs-on-you — act:woodcut_edge ×20)*</small>
+  - <small>Progress: The woodlot cut to his order, the axes answering him.</small>
 - "There is rice against winter. There was a saying for that — I had it once," Munemasa is heard saying to the dark of the inner house, and nobody who hears it goes in. <small>*(a-granary-against-winter — banked rice ≥ 200)*</small>
+  - <small>Progress: Rice laid up against winter; the granary full to the beams.</small>
 - You stood in the room while the year was measured against the house — the reckoning read out, the gap named plainly and once, and nothing asked of you but to be there for it. A full year, lived through. <small>*(the-nengu-reckoned — flag nengu-reckoned)*</small>
+  - <small>Progress: The year's nengu reckoned; he stood in the room for it.</small>

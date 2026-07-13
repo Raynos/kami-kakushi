@@ -63,7 +63,19 @@ always-loaded context while being editable on its own.
   [`archive.md`](../project/human-in-the-loop/archive.md) (two sections —
   **Decisions** + **Reviews**; HD-items also graduate to an ADR), and leave the
   live `decisions.md`/`review.md` open-only (see that dir's `README` for the
-  lifecycle). [`project/todo-human.md`](../project/todo-human.md) is the companion
+  lifecycle). **Every HR-item has ONE home in the game (2026-07-13): the
+  DEV panel's `Review` tab** — Variants ⇄ Story behind one switch. The
+  diverged-surface registry lives in
+  [`src/ui/dev-surfaces.ts`](../src/ui/dev-surfaces.ts) (moved out of
+  `dev.ts` so a gate can import it); story bundles declare theirs in
+  `takes/*/bundle.md`. Each DEV row carries its **HR-n** chip; each
+  HR-item names the **V**/**SV** tags to click; the **`review-link`**
+  gate ([`verify-review-link.ts`](../src/scripts/verify-review-link.ts))
+  binds both directions, so a registry reorder goes RED instead of
+  sending the human to the wrong row. A surface she has settled keeps no
+  toggle (ADR-075 zero flag-debt); a bundle she asked to KEEP declares
+  `hr: none · <why>` and is left out of the queue counts.
+  [`project/todo-human.md`](../project/todo-human.md) is the companion
   list: loose **TODOs** for the human plus the **reading queue**. **The `## TODO`
   section is HUMAN-authored — an agent NEVER appends to it** (human, 2026-07-06):
   an agent-surfaced finding or question is an **HD-item** (`decisions.md`) or

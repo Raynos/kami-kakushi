@@ -11,6 +11,7 @@
   baked heads (TST2). State-compatible: labels only, nothing mechanical. -->
 
 # bundle fb362-intro-titles · The cold open's act titles (the 幕-heads)
+hr: HR-28
 rung: R0
 review: project/human-in-the-loop/review.md
 rationale: Take B names each act by its event — what the water takes / no name to

@@ -1,4 +1,5 @@
 # bundle fb324-rake-cap · The rake-cap line (the spill runs out)
+hr: none · Take A landed wholesale in the 2026-07-10 drain; kept switchable so the pick can be overridden in play
 rung: R0
 review: project/feedback-human/2026-07-10-playtest-work-actions.md
 rationale: Take A landed in the 2026-07-10 drain proposal (wholesale go-ahead) — plain narrator fact, the FB-91 rake-narration register, no maxim; wired switchable per ADR-139 so the pick can be overridden in play.

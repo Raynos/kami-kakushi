@@ -7,7 +7,6 @@ import { NAMES } from './names';
 
 export const FLAVOR = {
   mendHint: 'The edge is going. Not yet mine to mend — climb higher, then set it right.',
-  earnedEntry: "Set down in the house's book.",
   rakeCapLine: 'The spilled rice is raked to the last grain. There is nothing left on the boards.',
   restOpen:
     'You find a stretch of wall out of the wind, set your back to it, and let your arms hang. The work will keep. So will you.',

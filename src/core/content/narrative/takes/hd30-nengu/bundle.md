@@ -13,6 +13,7 @@
   "Story (1)" is expected; do NOT auto-prune it. -->
 
 # bundle hd30-nengu · The nengu reckoning — the year against the house
+hr: none · signed off at HR-17 (Take C canon); kept as a reference diverge by the human’s steer, 2026-07-09
 rung: R2
 review: project/human-in-the-loop/review.md
 rationale: Take C keeps the strictest §0.5 register — the sum is never read aloud,

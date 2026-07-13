@@ -8,6 +8,7 @@
   State-compatible: prose-only swap, reqs/drives untouched. -->
 
 # bundle hd36-lord-unstaged · The lord unstaged — R7's word through the wall
+hr: HR-25
 
 rung: R7
 review: project/human-in-the-loop/review.md

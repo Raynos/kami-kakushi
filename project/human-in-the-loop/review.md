@@ -7,11 +7,21 @@ Status: 🔲 open · ⏳ waiting on Claude prep · ✅ done.
 > **Organised by RUNG** (2026-07-09) — each item sits under the rung
 > where you first meet the surface, so the queue tracks a rung-by-rung
 > QA of the live v0.4.0 build. Rungs are **source-verified** against
-> `src/ui/dev.ts` `SURFACES`
+> `src/ui/dev-surfaces.ts` `SURFACES`
 > + the tab-reveal schedule (`render.ts`), so nothing here is stale.
 >   Each item keeps a stable `HR-n` id + a `[rung]` tag; the old
 >   cross-cutting **HR-2** is split into per-surface **HR-2A…HR-2D**
 >   under their rungs.
+
+> **Everything here has ONE home in the game (2026-07-13)** — the DEV
+> panel's **Review** tab (Variants ⇄ Story, one switch). Each item's
+> **In the DEV panel:** line names the **V**/**SV** tags to click, and
+> each DEV row carries its **HR-n** chip back to this file. The two are
+> bound by the **`review-link`** gate: a toggle naming a closed or
+> missing item, an item naming a stale tag, or a tag cited under the
+> wrong item all go RED. So don't hand-edit a tag — if the registry
+> order moved, run `npx tsx src/scripts/verify-review-link.ts` and it
+> names every one, old → new.
 
 ---
 
@@ -19,6 +29,8 @@ Status: 🔲 open · ⏳ waiting on Claude prep · ✅ done.
 ### HR-1 🔲 [rung] — {what to review}
   - **Asking for:** {the specific verdict needed}
   - **How to look:** {dev URL / steps}
+  - **In the DEV panel:** Review → Variants|Story → **V-tag** (the
+    review-link gate keeps this true — see the note above)
   - **Verdict:** {filled in by the human} -->
 
 ## ▸ The whole arc — play it through
@@ -98,6 +110,8 @@ HD-41 into its ADR** (you held the lock until you'd played it).
     the meter pulse → DEV → Variants → "Earned line (rung reward)" to
     flip A/B/C live (the Progress tab is where C differs); DEV → Story →
     `hd41-earned-entry` to swap the docket takes.
+  - **In the DEV panel:** Review → Variants + Story → **V0** · **SV18**
+    <!-- dev-tags: kept true by the review-link gate -->
   - **Verdict:** _(awaiting your pick — this verdict writes the HD-41
     ADR)_
 
@@ -121,6 +135,8 @@ Travelling market"):
     diegetic, busiest.
   - **How to look:** `pnpm run dev` → the market (Yohei at the gate on a
     market day) → DEV → Variants → "Travelling market".
+  - **In the DEV panel:** Review → Variants → **V5** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your pick)_
 
 > **HR-9 + HR-11 resolved (interim), 2026-07-10** — the human picked
@@ -149,6 +165,8 @@ The 家威 grade panel — appears as a MACRO_TEASER at R3, fills in Phase 2
   - **How to look:** `pnpm run dev` → reach R3 → DEV → Variants →
     "House-Influence grade"; the grade means most once Phase 2 is
     banking (R7).
+  - **In the DEV panel:** Review → Variants → **V1** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your pick)_
 
 ### HR-5 🔲 [R3] — Bestiary panel (combat field-guide) — pick a variant (ADR-075)
@@ -170,6 +188,8 @@ forecast**, and where it haunts; an un-faced foe stays **fogged**
   - **How to look:** `pnpm run dev` → reach R3 (`__qa.toRung('R3')`) →
     **Combat** tab → toggle "VARIANT · Bestiary"; fight a foe to see an
     entry ink in.
+  - **In the DEV panel:** Review → Variants → **V7** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting the human)_
 
 ### HR-6 🔲 [R3] — home / Inventory panel — pick a variant (ADR-111, ADR-075)
@@ -181,7 +201,7 @@ intent):
 
   - [ ] **home-a — functional list** _(default)_ — inked belonging rows
     + a comfort-in-effect tally + a "Settle your corner" acquire list.
-    The calm default.
+      The calm default.
   - [ ] **home-b — 一間 room cutaway** — a diegetic woodblock room;
     belongings sit **in situ** (bowl on the mat, futon over the straw);
     acquire list = "what the room still lacks."
@@ -190,6 +210,8 @@ intent):
     you ink in.
   - **How to look:** `pnpm run dev` → reach R3 → **Inventory** tab → DEV
     → toggle the Home/Inventory variant. All three work live.
+  - **In the DEV panel:** Review → Variants → **V8** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your pick)_
 
 ## ▸ R4 · the smithy (craft opens)
@@ -210,6 +232,8 @@ live takes ("VARIANT · Crafting"):
     as the part it becomes, a 整/未 verdict at the foot.
   - **How to look:** `pnpm run dev` → reach R4 → the Combat/craft card →
     DEV → Variants → "Crafting".
+  - **In the DEV panel:** Review → Variants → **V2** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your pick)_
 
 ## ▸ R5 · commissions (Quests tab opens)
@@ -230,6 +254,8 @@ Quests"):
     tabular column, a 合計 foot.
   - **How to look:** `pnpm run dev` → reach R5 → **Quests** tab → DEV →
     Variants → "Quests".
+  - **In the DEV panel:** Review → Variants → **V6** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your pick)_
 
 ### HR-18 🔲 [R2+ · seasons] — the five season-turn overlays (C5a unit 1, ADR-139/ADR-167)
@@ -249,6 +275,8 @@ sb-bon). Canon: `narrative/scenes.md` (the continuous read:
     **c5a-overlays** → End a season — the overlay plays the selected
     take. (Each is once-per-run: replay via New game/`toRung`, or read
     all five in "⤢ Explore story".)
+  - **In the DEV panel:** Review → Story → **SV9** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ### HR-19 🔲 [R1–R2 · discoveries] — the three hidden discoveries' fiction (C5a unit 2)
@@ -266,6 +294,8 @@ alternates: `takes/c5a-discoveries/`.
     you-are-here card and swaps with the take; keep working the node and
     the found line lands in the log voicing the selected take (future
     latches swap; logged history stays).
+  - **In the DEV panel:** Review → Story → **SV1** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ### HR-20 🔲 [R7 · Phase 2] — the per-grade day-book judge lines (C5a unit 4, ADR-159)
@@ -281,6 +311,8 @@ close second; read it). Canon keys `judgeLine*` in
   - **How to look LIVE:** DEV → Story → **c5a-judge**; DEV → Rungs → "→
     Phase 2", bank some estate growth, End the season — the day-book's
     judge line voices the selected take at your current grade.
+  - **In the DEV panel:** Review → Story → **SV2** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ### HR-21 🔲 [all rungs · seasons] — the per-season node reads, 16 zones × 6 seasons (C5a unit 5)
@@ -299,6 +331,9 @@ in `narrative/flavor.md`; alternates: `takes/c5a-nodes-<season>/`
     entries; open the Map tab and walk a few zones — the you-are-here
     card reads the standing season's take and swaps with the toggle; End
     seasons to walk the year through one node.
+  - **In the DEV panel:** Review → Story → **SV3** · **SV4** · **SV5**
+    **SV6** · **SV7** · **SV8** <!-- dev-tags: kept true by the
+    review-link gate -->
   - **Verdict:** _(awaiting your read — bundle-level verdicts are fine:
     pick per SEASON, never per line)_
 
@@ -343,6 +378,8 @@ second; read it). Canon in `narrative/requirements.md`; alternates:
     `__qa.toRung('R7')` + `__qa.speed(8)`, farm the paddy / bank rice —
     the completion lines voice the selected take (future emissions only;
     logged history stays).
+  - **In the DEV panel:** Review → Story → **SV14** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ---
@@ -401,6 +438,8 @@ alternates + briefs + Pass-1 constraint brief: `takes/works-cause/`.
     (`?story-works-cause=a` boots straight into take A — the ladder
     label flips to "Close the oldest lines"). U2–U4 beats:
     `toRung('R5'/'R6'/'R7')` with the prior stage built.
+  - **In the DEV panel:** Review → Story → **SV20** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ### HR-28 🔲 [cold open · story] — the three intro scene heads (FB-362, ADR-139)
@@ -423,6 +462,8 @@ per ADR-139 (bundle `fb362-intro-titles`, 3 blind takes):
     **fb362-intro-titles** swaps takes live;
     `?story-fb362-intro-titles=a|c` boots into an alternate. Old saves
     keep their baked single "— the cold open —" card (TST2).
+  - **In the DEV panel:** Review → Story → **SV11** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ### HR-31 🔲 [all rungs · story] — the open-rest line (FB-402, ADR-139)
@@ -445,6 +486,8 @@ else emits the new **open-rest** line — diverged per ADR-139 (bundle
     the Now view shows take C. DEV → Story → **fb402-rest-open** swaps
     takes live for future rests; `?story-fb402-rest-open=a|b` boots into
     an alternate.
+  - **In the DEV panel:** Review → Story → **SV12** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ### HR-29 🔲 [R2+ · works] — Works 普請 tab surface — pick a variant (ADR-075, estate Phase 2)
@@ -487,6 +530,8 @@ estateBuild/works chain and drive the real `improve_estate`:
     repairs 普請" at the site (`?fixture=works-u1-underway` boots mid-work
     at the gate). The commissioning log line is mechanical register, not
     diverged fiction — bounce it here if it reads as story.
+  - **In the DEV panel:** Review → Variants → **V3** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ### HR-30 🔲 [R6 · estate] — Estate 家 tab surface (the E1 fold-in) — pick a variant (ADR-075, F5, HR-16)
@@ -529,6 +574,8 @@ commissioned work wears the gold 新):
   - **How to review:** `?fixture=rung-R6` (or R7/wealthy-idler for more
     rooms) → the Estate 家 tab → DEV panel → "Estate 家 (the house)"
     toggle.
+  - **In the DEV panel:** Review → Variants → **V4** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ### HR-32b 🔲 [R2+ · zones] — how a zone ANNOUNCES itself: VN-only, or VN + map-ink (ADR-184)
@@ -536,7 +583,8 @@ commissioned work wears the gold 新):
 You asked me to **"diverge and implement both"** — both are in, live,
 one click apart.
 
-**How to review (DEV panel → Settings → "Zone reveal (ADR-184)"):**
+**How to review (DEV panel → Review → Variants → "Zone announce (reveal
+mode)"):**
 1. Load the `rung-R2` scenario (DEV → Scenarios), stand at the forecourt
    and haul until you hold 10 mon — Genemon's **`sb-market`** VN fires
    and opens the gate.
@@ -552,6 +600,9 @@ one click apart.
 I shipped **VN-only** as the default because a second line felt like the
 game under-trusting its own scene. Say the word and the ink ships
 instead — it is a one-constant flip, no rework.
+
+  - **In the DEV panel:** Review → Variants → **V9** <!-- dev-tags: kept
+    true by the review-link gate -->
 
 ### HR-33 🔲 [R2–R3 · story] — the four zone-reveal VNs (`zone-reveals` bundle, ADR-139/ADR-184)
 
@@ -586,6 +637,8 @@ and an overnight ash-steep that exist nowhere in the game (story
 promises are contracts) — but its `sb-racks` is the best scene any of
 the three wrote, and it can be grafted.
 
+  - **In the DEV panel:** Review → Story → **SV21** <!-- dev-tags: kept
+    true by the review-link gate -->
 
 ### HR-34 🔲 [R1 · story] — the Terms scene, re-voiced (W1 of the T0 re-voice, ADR-185)
 
@@ -627,6 +680,8 @@ accepted.
     live.
   - **The acceptance test is yours:** play R0→R1 and tell me whether the
     original complaint is dead.
+  - **In the DEV panel:** Review → Story → **SV15** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ### HR-35 🔲 [R0 · story] — Intro 1: the game's first choice (W4, ADR-185)
@@ -673,6 +728,8 @@ time.
 
   - **How to look LIVE:** new game → the cold open → act 1. DEV → Story
     → **hd38-w4-intro** swaps takes live.
+  - **In the DEV panel:** Review → Story → **SV17** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ### HR-36 🔲 [R2+ · story] — the works pages, re-voiced (W2, ADR-185) — SUPERSEDES HR-27
@@ -725,6 +782,8 @@ a failing building of the house, which is what it is.
 
   - **How to look LIVE:** reach R2+ and cross the forecourt (or DEV →
     Scenarios). DEV → Story → **hd38-w2-works** swaps takes live.
+  - **In the DEV panel:** Review → Story → **SV16** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ### HR-39 🔲 [R4 · story] — the slept-day line (`adr187-sleep` bundle, ADR-139/ADR-187)
@@ -821,6 +880,8 @@ hungrier), and sleeping gave the body nothing back.
     - — **P7 · P8 · P11 · P13 · P14 · P21** — not applicable (no type
       scaling, no crash path, no VN, no reward box, no full-screen
       reveal, no app-info surface).
+  - **In the DEV panel:** Review → Story → **SV0** <!-- dev-tags: kept
+    true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
 ### HR-40 🔲 [R4 · story] — the sleep-announce beat (`sleep-announce` bundle, ADR-139/ADR-187 follow-up)
@@ -881,6 +942,9 @@ view; a re-visit stays silent.
   screen, the honest verdict is *ship no beat* — say so and the trigger
   comes out clean (one flag, no state migration).
 - **Verdict:** _(awaiting your read)_
+
+  - **In the DEV panel:** Review → Story → **SV19** <!-- dev-tags: kept
+    true by the review-link gate -->
 
 ### HR-37 🔲 [R1–R7 · story] — the MC's inner line (W5, ADR-185 D3)
 

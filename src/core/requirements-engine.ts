@@ -34,6 +34,11 @@ interface RequirementBase {
   readonly id: string;
   /** The authored diegetic completion line (story voice) — the jump's visible cause. */
   readonly flavor: string;
+  /** HD-41 — the PROGRESS-tab reading of the same completion: a terse statement of the
+   *  work just finished. The Story tab keeps `flavor` (the overheard line); Progress is
+   *  the register of earned work, so it names the labour, never the story. Kernel #6
+   *  binds it exactly as hard: it is fiction, never a counter ("1 of 3" is forbidden). */
+  readonly objective: string;
   /** Machine-readable hint for the sim bot (how a bot satisfies this requirement). */
   readonly drive: string;
 }

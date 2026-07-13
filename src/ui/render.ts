@@ -43,6 +43,7 @@ import {
   ATTR_META,
   playerSpeaker,
   isUnlocked,
+  requirementById,
   unlockedSurfaces,
   hasFlag,
   formatKMB,
@@ -1338,9 +1339,10 @@ export function mount(
   let chatPartners = new Map<number, string>();
   let chatKickersSeq = -1;
   let logFilter: LogFilter = 'story';
-  // HD-41 — the active DEV earned-line treatment (A ships; B/C are DEV-only). Prod never
-  // stamps the attribute, so the attribute-less CSS default IS variant A.
-  let earnedStyle = 'earned-a';
+  // HD-41 — the story-take epoch the log was last painted at. The Progress objective lines are
+  // READ from the registry per paint, so flipping a take in DEV → Story must repaint the view
+  // (the log is otherwise append-only). DEV-only: prod never bumps an epoch.
+  let logStoryEpoch = -1;
   // FB-320 — the Story tab's sub-view: 'vn' = only the scene (context-carrying) lines, the
   // MAIN story; 'all' = the full story channel (default — today's view). Session-local.
   let storySub: StorySub = 'all';
@@ -1581,9 +1583,12 @@ export function mount(
   // "Answer the summons" affordance (dispatches `begin_rung_beat`) — never auto, and ignorable. The
   // hover card carries the meter numbers + the current/next rung. All writes go through the reconcile
   // helpers (patch-if-changed), so an idle re-render mutates nothing (zero churn, FB-81).
-  // HD-41 (d) — the last-painted rung percent: a GROWN fill pulses once, so the earned
-  // line and the meter's jump read as one event (never on the first paint / a load).
-  let lastRungPct = -1;
+  // HD-41 (d) — the last-painted count of FINISHED requirements: the meter pulses once when
+  // that count grows, so the pulse marks the same event the earned line does (human,
+  // 2026-07-13 — pulsing on percent GROWTH flashed on nearly every rake, since the rounded
+  // percent creeps with each act; the flash has to mean "you finished something"). Never on
+  // the first paint / a load, and it resets on promotion (a fresh rung starts at 0 done).
+  let lastRungDone = -1;
   function renderRungHead(state: GameState): void {
     // the rung's home once the ladder is meaningful (first rake / the R1 reveal) — gated like the
     // Work-column ladder but WITHOUT the tab check (the header is always on screen).
@@ -1608,14 +1613,15 @@ export function mount(
     // FB-121: the fill IS the rounded requirement percent (rungProgress/AC-6 — the same
     // engine read as the gate, so 100 ⟺ ready and the old "gated at 92%" state is gone).
     setStyle(rungHeadFill, 'width', `${prog.percent}%`);
-    // HD-41 (d) — the bar's movement is VISIBLE: when the requirement percent grows, the
-    // meter pulses once (remove → reflow → re-add restarts a rapid succession cleanly).
-    if (prog.percent > lastRungPct && lastRungPct >= 0 && !reduceMotion()) {
+    // HD-41 (d) — a finished requirement is VISIBLE in the meter: it pulses once, in step
+    // with the earned line landing in the log (remove → reflow → re-add restarts a rapid
+    // succession cleanly). The fill still slides on every act; only the flash is rationed.
+    if (prog.done > lastRungDone && lastRungDone >= 0 && !reduceMotion()) {
       rungHeadMeter.classList.remove('bump');
       void rungHeadMeter.offsetWidth;
       rungHeadMeter.classList.add('bump');
     }
-    lastRungPct = prog.percent;
+    lastRungDone = prog.done;
     setClass(rungHead, 'ready', ready);
     setDisabled(rungHeadTrigger, !ready); // clickable ONLY when a promotion is ready — never auto
     toggle(rungHeadCue, ready);
@@ -4500,6 +4506,16 @@ export function mount(
     }
     return { openers, partners };
   }
+  /** HD-41 — the PROGRESS reading of an earned line: the authored statement of the work just
+   *  finished, or null when this entry (or this view) isn't one. DEV can swap the take live —
+   *  the line is read from the registry on every paint, never stored. */
+  function progressObjective(entry: LogEntry): string | null {
+    if (logFilter !== 'progression' || !isEarnedLine(entry.contentKey)) return null;
+    const id = entry.contentKey!.slice('requirement.'.length);
+    const req = requirementById(id);
+    if (!req) return null;
+    return __DEV_TOOLS__ && dev ? dev.subReqObjective(id, req.objective) : req.objective;
+  }
   function renderLineContent(line: HTMLElement, entry: LogEntry): void {
     const perk = parsePerkLine(entry);
     if (perk) {
@@ -4507,18 +4523,16 @@ export function mount(
       return;
     }
     line.textContent = '';
-    // HD-41 variant C (DEV-only, stripped from prod): in the PROGRESS view the earned line
-    // renders as its terse day-book docket instead of the Story prose — the same entry, its
-    // record-side reading. Story (and every other view) keeps the full flavor line.
-    if (
-      __DEV_TOOLS__ &&
-      dev &&
-      logFilter === 'progression' &&
-      isEarnedLine(entry.contentKey) &&
-      dev.getVariant('earned-line') === 'earned-c'
-    ) {
+    // HD-41 — the two readings of one completion (human, 2026-07-13): STORY keeps the
+    // overheard flavor prose; PROGRESS is the register of earned work, so it states the
+    // labour that was just finished (`objective`, authored per requirement). Same entry,
+    // same descriptor (ADR-186) — only the reading changes, resolved from the registry at
+    // paint time, so no save ever stores these words. An id the registry no longer knows
+    // (a retired requirement in an old save) falls through to the logged text.
+    const objective = progressObjective(entry);
+    if (objective !== null) {
       line.classList.add('docket');
-      line.append(document.createTextNode(dev.subFlavor('earnedEntry', FLAVOR.earnedEntry)));
+      line.append(document.createTextNode(objective));
       return;
     }
     // FB-262 — the VN-group header survives content re-renders (same pattern as the kicker).
@@ -5147,15 +5161,15 @@ export function mount(
     logLines.scrollTop = logLines.scrollHeight;
   }
   function renderLog(state: GameState): void {
-    // HD-41 — the DEV earned-line treatment switch: a change repaints the whole view via
-    // the SAME sanctioned path as a tab switch (the C docket is build-time content, and a
-    // watched log is never mutated line-by-line under the reader — TST2).
+    // HD-41 — the DEV story-take switch: picking another objective take repaints the whole
+    // view via the SAME sanctioned path as a tab switch (a watched log is never mutated
+    // line-by-line under the reader — TST2). First paint just records the epoch.
     if (__DEV_TOOLS__ && dev) {
-      const es = dev.getVariant('earned-line');
-      if (es !== earnedStyle) {
-        earnedStyle = es;
-        logSection.dataset.earnedStyle = es;
-        if (lastState) {
+      const epoch = dev.storyEpoch();
+      if (epoch !== logStoryEpoch) {
+        const first = logStoryEpoch < 0;
+        logStoryEpoch = epoch;
+        if (!first && lastState) {
           setLogFilter(logFilter, true);
           return;
         }

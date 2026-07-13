@@ -15,6 +15,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:rake_rice',
       target: 10,
       flavor: `"So he can work," ${NAMES.elder} says, in the way another man says good morning.`,
+      objective: 'The spilled stores, the first rows raked back in.',
       drive: 'rake_rice',
     },
     {
@@ -23,6 +24,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:rake_rice',
       target: 20,
       flavor: `"Still at it," ${NAMES.elder} says, passing the granary door without stopping.`,
+      objective: 'The spill, worked past the hour of the ox.',
       drive: 'rake_rice',
     },
     {
@@ -31,6 +33,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:rake_rice',
       target: 35,
       flavor: `"Dawn, and he is still raking," ${NAMES.elder} says to the dark, as if the dark had asked.`,
+      objective: 'The spill taken up entire, the floor bare by dawn.',
       drive: 'rake_rice',
     },
   ],
@@ -42,6 +45,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:farm_paddy',
       target: 10,
       flavor: "The first rows he plants alone come up as straight as anyone's.",
+      objective: 'The near paddy, first rows planted to his own hand.',
       drive: 'farm_paddy',
     },
     {
@@ -50,6 +54,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:farm_paddy',
       target: 30,
       flavor: 'The paddy women no longer point out which rows are his; he has learned them.',
+      objective: 'The whole block planted, his rows no longer marked apart.',
       drive: 'farm_paddy',
     },
     {
@@ -59,6 +64,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       target: 25,
       flavor:
         'At the gate the porters shift a strap for him without being asked, as they do among their own.',
+      objective: 'The forecourt bales, carried a full turn with the porters.',
       drive: 'haul_stores',
     },
   ],
@@ -71,6 +77,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       target: 20,
       flavor:
         'The axe haft darkens where his grip has settled, and the stumps at the woodlot edge stand cut clean.',
+      objective: 'The woodlot edge, cut clean, the stumps standing level.',
       drive: 'woodcut_edge',
     },
     {
@@ -80,6 +87,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       target: 25,
       flavor:
         'The near hills give up bracken and mushrooms without a search; the basket comes home heavy before noon.',
+      objective: 'The near hills walked out; baskets home before noon.',
       drive: 'forage_satoyama',
     },
     {
@@ -89,6 +97,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       target: 20,
       flavor:
         'Bales pass the gate and none sit long; the storehouse floor shows bare wood where sacks once rotted.',
+      objective: 'The storehouse floor cleared; no bale left standing to spoil.',
       drive: 'haul_stores',
     },
   ],
@@ -100,6 +109,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'kill:river_rats',
       target: 3,
       flavor: `"Quiet in the kura tonight," ${NAMES.drillmaster} lets drop, cleaning his blade by lamplight.`,
+      objective: 'Three rats off the weir screens, taken and laid out.',
       drive: 'fight river_rats',
     },
     {
@@ -108,6 +118,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'kill:tanuki',
       target: 2,
       flavor: `"The monkeys have learned his shape," ${NAMES.drillmaster} is heard to say, almost pleased.`,
+      objective: 'Two thieving tanuki put down at the field margins.',
       drive: 'fight tanuki',
     },
     {
@@ -116,6 +127,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:farm_paddy',
       target: 15,
       flavor: `"The fields don't miss him while he drills," ${NAMES.elder} notes, half to himself.`,
+      objective: 'The paddies kept up through the watch-days, nothing let slip.',
       drive: 'farm_paddy',
     },
     {
@@ -124,6 +136,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:farm_paddy',
       target: 30,
       flavor: `"Watch or no watch, his rows never fell behind," ${NAMES.elder} says over the evening rice.`,
+      objective: 'The rows held out the season, drills or no.',
       drive: 'farm_paddy',
     },
     {
@@ -132,6 +145,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:woodcut_edge',
       target: 25,
       flavor: `"The palisade wood is his cutting," ${NAMES.drillmaster} says, striking a post with the flat of his hand.`,
+      objective: 'The palisade timber, cut to measure from his axe alone.',
       drive: 'woodcut_edge',
     },
     {
@@ -140,6 +154,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       flag: 'wolf-survived-not-won',
       flavor:
         'The night the wolf came you stood between it and the stores, and were still there at dawn — bleeding, ribs cracked, the rice untouched. Not won. Survived.',
+      objective: 'The wolf turned from the stores; rice untouched, ribs cracked.',
       drive:
         'the R3 first night round resolves its scripted survive-not-won wolf stage, setting `wolf-survived-not-won`.',
     },
@@ -152,6 +167,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:haul_stores',
       target: 25,
       flavor: 'The porters have stopped counting his loads against their own.',
+      objective: "Kura loads carried, and no longer counted against the porters'.",
       drive: 'haul_stores',
     },
     {
@@ -160,6 +176,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:haul_stores',
       target: 50,
       flavor: 'When the kura needs moving in a hurry, it is his name the yard calls first.',
+      objective: 'The kura moved in haste, his the first name called.',
       drive: 'haul_stores',
     },
     {
@@ -168,6 +185,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:haul_stores',
       target: 75,
       flavor: 'New porters are told to watch how he stacks; nobody remembers deciding that.',
+      objective: 'The kura stacked his way; new porters set to learn it.',
       drive: 'haul_stores',
     },
     {
@@ -176,6 +194,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       pred: { kind: 'resource', res: 'coin', min: 100 },
       flavor:
         'The house learns he keeps coin of his own, strung and counted, spent on nothing foolish.',
+      objective: 'One hundred mon, strung and held, spent on nothing foolish.',
       drive: 'sell rice',
     },
   ],
@@ -188,6 +207,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       target: 10,
       flavor:
         'The first deep-hill baskets come back full, and no one mentions the danger line twice.',
+      objective: 'The deep hills entered; the first baskets carried back full.',
       drive: 'forage_deepwoods',
     },
     {
@@ -197,6 +217,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       target: 25,
       flavor:
         "He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up.",
+      objective: "Beyond the burners' marker, walked now as common ground.",
       drive: 'forage_deepwoods',
     },
     {
@@ -205,6 +226,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:farm_paddy',
       target: 25,
       flavor: `Whatever else he is now, the paddies get his mornings first, and ${NAMES.elder} sees that they do.`,
+      objective: 'The paddies given his mornings first, whatever else is asked.',
       drive: 'farm_paddy',
     },
     {
@@ -213,6 +235,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       pred: { kind: 'belonging', id: 'bedding' },
       flavor:
         'There is bedding in the north corner, bought with his own coin, and the maids sweep around it now.',
+      objective: 'Bedding, his own coin, laid down in the north corner.',
       drive: 'buy bedding',
     },
   ],
@@ -224,6 +247,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:haul_stores',
       target: 25,
       flavor: `"The store-room count is early this month," ${NAMES.steward} says, not yet naming why.`,
+      objective: 'The store-room count taken early this month, and it held.',
       drive: 'haul_stores',
     },
     {
@@ -232,6 +256,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:haul_stores',
       target: 65,
       flavor: `"The ledgers agree tonight," ${NAMES.steward} says, which is her whole praise.`,
+      objective: 'Stores hauled and told over; the ledgers agree.',
       drive: 'haul_stores',
     },
     {
@@ -239,6 +264,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       type: 'state',
       pred: { kind: 'resource', res: 'coin', min: 300 },
       flavor: `"His purse holds steady," ${NAMES.steward} lets fall, "which is more than this house has managed."`,
+      objective: 'Three hundred mon held steady, and no month yet short.',
       drive: 'sell rice',
     },
     {
@@ -246,6 +272,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       type: 'state',
       pred: { kind: 'native', key: 'estate-u1' },
       flavor: `"He put his own coin into the kura-works," ${NAMES.steward} tells ${NAMES.elder}, twice, to be sure he heard.`,
+      objective: 'Own coin, laid into the kura-works and entered as such.',
       drive: 'buy estate_upgrade',
     },
   ],
@@ -257,6 +284,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:farm_paddy',
       target: 20,
       flavor: `"The fields keep a man's hours now, and not mine — if mine ever held them," comes ${NAMES.lord}'s voice through the screen of the inner house, unanswered; the yard knows whose hours he means.`,
+      objective: "The paddy year kept to his hours, and not the house's.",
       drive: 'farm_paddy',
     },
     {
@@ -265,6 +293,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:woodcut_edge',
       target: 20,
       flavor: `"Even the woodlot answers to him," ${NAMES.drillmaster} says to ${NAMES.elder}, who does not disagree.`,
+      objective: 'The woodlot cut to his order, the axes answering him.',
       drive: 'woodcut_edge',
     },
     {
@@ -272,6 +301,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       type: 'state',
       pred: { kind: 'banked', res: 'rice', min: 200 },
       flavor: `"There is rice against winter. There was a saying for that — I had it once," ${NAMES.lord} is heard saying to the dark of the inner house, and nobody who hears it goes in.`,
+      objective: 'Rice laid up against winter; the granary full to the beams.',
       drive: 'deposit rice',
     },
     {
@@ -280,6 +310,7 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       flag: 'nengu-reckoned',
       flavor:
         'You stood in the room while the year was measured against the house — the reckoning read out, the gap named plainly and once, and nothing asked of you but to be there for it. A full year, lived through.',
+      objective: "The year's nengu reckoned; he stood in the room for it.",
       drive: 'sim reaches the Autumn season-exit, whose nengu ceremony sets `nengu-reckoned`.',
     },
   ],

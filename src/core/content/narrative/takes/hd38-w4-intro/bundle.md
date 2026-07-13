@@ -23,6 +23,7 @@
   counted" (cold-open.md; single-sourced, so both the cold-open card and this act get it). -->
 
 # bundle hd38-w4-intro · Intro 1 — the dream, and the game's first choice
+hr: HR-35
 rung: R0
 review: project/human-in-the-loop/review.md
 rationale: Canon is take C plus three redlines. (1) The three options now map one-to-one

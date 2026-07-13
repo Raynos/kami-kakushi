@@ -1,4 +1,5 @@
 # bundle c5a-overlays · The five season-turn overlays
+hr: HR-18
 rung: R2
 review: project/human-in-the-loop/review.md
 rationale: Take C scored 18✔2✘ — the land-first frame keeps people late and small (the register the nengu frame set), every image this valley's own; redlined per Pass-2 (one stacked ornament; the handoff template broken in 3 of 5).

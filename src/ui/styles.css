@@ -1156,40 +1156,25 @@ h3 {
 
 /* HD-41 — the EARNED line: a rung-requirement completion is story that is ALSO earned
    (taste P16: Progress = earned). Progress = gold (the bimetal rule), praise stays scarce
-   (kernel #3) — so the default is the QUIET end of the range.
-   A · the ledger dot (DEFAULT, ships): a small gold registry mark before the line — the
-   master's dot on work done well; the prose keeps its narration ink.
-   B / C are DEV-only treatments switched by `data-earned-style` on `.log` (render.ts
-   stamps it; prod never does, so the attribute-less default IS A — zero flag-debt). */
-.log-line.earned::before {
-  content: '●';
-  color: var(--gold);
-  font-size: 0.55em;
-  vertical-align: 0.25em;
-  margin-right: var(--space-2);
-}
-/* B · the ruled entry — the line as a day-book row: hairline rules + a gold left post. */
-.log[data-earned-style='earned-b'] .log-line.earned {
+   (kernel #3) — so the mark is a ruled entry, never a badge or a fanfare.
+   THE RULED ENTRY (the human's live pick, 2026-07-13 — the old A/C treatments and their
+   DEV toggle are gone): the line reads as a day-book row — hairline rules + a gold left
+   post. It is the treatment in BOTH tabs; only the WORDS differ (Story = the overheard
+   flavor line, Progress = the requirement's own objective line, .docket below). */
+.log-line.earned {
   border-left: 3px solid var(--gold);
   border-top: 1px solid rgba(216, 185, 120, 0.22);
   border-bottom: 1px solid rgba(216, 185, 120, 0.22);
   padding-left: var(--space-3);
   background: linear-gradient(90deg, rgba(216, 185, 120, 0.05), transparent 55%);
 }
-.log[data-earned-style='earned-b'] .log-line.earned::before {
-  content: none;
-}
-/* C · the day-book docket — the Progress view's terse entry, in the milestone register
-   (the loud end; Story keeps the quiet A dot). render.ts adds .docket only under C. */
+/* The PROGRESS reading of that same entry (render.ts adds .docket in the Progress view):
+   the register of earned work, so the statement of the finished labour carries the gold
+   ink the record deserves — one step brighter than the Story line, still not a badge. */
 .log-line.earned.docket {
   color: var(--gold-hi);
   font-weight: 600;
-  border-left: 3px solid var(--gold);
-  padding-left: var(--space-3);
   background: linear-gradient(90deg, rgba(216, 185, 120, 0.09), transparent 60%);
-}
-.log-line.earned.docket::before {
-  content: none;
 }
 
 /* F50 — the "Name: " prefix on a spoken line; inherits the line's voice colour, just weighted. */

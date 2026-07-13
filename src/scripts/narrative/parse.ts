@@ -239,6 +239,8 @@ export interface ReqEntryNode {
   readonly spec: ReqSpec;
   /** The authored diegetic completion line (story voice) — required. */
   flavor?: string;
+  /** The Progress-tab statement of the finished work (HD-41) — required. */
+  objective?: string;
   /** The sim-bot satisfaction hint (Phase 5) — required from day one. */
   drive?: string;
   readonly loc: Loc;
@@ -289,6 +291,7 @@ const RESERVED = new Set([
   'perk',
   'unrouted',
   'flavor',
+  'objective',
   'drive',
 ]);
 
@@ -504,10 +507,15 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
         if (key === 'flavor') {
           if (rentry.flavor !== undefined) return fail(loc.line, 'duplicate req flavor');
           rentry.flavor = value.trim();
+        } else if (key === 'objective') {
+          if (rentry.objective !== undefined) return fail(loc.line, 'duplicate req objective');
+          rentry.objective = value.trim();
         } else if (key === 'drive') {
           if (rentry.drive !== undefined) return fail(loc.line, 'duplicate req drive');
           rentry.drive = value.trim();
-        } else return fail(loc.line, `unknown req annotation "${key}" (flavor/drive)`);
+        } else {
+          return fail(loc.line, `unknown req annotation "${key}" (flavor/objective/drive)`);
+        }
       } else if (option) {
         switch (key) {
           case 'say':
@@ -842,6 +850,9 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
       }
       for (const r of b.reqs) {
         if (!r.flavor) throw new NarrativeError(r.loc, `req "${r.id}" has no flavor line`);
+        // HD-41 — the Progress tab shows the work, not the story prose: every requirement
+        // states the labour it just finished (the Story keeps the overheard flavor line).
+        if (!r.objective) throw new NarrativeError(r.loc, `req "${r.id}" has no objective line`);
         if (!r.drive) throw new NarrativeError(r.loc, `req "${r.id}" has no drive hint`);
       }
     } else {

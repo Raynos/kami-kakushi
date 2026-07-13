@@ -87,6 +87,7 @@ clock vitest-dominated) and generated here:
 > | doc-budgets | `tsx src/scripts/verify-doc-budgets.ts` | docs |
 > | checkpoint | `tsx src/scripts/checkpoint.ts --check` | both |
 > | inbox-ledger | `tsx src/scripts/inbox-ledger.ts` | docs |
+> | review-link | `tsx src/scripts/verify-review-link.ts` | both |
 > | deferred-work | `tsx src/scripts/verify-deferred-work.ts` | docs |
 <!-- gen:end verify-gates -->
 

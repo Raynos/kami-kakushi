@@ -21,12 +21,21 @@ export function currentRank(state: GameState): RankDef {
 /** The player-facing rung read (ui-design §5.3): a rounded INTEGER percent 0–100
  *  (100 ⟺ every requirement done — the engine's 99-clamp keeps rounding honest)
  *  and the gate state. The SAME engine fn feeds the bar, the sim, and the gate
- *  (AC-6 — no drift between preview and reality). */
-export function rungProgress(state: GameState): { percent: number; ready: boolean } {
+ *  (AC-6 — no drift between preview and reality). `done` is how many of the rung's
+ *  requirements are finished — the meter's PULSE rides this, not the percent (HD-41,
+ *  human 2026-07-13: the bar flashed on every rake because the rounded percent grows
+ *  on nearly every act; a flash means "something was earned", and what is earned is a
+ *  requirement — R0 has three, so R0 flashes three times). */
+export function rungProgress(state: GameState): {
+  percent: number;
+  ready: boolean;
+  done: number;
+} {
   const defs = rungRequirements(state.rung);
   return {
     percent: rungPercentOf(defs, state.rungReqs),
     ready: allRequirementsDone(defs, state.rungReqs),
+    done: defs.filter((d) => isRequirementDone(d, state.rungReqs)).length,
   };
 }
 

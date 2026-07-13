@@ -1,4 +1,5 @@
 # bundle adr187-sleep · The slept-day line (sleeping the day away at your corner)
+hr: HR-39
 rung: R4
 review: project/human-in-the-loop/review.md
 rationale: Take C picked — it is the only take whose fiction CAUSES the mechanic (TST3). Sleep exists at R4 and nowhere else because the corner is the only bed in the game, and C is built from the exact three props the R4 ceremony line grants ("a mat, a bowl, a nail for the coat: yours" — ADR-184): the coat that never leaves its nail IS the forfeited day, the mat "that is yours" is the promotion spent on nothing, and the dry bowl is the pot he was not up for. A explains the design out loud ("spend it the way you would spend a coin — on a thing you want more than the hours") — a fine metaphor, but it narrates the RATIONALE rather than the world. B is the strongest prose in the bundle and the weakest fit: it is a beautiful day-heard-from-sleep that never once touches the bed — and a line that could be spoken anywhere misses the whole point of a verb that can only be taken in one place.

@@ -31,6 +31,23 @@ export function requirementFlavor(req: RequirementDef): string {
   return FLAVOR_OVERRIDE?.[req.id] ?? req.flavor;
 }
 
+/** HD-41 — every authored requirement, keyed by its id (ids are unique across the whole
+ *  ladder — the narrative validator enforces it). The renderer looks a completion up from
+ *  its ADR-186 descriptor (`contentKey: 'requirement.<id>'`) to read the PROGRESS-tab
+ *  objective line, so the words are never stored in a save. */
+const BY_ID: ReadonlyMap<string, RequirementDef> = new Map(
+  Object.values(RUNG_REQUIREMENTS)
+    .flat()
+    .map((r) => [r.id, r]),
+);
+
+/** The requirement an ADR-186 descriptor names, or undefined when the id is gone from the
+ *  registry (a save written before a requirement was retired — the caller falls back to the
+ *  entry's own logged text rather than inventing one). */
+export function requirementById(id: string): RequirementDef | undefined {
+  return BY_ID.get(id);
+}
+
 /** The CURRENT rung's authored requirement list. Every rung has one (the validator
  *  holds the registry to exactly R0–R7), so an unknown id is a programmer error. */
 export function rungRequirements(id: RankId): readonly RequirementDef[] {

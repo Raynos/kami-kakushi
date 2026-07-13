@@ -1,4 +1,5 @@
 # bundle c5a-nodes-bon · The bon node reads (16 zones)
+hr: HR-21
 rung: R2
 review: project/human-in-the-loop/review.md
 rationale: Take B (senses-first) had the strongest Pass-2 verdict; the flagged anchor-span duplications were redlined (de-verbatimed or cut) before landing.

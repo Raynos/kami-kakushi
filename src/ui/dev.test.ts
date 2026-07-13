@@ -359,7 +359,12 @@ describe('the Review tab is the one home for everything awaiting a verdict', () 
     // the tab counts BOTH queues, so the collapsed panel says how much is waiting
     const review = host.querySelector('[data-dev-tab="review"]') as HTMLElement;
     const dev = createDevApi();
-    expect(review.textContent).toBe(`Review (${dev.surfaces.length + dev.storyBundles.length})`);
+    // the badge counts what AWAITS A VERDICT — a settled bundle kept for comparison
+    // (`hr: none · …`) renders but must not inflate the queue
+    const awaiting = [...dev.surfaces, ...dev.storyBundles].filter((e) =>
+      e.hr.startsWith('HR-'),
+    ).length;
+    expect(review.textContent).toBe(`Review (${awaiting})`);
     host.remove();
   });
 
@@ -772,10 +777,6 @@ describe('ADR-139 story take-sets', () => {
       selectors: { rung: () => 'R0' as RankId },
     };
   }
-  const btnByText = (host: HTMLElement, needle: string): HTMLButtonElement =>
-    [...host.querySelectorAll('button')].find((b) =>
-      (b.textContent ?? '').includes(needle),
-    ) as HTMLButtonElement;
 
   const scene = (text: string): RungScene => ({
     id: 'rung-r1',
@@ -791,6 +792,7 @@ describe('ADR-139 story take-sets', () => {
   const bundle: StoryTakeBundle = {
     id: 'test-bundle',
     title: 'Test bundle',
+    hr: 'none · test fixture',
     takes: [
       { id: 'b', label: 'Colder', brief: 'withholds warmth', rungBeats: { R1: altB } },
       { id: 'c', label: 'Warmer', brief: 'lets the weariness show' },
@@ -844,6 +846,7 @@ describe('ADR-139 story take-sets', () => {
   const sceneBundle: StoryTakeBundle = {
     id: 'scene-bundle',
     title: 'Scene bundle',
+    hr: 'none · test fixture',
     takes: [
       {
         id: 'a',
@@ -900,6 +903,7 @@ describe('ADR-139 story take-sets', () => {
   const flavorBundle: StoryTakeBundle = {
     id: 'flav',
     title: 'Flavor bundle',
+    hr: 'none · test fixture',
     takes: [
       { id: 'a', label: 'A', brief: 'names the smith', flavor: { mendHint: 'take-a line' } },
       { id: 'b', label: 'B', brief: 'no flavor unit' }, // b carries no flavor → canon shows
@@ -915,20 +919,51 @@ describe('ADR-139 story take-sets', () => {
     expect(dev.subFlavor('mendHint', 'CANON')).toBe('CANON');
   });
 
-  it('mounts a Story tab that lists the open bundle and badges the count', () => {
+  // (2026-07-13 — the bundles live in the Review tab's Story half now, not a Story tab.) The
+  // count is what AWAITS A VERDICT: a bundle carrying `hr: none · …` is settled and kept for
+  // comparison, so it renders but does not inflate the badge. RED-able both ways — count the
+  // reference bundle and the first assert flips; drop it from the pane and the second does.
+  it('lists open bundles in the Review tab, and badges only what awaits a verdict', () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    const settled: StoryTakeBundle = { ...bundle, id: 'kept', title: 'Kept for reference' };
+    const open: StoryTakeBundle = { ...bundle, hr: 'HR-99' };
+    mountDevPanel(host, {
+      qa: stubQa(),
+      dev: createDevApi([open, settled]),
+      rerender: () => {},
+      cockpit: testCockpit(),
+    });
+    const storyHalf = host.querySelector('[data-review-half="story"]') as HTMLButtonElement;
+    expect(storyHalf.textContent).toBe('Story (1)'); // 2 bundles, 1 awaiting
+    storyHalf.click();
+    expect(host.textContent).toContain('Test bundle');
+    expect(host.textContent).toContain('Kept for reference'); // still shown, just not counted
+    expect(host.textContent).toContain('B — Colder');
+    host.remove();
+  });
+
+  // the human, 2026-07-13: "I like the variants UI with click to expand, but the story review UI
+  // is always expanded". One gesture, one shape (TST1). RED-able: render the details open (or
+  // drop the click handler) and this flips.
+  it('a story row is COLLAPSED until clicked, exactly like a variant row', () => {
     const host = document.createElement('div');
     document.body.append(host);
     mountDevPanel(host, {
       qa: stubQa(),
-      dev: createDevApi([bundle]),
+      dev: createDevApi([{ ...bundle, hr: 'HR-99' }]),
       rerender: () => {},
       cockpit: testCockpit(),
     });
-    const storyTab = btnByText(host, 'Story (1)');
-    expect(storyTab).toBeTruthy();
-    storyTab.click();
-    expect(host.textContent).toContain('Test bundle');
-    expect(host.textContent).toContain('B — Colder');
+    (host.querySelector('[data-review-half="story"]') as HTMLButtonElement).click();
+    const row = [...host.querySelectorAll('div')].find((d) =>
+      (d.textContent ?? '').includes('Test bundle'),
+    )!;
+    const summary = row.querySelector('div')!; // the clickable two-line summary
+    const details = row.querySelector('div:nth-child(2)') as HTMLElement;
+    expect(details.style.display).toBe('none'); // collapsed on mount
+    summary.click();
+    expect(details.style.display).toBe('flex'); // and it opens on click
     host.remove();
   });
 });
@@ -941,6 +976,7 @@ describe('FB-121 req-flavor — the CORE overlay rides the switcher', () => {
   const bundle: StoryTakeBundle = {
     id: 'req-test',
     title: 'Req flavor test',
+    hr: 'none · test fixture',
     takes: [
       {
         id: 'b',
@@ -972,6 +1008,47 @@ describe('FB-121 req-flavor — the CORE overlay rides the switcher', () => {
   });
 });
 
+// ── HD-41 req-objective — the PROGRESS-tab line the Story switcher swaps. Unlike req-flavor
+// this one is RENDER-read (the log paints the Progress view from the registry each time), so
+// the swap happens in `subReqObjective`, not through a core overlay — and it re-reads lines
+// already in the log, which is exactly what makes the three takes comparable without a replay. ──
+describe('HD-41 req-objective — the switcher swaps the Progress reading', () => {
+  const bundle: StoryTakeBundle = {
+    id: 'obj-test',
+    title: 'Req objective test',
+    hr: 'none · test fixture',
+    takes: [
+      {
+        id: 'b',
+        label: 'the world, changed',
+        brief: 'the place is the evidence',
+        reqObjective: { 'rake-the-spill': 'ALT objective line' },
+      },
+    ],
+  };
+  const rakeReq = rungRequirements('R0').find((r) => r.id === 'rake-the-spill')!;
+
+  it('canon by default; the selected take swaps it; switching back restores canon', () => {
+    const dev = createDevApi([bundle]);
+    expect(dev.subReqObjective(rakeReq.id, rakeReq.objective)).toBe(rakeReq.objective);
+    dev.setStoryTake('obj-test', 'b');
+    expect(dev.subReqObjective(rakeReq.id, rakeReq.objective)).toBe('ALT objective line');
+    dev.setStoryTake('obj-test', 'canon');
+    expect(dev.subReqObjective(rakeReq.id, rakeReq.objective)).toBe(rakeReq.objective);
+  });
+
+  it('a requirement the take does not touch keeps canon, and the epoch bumps for the repaint', () => {
+    const dev = createDevApi([bundle]);
+    const other = rungRequirements('R0').find((r) => r.id !== rakeReq.id)!;
+    const before = dev.storyEpoch();
+    dev.setStoryTake('obj-test', 'b');
+    expect(dev.subReqObjective(other.id, other.objective)).toBe(other.objective);
+    // the log is append-only: without an epoch bump the renderer would never repaint the
+    // Progress view, and the flip would look dead until the next completion.
+    expect(dev.storyEpoch()).toBeGreaterThan(before);
+  });
+});
+
 describe('ADR-139 story reader modal', () => {
   const scene = (text: string, react: string): RungScene => ({
     id: 'rung-r1',
@@ -988,6 +1065,7 @@ describe('ADR-139 story reader modal', () => {
   const bundle: StoryTakeBundle = {
     id: 'reader-bundle',
     title: 'Reader bundle',
+    hr: 'none · test fixture',
     rationale: 'canon reads truest',
     takes: [
       {

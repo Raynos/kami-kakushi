@@ -16,6 +16,7 @@ const BUNDLE = `<!-- a comment
   spanning lines -->
 
 # bundle demo · A demo bundle
+hr: HR-99
 rung: R1
 review: project/some/review.md
 rationale: canon keeps the pick because
@@ -50,6 +51,7 @@ describe('parseBundleMeta', () => {
     const b = parseBundleMeta(BUNDLE, 'bundle.md');
     expect(b.id).toBe('demo');
     expect(b.title).toBe('A demo bundle');
+    expect(b.hr).toBe('HR-99');
     expect(b.review).toBe('project/some/review.md');
     expect(b.rationale).toBe('canon keeps the pick because it reads truest.');
     expect(b.takes).toEqual([
@@ -59,7 +61,7 @@ describe('parseBundleMeta', () => {
         brief: 'withholds warmth',
         scorecard: '1✔',
         file: 'take-b.md',
-        loc: { file: 'bundle.md', line: 10 },
+        loc: { file: 'bundle.md', line: 11 },
       },
     ]);
   });
@@ -68,7 +70,7 @@ describe('parseBundleMeta', () => {
     const bad = BUNDLE.replace('brief: withholds warmth\n', '');
     expect(() => parseBundleMeta(bad, 'bundle.md')).toThrowError(NarrativeError);
     expect(() => parseBundleMeta(bad, 'bundle.md')).toThrowError(
-      /bundle\.md:10 .* missing "brief:"/,
+      /bundle\.md:11 .* missing "brief:"/,
     );
   });
 
@@ -113,6 +115,26 @@ describe('bundle rung (FB-307/FB-312)', () => {
     expect(() => parseBundleMeta(BUNDLE.replace('rung: R1', 'rung: 2'), 'bundle.md')).toThrowError(
       /rung must be "R<n>" or "other · <reason>"/,
     );
+  });
+});
+
+// 2026-07-13 — a bundle must say WHO it is waiting on: an HR-item, or nobody-and-why. An open
+// diverge with no line in the queue the human reads is a diverge she never sees; a settled one
+// kept for comparison (hd30-nengu) must say so, or it reads as forgotten. The `review-link` gate
+// checks the HR- form against review.md; this is the authoring-time half.
+describe('bundle hr (the review link)', () => {
+  it('REQUIRES the field, and rejects a value that is neither an HR-item nor a reasoned none', () => {
+    expect(() => parseBundleMeta(BUNDLE.replace('hr: HR-99\n', ''), 'bundle.md')).toThrowError(
+      /missing "hr:"/,
+    );
+    expect(() =>
+      parseBundleMeta(BUNDLE.replace('hr: HR-99', 'hr: none'), 'bundle.md'),
+    ).toThrowError(/hr must be "HR-<n>" or "none · <reason>"/);
+  });
+
+  it('accepts a settled bundle kept as reference (`none · why`)', () => {
+    const b = parseBundleMeta(BUNDLE.replace('hr: HR-99', 'hr: none · signed off, kept'), 'x.md');
+    expect(b.hr).toBe('none · signed off, kept');
   });
 });
 

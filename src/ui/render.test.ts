@@ -55,6 +55,7 @@ import {
   type GameState,
   type Intent,
   type LogEntry,
+  type RequirementDef,
   rungRequirements,
   rungProgress,
   factsForSurfaces,
@@ -3283,6 +3284,7 @@ describe('FB-367/FB-368 — rake row: dead auto hides, lock-hint reads the why',
     expect(row.querySelector<HTMLButtonElement>('.verb')!.disabled).toBe(false);
     expect(row.querySelector<HTMLElement>('.lock-hint')!.hidden).toBe(true);
   });
+
   // The human's report (2026-07-13): "I press auto and it doesn't start raking — it just toggles
   // the button auto→stop and back", and a REFRESH fixed it. Pause is shell state (never saved), it
   // silences the auto loop and NOTHING else — a manual rake still resolves — so a paused game was
@@ -3310,5 +3312,101 @@ describe('FB-367/FB-368 — rake row: dead auto hides, lock-hint reads the why',
     expect(auto.textContent).toBe('■ stop');
     expect(auto.classList.contains('waiting')).toBe(false);
     expect(auto.hasAttribute('title')).toBe(false);
+  });
+});
+
+// ── HD-41 — the rung reward reads as EARNED (the human's live pick, 2026-07-13):
+//    the ruled entry ships in both tabs, Story keeps the overheard flavor prose, PROGRESS
+//    states the work that was finished (`objective:`), and the meter's flash is rationed to
+//    an actual completion. Both assertions go RED against the pre-pick build, which showed
+//    the story prose in Progress and pulsed the meter on every act. ──
+describe('HD-41 — the earned line: two readings, and a pulse that means something', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    localStorage.clear();
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: false,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  // the FIRST R0 requirement, read from the registry (never a copied string — the fixture
+  // moves with the authored content).
+  const req = (): RequirementDef => rungRequirements('R0')[0]!;
+  function completed(): GameState {
+    const base = createInitialState(1);
+    const r = req();
+    return {
+      ...base,
+      flags: { ...base.flags, awake: true, raked: true },
+      log: {
+        entries: [
+          {
+            key: 1,
+            text: r.flavor,
+            channel: 'narration',
+            voice: 'narrator',
+            contentKey: `requirement.${r.id}`,
+            count: 1,
+          } as LogEntry,
+        ],
+        seq: 1,
+      },
+    };
+  }
+  const clickTab = (label: string): void => {
+    [...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab')]
+      .find((b) => (b.textContent ?? '') === label)
+      ?.click();
+  };
+  const logText = (): string => root.querySelector<HTMLElement>('.log-lines')!.textContent ?? '';
+
+  it('Story reads the overheard line; Progress states the work that was finished', () => {
+    const render = mount(root, () => {}, noopHooks());
+    render(completed(), null);
+    const r = req();
+    // Story: the authored flavor prose, as always — and NOT the record-side statement.
+    expect(logText()).toContain(r.flavor);
+    expect(logText()).not.toContain(r.objective);
+    // the treatment is the ruled entry (the pick), in both tabs — one class, no DEV attribute.
+    expect(root.querySelector('.log-line.earned')).not.toBeNull();
+    // Progress: the register of earned work — the objective line, never the story prose.
+    clickTab('Progress');
+    expect(logText()).toContain(r.objective);
+    expect(logText()).not.toContain(r.flavor);
+    expect(root.querySelector('.log-line.earned.docket')).not.toBeNull();
+  });
+
+  it('the meter pulses when a requirement COMPLETES, not on every act that moves the bar', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const r = req();
+    const target = r.type === 'count' ? r.target : 1;
+    const base = {
+      ...createInitialState(1),
+      flags: { ...createInitialState(1).flags, awake: true, raked: true },
+    };
+    const at = (n: number): GameState => ({ ...base, rungReqs: { [r.id]: n } });
+    const meter = (): HTMLElement => root.querySelector<HTMLElement>('.rung-head-meter')!;
+    render(at(1), null); // first paint — never pulses (a load is not an achievement)
+    expect(meter().classList.contains('bump')).toBe(false);
+    // the bar MOVES (the rounded percent grows) but nothing is finished yet ⇒ no flash.
+    const half = Math.floor(target / 2);
+    render(at(half), at(1));
+    expect(rungProgress(at(half)).percent).toBeGreaterThan(rungProgress(at(1)).percent);
+    expect(meter().classList.contains('bump')).toBe(false);
+    // the requirement lands ⇒ exactly here, the meter flashes.
+    render(at(target), at(half));
+    expect(rungProgress(at(target)).done).toBe(1);
+    expect(meter().classList.contains('bump')).toBe(true);
   });
 });

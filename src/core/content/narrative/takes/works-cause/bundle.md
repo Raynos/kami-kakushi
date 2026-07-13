@@ -1,4 +1,5 @@
 # bundle works-cause · The works discovery chain (estate Phase 1)
+hr: HR-27
 rung: R2
 review: project/human-in-the-loop/review.md
 rationale: Take C's sighting lines are the FB-338 fix itself — the damage caught mid-act answers "why did you notice it's broken" on sight; naming lines are location-free (mechanically safest) and the land-first register matches the c5a-overlays canon pick. Redlined per Pass-2 (sill→weir; the kura fullness claim softened).

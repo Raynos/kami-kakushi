@@ -420,6 +420,7 @@ export function emitRequirements(doc: NarrativeDoc): string {
       L.push(`type: 'state',`, `pred: ${JSON.stringify(s.pred)},`);
     }
     L.push(`flavor: ${textExpr(r.flavor!, r.loc)},`);
+    L.push(`objective: ${textExpr(r.objective!, r.loc)},`);
     L.push(`drive: ${str(r.drive!)},`);
     L.push('}');
     return L.join('\n');

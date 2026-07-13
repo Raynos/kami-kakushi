@@ -21,6 +21,7 @@ const rake: RequirementDef = {
   token: 'act:rake_rice',
   target: 100,
   flavor: 'Genemon counts the swept rows without a word.',
+  objective: 'The yard swept, the rows counted over.',
   drive: 'rake_rice',
 };
 const boar: RequirementDef = {
@@ -29,6 +30,7 @@ const boar: RequirementDef = {
   token: 'kill:boar',
   target: 1,
   flavor: 'The boar is down.',
+  objective: 'One boar taken at the field margin.',
   drive: 'fight boar',
 };
 const purse: RequirementDef = {
@@ -36,6 +38,7 @@ const purse: RequirementDef = {
   type: 'state',
   pred: { kind: 'resource', res: 'coin', min: 200 },
   flavor: 'The purse sits heavier than it ever has.',
+  objective: 'Coin held, and none of it spent.',
   drive: 'sell rice',
 };
 const steward: RequirementDef = {
@@ -43,6 +46,7 @@ const steward: RequirementDef = {
   type: 'flag',
   flag: 'steward-spoken',
   flavor: 'The steward marks how the yard stays swept.',
+  objective: 'The yard kept swept, day on day.',
   drive: 'talk steward',
 };
 
@@ -113,6 +117,7 @@ describe('requirements engine (FB-121 / ADR-137) — counted advance + quantized
       type: 'flag',
       flag: `f${i}`,
       flavor: 'x',
+      objective: 'x-objective',
       drive: 'x',
     }));
     const wide = [rake, ...flags];
@@ -142,6 +147,7 @@ describe('requirements engine (FB-121 / ADR-137) — counted advance + quantized
       type: 'state',
       pred: { kind: 'native', key: 'no-such-pred' },
       flavor: 'x',
+      objective: 'x-objective',
       drive: 'x',
     };
     expect(() => settleOnState([bad], NONE, createInitialState(1))).toThrow(/no-such-pred/);

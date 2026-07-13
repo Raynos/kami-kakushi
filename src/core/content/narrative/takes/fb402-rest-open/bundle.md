@@ -1,4 +1,5 @@
 # bundle fb402-rest-open · The open-rest line (resting away from your corner)
+hr: HR-31
 rung: R0
 review: project/feedback-human/2026-07-11-playtest-the-log.md
 rationale: Take C picked — the most location-proof (a wall exists on every ground), the human's suggested standing rest, and the flat double-closer ("The work will keep. So will you.") sits closest to the FB-91 rest register; A's ledger voice is strong but lies him down mid-court, B leans on a zone-specific bale and swells lyrical at the close.

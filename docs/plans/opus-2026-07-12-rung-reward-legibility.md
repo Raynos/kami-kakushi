@@ -1,16 +1,27 @@
 # Make a rung reward *read* as a reward (HD-41)
 
-**Status:** ▶️ IN-PROGRESS (2026-07-13, session-185) — **BUILT, awaiting
-the play verdict (HR-41)**. Steps 0–3 are done: the earned routing ships
-(all rungs), the (d) meter pulse ships, the A/B/C treatments are live in
-the DEV panel, the `hd41-earned-entry` docket bundle (3 blind takes)
-swaps in DEV → Story, and the headless PH6 proof is 8/8 green
-(screenshots in `project/audit/screens/2026-07-13-hd41-earned-line/`).
-Step 4 remains: the human plays HR-41, picks, and **that verdict writes
-the HD-41 ADR**. **Confidence:** ( 70% Opus, 30% Fable ) — the diagnosis
-and the channel/render work are mechanical and Opus-shaped; the
-**diegetic wording** of whatever new surface appears is fiction under
-kernel #6 and wants Fable if it is available. **Template:** build
+**Status:** ▶️ IN-PROGRESS (2026-07-13, session-190) — **the treatment
+is PICKED; the words are in review.** The human played the diverge and
+chose **variant B, the ruled entry** (2026-07-13), with two rulings
+attached that reshaped the rest of the build:
+
+1. **The pulse was firing on the wrong event.** It flashed whenever the
+   rounded percent *grew* — which is nearly every act. A flash must mean
+   *you finished something*, so it now rides the count of **completed
+   requirements** (`rungProgress().done`): R0 has three, so R0 flashes
+   three times.
+2. **Progress must not speak story.** The Story tab keeps the overheard
+   flavor line; the **Progress** tab now states **the work that was
+   finished** — a new `objective:` line authored per requirement (31 of
+   them, R0–R7), never a repeated formula. The retired `earnedEntry`
+   docket (one line stamped on every completion) is gone.
+
+What remains: the human picks among the three **objective-line takes**
+(`hd41-progress-objective`, DEV → Story), and **that verdict writes the
+HD-41 ADR**. **Confidence:** ( 70% Opus, 30% Fable ) — the
+channel/render work is mechanical and Opus-shaped; the **diegetic
+wording** is fiction under kernel #6 and wants Fable if it is available.
+**Template:** build
 
 ## Who builds this — Fable or Opus?
 
@@ -132,6 +143,32 @@ guess it.
    variants and picks → **write the HD-41 ADR** (the ruling is only now
    real — human, 2026-07-13) + archive the HD-item → `/prd-ripple` +
    `pnpm run prd:drift` → HR verdict → Status ✅ → archive.
+5. **✅ The pick, and what it changed (2026-07-13, session-190).** The
+   human played the three treatments and chose **B, the ruled entry** —
+   and rejected two things the build had gotten wrong:
+   - **The pulse.** It rode `percent` growth, so it flashed on nearly
+     every rake. It now rides `rungProgress().done` — the count of
+     FINISHED requirements — so a flash means *you completed an
+     objective*, three times in R0. (`ranks.ts` grew the `done` read;
+     `render.ts` pulses on its growth.)
+   - **The Progress-tab text.** *"In Progress we don't want story text,
+     we want some kind of 'Objective complete' message"* — so the
+     `earnedEntry` docket **formula** (one line stamped on every
+     completion) is retired, and every requirement now authors its own
+     **`objective:`** line: the terse statement of the work it finished.
+     Story keeps the flavor prose; Progress states the labour. The
+     compiler requires the field (`no objective line` is a build error),
+     `story-doc` prints both readings, and the words ride the SAME
+     registry entry as the flavor — no save stores them (ADR-186 holds).
+6. **The remaining pick — the objective line's voice (ADR-139).** Three
+   blind takes, authored per requirement across all 31: **canon = A ·
+   "the house's book"** (the day-book register — the only one of the
+   three that reads as a *record* rather than more story prose);
+   alternates **B · "the world, changed"** and **C · "the hands keep the
+   account"** live in `takes/hd41-progress-objective/`, swappable live
+   in **DEV → Story** (the whole visible register re-reads on a flip —
+   no replay needed). The human's verdict on this bundle **writes the
+   HD-41 ADR**.
 
 ## Verification
 

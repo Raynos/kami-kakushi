@@ -17,6 +17,7 @@ const goodBlock = (rank: string, id = 'do-a-thing', ids: string[] = [id]): strin
       `### req ${rid} · count act:farm_paddy ${25 + i}`,
       '',
       'flavor: The rows stand straighter.',
+      'objective: The block planted out, row on row.',
       'drive: farm_paddy',
       '',
     ]),
@@ -35,24 +36,31 @@ describe('requirements grammar (FB-121 / ADR-137) — parse + validate + emit', 
       '',
       '### req a · count kill:boar 2',
       'flavor: f',
+      'objective: o',
       'drive: fight boar',
       '### req b · flag first-fight-survived',
       'flavor: f',
+      'objective: o',
       'drive: fight monkey',
       '### req c · state resource coin >= 100',
       'flavor: f',
+      'objective: o',
       'drive: sell rice',
       '### req d · state banked rice >= 200',
       'flavor: f',
+      'objective: o',
       'drive: deposit rice',
       '### req e · state belonging bedding',
       'flavor: f',
+      'objective: o',
       'drive: buy bedding',
       '### req f · state skill conditioning >= 3',
       'flavor: f',
+      'objective: o',
       'drive: haul_stores',
       '### req g · native estate-u1',
       'flavor: f',
+      'objective: o',
       'drive: buy estate_upgrade',
     ].join('\n');
     const doc = parseNarrative(md, 'x.md');
@@ -73,19 +81,34 @@ describe('requirements grammar (FB-121 / ADR-137) — parse + validate + emit', 
 
   it('rejects a malformed spec, a zero count, and a missing flavor/drive — at the md line', () => {
     expect(() =>
-      parseNarrative('## requirements R0\n### req x · count boar 2\nflavor: f\ndrive: d', 'x.md'),
+      parseNarrative(
+        '## requirements R0\n### req x · count boar 2\nflavor: f\nobjective: o\ndrive: d',
+        'x.md',
+      ),
     ).toThrow(/bad req spec/);
     expect(() =>
       parseNarrative(
-        '## requirements R0\n### req x · count kill:boar 0\nflavor: f\ndrive: d',
+        '## requirements R0\n### req x · count kill:boar 0\nflavor: f\nobjective: o\ndrive: d',
         'x.md',
       ),
     ).toThrow(/count target/);
     expect(() =>
-      parseNarrative('## requirements R0\n### req x · flag some-flag\ndrive: d', 'x.md'),
+      parseNarrative(
+        '## requirements R0\n### req x · flag some-flag\nobjective: o\ndrive: d',
+        'x.md',
+      ),
     ).toThrow(/no flavor line/);
+    // HD-41 — the PROGRESS reading is not optional: a requirement with no objective line
+    // would leave the Progress register mute for that completion (or fall back to the
+    // Story prose the human rejected), so the compiler refuses to build it.
     expect(() =>
-      parseNarrative('## requirements R0\n### req x · flag some-flag\nflavor: f', 'x.md'),
+      parseNarrative('## requirements R0\n### req x · flag some-flag\nflavor: f\ndrive: d', 'x.md'),
+    ).toThrow(/no objective line/);
+    expect(() =>
+      parseNarrative(
+        '## requirements R0\n### req x · flag some-flag\nflavor: f\nobjective: o',
+        'x.md',
+      ),
     ).toThrow(/no drive hint/);
   });
 
@@ -119,9 +142,11 @@ describe('requirements grammar (FB-121 / ADR-137) — parse + validate + emit', 
           '## requirements R0',
           '### req same · flag a-flag',
           'flavor: f',
+          'objective: o',
           'drive: d',
           '### req same · flag b-flag',
           'flavor: f',
+          'objective: o',
           'drive: d',
         ].join('\n'),
         'x.md',
@@ -135,11 +160,15 @@ describe('requirements grammar (FB-121 / ADR-137) — parse + validate + emit', 
       '## requirements R0',
       '### req a · flag some-flag',
       'flavor: {elder} counts the rows.',
+      'objective: The rows counted over, and none short.',
       'drive: rake_rice',
     ].join('\n');
     const src = emitRequirements(parseNarrative(md, 'x.md'));
     expect(src).toContain('RUNG_REQUIREMENTS');
     expect(src).toContain('${NAMES.elder} counts the rows.');
     expect(src).toContain(`type: 'flag'`);
+    // HD-41 — the Progress reading rides the SAME registry entry as the Story line, so a
+    // completion needs no second lookup and no save ever stores the words (ADR-186).
+    expect(src).toContain('The rows counted over, and none short.');
   });
 });

@@ -182,14 +182,16 @@ export function emitStoryDoc(docs: readonly NarrativeDoc[]): string {
 
   // ── the hidden rung requirements (FB-121 / ADR-137) — the human's sign-off
   // artifact for the authored lists: flavor first (what the player feels), the
-  // mechanical spec as small print (what the engine counts). ──
+  // Progress-tab objective line under it (HD-41 — what the register records),
+  // then the mechanical spec as small print (what the engine counts). ──
   const reqBlocks = docs.flatMap((d) => d.blocks).filter((b) => b.kind === 'requirements');
   if (reqBlocks.length > 0) {
     L.push('## The hidden rung requirements', '');
     L.push(
-      '> The player never sees this list — only the rounded % bar and each',
-      "> completion's flavor line. Counts are provisional (the FB-4 sim tunes",
-      '> them; ADR-132).',
+      '> The player never sees this list — only the rounded % bar, each',
+      "> completion's flavor line (Story) and its objective line (Progress —",
+      '> HD-41: the register states the work that was finished). Counts are',
+      '> provisional (the FB-4 sim tunes them; ADR-132).',
       '',
     );
     for (const b of reqBlocks) {
@@ -211,6 +213,7 @@ export function emitStoryDoc(docs: readonly NarrativeDoc[]): string {
                     ? `skill ${s.pred.skill} ≥ ${s.pred.min}`
                     : `${s.pred.kind} ${s.pred.res} ≥ ${s.pred.min}`;
         L.push(`- ${resolve(r.flavor ?? '')} <small>*(${r.id} — ${mech})*</small>`);
+        L.push(`  - <small>Progress: ${resolve(r.objective ?? '')}</small>`);
       }
       L.push('');
     }

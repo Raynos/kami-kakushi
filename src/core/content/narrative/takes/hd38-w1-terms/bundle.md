@@ -19,6 +19,7 @@
   identical. -->
 
 # bundle hd38-w1-terms · The R1 Terms scene (the tutorial contract)
+hr: HR-34
 rung: R1
 review: project/human-in-the-loop/review.md
 rationale: Take B (canon) is the only version where all five terms — sun-to-sun

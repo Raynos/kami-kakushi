@@ -1,4 +1,5 @@
 # bundle sleep-announce · The sleep-announce beat (the corner tells you the day is yours to end)
+hr: HR-40
 rung: R4
 review: project/human-in-the-loop/review.md
 rationale: Take A picked — the only take that is simultaneously LEGIBLE (the verb is unmistakable: "the day ends when you lie down on your own mat"), TIME-PROOF (the beat fires on first arrival, which can be any tick of day — A asserts no hour), and at the ruled weight ("a tiny beat" — human, 2026-07-12). Its "the house keeps its hours" quietly foreshadows the slept-day line's "the house ate at its hours" without stealing its imagery. B is the most atmospheric but the most oblique — the exact "player still does not learn the verb" failure the plan names — and needed a Pass-2 fix for a false present-tense dusk. C lands the verb clearly but at twice the ruled weight; its length is its character, kept as the alternate for a human who wants the beat to breathe.

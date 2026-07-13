@@ -38,6 +38,8 @@ export interface TakeMeta {
 export interface BundleMeta {
   readonly id: string;
   readonly title: string;
+  /** The HR-item this bundle awaits ("HR-33"), or "none · <why>" when it awaits nobody. */
+  readonly hr: string;
   /** Repo-relative path of the bundle's review doc (the archive-of-record). */
   readonly review?: string;
   /** The agent's pick rationale (the picked take lives in canon). */
@@ -148,6 +150,25 @@ export function parseBundleMeta(source: string, file: string): BundleMeta {
   const review = top.get('review');
   const rationale = top.get('rationale');
   const canonLabel = top.get('canon');
+  // 2026-07-13 — every bundle declares the HR-item it waits on ("hr: HR-33"), or says in so
+  // many words that it waits on nobody ("hr: none · <why it is kept>"). A DEV toggle the human
+  // is meant to judge, with no line in the queue she reads, does not exist as far as she is
+  // concerned; and a bundle kept as a REFERENCE after sign-off (hd30-nengu, fb324-rake-cap —
+  // both by her own steer) must say so, or it reads as a forgotten one. The `review-link` gate
+  // checks the HR- form against review.md; this only enforces that the claim is MADE.
+  const hr = top.get('hr');
+  if (hr === undefined) {
+    throw new NarrativeError(
+      { file, line: 1 },
+      `bundle "${id}": missing "hr:" — name the review item it awaits ("HR-33"), or "none · <why this bundle is kept>" if it awaits nothing`,
+    );
+  }
+  if (!/^HR-\S+$/.test(hr) && !/^none · .+$/.test(hr)) {
+    throw new NarrativeError(
+      { file, line: 1 },
+      `bundle "${id}": hr must be "HR-<n>" or "none · <reason>" (got "${hr}")`,
+    );
+  }
   const rungRaw = top.get('rung');
   let rung: number | undefined;
   let rungReason: string | undefined;
@@ -170,6 +191,7 @@ export function parseBundleMeta(source: string, file: string): BundleMeta {
   return {
     id,
     title,
+    hr,
     ...(review !== undefined ? { review } : {}),
     ...(rationale !== undefined ? { rationale } : {}),
     ...(canonLabel !== undefined ? { canonLabel } : {}),
@@ -219,7 +241,10 @@ function emitTake(meta: TakeMeta, doc: NarrativeDoc): string {
   // Keyed prose routes to a registry field by its group id: `## prose cold-open` → `coldOpen`,
   // `## prose flavor` → `flavor` (UI micro-copy), `## prose req-flavor` → `reqFlavor`
   // (FB-121 requirement-completion lines — swapped through the CORE overlay, future
-  // emissions only; ADR-139 live-switchable like every diverge unit), and
+  // emissions only; ADR-139 live-switchable like every diverge unit), `## prose
+  // req-objective` → `reqObjective` (HD-41 — the Progress-tab statement of the finished
+  // work, keyed by requirement id; the renderer resolves it per paint, so a take flip
+  // repaints the Progress view rather than waiting for the next completion), and
   // `## prose intro-title` → `introTitles` (FB-362 — the per-scene 幕-head labels, keyed
   // by intro scene id; swapped through the CORE overlay `__setIntroTitleOverride`).
   for (const prose of doc.blocks.filter((b) => b.kind === 'prose')) {
@@ -228,9 +253,11 @@ function emitTake(meta: TakeMeta, doc: NarrativeDoc): string {
         ? 'flavor'
         : prose.id === 'req-flavor'
           ? 'reqFlavor'
-          : prose.id === 'intro-title'
-            ? 'introTitles'
-            : 'coldOpen';
+          : prose.id === 'req-objective'
+            ? 'reqObjective'
+            : prose.id === 'intro-title'
+              ? 'introTitles'
+              : 'coldOpen';
     L.push(`${field}: {`);
     for (const e of prose.entries) L.push(`${keyExpr(e.key)}: ${textExpr(e.text, e.loc)},`);
     L.push('},');
@@ -252,6 +279,7 @@ export function emitStoryTakes(bundles: readonly ParsedTakeBundle[]): string {
     const L: string[] = ['{'];
     L.push(`id: ${str(b.meta.id)},`);
     L.push(`title: ${str(b.meta.title)},`);
+    L.push(`hr: ${str(b.meta.hr)},`);
     if (b.meta.review) L.push(`review: ${str(b.meta.review)},`);
     if (b.meta.rationale) L.push(`rationale: ${str(b.meta.rationale)},`);
     if (b.meta.canonLabel) L.push(`canonLabel: ${str(b.meta.canonLabel)},`);

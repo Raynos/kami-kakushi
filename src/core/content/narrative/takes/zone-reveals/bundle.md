@@ -1,4 +1,5 @@
 # bundle zone-reveals · The four side-quest VNs that open four zones (ADR-184)
+hr: HR-33
 rung: R2
 review: project/human-in-the-loop/review.md
 rationale: Take A carries the mechanics diegetically — these four beats are the player's ONLY teaching for coin (ten mon, two days in seven), the pot (the only mend there is), the hunt (where the raiders come up) and the wound (six days, and what it costs the house) — so the take that states the account is the take that leaves nobody guessing (TST4). It is also the register the surrounding canon already speaks (works-intro, sb-lease, the R1 terms), so four new beats do not read as a tonal island. B and C both score level on craft; C alone breaks P10 twice (it promises a gateyard-sweeping duty and an overnight ash-steep that exist nowhere in the game).
