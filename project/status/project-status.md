@@ -39,9 +39,10 @@ magic; no reset.
   **option D alone**: a `sleep` verb at **your woodshed corner (R4+, the only bed in the
   game)** — one press = one dawn, INSTANT. **Priced:** the day's acts are forfeited, the
   house still eats, and you slept through the pot (`SLEEP_MEAL_FRACTION`) — the belly
-  SLIDES on a run of sleeps into ADR-178's teeth. The **R1 player who asked is
-  deliberately unserved** (a nobody has no bed — ADR-184); that itch is content's job.
-  The **sim stays SKIP-BLIND** (standing ruling) — pinned by a test.
+  SLIDES on a run of sleeps into ADR-178's teeth. The **R1 asker stays
+  unserved** (no bed — ADR-184); the **sim stays SKIP-BLIND** (pinned).
+  **The announce beat is BUILT (s188):** first stand at the corner emits
+  a one-off line (`canSleep`-gated, PH6-proven) — read it at **HR-40**.
 - **✅ ZONE-REVEAL LAW (s182, ADR-184):** a zone opens **only inside a VN**; a rung-up VN
   opens **≤2** (gated). R1 opened 4 zones, 3 empty (FB-407/8/9) → now **1**. Five zones
   earn side-quest VNs (gate · kitchen · margins · reeds · sickroom); the woodshed rides to
@@ -63,11 +64,10 @@ magic; no reset.
   because the sim prices its walk at **R3 31.6 wall-min, outside the signed [3,25]
   band** (ADR-056 is yours to move). Four levers in the item.
 - **HR-33** 🔲 (story) + **HR-32b** 🔲 (announce) — the four zone-reveal VNs (take A canon; **B answers "the people are pure flavor"**) + VN-only vs VN+map-ink.
-- **HR-36** 🔲 (story) — the **slept-day line** (3 takes, canon = C). Your acceptance
-  test: press Sleep three times running and see whether the line wears out.
-- **Story picks (DEV → Story)** 🔲 — HR-18…HR-21 · **HR-27** · **HR-28**. **DEV-variant
-  picks (ADR-075)** 🔲 — HR-6 · HR-5 · HR-2A–D · HR-29 · HR-30 (a pick → agent strips
-  the alternates).
+- **Story picks (DEV → Story)** 🔲 — HR-18…21 · **HR-27** · **HR-28** ·
+  **HR-39** (slept-day line; press Sleep ×3 — does it wear out?) ·
+  **HR-40** (sleep-announce beat). **DEV-variant picks (ADR-075)** 🔲 —
+  HR-6 · HR-5 · HR-2A–D · HR-29 · HR-30 (a pick → strip the alternates).
 
 ## Toolchain
 
@@ -117,4 +117,4 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
    `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 17/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 18/20 · last full rewrite: 2026-07-11 -->
