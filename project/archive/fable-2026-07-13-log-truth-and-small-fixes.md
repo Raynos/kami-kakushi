@@ -1,7 +1,11 @@
 # Make the ADR log tell the truth, and land the four small fixes
 
-**Status:** 🔧 IN PROGRESS (2026-07-13, session-197 pickup; proposed
-session-187)
+**Status:** ✅ DONE (2026-07-13, session-198) — shipped across
+`146e5006` (H3), `2d882746` (M3), `3e1c090a` (M8), `2be9612d` (H6),
+`45d8635b` (the decisions.md sitting: strikes + ADR-179 flip +
+ADR-184 correction + ADR-193/194/195 + the S7 PRD ripple, prd:drift
+CLEAN). The one deviation from the ruled sequencing is recorded below
+(small fixes ran first while w2:p5's ADR-192 landed).
 
 **Pre-build rulings (human, 2026-07-13, session-197 Q&A):**
 

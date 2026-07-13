@@ -50,12 +50,17 @@ ADR-192 entry (pinged via herdr); the step-5 small fixes land first.
 - `docs/repo-map.md` — one line for the `docs/plans/t1|t2|tn/`
   far-tier queue homes.
 
+- **Plan closed:** Status → ✅ DONE (commit list in the plan header),
+  archived to `project/archive/` (active-only rule).
+
 ## Next intended steps
 
-1. M3 (`TierId` type), M8 (`save-e2e` `beforeAll`), H6 (root LICENSE).
-2. Once w2:p5's ADR-192 commit lands: the decisions.md sitting (plan
-   steps 1–4; new ADRs take numbers at write time, 193+).
-3. `/prd-ripple` for the ADR-179 flip.
+1. ~~M3 / M8 / H6 / decisions.md sitting / PRD ripple~~ — all DONE.
+2. Checkpoint push of `main` once HEAD is proven green in an isolated
+   worktree (co-agent WIP in the shared tree).
+3. The three sibling plans (sickroom, merchant-state) remain PROPOSED
+   in `docs/plans/` for future sessions; dialogue-live-swap shipped as
+   w1:p3's M7 (`dd206937`).
 
 - **Committed-red incident (repaired via w1:p3):** my M3 pathspec
   commit of `src/core/index.ts` swept w1:p3's uncommitted

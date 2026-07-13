@@ -4055,7 +4055,7 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   - **M3 (`TierId`)** / **M8 (`save-e2e` `beforeAll`)** → shipped this
     session.
   - **M7 (dialogue live-swap)** →
-    [`fable-2026-07-13-dialogue-live-swap.md`](../plans/fable-2026-07-13-dialogue-live-swap.md).
+    [`fable-2026-07-13-dialogue-live-swap.md`](../../project/archive/fable-2026-07-13-dialogue-live-swap.md).
   - **M1 / M4 / M5 / M6 / M9** → parked to
     [`docs/plans/t1/`](../plans/t1); **M2** →
     [`docs/plans/t2/`](../plans/t2); the far-tier placeholders live

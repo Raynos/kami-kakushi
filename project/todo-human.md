@@ -38,10 +38,6 @@
   — the four quest shapes ADR-184's reveal wave actually produced
   (emergent, deliberately not an ADR — your call)
 - [ ]
-  [`docs/plans/fable-2026-07-13-log-truth-and-small-fixes.md`](archive/fable-2026-07-13-log-truth-and-small-fixes.md)
-  — the ADR-sweep split 1/5: log truth + the four small ruled fixes
-  (rice withdraw, TierId, save-e2e, LICENSE)
-- [ ]
   [`docs/plans/fable-2026-07-13-merchant-state.md`](../docs/plans/fable-2026-07-13-merchant-state.md)
   — split 2/5: your merchant ruling (permanent purse + stock,
   general-store price sag) as a build plan
@@ -49,7 +45,6 @@
   [`docs/plans/fable-2026-07-13-sickroom-hp-mend.md`](../docs/plans/fable-2026-07-13-sickroom-hp-mend.md)
   — split 3/5: the ADR-164 HP-mend lane (treat / rest, food goes
   satiety-only)
-  future dialogue diverges)
 - [ ]
   [`project/brainstorms/2026-07-13-hot-file-contention-analysis.md`](brainstorms/2026-07-13-hot-file-contention-analysis.md)
   — measured multi-agent hot-file thrash (13% of sessions hit a git
