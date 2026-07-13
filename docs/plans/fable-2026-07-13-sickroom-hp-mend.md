@@ -3,9 +3,13 @@
 **Status:** 🔧 IN PROGRESS (2026-07-13, session-202 — steps 1–3 + 5
 BUILT & landed, `fa8478ef` + ripple `a473dc40`; PH6 proof captured.
 **Step 4 (the ADR-139 3-take diverge) is HELD** on the take-system
-refactor running in w1 — wiring a new bundle against a format
-mid-redesign would collide; resume when their storyTakes refactor
-lands. Band re-signed [3, 28] under ADR-197.)
+refactor (w1, 2026-07-13): the AUTHORING format is unchanged
+(bundle.md + take-*.md, same grammar — takes may be written any
+time; note the new HARD prose-only gate: keep canon's option/topic
+skeleton), but LIVE-verify in the Story switcher + the HR filing
+wait for their B2 render-path migration (~hours). Resume: author 3
+takes for `sickroom.treat`/`sickroom.rest`, verify live, file the
+HR bundle. Band re-signed [3, 28] under ADR-197.)
 **Confidence:** ( 70% Opus, 30% Fable ) — the lane is engine plumbing
 (Opus); the two verbs' fiction is voiced text → the ADR-139 diverge is
 Fable's, and it is a real share of the plan's surface.
