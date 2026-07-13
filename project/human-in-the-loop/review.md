@@ -71,9 +71,9 @@ zero flag-debt). Two things changed on your word, and both are live:
     and said nothing. It now fires when a rung **objective completes**.
     R0 has three; R0 flashes three times.
   - **Progress no longer speaks story.** Story keeps the overheard
-    flavor line; **Progress states the work you just finished** — its own
-    authored line, one per requirement (31, R0→R7), so the register never
-    stamps the same sentence twice.
+    flavor line; **Progress states the work you just finished** — its
+    own authored line, one per requirement (31, R0→R7), so the register
+    never stamps the same sentence twice.
 
 What is left for you is the **voice of that Progress line** — 3 blind
 takes (ADR-139), authored across all 31 requirements, swappable live.
@@ -85,26 +85,26 @@ Your verdict here **writes the HD-41 ADR**.
     raked back in."_ → _"The spill, worked past the hour of the ox."_ →
     _"The spill taken up entire, the floor bare by dawn."_
     - **Why it was picked:** it is the only one of the three that reads
-      as a **record** rather than as more prose — and it ties Progress to
-      the day-book fiction the cold open and the works pages already own
-      (TST1: one record fiction).
+      as a **record** rather than as more prose — and it ties Progress
+      to the day-book fiction the cold open and the works pages already
+      own (TST1: one record fiction).
   - [ ] **take b · "the world, changed"** _(DEV-only)_ — the changed
     physical fact is the only evidence; the man never appears. _"The
     spill by the granary door lies raked into heaps."_
-  - [ ] **take c · "the hands keep the account"** _(DEV-only)_ — the work
-    read off the body: palms, back, the habit worn in. _"He raked the
-    first rows until both palms blistered."_
+  - [ ] **take c · "the hands keep the account"** _(DEV-only)_ — the
+    work read off the body: palms, back, the habit worn in. _"He raked
+    the first rows until both palms blistered."_
   - **The call you are actually making:** A records, B describes, C
     confesses. A is the coldest and the most legible (kernel #3 — praise
-    stays scarce); C is the warmest and the closest to the Story voice we
-    just separated Progress FROM. If C reads better to you, that is a
+    stays scarce); C is the warmest and the closest to the Story voice
+    we just separated Progress FROM. If C reads better to you, that is a
     real signal that the two tabs should sound closer than I judged.
   - **How to look:** load the **post-cold-open** scenario (DEV →
-    Scenarios) → rake ~10 rows → the line lands in **Story** as Genemon's
-    remark and in **Progress** as the record of the work; the meter
-    pulses once, there. DEV → Story → `hd41-progress-objective` to swap
-    takes — the whole visible Progress register re-reads on the flip, so
-    you can compare without replaying.
+    Scenarios) → rake ~10 rows → the line lands in **Story** as
+    Genemon's remark and in **Progress** as the record of the work; the
+    meter pulses once, there. DEV → Story → `hd41-progress-objective` to
+    swap takes — the whole visible Progress register re-reads on the
+    flip, so you can compare without replaying.
   - **In the DEV panel:** Review → Story → **SV18**
     <!-- dev-tags: kept true by the review-link gate -->
   - **Verdict:** _(awaiting your pick — this verdict writes the HD-41
