@@ -51,6 +51,31 @@ import type { Grade } from '../pillars';
  *  degrades to its frozen prose rather than losing the line. */
 type Resolver = (id: string, params: LogParams) => string | undefined;
 
+// ── the DEV story-take overlay (session-200 ruling: a DEV switch re-renders EVERYTHING) ─────
+// dev.ts syncs the EFFECTIVE take defs here on every set/unit change, and the resolvers below
+// read through them — so renderLogLine (the DEV log repaint AND a save load) voices the
+// selected takes for scene-shaped units, the same way dialogue.ts's own overlay covers
+// dialogue lines. Without this, a take flip only reached the VN render path (dev.subX) and
+// every already-LOGGED intro/beat/scene/flavor line kept reading canon — the human's
+// hd38-w4-intro bug report. null = all canon; prod never calls the setter (strip-checked
+// via the DEV panel being the only caller).
+interface LogTakeOverrides {
+  readonly intro?: Readonly<Record<string, DialogueScene>>;
+  readonly rung?: Readonly<Partial<Record<RankId, RungScene>>>;
+  readonly scene?: Readonly<Record<string, RungScene>>;
+  readonly flavor?: Readonly<Record<string, string>>;
+}
+let LOG_TAKES: LogTakeOverrides | null = null;
+
+/** DEV-only (the story set-switcher): overlay the log's take-swappable registries. */
+export function __setLogTakeOverrides(o: LogTakeOverrides | null): void {
+  LOG_TAKES = o;
+}
+
+/** A flavor key's effective prose — the active take's if set, else canon FLAVOR. */
+const effFlavor = (key: string): string | undefined =>
+  LOG_TAKES?.flavor?.[key] ?? (FLAVOR as Readonly<Record<string, string>>)[key];
+
 const surfaceRevealText = (id: string): string | undefined =>
   SURFACES.find((s) => s.id === id)?.revealLine?.text;
 
@@ -61,11 +86,9 @@ const discoveryText = (id: string): string | undefined => {
 
 /** A works line's canon is its FLAVOR entry. Deliberately reads FLAVOR (a content leaf) rather
  *  than `works.ts`'s `worksLine()`: works.ts is a REDUCER that imports scenes.ts, and pulling a
- *  reducer in here would risk the very cycle this module exists to avoid. The DEV story-take
- *  override that `worksLine()` layers on applies to FUTURE emissions only (ADR-143 — same
- *  semantics as `discoveryEmitLine`), so canon is the right answer on rehydrate. */
-const worksText = (key: string): string | undefined =>
-  (FLAVOR as Readonly<Record<string, string>>)[key];
+ *  reducer in here would risk the very cycle this module exists to avoid. Reads through the
+ *  session-200 take overlay (effFlavor), so a DEV flip reaches logged works lines too. */
+const worksText = (key: string): string | undefined => effFlavor(key);
 
 /** One authored prose line, BY NAME — the address a save's log actually stores.
  *
@@ -132,14 +155,16 @@ function vnText(scene: RungScene, part: string): string | undefined {
 const sceneText = (tail: string): string | undefined => {
   const dot = tail.indexOf('.');
   if (dot <= 0) return undefined;
-  const def = sceneById(tail.slice(0, dot));
-  return def ? vnText(def.scene, tail.slice(dot + 1)) : undefined;
+  const id = tail.slice(0, dot);
+  const scene = LOG_TAKES?.scene?.[id] ?? sceneById(id)?.scene;
+  return scene ? vnText(scene, tail.slice(dot + 1)) : undefined;
 };
 
 const beatText = (tail: string): string | undefined => {
   const dot = tail.indexOf('.');
   if (dot <= 0) return undefined;
-  const beat = RUNG_BEATS[tail.slice(0, dot) as RankId];
+  const rank = tail.slice(0, dot) as RankId;
+  const beat = LOG_TAKES?.rung?.[rank] ?? RUNG_BEATS[rank];
   return beat ? vnText(beat, tail.slice(dot + 1)) : undefined;
 };
 
@@ -148,7 +173,7 @@ const beatText = (tail: string): string | undefined => {
 //   intro.<sceneId>.topic.<topicId>.ask | .answer.<i>
 //   intro.<sceneId>.opt.<optionId>.say | .react | .perk
 const introScene = (id: string): DialogueScene | undefined =>
-  DIALOGUE_SCENES.find((s) => s.id === id);
+  LOG_TAKES?.intro?.[id] ?? DIALOGUE_SCENES.find((s) => s.id === id);
 
 function introText(tail: string): string | undefined {
   const dot = tail.indexOf('.');
@@ -243,7 +268,7 @@ const RESOLVERS: Readonly<Record<string, Resolver>> = {
   reveal: (id) => surfaceRevealText(id),
   discovery: (id) => discoveryText(id),
   works: (key) => worksText(key),
-  flavor: (key) => (FLAVOR as Readonly<Record<string, string>>)[key],
+  flavor: (key) => effFlavor(key),
   scene: (tail) => sceneText(tail),
   beat: (tail) => beatText(tail),
   intro: (tail) => introText(tail),

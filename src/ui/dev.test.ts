@@ -64,13 +64,17 @@ import {
   requirementFlavor,
   __setRequirementFlavorOverride,
   __setDialogueTextOverride,
+  __setLogTakeOverrides,
   __setZoneRevealMode,
   zoneRevealMode,
   getDialogueLine,
   COLD_OPEN_DIALOGUE_ID,
   DIALOGUES,
+  DIALOGUE_SCENES,
   type DialogueDef,
+  type DialogueScene,
 } from '../core';
+import { renderLogLine } from '../core/content/log-render';
 
 function noopHooks(): AppHooks {
   let muted = false;
@@ -1094,6 +1098,48 @@ describe('M7 dialogue — the CORE overlay rides the switcher', () => {
 
   it('dialogue units are LIVE in the switcher, never "(reader-only)"', () => {
     expect(LIVE_UNITS.test(`dialogue:${COLD_OPEN_DIALOGUE_ID}`)).toBe(true);
+  });
+});
+
+// ── Session-200 (human bug report: hd38-w4-intro didn't live-swap) — a take flip must reach
+// the LOG's resolvers too, not just the VN render path: renderLogLine drives both the DEV
+// log repaint (devRederivedEntry) and a save load, so the switcher pushes the effective
+// scene-shaped take defs into log-render's take overlay. RED on main before this landed:
+// the intro resolver read canon DIALOGUE_SCENES unconditionally. ──
+describe('session-200 — logged intro/scene lines re-derive under the selected take', () => {
+  const canonScene = DIALOGUE_SCENES[0]!;
+  const canonFirst = canonScene.greeting[0]!;
+  const altScene: DialogueScene = {
+    ...canonScene,
+    greeting: [{ ...canonFirst, text: 'ALT dream line' }],
+  };
+  const bundle: StoryTakeBundle = {
+    id: 'intro-log-test',
+    title: 'Intro log test',
+    hr: 'none · test fixture',
+    takes: [
+      { id: 'b', label: 'alt intro', brief: 'the alternate register', introScenes: [altScene] },
+    ],
+  };
+  const key = `intro.${canonScene.id}.greeting.${canonFirst.id}`;
+
+  afterEach(() => __setLogTakeOverrides(null));
+
+  it('selecting a take re-voices a LOGGED intro line via renderLogLine; canon restores', () => {
+    const dev = createDevApi([bundle]);
+    expect(renderLogLine(key)).toBe(canonFirst.text); // canon by default
+    dev.setStoryTake('intro-log-test', 'b');
+    expect(renderLogLine(key)).toBe('ALT dream line'); // the flip reaches the log resolver
+    dev.setStoryTake('intro-log-test', 'canon');
+    expect(renderLogLine(key)).toBe(canonFirst.text); // cleared, not stuck
+  });
+
+  it('a per-unit override wins and clears, same as every other unit class', () => {
+    const dev = createDevApi([bundle]);
+    dev.setStoryUnit('intro-log-test', `intro:${canonScene.id}`, 'b');
+    expect(renderLogLine(key)).toBe('ALT dream line');
+    dev.setStoryUnit('intro-log-test', `intro:${canonScene.id}`, undefined);
+    expect(renderLogLine(key)).toBe(canonFirst.text);
   });
 });
 

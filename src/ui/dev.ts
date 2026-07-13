@@ -63,6 +63,7 @@ import {
   __setWorksFlavorOverride,
   __setIntroTitleOverride,
   __setDialogueTextOverride,
+  __setLogTakeOverrides,
   RUNG_REQUIREMENTS,
   getRank,
   estateBuild,
@@ -250,6 +251,40 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
       }
     }
     __setDialogueTextOverride(Object.keys(dlgOverlay).length > 0 ? dlgOverlay : null);
+    // Session-200 (human bug report: hd38-w4-intro didn't live-swap) — the LOG's resolvers
+    // read canon registries, so a flip re-voiced dialogue lines but not logged intro/beat/
+    // scene/flavor lines. Forward the effective take DEFS into log-render's take overlay;
+    // the DEV log repaint (render.ts devRederivedEntry) then re-derives every keyed line
+    // under the selected takes. The maps mirror subIntroScene/subRungScene/subScene/
+    // subFlavor — same effective() rule, pushed once per set/unit change instead of read
+    // per render call.
+    const introOverlay: Record<string, DialogueScene> = {};
+    const rungOverlay: Partial<Record<RankId, RungScene>> = {};
+    const sceneOverlay: Record<string, RungScene> = {};
+    for (const b of bundles) {
+      for (const t of b.takes) {
+        for (const s of t.introScenes ?? []) {
+          if (effective(b.id, `intro:${s.id}`) === t.id) introOverlay[s.id] = s;
+        }
+        for (const [rank, sc] of Object.entries(t.rungBeats ?? {})) {
+          if (effective(b.id, `rung:${rank}`) === t.id) rungOverlay[rank as RankId] = sc;
+        }
+        for (const [id, sc] of Object.entries(t.scenes ?? {})) {
+          if (effective(b.id, `scene:${id}`) === t.id && sc) sceneOverlay[id] = sc;
+        }
+      }
+    }
+    const anyScenes =
+      Object.keys(introOverlay).length +
+        Object.keys(rungOverlay).length +
+        Object.keys(sceneOverlay).length +
+        Object.keys(discOverlay).length >
+      0;
+    __setLogTakeOverrides(
+      anyScenes
+        ? { intro: introOverlay, rung: rungOverlay, scene: sceneOverlay, flavor: discOverlay }
+        : null,
+    );
   };
 
   // FB-18 — hydrate variant selections from the URL query params so a tweak survives a reload and a

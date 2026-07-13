@@ -64,6 +64,30 @@ in `render.ts` renderLog's epoch branch: capture pin-state +
 was already pinned to the foot. Verified headless: scrollTop 1165 →
 1165 across a flip (was: yanked to bottom).
 
+## Follow-up (same session) — the DEV panel drags by its header
+
+Review ergonomics (human ask): the panel covered the log lines under
+review with no way to move it. It now drags by the ⚙ DEV header —
+the FB-3 feedback-box pointer idiom: the first >4px of movement
+converts the bottom/right anchor to left/top and the panel follows
+the pointer (clamped on-screen); a plain press-and-release stays the
+collapse/expand click; session-local, reseats at the corner on
+reload. Two RED-able jsdom tests + a real-browser drive (drag −400/
+−300 lands exactly, no accidental expand, click still toggles).
+
+## Follow-up (same session) — logged scene lines re-derive too
+
+Human repro: flipping hd38-w4-intro didn't re-voice the log. Root
+cause: the log's `intro`/`beat`/`scene`/`flavor` resolvers read the
+canon registries — only dialogue had an overlay. Fix: log-render.ts
+gains `__setLogTakeOverrides` (effective take DEFS for the four
+scene-shaped classes), synced by dev.ts beside the other overlays;
+the resolvers read through it, so the DEV repaint AND a save load
+voice the selected takes. RED-able switcher→renderLogLine tests.
+Note for reviewers: hd38-w4-intro's takes share canon's dream
+NARRATION byte-for-byte — the diverge lives in the decision
+option lines (say/react), so that's where a flip visibly moves.
+
 ## Landmines
 
 - Shared tree: `src/core/index.ts` was co-dirty with w3:p3's M3

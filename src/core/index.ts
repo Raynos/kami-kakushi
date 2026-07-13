@@ -387,6 +387,9 @@ export {
   __setDialogueTextOverride,
   dialogueLineText,
 } from './content/dialogue';
+// session-200 — the DEV log repaint's take overlay: a story-take flip re-voices logged
+// intro/beat/scene/flavor lines too (log-render reads through it; dev.ts is the one setter).
+export { __setLogTakeOverrides } from './content/log-render';
 export type { DialogueLine, DialogueDef, NpcMemoryMap } from './content/dialogue';
 export * as balance from './content/balance';
 export { __setRakeCapLineOverride, rakeCapLine, RAKE_CAP_LINE } from './content/coldOpen';
