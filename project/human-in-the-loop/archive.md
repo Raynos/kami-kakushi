@@ -1,17 +1,23 @@
 # Human-in-the-loop archive (closed H-items + R-items)
 
-A **lean crosswalk** of resolved `H`-decisions and `R`-reviews — the closed index for
-[`decisions.md`](decisions.md) and [`review.md`](review.md) (which hold **open** items only). One line per
+A **lean crosswalk** of resolved `H`-decisions and `R`-reviews — the
+closed index for [`decisions.md`](decisions.md) and
+[`review.md`](review.md) (which hold **open** items only). One line per
 item; IDs never reused.
 
-This file is an **index, not the record**. The durable "why" lives in the **ADR** it graduated to
-([`../../docs/living/decisions.md`](../../docs/living/decisions.md)); the verbatim human intent lives in
-[`../feedback-human/`](../feedback-human). Don't re-paste prose here — link.
+This file is an **index, not the record**. The durable "why" lives in
+the **ADR** it graduated to
+([`../../docs/living/decisions.md`](../../docs/living/decisions.md));
+the verbatim human intent lives in
+[`../feedback-human/`](../feedback-human). Don't re-paste prose here —
+link.
 
-> **Graduation rule.** A resolved item graduates to an **ADR** when it's a decision future-us needs the
-> *rationale* for. Purely **mechanical / structural** items get an archive row but **no ADR**. A closed
-> `R`-review (a taste/playtest call) archives the same way once its verdict lands — moved out of `review.md`
-> into the **Reviews** section below. See the [README](README.md) for the full lifecycle.
+> **Graduation rule.** A resolved item graduates to an **ADR** when it's
+> a decision future-us needs the *rationale* for. Purely **mechanical /
+> structural** items get an archive row but **no ADR**. A closed
+> `R`-review (a taste/playtest call) archives the same way once its
+> verdict lands — moved out of `review.md` into the **Reviews** section
+> below. See the [README](README.md) for the full lifecycle.
 
 ## Decisions (closed H-items)
 
@@ -94,4 +100,5 @@ This file is an **index, not the record**. The durable "why" lives in the **ADR*
 
 | HR-32 | Zone do-panel (FB-410) — pick a variant (A/B/C, then D) | **V0D LOCKED** — the human combined two takes ("I like V0C's design/CSS, and V0A's flavor text for each zone"), asked for a D built as C-plus-text-between-the-hero-and-the-buttons, then locked it: **the zone banner SHIPS inline** (hero kanji + name, the zone's standing line, then the verbs) and the whole `zone` surface is **deleted from the DEV registry** (A/B/C/D toggle gone — ADR-075 zero flag-debt). Shipped by re-dressing the PROD path, not by promoting the variant's code — so the rake auto's reveal/⏸-waiting states, the inline lock-hints, the live-round stage blurb and the walk-to-the-gate summons all survive (FB-324/FB-346/FB-367/FB-368). The per-area head + static blurb are gone (the banner names the ground once). | ADR-116's FB-406 note **amended**: the standing read now renders in TWO surfaces off ONE source (`nodeSeasonalBlurb`) — one value, two reads; the no-zone-text-in-the-log rule stands | 2026-07-12 | (in-session steer) |
 
-> _Open reviews live in [`review.md`](review.md) — see that file for the current open set._
+> _Open reviews live in [`review.md`](review.md) — see that file for the
+> current open set._
