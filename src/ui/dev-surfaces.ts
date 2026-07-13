@@ -52,37 +52,12 @@ export const surfaceTag = (surfaceIndex: number): string => `V${surfaceIndex}`;
 export const variantTag = (surfaceIndex: number, variantIndex: number): string =>
   `V${surfaceIndex}${LETTERS[variantIndex] ?? String(variantIndex)}`;
 
+// HD-41 — the `earned-line` surface (A ledger dot · B ruled entry · C docket) is GONE: the
+// human played it and picked B (2026-07-13), so the ruled entry is the unconditional treatment
+// and ADR-075's zero-flag-debt rule says a settled surface keeps no toggle. What her pick left
+// open is the WORDS, not the treatment — the Progress-tab objective line — and words review as
+// an ADR-139 story bundle (hd41-progress-objective, SV18), never as a variant.
 export const SURFACES: SurfaceDef[] = [
-  {
-    // HD-41 (ADR-075) — the EARNED line: a rung-requirement completion as "story that is
-    // also earned". Not a pane surface: render.ts reads getVariant('earned-line') at log
-    // paint time (the data-earned-style stamp + the C docket branch), so this entry only
-    // feeds the toggle — renderSurfaceVariant has no arm for it.
-    id: 'earned-line',
-    hr: 'HR-41',
-    rung: 0,
-    label: 'Earned line (rung reward)',
-    variants: [
-      {
-        id: 'earned-a',
-        label: 'A · the ledger dot',
-        blurb:
-          'shipped default — quiet: a small gold registry dot on the line, same prose in Story and Progress',
-      },
-      {
-        id: 'earned-b',
-        label: 'B · the ruled entry',
-        blurb:
-          'the line as a day-book row — hairline rules + a gold left post; same prose in both tabs',
-      },
-      {
-        id: 'earned-c',
-        label: 'C · the day-book docket',
-        blurb:
-          'Story keeps the prose; Progress shows the terse docket line in the milestone register (loudest)',
-      },
-    ],
-  },
   {
     id: 'influence',
     hr: 'HR-2B',

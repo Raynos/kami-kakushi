@@ -60,57 +60,52 @@ build is git history.)
 
 ## ▸ R0 · the first climb (the earned line)
 
-### HR-41 🔲 [R0+ · UI/TST4] — the EARNED line (rung reward) — pick a variant, then HD-41 locks (ADR-075 + ADR-139)
+### HR-41 🔲 [R0+ · story/TST4] — the objective line (what Progress SAYS) — pick a take, then HD-41 locks (ADR-139)
 
-The HD-41 build-first review: a rung-requirement completion is now
-*story that is also earned* — it registers in the **Progress** tab (all
-rungs, option (a), ships in every variant) and the rung meter **pulses
-when the fill grows** (option (d), unconditional, ships). The three
-treatments span quiet → loud — **your play verdict here is what LOCKS
-HD-41 into its ADR** (you held the lock until you'd played it).
+**The treatment is settled — you picked B, the ruled entry (2026-07-13),
+and it now ships as the only one** (the A/C toggle is pruned, ADR-075
+zero flag-debt). Two things changed on your word, and both are live:
 
-  - **Taste brief (pass 1):** P2 reuse the milestone gold + bullet
-    idioms, no new primitive · P3 narrator voice stays, no fake speaker
-    · P4 treatments are build-time classes; variant flips repaint via
-    the sanctioned tab-switch path · P12 earned lines still typewrite ·
-    P13 the mark reads period (ledger rule / master's dot), never a
-    badge · P16 Progress = earned, prose stays Story · P17 the Progress
-    unread dot fires · P18 no layout shift · P19 reading register, no
-    chrome · K#3 default = the quiet floor · K#6 no game-words in the
-    docket line.
-  - [ ] **earned-a — the ledger dot** _(self-picked prod default;
-    ships)_ — a small gold registry mark (the master's dot on done work)
-    before the line; same prose in Story and Progress. Quietest.
-    - **Scorecard (A):** 12✔ · 0✘ · 9—
-  - [ ] **earned-b — the ruled entry** _(built; DEV-only)_ — the line as
-    a day-book row: hairline rules + a gold left post; same prose in
-    both tabs.
-    - **Scorecard (B):** 12✔ · 0✘ · 9— _(louder; the boxed row adds a
-      step of chrome into the reading register — in range, but it is the
-      middle of the quiet→loud span, not the floor)_
-  - [ ] **earned-c — the day-book docket** _(built; DEV-only)_ — Story
-    keeps the prose; **Progress shows a terse docket formula** in the
-    milestone register (gold, left post). The docket text is an
-    **ADR-139 bundle** (`hd41-earned-entry`, 3 blind takes, reviewable
-    in DEV → Story):
-    - **canon pick · A "the ledger":** _"Set down in the house's book."_
-      — ties Progress to the day-book fiction the works pages own (TST1)
-    - **take b · the overheard notice:** _"It is seen. No one says
-      anything."_
-    - **take c · the tally of things:** _"Another notch on the
-      tally-stick."_
-    - **Scorecard (C):** 11✔ · 1✘ [briefed] · 9— _(the ✘: two
-      completions back-to-back print two IDENTICAL docket lines — the
-      repetition is the formula's fiction, but you should SEE it before
-      it locks; the a-c screenshots in
-      `project/audit/screens/2026-07-13-hd41-earned-line/` show exactly
-      this)_
-  - **How to look:** `pnpm run dev` → load the **post-cold-open**
-    scenario (DEV → Scenarios) → rake a few rows → watch the line land +
-    the meter pulse → DEV → Variants → "Earned line (rung reward)" to
-    flip A/B/C live (the Progress tab is where C differs); DEV → Story →
-    `hd41-earned-entry` to swap the docket takes.
-  - **In the DEV panel:** Review → Variants + Story → **V0** · **SV18**
+  - **the meter's flash now MEANS something.** It rode the rounded
+    percent, which grows on nearly every rake — so it flashed constantly
+    and said nothing. It now fires when a rung **objective completes**.
+    R0 has three; R0 flashes three times.
+  - **Progress no longer speaks story.** Story keeps the overheard
+    flavor line; **Progress states the work you just finished** — its own
+    authored line, one per requirement (31, R0→R7), so the register never
+    stamps the same sentence twice.
+
+What is left for you is the **voice of that Progress line** — 3 blind
+takes (ADR-139), authored across all 31 requirements, swappable live.
+Your verdict here **writes the HD-41 ADR**.
+
+  - [ ] **canon · A "the house's book"** _(self-picked; ships)_ — the
+    day-book entry: dry, nominal, the work and its measure as a clerk
+    would set it down. R0 reads: _"The spilled stores, the first rows
+    raked back in."_ → _"The spill, worked past the hour of the ox."_ →
+    _"The spill taken up entire, the floor bare by dawn."_
+    - **Why it was picked:** it is the only one of the three that reads
+      as a **record** rather than as more prose — and it ties Progress to
+      the day-book fiction the cold open and the works pages already own
+      (TST1: one record fiction).
+  - [ ] **take b · "the world, changed"** _(DEV-only)_ — the changed
+    physical fact is the only evidence; the man never appears. _"The
+    spill by the granary door lies raked into heaps."_
+  - [ ] **take c · "the hands keep the account"** _(DEV-only)_ — the work
+    read off the body: palms, back, the habit worn in. _"He raked the
+    first rows until both palms blistered."_
+  - **The call you are actually making:** A records, B describes, C
+    confesses. A is the coldest and the most legible (kernel #3 — praise
+    stays scarce); C is the warmest and the closest to the Story voice we
+    just separated Progress FROM. If C reads better to you, that is a
+    real signal that the two tabs should sound closer than I judged.
+  - **How to look:** load the **post-cold-open** scenario (DEV →
+    Scenarios) → rake ~10 rows → the line lands in **Story** as Genemon's
+    remark and in **Progress** as the record of the work; the meter
+    pulses once, there. DEV → Story → `hd41-progress-objective` to swap
+    takes — the whole visible Progress register re-reads on the flip, so
+    you can compare without replaying.
+  - **In the DEV panel:** Review → Story → **SV18**
     <!-- dev-tags: kept true by the review-link gate -->
   - **Verdict:** _(awaiting your pick — this verdict writes the HD-41
     ADR)_
@@ -135,7 +130,7 @@ Travelling market"):
     diegetic, busiest.
   - **How to look:** `pnpm run dev` → the market (Yohei at the gate on a
     market day) → DEV → Variants → "Travelling market".
-  - **In the DEV panel:** Review → Variants → **V5** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Variants → **V4** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your pick)_
 
@@ -165,7 +160,7 @@ The 家威 grade panel — appears as a MACRO_TEASER at R3, fills in Phase 2
   - **How to look:** `pnpm run dev` → reach R3 → DEV → Variants →
     "House-Influence grade"; the grade means most once Phase 2 is
     banking (R7).
-  - **In the DEV panel:** Review → Variants → **V1** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Variants → **V0** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your pick)_
 
@@ -188,7 +183,7 @@ forecast**, and where it haunts; an un-faced foe stays **fogged**
   - **How to look:** `pnpm run dev` → reach R3 (`__qa.toRung('R3')`) →
     **Combat** tab → toggle "VARIANT · Bestiary"; fight a foe to see an
     entry ink in.
-  - **In the DEV panel:** Review → Variants → **V7** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Variants → **V6** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting the human)_
 
@@ -210,7 +205,7 @@ intent):
     you ink in.
   - **How to look:** `pnpm run dev` → reach R3 → **Inventory** tab → DEV
     → toggle the Home/Inventory variant. All three work live.
-  - **In the DEV panel:** Review → Variants → **V8** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Variants → **V7** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your pick)_
 
@@ -232,7 +227,7 @@ live takes ("VARIANT · Crafting"):
     as the part it becomes, a 整/未 verdict at the foot.
   - **How to look:** `pnpm run dev` → reach R4 → the Combat/craft card →
     DEV → Variants → "Crafting".
-  - **In the DEV panel:** Review → Variants → **V2** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Variants → **V1** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your pick)_
 
@@ -254,7 +249,7 @@ Quests"):
     tabular column, a 合計 foot.
   - **How to look:** `pnpm run dev` → reach R5 → **Quests** tab → DEV →
     Variants → "Quests".
-  - **In the DEV panel:** Review → Variants → **V6** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Variants → **V5** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your pick)_
 
@@ -530,7 +525,7 @@ estateBuild/works chain and drive the real `improve_estate`:
     repairs 普請" at the site (`?fixture=works-u1-underway` boots mid-work
     at the gate). The commissioning log line is mechanical register, not
     diverged fiction — bounce it here if it reads as story.
-  - **In the DEV panel:** Review → Variants → **V3** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Variants → **V2** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -574,7 +569,7 @@ commissioned work wears the gold 新):
   - **How to review:** `?fixture=rung-R6` (or R7/wealthy-idler for more
     rooms) → the Estate 家 tab → DEV panel → "Estate 家 (the house)"
     toggle.
-  - **In the DEV panel:** Review → Variants → **V4** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Variants → **V3** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -601,7 +596,7 @@ I shipped **VN-only** as the default because a second line felt like the
 game under-trusting its own scene. Say the word and the ink ships
 instead — it is a one-constant flip, no rework.
 
-  - **In the DEV panel:** Review → Variants → **V9** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Variants → **V8** <!-- dev-tags: kept
     true by the review-link gate -->
 
 ### HR-33 🔲 [R2–R3 · story] — the four zone-reveal VNs (`zone-reveals` bundle, ADR-139/ADR-184)
