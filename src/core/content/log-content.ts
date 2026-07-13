@@ -105,6 +105,10 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
     `You store ${p.resource === 'coin' ? formatCoin(Number(p.amount)) : `${p.amount} ${p.resource}`} safe in the kura storehouse.`,
   'bank.withdraw': (p) =>
     `You draw ${p.resource === 'coin' ? formatCoin(Number(p.amount)) : `${p.amount} ${p.resource}`} back out of the kura storehouse.`,
+  // H3 (2026-07-13) — the retired rice-withdraw verb refuses loudly. No UI reaches this (the
+  // "Withdraw all rice" row is gone); it exists so a stale save or QA script gets a visible line.
+  'bank.withdrawRefusedRice': () =>
+    'Rice stays in the kura — it is spent from the store, never carried back out.',
 };
 
 /** Render a line's text from its content-key + params. Throws on an unknown key —

@@ -1286,6 +1286,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'withdraw': {
+      // H3 (2026-07-13) — rice is one-way under ADR-163: it fills the kura and is spent FROM the
+      // store; the carried pocket holds no rice, so drawing it back out is a retired verb. The
+      // refusal is LOUD (a log-visible line, not a silent no-op) so a stale save or QA script
+      // that still sends it can't quietly reopen the path.
+      if (intent.resource === 'rice') {
+        return applyRewards(next, {
+          log: [{ channel: 'system', voice: 'narrator', contentKey: 'bank.withdrawRefusedRice' }],
+        });
+      }
       if (!isUnlocked(next, 'panel-estate')) return state;
       if (next.location !== 'kura') return state; // Step 5c: draw from the storehouse only at the kura
       const have = next.banked[intent.resource] ?? 0;

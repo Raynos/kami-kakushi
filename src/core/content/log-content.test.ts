@@ -166,6 +166,7 @@ describe('log-content registry — coverage', () => {
     'belonging.acquire': { item: 'futon' },
     'bank.deposit': { amount: 10, resource: 'coin' },
     'bank.withdraw': { amount: 10, resource: 'rice' },
+    'bank.withdrawRefusedRice': {},
   };
 
   it('every registry key has sample params and renders a non-empty string', () => {

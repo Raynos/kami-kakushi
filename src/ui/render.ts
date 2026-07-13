@@ -1065,11 +1065,11 @@ export function mount(
     row: HTMLElement;
     dep: HTMLButtonElement;
     wd: HTMLButtonElement;
-    // ADR-107 Phase 2 — rice deposit/withdraw, so the kura shelters rice beside coin (the ADR-113
-    // loss-shelter now applies to rice too). deposit/withdraw are already resource-generic.
+    // ADR-107 Phase 2 — rice deposit, so the kura shelters rice beside coin (the ADR-113
+    // loss-shelter now applies to rice too). Rice withdraw is a retired verb (H3, ADR-163:
+    // rice is one-way — it fills the kura and is spent from the store).
     riceRow: HTMLElement;
     depRice: HTMLButtonElement;
-    wdRice: HTMLButtonElement;
     away: HTMLElement;
   } | null = null;
   // belongingsRefs (ADR-111 / FB-89) — the home card: a header, the owned-belongings list (the mat + bowl
@@ -5514,10 +5514,7 @@ export function mount(
       const depRice = el('button', 'auto-toggle', 'Store all rice');
       depRice.type = 'button';
       depRice.addEventListener('click', () => dispatch({ type: 'deposit', resource: 'rice' }));
-      const wdRice = el('button', 'auto-toggle', 'Withdraw all rice');
-      wdRice.type = 'button';
-      wdRice.addEventListener('click', () => dispatch({ type: 'withdraw', resource: 'rice' }));
-      riceRow.append(depRice, wdRice);
+      riceRow.append(depRice);
       const away = el(
         'div',
         'area-blurb',
@@ -5525,14 +5522,15 @@ export function mount(
       );
       card.append(row, riceRow, away);
       storehousePane.append(card);
-      storehouseRefs = { card, when, row, dep, wd, riceRow, depRice, wdRice, away };
+      storehouseRefs = { card, when, row, dep, wd, riceRow, depRice, away };
     }
     const r = storehouseRefs;
     const carried = state.resources.coin ?? 0;
     const banked = state.banked.coin ?? 0;
     // ADR-163 — rice lives ONLY in the kura (shō); the carried pocket holds no rice. The kura reads
-    // in BALES (TST4 — never a unit-less "N rice"). (The deposit/withdraw rice rows are vestigial
-    // under the one-way barn-filling model; the full render sweep retires them in a later chunk.)
+    // in BALES (TST4 — never a unit-less "N rice"). The rice-withdraw row is retired (H3) — rice is
+    // one-way; the deposit row stays for the barn-filling model (always disabled while carried
+    // rice is zero).
     const carriedRice = 0;
     const bankedRice = state.banked.rice ?? 0;
     const riceCap = balance.kuraRiceCap(state.estateStage);
@@ -5563,9 +5561,6 @@ export function mount(
             ? 'The kura is full — improve the estate to raise its rice capacity.'
             : '';
       if (r.depRice.title !== depRiceTitle) r.depRice.title = depRiceTitle;
-      setDisabled(r.wdRice, bankedRice <= 0);
-      const wdRiceTitle = r.wdRice.disabled ? 'No rice stored to withdraw.' : '';
-      if (r.wdRice.title !== wdRiceTitle) r.wdRice.title = wdRiceTitle;
     }
   }
 

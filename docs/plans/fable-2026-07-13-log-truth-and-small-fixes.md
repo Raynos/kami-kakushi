@@ -1,6 +1,25 @@
 # Make the ADR log tell the truth, and land the four small fixes
 
-**Status:** 📋 PROPOSED (2026-07-13, session-187)
+**Status:** 🔧 IN PROGRESS (2026-07-13, session-197 pickup; proposed
+session-187)
+
+**Pre-build rulings (human, 2026-07-13, session-197 Q&A):**
+
+- **H3:** the retired rice-withdraw intent **rejects loudly** (visible
+  log-line refusal, RED-able in the test) — not a silent no-op.
+- **H6:** pure MIT text, `Copyright (c) 2026 Jake Verbaten`; the About
+  modal keeps carrying the content all-rights-reserved split (no
+  carve-out note in the LICENSE file itself).
+- **ADR-068 retirement** re-confirmed; **HD-40 still open**, so
+  ADR-184 gets the "held, pending HD-40" wording as written.
+- **M3 fallout:** fix latent tier-arithmetic errors locally; stop and
+  surface if they sprawl beyond a handful.
+- **Sequencing:** the human picked ADRs-first (w2:p5 reported done),
+  but at pickup w2:p5's ADR-192 entry sat UNCOMMITTED in
+  `decisions.md` — go-condition unmet, so the executing agent flipped
+  to small-fixes-first (step 5), pinged w2:p5 to land ADR-192, and
+  holds the `decisions.md` sitting until that commit exists. New ADRs
+  take numbers at write time (193+ as of the ping).
 **Confidence:** ( 90% Opus, 10% Fable ) — mechanical truth work against
 file:line evidence already gathered; no taste, no fiction.
 **Template:** ops

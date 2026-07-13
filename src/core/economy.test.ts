@@ -692,14 +692,18 @@ describe('D-107 Phase 2 — the kura shelters RICE beside coin (deposit/withdraw
     };
   }
 
-  it('deposit sweeps carried rice into the bank; withdraw draws it back (a full round-trip)', () => {
+  it('deposit sweeps carried rice into the bank; a rice WITHDRAW refuses LOUDLY (H3 — retired verb)', () => {
+    // ADR-163 made rice one-way (it fills the kura and is spent from the store), so the old
+    // round-trip is dead. The refusal must be LOUD: state untouched, a visible log line — RED
+    // against both the old draw-it-back behavior and a silent no-op.
     let s = atKura(40);
     s = reduce(s, { type: 'deposit', resource: 'rice' });
     expect(s.resources.rice ?? 0).toBe(0); // carried swept
     expect(s.banked.rice ?? 0).toBe(40); // sheltered in the kura
-    s = reduce(s, { type: 'withdraw', resource: 'rice' });
-    expect(s.resources.rice ?? 0).toBe(40); // drawn back out
-    expect(s.banked.rice ?? 0).toBe(0);
+    const after = reduce(s, { type: 'withdraw', resource: 'rice' });
+    expect(after.banked.rice ?? 0).toBe(40); // the store is untouched
+    expect(after.resources.rice ?? 0).toBe(0); // nothing drawn back out
+    expect(after.log.entries.at(-1)?.contentKey).toBe('bank.withdrawRefusedRice'); // loud, not silent
   });
 
   it('the kura CAPS stored rice at kuraRiceCap(estateStage); a full kura deposits nothing (D-118 §1b)', () => {
