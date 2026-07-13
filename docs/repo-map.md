@@ -41,7 +41,10 @@ always-loaded context while being editable on its own.
   **[`docs/living/`](../docs/living)**: **[prd.md](../docs/living/prd.md)** (the PRD
   index/preamble — the body is split per-section under
   [`docs/living/prd/`](../docs/living/prd)), **[decisions.md](../docs/living/decisions.md)** (the
-  **ADR log** — *why* the design is the way it is),
+  **ADR log** index — *why* the design is the way it is; entries live
+  in banded files under [`decisions/`](../docs/living/decisions),
+  ADR-196 — new ADRs go in the newest band, numbers via
+  `tree-claim.ts adr`),
   **[roadmap.md](../docs/living/roadmap.md)** (the milestone tracker),
   **[ui-design.md](../docs/living/ui-design.md)** (the woodblock/ink UI bible),
   **[fun-factor.md](../docs/living/fun-factor.md)** (what fun is),

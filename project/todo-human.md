@@ -51,14 +51,6 @@
   — split 3/5: the ADR-164 HP-mend lane (treat / rest, food goes
   satiety-only)
 - [ ]
-  [`docs/plans/fable-2026-07-13-contention-locks.md`](../docs/plans/fable-2026-07-13-contention-locks.md)
-  — ADR-196 1/3: push mutex + prepare-to-exit lock + sweep-guard
-  teeth + ADR-number claim (Opus-buildable now)
-- [ ]
-  [`docs/plans/fable-2026-07-13-adr-shard.md`](../docs/plans/fable-2026-07-13-adr-shard.md)
-  — ADR-196 2/3: decisions.md → banded decisions/ dir + prd-style
-  index (mechanical, diff-verified)
-- [ ]
   [`docs/plans/fable-2026-07-13-render-split.md`](../docs/plans/fable-2026-07-13-render-split.md)
   — ADR-196 3/3: the Fable-overnight worktree split (render + tests
   + styles + dev.ts → 8 files) — needs your quiet-window go

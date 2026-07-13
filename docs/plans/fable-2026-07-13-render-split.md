@@ -31,7 +31,7 @@ work.
   time, this list rots).
 - Human has been told the run is happening (overnight, their
   call per ADR-196); push mutex from
-  [fable-2026-07-13-contention-locks.md](fable-2026-07-13-contention-locks.md)
+  [fable-2026-07-13-contention-locks.md](../../project/archive/fable-2026-07-13-contention-locks.md)
   ideally live.
 - Baseline captured BEFORE any edit: full verify green, e2e lane
   green, and a golden screenshot set (capture-game-states) of the

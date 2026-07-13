@@ -1,6 +1,10 @@
 # Serialize the shared tree's pushes and exits — the ADR-196 locks
 
-**Status:** ▶️ IN PROGRESS (2026-07-13, session 199 — building)
+**Status:** ✅ DONE (2026-07-13, session 199 — docs half ed429aee,
+code half aaed2d84; proofs: 7/7 vitest, 27-case guard matrix,
+4-case escape matrix, ledger auto-commit fired live in 7eaa75e6.
+Push rides the next green window — tree red from co-agent WIP at
+landing time, not from this work)
 
 > **Build-time deltas, human-locked 2026-07-13 (session 199 Q&A):**
 > (1) push flow = **wrapper** `pnpm run push` (claim → push →

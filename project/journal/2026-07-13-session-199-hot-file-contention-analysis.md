@@ -51,8 +51,21 @@ Read-only session — no code touched.
    sanctioned committing ahead of the window (their red, not
    ours; my files green in isolation) — code batch landed local,
    push still waits for full green.
-5. Still queued: the shard plan (quiet moment on decisions.md);
-   the render split (human's overnight go).
+5. ~~The shard plan~~ **BUILT same session**: decisions.md (4,137
+   lines) → `docs/living/decisions/{000,050,100,150}.md` + a
+   64-line index. Proofs: byte-identical reconstruction vs HEAD
+   (`tmp/shard-decisions.py` — contiguous slices, entries
+   verbatim), 195 entry headings preserved, `verify-deferred-work`
+   widened to scan bands and proven RED-able on one,
+   `tree-claim.ts adr` reads its high-water from the bands
+   (reserved ADR-198 above the co-agent's 197). Both done plans
+   graduated to `project/archive/`; queue cleaned.
+6. Still queued: the render split — human's overnight go +
+   src/ui WIP landed (plan 3/3, the only one left).
+7. Production sightings during the build: the post-commit ledger
+   hook auto-committed on a co-agent's commit (7eaa75e6), and the
+   ledger logged a real w1:p3 SKIP_SWEEPGUARD bypass minutes
+   after landing.
 
 ## Landmines
 - The cross-scope re-touch metric is a PROXY for distinct agents;

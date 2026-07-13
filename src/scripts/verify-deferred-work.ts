@@ -30,13 +30,28 @@
 // leftover-work sweep in the Checkpoint ritual (working-agreements.md) that /prepare-to-exit
 // must run before it may print a BYE.
 
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 
 /** Docs that make CLAIMS about the project's state — canon + the live snapshot. A shouted
  *  "NOT BUILT" here is a promise to a future reader, so it must name where the work lives.
  *  Journals are deliberately NOT scanned: they are append-only HISTORY, not a queue, and
- *  reding an old entry for describing the past is exactly the wolf-cry this avoids. */
-const SCANNED = ['docs/living/decisions.md', 'project/status/project-status.md'] as const;
+ *  reding an old entry for describing the past is exactly the wolf-cry this avoids.
+ *  The ADR log is index + band files (`docs/living/decisions/`, ADR-196 shard) — scan all. */
+const SCANNED = [
+  'docs/living/decisions.md',
+  ...adrBandFiles(),
+  'project/status/project-status.md',
+] as const;
+
+function adrBandFiles(): string[] {
+  try {
+    return readdirSync('docs/living/decisions')
+      .filter((f) => f.endsWith('.md'))
+      .map((f) => `docs/living/decisions/${f}`);
+  } catch {
+    return []; // pre-shard tree — the index alone carries the log
+  }
+}
 
 /** SHOUTED declarations of leftover work. The shout is on the **NOT** (case-sensitive): an agent
  *  typing "NOT built" is flagging work to the future, while lowercase prose about the past

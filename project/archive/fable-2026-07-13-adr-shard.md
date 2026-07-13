@@ -1,6 +1,9 @@
 # Shard decisions.md into banded files behind a prd-style index
 
-**Status:** 📋 PROPOSED (2026-07-13, session 199)
+**Status:** ✅ DONE (2026-07-13, session 199 — byte-identical
+reconstruction proven against HEAD; 195 entry headings preserved;
+deferred-work gate proven RED-able on a band; `tree-claim.ts adr`
+reads its high-water from the bands)
 **Confidence:** ( 80% Opus, 20% Fable ) — a content-preserving
 mechanical transform with a machine-checkable diff; judgment was
 spent in ADR-196.
