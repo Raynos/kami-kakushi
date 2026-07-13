@@ -91,8 +91,9 @@ FB-257. `dev`·`build`·`/ship`.
 ## Code & repo layout
 
 - `src/core` (pure: rules, state, content incl. `narrative/`) ·
-  `src/persistence` (save layer, SCHEMA 13) · `src/ui` (render.ts +
-  dev.ts + dev-surfaces.ts) · `src/app/main.ts` (root + `window.__qa`)
+  `src/persistence` (save layer, SCHEMA 13) · `src/ui` (shells over
+  `render/` views · `dev/` panes · `styles/` — the render-split)
+  · `src/app/main.ts` (root + `window.__qa`)
   · `src/scripts/*`. Full map: [`repo-map.md`](../../docs/repo-map.md);
   ADR ledger: `docs/living/decisions.md` (index) + `decisions/` bands
   — new ADRs: newest band, number via `tree-claim.ts adr` (ADR-196).
@@ -108,13 +109,12 @@ FB-257. `dev`·`build`·`/ship`.
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev
    server on localhost:5173 (never spawn/kill your own). **`?dev=no`**
    for the true player layout; the page NEVER auto-reloads (FB-257).
-3. Drive **headless-only** (hook-enforced): `window.__qa` /
-   `node src/scripts/qa-shots.mjs`.
+3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
 4. **Next (autonomous):** `fable-2026-07-13-merchant-state.md`
    (docs/plans; the core is quiet). Then **T2 rungs/fog** · telemetry.
 5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
    with **`pnpm run push`** (bare `git push` is blocked; lane held →
-   commits stay local by design). Human-gated next: the render-split
-   overnight job (`docs/plans/fable-2026-07-13-render-split.md`).
+   commits stay local by design). Render-split LANDED (session 203):
+   surface work goes in `src/ui/render|dev/`, not the shells.
 
-<!-- rewrite-debt: 6/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 7/20 · last full rewrite: 2026-07-13 -->
