@@ -115,6 +115,21 @@ canon and pruned from the DEV area (git history + the review
 records keep the alternates); the m7-dlg-proof synthetic deleted
 (purpose served). Registry now 19 open bundles.
 
+## Follow-up (same session) — refactor step A lands: gen-time canonicalization
+
+The locked simplification's step A: every take now ALSO compiles to
+a flat contentKey→text map + greeting/answer SEQUENCES, canonicalized
+against the canon parsed docs at gen time behind the HARD prose-only
+gate (unknown unit/key/dialogue-id, option/topic count mismatch, and
+stat-nudge presence all RED the gen, naming bundle · take · unit).
+Design refinement found by running the gate over all 19 real bundles:
+every violation was NARRATION-RUN length only (greetings + topic
+answers) — that's pacing, part of a take's authored voice — so runs
+stay free-length sequences; the interactive skeleton is id-stable and
+hard-gated. Additive: the def-shaped fields remain until step B
+migrates the consumers. Compiler + type + 16 tests; consumers
+untouched.
+
 ## Landmines
 
 - Shared tree: `src/core/index.ts` was co-dirty with w3:p3's M3

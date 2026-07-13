@@ -13,10 +13,22 @@
 // Emits DATA ONLY, like emit.ts; the types + helpers live hand-written in
 // `src/ui/storyTakes.ts`, which re-exports the generated registry.
 
-import { NarrativeError, type Loc, type NarrativeDoc } from './parse';
+import {
+  NarrativeError,
+  type Loc,
+  type NarrativeDoc,
+  type RungSceneNode,
+  type IntroSceneNode,
+  type SceneDefNode,
+  type DialogueDefNode,
+  type DecisionNode,
+  type ProseLine,
+  type TopicNode,
+} from './parse';
 import {
   emitDialogueDef,
   emitIntroScene,
+  emitProseLine,
   emitRungScene,
   emitSceneDefBody,
   GENERATED,
@@ -203,7 +215,207 @@ export function parseBundleMeta(source: string, file: string): BundleMeta {
 
 const str = (s: string): string => JSON.stringify(s);
 
-function emitTake(meta: TakeMeta, doc: NarrativeDoc): string {
+// ── Step A of the take-system simplification (session-200 brainstorm, human-locked) ─────────
+// Every take ALSO compiles to a FLAT contentKey → text map, canonicalized against CANON at
+// gen time. The map's keys are the SAME addresses the log persists (`beat.R3.greeting.<id>`,
+// `intro.dream.opt.<id>.say`, `dialogue.<def>.<line>`, `flavor.<k>`, …) plus the render-read
+// classes (`.label`, `.prompt`, `req-objective.<k>`, `cold-open.<k>`, `intro-title.<sid>`).
+// Takes are authored BLIND with their own <!--#slug--> markers, so scene-shaped units map
+// POSITIONALLY onto the canon def — here, once, where a mismatch can fail LOUD — and the keys
+// carry CANON ids. The prose-only law (a take varies words, never structure) is the HARD GATE:
+// a count/shape mismatch REDs the gen with the unit and orphan named. Step B migrates the
+// consumers onto this map; the def-shaped fields below then retire.
+
+/** The canon registries a take canonicalizes against, built from the parsed canon docs. */
+export interface CanonIndex {
+  readonly rung: ReadonlyMap<string, RungSceneNode>;
+  readonly intro: ReadonlyMap<string, IntroSceneNode>;
+  readonly sceneDef: ReadonlyMap<string, SceneDefNode>;
+  readonly dialogue: ReadonlyMap<string, DialogueDefNode>;
+  /** prose block id (`flavor` / `cold-open`) → its canon key set. */
+  readonly prose: ReadonlyMap<string, ReadonlySet<string>>;
+  /** requirement ids (`### req <id>`) — the req-flavor / req-objective key space. */
+  readonly reqIds: ReadonlySet<string>;
+}
+
+export function buildCanonIndex(docs: readonly NarrativeDoc[]): CanonIndex {
+  const rung = new Map<string, RungSceneNode>();
+  const intro = new Map<string, IntroSceneNode>();
+  const sceneDef = new Map<string, SceneDefNode>();
+  const dialogue = new Map<string, DialogueDefNode>();
+  const prose = new Map<string, Set<string>>();
+  const reqIds = new Set<string>();
+  for (const doc of docs) {
+    for (const b of doc.blocks) {
+      if (b.kind === 'rung') rung.set(b.rankKey, b);
+      else if (b.kind === 'scene') intro.set(b.id, b);
+      else if (b.kind === 'scene-def') sceneDef.set(b.id, b);
+      else if (b.kind === 'dialogue') dialogue.set(b.id, b);
+      else if (b.kind === 'prose') {
+        const set = prose.get(b.id) ?? new Set<string>();
+        for (const e of b.entries) set.add(e.key);
+        prose.set(b.id, set);
+      } else if (b.kind === 'requirements') {
+        for (const r of b.reqs) reqIds.add(r.id);
+      }
+    }
+  }
+  return { rung, intro, sceneDef, dialogue, prose, reqIds };
+}
+
+/** The gate's voice: every refusal names the bundle · take · unit and what mismatched. */
+function gateError(loc: Loc, unit: string, msg: string): NarrativeError {
+  return new NarrativeError(loc, `prose-only gate — ${unit}: ${msg}`);
+}
+
+/** One scene-shaped unit → flat pairs (interactive skeleton, id-stable) + the greeting
+ *  SEQUENCE (free length — a narration run's line count is PACING, part of the take's
+ *  authored voice; the 2026-07-13 audit found every open bundle varies ONLY here). */
+function sceneTextPairs(
+  ns: string,
+  canon: {
+    readonly greeting: readonly ProseLine[];
+    readonly topics: readonly TopicNode[];
+    readonly decision?: DecisionNode | undefined;
+  },
+  take: {
+    readonly greeting: readonly ProseLine[];
+    readonly topics: readonly TopicNode[];
+    readonly decision?: DecisionNode | undefined;
+  },
+  unit: string,
+  loc: Loc,
+): { pairs: string[]; seq: string[] } {
+  const out: string[] = [];
+  const pair = (key: string, expr: string): void => {
+    out.push(`${str(key)}: ${expr},`);
+  };
+  // the greeting run — the take's OWN sequence (voice/speaker per line, take length).
+  // The log re-voices positionally up to min(canon, take) length; a fresh VN run plays
+  // the take's full sequence. Take lines keep their own slugs (blind authorship).
+  const seq = [
+    `${str(`${ns}.greeting`)}: [`,
+    ...take.greeting.map((l) => emitProseLine(l)),
+    '],',
+  ];
+  if (take.topics.length !== canon.topics.length) {
+    throw gateError(
+      loc,
+      unit,
+      `canon has ${canon.topics.length} topic(s), the take has ${take.topics.length}`,
+    );
+  }
+  take.topics.forEach((t, i) => {
+    const ct = canon.topics[i]!;
+    pair(`${ns}.topic.${ct.id}.ask`, textExpr(t.label, t.loc));
+    // an answer is a narration RUN like the greeting — free length, take's own voice.
+    seq.push(`${str(`${ns}.topic.${ct.id}.answer`)}: [`, ...t.answer.map(emitProseLine), '],');
+  });
+  const cOpts = canon.decision?.options ?? [];
+  const tOpts = take.decision?.options ?? [];
+  if (tOpts.length !== cOpts.length) {
+    throw gateError(
+      loc,
+      unit,
+      `canon has ${cOpts.length} decision option(s), the take has ${tOpts.length}`,
+    );
+  }
+  if (take.decision && canon.decision) {
+    pair(`${ns}.prompt`, textExpr(take.decision.prompt, take.decision.loc));
+  }
+  tOpts.forEach((o, i) => {
+    const co = cOpts[i]!;
+    pair(`${ns}.opt.${co.id}.label`, textExpr(o.label, o.loc));
+    pair(`${ns}.opt.${co.id}.say`, textExpr(o.say ?? o.label, o.loc));
+    if (o.react) pair(`${ns}.opt.${co.id}.react`, textExpr(o.react.text, o.react.loc));
+    if (o.bonus !== undefined !== (co.bonus !== undefined)) {
+      throw gateError(
+        loc,
+        unit,
+        `option "${co.id}": the stat-nudge note exists on ${co.bonus ? 'canon' : 'the take'} only — presence must match`,
+      );
+    }
+    if (o.bonus) pair(`${ns}.opt.${co.id}.bonus`, textExpr(o.bonus.note, o.loc));
+  });
+  return { pairs: out, seq };
+}
+
+/** The take's flat map + greeting sequences — `text: {…}` / `seq: {…}` source lines. */
+function emitTakeText(doc: NarrativeDoc, canon: CanonIndex): { text: string[]; seq: string[] } {
+  const out: string[] = [];
+  const seqOut: string[] = [];
+  const scene = (
+    ns: string,
+    c: Parameters<typeof sceneTextPairs>[1],
+    b: Parameters<typeof sceneTextPairs>[2],
+    unit: string,
+    loc: Loc,
+  ): void => {
+    const r = sceneTextPairs(ns, c, b, unit, loc);
+    out.push(...r.pairs);
+    seqOut.push(...r.seq);
+  };
+  for (const b of doc.blocks) {
+    if (b.kind === 'rung') {
+      const c = canon.rung.get(b.rankKey);
+      if (!c) throw gateError(b.loc, `rung:${b.rankKey}`, 'no canon rung beat with this rank');
+      scene(`beat.${b.rankKey}`, c, b, `rung:${b.rankKey}`, b.loc);
+    } else if (b.kind === 'scene') {
+      const c = canon.intro.get(b.id);
+      if (!c) throw gateError(b.loc, `intro:${b.id}`, 'no canon intro scene with this id');
+      scene(`intro.${b.id}`, c, b, `intro:${b.id}`, b.loc);
+    } else if (b.kind === 'scene-def') {
+      const c = canon.sceneDef.get(b.id);
+      if (!c) throw gateError(b.loc, `scene:${b.id}`, 'no canon scene-def with this id');
+      scene(`scene.${b.id}`, c, b, `scene:${b.id}`, b.loc);
+    } else if (b.kind === 'dialogue') {
+      const c = canon.dialogue.get(b.id);
+      if (!c) throw gateError(b.loc, `dialogue:${b.id}`, 'no canon dialogue def with this id');
+      // dialogue lines have STABLE canon ids (teach lines); a take re-voices a SUBSET by
+      // naming them — an id canon lacks is a typo, not a new line (prose-only).
+      for (const l of b.lines) {
+        if (!c.lines.some((cl) => cl.id === l.id)) {
+          throw gateError(
+            b.loc,
+            `dialogue:${b.id}`,
+            `line "${l.id}" does not exist in canon (canon ids: ${c.lines.map((x) => x.id).join(', ')})`,
+          );
+        }
+        out.push(`${str(`dialogue.${b.id}.${l.id}`)}: ${textExpr(l.text, l.loc)},`);
+      }
+    } else if (b.kind === 'prose') {
+      const ns =
+        b.id === 'flavor'
+          ? 'flavor'
+          : b.id === 'req-flavor'
+            ? 'requirement'
+            : b.id === 'req-objective'
+              ? 'req-objective'
+              : b.id === 'intro-title'
+                ? 'intro-title'
+                : 'cold-open';
+      for (const e of b.entries) {
+        const known =
+          b.id === 'req-flavor' || b.id === 'req-objective'
+            ? canon.reqIds.has(e.key)
+            : b.id === 'intro-title'
+              ? canon.intro.has(e.key)
+              : (canon.prose.get(b.id)?.has(e.key) ?? false);
+        if (!known) {
+          throw gateError(
+            e.loc,
+            `${b.id}:${e.key}`,
+            `key "${e.key}" does not exist in canon ${b.id === 'intro-title' ? 'intro scenes' : b.id === 'req-flavor' || b.id === 'req-objective' ? 'requirements' : b.id}`,
+          );
+        }
+        out.push(`${str(`${ns}.${e.key}`)}: ${textExpr(e.text, e.loc)},`);
+      }
+    }
+  }
+  return { text: out, seq: seqOut };
+}
+
+function emitTake(meta: TakeMeta, doc: NarrativeDoc, canon: CanonIndex): string {
   const L: string[] = ['{'];
   L.push(`id: ${str(meta.id)},`);
   L.push(`label: ${str(meta.label)},`);
@@ -262,13 +474,23 @@ function emitTake(meta: TakeMeta, doc: NarrativeDoc): string {
     for (const e of prose.entries) L.push(`${keyExpr(e.key)}: ${textExpr(e.text, e.loc)},`);
     L.push('},');
   }
+  // Step A (session-200) — the flat canonicalized map + the greeting sequences, beside the
+  // def-shaped fields until step B migrates the consumers. The hard prose-only gate lives
+  // in emitTakeText (interactive skeleton id-stable; greeting runs free-length pacing).
+  const tt = emitTakeText(doc, canon);
+  L.push('text: {');
+  L.push(...tt.text);
+  L.push('},');
+  L.push('seq: {');
+  L.push(...tt.seq);
+  L.push('},');
   L.push('},');
   return L.join('\n');
 }
 
 /** Compile all open bundles into the `src/ui/storyTakes.gen.ts` module source
  *  (unformatted). Zero bundles emits a stable empty registry. */
-export function emitStoryTakes(bundles: readonly ParsedTakeBundle[]): string {
+export function emitStoryTakes(bundles: readonly ParsedTakeBundle[], canon: CanonIndex): string {
   const entries = bundles.map((b) => {
     if (b.meta.takes.length !== b.docs.length) {
       throw new NarrativeError(
@@ -286,7 +508,7 @@ export function emitStoryTakes(bundles: readonly ParsedTakeBundle[]): string {
     if (b.meta.rung !== undefined) L.push(`rung: ${b.meta.rung},`);
     if (b.meta.rungReason !== undefined) L.push(`rungReason: ${str(b.meta.rungReason)},`);
     L.push('takes: [');
-    b.meta.takes.forEach((t, i) => L.push(emitTake(t, b.docs[i]!)));
+    b.meta.takes.forEach((t, i) => L.push(emitTake(t, b.docs[i]!, canon)));
     L.push('],');
     L.push('},');
     return L.join('\n');

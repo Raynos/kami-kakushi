@@ -27,7 +27,12 @@ import {
 } from './narrative/emit';
 import { emitStoryDoc } from './narrative/story-doc';
 import { validateNarrative } from './narrative/validate';
-import { emitStoryTakes, parseBundleMeta, type ParsedTakeBundle } from './narrative/takes';
+import {
+  emitStoryTakes,
+  parseBundleMeta,
+  buildCanonIndex,
+  type ParsedTakeBundle,
+} from './narrative/takes';
 
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
 
@@ -163,7 +168,9 @@ try {
     });
     return { meta, docs };
   });
-  const takesGenerated = format(emitStoryTakes(bundles), TAKES_OUT);
+  // Step A (session-200) — takes canonicalize against CANON at gen time (the flat text map
+  // + the hard prose-only gate), so the canon parsed docs feed the takes emitter too.
+  const takesGenerated = format(emitStoryTakes(bundles, buildCanonIndex([...docs.values()])), TAKES_OUT);
   const takesOutAbs = join(repoRoot, TAKES_OUT);
   if (check) {
     const onDisk = existsSync(takesOutAbs) ? readFileSync(takesOutAbs, 'utf-8') : '';

@@ -5,7 +5,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { parseNarrative, NarrativeError } from './parse';
-import { emitStoryTakes, parseBundleMeta } from './takes';
+import { emitStoryTakes, parseBundleMeta, buildCanonIndex, type CanonIndex } from './takes';
 import { RANKS } from '../../core/content/ranks';
 import { NPC_NAME } from '../../core/content/voices';
 
@@ -47,6 +47,27 @@ ${GENEMON}: "A react line."
 
 flags: opt-a
 `;
+
+// Step A (session-200) — the take canonicalizes against CANON at gen time, so the tests
+// build a canon whose R1 beat mirrors TAKE's interactive skeleton (1 option; greetings are
+// free-length sequences) but carries DIFFERENT ids: the emitted keys must be CANON's.
+const CANON_MD = `## rung R1 · rung-r1
+speaker: genemon
+voice: steward
+motivates: ${R1_UNLOCK.join(', ')}
+
+<!--#canon-narr-->
+> The canon narrator line.
+
+### decide · The canon prompt?
+
+#### canon-opt · "The canon label."
+
+${GENEMON}: "The canon react."
+
+flags: opt-a
+`;
+const CANON: CanonIndex = buildCanonIndex([parseNarrative(CANON_MD, 'rung-beats.md')]);
 
 describe('parseBundleMeta', () => {
   it('parses heading, top meta (with continuation), and take sections', () => {
@@ -94,7 +115,7 @@ describe('bundle rung (FB-307/FB-312)', () => {
     expect(meta.rung).toBe(2);
     expect(meta.rungReason).toBeUndefined();
     const doc = parseNarrative(TAKE, 'take-b.md');
-    expect(emitStoryTakes([{ meta, docs: [doc] }])).toContain('rung: 2,');
+    expect(emitStoryTakes([{ meta, docs: [doc] }], CANON)).toContain('rung: 2,');
   });
 
   it('parses `rung: other · <reason>` into rungReason and emits it', () => {
@@ -105,7 +126,7 @@ describe('bundle rung (FB-307/FB-312)', () => {
     expect(meta.rung).toBeUndefined();
     expect(meta.rungReason).toBe('the cold open — before R0');
     const doc = parseNarrative(TAKE, 'take-b.md');
-    expect(emitStoryTakes([{ meta, docs: [doc] }])).toContain(
+    expect(emitStoryTakes([{ meta, docs: [doc] }], CANON)).toContain(
       'rungReason: "the cold open — before R0",',
     );
   });
@@ -144,7 +165,7 @@ describe('emitStoryTakes', () => {
   it('emits a registry entry whose take carries the compiled rung scene', () => {
     const meta = parseBundleMeta(BUNDLE, 'bundle.md');
     const doc = parseNarrative(TAKE, 'take-b.md');
-    const src = emitStoryTakes([{ meta, docs: [doc] }]);
+    const src = emitStoryTakes([{ meta, docs: [doc] }], CANON);
     expect(src).toContain(`export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[]`);
     expect(src).toContain(`id: "demo",`);
     expect(src).toContain(`brief: "withholds warmth",`);
@@ -157,13 +178,62 @@ describe('emitStoryTakes', () => {
   });
 
   it('emits a stable empty registry for zero bundles', () => {
-    expect(emitStoryTakes([])).toContain(
+    expect(emitStoryTakes([], CANON)).toContain(
       'STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [\n\n];',
     );
   });
 
   it('goes RED on a takes/docs length mismatch', () => {
     const meta = parseBundleMeta(BUNDLE, 'bundle.md');
-    expect(() => emitStoryTakes([{ meta, docs: [] }])).toThrowError(/takes\/docs mismatch/);
+    expect(() => emitStoryTakes([{ meta, docs: [] }], CANON)).toThrowError(/takes\/docs mismatch/);
+  });
+});
+
+// ── Step A (session-200, human-locked) — gen-time canonicalization + the prose-only gate.
+// RED on main before this landed: no `text:`/`seq:` emission existed, and a structurally
+// divergent take compiled silently (the runtime then half-swapped it). ──
+describe('the flat text map — keys carry CANON ids, blind slugs notwithstanding', () => {
+  const compile = (): string => {
+    const meta = parseBundleMeta(BUNDLE, 'bundle.md');
+    return emitStoryTakes([{ meta, docs: [parseNarrative(TAKE, 'take-b.md')] }], CANON);
+  };
+
+  it('option keys use the canon option id, not the take slug', () => {
+    const src = compile();
+    expect(src).toContain('"beat.R1.opt.canon-opt.say"'); // canon id — the log's address
+    expect(src).toContain('"beat.R1.opt.canon-opt.label"');
+    expect(src).toContain('"beat.R1.opt.canon-opt.react"');
+    expect(src).toContain('"beat.R1.prompt"');
+    expect(src).not.toContain('"beat.R1.opt.opt-a.say"'); // the take slug never leaks
+  });
+
+  it('the greeting run emits as a SEQUENCE (free length — pacing is the take\'s voice)', () => {
+    const src = compile();
+    expect(src).toContain('"beat.R1.greeting": [');
+    expect(src).toContain('id: "narr"'); // the take keeps its own line slugs in the seq
+  });
+});
+
+describe('the prose-only HARD gate', () => {
+  const compileTake = (takeMd: string): void => {
+    const meta = parseBundleMeta(BUNDLE, 'bundle.md');
+    emitStoryTakes([{ meta, docs: [parseNarrative(takeMd, 'take-b.md')] }], CANON);
+  };
+
+  it('REDs a take whose unit does not exist in canon, naming it', () => {
+    expect(() => compileTake(TAKE.replace('## rung R1', '## rung R5'))).toThrowError(
+      /prose-only gate — rung:R5: no canon rung beat/,
+    );
+  });
+
+  it('REDs an option-count mismatch (structure is canon\'s, words are the take\'s)', () => {
+    const extra = `${TAKE}
+#### opt-b · "A second label."
+
+${GENEMON}: "Another react."
+`;
+    expect(() => compileTake(extra)).toThrowError(
+      /prose-only gate — rung:R1: canon has 1 decision option\(s\), the take has 2/,
+    );
   });
 });

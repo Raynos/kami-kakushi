@@ -14,7 +14,7 @@
 
 import type { RankId } from '../core/content/ranks';
 import type { RungScene } from '../core/content/rungBeats';
-import type { DialogueScene } from '../core/content/intro';
+import type { DialogueScene, IntroSetupLine } from '../core/content/intro';
 import type { DialogueDef } from '../core/content/dialogue';
 
 export interface StoryTake {
@@ -50,6 +50,18 @@ export interface StoryTake {
    *  switcher swaps FUTURE emissions through `__setIntroTitleOverride`; logged
    *  history keeps its baked heads (TST2). */
   readonly introTitles?: Readonly<Record<string, string>>;
+  /** Step A (session-200, human-locked) — the take as a FLAT contentKey → text map,
+   *  canonicalized against canon at gen time behind the hard prose-only gate: the keys are
+   *  the addresses the log persists (`dialogue.<def>.<line>`, `beat.R3.opt.<id>.say`,
+   *  `flavor.<k>`, …) plus the render-read classes (`.label`, `.prompt`, `req-objective.<k>`,
+   *  `cold-open.<k>`, `intro-title.<sid>`). Step B migrates every consumer onto this map and
+   *  retires the def-shaped fields above. */
+  readonly text?: Readonly<Record<string, string>>;
+  /** Step A — the GREETING sequences, keyed `<ns>.<unit>.greeting` (`beat.R1.greeting`,
+   *  `intro.dream.greeting`, `scene.works-intro.greeting`). A narration run's line count is
+   *  PACING — part of the take's voice — so it keeps its own length and per-line voice; the
+   *  log re-voices positionally up to min(canon, take), a fresh VN run plays the take. */
+  readonly seq?: Readonly<Record<string, readonly IntroSetupLine[]>>;
 }
 
 // A bundle's reference — in the DEV panel, in review.md, in chat — is its `id`

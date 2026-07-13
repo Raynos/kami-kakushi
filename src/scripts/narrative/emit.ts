@@ -111,7 +111,7 @@ function resolveSpeaker(line: SpeechLine): ResolvedSpeaker {
 // Serves EXACTLY the two line classes the save log addresses by name — a scene's `greeting` and a
 // topic's `answer` — so the authored `<!--#slug-->` id is emitted here, unconditionally. Everything
 // else a scene holds (an option's say/react, a dialogue line) is already addressed by its OWN id.
-function emitProseLine(line: ProseLine): string {
+export function emitProseLine(line: ProseLine): string {
   const expr = refExpr(line.text, line.loc) ?? textExpr(line.text, line.loc);
   if (line.id === undefined) {
     throw new NarrativeError(line.loc, 'a greeting / answer line needs a `<!--#slug-->` id marker');
