@@ -44,6 +44,22 @@ of 13 shots (typewriter/timing: 01-cold-open, 02b-intro-played,
 5; the other 9 must be pixel-identical. Baseline set:
 `tmp/render-split-baseline/` (run-a/run-b/dev-a + dev-shots.mjs).
 
+## 3 · The worktree job — steps 1 + 2a–2i done
+
+In worktree `.claude/worktrees/render-split` (branch
+`worktree-render-split`, base de212d25). Step 1: dev.ts →
+dev/ module set (commit 121c11c3; DEV-panel tabs pixel-identical
+to baseline). Step 2 so far, one surface per commit, full suite
+green each time (1,397 tests): market (bb81b0df), quests,
+inventory, combat+character, estate trio, map+who's-here,
+settings modal, overlays/modals, actions. render.ts 6,766 →
+3,754. Mid-step pixel check: gallery diffs are only the
+known-noisy typewriter shots + the About modal's build-hash
+stamp (explained, rejected). Extraction pattern: create<X>View
+(ctx) factories; surface-private refs become instance state;
+shared mount state (activeTab, openPersonId, lastState, paused)
+threads as getters/setters — never a copied snapshot.
+
 ## Next intended steps (current)
 
 1. Watch for the quiet window (w1:p3 done, four files clean).
