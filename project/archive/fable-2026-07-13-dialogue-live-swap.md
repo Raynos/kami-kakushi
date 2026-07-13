@@ -1,7 +1,9 @@
 # Wire dialogue into the DEV Story switcher's live-swap
 
-**Status:** 📋 PROPOSED (2026-07-13, session-187; scope re-ruled by the
-human 2026-07-13, session-197 — see Locked decisions)
+**Status:** ✅ BUILT (2026-07-13, session-200, commit dd206937; scope
+re-ruled by the human same day — see Locked decisions. Known residue:
+logged 幕-head `context` is baked unkeyed, so intro-title flips still
+skip logged heads — noted in the session-200 journal.)
 **Confidence:** ( 85% Opus, 15% Fable ) — DEV-panel plumbing on an
 existing pattern; the only judgment is matching the ADR-143
 declaring-module setter idiom faithfully.
@@ -24,7 +26,7 @@ the first story session pay a tooling tax. The human pulled the wiring
 forward. Evidence:
 `project/archive/opus-2026-07-12-adr-embedded-work.md` (M7).
 
-## Locked decisions (human, 2026-07-13, session-197)
+## Locked decisions (human, 2026-07-13, session-200)
 
 Asked and answered before build; these are the newest steer (ADR-022)
 and supersede anything below or in code comments that disagrees.
@@ -144,7 +146,7 @@ way. No data or save-format surface.
   not mid-wave.
 - **Strip regression:** the setter must follow the exact sibling
   pattern or the prod-strip check goes red — copy, don't invent.
-- **The log re-render is the unknown (session-197 scope growth):** if
+- **The log re-render is the unknown (session-200 scope growth):** if
   log entries persist baked text with no unit key, step 0's remap
   mechanism is new plumbing, not a pattern copy — the original
   30–60 min estimate no longer holds; expect a half-day. The T2
