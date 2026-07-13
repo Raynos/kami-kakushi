@@ -67,9 +67,12 @@ Settled design graduates to [`../living/`](../living); the chronological "how it
 got here" log is [`../../project/journal/`](../../project/journal).
 
 <!-- gen:begin active-plans (pnpm run checkpoint — do not edit inside) -->
-**2 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
+**5 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
+- [`fable-2026-07-13-adr-shard.md`](fable-2026-07-13-adr-shard.md) — PROPOSED
+- [`fable-2026-07-13-contention-locks.md`](fable-2026-07-13-contention-locks.md) — PROPOSED
 - [`fable-2026-07-13-merchant-state.md`](fable-2026-07-13-merchant-state.md) — PROPOSED
+- [`fable-2026-07-13-render-split.md`](fable-2026-07-13-render-split.md) — PROPOSED
 - [`fable-2026-07-13-sickroom-hp-mend.md`](fable-2026-07-13-sickroom-hp-mend.md) — PROPOSED
 <!-- gen:end active-plans -->
 
