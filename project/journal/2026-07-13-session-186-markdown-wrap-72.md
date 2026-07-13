@@ -268,3 +268,21 @@ context* (not fence/table/heading/gen-region/frontmatter); **(2)** it
 exceeds the width; **(3)** folding it would actually shorten it (so an
 unbreakable URL is never reported). Two more regression tests pin the
 fence and the table cases, and 20 tests now pass.
+
+## 6 · Third papercut: the hook judged files outside the repo
+
+Caught at checkpoint. The hook matched **any** `.md` the agent wrote —
+including one under `~/.claude/` (an agent-memory file), which it
+reported wholesale, because `git diff` cannot scope a file it cannot
+see, so `--new-only` degraded to "every line is new".
+
+This repo's norm has no business judging another project's docs, a
+`~/.claude` memory file, or a scratch note in `/tmp`. The hook now exits
+0 unless the file lives under `$CLAUDE_PROJECT_DIR`. Probed both ways:
+silent on the out-of-repo file, still exit-2 on an in-repo one.
+
+Three papercuts, all found by DOGFOODING rather than by review — the
+separator eater, the fence false-positive, and this. Every one surfaced
+because the tool was pointed at real files in the same session it was
+written. A tool that rewrites prose earns trust by being *used* on prose
+you can still check, not by passing its own tests.

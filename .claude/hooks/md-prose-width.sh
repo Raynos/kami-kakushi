@@ -35,6 +35,17 @@ case "$file" in
   *) exit 0 ;;
 esac
 
+# This is THIS REPO's norm — it has no business judging a .md that lives outside
+# it (another project's docs, ~/.claude memory files, a scratch note in /tmp).
+# Without this guard the hook fired on an agent-memory file under ~/.claude and
+# reported all 20 of its lines, since `git diff` can't scope a file it can't see.
+root="${CLAUDE_PROJECT_DIR:-}"
+[ -n "$root" ] || exit 0
+case "$file" in
+  "$root"/*) ;;
+  *) exit 0 ;;
+esac
+
 # Records + machine-written + other agents' trees are none of our business.
 case "$file" in
   *node_modules/*|*/.claude/worktrees/*) exit 0 ;;
