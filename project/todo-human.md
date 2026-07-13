@@ -37,9 +37,6 @@
   [`project/brainstorms/2026-07-12-quest-shapes-that-emerged.md`](brainstorms/2026-07-12-quest-shapes-that-emerged.md)
   —
 - [ ]
-  [`docs/plans/opus-2026-07-12-rung-reward-legibility.md`](../docs/plans/opus-2026-07-12-rung-reward-legibility.md)
-  — the HD-41 build plan (blocked on your ruling)
-- [ ]
   [`docs/plans/opus-2026-07-12-adr-embedded-work.md`](../docs/plans/opus-2026-07-12-adr-embedded-work.md)
   — the ADR-log sweep: work other agents buried in decisions.md instead
   of a plan, triaged HIGH/MEDIUM/LOW against `src/` the four quest
