@@ -63,6 +63,7 @@
 | ask_rung_topic | instant | — | — |
 | choose_rung_option | instant | — | — |
 | begin_scene | instant | — | — |
+| ask_scene_topic | instant | — | — |
 | advance_scene_beat | instant | — | — |
 | choose_scene_option | instant | — | — |
 | begin_night_round | timed | 30s | 2s |

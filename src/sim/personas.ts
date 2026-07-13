@@ -66,6 +66,7 @@ export const ALL_INTENTS = {
   ask_rung_topic: true,
   choose_rung_option: true,
   begin_scene: true,
+  ask_scene_topic: true,
   advance_scene_beat: true,
   choose_scene_option: true,
   begin_night_round: true,
@@ -132,6 +133,8 @@ export function intentKey(intent: Intent): string {
       return `ask_topic:${intent.topicId}`;
     case 'ask_rung_topic':
       return `ask_rung_topic:${intent.topicId}`;
+    case 'ask_scene_topic':
+      return `ask_scene_topic:${intent.topicId}`;
     case 'choose_intro':
       return `choose_intro:${intent.optionId}`;
     case 'choose_rung_option':
@@ -468,6 +471,10 @@ function explorerCandidates(s: GameState): Intent[] {
     const scene = RUNG_BEATS[s.rungBeat];
     for (const t of scene?.topics ?? []) out.push({ type: 'ask_rung_topic', topicId: t.id });
   }
+  if (s.activeScene !== null) {
+    const def = sceneById(s.activeScene.id);
+    for (const t of def?.scene.topics ?? []) out.push({ type: 'ask_scene_topic', topicId: t.id });
+  }
   // walk every revealed, adjacent node (registry order)
   const revealed = visibleSet(s);
   for (const n of MAP_NODES) {
@@ -501,6 +508,7 @@ export const explorer: Persona = {
     ...greedy.knows,
     'ask_topic',
     'ask_rung_topic',
+    'ask_scene_topic',
     'eat_rice',
     'sell_rice',
     'improve_estate',

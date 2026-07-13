@@ -164,32 +164,6 @@ marks a blocker.
   for a situation most sessions never hit.
 - **Resolution:** _(open)_
 
-### HD-43 🔲 [R1–R3 · story] — three side-beat scenes carry ask-topics no player can reach
-
-- **Context.** `scenes.md` authors ask-topics for the side-beat scenes:
-  `sb-sickroom` (two topics, four answer lines), `sb-cook`, `sb-racks`.
-  The renderer's `projectScene` drops them on the floor — `topics: []`,
-  with the comment *"scenes have no ask-topic reducer of their own, so a
-  scene opens straight in decide"*. The intro has `ask_topic` and the
-  rung beats have `ask_rung_topic`; a generalized scene has neither.
-- **So:** the prose is authored, compiled into `scenes.gen.ts`, and
-  **unreachable** — PH6, if a player can't reach it, it doesn't exist.
-  Found 2026-07-13 (session-192) while sweeping the log's resolvers.
-- **Question / fork:** wire scene asks, or cut the topics?
-- **Options:**
-  - **(a) Wire an `ask_scene_topic` reducer.** A near-copy of
-    `ask_rung_topic` (reveal the answer to Chat, mark asked, free and
-    re-askable), and `projectScene` stops dropping `topics`. The
-    side-beats become real VN meets — the sickroom especially, where
-    asking after your own state *is* the scene. The answers are already
-    written; the cost is the reducer + the asked-set plumbing.
-  - **(b) Cut the topics from `scenes.md`.** The side-beats stay
-    narration + decide. Free — but it deletes prose written on purpose.
-- **Recommendation:** **(a)**. The content exists and the reducer is a
-  near-copy of one that already ships; (b) pays a deletion to keep the
-  gap.
-- **Resolution:** _(open)_
-
 ### HD-44 🔲 [R3 · design] — the rare stat-nudge (BQ2) was lost in the FB-5 migration
 
 - **Context.** `RungOption.statBonus` is a designed lever: a one-time

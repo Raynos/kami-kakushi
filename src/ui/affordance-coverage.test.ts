@@ -31,6 +31,7 @@ const PLAYER_INTENTS = [
   'choose_intro',
   'begin_rung_beat',
   'ask_rung_topic',
+  'ask_scene_topic', // HD-43 — the side-beats' ask-hub (sb-sickroom & co.)
   'choose_rung_option',
   'rake_rice',
   'rest',
@@ -257,6 +258,10 @@ describe('intent → affordance coverage (the wiring-layer ratchet)', () => {
     // ask_rung_topic: the R1/R2 beats are decide-only — R3's beat carries topics
     sweep({ ...inBeat, rungBeat: 'R3' }, seen);
     const r3 = fixtureState('fresh-R3-pre-wolf');
+    // ask_scene_topic (HD-43): a side-beat scene with an ask-hub, OPEN. sb-sickroom's topics were
+    // authored, compiled, and dropped by the renderer for want of a reducer — this is the sweep
+    // that would have caught it: if the hub stops rendering, the intent goes unreachable and RED.
+    sweep({ ...r3, activeScene: { id: 'sb-sickroom', beat: 0 } }, seen);
     // fight + set_auto_combat: standing on a combat zone (the field margins — tanuki/badger) with
     // combat live, so the watch lists a foe with its Fight button + auto-toggle.
     sweep({ ...r3, location: 'field-margins' }, seen);

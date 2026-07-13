@@ -173,3 +173,38 @@ covers the migration, and the browser proof covers boot), and it needs a
 committed pre-migration save blob per schema bump — a real maintenance
 cost. If a future schema bump breaks a save silently, that is the gate
 to reach for.
+
+## HD-43, ruled and built (the human said: wire it)
+
+The human ruled **(a) wire it** — so `ask_scene_topic` now exists: the
+generalized twin of `ask_rung_topic` (reveal the answer to Chat, mark it
+asked; free, re-askable, no stat/memory/promotion), and `projectScene`
+stops dropping `topics: []`. The side-beats' authored answers needed no
+writing — they had been sitting in `scenes.gen.ts` all along.
+
+Declaring the intent forced it into every exhaustive registry the type
+system guards — timing, the sim's persona repertoire, the affordance
+sweep. That last one is the point: **`ask_scene_topic` is now in
+`PLAYER_INTENTS`, so the coverage sweep FAILS if the hub stops
+rendering.** Verified it goes RED by putting `topics: []` back. That is
+the test that would have caught this in the first place.
+
+Its lines are id-keyed like every other VN line, so the same re-voice
+that reaches the beats reaches these (the sweep in `log-render.test.ts`
+covers them for free).
+
+**Player-reach proof (PH6):** opened `sb-sickroom` in the live game —
+two ask buttons (*"What are you writing?"* · *"What does it cost?"*),
+clicked one, and the physician answered: four lines logged under
+`scene.sb-sickroom.topic.sb-sickroom-ask-a.*`, topic marked asked, no
+page errors. Prose that existed and no player could reach, reachable.
+
+Ruled mechanical (restoring intended behaviour), so it archives with
+**no ADR** — the archive row carries the verdict.
+
+## Still open: HD-44
+
+The human ruled **restore** the BQ2 stat-nudge. That one is not
+mechanical: the grammar needs a `bonus:` field, and the R3 'disciplined'
+delight line is **new fiction** ⇒ ADR-139, 3+ blind takes, reviewed live
+in the DEV Story switcher. It is a diverge, not a fix, and it is next.

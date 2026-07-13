@@ -126,6 +126,7 @@ export const INTENT_TIMING: Readonly<Record<IntentType, ActionTiming>> = {
   // storywave G2 scene VN intents — UI narration / zero-fiction bookkeeping (TST3), like the
   // intro/rung VN intents above; time would be chrome, not fiction.
   begin_scene: INSTANT,
+  ask_scene_topic: INSTANT,
   advance_scene_beat: INSTANT,
   choose_scene_option: INSTANT,
   // storywave G2: the on-rails night round is TIMED (ADR-148) — a big scripted sequence.

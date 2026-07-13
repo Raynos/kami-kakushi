@@ -8,7 +8,7 @@
 // directly. Pure-core: no DOM, no Math/Date — determinism rides the caller's state.
 
 import type { GameState } from './state';
-import { deepenNpc, setFlag } from './state';
+import { deepenNpc, markTopicAsked, setFlag } from './state';
 import { applyRewards } from './rewards';
 import {
   SCENES,
@@ -111,6 +111,47 @@ export function beginScene(state: GameState, def: SceneDef): GameState {
       contentKey: `scene.${def.id}.greeting.${l.id}`,
     })),
   });
+}
+
+/** ASK a scene's hub topic (HD-43) — the generalized twin of `ask_rung_topic`. Exploratory and
+ *  FREE, exactly like its rung and intro siblings: reveal the answer to Chat, mark it asked; no
+ *  stat, no memory, no promotion, and a re-ask is a no-op (FB-269).
+ *
+ *  It did not exist until 2026-07-13, and its absence was a hole rather than a design: the story
+ *  files author ask-topics for the side-beats (`sb-sickroom` asks after your own state — the
+ *  scene IS the asking), `gen:narrative` compiled them, and the renderer then dropped them on the
+ *  floor because nothing served them. Authored prose no player could reach (PH6). */
+export function askSceneTopic(state: GameState, def: SceneDef, topicId: string): GameState {
+  const topic = def.scene.topics.find((t) => t.id === topicId);
+  if (!topic) return state;
+  if (topic.gate && !topic.gate(new Set(state.askedTopics))) return state;
+  if (state.askedTopics.includes(topic.id)) return state; // FB-269 — no duplicate log Q+A
+
+  const context = def.id.replace(/-/g, ' '); // FB-262 — the scene is one VN group in the log
+  const next = applyRewards(state, {
+    log: [
+      {
+        // FB-111 — an OPTIONAL question is `chat`: it routes to the Chat tab, off the Story tab.
+        channel: 'narration',
+        text: topic.label,
+        voice: 'player',
+        speaker: playerSpeaker(state),
+        chat: true,
+        contentKey: `scene.${def.id}.topic.${topic.id}.ask`,
+        context,
+      },
+      ...topic.answer.map((l) => ({
+        channel: 'narration' as const,
+        text: l.text,
+        voice: l.voice,
+        speaker: l.speaker,
+        chat: true,
+        contentKey: `scene.${def.id}.topic.${topic.id}.answer.${l.id}`, // FB-316 — same group
+        context,
+      })),
+    ],
+  });
+  return markTopicAsked(next, topic.id);
 }
 
 /** Advance a NARRATION-only scene (a decision with no options — the Count-resolve, the nengu

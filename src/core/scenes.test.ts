@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, it, expect } from 'vitest';
 import { createInitialState, type GameState } from './index';
-import { enqueueScene, triggerScenes, beginScene, applySceneOption } from './scenes';
+import { enqueueScene, triggerScenes, beginScene, applySceneOption, askSceneTopic } from './scenes';
 import { WORKS_PROJECTS } from './works';
 import { SCENES, type SceneDef } from './content/scenes';
 import { QUESTS } from './content/quests';
@@ -206,5 +206,65 @@ describe('C4.1 — every authored scene is REACHABLE (no authored-but-dark conte
           break; // verb scenes are opened by explicit intents — C4.2's talk affordance owns them
       }
     }
+  });
+});
+
+// ── HD-43: a scene's ask-hub (the side-beats' authored topics, finally reachable) ────────────
+// `sb-sickroom`, `sb-cook` and `sb-racks` author ask-topics in scenes.md. They compiled into the
+// registry and then went nowhere: the renderer dropped them (`topics: []`) because no reducer
+// served them, so the prose existed and no player could reach it (PH6). This is the reducer.
+describe('askSceneTopic — a side-beat scene answers a question', () => {
+  const withTopics = SCENES.find((d) => d.scene.topics.length > 0)!;
+  const topic = withTopics.scene.topics.find((t) => t.gate === undefined)!;
+  const open = (): GameState => ({
+    ...createInitialState(1),
+    activeScene: { id: withTopics.id, beat: 0 },
+  });
+
+  it('the registry really does carry an ask-hub scene (else this suite proves nothing)', () => {
+    expect(withTopics.scene.topics.length).toBeGreaterThan(0);
+    expect(topic.answer.length).toBeGreaterThan(0);
+  });
+
+  it('reveals the question and ITS answer, and marks the topic asked', () => {
+    const after = askSceneTopic(open(), withTopics, topic.id);
+    const texts = after.log.entries.map((e) => e.text);
+
+    expect(texts).toContain(topic.label); // the MC asks
+    for (const l of topic.answer) expect(texts).toContain(l.text); // …and is answered
+    expect(after.askedTopics).toContain(topic.id);
+  });
+
+  it('addresses those lines by NAME, so a re-voice reaches an old save', () => {
+    // The same keying every other VN line gets (session-192). A positional key here would have
+    // re-introduced the bug this scene's siblings were just rescued from.
+    const keys = askSceneTopic(open(), withTopics, topic.id)
+      .log.entries.map((e) => e.contentKey)
+      .filter((k): k is string => typeof k === 'string');
+
+    expect(keys).toContain(`scene.${withTopics.id}.topic.${topic.id}.ask`);
+    expect(keys).toContain(
+      `scene.${withTopics.id}.topic.${topic.id}.answer.${topic.answer[0]!.id}`,
+    );
+  });
+
+  it('asking twice is a no-op — no duplicate Q+A in the log (FB-269)', () => {
+    const once = askSceneTopic(open(), withTopics, topic.id);
+    const twice = askSceneTopic(once, withTopics, topic.id);
+    expect(twice.log.entries.length).toBe(once.log.entries.length);
+  });
+
+  it('is FREE and changes nothing else — no promotion, no memory, no cost', () => {
+    const before = open();
+    const after = askSceneTopic(before, withTopics, topic.id);
+    expect(after.flags).toEqual(before.flags); // rank rides the flags — none moved
+    expect(after.resources).toEqual(before.resources);
+    expect(after.npcMemory).toEqual(before.npcMemory);
+    expect(after.activeScene).toEqual(before.activeScene); // the scene stays OPEN — you may ask on
+  });
+
+  it('an unknown topic id is inert (the reducer never throws on a stale id)', () => {
+    const before = open();
+    expect(askSceneTopic(before, withTopics, 'no-such-topic')).toBe(before);
   });
 });

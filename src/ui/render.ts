@@ -2316,10 +2316,11 @@ export function mount(
   // storywave G4.9 — the generalized VN scene (the Count / season overlays / nengu / side-beats /
   // the R7 dream) projects through the SAME normalized shape (one modal — TST1). `def.scene` IS a
   // RungScene, so this mirrors projectRung — but the source is 'scene' (its picks dispatch
-  // choose_scene_option, its narration-only Continue dispatches advance_scene_beat) and topics are
-  // dropped: scenes have no ask-topic reducer of their own, so a scene opens straight in decide
-  // (an options scene) or narration-Continue (an empty-decision scene, ADR-165). A scene NEVER
-  // promotes, so no rung-up ceremony fires on its Continue.
+  // choose_scene_option, its narration-only Continue dispatches advance_scene_beat, its asks
+  // dispatch ask_scene_topic). A scene NEVER promotes, so no rung-up ceremony fires on its
+  // Continue. Topics used to be DROPPED here (`topics: []`) because scenes had no ask reducer —
+  // which quietly made every ask-topic the side-beats authored (`sb-sickroom` and friends)
+  // unreachable prose. HD-43 gave them the reducer; they pass through now.
   function projectScene(scene: RungScene): VnScene {
     return {
       source: 'scene',
@@ -2327,7 +2328,7 @@ export function mount(
       voice: scene.voice,
       ...(scene.speaker !== undefined ? { speaker: scene.speaker } : {}),
       greeting: scene.greeting,
-      topics: [],
+      topics: scene.topics,
       prompt: scene.decision.prompt,
       options: scene.decision.options.map((o): VnOption => {
         const rs = o.reactNpc ? NPC_NAME[o.reactNpc] : beatReactSpeaker(scene);
@@ -2898,7 +2899,9 @@ export function mount(
           dispatch(
             source === 'intro'
               ? { type: 'ask_topic', topicId: t.id }
-              : { type: 'ask_rung_topic', topicId: t.id },
+              : source === 'scene'
+                ? { type: 'ask_scene_topic', topicId: t.id }
+                : { type: 'ask_rung_topic', topicId: t.id },
           ),
         );
         introTopicBtns.set(t.id, b);

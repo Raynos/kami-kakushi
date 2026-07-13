@@ -87,6 +87,7 @@ import {
   beginScene,
   advanceSceneBeat,
   applySceneOption,
+  askSceneTopic,
   enqueueScene,
   triggerScenes,
   triggerFlagScenes,
@@ -129,6 +130,7 @@ export type Intent =
   | { type: 'choose_rung_option'; optionId: string } // the terminal beat choice → apply the promotion
   | { type: 'begin_scene'; sceneId: string } // storywave G2: open a generalized VN scene (dormant)
   | { type: 'advance_scene_beat' } // storywave G2: continue a narration-only scene (inert on decisions)
+  | { type: 'ask_scene_topic'; topicId: string } // HD-43: ASK a scene's hub topic (the side-beats)
   | { type: 'choose_scene_option'; optionId: string } // storywave G2: the terminal scene decision
   | { type: 'begin_night_round'; roundId: string } // storywave G2: start the on-rails night round
   | { type: 'talk_to'; personId: string } // C4.2: a vn person's talk delivers their next authored line
@@ -1357,6 +1359,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       const def = sceneById(state.activeScene.id);
       if (!def) return state;
       next = advanceSceneBeat(next, def);
+      break;
+    }
+    case 'ask_scene_topic': {
+      // ASK a generalized scene's hub topic (HD-43) — the twin of ask_rung_topic / ask_topic. The
+      // side-beats authored these and no reducer served them, so the renderer dropped them.
+      if (state.activeScene === null) return state;
+      const def = sceneById(state.activeScene.id);
+      if (!def) return state;
+      next = askSceneTopic(next, def, intent.topicId);
       break;
     }
     case 'choose_scene_option': {
