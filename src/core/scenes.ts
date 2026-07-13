@@ -100,7 +100,7 @@ export function beginScene(state: GameState, def: SceneDef): GameState {
     sceneQueue: state.sceneQueue.filter((id) => id !== def.id),
   };
   return applyRewards(opened, {
-    log: def.scene.greeting.map((l, i) => ({
+    log: def.scene.greeting.map((l) => ({
       channel: 'narration' as const,
       text: l.text,
       voice: l.voice,
@@ -108,7 +108,7 @@ export function beginScene(state: GameState, def: SceneDef): GameState {
       context: def.id.replace(/-/g, ' '), // FB-262 — the scene is one VN group in Story
       // The save persists the KEY; the words re-render from THIS scene's def on load, so a
       // reworded beat updates every existing save (save-format plan, step 1).
-      contentKey: `scene.${def.id}.greeting.${i}`,
+      contentKey: `scene.${def.id}.greeting.${l.id}`,
     })),
   });
 }

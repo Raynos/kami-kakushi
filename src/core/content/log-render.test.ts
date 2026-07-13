@@ -53,10 +53,10 @@ type Emitted = readonly [key: string, text: string];
 
 /** The keys the VN payload emits — `beat.<rank>.…` and `scene.<id>.…` share `RungScene`. */
 const rungKeys = (ns: string, id: string, scene: RungScene): Emitted[] => [
-  ...scene.greeting.map((l, i): Emitted => [`${ns}.${id}.greeting.${i}`, l.text]),
+  ...scene.greeting.map((l): Emitted => [`${ns}.${id}.greeting.${l.id}`, l.text]),
   ...scene.topics.flatMap((t): Emitted[] => [
     [`${ns}.${id}.topic.${t.id}.ask`, t.label],
-    ...t.answer.map((l, i): Emitted => [`${ns}.${id}.topic.${t.id}.answer.${i}`, l.text]),
+    ...t.answer.map((l): Emitted => [`${ns}.${id}.topic.${t.id}.answer.${l.id}`, l.text]),
   ]),
   ...scene.decision.options.flatMap((o): Emitted[] => [
     [`${ns}.${id}.opt.${o.id}.say`, o.say],
@@ -67,10 +67,10 @@ const rungKeys = (ns: string, id: string, scene: RungScene): Emitted[] => [
 
 /** The intro's own payload — same shape, but its options close on a PERK line, not a stat note. */
 const introKeys = (s: DialogueScene): Emitted[] => [
-  ...s.greeting.map((l, i): Emitted => [`intro.${s.id}.greeting.${i}`, l.text]),
+  ...s.greeting.map((l): Emitted => [`intro.${s.id}.greeting.${l.id}`, l.text]),
   ...s.topics.flatMap((t): Emitted[] => [
     [`intro.${s.id}.topic.${t.id}.ask`, t.label],
-    ...t.answer.map((l, i): Emitted => [`intro.${s.id}.topic.${t.id}.answer.${i}`, l.text]),
+    ...t.answer.map((l): Emitted => [`intro.${s.id}.topic.${t.id}.answer.${l.id}`, l.text]),
   ]),
   ...s.decision.options.flatMap((o): Emitted[] => [
     [`intro.${s.id}.opt.${o.id}.say`, o.say],
@@ -167,7 +167,7 @@ describe('THE POINT: an old save’s stale prose is replaced by src/’s current
     const withStale: GameState = {
       ...s,
       log: pushLog(s.log, 'narration', STALE, 0, {
-        contentKey: `beat.${rank}.topic.${topic.id}.answer.0`,
+        contentKey: `beat.${rank}.topic.${topic.id}.answer.${topic.answer[0]!.id}`,
       }),
     };
     const decoded = (await decodeStore(await encodeStore(makeEnvelope(withStale, 1, 0)))) as {

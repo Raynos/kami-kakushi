@@ -12,6 +12,18 @@ in-game version is single-sourced from `package.json` (footer: `vX.Y.Z · build
 
 ## [Unreleased]
 
+### Fixed
+
+- **Your Story log stops mis-quoting itself.** Every rung-beat question
+  and answer was frozen at the words it was first written with — the log
+  stored an address nothing could read back, so a re-worded line never
+  reached a save you already owned.
+- **A re-written scene can no longer put a neighbour's words in your
+  history.** Log lines used to be addressed by their POSITION in a
+  scene, so re-ordering the lines re-pointed an old save's entry at
+  the line beside it. Lines now carry permanent names, and existing
+  saves are migrated to them on load (save schema v11 → v12).
+
 ## [0.4.1] — 2026-07-11
 
 Polish on the storywave. The estate map becomes a place you can move through,

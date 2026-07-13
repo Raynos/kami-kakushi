@@ -96,6 +96,42 @@ Hard-wrap prose at ~72 chars; continuation lines are flush-left (speech) or
 `> `-prefixed (narrator) and rejoin with a single space — a wrap can only occur
 at an existing space, so CJK runs are unbreakable by construction.
 
+#### Line ids — `<!--#the-slug-->` (REQUIRED on greeting + answer lines)
+
+A **greeting** line and a **topic answer** are the two prose classes the
+SAVE's log addresses by name (`greeting.<id>` ·
+`topic.<t>.answer.<id>`), so each carries an authored id: an
+HTML-comment marker on the line **above** the block.
+
+```markdown
+<!--#do-you-know-the-year-->
+Sōan: "Do you know the year?"
+```
+
+A comment on purpose — it renders as **nothing**, so these files still
+read as a script in any markdown preview. **Never renumber, never
+reuse:** an id is a line's permanent name. Rename it only when the line
+becomes a genuinely *different* line — an old save's entry then falls
+back to the prose it stored (the words the player actually read) rather
+than silently landing on a NEIGHBOUR, which is what the old positional
+addressing did (ADR-186's known limit, closed 2026-07-13).
+
+- **Reorder freely.** The id travels with its line, so moving lines
+  changes nothing for an existing save. A REWORD *keeps* the id, and the
+  new words reach every save that ever logged it — the whole point, and
+  what a text-derived id could not do (it would orphan on exactly that
+  edit).
+- Compile fails (`file:line`) on a greeting/answer line with **no**
+  marker, and on a marker with **no line under it** — a dropped id is a
+  log entry that orphans on the next load.
+- Everything else a scene holds (an option's `say`/`react`, a dialogue
+  line) is already addressed by its OWN id and takes no marker.
+- Bulk-fill a NEW story file with
+  `pnpm exec tsx src/scripts/narrative-add-line-ids.ts` (`--check` only
+  reports): it derives a slug from each un-idded line's opening words.
+  Read the diff — the slug is a first draft; a hand-picked name is
+  better.
+
 ### Topics (the ask-hub)
 
 ```markdown

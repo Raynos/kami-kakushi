@@ -1,11 +1,11 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 11,
+  "schemaVersion": 12,
   "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 11,
+    "schemaVersion": 12,
     "season": "winter",
     "seasonsPassed": 0,
     "rng": {
@@ -70,7 +70,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "what the water takes",
-          "contentKey": "intro.dream.greeting.0"
+          "contentKey": "intro.dream.greeting.dream"
         }
       ],
       "seq": 1

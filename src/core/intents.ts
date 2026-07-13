@@ -243,12 +243,12 @@ function revealIntroBeat(state: GameState, index: number): GameState {
   const scene = introSceneAt(index);
   if (!scene) return state;
   return applyRewards(state, {
-    log: scene.greeting.map((l, i) => ({
+    log: scene.greeting.map((l) => ({
       channel: 'narration' as const,
       text: l.text,
       voice: l.voice,
       speaker: l.speaker,
-      contentKey: `intro.${scene.id}.greeting.${i}`,
+      contentKey: `intro.${scene.id}.greeting.${l.id}`,
       // FB-262 — every VN line carries its scene label so the Story log can GROUP it
       // (the bordered "VN unit" treatments; the render-time scene-group stamps read this).
       // FB-362 — the label is PER SCENE (introSceneTitle), so each intro act is its own
@@ -313,12 +313,12 @@ function revealRungBeat(state: GameState, target: RankId): GameState {
   const scene = RUNG_BEATS[target];
   if (!scene) return state;
   return applyRewards(state, {
-    log: scene.greeting.map((l, i) => ({
+    log: scene.greeting.map((l) => ({
       channel: 'narration' as const,
       text: l.text,
       voice: l.voice,
       speaker: l.speaker,
-      contentKey: `beat.${target}.greeting.${i}`,
+      contentKey: `beat.${target}.greeting.${l.id}`,
       context: `${getRank(target).title} promotion`, // FB-262 — the beat is one VN group
     })),
   });
@@ -411,13 +411,13 @@ export function reduce(state: GameState, intent: Intent): GameState {
             contentKey: `intro.${scene.id}.topic.${topic.id}.ask`,
             context: introSceneTitle(scene), // FB-270/FB-362 — the chat kicker names the SCENE
           },
-          ...topic.answer.map((l, i) => ({
+          ...topic.answer.map((l) => ({
             channel: 'narration' as const,
             text: l.text,
             voice: l.voice,
             speaker: l.speaker,
             chat: true,
-            contentKey: `intro.${scene.id}.topic.${topic.id}.answer.${i}`,
+            contentKey: `intro.${scene.id}.topic.${topic.id}.answer.${l.id}`,
             context: introSceneTitle(scene), // FB-316 — the answer shares the question's scene group
           })),
         ],
@@ -533,13 +533,13 @@ export function reduce(state: GameState, intent: Intent): GameState {
             // FB-270 — the chat kicker names the beat ("The day-hand promotion")
             context: `${getRank(target).title} promotion`,
           },
-          ...topic.answer.map((l, i) => ({
+          ...topic.answer.map((l) => ({
             channel: 'narration' as const,
             text: l.text,
             voice: l.voice,
             speaker: l.speaker,
             chat: true,
-            contentKey: `beat.${target}.topic.${topic.id}.answer.${i}`,
+            contentKey: `beat.${target}.topic.${topic.id}.answer.${l.id}`,
             // FB-316 — the answer shares the question's scene group
             context: `${getRank(target).title} promotion`,
           })),

@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { migrate } from './migrate';
 import { SCHEMA_VERSION } from '../core';
+import { RUNG_BEATS, type RungScene } from '../core/content/rungBeats';
+import { renderLogLine } from '../core/content/log-render';
 
 describe('migrate() — ordered forward chain (PRD §6.8.2)', () => {
   const fake = {
@@ -57,5 +59,72 @@ describe('migrate() — ordered forward chain (PRD §6.8.2)', () => {
     const v10 = { schemaVersion: 10, flags: {}, unlocked: ['readout-coin'] };
     const v11 = migrate(v10, 10) as { flags: Record<string, boolean> };
     expect(v11.flags['coin-earned']).toBe(true); // a spent-to-0 first wage can't hide the readout
+  });
+});
+
+// ── v11 → v12: the log's line addresses become NAMES (ADR-186's known limit, closed) ─────────
+// A v11 save addressed a scene's greeting / answer line by INDEX. An index does not survive an
+// edit to the narrative .md: re-order or delete a line and the old entry silently re-points at its
+// NEIGHBOUR — the player's own history, rewritten in someone else's words. The lines now carry
+// authored ids, and THIS migration rewrites the old indexes to them. It is sound only here, in the
+// release that adds ids and re-orders nothing, which is exactly why it is not deferred.
+describe('v11 → v12 — a save stops being vulnerable to the next re-order', () => {
+  const beat = Object.entries(RUNG_BEATS).find(([, b]) => b && b.topics.length > 0)!;
+  const [rank, scene] = beat as [string, RungScene];
+  const topic = scene.topics[0]!;
+
+  /** A v11 save: a log whose VN entries are addressed positionally. */
+  const v11 = (contentKey: string) => ({
+    log: { entries: [{ text: 'the words the player read', contentKey }] },
+  });
+  const keyAfter = (contentKey: string): string => {
+    const out = migrate(v11(contentKey), 11, 12) as {
+      log: { entries: { contentKey: string }[] };
+    };
+    return out.log.entries[0]!.contentKey;
+  };
+
+  it('rewrites a greeting index to the id of the line that index NAMES today', () => {
+    // Derived from the registry, never a copied slug: the line at index 1 is the line the v11
+    // save meant, because this release re-orders nothing.
+    const second = scene.greeting[1]!;
+    expect(keyAfter(`beat.${rank}.greeting.1`)).toBe(`beat.${rank}.greeting.${second.id}`);
+  });
+
+  it('rewrites a topic-answer index the same way', () => {
+    const first = topic.answer[0]!;
+    expect(keyAfter(`beat.${rank}.topic.${topic.id}.answer.0`)).toBe(
+      `beat.${rank}.topic.${topic.id}.answer.${first.id}`,
+    );
+  });
+
+  it('the migrated key renders the SAME WORDS the player originally read', () => {
+    // The migration is worthless if it renames the line to something else. This is the check that
+    // it named the right one — end to end, through the real resolver.
+    const second = scene.greeting[1]!;
+    expect(renderLogLine(keyAfter(`beat.${rank}.greeting.1`))).toBe(second.text);
+  });
+
+  it('AND the id is position-free: it resolves the same wherever the line sits', () => {
+    // The whole point. `greeting.<id>` names a LINE, not a slot — so a re-voice wave that moves
+    // this line to the top of the scene cannot re-point this save's entry at its neighbour. (Under
+    // v11's `greeting.1` it silently would; the compiler tests prove the id travels with the text.)
+    const second = scene.greeting[1]!;
+    const first = scene.greeting[0]!;
+    expect(renderLogLine(`beat.${rank}.greeting.${second.id}`)).toBe(second.text);
+    expect(renderLogLine(`beat.${rank}.greeting.${first.id}`)).toBe(first.text);
+    expect(second.text).not.toBe(first.text); // …and they are genuinely different lines
+  });
+
+  it('an index the registry no longer has is LEFT ALONE (the entry keeps its stored prose)', () => {
+    const gone = `beat.${rank}.greeting.999`;
+    expect(keyAfter(gone)).toBe(gone); // unresolvable → codec falls back to the words it stored
+  });
+
+  it('an unkeyed legacy line passes through untouched', () => {
+    const out = migrate({ log: { entries: [{ text: 'authored prose, no key' }] } }, 11, 12) as {
+      log: { entries: Record<string, unknown>[] };
+    };
+    expect(out.log.entries[0]).toEqual({ text: 'authored prose, no key' });
   });
 });

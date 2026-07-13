@@ -1,11 +1,11 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 11,
+  "schemaVersion": 12,
   "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 11,
+    "schemaVersion": 12,
     "season": "spring",
     "seasonsPassed": 2,
     "rng": {
@@ -151,7 +151,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "what the water takes",
-          "contentKey": "intro.dream.greeting.0"
+          "contentKey": "intro.dream.greeting.dream"
         },
         {
           "key": 1,
@@ -186,7 +186,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.0"
+          "contentKey": "intro.soan.greeting.weir"
         },
         {
           "key": 5,
@@ -195,7 +195,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.1"
+          "contentKey": "intro.soan.greeting.wake"
         },
         {
           "key": 6,
@@ -204,7 +204,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.2"
+          "contentKey": "intro.soan.greeting.the-physician-does-not-ask-how"
         },
         {
           "key": 7,
@@ -214,7 +214,7 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.3"
+          "contentKey": "intro.soan.greeting.do-you-know-the-year"
         },
         {
           "key": 8,
@@ -224,7 +224,7 @@
           "speaker": "You",
           "voice": "player",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.4"
+          "contentKey": "intro.soan.greeting.no"
         },
         {
           "key": 9,
@@ -234,7 +234,7 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.5"
+          "contentKey": "intro.soan.greeting.an-ei-nine-now-you-know"
         },
         {
           "key": 10,
@@ -243,7 +243,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.6"
+          "contentKey": "intro.soan.greeting.whatever-the-hands-told-him-goes"
         },
         {
           "key": 11,
@@ -252,7 +252,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.7"
+          "contentKey": "intro.soan.greeting.the-man-in-the-doorway-is"
         },
         {
           "key": 12,
@@ -262,7 +262,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.8"
+          "contentKey": "intro.soan.greeting.the-weir-man-soan-can-he"
         },
         {
           "key": 13,
@@ -272,7 +272,7 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.9"
+          "contentKey": "intro.soan.greeting.ask-him"
         },
         {
           "key": 14,
@@ -282,7 +282,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.10"
+          "contentKey": "intro.soan.greeting.name-age-where-from-in-that"
         },
         {
           "key": 15,
@@ -291,7 +291,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.11"
+          "contentKey": "intro.soan.greeting.three-answers-and-you-do-not"
         },
         {
           "key": 16,
@@ -300,7 +300,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.12"
+          "contentKey": "intro.soan.greeting.it-is-the-first-thing-you"
         },
         {
           "key": 17,
@@ -310,7 +310,7 @@
           "speaker": "You",
           "voice": "player",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.13"
+          "contentKey": "intro.soan.greeting.what-name-did-i-give-when"
         },
         {
           "key": 18,
@@ -320,7 +320,7 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.14"
+          "contentKey": "intro.soan.greeting.none-you-gave-none-three-days"
         },
         {
           "key": 19,
@@ -329,7 +329,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.15"
+          "contentKey": "intro.soan.greeting.nothing-comes"
         },
         {
           "key": 20,
@@ -338,7 +338,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.16"
+          "contentKey": "intro.soan.greeting.genemon-does-not-look-surprised-he"
         },
         {
           "key": 21,
@@ -348,7 +348,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.17"
+          "contentKey": "intro.soan.greeting.daybook"
         },
         {
           "key": 22,
@@ -358,7 +358,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.18"
+          "contentKey": "intro.soan.greeting.when-he-can-stand-he-rakes"
         },
         {
           "key": 23,
@@ -367,7 +367,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
-          "contentKey": "intro.soan.greeting.19"
+          "contentKey": "intro.soan.greeting.he-goes-soan-opens-his-ledger"
         },
         {
           "key": 24,
@@ -404,7 +404,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "entered in the book",
-          "contentKey": "intro.genemon.greeting.0"
+          "contentKey": "intro.genemon.greeting.genemon-open-gen-greet"
         },
         {
           "key": 28,
@@ -522,7 +522,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.0"
+          "contentKey": "beat.R1.greeting.morning-at-the-board-the-hands"
         },
         {
           "key": 53,
@@ -532,7 +532,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.1"
+          "contentKey": "beat.R1.greeting.the-paddies-want-six-hands-two"
         },
         {
           "key": 54,
@@ -541,7 +541,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.2"
+          "contentKey": "beat.R1.greeting.it-is-the-first-you-have"
         },
         {
           "key": 55,
@@ -551,7 +551,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.3"
+          "contentKey": "beat.R1.greeting.so-the-terms-and-they-are"
         },
         {
           "key": 56,
@@ -561,7 +561,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.4"
+          "contentKey": "beat.R1.greeting.you-are-paid-no-coin-not"
         },
         {
           "key": 57,
@@ -571,7 +571,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.5"
+          "contentKey": "beat.R1.greeting.if-you-have-an-objection-it"
         },
         {
           "key": 58,
@@ -580,7 +580,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.6"
+          "contentKey": "beat.R1.greeting.nobody-stops-eating-two-hands-lost"
         },
         {
           "key": 59,
@@ -589,7 +589,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.7"
+          "contentKey": "beat.R1.greeting.six-hands-wanted-five-sleep-here"
         },
         {
           "key": 60,
@@ -599,7 +599,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.8"
+          "contentKey": "beat.R1.greeting.the-board-has-heard-it-that"
         },
         {
           "key": 61,
@@ -608,7 +608,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.9"
+          "contentKey": "beat.R1.greeting.he-opens-the-day-book-to-a"
         },
         {
           "key": 62,
@@ -617,7 +617,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.10"
+          "contentKey": "beat.R1.greeting.on-the-veranda-above-the-step"
         },
         {
           "key": 63,
@@ -627,7 +627,7 @@
           "speaker": "Naoyuki",
           "voice": "official",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.11"
+          "contentKey": "beat.R1.greeting.the-house-is-glad-of"
         },
         {
           "key": 64,
@@ -636,7 +636,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.12"
+          "contentKey": "beat.R1.greeting.the-sentence-stops-he-stands-a"
         },
         {
           "key": 65,
@@ -646,7 +646,7 @@
           "speaker": "Naoyuki",
           "voice": "official",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.13"
+          "contentKey": "beat.R1.greeting.two-hands-left-you-were-standing"
         },
         {
           "key": 66,
@@ -655,7 +655,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.14"
+          "contentKey": "beat.R1.greeting.he-goes-on-along-the-veranda"
         },
         {
           "key": 67,
@@ -664,7 +664,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.15"
+          "contentKey": "beat.R1.greeting.genemon-takes-up-the-brush-again"
         },
         {
           "key": 68,
@@ -674,7 +674,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The day-hand promotion",
-          "contentKey": "beat.R1.greeting.16"
+          "contentKey": "beat.R1.greeting.one-thing-before-the-ink-if"
         },
         {
           "key": 69,
@@ -773,7 +773,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r2 yard hand",
-          "contentKey": "scene.r2-yard-hand.greeting.0"
+          "contentKey": "scene.r2-yard-hand.greeting.first-light-the-broom-stands-against"
         },
         {
           "key": 124,
@@ -782,7 +782,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r2 yard hand",
-          "contentKey": "scene.r2-yard-hand.greeting.1"
+          "contentKey": "scene.r2-yard-hand.greeting.you-take-the-broom-nobody-takes"
         },
         {
           "key": 125,
@@ -791,7 +791,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r2 yard hand",
-          "contentKey": "scene.r2-yard-hand.greeting.2"
+          "contentKey": "scene.r2-yard-hand.greeting.the-round-takes-the-morning-the"
         },
         {
           "key": 126,
@@ -801,7 +801,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "r2 yard hand",
-          "contentKey": "scene.r2-yard-hand.greeting.3"
+          "contentKey": "scene.r2-yard-hand.greeting.rice-from-the-new-moon-one"
         },
         {
           "key": 127,
@@ -810,7 +810,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r2 yard hand",
-          "contentKey": "scene.r2-yard-hand.greeting.4"
+          "contentKey": "scene.r2-yard-hand.greeting.he-is-through-the-door-before"
         },
         {
           "key": 128,
@@ -819,7 +819,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r2 yard hand",
-          "contentKey": "scene.r2-yard-hand.greeting.5"
+          "contentKey": "scene.r2-yard-hand.greeting.a-meal-ends-with-the-eating"
         },
         {
           "key": 129,
@@ -828,7 +828,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.0"
+          "contentKey": "scene.works-intro.greeting.the-board-an-evening-some-weeks"
         },
         {
           "key": 130,
@@ -837,7 +837,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.1"
+          "contentKey": "scene.works-intro.greeting.the-ink-at-the-head-of"
         },
         {
           "key": 131,
@@ -847,7 +847,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.2"
+          "contentKey": "scene.works-intro.greeting.the-wages-are-settled-this-is"
         },
         {
           "key": 132,
@@ -857,7 +857,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.3"
+          "contentKey": "scene.works-intro.greeting.gate-west-post-takes-water-at"
         },
         {
           "key": 133,
@@ -866,7 +866,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.4"
+          "contentKey": "scene.works-intro.greeting.he-enters-nothing-every-line-is"
         },
         {
           "key": 134,
@@ -876,7 +876,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.5"
+          "contentKey": "scene.works-intro.greeting.one-more-the-house-carries-whether"
         },
         {
           "key": 135,
@@ -886,7 +886,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.6"
+          "contentKey": "scene.works-intro.greeting.understand-what-i-am-asking-and"
         },
         {
           "key": 136,
@@ -896,7 +896,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.7"
+          "contentKey": "scene.works-intro.greeting.i-commission-nothing-that-has-not"
         },
         {
           "key": 137,
@@ -905,7 +905,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.8"
+          "contentKey": "scene.works-intro.greeting.he-is-holding-the-page-flat"
         },
         {
           "key": 138,
@@ -915,7 +915,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works intro",
-          "contentKey": "scene.works-intro.greeting.9"
+          "contentKey": "scene.works-intro.greeting.do-not-take-my-word-for"
         },
         {
           "key": 139,
@@ -944,7 +944,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb market",
-          "contentKey": "scene.sb-market.greeting.0"
+          "contentKey": "scene.sb-market.greeting.the-forecourt-mid-morning-the-week-s"
         },
         {
           "key": 142,
@@ -953,7 +953,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb market",
-          "contentKey": "scene.sb-market.greeting.1"
+          "contentKey": "scene.sb-market.greeting.genemon-hears-the-knot-before-he"
         },
         {
           "key": 143,
@@ -963,7 +963,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "sb market",
-          "contentKey": "scene.sb-market.greeting.2"
+          "contentKey": "scene.sb-market.greeting.coin-yours-entered-against-your-line"
         },
         {
           "key": 144,
@@ -973,7 +973,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "sb market",
-          "contentKey": "scene.sb-market.greeting.3"
+          "contentKey": "scene.sb-market.greeting.then-hear-it-coin-does-one"
         },
         {
           "key": 145,
@@ -983,7 +983,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "sb market",
-          "contentKey": "scene.sb-market.greeting.4"
+          "contentKey": "scene.sb-market.greeting.you-were-never-told-that-is"
         },
         {
           "key": 146,
@@ -1044,7 +1044,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.0"
+          "contentKey": "scene.sb-cook.greeting.the-greens-have-been-in-your"
         },
         {
           "key": 180,
@@ -1053,7 +1053,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.1"
+          "contentKey": "scene.sb-cook.greeting.o-hisa-is-at-the-kitchen-threshold"
         },
         {
           "key": 181,
@@ -1063,7 +1063,7 @@
           "speaker": "O-Hisa",
           "voice": "steward",
           "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.2"
+          "contentKey": "scene.sb-cook.greeting.boiled-that-is-what-they-are"
         },
         {
           "key": 182,
@@ -1073,7 +1073,7 @@
           "speaker": "O-Hisa",
           "voice": "steward",
           "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.3"
+          "contentKey": "scene.sb-cook.greeting.there-is-one-pot-in-this"
         },
         {
           "key": 183,
@@ -1083,7 +1083,7 @@
           "speaker": "O-Hisa",
           "voice": "steward",
           "context": "sb cook",
-          "contentKey": "scene.sb-cook.greeting.4"
+          "contentKey": "scene.sb-cook.greeting.and-you-will-want-it-rice"
         },
         {
           "key": 184,
@@ -1128,7 +1128,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.0"
+          "contentKey": "beat.R3.greeting.dawn-comes-grey-through-the-kura"
         },
         {
           "key": 198,
@@ -1137,7 +1137,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.1"
+          "contentKey": "beat.R3.greeting.kihei-crouches-at-the-sill-a"
         },
         {
           "key": 199,
@@ -1147,7 +1147,7 @@
           "speaker": "Kihei",
           "voice": "arms",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.2"
+          "contentKey": "beat.R3.greeting.alive-good"
         },
         {
           "key": 200,
@@ -1156,7 +1156,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.3"
+          "contentKey": "beat.R3.greeting.for-a-moment-there-is-more"
         },
         {
           "key": 201,
@@ -1165,7 +1165,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.4"
+          "contentKey": "beat.R3.greeting.genemon-stands-in-the-doorway-whatever"
         },
         {
           "key": 202,
@@ -1175,7 +1175,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.5"
+          "contentKey": "beat.R3.greeting.screen-one-torn-bar-one-broken"
         },
         {
           "key": 203,
@@ -1184,7 +1184,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.6"
+          "contentKey": "beat.R3.greeting.none-lost-you-think-of-the"
         },
         {
           "key": 204,
@@ -1194,7 +1194,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.7"
+          "contentKey": "beat.R3.greeting.the-bar-was-old-it-goes"
         },
         {
           "key": 205,
@@ -1203,7 +1203,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.8"
+          "contentKey": "beat.R3.greeting.kihei-stands-takes-the-boar-spear-off"
         },
         {
           "key": 206,
@@ -1213,7 +1213,7 @@
           "speaker": "Kihei",
           "voice": "arms",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.9"
+          "contentKey": "beat.R3.greeting.you-didn-t-win-the-house"
         },
         {
           "key": 207,
@@ -1222,7 +1222,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.10"
+          "contentKey": "beat.R3.greeting.by-evening-the-padded-coat-is"
         },
         {
           "key": 208,
@@ -1232,7 +1232,7 @@
           "speaker": "O-Hisa",
           "voice": "steward",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.11"
+          "contentKey": "beat.R3.greeting.it-tore-clean-at-least-if"
         },
         {
           "key": 209,
@@ -1241,7 +1241,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The grain-watch promotion",
-          "contentKey": "beat.R3.greeting.12"
+          "contentKey": "beat.R3.greeting.she-is-back-inside-before-you"
         },
         {
           "key": 210,
@@ -1305,7 +1305,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb lease",
-          "contentKey": "scene.sb-lease.greeting.0"
+          "contentKey": "scene.sb-lease.greeting.matsuzo-comes-up-from-the-river"
         },
         {
           "key": 217,
@@ -1315,7 +1315,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "sb lease",
-          "contentKey": "scene.sb-lease.greeting.1"
+          "contentKey": "scene.sb-lease.greeting.the-weir-lease-due-today-rice"
         },
         {
           "key": 218,
@@ -1325,7 +1325,7 @@
           "speaker": "Matsuzō",
           "voice": "villager",
           "context": "sb lease",
-          "contentKey": "scene.sb-lease.greeting.2"
+          "contentKey": "scene.sb-lease.greeting.screens-took-a-beating-in-the"
         },
         {
           "key": 219,
@@ -1334,7 +1334,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb lease",
-          "contentKey": "scene.sb-lease.greeting.3"
+          "contentKey": "scene.sb-lease.greeting.he-does-not-say-on-you"
         },
         {
           "key": 220,
@@ -1344,7 +1344,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "sb lease",
-          "contentKey": "scene.sb-lease.greeting.4"
+          "contentKey": "scene.sb-lease.greeting.three-to-owing-i-ask-the"
         },
         {
           "key": 221,
@@ -1353,7 +1353,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb lease",
-          "contentKey": "scene.sb-lease.greeting.5"
+          "contentKey": "scene.sb-lease.greeting.genemon-bows-not-deeply-no-kurosawa"
         },
         {
           "key": 222,
@@ -1363,7 +1363,7 @@
           "speaker": "Matsuzō",
           "voice": "villager",
           "context": "sb lease",
-          "contentKey": "scene.sb-lease.greeting.6"
+          "contentKey": "scene.sb-lease.greeting.the-river-can-wait-a-season"
         },
         {
           "key": 223,
@@ -1372,7 +1372,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb lease",
-          "contentKey": "scene.sb-lease.greeting.7"
+          "contentKey": "scene.sb-lease.greeting.nobody-asks-you-a-line-in"
         },
         {
           "key": 224,
@@ -1381,7 +1381,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb lease",
-          "contentKey": "scene.sb-lease.greeting.8"
+          "contentKey": "scene.sb-lease.greeting.at-the-gate-the-old-man"
         },
         {
           "key": 225,
@@ -1390,7 +1390,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.0"
+          "contentKey": "scene.sb-sickroom.greeting.the-lean-to-off-the-outer-court"
         },
         {
           "key": 226,
@@ -1399,7 +1399,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.1"
+          "contentKey": "scene.sb-sickroom.greeting.you-have-been-in-this-room"
         },
         {
           "key": 227,
@@ -1409,7 +1409,7 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.2"
+          "contentKey": "scene.sb-sickroom.greeting.breathe-in-again-shallower-now-turn"
         },
         {
           "key": 228,
@@ -1418,7 +1418,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.3"
+          "contentKey": "scene.sb-sickroom.greeting.you-tell-him-he-puts-two"
         },
         {
           "key": 229,
@@ -1428,7 +1428,7 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.4"
+          "contentKey": "scene.sb-sickroom.greeting.two-of-your-ribs-are-cracked"
         },
         {
           "key": 230,
@@ -1438,7 +1438,7 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.5"
+          "contentKey": "scene.sb-sickroom.greeting.now-the-cost-since-nobody-else"
         },
         {
           "key": 231,
@@ -1447,7 +1447,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.6"
+          "contentKey": "scene.sb-sickroom.greeting.he-writes-the-brush-stops-and"
         },
         {
           "key": 232,
@@ -1456,7 +1456,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb sickroom",
-          "contentKey": "scene.sb-sickroom.greeting.7"
+          "contentKey": "scene.sb-sickroom.greeting.two-books-in-this-house-keep"
         },
         {
           "key": 233,
@@ -1485,7 +1485,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "sb racks",
-          "contentKey": "scene.sb-racks.greeting.0"
+          "contentKey": "scene.sb-racks.greeting.the-rows-past-noon-rokusuke-works"
         },
         {
           "key": 237,
@@ -1495,7 +1495,7 @@
           "speaker": "Rokusuke",
           "voice": "villager",
           "context": "sb racks",
-          "contentKey": "scene.sb-racks.greeting.1"
+          "contentKey": "scene.sb-racks.greeting.that-is-a-blade-you-are"
         },
         {
           "key": 238,
@@ -1505,7 +1505,7 @@
           "speaker": "Rokusuke",
           "voice": "villager",
           "context": "sb racks",
-          "contentKey": "scene.sb-racks.greeting.2"
+          "contentKey": "scene.sb-racks.greeting.four-bundles-off-the-drying-racks"
         },
         {
           "key": 239,
@@ -1515,7 +1515,7 @@
           "speaker": "Rokusuke",
           "voice": "villager",
           "context": "sb racks",
-          "contentKey": "scene.sb-racks.greeting.3"
+          "contentKey": "scene.sb-racks.greeting.and-at-the-week-s-end"
         },
         {
           "key": 240,
@@ -1559,7 +1559,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "turn winter",
-          "contentKey": "scene.turn-winter.greeting.0"
+          "contentKey": "scene.turn-winter.greeting.the-snow-quits-the-valley-floor"
         },
         {
           "key": 246,
@@ -1568,7 +1568,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "turn winter",
-          "contentKey": "scene.turn-winter.greeting.1"
+          "contentKey": "scene.turn-winter.greeting.the-river-runs-black-and-narrow"
         },
         {
           "key": 247,
@@ -1577,7 +1577,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "turn winter",
-          "contentKey": "scene.turn-winter.greeting.2"
+          "contentKey": "scene.turn-winter.greeting.the-light-stretches-work-that-used"
         },
         {
           "key": 248,
@@ -1586,7 +1586,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "turn winter",
-          "contentKey": "scene.turn-winter.greeting.3"
+          "contentKey": "scene.turn-winter.greeting.small-on-the-road-below-a"
         },
         {
           "key": 252,
@@ -2064,7 +2064,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "turn new year",
-          "contentKey": "scene.turn-new-year.greeting.0"
+          "contentKey": "scene.turn-new-year.greeting.ice-lets-go-of-the-shaded"
         },
         {
           "key": 321,
@@ -2073,7 +2073,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "turn new year",
-          "contentKey": "scene.turn-new-year.greeting.1"
+          "contentKey": "scene.turn-new-year.greeting.the-ground-gives-underfoot-where-all"
         },
         {
           "key": 322,
@@ -2082,7 +2082,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "turn new year",
-          "contentKey": "scene.turn-new-year.greeting.2"
+          "contentKey": "scene.turn-new-year.greeting.up-the-woodlot-the-bark-of"
         },
         {
           "key": 323,
@@ -2091,7 +2091,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "turn new year",
-          "contentKey": "scene.turn-new-year.greeting.3"
+          "contentKey": "scene.turn-new-year.greeting.last-and-small-under-all-that"
         },
         {
           "key": 324,
@@ -2678,7 +2678,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.0"
+          "contentKey": "beat.R4.greeting.soan-strapped-the-ribs-for-walking"
         },
         {
           "key": 373,
@@ -2687,7 +2687,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.1"
+          "contentKey": "beat.R4.greeting.past-the-kitchen-passage-a-screen"
         },
         {
           "key": 374,
@@ -2696,7 +2696,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.2"
+          "contentKey": "beat.R4.greeting.genemon-is-there-the-day-book-open"
         },
         {
           "key": 375,
@@ -2706,7 +2706,7 @@
           "speaker": "Nameless",
           "voice": "player",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.3"
+          "contentKey": "beat.R4.greeting.rats-were-in-the-store-three"
         },
         {
           "key": 376,
@@ -2716,7 +2716,7 @@
           "speaker": "Nameless",
           "voice": "player",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.4"
+          "contentKey": "beat.R4.greeting.the-watch-was-mine"
         },
         {
           "key": 377,
@@ -2725,7 +2725,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.5"
+          "contentKey": "beat.R4.greeting.genemon-writes-before-he-answers-it"
         },
         {
           "key": 378,
@@ -2735,7 +2735,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.6"
+          "contentKey": "beat.R4.greeting.rice-one-quarter-sack-to-vermin-two"
         },
         {
           "key": 379,
@@ -2745,7 +2745,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.7"
+          "contentKey": "beat.R4.greeting.not-under-your-name-no-wage"
         },
         {
           "key": 380,
@@ -2755,7 +2755,7 @@
           "speaker": "Nameless",
           "voice": "player",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.8"
+          "contentKey": "beat.R4.greeting.it-isn-t"
         },
         {
           "key": 381,
@@ -2764,7 +2764,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.9"
+          "contentKey": "beat.R4.greeting.the-pen-stops-above-the-line"
         },
         {
           "key": 382,
@@ -2773,7 +2773,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.10"
+          "contentKey": "beat.R4.greeting.he-had-taken-the-loss-off"
         },
         {
           "key": 383,
@@ -2782,7 +2782,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.11"
+          "contentKey": "beat.R4.greeting.at-the-kitchen-threshold-o-hisa-has"
         },
         {
           "key": 384,
@@ -2791,7 +2791,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.12"
+          "contentKey": "beat.R4.greeting.from-the-board-the-woodshed-is"
         },
         {
           "key": 385,
@@ -2800,7 +2800,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.13"
+          "contentKey": "beat.R4.greeting.stalls-for-twenty-horses-run-down"
         },
         {
           "key": 386,
@@ -2810,7 +2810,7 @@
           "speaker": "Nameless",
           "voice": "player",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.14"
+          "contentKey": "beat.R4.greeting.teach-me"
         },
         {
           "key": 387,
@@ -2819,7 +2819,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.15"
+          "contentKey": "beat.R4.greeting.that-was-the-easy-half-the"
         },
         {
           "key": 388,
@@ -2829,7 +2829,7 @@
           "speaker": "Nameless",
           "voice": "player",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.16"
+          "contentKey": "beat.R4.greeting.will-you"
         },
         {
           "key": 389,
@@ -2838,7 +2838,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.17"
+          "contentKey": "beat.R4.greeting.kihei-sets-down-the-whetstone-he"
         },
         {
           "key": 390,
@@ -2848,7 +2848,7 @@
           "speaker": "Kihei",
           "voice": "arms",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.18"
+          "contentKey": "beat.R4.greeting.you-walked-here-on-cracked-ribs"
         },
         {
           "key": 391,
@@ -2857,7 +2857,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.19"
+          "contentKey": "beat.R4.greeting.it-is-not-a-question-so"
         },
         {
           "key": 392,
@@ -2867,7 +2867,7 @@
           "speaker": "Kihei",
           "voice": "arms",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.20"
+          "contentKey": "beat.R4.greeting.terms-then-once-talent-is-a"
         },
         {
           "key": 393,
@@ -2876,7 +2876,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.21"
+          "contentKey": "beat.R4.greeting.he-takes-the-oiled-staff-from"
         },
         {
           "key": 394,
@@ -2885,7 +2885,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.22"
+          "contentKey": "beat.R4.greeting.your-hands-take-the-staff-and"
         },
         {
           "key": 395,
@@ -2895,7 +2895,7 @@
           "speaker": "Kihei",
           "voice": "arms",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.23"
+          "contentKey": "beat.R4.greeting.the-house-has-one-man-who"
         },
         {
           "key": 396,
@@ -2904,7 +2904,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.24"
+          "contentKey": "beat.R4.greeting.on-the-wall-above-the-empty"
         },
         {
           "key": 397,
@@ -2914,7 +2914,7 @@
           "speaker": "Kihei",
           "voice": "arms",
           "context": "The pupil promotion",
-          "contentKey": "beat.R4.greeting.25"
+          "contentKey": "beat.R4.greeting.one-thing-before-the-staff-why"
         },
         {
           "key": 398,
@@ -3531,7 +3531,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count",
-          "contentKey": "scene.count.greeting.0"
+          "contentKey": "scene.count.greeting.a-hand-shakes-you-awake-in"
         },
         {
           "key": 459,
@@ -3541,7 +3541,7 @@
           "speaker": "Rokusuke",
           "voice": "villager",
           "context": "count",
-          "contentKey": "scene.count.greeting.1"
+          "contentKey": "scene.count.greeting.board-room-the-whole-house-is"
         },
         {
           "key": 460,
@@ -3550,7 +3550,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count",
-          "contentKey": "scene.count.greeting.2"
+          "contentKey": "scene.count.greeting.lamps-at-the-board-at-the"
         },
         {
           "key": 461,
@@ -3559,7 +3559,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count",
-          "contentKey": "scene.count.greeting.3"
+          "contentKey": "scene.count.greeting.nobody-asks-you-anything-you-stand"
         },
         {
           "key": 462,
@@ -3569,7 +3569,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "count",
-          "contentKey": "scene.count.greeting.4"
+          "contentKey": "scene.count.greeting.the-alcove-chest-stands-open-one"
         },
         {
           "key": 463,
@@ -3578,7 +3578,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count",
-          "contentKey": "scene.count.greeting.5"
+          "contentKey": "scene.count.greeting.naoyuki-stands-at-his-father-s"
         },
         {
           "key": 464,
@@ -3588,7 +3588,7 @@
           "speaker": "Naoyuki",
           "voice": "official",
           "context": "count",
-          "contentKey": "scene.count.greeting.6"
+          "contentKey": "scene.count.greeting.if-the-house-must-do-this"
         },
         {
           "key": 465,
@@ -3598,7 +3598,7 @@
           "speaker": "Naoyuki",
           "voice": "official",
           "context": "count",
-          "contentKey": "scene.count.greeting.7"
+          "contentKey": "scene.count.greeting.no-the-weir-man-him-first"
         },
         {
           "key": 466,
@@ -3607,7 +3607,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count",
-          "contentKey": "scene.count.greeting.8"
+          "contentKey": "scene.count.greeting.nobody-objects-some-of-the-hands"
         },
         {
           "key": 467,
@@ -3637,7 +3637,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.0"
+          "contentKey": "scene.count-resolve.greeting.the-kura-tally-who-kept-it"
         },
         {
           "key": 470,
@@ -3646,7 +3646,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.1"
+          "contentKey": "scene.count-resolve.greeting.rokusuke-has-been-standing-where-the"
         },
         {
           "key": 471,
@@ -3656,7 +3656,7 @@
           "speaker": "Rokusuke",
           "voice": "villager",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.2"
+          "contentKey": "scene.count-resolve.greeting.eleven-loads-in-by-dark-steward"
         },
         {
           "key": 472,
@@ -3665,7 +3665,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.3"
+          "contentKey": "scene.count-resolve.greeting.genemon-sets-the-tally-board-beside"
         },
         {
           "key": 473,
@@ -3675,7 +3675,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.4"
+          "contentKey": "scene.count-resolve.greeting.the-packet-was-counted-at-the"
         },
         {
           "key": 474,
@@ -3685,7 +3685,7 @@
           "speaker": "Naoyuki",
           "voice": "official",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.5"
+          "contentKey": "scene.count-resolve.greeting.then-it-is-someone-of-the"
         },
         {
           "key": 475,
@@ -3694,7 +3694,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.6"
+          "contentKey": "scene.count-resolve.greeting.the-door-to-the-inner-corridor"
         },
         {
           "key": 476,
@@ -3704,7 +3704,7 @@
           "speaker": "Toku",
           "voice": "steward",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.7"
+          "contentKey": "scene.count-resolve.greeting.it-went-up-at-the-new"
         },
         {
           "key": 477,
@@ -3713,7 +3713,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.8"
+          "contentKey": "scene.count-resolve.greeting.nobody-asks-what-went-up-nobody"
         },
         {
           "key": 478,
@@ -3723,7 +3723,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.9"
+          "contentKey": "scene.count-resolve.greeting.the-count-is-answered-the-house"
         },
         {
           "key": 479,
@@ -3732,7 +3732,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.10"
+          "contentKey": "scene.count-resolve.greeting.the-rows-break-up-around-you"
         },
         {
           "key": 480,
@@ -3742,7 +3742,7 @@
           "speaker": "Naoyuki",
           "voice": "official",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.11"
+          "contentKey": "scene.count-resolve.greeting.you-were-counted-that-is-all"
         },
         {
           "key": 481,
@@ -3751,7 +3751,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.12"
+          "contentKey": "scene.count-resolve.greeting.at-the-morning-board-nobody-speaks"
         },
         {
           "key": 482,
@@ -3761,7 +3761,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.13"
+          "contentKey": "scene.count-resolve.greeting.from-today-the-book-carries-you"
         },
         {
           "key": 483,
@@ -3770,7 +3770,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.14"
+          "contentKey": "scene.count-resolve.greeting.at-the-paddy-rokusuke-works-the"
         },
         {
           "key": 484,
@@ -3780,7 +3780,7 @@
           "speaker": "Rokusuke",
           "voice": "villager",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.15"
+          "contentKey": "scene.count-resolve.greeting.kept-it-same-as-any-day"
         },
         {
           "key": 485,
@@ -3789,7 +3789,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.16"
+          "contentKey": "scene.count-resolve.greeting.he-bends-back-to-the-row"
         },
         {
           "key": 486,
@@ -3798,7 +3798,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.17"
+          "contentKey": "scene.count-resolve.greeting.eleven-marks-on-a-board-kept"
         },
         {
           "key": 487,
@@ -3807,7 +3807,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
-          "contentKey": "scene.count-resolve.greeting.18"
+          "contentKey": "scene.count-resolve.greeting.that-evening-the-wage-enters-the"
         }
       ],
       "seq": 488

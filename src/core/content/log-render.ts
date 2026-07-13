@@ -30,6 +30,7 @@ import {
   introPerkLine,
   type DialogueScene,
   type DialogueTopic,
+  type IntroSetupLine,
 } from './intro';
 import { ACTIVITIES, activityLine, type LabourResource } from './activities';
 import { rakeLine } from './coldOpen';
@@ -66,7 +67,24 @@ const discoveryText = (id: string): string | undefined => {
 const worksText = (key: string): string | undefined =>
   (FLAVOR as Readonly<Record<string, string>>)[key];
 
-/** A hub topic's line: `topic.<topicId>.ask` (the MC's question) or `.answer.<i>` (the reply).
+/** One authored prose line, BY NAME — the address a save's log actually stores.
+ *
+ *  `<id>` is the line's `<!--#slug-->` marker: it travels WITH the prose, so re-ordering a scene's
+ *  lines in the narrative .md moves nothing, and a REWORD still reaches every existing save.
+ *
+ *  A PURELY NUMERIC id is the LEGACY form — the positional index this scheme replaced (ADR-186's
+ *  known limit). A v11 save is migrated to ids on load (`migrate.ts`), so the only descriptors that
+ *  reach this path are from a save older than the migration or written by a DEV take whose lines
+ *  the canon registry does not carry. Resolving it positionally is the best available answer, and
+ *  when it is out of range the caller falls back to the entry's stored prose. Ids are matched
+ *  FIRST, so a line that ever authored a numeric-looking slug still wins. */
+function lineText(lines: readonly IntroSetupLine[], id: string): string | undefined {
+  const named = lines.find((l) => l.id === id);
+  if (named) return named.text;
+  return /^\d+$/.test(id) ? lines[Number(id)]?.text : undefined;
+}
+
+/** A hub topic's line: `topic.<topicId>.ask` (the MC's question) or `.answer.<id>` (the reply).
  *
  *  ONE reader for BOTH scene shapes — `RungScene` and `DialogueScene` carry the same
  *  `DialogueTopic[]`. It is shared on purpose: two hand-written copies is precisely how the beat
@@ -75,28 +93,27 @@ const worksText = (key: string): string | undefined =>
  *  16 rung-beat asks and their answers were unresolvable: they fell back to their stored prose,
  *  invisible to a re-voice and to the DEV take switcher, and no test could see it. */
 function topicText(topics: readonly DialogueTopic[], part: string): string | undefined {
-  const m = part.match(/^topic\.(.+?)\.(ask|answer\.(\d+))$/);
+  const m = part.match(/^topic\.(.+?)\.(?:ask|answer\.(.+))$/);
   if (!m) return undefined;
   const t = topics.find((x) => x.id === m[1]);
   if (!t) return undefined;
-  if (m[2] === 'ask') return t.label;
-  return t.answer[Number(m[3])]?.text;
+  return m[2] === undefined ? t.label : lineText(t.answer, m[2]);
 }
 
 // ── the VN payload (scenes AND rung beats share `RungScene`, so one reader serves both) ──────
 // A line inside a scene is addressed as `<part>` after the scene id:
-//   greeting.<i>              the i-th greeting line
-//   topic.<topicId>.ask       the MC's question    · topic.<topicId>.answer.<i>  the i-th reply
-//   opt.<optionId>.say        the MC's reply       · opt.<optionId>.react        the reaction
+//   greeting.<id>             a greeting line, BY ITS AUTHORED NAME (its `<!--#slug-->` marker)
+//   topic.<topicId>.ask       the MC's question    · topic.<topicId>.answer.<id>  a reply line
+//   opt.<optionId>.say        the MC's reply       · opt.<optionId>.react         the reaction
 //   opt.<optionId>.bonus      the rare stat-nudge note
-// The INDEXES (`greeting.<i>`, `answer.<i>`) are the addresses that are positional rather than
-// id-keyed — re-ordering a scene's lines in the narrative .md therefore re-points an old save's
-// line at its NEIGHBOUR. That is a content RESTRUCTURE (README: "Schema growth, rung 2"), and the
-// orphan sensor cannot see it because the index still resolves. Named ids would be immune; the
-// narrative grammar does not give lines ids today, so this is a KNOWN limit, recorded in the ADR.
+// Every address is now a NAME. It used to be that the two line-array addresses (greeting, answer)
+// were positional INDEXES, so re-ordering a scene's lines re-pointed an old save's entry at its
+// neighbour — silently, because the index still resolved (ADR-186's known limit). Ids travel with
+// the prose, so a reorder is a no-op and a reword still reaches every save. `lineText` keeps the
+// legacy numeric path for a descriptor written before the v12 migration.
 function vnText(scene: RungScene, part: string): string | undefined {
-  const greeting = part.match(/^greeting\.(\d+)$/);
-  if (greeting) return scene.greeting[Number(greeting[1])]?.text;
+  const greeting = part.match(/^greeting\.(.+)$/);
+  if (greeting) return lineText(scene.greeting, greeting[1]!);
 
   const topic = topicText(scene.topics, part);
   if (topic !== undefined) return topic;
@@ -140,8 +157,8 @@ function introText(tail: string): string | undefined {
   if (!scene) return undefined;
   const part = tail.slice(dot + 1);
 
-  const greeting = part.match(/^greeting\.(\d+)$/);
-  if (greeting) return scene.greeting[Number(greeting[1])]?.text;
+  const greeting = part.match(/^greeting\.(.+)$/);
+  if (greeting) return lineText(scene.greeting, greeting[1]!);
 
   const topic = topicText(scene.topics, part);
   if (topic !== undefined) return topic;

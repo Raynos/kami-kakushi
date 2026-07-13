@@ -11,6 +11,10 @@
 // (additive growth WITHIN this generation) will re-populate it.
 
 import { SCHEMA_VERSION } from '../core';
+import { RUNG_BEATS, type RungScene } from '../core/content/rungBeats';
+import { SCENES } from '../core/content/scenes';
+import { DIALOGUE_SCENES, type DialogueScene } from '../core/content/intro';
+import type { RankId } from '../core/content/ranks';
 
 export type Migration = (state: unknown) => unknown;
 /** The signature the load path injects (validateEnvelope / SaveManager). */
@@ -39,7 +43,71 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
       },
     };
   },
+
+  // v11 → v12 (line ids): a log entry used to address a scene's greeting / topic-answer line by
+  // its INDEX (`beat.R3.greeting.2`). An index does not survive an edit to the .md — re-order or
+  // delete a line and the old entry silently re-points at its NEIGHBOUR — so the lines now carry
+  // authored ids and the descriptor names one (`beat.R3.greeting.the-wolf-again`).
+  //
+  // Rewriting the OLD descriptors is sound precisely here and nowhere later: this release adds ids
+  // and re-orders NOTHING, so index 2 still names the line it named when the save was written.
+  // Deferring the rewrite would mean carrying saves that stay vulnerable to the first re-voice
+  // wave — which is the whole thing this exists to prevent (the human's call, 2026-07-13).
+  //
+  // An index the registry no longer has (a line deleted before this migration ran) resolves to
+  // nothing and is LEFT AS IT IS: `renderLogLine` then fails to resolve it and the codec keeps the
+  // entry's stored prose. One line degrades to the words the player actually read; nothing is lost.
+  11: (state) => {
+    const s = state as { log?: { entries?: readonly Record<string, unknown>[] } };
+    const entries = s.log?.entries;
+    if (!Array.isArray(entries)) return state;
+    return {
+      ...s,
+      log: {
+        ...s.log,
+        entries: entries.map((e) => {
+          const key = typeof e.contentKey === 'string' ? e.contentKey : undefined;
+          if (key === undefined) return e; // an unkeyed legacy line keeps its prose verbatim
+          const named = nameVnIndexes(key);
+          return named === key ? e : { ...e, contentKey: named };
+        }),
+      },
+    };
+  },
 };
+
+/** `<ns>.<scene>.…greeting.<i>` / `…answer.<i>` → the same address with the line's authored id.
+ *  Returns the key unchanged when it is not a VN line address, or when the index no longer
+ *  resolves (see the v11 → v12 note). */
+function nameVnIndexes(key: string): string {
+  const m = /^(beat|scene|intro)\.([^.]+)\.(.*)$/.exec(key);
+  if (!m) return key;
+  const [, ns, sceneId, part] = m as unknown as [string, VnNamespace, string, string];
+  const scene = vnScene(ns, sceneId);
+  if (!scene) return key;
+
+  const greeting = /^greeting\.(\d+)$/.exec(part);
+  if (greeting) {
+    const id = scene.greeting[Number(greeting[1])]?.id;
+    return id ? `${ns}.${sceneId}.greeting.${id}` : key;
+  }
+
+  const answer = /^topic\.(.+)\.answer\.(\d+)$/.exec(part);
+  if (answer) {
+    const id = scene.topics.find((t) => t.id === answer[1])?.answer[Number(answer[2])]?.id;
+    return id ? `${ns}.${sceneId}.topic.${answer[1]}.answer.${id}` : key;
+  }
+  return key;
+}
+
+type VnNamespace = 'beat' | 'scene' | 'intro';
+
+/** The scene a VN descriptor names — the same three registries `log-render` dispatches over. */
+function vnScene(ns: VnNamespace, id: string): RungScene | DialogueScene | undefined {
+  if (ns === 'beat') return RUNG_BEATS[id as RankId];
+  if (ns === 'scene') return SCENES.find((s) => s.id === id)?.scene;
+  return DIALOGUE_SCENES.find((s) => s.id === id);
+}
 
 export function migrate(
   state: unknown,
