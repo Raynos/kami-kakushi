@@ -105,7 +105,7 @@ Your verdict here **writes the HD-41 ADR**.
     meter pulses once, there. DEV → Story → `hd41-progress-objective` to
     swap takes — the whole visible Progress register re-reads on the
     flip, so you can compare without replaying.
-  - **In the DEV panel:** Review → Story → **SV18**
+  - **In the DEV panel:** Review → Story → **SV19**
     <!-- dev-tags: kept true by the review-link gate -->
   - **Verdict:** _(awaiting your pick — this verdict writes the HD-41
     ADR)_
@@ -270,7 +270,7 @@ sb-bon). Canon: `narrative/scenes.md` (the continuous read:
     **c5a-overlays** → End a season — the overlay plays the selected
     take. (Each is once-per-run: replay via New game/`toRung`, or read
     all five in "⤢ Explore story".)
-  - **In the DEV panel:** Review → Story → **SV9** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV10** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -289,7 +289,7 @@ alternates: `takes/c5a-discoveries/`.
     you-are-here card and swaps with the take; keep working the node and
     the found line lands in the log voicing the selected take (future
     latches swap; logged history stays).
-  - **In the DEV panel:** Review → Story → **SV1** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV2** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -306,7 +306,7 @@ close second; read it). Canon keys `judgeLine*` in
   - **How to look LIVE:** DEV → Story → **c5a-judge**; DEV → Rungs → "→
     Phase 2", bank some estate growth, End the season — the day-book's
     judge line voices the selected take at your current grade.
-  - **In the DEV panel:** Review → Story → **SV2** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV3** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -326,8 +326,8 @@ in `narrative/flavor.md`; alternates: `takes/c5a-nodes-<season>/`
     entries; open the Map tab and walk a few zones — the you-are-here
     card reads the standing season's take and swaps with the toggle; End
     seasons to walk the year through one node.
-  - **In the DEV panel:** Review → Story → **SV3** · **SV4** · **SV5**
-    **SV6** · **SV7** · **SV8** <!-- dev-tags: kept true by the
+  - **In the DEV panel:** Review → Story → **SV4** · **SV5** · **SV6**
+    **SV7** · **SV8** · **SV9** <!-- dev-tags: kept true by the
     review-link gate -->
   - **Verdict:** _(awaiting your read — bundle-level verdicts are fine:
     pick per SEASON, never per line)_
@@ -373,7 +373,7 @@ second; read it). Canon in `narrative/requirements.md`; alternates:
     `__qa.toRung('R7')` + `__qa.speed(8)`, farm the paddy / bank rice —
     the completion lines voice the selected take (future emissions only;
     logged history stays).
-  - **In the DEV panel:** Review → Story → **SV14** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV15** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -433,7 +433,7 @@ alternates + briefs + Pass-1 constraint brief: `takes/works-cause/`.
     (`?story-works-cause=a` boots straight into take A — the ladder
     label flips to "Close the oldest lines"). U2–U4 beats:
     `toRung('R5'/'R6'/'R7')` with the prior stage built.
-  - **In the DEV panel:** Review → Story → **SV20** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV21** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -457,7 +457,7 @@ per ADR-139 (bundle `fb362-intro-titles`, 3 blind takes):
     **fb362-intro-titles** swaps takes live;
     `?story-fb362-intro-titles=a|c` boots into an alternate. Old saves
     keep their baked single "— the cold open —" card (TST2).
-  - **In the DEV panel:** Review → Story → **SV11** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV12** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -481,7 +481,7 @@ else emits the new **open-rest** line — diverged per ADR-139 (bundle
     the Now view shows take C. DEV → Story → **fb402-rest-open** swaps
     takes live for future rests; `?story-fb402-rest-open=a|b` boots into
     an alternate.
-  - **In the DEV panel:** Review → Story → **SV12** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV13** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -632,7 +632,7 @@ and an overnight ash-steep that exist nowhere in the game (story
 promises are contracts) — but its `sb-racks` is the best scene any of
 the three wrote, and it can be grafted.
 
-  - **In the DEV panel:** Review → Story → **SV21** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV22** <!-- dev-tags: kept
     true by the review-link gate -->
 
 ### HR-34 🔲 [R1 · story] — the Terms scene, re-voiced (W1 of the T0 re-voice, ADR-185)
@@ -675,7 +675,7 @@ accepted.
     live.
   - **The acceptance test is yours:** play R0→R1 and tell me whether the
     original complaint is dead.
-  - **In the DEV panel:** Review → Story → **SV15** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV16** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -723,7 +723,7 @@ time.
 
   - **How to look LIVE:** new game → the cold open → act 1. DEV → Story
     → **hd38-w4-intro** swaps takes live.
-  - **In the DEV panel:** Review → Story → **SV17** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV18** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -777,7 +777,7 @@ a failing building of the house, which is what it is.
 
   - **How to look LIVE:** reach R2+ and cross the forecourt (or DEV →
     Scenarios). DEV → Story → **hd38-w2-works** swaps takes live.
-  - **In the DEV panel:** Review → Story → **SV16** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV17** <!-- dev-tags: kept
     true by the review-link gate -->
   - **Verdict:** _(awaiting your read)_
 
@@ -938,7 +938,7 @@ view; a re-visit stays silent.
   comes out clean (one flag, no state migration).
 - **Verdict:** _(awaiting your read)_
 
-  - **In the DEV panel:** Review → Story → **SV19** <!-- dev-tags: kept
+  - **In the DEV panel:** Review → Story → **SV20** <!-- dev-tags: kept
     true by the review-link gate -->
 
 ### HR-37 🔲 [R1–R7 · story] — the MC's inner line (W5, ADR-185 D3)
@@ -1068,3 +1068,62 @@ plain sentence. Nothing else in the U9 pool was altered.
     *"This is the law executed perfectly, and it should be the reference
     the rest of the tier is tuned against."*
   - **Verdict:** _(awaiting your read)_
+
+### HR-42 🔲 [R3 · story] — the delight line: the one pick in T0 that pays (`adr190-nudge` bundle, ADR-139/ADR-190)
+
+**The lever came back, and it needs its words.** `statBonus` is the ONE
+asymmetric reward in a choice system that is otherwise strictly net-zero
+(+1/−1): a rung pick that simply *pays*. It has been **gone from the
+game for months** — `ea5710e3` (the G4 cutover) rewrote R3's beat from
+*"How do you take up the blade?"* into *"What do you do about the
+wolf?"*, the option it hung on (`r3-disciplined`) ceased to exist, and
+the bonus did not come across. You ruled **restore** (HD-44).
+
+Two thirds of this were **recovered, not invented**: the heir option is
+`r3-hold` (the beat's watch-standing choice — and the lost line was
+about standing a watch), and **+1 agi** is the original's own value, out
+of git. What is NEW is the line itself: the retired words named a dawn
+drill this beat does not contain.
+
+**The three takes diverge on what CAUSES the gain** — your own body,
+Kihei, or the wolf.
+
+  - [ ] **canon · B "Kihei's hand"** _(self-picked; ships)_ — the
+    approval is an act, not a compliment: *"Kihei carries the long spear
+    out to the sill himself, sets your hands wide on the haft, kicks
+    your back heel flat to the boards, and goes in without a word. You
+    hold the stance he left you in until dark, and your feet keep it
+    after. (+1 AGI)"*
+    - **Why it was picked:** it is the only take that is **true at the
+      moment it fires**. The note appears the instant you pick — and A
+      ("by the fourth night") and C ("for six nights") both narrate
+      nights that have not happened yet, then sit in the log as history.
+      B lands inside the day Kihei just named (*"mend the bar before
+      dark"*) and closes the chain he opens: he tells you to take the
+      long spear, then carries it out himself. And an asymmetric reward
+      should read as being **noticed** — Kihei is the man in this house
+      who does not hand out approval.
+  - [ ] **take a · "the body learns, alone"** _(DEV-only)_ — no one
+    gives it to you and no one is there; the watch trains the watcher,
+    unwitnessed. *"You stand the sill night after night. Your feet learn
+    the boards in the dark; by the fourth night you are up with the long
+    spear before the straw has finished settling behind you. (+1 AGI)"*
+  - [ ] **take c · "the wolf is the teacher"** _(DEV-only)_ — the thing
+    you guard against is the thing that trains you; the animal teaches
+    by NOT arriving. *"For six nights the wolf does not come, and you
+    learn its hours anyway: the straw settling, the wind at the bar, the
+    one sound that is neither. By the last night you are up off the sill
+    before you know which it was. (+1 AGI)"*
+
+**How to review it LIVE** (never from this page):
+
+  - **In the DEV panel:** Review → Story → **SV1**
+  - Load the **`rung-beat-ready`** scenario (or play to the R3 rung-up),
+    open the beat, and pick **"It knows this door now. So do I. I'll be
+    at the sill."** The delight line lands in the log and AGI moves on
+    the sheet. Switch the take in the DEV panel and take the beat again
+    to hear the other two.
+
+**Your verdict writes ADR-190** and closes HD-44. If the *heir* reads
+wrong to you — if the nudge belongs on `r3-mend`, or not on R3 at all —
+say so; that is a bigger call than the words, and it is yours.

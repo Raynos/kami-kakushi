@@ -208,3 +208,65 @@ The human ruled **restore** the BQ2 stat-nudge. That one is not
 mechanical: the grammar needs a `bonus:` field, and the R3 'disciplined'
 delight line is **new fiction** ⇒ ADR-139, 3+ blind takes, reviewed live
 in the DEV Story switcher. It is a diverge, not a fix, and it is next.
+
+## HD-44 — and the survey that was wrong twice (ADR-190)
+
+The human ruled **restore**. Then verifying my own HD-44 write-up
+against the source (PH2, on myself) knocked both of its claims down:
+
+1. **The grammar was never missing.** I had written "the narrative
+   grammar has no `bonus:` field" — from grepping the compiler for
+   `statBonus`, which is what it *emits*, not what it *reads*. `bonus:
+   +1 agi — "…"` parses, validates against the attr roster, emits, is
+   documented in the narrative README, and has a RED-able test. Nothing
+   needed building.
+2. **It was not the FB-5 migration.** `git log -S` puts the loss at
+   **`ea5710e3`** — the G4 cutover **rewrote R3's beat**, from *"How do
+   you take up the blade?"* to *"What do you do about the wolf?"*. The
+   option the bonus hung on (`r3-disciplined`) ceased to exist and the
+   bonus went with it.
+
+So the fork I was about to hand the human — *which option, which
+attribute* — **closed itself**. Git had the answer: the lost line was
+about **standing a watch**, and today's beat still has that choice
+(`r3-hold`); the value was **+1 agi**. Recovered, not invented. Only the
+WORDS are new (the retired line named a dawn drill this beat no longer
+contains) — so they went through **ADR-139**: three blind takes, each
+committing to a different *cause* of the gain (your body · Kihei · the
+wolf). Canon is **take B**, on one discriminator: the note fires the
+INSTANT the pick lands, and A ("by the fourth night") and C ("for six
+nights") both narrate nights that have not happened yet, then sit in the
+log as history. B is true when it appears.
+
+**Two things the restore exposed, both worse than the missing line:**
+
+- **The note was logged on `system`** — which `log-filter` routes to the
+  **Work** tab, the labour-reward lane. The rarest reward in the game
+  painted itself into the one tab the player was not looking at, seconds
+  after a VN they were reading in Story. Almost certainly why nobody
+  missed it. Now `narration`, in the beat's own scene group.
+- **Its log line was unkeyed** — so the moment the data came back it
+  would have frozen in every save that recorded it, exactly like the
+  rung-beat topics at the top of this session.
+
+**The teeth (ADR-190's real content).** A test asserts **EXACTLY ONE**
+rung option carries a bonus — a two-sided ratchet that fires at **0**
+(the lever silently dropped *again* — the precise regression that
+happened, which no gate could see) and above **1** (rare has stopped
+being rare). A type field, a resolver branch and an emit block are **not
+evidence that a feature exists**; a mechanic living in one piece of
+content needs a test that COUNTS it.
+
+**Player-reach proof (PH6):** opened the R3 beat in the live build, took
+the sill — **AGI 5 → 6**, the delight line keyed
+`beat.R3.opt.r3-hold.bonus` and **painted into the Story log**, no page
+errors. (It failed the first run on exactly the visibility bug above:
+the line existed, was keyed, and was nowhere on screen.)
+
+## Housekeeping
+
+Adding a story bundle **renumbers the DEV panel's SV tags** (they are
+registry positions, zero-indexed) — `adr190-nudge` took SV1 and pushed
+22 tags up one, so `review-link` went red with 27 broken links across
+the HR items. Fixed by rewriting the tags from the registry, not by
+hand. Worth knowing: **every new bundle mid-alphabet does this.**

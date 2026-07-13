@@ -47,6 +47,359 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   },
 
   {
+    id: 'adr190-nudge',
+    title: 'The R3 delight line (the one pick that pays)',
+    hr: 'HR-42',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'Take B is the only one that is TRUE at the moment it fires. The note appears the instant you pick r3-hold — and A ("by the fourth night") and C ("for six nights") both narrate nights that have not happened yet, then sit in the log as history. B happens inside the day Kihei just named ("mend the bar before dark") and closes the chain he opens: he tells you to take the long spear, then carries it out and sets your stance himself. It also earns the delight the right way — an asymmetric reward should read as being NOTICED, and Kihei is the man in this house who does not hand out approval. TST3 holds: a corrected grip and a flattened heel are WHY the feet are quicker, and it reads cold, re-read in a log months later.',
+    canonLabel: "B · Kihei's hand (the approval is an act, not a compliment)",
+    rung: 3,
+    takes: [
+      {
+        id: 'a',
+        label: 'the body learns, alone',
+        brief:
+          'No one gives it to you and no one is there. Standing the sill IS the training — the feet, the balance, the waking. Kihei never appears; the wolf is no teacher; the only evidence is a changed physical fact about the man who stood there, unwitnessed.',
+        rungBeats: {
+          R3: {
+            id: 'rung-r3',
+            rank: 'R3',
+            voice: 'arms',
+            speaker: 'kihei',
+            motivates: [
+              'tab-combat',
+              'panel-drill-yard',
+              'readout-combat-level',
+              'panel-bestiary',
+              'room-kura',
+            ],
+            greeting: [
+              {
+                id: 'dawn-comes-grey-through-the-kura',
+                voice: 'narrator',
+                text: 'Dawn comes grey through the kura door. The blood on the sill has dried black, and most of it is yours. Inside, the rice sits in its rows, untouched, exactly as it was put. Sōan has strapped your ribs so tight that breathing is a decision.',
+              },
+              {
+                id: 'kihei-crouches-at-the-sill-a',
+                voice: 'narrator',
+                text: 'Kihei crouches at the sill a long time, reading the blood the way Genemon reads a column of figures. The trail goes west, into the trees, in drops that get no smaller.',
+              },
+              { id: 'alive-good', voice: 'arms', speaker: NPC_NAME.kihei, text: '"…Alive. Good."' },
+              {
+                id: 'for-a-moment-there-is-more',
+                voice: 'narrator',
+                text: 'For a moment there is more in him than the verdict. He checks the broken bar instead.',
+              },
+              {
+                id: 'genemon-stands-in-the-doorway-whatever',
+                voice: 'narrator',
+                text: 'Genemon stands in the doorway. Whatever he came to say, he writes something in the day-book first.',
+              },
+              {
+                id: 'screen-one-torn-bar-one-broken',
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Screen, one, torn. Bar, one, broken. Grain — none lost. Hand, one. Standing."',
+              },
+              {
+                id: 'none-lost-you-think-of-the',
+                voice: 'narrator',
+                text: 'None lost. You think of the gnawed seed-bale at the back wall, and the count you made twice by lantern, and you do not correct him. Not yet.',
+              },
+              {
+                id: 'the-bar-was-old-it-goes',
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"The bar was old. It goes against the house, not your wage."',
+              },
+              {
+                id: 'kihei-stands-takes-the-boar-spear-off',
+                voice: 'narrator',
+                text: 'Kihei stands, takes the boar-spear off the sill, and puts it back in your hands, butt first.',
+              },
+              {
+                id: 'you-didn-t-win-the-house',
+                voice: 'arms',
+                speaker: NPC_NAME.kihei,
+                text: '"You didn\'t win. The house lost nothing. Keep the watch."',
+              },
+              {
+                id: 'by-evening-the-padded-coat-is',
+                voice: 'narrator',
+                text: 'By evening the padded coat is folded at the woodshed step, the torn shoulder closed with stitches smaller than the tear deserved. O-Hisa is still three steps from the kitchen when you come round the corner, caught.',
+              },
+              {
+                id: 'it-tore-clean-at-least-if',
+                voice: 'steward',
+                speaker: NPC_NAME.ohisa,
+                text: '"It tore clean, at least. If the ribs knit as straight — well."',
+              },
+              {
+                id: 'she-is-back-inside-before-you',
+                voice: 'narrator',
+                text: 'She is back inside before you find anything to say to that.',
+              },
+            ],
+            topics: [
+              {
+                id: 'r3-wolf',
+                label: '"Will it come back?"',
+                answer: [
+                  {
+                    id: 'it-left-more-blood-past-the',
+                    voice: 'arms',
+                    speaker: NPC_NAME.kihei,
+                    text: '"It left more blood past the woodlot than a wolf keeps spare. If the winter doesn\'t finish it, it remembers this door. So do you. That makes you even."',
+                  },
+                ],
+              },
+              {
+                id: 'r3-ribs',
+                label: '"How long?"',
+                answer: [
+                  {
+                    id: 'breathe-to-the-bottom-of-it',
+                    voice: 'physician',
+                    speaker: NPC_NAME.soan,
+                    text: '"Breathe to the bottom of it. Cracked, not broken. Three weeks strapped, nothing heavier than the lantern, and you come to me before you decide you are healed."',
+                  },
+                  {
+                    id: 'he-writes-a-line-in-his',
+                    voice: 'narrator',
+                    text: 'He writes a line in his ledger and closes it when you turn your head.',
+                  },
+                ],
+              },
+              {
+                id: 'r3-rice',
+                label: '"The rice?"',
+                answer: [
+                  {
+                    id: 'where-it-was-put-last-night',
+                    voice: 'arms',
+                    speaker: NPC_NAME.kihei,
+                    text: '"Where it was put. Last night\'s, at least. The rest is the board\'s arithmetic, not mine."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'What do you do about the wolf?',
+              options: [
+                {
+                  id: 'r3-track',
+                  label: '"It bled going west. The trail is fresh."',
+                  say: '"It bled going west. The trail is fresh."',
+                  react:
+                    '"And you can chase it exactly as far as I can throw you. Sit down. It is winter\'s business now, not yours."',
+                  reactNpc: 'soan',
+                  memory: [{ npc: 'kihei', warmthDelta: 1, regard: 'spine' }],
+                  flags: ['r3-track'],
+                },
+                {
+                  id: 'r3-hold',
+                  label: '"It knows this door now. So do I. I\'ll be at the sill."',
+                  say: '"It knows this door now. So do I. I\'ll be at the sill."',
+                  react:
+                    '"Then mend the bar before dark, and take the long spear this time. Eat first."',
+                  memory: [{ npc: 'kihei', warmthDelta: 1, regard: 'steady' }],
+                  flags: ['r3-hold'],
+                  statBonus: {
+                    attr: 'agi',
+                    amount: 1,
+                    note: 'You stand the sill night after night. Your feet learn the boards in the dark; by the fourth night you are up with the long spear before the straw has finished settling behind you. (+1 AGI)',
+                  },
+                },
+                {
+                  id: 'r3-mend',
+                  label: '"The bar first. Then the wolf."',
+                  say: '"The bar first. Then the wolf."',
+                  react:
+                    '"The bar, the screen, then the tally. I will enter the wood against the house."',
+                  reactNpc: 'genemon',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'careful' }],
+                  flags: ['r3-mend'],
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        id: 'c',
+        label: 'the wolf is the teacher',
+        brief:
+          'The thing you guard against is the thing that trains you. What sharpens you is the WAITING — the dark, the listening, the one sound that is neither the straw nor the wind. The animal teaches by NOT arriving; six nights of nothing happening is what you paid.',
+        rungBeats: {
+          R3: {
+            id: 'rung-r3',
+            rank: 'R3',
+            voice: 'arms',
+            speaker: 'kihei',
+            motivates: [
+              'tab-combat',
+              'panel-drill-yard',
+              'readout-combat-level',
+              'panel-bestiary',
+              'room-kura',
+            ],
+            greeting: [
+              {
+                id: 'dawn-comes-grey-through-the-kura',
+                voice: 'narrator',
+                text: 'Dawn comes grey through the kura door. The blood on the sill has dried black, and most of it is yours. Inside, the rice sits in its rows, untouched, exactly as it was put. Sōan has strapped your ribs so tight that breathing is a decision.',
+              },
+              {
+                id: 'kihei-crouches-at-the-sill-a',
+                voice: 'narrator',
+                text: 'Kihei crouches at the sill a long time, reading the blood the way Genemon reads a column of figures. The trail goes west, into the trees, in drops that get no smaller.',
+              },
+              { id: 'alive-good', voice: 'arms', speaker: NPC_NAME.kihei, text: '"…Alive. Good."' },
+              {
+                id: 'for-a-moment-there-is-more',
+                voice: 'narrator',
+                text: 'For a moment there is more in him than the verdict. He checks the broken bar instead.',
+              },
+              {
+                id: 'genemon-stands-in-the-doorway-whatever',
+                voice: 'narrator',
+                text: 'Genemon stands in the doorway. Whatever he came to say, he writes something in the day-book first.',
+              },
+              {
+                id: 'screen-one-torn-bar-one-broken',
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"Screen, one, torn. Bar, one, broken. Grain — none lost. Hand, one. Standing."',
+              },
+              {
+                id: 'none-lost-you-think-of-the',
+                voice: 'narrator',
+                text: 'None lost. You think of the gnawed seed-bale at the back wall, and the count you made twice by lantern, and you do not correct him. Not yet.',
+              },
+              {
+                id: 'the-bar-was-old-it-goes',
+                voice: 'steward',
+                speaker: NPC_NAME.genemon,
+                text: '"The bar was old. It goes against the house, not your wage."',
+              },
+              {
+                id: 'kihei-stands-takes-the-boar-spear-off',
+                voice: 'narrator',
+                text: 'Kihei stands, takes the boar-spear off the sill, and puts it back in your hands, butt first.',
+              },
+              {
+                id: 'you-didn-t-win-the-house',
+                voice: 'arms',
+                speaker: NPC_NAME.kihei,
+                text: '"You didn\'t win. The house lost nothing. Keep the watch."',
+              },
+              {
+                id: 'by-evening-the-padded-coat-is',
+                voice: 'narrator',
+                text: 'By evening the padded coat is folded at the woodshed step, the torn shoulder closed with stitches smaller than the tear deserved. O-Hisa is still three steps from the kitchen when you come round the corner, caught.',
+              },
+              {
+                id: 'it-tore-clean-at-least-if',
+                voice: 'steward',
+                speaker: NPC_NAME.ohisa,
+                text: '"It tore clean, at least. If the ribs knit as straight — well."',
+              },
+              {
+                id: 'she-is-back-inside-before-you',
+                voice: 'narrator',
+                text: 'She is back inside before you find anything to say to that.',
+              },
+            ],
+            topics: [
+              {
+                id: 'r3-wolf',
+                label: '"Will it come back?"',
+                answer: [
+                  {
+                    id: 'it-left-more-blood-past-the',
+                    voice: 'arms',
+                    speaker: NPC_NAME.kihei,
+                    text: '"It left more blood past the woodlot than a wolf keeps spare. If the winter doesn\'t finish it, it remembers this door. So do you. That makes you even."',
+                  },
+                ],
+              },
+              {
+                id: 'r3-ribs',
+                label: '"How long?"',
+                answer: [
+                  {
+                    id: 'breathe-to-the-bottom-of-it',
+                    voice: 'physician',
+                    speaker: NPC_NAME.soan,
+                    text: '"Breathe to the bottom of it. Cracked, not broken. Three weeks strapped, nothing heavier than the lantern, and you come to me before you decide you are healed."',
+                  },
+                  {
+                    id: 'he-writes-a-line-in-his',
+                    voice: 'narrator',
+                    text: 'He writes a line in his ledger and closes it when you turn your head.',
+                  },
+                ],
+              },
+              {
+                id: 'r3-rice',
+                label: '"The rice?"',
+                answer: [
+                  {
+                    id: 'where-it-was-put-last-night',
+                    voice: 'arms',
+                    speaker: NPC_NAME.kihei,
+                    text: '"Where it was put. Last night\'s, at least. The rest is the board\'s arithmetic, not mine."',
+                  },
+                ],
+              },
+            ],
+            decision: {
+              prompt: 'What do you do about the wolf?',
+              options: [
+                {
+                  id: 'r3-track',
+                  label: '"It bled going west. The trail is fresh."',
+                  say: '"It bled going west. The trail is fresh."',
+                  react:
+                    '"And you can chase it exactly as far as I can throw you. Sit down. It is winter\'s business now, not yours."',
+                  reactNpc: 'soan',
+                  memory: [{ npc: 'kihei', warmthDelta: 1, regard: 'spine' }],
+                  flags: ['r3-track'],
+                },
+                {
+                  id: 'r3-hold',
+                  label: '"It knows this door now. So do I. I\'ll be at the sill."',
+                  say: '"It knows this door now. So do I. I\'ll be at the sill."',
+                  react:
+                    '"Then mend the bar before dark, and take the long spear this time. Eat first."',
+                  memory: [{ npc: 'kihei', warmthDelta: 1, regard: 'steady' }],
+                  flags: ['r3-hold'],
+                  statBonus: {
+                    attr: 'agi',
+                    amount: 1,
+                    note: 'For six nights the wolf does not come, and you learn its hours anyway: the straw settling, the wind at the bar, the one sound that is neither. By the last night you are up off the sill before you know which it was. (+1 AGI)',
+                  },
+                },
+                {
+                  id: 'r3-mend',
+                  label: '"The bar first. Then the wolf."',
+                  say: '"The bar first. Then the wolf."',
+                  react:
+                    '"The bar, the screen, then the tally. I will enter the wood against the house."',
+                  reactNpc: 'genemon',
+                  memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'careful' }],
+                  flags: ['r3-mend'],
+                },
+              ],
+            },
+          },
+        },
+      },
+    ],
+  },
+
+  {
     id: 'c5a-discoveries',
     title: 'The three hidden discoveries',
     hr: 'HR-19',

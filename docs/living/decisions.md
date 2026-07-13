@@ -3803,3 +3803,60 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   that broke it) · `a4863592` → `8f746f54` (red, then fixed) · the
   "highest sound rung" convention (a gate > a hook > a skill > a norm —
   calibrated so it never cries wolf).
+
+### ADR-190 ✅ — a content rewrite deleted a mechanic in silence; the nudge is back, with a counter (HD-44)
+
+- **Date:** 2026-07-13 · **Status:** accepted (the human ruled RESTORE)
+- **The lever.** `RungOption.statBonus` — a one-time +1 attribute on a
+  rung-beat pick, carrying an authored `note` (the *delight line*). It
+  is
+  the **one asymmetric reward** in a choice system that is otherwise
+  strictly net-zero (+1/−1): the rare moment a choice simply **pays**.
+- **What actually happened — the part worth keeping.** It was not a
+  migration casualty and it did not rot. `ea5710e3` (the G4 narrative
+  cutover) **rewrote R3's beat**: *"How do you take up the blade?"*
+  (`r3-aggressive` / `r3-disciplined` / `r3-duty-not-glory`) became
+  *"What do you do about the wolf?"* (`r3-track` / `r3-hold` /
+  `r3-mend`). The option the bonus hung on ceased to exist, the bonus
+  went with it — and **every gate stayed green**. The grammar still
+  parsed `bonus:`. The type still declared `statBonus`. The resolver
+  still had its `.bonus` branch; `scenes.ts` still had its emit block. A
+  whole designed mechanic became dead code and nothing in the build
+  could
+  tell. **A content edit deleted a mechanic, and the build agreed.**
+- **The restoration is recovered, not invented.** The heir is
+  **`r3-hold`** — the beat's watch-standing choice, and the lost line
+  was
+  about standing a watch. The value is **+1 agi**, the original's own,
+  read back out of git. Only the WORDS are new (the retired line named a
+  dawn drill this beat no longer contains), authored through
+  **ADR-139**:
+  three blind takes, canon self-picked, alternates DEV-only (**HR-42**).
+- **It was also INVISIBLE — probably why nobody missed it.** The note
+  was
+  logged on the `system` channel, which `log-filter` routes to the
+  **Work** tab (the labour-reward lane). So the rarest reward in the
+  game
+  painted itself into the one tab the player was not looking at, seconds
+  after a VN they were reading in **Story**. It is now `narration`, in
+  the beat's own scene group. This is the **HD-41 defect in other
+  clothes**: a reward the player never sees is not a reward. Its log
+  line
+  is also **keyed** now (`beat.<rank>.opt.<id>.bonus`) — it was unkeyed,
+  so the moment the data returned it would have frozen in every save
+  that
+  recorded it, exactly as the rung-beat topics did (session-192).
+- **The teeth, and the reason this ADR exists.** A test asserts
+  **EXACTLY
+  ONE** rung option carries a bonus. It is a two-sided ratchet: at **0**
+  it fires — the lever has been silently dropped *again*, the precise
+  regression above, which no gate could see — and above **1** it fires:
+  "rare" has quietly stopped being rare and the choice system has
+  stopped
+  being net-zero. **A mechanic that lives in ONE piece of content needs
+  a
+  test that COUNTS it.** A type field, a resolver branch and an emitter
+  are not evidence that a feature exists.
+- **Refs:** HD-44 · HR-42 · ADR-139 (story diverge) · ADR-186 (keyed log
+  descriptors) · `ea5710e3` (where it was lost) · the plan in
+  `project/archive/opus-2026-07-13-r3-stat-nudge.md`

@@ -316,6 +316,11 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
           react: '"Then mend the bar before dark, and take the long spear this time. Eat first."',
           memory: [{ npc: 'kihei', warmthDelta: 1, regard: 'steady' }],
           flags: ['r3-hold'],
+          statBonus: {
+            attr: 'agi',
+            amount: 1,
+            note: 'Kihei carries the long spear out to the sill himself, sets your hands wide on the haft, kicks your back heel flat to the boards, and goes in without a word. You hold the stance he left you in until dark, and your feet keep it after. (+1 AGI)',
+          },
         },
         {
           id: 'r3-mend',

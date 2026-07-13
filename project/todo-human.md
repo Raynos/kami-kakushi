@@ -51,8 +51,8 @@
   satiety-only)
 - [ ]
   [`docs/plans/fable-2026-07-13-dialogue-live-swap.md`](../docs/plans/fable-2026-07-13-dialogue-live-swap.md)
-  — split 5/5: dialogue joins the DEV Story switcher live-swap
-  (unblocks future dialogue diverges)
+  — split 5/5: dialogue joins the DEV Story switcher live-swap (unblocks
+  future dialogue diverges)
 - [x]
   [`fable-2026-07-11-wait-a-day.md`](archive/fable-2026-07-11-wait-a-day.md)
   — ✅ **BUILT + archived** (session-183). You ruled Phase 0 (**D

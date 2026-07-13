@@ -240,7 +240,7 @@
 - "It bled going west. The trail is fresh." <small>· memory kihei +1 (spine) · flags r3-track</small>
   **Sōan:** "And you can chase it exactly as far as I can throw you. Sit down. It is winter's business now, not yours."
 
-- "It knows this door now. So do I. I'll be at the sill." <small>· memory kihei +1 (steady) · flags r3-hold</small>
+- "It knows this door now. So do I. I'll be at the sill." <small>· memory kihei +1 (steady) · flags r3-hold · ⭐ +1 agi</small>
   **Kihei:** "Then mend the bar before dark, and take the long spear this time. Eat first."
 
 - "The bar first. Then the wolf." <small>· memory genemon +1 (careful) · flags r3-mend</small>

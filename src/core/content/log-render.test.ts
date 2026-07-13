@@ -190,3 +190,31 @@ describe('THE POINT: an old save’s stale prose is replaced by src/’s current
     expect(decoded.state.log.entries.at(-1)!.text).toBe('authored prose with no key');
   });
 });
+
+// ── HD-44 / ADR-190: the rare stat-nudge's delight line ──────────────────────────────────────
+// The one asymmetric reward in a net-zero choice system. It was gone for months — a content
+// rewrite (ea5710e3) replaced the option it hung on and the bonus did not come across — and the
+// line the beat logs for it was UNKEYED, so the moment the data returned it would have frozen in
+// every save that logged it. These pin both halves: the data exists, and the line is addressable.
+describe('the R3 delight line — the one pick that pays', () => {
+  const withBonus = Object.entries(RUNG_BEATS).flatMap(([rank, b]) =>
+    (b?.decision.options ?? []).filter((o) => o.statBonus).map((o) => ({ rank, o })),
+  );
+
+  it('EXACTLY ONE rung option carries a bonus — rare is the design, not an accident', () => {
+    // A dead ratchet in reverse: if this ever reads 0 the lever has been silently dropped again
+    // (which is precisely what happened); if it climbs, "rare" has quietly stopped being true.
+    expect(withBonus.length).toBe(1);
+  });
+
+  it('its note renders from the registry through the key the beat logs', () => {
+    const { rank, o } = withBonus[0]!;
+    expect(renderLogLine(`beat.${rank}.opt.${o.id}.bonus`)).toBe(o.statBonus!.note);
+  });
+
+  it('the note names the attribute it actually moves (the player never guesses — TST4)', () => {
+    const { o } = withBonus[0]!;
+    expect(o.statBonus!.note).toContain(o.statBonus!.attr.toUpperCase());
+    expect(o.statBonus!.amount).toBeGreaterThan(0);
+  });
+});

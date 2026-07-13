@@ -254,6 +254,10 @@ first."
 
 memory: kihei +1 (steady)
 flags: r3-hold
+bonus: +1 agi — "Kihei carries the long spear out to the sill himself, sets your
+  hands wide on the haft, kicks your back heel flat to the boards, and goes in
+  without a word. You hold the stance he left you in until dark, and your feet keep
+  it after. (+1 AGI)"
 
 #### r3-mend · "The bar first. Then the wolf."
 

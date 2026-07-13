@@ -303,3 +303,66 @@ describe('FB-388 — a promotion beat can MOVE you (RankDef.arriveAt)', () => {
     expect(s.location).toBe('grove');
   });
 });
+
+// ── HD-44 / ADR-190 — the rare stat-nudge, driven through the real beat ──────────────────────
+// The lever pays exactly once in T0, and the line it pays with is authored prose. Two things
+// have to hold, and neither is provable from the registry alone: the pick must actually MOVE the
+// attribute, and the line the beat logs must be KEYED — it was logged unkeyed until 2026-07-13,
+// so the moment the data came back it would have frozen in every save that recorded it (the same
+// bug the rung-beat topics had). Driving the real reducer is the only way to see either.
+describe('the pick that pays (R3, the wolf at the sill)', () => {
+  const RANK: RankId = 'R3';
+  const beat = RUNG_BEATS[RANK]!;
+  const bonusOpt = beat.decision.options.find((o) => o.statBonus)!;
+
+  /** The R3 beat, OPEN, with the pick ready to land — walked the way the arc test walks it: a
+   *  silent rung promotes straight through `begin_rung_beat`; a beat rung needs its terminal pick. */
+  const atBeat = (): GameState => {
+    let s = atDoneIntro();
+    for (const target of ['R1', 'R2', RANK] as RankId[]) {
+      s = makeReady(s);
+      s = reduce(s, { type: 'begin_rung_beat' });
+      if (target === RANK) break; // the R3 beat is now OPEN — the caller makes the pick
+      const b = RUNG_BEATS[target];
+      if (b) s = reduce(s, { type: 'choose_rung_option', optionId: b.decision.options[0]!.id });
+    }
+    return s;
+  };
+
+  it('the beat really does carry the bonus option (else the rest proves nothing)', () => {
+    expect(bonusOpt.statBonus).toBeDefined();
+  });
+
+  it('picking it MOVES the attribute it names', () => {
+    const before = atBeat();
+    const { attr, amount } = bonusOpt.statBonus!;
+    const after = reduce(before, { type: 'choose_rung_option', optionId: bonusOpt.id });
+    expect(after.character.attrs[attr]).toBe(before.character.attrs[attr] + amount);
+  });
+
+  it('and the delight line it logs is KEYED, so a re-voice reaches an old save', () => {
+    const after = reduce(atBeat(), { type: 'choose_rung_option', optionId: bonusOpt.id });
+    const entry = after.log.entries.find((e) => e.text === bonusOpt.statBonus!.note);
+
+    expect(entry).toBeDefined(); // the line is shown at all
+    expect(entry!.contentKey).toBe(`beat.${RANK}.opt.${bonusOpt.id}.bonus`); // …and addressable
+  });
+
+  it('the delight line lands where the player is READING (Story, not the Work tab)', () => {
+    // It was `system` — which log-filter routes to WORK, the labour-reward lane. So the rarest
+    // reward in the game was painted into the one tab nobody was looking at, seconds after a VN
+    // the player was reading in Story. A reward the player never sees is not a reward (HD-41).
+    const after = reduce(atBeat(), { type: 'choose_rung_option', optionId: bonusOpt.id });
+    const entry = after.log.entries.find((e) => e.text === bonusOpt.statBonus!.note)!;
+
+    expect(logFilterMatches(entry.channel, 'story', false)).toBe(true);
+    expect(logFilterMatches(entry.channel, 'work', false)).toBe(false);
+  });
+
+  it('a pick WITHOUT a bonus moves no attribute — the reward stays rare', () => {
+    const plain = beat.decision.options.find((o) => !o.statBonus)!;
+    const before = atBeat();
+    const after = reduce(before, { type: 'choose_rung_option', optionId: plain.id });
+    expect(after.character.attrs).toEqual(before.character.attrs);
+  });
+});

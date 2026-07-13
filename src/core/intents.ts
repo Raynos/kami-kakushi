@@ -609,7 +609,26 @@ export function reduce(state: GameState, intent: Intent): GameState {
           },
         };
         next = applyRewards(next, {
-          log: [{ channel: 'system', text: opt.statBonus.note, voice: 'narrator' }],
+          // KEYED (session-192): the note is authored prose, so it must re-render from the
+          // registry like every other line — unkeyed, it would freeze in every save that logged
+          // it, which is exactly the bug the rung-beat topics had. The scene path already keys
+          // its twin (`scene.<id>.opt.<id>.bonus`); this is the beat's.
+          log: [
+            {
+              // NARRATION, not `system` (2026-07-13). The note is diegetic prose — it closes the
+              // beat the player is reading — but `system` routes to the WORK tab (log-filter: the
+              // labour-reward lane), so the rarest reward in the game landed in the one place
+              // nobody was looking, seconds after a VN they were reading in Story. That is the
+              // HD-41 defect exactly (a reward that is invisible AS a reward), and it is very
+              // likely why nobody noticed the lever had gone missing at all. It rides the beat's
+              // own channel and scene group now; the `(+1 AGI)` marker keeps the state readable.
+              channel: 'narration',
+              text: opt.statBonus.note,
+              voice: 'narrator',
+              contentKey: `beat.${target}.opt.${opt.id}.bonus`,
+              context: `${getRank(target).title} promotion`,
+            },
+          ],
         });
       }
       if (opt.setStance) next = { ...next, stance: opt.setStance };
