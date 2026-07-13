@@ -97,7 +97,7 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 
 1. Read the **newest journal** + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-13-session-186-markdown-wrap-72.md`](../journal/2026-07-13-session-186-markdown-wrap-72.md)
+   [`journal/2026-07-13-session-187-adr-embedded-work-plan-reverified.md`](../journal/2026-07-13-session-187-adr-embedded-work-plan-reverified.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev server on
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true

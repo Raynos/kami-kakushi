@@ -1,6 +1,7 @@
 # Drain the work embedded in the ADR log into a real queue
 
-**Status:** 📋 PROPOSED (2026-07-12, session-184)
+**Status:** 📋 PROPOSED (2026-07-12, session-184 · every HIGH/MEDIUM claim
+re-verified against `src/` 2026-07-13 — all hold; line refs corrected)
 **Confidence:** ( 80% Opus, 20% Fable ) — mechanical build + doc-truth work; the
 one fiction-voiced item (the sickroom mend beat) is Fable's.
 **Template:** build
@@ -21,7 +22,7 @@ TODO list or TASK list or ROADMAP or alternative to writing concrete plans."*
 
 He is right, and this is the **undeclared twin** of the failure the brand-new
 `deferred-work` gate was built for. That gate (`src/scripts/verify-deferred-work.ts`,
-landing this session) catches the **shouted** case — a capitalised `NOT BUILT` in
+landed as the 19th gate, `8f50a09f`) catches the **shouted** case — a capitalised `NOT BUILT` in
 canon that names no home. Its own header concedes the rest:
 
 > "The UNdeclared case — work that lives only in a journal's 'next steps' and is
@@ -43,18 +44,20 @@ lane, ADR-184's sited cooking). Reading the log to find work therefore misleads 
 
 ## What exists today
 
-**Survey date: 2026-07-12 (session-184).** Every verdict below was checked against
-`src/` this session by five parallel read-only agents (PH2 — the build is the
-territory; the ADR is a claim to verify). Cited paths were confirmed to exist.
+**Survey date: 2026-07-12 (session-184); re-verified 2026-07-13.** Every
+verdict below was checked against `src/` by five parallel read-only agents
+(PH2 — the build is the territory; the ADR is a claim to verify), then every
+HIGH and MEDIUM claim was independently re-checked the next day. All hold;
+the re-check corrected four drifted line refs (noted in place).
 
 ### 🔴 HIGH CONFIDENCE — real work, not built, no home
 
 | # | Source | The gap (source-verified) |
 |---|---|---|
-| H1 | **ADR-164** (human-ruled, 2026-07-08) | **The HP-mend lane was never built.** ADR-164 locked: HP has *no* auto-trickle; it mends via a **paid treatment action** at the sickroom, or a free manual **"rest at sickroom"** trickle — and *"food stays satiety-only"*. Neither verb exists: no `treat`/sickroom intent in the `Intent` union (`src/core/intents.ts`), no sickroom entry in `activities.ts`. The **only** HP mend in the game is `cook_meal` (`intents.ts:920-922`, `COOK_HP_RESTORE`) — i.e. food *is* the healer, precisely what the ADR retired. Worse, the code contradicts *itself*: `defeat.ts:7-8` and `fight.ts:190` assert the ADR-164 model as if it shipped, while `combat.ts:140` says *"the only mend is eating (cook)"*. |
+| H1 | **ADR-164** (human-ruled, 2026-07-08) | **The HP-mend lane was never built.** ADR-164 locked: HP has *no* auto-trickle; it mends via a **paid treatment action** at the sickroom, or a free manual **"rest at sickroom"** trickle — and *"food stays satiety-only"*. Neither verb exists: no `treat`/sickroom intent in the `Intent` union (`src/core/intents.ts`), no sickroom entry in `activities.ts`. The **only** HP mend in the game is `cook_meal` (`intents.ts:920-922`, `COOK_HP_RESTORE`) — i.e. food *is* the healer, precisely what the ADR retired. Worse, the code contradicts *itself*: `defeat.ts:7-8` and `fight.ts:190` assert the ADR-164 model as if it shipped, while `combat.ts:140` says *"the only mend is eating (cook)"*. **How it was lost:** the verbs *had* a home — ADR-164's consequences assigned them to the storywave plan's "G4 sickroom content" chunk — but that plan shipped its other chunks and was archived 2026-07-09 with these verbs unbuilt. Archiving a plan can orphan its sub-items; that's the mechanism this whole sweep exists to catch. |
 | H2 | **ADR-163** §5 (human-ruled) | **Yohei's purse is not finite per visit.** The ADR relies on a finite purse as a soft cap. `intents.ts:986` clamps each **transaction** to `YOHEI_PURSE_MON`, and no `GameState` field tracks purse spend — so repeated `sell_rice` calls on the same market day each draw a *fresh* 120-mon purse. The cap does not hold; this is an unbounded coin faucet. |
 | H3 | **ADR-163** §2/§6 (human-ruled) | **The withdraw verb still exists and is wired**, against *"rice is never pocketed"* + *"one-way barn-filling at T0, no withdrawal verb"*. `intents.ts:1267-1287` `case 'withdraw'` is resource-generic and moves `banked.rice` into carried `resources.rice`; `render.ts:5396` binds a live button. `render.ts:5410-5412` **admits it**: *"the deposit/withdraw rice rows are vestigial under the one-way barn-filling model; the full render sweep retires them in a later chunk."* That chunk never came. |
-| H4 | **ADR-186** "Known limit" | **A live save-integrity bug with a named fix and no home.** `greeting.<i>` / `stage.<i>` log descriptors are **positional, not id-keyed** (`log-render.ts:71-80`, resolver matches `/^greeting\.(\d+)$/`). Re-ordering a scene's greeting lines in the narrative `.md` silently re-points an old save's log line to its neighbour — and the orphaned-id sensor **cannot see it** (the index still resolves). The ADR names the fix: *"Giving greeting lines authored ids would close it."* |
+| H4 | **ADR-186** "Known limit" | **A live save-integrity bug with a named fix and no home.** `greeting.<i>` / `stage.<i>` log descriptors are **positional, not id-keyed** (`log-render.ts:80` + `:122` — two resolvers match `/^greeting\.(\d+)$/`). Re-ordering a scene's greeting lines in the narrative `.md` silently re-points an old save's log line to its neighbour — and the orphaned-id sensor **cannot see it** (the index still resolves). The ADR names the fix: *"Giving greeting lines authored ids would close it."* |
 | H5 | **ADR-068** ✅ vs the build | **The game ships silent, and the reversal is un-ADR'd.** The Web Audio SFX engine is fully built and tested (`src/ui/sfx.ts`, 215 lines — taiko/shamisen/suzu; `sfx.test.ts`), wired at four call sites — then **globally muted at mount**: `render.ts:520-524`, *"Sound removed for now (human call, 2026-07-07 — the synth cues read too comedic)."* ADR-068's actual requirement is *"a minimal SFX pass lands **before the R1 taste call**"* — **HR-1 is still open**, so the human will judge a silent game against an ADR that says otherwise. `decisions.md` records the mute **nowhere**. |
 | H6 | **ADR-041** | **No `LICENSE` file at repo root**, while the About modal tells every player *"Code: MIT"* (`render.ts:625`). ADR-041 put LICENSE in scope. The other three items (build stamp, About/Credits, itch descriptors) are built or correctly roadmap-owned. |
 | H7 | **ADR-184** ✅ vs the build | **"Cooking is SITED" is false.** `cook_meal` never calls `canCookHere` — the gate exists (`selectors.ts:140`) but its only consumer is a Home-tab UI row. `intents.ts:909-917` says so plainly: *"cooking is NOT yet sited… turning it on is exactly one line HERE. It is held because the sim priced it."* The build is **correctly** held (it blows the pacing band → escalated as **HD-40**, open). What is wrong is the record: the ADR claims it shipped, and `reveals.ts:50-51` carries a stale comment asserting the same. |
@@ -63,14 +66,14 @@ territory; the ADR is a claim to verify). Cited paths were confirmed to exist.
 
 | # | Source | The gap | Read |
 |---|---|---|---|
-| M1 | **ADR-148** | **Combat is still excluded from the timed-action model *"pending its own review"*** (`timing.ts:143-144`, `fight: INSTANT`). That review never happened. Every other act is timed (labour 5–9s, night round 30s, craft 45s) while a fight resolves in **zero wall-time** — a felt inconsistency the human has not been asked about. | An open **design review**, not a build. Best filed as an HD-item. |
-| M2 | **ADR-157**(b) | **The map re-label data shape never landed** — and the ADR explicitly said it *"should land **now**"* so the sheet-map work (ADR-151) could carry it. Neither `MapNode` (`content/map.ts:15-42`) nor `SheetNode` (`map-sheets/nodes.ts:12-22`) has any rename/alias field. T2 instead **duplicates the roster** (`nodes.ts:530-552`, `rosterFor()` swaps wholesale). | The window was missed. The duplicate-roster approach may be *fine* — but that is a T2 design call nobody made. |
+| M1 | **ADR-148** | **Combat is still excluded from the timed-action model *"pending its own review"*** (`src/core/content/timing.ts:143`, `fight: INSTANT`). That review never happened. Every other act is timed (labour 5–9s, night round 30s, craft 45s) while a fight resolves in **zero wall-time** — a felt inconsistency the human has not been asked about. | An open **design review**, not a build. Best filed as an HD-item. |
+| M2 | **ADR-157**(b) | **The map re-label data shape never landed** — and the ADR explicitly said it *"should land **now**"* so the sheet-map work (ADR-151) could carry it. Neither `MapNode` (`content/map.ts:15-42`) nor `SheetNode` (`map-sheets/nodes.ts:12-22`) has any rename/alias field. T2 instead **duplicates the roster** (`nodes.ts:764`, `rosterFor()` swaps wholesale). | The window was missed. The duplicate-roster approach may be *fine* — but that is a T2 design call nobody made. |
 | M3 | **ADR-152** | **There is no `TierId` type.** `state.ts:239` is a bare `readonly tier: number` whose *comment* claims "0..6". The ADR's headline change ("the enum widens 0..5 → 0..6") was a prose edit to a comment on a `number`. No tier display-name table; `RankDef.tier` is hard-typed to the literal `0`. | Cheap to fix, and a genuine single-source gap — but it buys nothing until T1. |
 | M4 | **ADR-183** (HD-39) | The T1+ both-tracks rule is, in its own words, **"canon without teeth"**. Both prerequisites are absent: `RequirementDef` has no `track` field (`requirements-engine.ts:32-40`), and there is no `verify-content` invariant for it. | **Correctly** deferred (a check with no T1 rungs is a vacuous green — PH3). But it has **no home in `docs/plans/t1/`**. |
 | M5 | **ADR-159** | The multi-pillar tier-up predicate (*"every revealed pillar ≥ GOOD, exactly one EXCELLENT + one GREAT"*) **is not written** — only the degenerate T0 case (`ascension.ts:22`, `estateGrade === 'EXCELLENT'`). Nothing will enforce the rule when Arms lands. | T1 work, unhomed. |
 | M6 | **ADR-104** | The **reusable "meet an NPC" first-encounter VN trigger** — named as *"Future work"* — was never built. `SceneTrigger` kinds are `rung \| season-exit \| flag \| verb \| scripted` (`scenes.ts:31-36`); there is no `meet`/first-encounter kind, so every NPC meeting is hand-wired. | Pays for itself the moment T1's cast lands. |
 | M7 | **ADR-143** | **Dialogue is still reader-only** in the DEV Story switcher — `LIVE_UNITS` (`dev.ts:2731`) covers rung/intro/scene/flavor/cold-open, and there is no `subDialogue`. ADR-143's lock says wiring the live-swap is **part of** the first diverge that touches it. | Latent, correctly. Triggered by the next dialogue diverge — worth knowing *before* one starts. |
-| M8 | **ADR-176** | **`save-e2e` still runs its playthrough at describe-collect time** (`save-e2e.test.ts:44`), the named *"Follow-up (not in scope)"*. Costs parallelism in the full lane. | Honest, un-discharged, tiny. |
+| M8 | **ADR-176** | **`save-e2e` still runs its playthrough at describe-collect time** (`src/persistence/save-e2e.test.ts:44`), the named *"Follow-up (not in scope)"*. Costs parallelism in the full lane. | Honest, un-discharged, tiny. |
 | M9 | **ADR-111** | Home tiers **growing with rung** — explicitly a *"deferred T1+ seam"*, and correctly marked as such in code (`render.ts:5594-5596`, `home.ts:19`). Belongings + set/synergy bonuses **are** built. | Correctly deferred; unhomed. |
 
 ### ⚪ LOW CONFIDENCE — the ADR is yapping; not relevant to v0.4.1
@@ -190,12 +193,15 @@ the cheapest and it stops the log from lying to the *next* reader while the rest
 
 ## Risks
 
-- **Shared tree — 3 agents live.** `w2:p5` is building `fable-2026-07-11-wait-a-day.md`
-  and `w6:p1` is reviewing the narrative re-voice; a fourth agent is landing
-  `src/scripts/verify-deferred-work.ts` (untracked at survey time). **Seam:** S2/S3 own
-  `src/core/intents.ts`, `defeat.ts`, `fight.ts`, `combat.ts`, `content/market.ts`;
-  S4 owns `content/log-render.ts` + the narrative grammar. Commit **by explicit
-  file-level pathspec** (never a dir pathspec, never `git add -A`), and re-check
+- **Shared tree — multiple agents live (the roster churns; re-check with
+  `herdr agent list` at pickup, don't trust this snapshot).** **Seam:** S2/S3
+  own `src/core/intents.ts`, `defeat.ts`, `fight.ts`, `combat.ts`,
+  `content/market.ts`; S4 owns `content/log-render.ts` + the narrative
+  grammar. **Known live overlap:** the HD-41 build plan
+  (`opus-2026-07-12-rung-reward-legibility.md`, active build-first since
+  `48381097`) also touches `src/core/intents.ts` + `src/ui/render.ts` —
+  coordinate before S2/S3 start. Commit **by explicit file-level pathspec**
+  (never a dir pathspec, never `git add -A`), and re-check
   `git diff --cached --name-only` immediately before each commit.
 - **S3 changes how HP recovers — a live balance lever.** Severing `cook_meal`'s HP restore
   removes the *only* current mend; if the treatment action is mispriced the arc can
