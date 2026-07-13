@@ -2784,8 +2784,10 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
      read clean.
   2. **(Q9) The HP-mend split — no auto-trickle:** HP does NOT regen
      ambiently. Serious injury mends via a **treatment action** at the
-     sickroom (costs mon once waged, else a day); the free fallback when broke
-     is a **manual "rest at sickroom" action** that slowly trickles HP.
+     sickroom (~~costs mon once waged, else a day~~ **mon-only — the
+     day-cost fallback was ruled out; → ADR-197**); the free fallback
+     when broke is a **manual "rest at sickroom" action** that slowly
+     trickles HP.
      Recovery is always a deliberate act (pay for speed, or spend days).
      Food stays satiety-only; the two body meters stay genuinely distinct.
 - **Why:** keeping the bleed makes losing sting in the moment, while routing
@@ -4113,3 +4115,23 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   carries their thrash.
 - **Refs:** ADR-171 (inbox parallel-drain claims — the pattern
   generalized here) · the cede/fold norm · PH4.
+
+### ADR-197 ✅ — `treat` is mon-only: no day-cost fallback before the wage (🔁 refines ADR-164)
+
+- **created_date:** 2026-07-13
+- **Context:** ADR-164 Q9 phrased the paid sickroom treatment as
+  "costs mon once waged, else a day" — an automatic time-cost
+  fallback for the unwaged. At the sickroom-plan decision walk
+  (session 202) the human ruled the fallback out.
+- **Decision:** **`treat` requires mon, full stop.** Before the
+  player has coin, the verb is hidden (not shown-disabled); the ONLY
+  unwaged mend lane is the free manual `rest_sickroom` trickle. One
+  verb = one price; no silent currency swap under the same button.
+- **Why:** two lanes stay legible — pay mon for speed, or spend days
+  resting. A treat that sometimes bills a day blurs the two into one
+  verb and hides the ledger pressure that makes Sōan's sickroom real.
+- **Consequences:** 🔁 refines ADR-164 Q9 (the "else a day" clause is
+  superseded); the sickroom HP-mend plan
+  (`docs/plans/fable-2026-07-13-sickroom-hp-mend.md`) builds to this.
+  No-stranding guard unchanged: the free rest trickle ships in the
+  same commit as the cook-heal severing.

@@ -1,6 +1,8 @@
 # Build the HP-mend lane: pay Sōan, or rest and let the days do it
 
-**Status:** 📋 PROPOSED (2026-07-13, session-187)
+**Status:** 🔧 IN PROGRESS (2026-07-13, session-202 — decision walk
+done: build all here on Fable; magnitudes self-picked, sim-proved;
+`treat` is **mon-only**, ADR-197)
 **Confidence:** ( 70% Opus, 30% Fable ) — the lane is engine plumbing
 (Opus); the two verbs' fiction is voiced text → the ADR-139 diverge is
 Fable's, and it is a real share of the plan's surface.
@@ -50,10 +52,12 @@ chunk unbuilt. Evidence:
 
 ## Steps
 
-1. **The two verbs.** `treat` (paid: debits mon once waged, else a
-   day; restores a sim-owned chunk) and `rest_sickroom` (free, manual,
-   slow trickle per day spent) — new intents + an `activities.ts`
-   sickroom entry, gated to the sickroom location. Magnitudes
+1. **The two verbs.** `treat` (paid: debits mon — **mon-only, no
+   day-cost fallback; the verb is hidden when the player can't pay
+   (ADR-197, supersedes the "else a day" wording)**; restores a
+   sim-owned chunk) and `rest_sickroom` (free, manual, slow trickle
+   per day spent) — new intents + an `activities.ts` sickroom entry,
+   gated to the sickroom location. Magnitudes
    (`TREAT_COST_MON`, restore sizes, trickle rate) live in
    `balance.ts`, sim-owned (ADR-132).
 2. **Sever the cook heal.** Remove `COOK_HP_RESTORE` from `cook_meal`
@@ -78,8 +82,9 @@ chunk unbuilt. Evidence:
 
 - RED-able `intents.test.ts` / `defeat.test.ts` cases: `cook_meal`
   restores **zero** HP (fails on main today); `treat` restores and
-  debits mon (or a day when unwaged); `rest_sickroom` trickles;
-  neither fires outside the sickroom. Fixtures derive from
+  debits mon, and is a no-op without the mon (ADR-197 — no day
+  fallback); `rest_sickroom` trickles; neither fires outside the
+  sickroom. Fixtures derive from
   `balance.ts` constants, never copied magic numbers (test
   discipline, ADR-086…088).
 - Sim: the no-stranding detector stays green — a broke, hurt player

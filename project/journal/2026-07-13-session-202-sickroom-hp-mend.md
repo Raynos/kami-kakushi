@@ -26,6 +26,10 @@
   the eight names (which also grants each rung save the per-fixture
   mobile + desktop layout tests). Full local e2e: **115 passed**.
 
+- **ADR-197 recorded** (mon-only `treat`, 🔁 refines ADR-164 Q9;
+  the Q9 clause struck with a forward pointer) and the plan amended
+  to match (Status → IN PROGRESS, step 1 + verification reworded).
+
 ## Next intended steps
 
 - Plan step 1: the `treat` / `rest_sickroom` intents + sickroom
