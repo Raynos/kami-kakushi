@@ -8,21 +8,64 @@ import { readdirSync } from 'node:fs';
 const URL = process.env.QA_URL || 'http://localhost:5174/';
 const OUT = 'project/audit/screens/latest';
 
-// Each step: optional `run` (a JS expression string evaluated in the page) + a screenshot name.
+// Each step: optional `run` (a JS expression string evaluated in the page) or `fn`
+// (an async (page) => {} driven from node) + a screenshot name.
 const clickTab = (label) =>
   `[...document.querySelectorAll('.nav-tab')].find(b=>b.textContent.includes('${label}')).click()`;
+
+// The intro VN gates the shell (toRung teleports rungs but never plays the intro),
+// so play it like a player — hurry the typewriter, ask/decide/Continue, scene by
+// scene — until the VN yields. Mirrors src/tests/e2e/helpers.ts (playVnScene),
+// minus the test assertions: a missing control here just falls through.
+async function hurryTypewriter(page) {
+  const controls = page.locator(
+    'button.intro-ask:visible, button.intro-done:visible, button.intro-choice:visible, button.intro-continue:visible',
+  );
+  for (let i = 0; i < 60; i++) {
+    if ((await controls.count().catch(() => 0)) > 0) return;
+    await page
+      .locator('.vn-story')
+      .click({ position: { x: 20, y: 20 } })
+      .catch(() => {});
+    await page.waitForTimeout(40);
+  }
+}
+
+async function playIntro(page) {
+  for (let scene = 0; scene < 12; scene++) {
+    if (
+      !(await page
+        .locator('.vn-scene')
+        .isVisible()
+        .catch(() => false))
+    )
+      return;
+    await hurryTypewriter(page);
+    const ask = page.locator('.vn-ask button.intro-ask:not(.asked):visible').first();
+    if (await ask.isVisible().catch(() => false)) {
+      await ask.click();
+      await hurryTypewriter(page);
+    }
+    const done = page.locator('button.intro-done:visible').first();
+    if (await done.isVisible().catch(() => false)) await done.click();
+    const choice = page.locator('button.intro-choice:visible').first();
+    if (await choice.isVisible().catch(() => false)) {
+      await choice.click();
+      await hurryTypewriter(page);
+    }
+    const cont = page.locator('button.intro-continue:visible').first();
+    if (await cont.isVisible().catch(() => false)) await cont.click();
+    const ceremony = page.locator('.vn-rung-ceremony button.intro-continue');
+    if (await ceremony.isVisible().catch(() => false)) await ceremony.click();
+    await page.waitForTimeout(200);
+  }
+}
 
 const steps = [
   { name: '01-cold-open' },
   { name: '02-awake', run: `__qa.dispatch({type:'open_eyes'})` },
-  // C4.9: the intro is the ONE fused sickroom scene — decide it (first option) so the
-  // shell mounts; toRung teleports rungs but never plays the intro (qa-playtesting.md).
-  {
-    name: '02b-intro-decide',
-    run: `document.querySelector('.intro-choice')?.click()`,
-    wait: 500,
-  },
-  { name: '02c-intro-done', run: `document.querySelector('.intro-continue')?.click()`, wait: 800 },
+  // Play the whole intro VN (ask → decide → Continue, every scene) so the shell mounts.
+  { name: '02b-intro-played', fn: playIntro, wait: 400 },
   { name: '03-r1', run: `__qa.toRung('R1')`, wait: 2200 },
   { name: '04-r2-work', run: `__qa.toRung('R2')`, wait: 2200 },
   // IA reorg (ADR-112): skills is a section of the Character 己 tab (present from R2).
@@ -45,7 +88,13 @@ const steps = [
   { name: '09-settings', run: `document.querySelector('.settings-btn').click()` },
   {
     name: '10-rankup-seal',
-    run: `document.querySelector('.modal-close').click(); __qa.newGame(); __qa.dispatch({type:'open_eyes'}); for(let i=0;i<7;i++)__qa.dispatch({type:'rake_rice'})`,
+    fn: async (page) => {
+      await page.evaluate(
+        `document.querySelector('.modal-close').click(); __qa.newGame(); __qa.dispatch({type:'open_eyes'})`,
+      );
+      await playIntro(page); // a fresh game re-raises the intro over the shell
+      await page.evaluate(`for(let i=0;i<7;i++)__qa.dispatch({type:'rake_rice'})`);
+    },
     wait: 300,
   },
 ];
@@ -67,6 +116,7 @@ try {
 
   for (const step of steps) {
     if (step.run) await page.evaluate(step.run);
+    if (step.fn) await step.fn(page);
     await page.waitForTimeout(step.wait ?? 350);
     await page.screenshot({ path: `${OUT}/qa-${step.name}.png` });
     console.log('shot', step.name);
@@ -79,6 +129,8 @@ try {
   });
   await mobile.goto(URL, { waitUntil: 'networkidle' });
   await mobile.waitForFunction(() => Boolean(window.__qa), { timeout: 8000 });
+  await mobile.evaluate(`__qa.dispatch({type:'open_eyes'})`);
+  await playIntro(mobile); // the intro gates the shell on mobile too
   await mobile.evaluate(`__qa.toRung('R2')`);
   await mobile.waitForTimeout(350);
   await mobile.screenshot({ path: `${OUT}/qa-06-mobile-r2.png` });

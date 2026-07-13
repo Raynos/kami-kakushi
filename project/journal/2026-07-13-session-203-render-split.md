@@ -27,6 +27,23 @@ open forks. Edits:
   stamp: builds only after render-split lands (it edits the
   market UI inside render.ts).
 
+## 2 · Quiet window opened; baseline captured (+ a harness fix)
+
+w1:p3 exited; tree clean; only this session live. Baseline: full
+verify green (the push), e2e lane green (115 passed), the
+qa-shots gallery green ×2, DEV-panel tab shots via an ad-hoc
+script. Found & fixed pre-existing rot in
+`src/scripts/qa-shots.mjs`: its two naive intro clicks predate
+the fused sickroom intro, so the shell never mounted and shots
+04+ pictured the VN. It now plays the intro like the (green)
+e2e helpers do (hurry typewriter → ask/decide/Continue per
+scene), on desktop, mobile, and after the step-10 newGame.
+Noise measurement: two identical-code gallery runs differ on 4
+of 13 shots (typewriter/timing: 01-cold-open, 02b-intro-played,
+06-mobile-r2, 10-rankup-seal) — those get judged diffs at Step
+5; the other 9 must be pixel-identical. Baseline set:
+`tmp/render-split-baseline/` (run-a/run-b/dev-a + dev-shots.mjs).
+
 ## Next intended steps (current)
 
 1. Watch for the quiet window (w1:p3 done, four files clean).
