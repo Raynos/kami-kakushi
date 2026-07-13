@@ -147,6 +147,18 @@ fields from the compiler. (Mid-refactor the stale index.ts re-export
 briefly took the shared dev server down — w3:p3 flagged it; restored
 within the same slice.)
 
+## Follow-up (same session) — step B2: flat maps everywhere, defs retired
+
+The render-read half: the six `sub*` fns rebuild scenes from the ONE
+overlay (`rebuildScene` — take words on canon structure, identity
+when uncovered, sub-object identity preserved); the reader galley
+enumerates units from the flat maps and renders take columns via
+`takeSceneView`; the compiler emits ONLY meta + `text` + `seq` (the
+nine def-shaped take fields deleted from StoryTake). Live-proven on
+the shared server: hd38-w4-intro flips a logged option line and
+restores. Remaining: step C (the keyless-gate hole) and step D
+(context keys, schema bump).
+
 ## Landmines
 
 - Shared tree: `src/core/index.ts` was co-dirty with w3:p3's M3

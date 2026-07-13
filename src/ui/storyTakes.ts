@@ -12,10 +12,7 @@
 // Source of truth: `src/core/content/narrative/takes/<bundle>/` →
 // `pnpm run gen:narrative` → `storyTakes.gen.ts` (byte-compared by the gate).
 
-import type { RankId } from '../core/content/ranks';
-import type { RungScene } from '../core/content/rungBeats';
-import type { DialogueScene, IntroSetupLine } from '../core/content/intro';
-import type { DialogueDef } from '../core/content/dialogue';
+import type { IntroSetupLine } from '../core/content/intro';
 
 export interface StoryTake {
   readonly id: string;
@@ -24,40 +21,14 @@ export interface StoryTake {
   readonly brief: string;
   /** Compressed Pass-2 taste-scorecard verdict, e.g. "18✔ 2✘ 1—". */
   readonly scorecard?: string;
-  readonly rungBeats?: Partial<Record<RankId, RungScene>>;
-  readonly introScenes?: readonly DialogueScene[];
-  /** ADR-139 — generalized scene-def bodies (season-exit / scripted VN beats), keyed by
-   *  scene id. Swapped live at the active-VN render path via `dev.subScene` (identity when
-   *  the set is 'canon'). The take carries only the RungScene body; trigger/once stay canon. */
-  readonly scenes?: Partial<Record<string, RungScene>>;
-  readonly dialogues?: readonly DialogueDef[];
-  readonly coldOpen?: Readonly<Record<string, string>>;
-  /** ADR-139 — fiction-voiced UI flavor lines (lock-hints, gate explainers) the
-   *  renderer shows outside a VN scene; keyed by the `## prose flavor` key. */
-  readonly flavor?: Readonly<Record<string, string>>;
-  /** FB-121 — requirement-completion flavor lines, keyed by requirement id
-   *  (`## prose req-flavor`). Swapped through the CORE overlay
-   *  (`__setRequirementFlavorOverride`): FUTURE completions emit from the
-   *  selected take; already-logged lines stay (T2 — history never rewrites). */
-  readonly reqFlavor?: Readonly<Record<string, string>>;
-  /** HD-41 — the PROGRESS-tab statement of the finished work, keyed by requirement id
-   *  (`## prose req-objective`). Render-read (the log paints it from the registry each
-   *  time the Progress view is drawn), so `dev.subReqObjective` swaps it live — flipping
-   *  the take re-reads the whole visible register, no replay needed. */
-  readonly reqObjective?: Readonly<Record<string, string>>;
-  /** FB-362 — the intro scenes' 幕-head labels (`## prose intro-title`), keyed by
-   *  intro SCENE id. Core-emitted (baked into each log entry's `context`), so the
-   *  switcher swaps FUTURE emissions through `__setIntroTitleOverride`; logged
-   *  history keeps its baked heads (TST2). */
-  readonly introTitles?: Readonly<Record<string, string>>;
-  /** Step A (session-200, human-locked) — the take as a FLAT contentKey → text map,
+  /** Steps A+B (session-200, human-locked) — the take IS a FLAT contentKey → text map,
    *  canonicalized against canon at gen time behind the hard prose-only gate: the keys are
    *  the addresses the log persists (`dialogue.<def>.<line>`, `beat.R3.opt.<id>.say`,
    *  `flavor.<k>`, …) plus the render-read classes (`.label`, `.prompt`, `req-objective.<k>`,
    *  `cold-open.<k>`, `intro-title.<sid>`). Step B migrates every consumer onto this map and
    *  retires the def-shaped fields above. */
   readonly text?: Readonly<Record<string, string>>;
-  /** Step A — the GREETING sequences, keyed `<ns>.<unit>.greeting` (`beat.R1.greeting`,
+  /** The narration-run sequences (greetings + topic answers), keyed `<ns>.<unit>.greeting` (`beat.R1.greeting`,
    *  `intro.dream.greeting`, `scene.works-intro.greeting`). A narration run's line count is
    *  PACING — part of the take's voice — so it keeps its own length and per-line voice; the
    *  log re-voices positionally up to min(canon, take), a fresh VN run plays the take. */

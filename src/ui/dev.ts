@@ -54,6 +54,8 @@ import { FIXTURES_SENTINEL } from '../fixtures';
 import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
 import {
   __setStoryOverlay,
+  storyText,
+  storySeq,
   type IntroSetupLine,
   RUNG_REQUIREMENTS,
   getRank,
@@ -145,6 +147,20 @@ export interface DevApi {
   ): boolean;
 }
 
+/** A gen-canonicalized contentKey → its switcher UNIT (`beat.R3.opt.x.say` → `rung:R3`). */
+function unitOfKey(key: string): string {
+  const [ns, a] = key.split('.');
+  if (ns === 'beat') return `rung:${a}`;
+  if (ns === 'intro') return `intro:${a}`;
+  if (ns === 'scene') return `scene:${a}`;
+  if (ns === 'dialogue') return `dialogue:${a}`;
+  if (ns === 'requirement') return `req-flavor:${a}`;
+  if (ns === 'req-objective') return `req-objective:${a}`;
+  if (ns === 'cold-open') return `cold-open:${a}`;
+  if (ns === 'intro-title') return `intro-title:${a}`;
+  return `flavor:${a}`;
+}
+
 export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BUNDLES): DevApi {
   const variant: Record<string, string> = {};
   for (const s of SURFACES) variant[s.id] = s.variants[0]!.id;
@@ -169,18 +185,6 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
   // surfaces) consults storyText/storySeq — this replaced the eleven per-concern setters
   // this function used to hand-mirror. Recomputed on every set/unit change; all-canon
   // clears it.
-  const unitOfKey = (key: string): string => {
-    const [ns, a] = key.split('.');
-    if (ns === 'beat') return `rung:${a}`;
-    if (ns === 'intro') return `intro:${a}`;
-    if (ns === 'scene') return `scene:${a}`;
-    if (ns === 'dialogue') return `dialogue:${a}`;
-    if (ns === 'requirement') return `req-flavor:${a}`;
-    if (ns === 'req-objective') return `req-objective:${a}`;
-    if (ns === 'cold-open') return `cold-open:${a}`;
-    if (ns === 'intro-title') return `intro-title:${a}`;
-    return `flavor:${a}`;
-  };
   const syncStoryOverlay = (): void => {
     const text: Record<string, string> = {};
     const seq: Record<string, readonly IntroSetupLine[]> = {};
@@ -281,62 +285,94 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
       syncStoryOverlay();
     },
     storyEpoch: () => storyEpoch,
-    subRungScene: (scene) => {
-      if (scene.rank === undefined) return scene; // non-promotion scene — no rung-beat take alt
-      for (const b of bundles) {
-        const eff = effective(b.id, `rung:${scene.rank}`);
-        if (eff === 'canon') continue;
-        const alt = b.takes.find((t) => t.id === eff)?.rungBeats?.[scene.rank];
-        if (alt) return alt;
-      }
-      return scene;
-    },
-    subIntroScene: (scene) => {
-      for (const b of bundles) {
-        const eff = effective(b.id, `intro:${scene.id}`);
-        if (eff === 'canon') continue;
-        const alt = b.takes.find((t) => t.id === eff)?.introScenes?.find((s) => s.id === scene.id);
-        if (alt) return alt;
-      }
-      return scene;
-    },
-    subScene: (scene) => {
-      for (const b of bundles) {
-        const eff = effective(b.id, `scene:${scene.id}`);
-        if (eff === 'canon') continue;
-        const alt = b.takes.find((t) => t.id === eff)?.scenes?.[scene.id];
-        if (alt) return alt;
-      }
-      return scene;
-    },
-    subFlavor: (key, canon) => {
-      for (const b of bundles) {
-        const eff = effective(b.id, `flavor:${key}`);
-        if (eff === 'canon') continue;
-        const alt = b.takes.find((t) => t.id === eff)?.flavor?.[key];
-        if (alt !== undefined) return alt;
-      }
-      return canon;
-    },
-    subReqObjective: (id, canon) => {
-      for (const b of bundles) {
-        const eff = effective(b.id, `req-objective:${id}`);
-        if (eff === 'canon') continue;
-        const alt = b.takes.find((t) => t.id === eff)?.reqObjective?.[id];
-        if (alt !== undefined) return alt;
-      }
-      return canon;
-    },
-    subColdOpen: (key, canon) => {
-      for (const b of bundles) {
-        const eff = effective(b.id, `cold-open:${key}`);
-        if (eff === 'canon') continue;
-        const alt = b.takes.find((t) => t.id === eff)?.coldOpen?.[key];
-        if (alt !== undefined) return alt;
-      }
-      return canon;
-    },
+    // step B2 (session-200) — the render-read subs all read the SAME overlay the core
+    // does (syncStoryOverlay pushed the effective takes there): scene shapes rebuild
+    // with take words on canon structure (identity when nothing is covered — the VN
+    // keeps its object-equality fast paths), flat classes are one lookup.
+    subRungScene: (scene) =>
+      scene.rank === undefined ? scene : overlayScene(`beat.${scene.rank}`, scene),
+    subIntroScene: (scene) => overlayScene(`intro.${scene.id}`, scene),
+    subScene: (scene) => overlayScene(`scene.${scene.id}`, scene),
+    subFlavor: (key, canon) => storyText(`flavor.${key}`) ?? canon,
+    subReqObjective: (id, canon) => storyText(`req-objective.${id}`) ?? canon,
+    subColdOpen: (key, canon) => storyText(`cold-open.${key}`) ?? canon,
   };
+}
+
+/** Rebuild a VN scene with a take's words on CANON structure (ids, gates, mechanics
+ *  untouched — the prose-only law). Identity when the lookups cover nothing, so canon
+ *  renders keep their object-equality fast paths. Serves both scene shapes (RungScene
+ *  and DialogueScene share greeting/topics/decision structurally); the lookups are the
+ *  GLOBAL overlay for the live subs, or one specific take's maps for the reader galley. */
+function rebuildScene<S extends RungScene | DialogueScene>(
+  ns: string,
+  scene: S,
+  text: (key: string) => string | undefined,
+  seq: (key: string) => readonly IntroSetupLine[] | undefined,
+): S {
+  let touched = false;
+  const greeting = seq(`${ns}.greeting`) ?? scene.greeting;
+  if (greeting !== scene.greeting) touched = true;
+  const topics = scene.topics.map((t) => {
+    const label = text(`${ns}.topic.${t.id}.ask`);
+    const answer = seq(`${ns}.topic.${t.id}.answer`);
+    if (label === undefined && answer === undefined) return t;
+    touched = true;
+    return { ...t, label: label ?? t.label, answer: answer ?? t.answer };
+  });
+  const prompt = text(`${ns}.prompt`);
+  if (prompt !== undefined) touched = true;
+  const options = scene.decision.options.map((o) => {
+    const label = text(`${ns}.opt.${o.id}.label`);
+    const say = text(`${ns}.opt.${o.id}.say`);
+    const react = text(`${ns}.opt.${o.id}.react`);
+    const bonus = text(`${ns}.opt.${o.id}.bonus`);
+    if (label === undefined && say === undefined && react === undefined && bonus === undefined) {
+      return o;
+    }
+    touched = true;
+    const next = {
+      ...o,
+      label: label ?? o.label,
+      say: say ?? o.say,
+      react: react ?? o.react,
+    };
+    if (bonus !== undefined && 'statBonus' in o && o.statBonus) {
+      return { ...next, statBonus: { ...o.statBonus, note: bonus } };
+    }
+    return next;
+  });
+  if (!touched) return scene;
+  const optionsChanged = options.some((o, i) => o !== scene.decision.options[i]);
+  const decision =
+    prompt !== undefined || optionsChanged
+      ? { ...scene.decision, prompt: prompt ?? scene.decision.prompt, options }
+      : scene.decision;
+  return { ...scene, greeting, topics, decision } as S;
+}
+
+/** The live-sub view: rebuild on the GLOBAL overlay (what the switcher selected). */
+function overlayScene<S extends RungScene | DialogueScene>(ns: string, scene: S): S {
+  return rebuildScene(ns, scene, storyText, storySeq);
+}
+
+/** The reader-galley view: rebuild one SPECIFIC take's column from its own maps,
+ *  or null when the take does not touch this unit ("no take — canon plays"). */
+function takeSceneView<S extends RungScene | DialogueScene>(
+  ns: string,
+  canon: S,
+  take: StoryTake,
+): S | null {
+  const covers = (k: string): boolean => k.startsWith(`${ns}.`);
+  const touched =
+    Object.keys(take.text ?? {}).some(covers) || Object.keys(take.seq ?? {}).some(covers);
+  if (!touched) return null;
+  return rebuildScene(
+    ns,
+    canon,
+    (k) => take.text?.[k],
+    (k) => take.seq?.[k],
+  );
 }
 
 // ── the alternate (non-default) variant renderers — DEV-only, stripped from prod ──
@@ -2394,26 +2430,21 @@ function readerSceneLines(scene: ReaderScene): ReaderLine[] {
 function readerUnitsOf(bundle: StoryTakeBundle): string[] {
   const keys = new Set<string>();
   for (const t of bundle.takes) {
-    for (const k of Object.keys(t.coldOpen ?? {})) keys.add(`cold-open:${k}`);
-    for (const s of t.introScenes ?? []) keys.add(`intro:${s.id}`);
-    for (const k of Object.keys(t.scenes ?? {})) keys.add(`scene:${k}`);
-    for (const k of Object.keys(t.rungBeats ?? {})) keys.add(`rung:${k}`);
-    for (const d of t.dialogues ?? []) keys.add(`dialogue:${d.id}`);
-    for (const k of Object.keys(t.flavor ?? {})) keys.add(`flavor:${k}`);
-    for (const k of Object.keys(t.reqFlavor ?? {})) keys.add(`req-flavor:${k}`);
-    for (const k of Object.keys(t.reqObjective ?? {})) keys.add(`req-objective:${k}`);
-    // FB-362 — the intro 幕-head labels, keyed by scene id (canon reads the scene's title).
-    for (const k of Object.keys(t.introTitles ?? {})) keys.add(`intro-title:${k}`);
+    for (const k of [...Object.keys(t.text ?? {}), ...Object.keys(t.seq ?? {})]) {
+      keys.add(unitOfKey(k));
+    }
   }
   // a req-flavor / req-objective bundle reads as the WHOLE ladder: include every registry
   // requirement, canon-only ones too (their alternate columns show "no take — canon plays"),
   // so a rung's section is its complete set, never just the diverged subset.
-  if (bundle.takes.some((t) => t.reqFlavor)) {
+  const hasNs = (ns: string): boolean =>
+    bundle.takes.some((t) => Object.keys(t.text ?? {}).some((k) => k.startsWith(`${ns}.`)));
+  if (hasNs('requirement')) {
     for (const reqs of Object.values(RUNG_REQUIREMENTS)) {
       for (const r of reqs) keys.add(`req-flavor:${r.id}`);
     }
   }
-  if (bundle.takes.some((t) => t.reqObjective)) {
+  if (hasNs('req-objective')) {
     for (const reqs of Object.values(RUNG_REQUIREMENTS)) {
       for (const r of reqs) keys.add(`req-objective:${r.id}`);
     }
@@ -2446,30 +2477,43 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
 /** The content of `unit` in `take` ('canon' reads the LIVE registries). Null ⇒ absent. */
 function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] | null {
   const [kind, key] = [unit.slice(0, unit.indexOf(':')), unit.slice(unit.indexOf(':') + 1)];
+  // step B2 — a take is a flat text map + narration-run sequences on CANON structure:
+  // scene columns rebuild the canon def with the take's words (takeSceneView), flat
+  // classes are one lookup into take.text.
+  const flat = (contentKey: string, canon: string | undefined): string | undefined =>
+    take === 'canon' ? canon : take.text?.[contentKey];
   if (kind === 'rung') {
-    const s = take === 'canon' ? RUNG_BEATS[key as RankId] : take.rungBeats?.[key as RankId];
+    const canon = RUNG_BEATS[key as RankId];
+    if (!canon) return null;
+    const s = take === 'canon' ? canon : takeSceneView(`beat.${key}`, canon, take);
     return s ? readerSceneLines(s) : null;
   }
   if (kind === 'intro') {
-    const s =
-      take === 'canon'
-        ? DIALOGUE_SCENES.find((x) => x.id === key)
-        : take.introScenes?.find((x) => x.id === key);
+    const canon = DIALOGUE_SCENES.find((x) => x.id === key);
+    if (!canon) return null;
+    const s = take === 'canon' ? canon : takeSceneView(`intro.${key}`, canon, take);
     return s ? readerSceneLines(s) : null;
   }
   if (kind === 'scene') {
-    // generalized scene-defs (season-exit / scripted VN beats) — canon reads the LIVE
-    // SCENES registry by id; a take carries only the RungScene body in `scenes`.
-    const s = take === 'canon' ? sceneById(key)?.scene : take.scenes?.[key];
+    // generalized scene-defs (season-exit / scripted VN beats) — canon is the LIVE
+    // SCENES registry body; trigger/once stay canon (state-compatible takes).
+    const canon = sceneById(key)?.scene;
+    if (!canon) return null;
+    const s = take === 'canon' ? canon : takeSceneView(`scene.${key}`, canon, take);
     return s ? readerSceneLines(s) : null;
   }
   if (kind === 'dialogue') {
-    const d =
+    const d = DIALOGUES.find((x) => x.id === key);
+    if (!d) return null;
+    // a dialogue take re-voices a SUBSET by canon line id — show exactly the covered lines.
+    const lines =
       take === 'canon'
-        ? DIALOGUES.find((x) => x.id === key)
-        : take.dialogues?.find((x) => x.id === key);
-    return d
-      ? d.lines.map((l) => ({
+        ? d.lines
+        : d.lines
+            .filter((l) => take.text?.[`dialogue.${key}.${l.id}`] !== undefined)
+            .map((l) => ({ ...l, text: take.text![`dialogue.${key}.${l.id}`]! }));
+    return lines.length > 0
+      ? lines.map((l) => ({
           voice: l.voice ?? 'villager',
           speaker: d.speaker,
           text: l.text,
@@ -2478,36 +2522,31 @@ function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] 
       : null;
   }
   if (kind === 'flavor') {
-    const text = take === 'canon' ? (FLAVOR as Record<string, string>)[key] : take.flavor?.[key];
+    const text = flat(`flavor.${key}`, (FLAVOR as Record<string, string>)[key]);
     return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
   }
   if (kind === 'intro-title') {
     // FB-362 — the scene's 幕-head label; canon reads the LIVE scene's `title:` (intro.gen).
-    const text =
-      take === 'canon' ? DIALOGUE_SCENES.find((x) => x.id === key)?.title : take.introTitles?.[key];
+    const text = flat(`intro-title.${key}`, DIALOGUE_SCENES.find((x) => x.id === key)?.title);
     return text ? [{ voice: 'narrator', text: `— ${text} —`, kind: 'line' }] : null;
   }
   if (kind === 'req-flavor') {
     // FB-121 requirement-completion lines — canon reads the LIVE registry by requirement id.
-    const text =
-      take === 'canon'
-        ? Object.values(RUNG_REQUIREMENTS)
-            .flat()
-            .find((r) => r.id === key)?.flavor
-        : take.reqFlavor?.[key];
+    const canon = Object.values(RUNG_REQUIREMENTS)
+      .flat()
+      .find((r) => r.id === key)?.flavor;
+    const text = flat(`requirement.${key}`, canon);
     return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
   }
   if (kind === 'req-objective') {
     // HD-41 — the Progress-tab statement of the finished work; canon reads the LIVE registry.
-    const text =
-      take === 'canon'
-        ? Object.values(RUNG_REQUIREMENTS)
-            .flat()
-            .find((r) => r.id === key)?.objective
-        : take.reqObjective?.[key];
+    const canon = Object.values(RUNG_REQUIREMENTS)
+      .flat()
+      .find((r) => r.id === key)?.objective;
+    const text = flat(`req-objective.${key}`, canon);
     return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
   }
-  const text = take === 'canon' ? (COLD_OPEN as Record<string, string>)[key] : take.coldOpen?.[key];
+  const text = flat(`cold-open.${key}`, (COLD_OPEN as Record<string, string>)[key]);
   return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
 }
 

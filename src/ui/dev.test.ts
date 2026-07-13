@@ -834,13 +834,17 @@ describe('ADR-139 story take-sets', () => {
     motivates: [],
   });
   const canon = scene('canon line');
-  const altB = scene('take-b line');
   const bundle: StoryTakeBundle = {
     id: 'test-bundle',
     title: 'Test bundle',
     hr: 'none · test fixture',
     takes: [
-      { id: 'b', label: 'Colder', brief: 'withholds warmth', rungBeats: { R1: altB } },
+      {
+        id: 'b',
+        label: 'Colder',
+        brief: 'withholds warmth',
+        seq: { 'beat.R1.greeting': [{ id: 'b0', voice: 'narrator', text: 'take-b line' }] },
+      },
       { id: 'c', label: 'Warmer', brief: 'lets the weariness show' },
     ],
   };
@@ -854,8 +858,9 @@ describe('ADR-139 story take-sets', () => {
   it('substitutes the selected take, and falls back to canon when the take lacks the unit', () => {
     const dev = createDevApi([bundle]);
     dev.setStoryTake('test-bundle', 'b');
-    expect(dev.subRungScene(canon)).toBe(altB);
-    dev.setStoryTake('test-bundle', 'c'); // take c carries no rungBeats → canon shows
+    expect(dev.subRungScene(canon).greeting[0]!.text).toBe('take-b line'); // rebuilt with take words
+    expect(dev.subRungScene(canon).decision).toBe(canon.decision); // structure stays canon
+    dev.setStoryTake('test-bundle', 'c'); // take c carries no units → canon IDENTITY
     expect(dev.subRungScene(canon)).toBe(canon);
   });
 
@@ -865,7 +870,7 @@ describe('ADR-139 story take-sets', () => {
     dev.setStoryUnit('test-bundle', 'rung:R1', 'canon');
     expect(dev.subRungScene(canon)).toBe(canon);
     dev.setStoryUnit('test-bundle', 'rung:R1', undefined);
-    expect(dev.subRungScene(canon)).toBe(altB);
+    expect(dev.subRungScene(canon).greeting[0]!.text).toBe('take-b line');
   });
 
   it('rejects an unknown take id (set + unit)', () => {
@@ -888,7 +893,6 @@ describe('ADR-139 story take-sets', () => {
     motivates: [],
   });
   const sceneCanon = sceneDef('canon reckoning');
-  const sceneAltA = sceneDef('take-a reckoning');
   const sceneBundle: StoryTakeBundle = {
     id: 'scene-bundle',
     title: 'Scene bundle',
@@ -898,7 +902,11 @@ describe('ADR-139 story take-sets', () => {
         id: 'a',
         label: 'Chiyo',
         brief: 'the arithmetic of dignity',
-        scenes: { 'nengu-autumn-frame': sceneAltA },
+        seq: {
+          'scene.nengu-autumn-frame.greeting': [
+            { id: 'a0', voice: 'narrator', text: 'take-a reckoning' },
+          ],
+        },
       },
       { id: 'b', label: 'Ledger', brief: 'the day-book register' },
     ],
@@ -908,7 +916,7 @@ describe('ADR-139 story take-sets', () => {
     const dev = createDevApi([sceneBundle]);
     expect(dev.subScene(sceneCanon)).toBe(sceneCanon); // all-canon → identity
     dev.setStoryTake('scene-bundle', 'a');
-    expect(dev.subScene(sceneCanon)).toBe(sceneAltA); // take a carries the scene
+    expect(dev.subScene(sceneCanon).greeting[0]!.text).toBe('take-a reckoning'); // take words
     dev.setStoryTake('scene-bundle', 'b');
     expect(dev.subScene(sceneCanon)).toBe(sceneCanon); // take b lacks it → canon shows
   });
@@ -919,7 +927,7 @@ describe('ADR-139 story take-sets', () => {
     dev.setStoryUnit('scene-bundle', 'scene:nengu-autumn-frame', 'canon');
     expect(dev.subScene(sceneCanon)).toBe(sceneCanon);
     dev.setStoryUnit('scene-bundle', 'scene:nengu-autumn-frame', undefined);
-    expect(dev.subScene(sceneCanon)).toBe(sceneAltA);
+    expect(dev.subScene(sceneCanon).greeting[0]!.text).toBe('take-a reckoning');
   });
 
   // PH6 / verify-don't-trust — the REAL generated registry, not a fixture: the HD-30 nengu
@@ -929,8 +937,8 @@ describe('ADR-139 story take-sets', () => {
     const nengu = STORY_TAKE_BUNDLES.find((b) => b.id === 'hd30-nengu');
     expect(nengu, 'hd30-nengu bundle present in the generated registry').toBeDefined();
     const takeA = nengu!.takes.find((t) => t.id === 'a');
-    const authored = takeA?.scenes?.['nengu-autumn-frame'];
-    expect(authored, 'take a carries a nengu-autumn-frame scene body').toBeDefined();
+    const authored = takeA?.seq?.['scene.nengu-autumn-frame.greeting'];
+    expect(authored, 'take a carries the nengu-autumn-frame greeting run').toBeDefined();
     const dev = createDevApi(STORY_TAKE_BUNDLES);
     const liveCanon: RungScene = {
       id: 'nengu-autumn-frame',
@@ -942,7 +950,10 @@ describe('ADR-139 story take-sets', () => {
     };
     expect(dev.subScene(liveCanon)).toBe(liveCanon); // canon set → identity
     dev.setStoryTake('hd30-nengu', 'a');
-    expect(dev.subScene(liveCanon)).toBe(authored); // take a → the authored body
+    // take a → the canon body rebuilt with the authored run (the take's OWN length)
+    expect(dev.subScene(liveCanon).greeting.map((l) => l.text)).toEqual(
+      authored!.map((l) => l.text),
+    );
   });
 
   // ADR-139 — UI flavor lines swap LIVE too (a lock-hint diverge like HR-10), not reader-only.
@@ -951,7 +962,7 @@ describe('ADR-139 story take-sets', () => {
     title: 'Flavor bundle',
     hr: 'none · test fixture',
     takes: [
-      { id: 'a', label: 'A', brief: 'names the smith', flavor: { mendHint: 'take-a line' } },
+      { id: 'a', label: 'A', brief: 'names the smith', text: { 'flavor.mendHint': 'take-a line' } },
       { id: 'b', label: 'B', brief: 'no flavor unit' }, // b carries no flavor → canon shows
     ],
   };
@@ -1168,7 +1179,7 @@ describe('HD-41 req-objective — the switcher swaps the Progress reading', () =
         id: 'b',
         label: 'the world, changed',
         brief: 'the place is the evidence',
-        reqObjective: { 'rake-the-spill': 'ALT objective line' },
+        text: { 'req-objective.rake-the-spill': 'ALT objective line' },
       },
     ],
   };
@@ -1196,33 +1207,22 @@ describe('HD-41 req-objective — the switcher swaps the Progress reading', () =
 });
 
 describe('ADR-139 story reader modal', () => {
-  const scene = (text: string, react: string): RungScene => ({
-    id: 'rung-r1',
-    rank: 'R1' as RankId,
-    voice: 'steward',
-    greeting: [{ id: 'g0', voice: 'narrator', text }],
-    topics: [],
-    decision: {
-      prompt: 'How?',
-      options: [{ id: 'o1', label: 'l', say: 'my line', react }],
-    },
-    motivates: [],
+  // takes are flat maps on CANON structure — the react override targets the REAL R1
+  // option id (the reader rebuilds the take column against the live registry).
+  const r1OptId = RUNG_BEATS.R1!.decision.options[0]!.id;
+  const readerTake = (greeting: string, react: string): StoryTakeBundle['takes'][number] => ({
+    id: 'b',
+    label: 'Colder',
+    brief: 'withholds',
+    seq: { 'beat.R1.greeting': [{ id: 'b0', voice: 'narrator', text: greeting }] },
+    text: { [`beat.R1.opt.${r1OptId}.react`]: react },
   });
   const bundle: StoryTakeBundle = {
     id: 'reader-bundle',
     title: 'Reader bundle',
     hr: 'none · test fixture',
     rationale: 'canon reads truest',
-    takes: [
-      {
-        id: 'b',
-        label: 'Colder',
-        brief: 'withholds',
-        // greeting differs from canon; the react is a SHARED line (dim test target below
-        // pins the mechanism on a fixture-local pair, not on live-canon text).
-        rungBeats: { R1: scene('alt-b greeting', 'the shared react') },
-      },
-    ],
+    takes: [readerTake('alt-b greeting', 'the shared react')],
   };
 
   afterEach(() => {
@@ -1250,9 +1250,9 @@ describe('ADR-139 story reader modal', () => {
     // the scene unit must enumerate + render — this whole page was empty before the fix.
     expect(text).toContain('scene:nengu-autumn-frame');
     expect(text).not.toContain('scene:nengu-autumn-frame (reader-only)'); // it's LIVE, not reader-only
-    // canon reads the LIVE SCENES registry; the take-a alt renders its own body.
+    // canon reads the LIVE SCENES registry; the take-a alt renders its own run.
     const takeA = nengu!.takes.find((t) => t.id === 'a')!;
-    const altGreeting = takeA.scenes!['nengu-autumn-frame']!.greeting[0]!.text;
+    const altGreeting = takeA.seq!['scene.nengu-autumn-frame.greeting']![0]!.text;
     expect(text).toContain(altGreeting.slice(0, 40));
   });
 
@@ -1261,14 +1261,7 @@ describe('ADR-139 story reader modal', () => {
     const sharedText = RUNG_BEATS.R1!.greeting[0]!.text;
     const sharing: StoryTakeBundle = {
       ...bundle,
-      takes: [
-        {
-          id: 'b',
-          label: 'Colder',
-          brief: 'withholds',
-          rungBeats: { R1: scene(sharedText, 'a fresh react') },
-        },
-      ],
+      takes: [readerTake(sharedText, 'a fresh react')],
     };
     const scrim = openStoryReader(sharing);
     const dimmed = [...scrim.querySelectorAll('.log-line')].filter(

@@ -169,12 +169,12 @@ describe('emitStoryTakes', () => {
     expect(src).toContain(`export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[]`);
     expect(src).toContain(`id: "demo",`);
     expect(src).toContain(`brief: "withholds warmth",`);
-    // The rung scene compiles through the SAME emitter as canon: keyed by rank,
-    // speaker resolved to the NPC_NAME reference, flags carried verbatim.
-    expect(src).toContain('rungBeats: {');
-    expect(src).toContain('R1: {');
+    // Steps A+B — the take compiles to the flat map + narration-run sequences ONLY;
+    // the seq lines ride the SAME emitter as canon (speaker resolved to NPC_NAME).
+    expect(src).not.toContain('rungBeats: {');
+    expect(src).toContain('"beat.R1.greeting": [');
     expect(src).toContain('speaker: NPC_NAME.genemon,');
-    expect(src).toContain(`flags: ["opt-a"],`);
+    expect(src).toContain('"beat.R1.opt.canon-opt.say"');
   });
 
   it('emits a stable empty registry for zero bundles', () => {

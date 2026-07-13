@@ -25,17 +25,7 @@ import {
   type ProseLine,
   type TopicNode,
 } from './parse';
-import {
-  emitDialogueDef,
-  emitIntroScene,
-  emitProseLine,
-  emitRungScene,
-  emitSceneDefBody,
-  GENERATED,
-  keyExpr,
-  textExpr,
-  withImports,
-} from './emit';
+import { emitProseLine, GENERATED, textExpr, withImports } from './emit';
 
 export interface TakeMeta {
   readonly id: string;
@@ -420,61 +410,9 @@ function emitTake(meta: TakeMeta, doc: NarrativeDoc, canon: CanonIndex): string 
   L.push(`brief: ${str(meta.brief)},`);
   if (meta.scorecard) L.push(`scorecard: ${str(meta.scorecard)},`);
 
-  const rungs = doc.blocks.filter((b) => b.kind === 'rung');
-  if (rungs.length) {
-    L.push('rungBeats: {');
-    for (const s of rungs) L.push(emitRungScene(s));
-    L.push('},');
-  }
-  const scenes = doc.blocks.filter((b) => b.kind === 'scene');
-  if (scenes.length) {
-    L.push('introScenes: [');
-    for (const s of scenes) L.push(emitIntroScene(s));
-    L.push('],');
-  }
-  // Generalized scene-defs (season-exit / scripted VN beats) → `scenes`, keyed by scene id.
-  // Swapped live at the active-VN render path via `dev.subScene` (ADR-139). The take carries
-  // only the RungScene body; trigger/once live in canon (a take is state-compatible, never
-  // re-triggers). A decision-LESS scene-def stays narration-only, matching a narration canon.
-  const sceneDefs = doc.blocks.filter((b) => b.kind === 'scene-def');
-  if (sceneDefs.length) {
-    L.push('scenes: {');
-    for (const s of sceneDefs) L.push(`${keyExpr(s.id)}: ${emitSceneDefBody(s)},`);
-    L.push('},');
-  }
-  const dialogues = doc.blocks.filter((b) => b.kind === 'dialogue');
-  if (dialogues.length) {
-    L.push('dialogues: [');
-    for (const d of dialogues) L.push(emitDialogueDef(d));
-    L.push('],');
-  }
-  // Keyed prose routes to a registry field by its group id: `## prose cold-open` → `coldOpen`,
-  // `## prose flavor` → `flavor` (UI micro-copy), `## prose req-flavor` → `reqFlavor`
-  // (FB-121 requirement-completion lines — swapped through the CORE overlay, future
-  // emissions only; ADR-139 live-switchable like every diverge unit), `## prose
-  // req-objective` → `reqObjective` (HD-41 — the Progress-tab statement of the finished
-  // work, keyed by requirement id; the renderer resolves it per paint, so a take flip
-  // repaints the Progress view rather than waiting for the next completion), and
-  // `## prose intro-title` → `introTitles` (FB-362 — the per-scene 幕-head labels, keyed
-  // by intro scene id; swapped through the CORE overlay `__setIntroTitleOverride`).
-  for (const prose of doc.blocks.filter((b) => b.kind === 'prose')) {
-    const field =
-      prose.id === 'flavor'
-        ? 'flavor'
-        : prose.id === 'req-flavor'
-          ? 'reqFlavor'
-          : prose.id === 'req-objective'
-            ? 'reqObjective'
-            : prose.id === 'intro-title'
-              ? 'introTitles'
-              : 'coldOpen';
-    L.push(`${field}: {`);
-    for (const e of prose.entries) L.push(`${keyExpr(e.key)}: ${textExpr(e.text, e.loc)},`);
-    L.push('},');
-  }
-  // Step A (session-200) — the flat canonicalized map + the greeting sequences, beside the
-  // def-shaped fields until step B migrates the consumers. The hard prose-only gate lives
-  // in emitTakeText (interactive skeleton id-stable; greeting runs free-length pacing).
+  // The take's whole runtime shape (steps A+B, session-200): the flat canonicalized map +
+  // the narration-run sequences. The hard prose-only gate lives in emitTakeText
+  // (interactive skeleton id-stable; narration runs free-length pacing).
   const tt = emitTakeText(doc, canon);
   L.push('text: {');
   L.push(...tt.text);
