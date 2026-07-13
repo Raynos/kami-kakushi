@@ -54,6 +54,36 @@ import { DIALOGUES } from './dialogue.gen';
 
 export const DIALOGUE_IDS: ReadonlySet<string> = new Set(DIALOGUES.map((d) => d.id));
 
+// ── ADR-139 / M7 (2026-07-13) — the DEV story switcher's dialogue overlay ────────────────
+// Dialogue lines are CORE-emitted log text (intents.ts deliverDialogue), so takes swap
+// through the declaring-module override (the coldOpen.ts/requirements.ts pattern). Keyed
+// `<dialogueId>.<lineId>` → take text, TEXT ONLY: line ids and gate/memGate stay canon, so
+// delivered-tracking and the rake-teach pacing never fork per take. Every reader consults
+// it — the cursor (fresh emissions), getDialogueLine (intro reuse), and log-render's
+// resolver (save-load AND the DEV log repaint) — so a flip re-voices future and logged
+// lines alike (the 2026-07-13 ruling: a DEV switch re-renders everything).
+
+let DIALOGUE_TEXT_OVERRIDE: Readonly<Record<string, string>> | null = null;
+
+/** DEV-only (the story set-switcher): overlay dialogue line TEXT by `<dialogueId>.<lineId>`
+ *  (null = all canon). */
+export function __setDialogueTextOverride(map: Readonly<Record<string, string>> | null): void {
+  DIALOGUE_TEXT_OVERRIDE = map;
+}
+
+/** The line, voiced by the active overlay if one covers it, else as authored. */
+function effectiveLine(dialogueId: string, line: DialogueLine): DialogueLine {
+  const alt = DIALOGUE_TEXT_OVERRIDE?.[`${dialogueId}.${line.id}`];
+  return alt !== undefined && alt !== line.text ? { ...line, text: alt } : line;
+}
+
+/** Overlay-aware, NON-throwing line-text lookup for log-render's resolver: an unknown id is
+ *  the ordinary "src/ renamed this line" case and must yield undefined, not an exception. */
+export function dialogueLineText(dialogueId: string, lineId: string): string | undefined {
+  const line = DIALOGUES.find((d) => d.id === dialogueId)?.lines.find((l) => l.id === lineId);
+  return line === undefined ? undefined : effectiveLine(dialogueId, line).text;
+}
+
 export function getDialogue(id: string): DialogueDef {
   const d = DIALOGUES.find((x) => x.id === id);
   if (!d) throw new Error(`unknown dialogue: ${id}`);
@@ -65,7 +95,7 @@ export function getDialogue(id: string): DialogueDef {
 export function getDialogueLine(dialogueId: string, lineId: string): DialogueLine {
   const line = getDialogue(dialogueId).lines.find((l) => l.id === lineId);
   if (!line) throw new Error(`unknown dialogue line: ${dialogueId}/${lineId}`);
-  return line;
+  return effectiveLine(dialogueId, line);
 }
 
 /**
@@ -81,10 +111,12 @@ export function nextDialogueLines(
   npcMemory: NpcMemoryMap = {},
 ): readonly DialogueLine[] {
   const def = getDialogue(dialogueId);
-  return def.lines.filter(
-    (line) =>
-      !deliveredIds.has(line.id) &&
-      (line.gate === undefined || line.gate(flags)) &&
-      (line.memGate === undefined || line.memGate(npcMemory)),
-  );
+  return def.lines
+    .filter(
+      (line) =>
+        !deliveredIds.has(line.id) &&
+        (line.gate === undefined || line.gate(flags)) &&
+        (line.memGate === undefined || line.memGate(npcMemory)),
+    )
+    .map((line) => effectiveLine(dialogueId, line));
 }

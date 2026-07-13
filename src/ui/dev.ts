@@ -63,6 +63,7 @@ import {
   __setSleepAnnounceLineOverride,
   __setWorksFlavorOverride,
   __setIntroTitleOverride,
+  __setDialogueTextOverride,
   RUNG_REQUIREMENTS,
   getRank,
   estateBuild,
@@ -235,6 +236,21 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
       }
     }
     __setIntroTitleOverride(Object.keys(titleOverlay).length > 0 ? titleOverlay : null);
+    // M7 (2026-07-13) — dialogue-tree lines are core-emitted too (intents.ts deliverDialogue):
+    // forward the effective `dialogue:` take defs as a TEXT overlay keyed `<dialogueId>.<lineId>`
+    // (whole-dialogue units; line ids + gates stay canon — human ruling, session-200). The
+    // overlay is read at emit, at save-load, AND at the DEV log repaint (render.ts derives
+    // keyed entries from the registries per paint), so a flip re-voices logged lines too.
+    const dlgOverlay: Record<string, string> = {};
+    for (const b of bundles) {
+      for (const t of b.takes) {
+        for (const d of t.dialogues ?? []) {
+          if (effective(b.id, `dialogue:${d.id}`) !== t.id) continue;
+          for (const l of d.lines) dlgOverlay[`${d.id}.${l.id}`] = l.text;
+        }
+      }
+    }
+    __setDialogueTextOverride(Object.keys(dlgOverlay).length > 0 ? dlgOverlay : null);
   };
 
   // FB-18 — hydrate variant selections from the URL query params so a tweak survives a reload and a
@@ -2576,16 +2592,23 @@ function reqFlavorPlacement(reqId: string): { section: string; order: number } |
 }
 
 // Unit kinds that swap LIVE in the running game (rung/intro/flavor at render time;
-// req-flavor via the CORE overlay — ADR-139: every diverge unit reviews in the switcher).
-// dialogue + cold-open pin only the READER's display today (takes/README: wiring the
-// live-swap is part of diverging one).
-// cold-open: only the RENDER-READ title-card keys swap live (subColdOpen); the
-// core-emitted keys (rake/haul/daybook…) stay reader-only — logged history never
-// rewrites (T2), and the intro-reused keys ride their scene's own intro: swap.
-// intro-title: FB-362 — live via the CORE overlay (__setIntroTitleOverride): a fresh
-// intro run's 幕-heads voice the selected take; logged history keeps its baked heads.
-const LIVE_UNITS =
-  /^(rung|intro|intro-title|scene|flavor|req-flavor|req-objective):|^cold-open:(lede|cta)$/;
+// req-flavor/dialogue via the CORE overlays — ADR-139: every diverge unit reviews in
+// the switcher).
+// 2026-07-13 ruling (session-200, dialogue live-swap plan): a DEV take flip re-renders
+// EVERYTHING, logged lines included — the log repaint (render.ts renderLog epoch check)
+// re-derives every KEYED entry from the current registries + overlays, superseding the
+// old "logged history never rewrites" carve-out FOR DEV SWITCHING (T2 still protects
+// the prod player: all of this folds away in a strip build).
+// dialogue: M7 — live via the CORE overlay (__setDialogueTextOverride), whole-dialogue
+// units, text-only (ids/gates stay canon).
+// cold-open: the RENDER-READ title-card keys swap live (subColdOpen); its one core-emitted
+// key (`coldOpen.rake`) is canon LOGIC (parametrized, carried by no take), and the
+// intro-reused keys ride their scene's own intro: swap.
+// intro-title: FB-362 — live via the CORE overlay (__setIntroTitleOverride); a logged
+// line's 幕-head `context` is baked UNKEYED, so history keeps its heads until context
+// gains a key (known residue, plan §Risks).
+export const LIVE_UNITS =
+  /^(rung|intro|intro-title|scene|flavor|req-flavor|req-objective|dialogue):|^cold-open:(lede|cta)$/;
 
 function readerUnitHeader(host: HTMLElement, unit: string, extra?: HTMLElement): void {
   const h = el('div');

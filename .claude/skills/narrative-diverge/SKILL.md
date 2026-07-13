@@ -66,15 +66,19 @@ TODOs are fresh-context work the human kicks off — never pre-wire them.
    reader-only** (re-affirmed by the human 2026-07-07: ALL narrative diverges
    review the same way, in the DEV menu). The set-switcher's live override
    covers rung beats, intro scenes, **UI flavor lines** (`## prose flavor` →
-   `dev.subFlavor`), and **requirement-completion lines** (`## prose
-   req-flavor` → the CORE overlay `__setRequirementFlavorOverride` — future
-   emissions swap; logged history stays, T2). If the unit you diverged is a
-   type the engine can't yet swap live (dialogue, cold-open keyed prose
-   today), **wiring that live-swap is part of the diverge** — render-read
-   text extends the `dev.ts subFlavor` pattern, core-emitted text the
-   req-flavor declaring-module-setter pattern; add the prefix to `LIVE_UNITS`
-   so the human reviews it by *playing to the surface and toggling the take*,
-   never by reading a doc or the reader-only modal.
+   `dev.subFlavor`), **requirement-completion lines** (`## prose
+   req-flavor` → the CORE overlay `__setRequirementFlavorOverride`), and
+   **dialogue-tree lines** (`## dialogue` → the CORE overlay
+   `__setDialogueTextOverride`, whole-dialogue units, text-only — M7,
+   session-200). Since the 2026-07-13 ruling, a switch also **re-voices
+   already-LOGGED keyed lines** (the DEV log repaint re-derives keyed
+   prose; see `LIVE_UNITS` in `dev.ts`). If the unit you diverged is a
+   type the engine can't yet swap live (cold-open keyed prose today),
+   **wiring that live-swap is part of the diverge** — render-read text
+   extends the `dev.ts subFlavor` pattern, core-emitted text the
+   declaring-module-setter pattern; add the prefix to `LIVE_UNITS` so
+   the human reviews it by *playing to the surface and toggling the
+   take*, never by reading a doc or the reader-only modal.
 8. **File ONE HR-item per bundle** in `project/human-in-the-loop/review.md`:
    the picked script as a continuous read, alternates under each unit, Pass-1
    brief + per-take scorecard blocks, pick rationale, and **exactly how to

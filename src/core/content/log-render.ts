@@ -35,7 +35,7 @@ import {
 import { ACTIVITIES, activityLine, type LabourResource } from './activities';
 import { rakeLine } from './coldOpen';
 import { homeRestLine } from './home';
-import { DIALOGUES } from './dialogue';
+import { dialogueLineText } from './dialogue';
 import { RUNG_REQUIREMENTS, requirementFlavor } from './requirements';
 import { NIGHT_ROUNDS } from './nightRounds';
 import { ESTATE_STAGES } from './estate';
@@ -187,15 +187,15 @@ function activityText(id: string, params: LogParams): string | undefined {
   return activityLine(act, gained);
 }
 
-/** A dialogue-tree line: `dialogue.<dialogueId>.<lineId>`. Reads DIALOGUES directly rather than
- *  `getDialogueLine()`, which THROWS on an unknown id — here an unknown id is the ordinary
- *  "src/ renamed this line" case, and the caller (codec) wants `undefined` so it can fall back to
- *  the entry's stored text, not an exception that would take the whole save down. */
+/** A dialogue-tree line: `dialogue.<dialogueId>.<lineId>`. Routes through the overlay-aware
+ *  `dialogueLineText` (not `getDialogueLine()`, which THROWS) — an unknown id is the ordinary
+ *  "src/ renamed this line" case, and the caller (codec) wants `undefined` so it can fall back
+ *  to the entry's stored text; the overlay is how a DEV story-take flip reaches saved and
+ *  logged dialogue lines (M7, 2026-07-13). */
 function dialogueText(tail: string): string | undefined {
   const dot = tail.indexOf('.');
   if (dot <= 0) return undefined;
-  const def = DIALOGUES.find((d) => d.id === tail.slice(0, dot));
-  return def?.lines.find((l) => l.id === tail.slice(dot + 1))?.text;
+  return dialogueLineText(tail.slice(0, dot), tail.slice(dot + 1));
 }
 
 /** A rung requirement's completion line: `requirement.<reqId>`. */

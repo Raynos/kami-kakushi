@@ -163,6 +163,7 @@ import type { Sfx } from './sfx';
 import { renderMapSheet, travelPresenceRef } from './map-variants/sheet-map';
 import { buildMapCtx, type MapCtx } from './map-variants/shared';
 import { COLD_OPEN, RAKE_DONE_REASON } from '../core/content/coldOpen';
+import { renderLogLine } from '../core/content/log-render';
 import { actionKey, type ActionClock } from '../app/action-clock';
 // type-only (erased at compile → no runtime import) so the renderer can accept the DEV harness
 // without pulling ui/dev.ts into the prod bundle. The dev value is undefined in prod (main.ts).
@@ -389,6 +390,22 @@ export function formatLogText(entry: LogEntry): string {
   const m = text.match(/^(.*?)\s*\(\+(\d+)\s+([^),]+)\)\s*$/);
   if (m) return `${m[1]} ×${n} (+${Number(m[2]) * n} ${m[3]})`;
   return `${text} ×${n}`;
+}
+
+// 2026-07-13 ruling (dialogue live-swap plan) — a DEV story-take flip re-renders EVERYTHING,
+// logged lines included: at paint, a KEYED entry re-derives its prose from the CURRENT
+// registries + core take-overlays (the renderLog epoch check repaints the view on a flip).
+// The call site is __DEV_TOOLS__-gated, so prod paints the baked text untouched (strip folds
+// this away — T2 still protects the player). An unresolvable key (a renamed content id)
+// keeps its stored prose, same as codec's load-time fallback.
+export function devRederivedEntry(entry: LogEntry): LogEntry {
+  if (entry.contentKey === undefined) return entry;
+  try {
+    const text = renderLogLine(entry.contentKey, entry.params);
+    return text === entry.text ? entry : { ...entry, text };
+  } catch {
+    return entry;
+  }
 }
 
 // FB-53/FB-115 — the "Now" (ephemeral) view's wall-clock timings (a RENDER-time concern; the pure core
@@ -4552,7 +4569,8 @@ export function mount(
     }
     const prefix = speakerPrefixNode(entry);
     if (prefix) line.append(prefix);
-    const text = formatLogText(entry);
+    // DEV — re-derive keyed prose so a story-take flip re-voices logged lines (see devRederivedEntry).
+    const text = formatLogText(__DEV_TOOLS__ && dev ? devRederivedEntry(entry) : entry);
     // FB-26 — when a line carries a speaker `voice`, the whole line takes that
     // voice's colour (via the `voice-<category>` class on the line, added in
     // buildLogLine), so who's talking reads at a glance. The FB-23 quote-detection

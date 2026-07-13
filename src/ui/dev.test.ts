@@ -14,6 +14,7 @@ import {
   mountDevPanel,
   createBalanceCockpit,
   openStoryReader,
+  LIVE_UNITS,
   type DevQa,
 } from './dev';
 import type { StoryTakeBundle } from './storyTakes';
@@ -65,8 +66,13 @@ import {
   rungRequirements,
   requirementFlavor,
   __setRequirementFlavorOverride,
+  __setDialogueTextOverride,
   __setZoneRevealMode,
   zoneRevealMode,
+  getDialogueLine,
+  COLD_OPEN_DIALOGUE_ID,
+  DIALOGUES,
+  type DialogueDef,
 } from '../core';
 
 function noopHooks(): AppHooks {
@@ -1005,6 +1011,49 @@ describe('FB-121 req-flavor — the CORE overlay rides the switcher', () => {
     expect(requirementFlavor(rakeReq)).toBe('ALT rake line');
     dev.setStoryUnit('req-test', 'req-flavor:rake-the-spill', undefined);
     expect(requirementFlavor(rakeReq)).toBe(rakeReq.flavor);
+  });
+});
+
+// ── M7 dialogue live-swap (ADR-139, 2026-07-13) — dialogue rides the switcher through the CORE
+// overlay, whole-dialogue units, TEXT only (ids/gates stay canon — human ruling, session-200).
+// RED on main before this landed: takes carried `dialogues` payloads but no overlay was synced
+// and `dialogue:` units rendered "(reader-only)". ──
+describe('M7 dialogue — the CORE overlay rides the switcher', () => {
+  const canonLine = DIALOGUES.find((d) => d.id === COLD_OPEN_DIALOGUE_ID)!.lines[0]!;
+  const altDef: DialogueDef = {
+    id: COLD_OPEN_DIALOGUE_ID,
+    speaker: canonLine.speaker,
+    lines: [{ id: canonLine.id, speaker: canonLine.speaker, text: 'ALT teach line' }],
+  };
+  const bundle: StoryTakeBundle = {
+    id: 'dlg-test',
+    title: 'Dialogue test',
+    hr: 'none · test fixture',
+    takes: [{ id: 'b', label: 'alt voice', brief: 'the alternate register', dialogues: [altDef] }],
+  };
+
+  afterEach(() => __setDialogueTextOverride(null));
+
+  it('selecting a take overlays the core read; canon restores on switch-back', () => {
+    const dev = createDevApi([bundle]);
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe(canonLine.text);
+    dev.setStoryTake('dlg-test', 'b');
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe('ALT teach line');
+    dev.setStoryTake('dlg-test', 'canon');
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe(canonLine.text);
+  });
+
+  it('a per-unit override wins over the bundle set (and clears)', () => {
+    const dev = createDevApi([bundle]);
+    dev.setStoryTake('dlg-test', 'b');
+    dev.setStoryUnit('dlg-test', `dialogue:${COLD_OPEN_DIALOGUE_ID}`, 'canon');
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe(canonLine.text);
+    dev.setStoryUnit('dlg-test', `dialogue:${COLD_OPEN_DIALOGUE_ID}`, undefined);
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe('ALT teach line');
+  });
+
+  it('dialogue units are LIVE in the switcher, never "(reader-only)"', () => {
+    expect(LIVE_UNITS.test(`dialogue:${COLD_OPEN_DIALOGUE_ID}`)).toBe(true);
   });
 });
 

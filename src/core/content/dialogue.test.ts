@@ -1,11 +1,15 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import {
   DIALOGUES,
   DIALOGUE_IDS,
   COLD_OPEN_DIALOGUE_ID,
   getDialogue,
+  getDialogueLine,
   nextDialogueLines,
+  dialogueLineText,
+  __setDialogueTextOverride,
 } from './dialogue';
+import { renderLogLine } from './log-render';
 import { NAMES } from './names';
 
 const NONE: ReadonlySet<string> = new Set();
@@ -93,6 +97,42 @@ describe('nextDialogueLines cursor', () => {
     // with every gate satisfied the result is exactly the full line set, unsorted/unshuffled
     const def = getDialogue(COLD_OPEN_DIALOGUE_ID);
     expect(a.map((l) => l.id)).toEqual(def.lines.map((l) => l.id));
+  });
+});
+
+// ── M7 dialogue live-swap (ADR-139, 2026-07-13) — the DEV TEXT overlay. RED on main before
+// this landed: no overlay existed, so every assert against 'TAKE voice' fails there. ──
+describe('M7 dialogue live-swap — the DEV text overlay', () => {
+  const def = getDialogue(COLD_OPEN_DIALOGUE_ID);
+  const first = def.lines[0]!;
+  const key = `${COLD_OPEN_DIALOGUE_ID}.${first.id}`;
+
+  afterEach(() => __setDialogueTextOverride(null));
+
+  it('overlays TEXT ONLY by <dialogueId>.<lineId>; ids/gates/voice stay canon', () => {
+    __setDialogueTextOverride({ [key]: 'TAKE voice' });
+    const line = getDialogueLine(COLD_OPEN_DIALOGUE_ID, first.id);
+    expect(line.text).toBe('TAKE voice');
+    expect(line.id).toBe(first.id); // identity is canon — delivered-tracking never forks
+    expect(line.gate).toBe(first.gate);
+    expect(line.voice).toBe(first.voice);
+    const fresh = nextDialogueLines(COLD_OPEN_DIALOGUE_ID, NONE, { raked: true });
+    expect(fresh.find((l) => l.id === first.id)?.text).toBe('TAKE voice');
+  });
+
+  it('clears back to canon (null), and an uncovered line is untouched', () => {
+    const second = def.lines[1]!;
+    __setDialogueTextOverride({ [key]: 'TAKE voice' });
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, second.id).text).toBe(second.text);
+    __setDialogueTextOverride(null);
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, first.id).text).toBe(first.text);
+  });
+
+  it('reaches the log resolver — a saved/logged keyed line re-derives to the take', () => {
+    expect(renderLogLine(`dialogue.${key}`)).toBe(first.text); // canon first
+    __setDialogueTextOverride({ [key]: 'TAKE voice' });
+    expect(renderLogLine(`dialogue.${key}`)).toBe('TAKE voice');
+    expect(dialogueLineText('no-such-dialogue', 'nope')).toBeUndefined(); // codec fallback path
   });
 });
 

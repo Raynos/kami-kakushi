@@ -17,6 +17,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   mount,
   formatLogText,
+  devRederivedEntry,
   NOW_TTL_MS,
   NOW_KEEP_LAST,
   FRESH_DIVIDER_TTL_MS,
@@ -48,6 +49,7 @@ import {
   FLAVOR,
   getDialogue,
   COLD_OPEN_DIALOGUE_ID,
+  __setDialogueTextOverride,
   RAKE_TEACH_LINE_IDS,
   rakeTeachPending,
   RAKE_TEACH_COOLDOWN_MS,
@@ -3408,5 +3410,33 @@ describe('HD-41 — the earned line: two readings, and a pulse that means someth
     render(at(target), at(half));
     expect(rungProgress(at(target)).done).toBe(1);
     expect(meter().classList.contains('bump')).toBe(true);
+  });
+});
+
+// ── 2026-07-13 ruling (dialogue live-swap plan) — the DEV log repaint re-derives KEYED
+// entries from the current registries + overlays, so a story-take flip re-voices logged
+// lines too. RED on main before this landed: devRederivedEntry did not exist. ──
+describe('devRederivedEntry — keyed log prose re-derives under the active take', () => {
+  afterEach(() => __setDialogueTextOverride(null));
+
+  it('re-derives a keyed entry; unkeyed and unresolvable entries keep their stored prose', () => {
+    const line = getDialogue(COLD_OPEN_DIALOGUE_ID).lines[0]!;
+    const keyed: LogEntry = {
+      key: 0,
+      channel: 'narration',
+      text: 'stale baked prose',
+      tick: 0,
+      count: 1,
+      contentKey: `dialogue.${COLD_OPEN_DIALOGUE_ID}.${line.id}`,
+    };
+    expect(devRederivedEntry(keyed).text).toBe(line.text); // canon registry read
+    __setDialogueTextOverride({ [`${COLD_OPEN_DIALOGUE_ID}.${line.id}`]: 'TAKE voice' });
+    expect(devRederivedEntry(keyed).text).toBe('TAKE voice'); // the flip reaches history
+    // an unresolvable key (renamed content id) degrades to the stored prose, same as codec
+    expect(devRederivedEntry({ ...keyed, contentKey: 'dialogue.gone.gone' }).text).toBe(
+      'stale baked prose',
+    );
+    const unkeyed: LogEntry = { key: 1, channel: 'narration', text: 'inline', tick: 0, count: 1 };
+    expect(devRederivedEntry(unkeyed)).toBe(unkeyed); // identity — no key, no derive
   });
 });
