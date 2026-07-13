@@ -54,6 +54,16 @@ canon restores on switch-back. Proven headless against the live
    heads; the cold-open `coldOpen.rake` key is canon logic carried
    by no take. Key `context` if the human ever wants full coverage.
 
+## Follow-up (same session) — the take-flip scroll yank
+
+The human verified live and caught a bug: flipping a take repaints
+the log via `setLogFilter`, whose FB-51 land-at-bottom re-pinned the
+view — losing the reader's scroll position mid-compare (TST2). Fix
+in `render.ts` renderLog's epoch branch: capture pin-state +
+`scrollTop` before the repaint and restore both unless the reader
+was already pinned to the foot. Verified headless: scrollTop 1165 →
+1165 across a flip (was: yanked to bottom).
+
 ## Landmines
 
 - Shared tree: `src/core/index.ts` was co-dirty with w3:p3's M3

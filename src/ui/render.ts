@@ -5191,7 +5191,17 @@ export function mount(
         const first = logStoryEpoch < 0;
         logStoryEpoch = epoch;
         if (!first && lastState) {
+          // A take flip repaints IN PLACE (session-200 bug report): the reader is mid-scroll
+          // comparing the very line that changes, so the FB-51 land-at-bottom that setLogFilter
+          // applies would yank the ground (TST2). Restore the offset unless they were already
+          // pinned to the foot — pinned readers keep following it, same as before.
+          const wasPinned = logPinnedToBottom;
+          const top = logLines.scrollTop;
           setLogFilter(logFilter, true);
+          if (!wasPinned) {
+            logPinnedToBottom = false;
+            logLines.scrollTop = top;
+          }
           return;
         }
       }
