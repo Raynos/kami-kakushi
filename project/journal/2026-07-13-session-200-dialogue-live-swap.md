@@ -218,6 +218,17 @@ live in DEV → Story; the seed prose is archived in HR-43.
 Live-proven: the pallet line emits in the active take's voice and
 logged lines re-voice on flip. Plan archived — fully done.
 
+## Checkpoint — session close
+
+Snapshot brought current (ADR-198 + HR-43 + schema v13 + the
+merchant-state resume pointer; rewrite-debt 6/20); reading queue
+reconciled (the engaged brainstorm line dropped per ADR-089, the two
+archived-plan lines dropped per the queue's own archive rule); the
+banked-wood repair-bind finding homed in BACKLOG.md with its
+re-open trigger. Leftover sweep clean: merchant-state is queued in
+docs/plans, every human call is an HR/HD item, nothing lives only
+in prose.
+
 ## Landmines
 
 - Shared tree: `src/core/index.ts` was co-dirty with w3:p3's M3

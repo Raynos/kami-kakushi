@@ -41,14 +41,17 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
   the woodshed rides to **R4**. Fog stands: sheet CLIPS, one viewer.
 - **✅ SICKROOM MEND LANE (ADR-164/197, s202):** HP mends ONLY at the
   sickroom — `treat` (mon-only, hides when broke) + `rest_sickroom`
-  (free pallet day); the cook heal is SEVERED (food = belly). Pacing
-  band re-signed [3, 28] (the mend-trip walk is priced, not fudged).
-- **✅ BODY SPLIT (ADR-178) · ESTATE REDESIGN (ADR-177):** Body 体 +
-  Belly 腹; works chain (**HR-27**) · diverges (**HR-29/HR-30**).
-- **✅ FOUNDATIONS:** bible blessed (ADR-150) · PRD freeze CANCELLED
-  (ADR-168/169) · UI-v2 + taste.md lock (ADR-144/126) · T0/T1/T2 map
-  sheets. **NOT DONE: T2 rungs/fog** · Phase-2 economy · timed acts.
-- **🧊 PARKED:** Plan K + T1 emergent-nodes (`docs/plans/t1/`) — human un-parks.
+  (free pallet day); cook heal SEVERED (food = belly). Band [3, 28].
+  The mend lines are diverged — 3 takes, canon picked (**HR-43**).
+- **✅ TAKE SYSTEM = ONE FUNNEL (ADR-198, s200):** a DEV take flip
+  re-renders EVERYTHING (logged lines incl.); takes gen-compile to
+  flat maps behind a HARD prose-only gate; ten setters → ONE overlay;
+  the keyless gate grew a static half; 幕-heads keyed (SCHEMA v13).
+- **✅ BODY SPLIT (ADR-178) · ESTATE (ADR-177):** works chain
+  (**HR-27**) · diverges (**HR-29/HR-30**). **✅ FOUNDATIONS:** bible
+  (ADR-150) · PRD freeze cancelled (ADR-168) · UI-v2/taste lock
+  (ADR-144/126). **NOT DONE: T2 rungs/fog** · Phase-2 economy.
+- **🧊 PARKED:** Plan K + T1 emergent-nodes (`docs/plans/t1/`).
 
 ## Waiting on the human
 
@@ -66,7 +69,7 @@ The live queue: [`../human-in-the-loop/`](../human-in-the-loop).
   announce itself VN-only, or VN + map-ink?
 - **ONE home for every pick: DEV → Review** — Story ⇄ Variants behind
   one switch; each row carries its **HR-n**. **Story** 🔲 HR-18…21 ·
-  HR-27 · HR-28 · HR-39 · HR-40 · HR-42 · **Variants** 🔲 HR-6 · HR-5 ·
+  HR-27 · HR-39 · HR-40 · HR-42 · HR-43 · **Variants** 🔲 HR-6 · HR-5 ·
   HR-2A–D · HR-29/30.
 
 ## Toolchain
@@ -88,7 +91,7 @@ FB-257. `dev`·`build`·`/ship`.
 ## Code & repo layout
 
 - `src/core` (pure: rules, state, content incl. `narrative/`) ·
-  `src/persistence` (save layer, SCHEMA 11) · `src/ui` (render.ts +
+  `src/persistence` (save layer, SCHEMA 13) · `src/ui` (render.ts +
   dev.ts + dev-surfaces.ts) · `src/app/main.ts` (root + `window.__qa`)
   · `src/scripts/*`. Full map: [`repo-map.md`](../../docs/repo-map.md);
   ADR ledger: `docs/living/decisions.md` (index) + `decisions/` bands
@@ -107,13 +110,11 @@ FB-257. `dev`·`build`·`/ship`.
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` /
    `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the sickroom plan's step 4 (the ADR-139
-   3-take fiction diverge for the treat/rest lines) + PRD ripple;
-   then `docs/plans/fable-2026-07-13-merchant-state.md` (sequenced —
-   shares `intents.ts`). Then **T2 rungs/fog** · **telemetry**.
+4. **Next (autonomous):** `fable-2026-07-13-merchant-state.md`
+   (docs/plans; the core is quiet). Then **T2 rungs/fog** · telemetry.
 5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
    with **`pnpm run push`** (bare `git push` is blocked; lane held →
    commits stay local by design). Human-gated next: the render-split
    overnight job (`docs/plans/fable-2026-07-13-render-split.md`).
 
-<!-- rewrite-debt: 5/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 6/20 · last full rewrite: 2026-07-13 -->

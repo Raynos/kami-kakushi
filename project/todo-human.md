@@ -33,9 +33,6 @@
 
 ## Reading queue
 
-- [ ]
-  [`project/brainstorms/2026-07-13-story-take-system-simplification.md`](brainstorms/2026-07-13-story-take-system-simplification.md)
-  — your "how would you fix the ids and stuff" ask (session-200):
   locked and ✅ BUILT the same day (A→B→C→D, ADR-198) — kept here
   only if you want the design rationale; drop whenever
 - [ ]

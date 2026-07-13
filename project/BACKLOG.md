@@ -168,3 +168,13 @@ Deliberately not built; each says why. Never nagged.
   plan's Non-goals, session-199). 133 transient index.lock mentions
   across 548 sessions; leave-local + the push mutex should shrink it.
   Revisit only if the ledger/journals show it still biting.
+
+- **The repair bind's only exit is the free season verb (found
+  session-200, e2e fallout).** Banked wood is deliberately
+  unreachable (spend-from-store) while `repair` consumes CARRIED
+  wood only — with a node's site pool drained, a Battered-blade
+  player's sole recovery is `advance_season` (free today). Harmless
+  while the season verb stays free; **re-open this if seasons ever
+  gain a cost or a gate** (then: either repair spends banked wood,
+  or a wood-withdraw row returns). Evidence: session-200 journal
+  ("the sickroom land's e2e fallout").
