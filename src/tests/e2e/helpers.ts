@@ -28,6 +28,15 @@ export const FIXTURES = [
   'works-u1-underway',
   'rice-at-gate',
   'at-kura-with-coin',
+  // The Scenarios rung ladder (the Settings rung-jump fold-in) — one save per rung
+  'rung-R0',
+  'rung-R1',
+  'rung-R2',
+  'rung-R3',
+  'rung-R4',
+  'rung-R5',
+  'rung-R6',
+  'rung-R7',
 ] as const;
 
 /** Collect page errors + console errors for the whole test; assert empty at the
