@@ -110,11 +110,11 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    ADR-068/ADR-164/ADR-184 read ✅ for mechanisms absent from `src/`. Its S4 also writes
    the still-unwritten **save-migration policy** (ADR-186 greeting ids). Then **T2
    rungs/fog** (`docs/plans/t2/…`) · **telemetry distillation** (6 FB-8 reports).
-   Human-gated: **HD-40** · **HD-41** · HR-1 · **HR-34…HR-38** · older picks — **plus two
-   the sweep files: the ADR-068 audio call** (the game ships muted — HR-1 would judge
-   silence) and the **ADR-148 combat-timing review**, never run.
+   Human-gated: **HD-40** · **HR-41** (earned-line pick, BUILT s185 —
+   its verdict writes the HD-41 ADR) · HR-1 · **HR-34…HR-38** · older
+   picks + the sweep's **ADR-068 audio** and **ADR-148 timing** calls.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
    **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
    `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 18/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 19/20 · last full rewrite: 2026-07-11 -->
