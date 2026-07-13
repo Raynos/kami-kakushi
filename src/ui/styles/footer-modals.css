@@ -1,0 +1,436 @@
+/* styles/footer-modals.css — footer, settings/about modal, slop gates, seals.
+   Split out of styles.css (2026-07-13 render-split); @import ORDER in styles.css
+   preserves the original cascade — do not reorder. */
+
+/* ── fixed footer bar (F5) — pinned controls on the steel ground, mirrors the titlebar ── */
+.appbar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-1) var(--space-4); /* F73 — slim pinned footer chrome (was --space-2·--space-6) */
+  background: var(--steel-0);
+  color: var(--silver-dim);
+  border-top: 1px solid var(--key);
+}
+.appbar-footer .foot-meta {
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  color: var(--silver-dim);
+  letter-spacing: 0.04em;
+}
+/* FB-372 — name + version cluster left; the name scales to the slim footer
+   register (the h2 size belonged to the retired full-width titlebar). */
+.appbar-footer .foot-left {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.appbar-footer .game-title .kami {
+  font-size: var(--fs-h3);
+}
+/* F104 — the version stamp is a clickable button (→ About modal), styled to read as the plain
+   version text: no button chrome, an underline-on-hover affordance that it's interactive. */
+.appbar-footer .foot-version {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
+}
+.appbar-footer .foot-version:hover,
+.appbar-footer .foot-version:focus-visible {
+  color: var(--silver-hi);
+  text-decoration-color: currentColor;
+  outline: none;
+}
+/* F92 — the DEV toggle is a fixed overlay pinned to the viewport's bottom-right corner (dev.ts,
+   right:.5rem). In DEV builds, hold the footer's right cluster clear of that corner so the Settings
+   button never collides with the DEV toggle at any width (prod ships no toggle → no reserve). */
+.appbar-footer.has-dev-toggle .settings-btn {
+  margin-right: 6rem;
+}
+
+/* ── the game's name (footer resident since FB-372 — the titlebar row is retired) ── */
+.game-title {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.game-title .kami {
+  font-family: var(--font-head);
+  font-size: var(--fs-h2);
+  color: var(--silver-hi);
+  letter-spacing: 0.08em;
+}
+.game-title .roman {
+  font-family: var(--font-num);
+  font-size: var(--fs-small);
+  color: var(--silver-dim);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.settings-btn {
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  color: var(--silver);
+  background: transparent;
+  border: 1px solid var(--silver-faint);
+  border-radius: var(--radius);
+  padding: 0 var(--space-3);
+  /* FB-149 — EXACT 28px (border-box) so the DEV chip beside it pixel-matches */
+  height: var(--tap-min);
+  box-sizing: border-box;
+  min-height: var(--tap-min); /* a11y touch target */
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.settings-btn:hover,
+.settings-btn:focus-visible {
+  background: var(--steel-hi);
+  border-color: var(--silver-wire);
+  outline: none;
+}
+
+/* ── settings / about modal ──────────────────────────────────────────────── */
+.modal-scrim {
+  position: fixed;
+  inset: 0;
+  background: #070810cc;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  z-index: 50;
+  overflow-y: auto;
+}
+.modal-card {
+  position: relative;
+  background: var(--surface);
+  max-width: 62ch; /* F140 — wide enough that the About build line never wraps */
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  /* F29: the modal is an atmospheric surface, not the compact HUD (ui-design §4.8) —
+     give it generous internal breathing room so nothing crowds the edges. */
+  padding: 2rem 2.25rem 2.25rem;
+}
+.modal-close {
+  position: absolute;
+  /* F139 — breathe: the × sits clear of the card's keylines, not against them */
+  top: var(--space-4);
+  right: var(--space-4);
+  width: var(--tap-min); /* a11y touch target (was 2.25rem = 36px) */
+  height: var(--tap-min);
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  font-size: 2.25rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  line-height: 1;
+  border-radius: var(--radius);
+}
+.modal-close:hover,
+.modal-close:focus-visible {
+  color: var(--ai);
+  background: var(--surface-deep);
+  outline: none;
+}
+.modal-close:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 4px var(--ai);
+}
+.modal-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.modal-title .kami {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  color: var(--ink);
+}
+.modal-title .roman {
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  color: var(--ai);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.modal-sub {
+  color: var(--ink-soft);
+  margin: 0 0 var(--space-6);
+}
+
+/* ── modal sub-tabs (F31): Settings · Saves · About ─────────────────────────── */
+.modal-tabs {
+  display: flex;
+  gap: var(--space-4);
+  margin: var(--space-6) 0 var(--space-8);
+  border-bottom: 1px solid var(--ink-faint);
+}
+.modal-tab {
+  font-family: var(--font-head);
+  font-size: var(--fs-body);
+  color: var(--ink-soft);
+  background: transparent;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  padding: var(--space-2) var(--space-3);
+  min-height: var(--tap-min); /* a11y touch target */
+  margin-bottom: -1px; /* overlap the container border so the active underline meets it */
+  cursor: pointer;
+}
+.modal-tab.active {
+  color: var(--ai);
+  border-bottom-color: var(--shu);
+}
+.modal-tab:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 4px var(--ai);
+}
+.modal-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.modal-section[hidden] {
+  display: none;
+}
+.save-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* buttons hug their label; textareas still span 100% */
+  gap: var(--space-3);
+}
+.save-label {
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+}
+.modal-card h3 {
+  font-family: var(--font-head);
+  font-size: var(--fs-h3);
+  color: var(--ai);
+  margin: 0 0 var(--space-2);
+}
+.settings-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+.save-area {
+  width: 100%;
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  padding: var(--space-2);
+  background: var(--washi);
+  color: var(--ink);
+  margin-bottom: var(--space-2);
+  resize: vertical;
+}
+.modal-meta {
+  /* F140 — the About footer is compact METADATA, not reading prose: micro
+     type, near-zero leading, so the whole block reads as one quiet colophon. */
+  font-size: var(--fs-micro);
+  color: var(--ink-faint);
+  margin: 0.15rem 0;
+  line-height: 1.45;
+}
+/* F105 — the About modal's CHANGELOG deep-link (opens the raw file on GitHub in a new tab). */
+.modal-link {
+  color: var(--ai);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.modal-link:hover,
+.modal-link:focus-visible {
+  color: var(--ink);
+  outline: none;
+}
+
+/* ── SLOP threshold gates (human, 2026-07-10) — the unreviewed-content warning
+   modals at R0→R1 ("slop") and R1→R2 ("turbo slop"). Closable the house way
+   (× / Escape); the R2 CONFIRM itself stays locked behind typed consent. */
+.slop-card {
+  max-width: 48ch;
+}
+.slop-kicker {
+  font-family: var(--font-head);
+  font-size: var(--fs-h3);
+  color: var(--shu);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 var(--space-4);
+}
+.slop-body {
+  color: var(--ink);
+  margin: 0 0 var(--space-6);
+}
+.slop-gate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-6);
+}
+.slop-gate-label {
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+}
+.slop-sentence {
+  font-style: italic;
+  color: var(--ink);
+}
+.slop-input {
+  width: 100%;
+  min-height: var(--tap-min);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  background: var(--washi);
+  color: var(--ink);
+}
+.slop-input:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 4px var(--ai);
+}
+
+/* ── rank-up seal press (the signature beat, ui-design §6.2) ──────────────── */
+.rankup-seal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 60;
+  /* a faint void scrim so the seal reads OVER the page, never garbling the log behind it
+     (battery fix — was transparent and collided with the left-aligned log + nav). */
+  background: rgba(7, 8, 16, 0.55);
+}
+.seal-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  opacity: 1;
+  /* M5 — an opaque steel plate (B.2) so the title/kicker sit on steel, never
+     transparently over the log. */
+  background: linear-gradient(180deg, var(--steel-2), var(--steel-1) 52%, var(--steel-0));
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--key);
+  border-radius: var(--radius-card, 4px);
+  box-shadow:
+    inset 0 1px 0 var(--silver-wire),
+    0 8px 30px rgba(0, 0, 0, 0.6);
+}
+.seal-inner.animate {
+  animation: seal-press 1900ms var(--ease-press) both;
+}
+@keyframes seal-press {
+  0% {
+    opacity: 0;
+    transform: scale(1.7) rotate(-7deg);
+  }
+  16% {
+    opacity: 1;
+    transform: scale(0.9) rotate(0deg);
+  }
+  26% {
+    transform: scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+.rankup-kicker {
+  /* M5 — vermillion LIVES at the ceremony: the kicker is a shu band, pale
+     lettering (the lone hot accent, per the bimetal rule) */
+  font-family: var(--font-num);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: var(--fs-small);
+  color: #f7ead9;
+  background: var(--shu);
+  padding: 0.1rem var(--space-3);
+  border-radius: var(--radius);
+}
+/* ── the seal (B.3) — a gold-faced bimetal plate: dark kanji on brushed gold,
+   silver wire rim, inner steel relief. M5 adds the vermillion ceremony HEAT
+   (the ::after radial flush that fires as the seal presses). */
+.hanko-css {
+  position: relative; /* M5 — anchors the ::after heat flush */
+  width: 116px;
+  height: 116px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--silver-wire);
+  border-radius: var(--radius-seal);
+  color: #14110b;
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  background: linear-gradient(135deg, var(--gold-hi), var(--gold-dim));
+  box-shadow:
+    inset 0 0 0 1px var(--silver-wire),
+    inset 0 0 0 3px rgba(14, 16, 22, 0.5),
+    0 0 8px rgba(216, 185, 120, 0.3),
+    0 6px 22px rgba(0, 0, 0, 0.55);
+}
+/* M5 — the ceremony's VERMILLION HEAT: a radial flush that blooms around the
+   seal as it presses, then dies — the single hot accent, spent only here.
+   Auto-neutralised by the global reduced-motion animation kill. */
+.seal-inner .hanko-css::after,
+.vn-rung-ceremony .hanko-css::after {
+  content: '';
+  position: absolute;
+  inset: -14%;
+  border-radius: inherit;
+  background: radial-gradient(circle, var(--shu-hi), var(--shu) 50%, transparent 72%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+.seal-inner.animate .hanko-css::after {
+  animation: seal-heat 1900ms var(--ease-press) both;
+}
+.vn-rung-ceremony .hanko-css::after {
+  animation: seal-heat 2200ms var(--ease-ink) both;
+}
+@keyframes seal-heat {
+  0% {
+    opacity: 0;
+  }
+  14% {
+    opacity: 0.85;
+  }
+  46% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.rankup-title {
+  font-family: var(--font-head);
+  font-size: var(--fs-h2);
+  color: var(--ink);
+}

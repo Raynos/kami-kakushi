@@ -1,0 +1,602 @@
+/* styles/surfaces.css — who's-here, zone banner, home, influence, timed actions, works.
+   Split out of styles.css (2026-07-13 render-split); @import ORDER in styles.css
+   preserves the original cascade — do not reorder. */
+
+/* ── v0.2 feature surfaces: cold-open roman, room-grouped labour, house influence ── */
+.coldopen-roman {
+  font-family: var(--font-head);
+  letter-spacing: 0.3em;
+  font-size: var(--fs-h3);
+}
+.area-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+.area-blurb {
+  color: var(--ink-soft);
+  font-size: 0.9em;
+  margin-bottom: var(--space-1);
+}
+.influence-panel.locked {
+  opacity: 0.78;
+}
+.house-influence-kanji {
+  /* a11y (D-045): the vermilion --pillar-kai (#d7402c) is 3.23:1 on the washi-shade — fails AA.
+     A deeper cinnabar (~4.8:1) keeps the woodblock red but reads. */
+  color: #a82a18;
+  font-family: var(--font-head);
+}
+.influence-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--space-1) 0;
+}
+.pillar-dot.arms {
+  color: var(--pillar-arms);
+}
+.pillar-dot.estate {
+  color: var(--pillar-estate);
+}
+.pillar-dot.office {
+  color: var(--pillar-office);
+}
+.pillar-dot.name {
+  color: var(--pillar-name);
+}
+.influence-panel.locked .pillar-dot {
+  filter: grayscale(0.6);
+}
+.influence-foot {
+  margin-top: var(--space-2);
+}
+.rung-next.frontier {
+  color: var(--ai);
+  font-style: italic;
+}
+/* P9: the per-stance blade-wear cost, visible (not hover-only) on the stance control */
+.stance-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  line-height: 1.2;
+}
+.stance-wear {
+  font-size: var(--fs-small);
+  color: var(--ochre);
+  letter-spacing: 0.05em;
+}
+/* P3: the loot→craft panel — material tally + forge button */
+.craft-mat {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-small);
+  padding: 1px 0;
+}
+.craft-mat-count {
+  color: var(--beni);
+  font-variant-numeric: tabular-nums;
+}
+.craft-mat-count.ok {
+  color: var(--rokusho);
+}
+/* T0-M4-F1: the Quests tab */
+.quest-card {
+  margin-bottom: var(--space-3);
+}
+.quest-card.done {
+  opacity: 0.72;
+}
+.quest-steps {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.quest-step {
+  display: flex;
+  gap: var(--space-1);
+  align-items: baseline;
+  color: var(--ink-soft);
+  font-size: 0.95em;
+}
+.quest-step.ok {
+  color: var(--rokusho);
+}
+.quest-check {
+  color: var(--ink-faint);
+}
+.quest-step.ok .quest-check {
+  color: var(--rokusho);
+}
+/* T0-M4-F3: the tiny travelling market (capped koku sink). F67/F72 — a VERTICAL stack: the item copy
+   then the buy control on its OWN row beneath, so a narrow byōbu column can never let the price
+   button float over / overlap the description (the old flex `space-between` row overlapped once the
+   column narrowed). */
+.market-row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-top: 1px dotted var(--ink-faint);
+}
+.market-item {
+  display: flex;
+  flex-direction: column;
+}
+/* the buy control's own in-flow cell — the button sizes to its content, left-aligned under the copy. */
+.market-buy {
+  display: flex;
+}
+.market-grant {
+  font-size: var(--fs-small);
+}
+/* T0-M4-F4 / F102 / HR-7: the estate map. The Map splits into (a) the 絵図 survey-plan sheet
+   (.map-nav) pinned top-LEFT and (b) the bordered you-are-here FLAVOR card (.map-here) floating
+   in the remaining right-hand column (FB-377/FB-386) — wrapping below on a narrow pane. The
+   sheet styles itself (map-variants/sheet-map.ts injects its own scoped rules). */
+.map-pane {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.map-nav {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.map-pane .map-here {
+  flex: 0 1 300px;
+  min-width: 240px;
+}
+/* ── D-114 vendors-as-people: the Map "who's here 衆" list — a talk affordance per present person
+   (a category-coloured hanko seal + name + a one-line tell + a Speak button). ── */
+.whos-here {
+  margin-top: var(--space-4);
+}
+.person-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding: var(--space-3);
+}
+.person-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+/* a small hanko seal (the VN nameplate idiom, scaled down for a list row). */
+/* ── FB-410 — the ZONE surface (HR-32: the human locked D, 2026-07-11) ──────
+   The zone banner SHIPS: the place as hero (kanji + name + kicker), then the
+   zone's standing line (the seasonal node read — the same source the Map's
+   you-are-here card resolves), then the verbs. The A/B/C diverge alternates
+   (placard, worktable ledger, bare banner) are deleted with their toggle. */
+.zone-banner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.zone-banner .zb-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--key);
+  background: linear-gradient(180deg, rgba(216, 185, 120, 0.05), transparent 70%);
+}
+.zone-banner .zb-kanji {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--ai);
+}
+.zone-banner .zb-name {
+  font-family: var(--font-head);
+  font-size: var(--fs-h2);
+  margin: 0;
+}
+.zone-banner .zb-kicker {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin: var(--space-2) 0 0;
+}
+/* the standing line — a quiet ink read between the hero and the verbs (not a
+   heading): soft ink, an inked left rule, no box of its own. */
+.zone-banner .zb-blurb {
+  margin: 0;
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--silver-faint);
+  color: var(--ink-soft);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+
+.person-seal {
+  flex: 0 0 auto;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: grid;
+  place-items: center;
+  border: 2px solid currentColor;
+  border-radius: var(--radius-seal);
+  background: var(--washi);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+.person-name {
+  font-family: var(--font-head);
+  font-weight: 700;
+}
+/* FB-408 — a scheduled person's ABSENT row: dimmed, button-less, carrying the
+   schedule hint ("sets up on market days 水・土") so the ground still shows its
+   purpose while the person is away. */
+.person-row.person-away {
+  opacity: 0.55;
+}
+.person-tell {
+  font-size: var(--fs-small);
+}
+.person-say {
+  margin: 0;
+}
+/* the Speak button sizes to its content, left-aligned under the person's copy. */
+.person-talk {
+  align-self: flex-start;
+  text-align: left;
+}
+.person-talk.on {
+  border-color: var(--rokusho);
+}
+/* ── D-111 / F89: the HOME + belongings (Inventory tab) — "a dry corner and a bowl" made real.
+   A possession reads as an inked keepsake, not a bare menu row: kanji + name head, an ink blurb,
+   a quiet comfort badge, and (for a buyable piece) a left-aligned buy cell. Reuses the room-card
+   idioms (dotted separators, washi-tone glyphs) so it sits in the woodblock/ink language (D-018). */
+.belongings-subhead {
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-1);
+}
+.belongings-list {
+  display: flex;
+  flex-direction: column;
+}
+.belonging-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2) 0;
+  border-top: 1px dotted var(--ink-faint);
+}
+.belonging-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+/* the belonging's kanji — a small woodblock glyph, quiet in the palette (mirrors .person-seal type). */
+.belonging-kanji {
+  font-family: var(--font-display);
+  color: var(--ink-soft);
+}
+.belonging-name {
+  font-family: var(--font-head);
+  font-weight: 700;
+}
+.belonging-comfort {
+  font-size: var(--fs-small);
+}
+.belonging-buy {
+  display: flex;
+}
+/* the live comfort tally ("Comfort in effect · rest +5 · a settled home 整") — a quiet resolved note. */
+.belongings-comfort-summary {
+  margin-top: var(--space-1);
+}
+
+/* ── M2·6: the LIVE House-Influence panel (Phase 2) — active Estate pillar + grade bar +
+   unnamed silhouettes (D-055) + the manual-opt-in Ascend CTA (D-049/D-062) ── */
+.influence-panel.live {
+  opacity: 1;
+}
+.influence-row.active .influence-name {
+  font-family: var(--font-head);
+  color: var(--ink);
+}
+.influence-grade {
+  font-family: var(--font-head);
+  letter-spacing: 0.04em;
+}
+/* D-107: the koku STANDING figure — the number the House's worth is reckoned in. A rank number,
+   emphasised (tabular so it doesn't jitter as it ticks) but in-palette, never a loud colour. */
+.koku-standing {
+  font-family: var(--font-head);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+/* the far mythic horizon note (the 10,000-koku daimyō line) — a quiet aside, below the season line. */
+.influence-when.koku-horizon {
+  font-style: italic;
+  color: var(--ink-faint);
+}
+/* a11y (D-045): the grade WORD must read on the washi-shade — the light ochre/gold accents fail
+   WCAG AA (gold was only 2.22:1), so the TEXT uses deeper in-palette tones. The grade-bar FILL keeps
+   the bright ochre/gold (a fill needs no text contrast), so the colour-coding stays vivid. */
+.grade-good {
+  color: #855420; /* deep ochre (~4.7:1) */
+}
+.grade-great {
+  color: var(--ai);
+}
+.grade-excellent {
+  color: #6d5212; /* deep bronze (~4.9:1) */
+}
+/* C4.7 (ADR-159) — the six-step ladder's lower rungs. FAIL/BAD read in deepened shu
+   tones (AA on washi like the upper grades); OK sits neutral like the old unranked. */
+.grade-ok {
+  color: var(--ink-faint);
+}
+.grade-bad {
+  color: #8a4436; /* muted deep shu (~4.6:1) */
+}
+.grade-fail {
+  color: #99301e; /* deep shu (~5:1) */
+}
+.influence-bar {
+  position: relative;
+  height: 12px;
+  margin: var(--space-1) 0 var(--space-1);
+  background: var(--washi-deep);
+  border: 1px solid var(--ink-faint);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.influence-fill {
+  display: block;
+  height: 100%;
+  background: var(--pillar-estate, var(--ochre));
+  transition: width 0.4s ease;
+}
+.influence-fill.grade-great {
+  background: var(--ai);
+}
+.influence-fill.grade-excellent {
+  background: var(--gold);
+}
+.influence-tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ink);
+  opacity: 0.45;
+}
+.influence-row.silhouette .influence-name {
+  color: var(--ink-faint);
+  letter-spacing: 0.18em;
+}
+.pillar-dot.locked {
+  color: var(--ink-faint);
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+.ascend-cta {
+  margin-top: var(--space-2);
+  width: 100%;
+  border-color: var(--shu);
+  color: var(--shu-deep);
+  font-family: var(--font-head);
+  letter-spacing: 0.03em;
+}
+.ascend-cta:hover,
+.ascend-cta:focus-visible {
+  background: var(--shu);
+  color: var(--washi);
+}
+
+/* the T0→T1 ascension ceremony — a bigger, longer-held seal than a rung promotion (D-062).
+   M5 — the gold-faced bimetal seal reads as-is; the ascension form only grows and glows
+   (the old gold-on-gold border/color overrides died with the woodblock seal). */
+.rankup-seal.ascension .hanko-css {
+  width: 148px;
+  height: 148px;
+  font-size: 4rem;
+  box-shadow:
+    inset 0 0 0 1px var(--silver-wire),
+    inset 0 0 0 3px rgba(14, 16, 22, 0.5),
+    0 0 26px rgba(216, 185, 120, 0.4),
+    0 8px 30px rgba(0, 0, 0, 0.6);
+}
+.rankup-kicker.subtitle {
+  text-transform: none;
+  letter-spacing: 0.04em;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* ── ADR-148 — timed actions: the clock states (HR-14 CLOSED — the human's pick) ──
+   The shipped treatment is the A+C mix the human tuned live (2026-07-07): the fill
+   TOUCHES the border (C's placement, bottom: 0 — the A gap annoyed), gold while
+   running, the inner-hairline's quiet silver-dim drain on cooldown (never shu),
+   and NOTHING visible at rest — no etched rail, the bar node exists only while
+   running/cooling. ONE bar primitive (taste P2); motion is an inline width
+   transition set by paintActionClock (no per-frame JS — TST2). */
+[data-act-key] {
+  position: relative;
+  overflow: hidden;
+}
+.act-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0; /* touching the border (the human's C-placement call) */
+  height: 3px;
+  width: 0;
+  pointer-events: none;
+  background: var(--gold);
+  opacity: 0.85;
+}
+[data-act-key].act-running {
+  color: var(--ink-soft); /* the label quiets while the work happens */
+}
+[data-act-key].act-cooldown .act-bar {
+  background: var(--silver-dim, var(--ink-faint));
+  opacity: 0.6;
+}
+/* the one-global lock reads as busy-elsewhere, not broken: no extra chrome, just
+   the disabled state the button already has (complete-or-absent, taste P6). */
+
+/* ADR-148 — the ARMED-but-stalled auto toggle: visibly waiting, never vanished. */
+.auto-toggle.waiting {
+  color: var(--gold-dim);
+  border-color: var(--key-dim);
+  font-style: italic;
+}
+
+/* ADR-148 Ph3 — a non-button travel control under the one-global lock (map nodes). */
+[data-act-key].act-locked {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* C4.6 — the node's WRONG thing on the play card (one FLAVOR source with the sheet's
+   detail pane; the sheet's .t0v2-detail-wrong is its sibling register) */
+.map-wrong {
+  color: var(--shu);
+  opacity: 0.85;
+}
+
+/* ── ADR-177 Phase 2 — Works 普請 · the day-book page (default A) ─────────────
+   The projects as ledger lines: closed entries ruled through, the open entry
+   priced, the future faint. Chrome register (P19) — tight, ruled, ink tokens. */
+.works-ledger .ledger-page {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ledger-line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--fs-small);
+  min-height: 18px;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink-faint) 24%, transparent);
+  padding-bottom: 1px;
+}
+.ledger-rule {
+  width: 1.2em;
+  text-align: center;
+  color: var(--silver-dim);
+}
+.ledger-line.is-closed .ledger-rule {
+  color: var(--gold);
+}
+.ledger-line.is-closed .ledger-name {
+  color: var(--ink-soft);
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--gold) 55%, transparent);
+  text-decoration-thickness: 1px;
+}
+.ledger-line.is-open .ledger-name {
+  color: var(--ink);
+}
+.ledger-line.is-named .ledger-name,
+.ledger-line.is-unnamed .ledger-name,
+.ledger-name.is-hint {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.ledger-line.is-faint {
+  border-bottom-style: dashed;
+}
+.ledger-line.is-faint .ledger-name {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.ledger-note {
+  margin-left: auto;
+  color: var(--gold-dim);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ledger-entry {
+  padding: var(--space-1) 0 var(--space-2) calc(1.2em + var(--space-2));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.ledger-gauge {
+  font-size: var(--fs-small);
+  color: var(--gold-dim);
+  font-variant-numeric: tabular-nums;
+}
+.ledger-line.is-footing {
+  border-bottom: none;
+  color: var(--ink-soft);
+  font-style: italic;
+  justify-content: center;
+  padding-top: var(--space-1);
+}
+
+/* ── Works variant B · the work-site board (DEV-only) ──────────────────────── */
+.works-board-row {
+  margin-top: var(--space-2);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-2);
+}
+.works-site {
+  border: 1px solid color-mix(in srgb, var(--ink-faint) 35%, transparent);
+  padding: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--fs-small);
+}
+.works-site-kanji {
+  font-size: var(--fs-large);
+  color: var(--ink-soft);
+  letter-spacing: 0.15em;
+}
+.works-site.is-built {
+  border-color: color-mix(in srgb, var(--gold) 45%, transparent);
+}
+.works-site.is-built .works-site-kanji {
+  color: var(--gold);
+}
+.works-site.is-faint,
+.works-site.is-unnamed,
+.works-site.is-named {
+  opacity: 0.75;
+}
+.works-site-name.is-hint {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.works-site-note {
+  color: var(--ink-soft);
+}
+
+/* ── ADR-177 F5 — Estate 家 · the house, drawn (default A: the E1 fold-in) ──── */
+.estate-sheet-holder {
+  margin-top: var(--space-2);
+  overflow: hidden;
+}
+.estate-sheet-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.estate-sheet-caption {
+  margin-top: var(--space-1);
+}

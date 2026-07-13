@@ -1,0 +1,361 @@
+/* styles/header-nav-rung.css — vitals clock, nav, rung cards + the header rung element.
+   Split out of styles.css (2026-07-13 render-split); @import ORDER in styles.css
+   preserves the original cascade — do not reorder. */
+
+/* ── vitals: clock / stamina ─────────────────────────────────────────────── */
+.vital.clock {
+  flex-direction: column;
+  gap: 0;
+  align-items: flex-start;
+}
+.season-tag {
+  font-family: var(--font-head);
+  color: var(--ai);
+  font-size: var(--fs-h3);
+}
+/* body + belly share ONE idiom (ADR-178/FB-345 — the two-bar group), and each
+   reads as a single baseline row `label ▬▬▬ 100/100` (FB-371 — the stacked
+   3-line form ate the header's vertical space; the exact number stays inline,
+   FB-335). Both inherit the base .vital row. */
+.vital.stamina .bar,
+.vital.belly .bar {
+  width: 110px;
+}
+
+/* HP / life meter (D-076) — a verdigris "life" fill (distinct from satiety's teal), the exact
+   number beside it, turning vermilion (.bar.low) when hurt so "heal now" reads at a glance. */
+.vital.health .bar {
+  width: 110px;
+}
+.vital.health .bar > span {
+  background: var(--rokusho);
+}
+.vital.health .value,
+.vital.stamina .value,
+.vital.belly .value {
+  /* the survival-critical HP number ("1/20") must read at a glance — not the tiniest glyph on
+     screen (was --fs-micro, half the koku size; ui-design §5.7 / §10 hierarchy). FB-335 — the
+     body meter carries the same exact-number readout, in the same quiet register. */
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+
+/* ── nav (the "UI as progression" chrome — first appears at R2) ───────────── */
+.nav {
+  display: flex;
+  /* B.5-rail (M3) — the Andon LEFT RAIL: a vertical steel strip, gold keyline
+     on its right edge, tabs stacked with a LEFT gold post for the active one. */
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-2);
+  border-right: 1px solid var(--key);
+  background: linear-gradient(90deg, var(--steel-1), var(--steel-0) 80%);
+  box-shadow: inset -1px 0 0 var(--silver-faint);
+  /* FB-169 — the rail renders STATICALLY (the human disliked the load ink-in;
+     individual tabs still slide in on their unlock beats). */
+}
+.nav-tab {
+  font-family: var(--font-head);
+  font-size: var(--fs-small); /* F73 — step the tab label down a notch (was --fs-body) */
+  color: var(--ink-soft);
+  background: transparent;
+  border: 0;
+  border-left: 3px solid transparent; /* M3 rail — the active post sits LEFT */
+  padding: var(--space-1) var(--space-3);
+  min-height: var(--tap-min); /* a11y touch target */
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.nav-tab.active {
+  /* active = silver label + a GOLD post (B.5) — vermillion stays reserved for
+     commit/danger (the locked cursor-cut decision). M3: the post sits LEFT. */
+  color: var(--silver-hi);
+  border-left-color: var(--gold);
+}
+.nav-tab:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 4px var(--ai);
+}
+@media (max-width: 920px) {
+  /* phone (the Andon mobile recomposition): the rail becomes the BOTTOM TAB BAR;
+     it WRAPS (7 unlocked tabs never push past the viewport — an offscreen tab is
+     a hidden capability, T4, and the e2e lane treats it as hanging off-edge). */
+  .nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: var(--space-1) var(--space-2);
+    border-right: 0;
+    border-top: 1px solid var(--key);
+    background: linear-gradient(180deg, var(--steel-1), var(--steel-0) 70%);
+    box-shadow: inset 0 1px 0 var(--silver-faint);
+  }
+  .nav-tab {
+    flex: 0 0 auto;
+    border-left: 0;
+    border-top: 3px solid transparent;
+  }
+  .nav-tab.active {
+    border-left-color: transparent;
+    border-top-color: var(--gold);
+  }
+}
+
+/* ── rung card (shared by the estate / storehouse / combat cards; the Work-column rung ladder that
+   once used `.ladder` was removed in F116 — the header rung is the sole progress home) ─────────── */
+.rung-card {
+  padding: var(--space-2) var(--space-3); /* F73 — denser card (was --space-3·--space-4) */
+}
+.rung-now {
+  font-family: var(--font-head);
+  font-size: var(--fs-h3);
+  color: var(--ink);
+}
+.rung-hint {
+  font-size: var(--fs-small);
+  color: var(--text-2);
+  margin-top: var(--space-1);
+}
+.rung-next {
+  font-size: var(--fs-small);
+  color: var(--ink-faint);
+  margin-top: var(--space-1);
+  font-style: italic;
+}
+
+/* ── ADR-145 build ladder (the Phase-2 estate BUILD tracker, default A) ──
+   one compact row per stage: mark · name · gauge. Built = gold (value earned),
+   next = ink + a plain-number standing gauge, locked = faint & unnamed (TST3). */
+.build-ladder {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.build-ladder-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--fs-small);
+  min-height: 18px;
+}
+.build-ladder-mark {
+  width: 1em;
+  text-align: center;
+  color: var(--silver-dim);
+}
+.build-ladder-row.is-built .build-ladder-mark {
+  color: var(--gold);
+}
+.build-ladder-row.is-built .build-ladder-name {
+  color: var(--ink-soft);
+}
+.build-ladder-row.is-next .build-ladder-name {
+  color: var(--ink);
+}
+.build-ladder-row.is-locked .build-ladder-name {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.build-ladder-gauge {
+  margin-left: auto;
+  color: var(--gold-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── meter (rung + skill) — track + ink fill + ease ──────────────────────── */
+.meter {
+  /* B.4 — same steel groove as .bar: progress is a gold thread */
+  position: relative;
+  height: 6px;
+  margin: var(--space-2) 0;
+  background: var(--steel-0);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.85),
+    0 0 0 1px var(--silver-faint);
+}
+.meter > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold) 55%, var(--gold-hi));
+  box-shadow: 0 0 6px rgba(216, 185, 120, 0.4);
+  transition: width var(--dur) var(--ease-ink);
+}
+
+/* ── F106 (D-110) — the rung element in the fixed header (top-right): compact name + meter, a hover
+   detail card, and (when a promotion is ready) the player-triggered "Answer the summons" affordance. ── */
+.rung-head {
+  position: relative;
+  margin-left: auto; /* push the rung to the header's right edge */
+  align-self: center;
+}
+.rung-head-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  min-height: var(--tap-min); /* a11y touch target (44px on phones, M3) */
+  background: transparent;
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+  font: inherit;
+  cursor: default; /* not clickable until ready (disabled) */
+}
+.rung-head-name {
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  color: var(--ink);
+  white-space: nowrap;
+}
+.rung-head-meter {
+  position: relative;
+  height: 6px;
+  width: 64px;
+  background: var(--surface-deep);
+  border: 1px solid var(--ink-faint);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.rung-head-meter > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: linear-gradient(90deg, var(--ochre), var(--gold));
+  transition: width var(--dur) var(--ease-ink);
+}
+.rung-head-cue {
+  font-size: var(--fs-micro);
+  color: var(--beni);
+  font-weight: 600;
+  white-space: nowrap;
+}
+/* HD-41 (d) — the rung meter's VISIBLE jump: one brief gold swell when the fill grows,
+   so the earned log line and the bar's movement read as one event. Applied by render.ts
+   only on growth (never first paint / load); reduced-motion never gets the class. */
+.rung-head-meter.bump {
+  animation: rung-meter-bump 0.9s var(--ease-ink);
+}
+@keyframes rung-meter-bump {
+  0% {
+    box-shadow: 0 0 0 0 rgba(216, 185, 120, 0);
+  }
+  25% {
+    box-shadow: 0 0 6px 1px rgba(216, 185, 120, 0.55);
+    border-color: var(--gold);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(216, 185, 120, 0);
+  }
+}
+/* Narrow phones (iOS SE ≈ 375px): the READY state adds the "Answer the summons ›" cue beside a
+   long rung title (e.g. R0 "The man from the weir 無名"), which can push the header past the
+   viewport. Let the title wrap and the trigger reflow so every glyph stays on-screen (TST2/TST4 —
+   no truncation, nothing clipped) instead of overflowing the right edge. */
+@media (max-width: 480px) {
+  .rung-head-trigger {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .rung-head-name {
+    white-space: normal;
+    min-width: 0;
+    text-align: right;
+  }
+}
+/* READY — the affordance: a seal-red rim + a soft breathing pulse, the trigger goes clickable. */
+.rung-head.ready .rung-head-trigger {
+  border-color: var(--beni);
+  color: var(--beni);
+  cursor: pointer;
+  animation: rung-head-pulse 2.4s var(--ease-ink) infinite;
+}
+.rung-head.ready .rung-head-meter > span {
+  background: linear-gradient(90deg, var(--beni), var(--ochre));
+}
+@keyframes rung-head-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 #a93b4700;
+  }
+  50% {
+    box-shadow: 0 0 0 3px #a93b4726;
+  }
+}
+/* the hover/focus detail card — the meter numbers + the current/next rung (F106). */
+.rung-head-card {
+  position: absolute;
+  top: calc(100% + var(--space-1));
+  right: 0;
+  z-index: 20;
+  min-width: 16rem;
+  padding: var(--space-2) var(--space-3);
+  background: var(--washi);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px #00000022;
+  opacity: 0;
+  visibility: hidden;
+  /* HIDE is delayed (a ~0.4s linger so it doesn't flick away the moment you leave, F120);
+     SHOW is instant (the :hover rule zeroes the delay). visibility flips after the fade. */
+  transition:
+    opacity var(--dur-fast) var(--ease-ink) 0.4s,
+    visibility 0s linear calc(var(--dur-fast) + 0.4s);
+}
+.rung-head:hover .rung-head-card,
+.rung-head:focus-within .rung-head-card {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--dur-fast) var(--ease-ink),
+    visibility 0s;
+}
+.rung-head-card-now {
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  color: var(--ink);
+}
+.rung-head-card-meter {
+  font-size: var(--fs-micro);
+  color: var(--text-2);
+  margin-top: var(--space-1);
+}
+.rung-head-card-next {
+  font-size: var(--fs-micro);
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-top: var(--space-1);
+}
+
+/* ── FB-264 — the DEV action hover-detail card (DEV-only; render.ts strips it from prod).
+   fixed + pointer-events:none: a DEV tool that observes must not perturb — no layout
+   shift, no stolen hovers. */
+.dev-act-card {
+  position: fixed;
+  z-index: 90;
+  max-width: 20rem;
+  padding: var(--space-1) var(--space-2);
+  background: var(--washi);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px #00000022;
+  pointer-events: none;
+  font-size: var(--fs-micro);
+  color: var(--text-2);
+}
+.dev-act-card-title {
+  color: var(--ink);
+  font-family: var(--font-head);
+}
+.dev-act-card-timing {
+  color: var(--ink-faint);
+  font-style: italic;
+}

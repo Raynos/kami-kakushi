@@ -39,10 +39,11 @@ const OUT_TOKENS = 'docs/content/ui-tokens.md';
 // The design-token reference is DERIVED from the stylesheet's `:root` block —
 // ui-design.md points here instead of hand-maintaining CSS copies (AC-21/ADR-126).
 function generateTokens(): string {
-  const css = readFileSync('src/ui/styles.css', 'utf-8').split('\n');
+  const css = readFileSync('src/ui/styles/tokens-base.css', 'utf-8').split('\n');
   const start = css.findIndex((l) => /^:root\s*\{/.test(l));
   const end = css.findIndex((l, i) => i > start && /^\}/.test(l));
-  if (start < 0 || end < 0) throw new Error('gen:docs: no :root token block found in styles.css');
+  if (start < 0 || end < 0)
+    throw new Error('gen:docs: no :root token block found in styles/tokens-base.css');
   return [
     '# UI design tokens (GENERATED)',
     '',

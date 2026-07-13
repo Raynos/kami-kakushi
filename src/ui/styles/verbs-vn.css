@@ -1,0 +1,523 @@
+/* styles/verbs-vn.css — verb plates + the full-screen intro VN scene.
+   Split out of styles.css (2026-07-13 render-split); @import ORDER in styles.css
+   preserves the original cascade — do not reorder. */
+
+/* ── verbs — small steel plates (B.2-lite): subtle vertical grade, gold
+   keyline, faint silver top-rim; hover RAISES the plate (steel-hi + a brighter
+   rim), never a light fill (light-on-light was the washi idiom) ───────────── */
+.verb {
+  font-family: var(--font-body);
+  /* F73 — action buttons are chrome: step the label down a notch (was --fs-body) + slimmer padding
+     (was --space-3·--space-4) for a compact incremental-RPG button stack, not oversized web buttons. */
+  font-size: var(--fs-small);
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--steel-2), var(--steel-1));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  min-height: var(--tap-min); /* a11y touch target; justify defaults flex-start → copy stays left */
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 var(--silver-faint);
+  transition:
+    background var(--dur-fast) var(--ease-ink),
+    transform var(--dur-fast) var(--ease-ink);
+}
+/* FB-365/FB-366 — a disabled verb never plays the hover raise (a dead button
+   that lights up reads as clickable). :not([disabled]) guards hover only;
+   focus-visible needs no guard (disabled buttons can't take focus). No
+   pointer-events:none — the title tooltip must keep carrying the disabled-why. */
+.verb:not([disabled]):hover,
+.verb:focus-visible {
+  background: var(--steel-hi);
+  border-color: var(--silver-wire);
+  color: var(--silver-hi);
+  outline: none;
+}
+/* FB-145 — action verbs never span the whole work column ("way too wide, a bit
+   silly"): one shared cap keeps the stack a tidy left-aligned column. */
+.slice-do .verb {
+  max-width: 40ch;
+}
+/* FB-157 — a card nested INSIDE the framed do-column drops its own plate frame
+   (plate-in-plate + button keyline read as a "triple border"): a key-dim top
+   rule scopes the section instead. The full estate-section redesign is routed
+   to the M6 diverge (human ask). */
+.slice-do .rung-card.frame {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-top: 1px solid var(--key-dim);
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+.verb:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 4px var(--ai);
+}
+.verb:active {
+  transform: translateY(1px);
+}
+.verb[disabled] {
+  color: var(--ink-faint);
+  cursor: default;
+  opacity: 0.7;
+}
+.verb.primary {
+  /* F133 steel language: the suggested action is a GOLD keyline (value/CTA);
+     vermillion retreats to genuine commit/danger only (the locked cursor-cut
+     decision). M2's button recipes formalize the danger treatment. */
+  border-color: var(--gold);
+  box-shadow: inset 0 0 0 1px var(--key);
+}
+
+/* ── the interactive intro — the full-screen VN scene (D-104 / F43–F48; F62 two-column) ──────
+   The SOLE prod intro presentation: a solid washi surface that HIDES the whole shell while the
+   intro plays (the estate inks in only after it ends — the incremental-reveal signature). The card
+   splits into a LEFT transcript column (the NPC's lines typewrite one at a time, JS/render.ts) and
+   a RIGHT interactive panel that gates ask → decide → outcome. No CSS motion beyond that typewriter
+   (reduced-motion → instant, in render.ts), so it's reduced-motion-safe by construction. */
+.vn-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+  overflow: auto;
+  /* a SOLID full-screen ground (not a translucent scrim over a visible shell) — the same
+     kura-dark field the cold-open wakes in, so the two intro beats read as one dark space. */
+  background: radial-gradient(ellipse at center, #141726 0%, var(--steel-0) 62%, var(--void) 100%);
+}
+.vn-card {
+  /* a GENEROUS share of the screen (F46) — large + tall, comfortably centred; not a small modal.
+     F80 — the card is ONE FIXED size: it never grows as Q&A accumulate. `overflow: hidden` keeps
+     the card rigid; the LEFT story column scrolls INTERNALLY (fixed height, see `.vn-story`). */
+  width: min(900px, 92vw);
+  height: min(82dvh, 40rem);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-8);
+  background: var(--washi);
+  /* the card inks in ONCE per scene (F81 — the shell is built once, appended to on every update, so
+     this entry fade plays on a genuine scene change only, never a within-scene flash). RM zeroes it. */
+  animation: vn-card-in var(--dur-beat) var(--ease-ink) both;
+}
+@keyframes vn-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* the ink-seal nameplate (hanko idiom) — a category-coloured seal + the speaker's name.
+   Colour is set inline per voice-category (render.ts); currentColor carries it to the borders. */
+.vn-nameplate {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.vn-seal {
+  /* M5 — a damascene nameplate seal: raised steel face, the speaker's voice
+     colour as the keyline + glyph (currentColor), silver top-rim catchlight */
+  flex: 0 0 auto;
+  width: 2.8rem;
+  height: 2.8rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-seal);
+  background: linear-gradient(135deg, var(--steel-hi), var(--steel-0));
+  box-shadow:
+    inset 0 1px 0 var(--silver-faint),
+    0 2px 8px rgba(0, 0, 0, 0.45);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+.vn-name {
+  font-family: var(--font-head);
+  font-weight: 700;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.1rem;
+}
+/* the spoken / narration prose — LEFT-aligned, natural wrap (F40); a reserved min-height keeps
+   the card from jumping as the typewriter fills each line. */
+/* ── the TWO-column VN modal body (F62) — LEFT = the diegetic transcript (the only place dialogue
+   renders; scrolls INTERNALLY, auto-pins to the newest line — F84); RIGHT = the STABLE interactive
+   panel (F79 — always present, fixed width, its ask→decide→outcome sub-panels swap in place). A
+   vertical hairline ties the two into ONE fixed-size card; stacks on very narrow widths. */
+.vn-body {
+  flex: 1;
+  min-height: 0; /* let the story column own the overflow, not the card */
+  display: flex;
+  gap: var(--space-6);
+  align-items: stretch;
+}
+.vn-story {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto; /* F80/F84 — the ONLY scroller; the card stays a fixed size */
+  border-right: 1px solid var(--key-dim); /* the hairline divider (M5 — gold) */
+  padding-right: var(--space-6);
+}
+.vn-panel {
+  flex: 0 0 20rem; /* a STABLE fixed width (F79) — never collapses as controls swap */
+  max-width: 42%;
+  min-width: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+/* the panel's phase sub-panels (ask / decide / outcome) each lay out as a column; only one shows. */
+.vn-ask,
+.vn-decide,
+.vn-outcome {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+/* D-110 — a rung beat's rare `statBonus` delight line (most rung picks are relationship/flag-only,
+   so this is uncommon): a soft ochre-ruled note above the Continue, distinct from the intro perk box. */
+.vn-outcome-note {
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  font-style: italic;
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--ochre);
+}
+.vn-ask-topics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.vn-panel .brush-rule {
+  margin: 0 0 var(--space-1);
+}
+/* choices / topics FADE IN once (F78), after the left text finishes typing — a soft staggered rise.
+   Reduced-motion + the `.reduced-motion` class zero the duration, so those users get an instant show. */
+.vn-panel-in {
+  animation: vn-panel-fade var(--dur-beat) var(--ease-ink) both;
+}
+.vn-panel-in > * {
+  animation: vn-panel-fade var(--dur-beat) var(--ease-ink) both;
+}
+.vn-panel-in > *:nth-child(2) {
+  animation-delay: 60ms;
+}
+.vn-panel-in > *:nth-child(3) {
+  animation-delay: 120ms;
+}
+.vn-panel-in > *:nth-child(4) {
+  animation-delay: 180ms;
+}
+@keyframes vn-panel-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 720px) {
+  .vn-body {
+    flex-direction: column;
+  }
+  .vn-story {
+    border-right: none;
+    border-bottom: 1px solid #7a6c5933;
+    padding-right: 0;
+    padding-bottom: var(--space-4);
+  }
+  .vn-panel {
+    flex: 0 0 auto;
+    max-width: none;
+  }
+}
+.vn-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-height: 3.5rem;
+  text-align: left;
+  /* FB-228 — narration reads in the SAME muted narrator token as the log (one voice,
+     one colour, both surfaces); speech + nameplates carry the vivid voice colours. */
+  color: var(--v-narrator);
+}
+.vn-line {
+  margin: 0;
+  line-height: 1.6;
+}
+/* FB-228 — the VN's spoken lines step in from the narration margin (same idiom as
+   the log's .log-line.spoken). */
+.vn-line.vn-spoken {
+  padding-left: var(--space-2);
+}
+/* the decision prompt ("What do you say to him?") types into the STORY column too (F82/F83 — nothing
+   pops in un-typed) — set apart from the spoken lines as a quiet, weightier question. */
+.vn-line.vn-prompt-line {
+  margin-top: var(--space-2);
+  font-family: var(--font-head);
+  font-weight: 700;
+}
+.vn-prompt {
+  margin: 0;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+.vn-choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+/* the DECISION options as a GRID — side-by-side, never a vertical stack (2 columns; three options
+   fill 2 + 1). Collapses to a single column only when the panel is genuinely narrow. */
+.vn-choices.vn-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+@media (max-width: 720px) {
+  .vn-choices.vn-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* "I've heard enough" — the ASK → DECIDE gate: a quiet secondary, set apart from the topic hub. */
+.intro-done {
+  appearance: none;
+  align-self: flex-start;
+  font: inherit;
+  font-family: var(--font-head);
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid #7a6c5966;
+  border-radius: var(--radius-sm, 3px);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition:
+    border-color 120ms,
+    color 120ms,
+    background-color 120ms;
+}
+.intro-done:hover {
+  border-color: var(--silver-wire);
+  color: var(--ink);
+  background: var(--steel-hi);
+}
+.intro-done:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 2px;
+}
+/* Continue — the ONLY control that advances to the next scene (picking a choice never jumps).
+   FB-200 — it is the scene's one onward control, not a chrome verb: centred in the outcome
+   column with air above the perk card, a size up from the compact .verb base. */
+.verb.intro-continue {
+  align-self: center;
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--fs-body);
+  border-left: 3px solid var(--ochre);
+}
+/* classic VN pacing (F62): a click anywhere advances one line — completes the current line if it's
+   still typing, else reveals the next (render.ts) — so hint the pointer cursor while the block runs. */
+.vn-scene.typing {
+  cursor: pointer;
+}
+/* the speaker-name prefix on any voiced scrollback line ("Sōan: " / "Genemon: " / "You: " — F88).
+   It inherits its line's voice colour, so the NAME (primary "who") is reinforced by the colour. */
+.vn-speaker {
+  /* F134 — the name prefix is the primary who's-talking signal: full-weight
+     bold, in the line's voice colour (FB-141 — the surrounding narration is
+     neutral; name + speech carry the voice). */
+  font-weight: 700;
+  opacity: 1;
+  color: var(--voice, inherit);
+}
+/* FB-141 — only what the character SAYS carries the voice colour; the in-line
+   stage narration stays neutral ink. The typewriter writes through the same
+   segmenter (writeVnSlice), so speech colours as it types. */
+.vn-speech {
+  color: var(--voice, inherit);
+}
+/* FB-152 — a queued transcript line is fully hidden until its typewriter turn
+   (a block used to pre-paint every speaker name with empty speech). */
+.vn-line.vn-pending {
+  display: none;
+}
+/* FB-153/FB-159 — the in-modal promotion ceremony is the card's BIG moment:
+   it overlays the whole vn-card (steel plate ground), seal + flavour +
+   Continue centred (replaces the fly-by rank-up overlay for beat closes). */
+.vn-rung-ceremony {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  background: linear-gradient(180deg, var(--steel-2), var(--steel-1) 52%, var(--steel-0));
+  border-radius: var(--radius);
+}
+.vn-rung-ceremony .hanko-css {
+  width: 148px;
+  height: 148px;
+  font-size: 4rem;
+}
+.vn-rung-flavor {
+  color: var(--gold-hi);
+  font-family: var(--font-head);
+  font-size: var(--fs-h2);
+  text-align: center;
+}
+/* FB-272 — the ceremony's "what opens" list: quiet ink under the gold flavour line,
+   each item a short ledger entry (the reveal reads at the promotion, not after it). */
+.vn-rung-opens {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-width: 44ch;
+  margin: var(--space-3) auto 0;
+}
+.vn-rung-opens-head {
+  color: var(--ink-soft);
+  font-size: var(--fs-small);
+  text-align: center;
+  margin-bottom: var(--space-1);
+}
+.vn-rung-opens-item {
+  color: var(--ink);
+  font-size: var(--fs-small);
+  text-align: center;
+}
+/* the ceremony's Continue sits centred UNDER the flavour (the .intro-continue
+   base rule left-anchors it inside the outcome panel — not here) */
+.vn-rung-ceremony .intro-continue {
+  align-self: center;
+  border-left-width: 1px;
+  padding: var(--space-2) var(--space-6);
+}
+
+/* ── F47 the ask HUB (exploration) vs the DECISION (commitment) — two distinct reads ──
+   The Ask group is QUIET (a muted heading + light secondary buttons): free, re-askable questions.
+   A divider (`.vn-foot .brush-rule`) separates it from the weightier decision below. */
+.vn-ask {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.vn-ask-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-head);
+  font-size: var(--fs-small);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.vn-ask-seal {
+  font-family: var(--font-display);
+  color: var(--ink-soft);
+}
+/* a topic button reads as a LIGHT, secondary affordance — a quiet ・-marked question, not a verb. */
+.intro-ask {
+  appearance: none;
+  text-align: left;
+  font: inherit;
+  /* FB-142 — these ARE your words-to-be: same colour as the rendered player line */
+  color: var(--v-player);
+  background: transparent;
+  border: 1px solid var(--silver-faint);
+  border-radius: var(--radius-sm, 3px);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  transition:
+    border-color 120ms,
+    color 120ms,
+    background-color 120ms;
+}
+/* (FB-151 — the '・' bullet ::before died: a quoted line IS the affordance;
+   the dot read as a stray list marker inside the button.) */
+.intro-ask:hover {
+  border-color: var(--silver-wire);
+  color: var(--silver-hi);
+  background: var(--steel-hi);
+}
+.intro-ask:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 2px;
+}
+/* an asked topic stays (re-askable, human fork) but reads clearly SPENT — greyed out: muted text,
+   a muted greyed field + border, and a small "asked" mark (F87). Gray = de-emphasized, NOT disabled;
+   it's still clickable, and hover/focus lift it back toward the live state so re-asking reads possible. */
+.intro-ask.asked {
+  color: var(--ink-faint);
+  background: #7a6c5914;
+  border-color: #7a6c5933;
+}
+.intro-ask.asked::before {
+  color: var(--ink-faint);
+}
+.intro-ask.asked:hover {
+  color: var(--ink-soft);
+  border-color: var(--silver-faint);
+  background: var(--steel-hi);
+}
+.intro-ask.asked::after {
+  content: ' · asked';
+  font-size: var(--fs-micro);
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* the DECISION group — set apart + weightier than the ask hub: a bolder prompt over the primary
+   `.intro-choice` reply buttons ("these commit"). */
+.vn-decide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.vn-decide-prompt {
+  font-family: var(--font-head);
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ink);
+}
+/* an intro decision button is THEMED by the attribute it grants +1 (`--attr-accent`, set inline;
+   falls back to the neutral --ai for a pure-flavour choice): a left accent rule + a faint wash of
+   the attr colour over washi, deepening on hover. Body copy stays --ink for legibility (not a
+   flood-fill). A small kanji chip (力/敏/智/速/運) tags the stat at the button's edge. */
+.verb.intro-choice {
+  position: relative;
+  border-left: 3px solid var(--attr-accent, var(--ai-soft));
+  background: color-mix(in srgb, var(--attr-accent, var(--ai)) 9%, var(--washi));
+  padding-right: 2.4rem; /* room for the kanji chip */
+}
+.verb.intro-choice:hover,
+.verb.intro-choice:focus-visible {
+  background: color-mix(in srgb, var(--attr-accent, var(--ai)) 17%, var(--washi));
+  border-color: var(--attr-accent, var(--ai));
+}
+.intro-choice-tag {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.4rem;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--attr-accent, var(--ai));
+  opacity: 0.8;
+}

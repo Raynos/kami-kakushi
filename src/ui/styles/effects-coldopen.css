@@ -1,0 +1,176 @@
+/* styles/effects-coldopen.css — reveal/rank-up motion, juice, the cold open.
+   Split out of styles.css (2026-07-13 render-split); @import ORDER in styles.css
+   preserves the original cascade — do not reorder. */
+
+/* ── the reveal (signature) + rank-up motion ────────────────────────────── */
+@keyframes ink-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+.reveal {
+  animation: ink-in var(--dur-beat) var(--ease-ink) both;
+}
+
+/* ── juice: number-pop on a vitals increment + tally-flash on a coalesced ×N log bump.
+   Both are auto-neutralised by the reduced-motion media query AND the .reduced-motion
+   class below (animation-duration forced ~0), so no JS RM branch is needed.
+   Durations provisional (v0.2) — tune by playtest. ── */
+/* FB-148 — the vitals number-pop is RETIRED (human: the scale+vermillion flash
+   on every increment reads as strobing during auto-grind — a headache, not
+   juice). The .pop class still cycles in render.ts (harmless no-op hook) but
+   animates nothing; steady numerals, the meters carry the motion. */
+.vital .value.pop {
+  animation: none;
+}
+@keyframes tally-flash {
+  0% {
+    background-color: transparent;
+  }
+  20% {
+    background-color: #d7402c1f;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+.log-line.tally {
+  animation: tally-flash 420ms var(--ease-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ── cold-open special: maximal ma, the dark kura ───────────────────────── */
+.coldopen {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  min-height: 100dvh;
+  /* FB-126 — a positioning context for the bottom-anchored .coldopen-restore footer. */
+  position: relative;
+  padding: var(--space-8);
+  /* battery #22: you wake in the DARK storehouse (§10 "kura-dark" waking beat), not a light field —
+     a deep steel space dimming to void at the edges, the title inked pale, before the
+     estate lights in on waking. In-palette (steel grounds), light-on-dark → high contrast (a11y). */
+  background: radial-gradient(ellipse at center, #141726 0%, var(--steel-0) 62%, var(--void) 100%);
+  color: var(--ink);
+}
+.coldopen .frame {
+  padding: 2.4rem 2.2rem 2rem;
+  max-width: 46ch;
+  width: 100%;
+  text-align: center;
+  /* kura-dark (#22): no light card — the dark field shows through, a faint gold keyline the only
+     frame, so the title + lede emerge straight out of the darkness (light-on-dark, high contrast). */
+  background: transparent;
+  border-color: var(--key-dim);
+  box-shadow: none;
+  /* center the lone CTA on the card's axis (F3): flex column, button shrinks to
+     content and centers; prose stays full-width (align-self:stretch below). */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.coldopen .frame > h1,
+.coldopen .frame > p {
+  align-self: stretch;
+}
+.coldopen h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  color: var(--gold-hi);
+  margin-bottom: var(--space-4);
+}
+.coldopen p {
+  color: var(--ink);
+  margin-bottom: var(--space-6);
+}
+/* F54 — the typewritten lede reveals LEFT-to-RIGHT: left-align it so the line
+   doesn't re-centre (and jitter) on every character typed. The title + roman
+   kanji stay centred (the frame's default) — only the typed lede is left-set. */
+.coldopen-lede {
+  text-align: left;
+}
+/* M4 — the GBA caret: a gold block riding whichever cold-open element is
+   typing, blinking on a hard step (no fade — the retro cadence). FB-227 — the
+   VN scene shares the SAME primitive (TST1): the caret rides the line being
+   typed and blinks through the inter-line hold until the block finishes. */
+.coldopen .co-typing::after,
+.vn-lines .co-typing::after {
+  content: '';
+  display: inline-block;
+  width: 0.55em;
+  height: 0.95em;
+  margin-left: 0.1em;
+  vertical-align: -0.08em;
+  background: var(--gold);
+  animation: co-caret 900ms steps(1) infinite;
+}
+@keyframes co-caret {
+  50% {
+    opacity: 0;
+  }
+}
+/* HD-24 / FB-126 — the quiet "restore a saved game" line: a tiny, subtle FOOTER anchored at the
+   bottom of the dark kura field (a sibling of the title card, NOT a button under the CTA — it must
+   never compete with "Open your eyes"). Chromeless micro text, dimmed light-on-dark; the underline
+   is held for hover/focus so at rest it reads as a faint footer, not an actionable button. */
+.coldopen-restore {
+  position: absolute;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+  border: 0;
+  padding: var(--space-2);
+  color: color-mix(in srgb, var(--ink-soft) 55%, transparent);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 160ms var(--ease-ink);
+}
+.coldopen-restore:hover,
+.coldopen-restore:focus-visible {
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* staged cold-open reveal (F14): items start hidden; JS adds .in at the scripted beat.
+   Reduced-motion zeroes the transition (global RM rule) + the JS reveals everything at once. */
+.co-reveal-item {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 900ms var(--ease-ink);
+}
+.co-reveal-item.in {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

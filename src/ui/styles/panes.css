@@ -1,0 +1,162 @@
+/* styles/panes.css — labour rows, skills, combat, a11y.
+   Split out of styles.css (2026-07-13 render-split); @import ORDER in styles.css
+   preserves the original cascade — do not reorder. */
+
+/* ── labour rows + auto-repeat toggle ────────────────────────────────────── */
+.labour-row {
+  display: flex;
+  gap: var(--space-2);
+  align-items: stretch;
+}
+.labour-row .verb {
+  flex: 1;
+}
+/* the 5-attribute training rows — label flexes/wraps, the +1 button stays right-aligned
+   in a clean column (was a ragged cascade when reusing .labour-row). */
+.attr-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.attr-label {
+  flex: 1;
+}
+.attr-name {
+  font-weight: 600;
+}
+.attr-val {
+  font-family: var(--font-num);
+}
+.auto-toggle {
+  font-family: var(--font-num);
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  background: var(--surface);
+  border: 1.5px solid var(--ink-faint);
+  border-radius: var(--radius);
+  padding: 0 var(--space-3);
+  min-height: var(--tap-min); /* a11y touch target */
+  min-width: var(--tap-min); /* the square A−/A+ / +1 toggles become tappable */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.auto-toggle.on {
+  color: var(--washi);
+  background: var(--ai);
+  border-color: var(--ai);
+}
+.auto-toggle:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--washi),
+    0 0 0 4px var(--ai);
+}
+.lock-hint {
+  align-self: center;
+  font-size: var(--fs-micro);
+  /* a11y (D-045): --ink-faint (#7a6c59) is only 3.65:1 on the washi-shade panels — fails WCAG AA.
+     A touch darker (~4.8:1) keeps the muted hierarchy but stays readable. Borders keep --ink-faint. */
+  color: #685b48;
+}
+/* secondary data readouts (storehouse balance, live standing, ascension boon, quest reward). This
+   class was USED but had no rule — the koku/standing figures fell back to full-size serif body ink,
+   louder than the muted blurb above them. A small muted line restores the intended hierarchy (§10). */
+.influence-when {
+  margin-top: var(--space-1);
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+
+/* ── skills pane ─────────────────────────────────────────────────────────── */
+.skills-pane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.skill-row {
+  padding: var(--space-2) var(--space-3); /* F73 — denser card (was --space-3·--space-4) */
+}
+.skill-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.skill-name {
+  font-family: var(--font-head);
+  color: var(--ink);
+}
+.skill-lvl {
+  color: var(--ai);
+  font-weight: 600;
+}
+.skill-blurb {
+  font-size: var(--fs-small);
+  color: var(--text-2);
+  margin-top: var(--space-1);
+}
+
+/* ── combat pane ─────────────────────────────────────────────────────────── */
+.combat-pane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.weapon-card,
+.foe-row {
+  padding: var(--space-2) var(--space-3); /* F73 — denser combat cards (was --space-3·--space-4) */
+}
+.foes-head {
+  font-size: var(--fs-h3);
+  color: var(--ai);
+  margin: var(--space-3) 0 0;
+}
+.win-rate {
+  font-family: var(--font-num);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.win-rate .pip.good {
+  color: var(--ai);
+}
+.win-rate .pip.fair {
+  color: var(--ochre);
+}
+.win-rate .pip.risky {
+  color: var(--beni);
+}
+.win-rate .pip.unknown {
+  color: var(--ink-faint); /* an un-encountered foe: neutral, no difficulty hue */
+}
+
+/* ── a11y: text scale + reduced-motion class (Settings) ──────────────────── */
+html {
+  /* compact baseline (F10). The a11y text-scale is NOT applied here — it must not move the
+     layout (F30); it multiplies only the --fs-* type tokens below, so text grows, spacing stays. */
+  font-size: 90%;
+}
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  transition-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+}
+
+/* FB-215 — the CSS half of the DEV capture freeze (src/app/freeze-clock.ts). Banking the shell's
+   timers stops the typewriter and the game loop, but a CSS keyframe animation runs off the
+   compositor and would keep moving under the feedback box. Pausing (not zeroing) holds each
+   animation exactly where it stood, so the screen the human picked is the screen we photograph.
+   Running TRANSITIONS are left alone on purpose: they're all sub-400ms, and cutting them would
+   snap the element to its end value — a visible jump at the very moment we freeze. DEV-only in
+   practice (nothing adds `.frozen` in a prod bundle). */
+.frozen *,
+.frozen *::before,
+.frozen *::after {
+  animation-play-state: paused !important;
+}

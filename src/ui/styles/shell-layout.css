@@ -1,0 +1,496 @@
+/* styles/shell-layout.css — app shell, Andon frame, byōbu slices, phone recomposition, meters.
+   Split out of styles.css (2026-07-13 render-split); @import ORDER in styles.css
+   preserves the original cascade — do not reorder. */
+
+/* ── app shell ──────────────────────────────────────────────────────────── */
+#app {
+  height: 100dvh;
+  overflow: hidden;
+}
+/* FB-164 — slim steel scrollbars everywhere a pane scrolls: the default-wide
+   bar sat ON the text at the well's edge. Firefox + WebKit forms. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(205, 214, 238, 0.22) transparent;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(205, 214, 238, 0.22);
+  border-radius: 3px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(205, 214, 238, 0.4);
+}
+
+/* ── the ANDON frame (M3, B.8): header rows full-width, then rail | desk |
+   log-window, then the footer. The middle row is the only 1fr — panes scroll
+   internally, the page never scrolls (F5/F6). ── */
+.shell {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(300px, 38%);
+  /* FB-372 — no title row; the game's name lives in the footer */
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'vitals vitals vitals'
+    'nav work log'
+    'footer footer footer';
+  height: 100%;
+  overflow: hidden;
+  max-width: 1200px; /* wider main UI (F4) — was 980; a plate column on the void */
+  margin: 0 auto;
+  /* FB-163 — the frame has VERTICAL edges: side keylines terminate the header/
+     nav/footer rules instead of letting them die into the void ("the lack of
+     vertical lines is weirding me out"). */
+  border-left: 1px solid var(--key-dim);
+  border-right: 1px solid var(--key-dim);
+}
+.shell > .vitals {
+  grid-area: vitals;
+}
+.shell > .nav {
+  grid-area: nav;
+}
+.shell > .workspace {
+  grid-area: work;
+  min-height: 0;
+  min-width: 0;
+}
+.shell > .log {
+  grid-area: log;
+  min-height: 0;
+  /* a too-short row (phone landscape) CLIPS the window rather than spilling its
+     fixed chrome (header/filter bar) over the neighbouring grid rows */
+  overflow: hidden;
+  margin: var(--space-4) var(--space-4) var(--space-4) 0;
+}
+.shell > .appbar-footer {
+  grid-area: footer;
+}
+/* FB-172 — the calendar dock: shares the rail's grid AREA, pinned to its foot
+   (never inside the nav element — its children are reconciler-owned). Quiet
+   chrome: micro type, silver-dim. */
+.shell > .clock-dock {
+  grid-area: nav;
+  align-self: end;
+  justify-self: stretch;
+  padding: var(--space-2);
+  border-right: 1px solid var(--key);
+  pointer-events: none;
+}
+/* FB-173 — pre-unlock (readout-clock) the calendar inside is [hidden], but the dock's
+   padding + border still painted: a stray ~14px hairline "stick" above the version
+   button. An empty dock paints nothing. */
+.shell > .clock-dock:has(> .clock[hidden]) {
+  display: none;
+}
+.clock-dock .vital.clock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  font-size: var(--fs-micro);
+  color: var(--silver-dim);
+}
+.clock-dock .season-tag,
+.clock-dock .rate {
+  font-size: var(--fs-micro);
+}
+/* ── FB-336 — the Map tab is the SHEET's screen: the log window folds away and
+   the survey sheet takes the whole desk width; the you-are-here read sits BELOW
+   the sheet (scroll: map first, then the zone description — DOM order in
+   render.ts). The ⛶ full toggle still gives true fullscreen on top of this. ── */
+[data-active-tab='map'] .shell > .log {
+  display: none;
+}
+@media (min-width: 921px) {
+  [data-active-tab='map'] .shell {
+    /* collapse the log's reserved third column so the desk truly spans */
+    grid-template-columns: auto minmax(0, 1fr) 0;
+  }
+}
+
+/* ── the ANDON phone recomposition (≤920px, the demo's mobile breakpoint):
+   ONE column — header rows, the work desk (scrolls), the log as a BAND with
+   its own scroll, then the tab BAR + footer at the bottom. Tap targets rise
+   to the 44px floor (the Andon language's --m-tap; the mobile e2e lane holds
+   it). ── */
+@media (max-width: 920px) {
+  :root {
+    --tap-min: 44px;
+  }
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+    /* FB-168 — the desk takes the height; the log is a one-line BAND (auto row) */
+    grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+    grid-template-areas:
+      'vitals'
+      'work'
+      'log'
+      'nav'
+      'footer';
+  }
+  /* FB-168 — the demo's m-log-band: COLLAPSED = a single-line strip showing the
+     newest log line (the pinned-bottom scroll keeps it the latest); TAP expands
+     it to a near-full-screen sheet; tapping its header folds it back. */
+  .shell > .log {
+    margin: 0 var(--space-3) var(--space-2);
+  }
+  .shell > .log:not(.m-expanded) {
+    cursor: pointer;
+  }
+  .shell > .log:not(.m-expanded) > .log-head,
+  .shell > .log:not(.m-expanded) .log-filter-bar {
+    display: none;
+  }
+  .shell > .log:not(.m-expanded) .log-lines {
+    max-height: 2.5em;
+    overflow: hidden;
+    padding: var(--space-1) var(--space-3);
+    -webkit-mask: none;
+    mask: none;
+  }
+  .shell > .log.m-expanded {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 7dvh;
+    bottom: 0;
+    margin: 0;
+    z-index: 35;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 0;
+  }
+  .shell > .log.m-expanded .log-head h2 {
+    cursor: pointer;
+  }
+  .shell > .log.m-expanded .log-head h2::after {
+    content: '▾ fold';
+    margin-left: auto;
+    float: right;
+    font-size: var(--fs-micro);
+    letter-spacing: 0.08em;
+    color: var(--silver-dim);
+  }
+  /* FB-172 — on the phone the rail is the bottom BAR: the calendar dock moves to
+     the footer area's centre instead (the version sits left, Settings right). */
+  .shell > .clock-dock {
+    grid-area: footer;
+    align-self: center;
+    justify-self: center;
+    border-right: 0;
+    padding: 0;
+  }
+  .clock-dock .vital.clock {
+    flex-direction: row;
+    gap: var(--space-2);
+  }
+}
+/* (legacy pinned-row sizing — harmless under grid, kept for any flex fallback) */
+.shell > .vitals,
+.shell > .nav,
+.shell > .appbar-footer {
+  flex: 0 0 auto;
+}
+.shell .workspace {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+/* F55b — when the intro ends and the shell reveals, the estate INKS IN gracefully rather than
+   snapping on all at once: the whole shell fades up, and its slices rise in a short stagger. The
+   class is added for one render then self-clears (render.ts); reduced-motion zeroes the duration
+   (media query + `.reduced-motion` below), so those users get the instant reveal. */
+.shell.intro-reveal {
+  animation: intro-shell-in var(--dur-beat) var(--ease-ink) both;
+}
+.shell.intro-reveal .slice {
+  animation: intro-slice-in var(--dur-beat) var(--ease-ink) both;
+}
+.shell.intro-reveal .slice-do {
+  animation-delay: 40ms;
+}
+.shell.intro-reveal .slice-estate {
+  animation-delay: 200ms;
+}
+.shell.intro-reveal .slice-log {
+  animation-delay: 160ms;
+}
+@keyframes intro-shell-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes intro-slice-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* header / vitals */
+.vitals {
+  display: flex;
+  /* FB-404/FB-405 — the strip centers its children: the FB-387 bar-stack and the
+     house-mark must sit mid-strip like the rung element (baseline was meaningless
+     once the stack hid its numerals). */
+  align-items: center;
+  /* F73 — the vitals bar is dense HUD chrome: tighter inter-stat gap + slimmer padding (was
+     --space-6 gap / --space-3·--space-6 padding) pull the resource/stat row into a compact strip. */
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding: var(--space-2) var(--space-4);
+  /* B.7 — a raised steel strip: gold keyline base, silver top-rim, deep drop */
+  border-bottom: 1px solid var(--key);
+  background: linear-gradient(180deg, #1d212c, #12141c 78%, var(--steel-0));
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 var(--silver-wire);
+}
+.vitals .house-mark {
+  font-family: var(--font-head);
+  font-size: var(--fs-h2);
+  color: var(--ai);
+  letter-spacing: 0.04em;
+}
+.vital {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.vital .label {
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+.vital .value {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-num-lg);
+  color: var(--num-key);
+  font-weight: 600;
+  min-width: 3.5ch;
+  text-align: right;
+}
+.vital .rate {
+  font-family: var(--font-num);
+  font-size: var(--fs-micro);
+  color: var(--text-mute);
+}
+/* FB-387 — body & belly stacked as two slim rows, bars only (the numerals hide;
+   exact values stay on the hover title), no taller than the old single row. */
+.vital-stack {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+.vital-stack .vital {
+  align-items: center;
+}
+.vital-stack .vital .label {
+  font-size: var(--fs-micro);
+  line-height: 1;
+  min-width: 3.2em;
+}
+.vital-stack .vital .value {
+  display: none;
+}
+.vital-stack .bar {
+  height: 5px;
+}
+
+/* satiety / vital bar */
+/* ── meters (B.4) — gold thread in a dark steel groove; the width transition
+   stays (reconcile.ts relies on the CSS animation, never JS-driven widths) ── */
+.bar {
+  --fill: 60%;
+  position: relative;
+  height: 6px;
+  width: 120px;
+  background: var(--steel-0);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.85),
+    0 0 0 1px var(--silver-faint);
+}
+.bar > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--fill);
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold) 55%, var(--gold-hi));
+  box-shadow: 0 0 6px rgba(216, 185, 120, 0.4);
+  transition: width var(--dur) var(--ease-ink);
+}
+.vital.health .bar > span {
+  /* life = SILVER (state), never gold (value) — the bimetal split */
+  background: linear-gradient(90deg, #6f7896, var(--silver) 58%, var(--silver-hi));
+  box-shadow: 0 0 6px rgba(205, 214, 238, 0.35);
+}
+.vital.stamina .bar > span {
+  /* satiety — a quiet verdant thread */
+  background: linear-gradient(90deg, #5f8a6d, #9fc79a 60%, #c3e6bd);
+  box-shadow: 0 0 6px rgba(159, 199, 154, 0.3);
+}
+.vital.belly .bar > span {
+  /* the belly (ADR-178) — warm rice-straw, distinct from body's verdant + life's silver */
+  background: linear-gradient(90deg, #8a7a4f, #c7b06a 60%, #e6d79a);
+  box-shadow: 0 0 6px rgba(199, 176, 106, 0.3);
+}
+.bar.low > span {
+  background: linear-gradient(90deg, var(--shu-deep), var(--shu-hi));
+  box-shadow: 0 0 6px rgba(222, 90, 58, 0.4);
+}
+
+/* ── workspace + the event-log hero ─────────────────────────────────────── */
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 1.5fr); /* work LEFT · story log RIGHT (F8) */
+  grid-template-rows: minmax(0, 1fr); /* a single full-height row so columns can scroll */
+  /* F73 — tighter workspace gutter/gap (was --space-6): the chrome frame around the content
+     columns shrinks so more of the screen is the game, not padding. */
+  gap: var(--space-4);
+  padding: var(--space-4);
+  align-items: stretch;
+  min-height: 0;
+  overflow: hidden;
+}
+/* (M3 — the old ≤720px "natural page flow" fallback died with the Andon phone
+   recomposition: #app/.shell height:auto let the grid rows size to CONTENT and
+   the shell exploded past 17,000px with the unbounded log. The phone is now the
+   same FIXED frame — single-column grid, panes scroll internally.) */
+@media (max-width: 920px) {
+  .workspace {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr);
+  }
+}
+
+/* ── panel slices (multi-panel layout, M1) ──────────────────────────────────
+   The work-tab panes are grouped into named slice <section>s (see render.ts). In the
+   CLASSIC layout the three work slices stack inside `.work` (the LEFT column) and scroll
+   together — visually identical to the pre-slice single column. The story-log is also a
+   slice (`.slice-log` == `.log`). All arrangement is CSS keyed off `.workspace[data-layout]`;
+   a `hidden` slice collapses out of flow ([hidden]{display:none!important}), which is the
+   reveal-gating (early game = Do + Log only). */
+.slice-do,
+.slice-estate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3); /* F73 — tighter intra-slice spacing (was --space-4) */
+  min-height: 0;
+}
+
+/* ═══ WORKSPACE ARRANGEMENT (M2) — LOCKED to 屏風 folding-columns. A modest 2-fold spread: the WORK
+   fold (the Do / Progress / Estate slices stacked as soft cards, left) and the LOG fold (a first-
+   class reading column, right). Kept to two columns on purpose (F71 — "flexible/modest, 2–3, not
+   over-packed"); reveal-gating still inks the work cards in as surfaces unlock, but they stack
+   WITHIN the one work fold rather than each becoming its own column. The classic / 番付 / 巻物
+   arrangements were pruned (D-075 zero-flag-debt). ═══ */
+.workspace[data-layout='layout-byobu'] {
+  display: flex;
+  grid-template-columns: none;
+  gap: var(--space-4);
+  align-items: stretch;
+}
+/* the LEFT work fold — a single column that stacks its slices and scrolls internally. */
+.workspace[data-layout='layout-byobu'] > .work {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+/* F94 — each stacked work slice sizes to its CONTENT and never shrinks. The base slice rule carries
+   `min-height:0` + the flex default `flex-shrink:1`, so once the stacked cards overflowed the work
+   fold, flexbox squeezed each slice BELOW its content height and the card contents spilled over —
+   overlapping / clipping the next card (the "panels are broken" bug, worsened by the F73 density
+   pass). Pinning `flex:0 0 auto` keeps every card at its natural height; the `.work` fold's own
+   `overflow-y:auto` is what scrolls when the stack is tall — cards flow, they never collapse. */
+.workspace[data-layout='layout-byobu'] > .work > .slice {
+  flex: 0 0 auto;
+}
+/* the RIGHT log fold — a first-class reading column that is CAPPED so it never dominates the spread
+   (F117). It keeps a ⅓ minimum (F71) but must NOT grow to swallow the screen: `flex-grow:0` holds it
+   at its basis while the LEFT work fold (`flex:1 1 0`) takes the majority, and the width is measured
+   against the (capped 1440px) CONTAINER via `%`, NOT raw `vw` — raw `33.333vw` on a viewport wider
+   than the shell overshot to ~⅔ of the narrower shell. Net: log ≈ ⅓–46%, work holds the rest and
+   fills as panels unlock (the incremental-reveal signature). `min-width: min(…)` floors it at a
+   third of whichever is smaller (container vs viewport) so it never collapses. */
+.workspace[data-layout='layout-byobu'] .slice-log {
+  flex: 0 1 42%;
+  min-width: min(33.333%, 33.333vw);
+  max-width: 46%;
+  min-height: 0;
+}
+/* the log reads like a page of a book in byōbu: the body reading face on a looser leading. F85 — the
+   text fills the panel's FULL width (no narrow measure), and the scroll track sits FLUSH against the
+   panel's true right edge: extend the scroller into `.log`'s right padding, then re-pad the text so
+   it never runs under the scrollbar. */
+.workspace[data-layout='layout-byobu'] .slice-log .log-lines {
+  font-family: var(--font-log, var(--font-body));
+  line-height: 1.85;
+  margin-right: calc(-1 * var(--space-6));
+  padding-right: var(--space-6);
+}
+
+/* ═══ PANEL FRAMING (M2) — LOCKED to soft cards: each work slice a soft washi surface (subtle fill +
+   drop shadow, no hard keyline) for a calm dashboard. The log keeps its own `.log` book frame. The
+   woodblock-box / hairline framings were pruned (D-075 zero-flag-debt). ═══ */
+.workspace[data-layout='layout-byobu'][data-framing='framing-cards'] .slice:not(.slice-log) {
+  background: var(--surface);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 6px #00000014;
+  padding: var(--space-3) var(--space-4); /* F73 — denser work-card frame (was --space-4·--space-6) */
+}
+
+/* F70 — byōbu is a FRAMED SPREAD, never edge-to-edge full-bleed: a wide but CAPPED max-width with
+   auto side margins (the shell centres) plus the workspace's own padding keeps a left & right gutter
+   at ALL viewport widths. (Wider than classic's 1200 so the 2-fold spread has room to breathe.) */
+.shell[data-layout='layout-byobu'] {
+  max-width: 1440px;
+}
+
+/* ── the work DESK on NARROW (≤920px, M3): the log is a shell sibling now (the
+   Andon phone grid stacks it as its own band), so the desk keeps its single
+   work fold and scrolls INTERNALLY — the shell grid owns the height; there is
+   no page-flow column anymore. This block sits AFTER the byōbu base rules:
+   equal-specificity, source order wins (the original dead-CSS lesson — the
+   mobile e2e lane guards the stacking). ─────────────────────────────────── */
+@media (max-width: 920px) {
+  .workspace[data-layout='layout-byobu'] {
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .workspace[data-layout='layout-byobu'] > .work {
+    flex: 1 1 auto;
+    gap: var(--space-6);
+    overflow-y: auto;
+  }
+  .workspace[data-layout='layout-byobu'] .slice {
+    flex: 0 0 auto;
+    min-height: 0;
+  }
+  /* drop the card framing on mobile (single column) — no borders, boxes, or forced
+     padding. Matches the framing-cards selector exactly so it out-orders it. */
+  .workspace[data-layout='layout-byobu'][data-framing='framing-cards'] .slice:not(.slice-log) {
+    border: none;
+    box-shadow: none;
+    background: none;
+    padding: 0;
+  }
+}

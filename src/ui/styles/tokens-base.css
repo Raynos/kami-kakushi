@@ -1,0 +1,246 @@
+/* Kamikakushi — the Andon Steel design language (ui-design.md, ADR-127).
+   Blackened steel + BIMETAL semantics: SILVER = state/chrome/labels/top-rim;
+   GOLD = value/numerals/progress/KEYLINE; VERMILLION = commit/danger (the lone
+   hot accent). The two metals never share a pixel. Text + CSS + inline SVG
+   only; no asset pipeline. Every rule here defends against AI-slop. */
+
+:root {
+  /* ── BLACKENED-STEEL grounds — the dominant field; never pure #000 ──── */
+  --void: #070810; /* page depth — the outer ground        */
+  --steel-0: #0e1016; /* well / recess                        */
+  --steel-1: #161922; /* plate base                           */
+  --steel-2: #1b1f29; /* plate top                            */
+  --steel-hi: #20242f; /* raised / hover catchlight            */
+  /* legacy washi names → steel, so untouched rules re-skin in place */
+  --washi: #161922;
+  --washi-shade: #1b1f29;
+  --washi-deep: #0e1016;
+
+  /* ── INK — the quiet cool-grey text ramp on steel; never silver ─────── */
+  --ink: #c2c8d8;
+  --ink-soft: #8a90a4;
+  --ink-faint: #5c6274; /* DECORATIVE only (≈3:1) — never load-bearing text */
+
+  /* ── SILVER — state / chrome / labels / TOP-EDGE rim only ───────────── */
+  --silver: #cdd6ee;
+  --silver-hi: #e7ecff;
+  --silver-dim: #99a2bf;
+  --silver-wire: rgba(205, 214, 238, 0.55); /* top-edge rim + hairline */
+  --silver-faint: rgba(205, 214, 238, 0.14);
+  /* legacy indigo names → silver (structure/chrome keeps its role) */
+  --ai: #cdd6ee;
+  --ai-soft: #99a2bf;
+
+  /* ── GOLD — value / numerals / progress / KEYLINE only ──────────────── */
+  --gold: #d8b978;
+  --gold-hi: #f2dca0;
+  --gold-dim: #93794a;
+  --key: rgba(216, 185, 120, 0.42); /* the 1px gold keyline */
+  --key-dim: rgba(216, 185, 120, 0.15);
+
+  /* ── VERMILLION (shu) — commit / danger: the single hot accent ──────── */
+  --shu: #bf3b25;
+  --shu-hi: #de5a3a;
+  --shu-deep: #7e2414;
+  --beni: #bf3b25; /* legacy secondary red → vermillion */
+
+  /* ── THE PIECE — the porter game-piece on the survey sheet (FB-340 v2):
+     boxwood tones for a physical object ON the map artifact — deliberately
+     warmer than the sheet's silver/gold survey inks, single-sourced here
+     (AC-21; map law 2 spirit — the piece is foreign to the drawing). ── */
+  --piece-wood-hi: #c9a668;
+  --piece-wood-mid: #a8875a;
+  --piece-wood-lo: #7d6440;
+  --piece-rope: #5c4a2e;
+  --piece-carve: #3a2d1a;
+  --piece-skin: #b99a68;
+
+  /* ── legacy earth pigments → the 3-metal collapse ────────────────────── */
+  --kihada: #d8b978;
+  --ochre: #93794a;
+  --rokusho: #99a2bf;
+  --murasaki: #e7ecff; /* the lord's voice (D-110) — dignified silver-hi */
+
+  /* ── ATTRIBUTE pigments — the 5-METAL "temper" set (F131, human-LOCKED
+     2026-07-06): the 3-metal THEME holds, but the five attrs carry distinct
+     accents (Dwell +INT vs Shake +SPD were near-identical under the collapse).
+     Steel temper-oxide colours — what tempered steel actually turns.
+     Kanji live in ATTR_META (src/core). ── */
+  --attr-str: #c0875f; /* 力 bronze        */
+  --attr-agi: #93c5c5; /* 敏 pale-quench   */
+  --attr-int: #b193c9; /* 智 temper-purple */
+  --attr-spd: #8fb6d9; /* 速 temper-blue   */
+  --attr-luck: #d8b978; /* 運 straw-gold    */
+
+  /* ── VOICES — per-speaker prose colours on steel (F128): dark-tuned,
+     distinct per character; the log voice-* classes + the VN VOICE_COLOR map
+     (render.ts) consume these. Player reads BRIGHT (your words pop), narrator
+     stays muted. ── */
+  --v-narrator: #e7e9f0; /* FB-263 — bright near-white (human-directed): narrator story text must
+     stand OFF the steel blues, not bleed into them; ~13:1 on steel-1. Chroma stays near zero so
+     the FB-228 figure/ground law still separates by CHROMA — neutral ground, chromatic voices.
+     (was #9aa4c4, the muted blue-grey that read as "more blue on blue".) */
+  --v-player: #8ec9ff; /* FB-228 — the MC's own asagi sky-blue: unmistakably blue, ~10:1 on steel (the old near-white read as narrator) */
+  --v-physician: #8fbfc4;
+  --v-steward: #c9975c; /* FB-143 — drier ochre, clear of the gold-hi CTA */
+  --v-arms: #cf9a86;
+  --v-official: #b79ad0;
+  --v-villager: #a9c391;
+  --v-monk: #b3ab9e; /* muted ash/stone — the traveling monk Iori (sumi robes), clear of the ochres */
+  --v-lord: #c9b8ea; /* wisteria — dignified, distinct from the official violet */
+
+  /* ── semantic aliases (role beats hue) ──────────────────────────────── */
+  --bg: var(--washi);
+  --surface: var(--washi-shade);
+  --surface-deep: var(--washi-deep);
+  --text: var(--ink);
+  --text-2: var(--ink-soft);
+  --text-mute: var(--ink-faint);
+  --line: var(--key); /* borders are gold KEYLINES now, not ink */
+  --link: var(--silver);
+  --num-key: var(--gold); /* numerals are VALUE = gold */
+  --delta-pos: var(--gold);
+  --delta-neg: var(--shu-hi);
+  --seal: var(--shu);
+
+  /* ── four-pillar identities ─────────────────────────────────────────── */
+  --pillar-arms: var(--shu);
+  --pillar-estate: var(--gold);
+  --pillar-office: var(--silver);
+  --pillar-name: var(--silver-dim);
+  --pillar-kai: var(--gold-hi);
+
+  /* ── type — Western stacks (Appendix C): serif = prose/numerals/titles;
+     sans = uppercase chrome labels. macOS/iOS render true Palatino/Avenir;
+     elsewhere Georgia + the system sans. Zero font pipeline. ───────────── */
+  --font-head: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-body: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-num: 'Avenir Next', Avenir, 'Helvetica Neue', ui-sans-serif, system-ui, sans-serif;
+
+  --fs-display: calc(clamp(1.6rem, 4vw, 2.6rem) * var(--text-scale, 1));
+  --fs-h1: calc(1.3rem * var(--text-scale, 1));
+  --fs-h2: calc(1.08rem * var(--text-scale, 1));
+  --fs-h3: calc(1rem * var(--text-scale, 1));
+  --fs-body: calc(1rem * var(--text-scale, 1));
+  --fs-num-lg: calc(1.1rem * var(--text-scale, 1));
+  --fs-small: calc(0.875rem * var(--text-scale, 1));
+  --fs-micro: calc(0.75rem * var(--text-scale, 1));
+  --lh-body: 1.6;
+  --lh-tight: 1.25;
+  --tracking-head: 0.02em;
+
+  /* ── spacing & shape ────────────────────────────────────────────────── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.5rem;
+  --space-4: 0.7rem;
+  --space-6: 0.95rem;
+  --space-8: 1.35rem;
+  --space-12: 3rem;
+  --radius: 3px;
+  --radius-seal: 6px;
+  --maxw-text: 68ch;
+  --tap-min: 28px; /* F73 dense-HUD chrome controls (was 32); still >WCAG 2.2 24px min */
+
+  /* ── motion ─────────────────────────────────────────────────────────── */
+  --ease-ink: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease: cubic-bezier(0.32, 0.08, 0.24, 1); /* the steel ease */
+  --ease-press: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 140ms;
+  --dur-mid: 240ms;
+  --dur: 320ms;
+  --dur-beat: 620ms;
+}
+
+/* (The attr-palette compare alternates lived here through the M1 review; the
+   human LOCKED 'temper' 2026-07-06 — the :root values above ARE the pick, and
+   the [data-attr-palette] override blocks died with the lock, ADR-075 style.) */
+
+* {
+  box-sizing: border-box;
+}
+
+/* [hidden] must beat component display rules (.vital/.nav set display, which would
+   otherwise override the UA `[hidden]{display:none}` at equal specificity). */
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--text);
+  /* the outer ground: page-depth void so any margin around the steel plates
+     reads as intentional depth — never a raw-white void (playtest F1). */
+  background: var(--void);
+  overflow: hidden; /* the app shell owns scrolling; panes scroll internally (F6) */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── the page ground — clean steel depth, NO grain (B.1): a cool overhead
+   glow dimming into the void, fixed so panes scroll over a still ground ── */
+.paper {
+  background-color: var(--void);
+  background-image:
+    radial-gradient(1500px 950px at 50% -14%, #141726 0%, transparent 60%),
+    linear-gradient(180deg, #0b0d15, var(--void) 44%);
+  background-attachment: fixed;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-head);
+  font-weight: 800;
+  letter-spacing: var(--tracking-head);
+  line-height: var(--lh-tight);
+  margin: 0;
+}
+
+.numeric {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── emoji: tie full-colour glyphs to the steel palette (anti-slop) ─────────
+   every inline emoji is wrapped in a .emoji span; cooled + dimmed to read as
+   muted metal accents on dark steel, not bright stickers. */
+.emoji {
+  filter: grayscale(0.7) brightness(0.9);
+}
+
+/* ── steel plate frame (B.2) — 1px gold keyline + silver top-rim catchlight
+   over a vertical steel-plate gradient; the woodblock triple-inset is gone ── */
+.frame {
+  position: relative;
+  background: linear-gradient(180deg, var(--steel-2), var(--steel-1) 52%, var(--steel-0));
+  border: 1px solid var(--key);
+  box-shadow:
+    inset 0 1px 0 var(--silver-wire),
+    0 3px 14px rgba(0, 0, 0, 0.5);
+  /* F73 — the base plate frame is chrome: denser padding (was --space-4·--space-6). The
+     reading-surface frames (.vn-card / .modal-card / .coldopen .frame) set their own roomy padding
+     later in the cascade, so they keep their breathing room. */
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+}
+
+/* ── divider — a quiet gold hairline (was the ink-brush stroke; F130: the ink   gradient flipped BRIGHT when the ramp inverted — steel dividers stay faint) ── */
+.brush-rule {
+  height: 2px;
+  border: 0;
+  margin: var(--space-6) 0;
+  background: linear-gradient(90deg, var(--key-dim), var(--key), var(--key-dim));
+  -webkit-mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
