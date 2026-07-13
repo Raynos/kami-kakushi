@@ -77,16 +77,14 @@ Deliberately not built; each says why. Never nagged.
   time a schema bump breaks a save silently — that is the day it pays
   for itself. Recipe is in the session-192 journal.
 
-- [ ] **A new story-takes bundle renumbers every SV tag after it.** The
-  DEV panel's **SV** tags are *registry positions* (zero-indexed), so
-  adding `adr190-nudge` mid-alphabet took SV1 and pushed 22 tags up one;
-  `review-link` went red with 27 broken links across the HR items, and
-  every affected item had to be rewritten. It is caught (the gate is
-  sound, and it is why nothing shipped broken) but it will bite EVERY
-  future bundle. Fix would be a stable tag (a bundle-id-derived label,
-  or a committed tag map) instead of an array index. Parked because it
-  makes the cost loud rather than dangerous: it costs a rewrite, not a
-  bug.
+- [x] ~~**A new story-takes bundle renumbers every SV tag after
+  it.**~~ **DONE same day (ADR-192, session 196)** — it bit a second
+  time within hours (the hd41 prune shifted three more tags, and the
+  human went looking for "SV18" and concluded the bundle was gone), so
+  the human ruled the whole positional scheme out. Tags are dead: the
+  reference is the surface/bundle **id** (`market`, `sleep-announce`),
+  which never renumbers; `review-link` now checks ids both ways
+  (including citations of pruned ids).
 
 - [ ] **The scene path's stat-bonus line still logs on `system`.**
   `scenes.ts` emits `scene.<id>.opt.<id>.bonus` on the **`system`**

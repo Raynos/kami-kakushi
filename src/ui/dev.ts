@@ -52,7 +52,7 @@ import { el, pct, HOUSE_ROOMS, ESTATE_STAGE_NAMES } from './render';
 import { findOrphanedIds, formatOrphanReport } from '../persistence';
 import { FIXTURES_SENTINEL } from '../fixtures';
 // ADR-139 story take-sets — imported ONLY here, so the registry rides this module's DEV fold.
-import { STORY_TAKE_BUNDLES, bundleTag, type StoryTake, type StoryTakeBundle } from './storyTakes';
+import { STORY_TAKE_BUNDLES, type StoryTake, type StoryTakeBundle } from './storyTakes';
 import {
   __setRequirementFlavorOverride,
   __setDiscoveryFlavorOverride,
@@ -97,8 +97,8 @@ export const DEV_SENTINEL = '__KAMI_DEV_PANEL__';
 // The diverged-surface REGISTRY moved to `dev-surfaces.ts` (2026-07-13): a gate has to read it,
 // and a gate script cannot import this module (the fixtures pane pulls in `import.meta.glob`).
 // Re-exported here so every existing importer — and the renderer's variant routing — is unmoved.
-import { SURFACES, variantTag, type SurfaceDef } from './dev-surfaces';
-export { SURFACES, surfaceTag, variantTag, type SurfaceDef, type VariantDef } from './dev-surfaces';
+import { SURFACES, type SurfaceDef } from './dev-surfaces';
+export { SURFACES, type SurfaceDef, type VariantDef } from './dev-surfaces';
 
 export interface DevApi {
   getVariant(surface: string): string;
@@ -2034,13 +2034,9 @@ export function mountDevPanel(
   // NO catch-all "other" group: a rungless bundle carries its own `rungReason`, and each
   // distinct reason renders as its own `— other · <reason> —` header (reason'd bundles sort
   // after the numbered rungs, in registry order).
-  // SV-numbering (mirrors the Variants pane's V-tags, FB-36) — per-BUNDLE, assigned in
-  // REGISTRY order (storyBundles[0]=SV0, [1]=SV1, …) so a tag stays pinned to its bundle: it
-  // never shifts when the pane rung-reorders rows or an earlier bundle is pruned on sign-off.
-  // Each take then reads `SV{n}{LETTER}` (canon = `SV{n}·Canon`), so the human can reference a
-  // story take as tersely as a UI variant ("lock SV12A"). Computed once, read into the labels below.
-  const stag = new Map<string, string>();
-  dev.storyBundles.forEach((b, bi) => stag.set(b.id, bundleTag(bi)));
+  // A bundle's reference is its ID (ADR-192 — the positional SV-tag is dead: an insert/prune
+  // renumbered every tag after it). The row leads with the id; the human references a take as
+  // "sleep-announce take b".
 
   const bundleHeader = (b: StoryTakeBundle): string =>
     b.rung !== undefined ? `— rung R${b.rung} —` : `— other · ${b.rungReason ?? '?'} —`;
@@ -2071,7 +2067,7 @@ export function mountDevPanel(
     sTitle.style.cssText = 'display:flex;align-items:baseline;gap:.35rem;min-width:0;';
     const sCaret = el('span', undefined, '▸');
     sCaret.style.cssText = 'color:#b08d4f;flex:0 0 auto;';
-    const sLabel = el('span', undefined, `${stag.get(bundle.id)} · ${bundle.title}`);
+    const sLabel = el('span', undefined, `${bundle.id} · ${bundle.title}`);
     sLabel.style.cssText = 'color:#b08d4f;text-transform:uppercase;font-size:11px;min-width:0;';
     sTitle.append(sCaret, sLabel, hrChip(bundle.hr));
     // line 2 — the take currently live, so a collapsed row still says where the story stands
@@ -2121,10 +2117,9 @@ export function mountDevPanel(
       setBtns.set(id, b);
       setRow.append(b);
     };
-    // every option carries its textual label + SV-tag — canon included (human, 2026-07-07).
-    const st = stag.get(bundle.id);
-    takeBtn('canon', `${st}·Canon — ${bundle.canonLabel ?? 'the pick'}`);
-    for (const t of bundle.takes) takeBtn(t.id, `${st}${t.id.toUpperCase()} — ${t.label}`);
+    // every option carries its textual label — canon included (human, 2026-07-07).
+    takeBtn('canon', `Canon — ${bundle.canonLabel ?? 'the pick'}`);
+    for (const t of bundle.takes) takeBtn(t.id, `${t.id.toUpperCase()} — ${t.label}`);
     details.append(setRow, brief);
     // Per-unit overrides moved to the per-diverge explore page (human, 2026-07-07) —
     // this section stays focused: the labeled set toggle + the explore link.
@@ -2151,18 +2146,9 @@ export function mountDevPanel(
   //    row (label + current pick + caret); clicking it reveals the blurb + the option buttons.
   //    Rows are RECENCY-ordered: SURFACES is oldest→newest (new surfaces are appended), so we
   //    display it REVERSED — the most-recently-introduced surface sits at the top. ──
-  // V-numbering (FB-36) — per-SURFACE, assigned in REGISTRY order: each surface gets ONE number
-  // (surface[0]=V0, surface[1]=V1, …), and its variants share that number with a LETTER suffix =
-  // the variant's index (A/B/C). So quests (registry #6) → V6A/V6B/V6C. Registry order (not the
-  // recency-reversed DISPLAY order) keeps a tag pinned to its variant: it never shifts when the
-  // panel reorders rows or a later surface is removed. Computed once, read into every label below.
-  // (the tag FORMULA lives in dev-surfaces.ts — the `review-link` gate computes the very same
-  //  tags when it checks review.md, so the panel and the gate can never disagree about what
-  //  "V6A" means.)
-  const vtag = new Map<string, string>();
-  dev.surfaces.forEach((s, si) => {
-    s.variants.forEach((v, vi) => vtag.set(v.id, variantTag(si, vi)));
-  });
+  // A variant's reference is its own ID (`market-b`) — ADR-192 killed the positional V-tag
+  // (an insert/prune renumbered every tag after it). Ids are what review.md cites and what the
+  // `review-link` gate checks, so the panel and the gate can never disagree.
 
   // Rung-ordered (2026-07-09) — surfaces sort by the RUNG a player first meets them, so the
   // Variants tab tracks a rung-by-rung QA (mirrors review.md's rung grouping). A rung header
@@ -2225,12 +2211,12 @@ export function mountDevPanel(
         buttons[i]!.style.color = on ? '#1c1814' : '#e7d9bc';
         if (on) {
           blurb.textContent = v.blurb;
-          sPick.textContent = `${vtag.get(v.id)} · ${v.label}`;
+          sPick.textContent = `${v.id} · ${v.label}`;
         }
       });
     };
     surface.variants.forEach((v) => {
-      const b = mono(`${vtag.get(v.id)} · ${v.label}`, () => {
+      const b = mono(`${v.id} · ${v.label}`, () => {
         dev.setVariant(surface.id, v.id);
         paint();
         rerender();
@@ -2735,14 +2721,8 @@ export function openStoryReader(bundle: StoryTakeBundle, dev?: DevApi): HTMLElem
   title.className = 'modal-title';
   const kami = el('span', undefined, '物語');
   kami.className = 'kami';
-  // ONE explore page per diverge (human, 2026-07-07) — the page IS the bundle. The SV-tag
-  // (bundle's registry index) mirrors the panel so the human can reference this diverge tersely.
-  const si = dev ? dev.storyBundles.findIndex((b) => b.id === bundle.id) : -1;
-  const roman = el(
-    'span',
-    undefined,
-    `Explore story — ${si >= 0 ? `SV${si} · ` : ''}${bundle.title}`,
-  );
+  // ONE explore page per diverge (human, 2026-07-07) — the page IS the bundle, titled by its id.
+  const roman = el('span', undefined, `Explore story — ${bundle.id} · ${bundle.title}`);
   roman.className = 'roman';
   title.append(kami, roman);
   card.append(title);

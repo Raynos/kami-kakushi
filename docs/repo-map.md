@@ -69,10 +69,12 @@ always-loaded context while being editable on its own.
   [`src/ui/dev-surfaces.ts`](../src/ui/dev-surfaces.ts) (moved out of
   `dev.ts` so a gate can import it); story bundles declare theirs in
   `takes/*/bundle.md`. Each DEV row carries its **HR-n** chip; each
-  HR-item names the **V**/**SV** tags to click; the **`review-link`**
-  gate ([`verify-review-link.ts`](../src/scripts/verify-review-link.ts))
-  binds both directions, so a registry reorder goes RED instead of
-  sending the human to the wrong row. A surface she has settled keeps no
+  HR-item names the surface/bundle **id** to click (`market`,
+  `sleep-announce` — stable, never renumbered; the old positional
+  `V<n>`/`SV<n>` tags are dead, ADR-192); the **`review-link`** gate
+  ([`verify-review-link.ts`](../src/scripts/verify-review-link.ts))
+  binds both directions, so a pruned or re-homed toggle goes RED
+  instead of sending the human to a missing row. A surface she has settled keeps no
   toggle (ADR-075 zero flag-debt); a bundle she asked to KEEP declares
   `hr: none · <why>` and is left out of the queue counts.
   [`project/todo-human.md`](../project/todo-human.md) is the companion

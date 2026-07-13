@@ -41,16 +41,11 @@ export interface SurfaceDef {
   variants: VariantDef[];
 }
 
-/** The V-tag letters (V3A, V3B, …) — a variant's stable shorthand in the panel and in review.md. */
-const LETTERS = 'ABCDEFGHIJ';
-/** The SURFACE's tag: registry POSITION, not label (`V3`). Positional so it is stable while the
- *  label is edited — but it does mean a REORDER renumbers everything after it, which is exactly
- *  what the `review-link` gate catches (review.md would still name the old tag). Append, do not
- *  insert. */
-export const surfaceTag = (surfaceIndex: number): string => `V${surfaceIndex}`;
-/** A VARIANT's tag (`V3B`) — the surface's tag plus a per-variant letter. */
-export const variantTag = (surfaceIndex: number, variantIndex: number): string =>
-  `V${surfaceIndex}${LETTERS[variantIndex] ?? String(variantIndex)}`;
+// A surface's reference — in the DEV panel, in review.md, in chat — is its `id` (`market`,
+// `bestiary`). There is NO positional tag (2026-07-13, ADR-192): the old `V<n>`/`SV<n>` scheme
+// numbered registry POSITIONS, so adding or pruning one entry renumbered every tag after it and
+// two agents in one day sent the human to the wrong row. An id never renumbers. A variant's
+// reference is likewise its own id (`market-b`).
 
 // HD-41 (closed → ADR-191) — the `earned-line` surface (A ledger dot · B ruled entry · C
 // docket) is GONE: the human played it and picked B (2026-07-13), so the ruled entry is the

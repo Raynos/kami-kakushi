@@ -1,31 +1,32 @@
 // review-link gate — the DEV review queue and the human's review queue must name each other.
 //
-// The failure this exists to stop is quiet, and it has already happened: the ADR-184 zone-announce
-// toggle shipped into the DEV panel's SETTINGS tab, and HR-32b told the human to look for it there.
-// When the toggle moved, the doc still said "Settings". Nobody was lying — the two halves of the
-// link were just written by hand, twice, and only one got updated. A hand-copied cross-reference
-// rots; a computed one cannot.
+// The failure this exists to stop is quiet, and it has already happened twice: the ADR-184
+// zone-announce toggle shipped into the DEV panel's SETTINGS tab while HR-32b still said
+// "Settings"; and on 2026-07-13 the old POSITIONAL tags (V6 / SV19 = registry index) sent the
+// human to the wrong row twice in one day — inserting `adr190-nudge` renumbered 22 tags, and
+// pruning `hd41-progress-objective` renumbered three more. ADR-192 killed positional tags:
+// the reference is the entry's ID (`market`, `sleep-announce`), which never renumbers.
 //
-// So the registry is the source of truth for the TAG (V6 / SV10 — both derived from registry
-// POSITION, by the same helpers the panel renders with), and review.md is the source of truth for
-// the QUEUE (which HR-items are open). This gate binds them, both ways:
+// The registry is the source of truth for WHAT exists (ids + the HR each entry awaits);
+// review.md is the source of truth for the QUEUE (which HR-items are open). This gate binds
+// them, both ways:
 //
-//   forward   every registry entry names an HR-item, and that item is OPEN in review.md
-//             (a toggle the human is meant to judge, with no line in the queue she reads, is a
-//              toggle that does not exist — "if it isn't in the queue, it doesn't exist")
-//   tags      that item names the entry's CURRENT tag — so a registry REORDER, which renumbers
-//             every tag after it, goes RED here instead of silently sending her to the wrong row
-//   reverse   an item may not name a **V<n>** / **SV<n>** that belongs to a DIFFERENT item —
-//             the stale-tag case the forward check alone would miss
+//   forward   every registry entry names an HR-item, that item is OPEN in review.md, and the
+//             item's body cites the entry's **id** (a toggle the human is meant to judge, with
+//             no line in the queue she reads, is a toggle that does not exist)
+//   reverse   every "Review → Story|Variants → **id**" citation in an OPEN item must point at
+//             an entry that EXISTS in the registry and that names THIS item — a pruned bundle
+//             or a re-homed toggle goes RED here instead of sending her to a missing row
 //
-// A story bundle may declare `hr: none · <why>` — a SETTLED diverge the human asked to keep live
-// for comparison (hd30-nengu, fb324-rake-cap). It is exempt from all three checks by construction:
-// it awaits nobody. A SURFACE has no such escape — ADR-075's zero-flag-debt rule says a settled
-// surface keeps no toggle at all, so a surface in the registry is by definition still open.
+// A story bundle may declare `hr: none · <why>` — a SETTLED diverge the human asked to keep
+// live for comparison (hd30-nengu, fb324-rake-cap). It is exempt from the forward check by
+// construction: it awaits nobody. A SURFACE has no such escape — ADR-075's zero-flag-debt rule
+// says a settled surface keeps no toggle at all, so a surface in the registry is by definition
+// still open. (Reverse still covers a `none` bundle: citing one under an HR-item is a lie.)
 
 import { readFileSync } from 'node:fs';
-import { SURFACES, surfaceTag } from '../ui/dev-surfaces';
-import { STORY_TAKE_BUNDLES, bundleTag } from '../ui/storyTakes';
+import { SURFACES } from '../ui/dev-surfaces';
+import { STORY_TAKE_BUNDLES } from '../ui/storyTakes';
 
 const REVIEW_MD = 'project/human-in-the-loop/review.md';
 
@@ -33,27 +34,23 @@ interface Entry {
   readonly kind: 'surface' | 'bundle';
   readonly id: string;
   readonly hr: string;
-  readonly tag: string;
 }
 
 const entries: Entry[] = [
-  ...SURFACES.map((s, i) => ({ kind: 'surface' as const, id: s.id, hr: s.hr, tag: surfaceTag(i) })),
-  ...STORY_TAKE_BUNDLES.map((b, i) => ({
-    kind: 'bundle' as const,
-    id: b.id,
-    hr: b.hr,
-    tag: bundleTag(i),
-  })),
+  ...SURFACES.map((s) => ({ kind: 'surface' as const, id: s.id, hr: s.hr })),
+  ...STORY_TAKE_BUNDLES.map((b) => ({ kind: 'bundle' as const, id: b.id, hr: b.hr })),
 ];
+const byId = new Map(entries.map((e) => [e.id, e]));
 
-/** Split review.md into its `### HR-n …` sections (heading line + body). */
+/** Split review.md into its `### HR-n …` sections (heading line + body, whitespace-collapsed
+ *  so a citation wrapped across lines still parses). */
 function sections(md: string): Map<string, { open: boolean; body: string }> {
   const out = new Map<string, { open: boolean; body: string }>();
   let cur: string | undefined;
   let open = false;
   let body: string[] = [];
   const flush = (): void => {
-    if (cur) out.set(cur, { open, body: body.join('\n') });
+    if (cur) out.set(cur, { open, body: body.join(' ').replace(/\s+/g, ' ') });
   };
   for (const line of md.split('\n')) {
     const h = /^### (HR-\S+)\s+(\S+)/.exec(line);
@@ -74,16 +71,13 @@ const md = readFileSync(REVIEW_MD, 'utf8');
 const secs = sections(md);
 const errors: string[] = [];
 
-// which HR-item does each tag belong to? (for the reverse check)
-const ownerOfTag = new Map<string, string>();
-for (const e of entries) if (e.hr.startsWith('HR-')) ownerOfTag.set(e.tag, e.hr);
-
+// forward: every registry entry → an open HR-item that cites its id
 for (const e of entries) {
   if (!e.hr.startsWith('HR-')) {
     // `none · <why>` — a settled bundle kept for comparison. Surfaces get no such escape.
     if (e.kind === 'surface') {
       errors.push(
-        `SURFACE "${e.id}" (${e.tag}) declares hr="${e.hr}" — a surface must name an open HR-item ` +
+        `SURFACE "${e.id}" declares hr="${e.hr}" — a surface must name an open HR-item ` +
           `(a SETTLED surface keeps no toggle at all: ADR-075 zero flag-debt).`,
       );
     }
@@ -92,39 +86,45 @@ for (const e of entries) {
   const sec = secs.get(e.hr);
   if (!sec) {
     errors.push(
-      `${e.kind} "${e.id}" (${e.tag}) names ${e.hr}, which has no section in ${REVIEW_MD} — ` +
+      `${e.kind} "${e.id}" names ${e.hr}, which has no section in ${REVIEW_MD} — ` +
         `file the review item, or the human never sees this toggle.`,
     );
     continue;
   }
   if (!sec.open) {
     errors.push(
-      `${e.kind} "${e.id}" (${e.tag}) names ${e.hr}, which is CLOSED (✅) in ${REVIEW_MD} — ` +
+      `${e.kind} "${e.id}" names ${e.hr}, which is CLOSED (✅) in ${REVIEW_MD} — ` +
         `strip the toggle (ADR-075 zero flag-debt), or, for a story bundle the human asked to ` +
         `keep, declare \`hr: none · <why>\` in its bundle.md.`,
     );
     continue;
   }
-  // the item must name the CURRENT tag — bold, as the generated block writes it
-  const tagRe = new RegExp(`\\*\\*${e.tag}\\*\\*`);
-  if (!tagRe.test(sec.body)) {
+  if (!sec.body.includes(`**${e.id}**`)) {
     errors.push(
-      `${e.hr} does not name **${e.tag}** (${e.kind} "${e.id}") — add the "In the DEV panel:" ` +
-        `line, or fix it if the registry order moved the tag.`,
+      `${e.hr} does not cite **${e.id}** (${e.kind}) — add its "In the DEV panel:" line ` +
+        `(Review → ${e.kind === 'bundle' ? 'Story' : 'Variants'} → **${e.id}**).`,
     );
   }
 }
 
-// reverse: a section may not name a surface/bundle tag that belongs to a different item
+// reverse: every DEV-panel citation in an open item must resolve, and to THIS item
 for (const [hr, sec] of secs) {
-  for (const m of sec.body.matchAll(/\*\*(S?V\d+)\*\*/g)) {
-    const tag = m[1]!;
-    const owner = ownerOfTag.get(tag);
-    if (owner && owner !== hr) {
-      errors.push(
-        `${hr} names **${tag}**, but that tag belongs to ${owner} — a stale cross-reference ` +
-          `(tags are registry POSITIONS: a reorder renumbers them).`,
-      );
+  if (!sec.open) continue;
+  for (const m of sec.body.matchAll(/Review → (?:Story|Variants) → ((?:\*\*[^*]+\*\*[ ·]*)+)/g)) {
+    for (const t of m[1]!.matchAll(/\*\*([^*]+)\*\*/g)) {
+      const id = t[1]!;
+      const owner = byId.get(id);
+      if (!owner) {
+        errors.push(
+          `${hr} cites **${id}** in its "In the DEV panel:" line, but no surface/bundle with ` +
+            `that id exists — it was pruned or renamed; fix the citation (or close the item).`,
+        );
+      } else if (owner.hr !== hr) {
+        errors.push(
+          `${hr} cites **${id}**, but that ${owner.kind} names ${owner.hr} — a stale ` +
+            `cross-reference.`,
+        );
+      }
     }
   }
 }

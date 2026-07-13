@@ -58,7 +58,23 @@ theirs.
 simple"). The KISS rework — stable id-based references, no numeric
 tags, gate simplified — lands as this session's next commit.
 
+## The ADR-192 rework (same session)
+
+Landed the ruling: **positional V/SV tags are dead** (ADR-192). The
+reference everywhere — DEV panel rows, `review.md` citations, chat —
+is the surface/bundle **id** (`market`, `sleep-announce`), a variant
+its own id (`market-b`), a take its letter. `surfaceTag`/`variantTag`/
+`bundleTag` deleted; `dev.ts` renders ids; `verify-review-link.ts`
+rewritten id-based and SHARPER: a citation of a pruned id now goes RED
+(the old scheme reassigned the number to an innocent neighbour — the
+exact "it's gone" confusion of this session). All 29 open citations in
+`review.md` rewritten from the dumped position→id map; header prose,
+repo-map, and the BACKLOG footgun entry (closed) updated. Verified:
+20 gates green + headless live check that both Review panes render
+ids.
+
 ## Next intended steps
 
-- Build the id-based review-reference rework (this session).
 - HD-40 remains the open decision; HR-42 the fresh review.
+- w3:p3 takes ADR-193+ and edits `docs/living/decisions.md` after
+  this lands.

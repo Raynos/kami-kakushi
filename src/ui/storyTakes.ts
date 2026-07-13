@@ -52,11 +52,10 @@ export interface StoryTake {
   readonly introTitles?: Readonly<Record<string, string>>;
 }
 
-/** A bundle's SV-tag: registry POSITION (`SV10`), the story sibling of a surface's V-tag. Shared
- *  by the DEV panel and the `review-link` gate so the two can never disagree about what "SV10"
- *  means. Positional ⇒ append, never insert (a reorder renumbers, and review.md would be stale —
- *  which the gate catches). */
-export const bundleTag = (bundleIndex: number): string => `SV${bundleIndex}`;
+// A bundle's reference — in the DEV panel, in review.md, in chat — is its `id`
+// (`sleep-announce`). The positional `SV<n>` tag is DEAD (2026-07-13, ADR-192): it numbered
+// registry positions, so any insert/prune renumbered every tag after it and sent the human to
+// the wrong row. An id never renumbers; a take within a bundle is its letter (`take b`).
 
 export interface StoryTakeBundle {
   readonly id: string;

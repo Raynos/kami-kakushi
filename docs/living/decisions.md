@@ -3895,3 +3895,40 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
 - **Refs:** HD-41 · HR-41 · ADR-139 (the takes) · ADR-075 (zero
   flag-debt) · ADR-185/HD-38 (register stays) · the plan in
   `project/archive/opus-2026-07-12-rung-reward-legibility.md`
+
+### ADR-192 ✅ — review references are IDs, not positions: the V/SV tag is dead (human ruling)
+
+- **Date:** 2026-07-13 (session 196) · **Status:** locked (human:
+  "they should not be position indexed … make it simple and dead
+  simple, KISS")
+- **The decision.** A diverged surface or story bundle is referenced —
+  in the DEV panel, in `review.md`, in chat — by its **id** (`market`,
+  `sleep-announce`), everywhere. The positional `V<n>`/`SV<n>` tags
+  (registry index, zero-based) are removed: the helpers
+  (`surfaceTag`/`variantTag`/`bundleTag`), the panel labels, the
+  review.md citations, and the gate's tag arithmetic. A variant is its
+  own id (`market-b`); a story take is its letter within its bundle
+  ("sleep-announce take b").
+- **Why.** Positions renumber; ids don't. The scheme bit twice in ONE
+  day: inserting `adr190-nudge` renumbered 22 tags (an hour of
+  rewrites), and pruning `hd41-progress-objective` renumbered three
+  more — worse, the human went looking for the bundle at its
+  remembered tag (SV18), found a different bundle there, and concluded
+  the thing was **gone**. The gate caught every stale citation, so
+  nothing shipped broken — but a system whose routine operations
+  (add a bundle, sign one off) force a multi-file rewrite and mislead
+  the human is the wrong system. Ids were already unique, stable,
+  human-readable, and sitting in every registry entry.
+- **The gate got simpler AND sharper.** `verify-review-link.ts` keeps
+  both directions — every registry entry's HR-item is open and cites
+  the id; every `Review → Story|Variants → **id**` citation resolves
+  to a live entry that names THIS item — and gains the case the old
+  reverse check could not see: a citation of a **pruned** id now goes
+  RED (the old tag scheme reassigned the number to an innocent
+  neighbour instead).
+- **What did not change.** One home for every pick (the DEV Review
+  tab); the HR-chip on every row; zero flag-debt on sign-off; the
+  `hr: none · <why>` reference escape for kept bundles.
+- **Refs:** the two same-day incidents (session 195's `adr190-nudge`
+  insert · session 196's hd41 prune) · ADR-075 · ADR-139 · the
+  BACKLOG "SV renumbering" entry (closed by this).
