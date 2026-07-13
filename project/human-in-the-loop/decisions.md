@@ -89,6 +89,15 @@ marks a blocker.
     at all **only because O-Hisa taught you the pot** (TST3 — the
     fiction causes the mechanic). You just don't have to stand there.
     This is what is on `main` today.
+- **⚠ 2026-07-13 addendum (session 202 — the ground moved):** the
+  sickroom mend lane landed (ADR-164/197): **cook no longer mends HP
+  at all** (belly-only; wounds mend at the sickroom), so the 31.6-min
+  price above — measured when every mend trip walked to the pot — is
+  **stale**. A fighter never needs the kitchen now; siting the pot
+  there taxes only the *belly* loop. Also `T0_PACING_BAND_MAX` is
+  already re-signed 25 → 28 (ADR-197), and lever (b)'s
+  `COOK_HP_RESTORE` no longer exists. **Ask for a re-sim before
+  picking** — (d)'s cost may have dropped to ~nothing.
 - **Recommendation: (a), then reconsider (c) at T1.** The measurement
   says R3's ceiling is the thing that is wrong, not the siting — a
   rung that opens combat, blooding, two hunting grounds and a night
