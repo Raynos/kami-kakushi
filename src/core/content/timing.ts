@@ -147,6 +147,12 @@ export const INTENT_TIMING: Readonly<Record<IntentType, ActionTiming>> = {
   equip_weapon: INSTANT,
   set_stance: INSTANT,
   cook_meal: timed(6000),
+  // ADR-164/ADR-197 — the paid treatment is a real tended act (the repair-class band);
+  // the pallet day is INSTANT for the same reason sleep is: its price is GAME days, and a
+  // real-time bar would only stack dead REAL time on top — the safety is legibility (the
+  // row reads the exact cost via restSickroomForecast, AC-6), not delay.
+  treat: timed(8000),
+  rest_sickroom: INSTANT,
   eat_rice: timed(3000),
   sell_rice: INSTANT, // trade is instant (ADR-148)
   collect_wage: INSTANT, // MON lane (ADR-163): handed the coin at the board — a tactile transaction

@@ -6,26 +6,26 @@
   "savedAt": 0,
   "state": {
     "schemaVersion": 12,
-    "season": "spring",
-    "seasonsPassed": 2,
+    "season": "winter",
+    "seasonsPassed": 0,
     "rng": {
       "seed": 20260626,
       "cursors": {
-        "combat": 970,
+        "combat": 955,
         "loot": 13,
         "seasonal": 0,
-        "worldgen": 40,
-        "discovery": 36
+        "worldgen": 57,
+        "discovery": 37
       }
     },
     "clock": {
-      "tick": 18,
-      "day": 30
+      "tick": 0,
+      "day": 44
     },
     "character": {
       "hp": 1,
       "satiety": 120,
-      "hunger": 100,
+      "hunger": 12.5,
       "attributePoints": 3,
       "attrs": {
         "str": 6,
@@ -38,18 +38,18 @@
       "combatXp": 380
     },
     "resources": {
-      "coin": 74,
-      "wood": 276,
-      "sansai": 11,
-      "beast_sinew": 5
+      "coin": 0,
+      "wood": 157,
+      "sansai": 2,
+      "beast_sinew": 3
     },
     "banked": {
-      "rice": 552
+      "rice": 247
     },
     "sitePools": {
-      "paddies": 300,
-      "forecourt": 120,
-      "woodlot": 91,
+      "paddies": 0,
+      "forecourt": 0,
+      "woodlot": 0,
       "weir": 120
     },
     "wageDaysAccrued": 0,
@@ -63,6 +63,7 @@
       "r1-none-claimed": true,
       "rank-r1": true,
       "farmed": true,
+      "coin-earned": true,
       "rank-r2": true,
       "porters-knot": true,
       "works-named-u1": true,
@@ -724,6 +725,60 @@
           "contentKey": "reveal.readout-coin"
         },
         {
+          "key": 114,
+          "channel": "system",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 115,
+          "channel": "reward",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 1
+          }
+        },
+        {
+          "key": 116,
+          "channel": "reward",
+          "tick": 0,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 0
+          }
+        },
+        {
+          "key": 117,
+          "channel": "system",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 118,
+          "channel": "reward",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 0
+          }
+        },
+        {
           "key": 119,
           "channel": "narration",
           "tick": 4,
@@ -1006,6 +1061,195 @@
           "contentKey": "works.worksSeenPaddies"
         },
         {
+          "key": 149,
+          "channel": "reward",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 27
+          }
+        },
+        {
+          "key": 150,
+          "channel": "reward",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 23
+          }
+        },
+        {
+          "key": 151,
+          "channel": "reward",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 19
+          }
+        },
+        {
+          "key": 152,
+          "channel": "reward",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 17
+          }
+        },
+        {
+          "key": 153,
+          "channel": "reward",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 14
+          }
+        },
+        {
+          "key": 154,
+          "channel": "reward",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 11
+          }
+        },
+        {
+          "key": 155,
+          "channel": "reward",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 10
+          }
+        },
+        {
+          "key": 156,
+          "channel": "reward",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 8
+          }
+        },
+        {
+          "key": 157,
+          "channel": "reward",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 6
+          }
+        },
+        {
+          "key": 158,
+          "channel": "reward",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 5
+          }
+        },
+        {
+          "key": 159,
+          "channel": "reward",
+          "tick": 4,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 4
+          }
+        },
+        {
+          "key": 160,
+          "channel": "reward",
+          "tick": 8,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 3
+          }
+        },
+        {
+          "key": 161,
+          "channel": "reward",
+          "tick": 12,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 2
+          }
+        },
+        {
+          "key": 162,
+          "channel": "reward",
+          "tick": 18,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 1
+          }
+        },
+        {
+          "key": 163,
+          "channel": "system",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 164,
+          "channel": "reward",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 1
+          }
+        },
+        {
           "key": 165,
           "channel": "narration",
           "tick": 22,
@@ -1014,12 +1258,139 @@
           "contentKey": "requirement.learn-the-woodlot"
         },
         {
+          "key": 166,
+          "channel": "reward",
+          "tick": 2,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.forage_satoyama",
+          "params": {
+            "sansai": 1,
+            "coin": 1
+          }
+        },
+        {
+          "key": 167,
+          "channel": "reward",
+          "tick": 8,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.forage_satoyama",
+          "params": {
+            "sansai": 0,
+            "coin": 1
+          }
+        },
+        {
+          "key": 168,
+          "channel": "system",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 169,
+          "channel": "reward",
+          "tick": 22,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.forage_satoyama",
+          "params": {
+            "sansai": 0,
+            "coin": 1
+          }
+        },
+        {
+          "key": 170,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 171,
+          "channel": "reward",
+          "tick": 10,
+          "count": 5,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.forage_satoyama",
+          "params": {
+            "sansai": 0,
+            "coin": 1
+          }
+        },
+        {
           "key": 172,
           "channel": "narration",
           "tick": 10,
           "count": 1,
           "voice": "narrator",
           "contentKey": "discovery.disc-woodlot-sluice"
+        },
+        {
+          "key": 173,
+          "channel": "reward",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.forage_satoyama",
+          "params": {
+            "sansai": 0,
+            "coin": 1
+          }
+        },
+        {
+          "key": 174,
+          "channel": "system",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 175,
+          "channel": "reward",
+          "tick": 2,
+          "count": 6,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.forage_satoyama",
+          "params": {
+            "sansai": 0,
+            "coin": 1
+          }
+        },
+        {
+          "key": 176,
+          "channel": "system",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 177,
+          "channel": "reward",
+          "tick": 8,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.forage_satoyama",
+          "params": {
+            "sansai": 0,
+            "coin": 1
+          }
         },
         {
           "key": 178,
@@ -1568,30 +1939,17 @@
         },
         {
           "key": 235,
-          "channel": "system",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 2
-          }
-        },
-        {
-          "key": 236,
           "channel": "narration",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "context": "sb racks",
           "contentKey": "scene.sb-racks.greeting.the-rows-past-noon-rokusuke-works"
         },
         {
-          "key": 237,
+          "key": 236,
           "channel": "narration",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
@@ -1599,9 +1957,9 @@
           "contentKey": "scene.sb-racks.greeting.that-is-a-blade-you-are"
         },
         {
-          "key": 238,
+          "key": 237,
           "channel": "narration",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
@@ -1609,9 +1967,9 @@
           "contentKey": "scene.sb-racks.greeting.four-bundles-off-the-drying-racks"
         },
         {
-          "key": 239,
+          "key": 238,
           "channel": "narration",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
@@ -1619,9 +1977,9 @@
           "contentKey": "scene.sb-racks.greeting.and-at-the-week-s-end"
         },
         {
-          "key": 240,
+          "key": 239,
           "channel": "narration",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -1629,9 +1987,9 @@
           "contentKey": "scene.sb-racks.opt.sb-racks-take.say"
         },
         {
-          "key": 241,
+          "key": 240,
           "channel": "narration",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
@@ -1639,18 +1997,31 @@
           "contentKey": "scene.sb-racks.opt.sb-racks-take.react"
         },
         {
-          "key": 242,
+          "key": 241,
           "channel": "combat",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
             "mob": "river rats",
-            "hpBefore": 60,
-            "hpAfter": 11,
+            "hpBefore": 58,
+            "hpAfter": 9,
             "coin": 0,
             "lootQty": 0,
             "lootLabel": ""
+          }
+        },
+        {
+          "key": 242,
+          "channel": "system",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.treat",
+          "params": {
+            "cost": 8,
+            "hpGain": 50
           }
         },
         {
@@ -1660,99 +2031,16 @@
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "season.spoilage",
+          "contentKey": "sickroom.treat",
           "params": {
-            "total": 33
+            "cost": 8,
+            "hpGain": 1
           }
         },
         {
           "key": 244,
-          "channel": "narration",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.seasonNewyear1"
-        },
-        {
-          "key": 245,
-          "channel": "narration",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn winter",
-          "contentKey": "scene.turn-winter.greeting.the-snow-quits-the-valley-floor"
-        },
-        {
-          "key": 246,
-          "channel": "narration",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn winter",
-          "contentKey": "scene.turn-winter.greeting.the-river-runs-black-and-narrow"
-        },
-        {
-          "key": 247,
-          "channel": "narration",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn winter",
-          "contentKey": "scene.turn-winter.greeting.the-light-stretches-work-that-used"
-        },
-        {
-          "key": 248,
-          "channel": "narration",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn winter",
-          "contentKey": "scene.turn-winter.greeting.small-on-the-road-below-a"
-        },
-        {
-          "key": 249,
-          "channel": "reward",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.forage_satoyama",
-          "params": {
-            "sansai": 16,
-            "coin": 1
-          }
-        },
-        {
-          "key": 250,
-          "channel": "system",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 35
-          }
-        },
-        {
-          "key": 251,
-          "channel": "system",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 14
-          }
-        },
-        {
-          "key": 252,
           "channel": "combat",
-          "tick": 20,
+          "tick": 16,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
@@ -1765,9 +2053,9 @@
           }
         },
         {
-          "key": 253,
+          "key": 245,
           "channel": "milestone",
-          "tick": 20,
+          "tick": 16,
           "count": 1,
           "contentKey": "combat.levelUp",
           "params": {
@@ -1775,136 +2063,137 @@
           }
         },
         {
-          "key": 254,
-          "channel": "system",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 32
-          }
-        },
-        {
-          "key": 255,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.weatherDry"
-        },
-        {
-          "key": 256,
+          "key": 246,
           "channel": "combat",
-          "tick": 0,
+          "tick": 18,
           "count": 1,
-          "contentKey": "combat.win",
+          "contentKey": "combat.loss",
           "params": {
             "mob": "river rats",
-            "hpBefore": 68,
-            "hpAfter": 18,
-            "coin": 0,
-            "lootQty": 1,
-            "lootLabel": "beast sinew"
+            "hpBefore": 36,
+            "hpAfter": 1,
+            "lostCoin": 21,
+            "lostMats": 0
           }
         },
         {
-          "key": 257,
+          "key": 247,
           "channel": "narration",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "contentKey": "requirement.clear-the-kura-rats"
+          "ephemeral": true,
+          "contentKey": "flavor.gossipWeddingMissed"
         },
         {
-          "key": 258,
+          "key": 248,
           "channel": "system",
           "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "food.cook",
+          "contentKey": "sickroom.treat",
           "params": {
-            "sansai": 2,
-            "hpGain": 35
+            "cost": 8,
+            "hpGain": 50
           }
         },
         {
-          "key": 259,
+          "key": 249,
           "channel": "system",
           "tick": 4,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "food.cook",
+          "contentKey": "sickroom.treat",
           "params": {
-            "sansai": 2,
-            "hpGain": 15
+            "cost": 8,
+            "hpGain": 17
           }
         },
         {
-          "key": 260,
+          "key": 250,
           "channel": "combat",
           "tick": 6,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
-            "mob": "tanuki",
+            "mob": "river rats",
             "hpBefore": 68,
-            "hpAfter": 23,
+            "hpAfter": 31,
             "coin": 0,
             "lootQty": 1,
             "lootLabel": "beast sinew"
           }
         },
         {
-          "key": 261,
-          "channel": "system",
-          "tick": 8,
+          "key": 251,
+          "channel": "narration",
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
+          "contentKey": "requirement.clear-the-kura-rats"
+        },
+        {
+          "key": 252,
+          "channel": "combat",
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.win",
           "params": {
-            "sansai": 2,
-            "hpGain": 35
+            "mob": "tanuki",
+            "hpBefore": 31,
+            "hpAfter": 6,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
           }
         },
         {
-          "key": 262,
+          "key": 253,
           "channel": "system",
           "tick": 10,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "food.cook",
+          "contentKey": "sickroom.treat",
           "params": {
-            "sansai": 2,
-            "hpGain": 10
+            "cost": 8,
+            "hpGain": 50
           }
         },
         {
-          "key": 263,
-          "channel": "combat",
+          "key": 254,
+          "channel": "system",
           "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.treat",
+          "params": {
+            "cost": 8,
+            "hpGain": 12
+          }
+        },
+        {
+          "key": 255,
+          "channel": "combat",
+          "tick": 14,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
             "mob": "tanuki",
             "hpBefore": 68,
-            "hpAfter": 34,
+            "hpAfter": 21,
             "coin": 0,
             "lootQty": 0,
             "lootLabel": ""
           }
         },
         {
-          "key": 264,
+          "key": 256,
           "channel": "milestone",
-          "tick": 12,
+          "tick": 14,
           "count": 1,
           "contentKey": "combat.levelUp",
           "params": {
@@ -1912,277 +2201,73 @@
           }
         },
         {
-          "key": 265,
+          "key": 257,
           "channel": "narration",
-          "tick": 12,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.drive-off-the-thieves"
         },
         {
-          "key": 266,
+          "key": 258,
           "channel": "milestone",
-          "tick": 14,
+          "tick": 16,
           "count": 1,
           "contentKey": "reveal.screen-demo-frontier"
         },
         {
-          "key": 267,
+          "key": 259,
           "channel": "narration",
-          "tick": 14,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.dream-2"
         },
         {
-          "key": 268,
-          "channel": "reward",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 60
-          }
-        },
-        {
-          "key": 269,
-          "channel": "reward",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 50
-          }
-        },
-        {
-          "key": 270,
-          "channel": "reward",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 43
-          }
-        },
-        {
-          "key": 271,
+          "key": 260,
           "channel": "reward",
           "tick": 20,
-          "count": 1,
+          "count": 15,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "activity.farm_paddy",
           "params": {
-            "rice": 36
+            "rice": 0
           }
         },
         {
-          "key": 272,
-          "channel": "reward",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 30
-          }
-        },
-        {
-          "key": 273,
-          "channel": "reward",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 25
-          }
-        },
-        {
-          "key": 274,
-          "channel": "reward",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 21
-          }
-        },
-        {
-          "key": 275,
-          "channel": "reward",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 17
-          }
-        },
-        {
-          "key": 276,
-          "channel": "reward",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 15
-          }
-        },
-        {
-          "key": 277,
-          "channel": "reward",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 12
-          }
-        },
-        {
-          "key": 278,
-          "channel": "reward",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 9
-          }
-        },
-        {
-          "key": 279,
-          "channel": "reward",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 8
-          }
-        },
-        {
-          "key": 280,
-          "channel": "reward",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 7
-          }
-        },
-        {
-          "key": 281,
-          "channel": "reward",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 6
-          }
-        },
-        {
-          "key": 282,
-          "channel": "reward",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 4
-          }
-        },
-        {
-          "key": 283,
+          "key": 261,
           "channel": "narration",
-          "tick": 18,
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.the-fields-hold"
         },
         {
-          "key": 284,
+          "key": 262,
           "channel": "reward",
-          "tick": 22,
-          "count": 2,
+          "tick": 16,
+          "count": 10,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "activity.farm_paddy",
           "params": {
-            "rice": 3
+            "rice": 0
           }
         },
         {
-          "key": 285,
-          "channel": "reward",
-          "tick": 4,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 2
-          }
-        },
-        {
-          "key": 286,
-          "channel": "reward",
-          "tick": 12,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 1
-          }
-        },
-        {
-          "key": 287,
+          "key": 263,
           "channel": "system",
-          "tick": 14,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 288,
+          "key": 264,
           "channel": "reward",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 1
-          }
-        },
-        {
-          "key": 289,
-          "channel": "reward",
-          "tick": 2,
+          "tick": 4,
           "count": 5,
           "voice": "narrator",
           "ephemeral": true,
@@ -2192,24 +2277,15 @@
           }
         },
         {
-          "key": 290,
+          "key": 265,
           "channel": "narration",
-          "tick": 2,
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.keep-the-rows"
         },
         {
-          "key": 291,
-          "channel": "system",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 292,
+          "key": 266,
           "channel": "reward",
           "tick": 6,
           "count": 1,
@@ -2217,203 +2293,53 @@
           "ephemeral": true,
           "contentKey": "activity.woodcut_edge",
           "params": {
-            "wood": 21
+            "wood": 0
           }
         },
         {
-          "key": 293,
-          "channel": "reward",
+          "key": 267,
+          "channel": "system",
           "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 17
-          }
-        },
-        {
-          "key": 294,
-          "channel": "reward",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 14
-          }
-        },
-        {
-          "key": 295,
-          "channel": "reward",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 11
-          }
-        },
-        {
-          "key": 296,
-          "channel": "reward",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 9
-          }
-        },
-        {
-          "key": 297,
-          "channel": "system",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 298,
+          "key": 268,
           "channel": "reward",
+          "tick": 16,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 0
+          }
+        },
+        {
+          "key": 269,
+          "channel": "system",
           "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 8
-          }
-        },
-        {
-          "key": 299,
-          "channel": "reward",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 6
-          }
-        },
-        {
-          "key": 300,
-          "channel": "reward",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 5
-          }
-        },
-        {
-          "key": 301,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.gossipRiverMan"
-        },
-        {
-          "key": 302,
-          "channel": "reward",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 4
-          }
-        },
-        {
-          "key": 303,
-          "channel": "system",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 304,
+          "key": 270,
           "channel": "reward",
-          "tick": 6,
+          "tick": 22,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "activity.woodcut_edge",
           "params": {
-            "wood": 4
+            "wood": 0
           }
         },
         {
-          "key": 305,
-          "channel": "reward",
-          "tick": 10,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 3
-          }
-        },
-        {
-          "key": 306,
-          "channel": "reward",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 2
-          }
-        },
-        {
-          "key": 307,
-          "channel": "system",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 308,
-          "channel": "reward",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 2
-          }
-        },
-        {
-          "key": 309,
-          "channel": "reward",
-          "tick": 22,
-          "count": 3,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
-            "wood": 1
-          }
-        },
-        {
-          "key": 310,
+          "key": 271,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2422,51 +2348,72 @@
           "contentKey": "flavor.weatherDry"
         },
         {
-          "key": 311,
-          "channel": "system",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 312,
+          "key": 272,
           "channel": "reward",
-          "tick": 6,
+          "tick": 4,
           "count": 3,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "activity.woodcut_edge",
           "params": {
-            "wood": 1
-          }
-        },
-        {
-          "key": 313,
-          "channel": "reward",
-          "tick": 10,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.woodcut_edge",
-          "params": {
             "wood": 0
           }
         },
         {
-          "key": 314,
+          "key": 273,
           "channel": "system",
-          "tick": 12,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 315,
+          "key": 274,
           "channel": "reward",
+          "tick": 14,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 0
+          }
+        },
+        {
+          "key": 275,
+          "channel": "system",
           "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 276,
+          "channel": "reward",
+          "tick": 22,
+          "count": 3,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 0
+          }
+        },
+        {
+          "key": 277,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.gossipTownRice"
+        },
+        {
+          "key": 278,
+          "channel": "reward",
+          "tick": 2,
           "count": 2,
           "voice": "narrator",
           "ephemeral": true,
@@ -2476,162 +2423,126 @@
           }
         },
         {
-          "key": 316,
+          "key": 279,
+          "channel": "system",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 280,
+          "channel": "reward",
+          "tick": 12,
+          "count": 4,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 0
+          }
+        },
+        {
+          "key": 281,
+          "channel": "system",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 282,
+          "channel": "reward",
+          "tick": 18,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.woodcut_edge",
+          "params": {
+            "wood": 0
+          }
+        },
+        {
+          "key": 283,
           "channel": "narration",
-          "tick": 16,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.timber-for-the-palisade"
         },
         {
-          "key": 317,
-          "channel": "system",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 35
-          }
-        },
-        {
-          "key": 318,
+          "key": 284,
           "channel": "system",
           "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "season.spoilage",
+          "contentKey": "sickroom.treat",
           "params": {
-            "total": 64
+            "cost": 8,
+            "hpGain": 50
           }
         },
         {
-          "key": 319,
-          "channel": "narration",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.seasonSpring2"
-        },
-        {
-          "key": 320,
-          "channel": "narration",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn new year",
-          "contentKey": "scene.turn-new-year.greeting.ice-lets-go-of-the-shaded"
-        },
-        {
-          "key": 321,
-          "channel": "narration",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn new year",
-          "contentKey": "scene.turn-new-year.greeting.the-ground-gives-underfoot-where-all"
-        },
-        {
-          "key": 322,
-          "channel": "narration",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn new year",
-          "contentKey": "scene.turn-new-year.greeting.up-the-woodlot-the-bark-of"
-        },
-        {
-          "key": 323,
-          "channel": "narration",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn new year",
-          "contentKey": "scene.turn-new-year.greeting.last-and-small-under-all-that"
-        },
-        {
-          "key": 324,
-          "channel": "reward",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.forage_satoyama",
-          "params": {
-            "sansai": 22,
-            "coin": 1
-          }
-        },
-        {
-          "key": 325,
+          "key": 285,
           "channel": "system",
           "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "food.cook",
+          "contentKey": "sickroom.treat",
           "params": {
-            "sansai": 2,
-            "hpGain": 7
-          }
-        },
-        {
-          "key": 326,
-          "channel": "combat",
-          "tick": 0,
-          "count": 1,
-          "contentKey": "combat.loss",
-          "params": {
-            "mob": "badger",
-            "hpBefore": 76,
-            "hpAfter": 1,
-            "lostCoin": 24,
-            "lostMats": 0
-          }
-        },
-        {
-          "key": 327,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.seasonSpring2"
-        },
-        {
-          "key": 328,
-          "channel": "system",
-          "tick": 10,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 35
-          }
-        },
-        {
-          "key": 329,
-          "channel": "system",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
+            "cost": 8,
             "hpGain": 5
           }
         },
         {
-          "key": 330,
+          "key": 286,
           "channel": "combat",
-          "tick": 14,
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 76,
+            "hpAfter": 5,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 287,
+          "channel": "system",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.treat",
+          "params": {
+            "cost": 8,
+            "hpGain": 50
+          }
+        },
+        {
+          "key": 288,
+          "channel": "system",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.treat",
+          "params": {
+            "cost": 8,
+            "hpGain": 21
+          }
+        },
+        {
+          "key": 289,
+          "channel": "combat",
+          "tick": 6,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
@@ -2644,47 +2555,91 @@
           }
         },
         {
-          "key": 331,
-          "channel": "system",
-          "tick": 16,
+          "key": 290,
+          "channel": "milestone",
+          "tick": 6,
           "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
+          "contentKey": "combat.levelUp",
           "params": {
-            "sansai": 2,
-            "hpGain": 35
+            "level": 4
           }
         },
         {
-          "key": 332,
+          "key": 291,
           "channel": "system",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "food.cook",
+          "contentKey": "sickroom.treat",
           "params": {
-            "sansai": 2,
-            "hpGain": 34
+            "cost": 8,
+            "hpGain": 50
           }
         },
         {
-          "key": 333,
+          "key": 292,
+          "channel": "system",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.treat",
+          "params": {
+            "cost": 8,
+            "hpGain": 27
+          }
+        },
+        {
+          "key": 293,
           "channel": "combat",
-          "tick": 20,
+          "tick": 12,
           "count": 1,
-          "contentKey": "combat.loss",
+          "contentKey": "combat.win",
           "params": {
             "mob": "badger",
-            "hpBefore": 76,
-            "hpAfter": 1,
-            "lostCoin": 20,
-            "lostMats": 0
+            "hpBefore": 84,
+            "hpAfter": 3,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
           }
         },
         {
-          "key": 334,
+          "key": 294,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.rest",
+          "params": {
+            "hpGain": 32
+          }
+        },
+        {
+          "key": 295,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.gossipFuneral"
+        },
+        {
+          "key": 296,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.rest",
+          "params": {
+            "hpGain": 32
+          }
+        },
+        {
+          "key": 297,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2693,16 +2648,324 @@
           "contentKey": "flavor.weatherThunder"
         },
         {
-          "key": 335,
+          "key": 298,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.rest",
+          "params": {
+            "hpGain": 17
+          }
+        },
+        {
+          "key": 299,
+          "channel": "combat",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 84,
+            "hpAfter": 16,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 300,
+          "channel": "milestone",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.levelUp",
+          "params": {
+            "level": 5
+          }
+        },
+        {
+          "key": 301,
           "channel": "narration",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "flavor.gossipBirth"
+          "contentKey": "flavor.weatherWind"
         },
         {
-          "key": 336,
+          "key": 302,
+          "channel": "system",
+          "tick": 0,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.rest",
+          "params": {
+            "hpGain": 32
+          }
+        },
+        {
+          "key": 303,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.gossipMatchmaker"
+        },
+        {
+          "key": 304,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.rest",
+          "params": {
+            "hpGain": 12
+          }
+        },
+        {
+          "key": 305,
+          "channel": "combat",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 30,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 306,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.rest",
+          "params": {
+            "hpGain": 32
+          }
+        },
+        {
+          "key": 307,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.rest",
+          "params": {
+            "hpGain": 30
+          }
+        },
+        {
+          "key": 308,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "craft.repair",
+          "params": {
+            "weapon": "worn carrying-pole",
+            "wood": 5,
+            "coinFee": 3
+          }
+        },
+        {
+          "key": 309,
+          "channel": "combat",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 32,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
+          }
+        },
+        {
+          "key": 310,
+          "channel": "combat",
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 32,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostMats": 1
+          }
+        },
+        {
+          "key": 311,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.gossipGanzo"
+        },
+        {
+          "key": 312,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.rest",
+          "params": {
+            "hpGain": 32
+          }
+        },
+        {
+          "key": 313,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.gossipFuneral"
+        },
+        {
+          "key": 314,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.rest",
+          "params": {
+            "hpGain": 32
+          }
+        },
+        {
+          "key": 315,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.rest",
+          "params": {
+            "hpGain": 27
+          }
+        },
+        {
+          "key": 316,
+          "channel": "combat",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 71,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 317,
+          "channel": "milestone",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.levelUp",
+          "params": {
+            "level": 6
+          }
+        },
+        {
+          "key": 318,
+          "channel": "system",
+          "tick": 14,
+          "count": 7,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 319,
+          "channel": "narration",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.nightRoundPost"
+        },
+        {
+          "key": 320,
+          "channel": "narration",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "nightRound.first-night-round.stage.0"
+        },
+        {
+          "key": 321,
+          "channel": "combat",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "marten",
+            "hpBefore": 36,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostMats": 1
+          }
+        },
+        {
+          "key": 322,
+          "channel": "narration",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "flavor.nightRoundFall"
+        },
+        {
+          "key": 323,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.seasonWinter2"
+        },
+        {
+          "key": 324,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.gossipMatchmaker"
+        },
+        {
+          "key": 325,
+          "channel": "system",
+          "tick": 0,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "sickroom.rest",
+          "params": {
+            "hpGain": 32
+          }
+        },
+        {
+          "key": 326,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2711,457 +2974,101 @@
           "contentKey": "flavor.weatherFrost"
         },
         {
-          "key": 337,
-          "channel": "system",
-          "tick": 6,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 35
-          }
-        },
-        {
-          "key": 338,
-          "channel": "system",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 5
-          }
-        },
-        {
-          "key": 339,
-          "channel": "combat",
-          "tick": 10,
-          "count": 1,
-          "contentKey": "combat.win",
-          "params": {
-            "mob": "badger",
-            "hpBefore": 76,
-            "hpAfter": 6,
-            "coin": 0,
-            "lootQty": 0,
-            "lootLabel": ""
-          }
-        },
-        {
-          "key": 340,
-          "channel": "milestone",
-          "tick": 10,
-          "count": 1,
-          "contentKey": "combat.levelUp",
-          "params": {
-            "level": 4
-          }
-        },
-        {
-          "key": 341,
-          "channel": "system",
-          "tick": 14,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 35
-          }
-        },
-        {
-          "key": 342,
-          "channel": "reward",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.forage_satoyama",
-          "params": {
-            "sansai": 19,
-            "coin": 1
-          }
-        },
-        {
-          "key": 343,
-          "channel": "system",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 344,
-          "channel": "system",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 8
-          }
-        },
-        {
-          "key": 345,
-          "channel": "combat",
-          "tick": 22,
-          "count": 1,
-          "contentKey": "combat.win",
-          "params": {
-            "mob": "badger",
-            "hpBefore": 84,
-            "hpAfter": 13,
-            "coin": 0,
-            "lootQty": 1,
-            "lootLabel": "beast sinew"
-          }
-        },
-        {
-          "key": 346,
-          "channel": "system",
-          "tick": 2,
-          "count": 2,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 35
-          }
-        },
-        {
-          "key": 347,
-          "channel": "system",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 1
-          }
-        },
-        {
-          "key": 348,
-          "channel": "combat",
-          "tick": 6,
-          "count": 1,
-          "contentKey": "combat.win",
-          "params": {
-            "mob": "badger",
-            "hpBefore": 84,
-            "hpAfter": 39,
-            "coin": 0,
-            "lootQty": 0,
-            "lootLabel": ""
-          }
-        },
-        {
-          "key": 349,
-          "channel": "milestone",
-          "tick": 6,
-          "count": 1,
-          "contentKey": "combat.levelUp",
-          "params": {
-            "level": 5
-          }
-        },
-        {
-          "key": 350,
-          "channel": "system",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 35
-          }
-        },
-        {
-          "key": 351,
-          "channel": "system",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 18
-          }
-        },
-        {
-          "key": 352,
-          "channel": "system",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "craft.repair",
-          "params": {
-            "weapon": "worn carrying-pole",
-            "wood": 5,
-            "coinFee": 6
-          }
-        },
-        {
-          "key": 353,
-          "channel": "combat",
-          "tick": 12,
-          "count": 1,
-          "contentKey": "combat.win",
-          "params": {
-            "mob": "badger",
-            "hpBefore": 92,
-            "hpAfter": 35,
-            "coin": 0,
-            "lootQty": 1,
-            "lootLabel": "beast sinew"
-          }
-        },
-        {
-          "key": 354,
-          "channel": "system",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 35
-          }
-        },
-        {
-          "key": 355,
-          "channel": "system",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 22
-          }
-        },
-        {
-          "key": 356,
-          "channel": "combat",
-          "tick": 18,
-          "count": 1,
-          "contentKey": "combat.win",
-          "params": {
-            "mob": "badger",
-            "hpBefore": 92,
-            "hpAfter": 3,
-            "coin": 0,
-            "lootQty": 0,
-            "lootLabel": ""
-          }
-        },
-        {
-          "key": 357,
-          "channel": "system",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 35
-          }
-        },
-        {
-          "key": 358,
-          "channel": "reward",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.forage_satoyama",
-          "params": {
-            "sansai": 18,
-            "coin": 1
-          }
-        },
-        {
-          "key": 359,
+          "key": 327,
           "channel": "system",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "food.cook",
+          "contentKey": "sickroom.rest",
           "params": {
-            "sansai": 2,
-            "hpGain": 35
+            "hpGain": 32
           }
         },
         {
-          "key": 360,
+          "key": 328,
           "channel": "system",
-          "tick": 2,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "food.cook",
+          "contentKey": "sickroom.rest",
           "params": {
-            "sansai": 2,
-            "hpGain": 19
+            "hpGain": 3
           }
         },
         {
-          "key": 361,
-          "channel": "combat",
-          "tick": 4,
-          "count": 1,
-          "contentKey": "combat.win",
-          "params": {
-            "mob": "badger",
-            "hpBefore": 92,
-            "hpAfter": 57,
-            "coin": 0,
-            "lootQty": 1,
-            "lootLabel": "beast sinew"
-          }
-        },
-        {
-          "key": 362,
-          "channel": "milestone",
-          "tick": 4,
-          "count": 1,
-          "contentKey": "combat.levelUp",
-          "params": {
-            "level": 6
-          }
-        },
-        {
-          "key": 363,
-          "channel": "system",
-          "tick": 12,
-          "count": 4,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 364,
-          "channel": "system",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 35
-          }
-        },
-        {
-          "key": 365,
-          "channel": "system",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "food.cook",
-          "params": {
-            "sansai": 2,
-            "hpGain": 8
-          }
-        },
-        {
-          "key": 366,
+          "key": 329,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "flavor.nightRoundPost"
         },
         {
-          "key": 367,
+          "key": 330,
           "channel": "narration",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "flavor.nightRoundNewMoon"
-        },
-        {
-          "key": 368,
-          "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "nightRound.first-night-round.stage.0"
         },
         {
-          "key": 369,
+          "key": 331,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "nightRound.first-night-round.stage.1"
         },
         {
-          "key": 370,
+          "key": 332,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "nightRound.first-night-round.stage.2"
         },
         {
-          "key": 371,
+          "key": 333,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.the-wolf-survived-not-won"
         },
         {
-          "key": 372,
+          "key": 334,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.soan-strapped-the-ribs-for-walking"
         },
         {
-          "key": 373,
+          "key": 335,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.past-the-kitchen-passage-a-screen"
         },
         {
-          "key": 374,
+          "key": 336,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.genemon-is-there-the-day-book-open"
         },
         {
-          "key": 375,
+          "key": 337,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -3169,9 +3076,9 @@
           "contentKey": "beat.R4.greeting.rats-were-in-the-store-three"
         },
         {
-          "key": 376,
+          "key": 338,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -3179,18 +3086,18 @@
           "contentKey": "beat.R4.greeting.the-watch-was-mine"
         },
         {
-          "key": 377,
+          "key": 339,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.genemon-writes-before-he-answers-it"
         },
         {
-          "key": 378,
+          "key": 340,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -3198,9 +3105,9 @@
           "contentKey": "beat.R4.greeting.rice-one-quarter-sack-to-vermin-two"
         },
         {
-          "key": 379,
+          "key": 341,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -3208,9 +3115,9 @@
           "contentKey": "beat.R4.greeting.not-under-your-name-no-wage"
         },
         {
-          "key": 380,
+          "key": 342,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -3218,54 +3125,54 @@
           "contentKey": "beat.R4.greeting.it-isn-t"
         },
         {
-          "key": 381,
+          "key": 343,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.the-pen-stops-above-the-line"
         },
         {
-          "key": 382,
+          "key": 344,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.he-had-taken-the-loss-off"
         },
         {
-          "key": 383,
+          "key": 345,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.at-the-kitchen-threshold-o-hisa-has"
         },
         {
-          "key": 384,
+          "key": 346,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.from-the-board-the-woodshed-is"
         },
         {
-          "key": 385,
+          "key": 347,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.stalls-for-twenty-horses-run-down"
         },
         {
-          "key": 386,
+          "key": 348,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -3273,18 +3180,18 @@
           "contentKey": "beat.R4.greeting.teach-me"
         },
         {
-          "key": 387,
+          "key": 349,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.that-was-the-easy-half-the"
         },
         {
-          "key": 388,
+          "key": 350,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -3292,18 +3199,18 @@
           "contentKey": "beat.R4.greeting.will-you"
         },
         {
-          "key": 389,
+          "key": 351,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.kihei-sets-down-the-whetstone-he"
         },
         {
-          "key": 390,
+          "key": 352,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
@@ -3311,18 +3218,18 @@
           "contentKey": "beat.R4.greeting.you-walked-here-on-cracked-ribs"
         },
         {
-          "key": 391,
+          "key": 353,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.it-is-not-a-question-so"
         },
         {
-          "key": 392,
+          "key": 354,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
@@ -3330,27 +3237,27 @@
           "contentKey": "beat.R4.greeting.terms-then-once-talent-is-a"
         },
         {
-          "key": 393,
+          "key": 355,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.he-takes-the-oiled-staff-from"
         },
         {
-          "key": 394,
+          "key": 356,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.your-hands-take-the-staff-and"
         },
         {
-          "key": 395,
+          "key": 357,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
@@ -3358,18 +3265,18 @@
           "contentKey": "beat.R4.greeting.the-house-has-one-man-who"
         },
         {
-          "key": 396,
+          "key": 358,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.on-the-wall-above-the-empty"
         },
         {
-          "key": 397,
+          "key": 359,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
@@ -3377,9 +3284,9 @@
           "contentKey": "beat.R4.greeting.one-thing-before-the-staff-why"
         },
         {
-          "key": 398,
+          "key": 360,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -3387,9 +3294,9 @@
           "contentKey": "beat.R4.opt.r4-it-returns.say"
         },
         {
-          "key": 399,
+          "key": 361,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
@@ -3397,9 +3304,9 @@
           "contentKey": "beat.R4.opt.r4-it-returns.react"
         },
         {
-          "key": 400,
+          "key": 362,
           "channel": "milestone",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -3408,61 +3315,61 @@
           }
         },
         {
-          "key": 401,
+          "key": 363,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.panel-home"
         },
         {
-          "key": 402,
+          "key": 364,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.room-drill-yard"
         },
         {
-          "key": 403,
+          "key": 365,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.tab-inventory"
         },
         {
-          "key": 404,
+          "key": 366,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.readout-durability"
         },
         {
-          "key": 405,
+          "key": 367,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.panel-equipment"
         },
         {
-          "key": 406,
+          "key": 368,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.house-omoya"
         }
       ],
-      "seq": 407
+      "seq": 369
     },
     "skillXp": {
-      "farming": 265,
+      "farming": 203,
       "conditioning": 173,
-      "woodcutting": 187,
-      "foraging": 110
+      "woodcutting": 142,
+      "foraging": 96
     },
     "deliveredDialogue": [
       "gen-greet",
@@ -3503,7 +3410,7 @@
     },
     "marketBought": {},
     "belongings": [],
-    "location": "paddies",
+    "location": "forecourt",
     "rung": "R4",
     "rungReqs": {},
     "estateStage": 0,
@@ -3515,8 +3422,8 @@
     "discoveryProgress": {
       "disc-woodlot-lacquer": 45,
       "disc-woodlot-sluice": 16,
-      "disc-weir-bundle": 4,
-      "disc-margins-sett": 6
+      "disc-weir-bundle": 5,
+      "disc-margins-sett": 9
     },
     "autoActivity": null,
     "autoRake": false,
@@ -3543,11 +3450,9 @@
       "sb-cook",
       "sb-lease",
       "sb-sickroom",
-      "sb-racks",
-      "turn-winter",
-      "turn-new-year"
+      "sb-racks"
     ],
     "roundState": null,
-    "soanLedger": 2
+    "soanLedger": 3
   }
 }

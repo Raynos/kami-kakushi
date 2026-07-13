@@ -23,6 +23,9 @@ import {
   CONSUMPTION_SHO_PER_DAY,
   LOW_HP_WORK_THRESHOLD,
   LOW_HP_WORK_MULT,
+  TREAT_COST_MON,
+  TREAT_HP_RESTORE,
+  REST_SICKROOM_HP,
   CONDITIONING_GATE_LEVEL,
   SKILL_YIELD_DEN,
   ESTATE_STAGE_DEED_GATES,
@@ -52,6 +55,7 @@ import {
 import { introActive } from './content/intro';
 import { clamp } from './math';
 import { ACTIVITIES, type ActivityDef, type LabourResource } from './content/activities';
+import { SICKROOM_NODE } from './content/map';
 import { PEOPLE, presenceCtx, type NodePerson } from './content/people';
 import { isUnlocked } from './unlock';
 import { hiddenActivityIds } from './discovery';
@@ -125,8 +129,9 @@ export function cornerRestBonus(state: GameState): number {
  *  estate's pot, and the whole reason the threshold is a place — O-Hisa teaches it in the `sb-cook`
  *  VN), plus your OWN corner once you have cut a hearth into its floor: ADR-120 gave the hearth the
  *  job of "homing" the cook verb, but the verb worked from anywhere, so the 120-mon piece bought a
- *  button, not a capability. Now it buys the walk back. Cooking is the ONLY mend for a fought body
- *  (FB-22/ADR-050), so this is a real cost on the combat loop — and the reason the kitchen exists.
+ *  button, not a capability. Now it buys the walk back. (Cooking WAS the fought body's only mend
+ *  when this siting was priced — the mend moved to the sickroom lane, ADR-164/ADR-197, which may
+ *  reprice HD-40's walk; the kitchen remains where the pot is taught.)
  *  ONE source (AC-6): the reducer's gate, the renderer's affordance + its explainer, the shipped
  *  auto-loop and the sim personas all read THIS. */
 export function cookLoci(state: GameState): readonly string[] {
@@ -349,6 +354,52 @@ export function sleepForecast(state: GameState): {
   const missedMeal = served * (1 - SLEEP_MEAL_FRACTION);
   const bellyLost = Math.min(state.character.hunger, HUNGER_PER_DAY - served + missedMeal);
   return { ticks, riceDrawn, missedMeal, bellyLost };
+}
+
+// ── The sickroom HP-mend lane (ADR-164/ADR-197): recovery is a deliberate spend — mon
+// (treat) or days (rest_sickroom) — at the sickroom node. ONE source (AC-6): the reducers,
+// the rendered verb rows + their shown prices, and the sim personas all read THESE. ──
+
+/** Is the paid treatment available where you stand? MON-ONLY (ADR-197): without the coin the
+ *  verb HIDES (the free rest below is the only unwaged lane) — never a silent currency swap. */
+export function canTreat(state: GameState): boolean {
+  return (
+    state.location === SICKROOM_NODE &&
+    state.character.hp < hpMax(state) &&
+    (state.resources.coin ?? 0) >= TREAT_COST_MON
+  );
+}
+
+/** What one treatment bills and mends — clamped to the missing HP, so the shown gain is real. */
+export function treatForecast(state: GameState): {
+  readonly cost: number;
+  readonly hpGain: number;
+} {
+  return {
+    cost: TREAT_COST_MON,
+    hpGain: Math.min(TREAT_HP_RESTORE, Math.max(0, hpMax(state) - state.character.hp)),
+  };
+}
+
+/** Is the free rest-at-sickroom trickle available? Free but never idle: it exists only where
+ *  Sōan's pallet does, and only while there is hurt to mend. */
+export function canRestSickroom(state: GameState): boolean {
+  return state.location === SICKROOM_NODE && state.character.hp < hpMax(state);
+}
+
+/** A day given to the pallet: the SAME to-dawn tick math + missed-meal pro-rate as sleep
+ *  (ADR-187 machinery), plus the slow HP trickle — spend days instead of mon. */
+export function restSickroomForecast(state: GameState): {
+  readonly ticks: number;
+  readonly riceDrawn: number;
+  readonly missedMeal: number;
+  readonly bellyLost: number;
+  readonly hpGain: number;
+} {
+  return {
+    ...sleepForecast(state),
+    hpGain: Math.min(REST_SICKROOM_HP, Math.max(0, hpMax(state) - state.character.hp)),
+  };
 }
 
 /**

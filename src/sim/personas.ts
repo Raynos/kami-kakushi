@@ -34,8 +34,11 @@ import {
   getActivity,
   getMob,
   getWeapon,
+  canRestSickroom,
+  canTreat,
   hasFlag,
   hpMax,
+  SICKROOM_NODE,
   introActive,
   introSceneAt,
   isUnlocked,
@@ -81,6 +84,8 @@ export const ALL_INTENTS = {
   equip_weapon: true,
   set_stance: true,
   cook_meal: true,
+  treat: true, // ADR-164/ADR-197 — the paid sickroom mend (mon-only)
+  rest_sickroom: true, // ADR-164 — the free pallet-day trickle
   eat_rice: true,
   sell_rice: true,
   collect_wage: true,
@@ -181,6 +186,20 @@ export function skippedIntents(persona: Persona): IntentType[] {
  *  never an envelope fixture. Half health ≈ "hurt enough to eat first". */
 const GREEDY_MEND_HP_FRAC = 0.5;
 
+/** The sickroom mend leg (ADR-164/ADR-197 — the ONLY HP mend): walk to Sōan's pallet; pay the
+ *  treatment when the coin allows (the fast chunk), else give the day to the free trickle.
+ *  Null when already full or the sickroom is unreachable (pre-reveal) — fight on hurt. */
+function sickroomMendLeg(s: GameState): Intent | null {
+  if (s.character.hp >= hpMax(s)) return null;
+  if (s.location === SICKROOM_NODE) {
+    if (canTreat(s)) return { type: 'treat' };
+    if (canRestSickroom(s)) return { type: 'rest_sickroom' };
+    return null;
+  }
+  const hop = nextHopToward(s.location, SICKROOM_NODE, visibleSet(s));
+  return hop ? { type: 'move_to', to: hop } : null;
+}
+
 /** The R3 blooding readiness + approach sub-policy (only active while un-blooded at R3). */
 function combatLegIntent(s: GameState): Intent | null {
   // (1) mend the blade when it drops into Battered/Broken (the wear bands bite attackPower).
@@ -194,13 +213,11 @@ function combatLegIntent(s: GameState): Intent | null {
     if (hop) return { type: 'move_to', to: hop };
     // can't reach wood — fall through and fight with what's in hand rather than stall.
   }
-  // (2) mend the body when hurt and a hot meal is on hand (eating is the ONLY HP heal, ADR-050).
-  if (
-    s.character.hp < hpMax(s) * GREEDY_MEND_HP_FRAC &&
-    isUnlocked(s, 'verb-cook') &&
-    (s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST
-  ) {
-    return { type: 'cook_meal' };
+  // (2) mend the body when hurt (the sickroom lane — ADR-164/ADR-197: treat when the coin
+  //     allows, else the pallet day; food no longer heals).
+  if (s.character.hp < hpMax(s) * GREEDY_MEND_HP_FRAC) {
+    const mend = sickroomMendLeg(s);
+    if (mend) return mend;
   }
   // (3) top up work-stamina below the throttle knee (the same STAMINA_FLAT_ABOVE the engine uses)
   //     so the fight lands at full combat-satiety attackPower.
@@ -231,6 +248,8 @@ export const greedy: Persona = {
     'fight',
     'repair_weapon',
     'cook_meal',
+    'treat', // ADR-164/ADR-197 — the paid sickroom mend
+    'rest_sickroom', // ADR-164 — the free pallet-day trickle
     'ascend',
   ],
   decide(s) {
@@ -265,6 +284,8 @@ export const idler: Persona = {
     'do_activity',
     'fight',
     'repair_weapon',
+    'treat', // ADR-164/ADR-197 — the paid sickroom mend
+    'rest_sickroom', // ADR-164 — the free pallet-day trickle
     'move_to',
     'set_auto_rake',
     'set_auto',
@@ -323,19 +344,14 @@ export const idler: Persona = {
     // below level parity mirrors the focused driver's ladder.
     const killReq = rem.find((r) => r.type === 'count' && r.token.startsWith('kill:'));
     if (killReq && killReq.type === 'count' && isUnlocked(s, 'tab-combat')) {
-      // mend HP FIRST, foraging for the pantry when it's dry (mirrors the night-round
-      // branch below): cook-only-when-stocked left a 1-HP idler with 1 sansai arming
-      // the watch and losing to the sickroom forever — the HD-35 re-pace exposed that
-      // loss-loop on seeds 1/7.
-      if (s.character.hp < hpMax(s) && isUnlocked(s, 'verb-cook')) {
-        if ((s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST) return { type: 'cook_meal' };
-        if (poolDry('forage_satoyama') && canTurnWheel) return { type: 'advance_season' };
-        const forage = getActivity('forage_satoyama');
-        if (s.location === forage.area) {
-          return { type: 'do_activity', activityId: 'forage_satoyama' };
-        }
-        const fhop = nextHopToward(s.location, forage.area, visibleSet(s));
-        if (fhop) return { type: 'move_to', to: fhop };
+      // mend HP FIRST (the sickroom lane, ADR-164/ADR-197 — mirrors the night-round branch
+      // below): arming the watch at 1 HP is the loss-loop the HD-35 re-pace exposed on
+      // seeds 1/7; the pallet day is always walkable, so a broke idler still mends. The
+      // GREEDY_MEND_HP_FRAC threshold matters here now: the mend is a WALK away (not the
+      // old in-field cook), and a sensible player doesn't cross the estate for a scratch.
+      if (s.character.hp < hpMax(s) * GREEDY_MEND_HP_FRAC) {
+        const mend = sickroomMendLeg(s);
+        if (mend) return mend;
       }
       // ADR-148 — the divided targets leave no wood SURPLUS: a Battered/Broken blade
       // provisions (repair when the wood allows, else cut it) before arming the watch —
@@ -384,18 +400,11 @@ export const idler: Persona = {
       isUnlocked(s, 'tab-combat') &&
       s.roundState === null
     ) {
-      // mend HP FIRST (no auto-trickle — ADR-164): cook when the sansai allows, else forage
-      // for it (turning the wheel past a dead pool) — beginning at the setback floor is the
-      // fall-loop this branch exists to avoid.
-      if (s.character.hp < hpMax(s) && isUnlocked(s, 'verb-cook')) {
-        if ((s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST) return { type: 'cook_meal' };
-        if (poolDry('forage_satoyama') && canTurnWheel) return { type: 'advance_season' };
-        const forage = getActivity('forage_satoyama');
-        if (s.location === forage.area) {
-          return { type: 'do_activity', activityId: 'forage_satoyama' };
-        }
-        const fhop = nextHopToward(s.location, forage.area, visibleSet(s));
-        if (fhop) return { type: 'move_to', to: fhop };
+      // mend HP FIRST (no auto-trickle — ADR-164/ADR-197: the sickroom lane) — beginning
+      // at the setback floor is the fall-loop this branch exists to avoid.
+      {
+        const mend = sickroomMendLeg(s);
+        if (mend) return mend;
       }
       if (s.character.satiety < satietyMax(s) * 0.9 && acts.includes('rest')) {
         return { type: 'rest' };

@@ -115,7 +115,7 @@ describe('D-178 — food feeds the BELLY, never the work bar (the split itself)'
     expect(after.banked.rice).toBe(10 - balance.EAT_RICE_COST);
   });
 
-  it('cook_meal mends HP (FB-22, unchanged) AND fills the belly — a meal is food', () => {
+  it('cook_meal fills the belly and mends ZERO HP — food is satiety-only (ADR-164/ADR-197)', () => {
     const s = withVitals({ hunger: 10, satiety: 20, unlocked: ['verb-cook', 'room-kitchen'] });
     const fed = {
       ...s,
@@ -124,7 +124,7 @@ describe('D-178 — food feeds the BELLY, never the work bar (the split itself)'
       location: 'kitchen', // ADR-184 — cooking is sited at the pot; the belly math is the subject
     };
     const after = reduce(fed, { type: 'cook_meal' });
-    expect(after.character.hp).toBe(5 + balance.COOK_HP_RESTORE);
+    expect(after.character.hp).toBe(5); // the severed mend — HP moves ONLY at the sickroom
     expect(after.character.hunger).toBe(10 + balance.COOK_HUNGER_RESTORE);
     expect(after.character.satiety).toBe(fed.character.satiety); // never the work bar
   });

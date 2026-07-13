@@ -11,21 +11,21 @@
     "rng": {
       "seed": 20260626,
       "cursors": {
-        "combat": 970,
+        "combat": 955,
         "loot": 13,
         "seasonal": 0,
-        "worldgen": 144,
+        "worldgen": 161,
         "discovery": 50
       }
     },
     "clock": {
       "tick": 0,
-      "day": 93
+      "day": 110
     },
     "character": {
       "hp": 1,
-      "satiety": 65,
-      "hunger": 91.66666666666666,
+      "satiety": 67,
+      "hunger": 25,
       "attributePoints": 3,
       "attrs": {
         "str": 6,
@@ -38,23 +38,23 @@
       "combatXp": 380
     },
     "resources": {
-      "coin": 16193,
-      "wood": 101,
-      "sansai": 68,
-      "beast_sinew": 5
+      "coin": 15320,
+      "wood": 2,
+      "sansai": 2,
+      "beast_sinew": 3
     },
     "banked": {
-      "rice": 77
+      "rice": 29
     },
     "sitePools": {
-      "paddies": 39,
-      "forecourt": 17,
+      "paddies": 47,
+      "forecourt": 14,
       "woodlot": 160,
       "weir": 120
     },
-    "wageDaysAccrued": 42,
+    "wageDaysAccrued": 45,
     "rakesDone": 35,
-    "lastWageDay": 92,
+    "lastWageDay": 109,
     "flags": {
       "awake": true,
       "dream-1": true,
@@ -63,6 +63,7 @@
       "r1-none-claimed": true,
       "rank-r1": true,
       "farmed": true,
+      "coin-earned": true,
       "rank-r2": true,
       "porters-knot": true,
       "works-named-u1": true,
@@ -88,7 +89,6 @@
       "r5-stood": true,
       "r6-flat": true,
       "rank-r6": true,
-      "coin-earned": true,
       "works-seen-gate": true,
       "works-seen-woodshed": true,
       "works-seen-u1": true,
@@ -107,8 +107,8 @@
       "works-seen-orchard": true,
       "works-seen-u2": true,
       "works-open-u2": true,
-      "deed-source-treasury": true,
       "deed-source-stores": true,
+      "deed-source-treasury": true,
       "works-named-u3": true,
       "works-line-u3": true,
       "works-seen-kura": true,
@@ -1521,18 +1521,18 @@
           "contentKey": "scene.sb-sickroom.opt.sb-sickroom-mend.react"
         },
         {
-          "key": 236,
+          "key": 235,
           "channel": "narration",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "context": "sb racks",
           "contentKey": "scene.sb-racks.greeting.the-rows-past-noon-rokusuke-works"
         },
         {
-          "key": 237,
+          "key": 236,
           "channel": "narration",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
@@ -1540,9 +1540,9 @@
           "contentKey": "scene.sb-racks.greeting.that-is-a-blade-you-are"
         },
         {
-          "key": 238,
+          "key": 237,
           "channel": "narration",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
@@ -1550,9 +1550,9 @@
           "contentKey": "scene.sb-racks.greeting.four-bundles-off-the-drying-racks"
         },
         {
-          "key": 239,
+          "key": 238,
           "channel": "narration",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
@@ -1560,9 +1560,9 @@
           "contentKey": "scene.sb-racks.greeting.and-at-the-week-s-end"
         },
         {
-          "key": 240,
+          "key": 239,
           "channel": "narration",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -1570,9 +1570,9 @@
           "contentKey": "scene.sb-racks.opt.sb-racks-take.say"
         },
         {
-          "key": 241,
+          "key": 240,
           "channel": "narration",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
@@ -1580,60 +1580,24 @@
           "contentKey": "scene.sb-racks.opt.sb-racks-take.react"
         },
         {
-          "key": 242,
+          "key": 241,
           "channel": "combat",
-          "tick": 12,
+          "tick": 10,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
             "mob": "river rats",
-            "hpBefore": 60,
-            "hpAfter": 11,
+            "hpBefore": 58,
+            "hpAfter": 9,
             "coin": 0,
             "lootQty": 0,
             "lootLabel": ""
           }
         },
         {
-          "key": 245,
-          "channel": "narration",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn winter",
-          "contentKey": "scene.turn-winter.greeting.the-snow-quits-the-valley-floor"
-        },
-        {
-          "key": 246,
-          "channel": "narration",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn winter",
-          "contentKey": "scene.turn-winter.greeting.the-river-runs-black-and-narrow"
-        },
-        {
-          "key": 247,
-          "channel": "narration",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn winter",
-          "contentKey": "scene.turn-winter.greeting.the-light-stretches-work-that-used"
-        },
-        {
-          "key": 248,
-          "channel": "narration",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn winter",
-          "contentKey": "scene.turn-winter.greeting.small-on-the-road-below-a"
-        },
-        {
-          "key": 252,
+          "key": 244,
           "channel": "combat",
-          "tick": 20,
+          "tick": 16,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
@@ -1646,9 +1610,9 @@
           }
         },
         {
-          "key": 253,
+          "key": 245,
           "channel": "milestone",
-          "tick": 20,
+          "tick": 16,
           "count": 1,
           "contentKey": "combat.levelUp",
           "params": {
@@ -1656,62 +1620,76 @@
           }
         },
         {
-          "key": 256,
+          "key": 246,
           "channel": "combat",
-          "tick": 0,
+          "tick": 18,
           "count": 1,
-          "contentKey": "combat.win",
+          "contentKey": "combat.loss",
           "params": {
             "mob": "river rats",
-            "hpBefore": 68,
-            "hpAfter": 18,
-            "coin": 0,
-            "lootQty": 1,
-            "lootLabel": "beast sinew"
+            "hpBefore": 36,
+            "hpAfter": 1,
+            "lostCoin": 21,
+            "lostMats": 0
           }
         },
         {
-          "key": 257,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "requirement.clear-the-kura-rats"
-        },
-        {
-          "key": 260,
+          "key": 250,
           "channel": "combat",
           "tick": 6,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
-            "mob": "tanuki",
+            "mob": "river rats",
             "hpBefore": 68,
-            "hpAfter": 23,
+            "hpAfter": 31,
             "coin": 0,
             "lootQty": 1,
             "lootLabel": "beast sinew"
           }
         },
         {
-          "key": 263,
+          "key": 251,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "requirement.clear-the-kura-rats"
+        },
+        {
+          "key": 252,
           "channel": "combat",
-          "tick": 12,
+          "tick": 8,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "tanuki",
+            "hpBefore": 31,
+            "hpAfter": 6,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 255,
+          "channel": "combat",
+          "tick": 14,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
             "mob": "tanuki",
             "hpBefore": 68,
-            "hpAfter": 34,
+            "hpAfter": 21,
             "coin": 0,
             "lootQty": 0,
             "lootLabel": ""
           }
         },
         {
-          "key": 264,
+          "key": 256,
           "channel": "milestone",
-          "tick": 12,
+          "tick": 14,
           "count": 1,
           "contentKey": "combat.levelUp",
           "params": {
@@ -1719,27 +1697,43 @@
           }
         },
         {
-          "key": 265,
+          "key": 257,
           "channel": "narration",
-          "tick": 12,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.drive-off-the-thieves"
         },
         {
-          "key": 266,
+          "key": 258,
           "channel": "milestone",
-          "tick": 14,
+          "tick": 16,
           "count": 1,
           "contentKey": "reveal.screen-demo-frontier"
         },
         {
-          "key": 267,
+          "key": 259,
           "channel": "narration",
-          "tick": 14,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.dream-2"
+        },
+        {
+          "key": 261,
+          "channel": "narration",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "requirement.the-fields-hold"
+        },
+        {
+          "key": 265,
+          "channel": "narration",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "requirement.keep-the-rows"
         },
         {
           "key": 283,
@@ -1747,78 +1741,27 @@
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "contentKey": "requirement.the-fields-hold"
-        },
-        {
-          "key": 290,
-          "channel": "narration",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "requirement.keep-the-rows"
-        },
-        {
-          "key": 316,
-          "channel": "narration",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
           "contentKey": "requirement.timber-for-the-palisade"
         },
         {
-          "key": 320,
-          "channel": "narration",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn new year",
-          "contentKey": "scene.turn-new-year.greeting.ice-lets-go-of-the-shaded"
-        },
-        {
-          "key": 321,
-          "channel": "narration",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn new year",
-          "contentKey": "scene.turn-new-year.greeting.the-ground-gives-underfoot-where-all"
-        },
-        {
-          "key": 322,
-          "channel": "narration",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn new year",
-          "contentKey": "scene.turn-new-year.greeting.up-the-woodlot-the-bark-of"
-        },
-        {
-          "key": 323,
-          "channel": "narration",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "context": "turn new year",
-          "contentKey": "scene.turn-new-year.greeting.last-and-small-under-all-that"
-        },
-        {
-          "key": 326,
+          "key": 286,
           "channel": "combat",
           "tick": 0,
           "count": 1,
-          "contentKey": "combat.loss",
+          "contentKey": "combat.win",
           "params": {
             "mob": "badger",
             "hpBefore": 76,
-            "hpAfter": 1,
-            "lostCoin": 24,
-            "lostMats": 0
+            "hpAfter": 5,
+            "coin": 0,
+            "lootQty": 0,
+            "lootLabel": ""
           }
         },
         {
-          "key": 330,
+          "key": 289,
           "channel": "combat",
-          "tick": 14,
+          "tick": 6,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
@@ -1831,38 +1774,9 @@
           }
         },
         {
-          "key": 333,
-          "channel": "combat",
-          "tick": 20,
-          "count": 1,
-          "contentKey": "combat.loss",
-          "params": {
-            "mob": "badger",
-            "hpBefore": 76,
-            "hpAfter": 1,
-            "lostCoin": 20,
-            "lostMats": 0
-          }
-        },
-        {
-          "key": 339,
-          "channel": "combat",
-          "tick": 10,
-          "count": 1,
-          "contentKey": "combat.win",
-          "params": {
-            "mob": "badger",
-            "hpBefore": 76,
-            "hpAfter": 6,
-            "coin": 0,
-            "lootQty": 0,
-            "lootLabel": ""
-          }
-        },
-        {
-          "key": 340,
+          "key": 290,
           "channel": "milestone",
-          "tick": 10,
+          "tick": 6,
           "count": 1,
           "contentKey": "combat.levelUp",
           "params": {
@@ -1870,39 +1784,39 @@
           }
         },
         {
-          "key": 345,
+          "key": 293,
           "channel": "combat",
-          "tick": 22,
+          "tick": 12,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
             "mob": "badger",
             "hpBefore": 84,
-            "hpAfter": 13,
+            "hpAfter": 3,
             "coin": 0,
             "lootQty": 1,
             "lootLabel": "beast sinew"
           }
         },
         {
-          "key": 348,
+          "key": 299,
           "channel": "combat",
-          "tick": 6,
+          "tick": 0,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
             "mob": "badger",
             "hpBefore": 84,
-            "hpAfter": 39,
+            "hpAfter": 16,
             "coin": 0,
             "lootQty": 0,
             "lootLabel": ""
           }
         },
         {
-          "key": 349,
+          "key": 300,
           "channel": "milestone",
-          "tick": 6,
+          "tick": 0,
           "count": 1,
           "contentKey": "combat.levelUp",
           "params": {
@@ -1910,67 +1824,81 @@
           }
         },
         {
-          "key": 352,
+          "key": 305,
+          "channel": "combat",
+          "tick": 0,
+          "count": 1,
+          "contentKey": "combat.win",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 92,
+            "hpAfter": 30,
+            "coin": 0,
+            "lootQty": 1,
+            "lootLabel": "beast sinew"
+          }
+        },
+        {
+          "key": 308,
           "channel": "system",
-          "tick": 12,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "craft.repair",
           "params": {
             "weapon": "worn carrying-pole",
             "wood": 5,
-            "coinFee": 6
+            "coinFee": 3
           }
         },
         {
-          "key": 353,
+          "key": 309,
           "channel": "combat",
-          "tick": 12,
+          "tick": 0,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
             "mob": "badger",
             "hpBefore": 92,
-            "hpAfter": 35,
-            "coin": 0,
-            "lootQty": 1,
-            "lootLabel": "beast sinew"
-          }
-        },
-        {
-          "key": 356,
-          "channel": "combat",
-          "tick": 18,
-          "count": 1,
-          "contentKey": "combat.win",
-          "params": {
-            "mob": "badger",
-            "hpBefore": 92,
-            "hpAfter": 3,
+            "hpAfter": 32,
             "coin": 0,
             "lootQty": 0,
             "lootLabel": ""
           }
         },
         {
-          "key": 361,
+          "key": 310,
           "channel": "combat",
-          "tick": 4,
+          "tick": 2,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "badger",
+            "hpBefore": 32,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostMats": 1
+          }
+        },
+        {
+          "key": 316,
+          "channel": "combat",
+          "tick": 0,
           "count": 1,
           "contentKey": "combat.win",
           "params": {
             "mob": "badger",
             "hpBefore": 92,
-            "hpAfter": 57,
+            "hpAfter": 71,
             "coin": 0,
             "lootQty": 1,
             "lootLabel": "beast sinew"
           }
         },
         {
-          "key": 362,
+          "key": 317,
           "channel": "milestone",
-          "tick": 4,
+          "tick": 0,
           "count": 1,
           "contentKey": "combat.levelUp",
           "params": {
@@ -1978,76 +1906,98 @@
           }
         },
         {
-          "key": 367,
+          "key": 320,
           "channel": "narration",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "flavor.nightRoundNewMoon"
-        },
-        {
-          "key": 368,
-          "channel": "narration",
-          "tick": 18,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "contentKey": "nightRound.first-night-round.stage.0"
         },
         {
-          "key": 369,
+          "key": 321,
+          "channel": "combat",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "combat.loss",
+          "params": {
+            "mob": "marten",
+            "hpBefore": 36,
+            "hpAfter": 1,
+            "lostCoin": 0,
+            "lostMats": 1
+          }
+        },
+        {
+          "key": 322,
           "channel": "narration",
-          "tick": 18,
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "flavor.nightRoundFall"
+        },
+        {
+          "key": 330,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "nightRound.first-night-round.stage.0"
+        },
+        {
+          "key": 331,
+          "channel": "narration",
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "nightRound.first-night-round.stage.1"
         },
         {
-          "key": 370,
+          "key": 332,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "nightRound.first-night-round.stage.2"
         },
         {
-          "key": 371,
+          "key": 333,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.the-wolf-survived-not-won"
         },
         {
-          "key": 372,
+          "key": 334,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.soan-strapped-the-ribs-for-walking"
         },
         {
-          "key": 373,
+          "key": 335,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.past-the-kitchen-passage-a-screen"
         },
         {
-          "key": 374,
+          "key": 336,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.genemon-is-there-the-day-book-open"
         },
         {
-          "key": 375,
+          "key": 337,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -2055,9 +2005,9 @@
           "contentKey": "beat.R4.greeting.rats-were-in-the-store-three"
         },
         {
-          "key": 376,
+          "key": 338,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -2065,18 +2015,18 @@
           "contentKey": "beat.R4.greeting.the-watch-was-mine"
         },
         {
-          "key": 377,
+          "key": 339,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.genemon-writes-before-he-answers-it"
         },
         {
-          "key": 378,
+          "key": 340,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -2084,9 +2034,9 @@
           "contentKey": "beat.R4.greeting.rice-one-quarter-sack-to-vermin-two"
         },
         {
-          "key": 379,
+          "key": 341,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -2094,9 +2044,9 @@
           "contentKey": "beat.R4.greeting.not-under-your-name-no-wage"
         },
         {
-          "key": 380,
+          "key": 342,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -2104,54 +2054,54 @@
           "contentKey": "beat.R4.greeting.it-isn-t"
         },
         {
-          "key": 381,
+          "key": 343,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.the-pen-stops-above-the-line"
         },
         {
-          "key": 382,
+          "key": 344,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.he-had-taken-the-loss-off"
         },
         {
-          "key": 383,
+          "key": 345,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.at-the-kitchen-threshold-o-hisa-has"
         },
         {
-          "key": 384,
+          "key": 346,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.from-the-board-the-woodshed-is"
         },
         {
-          "key": 385,
+          "key": 347,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.stalls-for-twenty-horses-run-down"
         },
         {
-          "key": 386,
+          "key": 348,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -2159,18 +2109,18 @@
           "contentKey": "beat.R4.greeting.teach-me"
         },
         {
-          "key": 387,
+          "key": 349,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.that-was-the-easy-half-the"
         },
         {
-          "key": 388,
+          "key": 350,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -2178,18 +2128,18 @@
           "contentKey": "beat.R4.greeting.will-you"
         },
         {
-          "key": 389,
+          "key": 351,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.kihei-sets-down-the-whetstone-he"
         },
         {
-          "key": 390,
+          "key": 352,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
@@ -2197,18 +2147,18 @@
           "contentKey": "beat.R4.greeting.you-walked-here-on-cracked-ribs"
         },
         {
-          "key": 391,
+          "key": 353,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.it-is-not-a-question-so"
         },
         {
-          "key": 392,
+          "key": 354,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
@@ -2216,27 +2166,27 @@
           "contentKey": "beat.R4.greeting.terms-then-once-talent-is-a"
         },
         {
-          "key": 393,
+          "key": 355,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.he-takes-the-oiled-staff-from"
         },
         {
-          "key": 394,
+          "key": 356,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.your-hands-take-the-staff-and"
         },
         {
-          "key": 395,
+          "key": 357,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
@@ -2244,18 +2194,18 @@
           "contentKey": "beat.R4.greeting.the-house-has-one-man-who"
         },
         {
-          "key": 396,
+          "key": 358,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "context": "The pupil promotion",
           "contentKey": "beat.R4.greeting.on-the-wall-above-the-empty"
         },
         {
-          "key": 397,
+          "key": 359,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
@@ -2263,9 +2213,9 @@
           "contentKey": "beat.R4.greeting.one-thing-before-the-staff-why"
         },
         {
-          "key": 398,
+          "key": 360,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -2273,9 +2223,9 @@
           "contentKey": "beat.R4.opt.r4-it-returns.say"
         },
         {
-          "key": 399,
+          "key": 361,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "speaker": "Kihei",
           "voice": "arms",
@@ -2283,9 +2233,9 @@
           "contentKey": "beat.R4.opt.r4-it-returns.react"
         },
         {
-          "key": 400,
+          "key": 362,
           "channel": "milestone",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -2294,89 +2244,102 @@
           }
         },
         {
-          "key": 401,
+          "key": 363,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.panel-home"
         },
         {
-          "key": 402,
+          "key": 364,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.room-drill-yard"
         },
         {
-          "key": 403,
+          "key": 365,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.tab-inventory"
         },
         {
-          "key": 404,
+          "key": 366,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.readout-durability"
         },
         {
-          "key": 405,
+          "key": 367,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.panel-equipment"
         },
         {
-          "key": 406,
+          "key": 368,
           "channel": "narration",
-          "tick": 18,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.house-omoya"
         },
         {
-          "key": 411,
+          "key": 373,
           "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "requirement.a-hundred-mon-held"
-        },
-        {
-          "key": 422,
-          "channel": "narration",
-          "tick": 20,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.a-load-among-loads"
         },
         {
-          "key": 435,
+          "key": 391,
           "channel": "narration",
-          "tick": 8,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.first-name-in-the-yard"
         },
         {
-          "key": 450,
+          "key": 407,
           "channel": "narration",
-          "tick": 22,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.the-stores-know-you"
         },
         {
-          "key": 451,
+          "key": 408,
+          "channel": "system",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 24,
+            "price": 5,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 409,
+          "channel": "narration",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "requirement.a-hundred-mon-held"
+        },
+        {
+          "key": 410,
           "channel": "milestone",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "contentKey": "rank.wallWeapon",
@@ -2385,9 +2348,9 @@
           }
         },
         {
-          "key": 452,
+          "key": 411,
           "channel": "milestone",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -2396,58 +2359,58 @@
           }
         },
         {
-          "key": 453,
+          "key": 412,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.room-shrine"
         },
         {
-          "key": 454,
+          "key": 413,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.room-orchard"
         },
         {
-          "key": 455,
+          "key": 414,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.stance-control"
         },
         {
-          "key": 456,
+          "key": 415,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.tab-quests"
         },
         {
-          "key": 457,
+          "key": 416,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.verb-collect-wage"
         },
         {
-          "key": 458,
+          "key": 417,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count",
           "contentKey": "scene.count.greeting.a-hand-shakes-you-awake-in"
         },
         {
-          "key": 459,
+          "key": 418,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
@@ -2455,27 +2418,27 @@
           "contentKey": "scene.count.greeting.board-room-the-whole-house-is"
         },
         {
-          "key": 460,
+          "key": 419,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count",
           "contentKey": "scene.count.greeting.lamps-at-the-board-at-the"
         },
         {
-          "key": 461,
+          "key": 420,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count",
           "contentKey": "scene.count.greeting.nobody-asks-you-anything-you-stand"
         },
         {
-          "key": 462,
+          "key": 421,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -2483,18 +2446,18 @@
           "contentKey": "scene.count.greeting.the-alcove-chest-stands-open-one"
         },
         {
-          "key": 463,
+          "key": 422,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count",
           "contentKey": "scene.count.greeting.naoyuki-stands-at-his-father-s"
         },
         {
-          "key": 464,
+          "key": 423,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
@@ -2502,9 +2465,9 @@
           "contentKey": "scene.count.greeting.if-the-house-must-do-this"
         },
         {
-          "key": 465,
+          "key": 424,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
@@ -2512,18 +2475,18 @@
           "contentKey": "scene.count.greeting.no-the-weir-man-him-first"
         },
         {
-          "key": 466,
+          "key": 425,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count",
           "contentKey": "scene.count.greeting.nobody-objects-some-of-the-hands"
         },
         {
-          "key": 467,
+          "key": 426,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -2531,9 +2494,9 @@
           "contentKey": "scene.count.opt.r5-stand.say"
         },
         {
-          "key": 468,
+          "key": 427,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
@@ -2541,9 +2504,9 @@
           "contentKey": "scene.count.opt.r5-stand.react"
         },
         {
-          "key": 469,
+          "key": 428,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -2551,18 +2514,18 @@
           "contentKey": "scene.count-resolve.greeting.the-kura-tally-who-kept-it"
         },
         {
-          "key": 470,
+          "key": 429,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
           "contentKey": "scene.count-resolve.greeting.rokusuke-has-been-standing-where-the"
         },
         {
-          "key": 471,
+          "key": 430,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
@@ -2570,18 +2533,18 @@
           "contentKey": "scene.count-resolve.greeting.eleven-loads-in-by-dark-steward"
         },
         {
-          "key": 472,
+          "key": 431,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
           "contentKey": "scene.count-resolve.greeting.genemon-sets-the-tally-board-beside"
         },
         {
-          "key": 473,
+          "key": 432,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -2589,9 +2552,9 @@
           "contentKey": "scene.count-resolve.greeting.the-packet-was-counted-at-the"
         },
         {
-          "key": 474,
+          "key": 433,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
@@ -2599,18 +2562,18 @@
           "contentKey": "scene.count-resolve.greeting.then-it-is-someone-of-the"
         },
         {
-          "key": 475,
+          "key": 434,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
           "contentKey": "scene.count-resolve.greeting.the-door-to-the-inner-corridor"
         },
         {
-          "key": 476,
+          "key": 435,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Toku",
           "voice": "steward",
@@ -2618,18 +2581,18 @@
           "contentKey": "scene.count-resolve.greeting.it-went-up-at-the-new"
         },
         {
-          "key": 477,
+          "key": 436,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
           "contentKey": "scene.count-resolve.greeting.nobody-asks-what-went-up-nobody"
         },
         {
-          "key": 478,
+          "key": 437,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -2637,18 +2600,18 @@
           "contentKey": "scene.count-resolve.greeting.the-count-is-answered-the-house"
         },
         {
-          "key": 479,
+          "key": 438,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
           "contentKey": "scene.count-resolve.greeting.the-rows-break-up-around-you"
         },
         {
-          "key": 480,
+          "key": 439,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Naoyuki",
           "voice": "official",
@@ -2656,18 +2619,18 @@
           "contentKey": "scene.count-resolve.greeting.you-were-counted-that-is-all"
         },
         {
-          "key": 481,
+          "key": 440,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
           "contentKey": "scene.count-resolve.greeting.at-the-morning-board-nobody-speaks"
         },
         {
-          "key": 482,
+          "key": 441,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -2675,18 +2638,18 @@
           "contentKey": "scene.count-resolve.greeting.from-today-the-book-carries-you"
         },
         {
-          "key": 483,
+          "key": 442,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
           "contentKey": "scene.count-resolve.greeting.at-the-paddy-rokusuke-works-the"
         },
         {
-          "key": 484,
+          "key": 443,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "speaker": "Rokusuke",
           "voice": "villager",
@@ -2694,85 +2657,85 @@
           "contentKey": "scene.count-resolve.greeting.kept-it-same-as-any-day"
         },
         {
-          "key": 485,
+          "key": 444,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
           "contentKey": "scene.count-resolve.greeting.he-bends-back-to-the-row"
         },
         {
-          "key": 486,
+          "key": 445,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
           "contentKey": "scene.count-resolve.greeting.eleven-marks-on-a-board-kept"
         },
         {
-          "key": 487,
+          "key": 446,
           "channel": "narration",
-          "tick": 0,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "context": "count resolve",
           "contentKey": "scene.count-resolve.greeting.that-evening-the-wage-enters-the"
         },
         {
-          "key": 495,
+          "key": 448,
           "channel": "narration",
-          "tick": 18,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.first-deep-baskets"
         },
         {
-          "key": 503,
+          "key": 456,
           "channel": "narration",
-          "tick": 4,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.past-the-danger-line"
         },
         {
-          "key": 525,
+          "key": 468,
           "channel": "narration",
-          "tick": 14,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.the-paddies-still-first"
         },
         {
-          "key": 527,
+          "key": 469,
           "channel": "milestone",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "contentKey": "belonging.bedding.acquire"
         },
         {
-          "key": 528,
+          "key": 470,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.a-made-corner"
         },
         {
-          "key": 529,
+          "key": 471,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "context": "The trusted hand promotion",
           "contentKey": "beat.R6.greeting.morning-the-forecourt-genemon-s-window"
         },
         {
-          "key": 530,
+          "key": 472,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -2780,9 +2743,9 @@
           "contentKey": "beat.R6.greeting.salt-one-sho-waxed-thread-two"
         },
         {
-          "key": 531,
+          "key": 473,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -2790,18 +2753,18 @@
           "contentKey": "beat.R6.greeting.two-hands-short-since-spring-and"
         },
         {
-          "key": 532,
+          "key": 474,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "context": "The trusted hand promotion",
           "contentKey": "beat.R6.greeting.he-counts-the-coins-into-your"
         },
         {
-          "key": 533,
+          "key": 475,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -2809,9 +2772,9 @@
           "contentKey": "beat.R6.greeting.forty-mon-count-them-back"
         },
         {
-          "key": 534,
+          "key": 476,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -2819,27 +2782,27 @@
           "contentKey": "beat.R6.greeting.forty"
         },
         {
-          "key": 535,
+          "key": 477,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "context": "The trusted hand promotion",
           "contentKey": "beat.R6.greeting.he-watches-the-whole-count-when"
         },
         {
-          "key": 536,
+          "key": 478,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "context": "The trusted hand promotion",
           "contentKey": "beat.R6.greeting.you-did-not-work-the-number"
         },
         {
-          "key": 537,
+          "key": 479,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -2847,18 +2810,18 @@
           "contentKey": "beat.R6.greeting.his-prices-are-his-own-the"
         },
         {
-          "key": 538,
+          "key": 480,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "context": "The trusted hand promotion",
           "contentKey": "beat.R6.greeting.market-morning-at-the-gate-yohei"
         },
         {
-          "key": 539,
+          "key": 481,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "speaker": "Yohei",
           "voice": "villager",
@@ -2866,9 +2829,9 @@
           "contentKey": "beat.R6.greeting.the-house-s-hand-and-carrying"
         },
         {
-          "key": 540,
+          "key": 482,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "speaker": "Nameless",
           "voice": "player",
@@ -2876,9 +2839,9 @@
           "contentKey": "beat.R6.opt.r6-count-flat.say"
         },
         {
-          "key": 541,
+          "key": 483,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "speaker": "Yohei",
           "voice": "villager",
@@ -2886,9 +2849,9 @@
           "contentKey": "beat.R6.opt.r6-count-flat.react"
         },
         {
-          "key": 542,
+          "key": 484,
           "channel": "milestone",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "contentKey": "rank.marker",
           "params": {
@@ -2897,68 +2860,68 @@
           }
         },
         {
-          "key": 543,
+          "key": 485,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.tab-estate"
         },
         {
-          "key": 544,
+          "key": 486,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.house-workshops"
         },
         {
-          "key": 545,
+          "key": 487,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.house-granary"
         },
         {
-          "key": 546,
+          "key": 488,
           "channel": "narration",
-          "tick": 18,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "contentKey": "reveal.panel-house-influence"
         },
         {
-          "key": 552,
+          "key": 492,
           "channel": "narration",
-          "tick": 20,
+          "tick": 10,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.the-count-comes-early"
         },
         {
-          "key": 573,
+          "key": 519,
           "channel": "narration",
-          "tick": 22,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.the-ledgers-agree"
         },
         {
-          "key": 587,
+          "key": 535,
           "channel": "system",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
-            "rice": 20,
-            "price": 6,
+            "rice": 24,
+            "price": 5,
             "coinGain": 120
           }
         },
         {
-          "key": 588,
+          "key": 536,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2966,7 +2929,7 @@
           "contentKey": "requirement.three-hundred-mon-steady"
         },
         {
-          "key": 589,
+          "key": 537,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2974,7 +2937,7 @@
           "contentKey": "works.worksSeenGate"
         },
         {
-          "key": 590,
+          "key": 538,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2982,7 +2945,7 @@
           "contentKey": "works.worksSeenWoodshed"
         },
         {
-          "key": 591,
+          "key": 539,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2990,7 +2953,7 @@
           "contentKey": "flavor.sleepAnnounce"
         },
         {
-          "key": 592,
+          "key": 540,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -2999,7 +2962,7 @@
           "contentKey": "scene.works-u1.greeting.the-board-again-genemon-sees-you"
         },
         {
-          "key": 593,
+          "key": 541,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3009,7 +2972,7 @@
           "contentKey": "scene.works-u1.greeting.you-went-you-saw-them"
         },
         {
-          "key": 594,
+          "key": 542,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3019,7 +2982,7 @@
           "contentKey": "scene.works-u1.greeting.then-hear-the-work-post-one"
         },
         {
-          "key": 595,
+          "key": 543,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3028,7 +2991,7 @@
           "contentKey": "scene.works-u1.greeting.he-rules-the-line-and-holds"
         },
         {
-          "key": 596,
+          "key": 544,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3038,7 +3001,7 @@
           "contentKey": "scene.works-u1.greeting.taken-up-it-goes-against-your"
         },
         {
-          "key": 597,
+          "key": 545,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3048,7 +3011,7 @@
           "contentKey": "scene.works-u1.opt.works-u1-begin.say"
         },
         {
-          "key": 598,
+          "key": 546,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -3058,7 +3021,7 @@
           "contentKey": "scene.works-u1.opt.works-u1-begin.react"
         },
         {
-          "key": 599,
+          "key": 547,
           "channel": "milestone",
           "tick": 0,
           "count": 1,
@@ -3069,14 +3032,14 @@
           }
         },
         {
-          "key": 607,
+          "key": 555,
           "channel": "milestone",
           "tick": 4,
           "count": 1,
           "contentKey": "estate.stage.1.done"
         },
         {
-          "key": 608,
+          "key": 556,
           "channel": "milestone",
           "tick": 4,
           "count": 1,
@@ -3084,7 +3047,7 @@
           "contentKey": "works.worksNamedOrchard"
         },
         {
-          "key": 609,
+          "key": 557,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3092,7 +3055,7 @@
           "contentKey": "requirement.coin-into-the-works"
         },
         {
-          "key": 610,
+          "key": 558,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3101,7 +3064,7 @@
           "contentKey": "beat.R7.greeting.the-board-past-supper-past-the"
         },
         {
-          "key": 611,
+          "key": 559,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3111,7 +3074,7 @@
           "contentKey": "beat.R7.greeting.stand-where-i-can-see-you"
         },
         {
-          "key": 612,
+          "key": 560,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3121,7 +3084,7 @@
           "contentKey": "beat.R7.greeting.a-full-year-and-more-this"
         },
         {
-          "key": 613,
+          "key": 561,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3130,7 +3093,7 @@
           "contentKey": "beat.R7.greeting.he-turns-back-through-the-pages"
         },
         {
-          "key": 614,
+          "key": 562,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3140,7 +3103,7 @@
           "contentKey": "beat.R7.greeting.gonbei-every-hired-man-this-house"
         },
         {
-          "key": 615,
+          "key": 563,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3149,7 +3112,7 @@
           "contentKey": "beat.R7.greeting.he-writes-it-small-and-square"
         },
         {
-          "key": 616,
+          "key": 564,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3158,7 +3121,7 @@
           "contentKey": "beat.R7.greeting.the-book-has-your-hands-in"
         },
         {
-          "key": 617,
+          "key": 565,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3168,7 +3131,7 @@
           "contentKey": "beat.R7.opt.r7-plain.say"
         },
         {
-          "key": 618,
+          "key": 566,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3178,7 +3141,7 @@
           "contentKey": "beat.R7.opt.r7-plain.react"
         },
         {
-          "key": 619,
+          "key": 567,
           "channel": "milestone",
           "tick": 4,
           "count": 1,
@@ -3189,15 +3152,7 @@
           }
         },
         {
-          "key": 620,
-          "channel": "narration",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "requirement.a-granary-against-winter"
-        },
-        {
-          "key": 621,
+          "key": 568,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3205,7 +3160,7 @@
           "contentKey": "reveal.room-grove"
         },
         {
-          "key": 622,
+          "key": 569,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3213,7 +3168,7 @@
           "contentKey": "reveal.house-study"
         },
         {
-          "key": 623,
+          "key": 570,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3222,7 +3177,7 @@
           "contentKey": "scene.r7-dream.greeting.the-woodshed-late-on-the-doorstep"
         },
         {
-          "key": 624,
+          "key": 571,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3231,7 +3186,7 @@
           "contentKey": "scene.r7-dream.greeting.the-book-has-a-name-in"
         },
         {
-          "key": 625,
+          "key": 572,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3240,7 +3195,7 @@
           "contentKey": "scene.r7-dream.greeting.a-road-climbing-rain-on-it"
         },
         {
-          "key": 626,
+          "key": 573,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3249,7 +3204,7 @@
           "contentKey": "scene.r7-dream.greeting.the-weight-across-his-shoulders-is"
         },
         {
-          "key": 627,
+          "key": 574,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3258,7 +3213,7 @@
           "contentKey": "scene.r7-dream.greeting.behind-him-on-the-climb-somebody"
         },
         {
-          "key": 628,
+          "key": 575,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3267,7 +3222,7 @@
           "contentKey": "scene.r7-dream.greeting.he-turns-to-answer"
         },
         {
-          "key": 629,
+          "key": 576,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3276,7 +3231,7 @@
           "contentKey": "scene.r7-dream.greeting.the-mountain-moves"
         },
         {
-          "key": 630,
+          "key": 577,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3285,7 +3240,7 @@
           "contentKey": "scene.r7-dream.greeting.after-that-there-is-only-the"
         },
         {
-          "key": 631,
+          "key": 578,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3294,7 +3249,7 @@
           "contentKey": "scene.r7-dream.greeting.he-wakes-in-the-woodshed-with"
         },
         {
-          "key": 632,
+          "key": 579,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3304,7 +3259,7 @@
           "contentKey": "scene.r7-dream.greeting.there-was-a-road"
         },
         {
-          "key": 633,
+          "key": 580,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -3313,7 +3268,7 @@
           "contentKey": "scene.r7-dream.greeting.nobody-answers-it-is-a-long"
         },
         {
-          "key": 635,
+          "key": 582,
           "channel": "milestone",
           "tick": 4,
           "count": 1,
@@ -3321,7 +3276,7 @@
           "contentKey": "flavor.estateSourceFields"
         },
         {
-          "key": 637,
+          "key": 584,
           "channel": "narration",
           "tick": 18,
           "count": 1,
@@ -3329,25 +3284,25 @@
           "contentKey": "requirement.the-fields-run-on-you"
         },
         {
-          "key": 643,
+          "key": 588,
           "channel": "narration",
-          "tick": 0,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "contentKey": "discovery.disc-woodlot-lacquer"
         },
         {
-          "key": 647,
+          "key": 594,
           "channel": "narration",
-          "tick": 14,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.the-woodlot-runs-on-you"
         },
         {
-          "key": 648,
+          "key": 595,
           "channel": "milestone",
-          "tick": 16,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "contentKey": "pillar.judge",
@@ -3357,99 +3312,191 @@
           }
         },
         {
-          "key": 651,
+          "key": 598,
           "channel": "narration",
-          "tick": 16,
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.the-snow-quits-the-valley-floor"
+        },
+        {
+          "key": 599,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.the-river-runs-black-and-narrow"
+        },
+        {
+          "key": 600,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.the-light-stretches-work-that-used"
+        },
+        {
+          "key": 601,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "turn winter",
+          "contentKey": "scene.turn-winter.greeting.small-on-the-road-below-a"
+        },
+        {
+          "key": 608,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "requirement.a-granary-against-winter"
+        },
+        {
+          "key": 609,
+          "channel": "milestone",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "FAIL",
+            "bonus": 1
+          }
+        },
+        {
+          "key": 612,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "turn new year",
+          "contentKey": "scene.turn-new-year.greeting.ice-lets-go-of-the-shaded"
+        },
+        {
+          "key": 613,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "turn new year",
+          "contentKey": "scene.turn-new-year.greeting.the-ground-gives-underfoot-where-all"
+        },
+        {
+          "key": 614,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "turn new year",
+          "contentKey": "scene.turn-new-year.greeting.up-the-woodlot-the-bark-of"
+        },
+        {
+          "key": 615,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "turn new year",
+          "contentKey": "scene.turn-new-year.greeting.last-and-small-under-all-that"
+        },
+        {
+          "key": 618,
+          "channel": "narration",
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "turn spring",
           "contentKey": "scene.turn-spring.greeting.the-green-closes-ranks-what-was"
         },
         {
-          "key": 652,
+          "key": 619,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "turn spring",
           "contentKey": "scene.turn-spring.greeting.the-river-drops-slow-over-its"
         },
         {
-          "key": 653,
+          "key": 620,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "turn spring",
           "contentKey": "scene.turn-spring.greeting.in-the-grove-the-new-bamboo"
         },
         {
-          "key": 654,
+          "key": 621,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "turn spring",
           "contentKey": "scene.turn-spring.greeting.people-show-late-in-this-weather"
         },
         {
-          "key": 657,
+          "key": 624,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "turn summer",
           "contentKey": "scene.turn-summer.greeting.the-heat-loosens-its-grip-at"
         },
         {
-          "key": 658,
+          "key": 625,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "turn summer",
           "contentKey": "scene.turn-summer.greeting.the-light-comes-in-slantwise-now"
         },
         {
-          "key": 659,
+          "key": 626,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "turn summer",
           "contentKey": "scene.turn-summer.greeting.on-the-hill-above-the-village"
         },
         {
-          "key": 660,
+          "key": 627,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "turn summer",
           "contentKey": "scene.turn-summer.greeting.smoke-stands-over-the-village-at"
         },
         {
-          "key": 663,
+          "key": 630,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "sb bon",
           "contentKey": "scene.sb-bon.greeting.loads-cross-the-forecourt-all-morning"
         },
         {
-          "key": 664,
+          "key": 631,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "sb bon",
           "contentKey": "scene.sb-bon.greeting.the-third-load-goes-past-before"
         },
         {
-          "key": 665,
+          "key": 632,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "speaker": "Gonbei",
           "voice": "player",
@@ -3457,9 +3504,9 @@
           "contentKey": "scene.sb-bon.greeting.what-do-i-carry"
         },
         {
-          "key": 666,
+          "key": 633,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "speaker": "O-Hisa",
           "voice": "steward",
@@ -3467,36 +3514,36 @@
           "contentKey": "scene.sb-bon.greeting.not-this-if-a-year-from"
         },
         {
-          "key": 667,
+          "key": 634,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "sb bon",
           "contentKey": "scene.sb-bon.greeting.the-house-files-toward-the-alcove"
         },
         {
-          "key": 668,
+          "key": 635,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "sb bon",
           "contentKey": "scene.sb-bon.greeting.at-dusk-from-the-weir-path"
         },
         {
-          "key": 669,
+          "key": 636,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "sb bon",
           "contentKey": "scene.sb-bon.greeting.at-the-gate-the-monk-iori"
         },
         {
-          "key": 670,
+          "key": 637,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "speaker": "Iori",
           "voice": "monk",
@@ -3504,141 +3551,141 @@
           "contentKey": "scene.sb-bon.greeting.sit-i-have-two-bowls-and"
         },
         {
-          "key": 671,
+          "key": 638,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "sb bon",
           "contentKey": "scene.sb-bon.greeting.through-the-corridor-screen-past-shoulders"
         },
         {
-          "key": 672,
+          "key": 639,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "sb bon",
           "contentKey": "scene.sb-bon.greeting.morning-the-trays-are-cleared-the"
         },
         {
-          "key": 673,
+          "key": 640,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "turn bon",
           "contentKey": "scene.turn-bon.greeting.the-river-carries-the-first-leaves"
         },
         {
-          "key": 674,
+          "key": 641,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "turn bon",
           "contentKey": "scene.turn-bon.greeting.the-mornings-come-in-cold-enough"
         },
         {
-          "key": 675,
+          "key": 642,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "turn bon",
           "contentKey": "scene.turn-bon.greeting.the-road-empties-back-out-over"
         },
         {
-          "key": 676,
+          "key": 643,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "turn bon",
           "contentKey": "scene.turn-bon.greeting.from-the-village-at-dusk-the"
         },
         {
-          "key": 677,
+          "key": 644,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "nengu autumn frame",
           "contentKey": "scene.nengu-autumn-frame.greeting.autumn-thins-to-its-last-day"
         },
         {
-          "key": 678,
+          "key": 645,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "nengu autumn frame",
           "contentKey": "scene.nengu-autumn-frame.greeting.genemon-reads-the-year-against-the"
         },
         {
-          "key": 679,
+          "key": 646,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "nengu autumn frame",
           "contentKey": "scene.nengu-autumn-frame.greeting.nobody-reads-the-sum-aloud-it"
         },
         {
-          "key": 680,
+          "key": 647,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "nengu autumn frame",
           "contentKey": "scene.nengu-autumn-frame.greeting.chiyo-looks-once-and-briefly-at"
         },
         {
-          "key": 681,
+          "key": 648,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "nengu autumn frame",
           "contentKey": "scene.nengu-autumn-frame.greeting.the-book-closes-the-house-has"
         },
         {
-          "key": 682,
+          "key": 649,
           "channel": "milestone",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "contentKey": "nengu.reckoned"
         },
         {
-          "key": 683,
+          "key": 650,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "contentKey": "requirement.the-nengu-reckoned"
         },
         {
-          "key": 684,
+          "key": 651,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "contentKey": "works.worksSeenOrchard"
         },
         {
-          "key": 685,
+          "key": 652,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "context": "works u2",
           "contentKey": "scene.works-u2.greeting.genemon-finds-you-in-the-forecourt"
         },
         {
-          "key": 686,
+          "key": 653,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -3646,9 +3693,9 @@
           "contentKey": "scene.works-u2.greeting.the-orchard-that-is-the-oldest"
         },
         {
-          "key": 687,
+          "key": 654,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -3656,9 +3703,9 @@
           "contentKey": "scene.works-u2.greeting.someone-set-those-trees-out-in"
         },
         {
-          "key": 688,
+          "key": 655,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -3666,9 +3713,9 @@
           "contentKey": "scene.works-u2.greeting.the-work-the-wild-growth-cut"
         },
         {
-          "key": 689,
+          "key": 656,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "speaker": "Gonbei",
           "voice": "player",
@@ -3676,9 +3723,9 @@
           "contentKey": "scene.works-u2.opt.works-u2-begin.say"
         },
         {
-          "key": 690,
+          "key": 657,
           "channel": "narration",
-          "tick": 16,
+          "tick": 6,
           "count": 1,
           "speaker": "Genemon",
           "voice": "steward",
@@ -3686,87 +3733,61 @@
           "contentKey": "scene.works-u2.opt.works-u2-begin.react"
         },
         {
-          "key": 693,
-          "channel": "system",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 30,
-            "price": 4,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 694,
+          "key": 659,
           "channel": "milestone",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "flavor.estateSourceTreasury"
-        },
-        {
-          "key": 696,
-          "channel": "system",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 30,
-            "price": 4,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 697,
-          "channel": "system",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 28,
-            "price": 4,
-            "coinGain": 112
-          }
-        },
-        {
-          "key": 700,
-          "channel": "milestone",
-          "tick": 0,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "contentKey": "flavor.estateSourceStores"
         },
         {
-          "key": 729,
-          "channel": "milestone",
-          "tick": 12,
+          "key": 687,
+          "channel": "system",
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "contentKey": "pillar.judge",
+          "contentKey": "market.sellRice",
           "params": {
-            "grade": "FAIL",
-            "bonus": 8
+            "rice": 30,
+            "price": 4,
+            "coinGain": 120
           }
         },
         {
-          "key": 738,
+          "key": 688,
+          "channel": "milestone",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "flavor.estateSourceTreasury"
+        },
+        {
+          "key": 689,
           "channel": "system",
           "tick": 0,
           "count": 6,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
-            "rice": 24,
-            "price": 5,
+            "rice": 30,
+            "price": 4,
             "coinGain": 120
           }
         },
         {
-          "key": 740,
+          "key": 690,
+          "channel": "milestone",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "FAIL",
+            "bonus": 10
+          }
+        },
+        {
+          "key": 693,
           "channel": "system",
           "tick": 2,
           "count": 1,
@@ -3779,7 +3800,7 @@
           }
         },
         {
-          "key": 742,
+          "key": 695,
           "channel": "system",
           "tick": 4,
           "count": 1,
@@ -3792,9 +3813,9 @@
           }
         },
         {
-          "key": 745,
+          "key": 697,
           "channel": "system",
-          "tick": 8,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "contentKey": "market.sellRice",
@@ -3805,7 +3826,7 @@
           }
         },
         {
-          "key": 748,
+          "key": 701,
           "channel": "system",
           "tick": 12,
           "count": 1,
@@ -3818,7 +3839,7 @@
           }
         },
         {
-          "key": 751,
+          "key": 704,
           "channel": "system",
           "tick": 16,
           "count": 1,
@@ -3831,21 +3852,297 @@
           }
         },
         {
-          "key": 761,
+          "key": 729,
           "channel": "milestone",
-          "tick": 12,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "contentKey": "pillar.judge",
           "params": {
             "grade": "FAIL",
+            "bonus": 8
+          }
+        },
+        {
+          "key": 736,
+          "channel": "system",
+          "tick": 0,
+          "count": 3,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 24,
+            "price": 5,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 754,
+          "channel": "milestone",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "estate.commissioned",
+          "params": {
+            "stage": "Reclaim the orchard"
+          }
+        },
+        {
+          "key": 768,
+          "channel": "milestone",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "estate.stage.2.done"
+        },
+        {
+          "key": 769,
+          "channel": "milestone",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "works.worksNamedGranary"
+        },
+        {
+          "key": 771,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "works.worksSeenKura"
+        },
+        {
+          "key": 772,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.loading-at-the-kura-shinnosuke-is"
+        },
+        {
+          "key": 773,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Shinnosuke",
+          "voice": "steward",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.count-them-the-storehouse-has-one"
+        },
+        {
+          "key": 774,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.you-look-above-the-seal-plate-the"
+        },
+        {
+          "key": 775,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Gonbei",
+          "voice": "player",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.ask-the-steward"
+        },
+        {
+          "key": 776,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Shinnosuke",
+          "voice": "steward",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.i-asked-everyone-grandmother-said-mind"
+        },
+        {
+          "key": 777,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.asking-costs-you-something-every-time"
+        },
+        {
+          "key": 778,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Gonbei",
+          "voice": "player",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.the-kura-s-crest-it-has"
+        },
+        {
+          "key": 779,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.it-is-not-even-a-question"
+        },
+        {
+          "key": 780,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.the-kura-wants-its-hinges-oiled"
+        },
+        {
+          "key": 781,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.that-is-the-answer-it-is"
+        },
+        {
+          "key": 782,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.shinnosuke-is-waiting-on-the-woodpile"
+        },
+        {
+          "key": 783,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Shinnosuke",
+          "voice": "steward",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.see-you-re-the-other-one"
+        },
+        {
+          "key": 784,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "sb crest",
+          "contentKey": "scene.sb-crest.greeting.you-didn-t-the-boy-climbs"
+        },
+        {
+          "key": 785,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works u3",
+          "contentKey": "scene.works-u3.greeting.evening-at-the-board-genemon-has"
+        },
+        {
+          "key": 786,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u3",
+          "contentKey": "scene.works-u3.greeting.you-have-seen-it-the-kura"
+        },
+        {
+          "key": 787,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u3",
+          "contentKey": "scene.works-u3.greeting.it-holds-this-year-s-rice"
+        },
+        {
+          "key": 788,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u3",
+          "contentKey": "scene.works-u3.greeting.so-a-second-granary-raised-at"
+        },
+        {
+          "key": 789,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u3",
+          "contentKey": "scene.works-u3.greeting.every-line-on-this-page-until"
+        },
+        {
+          "key": 790,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Gonbei",
+          "voice": "player",
+          "context": "works u3",
+          "contentKey": "scene.works-u3.opt.works-u3-begin.say"
+        },
+        {
+          "key": 791,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u3",
+          "contentKey": "scene.works-u3.opt.works-u3-begin.react"
+        },
+        {
+          "key": 808,
+          "channel": "milestone",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "BAD",
+            "bonus": 8
+          }
+        },
+        {
+          "key": 819,
+          "channel": "system",
+          "tick": 0,
+          "count": 11,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 20,
+            "price": 6,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 835,
+          "channel": "milestone",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "BAD",
             "bonus": 9
           }
         },
         {
-          "key": 782,
+          "key": 859,
           "channel": "system",
-          "tick": 0,
+          "tick": 2,
           "count": 6,
           "voice": "narrator",
           "contentKey": "market.sellRice",
@@ -3856,295 +4153,7 @@
           }
         },
         {
-          "key": 789,
-          "channel": "milestone",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "estate.commissioned",
-          "params": {
-            "stage": "Reclaim the orchard"
-          }
-        },
-        {
-          "key": 802,
-          "channel": "milestone",
-          "tick": 20,
-          "count": 1,
-          "contentKey": "estate.stage.2.done"
-        },
-        {
-          "key": 803,
-          "channel": "milestone",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "works.worksNamedGranary"
-        },
-        {
-          "key": 805,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "works.worksSeenKura"
-        },
-        {
-          "key": 806,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.loading-at-the-kura-shinnosuke-is"
-        },
-        {
-          "key": 807,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Shinnosuke",
-          "voice": "steward",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.count-them-the-storehouse-has-one"
-        },
-        {
-          "key": 808,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.you-look-above-the-seal-plate-the"
-        },
-        {
-          "key": 809,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Gonbei",
-          "voice": "player",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.ask-the-steward"
-        },
-        {
-          "key": 810,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Shinnosuke",
-          "voice": "steward",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.i-asked-everyone-grandmother-said-mind"
-        },
-        {
-          "key": 811,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.asking-costs-you-something-every-time"
-        },
-        {
-          "key": 812,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Gonbei",
-          "voice": "player",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.the-kura-s-crest-it-has"
-        },
-        {
-          "key": 813,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.it-is-not-even-a-question"
-        },
-        {
-          "key": 814,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.the-kura-wants-its-hinges-oiled"
-        },
-        {
-          "key": 815,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.that-is-the-answer-it-is"
-        },
-        {
-          "key": 816,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.shinnosuke-is-waiting-on-the-woodpile"
-        },
-        {
-          "key": 817,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Shinnosuke",
-          "voice": "steward",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.see-you-re-the-other-one"
-        },
-        {
-          "key": 818,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "context": "sb crest",
-          "contentKey": "scene.sb-crest.greeting.you-didn-t-the-boy-climbs"
-        },
-        {
-          "key": 819,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "context": "works u3",
-          "contentKey": "scene.works-u3.greeting.evening-at-the-board-genemon-has"
-        },
-        {
-          "key": 820,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u3",
-          "contentKey": "scene.works-u3.greeting.you-have-seen-it-the-kura"
-        },
-        {
-          "key": 821,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u3",
-          "contentKey": "scene.works-u3.greeting.it-holds-this-year-s-rice"
-        },
-        {
-          "key": 822,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u3",
-          "contentKey": "scene.works-u3.greeting.so-a-second-granary-raised-at"
-        },
-        {
-          "key": 823,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u3",
-          "contentKey": "scene.works-u3.greeting.every-line-on-this-page-until"
-        },
-        {
-          "key": 824,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Gonbei",
-          "voice": "player",
-          "context": "works u3",
-          "contentKey": "scene.works-u3.opt.works-u3-begin.say"
-        },
-        {
-          "key": 825,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u3",
-          "contentKey": "scene.works-u3.opt.works-u3-begin.react"
-        },
-        {
-          "key": 830,
-          "channel": "milestone",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "pillar.judge",
-          "params": {
-            "grade": "BAD",
-            "bonus": 9
-          }
-        },
-        {
-          "key": 865,
-          "channel": "system",
-          "tick": 0,
-          "count": 10,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 20,
-            "price": 6,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 866,
-          "channel": "milestone",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "pillar.judge",
-          "params": {
-            "grade": "BAD",
-            "bonus": 10
-          }
-        },
-        {
-          "key": 900,
-          "channel": "system",
-          "tick": 2,
-          "count": 7,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 24,
-            "price": 5,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 901,
-          "channel": "milestone",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "pillar.judge",
-          "params": {
-            "grade": "OK",
-            "bonus": 10
-          }
-        },
-        {
-          "key": 904,
+          "key": 861,
           "channel": "system",
           "tick": 4,
           "count": 1,
@@ -4157,9 +4166,34 @@
           }
         },
         {
-          "key": 906,
+          "key": 865,
           "channel": "system",
-          "tick": 6,
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 21,
+            "price": 5,
+            "coinGain": 105
+          }
+        },
+        {
+          "key": 870,
+          "channel": "milestone",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "OK",
+            "bonus": 9
+          }
+        },
+        {
+          "key": 874,
+          "channel": "system",
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "contentKey": "market.sellRice",
@@ -4172,7 +4206,336 @@
         {
           "key": 907,
           "channel": "system",
+          "tick": 0,
+          "count": 6,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 24,
+            "price": 5,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 908,
+          "channel": "milestone",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "OK",
+            "bonus": 10
+          }
+        },
+        {
+          "key": 911,
+          "channel": "system",
+          "tick": 2,
+          "count": 2,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 30,
+            "price": 4,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 914,
+          "channel": "system",
           "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 30,
+            "price": 4,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 916,
+          "channel": "system",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 30,
+            "price": 4,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 917,
+          "channel": "system",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 27,
+            "price": 4,
+            "coinGain": 108
+          }
+        },
+        {
+          "key": 919,
+          "channel": "system",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 30,
+            "price": 4,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 921,
+          "channel": "system",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 30,
+            "price": 4,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 923,
+          "channel": "system",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 24,
+            "price": 4,
+            "coinGain": 96
+          }
+        },
+        {
+          "key": 927,
+          "channel": "system",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 30,
+            "price": 4,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 946,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.autumn-thins-to-its-last-day"
+        },
+        {
+          "key": 947,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.genemon-reads-the-year-against-the"
+        },
+        {
+          "key": 948,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.nobody-reads-the-sum-aloud-it"
+        },
+        {
+          "key": 949,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.chiyo-looks-once-and-briefly-at"
+        },
+        {
+          "key": 950,
+          "channel": "narration",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.the-book-closes-the-house-has"
+        },
+        {
+          "key": 951,
+          "channel": "milestone",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "nengu.reckoned"
+        },
+        {
+          "key": 952,
+          "channel": "milestone",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "OK",
+            "bonus": 9
+          }
+        },
+        {
+          "key": 954,
+          "channel": "milestone",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "estate.commissioned",
+          "params": {
+            "stage": "Raise the granary"
+          }
+        },
+        {
+          "key": 971,
+          "channel": "milestone",
+          "tick": 16,
+          "count": 1,
+          "contentKey": "estate.stage.3.done"
+        },
+        {
+          "key": 972,
+          "channel": "milestone",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "works.worksNamedHouse"
+        },
+        {
+          "key": 974,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "works.worksSeenHouse"
+        },
+        {
+          "key": 975,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works u4",
+          "contentKey": "scene.works-u4.greeting.past-supper-the-board-the-lamp"
+        },
+        {
+          "key": 976,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u4",
+          "contentKey": "scene.works-u4.greeting.stand-where-i-can-see-you"
+        },
+        {
+          "key": 977,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u4",
+          "contentKey": "scene.works-u4.greeting.the-omoya-you-have-seen-it"
+        },
+        {
+          "key": 978,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u4",
+          "contentKey": "scene.works-u4.greeting.the-work-roofs-sound-screens-mended"
+        },
+        {
+          "key": 979,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u4",
+          "contentKey": "scene.works-u4.greeting.thirty-one-years-i-have-written-this"
+        },
+        {
+          "key": 980,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "context": "works u4",
+          "contentKey": "scene.works-u4.greeting.he-straightens-the-book-square-to"
+        },
+        {
+          "key": 981,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u4",
+          "contentKey": "scene.works-u4.greeting.roof-and-ridge-first-then-the"
+        },
+        {
+          "key": 982,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Gonbei",
+          "voice": "player",
+          "context": "works u4",
+          "contentKey": "scene.works-u4.opt.works-u4-begin.say"
+        },
+        {
+          "key": 983,
+          "channel": "narration",
+          "tick": 18,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u4",
+          "contentKey": "scene.works-u4.opt.works-u4-begin.react"
+        },
+        {
+          "key": 988,
+          "channel": "system",
+          "tick": 0,
+          "count": 2,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 24,
+            "price": 5,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 989,
+          "channel": "system",
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "contentKey": "market.sellRice",
@@ -4183,313 +4546,22 @@
           }
         },
         {
-          "key": 909,
-          "channel": "system",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 24,
-            "price": 5,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 911,
-          "channel": "system",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 20,
-            "price": 5,
-            "coinGain": 100
-          }
-        },
-        {
-          "key": 915,
-          "channel": "system",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 24,
-            "price": 5,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 918,
-          "channel": "system",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 24,
-            "price": 5,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 938,
+          "key": 1024,
           "channel": "milestone",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "pillar.judge",
-          "params": {
-            "grade": "OK",
-            "bonus": 8
-          }
-        },
-        {
-          "key": 960,
-          "channel": "system",
           "tick": 0,
-          "count": 8,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 30,
-            "price": 4,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 962,
-          "channel": "system",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 29,
-            "price": 4,
-            "coinGain": 116
-          }
-        },
-        {
-          "key": 966,
-          "channel": "system",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 29,
-            "price": 4,
-            "coinGain": 116
-          }
-        },
-        {
-          "key": 969,
-          "channel": "system",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 22,
-            "price": 4,
-            "coinGain": 88
-          }
-        },
-        {
-          "key": 970,
-          "channel": "narration",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "context": "nengu autumn frame",
-          "contentKey": "scene.nengu-autumn-frame.greeting.autumn-thins-to-its-last-day"
-        },
-        {
-          "key": 971,
-          "channel": "narration",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "context": "nengu autumn frame",
-          "contentKey": "scene.nengu-autumn-frame.greeting.genemon-reads-the-year-against-the"
-        },
-        {
-          "key": 972,
-          "channel": "narration",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "context": "nengu autumn frame",
-          "contentKey": "scene.nengu-autumn-frame.greeting.nobody-reads-the-sum-aloud-it"
-        },
-        {
-          "key": 973,
-          "channel": "narration",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "context": "nengu autumn frame",
-          "contentKey": "scene.nengu-autumn-frame.greeting.chiyo-looks-once-and-briefly-at"
-        },
-        {
-          "key": 974,
-          "channel": "narration",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "context": "nengu autumn frame",
-          "contentKey": "scene.nengu-autumn-frame.greeting.the-book-closes-the-house-has"
-        },
-        {
-          "key": 975,
-          "channel": "milestone",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "nengu.reckoned"
-        },
-        {
-          "key": 976,
-          "channel": "milestone",
-          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "contentKey": "pillar.judge",
           "params": {
-            "grade": "OK",
+            "grade": "GOOD",
             "bonus": 9
           }
         },
         {
-          "key": 978,
-          "channel": "milestone",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "estate.commissioned",
-          "params": {
-            "stage": "Raise the granary"
-          }
-        },
-        {
-          "key": 994,
-          "channel": "milestone",
-          "tick": 20,
-          "count": 1,
-          "contentKey": "estate.stage.3.done"
-        },
-        {
-          "key": 995,
-          "channel": "milestone",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "works.worksNamedHouse"
-        },
-        {
-          "key": 997,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "works.worksSeenHouse"
-        },
-        {
-          "key": 998,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "context": "works u4",
-          "contentKey": "scene.works-u4.greeting.past-supper-the-board-the-lamp"
-        },
-        {
-          "key": 999,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u4",
-          "contentKey": "scene.works-u4.greeting.stand-where-i-can-see-you"
-        },
-        {
-          "key": 1000,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u4",
-          "contentKey": "scene.works-u4.greeting.the-omoya-you-have-seen-it"
-        },
-        {
-          "key": 1001,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u4",
-          "contentKey": "scene.works-u4.greeting.the-work-roofs-sound-screens-mended"
-        },
-        {
-          "key": 1002,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u4",
-          "contentKey": "scene.works-u4.greeting.thirty-one-years-i-have-written-this"
-        },
-        {
-          "key": 1003,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "context": "works u4",
-          "contentKey": "scene.works-u4.greeting.he-straightens-the-book-square-to"
-        },
-        {
-          "key": 1004,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u4",
-          "contentKey": "scene.works-u4.greeting.roof-and-ridge-first-then-the"
-        },
-        {
-          "key": 1005,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Gonbei",
-          "voice": "player",
-          "context": "works u4",
-          "contentKey": "scene.works-u4.opt.works-u4-begin.say"
-        },
-        {
-          "key": 1006,
-          "channel": "narration",
-          "tick": 22,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "works u4",
-          "contentKey": "scene.works-u4.opt.works-u4-begin.react"
-        },
-        {
-          "key": 1032,
+          "key": 1039,
           "channel": "system",
           "tick": 0,
-          "count": 8,
+          "count": 13,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
@@ -4499,34 +4571,22 @@
           }
         },
         {
-          "key": 1034,
+          "key": 1049,
           "channel": "milestone",
-          "tick": 2,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "contentKey": "pillar.judge",
           "params": {
             "grade": "GOOD",
-            "bonus": 8
+            "bonus": 9
           }
         },
         {
-          "key": 1075,
-          "channel": "milestone",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "pillar.judge",
-          "params": {
-            "grade": "GOOD",
-            "bonus": 8
-          }
-        },
-        {
-          "key": 1086,
+          "key": 1080,
           "channel": "system",
           "tick": 2,
-          "count": 18,
+          "count": 10,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
@@ -4536,9 +4596,9 @@
           }
         },
         {
-          "key": 1093,
+          "key": 1081,
           "channel": "milestone",
-          "tick": 14,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "contentKey": "pillar.judge",
@@ -4548,47 +4608,9 @@
           }
         },
         {
-          "key": 1125,
-          "channel": "system",
-          "tick": 2,
-          "count": 9,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 24,
-            "price": 5,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 1126,
-          "channel": "milestone",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "pillar.judge",
-          "params": {
-            "grade": "GOOD",
-            "bonus": 10
-          }
-        },
-        {
-          "key": 1130,
+          "key": 1084,
           "channel": "system",
           "tick": 4,
-          "count": 2,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 24,
-            "price": 5,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 1132,
-          "channel": "system",
-          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "contentKey": "market.sellRice",
@@ -4599,9 +4621,9 @@
           }
         },
         {
-          "key": 1133,
+          "key": 1085,
           "channel": "system",
-          "tick": 6,
+          "tick": 4,
           "count": 1,
           "voice": "narrator",
           "contentKey": "market.sellRice",
@@ -4612,7 +4634,20 @@
           }
         },
         {
-          "key": 1135,
+          "key": 1087,
+          "channel": "system",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 24,
+            "price": 5,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 1089,
           "channel": "system",
           "tick": 8,
           "count": 1,
@@ -4625,20 +4660,7 @@
           }
         },
         {
-          "key": 1137,
-          "channel": "system",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 24,
-            "price": 5,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 1139,
+          "key": 1092,
           "channel": "system",
           "tick": 12,
           "count": 1,
@@ -4651,9 +4673,9 @@
           }
         },
         {
-          "key": 1143,
+          "key": 1094,
           "channel": "system",
-          "tick": 18,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "contentKey": "market.sellRice",
@@ -4664,297 +4686,99 @@
           }
         },
         {
-          "key": 1145,
+          "key": 1096,
+          "channel": "system",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 24,
+            "price": 5,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 1099,
           "channel": "system",
           "tick": 20,
           "count": 1,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
-            "rice": 21,
+            "rice": 24,
             "price": 5,
-            "coinGain": 105
+            "coinGain": 120
           }
         },
         {
-          "key": 1163,
+          "key": 1121,
           "channel": "milestone",
-          "tick": 6,
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "contentKey": "pillar.judge",
           "params": {
-            "grade": "GREAT",
+            "grade": "GOOD",
             "bonus": 9
           }
         },
         {
-          "key": 1181,
-          "channel": "milestone",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "estate.commissioned",
-          "params": {
-            "stage": "Set the house in order"
-          }
-        },
-        {
-          "key": 1193,
-          "channel": "reward",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "estate.workProgress",
-          "params": {
-            "stage": "Set the house in order",
-            "done": 9,
-            "total": 14
-          }
-        },
-        {
-          "key": 1194,
-          "channel": "reward",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "estate.workProgress",
-          "params": {
-            "stage": "Set the house in order",
-            "done": 10,
-            "total": 14
-          }
-        },
-        {
-          "key": 1195,
-          "channel": "system",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 1196,
-          "channel": "reward",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "estate.workProgress",
-          "params": {
-            "stage": "Set the house in order",
-            "done": 11,
-            "total": 14
-          }
-        },
-        {
-          "key": 1197,
-          "channel": "reward",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "estate.workProgress",
-          "params": {
-            "stage": "Set the house in order",
-            "done": 12,
-            "total": 14
-          }
-        },
-        {
-          "key": 1198,
-          "channel": "reward",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "estate.workProgress",
-          "params": {
-            "stage": "Set the house in order",
-            "done": 13,
-            "total": 14
-          }
-        },
-        {
-          "key": 1199,
-          "channel": "system",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 1200,
-          "channel": "milestone",
-          "tick": 22,
-          "count": 1,
-          "contentKey": "estate.stage.4.done"
-        },
-        {
-          "key": 1201,
-          "channel": "milestone",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "flavor.estateStands"
-        },
-        {
-          "key": 1202,
-          "channel": "reward",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.haul_stores",
-          "params": {
-            "coin": 8
-          }
-        },
-        {
-          "key": 1203,
+          "key": 1142,
           "channel": "system",
           "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 1204,
-          "channel": "system",
-          "tick": 2,
-          "count": 11,
+          "count": 7,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
-            "rice": 30,
-            "price": 4,
+            "rice": 24,
+            "price": 5,
             "coinGain": 120
           }
         },
         {
-          "key": 1205,
-          "channel": "reward",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 20
-          }
-        },
-        {
-          "key": 1206,
+          "key": 1144,
           "channel": "system",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
-            "rice": 30,
-            "price": 4,
+            "rice": 22,
+            "price": 5,
+            "coinGain": 110
+          }
+        },
+        {
+          "key": 1148,
+          "channel": "system",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 24,
+            "price": 5,
             "coinGain": 120
           }
         },
         {
-          "key": 1207,
-          "channel": "reward",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 17
-          }
-        },
-        {
-          "key": 1208,
+          "key": 1153,
           "channel": "system",
-          "tick": 6,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
-            "rice": 26,
-            "price": 4,
-            "coinGain": 104
+            "rice": 24,
+            "price": 5,
+            "coinGain": 120
           }
         },
         {
-          "key": 1209,
-          "channel": "reward",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 14
-          }
-        },
-        {
-          "key": 1210,
-          "channel": "narration",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "context": "nengu autumn frame",
-          "contentKey": "scene.nengu-autumn-frame.greeting.autumn-thins-to-its-last-day"
-        },
-        {
-          "key": 1211,
-          "channel": "narration",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "context": "nengu autumn frame",
-          "contentKey": "scene.nengu-autumn-frame.greeting.genemon-reads-the-year-against-the"
-        },
-        {
-          "key": 1212,
-          "channel": "narration",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "context": "nengu autumn frame",
-          "contentKey": "scene.nengu-autumn-frame.greeting.nobody-reads-the-sum-aloud-it"
-        },
-        {
-          "key": 1213,
-          "channel": "narration",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "context": "nengu autumn frame",
-          "contentKey": "scene.nengu-autumn-frame.greeting.chiyo-looks-once-and-briefly-at"
-        },
-        {
-          "key": 1214,
-          "channel": "narration",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "context": "nengu autumn frame",
-          "contentKey": "scene.nengu-autumn-frame.greeting.the-book-closes-the-house-has"
-        },
-        {
-          "key": 1215,
+          "key": 1154,
           "channel": "milestone",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "nengu.reckoned"
-        },
-        {
-          "key": 1216,
-          "channel": "milestone",
-          "tick": 8,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "contentKey": "pillar.judge",
@@ -4964,43 +4788,83 @@
           }
         },
         {
-          "key": 1217,
-          "channel": "narration",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.seasonWinter2"
-        },
-        {
-          "key": 1218,
-          "channel": "reward",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 49
-          }
-        },
-        {
-          "key": 1219,
+          "key": 1157,
           "channel": "system",
-          "tick": 10,
+          "tick": 18,
           "count": 2,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
-            "rice": 24,
-            "price": 5,
+            "rice": 30,
+            "price": 4,
             "coinGain": 120
           }
         },
         {
-          "key": 1220,
+          "key": 1159,
+          "channel": "system",
+          "tick": 20,
+          "count": 2,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 30,
+            "price": 4,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 1161,
+          "channel": "system",
+          "tick": 22,
+          "count": 2,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 30,
+            "price": 4,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 1166,
+          "channel": "milestone",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "estate.commissioned",
+          "params": {
+            "stage": "Set the house in order"
+          }
+        },
+        {
+          "key": 1186,
+          "channel": "milestone",
+          "tick": 18,
+          "count": 1,
+          "contentKey": "estate.stage.4.done"
+        },
+        {
+          "key": 1187,
+          "channel": "milestone",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "flavor.estateStands"
+        },
+        {
+          "key": 1191,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.weatherFrost"
+        },
+        {
+          "key": 1192,
           "channel": "reward",
-          "tick": 10,
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
@@ -5010,104 +4874,109 @@
           }
         },
         {
-          "key": 1221,
-          "channel": "system",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 24,
-            "price": 5,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 1222,
+          "key": 1193,
           "channel": "reward",
-          "tick": 12,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "activity.farm_paddy",
           "params": {
-            "rice": 34
+            "rice": 33
           }
         },
         {
-          "key": 1223,
+          "key": 1194,
+          "channel": "reward",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 27
+          }
+        },
+        {
+          "key": 1195,
           "channel": "system",
-          "tick": 14,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 1224,
-          "channel": "system",
-          "tick": 16,
-          "count": 2,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 24,
-            "price": 5,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 1225,
+          "key": 1196,
           "channel": "reward",
-          "tick": 16,
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "activity.farm_paddy",
           "params": {
-            "rice": 30
+            "rice": 23
           }
         },
         {
-          "key": 1226,
+          "key": 1197,
+          "channel": "reward",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 19
+          }
+        },
+        {
+          "key": 1198,
+          "channel": "reward",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 16
+          }
+        },
+        {
+          "key": 1199,
+          "channel": "reward",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 14
+          }
+        },
+        {
+          "key": 1200,
           "channel": "system",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 1201,
+          "channel": "reward",
           "tick": 18,
           "count": 1,
           "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 24,
-            "price": 5,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 1227,
-          "channel": "reward",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
           "ephemeral": true,
           "contentKey": "activity.farm_paddy",
           "params": {
-            "rice": 24
+            "rice": 12
           }
         },
         {
-          "key": 1228,
-          "channel": "system",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 24,
-            "price": 5,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 1229,
+          "key": 1202,
           "channel": "reward",
           "tick": 20,
           "count": 1,
@@ -5115,24 +4984,11 @@
           "ephemeral": true,
           "contentKey": "activity.farm_paddy",
           "params": {
-            "rice": 20
+            "rice": 9
           }
         },
         {
-          "key": 1230,
-          "channel": "system",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "market.sellRice",
-          "params": {
-            "rice": 24,
-            "price": 5,
-            "coinGain": 120
-          }
-        },
-        {
-          "key": 1231,
+          "key": 1203,
           "channel": "reward",
           "tick": 22,
           "count": 1,
@@ -5140,11 +4996,120 @@
           "ephemeral": true,
           "contentKey": "activity.farm_paddy",
           "params": {
-            "rice": 17
+            "rice": 8
           }
         },
         {
-          "key": 1232,
+          "key": 1204,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.gossipTownRice"
+        },
+        {
+          "key": 1205,
+          "channel": "system",
+          "tick": 0,
+          "count": 7,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 30,
+            "price": 4,
+            "coinGain": 120
+          }
+        },
+        {
+          "key": 1206,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "market.sellRice",
+          "params": {
+            "rice": 24,
+            "price": 4,
+            "coinGain": 96
+          }
+        },
+        {
+          "key": 1207,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.autumn-thins-to-its-last-day"
+        },
+        {
+          "key": 1208,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.genemon-reads-the-year-against-the"
+        },
+        {
+          "key": 1209,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.nobody-reads-the-sum-aloud-it"
+        },
+        {
+          "key": 1210,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.chiyo-looks-once-and-briefly-at"
+        },
+        {
+          "key": 1211,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "context": "nengu autumn frame",
+          "contentKey": "scene.nengu-autumn-frame.greeting.the-book-closes-the-house-has"
+        },
+        {
+          "key": 1212,
+          "channel": "milestone",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "nengu.reckoned"
+        },
+        {
+          "key": 1213,
+          "channel": "milestone",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "contentKey": "pillar.judge",
+          "params": {
+            "grade": "GREAT",
+            "bonus": 9
+          }
+        },
+        {
+          "key": 1214,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.seasonWinter2"
+        },
+        {
+          "key": 1215,
           "channel": "reward",
           "tick": 0,
           "count": 1,
@@ -5156,7 +5121,7 @@
           }
         },
         {
-          "key": 1233,
+          "key": 1216,
           "channel": "reward",
           "tick": 2,
           "count": 1,
@@ -5168,7 +5133,7 @@
           }
         },
         {
-          "key": 1234,
+          "key": 1217,
           "channel": "system",
           "tick": 4,
           "count": 1,
@@ -5177,7 +5142,7 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 1235,
+          "key": 1218,
           "channel": "reward",
           "tick": 6,
           "count": 1,
@@ -5189,7 +5154,7 @@
           }
         },
         {
-          "key": 1236,
+          "key": 1219,
           "channel": "reward",
           "tick": 8,
           "count": 1,
@@ -5201,7 +5166,7 @@
           }
         },
         {
-          "key": 1237,
+          "key": 1220,
           "channel": "reward",
           "tick": 10,
           "count": 1,
@@ -5213,9 +5178,18 @@
           }
         },
         {
-          "key": 1238,
-          "channel": "reward",
+          "key": 1221,
+          "channel": "system",
           "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 1222,
+          "channel": "reward",
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
@@ -5225,16 +5199,7 @@
           }
         },
         {
-          "key": 1239,
-          "channel": "system",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 1240,
+          "key": 1223,
           "channel": "reward",
           "tick": 16,
           "count": 1,
@@ -5246,7 +5211,7 @@
           }
         },
         {
-          "key": 1241,
+          "key": 1224,
           "channel": "reward",
           "tick": 18,
           "count": 1,
@@ -5258,7 +5223,7 @@
           }
         },
         {
-          "key": 1242,
+          "key": 1225,
           "channel": "reward",
           "tick": 20,
           "count": 1,
@@ -5270,28 +5235,16 @@
           }
         },
         {
-          "key": 1243,
-          "channel": "reward",
+          "key": 1226,
+          "channel": "system",
           "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "activity.haul_stores",
-          "params": {
-            "coin": 4
-          }
+          "contentKey": "flavor.restOpen"
         },
         {
-          "key": 1244,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.seasonWinter2"
-        },
-        {
-          "key": 1245,
+          "key": 1227,
           "channel": "reward",
           "tick": 0,
           "count": 1,
@@ -5299,22 +5252,115 @@
           "ephemeral": true,
           "contentKey": "activity.farm_paddy",
           "params": {
-            "rice": 13
+            "rice": 50
           }
         },
         {
-          "key": 1246,
-          "channel": "system",
+          "key": 1228,
+          "channel": "reward",
           "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 41
+          }
+        },
+        {
+          "key": 1229,
+          "channel": "reward",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 34
+          }
+        },
+        {
+          "key": 1230,
+          "channel": "reward",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 28
+          }
+        },
+        {
+          "key": 1231,
+          "channel": "system",
+          "tick": 8,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 1247,
+          "key": 1232,
           "channel": "reward",
-          "tick": 4,
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 24
+          }
+        },
+        {
+          "key": 1233,
+          "channel": "reward",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 19
+          }
+        },
+        {
+          "key": 1234,
+          "channel": "reward",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 16
+          }
+        },
+        {
+          "key": 1235,
+          "channel": "system",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 1236,
+          "channel": "reward",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 14
+          }
+        },
+        {
+          "key": 1237,
+          "channel": "reward",
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
@@ -5324,9 +5370,9 @@
           }
         },
         {
-          "key": 1248,
+          "key": 1238,
           "channel": "reward",
-          "tick": 6,
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
@@ -5336,9 +5382,108 @@
           }
         },
         {
-          "key": 1249,
+          "key": 1239,
+          "channel": "system",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 1240,
+          "channel": "reward",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 4
+          }
+        },
+        {
+          "key": 1241,
+          "channel": "reward",
+          "tick": 6,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 3
+          }
+        },
+        {
+          "key": 1242,
           "channel": "reward",
           "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 2
+          }
+        },
+        {
+          "key": 1243,
+          "channel": "system",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 1244,
+          "channel": "reward",
+          "tick": 14,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 2
+          }
+        },
+        {
+          "key": 1245,
+          "channel": "reward",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 1
+          }
+        },
+        {
+          "key": 1246,
+          "channel": "system",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 1247,
+          "channel": "reward",
+          "tick": 22,
+          "count": 2,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 1
+          }
+        },
+        {
+          "key": 1248,
+          "channel": "reward",
+          "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
@@ -5348,9 +5493,9 @@
           }
         },
         {
-          "key": 1250,
+          "key": 1249,
           "channel": "reward",
-          "tick": 10,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
@@ -5360,9 +5505,18 @@
           }
         },
         {
+          "key": 1250,
+          "channel": "system",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
           "key": 1251,
           "channel": "reward",
-          "tick": 12,
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
@@ -5373,8 +5527,32 @@
         },
         {
           "key": 1252,
+          "channel": "reward",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 5
+          }
+        },
+        {
+          "key": 1253,
+          "channel": "reward",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 4
+          }
+        },
+        {
+          "key": 1254,
           "channel": "milestone",
-          "tick": 14,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "contentKey": "pillar.judge",
@@ -5384,30 +5562,30 @@
           }
         },
         {
-          "key": 1253,
+          "key": 1255,
           "channel": "system",
-          "tick": 14,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "season.spoilage",
           "params": {
-            "total": 7
+            "total": 27
           }
         },
         {
-          "key": 1254,
+          "key": 1256,
           "channel": "narration",
-          "tick": 14,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "flavor.seasonNewyear2"
+          "contentKey": "flavor.seasonNewyear1"
         },
         {
-          "key": 1255,
+          "key": 1257,
           "channel": "reward",
-          "tick": 14,
+          "tick": 12,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
@@ -5417,7 +5595,19 @@
           }
         },
         {
-          "key": 1256,
+          "key": 1258,
+          "channel": "reward",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 40
+          }
+        },
+        {
+          "key": 1259,
           "channel": "system",
           "tick": 16,
           "count": 1,
@@ -5426,21 +5616,9 @@
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 1257,
+          "key": 1260,
           "channel": "reward",
           "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 43
-          }
-        },
-        {
-          "key": 1258,
-          "channel": "reward",
-          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
@@ -5450,9 +5628,9 @@
           }
         },
         {
-          "key": 1259,
+          "key": 1261,
           "channel": "reward",
-          "tick": 22,
+          "tick": 20,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
@@ -5462,19 +5640,22 @@
           }
         },
         {
-          "key": 1260,
-          "channel": "narration",
-          "tick": 0,
+          "key": 1262,
+          "channel": "reward",
+          "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "flavor.gossipMatchmaker"
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 23
+          }
         },
         {
-          "key": 1261,
+          "key": 1263,
           "channel": "system",
           "tick": 0,
-          "count": 9,
+          "count": 17,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
@@ -5484,7 +5665,7 @@
           }
         },
         {
-          "key": 1262,
+          "key": 1264,
           "channel": "reward",
           "tick": 0,
           "count": 1,
@@ -5496,28 +5677,28 @@
           }
         },
         {
-          "key": 1263,
-          "channel": "reward",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.haul_stores",
-          "params": {
-            "coin": 17
-          }
-        },
-        {
-          "key": 1264,
+          "key": 1265,
           "channel": "system",
-          "tick": 4,
+          "tick": 2,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "flavor.restOpen"
         },
         {
-          "key": 1265,
+          "key": 1266,
+          "channel": "reward",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 18
+          }
+        },
+        {
+          "key": 1267,
           "channel": "reward",
           "tick": 6,
           "count": 1,
@@ -5525,11 +5706,11 @@
           "ephemeral": true,
           "contentKey": "activity.haul_stores",
           "params": {
-            "coin": 15
+            "coin": 14
           }
         },
         {
-          "key": 1266,
+          "key": 1268,
           "channel": "reward",
           "tick": 8,
           "count": 1,
@@ -5541,7 +5722,7 @@
           }
         },
         {
-          "key": 1267,
+          "key": 1269,
           "channel": "reward",
           "tick": 10,
           "count": 1,
@@ -5553,9 +5734,18 @@
           }
         },
         {
-          "key": 1268,
-          "channel": "reward",
+          "key": 1270,
+          "channel": "system",
           "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 1271,
+          "channel": "reward",
+          "tick": 14,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
@@ -5565,9 +5755,9 @@
           }
         },
         {
-          "key": 1269,
+          "key": 1272,
           "channel": "reward",
-          "tick": 14,
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
@@ -5577,180 +5767,9 @@
           }
         },
         {
-          "key": 1270,
-          "channel": "system",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 1271,
-          "channel": "reward",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.haul_stores",
-          "params": {
-            "coin": 6
-          }
-        },
-        {
-          "key": 1272,
-          "channel": "reward",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.haul_stores",
-          "params": {
-            "coin": 5
-          }
-        },
-        {
           "key": 1273,
-          "channel": "reward",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.haul_stores",
-          "params": {
-            "coin": 4
-          }
-        },
-        {
-          "key": 1274,
-          "channel": "reward",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 23
-          }
-        },
-        {
-          "key": 1275,
-          "channel": "system",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 1276,
-          "channel": "reward",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 21
-          }
-        },
-        {
-          "key": 1277,
-          "channel": "reward",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 17
-          }
-        },
-        {
-          "key": 1278,
-          "channel": "reward",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 14
-          }
-        },
-        {
-          "key": 1279,
-          "channel": "reward",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 12
-          }
-        },
-        {
-          "key": 1280,
-          "channel": "reward",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 10
-          }
-        },
-        {
-          "key": 1281,
-          "channel": "reward",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 8
-          }
-        },
-        {
-          "key": 1282,
-          "channel": "system",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 1283,
-          "channel": "reward",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 7
-          }
-        },
-        {
-          "key": 1284,
-          "channel": "reward",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 6
-          }
-        },
-        {
-          "key": 1285,
           "channel": "milestone",
-          "tick": 22,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "contentKey": "pillar.judge",
@@ -5760,28 +5779,175 @@
           }
         },
         {
-          "key": 1286,
-          "channel": "system",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "season.spoilage",
-          "params": {
-            "total": 11
-          }
-        },
-        {
-          "key": 1287,
+          "key": 1274,
           "channel": "narration",
-          "tick": 22,
+          "tick": 18,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "flavor.seasonSpring1"
         },
         {
+          "key": 1275,
+          "channel": "reward",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 20
+          }
+        },
+        {
+          "key": 1276,
+          "channel": "system",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 1277,
+          "channel": "reward",
+          "tick": 22,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.haul_stores",
+          "params": {
+            "coin": 18
+          }
+        },
+        {
+          "key": 1278,
+          "channel": "reward",
+          "tick": 0,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 49
+          }
+        },
+        {
+          "key": 1279,
+          "channel": "reward",
+          "tick": 2,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 41
+          }
+        },
+        {
+          "key": 1280,
+          "channel": "reward",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 34
+          }
+        },
+        {
+          "key": 1281,
+          "channel": "system",
+          "tick": 6,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 1282,
+          "channel": "reward",
+          "tick": 8,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 29
+          }
+        },
+        {
+          "key": 1283,
+          "channel": "reward",
+          "tick": 10,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 24
+          }
+        },
+        {
+          "key": 1284,
+          "channel": "reward",
+          "tick": 12,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 20
+          }
+        },
+        {
+          "key": 1285,
+          "channel": "reward",
+          "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 17
+          }
+        },
+        {
+          "key": 1286,
+          "channel": "reward",
+          "tick": 16,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 13
+          }
+        },
+        {
+          "key": 1287,
+          "channel": "system",
+          "tick": 18,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
           "key": 1288,
+          "channel": "reward",
+          "tick": 20,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "activity.farm_paddy",
+          "params": {
+            "rice": 12
+          }
+        },
+        {
+          "key": 1289,
           "channel": "reward",
           "tick": 22,
           "count": 1,
@@ -5789,17 +5955,8 @@
           "ephemeral": true,
           "contentKey": "activity.farm_paddy",
           "params": {
-            "rice": 50
+            "rice": 10
           }
-        },
-        {
-          "key": 1289,
-          "channel": "narration",
-          "tick": 0,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.seasonSpring1"
         },
         {
           "key": 1290,
@@ -5810,7 +5967,7 @@
           "ephemeral": true,
           "contentKey": "activity.haul_stores",
           "params": {
-            "coin": 20
+            "coin": 14
           }
         },
         {
@@ -5822,29 +5979,29 @@
           "ephemeral": true,
           "contentKey": "activity.haul_stores",
           "params": {
-            "coin": 17
+            "coin": 12
           }
         },
         {
           "key": 1292,
-          "channel": "reward",
+          "channel": "system",
           "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 1293,
+          "channel": "reward",
+          "tick": 6,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "activity.haul_stores",
           "params": {
-            "coin": 14
+            "coin": 10
           }
-        },
-        {
-          "key": 1293,
-          "channel": "system",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1294,
@@ -5855,7 +6012,7 @@
           "ephemeral": true,
           "contentKey": "activity.haul_stores",
           "params": {
-            "coin": 13
+            "coin": 8
           }
         },
         {
@@ -5867,7 +6024,7 @@
           "ephemeral": true,
           "contentKey": "activity.haul_stores",
           "params": {
-            "coin": 10
+            "coin": 7
           }
         },
         {
@@ -5879,29 +6036,29 @@
           "ephemeral": true,
           "contentKey": "activity.haul_stores",
           "params": {
-            "coin": 8
+            "coin": 6
           }
         },
         {
           "key": 1297,
-          "channel": "reward",
+          "channel": "system",
           "tick": 14,
+          "count": 1,
+          "voice": "narrator",
+          "ephemeral": true,
+          "contentKey": "flavor.restOpen"
+        },
+        {
+          "key": 1298,
+          "channel": "reward",
+          "tick": 16,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
           "contentKey": "activity.haul_stores",
           "params": {
-            "coin": 7
+            "coin": 5
           }
-        },
-        {
-          "key": 1298,
-          "channel": "system",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1299,
@@ -5912,7 +6069,7 @@
           "ephemeral": true,
           "contentKey": "activity.haul_stores",
           "params": {
-            "coin": 6
+            "coin": 4
           }
         },
         {
@@ -5924,164 +6081,32 @@
           "ephemeral": true,
           "contentKey": "activity.haul_stores",
           "params": {
-            "coin": 5
+            "coin": 3
           }
         },
         {
           "key": 1301,
-          "channel": "reward",
+          "channel": "system",
           "tick": 22,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "activity.haul_stores",
-          "params": {
-            "coin": 4
-          }
+          "contentKey": "flavor.restOpen"
         },
         {
           "key": 1302,
-          "channel": "reward",
+          "channel": "narration",
           "tick": 0,
           "count": 1,
           "voice": "narrator",
           "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 41
-          }
+          "contentKey": "flavor.gossipWeddingMissed"
         },
         {
           "key": 1303,
-          "channel": "reward",
-          "tick": 2,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 34
-          }
-        },
-        {
-          "key": 1304,
-          "channel": "system",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 1305,
-          "channel": "reward",
-          "tick": 6,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 30
-          }
-        },
-        {
-          "key": 1306,
-          "channel": "reward",
-          "tick": 8,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 24
-          }
-        },
-        {
-          "key": 1307,
-          "channel": "reward",
-          "tick": 10,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 20
-          }
-        },
-        {
-          "key": 1308,
-          "channel": "reward",
-          "tick": 12,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 17
-          }
-        },
-        {
-          "key": 1309,
-          "channel": "reward",
-          "tick": 14,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 14
-          }
-        },
-        {
-          "key": 1310,
-          "channel": "reward",
-          "tick": 16,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 11
-          }
-        },
-        {
-          "key": 1311,
-          "channel": "system",
-          "tick": 18,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "flavor.restOpen"
-        },
-        {
-          "key": 1312,
-          "channel": "reward",
-          "tick": 20,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 10
-          }
-        },
-        {
-          "key": 1313,
-          "channel": "reward",
-          "tick": 22,
-          "count": 1,
-          "voice": "narrator",
-          "ephemeral": true,
-          "contentKey": "activity.farm_paddy",
-          "params": {
-            "rice": 8
-          }
-        },
-        {
-          "key": 1314,
           "channel": "system",
           "tick": 0,
-          "count": 14,
+          "count": 11,
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
@@ -6091,13 +6116,13 @@
           }
         }
       ],
-      "seq": 1315
+      "seq": 1304
     },
     "skillXp": {
-      "farming": 756,
-      "conditioning": 835,
-      "woodcutting": 227,
-      "foraging": 232
+      "farming": 690,
+      "conditioning": 849,
+      "woodcutting": 184,
+      "foraging": 219
     },
     "deliveredDialogue": [
       "gen-greet",
@@ -6148,12 +6173,12 @@
     "belongings": [
       "bedding"
     ],
-    "location": "paddies",
+    "location": "forecourt",
     "rung": "R7",
     "rungReqs": {
-      "a-granary-against-winter": 1,
       "the-fields-run-on-you": 20,
       "the-woodlot-runs-on-you": 20,
+      "a-granary-against-winter": 1,
       "the-nengu-reckoned": 1
     },
     "estateStage": 4,
@@ -6164,10 +6189,10 @@
       "disc-woodlot-lacquer"
     ],
     "discoveryProgress": {
-      "disc-woodlot-lacquer": 59,
+      "disc-woodlot-lacquer": 58,
       "disc-woodlot-sluice": 16,
-      "disc-weir-bundle": 4,
-      "disc-margins-sett": 6
+      "disc-weir-bundle": 5,
+      "disc-margins-sett": 9
     },
     "autoActivity": null,
     "autoRake": false,
@@ -6181,8 +6206,8 @@
       "estate": {
         "value": 480,
         "highWater": 480,
-        "judged": 457,
-        "frac": 0.6500000000000039
+        "judged": 459,
+        "frac": 0.39999999999999947
       }
     },
     "sceneQueue": [],
@@ -6195,12 +6220,12 @@
       "sb-lease",
       "sb-sickroom",
       "sb-racks",
-      "turn-winter",
-      "turn-new-year",
       "count",
       "count-resolve",
       "works-u1",
       "r7-dream",
+      "turn-winter",
+      "turn-new-year",
       "turn-spring",
       "turn-summer",
       "sb-bon",
@@ -6212,6 +6237,6 @@
       "works-u4"
     ],
     "roundState": null,
-    "soanLedger": 2
+    "soanLedger": 3
   }
 }

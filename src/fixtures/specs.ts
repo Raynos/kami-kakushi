@@ -539,6 +539,15 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
       s = walkTo(s, getActivity('haul_stores').area); // forecourt — the coin-paying wage labour
       let guard = 0;
       while ((s.resources.coin ?? 0) <= 0 && guard++ < 20) {
+        // The drive can arrive with the forecourt's season pool drawn dry (the ADR-197
+        // sickroom lane spends more days than the old cook-mend loop did) — a dry site
+        // yields no coin, so turn the wheel first: the REAL player's refill lever (ADR-163).
+        if ((s.sitePools[getActivity('haul_stores').area] ?? 0) <= 0) {
+          const turned = reduce(s, { type: 'advance_season' });
+          if (turned === s) break; // a refused turn (the Autumn nengu gate) — fail loudly below
+          s = drainScenes(turned);
+          continue;
+        }
         s = reduce(s, { type: 'do_activity', activityId: 'haul_stores' });
       }
       return walkTo(s, 'kura');

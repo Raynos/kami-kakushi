@@ -85,15 +85,15 @@ describe('log-content registry — golden line equality', () => {
     const base = { mob: 'boar', hpBefore: 40, hpAfter: 5 };
     // 2 parts → "A and B" (rice never appears — kura-only, cannot bleed: ADR-163)
     expect(renderLogLine('combat.loss', { ...base, lostCoin: 10, lostMats: 2 })).toBe(
-      `The boar overcomes you; you limp home badly used. (HP 40→5) You drop ${formatCoin(10)} and 2 of your spoils in the rout. Eat and mend before you take the field again.`,
+      `The boar overcomes you; you limp home badly used. (HP 40→5) You drop ${formatCoin(10)} and 2 of your spoils in the rout. Mend at the sickroom before you take the field again.`,
     );
     // 1 part → no "and"
     expect(renderLogLine('combat.loss', { ...base, lostCoin: 0, lostMats: 2 })).toBe(
-      'The boar overcomes you; you limp home badly used. (HP 40→5) You drop 2 of your spoils in the rout. Eat and mend before you take the field again.',
+      'The boar overcomes you; you limp home badly used. (HP 40→5) You drop 2 of your spoils in the rout. Mend at the sickroom before you take the field again.',
     );
     // 0 parts → no drop clause at all
     expect(renderLogLine('combat.loss', { ...base, lostCoin: 0, lostMats: 0 })).toBe(
-      'The boar overcomes you; you limp home badly used. (HP 40→5) Eat and mend before you take the field again.',
+      'The boar overcomes you; you limp home badly used. (HP 40→5) Mend at the sickroom before you take the field again.',
     );
   });
 
@@ -106,13 +106,20 @@ describe('log-content registry — golden line equality', () => {
     );
   });
 
-  it('food.cook shows the HP gain only when wounds actually mended', () => {
-    expect(renderLogLine('food.cook', { sansai: 2, hpGain: 8 })).toBe(
-      'You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai, +8 HP)',
+  it('food.cook is a belly line — no wound prose, no HP figure (ADR-164/ADR-197)', () => {
+    expect(renderLogLine('food.cook', { sansai: 2, bellyGain: 15 })).toBe(
+      'You boil the wild greens into a hot meal and eat. (−2 sansai, +15 belly)',
     );
-    expect(renderLogLine('food.cook', { sansai: 2, hpGain: 0 })).toBe(
-      'You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−2 sansai)',
+    expect(renderLogLine('food.cook', { sansai: 2, bellyGain: 0 })).toBe(
+      'You boil the wild greens into a hot meal and eat. (−2 sansai)',
     );
+  });
+
+  it('the sickroom lane prices its two verbs honestly (ADR-164/ADR-197 — seed prose)', () => {
+    expect(renderLogLine('sickroom.treat', { cost: 12, hpGain: 50 })).toContain(
+      '(−12 mon, +50 HP)',
+    );
+    expect(renderLogLine('sickroom.rest', { hpGain: 20 })).toContain('(+20 HP)');
   });
 
   it('bank.deposit denominates coin but leaves plain resources as counts', () => {
@@ -159,7 +166,9 @@ describe('log-content registry — coverage', () => {
     'combat.weaponBroken': { weapon: 'bo staff' },
     'craft.repair': { weapon: 'bo staff', wood: 2, coinFee: 3 },
     'craft.equip': { weapon: 'bo staff' },
-    'food.cook': { sansai: 2, hpGain: 5 },
+    'food.cook': { sansai: 2, bellyGain: 15 },
+    'sickroom.treat': { cost: 12, hpGain: 50 },
+    'sickroom.rest': { hpGain: 20 },
     'food.eatRice': { rice: 1, satGain: 3 },
     'market.sellRice': { rice: 5, price: 2, coinGain: 10 },
     'market.buyItem': { coin: 5, item: 'straw hat' },

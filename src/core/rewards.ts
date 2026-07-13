@@ -42,6 +42,11 @@ export function applyRewards(state: GameState, rewards: RewardBundle): GameState
   if (rewards.resources) {
     for (const [id, delta] of Object.entries(rewards.resources)) {
       next = withResource(next, id, delta);
+      // ADR-179 — earning carried coin ANYWHERE latches the readout-coin fact (TST2: a
+      // spend back to zero must never hide a readout you've earned). sell_rice /
+      // collect_wage latch at their own sites; this covers labour yields + any future
+      // faucet. The hole was invisible until `treat` (ADR-197) could spend a purse to 0.
+      if (id === 'coin' && delta > 0) next = setFlag(next, 'coin-earned', true);
     }
   }
   if (rewards.flags) {

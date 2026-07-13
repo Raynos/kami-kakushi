@@ -660,7 +660,7 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     expect(belly.querySelector('.bar')!.classList.contains('low')).toBe(false);
   });
 
-  it('the Cook button becomes the PRIMARY "heal now" action when the MC is hurt (D-076 heal cue)', () => {
+  it('the Cook button is NEVER the heal cue — food is satiety-only (ADR-164/ADR-197)', () => {
     const render = mount(root, () => {}, noopHooks());
     const base = createInitialState(1);
     const ready: GameState = {
@@ -672,17 +672,42 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       [...root.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
         (b.textContent ?? '').includes('Cook a meal'),
       )!;
-    // hurt → cook is emphasised (primary), the heal cue pairing with the red life bar.
+    // hurt → cook stays a PLAIN option (the old D-076 heal cue left with the severed mend;
+    // this was RED while cook still shouted "heal now").
     render({ ...ready, character: { ...ready.character, hp: 1 } }, null);
     // FB-343/FB-369 — cook lives on the Character 己 tab's Body card now; open its chip.
     [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')]
       .find((b) => (b.textContent ?? '').includes('Character'))
       ?.click();
-    expect(cookBtn().classList.contains('primary')).toBe(true);
-    expect(cookBtn().title).toMatch(/only way to heal/);
-    // at full HP → cook is a plain option, not shouting.
-    render({ ...ready, character: { ...ready.character, hp: 9999 } }, null);
     expect(cookBtn().classList.contains('primary')).toBe(false);
+    expect(cookBtn().title).toMatch(/sickroom/i); // it says where wounds DO mend now
+  });
+
+  it('the sickroom rows: treat priced when the coin allows, HIDDEN when broke (ADR-197)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const base = createInitialState(1);
+    const bedside: GameState = {
+      ...base,
+      location: 'sickroom',
+      character: { ...base.character, hp: 1 },
+      resources: { ...base.resources, coin: balance.TREAT_COST_MON },
+      flags: { ...base.flags, awake: true },
+    };
+    render(bedside, null);
+    const row = (cls: string): HTMLElement => root.querySelector<HTMLElement>(`.${cls}`)!;
+    // both rows live, priced off the SAME selectors the reducer spends (AC-6)
+    expect(row('place-treat').hidden).toBe(false);
+    expect(row('place-treat').textContent).toContain(`−${balance.TREAT_COST_MON} mon`);
+    expect(row('place-rest-sickroom').hidden).toBe(false);
+    expect(row('place-rest-sickroom').textContent).toContain('Rest on the pallet');
+    // one mon short → the treat row HIDES (mon-only — never a shown-disabled currency
+    // swap, ADR-197)… and the free rest lane stays.
+    render(
+      { ...bedside, resources: { ...bedside.resources, coin: balance.TREAT_COST_MON - 1 } },
+      bedside,
+    );
+    expect(row('place-treat').hidden).toBe(true);
+    expect(row('place-rest-sickroom').hidden).toBe(false);
   });
 });
 

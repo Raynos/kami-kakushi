@@ -32,6 +32,7 @@ export {
   MAP_NODES,
   MAP_NODE_CEILING,
   MAP_NODE_IDS,
+  SICKROOM_NODE, // ADR-164/ADR-197 — where defeat lands you and the mend verbs live
   getNode,
   canMove,
   reachableFrom,
@@ -335,6 +336,10 @@ export {
   restRefill,
   canSleep, // ADR-187 — the day-skip's gate (a bed, at your corner, R4+)
   sleepForecast, // ADR-187 — its price; the reducer AND the hover read THIS (AC-6)
+  canTreat, // ADR-164/ADR-197 — the paid sickroom mend's gate (mon-only: no coin, no row)
+  treatForecast, // its price + gain; reducer AND row read THIS (AC-6)
+  canRestSickroom, // ADR-164 — the free pallet-day trickle's gate
+  restSickroomForecast, // its day + trickle; reducer AND row read THIS (AC-6)
   estateSatietyBonus,
   estateYieldNum,
   season,

@@ -100,9 +100,12 @@ export const RUNG_WALL_FLOOR_MIN = 30;
 export const T0_PACING_BAND_MIN = 3;
 /** Re-signed 22 → 25 (human, 2026-07-11) with the ×2 walk table: travel reads as a
  *  real walk now, and R3 — the walking-est rung (kill reqs across the fight grounds)
- *  — honestly runs 21–24 min in the slower world. The ceiling covers it with ~2 min
- *  of headroom; every other rung sits well under. */
-export const T0_PACING_BAND_MAX = 25;
+ *  — honestly runs 21–24 min in the slower world.
+ *  Re-signed 25 → 28 (human, 2026-07-13) with the ADR-164/ADR-197 sickroom mend lane:
+ *  the old cook-mend was in-field (~6 s); mending is now a deliberate TRIP to Sōan's
+ *  pallet, and R3's ~8–10 mend walks honestly cost ~3 more minutes — the recovery
+ *  pressure the human ruled, priced into the band rather than fudged out of the sim. */
+export const T0_PACING_BAND_MAX = 28;
 /** Phase 2 ≈ Phase 1 in wall-time (ADR-133, HD-19): the capstone→ascension grind should take roughly
  *  as long as the R0→R7 climb. A GENERAL rule across tiers (a tunable playtest default, not frozen)
  *  — expressed as a RATIO (phase2Wall / phase1Wall) so it single-sources the "equal time" law and
@@ -326,6 +329,20 @@ export const LOW_HP_WORK_MULT = 0.5; // yield/speed multiplier while injured
  *  that MEND HP are G4 sickroom content; HP has no auto-trickle (ADR-164). */
 export const SICKROOM_DAYS_LOST = 2;
 
+// ── The sickroom HP-mend lane (ADR-164/ADR-197 — no auto-trickle; recovery is a deliberate
+// spend of mon or days). Both verbs are sited at the sickroom node. SIM-OWNED (ADR-132):
+// seed values, tuned against the no-stranding + pacing checks. ──
+/** Mon one treatment bills. MON-ONLY (ADR-197): no day-cost fallback — without the coin the
+ *  verb hides and the free rest trickle below is the only lane. ≈2 repairs / ~6 haul acts:
+ *  paid speed is premium, never routine. */
+export let TREAT_COST_MON = 8;
+/** HP one paid treatment mends — the big chunk (pay for speed). Sized ≳ the R3-window
+ *  hpMax (~64) × 0.75, so one treat puts a beaten body most of the way back. */
+export let TREAT_HP_RESTORE = 50;
+/** HP one day of free rest at the sickroom trickles back (spend days instead of mon):
+ *  a near-dead body is ~3 pallet days from fighting shape in the R3 window. */
+export let REST_SICKROOM_HP = 32;
+
 /** Loss penalty (ADR-076 + batch-2 call 7 + ADR-113): a lost fight drops this fraction of your CARRIED
  *  COIN + RICE (the two wealth resources); what's BANKED in the kura storehouse is SAFE. The "real
  *  bite" magnitude (batch-1 call 3) — liquid (ADR-059), tuned by playtest. koku (House standing) is
@@ -423,17 +440,10 @@ export let SKILL_YIELD_CAP_NUM = 200; // multiplier capped at +200% (×3.0), rea
 // values. Cook turns sansai → satiety; the estate (estate.ts) turns coin → a soft
 // satietyMax buffer; spent attribute points feed combat (the 5 attrs, §4.6.1). ──
 export let COOK_SANSAI_COST = 2; // sansai consumed per cooked meal — provisional (v0.2) — tune by playtest
-/** HP a hot meal mends (ADR-050: eating is the ONLY HP heal — couples combat ↔ cook sink).
- *  FB-22: cook recovers HEALTH *only* now — the belly/work-stamina (satiety) refill is the
- *  separate `rest` action (SATIETY_PER_REST); a meal no longer doubles as a work-rest, so the
- *  old COOK_SATIETY_RESTORE was retired. Sized so a couple of meals returns a hurt fighter to
- *  fighting shape (2×35 = 70 ≳ the R3-window hpMax ~64). HD-35 re-pace (2026-07-10): 14 → 35 —
- *  at 14 the R3 grind cooked 526 meals on the canonical seed (~70 min of the rung's 163);
- *  sim-owned (ADR-132), tuned against the [3, 22] band. provisional (v0.2). */
-export let COOK_HP_RESTORE = 35;
-/** Belly a cooked meal adds beside its HP mend (ADR-178: a meal is food, so it also feeds the
- *  belly; the mend stays the verb's PRIMARY job — FB-22's rest≠heal separation is untouched
- *  because the belly is neither meter). Sized under EAT_RICE_HUNGER (the dedicated meal). */
+/** Belly a cooked meal adds (ADR-178: a meal is food, it feeds the belly). The old
+ *  COOK_HP_RESTORE mend is SEVERED (ADR-164/ADR-197: food is satiety-only; HP mends at the
+ *  sickroom — TREAT_HP_RESTORE / REST_SICKROOM_HP above). Sized under EAT_RICE_HUNGER
+ *  (the dedicated meal). */
 export const COOK_HUNGER_RESTORE = 15;
 
 // ── Rice sinks (ADR-107 Phase 2) — rice becomes a REAL resource with three uses: EAT it (→ satiety),
@@ -656,8 +666,13 @@ export function readBalanceLever(path: string): number {
       return STAMINA_FLAT_ABOVE;
     case 'COOK_SANSAI_COST':
       return COOK_SANSAI_COST;
-    case 'COOK_HP_RESTORE':
-      return COOK_HP_RESTORE;
+    // Sickroom mend (ADR-164/ADR-197)
+    case 'TREAT_COST_MON':
+      return TREAT_COST_MON;
+    case 'TREAT_HP_RESTORE':
+      return TREAT_HP_RESTORE;
+    case 'REST_SICKROOM_HP':
+      return REST_SICKROOM_HP;
     // Rung pacing (threshold levers carry the ranks.ts meterThreshold mirror in the export)
     // Sinks / upkeep
     case 'REPAIR_COIN_COST':
@@ -785,8 +800,15 @@ export function __setBalanceLever(path: string, value: number): void {
     case 'COOK_SANSAI_COST':
       COOK_SANSAI_COST = value;
       return;
-    case 'COOK_HP_RESTORE':
-      COOK_HP_RESTORE = value;
+    // Sickroom mend (ADR-164/ADR-197)
+    case 'TREAT_COST_MON':
+      TREAT_COST_MON = value;
+      return;
+    case 'TREAT_HP_RESTORE':
+      TREAT_HP_RESTORE = value;
+      return;
+    case 'REST_SICKROOM_HP':
+      REST_SICKROOM_HP = value;
       return;
     // Sinks / upkeep
     case 'REPAIR_COIN_COST':
@@ -861,7 +883,9 @@ export const BALANCE_CANON: Readonly<Record<string, number>> = Object.freeze({
   STAMINA_RATE_FLOOR,
   STAMINA_FLAT_ABOVE,
   COOK_SANSAI_COST,
-  COOK_HP_RESTORE,
+  TREAT_COST_MON,
+  TREAT_HP_RESTORE,
+  REST_SICKROOM_HP,
   REPAIR_COIN_COST,
   REPAIR_WOOD_COST,
   'STANCE_MODS.jodan.atkMult': STANCE_MODS.jodan.atkMult,

@@ -246,6 +246,10 @@ export const MAP_NODES: readonly MapNode[] = [
 
 export const MAP_NODE_IDS: ReadonlySet<string> = new Set(MAP_NODES.map((n) => n.id));
 
+/** The sickroom node id — where defeat lands you (defeat.ts) and where the two HP-mend
+ *  verbs live (ADR-164/ADR-197: `treat` / `rest_sickroom`, intents.ts). ONE home (TST1). */
+export const SICKROOM_NODE = 'sickroom';
+
 const NODE_BY_ID: ReadonlyMap<MapNodeId, MapNode> = new Map(MAP_NODES.map((n) => [n.id, n]));
 
 function findNode(id: MapNodeId): MapNode | undefined {

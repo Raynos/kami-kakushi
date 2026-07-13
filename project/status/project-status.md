@@ -39,15 +39,15 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
 - **✅ ZONE-REVEAL LAW (ADR-184):** a zone opens **only inside a VN**;
   a rung-up VN opens **≤2** (gated). Five zones earn side-quest VNs;
   the woodshed rides to **R4**. Fog stands: sheet CLIPS, one viewer.
-- **✅ BODY SPLIT (ADR-178):** Body 体 (work fuel) + Belly 腹 (food
-  store; teeth = rest quality) — core + two-bar UI + PRD §2.3.
-- **✅ ESTATE REDESIGN (ADR-177):** works chain (**HR-27**) ·
-  Works/Estate diverges (**HR-29/HR-30**) · repair verbs.
+- **✅ SICKROOM MEND LANE (ADR-164/197, s202):** HP mends ONLY at the
+  sickroom — `treat` (mon-only, hides when broke) + `rest_sickroom`
+  (free pallet day); the cook heal is SEVERED (food = belly). Pacing
+  band re-signed [3, 28] (the mend-trip walk is priced, not fudged).
+- **✅ BODY SPLIT (ADR-178) · ESTATE REDESIGN (ADR-177):** Body 体 +
+  Belly 腹; works chain (**HR-27**) · diverges (**HR-29/HR-30**).
 - **✅ FOUNDATIONS:** bible blessed (ADR-150) · PRD freeze CANCELLED
-  (ADR-168/169) · UI-v2 Andon Steel + taste.md's 21-principle lock
-  (ADR-144/126) · T0/T1 map sheets = the player map; T2 sheet BUILT
-  (`?t2-map-demo`). **NOT DONE: T2 rungs/fog** · Phase-2 economy ·
-  timed actions.
+  (ADR-168/169) · UI-v2 + taste.md lock (ADR-144/126) · T0/T1/T2 map
+  sheets. **NOT DONE: T2 rungs/fog** · Phase-2 economy · timed acts.
 - **🧊 PARKED:** Plan K + T1 emergent-nodes (`docs/plans/t1/`) — human un-parks.
 
 ## Waiting on the human
@@ -57,8 +57,8 @@ The live queue: [`../human-in-the-loop/`](../human-in-the-loop).
 - **HR-1** 🔲 — play the full T0 arc: the fun & pacing call on the
   live build (the LOOK is already UI-v2 certified).
 - **HD-40** 🔲 — **the kitchen-only pot.** BUILT, one line turns it on;
-  held — the sim prices its walk **outside the signed [3,25] band**
-  (R3 31.6 wall-min). Four levers in the item.
+  held — priced out of the old [3,25] band (R3 31.6). The band is
+  [3,28] now (ADR-197) and cook no longer mends: worth a re-sim.
 - **HR-42** 🔲 — the R3 **delight line**: the one pick in T0 that pays
   (+1 agi) is back (ADR-190); 3 takes at DEV → Story
   `adr190-nudge`.
@@ -107,14 +107,13 @@ FB-257. `dev`·`build`·`/ship`.
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` /
    `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the ADR-sweep split's two remaining
-   siblings — `docs/plans/fable-2026-07-13-merchant-state.md` ·
-   `fable-2026-07-13-sickroom-hp-mend.md` — **sequenced** (they share
-   `intents.ts`; log-truth + dialogue-live-swap shipped 2026-07-13).
-   Then **T2 rungs/fog** · **telemetry** (7 reports).
+4. **Next (autonomous):** the sickroom plan's step 4 (the ADR-139
+   3-take fiction diverge for the treat/rest lines) + PRD ripple;
+   then `docs/plans/fable-2026-07-13-merchant-state.md` (sequenced —
+   shares `intents.ts`). Then **T2 rungs/fog** · **telemetry**.
 5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
    with **`pnpm run push`** (bare `git push` is blocked; lane held →
    commits stay local by design). Human-gated next: the render-split
    overnight job (`docs/plans/fable-2026-07-13-render-split.md`).
 
-<!-- rewrite-debt: 4/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 5/20 · last full rewrite: 2026-07-13 -->

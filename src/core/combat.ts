@@ -137,7 +137,8 @@ export function mcCombatStats(state: GameState, foeKnown = false): CombatStats {
     attackPower: Math.max(1, Math.round(rawAtk)),
     defense: STR_DEF_COEFF * a.str,
     // ADR-050: a fight starts from your CARRIED hp, not a free full refill. hpMax is the
-    // ceiling (level/STR); the only mend is eating (cook). A hurt fighter forecasts lower.
+    // ceiling (level/STR); the only mend is the sickroom lane (`treat` / `rest_sickroom`,
+    // ADR-164/ADR-197 — food is satiety-only). A hurt fighter forecasts lower.
     hp: clamp(state.character.hp, 0, hpMax(state)),
     attackSpeed: weapon.baseSpeed * (1 + SPD_ATKSPEED_COEFF * a.spd),
     accuracy: ACC_BASE + AGI_ACC_COEFF * a.agi,

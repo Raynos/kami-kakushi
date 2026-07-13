@@ -78,6 +78,8 @@
 | equip_weapon | instant | — | — |
 | set_stance | instant | — | — |
 | cook_meal | timed | 6s | 2s |
+| treat | timed | 8s | 2s |
+| rest_sickroom | instant | — | — |
 | eat_rice | timed | 3s | 2s |
 | sell_rice | instant | — | — |
 | collect_wage | instant | — | — |

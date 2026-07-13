@@ -30,9 +30,41 @@
   the Q9 clause struck with a forward pointer) and the plan amended
   to match (Status → IN PROGRESS, step 1 + verification reworded).
 
+## Done (continued) — the mechanism (plan steps 1–3 + 5)
+
+- **The two verbs built.** `treat` (mon-only, TICKS_PER_ACT, timed
+  8 s) + `rest_sickroom` (free, the sleep-math dawn wake + missed-meal
+  pro-rate, INSTANT like sleep) — intents, AC-6 selectors
+  (`canTreat`/`treatForecast`/`canRestSickroom`/`restSickroomForecast`),
+  place-strip rows at the sickroom node, cockpit levers, timing +
+  affordance + persona registries. `SICKROOM_NODE` re-homed to
+  `content/map.ts` (defeat.ts re-exports).
+- **Cook heal severed** in the same commit: `COOK_HP_RESTORE` deleted
+  end-to-end; cook = belly only; heal-cue UI + stale comments
+  (`defeat.ts`/`fight.ts`/`combat.ts`/`selectors.ts`) fixed;
+  `combat.loss` + `food.cook` log lines reworded; seed prose for
+  `sickroom.treat`/`sickroom.rest` (step 4 diverge revoices).
+- **Latent TST2 bug fixed:** labour-earned coin never latched
+  `coin-earned`, so a purse spent to 0 could un-reveal `readout-coin`
+  — `applyRewards` now latches on any carried-coin gain (the
+  invariants arc caught it the moment `treat` could zero a purse).
+- **Balance pass (ADR-132):** no-stranding green on every persona ×
+  seed. R3 measured 26.0 [24.3–27.8] vs the signed [3, 25] — the
+  mend-trip walk is structural (old cook-mend was in-field). Human
+  re-signed **T0_PACING_BAND_MAX 25 → 28** (over trimming R3 counts;
+  recorded under ADR-197). Seeds: TREAT_COST_MON 8 · TREAT_HP_RESTORE
+  50 · REST_SICKROOM_HP 32; QA driver mends on a trigger/target pair
+  (walk under ⅓ HP, leave full). `t0-pacing.md` regenerated; fixtures
+  regenerated; full vitest 1395 green.
+- Telemetry read (FB-8): 6 reports, all pre-date the mend change
+  (06-26 / 07-10) — attended R3 baseline ~old-model; no untainted
+  post-change data to quote yet.
+
 ## Next intended steps
 
-- Plan step 1: the `treat` / `rest_sickroom` intents + sickroom
-  activity entry (mon-only treat per the ruling above).
-- Step 2 same commit: sever `COOK_HP_RESTORE`, fix the three stale
-  comments; free rest lands in the same commit (no-stranding).
+- Step 4: the ADR-139 3-take diverge for the treat/rest lines (live
+  in the DEV Story switcher) + the HR-item bundle.
+- Sync ripple: PRD `04-combat-balance.md` (how HP recovers) via
+  /prd-ripple; story-bible t0 pointer check.
+- Player-reach proof (PH6): drive :5173 — defeat → sickroom → treat →
+  HP returns; eat → HP unmoved; capture.

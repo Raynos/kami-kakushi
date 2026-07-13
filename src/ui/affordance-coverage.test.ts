@@ -45,6 +45,8 @@ const PLAYER_INTENTS = [
   'equip_weapon',
   'set_stance',
   'cook_meal',
+  'treat', // ADR-164/ADR-197 — the paid sickroom mend row (mon-only)
+  'rest_sickroom', // ADR-164 — the free pallet-day trickle row
   'eat_rice',
   'sell_rice',
   'improve_estate',

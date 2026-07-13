@@ -236,15 +236,13 @@ describe('cook_meal — the sansai → HP heal sink (F22 / D-050)', () => {
     };
   }
 
-  it('spends sansai and mends HP, clamped at hpMax (never above)', () => {
-    const after = reduce(cookReady(10), { type: 'cook_meal' });
+  it('spends sansai, feeds the belly, and mends ZERO HP (ADR-164/ADR-197 — food is satiety-only)', () => {
+    const before = cookReady(10);
+    const after = reduce(before, { type: 'cook_meal' });
     expect(after.resources.sansai).toBe(5 - balance.COOK_SANSAI_COST);
-    expect(after.character.hp).toBe(10 + balance.COOK_HP_RESTORE);
-
-    const nearMax = cookReady(hpMax(createInitialState(1)) - 5);
-    const clamped = reduce(nearMax, { type: 'cook_meal' });
-    expect(clamped.character.hp).toBe(hpMax(clamped)); // clamp, not overflow
-    expect(clamped.character.hp).toBeLessThanOrEqual(hpMax(clamped));
+    expect(after.character.hp).toBe(10); // the severed mend — this FAILED while cook healed
+    // the belly side (exact math, incl. the cap clamp) is body-split.test.ts's subject
+    expect(after.character.hunger).toBeGreaterThanOrEqual(before.character.hunger);
   });
 
   it('is a no-op without enough sansai, or while the verb is unrevealed', () => {
@@ -256,11 +254,12 @@ describe('cook_meal — the sansai → HP heal sink (F22 / D-050)', () => {
   });
 });
 
-describe('F22 — work-stamina (rest) and health (cook) are DISTINCT recovery actions', () => {
+describe('F22 — work-stamina (rest) and health (treat) are DISTINCT recovery actions', () => {
   // The core FB-22 invariant: "rest from work" ≠ "recover from a fight". Two meters —
   // work-stamina (satiety) and health (hp) — each with its OWN recovery action, and NO single
-  // action refills both. All fixtures derive their expected deltas from the balance source of
-  // truth (SATIETY_PER_REST / COOK_HP_RESTORE / COOK_SANSAI_COST), never a copied magic number.
+  // action refills both. Health's action is the sickroom lane now (ADR-164/ADR-197 — cook fed
+  // the belly and lost the mend). All fixtures derive their expected deltas from the balance
+  // source of truth (SATIETY_PER_REST / TREAT_*), never a copied magic number.
 
   /** Hurt on BOTH meters, with the rest-loop live (awake+raked) and the cook verb revealed —
    *  standing AT the pot (ADR-184: cooking is sited), since the subject here is the two meters. */
@@ -290,23 +289,73 @@ describe('F22 — work-stamina (rest) and health (cook) are DISTINCT recovery ac
     expect(after.character.hp).toBe(s.character.hp);
   });
 
-  it('Cook a meal recovers HEALTH (hp) but NOT work-stamina (satiety)', () => {
-    const s = hurtOnBoth();
-    const after = reduce(s, { type: 'cook_meal' });
-    // health climbs by exactly the heal amount…
-    expect(after.character.hp).toBe(s.character.hp + balance.COOK_HP_RESTORE);
+  it('Treatment recovers HEALTH (hp) but NOT work-stamina (satiety)', () => {
+    const s = { ...hurtOnBoth(), location: 'sickroom' };
+    const paid = { ...s, resources: { ...s.resources, coin: balance.TREAT_COST_MON } };
+    const after = reduce(paid, { type: 'treat' });
+    // health climbs by exactly the treatment amount…
+    expect(after.character.hp).toBe(paid.character.hp + balance.TREAT_HP_RESTORE);
     // …and work-stamina is untouched — a heal is NOT a work-rest.
-    expect(after.character.satiety).toBe(s.character.satiety);
+    expect(after.character.satiety).toBe(paid.character.satiety);
   });
 
-  it('the heal COSTS something — cook spends sansai (D-076: no free/auto-heal)', () => {
-    const s = hurtOnBoth();
-    const after = reduce(s, { type: 'cook_meal' });
-    expect(after.resources.sansai).toBe((s.resources.sansai ?? 0) - balance.COOK_SANSAI_COST);
-    expect(balance.COOK_SANSAI_COST).toBeGreaterThan(0);
+  it('the heal COSTS something — treat bills mon (D-076: no free/auto-heal; D-197: mon-only)', () => {
+    const s = { ...hurtOnBoth(), location: 'sickroom' };
+    const paid = { ...s, resources: { ...s.resources, coin: balance.TREAT_COST_MON } };
+    const after = reduce(paid, { type: 'treat' });
+    expect(after.resources.coin).toBe(0);
+    expect(balance.TREAT_COST_MON).toBeGreaterThan(0);
     // the work-rest, by contrast, costs no resource — only time (ticks).
     const rested = reduce(s, { type: 'rest' });
     expect(rested.resources.sansai).toBe(s.resources.sansai);
+  });
+});
+
+describe('D-164/D-197 — the sickroom mend lane: pay mon for speed, or spend days', () => {
+  /** Hurt, standing at the sickroom, carrying `coin`. Deltas derive from balance.TREAT_* /
+   *  REST_SICKROOM_HP (the source of truth), never copied magic numbers. */
+  function atSickroom(coin: number, hp = 5): GameState {
+    const s = createInitialState(1);
+    return {
+      ...s,
+      location: 'sickroom',
+      character: { ...s.character, hp },
+      resources: { ...s.resources, coin },
+    };
+  }
+
+  it('treat debits TREAT_COST_MON and mends TREAT_HP_RESTORE, clamped at hpMax', () => {
+    const s = atSickroom(balance.TREAT_COST_MON + 3);
+    const after = reduce(s, { type: 'treat' });
+    expect(after.resources.coin).toBe(3);
+    expect(after.character.hp).toBe(5 + balance.TREAT_HP_RESTORE);
+
+    const nearMax = atSickroom(balance.TREAT_COST_MON, hpMax(createInitialState(1)) - 1);
+    const clamped = reduce(nearMax, { type: 'treat' });
+    expect(clamped.character.hp).toBe(hpMax(clamped)); // clamp, not overflow
+  });
+
+  it('treat is MON-ONLY (D-197): one mon short is a refusal, never a day billed instead', () => {
+    const broke = atSickroom(balance.TREAT_COST_MON - 1);
+    expect(reduce(broke, { type: 'treat' })).toBe(broke); // strict no-op — no silent day-cost
+  });
+
+  it('rest_sickroom is FREE and slow: +REST_SICKROOM_HP, the day spent, no coin touched', () => {
+    const s = atSickroom(0);
+    const after = reduce(s, { type: 'rest_sickroom' });
+    expect(after.character.hp).toBe(5 + balance.REST_SICKROOM_HP);
+    expect(after.resources.coin ?? 0).toBe(0);
+    expect(after.clock.day).toBe(s.clock.day + 1); // a day given to the pallet
+    expect(after.clock.tick).toBe(0); // …and you wake at dawn (the sleep math, ADR-187)
+  });
+
+  it('neither verb fires outside the sickroom, and neither at full HP (no idle farming)', () => {
+    const elsewhere = { ...atSickroom(balance.TREAT_COST_MON), location: 'woodshed' };
+    expect(reduce(elsewhere, { type: 'treat' })).toBe(elsewhere);
+    expect(reduce(elsewhere, { type: 'rest_sickroom' })).toBe(elsewhere);
+    const whole = atSickroom(balance.TREAT_COST_MON, hpMax(createInitialState(1)));
+    expect(reduce(whole, { type: 'treat' })).toBe(whole);
+    expect(reduce(whole, { type: 'rest_sickroom' })).toBe(whole);
   });
 });
 

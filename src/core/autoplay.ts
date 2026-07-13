@@ -8,10 +8,17 @@
 import type { GameState } from './state';
 import type { Intent } from './intents';
 import { availableActions } from './intents';
-import { canDoActivity, hpMax, rakeExhausted, satietyMax } from './selectors';
+import {
+  canDoActivity,
+  canRestSickroom,
+  canTreat,
+  hpMax,
+  rakeExhausted,
+  satietyMax,
+} from './selectors';
 import { ACTIVITIES, getActivity, type ActivityId } from './content/activities';
 import { getRank } from './content/ranks';
-import { reachableFrom } from './content/map';
+import { reachableFrom, SICKROOM_NODE } from './content/map';
 import { getMob, GRINDABLE_MOBS, type MobId } from './content/enemies';
 import { sceneById } from './content/scenes';
 import { isMarketDay } from './content/market';
@@ -26,7 +33,6 @@ import {
   CONDITIONING_GATE_LEVEL,
   STAMINA_FLAT_ABOVE,
   REPAIR_WOOD_COST,
-  COOK_SANSAI_COST,
   WORKS_ACT_SATIETY,
 } from './content/balance';
 import { rungRequirements } from './content/requirements';
@@ -115,11 +121,12 @@ export function cheapestEligibleGlobal(s: GameState): { id: ActivityId; node: st
  * armed labour just cleared) — the loop idles. The DOM guards (paused / document.hidden / crashed)
  * stay in main.ts; they are app concerns, not decisions.
  */
-/** Mend-before-fight threshold for the focused-optimal driver: FULL health. A level-1
- *  half-HP fighter loses ~always; at full the odds are real, and sansai is cheap. (ADR-184/HD-40:
- *  if the pot is ever SITED at the kitchen, this splits into a trigger/target pair — you do not walk
- *  home over a scratch, but once at the pot you leave full. Held with the siting.) */
-const FIGHT_MEND_HP_FRAC = 1;
+/** Mend-before-fight thresholds for the focused-optimal driver — the trigger/target PAIR the
+ *  old cook-mend comment promised for a sited mend (the sickroom IS sited, ADR-164/ADR-197):
+ *  you do not walk the estate over a scratch (TRIGGER — start the walk only under half), but
+ *  once at the pallet you leave full (TARGET — treat/rest until whole; the walk is the cost,
+ *  the top-up is nearly free). */
+const FIGHT_MEND_TRIGGER_FRAC = 1 / 3;
 
 export function autoModeIntent(s: GameState): Intent | null {
   // FB-266 — a VN surface (rung beat / generalized scene / intro) owns the screen: auto
@@ -276,17 +283,21 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
       driveLabour('farm_paddy')
     );
   };
-  // Mend toward FULL HP (a hurt fighter loses forever): cook when a meal's ready, else forage sansai
-  // (the meal's ingredient); when the forage site is worked out, turn the season to refill it. Returns
-  // null when already full OR when mending is impossible (no cook / unreachable forage) — fight on hurt.
+  // Mend toward FULL HP (a hurt fighter loses forever) — the sickroom lane (ADR-164/ADR-197):
+  // walk to Sōan's pallet, pay the treatment when the coin allows (the fast chunk), else give
+  // days to the free rest trickle. Null when already full OR the sickroom is unreachable
+  // (pre-reveal early game) — fight on hurt.
   const mendToFull = (): Intent | null => {
-    if (s.character.hp >= hpMax(s) * FIGHT_MEND_HP_FRAC) return null;
-    if (!isUnlocked(s, 'verb-cook')) return null; // can't mend yet — proceed and fight hurt
-    if ((s.resources.sansai ?? 0) >= COOK_SANSAI_COST) return { type: 'cook_meal' };
-    if ((s.sitePools[getActivity('forage_satoyama').area] ?? 0) <= 0) {
-      return { type: 'advance_season' };
+    // TARGET — already at the pallet: mend to FULL before leaving (the walk was the cost).
+    if (s.location === SICKROOM_NODE) {
+      if (canTreat(s)) return { type: 'treat' };
+      if (canRestSickroom(s)) return { type: 'rest_sickroom' };
+      return null;
     }
-    return driveLabour('forage_satoyama') ?? driveLabour('forage_deepwoods');
+    // TRIGGER — only start the walk under the threshold; a scratch is fought on.
+    if (s.character.hp >= hpMax(s) * FIGHT_MEND_TRIGGER_FRAC) return null;
+    const hop = nextHopToward(s.location, SICKROOM_NODE, revealed);
+    return hop ? { type: 'move_to', to: hop } : null;
   };
   // Walk-to-then-FIGHT `desired` (the shared combat move): mend to full, craft/repair, and TRAIN on
   // the strongest reachable grindable at/below level before taking the desired foe (a lvl-1 vs a

@@ -209,7 +209,7 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
 // every fight at full HP and free-healed on loss/level/promotion; the spine contract is
 // that a fight starts from your CURRENT hp, a loss leaves you hurt, and the cook sink is
 // the only mend — so "eat before you fight" is a real, legible decision.
-describe('HP carries between fights and heals only by eating (D-050)', () => {
+describe('HP carries between fights and heals only at the sickroom (D-050 → D-164/D-197)', () => {
   it('combat reads carried HP — a hurt fighter forecasts strictly lower', () => {
     const full = mc(1);
     const hurt: GameState = { ...full, character: { ...full.character, hp: 6 } };
@@ -224,7 +224,7 @@ describe('HP carries between fights and heals only by eating (D-050)', () => {
     expect(after.character.hp).toBeLessThan(hpMax(after));
   });
 
-  it('a rung promotion does NOT heal HP (only eating does)', () => {
+  it('a rung promotion does NOT heal HP (only the sickroom does)', () => {
     const base = createInitialState(1);
     const parked: GameState = {
       ...base,
@@ -237,20 +237,35 @@ describe('HP carries between fights and heals only by eating (D-050)', () => {
     expect(promoted.character.hp).toBe(6); // …without a free heal
   });
 
-  it('eating (cook) restores HP, capped at hpMax (the only mend)', () => {
+  it('the sickroom restores HP, capped at hpMax (the only mend — D-164/D-197)', () => {
     const base = createInitialState(1);
     const s0: GameState = {
       ...base,
       character: { ...base.character, hp: 5 },
-      resources: { ...base.resources, sansai: 4 },
-      // ADR-184 — cooking is SITED: stand at the pot (the kitchen board). The heal MATH is the
-      // subject here; where the verb is legal is economy.test's "the pot is a PLACE".
-      location: 'kitchen',
-      flags: { ...base.flags, ...factsForSurfaces('verb-cook', 'room-kitchen') }, // ADR-179 — the entitling facts
+      resources: { ...base.resources, coin: balance.TREAT_COST_MON },
+      // the mend is SITED: lie at Sōan's pallet. The heal MATH is the subject here; the
+      // gates (location / mon-only / full-HP no-op) are economy.test's sickroom block.
+      location: 'sickroom',
     };
-    const s1 = reduce(s0, { type: 'cook_meal' });
-    expect(s1.character.hp).toBeGreaterThan(5);
-    expect(s1.character.hp).toBeLessThanOrEqual(hpMax(s1));
+    const paid = reduce(s0, { type: 'treat' });
+    expect(paid.character.hp).toBeGreaterThan(5);
+    expect(paid.character.hp).toBeLessThanOrEqual(hpMax(paid));
+    const rested = reduce(
+      { ...s0, resources: { ...s0.resources, coin: 0 } },
+      {
+        type: 'rest_sickroom',
+      },
+    );
+    expect(rested.character.hp).toBeGreaterThan(5);
+    expect(rested.character.hp).toBeLessThanOrEqual(hpMax(rested));
+    // …and a cooked meal mends NOTHING (food is satiety-only) — RED while cook healed.
+    const fed: GameState = {
+      ...s0,
+      resources: { ...s0.resources, sansai: 4 },
+      location: 'kitchen',
+      flags: { ...s0.flags, ...factsForSurfaces('verb-cook', 'room-kitchen') },
+    };
+    expect(reduce(fed, { type: 'cook_meal' }).character.hp).toBe(5);
   });
 });
 
@@ -359,19 +374,15 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
                 );
           continue;
         }
-        // eat via the real cook intent to mend HEALTH — forage for sansai if short (FB-22: cook
-        // heals hp only now, no longer refuels work-stamina)
+        // mend HEALTH via the real sickroom intents (ADR-164/ADR-197): pay the treatment
+        // when the coin allows, else give the day to the FREE rest trickle — the lane a
+        // broke fighter always has (the no-stranding guarantee this arc exists to prove).
         if (s.character.hp < hpMax(s) * 0.8) {
-          // ADR-184 — the mend is SITED: carry the greens back to the pot (the kitchen board) and
-          // boil them there. The walk is the point — this arc proves a fighter can still close the
-          // loop with cooking sited, which is the whole risk the siting introduces.
+          const bedside = { ...s, location: 'sickroom' };
           s =
-            (s.resources.sansai ?? 0) >= balance.COOK_SANSAI_COST
-              ? reduce({ ...s, location: 'kitchen' }, { type: 'cook_meal' })
-              : reduce(
-                  { ...s, location: 'woodlot' },
-                  { type: 'do_activity', activityId: 'forage_satoyama' },
-                );
+            (s.resources.coin ?? 0) >= balance.TREAT_COST_MON
+              ? reduce(bedside, { type: 'treat' })
+              : reduce(bedside, { type: 'rest_sickroom' });
           continue;
         }
         // refuel WORK-STAMINA via the real rest intent — a fed/rested fighter swings at full

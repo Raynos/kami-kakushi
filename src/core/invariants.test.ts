@@ -194,12 +194,15 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
     }
   });
 
-  it('HP rises ONLY by a deliberate meal — never off labour, rest, a promotion, or a fight', () => {
+  it('HP rises ONLY by a deliberate sickroom act — never off food, labour, rest, or a fight', () => {
+    // ADR-164/ADR-197 — recovery is a deliberate spend of mon (treat) or a day
+    // (rest_sickroom); cook_meal feeds the belly and must NOT appear here.
     for (const st of arc.steps) {
       if (st.after.character.hp > st.before.character.hp) {
-        expect(st.intent.type, `HP rose on a non-cook intent (${st.intent.type})`).toBe(
-          'cook_meal',
-        );
+        expect(
+          ['treat', 'rest_sickroom'],
+          `HP rose on a non-sickroom intent (${st.intent.type})`,
+        ).toContain(st.intent.type);
       }
     }
   });

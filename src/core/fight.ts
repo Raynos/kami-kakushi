@@ -184,10 +184,11 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
       ],
     });
     next = advanceClock(next, FIGHT_TICKS + SETBACK_TICKS + FORCED_REST_TICKS);
-    // G3 (ADR-155/ADR-164): the defeat ALSO routes toward the sickroom — Sōan's ledger grows and
+    // G3 (ADR-155/ADR-164): the defeat ALSO routes to the sickroom — Sōan's ledger grows and
     // SICKROOM_DAYS_LOST whole days are lost, ON TOP of the carried-loss bleed above (the
     // double-cost curve). This never mends HP: food stays satiety-only and HP has no auto-trickle;
-    // the paid treatment + manual rest-at-sickroom that heal HP are G4 sickroom CONTENT (ADR-164).
+    // mending is the deliberate `treat` / `rest_sickroom` spend at the node you wake in
+    // (ADR-164/ADR-197, intents.ts).
     next = applyDefeatConsequences(next);
   }
   return next;

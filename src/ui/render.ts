@@ -28,6 +28,10 @@ import type {
 import {
   availableActions,
   sleepForecast,
+  canTreat,
+  treatForecast,
+  canRestSickroom,
+  restSickroomForecast,
   availableLabours,
   canAffordAct,
   OUT_OF_STRENGTH_REASON,
@@ -1176,6 +1180,11 @@ export function mount(
     // ADR-177 F3 — the sited works verb: work the commissioned project at its zone.
     worksRow: HTMLElement;
     worksBtn: HTMLButtonElement;
+    // ADR-164/ADR-197 — the sickroom mend rows: paid treat (mon-only) + the free pallet day.
+    treatRow: HTMLElement;
+    treatBtn: HTMLButtonElement;
+    restSickRow: HTMLElement;
+    restSickBtn: HTMLButtonElement;
     areaGroups: HTMLElement;
     noWork: HTMLElement;
     // (FB-343/FB-369 — cook + eat-rice left for the Character Body card; see characterBodyRefs.)
@@ -3240,7 +3249,23 @@ export function mount(
       stampAct(worksBtn, 'work_project');
       worksBtn.addEventListener('click', () => dispatch({ type: 'work_project' }));
       worksRow.append(worksBtn);
-      placeStrip.append(nightBlurb, nightRow, wageRow, worksRow);
+      // (d) ADR-164/ADR-197 — the sickroom mend lane: Sōan's paid treatment (mon-only — the
+      //     row HIDES without the coin, ADR-197) + the free pallet-day rest. Same place-beat
+      //     idiom; shown only AT the sickroom (TST3), gated + priced via the SAME selectors
+      //     the reducer spends (AC-6).
+      const treatRow = el('div', 'labour-row place-treat');
+      const treatBtn = el('button', 'verb primary');
+      treatBtn.type = 'button';
+      stampAct(treatBtn, 'treat');
+      treatBtn.addEventListener('click', () => dispatch({ type: 'treat' }));
+      treatRow.append(treatBtn);
+      const restSickRow = el('div', 'labour-row place-rest-sickroom');
+      const restSickBtn = el('button', 'verb');
+      restSickBtn.type = 'button';
+      stampAct(restSickBtn, 'rest_sickroom');
+      restSickBtn.addEventListener('click', () => dispatch({ type: 'rest_sickroom' }));
+      restSickRow.append(restSickBtn);
+      placeStrip.append(nightBlurb, nightRow, wageRow, worksRow, treatRow, restSickRow);
       const areaGroups = el('div', 'actions-group');
       const noWork = el(
         'p',
@@ -3261,6 +3286,10 @@ export function mount(
         wageBtn,
         worksRow,
         worksBtn,
+        treatRow,
+        treatBtn,
+        restSickRow,
+        restSickBtn,
         areaGroups,
         noWork,
       };
@@ -3424,7 +3453,25 @@ export function mount(
             : `One act of the commissioned work — ${stageLabel(def)}.`;
       }
     }
-    toggle(r.placeStrip, nightPending || roundLive || waged);
+    // (d) ADR-164/ADR-197 — the sickroom mend rows: shown exactly when the reducer would
+    //     accept them (canTreat / canRestSickroom — AC-6: shown == enforced). The mon-short
+    //     treat HIDES (ADR-197, never shown-disabled), so the broke player reads one honest
+    //     lane: the free pallet day.
+    const treatable = canTreat(state);
+    toggle(r.treatRow, treatable);
+    if (treatable) {
+      const tf = treatForecast(state);
+      setText(r.treatBtn, `Take Sōan's treatment 手当 (−${tf.cost} mon · +${tf.hpGain} HP)`);
+      r.treatBtn.title = 'Sōan cleans and binds the hurt — paid speed, the coin counted once.';
+    }
+    const restable = canRestSickroom(state);
+    toggle(r.restSickRow, restable);
+    if (restable) {
+      const rf = restSickroomForecast(state);
+      setText(r.restSickBtn, `Rest on the pallet 臥 (the day is spent · +${rf.hpGain} HP)`);
+      r.restSickBtn.title = 'Give the day to the pallet — free and slow; you wake at dawn.';
+    }
+    toggle(r.placeStrip, nightPending || roundLive || waged || treatable || restable);
 
     // labour activities, grouped by estate room (each: do-once + auto-repeat toggle). Outer keyed
     // list over the areas that HAVE labour here; each group's rows are an inner keyed list.
@@ -4176,19 +4223,19 @@ export function mount(
       );
       setText(b.bellyVal, ` ${Math.round(state.character.hunger)}/${Math.round(hungerMax(state))}`);
 
-      // cook a meal — sansai → HP mend + a belly side (ADR-050/ADR-076/ADR-178). Say so, and make it
-      // the PRIMARY (prominent) action when the MC is hurt — the "heal now" companion to the red life bar.
+      // cook a meal — sansai → belly (ADR-178; the HP mend is SEVERED, ADR-164/ADR-197 —
+      // wounds mend at the sickroom, so the hurt-primary cue left with it).
       const showCook = isUnlocked(state, 'verb-cook');
       toggle(b.cookRow, showCook);
       if (showCook) {
         const cost = balance.COOK_SANSAI_COST;
-        setClass(b.cookBtn, 'primary', state.character.hp < hpMax(state));
+        setClass(b.cookBtn, 'primary', false);
         setText(b.cookBtn, `Cook a meal (${cost} sansai)`);
         const short = (state.resources.sansai ?? 0) < cost;
         setDisabled(b.cookBtn, short);
         const title = short
           ? `Needs ${cost} sansai — forage the woodlot to gather it.`
-          : 'A hot meal mends your wounds and fills your belly — eating is the only way to heal.';
+          : 'A hot meal fills your belly. (Wounds mend at the sickroom, not the pot.)';
         if (b.cookBtn.title !== title) b.cookBtn.title = title;
       }
 
@@ -5770,20 +5817,21 @@ export function mount(
     const settled = homeSetComplete(ownedIds);
     setText(r.comfort, comfortSummaryText(state, settled));
 
-    // ADR-120 — the hearth homes the cook verb: once you own the hearth, cooking a meal (sansai → HP)
-    // is reachable here, at your own fire. Shown only when the hearth is owned AND cook is unlocked
-    // (verb-cook, ~R2); disabled + explained when you're short on sansai (mirrors the Work-column cook).
+    // ADR-120 — the hearth homes the cook verb: once you own the hearth, cooking a meal
+    // (sansai → belly, ADR-164/ADR-197) is reachable here, at your own fire. Shown only when
+    // the hearth is owned AND cook is unlocked (verb-cook, ~R2); disabled + explained when
+    // you're short on sansai (mirrors the Character Body-card cook).
     const canCookHere = homeHasCook(state) && isUnlocked(state, 'verb-cook');
     toggle(r.cookRow, canCookHere);
     if (canCookHere) {
       const cost = balance.COOK_SANSAI_COST;
       const short = (state.resources.sansai ?? 0) < cost;
       setText(r.cookBtn, `Cook a meal at the hearth (${cost} sansai)`);
-      setClass(r.cookBtn, 'primary', state.character.hp < hpMax(state)); // the heal cue when hurt
+      setClass(r.cookBtn, 'primary', false); // the heal cue left with the mend (ADR-197)
       setDisabled(r.cookBtn, short);
       const title = short
         ? `Need ${cost} sansai to cook — forage the woodlot for wild greens.`
-        : 'Boil the wild greens into a hot meal — the only way to mend a wound (D-050).';
+        : 'Boil the wild greens into a hot meal — a full belly for the day’s work.';
       if (r.cookBtn.title !== title) r.cookBtn.title = title;
     }
 
@@ -6630,11 +6678,20 @@ export function mount(
           break;
         }
         case 'cook_meal':
-          line(
-            `−${balance.COOK_SANSAI_COST} sansai · +${balance.COOK_HP_RESTORE} hp · ` +
-              `+${balance.COOK_HUNGER_RESTORE} belly`,
-          );
+          line(`−${balance.COOK_SANSAI_COST} sansai · +${balance.COOK_HUNGER_RESTORE} belly`);
           break;
+        case 'treat': {
+          // ADR-164/ADR-197 — the SAME selector the reducer spends (AC-6).
+          const f = treatForecast(state);
+          line(`−${f.cost} mon · +${f.hpGain} hp`);
+          break;
+        }
+        case 'rest_sickroom': {
+          const f = restSickroomForecast(state);
+          line('the day is spent — you wake at dawn');
+          line(`+${f.hpGain} hp · −${f.riceDrawn} shō (kura) · −${Math.round(f.bellyLost)} belly`);
+          break;
+        }
         case 'eat_rice':
           line(`−${balance.EAT_RICE_COST} shō (kura) · +${balance.EAT_RICE_HUNGER} belly`);
           break;

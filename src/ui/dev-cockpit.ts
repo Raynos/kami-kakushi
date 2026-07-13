@@ -232,7 +232,10 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
   { path: 'STAMINA_RATE_FLOOR', label: 'Stamina rate floor', group: 'Stamina / meals' },
   { path: 'STAMINA_FLAT_ABOVE', label: 'Stamina flat-above', group: 'Stamina / meals' },
   { path: 'COOK_SANSAI_COST', label: 'Cook sansai cost', group: 'Stamina / meals', integer: true },
-  { path: 'COOK_HP_RESTORE', label: 'Cook HP restore', group: 'Stamina / meals', integer: true },
+  // ADR-164/ADR-197 — the sickroom mend lane ('Cook HP restore' RETIRED with the severed mend)
+  { path: 'TREAT_COST_MON', label: 'Treat cost (mon)', group: 'Sickroom mend', integer: true },
+  { path: 'TREAT_HP_RESTORE', label: 'Treat HP restore', group: 'Sickroom mend', integer: true },
+  { path: 'REST_SICKROOM_HP', label: 'Rest HP / day', group: 'Sickroom mend', integer: true },
   // Rung pacing sliders RETIRED with the points meter (FB-121/ADR-137): requirement counts
   // tune in narrative/requirements.md (edit → gen:narrative → sim), never by cockpit lever.
   // Sinks / upkeep

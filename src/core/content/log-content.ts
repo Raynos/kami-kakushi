@@ -72,7 +72,7 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
         ? parts.join('')
         : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
     const drop = phrase ? ` You drop ${phrase} in the rout.` : '';
-    return `The ${p.mob} overcomes you; you limp home badly used. (HP ${p.hpBefore}→${p.hpAfter})${drop} Eat and mend before you take the field again.`;
+    return `The ${p.mob} overcomes you; you limp home badly used. (HP ${p.hpBefore}→${p.hpAfter})${drop} Mend at the sickroom before you take the field again.`;
   },
 
   // ── intents.ts — player actions ──────────────────────────────────────────────
@@ -85,7 +85,13 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
     `You repair the ${p.weapon}. (−${p.wood} wood${Number(p.coinFee) > 0 ? `, −${formatCoin(Number(p.coinFee))}` : ''})`,
   'craft.equip': (p) => `You take up the ${p.weapon}.`,
   'food.cook': (p) =>
-    `You boil the wild greens into a hot meal and eat. The ache of your wounds eases. (−${p.sansai} sansai${Number(p.hpGain) > 0 ? `, +${p.hpGain} HP` : ''})`,
+    `You boil the wild greens into a hot meal and eat. (−${p.sansai} sansai${Number(p.bellyGain) > 0 ? `, +${p.bellyGain} belly` : ''})`,
+  // ADR-164/ADR-197 — the sickroom mend lane. Seed prose only: the ADR-139 diverge
+  // (sickroom plan step 4) revoices both lines before the bundle's HR-item closes.
+  'sickroom.treat': (p) =>
+    `Sōan cleans what the field left in you, sets the dressings, and counts your coin without comment. (−${formatCoin(Number(p.cost))}, +${p.hpGain} HP)`,
+  'sickroom.rest': (p) =>
+    `You give the day to the pallet. The house works around you; the hurt loosens by a measure. (+${p.hpGain} HP)`,
   'food.eatRice': (p) =>
     `You take a bowl of plain rice. (−${p.rice} rice${Number(p.bellyGain) > 0 ? `, +${p.bellyGain} belly` : ''})`,
   'market.sellRice': (p) =>

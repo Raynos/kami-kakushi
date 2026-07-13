@@ -25,7 +25,6 @@ import { advanceClock, advanceSeason } from './step';
 import { clamp } from './math';
 import {
   satietyMax,
-  hpMax,
   season,
   canDoActivity,
   canAffordAct,
@@ -36,6 +35,10 @@ import {
   peopleHere,
   canSleep,
   sleepForecast,
+  canTreat,
+  treatForecast,
+  canRestSickroom,
+  restSickroomForecast,
 } from './selectors';
 import { getPerson, PEOPLE_IDS } from './content/people';
 import { getBelonging, homeRestLine } from './content/home';
@@ -53,7 +56,6 @@ import {
   REPAIR_WOOD_COST,
   REPAIR_COIN_COST,
   COOK_SANSAI_COST,
-  COOK_HP_RESTORE,
   COOK_HUNGER_RESTORE,
   EAT_RICE_COST,
   EAT_RICE_HUNGER,
@@ -146,6 +148,8 @@ export type Intent =
   | { type: 'equip_weapon'; weaponId: WeaponId }
   | { type: 'set_stance'; stance: StanceId }
   | { type: 'cook_meal' }
+  | { type: 'treat' } // ADR-164/ADR-197: the PAID sickroom mend — mon-only, the big chunk
+  | { type: 'rest_sickroom' } // ADR-164: the FREE sickroom mend — a day given to the pallet
   | { type: 'eat_rice' } // kura rice → satiety (ADR-163 — the plain-rice meal path, shō from stores)
   | { type: 'sell_rice' } // kura rice → coin at Yohei's stall (ADR-163 — market-day + purse clamped)
   | { type: 'collect_wage' } // MON lane (ADR-163): collect the accrued day-wage at the board (R5+)
@@ -771,6 +775,51 @@ export function reduce(state: GameState, intent: Intent): GameState {
       });
       break;
     }
+    case 'treat': {
+      // ADR-164/ADR-197 — the PAID sickroom mend: Sōan's treatment bills mon (MON-ONLY, no
+      // day-cost fallback — without the coin the verb HIDES and rest_sickroom is the only
+      // lane) and puts the big chunk back. ONE source (AC-6): the gate + both magnitudes
+      // read the SAME selectors the rendered verb row shows, so price and gain never drift.
+      if (!canTreat(next)) return state;
+      const f = treatForecast(next);
+      next = withResource(next, 'coin', -f.cost);
+      next = { ...next, character: { ...next.character, hp: next.character.hp + f.hpGain } };
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'system',
+            voice: 'narrator', // FB-91/FB-93 — action-result narration
+            contentKey: 'sickroom.treat',
+            params: { cost: f.cost, hpGain: f.hpGain },
+            ephemeral: true, // FB-156 — consumption-class result, fades from "Now"
+          },
+        ],
+      });
+      next = advanceClock(next, TICKS_PER_ACT);
+      break;
+    }
+    case 'rest_sickroom': {
+      // ADR-164 — the FREE sickroom mend: a day given to the pallet. The SAME to-dawn tick
+      // math + missed-meal pro-rate as sleep (ADR-187 machinery — one onDayBoundary, the
+      // ration reaches you only in part), plus the slow trickle: spend days instead of mon.
+      if (!canRestSickroom(next)) return state;
+      const f = restSickroomForecast(next);
+      next = { ...next, character: { ...next.character, hp: next.character.hp + f.hpGain } };
+      next = advanceClock(next, f.ticks);
+      next = adjustHunger(next, -f.missedMeal);
+      next = applyRewards(next, {
+        log: [
+          {
+            channel: 'system',
+            voice: 'narrator',
+            contentKey: 'sickroom.rest',
+            params: { hpGain: f.hpGain },
+            ephemeral: true,
+          },
+        ],
+      });
+      break;
+    }
     case 'do_activity': {
       const act = getActivity(intent.activityId);
       if (!canDoActivity(next, act)) return state;
@@ -931,11 +980,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'cook_meal': {
-      // sansai → HP, the HEALTH-recovery action (FB-22 + ADR-050). Eating is the ONLY mend
-      // for combat wounds (couples food ↔ combat), and it recovers HEALTH *only* — it does
-      // NOT refill work-stamina (satiety). Work-stamina is the SEPARATE `rest` action's job
-      // (FB-22: "rest from work" ≠ "recover from a fight" — one action must not refill both).
-      // Costs greens, so a heal always costs something (ADR-076: no free/auto-heal).
+      // sansai → a hot meal, BELLY-only (ADR-164/ADR-197: food is satiety-side nourishment,
+      // never an HP mend — the old COOK_HP_RESTORE coupling is severed; combat wounds mend
+      // at the sickroom via `treat` / `rest_sickroom` below). It does NOT refill
+      // work-stamina either — that stays the SEPARATE `rest` action's job (FB-22).
       if (!isUnlocked(next, 'verb-cook')) return state;
       // ADR-184 / HD-40 — cooking is NOT yet sited. The human asked for a kitchen-only pot (you walk
       // back from the reeds to mend), and it is built and measured: `canCookHere` (selectors) is the
@@ -948,12 +996,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // exists at all only because O-Hisa showed you how (TST3).
       if ((next.resources.sansai ?? 0) < COOK_SANSAI_COST) return state;
       next = withResource(next, 'sansai', -COOK_SANSAI_COST);
-      const hpBefore = next.character.hp;
-      const hpAfter = Math.min(hpMax(next), hpBefore + COOK_HP_RESTORE);
-      if (hpAfter !== hpBefore) next = { ...next, character: { ...next.character, hp: hpAfter } };
-      const hpGain = hpAfter - hpBefore;
-      // ADR-178 — a meal is FOOD, so it also feeds the belly (never the work bar): the mend
-      // stays the verb's primary job; the belly gain is the side of the same bowl.
+      // ADR-178 — a meal is FOOD: it feeds the belly (never the work bar, never HP).
       next = adjustHunger(next, COOK_HUNGER_RESTORE);
       next = applyRewards(next, {
         log: [
@@ -962,7 +1005,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             // FB-91/FB-93 — cook RESULT flavor is scene narration → `narrator` voice.
             voice: 'narrator',
             contentKey: 'food.cook',
-            params: { sansai: COOK_SANSAI_COST, hpGain },
+            params: { sansai: COOK_SANSAI_COST, bellyGain: COOK_HUNGER_RESTORE },
             // FB-156 — repetitive consumption output is fleeting flavor (the F58a
             // rake/labour precedent): it lives in "Now" and fades, never spams Work.
             ephemeral: true,
