@@ -55,11 +55,10 @@ philosophy wins.**
 
 ## How to work here
 
-- **Autonomous by default.** Pick the next task → build it → verify it → commit
-  it → journal it → repeat. The human steers *direction*; you own *execution*.
-  Don't ask permission for routine forward progress.
-- **Bias to action.** When a routine choice has a sensible default, take it,
-  note it, and move on — don't stall for confirmation.
+- **Autonomous by default, biased to action.** Pick the next task →
+  build → verify → commit → journal → repeat. The human steers
+  *direction*; you own *execution* — don't ask permission for routine
+  progress; sensible default? take it, note it, move on.
 - **Many small commits, straight to the working branch.** Don't branch for
   routine work — committing as you go *is* the workflow. *(This overrides the
   generic "branch off main / commit only when asked" default.)* Each commit runs
@@ -117,21 +116,23 @@ philosophy wins.**
   Never add a dated "Phase update — (session-NN)" bullet to the snapshot — that's a
   journal entry; the leak of append-only history into the snapshot once bloated it
   to 326 lines, so a `pre-commit` line-cap gate now holds it to one screen.
-- **Checkpoint = make the work resumable from disk *and on the remote*, right
-  now:** commit (pathspec) → journal → snapshot current → `git push origin
-  main` → confirm clean. **Pushing `main` is part of a checkpoint, not a
-  separate ask** (standing approval; a deploy/force-push still needs sign-off);
-  the pre-push gate refuses any red push, so green `origin/main` is the proof.
-  Three non-negotiables: **(1) verify before you claim** done/pushed/green;
-  **(2) shared-tree safety** — commit ONLY by explicit **pathspec**
-  (`git commit -m … -- path/…`); a bare `git commit`, `git add -A/-a/-u`, or
-  `git add` of a *tracked* file snapshots the SHARED index and sweeps a
-  co-agent's staged work (`0e10d96` did exactly this) — `git add` is for NEW
-  files only, edits commit directly; never `stash`/`checkout`/`restore`/mutate
-  files you didn't author. The **`guard-git-add-all.sh`** PreToolUse hook blocks
-  all of these (escape: `SKIP_SWEEPGUARD=1`); **(3) don't fight someone else's
-  red** — leave your commit local, never `SKIP_VERIFY=1` a red tree onto `main`.
-  Full checklist + the exact commands:
+- **Checkpoint = make the work resumable from disk *and on the remote*,
+  right now:** commit (pathspec) → journal → snapshot current →
+  `pnpm run push` (ADR-196: bare `git push` is hook-blocked; lane held
+  → commits stay LOCAL; exits claim `exit` first, timeout → OOPS) →
+  confirm clean. **Pushing `main` is standing-approved as part of a
+  checkpoint** (deploy/force-push still needs sign-off); the pre-push
+  gate refuses red — green `origin/main` is the proof. Non-negotiables:
+  **(1) verify before you claim** done/pushed/green; **(2) shared-tree
+  safety** — commit ONLY by explicit **pathspec**
+  (`git commit -m … -- path/…`); a bare `git commit`, `git add
+  -A/-a/-u`, or `git add` of a *tracked* file snapshots the SHARED
+  index and sweeps a co-agent's staged work — `git add` is for NEW
+  files only, edits commit directly; never `stash`/`checkout`/`restore`
+  files you didn't author (guard-enforced, bypasses ledgered; ADR
+  numbers via `tree-claim.ts adr`); **(3) don't fight someone else's
+  red** — leave your commit local, never `SKIP_VERIFY=1` a red tree
+  onto `main`. Full checklist:
   [`working-agreements.md → Checkpoint`](project/status/working-agreements.md).
 - **Cross-agent messages (herdr): check the target is ALIVE, then ENTER.**
   `herdr agent send <pane> "msg"` types **blindly** into whatever occupies that

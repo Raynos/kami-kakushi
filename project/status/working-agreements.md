@@ -79,6 +79,13 @@ way**. Never branch on `$?` — merge the streams and parse the JSON.
 
 ## Checkpoint (run when asked to "checkpoint" or before exiting)
 
+0. **Exiting? Claim the exit lane (ADR-196).** A full
+   `/prepare-to-exit` first runs
+   `pnpm exec tsx src/scripts/tree-claim.ts claim exit --wait 300`
+   (parallel exits thrash the snapshot/queues). Timeout → the OOPS
+   banner names the holder; release the lane after the banner. A
+   mid-session "checkpoint" (no exit) skips this step.
+
 1. **Commit** your own files by explicit **pathspec commit**:
    `git add path/…` for **NEW files only**, then `git commit -m … -- path/…`.
    A BARE `git commit` (or `-A`/`-a`/`-u`) snapshots the SHARED index and sweeps
@@ -116,12 +123,21 @@ way**. Never branch on `$?` — merge the streams and parse the JSON.
    costs the decision itself. The **`deferred-work` gate** enforces the shouted case (a
    `NOT built` in canon/snapshot must cite a home); **the undeclared case is on you** — the
    gate cannot read a journal's intent, which is exactly why this step is in the ritual.
-5. **Push (BEST EFFORT)** `git push origin main` — fires the pre-push gate (`verify`, blocks red). Green
-   `origin/main` is the proof. **A push blocked by a CO-AGENT's red is a non-event, not a failed checkpoint**
-   (human, 2026-07-12): leave the commit local, note it, carry on — the next agent to go green pushes it out
-   with theirs. It only *matters* if nobody is left to carry it, so check `herdr agent list`: **others live →
-   shrug**; **you are the only / last agent → the commit is STRANDED**, say so loudly (and, if the red is your
-   own, fix it). Never `SKIP_VERIFY=1` either way.
+5. **Push (BEST EFFORT)** `pnpm run push` — the ADR-196 push mutex
+   (`src/scripts/push-main.sh`): claims the push lane, pushes
+   `origin main` through the pre-push gate (`verify`, blocks red),
+   releases. **Lane held by a live agent → it leaves your commits
+   LOCAL and exits green — that is the designed outcome, not a
+   failure** ("another push will happen eventually"). Bare
+   `git push` is hook-blocked (`SKIP_PUSHCLAIM=1` escape). Green
+   `origin/main` is the proof. **A push blocked by a CO-AGENT's red
+   is likewise a non-event, not a failed checkpoint** (human,
+   2026-07-12): leave the commit local, note it, carry on — the
+   next agent to go green pushes it out with theirs. It only
+   *matters* if nobody is left to carry it, so check `herdr agent
+   list`: **others live → shrug**; **you are the only / last agent
+   → the commit is STRANDED**, say so loudly (and, if the red is
+   your own, fix it). Never `SKIP_VERIFY=1` either way.
 6. **Confirm** — `git status` clean, `git log origin/main..main` empty (or note what's left + why).
 
 Four rules, learned the hard way:
@@ -132,7 +148,16 @@ Four rules, learned the hard way:
   succeeding, `git log origin/main..main`).
 - **Shared-tree safety** (>1 agent may edit at once). **Never** `stash` / `checkout` / `restore` / `-A` / `-a`
   / `-u` or otherwise touch files you didn't author; commit your own by explicit path, and never `git add` a
-  tracked file (edits commit directly via `git commit -- path`). `guard-git-add-all.sh` enforces all of this.
+  tracked file (edits commit directly via `git commit -- path`).
+  Two hooks enforce it (ADR-196): `guard-git-add-all.sh` (staging
+  shape; `SKIP_SWEEPGUARD=1` escapes it but every use is appended
+  to the committed [`sweepguard-ledger.md`](sweepguard-ledger.md),
+  auto-committed by post-commit) and `guard-bash-safety.sh`
+  (TREE-WIDE `restore`/`checkout`/`stash`/`reset --hard`/`clean
+  -f` are hard-blocked with NO escape var — name explicit paths
+  instead; isolated worktrees exempt). New ADR numbers: reserve
+  via `pnpm exec tsx src/scripts/tree-claim.ts adr` so two
+  sessions can't take the same one.
 - **Don't fight someone else's red.** Another agent's in-flight red WIP will (correctly) block your push —
   leave your commit local, note it, never `SKIP_VERIFY=1` a red tree onto `main`. (`SKIP_VERIFY=1` is only for
   *committing* your own isolated docs/hooks change locally.)

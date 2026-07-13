@@ -32,9 +32,26 @@ Read-only session — no code touched.
    stale on disk) — w2:p5 was held behind it; resolved by landing
    the plans + regenerated README together. Lesson: scaffold and
    commit plans in ONE sitting, or scaffold in `tmp/`.
-3. Next: an agent picks up the locks plan (Opus-buildable); the
-   shard waits for a quiet moment on decisions.md; the split waits
-   for the human's overnight go.
+3. ~~An agent picks up the locks plan~~ **BUILT this session** (the
+   human re-routed: run it here, after a 3-question design Q&A —
+   wrapper + bare-push block · five destructive verbs worktree-
+   exempt no-escape · ledger auto-committed by post-commit, since a
+   pathspec commit's temp index can't be amended by pre-commit).
+   Shipped: `tree-claim.ts` (+7 tests, push/exit mutex + ADR
+   allocator — its first live run correctly reserved above a
+   co-agent's ADR-197 written DURING the build), `push-main.sh` +
+   `pnpm run push`, `guard-bash-safety.sh` (push block, 5
+   tree-wide destructive blocks incl. the env-prefix evasion fix,
+   27-case proof matrix in `tmp/guard-proof.sh`),
+   `guard-git-add-all.sh` (escape tightened to real env-prefix
+   only + ledger append, 4-case proof in `tmp/escape-proof.py`),
+   `.githooks/post-commit` (ledger auto-commit), prepare-to-exit
+   step 0, docs ripple (AGENTS.md displaced to its 500 cap).
+4. Code batch committed in the next GREEN window (tree red from
+   the sickroom build's mid-flight WIP at writing time — their
+   red, not ours); docs batch commits now under the docs lane.
+5. Still queued: the shard plan (quiet moment on decisions.md);
+   the render split (human's overnight go).
 
 ## Landmines
 - The cross-scope re-touch metric is a PROXY for distinct agents;

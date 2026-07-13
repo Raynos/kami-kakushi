@@ -117,7 +117,14 @@ always-loaded context while being editable on its own.
 - `src/scripts/` — repo dev/maintenance scripts (e.g.
   [`snapshot-research.sh`](../src/scripts/snapshot-research.sh),
   [`session-brief.sh`](../src/scripts/session-brief.sh) — the session-start
-  human-queue brief).
+  human-queue brief). The ADR-196 contention locks live here too:
+  [`tree-claim.ts`](../src/scripts/tree-claim.ts) (push/exit lane
+  mutexes + ADR-number reservations; ephemeral liveness-validated
+  claims under git-ignored `project/.claims/`) and
+  [`push-main.sh`](../src/scripts/push-main.sh) (`pnpm run push` —
+  the push mutex; bare `git push` is hook-blocked). Sweep-guard
+  bypasses are logged to
+  [`project/status/sweepguard-ledger.md`](../project/status/sweepguard-ledger.md).
 - [`src/core/content/narrative/`](../src/core/content/narrative) — **FB-5 narrative
   authoring sources**: the T0 story as structured markdown (`rung-beats.md`,
   `intro.md`, `dialogue.md`, `cold-open.md` — prose-first, readable as a script;

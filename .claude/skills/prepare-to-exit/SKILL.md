@@ -15,7 +15,16 @@ The snapshot/queue step is now half mechanical: **`pnpm run checkpoint`** regene
 regions (gate roster, active-plans list) and graduates any DONE plan to `project/archive/` — run it, then finish
 the judgment half by hand (snapshot prose, clearing engaged reading-queue items).
 
-Four guardrails up front:
+Five guardrails up front:
+- **Claim the exit lane FIRST (ADR-196).** Parallel prepare-to-exit
+  runs thrash the snapshot/queues — the ritual is a critical
+  section. Before step 1:
+  `pnpm exec tsx src/scripts/tree-claim.ts claim exit --wait 300` —
+  a held lane polls up to 5 min (a live co-agent's exit finishes in
+  less). **On timeout (exit code 3): stop and print the OOPS
+  banner** naming the holder pane — do NOT half-run the ritual.
+  Release after your banner, whether BYE or OOPS:
+  `pnpm exec tsx src/scripts/tree-claim.ts release exit`.
 - **Don't kill running subagents / workflows to exit.** A checkpoint resumes *committed* state; it doesn't tear
   down live work (results notify the loop when done). Leave it running (note it in-flight); `TaskStop` only if
   the user asks.

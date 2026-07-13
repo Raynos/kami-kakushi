@@ -1,6 +1,19 @@
 # Serialize the shared tree's pushes and exits — the ADR-196 locks
 
-**Status:** 📋 PROPOSED (2026-07-13, session 199)
+**Status:** ▶️ IN PROGRESS (2026-07-13, session 199 — building)
+
+> **Build-time deltas, human-locked 2026-07-13 (session 199 Q&A):**
+> (1) push flow = **wrapper** `pnpm run push` (claim → push →
+> release-on-exit) + `guard-bash-safety.sh` BLOCKS bare `git push`
+> — a PreToolUse hook can't release a claim, so the plan's
+> "hook auto-claims" shape is dead; no new hook file, no
+> settings.json edit. (2) claims validate by **liveness + reap,
+> not TTL** (the ADR-171 pattern — its design note rejects guessed
+> TTLs). (3) destructive hard-block covers **five verbs**
+> (restore/checkout/stash + reset --hard + clean -f) in tree-wide
+> form, NO env escape (named paths are the escape), isolated
+> worktrees exempt; named-path forms keep today's warn. (4) the
+> bypass ledger is **auto-staged by pre-commit** whenever dirty.
 **Confidence:** ( 70% Opus, 30% Fable ) — the protocol judgment is
 already spent (ADR-196 locked every fork with the human); what
 remains is careful hook/script mechanics with liveness edge cases.
