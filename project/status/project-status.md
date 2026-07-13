@@ -64,10 +64,10 @@ magic; no reset.
   because the sim prices its walk at **R3 31.6 wall-min, outside the signed [3,25]
   band** (ADR-056 is yours to move). Four levers in the item.
 - **HR-33** 🔲 (story) + **HR-32b** 🔲 (announce) — the four zone-reveal VNs (take A canon; **B answers "the people are pure flavor"**) + VN-only vs VN+map-ink.
-- **Story picks (DEV → Story)** 🔲 — HR-18…21 · **HR-27** · **HR-28** ·
-  **HR-39** (slept-day line; press Sleep ×3 — does it wear out?) ·
-  **HR-40** (sleep-announce beat). **DEV-variant picks (ADR-075)** 🔲 —
-  HR-6 · HR-5 · HR-2A–D · HR-29 · HR-30 (a pick → strip the alternates).
+- **ONE home for every pick: DEV → Review** (s189) — Story ⇄ Variants
+  behind one switch; each row carries its **HR-n**, each HR-item the
+  **V**/**SV** to click. **Story** 🔲 HR-18…21 · HR-27 · HR-28 ·
+  HR-39 · HR-40 · **Variants** 🔲 HR-6 · HR-5 · HR-2A–D · HR-29/30.
 
 ## Toolchain
 
@@ -89,7 +89,7 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
   skills, ranks, combat, ascension, pillars, works, selectors, `content/*` incl.
   `narrative/`, `scenes`, seasons) · `src/persistence` (save layer, SCHEMA 11
   — ADR-179 derived reveal; clean-break at v10) · `src/ui` (render.ts +
-  dev.ts) · `src/app/main.ts` (root +
+  dev.ts + dev-surfaces.ts) · `src/app/main.ts` (root +
   `window.__qa`) · `src/scripts/*`. ADR ledger: `docs/living/decisions.md`.
 - **3 top-level dirs:** `docs/` (truth) · `project/` (process) · `src/` (code).
 
@@ -117,4 +117,4 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
    `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 20/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 21/20 · last full rewrite: 2026-07-11 -->
