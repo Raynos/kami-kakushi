@@ -1141,6 +1141,31 @@ describe('session-200 — logged intro/scene lines re-derive under the selected 
     dev.setStoryUnit('intro-log-test', `intro:${canonScene.id}`, undefined);
     expect(renderLogLine(key)).toBe(canonFirst.text);
   });
+
+  // The POSITIONAL TWIN: takes are authored BLIND (ADR-139) with their own <!--#slug-->
+  // markers, so a logged line's canon-baked id usually misses the take def (the sweep found
+  // hd30-nengu at 100% dead, hd38-w1/w2 and works-cause partially). When the id lookup
+  // misses, the resolver finds the id's place in the CANON def and reads the take's element
+  // at the same position. RED without the fallback: renamed slugs resolve to undefined and
+  // the logged line silently stays canon.
+  it('a take with its OWN line slugs still re-voices logged lines (positional twin)', () => {
+    const renamed: DialogueScene = {
+      ...canonScene,
+      greeting: [{ ...canonFirst, id: 'blind-authored-slug', text: 'TWIN dream line' }],
+    };
+    const dev = createDevApi([
+      {
+        id: 'twin-test',
+        title: 'Twin test',
+        hr: 'none · test fixture',
+        takes: [{ id: 'b', label: 'renamed slugs', brief: 'blind slugs', introScenes: [renamed] }],
+      },
+    ]);
+    dev.setStoryTake('twin-test', 'b');
+    expect(renderLogLine(key)).toBe('TWIN dream line'); // canon id → position → take line
+    dev.setStoryTake('twin-test', 'canon');
+    expect(renderLogLine(key)).toBe(canonFirst.text);
+  });
 });
 
 // ── HD-41 req-objective — the PROGRESS-tab line the Story switcher swaps. Unlike req-flavor

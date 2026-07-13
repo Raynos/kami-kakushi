@@ -152,36 +152,69 @@ function vnText(scene: RungScene, part: string): string | undefined {
   return undefined;
 }
 
+// A logged line is addressed by the id BAKED under canon, but a take was authored BLIND
+// (ADR-139) with its own `<!--#slug-->` markers — so an id lookup against the take def
+// usually misses. The POSITIONAL TWIN closes that: find the id's place in the CANON def,
+// read the take's element at the same position. DEV-review display only (the overlay is
+// never set in prod); a take with fewer elements leaves the tail on its stored prose.
+function vnTakeText(
+  canon: RungScene | undefined,
+  take: RungScene,
+  part: string,
+): string | undefined {
+  const direct = vnText(take, part);
+  if (direct !== undefined || !canon) return direct;
+  const greeting = part.match(/^greeting\.(.+)$/);
+  if (greeting) {
+    const i = canon.greeting.findIndex((l) => l.id === greeting[1]);
+    return i >= 0 ? take.greeting[i]?.text : undefined;
+  }
+  const topic = part.match(/^topic\.(.+?)\.(?:(ask)|answer\.(.+))$/);
+  if (topic) {
+    const i = canon.topics.findIndex((t) => t.id === topic[1]);
+    const tt = i >= 0 ? take.topics[i] : undefined;
+    if (!tt) return undefined;
+    if (topic[2] === 'ask') return tt.label;
+    const ai = canon.topics[i]!.answer.findIndex((l) => l.id === topic[3]);
+    return ai >= 0 ? tt.answer[ai]?.text : undefined;
+  }
+  const opt = part.match(/^opt\.(.+)\.(say|react|bonus)$/);
+  if (opt) {
+    const i = canon.decision.options.findIndex((o) => o.id === opt[1]);
+    const to = i >= 0 ? take.decision.options[i] : undefined;
+    if (!to) return undefined;
+    if (opt[2] === 'say') return to.say;
+    if (opt[2] === 'react') return to.react;
+    return to.statBonus?.note;
+  }
+  return undefined;
+}
+
 const sceneText = (tail: string): string | undefined => {
   const dot = tail.indexOf('.');
   if (dot <= 0) return undefined;
   const id = tail.slice(0, dot);
-  const scene = LOG_TAKES?.scene?.[id] ?? sceneById(id)?.scene;
-  return scene ? vnText(scene, tail.slice(dot + 1)) : undefined;
+  const canon = sceneById(id)?.scene;
+  const take = LOG_TAKES?.scene?.[id];
+  if (take) return vnTakeText(canon, take, tail.slice(dot + 1));
+  return canon ? vnText(canon, tail.slice(dot + 1)) : undefined;
 };
 
 const beatText = (tail: string): string | undefined => {
   const dot = tail.indexOf('.');
   if (dot <= 0) return undefined;
   const rank = tail.slice(0, dot) as RankId;
-  const beat = LOG_TAKES?.rung?.[rank] ?? RUNG_BEATS[rank];
-  return beat ? vnText(beat, tail.slice(dot + 1)) : undefined;
+  const canon = RUNG_BEATS[rank];
+  const take = LOG_TAKES?.rung?.[rank];
+  if (take) return vnTakeText(canon, take, tail.slice(dot + 1));
+  return canon ? vnText(canon, tail.slice(dot + 1)) : undefined;
 };
 
 // ── the intro (a DialogueScene: greeting lines · ask-hub topics · the terminal decision) ─────
 //   intro.<sceneId>.greeting.<i>
 //   intro.<sceneId>.topic.<topicId>.ask | .answer.<i>
 //   intro.<sceneId>.opt.<optionId>.say | .react | .perk
-const introScene = (id: string): DialogueScene | undefined =>
-  LOG_TAKES?.intro?.[id] ?? DIALOGUE_SCENES.find((s) => s.id === id);
-
-function introText(tail: string): string | undefined {
-  const dot = tail.indexOf('.');
-  if (dot <= 0) return undefined;
-  const scene = introScene(tail.slice(0, dot));
-  if (!scene) return undefined;
-  const part = tail.slice(dot + 1);
-
+function introSceneText(scene: DialogueScene, part: string): string | undefined {
   const greeting = part.match(/^greeting\.(.+)$/);
   if (greeting) return lineText(scene.greeting, greeting[1]!);
 
@@ -197,6 +230,51 @@ function introText(tail: string): string | undefined {
     return introPerkLine(o); // the perk line is DERIVED from the option — never a stored copy
   }
   return undefined;
+}
+
+/** The intro's positional twin — same rule as `vnTakeText`, on the DialogueScene shape. */
+function introTakeText(
+  canon: DialogueScene | undefined,
+  take: DialogueScene,
+  part: string,
+): string | undefined {
+  const direct = introSceneText(take, part);
+  if (direct !== undefined || !canon) return direct;
+  const greeting = part.match(/^greeting\.(.+)$/);
+  if (greeting) {
+    const i = canon.greeting.findIndex((l) => l.id === greeting[1]);
+    return i >= 0 ? take.greeting[i]?.text : undefined;
+  }
+  const topic = part.match(/^topic\.(.+?)\.(?:(ask)|answer\.(.+))$/);
+  if (topic) {
+    const i = canon.topics.findIndex((t) => t.id === topic[1]);
+    const tt = i >= 0 ? take.topics[i] : undefined;
+    if (!tt) return undefined;
+    if (topic[2] === 'ask') return tt.label;
+    const ai = canon.topics[i]!.answer.findIndex((l) => l.id === topic[3]);
+    return ai >= 0 ? tt.answer[ai]?.text : undefined;
+  }
+  const opt = part.match(/^opt\.(.+)\.(say|react|perk)$/);
+  if (opt) {
+    const i = canon.decision.options.findIndex((o) => o.id === opt[1]);
+    const to = i >= 0 ? take.decision.options[i] : undefined;
+    if (!to) return undefined;
+    if (opt[2] === 'say') return to.say;
+    if (opt[2] === 'react') return to.react;
+    return introPerkLine(to);
+  }
+  return undefined;
+}
+
+function introText(tail: string): string | undefined {
+  const dot = tail.indexOf('.');
+  if (dot <= 0) return undefined;
+  const id = tail.slice(0, dot);
+  const canon = DIALOGUE_SCENES.find((s) => s.id === id);
+  const take = LOG_TAKES?.intro?.[id];
+  const part = tail.slice(dot + 1);
+  if (take) return introTakeText(canon, take, part);
+  return canon ? introSceneText(canon, part) : undefined;
 }
 
 /** A labour line: the activity's own prose + the gains it actually paid out. The gains are the
