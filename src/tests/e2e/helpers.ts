@@ -104,9 +104,75 @@ export async function walkSheet(page: Page, nodes: readonly string[]): Promise<v
       await press(page.locator(`.map-nav [data-node="${node}"]:not([data-locked])`));
       await page.waitForFunction(`window.__qa.state().location === '${node}'`);
       await page.waitForTimeout(1200);
+      await playAnyOpenVn(page);
     }
   } finally {
     await page.evaluate('window.__qa.speed(1)');
+  }
+}
+
+/** Hurry the typewriter exactly as a player would — clicking the transcript
+ *  advances a line — until one of the scene's interactive controls is visible. */
+export async function hurryTypewriter(page: Page): Promise<void> {
+  // ':visible' matters: a plain .first() picks the first matching element in
+  // DOM order EVEN IF HIDDEN, so the loop never saw the visible control behind
+  // it and burned its full budget (60×40ms, several times per scene).
+  const visibleControls = page.locator(
+    'button.intro-ask:visible, button.intro-done:visible, button.intro-choice:visible, button.intro-continue:visible',
+  );
+  for (let i = 0; i < 60; i++) {
+    if ((await visibleControls.count().catch(() => 0)) > 0) return;
+    await page.locator('.vn-story').click({ position: { x: 20, y: 20 } });
+    await page.waitForTimeout(40);
+  }
+}
+
+/** Walk one VN scene through its ask → decide → Continue arc using only visible
+ *  controls. Asks at most one topic (when the ask panel is up), declares "heard
+ *  enough", picks the FIRST choice, presses Continue. Returns once the scene
+ *  advanced (the next scene mounted, or the VN closed). */
+export async function playVnScene(page: Page): Promise<void> {
+  await hurryTypewriter(page);
+  const ask = page.locator('.vn-ask button.intro-ask:not(.asked):visible').first();
+  if (await ask.isVisible().catch(() => false)) {
+    await press(ask); // ask ≥1 topic — the decide grid must survive the detour
+    await hurryTypewriter(page); // the answer types out too
+  }
+  const done = page.locator('button.intro-done:visible').first();
+  if (await done.isVisible().catch(() => false)) {
+    await press(done); // "I've heard enough" — flips the panel to decide
+  }
+  const choice = page.locator('button.intro-choice').first();
+  await expect(choice, 'the decide grid never offered a choice').toBeVisible();
+  await press(choice); // latches the option
+  await hurryTypewriter(page); // the outcome types out before Continue shows
+  const cont = page.locator('button.intro-continue');
+  await expect(cont.first(), 'Continue never appeared after choosing').toBeVisible();
+  await press(cont.first()); // intro: dispatches · rung: "Rung up" performs the ceremony (FB-153)
+  // FB-153 — a rung beat holds its promotion ceremony IN the modal: a second
+  // Continue (inside .vn-rung-ceremony) is the dispatching control there.
+  const ceremonyCont = page.locator('.vn-rung-ceremony button.intro-continue');
+  if (await ceremonyCont.isVisible().catch(() => false)) await press(ceremonyCont);
+}
+
+/** ADR-184 — a zone opens only in a VN, and those VNs fire from the LABOUR the player is
+ *  already doing: arriving at the forecourt with coin opens sb-market, the paddies at R3
+ *  open sb-racks. So a walk across the sheet now OPENS scenes, and a walk that ignores them
+ *  leaves the shell hidden behind a full-screen washi surface — every later press then dies
+ *  "element is not visible" (which is exactly how the R3 journey went red). A walk therefore
+ *  PLAYS what it opens, as the player must. No-op when nothing opened; bounded because a
+ *  single arrival can queue more than one scene (the forecourt can hand over both). */
+export async function playAnyOpenVn(page: Page, max = 4): Promise<void> {
+  for (let i = 0; i < max; i++) {
+    if (
+      !(await page
+        .locator('.vn-scene')
+        .isVisible()
+        .catch(() => false))
+    )
+      return;
+    await playVnScene(page);
+    await page.waitForTimeout(150); // scene transition beat — the next may already be queued
   }
 }
 

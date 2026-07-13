@@ -71,6 +71,32 @@ and I nearly missed it — the same drive was "losing" ordinary teach
 lines too, which no HD-41 change could touch. Check the harness before
 you accuse the build.
 
+## A red I found on the way out: the e2e lane, dark since ADR-184
+
+The push's e2e blast-radius warning was right to nag. `pnpm run
+test:e2e` came back **3 failed / 88 passed** — the R3 journey, on all
+three profiles, timing out on a tab that "is not visible". Not mine: the
+lane
+has been red on `main` since `a4863592` (**ADR-184 — a zone opens only
+in a VN**), and two CI e2e runs had already failed unnoticed.
+
+The cause is the feature working *exactly as designed*. Zone reveals
+fire from the labour the player is already doing — arriving at the
+forecourt with coin opens `sb-market`, the paddies at R3 open
+`sb-racks` — and a full-screen VN **hides the shell** (`vnActive`). The
+spec's `walkSheet` walked paddies → forecourt → gate, opened scenes it
+never played, and then pressed a tab that was behind the washi. So a
+walk across the sheet now has to **play what it opens, as the player
+must**: `playAnyOpenVn` drains the VN after each hop (no-op when nothing
+opened, bounded because one arrival can queue two scenes), and
+`hurryTypewriter`/`playVnScene` move from `journeys.spec.ts` into
+`helpers.ts` — one home, both specs (TST1). Lane: **91/91**.
+
+Worth saying plainly: **a green `verify` never covered this.** The e2e
+lane is CI-only by budget (D-072), so its red sat in a workflow nobody
+was reading. The push-time blast-radius warning is the only thing that
+put it in front of me.
+
 ## Next intended steps
 
 1. **HR-41** — the human picks the objective-line take; that verdict
