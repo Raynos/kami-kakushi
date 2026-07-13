@@ -21,6 +21,29 @@ import { STORY_TAKE_BUNDLES } from './storyTakes';
 import type { RungScene } from '../core/content/rungBeats';
 import { RUNG_BEATS } from '../core/content/rungBeats';
 
+/** A minimal QA stub for the panel-mount tests (module-level: the Speed row, the Review tab and
+ *  anything else that mounts the whole panel all need one). */
+function stubQa(): DevQa & { last: number | null } {
+  const q = {
+    last: null as number | null,
+    state: () => createInitialState(1),
+    speed(m: number) {
+      q.last = m;
+      return m;
+    },
+    jumpToPhase2: () => 0,
+    jumpToAscension: () => {},
+    toRung: () => 0,
+    newGame: () => {},
+    hasBackup: async () => false,
+    restoreBackup: async () => false,
+    loadFixture: async () => ({ ok: true }),
+    fixtures: () => [],
+    selectors: { rung: () => 'R0' as RankId },
+  };
+  return q;
+}
+
 /** A minimal balance cockpit for the panel-mount tests (FB-7 — the Balance sub-tab is required opts). */
 const testCockpit = () =>
   createBalanceCockpit({
@@ -306,6 +329,60 @@ describe('the Zone do-panel diverge is closed (FB-410 / HR-32)', () => {
   });
 });
 
+// 2026-07-13 (the human: "move all the things I need to review into one place") — everything
+// awaiting a human VERDICT lives in ONE tab: the ADR-075 UI variants and the ADR-139 story
+// takes, switched INSIDE the Review pane instead of hunted across two tabs (TST1).
+// RED-able: restore a top-level Story tab and the first assert flips; break the half-switch's
+// display toggle and the second does.
+describe('the Review tab is the one home for everything awaiting a verdict', () => {
+  const mountPanel = (): HTMLElement => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    mountDevPanel(host, {
+      qa: stubQa(),
+      dev: createDevApi(),
+      rerender: () => {},
+      cockpit: testCockpit(),
+    });
+    return host;
+  };
+
+  it('carries a Review tab, and NO separate Story / Variants tabs', () => {
+    const host = mountPanel();
+    const tabIds = [...host.querySelectorAll('[data-dev-tab]')].map(
+      (t) => (t as HTMLElement).dataset.devTab,
+    );
+    expect(tabIds).toContain('review');
+    expect(tabIds).not.toContain('story');
+    expect(tabIds).not.toContain('variants');
+    // the tab counts BOTH queues, so the collapsed panel says how much is waiting
+    const review = host.querySelector('[data-dev-tab="review"]') as HTMLElement;
+    const dev = createDevApi();
+    expect(review.textContent).toBe(`Review (${dev.surfaces.length + dev.storyBundles.length})`);
+    host.remove();
+  });
+
+  it('the half-switch swaps Variants ⇄ Story inside the one pane', () => {
+    const host = mountPanel();
+    const pane = (half: string): HTMLElement =>
+      host.querySelector(`[data-review-pane="${half}"]`) as HTMLElement;
+    const btn = (half: string): HTMLButtonElement =>
+      host.querySelector(`[data-review-half="${half}"]`) as HTMLButtonElement;
+
+    expect(pane('variants').style.display).toBe('flex'); // Variants is the landing half
+    expect(pane('story').style.display).toBe('none');
+
+    btn('story').click();
+    expect(pane('story').style.display).toBe('flex');
+    expect(pane('variants').style.display).toBe('none');
+
+    btn('variants').click();
+    expect(pane('variants').style.display).toBe('flex');
+    expect(pane('story').style.display).toBe('none');
+    host.remove();
+  });
+});
+
 // ADR-184 / HR-32b — the zone-ANNOUNCE mode is a MODE surface: it renders no alternate pane,
 // it flips the core's `zoneRevealMode()`. So the load-bearing seam is `setVariant` → `apply` →
 // the declaring module's DEV setter. RED-able: drop the `apply` call from setVariant (or the
@@ -515,26 +592,6 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
 
 // FB-49 — the DEV Speed row: 1·2·4·8·16, active multiplier highlighted (gold #b08d4f bg), default 1×.
 describe('DEV panel — Speed row (F49)', () => {
-  function stubQa(): DevQa & { last: number | null } {
-    const q = {
-      last: null as number | null,
-      state: () => createInitialState(1),
-      speed(m: number) {
-        q.last = m;
-        return m;
-      },
-      jumpToPhase2: () => 0,
-      jumpToAscension: () => {},
-      toRung: () => 0,
-      newGame: () => {},
-      hasBackup: async () => false,
-      restoreBackup: async () => false,
-      loadFixture: async () => ({ ok: true }),
-      fixtures: () => [],
-      selectors: { rung: () => 'R0' as RankId },
-    };
-    return q;
-  }
   function speedButtons(host: HTMLElement): HTMLButtonElement[] {
     return [...host.querySelectorAll('button')].filter((b) =>
       /^\d+×$/.test(b.textContent ?? ''),

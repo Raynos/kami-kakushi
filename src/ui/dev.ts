@@ -1916,8 +1916,8 @@ export function mountDevPanel(
     panel.style.height = hidden ? 'min(42rem, 82vh)' : '';
   });
 
-  // ── sub-tab bar: two panes (Settings / Variants) under one sub-header. Default = Variants
-  //    (the ADR-075 review focus). Each tab shows its pane and hides the other. ──
+  // ── sub-tab bar: one pane per capability, under one sub-header (TST1). Each tab shows its
+  //    pane and hides the others; default = Settings (FB-298). ──
   const tabBar = el('div');
   // FB-37 — the tab bar is fixed above the scroll region (never scrolls with the panes). FB-7 — it now
   // WRAPS (four tabs no longer fit the 15rem expanded width on one row), so the Balance tab is always
@@ -1929,6 +1929,17 @@ export function mountDevPanel(
   const paneScroll = 'flex:1 1 auto;min-height:0;overflow:auto;';
   const settingsPane = el('div');
   settingsPane.style.cssText = `display:none;flex-direction:column;gap:.5rem;${paneScroll}`;
+  // ── THE REVIEW PANE (2026-07-13, the human: "move all the things I need to review into
+  //    one place"). Everything awaiting a human VERDICT lives here — the ADR-075 UI variants
+  //    and the ADR-139 story takes — switched by the segmented row below, NOT by hunting two
+  //    tabs. The two idioms stay visually separate (a UI variant is a pane swap; a story take
+  //    is a whole coherent set) but they share one home: TST1, one home for everything.
+  //    The pane itself does NOT scroll — the switch row is pinned and each sub-pane scrolls. ──
+  const reviewPane = el('div');
+  reviewPane.style.cssText =
+    'display:none;flex-direction:column;gap:.3rem;flex:1 1 auto;min-height:0;overflow:hidden;';
+  const reviewSwitch = el('div');
+  reviewSwitch.style.cssText = 'flex:0 0 auto;display:flex;gap:.25rem;';
   const variantsPane = el('div');
   variantsPane.style.cssText = `display:flex;flex-direction:column;gap:.4rem;${paneScroll}`;
   // FB-6 — a third pane: named scenario-save fixtures (DEV tooling; not a player surface, so the
@@ -1939,13 +1950,14 @@ export function mountDevPanel(
   // surface, so the ADR-075 diverge mandate doesn't apply — same precedent as Scenarios/capture-inbox).
   const balancePane = el('div');
   balancePane.style.cssText = `display:none;flex-direction:column;gap:.15rem;${paneScroll}`;
-  // ADR-139 — a fifth pane: the STORY take-set switcher (sibling of the UI-variant toggle, per the
-  // human's lock: "variants & story variants as different elements in the DEV menu"). DEV review
-  // instrument for open narrative diverges; single-idea + taste brief per the locked lighter
-  // ADR-075 split (the Scenarios/Balance precedent) — the script-reader modal is the full-diverge
-  // surface, not this switcher.
+  // ADR-139 — the STORY take-set switcher: the narrative sibling of the UI-variant toggle
+  // (the human's lock: "variants & story variants as different elements in the DEV menu" —
+  // still true, they are different ELEMENTS; as of 2026-07-13 they are two halves of the ONE
+  // Review pane rather than two tabs). The script-reader modal is the full-diverge surface,
+  // not this switcher.
   const storyPane = el('div');
   storyPane.style.cssText = `display:none;flex-direction:column;gap:.4rem;${paneScroll}`;
+  reviewPane.append(reviewSwitch, variantsPane, storyPane);
 
   // FB-121 (ADR-137 Phase 4) — the requirements CHEATLIST pane: the current rung's hidden
   // list with live progress (the human's debugging window; the player only ever sees the %).
@@ -1969,24 +1981,53 @@ export function mountDevPanel(
       'border-radius:3px;padding:.2rem .4rem;font:inherit;cursor:pointer;font-weight:700;';
     return b;
   };
-  type TabId = 'settings' | 'variants' | 'scenarios' | 'balance' | 'story' | 'rungs' | 'protos';
+  type TabId = 'settings' | 'review' | 'scenarios' | 'balance' | 'rungs' | 'protos';
   const settingsTab = tabBtn('Settings');
-  const variantsTab = tabBtn('Variants');
+  const reviewTab = tabBtn('Review');
   const scenariosTab = tabBtn('Scenarios');
   const balanceTab = tabBtn('Balance');
-  const storyTab = tabBtn('Story');
   // FB-304 — "Rungs" read like the Rung teleports; it's the requirements cheatlist, so "Rung info".
   const rungsTab = tabBtn('Rung info');
   const protosTab = tabBtn('Prototypes');
   const tabs: Record<TabId, { tab: HTMLButtonElement; pane: HTMLElement }> = {
     settings: { tab: settingsTab, pane: settingsPane },
-    variants: { tab: variantsTab, pane: variantsPane },
+    review: { tab: reviewTab, pane: reviewPane },
     scenarios: { tab: scenariosTab, pane: scenariosPane },
     balance: { tab: balanceTab, pane: balancePane },
-    story: { tab: storyTab, pane: storyPane },
     rungs: { tab: rungsTab, pane: rungsPane },
     protos: { tab: protosTab, pane: protosPane },
   };
+
+  // the Review pane's own switch — which HALF of the review queue is showing. The counts ride
+  // the buttons (a badge on the tab alone can't say "13 of these are story"), and the picked
+  // half is the gold one, matching every other selected-state in this panel.
+  type ReviewHalf = 'variants' | 'story';
+  const halves: Record<ReviewHalf, { btn: HTMLButtonElement; pane: HTMLElement }> = {
+    variants: { btn: tabBtn('Variants'), pane: variantsPane },
+    story: { btn: tabBtn('Story'), pane: storyPane },
+  };
+  const selectHalf = (which: ReviewHalf): void => {
+    for (const id of Object.keys(halves) as ReviewHalf[]) {
+      const { btn, pane } = halves[id];
+      const on = id === which;
+      pane.style.display = on ? 'flex' : 'none';
+      btn.style.background = on ? '#b08d4f' : '#3a322a';
+      btn.style.color = on ? '#1c1814' : '#e7d9bc';
+    }
+  };
+  for (const id of Object.keys(halves) as ReviewHalf[]) {
+    const { btn, pane } = halves[id];
+    // the switch sits INSIDE a pane, so it must be half-width, not the tab bar's 3-up cell
+    btn.style.flex = '1 1 0';
+    btn.dataset.reviewHalf = id; // stable hooks: the switch and the tab bar both render <button>s
+    pane.dataset.reviewPane = id;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectHalf(id);
+    });
+    reviewSwitch.append(btn);
+  }
+  selectHalf('variants');
   const selectTab = (which: TabId): void => {
     for (const id of Object.keys(tabs) as TabId[]) {
       const { tab, pane } = tabs[id];
@@ -1997,24 +2038,17 @@ export function mountDevPanel(
     }
   };
   for (const id of Object.keys(tabs) as TabId[]) {
+    tabs[id].tab.dataset.devTab = id;
     tabs[id].tab.addEventListener('click', (e) => {
       e.stopPropagation();
       selectTab(id);
     });
   }
   // FB-303 — Balance LAST (the human's least-reached pane); FB-302's 3-up rows make the order
-  // Settings · Variants · Scenarios / Story · Rung info · Prototypes / Balance.
-  tabBar.append(settingsTab, variantsTab, scenariosTab, storyTab, rungsTab, protosTab, balanceTab);
-  body.append(
-    tabBar,
-    settingsPane,
-    variantsPane,
-    scenariosPane,
-    balancePane,
-    storyPane,
-    rungsPane,
-    protosPane,
-  );
+  // Settings · Review · Scenarios / Rung info · Prototypes · Balance (six tabs, two full rows —
+  // folding Story into Review cost a tab and bought an even grid).
+  tabBar.append(settingsTab, reviewTab, scenariosTab, rungsTab, protosTab, balanceTab);
+  body.append(tabBar, settingsPane, reviewPane, scenariosPane, balancePane, rungsPane, protosPane);
 
   const cheatlist = mountRequirementsCheatlist(rungsPane, qa.state);
   // refresh the cheatlist whenever its tab is selected + on a slow tick while visible
@@ -2207,11 +2241,13 @@ export function mountDevPanel(
   //    state-compatible) and re-render immediately; live swap covers the VN scene types
   //    (rung beats + intro scenes + generalized scene-defs — season-exit/scripted beats) +
   //    UI flavor lines (lock-hints) — dialogue/cold-open units read in the script-reader. ──
-  storyTab.textContent =
-    dev.storyBundles.length > 0 ? `Story (${dev.storyBundles.length})` : 'Story';
-  // FB-310 — Variants carries its open-surface count too, mirroring Story's badge.
-  variantsTab.textContent =
-    dev.surfaces.length > 0 ? `Variants (${dev.surfaces.length})` : 'Variants';
+  // FB-310 — each half carries its own open count; the Review TAB carries the total, so the
+  // collapsed panel answers "how much is waiting on me" without opening anything.
+  const openUi = dev.surfaces.length;
+  const openStory = dev.storyBundles.length;
+  halves.story.btn.textContent = openStory > 0 ? `Story (${openStory})` : 'Story';
+  halves.variants.btn.textContent = openUi > 0 ? `Variants (${openUi})` : 'Variants';
+  reviewTab.textContent = openUi + openStory > 0 ? `Review (${openUi + openStory})` : 'Review';
   // (FB-228/HR-22 — the MC-colour swatch trio lived here 2026-07-10 for the taste call;
   // the human LOCKED A · asagi sky #8ec9ff same day, so the toggle is stripped — the
   // pick IS the styles.css --v-player token, zero flag-debt. Git history keeps the trio.)

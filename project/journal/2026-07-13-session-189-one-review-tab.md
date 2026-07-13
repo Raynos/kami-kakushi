@@ -41,11 +41,42 @@ paint time. Zone reveal is the full case: the **core** reads
   Proven RED-able by deleting the `apply` call from `setVariant` (the
   mode stays `'vn'`, the assert flips), then restored.
 
+## 2 · the Review tab (Variants ⇄ Story under one roof)
+
+Seven tabs became six: `Variants` and `Story` fold into one **Review**
+tab, switched by a segmented row *inside* the pane. The two idioms stay
+separate — a UI variant is a pane swap, a story take is a whole coherent
+set — but they share one home (TST1), and the human stops hunting two
+tabs for "what is waiting on me".
+
+- Counts: each half carries its own (`Variants (10)` · `Story (22)`) and
+  the tab carries the total (`Review (32)`), so the *collapsed* panel
+  answers "how much is waiting on me" without a click.
+- The tab bar is now an even 3×2 grid (Settings · Review · Scenarios /
+  Rung info · Prototypes · Balance) — the fold cost a tab and bought a
+  clean grid.
+- Stable hooks: `data-dev-tab`, `data-review-half`, `data-review-pane`
+  (the tab bar and the switch both render `<button>`s, so text matching
+  was ambiguous). Two RED-able tests ride them — no Story/Variants
+  top-level tab survives, and the half-switch actually swaps the panes.
+  Proven RED by deleting the switch's display toggle.
+- Shot headlessly at :5173, both halves: the zone-announce surface lands
+  under `— rung R2 —` as **V9A**, and Settings holds only tools now.
+
+### A shared-tree slip, logged
+
+Copying a regenerated `project-status.md` back from a scratch worktree,
+I overwrote the co-agent's UNSTAGED copy of it — I had checked
+`git status` two minutes earlier, not immediately before the write.
+No harm survived (w6:p1 rewrote the file, and their commit carries both
+their prose and the gen line), and they were told. The rule that would
+have caught it is the one already written down: **re-check the working
+tree immediately before any write to a file you did not author.**
+
 ## Next intended steps
 
-1. The Review tab: fold the Story pane in behind a Story ⇄ Variants
-   toggle; Settings/Story stop carrying review content.
-2. The HR ↔ V/SV link + its gate.
+1. The HR ↔ V/SV link + its gate (HR numbers into the DEV panel, V/SV
+   tags into `review.md`, a gate binding both directions).
 
 ## Landmines
 
