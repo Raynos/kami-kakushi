@@ -36,8 +36,8 @@
 - [ ]
   [`project/brainstorms/2026-07-13-story-take-system-simplification.md`](brainstorms/2026-07-13-story-take-system-simplification.md)
   — your "how would you fix the ids and stuff" ask (session-200):
-  one flat-map take shape at gen time + one overlay/funnel; direction
-  not locked — two questions at the end
+  locked and ✅ BUILT the same day (A→B→C→D, ADR-198) — kept here
+  only if you want the design rationale; drop whenever
 - [ ]
   [`project/brainstorms/2026-07-12-quest-shapes-that-emerged.md`](brainstorms/2026-07-12-quest-shapes-that-emerged.md)
   — the four quest shapes ADR-184's reveal wave actually produced

@@ -4,7 +4,7 @@
 **hard gate** on prose-only takes (a structural variant must use the
 `native:` escape) · **D included** (context keys, schema bump rides
 the wave) · **build now, A → B → C → D**, each step verify-green on
-its own. Building in session-200+.
+its own. ✅ ALL FOUR BUILT (session-200, ADR-198).
 
 ## Why the current system keeps breaking
 
