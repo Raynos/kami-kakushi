@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { createInitialState, rungRequirements, balance, type GameState } from '../core';
+import { createInitialState, rungRequirements, balance, toTierId, type GameState } from '../core';
 import { detectMilestones, autosArmed, snapshot } from './milestones';
 
 // Detector proofs: fixtures start from the REAL createInitialState and mutate the public
@@ -22,7 +22,7 @@ describe('milestone detectors — (prev, next) commit diffs', () => {
   });
 
   it('a tier increase emits ascension', () => {
-    const next = patch(base, { tier: base.tier + 1 });
+    const next = patch(base, { tier: toTierId(base.tier + 1) });
     expect(detectMilestones(base, next).find((e) => e.kind === 'ascension')).toMatchObject({
       fromTier: base.tier,
       toTier: base.tier + 1,

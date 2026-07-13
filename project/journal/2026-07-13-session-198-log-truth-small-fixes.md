@@ -26,6 +26,30 @@ ADR-192 entry (pinged via herdr); the step-5 small fixes land first.
   the earlier HD-43 ask_scene_topic work; verify:balance GREEN, all
   rungs in band; H3 moves no magnitudes).
 
+- **M3 — `TierId` type:** new `src/core/content/tiers.ts` (`TierId`
+  0..6, `toTierId` clamp, `TIER_NAMES` single naming source);
+  `state.tier: TierId`; the three fallout sites (QA `toTier`
+  teleport, save hydration, milestone test) now go through
+  `toTierId`. tsgo went RED on all three first — the lever is real.
+
+- **The decisions.md sitting (plan steps 1–4)** — after w2:p5 landed
+  ADR-192: stale `BUILD TODO`s struck with ✅-shipped evidence
+  (ADR-098/100/101/102); supersessions annotated (ADR-094→153,
+  ADR-099→163, ADR-106→144); ADR-127's open picks pointed at
+  HR-2A/2B/5/6; **ADR-179 flipped ▶️→✅**; **ADR-184's "cooking is
+  SITED" corrected to HELD pending HD-40** (+ the stale `reveals.ts`
+  comment); **ADR-193** (T0 ships silent — ADR-068 retired, human's
+  own call), **ADR-194** (merchant permanent state, extends ADR-163
+  §5), **ADR-195** (the sweep omnibus; notes the ADR-147 gap).
+- **PRD ripple (`/prd-ripple`, system/narrative class):**
+  `prd/06-tech-architecture.md` — the stale unlock-latch monotonicity
+  invariant rewritten to the ADR-179 two-part derived form (matches
+  `invariants.test.ts`); `prd/02-systems.md` §2.21 — audio is now
+  sample-based-only, synthesis retired, T0 ships silent (ADR-193).
+  `prd:drift` CLEAN.
+- `docs/repo-map.md` — one line for the `docs/plans/t1|t2|tn/`
+  far-tier queue homes.
+
 ## Next intended steps
 
 1. M3 (`TierId` type), M8 (`save-e2e` `beforeAll`), H6 (root LICENSE).

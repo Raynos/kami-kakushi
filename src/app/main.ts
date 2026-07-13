@@ -21,6 +21,7 @@ import {
   visibleSet,
   RANKS,
   balance,
+  toTierId,
   type GameState,
   type Intent,
   type ActivityId,
@@ -640,7 +641,7 @@ async function boot(): Promise<void> {
       /** Teleport the stored tier (the jump-to-tier teleport; pairs with toRung). */
       toTier: (t: number) => {
         qaTaint('toTier');
-        commit({ ...state, tier: Math.max(0, Math.floor(t)) });
+        commit({ ...state, tier: toTierId(t) });
       },
       tick: (dt: number) => {
         qaTaint('qa.tick');

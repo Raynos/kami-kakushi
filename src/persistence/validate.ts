@@ -21,6 +21,7 @@ import {
   WEAPON_IDS,
   getWeapon,
   refillSitePools,
+  toTierId,
 } from '../core';
 import type { WeaponId } from '../core';
 import type { SaveEnvelope } from './codec';
@@ -393,7 +394,7 @@ export function validateState(rawState: unknown): ValidateResult {
     autoCombatRetreat: base.autoCombatRetreat === true, // additive (call 6): default fight-to-death
     stance: (base.stance as StanceId) ?? 'chudan',
     // ── tier spine (v2, additive): default to a fresh T0 spine; migrate hydrates old saves ──
-    tier: typeof base.tier === 'number' ? Math.max(0, Math.floor(base.tier)) : 0,
+    tier: typeof base.tier === 'number' ? toTierId(base.tier) : 0,
     influence: validateInfluence(base.influence),
     // ── storywave G2 (v10, additive; DORMANT): the generalized-scene queue/cursor/latch +
     // the night-round cursor. Absent / malformed → the inert fresh defaults (nothing enqueued,

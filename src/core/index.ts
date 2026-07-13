@@ -207,6 +207,9 @@ export {
 } from './content/home';
 export type { BelongingDef, ComfortBonus, ComfortKind, HomeTierDef } from './content/home';
 
+export { TIER_NAMES, toTierId } from './content/tiers';
+export type { TierId } from './content/tiers';
+
 export { SKILLS, getSkill, SKILL_IDS } from './content/skills';
 export type { SkillId, SkillDef } from './content/skills';
 export {
@@ -381,6 +384,8 @@ export {
   COLD_OPEN_DIALOGUE_ID,
   RAKE_TEACH_LINE_IDS,
   rakeTeachPending,
+  __setDialogueTextOverride,
+  dialogueLineText,
 } from './content/dialogue';
 export type { DialogueLine, DialogueDef, NpcMemoryMap } from './content/dialogue';
 export * as balance from './content/balance';

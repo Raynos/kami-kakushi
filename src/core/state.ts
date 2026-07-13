@@ -36,6 +36,7 @@ import { getWeapon, type WeaponId } from './content/weapons';
 import type { MapNodeId } from './content/map';
 import type { NpcId } from './content/voices';
 import type { SceneId } from './content/scenes';
+import type { TierId } from './content/tiers';
 
 export type SurfaceId = string;
 export type ResourceId = string;
@@ -233,10 +234,10 @@ export interface GameState {
   readonly stance: StanceId;
 
   // ── the tier spine (T0-M3+, additive; SCHEMA_VERSION 2) ──
-  /** Current tier 0..6 (the seven-tier bible spine, ADR-150/ADR-152; enum widened from 0..5
+  /** Current tier (the seven-tier bible spine, ADR-150/ADR-152; enum widened from 0..5
    *  by the storywave rewrite — T1+ content is unaffected). Stored, bumped by the manual
    *  opt-in ascension. */
-  readonly tier: number;
+  readonly tier: TierId;
   /** House-Influence pillar accrual (Phase-2-gated; the macro engine, ADR-049/ADR-055). */
   readonly influence: Influence;
 
