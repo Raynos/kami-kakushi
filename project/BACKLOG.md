@@ -153,3 +153,18 @@ Deliberately not built; each says why. Never nagged.
   `gen-narrative` to interleave rung-triggered scene-defs into the
   ladder by rung. Parked because it is cosmetic to play and only bites
   at review time.
+
+- **Graduate the ADR-196 hook proof matrices into durable tests**
+  (parked at the locks landing, session-199 2026-07-13). The 27-case
+  block/allow matrix for `guard-bash-safety.sh` and the 4-case
+  escape/ledger matrix for `guard-git-add-all.sh` ran green at build
+  time but live in git-ignored `tmp/` (`guard-proof.sh`,
+  `escape-proof.py`); a regex edit to either hook currently has no
+  regression net. Fix = port them to a vitest spec that shells the
+  hooks with fixture stdin (fast, COMMIT lane). Parked because the
+  hooks just shipped verified and change rarely.
+
+- **index.lock retry wrapper** (ruled OUT of ADR-196 v1 — the locks
+  plan's Non-goals, session-199). 133 transient index.lock mentions
+  across 548 sessions; leave-local + the push mutex should shrink it.
+  Revisit only if the ledger/journals show it still biting.

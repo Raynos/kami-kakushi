@@ -66,6 +66,11 @@ Read-only session — no code touched.
    hook auto-committed on a co-agent's commit (7eaa75e6), and the
    ledger logged a real w1:p3 SKIP_SWEEPGUARD bypass minutes
    after landing.
+8. Exit checkpoint: snapshot updated (ADR shard pointer, pnpm run
+   push flow, render-split as the human-gated next); two parked
+   items homed in BACKLOG (hook proof-matrix graduation ·
+   index.lock retry). Exit lane claimed/released through the new
+   lock itself.
 
 ## Landmines
 - The cross-scope re-touch metric is a PROXY for distinct agents;

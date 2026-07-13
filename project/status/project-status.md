@@ -91,7 +91,8 @@ FB-257. `dev`·`build`·`/ship`.
   `src/persistence` (save layer, SCHEMA 11) · `src/ui` (render.ts +
   dev.ts + dev-surfaces.ts) · `src/app/main.ts` (root + `window.__qa`)
   · `src/scripts/*`. Full map: [`repo-map.md`](../../docs/repo-map.md);
-  ADR ledger: `docs/living/decisions.md`.
+  ADR ledger: `docs/living/decisions.md` (index) + `decisions/` bands
+  — new ADRs: newest band, number via `tree-claim.ts adr` (ADR-196).
 - **3 top-level dirs:** `docs/` (truth) · `project/` (process) ·
   `src/` (code).
 
@@ -111,8 +112,9 @@ FB-257. `dev`·`build`·`/ship`.
    `fable-2026-07-13-sickroom-hp-mend.md` — **sequenced** (they share
    `intents.ts`; log-truth + dialogue-live-swap shipped 2026-07-13).
    Then **T2 rungs/fog** · **telemetry** (7 reports).
-5. **Shared tree:** stage only your own files by explicit pathspec
-   commit. **`VERIFY_FULL=1 pnpm run verify` before you push** — the
-   commit lane skips `@slow`, so a green commit can still red a push.
+5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
+   with **`pnpm run push`** (bare `git push` is blocked; lane held →
+   commits stay local by design). Human-gated next: the render-split
+   overnight job (`docs/plans/fable-2026-07-13-render-split.md`).
 
-<!-- rewrite-debt: 3/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 4/20 · last full rewrite: 2026-07-13 -->
