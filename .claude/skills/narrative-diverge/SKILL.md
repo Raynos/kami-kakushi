@@ -101,3 +101,7 @@ TODOs are fresh-context work the human kicks off — never pre-wire them.
   sign-off.
 - **Pre-wiring the human's audit/redesign TODOs** — those get fresh,
   unpoisoned contexts.
+- **Redlines held in context (ADR-188)** — a reviewer / blind reader's
+  findings list is written to disk as a checklist BEFORE any fix lands
+  and ticked as each does; applying "most of it" from memory is the W6
+  false green (10 of 12 applied, reported complete).

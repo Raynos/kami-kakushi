@@ -3713,3 +3713,93 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   ADR-163 (the day-boundary ration it prices against) · ADR-148 (the instant/timed
   taxonomy) · ADR-132/ADR-134 (the seed is the sim's and the cockpit's, not
   hand-tuned) · AC-6 (forecast == reality).
+
+### ADR-188 ✅ — reviewer redlines land on DISK, not in context (HD-42)
+
+- **created_date:** 2026-07-13
+- **Context:** the W6 sweep (ADR-185) returned **12 redlines**; 10 were
+  applied, the wave was reported complete, and `verify` stayed green
+  the whole time the last two sat unfixed — plus two "borderline" flags
+  never returned to. The author is the last person to notice, because
+  he remembers *intending* to apply them (a textbook PH3 false green).
+  No gate can hold this: the list existed only in an agent's context,
+  and a lint cannot know what a blind reader asked for — so per the
+  rung doctrine the honest rungs are a norm and a skill step.
+- **Decision (human, 2026-07-13, over the HD-42 option set):** adopt
+  **BOTH homes**. (1) An always-loaded **AGENTS.md norm** under
+  Conventions: when a reviewer / blind reader hands back a redline or
+  findings list, **write it to disk as a checklist FIRST and tick items
+  off as they land — never hold it in context**. (2) A concrete **step
+  in the skills where findings lists actually come back** — `diverge`,
+  `narrative-diverge`, `battery` — so the rule fires mechanically in
+  the flows that carry the risk. The norm covers ad-hoc reviews the
+  skills never see; the steps make it un-skippable where it matters.
+- **Consequences:** an applied-findings pass now leaves an auditable
+  artifact (the ticked checklist, in `tmp/` or the bundle dir), so
+  *"did you fix everything?"* is answerable from disk instead of from
+  an author's memory. Deliberately **not** a gate: a lint judging
+  "was every redline applied?" would cry wolf — the ceiling rung
+  that soundly holds this rule is the skill step.
+- **Record:** HD-42 (the fork + the W6 failure it answers) · the rung
+  doctrine (AGENTS.md Conventions) · PH3 (done is earned) ·
+  [2026-07-13-hd42-ruling](../../project/feedback-human/2026-07-13-hd42-ruling.md).
+
+### ADR-189 ✅ — the e2e lane's red is READ, not gated: CI's answer is the first thing a session sees (HD-45)
+
+- **created_date:** 2026-07-13
+- **Context.** The Playwright lane is **CI-only by budget** (ADR-072,
+  refined by ADR-176 — a real browser suite is orders of magnitude past
+  `verify`'s 5s soft / 8s hard commit gate, so it cannot live in the
+  local roster). The consequence is structural: a green `verify`, a
+  green commit hook and a green push hook **all coexist with a red e2e
+  lane**. That is not hypothetical — it happened. The lane went red at
+  `a4863592` (ADR-184: a zone opens only in a VN — the reveal VNs the
+  feature *correctly* added hid the shell, and the R3 journey walked
+  straight into them) and sat at **3 failed / 88 passed** through **two
+  unread CI runs**. It was found in session-191 only because an
+  *advisory* push-time blast-radius warning happened to nag about
+  `styles.css`, and an agent happened to read it. Fixed in `8f746f54`;
+  the hole it fell through was not.
+- **Question.** "Push each quality rule to the highest rung that can
+  **soundly** hold it" — and an advisory line an agent may or may not
+  read is the lowest rung there is. What rung does the e2e lane sit on?
+- **Decision (human, signed 2026-07-13 over the option map).** **Option
+  (b): the session brief READS the lane's CI conclusion.**
+  `session-brief.sh` now probes **both** `verify.yml` and `e2e.yml`, and
+  a `completed/failure` on the e2e lane prints as a **🚨 red line in the
+  human-in-the-loop brief** — so the next agent meets the red in its
+  first turn, before it starts anything, instead of whenever someone
+  happens to touch CSS. The rejected sibling, **(a) block the push when
+  the blast radius is hit**, would run the lane (~60s) on any push
+  touching e2e-covered surface and refuse a red: sound, but it buys ~an
+  hour of earlier notice at the price of a minute on **every** UI push,
+  and CI runs the suite 60s later anyway. **(c) leave it advisory** was
+  declined outright.
+- **Why (b) is the right rung — the failure was not that the red
+  ESCAPED, it's that CI's answer was never READ.** The e2e red *did*
+  reach CI, twice, correctly and loudly; the signal existed and no one
+  consumed it. A gate that re-detects what CI already knew is not the
+  missing rung — a **reader** is. This is the honest ceiling for a lane
+  that cannot afford to be a gate: it catches the red **after** it lands
+  (that is the acknowledged cost of (b), not an oversight), but it
+  catches it within **one turn** of the next session rather than never.
+  Belt-and-braces (a)+(b) stays available if the after-the-fact window
+  ever proves too wide.
+- **Shape of the check (it can go RED — PH3).** The two probes run
+  **concurrently** and time-boxed (perl `alarm`+`exec` — macOS has no
+  `timeout`), so the second lane costs no extra wall-clock: the brief
+  still runs in **~1.7s**, inside its ≤5s budget. Proven RED, not
+  assumed: a stubbed `gh` reporting `completed/failure` on `e2e.yml`
+  makes the real script print the 🚨 line; with `gh` absent entirely the
+  brief degrades to *(status unavailable)* rather than dying. A running
+  lane now reads `in_progress/—` instead of a bare `in_progress/` (an
+  in-flight run's `conclusion` is `""`, not `null`, so jq's `//`
+  fallback never fired). The red line names the reproduce command
+  (`pnpm run test:e2e`) and says the quiet part out loud — *nothing
+  local sees this* — so the next agent cannot mistake a green `verify`
+  for a green build.
+- **Record:** HD-45 (the fork) · ADR-072 / ADR-176 (the commit budget
+  that puts the lane in CI in the first place) · ADR-184 (the change
+  that broke it) · `a4863592` → `8f746f54` (red, then fixed) · the
+  "highest sound rung" convention (a gate > a hook > a skill > a norm —
+  calibrated so it never cries wolf).

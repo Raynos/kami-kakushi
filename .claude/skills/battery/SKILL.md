@@ -109,6 +109,9 @@ Drive it with **`Workflow`**, not a loose pile of `Agent` calls:
 5. **Route findings to the ledger:** every actionable finding becomes a row the human can action —
    an **ADR** in `docs/living/decisions.md` (for locked-design calls) and/or an **H/HR-item** in
    `project/human-in-the-loop/`. *A finding with no ledger row gets forgotten.*
+6. **Redlines to disk before applying (ADR-188):** when applying any
+   battery / reviewer findings, write the list to a checklist file
+   FIRST and tick items as they land — never apply from context (PH3).
 
 ### 4 · Report to the human
 

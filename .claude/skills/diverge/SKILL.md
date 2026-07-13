@@ -53,6 +53,11 @@ a *persistent* live test against evolving `main` — **hard-capped at 2 repo-wid
 - **NAME a time-box corner-cut; never ship one quietly.** If real constraints force a reduced pass, label it
   explicitly (the way "diverge-LITE" was named before ADR-075 retired it) so it's a visible, revertable debt —
   a silent corner-cut reads as "done."
+- **Redlines land on DISK first (ADR-188).** When a reviewer / blind
+  reader hands back a findings list, write it to a checklist file
+  (`tmp/` or the bundle dir) BEFORE applying any fix, and tick each as
+  it lands — a list held only in context is how 2 of 12 fixes silently
+  vanish behind a green verify (PH3).
 
 ## §1 · Entry gate — mandatory vs exempt
 

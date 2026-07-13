@@ -384,6 +384,9 @@ Full version:
   `verify`/CI **gate** > a git **hook** > a **skill** > a written **norm**,
   calibrated so a gate never cries wolf. Prefer the rung that can't be quietly
   forgotten (a green-or-red check beats a good intention).
+- **Reviewer redlines land on DISK first (ADR-188).** A reviewer / blind
+  reader's findings list is written to a checklist file BEFORE any fix
+  lands, and ticked off as each does — never held in context (PH3).
 - **Markdown prose width — wrap at ~72 (a SUGGESTION, not a gate).** The human
   prefers markdown prose and paragraphs hard-wrapped at **≈72 characters**
   (re-flowable in any editor, clean diffs, no horizontal scroll). **72, not
