@@ -32,3 +32,7 @@ project/playtest-inbox/**/*.png
 # by owner liveness — never committed (a commit would cost a verify run per lock,
 # and a dead session's claim must be reapable without touching git history).
 project/playtest-inbox/pending/.claims/
+
+# Tree-wide lane claims (ADR-196): same design as ADR-171's — push/exit mutexes
+# + ADR-number reservations, ephemeral + liveness-validated, never committed.
+project/.claims/

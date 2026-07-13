@@ -45,7 +45,8 @@
     "verify:budget": "tsx src/scripts/verify-run.ts --budget",
     "verify:balance": "tsx src/scripts/balance-sim.ts --check",
     "balance:fresh": "tsx src/scripts/balance-sim.ts --check-fresh",
-    "verify:tooling": "tsx src/scripts/verify-tooling.ts"
+    "verify:tooling": "tsx src/scripts/verify-tooling.ts",
+    "push": "bash src/scripts/push-main.sh"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",

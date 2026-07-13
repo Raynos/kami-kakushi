@@ -20,6 +20,18 @@ set -euo pipefail
 cmd="$(jq -r '.tool_input.command // empty' 2>/dev/null || true)"
 [ -z "$cmd" ] && exit 0
 
+# ADR-196: SKIP_SWEEPGUARD=1 escapes the STAGING rules below (add/commit shape) —
+# but every use lands in the committed ledger, so bypasses are visible in diffs,
+# not buried in transcripts. (Destructive tree-wide ops are guard-bash-safety.sh's
+# jurisdiction and have NO escape.) The pre-commit hook auto-stages a dirty ledger.
+if printf '%s' "$cmd" | grep -qE '(^|[;&|])[[:space:]]*([A-Za-z_][A-Za-z_0-9]*=[^[:space:]]*[[:space:]]+)*SKIP_SWEEPGUARD=1[[:space:]]'; then
+  repo="${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
+  ledger="$repo/project/status/sweepguard-ledger.md"
+  flat="$(printf '%s' "$cmd" | tr '\n' ' ' | tr '\`' "'" | cut -c1-200)"
+  printf -- '- %s · %s · `%s`\n' "$(date '+%Y-%m-%d %H:%M')" "${HERDR_PANE_ID:-?}" "$flat" >> "$ledger" 2>/dev/null || true
+  exit 0
+fi
+
 deny() {
   cat >&2 <<EOF
 BLOCKED by .claude/hooks/guard-git-add-all.sh: "$1"

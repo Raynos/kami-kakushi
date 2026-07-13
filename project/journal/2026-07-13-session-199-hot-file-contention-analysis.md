@@ -47,9 +47,10 @@ Read-only session — no code touched.
    only + ledger append, 4-case proof in `tmp/escape-proof.py`),
    `.githooks/post-commit` (ledger auto-commit), prepare-to-exit
    step 0, docs ripple (AGENTS.md displaced to its 500 cap).
-4. Code batch committed in the next GREEN window (tree red from
-   the sickroom build's mid-flight WIP at writing time — their
-   red, not ours); docs batch commits now under the docs lane.
+4. ~~Code batch committed in the next GREEN window~~ Human
+   sanctioned committing ahead of the window (their red, not
+   ours; my files green in isolation) — code batch landed local,
+   push still waits for full green.
 5. Still queued: the shard plan (quiet moment on decisions.md);
    the render split (human's overnight go).
 
