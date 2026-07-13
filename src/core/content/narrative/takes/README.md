@@ -38,18 +38,17 @@ menu — the Story switcher is the ONE review surface; a doc-only review is not 
 review.** If a unit type can't swap yet, wiring its swap is PART of the diverge,
 not optional. Live unit types (ADR-143):
 
-- **rung beats / intro scenes** — render-time substitution (`dev.subRungScene`
-  / `dev.subIntroScene`).
-- **UI flavor lines** (`## prose flavor`) — render-time (`dev.subFlavor`, live
-  on the weapon-card etc.).
-- **requirement-completion lines** (`## prose req-flavor`, keyed by requirement
-  id — FB-121) — swapped in the CORE via the declaring-module DEV setter
-  (`__setRequirementFlavorOverride`, the balance-cockpit lever pattern):
-  **future emissions** voice the selected take; already-logged lines stay (T2 —
-  history never rewrites). Load a fixture, pick the take, play a completion.
-- Dialogue + cold-open keyed prose have no swap yet — diverging one means
-  building its swap FIRST (core-emitted text follows the req-flavor pattern;
-  render-read text follows subFlavor).
+- **ONE mechanism for every unit class (ADR-198, session-200):** the compiler
+  emits each take as a flat contentKey→text map + narration-run sequences
+  (canonicalized against canon — the HARD prose-only gate REDs a structural
+  mismatch naming bundle · take · unit); the DEV switcher flattens the
+  effective takes into the single story overlay
+  (`core/content/story-overlay.ts`), and every reader resolves through it:
+  emit-time, save-load, the DEV log repaint (already-LOGGED lines re-voice —
+  the 2026-07-13 ruling), and the render-read surfaces (`dev.sub*` rebuild
+  canon structure with take words). Nothing needs per-class wiring any more;
+  a NEW emitter only needs a contentKey (the keyless gate's static half
+  enforces it) and its prefix in `LIVE_UNITS`.
 
 ## Rules
 
