@@ -649,11 +649,15 @@ async function boot(): Promise<void> {
       frames: (n: number) => {
         for (let i = 0; i < n; i++) safely(() => render(state, prev));
       },
+      // Both repaint, for the same reason the Settings toggle does: paused, no commit may ever
+      // come, so a button that paints on the next render would sit there lying until one did.
       pause: () => {
         paused = true;
+        safely(() => render(state, prev));
       },
       resume: () => {
         paused = false;
+        safely(() => render(state, prev));
       },
       newGame: (seed = DEFAULT_SEED) => {
         // FB-96 — snapshot the CURRENT run to the backup slot BEFORE wiping it, so a New game is
