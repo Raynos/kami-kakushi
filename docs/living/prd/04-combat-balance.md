@@ -897,8 +897,9 @@ ladder, §4.6.9). **Mediocre-start preserved** (start near-zero; humbling near-f
 grind; conditioning the zero-stat gate). **Failure = soft setback** (HP/time, a bite of carried wealth, a
 rest-off injury) — **never** lose levels/gear/permanent progress.
 
-> **HP CARRIES between fights + heals by EATING.** A fight starts at the MC's **carried HP** (never reset to
-> `hpMax`); the ONLY mend is eating (satiety) — there is **no auto-heal** (§4.6.1b/§4.6.6b), so HP retention is
+> **HP CARRIES between fights + heals at the SICKROOM.** A fight starts at the MC's **carried HP** (never reset
+> to `hpMax`); the ONLY mend is the sickroom lane — paid `treat` (mon-only) or the free `rest_sickroom` day
+> (ADR-164/197; food is satiety-only) — there is **no auto-heal** (§4.6.1b/§4.6.6b), so HP retention is
 > a **real between-fight resource**. This makes the **tank stance's lower damage-taken genuinely trade against
 > the glass-cannon's higher damage — so NO stance is strictly dominated** and Balanced is no longer a trap
 > (§4.6.10); a **"no stance strictly dominated" curve invariant** (§6.6) holds. **The 20–35 % SINGLE-fight
@@ -1146,7 +1147,8 @@ level curve** are **not levers** (canon).
 ### §4.6.6b Unattended combat — accumulating HP + two auto-modes
 
 **Shape (canon §2.8 — fixed).** Combat is **full-auto while the tab is open** (active-only), but **HP
-ACCUMULATES** — it carries between fights and the ONLY mend is eating; there is **no auto-heal**. So a
+ACCUMULATES** — it carries between fights and the ONLY mend is the sickroom's `treat` / `rest_sickroom`
+(ADR-164/197; food does not mend); there is **no auto-heal**. So a
 foe that deals **≥1 damage** grinds you down across a run, and the **only** foe safe to auto-grind forever is a
 **0-damage** one. The player owns the risk by picking, **per foe**, one of **two auto-modes**:
 

@@ -193,8 +193,9 @@ first-fight win-rate** is measured (§2.8/§4.6.6), so an overworked protagonist
 The **belly** moves on the day's clock instead: each day boundary drains it, and the household's
 daily kura ration (§2.4/ADR-163) restores it **pro-rated by what the kura could serve** — a stocked
 kura *maintains* the belly, famine is *felt*. Deliberate eating raises it: **`eat_rice` feeds the
-BELLY, never the work bar** (the split's headline); a cooked meal mends HP (§2.8) and adds a belly
-side. The belly's **only teeth are rest quality**: rest restores `restRefill = base × restQuality`,
+BELLY, never the work bar** (the split's headline); a cooked meal feeds the belly too — **food is
+satiety-side ONLY** (ADR-164/197: the cook HP-mend is severed; HP mends at the sickroom, §2.8).
+The belly's **only teeth are rest quality**: rest restores `restRefill = base × restQuality`,
 flat at a full-enough belly, ramping to a **~0.5 floor** when starved — a hungry rest is a poor
 rest, so food buys recovery, not work speed. The convalescence framing of the cold open uses these
 meters (rest and recover "a little" in the first hours — he is **not** a bedridden invalid).
@@ -584,7 +585,8 @@ the fight **auto-resolve** on a fixed-step seeded sim. On kill: combat-XP → **
 seeded loot roll + bestiary update + quest events. **A weapon's `attackPower` is scaled by its current
 durability BAND and by the satiety `satietyRate` coefficient** (below). A node's foes can re-spawn idly
 under a **tab-open auto-resolve** loop (the "leave it running, check the progress" feel). **HP accumulates
-between fights and is mended only by eating** (§2.3) — there is no auto-heal. **Texture stays
+between fights and is mended only at the SICKROOM** — paid `treat` (mon-only, ADR-197) or the free
+`rest_sickroom` day-trickle (ADR-164) — no auto-heal, and food does not mend. **Texture stays
 peaceful-labour-dominant by volume**; combat is live and load-bearing. (Interactive, resumable **mid-fight**
 intervention — swapping stance or spending an ability/item turn-by-turn — is a **forward-tier (T1/T2) depth
 layer**; the T0 spine is atomic auto-resolve.)
@@ -601,7 +603,9 @@ layer**; the T0 spine is atomic auto-resolve.)
   few win-rate points (**never below ~15%**).
 - **HP accumulates; no auto-heal (the fight keeps its stakes).** A fight is a visible **HP-attrition
   exchange** — you attack, the enemy attacks back, both lose HP until one reaches 0. HP **carries between
-  fights and never auto-heals**: the only mend is **eating** (§2.3), so healing is a real pre-fight decision.
+  fights and never auto-heals**: the only mend is the **sickroom lane** — pay Sōan (`treat`, mon-only,
+  ADR-197) or give days to the free pallet rest (ADR-164) — so healing is a real pre-fight decision
+  with a real walk and a real price.
   Reaching **0 HP is a lost fight** — it sets **HP → 1**, **bites a real slice of the
   carried wealth — coin + materials** (the shipped `defeat.ts` bleed; **rice CANNOT
   bleed** — it is never carried, kura-only, ADR-155/ADR-163; the fractions are §4
@@ -1435,8 +1439,9 @@ One body, **two meters coupled one way**: labour spends the WORK/body unit and
 capacity** (`lowHpWorkMult`, the do_activity throttle). **Defeat is never
 game-over** — days are lost while Sōan's closed ledger grows, the carried-loss
 bleed stings in the moment (coin + materials, one home in `defeat.ts` for the
-day loss AND the night-round fall), and HP mends only by deliberate act (no
-auto-trickle). All magnitudes sim-owned (ADR-132);
+day loss AND the night-round fall), and HP mends only by deliberate act at
+the sickroom you wake in — paid `treat` (mon-only, ADR-197) or the free
+`rest_sickroom` trickle; no auto-trickle. All magnitudes sim-owned (ADR-132);
 `docs/story-bible/tiers/t0.md` carries the shape.
 
 **The night-round mini-dungeon runner (docket #5/ADR-156) — BUILT at T0.**
