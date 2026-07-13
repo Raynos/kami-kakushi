@@ -1,9 +1,24 @@
 # Greeting lines get authored ids, so old saves stop pointing at neighbours
 
-**Status:** 📋 PROPOSED (2026-07-13, session-187)
+**Status:** ▶️ IN-PROGRESS (2026-07-13, session-192) — BUILT, one proof
+owed. Shipped in `8fd7322e` (the grammar + 629 ids) and `067c3290` (emitters,
+resolver, the `v11 → v12` migration, fixtures). **Not ✅ yet:** this
+plan's own PH6 player-reach proof — load a pre-change save in the live
+`:5173` build and read the log — is UNRUN, because the shared dev server
+was down all session and an agent may not respawn it. Run it, then
+archive.
 **Confidence:** ( 90% Opus, 10% Fable ) — a codec/migration fix under a
 named ADR limit; no fiction is written, only re-keyed.
 **Template:** build
+
+**Scope note (session-192):** the positional class was **wider** than
+this plan's survey found — `greeting.<i>` **and**
+`topic.<id>.answer.<i>`, across `beat.` · `scene.` · `intro.`. All are
+keyed now. Underneath it sat a defect the plan could not have known
+about: every rung-beat topic line was *unresolvable* — the emitter wrote
+an address `vnText` had no branch to read — fixed first, in `6842db77`.
+Two content findings went to the queue as **HD-43** and **HD-44** rather
+than into a commit.
 
 ## Who builds this — Fable or Opus?
 
