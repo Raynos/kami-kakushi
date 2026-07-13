@@ -56,8 +56,16 @@ export const QUESTS: readonly QuestDef[] = [
     reward: {
       flags: ['quest_first_night_round_done'],
       log: [
-        { channel: 'narration', text: FLAVOR.questNightRoundComplete },
-        { channel: 'milestone', text: FLAVOR.questNightRoundReward },
+        {
+          channel: 'narration',
+          text: FLAVOR.questNightRoundComplete,
+          contentKey: 'flavor.questNightRoundComplete',
+        },
+        {
+          channel: 'milestone',
+          text: FLAVOR.questNightRoundReward,
+          contentKey: 'flavor.questNightRoundReward',
+        },
       ],
     },
   },
@@ -81,8 +89,16 @@ export const QUESTS: readonly QuestDef[] = [
     reward: {
       flags: ['quest_orchard_chain_done'],
       log: [
-        { channel: 'narration', text: FLAVOR.questOrchardDogsComplete },
-        { channel: 'milestone', text: FLAVOR.questOrchardReclaimReward },
+        {
+          channel: 'narration',
+          text: FLAVOR.questOrchardDogsComplete,
+          contentKey: 'flavor.questOrchardDogsComplete',
+        },
+        {
+          channel: 'milestone',
+          text: FLAVOR.questOrchardReclaimReward,
+          contentKey: 'flavor.questOrchardReclaimReward',
+        },
       ],
     },
   },
@@ -106,8 +122,16 @@ export const QUESTS: readonly QuestDef[] = [
     reward: {
       flags: ['quest_defend_grove_done'],
       log: [
-        { channel: 'narration', text: FLAVOR.questGroveMaleComplete },
-        { channel: 'milestone', text: FLAVOR.questGroveMonkeysReward },
+        {
+          channel: 'narration',
+          text: FLAVOR.questGroveMaleComplete,
+          contentKey: 'flavor.questGroveMaleComplete',
+        },
+        {
+          channel: 'milestone',
+          text: FLAVOR.questGroveMonkeysReward,
+          contentKey: 'flavor.questGroveMonkeysReward',
+        },
       ],
     },
   },
@@ -131,9 +155,21 @@ export const QUESTS: readonly QuestDef[] = [
     reward: {
       flags: ['quest_pest_weir_screens_done'],
       log: [
-        { channel: 'narration', text: FLAVOR.questWeirRatsComplete },
-        { channel: 'narration', text: FLAVOR.questWeirRatsSpeech },
-        { channel: 'milestone', text: FLAVOR.questWeirRatsReward },
+        {
+          channel: 'narration',
+          text: FLAVOR.questWeirRatsComplete,
+          contentKey: 'flavor.questWeirRatsComplete',
+        },
+        {
+          channel: 'narration',
+          text: FLAVOR.questWeirRatsSpeech,
+          contentKey: 'flavor.questWeirRatsSpeech',
+        },
+        {
+          channel: 'milestone',
+          text: FLAVOR.questWeirRatsReward,
+          contentKey: 'flavor.questWeirRatsReward',
+        },
       ],
     },
   },
@@ -157,8 +193,16 @@ export const QUESTS: readonly QuestDef[] = [
     reward: {
       flags: ['quest_pest_field_margins_done'],
       log: [
-        { channel: 'narration', text: FLAVOR.questMarginSettsComplete },
-        { channel: 'milestone', text: FLAVOR.questMarginSettsReward },
+        {
+          channel: 'narration',
+          text: FLAVOR.questMarginSettsComplete,
+          contentKey: 'flavor.questMarginSettsComplete',
+        },
+        {
+          channel: 'milestone',
+          text: FLAVOR.questMarginSettsReward,
+          contentKey: 'flavor.questMarginSettsReward',
+        },
       ],
     },
   },

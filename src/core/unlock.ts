@@ -160,6 +160,7 @@ function announceLine(s: Surface): Surface['revealLine'] {
   if (s.vnReveal !== true) return undefined;
   const node = MAP_NODES.find((n) => n.revealFlag === s.id);
   if (!node) return undefined;
+  // keyless-ok: the announce emit below attaches contentKey `reveal.<surface-id>`.
   return { channel: 'narration', text: node.blurb, voice: 'narrator' };
 }
 

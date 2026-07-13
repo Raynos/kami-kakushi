@@ -1209,8 +1209,12 @@ export function reduce(state: GameState, intent: Intent): GameState {
         },
       };
       // FB-91/FB-93 — attribute-gain flavor is scene narration → consistent narrator voice.
+      // Keyed (step C, session-200): the last keyless durable emitter — a reword of the
+      // ATTR_META line now reaches every existing save.
       next = applyRewards(next, {
-        log: [{ channel: 'system', text: ATTR_META[a].log, voice: 'narrator' }],
+        log: [
+          { channel: 'system', text: ATTR_META[a].log, voice: 'narrator', contentKey: `attr.${a}` },
+        ],
       });
       break;
     }

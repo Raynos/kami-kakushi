@@ -35,6 +35,7 @@ import {
 import { ACTIVITIES, activityLine, type LabourResource } from './activities';
 import { rakeLine } from './coldOpen';
 import { homeRestLine } from './home';
+import { ATTR_META, type AttrId } from './balance';
 import { dialogueLineText } from './dialogue';
 import { RUNG_REQUIREMENTS, requirementFlavor } from './requirements';
 import { NIGHT_ROUNDS } from './nightRounds';
@@ -308,6 +309,9 @@ const RESOLVERS: Readonly<Record<string, Resolver>> = {
   // The at-home rest line — which of the two it is depends on owning bedding, a FACT, so it rides
   // in params rather than being frozen as prose.
   home: (part, params) => (part === 'rest' ? homeRestLine(params.bedding === true) : undefined),
+  // The ±attribute system line (step C, session-200): the FACT is the attribute id; the
+  // words re-render from ATTR_META so a reword reaches every save.
+  attr: (id) => ATTR_META[id as AttrId]?.log,
 };
 
 /** The namespaces this module can resolve — exported so a test can prove every emitted key

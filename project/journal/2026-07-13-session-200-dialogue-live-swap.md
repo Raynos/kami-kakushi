@@ -159,6 +159,20 @@ the shared server: hd38-w4-intro flips a logged option line and
 restores. Remaining: step C (the keyless-gate hole) and step D
 (context keys, schema bump).
 
+## Follow-up (same session) — step C: the keyless gate grows a static half
+
+Why rake-cap escaped the existing full-arc keyless gate: its corpus
+only sees emitters a fixture playthrough REACHES, and the cap fires
+behind a condition the arc never hits. The gate now has a static
+half — a brace-matching scan of src/core source: every durable-
+channel log literal must name a contentKey in its own braces
+(ephemeral lines exempt; a def-site literal keyed at its emit funnel
+declares `// keyless-ok: <where>`). First run caught the WHOLE
+quest-completion line class keyless (11 lines — the arcs never
+complete quests, so the runtime gate was blind to them) plus the
+±attribute line; all keyed now (`flavor.quest*`, `attr.<id>` with a
+new resolver).
+
 ## Landmines
 
 - Shared tree: `src/core/index.ts` was co-dirty with w3:p3's M3

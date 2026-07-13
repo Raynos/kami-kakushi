@@ -51,6 +51,7 @@ export interface Surface {
 
 // FB-91/FB-93 — every surface-reveal line is scene NARRATION, so it carries the `narrator` voice
 // EXPLICITLY (matching the intro's narration convention), never emitted as an un-voiced/plain line.
+// keyless-ok: the announce pass attaches contentKey `reveal.<surface-id>` at emit (unlock.ts).
 const narrate = (text: string): { channel: LogChannel; text: string; voice: VoiceCategory } => ({
   channel: 'narration',
   text,
@@ -506,6 +507,7 @@ export const SURFACES: readonly Surface[] = [
     // latched flag, NOT the transient `s.rung === 'R3'` — R3→R4 promotes at combat lvl 1, so a
     // rung check would go dead forever; `rank-r3` (set once at R3, never cleared) back-reveals.
     unlock: (s) => hasFlag(s, 'rank-r3') && s.character.level >= R3_FRONTIER_COMBAT_LEVEL,
+    // keyless-ok: keyed `reveal.<surface-id>` at the announce emit (unlock.ts).
     revealLine: { channel: 'milestone', text: FRONTIER_BEAT },
   },
   {
