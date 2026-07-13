@@ -4068,3 +4068,48 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   number at write time.
 - **Refs:** the parent survey (archived) · the five child plans ·
   ADR-022 (newest steer governs) · the `deferred-work` gate.
+
+### ADR-196 ✅ — multi-agent contention: hybrid tree, locks, and the hot-file splits (human ruling)
+
+- **created_date:** 2026-07-13 (session 199)
+- **Context.** The measured contention pass
+  ([analysis](../../project/brainstorms/2026-07-13-hot-file-contention-analysis.md)
+  · [grill capture](../../project/brainstorms/2026-07-13-multi-agent-contention-fixes.md))
+  found 72/548 sessions (13%) hitting a hard git collision — push
+  rejects the biggest bucket (218) — plus god-file heat
+  (render.ts 6.7k lines / 183 commits) and one whole-tree
+  `SKIP_SWEEPGUARD=1 git restore … .` bypass. The human walked the
+  decision tree and locked:
+- **Architecture: HYBRID.** The shared tree stays the default
+  working model; sanctioned heavy jobs (big refactors) run in an
+  isolated git worktree and land atomically in a declared quiet
+  window.
+- **Push mutex.** Commits stay free; `git push` takes an atomic
+  claim (the `inbox-claim` pattern: git-ignored lock, stale
+  timeout, hook-enforced). Lock held → leave commits LOCAL
+  immediately, no wait — "another push will happen eventually."
+- **/prepare-to-exit lock.** The whole exit ritual is a critical
+  section (parallel exits thrash the snapshot/queues/push). Lock
+  held → bounded wait; on timeout the ritual exits through its
+  OOPS output, never half-runs.
+- **Sweep-guard escape tightened + ledger.** `SKIP_SWEEPGUARD` no
+  longer covers destructive verbs (restore/checkout/stash) or
+  tree-wide targets (`.`, `-A`, missing pathspec) — named paths
+  only; every bypass appends to a committed ledger. No
+  retrospective audit of the 34 historic uses.
+- **decisions.md shards.** This log becomes `docs/living/decisions/`
+  band files (`000.md`, `050.md`, `100.md`, `150.md`, …) with
+  `decisions.md` as the prd.md-style index (verified: zero `#adr-N`
+  deep links exist, 313 plain references keep resolving). Plus an
+  atomic **ADR-number claim** (the F-number-block pattern) so
+  concurrent sessions can't take the same next number.
+- **The big-bang split job.** Fable, overnight, worktree:
+  `render.ts` split by surface; `render.test.ts` UNTOUCHED as the
+  regression net, then split to mirror in a follow-up commit;
+  `styles.css` per-surface; `dev.ts` by its 6 tabs with review's
+  two halves separate → 7 pane modules + the shell = 8 files.
+- **Packaging: THREE plans** (locks/protocol · ADR shard · split
+  job). Other coordination docs keep their layout — the exit lock
+  carries their thrash.
+- **Refs:** ADR-171 (inbox parallel-drain claims — the pattern
+  generalized here) · the cede/fold norm · PH4.

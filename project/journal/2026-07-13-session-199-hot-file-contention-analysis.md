@@ -19,9 +19,14 @@ Read-only session — no code touched.
 - `tmp/hotfiles.py` — throwaway analysis script (git-ignored).
 
 ## Next intended steps
-1. Human rules on direction: checkpoint/push claim protocol and/or
-   the render.ts split. If either is a go, it gets a `docs/plans/`
-   plan (neither is started).
+1. ~~Human rules on direction~~ **DONE same session** — a grill-me
+   pass walked the whole tree and locked **ADR-196** (hybrid tree ·
+   push mutex · prepare-to-exit lock · sweep-guard tighten+ledger ·
+   decisions.md shard + ADR-number claim · the Fable-overnight
+   split job). Capture:
+   `project/brainstorms/2026-07-13-multi-agent-contention-fixes.md`.
+2. Author the THREE plans (locks/protocol · ADR shard · split job)
+   via `write-plan` → queue them.
 
 ## Landmines
 - The cross-scope re-touch metric is a PROXY for distinct agents;

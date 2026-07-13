@@ -45,11 +45,6 @@
   [`docs/plans/fable-2026-07-13-sickroom-hp-mend.md`](../docs/plans/fable-2026-07-13-sickroom-hp-mend.md)
   — split 3/5: the ADR-164 HP-mend lane (treat / rest, food goes
   satiety-only)
-- [ ]
-  [`project/brainstorms/2026-07-13-hot-file-contention-analysis.md`](brainstorms/2026-07-13-hot-file-contention-analysis.md)
-  — measured multi-agent hot-file thrash (13% of sessions hit a git
-  collision); verdict: claim protocol first, render.ts split second —
-  direction is your call
 - [x]
   [`fable-2026-07-11-wait-a-day.md`](archive/fable-2026-07-11-wait-a-day.md)
   — ✅ **BUILT + archived** (session-183). You ruled Phase 0 (**D
