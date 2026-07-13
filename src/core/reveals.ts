@@ -2,7 +2,10 @@
 // most two zones (the `verify-content` law); every OTHER zone earns its reveal from the
 // fiction, through a side-quest VN of its own. This module is the AC-20 glue that fires
 // those VNs: it runs from the `finish()` settle pass beside `worksPass`, enqueues each
-// reveal scene the tick its fictional moment arrives, and does nothing else — the scene's
+// reveal scene the tick its fictional moment arrives — plus ONE narration beat of the
+// same first-moment shape (the sleep-announce, below), which is a log line rather than
+// a VN because a full-screen takeover to announce a convenience verb is unearned
+// ceremony (the human's ruling, 2026-07-13: "a tiny beat") — the scene's
 // own decision options set the zone's fact-flag (works-intro's pattern: EVERY option sets
 // it, so a graceless answer colours the relationship, never the map), and surfaces.ts
 // derives the zone's visibility from that flag (ADR-179 — visibility is never stored).
@@ -15,7 +18,10 @@
 // draws blood.
 
 import type { GameState } from './state';
-import { hpMax } from './selectors';
+import { setFlag, hasFlag } from './state';
+import { pushLog } from './log';
+import { hpMax, canSleep } from './selectors';
+import { sleepAnnounceLine } from './content/flavor';
 import { isUnlocked } from './unlock';
 import { rungNumber } from './ranks';
 import { enqueueScene } from './scenes';
@@ -76,6 +82,26 @@ export function revealsPass(state: GameState): GameState {
   //    relocation (defeat.ts) — you cannot be beaten without first being hurt.
   if (next.character.hp < hpMax(next) && isUnlocked(next, 'tab-combat')) {
     next = enqueueScene(next, 'sb-sickroom');
+  }
+
+  // ── the corner — the sleep-announce beat (ADR-187 follow-up; closes HR-36's P9 ✘). The
+  //    verb shipped unannounced; this line is its discovery IN PLACE: the first time you
+  //    STAND at your corner with the verb live, the room tells you the day is yours to end.
+  //    `canSleep` is the whole condition on purpose (AC-6-shaped: announced == available) —
+  //    it carries R4+ (the corner is the only bed), the location, and the not-mid-VN guard,
+  //    so the beat can never promise a verb the row does not offer. It fires on ARRIVAL,
+  //    never the rung-up tick: the woodshed node is not walkable before the R4 grant, and
+  //    during the grant's beat `canSleep` is false (rungBeat active). The seen-flag is the
+  //    works.ts idiom; the prose canon is FLAVOR.sleepAnnounce (bundle sleep-announce).
+  if (!hasFlag(next, 'sleep-announced') && canSleep(next)) {
+    next = {
+      ...next,
+      log: pushLog(next.log, 'narration', sleepAnnounceLine(), next.clock.tick, {
+        voice: 'narrator',
+        contentKey: 'flavor.sleepAnnounce',
+      }),
+    };
+    next = setFlag(next, 'sleep-announced');
   }
 
   return next;

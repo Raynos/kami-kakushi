@@ -11,7 +11,9 @@ import { INTRO_BEAT_COUNT, introActive, introSceneAt } from './content/intro';
 import type { RankId } from './content/ranks';
 import { visibleSet, announcePass, factsForSurfaces } from './unlock';
 import { revealsPass } from './reveals';
-import { reduce } from './intents';
+import { reduce, availableActions } from './intents';
+import { renderLogLine } from './content/log-render';
+import { FLAVOR } from './content/flavor';
 import { focusedOptimalIntent } from './autoplay';
 import { CHEAPEST_STALL_ITEM_COST } from './content/market';
 import { COOK_SANSAI_COST } from './content/balance';
@@ -251,5 +253,51 @@ describe('ADR-184 — the zone-reveal law', () => {
     expect(vis.has('room-kitchen')).toBe(true);
     expect(hasFlag(s, 'told-of-the-stall')).toBe(true);
     expect(hasFlag(s, 'taught-to-cook')).toBe(true);
+  });
+});
+
+describe('ADR-187 follow-up — the sleep-announce beat: the corner tells you the day is yours', () => {
+  // The verb shipped unannounced (HR-36's P9 ✘); the beat is its discovery IN PLACE. Each test
+  // here is a lever a deletion would red: drop the latch and "exactly once" fails; drop the
+  // location/rung guards (they live in canSleep) and the refusals fail; rename the FLAVOR key
+  // and the resolve test fails.
+  const sleepLines = (s: GameState): number =>
+    s.log.entries.filter((l) => l.contentKey === 'flavor.sleepAnnounce').length;
+
+  const atCorner = (): GameState => ({ ...atRung(4), location: 'woodshed' });
+
+  it('fires the first time you STAND at the corner — and the verb it announces is LIVE (P10)', () => {
+    const s = revealsPass(atCorner());
+    expect(sleepLines(s)).toBe(1);
+    expect(hasFlag(s, 'sleep-announced')).toBe(true);
+    // announced == available: the same view that reads the line offers the verb. The beat can
+    // never promise a button the row does not show, because canSleep IS the trigger condition.
+    expect(availableActions(s)).toContain('sleep');
+  });
+
+  it('fires exactly ONCE — a second stand at the corner emits nothing', () => {
+    const once = revealsPass(atCorner());
+    expect(sleepLines(revealsPass(once))).toBe(sleepLines(once));
+  });
+
+  it('does not fire below the corner rung: a nobody with no bed hears nothing', () => {
+    const early: GameState = { ...atRung(3), location: 'woodshed' };
+    expect(sleepLines(revealsPass(early))).toBe(0);
+  });
+
+  it('does not fire anywhere but the corner — the bed does not shout across the yard', () => {
+    const elsewhere: GameState = { ...atRung(4), location: 'gate' };
+    expect(sleepLines(revealsPass(elsewhere))).toBe(0);
+  });
+
+  it('fires on ARRIVAL, never the promotion tick: mid-beat the room says nothing', () => {
+    const midBeat: GameState = { ...atCorner(), rungBeat: 'R4' };
+    expect(sleepLines(revealsPass(midBeat))).toBe(0); // the grant's own VN is still open
+    const closed = revealsPass({ ...midBeat, rungBeat: null }); // …the beat ends, still standing
+    expect(sleepLines(closed)).toBe(1);
+  });
+
+  it('the stored descriptor re-renders from canon (a reworded beat reaches old saves)', () => {
+    expect(renderLogLine('flavor.sleepAnnounce')).toBe(FLAVOR.sleepAnnounce);
   });
 });

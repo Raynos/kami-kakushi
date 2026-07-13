@@ -92,6 +92,7 @@
       "works-seen-gate": true,
       "works-seen-woodshed": true,
       "works-seen-u1": true,
+      "sleep-announced": true,
       "works-open-u1": true,
       "works-named-u2": true,
       "works-line-u2": true,
@@ -3992,18 +3993,16 @@
           "tick": 0,
           "count": 1,
           "voice": "narrator",
-          "context": "works u1",
-          "contentKey": "scene.works-u1.greeting.0"
+          "contentKey": "flavor.sleepAnnounce"
         },
         {
           "key": 592,
           "channel": "narration",
           "tick": 0,
           "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
+          "voice": "narrator",
           "context": "works u1",
-          "contentKey": "scene.works-u1.greeting.1"
+          "contentKey": "scene.works-u1.greeting.0"
         },
         {
           "key": 593,
@@ -4013,10 +4012,20 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "works u1",
-          "contentKey": "scene.works-u1.greeting.2"
+          "contentKey": "scene.works-u1.greeting.1"
         },
         {
           "key": 594,
+          "channel": "narration",
+          "tick": 0,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "works u1",
+          "contentKey": "scene.works-u1.greeting.2"
+        },
+        {
+          "key": 595,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -4025,7 +4034,7 @@
           "contentKey": "scene.works-u1.greeting.3"
         },
         {
-          "key": 595,
+          "key": 596,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -4035,7 +4044,7 @@
           "contentKey": "scene.works-u1.greeting.4"
         },
         {
-          "key": 596,
+          "key": 597,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -4045,7 +4054,7 @@
           "contentKey": "scene.works-u1.opt.works-u1-begin.say"
         },
         {
-          "key": 597,
+          "key": 598,
           "channel": "narration",
           "tick": 0,
           "count": 1,
@@ -4055,7 +4064,7 @@
           "contentKey": "scene.works-u1.opt.works-u1-begin.react"
         },
         {
-          "key": 598,
+          "key": 599,
           "channel": "milestone",
           "tick": 0,
           "count": 1,
@@ -4066,7 +4075,7 @@
           }
         },
         {
-          "key": 599,
+          "key": 600,
           "channel": "reward",
           "tick": 0,
           "count": 1,
@@ -4080,7 +4089,7 @@
           }
         },
         {
-          "key": 600,
+          "key": 601,
           "channel": "system",
           "tick": 0,
           "count": 1,
@@ -4092,7 +4101,7 @@
           }
         },
         {
-          "key": 601,
+          "key": 602,
           "channel": "reward",
           "tick": 2,
           "count": 1,
@@ -4106,7 +4115,7 @@
           }
         },
         {
-          "key": 602,
+          "key": 603,
           "channel": "reward",
           "tick": 2,
           "count": 1,
@@ -4120,7 +4129,7 @@
           }
         },
         {
-          "key": 603,
+          "key": 604,
           "channel": "reward",
           "tick": 2,
           "count": 1,
@@ -4134,7 +4143,7 @@
           }
         },
         {
-          "key": 604,
+          "key": 605,
           "channel": "reward",
           "tick": 2,
           "count": 1,
@@ -4148,7 +4157,7 @@
           }
         },
         {
-          "key": 605,
+          "key": 606,
           "channel": "system",
           "tick": 2,
           "count": 1,
@@ -4160,14 +4169,14 @@
           }
         },
         {
-          "key": 606,
+          "key": 607,
           "channel": "milestone",
           "tick": 4,
           "count": 1,
           "contentKey": "estate.stage.1.done"
         },
         {
-          "key": 607,
+          "key": 608,
           "channel": "milestone",
           "tick": 4,
           "count": 1,
@@ -4175,7 +4184,7 @@
           "contentKey": "works.worksNamedOrchard"
         },
         {
-          "key": 608,
+          "key": 609,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -4183,23 +4192,13 @@
           "contentKey": "requirement.coin-into-the-works"
         },
         {
-          "key": 609,
+          "key": 610,
           "channel": "narration",
           "tick": 4,
           "count": 1,
           "voice": "narrator",
           "context": "The named hand promotion",
           "contentKey": "beat.R7.greeting.0"
-        },
-        {
-          "key": 610,
-          "channel": "narration",
-          "tick": 4,
-          "count": 1,
-          "speaker": "Genemon",
-          "voice": "steward",
-          "context": "The named hand promotion",
-          "contentKey": "beat.R7.greeting.1"
         },
         {
           "key": 611,
@@ -4209,10 +4208,20 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "The named hand promotion",
-          "contentKey": "beat.R7.greeting.2"
+          "contentKey": "beat.R7.greeting.1"
         },
         {
           "key": 612,
+          "channel": "narration",
+          "tick": 4,
+          "count": 1,
+          "speaker": "Genemon",
+          "voice": "steward",
+          "context": "The named hand promotion",
+          "contentKey": "beat.R7.greeting.2"
+        },
+        {
+          "key": 613,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -4221,7 +4230,7 @@
           "contentKey": "beat.R7.greeting.3"
         },
         {
-          "key": 613,
+          "key": 614,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -4231,7 +4240,7 @@
           "contentKey": "beat.R7.greeting.4"
         },
         {
-          "key": 614,
+          "key": 615,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -4240,7 +4249,7 @@
           "contentKey": "beat.R7.greeting.5"
         },
         {
-          "key": 615,
+          "key": 616,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -4249,7 +4258,7 @@
           "contentKey": "beat.R7.greeting.6"
         },
         {
-          "key": 616,
+          "key": 617,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -4259,7 +4268,7 @@
           "contentKey": "beat.R7.opt.r7-plain.say"
         },
         {
-          "key": 617,
+          "key": 618,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -4269,7 +4278,7 @@
           "contentKey": "beat.R7.opt.r7-plain.react"
         },
         {
-          "key": 618,
+          "key": 619,
           "channel": "milestone",
           "tick": 4,
           "count": 1,
@@ -4280,7 +4289,7 @@
           }
         },
         {
-          "key": 619,
+          "key": 620,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -4288,7 +4297,7 @@
           "contentKey": "requirement.a-granary-against-winter"
         },
         {
-          "key": 620,
+          "key": 621,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -4296,21 +4305,12 @@
           "contentKey": "reveal.room-grove"
         },
         {
-          "key": 621,
-          "channel": "narration",
-          "tick": 4,
-          "count": 1,
-          "voice": "narrator",
-          "contentKey": "reveal.house-study"
-        },
-        {
           "key": 622,
           "channel": "narration",
           "tick": 4,
           "count": 1,
           "voice": "narrator",
-          "context": "r7 dream",
-          "contentKey": "scene.r7-dream.greeting.0"
+          "contentKey": "reveal.house-study"
         },
         {
           "key": 623,
@@ -4319,7 +4319,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r7 dream",
-          "contentKey": "scene.r7-dream.greeting.1"
+          "contentKey": "scene.r7-dream.greeting.0"
         },
         {
           "key": 624,
@@ -4328,7 +4328,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r7 dream",
-          "contentKey": "scene.r7-dream.greeting.2"
+          "contentKey": "scene.r7-dream.greeting.1"
         },
         {
           "key": 625,
@@ -4337,7 +4337,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r7 dream",
-          "contentKey": "scene.r7-dream.greeting.3"
+          "contentKey": "scene.r7-dream.greeting.2"
         },
         {
           "key": 626,
@@ -4346,7 +4346,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r7 dream",
-          "contentKey": "scene.r7-dream.greeting.4"
+          "contentKey": "scene.r7-dream.greeting.3"
         },
         {
           "key": 627,
@@ -4355,7 +4355,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r7 dream",
-          "contentKey": "scene.r7-dream.greeting.5"
+          "contentKey": "scene.r7-dream.greeting.4"
         },
         {
           "key": 628,
@@ -4364,7 +4364,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r7 dream",
-          "contentKey": "scene.r7-dream.greeting.6"
+          "contentKey": "scene.r7-dream.greeting.5"
         },
         {
           "key": 629,
@@ -4373,7 +4373,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "r7 dream",
-          "contentKey": "scene.r7-dream.greeting.7"
+          "contentKey": "scene.r7-dream.greeting.6"
         },
         {
           "key": 630,
@@ -4382,10 +4382,19 @@
           "count": 1,
           "voice": "narrator",
           "context": "r7 dream",
-          "contentKey": "scene.r7-dream.greeting.8"
+          "contentKey": "scene.r7-dream.greeting.7"
         },
         {
           "key": 631,
+          "channel": "narration",
+          "tick": 4,
+          "count": 1,
+          "voice": "narrator",
+          "context": "r7 dream",
+          "contentKey": "scene.r7-dream.greeting.8"
+        },
+        {
+          "key": 632,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -4395,7 +4404,7 @@
           "contentKey": "scene.r7-dream.greeting.9"
         },
         {
-          "key": 632,
+          "key": 633,
           "channel": "narration",
           "tick": 4,
           "count": 1,
@@ -4404,7 +4413,7 @@
           "contentKey": "scene.r7-dream.greeting.10"
         }
       ],
-      "seq": 633
+      "seq": 634
     },
     "skillXp": {
       "farming": 315,

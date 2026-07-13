@@ -11,6 +11,21 @@
 
 The edge is going. Not yet mine to mend — climb higher, then set it right.
 
+<!-- HD-41 earned-entry docket (bundle hd41-earned-entry) — RENDER-read by the
+  earned-line variant C (dev.ts 'earned-line'): in the Progress tab a
+  rung-requirement completion renders as this terse day-book docket instead of
+  its Story prose. A FORMULA line: it repeats for every completion (several per
+  rung), so it must read as a stamp, not a sentence — and the checklist is
+  hidden, so it may never name the task (kernel #6: no game-words either).
+  Canon = take a "the ledger" (ADR-139 diverge, 3 blind takes) — the house's
+  book takes the entry; ties the Progress tab to the SAME day-book fiction the
+  works pages already own (TST1: one record fiction). DEV-only until the HD-41
+  play verdict; alternates in takes/hd41-earned-entry/. -->
+
+### earnedEntry
+
+Set down in the house's book.
+
 <!-- FB-324 rake-cap line (bundle fb324-rake-cap) — spoken once, CORE-emitted by
   intents.ts on the rake that clears the last of the spill (balance.RAKE_CAP);
   coldOpen.ts re-exports it as RAKE_CAP_LINE / rakeCapLine(). Moved here from a
@@ -47,6 +62,22 @@ You find a stretch of wall out of the wind, set your back to it, and let your ar
 ### sleep
 
 The coat stays on its nail; you lie down on the mat that is yours, in the corner that is yours, and the day's work goes on outside without you. You wake at dawn with the ache you lay down with. The bowl by your head is dry: the house ate at its hours, as it always does, and you rise hungrier than you lay down.
+
+<!-- ADR-187 FOLLOW-UP sleep-announce beat (bundle sleep-announce) — CORE-emitted
+  ONCE by reveals.ts's settle pass, the first time the player STANDS in the
+  woodshed corner with the sleep verb live (canSleep — R4+, at the corner, no
+  scene). The verb shipped unannounced (the P9 ✘ on HR-36's scorecard); this
+  line is its discovery-in-place: it must land "the day is now yours to end"
+  with no tutorial voice and no button name, and it must read true at ANY tick
+  of day (the arrival can be morning). Canon = take a "the corner keeps your
+  hours" (ADR-139 diverge, 3 blind takes) — ownership register: the house's
+  hours vs yours foreshadows the slept-day line's "the house ate at its hours"
+  without stealing it. Alternates in takes/sleep-announce/ until sign-off;
+  live-swapped via flavor.ts __setSleepAnnounceLineOverride. -->
+
+### sleepAnnounce
+
+The house keeps its hours; this corner keeps yours. The day ends when you lie down on your own mat, and not a breath before.
 
 <!-- ADR-145 Phase-2 build beats (CORE-emitted one-time log milestones, not
   renderer hints): the five deed-source reveals + the E1 build-complete beat.

@@ -1,6 +1,14 @@
 # Announce the sleep verb where it lives — a beat at your own corner
 
-**Status:** 📋 PROPOSED (2026-07-12, session 183)
+**Status:** ✅ DONE (2026-07-13, session 188 — human ruled the forks
+live:
+**(a) narration beat** locked; **Fable end-to-end** (routing split
+overridden); start **now** (the w6 re-voice seam was stale — archived
+`80389d75`); the **no-beat fallback stands** but was not needed. Built:
+`revealsPass` trigger on `canSleep` + `sleep-announced` latch, canon =
+take A "the corner keeps your hours" (ADR-139 3-take diverge, bundle
+`sleep-announce`), DEV Story switcher wired, 6 new tests green, PH6
+player-reach proven live at :5173, HR-40 filed, ADR-187 bullet flipped.)
 **Confidence:** ( 35% Opus, 65% Fable ) — the mechanism is small and already
 built (a condition in `revealsPass` + a scene def); the whole risk is the
 **prose**: a beat that says "you may end a day here" without reading as a

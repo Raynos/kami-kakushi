@@ -2474,6 +2474,74 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   },
 
   {
+    id: 'hd41-earned-entry',
+    title: 'The earned-entry docket (Progress-side terse line)',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      "Take A picked — the ledger stance ties the Progress tab to the day-book fiction the works pages already own (TST1: one record fiction); B's watched-and-unspoken is strong but reads eerie on the fortieth stamp; C's tally-stick is period-true but invents a second record-object beside the day-book.",
+    canonLabel: 'A · the ledger',
+    rung: 0,
+    takes: [
+      {
+        id: 'b',
+        label: 'the overheard notice',
+        brief:
+          'someone in the household noticed, tersely — the sibling of "So he can work."; the notice is real, the praise absent',
+        scorecard: '18✔ 2✘ 1—',
+        flavor: {
+          earnedEntry: 'It is seen. No one says anything.',
+        },
+      },
+      {
+        id: 'c',
+        label: 'the tally of things',
+        brief:
+          "the physical count stands for the credit — a notch, a mark; the world's arithmetic advanced by one, no observer",
+        scorecard: '19✔ 1✘ 1—',
+        flavor: {
+          earnedEntry: 'Another notch on the tally-stick.',
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'sleep-announce',
+    title: 'The sleep-announce beat (the corner tells you the day is yours to end)',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'Take A picked — the only take that is simultaneously LEGIBLE (the verb is unmistakable: "the day ends when you lie down on your own mat"), TIME-PROOF (the beat fires on first arrival, which can be any tick of day — A asserts no hour), and at the ruled weight ("a tiny beat" — human, 2026-07-12). Its "the house keeps its hours" quietly foreshadows the slept-day line\'s "the house ate at its hours" without stealing its imagery. B is the most atmospheric but the most oblique — the exact "player still does not learn the verb" failure the plan names — and needed a Pass-2 fix for a false present-tense dusk. C lands the verb clearly but at twice the ruled weight; its length is its character, kept as the alternate for a human who wants the beat to breathe.',
+    canonLabel: 'A · the corner keeps your hours',
+    rung: 4,
+    takes: [
+      {
+        id: 'b',
+        label: "the house's indifference",
+        brief:
+          'negative space — nobody in the house holds a claim on his evenings anymore; the permission is the absence of a summons. The house has stopped watching, so the dark is his.',
+        scorecard:
+          '19✔ 1✘ [blind spot: "Dusk settles" asserted an hour, but the beat fires on FIRST arrival — which can be morning; fixed in Pass 2 to future tense. Residual borderline ✔ on P9: the most oblique take — the reader must infer the verb from "nobody\'s business but yours"] 1—',
+        flavor: {
+          sleepAnnounce:
+            "When dusk settles, no summons will cross the yard for you; the evening's errands have found other hands. The dark that gathers in this corner is nobody's business now but yours.",
+        },
+      },
+      {
+        id: 'c',
+        label: 'the body meets the bed',
+        brief:
+          'the discovery arrives through the body — fatigue meeting furniture; the felt pull of the mat is the announcement, and "no one would come to lift you before morning" is the permission.',
+        scorecard:
+          '19✔ 1✘ [briefed: weight — roughly twice the ruled "tiny beat"; the purple opener ("your feet stop of their own accord") trimmed in Pass 2, the residual length kept as the take\'s character] 1—',
+        flavor: {
+          sleepAnnounce:
+            'The mat takes hold of you from the floor up — the weight you have carried since dawn asking, plainly, to be set down here. It could be done: lie down in the corner that is yours and let the night pass over you whole, and no one would come to lift you before morning.',
+        },
+      },
+    ],
+  },
+
+  {
     id: 'works-cause',
     title: 'The works discovery chain (estate Phase 1)',
     review: 'project/human-in-the-loop/review.md',

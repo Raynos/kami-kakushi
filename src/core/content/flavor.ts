@@ -70,3 +70,20 @@ export function __setSleepLineOverride(text: string | null): void {
 export function sleepLine(): string {
   return SLEEP_OVERRIDE ?? FLAVOR.sleep;
 }
+
+// ── ADR-187 follow-up — the sleep-announce beat (bundle sleep-announce) ──────────────
+// Core-EMITTED text (reveals.ts, first stand at the corner with the verb live), so the
+// DEV story switcher swaps it through the declaring-module setter (the sleepLine pattern
+// above): future emissions voice the selected take; logged history stays (TST2).
+
+let SLEEP_ANNOUNCE_OVERRIDE: string | null = null;
+
+/** DEV-only: overlay the sleep-announce beat by its `sleepAnnounce` flavor key (null = canon). */
+export function __setSleepAnnounceLineOverride(text: string | null): void {
+  SLEEP_ANNOUNCE_OVERRIDE = text;
+}
+
+/** The line the first stand at your corner emits — the DEV overlay's take if set, else canon. */
+export function sleepAnnounceLine(): string {
+  return SLEEP_ANNOUNCE_OVERRIDE ?? FLAVOR.sleepAnnounce;
+}

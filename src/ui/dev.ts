@@ -62,6 +62,7 @@ import {
   __setRakeCapLineOverride,
   __setRestOpenLineOverride,
   __setSleepLineOverride,
+  __setSleepAnnounceLineOverride,
   __setWorksFlavorOverride,
   __setIntroTitleOverride,
   RUNG_REQUIREMENTS,
@@ -118,6 +119,35 @@ export interface SurfaceDef {
 //  SHIPS inline in render.ts (the banner + the standing line). Its A/B/C alternates are deleted,
 //  per ADR-075's zero-flag-debt rule: a settled surface keeps no toggle.)
 export const SURFACES: SurfaceDef[] = [
+  {
+    // HD-41 (ADR-075) — the EARNED line: a rung-requirement completion as "story that is
+    // also earned". Not a pane surface: render.ts reads getVariant('earned-line') at log
+    // paint time (the data-earned-style stamp + the C docket branch), so this entry only
+    // feeds the toggle — renderSurfaceVariant has no arm for it.
+    id: 'earned-line',
+    rung: 0,
+    label: 'Earned line (rung reward)',
+    variants: [
+      {
+        id: 'earned-a',
+        label: 'A · the ledger dot',
+        blurb:
+          'shipped default — quiet: a small gold registry dot on the line, same prose in Story and Progress',
+      },
+      {
+        id: 'earned-b',
+        label: 'B · the ruled entry',
+        blurb:
+          'the line as a day-book row — hairline rules + a gold left post; same prose in both tabs',
+      },
+      {
+        id: 'earned-c',
+        label: 'C · the day-book docket',
+        blurb:
+          'Story keeps the prose; Progress shows the terse docket line in the milestone register (loudest)',
+      },
+    ],
+  },
   {
     id: 'influence',
     rung: 3,
@@ -439,6 +469,10 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
     // forward the effective `sleep` flavor take so a FUTURE sleep emit voices it. Without
     // this the bundle would be a doc-only review, which is not a review (human, 2026-07-07).
     __setSleepLineOverride(discOverlay['sleep'] ?? null);
+    // ADR-187 follow-up (ADR-139) — the sleep-announce beat is core-emitted too (reveals.ts,
+    // first stand at the corner): forward the effective `sleepAnnounce` flavor take so a
+    // FUTURE first-arrival emit voices it (load a pre-R4 fixture to replay the moment).
+    __setSleepAnnounceLineOverride(discOverlay['sleepAnnounce'] ?? null);
     // ADR-177 (works-cause bundle) — the works discovery lines (day-book naming,
     // zone sightings, the ladder hints + U1's stage strings) are core-emitted/-read:
     // forward the same effective flavor-take entries (works.ts worksLine resolver).

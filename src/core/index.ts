@@ -170,6 +170,8 @@ export {
   __setRestOpenLineOverride,
   sleepLine,
   __setSleepLineOverride,
+  sleepAnnounceLine,
+  __setSleepAnnounceLineOverride,
 } from './content/flavor';
 export {
   gradeOf,

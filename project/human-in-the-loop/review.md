@@ -635,6 +635,8 @@ nothing back.
     **adr187-sleep** swaps takes live.
   - **The thing I could not test for you:** press it three times running and see whether the
     line wears out. If it does, the fix is a shorter canon line, not a different take.
+  - **(2026-07-13, session 188):** the P9 ✘ below is now CLOSED — the sleep-announce beat
+    is built and live (see **HR-40**, the `sleep-announce` bundle).
 
   - **Taste scorecard (ADR-135) — PASS 2 ONLY, and that is a miss I am owning.** The
     two-pass flow wants a constraint brief BEFORE the build; I did not run one, and
@@ -668,6 +670,62 @@ nothing back.
     - — **P7 · P8 · P11 · P13 · P14 · P21** — not applicable (no type scaling, no crash
       path, no VN, no reward box, no full-screen reveal, no app-info surface).
   - **Verdict:** _(awaiting your read)_
+
+### HR-40 🔲 [R4 · story] — the sleep-announce beat (`sleep-announce` bundle, ADR-139/ADR-187 follow-up)
+
+The beat you ruled (2026-07-12, re-confirmed 2026-07-13: "(a) narration beat"):
+a **one-off log line the first time you stand in your woodshed corner at R4+**,
+so the Sleep verb is **discovered in place** instead of shipping unannounced.
+Closes the **P9 ✘ on HR-39's scorecard** (the "nothing tells the player the
+verb exists" blind spot). The trigger is `canSleep` itself (announced ==
+available — the beat can never promise a verb the row does not offer), latched
+once, fired on ARRIVAL, never the promotion tick. PH6-proven live: loaded
+`rung-R4`, walked to the woodshed, the line landed exactly once with the Sleep
+button in the same view; a re-visit stays silent.
+
+- **Taste brief (pass 1, before authoring):** P9 fires standing in the room,
+  never at the grant · P10 the button is live in the same view (`canSleep` IS
+  the trigger) · P13 no button name, no mechanics voice · P16 narration
+  channel · P2/P3 existing idioms only (seen-flag latch, FLAVOR key, narrator
+  voice, contentKey) · TST3 the bed causes the verb; mat/bowl/nail canon
+  respected · derived: the line must read true at ANY tick of day (first
+  arrival can be morning).
+
+- **Pick: TAKE A** — *"the corner keeps your hours"* (ownership register: the
+  night becomes property).
+
+  > The house keeps its hours; this corner keeps yours. The day ends when you
+  > lie down on your own mat, and not a breath before.
+
+  The only take that is simultaneously **legible** (the verb is unmistakable),
+  **time-proof** (asserts no hour), and at your ruled weight ("a tiny beat").
+  "The house keeps its hours" quietly foreshadows the slept-day line's "the
+  house ate at its hours" without stealing it.
+
+- Alternates: **B** *"the house's indifference"* (negative space — no summons
+  will cross the yard; the most atmospheric and the most oblique — the exact
+  "player still does not learn the verb" risk) · **C** *"the body meets the
+  bed"* (fatigue meeting furniture; lands the verb clearly but at twice the
+  ruled weight — kept for a read that wants the beat to breathe).
+
+- **Scorecard (A):** 20✔ · 0✘ · 1—
+- **Scorecard (B):** 19✔ · 1✘ · 1—
+  - ✘ [blind spot] "Dusk settles" asserted an hour but the beat fires on first
+    arrival (can be morning); **fixed in Pass 2** (future tense). Residual
+    borderline ✔ on P9 obliqueness.
+- **Scorecard (C):** 19✔ · 1✘ · 1—
+  - ✘ [briefed] weight — ~2× the ruled "tiny beat"; purple opener trimmed in
+    Pass 2, residual length kept as the take's character.
+
+- **How to look LIVE:** DEV → Scenarios → `rung-R4` → walk to the woodshed —
+  the line lands in the log on arrival (once, ever; walk away and back to
+  confirm the silence). DEV → Story → **sleep-announce** swaps takes live —
+  reload the fixture (or `rung-R3` → climb) to replay the first-arrival
+  moment under a different take.
+- **The fallback you approved:** if all three read as tutorial on your
+  screen, the honest verdict is *ship no beat* — say so and the trigger comes
+  out clean (one flag, no state migration).
+- **Verdict:** _(awaiting your read)_
 
 ### HR-37 🔲 [R1–R7 · story] — the MC's inner line (W5, ADR-185 D3)
 

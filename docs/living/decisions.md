@@ -3687,23 +3687,27 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   each dawn in rice and hunger. Seasons stay **manual** (`advance_season`) — a sleep
   never crosses a season boundary. **Non-goals:** no wall-clock/offline time, no
   season skip, no gate wait-button.
-- **FOLLOW-UP, RULED BUT NOT YET BUILT (human, 2026-07-12)** — its home is the plan
-  [`opus-2026-07-12-sleep-announce-beat.md`](../plans/opus-2026-07-12-sleep-announce-beat.md).
-  The taste scorecard's one
-  ✘: **nothing tells the player the verb exists.** The R4 beat grants the corner and the
-  button then simply appears beside Rest — visible where the player already looks, but
-  **unannounced**, which risks leaving FB-408's itch alive for the very player this
-  shipped for. The human ruled the fix: **its own tiny beat at the corner** — a one-off
-  moment the first time you stand in your corner after R4, so the verb is **discovered in
-  place** (TST3/P9) rather than promised in advance on the grant line. **NOT built — its
-  home is the plan
-  [`opus-2026-07-12-sleep-announce-beat.md`](../plans/opus-2026-07-12-sleep-announce-beat.md)**
-  (in the reading queue). That plan **corrects this bullet**: it needs **no new write-once
-  flag** — `enqueueScene` already once-guards a played scene, and `works.ts` carries a
-  per-node seen-flag idiom, so the latch is free and no schema bump is required. What it
-  does need: the beat itself (an **ADR-139 3-take diverge** — it is fiction-voiced), the
-  first-visit trigger, and its HR bundle. Until it lands, the verb ships
-  discoverable-by-looking only.
+- **FOLLOW-UP — BUILT (session 188, 2026-07-13).** The taste
+  scorecard's one ✘: **nothing tells the player the verb exists.** The
+  R4 beat grants the corner and the button then simply appears beside
+  Rest — visible where the player already looks, but **unannounced**,
+  which risks leaving FB-408's itch alive for the very player this
+  shipped for. The human ruled the fix: **its own tiny beat at the
+  corner** — a one-off moment the first time you stand in your corner
+  after R4, so the verb is **discovered in place** (TST3/P9) rather
+  than promised in advance on the grant line. **Built per the plan**
+  (`opus-2026-07-12-sleep-announce-beat.md`, archived):
+  the human locked **(a) a narration beat** (no VN — a full-screen
+  takeover for a convenience verb is unearned ceremony), `revealsPass`
+  fires it with `canSleep` as the whole condition (announced ==
+  available, AC-6-shaped), the `works.ts` seen-flag idiom latches it
+  (`sleep-announced` — the original assumption that a new write-once
+  flag was needed was wrong; the idiom was free), the prose ran the
+  ADR-139 3-take diverge (canon = take A "the corner keeps your
+  hours", bundle `sleep-announce`, **HR-40**), and the PH6 proof drove
+  the live game: rung-R4 fixture → walk to the woodshed → the line
+  lands once, the Sleep button in the same view, a re-visit silent.
+  HR-39's P9 ✘ is closed.
 - **Record:** FB-408 (the capture that asked) · the plan's option map A–F ·
   ADR-184 (the bed you do not have at R1) · ADR-178 (the belly's teeth this rides) ·
   ADR-163 (the day-boundary ration it prices against) · ADR-148 (the instant/timed
