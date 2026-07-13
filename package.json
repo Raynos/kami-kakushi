@@ -21,6 +21,7 @@
     "cloc": "cloc --exclude-ext=json --vcs=git .",
     "lint": "oxlint",
     "format": "oxfmt",
+    "md:wrap": "tsx src/scripts/md-wrap.ts",
     "format:check": "oxfmt --check",
     "gen:docs": "tsx src/scripts/gen-docs.ts",
     "gen:narrative": "tsx src/scripts/gen-narrative.ts",

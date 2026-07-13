@@ -1,0 +1,28 @@
+# EditorConfig — https://editorconfig.org
+#
+# The ruler, not the police. `max_line_length` makes most editors draw a
+# colorcolumn/guide at the repo's widths, so a boundary is SEEN while typing
+# rather than discovered later as a soft-wrap. Nothing here is enforced by
+# `verify` — the formatter (.oxfmtrc.json) owns code, and markdown prose width
+# is a soft norm (AGENTS.md "Markdown prose width").
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Prose wraps at ~72 (AGENTS.md). Trailing whitespace is MEANINGFUL in markdown
+# (two spaces = a hard line break), so don't strip it here.
+[*.md]
+max_line_length = 72
+trim_trailing_whitespace = false
+
+# Code — keep this in step with .oxfmtrc.json's `printWidth`, which is the
+# enforced one (the `oxfmt` verify gate). This line is only the editor's ruler.
+[*.{ts,tsx,js,mjs,cjs,json}]
+max_line_length = 100

@@ -6,10 +6,12 @@
 > sections here are auto-surfaced at session start by
 > `src/scripts/session-brief.sh`. Work the human has deliberately parked
 > lives in [`BACKLOG.md`](BACKLOG.md), which the brief never nags.
+>
 > - **TODO** — loose tasks only you can do.
 > - **Reading queue** — durable docs you haven't read or discussed yet
 >   (how the agent surfaces the markdown it generated, so nothing goes
 >   unseen).
+>
 > **Sign-off is implicit — you never tick anything off (ADR-089).**
 > Reading a doc, or discussing / working on it together, counts as
 > sign-off: the agent then clears it and keeps this list clean for you.
@@ -68,12 +70,12 @@
 > awaiting a taste call**. Added in the commit that authors it (a
 > pre-commit gate hard-blocks a new `docs/plans/` doc missing here,
 > loud-warns the rest).
+>
 > **An ARCHIVED doc (`project/archive/`) NEVER belongs here** —
 > archiving means it's done/superseded, and git history + `decisions.md`
 > + the journal are its record. When a plan/doc is archived, remove its
 > queue entry in the same move (any still-owed bit lives as an HR-item
 > in `human-in-the-loop/review.md`, not here).
-
 
 - [`docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`](../docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md)
   — the ready-to-build plan for T2 (Valley) map rungs + fog (you
