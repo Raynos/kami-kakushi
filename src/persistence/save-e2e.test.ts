@@ -1,7 +1,7 @@
 // @slow — drives a WHOLE T0 playthrough (~10s) to build a realistic save; runs at
 // push/CI, not the per-commit vitest lane (verify budget, ADR-072/ADR-176). See
 // src/scripts/vitest-verify.ts.
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import {
   createInitialState,
   reduce,
@@ -41,7 +41,12 @@ function playToAscension(seed: number): GameState {
 }
 
 describe('save/load e2e — a full-arc playthrough round-trips through the real SaveManager', () => {
-  const rich = playToAscension(20260626);
+  // M8 — the ~10s drive runs in beforeAll (the RUN phase), not the describe body (COLLECT
+  // time): collecting this file no longer pays for the playthrough when it isn't selected.
+  let rich: GameState;
+  beforeAll(() => {
+    rich = playToAscension(20260626);
+  });
 
   it('drives a log of DESCRIPTORS ONLY — no prose reaches the save', () => {
     // This used to assert the arc produced BOTH keyed and keyless entries — true during the
