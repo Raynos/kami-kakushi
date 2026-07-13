@@ -602,7 +602,7 @@ the three-track separation and the hybrid gate.
   plans fire once each in **fixed registry order**), and that a multi-season `dtTicks` jump folds one day at a
   time so **every reckoning boundary fires** (accrues all N reckonings, never collapsing them) — so a long jump
   can never silently skip an appraisal.
-- **Unlock-latch monotonicity.** A guard asserts a surface **never leaves `unlocked` once entered** — `reduce`/`tick` only ever ADD to the latch (write-once); a scripted run that re-checks every prior unlock after each step proves no `SurfaceId` is ever removed.
+- **Reveal monotonicity (derived — ADR-179).** Visibility is derived, never stored (§6.2), so the old unlock-latch invariant splits in two: the `seenReveals` **announce latch is write-once** (only ever grows, never loses a surface), and the **derived visible set is MONOTONE across real play** (a fact predicate may never un-reveal a surface). A scripted full-arc run proves both after every step.
 - **Save-envelope-size budget.** The persisted envelope stays within a size budget (**≤ ~64 KB typical**), provable from the **bounded** collections — the persisted log **tail (~50 lines)**, capped inventory/equipment/quest/flag sets — so no field is an unbounded persisted growth (ties to the `LOG_RING_MAX ≈ 300` ring eviction, §6.4/§6.8).
 
 ---

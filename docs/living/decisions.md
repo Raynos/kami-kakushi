@@ -869,6 +869,13 @@ design ADR.
 ## ADR-094 — 2026-07-01 v0.3.1 the reckoning cadence is a per-tier lever (battery #8)
 
 ### ADR-094 ✅ — The seasonal judge's CADENCE decouples from the 28-day calendar (a per-tier lever); the SHAPE stays canon
+
+> 🔁 **Cadence superseded 2026-07-13 by [ADR-153]** (the six-season
+> MANUAL container calendar): `PHASE2_JUDGE_INTERVAL_DAYS` is retired —
+> seasons are manual, so the judge fires once per `advance_season`
+> (`step.ts` `onReckoning` carries the tombstone). The SHAPE (up-only,
+> high-water-mark, Phase-2 deeds-gated) is still canon. Recorded by the
+> log-truth sweep ([ADR-195]).
 - **created_date:** 2026-07-01
 - **Context:** The seasonal judged-appraisal (§4.2.2 / ADR-049) fired only on a **28-day season boundary**. But the T0 Phase-2 Estate deed-grind reaches EXCELLENT (the ascension gate) in **~5 days**, so in the compressed T0 showcase the judge fired **0×** before ascension — dead code on the optimal path (battery **#8**). A weekly (7-day) cadence would also miss (5 < 7). (The **AC-4 self-inflation** — re-judging its own payout — was a *separate* bug, already fixed: `pillars.ts` advances `judged` to the post-bonus high-water.) A diff re-audit (2026-07-01) flagged that the fix landed with only a code comment, contradicting the PRD's "fires every season / canon-fixed" language — hence this ADR + the §4.2.2 / §6 ripple.
 - **Decision:** The judge's **SHAPE stays canon** (up-only, high-water-mark, no maintenance trickle, deeds-gated to Phase 2). Its **CADENCE becomes a per-tier LEVER** (liquid, **ADR-059**), decoupled from the 28-day `season()` **calendar** (which is unchanged): a new `PHASE2_JUDGE_INTERVAL_DAYS` (T0 = **3d**, tuned ≤ the grind's day-span so a reckoning is GUARANTEED before the gate) so the mechanic is actually FELT in the T0 miniature. It fires **1×** at day 3 — and that reckoning is what tips the estate to EXCELLENT, a clean showcase beat. **T1+, when Phase 2 is a long game, scales the cadence back toward the real 28-day season** (a per-tier concern for when T1 is built).
@@ -913,7 +920,7 @@ design ADR.
 - **Context:** Two different-axis schemes collided on the `E<n>` label (HD-13): the diegetic **condition** ladder (E0 Foreclosure's Edge → E3 Prosperous, E4–E5 parked for T4+ — the narrative *state* of the house) vs the built T0 **koku purchase** ladder (E1 patch-kura / E2 clear-drill-yard / E3 reclaim-shinden / E4 raise-long-house — the flywheel upgrades you *buy*). A code-E4 "Risen" sat in T0 while narrative-E4 "Fortified Seat" was parked for T4+; the code even reused condition labels as purchase-step names.
 - **Decision (human, 2026-07-01):** Keep the two as **distinct axes**. The **narrative CONDITION stages stay `E0–E5`** (canon, ADR-033). The **built koku PURCHASE steps are renamed to a non-colliding namespace — `U1–U4` ("kura-works" / estate upgrades)**. Do NOT fold them together or renumber the narrative ladder.
 - **Why:** The two measure genuinely different things — the *state* of the house vs the *upgrades you buy*. A shared label conflated them across 7 doc surfaces; a rename is the minimal, lossless fix.
-- **Consequences:** Closes **HD-13**. BUILD TODO (v0.3.2): rename `estateStage`/E-labels in code (`content/estate.ts`, `render.ts` "E4 · Risen", tests) to the `U#` namespace. DOC: PRD/roadmap estate prose uses `E#` for the narrative condition, `U#` for the purchase upgrades. Refines **ADR-033** + **ADR-092**. Per **ADR-022**, governs.
+- **Consequences:** Closes **HD-13**. ~~BUILD TODO (v0.3.2): rename `estateStage`/E-labels in code (`content/estate.ts`, `render.ts` "E4 · Risen", tests) to the `U#` namespace.~~ ✅ **Shipped** (verified 2026-07-13, ADR-195 sweep): `content/estate.ts` IS the `U1–U4` works ladder (since re-fictioned by G4 / ADR-177); no `E#` purchase label survives in code. DOC: PRD/roadmap estate prose uses `E#` for the narrative condition, `U#` for the purchase upgrades. Refines **ADR-033** + **ADR-092**. Per **ADR-022**, governs.
 
 ## ADR-099 — 2026-07-01 player finances vs estate finances are separate lanes; T0 provisioning shop is a koku SINK (closes HD-14)
 
@@ -927,7 +934,7 @@ design ADR.
 - **Context:** The build ships a small 6-item buy-only, capped koku-SINK provisioning shop in T0; the PRD said "no market in T0" ×6 (TRADE — selling for coin/profit — locks to T2, ADR-066), yet the human named "market depth" as a T0 koku sink (ADR-092) — an apparent contradiction (HD-14).
 - **Decision (human, 2026-07-01):** They are two different things, both canon. **(1) VENDORS/SHOPS** where the **player** buys goods for his **character** are a **personal koku SINK** — legitimate from **T0** (the built provisioning shop). **(2) The TRADE ENGINE** (trade work on the **estate's** behalf, for profit) opens at **T2** and is about the **estate**. **(3) PLAYER finances and ESTATE finances are SEPARATE lanes** — the player's personal koku (character purchases) is distinct from the estate's koku/wealth (the estate economy + trade engine).
 - **Why:** "No market in T0" really meant "no *trade engine* in T0" — buying gear for yourself ≠ the estate trading for profit. Separating the lanes resolves the contradiction and opens a richer economy (a personal progression sink vs an estate-scale engine).
-- **Consequences:** DOC: reframe "no market in T0" → "no *trade engine* in T0; a small capped provisioning shop is a personal koku sink"; introduce the player-vs-estate finance split into the resource model (§2.4 / §6). BUILD TODO (v0.3.2 / T1 design input): model the two finance lanes — today's `resources`(carried) vs `banked`(kura) is at-risk-vs-safe, **not** player-vs-estate; reconcile. Composes with **ADR-066** (trade ≤⅓, T2) + **ADR-092** (T0 market depth). Per **ADR-022**, governs.
+- **Consequences:** DOC: reframe "no market in T0" → "no *trade engine* in T0; a small capped provisioning shop is a personal koku sink"; introduce the player-vs-estate finance split into the resource model (§2.4 / §6). ~~BUILD TODO (v0.3.2 / T1 design input): model the two finance lanes — today's `resources`(carried) vs `banked`(kura) is at-risk-vs-safe, **not** player-vs-estate; reconcile.~~ 🔁 **Superseded 2026-07-13 by [ADR-163]** (the economy walkthrough — soft caps, rice-as-kura-units, the sink loop — reshaped the lanes; recorded by the ADR-195 sweep). Composes with **ADR-066** (trade ≤⅓, T2) + **ADR-092** (T0 market depth). Per **ADR-022**, governs.
 
 ## ADR-100 — 2026-07-01 keep the PRD combat-resolution model (5-attr + accuracy/evasion) and BUILD it at T0 (closes HD-15)
 
@@ -936,7 +943,7 @@ design ADR.
 - **Context:** The PRD specifies combat resolution via accuracy/evasion + a 5-attribute system (STR/AGI/INT/SPD/LUCK); the built T0 ships flat hit/crit/block (0.9/0.1/0.1) with 3 attributes (might/guard/vigor). The built model is playtested and meets the LOCKED 20–35% first-fight band with no dominated stance — but it's a leaner realization of the PRD design (HD-15).
 - **Decision (human, 2026-07-01):** Keep the **PRD's richer model as v1.0.0 intent** AND **implement it at T0** in v0.3.2 (do NOT defer to T1). The PRD prose stays; the build catches up now.
 - **Why:** The human wants the fuller combat depth in the player's hands from T0, not held for a later tier. The richer model is the intent, not the leaner shipped approximation.
-- **Consequences:** BUILD TODO (v0.3.2, HIGH): grow the 3-attr (might/guard/vigor) into the full 5-attr system (STR/AGI/INT/SPD/LUCK, each dual labour+combat — ADR-016); replace flat hit/crit/block with accuracy/evasion resolution; keep the 20–35% band + no-dominated-stance invariants (RED-able). §4 magnitudes stay LIQUID (ADR-059). Preserves **ADR-011/ADR-016**. Per **ADR-022**, governs.
+- **Consequences:** ~~BUILD TODO (v0.3.2, HIGH): grow the 3-attr (might/guard/vigor) into the full 5-attr system (STR/AGI/INT/SPD/LUCK, each dual labour+combat — ADR-016); replace flat hit/crit/block with accuracy/evasion resolution; keep the 20–35% band + no-dominated-stance invariants (RED-able).~~ ✅ **Shipped** (verified 2026-07-13, ADR-195 sweep): the full 5-attr system lives in `content/balance.ts` (`ATTR_IDS` = str/agi/int/spd/luck) and resolution is accuracy/evasion (`combat.ts` `hitChance`). §4 magnitudes stay LIQUID (ADR-059). Preserves **ADR-011/ADR-016**. Per **ADR-022**, governs.
 
 ## ADR-101 — 2026-07-01 stances are a glass-cannon ↔ tank tradeoff (damage dealt vs damage taken) (closes HD-16)
 
@@ -945,7 +952,7 @@ design ADR.
 - **Context:** Built stances used durability WEAR as the cost axis (Aggressive wear 1.5×); the PRD §4.6.10 used defense/speed. Neither cleanly matched the human's mental model (HD-16).
 - **Decision (human, 2026-07-01):** Stances are a **glass-cannon ↔ tank** tradeoff on the **damage-dealt vs damage-taken** axis: **aggressive** = glass cannon (do more damage, take more damage); **defensive** = tank (take less damage, do less damage); balanced sits between. This axis IS the intent — retire wear-as-the-defining-stance-axis and drop the PRD's defense/speed framing.
 - **Why:** The stance choice should read as a clear glass-cannon/tank identity, not a durability chore or a speed lever. (The built `atkMult`/`takenMult` already express this — gedan 0.8/0.85, jodan 1.35/1.15 — so the build is close; the change is to make this THE axis, not a wear tax.)
-- **Consequences:** DOC: revise PRD §4.6.10 + §2.8 Stance shape to the atk/damage-taken glass-cannon/tank model. BUILD: keep `atkMult`/`takenMult` as the stance axis; demote/remove `wearMult` as the differentiator (weapon wear stays a durability mechanic, not the stance's identity). Keep **ADR-050**'s no-dominant-stance / balanced-not-a-trap invariant. Per **ADR-022**, governs; supersedes the §4.6.10 defense/speed proposal + the wear-axis emphasis.
+- **Consequences:** DOC: revise PRD §4.6.10 + §2.8 Stance shape to the atk/damage-taken glass-cannon/tank model. ~~BUILD: keep `atkMult`/`takenMult` as the stance axis; demote/remove `wearMult` as the differentiator (weapon wear stays a durability mechanic, not the stance's identity).~~ ✅ **Shipped** (verified 2026-07-13, ADR-195 sweep): the stance axis IS `atkMult`/`takenMult`; `wearMult` is gone from core. Keep **ADR-050**'s no-dominant-stance / balanced-not-a-trap invariant. Per **ADR-022**, governs; supersedes the §4.6.10 defense/speed proposal + the wear-axis emphasis.
 
 ## ADR-102 — 2026-07-01 "at least one craftable" (relaxes ADR-052/ADR-095); T0 ships 3 weapons (closes HD-17)
 
@@ -954,7 +961,7 @@ design ADR.
 - **Context:** ADR-052/ADR-095 were read as "T0 showcases exactly ONE craftable weapon." The PRD's T0 roster is 3 spears (2 crafted), which that reading forbade; the build ships 2 weapons (carrying-pole + 1 crafted axe = +1) (HD-17).
 - **Decision (human, 2026-07-01):** The "one craftable" rule was never a hard cap — it means **"at LEAST one craftable."** **T0 ships 3 weapons: the carrying-pole (start) + 2 more** (at least one of the two craftable; the other may be found or crafted). This **amends ADR-052 and ADR-095** (exactly-one → at-least-one).
 - **Why:** "Exactly one craftable" over-constrained the tutorial; the intent was to *guarantee the loot→craft taste exists*, not to cap the roster. Three weapons gives T0 a real weapon-choice beat (matching the PRD +2 roster / ADR-026).
-- **Consequences:** AMENDS **ADR-052** (the "one craftable" clause) + **ADR-095** (annotated there): the constraint is now "≥1 craftable." BUILD TODO (v0.3.2): add a **3rd T0 weapon** (currently 2). DOC: the PRD T0 weapon row = pole (start) + 2 more; keep the 3-line archetype/signature vision (ADR-026). Per **ADR-022**, governs.
+- **Consequences:** AMENDS **ADR-052** (the "one craftable" clause) + **ADR-095** (annotated there): the constraint is now "≥1 craftable." ~~BUILD TODO (v0.3.2): add a **3rd T0 weapon** (currently 2).~~ ✅ **Shipped** (verified 2026-07-13, ADR-195 sweep): `content/weapons.ts` ships 3 weapons. DOC: the PRD T0 weapon row = pole (start) + 2 more; keep the 3-line archetype/signature vision (ADR-026). Per **ADR-022**, governs.
 
 ## ADR-103 — 2026-07-01 interactive/resumable combat is a forward-tier feature; auto-resolve is the T0 spine (closes HD-18)
 
@@ -993,6 +1000,12 @@ design ADR.
 ## ADR-106 — 2026-07-02 the multi-panel workspace supersedes the §4.7 "centered ~1200px paper column" rule
 
 ### ADR-106 ✅ — The workspace may span the FULL viewport width as a multi-panel matrix (arrangement × framing DEV variant axes); prod default stays the classic 2-column
+
+> 🔁 **Superseded 2026-07-13 by [ADR-144]** (UI-v2 SHIPPED): the Andon
+> Steel shell is the built prod identity, so the "prod default stays the
+> classic 2-column washi" clause is history, not a live rule. The
+> full-width-is-allowed call survives inside the shipped shell. Recorded
+> by the log-truth sweep ([ADR-195]).
 - **created_date:** 2026-07-02
 - **Context:** The v0.3.2 shell (`ui-design.md` §4.7/§4.8) capped the player UI at a **centered ~1200px paper column** with a **2-column workspace** (work-left / log-right). In the playtest the human found the layout crammed — *"the other games have multiple/many panels (5–7) and it feels like we only have two, and we're slamming all the information in"* (**FB-11**). The scoping lives in the plan [`project/archive/2026-07-02-multi-panel-layout.md`](../../project/archive/2026-07-02-multi-panel-layout.md), where the human resolved the shell-width question directly.
 - **Options:** (A) keep the centered ~1200px column, denser inside · (B) drop the width cap and lay information across **multiple distinct panels** spanning the full width · (C) B, explored as a **matrix of independent variant axes** (arrangement × framing × log-placement) so many live combos audition behind the DEV toggle rather than a handful of bespoke layouts.
@@ -1613,7 +1626,9 @@ Code deltas → [`project/archive/opus-2026-07-03-v0.3.5-build-plan.md`](../../p
   - **Open, surfaced for the human:** whether the still-open current-UI variant
     picks (**R2 / R5 / R6 / R7** — panel/map/bestiary/home diverges on today's washi
     UI) are now moot given UI-v2 supersedes them, or still wanted as interim polish.
-    Left to the human; not closed here.
+    Left to the human; not closed here. *(2026-07-13, ADR-195 sweep:
+    these picks live on as **HR-2A / HR-2B / HR-5 / HR-6** in the
+    review queue — the open question is tracked there, not here.)*
   - Closes **R9**; graduated to the human-in-the-loop archive.
 
 ### ADR-128 ✅ — Process: ripple the PRD *during T0 too* — NO T0 compression backlog
@@ -3264,7 +3279,14 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
   non-goal "no starvation death in T0" is confirmed and extended with the
   T1+ allowance. Phase 2's bar naming is settled — no naming diverge needed.
 
-### ADR-179 ▶️ — Reveal is derived, never stored: visibility = f(progression facts); the save keeps only facts + an announce-once latch
+### ADR-179 ✅ — Reveal is derived, never stored: visibility = f(progression facts); the save keeps only facts + an announce-once latch
+
+> ✅ **Flipped ▶️ → ✅ 2026-07-13 (ADR-195 sweep):** fully built —
+> `state.unlocked` is gone from the state shape, the v10→v11 migration
+> seeds `seenReveals` from the old latch (schema has since moved on to
+> v12), and visibility derives from facts everywhere. The one piece the
+> plan still owed was the **S7 PRD ripple** (§6.2's core/unlock-latch
+> language) — executed with this flip via `/prd-ripple`.
 
 - **created_date:** 2026-07-11
 - **Context:** The human refreshed with an old save and the UI (tabs, the
@@ -3520,11 +3542,19 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
     but no longer visible **drops out of the latch**, so a re-mapped zone re-announces
     with its new ceremony instead of silently re-granting. Zero new save fields;
     self-healing for every future re-mapping.
-  - **Cooking is SITED** (human: *"kitchen-only cook"*): `cook_meal` — the only mend
-    for a fought body — now needs a **cook locus**, the kitchen board or your own
-    hearth ([ADR-120](#adr-120)'s `homesCook` belonging, which until now bought a
-    button for a verb that already worked everywhere). That walk is what makes the
-    kitchen a place.
+  - ~~**Cooking is SITED** (human: *"kitchen-only cook"*): `cook_meal` —
+    the only mend for a fought body — now needs a **cook locus**, the
+    kitchen board or your own hearth ([ADR-120](#adr-120)'s `homesCook`
+    belonging, which until now bought a button for a verb that already
+    worked everywhere). That walk is what makes the kitchen a
+    place.~~ **Corrected 2026-07-13 (ADR-195 sweep): cooking is NOT
+    yet sited — HELD, pending [HD-40].** The gate (`canCookHere`) is
+    built and turning it on is one line in `intents.ts`, but the sim
+    priced the walk at nine extra R3 minutes (22.7 → 31.6 wall-min),
+    outside the signed [3,25] band (ADR-056) — which lever moves is the
+    human's open call (HD-40). Until it rules, `cook_meal` works
+    anywhere `verb-cook` is known; the kitchen is where the pot is
+    TAUGHT (`verb-cook` reveals with `room-kitchen`), so TST3 holds.
   - **The announce is an open diverge** (human: *"diverge and implement both"*): the
     VN's prose alone (shipped default), or the VN plus a map-ink line — DEV-toggled,
     HR-32b.
@@ -3932,3 +3962,109 @@ live in the brainstorm record. All magnitudes stay sim-owned (ADR-132).
 - **Refs:** the two same-day incidents (session 195's `adr190-nudge`
   insert · session 196's hd41 prune) · ADR-075 · ADR-139 · the
   BACKLOG "SV renumbering" entry (closed by this).
+
+### ADR-193 ✅ — T0 ships SILENT: retire ADR-068's synth SFX pass (human ruling)
+
+- **created_date:** 2026-07-13 (session 198)
+- **Context.** ADR-068 (2026-06-29) chose a synthesized traditional
+  Japanese SFX palette and promised a minimal SFX pass before the R1
+  taste call, marked "PRD/docs/code application PENDING." The engine
+  was built (`src/ui/sfx.ts`), the human heard it, and on 2026-07-07
+  muted it: the synth cues read COMEDIC against the game's restraint —
+  the opposite of the anti-slop intent. The mute then sat as an
+  unrecorded contradiction: the log said "SFX before R1," the game
+  shipped silent.
+- **Decision (the human's own call: muted 2026-07-07, confirmed
+  2026-07-13).** **T0 ships silent — the mute is canon, not a
+  temporary toggle.** ADR-068's minimal-synth-pass obligation is
+  RETIRED. **HR-1 (the R0→R7 fun/pacing/look review) judges a silent
+  game knowingly** — silence is the presented state, not a gap the
+  reviewer should flag. Audio returns as a future concern **with real
+  samples, not synthesis**: the palette *choice* (taiko / shamisen /
+  shakuhachi / bell — diegetic, anti-slop) survives as intent for that
+  future pass.
+- **Why.** The synth realization undercut the taste bar it existed to
+  protect (PH5: constraint reads handmade, defaults read slop — and a
+  comedic cue is worse than no cue). Reversing a human-signed ✅
+  needs the human's own signature; this entry records exactly that,
+  twice given.
+- **Consequences.** The built `sfx.ts` engine stays PARKED in the tree
+  (archive-don't-remove; it documents the attempt and could drive real
+  samples later). ADR-068 stays ✅ as history — this entry is the
+  newest steer (ADR-022). PRD: any §-audio promise of a T0 synth pass
+  is annotated by the log-truth sweep's ripple. Future audio work is a
+  new plan with real samples, human-gated on taste.
+
+### ADR-194 ✅ — merchants get PERMANENT state: inventory + money, mutated by every trade, diminishing per-item sell prices (extends ADR-163 §5)
+
+- **created_date:** 2026-07-13 (session 198)
+- **Context.** ADR-163 §5 gave T0 a pedlar/market sink loop, but the
+  merchant is stateless: an infinite counterparty with flat prices —
+  sell 200 rice or 2, the measure pays the same, and the stall never
+  runs out of anything or out of coin. The 2026-07-13 finding walk put
+  the fork to the human.
+- **Decision (human, 2026-07-13).** **Merchants get permanent state:
+  an inventory and a purse.** Every buy/sell MUTATES it — what you buy
+  leaves the stall, what you sell enters it, coin moves both ways —
+  and **sell prices diminish per item** as the merchant fills up on
+  that good (the Nth measure of rice pays less than the first).
+- **Why.** A stateless counterparty makes the market a faucet, not a
+  place (TST3: the fiction causes the mechanics — a pedlar who buys
+  everything forever is no pedlar). Diminishing prices are the
+  organic cap the economy walkthrough (ADR-163) wanted without a hard
+  wall.
+- **Consequences.** Build plan:
+  [`fable-2026-07-13-merchant-state.md`](../plans/fable-2026-07-13-merchant-state.md)
+  (PROPOSED — magnitudes are sim-verified under ADR-132 when it
+  builds). Extends **ADR-163 §5**; composes with ADR-099 (personal
+  coin lane). Save shape: merchant state is new persisted state —
+  schema bump owned by the build plan.
+
+### ADR-195 ✅ — the log-truth sweep: the 2026-07-13 finding-walk rulings, each with a home (the log's own drift-fix, in the log)
+
+- **created_date:** 2026-07-13 (session 198)
+- **Context.** The 2026-07-12 ADR-embedded-work survey
+  ([`opus-2026-07-12-adr-embedded-work.md`](../../project/archive/opus-2026-07-12-adr-embedded-work.md),
+  archived — all file:line evidence) found the ADR log misleading in
+  BOTH directions: stale `BUILD TODO`s for work long shipped, and ✅
+  claims for mechanisms never built. The human re-ruled every finding
+  on 2026-07-13; this entry records the walk so the drift-fix is
+  itself in the log (a queue-shaped lie stripped from canon must
+  leave a pointer — the `deferred-work` gate's law).
+- **The rulings and their homes.**
+  - **Stale markers struck (this sweep's edits):** ADR-098 / ADR-100 /
+    ADR-101 / ADR-102 BUILD TODOs → ✅ shipped (estate `U`-ladder ·
+    5-attr + accuracy/evasion · atk/taken stance axis · 3 weapons);
+    ADR-094 → superseded by ADR-153 (manual seasons); ADR-099's
+    finance-lanes TODO → superseded by ADR-163; ADR-106 → superseded
+    by ADR-144's shipped shell; ADR-127's open picks → live as
+    HR-2A/2B/5/6; ADR-179 ▶️→✅ (S7 PRD ripple executed with the
+    flip); ADR-184's "cooking is SITED" → corrected to HELD, pending
+    HD-40.
+  - **H1 (sickroom heal-gap)** →
+    [`fable-2026-07-13-sickroom-hp-mend.md`](../plans/fable-2026-07-13-sickroom-hp-mend.md).
+  - **H3 (rice-withdraw retirement)** → shipped this session: the
+    verb refuses LOUDLY (`bank.withdrawRefusedRice`), the UI row is
+    gone.
+  - **H4 (greeting-line ids)** → already DONE:
+    `project/archive/fable-2026-07-13-greeting-line-ids.md` (the
+    v11→v12 migration).
+  - **H6 (LICENSE)** → root MIT LICENSE, `Copyright (c) 2026 Jake
+    Verbaten`; content stays all-rights-reserved (stated in the About
+    modal, deliberately not in the LICENSE file).
+  - **M3 (`TierId`)** / **M8 (`save-e2e` `beforeAll`)** → shipped this
+    session.
+  - **M7 (dialogue live-swap)** →
+    [`fable-2026-07-13-dialogue-live-swap.md`](../plans/fable-2026-07-13-dialogue-live-swap.md).
+  - **M1 / M4 / M5 / M6 / M9** → parked to
+    [`docs/plans/t1/`](../plans/t1); **M2** →
+    [`docs/plans/t2/`](../plans/t2); the far-tier placeholders live
+    under [`docs/plans/tn/`](../plans/tn) (six tier-scoped homes, so
+    nothing vanishes into the commit log).
+  - **Audio** → [ADR-193]; **merchant state** → [ADR-194].
+- **Housekeeping.** The log skips **ADR-147** (a numbering gap between
+  ADR-146 and ADR-148 — no entry was ever written; noted so nobody
+  hunts for a lost decision). New ADRs keep taking the next free
+  number at write time.
+- **Refs:** the parent survey (archived) · the five child plans ·
+  ADR-022 (newest steer governs) · the `deferred-work` gate.

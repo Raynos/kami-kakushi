@@ -50,7 +50,8 @@ export function revealsPass(state: GameState): GameState {
 
   // ── the kitchen — you are carrying wild greens you cannot eat raw. O-Hisa teaches the
   //    pot (which is what `verb-cook` has always been: the ONLY mend for a fought body).
-  //    From here cooking is SITED (intents.ts): the kitchen board, or your own hearth.
+  //    Siting the verb to a cook locus is built but HELD, pending HD-40 (the walk costs R3
+  //    nine minutes, outside the pacing band) — see the cook_meal case in intents.ts.
   if (
     rung >= 2 &&
     next.location === 'forecourt' &&

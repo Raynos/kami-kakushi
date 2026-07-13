@@ -52,7 +52,10 @@ always-loaded context while being editable on its own.
   reel-backs** (pre-canon, awaiting sign-off) live under
   **[`docs/plans/`](../docs/plans)** — **active only**; a plan **graduates to
   [`project/archive/`](../project/archive)** once it's done (Status line ✅), so
-  `docs/plans/` never accumulates finished plans.
+  `docs/plans/` never accumulates finished plans. Far-tier work parks in
+  tier-scoped subdirs — `docs/plans/t1/`, `t2/`, and `tn/` (T3+ /
+  cross-tier) — the ADR-195 sweep's queue homes, so deferred findings
+  never live only in prose.
 - [`project/feedback-human/`](../project/feedback-human) — the human's **direct
   feedback** (a live inbox; one dated file per session); closed records stay
   alongside (e.g. `2026-06-26-prd-human-feedback.md`, the PRD-feedback log, now

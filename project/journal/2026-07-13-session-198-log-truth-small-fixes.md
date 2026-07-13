@@ -57,6 +57,13 @@ ADR-192 entry (pinged via herdr); the step-5 small fixes land first.
    steps 1–4; new ADRs take numbers at write time, 193+).
 3. `/prd-ripple` for the ADR-179 flip.
 
+- **Committed-red incident (repaired via w1:p3):** my M3 pathspec
+  commit of `src/core/index.ts` swept w1:p3's uncommitted
+  `__setDialogueTextOverride`/`dialogueLineText` re-export hunk, so
+  HEAD briefly re-exported symbols whose definitions were still
+  uncommitted (local verify green, committed tree red). w1:p3 pinged;
+  their dialogue.ts commit on top closes it. Pushes held meanwhile.
+
 ## Landmines
 
 - `decisions.md` had w2:p5's UNCOMMITTED ADR-192 entry all session —

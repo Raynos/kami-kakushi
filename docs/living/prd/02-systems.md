@@ -1764,9 +1764,10 @@ infrastructure, present from early build; the verifier invariants land as their 
 **(a) What it is.** Cross-cutting presentation. **Art register: TEXT + EMOJI + CSS + a small curated asset
 set.** Woodblock palette; kanji season tags; colour-coded rarities; CSS flourishes; a small canvas only for
 optional ambient FX, never logic. **Load-bearing period motifs** (pillar / season / rarity marks) are
-**INLINE SVG** (consistent across OSes); **emoji are COSMETIC-only.** **Audio:** a **small curated set**
-mixing **synthesized Web Audio + original/CC0 samples** (light ambient beds + UI/event SFX), with a **mute
-toggle** and surfaced licensing/credits (§2.21.1). **Fonts: self-hosted OFL fonts** (kill Google dynamic-
+**INLINE SVG** (consistent across OSes); **emoji are COSMETIC-only.** **Audio:** a **small curated set of
+REAL original/CC0 samples** (light ambient beds + UI/event SFX) — **synthesis is retired** (ADR-193: the
+synth pass was built, heard, and muted as off-register; the game ships SILENT until the sample-based
+pass) — with a **mute toggle** and surfaced licensing/credits (§2.21.1). **Fonts: self-hosted OFL fonts** (kill Google dynamic-
 subsetting — it breaks offline + the itch relative-base; bundle the OFL license; clear the Reserved-Font-Name
 rule). **Accessibility:** solid basics — scalable text, colourblind-safe cues, keyboard + touch, pause;
 **responsive desktop + mobile, NOT hover-dependent** (Shift-for-detail is an *extra* layer, not the only way
@@ -1801,9 +1802,10 @@ standing panels legibly (rarity-coded, scalable, AA-contrast) so the four-pillar
 any device.
 
 **(e) When introduced / fractal reveal.** **T0** — the text/emoji/CSS register, the self-hosted fonts, the
-inline-SVG motifs, and a11y/audio basics exist from the first build; rarity colour-coding and season tags
-appear as the relevant systems (loot, clock) reveal. The a11y correctness items, the curated audio set, and
-the finalised fonts/license/credits ship with the polished release (§7).
+inline-SVG motifs, and a11y basics exist from the first build; rarity colour-coding and season tags
+appear as the relevant systems (loot, clock) reveal. **T0 ships SILENT** (ADR-193 — the human muted the
+synth pass; the mute is canon, not a gap). The a11y correctness items, the curated sample-based audio
+set, and the finalised fonts/license/credits ship with the polished release (§7).
 
 ### 2.21.1 About / Credits surface
 
