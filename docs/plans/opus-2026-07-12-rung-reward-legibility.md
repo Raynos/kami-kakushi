@@ -1,6 +1,11 @@
 # Make a rung reward *read* as a reward (HD-41)
 
-**Status:** 📋 PROPOSED (2026-07-12, session-181) — **blocked on the HD-41 ruling**
+**Status:** ▶️ IN-PROGRESS (2026-07-13, session-185) — **HD-41 direction given, lock
+held**: the human's working direction is **(a) + (c), "maybe a bit of (d)"**;
+(b) is dead. Explicitly build-first — *"build out the doc/plan with a diverge
+and see it and play it and then lock it in as an ADR"* — so the diverge (steps
+1–3) runs now, and the **ADR is written only after the human plays the
+variants and picks** (step 4).
 **Confidence:** ( 70% Opus, 30% Fable ) — the diagnosis and the channel/render
 work are mechanical and Opus-shaped; the **diegetic wording** of whatever new
 surface appears is fiction under kernel #6 and wants Fable if it is available.
@@ -78,10 +83,25 @@ is teaching its core loop.
 **Ordering rationale:** the fork (HD-41) picks the *mechanism*; only then is
 there anything to write or wire. Step 0 is a hard gate — do not guess it.
 
-0. **⛔ BLOCKED — the HD-41 ruling.** Four options are on the table with a
-   recommendation (`(c)` + `(d)`). Everything below assumes a mechanism has
-   been chosen; if the human picks **(d)** alone, steps 1–2 collapse to a
-   render-only change and this plan shrinks to steps 3–4.
+0. ~~**⛔ BLOCKED — the HD-41 ruling.**~~ **CLEARED as a direction
+   (2026-07-13, s185):** **(a) + (c), "maybe a bit of (d)"**; (b) dead. The
+   mechanism to build: the rung line as **its own channel + distinct in-log
+   treatment** (*story that is also earned*), showing in **both** Story and
+   Progress, with the % bar's movement made visible where cheap. **The final
+   lock is deferred**: the human plays the diverge variants live, picks, and
+   only then is the ADR written (HD-41 sits ⏳ until then).
+
+   **The four build-shape calls (human, 2026-07-13, AskUserQuestion):**
+   - **Progress-tab text: SPAN BOTH in the diverge.** ≥1 variant shows the
+     SAME flavor line in both tabs (zero new fiction); ≥1 variant tries a
+     distinct terser Progress-side line — that variant carries the ADR-139
+     3 blind takes. The play verdict decides.
+   - **Scope: ALL rungs R0–R7** (the plan's default confirmed).
+   - **(d) ships UNCONDITIONALLY** — the % bar's visible movement at the
+     moment the line lands is a cheap orthogonal companion, landing whichever
+     log treatment wins (not merely a variant ingredient).
+   - **Routing: built THIS session (Fable)** — supersedes the "Opus builds"
+     note above, which was written when a Fable session was scarce.
 1. **The diverge (ADR-075) — 2–3 working variants behind the DEV toggle.**
    New/major UI treatment ⇒ no single-idea shortcut. Each variant is a real,
    working treatment of "this log line is *story that is also earned*", live in
@@ -98,7 +118,9 @@ there anything to write or wire. Step 0 is a hard gate — do not guess it.
    it its treatment. Keep the `contentKey` (`requirement.<id>`) — ADR-186's
    descriptor-not-prose invariant must survive, or every existing save fossilises
    the old words.
-4. **Close out.** Live drive R0 (below) → `/prd-ripple` + `pnpm run prd:drift` →
+4. **Close out.** Live drive R0 (below) → the human **plays** the variants and
+   picks → **write the HD-41 ADR** (the ruling is only now real — human,
+   2026-07-13) + archive the HD-item → `/prd-ripple` + `pnpm run prd:drift` →
    HR verdict → Status ✅ → archive.
 
 ## Verification
