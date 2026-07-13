@@ -7,7 +7,7 @@
 
 - Seeds: 20260626, 1, 7, 11, 13 (canonical: 20260626)
 - Personas: greedy, idler, explorer
-- Input fingerprint: `e63115816b4091cf` (the evaluated design inputs —
+- Input fingerprint: `127331a79c88b263` (the evaluated design inputs —
   `balance-sim --check-fresh` compares this against the live constants, so a balance
   VALUE change without a regenerated report is caught; comments/formatting never fire it)
 - Wall model (ADR-148 — timed actions): a TIMED intent costs its duration + cooldown from the core timing table (move_to per edge); an instant intent costs one 480 ms heartbeat.
@@ -92,37 +92,37 @@ Wall-minutes per rung: median [min–max] across seeds 20260626, 1, 7, 11, 13; a
 
 | rung | threshold | acts | rests | moves | intents | wall-min | across seeds | cum med |
 |---|---|---|---|---|---|---|---|---|
-| R0 | 3 | 35 | 2 | 0 | 59 | 4.5 | [4.5–4.5] | 4.5 |
+| R0 | 3 | 35 | 2 | 0 | 60 | 4.5 | [4.5–4.5] | 4.5 |
 | R1 | 3 | 55 | 7 | 4 | 67 | 9.7 | [9.7–9.7] | 14.2 |
-| R2 | 3 | 67 | 10 | 10 | 110 | 12.4 | [12.4–12.7] | 26.6 |
-| R3 | 6 | 55 | 11 | 21 | 147 | 18.6 | [18.3–18.8] | 45.2 |
-| R4 | 4 | 75 | 12 | 5 | 95 | 12.5 | [11.9–12.5] | 57.7 |
-| R5 | 4 | 50 | 6 | 7 | 73 | 10.4 | [10.3–10.7] | 68.1 |
-| R6 | 4 | 282 | 89 | 4 | 412 | 50.5 | [48.1–50.7] | 118.6 |
-| R7 | 4 | 417 | 120 | 62 | 833 | 95.7 | [94.7–96.9] | 214.4 |
+| R2 | 3 | 67 | 10 | 10 | 118 | 12.5 | [12.5–12.7] | 26.6 |
+| R3 | 6 | 55 | 11 | 21 | 149 | 18.6 | [18.4–18.8] | 45.3 |
+| R4 | 4 | 75 | 12 | 5 | 95 | 12.5 | [11.9–12.5] | 57.8 |
+| R5 | 4 | 50 | 6 | 7 | 75 | 10.4 | [10.3–10.7] | 68.2 |
+| R6 | 4 | 65 | 12 | 2 | 96 | 11.2 | [11.2–11.2] | 79.4 |
+| R7 | 4 | 427 | 119 | 63 | 838 | 96.4 | [95.9–97.0] | 175.8 |
 
 ## explorer — arc + economy (per seed)
 
 | seed | ascended | intents | wall-min | Phase-2 min | first-coin min | end coin | end rice | estate | P2 intent mix | stages | judges |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| 20260626 | ✅ | 1796 | 211.2 | 6.7 | 0.5 | 15597 | 50 | 480 | 15: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice withdraw work_project | U4 | 16 |
-| 1 | ✅ | 1823 | 215.2 | 6.7 | 0.5 | 15136 | 30 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 15 |
-| 7 | ✅ | 1800 | 211.7 | 6.7 | 0.5 | 15499 | 9 | 483 | 15: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice withdraw work_project | U4 | 17 |
-| 11 | ✅ | 1818 | 214.4 | 6.7 | 0.5 | 15193 | 9 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 15 |
-| 13 | ✅ | 1821 | 215.7 | 6.7 | 0.5 | 14585 | 99 | 480 | 14: advance_scene_beat advance_season ascend begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 16 |
+| 20260626 | ✅ | 1498 | 175.4 | 6.7 | 0.5 | 14658 | 27 | 480 | 16: advance_scene_beat advance_season ascend ask_scene_topic begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice withdraw work_project | U4 | 17 |
+| 1 | ✅ | 1505 | 176.3 | 6.7 | 0.5 | 14481 | 14 | 487 | 14: advance_scene_beat advance_season ascend ask_scene_topic begin_scene choose_rung_option choose_scene_option do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 18 |
+| 7 | ✅ | 1497 | 175.2 | 6.7 | 0.5 | 14700 | 0 | 486 | 16: advance_scene_beat advance_season ascend ask_scene_topic begin_scene choose_rung_option choose_scene_option deposit do_activity fight improve_estate move_to rest sell_rice withdraw work_project | U4 | 17 |
+| 11 | ✅ | 1505 | 176.4 | 6.7 | 0.5 | 14510 | 7 | 486 | 14: advance_scene_beat advance_season ascend ask_scene_topic begin_scene choose_rung_option choose_scene_option do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 18 |
+| 13 | ✅ | 1499 | 175.8 | 6.7 | 0.5 | 14018 | 42 | 480 | 14: advance_scene_beat advance_season ascend ask_scene_topic begin_scene choose_rung_option choose_scene_option do_activity fight improve_estate move_to rest sell_rice work_project | U4 | 17 |
 
 ## explorer — combat · starvation · durability (per seed)
 
 | seed | fights | W/L/R | coin bled | rice bled | satiety-0 | below-knee | battered | max no-progress |
 |---|---|---|---|---|---|---|---|---|
-| 20260626 | 16 | 12/4/0 | 70 | 0 | 0 | 1635 | 2 | 26 |
-| 1 | 16 | 12/4/0 | 85 | 0 | 0 | 1663 | 3 | 26 |
-| 7 | 16 | 12/4/0 | 70 | 0 | 0 | 1643 | 3 | 26 |
-| 11 | 16 | 12/4/0 | 85 | 0 | 0 | 1658 | 3 | 26 |
-| 13 | 16 | 12/4/0 | 85 | 0 | 0 | 1661 | 3 | 26 |
+| 20260626 | 16 | 12/4/0 | 84 | 0 | 0 | 1325 | 2 | 32 |
+| 1 | 16 | 12/4/0 | 95 | 0 | 0 | 1333 | 3 | 31 |
+| 7 | 16 | 12/4/0 | 85 | 0 | 0 | 1328 | 3 | 32 |
+| 11 | 16 | 12/4/0 | 95 | 0 | 0 | 1333 | 3 | 31 |
+| 13 | 16 | 12/4/0 | 95 | 0 | 0 | 1327 | 3 | 30 |
 
 ## Skipped intents (per persona — loud, never a silent gap)
 
-- **greedy** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, begin_scene, advance_scene_beat, choose_scene_option, begin_night_round, set_auto, set_auto_rake, set_auto_combat, equip_weapon, set_stance, eat_rice, sell_rice, collect_wage, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw, work_project, advance_season, talk_to, sleep
-- **idler** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, equip_weapon, set_stance, cook_meal, eat_rice, sell_rice, collect_wage, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw, work_project, talk_to, sleep
+- **greedy** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, begin_scene, ask_scene_topic, advance_scene_beat, choose_scene_option, begin_night_round, set_auto, set_auto_rake, set_auto_combat, equip_weapon, set_stance, eat_rice, sell_rice, collect_wage, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw, work_project, advance_season, talk_to, sleep
+- **idler** never issues: advance_intro, ask_topic, advance_rung_beat, ask_rung_topic, ask_scene_topic, equip_weapon, set_stance, cook_meal, eat_rice, sell_rice, collect_wage, improve_estate, spend_attribute, craft_weapon, accept_quest, buy_item, buy_belonging, deposit, withdraw, work_project, talk_to, sleep
 - **explorer** never issues: advance_intro, advance_rung_beat, begin_scene, advance_scene_beat, choose_scene_option, begin_night_round, set_auto, set_auto_rake, set_auto_combat, collect_wage, work_project, advance_season, talk_to, sleep

@@ -22,6 +22,10 @@ ADR-192 entry (pinged via herdr); the step-5 small fixes land first.
   - `src/core/economy.test.ts` — the old rice round-trip test rewritten
     as the RED-able refusal test; `log-content.test.ts` sample added.
 
+- `docs/content/t0-pacing.md` — regenerated (stale fingerprint from
+  the earlier HD-43 ask_scene_topic work; verify:balance GREEN, all
+  rungs in band; H3 moves no magnitudes).
+
 ## Next intended steps
 
 1. M3 (`TierId` type), M8 (`save-e2e` `beforeAll`), H6 (root LICENSE).
