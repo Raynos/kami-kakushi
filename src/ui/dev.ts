@@ -1559,8 +1559,6 @@ export interface DevQa {
   /** Live state, for the FB-7 balance cockpit's §5 live-feedback readouts (rung/capstone ETA, etc.). */
   state(): GameState;
   speed(mult: number): number;
-  jumpToPhase2(): unknown;
-  jumpToAscension(): void;
   newGame(seed?: number): void;
   /** FB-96 save-backup safety net: `hasBackup` gates the "goto last backup" button; `restoreBackup`
    *  rewinds to the pre-New-game snapshot. Both async (they hit the redundant storage backends). */
@@ -1655,7 +1653,39 @@ export function mountDevPanel(
     'padding:.4rem .5rem;display:none;flex-direction:column;gap:.5rem;flex:1 1 auto;min-height:0;overflow:hidden;';
   panel.append(body);
   caret.textContent = '▸';
+  // Drag the panel by its ⚙ DEV header (human, session-200 — review ergonomics: pull the
+  // panel off whatever it covers, the same idiom as the FB-3 feedback box's startDrag).
+  // The first real movement (>4px) converts the bottom/right anchor to left/top so the
+  // panel follows the pointer; a plain press-and-release stays a click (collapse/expand).
+  // Session-local — the panel re-seats at its corner on reload, like the feedback box.
+  let headDragged = false;
+  head.addEventListener('pointerdown', (e: PointerEvent) => {
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX;
+    const sy = e.clientY;
+    const onMove = (ev: PointerEvent): void => {
+      if (!headDragged && Math.abs(ev.clientX - sx) + Math.abs(ev.clientY - sy) < 4) return;
+      headDragged = true;
+      panel.style.right = 'auto';
+      panel.style.bottom = 'auto';
+      // clamp: the header stays grabbable — the panel can never leave the screen entirely.
+      const maxL = Math.max(0, window.innerWidth - 60);
+      const maxT = Math.max(0, window.innerHeight - 26);
+      panel.style.left = `${Math.min(maxL, Math.max(0, r.left + (ev.clientX - sx)))}px`;
+      panel.style.top = `${Math.min(maxT, Math.max(0, r.top + (ev.clientY - sy)))}px`;
+    };
+    const onUp = (): void => {
+      document.removeEventListener('pointermove', onMove, true);
+      document.removeEventListener('pointerup', onUp, true);
+    };
+    document.addEventListener('pointermove', onMove, true);
+    document.addEventListener('pointerup', onUp, true);
+  });
   head.addEventListener('click', () => {
+    if (headDragged) {
+      headDragged = false; // a drag's release is not a collapse click
+      return;
+    }
     const hidden = body.style.display === 'none';
     body.style.display = hidden ? 'flex' : 'none';
     caret.textContent = hidden ? '▾' : '▸';
@@ -1914,18 +1944,24 @@ export function mountDevPanel(
     if (settingsPane.style.display !== 'none') refreshOrphans();
   }, 1000);
 
-  // teleports
-  // (The ADR-184 zone-announce toggle lived HERE until 2026-07-13. It is a thing awaiting the
-  //  human's verdict — HR-32b — so it now sits in the Review tab with every other one, as a
-  //  MODE surface in the SURFACES registry. TST1: one home for everything.)
-  const jump = section('Jump');
-  jump.append(mono('→ Phase 2', () => qa.jumpToPhase2()));
-  jump.append(mono('→ Ascend-ready', () => qa.jumpToAscension()));
-  // (The Settings→Rung strip — one R0…R7 button per rank — was RETIRED here, 2026-07-13 (human).
-  //  Since FB-68 those buttons did not teleport: each one LOADED that rung's `rung-RX` scenario, the
-  //  exact thing the Scenarios tab exists to do. Two doors on one act. The rung-start set is no
-  //  longer `hidden` from the pane, so it now lists there under "Rung starts (R0–R7)" — with the
-  //  current rung marked — and this strip is gone. TST1: one home for everything.)
+  // (The whole TELEPORT block lived here until 2026-07-13, when the human ruled it out entirely —
+  //  Scenarios is the one home for "put the game in state X". TST1. Three things were removed:
+  //
+  //   · the ADR-184 zone-announce toggle → moved to the Review tab (HR-32b), where every
+  //     awaiting-a-verdict thing now lives, as a MODE surface in the SURFACES registry.
+  //   · the Settings→Rung strip (one R0…R7 button per rank) → since FB-68 those buttons did not
+  //     teleport at all: each LOADED that rung's `rung-RX` scenario, the exact thing the Scenarios
+  //     tab exists to do. Two doors on one act. The rung-start set is no longer `hidden` from the
+  //     pane, so it lists there under "Rung starts (R0–R7)", with the current rung marked.
+  //   · the Jump section (`→ Phase 2`, `→ Ascend-ready`) → the same duplication one layer down:
+  //     `wealthy-idler` IS Phase 2 and `pre-ascension` IS ascend-ready, both already in Scenarios.
+  //     Unlike the rung buttons these two were still TRUE applyPromotion-style teleports, i.e. the
+  //     incoherent end-state (no earned unlocks/resources for the destination) FB-68 complained
+  //     about — so the fixtures don't just duplicate them, they're strictly better. The human's
+  //     call: delete, don't repoint.
+  //
+  //  `__qa.jumpToPhase2` / `jumpToAscension` / `toRung` REMAIN in main.ts — they are the headless
+  //  driver API (qa-playtesting.md §1) and taint the run when used. Only the PANEL doors are gone.)
 
   // (The Combat/Auto section — Auto: farm / Auto: monkey / Stop auto — was RETIRED here
   // (FB-300): the in-game auto-toggles are the real feature, and the headless `__qa.auto` /

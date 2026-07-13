@@ -32,8 +32,6 @@ function stubQa(): DevQa & { last: number | null } {
       q.last = m;
       return m;
     },
-    jumpToPhase2: () => 0,
-    jumpToAscension: () => {},
     newGame: () => {},
     hasBackup: async () => false,
     restoreBackup: async () => false,
@@ -658,6 +656,55 @@ describe('DEV panel — Speed row (F49)', () => {
   });
 });
 
+// Session-200 — the panel drags by its ⚙ DEV header (the FB-3 feedback-box idiom), so the
+// human can pull it off whatever it covers while reviewing. RED on main before this landed:
+// no pointer handler existed, so a drag never set left/top and the release still collapsed.
+describe('DEV panel — drag by the header (session-200)', () => {
+  function mountPanel(): { host: HTMLElement; head: HTMLElement; panel: HTMLElement } {
+    const host = document.createElement('div');
+    document.body.append(host);
+    mountDevPanel(host, {
+      qa: stubQa(),
+      dev: createDevApi(),
+      rerender: () => {},
+      cockpit: testCockpit(),
+    });
+    // both the panel root and its header start with '⚙ DEV' — the header is the DEEPEST match
+    const head = [...host.querySelectorAll('div')]
+      .filter((d) => (d.textContent ?? '').startsWith('⚙ DEV'))
+      .at(-1)!;
+    return { host, head, panel: head.parentElement! };
+  }
+  const pt = (type: string, x: number, y: number): MouseEvent =>
+    new MouseEvent(type, { bubbles: true, clientX: x, clientY: y });
+
+  it('dragging the header moves the panel to left/top and the release is not a collapse', () => {
+    const { host, head, panel } = mountPanel();
+    const body = panel.querySelector('div:nth-child(2)') as HTMLElement;
+    const collapsedDisplay = body.style.display; // starts collapsed ('none')
+    head.dispatchEvent(pt('pointerdown', 500, 500));
+    document.dispatchEvent(pt('pointermove', 420, 380));
+    document.dispatchEvent(pt('pointerup', 420, 380));
+    head.dispatchEvent(pt('click', 420, 380)); // the click that follows a real drag's release
+    expect(panel.style.left).not.toBe(''); // anchored by left/top now
+    expect(panel.style.right).toBe('auto');
+    expect(panel.style.bottom).toBe('auto');
+    expect(body.style.display).toBe(collapsedDisplay); // the drag-release did NOT toggle
+    host.remove();
+  });
+
+  it('a plain press-and-release (no movement) still collapses/expands', () => {
+    const { host, head, panel } = mountPanel();
+    const body = panel.querySelector('div:nth-child(2)') as HTMLElement;
+    head.dispatchEvent(pt('pointerdown', 500, 500));
+    document.dispatchEvent(pt('pointerup', 500, 500));
+    head.dispatchEvent(pt('click', 500, 500));
+    expect(body.style.display).toBe('flex'); // toggled open
+    expect(panel.style.left).toBe(''); // corner anchor untouched
+    host.remove();
+  });
+});
+
 // FB-95 — the New-game footer button is HALF WIDTH + left-anchored so an accidental double-click on
 // the compact dev menu can't land on it (the right half of the row is deliberately empty).
 describe('DEV panel — New-game footer safety (F95)', () => {
@@ -665,8 +712,6 @@ describe('DEV panel — New-game footer safety (F95)', () => {
     return {
       state: () => createInitialState(1),
       speed: (m: number) => m,
-      jumpToPhase2: () => 0,
-      jumpToAscension: () => {},
       newGame: () => {},
       hasBackup: async () => false,
       restoreBackup: async () => false,
@@ -770,8 +815,6 @@ describe('ADR-139 story take-sets', () => {
     return {
       state: () => createInitialState(1),
       speed: (m: number) => m,
-      jumpToPhase2: () => 0,
-      jumpToAscension: () => {},
       newGame: () => {},
       hasBackup: async () => false,
       restoreBackup: async () => false,

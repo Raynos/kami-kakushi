@@ -135,18 +135,31 @@ the async twin of the human's live playtest loop; it never blocks either side.
 
 ### Scenario library (FB-6 — named fixture saves)
 
-Six committed, GENERATED start-states so "reproduce X" becomes "load X, look" — never a
-hand-driven climb. Each is rebuilt by driving the REAL engine from a fixed seed
-(`pnpm run fixtures:regen`; the `fixtures` verify gate keeps them fresh), so a balance retune
-or schema bump regenerates the whole library from scratch. Load via `__qa.loadFixture(name)`,
-the DEV panel's **Scenarios** tab, or `?fixture=<name>`:
+Committed, GENERATED start-states so "reproduce X" becomes "load X,
+look" — never a hand-driven climb. Each is rebuilt by driving the REAL
+engine from a fixed seed (`pnpm run fixtures:regen`; the `fixtures`
+verify gate keeps them fresh), so a balance retune or schema bump
+regenerates the whole library from scratch. Load via
+`__qa.loadFixture(name)`, the DEV panel's **Scenarios** tab, or
+`?fixture=<name>`.
 
-- `fresh-R3-pre-wolf` — R2, wolf-ready (the first-fight taste check), one click before `face_wolf`.
-- `rung-beat-ready` — the first rung-up story beat, on the trigger, before the VN modal.
-- `post-loss-broke` — the post-loss slump (ADR-113): HP at the floor, carried rice bled, kura hoard sheltered.
-- `worn-weapon-no-wood` — a Battered blade with no wood to mend it (the repair-loop bind).
-- `pre-ascension` — the full T0 arc at the ascension threshold (Estate EXCELLENT), before the ceremony.
-- `wealthy-idler` — Phase 2, coffers full (coin banked past 2× the dearest estate stage), idle at the kura.
+**The live roster is the Scenarios tab** (grouped earliest-in-game
+first) — it reads from `FIXTURE_SPECS`, so it can't go stale the way a
+hand-copied list here does. The shape of the library, by group:
+
+- **Fresh start** — `post-cold-open` (new game, cold open already
+  answered).
+- **Rung starts (R0–R7)** — `rung-R0` … `rung-R7`, one per rank: the
+  REAL climb driven to the first tick at that rung, so a jump lands a
+  COHERENT run (real unlocks/panels/resources), not an
+  `applyPromotion`-only shell. These are the way to reach a rung — the
+  DEV panel's old Settings→Rung strip and its `Jump` teleports were
+  retired into this tab (2026-07-13, human).
+- **Early climb / Economy / Setbacks / Endgame** — the hand-authored
+  playtest waypoints: `fresh-R3-pre-wolf`, `rung-beat-ready`,
+  `works-u1-priced`, `works-u1-underway`, `rice-at-gate`,
+  `at-kura-with-coin`, `post-loss-broke`, `worn-weapon-no-wood`,
+  `pre-ascension`, `wealthy-idler`.
 
 Fixtures are DEV-only (stripped from prod; the `verify-dev-strip` deploy gate greps the bundle to
 prove it). Home + spec model: `src/fixtures/` (specs drive the engine; nothing hand-authored).

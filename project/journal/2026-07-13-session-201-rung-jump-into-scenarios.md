@@ -70,14 +70,47 @@ could have gone red.)
   pinged. Cleared it and confirmed green so their render.ts scroll-fix
   could land.
 
-## Next intended steps
+## Follow-up (same session) — the human killed `Jump` too
 
-- **Not built, left for the human:** the `Jump` section's `→ Phase 2`
-  and `→ Ascend-ready` are the *same* duplication one layer down —
-  `wealthy-idler` IS Phase 2 and `pre-ascension` IS ascend-ready, both
-  already in Scenarios, and unlike the rung buttons these two are still
-  true `applyPromotion`-style teleports (the incoherent-state class
-  FB-68 complained about). Folding them in would finish the TST1 sweep.
-  Not done — outside the ask, and it's the human's call whether the
-  teleports have QA value the fixtures don't. Queued as a BACKLOG line
-  rather than left in this prose.
+I parked the `Jump` section (`→ Phase 2`, `→ Ascend-ready`) as a BACKLOG
+line and asked, because it was the *same* duplication one layer down
+(`wealthy-idler` IS Phase 2, `pre-ascension` IS ascend-ready, both
+already in Scenarios) but **not** the same case: unlike the rung
+buttons, these two were still TRUE `applyPromotion`-style teleports, so
+deleting them removed a real capability (an instant jump with no climb
+behind it) rather than just a duplicate door.
+
+The human's verdict: **delete it — Scenarios only.** So the whole
+teleport block is gone from Settings, along with the `jumpToPhase2` /
+`jumpToAscension` decls on `DevQa` and their `stubQa` mocks. The
+BACKLOG line was pulled (answered, not parked).
+
+`__qa.jumpToPhase2` / `jumpToAscension` / `toRung` **remain** in
+main.ts — they're the headless driver API documented in
+qa-playtesting.md §1, and they taint the run when used. Only the PANEL
+doors closed. Verified live: zero `→`/`R0`–`R7` buttons in the panel,
+Settings down to Speed · Inspect · Save health · Telemetry, all three
+`__qa` methods still functions, and loading `pre-ascension` from
+Scenarios lands R7 with `t0-capstone` set — i.e. the state the deleted
+button used to reach.
+
+Also corrected `qa-playtesting.md`'s fixture list, which claimed "Six"
+and named six while eighteen sit on disk. It now points at the
+Scenarios tab as the live roster (it reads `FIXTURE_SPECS`, so it can't
+rot) and describes the library by group instead of hand-copying names.
+
+## Landmine — the shared tree bit twice
+
+A `verify` run mid-session went RED on two session-200 drag tests. It
+was NOT my change: w1:p3's drag hunk (`dev.ts`) and its two tests
+(`dev.test.ts`) were sitting uncommitted in the shared tree and my run
+raced their write. `dev.test.ts` alone was 55/55 green; a re-run on the
+settled tree was 20/20. **Do not paper over a red — but do check whose
+red it is.**
+
+Consequence for the commit: pathspec is whole-file, and my `DevQa`
+change *forces* the `stubQa` edits to ride in `dev.test.ts` — the same
+file as their tests. So this commit necessarily carries w1:p3's drag
+hunk AND its tests. That is the only GREEN split (their tests are red
+without their hunk in HEAD), and they signed off on it explicitly.
+Credit theirs, noted in the commit body.
