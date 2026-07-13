@@ -69,6 +69,11 @@ ADR-192 entry (pinged via herdr); the step-5 small fixes land first.
   uncommitted (local verify green, committed tree red). w1:p3 pinged;
   their dialogue.ts commit on top closes it. Pushes held meanwhile.
 
+- **Exit sweep (prepare-to-exit):** snapshot resume-pointer trimmed
+  (log-truth + dialogue-live-swap done; next = merchant-state ·
+  sickroom); two quiet deferrals given BACKLOG homes — audio returns
+  with real samples (ADR-193) · the vestigial rice DEPOSIT row.
+
 ## Landmines
 
 - `decisions.md` had w2:p5's UNCOMMITTED ADR-192 entry all session —

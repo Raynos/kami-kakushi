@@ -99,20 +99,20 @@ FB-257. `dev`·`build`·`/ship`.
 
 1. Read the **newest journal** + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-13-session-200-dialogue-live-swap.md`](../journal/2026-07-13-session-200-dialogue-live-swap.md)
+   [`journal/2026-07-13-session-201-rung-jump-into-scenarios.md`](../journal/2026-07-13-session-201-rung-jump-into-scenarios.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev
    server on localhost:5173 (never spawn/kill your own). **`?dev=no`**
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` /
    `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the **ADR-sweep split** — start with
-   `docs/plans/fable-2026-07-13-log-truth-and-small-fixes.md`, then
-   its `fable-2026-07-13-*` siblings — merchant-state ·
-   sickroom-hp-mend · dialogue-live-swap — **sequenced** (they share
-   `intents.ts`). Then **T2 rungs/fog** · **telemetry** (7 reports).
+4. **Next (autonomous):** the ADR-sweep split's two remaining
+   siblings — `docs/plans/fable-2026-07-13-merchant-state.md` ·
+   `fable-2026-07-13-sickroom-hp-mend.md` — **sequenced** (they share
+   `intents.ts`; log-truth + dialogue-live-swap shipped 2026-07-13).
+   Then **T2 rungs/fog** · **telemetry** (7 reports).
 5. **Shared tree:** stage only your own files by explicit pathspec
    commit. **`VERIFY_FULL=1 pnpm run verify` before you push** — the
    commit lane skips `@slow`, so a green commit can still red a push.
 
-<!-- rewrite-debt: 2/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 3/20 · last full rewrite: 2026-07-13 -->

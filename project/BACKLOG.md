@@ -65,21 +65,22 @@
 
 Deliberately not built; each says why. Never nagged.
 
-- [ ] **The DEV `Jump` section is the same duplication the rung strip
-  was.** Session 201 killed Settings→Rung (its eight buttons already
-  just loaded the `rung-RX` scenarios — one mechanism, two doors) and
-  folded the set into the Scenarios tab. The `Jump` section's two
-  survivors, `→ Phase 2` and `→ Ascend-ready`, are the same shape one
-  layer down: `wealthy-idler` IS Phase 2 and `pre-ascension` IS
-  ascend-ready, and both already sit in Scenarios. Unlike the rung
-  buttons, though, these two are still TRUE teleports — the
-  `applyPromotion`-style jump whose incoherent end-state (no real
-  unlocks/resources for the destination) is exactly what FB-68
-  complained about. So folding them in finishes the TST1 sweep, but it
-  also *deletes a capability*: an instant jump with no climb behind it.
-  **Parked for the human's call** — do the teleports carry QA value the
-  coherent fixtures don't? If not, delete the section and the
-  `jumpToPhase2`/`jumpToAscension` panel decls with it.
+- [ ] **Audio returns with REAL samples, never synth (ADR-193,
+  2026-07-13).** T0 ships silent by the human's own call (the synth
+  cues read comedic; `sfx.ts` stays parked in-tree as the attempt
+  record). When audio work resumes it is a NEW plan — a small curated
+  original/CC0 sample set (ambient beds + UI/event cues, the ADR-068
+  palette intent as its brief), human-gated on taste. Parked until the
+  human wants sound.
+
+- [ ] **The storehouse rice DEPOSIT row is still vestigial (H3 sweep,
+  session 198).** ADR-163 made rice kura-only, so carried rice is
+  always 0 and "Store all rice" renders permanently disabled; the
+  session-198 H3 fix retired only the WITHDRAW row (the ruled scope).
+  Retiring the deposit row (+ its `deposit` rice branch and the
+  ADR-145 stores-deed hook audit) is a one-sitting render cleanup —
+  parked because the disabled button is harmless and the barn-filling
+  model may yet give it a real use.
 
 - [ ] **No gate proves "an old save still opens."** Session 192 bumped
   the save schema (v11 → v12, log lines re-addressed by NAME) and the
