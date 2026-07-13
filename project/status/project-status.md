@@ -101,7 +101,7 @@ FB-257. `dev`·`build`·`/ship`.
 
 1. Read the **newest journal** + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-13-session-194-hd42-redlines-to-disk.md`](../journal/2026-07-13-session-194-hd42-redlines-to-disk.md)
+   [`journal/2026-07-13-session-195-the-queue-reads-at-72.md`](../journal/2026-07-13-session-195-the-queue-reads-at-72.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev
    server on localhost:5173 (never spawn/kill your own). **`?dev=no`**

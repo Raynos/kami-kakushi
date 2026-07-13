@@ -44,6 +44,23 @@
   before it earns teeth (AGENTS.md: a gate must never cry wolf). Pull
   forward if the drift recurs.
 
+- [ ] **Reflow the remaining CANON to 72 chars** — session 195 brought
+  the whole human-read session queue to the norm (`review.md` ·
+  `BACKLOG.md` · `archive.md` · a full rewrite of `project-status.md`;
+  `decisions.md` was `c1ccf9b2`). **Not done:**
+  `docs/living/decisions.md` (**1838** genuinely over-wide lines) and
+  the PRD sections under `docs/living/prd/` (**~4300** between them);
+  smaller: `fun-factor.md` 269 · `ui-design.md` 205 · `CHANGELOG.md`
+  203 · `roadmap.md` 200 · `AGENTS.md` 343 · `repo-map.md` 122. The
+  tool is committed — `python3 src/scripts/reflow-md.py <file.md>` —
+  and it is content-preserving (verify per its header: token stream
+  identical with `>` prefixes stripped, NUL-free, width in CHARACTERS
+  not bytes). *Parked, not planned:* the human was asked and had not
+  called it — it is a **large diff across canon** and wants a **quiet
+  tree** (a mass rewrite over a co-agent's open files rewrites their
+  work under them, exactly like the `printWidth` 100→80 flip already
+  waiting in `todo-human.md`). Pull the two forward together.
+
 ## Graphics concepts — parked shelves live in their register
 
 - [ ] **Parked graphics concepts** — the one home for the whole slate
