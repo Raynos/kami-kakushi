@@ -110,11 +110,11 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
    — merchant-state · sickroom-hp-mend · greeting-line-ids ·
    dialogue-live-swap — **sequenced** (they share `intents.ts`). Then
    **T2 rungs/fog** · **telemetry** (6 FB-8 reports). Human-gated:
-   **HD-40** · **HD-45** · **HR-41** (treatment settled, B shipped s191;
+   **HD-40** · **HR-41** (treatment settled, B shipped s191;
    the open call is the **objective line's voice** — 3 takes at DEV →
    Story `SV18`, and it writes the HD-41 ADR) · HR-1 · **HR-34…HR-38**.
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
    **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
    `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 22/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 23/20 · last full rewrite: 2026-07-11 -->
