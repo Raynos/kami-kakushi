@@ -204,6 +204,20 @@ drained pool, the bind's only exit is the free `advance_season`
 verb. Fine while the season verb is free; re-check if seasons ever
 gain a cost.
 
+## Follow-up (same session) — the sickroom-mend diverge (HR-43)
+
+The sickroom plan's last open piece (step 4, held for the refactor):
+three blind takes for the treat/pallet result lines. The fiction
+moved out of the log-content leaf into FLAVOR keys (`sickroomTreat`/
+`sickroomRest`), resolved by a `sickroom.` dispatch entry that
+appends the mechanics suffix — so takes are number-free and swap
+through the ADR-198 funnel with zero new wiring (the refactor's
+first real proof: the bundle needed ONLY markdown). Canon = take A
+"the body ledger"; B "the body speaks" + C "the craftsman's floor"
+live in DEV → Story; the seed prose is archived in HR-43.
+Live-proven: the pallet line emits in the active take's voice and
+logged lines re-voice on flip. Plan archived — fully done.
+
 ## Landmines
 
 - Shared tree: `src/core/index.ts` was co-dirty with w3:p3's M3

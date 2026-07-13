@@ -971,6 +971,52 @@ plain sentence. Nothing else in the U9 pool was altered.
     the rest of the tier is tuned against."*
   - **Verdict:** _(awaiting your read)_
 
+### HR-43 🔲 [R4 · story] — the sickroom mend lines (`sickroom-mend` bundle, ADR-139/ADR-197)
+
+**The mend lane's two result lines, re-voiced from seed.** The
+sickroom mechanism landed with seed prose marked "the ADR-139 diverge
+revoices both lines"; this is that diverge — three blind takes on
+what treatment and the pallet day each SAY when they land. The engine
+appends the mechanics suffix ("(−8 mon, +50 HP)"), so all takes are
+number-free prose.
+
+**The three takes diverge on whose voice the mend has** — the
+day-book, the body, or the craft.
+
+  - [ ] **canon · A "the body ledger"** _(self-picked; ships)_ — the
+    house's counting register turned on flesh:
+    - treat: *"Sōan counts your coin once and your hurts twice, and
+      puts back what was taken with quick, exact hands."*
+    - rest: *"You give a whole day to the pallet while the house works
+      on around you. No coin changes hands; the body collects its debt
+      in time."*
+    - **Why it was picked:** the day-book is T0's dominant register;
+      "coin once, hurts twice" is the most Sōan-true line of the nine;
+      and "the body collects its debt in time" states the ruled design
+      (recovery is a deliberate spend — mon or days) as fiction (TST3).
+  - [ ] **B "the body speaks"** (20✔ 1—) — interior register: *"the
+    heat goes out of the wound all at once… your breath comes easier
+    for it"* / *"by nothing you can name, the weight lifts from your
+    limbs."*
+  - [ ] **C "the craftsman's floor"** (20✔ 1—) — mending as a trade:
+    *"tools in a row, hot water, cloth, no motion wasted"* / *"lie
+    there like work on a bench."*
+  - The REPLACED seed (w3's, recorded here as the archive): treat
+    *"Sōan cleans what the field left in you, sets the dressings, and
+    counts your coin without comment."* · rest *"You give the day to
+    the pallet. The house works around you; the hurt loosens by a
+    measure."*
+
+  - **How to look LIVE:** load `post-loss-broke` (DEV → Scenarios) —
+    you wake hurt at the sickroom. DEV → Review → Story →
+    **sickroom-mend**, pick a take, then press *Rest on the pallet*
+    (or *Take Sōan's treatment* — the fixture carries coin): the
+    result line lands in the **Now** view voiced by the take.
+    Already-logged mend lines re-voice on the flip too (ADR-198).
+  - **In the DEV panel:** Review → Story → **sickroom-mend** <!--
+    dev-tags: kept true by the review-link gate -->
+  - **Verdict:** _(awaiting your read)_
+
 ### HR-42 🔲 [R3 · story] — the delight line: the one pick in T0 that pays (`adr190-nudge` bundle, ADR-139/ADR-190)
 
 **The lever came back, and it needs its words.** `statBonus` is the ONE

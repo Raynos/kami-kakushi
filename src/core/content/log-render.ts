@@ -18,6 +18,7 @@
 // exact bug this plan exists to kill, made invisible. A static import graph cannot do that.
 
 import { LOG_CONTENT, type LogParams } from './log-content';
+import { formatCoin } from '../format';
 import { storyText, storySeq } from './story-overlay';
 import { SURFACES } from './surfaces';
 import { DISCOVERIES, discoveryEmitLine } from './discoveries';
@@ -313,6 +314,22 @@ const RESOLVERS: Readonly<Record<string, Resolver>> = {
   // The ±attribute system line (step C, session-200): the FACT is the attribute id; the
   // words re-render from ATTR_META so a reword reaches every save.
   attr: (id) => ATTR_META[id as AttrId]?.log,
+  // ADR-164/ADR-197 — the mend lane's result lines: the FICTION lives in FLAVOR (the
+  // sickroom-mend diverge's overlay-aware keys, sickroom plan step 4); the MECHANICS
+  // suffix rides params, so the prose never restates numbers (P13).
+  sickroom: (part, params) => {
+    if (part === 'treat') {
+      const body = effFlavor('sickroomTreat');
+      return body === undefined
+        ? undefined
+        : `${body} (−${formatCoin(Number(params.cost))}, +${params.hpGain} HP)`;
+    }
+    if (part === 'rest') {
+      const body = effFlavor('sickroomRest');
+      return body === undefined ? undefined : `${body} (+${params.hpGain} HP)`;
+    }
+    return undefined;
+  },
   // Step D — a 幕-head context by scene id: overlay-aware via introSceneTitle, so a
   // re-authored or take-flipped head reaches logged scene cards (contextKey re-derive).
   'intro-title': (id) => {

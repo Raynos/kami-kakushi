@@ -1,6 +1,8 @@
 # Build the HP-mend lane: pay Sōan, or rest and let the days do it
 
-**Status:** 🔧 IN PROGRESS (2026-07-13, session-202 — steps 1–3 + 5
+**Status:** ✅ DONE (mechanism: session-202 `fa8478ef`, ADR-197; the
+step-4 fiction: session-200's `sickroom-mend` diverge, HR-43 filed —
+canon take A, alternates live in DEV → Story)
 BUILT & landed, `fa8478ef` + ripple `a473dc40`; PH6 proof captured.
 **Step 4 (the ADR-139 3-take diverge) is HELD** on the take-system
 refactor (w1, 2026-07-13): the AUTHORING format is unchanged

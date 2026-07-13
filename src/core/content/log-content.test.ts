@@ -115,13 +115,6 @@ describe('log-content registry — golden line equality', () => {
     );
   });
 
-  it('the sickroom lane prices its two verbs honestly (ADR-164/ADR-197 — seed prose)', () => {
-    expect(renderLogLine('sickroom.treat', { cost: 12, hpGain: 50 })).toContain(
-      '(−12 mon, +50 HP)',
-    );
-    expect(renderLogLine('sickroom.rest', { hpGain: 20 })).toContain('(+20 HP)');
-  });
-
   it('bank.deposit denominates coin but leaves plain resources as counts', () => {
     expect(renderLogLine('bank.deposit', { amount: 40, resource: 'coin' })).toBe(
       `You store ${formatCoin(40)} safe in the kura storehouse.`,
@@ -167,8 +160,6 @@ describe('log-content registry — coverage', () => {
     'craft.repair': { weapon: 'bo staff', wood: 2, coinFee: 3 },
     'craft.equip': { weapon: 'bo staff' },
     'food.cook': { sansai: 2, bellyGain: 15 },
-    'sickroom.treat': { cost: 12, hpGain: 50 },
-    'sickroom.rest': { hpGain: 20 },
     'food.eatRice': { rice: 1, satGain: 3 },
     'market.sellRice': { rice: 5, price: 2, coinGain: 10 },
     'market.buyItem': { coin: 5, item: 'straw hat' },

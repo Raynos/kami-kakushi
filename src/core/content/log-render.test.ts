@@ -235,3 +235,20 @@ describe('the intro-title context resolver (step D)', () => {
     expect(() => renderLogLine('intro-title.no-such-scene')).toThrow(); // codec falls back
   });
 });
+
+// ADR-164/ADR-197 — the mend lane's result lines live in the DISPATCH layer (the fiction
+// is a FLAVOR key the sickroom-mend diverge overlays; the mechanics suffix rides params).
+describe('the sickroom resolver (mend-lane result lines)', () => {
+  afterEach(() => __setStoryOverlay(null));
+
+  it('prices the two verbs honestly, and a take re-voices the prose but never the suffix', () => {
+    expect(renderLogLine('sickroom.treat', { cost: 12, hpGain: 50 })).toContain(
+      '(−12 mon, +50 HP)',
+    );
+    expect(renderLogLine('sickroom.rest', { hpGain: 20 })).toContain('(+20 HP)');
+    __setStoryOverlay({ 'flavor.sickroomTreat': 'TAKE mend prose' });
+    expect(renderLogLine('sickroom.treat', { cost: 12, hpGain: 50 })).toBe(
+      'TAKE mend prose (−12 mon, +50 HP)',
+    );
+  });
+});

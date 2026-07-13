@@ -71,6 +71,19 @@ The coat stays on its nail; you lie down on the mat that is yours, in the corner
 
 The house keeps its hours; this corner keeps yours. The day ends when you lie down on your own mat, and not a breath before.
 
+<!-- ADR-164/ADR-197 — the sickroom mend lane's two result lines (sickroom plan
+  step 4). Canon = TAKE A "the body ledger" (ADR-139 diverge, bundle
+  sickroom-mend — alternates in takes/ until the human signs off). The engine
+  appends the mechanics suffix ("(−8 mon, +50 HP)") — no numbers here. -->
+
+### sickroomTreat
+
+Sōan counts your coin once and your hurts twice, and puts back what was taken with quick, exact hands.
+
+### sickroomRest
+
+You give a whole day to the pallet while the house works on around you. No coin changes hands; the body collects its debt in time.
+
 <!-- ADR-145 Phase-2 build beats (CORE-emitted one-time log milestones, not
   renderer hints): the five deed-source reveals + the E1 build-complete beat.
   Canon = the "steward's ledger" take (ADR-139 diverge, bundle

@@ -46,9 +46,6 @@
   [`docs/plans/fable-2026-07-13-merchant-state.md`](../docs/plans/fable-2026-07-13-merchant-state.md)
   — split 2/5: your merchant ruling (permanent purse + stock,
   general-store price sag) as a build plan
-- [ ]
-  [`docs/plans/fable-2026-07-13-sickroom-hp-mend.md`](../docs/plans/fable-2026-07-13-sickroom-hp-mend.md)
-  — split 3/5: the ADR-164 HP-mend lane (treat / rest, food goes
   satiety-only)
 - [ ]
   [`docs/plans/fable-2026-07-13-render-split.md`](../docs/plans/fable-2026-07-13-render-split.md)

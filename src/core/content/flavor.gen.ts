@@ -14,6 +14,10 @@ export const FLAVOR = {
     "The coat stays on its nail; you lie down on the mat that is yours, in the corner that is yours, and the day's work goes on outside without you. You wake at dawn with the ache you lay down with. The bowl by your head is dry: the house ate at its hours, as it always does, and you rise hungrier than you lay down.",
   sleepAnnounce:
     'The house keeps its hours; this corner keeps yours. The day ends when you lie down on your own mat, and not a breath before.',
+  sickroomTreat:
+    'Sōan counts your coin once and your hurts twice, and puts back what was taken with quick, exact hands.',
+  sickroomRest:
+    'You give a whole day to the pallet while the house works on around you. No coin changes hands; the body collects its debt in time.',
   estateSourceFields:
     "Entered: rice from the new paddies, credited to the house's own account. The old books carried this line once; it is carried again.",
   estateSourceStores:

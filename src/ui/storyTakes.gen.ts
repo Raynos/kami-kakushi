@@ -2398,6 +2398,46 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   },
 
   {
+    id: 'sickroom-mend',
+    title: 'The sickroom mend lines (treat & the pallet day)',
+    hr: 'HR-43',
+    rationale:
+      'Take A picked — the day-book register is T0\'s dominant voice, "counts your coin once and your hurts twice" is the most Sōan-true line of the nine, and "the body collects its debt in time" states the ruled design (recovery is a deliberate spend, mon or days) as fiction. B is the strongest interior register; C the strongest craft image.',
+    canonLabel: 'A · the body ledger',
+    rung: 4,
+    takes: [
+      {
+        id: 'b',
+        label: 'the body speaks',
+        brief:
+          'interior register — what mending feels like from the inside; Sōan and the house recede to hands and sounds',
+        scorecard: '20✔ 0✘ 1— [briefed: the treat line runs two-beat busy]',
+        text: {
+          'flavor.sickroomTreat':
+            'Quick hands, a sting of something bitter, and the heat goes out of the wound all at once. Coin is counted somewhere above you; your breath comes easier for it.',
+          'flavor.sickroomRest':
+            'You give the day to the pallet, and the house works on at the edge of hearing. Slowly, by nothing you can name, the weight lifts from your limbs.',
+        },
+        seq: {},
+      },
+      {
+        id: 'c',
+        label: "the craftsman's floor",
+        brief:
+          'mending as skilled labour — tools, water, cloth; the pallet a workbench, repair a trade done properly',
+        scorecard: '20✔ 0✘ 1— [briefed: the colon-list reads chrome-y in the reading register]',
+        text: {
+          'flavor.sickroomTreat':
+            'Coin counted onto the tray, and Sōan sets to work: tools in a row, hot water, cloth, no motion wasted. A trade done properly, and done fast.',
+          'flavor.sickroomRest':
+            'You give the day to the pallet and lie there like work on a bench, mending at its own slow pace while the rakes and looms go on without you.',
+        },
+        seq: {},
+      },
+    ],
+  },
+
+  {
     id: 'sleep-announce',
     title: 'The sleep-announce beat (the corner tells you the day is yours to end)',
     hr: 'HR-40',
