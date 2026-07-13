@@ -47,8 +47,6 @@ import {
   sceneById,
   isUnlocked,
   __setZoneRevealMode,
-  zoneRevealMode,
-  type ZoneRevealMode,
 } from '../core';
 import { el, pct, HOUSE_ROOMS, ESTATE_STAGE_NAMES } from './render';
 import { findOrphanedIds, formatOrphanReport } from '../persistence';
@@ -105,10 +103,15 @@ export interface VariantDef {
 export interface SurfaceDef {
   id: string;
   label: string;
-  /** The rung a player first meets this surface — the Variants tab groups by it so the panel
+  /** The rung a player first meets this surface — the Review tab groups by it so the panel
    *  tracks a rung-by-rung QA (2026-07-09; matches review.md's rung grouping). Display-only;
    *  V-tags stay registry-ordered. Omit ⇒ sorts last ("other"). */
   rung?: number;
+  /** A MODE surface flips a declaring-module DEV setter instead of rendering an alternate
+   *  pane (the core reads the mode at play time — `renderSurfaceVariant` has no arm for it).
+   *  Called on every pick AND once at hydration, so a `?<id>=<variant>` URL restores the mode
+   *  on reload exactly as a click sets it. Inert in prod: the whole fold is stripped. */
+  apply?: (variantId: string) => void;
   /** variants[0] is the prod DEFAULT (self-picked); the rest are DEV-only alternates. */
   variants: VariantDef[];
 }
@@ -358,6 +361,37 @@ export const SURFACES: SurfaceDef[] = [
   //    framings were removed here and from styles.css). ──
   // ── FB-340 v2 (HR-31 confirmed 2026-07-11) — the porter piece IS the presence; the
   //    A/B rings toggle was deleted on the human's confirm (ADR-075 zero flag-debt). ──
+  {
+    // ADR-184 / HR-32b — how a zone ANNOUNCES itself. A MODE surface (see `apply`): the core
+    // reads `zoneRevealMode()` when the reveal fires, so the pick bridges to unlock.ts's
+    // DEV setter rather than rendering an alternate pane.
+    //
+    // It lived as a hand-placed section in the SETTINGS tab from a4863592 until 2026-07-13.
+    // That put a review toggle in a tool pane — the human never found it, which is the whole
+    // of TST1 ("one home for everything"): a thing awaiting a human verdict belongs in the
+    // Review tab with every other thing awaiting a human verdict, whatever its mechanism.
+    //
+    // To feel it: load `rung-R2`, haul at the board until coin ≥ 10 (the gate's `sb-market`),
+    // or forage then stand at the board (the kitchen's `sb-cook`), and watch the Story log
+    // AFTER the scene closes. PROD ships 'vn' — the toggle strips with this panel.
+    id: 'zone-reveal',
+    rung: 2,
+    label: 'Zone announce (reveal mode)',
+    apply: (id) => __setZoneRevealMode(id === 'zone-reveal-ink' ? 'vn+ink' : 'vn'),
+    variants: [
+      {
+        id: 'zone-reveal-vn',
+        label: 'A · VN only',
+        blurb:
+          'shipped default — the scene that opened the zone IS the reveal; nothing fires after it closes',
+      },
+      {
+        id: 'zone-reveal-ink',
+        label: 'B · VN + map-ink',
+        blurb: 'the scene closes, then the zone inks onto the map with a line of its own',
+      },
+    ],
+  },
 ];
 
 export interface DevApi {
@@ -504,6 +538,9 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
       const q = params.get(s.id);
       if (q && s.variants.some((v) => v.id === q)) variant[s.id] = q;
     }
+    // a MODE surface's pick lives in its declaring module, not in `variant[]` — so hydrate it
+    // too, or a shared `?zone-reveal=…` link would show the toggle flipped and play the default.
+    for (const s of SURFACES) s.apply?.(variant[s.id] ?? defaultOf(s.id));
     // story sets ride the same channel: `?story-<bundle>=<take>` (guarded like variants).
     for (const b of bundles) {
       const q = params.get(`story-${b.id}`);
@@ -517,6 +554,7 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
     getVariant: (s) => variant[s] ?? defaultOf(s),
     setVariant: (s, id) => {
       variant[s] = id;
+      SURFACES.find((sf) => sf.id === s)?.apply?.(id); // MODE surfaces (ADR-184 zone-reveal)
       // FB-18 — mirror the pick back into the URL so a reload restores it (and the URL is shareable).
       // Drop the param when the pick is the surface's DEFAULT (variants[0]) so a clean state keeps
       // a clean URL; otherwise write `?<s>=<id>`.
@@ -2093,35 +2131,9 @@ export function mountDevPanel(
   }, 1000);
 
   // teleports
-  // ADR-184 (HR-32b) — the zone-ANNOUNCE diverge, both modes live (human, 2026-07-12: "diverge and
-  // implement both"). A zone now opens INSIDE its VN; the open question is whether the scene's own
-  // prose is the whole reveal, or whether the zone also inks onto the map with a line afterwards.
-  // Flip the mode, then play a reveal (load `rung-R2`, haul at the board until coin ≥ 10 → the
-  // gate's `sb-market`; or forage, then stand at the board → the kitchen's `sb-cook`) and watch the
-  // Story log AFTER the scene closes. PROD ships 'vn' — the toggle is stripped with this panel.
-  const reveal = section('Zone reveal (ADR-184)');
-  const revealBtns = new Map<ZoneRevealMode, HTMLButtonElement>();
-  const markReveal = (active: ZoneRevealMode): void => {
-    for (const [id, b] of revealBtns) {
-      const on = id === active;
-      b.style.background = on ? '#b08d4f' : '#3a322a';
-      b.style.color = on ? '#1c1814' : '#e7d9bc';
-    }
-  };
-  for (const [mode, label, tip] of [
-    ['vn', 'VN only', 'The scene that opened the zone IS the reveal — nothing else fires (prod).'],
-    ['vn+ink', 'VN + map-ink', 'The scene closes, then the zone inks onto the map with a line.'],
-  ] as const) {
-    const b = mono(label, () => {
-      __setZoneRevealMode(mode);
-      markReveal(mode);
-    });
-    b.title = tip;
-    revealBtns.set(mode, b);
-    reveal.append(b);
-  }
-  markReveal(zoneRevealMode());
-
+  // (The ADR-184 zone-announce toggle lived HERE until 2026-07-13. It is a thing awaiting the
+  //  human's verdict — HR-32b — so it now sits in the Review tab with every other one, as a
+  //  MODE surface in the SURFACES registry. TST1: one home for everything.)
   const jump = section('Jump');
   jump.append(mono('→ Phase 2', () => qa.jumpToPhase2()));
   jump.append(mono('→ Ascend-ready', () => qa.jumpToAscension()));

@@ -42,6 +42,8 @@ import {
   rungRequirements,
   requirementFlavor,
   __setRequirementFlavorOverride,
+  __setZoneRevealMode,
+  zoneRevealMode,
 } from '../core';
 
 function noopHooks(): AppHooks {
@@ -301,6 +303,22 @@ describe('the Zone do-panel diverge is closed (FB-410 / HR-32)', () => {
   it('the DEV registry carries NO zone surface (the toggle is gone)', () => {
     const dev = createDevApi();
     expect(dev.surfaces.some((s) => s.id === 'zone')).toBe(false);
+  });
+});
+
+// ADR-184 / HR-32b — the zone-ANNOUNCE mode is a MODE surface: it renders no alternate pane,
+// it flips the core's `zoneRevealMode()`. So the load-bearing seam is `setVariant` → `apply` →
+// the declaring module's DEV setter. RED-able: drop the `apply` call from setVariant (or the
+// `apply` fn from the surface) and the mode never leaves 'vn' — the second assert flips red.
+describe('the zone-announce mode is a Review-tab surface (ADR-184 / HR-32b)', () => {
+  afterEach(() => __setZoneRevealMode('vn')); // module-level mode — never leak into the next test
+  it('picking a variant flips the CORE reveal mode (the MODE-surface bridge)', () => {
+    const dev = createDevApi();
+    expect(zoneRevealMode()).toBe('vn'); // variants[0] is prod's 'vn' — hydration honours it
+    dev.setVariant('zone-reveal', 'zone-reveal-ink');
+    expect(zoneRevealMode()).toBe('vn+ink');
+    dev.setVariant('zone-reveal', 'zone-reveal-vn');
+    expect(zoneRevealMode()).toBe('vn');
   });
 });
 
