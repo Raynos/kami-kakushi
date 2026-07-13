@@ -29,6 +29,7 @@ import {
   DIALOGUE_SCENES,
   introSceneOption,
   introPerkLine,
+  introSceneTitle,
   type DialogueTopic,
   type IntroSetupLine,
 } from './intro';
@@ -312,6 +313,12 @@ const RESOLVERS: Readonly<Record<string, Resolver>> = {
   // The ±attribute system line (step C, session-200): the FACT is the attribute id; the
   // words re-render from ATTR_META so a reword reaches every save.
   attr: (id) => ATTR_META[id as AttrId]?.log,
+  // Step D — a 幕-head context by scene id: overlay-aware via introSceneTitle, so a
+  // re-authored or take-flipped head reaches logged scene cards (contextKey re-derive).
+  'intro-title': (id) => {
+    const scene = DIALOGUE_SCENES.find((x) => x.id === id);
+    return scene ? introSceneTitle(scene) : undefined;
+  },
 };
 
 /** The namespaces this module can resolve — exported so a test can prove every emitted key

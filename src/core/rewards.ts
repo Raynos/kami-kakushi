@@ -34,6 +34,7 @@ export interface RewardBundle {
     readonly chat?: boolean | undefined;
     /** Chat-group context label (FB-270) — see LogEntry.context. */
     readonly context?: string | undefined;
+    readonly contextKey?: string | undefined;
   }[];
 }
 
@@ -79,6 +80,7 @@ export function applyRewards(state: GameState, rewards: RewardBundle): GameState
           ephemeral: line.ephemeral,
           chat: line.chat,
           context: line.context,
+          contextKey: line.contextKey,
           contentKey: line.contentKey,
           params: line.params,
         }),

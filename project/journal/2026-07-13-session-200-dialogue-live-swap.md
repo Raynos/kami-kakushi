@@ -173,6 +173,18 @@ complete quests, so the runtime gate was blind to them) plus the
 ±attribute line; all keyed now (`flavor.quest*`, `attr.<id>` with a
 new resolver).
 
+## Follow-up (same session) — step D: the 幕-head context is keyed
+
+The last re-voice gap closes: `LogEntry.contextKey`
+(`intro-title.<sceneId>`) persists beside the baked `context`; the
+codec and the DEV repaint re-derive the head through the same funnel
+(`renderLogLine` → the overlay-aware `introSceneTitle`). Schema
+v12→v13 (identity migration — additive field; pre-v13 entries keep
+their baked heads, TST2). Note: no OPEN bundle carries intro-title
+takes right now (fb362 was signed off + pruned this same session),
+so the live behavior is covered by the resolver/codec tests until
+the next intro-title diverge.
+
 ## Landmines
 
 - Shared tree: `src/core/index.ts` was co-dirty with w3:p3's M3

@@ -74,6 +74,12 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
       },
     };
   },
+
+  // v12 → v13 (step D, session-200): log entries GAIN an optional `contextKey`
+  // (`intro-title.<sceneId>`) so a 幕-head re-derives from the registry on load. Purely
+  // additive — a pre-v13 entry has none and keeps its baked head verbatim (TST2), so the
+  // migration is the identity; the bump records the format change.
+  12: (state) => state,
 };
 
 /** `<ns>.<scene>.…greeting.<i>` / `…answer.<i>` → the same address with the line's authored id.

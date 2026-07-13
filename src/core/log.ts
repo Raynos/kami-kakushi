@@ -39,6 +39,11 @@ export interface LogEntry {
   /** Optional conversation CONTEXT for a chat group's opening line (FB-270 — "cold open",
    *  "The day-hand promotion"): the render-time "— with X · context —" kicker reads it. */
   readonly context?: string;
+  /** Step D (session-200) — the context's REGISTRY key (`intro-title.<sceneId>`) where one
+   *  exists: the save persists it and `context` re-derives on load / the DEV repaint, so a
+   *  re-authored (or take-flipped) 幕-head reaches logged scene cards. Absent ⇒ `context`
+   *  is frozen prose (pre-v13 entries, or contexts with no registry source). */
+  readonly contextKey?: string;
   /** Log-content registry key (shrink-save-file Stage C). Present ⇒ `text` is DERIVED via
    *  `renderLogLine(contentKey, params)` and the save persists this + `params`, not the prose.
    *  Absent ⇒ a legacy/inline line whose `text` is authoritative. */
@@ -73,6 +78,7 @@ export function pushLog(
     readonly ephemeral?: boolean | undefined;
     readonly chat?: boolean | undefined;
     readonly context?: string | undefined;
+    readonly contextKey?: string | undefined;
     readonly contentKey?: string | undefined;
     readonly params?: LogParams | undefined;
   },
@@ -95,6 +101,7 @@ export function pushLog(
     ...(meta?.ephemeral !== undefined ? { ephemeral: meta.ephemeral } : {}),
     ...(meta?.chat !== undefined ? { chat: meta.chat } : {}),
     ...(meta?.context !== undefined ? { context: meta.context } : {}),
+    ...(meta?.contextKey !== undefined ? { contextKey: meta.contextKey } : {}),
     ...(meta?.contentKey !== undefined ? { contentKey: meta.contentKey } : {}),
     ...(meta?.params !== undefined ? { params: meta.params } : {}),
   };

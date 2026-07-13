@@ -403,13 +403,25 @@ export function formatLogText(entry: LogEntry): string {
 // this away — T2 still protects the player). An unresolvable key (a renamed content id)
 // keeps its stored prose, same as codec's load-time fallback.
 export function devRederivedEntry(entry: LogEntry): LogEntry {
-  if (entry.contentKey === undefined) return entry;
-  try {
-    const text = renderLogLine(entry.contentKey, entry.params);
-    return text === entry.text ? entry : { ...entry, text };
-  } catch {
-    return entry;
+  let out = entry;
+  if (entry.contentKey !== undefined) {
+    try {
+      const text = renderLogLine(entry.contentKey, entry.params);
+      if (text !== out.text) out = { ...out, text };
+    } catch {
+      /* an unresolvable key keeps its stored prose, same as codec */
+    }
   }
+  // step D — the 幕-head re-derives from its key too, so a take flip re-voices logged heads.
+  if (entry.contextKey !== undefined) {
+    try {
+      const context = renderLogLine(entry.contextKey);
+      if (context !== out.context) out = { ...out, context };
+    } catch {
+      /* keep the stored head */
+    }
+  }
+  return out;
 }
 
 // FB-53/FB-115 — the "Now" (ephemeral) view's wall-clock timings (a RENDER-time concern; the pure core

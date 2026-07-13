@@ -1,11 +1,11 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 12,
+  "schemaVersion": 13,
   "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 12,
+    "schemaVersion": 13,
     "season": "winter",
     "seasonsPassed": 0,
     "rng": {
@@ -74,6 +74,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "what the water takes",
+          "contextKey": "intro-title.dream",
           "contentKey": "intro.dream.greeting.dream"
         },
         {
@@ -84,6 +85,7 @@
           "speaker": "You",
           "voice": "player",
           "context": "what the water takes",
+          "contextKey": "intro-title.dream",
           "contentKey": "intro.dream.opt.dream-dwell.say"
         },
         {
@@ -93,6 +95,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "what the water takes",
+          "contextKey": "intro-title.dream",
           "contentKey": "intro.dream.opt.dream-dwell.react"
         },
         {
@@ -109,6 +112,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.weir"
         },
         {
@@ -118,6 +122,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.wake"
         },
         {
@@ -127,6 +132,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.the-physician-does-not-ask-how"
         },
         {
@@ -137,6 +143,7 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.do-you-know-the-year"
         },
         {
@@ -147,6 +154,7 @@
           "speaker": "You",
           "voice": "player",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.no"
         },
         {
@@ -157,6 +165,7 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.an-ei-nine-now-you-know"
         },
         {
@@ -166,6 +175,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.whatever-the-hands-told-him-goes"
         },
         {
@@ -175,6 +185,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.the-man-in-the-doorway-is"
         },
         {
@@ -185,6 +196,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.the-weir-man-soan-can-he"
         },
         {
@@ -195,6 +207,7 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.ask-him"
         },
         {
@@ -205,6 +218,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.name-age-where-from-in-that"
         },
         {
@@ -214,6 +228,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.three-answers-and-you-do-not"
         },
         {
@@ -223,6 +238,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.it-is-the-first-thing-you"
         },
         {
@@ -233,6 +249,7 @@
           "speaker": "You",
           "voice": "player",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.what-name-did-i-give-when"
         },
         {
@@ -243,6 +260,7 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.none-you-gave-none-three-days"
         },
         {
@@ -252,6 +270,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.nothing-comes"
         },
         {
@@ -261,6 +280,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.genemon-does-not-look-surprised-he"
         },
         {
@@ -271,6 +291,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.daybook"
         },
         {
@@ -281,6 +302,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.when-he-can-stand-he-rakes"
         },
         {
@@ -290,6 +312,7 @@
           "count": 1,
           "voice": "narrator",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.greeting.he-goes-soan-opens-his-ledger"
         },
         {
@@ -301,6 +324,7 @@
           "voice": "player",
           "chat": true,
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.topic.soan-where.ask"
         },
         {
@@ -312,6 +336,7 @@
           "voice": "physician",
           "chat": true,
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.topic.soan-where.answer.the-house-house-the-estate-or"
         },
         {
@@ -323,6 +348,7 @@
           "voice": "player",
           "chat": true,
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.topic.soan-kami.ask"
         },
         {
@@ -334,6 +360,7 @@
           "voice": "physician",
           "chat": true,
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.topic.soan-kami.answer.kamikakushi-the-valley-says-it-of"
         },
         {
@@ -344,6 +371,7 @@
           "speaker": "Nameless",
           "voice": "player",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.opt.soan-knot.say"
         },
         {
@@ -354,6 +382,7 @@
           "speaker": "Sōan",
           "voice": "physician",
           "context": "no name to give",
+          "contextKey": "intro-title.soan",
           "contentKey": "intro.soan.opt.soan-knot.react"
         },
         {
@@ -371,6 +400,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "entered in the book",
+          "contextKey": "intro-title.genemon",
           "contentKey": "intro.genemon.greeting.genemon-open-gen-greet"
         },
         {
@@ -382,6 +412,7 @@
           "voice": "player",
           "chat": true,
           "context": "entered in the book",
+          "contextKey": "intro-title.genemon",
           "contentKey": "intro.genemon.topic.gen-house.ask"
         },
         {
@@ -393,6 +424,7 @@
           "voice": "steward",
           "chat": true,
           "context": "entered in the book",
+          "contextKey": "intro-title.genemon",
           "contentKey": "intro.genemon.topic.gen-house.answer.the-house-on-the-lord-s"
         },
         {
@@ -404,6 +436,7 @@
           "voice": "player",
           "chat": true,
           "context": "entered in the book",
+          "contextKey": "intro-title.genemon",
           "contentKey": "intro.genemon.topic.gen-work.ask"
         },
         {
@@ -415,6 +448,7 @@
           "voice": "steward",
           "chat": true,
           "context": "entered in the book",
+          "contextKey": "intro-title.genemon",
           "contentKey": "intro.genemon.topic.gen-work.answer.rice-half-a-season-s-stores"
         },
         {
@@ -425,6 +459,7 @@
           "speaker": "Nameless",
           "voice": "player",
           "context": "entered in the book",
+          "contextKey": "intro-title.genemon",
           "contentKey": "intro.genemon.opt.genemon-earnest.say"
         },
         {
@@ -435,6 +470,7 @@
           "speaker": "Genemon",
           "voice": "steward",
           "context": "entered in the book",
+          "contextKey": "intro-title.genemon",
           "contentKey": "intro.genemon.opt.genemon-earnest.react"
         },
         {

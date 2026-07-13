@@ -258,9 +258,10 @@ function revealIntroBeat(state: GameState, index: number): GameState {
       // FB-262 — every VN line carries its scene label so the Story log can GROUP it
       // (the bordered "VN unit" treatments; the render-time scene-group stamps read this).
       // FB-362 — the label is PER SCENE (introSceneTitle), so each intro act is its own
-      // 幕 card instead of one fused "the cold open" card. Old saves keep their baked
-      // contexts (TST2 — no migration).
+      // 幕 card. Step D (session-200): the KEY persists too, so the head re-derives on
+      // load / the DEV repaint; pre-v13 entries keep their baked heads.
       context: introSceneTitle(scene),
+      contextKey: `intro-title.${scene.id}`,
     })),
   });
 }
@@ -416,6 +417,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             chat: true,
             contentKey: `intro.${scene.id}.topic.${topic.id}.ask`,
             context: introSceneTitle(scene), // FB-270/FB-362 — the chat kicker names the SCENE
+            contextKey: `intro-title.${scene.id}`,
           },
           ...topic.answer.map((l) => ({
             channel: 'narration' as const,
@@ -425,6 +427,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             chat: true,
             contentKey: `intro.${scene.id}.topic.${topic.id}.answer.${l.id}`,
             context: introSceneTitle(scene), // FB-316 — the answer shares the question's scene group
+            contextKey: `intro-title.${scene.id}`,
           })),
         ],
       });
@@ -452,6 +455,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             speaker: playerSpeaker(next),
             contentKey: `intro.${scene.id}.opt.${intent.optionId}.say`,
             context: introSceneTitle(scene), // FB-262/FB-362 — the pick lands in ITS act's card
+            contextKey: `intro-title.${scene.id}`,
           },
           {
             channel: 'narration',
@@ -460,6 +464,7 @@ export function reduce(state: GameState, intent: Intent): GameState {
             speaker: beatReactSpeaker(scene),
             contentKey: `intro.${scene.id}.opt.${intent.optionId}.react`,
             context: introSceneTitle(scene), // FB-316 — the react stays inside the scene's 幕 card
+            contextKey: `intro-title.${scene.id}`,
           },
         ],
       });

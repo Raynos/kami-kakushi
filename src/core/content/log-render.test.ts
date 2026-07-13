@@ -5,10 +5,11 @@
 // reveal line in src/ and every existing save shows the new words. These tests exist to make that
 // claim falsifiable.
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import { renderLogLine, LOG_NAMESPACES } from './log-render';
 import { LOG_CONTENT } from './log-content';
 import { SURFACES } from './surfaces';
+import { __setStoryOverlay } from './story-overlay';
 import { DISCOVERIES, discoveryEmitLine } from './discoveries';
 import { RUNG_BEATS, type RungScene } from './rungBeats';
 import { SCENES } from './scenes';
@@ -216,5 +217,21 @@ describe('the R3 delight line — the one pick that pays', () => {
     const { o } = withBonus[0]!;
     expect(o.statBonus!.note).toContain(o.statBonus!.attr.toUpperCase());
     expect(o.statBonus!.amount).toBeGreaterThan(0);
+  });
+});
+
+// ── step D (session-200) — the 幕-head context is KEYED (`intro-title.<sceneId>`): the
+// resolver reads introSceneTitle (overlay-aware), so a re-authored or take-flipped head
+// reaches logged scene cards through the same funnel as every other keyed line. ──
+describe('the intro-title context resolver (step D)', () => {
+  afterEach(() => __setStoryOverlay(null));
+
+  it('resolves a scene head from the registry, and the overlay re-voices it', () => {
+    const scene = DIALOGUE_SCENES[0]!;
+    const canonHead = scene.title ?? 'the cold open';
+    expect(renderLogLine(`intro-title.${scene.id}`)).toBe(canonHead);
+    __setStoryOverlay({ [`intro-title.${scene.id}`]: 'TAKE head' });
+    expect(renderLogLine(`intro-title.${scene.id}`)).toBe('TAKE head');
+    expect(() => renderLogLine('intro-title.no-such-scene')).toThrow(); // codec falls back
   });
 });

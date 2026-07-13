@@ -32,7 +32,7 @@ export const APP_ID = 'kami-kakushi' as const;
  *  derives from progression facts (core/unlock visibleSet); the new `seenReveals` announce-once
  *  ceremony latch is seeded from the old field (plus a `coin-earned` fact-flag where the old
  *  latch is the only record of a first wage). */
-export const SCHEMA_VERSION = 12 as const;
+export const SCHEMA_VERSION = 13 as const;
 
 /** App GENERATION (ADR-161, storywave clean break): bumped when the state model breaks so
  *  hard that migration is not worth carrying. A saved blob with a generation below this

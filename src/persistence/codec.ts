@@ -143,12 +143,23 @@ function stripLogEntry(e: LogEntry): unknown {
  *  save→load round-trip stays byte-identical. A keyless entry passes through unchanged. */
 function rehydrateLogEntry(raw: unknown): unknown {
   const e = raw as Partial<LogEntry> & { contentKey?: string; params?: LogParams };
-  if (e.contentKey === undefined) return raw;
-  let text: string;
-  try {
-    text = renderLogLine(e.contentKey, e.params ?? {});
-  } catch {
-    text = e.text ?? ''; // an unknown key (a removed contentKey) must not nuke the whole save
+  if (e.contentKey === undefined && e.contextKey === undefined) return raw;
+  let text = e.text ?? '';
+  if (e.contentKey !== undefined) {
+    try {
+      text = renderLogLine(e.contentKey, e.params ?? {});
+    } catch {
+      text = e.text ?? ''; // an unknown key (a removed contentKey) must not nuke the whole save
+    }
+  }
+  // step D — the 幕-head re-derives from its key too (falls back to the stored head).
+  let context = e.context;
+  if (e.contextKey !== undefined) {
+    try {
+      context = renderLogLine(e.contextKey);
+    } catch {
+      context = e.context;
+    }
   }
   return {
     key: e.key,
@@ -160,8 +171,9 @@ function rehydrateLogEntry(raw: unknown): unknown {
     ...(e.voice !== undefined ? { voice: e.voice } : {}),
     ...(e.ephemeral !== undefined ? { ephemeral: e.ephemeral } : {}),
     ...(e.chat !== undefined ? { chat: e.chat } : {}),
-    ...(e.context !== undefined ? { context: e.context } : {}),
-    contentKey: e.contentKey,
+    ...(context !== undefined ? { context } : {}),
+    ...(e.contextKey !== undefined ? { contextKey: e.contextKey } : {}),
+    ...(e.contentKey !== undefined ? { contentKey: e.contentKey } : {}),
     ...(e.params !== undefined ? { params: e.params } : {}),
   };
 }
