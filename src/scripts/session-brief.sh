@@ -294,11 +294,41 @@ fi
 # aborts the brief (set -e safe via 2>/dev/null + trailing || true → empty string).
 # NB: macOS has no `timeout` binary (GNU coreutils), which silently killed this
 # probe for weeks — perl's alarm+exec is the portable time-box (alarm survives exec).
-ci_state="$(perl -e 'alarm shift @ARGV; exec @ARGV' 2 gh run list -L 1 -b main -w verify.yml --json conclusion,status --jq '.[0] | (.status + "/" + (.conclusion // "—"))' 2>/dev/null || true)"
+#
+# TWO lanes, not one (ADR-188 / HD-45). `verify.yml` is the gate every local commit
+# already runs, so its CI answer rarely surprises. `e2e.yml` is the one that CAN'T be
+# read anywhere else: the Playwright lane is CI-only by budget (ADR-072/ADR-176 — a
+# real browser suite is orders of magnitude past verify's 5s/8s gate), so a green
+# verify, a green commit and a green push all coexist with a red e2e lane. It sat red
+# on main for two unread CI runs (a4863592 → 8f746f54). THIS LINE is the only thing
+# that puts that red in front of the next agent. The probes run CONCURRENTLY, so the
+# second lane costs no extra wall-clock against the brief's ≤5s budget.
+ci_probe() { # $1 = workflow file → "status/conclusion", or empty if gh is slow/absent
+  # An in-flight run's `conclusion` is "" (NOT null), so jq's `//` never fires on it —
+  # test for empty explicitly or a running lane reads as a bare `in_progress/`.
+  perl -e 'alarm shift @ARGV; exec @ARGV' 2 gh run list -L 1 -b main -w "$1" \
+    --json conclusion,status \
+    --jq '.[0] | .status + "/" + (if (.conclusion // "") == "" then "—" else .conclusion end)' 2>/dev/null || true
+}
+ci_verify_out="$(mktemp)"
+ci_e2e_out="$(mktemp)"
+ci_probe verify.yml >"$ci_verify_out" 2>/dev/null &
+ci_verify_pid=$!
+ci_probe e2e.yml >"$ci_e2e_out" 2>/dev/null &
+ci_e2e_pid=$!
+wait "$ci_verify_pid" "$ci_e2e_pid" 2>/dev/null || true
+ci_state="$(tr -d '\n' <"$ci_verify_out")"
+ci_e2e_state="$(tr -d '\n' <"$ci_e2e_out")"
+rm -f "$ci_verify_out" "$ci_e2e_out"
 if [[ -n "$ci_state" ]]; then
   add "- 🔦 **CI (main, verify.yml):** \`$ci_state\`"
 else
   add "- 🔦 **CI (main):** _(status unavailable)_"
+fi
+if [[ "$ci_e2e_state" == */failure ]]; then
+  add "- 🚨 **CI (main, e2e.yml): \`$ci_e2e_state\` — the Playwright lane is RED.** Nothing local sees this: it is CI-only by budget (ADR-072), so \`verify\`, the commit hook and the push hook are ALL green while it rots. Reproduce with \`pnpm run test:e2e\` and fix it before you start new work (\`gh run list -w e2e.yml -b main\` for the run)."
+elif [[ -n "$ci_e2e_state" ]]; then
+  add "- 🎭 **CI (main, e2e.yml):** \`$ci_e2e_state\`"
 fi
 # Plans in docs/plans/ — normally all ACTIVE (done plans get archived to
 # project/archive/); tag each from its OWN status line so a not-yet-archived done
