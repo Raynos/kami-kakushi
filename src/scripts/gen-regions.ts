@@ -70,11 +70,11 @@ export function hasRegion(content: string, id: string): boolean {
 }
 
 /**
- * Greedy word-wrap to ≤ `width` columns (the repo's ~80-char markdown-prose norm).
+ * Greedy word-wrap to ≤ `width` columns (the repo's ~72-char markdown-prose norm).
  * Deterministic — a pure function of its input — so a generated region stays
  * byte-stable across runs while adapting as the underlying list grows.
  */
-export function wrap(text: string, width = 78): string {
+export function wrap(text: string, width = 72): string {
   const words = text.split(/\s+/).filter(Boolean);
   const out: string[] = [];
   let line = '';

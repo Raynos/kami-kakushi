@@ -27,5 +27,5 @@ file: take-b.md
   sentences; ladder hints terse chrome; scene prose breathes.
 - Anti-slop — subtraction over ornament; period-concrete work detail.
 - Payment — the MC's own coin/labour; no prices quoted in prose.
-- ~80-char hard wrap; state skeleton (ids/triggers/flags/memory) verbatim.
+- ~72-char hard wrap; state skeleton (ids/triggers/flags/memory) verbatim.
 -->

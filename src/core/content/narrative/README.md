@@ -92,7 +92,7 @@ continuation lines indent two spaces).
   `(voice)` override, and a rung-beat react can't be one (a react is the NPC's
   reply).
 
-Hard-wrap prose at ~80 chars; continuation lines are flush-left (speech) or
+Hard-wrap prose at ~72 chars; continuation lines are flush-left (speech) or
 `> `-prefixed (narrator) and rejoin with a single space — a wrap can only occur
 at an existing space, so CJK runs are unbreakable by construction.
 
@@ -185,7 +185,7 @@ its data in a `*.native.ts` sidecar — never grow this grammar toward code.
 
 - **oxfmt, not prettier** — the plan predates the repo's formatter; generated
   output is piped through oxfmt so it passes the `oxfmt --check` gate untouched.
-- **Heading lines are exempt from the ~80 wrap** (a heading can't continue onto
+- **Heading lines are exempt from the ~72 wrap** (a heading can't continue onto
   a second line; same class of exception as tables/URLs).
 
 ## Machinery

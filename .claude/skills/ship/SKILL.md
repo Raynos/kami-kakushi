@@ -15,7 +15,7 @@ new version from `package.json` + the arg (`patch` default / `minor` /
 explicit `x.y.z`; if the current version has no `v<cur>` tag, a previous
 run half-finished — the version IS `<cur>`, don't re-bump). Insert
 `## [x.y.z] — <today>` newest-first: Added/Changed/Fixed, player-facing
-house voice (0.3.4–0.3.7 are exemplars), ~80 wrap. Don't commit it.
+house voice (0.3.4–0.3.7 are exemplars), ~72 wrap. Don't commit it.
 
 **2 · Run** `bash src/scripts/ship.sh <same arg>` and relay its report.
 The script refuses to release without the section, then does everything:

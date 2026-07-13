@@ -18,8 +18,8 @@ per-fact memory here.
 <!-- gen:begin gate-roster (pnpm run checkpoint — do not edit inside) -->
 **19 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
 gen-docs, fixtures, gen-narrative, gen-prd-regions, pacing, playcheck,
-md-links, milestone-integrity, verify-changelog, doc-budgets, checkpoint,
-inbox-ledger, deferred-work.
+md-links, milestone-integrity, verify-changelog, doc-budgets,
+checkpoint, inbox-ledger, deferred-work.
 <!-- gen:end gate-roster -->
 Run `pnpm run checkpoint` after adding / removing a gate to regenerate that list.
 
@@ -147,8 +147,10 @@ Four rules, learned the hard way:
 - **Durable by default (ADR-069).** A plan / brainstorm / analysis is a committed FILE before it's a deliverable
   or implemented — never only in chat or a pointer. Homes: [`../brainstorms/`](../brainstorms) ·
   [`../../docs/plans/`](../../docs/plans) · [`../../docs/`](../../docs). Full convention in CLAUDE.md.
-- **Markdown width ~80 (soft norm, not gated).** Wrap prose at ≈80 chars; CJK / long URLs / tables exempt.
-  Apply to new/edited docs, don't mass-retrofit; count characters, not bytes.
+- **Markdown width ~72 (soft norm, not gated).** Wrap prose at ≈72 chars; CJK / long URLs / tables exempt.
+  Was 80; cut to 72 on 2026-07-13 (an editor gutter eats ~8 cols, so 80 soft-wraps in an 80-col pane;
+  72 also matches the git-commit body width). Apply to new/edited docs, don't mass-retrofit;
+  count characters, not bytes.
 
 ## Multi-agent coordination (A1/A2)
 

@@ -246,7 +246,7 @@ const report = await agent(
   `Write the ENSEMBLE blind-pass report for the map sheet(s) ${sheets.join('+')} to a new
 file project/audit/reports/<YYYY-MM-DD>-${sheets.join('').toLowerCase()}-map-blind-pass.md (compute the date
 with the "date +%F" shell command; if the file exists, suffix -2, -3, …). Markdown,
-~80-char wrap, in this shape: a header naming the capture dir (${cap.outdir}), the
+~72-char wrap, in this shape: a header naming the capture dir (${cap.outdir}), the
 sheets covered (${sheets.join(', ')} — a scoped run is NOT a full pass), the ensemble
 design (${READERS} independent blind readers per sheet, each judged separately, per-line
 verdict = strict majority; a single-reader run is a SAMPLE, never a verdict), and

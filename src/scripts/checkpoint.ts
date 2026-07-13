@@ -93,9 +93,9 @@ export function parseStatusToken(content: string): PlanStatus | null {
  *  link lives in each file's fixed prose, with its own relative path). */
 function genGateRoster(): string {
   const names = GATES.map((g) => g.name).join(', ');
-  // The gate names have no internal spaces, so a plain ~78-col word-fold of the
+  // The gate names have no internal spaces, so a plain ~72-col word-fold of the
   // comma-separated list never splits an inline-code span.
-  return wrap(`**${GATES.length} gates**: ${names}.`, 78);
+  return wrap(`**${GATES.length} gates**: ${names}.`, 72);
 }
 
 /** The active-plans list for docs/plans/README.md, derived from the dir listing +

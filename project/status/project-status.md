@@ -77,8 +77,8 @@ via `verify-run.ts` (roster: [`gates.ts`](../../src/scripts/gates.ts)):
 <!-- gen:begin gate-roster (pnpm run checkpoint — do not edit inside) -->
 **19 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
 gen-docs, fixtures, gen-narrative, gen-prd-regions, pacing, playcheck,
-md-links, milestone-integrity, verify-changelog, doc-budgets, checkpoint,
-inbox-ledger, deferred-work.
+md-links, milestone-integrity, verify-changelog, doc-budgets,
+checkpoint, inbox-ledger, deferred-work.
 <!-- gen:end gate-roster -->
 **`pre-commit`** runs `verify` + reading-queue/journal/snapshot gates; **`pre-push`**
 blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`·`/ship`.
@@ -97,7 +97,7 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 
 1. Read the **newest journal** + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-13-session-185-hd41-direction-and-the-diverge.md`](../journal/2026-07-13-session-185-hd41-direction-and-the-diverge.md)
+   [`journal/2026-07-13-session-186-markdown-wrap-72.md`](../journal/2026-07-13-session-186-markdown-wrap-72.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev server on
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true

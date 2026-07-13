@@ -384,15 +384,23 @@ Full version:
   `verify`/CI **gate** > a git **hook** > a **skill** > a written **norm**,
   calibrated so a gate never cries wolf. Prefer the rung that can't be quietly
   forgotten (a green-or-red check beats a good intention).
-- **Markdown prose width — wrap at ~80 (a SUGGESTION, not a gate).** The human
-  prefers markdown prose and paragraphs hard-wrapped at **≈80 characters**
-  (re-flowable in any editor, clean diffs, no horizontal scroll). It's a **soft
-  norm**, deliberately **not** enforced by `verify` — markdown is excluded from
-  the formatter (the `.oxfmtrc.json` ignore list), and 80 is impractical to hard-block everywhere
-  (wide CJK glyphs, long URLs/paths, and **markdown tables** — whose rows can't
-  wrap — are accepted exceptions; prefer bullet-sections over a wide table when
-  the cells carry prose). Apply it to **new/edited** docs; don't mass-retrofit
-  existing ones. Count by *characters*, not bytes (CJK inflates a byte count).
+- **Markdown prose width — wrap at ~72 (a SUGGESTION, not a gate).** The human
+  prefers markdown prose and paragraphs hard-wrapped at **≈72 characters**
+  (re-flowable in any editor, clean diffs, no horizontal scroll). **72, not
+  80** (human, 2026-07-13): an editor's gutter — line numbers plus a
+  fold/sign column — eats ~8 columns before a character of prose renders, so
+  an 80-char source line soft-wraps in an 80-column pane. 72 is also the
+  git-commit body width, so one number covers both. It's a **soft norm**,
+  deliberately **not** enforced by `verify` — markdown is excluded from the
+  formatter (the `.oxfmtrc.json` ignore list), and 72 is impractical to
+  hard-block everywhere (wide CJK glyphs, long URLs/paths, and **markdown
+  tables** — whose rows can't wrap — are accepted exceptions; prefer
+  bullet-sections over a wide table when the cells carry prose). Note the
+  exceptions are what *actually* mangle a pane: no wrap width saves a
+  100-char inline link, so prefer a short relative path or a
+  reference-style link over reflowing around it. Apply it to **new/edited**
+  docs; don't mass-retrofit existing ones (mixed widths are invisible once
+  rendered). Count by *characters*, not bytes (CJK inflates a byte count).
 - **Durable by default — a plan/brainstorm/analysis is a FILE, not a chat
   message.** If it's substantial enough to *propose, review, or act on*, write
   it to a durable `.md` **before** you present it as a deliverable and
