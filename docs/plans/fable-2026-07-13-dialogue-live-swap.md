@@ -1,6 +1,7 @@
 # Wire dialogue into the DEV Story switcher's live-swap
 
-**Status:** 📋 PROPOSED (2026-07-13, session-187)
+**Status:** 📋 PROPOSED (2026-07-13, session-187; scope re-ruled by the
+human 2026-07-13, session-197 — see Locked decisions)
 **Confidence:** ( 85% Opus, 15% Fable ) — DEV-panel plumbing on an
 existing pattern; the only judgment is matching the ADR-143
 declaring-module setter idiom faithfully.
@@ -23,6 +24,31 @@ the first story session pay a tooling tax. The human pulled the wiring
 forward. Evidence:
 `project/archive/opus-2026-07-12-adr-embedded-work.md` (M7).
 
+## Locked decisions (human, 2026-07-13, session-197)
+
+Asked and answered before build; these are the newest steer (ADR-022)
+and supersede anything below or in code comments that disagrees.
+
+1. **A DEV take-switch re-renders EVERYTHING, including the log.**
+   "If I switch stuff in the dev menu I expect everything to
+   re-render according to the switch." This supersedes the
+   `dev.ts:2582-2586` carve-out ("core-emitted keys stay reader-only
+   — logged history never rewrites, T2") **for DEV switching**: T2
+   protects the *player's* ground; the human deliberately flipping a
+   take in DEV is not a ground-yank. Fix that comment in the same
+   commit. Consequence: the scope is not dialogue-only — **every
+   reader-only unit class goes live** (dialogue + the cold-open
+   core-emitted keys; intro-title's logged heads re-render too), and
+   delivered log lines re-render under the selected take.
+2. **Unit granularity: whole dialogue** — `dialogue:<dialogueId>`;
+   per-line units only if a future bundle authors that way.
+3. **A take overrides TEXT only** (plus voice tag), keyed by
+   canonical line id. Line `id`s and `gate`/`memGate` functions stay
+   canon — delivered-tracking and the rake-teach pacing can't break.
+4. **Prove it with a synthetic DEV take** (throwaway, deleted once
+   the RED-able test lands) — the path ships tested (PH3); the human
+   also wants to see the swap demonstrated.
+
 ## What exists today
 
 **Survey date: 2026-07-13 (session-187), source-verified.**
@@ -39,17 +65,30 @@ forward. Evidence:
 
 ## Steps
 
+0. **Survey the log's storage shape.** The re-render ruling (Locked
+   decision 1) needs delivered log lines to re-voice on switch: find
+   whether log entries persist the baked text or a (unit, line-id)
+   key. If baked-text-only, pick the mechanism — store the key
+   alongside, or a DEV-only baked→take remap — and note the choice in
+   the build commit.
 1. **The setter.** Add the DEV-only dialogue swap hook in the module
    that declares/re-exports the dialogue registry (declaring-module
    pattern, `import.meta.env.DEV`-gated, stripped from prod like its
-   siblings).
+   siblings). Text-only overlay keyed by canonical line id (Locked
+   decision 3), read by every consumer (`nextDialogueLines`,
+   `getDialogueLine`) so the intro's Genemon-greet reuse can't show
+   canon while the log shows the take.
 2. **The switcher.** Extend `LIVE_UNITS` (and the unit plumbing around
-   `dev.ts:2731/2796`) so dialogue units offer take-switching like
-   scenes do.
-3. **Prove it with a real unit.** Point the switcher at an existing
-   dialogue unit (any shipped line with alternates, or a synthetic DEV
-   take) and confirm the live swap renders mid-session without a
-   reload (TST2 — no ground-yank).
+   `dev.ts:2731/2796`) so dialogue units — whole-dialogue granularity
+   (Locked decision 2) — offer take-switching like scenes do. Retire
+   the reader-only class entirely: the cold-open core-emitted keys go
+   live too, and a switch re-renders delivered log lines (Locked
+   decision 1); rewrite the `dev.ts:2582-2586` comment to record the
+   new ruling.
+3. **Prove it with a synthetic DEV take** (Locked decision 4): switch
+   it in DEV → Story and confirm both a freshly-delivered line AND an
+   already-logged line re-render without a reload; delete the
+   synthetic take once the RED-able test covers the path.
 
 ## Verification
 
@@ -105,3 +144,10 @@ way. No data or save-format surface.
   not mid-wave.
 - **Strip regression:** the setter must follow the exact sibling
   pattern or the prod-strip check goes red — copy, don't invent.
+- **The log re-render is the unknown (session-197 scope growth):** if
+  log entries persist baked text with no unit key, step 0's remap
+  mechanism is new plumbing, not a pattern copy — the original
+  30–60 min estimate no longer holds; expect a half-day. The T2
+  supersede is DEV-scoped only: a prod player must never see history
+  rewrite (the setter and any remap stay `import.meta.env.DEV`-gated
+  and strip-checked).
