@@ -50,10 +50,6 @@
   — split 3/5: the ADR-164 HP-mend lane (treat / rest, food goes
   satiety-only)
 - [ ]
-  [`docs/plans/fable-2026-07-13-greeting-line-ids.md`](../docs/plans/fable-2026-07-13-greeting-line-ids.md)
-  — split 4/5: the greeting-id save-integrity fix (land before the
-  re-voice waves)
-- [ ]
   [`docs/plans/fable-2026-07-13-dialogue-live-swap.md`](../docs/plans/fable-2026-07-13-dialogue-live-swap.md)
   — split 5/5: dialogue joins the DEV Story switcher live-swap
   (unblocks future dialogue diverges)

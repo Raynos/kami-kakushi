@@ -111,18 +111,65 @@ travels with the text through a swap) and at the resolver (a name
 resolves the same wherever the line sits). Full slow lane green,
 `save-e2e` included.
 
+## The PH6 proof — and the false green I nearly shipped
+
+The shared `:5173` was dead all session, and an agent may not respawn it
+— but the e2e lane's own precedent (`KAMI_ALLOW_MULTI_DEV=1` on its own
+port) is the sanctioned escape, so the proof ran on a **throwaway
+server**, shared pane untouched.
+
+**It took three tries, and the first two were wrong in instructive
+ways:**
+
+1. I fed a v11 fixture straight into `__qa.load()` and got 261 named
+   descriptors with **no text at all** — and a renderer crash
+   (`inferQuoteVo` reading `.includes` of `undefined`). It looked like a
+   catastrophic bug. **It was my harness.** The on-disk fixture is
+   *stripped* (keyed entries carry no prose — that's the size win), and
+   `getFixture()` rehydrates it before handing it to `load`; I bypassed
+   that. A real exported save carries its text, so the player path was
+   never broken. **Verified before reporting** — a claimed bug that
+   isn't one is as bad as a missed one.
+2. My first PASS was a **false green**: the check "each line shows its
+   own words" silently compared against `undefined` (the probe it used
+   isn't on `__qa`), so it asserted *nothing* while printing PASS.
+   Caught only because the textless entries looked wrong. A test that
+   cannot go RED is worse than no test (PH3) — it took a green and made
+   it a lie.
+
+**The proof that actually holds** simulates the upgrade a returning
+player lives through: plant a genuine **v11 save from git** in
+localStorage (the store accepts a prefix-less blob as a legacy
+plain-JSON save — exactly how the old build left it), then open the
+game. Boot's `decodeStore` rehydrates, `validateEnvelope` migrates:
+
+> **day 93, rank-r7, 586 log entries** → schemaVersion **11 → 12**, all
+> **261** greeting/answer lines re-addressed **by name**, **0** left
+> positional, **0** blank, **300** log lines rendered, **no page
+> errors**.
+
+(Two false starts there too, both harness bugs worth knowing: the loader
+is **newest-wins across ALL backends**, so a planted save with a lower
+`saveCounter` silently loses to this session's own autosave — and you
+"prove" a fresh game. And the app autosaves *during* boot, so planting
+before `__qa` exists gets overwritten.)
+
+Also run: the full **91-spec Playwright lane** across three browser
+profiles, green — the VN plays and logs id-keyed lines for real.
+
 ## Next intended steps
 
-**The browser proof is still owed** (PH6): `:5173` was dead this
-session, and the rule is to ask rather than respawn it. The check to run
-once it's back: feed a **real v11 fixture out of git** (`git show
-8fd7322e:src/fixtures/saves/pre-ascension.json`) to
-`__qa.load(btoa(...))` in the live game, then read the Story log — the
-lines must show their own words, and the entries must come back
-id-keyed. Everything below the browser (codec, migration, registries) is
-already proven in the suite.
+Nothing owed on this thread. The plan is ✅ and archived.
 
-Also still open from this session's sweep: **HD-43** (side-beat scenes
-carry ask-topics the renderer drops) and **HD-44** (the BQ2 stat-nudge
-lost in the FB-5 migration) — both content calls, both waiting on the
-human.
+Still open from this session's sweep, both **content calls waiting on
+the human**: **HD-43** (three side-beat scenes carry ask-topics the
+renderer drops, so the prose is unreachable) and **HD-44** (the BQ2 rare
+stat-nudge vanished in the FB-5 narrative migration — the grammar has no
+`bonus:` field, so the lever's *data* is gone, not just its wiring).
+
+One thing I did **not** build, for the record: a permanent e2e that "an
+old save still opens". It would have caught nothing here (the unit lane
+covers the migration, and the browser proof covers boot), and it needs a
+committed pre-migration save blob per schema bump — a real maintenance
+cost. If a future schema bump breaks a save silently, that is the gate
+to reach for.

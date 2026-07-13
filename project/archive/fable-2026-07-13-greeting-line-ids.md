@@ -1,12 +1,12 @@
 # Greeting lines get authored ids, so old saves stop pointing at neighbours
 
-**Status:** ▶️ IN-PROGRESS (2026-07-13, session-192) — BUILT, one proof
-owed. Shipped in `8fd7322e` (the grammar + 629 ids) and `067c3290` (emitters,
-resolver, the `v11 → v12` migration, fixtures). **Not ✅ yet:** this
-plan's own PH6 player-reach proof — load a pre-change save in the live
-`:5173` build and read the log — is UNRUN, because the shared dev server
-was down all session and an agent may not respawn it. Run it, then
-archive.
+**Status:** ✅ DONE (2026-07-13, session-192) — shipped in `6842db77` (the
+resolver gap found underneath it), `8fd7322e` (the grammar + 629 ids) and
+`067c3290` (emitters, resolver, the `v11 → v12` migration, fixtures).
+PH6 proof RUN: a real v11 save out of git (day 93, rank-r7, 586 log
+entries) planted in localStorage and opened on the new build — migrated
+to v12, all 261 greeting/answer lines re-addressed by NAME, none blank,
+300 log lines rendered, no page errors.
 **Confidence:** ( 90% Opus, 10% Fable ) — a codec/migration fix under a
 named ADR limit; no fiction is written, only re-keyed.
 **Template:** build
