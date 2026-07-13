@@ -1,7 +1,36 @@
 # Drain the work embedded in the ADR log into a real queue
 
-**Status:** 📋 PROPOSED (2026-07-12, session-184 · every HIGH/MEDIUM claim
-re-verified against `src/` 2026-07-13 — all hold; line refs corrected)
+**Status:** SUPERSEDED (2026-07-13, session-187 — split into 13 child
+plans after the human ruled every finding one-by-one in the
+2026-07-13 finding walk; this doc survives as the evidence record)
+
+> **Where the work went (the split):**
+> - S1/S5/S6 doc scope + H3/M3/M8/H6 →
+>   [`fable-2026-07-13-log-truth-and-small-fixes.md`](../../docs/plans/fable-2026-07-13-log-truth-and-small-fixes.md)
+> - H2 (expanded: permanent merchant state, general-store price sag) →
+>   [`fable-2026-07-13-merchant-state.md`](../../docs/plans/fable-2026-07-13-merchant-state.md)
+> - H1 →
+>   [`fable-2026-07-13-sickroom-hp-mend.md`](../../docs/plans/fable-2026-07-13-sickroom-hp-mend.md)
+> - H4 →
+>   [`fable-2026-07-13-greeting-line-ids.md`](../../docs/plans/fable-2026-07-13-greeting-line-ids.md)
+> - M7 (re-ruled: wire now) →
+>   [`fable-2026-07-13-dialogue-live-swap.md`](../../docs/plans/fable-2026-07-13-dialogue-live-swap.md)
+> - M1/M4/M5/M6/M9 →
+>   [`t1/fable-2026-07-13-t1-seams-parked.md`](../../docs/plans/t1/fable-2026-07-13-t1-seams-parked.md)
+> - M2 →
+>   [`t2/fable-2026-07-13-map-relabel-reveal.md`](../../docs/plans/t2/fable-2026-07-13-map-relabel-reveal.md)
+> - LOW-4's six tier-deferred ADRs (re-ruled: placeholder homes) →
+>   `t1/…adr103…`, `t1/…adr125…`, `t2/…adr154…`, `t2/…adr160…`,
+>   `t2/…adr169…`, `tn/…adr109…` (same date prefix)
+> - H5 (re-ruled: retire ADR-068, judge HR-1 silent), H7, LOW/hygiene
+>   confirms → recorded via the log-truth plan's ADR pass.
+>
+> Ruling-by-ruling record: the session-187 journal
+> (`project/journal/2026-07-13-session-187-adr-embedded-work-plan-reverified.md`).
+
+**Original status:** 📋 PROPOSED (2026-07-12, session-184;
+every HIGH/MEDIUM claim re-verified against `src/` 2026-07-13 —
+all hold; line refs corrected)
 **Confidence:** ( 80% Opus, 20% Fable ) — mechanical build + doc-truth work; the
 one fiction-voiced item (the sickroom mend beat) is Fable's.
 **Template:** build

@@ -97,24 +97,24 @@ blocks red. **No auto-reload** — inert `/@vite/client`, FB-257. `dev`·`build`
 
 1. Read the **newest journal** + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-13-session-188-the-sleep-verb-gets-its-beat.md`](../journal/2026-07-13-session-188-the-sleep-verb-gets-its-beat.md)
+   [`journal/2026-07-13-session-189-one-review-tab.md`](../journal/2026-07-13-session-189-one-review-tab.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev server on
    localhost:5173 (never spawn/kill your own). **`?dev=no`** for the true
    player layout. The page NEVER auto-reloads (FB-257) — F5 to pick up code.
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the **ADR-log sweep**
-   ([`adr-embedded-work`](../../docs/plans/opus-2026-07-12-adr-embedded-work.md), s184) —
-   work agents buried in `decisions.md` instead of a plan. **S1 is docs-only, start
-   there:** the log misleads *both* ways — four `BUILD TODO`s are stale (shipped), while
-   ADR-068/ADR-164/ADR-184 read ✅ for mechanisms absent from `src/`. Its S4 also writes
-   the still-unwritten **save-migration policy** (ADR-186 greeting ids). Then **T2
-   rungs/fog** (`docs/plans/t2/…`) · **telemetry distillation** (6 FB-8 reports).
+4. **Next (autonomous):** the **ADR-sweep split** (s187 — every
+   finding human-ruled; record: journal s187 entry 2). Start with
+   `docs/plans/fable-2026-07-13-log-truth-and-small-fixes.md`
+   (docs-only, rulings pre-made), then its `fable-2026-07-13-*`
+   siblings — merchant-state · sickroom-hp-mend · greeting-line-ids ·
+   dialogue-live-swap — **sequenced** (they share `intents.ts`).
+   Then **T2 rungs/fog** · **telemetry distillation** (6 FB-8 reports).
    Human-gated: **HD-40** · **HR-41** (earned-line pick, BUILT s185 —
    its verdict writes the HD-41 ADR) · HR-1 · **HR-34…HR-38** · older
-   picks + the sweep's **ADR-068 audio** and **ADR-148 timing** calls.
+   picks (the sweep's audio/timing calls were ruled s187).
 5. **Shared tree:** stage only your own files by explicit pathspec commit.
    **`VERIFY_FULL=1 pnpm run verify` before you push** — the commit lane skips
    `@slow`, so a green commit can still red the push (bit s180).
 
-<!-- rewrite-debt: 19/20 · last full rewrite: 2026-07-11 -->
+<!-- rewrite-debt: 20/20 · last full rewrite: 2026-07-11 -->

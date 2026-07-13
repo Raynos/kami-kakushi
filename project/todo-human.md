@@ -35,13 +35,28 @@
 
 - [ ]
   [`project/brainstorms/2026-07-12-quest-shapes-that-emerged.md`](brainstorms/2026-07-12-quest-shapes-that-emerged.md)
-  —
+  — the four quest shapes ADR-184's reveal wave actually produced
+  (emergent, deliberately not an ADR — your call)
 - [ ]
-  [`docs/plans/opus-2026-07-12-adr-embedded-work.md`](../docs/plans/opus-2026-07-12-adr-embedded-work.md)
-  — the ADR-log sweep: work other agents buried in decisions.md instead
-  of a plan, triaged HIGH/MEDIUM/LOW against `src/` the four quest
-  shapes ADR-184's reveal wave actually produced (emergent, deliberately
-  not an ADR — your call)
+  [`docs/plans/fable-2026-07-13-log-truth-and-small-fixes.md`](../docs/plans/fable-2026-07-13-log-truth-and-small-fixes.md)
+  — the ADR-sweep split 1/5: log truth + the four small ruled fixes
+  (rice withdraw, TierId, save-e2e, LICENSE)
+- [ ]
+  [`docs/plans/fable-2026-07-13-merchant-state.md`](../docs/plans/fable-2026-07-13-merchant-state.md)
+  — split 2/5: your merchant ruling (permanent purse + stock,
+  general-store price sag) as a build plan
+- [ ]
+  [`docs/plans/fable-2026-07-13-sickroom-hp-mend.md`](../docs/plans/fable-2026-07-13-sickroom-hp-mend.md)
+  — split 3/5: the ADR-164 HP-mend lane (treat / rest, food goes
+  satiety-only)
+- [ ]
+  [`docs/plans/fable-2026-07-13-greeting-line-ids.md`](../docs/plans/fable-2026-07-13-greeting-line-ids.md)
+  — split 4/5: the greeting-id save-integrity fix (land before the
+  re-voice waves)
+- [ ]
+  [`docs/plans/fable-2026-07-13-dialogue-live-swap.md`](../docs/plans/fable-2026-07-13-dialogue-live-swap.md)
+  — split 5/5: dialogue joins the DEV Story switcher live-swap
+  (unblocks future dialogue diverges)
 - [x]
   [`fable-2026-07-11-wait-a-day.md`](archive/fable-2026-07-11-wait-a-day.md)
   — ✅ **BUILT + archived** (session-183). You ruled Phase 0 (**D
