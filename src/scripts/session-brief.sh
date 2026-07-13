@@ -268,28 +268,12 @@ if [[ "${claims_n:-0}" -gt 0 ]]; then
   claim_lanes="$(find project/playtest-inbox/pending/.claims -name '*.json' -exec basename {} .json \; 2>/dev/null | sort | tr '\n' ' ' || true)"
   add "- 🔒 **Drain lanes claimed:** ${claim_lanes}— check \`tsx src/scripts/inbox-claim.ts list\` before draining (claim yours first; ADR-171)."
 fi
-# Real-play telemetry (F8) — the "morning shout": surface reports NEWER than the last
-# balance(t0) commit so fresh human-pacing data is ambient in every agent's context
-# (the delivery loop's card 3). SILENT at zero — a gate that cries wolf teaches deafness.
-# Report files are git-ignored (local sensor data); README.md is the committed contract.
-#
-# The count is USABLE reports, not files: the drop middleware garbage-collects anything the
-# balance flow must ignore anyway (time-tainted runs, runs shorter than one in-band rung —
-# src/telemetry/retention.ts), so what survives on disk is exactly what's worth reading. This
-# stays dumb on purpose: ONE home for the policy, in TS, not a second copy in bash. It once
-# counted 24 files — 15 speed-run exhaust, 8 twenty-second pokes, 1 real session — and shouted
-# every morning about play that never happened.
-last_balance_epoch="$(git log -1 --format=%ct --grep='^balance(' 2>/dev/null || true)"
-tele_n=0
-for f in project/telemetry/*.md; do
-  [[ -e "$f" && "$(basename "$f")" != "README.md" ]] || continue
-  if [[ -z "${last_balance_epoch:-}" ]] || [[ "$(stat -f %m "$f" 2>/dev/null || stat -c %Y "$f" 2>/dev/null || echo 0)" -gt "$last_balance_epoch" ]]; then
-    tele_n=$((tele_n + 1))
-  fi
-done
-if [[ "$tele_n" -gt 0 ]]; then
-  add "- 📊 **Real-play telemetry:** ${tele_n} usable report(s) in \`project/telemetry/\` (untainted, ≥1 in-band rung of attended time) newer than the last balance commit — read them before touching balance (qa-playtesting.md §2 step 0; distill conclusions per the folder README)."
-fi
+# Real-play telemetry (F8) — DELIBERATELY NOT IN THE BRIEF (human, 2026-07-13).
+# The reports keep landing in project/telemetry/ (git-ignored local sensor data,
+# retention-filtered by src/telemetry/retention.ts) and stay there in case a real
+# balance question ever needs them — but nobody reads them session to session, so
+# shouting a count every morning was pure noise. An agent doing balance work still
+# reaches for them via qa-playtesting.md §2 step 0; the brief no longer nags.
 # Main's latest CI conclusion — time-boxed (2s) so a slow/absent gh never hangs or
 # aborts the brief (set -e safe via 2>/dev/null + trailing || true → empty string).
 # NB: macOS has no `timeout` binary (GNU coreutils), which silently killed this

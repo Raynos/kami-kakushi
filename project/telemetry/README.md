@@ -57,13 +57,19 @@ a taint: annotating a session must never cost you the session.
    Harness runs never wrote a file to begin with. The rule **fails open** — an
    unparseable header is kept, never deleted. Policy:
    [`src/telemetry/retention.ts`](../../src/telemetry/retention.ts); the ring in
-   localStorage still holds every run, refused or not. What survives on disk is
-   exactly the corpus the ADR-132 balance flow is allowed to quote — which is
-   why the session brief can just count files.
+   localStorage still holds every run, refused or not. What survives on
+   disk is exactly the corpus the ADR-132 balance flow is allowed to
+   quote — so an agent opening this folder can trust every file in it.
 
    *Why this replaced "no pruning": on 2026-07-10 the folder held 24 files —
    15 speed-run exhaust, 8 twenty-second pokes, 1 real session — and the session
    brief shouted "24 reports" every morning about play that never happened.*
+5. **The session brief does NOT mention this folder (human,
+   2026-07-13).** The reports live here for the day a real balance
+   question needs them, and that's all — nobody reads them session to
+   session, so a count in the morning brief was noise, not signal.
+   Telemetry is **pulled** by an agent doing balance work (rule 2
+   above), never **pushed** at every session start.
 
 Transport: `src/telemetry/drop.ts` → the `telemetry-drop` vite dev-middleware
 (`src/scripts/telemetry-drop.ts`, `apply: 'serve'` — structurally absent from
