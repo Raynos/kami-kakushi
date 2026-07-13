@@ -24,9 +24,9 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
 
 ## Where we are now
 
-- **✅ SAVE = FACTS ONLY, `src/` IS TRUTH (ADR-186):** the log is a
-  DERIVED VIEW — a line persists as a descriptor and re-renders from
-  current `src/`, so a reword reaches every existing save (gated).
+- **✅ SAVE = FACTS ONLY, `src/` IS TRUTH (ADR-186 + s192):** the log is
+  a DERIVED VIEW — a line re-renders from current `src/`, addressed by
+  **NAME** (v11→v12), so a reorder can't re-point an old save's line.
 - **✅ PROGRESSION = ONE MODEL, ALL TIERS (ADR-182/183):** the
   flat-points rung-meter is **DEAD at every tier** — a rung promotes
   when its **authored objective-requirement list** is 100% done. Every
@@ -48,8 +48,7 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
   (ADR-144/126) · T0/T1 map sheets = the player map; T2 sheet BUILT
   (`?t2-map-demo`). **NOT DONE: T2 rungs/fog** · Phase-2 economy ·
   timed actions.
-- **🧊 PARKED:** Plan K + the T1 emergent-node plan
-  (`docs/plans/t1/`). Un-park = human.
+- **🧊 PARKED:** Plan K + T1 emergent-nodes (`docs/plans/t1/`) — human un-parks.
 
 ## Waiting on the human
 
@@ -57,18 +56,19 @@ The live queue: [`../human-in-the-loop/`](../human-in-the-loop).
 
 - **HR-1** 🔲 — play the full T0 arc: the fun & pacing call on the
   live build (the LOOK is already UI-v2 certified).
-- **HD-40** 🔲 — **the kitchen-only pot.** Picked, BUILT, one line
-  turns it on — held because the sim prices its walk at **R3 31.6
-  wall-min, outside the signed [3,25] band** (ADR-056 is yours to
-  move). Four levers in the item.
+- **HD-40** 🔲 — **the kitchen-only pot.** BUILT, one line turns it on;
+  held — the sim prices its walk **outside the signed [3,25] band**
+  (R3 31.6 wall-min). Four levers in the item.
 - **HR-41** 🔲 — the objective line: the treatment is settled (B
   shipped), the open call is its **voice** (3 takes at DEV → Story
-  `SV18`; the pick writes the HD-41 ADR).
-- **HR-33** + **HR-32b** 🔲 — the four zone-reveal VNs, and whether a
-  zone announces itself VN-only or VN + map-ink.
+  `SV19`; the pick writes the HD-41 ADR).
+- **HR-42** 🔲 — the R3 **delight line**: the one pick in T0 that pays
+  (+1 agi) is back (ADR-190); 3 takes at DEV → Story `SV1`.
+- **HR-33** + **HR-32b** 🔲 — the four zone-reveal VNs; and does a zone
+  announce itself VN-only, or VN + map-ink?
 - **ONE home for every pick: DEV → Review** — Story ⇄ Variants behind
   one switch; each row carries its **HR-n**. **Story** 🔲 HR-18…21 ·
-  HR-27 · HR-28 · HR-39 · HR-40 · **Variants** 🔲 HR-6 · HR-5 ·
+  HR-27 · HR-28 · HR-39 · HR-40 · HR-42 · **Variants** 🔲 HR-6 · HR-5 ·
   HR-2A–D · HR-29/30.
 
 ## Toolchain
@@ -117,4 +117,4 @@ FB-257. `dev`·`build`·`/ship`.
    commit. **`VERIFY_FULL=1 pnpm run verify` before you push** — the
    commit lane skips `@slow`, so a green commit can still red a push.
 
-<!-- rewrite-debt: 0/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 1/20 · last full rewrite: 2026-07-13 -->

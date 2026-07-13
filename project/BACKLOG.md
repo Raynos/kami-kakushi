@@ -61,6 +61,45 @@
   work under them, exactly like the `printWidth` 100→80 flip already
   waiting in `todo-human.md`). Pull the two forward together.
 
+## Engineering — parked (session 192, 2026-07-13)
+
+Deliberately not built; each says why. Never nagged.
+
+- [ ] **No gate proves "an old save still opens."** Session 192 bumped
+  the save schema (v11 → v12, log lines re-addressed by NAME) and the
+  only proof a pre-bump save survives was a throwaway browser script:
+  plant a real v11 blob in localStorage, boot, read the log. It passed
+  (day 93, rank-r7, 261 lines migrated, none blank) — and then the
+  script was deleted with the session. **Parked, not forgotten:** a
+  permanent e2e would need a committed pre-migration save blob **per
+  schema bump** (a real maintenance cost, and each one rots), and the
+  unit lane already covers the migration itself. Reach for it the first
+  time a schema bump breaks a save silently — that is the day it pays
+  for itself. Recipe is in the session-192 journal.
+
+- [ ] **A new story-takes bundle renumbers every SV tag after it.** The
+  DEV panel's **SV** tags are *registry positions* (zero-indexed), so
+  adding `adr190-nudge` mid-alphabet took SV1 and pushed 22 tags up one;
+  `review-link` went red with 27 broken links across the HR items, and
+  every affected item had to be rewritten. It is caught (the gate is
+  sound, and it is why nothing shipped broken) but it will bite EVERY
+  future bundle. Fix would be a stable tag (a bundle-id-derived label,
+  or a committed tag map) instead of an array index. Parked because it
+  makes the cost loud rather than dangerous: it costs a rewrite, not a
+  bug.
+
+- [ ] **The scene path's stat-bonus line still logs on `system`.**
+  `scenes.ts` emits `scene.<id>.opt.<id>.bonus` on the **`system`**
+  channel, which `log-filter` routes to the **Work** tab — the exact
+  defect fixed for the rung beat in ADR-190 (the rarest reward painting
+  itself where nobody is looking). It is **unreachable today**: no scene
+  option carries a `bonus:`. Parked *because* it is dead code — changing
+  a branch nothing can run buys an unverifiable claim. The moment a
+  scene option gets a bonus, fix the channel with it (the ADR-190 test
+  that counts bonuses is already watching).
+
+
+
 ## Graphics concepts — parked shelves live in their register
 
 - [ ] **Parked graphics concepts** — the one home for the whole slate
