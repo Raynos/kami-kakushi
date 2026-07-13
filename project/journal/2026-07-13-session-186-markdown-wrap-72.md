@@ -71,3 +71,37 @@ The wrap the human saw wasn't purely a width problem. Two distinct causes:
 - Shared tree: `docs/plans/opus-2026-07-12-sleep-announce-beat.md`,
   `project/todo-human.md`, and the co-agent's own session-185 journal were dirty
   throughout and are **not** in this commit.
+
+---
+
+## 2 · The oxfmt sibling — attempted, reverted, queued
+
+The human then asked to take the **TypeScript** formatter to 80 as well
+(`.oxfmtrc.json`'s `printWidth`, currently **100** — it governs code, not
+markdown, and markdown is on its ignore list). I made the edit and **reverted
+it within the same turn**, un-committed. Why, so nobody retries it blind:
+
+- It is a **~310-file mechanical reformat**. At the moment of the request a
+  co-agent had **9 dirty `src/` files** open (`reveals.ts`, `log-filter.ts`,
+  `dev.ts`, `flavor.ts`, …). `pnpm run format` would have rewritten those
+  files *underneath* their in-flight edits.
+- The two halves **cannot be split**: config-at-80 without the reformat turns
+  the `oxfmt` gate **red for all three agents**, blocking everyone's commits.
+  So it's one commit, or nothing.
+
+**Queued as a human TODO** (`project/todo-human.md`) rather than done — the
+human dictated it verbatim, which is the sanctioned `SKIP_HUMAN_TODO=1` case.
+The recipe when the tree is quiet: flip the one number → `pnpm run format` →
+`pnpm run verify` → commit, naming the changed files by pathspec.
+
+**Also raised, not yet decided:** what tooling would make the 72-char md norm
+actually *fire* rather than sit as a written sentence. The standing analysis —
+a hard `verify` gate is the WRONG rung (it cries wolf on CJK / long URLs /
+unwrappable table rows, which is precisely why markdown was never gated); the
+sound rung is a **`PostToolUse` hook** on `Write|Edit` of `*.md` (violations are
+born in agent tool-calls, so feedback belongs there — advisory, no red build),
+optionally backed by a `pnpm run md:wrap` script reusing the already-tested
+`wrap()` from `gen-regions.ts`, plus an `.editorconfig` `max_line_length = 72`
+(the repo has none) so the human's editor draws the ruler. Prettier with
+`proseWrap: always` is rejected: it mass-retrofits every existing doc (the norm
+forbids that) and adds a second formatter. **Awaiting the human's pick.**
