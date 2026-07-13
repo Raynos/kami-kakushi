@@ -60,11 +60,24 @@
   (06-26 / 07-10) — attended R3 baseline ~old-model; no untainted
   post-change data to quote yet.
 
+## Done (continued) — ripple + proof
+
+- **PRD ripple landed (`a473dc40`):** six "only mend is eating"
+  passages re-pointed at the sickroom lane (§2.3 · §2.8 ×2 · defeat
+  block · R3 ladder row · §4 ×2); t0 bible's sb-cook line fixed;
+  `prd:drift` CLEAN.
+- **PH6 player-reach proof (headless, vs committed HEAD on a
+  throwaway :5199 worktree — :5173 was boot-red from w1's take WIP):**
+  post-loss-broke boots AT the sickroom hp 1; both rows priced
+  honestly; treat → hp 1→51, coin −8; rest → day+1, hp→68 (clamped);
+  treat row HIDES broke/full; cook on a hurt body → sansai spent,
+  belly +15, **hp unmoved at 1**. Shots:
+  `project/audit/screens/2026-07-13-sickroom-mend/`.
+
 ## Next intended steps
 
-- Step 4: the ADR-139 3-take diverge for the treat/rest lines (live
-  in the DEV Story switcher) + the HR-item bundle.
-- Sync ripple: PRD `04-combat-balance.md` (how HP recovers) via
-  /prd-ripple; story-bible t0 pointer check.
-- Player-reach proof (PH6): drive :5173 — defeat → sickroom → treat →
-  HP returns; eat → HP unmoved; capture.
+- **Step 4 HELD:** the ADR-139 3-take diverge for the treat/rest
+  lines waits on w1's take-system refactor (same bundle format);
+  resume after it lands — the plan's Status line carries the hold.
+- Push rides the next open push-lane window (`pnpm run push`; lane
+  was held by w1 at the last attempt).

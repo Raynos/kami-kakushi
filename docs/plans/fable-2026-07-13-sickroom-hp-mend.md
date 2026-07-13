@@ -1,8 +1,11 @@
 # Build the HP-mend lane: pay Sōan, or rest and let the days do it
 
-**Status:** 🔧 IN PROGRESS (2026-07-13, session-202 — decision walk
-done: build all here on Fable; magnitudes self-picked, sim-proved;
-`treat` is **mon-only**, ADR-197)
+**Status:** 🔧 IN PROGRESS (2026-07-13, session-202 — steps 1–3 + 5
+BUILT & landed, `fa8478ef` + ripple `a473dc40`; PH6 proof captured.
+**Step 4 (the ADR-139 3-take diverge) is HELD** on the take-system
+refactor running in w1 — wiring a new bundle against a format
+mid-redesign would collide; resume when their storyTakes refactor
+lands. Band re-signed [3, 28] under ADR-197.)
 **Confidence:** ( 70% Opus, 30% Fable ) — the lane is engine plumbing
 (Opus); the two verbs' fiction is voiced text → the ADR-139 diverge is
 Fable's, and it is a real share of the plan's surface.
