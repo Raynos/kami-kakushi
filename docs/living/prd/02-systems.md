@@ -284,16 +284,20 @@ touches it; §2.8/§2.16.)
 **(b) Player-facing behaviour / loop (the two coin lanes — docket #7/ADR-158).**
 Labour pays the **KIND lane** (rice into the kura in shō — the house's economy —
 plus goods to hand; combat drops materials, **never coin**); the **MON lane** is
-bounded — the fixed wage plus Yohei's finite market-day purse — and a **rice sale
+bounded — the fixed wage plus Yohei's finite purse — and a **rice sale
 into the house books** at the kura turns surplus to mon. Spend **mon** + materials
 on provisions, gear, crafting, and the estate works. A **small capped provisioning shop** is the **T0 personal coin sink**; the **estate TRADE
 engine** (converting surplus rice/goods to coin via brokers/shops) opens at **T2** — there is **no trade
 engine in T0 or T1**. **Rice and coin are what you grind and spend; koku STANDING and Influence are what
-you become.** A **market-saturation damper** (2.11/2.15) — **PROGRESSIVELY per-unit** on bulk sales,
-**each unit walks the price down** (legible, un-gameable), recovering over in-game days, stopping
-trade running away (reinforced by the trade ≤ ⅓ cap) — is **T2 frontier, riding the trade engine;
-NOT built in T0**: the shipped T0 mon soft-cap is Yohei's finite per-visit purse + per-item stock
-caps (`content/market.ts`).
+you become.** The mon lane's bound is **merchant PERMANENT state
+(ADR-194, shipped T0)**: Yohei carries a persistent purse and stock,
+every trade mutates both, and his offer **sags per-unit as his stock
+fills** (one pure `merchantOffer` curve behind the shown and executed
+price, to REFUSAL at 0) — recovering by **partial drift** on market
+days, never a full reset
+(`content/market.ts`). This is the market-saturation damper (2.11/2.15)
+realized at stall scale; the **T2** version rides the trade engine and
+scales the same mechanism to brokers/shops.
 
 **(c) Rough DATA shape.**
 - `ResourceDef { id, name, kind ('currency'|'rice'|'material'|'food'|'fibre'|'ore'…), revealPredicate,
@@ -1474,8 +1478,9 @@ the standing antagonist, principal untouchable in T0), **filling the kura is
 the HOUSE's economy** (rice banks kura-only, measured in shō/bales; never
 pocketed loot), and **two coin lanes:** the **KIND lane** (unbounded — labour
 pays in rice/goods, combat drops materials never coin) and the **MON lane**
-(bounded — the fixed wage plus Yohei's finite market-day purse; durables and
-recurring sinks run on mon). The **debt is staged** — named sideways in R1 →
+(bounded — the fixed wage plus Yohei's finite persistent purse and
+sagging offer, ADR-194; durables and recurring sinks run on mon). The
+**debt is staged** — named sideways in R1 →
 felt in scenes but never numbered all T0 (the nengu shortfall is a flag, not a
 figure). *(FORWARD SPEC — T1: the number finally seen at the tally-keeper
 rung.)* All magnitudes sim-owned (ADR-132/ADR-158);

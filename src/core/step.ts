@@ -20,6 +20,7 @@ import {
   HUNGER_MEAL_RESTORE,
 } from './content/balance';
 import { refillSitePools } from './content/activities';
+import { isMarketDay, merchantRestock, YOHEI_PURSE_MON } from './content/market';
 import { textureDayPass, textureSeasonTurn } from './texture';
 import { triggerScenes } from './scenes';
 
@@ -112,6 +113,19 @@ export function advanceSeason(state: GameState): GameState {
  *  one-tick-at-a-time with the clock (B10). Pure + deterministic. */
 function onDayBoundary(state: GameState): GameState {
   let next = adjustHunger(state, -HUNGER_PER_DAY);
+  // ADR-194 — merchant restock DRIFT: on a MARKET day Yohei arrives part-recovered (purse back
+  // up toward his seed, stock sold down toward empty — never a full reset, so a Tuesday
+  // rice-dump still depresses Friday's price). Day-boundary-fired, so it folds one-tick-at-a-
+  // time with the clock (B10) and fires once per market day regardless of how the day advanced.
+  if (isMarketDay(next.clock.day)) {
+    const yohei = next.merchants.yohei;
+    if (yohei) {
+      next = {
+        ...next,
+        merchants: { ...next.merchants, yohei: merchantRestock(yohei, YOHEI_PURSE_MON) },
+      };
+    }
+  }
   const inKura = next.banked.rice ?? 0;
   const eaten = Math.min(inKura, CONSUMPTION_SHO_PER_DAY);
   if (eaten <= 0) return next;

@@ -31,8 +31,11 @@ export const APP_ID = 'kami-kakushi' as const;
  *  v11 = DERIVED REVEAL (ADR-179): the stored `unlocked` visibility latch is DELETED — visibility
  *  derives from progression facts (core/unlock visibleSet); the new `seenReveals` announce-once
  *  ceremony latch is seeded from the old field (plus a `coin-earned` fact-flag where the old
- *  latch is the only record of a first wage). */
-export const SCHEMA_VERSION = 13 as const;
+ *  latch is the only record of a first wage).
+ *  v14 = MERCHANT STATE (ADR-194): additive `merchants` map (purse + stock per merchant) —
+ *  an absent field hydrates to the seeded roster on load (validate), so the migration is
+ *  the identity; the bump records the format change. */
+export const SCHEMA_VERSION = 14 as const;
 
 /** App GENERATION (ADR-161, storywave clean break): bumped when the state model breaks so
  *  hard that migration is not worth carrying. A saved blob with a generation below this

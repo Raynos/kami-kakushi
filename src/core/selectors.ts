@@ -32,7 +32,9 @@ import {
   HARVEST_AUTUMN_MULT_NUM,
   HARVEST_AUTUMN_MULT_DEN,
   productionDraw,
+  riceSellPrice,
 } from './content/balance';
+import { merchantOffer } from './content/market';
 import { ESTATE_STAGES, type EstateStageDef } from './content/estate';
 import { stageDiscovery, stageOpen } from './works';
 import {
@@ -210,6 +212,48 @@ export function kuraBales(state: GameState): number {
  *  decimal). */
 export function kuraKoku(state: GameState): number {
   return Math.round((kuraRiceSho(state) / SHO_PER_KOKU) * 10) / 10;
+}
+
+// ── The rice-sell QUOTE (ADR-194, AC-6) — ONE pure fn behind BOTH the executed trade and the
+// displayed offer, so the shown price can never drift from what the reducer pays. Integrates
+// Yohei's sagging marginal curve (merchantOffer) shō by shō, stopping when his purse can't
+// cover the next shō or the marginal price hits 0 (he's stuffed — human, 2026-07-14).
+
+export interface RiceSellQuote {
+  /** How many shō he will buy RIGHT NOW (bounded by kura rice, his purse, and the curve). */
+  readonly sho: number;
+  /** Total mon paid for those shō (the sum of the sagging marginal prices). */
+  readonly coin: number;
+  /** The marginal price of the NEXT shō (the "pays X the measure now" display; 0 = refuses). */
+  readonly unitNow: number;
+  /** His remaining purse BEFORE this sale (the explicit TST4 read). */
+  readonly merchantMon: number;
+}
+
+/** What a `sell_rice` right now would move — the AC-6 quote (see block comment above). Pure;
+ *  ignores the market-day/unlock gates (the reducer + UI gate those separately). */
+export function riceSellQuote(state: GameState): RiceSellQuote {
+  const merchant = state.merchants.yohei ?? { mon: 0, stock: {} };
+  const base = riceSellPrice(season(state));
+  const riceStock = state.banked.rice ?? 0;
+  let mon = merchant.mon;
+  let held = merchant.stock.rice ?? 0;
+  let sho = 0;
+  let coin = 0;
+  while (sho < riceStock) {
+    const p = merchantOffer({ mon, stock: { rice: held } }, 'rice', base);
+    if (p <= 0 || p > mon) break;
+    coin += p;
+    mon -= p;
+    held += 1;
+    sho += 1;
+  }
+  return {
+    sho,
+    coin,
+    unitNow: merchantOffer(merchant, 'rice', base),
+    merchantMon: merchant.mon,
+  };
 }
 
 /** The production YIELD one labour act at `site` would produce right now, off the site's remaining

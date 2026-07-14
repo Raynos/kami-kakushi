@@ -26,8 +26,13 @@ export {
   canBuy,
   isMarketDay,
   MARKET_COIN_SINK_NOTE,
+  YOHEI_PURSE_MON,
+  initialMerchants,
+  merchantOffer,
+  merchantRestock,
+  MERCHANT_SAG_STEP_SHO,
 } from './content/market';
-export type { MarketItem, MarketItemId } from './content/market';
+export type { MarketItem, MarketItemId, MerchantId, MerchantState } from './content/market';
 export {
   MAP_NODES,
   MAP_NODE_CEILING,
@@ -354,8 +359,15 @@ export {
   cookLoci, // ADR-184 — where a meal can be boiled (kitchen board / your hearth)
   canCookHere,
   estateBuild,
+  riceSellQuote, // ADR-194 / AC-6 — the ONE quote behind the sell trade and its display
 } from './selectors';
-export type { LabourOption, ActivityForecast, EstateBuild, EstateBuildRow } from './selectors';
+export type {
+  LabourOption,
+  ActivityForecast,
+  EstateBuild,
+  EstateBuildRow,
+  RiceSellQuote,
+} from './selectors';
 export { PEOPLE, PEOPLE_IDS, getPerson, presenceCtx } from './content/people';
 export type { NodePerson, PersonDepth, PresenceCtx } from './content/people';
 

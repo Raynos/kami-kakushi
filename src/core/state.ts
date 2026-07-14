@@ -34,6 +34,7 @@ import type { SkillId } from './content/skills';
 import type { MobId } from './content/enemies';
 import { getWeapon, type WeaponId } from './content/weapons';
 import type { MapNodeId } from './content/map';
+import { initialMerchants, type MerchantState } from './content/market';
 import type { NpcId } from './content/voices';
 import type { SceneId } from './content/scenes';
 import type { TierId } from './content/tiers';
@@ -185,6 +186,10 @@ export interface GameState {
   readonly quests: QuestState;
   /** Per-RUN buy counts per market item — the stockCap clamp (TRADE taste, T0-M4-F3 / ADR-008). */
   readonly marketBought: Readonly<Record<string, number>>;
+  /** Merchant PERMANENT state (ADR-194) — each merchant's purse + stock, mutated by every
+   *  trade; the mon-lane soft cap now emerges from his purse running dry (extends ADR-163 §5).
+   *  Only `yohei` is seeded in T0. Additive (default initialMerchants()). SCHEMA_VERSION 14. */
+  readonly merchants: Readonly<Record<string, MerchantState>>;
   /** Owned BELONGINGS — the ids of comfort furniture you've BOUGHT for your home (ADR-111 / FB-89). A
    *  category DISTINCT from resources + equipment: never consumed, never carried into a fight, never
    *  bitten by the ADR-113 loss. GRANTED keepsakes (the mat + bowl) are NOT stored here — they are
@@ -302,6 +307,7 @@ export function createInitialState(seed: number): GameState {
     askedTopics: [],
     quests: { accepted: [], progress: {}, completed: [] },
     marketBought: {},
+    merchants: initialMerchants(), // ADR-194 — Yohei opens with his seed purse and an empty stall-store
     belongings: [], // no bought furniture yet; the granted mat + bowl arrive with the home at R1
     location: 'forecourt', // FB-401 — the run opens on the rake's authored ground ("the first verb is here")
     rung: 'R0',

@@ -20,6 +20,12 @@ import {
   getItem,
   applyGrindFight,
   formatCoin,
+  riceSellQuote,
+  merchantOffer,
+  MERCHANT_SAG_STEP_SHO,
+  initialMerchants,
+  isMarketDay,
+  TICKS_PER_DAY,
   MAX_ESTATE_STAGE,
   ESTATE_STAGES,
   MARKET_ITEMS,
@@ -620,15 +626,17 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
     };
   }
 
-  it('converts kura rice to coin at the current season price (rice → coin)', () => {
-    // 20 shō at spring 6 = 120 mon — exactly Yohei's per-visit purse, so he clears the whole kura.
+  it('converts kura rice to coin at the quoted sagging price (rice → coin, ADR-194)', () => {
+    // 20 shō in dear spring sits inside Yohei's seed purse even after the ADR-194 sag, so he
+    // clears the whole kura — the amounts derive from the ONE quote fn (AC-6), never a flat
+    // price × shō product (the pre-merchant-state math this test used to pin).
     const s = seller(20); // season 'spring'
     expect(season(s)).toBe('spring');
-    const price = balance.riceSellPrice('spring');
-    expect(20 * price).toBeLessThanOrEqual(YOHEI_PURSE_MON); // within his purse → all of it sells
+    const quote = riceSellQuote(s);
+    expect(quote.sho).toBe(20); // within his purse + above the curve floor → all of it sells
     const after = reduce(s, { type: 'sell_rice' });
     expect(after.banked.rice ?? 0).toBe(0); // all kura rice sold
-    expect(after.resources.coin ?? 0).toBe(20 * price); // exact, from the source-of-truth price
+    expect(after.resources.coin ?? 0).toBe(quote.coin); // exact — the executed trade IS the quote
   });
 
   it('the price fn SWINGS by season — dearest in spring, cheapest at the autumn glut', () => {
@@ -642,12 +650,12 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
     // a SMALL pile (10 shō) sits inside Yohei's purse in BOTH seasons, so the purse clamp doesn't
     // mask the price swing — the delta is purely the season price.
     const rice = 10;
-    expect(rice * balance.riceSellPrice('spring')).toBeLessThanOrEqual(YOHEI_PURSE_MON);
+    expect(riceSellQuote(seller(rice, 'spring')).sho).toBe(rice); // inside the purse both seasons
     const springCoin = reduce(seller(rice, 'spring'), { type: 'sell_rice' }).resources.coin ?? 0;
     // the SAME rice, sold in a DIFFERENT stored season — the timing choice the swing creates.
     const autumnCoin = reduce(seller(rice, 'autumn'), { type: 'sell_rice' }).resources.coin ?? 0;
-    expect(springCoin).toBe(rice * balance.riceSellPrice('spring'));
-    expect(autumnCoin).toBe(rice * balance.riceSellPrice('autumn'));
+    expect(springCoin).toBe(riceSellQuote(seller(rice, 'spring')).coin); // AC-6: trade == quote
+    expect(autumnCoin).toBe(riceSellQuote(seller(rice, 'autumn')).coin);
     expect(springCoin).toBeGreaterThan(autumnCoin); // the swing is real ⇒ store-or-sell is a choice
   });
 
@@ -664,21 +672,25 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
     // mon/monme/ryō rendering the coin pill uses, never a raw " coin" integer (ADR-108).
     const sold = 20;
     const s = seller(sold); // spring, a market day
-    const price = balance.riceSellPrice('spring');
-    const proceeds = sold * price;
-    expect(proceeds).toBeLessThanOrEqual(YOHEI_PURSE_MON); // within his purse → all of it sells
-    expect(proceeds).toBeGreaterThanOrEqual(80); // ≥1 monme, so the denominated form is a monme readout
+    const quote = riceSellQuote(s); // ADR-194 — proceeds + headline price come from the quote
+    expect(quote.sho).toBe(sold); // within his purse → all of it sells
+    expect(quote.coin).toBeGreaterThanOrEqual(80); // ≥1 monme, so the denominated form is a monme readout
     const after = reduce(s, { type: 'sell_rice' });
     const line = after.log.entries.find((e) => e.text.includes('pedlar'))?.text ?? '';
-    expect(line).toContain(formatCoin(proceeds)); // e.g. "7 monme 40 mon" — the denominated proceeds
-    expect(line).toContain(formatCoin(price)); // the per-measure price, denominated too
+    expect(line).toContain(formatCoin(quote.coin)); // e.g. "1 monme 24 mon" — the denominated proceeds
+    expect(line).toContain(formatCoin(quote.unitNow)); // the headline per-measure price, denominated too
     expect(line).not.toMatch(/\d+ coin/); // RED against the old "N coin the measure / +N coin" form
   });
 
   it('the coin faucet makes an early estate cost affordable (rice → coin → improve_estate)', () => {
-    const price = balance.riceSellPrice('spring');
     const u1 = ESTATE_STAGES[0]!.coinCost;
-    const riceNeeded = Math.ceil(u1 / price); // derive the rice to clear U1 from the source of truth
+    // Derive the rice to clear U1 from the source of truth — the QUOTE now (ADR-194: the sag
+    // means it's more shō than a flat u1/price). Scan up until one market visit covers it; the
+    // design property is that ONE good visit CAN (his seed purse ≥ u1), so the scan terminates.
+    expect(YOHEI_PURSE_MON).toBeGreaterThanOrEqual(u1);
+    let riceNeeded = 1;
+    while (riceNeeded < 500 && riceSellQuote(seller(riceNeeded)).coin < u1) riceNeeded += 1;
+    expect(riceSellQuote(seller(riceNeeded)).coin).toBeGreaterThanOrEqual(u1); // the scan found it
     let s = seller(riceNeeded); // day 0 spring, panel-estate open
     expect(s.resources.coin ?? 0).toBeLessThan(u1); // starts unable to afford the first kura-works
     s = reduce(s, { type: 'sell_rice' });
@@ -691,6 +703,125 @@ describe('D-107 Phase 2 — sell_rice: the season-swinging coin faucet', () => {
     const built = reduce(opened, { type: 'improve_estate' });
     expect(built.estateCommission).toBe(1); // and the sink actually accepts the coin
     expect(built.resources.coin ?? 0).toBeLessThan(opened.resources.coin ?? 0);
+  });
+});
+
+// ── ADR-194 — merchants get PERMANENT state: a real purse, real stock, sagging prices. The
+// per-visit cap EMERGES from Yohei's purse (the H2 exploit: each sell used to draw a fresh
+// 120-mon purse — an unbounded faucet); the marginal price sags with his stock and CAN reach
+// 0 (human, 2026-07-14); market days drift him partway back (never a full reset). ──
+describe('ADR-194 — merchant permanent state (purse, stock, the general-store curve)', () => {
+  function seller(rice: number, seas: Season = 'spring'): GameState {
+    const s = createInitialState(1);
+    return {
+      ...s,
+      season: seas,
+      clock: { ...s.clock, day: MARKET_DAY },
+      banked: { ...s.banked, rice },
+      flags: { ...s.flags, ...factsForSurfaces('panel-estate') },
+    };
+  }
+
+  it('N sells on ONE market day draw AT MOST his purse in total (the H2 exploit is dead)', () => {
+    // A huge kura pile + repeated sells: pre-ADR-194 each call drew a fresh YOHEI_PURSE_MON,
+    // so N calls paid N×120 — this assertion was RED on main, the proof the bug was real.
+    let s = seller(500);
+    for (let i = 0; i < 10; i++) s = reduce(s, { type: 'sell_rice' });
+    expect(s.resources.coin ?? 0).toBeLessThanOrEqual(YOHEI_PURSE_MON);
+    expect(s.merchants.yohei!.mon).toBe(YOHEI_PURSE_MON - (s.resources.coin ?? 0)); // coin moved, never minted
+  });
+
+  it('the marginal offer is monotonically NON-INCREASING in his stock, and reaches 0', () => {
+    // The design lever itself (the curve's mechanism), asserted across the whole relevant range —
+    // and the human's 2026-07-14 ruling: stuffed full, he STOPS buying (0), not an asymptotic floor.
+    const base = balance.riceSellPrice('spring');
+    let prev = merchantOffer({ mon: 0, stock: {} }, 'rice', base);
+    expect(prev).toBe(base); // an empty store pays the full season price
+    for (let held = 1; held <= base * MERCHANT_SAG_STEP_SHO + 1; held++) {
+      const p = merchantOffer({ mon: 0, stock: { rice: held } }, 'rice', base);
+      expect(p).toBeLessThanOrEqual(prev);
+      prev = p;
+    }
+    expect(prev).toBe(0); // the curve bottoms at REFUSAL, not a floor
+  });
+
+  it('a stocked-up pedlar QUOTES less — the sag is felt through the same quote the UI shows', () => {
+    // Preload one full sag band of rice into his store: the very next shō already pays 1 mon
+    // less than the season base — and the sale executes at those sagged prices (AC-6).
+    const fresh = seller(10);
+    const s: GameState = {
+      ...fresh,
+      merchants: {
+        ...fresh.merchants,
+        yohei: { ...fresh.merchants.yohei!, stock: { rice: MERCHANT_SAG_STEP_SHO } },
+      },
+    };
+    const base = balance.riceSellPrice('spring');
+    const quote = riceSellQuote(s);
+    expect(quote.unitNow).toBe(base - 1); // the shown price has sagged
+    expect(quote.coin).toBeLessThan(10 * base); // and the whole sale pays under the flat rate
+    const after = reduce(s, { type: 'sell_rice' });
+    expect((after.resources.coin ?? 0) - (s.resources.coin ?? 0)).toBe(quote.coin);
+  });
+
+  it('the displayed offer IS the executed trade (AC-6 — one quote fn on both sides)', () => {
+    const s = seller(40);
+    const quote = riceSellQuote(s);
+    const after = reduce(s, { type: 'sell_rice' });
+    expect((after.resources.coin ?? 0) - (s.resources.coin ?? 0)).toBe(quote.coin);
+    expect((s.banked.rice ?? 0) - (after.banked.rice ?? 0)).toBe(quote.sho);
+    // and the trade MUTATED him: purse debited, stock credited — permanent state, not a clamp.
+    expect(after.merchants.yohei!.mon).toBe(quote.merchantMon - quote.coin);
+    expect(after.merchants.yohei!.stock.rice).toBe(quote.sho);
+  });
+
+  it('a market day drifts him PARTWAY back — purse up, stock down, never a full reset', () => {
+    // Drain his purse on one market day, then walk the clock to his NEXT market day: the
+    // day-boundary restock recovers part of the gap (human, 2026-07-14: partial drift — a
+    // Tuesday rice-dump still depresses Friday's price).
+    let s = seller(500);
+    s = reduce(s, { type: 'sell_rice' });
+    const drained = s.merchants.yohei!;
+    expect(drained.mon).toBeLessThan(YOHEI_PURSE_MON);
+    expect(drained.stock.rice ?? 0).toBeGreaterThan(0);
+    // find the NEXT market day strictly after today, then tick day by day up to it.
+    let target = s.clock.day + 1;
+    while (!isMarketDay(target)) target += 1;
+    const arrived = tick(s, (target - s.clock.day) * TICKS_PER_DAY);
+    const rested = arrived.merchants.yohei!;
+    expect(rested.mon).toBeGreaterThan(drained.mon); // the purse recovered…
+    expect(rested.mon).toBeLessThan(YOHEI_PURSE_MON); // …but NOT a full reset
+    expect(rested.stock.rice ?? 0).toBeLessThan(drained.stock.rice ?? 0); // stock sold down…
+    expect(rested.stock.rice ?? 0).toBeGreaterThan(0); // …but the dump still weighs on the price
+  });
+
+  it('an old (pre-v14) save hydrates the seeded roster; a saved merchant is KEPT (idempotent)', () => {
+    // v(n)→v(n+1): a save written before `merchants` existed loads with Yohei seeded whole…
+    const base = createInitialState(1);
+    const { merchants: _dropped, ...old } = JSON.parse(JSON.stringify(base)) as GameState & {
+      merchants?: unknown;
+    };
+    const hydrated = validateState({ ...old, schemaVersion: 13 });
+    expect(hydrated.ok).toBe(true);
+    if (hydrated.ok) expect(hydrated.state.merchants).toEqual(initialMerchants());
+    // …and a save that ALREADY carries merchant state keeps it verbatim (no double-grant).
+    const traded: GameState = {
+      ...base,
+      merchants: { yohei: { mon: 7, stock: { rice: 33 } } },
+    };
+    const round = validateState(JSON.parse(JSON.stringify(traded)));
+    expect(round.ok).toBe(true);
+    if (round.ok) expect(round.state.merchants.yohei).toEqual({ mon: 7, stock: { rice: 33 } });
+  });
+
+  it('a buy at his stall CREDITS his purse — the trade is two-sided', () => {
+    const item = MARKET_ITEMS[0]!;
+    const s: GameState = {
+      ...seller(0),
+      resources: { coin: item.coinCost },
+    };
+    const after = reduce(s, { type: 'buy_item', itemId: item.id });
+    expect(after.merchants.yohei!.mon).toBe(YOHEI_PURSE_MON + item.coinCost);
   });
 });
 

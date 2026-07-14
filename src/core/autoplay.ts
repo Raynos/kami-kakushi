@@ -14,6 +14,7 @@ import {
   canTreat,
   hpMax,
   rakeExhausted,
+  riceSellQuote,
   satietyMax,
 } from './selectors';
 import { ACTIVITIES, getActivity, type ActivityId } from './content/activities';
@@ -47,8 +48,11 @@ import { RUNG_BEATS } from './content/rungBeats';
 
 /** ADR-145 Phase-2 player-model knob (NOT canon): the KURA rice pile (shō) at which the
  *  focused-optimal steward sells at Yohei's stall — batching sells keeps the loop textured
- *  without spamming zero-clock transactions. (Rice is kura-only post-G4.5 — ADR-163.) */
-const PHASE2_SELL_RICE_AT = 20;
+ *  without spamming zero-clock transactions. (Rice is kura-only post-G4.5 — ADR-163.)
+ *  20 → 10 with ADR-194: against a BOUNDED stall (his purse, his sagging curve) the sensible
+ *  steward sells whatever the pedlar can take EVERY market day instead of hoarding a batch
+ *  the purse can't absorb in one visit. */
+const PHASE2_SELL_RICE_AT = 10;
 
 /** storywave G1 player-model knob (NOT canon): the amount of UNJUDGED Estate growth (koku) the
  *  focused-optimal steward lets bank before ENDING the season to collect the seasonal share. Sized
@@ -268,7 +272,14 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
   // out forage's steady pocket-coin (a SECONDARY yield, NOT pool-limited) keeps the faucet flowing.
   const earnCoin = (): Intent | null => {
     if (isWaged(s.rung) && s.wageDaysAccrued > 0) return { type: 'collect_wage' };
-    if ((s.banked.rice ?? 0) > 0 && isUnlocked(s, 'panel-estate') && isMarketDay(s.clock.day)) {
+    // ADR-194 — mirror the reducer's no-op guards INCLUDING the merchant: a dry purse or a
+    // sagged-to-zero price must not stall the policy loop on no-op sells (B4 closure).
+    if (
+      (s.banked.rice ?? 0) > 0 &&
+      isUnlocked(s, 'panel-estate') &&
+      isMarketDay(s.clock.day) &&
+      riceSellQuote(s).sho > 0
+    ) {
       return { type: 'sell_rice' };
     }
     const haulPool = s.sitePools[getActivity('haul_stores').area] ?? 0;
@@ -492,7 +503,11 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
     //     canon). B4 closure: reads banked.rice (rice is kura-only post-G4.5; resources.rice is
     //     never written) and only on a market day (mirrors the reducer's no-op guards — a
     //     shut stall must not stall the policy loop).
-    if (isMarketDay(s.clock.day) && (s.banked.rice ?? 0) >= PHASE2_SELL_RICE_AT) {
+    if (
+      isMarketDay(s.clock.day) &&
+      (s.banked.rice ?? 0) >= PHASE2_SELL_RICE_AT &&
+      riceSellQuote(s).sho > 0 // ADR-194 — a dry/stuffed pedlar must not stall the loop
+    ) {
       return { type: 'sell_rice' };
     }
     // (2b) collect the seasonal share (storywave G1): seasons are MANUAL now, so the judge no

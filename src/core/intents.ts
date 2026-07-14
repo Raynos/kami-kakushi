@@ -39,6 +39,7 @@ import {
   treatForecast,
   canRestSickroom,
   restSickroomForecast,
+  riceSellQuote,
 } from './selectors';
 import { getPerson, PEOPLE_IDS } from './content/people';
 import { getBelonging, homeRestLine } from './content/home';
@@ -59,7 +60,6 @@ import {
   COOK_HUNGER_RESTORE,
   EAT_RICE_COST,
   EAT_RICE_HUNGER,
-  riceSellPrice,
   kuraRiceCap,
   ESTATE_STAGE_DEED_GATES,
   WORKS_ACT_SATIETY,
@@ -100,14 +100,7 @@ import { getRank, type RankId } from './content/ranks';
 import { getRecipe, canCraft } from './content/crafting';
 import { acceptQuest } from './quest-engine';
 import { applyProgressEvent, settleRequirements } from './progress-events';
-import {
-  getItem,
-  canBuy,
-  isMarketDay,
-  itemInSeason,
-  yoheiBuys,
-  YOHEI_PURSE_MON,
-} from './content/market';
+import { getItem, canBuy, isMarketDay, itemInSeason, yoheiBuys } from './content/market';
 import { canMove, getNode } from './content/map';
 import { CONDITIONING_GATE_LEVEL } from './content/balance';
 import {
@@ -1050,22 +1043,31 @@ export function reduce(state: GameState, intent: Intent): GameState {
       break;
     }
     case 'sell_rice': {
-      // ADR-163 — kura rice → COIN at Yohei's stall. Sell from the KURA (shō) at the SEASON-swinging
-      // coin-per-shō rate, but CLAMPED: the stall is open only on his MARKET DAYS, and his finite
-      // per-visit PURSE bounds how much he'll buy (the kind-overflow soft cap on mon inflow). He buys
-      // only whitelisted goods (rice). A transaction (no clock cost). A no-op off a market day, with
-      // no kura rice, or once his purse is spent.
+      // ADR-163/ADR-194 — kura rice → COIN at Yohei's stall. Sell from the KURA (shō) into his
+      // PERMANENT state: each shō debits his purse at the SAGGING marginal price (merchantOffer —
+      // the more rice he holds, the less the next measure pays, to 0) and enters his stock. The
+      // sale executes the SAME riceSellQuote the UI displays (AC-6) — never a separate clamp; the
+      // old per-call YOHEI_PURSE_MON draw was an unbounded faucet (the H2 exploit). A transaction
+      // (no clock cost). A no-op off a market day, with no kura rice, or once he can't pay.
       if (!isUnlocked(next, 'panel-estate')) return state;
       if (!isMarketDay(next.clock.day)) return state; // stall shut this weekday
       if (!yoheiBuys('rice')) return state;
-      const riceStock = next.banked.rice ?? 0;
-      if (riceStock <= 0) return state;
-      const price = riceSellPrice(season(next));
-      // clamp to Yohei's purse: he buys only as many shō as his coin covers.
-      const affordableSho = price > 0 ? Math.floor(YOHEI_PURSE_MON / price) : riceStock;
-      const soldSho = Math.min(riceStock, affordableSho);
+      const quote = riceSellQuote(next);
+      const soldSho = quote.sho;
       if (soldSho <= 0) return state;
-      const coinGain = soldSho * price;
+      const coinGain = quote.coin;
+      const price = quote.unitNow; // the headline per-measure price (the first shō's rate)
+      const yohei = next.merchants.yohei!;
+      next = {
+        ...next,
+        merchants: {
+          ...next.merchants,
+          yohei: {
+            mon: yohei.mon - coinGain,
+            stock: { ...yohei.stock, rice: (yohei.stock.rice ?? 0) + soldSho },
+          },
+        },
+      };
       next = withBanked(next, 'rice', -soldSho);
       next = withResource(next, 'coin', coinGain);
       // ADR-179 — "has ever earned coin" is a progression FACT (readout-coin derives
@@ -1265,6 +1267,19 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = withResource(next, 'coin', -item.coinCost);
       for (const [res, amt] of Object.entries(item.grants)) next = withResource(next, res, amt);
       next = { ...next, marketBought: { ...next.marketBought, [item.id]: bought + 1 } };
+      // ADR-194 — the trade is two-sided: your coin enters HIS purse (a stall that sold well
+      // can buy more rice), the reverse of the sell path. Catalog goods aren't resource-stocked
+      // (non-goal: assortment is unchanged), so only the mon moves.
+      const stallKeeper = next.merchants.yohei;
+      if (stallKeeper) {
+        next = {
+          ...next,
+          merchants: {
+            ...next.merchants,
+            yohei: { ...stallKeeper, mon: stallKeeper.mon + item.coinCost },
+          },
+        };
+      }
       next = applyRewards(next, {
         log: [
           {

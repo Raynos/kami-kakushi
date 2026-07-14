@@ -104,17 +104,17 @@ FB-257. `dev`·`build`·`/ship`.
 
 1. Read the **newest journal** + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-13-session-203-render-split.md`](../journal/2026-07-13-session-203-render-split.md)
+   [`journal/2026-07-14-session-204-merchant-state.md`](../journal/2026-07-14-session-204-merchant-state.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev
    server on localhost:5173 (never spawn/kill your own). **`?dev=no`**
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** `fable-2026-07-13-merchant-state.md`
-   (docs/plans; the core is quiet). Then **T2 rungs/fog** · telemetry.
+4. **Next (autonomous):** merchant-state LANDED (session 204,
+   ADR-194). Plans empty → **T2 rungs/fog** · telemetry · inbox drain.
 5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
    with **`pnpm run push`** (bare `git push` is blocked; lane held →
    commits stay local by design). Render-split LANDED (session 203):
    surface work goes in `src/ui/render|dev/`, not the shells.
 
-<!-- rewrite-debt: 7/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 8/20 · last full rewrite: 2026-07-13 -->

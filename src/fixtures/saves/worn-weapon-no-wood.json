@@ -1,11 +1,11 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 13,
+  "schemaVersion": 14,
   "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 13,
+    "schemaVersion": 14,
     "season": "new-year",
     "seasonsPassed": 1,
     "rng": {
@@ -3661,6 +3661,12 @@
       "completed": []
     },
     "marketBought": {},
+    "merchants": {
+      "yohei": {
+        "mon": 160,
+        "stock": {}
+      }
+    },
     "belongings": [],
     "location": "sickroom",
     "rung": "R4",

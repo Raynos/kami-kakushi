@@ -1,11 +1,11 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 13,
+  "schemaVersion": 14,
   "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 13,
+    "schemaVersion": 14,
     "season": "winter",
     "seasonsPassed": 0,
     "rng": {
@@ -536,6 +536,12 @@
       "completed": []
     },
     "marketBought": {},
+    "merchants": {
+      "yohei": {
+        "mon": 160,
+        "stock": {}
+      }
+    },
     "belongings": [],
     "location": "forecourt",
     "rung": "R0",

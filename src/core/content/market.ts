@@ -105,9 +105,12 @@ export const CHEAPEST_STALL_ITEM_COST: number = Math.min(...MARKET_ITEMS.map((m)
  *  stall is bare, so selling is a TIMING beat. SIM-OWNED SEED (ADR-132). */
 export const YOHEI_MARKET_DAYS: readonly DayOfWeek[] = [2, 5];
 
-/** Yohei's coin purse PER VISIT (base unit mon). Once he's spent it buying your rice/goods he stops
- *  buying until his next market day — the finite-purse soft cap on mon inflow. SIM-OWNED SEED. */
-export const YOHEI_PURSE_MON = 120;
+/** Yohei's SEED/RESTOCK purse (base unit mon) — since ADR-194 this is the level his permanent
+ *  purse drifts back TOWARD on market days (merchantRestock), not a per-visit draw. Once his
+ *  purse is spent buying your rice/goods he stops buying until restock catches up — the
+ *  finite-purse soft cap on mon inflow, now emergent from state. SIM-OWNED SEED (120 → 160 in
+ *  the ADR-194 landing balance pass: the bounded lane must still carry the D-133 Phase-2 pace). */
+export const YOHEI_PURSE_MON = 160;
 
 /** What Yohei will BUY (his `buys:` whitelist) — rice + named finished goods only. Raw materials
  *  (wood, sansai) are NOT here: unsellable in T0 (overflow feeds house stores, not coin). */
@@ -116,6 +119,74 @@ export const YOHEI_BUYS: ReadonlySet<string> = new Set(['rice']);
 /** Is Yohei's stall open on this absolute day? (market-day clamp for sell/buy.) */
 export function isMarketDay(day: number): boolean {
   return YOHEI_MARKET_DAYS.includes(dayOfWeek(day));
+}
+
+// ── Merchant PERMANENT STATE (ADR-194, extends ADR-163 §5) — a merchant is a real counterparty:
+// a purse (mon) and a stock (what he's bought off you), BOTH persisted and MUTATED by every trade.
+// The per-visit cap now EMERGES from state (his purse runs dry) instead of a per-transaction clamp;
+// YOHEI_PURSE_MON above is his SEED/RESTOCK purse, not a ceiling per call. Only Yohei is seeded in
+// T0; the shape is generic so T1+ merchants inherit it. All magnitudes SIM-OWNED SEEDS (ADR-132).
+
+export type MerchantId = string;
+
+export interface MerchantState {
+  /** His coin on hand (base unit mon). Debited when he BUYS your rice; credited when you buy
+   *  his goods. When it can't cover the next shō he stops buying until restock. */
+  readonly mon: number;
+  /** What he's holding of each resource he's bought — the pile that SAGS his offer (ADR-194:
+   *  the Nth measure of rice pays less than the first). Sold down toward 0 on market days. */
+  readonly stock: Readonly<Partial<Record<string, number>>>;
+}
+
+/** The seeded merchant roster — a fresh run's counterparties. */
+export function initialMerchants(): Record<MerchantId, MerchantState> {
+  return { yohei: { mon: YOHEI_PURSE_MON, stock: {} } };
+}
+
+/** Every SAG_STEP shō of a good the merchant already holds knocks 1 mon off the next shō's
+ *  offer — the RuneScape-general-store curve, integer + deterministic. The price CAN reach 0
+ *  (human, 2026-07-14): stuffed full, he stops buying that good until his stock drains.
+ *  SIM-OWNED SEED (ADR-132). */
+export const MERCHANT_SAG_STEP_SHO = 24;
+
+/** The marginal price the merchant pays for the NEXT unit of `resource`, given his current
+ *  stock of it — a decreasing step curve off the season base price, floor 0 (he refuses).
+ *  ONE fn for the executed trade AND the displayed offer (AC-6): the shown price sags live. */
+export function merchantOffer(
+  merchant: MerchantState,
+  resource: string,
+  basePrice: number,
+): number {
+  const held = merchant.stock[resource] ?? 0;
+  return Math.max(0, basePrice - Math.floor(held / MERCHANT_SAG_STEP_SHO));
+}
+
+/** Restock DRIFT rate — each market day the merchant recovers 3/4 of the gap: purse back up
+ *  toward YOHEI_PURSE_MON, stock sold down toward 0. NEVER a full reset (human, 2026-07-14):
+ *  Tuesday's rice-dump still depresses Friday's price. SIM-OWNED SEEDS (ADR-132; 1/2 → 3/4
+ *  in the landing balance pass — the D-133 Phase-2:Phase-1 ratio gate sat at 1.31 on 1/2). */
+export const MERCHANT_RESTOCK_NUM = 3;
+export const MERCHANT_RESTOCK_DEN = 4;
+
+/** One market-day arrival: drift the merchant partway back toward his seed shape. Purse only
+ *  ever tops UP (coin the player spent at his stall is his to keep); stock only drains.
+ *  Integer + deterministic (fold-invariant with the clock, B10); converges in finite days
+ *  (ceil on the purse gap, floor-halving on stock). */
+export function merchantRestock(merchant: MerchantState, seedMon: number): MerchantState {
+  const gap = seedMon - merchant.mon;
+  const mon =
+    gap > 0
+      ? merchant.mon + Math.ceil((gap * MERCHANT_RESTOCK_NUM) / MERCHANT_RESTOCK_DEN)
+      : merchant.mon;
+  const stock: Record<string, number> = {};
+  for (const [r, held] of Object.entries(merchant.stock)) {
+    const kept =
+      held === undefined
+        ? 0
+        : held - Math.ceil((held * MERCHANT_RESTOCK_NUM) / MERCHANT_RESTOCK_DEN);
+    if (kept > 0) stock[r] = kept;
+  }
+  return { mon, stock };
 }
 
 /** The market days as their kanji day-names ("水・土") — derived from YOHEI_MARKET_DAYS +

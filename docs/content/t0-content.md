@@ -191,9 +191,9 @@
 | stage | label | coin | +satietyMax |
 |---|---|---|---|
 | E1 | Stem the first rot | 100 | +20 |
-| E2 | Reclaim the orchard | 300 | +20 |
-| E3 | Raise the granary | 700 | +30 |
-| E4 | Set the house in order | 1400 | +30 |
+| E2 | Reclaim the orchard | 250 | +20 |
+| E3 | Raise the granary | 500 | +30 |
+| E4 | Set the house in order | 900 | +30 |
 
 ## Market (T0 provisioning shop — D-008)
 

@@ -1,11 +1,11 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 13,
+  "schemaVersion": 14,
   "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 13,
+    "schemaVersion": 14,
     "season": "winter",
     "seasonsPassed": 0,
     "rng": {
@@ -38,13 +38,13 @@
       "combatXp": 380
     },
     "resources": {
-      "coin": 85,
+      "coin": 125,
       "wood": 157,
       "sansai": 2,
       "beast_sinew": 3
     },
     "banked": {
-      "rice": 187
+      "rice": 177
     },
     "sitePools": {
       "paddies": 0,
@@ -3186,9 +3186,9 @@
           "voice": "narrator",
           "contentKey": "market.sellRice",
           "params": {
-            "rice": 24,
+            "rice": 34,
             "price": 5,
-            "coinGain": 120
+            "coinGain": 160
           }
         },
         {
@@ -4018,6 +4018,14 @@
       "completed": []
     },
     "marketBought": {},
+    "merchants": {
+      "yohei": {
+        "mon": 120,
+        "stock": {
+          "rice": 8
+        }
+      }
+    },
     "belongings": [
       "bedding"
     ],

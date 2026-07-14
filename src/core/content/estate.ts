@@ -52,7 +52,7 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
   {
     stage: 2,
     label: 'Reclaim the orchard',
-    coinCost: 300, // SEED (sim-owned)
+    coinCost: 250, // SEED (sim-owned; 300 → 250, ADR-194 landing pass — priced under the pre-merchant exploit lane)
     woodCost: 25, // SEED (sim-owned) — the F3 material input
     workActs: 10, // SEED (sim-owned) — sited work_project acts to complete
     satietyMaxBonus: 20,
@@ -64,7 +64,7 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
   {
     stage: 3,
     label: 'Raise the granary',
-    coinCost: 700, // SEED (sim-owned)
+    coinCost: 500, // SEED (sim-owned; 700 → 500, ADR-194 landing pass — priced under the pre-merchant exploit lane)
     woodCost: 60, // SEED (sim-owned) — the F3 material input
     workActs: 12, // SEED (sim-owned) — sited work_project acts to complete
     satietyMaxBonus: 30,
@@ -78,7 +78,7 @@ export const ESTATE_STAGES: readonly EstateStageDef[] = [
     // flywheel's biggest turn: the late-T0 project to work toward, priming the house's rise to T1.
     stage: 4,
     label: 'Set the house in order',
-    coinCost: 1400, // SEED (sim-owned)
+    coinCost: 900, // SEED (sim-owned; 1400 → 900, ADR-194 landing pass — priced under the pre-merchant exploit lane)
     woodCost: 80, // SEED (sim-owned) — the F3 material input
     workActs: 14, // SEED (sim-owned) — sited work_project acts to complete
     satietyMaxBonus: 30,

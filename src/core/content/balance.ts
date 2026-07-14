@@ -138,8 +138,11 @@ export let PER_DEED_CAP_NUM = 4;
  *  shrank Phase 1 while this base (tuned to the OLD climb) stood, drifting the ratio to ~4.4–5×;
  *  the signed ≈1:1 law (ADR-133) holds, so the base scales back into the [0.8, 1.2] band.
  *  HD-35 re-pace (human, 2026-07-10): 0.22 → 0.6 — the R3 re-pace shrank the climb ~224 →
- *  ~76 min, so the same ≈1:1 law scales Phase 2 to match (ratio re-centers at ~0.95). */
-export let ESTATE_DEED_PER_ACT = 0.6;
+ *  ~76 min, so the same ≈1:1 law scales Phase 2 to match (ratio re-centers at ~0.95).
+ *  ADR-194 landing (2026-07-14): 0.6 → 0.8 — killing the H2 sell exploit removed the ~100 koku
+ *  of zero-clock treasury deeds greedy's spam-sells banked (136 sells → ~16 honest ones), so
+ *  the same ≈1:1 law scales the base back into the band. */
+export let ESTATE_DEED_PER_ACT = 0.8;
 /** ADR-145 — the Phase-2 economy is MULTI-SOURCE (the A+B loop): each Estate deed source banks
  *  `ESTATE_DEED_PER_ACT · its multiplier`, so the sources stay distinct in cadence AND magnitude
  *  while the single base stays the one cockpit lever. Estate-relevant work ONLY banks (ADR-145 Q4

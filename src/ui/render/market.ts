@@ -8,6 +8,7 @@ import {
   formatCoin,
   season,
   peopleHere,
+  riceSellQuote,
   MARKET_ITEMS,
   type GameState,
   type Intent,
@@ -33,6 +34,7 @@ export function createMarketView(ctx: {
     card: HTMLElement;
     rows: HTMLElement;
     sellPrice: HTMLElement;
+    sellPurse: HTMLElement;
     sellBtn: HTMLButtonElement;
   } | null = null;
 
@@ -89,46 +91,65 @@ export function createMarketView(ctx: {
   function buildSellRice(): {
     sell: HTMLElement;
     sellPrice: HTMLElement;
+    sellPurse: HTMLElement;
     sellBtn: HTMLButtonElement;
   } {
     const sell = el('div', 'market-sell');
     sell.append(el('div', 'rung-now', 'Sell your rice 米'));
     const sellPrice = el('div', 'skill-blurb');
+    // ADR-194 (TST4, human 2026-07-14): Yohei's remaining purse is an EXPLICIT number — the
+    // player never guesses whether he can pay.
+    const sellPurse = el('div', 'skill-blurb market-purse');
     const buy = el('div', 'market-buy');
     const sellBtn = el('button', 'auto-toggle');
     sellBtn.type = 'button';
     sellBtn.addEventListener('click', () => dispatch({ type: 'sell_rice' }));
     buy.append(sellBtn);
-    sell.append(sellPrice, buy);
-    return { sell, sellPrice, sellBtn };
+    sell.append(sellPrice, sellPurse, buy);
+    return { sell, sellPrice, sellPurse, sellBtn };
   }
   function patchSellRice(
     sellPrice: HTMLElement,
+    sellPurse: HTMLElement,
     sellBtn: HTMLButtonElement,
     state: GameState,
   ): void {
     const s = season(state);
-    const price = balance.riceSellPrice(s);
+    // ADR-194 / AC-6 — ONE quote fn (riceSellQuote) behind the display AND the dispatched trade:
+    // the shown per-measure price is the CURVE's marginal price (it sags live as he fills up on
+    // rice), and the button's total is exactly what the reducer would pay.
+    const quote = riceSellQuote(state);
+    const base = balance.riceSellPrice(s);
     const prices = Object.values(balance.RICE_SELL_PRICE_BY_SEASON);
     const gloss =
-      price >= Math.max(...prices)
-        ? 'rice sells dear — a good season to sell'
-        : price <= Math.min(...prices)
-          ? 'the autumn glut — rice sells cheap; hold it in the kura if you can'
-          : 'a fair price';
+      quote.unitNow < base
+        ? 'his store is heavy with rice — the price has sagged'
+        : base >= Math.max(...prices)
+          ? 'rice sells dear — a good season to sell'
+          : base <= Math.min(...prices)
+            ? 'the autumn glut — rice sells cheap; hold it in the kura if you can'
+            : 'a fair price';
     setText(
       sellPrice,
-      `The pedlar pays ${formatCoin(price)} the measure now — ${SEASON_TAG[s].name}, ${gloss}.`,
+      quote.unitNow <= 0
+        ? `The pedlar is stocked full of rice — he'll buy again once it sells down.`
+        : `The pedlar pays ${formatCoin(quote.unitNow)} the measure now — ${SEASON_TAG[s].name}, ${gloss}.`,
     );
-    // ADR-163 — rice sells from the KURA (shō); the sale is clamped by Yohei's market-day + purse
-    // (the full stall UI — day/purse legibility — lands in the later render sweep).
+    setText(sellPurse, `Yohei's purse: ${formatCoin(quote.merchantMon)}.`);
     const rice = state.banked.rice ?? 0;
-    setText(sellBtn, `Sell kura rice (${rice} shō → ${formatCoin(rice * price)})`);
+    setText(sellBtn, `Sell kura rice (${quote.sho} shō → ${formatCoin(quote.coin)})`);
     // a11y: a full accessible name so a screen-reader hears WHAT the sell does + the live price.
-    const aria = `Sell ${rice} shō of kura rice for ${formatCoin(rice * price)} at the ${SEASON_TAG[s].name} price of ${formatCoin(price)} each`;
+    const aria = `Sell ${quote.sho} shō of kura rice for ${formatCoin(quote.coin)} at the sagging ${SEASON_TAG[s].name} price, ${formatCoin(quote.unitNow)} the next measure. Yohei's purse holds ${formatCoin(quote.merchantMon)}`;
     if (sellBtn.getAttribute('aria-label') !== aria) sellBtn.setAttribute('aria-label', aria);
-    setDisabled(sellBtn, rice <= 0);
-    const title = rice <= 0 ? 'No kura rice to sell — rake or farm to gather it.' : '';
+    setDisabled(sellBtn, quote.sho <= 0);
+    const title =
+      rice <= 0
+        ? 'No kura rice to sell — rake or farm to gather it.'
+        : quote.unitNow <= 0
+          ? 'He is stocked full of rice — come back after it sells down.'
+          : quote.sho <= 0
+            ? 'His purse is empty — he buys again on his next market day.'
+            : '';
     if (sellBtn.title !== title) sellBtn.title = title;
   }
   function renderMarket(state: GameState): void {
@@ -160,8 +181,8 @@ export function createMarketView(ctx: {
         }
       }
       // the sell-rice faucet is always present (a fresh build per wholesale render — DEV-only path).
-      const { sell, sellPrice, sellBtn } = buildSellRice();
-      patchSellRice(sellPrice, sellBtn, state);
+      const { sell, sellPrice, sellPurse, sellBtn } = buildSellRice();
+      patchSellRice(sellPrice, sellPurse, sellBtn, state);
       card.append(sell);
       marketPane.append(card);
       return;
@@ -173,10 +194,10 @@ export function createMarketView(ctx: {
       card.append(el('div', 'skill-blurb', MARKET_BLURB));
       const rows = el('div', 'market-rows');
       card.append(rows);
-      const { sell, sellPrice, sellBtn } = buildSellRice();
+      const { sell, sellPrice, sellPurse, sellBtn } = buildSellRice();
       card.append(sell);
       marketPane.append(card);
-      marketRefs = { card, rows, sellPrice, sellBtn };
+      marketRefs = { card, rows, sellPrice, sellPurse, sellBtn };
     }
     reconcileList(marketRefs.rows, MARKET_ITEMS, {
       key: (item) => item.id,
@@ -184,7 +205,7 @@ export function createMarketView(ctx: {
       patch: (row, item) => patchMarketRow(row, item, state),
       order: true,
     });
-    patchSellRice(marketRefs.sellPrice, marketRefs.sellBtn, state);
+    patchSellRice(marketRefs.sellPrice, marketRefs.sellPurse, marketRefs.sellBtn, state);
   }
 
   return { renderMarket };

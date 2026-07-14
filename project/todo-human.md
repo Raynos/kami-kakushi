@@ -39,10 +39,11 @@
   [`project/brainstorms/2026-07-12-quest-shapes-that-emerged.md`](brainstorms/2026-07-12-quest-shapes-that-emerged.md)
   — the four quest shapes ADR-184's reveal wave actually produced
   (emergent, deliberately not an ADR — your call)
-- [ ]
-  [`docs/plans/fable-2026-07-13-merchant-state.md`](../docs/plans/fable-2026-07-13-merchant-state.md)
+- [x]
+  [`fable-2026-07-13-merchant-state.md`](archive/fable-2026-07-13-merchant-state.md)
   — split 2/5: your merchant ruling (permanent purse + stock,
-  general-store price sag) as a build plan
+  general-store price sag) — decisions walked 2026-07-14, LANDED
+  (session 204, ADR-194)
   satiety-only)
 - [x]
   [`fable-2026-07-11-wait-a-day.md`](archive/fable-2026-07-11-wait-a-day.md)

@@ -1,6 +1,7 @@
 # Merchants get permanent state: a real purse, real stock, sagging prices
 
-**Status:** 📋 PROPOSED (2026-07-13, session-187)
+**Status:** ✅ DONE (2026-07-14, session-204 — landed with the ADR-132
+balance pass; PH6-proven on the live build; archived)
 **Confidence:** ( 85% Opus, 15% Fable ) — engine + economy plumbing
 under an already-ruled design; the only judgment is curve-shape
 defaults, and those are sim-owned (ADR-132).
@@ -121,10 +122,18 @@ unbounded coin faucet. Evidence: the archived sweep survey
 
 ## Human-in-the-loop
 
-- The design is already ruled (2026-07-13) — no HD-item needed.
-- **One open default surfaced, not blocking (PH4):** the restock rule
-  in step 3. Building proceeds on the proposed default; the human can
-  override async.
+- The design is already ruled (2026-07-13) — no HD-item needed; the
+  ADR is **ADR-194** (landed via the log-truth plan, session 198).
+- **Open calls walked with the human 2026-07-14 (this session):**
+  - **Restock → partial drift** (the plan's proposed default): each
+    market day stock sells down toward a base level and the purse
+    tops back toward `YOHEI_PURSE_MON`; rates sim-owned, never a
+    full reset.
+  - **Sell-price curve → can reach ZERO:** when he is stuffed on an
+    item he stops buying it entirely until stock drains; the greyed
+    offer row tells the player why. (Not an asymptotic floor.)
+  - **Purse read → explicit number:** the market UI shows his
+    remaining mon outright (TST4 maximal).
 - No taste scorecard: the only UI change is rows inside the existing
   market surface (mechanical copy) — if it grows into a restyled
   surface, run Pass 1 first (ADR-135).

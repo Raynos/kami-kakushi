@@ -4,7 +4,7 @@
 // rejected to recovery (Q46). Re-asserting up-only / trade-≤⅓ lands additively once
 // pillars exist (M3+); the M0 shape is validated structurally here.
 
-import type { GameState, StanceId, AttrId, Season } from '../core';
+import type { GameState, StanceId, AttrId, Season, MerchantState } from '../core';
 import type { RankId } from '../core';
 import {
   APP_ID,
@@ -22,6 +22,7 @@ import {
   getWeapon,
   refillSitePools,
   toTierId,
+  initialMerchants,
 } from '../core';
 import type { WeaponId } from '../core';
 import type { SaveEnvelope } from './codec';
@@ -35,6 +36,28 @@ export type ValidateResult =
 
 function isObject(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null;
+}
+
+/** Hydrate the ADR-194 merchant map (v14, additive). Absent/malformed → the seeded roster;
+ *  a present merchant keeps his saved purse + stock (each clamped to a non-negative integer),
+ *  and any seeded merchant MISSING from the save is re-seeded (a merchant added in src/
+ *  mid-generation is born whole, not a hole — the sitePools precedent). */
+function validateMerchants(v: unknown): GameState['merchants'] {
+  const seeded = initialMerchants();
+  if (!isObject(v)) return seeded;
+  const out: Record<string, MerchantState> = { ...seeded };
+  for (const [id, raw] of Object.entries(v)) {
+    if (!isObject(raw)) continue;
+    const mon = Math.max(0, Math.floor(num(raw.mon, seeded[id]?.mon ?? 0).value));
+    const stock: Record<string, number> = {};
+    if (isObject(raw.stock)) {
+      for (const [r, n] of Object.entries(raw.stock)) {
+        if (typeof n === 'number' && Number.isFinite(n) && n > 0) stock[r] = Math.floor(n);
+      }
+    }
+    out[id] = { mon, stock };
+  }
+  return out;
 }
 
 function num(v: unknown, fallback: number): { value: number; coerced: boolean } {
@@ -229,6 +252,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'askedTopics'
     | 'quests'
     | 'marketBought'
+    | 'merchants'
     | 'belongings'
     | 'location'
     | 'rung'
@@ -360,6 +384,10 @@ export function validateState(rawState: unknown): ValidateResult {
     marketBought: isObject(base.marketBought)
       ? (base.marketBought as GameState['marketBought'])
       : {},
+    // ── merchant permanent state (v14, additive; ADR-194). Absent (any pre-merchant save) →
+    // the seeded roster (Yohei with his full seed purse — the correct fresh-counterparty
+    // default, and idempotent: a present map is kept, so re-validating never re-grants).
+    merchants: validateMerchants(base.merchants),
     // ── deep housing (v7, additive; ADR-111): the ids of BOUGHT comfort furniture. Absent (any
     // pre-housing save) → [] (owns no furniture — the correct fresh default); malformed → []. Matches
     // the v6→v7 migration. Granted keepsakes are derived, not stored, so they need no hydration.

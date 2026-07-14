@@ -80,6 +80,11 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // additive — a pre-v13 entry has none and keeps its baked head verbatim (TST2), so the
   // migration is the identity; the bump records the format change.
   12: (state) => state,
+
+  // v13 → v14 (ADR-194 merchant state): purely additive — the new `merchants` map hydrates to
+  // the seeded roster in validateState when absent (idempotent: a present map is kept as-is,
+  // so re-running can never double-grant). Identity here; the bump records the format change.
+  13: (state) => state,
 };
 
 /** `<ns>.<scene>.…greeting.<i>` / `…answer.<i>` → the same address with the line's authored id.

@@ -24,6 +24,7 @@ import {
   getWeapon,
   durabilityBand,
   isMarketDay,
+  riceSellQuote,
   promotionReady,
   pendingPromotionTarget,
   phaseOf,
@@ -455,8 +456,10 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
         'kura',
       );
       let guard = 0;
-      while ((s.banked.coin ?? 0) < WEALTHY_COIN_THRESHOLD && guard++ < 4000) {
-        if (isMarketDay(s.clock.day) && (s.banked.rice ?? 0) > 0) {
+      while ((s.banked.coin ?? 0) < WEALTHY_COIN_THRESHOLD && guard++ < 20000) {
+        // ADR-194 — mirror the reducer's merchant guards (a dry purse / sagged-to-0 price
+        // no-ops), or the loop burns its guard on no-op sells instead of passing time.
+        if (isMarketDay(s.clock.day) && (s.banked.rice ?? 0) > 0 && riceSellQuote(s).sho > 0) {
           s = reduce(s, { type: 'sell_rice' }); // kura shō → coin (Yohei's purse-clamped)
         } else if (s.wageDaysAccrued > 0) {
           s = reduce(s, { type: 'collect_wage' });
