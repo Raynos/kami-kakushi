@@ -98,6 +98,19 @@ way**. Never branch on `$?` — merge the streams and parse the JSON.
    so a ` -- ` in a sibling command or the message can't false-allow). The
    pre-commit hook echoes the staged set as the visibility backstop.
    `SKIP_SWEEPGUARD=1` for a deliberate whole-index commit.
+
+   **The pathspec form is file-level, and that is enough (ADR-199).**
+   Don't reach for `git commit -p` — it seeds its temp index from the
+   SHARED one and sweeps a co-agent's staged files (guard-blocked;
+   don't escape it). If two agents genuinely land in the SAME file and
+   you must extract only your hunks, the rescue tool is a private index
+   — `GIT_INDEX_FILE` + `git add -p`, with three silent traps (seed
+   from HEAD; NO pathspec on the commit, or `--only` discards your
+   selection; `git reset -q -- <paths>` after, or the shared index
+   reads as a staged revert of your own hunk). It is a rescue, **not**
+   the protocol: the tree it commits is one no gate ever ran against.
+   Full recipe + the worktree opt-in criteria:
+   [`shared-tree-git.md`](../../docs/guides/shared-tree-git.md).
 2. **Journal** — stage a `journal/` entry (pre-commit requires it).
 3. **Checkpoint the mechanicals, then finish the judgment half.** `pnpm run checkpoint`
    regenerates the derivable regions (gate roster, active-plans) + graduates any DONE plan; then YOU do the

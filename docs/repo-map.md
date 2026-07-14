@@ -18,6 +18,10 @@ always-loaded context while being editable on its own.
   canon): [qa-playtesting.md](../docs/guides/qa-playtesting.md) (how Claude
   play-tests — harness, MCP tools, balance flows),
   [sfx-spec.md](../docs/guides/sfx-spec.md) (the audio contract),
+  [shared-tree-git.md](../docs/guides/shared-tree-git.md) (committing
+  with N agents in one checkout — the pathspec contract, the
+  `git commit -p` trap, the `GIT_INDEX_FILE` rescue tool, and the
+  worktree opt-in criteria; ADR-199's operational half),
   [plan-authoring.md](../docs/guides/plan-authoring.md) (the three plan
   templates — `build`/`process`/`ops` — whose mandatory sections the
   pre-commit `verify-plan-template` gate enforces on NEW plans), and the **map
