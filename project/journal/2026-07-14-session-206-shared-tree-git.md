@@ -57,8 +57,12 @@ which is exactly what ADR-196's hybrid already said.
 
 ## Next intended steps
 
-1. Nothing queued — this closed as documentation. The worktree opt-in is
-   now criteria an agent can act on without a further plan.
+1. Nothing to build — this closed as documentation. The worktree opt-in
+   is now criteria an agent can act on without a further plan.
+2. **Parked in [`BACKLOG.md`](../BACKLOG.md)** (leftover-work sweep): a
+   worktree agent can't playtest through the shared `:5173`. The fix (a
+   port-picking `pnpm run dev:worktree`) waits until worktree opt-in is
+   actually used often enough to earn it.
 
 ## Landmines
 

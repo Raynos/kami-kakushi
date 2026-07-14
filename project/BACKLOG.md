@@ -187,3 +187,16 @@ Deliberately not built; each says why. Never nagged.
   there: `render/variant-renderers.ts` sits at 1,199 lines (the
   wc-l cap); if a new ADR-075 diverge grows it, split it
   per-surface then.
+
+- **A worktree agent can't playtest through `:5173` (found
+  session-206, ADR-199).** The shared dev server runs from the MAIN
+  tree root, so a job isolated in a worktree cannot reach its own
+  changes in the live playtest — a PH6 collision. Today's answer is
+  documented, not tooled: playtest AFTER landing on `main`, or hand-run
+  a private vite on another port (`KAMI_ALLOW_MULTI_DEV=1`), never
+  killing the shared server. **Re-open if worktree opt-in actually gets
+  used often** — then a `pnpm run dev:worktree` (auto-picks a free port,
+  guard-aware) is the obvious fix. Parked because worktrees are opt-in
+  and rare by design; the ceremony isn't worth it for a path nobody
+  walks yet. Evidence:
+  [`shared-tree-git.md` §6](../docs/guides/shared-tree-git.md).
