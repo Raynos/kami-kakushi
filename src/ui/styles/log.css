@@ -131,7 +131,8 @@
   border-radius: var(--radius);
   margin-left: 0;
 }
-.log-filter-bar[data-variant='log-filter-segmented'] .log-filter-tab.tab-now.live {
+.log-filter-bar[data-variant='log-filter-segmented']
+  .log-filter-tab.tab-now.live {
   border-color: var(--key);
 }
 .log-filter-bar[data-variant='log-filter-segmented'] .log-filter-tab {
@@ -139,12 +140,14 @@
   border-radius: 0;
   margin-left: -1px;
 }
-.log-filter-bar[data-variant='log-filter-segmented'] .log-filter-tab:first-child {
+.log-filter-bar[data-variant='log-filter-segmented']
+  .log-filter-tab:first-child {
   margin-left: 0;
   border-top-left-radius: var(--radius);
   border-bottom-left-radius: var(--radius);
 }
-.log-filter-bar[data-variant='log-filter-segmented'] .log-filter-tab:last-child {
+.log-filter-bar[data-variant='log-filter-segmented']
+  .log-filter-tab:last-child {
   border-top-right-radius: var(--radius);
   border-bottom-right-radius: var(--radius);
 }
@@ -410,7 +413,11 @@
 .log-line.milestone {
   color: var(--gold-hi);
   font-weight: 600;
-  background: linear-gradient(90deg, rgba(216, 185, 120, 0.09), transparent 60%);
+  background: linear-gradient(
+    90deg,
+    rgba(216, 185, 120, 0.09),
+    transparent 60%
+  );
   padding-left: var(--space-3);
   border-left: 3px solid var(--gold);
 }
@@ -430,7 +437,11 @@
   border-top: 1px solid rgba(216, 185, 120, 0.22);
   border-bottom: 1px solid rgba(216, 185, 120, 0.22);
   padding-left: var(--space-3);
-  background: linear-gradient(90deg, rgba(216, 185, 120, 0.05), transparent 55%);
+  background: linear-gradient(
+    90deg,
+    rgba(216, 185, 120, 0.05),
+    transparent 55%
+  );
 }
 /* The PROGRESS reading of that same entry (render.ts adds .docket in the Progress view):
    the register of earned work, so the statement of the finished labour carries the gold
@@ -438,7 +449,11 @@
 .log-line.earned.docket {
   color: var(--gold-hi);
   font-weight: 600;
-  background: linear-gradient(90deg, rgba(216, 185, 120, 0.09), transparent 60%);
+  background: linear-gradient(
+    90deg,
+    rgba(216, 185, 120, 0.09),
+    transparent 60%
+  );
 }
 
 /* F50 — the "Name: " prefix on a spoken line; inherits the line's voice colour, just weighted. */
@@ -515,7 +530,11 @@
   color: var(--attr-accent, var(--ochre));
 }
 .perk-box.attr-themed .perk-stat {
-  border-top-color: color-mix(in srgb, var(--attr-accent, var(--ink-faint)) 45%, transparent);
+  border-top-color: color-mix(
+    in srgb,
+    var(--attr-accent, var(--ink-faint)) 45%,
+    transparent
+  );
 }
 /* the filled attribute kanji chip stamped on the card corner — the perk's stat, at a glance. */
 .perk-attr-chip {

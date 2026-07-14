@@ -49,14 +49,22 @@ export function renderSurfaceVariant(
   state: GameState,
   dispatch: (intent: Intent) => void,
 ): boolean {
-  if (surface === 'influence') return renderInfluenceGrade(variantId, container, state);
-  if (surface === 'craft') return renderCraftVariant(variantId, container, state);
-  if (surface === 'market') return renderMarketVariant(variantId, container, state, dispatch);
-  if (surface === 'quests') return renderQuestsVariant(variantId, container, state, dispatch);
-  if (surface === 'bestiary') return renderBestiaryVariant(variantId, container, state);
-  if (surface === 'home') return renderHomeVariant(variantId, container, state, dispatch);
-  if (surface === 'works') return renderWorksVariant(variantId, container, state, dispatch);
-  if (surface === 'estate-house') return renderEstateHouseVariant(variantId, container, state);
+  if (surface === 'influence')
+    return renderInfluenceGrade(variantId, container, state);
+  if (surface === 'craft')
+    return renderCraftVariant(variantId, container, state);
+  if (surface === 'market')
+    return renderMarketVariant(variantId, container, state, dispatch);
+  if (surface === 'quests')
+    return renderQuestsVariant(variantId, container, state, dispatch);
+  if (surface === 'bestiary')
+    return renderBestiaryVariant(variantId, container, state);
+  if (surface === 'home')
+    return renderHomeVariant(variantId, container, state, dispatch);
+  if (surface === 'works')
+    return renderWorksVariant(variantId, container, state, dispatch);
+  if (surface === 'estate-house')
+    return renderEstateHouseVariant(variantId, container, state);
   return false;
 }
 
@@ -105,7 +113,8 @@ function renderWorksVariant(
   };
   container.replaceChildren();
   const stageName =
-    ESTATE_STAGE_NAMES[state.estateStage] ?? ESTATE_STAGE_NAMES[ESTATE_STAGE_NAMES.length - 1]!;
+    ESTATE_STAGE_NAMES[state.estateStage] ??
+    ESTATE_STAGE_NAMES[ESTATE_STAGE_NAMES.length - 1]!;
   if (variantId === 'works-b') {
     // B · THE WORK-SITE BOARD — one card per project, anchored on the zones you walk:
     // the sites carry the discovery state; the open site carries the commissioning.
@@ -121,7 +130,9 @@ function renderWorksVariant(
         'div',
         `works-site ${built ? 'is-built' : isNext ? `is-${disc}` : 'is-faint'}`,
       );
-      const kanji = proj.zones.map((z) => getNode(z.node)?.kanji ?? '?').join('');
+      const kanji = proj.zones
+        .map((z) => getNode(z.node)?.kanji ?? '?')
+        .join('');
       site.append(el('div', 'works-site-kanji', kanji));
       if (built) {
         site.append(el('div', 'works-site-name', stageLabel(def)));
@@ -141,7 +152,9 @@ function renderWorksVariant(
         if (read) site.append(read);
         else site.append(commissionBtn());
       } else if (isNext && disc === 'named') {
-        site.append(el('div', 'works-site-name is-hint', FLAVOR.worksLadderNamed));
+        site.append(
+          el('div', 'works-site-name is-hint', FLAVOR.worksLadderNamed),
+        );
       } else {
         site.append(
           el(
@@ -206,7 +219,9 @@ function renderWorksVariant(
       el(
         'div',
         'rung-hint',
-        n.discovery === 'named' ? FLAVOR.worksLadderNamed : FLAVOR.worksLadderUnnamed,
+        n.discovery === 'named'
+          ? FLAVOR.worksLadderNamed
+          : FLAVOR.worksLadderUnnamed,
       ),
     );
   } else {
@@ -223,7 +238,8 @@ function renderEstateHouseVariant(
   container: HTMLElement,
   state: GameState,
 ): boolean {
-  if (variantId !== 'estate-house-b' && variantId !== 'estate-house-c') return false;
+  if (variantId !== 'estate-house-b' && variantId !== 'estate-house-c')
+    return false;
   container.replaceChildren();
   const opened = HOUSE_ROOMS.filter((room) => isUnlocked(state, room.surface));
   if (variantId === 'estate-house-b') {
@@ -238,7 +254,11 @@ function renderEstateHouseVariant(
       // P15 — a room not yet reopened stays UNNAMED (a silhouette line, never a preview).
       line.append(
         el('span', 'ledger-rule', isOpen ? '〇' : '▢'),
-        el('span', 'ledger-name', isOpen ? `${room.kanji} · ${room.label}` : '————'),
+        el(
+          'span',
+          'ledger-name',
+          isOpen ? `${room.kanji} · ${room.label}` : '————',
+        ),
         el('span', 'ledger-note', isOpen ? 'open' : ''),
       );
       page.append(line);
@@ -258,8 +278,10 @@ function renderEstateHouseVariant(
   const card = el('div', 'rung-card frame');
   card.append(el('div', 'rung-now', 'The house reopens 家'));
   const list = el('div', 'house-room-list');
-  for (const room of opened) list.append(el('div', 'rung-hint', `${room.kanji} · ${room.label}`));
-  if (opened.length === 0) list.append(el('div', 'rung-hint', 'The inner house waits, shuttered.'));
+  for (const room of opened)
+    list.append(el('div', 'rung-hint', `${room.kanji} · ${room.label}`));
+  if (opened.length === 0)
+    list.append(el('div', 'rung-hint', 'The inner house waits, shuttered.'));
   card.append(list);
   container.append(card);
   return true;
@@ -288,12 +310,17 @@ function renderBestiaryVariant(
     const banner = el('div');
     banner.style.cssText =
       'display:flex;align-items:baseline;gap:.4rem;border-bottom:1px solid var(--ink-faint);padding-bottom:.3rem;color:var(--ink);';
-    const bt = el('span', undefined, `Danger ledger — ${known} of ${entries.length} recorded`);
+    const bt = el(
+      'span',
+      undefined,
+      `Danger ledger — ${known} of ${entries.length} recorded`,
+    );
     bt.style.fontWeight = '700';
     banner.append(bt);
     const bk = el('span', undefined, '危険帳');
     bk.lang = 'ja';
-    bk.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+    bk.style.cssText =
+      'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
     banner.append(bk);
     ledger.append(banner);
 
@@ -305,7 +332,11 @@ function renderBestiaryVariant(
       const danger = e.seen ? 1 - e.winRate : 0;
       const row = el('div');
       row.style.cssText = 'display:flex;align-items:center;gap:.5rem;';
-      const name = el('span', undefined, e.seen ? `${e.mob.label} ${e.mob.kanji}` : 'Unknown foe');
+      const name = el(
+        'span',
+        undefined,
+        e.seen ? `${e.mob.label} ${e.mob.kanji}` : 'Unknown foe',
+      );
       name.style.cssText = `flex:0 0 9rem;color:${e.seen ? 'var(--ink)' : 'var(--ink-faint)'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;`;
       const track = el('div');
       track.style.cssText =
@@ -314,14 +345,22 @@ function renderBestiaryVariant(
         const fill = el('span');
         // deadlier → fuller + hotter ink (rokusho→ochre→beni as the odds worsen).
         const hue =
-          danger >= 0.72 ? 'var(--beni)' : danger >= 0.45 ? 'var(--ochre)' : 'var(--rokusho)';
+          danger >= 0.72
+            ? 'var(--beni)'
+            : danger >= 0.45
+              ? 'var(--ochre)'
+              : 'var(--rokusho)';
         fill.style.cssText = `position:absolute;left:0;top:0;height:100%;width:${Math.round(danger * 100)}%;background:${hue};`;
         track.append(fill);
       } else {
         track.style.backgroundImage =
           'repeating-linear-gradient(45deg,var(--washi),var(--washi) 4px,var(--washi-shade) 4px,var(--washi-shade) 8px)';
       }
-      const read = el('span', undefined, e.seen ? `${pct(1 - danger)} win` : 'unknown');
+      const read = el(
+        'span',
+        undefined,
+        e.seen ? `${pct(1 - danger)} win` : 'unknown',
+      );
       read.style.cssText = `flex:0 0 4.5rem;text-align:right;font-variant-numeric:tabular-nums;font-size:var(--fs-micro);color:${e.seen ? 'var(--ink-soft)' : 'var(--ink-faint)'};`;
       row.append(name, track, read);
       ledger.append(row);
@@ -348,7 +387,8 @@ function renderBestiaryVariant(
   cap.append(ct);
   const ck = el('span', undefined, '図鑑');
   ck.lang = 'ja';
-  ck.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+  ck.style.cssText =
+    'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
   cap.append(ck);
   scroll.append(cap);
 
@@ -365,8 +405,13 @@ function renderBestiaryVariant(
       `color:${e.seen ? 'var(--ink)' : 'var(--ink-faint)'};`;
     row.append(portrait);
     const body = el('div');
-    body.style.cssText = 'flex:1;min-width:0;display:flex;flex-direction:column;gap:.12rem;';
-    const nm = el('span', undefined, e.seen ? `${e.mob.label} ${e.mob.kanji}` : 'A beast unmet');
+    body.style.cssText =
+      'flex:1;min-width:0;display:flex;flex-direction:column;gap:.12rem;';
+    const nm = el(
+      'span',
+      undefined,
+      e.seen ? `${e.mob.label} ${e.mob.kanji}` : 'A beast unmet',
+    );
     nm.style.cssText = `font-weight:700;color:${e.seen ? 'var(--ink)' : 'var(--ink-faint)'};`;
     body.append(nm);
     if (e.seen) {
@@ -384,7 +429,8 @@ function renderBestiaryVariant(
         undefined,
         'Only a rumour so far. Face it, and this entry will ink itself in.',
       );
-      rumour.style.cssText = 'font-size:var(--fs-micro);color:var(--ink-faint);font-style:italic;';
+      rumour.style.cssText =
+        'font-size:var(--fs-micro);color:var(--ink-faint);font-style:italic;';
       body.append(rumour);
     }
     row.append(body);
@@ -456,7 +502,9 @@ function renderHomeVariant(
       'aria-label',
       `Bring a ${def.label.toLowerCase()} into your corner (${comfortNote(def)}) for ${formatCoin(def.source.coinCost)}`,
     );
-    b.addEventListener('click', () => dispatch({ type: 'buy_belonging', belongingId: def.id }));
+    b.addEventListener('click', () =>
+      dispatch({ type: 'buy_belonging', belongingId: def.id }),
+    );
     return b;
   };
 
@@ -475,7 +523,8 @@ function renderHomeVariant(
     ht.style.fontWeight = '700';
     const hk = el('span', undefined, tier.kanji);
     hk.lang = 'ja';
-    hk.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+    hk.style.cssText =
+      'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
     head.append(ht, hk);
     wrap.append(head);
     wrap.append(el('div', 'skill-blurb', tier.blurb));
@@ -516,7 +565,8 @@ function renderHomeVariant(
       nm.style.cssText = 'font-size:var(--fs-micro);color:var(--ink-soft);';
       piece.append(k, nm);
       piece.append(navHomeTag(spot.here, 'var(--ink-faint)'));
-      if (def.comfort) piece.append(navHomeTag(comfortNote(def), 'var(--rokusho)'));
+      if (def.comfort)
+        piece.append(navHomeTag(comfortNote(def), 'var(--rokusho)'));
       piece.title = def.blurb;
       room.append(piece);
     }
@@ -541,9 +591,11 @@ function renderHomeVariant(
           'display:flex;align-items:center;gap:.5rem;border-top:1px dotted var(--ink-faint);padding:.35rem 0;';
         const k = el('span', undefined, def.kanji);
         k.lang = 'ja';
-        k.style.cssText = 'font-size:1.2rem;color:var(--ink-soft);flex:0 0 auto;';
+        k.style.cssText =
+          'font-size:1.2rem;color:var(--ink-soft);flex:0 0 auto;';
         const mid = el('div');
-        mid.style.cssText = 'flex:1;min-width:0;display:flex;flex-direction:column;gap:.08rem;';
+        mid.style.cssText =
+          'flex:1;min-width:0;display:flex;flex-direction:column;gap:.08rem;';
         const nm = el('span', undefined, `${def.label} — ${comfortNote(def)}`);
         nm.style.cssText = 'color:var(--ink);';
         mid.append(nm, el('div', 'skill-blurb', def.blurb));
@@ -551,7 +603,13 @@ function renderHomeVariant(
         wrap.append(line);
       }
     } else {
-      wrap.append(el('div', 'skill-blurb', 'The room wants for nothing more — a settled corner.'));
+      wrap.append(
+        el(
+          'div',
+          'skill-blurb',
+          'The room wants for nothing more — a settled corner.',
+        ),
+      );
     }
     container.append(wrap);
     return true;
@@ -567,11 +625,16 @@ function renderHomeVariant(
   const cap = el('div');
   cap.style.cssText =
     'display:flex;align-items:baseline;gap:.4rem;border-bottom:2px solid var(--ink);padding-bottom:.25rem;color:var(--ink);';
-  const ct = el('span', undefined, `${tier.label} — a register of what is yours`);
+  const ct = el(
+    'span',
+    undefined,
+    `${tier.label} — a register of what is yours`,
+  );
   ct.style.fontWeight = '700';
   const ck = el('span', undefined, '持ち物帳');
   ck.lang = 'ja';
-  ck.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+  ck.style.cssText =
+    'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
   cap.append(ct, ck);
   ledger.append(cap);
 
@@ -612,7 +675,8 @@ function renderHomeVariant(
         'display:flex;align-items:center;gap:.5rem;border-bottom:1px dotted var(--ink-faint);padding:.3rem 0;';
       const k = el('span', undefined, def.kanji);
       k.lang = 'ja';
-      k.style.cssText = 'flex:0 0 1.6rem;font-size:1.1rem;color:var(--ink-soft);';
+      k.style.cssText =
+        'flex:0 0 1.6rem;font-size:1.1rem;color:var(--ink-soft);';
       const nm = el('span', undefined, `${def.label} · ${comfortNote(def)}`);
       nm.style.cssText = 'flex:1;min-width:0;color:var(--ink-soft);';
       const price = el('span', undefined, formatCoin(def.source.coinCost));
@@ -635,7 +699,11 @@ function navHomeTag(text: string, color: string): HTMLElement {
 
 /** The diverged House-Influence grade visual (B / C). The shared frame / head / silhouettes /
  *  ascend CTA live in render.ts (default A ships to prod); only this grade block diverges. */
-function renderInfluenceGrade(variantId: string, card: HTMLElement, state: GameState): boolean {
+function renderInfluenceGrade(
+  variantId: string,
+  card: HTMLElement,
+  state: GameState,
+): boolean {
   const est = state.influence.estate;
   const bands = balance.ESTATE_BANDS;
   if (variantId === 'influence-b') {
@@ -680,7 +748,11 @@ function renderInfluenceGrade(variantId: string, card: HTMLElement, state: GameS
   }
   // ADR-107: keep the DEV variants' footer koku-consistent with the prod default's re-skin.
   card.append(
-    el('div', 'influence-when', `The season re-assesses at ${formatKMB(est.highWater)} koku.`),
+    el(
+      'div',
+      'influence-when',
+      `The season re-assesses at ${formatKMB(est.highWater)} koku.`,
+    ),
   );
   return true;
 }
@@ -689,10 +761,16 @@ function renderInfluenceGrade(variantId: string, card: HTMLElement, state: GameS
  *  title, intro blurb, and the dispatch-bound Forge button) stays inline in render.ts (default A
  *  ships); only the material-status DISPLAY portion diverges, rendered into `container`. Pure
  *  presentation of the same data — no dispatch needed (the Forge button is shared). */
-function renderCraftVariant(variantId: string, container: HTMLElement, state: GameState): boolean {
+function renderCraftVariant(
+  variantId: string,
+  container: HTMLElement,
+  state: GameState,
+): boolean {
   // Mirror render.ts: the NEXT un-crafted recipe in progression order (axe → yari, A3), so the
   // DEV variants show the same card the default renderer does — not a stale RECIPES[0].
-  const recipe = RECIPES.find((r) => !state.flags[`crafted-${r.outputWeapon}`]) ?? RECIPES[0]!;
+  const recipe =
+    RECIPES.find((r) => !state.flags[`crafted-${r.outputWeapon}`]) ??
+    RECIPES[0]!;
   const can = canCraft(state.resources, recipe);
   const inputs = Object.entries(recipe.inputs);
 
@@ -701,7 +779,8 @@ function renderCraftVariant(variantId: string, container: HTMLElement, state: Ga
     // continuous ink over a bare number) filling toward what the recipe asks. The exact
     // tabular have/need stays beside it, so no count is lost; gold when full, ochre while short.
     const wrap = el('div', 'craft-measures');
-    wrap.style.cssText = 'margin:.4rem 0;display:flex;flex-direction:column;gap:.45rem;';
+    wrap.style.cssText =
+      'margin:.4rem 0;display:flex;flex-direction:column;gap:.45rem;';
     for (const [mat, need] of inputs) {
       const have = state.resources[mat] ?? 0;
       const m = getMaterial(mat);
@@ -716,7 +795,9 @@ function renderCraftVariant(variantId: string, container: HTMLElement, state: Ga
       const tally = el(
         'span',
         undefined,
-        full ? `${have}/${need} · 足` : `${have}/${need} · ${need - have} wanting`,
+        full
+          ? `${have}/${need} · 足`
+          : `${have}/${need} · ${need - have} wanting`,
       );
       tally.style.cssText =
         'font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap;';
@@ -755,7 +836,8 @@ function renderCraftVariant(variantId: string, container: HTMLElement, state: Ga
     // view over an abstract tally). Each material is the part it becomes — its blurb names the
     // role — with a left ink-rule gold-once-gathered / indigo-while-wanting, and a 整/未 verdict.
     const list = el('div', 'craft-assembly');
-    list.style.cssText = 'margin:.4rem 0;display:flex;flex-direction:column;gap:.5rem;';
+    list.style.cssText =
+      'margin:.4rem 0;display:flex;flex-direction:column;gap:.5rem;';
     for (const [mat, need] of inputs) {
       const have = state.resources[mat] ?? 0;
       const m = getMaterial(mat);
@@ -776,7 +858,9 @@ function renderCraftVariant(variantId: string, container: HTMLElement, state: Ga
       const status = el(
         'span',
         undefined,
-        full ? `${have}/${need} · 足` : `${have}/${need} · ${need - have} wanting`,
+        full
+          ? `${have}/${need} · 足`
+          : `${have}/${need} · ${need - have} wanting`,
       );
       status.style.cssText =
         'font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap;';
@@ -793,7 +877,9 @@ function renderCraftVariant(variantId: string, container: HTMLElement, state: Ga
     const verdict = el(
       'div',
       undefined,
-      can ? '整 — the bench is set; bind the axe.' : '未 — the bench wants for materials yet.',
+      can
+        ? '整 — the bench is set; bind the axe.'
+        : '未 — the bench wants for materials yet.',
     );
     verdict.style.cssText =
       `margin-top:.35rem;font-weight:700;font-variant-numeric:tabular-nums;` +
@@ -826,7 +912,8 @@ function renderMarketVariant(
     // name, a dotted leader, grant + price right-aligned tabular, then a 求 ("buy") verb. Stock +
     // any coin shortfall read as plain ink beneath, so an unaffordable good is HINTED, never grey.
     const board = el('div', 'market-board');
-    board.style.cssText = 'margin:.5rem 0;border-top:1px solid var(--ink-faint);padding-top:.2rem;';
+    board.style.cssText =
+      'margin:.5rem 0;border-top:1px solid var(--ink-faint);padding-top:.2rem;';
     for (const item of MARKET_ITEMS) {
       const bought = state.marketBought[item.id] ?? 0;
       const remaining = item.stockCap - bought;
@@ -834,7 +921,8 @@ function renderMarketVariant(
       const affordable = canBuy(state.resources, item, bought);
 
       const line = el('div', 'market-board-line');
-      line.style.cssText = 'display:flex;align-items:center;gap:.45rem;padding:.3rem 0 .1rem;';
+      line.style.cssText =
+        'display:flex;align-items:center;gap:.45rem;padding:.3rem 0 .1rem;';
       const name = el('span', undefined, item.label);
       name.style.cssText = 'color:var(--ink);white-space:nowrap;';
       const leader = el('span');
@@ -903,11 +991,13 @@ function renderMarketVariant(
       glyph.style.cssText = 'font-size:1.5rem;line-height:1.1;flex:0 0 auto;';
       glyph.setAttribute('aria-hidden', 'true');
       const mid = el('div');
-      mid.style.cssText = 'flex:1;display:flex;flex-direction:column;gap:.14rem;min-width:0;';
+      mid.style.cssText =
+        'flex:1;display:flex;flex-direction:column;gap:.14rem;min-width:0;';
       const nameLine = el('span', undefined, item.label);
       nameLine.style.cssText = 'color:var(--ink);';
       const grant = el('span', undefined, grantStr(item));
-      grant.style.cssText = 'color:var(--rokusho);font-variant-numeric:tabular-nums;';
+      grant.style.cssText =
+        'color:var(--rokusho);font-variant-numeric:tabular-nums;';
       const track = el('div');
       track.style.cssText =
         'height:.28rem;max-width:7rem;background:var(--washi-shade);margin-top:.15rem;';
@@ -971,7 +1061,8 @@ function renderQuestsVariant(
     CLEAR: { kanji: '掃', word: 'CLEAR', accent: 'var(--ochre)' },
     DEFEND: { kanji: '守', word: 'DEFEND', accent: 'var(--rokusho)' },
   };
-  const take = (questId: string): void => dispatch({ type: 'accept_quest', questId });
+  const take = (questId: string): void =>
+    dispatch({ type: 'accept_quest', questId });
 
   if (variantId === 'quests-b') {
     // ── B · 高札場 — the village notice-board. Each quest a posted commission-bill; progress reads
@@ -989,7 +1080,8 @@ function renderQuestsVariant(
     banner.append(bTitle);
     const bKanji = el('span', undefined, '高札場');
     bKanji.lang = 'ja';
-    bKanji.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+    bKanji.style.cssText =
+      'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
     banner.append(bKanji);
     board.append(banner);
 
@@ -1005,7 +1097,8 @@ function renderQuestsVariant(
         k.accent +
         ';background:var(--washi);padding:.4rem .5rem;display:flex;flex-direction:column;gap:.32rem;';
       const head = el('div');
-      head.style.cssText = 'display:flex;align-items:baseline;gap:.45rem;flex-wrap:wrap;';
+      head.style.cssText =
+        'display:flex;align-items:baseline;gap:.45rem;flex-wrap:wrap;';
       const stamp = el('span');
       stamp.style.cssText =
         'display:inline-flex;align-items:baseline;gap:.2rem;color:' +
@@ -1066,21 +1159,30 @@ function renderQuestsVariant(
 
         const rk = q.reward.resources?.coin;
         if (rk && !completed) {
-          const reward = el('div', undefined, 'On fulfilment — ' + formatCoin(rk));
+          const reward = el(
+            'div',
+            undefined,
+            'On fulfilment — ' + formatCoin(rk),
+          );
           reward.style.cssText =
             'align-self:flex-start;border:1px solid var(--gold);color:var(--gold);padding:0 .3rem;font-size:var(--fs-micro);font-variant-numeric:tabular-nums;';
           bill.append(reward);
         }
       } else {
         const foot = el('div');
-        foot.style.cssText = 'display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;';
+        foot.style.cssText =
+          'display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;';
         const btn = el('button', 'verb', 'Take the commission 請ける');
         btn.type = 'button';
         btn.addEventListener('click', () => take(q.id));
         foot.append(btn);
         const rk = q.reward.resources?.coin;
         if (rk) {
-          const posted = el('span', undefined, 'Posted reward — ' + formatCoin(rk));
+          const posted = el(
+            'span',
+            undefined,
+            'Posted reward — ' + formatCoin(rk),
+          );
           posted.style.cssText =
             'color:var(--ink-soft);font-size:var(--fs-micro);font-variant-numeric:tabular-nums;';
           foot.append(posted);
@@ -1108,7 +1210,8 @@ function renderQuestsVariant(
   cap.append(cTitle);
   const cKanji = el('span', undefined, '用帳');
   cKanji.lang = 'ja';
-  cKanji.style.cssText = 'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
+  cKanji.style.cssText =
+    'margin-left:auto;color:var(--ink-faint);font-size:var(--fs-small);';
   cap.append(cKanji);
   ledger.append(cap);
 
@@ -1137,10 +1240,13 @@ function renderQuestsVariant(
     row.append(stamp);
 
     const main = el('div');
-    main.style.cssText = 'flex:1;min-width:0;display:flex;flex-direction:column;gap:.08rem;';
+    main.style.cssText =
+      'flex:1;min-width:0;display:flex;flex-direction:column;gap:.08rem;';
     const title = el('span', undefined, q.title);
     title.style.cssText =
-      'font-weight:700;color:' + (completed ? 'var(--ink-soft)' : 'var(--ink)') + ';';
+      'font-weight:700;color:' +
+      (completed ? 'var(--ink-soft)' : 'var(--ink)') +
+      ';';
     main.append(title);
     const note = el('span', undefined, k.word + ' · ' + q.blurb);
     note.style.cssText = 'color:var(--ink-soft);font-size:var(--fs-micro);';
@@ -1176,7 +1282,8 @@ function renderQuestsVariant(
     status.style.cssText = 'flex:0 0 auto;text-align:right;';
     if (completed) {
       status.textContent = '果 done ✓';
-      status.style.cssText += 'color:var(--shu-deep);font-weight:700;font-size:var(--fs-small);';
+      status.style.cssText +=
+        'color:var(--shu-deep);font-weight:700;font-size:var(--fs-small);';
     } else if (accepted) {
       status.textContent = 'in hand';
       status.style.cssText += 'color:var(--rokusho);font-size:var(--fs-small);';
@@ -1190,7 +1297,11 @@ function renderQuestsVariant(
     ledger.append(row);
   }
 
-  const foot = el('div', undefined, '合計 — coin in hand: ' + formatCoin(coinInHand));
+  const foot = el(
+    'div',
+    undefined,
+    '合計 — coin in hand: ' + formatCoin(coinInHand),
+  );
   foot.style.cssText =
     'align-self:flex-end;color:var(--ink-soft);font-size:var(--fs-micro);font-variant-numeric:tabular-nums;padding-top:.15rem;';
   ledger.append(foot);

@@ -112,12 +112,16 @@ export function setTitle(el: HTMLElement, title: string): void {
 }
 
 /** Set a form control's `disabled` only on a real change (guards the reflected attribute). */
-export function setDisabled(el: HTMLButtonElement | HTMLInputElement, on: boolean): void {
+export function setDisabled(
+  el: HTMLButtonElement | HTMLInputElement,
+  on: boolean,
+): void {
   if (el.disabled !== on) el.disabled = on;
 }
 
 /** Set an inline style property only on a real change — keeps CSS transitions (e.g. meter
  *  `width`) alive by writing a fresh value ONLY when it moved, never re-stamping an equal one. */
 export function setStyle(el: HTMLElement, prop: string, value: string): void {
-  if (el.style.getPropertyValue(prop) !== value) el.style.setProperty(prop, value);
+  if (el.style.getPropertyValue(prop) !== value)
+    el.style.setProperty(prop, value);
 }

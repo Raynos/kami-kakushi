@@ -13,7 +13,16 @@
 // inked stretch by stretch, each stroke lifting INTO a seal; every joint is
 // pressed over by its stamp, so the thread reads as one continuous stroke.
 
-import { brushStroke, inkLine, rng, scrawl, stipple, sv, tip, wash } from '../map-sheets/brush';
+import {
+  brushStroke,
+  inkLine,
+  rng,
+  scrawl,
+  stipple,
+  sv,
+  tip,
+  wash,
+} from '../map-sheets/brush';
 import type { Pt } from '../map-sheets/geom';
 import { OWNER, STAMPS, THREAD_MARKS } from './fixture';
 import type { StampEvent } from './fixture';
@@ -122,7 +131,10 @@ function pressStamp(
       opacity: '0.55',
     }),
   );
-  txt(g, cx, cy + size * 0.19, ev.kanji, { size: size * 0.52, color: 'var(--shu)' });
+  txt(g, cx, cy + size * 0.19, ev.kanji, {
+    size: size * 0.52,
+    color: 'var(--shu)',
+  });
   // press patchiness — paper-coloured speckle where the seal missed its ink
   stipple(g, corners, {
     seed: `press-${ev.id}`,
@@ -142,12 +154,22 @@ function pressStamp(
     font: 'body',
     anchor: 'start',
   });
-  txt(parent, cx, cy + h + 36, ev.name, { size: 15.5, color: 'var(--ink)', font: 'body' });
-  txt(parent, cx, cy + h + 57, `${ev.seasonKanji} ${ev.season} · day ${ev.day}`, {
-    size: 12,
-    color: 'var(--ink-soft)',
+  txt(parent, cx, cy + h + 36, ev.name, {
+    size: 15.5,
+    color: 'var(--ink)',
     font: 'body',
   });
+  txt(
+    parent,
+    cx,
+    cy + h + 57,
+    `${ev.seasonKanji} ${ev.season} · day ${ev.day}`,
+    {
+      size: 12,
+      color: 'var(--ink-soft)',
+      font: 'body',
+    },
+  );
   const fy = cy + h + 74;
   const fr = rng(`flourish-${ev.id}`);
   brushStroke(
@@ -157,7 +179,13 @@ function pressStamp(
       [cx + (fr() - 0.5) * 10, fy - 3 - fr() * 4],
       [cx + 34 + fr() * 14, fy + (fr() - 0.5) * 6],
     ],
-    { seed: `flourish-${ev.id}`, w: 2.4, color: 'var(--ink-soft)', opacity: 0.6, dry: true },
+    {
+      seed: `flourish-${ev.id}`,
+      w: 2.4,
+      color: 'var(--ink-soft)',
+      opacity: 0.6,
+      dry: true,
+    },
   );
 }
 
@@ -174,7 +202,12 @@ interface ThreadStretch {
 
 /** One inter-stamp stretch of the thread — seeded sway, a knot loop where the
  *  run knotted, thin dry ink through a lean stretch. */
-function buildStretch(from: Pt, to: Pt, seed: string, knotAt?: Pt): readonly Pt[] {
+function buildStretch(
+  from: Pt,
+  to: Pt,
+  seed: string,
+  knotAt?: Pt,
+): readonly Pt[] {
   const r = rng(seed);
   const at = (t: number): Pt => [
     from[0] + (to[0] - from[0]) * t,
@@ -187,7 +220,10 @@ function buildStretch(from: Pt, to: Pt, seed: string, knotAt?: Pt): readonly Pt[
     const rad = 11 + r() * 4;
     for (let k = 0; k <= 10; k++) {
       const a = (k / 10) * Math.PI * 2.3;
-      pts.push([knotAt[0] + Math.cos(a) * rad, knotAt[1] + Math.sin(a) * rad * 0.85]);
+      pts.push([
+        knotAt[0] + Math.cos(a) * rad,
+        knotAt[1] + Math.sin(a) * rad * 0.85,
+      ]);
     }
   } else {
     pts.push(at(0.54));
@@ -196,7 +232,10 @@ function buildStretch(from: Pt, to: Pt, seed: string, knotAt?: Pt): readonly Pt[
   return pts;
 }
 
-function paintThread(parent: SVGElement, anchors: readonly Pt[]): readonly ThreadStretch[] {
+function paintThread(
+  parent: SVGElement,
+  anchors: readonly Pt[],
+): readonly ThreadStretch[] {
   const stretches: ThreadStretch[] = [];
   for (let i = 0; i < STAMPS.length; i++) {
     const ev = STAMPS[i]!;
@@ -220,14 +259,20 @@ function paintThread(parent: SVGElement, anchors: readonly Pt[]): readonly Threa
       w: lean ? 1.7 : knotAt ? 5 : 4.2,
       color: knotAt ? 'var(--ink)' : 'var(--ink-soft)',
       dry: lean,
-      ...(mark && markAt ? { mark: { x: markAt[0], y: markAt[1], label: mark.label } } : {}),
+      ...(mark && markAt
+        ? { mark: { x: markAt[0], y: markAt[1], label: mark.label } }
+        : {}),
     });
   }
   // the tail — the run continues past the last seal, dry off the page edge
   const last = anchors[STAMPS.length]!;
   const rt = rng('thread-tail');
   stretches.push({
-    pts: [last, [last[0] - 110, last[1] - 18 - rt() * 30], [last[0] - 220, last[1] - 30]],
+    pts: [
+      last,
+      [last[0] - 110, last[1] - 18 - rt() * 30],
+      [last[0] - 220, last[1] - 30],
+    ],
     w: 3.4,
     color: 'var(--ink-soft)',
     dry: true,
@@ -303,13 +348,23 @@ function paintBook(svg: SVGSVGElement): void {
         [x, 12],
         [x, PAGE_H - 12],
       ],
-      { seed: `crease-${s}`, color: 'var(--steel-0)', w: 2.4, opacity: 0.9, amp: 1.2 },
+      {
+        seed: `crease-${s}`,
+        color: 'var(--steel-0)',
+        w: 2.4,
+        opacity: 0.9,
+        amp: 1.2,
+      },
     );
   }
 
   // the cover (rightmost panel): title, owner, and the thread's starting end
   const coverCx = pageX(0) + PAGE_W / 2;
-  txt(art, coverCx, 120, '朱印帳', { size: 46, color: 'var(--ink)', vertical: true });
+  txt(art, coverCx, 120, '朱印帳', {
+    size: 46,
+    color: 'var(--ink)',
+    vertical: true,
+  });
   txt(art, coverCx + 58, 240, OWNER.kanji, {
     size: 20,
     color: 'var(--ink-soft)',

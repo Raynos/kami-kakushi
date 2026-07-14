@@ -92,13 +92,19 @@ describe('3a · a loss STOPS the autopilot (D-076: 0 HP ⇒ autopilot off)', () 
 
 describe('3b · the bank — deposit/withdraw move carried ↔ banked (batch-2 call 7)', () => {
   it('deposit moves ALL carried coin into the kura storehouse', () => {
-    const after = reduce(economyReady(100), { type: 'deposit', resource: 'coin' });
+    const after = reduce(economyReady(100), {
+      type: 'deposit',
+      resource: 'coin',
+    });
     expect(after.resources.coin ?? 0).toBe(0); // carried emptied
     expect(after.banked.coin ?? 0).toBe(100); // sheltered
   });
 
   it('withdraw moves banked coin back to carried (round-trips)', () => {
-    const stored = reduce(economyReady(100), { type: 'deposit', resource: 'coin' });
+    const stored = reduce(economyReady(100), {
+      type: 'deposit',
+      resource: 'coin',
+    });
     const after = reduce(stored, { type: 'withdraw', resource: 'coin' });
     expect(after.resources.coin ?? 0).toBe(100);
     expect(after.banked.coin ?? 0).toBe(0);
@@ -135,7 +141,10 @@ describe('3c · a lost fight drops CARRIED coin/materials; BANKED is safe (D-076
 
   it('the rout DENOMINATES the dropped coin (D-108 — mon/monme/ryō, matching the pills)', () => {
     const base = mc(1); // a guaranteed loss vs bandit
-    const before: GameState = { ...base, resources: { ...base.resources, coin: 100 } };
+    const before: GameState = {
+      ...base,
+      resources: { ...base.resources, coin: 100 },
+    };
     const after = applyGrindFight(before, 'bandit');
     expect(after.character.hp).toBe(balance.SETBACK_HP); // it lost
     const lostCoin = Math.round(100 * balance.LOSS_COIN_FRAC); // the design lever, from the source
@@ -157,9 +166,12 @@ describe('G3 · a defeat routes to the sickroom (ADR-155/ADR-164)', () => {
 
     // the defeat costs SICKROOM_DAYS_LOST whole days ON TOP of the limp-home ticks — every count
     // DERIVED from the source constants (never a copied 2), so the assertion tracks the balance.
-    const limpTicks = balance.FIGHT_TICKS + balance.SETBACK_TICKS + balance.FORCED_REST_TICKS;
+    const limpTicks =
+      balance.FIGHT_TICKS + balance.SETBACK_TICKS + balance.FORCED_REST_TICKS;
     const sickTicks = balance.SICKROOM_DAYS_LOST * TICKS_PER_DAY;
-    expect(after.clock.day).toBe(Math.floor((limpTicks + sickTicks) / TICKS_PER_DAY));
+    expect(after.clock.day).toBe(
+      Math.floor((limpTicks + sickTicks) / TICKS_PER_DAY),
+    );
     // RED-able: without the sickroom days the loss would land on day 1, not day 3.
     expect(after.clock.day).toBeGreaterThanOrEqual(balance.SICKROOM_DAYS_LOST);
   });
@@ -178,7 +190,12 @@ describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
   });
 
   it('with retreatHp 0 (fight-to-death / the forecast path, A6) a fight NEVER flees', () => {
-    const r = resolveFight(mc(1).rng, mcCombatStats(mc(1)), mobCombatStats(getMob('bandit')), 0);
+    const r = resolveFight(
+      mc(1).rng,
+      mcCombatStats(mc(1)),
+      mobCombatStats(getMob('bandit')),
+      0,
+    );
     expect(r.fled).toBe(false);
   });
 
@@ -221,25 +238,48 @@ describe('3d · auto-retreat — the "fled" outcome (batch-2 call 6)', () => {
       location: getMob('monkey').area,
       flags: { awake: true },
     };
-    const death = reduce(s, { type: 'set_auto_combat', mobId: 'monkey', retreat: false });
+    const death = reduce(s, {
+      type: 'set_auto_combat',
+      mobId: 'monkey',
+      retreat: false,
+    });
     expect(death.autoCombat).toBe('monkey');
     expect(death.autoCombatRetreat).toBe(false);
-    const flee = reduce(s, { type: 'set_auto_combat', mobId: 'monkey', retreat: true });
+    const flee = reduce(s, {
+      type: 'set_auto_combat',
+      mobId: 'monkey',
+      retreat: true,
+    });
     expect(flee.autoCombatRetreat).toBe(true);
   });
 
   it('arming auto-combat OFF the foe’s node is a no-op; clearing works anywhere', () => {
-    const away: GameState = { ...createInitialState(1), location: 'kura', flags: { awake: true } };
-    expect(reduce(away, { type: 'set_auto_combat', mobId: 'monkey' })).toBe(away); // no-op off-node
+    const away: GameState = {
+      ...createInitialState(1),
+      location: 'kura',
+      flags: { awake: true },
+    };
+    expect(reduce(away, { type: 'set_auto_combat', mobId: 'monkey' })).toBe(
+      away,
+    ); // no-op off-node
     // clearing (mobId null) is not gated — you can always stop the autopilot
-    const armed: GameState = { ...away, location: getMob('monkey').area, autoCombat: 'monkey' };
-    expect(reduce(armed, { type: 'set_auto_combat', mobId: null }).autoCombat).toBeNull();
+    const armed: GameState = {
+      ...away,
+      location: getMob('monkey').area,
+      autoCombat: 'monkey',
+    };
+    expect(
+      reduce(armed, { type: 'set_auto_combat', mobId: null }).autoCombat,
+    ).toBeNull();
   });
 });
 
 describe('5c · banking is spatial — you store/draw only at the kura (batch-2 map call)', () => {
   it('deposit off the kura is a no-op; at the kura it stores', () => {
-    const away: GameState = { ...economyReady(100), location: getMob('monkey').area };
+    const away: GameState = {
+      ...economyReady(100),
+      location: getMob('monkey').area,
+    };
     expect(reduce(away, { type: 'deposit', resource: 'coin' })).toBe(away); // same ref → no-op
     const atKura: GameState = { ...economyReady(100), location: 'kura' };
     const stored = reduce(atKura, { type: 'deposit', resource: 'coin' });
@@ -260,7 +300,11 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
    *  ADR-179 — the tab derives from its rung fact (rank-r3), never a stored latch. */
   function fighterAt(location: string): GameState {
     const s = mc(5);
-    return { ...s, location, flags: { ...s.flags, ...factsForSurfaces('tab-combat') } };
+    return {
+      ...s,
+      location,
+      flags: { ...s.flags, ...factsForSurfaces('tab-combat') },
+    };
   }
 
   it('the monkey lives on the bamboo grove — fighting it there WORKS, elsewhere is a no-op', () => {
@@ -277,11 +321,14 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
     // on the node: the same fight resolves (a guaranteed win raises combat XP).
     const here = fighterAt(monkeyNode);
     const hereAfter = reduce(here, { type: 'fight', mobId: 'monkey' });
-    expect(hereAfter.character.combatXp).toBeGreaterThan(here.character.combatXp);
+    expect(hereAfter.character.combatXp).toBeGreaterThan(
+      here.character.combatXp,
+    );
   });
 
   it('the watch shows only the foes on THIS node (foesHere is node-scoped)', () => {
-    const idsAt = (loc: string): string[] => foesHere(fighterAt(loc)).map((f) => f.mob.id);
+    const idsAt = (loc: string): string[] =>
+      foesHere(fighterAt(loc)).map((f) => f.mob.id);
     // G4 re-siting (level-asc danger order): the weir reeds hold the river-rat warmup; the field
     // margins the tanuki + the heavier badger; the grove the lone monkey + the troop big-male; the
     // orchard the feral-dog pack. The kura's foes are night-round-only (excluded from the day watch);
@@ -293,7 +340,9 @@ describe('5b · foes are spatial — you fight where the foe stands (batch-2 map
     expect(idsAt('woodlot')).toEqual([]); // bandit gated out of T0
     expect(idsAt('kura')).toEqual([]); // the store-rats/marten/wolf are night-round-only
     // …but the bandit DOES appear once the house reaches T2 (the gate is tier-scoped, A10).
-    const atT2 = foesHere({ ...fighterAt('woodlot'), tier: 2 }).map((f) => f.mob.id);
+    const atT2 = foesHere({ ...fighterAt('woodlot'), tier: 2 }).map(
+      (f) => f.mob.id,
+    );
     expect(atT2).toEqual(['bandit']);
   });
 
@@ -334,16 +383,24 @@ describe('v0.3.1 fun/quality audit fixes (2026-07-01)', () => {
     };
     // switching to the axe carries the (clamped) durability — it does NOT jump back to full.
     const axeMax = getWeapon('wood_axe').durabilityMax;
-    const swapped = reduce(worn, { type: 'equip_weapon', weaponId: 'wood_axe' });
+    const swapped = reduce(worn, {
+      type: 'equip_weapon',
+      weaponId: 'wood_axe',
+    });
     expect(swapped.equippedWeapon).toBe('wood_axe');
     expect(swapped.weaponDurability).toBe(Math.min(5, axeMax)); // = 5, not axeMax → no free repair
     expect(swapped.weaponDurability).toBeLessThan(axeMax);
     // re-equipping the already-equipped weapon is a no-op (can't tap it to refill either).
-    expect(reduce(worn, { type: 'equip_weapon', weaponId: 'carrying_pole' })).toBe(worn);
+    expect(
+      reduce(worn, { type: 'equip_weapon', weaponId: 'carrying_pole' }),
+    ).toBe(worn);
   });
 
   it('arming auto-flee while already too hurt refuses honestly — no phantom flee', () => {
-    const hurt: GameState = { ...mc(1), character: { ...mc(1).character, hp: 1 } };
+    const hurt: GameState = {
+      ...mc(1),
+      character: { ...mc(1).character, hp: 1 },
+    };
     const after = applyGrindFight(hurt, 'monkey', true); // retreat mode, HP already ≤ threshold
     expect(after.autoCombat).toBeNull(); // the autopilot stops
     expect(after.character.hp).toBe(1); // no fight happened — HP untouched
@@ -355,12 +412,24 @@ describe('v0.3.1 fun/quality audit fixes (2026-07-01)', () => {
   });
 
   it('stopping auto-combat for a broken weapon logs WHY (not a silent halt)', () => {
-    const s: GameState = { ...createInitialState(1), flags: { awake: true }, autoCombat: 'monkey' };
-    const after = reduce(s, { type: 'set_auto_combat', mobId: null, reason: 'weapon-broken' });
+    const s: GameState = {
+      ...createInitialState(1),
+      flags: { awake: true },
+      autoCombat: 'monkey',
+    };
+    const after = reduce(s, {
+      type: 'set_auto_combat',
+      mobId: null,
+      reason: 'weapon-broken',
+    });
     expect(after.autoCombat).toBeNull();
-    expect(after.log.entries.some((e) => /broken.*no wood to mend/i.test(e.text))).toBe(true);
+    expect(
+      after.log.entries.some((e) => /broken.*no wood to mend/i.test(e.text)),
+    ).toBe(true);
     // a normal manual toggle-off (no reason) never emits the broken-weapon line
     const silent = reduce(s, { type: 'set_auto_combat', mobId: null });
-    expect(silent.log.entries.some((e) => /broken.*no wood to mend/i.test(e.text))).toBe(false);
+    expect(
+      silent.log.entries.some((e) => /broken.*no wood to mend/i.test(e.text)),
+    ).toBe(false);
   });
 });

@@ -13,7 +13,11 @@ import type { GameState } from './state';
 import { withResource } from './state';
 import { SICKROOM_NODE } from './content/map';
 import { advanceClock } from './step';
-import { LOSS_COIN_FRAC, LOSS_MATERIAL_FRAC, SICKROOM_DAYS_LOST } from './content/balance';
+import {
+  LOSS_COIN_FRAC,
+  LOSS_MATERIAL_FRAC,
+  SICKROOM_DAYS_LOST,
+} from './content/balance';
 import { MATERIALS } from './content/crafting';
 import { TICKS_PER_DAY } from './constants';
 
@@ -24,7 +28,11 @@ export { SICKROOM_NODE };
  *  node. Never touches HP and never mends — recovery is the deliberate treat / rest_sickroom
  *  spend at the node you now lie in (ADR-164/ADR-197). */
 export function applyDefeatConsequences(state: GameState): GameState {
-  let next: GameState = { ...state, soanLedger: state.soanLedger + 1, location: SICKROOM_NODE };
+  let next: GameState = {
+    ...state,
+    soanLedger: state.soanLedger + 1,
+    location: SICKROOM_NODE,
+  };
   next = advanceClock(next, SICKROOM_DAYS_LOST * TICKS_PER_DAY);
   return next;
 }

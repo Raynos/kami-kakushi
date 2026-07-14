@@ -103,7 +103,8 @@ export const BELONGINGS: readonly BelongingDef[] = [
     id: 'bedding',
     label: 'A futon',
     kanji: '布団',
-    blurb: 'Quilted bedding to lay over the straw. You wake mended, not merely rested.',
+    blurb:
+      'Quilted bedding to lay over the straw. You wake mended, not merely rested.',
     comfort: { kind: 'rest', amount: 5 },
     source: { kind: 'buy', coinCost: 60 },
     acquireLine:
@@ -139,7 +140,9 @@ export const BELONGINGS: readonly BelongingDef[] = [
   },
 ];
 
-export const BELONGING_IDS: ReadonlySet<string> = new Set(BELONGINGS.map((b) => b.id));
+export const BELONGING_IDS: ReadonlySet<string> = new Set(
+  BELONGINGS.map((b) => b.id),
+);
 
 export function getBelonging(id: string): BelongingDef {
   const b = BELONGINGS.find((x) => x.id === id);
@@ -150,7 +153,11 @@ export function getBelonging(id: string): BelongingDef {
 // ── the "settled home" SET / synergy (ADR-111 §2.3) — the whole is worth more than the sum. Owning
 //    all three comfort pieces grants an ADDITIONAL rest bonus above stacking them, so the SET is the
 //    reward, not raw accumulation. Keep the synergy small (ADR-059 liquid). ──
-export const SETTLED_HOME_SET: readonly string[] = ['bedding', 'hearth', 'chest'];
+export const SETTLED_HOME_SET: readonly string[] = [
+  'bedding',
+  'hearth',
+  'chest',
+];
 export const SETTLED_HOME_REST_BONUS = 4;
 
 /** Do you own the full comfort SET (bedding + hearth + chest)? */
@@ -164,19 +171,25 @@ export function homeSetComplete(owned: ReadonlySet<string>): boolean {
  * the SAME number through the SAME fn — no preview/reality drift (AC-6). Returns 0 for an empty set,
  * so it is inert until you own comfort furniture.
  */
-export function comfortBonus(owned: ReadonlySet<string>, kind: ComfortKind): number {
+export function comfortBonus(
+  owned: ReadonlySet<string>,
+  kind: ComfortKind,
+): number {
   let total = 0;
   for (const def of BELONGINGS) {
-    if (def.comfort && def.comfort.kind === kind && owned.has(def.id)) total += def.comfort.amount;
+    if (def.comfort && def.comfort.kind === kind && owned.has(def.id))
+      total += def.comfort.amount;
   }
-  if (kind === 'rest' && homeSetComplete(owned)) total += SETTLED_HOME_REST_BONUS; // synergy > sum
+  if (kind === 'rest' && homeSetComplete(owned))
+    total += SETTLED_HOME_REST_BONUS; // synergy > sum
   return total;
 }
 
 /** ADR-120 — do you own a piece that HOMES the cook verb (the hearth)? PURE over the id set, so the
  *  renderer's cook-at-the-hearth affordance and any future core gate read the SAME truth (AC-6). */
 export function homeHasCookLocus(owned: ReadonlySet<string>): boolean {
-  for (const def of BELONGINGS) if (def.homesCook && owned.has(def.id)) return true;
+  for (const def of BELONGINGS)
+    if (def.homesCook && owned.has(def.id)) return true;
   return false;
 }
 

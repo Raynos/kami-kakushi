@@ -22,7 +22,8 @@ import {
 // dream (decide-only) → soan (the ask-hub sickroom) → genemon. Ask-machinery fixtures
 // anchor on soan via atScene() (derived — a reorder flows through); the GATE machinery is
 // exercised both on the constructed scene below and by genemon's real `after:`-gated topic.
-const wake = (seed = 1): GameState => reduce(createInitialState(seed), { type: 'open_eyes' });
+const wake = (seed = 1): GameState =>
+  reduce(createInitialState(seed), { type: 'open_eyes' });
 // walk the intro forward (first option each pick) until the named scene is live.
 const atScene = (id: string, seed = 1): GameState => {
   let s = wake(seed);
@@ -36,12 +37,17 @@ const atScene = (id: string, seed = 1): GameState => {
 };
 const attrTotal = (s: GameState): number =>
   ATTR_IDS.reduce((n, id) => n + (s.character.attrs[id] ?? 0), 0);
-const sceneById = (id: string): DialogueScene => DIALOGUE_SCENES.find((s) => s.id === id)!;
+const sceneById = (id: string): DialogueScene =>
+  DIALOGUE_SCENES.find((s) => s.id === id)!;
 
 describe('DIALOGUE_SCENES — the dialogue-tree data (npc-dialogue-tree plan §3.4/§4)', () => {
   it('is exactly the HD-37 three-act arc: dream → soan → genemon, in that order', () => {
     expect(INTRO_SCENE_COUNT).toBe(3);
-    expect(DIALOGUE_SCENES.map((s) => s.id)).toEqual(['dream', 'soan', 'genemon']);
+    expect(DIALOGUE_SCENES.map((s) => s.id)).toEqual([
+      'dream',
+      'soan',
+      'genemon',
+    ]);
     expect(sceneById('soan').speaker).toBe('soan');
     expect(sceneById('genemon').speaker).toBe('genemon');
   });
@@ -83,13 +89,19 @@ describe('availableTopics — the gate over the asked-set', () => {
     ...base,
     topics: [
       { ...base.topics[0]!, id: 'g-open' },
-      { ...base.topics[1]!, id: 'g-gated', gate: (asked) => asked.has('g-open') },
+      {
+        ...base.topics[1]!,
+        id: 'g-gated',
+        gate: (asked) => asked.has('g-open'),
+      },
     ],
   };
   it('an ungated topic is always available; a gated one is hidden until its prerequisite is asked', () => {
     const emptyIds = availableTopics(gatedScene, new Set()).map((t) => t.id);
     expect(emptyIds).toEqual(['g-open']);
-    const afterIds = availableTopics(gatedScene, new Set(['g-open'])).map((t) => t.id);
+    const afterIds = availableTopics(gatedScene, new Set(['g-open'])).map(
+      (t) => t.id,
+    );
     expect(afterIds).toContain('g-gated');
   });
   it("genemon's real gated topic hides until its prerequisite is asked (derived from the scene)", () => {
@@ -123,7 +135,9 @@ describe('ask_topic — reveal the answer, mark asked, touch nothing else (plan 
     const a = after.log.entries.find((e) => e.text === topic.answer[0]!.text)!;
     expect(a.voice).toBe(topic.answer[0]!.voice); // NPC voice, carried from the authored line
     expect(a.speaker).toBe(topic.answer[0]!.speaker);
-    expect(after.log.entries.indexOf(q)).toBeLessThan(after.log.entries.indexOf(a));
+    expect(after.log.entries.indexOf(q)).toBeLessThan(
+      after.log.entries.indexOf(a),
+    );
 
     // marked asked (drives the dim state)
     expect(after.askedTopics).toContain(topic.id);
@@ -137,7 +151,8 @@ describe('ask_topic — reveal the answer, mark asked, touch nothing else (plan 
     const after = reduce(s, { type: 'ask_topic', topicId: topic.id });
 
     expect(attrTotal(after)).toBe(totalBefore); // no stat lean at all
-    for (const id of ATTR_IDS) expect(after.character.attrs[id]).toBe(s.character.attrs[id]);
+    for (const id of ATTR_IDS)
+      expect(after.character.attrs[id]).toBe(s.character.attrs[id]);
     expect(after.character.attributePoints).toBe(s.character.attributePoints);
     expect(after.npcMemory).toEqual(s.npcMemory); // asking never touches regard/warmth
     expect(after.introBeat).toBe(s.introBeat); // still in the hub — no advance
@@ -158,7 +173,12 @@ describe('ask_topic — reveal the answer, mark asked, touch nothing else (plan 
     const s = atScene('soan');
     expect(reduce(s, { type: 'ask_topic', topicId: 'no-such-topic' })).toBe(s); // foreign id
     const pre = createInitialState(1); // pre-wake ⇒ inactive
-    expect(reduce(pre, { type: 'ask_topic', topicId: sceneById('soan').topics[0]!.id })).toBe(pre);
+    expect(
+      reduce(pre, {
+        type: 'ask_topic',
+        topicId: sceneById('soan').topics[0]!.id,
+      }),
+    ).toBe(pre);
   });
 });
 
@@ -167,7 +187,10 @@ describe('the DECISION still resolves after any asking — the net-zero invarian
     let s = atScene('soan');
     const totalBefore = attrTotal(s);
     // grill Sōan with every currently-available topic (exploration is free)
-    for (const t of availableTopics(introSceneAt(s.introBeat)!, new Set(s.askedTopics))) {
+    for (const t of availableTopics(
+      introSceneAt(s.introBeat)!,
+      new Set(s.askedTopics),
+    )) {
       s = reduce(s, { type: 'ask_topic', topicId: t.id });
     }
     expect(attrTotal(s)).toBe(totalBefore); // asking changed nothing
@@ -176,8 +199,12 @@ describe('the DECISION still resolves after any asking — the net-zero invarian
     const opt = sceneById('soan').decision.options.find((o) => o.memory)!;
     const after = reduce(s, { type: 'choose_intro', optionId: opt.id });
     expect(attrTotal(after)).toBe(totalBefore); // still net-zero — the decision is a TRADE
-    expect(after.character.attrs[opt.stat.up]).toBe((s.character.attrs[opt.stat.up] ?? 0) + 1);
-    expect(after.character.attrs[opt.stat.down]).toBe((s.character.attrs[opt.stat.down] ?? 0) - 1);
+    expect(after.character.attrs[opt.stat.up]).toBe(
+      (s.character.attrs[opt.stat.up] ?? 0) + 1,
+    );
+    expect(after.character.attrs[opt.stat.down]).toBe(
+      (s.character.attrs[opt.stat.down] ?? 0) - 1,
+    );
     expect(npcRegard(after, 'soan')).toBe(opt.memory!.regard); // memory written by the decision, not the asks
     expect(after.introBeat).toBe(s.introBeat + 1); // advanced past the scene
   });
@@ -188,11 +215,23 @@ describe('the DECISION still resolves after any asking — the net-zero invarian
       type: 'ask_topic',
       topicId: sceneById('soan').topics[0]!.id,
     });
-    s = reduce(s, { type: 'ask_topic', topicId: sceneById('soan').topics[1]!.id });
-    s = reduce(s, { type: 'choose_intro', optionId: sceneById('soan').decision.options[1]!.id });
+    s = reduce(s, {
+      type: 'ask_topic',
+      topicId: sceneById('soan').topics[1]!.id,
+    });
+    s = reduce(s, {
+      type: 'choose_intro',
+      optionId: sceneById('soan').decision.options[1]!.id,
+    });
     // now at genemon: ask one, then decide — the LAST scene done ⇒ intro done.
-    s = reduce(s, { type: 'ask_topic', topicId: sceneById('genemon').topics[0]!.id });
-    s = reduce(s, { type: 'choose_intro', optionId: sceneById('genemon').decision.options[0]!.id });
+    s = reduce(s, {
+      type: 'ask_topic',
+      topicId: sceneById('genemon').topics[0]!.id,
+    });
+    s = reduce(s, {
+      type: 'choose_intro',
+      optionId: sceneById('genemon').decision.options[0]!.id,
+    });
     expect(s.introBeat).toBe(INTRO_SCENE_COUNT);
     // the whole run's asked history survives (never cleared)
     expect(s.askedTopics).toEqual([
@@ -211,18 +250,30 @@ describe('FB-316/FB-362 — every intro-emitted line carries ITS scene context',
     // real reducer path AND the real registry title (never a copied label string).
     let s = atScene('soan');
     const preIntro = s.log.entries.length; // pre-scene lines (open_eyes ran in atScene)
-    s = reduce(s, { type: 'ask_topic', topicId: sceneById('soan').topics[0]!.id });
-    const askLines = s.log.entries.slice(preIntro).filter((e) => e.channel === 'narration');
+    s = reduce(s, {
+      type: 'ask_topic',
+      topicId: sceneById('soan').topics[0]!.id,
+    });
+    const askLines = s.log.entries
+      .slice(preIntro)
+      .filter((e) => e.channel === 'narration');
     expect(askLines.length).toBeGreaterThan(1); // Q + A at minimum
     for (const e of askLines) expect(e.context).toBe(sceneById('soan').title);
     const preDecide = s.log.entries.length;
-    s = reduce(s, { type: 'choose_intro', optionId: sceneById('soan').decision.options[0]!.id });
-    const decideLines = s.log.entries.slice(preDecide).filter((e) => e.channel === 'narration'); // milestone perk box stays outside the card
+    s = reduce(s, {
+      type: 'choose_intro',
+      optionId: sceneById('soan').decision.options[0]!.id,
+    });
+    const decideLines = s.log.entries
+      .slice(preDecide)
+      .filter((e) => e.channel === 'narration'); // milestone perk box stays outside the card
     expect(decideLines.length).toBeGreaterThan(1); // say + react (+ the NEXT scene's greeting)
     // TOTAL coverage: no context gap anywhere; say/react stamp soan's card, and the same
     // reduce reveals the NEXT scene's greeting stamped with ITS OWN title (FB-362).
     for (const e of decideLines) {
-      expect([sceneById('soan').title, sceneById('genemon').title]).toContain(e.context);
+      expect([sceneById('soan').title, sceneById('genemon').title]).toContain(
+        e.context,
+      );
     }
     expect(decideLines[0]!.context).toBe(sceneById('soan').title); // the MC's say
     expect(decideLines[1]!.context).toBe(sceneById('soan').title); // the react
@@ -237,14 +288,19 @@ describe('FB-316/FB-362 — every intro-emitted line carries ITS scene context',
     while (introActive(s.introBeat)) {
       const scene = introSceneAt(s.introBeat)!;
       titles.push(scene.title!);
-      s = reduce(s, { type: 'choose_intro', optionId: scene.decision.options[0]!.id });
+      s = reduce(s, {
+        type: 'choose_intro',
+        optionId: scene.decision.options[0]!.id,
+      });
     }
     expect(titles).toHaveLength(INTRO_SCENE_COUNT);
     expect(new Set(titles).size).toBe(INTRO_SCENE_COUNT); // all distinct
     // every context the whole intro run stamped is one of the three scene titles —
     // no line anywhere still carries the old fused label.
     const stamped = new Set(
-      s.log.entries.filter((e) => e.context !== undefined).map((e) => e.context),
+      s.log.entries
+        .filter((e) => e.context !== undefined)
+        .map((e) => e.context),
     );
     expect([...stamped].sort()).toEqual([...new Set(titles)].sort());
     expect(stamped.has('the cold open')).toBe(false);

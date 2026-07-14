@@ -115,8 +115,11 @@
      elsewhere Georgia + the system sans. Zero font pipeline. ───────────── */
   --font-head: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
   --font-body: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
-  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
-  --font-num: 'Avenir Next', Avenir, 'Helvetica Neue', ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-num:
+    'Avenir Next', Avenir, 'Helvetica Neue', ui-sans-serif, system-ui,
+    sans-serif;
 
   --fs-display: calc(clamp(1.6rem, 4vw, 2.6rem) * var(--text-scale, 1));
   --fs-h1: calc(1.3rem * var(--text-scale, 1));
@@ -223,7 +226,12 @@ h3 {
    over a vertical steel-plate gradient; the woodblock triple-inset is gone ── */
 .frame {
   position: relative;
-  background: linear-gradient(180deg, var(--steel-2), var(--steel-1) 52%, var(--steel-0));
+  background: linear-gradient(
+    180deg,
+    var(--steel-2),
+    var(--steel-1) 52%,
+    var(--steel-0)
+  );
   border: 1px solid var(--key);
   box-shadow:
     inset 0 1px 0 var(--silver-wire),
@@ -240,7 +248,18 @@ h3 {
   height: 2px;
   border: 0;
   margin: var(--space-6) 0;
-  background: linear-gradient(90deg, var(--key-dim), var(--key), var(--key-dim));
-  -webkit-mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  background: linear-gradient(
+    90deg,
+    var(--key-dim),
+    var(--key),
+    var(--key-dim)
+  );
+  -webkit-mask: linear-gradient(
+    90deg,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
   mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }

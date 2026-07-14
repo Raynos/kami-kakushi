@@ -7,8 +7,24 @@
 // and stays on the Andon Steel tokens (silver = survey ink · gold = built/worked
 // structure · steel = paper and shadow).
 
-import { sv, rng, fineLayer, inkLine, brushStroke, wash, stipple, type SeedOpts } from './brush';
-import { bbox, edgeNormal, offsetPolyline, pointInPoly, resample, type Pt } from './geom';
+import {
+  sv,
+  rng,
+  fineLayer,
+  inkLine,
+  brushStroke,
+  wash,
+  stipple,
+  type SeedOpts,
+} from './brush';
+import {
+  bbox,
+  edgeNormal,
+  offsetPolyline,
+  pointInPoly,
+  resample,
+  type Pt,
+} from './geom';
 
 // ── local-frame helpers ──────────────────────────────────────────────────────
 
@@ -40,11 +56,18 @@ function tick(
 }
 
 /** A small grass tuft — a fan of 3–5 flick strokes breaching a floor or threshold. */
-function tuft(parent: SVGElement, x: number, y: number, seed: string, s = 1): void {
+function tuft(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  seed: string,
+  s = 1,
+): void {
   const r = rng(seed);
   const n = 3 + Math.floor(r() * 3);
   for (let i = 0; i < n; i++) {
-    const a = -Math.PI / 2 + (i / Math.max(1, n - 1) - 0.5) * (1.15 + r() * 0.5);
+    const a =
+      -Math.PI / 2 + (i / Math.max(1, n - 1) - 0.5) * (1.15 + r() * 0.5);
     const len = (3.5 + r() * 4) * s;
     const tipX = x + Math.cos(a) * len;
     const tipY = y + Math.sin(a) * len;
@@ -90,7 +113,12 @@ function squaredStone(
     ],
     t,
   );
-  inkLine(parent, c, { seed: `${seed}o`, w: 1.1, color: 'var(--ink-soft)', amp: 0.5 });
+  inkLine(parent, c, {
+    seed: `${seed}o`,
+    w: 1.1,
+    color: 'var(--ink-soft)',
+    amp: 0.5,
+  });
   if (r() < 0.55) {
     inkLine(
       parent,
@@ -151,7 +179,11 @@ export function roofMass(
   ];
 
   // eave-overhang halo — a mid-tone rim of roof just proud of the two planes
-  wash(parent, fpts(corners, t), { seed: `${o.seed}:face`, fill: tone, amp: amp * 1.2 });
+  wash(parent, fpts(corners, t), {
+    seed: `${o.seed}:face`,
+    fill: tone,
+    amp: amp * 1.2,
+  });
 
   // seat shadow — the mass sits ON the ground, never floats
   inkLine(
@@ -182,7 +214,11 @@ export function roofMass(
     [rb[0], -0.5],
     [ra[0], -0.5],
   ];
-  wash(parent, fpts(lit, t), { seed: `${o.seed}:lit`, fill: 'var(--steel-hi)', amp: amp * 0.7 });
+  wash(parent, fpts(lit, t), {
+    seed: `${o.seed}:lit`,
+    fill: 'var(--steel-hi)',
+    amp: amp * 0.7,
+  });
   // the lamplit glaze — silver-faint lifts the north plane clear of the ground
   wash(parent, fpts(lit, t), {
     seed: `${o.seed}:litg`,
@@ -404,8 +440,16 @@ function corridorRoof(
     [x1, y + hh],
     [x0, y + hh],
   ];
-  wash(parent, fpts(strip, t), { seed: `${seed}:f`, fill: 'var(--steel-hi)', amp: 1 });
-  wash(parent, fpts(strip, t), { seed: `${seed}:g`, fill: 'var(--silver-faint)', amp: 1 });
+  wash(parent, fpts(strip, t), {
+    seed: `${seed}:f`,
+    fill: 'var(--steel-hi)',
+    amp: 1,
+  });
+  wash(parent, fpts(strip, t), {
+    seed: `${seed}:g`,
+    fill: 'var(--silver-faint)',
+    amp: 1,
+  });
   inkLine(
     parent,
     fpts(
@@ -464,7 +508,14 @@ export function wingedHouse(
   parent: SVGElement,
   at: Pt,
   o: WingedHouseOpts,
-): { hall: Pt; eastWing: Pt; westWing: Pt; corridor: Pt; kitchen: Pt; shoin: Pt } {
+): {
+  hall: Pt;
+  eastWing: Pt;
+  westWing: Pt;
+  corridor: Pt;
+  kitchen: Pt;
+  shoin: Pt;
+} {
   const s = o.scale ?? 1;
   const r = rng(o.seed);
   const ang = (o.angleDeg ?? 0) + (r() - 0.5) * 1.6;
@@ -587,8 +638,22 @@ export function wingedHouse(
   );
 
   // kitchen threshold — step + board facing the paddies (west)
-  tick(parent, T([-74, 25]), T([-74, 35]), `${o.seed}:kt1`, 1.1, 'var(--ink-soft)');
-  tick(parent, T([-77.5, 27]), T([-77.5, 33]), `${o.seed}:kt2`, 0.8, 'var(--ink-faint)');
+  tick(
+    parent,
+    T([-74, 25]),
+    T([-74, 35]),
+    `${o.seed}:kt1`,
+    1.1,
+    'var(--ink-soft)',
+  );
+  tick(
+    parent,
+    T([-77.5, 27]),
+    T([-77.5, 33]),
+    `${o.seed}:kt2`,
+    0.8,
+    'var(--ink-faint)',
+  );
 
   return {
     hall: T([0, 12]),
@@ -609,7 +674,12 @@ export interface KuraOpts {
  *  body (steel-hi lifted with a silver-faint glaze — the brightest built surface
  *  on the sheet) under a heavy dark overhanging roof, namako-lattice hairlines on
  *  the lower body, a dark door slit. Must read instantly distinct from wooden roofs. */
-export function kura(parent: SVGElement, cx: number, cy: number, o: KuraOpts): void {
+export function kura(
+  parent: SVGElement,
+  cx: number,
+  cy: number,
+  o: KuraOpts,
+): void {
   const s = o.scale ?? 1;
   const r = rng(o.seed);
   const t = frame(cx, cy, (r() - 0.5) * 3);
@@ -622,9 +692,21 @@ export function kura(parent: SVGElement, cx: number, cy: number, o: KuraOpts): v
     [15, 14],
     [-15, 14],
   ];
-  wash(parent, fpts(body, S), { seed: `${o.seed}:b1`, fill: 'var(--steel-hi)', amp: 0.8 });
-  wash(parent, fpts(body, S), { seed: `${o.seed}:b2`, fill: 'var(--silver-faint)', amp: 0.8 });
-  wash(parent, fpts(body, S), { seed: `${o.seed}:b3`, fill: 'var(--silver-faint)', amp: 1 });
+  wash(parent, fpts(body, S), {
+    seed: `${o.seed}:b1`,
+    fill: 'var(--steel-hi)',
+    amp: 0.8,
+  });
+  wash(parent, fpts(body, S), {
+    seed: `${o.seed}:b2`,
+    fill: 'var(--silver-faint)',
+    amp: 0.8,
+  });
+  wash(parent, fpts(body, S), {
+    seed: `${o.seed}:b3`,
+    fill: 'var(--silver-faint)',
+    amp: 1,
+  });
   inkLine(
     parent,
     fpts(
@@ -760,8 +842,22 @@ export function kura(parent: SVGElement, cx: number, cy: number, o: KuraOpts): v
     },
   );
   // munefuda end-caps on the ridge
-  tick(parent, S([-14, -22.5]), S([-14, -17]), `${o.seed}:m1`, 1.2, 'var(--silver-dim)');
-  tick(parent, S([14, -22.5]), S([14, -17]), `${o.seed}:m2`, 1.2, 'var(--silver-dim)');
+  tick(
+    parent,
+    S([-14, -22.5]),
+    S([-14, -17]),
+    `${o.seed}:m1`,
+    1.2,
+    'var(--silver-dim)',
+  );
+  tick(
+    parent,
+    S([14, -22.5]),
+    S([14, -17]),
+    `${o.seed}:m2`,
+    1.2,
+    'var(--silver-dim)',
+  );
   // ground shadow line
   inkLine(
     parent,
@@ -772,7 +868,13 @@ export function kura(parent: SVGElement, cx: number, cy: number, o: KuraOpts): v
       ],
       S,
     ),
-    { seed: `${o.seed}:g`, w: 1, color: 'var(--ink-faint)', amp: 0.6, opacity: 0.8 },
+    {
+      seed: `${o.seed}:g`,
+      w: 1,
+      color: 'var(--ink-faint)',
+      amp: 0.6,
+      opacity: 0.8,
+    },
   );
 }
 
@@ -784,7 +886,12 @@ export interface LeanToOpts {
 /** A lean-to (katanagare) — one mono-pitch plane propped against a wall or on
  *  posts: high-edge working stroke, low shadow eave, two prop ticks. Sōan's
  *  sickroom register: small, attached, humble. */
-export function leanTo(parent: SVGElement, cx: number, cy: number, o: LeanToOpts): void {
+export function leanTo(
+  parent: SVGElement,
+  cx: number,
+  cy: number,
+  o: LeanToOpts,
+): void {
   const r = rng(o.seed);
   const t = frame(cx, cy, (o.angleDeg ?? 0) + (r() - 0.5) * 2.5);
   const c: Pt[] = [
@@ -793,7 +900,11 @@ export function leanTo(parent: SVGElement, cx: number, cy: number, o: LeanToOpts
     [15, 9],
     [-15, 9],
   ];
-  wash(parent, fpts(c, t), { seed: `${o.seed}:f`, fill: 'var(--steel-2)', amp: 1 });
+  wash(parent, fpts(c, t), {
+    seed: `${o.seed}:f`,
+    fill: 'var(--steel-2)',
+    amp: 1,
+  });
   // single pitch: tone slides dark toward the low (south) eave
   wash(
     parent,
@@ -880,8 +991,22 @@ export function leanTo(parent: SVGElement, cx: number, cy: number, o: LeanToOpts
     { seed: `${o.seed}:e2`, w: 1, color: 'var(--ink-soft)', amp: 0.5 },
   );
   // prop posts under the low eave
-  tick(parent, t([-9, 9.5]), t([-9.5, 13]), `${o.seed}:p1`, 1.2, 'var(--ink-soft)');
-  tick(parent, t([9, 9.5]), t([9.5, 13]), `${o.seed}:p2`, 1.2, 'var(--ink-soft)');
+  tick(
+    parent,
+    t([-9, 9.5]),
+    t([-9.5, 13]),
+    `${o.seed}:p1`,
+    1.2,
+    'var(--ink-soft)',
+  );
+  tick(
+    parent,
+    t([9, 9.5]),
+    t([9.5, 13]),
+    `${o.seed}:p2`,
+    1.2,
+    'var(--ink-soft)',
+  );
 }
 
 export interface ShedOpts {
@@ -892,7 +1017,12 @@ export interface ShedOpts {
 
 /** A small gabled outbuilding (woodshed register) — a compact roofMass with a
  *  door gap tick on the shadow side. */
-export function shed(parent: SVGElement, cx: number, cy: number, o: ShedOpts): void {
+export function shed(
+  parent: SVGElement,
+  cx: number,
+  cy: number,
+  o: ShedOpts,
+): void {
   const s = o.scale ?? 1;
   roofMass(parent, cx, cy, 38 * s, 26 * s, {
     seed: `${o.seed}:r`,
@@ -943,7 +1073,12 @@ export interface GatehouseOpts {
  *  trodden ground that says people pass HERE. `ruined` swaps it for the crumbled
  *  great-gate: one collapsed roof plane, a fallen lintel across the passage, a
  *  leaning post, rubble and grass where the doors were (spec L4). */
-export function gatehouse(parent: SVGElement, at: Pt, angleDeg: number, o: GatehouseOpts): void {
+export function gatehouse(
+  parent: SVGElement,
+  at: Pt,
+  angleDeg: number,
+  o: GatehouseOpts,
+): void {
   const s = o.scale ?? 1;
   const r = rng(o.seed);
   const t = frame(at[0], at[1], angleDeg + (r() - 0.5) * 2);
@@ -1029,7 +1164,10 @@ export function gatehouse(parent: SVGElement, at: Pt, angleDeg: number, o: Gateh
       seed: `${o.seed}:stW`,
       state: 'neat',
     });
-    wallRun(parent, [T([16, 0]), T([28, 0]), T([42, 0])], { seed: `${o.seed}:stE`, state: 'neat' });
+    wallRun(parent, [T([16, 0]), T([28, 0]), T([42, 0])], {
+      seed: `${o.seed}:stE`,
+      state: 'neat',
+    });
     // door leaves, ajar
     inkLine(
       parent,
@@ -1054,10 +1192,38 @@ export function gatehouse(parent: SVGElement, at: Pt, angleDeg: number, o: Gateh
       { seed: `${o.seed}:d2`, w: 1.2, color: 'var(--ink-soft)', amp: 0.4 },
     );
     // pillars — paired heavy ticks either side of the passage
-    tick(parent, T([-10, 10]), T([-10, 16]), `${o.seed}:p1`, 2.6, 'var(--silver)');
-    tick(parent, T([10, 10]), T([10, 16]), `${o.seed}:p2`, 2.6, 'var(--silver)');
-    tick(parent, T([-10, -10]), T([-10, -15]), `${o.seed}:p3`, 2.2, 'var(--silver-dim)');
-    tick(parent, T([10, -10]), T([10, -15]), `${o.seed}:p4`, 2.2, 'var(--silver-dim)');
+    tick(
+      parent,
+      T([-10, 10]),
+      T([-10, 16]),
+      `${o.seed}:p1`,
+      2.6,
+      'var(--silver)',
+    );
+    tick(
+      parent,
+      T([10, 10]),
+      T([10, 16]),
+      `${o.seed}:p2`,
+      2.6,
+      'var(--silver)',
+    );
+    tick(
+      parent,
+      T([-10, -10]),
+      T([-10, -15]),
+      `${o.seed}:p3`,
+      2.2,
+      'var(--silver-dim)',
+    );
+    tick(
+      parent,
+      T([10, -10]),
+      T([10, -15]),
+      `${o.seed}:p4`,
+      2.2,
+      'var(--silver-dim)',
+    );
     // the gate roof rides over everything — a full gabled bay, the sheet's EVENT
     roofMass(parent, ...T([0, 0]), 42 * s, 21 * s, {
       seed: `${o.seed}:roof`,
@@ -1065,7 +1231,15 @@ export function gatehouse(parent: SVGElement, at: Pt, angleDeg: number, o: Gateh
       style: 'gable',
     });
     // threshold step
-    tick(parent, T([-8, 18]), T([8, 18]), `${o.seed}:step`, 1.1, 'var(--ink-soft)', 0.9);
+    tick(
+      parent,
+      T([-8, 18]),
+      T([8, 18]),
+      `${o.seed}:step`,
+      1.1,
+      'var(--ink-soft)',
+      0.9,
+    );
   } else {
     // flanking walls survive only as broken standing runs
     wallRun(parent, [T([-46, 0]), T([-30, -1]), T([-14, 0])], {
@@ -1083,7 +1257,11 @@ export function gatehouse(parent: SVGElement, at: Pt, angleDeg: number, o: Gateh
       [6, -3],
       [-14, 3],
     ];
-    wash(parent, fpts(plane, T), { seed: `${o.seed}:pl`, fill: 'var(--steel-2)', amp: 1.2 });
+    wash(parent, fpts(plane, T), {
+      seed: `${o.seed}:pl`,
+      fill: 'var(--steel-2)',
+      amp: 1.2,
+    });
     wash(
       parent,
       fpts(
@@ -1143,8 +1321,22 @@ export function gatehouse(parent: SVGElement, at: Pt, angleDeg: number, o: Gateh
       },
     );
     // one post standing, one leaning
-    tick(parent, T([-9, 9]), T([-9, 15]), `${o.seed}:p1`, 2.4, 'var(--silver-dim)');
-    tick(parent, T([9, 8]), T([13, 14]), `${o.seed}:p2`, 2.2, 'var(--silver-dim)');
+    tick(
+      parent,
+      T([-9, 9]),
+      T([-9, 15]),
+      `${o.seed}:p1`,
+      2.4,
+      'var(--silver-dim)',
+    );
+    tick(
+      parent,
+      T([9, 8]),
+      T([13, 14]),
+      `${o.seed}:p2`,
+      2.2,
+      'var(--silver-dim)',
+    );
     // rubble where the doors were + grass in the threshold
     const rub: Pt[] = [
       [-12, 2],
@@ -1178,7 +1370,11 @@ export interface WallRunOpts {
  *  still upright: heavy dry-brush runs broken by gaps, rubble dots at the breaks.
  *  `robbed` — quarried to the ground: only footing stones remain, a dotted
  *  stone-trace where the courses were carted away. */
-export function wallRun(parent: SVGElement, pts: readonly Pt[], o: WallRunOpts): void {
+export function wallRun(
+  parent: SVGElement,
+  pts: readonly Pt[],
+  o: WallRunOpts,
+): void {
   if (pts.length < 2) return;
   const r = rng(o.seed);
   if (o.state === 'neat') {
@@ -1255,7 +1451,9 @@ export function wallRun(parent: SVGElement, pts: readonly Pt[], o: WallRunOpts):
       if (r() < 0.24) continue; // a stone carted off
       const a = stones[Math.max(0, i - 1)]!;
       const b = stones[Math.min(stones.length - 1, i + 1)]!;
-      const angle = (Math.atan2(b[1] - a[1], b[0] - a[0]) * 180) / Math.PI + (r() - 0.5) * 26;
+      const angle =
+        (Math.atan2(b[1] - a[1], b[0] - a[0]) * 180) / Math.PI +
+        (r() - 0.5) * 26;
       const p = stones[i]!;
       const [nx, ny] = edgeNormal(a, b);
       const off = (r() - 0.5) * 2.4;
@@ -1438,7 +1636,11 @@ export function fallenRoof(
   // sagging tie-beam bridging the gap
   inkLine(
     parent,
-    [t([-hw * 0.12, -hh * 0.24]), t([hw * 0.12, hh * 0.02]), t([hw * 0.3, -hh * 0.1])],
+    [
+      t([-hw * 0.12, -hh * 0.24]),
+      t([hw * 0.12, hh * 0.02]),
+      t([hw * 0.3, -hh * 0.1]),
+    ],
     {
       seed: `${o.seed}:beam`,
       w: 1.6,
@@ -1464,7 +1666,14 @@ export function fallenRoof(
     r: 1,
     color: 'var(--ink-faint)',
   });
-  squaredStone(parent, ...t([hw * 0.8, hh * 0.7]), 7, 5, 15 + r() * 30, `${o.seed}:q1`);
+  squaredStone(
+    parent,
+    ...t([hw * 0.8, hh * 0.7]),
+    7,
+    5,
+    15 + r() * 30,
+    `${o.seed}:q1`,
+  );
 
   // grass breaching between the planes and at the west edge
   tuft(parent, ...t([hw * 0.1, -hh * 0.05]), `${o.seed}:t1`, 1);
@@ -1475,9 +1684,18 @@ export function fallenRoof(
 /** A rubble field (spec L4) — an ash-tone wash over the ground, two stipple
  *  registers of broken stone, a few squared dressed blocks (the robbed masonry
  *  that never got carted), and grass tufts working up through it all. */
-export function rubbleField(parent: SVGElement, poly: readonly Pt[], o: SeedOpts): void {
+export function rubbleField(
+  parent: SVGElement,
+  poly: readonly Pt[],
+  o: SeedOpts,
+): void {
   const r = rng(o.seed);
-  wash(parent, poly, { seed: `${o.seed}:ash`, fill: 'var(--steel-2)', amp: 4, opacity: 0.7 });
+  wash(parent, poly, {
+    seed: `${o.seed}:ash`,
+    fill: 'var(--steel-2)',
+    amp: 4,
+    opacity: 0.7,
+  });
   // ground scatter — sparse, so the HEAPS below carry the rubble reading
   stipple(parent, poly, {
     seed: `${o.seed}:s1`,
@@ -1497,7 +1715,10 @@ export function rubbleField(parent: SVGElement, poly: readonly Pt[], o: SeedOpts
 
   const { x0, y0, x1, y1 } = bbox(poly);
   const area = (x1 - x0) * (y1 - y0);
-  const inside = (want: number, place: (x: number, y: number, i: number) => void): void => {
+  const inside = (
+    want: number,
+    place: (x: number, y: number, i: number) => void,
+  ): void => {
     let placed = 0;
     for (let tries = 0; tries < want * 14 && placed < want; tries++) {
       const x = x0 + r() * (x1 - x0);
@@ -1538,7 +1759,15 @@ export function rubbleField(parent: SVGElement, poly: readonly Pt[], o: SeedOpts
     );
   });
   inside(Math.max(2, Math.min(6, Math.round(area / 8500))), (x, y, i) => {
-    squaredStone(parent, x, y, 5.5 + r() * 4, 4 + r() * 2.5, r() * 180, `${o.seed}:q${i}`);
+    squaredStone(
+      parent,
+      x,
+      y,
+      5.5 + r() * 4,
+      4 + r() * 2.5,
+      r() * 180,
+      `${o.seed}:q${i}`,
+    );
   });
   inside(Math.max(3, Math.min(9, Math.round(area / 5200))), (x, y, i) => {
     tuft(parent, x, y, `${o.seed}:t${i}`, 0.8 + r() * 0.5);
@@ -1606,11 +1835,21 @@ export function stoneMarker(
       ),
       { seed: `${seed}:f`, w: 0.8, color: 'var(--ink-soft)', amp: 0.3 },
     );
-    tick(parent, t([-4.4, 6.6]), t([4.4, 6.8]), `${seed}:base`, 1.3, 'var(--silver-dim)');
+    tick(
+      parent,
+      t([-4.4, 6.6]),
+      t([4.4, 6.8]),
+      `${seed}:base`,
+      1.3,
+      'var(--silver-dim)',
+    );
     // offerings — small bright marks at the foot, never explained (fine: L10)
     const fineOff = fineLayer(parent);
     for (let i = 0; i < 3; i++) {
-      const p = t([-2.6 + i * 2.6 + (r() - 0.5) * 1.2, 8.6 + (r() - 0.5) * 1.4]);
+      const p = t([
+        -2.6 + i * 2.6 + (r() - 0.5) * 1.2,
+        8.6 + (r() - 0.5) * 1.4,
+      ]);
       fineOff.append(
         sv('circle', {
           cx: p[0].toFixed(1),
@@ -1636,8 +1875,23 @@ export function stoneMarker(
       stroke: 'var(--silver-dim)',
       strokeW: 1.4,
     });
-    tick(parent, t([-2.2, -1]), t([2.2, -1.2]), `${seed}:c`, 0.7, 'var(--ink-faint)', 0.9);
-    tick(parent, t([-4.6, 5.4]), t([4.6, 5.4]), `${seed}:base`, 1.6, 'var(--silver-dim)');
+    tick(
+      parent,
+      t([-2.2, -1]),
+      t([2.2, -1.2]),
+      `${seed}:c`,
+      0.7,
+      'var(--ink-faint)',
+      0.9,
+    );
+    tick(
+      parent,
+      t([-4.6, 5.4]),
+      t([4.6, 5.4]),
+      `${seed}:base`,
+      1.6,
+      'var(--silver-dim)',
+    );
   } else if (kind === 'grave') {
     const body: Pt[] = [
       [-2.6, 6],
@@ -1662,7 +1916,13 @@ export function stoneMarker(
         ],
         t,
       ),
-      { seed: `${seed}:k`, w: 0.7, color: 'var(--ink-faint)', amp: 0.3, opacity: 0.9 },
+      {
+        seed: `${seed}:k`,
+        w: 0.7,
+        color: 'var(--ink-faint)',
+        amp: 0.3,
+        opacity: 0.9,
+      },
     );
     // plinth
     inkLine(
@@ -1721,12 +1981,24 @@ export function stoneMarker(
 /** The well — a ring of laid stones around a dark mouth, crowned by the 井
  *  crib-frame (igeta), the four crossed beams every period sheet uses to say
  *  "well" at a glance. */
-export function well(parent: SVGElement, x: number, y: number, o: SeedOpts): void {
+export function well(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  o: SeedOpts,
+): void {
   const { seed } = o;
   const r = rng(seed);
   const t = frame(x, y, (r() - 0.5) * 14);
   // dark mouth
-  parent.append(sv('circle', { cx: String(x), cy: String(y), r: '3.8', fill: 'var(--steel-0)' }));
+  parent.append(
+    sv('circle', {
+      cx: String(x),
+      cy: String(y),
+      r: '3.8',
+      fill: 'var(--steel-0)',
+    }),
+  );
   // laid stone ring — short heavy chords with gaps
   const n = 9;
   for (let i = 0; i < n; i++) {
@@ -1737,7 +2009,10 @@ export function well(parent: SVGElement, x: number, y: number, o: SeedOpts): voi
       parent,
       [
         [x + Math.cos(a0) * rad, y + Math.sin(a0) * rad],
-        [x + Math.cos((a0 + a1) / 2) * (rad + 0.5), y + Math.sin((a0 + a1) / 2) * (rad + 0.5)],
+        [
+          x + Math.cos((a0 + a1) / 2) * (rad + 0.5),
+          y + Math.sin((a0 + a1) / 2) * (rad + 0.5),
+        ],
         [x + Math.cos(a1) * rad, y + Math.sin(a1) * rad],
       ],
       { seed: `${seed}:s${i}`, w: 2, color: 'var(--silver-dim)', amp: 0.3 },
@@ -1793,7 +2068,13 @@ export function well(parent: SVGElement, x: number, y: number, o: SeedOpts): voi
 }
 
 /** A rising smoke wisp — a wavering hairline with a couple of drift dots. */
-function smokeWisp(parent: SVGElement, x: number, y: number, seed: string, len = 26): void {
+function smokeWisp(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  seed: string,
+  len = 26,
+): void {
   const r = rng(seed);
   const drift = (r() - 0.5) * 10 - 4;
   inkLine(
@@ -1804,10 +2085,19 @@ function smokeWisp(parent: SVGElement, x: number, y: number, seed: string, len =
       [x + drift * 0.7 + (r() - 0.5) * 5, y - len * 0.7],
       [x + drift + (r() - 0.5) * 6, y - len],
     ],
-    { seed: `${seed}:w`, w: 1, color: 'var(--ink-faint)', amp: 2.2, opacity: 0.9 },
+    {
+      seed: `${seed}:w`,
+      w: 1,
+      color: 'var(--ink-faint)',
+      amp: 2.2,
+      opacity: 0.9,
+    },
   );
   for (let i = 0; i < 2; i++) {
-    const p: Pt = [x + drift * (1.1 + i * 0.25) + (r() - 0.5) * 5, y - len * (1.05 + i * 0.18)];
+    const p: Pt = [
+      x + drift * (1.1 + i * 0.25) + (r() - 0.5) * 5,
+      y - len * (1.05 + i * 0.18),
+    ];
     parent.append(
       sv('circle', {
         cx: p[0].toFixed(1),
@@ -1828,7 +2118,12 @@ export interface ForgeOpts {
 /** The forge — a small dark gabled workshop with a vent box on the roof. `lit`
  *  opens the door on a gold ember (the ONE warm point — built/worked structure at
  *  work) with a smoke wisp at the vent; cold is shut, barred, and dark. */
-export function forge(parent: SVGElement, x: number, y: number, o: ForgeOpts): void {
+export function forge(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  o: ForgeOpts,
+): void {
   const r = rng(o.seed);
   const ang = (r() - 0.5) * 4;
   const t = frame(x, y, ang);
@@ -1885,15 +2180,35 @@ export function forge(parent: SVGElement, x: number, y: number, o: ForgeOpts): v
       }),
     );
     parent.append(
-      sv('circle', { cx: e[0].toFixed(1), cy: e[1].toFixed(1), r: '1.5', fill: 'var(--gold)' }),
+      sv('circle', {
+        cx: e[0].toFixed(1),
+        cy: e[1].toFixed(1),
+        r: '1.5',
+        fill: 'var(--gold)',
+      }),
     );
     // spill of warm light on the threshold
-    tick(parent, t([-8.5, 12.5]), t([-1.5, 12.8]), `${o.seed}:spill`, 1, 'var(--gold-dim)', 0.8);
+    tick(
+      parent,
+      t([-8.5, 12.5]),
+      t([-1.5, 12.8]),
+      `${o.seed}:spill`,
+      1,
+      'var(--gold-dim)',
+      0.8,
+    );
     const v = t([7.5, -3]);
     smokeWisp(parent, v[0], v[1], `${o.seed}:smoke`, 24);
   } else {
     // shut: a bar across the door, no light anywhere
-    tick(parent, t([-9.5, 9]), t([-0.5, 9.5]), `${o.seed}:bar`, 1.3, 'var(--ink-soft)');
+    tick(
+      parent,
+      t([-9.5, 9]),
+      t([-0.5, 9.5]),
+      `${o.seed}:bar`,
+      1.3,
+      'var(--ink-soft)',
+    );
   }
 }
 
@@ -1906,7 +2221,11 @@ export interface StableRangeOpts {
 /** The old stable court's range — a LONG gabled building combed by stall-division
  *  ticks (far too many stalls for the one mule), the stall-front posts marching
  *  along the open south side, a rack standing outside and rake arcs in the yard. */
-export function stableRange(parent: SVGElement, at: Pt, o: StableRangeOpts): void {
+export function stableRange(
+  parent: SVGElement,
+  at: Pt,
+  o: StableRangeOpts,
+): void {
   const r = rng(o.seed);
   const ang = (o.angleDeg ?? 0) + (r() - 0.5) * 1.6;
   const t = frame(at[0], at[1], ang);
@@ -1915,7 +2234,11 @@ export function stableRange(parent: SVGElement, at: Pt, o: StableRangeOpts): voi
   const h = 24;
   const hw = w / 2;
   const hh = h / 2;
-  roofMass(parent, at[0], at[1], w, h, { seed: `${o.seed}:r`, angleDeg: ang, style: 'gable' });
+  roofMass(parent, at[0], at[1], w, h, {
+    seed: `${o.seed}:r`,
+    angleDeg: ang,
+    style: 'gable',
+  });
   // stall divisions — survey ticks crossing the south plane + front posts
   for (let i = 1; i < o.stalls; i++) {
     const xx = -hw + 7 + i * bay + (r() - 0.5) * 1.2;
@@ -1961,7 +2284,12 @@ export function stableRange(parent: SVGElement, at: Pt, o: StableRangeOpts): voi
       ],
       t,
     ),
-    { seed: `${o.seed}:yardwash`, fill: 'var(--steel-hi)', opacity: 0.07, amp: 2.5 },
+    {
+      seed: `${o.seed}:yardwash`,
+      fill: 'var(--steel-hi)',
+      opacity: 0.07,
+      amp: 2.5,
+    },
   );
   const fineYard = fineLayer(parent);
   for (let i = 0; i < 5; i++) {
@@ -1998,12 +2326,16 @@ export function stableRange(parent: SVGElement, at: Pt, o: StableRangeOpts): voi
       color: 'var(--ink-soft)',
       amp: 0.3,
     });
-    inkLine(parent, [t([ux - 5 * us, uy - 7.5 * us]), t([ux + 5 * us, uy - 7.5 * us])], {
-      seed: `${o.seed}:dm${ux.toFixed(0)}c`,
-      w: 1.3,
-      color: 'var(--ink-soft)',
-      amp: 0.3,
-    });
+    inkLine(
+      parent,
+      [t([ux - 5 * us, uy - 7.5 * us]), t([ux + 5 * us, uy - 7.5 * us])],
+      {
+        seed: `${o.seed}:dm${ux.toFixed(0)}c`,
+        w: 1.3,
+        color: 'var(--ink-soft)',
+        amp: 0.3,
+      },
+    );
     parent.append(
       sv('circle', {
         cx: String(top[0]),
@@ -2015,13 +2347,17 @@ export function stableRange(parent: SVGElement, at: Pt, o: StableRangeOpts): voi
       }),
     );
     for (const lean of [-1, 0, 1]) {
-      inkLine(parent, [t([ux + lean * 1.6, uy]), t([ux + lean * 3.4, uy + 4.4])], {
-        seed: `${o.seed}:dm${ux.toFixed(0)}s${lean}`,
-        w: 0.8,
-        color: 'var(--ink-faint)',
-        amp: 0.2,
-        opacity: 0.85,
-      });
+      inkLine(
+        parent,
+        [t([ux + lean * 1.6, uy]), t([ux + lean * 3.4, uy + 4.4])],
+        {
+          seed: `${o.seed}:dm${ux.toFixed(0)}s${lean}`,
+          w: 0.8,
+          color: 'var(--ink-faint)',
+          amp: 0.2,
+          opacity: 0.85,
+        },
+      );
     }
   }
   // the rack at the yard's far corner
@@ -2031,12 +2367,24 @@ export function stableRange(parent: SVGElement, at: Pt, o: StableRangeOpts): voi
 
 /** A drying rack — posts, two lashed rails, and a few hung things flapping from
  *  the top rail. Reads as work in progress, not architecture. */
-export function dryingRack(parent: SVGElement, x: number, y: number, o: SeedOpts): void {
+export function dryingRack(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  o: SeedOpts,
+): void {
   const { seed } = o;
   const r = rng(seed);
   const t = frame(x, y, (r() - 0.5) * 5);
   // posts
-  tick(parent, t([-11, -7]), t([-11.5, 7]), `${seed}:p1`, 1.4, 'var(--ink-soft)');
+  tick(
+    parent,
+    t([-11, -7]),
+    t([-11.5, 7]),
+    `${seed}:p1`,
+    1.4,
+    'var(--ink-soft)',
+  );
   tick(parent, t([0.5, -7.5]), t([0, 7]), `${seed}:p2`, 1.4, 'var(--ink-soft)');
   tick(parent, t([11.5, -7]), t([11, 7]), `${seed}:p3`, 1.4, 'var(--ink-soft)');
   // rails
@@ -2177,7 +2525,10 @@ export function charcoalClamp(
   // vent holes along the mid-course
   for (let i = 0; i < 5; i++) {
     const a = Math.PI * (0.22 + i * 0.14);
-    const p = t([Math.cos(Math.PI - a) * rx * 0.78, -Math.sin(a) * ry * 0.55 + 3]);
+    const p = t([
+      Math.cos(Math.PI - a) * rx * 0.78,
+      -Math.sin(a) * ry * 0.55 + 3,
+    ]);
     parent.append(
       sv('circle', {
         cx: p[0].toFixed(1),

@@ -16,7 +16,13 @@ export type {
   Influence,
   QuestState,
 } from './state';
-export { QUESTS, QUEST_IDS, getQuest, advanceQuest, isQuestComplete } from './content/quests';
+export {
+  QUESTS,
+  QUEST_IDS,
+  getQuest,
+  advanceQuest,
+  isQuestComplete,
+} from './content/quests';
 export type { QuestKind, QuestStep, QuestDef } from './content/quests';
 export { acceptQuest, applyQuestEvent } from './quest-engine';
 export {
@@ -32,7 +38,12 @@ export {
   merchantRestock,
   MERCHANT_SAG_STEP_SHO,
 } from './content/market';
-export type { MarketItem, MarketItemId, MerchantId, MerchantState } from './content/market';
+export type {
+  MarketItem,
+  MarketItemId,
+  MerchantId,
+  MerchantState,
+} from './content/market';
 export {
   MAP_NODES,
   MAP_NODE_CEILING,
@@ -137,7 +148,11 @@ export {
   chunkCount,
   NATIVE_PREDICATES,
 } from './requirements-engine';
-export type { RequirementDef, RequirementProgress, StatePredicate } from './requirements-engine';
+export type {
+  RequirementDef,
+  RequirementProgress,
+  StatePredicate,
+} from './requirements-engine';
 export { applyProgressEvent, settleRequirements } from './progress-events';
 // ── the rung-up story beats (ADR-110) ──
 export {
@@ -166,7 +181,13 @@ export {
   worksLine,
 } from './works';
 export { isWaged, WAGE_START_RUNG, DAY_WAGE_MON } from './content/wage';
-export { FLAVOR, judgeLine, restOpenLine, sleepLine, sleepAnnounceLine } from './content/flavor';
+export {
+  FLAVOR,
+  judgeLine,
+  restOpenLine,
+  sleepLine,
+  sleepAnnounceLine,
+} from './content/flavor';
 export {
   gradeOf,
   perDeedCap,
@@ -198,7 +219,12 @@ export {
   HOME_REVEAL_LINE,
   homeRestLine,
 } from './content/home';
-export type { BelongingDef, ComfortBonus, ComfortKind, HomeTierDef } from './content/home';
+export type {
+  BelongingDef,
+  ComfortBonus,
+  ComfortKind,
+  HomeTierDef,
+} from './content/home';
 
 export { TIER_NAMES, toTierId } from './content/tiers';
 export type { TierId } from './content/tiers';
@@ -213,7 +239,11 @@ export {
   LABOUR_SITES,
   refillSitePools,
 } from './content/activities';
-export type { ActivityId, ActivityDef, LabourResource } from './content/activities';
+export type {
+  ActivityId,
+  ActivityDef,
+  LabourResource,
+} from './content/activities';
 export {
   ACTIVITY_TIMING,
   INTENT_TIMING,
@@ -248,7 +278,12 @@ export {
   foeTell,
   bestiaryEntries,
 } from './combat';
-export type { CombatStats, FightResult, FoeForecast, BestiaryEntry } from './combat';
+export type {
+  CombatStats,
+  FightResult,
+  FoeForecast,
+  BestiaryEntry,
+} from './combat';
 export { WEAPONS, getWeapon, WEAPON_IDS } from './content/weapons';
 export type { WeaponId, WeaponDef } from './content/weapons';
 export {
@@ -265,7 +300,11 @@ export { baseAttrs } from './state';
 export { MOBS, GRINDABLE_MOBS, getMob, MOB_IDS } from './content/enemies';
 export type { MobId, MobDef } from './content/enemies';
 export { applyGrindFight } from './fight';
-export { resolveNightStage, nightStageReward, beginNightRound } from './night-rounds';
+export {
+  resolveNightStage,
+  nightStageReward,
+  beginNightRound,
+} from './night-rounds';
 export { NIGHT_ROUNDS, nightRoundById } from './content/nightRounds';
 export type { NightRoundDef, NightRoundStage } from './content/nightRounds';
 export { playerSpeaker } from './content/voices';
@@ -280,7 +319,12 @@ export {
   MATERIAL_DROPS,
   rollMaterialDrop,
 } from './content/crafting';
-export type { MaterialId, MaterialDef, RecipeDef, MaterialDrop } from './content/crafting';
+export type {
+  MaterialId,
+  MaterialDef,
+  RecipeDef,
+  MaterialDrop,
+} from './content/crafting';
 
 export type { Rng, RngStream } from './rng';
 export {
@@ -293,9 +337,19 @@ export {
   deriveDayKeyed,
 } from './rng';
 
-export { isUnlocked, unlockedSurfaces, visibleSet, announcePass, factsForSurfaces } from './unlock';
+export {
+  isUnlocked,
+  unlockedSurfaces,
+  visibleSet,
+  announcePass,
+  factsForSurfaces,
+} from './unlock';
 // ADR-184 (HR-32b) — the zone-ANNOUNCE diverge, both modes live behind the DEV toggle.
-export { __setZoneRevealMode, zoneRevealMode, type ZoneRevealMode } from './unlock';
+export {
+  __setZoneRevealMode,
+  zoneRevealMode,
+  type ZoneRevealMode,
+} from './unlock';
 export { SURFACES, SURFACE_IDS } from './content/surfaces';
 export type { Surface, SurfaceKind } from './content/surfaces';
 
@@ -308,8 +362,16 @@ export {
   nodeHint,
 } from './discovery';
 export type { DiscoveryEvent } from './discovery';
-export { DISCOVERIES, getDiscovery, discoveryEmitLine } from './content/discoveries';
-export type { DiscoveryDef, DiscoveryId, DiscoveryTrigger } from './content/discoveries';
+export {
+  DISCOVERIES,
+  getDiscovery,
+  discoveryEmitLine,
+} from './content/discoveries';
+export type {
+  DiscoveryDef,
+  DiscoveryId,
+  DiscoveryTrigger,
+} from './content/discoveries';
 export type { NodeHint } from './discovery';
 
 export { applyRewards } from './rewards';
@@ -388,8 +450,16 @@ export {
 // step B (session-200) — the ONE story overlay: dev.ts flattens the effective takes into a
 // single contentKey→text map (+ narration-run sequences); every reader consults
 // storyText/storySeq and falls back to canon. The ten per-concern setters are retired.
-export { __setStoryOverlay, storyText, storySeq } from './content/story-overlay';
-export type { DialogueLine, DialogueDef, NpcMemoryMap } from './content/dialogue';
+export {
+  __setStoryOverlay,
+  storyText,
+  storySeq,
+} from './content/story-overlay';
+export type {
+  DialogueLine,
+  DialogueDef,
+  NpcMemoryMap,
+} from './content/dialogue';
 export * as balance from './content/balance';
 export { rakeCapLine, RAKE_CAP_LINE } from './content/coldOpen';
 // FB-7 balance cockpit (DEV-only, ADR-059) — the live-tuning hook. Named exports so the cockpit imports

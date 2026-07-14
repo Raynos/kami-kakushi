@@ -13,7 +13,14 @@
 // drop + at dev-server boot. Policy lives in `../telemetry/retention` and fails OPEN — deletion
 // only ever follows a header this repo demonstrably wrote.
 
-import { mkdirSync, readFileSync, readdirSync, rmSync, unlinkSync, writeFileSync } from 'node:fs';
+import {
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  unlinkSync,
+  writeFileSync,
+} from 'node:fs';
 import { resolve, sep } from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { keepReport } from '../telemetry/retention';

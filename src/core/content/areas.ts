@@ -44,12 +44,14 @@ export const AREAS: readonly AreaDef[] = [
   {
     id: 'gate',
     label: 'The gate & gateyard',
-    blurb: "The estate's face, kept barely; Yohei's stall sets up here on market days.",
+    blurb:
+      "The estate's face, kept barely; Yohei's stall sets up here on market days.",
   },
   {
     id: 'forecourt',
     label: 'The forecourt',
-    blurb: "The working heart of the guest house's outer court — the first verb is here.",
+    blurb:
+      "The working heart of the guest house's outer court — the first verb is here.",
   },
   {
     id: 'woodshed',
@@ -59,7 +61,8 @@ export const AREAS: readonly AreaDef[] = [
   {
     id: 'kitchen',
     label: 'The kitchen threshold',
-    blurb: "Meals at the threshold; the board where the household's shape is overheard.",
+    blurb:
+      "Meals at the threshold; the board where the household's shape is overheard.",
   },
   {
     id: 'shrine',
@@ -74,43 +77,51 @@ export const AREAS: readonly AreaDef[] = [
   {
     id: 'sickroom',
     label: "Sōan's sickroom",
-    blurb: 'A lean-to surgery off the outer court — defeat carries you here, and days are lost.',
+    blurb:
+      'A lean-to surgery off the outer court — defeat carries you here, and days are lost.',
   },
   {
     id: 'drill-yard',
     label: 'The drill yard',
-    blurb: "The old stable court, repurposed — Kihei's ground. Opens at R4, as Kihei's need.",
+    blurb:
+      "The old stable court, repurposed — Kihei's ground. Opens at R4, as Kihei's need.",
   },
   {
     id: 'paddies',
     label: 'The home paddy & vegetable rows',
-    blurb: "The guest house's skirts; the labour baseline — the deed engine's heart.",
+    blurb:
+      "The guest house's skirts; the labour baseline — the deed engine's heart.",
   },
   {
     id: 'field-margins',
     label: 'The field margins',
-    blurb: "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+    blurb:
+      "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
   },
   {
     id: 'woodlot',
     label: 'The woodlot edge',
-    blurb: "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+    blurb:
+      "Kindling and forage country; the wolf's ground before R3. Nobody here.",
   },
   {
     id: 'ruined',
     label: 'The ruined compound',
-    blurb: 'Beyond a rope and a warning: fallen roofs, a crumbled gate. Locked all tier.',
+    blurb:
+      'Beyond a rope and a warning: fallen roofs, a crumbled gate. Locked all tier.',
     locked: true,
   },
   {
     id: 'orchard',
     label: 'The overgrown orchard',
-    blurb: "The old compound's orchard gone wild; feral dogs den in it, bold from lean winters.",
+    blurb:
+      "The old compound's orchard gone wild; feral dogs den in it, bold from lean winters.",
   },
   {
     id: 'grove',
     label: 'The bamboo grove',
-    blurb: 'Behind the compound; the monkey troop raids the vegetable rows from it.',
+    blurb:
+      'Behind the compound; the monkey troop raids the vegetable rows from it.',
   },
 ];
 

@@ -1,5 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mkdtempSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  mkdtempSync,
+  mkdirSync,
+  readdirSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { resolveDrop, sweepTelemetryDir } from './telemetry-drop';
@@ -28,12 +34,18 @@ describe('sweepTelemetryDir', () => {
     writeFileSync(join(dir, 'short.md'), clean(0.3));
     writeFileSync(join(dir, 'tainted.md'), tainted);
 
-    expect([...sweepTelemetryDir(dir)].sort()).toEqual(['short.md', 'tainted.md']);
+    expect([...sweepTelemetryDir(dir)].sort()).toEqual([
+      'short.md',
+      'tainted.md',
+    ]);
     expect(names()).toEqual(['keep.md']);
   });
 
   it('never touches README.md, non-markdown files, or subdirectories', () => {
-    writeFileSync(join(dir, 'README.md'), 'the committed contract, not a report\n');
+    writeFileSync(
+      join(dir, 'README.md'),
+      'the committed contract, not a report\n',
+    );
     writeFileSync(join(dir, '.gitignore'), '*.md\n');
     mkdirSync(join(dir, 'nested'));
 
@@ -54,6 +66,8 @@ describe('sweepTelemetryDir', () => {
 
 describe('resolveDrop', () => {
   it('still jails traversal in the runId', () => {
-    expect(resolveDrop({ runId: '../escape', report: 'x' }, dir)).toMatchObject({ ok: false });
+    expect(resolveDrop({ runId: '../escape', report: 'x' }, dir)).toMatchObject(
+      { ok: false },
+    );
   });
 });

@@ -89,7 +89,11 @@ describe('render — settings a11y + unknown-foe fog', () => {
 
     last.focus();
     card.dispatchEvent(
-      new window.KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true }),
+      new window.KeyboardEvent('keydown', {
+        key: 'Tab',
+        bubbles: true,
+        cancelable: true,
+      }),
     );
     expect(document.activeElement).toBe(first);
 
@@ -110,9 +114,9 @@ describe('render — settings a11y + unknown-foe fog', () => {
     const state = awakeCombatState();
     render(state, null);
     // switch to the Combat tab via its nav button
-    const combatTab = [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')].find((b) =>
-      (b.textContent ?? '').includes('Combat'),
-    )!;
+    const combatTab = [
+      ...root.querySelectorAll<HTMLButtonElement>('.nav-tab'),
+    ].find((b) => (b.textContent ?? '').includes('Combat'))!;
     expect(combatTab).toBeTruthy();
     combatTab.click();
 
@@ -153,9 +157,15 @@ describe('render — settings a11y + unknown-foe fog', () => {
         'rank-r7': true,
         't0-capstone': true,
         'ascended-t0': true,
-        ...factsForSurfaces('panel-rung-ladder', 'tab-estate', 'panel-house-influence'),
+        ...factsForSurfaces(
+          'panel-rung-ladder',
+          'tab-estate',
+          'panel-house-influence',
+        ),
       },
-      influence: { estate: { value: excellent, highWater: excellent, judged: 0 } },
+      influence: {
+        estate: { value: excellent, highWater: excellent, judged: 0 },
+      },
       character: { ...s.character, attributePoints: 5 },
     };
     render(ascended, null);
@@ -167,7 +177,9 @@ describe('render — settings a11y + unknown-foe fog', () => {
     expect(panel.textContent).toContain('man of the house');
     expect(panel.textContent).toContain('Risen');
     expect(panel.textContent).toContain('5 points'); // the lord's boon, waiting to be spent
-    expect(panel.textContent).not.toContain('Reach Excellent standing to ascend');
+    expect(panel.textContent).not.toContain(
+      'Reach Excellent standing to ascend',
+    );
   });
 
   // ── ADR-107 Phase 4 — the House-Influence pillar re-skinned as the koku STANDING ──
@@ -186,7 +198,11 @@ describe('render — settings a11y + unknown-foe fog', () => {
         ...s.flags,
         awake: true,
         't0-capstone': true, // phaseOf === 2 → the pillar is live
-        ...factsForSurfaces('panel-rung-ladder', 'tab-estate', 'panel-house-influence'),
+        ...factsForSurfaces(
+          'panel-rung-ladder',
+          'tab-estate',
+          'panel-house-influence',
+        ),
       },
       influence: { estate: { value, highWater: value, judged: 0 } },
     };
@@ -223,7 +239,9 @@ describe('render — settings a11y + unknown-foe fog', () => {
       openTab('家');
       const gradeEl = root.querySelector<HTMLElement>('.influence-grade')!;
       // the grade class is derived from the same gradeOf the ascension gate reads (AC-6 — one source).
-      expect(gradeEl.className).toContain(`grade-${gradeOf(value).toLowerCase()}`);
+      expect(gradeEl.className).toContain(
+        `grade-${gradeOf(value).toLowerCase()}`,
+      );
     }
   });
 
@@ -233,7 +251,9 @@ describe('render — settings a11y + unknown-foe fog', () => {
     openTab('家');
     const panel = root.querySelector<HTMLElement>('.influence-panel')!;
     // the mythic ceiling, derived from the single-source DAIMYO_KOKU (not a hard-typed "10,000").
-    expect(panel.textContent).toContain(balance.DAIMYO_KOKU.toLocaleString('en-US'));
+    expect(panel.textContent).toContain(
+      balance.DAIMYO_KOKU.toLocaleString('en-US'),
+    );
     expect(panel.textContent).toContain('daimyō');
   });
 
@@ -244,9 +264,13 @@ describe('render — settings a11y + unknown-foe fog', () => {
     openTab('家');
     const panel = root.querySelector<HTMLElement>('.influence-panel')!;
     expect(panel.textContent).toContain('must stand at');
-    expect(panel.textContent).toContain(`${formatKMB(balance.ESTATE_BANDS.excellent)} koku`);
+    expect(panel.textContent).toContain(
+      `${formatKMB(balance.ESTATE_BANDS.excellent)} koku`,
+    );
     // the old grade-noun copy is gone — the gate speaks in koku now.
-    expect(panel.textContent).not.toContain('Reach Excellent standing to ascend');
+    expect(panel.textContent).not.toContain(
+      'Reach Excellent standing to ascend',
+    );
   });
 });
 
@@ -280,8 +304,8 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       ?.click();
   }
   function clickText(substr: string): boolean {
-    const btn = [...root.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
-      (b.textContent ?? '').includes(substr),
+    const btn = [...root.querySelectorAll<HTMLButtonElement>('button')].find(
+      (b) => (b.textContent ?? '').includes(substr),
     );
     btn?.click();
     return Boolean(btn);
@@ -294,12 +318,19 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       {
         ...base,
         location: 'paddies',
-        flags: { ...base.flags, awake: true, ...factsForSurfaces('verb-farm', 'room-paddies') },
+        flags: {
+          ...base.flags,
+          awake: true,
+          ...factsForSurfaces('verb-farm', 'room-paddies'),
+        },
       },
       null,
     );
     expect(clickText('Work the home paddy')).toBe(true);
-    expect(seen).toContainEqual({ type: 'do_activity', activityId: 'farm_paddy' });
+    expect(seen).toContainEqual({
+      type: 'do_activity',
+      activityId: 'farm_paddy',
+    });
   });
 
   it('FB-346 — every action button carries a one-line cost/effect title (no bare hovers)', () => {
@@ -318,8 +349,8 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     };
     render(s, null);
     // the labour button's title derives from the SAME forecast the reducer pays (AC-6)
-    const farm = [...root.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
-      (b.textContent ?? '').includes('Work the home paddy'),
+    const farm = [...root.querySelectorAll<HTMLButtonElement>('button')].find(
+      (b) => (b.textContent ?? '').includes('Work the home paddy'),
     )!;
     const f = activityForecast(s, getActivity('farm_paddy'));
     expect(farm.title).toContain(`+${f.xp} `);
@@ -340,7 +371,11 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
         ...base,
         // stand at the forecourt (the R0 hub) — the paddy is one of its walkable neighbours.
         location: 'forecourt',
-        flags: { ...base.flags, awake: true, ...factsForSurfaces('room-gate', 'room-paddies') },
+        flags: {
+          ...base.flags,
+          awake: true,
+          ...factsForSurfaces('room-gate', 'room-paddies'),
+        },
       },
       null,
     );
@@ -362,7 +397,11 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
         ...base,
         location: 'kura',
         // ADR-177 — the Inventory tab reveals at R4 (ADR-179: rank-r4 + works-named-u1 facts)
-        flags: { ...base.flags, awake: true, ...factsForSurfaces('panel-estate', 'tab-inventory') },
+        flags: {
+          ...base.flags,
+          awake: true,
+          ...factsForSurfaces('panel-estate', 'tab-inventory'),
+        },
         resources: { ...base.resources, coin: 50 },
       },
       null,
@@ -382,7 +421,11 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
         // (dayOfWeek 2) so Yohei stands his stall; and kura rice to sell (rice is kura-only now).
         location: 'gate',
         clock: { ...base.clock, day: 2 },
-        flags: { ...base.flags, awake: true, ...factsForSurfaces('panel-estate', 'room-gate') },
+        flags: {
+          ...base.flags,
+          awake: true,
+          ...factsForSurfaces('panel-estate', 'room-gate'),
+        },
         banked: { ...base.banked, rice: 30 },
       },
       null,
@@ -401,7 +444,11 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     render(
       {
         ...base,
-        flags: { ...base.flags, awake: true, ...factsForSurfaces('panel-estate', 'verb-eat-rice') },
+        flags: {
+          ...base.flags,
+          awake: true,
+          ...factsForSurfaces('panel-estate', 'verb-eat-rice'),
+        },
         // ADR-163 — the meal is drawn from the KURA (shō), never a carried pile.
         banked: { ...base.banked, rice: 30 },
       },
@@ -418,7 +465,11 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     const base = createInitialState(1);
     const s: GameState = {
       ...base,
-      flags: { ...base.flags, awake: true, ...factsForSurfaces('verb-cook', 'verb-eat-rice') },
+      flags: {
+        ...base.flags,
+        awake: true,
+        ...factsForSurfaces('verb-cook', 'verb-eat-rice'),
+      },
       banked: { ...base.banked, rice: 30 },
       resources: { ...base.resources, sansai: 20 },
     };
@@ -428,7 +479,9 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       [...root.querySelectorAll<HTMLButtonElement>('button')]
         .filter((b) => !b.closest('[hidden]') && !b.hidden)
         .map((b) => b.textContent ?? '');
-    expect(visibleButtons().join('|')).not.toMatch(/Eat plain rice|Cook a meal/);
+    expect(visibleButtons().join('|')).not.toMatch(
+      /Eat plain rice|Cook a meal/,
+    );
     // …and the Character 己 tab's Body card is their one home, vitals beside them (TST4).
     expect(clickText('Character')).toBe(true);
     const shown = visibleButtons().join('|');
@@ -458,7 +511,9 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     );
     openTab('Combat');
     expect(clickText('Fight')).toBe(true);
-    expect(seen.some((i) => i.type === 'fight' && i.mobId === 'tanuki')).toBe(true);
+    expect(seen.some((i) => i.type === 'fight' && i.mobId === 'tanuki')).toBe(
+      true,
+    );
   });
 
   it('F107 (D-112) — navigation lives ONLY on the Map tab; the Work tab has no "Walk on" strip', () => {
@@ -468,7 +523,11 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       {
         ...base,
         location: 'forecourt',
-        flags: { ...base.flags, awake: true, ...factsForSurfaces('room-gate', 'room-paddies') },
+        flags: {
+          ...base.flags,
+          awake: true,
+          ...factsForSurfaces('room-gate', 'room-paddies'),
+        },
       },
       null,
     );
@@ -477,7 +536,9 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     expect(root.querySelector('.actions [data-node]')).toBeNull();
     // open the Map tab — the survey sheet's nodes live there, and moving from Map still works.
     openTab('地図');
-    const node = root.querySelector<HTMLElement>('.map-pane [data-node="paddies"]');
+    const node = root.querySelector<HTMLElement>(
+      '.map-pane [data-node="paddies"]',
+    );
     expect(node).not.toBeNull();
     node!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(seen).toContainEqual({ type: 'move_to', to: 'paddies' });
@@ -491,7 +552,10 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       flags: { ...base.flags, awake: true, ...factsForSurfaces('tab-combat') },
     };
     // hurt: HP is invisible-no-more — the number shows AND the bar flags danger.
-    render({ ...combatReady, character: { ...combatReady.character, hp: 1 } }, null);
+    render(
+      { ...combatReady, character: { ...combatReady.character, hp: 1 } },
+      null,
+    );
     const health = root.querySelector<HTMLElement>('.vital.health');
     expect(health).not.toBeNull();
     expect(health!.hidden).toBe(false);
@@ -503,7 +567,9 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       { ...combatReady, character: { ...combatReady.character, hp: 999 } },
       { ...combatReady, character: { ...combatReady.character, hp: 1 } },
     );
-    expect(root.querySelector('.vital.health .bar')!.classList.contains('low')).toBe(false);
+    expect(
+      root.querySelector('.vital.health .bar')!.classList.contains('low'),
+    ).toBe(false);
   });
 
   it('FB-335 — the body meter carries an exact number + a hover name (never a mystery strip)', () => {
@@ -511,7 +577,11 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     const base = createInitialState(1);
     const s: GameState = {
       ...base,
-      flags: { ...base.flags, awake: true, ...factsForSurfaces('readout-stamina') },
+      flags: {
+        ...base.flags,
+        awake: true,
+        ...factsForSurfaces('readout-stamina'),
+      },
       character: { ...base.character, satiety: 42 },
     };
     render(s, null);
@@ -529,7 +599,11 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     const base = createInitialState(1);
     const s: GameState = {
       ...base,
-      flags: { ...base.flags, awake: true, ...factsForSurfaces('readout-stamina') },
+      flags: {
+        ...base.flags,
+        awake: true,
+        ...factsForSurfaces('readout-stamina'),
+      },
       character: { ...base.character, hunger: 33 },
     };
     render(s, null);
@@ -544,7 +618,10 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     expect(restQuality(s)).toBeLessThan(1);
     expect(belly.querySelector('.bar')!.classList.contains('low')).toBe(true);
     // … and clears on a fed belly.
-    const fed: GameState = { ...s, character: { ...s.character, hunger: hungerMax(s) } };
+    const fed: GameState = {
+      ...s,
+      character: { ...s.character, hunger: hungerMax(s) },
+    };
     render(fed, s);
     expect(belly.querySelector('.bar')!.classList.contains('low')).toBe(false);
   });
@@ -583,16 +660,24 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
       flags: { ...base.flags, awake: true },
     };
     render(bedside, null);
-    const row = (cls: string): HTMLElement => root.querySelector<HTMLElement>(`.${cls}`)!;
+    const row = (cls: string): HTMLElement =>
+      root.querySelector<HTMLElement>(`.${cls}`)!;
     // both rows live, priced off the SAME selectors the reducer spends (AC-6)
     expect(row('place-treat').hidden).toBe(false);
-    expect(row('place-treat').textContent).toContain(`−${balance.TREAT_COST_MON} mon`);
+    expect(row('place-treat').textContent).toContain(
+      `−${balance.TREAT_COST_MON} mon`,
+    );
     expect(row('place-rest-sickroom').hidden).toBe(false);
-    expect(row('place-rest-sickroom').textContent).toContain('Rest on the pallet');
+    expect(row('place-rest-sickroom').textContent).toContain(
+      'Rest on the pallet',
+    );
     // one mon short → the treat row HIDES (mon-only — never a shown-disabled currency
     // swap, ADR-197)… and the free rest lane stays.
     render(
-      { ...bedside, resources: { ...bedside.resources, coin: balance.TREAT_COST_MON - 1 } },
+      {
+        ...bedside,
+        resources: { ...bedside.resources, coin: balance.TREAT_COST_MON - 1 },
+      },
       bedside,
     );
     expect(row('place-treat').hidden).toBe(true);
@@ -650,7 +735,12 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
   it('F228 — a Genemon quote inside a NARRATOR line tints with the steward voice', () => {
     const render = mount(root, () => {}, noopHooks());
     render(
-      logged([{ ...narr(0, '"Still at it," Genemon says, passing the door.'), voice: 'narrator' }]),
+      logged([
+        {
+          ...narr(0, '"Still at it," Genemon says, passing the door.'),
+          voice: 'narrator',
+        },
+      ]),
       null,
     );
     const span = root.querySelector<HTMLElement>('.log-line .speech')!;
@@ -661,7 +751,12 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
   it('F228 — quotes stay NEUTRAL when two speakers are named (ambiguous inference)', () => {
     const render = mount(root, () => {}, noopHooks());
     render(
-      logged([{ ...narr(0, '"Enough," Genemon says, but Kihei only laughs.'), voice: 'narrator' }]),
+      logged([
+        {
+          ...narr(0, '"Enough," Genemon says, but Kihei only laughs.'),
+          voice: 'narrator',
+        },
+      ]),
       null,
     );
     const span = root.querySelector<HTMLElement>('.log-line .speech')!;
@@ -673,8 +768,15 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     const render = mount(root, () => {}, noopHooks());
     render(
       logged([
-        { ...narr(0, 'The rain holds through the morning.'), voice: 'narrator' },
-        { ...narr(1, 'Rice, one quarter-sack, to vermin.'), voice: 'steward', speaker: 'Genemon' },
+        {
+          ...narr(0, 'The rain holds through the morning.'),
+          voice: 'narrator',
+        },
+        {
+          ...narr(1, 'Rice, one quarter-sack, to vermin.'),
+          voice: 'steward',
+          speaker: 'Genemon',
+        },
       ]),
       null,
     );
@@ -689,16 +791,27 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     const ws = root.querySelector<HTMLElement>('.workspace')!;
     expect(ws.dataset.layout).toBe('layout-byobu');
     expect(ws.dataset.framing).toBe('framing-cards');
-    expect(root.querySelector<HTMLElement>('.shell')!.dataset.layout).toBe('layout-byobu');
+    expect(root.querySelector<HTMLElement>('.shell')!.dataset.layout).toBe(
+      'layout-byobu',
+    );
   });
 
   it('F77 — a new log line pins the reader to the newest entry (sticky-bottom)', () => {
     const render = mount(root, () => {}, noopHooks());
-    const s0 = logged([narr(0, 'The rice is spilled.'), narr(1, 'You take up the rake.')]);
+    const s0 = logged([
+      narr(0, 'The rice is spilled.'),
+      narr(1, 'You take up the rake.'),
+    ]);
     render(s0, null);
     const lines = root.querySelector<HTMLElement>('.log-lines')!;
-    Object.defineProperty(lines, 'scrollHeight', { configurable: true, value: 500 });
-    Object.defineProperty(lines, 'clientHeight', { configurable: true, value: 100 });
+    Object.defineProperty(lines, 'scrollHeight', {
+      configurable: true,
+      value: 500,
+    });
+    Object.defineProperty(lines, 'clientHeight', {
+      configurable: true,
+      value: 100,
+    });
     const s1 = logged([...s0.log.entries, narr(2, 'Another line arrives.')]);
     render(s1, s0);
     expect(lines.scrollTop).toBe(500); // followed the newest line to the foot
@@ -709,8 +822,14 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     const s0 = logged([narr(0, 'a'), narr(1, 'b')]);
     render(s0, null);
     const lines = root.querySelector<HTMLElement>('.log-lines')!;
-    Object.defineProperty(lines, 'scrollHeight', { configurable: true, value: 500 });
-    Object.defineProperty(lines, 'clientHeight', { configurable: true, value: 100 });
+    Object.defineProperty(lines, 'scrollHeight', {
+      configurable: true,
+      value: 500,
+    });
+    Object.defineProperty(lines, 'clientHeight', {
+      configurable: true,
+      value: 100,
+    });
     lines.scrollTop = 0; // the reader scrolled up to read old lines…
     lines.dispatchEvent(new Event('scroll')); // …which un-pins them from the foot
     const s1 = logged([...s0.log.entries, narr(2, 'c')]);
@@ -734,7 +853,9 @@ describe('multi-panel workspace — locked layout, log, pedlar, ghost-box fixes'
     [...root.querySelectorAll<HTMLButtonElement>('button')]
       .find((b) => (b.textContent ?? '').includes('Speak with Yohei'))
       ?.click();
-    const rows = [...root.querySelectorAll<HTMLElement>('.market-pane .market-row')];
+    const rows = [
+      ...root.querySelectorAll<HTMLElement>('.market-pane .market-row'),
+    ];
     expect(rows.length).toBeGreaterThan(0);
     for (const row of rows) {
       const item = row.querySelector('.market-item')!;
@@ -836,7 +957,10 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     document.body.append(root);
   });
 
-  function awake(surfaces: string[] = [], over: Partial<GameState> = {}): GameState {
+  function awake(
+    surfaces: string[] = [],
+    over: Partial<GameState> = {},
+  ): GameState {
     const base = createInitialState(1);
     // ADR-179 — visibility derives from facts; stamp what entitles each named surface.
     return {
@@ -863,7 +987,12 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     render: ReturnType<typeof mount>,
   ): MutationRecord[] {
     const obs = new MutationObserver(() => {});
-    obs.observe(el, { childList: true, subtree: true, attributes: true, characterData: true });
+    obs.observe(el, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      characterData: true,
+    });
     render(state, state); // identical-state tick (as the 480ms auto-loop fires)
     render(state, state);
     const records = obs.takeRecords();
@@ -875,7 +1004,9 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     // FB-116 — the Work-column ladder was removed; the HEADER rung element (renderRungHead, FB-106) is the
     // build-once/patch progress home now, so the append-only identity guard lives here.
     const render = mount(root, () => {}, noopHooks());
-    const s = awake([], { flags: { ...createInitialState(1).flags, awake: true, raked: true } });
+    const s = awake([], {
+      flags: { ...createInitialState(1).flags, awake: true, raked: true },
+    });
     render(s, null);
     const head = root.querySelector<HTMLElement>('.rung-head')!;
     const fill = root.querySelector<HTMLElement>('.rung-head-meter span')!;
@@ -907,9 +1038,13 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     expect(root.querySelector('.market-pane .market-row')).toBe(row); // reused
     expect(row.querySelector('.market-buy button')).toBe(btn); // the click-bound button survives
     expect(row.isConnected).toBe(true);
-    expect(churnOnReRender(root.querySelector<HTMLElement>('.market-pane')!, s, render)).toEqual(
-      [],
-    );
+    expect(
+      churnOnReRender(
+        root.querySelector<HTMLElement>('.market-pane')!,
+        s,
+        render,
+      ),
+    ).toEqual([]);
   });
 
   it('renderMarket — a patch reflects a changed buy state without recreating the row', () => {
@@ -950,7 +1085,9 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     const s = awake(['tab-skills', 'readout-combat-level']);
     render(s, null);
     openTab('己'); // skills is a section of the Character 己 tab now (IA reorg ADR-112)
-    const rows0 = [...root.querySelectorAll<HTMLElement>('.skills-pane .skill-row')];
+    const rows0 = [
+      ...root.querySelectorAll<HTMLElement>('.skills-pane .skill-row'),
+    ];
     expect(rows0.length).toBe(1); // the rank-granted conditioning card, nothing else
     expect(rows0[0]!.textContent).toContain('Conditioning');
 
@@ -966,7 +1103,11 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     expect(root.querySelector('.skills-pane .skill-row')).toBe(card); // reused, not rebuilt
     expect(card.querySelector('.meter span')).toBe(fill); // fill persists ⇒ transition survives
     expect(
-      churnOnReRender(root.querySelector<HTMLElement>('.skills-pane')!, withSkill, render),
+      churnOnReRender(
+        root.querySelector<HTMLElement>('.skills-pane')!,
+        withSkill,
+        render,
+      ),
     ).toEqual([]);
   });
 
@@ -980,9 +1121,13 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     render(s, s);
     expect(root.querySelector('.quests-pane .quest-card')).toBe(card); // reused
     expect(card.isConnected).toBe(true);
-    expect(churnOnReRender(root.querySelector<HTMLElement>('.quests-pane')!, s, render)).toEqual(
-      [],
-    );
+    expect(
+      churnOnReRender(
+        root.querySelector<HTMLElement>('.quests-pane')!,
+        s,
+        render,
+      ),
+    ).toEqual([]);
   });
 
   it('renderStorehouse — the kura card survives a re-render; idle ticks churn nothing', () => {
@@ -990,12 +1135,18 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     const s = awake(['panel-estate', 'tab-inventory'], { location: 'kura' }); // ADR-177 — Inventory reveals R4
     render(s, null);
     openTab('蔵'); // the kura bank is on the Inventory 蔵 tab now (FB-108 / IA reorg ADR-112)
-    const card = root.querySelector<HTMLElement>('.storehouse-pane .rung-card')!;
+    const card = root.querySelector<HTMLElement>(
+      '.storehouse-pane .rung-card',
+    )!;
     expect(card).not.toBeNull();
     render(s, s);
     expect(root.querySelector('.storehouse-pane .rung-card')).toBe(card);
     expect(
-      churnOnReRender(root.querySelector<HTMLElement>('.storehouse-pane')!, s, render),
+      churnOnReRender(
+        root.querySelector<HTMLElement>('.storehouse-pane')!,
+        s,
+        render,
+      ),
     ).toEqual([]);
   });
 
@@ -1008,7 +1159,13 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     expect(card.textContent).toContain('Estate ·');
     render(s, s);
     expect(root.querySelector('.works-pane .rung-card')).toBe(card); // reused
-    expect(churnOnReRender(root.querySelector<HTMLElement>('.works-pane')!, s, render)).toEqual([]);
+    expect(
+      churnOnReRender(
+        root.querySelector<HTMLElement>('.works-pane')!,
+        s,
+        render,
+      ),
+    ).toEqual([]);
   });
 
   it('renderNowView — a fleeting Now line survives a re-render; idle ticks churn nothing (D-123)', () => {
@@ -1043,7 +1200,9 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     openTab('地図');
     const card = root.querySelector<HTMLElement>('.map-pane .map-here')!;
     const blurb = card.querySelector<HTMLElement>('.skill-blurb')!;
-    const node = root.querySelector<HTMLElement>('.map-pane [data-node="paddies"]')!;
+    const node = root.querySelector<HTMLElement>(
+      '.map-pane [data-node="paddies"]',
+    )!;
     expect(card).not.toBeNull();
     render(s, s);
     // the CARD frame + its header/blurb persist — and the survey sheet is zero-churn behind the
@@ -1052,7 +1211,9 @@ describe('append-only migration — node identity + zero idle churn (Phase 1)', 
     expect(card.querySelector('.skill-blurb')).toBe(blurb);
     expect(root.querySelector('.map-pane [data-node="paddies"]')).toBe(node);
     expect(card.isConnected).toBe(true);
-    expect(churnOnReRender(root.querySelector<HTMLElement>('.map-pane')!, s, render)).toEqual([]);
+    expect(
+      churnOnReRender(root.querySelector<HTMLElement>('.map-pane')!, s, render),
+    ).toEqual([]);
   });
 
   it('FB-333 — the clock reads season + weekday (day 0 = Monday 月), never a year/day counter', () => {
@@ -1101,7 +1262,10 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     document.body.append(root);
   });
 
-  function awake(surfaces: string[] = [], over: Partial<GameState> = {}): GameState {
+  function awake(
+    surfaces: string[] = [],
+    over: Partial<GameState> = {},
+  ): GameState {
     const base = createInitialState(1);
     // ADR-179 — visibility derives from facts; stamp what entitles each named surface.
     return {
@@ -1110,7 +1274,10 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
       ...over,
     };
   }
-  function combat(extra: string[] = [], over: Partial<GameState> = {}): GameState {
+  function combat(
+    extra: string[] = [],
+    over: Partial<GameState> = {},
+  ): GameState {
     // G4: foes are spatial — the field margins is the first grindable combat zone (tanuki/badger).
     return awake(['tab-combat', 'panel-bestiary', ...extra], {
       location: 'field-margins',
@@ -1128,7 +1295,12 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     render: ReturnType<typeof mount>,
   ): MutationRecord[] {
     const obs = new MutationObserver(() => {});
-    obs.observe(el, { childList: true, subtree: true, attributes: true, characterData: true });
+    obs.observe(el, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      characterData: true,
+    });
     render(state, state);
     render(state, state);
     const records = obs.takeRecords();
@@ -1148,10 +1320,12 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     });
     render(s, null);
     const actions = root.querySelector<HTMLElement>('.actions')!;
-    const labourBtn = [...actions.querySelectorAll<HTMLButtonElement>('.area-group .verb')].find(
-      (b) => (b.textContent ?? '').includes('Work the home paddies'),
+    const labourBtn = [
+      ...actions.querySelectorAll<HTMLButtonElement>('.area-group .verb'),
+    ].find((b) => (b.textContent ?? '').includes('Work the home paddies'))!;
+    const auto = actions.querySelector<HTMLButtonElement>(
+      '.area-group .auto-toggle',
     )!;
-    const auto = actions.querySelector<HTMLButtonElement>('.area-group .auto-toggle')!;
     expect(auto).not.toBeNull();
     expect(auto.classList.contains('on')).toBe(true); // the auto-labour is running
     // the Work tab holds no nav strip anymore (FB-107) — its sole home is Map.
@@ -1159,9 +1333,9 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     render(s, s);
     // every node the player can touch is REUSED, not rebuilt (focus + auto-run survive).
     expect(
-      [...actions.querySelectorAll<HTMLButtonElement>('.area-group .verb')].find((b) =>
-        (b.textContent ?? '').includes('Work the home paddies'),
-      ),
+      [
+        ...actions.querySelectorAll<HTMLButtonElement>('.area-group .verb'),
+      ].find((b) => (b.textContent ?? '').includes('Work the home paddies')),
     ).toBe(labourBtn);
     expect(actions.querySelector('.area-group .auto-toggle')).toBe(auto);
     expect(auto.isConnected).toBe(true);
@@ -1173,7 +1347,9 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     const render = mount(root, (i) => seen.push(i), noopHooks());
     const off = awake(['verb-farm', 'room-paddies'], { location: 'paddies' });
     render(off, null);
-    const auto = root.querySelector<HTMLButtonElement>('.actions .area-group .auto-toggle')!;
+    const auto = root.querySelector<HTMLButtonElement>(
+      '.actions .area-group .auto-toggle',
+    )!;
     expect(auto.classList.contains('on')).toBe(false);
     // start the auto-labour → the SAME node flips `.on` (patched, not remounted); its listener holds.
     const on = awake(['verb-farm', 'room-paddies'], {
@@ -1207,9 +1383,9 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     expect(kids.findIndex((k) => k.matches('.zb-blurb'))).toBeGreaterThan(
       kids.findIndex((k) => k.matches('.zb-head')),
     );
-    expect(banner.compareDocumentPosition(root.querySelector('.actions .verb')!)).toBe(
-      Node.DOCUMENT_POSITION_FOLLOWING,
-    );
+    expect(
+      banner.compareDocumentPosition(root.querySelector('.actions .verb')!),
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     // the group under it carries the rows ONLY — no second name for the same ground.
     expect(root.querySelector('.area-head')).toBeNull();
     // and the banner patches in place: an idle re-render churns nothing (P4/TST2).
@@ -1223,7 +1399,9 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     openTab('Combat');
     const pane = root.querySelector<HTMLElement>('.combat-pane')!;
     const xp = pane.querySelector<HTMLElement>('.rung-card')!;
-    const foe = pane.querySelector<HTMLElement>('.foe-row:not(.bestiary-card)')!;
+    const foe = pane.querySelector<HTMLElement>(
+      '.foe-row:not(.bestiary-card)',
+    )!;
     expect(xp).not.toBeNull();
     expect(foe).not.toBeNull();
     render(s, s);
@@ -1239,7 +1417,9 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     render(s, null);
     openTab('Combat');
     const pane = root.querySelector<HTMLElement>('.combat-pane')!;
-    const foe = pane.querySelector<HTMLElement>('.foe-row:not(.bestiary-card)')!;
+    const foe = pane.querySelector<HTMLElement>(
+      '.foe-row:not(.bestiary-card)',
+    )!;
     const wr = foe.querySelector<HTMLElement>('.win-rate')!;
     expect(foe.querySelector('.skill-name')!.textContent).toBe('Unknown foe');
     expect(wr.textContent).toContain('Unknown');
@@ -1248,7 +1428,9 @@ describe('append-only migration — renderActions + renderCombat (Phase 2)', () 
     render(facedIt, s);
     expect(pane.querySelector('.foe-row:not(.bestiary-card)')).toBe(foe); // row not recreated
     expect(foe.querySelector('.win-rate')).toBe(wr); // forecast pip patched in place
-    expect(foe.querySelector('.skill-name')!.textContent).not.toBe('Unknown foe');
+    expect(foe.querySelector('.skill-name')!.textContent).not.toBe(
+      'Unknown foe',
+    );
     expect(wr.textContent).toContain('%');
   });
 });

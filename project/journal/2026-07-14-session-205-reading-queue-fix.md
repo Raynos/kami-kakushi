@@ -56,3 +56,14 @@ process to keep todo-human tidy"):
   RED-able against the actual pre-cleanup file (19 hits) and green on
   the clean one; takes an optional path arg so the RED case stays
   provable.
+
+## Part 3 — the printWidth flip (100 → 80)
+
+The human called the tree quiet and green-lit the parked TODO: flipped
+`.oxfmtrc.json` `printWidth` 100 → 80 and `.editorconfig`'s code
+`max_line_length` to match, then `pnpm run format` (~320 files, pure
+mechanical reflow) in the same commit so the `oxfmt` gate never sees a
+red window. Two ripples the reformat itself caused: `log-lines.ts`
+needed a second format pass, and `docs/content/ui-tokens.md`
+regenerated via `pnpm run gen:docs`. Full verify green (21 gates).
+TODO entry removed as done.

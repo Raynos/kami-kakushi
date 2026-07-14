@@ -19,12 +19,15 @@
 // Shared infrastructure: checkpoint.ts is the first consumer; the PRD-ripple
 // tooling (F1b) imports it too. No top-level execution — pure functions only.
 
-const escapeRegExp = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const escapeRegExp = (s: string): string =>
+  s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 // A begin line is `<!-- gen:begin <id>` followed by a space or the closing `-->`
 // (so the id "gate" never matches a "gate-roster" marker), ending in `-->`.
 const beginRe = (id: string): RegExp =>
-  new RegExp(`<!--\\s*gen:begin\\s+${escapeRegExp(id)}(?:\\s|-->)[^\\n]*-->\\s*$`);
+  new RegExp(
+    `<!--\\s*gen:begin\\s+${escapeRegExp(id)}(?:\\s|-->)[^\\n]*-->\\s*$`,
+  );
 const endRe = (id: string): RegExp =>
   new RegExp(`<!--\\s*gen:end\\s+${escapeRegExp(id)}\\s*-->\\s*$`);
 
@@ -48,12 +51,18 @@ export class MissingRegionError extends Error {
  * lines and every byte outside them. Idempotent. Throws MissingRegionError if the
  * marker pair is absent or out of order.
  */
-export function spliceRegion(content: string, id: string, body: string): string {
+export function spliceRegion(
+  content: string,
+  id: string,
+  body: string,
+): string {
   const lines = content.split('\n');
   const beginIdx = lines.findIndex((l) => beginRe(id).test(l));
-  if (beginIdx === -1) throw new MissingRegionError(id, 'has no gen:begin marker');
+  if (beginIdx === -1)
+    throw new MissingRegionError(id, 'has no gen:begin marker');
   const endIdx = lines.findIndex((l, i) => i > beginIdx && endRe(id).test(l));
-  if (endIdx === -1) throw new MissingRegionError(id, 'has a gen:begin but no matching gen:end');
+  if (endIdx === -1)
+    throw new MissingRegionError(id, 'has a gen:begin but no matching gen:end');
 
   const before = lines.slice(0, beginIdx + 1);
   const after = lines.slice(endIdx);

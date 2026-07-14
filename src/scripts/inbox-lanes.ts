@@ -22,7 +22,13 @@
 //   "would two lanes fixing these two items touch the same thing?".
 
 import { execFileSync } from 'node:child_process';
-import { readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import {
+  readdirSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from 'node:fs';
 import { basename, join } from 'node:path';
 
 /** Highest F/FB number allocated before this protocol existed (FB-198,
@@ -66,7 +72,9 @@ export interface InboxItem {
 // Reading the inbox
 
 function asRecord(v: unknown): Record<string, unknown> {
-  return typeof v === 'object' && v !== null ? (v as Record<string, unknown>) : {};
+  return typeof v === 'object' && v !== null
+    ? (v as Record<string, unknown>)
+    : {};
 }
 
 /** Read every capture sidecar under pending/ (skipping `.claims/`) into the
@@ -77,7 +85,8 @@ export function readItems(pendingDir: string): InboxItem[] {
   let buckets: string[];
   try {
     buckets = readdirSync(pendingDir).filter(
-      (name) => name !== CLAIMS_DIR && statSync(join(pendingDir, name)).isDirectory(),
+      (name) =>
+        name !== CLAIMS_DIR && statSync(join(pendingDir, name)).isDirectory(),
     );
   } catch {
     return items;
@@ -92,17 +101,22 @@ export function readItems(pendingDir: string): InboxItem[] {
         continue;
       }
       const element = asRecord(raw.element);
-      const status = raw.status === 'done' || raw.status === 'parked' ? raw.status : 'open';
+      const status =
+        raw.status === 'done' || raw.status === 'parked' ? raw.status : 'open';
       items.push({
         stamp: basename(file, '.json'),
         bucket,
-        lane: typeof raw.lane === 'string' && raw.lane !== '' ? raw.lane : bucket,
+        lane:
+          typeof raw.lane === 'string' && raw.lane !== '' ? raw.lane : bucket,
         status,
-        surface: Array.isArray(raw.surface) ? raw.surface.filter((s) => typeof s === 'string') : [],
+        surface: Array.isArray(raw.surface)
+          ? raw.surface.filter((s) => typeof s === 'string')
+          : [],
         fb: typeof raw.fb === 'number' ? raw.fb : null,
         commit: typeof raw.commit === 'string' ? raw.commit : null,
         elementLabel: typeof element.label === 'string' ? element.label : '',
-        elementSelector: typeof element.selector === 'string' ? element.selector : '',
+        elementSelector:
+          typeof element.selector === 'string' ? element.selector : '',
         sidecarPath: join(dir, file),
       });
     }
@@ -123,7 +137,11 @@ export function writeDrainFields(
   }>,
 ): void {
   const raw = asRecord(JSON.parse(readFileSync(sidecarPath, 'utf-8')));
-  writeFileSync(sidecarPath, `${JSON.stringify({ ...raw, ...fields }, null, 1)}\n`, 'utf-8');
+  writeFileSync(
+    sidecarPath,
+    `${JSON.stringify({ ...raw, ...fields }, null, 1)}\n`,
+    'utf-8',
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -150,7 +168,8 @@ export function bucketDrainRows(
   claimedLanes: ReadonlySet<string>,
 ): BucketDrain[] {
   const byBucket = new Map<string, InboxItem[]>();
-  for (const i of items) byBucket.set(i.bucket, [...(byBucket.get(i.bucket) ?? []), i]);
+  for (const i of items)
+    byBucket.set(i.bucket, [...(byBucket.get(i.bucket) ?? []), i]);
   return [...byBucket]
     .map(([bucket, list]) => ({
       bucket,
@@ -180,10 +199,19 @@ export function lanesWithoutBucket(
  *  scan SEEDS these; an agent may overwrite a sidecar's `surface` by hand
  *  where the heuristic misreads — the field is the truth, the table is only
  *  the seeder. */
-export const SURFACE_RULES: ReadonlyArray<{ readonly re: RegExp; readonly token: string }> = [
-  { re: /vn-speech|vn-nameplate|vn-card|vn-rung-ceremony|vn-/, token: 'vn-overlay' },
+export const SURFACE_RULES: ReadonlyArray<{
+  readonly re: RegExp;
+  readonly token: string;
+}> = [
+  {
+    re: /vn-speech|vn-nameplate|vn-card|vn-rung-ceremony|vn-/,
+    token: 'vn-overlay',
+  },
   { re: /log-fresh-divider|data-panel=log|panel "log"/, token: 'log-panel' },
-  { re: /section\.work|"What you can do|button "Rake|button "Rest/, token: 'work-actions' },
+  {
+    re: /section\.work|"What you can do|button "Rake|button "Rest/,
+    token: 'work-actions',
+  },
   { re: /header\.vitals|Answer the summons/, token: 'vitals-header' },
   { re: /nav\.nav|"WorkMap/, token: 'nav' },
   { re: /SettingsVariantsScenariosBalanceStory|dev-panel/, token: 'dev-panel' },
@@ -196,7 +224,8 @@ export const SURFACE_RULES: ReadonlyArray<{ readonly re: RegExp; readonly token:
 export function deriveSurface(label: string, selector: string): string[] {
   const hay = `${label} · ${selector}`;
   const tokens = new Set<string>();
-  for (const rule of SURFACE_RULES) if (rule.re.test(hay)) tokens.add(rule.token);
+  for (const rule of SURFACE_RULES)
+    if (rule.re.test(hay)) tokens.add(rule.token);
   return [...tokens];
 }
 
@@ -269,19 +298,33 @@ export function fbHighWater(
 // Claims — ephemeral, liveness-checked
 
 export function claimPath(pendingDir: string, lane: string): string {
-  return join(pendingDir, CLAIMS_DIR, `${lane.replace(/[^A-Za-z0-9_-]/g, '-')}.json`);
+  return join(
+    pendingDir,
+    CLAIMS_DIR,
+    `${lane.replace(/[^A-Za-z0-9_-]/g, '-')}.json`,
+  );
 }
 
 /** Atomically create one lane's claim file (O_EXCL — the POSIX mutex). Throws
  *  with code EEXIST when the lane is already held. */
-export function createClaim(pendingDir: string, lane: string, claim: Claim): void {
-  writeFileSync(claimPath(pendingDir, lane), `${JSON.stringify(claim, null, 1)}\n`, {
-    encoding: 'utf-8',
-    flag: 'wx',
-  });
+export function createClaim(
+  pendingDir: string,
+  lane: string,
+  claim: Claim,
+): void {
+  writeFileSync(
+    claimPath(pendingDir, lane),
+    `${JSON.stringify(claim, null, 1)}\n`,
+    {
+      encoding: 'utf-8',
+      flag: 'wx',
+    },
+  );
 }
 
-export function readClaims(pendingDir: string): Array<{ lane: string; claim: Claim }> {
+export function readClaims(
+  pendingDir: string,
+): Array<{ lane: string; claim: Claim }> {
   const dir = join(pendingDir, CLAIMS_DIR);
   let files: string[];
   try {
@@ -334,7 +377,10 @@ export function isClaimLive(
 
 function defaultHerdrPanes(): string[] | null {
   try {
-    const raw = execFileSync('herdr', ['agent', 'list'], { encoding: 'utf-8', timeout: 5000 });
+    const raw = execFileSync('herdr', ['agent', 'list'], {
+      encoding: 'utf-8',
+      timeout: 5000,
+    });
     const parsed = JSON.parse(raw) as {
       result?: { agents?: Array<{ pane_id?: string }> };
     };
@@ -362,7 +408,8 @@ export function ledgerFindings(
 
   // 1 · No F-number stamped on two different captures — ever.
   const byFb = new Map<number, InboxItem[]>();
-  for (const i of all) if (i.fb !== null) byFb.set(i.fb, [...(byFb.get(i.fb) ?? []), i]);
+  for (const i of all)
+    if (i.fb !== null) byFb.set(i.fb, [...(byFb.get(i.fb) ?? []), i]);
   for (const [fb, dupes] of byFb) {
     if (dupes.length > 1) {
       findings.push(
@@ -395,7 +442,8 @@ export function ledgerFindings(
   // 4 · A bucket whose every capture is done has no business in pending/ —
   //     archive it (parked items legitimately hold a bucket open).
   const byBucket = new Map<string, InboxItem[]>();
-  for (const i of pendingItems) byBucket.set(i.bucket, [...(byBucket.get(i.bucket) ?? []), i]);
+  for (const i of pendingItems)
+    byBucket.set(i.bucket, [...(byBucket.get(i.bucket) ?? []), i]);
   for (const [bucket, items] of byBucket) {
     if (items.length > 0 && items.every((i) => i.status === 'done')) {
       findings.push(

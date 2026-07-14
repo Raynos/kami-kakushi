@@ -28,14 +28,19 @@ for (const s of SURFACES) {
   seen.add(s.id);
 }
 if (seen.size !== SURFACE_IDS.size) {
-  errors.push(`SURFACE_IDS (${SURFACE_IDS.size}) does not mirror SURFACES (${seen.size})`);
+  errors.push(
+    `SURFACE_IDS (${SURFACE_IDS.size}) does not mirror SURFACES (${seen.size})`,
+  );
 }
 
 // 2. Activities resolve their skill / area / surface.
 for (const a of ACTIVITIES) {
-  if (!SKILL_IDS.has(a.skill)) errors.push(`activity ${a.id}: unknown skill "${a.skill}"`);
-  if (!AREA_IDS.has(a.area)) errors.push(`activity ${a.id}: unknown area "${a.area}"`);
-  if (!SURFACE_IDS.has(a.surface)) errors.push(`activity ${a.id}: unknown surface "${a.surface}"`);
+  if (!SKILL_IDS.has(a.skill))
+    errors.push(`activity ${a.id}: unknown skill "${a.skill}"`);
+  if (!AREA_IDS.has(a.area))
+    errors.push(`activity ${a.id}: unknown area "${a.area}"`);
+  if (!SURFACE_IDS.has(a.surface))
+    errors.push(`activity ${a.id}: unknown surface "${a.surface}"`);
 }
 
 // 3. Rank eligibility ids resolve; rank rewards unlock only real surfaces.
@@ -43,11 +48,14 @@ const META_ACTIONS = new Set(['rake_rice', 'rest', 'open_eyes']);
 for (const r of RANKS) {
   for (const e of r.eligible) {
     if (!ACTIVITY_IDS.has(e) && !META_ACTIONS.has(e)) {
-      errors.push(`rank ${r.id}: eligible id "${e}" is neither an activity nor a meta action`);
+      errors.push(
+        `rank ${r.id}: eligible id "${e}" is neither an activity nor a meta action`,
+      );
     }
   }
   for (const u of r.rewardOnReach?.unlock ?? []) {
-    if (!SURFACE_IDS.has(u)) errors.push(`rank ${r.id}: reward unlocks unknown surface "${u}"`);
+    if (!SURFACE_IDS.has(u))
+      errors.push(`rank ${r.id}: reward unlocks unknown surface "${u}"`);
   }
 }
 
@@ -62,7 +70,9 @@ for (const r of RANKS) {
 //     must earn a side-quest VN of its own (core/reveals.ts).
 const RUNG_UP_ZONE_CAP = 2;
 for (const r of RANKS) {
-  const zones = (r.rewardOnReach?.unlock ?? []).filter((u) => u.startsWith('room-'));
+  const zones = (r.rewardOnReach?.unlock ?? []).filter((u) =>
+    u.startsWith('room-'),
+  );
   if (zones.length > RUNG_UP_ZONE_CAP) {
     errors.push(
       `rank ${r.id}: ${zones.length} zones open on one rung-up VN (${zones.join(', ')}) — ` +
@@ -91,7 +101,9 @@ const BELIEF_WORDS = [
 ];
 for (const m of MOBS) {
   if (BELIEF_WORDS.some((w) => m.id.toLowerCase().includes(w))) {
-    errors.push(`belief-creature in the bestiary/spawn registry: ${m.id} (canon §E forbids it)`);
+    errors.push(
+      `belief-creature in the bestiary/spawn registry: ${m.id} (canon §E forbids it)`,
+    );
   }
 }
 // 4c. No HUMAN-archetype foe is fightable in T0/T1 (bible T0 sheet, locked: the first man the
@@ -104,7 +116,8 @@ for (const m of MOBS) {
     );
   }
 }
-if (WEAPONS.length !== WEAPON_IDS.size) errors.push('WEAPON_IDS does not mirror WEAPONS');
+if (WEAPONS.length !== WEAPON_IDS.size)
+  errors.push('WEAPON_IDS does not mirror WEAPONS');
 for (const w of WEAPONS) {
   if (w.baseAttack <= 0 || w.baseSpeed <= 0 || w.durabilityMax <= 0) {
     errors.push(`weapon ${w.id}: non-positive stat`);
@@ -113,8 +126,10 @@ for (const w of WEAPONS) {
 
 // 4b. Estate sink (audit #5): stages contiguous 1..N, costs strictly ascending, bonus ≥ 0.
 ESTATE_STAGES.forEach((e, i) => {
-  if (e.stage !== i + 1) errors.push(`estate stage #${i}: non-contiguous stage ${e.stage}`);
-  if (e.satietyMaxBonus < 0) errors.push(`estate stage E${e.stage}: negative satietyMaxBonus`);
+  if (e.stage !== i + 1)
+    errors.push(`estate stage #${i}: non-contiguous stage ${e.stage}`);
+  if (e.satietyMaxBonus < 0)
+    errors.push(`estate stage E${e.stage}: negative satietyMaxBonus`);
   if (i > 0 && e.coinCost <= ESTATE_STAGES[i - 1]!.coinCost) {
     errors.push(`estate stage E${e.stage}: coinCost not strictly ascending`);
   }

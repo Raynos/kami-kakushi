@@ -12,6 +12,7 @@ describe('M3 — the TierId spine', () => {
   });
 
   it('every tier has a non-empty display name (the single naming source, AC-21)', () => {
-    for (const name of Object.values(TIER_NAMES)) expect(name.length).toBeGreaterThan(0);
+    for (const name of Object.values(TIER_NAMES))
+      expect(name.length).toBeGreaterThan(0);
   });
 });

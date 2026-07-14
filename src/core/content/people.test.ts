@@ -15,9 +15,17 @@ import { peopleAwayHere, peopleHere } from '../selectors';
 import { getPerson, presenceCtx } from './people';
 import { nodeSeasonalBlurb, getNode } from './map';
 import { YOHEI_MARKET_DAYS } from './market';
-import { DAY_OF_WEEK_NAMES, dayOfWeek, DAYS_PER_WEEK, type DayOfWeek } from '../constants';
+import {
+  DAY_OF_WEEK_NAMES,
+  dayOfWeek,
+  DAYS_PER_WEEK,
+  type DayOfWeek,
+} from '../constants';
 
-function awakeAt(location: string, opts: { day?: number; unlocked?: string[] } = {}): GameState {
+function awakeAt(
+  location: string,
+  opts: { day?: number; unlocked?: string[] } = {},
+): GameState {
   const base = createInitialState(1);
   return {
     ...base,
@@ -25,7 +33,11 @@ function awakeAt(location: string, opts: { day?: number; unlocked?: string[] } =
     clock: { ...base.clock, day: opts.day ?? base.clock.day },
     // ADR-179 — `opts.unlocked` names SURFACES to make visible; visibility derives, so the
     // fact bridge translates each to its entitling fact-flag(s) (room-kura → rank-r3).
-    flags: { ...base.flags, awake: true, ...factsForSurfaces(...(opts.unlocked ?? [])) },
+    flags: {
+      ...base.flags,
+      awake: true,
+      ...factsForSurfaces(...(opts.unlocked ?? [])),
+    },
   };
 }
 
@@ -71,7 +83,9 @@ describe('peopleHere (D-114) — the spatial "who\'s here" selector, mirroring f
     expect(peopleHere(wrongNode).map((p) => p.id)).not.toContain('yohei');
     // a full week of market days never conjures him onto the wrong node.
     for (let d = 0; d < DAYS_PER_WEEK; d++) {
-      expect(peopleHere(awakeAt('kura', { day: d })).map((p) => p.id)).not.toContain('yohei');
+      expect(
+        peopleHere(awakeAt('kura', { day: d })).map((p) => p.id),
+      ).not.toContain('yohei');
     }
   });
 });
@@ -97,14 +111,15 @@ describe("FB-408 — peopleAwayHere: the absent regular's dimmed schedule row", 
     const hint = away.find((p) => p.id === 'yohei')!.awayTell!;
     // the hint's day names derive from YOHEI_MARKET_DAYS (AC-21) — a re-scheduled
     // market flows through; a hand-typed 水・土 would go stale and fail here.
-    for (const d of YOHEI_MARKET_DAYS) expect(hint).toContain(DAY_OF_WEEK_NAMES[d]!.kanji);
+    for (const d of YOHEI_MARKET_DAYS)
+      expect(hint).toContain(DAY_OF_WEEK_NAMES[d]!.kanji);
   });
   it('is empty ON a market day (he is present, not away), and empty off his node', () => {
-    expect(peopleAwayHere(awakeAt('gate', { day: MARKET_DOW })).map((p) => p.id)).not.toContain(
-      'yohei',
-    );
-    expect(peopleAwayHere(awakeAt('kura', { day: NON_MARKET_DOW })).map((p) => p.id)).not.toContain(
-      'yohei',
-    );
+    expect(
+      peopleAwayHere(awakeAt('gate', { day: MARKET_DOW })).map((p) => p.id),
+    ).not.toContain('yohei');
+    expect(
+      peopleAwayHere(awakeAt('kura', { day: NON_MARKET_DOW })).map((p) => p.id),
+    ).not.toContain('yohei');
   });
 });

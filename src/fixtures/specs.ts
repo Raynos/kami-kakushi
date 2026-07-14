@@ -132,16 +132,26 @@ export function walkTo(s: GameState, node: string): GameState {
 
 /** The equipped weapon's current durability band name (Pristine / Worn / Battered / Broken). */
 function bandName(s: GameState): string {
-  return durabilityBand(s.weaponDurability, getWeapon(s.equippedWeapon).durabilityMax).name;
+  return durabilityBand(
+    s.weaponDurability,
+    getWeapon(s.equippedWeapon).durabilityMax,
+  ).name;
 }
 
 /** Walk to `mobId`'s node, then grind REAL fights until `stop(s)` or a guard trips. Repairs a worn
  *  blade when wood allows (a real intent) so the loop keeps swinging — mirrors the auto-combat rule. */
-export function grindUntil(s: GameState, mobId: MobId, stop: (s: GameState) => boolean): GameState {
+export function grindUntil(
+  s: GameState,
+  mobId: MobId,
+  stop: (s: GameState) => boolean,
+): GameState {
   s = walkTo(s, getMob(mobId).area);
   let guard = 0;
   while (!stop(s) && guard++ < 200) {
-    if ((s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST && bandName(s) !== 'Pristine') {
+    if (
+      (s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST &&
+      bandName(s) !== 'Pristine'
+    ) {
       s = reduce(s, { type: 'repair_weapon' });
     }
     s = applyGrindFight(s, mobId);
@@ -150,7 +160,8 @@ export function grindUntil(s: GameState, mobId: MobId, stop: (s: GameState) => b
 }
 
 /** The "rich" bar — 2× the dearest estate-stage cost (no magic number; §5.3). */
-const WEALTHY_COIN_THRESHOLD = 2 * Math.max(...ESTATE_STAGES.map((e) => e.coinCost));
+const WEALTHY_COIN_THRESHOLD =
+  2 * Math.max(...ESTATE_STAGES.map((e) => e.coinCost));
 
 // ── the v1 scenario set (§2.3) — Ph1 ships the two full-arc-policy waypoints ────────────────────
 // The set is deliberately small; growth comes from capture graduation + persona bots, not
@@ -234,7 +245,8 @@ const RUNG_START_SPECS: readonly FixtureSpec[] = RANKS.map((r) => ({
   group: G_RUNG_STARTS,
   seed: T0_ARC_SEED,
   play: (s0: GameState) => drive(s0, (s) => s.rung === r.id),
-  expect: (s: GameState) => must(s.rung === r.id, `expected rung ${r.id}, got ${s.rung}`),
+  expect: (s: GameState) =>
+    must(s.rung === r.id, `expected rung ${r.id}, got ${s.rung}`),
 }));
 
 /** ADR-177 — drive the works chain to a PRICED, affordable U1 (shared by the
@@ -296,7 +308,11 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
       'R3 grain-watch, night-round-ready — blooded and stopped one click short of posting the wolf round.',
     seed: T0_ARC_SEED,
     play: (s0) =>
-      drive(s0, (_s, next) => next.kind === 'intent' && next.intent.type === 'begin_night_round'),
+      drive(
+        s0,
+        (_s, next) =>
+          next.kind === 'intent' && next.intent.type === 'begin_night_round',
+      ),
     expect: (s) => {
       must(s.rung === 'R3', `expected rung R3, got ${s.rung}`);
       must(
@@ -318,8 +334,14 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     play: (s0) => drive(s0, (_s, next) => next.kind === 'ascend'),
     expect: (s) => {
       must(s.tier === 0, `expected tier 0 (pre-ceremony), got ${s.tier}`);
-      must(ascensionAvailable(s), 'ascension should be available at this waypoint');
-      must(estateGrade(s) === 'EXCELLENT', `expected Estate EXCELLENT, got ${estateGrade(s)}`);
+      must(
+        ascensionAvailable(s),
+        'ascension should be available at this waypoint',
+      );
+      must(
+        estateGrade(s) === 'EXCELLENT',
+        `expected Estate EXCELLENT, got ${estateGrade(s)}`,
+      );
       must(hasFlag(s, 't0-capstone'), 'the R7 capstone flag should be set');
     },
   },
@@ -330,14 +352,21 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
       'The first rung-up story beat is READY — stopped on the trigger affordance, before the VN modal.',
     seed: T0_ARC_SEED,
     play: (s0) =>
-      drive(s0, (_s, next) => next.kind === 'intent' && next.intent.type === 'begin_rung_beat'),
+      drive(
+        s0,
+        (_s, next) =>
+          next.kind === 'intent' && next.intent.type === 'begin_rung_beat',
+      ),
     expect: (s) => {
       must(promotionReady(s), 'a rung promotion should be ready to trigger');
       must(
         s.rungBeat === null,
         'the rung beat should NOT yet be begun (stopped before begin_rung_beat)',
       );
-      must(pendingPromotionTarget(s) !== null, 'a pending promotion target should exist');
+      must(
+        pendingPromotionTarget(s) !== null,
+        'a pending promotion target should exist',
+      );
     },
   },
   {
@@ -355,7 +384,10 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
       // forage sansai on the woodlot; if the season pool's worked out, turn the wheel to refill it.
       let guard = 0;
       const forageArea = getActivity('forage_satoyama').area;
-      while ((s.resources.sansai ?? 0) < balance.COOK_SANSAI_COST && guard++ < 60) {
+      while (
+        (s.resources.sansai ?? 0) < balance.COOK_SANSAI_COST &&
+        guard++ < 60
+      ) {
         if ((s.sitePools[forageArea] ?? 0) <= 0 && s.location === forageArea) {
           s = reduce(s, { type: 'advance_season' });
           continue;
@@ -424,7 +456,10 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
       return reduce(s, { type: 'rest_sickroom' });
     },
     expect: (s) => {
-      must(bandName(s) === 'Battered', `expected a Battered weapon, got ${bandName(s)}`);
+      must(
+        bandName(s) === 'Battered',
+        `expected a Battered weapon, got ${bandName(s)}`,
+      );
       must(
         s.character.hp >= balance.REST_SICKROOM_HP,
         `the waypoint must be playable — a pallet day should leave hp ≥ ${balance.REST_SICKROOM_HP}, got ${s.character.hp}`,
@@ -433,7 +468,10 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
         (s.resources.wood ?? 0) < balance.REPAIR_WOOD_COST,
         `expected carried wood < ${balance.REPAIR_WOOD_COST} (can't repair), got ${s.resources.wood ?? 0}`,
       );
-      must(isUnlocked(s, 'verb-repair'), 'the Repair CTA must be revealed (R4 unlock)');
+      must(
+        isUnlocked(s, 'verb-repair'),
+        'the Repair CTA must be revealed (R4 unlock)',
+      );
       must(
         (s.sitePools.woodlot ?? 0) > 0,
         `the woodlot pool must be live (the recovery chops) — got ${s.sitePools.woodlot ?? 0}`,
@@ -459,7 +497,11 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
       while ((s.banked.coin ?? 0) < WEALTHY_COIN_THRESHOLD && guard++ < 20000) {
         // ADR-194 — mirror the reducer's merchant guards (a dry purse / sagged-to-0 price
         // no-ops), or the loop burns its guard on no-op sells instead of passing time.
-        if (isMarketDay(s.clock.day) && (s.banked.rice ?? 0) > 0 && riceSellQuote(s).sho > 0) {
+        if (
+          isMarketDay(s.clock.day) &&
+          (s.banked.rice ?? 0) > 0 &&
+          riceSellQuote(s).sho > 0
+        ) {
           s = reduce(s, { type: 'sell_rice' }); // kura shō → coin (Yohei's purse-clamped)
         } else if (s.wageDaysAccrued > 0) {
           s = reduce(s, { type: 'collect_wage' });
@@ -476,7 +518,10 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     },
     expect: (s) => {
       must(phaseOf(s) === 2, `expected Phase 2, got phase ${phaseOf(s)}`);
-      must(s.location === 'kura', `expected to idle at the kura, got ${s.location}`);
+      must(
+        s.location === 'kura',
+        `expected to idle at the kura, got ${s.location}`,
+      );
       must(
         (s.banked.coin ?? 0) >= WEALTHY_COIN_THRESHOLD,
         `expected banked coin >= ${WEALTHY_COIN_THRESHOLD}, got ${s.banked.coin ?? 0}`,
@@ -492,9 +537,18 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     // ADR-177 — the shared chain driver (real intents only; see playWorksU1Priced).
     play: playWorksU1Priced,
     expect: (s) => {
-      must(s.flags['works-open-u1'] === true, 'the pricing beat must have closed U1 open');
-      must(s.estateStage === 0, 'the buy must still be ahead (priced, unbought)');
-      must(isUnlocked(s, 'room-weir'), 'the lease naming must have opened the weir path');
+      must(
+        s.flags['works-open-u1'] === true,
+        'the pricing beat must have closed U1 open',
+      );
+      must(
+        s.estateStage === 0,
+        'the buy must still be ahead (priced, unbought)',
+      );
+      must(
+        isUnlocked(s, 'room-weir'),
+        'the lease naming must have opened the weir path',
+      );
       must(
         (s.resources.coin ?? 0) >= ESTATE_STAGES[0]!.coinCost,
         'the commissioning must be LIVE (coin for U1 in hand)',
@@ -517,7 +571,10 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
       return walkTo(s, 'gate'); // a U1 work zone — the site verb shows here
     },
     expect: (s) => {
-      must(s.estateCommission === 1, 'U1 must be commissioned (work under way)');
+      must(
+        s.estateCommission === 1,
+        'U1 must be commissioned (work under way)',
+      );
       must(s.location === 'gate', `expected the gate site, got ${s.location}`);
       must(s.estateWorkDone === 0, 'no acts yet — the press is the player’s');
     },
@@ -536,10 +593,14 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     // ADR-184 — the gate is no longer an R1 rung reward: `sb-market` opens it (Genemon names
     // Yohei's stall the first time coin sits in your fist with nowhere to go). Drain the queue
     // before walking, so the market loop's start-state stands where the stall actually is.
-    play: (s0) => walkTo(drainScenes(drive(s0, (st) => st.rung === 'R4')), 'gate'),
+    play: (s0) =>
+      walkTo(drainScenes(drive(s0, (st) => st.rung === 'R4')), 'gate'),
     expect: (s) => {
       must(s.location === 'gate', `expected the gate, got ${s.location}`);
-      must((s.banked.rice ?? 0) > 0, 'kura rice to sell — the loop needs stock');
+      must(
+        (s.banked.rice ?? 0) > 0,
+        'kura rice to sell — the loop needs stock',
+      );
       must(
         isUnlocked(s, 'panel-estate'),
         'panel-estate must be revealed (Yohei stands the gate on it)',
@@ -549,7 +610,8 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
   {
     name: 'at-kura-with-coin',
     group: G_ECONOMY,
-    blurb: 'R4, standing in the kura with wage-coin in the sleeve — the deposit one press away.',
+    blurb:
+      'R4, standing in the kura with wage-coin in the sleeve — the deposit one press away.',
     seed: T0_ARC_SEED,
     // The kura-deposit journey's start (P2): coin earned by the coin-paying haul (the wage labour),
     // walked home to the storehouse. (G4: coin comes from the haul/market, not carried-rice sales.)
@@ -575,7 +637,10 @@ export const FIXTURE_SPECS: readonly FixtureSpec[] = [
     },
     expect: (s) => {
       must(s.location === 'kura', `expected the kura, got ${s.location}`);
-      must((s.resources.coin ?? 0) > 0, 'carried coin — the deposit needs something to store');
+      must(
+        (s.resources.coin ?? 0) > 0,
+        'carried coin — the deposit needs something to store',
+      );
     },
   },
 ];

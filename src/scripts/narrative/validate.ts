@@ -45,7 +45,9 @@ export interface Verdict {
 /** Speech-voice overrides the human has ruled INTENTIONAL (`npc:voice`). The WARN
  *  stays quiet on these. Munemasa keeps the formal 'official' register at R7 while his
  *  registered voice is 'lord' — human call, 2026-07-05 (FB-5 plan Risks #3). */
-const VOICE_OVERRIDE_ALLOWED: ReadonlySet<string> = new Set(['munemasa:official']);
+const VOICE_OVERRIDE_ALLOWED: ReadonlySet<string> = new Set([
+  'munemasa:official',
+]);
 
 /** The fixed intro scene order — the engine's `introBeat` cursor assumes it. HD-37
  *  (2026-07-10) re-opens C4.9's one-scene fusion: the three-act arc returns, in the
@@ -54,7 +56,10 @@ const VOICE_OVERRIDE_ALLOWED: ReadonlySet<string> = new Set(['munemasa:official'
 const INTRO_SCENE_ORDER = ['dream', 'soan', 'genemon'] as const;
 
 const NPC_BY_NAME = new Map<string, NpcId>(
-  (Object.entries(NPC_NAME) as [NpcId, string][]).map(([id, name]) => [name, id]),
+  (Object.entries(NPC_NAME) as [NpcId, string][]).map(([id, name]) => [
+    name,
+    id,
+  ]),
 );
 const AMBIENT_NAMES = new Set<string>(Object.values(NAMES));
 const NAMES_KEYS = new Set(Object.keys(NAMES));
@@ -88,11 +93,14 @@ function buildRefContext(docs: readonly NarrativeDoc[]): RefContext {
   };
   for (const doc of docs) {
     for (const b of doc.blocks) {
-      if (b.kind === 'prose') for (const e of b.entries) coldOpenKeys.add(e.key);
-      if (b.kind === 'dialogue') dialogueLines.set(b.id, new Set(b.lines.map((l) => l.id)));
+      if (b.kind === 'prose')
+        for (const e of b.entries) coldOpenKeys.add(e.key);
+      if (b.kind === 'dialogue')
+        dialogueLines.set(b.id, new Set(b.lines.map((l) => l.id)));
       if (b.kind === 'rung' || b.kind === 'scene') {
         for (const line of b.greeting) noteRef(line.text);
-        for (const t of b.topics) for (const line of t.answer) noteRef(line.text);
+        for (const t of b.topics)
+          for (const line of t.answer) noteRef(line.text);
       }
     }
   }
@@ -112,7 +120,8 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
     const cold = /^@cold-open\.([a-zA-Z]+)$/.exec(text);
     const dlg = /^@dialogue\.([a-z0-9-]+)\/([a-z0-9-]+)$/.exec(text);
     if (cold) {
-      if (!refs.coldOpenKeys.has(cold[1]!)) err(loc, `@cold-open.${cold[1]} does not resolve`);
+      if (!refs.coldOpenKeys.has(cold[1]!))
+        err(loc, `@cold-open.${cold[1]} does not resolve`);
       return;
     }
     if (dlg) {
@@ -122,11 +131,15 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
       return;
     }
     if (text.startsWith('@')) {
-      err(loc, `unknown reuse reference "${text}" (@cold-open.<key> / @dialogue.<def>/<line>)`);
+      err(
+        loc,
+        `unknown reuse reference "${text}" (@cold-open.<key> / @dialogue.<def>/<line>)`,
+      );
       return;
     }
     for (const m of text.matchAll(/\{([a-zA-Z]+)\}/g)) {
-      if (!NAMES_KEYS.has(m[1]!)) err(loc, `unknown NAMES interpolation "{${m[1]}}"`);
+      if (!NAMES_KEYS.has(m[1]!))
+        err(loc, `unknown NAMES interpolation "{${m[1]}}"`);
     }
   };
 
@@ -141,7 +154,8 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
       if (line.voice !== undefined) {
         err(line.loc, 'a `You:` player line never takes a (voice) override');
       }
-      if (isReact) err(line.loc, "a react line's speaker must be an NPC, not the player");
+      if (isReact)
+        err(line.loc, "a react line's speaker must be an NPC, not the player");
       return;
     }
     const npc = NPC_BY_NAME.get(line.speaker);
@@ -161,13 +175,19 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
     }
     if (isReact) {
       if (line.voice !== undefined) {
-        err(line.loc, 'a react line takes no (voice) override — its voice derives from the scene');
+        err(
+          line.loc,
+          'a react line takes no (voice) override — its voice derives from the scene',
+        );
       }
       return;
     }
     if (line.voice !== undefined) {
       if (!VOICE_SET.has(line.voice)) {
-        err(line.loc, `unknown voice "${line.voice}" (known: ${VOICE_CATEGORIES.join(', ')})`);
+        err(
+          line.loc,
+          `unknown voice "${line.voice}" (known: ${VOICE_CATEGORIES.join(', ')})`,
+        );
       } else if (npc !== undefined && line.voice !== NPC_VOICE[npc]) {
         if (!VOICE_OVERRIDE_ALLOWED.has(`${npc}:${line.voice}`)) {
           warnings.push(
@@ -219,7 +239,8 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
         }
         const seen = new Set<string>();
         for (const r of block.reqs) {
-          if (seen.has(r.id)) err(r.loc, `duplicate req id "${r.id}" in ${block.rankKey}`);
+          if (seen.has(r.id))
+            err(r.loc, `duplicate req id "${r.id}" in ${block.rankKey}`);
           seen.add(r.id);
           if (r.flavor) checkText(r.flavor, r.loc);
         }
@@ -242,7 +263,10 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
   if (reqRungs.size > 0) {
     for (const rank of RANKS) {
       if (!reqRungs.has(rank.id)) {
-        err([...reqRungs.values()][0]!, `requirements list missing for ${rank.id} (all 8 rungs)`);
+        err(
+          [...reqRungs.values()][0]!,
+          `requirements list missing for ${rank.id} (all 8 rungs)`,
+        );
       }
     }
   }
@@ -263,7 +287,10 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
     for (const s of introScenes) {
       const title = s.meta.get('title')?.value.trim() ?? '';
       if (title === '') {
-        err(s.loc, `intro scene "${s.id}" is missing "title:" meta (the per-scene 幕-head label)`);
+        err(
+          s.loc,
+          `intro scene "${s.id}" is missing "title:" meta (the per-scene 幕-head label)`,
+        );
         continue;
       }
       const dup = titles.get(title);
@@ -290,7 +317,10 @@ function validateSceneCommon(
   // scene meta: voice real, speaker a real NPC id.
   const voice = scene.meta.get('voice');
   if (voice && !VOICE_SET.has(voice.value)) {
-    err(voice.loc, `unknown scene voice "${voice.value}" (known: ${VOICE_CATEGORIES.join(', ')})`);
+    err(
+      voice.loc,
+      `unknown scene voice "${voice.value}" (known: ${VOICE_CATEGORIES.join(', ')})`,
+    );
   }
   const speaker = scene.meta.get('speaker');
   if (speaker && !NPC_ID_SET.has(speaker.value)) {
@@ -301,7 +331,8 @@ function validateSceneCommon(
   }
 
   for (const line of scene.greeting) checkProse(line, false);
-  for (const t of scene.topics) for (const line of t.answer) checkProse(line, false);
+  for (const t of scene.topics)
+    for (const line of t.answer) checkProse(line, false);
 
   for (const t of scene.topics) {
     const dup = topicIds.get(t.id);
@@ -341,13 +372,19 @@ function validateSceneCommon(
     if (o.react) checkProse(o.react, true);
     if ((scene.kind === 'rung' || scene.kind === 'scene-def') && o.react) {
       if (o.react.kind !== 'speech' || !NPC_BY_NAME.has(o.react.speaker)) {
-        err(o.react.loc, `a ${scene.kind} react must be a speech line spoken by an NPC`);
+        err(
+          o.react.loc,
+          `a ${scene.kind} react must be a speech line spoken by an NPC`,
+        );
       }
     }
     // §3.5 memory NPCs real, |warmth Δ| ≤ 3.
     for (const m of o.memory ?? []) {
       if (!NPC_ID_SET.has(m.npc)) {
-        err(o.loc, `memory npc "${m.npc}" is not a known NPC id (${NPC_IDS.join(', ')})`);
+        err(
+          o.loc,
+          `memory npc "${m.npc}" is not a known NPC id (${NPC_IDS.join(', ')})`,
+        );
       }
       if (Math.abs(m.warmthDelta) > 3) {
         err(o.loc, `memory warmth delta ${m.warmthDelta} exceeds the ±3 clamp`);
@@ -355,10 +392,16 @@ function validateSceneCommon(
     }
     // §3.6 bonus attr + stance from the source-of-truth rosters.
     if (o.bonus && !ATTR_SET.has(o.bonus.attr)) {
-      err(o.loc, `bonus attr "${o.bonus.attr}" is not a known attribute (${ATTR_IDS.join(', ')})`);
+      err(
+        o.loc,
+        `bonus attr "${o.bonus.attr}" is not a known attribute (${ATTR_IDS.join(', ')})`,
+      );
     }
     if (o.stance && !STANCE_SET.has(o.stance)) {
-      err(o.loc, `stance "${o.stance}" is not a known stance (${STANCE_ORDER.join(', ')})`);
+      err(
+        o.loc,
+        `stance "${o.stance}" is not a known stance (${STANCE_ORDER.join(', ')})`,
+      );
     }
   }
 }
@@ -397,17 +440,27 @@ function validateRungExtras(
     }
   }
   const dupRank = rankKeys.get(scene.rankKey);
-  if (dupRank) err(scene.loc, `duplicate rung "${scene.rankKey}" (first at ${at(dupRank)})`);
+  if (dupRank)
+    err(
+      scene.loc,
+      `duplicate rung "${scene.rankKey}" (first at ${at(dupRank)})`,
+    );
   else rankKeys.set(scene.rankKey, scene.loc);
 }
 
-function validateIntroExtras(scene: IntroSceneNode, err: (loc: Loc, msg: string) => void): void {
+function validateIntroExtras(
+  scene: IntroSceneNode,
+  err: (loc: Loc, msg: string) => void,
+): void {
   for (const o of scene.decision?.options ?? []) {
     // §3.6b the net-zero invariant: stat up/down real and DISTINCT.
     if (o.stat) {
       for (const side of [o.stat.up, o.stat.down]) {
         if (!ATTR_SET.has(side)) {
-          err(o.loc, `stat attr "${side}" is not a known attribute (${ATTR_IDS.join(', ')})`);
+          err(
+            o.loc,
+            `stat attr "${side}" is not a known attribute (${ATTR_IDS.join(', ')})`,
+          );
         }
       }
       if (o.stat.up === o.stat.down) {
@@ -417,23 +470,39 @@ function validateIntroExtras(scene: IntroSceneNode, err: (loc: Loc, msg: string)
         );
       }
     } else {
-      err(o.loc, `intro option "${o.id}" is missing "stat:" (the net-zero lean)`);
+      err(
+        o.loc,
+        `intro option "${o.id}" is missing "stat:" (the net-zero lean)`,
+      );
     }
     // §3.9 perk shape: name/desc non-empty, no '(', no ±1 (lifted from intro.test.ts —
     // mechanics are appended by introPerkLine, never baked into the perk).
     if (o.perk) {
-      if (!o.perk.name || !o.perk.desc) err(o.loc, 'perk name and desc must be non-empty');
+      if (!o.perk.name || !o.perk.desc)
+        err(o.loc, 'perk name and desc must be non-empty');
       if (o.perk.name.includes('(') || o.perk.desc.includes('(')) {
-        err(o.loc, "a perk never carries '(' — mechanics are appended by introPerkLine");
+        err(
+          o.loc,
+          "a perk never carries '(' — mechanics are appended by introPerkLine",
+        );
       }
       if (/[+−]1/.test(o.perk.name) || /[+−]1/.test(o.perk.desc)) {
-        err(o.loc, 'a perk never bakes in the ±1 — introPerkLine appends the exact trade');
+        err(
+          o.loc,
+          'a perk never bakes in the ±1 — introPerkLine appends the exact trade',
+        );
       }
     } else {
       err(o.loc, `intro option "${o.id}" is missing "perk:"`);
     }
-    if (o.memory && (o.memory.length !== 1 || o.memory[0]!.regard === undefined)) {
-      err(o.loc, 'an intro option takes exactly one memory write, with a regard');
+    if (
+      o.memory &&
+      (o.memory.length !== 1 || o.memory[0]!.regard === undefined)
+    ) {
+      err(
+        o.loc,
+        'an intro option takes exactly one memory write, with a regard',
+      );
     }
   }
 }
@@ -441,7 +510,10 @@ function validateIntroExtras(scene: IntroSceneNode, err: (loc: Loc, msg: string)
 /** Scene-def specifics (storywave G3.5 / FB-5): a resolvable `trigger:` and a real `voice:`.
  *  A malformed trigger (unknown kind, `season-exit` without a season, an unknown season) REDs —
  *  the generalized-scene registry must never carry a trigger the engine can't match. */
-function validateSceneDef(def: SceneDefNode, err: (loc: Loc, msg: string) => void): void {
+function validateSceneDef(
+  def: SceneDefNode,
+  err: (loc: Loc, msg: string) => void,
+): void {
   const trigger = def.meta.get('trigger');
   if (!trigger) {
     err(def.loc, `scene-def "${def.id}" is missing "trigger:" meta`);
@@ -449,8 +521,14 @@ function validateSceneDef(def: SceneDefNode, err: (loc: Loc, msg: string) => voi
     const parsed = parseSceneTrigger(trigger.value);
     if (!parsed.ok) {
       err(trigger.loc, `scene-def "${def.id}": ${parsed.reason}`);
-    } else if (parsed.trigger.kind === 'season-exit' && !SEASON_SET.has(parsed.trigger.season)) {
-      err(trigger.loc, `unknown season "${parsed.trigger.season}" (known: ${SEASONS.join(', ')})`);
+    } else if (
+      parsed.trigger.kind === 'season-exit' &&
+      !SEASON_SET.has(parsed.trigger.season)
+    ) {
+      err(
+        trigger.loc,
+        `unknown season "${parsed.trigger.season}" (known: ${SEASONS.join(', ')})`,
+      );
     }
   }
   if (!def.meta.get('voice')) {
@@ -465,7 +543,10 @@ function validateDialogueDef(
   checkText: (text: string, loc: Loc) => void,
 ): void {
   if (!NAMES_KEYS.has(def.speakerKey)) {
-    err(def.loc, `unknown dialogue speaker key "${def.speakerKey}" (a NAMES key)`);
+    err(
+      def.loc,
+      `unknown dialogue speaker key "${def.speakerKey}" (a NAMES key)`,
+    );
   }
   // §3.10 no orphan defs: a def is REACHED (referenced by a reuse) or explicitly
   // marked `unrouted: <reason>` — the kihei-intro/soan-intro kept-on-purpose stubs.
@@ -478,13 +559,20 @@ function validateDialogueDef(
   }
   const seen = new Set<string>();
   for (const l of def.lines) {
-    if (seen.has(l.id)) err(l.loc, `duplicate line id "${l.id}" in dialogue "${def.id}"`);
+    if (seen.has(l.id))
+      err(l.loc, `duplicate line id "${l.id}" in dialogue "${def.id}"`);
     seen.add(l.id);
     if (l.voice !== undefined && !VOICE_SET.has(l.voice)) {
-      err(l.loc, `unknown voice "${l.voice}" (known: ${VOICE_CATEGORIES.join(', ')})`);
+      err(
+        l.loc,
+        `unknown voice "${l.voice}" (known: ${VOICE_CATEGORIES.join(', ')})`,
+      );
     }
     if (l.when?.type === 'regard' && !NPC_ID_SET.has(l.when.npc)) {
-      err(l.loc, `when: npc "${l.when.npc}" is not a known NPC id (${NPC_IDS.join(', ')})`);
+      err(
+        l.loc,
+        `when: npc "${l.when.npc}" is not a known NPC id (${NPC_IDS.join(', ')})`,
+      );
     }
     checkText(l.text, l.loc);
   }

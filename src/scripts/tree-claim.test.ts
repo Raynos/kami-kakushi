@@ -20,7 +20,8 @@ function freshClaims(): string {
   return dir;
 }
 afterEach(() => {
-  for (const d of tmpDirs.splice(0)) rmSync(d, { recursive: true, force: true });
+  for (const d of tmpDirs.splice(0))
+    rmSync(d, { recursive: true, force: true });
 });
 
 function claim(lane: string, extra: Partial<TreeClaim> = {}): TreeClaim {
@@ -40,7 +41,9 @@ describe('tree-claim mutex lanes', () => {
   it('claims a free lane and rejects a second claim (O_EXCL)', () => {
     const dir = freshClaims();
     createTreeClaim(dir, claim('push'));
-    expect(() => createTreeClaim(dir, claim('push', { pane: 'w2:p2' }))).toThrow();
+    expect(() =>
+      createTreeClaim(dir, claim('push', { pane: 'w2:p2' })),
+    ).toThrow();
     expect(readTreeClaims(dir)).toHaveLength(1);
     expect(readTreeClaims(dir)[0]?.pane).toBe('w9:p9');
   });
@@ -50,7 +53,9 @@ describe('tree-claim mutex lanes', () => {
     createTreeClaim(dir, claim('push'));
     releaseTreeClaim(dir, 'push');
     expect(readTreeClaims(dir)).toHaveLength(0);
-    expect(() => createTreeClaim(dir, claim('push', { pane: 'w2:p2' }))).not.toThrow();
+    expect(() =>
+      createTreeClaim(dir, claim('push', { pane: 'w2:p2' })),
+    ).not.toThrow();
   });
 
   it('reapDead drops only claims whose owner is gone', () => {
@@ -67,7 +72,9 @@ describe('tree-claim mutex lanes', () => {
     expect(isTreeClaimLive(c, { herdrPanes: () => ['w3:p3'] })).toBe(true);
     expect(isTreeClaimLive(c, { herdrPanes: () => ['w1:p1'] })).toBe(false);
     // herdr unavailable → pid fallback
-    expect(isTreeClaimLive(c, { herdrPanes: () => null, pidAlive: () => false })).toBe(false);
+    expect(
+      isTreeClaimLive(c, { herdrPanes: () => null, pidAlive: () => false }),
+    ).toBe(false);
   });
 });
 

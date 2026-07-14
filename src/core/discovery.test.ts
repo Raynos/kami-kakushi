@@ -14,7 +14,11 @@ import {
 } from './discovery';
 import { DISCOVERIES, type DiscoveryDef } from './content/discoveries';
 import { FLAVOR } from './content/flavor.gen';
-import { DISCOVERY_PITY_NUM, DISCOVERY_PITY_DEN, DISCOVERY_HINT_STEP } from './content/balance';
+import {
+  DISCOVERY_PITY_NUM,
+  DISCOVERY_PITY_DEN,
+  DISCOVERY_HINT_STEP,
+} from './content/balance';
 import { availableLabours, season } from './selectors';
 import { getActivity, refillSitePools } from './content/activities';
 import { reduce } from './intents';
@@ -39,10 +43,16 @@ const VISIT_DEF: DiscoveryDef = {
 };
 
 function at(node: string, seed = 42): GameState {
-  return { ...createInitialState(seed), location: node as GameState['location'] };
+  return {
+    ...createInitialState(seed),
+    location: node as GameState['location'],
+  };
 }
 
-const WOODCUT: DiscoveryEvent = { kind: 'activity', activityId: 'woodcut_edge' };
+const WOODCUT: DiscoveryEvent = {
+  kind: 'activity',
+  activityId: 'woodcut_edge',
+};
 
 describe('discoveryPass (ADR-146 Phase 1)', () => {
   it('a matching attempt increments progress and advances ONLY the discovery stream', () => {
@@ -56,11 +66,15 @@ describe('discoveryPass (ADR-146 Phase 1)', () => {
   it('does NOT attempt from the wrong node, the wrong activity, or the wrong event kind', () => {
     const wrongNode = discoveryPass(at('kura'), WOODCUT, [WATCH_DEF]);
     expect(wrongNode.discoveryProgress[WATCH_DEF.id]).toBeUndefined();
-    const wrongAct = discoveryPass(at('woodlot'), { kind: 'activity', activityId: 'farm_paddy' }, [
+    const wrongAct = discoveryPass(
+      at('woodlot'),
+      { kind: 'activity', activityId: 'farm_paddy' },
+      [WATCH_DEF],
+    );
+    expect(wrongAct.discoveryProgress[WATCH_DEF.id]).toBeUndefined();
+    const wrongKind = discoveryPass(at('woodlot'), { kind: 'visit' }, [
       WATCH_DEF,
     ]);
-    expect(wrongAct.discoveryProgress[WATCH_DEF.id]).toBeUndefined();
-    const wrongKind = discoveryPass(at('woodlot'), { kind: 'visit' }, [WATCH_DEF]);
     expect(wrongKind.discoveryProgress[WATCH_DEF.id]).toBeUndefined();
   });
 
@@ -107,7 +121,9 @@ describe('discoveryPass (ADR-146 Phase 1)', () => {
     const after = discoveryPass(s, { kind: 'visit' }, [VISIT_DEF]);
     expect(after.discovered).toEqual(s.discovered); // still exactly one entry
     expect(after.rng.cursors.discovery).toBe(s.rng.cursors.discovery); // no wasted roll
-    expect(after.discoveryProgress[VISIT_DEF.id]).toBe(s.discoveryProgress[VISIT_DEF.id]);
+    expect(after.discoveryProgress[VISIT_DEF.id]).toBe(
+      s.discoveryProgress[VISIT_DEF.id],
+    );
   });
 
   it('the latch pushes the diegetic discovery line (narrator voice)', () => {
@@ -125,10 +141,14 @@ describe('the pity ramp (the design lever, not a collapsed metric)', () => {
     for (let n = 0; n < 8; n++) {
       const expected = Math.min(
         1,
-        (base * (DISCOVERY_PITY_DEN + n * DISCOVERY_PITY_NUM)) / DISCOVERY_PITY_DEN,
+        (base * (DISCOVERY_PITY_DEN + n * DISCOVERY_PITY_NUM)) /
+          DISCOVERY_PITY_DEN,
       );
       expect(effectiveChance(base, n)).toBe(expected);
-      if (n > 0) expect(effectiveChance(base, n)).toBeGreaterThan(effectiveChance(base, n - 1));
+      if (n > 0)
+        expect(effectiveChance(base, n)).toBeGreaterThan(
+          effectiveChance(base, n - 1),
+        );
     }
   });
 
@@ -148,10 +168,14 @@ describe('derived hiddenness gates the node action list (could-go-RED vs a stati
       flags: { ...s.flags, ...factsForSurfaces('verb-forage') },
     } as GameState;
     // pre-discovery: hidden set contains the target…
-    expect(hiddenActivityIds(unlocked, [WATCH_DEF]).has('forage_deepwoods')).toBe(true);
+    expect(
+      hiddenActivityIds(unlocked, [WATCH_DEF]).has('forage_deepwoods'),
+    ).toBe(true);
     // …post-latch it does not (the action now exists).
     const found = { ...unlocked, discovered: [WATCH_DEF.id] } as GameState;
-    expect(hiddenActivityIds(found, [WATCH_DEF]).has('forage_deepwoods')).toBe(false);
+    expect(hiddenActivityIds(found, [WATCH_DEF]).has('forage_deepwoods')).toBe(
+      false,
+    );
   });
 
   it('the wired selectors consult the LIVE registry: tap_lacquer hides until its latch', () => {
@@ -162,9 +186,16 @@ describe('derived hiddenness gates the node action list (could-go-RED vs a stati
       ...s,
       flags: { ...s.flags, ...factsForSurfaces('verb-woodcut') }, // ADR-179 — derived visibility
     } as GameState;
-    expect(availableLabours(unlocked).map((o) => o.activity.id)).not.toContain('tap_lacquer');
-    const found = { ...unlocked, discovered: ['disc-woodlot-lacquer'] } as GameState;
-    expect(availableLabours(found).map((o) => o.activity.id)).toContain('tap_lacquer');
+    expect(availableLabours(unlocked).map((o) => o.activity.id)).not.toContain(
+      'tap_lacquer',
+    );
+    const found = {
+      ...unlocked,
+      discovered: ['disc-woodlot-lacquer'],
+    } as GameState;
+    expect(availableLabours(found).map((o) => o.activity.id)).toContain(
+      'tap_lacquer',
+    );
   });
 });
 
@@ -203,8 +234,13 @@ describe('the shipped content (disc-woodlot-lacquer) — registry invariants', (
     // then perform the grown action and watch coin move. RED against a static action list, a
     // broken reduce wiring, or a latch that doesn't gate the selector.
     let s = at('woodlot', 20260707);
-    s = { ...s, flags: { ...s.flags, ...factsForSurfaces('verb-woodcut') } } as GameState;
-    expect(availableLabours(s).map((o) => o.activity.id)).not.toContain('tap_lacquer');
+    s = {
+      ...s,
+      flags: { ...s.flags, ...factsForSurfaces('verb-woodcut') },
+    } as GameState;
+    expect(availableLabours(s).map((o) => o.activity.id)).not.toContain(
+      'tap_lacquer',
+    );
     let acts = 0;
     while (!s.discovered.includes('disc-woodlot-lacquer') && acts < 200) {
       s = reduce(s, { type: 'do_activity', activityId: 'woodcut_edge' });
@@ -214,13 +250,19 @@ describe('the shipped content (disc-woodlot-lacquer) — registry invariants', (
     expect(s.discovered).toContain('disc-woodlot-lacquer');
     expect(acts).toBeGreaterThan(0);
     // the found line landed in the log, permanent narrator prose
-    expect(s.log.entries.some((e) => e.text === FLAVOR.lacquerFound)).toBe(true);
+    expect(s.log.entries.some((e) => e.text === FLAVOR.lacquerFound)).toBe(
+      true,
+    );
     // the LACQUER hint ladder is gone (latched) — the node may now foreshadow its next
     // undiscovered secret (C5a added the sluice at the same node), never the latched one
-    expect([FLAVOR.lacquerHint0, FLAVOR.lacquerHint1, FLAVOR.lacquerHint2]).not.toContain(
-      nodeHint(s, 'woodlot')?.text,
+    expect([
+      FLAVOR.lacquerHint0,
+      FLAVOR.lacquerHint1,
+      FLAVOR.lacquerHint2,
+    ]).not.toContain(nodeHint(s, 'woodlot')?.text);
+    expect(availableLabours(s).map((o) => o.activity.id)).toContain(
+      'tap_lacquer',
     );
-    expect(availableLabours(s).map((o) => o.activity.id)).toContain('tap_lacquer');
     s = { ...s, sitePools: refillSitePools(season(s)) };
     const coinBefore = s.resources.coin ?? 0;
     const after = reduce(s, { type: 'do_activity', activityId: 'tap_lacquer' });

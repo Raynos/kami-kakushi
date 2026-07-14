@@ -45,10 +45,14 @@ export const isAwaitingVerdict = (hr: string): boolean => hr.startsWith('HR-');
 export const hrChip = (hr: string): HTMLElement => {
   const open = isAwaitingVerdict(hr);
   const chip = el('span', undefined, open ? hr : 'reference');
-  chip.title = open ? `awaiting your verdict — ${hr} in review.md` : hr.replace(/^none · /, '');
+  chip.title = open
+    ? `awaiting your verdict — ${hr} in review.md`
+    : hr.replace(/^none · /, '');
   chip.style.cssText =
     'margin-left:auto;flex:0 0 auto;font-size:10px;letter-spacing:.04em;padding:0 .25rem;' +
     'border-radius:2px;text-transform:none;' +
-    (open ? 'color:#1c1814;background:#b08d4f;' : 'color:#9b8e78;border:1px solid #3a322a;');
+    (open
+      ? 'color:#1c1814;background:#b08d4f;'
+      : 'color:#9b8e78;border:1px solid #3a322a;');
   return chip;
 };

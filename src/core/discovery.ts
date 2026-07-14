@@ -17,7 +17,11 @@ import {
   type DiscoveryDef,
   type DiscoveryId,
 } from './content/discoveries';
-import { DISCOVERY_PITY_NUM, DISCOVERY_PITY_DEN, DISCOVERY_HINT_STEP } from './content/balance';
+import {
+  DISCOVERY_PITY_NUM,
+  DISCOVERY_PITY_DEN,
+  DISCOVERY_HINT_STEP,
+} from './content/balance';
 
 /** The reduce-time event a discovery trigger can match (fed by intents.ts). */
 export type DiscoveryEvent =
@@ -36,7 +40,8 @@ export function hiddenActivityIds(
 ): ReadonlySet<string> {
   const hidden = new Set<string>();
   for (const d of defs) {
-    if (d.reveals !== undefined && !state.discovered.includes(d.id)) hidden.add(d.reveals);
+    if (d.reveals !== undefined && !state.discovered.includes(d.id))
+      hidden.add(d.reveals);
   }
   return hidden;
 }
@@ -45,15 +50,23 @@ export function hiddenActivityIds(
  *  without a hard wall — attempt N rolls at chance·(DEN + N·NUM)/DEN. Exported so the tests
  *  assert the design LEVER (monotonic ramp), not a collapsed outcome. */
 export function effectiveChance(base: number, attempts: number): number {
-  const eff = (base * (DISCOVERY_PITY_DEN + attempts * DISCOVERY_PITY_NUM)) / DISCOVERY_PITY_DEN;
+  const eff =
+    (base * (DISCOVERY_PITY_DEN + attempts * DISCOVERY_PITY_NUM)) /
+    DISCOVERY_PITY_DEN;
   return Math.min(1, eff);
 }
 
 /** Does this event, at this location, qualify as an attempt on this (undiscovered) def? */
-function matches(def: DiscoveryDef, location: MapNodeId, event: DiscoveryEvent): boolean {
+function matches(
+  def: DiscoveryDef,
+  location: MapNodeId,
+  event: DiscoveryEvent,
+): boolean {
   if (def.node !== location) return false;
   if (def.trigger.kind === 'watch')
-    return event.kind === 'activity' && event.activityId === def.trigger.activity;
+    return (
+      event.kind === 'activity' && event.activityId === def.trigger.activity
+    );
   return event.kind === 'visit';
 }
 
@@ -78,7 +91,10 @@ export function discoveryPass(
     // cursor movement — so a discovery can never pop instantly. Pity counts beyond the floor.
     const floor = d.minAttempts ?? 0;
     if (attempts < floor) {
-      next = { ...next, discoveryProgress: { ...next.discoveryProgress, [d.id]: attempts + 1 } };
+      next = {
+        ...next,
+        discoveryProgress: { ...next.discoveryProgress, [d.id]: attempts + 1 },
+      };
       continue;
     }
     const [found, rng] = nextChance(
@@ -97,11 +113,17 @@ export function discoveryPass(
         discovered: [...next.discovered, d.id],
         // discoveryEmitLine, not d.discoveryLine: the DEV story switcher overlays takes on
         // FUTURE emissions (ADR-143); canon everywhere else.
-        log: pushLog(next.log, 'narration', discoveryEmitLine(d), next.clock.tick, {
-          voice: 'narrator',
-          // The save persists the KEY; the words re-render from this discovery's def on load.
-          contentKey: `discovery.${d.id}`,
-        }),
+        log: pushLog(
+          next.log,
+          'narration',
+          discoveryEmitLine(d),
+          next.clock.tick,
+          {
+            voice: 'narrator',
+            // The save persists the KEY; the words re-render from this discovery's def on load.
+            contentKey: `discovery.${d.id}`,
+          },
+        ),
       };
     }
   }
@@ -128,9 +150,14 @@ export function nodeHint(
     if (d.node !== node || d.hints.length === 0) continue;
     if (state.discovered.includes(d.id)) continue;
     const attempts = state.discoveryProgress[d.id] ?? 0;
-    const idx = Math.min(Math.floor(attempts / DISCOVERY_HINT_STEP), d.hints.length - 1);
+    const idx = Math.min(
+      Math.floor(attempts / DISCOVERY_HINT_STEP),
+      d.hints.length - 1,
+    );
     const key = d.hintKeys?.[idx];
-    return key === undefined ? { text: d.hints[idx]! } : { text: d.hints[idx]!, key };
+    return key === undefined
+      ? { text: d.hints[idx]! }
+      : { text: d.hints[idx]!, key };
   }
   return null;
 }

@@ -8,7 +8,11 @@ import { installFreezeClock, type TimerHost } from './freeze-clock';
 
 /** A deterministic timer host — the freeze clock's `now` and its natives share one virtual clock,
  *  so every assertion below is about the freeze semantics, never about real wall-time flake. */
-function makeFake(): { host: TimerHost; tick: (ms: number) => void; now: () => number } {
+function makeFake(): {
+  host: TimerHost;
+  tick: (ms: number) => void;
+  now: () => number;
+} {
   let t = 0;
   let seq = 1;
   interface Entry {
@@ -256,7 +260,10 @@ describe('installFreezeClock — running CSS transitions are pinned, not snapped
         : real.call(window, node)) as typeof window.getComputedStyle;
 
     const fake = makeFake();
-    const clock = installFreezeClock(fake.host, { now: fake.now, doc: document });
+    const clock = installFreezeClock(fake.host, {
+      now: fake.now,
+      doc: document,
+    });
     try {
       clock.freeze();
       expect(el.style.transition).toBe('none'); // it can no longer move…
@@ -277,7 +284,10 @@ describe('installFreezeClock — running CSS transitions are pinned, not snapped
     plain.style.width = '50%';
     document.body.appendChild(plain);
     const fake = makeFake();
-    const clock = installFreezeClock(fake.host, { now: fake.now, doc: document });
+    const clock = installFreezeClock(fake.host, {
+      now: fake.now,
+      doc: document,
+    });
 
     clock.freeze();
     expect(plain.style.transition).toBe('');

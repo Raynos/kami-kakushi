@@ -50,7 +50,9 @@ function triggerMatches(def: SceneTrigger, event: SceneTrigger): boolean {
     case 'rung':
       return def.rung === (event as { kind: 'rung'; rung: string }).rung;
     case 'season-exit':
-      return def.season === (event as { kind: 'season-exit'; season: string }).season;
+      return (
+        def.season === (event as { kind: 'season-exit'; season: string }).season
+      );
     case 'flag':
       return def.flag === (event as { kind: 'flag'; flag: string }).flag;
     case 'verb':
@@ -62,7 +64,10 @@ function triggerMatches(def: SceneTrigger, event: SceneTrigger): boolean {
 /** Enqueue every registered scene whose trigger matches `event`, respecting `once` vs
  *  `scenesPlayed` (a played `once` scene never re-fires). Live callers: the season-exit
  *  pipeline (the Bon beat) and `promoteInto`'s rung mirror. */
-export function triggerScenes(state: GameState, event: SceneTrigger): GameState {
+export function triggerScenes(
+  state: GameState,
+  event: SceneTrigger,
+): GameState {
   let next = state;
   for (const def of SCENES) {
     if (!triggerMatches(def.trigger, event)) continue;
@@ -121,7 +126,11 @@ export function beginScene(state: GameState, def: SceneDef): GameState {
  *  files author ask-topics for the side-beats (`sb-sickroom` asks after your own state — the
  *  scene IS the asking), `gen:narrative` compiled them, and the renderer then dropped them on the
  *  floor because nothing served them. Authored prose no player could reach (PH6). */
-export function askSceneTopic(state: GameState, def: SceneDef, topicId: string): GameState {
+export function askSceneTopic(
+  state: GameState,
+  def: SceneDef,
+  topicId: string,
+): GameState {
   const topic = def.scene.topics.find((t) => t.id === topicId);
   if (!topic) return state;
   if (topic.gate && !topic.gate(new Set(state.askedTopics))) return state;
@@ -162,7 +171,8 @@ export function askSceneTopic(state: GameState, def: SceneDef, topicId: string):
  *  record and clears `activeScene` (the world reveals post-scene), exactly like a decision scene's
  *  close but with no pick to apply. Without this the arc's narration-only scenes never drain. */
 export function advanceSceneBeat(state: GameState, def: SceneDef): GameState {
-  if (state.activeScene === null || state.activeScene.id !== def.id) return state;
+  if (state.activeScene === null || state.activeScene.id !== def.id)
+    return state;
   if (def.scene.decision.options.length > 0) return state;
   let next = applySceneCompletionEffects(state, def);
   next = latchScenePlayed(next, def.id);
@@ -174,7 +184,10 @@ export function advanceSceneBeat(state: GameState, def: SceneDef): GameState {
  *  ADR-166: the nengu frame IS the reckoning — completing it draws the kura + latches the
  *  flags (nengu.ts). Content-keyed effects live HERE, never inline in a reducer arm, so the
  *  two terminals can't drift. */
-function applySceneCompletionEffects(state: GameState, def: SceneDef): GameState {
+function applySceneCompletionEffects(
+  state: GameState,
+  def: SceneDef,
+): GameState {
   if (def.id === 'nengu-autumn-frame') return reckonNengu(state);
   // C4.1 — the Count's CHAINED second beat (scenes.md: "split at the seam into a chained
   // second beat"): closing `count` queues `count-resolve` (the tally, Toku, the morning
@@ -202,8 +215,13 @@ function sceneReactVoiceSpeaker(
  *  with NO promotion: (a) voice the MC `say` + the speaker `react`; (b) DEEPEN each memory
  *  write; (c) set the story flags; (d) the rare `statBonus`; (e) `setStance`; then latch
  *  `def.id` into `scenesPlayed` (write-once) and clear `activeScene`. */
-export function applySceneOption(state: GameState, def: SceneDef, optionId: string): GameState {
-  if (state.activeScene === null || state.activeScene.id !== def.id) return state;
+export function applySceneOption(
+  state: GameState,
+  def: SceneDef,
+  optionId: string,
+): GameState {
+  if (state.activeScene === null || state.activeScene.id !== def.id)
+    return state;
   const opt = rungOption(def.scene, optionId);
   if (!opt) return state;
   // (a) the exchange → Story: the MC's reply, then the speaker's reaction.
@@ -239,7 +257,8 @@ export function applySceneOption(state: GameState, def: SceneDef, optionId: stri
     }
   }
   // (c) the durable story flags.
-  if (opt.flags && opt.flags.length > 0) next = applyRewards(next, { flags: opt.flags });
+  if (opt.flags && opt.flags.length > 0)
+    next = applyRewards(next, { flags: opt.flags });
   // (d) the rare small stat nudge + its delight line.
   if (opt.statBonus) {
     const c = next.character;
@@ -249,7 +268,8 @@ export function applySceneOption(state: GameState, def: SceneDef, optionId: stri
         ...c,
         attrs: {
           ...c.attrs,
-          [opt.statBonus.attr]: (c.attrs[opt.statBonus.attr] ?? 0) + opt.statBonus.amount,
+          [opt.statBonus.attr]:
+            (c.attrs[opt.statBonus.attr] ?? 0) + opt.statBonus.amount,
         },
       },
     };

@@ -31,8 +31,9 @@ describe('clampLogScale', () => {
   it('passes an in-bounds value through, rounded to 2dp (no float drift)', () => {
     // stepping DOWN from the default by STEP three times must not accumulate fp noise
     const stepped = clampLogScale(
-      clampLogScale(clampLogScale(LOG_SCALE_DEFAULT - LOG_SCALE_STEP) - LOG_SCALE_STEP) -
-        LOG_SCALE_STEP,
+      clampLogScale(
+        clampLogScale(LOG_SCALE_DEFAULT - LOG_SCALE_STEP) - LOG_SCALE_STEP,
+      ) - LOG_SCALE_STEP,
     );
     // 1.0 → 0.9 → 0.8 (→ clamped to the floor) — and exactly the floor, not 0.7999999
     expect(stepped).toBe(LOG_SCALE_MIN);

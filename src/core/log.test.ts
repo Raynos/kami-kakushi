@@ -7,7 +7,8 @@ import { emptyLog, pushLog, type LogState } from './log';
 describe('pushLog — consecutive-identical coalescing', () => {
   it('collapses 12 identical lines into one entry: length 1, count 12, key 0, seq 1', () => {
     let log: LogState = emptyLog();
-    for (let i = 0; i < 12; i++) log = pushLog(log, 'combat', 'You fell the monkey. (+3 coin)', i);
+    for (let i = 0; i < 12; i++)
+      log = pushLog(log, 'combat', 'You fell the monkey. (+3 coin)', i);
     expect(log.entries.length).toBe(1);
     const only = log.entries[0]!;
     expect(only.count).toBe(12);
@@ -49,11 +50,13 @@ describe('pushLog — consecutive-identical coalescing', () => {
 
   it('305 distinct durable lines ALL survive (FB-160 — no durable cap) with strictly-monotone keys', () => {
     let log: LogState = emptyLog();
-    for (let i = 0; i < 305; i++) log = pushLog(log, 'narration', `line ${i}`, i);
+    for (let i = 0; i < 305; i++)
+      log = pushLog(log, 'narration', `line ${i}`, i);
     expect(log.entries.length).toBe(305); // durable history is unbounded (human, 2026-07-06)
     expect(log.seq).toBe(305);
     const keys = log.entries.map((e) => e.key);
-    for (let i = 1; i < keys.length; i++) expect(keys[i]).toBeGreaterThan(keys[i - 1]!);
+    for (let i = 1; i < keys.length; i++)
+      expect(keys[i]).toBeGreaterThan(keys[i - 1]!);
     expect(keys[0]).toBe(0); // nothing evicted
     expect(keys[keys.length - 1]!).toBe(304);
     expect(log.entries.every((e) => e.count === 1)).toBe(true);
@@ -89,13 +92,22 @@ describe('pushLog — unbounded durable history, capped ephemeral', () => {
     const { LOG_EPHEMERAL_MAX } = await import('./constants');
     let log = emptyLog();
     // 20 durable story lines, then alternate-text ephemeral spam far past the cap
-    for (let i = 0; i < 20; i++) log = pushLog(log, 'narration', `story beat ${i}`, i);
+    for (let i = 0; i < 20; i++)
+      log = pushLog(log, 'narration', `story beat ${i}`, i);
     for (let i = 0; i < LOG_EPHEMERAL_MAX * 3; i++)
-      log = pushLog(log, i % 2 === 0 ? 'reward' : 'system', `grind line ${i}`, 20 + i, {
-        ephemeral: true,
-      });
+      log = pushLog(
+        log,
+        i % 2 === 0 ? 'reward' : 'system',
+        `grind line ${i}`,
+        20 + i,
+        {
+          ephemeral: true,
+        },
+      );
     // the fleeting lines ring at their cap; the durable story is untouched
-    expect(log.entries.filter((e) => e.ephemeral === true).length).toBe(LOG_EPHEMERAL_MAX);
+    expect(log.entries.filter((e) => e.ephemeral === true).length).toBe(
+      LOG_EPHEMERAL_MAX,
+    );
     const durable = log.entries.filter((e) => e.ephemeral !== true);
     expect(durable.map((e) => e.text)).toEqual(
       Array.from({ length: 20 }, (_, i) => `story beat ${i}`),
@@ -108,7 +120,8 @@ describe('pushLog — unbounded durable history, capped ephemeral', () => {
     const { LOG_EPHEMERAL_MAX } = await import('./constants');
     const count = LOG_EPHEMERAL_MAX * 10; // far past any old ring size
     let log = emptyLog();
-    for (let i = 0; i < count; i++) log = pushLog(log, 'narration', `line ${i}`, i);
+    for (let i = 0; i < count; i++)
+      log = pushLog(log, 'narration', `line ${i}`, i);
     expect(log.entries.length).toBe(count);
     expect(log.entries[0]!.text).toBe('line 0');
     expect(log.entries[count - 1]!.text).toBe(`line ${count - 1}`);

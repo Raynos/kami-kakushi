@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { createTelemetryStore, TELEMETRY_MAX_BYTES, TELEMETRY_STORE_KEY } from './store';
+import {
+  createTelemetryStore,
+  TELEMETRY_MAX_BYTES,
+  TELEMETRY_STORE_KEY,
+} from './store';
 import type { RunRecord } from './report';
 
 // Ring proofs: upsert-by-runId (the live run re-persists every close), oldest-whole-run
@@ -46,9 +50,9 @@ describe('telemetry store — the localStorage ring', () => {
     const ids = store.loadRuns().map((r) => r.runId);
     expect(ids).not.toContain('r1');
     expect(ids[ids.length - 1]).toBe('r4');
-    expect((storage.data.get(TELEMETRY_STORE_KEY) ?? '').length).toBeLessThanOrEqual(
-      TELEMETRY_MAX_BYTES,
-    );
+    expect(
+      (storage.data.get(TELEMETRY_STORE_KEY) ?? '').length,
+    ).toBeLessThanOrEqual(TELEMETRY_MAX_BYTES);
   });
 
   it('a single over-cap run is still kept (the live run is never dropped)', () => {

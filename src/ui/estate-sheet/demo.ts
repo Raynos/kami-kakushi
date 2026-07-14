@@ -43,7 +43,11 @@ const CSS = `
   .esh-hint { flex:0 0 auto; font-size:11px; color:var(--ink-faint); margin-top:.4rem; }
 `;
 
-function paintInto(scroll: HTMLElement, variant: Variant, fx: EstateFixture): void {
+function paintInto(
+  scroll: HTMLElement,
+  variant: Variant,
+  fx: EstateFixture,
+): void {
   const w = variant === 'a' ? SHEET_A_W : SHEET_B_W;
   const h = variant === 'a' ? SHEET_A_H : SHEET_B_H;
   const uid = `esh-${++uidCounter}`;
@@ -100,7 +104,11 @@ export function openEstateSheet(): HTMLElement {
   const title = hd('div', 'modal-title');
   title.append(
     hd('span', 'kami', '起こし絵図'),
-    hd('span', 'roman', 'E1 prototype — the estate cutaway (okoshi-ezu · fixture-fed)'),
+    hd(
+      'span',
+      'roman',
+      'E1 prototype — the estate cutaway (okoshi-ezu · fixture-fed)',
+    ),
   );
   card.append(title);
 
@@ -108,7 +116,11 @@ export function openEstateSheet(): HTMLElement {
   let era = ERAS[0]!;
 
   const bar = hd('div', 'esh-bar');
-  const mkBtn = (label: string, on: () => boolean, click: () => void): HTMLButtonElement => {
+  const mkBtn = (
+    label: string,
+    on: () => boolean,
+    click: () => void,
+  ): HTMLButtonElement => {
     const b = hd('button', undefined, label);
     b.type = 'button';
     b.addEventListener('click', () => {

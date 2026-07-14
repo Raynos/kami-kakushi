@@ -20,7 +20,11 @@ export function buildStoryPane(opts: {
   //    (rung beats + intro scenes + generalized scene-defs — season-exit/scripted beats) +
   //    UI flavor lines (lock-hints) — dialogue/cold-open units read in the script-reader. ──
   if (dev.storyBundles.length === 0) {
-    const empty = el('div', undefined, 'No open story diverges — nothing awaiting review.');
+    const empty = el(
+      'div',
+      undefined,
+      'No open story diverges — nothing awaiting review.',
+    );
     empty.style.cssText = 'color:#9b8e78;padding:.3rem .1rem;';
     pane.append(empty);
   }
@@ -36,7 +40,9 @@ export function buildStoryPane(opts: {
   // "sleep-announce take b".
 
   const bundleHeader = (b: StoryTakeBundle): string =>
-    b.rung !== undefined ? `— rung R${b.rung} —` : `— other · ${b.rungReason ?? '?'} —`;
+    b.rung !== undefined
+      ? `— rung R${b.rung} —`
+      : `— other · ${b.rungReason ?? '?'} —`;
   const rungOrderedBundles = dev.storyBundles
     .slice()
     .sort((a, b) => (a.rung ?? 99) - (b.rung ?? 99));
@@ -61,11 +67,13 @@ export function buildStoryPane(opts: {
     summary.style.cssText =
       'display:flex;flex-direction:column;gap:.05rem;padding:.28rem .4rem;cursor:pointer;user-select:none;min-width:0;';
     const sTitle = el('div');
-    sTitle.style.cssText = 'display:flex;align-items:baseline;gap:.35rem;min-width:0;';
+    sTitle.style.cssText =
+      'display:flex;align-items:baseline;gap:.35rem;min-width:0;';
     const sCaret = el('span', undefined, '▸');
     sCaret.style.cssText = 'color:#b08d4f;flex:0 0 auto;';
     const sLabel = el('span', undefined, `${bundle.id} · ${bundle.title}`);
-    sLabel.style.cssText = 'color:#b08d4f;text-transform:uppercase;font-size:11px;min-width:0;';
+    sLabel.style.cssText =
+      'color:#b08d4f;text-transform:uppercase;font-size:11px;min-width:0;';
     sTitle.append(sCaret, sLabel, hrChip(bundle.hr));
     // line 2 — the take currently live, so a collapsed row still says where the story stands
     const sPick = el('span', undefined, '');
@@ -75,7 +83,8 @@ export function buildStoryPane(opts: {
     sec.append(summary);
 
     const details = el('div');
-    details.style.cssText = 'display:none;flex-direction:column;gap:.25rem;padding:0 .4rem .35rem;';
+    details.style.cssText =
+      'display:none;flex-direction:column;gap:.25rem;padding:0 .4rem .35rem;';
     const explore = mono('⤢ Explore this diverge', () => {
       openStoryReader(bundle, dev);
     });
@@ -86,9 +95,11 @@ export function buildStoryPane(opts: {
     const brief = el('div', undefined, '');
     brief.style.cssText = 'color:#9b8e78;font-size:11px;margin:.15rem 0;';
 
-    const takeOf = (id: string): StoryTake | undefined => bundle.takes.find((t) => t.id === id);
+    const takeOf = (id: string): StoryTake | undefined =>
+      bundle.takes.find((t) => t.id === id);
     const setRow = el('div');
-    setRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.2rem;';
+    setRow.style.cssText =
+      'display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.2rem;';
     const setBtns = new Map<string, HTMLButtonElement>();
     const refresh = (): void => {
       const active = dev.getStoryTake(bundle.id);
@@ -116,7 +127,8 @@ export function buildStoryPane(opts: {
     };
     // every option carries its textual label — canon included (human, 2026-07-07).
     takeBtn('canon', `Canon — ${bundle.canonLabel ?? 'the pick'}`);
-    for (const t of bundle.takes) takeBtn(t.id, `${t.id.toUpperCase()} — ${t.label}`);
+    for (const t of bundle.takes)
+      takeBtn(t.id, `${t.id.toUpperCase()} — ${t.label}`);
     details.append(setRow, brief);
     // Per-unit overrides moved to the per-diverge explore page (human, 2026-07-07) —
     // this section stays focused: the labeled set toggle + the explore link.
@@ -125,7 +137,8 @@ export function buildStoryPane(opts: {
       undefined,
       'Swaps are display-only. To see a rung beat live: Settings → Rung → jump to it.',
     );
-    hint.style.cssText = 'color:#9b8e78;font-size:10px;margin-top:.25rem;opacity:.8;';
+    hint.style.cssText =
+      'color:#9b8e78;font-size:10px;margin-top:.25rem;opacity:.8;';
     details.append(hint);
     sec.append(details);
 

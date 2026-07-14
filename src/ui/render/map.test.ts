@@ -51,8 +51,8 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     };
   }
   function clickButton(substr: string): boolean {
-    const btn = [...root.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
-      (b.textContent ?? '').includes(substr),
+    const btn = [...root.querySelectorAll<HTMLButtonElement>('button')].find(
+      (b) => (b.textContent ?? '').includes(substr),
     );
     btn?.click();
     return Boolean(btn);
@@ -73,11 +73,17 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     const whos = root.querySelector<HTMLElement>('.slice-do .whos-here')!;
     expect(whos).not.toBeNull();
     expect(whos.hidden).toBe(false);
-    const rows = [...root.querySelectorAll<HTMLElement>('.whos-here .person-row')];
-    expect(rows.some((r) => (r.textContent ?? '').includes(pedlar.name))).toBe(true);
+    const rows = [
+      ...root.querySelectorAll<HTMLElement>('.whos-here .person-row'),
+    ];
+    expect(rows.some((r) => (r.textContent ?? '').includes(pedlar.name))).toBe(
+      true,
+    );
     // …and a Speak affordance for him (talk-to-reveal — his shop is not dumped inline).
     expect(
-      [...root.querySelectorAll<HTMLButtonElement>('.whos-here .person-talk')].some((b) =>
+      [
+        ...root.querySelectorAll<HTMLButtonElement>('.whos-here .person-talk'),
+      ].some((b) =>
         (b.textContent ?? '').includes(`Speak with ${pedlar.name}`),
       ),
     ).toBe(true);
@@ -99,7 +105,9 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     // talk → the trade panel opens (his MARKET_ITEMS rows + the sell-rice faucet).
     expect(clickButton('Speak with Yohei')).toBe(true);
     expect(root.querySelector<HTMLElement>('.market-pane')!.hidden).toBe(false);
-    expect(root.querySelectorAll('.market-pane .market-row').length).toBeGreaterThan(0);
+    expect(
+      root.querySelectorAll('.market-pane .market-row').length,
+    ).toBeGreaterThan(0);
   });
 
   it("the pedlar's shop is NEVER inline on the Zone tab (talk-to-reveal only)", () => {
@@ -124,24 +132,36 @@ describe('IA reorg Phase B — vendors-as-people (D-114) + location flavor (D-11
     // an OFF day (dayOfWeek 1) → Yohei is not at the gate: his row is the FB-408
     // dimmed AWAY row (schedule hint, no Speak button), never a live person row.
     render(
-      { ...awakeAt(yohei.node, ['room-gate', 'panel-estate']), clock: { ...clock, day: 1 } },
+      {
+        ...awakeAt(yohei.node, ['room-gate', 'panel-estate']),
+        clock: { ...clock, day: 1 },
+      },
       null,
     );
     // FB-332 — who's-here reads on the Zone tab (the default tab).
     const yoheiRows = () =>
-      [...root.querySelectorAll<HTMLElement>('.whos-here .person-row')].filter((r) =>
-        (r.textContent ?? '').includes(yohei.name),
+      [...root.querySelectorAll<HTMLElement>('.whos-here .person-row')].filter(
+        (r) => (r.textContent ?? '').includes(yohei.name),
       );
-    expect(yoheiRows().every((r) => r.classList.contains('person-away'))).toBe(true);
-    expect(yoheiRows().some((r) => r.querySelector('.person-talk') !== null)).toBe(false);
+    expect(yoheiRows().every((r) => r.classList.contains('person-away'))).toBe(
+      true,
+    );
+    expect(
+      yoheiRows().some((r) => r.querySelector('.person-talk') !== null),
+    ).toBe(false);
     // a MARKET day (dayOfWeek 2) → Yohei joins the who's-here list as a LIVE row.
     render(
-      { ...awakeAt(yohei.node, ['room-gate', 'panel-estate']), clock: { ...clock, day: 2 } },
+      {
+        ...awakeAt(yohei.node, ['room-gate', 'panel-estate']),
+        clock: { ...clock, day: 2 },
+      },
       null,
     );
     expect(
       yoheiRows().some(
-        (r) => !r.classList.contains('person-away') && r.querySelector('.person-talk') !== null,
+        (r) =>
+          !r.classList.contains('person-away') &&
+          r.querySelector('.person-talk') !== null,
       ),
     ).toBe(true);
   });
@@ -214,13 +234,17 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
     expect(flavor).not.toBeNull();
     expect(nav).not.toBeNull();
     // (a) the flavor carries the CURRENT node's immersive description (seasonal, C5a)…
-    expect(flavor.textContent).toContain(nodeSeasonalBlurb(getNode('forecourt'), 'winter').text);
+    expect(flavor.textContent).toContain(
+      nodeSeasonalBlurb(getNode('forecourt'), 'winter').text,
+    );
     // …and (b) the sheet is a SIBLING section, not nested inside the flavor card.
     expect(flavor.contains(nav)).toBe(false);
     // the sheet actually painted: the title cartouche is on the sheet.
     expect(nav.textContent).toContain('黒沢家領内絵図');
     // click-to-move: a node's seal walks there (the real move_to; no separate go button).
-    const seal = nav.querySelector<HTMLElement>('[data-node="paddies"]:not([data-locked])')!;
+    const seal = nav.querySelector<HTMLElement>(
+      '[data-node="paddies"]:not([data-locked])',
+    )!;
     expect(seal).not.toBeNull();
     seal.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(seen).toContainEqual({ type: 'move_to', to: 'paddies' });
@@ -245,7 +269,8 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
     // at the paddies with the paddy surveyed but the woodlot (one step past) still unsurveyed.
     render(at('paddies', ['room-gate', 'room-paddies']), null);
     openMapTab();
-    const text = root.querySelector<HTMLElement>('.map-pane .map-nav')!.textContent ?? '';
+    const text =
+      root.querySelector<HTMLElement>('.map-pane .map-nav')!.textContent ?? '';
     // the frontier destination's blurb never leaks into the sheet (updates on ARRIVAL, ADR-116)…
     expect(text).not.toContain(getNode('woodlot').blurb);
     // …and the frontier past surveyed ground is a blank 未測 wash — an unrevealed node is
@@ -258,10 +283,15 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
     const { seen, render } = spyRender();
     // at the paddies with the field margins (a danger-ring neighbour) surveyed but conditioning
     // not yet trained — the edge is walkable-in-principle but gated on the skill.
-    render(at('paddies', ['room-paddies', 'room-gate', 'room-field-margins']), null);
+    render(
+      at('paddies', ['room-paddies', 'room-gate', 'room-field-margins']),
+      null,
+    );
     openMapTab();
     const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
-    const locked = nav.querySelector<HTMLElement>('[data-locked][data-node="field-margins"]')!;
+    const locked = nav.querySelector<HTMLElement>(
+      '[data-locked][data-node="field-margins"]',
+    )!;
     expect(locked).not.toBeNull();
     expect(locked.dataset.locked).toBe('1');
     expect(locked.getAttribute('aria-disabled')).toBe('true');
@@ -269,7 +299,9 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
     locked.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(seen.some((i) => i.type === 'move_to')).toBe(false);
     // the reason is VISIBLE on the sheet (the 険 caption), never a dead grey box.
-    expect(nav.textContent).toContain(`Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`);
+    expect(nav.textContent).toContain(
+      `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`,
+    );
   });
 
   it('FB-341 — a revealed seal beyond one step is INERT: no travel wiring, no walk', () => {
@@ -297,10 +329,15 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
     openMapTab();
     const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
     // the ported control strip (zoom in/out · fit · full), each a real labelled button…
-    const labels = [...nav.querySelectorAll<HTMLButtonElement>('button.sheetmap-zoom')].map((b) =>
-      b.getAttribute('aria-label'),
-    );
-    expect(labels).toEqual(['Zoom in', 'Zoom out', 'Fit the whole sheet', 'Full-screen the map']);
+    const labels = [
+      ...nav.querySelectorAll<HTMLButtonElement>('button.sheetmap-zoom'),
+    ].map((b) => b.getAttribute('aria-label'));
+    expect(labels).toEqual([
+      'Zoom in',
+      'Zoom out',
+      'Fit the whole sheet',
+      'Full-screen the map',
+    ]);
     // …and the fine-register zoom gate (map-spec L10) hangs off data-zoom from first paint
     // (the default fit framing reads 'far' — the fit view stays composed).
     expect(nav.querySelector('svg')!.getAttribute('data-zoom')).toBe('far');
@@ -314,14 +351,34 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
     render(at('forecourt', ['room-gate', 'room-paddies']), null);
     openMapTab();
     const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
-    for (const b of nav.querySelectorAll<HTMLButtonElement>('button.sheetmap-zoom')) b.click();
+    for (const b of nav.querySelectorAll<HTMLButtonElement>(
+      'button.sheetmap-zoom',
+    ))
+      b.click();
     const svg = nav.querySelector('svg')!;
     expect(() => {
-      svg.dispatchEvent(new WheelEvent('wheel', { deltaY: -120, bubbles: true, cancelable: true }));
       svg.dispatchEvent(
-        new MouseEvent('pointerdown', { button: 0, clientX: 10, clientY: 10, bubbles: true }),
+        new WheelEvent('wheel', {
+          deltaY: -120,
+          bubbles: true,
+          cancelable: true,
+        }),
       );
-      svg.dispatchEvent(new MouseEvent('pointermove', { clientX: 80, clientY: 60, bubbles: true }));
+      svg.dispatchEvent(
+        new MouseEvent('pointerdown', {
+          button: 0,
+          clientX: 10,
+          clientY: 10,
+          bubbles: true,
+        }),
+      );
+      svg.dispatchEvent(
+        new MouseEvent('pointermove', {
+          clientX: 80,
+          clientY: 60,
+          bubbles: true,
+        }),
+      );
       svg.dispatchEvent(new MouseEvent('pointerup', { bubbles: true }));
     }).not.toThrow();
   });

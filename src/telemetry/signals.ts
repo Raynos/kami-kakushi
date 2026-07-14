@@ -35,7 +35,8 @@ export function attachSignals(
     emit({ t, kind: 'input' });
   };
 
-  const onVisibility = (): void => emit({ t: now(), kind: document.hidden ? 'hidden' : 'visible' });
+  const onVisibility = (): void =>
+    emit({ t: now(), kind: document.hidden ? 'hidden' : 'visible' });
   const onFocus = (): void => emit({ t: now(), kind: 'focus' });
   const onBlur = (): void => emit({ t: now(), kind: 'blur' });
   const onUnload = (): void => emit({ t: now(), kind: 'flush' });
@@ -51,7 +52,9 @@ export function attachSignals(
     emit({ t: now(), kind: 'capture', open });
   };
   const captureObserver =
-    typeof MutationObserver === 'undefined' ? undefined : new MutationObserver(scanCapture);
+    typeof MutationObserver === 'undefined'
+      ? undefined
+      : new MutationObserver(scanCapture);
   captureObserver?.observe(document.body, { childList: true });
 
   document.addEventListener('visibilitychange', onVisibility);

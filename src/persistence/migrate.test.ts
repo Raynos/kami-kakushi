@@ -10,13 +10,21 @@ describe('migrate() — ordered forward chain (PRD §6.8.2)', () => {
     2: (s: unknown) => ({ ...(s as object), addedAtV3: 'three' }),
   };
   it('runs every step from->to in order', () => {
-    expect(migrate({ x: 1 }, 1, 3, fake)).toEqual({ x: 1, addedAtV2: 'two', addedAtV3: 'three' });
+    expect(migrate({ x: 1 }, 1, 3, fake)).toEqual({
+      x: 1,
+      addedAtV2: 'two',
+      addedAtV3: 'three',
+    });
   });
   it('is a no-op when already at the target version', () => {
     expect(migrate({ x: 1 }, 3, 3, fake)).toEqual({ x: 1 });
   });
   it('stops at a gap (missing step) — leaves the rest to the recovery/version guard', () => {
-    expect(migrate({ x: 1 }, 1, 5, { 1: (s: unknown) => ({ ...(s as object), a: 1 }) })).toEqual({
+    expect(
+      migrate({ x: 1 }, 1, 5, {
+        1: (s: unknown) => ({ ...(s as object), a: 1 }),
+      }),
+    ).toEqual({
       x: 1,
       a: 1,
     });
@@ -69,7 +77,9 @@ describe('migrate() — ordered forward chain (PRD §6.8.2)', () => {
 // authored ids, and THIS migration rewrites the old indexes to them. It is sound only here, in the
 // release that adds ids and re-orders nothing, which is exactly why it is not deferred.
 describe('v11 → v12 — a save stops being vulnerable to the next re-order', () => {
-  const beat = Object.entries(RUNG_BEATS).find(([, b]) => b && b.topics.length > 0)!;
+  const beat = Object.entries(RUNG_BEATS).find(
+    ([, b]) => b && b.topics.length > 0,
+  )!;
   const [rank, scene] = beat as [string, RungScene];
   const topic = scene.topics[0]!;
 
@@ -88,7 +98,9 @@ describe('v11 → v12 — a save stops being vulnerable to the next re-order', (
     // Derived from the registry, never a copied slug: the line at index 1 is the line the v11
     // save meant, because this release re-orders nothing.
     const second = scene.greeting[1]!;
-    expect(keyAfter(`beat.${rank}.greeting.1`)).toBe(`beat.${rank}.greeting.${second.id}`);
+    expect(keyAfter(`beat.${rank}.greeting.1`)).toBe(
+      `beat.${rank}.greeting.${second.id}`,
+    );
   });
 
   it('rewrites a topic-answer index the same way', () => {
@@ -102,7 +114,9 @@ describe('v11 → v12 — a save stops being vulnerable to the next re-order', (
     // The migration is worthless if it renames the line to something else. This is the check that
     // it named the right one — end to end, through the real resolver.
     const second = scene.greeting[1]!;
-    expect(renderLogLine(keyAfter(`beat.${rank}.greeting.1`))).toBe(second.text);
+    expect(renderLogLine(keyAfter(`beat.${rank}.greeting.1`))).toBe(
+      second.text,
+    );
   });
 
   it('AND the id is position-free: it resolves the same wherever the line sits', () => {
@@ -111,7 +125,9 @@ describe('v11 → v12 — a save stops being vulnerable to the next re-order', (
     // v11's `greeting.1` it silently would; the compiler tests prove the id travels with the text.)
     const second = scene.greeting[1]!;
     const first = scene.greeting[0]!;
-    expect(renderLogLine(`beat.${rank}.greeting.${second.id}`)).toBe(second.text);
+    expect(renderLogLine(`beat.${rank}.greeting.${second.id}`)).toBe(
+      second.text,
+    );
     expect(renderLogLine(`beat.${rank}.greeting.${first.id}`)).toBe(first.text);
     expect(second.text).not.toBe(first.text); // …and they are genuinely different lines
   });
@@ -122,7 +138,11 @@ describe('v11 → v12 — a save stops being vulnerable to the next re-order', (
   });
 
   it('an unkeyed legacy line passes through untouched', () => {
-    const out = migrate({ log: { entries: [{ text: 'authored prose, no key' }] } }, 11, 12) as {
+    const out = migrate(
+      { log: { entries: [{ text: 'authored prose, no key' }] } },
+      11,
+      12,
+    ) as {
       log: { entries: Record<string, unknown>[] };
     };
     expect(out.log.entries[0]).toEqual({ text: 'authored prose, no key' });

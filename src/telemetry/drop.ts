@@ -24,7 +24,9 @@ export function postSessionReport(runId: string, report: string): void {
       .then(async (res) => {
         if (!res.ok && !warned) {
           warned = true; // once per session — a missing middleware isn't worth console spam
-          console.warn(`[telemetry] report drop refused (${res.status}) — ring still has the run`);
+          console.warn(
+            `[telemetry] report drop refused (${res.status}) — ring still has the run`,
+          );
           return;
         }
         // The server GCs reports that can't inform balance (retention.ts). Say so ONCE — the
@@ -45,7 +47,9 @@ export function postSessionReport(runId: string, report: string): void {
       .catch(() => {
         if (!warned) {
           warned = true;
-          console.warn('[telemetry] report drop failed (no dev server?) — ring still has the run');
+          console.warn(
+            '[telemetry] report drop failed (no dev server?) — ring still has the run',
+          );
         }
       });
   } catch {

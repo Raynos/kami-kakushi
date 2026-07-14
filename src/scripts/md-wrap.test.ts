@@ -22,7 +22,8 @@ describe('reflow — the prose it SHOULD fold', () => {
   });
 
   it('rejoins a paragraph that was hard-wrapped at the OLD 80 width', () => {
-    const src = 'one two three four five six seven eight nine ten\neleven twelve thirteen';
+    const src =
+      'one two three four five six seven eight nine ten\neleven twelve thirteen';
     const out = reflow(src);
     expect(out.split('\n')[0]).toContain('eleven'); // pulled up into the first line
   });
@@ -61,7 +62,13 @@ describe('reflow — the things it MUST NOT touch', () => {
   });
 
   it('leaves a generated gen-region verbatim', () => {
-    untouched(['<!-- gen:begin roster -->', over('gen'), '<!-- gen:end roster -->'].join('\n'));
+    untouched(
+      [
+        '<!-- gen:begin roster -->',
+        over('gen'),
+        '<!-- gen:end roster -->',
+      ].join('\n'),
+    );
   });
 
   it('leaves YAML frontmatter verbatim', () => {

@@ -56,7 +56,11 @@ import {
 } from './constants';
 import { introActive } from './content/intro';
 import { clamp } from './math';
-import { ACTIVITIES, type ActivityDef, type LabourResource } from './content/activities';
+import {
+  ACTIVITIES,
+  type ActivityDef,
+  type LabourResource,
+} from './content/activities';
 import { SICKROOM_NODE } from './content/map';
 import { PEOPLE, presenceCtx, type NodePerson } from './content/people';
 import { isUnlocked } from './unlock';
@@ -65,13 +69,18 @@ import { skillLevel, skillYieldNum } from './skills';
 
 /** hpMax = HP_BASE + HP_PER_LEVEL·characterLevel + STR_HP·STR (§4.6.1). */
 export function hpMax(state: GameState): number {
-  return HP_BASE + state.character.level * HP_PER_LEVEL + STR_HP * state.character.attrs.str;
+  return (
+    HP_BASE +
+    state.character.level * HP_PER_LEVEL +
+    STR_HP * state.character.attrs.str
+  );
 }
 
 /** Cumulative satietyMax bonus from the bought-out estate stages (the coin sink). */
 export function estateSatietyBonus(state: GameState): number {
   let b = 0;
-  for (const s of ESTATE_STAGES) if (state.estateStage >= s.stage) b += s.satietyMaxBonus;
+  for (const s of ESTATE_STAGES)
+    if (state.estateStage >= s.stage) b += s.satietyMaxBonus;
   return b;
 }
 
@@ -80,7 +89,8 @@ export function estateSatietyBonus(state: GameState): number {
  *  fresh estate is identity; each bought stage lifts every labour act's output. */
 export function estateYieldNum(state: GameState): number {
   let bonus = 0;
-  for (const s of ESTATE_STAGES) if (state.estateStage >= s.stage) bonus += s.yieldBonusNum;
+  for (const s of ESTATE_STAGES)
+    if (state.estateStage >= s.stage) bonus += s.yieldBonusNum;
   return SKILL_YIELD_DEN + bonus;
 }
 
@@ -100,7 +110,8 @@ export function ownsBelonging(state: GameState, id: string): boolean {
  *  and the UI both go through, so preview and reality never drift (AC-6). Empty until the home exists. */
 export function ownedBelongingIds(state: GameState): Set<string> {
   const owned = new Set<string>();
-  for (const def of BELONGINGS) if (ownsBelonging(state, def.id)) owned.add(def.id);
+  for (const def of BELONGINGS)
+    if (ownsBelonging(state, def.id)) owned.add(def.id);
   return owned;
 }
 
@@ -279,7 +290,10 @@ export interface ActivityForecast {
  *  read: it never depletes the pool or spends satiety.
  *  The multiplier chain (G3 throttle × autumn × skill × estate over the site-pool draw) lives
  *  here; `do_activity` keeps only the state writes. */
-export function activityForecast(state: GameState, act: ActivityDef): ActivityForecast {
+export function activityForecast(
+  state: GameState,
+  act: ActivityDef,
+): ActivityForecast {
   const rate = workRate(state);
   const autumn = act.seasonHarvest === true && season(state) === 'autumn';
   // Skill level is read BEFORE this act's addSkillXp on purpose: the leveling act uses the
@@ -328,7 +342,8 @@ export function isNewMoon(state: GameState): boolean {
  * satiety empties. It SLOWS the day; it never hard-blocks (floor > 0).
  */
 export function staminaRate(state: GameState): number {
-  const frac = satietyMax(state) > 0 ? state.character.satiety / satietyMax(state) : 0;
+  const frac =
+    satietyMax(state) > 0 ? state.character.satiety / satietyMax(state) : 0;
   if (frac >= STAMINA_FLAT_ABOVE) return 1;
   // linear from FLOOR at frac=0 to 1.0 at frac=FLAT_ABOVE
   const t = clamp(frac / STAMINA_FLAT_ABOVE, 0, 1);
@@ -349,7 +364,8 @@ export function hungerMax(_state: GameState): number {
  * The same ramp shape as staminaRate, on the other store.
  */
 export function restQuality(state: GameState): number {
-  const frac = hungerMax(state) > 0 ? state.character.hunger / hungerMax(state) : 0;
+  const frac =
+    hungerMax(state) > 0 ? state.character.hunger / hungerMax(state) : 0;
   if (frac >= HUNGER_FLAT_ABOVE) return 1;
   const t = clamp(frac / HUNGER_FLAT_ABOVE, 0, 1);
   return HUNGER_REST_FLOOR + (1 - HUNGER_REST_FLOOR) * t;
@@ -359,7 +375,9 @@ export function restQuality(state: GameState): number {
  *  belly's rest quality (ADR-178). The reducer AND every shown forecast read THIS (AC-6 —
  *  forecast == reality), so a hungry rest reads poor before it is taken. */
 export function restRefill(state: GameState): number {
-  return Math.round((SATIETY_PER_REST + homeRestBonus(state)) * restQuality(state));
+  return Math.round(
+    (SATIETY_PER_REST + homeRestBonus(state)) * restQuality(state),
+  );
 }
 
 // ── ADR-187 — the day-skip (`sleep`, a HOME verb at your woodshed corner) ───────────────
@@ -371,8 +389,13 @@ export function restRefill(state: GameState): number {
  *  VN too: the pure core says no on its own, never leaving the guard to the shell's hidden
  *  verb row. */
 export function canSleep(state: GameState): boolean {
-  if (!isUnlocked(state, HOME_SURFACE) || state.location !== HOME_NODE) return false;
-  return !introActive(state.introBeat) && state.rungBeat === null && state.activeScene === null;
+  if (!isUnlocked(state, HOME_SURFACE) || state.location !== HOME_NODE)
+    return false;
+  return (
+    !introActive(state.introBeat) &&
+    state.rungBeat === null &&
+    state.activeScene === null
+  );
 }
 
 /** What a slept day COSTS, exactly — the ONE source the `sleep` reducer spends and the Sleep
@@ -396,7 +419,10 @@ export function sleepForecast(state: GameState): {
   const riceDrawn = Math.min(state.banked.rice ?? 0, CONSUMPTION_SHO_PER_DAY);
   const served = HUNGER_MEAL_RESTORE * (riceDrawn / CONSUMPTION_SHO_PER_DAY);
   const missedMeal = served * (1 - SLEEP_MEAL_FRACTION);
-  const bellyLost = Math.min(state.character.hunger, HUNGER_PER_DAY - served + missedMeal);
+  const bellyLost = Math.min(
+    state.character.hunger,
+    HUNGER_PER_DAY - served + missedMeal,
+  );
   return { ticks, riceDrawn, missedMeal, bellyLost };
 }
 
@@ -421,7 +447,10 @@ export function treatForecast(state: GameState): {
 } {
   return {
     cost: TREAT_COST_MON,
-    hpGain: Math.min(TREAT_HP_RESTORE, Math.max(0, hpMax(state) - state.character.hp)),
+    hpGain: Math.min(
+      TREAT_HP_RESTORE,
+      Math.max(0, hpMax(state) - state.character.hp),
+    ),
   };
 }
 
@@ -442,7 +471,10 @@ export function restSickroomForecast(state: GameState): {
 } {
   return {
     ...sleepForecast(state),
-    hpGain: Math.min(REST_SICKROOM_HP, Math.max(0, hpMax(state) - state.character.hp)),
+    hpGain: Math.min(
+      REST_SICKROOM_HP,
+      Math.max(0, hpMax(state) - state.character.hp),
+    ),
   };
 }
 
@@ -500,7 +532,10 @@ export function availableLabours(state: GameState): LabourOption[] {
     if (a.area !== state.location) continue; // ← spatial: only this node's activities
     if (!isUnlocked(state, a.surface)) continue;
     if (hidden.has(a.id)) continue;
-    if (a.dangerRing && skillLevel(state, 'conditioning') < CONDITIONING_GATE_LEVEL) {
+    if (
+      a.dangerRing &&
+      skillLevel(state, 'conditioning') < CONDITIONING_GATE_LEVEL
+    ) {
       out.push({
         activity: a,
         available: false,
@@ -508,7 +543,11 @@ export function availableLabours(state: GameState): LabourOption[] {
       });
     } else if (!canAffordAct(state)) {
       // FB-265 — same predicate the reducer refuses on: the button reads why, never lies.
-      out.push({ activity: a, available: false, reason: OUT_OF_STRENGTH_REASON });
+      out.push({
+        activity: a,
+        available: false,
+        reason: OUT_OF_STRENGTH_REASON,
+      });
     } else {
       out.push({ activity: a, available: true });
     }
@@ -516,12 +555,18 @@ export function availableLabours(state: GameState): LabourOption[] {
   return out;
 }
 
-export function canDoActivity(state: GameState, activity: ActivityDef): boolean {
+export function canDoActivity(
+  state: GameState,
+  activity: ActivityDef,
+): boolean {
   if (activity.area !== state.location) return false; // ← spatial: must be at the activity's node
   if (!isUnlocked(state, activity.surface)) return false;
   if (hiddenActivityIds(state).has(activity.id)) return false; // ADR-146: not found yet
 
-  if (activity.dangerRing && skillLevel(state, 'conditioning') < CONDITIONING_GATE_LEVEL)
+  if (
+    activity.dangerRing &&
+    skillLevel(state, 'conditioning') < CONDITIONING_GATE_LEVEL
+  )
     return false;
   if (!canAffordAct(state)) return false; // FB-265 — no free labour at empty satiety
   return true;
@@ -536,7 +581,8 @@ export function peopleHere(state: GameState): NodePerson[] {
   const ctx = presenceCtx(state);
   return PEOPLE.filter((p) => {
     if (p.node !== state.location) return false;
-    if (p.placeGate !== undefined && !isUnlocked(state, p.placeGate)) return false;
+    if (p.placeGate !== undefined && !isUnlocked(state, p.placeGate))
+      return false;
     if (p.presence !== undefined && !p.presence(ctx)) return false;
     return true;
   });
@@ -549,7 +595,8 @@ export function peopleAwayHere(state: GameState): NodePerson[] {
   const ctx = presenceCtx(state);
   return PEOPLE.filter((p) => {
     if (p.node !== state.location || p.awayTell === undefined) return false;
-    if (p.placeGate !== undefined && !isUnlocked(state, p.placeGate)) return false;
+    if (p.placeGate !== undefined && !isUnlocked(state, p.placeGate))
+      return false;
     return p.presence !== undefined && !p.presence(ctx);
   });
 }

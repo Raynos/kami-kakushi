@@ -54,7 +54,9 @@ describe('cold-open reducer flow', () => {
       optionId: INTRO_BEATS[0]!.options![0]!.id,
     });
     expect(atSoan.log.entries.some((e) => e.voice === 'physician')).toBe(true); // Sōan's exam
-    expect(atSoan.log.entries.some((e) => e.text === COLD_OPEN.wake)).toBe(true); // the wake line landed
+    expect(atSoan.log.entries.some((e) => e.text === COLD_OPEN.wake)).toBe(
+      true,
+    ); // the wake line landed
     // the registry's UNGATED Genemon greet/stakes are marked delivered so they can't double-fire,
     // while the rake TEACHING stays deferred until you actually rake.
     expect(s.deliveredDialogue).toContain('gen-greet');
@@ -66,7 +68,10 @@ describe('cold-open reducer flow', () => {
     // march the intro to its end (first option each scene — fixtures derive from the registry)
     while (introActive(s.introBeat)) {
       const scene = introSceneAt(s.introBeat)!;
-      s = reduce(s, { type: 'choose_intro', optionId: scene.decision.options[0]!.id });
+      s = reduce(s, {
+        type: 'choose_intro',
+        optionId: scene.decision.options[0]!.id,
+      });
     }
     expect(isUnlocked(s, 'readout-body')).toBe(true);
     expect(isUnlocked(s, 'readout-rice')).toBe(true);
@@ -100,7 +105,11 @@ describe('cold-open reducer flow', () => {
   });
 
   it('rest restores satiety toward the max', () => {
-    let s = play(1, [{ type: 'open_eyes' }, { type: 'rake_rice' }, { type: 'rake_rice' }]);
+    let s = play(1, [
+      { type: 'open_eyes' },
+      { type: 'rake_rice' },
+      { type: 'rake_rice' },
+    ]);
     const before = s.character.satiety;
     s = reduce(s, { type: 'rest' });
     expect(s.character.satiety).toBeGreaterThan(before);
@@ -117,12 +126,16 @@ describe('determinism', () => {
   ];
 
   it('a fixed seed + intent script yields a byte-identical state', () => {
-    expect(JSON.stringify(play(123, script))).toBe(JSON.stringify(play(123, script)));
+    expect(JSON.stringify(play(123, script))).toBe(
+      JSON.stringify(play(123, script)),
+    );
   });
 
   it('tick folds one at a time: tick(s, a+b) === tick(tick(s, a), b)', () => {
     const s = reduce(createInitialState(1), { type: 'open_eyes' });
-    expect(JSON.stringify(tick(s, 5))).toBe(JSON.stringify(tick(tick(s, 2), 3)));
+    expect(JSON.stringify(tick(s, 5))).toBe(
+      JSON.stringify(tick(tick(s, 2), 3)),
+    );
   });
 
   it('tick advances the clock and rolls over days', () => {
@@ -151,7 +164,9 @@ describe('FB-324 — the rice spill exhausts at RAKE_CAP', () => {
     s = reduce(s, { type: 'rake_rice' });
     expect(s.rakesDone).toBe(balance.RAKE_CAP);
     expect(s.banked.rice).toBe(before + balance.RICE_PER_RAKE); // the capping rake still pays
-    expect(s.log.entries.filter((e) => e.text === RAKE_CAP_LINE).length).toBe(1); // spoken once
+    expect(s.log.entries.filter((e) => e.text === RAKE_CAP_LINE).length).toBe(
+      1,
+    ); // spoken once
     const refused = reduce(s, { type: 'rake_rice' });
     expect(refused).toBe(s); // refused outright: no rice, no body spent, no second line
     // and auto-rake disarms instead of spinning dead against the refusal

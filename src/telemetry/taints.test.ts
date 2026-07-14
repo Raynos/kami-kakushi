@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { HARNESS_TAINTS, isHarnessRun, originMarks, timeTaints } from './taints';
+import {
+  HARNESS_TAINTS,
+  isHarnessRun,
+  originMarks,
+  timeTaints,
+} from './taints';
 
 // Classification proofs: the auto-drop guard (index.ts) and the report's soften/exclude
 // split (report.ts) both key on these sets — a membership change alters which files land

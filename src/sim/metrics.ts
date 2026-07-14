@@ -161,22 +161,35 @@ export function madeProgress(before: GameState, after: GameState): boolean {
   if (rungProgress(after).percent > rungProgress(before).percent) return true;
   if (after.influence.estate.value > before.influence.estate.value) return true;
   const wealth = (s: GameState): number =>
-    (s.resources.coin ?? 0) + (s.resources.rice ?? 0) + (s.banked.coin ?? 0) + (s.banked.rice ?? 0);
+    (s.resources.coin ?? 0) +
+    (s.resources.rice ?? 0) +
+    (s.banked.coin ?? 0) +
+    (s.banked.rice ?? 0);
   if (wealth(after) > wealth(before)) return true;
   for (const [k, v] of Object.entries(after.skillXp)) {
-    if ((v ?? 0) > (before.skillXp[k as keyof typeof before.skillXp] ?? 0)) return true;
+    if ((v ?? 0) > (before.skillXp[k as keyof typeof before.skillXp] ?? 0))
+      return true;
   }
   if (after.character.combatXp > before.character.combatXp) return true;
   if (after.character.hp > before.character.hp) return true;
   if (after.seenReveals.length > before.seenReveals.length) return true;
-  if (after.introBeat !== before.introBeat || after.rungBeat !== before.rungBeat) return true;
+  if (
+    after.introBeat !== before.introBeat ||
+    after.rungBeat !== before.rungBeat
+  )
+    return true;
   return false;
 }
 
 /** The mutable accumulator one run drives. Pure inputs, plain-data output (JSON-comparable —
  *  the determinism assert diffs two of these byte-for-byte). */
 export interface Collector {
-  record(before: GameState, after: GameState, intent: Intent, index: number): void;
+  record(
+    before: GameState,
+    after: GameState,
+    intent: Intent,
+    index: number,
+  ): void;
   finish(final: GameState, softLock: RunMetrics['softLock']): RunMetrics;
 }
 
@@ -189,7 +202,14 @@ export function createCollector(personaId: string, seed: number): Collector {
   let capstoneAtIntent: number | null = null;
   const phase2Distinct = new Set<string>(); // ADR-145 texture (intent types issued post-capstone)
   let phase2SeasonalJudges = 0;
-  const combat = { fights: 0, wins: 0, losses: 0, retreats: 0, lossCoinBled: 0, lossRiceBled: 0 };
+  const combat = {
+    fights: 0,
+    wins: 0,
+    losses: 0,
+    retreats: 0,
+    lossCoinBled: 0,
+    lossRiceBled: 0,
+  };
   const starvation = { zeroSatietyIntents: 0, belowKneeIntents: 0 };
   const durability = { batteredIntents: 0 };
   let sinceProgress = 0;
@@ -224,7 +244,11 @@ export function createCollector(personaId: string, seed: number): Collector {
       const r = touch(before.rung);
       r.intents++;
       // ADR-148 — the per-intent wall cost (duration+cooldown for timed; a heartbeat for instant)
-      const wallMs = intentWallMs(intent, before.location, balance.AUTO_REPEAT_MS);
+      const wallMs = intentWallMs(
+        intent,
+        before.location,
+        balance.AUTO_REPEAT_MS,
+      );
       r.wallMsAcc = (r.wallMsAcc ?? 0) + wallMs;
       totalWallMs += wallMs;
       const kind = classifyIntent(intent);
@@ -238,11 +262,17 @@ export function createCollector(personaId: string, seed: number): Collector {
 
       // starvation + durability are read on the BEFORE state (the condition you acted under).
       if (before.character.satiety === 0) starvation.zeroSatietyIntents++;
-      if (before.character.satiety < satietyMax(before) * balance.STAMINA_FLAT_ABOVE) {
+      if (
+        before.character.satiety <
+        satietyMax(before) * balance.STAMINA_FLAT_ABOVE
+      ) {
         starvation.belowKneeIntents++;
       }
       const weapon = getWeapon(before.equippedWeapon);
-      if (durabilityBand(before.weaponDurability, weapon.durabilityMax).mult <= 0.75) {
+      if (
+        durabilityBand(before.weaponDurability, weapon.durabilityMax).mult <=
+        0.75
+      ) {
         durability.batteredIntents++;
       }
 
@@ -266,12 +296,15 @@ export function createCollector(personaId: string, seed: number): Collector {
       // economy signals
       maxCarriedCoin = Math.max(maxCarriedCoin, after.resources.coin ?? 0);
       maxCarriedRice = Math.max(maxCarriedRice, after.resources.rice ?? 0);
-      if (firstCoinIntent === null && totalCoin(after) > 0) firstCoinIntent = total;
-      if (capstoneAtIntent === null && hasFlag(after, 't0-capstone')) capstoneAtIntent = total;
+      if (firstCoinIntent === null && totalCoin(after) > 0)
+        firstCoinIntent = total;
+      if (capstoneAtIntent === null && hasFlag(after, 't0-capstone'))
+        capstoneAtIntent = total;
       // ADR-145 texture — recorded only inside the Phase-2 window (post-capstone).
       if (capstoneAtIntent !== null) {
         phase2Distinct.add(intent.type);
-        if (after.influence.estate.judged > before.influence.estate.judged) phase2SeasonalJudges++;
+        if (after.influence.estate.judged > before.influence.estate.judged)
+          phase2SeasonalJudges++;
       }
       if (total % SAMPLE_EVERY === 0) {
         samples.push({
@@ -313,7 +346,10 @@ export function createCollector(personaId: string, seed: number): Collector {
           maxCarriedCoin,
           maxCarriedRice,
           firstCoinIntent,
-          phase2Intents: ascended && capstoneAtIntent !== null ? total - capstoneAtIntent : null,
+          phase2Intents:
+            ascended && capstoneAtIntent !== null
+              ? total - capstoneAtIntent
+              : null,
           phase2DistinctIntents: [...phase2Distinct].sort(),
           buildStagesDone: final.estateStage,
           phase2SeasonalJudges,

@@ -99,7 +99,9 @@ describe('canCraft — the craft gate', () => {
   });
 
   it('is true when inputs are over-met (and ignores unrelated resources)', () => {
-    expect(canCraft({ hardwood: 9, beast_sinew: 4, coin: 100 }, woodAxe())).toBe(true);
+    expect(
+      canCraft({ hardwood: 9, beast_sinew: 4, coin: 100 }, woodAxe()),
+    ).toBe(true);
   });
 
   it('is PURE — it does not mutate the resources argument', () => {
@@ -111,15 +113,23 @@ describe('canCraft — the craft gate', () => {
 
 describe('missingMaterials', () => {
   it('reports the full requirement when nothing is held', () => {
-    expect(missingMaterials({}, woodAxe())).toEqual({ hardwood: 3, beast_sinew: 1 });
+    expect(missingMaterials({}, woodAxe())).toEqual({
+      hardwood: 3,
+      beast_sinew: 1,
+    });
   });
 
   it('reports only the shortfall when partly held', () => {
-    expect(missingMaterials({ hardwood: 1 }, woodAxe())).toEqual({ hardwood: 2, beast_sinew: 1 });
+    expect(missingMaterials({ hardwood: 1 }, woodAxe())).toEqual({
+      hardwood: 2,
+      beast_sinew: 1,
+    });
   });
 
   it('is empty when the recipe is craftable', () => {
-    expect(missingMaterials({ hardwood: 3, beast_sinew: 1 }, woodAxe())).toEqual({});
+    expect(
+      missingMaterials({ hardwood: 3, beast_sinew: 1 }, woodAxe()),
+    ).toEqual({});
   });
 });
 
@@ -167,7 +177,8 @@ describe('MATERIAL_DROPS — the loot table', () => {
 
   it('is a closed loop — every recipe input is droppable, every drop feeds a recipe', () => {
     const recipeMats = new Set<string>();
-    for (const r of RECIPES) for (const m of Object.keys(r.inputs)) recipeMats.add(m);
+    for (const r of RECIPES)
+      for (const m of Object.keys(r.inputs)) recipeMats.add(m);
     const droppedMats = new Set<string>();
     for (const d of Object.values(MATERIAL_DROPS)) droppedMats.add(d.material);
     for (const m of recipeMats) expect(droppedMats.has(m)).toBe(true);

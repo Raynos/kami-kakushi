@@ -4,7 +4,10 @@
 // → re-enabled. Every other spec asserts flows under instant mode; this is the spec
 // that keeps the clock itself honest.
 import { expect, test } from '@playwright/test';
-import { INTENT_TIMING, RAKE_TEACH_COOLDOWN_MS } from '../../core/content/timing';
+import {
+  INTENT_TIMING,
+  RAKE_TEACH_COOLDOWN_MS,
+} from '../../core/content/timing';
 import { boot, expectNoPageErrors, press } from './helpers';
 
 test('timed rake: press → disabled + bar → effect at duration → cooldown → re-enabled', async ({
@@ -14,14 +17,18 @@ test('timed rake: press → disabled + bar → effect at duration → cooldown �
   const rake = page.locator('button[data-act-key="rake_rice"]');
   await expect(rake).toBeEnabled();
   // ADR-163: raked rice banks into the KURA (`banked.rice`, in shō), never a carried pocket.
-  const riceBefore = await page.evaluate<number>('window.__qa.state().banked.rice ?? 0');
+  const riceBefore = await page.evaluate<number>(
+    'window.__qa.state().banked.rice ?? 0',
+  );
 
   await press(rake);
   // the lifetime lock + the inner progress bar (TST4 — visible state)
   await expect(rake).toBeDisabled();
   await expect(rake.locator('.act-bar')).toHaveCount(1);
   // nothing lands early — the effect waits for the clock (ADR-148)
-  expect(await page.evaluate<number>('window.__qa.state().banked.rice ?? 0')).toBe(riceBefore);
+  expect(
+    await page.evaluate<number>('window.__qa.state().banked.rice ?? 0'),
+  ).toBe(riceBefore);
 
   // the effect lands at the 5s duration…
   await expect
@@ -41,11 +48,15 @@ test('timed rake: press → disabled + bar → effect at duration → cooldown �
   expectNoPageErrors(errors);
 });
 
-test('entering a rung-up VN cancels the in-flight timed action (FB-403)', async ({ page }) => {
+test('entering a rung-up VN cancels the in-flight timed action (FB-403)', async ({
+  page,
+}) => {
   const errors = await boot(page, 'rung-beat-ready', { timedActions: true });
   const rest = page.locator('button[data-act-key="rest"]');
   await expect(rest).toBeEnabled();
-  const logLen = await page.evaluate<number>('window.__qa.state().log.entries.length');
+  const logLen = await page.evaluate<number>(
+    'window.__qa.state().log.entries.length',
+  );
 
   await press(rest);
   await expect(rest).toBeDisabled(); // the action is in flight
@@ -54,11 +65,15 @@ test('entering a rung-up VN cancels the in-flight timed action (FB-403)', async 
   await page.locator('.rung-head-trigger').click();
   // wait past the action's full duration: a surviving timer would fire in here
   const restTiming = INTENT_TIMING.rest;
-  await page.waitForTimeout((restTiming.kind === 'timed' ? restTiming.durationMs : 0) + 1_500);
+  await page.waitForTimeout(
+    (restTiming.kind === 'timed' ? restTiming.durationMs : 0) + 1_500,
+  );
   const texts = await page.evaluate<string[]>(
     `window.__qa.state().log.entries.slice(${logLen}).map((l) => l.text)`,
   );
-  expect(texts.filter((t) => /You lie down|You stop where/i.test(t))).toEqual([]);
+  expect(texts.filter((t) => /You lie down|You stop where/i.test(t))).toEqual(
+    [],
+  );
 
   expectNoPageErrors(errors);
 });

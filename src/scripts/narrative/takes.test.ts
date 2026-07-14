@@ -5,7 +5,12 @@
 
 import { describe, it, expect } from 'vitest';
 import { parseNarrative, NarrativeError } from './parse';
-import { emitStoryTakes, parseBundleMeta, buildCanonIndex, type CanonIndex } from './takes';
+import {
+  emitStoryTakes,
+  parseBundleMeta,
+  buildCanonIndex,
+  type CanonIndex,
+} from './takes';
 import { RANKS } from '../../core/content/ranks';
 import { NPC_NAME } from '../../core/content/voices';
 
@@ -67,7 +72,9 @@ ${GENEMON}: "The canon react."
 
 flags: opt-a
 `;
-const CANON: CanonIndex = buildCanonIndex([parseNarrative(CANON_MD, 'rung-beats.md')]);
+const CANON: CanonIndex = buildCanonIndex([
+  parseNarrative(CANON_MD, 'rung-beats.md'),
+]);
 
 describe('parseBundleMeta', () => {
   it('parses heading, top meta (with continuation), and take sections', () => {
@@ -91,7 +98,9 @@ describe('parseBundleMeta', () => {
 
   it('goes RED on a take missing brief:, citing the authoring line', () => {
     const bad = BUNDLE.replace('brief: withholds warmth\n', '');
-    expect(() => parseBundleMeta(bad, 'bundle.md')).toThrowError(NarrativeError);
+    expect(() => parseBundleMeta(bad, 'bundle.md')).toThrowError(
+      NarrativeError,
+    );
     expect(() => parseBundleMeta(bad, 'bundle.md')).toThrowError(
       /bundle\.md:11 .* missing "brief:"/,
     );
@@ -103,19 +112,24 @@ describe('parseBundleMeta', () => {
   });
 
   it('goes RED on an unrecognised line', () => {
-    expect(() => parseBundleMeta(`${BUNDLE}stray prose\n`, 'bundle.md')).toThrowError(
-      /unrecognised bundle\.md line/,
-    );
+    expect(() =>
+      parseBundleMeta(`${BUNDLE}stray prose\n`, 'bundle.md'),
+    ).toThrowError(/unrecognised bundle\.md line/);
   });
 });
 
 describe('bundle rung (FB-307/FB-312)', () => {
   it('parses `rung: R<n>` to the bare number and emits it into the registry entry', () => {
-    const meta = parseBundleMeta(BUNDLE.replace('rung: R1', 'rung: R2'), 'bundle.md');
+    const meta = parseBundleMeta(
+      BUNDLE.replace('rung: R1', 'rung: R2'),
+      'bundle.md',
+    );
     expect(meta.rung).toBe(2);
     expect(meta.rungReason).toBeUndefined();
     const doc = parseNarrative(TAKE, 'take-b.md');
-    expect(emitStoryTakes([{ meta, docs: [doc] }], CANON)).toContain('rung: 2,');
+    expect(emitStoryTakes([{ meta, docs: [doc] }], CANON)).toContain(
+      'rung: 2,',
+    );
   });
 
   it('parses `rung: other · <reason>` into rungReason and emits it', () => {
@@ -132,12 +146,12 @@ describe('bundle rung (FB-307/FB-312)', () => {
   });
 
   it('REQUIRES the field (FB-312: no catch-all) and rejects a malformed value', () => {
-    expect(() => parseBundleMeta(BUNDLE.replace('rung: R1\n', ''), 'bundle.md')).toThrowError(
-      /missing "rung:"/,
-    );
-    expect(() => parseBundleMeta(BUNDLE.replace('rung: R1', 'rung: 2'), 'bundle.md')).toThrowError(
-      /rung must be "R<n>" or "other · <reason>"/,
-    );
+    expect(() =>
+      parseBundleMeta(BUNDLE.replace('rung: R1\n', ''), 'bundle.md'),
+    ).toThrowError(/missing "rung:"/);
+    expect(() =>
+      parseBundleMeta(BUNDLE.replace('rung: R1', 'rung: 2'), 'bundle.md'),
+    ).toThrowError(/rung must be "R<n>" or "other · <reason>"/);
   });
 });
 
@@ -147,16 +161,19 @@ describe('bundle rung (FB-307/FB-312)', () => {
 // checks the HR- form against review.md; this is the authoring-time half.
 describe('bundle hr (the review link)', () => {
   it('REQUIRES the field, and rejects a value that is neither an HR-item nor a reasoned none', () => {
-    expect(() => parseBundleMeta(BUNDLE.replace('hr: HR-99\n', ''), 'bundle.md')).toThrowError(
-      /missing "hr:"/,
-    );
+    expect(() =>
+      parseBundleMeta(BUNDLE.replace('hr: HR-99\n', ''), 'bundle.md'),
+    ).toThrowError(/missing "hr:"/);
     expect(() =>
       parseBundleMeta(BUNDLE.replace('hr: HR-99', 'hr: none'), 'bundle.md'),
     ).toThrowError(/hr must be "HR-<n>" or "none · <reason>"/);
   });
 
   it('accepts a settled bundle kept as reference (`none · why`)', () => {
-    const b = parseBundleMeta(BUNDLE.replace('hr: HR-99', 'hr: none · signed off, kept'), 'x.md');
+    const b = parseBundleMeta(
+      BUNDLE.replace('hr: HR-99', 'hr: none · signed off, kept'),
+      'x.md',
+    );
     expect(b.hr).toBe('none · signed off, kept');
   });
 });
@@ -166,7 +183,9 @@ describe('emitStoryTakes', () => {
     const meta = parseBundleMeta(BUNDLE, 'bundle.md');
     const doc = parseNarrative(TAKE, 'take-b.md');
     const src = emitStoryTakes([{ meta, docs: [doc] }], CANON);
-    expect(src).toContain(`export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[]`);
+    expect(src).toContain(
+      `export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[]`,
+    );
     expect(src).toContain(`id: "demo",`);
     expect(src).toContain(`brief: "withholds warmth",`);
     // Steps A+B — the take compiles to the flat map + narration-run sequences ONLY;
@@ -185,7 +204,9 @@ describe('emitStoryTakes', () => {
 
   it('goes RED on a takes/docs length mismatch', () => {
     const meta = parseBundleMeta(BUNDLE, 'bundle.md');
-    expect(() => emitStoryTakes([{ meta, docs: [] }], CANON)).toThrowError(/takes\/docs mismatch/);
+    expect(() => emitStoryTakes([{ meta, docs: [] }], CANON)).toThrowError(
+      /takes\/docs mismatch/,
+    );
   });
 });
 
@@ -195,7 +216,10 @@ describe('emitStoryTakes', () => {
 describe('the flat text map — keys carry CANON ids, blind slugs notwithstanding', () => {
   const compile = (): string => {
     const meta = parseBundleMeta(BUNDLE, 'bundle.md');
-    return emitStoryTakes([{ meta, docs: [parseNarrative(TAKE, 'take-b.md')] }], CANON);
+    return emitStoryTakes(
+      [{ meta, docs: [parseNarrative(TAKE, 'take-b.md')] }],
+      CANON,
+    );
   };
 
   it('option keys use the canon option id, not the take slug', () => {
@@ -217,13 +241,16 @@ describe('the flat text map — keys carry CANON ids, blind slugs notwithstandin
 describe('the prose-only HARD gate', () => {
   const compileTake = (takeMd: string): void => {
     const meta = parseBundleMeta(BUNDLE, 'bundle.md');
-    emitStoryTakes([{ meta, docs: [parseNarrative(takeMd, 'take-b.md')] }], CANON);
+    emitStoryTakes(
+      [{ meta, docs: [parseNarrative(takeMd, 'take-b.md')] }],
+      CANON,
+    );
   };
 
   it('REDs a take whose unit does not exist in canon, naming it', () => {
-    expect(() => compileTake(TAKE.replace('## rung R1', '## rung R5'))).toThrowError(
-      /prose-only gate — rung:R5: no canon rung beat/,
-    );
+    expect(() =>
+      compileTake(TAKE.replace('## rung R1', '## rung R5')),
+    ).toThrowError(/prose-only gate — rung:R5: no canon rung beat/);
   });
 
   it("REDs an option-count mismatch (structure is canon's, words are the take's)", () => {

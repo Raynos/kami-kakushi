@@ -109,7 +109,13 @@ export interface Character {
 
 /** The base 5-attribute block a fresh MC starts with (every attribute at ATTR_BASE). */
 export function baseAttrs(): Record<AttrId, number> {
-  return { str: ATTR_BASE, agi: ATTR_BASE, int: ATTR_BASE, spd: ATTR_BASE, luck: ATTR_BASE };
+  return {
+    str: ATTR_BASE,
+    agi: ATTR_BASE,
+    int: ATTR_BASE,
+    spd: ATTR_BASE,
+    luck: ATTR_BASE,
+  };
 }
 
 export interface GameState {
@@ -337,14 +343,22 @@ export function createInitialState(seed: number): GameState {
 
 // ── tiny immutable helpers (structural sharing) ─────────────────────────────────
 
-export function withResource(state: GameState, id: ResourceId, delta: number): GameState {
+export function withResource(
+  state: GameState,
+  id: ResourceId,
+  delta: number,
+): GameState {
   const current = state.resources[id] ?? 0;
   return { ...state, resources: { ...state.resources, [id]: current + delta } };
 }
 
 /** Move into/out of the kura storehouse (the sheltered `banked` pool). Mirrors withResource;
  *  deposit/withdraw pair a +withBanked with a −withResource (and vice-versa). */
-export function withBanked(state: GameState, id: ResourceId, delta: number): GameState {
+export function withBanked(
+  state: GameState,
+  id: ResourceId,
+  delta: number,
+): GameState {
   const current = state.banked[id] ?? 0;
   return { ...state, banked: { ...state.banked, [id]: current + delta } };
 }
@@ -359,9 +373,16 @@ export function adjustHunger(state: GameState, delta: number): GameState {
 
 /** Draw down (or refill) a labour site's production pool by `delta` (ADR-163). Floors at 0 — a
  *  worked-out site yields nothing until the season refills it. */
-export function withSitePool(state: GameState, site: string, delta: number): GameState {
+export function withSitePool(
+  state: GameState,
+  site: string,
+  delta: number,
+): GameState {
   const current = state.sitePools[site] ?? 0;
-  return { ...state, sitePools: { ...state.sitePools, [site]: Math.max(0, current + delta) } };
+  return {
+    ...state,
+    sitePools: { ...state.sitePools, [site]: Math.max(0, current + delta) },
+  };
 }
 
 export function setFlag(state: GameState, id: FlagId, value = true): GameState {
@@ -373,7 +394,11 @@ export function hasFlag(state: GameState, id: FlagId): boolean {
   return state.flags[id] === true;
 }
 
-export function addSkillXp(state: GameState, id: SkillId, amount: number): GameState {
+export function addSkillXp(
+  state: GameState,
+  id: SkillId,
+  amount: number,
+): GameState {
   if (amount === 0) return state;
   const current = state.skillXp[id] ?? 0;
   return { ...state, skillXp: { ...state.skillXp, [id]: current + amount } };
@@ -381,7 +406,11 @@ export function addSkillXp(state: GameState, id: SkillId, amount: number): GameS
 
 /** Immutably fold a patch into one NPC's memory (plan §3.2). Independent per key: writing `soan`
  *  never touches `genemon`. Merges onto any prior memory for that NPC. */
-export function rememberNpc(state: GameState, npc: NpcId, patch: Partial<NpcMemory>): GameState {
+export function rememberNpc(
+  state: GameState,
+  npc: NpcId,
+  patch: Partial<NpcMemory>,
+): GameState {
   const prior = state.npcMemory[npc] ?? { regard: '', warmth: 0 };
   const merged: NpcMemory = { ...prior, ...patch };
   return { ...state, npcMemory: { ...state.npcMemory, [npc]: merged } };

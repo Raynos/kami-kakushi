@@ -211,7 +211,11 @@ export const VALLEY_FEATURES = {
    *  (Seiroku's). Town-made gear here is the T4 shadow (a wrong thing). */
   camp: { at: [230, 2700] as Pt },
   /** hill shrines — tiny roadside shrine glyphs up the flanks */
-  hillShrines: [[2560, 2840] as Pt, [200, 3040] as Pt, [2760, 3480] as Pt] as readonly Pt[],
+  hillShrines: [
+    [2560, 2840] as Pt,
+    [200, 3040] as Pt,
+    [2760, 3480] as Pt,
+  ] as readonly Pt[],
   /** the moved boundary stone — the T1 "fresher" stone, now a field INTO Asagiri's
    *  land (the village-track dispute made visible) */
   movedStone: [660, 2860] as Pt,
@@ -294,7 +298,9 @@ export const VALLEY_NOTES: readonly {
 
 /** The T2 seal anchors — added to layout.ANCHORS (the shell reads ANCHORS[id]).
  *  Kept here beside the geometry they name; layout.ts spreads them in. */
-export const VALLEY_ANCHORS: Readonly<Record<string, { x: number; y: number }>> = {
+export const VALLEY_ANCHORS: Readonly<
+  Record<string, { x: number; y: number }>
+> = {
   // the estate, DEMOTED — the two seals the reveal re-labels (spec §6.2)
   'guest-house': { x: 2130, y: 1300 },
   'main-house-ruin': { x: 1650, y: 860 },

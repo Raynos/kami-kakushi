@@ -18,7 +18,13 @@ import {
 } from './state';
 import { applyRewards } from './rewards';
 import { announcePass, visibleSet } from './unlock';
-import { worksPass, stageOpen, stageLogLine, stageLabel, canWorkProject } from './works';
+import {
+  worksPass,
+  stageOpen,
+  stageLogLine,
+  stageLabel,
+  canWorkProject,
+} from './works';
 import { revealsPass } from './reveals';
 import { discoveryPass } from './discovery';
 import { advanceClock, advanceSeason } from './step';
@@ -44,7 +50,12 @@ import {
 import { getPerson, PEOPLE_IDS } from './content/people';
 import { getBelonging, homeRestLine } from './content/home';
 import { skillLevel } from './skills';
-import { applyPromotion, promotionReady, pendingPromotionTarget, rungNumber } from './ranks';
+import {
+  applyPromotion,
+  promotionReady,
+  pendingPromotionTarget,
+  rungNumber,
+} from './ranks';
 import { nenguReckonedThisYear } from './nengu';
 import { bankEstateDeed } from './pillars';
 import { ascend } from './ascension';
@@ -82,7 +93,12 @@ import {
   type IntroStat,
 } from './content/intro';
 import { playerSpeaker } from './content/voices';
-import { RUNG_BEATS, rungTopic, rungOption, type RungScene } from './content/rungBeats';
+import {
+  RUNG_BEATS,
+  rungTopic,
+  rungOption,
+  type RungScene,
+} from './content/rungBeats';
 import { sceneById } from './content/scenes';
 import { nightRoundById } from './content/nightRounds';
 import {
@@ -95,12 +111,23 @@ import {
   triggerFlagScenes,
 } from './scenes';
 import { beginNightRound } from './night-rounds';
-import { NPC_VOICE, NPC_NAME, type NpcId, type VoiceCategory } from './content/voices';
+import {
+  NPC_VOICE,
+  NPC_NAME,
+  type NpcId,
+  type VoiceCategory,
+} from './content/voices';
 import { getRank, type RankId } from './content/ranks';
 import { getRecipe, canCraft } from './content/crafting';
 import { acceptQuest } from './quest-engine';
 import { applyProgressEvent, settleRequirements } from './progress-events';
-import { getItem, canBuy, isMarketDay, itemInSeason, yoheiBuys } from './content/market';
+import {
+  getItem,
+  canBuy,
+  isMarketDay,
+  itemInSeason,
+  yoheiBuys,
+} from './content/market';
 import { canMove, getNode } from './content/map';
 import { CONDITIONING_GATE_LEVEL } from './content/balance';
 import {
@@ -136,7 +163,12 @@ export type Intent =
   | { type: 'set_auto'; activityId: ActivityId | null }
   | { type: 'set_auto_rake'; on: boolean }
   | { type: 'fight'; mobId: MobId; retreat?: boolean }
-  | { type: 'set_auto_combat'; mobId: MobId | null; retreat?: boolean; reason?: 'weapon-broken' }
+  | {
+      type: 'set_auto_combat';
+      mobId: MobId | null;
+      retreat?: boolean;
+      reason?: 'weapon-broken';
+    }
   | { type: 'repair_weapon' }
   | { type: 'equip_weapon'; weaponId: WeaponId }
   | { type: 'set_stance'; stance: StanceId }
@@ -199,12 +231,18 @@ function finish(state: GameState): GameState {
   // fictional moment has arrived (coin in the fist, greens in the basket, the raided racks, the
   // lease day, the first wound) enqueues here, and the zone it opens derives from the flag that
   // scene sets. It runs BEFORE the flag-scene pass for the same reason worksPass does.
-  return announcePass(triggerFlagScenes(settleRequirements(revealsPass(worksPass(state)))));
+  return announcePass(
+    triggerFlagScenes(settleRequirements(revealsPass(worksPass(state)))),
+  );
 }
 
 /** Deliver any not-yet-shown, gate-satisfied lines of a dialogue into the story log (the
  *  diegetic mentor, ADR-039/ADR-063 — the log IS the surface, never a popup). Advances the cursor. */
-function deliverDialogue(state: GameState, dialogueId: string, cap?: number): GameState {
+function deliverDialogue(
+  state: GameState,
+  dialogueId: string,
+  cap?: number,
+): GameState {
   // `cap` limits how many newly-eligible lines land in ONE call — so a single rake doesn't dump the
   // whole raked-gated monologue at once (fun-factor "one teach per moment; never a monologue dump").
   const all = nextDialogueLines(
@@ -364,7 +402,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // TEACHING (gen-rake/keep/kept, raked-gated) still flows one-per-rake exactly as today.
       next = {
         ...next,
-        deliveredDialogue: [...next.deliveredDialogue, 'gen-greet', 'gen-stores'],
+        deliveredDialogue: [
+          ...next.deliveredDialogue,
+          'gen-greet',
+          'gen-stores',
+        ],
       };
       break;
     }
@@ -596,7 +638,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
         }
       }
       // (c) the durable story flags (the pick + any flag-backed bonus — pedlar-favour / smith-whetstone).
-      if (opt.flags && opt.flags.length > 0) next = applyRewards(next, { flags: opt.flags });
+      if (opt.flags && opt.flags.length > 0)
+        next = applyRewards(next, { flags: opt.flags });
       // (d) the rare small stat nudge (R3) + its delight line; the R5 stance DEFAULT (a story default).
       if (opt.statBonus) {
         const c = next.character;
@@ -606,7 +649,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
             ...c,
             attrs: {
               ...c.attrs,
-              [opt.statBonus.attr]: (c.attrs[opt.statBonus.attr] ?? 0) + opt.statBonus.amount,
+              [opt.statBonus.attr]:
+                (c.attrs[opt.statBonus.attr] ?? 0) + opt.statBonus.amount,
             },
           },
         };
@@ -715,12 +759,15 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // "a place here is yours" (panel-home) reads and restores as home; resting anywhere
       // else (any rung, pre- or post-home) is the open rest — base refill, the restOpen
       // flavor line (canon in narrative/flavor.md; ADR-139 bundle fb402-rest-open).
-      const atHome = isUnlocked(next, 'panel-home') && next.location === 'woodshed';
+      const atHome =
+        isUnlocked(next, 'panel-home') && next.location === 'woodshed';
       // ADR-178 — the refill routes through restRefill (base + comfort, × the belly's rest
       // quality): a hungry rest is a POOR rest — the belly's only teeth. AC-6: the shown
       // rest forecast reads the SAME selector, so a degraded rest never surprises.
       next = adjustSatiety(next, restRefill(next));
-      const restLine = atHome ? homeRestLine(ownsBelonging(next, 'bedding')) : restOpenLine();
+      const restLine = atHome
+        ? homeRestLine(ownsBelonging(next, 'bedding'))
+        : restOpenLine();
       // FB-53 — resting is fleeting flavor: it lands in the "Now" view and fades, never clutters
       // the permanent Work/All channels.
       // FB-91/FB-93 — the rest RESULT line is scene narration → `narrator` voice, consistent with
@@ -735,7 +782,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
             voice: 'narrator',
             ephemeral: true,
             contentKey: restKey,
-            ...(atHome ? { params: { bedding: ownsBelonging(next, 'bedding') } } : {}),
+            ...(atHome
+              ? { params: { bedding: ownsBelonging(next, 'bedding') } }
+              : {}),
           },
         ],
       });
@@ -781,7 +830,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!canTreat(next)) return state;
       const f = treatForecast(next);
       next = withResource(next, 'coin', -f.cost);
-      next = { ...next, character: { ...next.character, hp: next.character.hp + f.hpGain } };
+      next = {
+        ...next,
+        character: { ...next.character, hp: next.character.hp + f.hpGain },
+      };
       next = applyRewards(next, {
         log: [
           {
@@ -802,7 +854,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // ration reaches you only in part), plus the slow trickle: spend days instead of mon.
       if (!canRestSickroom(next)) return state;
       const f = restSickroomForecast(next);
-      next = { ...next, character: { ...next.character, hp: next.character.hp + f.hpGain } };
+      next = {
+        ...next,
+        character: { ...next.character, hp: next.character.hp + f.hpGain },
+      };
       next = advanceClock(next, f.ticks);
       next = adjustHunger(next, -f.missedMeal);
       next = applyRewards(next, {
@@ -839,7 +894,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // MON lane (ADR-163): a game-day on which ≥1 timed labour act completes accrues one day-wage,
       // once waged (R5+). Dedupe on the day (`lastWageDay`) so many acts in a day count once.
       if (isWaged(next.rung) && next.clock.day !== next.lastWageDay) {
-        next = { ...next, wageDaysAccrued: next.wageDaysAccrued + 1, lastWageDay: next.clock.day };
+        next = {
+          ...next,
+          wageDaysAccrued: next.wageDaysAccrued + 1,
+          lastWageDay: next.clock.day,
+        };
       }
       const storyFlags: string[] = [];
       if (act.id === 'farm_paddy') storyFlags.push('farmed');
@@ -870,7 +929,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // Phase 2 (post-R7): ESTATE-RELEVANT labour banks its source's Estate deed (ADR-145 —
       // multi-source; woodcut/forage carry no deedSource and bank nothing; no-op in Phase 1).
       next = bankEstateDeed(next, act.deedSource);
-      for (const res of Object.keys(gained)) next = applyProgressEvent(next, `gather:${res}`);
+      for (const res of Object.keys(gained))
+        next = applyProgressEvent(next, `gather:${res}`);
       // ADR-146 — a repeat attempt at this node's work can surface a hidden discovery (the
       // seeded repeat-action roll; a no-op when nothing here watches this activity).
       next = discoveryPass(next, { kind: 'activity', activityId: act.id });
@@ -899,10 +959,16 @@ export function reduce(state: GameState, intent: Intent): GameState {
     case 'set_auto_combat': {
       // Spatial (Step 5b): you can only ARM an auto-grind for a foe you stand with (mirrors the
       // `fight` gate); clearing (mobId null) works from anywhere. move_to also clears it when you walk off.
-      if (intent.mobId !== null && getMob(intent.mobId).area !== next.location) return state;
+      if (intent.mobId !== null && getMob(intent.mobId).area !== next.location)
+        return state;
       // B6 — a nightRoundOnly foe can't be ARMED for the day-grind either (the same invariant).
-      if (intent.mobId !== null && getMob(intent.mobId).nightRoundOnly) return state;
-      next = { ...next, autoCombat: intent.mobId, autoCombatRetreat: intent.retreat ?? false };
+      if (intent.mobId !== null && getMob(intent.mobId).nightRoundOnly)
+        return state;
+      next = {
+        ...next,
+        autoCombat: intent.mobId,
+        autoCombatRetreat: intent.retreat ?? false,
+      };
       // The auto-loop stops the grind when the blade breaks and there's no wood to mend it — say so,
       // else the "leave it running" mode just halts silently and reads as a freeze (R3 false-silence).
       if (intent.mobId === null && intent.reason === 'weapon-broken') {
@@ -912,7 +978,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
               channel: 'system',
               voice: 'narrator', // FB-91/FB-93 — scene narration, consistent narrator voice
               contentKey: 'combat.weaponBroken',
-              params: { weapon: getWeapon(next.equippedWeapon).label.toLowerCase() },
+              params: {
+                weapon: getWeapon(next.equippedWeapon).label.toLowerCase(),
+              },
             },
           ],
         });
@@ -942,7 +1010,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
             channel: 'system',
             voice: 'narrator', // FB-91/FB-93 — player-action narration, consistent narrator voice
             contentKey: 'craft.repair',
-            params: { weapon: weapon.label.toLowerCase(), wood: REPAIR_WOOD_COST, coinFee },
+            params: {
+              weapon: weapon.label.toLowerCase(),
+              wood: REPAIR_WOOD_COST,
+              coinFee,
+            },
           },
         ],
       });
@@ -951,7 +1023,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
     case 'equip_weapon': {
       // the wood_axe is now FOUND/CRAFTED (ADR-052) — gate equipping it on having forged it,
       // not on the retired drillmaster grant.
-      if (intent.weaponId === 'wood_axe' && !hasFlag(next, 'crafted-wood_axe')) return state;
+      if (intent.weaponId === 'wood_axe' && !hasFlag(next, 'crafted-wood_axe'))
+        return state;
       if (intent.weaponId === next.equippedWeapon) return state; // re-equip = no-op
       const weapon = getWeapon(intent.weaponId);
       // Switching CARRIES the current durability (clamped to the new weapon's max) — it must NOT
@@ -1003,7 +1076,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
             // FB-91/FB-93 — cook RESULT flavor is scene narration → `narrator` voice.
             voice: 'narrator',
             contentKey: 'food.cook',
-            params: { sansai: COOK_SANSAI_COST, bellyGain: COOK_HUNGER_RESTORE },
+            params: {
+              sansai: COOK_SANSAI_COST,
+              bellyGain: COOK_HUNGER_RESTORE,
+            },
             // FB-156 — repetitive consumption output is fleeting flavor (the F58a
             // rake/labour precedent): it lives in "Now" and fades, never spams Work.
             ephemeral: true,
@@ -1117,7 +1193,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // then completes through sited `work_project` acts (projects are WORK, not buys).
       if (!isUnlocked(next, 'panel-estate')) return state;
       if (next.estateCommission > 0) return state; // one work under way at a time
-      const target = ESTATE_STAGES.find((s) => s.stage === next.estateStage + 1);
+      const target = ESTATE_STAGES.find(
+        (s) => s.stage === next.estateStage + 1,
+      );
       if (!target) return state;
       // ADR-177 (TST3) — a stage is commissionable only after its discovery chain
       // closed (day-book named it → damage seen → the pricing beat played).
@@ -1125,7 +1203,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // ADR-145 (the B half) — the build is STAGED against banked Estate standing: stage U<k>
       // also needs the house's recognised deeds at its gate, so U1–U4 land as paced Phase-2
       // build beats (U1's gate is 0 — Phase-1 purchasable as before).
-      if (next.influence.estate.value < (ESTATE_STAGE_DEED_GATES[target.stage - 1] ?? 0))
+      if (
+        next.influence.estate.value <
+        (ESTATE_STAGE_DEED_GATES[target.stage - 1] ?? 0)
+      )
         return state;
       if ((next.resources.coin ?? 0) < target.coinCost) return state;
       if ((next.resources.wood ?? 0) < target.woodCost) return state;
@@ -1151,7 +1232,9 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // ADR-177 F3 — one sited act of the commissioned work. Same predicate the UI
       // affordance and the sim read (canWorkProject — AC-6).
       if (!canWorkProject(next)) return state;
-      const target = ESTATE_STAGES.find((s) => s.stage === next.estateCommission);
+      const target = ESTATE_STAGES.find(
+        (s) => s.stage === next.estateCommission,
+      );
       if (!target) return state;
       if (next.character.satiety < WORKS_ACT_SATIETY) return state;
       next = adjustSatiety(next, -WORKS_ACT_SATIETY);
@@ -1164,7 +1247,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
               channel: 'reward',
               text: `The work goes forward — ${stageLabel(target)}, ${done} of ${target.workActs}.`,
               contentKey: 'estate.workProgress',
-              params: { stage: stageLabel(target), done, total: target.workActs },
+              params: {
+                stage: stageLabel(target),
+                done,
+                total: target.workActs,
+              },
               voice: 'narrator',
               ephemeral: true,
             },
@@ -1175,7 +1262,12 @@ export function reduce(state: GameState, intent: Intent): GameState {
       }
       // the closing act — the stage completes: the ladder advances and the canon
       // completion line lands (stageLogLine — take-aware, ADR-143).
-      next = { ...next, estateStage: target.stage, estateCommission: 0, estateWorkDone: 0 };
+      next = {
+        ...next,
+        estateStage: target.stage,
+        estateCommission: 0,
+        estateWorkDone: 0,
+      };
       next = applyRewards(next, {
         log: [
           {
@@ -1187,7 +1279,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       });
       next = applyProgressEvent(next, 'act:work_project');
       // ADR-145 — the E1 build-complete beat: the estate STANDS (fires exactly once, at U4).
-      if (target.stage === MAX_ESTATE_STAGE && !hasFlag(next, 'estate-stands')) {
+      if (
+        target.stage === MAX_ESTATE_STAGE &&
+        !hasFlag(next, 'estate-stands')
+      ) {
         next = applyRewards(next, {
           flags: ['estate-stands'],
           log: [
@@ -1220,7 +1315,12 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // ATTR_META line now reaches every existing save.
       next = applyRewards(next, {
         log: [
-          { channel: 'system', text: ATTR_META[a].log, voice: 'narrator', contentKey: `attr.${a}` },
+          {
+            channel: 'system',
+            text: ATTR_META[a].log,
+            voice: 'narrator',
+            contentKey: `attr.${a}`,
+          },
         ],
       });
       break;
@@ -1232,7 +1332,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!isUnlocked(next, 'tab-combat')) return state;
       const recipe = getRecipe(intent.recipeId);
       if (!canCraft(next.resources, recipe)) return state;
-      for (const [mat, qty] of Object.entries(recipe.inputs)) next = withResource(next, mat, -qty);
+      for (const [mat, qty] of Object.entries(recipe.inputs))
+        next = withResource(next, mat, -qty);
       const crafted = getWeapon(recipe.outputWeapon);
       next = {
         ...next,
@@ -1242,7 +1343,11 @@ export function reduce(state: GameState, intent: Intent): GameState {
       next = applyRewards(next, {
         flags: [`crafted-${recipe.outputWeapon}`],
         log: [
-          { channel: 'milestone', text: recipe.blurb, contentKey: `recipe.${recipe.id}.blurb` },
+          {
+            channel: 'milestone',
+            text: recipe.blurb,
+            contentKey: `recipe.${recipe.id}.blurb`,
+          },
         ],
       });
       // ADR-145 — the workshop's recorded yield: a WORKSHOP Estate deed (Phase-2 only).
@@ -1265,8 +1370,12 @@ export function reduce(state: GameState, intent: Intent): GameState {
       const bought = next.marketBought[item.id] ?? 0;
       if (!canBuy(next.resources, item, bought)) return state;
       next = withResource(next, 'coin', -item.coinCost);
-      for (const [res, amt] of Object.entries(item.grants)) next = withResource(next, res, amt);
-      next = { ...next, marketBought: { ...next.marketBought, [item.id]: bought + 1 } };
+      for (const [res, amt] of Object.entries(item.grants))
+        next = withResource(next, res, amt);
+      next = {
+        ...next,
+        marketBought: { ...next.marketBought, [item.id]: bought + 1 },
+      };
       // ADR-194 — the trade is two-sided: your coin enters HIS purse (a stall that sold well
       // can buy more rice), the reverse of the sell path. Catalog goods aren't resource-stocked
       // (non-goal: assortment is unchanged), so only the mon moves.
@@ -1340,7 +1449,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // (raise the cap by improving the estate). Uncapped resources take the whole pile as before.
       let stored = have;
       if (intent.resource === 'rice') {
-        const room = Math.max(0, kuraRiceCap(next.estateStage) - (next.banked.rice ?? 0));
+        const room = Math.max(
+          0,
+          kuraRiceCap(next.estateStage) - (next.banked.rice ?? 0),
+        );
         stored = Math.min(have, room);
         if (stored <= 0) return state; // the kura is full — nothing to deposit
       }
@@ -1369,7 +1481,13 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // that still sends it can't quietly reopen the path.
       if (intent.resource === 'rice') {
         return applyRewards(next, {
-          log: [{ channel: 'system', voice: 'narrator', contentKey: 'bank.withdrawRefusedRice' }],
+          log: [
+            {
+              channel: 'system',
+              voice: 'narrator',
+              contentKey: 'bank.withdrawRefusedRice',
+            },
+          ],
         });
       }
       if (!isUnlocked(next, 'panel-estate')) return state;
@@ -1397,7 +1515,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // existing room-unlock surfaces), and the danger ring needs the conditioning gate.
       if (!canMove(next.location, intent.to, visibleSet(next))) return state;
       const dest = getNode(intent.to);
-      if (dest.dangerRing && skillLevel(next, 'conditioning') < CONDITIONING_GATE_LEVEL)
+      if (
+        dest.dangerRing &&
+        skillLevel(next, 'conditioning') < CONDITIONING_GATE_LEVEL
+      )
         return state;
       // Walking away from a foe's node ends the auto-grind on it (Step 5b — foes are spatial, so
       // you can't keep auto-fighting a foe you've left behind). autoCombatRetreat is inert here.
@@ -1416,8 +1537,10 @@ export function reduce(state: GameState, intent: Intent): GameState {
       // once played; a run that never walks the window simply misses the OPTIONAL beat.
       {
         const rn = rungNumber(next.rung);
-        if (intent.to === 'grove' && rn >= 2 && rn <= 4) next = enqueueScene(next, 'sb-grove');
-        if (intent.to === 'kura' && rn >= 4) next = enqueueScene(next, 'sb-crest');
+        if (intent.to === 'grove' && rn >= 2 && rn <= 4)
+          next = enqueueScene(next, 'sb-grove');
+        if (intent.to === 'kura' && rn >= 4)
+          next = enqueueScene(next, 'sb-crest');
       }
       break;
     }
@@ -1502,7 +1625,8 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!PEOPLE_IDS.has(intent.personId)) return state;
       const person = getPerson(intent.personId);
       if (person.depth !== 'vn' || !person.sceneId) return state;
-      if (!peopleHere(state).some((p) => p.id === intent.personId)) return state;
+      if (!peopleHere(state).some((p) => p.id === intent.personId))
+        return state;
       next = deliverDialogue(next, person.sceneId, 1);
       break;
     }

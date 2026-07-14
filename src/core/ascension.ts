@@ -19,13 +19,23 @@ import {
 /** The T0→T1 ascension gate (ADR-049/ADR-057): Estate ≥ EXCELLENT, in Phase 2, still at tier 0.
  *  This unlocks the OPTION only — the ascension is a manual opt-in story event (ADR-049/ADR-062). */
 export function ascensionAvailable(state: GameState): boolean {
-  return state.tier === 0 && phaseOf(state) === 2 && estateGrade(state) === 'EXCELLENT';
+  return (
+    state.tier === 0 &&
+    phaseOf(state) === 2 &&
+    estateGrade(state) === 'EXCELLENT'
+  );
 }
 
 /** The grade-scaled permanent boon (attribute points): the always-big base (ADR-062) + overshoot. */
 export function ascensionBoon(state: GameState): number {
-  const overshoot = Math.max(0, state.influence.estate.value - ESTATE_BANDS.excellent);
-  return ASCENSION_BOON_BASE_POINTS + Math.floor(overshoot / ASCENSION_BOON_OVERSHOOT_PER_POINT);
+  const overshoot = Math.max(
+    0,
+    state.influence.estate.value - ESTATE_BANDS.excellent,
+  );
+  return (
+    ASCENSION_BOON_BASE_POINTS +
+    Math.floor(overshoot / ASCENSION_BOON_OVERSHOOT_PER_POINT)
+  );
 }
 
 /** Perform the T0→T1 ascension (the `ascend` intent). A no-op unless the gate is open. */

@@ -90,7 +90,12 @@ export const T0_NODES: readonly SheetNode[] = [
     blurb:
       "The estate's face, kept barely. Yohei's pedlar stall sets up here on market days — THE " +
       'market comes to him.',
-    actions: ['Gate-watch', 'Sweep', 'Receive / see off', "Trade at Yohei's stall (market days)"],
+    actions: [
+      'Gate-watch',
+      'Sweep',
+      'Receive / see off',
+      "Trade at Yohei's stall (market days)",
+    ],
     who: [
       'Kihei crosses at watch-change',
       'Yohei on his market days',
@@ -116,15 +121,21 @@ export const T0_NODES: readonly SheetNode[] = [
     blurb: 'His corner: a mat, a chipped bowl, the comfort floor.',
     actions: ['Rest / recover', 'Keep his few things'],
     who: ['O-Hisa leaves mended things without knocking (later rungs)'],
-    wrong: 'None — this node is the one warmth the tier allows, and it is earned.',
+    wrong:
+      'None — this node is the one warmth the tier allows, and it is earned.',
   },
   {
     id: 'kitchen',
     kanji: '竈',
     name: 'The Kitchen threshold',
     kind: 'estate',
-    blurb: "Meals at the threshold; the board is where the household's shape is overheard.",
-    actions: ['Eat (recovery)', 'Overhear (ambient story)', 'Later: carry dishes in'],
+    blurb:
+      "Meals at the threshold; the board is where the household's shape is overheard.",
+    actions: [
+      'Eat (recovery)',
+      'Overhear (ambient story)',
+      'Later: carry dishes in',
+    ],
     who: [
       'O-Hisa rules it',
       'Shinnosuke interrogates from it',
@@ -163,7 +174,11 @@ export const T0_NODES: readonly SheetNode[] = [
     blurb:
       'A lean-to surgery off the outer court. Defeat is never game-over — you are carried here ' +
       'and lose days.',
-    actions: ['Treatment (injury recovery)', 'The R0 examination', 'Quiet questions not asked'],
+    actions: [
+      'Treatment (injury recovery)',
+      'The R0 examination',
+      'Quiet questions not asked',
+    ],
     who: ['Sōan'],
     wrong: FLAVOR.nodeSickroomWrong,
   },
@@ -172,7 +187,8 @@ export const T0_NODES: readonly SheetNode[] = [
     kanji: '稽',
     name: 'The Drill yard',
     kind: 'grounds',
-    blurb: "The old stable court, repurposed; Kihei's ground. Opens at R4 — as Kihei's need.",
+    blurb:
+      "The old stable court, repurposed; Kihei's ground. Opens at R4 — as Kihei's need.",
     actions: [
       'Drills (combat skills)',
       'Spar (safe, with Kihei, from R4)',
@@ -186,7 +202,8 @@ export const T0_NODES: readonly SheetNode[] = [
     kanji: '田',
     name: 'The Home paddy & vegetable rows',
     kind: 'grounds',
-    blurb: "The guest house's skirts; the labour baseline — the deed engine's heart.",
+    blurb:
+      "The guest house's skirts; the labour baseline — the deed engine's heart.",
     actions: ['Field work', 'Seasonal planting / harvest'],
     who: [
       'Rokusuke-class hired hands come and go',
@@ -203,8 +220,14 @@ export const T0_NODES: readonly SheetNode[] = [
     blurb:
       "Tanuki and badger setts at the paddy's edge, raiding the drying racks and seed stores. " +
       'Folk-loaded animals played PLAIN (kernel #1).',
-    actions: ['Drive the raiders (repeatable, harvest peaks)', 'Dig the setts', 'Set watch'],
-    who: ["O-Ume's plot borders the worst of it; she thanks the kami, not the MC"],
+    actions: [
+      'Drive the raiders (repeatable, harvest peaks)',
+      'Dig the setts',
+      'Set watch',
+    ],
+    who: [
+      "O-Ume's plot borders the worst of it; she thanks the kami, not the MC",
+    ],
     wrong: FLAVOR.nodeFieldMarginsWrong,
   },
   {
@@ -275,7 +298,9 @@ export const T0_NODES: readonly SheetNode[] = [
       'A combat ACTIVITY, not a map state — no day/night system. "Begin the night round" at its ' +
       'post by the gate puts the MC on rails through several zones in their night state: clear ' +
       "each of enemies to finish, or fall and wake in Sōan's sickroom.",
-    actions: ['Begin the night round (the FIRST round is a quest; after that, repeatable)'],
+    actions: [
+      'Begin the night round (the FIRST round is a quest; after that, repeatable)',
+    ],
     who: ['Kihei designs the round; from R3 it is his and the MC’s alone'],
     wrong:
       "On new-moon rounds, someone crosses the yard's far edge, lantern hooded, going upstream " +
@@ -365,7 +390,11 @@ export const T1_NODES: readonly SheetNode[] = [
       "Make and mend tools (durables the mon lane doesn't have to buy)",
       'Forge work once Tetsuji lights it (R6)',
     ],
-    who: ['Heikichi', 'Tetsuji, late tier', 'Shinnosuke on the wall — the mirror follows the work'],
+    who: [
+      'Heikichi',
+      'Tetsuji, late tier',
+      'Shinnosuke on the wall — the mirror follows the work',
+    ],
     wrong:
       'The tool racks hold SOOT SHADOWS — outlines of tools long gone, racks sized for ' +
       "thirty men's kit. The compression, written in absence.",
@@ -399,7 +428,10 @@ export const T1_NODES: readonly SheetNode[] = [
     name: 'The Family plot',
     kind: 'estate',
     blurb: "The Kurosawa dead; Bon #2's ground.",
-    actions: ['Tend the graves (a kura-warden-adjacent duty)', 'The Bon observance'],
+    actions: [
+      'Tend the graves (a kura-warden-adjacent duty)',
+      'The Bon observance',
+    ],
     who: ['Toku for the rites', 'The household at Bon'],
     wrong:
       'One plot SWEPT AND WEEDED WITH NO STONE IN IT — ground held for a burial nobody will ' +
@@ -410,13 +442,15 @@ export const T1_NODES: readonly SheetNode[] = [
     kanji: '淵',
     name: 'The Upstream pools',
     kind: 'combat',
-    blurb: 'The silted pools behind the old breach; the rat source itself, finally reachable.',
+    blurb:
+      'The silted pools behind the old breach; the rat source itself, finally reachable.',
     actions: [
       'Clear the swarms at the water',
       'R4: the breach repair DRAINS it — the zone converts to quiet works-ground',
     ],
     who: ['Nobody sane'],
-    wrong: 'The pools exist at all — water standing where the works once ran it away.',
+    wrong:
+      'The pools exist at all — water standing where the works once ran it away.',
     combat:
       'Grindable loop that ENDS — rat swarms thick at the water, a marten den as the ' +
       'mini-cap; RETIRED by the R4 breach repair (the Weir-reeds pressure drops for good).',
@@ -429,7 +463,9 @@ export const T1_NODES: readonly SheetNode[] = [
     blurb:
       'The scrub hillside above the worked rows, where the numbered stones keep counting. ' +
       "Boar setts; the monkey troop's fallback ground. T0's orchard, escalated.",
-    actions: ['Clear it stage by stage — each cleared stage becomes a RECLAIMABLE TERRACE'],
+    actions: [
+      'Clear it stage by stage — each cleared stage becomes a RECLAIMABLE TERRACE',
+    ],
     who: ["Denshichi's crews once a stage is safe"],
     wrong: "The numbering (shared with the paddies' rows above).",
     combat:
@@ -459,7 +495,8 @@ export const T1_NODES: readonly SheetNode[] = [
     kanji: '東',
     name: 'The East wing',
     kind: 'estate',
-    blurb: "The tier's interior frontier, cleared room by room (from R4 — tool-first).",
+    blurb:
+      "The tier's interior frontier, cleared room by room (from R4 — tool-first).",
     actions: [
       'Repair rooms (works-labour with Heikichi)',
       'Carry and clear',
@@ -496,8 +533,14 @@ export const T1_NODES: readonly SheetNode[] = [
     blurb:
       "Between the wings; overgrown, then tended — the tier's recovery-flavor node (T0's " +
       'woodshed warmth, promoted).',
-    actions: ['Clear and tend (light labour)', 'Gather for the kitchen and Sōan'],
-    who: ['Chiyo walks it once it is decent', 'Shinnosuke cuts through it against instruction'],
+    actions: [
+      'Clear and tend (light labour)',
+      'Gather for the kitchen and Sōan',
+    ],
+    who: [
+      'Chiyo walks it once it is decent',
+      'Shinnosuke cuts through it against instruction',
+    ],
     wrong:
       'The stepping-stone path runs to a gate in the wall — and the gate opens on the rope ' +
       'and the ruin. The garden was designed to walk INTO the compound.',
@@ -532,7 +575,10 @@ export const T2_NODES: readonly SheetNode[] = [
     blurb:
       'The great jin’ya the family truly held — named honestly at last (the ruin was the ' +
       'main house all along). Its outer domain opens as a WORK SITE; the restoration’s object.',
-    actions: ['Clear the outer domain (works-labour)', 'Read the old plans found in the kura'],
+    actions: [
+      'Clear the outer domain (works-labour)',
+      'Read the old plans found in the kura',
+    ],
     who: ['Nobody lived here since the fall — until now, the crews'],
     wrong:
       'It is the LARGEST footprint in the whole valley, dwarfing the lived house at its corner. ' +
@@ -546,9 +592,13 @@ export const T2_NODES: readonly SheetNode[] = [
     blurb:
       'What everyone called "the main house" through two tiers — a grand winged GUEST residence, ' +
       'the family’s hiding place, tucked into the ruin’s south-east corner.',
-    actions: ['Daily operations (the yard-officer’s ground by R7)', 'House the growing staff'],
+    actions: [
+      'Daily operations (the yard-officer’s ground by R7)',
+      'House the growing staff',
+    ],
     who: ['The household', 'the hiring wave’s new hands'],
-    wrong: 'Its neat wall is a REPAIRED stretch of the great compound’s own robbed circuit.',
+    wrong:
+      'Its neat wall is a REPAIRED stretch of the great compound’s own robbed circuit.',
   },
   {
     id: 'gatehouse-works',
@@ -559,7 +609,10 @@ export const T2_NODES: readonly SheetNode[] = [
       'The old great gate RAISED in fresh work (R5) — the estate’s new face to the valley. ' +
       'The first stage of the outer-domain restoration.',
     actions: ['Raise the gatehouse (works stages)', 'Clear the outer court'],
-    who: ['Kihei’s crews', 'the bandits who hit the works (R5, the first man he fights)'],
+    who: [
+      'Kihei’s crews',
+      'the bandits who hit the works (R5, the first man he fights)',
+    ],
     wrong:
       'The new gate carries a crest with ONE more petal than the house admits to — the old seat’s.',
   },
@@ -572,7 +625,11 @@ export const T2_NODES: readonly SheetNode[] = [
       '朝霧 — "morning mist," the valley’s village. A stranger pays the surcharge and is served ' +
       'last, until his deeds earn a fair price, then the nod, then his own name.',
     actions: ['Trade honestly (shave the surcharge)', 'Carry the house’s dues'],
-    who: ['Mohei the headman', 'Sayo who names him "Tama"', 'the ordinary faces'],
+    who: [
+      'Mohei the headman',
+      'Sayo who names him "Tama"',
+      'the ordinary faces',
+    ],
     wrong:
       'Its walls and footings are built of DRESSED STONE — the main house’s own, quarried and carted.',
   },
@@ -583,7 +640,10 @@ export const T2_NODES: readonly SheetNode[] = [
     kind: 'grounds',
     blurb:
       'The gathering point. When the messenger steps up in R0, the well goes quiet — the surcharge, made audible.',
-    actions: ['Draw water', 'Be greeted (or not) by name — the village track, read here'],
+    actions: [
+      'Draw water',
+      'Be greeted (or not) by name — the village track, read here',
+    ],
     who: ['Ganzō the old man', 'whoever is drawing water'],
     wrong: 'None — the honest heart of the village track.',
   },
@@ -596,7 +656,8 @@ export const T2_NODES: readonly SheetNode[] = [
       'Stall rows on market days; the house sells through him now — charcoal, terrace surplus (R4).',
     actions: ['Sell the house’s goods', 'Buy season stock'],
     who: ['O-Haru’s pickle stall', 'Kyūbei the miller, first fair-price ally'],
-    wrong: 'One stall’s goods are town-made, a cut above what the valley makes.',
+    wrong:
+      'One stall’s goods are town-made, a cut above what the valley makes.',
   },
   {
     id: 'headman-house',
@@ -605,9 +666,13 @@ export const T2_NODES: readonly SheetNode[] = [
     kind: 'estate',
     blurb:
       'Mohei’s — the largest house in Asagiri, walled. The headman’s-table scenes are his (R6).',
-    actions: ['Speak for the house at the table (R6)', 'Answer the camp as a campaign'],
+    actions: [
+      'Speak for the house at the table (R6)',
+      'Answer the camp as a campaign',
+    ],
     who: ['Mohei', 'Sayo his daughter'],
-    wrong: 'He keeps a ledger of the village’s grievances the way Genemon keeps the house’s debts.',
+    wrong:
+      'He keeps a ledger of the village’s grievances the way Genemon keeps the house’s debts.',
   },
   {
     id: 'temple',
@@ -616,7 +681,10 @@ export const T2_NODES: readonly SheetNode[] = [
     kind: 'grounds',
     blurb:
       'Ekai the keeper’s temple, on the network Toku’s packet rides. Holds the register of the vanished.',
-    actions: ['Read the register (finds BOTH false takings)', 'The Bon rites (Tama DECIDE)'],
+    actions: [
+      'Read the register (finds BOTH false takings)',
+      'The Bon rites (Tama DECIDE)',
+    ],
     who: ['Ekai', 'the grieving village at Bon'],
     wrong:
       'The register carries TWO false entries in one book — Katsuhide’s official taking, and Tama’s, ' +
@@ -627,7 +695,8 @@ export const T2_NODES: readonly SheetNode[] = [
     kanji: '水',
     name: 'The mill',
     kind: 'grounds',
-    blurb: 'Kyūbei’s waterwheel — the valley’s choke: everyone’s grain passes his stones.',
+    blurb:
+      'Kyūbei’s waterwheel — the valley’s choke: everyone’s grain passes his stones.',
     actions: ['Mill the estate’s grain', 'Court the miller’s good price'],
     who: ['Kyūbei the miller'],
     wrong: 'The mill-race is cut with the same dressed stone as the quarry.',
@@ -648,10 +717,12 @@ export const T2_NODES: readonly SheetNode[] = [
     kanji: '峡',
     name: 'The river gorge',
     kind: 'scenery',
-    blurb: 'Where the banks pinch narrow between estate and village — the reason the ferry exists.',
+    blurb:
+      'Where the banks pinch narrow between estate and village — the reason the ferry exists.',
     actions: ['Pass along the gorge road'],
     who: ['Nobody — the current does the talking'],
-    wrong: 'A squared cutting in the gorge wall — old stonework nobody in the valley claims.',
+    wrong:
+      'A squared cutting in the gorge wall — old stonework nobody in the valley claims.',
   },
   {
     id: 'quarry',
@@ -673,7 +744,10 @@ export const T2_NODES: readonly SheetNode[] = [
     blurb:
       'Seiroku’s camp up a side draw — "the mountain dogs," the village calls them. Just hungry men ' +
       '(kernel #1). The R5–R6 threshold: the first MAN the MC ever fights.',
-    actions: ['Answer the raids (R5)', 'The R6 campaign — both arenas converge'],
+    actions: [
+      'Answer the raids (R5)',
+      'The R6 campaign — both arenas converge',
+    ],
     who: ['Seiroku the chief', 'men, some with the castle-town accent'],
     wrong:
       'Town-made gear in a hungry camp — a good blade, boots not made in the valley (the T4 shadow).',
@@ -685,10 +759,12 @@ export const T2_NODES: readonly SheetNode[] = [
     kanji: '祠',
     name: 'The hill shrines',
     kind: 'scenery',
-    blurb: 'Tiny roadside shrines up the flanks — the valley’s folk-faith scatter.',
+    blurb:
+      'Tiny roadside shrines up the flanks — the valley’s folk-faith scatter.',
     actions: ['Pass and pay respects'],
     who: ['Whoever climbs the flank tracks'],
-    wrong: 'Offerings at the highest one, like the weir-jizo’s — the same unadmitted hand.',
+    wrong:
+      'Offerings at the highest one, like the weir-jizo’s — the same unadmitted hand.',
   },
   {
     id: 'valley-woods',
@@ -709,9 +785,13 @@ export const T2_NODES: readonly SheetNode[] = [
     blurb:
       'The valley’s roads after dark — the ferry crossing, the gorge road, the estate’s south road, ' +
       'where the camp’s pressure falls. The estate patrol’s wider cousin.',
-    actions: ['Walk the night roads (repeatable)', 'Answer the crossing’s trouble'],
+    actions: [
+      'Walk the night roads (repeatable)',
+      'Answer the crossing’s trouble',
+    ],
     who: ['Funakichi at the landing', 'the mountain dogs, after dark'],
-    wrong: 'The hooded new-moon lantern thread still leaves the estate upstream, unexplained.',
+    wrong:
+      'The hooded new-moon lantern thread still leaves the estate upstream, unexplained.',
   },
   {
     id: 'moved-stone',
@@ -722,7 +802,8 @@ export const T2_NODES: readonly SheetNode[] = [
       'The T1 "fresher" stone, now shown standing a field INTO Asagiri’s land — the village-track dispute.',
     actions: ['Walk the disputed line', 'Settle it (a village-track quest)'],
     who: ['Nobody — but the whole village knows'],
-    wrong: 'It stands younger than its line, a field misplaced. Someone moved it inward.',
+    wrong:
+      'It stands younger than its line, a field misplaced. Someone moved it inward.',
   },
 ];
 
@@ -741,7 +822,8 @@ export const T1_NOTES: Readonly<Record<string, string>> = {
   'drill-yard':
     "Carries forward — Shinnosuke now drills too, badly; Tetsuji's forge opens the " +
     'equipment lane at R6.',
-  orchard: "Reclaimed rows — Heikichi's dusk lantern walk names where the lanterns hung.",
+  orchard:
+    "Reclaimed rows — Heikichi's dusk lantern walk names where the lanterns hung.",
   woodshed:
     'R6, the room offered: a restored east-wing room, a door of his own — take it, or keep ' +
     'the woodshed. (If the T0 yard dog was fed, it follows him — or keeps the woodshed for him.)',
@@ -756,7 +838,8 @@ export const T1_NOTES: Readonly<Record<string, string>> = {
     'Still locked, still not discussed — no new work touches it while everything around ' +
     "it is rebuilt. The restored inner garden's stepping-stone path runs to a gate that " +
     'opens on the rope: the compound was designed to walk INTO it.',
-  shrine: "Entered now — the kura key makes him a neighbour of Toku's habit (R3).",
+  shrine:
+    "Entered now — the kura key makes him a neighbour of Toku's habit (R3).",
 };
 
 export const T1_IDS: ReadonlySet<string> = new Set(T1_NODES.map((n) => n.id));

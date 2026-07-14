@@ -22,7 +22,9 @@ export function buildVariantsPane(opts: {
   // Rung-ordered (2026-07-09) — surfaces sort by the RUNG a player first meets them, so the
   // Variants tab tracks a rung-by-rung QA (mirrors review.md's rung grouping). A rung header
   // lands whenever the rung changes; V-tags stay REGISTRY-ordered (above), so they never shift.
-  const rungOrdered = dev.surfaces.slice().sort((a, b) => (a.rung ?? 99) - (b.rung ?? 99));
+  const rungOrdered = dev.surfaces
+    .slice()
+    .sort((a, b) => (a.rung ?? 99) - (b.rung ?? 99));
   let shownRung: number | undefined;
   let firstRow = true;
   for (const surface of rungOrdered) {
@@ -50,11 +52,13 @@ export function buildVariantsPane(opts: {
       'display:flex;flex-direction:column;gap:.05rem;padding:.28rem .4rem;cursor:pointer;user-select:none;min-width:0;';
     // line 1 — caret + name
     const sTitle = el('div');
-    sTitle.style.cssText = 'display:flex;align-items:baseline;gap:.35rem;min-width:0;';
+    sTitle.style.cssText =
+      'display:flex;align-items:baseline;gap:.35rem;min-width:0;';
     const sCaret = el('span', undefined, '▸');
     sCaret.style.cssText = 'color:#b08d4f;flex:0 0 auto;';
     const sLabel = el('span', undefined, surface.label);
-    sLabel.style.cssText = 'color:#b08d4f;text-transform:uppercase;font-size:11px;min-width:0;';
+    sLabel.style.cssText =
+      'color:#b08d4f;text-transform:uppercase;font-size:11px;min-width:0;';
     sTitle.append(sCaret, sLabel, hrChip(surface.hr));
     // line 2 — current pick, indented under the name, wraps within the panel width
     const sPick = el('span', undefined, '');
@@ -65,7 +69,8 @@ export function buildVariantsPane(opts: {
 
     // the collapsible details area (blurb + option buttons), hidden by default
     const details = el('div');
-    details.style.cssText = 'display:none;flex-direction:column;gap:.25rem;padding:0 .4rem .35rem;';
+    details.style.cssText =
+      'display:none;flex-direction:column;gap:.25rem;padding:0 .4rem .35rem;';
     const blurb = el('div', undefined, '');
     blurb.style.cssText = 'color:#9b8e78;font-size:11px;min-height:1.4em;';
     const rows = el('div');

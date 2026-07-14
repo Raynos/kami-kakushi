@@ -46,7 +46,8 @@ memory: genemon +1 (dutiful)
 flags: f-one
 `;
 
-const validate = (md: string) => validateNarrative([parseNarrative(md, 'fixture.md')]);
+const validate = (md: string) =>
+  validateNarrative([parseNarrative(md, 'fixture.md')]);
 
 const expectError = (md: string, needle: string): void => {
   const v = validate(md);
@@ -79,21 +80,33 @@ describe('narrative validation roster (each check can go RED)', () => {
 
   it('§2 unknown line voice', () => {
     expectError(
-      BASE.replace('Genemon: "A greeting line."', 'Genemon (growly): "A greeting line."'),
+      BASE.replace(
+        'Genemon: "A greeting line."',
+        'Genemon (growly): "A greeting line."',
+      ),
       'unknown voice "growly"',
     );
   });
 
   it('§2 unknown scene voice', () => {
-    expectError(BASE.replace('voice: steward', 'voice: growly'), 'unknown scene voice "growly"');
+    expectError(
+      BASE.replace('voice: steward', 'voice: growly'),
+      'unknown scene voice "growly"',
+    );
   });
 
   it('scene speaker must be a real NPC id', () => {
-    expectError(BASE.replace('speaker: genemon', 'speaker: nonesuch'), 'unknown scene speaker');
+    expectError(
+      BASE.replace('speaker: genemon', 'speaker: nonesuch'),
+      'unknown scene speaker',
+    );
   });
 
   it('§3 duplicate topic id', () => {
-    expectError(BASE.replace('### ask t-two', '### ask t-one'), 'duplicate topic id "t-one"');
+    expectError(
+      BASE.replace('### ask t-two', '### ask t-one'),
+      'duplicate topic id "t-one"',
+    );
   });
 
   it('§3 duplicate option id across scenes', () => {
@@ -103,7 +116,10 @@ describe('narrative validation roster (each check can go RED)', () => {
         `motivates: ${R1_UNLOCK.join(', ')}`,
         `motivates: ${RANKS.find((r) => r.id === 'R2')!.rewardOnReach!.unlock!.join(', ')}`,
       )
-      .replace('### ask t-one · "First question?"', '### ask t-three · "First question?"')
+      .replace(
+        '### ask t-one · "First question?"',
+        '### ask t-three · "First question?"',
+      )
       .replace(
         '### ask t-two · "Second question?"\nafter: t-one',
         '### ask t-four · "Second question?"\nafter: t-three',
@@ -120,7 +136,10 @@ describe('narrative validation roster (each check can go RED)', () => {
   });
 
   it('§4 after: must not self-gate', () => {
-    expectError(BASE.replace('after: t-one', 'after: t-two'), 'gates on itself');
+    expectError(
+      BASE.replace('after: t-one', 'after: t-two'),
+      'gates on itself',
+    );
   });
 
   it('§4 after: must not cycle', () => {
@@ -133,14 +152,20 @@ describe('narrative validation roster (each check can go RED)', () => {
 
   it('§5 memory npc must be a known NPC id', () => {
     expectError(
-      BASE.replace('memory: genemon +1 (dutiful)', 'memory: nonesuch +1 (dutiful)'),
+      BASE.replace(
+        'memory: genemon +1 (dutiful)',
+        'memory: nonesuch +1 (dutiful)',
+      ),
       'memory npc "nonesuch"',
     );
   });
 
   it('§5 memory warmth delta clamps at ±3', () => {
     expectError(
-      BASE.replace('memory: genemon +1 (dutiful)', 'memory: genemon +4 (dutiful)'),
+      BASE.replace(
+        'memory: genemon +1 (dutiful)',
+        'memory: genemon +4 (dutiful)',
+      ),
       'exceeds the ±3 clamp',
     );
   });
@@ -153,12 +178,18 @@ describe('narrative validation roster (each check can go RED)', () => {
   });
 
   it('§6 stance from STANCE_ORDER', () => {
-    expectError(BASE.replace('flags: f-one', 'flags: f-one\nstance: seigan'), 'stance "seigan"');
+    expectError(
+      BASE.replace('flags: f-one', 'flags: f-one\nstance: seigan'),
+      'stance "seigan"',
+    );
   });
 
   it('§7 motivates must be known surfaces', () => {
     expectError(
-      BASE.replace(`motivates: ${R1_UNLOCK.join(', ')}`, 'motivates: not-a-surface'),
+      BASE.replace(
+        `motivates: ${R1_UNLOCK.join(', ')}`,
+        'motivates: not-a-surface',
+      ),
       'not a known surface',
     );
   });
@@ -200,7 +231,10 @@ describe('narrative validation roster (each check can go RED)', () => {
 
   it('§12 WARN (not error) on an off-register voice override', () => {
     const v = validate(
-      BASE.replace('Genemon: "A greeting line."', 'Genemon (villager): "A greeting line."'),
+      BASE.replace(
+        'Genemon: "A greeting line."',
+        'Genemon (villager): "A greeting line."',
+      ),
     );
     expect(v.errors).toEqual([]);
     expect(v.warnings.join('\n')).toContain("Genemon speaks in 'villager'");
@@ -227,7 +261,9 @@ Munemasa: "The react."
   });
 
   it('errors cite the authoring file:line', () => {
-    const v = validate(BASE.replace('Genemon: "A greeting line."', 'Kihie: "A greeting line."'));
+    const v = validate(
+      BASE.replace('Genemon: "A greeting line."', 'Kihie: "A greeting line."'),
+    );
     expect(v.errors[0]).toMatch(/^fixture\.md:10 — /); // the line the misspelt speaker sits on
   });
 
@@ -240,7 +276,10 @@ Munemasa: "The react."
 
   it('parse errors carry file:line too', () => {
     expect(() =>
-      parseNarrative('## rung R1 · rung-r1\n\njust prose with no home\n', 'fixture.md'),
+      parseNarrative(
+        '## rung R1 · rung-r1\n\njust prose with no home\n',
+        'fixture.md',
+      ),
     ).toThrowError(NarrativeError);
   });
 });
@@ -368,13 +407,19 @@ flags: sb-dog-fed
 
   it('RED — season-exit with an unknown season', () => {
     expectError(
-      SILENT.replace('trigger: season-exit autumn', 'trigger: season-exit octember'),
+      SILENT.replace(
+        'trigger: season-exit autumn',
+        'trigger: season-exit octember',
+      ),
       'unknown season "octember"',
     );
   });
 
   it('RED — a missing trigger', () => {
-    expectError(SILENT.replace('trigger: season-exit autumn\n', ''), 'is missing "trigger:" meta');
+    expectError(
+      SILENT.replace('trigger: season-exit autumn\n', ''),
+      'is missing "trigger:" meta',
+    );
   });
 
   it('RED — a scene-def react must be spoken by an NPC', () => {
@@ -396,7 +441,9 @@ flags: sb-dog-fed
 // — the point of the whole change — that an id STAYS WITH ITS TEXT across a reorder.
 describe('line ids (the save log addresses prose by name, not by position)', () => {
   /** The two greeting lines, in the given order — each keeps the id authored ABOVE it. */
-  const scene = (order: readonly ('grain' | 'wall')[]): string => `## rung R1 · rung-r1
+  const scene = (
+    order: readonly ('grain' | 'wall')[],
+  ): string => `## rung R1 · rung-r1
 speaker: genemon
 voice: steward
 motivates: ${R1_UNLOCK.join(', ')}
@@ -418,12 +465,16 @@ Genemon: "The react."
   /** The id the emitter attached to the line carrying `needle`. Emit runs PRE-oxfmt and puts one
    *  line object per source line, so match on the id and stay agnostic about its quoting. */
   const idOf = (gen: string, needle: string): string => {
-    const line = gen.split('\n').find((l) => l.includes(needle) && l.includes('id:'));
+    const line = gen
+      .split('\n')
+      .find((l) => l.includes(needle) && l.includes('id:'));
     return /id: ["']([a-z0-9-]+)["']/.exec(line ?? '')?.[1] ?? 'NOT-FOUND';
   };
 
   it('compiles the `<!--#slug-->` marker into the line it sits above', () => {
-    const gen = emitRungBeats(parseNarrative(scene(['grain', 'wall']), 'fixture.md'));
+    const gen = emitRungBeats(
+      parseNarrative(scene(['grain', 'wall']), 'fixture.md'),
+    );
     expect(idOf(gen, 'The grain is counted.')).toBe('the-grain');
     expect(idOf(gen, 'The wall is stopped.')).toBe('the-wall');
   });
@@ -433,7 +484,9 @@ Genemon: "The react."
     // travel WITH their prose, so an old save's `greeting.the-grain` still means the grain line.
     // Under the old positional scheme `greeting.0` would now silently mean the WALL line: a
     // neighbour's words, in a save the player already owns.
-    const after = emitRungBeats(parseNarrative(scene(['wall', 'grain']), 'fixture.md'));
+    const after = emitRungBeats(
+      parseNarrative(scene(['wall', 'grain']), 'fixture.md'),
+    );
 
     expect(idOf(after, 'The grain is counted.')).toBe('the-grain'); // now the SECOND line
     expect(idOf(after, 'The wall is stopped.')).toBe('the-wall'); // now the FIRST
@@ -441,11 +494,18 @@ Genemon: "The react."
 
   it('a greeting line with no marker is REJECTED (the log could not address it)', () => {
     const naked = scene(['grain', 'wall']).replace('<!--#the-grain-->\n', '');
-    expect(() => emitRungBeats(parseNarrative(naked, 'fixture.md'))).toThrow(/id marker/);
+    expect(() => emitRungBeats(parseNarrative(naked, 'fixture.md'))).toThrow(
+      /id marker/,
+    );
   });
 
   it('a marker with no prose line under it is REJECTED (a lost id is a lost log entry)', () => {
-    const dangling = scene(['grain', 'wall']).replace('Genemon: "The grain is counted."', '');
-    expect(() => parseNarrative(dangling, 'fixture.md')).toThrow(/no prose line under it/);
+    const dangling = scene(['grain', 'wall']).replace(
+      'Genemon: "The grain is counted."',
+      '',
+    );
+    expect(() => parseNarrative(dangling, 'fixture.md')).toThrow(
+      /no prose line under it/,
+    );
   });
 });

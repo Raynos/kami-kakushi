@@ -116,7 +116,8 @@ describe('QUESTS content — the bible T0 defence set', () => {
     // the night/margin defences. HUNT (a for-sport chase) is not a T0 kind — asserting the
     // shipped set stays RED-able (drop a quest of a kind → this goes red).
     const kinds = new Set(QUESTS.map((q) => q.kind));
-    for (const k of ['PEST', 'CLEAR', 'DEFEND'] as const) expect(kinds.has(k)).toBe(true);
+    for (const k of ['PEST', 'CLEAR', 'DEFEND'] as const)
+      expect(kinds.has(k)).toBe(true);
     expect(kinds.has('HUNT' as never)).toBe(false);
   });
 
@@ -125,12 +126,15 @@ describe('QUESTS content — the bible T0 defence set', () => {
     // complete → a dead quest. The valid subjects are every T0-reachable foe (minTier 0 — the
     // day grind AND the night-round-only foes the round emits), derived from the roster, never
     // a copied list.
-    const t0Foes = new Set<string>(MOBS.filter((m) => (m.minTier ?? 0) === 0).map((m) => m.id));
+    const t0Foes = new Set<string>(
+      MOBS.filter((m) => (m.minTier ?? 0) === 0).map((m) => m.id),
+    );
     for (const q of QUESTS) {
       for (const s of q.steps) {
         const [verb, subject] = s.event.split(':');
         expect(verb === 'kill' || verb === 'gather').toBe(true);
-        if (verb === 'kill') expect(t0Foes.has(subject!), `${q.id} → ${s.event}`).toBe(true);
+        if (verb === 'kill')
+          expect(t0Foes.has(subject!), `${q.id} → ${s.event}`).toBe(true);
       }
       // distinct step ids + tokens (a real order-free set), and a KIND-lane reward: the completion
       // flag + a payoff line, no coin.

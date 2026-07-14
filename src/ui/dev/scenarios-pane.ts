@@ -46,9 +46,11 @@ export function buildScenariosPane(opts: {
     row.style.cssText =
       'display:flex;flex-direction:column;gap:.1rem;padding:.3rem 0;border-bottom:1px solid #3a322a;';
     const top = el('div');
-    top.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:.5rem;';
+    top.style.cssText =
+      'display:flex;align-items:center;justify-content:space-between;gap:.5rem;';
     const nm = el('div', undefined, name);
-    nm.style.cssText = 'font-weight:700;font-family:ui-monospace,Menlo,Consolas,monospace;';
+    nm.style.cssText =
+      'font-weight:700;font-family:ui-monospace,Menlo,Consolas,monospace;';
     if (name.startsWith('rung-')) rungRows.set(name, nm);
     const loadBtn = mono('Load', () => {
       void Promise.resolve(qa.loadFixture(name)).then(() => {

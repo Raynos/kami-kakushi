@@ -12,7 +12,9 @@ import { DIALOGUE_SCENES } from './intro';
 
 /** Every narrator/speaker line in the intro greetings, flattened — the source of truth for
  *  what the player reads before the first verb. */
-const introText = DIALOGUE_SCENES.flatMap((s) => s.greeting.map((l) => l.text)).join('\n');
+const introText = DIALOGUE_SCENES.flatMap((s) =>
+  s.greeting.map((l) => l.text),
+).join('\n');
 
 describe('the 1780 anchor grounding (D-105) — surfaced in the intro exam', () => {
   it("grounds the era in An'ei nine (the physician's exam line)", () => {
@@ -23,7 +25,12 @@ describe('the 1780 anchor grounding (D-105) — surfaced in the intro exam', () 
   });
 
   it('keeps the anchor diegetic — no Western year digits anywhere in the cold open + intro (B2 declined)', () => {
-    const surfaced = [COLD_OPEN.weir, COLD_OPEN.wake, COLD_OPEN.dream, introText].join('\n');
+    const surfaced = [
+      COLD_OPEN.weir,
+      COLD_OPEN.wake,
+      COLD_OPEN.dream,
+      introText,
+    ].join('\n');
     expect(surfaced).not.toMatch(/\b1[678]\d\d\b/);
   });
 

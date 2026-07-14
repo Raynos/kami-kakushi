@@ -36,8 +36,13 @@ describe('persona determinism (the reproducibility contract)', () => {
     const a = runPersona(idler, CANONICAL_SEED).metrics;
     const b = runPersona(idler, CANONICAL_SEED).metrics;
     expect(a.softLock, 'idler must not soft-lock').toBeNull();
-    expect(structuralVerdict(a, idler.promise).ok, 'idler must climb the full ladder').toBe(true);
-    expect(a.ascended, 'ascension is deliberately NOT the idler promise').toBe(false);
+    expect(
+      structuralVerdict(a, idler.promise).ok,
+      'idler must climb the full ladder',
+    ).toBe(true);
+    expect(a.ascended, 'ascension is deliberately NOT the idler promise').toBe(
+      false,
+    );
     expect(JSON.stringify(a)).toBe(JSON.stringify(b));
   });
 });
@@ -63,17 +68,28 @@ describe('soft-lock detector (must be able to go RED)', () => {
 
 describe('autoModeIntent — the extracted autoStep decision order (the app loop consumes it)', () => {
   /** A post-combat-unlock state armed for auto-combat, with the knobs the branches read. */
-  function armed(patch: Partial<GameState> = {}, character: Partial<GameState['character']> = {}) {
+  function armed(
+    patch: Partial<GameState> = {},
+    character: Partial<GameState['character']> = {},
+  ) {
     const s = createInitialState(1);
     const base: GameState = {
       ...s,
       // ADR-179 — tab-combat derives from its rung's latched fact-flag, never a stored latch.
-      flags: { ...s.flags, awake: true, raked: true, ...factsForSurfaces('tab-combat') },
+      flags: {
+        ...s.flags,
+        awake: true,
+        raked: true,
+        ...factsForSurfaces('tab-combat'),
+      },
       autoCombat: 'monkey',
       resources: { ...s.resources, wood: 0 },
       ...patch,
     };
-    return { ...base, character: { ...base.character, satiety: 100, ...character } };
+    return {
+      ...base,
+      character: { ...base.character, satiety: 100, ...character },
+    };
   }
 
   it('no auto mode armed ⇒ null (the loop idles)', () => {
@@ -102,7 +118,11 @@ describe('autoModeIntent — the extracted autoStep decision order (the app loop
     });
     expect(autoModeIntent(withWood)).toEqual({ type: 'repair_weapon' });
     const noWood = armed({ weaponDurability: battered });
-    expect(autoModeIntent(noWood)).toEqual({ type: 'fight', mobId: 'monkey', retreat: false });
+    expect(autoModeIntent(noWood)).toEqual({
+      type: 'fight',
+      mobId: 'monkey',
+      retreat: false,
+    });
   });
 
   it('auto-combat: STOPS (weapon-broken) on a Broken blade with no wood', () => {
@@ -119,7 +139,9 @@ describe('autoModeIntent — the extracted autoStep decision order (the app loop
     expect(autoModeIntent(armed({ rungBeat: 'R1' }))).toBeNull();
     expect(
       autoModeIntent(
-        armed({ activeScene: { id: 'the-count', beat: 0 } as GameState['activeScene'] }),
+        armed({
+          activeScene: { id: 'the-count', beat: 0 } as GameState['activeScene'],
+        }),
       ),
     ).toBeNull();
     expect(autoModeIntent(armed({ introBeat: 0 }))).toBeNull();
@@ -140,8 +162,14 @@ describe('autoModeIntent — the extracted autoStep decision order (the app loop
       flags: { ...s0.flags, ...factsForSurfaces('verb-farm', 'room-paddies') },
       location: 'paddies',
     };
-    expect(autoModeIntent(there)).toEqual({ type: 'do_activity', activityId: 'farm_paddy' });
+    expect(autoModeIntent(there)).toEqual({
+      type: 'do_activity',
+      activityId: 'farm_paddy',
+    });
     const elsewhere = { ...there, location: 'kura' };
-    expect(autoModeIntent(elsewhere)).toEqual({ type: 'set_auto', activityId: null });
+    expect(autoModeIntent(elsewhere)).toEqual({
+      type: 'set_auto',
+      activityId: null,
+    });
   });
 });

@@ -68,12 +68,16 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
           'beat.R3.topic.r3-ribs.ask': '"How long?"',
           'beat.R3.topic.r3-rice.ask': '"The rice?"',
           'beat.R3.prompt': 'What do you do about the wolf?',
-          'beat.R3.opt.r3-track.label': '"It bled going west. The trail is fresh."',
-          'beat.R3.opt.r3-track.say': '"It bled going west. The trail is fresh."',
+          'beat.R3.opt.r3-track.label':
+            '"It bled going west. The trail is fresh."',
+          'beat.R3.opt.r3-track.say':
+            '"It bled going west. The trail is fresh."',
           'beat.R3.opt.r3-track.react':
             '"And you can chase it exactly as far as I can throw you. Sit down. It is winter\'s business now, not yours."',
-          'beat.R3.opt.r3-hold.label': '"It knows this door now. So do I. I\'ll be at the sill."',
-          'beat.R3.opt.r3-hold.say': '"It knows this door now. So do I. I\'ll be at the sill."',
+          'beat.R3.opt.r3-hold.label':
+            '"It knows this door now. So do I. I\'ll be at the sill."',
+          'beat.R3.opt.r3-hold.say':
+            '"It knows this door now. So do I. I\'ll be at the sill."',
           'beat.R3.opt.r3-hold.react':
             '"Then mend the bar before dark, and take the long spear this time. Eat first."',
           'beat.R3.opt.r3-hold.bonus':
@@ -95,7 +99,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
               voice: 'narrator',
               text: 'Kihei crouches at the sill a long time, reading the blood the way Genemon reads a column of figures. The trail goes west, into the trees, in drops that get no smaller.',
             },
-            { id: 'alive-good', voice: 'arms', speaker: NPC_NAME.kihei, text: '"…Alive. Good."' },
+            {
+              id: 'alive-good',
+              voice: 'arms',
+              speaker: NPC_NAME.kihei,
+              text: '"…Alive. Good."',
+            },
             {
               id: 'for-a-moment-there-is-more',
               voice: 'narrator',
@@ -192,12 +201,16 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
           'beat.R3.topic.r3-ribs.ask': '"How long?"',
           'beat.R3.topic.r3-rice.ask': '"The rice?"',
           'beat.R3.prompt': 'What do you do about the wolf?',
-          'beat.R3.opt.r3-track.label': '"It bled going west. The trail is fresh."',
-          'beat.R3.opt.r3-track.say': '"It bled going west. The trail is fresh."',
+          'beat.R3.opt.r3-track.label':
+            '"It bled going west. The trail is fresh."',
+          'beat.R3.opt.r3-track.say':
+            '"It bled going west. The trail is fresh."',
           'beat.R3.opt.r3-track.react':
             '"And you can chase it exactly as far as I can throw you. Sit down. It is winter\'s business now, not yours."',
-          'beat.R3.opt.r3-hold.label': '"It knows this door now. So do I. I\'ll be at the sill."',
-          'beat.R3.opt.r3-hold.say': '"It knows this door now. So do I. I\'ll be at the sill."',
+          'beat.R3.opt.r3-hold.label':
+            '"It knows this door now. So do I. I\'ll be at the sill."',
+          'beat.R3.opt.r3-hold.say':
+            '"It knows this door now. So do I. I\'ll be at the sill."',
           'beat.R3.opt.r3-hold.react':
             '"Then mend the bar before dark, and take the long spear this time. Eat first."',
           'beat.R3.opt.r3-hold.bonus':
@@ -219,7 +232,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
               voice: 'narrator',
               text: 'Kihei crouches at the sill a long time, reading the blood the way Genemon reads a column of figures. The trail goes west, into the trees, in drops that get no smaller.',
             },
-            { id: 'alive-good', voice: 'arms', speaker: NPC_NAME.kihei, text: '"…Alive. Good."' },
+            {
+              id: 'alive-good',
+              voice: 'arms',
+              speaker: NPC_NAME.kihei,
+              text: '"…Alive. Good."',
+            },
             {
               id: 'for-a-moment-there-is-more',
               voice: 'narrator',
@@ -317,12 +335,14 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     rationale:
       'Take A scored 11✔1✘ — tool-adjacent escalation ("gives like cloth, not like root"; "wider than the badger needs") lands the finds as plain fact with the strangeness visible and unremarked; the one flagged maxim cut per Pass-2.',
     canonLabel: 'A · found by hand',
-    rungReason: 'spans R1–R2 (weir find at R1 when travel opens, woodlot/margins at R2)',
+    rungReason:
+      'spans R1–R2 (weir find at R1 when travel opens, woodlot/margins at R2)',
     takes: [
       {
         id: 'b',
         label: 'the estate remembers',
-        brief: "hints as the past showing through; finds meet a previous keeper's hand",
+        brief:
+          "hints as the past showing through; finds meet a previous keeper's hand",
         scorecard: '10✔ 2✘',
         text: {
           'flavor.reedsHint0':
@@ -840,7 +860,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
       {
         id: 'b',
         label: 'senses-first',
-        brief: 'each node read through the body standing in it — light, sound, smell, footing',
+        brief:
+          'each node read through the body standing in it — light, sound, smell, footing',
         scorecard: '10✔ 6✘',
         text: {
           'flavor.nodeWeirRiverbankBlurbSummer':
@@ -936,7 +957,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
       {
         id: 'b',
         label: 'senses-first',
-        brief: 'each node read through the body standing in it — light, sound, smell, footing',
+        brief:
+          'each node read through the body standing in it — light, sound, smell, footing',
         scorecard: '12✔ 4✘',
         text: {
           'flavor.nodeWeirRiverbankBlurbWinter':
@@ -1032,7 +1054,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
       {
         id: 'a',
         label: 'the ledger turns',
-        brief: 'every season closes as work and accounting; emotion only through what gets counted',
+        brief:
+          'every season closes as work and accounting; emotion only through what gets counted',
         scorecard: '12✔ 7✘',
         text: {},
         seq: {
@@ -1146,7 +1169,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
       {
         id: 'b',
         label: "the household's body",
-        brief: "the turn read in the house's physical routine; the family glimpsed at its seams",
+        brief:
+          "the turn read in the house's physical routine; the family glimpsed at its seams",
         scorecard: '3✔ 3✘',
         text: {},
         seq: {
@@ -1500,7 +1524,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
               speaker: NPC_NAME.genemon,
               text: '"Counted each day in this book. A day worked is a line. A day not worked is a line as well."',
             },
-            { id: 'wage-none', voice: 'steward', speaker: NPC_NAME.genemon, text: '"Wage: none."' },
+            {
+              id: 'wage-none',
+              voice: 'steward',
+              speaker: NPC_NAME.genemon,
+              text: '"Wage: none."',
+            },
             {
               id: 'the-brush-stops-on-that-line',
               voice: 'narrator',
@@ -1744,9 +1773,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
         scorecard:
           '17✔ 3✘ — the CLEAREST take (only 2 re-reads) and the flattest. ✘ commits the worst metaphor violation in the batch — "Your face says the page did not lie to you" gives the BOOK intent, which is the exact banned class; ✘ "the stock lives, the keeping fails" is abstract nouns with no picture; ✘ the reader\'s verdict — "A\'s fault is that it has no engine". Its ask-answers are the best anyone wrote, and one is grafted into canon ("Because all three are the same fault: water where it should not be").',
         text: {
-          'scene.works-intro.topic.works-intro-ask-a.ask': '"Why now? It\'s stood this long."',
-          'scene.works-intro.topic.works-intro-ask-b.ask': '"Whose coin mends it?"',
-          'scene.works-intro.prompt': 'The page is read out. What do you do with it?',
+          'scene.works-intro.topic.works-intro-ask-a.ask':
+            '"Why now? It\'s stood this long."',
+          'scene.works-intro.topic.works-intro-ask-b.ask':
+            '"Whose coin mends it?"',
+          'scene.works-intro.prompt':
+            'The page is read out. What do you do with it?',
           'scene.works-intro.opt.works-intro-go.label':
             '"I\'ll walk it today, while the light holds."',
           'scene.works-intro.opt.works-intro-go.say':
@@ -1755,24 +1787,31 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             '"Good. Start with the water — the post and the bunds. Wet ground is doing the most damage, and it is doing it fastest."',
           'scene.works-intro.opt.works-intro-hold.label':
             '"It\'s waited years. It can wait a day."',
-          'scene.works-intro.opt.works-intro-hold.say': '"It\'s waited years. It can wait a day."',
+          'scene.works-intro.opt.works-intro-hold.say':
+            '"It\'s waited years. It can wait a day."',
           'scene.works-intro.opt.works-intro-hold.react':
             '"It can. It will not be any better for the wait. The lines are written. Walk them when you walk them — but nothing out there stops while you decide."',
-          'scene.works-u1.topic.works-u1-ask-a.ask': '"Why the three together?"',
+          'scene.works-u1.topic.works-u1-ask-a.ask':
+            '"Why the three together?"',
           'scene.works-u1.topic.works-u1-ask-b.ask': '"Where do I begin?"',
           'scene.works-u1.prompt': 'The line is ruled and open.',
-          'scene.works-u1.opt.works-u1-begin.label': '"Set it against my name."',
+          'scene.works-u1.opt.works-u1-begin.label':
+            '"Set it against my name."',
           'scene.works-u1.opt.works-u1-begin.say': '"Set it against my name."',
           'scene.works-u1.opt.works-u1-begin.react':
             '"Entered. Three concerns, one work, your name against them. It is the first work this page has carried in years."',
-          'scene.works-u1.opt.works-u1-hold.label': '"When the yard can spare me."',
-          'scene.works-u1.opt.works-u1-hold.say': '"When the yard can spare me."',
+          'scene.works-u1.opt.works-u1-hold.label':
+            '"When the yard can spare me."',
+          'scene.works-u1.opt.works-u1-hold.say':
+            '"When the yard can spare me."',
           'scene.works-u1.opt.works-u1-hold.react':
             '"The line stays open. Only understand that the post gets no drier while it waits."',
-          'scene.works-u2.topic.works-u2-ask-a.ask': '"The dogs first, or the cutting?"',
+          'scene.works-u2.topic.works-u2-ask-a.ask':
+            '"The dogs first, or the cutting?"',
           'scene.works-u2.topic.works-u2-ask-b.ask':
             '"Is anything left in there worth the taking?"',
-          'scene.works-u2.prompt': "The orchard's line is the oldest on the page.",
+          'scene.works-u2.prompt':
+            "The orchard's line is the oldest on the page.",
           'scene.works-u2.opt.works-u2-begin.label':
             '"Cut it back. Row by row, the way it was lost."',
           'scene.works-u2.opt.works-u2-begin.say':
@@ -1785,9 +1824,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             '"Thirty years of choke. It\'ll keep another season."',
           'scene.works-u2.opt.works-u2-hold.react':
             '"It will keep by growing. Every season you leave it, the cutting is heavier and the arms are the same. The line is entered. Take it up before it is past what one man can cut."',
-          'scene.works-u3.topic.works-u3-ask-a.ask': '"Why a second? Widen the one that stands."',
-          'scene.works-u3.topic.works-u3-ask-b.ask': '"Stores past need — for what, exactly?"',
-          'scene.works-u3.prompt': 'The footings can be cut this season or not at all.',
+          'scene.works-u3.topic.works-u3-ask-a.ask':
+            '"Why a second? Widen the one that stands."',
+          'scene.works-u3.topic.works-u3-ask-b.ask':
+            '"Stores past need — for what, exactly?"',
+          'scene.works-u3.prompt':
+            'The footings can be cut this season or not at all.',
           'scene.works-u3.opt.works-u3-begin.label':
             '"Raise it. Board by board, ahead of the weather."',
           'scene.works-u3.opt.works-u3-begin.say':
@@ -1803,9 +1845,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
           'scene.works-u4.topic.works-u4-ask-a.ask': '"Why the omoya last?"',
           'scene.works-u4.topic.works-u4-ask-b.ask':
             '"What does \'in order\' come to, in the doing?"',
-          'scene.works-u4.prompt': 'The last line of the page waits on an answer.',
-          'scene.works-u4.opt.works-u4-begin.label': '"Open the rooms. All of them."',
-          'scene.works-u4.opt.works-u4-begin.say': '"Open the rooms. All of them."',
+          'scene.works-u4.prompt':
+            'The last line of the page waits on an answer.',
+          'scene.works-u4.opt.works-u4-begin.label':
+            '"Open the rooms. All of them."',
+          'scene.works-u4.opt.works-u4-begin.say':
+            '"Open the rooms. All of them."',
           'scene.works-u4.opt.works-u4-begin.react':
             '"Entered. When it is done I will write it down, and for once it will not be a loss."',
           'scene.works-u4.opt.works-u4-hold.label':
@@ -2041,9 +2086,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
         scorecard:
           '15✔ 5✘ — ✘ "at the pace rot keeps" is personification wearing plainness; ✘ "the winter will do as it does"; ✘ "The far bank is lost" — the worst inference-load line in the batch, referring to something the scene never sets up; ✘ hallucinated a callback that exists nowhere ("I told you I rule a second reckoning from this season"). Owns the best epigram in the exercise, which IS grafted into canon: "Rot shows better by daylight."',
         text: {
-          'scene.works-intro.topic.works-intro-ask-a.ask': '"Why now? It\'s stood this long."',
-          'scene.works-intro.topic.works-intro-ask-b.ask': '"Whose coin mends it?"',
-          'scene.works-intro.prompt': 'The page is read out. What do you do with it?',
+          'scene.works-intro.topic.works-intro-ask-a.ask':
+            '"Why now? It\'s stood this long."',
+          'scene.works-intro.topic.works-intro-ask-b.ask':
+            '"Whose coin mends it?"',
+          'scene.works-intro.prompt':
+            'The page is read out. What do you do with it?',
           'scene.works-intro.opt.works-intro-go.label':
             '"I\'ll walk it today, while the light holds."',
           'scene.works-intro.opt.works-intro-go.say':
@@ -2056,10 +2104,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             '"It\'s stood this long. It can wait a day for me."',
           'scene.works-intro.opt.works-intro-hold.react':
             '"It can. It will be worse when you get there. The lines stand entered; walk them when you walk them."',
-          'scene.works-u1.topic.works-u1-ask-a.ask': '"Why the three together?"',
+          'scene.works-u1.topic.works-u1-ask-a.ask':
+            '"Why the three together?"',
           'scene.works-u1.topic.works-u1-ask-b.ask': '"Where do I begin?"',
           'scene.works-u1.prompt': 'The line is ruled and open.',
-          'scene.works-u1.opt.works-u1-begin.label': '"Set it against my name."',
+          'scene.works-u1.opt.works-u1-begin.label':
+            '"Set it against my name."',
           'scene.works-u1.opt.works-u1-begin.say': '"Set it against my name."',
           'scene.works-u1.opt.works-u1-begin.react':
             '"Entered. Three concerns, one work, your name on the answering side. It is the first entry this page has carried that is not a loss, in some years. We will see if it holds."',
@@ -2069,10 +2119,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             '"When the yard can spare me. It\'s slow work, losing."',
           'scene.works-u1.opt.works-u1-hold.react':
             '"Slow, and it does not stop. Do not stand and watch it too long. The line stays open. So is the roof."',
-          'scene.works-u2.topic.works-u2-ask-a.ask': '"The dogs first, or the cutting?"',
+          'scene.works-u2.topic.works-u2-ask-a.ask':
+            '"The dogs first, or the cutting?"',
           'scene.works-u2.topic.works-u2-ask-b.ask':
             '"Is anything left in there worth the taking?"',
-          'scene.works-u2.prompt': "The orchard's line stands the oldest on the page.",
+          'scene.works-u2.prompt':
+            "The orchard's line stands the oldest on the page.",
           'scene.works-u2.opt.works-u2-begin.label':
             '"Cut it back. Row by row, the way it was lost."',
           'scene.works-u2.opt.works-u2-begin.say':
@@ -2085,9 +2137,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             '"Thirty years of choke. It\'ll keep another season."',
           'scene.works-u2.opt.works-u2-hold.react':
             '"It will keep the way it has kept — by growing. Every season the cutting is a season heavier. The line is entered; take it up before there is more of it than a man can cut."',
-          'scene.works-u3.topic.works-u3-ask-a.ask': '"Why a second? Widen the one that stands."',
-          'scene.works-u3.topic.works-u3-ask-b.ask': '"Stores past need — for what, exactly?"',
-          'scene.works-u3.prompt': 'The footings can be cut this season or not at all.',
+          'scene.works-u3.topic.works-u3-ask-a.ask':
+            '"Why a second? Widen the one that stands."',
+          'scene.works-u3.topic.works-u3-ask-b.ask':
+            '"Stores past need — for what, exactly?"',
+          'scene.works-u3.prompt':
+            'The footings can be cut this season or not at all.',
           'scene.works-u3.opt.works-u3-begin.label':
             '"Raise it. Board by board, ahead of the weather."',
           'scene.works-u3.opt.works-u3-begin.say':
@@ -2103,9 +2158,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
           'scene.works-u4.topic.works-u4-ask-a.ask': '"Why the omoya last?"',
           'scene.works-u4.topic.works-u4-ask-b.ask':
             '"What does \'in order\' come to, in the doing?"',
-          'scene.works-u4.prompt': 'The last line of the page is ruled, and open.',
-          'scene.works-u4.opt.works-u4-begin.label': '"Open the rooms. All of them."',
-          'scene.works-u4.opt.works-u4-begin.say': '"Open the rooms. All of them."',
+          'scene.works-u4.prompt':
+            'The last line of the page is ruled, and open.',
+          'scene.works-u4.opt.works-u4-begin.label':
+            '"Open the rooms. All of them."',
+          'scene.works-u4.opt.works-u4-begin.say':
+            '"Open the rooms. All of them."',
           'scene.works-u4.opt.works-u4-begin.react':
             '"Entered. When it is done, this season\'s line will not be a loss. The far bank is lost, and the winter will do as it does. This house will be standing."',
           'scene.works-u4.opt.works-u4-hold.label':
@@ -2337,7 +2395,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
     review: 'project/human-in-the-loop/review.md',
     rationale:
       'Canon is take C plus three redlines. (1) The three options now map one-to-one onto the three things the dream actually names — knot, road, load — so the menu and the list finally agree, and "The Clear Room" is at last granted by the ROAD it describes. (2) The labels became body verbs — Hold / Kick / Shoulder — grafted from take B, the one thing B\'s menu did better than anyone: a 14-year-old reads them and instantly knows they are choosing between the thinker, the runner and the ox. (3) The LOAD option finally gets its plain "from now on…" habit sentence — it failed the what-test in ALL THREE takes, which means it was a hole in the original design, not a versioning problem. Its siblings both told you what you had permanently become; it handed you a strap and a step and let you guess.',
-    canonLabel: 'C+ · three things, three verbs, one hand (minimum change, redlined)',
+    canonLabel:
+      'C+ · three things, three verbs, one hand (minimum change, redlined)',
     rung: 0,
     takes: [
       {
@@ -2348,22 +2407,28 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
         scorecard:
           '17✔ 3✘ — ✘ CONTINUITY BREAK: "You come out coughing, alive" resolves the rescue three scenes early, and in only ONE of the three options — so the same menu forks the plot, and a replaying player learns one choice also survives the water; ✘ turns a surfacing MEMORY into a physical swimming direction (take C keeps the logic airtight: the items go under, THEN the water clears to a direction); ✘ the load option still fails the what-test.',
         text: {
-          'intro.dream.prompt': 'Three things, and one hand free. Which do you close it on?',
+          'intro.dream.prompt':
+            'Three things, and one hand free. Which do you close it on?',
           'intro.dream.opt.dream-dwell.label': 'The knot, tied twice',
-          'intro.dream.opt.dream-dwell.say': '"Twice. Why would a man tie it twice."',
+          'intro.dream.opt.dream-dwell.say':
+            '"Twice. Why would a man tie it twice."',
           'intro.dream.opt.dream-dwell.react':
             'You stop swimming to turn it over. The knot goes down anyway — but the turning stays. From now on, whatever is put in your hands, you look at it a second time before you answer.',
           'intro.dream.opt.dream-shake.label': 'The road in grey rain',
-          'intro.dream.opt.dream-shake.say': '"The road went somewhere. Up is a road too."',
+          'intro.dream.opt.dream-shake.say':
+            '"The road went somewhere. Up is a road too."',
           'intro.dream.opt.dream-shake.react':
             'You let the knot and the load go and take the road — it is only a direction, and the direction is up. You come out coughing, alive. From now on, any room you enter, you find the door before you find the people.',
           'intro.dream.opt.dream-hands.label': 'The load, set down',
-          'intro.dream.opt.dream-hands.say': '"That was mine. I know what it weighed."',
+          'intro.dream.opt.dream-hands.say':
+            '"That was mine. I know what it weighed."',
           'intro.dream.opt.dream-hands.react':
             "Your shoulders answer before your head can. The load goes under with everything else, and still the hands keep it: a strap's width, the length of a carried step, a weight your body will not put down.",
         },
         seq: {
-          'intro.dream.greeting': [{ id: 'dream', voice: 'narrator', text: COLD_OPEN.dream }],
+          'intro.dream.greeting': [
+            { id: 'dream', voice: 'narrator', text: COLD_OPEN.dream },
+          ],
         },
       },
       {
@@ -2377,7 +2442,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
           'intro.dream.prompt':
             'There is no time to choose. Something in you chooses anyway. What?',
           'intro.dream.opt.dream-dwell.label': 'Your fingers close on the knot',
-          'intro.dream.opt.dream-dwell.say': '"...Twice. It was tied twice. Why."',
+          'intro.dream.opt.dream-dwell.say':
+            '"...Twice. It was tied twice. Why."',
           'intro.dream.opt.dream-dwell.react':
             'Your hand shuts before you tell it to. The knot is inside your fist and your fist will not open, not for the water, not for the road going by.  The head arrives late, the way it always will. It finds you holding a thing and asking it a question.  The knot goes under. The asking stays.',
           'intro.dream.opt.dream-shake.label': 'Your legs kick for the grey',
@@ -2386,12 +2452,15 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
           'intro.dream.opt.dream-shake.react':
             'Your legs go before the count is finished. They do not pick the knot. They do not pick the load. They pick the grey — the one direction with light in it — and they drive.  The head arrives late. It finds you already moving, already aimed, the water splitting off your shoulders.  The road goes under. The aim stays.',
           'intro.dream.opt.dream-hands.label': 'Your shoulders take the weight',
-          'intro.dream.opt.dream-hands.say': '"...I know this weight. I don\'t know whose it was."',
+          'intro.dream.opt.dream-hands.say':
+            '"...I know this weight. I don\'t know whose it was."',
           'intro.dream.opt.dream-hands.react':
             'Your back braces. Nothing is on it. Your shoulders take the load anyway — the strap sits where a strap has sat a thousand mornings, and the body leans into a road that is not there.  The head arrives late. It finds you carrying nothing, correctly.  The load goes under. The carrying stays.',
         },
         seq: {
-          'intro.dream.greeting': [{ id: 'dream', voice: 'narrator', text: COLD_OPEN.dream }],
+          'intro.dream.greeting': [
+            { id: 'dream', voice: 'narrator', text: COLD_OPEN.dream },
+          ],
         },
       },
     ],
@@ -2425,7 +2494,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
         label: "the craftsman's floor",
         brief:
           'mending as skilled labour — tools, water, cloth; the pallet a workbench, repair a trade done properly',
-        scorecard: '20✔ 0✘ 1— [briefed: the colon-list reads chrome-y in the reading register]',
+        scorecard:
+          '20✔ 0✘ 1— [briefed: the colon-list reads chrome-y in the reading register]',
         text: {
           'flavor.sickroomTreat':
             'Coin counted onto the tray, and Sōan sets to work: tools in a row, hot water, cloth, no motion wasted. A trade done properly, and done fast.',
@@ -2439,7 +2509,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
 
   {
     id: 'sleep-announce',
-    title: 'The sleep-announce beat (the corner tells you the day is yours to end)',
+    title:
+      'The sleep-announce beat (the corner tells you the day is yours to end)',
     hr: 'HR-40',
     review: 'project/human-in-the-loop/review.md',
     rationale:
@@ -2494,11 +2565,16 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
         scorecard:
           '17✔ 4✘ (2 [blind spot]: later beats assert prior completions — mooted by the ladder-order gate; naming lines pin "at the board"; U1 label reads abstract on the ladder)',
         text: {
-          'scene.works-intro.topic.works-intro-ask-a.ask': '"Why show me the book?"',
-          'scene.works-intro.topic.works-intro-ask-b.ask': '"Who pays for the mending?"',
-          'scene.works-intro.prompt': 'The day-book lies open on the named lines.',
-          'scene.works-intro.opt.works-intro-go.label': '"I\'ll walk them today."',
-          'scene.works-intro.opt.works-intro-go.say': '"I\'ll walk them today."',
+          'scene.works-intro.topic.works-intro-ask-a.ask':
+            '"Why show me the book?"',
+          'scene.works-intro.topic.works-intro-ask-b.ask':
+            '"Who pays for the mending?"',
+          'scene.works-intro.prompt':
+            'The day-book lies open on the named lines.',
+          'scene.works-intro.opt.works-intro-go.label':
+            '"I\'ll walk them today."',
+          'scene.works-intro.opt.works-intro-go.say':
+            '"I\'ll walk them today."',
           'scene.works-intro.opt.works-intro-go.react':
             '"Then the book says so. A short line, the date, no more. Named, and walked the same day — the date will keep you honest."',
           'scene.works-intro.opt.works-intro-hold.label':
@@ -2509,16 +2585,20 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             '"The yard is on this book too; I am not asking you off it. The lines stay open. Open is what they are used to. The old pages keep their corners."',
           'scene.works-u1.topic.works-u1-ask-a.ask': '"Why these three first?"',
           'scene.works-u1.topic.works-u1-ask-b.ask': '"And when it\'s done?"',
-          'scene.works-u1.prompt': 'Three lines under one head, and the brush is wet.',
+          'scene.works-u1.prompt':
+            'Three lines under one head, and the brush is wet.',
           'scene.works-u1.opt.works-u1-begin.label': '"Put my mark to it."',
           'scene.works-u1.opt.works-u1-begin.say': '"Put my mark to it."',
           'scene.works-u1.opt.works-u1-begin.react':
             '"Entered. First repairs — opened this day, against the hand that walked them. Three of the book\'s oldest lines now point at you."',
-          'scene.works-u1.opt.works-u1-hold.label': '"When I have the means. Not before."',
-          'scene.works-u1.opt.works-u1-hold.say': '"When I have the means. Not before."',
+          'scene.works-u1.opt.works-u1-hold.label':
+            '"When I have the means. Not before."',
+          'scene.works-u1.opt.works-u1-hold.say':
+            '"When I have the means. Not before."',
           'scene.works-u1.opt.works-u1-hold.react':
             '"That is the correct order, and rarer than it should be. The head is ruled either way — it waits better than the timber will. Bring your mark when you bring the means."',
-          'scene.works-u2.topic.works-u2-ask-a.ask': '"You kept the line open all this time?"',
+          'scene.works-u2.topic.works-u2-ask-a.ask':
+            '"You kept the line open all this time?"',
           'scene.works-u2.topic.works-u2-ask-b.ask': '"And the dogs?"',
           'scene.works-u2.prompt': 'The open line waits on the page.',
           'scene.works-u2.opt.works-u2-begin.label': '"Then it stops waiting."',
@@ -2532,7 +2612,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
           'scene.works-u2.opt.works-u2-hold.react':
             '"It can. It has the practice. The head is ruled; the line goes on waiting the way it knows how — open. Bring me the date when you are fit to put under it."',
           'scene.works-u3.topic.works-u3-ask-a.ask': '"Eleven years. Why now?"',
-          'scene.works-u3.topic.works-u3-ask-b.ask': '"And if the harvests don\'t fill it?"',
+          'scene.works-u3.topic.works-u3-ask-b.ask':
+            '"And if the harvests don\'t fill it?"',
           'scene.works-u3.prompt': 'The measure of it is drawn on the page.',
           'scene.works-u3.opt.works-u3-begin.label': '"Raise it."',
           'scene.works-u3.opt.works-u3-begin.say': '"Raise it."',
@@ -2540,10 +2621,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             '"Past winter\'s need. Opened, dated, against the kura wall for a desk. I will foot it against every season until it closes. See that the seasons are short."',
           'scene.works-u3.opt.works-u3-hold.label':
             '"Timber first. My back second. Then the book."',
-          'scene.works-u3.opt.works-u3-hold.say': '"Timber first. My back second. Then the book."',
+          'scene.works-u3.opt.works-u3-hold.say':
+            '"Timber first. My back second. Then the book."',
           'scene.works-u3.opt.works-u3-hold.react':
             '"That is the whole craft of it in one line — I have known stewards who never learned it. The head is ruled. The timber will tell you when, and the book will still be here."',
-          'scene.works-u4.topic.works-u4-ask-a.ask': '"Nine years of silence on it. Why?"',
+          'scene.works-u4.topic.works-u4-ask-a.ask':
+            '"Nine years of silence on it. Why?"',
           'scene.works-u4.topic.works-u4-ask-b.ask': '"Why tell me?"',
           'scene.works-u4.prompt': 'The last head, unruled.',
           'scene.works-u4.opt.works-u4-begin.label': '"Rule it."',
@@ -2572,7 +2655,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             'The rice stands to the rafters with room for nothing above it — a limit the book has entered as a limit for eleven years. One good harvest would have nowhere to sleep.',
           'flavor.worksSeenHouse':
             'From the forecourt the omoya shows its shut south face: shutters weathered grey into their grooves, rooms nine years absent from the book. Not one entry against any of it, and that is its own kind of entry.',
-          'flavor.worksLadderUnnamed': 'The day-book carries lines it has not read aloud yet.',
+          'flavor.worksLadderUnnamed':
+            'The day-book carries lines it has not read aloud yet.',
           'flavor.worksLadderNamed':
             'Named at the board. Now go and stand where the figures stand.',
           'flavor.worksU1Label': 'Close the oldest lines',
@@ -2819,11 +2903,14 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
           "16✔ 5✘ (2 [briefed]: two-voice option reacts bend the one-react grammar; household speakers dilute Genemon's decide ownership (P3); warmest texture of the three)",
         text: {
           'scene.works-intro.topic.works-intro-ask-a.ask': '"Why name it now?"',
-          'scene.works-intro.topic.works-intro-ask-b.ask': '"Whose coin mends it?"',
-          'scene.works-intro.prompt': 'The concerns are named. What do you do with them?',
+          'scene.works-intro.topic.works-intro-ask-b.ask':
+            '"Whose coin mends it?"',
+          'scene.works-intro.prompt':
+            'The concerns are named. What do you do with them?',
           'scene.works-intro.opt.works-intro-go.label':
             '"I\'ll walk them today, with my own eyes."',
-          'scene.works-intro.opt.works-intro-go.say': '"I\'ll walk them today, with my own eyes."',
+          'scene.works-intro.opt.works-intro-go.say':
+            '"I\'ll walk them today, with my own eyes."',
           'scene.works-intro.opt.works-intro-go.react':
             '"Then take them in the book\'s order: gate, bund, roof, and the weir last — the water can be looked at while you are already wet from the bund. Say what you see when you have seen it. Looking is entered as work."',
           'scene.works-intro.opt.works-intro-hold.label':
@@ -2834,20 +2921,25 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             '"As the round takes you, then. The round goes past all four. It always has — that is rather the point."',
           'scene.works-u1.topic.works-u1-ask-a.ask': '"Who set the wedge?"',
           'scene.works-u1.topic.works-u1-ask-b.ask': '"Why one lot?"',
-          'scene.works-u1.prompt': 'Three works, one lot. The book waits on your word.',
+          'scene.works-u1.prompt':
+            'Three works, one lot. The book waits on your word.',
           'scene.works-u1.opt.works-u1-begin.label': '"Set me to it."',
           'scene.works-u1.opt.works-u1-begin.say': '"Set me to it."',
           'scene.works-u1.opt.works-u1-begin.react':
             '"Entered. Gate, bund, roof, against your name. Rokusuke will hear it read at the morning board; expect his stakes and straw stacked at the bund by evening, sorted, best to hand. That is how the yard says so."',
-          'scene.works-u1.opt.works-u1-hold.label': '"When my purse can stand it."',
-          'scene.works-u1.opt.works-u1-hold.say': '"When my purse can stand it."',
+          'scene.works-u1.opt.works-u1-hold.label':
+            '"When my purse can stand it."',
+          'scene.works-u1.opt.works-u1-hold.say':
+            '"When my purse can stand it."',
           'scene.works-u1.opt.works-u1-hold.react':
             '"Then it stands entered and unpaid, like much else in here. The wedge has held four winters; it will hold while you count. Not forever."',
           'scene.works-u2.topic.works-u2-ask-a.ask': '"Whose orchard was it?"',
           'scene.works-u2.topic.works-u2-ask-b.ask': '"And the dogs?"',
           'scene.works-u2.prompt': 'The dish is still on the board.',
-          'scene.works-u2.opt.works-u2-begin.label': '"The house grows its own plums again."',
-          'scene.works-u2.opt.works-u2-begin.say': '"The house grows its own plums again."',
+          'scene.works-u2.opt.works-u2-begin.label':
+            '"The house grows its own plums again."',
+          'scene.works-u2.opt.works-u2-begin.say':
+            '"The house grows its own plums again."',
           'scene.works-u2.opt.works-u2-begin.react':
             '"Entered: orchard, to be taken back. The kitchen will hold you to it harder than this book will, and the book does not forget. Take the dish back as you go — empty. O-Hisa will know what it means."',
           'scene.works-u2.opt.works-u2-hold.label':
@@ -2856,22 +2948,31 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             '"After the season\'s work. It has waited nine years."',
           'scene.works-u2.opt.works-u2-hold.react':
             '"So it has — and each year has cost more than the one before it. Entered all the same. The dish stays on the board until the line closes; that is O-Hisa\'s term, not mine, and I would not cross it either."',
-          'scene.works-u3.topic.works-u3-ask-a.ask': '"Why was it never raised before?"',
+          'scene.works-u3.topic.works-u3-ask-a.ask':
+            '"Why was it never raised before?"',
           'scene.works-u3.topic.works-u3-ask-b.ask': '"Where does it stand?"',
           'scene.works-u3.prompt': 'Rokusuke is waiting on the answer too.',
-          'scene.works-u3.opt.works-u3-begin.label': '"Raise it. The turning ends this winter."',
-          'scene.works-u3.opt.works-u3-begin.say': '"Raise it. The turning ends this winter."',
+          'scene.works-u3.opt.works-u3-begin.label':
+            '"Raise it. The turning ends this winter."',
+          'scene.works-u3.opt.works-u3-begin.say':
+            '"Raise it. The turning ends this winter."',
           'scene.works-u3.opt.works-u3-begin.react':
             '"Entered: granary, second, at the kura. Stores past the winter\'s need — the book has wanted to write that line a long time. Rokusuke keeps the turning till your roof is on; he said so before you answered."',
-          'scene.works-u3.opt.works-u3-hold.label': '"Boards cost. Let me count my purse first."',
-          'scene.works-u3.opt.works-u3-hold.say': '"Boards cost. Let me count my purse first."',
+          'scene.works-u3.opt.works-u3-hold.label':
+            '"Boards cost. Let me count my purse first."',
+          'scene.works-u3.opt.works-u3-hold.say':
+            '"Boards cost. Let me count my purse first."',
           'scene.works-u3.opt.works-u3-hold.react':
             '"Count, then. The beam-marks will keep your place. They have kept it this long."',
-          'scene.works-u4.topic.works-u4-ask-a.ask': '"Who keeps the veranda edge clean?"',
+          'scene.works-u4.topic.works-u4-ask-a.ask':
+            '"Who keeps the veranda edge clean?"',
           'scene.works-u4.topic.works-u4-ask-b.ask': '"Why me?"',
-          'scene.works-u4.prompt': 'The last page of the reckoning is ruled, and empty.',
-          'scene.works-u4.opt.works-u4-begin.label': '"Open the rooms. Set the house in order."',
-          'scene.works-u4.opt.works-u4-begin.say': '"Open the rooms. Set the house in order."',
+          'scene.works-u4.prompt':
+            'The last page of the reckoning is ruled, and empty.',
+          'scene.works-u4.opt.works-u4-begin.label':
+            '"Open the rooms. Set the house in order."',
+          'scene.works-u4.opt.works-u4-begin.say':
+            '"Open the rooms. Set the house in order."',
           'scene.works-u4.opt.works-u4-begin.react':
             '"Entered. And when it is done, I will write the line I have kept thirty-one years for. See that you make it true."',
           'scene.works-u4.opt.works-u4-hold.label':
@@ -2896,7 +2997,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             "The rice is stacked to the beams and turned week about so the bottom bales can breathe — Rokusuke's arithmetic, not the builder's. One good harvest more than this floor can hold, and the surplus sits out under oilcloth.",
           'flavor.worksSeenHouse':
             "From the forecourt the omoya's shut rooms show as a row of weathered screens, and along the veranda edge the dust is wiped in one clean band — someone still keeps that much of it, and no one says who.",
-          'flavor.worksLadderUnnamed': 'The yard works around what nobody has named.',
+          'flavor.worksLadderUnnamed':
+            'The yard works around what nobody has named.',
           'flavor.worksLadderNamed':
             'The book has named its concerns; go and see them with your own eyes.',
           'flavor.worksU1Label': 'Make the first repairs',
@@ -3050,7 +3152,12 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
               voice: 'narrator',
               text: 'Genemon is at the kura when you come back to it, and for once he is not counting rice — he is counting wall. Rokusuke stands by with the look of a man whose private arrangement is about to be read aloud.',
             },
-            { id: 'show-him', voice: 'steward', speaker: NPC_NAME.genemon, text: '"Show him."' },
+            {
+              id: 'show-him',
+              voice: 'steward',
+              speaker: NPC_NAME.genemon,
+              text: '"Show him."',
+            },
             {
               id: 'bottom-bales-go-musty-against-the',
               voice: 'villager',
@@ -3155,7 +3262,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
         scorecard:
           '17✔ 2✘ 2— [briefed: the quotes double-attribute inside the price template\'s own "The pedlar pays…" clause; blind spot: durative card captions carry one-time gestures ("waves you off", "shows you the bare lining")]',
         text: {
-          'flavor.stallGlossFair': '"a fair rate, and I\'ll not haggle it," says Yohei',
+          'flavor.stallGlossFair':
+            '"a fair rate, and I\'ll not haggle it," says Yohei',
           'flavor.stallGlossDear':
             '"spring\'s a hungry mouth — bring me rice and I\'ll pay dear for it," says Yohei',
           'flavor.stallGlossGlut':
@@ -3177,7 +3285,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
         scorecard:
           '19✔ 1✘ 1— [blind spot: "trade stands entered" is ledgerese past the plain-spoken bar — the fact survives but on a second read]',
         text: {
-          'flavor.stallGlossFair': 'the customary rate, as the book records it year upon year',
+          'flavor.stallGlossFair':
+            'the customary rate, as the book records it year upon year',
           'flavor.stallGlossDear':
             'rice gone dear in the hungry months — a season the book marks for selling',
           'flavor.stallGlossGlut':
@@ -3212,7 +3321,8 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
         scorecard:
           '21✔ 0✘ 1— (the strongest CHARACTER take: Genemon\'s one hone in thirty-one years, O-Hisa crossing a yard she never crosses, Rokusuke\'s "the noticed hand is the blamed one", Sōan who knows what your ribs were like when they were whole. Prices/quantities go unstated — a slightly weaker TST4 read than canon, which is the whole of the gap between them. This is the take that most directly answers the human\'s own diagnosis that R1\'s people are "pure flavor with no purpose".)',
         text: {
-          'scene.sb-market.topic.sb-market-ask-a.ask': '"Do you buy from him yourself?"',
+          'scene.sb-market.topic.sb-market-ask-a.ask':
+            '"Do you buy from him yourself?"',
           'scene.sb-market.topic.sb-market-ask-b.ask': '"Is it mine to spend?"',
           'scene.sb-market.prompt': 'The coin is warm in your open hand.',
           'scene.sb-market.opt.sb-market-go.label':
@@ -3221,39 +3331,54 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             '"Then I\'ll go on his day, and count it in front of him."',
           'scene.sb-market.opt.sb-market-go.react':
             '"Do that. Yohei prices a stranger once and a regular ever after, and he decides which you are at the first coin, not the fifth. Count it out where he can watch your hands doing it — and do not thank him for the price. He will put it back up."',
-          'scene.sb-market.opt.sb-market-hold.label': '"It keeps. Copper doesn\'t spoil."',
-          'scene.sb-market.opt.sb-market-hold.say': '"It keeps. Copper doesn\'t spoil."',
+          'scene.sb-market.opt.sb-market-hold.label':
+            '"It keeps. Copper doesn\'t spoil."',
+          'scene.sb-market.opt.sb-market-hold.say':
+            '"It keeps. Copper doesn\'t spoil."',
           'scene.sb-market.opt.sb-market-hold.react':
             '"It does not. And a man may hold the first thing he has ever owned as long as it pleases him; I will not enter an opinion on it. The stall stands at the gate two days in seven, on its own days, whether or not you come to it."',
           'scene.sb-cook.topic.sb-cook-ask-a.ask': '"Why come out for it?"',
           'scene.sb-cook.topic.sb-cook-ask-b.ask': '"Whose pot is it?"',
-          'scene.sb-cook.prompt': 'The greens are in her hands, and she is waiting.',
-          'scene.sb-cook.opt.sb-cook-learn.label': '"Show me the ash and the boil."',
-          'scene.sb-cook.opt.sb-cook-learn.say': '"Show me the ash and the boil."',
+          'scene.sb-cook.prompt':
+            'The greens are in her hands, and she is waiting.',
+          'scene.sb-cook.opt.sb-cook-learn.label':
+            '"Show me the ash and the boil."',
+          'scene.sb-cook.opt.sb-cook-learn.say':
+            '"Show me the ash and the boil."',
           'scene.sb-cook.opt.sb-cook-learn.react':
             '"Come to the threshold, then, and stand where I put you. You hold a ladle like a man holding a rake, and I\'ll not have that in my kitchen — so. Like that. A man who knows the pot can keep himself, if there is ever nobody to— well. Come. It\'s on the fire."',
-          'scene.sb-cook.opt.sb-cook-thanks.label': '"The bowl, then. Thank you."',
-          'scene.sb-cook.opt.sb-cook-thanks.say': '"The bowl, then. Thank you."',
+          'scene.sb-cook.opt.sb-cook-thanks.label':
+            '"The bowl, then. Thank you."',
+          'scene.sb-cook.opt.sb-cook-thanks.say':
+            '"The bowl, then. Thank you."',
           'scene.sb-cook.opt.sb-cook-thanks.react':
             '"Don\'t thank me for a pot that was boiling anyway. Sit at the threshold and eat it hot — hot, not warm; there\'s a difference, and it is the whole of what the pot is for. And leave the fist for the field. A man who eats out of his hand ends up eating like one. Sit down."',
           'scene.sb-racks.topic.sb-racks-ask-a.ask': '"Why tell me?"',
           'scene.sb-racks.topic.sb-racks-ask-b.ask':
             '"A season is a long time to watch a man\'s feet."',
-          'scene.sb-racks.prompt': 'The margin is a hundred paces off, and nobody is watching it.',
-          'scene.sb-racks.opt.sb-racks-take.label': '"I\'ll walk the margin tonight."',
-          'scene.sb-racks.opt.sb-racks-take.say': '"I\'ll walk the margin tonight."',
+          'scene.sb-racks.prompt':
+            'The margin is a hundred paces off, and nobody is watching it.',
+          'scene.sb-racks.opt.sb-racks-take.label':
+            '"I\'ll walk the margin tonight."',
+          'scene.sb-racks.opt.sb-racks-take.say':
+            '"I\'ll walk the margin tonight."',
           'scene.sb-racks.opt.sb-racks-take.react':
             "\"That's right, that's right. Setts on the bank side, racks on the paddy side, and the wind comes off the water, so they'll not hear you coming. — I never said any of it. You've eyes of your own. You'd have got there.\"",
-          'scene.sb-racks.opt.sb-racks-ask.label': '"The steward should hear it first."',
-          'scene.sb-racks.opt.sb-racks-ask.say': '"The steward should hear it first."',
+          'scene.sb-racks.opt.sb-racks-ask.label':
+            '"The steward should hear it first."',
+          'scene.sb-racks.opt.sb-racks-ask.say':
+            '"The steward should hear it first."',
           'scene.sb-racks.opt.sb-racks-ask.react':
             "\"The board's the board. Tell him, then, and tell it as your own — you saw the racks, you saw the holes, you counted the nights. Leave my name out of the telling. It's a small name and it doesn't stand being written down.\"",
-          'scene.sb-sickroom.topic.sb-sickroom-ask-a.ask': '"How long was I on the mat?"',
-          'scene.sb-sickroom.topic.sb-sickroom-ask-b.ask': '"Why come out to me? Men come to you."',
+          'scene.sb-sickroom.topic.sb-sickroom-ask-a.ask':
+            '"How long was I on the mat?"',
+          'scene.sb-sickroom.topic.sb-sickroom-ask-b.ask':
+            '"Why come out to me? Men come to you."',
           'scene.sb-sickroom.prompt': 'He is waiting to be argued with.',
           'scene.sb-sickroom.opt.sb-sickroom-mend.label':
             '"Do what you have to. I\'ll hold still."',
-          'scene.sb-sickroom.opt.sb-sickroom-mend.say': '"Do what you have to. I\'ll hold still."',
+          'scene.sb-sickroom.opt.sb-sickroom-mend.say':
+            '"Do what you have to. I\'ll hold still."',
           'scene.sb-sickroom.opt.sb-sickroom-mend.react':
             '"Then hold still, and go on holding still when it stops being easy. Wrapped, not bound — a bound rib is a lung fever waiting on a cold night. Willow bark morning and evening, food hot and never cold, and six days of my bench. Come on all six. The men who come on five are the men I see twice."',
           'scene.sb-sickroom.opt.sb-sickroom-refuse.label':
@@ -3531,32 +3656,46 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
           '19✔ 2✘ (both [blind spot]: P10 — the gate scene hands the MC a sweeping duty at the gateyard, and the cook scene an overnight ash-steep; neither exists as a mechanic, and a story promise is a contract. Best single scene in the bundle is its sb-racks: counting the cut cords and following the drag-furrow to the sett IS the reveal.)',
         text: {
           'scene.sb-market.topic.sb-market-ask-a.ask': '"What does he stock?"',
-          'scene.sb-market.topic.sb-market-ask-b.ask': '"And if I never spend it?"',
-          'scene.sb-market.prompt': 'Coin in the one hand. The broom in the other.',
-          'scene.sb-market.opt.sb-market-go.label': '"I\'ll be at the gate on his day."',
-          'scene.sb-market.opt.sb-market-go.say': '"I\'ll be at the gate on his day."',
+          'scene.sb-market.topic.sb-market-ask-b.ask':
+            '"And if I never spend it?"',
+          'scene.sb-market.prompt':
+            'Coin in the one hand. The broom in the other.',
+          'scene.sb-market.opt.sb-market-go.label':
+            '"I\'ll be at the gate on his day."',
+          'scene.sb-market.opt.sb-market-go.say':
+            '"I\'ll be at the gate on his day."',
           'scene.sb-market.opt.sb-market-go.react':
             '"Then be there with it counted before you go, and count what comes back into your palm before you shut it. He prices a stranger high the first time and a square dealer fairly ever after — that is his trade, not his friendship, and the trade is the part you can hold him to."',
-          'scene.sb-market.opt.sb-market-hold.label': '"It keeps. Copper doesn\'t rot."',
-          'scene.sb-market.opt.sb-market-hold.say': '"It keeps. Copper doesn\'t rot."',
+          'scene.sb-market.opt.sb-market-hold.label':
+            '"It keeps. Copper doesn\'t rot."',
+          'scene.sb-market.opt.sb-market-hold.say':
+            '"It keeps. Copper doesn\'t rot."',
           'scene.sb-market.opt.sb-market-hold.react':
             '"Copper does not. The cart does — his stock turns with the weather, and the coat that hangs on it this winter will not hang there in the spring. Hold it, then; a shut fist has never yet been an error in this house. You will be sweeping the ground he stands on either way."',
-          'scene.sb-cook.topic.sb-cook-ask-a.ask': '"Why can I not eat it raw?"',
+          'scene.sb-cook.topic.sb-cook-ask-a.ask':
+            '"Why can I not eat it raw?"',
           'scene.sb-cook.topic.sb-cook-ask-b.ask': '"Why must it be your pot?"',
           'scene.sb-cook.prompt': 'The greens are on the step, going over.',
           'scene.sb-cook.opt.sb-cook-learn.label': '"Show me the ash-water."',
           'scene.sb-cook.opt.sb-cook-learn.say': '"Show me the ash-water."',
           'scene.sb-cook.opt.sb-cook-learn.react':
             '"Then stand where you can see. Cold ash, one fist — more than that and it comes out tasting of the hearth. Water off the boil, not on it. You will do the second boil yourself and you will do it badly the first time. A man who can feed himself does not have to wait on anybody\'s kindness, and if a year from now you are still — well. Mind the rim, it catches."',
-          'scene.sb-cook.opt.sb-cook-thanks.label': '"Cook them. I\'ll take the bowl."',
-          'scene.sb-cook.opt.sb-cook-thanks.say': '"Cook them. I\'ll take the bowl."',
+          'scene.sb-cook.opt.sb-cook-thanks.label':
+            '"Cook them. I\'ll take the bowl."',
+          'scene.sb-cook.opt.sb-cook-thanks.say':
+            '"Cook them. I\'ll take the bowl."',
           'scene.sb-cook.opt.sb-cook-thanks.react':
             '"I will cook them. Come at the hour I give you and hold the bowl out with both hands, because it will be too hot for one and I am not scrubbing this step twice in a season. It is greens. Do not go looking for anything in it past greens."',
-          'scene.sb-racks.topic.sb-racks-ask-a.ask': '"How many nights has it been?"',
-          'scene.sb-racks.topic.sb-racks-ask-b.ask': '"What\'s out there, past the bank?"',
-          'scene.sb-racks.prompt': 'The rack. The furrow. The hole in the bank.',
-          'scene.sb-racks.opt.sb-racks-take.label': '"I\'ll walk the margin tonight."',
-          'scene.sb-racks.opt.sb-racks-take.say': '"I\'ll walk the margin tonight."',
+          'scene.sb-racks.topic.sb-racks-ask-a.ask':
+            '"How many nights has it been?"',
+          'scene.sb-racks.topic.sb-racks-ask-b.ask':
+            '"What\'s out there, past the bank?"',
+          'scene.sb-racks.prompt':
+            'The rack. The furrow. The hole in the bank.',
+          'scene.sb-racks.opt.sb-racks-take.label':
+            '"I\'ll walk the margin tonight."',
+          'scene.sb-racks.opt.sb-racks-take.say':
+            '"I\'ll walk the margin tonight."',
           'scene.sb-racks.opt.sb-racks-take.react':
             "\"You'll walk it. That's right — you're the one wearing the blade. Take a light and carry it low; they come out in the dark and they come out where they have always come out. And if it's asked after, the rack fell. I'll have said the rack fell. It did fall.\"",
           'scene.sb-racks.opt.sb-racks-ask.label':
@@ -3565,15 +3704,22 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
             '"Whose ground is that? I\'ll ask before I dig it."',
           'scene.sb-racks.opt.sb-racks-ask.react':
             '"Ask, then. O-Ume is at the edge by first light and the steward is at his board after. Go into that ground with somebody\'s yes behind you and it is their ground you dug, not yours, and their sheaves you were saving. It is slower. That is how a man keeps a place here."',
-          'scene.sb-sickroom.topic.sb-sickroom-ask-a.ask': '"What are you writing?"',
-          'scene.sb-sickroom.topic.sb-sickroom-ask-b.ask': '"And if I don\'t get up next time?"',
-          'scene.sb-sickroom.prompt': 'Forty paces, and a door that does not latch.',
-          'scene.sb-sickroom.opt.sb-sickroom-mend.label': '"Take it off, then. Do it properly."',
-          'scene.sb-sickroom.opt.sb-sickroom-mend.say': '"Take it off, then. Do it properly."',
+          'scene.sb-sickroom.topic.sb-sickroom-ask-a.ask':
+            '"What are you writing?"',
+          'scene.sb-sickroom.topic.sb-sickroom-ask-b.ask':
+            '"And if I don\'t get up next time?"',
+          'scene.sb-sickroom.prompt':
+            'Forty paces, and a door that does not latch.',
+          'scene.sb-sickroom.opt.sb-sickroom-mend.label':
+            '"Take it off, then. Do it properly."',
+          'scene.sb-sickroom.opt.sb-sickroom-mend.say':
+            '"Take it off, then. Do it properly."',
           'scene.sb-sickroom.opt.sb-sickroom-mend.react':
             '"Sit. Arms down — I will lift them when I want them lifted. Six days wrapped if you are dull about it; three weeks if you are clever. Hold still now, and understand that I am about to hurt you and that it will not be an accident."',
-          'scene.sb-sickroom.opt.sb-sickroom-refuse.label': '"It\'ll knit. The rice won\'t."',
-          'scene.sb-sickroom.opt.sb-sickroom-refuse.say': '"It\'ll knit. The rice won\'t."',
+          'scene.sb-sickroom.opt.sb-sickroom-refuse.label':
+            '"It\'ll knit. The rice won\'t."',
+          'scene.sb-sickroom.opt.sb-sickroom-refuse.say':
+            '"It\'ll knit. The rice won\'t."',
           'scene.sb-sickroom.opt.sb-sickroom-refuse.react':
             '"It will knit. Bone does that whether the man consents to it or not — crooked, if it is carrying sacks while it works, and crooked is for life. Go back to your grain, then. The door is where I said it is, it does not latch, and I am behind it most hours. I will write down that you were offered."',
         },
@@ -3794,7 +3940,11 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
               speaker: NPC_NAME.soan,
               text: '"Which side did it put you down on, and did you get up by yourself?"',
             },
-            { id: 'the-sill-i-got-up', voice: 'player', text: '"The sill. I got up."' },
+            {
+              id: 'the-sill-i-got-up',
+              voice: 'player',
+              text: '"The sill. I got up."',
+            },
             {
               id: 'then-they-are-cracked-and-not',
               voice: 'physician',

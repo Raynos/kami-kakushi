@@ -103,7 +103,8 @@ export function computeProxies(seed = SEED): ProxyVector {
   const rewarded = rewardTrace(seed);
 
   const firstIdx = rewarded.indexOf(true);
-  const firstActionMs = firstIdx < 0 ? Infinity : (firstIdx + 1) * AUTO_REPEAT_MS;
+  const firstActionMs =
+    firstIdx < 0 ? Infinity : (firstIdx + 1) * AUTO_REPEAT_MS;
 
   let maxGap = 0;
   let gap = 0;
@@ -114,18 +115,22 @@ export function computeProxies(seed = SEED): ProxyVector {
   const maxDeadTimeMs = maxGap * AUTO_REPEAT_MS;
 
   const combatWinCurve = CURVE_LEVELS.map(
-    (l) => foeForecasts(mcAtLevel(l)).find((f) => f.mob.id === 'monkey')?.winRate ?? 0,
+    (l) =>
+      foeForecasts(mcAtLevel(l)).find((f) => f.mob.id === 'monkey')?.winRate ??
+      0,
   );
 
   const minutesPerRung: Record<string, number> = {};
   for (const r of walkPacing(seed)) {
-    if (!r.terminal && r.intents > 0) minutesPerRung[r.rung] = Number(r.wallMin.toFixed(2));
+    if (!r.terminal && r.intents > 0)
+      minutesPerRung[r.rung] = Number(r.wallMin.toFixed(2));
   }
 
   return { firstActionMs, maxDeadTimeMs, combatWinCurve, minutesPerRung };
 }
 
-const sec = (ms: number): string => (ms === Infinity ? '∞' : `${(ms / 1000).toFixed(2)}s`);
+const sec = (ms: number): string =>
+  ms === Infinity ? '∞' : `${(ms / 1000).toFixed(2)}s`;
 
 /** The gate: returns the list of failure messages (empty = pass). Pure → unit-testable (teeth). */
 export function evaluate(v: ProxyVector, base: Baseline): string[] {
@@ -138,7 +143,9 @@ export function evaluate(v: ProxyVector, base: Baseline): string[] {
 
   // firstActionMs: the §3 hard cap (first reward inside 5s) AND a ratchet vs the blessed hook.
   if (v.firstActionMs > FIRST_ACTION_CAP_MS) {
-    fails.push(`firstActionMs ${sec(v.firstActionMs)} > ${sec(FIRST_ACTION_CAP_MS)} §3 hard cap`);
+    fails.push(
+      `firstActionMs ${sec(v.firstActionMs)} > ${sec(FIRST_ACTION_CAP_MS)} §3 hard cap`,
+    );
   } else if (v.firstActionMs > ratchetLimit(base.firstActionMs)) {
     fails.push(
       `firstActionMs ${sec(v.firstActionMs)} > ${sec(ratchetLimit(base.firstActionMs))} ratchet (${RATCHET_MULT}× baseline ${sec(base.firstActionMs)}, floor ${sec(RATCHET_FLOOR_MS)})`,
@@ -179,7 +186,10 @@ if (RUN_AS_CLI) {
 
   if (bless) {
     const baseline: Baseline = { seed: SEED, ...v };
-    writeFileSync(fileURLToPath(baselineUrl), JSON.stringify(baseline, null, 2) + '\n');
+    writeFileSync(
+      fileURLToPath(baselineUrl),
+      JSON.stringify(baseline, null, 2) + '\n',
+    );
     console.log('\n  blessed -> playcheck.baseline.json');
     process.exit(0);
   }
@@ -187,7 +197,9 @@ if (RUN_AS_CLI) {
   if (check) {
     let base: Baseline;
     try {
-      base = JSON.parse(readFileSync(fileURLToPath(baselineUrl), 'utf8')) as Baseline;
+      base = JSON.parse(
+        readFileSync(fileURLToPath(baselineUrl), 'utf8'),
+      ) as Baseline;
     } catch {
       console.error(
         '\n  X no playcheck.baseline.json — run `pnpm run playcheck -- --bless` first.',

@@ -81,7 +81,9 @@ export function createMapView(ctx: {
     return [
       state.location,
       String(state.estateStage),
-      skillLevel(state, 'conditioning') >= balance.CONDITIONING_GATE_LEVEL ? '1' : '0',
+      skillLevel(state, 'conditioning') >= balance.CONDITIONING_GATE_LEVEL
+        ? '1'
+        : '0',
       presence,
       unlockedSurfaces(state).join(','), // ADR-179 — derived, stable registry order
     ].join('|');
@@ -94,7 +96,10 @@ export function createMapView(ctx: {
     here: ReturnType<typeof getNode>,
   ): void {
     // strip a leading article so a label like "The grain-store (kura)" doesn't read "the the …"
-    setText(loc, `You stand at the ${here.label.toLowerCase().replace(/^the /, '')} `);
+    setText(
+      loc,
+      `You stand at the ${here.label.toLowerCase().replace(/^the /, '')} `,
+    );
     if (here.kanji) {
       setText(kanji, here.kanji);
       toggle(kanji, true);
@@ -147,7 +152,8 @@ export function createMapView(ctx: {
     const open = ctx.openPersonId() === p.id;
     const talk = row.querySelector<HTMLButtonElement>('.person-talk')!;
     // a vn conversation stays open and keeps ASKING (C4.2); small/tiny toggle open/closed
-    const openLabel = p.depth === 'vn' ? `Ask ${p.name} more` : `Leave ${p.name}`;
+    const openLabel =
+      p.depth === 'vn' ? `Ask ${p.name} more` : `Leave ${p.name}`;
     setText(talk, open ? openLabel : `Speak with ${p.name}`);
     setClass(talk, 'on', open);
     const say = row.querySelector<HTMLElement>('.person-say')!;
@@ -185,7 +191,8 @@ export function createMapView(ctx: {
     const seal = el('span', 'person-seal', VOICE_SEAL[p.voice]);
     seal.lang = 'ja';
     head.append(seal, el('span', 'person-name', p.name));
-    if (p.awayTell) head.append(el('span', 'person-tell lock-hint', p.awayTell));
+    if (p.awayTell)
+      head.append(el('span', 'person-tell lock-hint', p.awayTell));
     row.append(head);
     return row;
   }
@@ -247,7 +254,9 @@ export function createMapView(ctx: {
     // the seasonal FLAVOR variant (DEV story switcher live-swaps it by key, like the hint).
     const sb = nodeSeasonalBlurb(here, season(state));
     const blurbText =
-      __DEV_TOOLS__ && dev && sb.key !== undefined ? dev.subFlavor(sb.key, sb.text) : sb.text;
+      __DEV_TOOLS__ && dev && sb.key !== undefined
+        ? dev.subFlavor(sb.key, sb.text)
+        : sb.text;
     setText(r.blurb, hintText === '' ? blurbText : `${blurbText} ${hintText}`);
     // (b) the survey sheet — repaint ONLY when an input it reads changed (the sig guard): a move,
     // newly-surveyed ground, the conditioning gate, an estate stage, or a person arriving/leaving.
@@ -266,13 +275,19 @@ export function createMapView(ctx: {
   // stale wares/greeting linger); hide the whole section when the node is empty (FB-72).
   function renderWhosHere(state: GameState): void {
     const present = peopleHere(state);
-    if (ctx.openPersonId() !== null && !present.some((p) => p.id === ctx.openPersonId()))
+    if (
+      ctx.openPersonId() !== null &&
+      !present.some((p) => p.id === ctx.openPersonId())
+    )
       ctx.setOpenPersonId(null);
     // FB-408 — the node's absent REGULARS ride the same list as dimmed schedule rows
     // (Yohei off-market: "sets up on market days 水・土"), so scheduled ground never
     // reads purposeless.
     const away = peopleAwayHere(state);
-    toggle(whosPane, ctx.activeTab() === 'work' && fillWhosHere(whosList, present, away));
+    toggle(
+      whosPane,
+      ctx.activeTab() === 'work' && fillWhosHere(whosList, present, away),
+    );
   }
 
   // build ONE quest card skeleton with every mutable element present (steps + reward line + accept

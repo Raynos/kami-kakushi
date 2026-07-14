@@ -206,7 +206,12 @@ export const RANKS: readonly RankDef[] = [
       flags: ['rank-r6'],
       // ADR-177 Schedule A — Estate 家 arrives at R6 (the tab + the influence pane join
       // the reopening house-rooms; the upgrades live on Works 普請 since R2).
-      unlock: ['house-workshops', 'house-granary', 'tab-estate', 'panel-house-influence'],
+      unlock: [
+        'house-workshops',
+        'house-granary',
+        'tab-estate',
+        'panel-house-influence',
+      ],
       // FB-103 / ADR-110: story prose → RUNG_BEATS.R6.greeting (Genemon's coin-errand meet); terse marker only.
     },
   },

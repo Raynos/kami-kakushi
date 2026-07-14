@@ -12,7 +12,9 @@ import { RUNG_LADDER, T0_NODES, T1_NODES, T2_NODES } from './nodes';
 import { REVEAL } from './reveal';
 
 const t0Ids = new Set(T0_NODES.map((n) => n.id));
-const allIds = new Set([...T0_NODES, ...T1_NODES, ...T2_NODES].map((n) => n.id));
+const allIds = new Set(
+  [...T0_NODES, ...T1_NODES, ...T2_NODES].map((n) => n.id),
+);
 
 describe('map-sheets data integrity — nodes/layout/reveal agree', () => {
   it('every roster zone has a seal anchor in layout.ANCHORS', () => {
@@ -43,7 +45,8 @@ describe('map-sheets data integrity — nodes/layout/reveal agree', () => {
       expect(s.rung).toBeLessThanOrEqual(7);
       // every stage except the last defines its fog (known poly or blobs); a
       // bare final stage means fully surveyed — no fog left to draw
-      if (i < REVEAL.length - 1) expect(Boolean(s.known) || Boolean(s.blobs)).toBe(true);
+      if (i < REVEAL.length - 1)
+        expect(Boolean(s.known) || Boolean(s.blobs)).toBe(true);
     }
   });
 

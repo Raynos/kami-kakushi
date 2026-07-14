@@ -24,7 +24,12 @@ import {
  *  canvas, whose strokes `compositeStrokes` re-draws into the PNG below. Leaving
  *  it in would ink every annotation twice. The pick HIGHLIGHT is deliberately
  *  NOT filtered: it is the whole point of the picture. */
-const OVERLAY_MARKS = ['kamiCapture', 'kamiCaptureError', 'kamiCaptureMenu', 'kamiMarkup'] as const;
+const OVERLAY_MARKS = [
+  'kamiCapture',
+  'kamiCaptureError',
+  'kamiCaptureMenu',
+  'kamiMarkup',
+] as const;
 
 /** An SVG with more descendants than this gets pre-rasterised (FB-337) instead
  *  of walked. The map sheet is ~15k elements; everything else in the UI is two
@@ -78,12 +83,16 @@ async function flattenHeavySvgs(root: HTMLElement): Promise<(() => void)[]> {
       let css = '';
       for (const sheet of Array.from(document.styleSheets)) {
         try {
-          for (const rule of Array.from(sheet.cssRules)) css += `${rule.cssText}\n`;
+          for (const rule of Array.from(sheet.cssRules))
+            css += `${rule.cssText}\n`;
         } catch {
           /* cross-origin sheet — skip */
         }
       }
-      const styleEl = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+      const styleEl = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'style',
+      );
       styleEl.textContent = css;
       clone.insertBefore(styleEl, clone.firstChild);
       const cascade = getComputedStyle(svg);
@@ -93,12 +102,15 @@ async function flattenHeavySvgs(root: HTMLElement): Promise<(() => void)[]> {
           const v = cascade.getPropertyValue(name).trim();
           return v ? xmlAttrEscape(v) : token;
         });
-      const url = URL.createObjectURL(new Blob([markup], { type: 'image/svg+xml;charset=utf-8' }));
+      const url = URL.createObjectURL(
+        new Blob([markup], { type: 'image/svg+xml;charset=utf-8' }),
+      );
       const img = new Image();
       try {
         await new Promise<void>((resolve, reject) => {
           img.onload = () => resolve();
-          img.onerror = () => reject(new Error('heavy-svg raster failed to load'));
+          img.onerror = () =>
+            reject(new Error('heavy-svg raster failed to load'));
           img.src = url;
         });
       } finally {
@@ -154,7 +166,11 @@ export const snapshotDom: DomSnapshotter = async (el) => {
  *  (so the annotation lands where the human drew it, whatever the shot's DPR/scale), and re-exports
  *  a PNG. Falls back to the un-annotated shot if the image or a 2D context is unavailable — the
  *  drawing is a viewing aid, never allowed to break the capture. */
-export const compositeStrokes: ScreenshotCompositor = async (basePng, strokes, source) => {
+export const compositeStrokes: ScreenshotCompositor = async (
+  basePng,
+  strokes,
+  source,
+) => {
   const img = new Image();
   await new Promise<void>((resolve, reject) => {
     img.onload = () => resolve();
@@ -179,8 +195,10 @@ export const compositeStrokes: ScreenshotCompositor = async (basePng, strokes, s
     if (stroke.length === 0) continue;
     ctx.beginPath();
     ctx.moveTo(stroke[0]!.x * sx, stroke[0]!.y * sy);
-    for (let i = 1; i < stroke.length; i++) ctx.lineTo(stroke[i]!.x * sx, stroke[i]!.y * sy);
-    if (stroke.length === 1) ctx.lineTo(stroke[0]!.x * sx + 0.1, stroke[0]!.y * sy + 0.1);
+    for (let i = 1; i < stroke.length; i++)
+      ctx.lineTo(stroke[i]!.x * sx, stroke[i]!.y * sy);
+    if (stroke.length === 1)
+      ctx.lineTo(stroke[0]!.x * sx + 0.1, stroke[0]!.y * sy + 0.1);
     ctx.stroke();
   }
   return canvas.toDataURL('image/png');

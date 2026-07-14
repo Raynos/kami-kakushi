@@ -28,7 +28,11 @@ export interface DevGating {
  *  @param isDev    `import.meta.env.DEV` — true only in a dev-serve build.
  *  @param hasTools `__DEV_TOOLS__` — whether the tool code is in this bundle at all.
  *  @param search   `window.location.search` (the query string, leading `?` and all). */
-export function resolveDevGating(isDev: boolean, hasTools: boolean, search: string): DevGating {
+export function resolveDevGating(
+  isDev: boolean,
+  hasTools: boolean,
+  search: string,
+): DevGating {
   if (!hasTools) return { qa: false, panel: false };
   const off = DEV_OFF.test(search);
   const on = DEV_ON.test(search);

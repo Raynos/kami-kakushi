@@ -64,7 +64,11 @@ function fail(label: string, detail?: string): void {
 function run(
   cmd: string,
   args: string[],
-  opts: { input?: string; cwd?: string; env?: Record<string, string | undefined> } = {},
+  opts: {
+    input?: string;
+    cwd?: string;
+    env?: Record<string, string | undefined>;
+  } = {},
 ): { code: number; out: string } {
   const r = spawnSync(cmd, args, {
     input: opts.input,
@@ -92,7 +96,8 @@ for (const rel of hookFiles) {
   const abs = join(ROOT, rel);
   const syn = run('bash', ['-n', abs]);
   if (syn.code !== 0) fail(`${rel} — bash -n`, syn.out);
-  else if (!(statSync(abs).mode & 0o111)) fail(`${rel} — not executable (+x missing)`);
+  else if (!(statSync(abs).mode & 0o111))
+    fail(`${rel} — not executable (+x missing)`);
   else ok(`${rel} — parses, +x`);
 }
 
@@ -116,13 +121,25 @@ const GUARD_MATRIX: GuardCase[] = [
   { cmd: 'cd foo && git add .', expect: 2, why: 'whole-tree staging after &&' },
   { cmd: 'git commit -am "x"', expect: 2, why: 'commit -a stages all tracked' },
   { cmd: 'git commit --all -m "x"', expect: 2, why: 'commit --all' },
-  { cmd: 'git commit -m "x"', expect: 2, why: 'bare commit snapshots the shared index' },
+  {
+    cmd: 'git commit -m "x"',
+    expect: 2,
+    why: 'bare commit snapshots the shared index',
+  },
   // must ALLOW (exit 0)
   { cmd: 'git add path/a path/b', expect: 0, why: 'explicit pathspec add' },
   { cmd: 'git add -p src/foo.ts', expect: 0, why: 'interactive patch add' },
-  { cmd: 'git commit -m "x" -- path/a path/b', expect: 0, why: 'pathspec commit (--only)' },
+  {
+    cmd: 'git commit -m "x" -- path/a path/b',
+    expect: 0,
+    why: 'pathspec commit (--only)',
+  },
   { cmd: 'git commit --amend --no-edit', expect: 0, why: 'amend passes' },
-  { cmd: 'SKIP_SWEEPGUARD=1 git commit -m "x"', expect: 0, why: 'deliberate whole-index escape' },
+  {
+    cmd: 'SKIP_SWEEPGUARD=1 git commit -m "x"',
+    expect: 0,
+    why: 'deliberate whole-index escape',
+  },
   { cmd: 'git status', expect: 0, why: 'read-only command' },
   { cmd: 'git diff --cached --name-only', expect: 0, why: 'read-only command' },
 ];
@@ -148,7 +165,10 @@ if (run('bash', ['-c', 'command -v jq']).code !== 0) {
 } else {
   const bad = runGuardMatrix(GUARD);
   if (bad.length)
-    fail(`guard matrix — ${bad.length}/${GUARD_MATRIX.length} case(s) wrong`, bad.join('\n'));
+    fail(
+      `guard matrix — ${bad.length}/${GUARD_MATRIX.length} case(s) wrong`,
+      bad.join('\n'),
+    );
   else ok(`guard matrix — ${GUARD_MATRIX.length} cases (block + allow) hold`);
 }
 
@@ -159,7 +179,12 @@ console.log('\n3 · commit-msg attribution matrix');
 
 const COMMIT_MSG = join(ROOT, '.githooks/commit-msg');
 const msgDir = mkdtempSync(join(tmpdir(), 'vt-msg-'));
-type MsgCase = { name: string; body: string; expect: 0 | 1; env?: Record<string, string> };
+type MsgCase = {
+  name: string;
+  body: string;
+  expect: 0 | 1;
+  env?: Record<string, string>;
+};
 const MSG_MATRIX: MsgCase[] = [
   {
     name: 'good trailer passes',
@@ -171,7 +196,11 @@ const MSG_MATRIX: MsgCase[] = [
     body: 'fix(ui): x\n\nAssisted-by: Claude Code:unknown\n',
     expect: 0,
   },
-  { name: 'missing trailer fails', body: 'feat(core): a change\n\nBody only.\n', expect: 1 },
+  {
+    name: 'missing trailer fails',
+    body: 'feat(core): a change\n\nBody only.\n',
+    expect: 1,
+  },
   {
     // The FIRST colon is the delimiter (spec) — extra colons land in VERSION,
     // so "Claude: Code:model" parses as name=Claude and legitimately PASSES.
@@ -184,9 +213,21 @@ const MSG_MATRIX: MsgCase[] = [
     body: 'feat: x\n\nAssisted-by: :model\n',
     expect: 1,
   },
-  { name: 'empty version fails', body: 'feat: x\n\nAssisted-by: Claude Code:\n', expect: 1 },
-  { name: 'Merge first-line auto-passes', body: "Merge branch 'foo' into main\n", expect: 0 },
-  { name: 'fixup! first-line auto-passes', body: 'fixup! feat(core): a change\n', expect: 0 },
+  {
+    name: 'empty version fails',
+    body: 'feat: x\n\nAssisted-by: Claude Code:\n',
+    expect: 1,
+  },
+  {
+    name: 'Merge first-line auto-passes',
+    body: "Merge branch 'foo' into main\n",
+    expect: 0,
+  },
+  {
+    name: 'fixup! first-line auto-passes',
+    body: 'fixup! feat(core): a change\n',
+    expect: 0,
+  },
   {
     name: 'SKIP_ATTRIB=1 bypasses',
     body: 'chore: human commit, no trailer\n',
@@ -198,7 +239,9 @@ for (const c of MSG_MATRIX) {
   const f = join(msgDir, c.name.replace(/\W+/g, '-'));
   writeFileSync(f, c.body);
   // SKIP_ATTRIB must not leak in from the calling env except in its own case.
-  const r = run('bash', [COMMIT_MSG, f], { env: { SKIP_ATTRIB: undefined, ...c.env } });
+  const r = run('bash', [COMMIT_MSG, f], {
+    env: { SKIP_ATTRIB: undefined, ...c.env },
+  });
   if (r.code !== c.expect)
     fail(`commit-msg: ${c.name} → exit ${r.code}, expected ${c.expect}`, r.out);
   else ok(`commit-msg: ${c.name}`);
@@ -234,7 +277,10 @@ const RULE_FIXTURES: Record<string, { match: string[]; noMatch: string[] }> = {
     ],
   },
   'no-skip-verify-push': {
-    match: ['SKIP_VERIFY=1 git push origin main', 'git push && SKIP_VERIFY=1 git push'],
+    match: [
+      'SKIP_VERIFY=1 git push origin main',
+      'git push && SKIP_VERIFY=1 git push',
+    ],
     noMatch: ['git push origin main', 'SKIP_JOURNAL=1 git commit -m x'],
   },
   'warn-shell-write-source': {
@@ -247,7 +293,10 @@ const ruleFiles = readdirSync(join(ROOT, '.claude')).filter(
   (f) => f.startsWith('hookify.') && f.endsWith('.local.md'),
 );
 if (ruleFiles.length === 0)
-  fail('hookify rules found', 'expected at least one .claude/hookify.*.local.md');
+  fail(
+    'hookify rules found',
+    'expected at least one .claude/hookify.*.local.md',
+  );
 for (const rf of ruleFiles) {
   const text = readFileSync(join(ROOT, '.claude', rf), 'utf8');
   const fm = /^---\n([\s\S]*?)\n---/.exec(text);
@@ -262,7 +311,9 @@ for (const rf of ruleFiles) {
       .filter((m): m is RegExpMatchArray => m !== null)
       .map((m) => [m[1]!, m[2]!]),
   );
-  const missing = ['name', 'enabled', 'event', 'pattern', 'action'].filter((k) => !(k in fields));
+  const missing = ['name', 'enabled', 'event', 'pattern', 'action'].filter(
+    (k) => !(k in fields),
+  );
   if (missing.length) {
     fail(`${rf} — frontmatter missing: ${missing.join(', ')}`);
     continue;
@@ -280,10 +331,15 @@ for (const rf of ruleFiles) {
     continue;
   }
   const bad: string[] = [];
-  for (const s of fx.match) if (!re.test(s)) bad.push(`should match but doesn't: "${s}"`);
-  for (const s of fx.noMatch) if (re.test(s)) bad.push(`must NOT match but does: "${s}"`);
+  for (const s of fx.match)
+    if (!re.test(s)) bad.push(`should match but doesn't: "${s}"`);
+  for (const s of fx.noMatch)
+    if (re.test(s)) bad.push(`must NOT match but does: "${s}"`);
   if (bad.length) fail(`${rf} — fixtures`, bad.join('\n'));
-  else ok(`${rf} — frontmatter, pattern, ${fx.match.length}+${fx.noMatch.length} fixtures`);
+  else
+    ok(
+      `${rf} — frontmatter, pattern, ${fx.match.length}+${fx.noMatch.length} fixtures`,
+    );
 }
 
 // ---------------------------------------------------------------------------
@@ -294,15 +350,29 @@ console.log('\n5 · probe liveness');
 // The portable time-box the brief's CI probe relies on (macOS has no GNU
 // `timeout`): perl alarm+exec must run the command and pass its output through.
 {
-  const r = run('perl', ['-e', 'alarm shift @ARGV; exec @ARGV', '5', 'echo', 'alive']);
+  const r = run('perl', [
+    '-e',
+    'alarm shift @ARGV; exec @ARGV',
+    '5',
+    'echo',
+    'alive',
+  ]);
   if (r.code !== 0 || !r.out.includes('alive'))
     fail('perl alarm+exec time-box runs a command', r.out);
   else ok('perl alarm+exec time-box runs a command');
   const t0 = Date.now();
-  const timedOut = run('perl', ['-e', 'alarm shift @ARGV; exec @ARGV', '1', 'sleep', '10']);
+  const timedOut = run('perl', [
+    '-e',
+    'alarm shift @ARGV; exec @ARGV',
+    '1',
+    'sleep',
+    '10',
+  ]);
   const secs = (Date.now() - t0) / 1000;
   if (timedOut.code === 0 || secs > 5)
-    fail(`perl time-box actually times out (took ${secs.toFixed(1)}s, exit ${timedOut.code})`);
+    fail(
+      `perl time-box actually times out (took ${secs.toFixed(1)}s, exit ${timedOut.code})`,
+    );
   else ok('perl time-box kills an over-time command');
 }
 
@@ -327,15 +397,25 @@ if (run('bash', ['-c', 'command -v gh && gh auth status']).code === 0) {
 
 // herdr-peers must be a clean no-op in EVERY environment (ADR-124).
 {
-  const without = run('bash', [join(ROOT, 'src/scripts/herdr-peers.sh'), ROOT], {
-    env: { HERDR_ENV: undefined },
-  });
-  if (without.code !== 0) fail('herdr-peers.sh exits 0 without herdr', without.out);
+  const without = run(
+    'bash',
+    [join(ROOT, 'src/scripts/herdr-peers.sh'), ROOT],
+    {
+      env: { HERDR_ENV: undefined },
+    },
+  );
+  if (without.code !== 0)
+    fail('herdr-peers.sh exits 0 without herdr', without.out);
   else ok('herdr-peers.sh exits 0 without herdr');
-  const withEnv = run('bash', [join(ROOT, 'src/scripts/herdr-peers.sh'), ROOT], {
-    env: { HERDR_ENV: '1' },
-  });
-  if (withEnv.code !== 0) fail('herdr-peers.sh exits 0 with HERDR_ENV=1', withEnv.out);
+  const withEnv = run(
+    'bash',
+    [join(ROOT, 'src/scripts/herdr-peers.sh'), ROOT],
+    {
+      env: { HERDR_ENV: '1' },
+    },
+  );
+  if (withEnv.code !== 0)
+    fail('herdr-peers.sh exits 0 with HERDR_ENV=1', withEnv.out);
   else ok('herdr-peers.sh exits 0 with HERDR_ENV=1');
 }
 
@@ -343,21 +423,32 @@ if (run('bash', ['-c', 'command -v gh && gh auth status']).code === 0) {
 {
   const r = run('bash', [join(ROOT, 'src/scripts/session-brief.sh')]);
   if (r.code !== 0 || !r.out.includes('Human-in-the-loop brief'))
-    fail('session-brief.sh completes and prints the brief', r.out.slice(0, 800));
+    fail(
+      'session-brief.sh completes and prints the brief',
+      r.out.slice(0, 800),
+    );
   else ok('session-brief.sh completes and prints the brief');
 }
 
 // ---------------------------------------------------------------------------
 // 6 · mutation self-test — prove the guard matrix can go RED
 // ---------------------------------------------------------------------------
-console.log('\n6 · mutation self-test (temp copy — the real hook is untouched)');
+console.log(
+  '\n6 · mutation self-test (temp copy — the real hook is untouched)',
+);
 
 {
-  const mutated = join(mkdtempSync(join(tmpdir(), 'vt-mut-')), 'guard-broken.sh');
+  const mutated = join(
+    mkdtempSync(join(tmpdir(), 'vt-mut-')),
+    'guard-broken.sh',
+  );
   // Break the `git add` detection: every add-pattern stops matching.
   writeFileSync(
     mutated,
-    readFileSync(GUARD, 'utf8').replaceAll('git[[:space:]]+add', 'git[[:space:]]+zzadd'),
+    readFileSync(GUARD, 'utf8').replaceAll(
+      'git[[:space:]]+add',
+      'git[[:space:]]+zzadd',
+    ),
   );
   chmodSync(mutated, 0o755);
   const bad = runGuardMatrix(mutated);
@@ -366,7 +457,10 @@ console.log('\n6 · mutation self-test (temp copy — the real hook is untouched
       'broken guard regex makes the matrix RED',
       'matrix stayed GREEN against a broken hook — the fixtures cannot bite',
     );
-  else ok(`broken guard regex makes the matrix RED (${bad.length} case(s) caught the mutation)`);
+  else
+    ok(
+      `broken guard regex makes the matrix RED (${bad.length} case(s) caught the mutation)`,
+    );
   rmSync(join(mutated, '..'), { recursive: true, force: true });
 }
 

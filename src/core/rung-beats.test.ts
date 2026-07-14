@@ -30,7 +30,11 @@ import { logFilterMatches } from '../ui/log-filter';
 /** A fresh, intro-DONE game (the beat's precondition: `!introActive`). */
 function atDoneIntro(seed = 1): GameState {
   const s = createInitialState(seed);
-  return { ...s, flags: { ...s.flags, awake: true }, introBeat: INTRO_SCENE_COUNT };
+  return {
+    ...s,
+    flags: { ...s.flags, awake: true },
+    introBeat: INTRO_SCENE_COUNT,
+  };
 }
 
 /** Complete the CURRENT rung's requirement list ⇒ a ready promotion. (The played-through
@@ -39,7 +43,10 @@ function makeReady(s: GameState): GameState {
   return {
     ...s,
     rungReqs: Object.fromEntries(
-      rungRequirements(s.rung).map((r) => [r.id, r.type === 'count' ? r.target : 1]),
+      rungRequirements(s.rung).map((r) => [
+        r.id,
+        r.type === 'count' ? r.target : 1,
+      ]),
     ),
   };
 }
@@ -49,7 +56,15 @@ const rankFlag = (id: RankId): string => `rank-${id.toLowerCase()}`;
 describe('D-110 full-arc e2e — a promotion walks THROUGH the beat (R0→R7)', () => {
   it('every rung promotes only on choose_rung_option; unlocks + flags + memory apply then', () => {
     let s = atDoneIntro();
-    for (const target of ['R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7'] as RankId[]) {
+    for (const target of [
+      'R1',
+      'R2',
+      'R3',
+      'R4',
+      'R5',
+      'R6',
+      'R7',
+    ] as RankId[]) {
       s = makeReady(s);
       expect(promotionReady(s)).toBe(true);
       expect(pendingPromotionTarget(s)).toBe(target);
@@ -88,13 +103,18 @@ describe('D-110 full-arc e2e — a promotion walks THROUGH the beat (R0→R7)', 
       expect(hasFlag(s, rankFlag(target))).toBe(true);
       // the beat's motivated surfaces (verbatim rewardOnReach.unlock) inked in
       for (const surf of beat.motivates) {
-        expect(isUnlocked(s, surf), `${target} did not reveal ${surf}`).toBe(true);
+        expect(isUnlocked(s, surf), `${target} did not reveal ${surf}`).toBe(
+          true,
+        );
       }
       // the chosen story flags are set
       for (const f of opt.flags ?? []) expect(hasFlag(s, f)).toBe(true);
       // the memory writes deepened the named NPCs
       for (const m of opt.memory ?? []) {
-        expect(s.npcMemory[m.npc], `${target} did not remember ${m.npc}`).toBeDefined();
+        expect(
+          s.npcMemory[m.npc],
+          `${target} did not remember ${m.npc}`,
+        ).toBeDefined();
       }
     }
     expect(s.rung).toBe('R7');
@@ -106,17 +126,31 @@ describe('D-122 — the R5 wall-weapon status token (the one T0 home token)', ()
   it('reaching R5 mounts the weapon you WIELD — reads the actual weapon, never a generic sword', () => {
     const base: GameState = { ...atDoneIntro(), rung: 'R4' };
     // wielding the default carrying-pole → the mount names IT (source-of-truth label).
-    const r5pole = applyPromotion({ ...base, equippedWeapon: getWeapon('carrying_pole').id }, 'R5');
+    const r5pole = applyPromotion(
+      { ...base, equippedWeapon: getWeapon('carrying_pole').id },
+      'R5',
+    );
     expect(hasFlag(r5pole, 'wall-weapon')).toBe(true);
-    const poleLine = r5pole.log.entries.map((e) => e.text).find((t) => t.includes('mount'));
+    const poleLine = r5pole.log.entries
+      .map((e) => e.text)
+      .find((t) => t.includes('mount'));
     expect(poleLine).toBeDefined();
-    expect(poleLine!.toLowerCase()).toContain(getWeapon('carrying_pole').label.toLowerCase());
+    expect(poleLine!.toLowerCase()).toContain(
+      getWeapon('carrying_pole').label.toLowerCase(),
+    );
 
     // wielding a DIFFERENT weapon → the mount names THAT one, proving it reads the wielded weapon.
     // RED against a hardcoded/generic sword or an ignored equippedWeapon.
-    const r5axe = applyPromotion({ ...base, equippedWeapon: getWeapon('wood_axe').id }, 'R5');
-    const axeLine = r5axe.log.entries.map((e) => e.text).find((t) => t.includes('mount'));
-    expect(axeLine!.toLowerCase()).toContain(getWeapon('wood_axe').label.toLowerCase());
+    const r5axe = applyPromotion(
+      { ...base, equippedWeapon: getWeapon('wood_axe').id },
+      'R5',
+    );
+    const axeLine = r5axe.log.entries
+      .map((e) => e.text)
+      .find((t) => t.includes('mount'));
+    expect(axeLine!.toLowerCase()).toContain(
+      getWeapon('wood_axe').label.toLowerCase(),
+    );
     expect(axeLine!.toLowerCase()).not.toContain('sword');
   });
 
@@ -173,8 +207,12 @@ describe('D-110 / F103 channel routing — story prose → Story, terse marker �
     expect(greet.length).toBe(RUNG_BEATS.R1!.greeting.length); // every greeting line landed
     for (const e of greet) {
       expect(e.channel).toBe('narration');
-      expect(logFilterMatches(e.channel, 'story', e.ephemeral ?? false)).toBe(true); // shows under Story
-      expect(logFilterMatches(e.channel, 'progression', e.ephemeral ?? false)).toBe(false); // NOT Progress
+      expect(logFilterMatches(e.channel, 'story', e.ephemeral ?? false)).toBe(
+        true,
+      ); // shows under Story
+      expect(
+        logFilterMatches(e.channel, 'progression', e.ephemeral ?? false),
+      ).toBe(false); // NOT Progress
     }
 
     s = reduce(s, {
@@ -216,7 +254,10 @@ describe('D-110 the varied per-option bonuses (BQ2 — distinct flags + relation
     expect(s.rung).toBe('R3');
     expect(hasFlag(s, track.flags![0]!)).toBe(true);
     const tm = track.memory![0]!;
-    expect(s.npcMemory[tm.npc]).toEqual({ regard: tm.regard, warmth: tm.warmthDelta });
+    expect(s.npcMemory[tm.npc]).toEqual({
+      regard: tm.regard,
+      warmth: tm.warmthDelta,
+    });
 
     // a DIFFERENT pick sets a DIFFERENT flag AND a DIFFERENT relationship — the options genuinely diverge.
     const mend = opt('R3', 'r3-mend');
@@ -233,13 +274,19 @@ describe('D-110 the varied per-option bonuses (BQ2 — distinct flags + relation
     const w = beatFrom('R3', 'r4-it-returns');
     expect(w.rung).toBe('R4');
     const wm = watch.memory![0]!;
-    expect(w.npcMemory[wm.npc]).toEqual({ regard: wm.regard, warmth: wm.warmthDelta });
+    expect(w.npcMemory[wm.npc]).toEqual({
+      regard: wm.regard,
+      warmth: wm.warmthDelta,
+    });
 
     const owned = opt('R4', 'r4-the-rice');
     const o = beatFrom('R3', 'r4-the-rice');
     const om = owned.memory![0]!;
     expect(om.npc).not.toBe(wm.npc); // a different relationship than the watch pick
-    expect(o.npcMemory[om.npc]).toEqual({ regard: om.regard, warmth: om.warmthDelta });
+    expect(o.npcMemory[om.npc]).toEqual({
+      regard: om.regard,
+      warmth: om.warmthDelta,
+    });
     expect(hasFlag(o, owned.flags![0]!)).toBe(true);
     expect(hasFlag(o, watch.flags![0]!)).toBe(false);
   });
@@ -256,15 +303,22 @@ describe('D-110 deepenNpc — relationships ACCUMULATE across rungs', () => {
   it("Genemon's warmth deepens R1 → R4 (not re-stamped each meeting)", () => {
     // both picks that deepen Genemon (R1 kept-accounts, R4 owned-the-loss) — the warmth ADDS across
     // rungs, the regard takes the latest. Deltas derived from the registry (source of truth).
-    const r1mem = RUNG_BEATS.R1!.decision.options.find((o) => o.id === 'r1-kept')!.memory![0]!;
-    const r4mem = RUNG_BEATS.R4!.decision.options.find((o) => o.id === 'r4-the-rice')!.memory![0]!;
+    const r1mem = RUNG_BEATS.R1!.decision.options.find(
+      (o) => o.id === 'r1-kept',
+    )!.memory![0]!;
+    const r4mem = RUNG_BEATS.R4!.decision.options.find(
+      (o) => o.id === 'r4-the-rice',
+    )!.memory![0]!;
     expect(r1mem.npc).toBe('genemon');
     expect(r4mem.npc).toBe('genemon');
 
     let s = makeReady(atDoneIntro());
     s = reduce(s, { type: 'begin_rung_beat' });
     s = reduce(s, { type: 'choose_rung_option', optionId: 'r1-kept' }); // genemon +1
-    expect(s.npcMemory.genemon).toEqual({ regard: r1mem.regard, warmth: r1mem.warmthDelta });
+    expect(s.npcMemory.genemon).toEqual({
+      regard: r1mem.regard,
+      warmth: r1mem.warmthDelta,
+    });
 
     // dev-bypass R2/R3 (applyPromotion never touches memory), then run the R4 beat.
     s = applyPromotion(s, 'R2');
@@ -299,7 +353,10 @@ describe('FB-388 — a promotion beat can MOVE you (RankDef.arriveAt)', () => {
 
   it('a rank WITHOUT arriveAt leaves you standing where you were', () => {
     expect(getRank('R4').arriveAt).toBeUndefined();
-    const s = applyPromotion({ ...atDoneIntro(), rung: 'R3', location: 'grove' }, 'R4');
+    const s = applyPromotion(
+      { ...atDoneIntro(), rung: 'R3', location: 'grove' },
+      'R4',
+    );
     expect(s.location).toBe('grove');
   });
 });
@@ -324,7 +381,11 @@ describe('the pick that pays (R3, the wolf at the sill)', () => {
       s = reduce(s, { type: 'begin_rung_beat' });
       if (target === RANK) break; // the R3 beat is now OPEN — the caller makes the pick
       const b = RUNG_BEATS[target];
-      if (b) s = reduce(s, { type: 'choose_rung_option', optionId: b.decision.options[0]!.id });
+      if (b)
+        s = reduce(s, {
+          type: 'choose_rung_option',
+          optionId: b.decision.options[0]!.id,
+        });
     }
     return s;
   };
@@ -336,13 +397,23 @@ describe('the pick that pays (R3, the wolf at the sill)', () => {
   it('picking it MOVES the attribute it names', () => {
     const before = atBeat();
     const { attr, amount } = bonusOpt.statBonus!;
-    const after = reduce(before, { type: 'choose_rung_option', optionId: bonusOpt.id });
-    expect(after.character.attrs[attr]).toBe(before.character.attrs[attr] + amount);
+    const after = reduce(before, {
+      type: 'choose_rung_option',
+      optionId: bonusOpt.id,
+    });
+    expect(after.character.attrs[attr]).toBe(
+      before.character.attrs[attr] + amount,
+    );
   });
 
   it('and the delight line it logs is KEYED, so a re-voice reaches an old save', () => {
-    const after = reduce(atBeat(), { type: 'choose_rung_option', optionId: bonusOpt.id });
-    const entry = after.log.entries.find((e) => e.text === bonusOpt.statBonus!.note);
+    const after = reduce(atBeat(), {
+      type: 'choose_rung_option',
+      optionId: bonusOpt.id,
+    });
+    const entry = after.log.entries.find(
+      (e) => e.text === bonusOpt.statBonus!.note,
+    );
 
     expect(entry).toBeDefined(); // the line is shown at all
     expect(entry!.contentKey).toBe(`beat.${RANK}.opt.${bonusOpt.id}.bonus`); // …and addressable
@@ -352,8 +423,13 @@ describe('the pick that pays (R3, the wolf at the sill)', () => {
     // It was `system` — which log-filter routes to WORK, the labour-reward lane. So the rarest
     // reward in the game was painted into the one tab nobody was looking at, seconds after a VN
     // the player was reading in Story. A reward the player never sees is not a reward (HD-41).
-    const after = reduce(atBeat(), { type: 'choose_rung_option', optionId: bonusOpt.id });
-    const entry = after.log.entries.find((e) => e.text === bonusOpt.statBonus!.note)!;
+    const after = reduce(atBeat(), {
+      type: 'choose_rung_option',
+      optionId: bonusOpt.id,
+    });
+    const entry = after.log.entries.find(
+      (e) => e.text === bonusOpt.statBonus!.note,
+    )!;
 
     expect(logFilterMatches(entry.channel, 'story', false)).toBe(true);
     expect(logFilterMatches(entry.channel, 'work', false)).toBe(false);
@@ -362,7 +438,10 @@ describe('the pick that pays (R3, the wolf at the sill)', () => {
   it('a pick WITHOUT a bonus moves no attribute — the reward stays rare', () => {
     const plain = beat.decision.options.find((o) => !o.statBonus)!;
     const before = atBeat();
-    const after = reduce(before, { type: 'choose_rung_option', optionId: plain.id });
+    const after = reduce(before, {
+      type: 'choose_rung_option',
+      optionId: plain.id,
+    });
     expect(after.character.attrs).toEqual(before.character.attrs);
   });
 });

@@ -42,5 +42,7 @@ export function buildProtosPane(opts: { pane: HTMLElement }): void {
   protoBtn('⤢ Estate sheet — E1 okoshi-ezu prototype', () => openEstateSheet());
   protoGroup('Parked UI prototypes');
   protoBtn('⤢ Scene cards v2 — kage-e (E2 · parked)', () => openSceneCards());
-  protoBtn('⤢ Scene cards v1 — figurative (E2 · parked)', () => openSceneCardsV1());
+  protoBtn('⤢ Scene cards v1 — figurative (E2 · parked)', () =>
+    openSceneCardsV1(),
+  );
 }

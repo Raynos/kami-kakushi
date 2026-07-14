@@ -83,7 +83,10 @@ describe('requirements engine (FB-121 / ADR-137) — counted advance + quantized
     expect(r2.completed).toEqual([]);
     expect(isRequirementDone(purse, r2.progress)).toBe(true);
 
-    const flagged = { ...broke, flags: { ...broke.flags, 'steward-spoken': true } };
+    const flagged = {
+      ...broke,
+      flags: { ...broke.flags, 'steward-spoken': true },
+    };
     const r3 = settleOnState(DEFS, r2.progress, flagged);
     expect(r3.completed.map((d) => d.id)).toEqual(['steward']);
   });
@@ -131,7 +134,9 @@ describe('requirements engine (FB-121 / ADR-137) — counted advance + quantized
     expect(allRequirementsDone(wide, done)).toBe(true);
     expect(rungPercentOf(wide, done)).toBe(100);
     // and the 4-req list: 99/100 raked + 3 atomics done sits at 98 (quantized), not 99.5
-    expect(rungPercentOf(DEFS, { rake: 99, boar: 1, purse: 1, steward: 1 })).toBe(98);
+    expect(
+      rungPercentOf(DEFS, { rake: 99, boar: 1, purse: 1, steward: 1 }),
+    ).toBe(98);
   });
 
   it('chunk count derives from the span: per-unit for small counts, capped at 10', () => {
@@ -150,6 +155,8 @@ describe('requirements engine (FB-121 / ADR-137) — counted advance + quantized
       objective: 'x-objective',
       drive: 'x',
     };
-    expect(() => settleOnState([bad], NONE, createInitialState(1))).toThrow(/no-such-pred/);
+    expect(() => settleOnState([bad], NONE, createInitialState(1))).toThrow(
+      /no-such-pred/,
+    );
   });
 });

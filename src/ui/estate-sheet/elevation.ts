@@ -89,19 +89,33 @@ export function wallFace(
       [x1, groundY],
       [x0, groundY],
     ],
-    { seed: `${o.seed}:w`, fill, opacity: o.opacity ?? (o.plaster ? 0.5 : 0.75), amp: 1.6 },
+    {
+      seed: `${o.seed}:w`,
+      fill,
+      opacity: o.opacity ?? (o.plaster ? 0.5 : 0.75),
+      amp: 1.6,
+    },
   );
   const r = rng(`${o.seed}:posts`);
   const step = o.postStep ?? 34;
   if (!o.plaster) {
-    for (let x = x0 + step * (0.6 + r() * 0.5); x < x1 - 4; x += step * (0.9 + r() * 0.25)) {
+    for (
+      let x = x0 + step * (0.6 + r() * 0.5);
+      x < x1 - 4;
+      x += step * (0.9 + r() * 0.25)
+    ) {
       inkLine(
         parent,
         [
           [x, topY + 1.5],
           [x, groundY - 1],
         ],
-        { seed: `${o.seed}:p${Math.round(x)}`, color: 'var(--silver-dim)', w: 1.5, amp: 0.8 },
+        {
+          seed: `${o.seed}:p${Math.round(x)}`,
+          color: 'var(--silver-dim)',
+          w: 1.5,
+          amp: 0.8,
+        },
       );
     }
   }
@@ -182,9 +196,19 @@ export function roofProfile(
         [x1 + 2, ridgeY],
         [x1 + 2, eaveY],
       ],
-      { seed: `${o.seed}:rm`, fill: 'var(--steel-hi)', opacity: 0.14, amp: 1.2 },
+      {
+        seed: `${o.seed}:rm`,
+        fill: 'var(--steel-hi)',
+        opacity: 0.14,
+        amp: 1.2,
+      },
     );
-    brushStroke(parent, pts, { seed: `${o.seed}:slope`, w: 3, color: structure, dry: true });
+    brushStroke(parent, pts, {
+      seed: `${o.seed}:slope`,
+      w: 3,
+      color: structure,
+      dry: true,
+    });
     return;
   }
   const midL = x0 + (x1 - x0) * 0.24;
@@ -198,7 +222,12 @@ export function roofProfile(
       [midR, ridgeY],
       [x1 + ov, eaveY],
     ],
-    { seed: `${o.seed}:rm`, fill: 'var(--steel-hi)', opacity: o.fresh ? 0.22 : 0.14, amp: 1.4 },
+    {
+      seed: `${o.seed}:rm`,
+      fill: 'var(--steel-hi)',
+      opacity: o.fresh ? 0.22 : 0.14,
+      amp: 1.4,
+    },
   );
   // hips
   inkLine(
@@ -233,7 +262,11 @@ export function roofProfile(
       [x0 - ov, eaveY],
       [x1 + ov, eaveY],
     ],
-    { seed: `${o.seed}:eave`, w: 2.2, color: o.fresh ? 'var(--gold-dim)' : 'var(--silver-dim)' },
+    {
+      seed: `${o.seed}:eave`,
+      w: 2.2,
+      color: o.fresh ? 'var(--gold-dim)' : 'var(--silver-dim)',
+    },
   );
   // sparse rafter ticks under the eave
   const r = rng(`${o.seed}:ticks`);
@@ -296,7 +329,11 @@ export function tatamiPlan(
   let odd = r() > 0.5;
   for (let y = y0; y < y1 - 2; y += step) {
     const yb = Math.min(y + step, y1 - 1.5);
-    for (let x = x0 + (odd ? step * 2.5 : step * 1.5); x < x1 - 2; x += step * 3) {
+    for (
+      let x = x0 + (odd ? step * 2.5 : step * 1.5);
+      x < x1 - 2;
+      x += step * 3
+    ) {
       inkLine(
         g,
         [
@@ -326,7 +363,12 @@ export interface HingeOpts {
 
 /** A fold hinge (variant A): the dash line the paper folds on + paste tabs —
  *  the sheet admits it wants to be cut out and stood up (D2). */
-export function foldHinge(parent: SVGElement, a: Pt, b: Pt, o: HingeOpts): void {
+export function foldHinge(
+  parent: SVGElement,
+  a: Pt,
+  b: Pt,
+  o: HingeOpts,
+): void {
   inkLine(parent, [a, b], {
     seed: `${o.seed}:h`,
     color: 'var(--ink-soft)',
@@ -401,13 +443,25 @@ export function stallRange(
           [x0 + 1, y0 + i * step],
           [x1 - 1, y0 + i * step],
         ],
-        { seed: `${o.seed}:d${i}`, color: 'var(--silver-dim)', w: 1, opacity: 0.85, amp: 0.5 },
+        {
+          seed: `${o.seed}:d${i}`,
+          color: 'var(--silver-dim)',
+          w: 1,
+          opacity: 0.85,
+          amp: 0.5,
+        },
       );
     }
     const my = y0 + (o.muleAt + 0.5) * step;
-    muleGlyph(parent, (x0 + x1) / 2, my, Math.min(step * 0.62, (x1 - x0) * 0.4), {
-      seed: `${o.seed}:mule`,
-    });
+    muleGlyph(
+      parent,
+      (x0 + x1) / 2,
+      my,
+      Math.min(step * 0.62, (x1 - x0) * 0.4),
+      {
+        seed: `${o.seed}:mule`,
+      },
+    );
   } else {
     const step = (x1 - x0) / n;
     for (let i = 1; i < n; i++) {
@@ -417,13 +471,25 @@ export function stallRange(
           [x0 + i * step, y0 + 2],
           [x0 + i * step, y1 - 1],
         ],
-        { seed: `${o.seed}:d${i}`, color: 'var(--silver-dim)', w: 1, opacity: 0.85, amp: 0.5 },
+        {
+          seed: `${o.seed}:d${i}`,
+          color: 'var(--silver-dim)',
+          w: 1,
+          opacity: 0.85,
+          amp: 0.5,
+        },
       );
     }
     const mx = x0 + (o.muleAt + 0.5) * step;
-    muleGlyph(parent, mx, y1 - (y1 - y0) * 0.32, Math.min(step * 0.8, (y1 - y0) * 0.75), {
-      seed: `${o.seed}:mule`,
-    });
+    muleGlyph(
+      parent,
+      mx,
+      y1 - (y1 - y0) * 0.32,
+      Math.min(step * 0.8, (y1 - y0) * 0.75),
+      {
+        seed: `${o.seed}:mule`,
+      },
+    );
   }
 }
 
@@ -452,7 +518,13 @@ export function muleGlyph(
       [cx, cy - bh * 0.35 - r() * 2],
       [cx + bw / 2 - s * 0.12, cy - bh * 0.1],
     ],
-    { seed: `${o.seed}:b`, w: bh, color: 'var(--silver-dim)', taperIn: 0.3, taperOut: 0.24 },
+    {
+      seed: `${o.seed}:b`,
+      w: bh,
+      color: 'var(--silver-dim)',
+      taperIn: 0.3,
+      taperOut: 0.24,
+    },
   );
   // legs
   for (const t of [0.16, 0.34, 0.68, 0.86]) {
@@ -523,7 +595,11 @@ export interface RuinOpts {
  *  line: broken wall runs, the crumbled great gate towering past every lived
  *  ridge, fallen roof planes, rubble, grass breach. Depicted, never honestly
  *  named (pre-reveal: a curt 廃 only). */
-export function ruinBackdrop(parent: SVGElement, groundY: number, o: RuinOpts): void {
+export function ruinBackdrop(
+  parent: SVGElement,
+  groundY: number,
+  o: RuinOpts,
+): void {
   const g = sv('g');
   // ash band behind everything
   const xa = o.toX(Math.min(...o.masses.map((m) => m.x0))) - 8;
@@ -618,12 +694,21 @@ export function ruinBackdrop(parent: SVGElement, groundY: number, o: RuinOpts): 
           [x1 + 6, groundY],
           [x0 - 6, groundY],
         ],
-        { seed: `${o.seed}:${m.seed}:rb`, step: 7, prob: 0.4, r: 0.9, color: 'var(--ink-faint)' },
+        {
+          seed: `${o.seed}:${m.seed}:rb`,
+          step: 7,
+          prob: 0.4,
+          r: 0.9,
+          color: 'var(--ink-faint)',
+        },
       );
     } else if (m.kind === 'gate') {
       // the crumbled great gate: two heavy piers + a sagging lintel/roof mass
       const pw = (x1 - x0) * 0.16;
-      for (const [px0, px1, hs] of [[x0, x0 + pw, 1] as const, [x1 - pw, x1, 0.92] as const]) {
+      for (const [px0, px1, hs] of [
+        [x0, x0 + pw, 1] as const,
+        [x1 - pw, x1, 0.92] as const,
+      ]) {
         wash(
           g,
           [
@@ -632,7 +717,12 @@ export function ruinBackdrop(parent: SVGElement, groundY: number, o: RuinOpts): 
             [px1 - 1, top + m.h * o.ken * (1 - hs) + o.ken * 0.95],
             [px1, groundY],
           ],
-          { seed: `${o.seed}:${m.seed}:p${px0}`, fill: 'var(--steel-hi)', opacity: 0.16, amp: 2 },
+          {
+            seed: `${o.seed}:${m.seed}:p${px0}`,
+            fill: 'var(--steel-hi)',
+            opacity: 0.16,
+            amp: 2,
+          },
         );
         brushStroke(
           g,
@@ -640,7 +730,12 @@ export function ruinBackdrop(parent: SVGElement, groundY: number, o: RuinOpts): 
             [px0 + 2, groundY],
             [px0 + 3, top + m.h * o.ken * (1 - hs) + o.ken * 0.9],
           ],
-          { seed: `${o.seed}:${m.seed}:ps${px0}`, w: 3.4, color: 'var(--silver-dim)', dry: true },
+          {
+            seed: `${o.seed}:${m.seed}:ps${px0}`,
+            w: 3.4,
+            color: 'var(--silver-dim)',
+            dry: true,
+          },
         );
       }
       // the sagging great roof silhouette
@@ -665,7 +760,14 @@ export function ruinBackdrop(parent: SVGElement, groundY: number, o: RuinOpts): 
         wobble: 0.26,
       });
       // gap where the doors were — grass breaching the threshold
-      grassTufts(g, x0 + pw + 4, x1 - pw - 4, groundY, `${o.seed}:${m.seed}:grass`, 5);
+      grassTufts(
+        g,
+        x0 + pw + 4,
+        x1 - pw - 4,
+        groundY,
+        `${o.seed}:${m.seed}:grass`,
+        5,
+      );
     } else {
       // a fallen roof plane — collapsed geometry + rubble
       wash(
@@ -676,7 +778,12 @@ export function ruinBackdrop(parent: SVGElement, groundY: number, o: RuinOpts): 
           [x1, groundY - (top - groundY) * -0.24],
           [x1, groundY],
         ],
-        { seed: `${o.seed}:${m.seed}:f`, fill: 'var(--steel-hi)', opacity: 0.1, amp: 2 },
+        {
+          seed: `${o.seed}:${m.seed}:f`,
+          fill: 'var(--steel-hi)',
+          opacity: 0.1,
+          amp: 2,
+        },
       );
       brushStroke(
         g,
@@ -685,7 +792,12 @@ export function ruinBackdrop(parent: SVGElement, groundY: number, o: RuinOpts): 
           [x0 + (x1 - x0) * 0.24, top],
           [x1, groundY - m.h * o.ken * 0.24],
         ],
-        { seed: `${o.seed}:${m.seed}:fs`, w: 2.4, color: 'var(--silver-dim)', dry: true },
+        {
+          seed: `${o.seed}:${m.seed}:fs`,
+          w: 2.4,
+          color: 'var(--silver-dim)',
+          dry: true,
+        },
       );
       stipple(
         g,
@@ -695,12 +807,21 @@ export function ruinBackdrop(parent: SVGElement, groundY: number, o: RuinOpts): 
           [x1, groundY],
           [x0, groundY],
         ],
-        { seed: `${o.seed}:${m.seed}:rub`, step: 8, prob: 0.4, r: 0.9, color: 'var(--ink-faint)' },
+        {
+          seed: `${o.seed}:${m.seed}:rub`,
+          step: 8,
+          prob: 0.4,
+          r: 0.9,
+          color: 'var(--ink-faint)',
+        },
       );
       grassTufts(g, x0, x1, groundY, `${o.seed}:${m.seed}:g`, 3);
     }
   }
-  tip(g as unknown as SVGElement, o.revealed ? '本邸 — the Main house' : '…the ruined compound');
+  tip(
+    g as unknown as SVGElement,
+    o.revealed ? '本邸 — the Main house' : '…the ruined compound',
+  );
   parent.append(g);
 }
 
@@ -723,7 +844,13 @@ export function grassTufts(
           [x, groundY],
           [x + (b - 1) * 2.6 + (r() - 0.5) * 2, groundY - 4.5 - r() * 4],
         ],
-        { seed: `${seed}:${i}:${b}`, color: 'var(--silver-dim)', w: 0.9, opacity: 0.8, amp: 0.4 },
+        {
+          seed: `${seed}:${i}:${b}`,
+          color: 'var(--silver-dim)',
+          w: 0.9,
+          opacity: 0.8,
+          amp: 0.4,
+        },
       );
     }
   }
@@ -736,7 +863,12 @@ export interface StampOpts {
 }
 
 /** A small 新 stamp in the reviser's red — what this survey added. */
-export function freshStamp(parent: SVGElement, cx: number, cy: number, o: StampOpts): void {
+export function freshStamp(
+  parent: SVGElement,
+  cx: number,
+  cy: number,
+  o: StampOpts,
+): void {
   const r = rng(o.seed);
   const s = 9;
   const rot = ((r() - 0.5) * 14).toFixed(1);
@@ -765,7 +897,12 @@ export function freshStamp(parent: SVGElement, cx: number, cy: number, o: StampO
 }
 
 /** The reviser's strike — a shu stroke through what a repair replaced. */
-export function struckMark(parent: SVGElement, a: Pt, b: Pt, o: StampOpts): void {
+export function struckMark(
+  parent: SVGElement,
+  a: Pt,
+  b: Pt,
+  o: StampOpts,
+): void {
   brushStroke(parent, [a, [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2 - 2], b], {
     seed: `${o.seed}:x`,
     w: 2.4,
@@ -786,7 +923,12 @@ export interface CartoucheOpts {
 
 /** The title cartouche + hanko. The sheet believes the 母屋 lie until the
  *  reveal turns its own name honest. */
-export function cartouche(parent: SVGElement, x: number, y: number, o: CartoucheOpts): void {
+export function cartouche(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  o: CartoucheOpts,
+): void {
   const w = 46;
   const h = 148;
   const g = sv('g');
@@ -870,7 +1012,12 @@ export interface KenBarOpts {
 }
 
 /** The period scale bar: alternating filled ken segments + 間 label. */
-export function kenBar(parent: SVGElement, x: number, y: number, o: KenBarOpts): void {
+export function kenBar(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  o: KenBarOpts,
+): void {
   const n = o.units ?? 5;
   const g = sv('g');
   for (let i = 0; i < n; i++) {
@@ -906,7 +1053,12 @@ export interface LegendOpts {
 
 /** The 凡例 — decodes REPAIR marks only (新 fresh · shu strike · shutters).
  *  The ruin and the alcove-in-a-corridor stay deliberately outside it. */
-export function legendBox(parent: SVGElement, x: number, y: number, o: LegendOpts): void {
+export function legendBox(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  o: LegendOpts,
+): void {
   const w = 118;
   const h = 64;
   const g = sv('g');
@@ -981,7 +1133,12 @@ export function legendBox(parent: SVGElement, x: number, y: number, o: LegendOpt
 // ── small life marks ─────────────────────────────────────────────────────────
 
 /** Hearth smoke — one wavering thin line rising. */
-export function smokeWisp(parent: SVGElement, x: number, y: number, seed: string): void {
+export function smokeWisp(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  seed: string,
+): void {
   const r = rng(seed);
   const pts: Pt[] = [[x, y]];
   let cx = x;
@@ -1016,7 +1173,12 @@ export function wellRing(
       const a = (i / steps) * Math.PI * 2;
       pts.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]);
     }
-    inkLine(parent, pts, { seed: `${seed}:${rr}`, color: 'var(--silver-dim)', w, amp: 0.7 });
+    inkLine(parent, pts, {
+      seed: `${seed}:${rr}`,
+      color: 'var(--silver-dim)',
+      w,
+      amp: 0.7,
+    });
   }
 }
 
@@ -1115,7 +1277,12 @@ export function boardDesk(
           [x + dx, y],
           [x + dx, y + 7],
         ],
-        { seed: `${seed}:lg${dx}`, color: 'var(--silver-dim)', w: 1.1, amp: 0.3 },
+        {
+          seed: `${seed}:lg${dx}`,
+          color: 'var(--silver-dim)',
+          w: 1.1,
+          amp: 0.3,
+        },
       );
     }
     inkLine(
@@ -1138,7 +1305,10 @@ export function boardDesk(
       { seed: `${seed}:ledg`, color: 'var(--ink-soft)', w: 0.9, amp: 0.4 },
     );
   }
-  tip(g as unknown as SVGElement, 'the board & day-book — a steward’s room that isn’t');
+  tip(
+    g as unknown as SVGElement,
+    'the board & day-book — a steward’s room that isn’t',
+  );
   parent.append(g);
 }
 

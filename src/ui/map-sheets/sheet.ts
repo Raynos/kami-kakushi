@@ -8,10 +8,23 @@
 
 import { rng, scrawl, sv, tip } from './brush';
 import type { Pt } from './geom';
-import { ANCHORS, NIGHT_ROUTE, NIGHT_ROUTE_T1, T0_WINDOW, WORLD } from './layout';
+import {
+  ANCHORS,
+  NIGHT_ROUTE,
+  NIGHT_ROUTE_T1,
+  T0_WINDOW,
+  WORLD,
+} from './layout';
 import { NIGHT_ROUTE_T2, VALLEY } from './valley';
 import type { SheetNode, Tier, ZoneKind } from './nodes';
-import { KIND_META, rosterFor, T1_IDS, T1_NODES, T1_NOTES, T2_IDS } from './nodes';
+import {
+  KIND_META,
+  rosterFor,
+  T1_IDS,
+  T1_NODES,
+  T1_NOTES,
+  T2_IDS,
+} from './nodes';
 import { paintReveal, stageAtRung, zonesAtRung } from './reveal';
 import { paintT0Ground } from './t0-sheet';
 import { paintT1Ground } from './t1-sheet';
@@ -37,13 +50,17 @@ interface Frame {
 }
 
 function frameFor(tier: Tier): Frame {
-  if (tier === 'T2') return { x: VALLEY.x, y: VALLEY.y, w: VALLEY.w, h: VALLEY.h };
+  if (tier === 'T2')
+    return { x: VALLEY.x, y: VALLEY.y, w: VALLEY.w, h: VALLEY.h };
   return tier === 'T0' ? T0_WINDOW : { x: 0, y: 0, w: WORLD.w, h: WORLD.h };
 }
 
 /** Seal world position: the layout anchor unless the ground painter refined it
  *  (room seals snap to the drawn geometry — single source is the drawing). */
-function posFor(id: string, overrides: ReadonlyMap<string, Pt>): { x: number; y: number } {
+function posFor(
+  id: string,
+  overrides: ReadonlyMap<string, Pt>,
+): { x: number; y: number } {
   const o = overrides.get(id);
   if (o) return { x: o[0], y: o[1] };
   const a = ANCHORS[id];
@@ -54,7 +71,11 @@ function posFor(id: string, overrides: ReadonlyMap<string, Pt>): { x: number; y:
 
 let uidCounter = 0;
 
-function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier: Tier): void {
+function paintSheet(
+  svg: SVGSVGElement,
+  nodeEls: Map<string, SVGGElement>,
+  tier: Tier,
+): void {
   const uid = `t0v2-${++uidCounter}`;
   const defs = sv('defs');
   const filter = sv('filter', {
@@ -90,7 +111,10 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
     }),
   );
   defs.append(clip);
-  const art = sv('g', { filter: `url(#${uid}-w)`, 'clip-path': `url(#${uid}-clip)` });
+  const art = sv('g', {
+    filter: `url(#${uid}-w)`,
+    'clip-path': `url(#${uid}-clip)`,
+  });
   const seals = sv('g'); // crisp text/click layer
   svg.append(art, seals);
 
@@ -103,7 +127,12 @@ function paintSheet(svg: SVGSVGElement, nodeEls: Map<string, SVGGElement>, tier:
 
   // the night-rounds rail — drawn once, revealed when 夜 is selected
   const rail = sv('g', { class: 't0v2-nightrail' });
-  const route = tier === 'T2' ? NIGHT_ROUTE_T2 : tier === 'T1' ? NIGHT_ROUTE_T1 : NIGHT_ROUTE;
+  const route =
+    tier === 'T2'
+      ? NIGHT_ROUTE_T2
+      : tier === 'T1'
+        ? NIGHT_ROUTE_T1
+        : NIGHT_ROUTE;
   rail.append(
     sv('path', {
       d: scrawl(route, 'rail', 3.5),
@@ -178,7 +207,9 @@ function drawSealLayer(
     {
       const bhr = room ? 32 : 44;
       const clear = (box: Box): boolean =>
-        !taken.some((b, bi) => (bi === ri && bi < chipCount ? false : hits(b, box)));
+        !taken.some((b, bi) =>
+          bi === ri && bi < chipCount ? false : hits(b, box),
+        );
       const below = capBoxFor(nx, ny, bhr, false);
       const above = capBoxFor(nx, ny, bhr, true);
       if (clear(below)) {
@@ -261,7 +292,11 @@ function drawSealLayer(
 
 // ── the detail pane ───────────────────────────────────────────────────────────
 
-function renderOverview(aside: HTMLElement, select: (id: string) => void, tier: Tier): void {
+function renderOverview(
+  aside: HTMLElement,
+  select: (id: string) => void,
+  tier: Tier,
+): void {
   const roster = rosterFor(tier);
   aside.textContent = '';
   const titleFor: Record<Tier, string> = {
@@ -311,16 +346,34 @@ function renderOverview(aside: HTMLElement, select: (id: string) => void, tier: 
   };
   aside.append(hd('div', 't0v2-aside-sum', sumFor[tier]));
   // the full roster, grouped by kind — a completeness checklist for the review
-  const order: readonly ZoneKind[] = ['estate', 'grounds', 'combat', 'activity', 'scenery'];
+  const order: readonly ZoneKind[] = [
+    'estate',
+    'grounds',
+    'combat',
+    'activity',
+    'scenery',
+  ];
   for (const kind of order) {
     const group = roster.filter((n) => n.kind === kind);
     if (group.length === 0) continue;
-    aside.append(hd('div', 't0v2-roster-head', `${KIND_META[kind].chip} ${KIND_META[kind].label}`));
+    aside.append(
+      hd(
+        'div',
+        't0v2-roster-head',
+        `${KIND_META[kind].chip} ${KIND_META[kind].label}`,
+      ),
+    );
     for (const n of group) {
       const row = hd('button', 't0v2-roster-row');
       row.type = 'button';
-      row.append(hd('span', 't0v2-roster-kanji', n.kanji), hd('span', undefined, n.name));
-      if ((tier === 'T1' && T1_IDS.has(n.id)) || (tier === 'T2' && T2_IDS.has(n.id)))
+      row.append(
+        hd('span', 't0v2-roster-kanji', n.kanji),
+        hd('span', undefined, n.name),
+      );
+      if (
+        (tier === 'T1' && T1_IDS.has(n.id)) ||
+        (tier === 'T2' && T2_IDS.has(n.id))
+      )
         row.append(hd('span', 't0v2-roster-new', '新'));
       row.addEventListener('click', () => select(n.id));
       aside.append(row);
@@ -328,7 +381,12 @@ function renderOverview(aside: HTMLElement, select: (id: string) => void, tier: 
   }
 }
 
-function renderDetail(aside: HTMLElement, n: SheetNode, back: () => void, tier: Tier): void {
+function renderDetail(
+  aside: HTMLElement,
+  n: SheetNode,
+  back: () => void,
+  tier: Tier,
+): void {
   aside.textContent = '';
   const backBtn = hd('button', 't0v2-back', '← all zones');
   backBtn.type = 'button';
@@ -336,7 +394,10 @@ function renderDetail(aside: HTMLElement, n: SheetNode, back: () => void, tier: 
   aside.append(backBtn);
 
   const head = hd('div', 't0v2-detail-head');
-  head.append(hd('span', 't0v2-detail-kanji', n.kanji), hd('span', 't0v2-detail-name', n.name));
+  head.append(
+    hd('span', 't0v2-detail-kanji', n.kanji),
+    hd('span', 't0v2-detail-name', n.name),
+  );
   aside.append(head);
   const chips = hd('div', 't0v2-chiprow');
   chips.append(
@@ -348,7 +409,8 @@ function renderDetail(aside: HTMLElement, n: SheetNode, back: () => void, tier: 
   );
   if (tier === 'T1' && T1_IDS.has(n.id))
     chips.append(hd('div', 't0v2-chip t0v2-chip-new', '新 · new in T1'));
-  if (tier === 'T2') chips.append(hd('div', 't0v2-chip t0v2-chip-new', '新 · the valley'));
+  if (tier === 'T2')
+    chips.append(hd('div', 't0v2-chip t0v2-chip-new', '新 · the valley'));
   aside.append(chips);
   aside.append(hd('p', 't0v2-detail-blurb', n.blurb));
 
@@ -601,7 +663,10 @@ export function openTierMap(tier: Tier): HTMLElement {
     let stageIx = 0;
     const rungPill = hd('button', 't0v2-pill', 'rung: all');
     rungPill.type = 'button';
-    rungPill.setAttribute('aria-label', 'Preview the rung-reveal (fog of unsurveyed paper)');
+    rungPill.setAttribute(
+      'aria-label',
+      'Preview the rung-reveal (fog of unsurveyed paper)',
+    );
     rungPill.addEventListener('click', () => {
       stageIx = (stageIx + 1) % STAGES.length;
       const rung = STAGES[stageIx]!;
@@ -609,10 +674,13 @@ export function openTierMap(tier: Tier): HTMLElement {
       if (rung === null) delete rungPill.dataset.on;
       else rungPill.dataset.on = '1';
       // clear the previous stage, then re-apply
-      for (const g of Array.from(svg.querySelectorAll('.ms-reveal'))) g.remove();
+      for (const g of Array.from(svg.querySelectorAll('.ms-reveal')))
+        g.remove();
       const visible = rung === null ? (): boolean => true : zonesAtRung(rung);
       for (const [id, g] of nodeEls) {
-        g.style.display = visible(typeof id === 'string' ? id : '') ? '' : 'none';
+        g.style.display = visible(typeof id === 'string' ? id : '')
+          ? ''
+          : 'none';
       }
       const stage = rung === null ? null : stageAtRung(rung);
       // svg children: [defs, art, seals] — paintSheet's own layer order
@@ -654,7 +722,8 @@ export function openTierMap(tier: Tier): HTMLElement {
       select(selected === id ? null : id);
     });
     g.addEventListener('keydown', (e) => {
-      if ((e as KeyboardEvent).key === 'Enter') select(selected === id ? null : id);
+      if ((e as KeyboardEvent).key === 'Enter')
+        select(selected === id ? null : id);
     });
   }
   select(null);

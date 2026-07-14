@@ -6,7 +6,14 @@
 // recreates nothing, and mutates nothing (zero DOM churn). These are the primitives every migrated
 // pane leans on, so they carry the load-bearing assertions once, centrally.
 import { describe, it, expect } from 'vitest';
-import { reconcileList, setText, toggle, setClass, setDisabled, setStyle } from './reconcile';
+import {
+  reconcileList,
+  setText,
+  toggle,
+  setClass,
+  setDisabled,
+  setStyle,
+} from './reconcile';
 
 interface Item {
   id: string;

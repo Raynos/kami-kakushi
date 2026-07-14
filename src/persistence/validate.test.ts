@@ -5,11 +5,19 @@
 
 import { describe, it, expect } from 'vitest';
 import { validateState } from './validate';
-import { createInitialState, getWeapon, refillSitePools, LABOUR_SITES } from '../core';
+import {
+  createInitialState,
+  getWeapon,
+  refillSitePools,
+  LABOUR_SITES,
+} from '../core';
 
 /** A structurally-valid raw save blob, with `over` merged over it. */
 function rawSave(over: Record<string, unknown> = {}): Record<string, unknown> {
-  return { ...(createInitialState(1) as unknown as Record<string, unknown>), ...over };
+  return {
+    ...(createInitialState(1) as unknown as Record<string, unknown>),
+    ...over,
+  };
 }
 
 function loaded(over: Record<string, unknown> = {}) {
@@ -39,7 +47,10 @@ describe('the equipped weapon + its wear derive from the CURRENT weapon def (ste
 
   it('a durability above the current max re-clamps on load (src/ rebalanced the weapon down)', () => {
     const poleMax = getWeapon('carrying_pole').durabilityMax;
-    const res = loaded({ equippedWeapon: 'carrying_pole', weaponDurability: poleMax + 500 });
+    const res = loaded({
+      equippedWeapon: 'carrying_pole',
+      weaponDurability: poleMax + 500,
+    });
     expect(res.state.weaponDurability).toBe(poleMax);
     expect(res.coerced).toBe(true);
   });
@@ -47,7 +58,10 @@ describe('the equipped weapon + its wear derive from the CURRENT weapon def (ste
   it('a legitimate part-worn durability is preserved untouched', () => {
     const poleMax = getWeapon('carrying_pole').durabilityMax;
     const worn = Math.floor(poleMax / 2);
-    const res = loaded({ equippedWeapon: 'carrying_pole', weaponDurability: worn });
+    const res = loaded({
+      equippedWeapon: 'carrying_pole',
+      weaponDurability: worn,
+    });
     expect(res.state.weaponDurability).toBe(worn);
     expect(res.coerced).toBe(false);
   });
@@ -55,7 +69,10 @@ describe('the equipped weapon + its wear derive from the CURRENT weapon def (ste
 
 describe('validateState is a WHITELIST rebuild — retired fields age out (step 2)', () => {
   it('a retired field (ADR-056 balanceProfile) does not survive the round-trip', () => {
-    const res = loaded({ balanceProfile: 'brutal', someFieldWeDeletedIn2025: { deep: 1 } });
+    const res = loaded({
+      balanceProfile: 'brutal',
+      someFieldWeDeletedIn2025: { deep: 1 },
+    });
     expect(res.state).not.toHaveProperty('balanceProfile');
     expect(res.state).not.toHaveProperty('someFieldWeDeletedIn2025');
   });
@@ -80,7 +97,12 @@ describe('validateState is a WHITELIST rebuild — retired fields age out (step 
   });
 
   it('a real player fact is preserved verbatim through the rebuild', () => {
-    const res = loaded({ rung: 'R3', tier: 1, belongings: ['a-real-thing'], soanLedger: 2 });
+    const res = loaded({
+      rung: 'R3',
+      tier: 1,
+      belongings: ['a-real-thing'],
+      soanLedger: 2,
+    });
     expect(res.state.rung).toBe('R3');
     expect(res.state.tier).toBe(1);
     expect(res.state.belongings).toEqual(['a-real-thing']);

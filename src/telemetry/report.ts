@@ -46,23 +46,34 @@ const min = (ms: number): string => (ms / 60000).toFixed(1);
 
 function closerCounts(segments: readonly Segment[]): string {
   const counts = new Map<SegmentCloser, number>();
-  for (const s of segments) counts.set(s.closer, (counts.get(s.closer) ?? 0) + 1);
-  return [...counts.entries()].map(([closer, n]) => `${closer}×${n}`).join(' · ') || 'none';
+  for (const s of segments)
+    counts.set(s.closer, (counts.get(s.closer) ?? 0) + 1);
+  return (
+    [...counts.entries()].map(([closer, n]) => `${closer}×${n}`).join(' · ') ||
+    'none'
+  );
 }
 
 /** Render one run. Table columns line up with pacing-report.ts's per-rung framing. */
-export function formatRunReport(run: RunRecord, simRows: readonly SimRow[] = []): string {
+export function formatRunReport(
+  run: RunRecord,
+  simRows: readonly SimRow[] = [],
+): string {
   const time = timeTaints(run.taints);
   const marks = originMarks(run.taints);
   const tainted = time.length > 0;
   const label = [
     tainted ? `TAINTED: ${time.join(', ')}` : 'untainted',
-    ...(marks.length > 0 ? [`marked: ${marks.join(', ')} (origin unknown)`] : []),
+    ...(marks.length > 0
+      ? [`marked: ${marks.join(', ')} (origin unknown)`]
+      : []),
   ].join(' · ');
   const lines: string[] = [];
   // buildVersion is printed AS-IS — the __VERSION__ define already carries its own prefix (AC-21:
   // one source for the version string, never re-decorated here into a "vv").
-  lines.push(`run ${run.runId} (${run.buildVersion} ${run.buildSha}) — ${label}`);
+  lines.push(
+    `run ${run.runId} (${run.buildVersion} ${run.buildSha}) — ${label}`,
+  );
   lines.push(`started ${run.startedAtISO} · seed ${run.seed}`);
   lines.push('');
 
@@ -84,7 +95,10 @@ export function formatRunReport(run: RunRecord, simRows: readonly SimRow[] = [])
     // Tainted runs keep their own numbers but drop the vs-sim columns (the honesty rule).
     const simCol = tainted ? 'tainted' : sim ? sim.wallMin.toFixed(1) : '-';
     const inBand =
-      attMin >= balance.T0_PACING_BAND_MIN && attMin <= balance.T0_PACING_BAND_MAX ? 'ok' : 'OUT';
+      attMin >= balance.T0_PACING_BAND_MIN &&
+      attMin <= balance.T0_PACING_BAND_MAX
+        ? 'ok'
+        : 'OUT';
     const bandCol = tainted ? '-' : inBand;
     lines.push(
       `${rung.padEnd(5)} ${attMin.toFixed(1).padStart(13)} ${simCol.padStart(16)} ${bandCol.padStart(10)} ${String(ticks).padStart(6)} ${`${snap.coin}(+${snap.coinBanked})`.padStart(12)} ${`${snap.rice}(+${snap.riceBanked})`.padStart(12)} ${String(snap.standing).padStart(9)}`,
@@ -93,23 +107,30 @@ export function formatRunReport(run: RunRecord, simRows: readonly SimRow[] = [])
     prevTicks = snap.tGame;
   }
   if (rungUps.length === 0) lines.push('(no rung-ups this run)');
-  else if (marks.length > 0) lines.push(`  (economy columns unknown-origin: ${marks.join(', ')})`);
+  else if (marks.length > 0)
+    lines.push(`  (economy columns unknown-origin: ${marks.join(', ')})`);
 
   const losses = run.milestones.filter((m) => m.event.kind === 'loss').length;
-  const ascensions = run.milestones.filter((m) => m.event.kind === 'ascension').length;
+  const ascensions = run.milestones.filter(
+    (m) => m.event.kind === 'ascension',
+  ).length;
   const active = run.segments.reduce((a, s) => a + s.activeMs, 0);
   const idle = run.segments.reduce((a, s) => a + s.idleMs, 0);
   const span =
     run.segments.length > 0
-      ? (run.segments[run.segments.length - 1]?.end ?? 0) - (run.segments[0]?.start ?? 0)
+      ? (run.segments[run.segments.length - 1]?.end ?? 0) -
+        (run.segments[0]?.start ?? 0)
       : 0;
   const excluded = span - active - idle;
   lines.push('');
   lines.push(
     `Σ attended ${min(active + idle)} min · active ${min(active)} / idle ${min(idle)} · hidden/away excluded ${min(Math.max(0, excluded))}`,
   );
-  lines.push(`segments: ${run.segments.length}  (closers: ${closerCounts(run.segments)})`);
-  if (losses || ascensions) lines.push(`losses: ${losses} · ascensions: ${ascensions}`);
+  lines.push(
+    `segments: ${run.segments.length}  (closers: ${closerCounts(run.segments)})`,
+  );
+  if (losses || ascensions)
+    lines.push(`losses: ${losses} · ascensions: ${ascensions}`);
   lines.push('');
   lines.push('segment log:');
   for (const s of run.segments) {

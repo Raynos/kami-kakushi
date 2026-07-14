@@ -54,7 +54,9 @@ const STRICT = process.argv.includes('--strict');
  *  2026-07-05 audit). Unicode-aware (`\p{L}` — Tōzō, Sōan). */
 export function hasWholeWord(haystack: string, needle: string): boolean {
   const esc = needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return new RegExp(`(?<![\\p{L}\\p{N}])${esc}(?![\\p{L}\\p{N}])`, 'u').test(haystack);
+  return new RegExp(`(?<![\\p{L}\\p{N}])${esc}(?![\\p{L}\\p{N}])`, 'u').test(
+    haystack,
+  );
 }
 
 // A display name counts as mentioned if the full label OR its core (the label
@@ -78,7 +80,9 @@ export function stripGenRegions(text: string): string {
 }
 
 export function matchesLabel(corpus: string, label: string): boolean {
-  const forms = [label, label.replace(/\s*\([^)]*\)\s*$/, '')].map((s) => s.trim().toLowerCase());
+  const forms = [label, label.replace(/\s*\([^)]*\)\s*$/, '')].map((s) =>
+    s.trim().toLowerCase(),
+  );
   return forms.some((f) => f.length > 0 && hasWholeWord(corpus, f));
 }
 
@@ -120,16 +124,34 @@ const INFO: readonly RegistryCheck[] = [
 // denylist "Munenori … → Shigemasa"), not drift — calibrated after the
 // tripwire's very first run false-fired on exactly that line (AC-11).
 const RETIRED: readonly { term: string; adr: string; successor?: string }[] = [
-  { term: 'munenori', adr: 'Q39/Block N (Yagyū-echo rename)', successor: 'munemasa' },
-  { term: 'shigemasa', adr: 'G4 storywave cutover (lord rename)', successor: 'munemasa' },
+  {
+    term: 'munenori',
+    adr: 'Q39/Block N (Yagyū-echo rename)',
+    successor: 'munemasa',
+  },
+  {
+    term: 'shigemasa',
+    adr: 'G4 storywave cutover (lord rename)',
+    successor: 'munemasa',
+  },
   { term: 'jūbei', adr: 'Q12/Q39 (Yagyū-echo rename)', successor: 'kihei' },
-  { term: 'ranpo', adr: 'Q39/Block N.1 (Edogawa-echo rename)', successor: 'sōan' },
-  { term: 'spend koku', adr: 'D-107/D-109 (koku is House standing, not spendable)' },
+  {
+    term: 'ranpo',
+    adr: 'Q39/Block N.1 (Edogawa-echo rename)',
+    successor: 'sōan',
+  },
+  {
+    term: 'spend koku',
+    adr: 'D-107/D-109 (koku is House standing, not spendable)',
+  },
   { term: 'koku cost', adr: 'D-107/D-109 (coin/rice pay costs, never koku)' },
   // D7 (the closure plan C3) — the A5-class misses the post-ship review found:
   // "shipped but described as the pre-storywave build" was invisible to the
   // presence check, so the pre-storywave vocabulary itself is retired.
-  { term: 'satoyama', adr: 'G4 storywave map cutover (the 16-zone estate — areas.ts)' },
+  {
+    term: 'satoyama',
+    adr: 'G4 storywave map cutover (the 16-zone estate — areas.ts)',
+  },
   { term: '28-day', adr: 'ADR-153 (the stored manual six-season wheel)' },
   // successor 'tomita': the canon ladder's campaign REPLACES the rival-house
   // climax, so a line naming both documents the cut (e.g. §1's cast table).
@@ -155,34 +177,93 @@ const RETIRED: readonly { term: string; adr: string; successor?: string }[] = [
     term: 'thresholdforrung',
     adr: 'ADR-137/ADR-182 (no threshold — 100% of the authored list readies the beat)',
   },
-  { term: 'rung_points_per_act', adr: 'ADR-137/ADR-182 (the points model is deleted)' },
+  {
+    term: 'rung_points_per_act',
+    adr: 'ADR-137/ADR-182 (the points model is deleted)',
+  },
   {
     term: 'and-gate',
     adr: 'ADR-137/ADR-182 (no story gate — story preconditions ARE requirements)',
   },
-  { term: 'oyuki', adr: 'bible cast sweep (origin mother)', successor: 'o-nobu' },
+  {
+    term: 'oyuki',
+    adr: 'bible cast sweep (origin mother)',
+    successor: 'o-nobu',
+  },
   { term: 'okimi', adr: 'bible cast sweep (origin sister)', successor: 'suzu' },
   { term: 'o-sato', adr: 'bible cast sweep (B1 closure)', successor: 'o-hisa' },
-  { term: 'tokubei', adr: 'bible cast sweep (the dowager thread)', successor: 'yohei' },
+  {
+    term: 'tokubei',
+    adr: 'bible cast sweep (the dowager thread)',
+    successor: 'yohei',
+  },
   // ADR-168 truth-sync (s136): the pre-reboot corpse-vocabulary the audit swept
   // out of the PRD wholesale — teeth so it cannot creep back. Names first
   // (people who exist nowhere in the bible/names.ts), then the retired rung
   // fictions and the retired node.
-  { term: 'gonta', adr: 'ADR-168 truth-sync (pre-reboot smith)', successor: 'tetsuji' },
-  { term: 'obaa kuni', adr: 'ADR-168 truth-sync (pre-reboot herbalist — no canon successor)' },
-  { term: 'tokuemon', adr: 'ADR-168 truth-sync (pre-reboot brewer — no canon successor)' },
-  { term: 'onatsu', adr: 'ADR-168 truth-sync (pre-reboot weaver — no canon successor)' },
-  { term: 'sukezō', adr: 'ADR-168 truth-sync (pre-reboot innkeeper — no canon successor)' },
-  { term: 'yagōemon', adr: 'ADR-168 truth-sync (pre-reboot headman)', successor: 'mohei' },
-  { term: 'ryōa', adr: 'ADR-168 truth-sync (pre-reboot priest)', successor: 'ekai' },
-  { term: 'magobei', adr: 'ADR-168 truth-sync (pre-reboot antagonist — no canon successor)' },
-  { term: 'yatarō', adr: 'ADR-168 truth-sync (pre-reboot retinue — no canon successor)' },
-  { term: 'heita', adr: 'ADR-168 truth-sync (pre-reboot field-lad — no canon successor)' },
-  { term: 'mosuke', adr: 'ADR-168 truth-sync (pre-reboot clerk — no canon successor)' },
-  { term: 'hiyatoi', adr: 'ADR-168 truth-sync (pre-reboot R1 fiction — the bible ladder)' },
-  { term: 'monban', adr: 'ADR-168 truth-sync (pre-reboot R5 "gate-guard" fiction)' },
-  { term: 'kogashira', adr: 'ADR-168 truth-sync (pre-reboot R6 "foreman" fiction)' },
-  { term: 'jikata-yaku', adr: 'ADR-168 truth-sync (pre-reboot R7 "bailiff" fiction)' },
+  {
+    term: 'gonta',
+    adr: 'ADR-168 truth-sync (pre-reboot smith)',
+    successor: 'tetsuji',
+  },
+  {
+    term: 'obaa kuni',
+    adr: 'ADR-168 truth-sync (pre-reboot herbalist — no canon successor)',
+  },
+  {
+    term: 'tokuemon',
+    adr: 'ADR-168 truth-sync (pre-reboot brewer — no canon successor)',
+  },
+  {
+    term: 'onatsu',
+    adr: 'ADR-168 truth-sync (pre-reboot weaver — no canon successor)',
+  },
+  {
+    term: 'sukezō',
+    adr: 'ADR-168 truth-sync (pre-reboot innkeeper — no canon successor)',
+  },
+  {
+    term: 'yagōemon',
+    adr: 'ADR-168 truth-sync (pre-reboot headman)',
+    successor: 'mohei',
+  },
+  {
+    term: 'ryōa',
+    adr: 'ADR-168 truth-sync (pre-reboot priest)',
+    successor: 'ekai',
+  },
+  {
+    term: 'magobei',
+    adr: 'ADR-168 truth-sync (pre-reboot antagonist — no canon successor)',
+  },
+  {
+    term: 'yatarō',
+    adr: 'ADR-168 truth-sync (pre-reboot retinue — no canon successor)',
+  },
+  {
+    term: 'heita',
+    adr: 'ADR-168 truth-sync (pre-reboot field-lad — no canon successor)',
+  },
+  {
+    term: 'mosuke',
+    adr: 'ADR-168 truth-sync (pre-reboot clerk — no canon successor)',
+  },
+  {
+    term: 'hiyatoi',
+    adr: 'ADR-168 truth-sync (pre-reboot R1 fiction — the bible ladder)',
+  },
+  {
+    term: 'monban',
+    adr: 'ADR-168 truth-sync (pre-reboot R5 "gate-guard" fiction)',
+  },
+  {
+    term: 'kogashira',
+    adr: 'ADR-168 truth-sync (pre-reboot R6 "foreman" fiction)',
+  },
+  {
+    term: 'jikata-yaku',
+    adr: 'ADR-168 truth-sync (pre-reboot R7 "bailiff" fiction)',
+  },
   {
     term: 'deeper woods',
     adr: 'ADR-168 truth-sync (node retired into the woodlot)',
@@ -202,9 +283,14 @@ const EXTRA_RETIRED_SCAN: readonly string[] = [
 // ── run ──────────────────────────────────────────────────────────────────────
 function run(): void {
   // the corpus: all 7 PRD section files, lowercased
-  const prdFiles = readdirSync(PRD_DIR).filter((f) => f.endsWith('.md') && f !== 'README.md');
+  const prdFiles = readdirSync(PRD_DIR).filter(
+    (f) => f.endsWith('.md') && f !== 'README.md',
+  );
   const corpusByFile = new Map<string, string>(
-    prdFiles.map((f) => [f, readFileSync(join(PRD_DIR, f), 'utf8').toLowerCase()]),
+    prdFiles.map((f) => [
+      f,
+      readFileSync(join(PRD_DIR, f), 'utf8').toLowerCase(),
+    ]),
   );
   const corpus = [...corpusByFile.values()].join('\n');
   // the RETIRED scan reads the PRD corpus PLUS the widened living docs
@@ -220,7 +306,9 @@ function run(): void {
 
   let driftCount = 0;
   const lines: string[] = [];
-  lines.push(`prd-drift — game→PRD fact drift (${prdFiles.length} PRD section files scanned)`);
+  lines.push(
+    `prd-drift — game→PRD fact drift (${prdFiles.length} PRD section files scanned)`,
+  );
   lines.push('');
 
   lines.push('── SPEC-ALTITUDE presence (missing = drift) ──');
@@ -235,7 +323,9 @@ function run(): void {
   }
 
   lines.push('');
-  lines.push('── RETIRED TERMS (any hit = drift; rename-documenting lines allowed) ──');
+  lines.push(
+    '── RETIRED TERMS (any hit = drift; rename-documenting lines allowed) ──',
+  );
   for (const { term, adr, successor } of RETIRED) {
     let bad = 0;
     let allowed = 0;

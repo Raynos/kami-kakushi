@@ -51,9 +51,23 @@ export const ROOMS: readonly RoomDef[] = [
     eave: 1.5,
     ridge: 2.5,
   },
-  { id: 'shoin', kanji: '書院', en: 'the Shoin', rect: [13, 2.8, 17, 5.2], eave: 1.6, ridge: 2.8 },
+  {
+    id: 'shoin',
+    kanji: '書院',
+    en: 'the Shoin',
+    rect: [13, 2.8, 17, 5.2],
+    eave: 1.6,
+    ridge: 2.8,
+  },
   // the winged residence
-  { id: 'westWing', kanji: '西', en: 'West wing', rect: [3, 5.5, 8, 10.5], eave: 1.7, ridge: 2.9 },
+  {
+    id: 'westWing',
+    kanji: '西',
+    en: 'West wing',
+    rect: [3, 5.5, 8, 10.5],
+    eave: 1.7,
+    ridge: 2.9,
+  },
   {
     id: 'mainBody',
     kanji: '母屋',
@@ -96,7 +110,14 @@ export const ROOMS: readonly RoomDef[] = [
     eave: 1.5,
     ridge: 2.2,
   },
-  { id: 'woodshed', kanji: '薪', en: 'woodshed', rect: [1, 16.6, 3.6, 19], eave: 1.1, ridge: 1.8 },
+  {
+    id: 'woodshed',
+    kanji: '薪',
+    en: 'woodshed',
+    rect: [1, 16.6, 3.6, 19],
+    eave: 1.1,
+    ridge: 1.8,
+  },
   {
     id: 'sickroom',
     kanji: '薬',
@@ -116,7 +137,9 @@ export const ROOMS: readonly RoomDef[] = [
   },
 ] as const;
 
-export const ROOM_BY_ID: ReadonlyMap<RoomId, RoomDef> = new Map(ROOMS.map((r) => [r.id, r]));
+export const ROOM_BY_ID: ReadonlyMap<RoomId, RoomDef> = new Map(
+  ROOMS.map((r) => [r.id, r]),
+);
 
 /** The corridor joining the wings through the main body (drawn on-plan; the
  *  shrine alcove niche sits IN it — H3's wrongness). y-band in ken. */

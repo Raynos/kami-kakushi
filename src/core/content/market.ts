@@ -87,12 +87,16 @@ export const MARKET_ITEMS: readonly MarketItem[] = [
   },
 ];
 
-export const MARKET_ITEM_IDS: ReadonlySet<string> = new Set(MARKET_ITEMS.map((m) => m.id));
+export const MARKET_ITEM_IDS: ReadonlySet<string> = new Set(
+  MARKET_ITEMS.map((m) => m.id),
+);
 
 /** The cheapest thing the stall stocks — DERIVED from the roster (never a copied number). It is the
  *  threshold of "coin you have nowhere to spend": the gate's reveal VN (reveals.ts `sb-market`)
  *  fires once the purse first covers it, which is the moment a stall starts to mean something. */
-export const CHEAPEST_STALL_ITEM_COST: number = Math.min(...MARKET_ITEMS.map((m) => m.coinCost));
+export const CHEAPEST_STALL_ITEM_COST: number = Math.min(
+  ...MARKET_ITEMS.map((m) => m.coinCost),
+);
 
 // ── Yohei's stall (ADR-163 / G4.5) — the MON lane's market side ─────────────────────────────────
 // The pedlar Yohei sets up on named MARKET DAYS only (scarcity that pulls the wheel), carries a
@@ -172,18 +176,23 @@ export const MERCHANT_RESTOCK_DEN = 4;
  *  ever tops UP (coin the player spent at his stall is his to keep); stock only drains.
  *  Integer + deterministic (fold-invariant with the clock, B10); converges in finite days
  *  (ceil on the purse gap, floor-halving on stock). */
-export function merchantRestock(merchant: MerchantState, seedMon: number): MerchantState {
+export function merchantRestock(
+  merchant: MerchantState,
+  seedMon: number,
+): MerchantState {
   const gap = seedMon - merchant.mon;
   const mon =
     gap > 0
-      ? merchant.mon + Math.ceil((gap * MERCHANT_RESTOCK_NUM) / MERCHANT_RESTOCK_DEN)
+      ? merchant.mon +
+        Math.ceil((gap * MERCHANT_RESTOCK_NUM) / MERCHANT_RESTOCK_DEN)
       : merchant.mon;
   const stock: Record<string, number> = {};
   for (const [r, held] of Object.entries(merchant.stock)) {
     const kept =
       held === undefined
         ? 0
-        : held - Math.ceil((held * MERCHANT_RESTOCK_NUM) / MERCHANT_RESTOCK_DEN);
+        : held -
+          Math.ceil((held * MERCHANT_RESTOCK_NUM) / MERCHANT_RESTOCK_DEN);
     if (kept > 0) stock[r] = kept;
   }
   return { mon, stock };

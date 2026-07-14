@@ -54,8 +54,16 @@ for (const file of globSync(`${ROOT}/**/*.md`).sort()) {
   const used = new Set<string>();
 
   for (const scene of doc.blocks) {
-    if (scene.kind !== 'rung' && scene.kind !== 'scene' && scene.kind !== 'scene-def') continue;
-    const addressed: ProseLine[] = [...scene.greeting, ...scene.topics.flatMap((t) => t.answer)];
+    if (
+      scene.kind !== 'rung' &&
+      scene.kind !== 'scene' &&
+      scene.kind !== 'scene-def'
+    )
+      continue;
+    const addressed: ProseLine[] = [
+      ...scene.greeting,
+      ...scene.topics.flatMap((t) => t.answer),
+    ];
     for (const line of addressed) {
       if (line.id !== undefined) {
         used.add(line.id);

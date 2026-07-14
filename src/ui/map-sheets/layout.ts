@@ -444,7 +444,13 @@ export const FIELDS = {
 // ── the wilds (G8) ───────────────────────────────────────────────────────────
 export const WILDS = {
   /** the old compound's orchard — courtyard rows gone feral, aligned to the RUIN */
-  orchard: { origin: [1842, 968] as Pt, cols: 5, rows: 4, spacing: 45, angleDeg: -3 },
+  orchard: {
+    origin: [1842, 968] as Pt,
+    cols: 5,
+    rows: 4,
+    spacing: 45,
+    angleDeg: -3,
+  },
   /** the bamboo grove behind the precinct — the monkeys' ground */
   grove: [
     [1900, 398],

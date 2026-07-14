@@ -25,7 +25,13 @@ export function buildPorter(idSuffix: string): SVGGElement {
 
   const woodId = `porter-wood-${idSuffix}`;
   const defs = sv('defs');
-  const lg = sv('linearGradient', { id: woodId, x1: '0', y1: '0', x2: '0.7', y2: '1' });
+  const lg = sv('linearGradient', {
+    id: woodId,
+    x1: '0',
+    y1: '0',
+    x2: '0.7',
+    y2: '1',
+  });
   lg.append(
     sv('stop', { offset: '0%', 'stop-color': 'var(--piece-wood-hi)' }),
     sv('stop', { offset: '45%', 'stop-color': 'var(--piece-wood-mid)' }),

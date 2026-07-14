@@ -4,7 +4,16 @@
 // seed-varied in silhouette, scale and rotation so no two trees read identical. Composes
 // brush.ts only; all randomness flows through rng(seed) — one seed, one identical grove.
 
-import { brushStroke, inkLine, rng, stipple, sv, wash, waveComb, type SeedOpts } from './brush';
+import {
+  brushStroke,
+  inkLine,
+  rng,
+  stipple,
+  sv,
+  wash,
+  waveComb,
+  type SeedOpts,
+} from './brush';
 import { bbox, edgeNormal, pointInPoly, resample } from './geom';
 import type { Pt } from './geom';
 
@@ -38,8 +47,14 @@ function distToEdge(p: Pt, poly: readonly Pt[]): number {
     const dx = bx - ax;
     const dy = by - ay;
     const l2 = dx * dx + dy * dy || 1;
-    const t = Math.max(0, Math.min(1, ((p[0] - ax) * dx + (p[1] - ay) * dy) / l2));
-    best = Math.min(best, Math.hypot(p[0] - (ax + dx * t), p[1] - (ay + dy * t)));
+    const t = Math.max(
+      0,
+      Math.min(1, ((p[0] - ax) * dx + (p[1] - ay) * dy) / l2),
+    );
+    best = Math.min(
+      best,
+      Math.hypot(p[0] - (ax + dx * t), p[1] - (ay + dy * t)),
+    );
   }
   return best;
 }
@@ -57,7 +72,14 @@ function limb(
   for (let i = 1; i < pts.length; i++)
     len += Math.hypot(pts[i]![0] - pts[i - 1]![0], pts[i]![1] - pts[i - 1]![1]);
   if (len >= 15) {
-    brushStroke(parent, pts, { seed, w, color, taperIn: 0.1, taperOut: 0.42, amp: 0.7 });
+    brushStroke(parent, pts, {
+      seed,
+      w,
+      color,
+      taperIn: 0.1,
+      taperOut: 0.42,
+      amp: 0.7,
+    });
   } else {
     inkLine(parent, pts, { seed, w: Math.max(0.8, w * 0.55), color, amp: 0.4 });
   }
@@ -84,7 +106,9 @@ function needlePad(
   for (let i = 0; i < n; i++) {
     const a = (i / n) * TAU;
     blob.push([
-      cx + Math.cos(a) * (w / 2) * (0.82 + r() * 0.34) - Math.sin(a) * sweep * w * 0.05,
+      cx +
+        Math.cos(a) * (w / 2) * (0.82 + r() * 0.34) -
+        Math.sin(a) * sweep * w * 0.05,
       cy + Math.sin(a) * (h / 2) * (0.72 + r() * 0.5),
     ]);
   }
@@ -97,7 +121,10 @@ function needlePad(
   for (let i = 0; i < combs; i++) {
     const v = (i + 0.6) / (combs + 0.4) - 0.35; // -0.35..~0.55 of half-height
     const yl = cy + v * h * 0.7;
-    const hw = (w / 2) * Math.sqrt(Math.max(0.05, 1 - v * v * 2.4)) * (0.55 + r() * 0.35);
+    const hw =
+      (w / 2) *
+      Math.sqrt(Math.max(0.05, 1 - v * v * 2.4)) *
+      (0.55 + r() * 0.35);
     const x0 = cx - hw + sweep * h * 0.3;
     const x1 = cx + hw + sweep * h * 0.3;
     inkLine(
@@ -134,7 +161,13 @@ function needlePad(
       cy + Math.sqrt(Math.max(0, 1 - ux * ux)) * (h / 2) * (0.55 + r() * 0.25),
     ]);
   }
-  inkLine(parent, under, { seed: sd(), w: 0.75, amp: 0.4, color: TRUNK, opacity: 0.85 });
+  inkLine(parent, under, {
+    seed: sd(),
+    w: 0.75,
+    amp: 0.4,
+    color: TRUNK,
+    opacity: 0.85,
+  });
   const ticks = Math.max(5, Math.round(w / 3.4)) + (o.tuft ? 3 : 0);
   for (let i = 0; i < ticks; i++) {
     const ux = ((i + 0.5) / ticks) * 2 - 1;
@@ -178,7 +211,13 @@ export interface PineOpts {
 /** ONE brush pine — the survey's conifer pictogram. Five silhouettes selected by seed
  *  (kasa umbrella · two-step · wind-leant · tall three-tier · scrub), with seed-jittered
  *  scale, rotation and trunk lean, so a hillside of pines never reads stamped. */
-export function pine(parent: SVGElement, x: number, y: number, s: number, o: PineOpts): void {
+export function pine(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  s: number,
+  o: PineOpts,
+): void {
   const { seed } = o;
   const r = rng(seed);
   const sd = seedSeq(seed);
@@ -280,7 +319,13 @@ function scallopEdge(
   parent: SVGElement,
   poly: readonly Pt[],
   seed: string,
-  o: { color: string; w: number; step: number; bulge: number; opacity?: number },
+  o: {
+    color: string;
+    w: number;
+    step: number;
+    bulge: number;
+    opacity?: number;
+  },
 ): void {
   const r = rng(seed);
   const pts = resample([...poly, poly[0]!], o.step);
@@ -323,12 +368,23 @@ export interface TreeMassOpts {
 /** A forest MASS — how the survey draws woodland it will not count tree by tree:
  *  a dark under-wash, a scalloped canopy edge, and pines thick at the silhouette,
  *  thinning inward (the mapmaker inks the edge he can see). Optional stipple floor. */
-export function treeMass(parent: SVGElement, poly: readonly Pt[], o: TreeMassOpts): void {
+export function treeMass(
+  parent: SVGElement,
+  poly: readonly Pt[],
+  o: TreeMassOpts,
+): void {
   const r = rng(o.seed);
   const sd = seedSeq(o.seed);
   wash(parent, poly, { seed: sd(), fill: FOREST_WASH, opacity: 0.8, amp: 5 });
   if (o.floor)
-    stipple(parent, poly, { seed: sd(), step: 30, prob: 0.4, r: 1, color: FLOOR, opacity: 0.6 });
+    stipple(parent, poly, {
+      seed: sd(),
+      step: 30,
+      prob: 0.4,
+      r: 1,
+      color: FLOOR,
+      opacity: 0.6,
+    });
   // implied canopy — distant-crown bump scribbles between the drawn pines, so the
   // interior reads as continuous woodland, never as washed void (the anti-wireframe rule);
   // they recede by TONE (ink-soft under silver pines), not by vanishing opacity
@@ -336,7 +392,8 @@ export function treeMass(parent: SVGElement, poly: readonly Pt[], o: TreeMassOpt
   for (let yy = by0 + 14; yy < by1; yy += 26) {
     for (let xx = bx0 + 14; xx < bx1; xx += 26) {
       const p: Pt = [xx + (r() - 0.5) * 22, yy + (r() - 0.5) * 22];
-      if (r() > 0.55 || !pointInPoly(p, poly) || distToEdge(p, poly) < 8) continue;
+      if (r() > 0.55 || !pointInPoly(p, poly) || distToEdge(p, poly) < 8)
+        continue;
       const bumps = 2 + Math.floor(r() * 2);
       const bw = 7 + r() * 6;
       let d = `M${p[0].toFixed(1)},${p[1].toFixed(1)}`;
@@ -356,13 +413,21 @@ export function treeMass(parent: SVGElement, poly: readonly Pt[], o: TreeMassOpt
       );
     }
   }
-  scallopEdge(parent, poly, sd(), { color: NEEDLE, w: 1.8, step: 15, bulge: 5 });
+  scallopEdge(parent, poly, sd(), {
+    color: NEEDLE,
+    w: 1.8,
+    step: 15,
+    bulge: 5,
+  });
   const step = 24 / Math.sqrt(o.density ?? 1);
   const { x0, y0, x1, y1 } = bbox(poly);
   const spots: { p: Pt; s: number }[] = [];
   for (let yy = y0 + step / 2; yy < y1; yy += step) {
     for (let xx = x0 + step / 2; xx < x1; xx += step) {
-      const p: Pt = [xx + (r() - 0.5) * step * 0.9, yy + (r() - 0.5) * step * 0.9];
+      const p: Pt = [
+        xx + (r() - 0.5) * step * 0.9,
+        yy + (r() - 0.5) * step * 0.9,
+      ];
       if (!pointInPoly(p, poly)) continue;
       const d = distToEdge(p, poly);
       if (d < 4) continue;
@@ -464,12 +529,21 @@ function culmClump(
     tops.push({ p: [tipx, tipy], a: cl });
   }
   for (const tp of tops)
-    if (r() < 0.3 + 0.7 * leafiness) leafSpray(parent, sd, r, tp.p[0], tp.p[1], tp.a, s * 0.32);
+    if (r() < 0.3 + 0.7 * leafiness)
+      leafSpray(parent, sd, r, tp.p[0], tp.p[1], tp.a, s * 0.32);
   const extra = Math.round(leafiness * (2 + r() * 2));
   for (let i = 0; i < extra; i++) {
     const tp = tops[Math.floor(r() * tops.length)]!;
     const f = 0.55 + r() * 0.35;
-    leafSpray(parent, sd, r, x + (tp.p[0] - x) * f, y + (tp.p[1] - y) * f, tp.a, s * 0.24);
+    leafSpray(
+      parent,
+      sd,
+      r,
+      x + (tp.p[0] - x) * f,
+      y + (tp.p[1] - y) * f,
+      tp.a,
+      s * 0.24,
+    );
   }
 }
 
@@ -491,7 +565,11 @@ export function bambooClump(
 /** A grove MASS — a raised wash + vertical culm-hatch for the uncountable interior,
  *  with individually-readable culm clumps leaning outward all along the silhouette
  *  (the painter details only the stems the lamplight catches at the edge). */
-export function bambooGrove(parent: SVGElement, poly: readonly Pt[], o: SeedOpts): void {
+export function bambooGrove(
+  parent: SVGElement,
+  poly: readonly Pt[],
+  o: SeedOpts,
+): void {
   const r = rng(o.seed);
   const sd = seedSeq(o.seed);
   wash(parent, poly, { seed: sd(), fill: GROVE_WASH, opacity: 0.65, amp: 5 });
@@ -501,7 +579,8 @@ export function bambooGrove(parent: SVGElement, poly: readonly Pt[], o: SeedOpts
   for (let yy = y0 + 7; yy < y1; yy += 14) {
     for (let xx = x0 + 7; xx < x1; xx += 14) {
       const p: Pt = [xx + (r() - 0.5) * 12, yy + (r() - 0.5) * 12];
-      if (r() > 0.6 || !pointInPoly(p, poly) || distToEdge(p, poly) < 5) continue;
+      if (r() > 0.6 || !pointInPoly(p, poly) || distToEdge(p, poly) < 5)
+        continue;
       const cl = (r() - 0.5) * 0.3;
       const gn = 2 + (r() < 0.5 ? 1 : 0);
       let headX = p[0];
@@ -565,7 +644,17 @@ export function bambooGrove(parent: SVGElement, poly: readonly Pt[], o: SeedOpts
     for (let xx = x0 + 14; xx < x1; xx += 30) {
       const p: Pt = [xx + (r() - 0.5) * 24, yy + (r() - 0.5) * 24];
       if (!pointInPoly(p, poly) || distToEdge(p, poly) < 14) continue;
-      if (r() < 0.42) culmClump(parent, sd, r, p[0], p[1], 12 + r() * 8, (r() - 0.5) * 0.3, 0.35);
+      if (r() < 0.42)
+        culmClump(
+          parent,
+          sd,
+          r,
+          p[0],
+          p[1],
+          12 + r() * 8,
+          (r() - 0.5) * 0.3,
+          0.35,
+        );
     }
   }
   const ring = resample([...poly, poly[0]!], 27);
@@ -651,7 +740,9 @@ export function fruitTree(
   const ring = resample([...blob, blob[0]!], 3.5);
   const arcsN = 3 + (r() < 0.4 ? 1 : 0);
   for (let i = 0; i < arcsN; i++) {
-    const start = Math.floor((i / arcsN) * ring.length + r() * ring.length * 0.06);
+    const start = Math.floor(
+      (i / arcsN) * ring.length + r() * ring.length * 0.06,
+    );
     const span = Math.floor((ring.length / arcsN) * (0.75 + r() * 0.35));
     const seg: Pt[] = [];
     for (let j = 0; j <= span; j++) seg.push(ring[(start + j) % ring.length]!);
@@ -672,7 +763,13 @@ export function fruitTree(
       const a = a0 + (j / 3) * 1.6;
       pts.push([cx + Math.cos(a) * rad, cy + Math.sin(a) * rad]);
     }
-    inkLine(parent, pts, { seed: sd(), w: 0.8, amp: 0.7, color: TRUNK, opacity: 0.9 });
+    inkLine(parent, pts, {
+      seed: sd(),
+      w: 0.8,
+      amp: 0.7,
+      color: TRUNK,
+      opacity: 0.9,
+    });
   }
   if (o.feral) {
     const tangles = 3 + Math.floor(r() * 3);
@@ -732,7 +829,10 @@ function stalkFan(
     const dx = Math.cos(a);
     const dy = Math.sin(a);
     const bow = t * o.bow * h + (r() - 0.5) * o.bow * h * 0.3;
-    const mid: Pt = [bx + dx * h * 0.55 - dy * bow * 0.35, y + dy * h * 0.55 + dx * bow * 0.35];
+    const mid: Pt = [
+      bx + dx * h * 0.55 - dy * bow * 0.35,
+      y + dy * h * 0.55 + dx * bow * 0.35,
+    ];
     const tipP: Pt = [bx + dx * h - dy * bow, y + dy * h + dx * bow];
     inkLine(parent, [[bx, y], mid, tipP], {
       seed: sd(),
@@ -743,19 +843,27 @@ function stalkFan(
     });
     if (o.heads && Math.abs(t) < 0.26 && r() < 0.75) {
       const ha = a + (r() < 0.5 ? 1 : -1) * (1.1 + r() * 0.4);
-      inkLine(parent, [tipP, [tipP[0] + Math.cos(ha) * 3, tipP[1] + Math.sin(ha) * 3]], {
-        seed: sd(),
-        w: 1.4,
-        amp: 0.15,
-        color: o.color,
-      });
+      inkLine(
+        parent,
+        [tipP, [tipP[0] + Math.cos(ha) * 3, tipP[1] + Math.sin(ha) * 3]],
+        {
+          seed: sd(),
+          w: 1.4,
+          amp: 0.15,
+          color: o.color,
+        },
+      );
     }
   }
 }
 
 /** A reed bed — tufts thick in the slack water (the polygon's interior), thinning to
  *  the current's edge, with a few suiha-mon wave-combs in the open gaps between. */
-export function reedBed(parent: SVGElement, poly: readonly Pt[], o: SeedOpts): void {
+export function reedBed(
+  parent: SVGElement,
+  poly: readonly Pt[],
+  o: SeedOpts,
+): void {
   const r = rng(o.seed);
   const sd = seedSeq(o.seed);
   const { x0, y0, x1, y1 } = bbox(poly);
@@ -795,14 +903,21 @@ export interface GrassTuftsOpts {
 
 /** Sparse grass tufts — the ruin-floor / margin tick (spec L4: grass breaching floors):
  *  small splayed flicks in the receding ink tone, never a lawn. */
-export function grassTufts(parent: SVGElement, poly: readonly Pt[], o: GrassTuftsOpts): void {
+export function grassTufts(
+  parent: SVGElement,
+  poly: readonly Pt[],
+  o: GrassTuftsOpts,
+): void {
   const r = rng(o.seed);
   const sd = seedSeq(o.seed);
   const step = 26 / Math.sqrt(o.density ?? 1);
   const { x0, y0, x1, y1 } = bbox(poly);
   for (let yy = y0 + step / 2; yy < y1; yy += step) {
     for (let xx = x0 + step / 2; xx < x1; xx += step) {
-      const p: Pt = [xx + (r() - 0.5) * step * 0.9, yy + (r() - 0.5) * step * 0.9];
+      const p: Pt = [
+        xx + (r() - 0.5) * step * 0.9,
+        yy + (r() - 0.5) * step * 0.9,
+      ];
       if (!pointInPoly(p, poly)) continue;
       if (r() > 0.4) continue;
       stalkFan(parent, sd, r, p[0], p[1], {
@@ -831,7 +946,11 @@ export interface OrchardRowsOpts {
  *  fields — G5/G8's tell). `feral` tangles every crown and seeds grass between trunks,
  *  but the planting GRID stays readable: that wrongness — a garden kept by no one,
  *  still holding its lines — is story, not noise. */
-export function orchardRows(parent: SVGElement, origin: Pt, o: OrchardRowsOpts): void {
+export function orchardRows(
+  parent: SVGElement,
+  origin: Pt,
+  o: OrchardRowsOpts,
+): void {
   const r = rng(o.seed);
   const sd = seedSeq(o.seed);
   const ang = ((o.angleDeg ?? 0) * Math.PI) / 180;
@@ -854,7 +973,10 @@ export function orchardRows(parent: SVGElement, origin: Pt, o: OrchardRowsOpts):
         feral: o.feral === true && r() < 0.85,
       });
       if (o.feral && col < o.cols - 1 && r() < 0.55) {
-        const q = at((col + 0.5) * o.spacing + (r() - 0.5) * 8, row * o.spacing + (r() - 0.5) * 8);
+        const q = at(
+          (col + 0.5) * o.spacing + (r() - 0.5) * 8,
+          row * o.spacing + (r() - 0.5) * 8,
+        );
         stalkFan(parent, sd, r, q[0], q[1], {
           n: 3,
           h: 4.5 + r() * 3,

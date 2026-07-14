@@ -59,7 +59,8 @@ describe('A7 — combat surfaces reveal one beat per rung (derived from RANKS)',
   it('every staggered surface is revealed exactly once across the ladder (no double-bundle)', () => {
     const counts = new Map<string, number>();
     for (const r of RANKS) {
-      for (const u of r.rewardOnReach?.unlock ?? []) counts.set(u, (counts.get(u) ?? 0) + 1);
+      for (const u of r.rewardOnReach?.unlock ?? [])
+        counts.set(u, (counts.get(u) ?? 0) + 1);
     }
     for (const id of [
       'panel-bestiary',

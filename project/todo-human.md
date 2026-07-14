@@ -21,15 +21,6 @@
 ## TODO
 
 - [ ] https://x.com/PrajwalTomar_/status/2074810260271800596
-- [ ] **Flip `.oxfmtrc.json` `printWidth` 100 → 80 when all the agents
-  are chill** (human, 2026-07-13 — dictated). Needs a **clean tree**:
-  it's a ~310-file mechanical reformat, and running it over a co-agent's
-  open `src/` files rewrites their work under them. Leaving the config
-  at 80 *without* reformatting turns the `oxfmt` gate red for **every**
-  agent, so the two halves must land in one commit. When the tree is
-  quiet: edit the one number → `pnpm run format` → `pnpm run verify` →
-  commit. Bump `.editorconfig`'s `max_line_length` for code 100 → 80 in
-  the same commit too — it's the editor's ruler for that same number.
 
 ## Reading queue
 

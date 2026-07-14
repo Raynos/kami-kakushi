@@ -67,7 +67,12 @@
   /* battery #22: you wake in the DARK storehouse (§10 "kura-dark" waking beat), not a light field —
      a deep steel space dimming to void at the edges, the title inked pale, before the
      estate lights in on waking. In-palette (steel grounds), light-on-dark → high contrast (a11y). */
-  background: radial-gradient(ellipse at center, #141726 0%, var(--steel-0) 62%, var(--void) 100%);
+  background: radial-gradient(
+    ellipse at center,
+    #141726 0%,
+    var(--steel-0) 62%,
+    var(--void) 100%
+  );
   color: var(--ink);
 }
 .coldopen .frame {

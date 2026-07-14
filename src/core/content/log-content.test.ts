@@ -22,9 +22,9 @@ describe('log-content registry — golden line equality', () => {
   });
 
   it('rank.marker renders the terse progression line (arrow U+2191, em dash U+2014)', () => {
-    expect(renderLogLine('rank.marker', { title: 'Steward', kanji: '家令' })).toBe(
-      'Rank ↑ — Steward 家令',
-    );
+    expect(
+      renderLogLine('rank.marker', { title: 'Steward', kanji: '家令' }),
+    ).toBe('Rank ↑ — Steward 家令');
   });
 
   it('ascension.dream branches on the porters-knot param', () => {
@@ -46,7 +46,9 @@ describe('log-content registry — golden line equality', () => {
         lootQty: 2,
         lootLabel: 'boar hide',
       }),
-    ).toBe(`You bring down the boar. ✓ (HP 50→42 · +${formatCoin(8)}, +2 boar hide)`);
+    ).toBe(
+      `You bring down the boar. ✓ (HP 50→42 · +${formatCoin(8)}, +2 boar hide)`,
+    );
     expect(
       renderLogLine('combat.win', {
         mob: 'boar',
@@ -84,26 +86,40 @@ describe('log-content registry — golden line equality', () => {
   it('combat.loss joins the rout-loss phrase at 3 / 1 / 0 dropped resources', () => {
     const base = { mob: 'boar', hpBefore: 40, hpAfter: 5 };
     // 2 parts → "A and B" (rice never appears — kura-only, cannot bleed: ADR-163)
-    expect(renderLogLine('combat.loss', { ...base, lostCoin: 10, lostMats: 2 })).toBe(
+    expect(
+      renderLogLine('combat.loss', { ...base, lostCoin: 10, lostMats: 2 }),
+    ).toBe(
       `The boar overcomes you; you limp home badly used. (HP 40→5) You drop ${formatCoin(10)} and 2 of your spoils in the rout. Mend at the sickroom before you take the field again.`,
     );
     // 1 part → no "and"
-    expect(renderLogLine('combat.loss', { ...base, lostCoin: 0, lostMats: 2 })).toBe(
+    expect(
+      renderLogLine('combat.loss', { ...base, lostCoin: 0, lostMats: 2 }),
+    ).toBe(
       'The boar overcomes you; you limp home badly used. (HP 40→5) You drop 2 of your spoils in the rout. Mend at the sickroom before you take the field again.',
     );
     // 0 parts → no drop clause at all
-    expect(renderLogLine('combat.loss', { ...base, lostCoin: 0, lostMats: 0 })).toBe(
+    expect(
+      renderLogLine('combat.loss', { ...base, lostCoin: 0, lostMats: 0 }),
+    ).toBe(
       'The boar overcomes you; you limp home badly used. (HP 40→5) Mend at the sickroom before you take the field again.',
     );
   });
 
   it('craft.repair shows the coin fee only when one was charged', () => {
-    expect(renderLogLine('craft.repair', { weapon: 'bo staff', wood: 2, coinFee: 5 })).toBe(
-      `You repair the bo staff. (−2 wood, −${formatCoin(5)})`,
-    );
-    expect(renderLogLine('craft.repair', { weapon: 'bo staff', wood: 2, coinFee: 0 })).toBe(
-      'You repair the bo staff. (−2 wood)',
-    );
+    expect(
+      renderLogLine('craft.repair', {
+        weapon: 'bo staff',
+        wood: 2,
+        coinFee: 5,
+      }),
+    ).toBe(`You repair the bo staff. (−2 wood, −${formatCoin(5)})`);
+    expect(
+      renderLogLine('craft.repair', {
+        weapon: 'bo staff',
+        wood: 2,
+        coinFee: 0,
+      }),
+    ).toBe('You repair the bo staff. (−2 wood)');
   });
 
   it('food.cook is a belly line — no wound prose, no HP figure (ADR-164/ADR-197)', () => {
@@ -116,12 +132,12 @@ describe('log-content registry — golden line equality', () => {
   });
 
   it('bank.deposit denominates coin but leaves plain resources as counts', () => {
-    expect(renderLogLine('bank.deposit', { amount: 40, resource: 'coin' })).toBe(
-      `You store ${formatCoin(40)} safe in the kura storehouse.`,
-    );
-    expect(renderLogLine('bank.deposit', { amount: 12, resource: 'rice' })).toBe(
-      'You store 12 rice safe in the kura storehouse.',
-    );
+    expect(
+      renderLogLine('bank.deposit', { amount: 40, resource: 'coin' }),
+    ).toBe(`You store ${formatCoin(40)} safe in the kura storehouse.`);
+    expect(
+      renderLogLine('bank.deposit', { amount: 12, resource: 'rice' }),
+    ).toBe('You store 12 rice safe in the kura storehouse.');
   });
 
   it('throws loudly on an unknown contentKey (a migration bug, not a blank line)', () => {
@@ -136,7 +152,11 @@ describe('log-content registry — coverage', () => {
   const SAMPLE: Readonly<Record<string, LogParams>> = {
     'season.reckoned': { bonus: 1 },
     'nengu.reckoned': {},
-    'estate.workProgress': { stage: 'Set the house in order', done: 3, total: 14 },
+    'estate.workProgress': {
+      stage: 'Set the house in order',
+      done: 3,
+      total: 14,
+    },
     'estate.commissioned': { stage: 'Stem the first rot' },
     'wage.first': { pay: 8 },
     'season.spoilage': { total: 1 },
@@ -155,7 +175,13 @@ describe('log-content registry — coverage', () => {
       lootLabel: 'hide',
     },
     'combat.flee': { mob: 'boar', hpBefore: 50, hpAfter: 20 },
-    'combat.loss': { mob: 'boar', hpBefore: 40, hpAfter: 5, lostCoin: 1, lostMats: 1 },
+    'combat.loss': {
+      mob: 'boar',
+      hpBefore: 40,
+      hpAfter: 5,
+      lostCoin: 1,
+      lostMats: 1,
+    },
     'combat.weaponBroken': { weapon: 'bo staff' },
     'craft.repair': { weapon: 'bo staff', wood: 2, coinFee: 3 },
     'craft.equip': { weapon: 'bo staff' },
@@ -171,8 +197,14 @@ describe('log-content registry — coverage', () => {
 
   it('every registry key has sample params and renders a non-empty string', () => {
     for (const key of Object.keys(LOG_CONTENT)) {
-      expect(SAMPLE[key], `add a SAMPLE entry for new key "${key}"`).toBeDefined();
-      expect(renderLogLine(key, SAMPLE[key]).length, `"${key}" rendered empty`).toBeGreaterThan(0);
+      expect(
+        SAMPLE[key],
+        `add a SAMPLE entry for new key "${key}"`,
+      ).toBeDefined();
+      expect(
+        renderLogLine(key, SAMPLE[key]).length,
+        `"${key}" rendered empty`,
+      ).toBeGreaterThan(0);
     }
   });
 });
@@ -180,7 +212,13 @@ describe('log-content registry — coverage', () => {
 describe('log-content registry — the rewards-bus emit path', () => {
   it('derives text from a keyed line AND carries the persistable descriptor', () => {
     const next = applyRewards(createInitialState(1), {
-      log: [{ channel: 'milestone', contentKey: 'season.reckoned', params: { bonus: 7 } }],
+      log: [
+        {
+          channel: 'milestone',
+          contentKey: 'season.reckoned',
+          params: { bonus: 7 },
+        },
+      ],
     });
     const entry = next.log.entries.at(-1)!;
     expect(entry.contentKey).toBe('season.reckoned');

@@ -58,7 +58,9 @@
 }
 .nav-tab {
   font-family: var(--font-head);
-  font-size: var(--fs-small); /* F73 — step the tab label down a notch (was --fs-body) */
+  font-size: var(
+    --fs-small
+  ); /* F73 — step the tab label down a notch (was --fs-body) */
   color: var(--ink-soft);
   background: transparent;
   border: 0;
@@ -185,7 +187,12 @@
   position: absolute;
   inset: 0 auto 0 0;
   width: 0;
-  background: linear-gradient(90deg, var(--gold-dim), var(--gold) 55%, var(--gold-hi));
+  background: linear-gradient(
+    90deg,
+    var(--gold-dim),
+    var(--gold) 55%,
+    var(--gold-hi)
+  );
   box-shadow: 0 0 6px rgba(216, 185, 120, 0.4);
   transition: width var(--dur) var(--ease-ink);
 }

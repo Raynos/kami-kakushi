@@ -25,7 +25,12 @@ export interface ClockStatus {
 export interface ActionClock {
   /** Start a timed action. Returns false (and does nothing) when another action
    *  is in flight or this key is still cooling — one global action (ADR-148). */
-  press(key: string, durationMs: number, cooldownMs: number, onComplete: () => void): boolean;
+  press(
+    key: string,
+    durationMs: number,
+    cooldownMs: number,
+    onComplete: () => void,
+  ): boolean;
   /** The per-key phase for button painting (TST4 — the player never guesses). */
   status(key: string): ClockStatus;
   /** True while ANY action is in flight (the global gate). */
@@ -55,7 +60,9 @@ interface ClockDeps {
 
 export function createActionClock(deps: ClockDeps = {}): ActionClock {
   const wallNow = deps.now ?? (() => Date.now());
-  const setTimer = deps.setTimer ?? ((fn, ms) => window.setTimeout(fn, ms) as unknown as number);
+  const setTimer =
+    deps.setTimer ??
+    ((fn, ms) => window.setTimeout(fn, ms) as unknown as number);
   const clearTimer = deps.clearTimer ?? ((id) => window.clearTimeout(id));
 
   // FB-256 — the DEV capture freeze stops the shell's TIMERS, but `status()` derives its progress
@@ -76,7 +83,10 @@ export function createActionClock(deps: ClockDeps = {}): ActionClock {
     timer: number;
   } | null = null;
   // key → { until, startedAt } — cooldowns are per action key (per-action data, ADR-148).
-  const cooling = new Map<string, { until: number; cooldownMs: number; timer: number }>();
+  const cooling = new Map<
+    string,
+    { until: number; cooldownMs: number; timer: number }
+  >();
   const listeners = new Set<() => void>();
   const notify = (): void => {
     for (const cb of listeners) cb();
@@ -115,7 +125,10 @@ export function createActionClock(deps: ClockDeps = {}): ActionClock {
         const remainingMs = Math.max(0, inflight.durationMs - elapsed);
         return {
           phase: 'running',
-          fraction: inflight.durationMs <= 0 ? 1 : Math.min(1, elapsed / inflight.durationMs),
+          fraction:
+            inflight.durationMs <= 0
+              ? 1
+              : Math.min(1, elapsed / inflight.durationMs),
           remainingMs,
           durationMs: inflight.durationMs,
           cooldownMs: inflight.cooldownMs,
@@ -132,7 +145,13 @@ export function createActionClock(deps: ClockDeps = {}): ActionClock {
           cooldownMs: cd.cooldownMs,
         };
       }
-      return { phase: 'idle', fraction: 0, remainingMs: 0, durationMs: 0, cooldownMs: 0 };
+      return {
+        phase: 'idle',
+        fraction: 0,
+        remainingMs: 0,
+        durationMs: 0,
+        cooldownMs: 0,
+      };
     },
     busy: () => inflight !== null,
     runningKey: () => inflight?.key ?? null,
@@ -175,7 +194,11 @@ export function createActionClock(deps: ClockDeps = {}): ActionClock {
  *  payload where one button ≠ one type (each activity / edge cools separately). */
 export function actionKey(
   type: string,
-  payload?: { readonly activityId?: string; readonly to?: string; readonly recipeId?: string },
+  payload?: {
+    readonly activityId?: string;
+    readonly to?: string;
+    readonly recipeId?: string;
+  },
 ): string {
   if (payload?.activityId) return `${type}:${payload.activityId}`;
   if (payload?.to) return `${type}:${payload.to}`;

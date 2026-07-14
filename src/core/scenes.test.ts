@@ -2,7 +2,13 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, it, expect } from 'vitest';
 import { createInitialState, type GameState } from './index';
-import { enqueueScene, triggerScenes, beginScene, applySceneOption, askSceneTopic } from './scenes';
+import {
+  enqueueScene,
+  triggerScenes,
+  beginScene,
+  applySceneOption,
+  askSceneTopic,
+} from './scenes';
 import { WORKS_PROJECTS } from './works';
 import { SCENES, type SceneDef } from './content/scenes';
 import { QUESTS } from './content/quests';
@@ -29,8 +35,17 @@ function makeScene(): RungScene {
     voice: 'steward',
     speaker: NPC,
     greeting: [
-      { id: 'lamp-gutters', voice: 'narrator', text: 'The lamp gutters in the side room.' },
-      { id: 'you-came', voice: 'steward', text: 'You came when I called.', speaker: 'Genemon' },
+      {
+        id: 'lamp-gutters',
+        voice: 'narrator',
+        text: 'The lamp gutters in the side room.',
+      },
+      {
+        id: 'you-came',
+        voice: 'steward',
+        text: 'You came when I called.',
+        speaker: 'Genemon',
+      },
     ],
     topics: [],
     decision: {
@@ -43,7 +58,11 @@ function makeScene(): RungScene {
           react: 'He inclines his head.',
           memory: [{ npc: NPC, warmthDelta: WARMTH_DELTA, regard: 'steady' }],
           flags: ['scene-test-answered'],
-          statBonus: { attr: STAT_ATTR, amount: STAT_AMT, note: 'Something in you steadies.' },
+          statBonus: {
+            attr: STAT_ATTR,
+            amount: STAT_AMT,
+            note: 'Something in you steadies.',
+          },
           setStance: 'jodan',
         },
       ],
@@ -53,7 +72,12 @@ function makeScene(): RungScene {
 }
 
 function makeDef(id = 'scene-test', once = true): SceneDef {
-  return { id, scene: { ...makeScene(), id }, trigger: { kind: 'scripted' }, once };
+  return {
+    id,
+    scene: { ...makeScene(), id },
+    trigger: { kind: 'scripted' },
+    once,
+  };
 }
 
 describe('G2 scene engine — beginScene opens the VN + reveals the greeting', () => {
@@ -63,7 +87,8 @@ describe('G2 scene engine — beginScene opens the VN + reveals the greeting', (
     const s1 = beginScene(s0, def);
     expect(s1.activeScene).toEqual({ id: def.id, beat: 0 });
     const texts = new Set(s1.log.entries.map((e) => e.text));
-    for (const line of def.scene.greeting) expect(texts.has(line.text)).toBe(true);
+    for (const line of def.scene.greeting)
+      expect(texts.has(line.text)).toBe(true);
   });
 });
 
@@ -87,7 +112,9 @@ describe('G2 scene engine — applySceneOption is the terminal node', () => {
     expect(after.flags[opt.flags![0]!]).toBe(true);
 
     // the stat bonus lands on the exact attr, by the exact amount (base derived from `before`)
-    expect(after.character.attrs[STAT_ATTR]).toBe(before.character.attrs[STAT_ATTR] + STAT_AMT);
+    expect(after.character.attrs[STAT_ATTR]).toBe(
+      before.character.attrs[STAT_ATTR] + STAT_AMT,
+    );
 
     // the stance default is set
     expect(after.stance).toBe(opt.setStance);
@@ -108,7 +135,11 @@ describe('G2 scene engine — queue discipline (once / order / no re-enqueue)', 
   it('a once scene, once played, does not re-enqueue (the scenesPlayed guard)', () => {
     const def = makeDef('scene-once', true);
     // play it (begin → decide) so the id latches into scenesPlayed
-    const played = applySceneOption(beginScene(createInitialState(1), def), def, 'opt-earnest');
+    const played = applySceneOption(
+      beginScene(createInitialState(1), def),
+      def,
+      'opt-earnest',
+    );
     expect(played.scenesPlayed).toContain(def.id);
     expect(played.sceneQueue).toEqual([]); // was never queued; play doesn't enqueue
     // the scenesPlayed guard blocks an explicit re-enqueue of the played id (RED if it stops guarding).
@@ -118,13 +149,19 @@ describe('G2 scene engine — queue discipline (once / order / no re-enqueue)', 
     // it enqueues an UNPLAYED once scene but NOT a played one (source-derived, no magic ids).
     // Filter to `once` defs — a REPEATABLE scripted scene (the annual nengu frame, ADR-166)
     // legitimately re-enqueues and is not this test's lever.
-    const scripted = SCENES.filter((d) => d.trigger.kind === 'scripted' && d.once);
+    const scripted = SCENES.filter(
+      (d) => d.trigger.kind === 'scripted' && d.once,
+    );
     expect(scripted.length).toBeGreaterThan(0);
     const target = scripted[0]!;
     const fresh = createInitialState(1);
-    expect(triggerScenes(fresh, { kind: 'scripted' }).sceneQueue).toContain(target.id); // unplayed → queued
+    expect(triggerScenes(fresh, { kind: 'scripted' }).sceneQueue).toContain(
+      target.id,
+    ); // unplayed → queued
     const withPlayed: GameState = { ...fresh, scenesPlayed: [target.id] };
-    expect(triggerScenes(withPlayed, { kind: 'scripted' }).sceneQueue).not.toContain(target.id); // played → skipped
+    expect(
+      triggerScenes(withPlayed, { kind: 'scripted' }).sceneQueue,
+    ).not.toContain(target.id); // played → skipped
   });
 
   it('the queue drains in enqueue order and never double-queues', () => {
@@ -158,20 +195,28 @@ describe('C4.1 — every authored scene is REACHABLE (no authored-but-dark conte
     .map((f) => readFileSync(coreDir + f, 'utf8'))
     .join('\n');
   const enqueuedIds = new Set(
-    [...coreSrc.matchAll(/enqueueScene\([^,]+,\s*'([\w-]+)'\)/g)].map((m) => m[1]!),
+    [...coreSrc.matchAll(/enqueueScene\([^,]+,\s*'([\w-]+)'\)/g)].map(
+      (m) => m[1]!,
+    ),
   );
   const setFlagIds = new Set(
     [...coreSrc.matchAll(/setFlag\([^,]+,\s*'([\w-]+)'\)/g)].map((m) => m[1]!),
   );
   const questFlagIds = new Set(QUESTS.flatMap((q) => q.reward.flags ?? []));
   const sceneOptionFlagIds = new Set(
-    SCENES.flatMap((d) => d.scene.decision.options.flatMap((o) => o.flags ?? [])),
+    SCENES.flatMap((d) =>
+      d.scene.decision.options.flatMap((o) => o.flags ?? []),
+    ),
   );
   // ADR-177 — the works chain sets its flags data-driven (worksPass over
   // WORKS_PROJECTS), so the literal-setFlag scan can't see them; derive from the
   // source of truth instead (never a hand list).
   const worksFlagIds = new Set(
-    WORKS_PROJECTS.flatMap((p) => [p.namedFlag, p.seenFlag, ...p.zones.map((z) => z.seenFlag)]),
+    WORKS_PROJECTS.flatMap((p) => [
+      p.namedFlag,
+      p.seenFlag,
+      ...p.zones.map((z) => z.seenFlag),
+    ]),
   );
   const rankIds = new Set(RANKS.map((r) => r.id));
 
@@ -180,9 +225,10 @@ describe('C4.1 — every authored scene is REACHABLE (no authored-but-dark conte
       const t = def.trigger;
       switch (t.kind) {
         case 'scripted':
-          expect(enqueuedIds.has(def.id), `'${def.id}' is authored but nothing enqueues it`).toBe(
-            true,
-          );
+          expect(
+            enqueuedIds.has(def.id),
+            `'${def.id}' is authored but nothing enqueues it`,
+          ).toBe(true);
           break;
         case 'flag':
           expect(
@@ -194,7 +240,10 @@ describe('C4.1 — every authored scene is REACHABLE (no authored-but-dark conte
           ).toBe(true);
           break;
         case 'rung':
-          expect(rankIds.has(t.rung), `'${def.id}' fires on unknown rung '${t.rung}'`).toBe(true);
+          expect(
+            rankIds.has(t.rung),
+            `'${def.id}' fires on unknown rung '${t.rung}'`,
+          ).toBe(true);
           break;
         case 'season-exit':
           expect(

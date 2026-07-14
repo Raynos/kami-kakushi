@@ -19,7 +19,9 @@ export {};
 import { resolve } from 'node:path';
 import { deriveSurface, readItems, writeDrainFields } from './inbox-lanes';
 
-const PENDING = resolve(new URL('../../project/playtest-inbox/pending', import.meta.url).pathname);
+const PENDING = resolve(
+  new URL('../../project/playtest-inbox/pending', import.meta.url).pathname,
+);
 
 const args = process.argv.slice(2);
 const force = args.includes('--force');
@@ -42,22 +44,31 @@ if (cmd === 'scan') {
   // token and surface the cross-bucket ones — the lock-proof collisions.
   const fresh = readItems(PENDING).filter((i) => i.status === 'open');
   const byToken = new Map<string, typeof fresh>();
-  for (const i of fresh) for (const t of i.surface) byToken.set(t, [...(byToken.get(t) ?? []), i]);
+  for (const i of fresh)
+    for (const t of i.surface) byToken.set(t, [...(byToken.get(t) ?? []), i]);
 
-  console.log(`scan: seeded surface on ${seeded} capture(s); ${fresh.length} open in pending/`);
+  console.log(
+    `scan: seeded surface on ${seeded} capture(s); ${fresh.length} open in pending/`,
+  );
   let clusters = 0;
   for (const [token, members] of byToken) {
     const buckets = new Set(members.map((m) => m.bucket));
     const lanesSet = new Set(members.map((m) => m.lane));
     if (buckets.size < 2 || lanesSet.size < 2) continue; // already one lane's job
     clusters++;
-    console.log(`CLUSTER  [${token}] spans ${buckets.size} buckets (${[...buckets].join(', ')}):`);
-    for (const m of members) console.log(`  ${m.bucket}/${m.stamp}  (lane: ${m.lane})`);
+    console.log(
+      `CLUSTER  [${token}] spans ${buckets.size} buckets (${[...buckets].join(', ')}):`,
+    );
+    for (const m of members)
+      console.log(`  ${m.bucket}/${m.stamp}  (lane: ${m.lane})`);
     console.log(
       `  -> to fix as one unit: tsx src/scripts/inbox-regroup.ts assign ${token} ${members.map((m) => m.stamp).join(' ')}`,
     );
   }
-  if (clusters === 0) console.log('no cross-bucket clusters — buckets are collision-free as lanes');
+  if (clusters === 0)
+    console.log(
+      'no cross-bucket clusters — buckets are collision-free as lanes',
+    );
   process.exit(0);
 }
 
@@ -93,7 +104,9 @@ if (cmd === 'assign') {
     console.log(`  ✓ ${item.bucket}/${stamp} -> lane "${lane}"`);
     moved++;
   }
-  console.log(`assign: ${moved}/${stamps.length} capture(s) re-laned to "${lane}"`);
+  console.log(
+    `assign: ${moved}/${stamps.length} capture(s) re-laned to "${lane}"`,
+  );
   process.exit(process.exitCode ?? 0);
 }
 

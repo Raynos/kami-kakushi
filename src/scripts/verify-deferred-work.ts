@@ -73,7 +73,8 @@ const DECLARES_DEFERRED = /\bNOT (YET )?[Bb]uilt\b|\bRULED BUT NOT\b/;
  *  declaration standing near one passed for free. Proximity to an id proves nothing. A PATH is a
  *  pointer a reader can follow, and it cannot be satisfied by accident — so "cite the home" means
  *  cite the FILE. */
-const NAMES_A_HOME = /(?:\.\.\/|docs\/)?plans\/|BACKLOG\.md|roadmap\.md|human-in-the-loop\//;
+const NAMES_A_HOME =
+  /(?:\.\.\/|docs\/)?plans\/|BACKLOG\.md|roadmap\.md|human-in-the-loop\//;
 
 /** The window a home must appear in: the declaration's own line, the line before, and the two
  *  after. NOT the whole bullet — that was the first cut, and it had a HOLE the size of the bug:

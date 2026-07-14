@@ -37,7 +37,9 @@ export const MATERIALS: readonly MaterialDef[] = [
   },
 ];
 
-export const MATERIAL_IDS: ReadonlySet<string> = new Set(MATERIALS.map((m) => m.id));
+export const MATERIAL_IDS: ReadonlySet<string> = new Set(
+  MATERIALS.map((m) => m.id),
+);
 
 export function getMaterial(id: MaterialId): MaterialDef {
   const m = MATERIALS.find((x) => x.id === id);
@@ -82,7 +84,10 @@ export function getRecipe(id: string): RecipeDef {
 }
 
 /** PURE: do these resources cover every input the recipe needs? Reads only — never mutates. */
-export function canCraft(resources: Readonly<Record<string, number>>, recipe: RecipeDef): boolean {
+export function canCraft(
+  resources: Readonly<Record<string, number>>,
+  recipe: RecipeDef,
+): boolean {
   for (const [mat, need] of Object.entries(recipe.inputs)) {
     if ((resources[mat] ?? 0) < need) return false;
   }
@@ -141,6 +146,7 @@ export function rollMaterialDrop(
   const drop = MATERIAL_DROPS[mobId];
   if (!drop) return [null, rng];
   const [roll, rng2] = nextInt(rng, 'loot', drop.chanceDen);
-  if (roll < drop.chanceNum) return [{ material: drop.material, qty: drop.qty }, rng2];
+  if (roll < drop.chanceNum)
+    return [{ material: drop.material, qty: drop.qty }, rng2];
   return [null, rng2];
 }

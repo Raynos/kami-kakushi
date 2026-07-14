@@ -77,11 +77,16 @@ const preamble = original.slice(0, firstHeaderOffset);
 
 const sections: Section[] = headerIdx.map((h, i) => {
   const start = lineStartOffset[h.line]!;
-  const end = i + 1 < headerIdx.length ? lineStartOffset[headerIdx[i + 1]!.line]! : original.length;
+  const end =
+    i + 1 < headerIdx.length
+      ? lineStartOffset[headerIdx[i + 1]!.line]!
+      : original.length;
   const body = original.slice(start, end);
   const slug = SLUGS[h.num];
   if (!slug) {
-    console.error(`  X no ASCII slug mapped for §${h.num} — update SLUGS in split-prd.ts`);
+    console.error(
+      `  X no ASCII slug mapped for §${h.num} — update SLUGS in split-prd.ts`,
+    );
     process.exit(1);
   }
   const headerLine = lines[h.line]!;
@@ -92,8 +97,12 @@ const sections: Section[] = headerIdx.map((h, i) => {
 // --- The round-trip safety assert: NO content may be lost. ---
 const roundTrip = preamble + sections.map((s) => s.body).join('');
 if (roundTrip !== original) {
-  console.error('  X ROUND-TRIP FAILED — preamble + sections != original. Writing nothing.');
-  console.error(`     original ${original.length} chars, reconstructed ${roundTrip.length} chars`);
+  console.error(
+    '  X ROUND-TRIP FAILED — preamble + sections != original. Writing nothing.',
+  );
+  console.error(
+    `     original ${original.length} chars, reconstructed ${roundTrip.length} chars`,
+  );
   process.exit(1);
 }
 
@@ -104,7 +113,9 @@ const indexBody =
   '\n## Sections\n\n' +
   'The PRD is split per-section (ASCII filenames — no `§` in paths) to kill the monolith-truncation\n' +
   'failure class. Each file is one top-level section, verbatim.\n\n' +
-  sections.map((s) => `- [§${s.num} — ${s.title}](${rel}/${s.slug}.md)`).join('\n') +
+  sections
+    .map((s) => `- [§${s.num} — ${s.title}](${rel}/${s.slug}.md)`)
+    .join('\n') +
   '\n';
 
 const dirReadme =
@@ -114,12 +125,16 @@ const dirReadme =
 
 console.log(`split-prd — ${sections.length} sections from ${SRC}`);
 for (const s of sections) {
-  console.log(`  §${s.num}  ${rel}/${s.slug}.md   (${s.body.length} chars)  ${s.title}`);
+  console.log(
+    `  §${s.num}  ${rel}/${s.slug}.md   (${s.body.length} chars)  ${s.title}`,
+  );
 }
 console.log(`  round-trip: OK (${original.length} chars preserved exactly)`);
 
 if (!APPLY) {
-  console.log('\n  DRY-RUN — nothing written. Re-run with --apply to write the split.');
+  console.log(
+    '\n  DRY-RUN — nothing written. Re-run with --apply to write the split.',
+  );
   process.exit(0);
 }
 

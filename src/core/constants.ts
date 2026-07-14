@@ -71,7 +71,10 @@ export function dayOfWeek(day: number): DayOfWeek {
  *  gives him up. The clock reads season + weekday only (no year, no day counter); Yohei's
  *  market days (weekdays 2 & 5) land on Wednesday 水 and Saturday 土. Kanji first, the
  *  woodblock English+kanji pairing. */
-export const DAY_OF_WEEK_NAMES: readonly { readonly kanji: string; readonly name: string }[] = [
+export const DAY_OF_WEEK_NAMES: readonly {
+  readonly kanji: string;
+  readonly name: string;
+}[] = [
   { kanji: '月', name: 'Monday' },
   { kanji: '火', name: 'Tuesday' },
   { kanji: '水', name: 'Wednesday' },
@@ -87,7 +90,14 @@ export const DAY_OF_WEEK_NAMES: readonly { readonly kanji: string; readonly name
  *  The fixed per-season day-count is gone — the day/tick chain still advances (the day-of-week
  *  clock reads from `day`), but the season only turns by intent. Order is the wheel's, rotating
  *  cleanly: Winter → New Year → Spring → Summer → Bon → Autumn. */
-export const SEASONS = ['winter', 'new-year', 'spring', 'summer', 'bon', 'autumn'] as const;
+export const SEASONS = [
+  'winter',
+  'new-year',
+  'spring',
+  'summer',
+  'bon',
+  'autumn',
+] as const;
 export type Season = (typeof SEASONS)[number];
 
 /** Real synodic month — the lunar phase is a continuous ephemeris, not a per-day roll (D-Q6).

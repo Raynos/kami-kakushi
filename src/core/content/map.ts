@@ -67,7 +67,8 @@ export const MAP_NODES: readonly MapNode[] = [
     id: 'sickroom',
     label: "Sōan's sickroom",
     kanji: '薬',
-    blurb: "A lean-to surgery off the outer court — where the river's gift is carried.",
+    blurb:
+      "A lean-to surgery off the outer court — where the river's gift is carried.",
     blurbStem: 'nodeSickroom',
     wrong: FLAVOR.nodeSickroomWrong,
     neighbors: ['forecourt'],
@@ -81,10 +82,19 @@ export const MAP_NODES: readonly MapNode[] = [
     id: 'forecourt',
     label: 'The forecourt',
     kanji: '庭',
-    blurb: "The working heart of the guest house's outer court — the first verb is here.",
+    blurb:
+      "The working heart of the guest house's outer court — the first verb is here.",
     blurbStem: 'nodeForecourt',
     wrong: FLAVOR.nodeForecourtWrong,
-    neighbors: ['gate', 'kura', 'kitchen', 'woodshed', 'sickroom', 'drill-yard', 'paddies'],
+    neighbors: [
+      'gate',
+      'kura',
+      'kitchen',
+      'woodshed',
+      'sickroom',
+      'drill-yard',
+      'paddies',
+    ],
     rung: 0,
     // Human 2026-07-11 — you wake INSIDE the kura: the forecourt is introduced
     // by the intro's close (completeIntroTail), when Genemon puts you to work.
@@ -94,7 +104,8 @@ export const MAP_NODES: readonly MapNode[] = [
     id: 'kitchen',
     label: 'The kitchen threshold',
     kanji: '竈',
-    blurb: "Meals at the threshold; the board where the household's shape is overheard.",
+    blurb:
+      "Meals at the threshold; the board where the household's shape is overheard.",
     blurbStem: 'nodeKitchenThreshold',
     wrong: FLAVOR.nodeKitchenThresholdWrong,
     neighbors: ['forecourt', 'shrine'],
@@ -107,7 +118,8 @@ export const MAP_NODES: readonly MapNode[] = [
     id: 'gate',
     label: 'The gate & gateyard',
     kanji: '門',
-    blurb: "The estate's face, kept barely; Yohei's stall sets up here on market days.",
+    blurb:
+      "The estate's face, kept barely; Yohei's stall sets up here on market days.",
     blurbStem: 'nodeGateGateyard',
     wrong: FLAVOR.nodeGateGateyardWrong,
     neighbors: ['forecourt'],
@@ -128,7 +140,8 @@ export const MAP_NODES: readonly MapNode[] = [
     id: 'paddies',
     label: 'The home paddy & vegetable rows',
     kanji: '田',
-    blurb: "The guest house's skirts; the labour baseline — the deed engine's heart.",
+    blurb:
+      "The guest house's skirts; the labour baseline — the deed engine's heart.",
     blurbStem: 'nodeHomePaddy',
     wrong: FLAVOR.nodeHomePaddyWrong,
     neighbors: ['forecourt', 'weir', 'field-margins', 'woodlot'],
@@ -141,7 +154,8 @@ export const MAP_NODES: readonly MapNode[] = [
     id: 'field-margins',
     label: 'The field margins',
     kanji: '畦',
-    blurb: "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
+    blurb:
+      "Tanuki and badger setts at the paddy's edge, raiding the drying racks.",
     blurbStem: 'nodeFieldMargins',
     wrong: FLAVOR.nodeFieldMarginsWrong,
     neighbors: ['paddies', 'ruined'],
@@ -164,7 +178,8 @@ export const MAP_NODES: readonly MapNode[] = [
     id: 'woodlot',
     label: 'The woodlot edge',
     kanji: '林',
-    blurb: "Kindling and forage country; the wolf's ground before R3. Nobody here.",
+    blurb:
+      "Kindling and forage country; the wolf's ground before R3. Nobody here.",
     blurbStem: 'nodeWoodlotEdge',
     wrong: FLAVOR.nodeWoodlotEdgeWrong,
     neighbors: ['paddies', 'orchard'],
@@ -212,7 +227,8 @@ export const MAP_NODES: readonly MapNode[] = [
     id: 'orchard',
     label: 'The overgrown orchard',
     kanji: '園',
-    blurb: "The old compound's orchard gone wild; feral dogs den in it, bold from lean winters.",
+    blurb:
+      "The old compound's orchard gone wild; feral dogs den in it, bold from lean winters.",
     blurbStem: 'nodeOvergrownOrchard',
     wrong: FLAVOR.nodeOvergrownOrchardWrong,
     neighbors: ['woodlot', 'ruined', 'grove'],
@@ -224,7 +240,8 @@ export const MAP_NODES: readonly MapNode[] = [
     id: 'grove',
     label: 'The bamboo grove',
     kanji: '竹',
-    blurb: 'Behind the compound; the monkey troop raids the vegetable rows from it.',
+    blurb:
+      'Behind the compound; the monkey troop raids the vegetable rows from it.',
     blurbStem: 'nodeBambooGrove',
     wrong: FLAVOR.nodeBambooGroveWrong,
     neighbors: ['orchard'],
@@ -236,7 +253,8 @@ export const MAP_NODES: readonly MapNode[] = [
     id: 'ruined',
     label: 'The ruined compound',
     kanji: '廃',
-    blurb: 'Beyond a rope and a warning: fallen roofs, a crumbled gate. Locked all tier.',
+    blurb:
+      'Beyond a rope and a warning: fallen roofs, a crumbled gate. Locked all tier.',
     blurbStem: 'nodeRuinedCompound',
     wrong: FLAVOR.nodeRuinedCompoundWrong,
     neighbors: ['field-margins', 'orchard'],
@@ -244,13 +262,17 @@ export const MAP_NODES: readonly MapNode[] = [
   },
 ];
 
-export const MAP_NODE_IDS: ReadonlySet<string> = new Set(MAP_NODES.map((n) => n.id));
+export const MAP_NODE_IDS: ReadonlySet<string> = new Set(
+  MAP_NODES.map((n) => n.id),
+);
 
 /** The sickroom node id — where defeat lands you (defeat.ts) and where the two HP-mend
  *  verbs live (ADR-164/ADR-197: `treat` / `rest_sickroom`, intents.ts). ONE home (TST1). */
 export const SICKROOM_NODE = 'sickroom';
 
-const NODE_BY_ID: ReadonlyMap<MapNodeId, MapNode> = new Map(MAP_NODES.map((n) => [n.id, n]));
+const NODE_BY_ID: ReadonlyMap<MapNodeId, MapNode> = new Map(
+  MAP_NODES.map((n) => [n.id, n]),
+);
 
 function findNode(id: MapNodeId): MapNode | undefined {
   return NODE_BY_ID.get(id);
@@ -295,7 +317,11 @@ function isRevealed(node: MapNode, revealed: ReadonlySet<string>): boolean {
 
 /** PURE: may you step from `from` to `to`? Adjacent AND the target is revealed +
  *  not locked. Total + safe — unknown endpoints simply return false (never throws). */
-export function canMove(from: MapNodeId, to: MapNodeId, revealed: ReadonlySet<string>): boolean {
+export function canMove(
+  from: MapNodeId,
+  to: MapNodeId,
+  revealed: ReadonlySet<string>,
+): boolean {
   const fromNode = findNode(from);
   const toNode = findNode(to);
   if (!fromNode || !toNode) return false;
@@ -304,8 +330,13 @@ export function canMove(from: MapNodeId, to: MapNodeId, revealed: ReadonlySet<st
 }
 
 /** The neighbours you may actually step to right now — only revealed adjacents. */
-export function reachableFrom(node: MapNodeId, revealed: ReadonlySet<string>): readonly MapNode[] {
+export function reachableFrom(
+  node: MapNodeId,
+  revealed: ReadonlySet<string>,
+): readonly MapNode[] {
   const here = findNode(node);
   if (!here) return [];
-  return here.neighbors.filter((nb) => canMove(node, nb, revealed)).map((nb) => getNode(nb));
+  return here.neighbors
+    .filter((nb) => canMove(node, nb, revealed))
+    .map((nb) => getNode(nb));
 }

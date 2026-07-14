@@ -13,7 +13,9 @@ import type { RunMetrics } from './metrics';
 /** The T0 climb rungs — every rank EXCEPT the final one. Time spent AT the final rung is not a
  *  meter climb: the capstone fires on REACHING it, so residence there is the Phase-2 window
  *  (capstone → ascension), which has NO signed band yet (FB-4 open Q1 / HD-19) and is report-only. */
-export const CLIMB_RUNGS: readonly string[] = RANKS.slice(0, -1).map((r) => r.id);
+export const CLIMB_RUNGS: readonly string[] = RANKS.slice(0, -1).map(
+  (r) => r.id,
+);
 
 /** The final rung — its residence time IS the Phase-2 window (report-only, see HD-19). */
 export const PHASE2_RUNG: string = RANKS[RANKS.length - 1]!.id;
@@ -35,7 +37,9 @@ export interface BandVerdict {
  *  the signed band. */
 export function greedyBandVerdicts(runs: readonly RunMetrics[]): BandVerdict[] {
   return CLIMB_RUNGS.map((rung) => {
-    const mins = runs.map((r) => r.rungs.find((x) => x.rung === rung)?.wallMin ?? 0);
+    const mins = runs.map(
+      (r) => r.rungs.find((x) => x.rung === rung)?.wallMin ?? 0,
+    );
     const measuredMin = Math.min(...mins);
     const measuredMax = Math.max(...mins);
     return {
@@ -44,7 +48,9 @@ export function greedyBandVerdicts(runs: readonly RunMetrics[]): BandVerdict[] {
       measuredMax,
       bandMin: balance.T0_PACING_BAND_MIN,
       bandMax: balance.T0_PACING_BAND_MAX,
-      ok: measuredMin >= balance.T0_PACING_BAND_MIN && measuredMax <= balance.T0_PACING_BAND_MAX,
+      ok:
+        measuredMin >= balance.T0_PACING_BAND_MIN &&
+        measuredMax <= balance.T0_PACING_BAND_MAX,
     };
   });
 }
@@ -125,6 +131,7 @@ export function structuralVerdict(
     softLock: m.softLock,
     fullLadder,
     promise,
-    ok: (promise === 'ladder' || m.ascended) && m.softLock === null && fullLadder,
+    ok:
+      (promise === 'ladder' || m.ascended) && m.softLock === null && fullLadder,
   };
 }

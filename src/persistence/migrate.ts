@@ -58,7 +58,9 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // nothing and is LEFT AS IT IS: `renderLogLine` then fails to resolve it and the codec keeps the
   // entry's stored prose. One line degrades to the words the player actually read; nothing is lost.
   11: (state) => {
-    const s = state as { log?: { entries?: readonly Record<string, unknown>[] } };
+    const s = state as {
+      log?: { entries?: readonly Record<string, unknown>[] };
+    };
     const entries = s.log?.entries;
     if (!Array.isArray(entries)) return state;
     return {
@@ -66,7 +68,8 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
       log: {
         ...s.log,
         entries: entries.map((e) => {
-          const key = typeof e.contentKey === 'string' ? e.contentKey : undefined;
+          const key =
+            typeof e.contentKey === 'string' ? e.contentKey : undefined;
           if (key === undefined) return e; // an unkeyed legacy line keeps its prose verbatim
           const named = nameVnIndexes(key);
           return named === key ? e : { ...e, contentKey: named };
@@ -93,7 +96,12 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
 function nameVnIndexes(key: string): string {
   const m = /^(beat|scene|intro)\.([^.]+)\.(.*)$/.exec(key);
   if (!m) return key;
-  const [, ns, sceneId, part] = m as unknown as [string, VnNamespace, string, string];
+  const [, ns, sceneId, part] = m as unknown as [
+    string,
+    VnNamespace,
+    string,
+    string,
+  ];
   const scene = vnScene(ns, sceneId);
   if (!scene) return key;
 
@@ -105,7 +113,9 @@ function nameVnIndexes(key: string): string {
 
   const answer = /^topic\.(.+)\.answer\.(\d+)$/.exec(part);
   if (answer) {
-    const id = scene.topics.find((t) => t.id === answer[1])?.answer[Number(answer[2])]?.id;
+    const id = scene.topics.find((t) => t.id === answer[1])?.answer[
+      Number(answer[2])
+    ]?.id;
     return id ? `${ns}.${sceneId}.topic.${answer[1]}.answer.${id}` : key;
   }
   return key;
@@ -114,7 +124,10 @@ function nameVnIndexes(key: string): string {
 type VnNamespace = 'beat' | 'scene' | 'intro';
 
 /** The scene a VN descriptor names — the same three registries `log-render` dispatches over. */
-function vnScene(ns: VnNamespace, id: string): RungScene | DialogueScene | undefined {
+function vnScene(
+  ns: VnNamespace,
+  id: string,
+): RungScene | DialogueScene | undefined {
   if (ns === 'beat') return RUNG_BEATS[id as RankId];
   if (ns === 'scene') return SCENES.find((s) => s.id === id)?.scene;
   return DIALOGUE_SCENES.find((s) => s.id === id);

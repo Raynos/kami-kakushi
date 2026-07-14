@@ -77,15 +77,19 @@ export function parseBundleMeta(source: string, file: string): BundleMeta {
   let title: string | undefined;
   const top = new Map<string, string>();
   const takes: TakeMeta[] = [];
-  let cur: { id: string; label: string; meta: Map<string, string>; loc: Loc } | undefined;
+  let cur:
+    | { id: string; label: string; meta: Map<string, string>; loc: Loc }
+    | undefined;
   let lastMeta: { map: Map<string, string>; key: string } | undefined;
 
   const flush = (): void => {
     if (!cur) return;
     const brief = cur.meta.get('brief');
     const takeFile = cur.meta.get('file');
-    if (!brief) throw new NarrativeError(cur.loc, `take "${cur.id}" is missing "brief:"`);
-    if (!takeFile) throw new NarrativeError(cur.loc, `take "${cur.id}" is missing "file:"`);
+    if (!brief)
+      throw new NarrativeError(cur.loc, `take "${cur.id}" is missing "brief:"`);
+    if (!takeFile)
+      throw new NarrativeError(cur.loc, `take "${cur.id}" is missing "file:"`);
     const scorecard = cur.meta.get('scorecard');
     takes.push({
       id: cur.id,
@@ -118,7 +122,11 @@ export function parseBundleMeta(source: string, file: string): BundleMeta {
     }
     const bh = BUNDLE_H.exec(raw);
     if (bh) {
-      if (id) throw new NarrativeError(loc, 'a bundle.md holds exactly one `# bundle` heading');
+      if (id)
+        throw new NarrativeError(
+          loc,
+          'a bundle.md holds exactly one `# bundle` heading',
+        );
       [, id, title] = bh as unknown as [string, string, string];
       continue;
     }
@@ -130,7 +138,10 @@ export function parseBundleMeta(source: string, file: string): BundleMeta {
       continue;
     }
     if (/^ {2}\S/.test(raw) && lastMeta) {
-      lastMeta.map.set(lastMeta.key, `${lastMeta.map.get(lastMeta.key)!} ${raw.trim()}`);
+      lastMeta.map.set(
+        lastMeta.key,
+        `${lastMeta.map.get(lastMeta.key)!} ${raw.trim()}`,
+      );
       continue;
     }
     const ml = META_LINE.exec(raw);
@@ -144,10 +155,16 @@ export function parseBundleMeta(source: string, file: string): BundleMeta {
   }
   flush();
   if (!id || !title) {
-    throw new NarrativeError({ file, line: 1 }, 'missing `# bundle <id> · <title>` heading');
+    throw new NarrativeError(
+      { file, line: 1 },
+      'missing `# bundle <id> · <title>` heading',
+    );
   }
   if (takes.length === 0) {
-    throw new NarrativeError({ file, line: 1 }, `bundle "${id}" declares no \`## take\` sections`);
+    throw new NarrativeError(
+      { file, line: 1 },
+      `bundle "${id}" declares no \`## take\` sections`,
+    );
   }
   const review = top.get('review');
   const rationale = top.get('rationale');
@@ -283,7 +300,11 @@ function sceneTextPairs(
   // the greeting run — the take's OWN sequence (voice/speaker per line, take length).
   // The log re-voices positionally up to min(canon, take) length; a fresh VN run plays
   // the take's full sequence. Take lines keep their own slugs (blind authorship).
-  const seq = [`${str(`${ns}.greeting`)}: [`, ...take.greeting.map((l) => emitProseLine(l)), '],'];
+  const seq = [
+    `${str(`${ns}.greeting`)}: [`,
+    ...take.greeting.map((l) => emitProseLine(l)),
+    '],',
+  ];
   if (take.topics.length !== canon.topics.length) {
     throw gateError(
       loc,
@@ -295,7 +316,11 @@ function sceneTextPairs(
     const ct = canon.topics[i]!;
     pair(`${ns}.topic.${ct.id}.ask`, textExpr(t.label, t.loc));
     // an answer is a narration RUN like the greeting — free length, take's own voice.
-    seq.push(`${str(`${ns}.topic.${ct.id}.answer`)}: [`, ...t.answer.map(emitProseLine), '],');
+    seq.push(
+      `${str(`${ns}.topic.${ct.id}.answer`)}: [`,
+      ...t.answer.map(emitProseLine),
+      '],',
+    );
   });
   const cOpts = canon.decision?.options ?? [];
   const tOpts = take.decision?.options ?? [];
@@ -313,7 +338,8 @@ function sceneTextPairs(
     const co = cOpts[i]!;
     pair(`${ns}.opt.${co.id}.label`, textExpr(o.label, o.loc));
     pair(`${ns}.opt.${co.id}.say`, textExpr(o.say ?? o.label, o.loc));
-    if (o.react) pair(`${ns}.opt.${co.id}.react`, textExpr(o.react.text, o.react.loc));
+    if (o.react)
+      pair(`${ns}.opt.${co.id}.react`, textExpr(o.react.text, o.react.loc));
     const takeHasBonus = o.bonus !== undefined;
     const canonHasBonus = co.bonus !== undefined;
     if (takeHasBonus !== canonHasBonus) {
@@ -323,13 +349,17 @@ function sceneTextPairs(
         `option "${co.id}": the stat-nudge note exists on ${canonHasBonus ? 'canon' : 'the take'} only — presence must match`,
       );
     }
-    if (o.bonus) pair(`${ns}.opt.${co.id}.bonus`, textExpr(o.bonus.note, o.loc));
+    if (o.bonus)
+      pair(`${ns}.opt.${co.id}.bonus`, textExpr(o.bonus.note, o.loc));
   });
   return { pairs: out, seq };
 }
 
 /** The take's flat map + greeting sequences — `text: {…}` / `seq: {…}` source lines. */
-function emitTakeText(doc: NarrativeDoc, canon: CanonIndex): { text: string[]; seq: string[] } {
+function emitTakeText(
+  doc: NarrativeDoc,
+  canon: CanonIndex,
+): { text: string[]; seq: string[] } {
   const out: string[] = [];
   const seqOut: string[] = [];
   const scene = (
@@ -346,19 +376,39 @@ function emitTakeText(doc: NarrativeDoc, canon: CanonIndex): { text: string[]; s
   for (const b of doc.blocks) {
     if (b.kind === 'rung') {
       const c = canon.rung.get(b.rankKey);
-      if (!c) throw gateError(b.loc, `rung:${b.rankKey}`, 'no canon rung beat with this rank');
+      if (!c)
+        throw gateError(
+          b.loc,
+          `rung:${b.rankKey}`,
+          'no canon rung beat with this rank',
+        );
       scene(`beat.${b.rankKey}`, c, b, `rung:${b.rankKey}`, b.loc);
     } else if (b.kind === 'scene') {
       const c = canon.intro.get(b.id);
-      if (!c) throw gateError(b.loc, `intro:${b.id}`, 'no canon intro scene with this id');
+      if (!c)
+        throw gateError(
+          b.loc,
+          `intro:${b.id}`,
+          'no canon intro scene with this id',
+        );
       scene(`intro.${b.id}`, c, b, `intro:${b.id}`, b.loc);
     } else if (b.kind === 'scene-def') {
       const c = canon.sceneDef.get(b.id);
-      if (!c) throw gateError(b.loc, `scene:${b.id}`, 'no canon scene-def with this id');
+      if (!c)
+        throw gateError(
+          b.loc,
+          `scene:${b.id}`,
+          'no canon scene-def with this id',
+        );
       scene(`scene.${b.id}`, c, b, `scene:${b.id}`, b.loc);
     } else if (b.kind === 'dialogue') {
       const c = canon.dialogue.get(b.id);
-      if (!c) throw gateError(b.loc, `dialogue:${b.id}`, 'no canon dialogue def with this id');
+      if (!c)
+        throw gateError(
+          b.loc,
+          `dialogue:${b.id}`,
+          'no canon dialogue def with this id',
+        );
       // dialogue lines have STABLE canon ids (teach lines); a take re-voices a SUBSET by
       // naming them — an id canon lacks is a typo, not a new line (prose-only).
       for (const l of b.lines) {
@@ -369,7 +419,9 @@ function emitTakeText(doc: NarrativeDoc, canon: CanonIndex): { text: string[]; s
             `line "${l.id}" does not exist in canon (canon ids: ${c.lines.map((x) => x.id).join(', ')})`,
           );
         }
-        out.push(`${str(`dialogue.${b.id}.${l.id}`)}: ${textExpr(l.text, l.loc)},`);
+        out.push(
+          `${str(`dialogue.${b.id}.${l.id}`)}: ${textExpr(l.text, l.loc)},`,
+        );
       }
     } else if (b.kind === 'prose') {
       const ns =
@@ -403,7 +455,11 @@ function emitTakeText(doc: NarrativeDoc, canon: CanonIndex): { text: string[]; s
   return { text: out, seq: seqOut };
 }
 
-function emitTake(meta: TakeMeta, doc: NarrativeDoc, canon: CanonIndex): string {
+function emitTake(
+  meta: TakeMeta,
+  doc: NarrativeDoc,
+  canon: CanonIndex,
+): string {
   const L: string[] = ['{'];
   L.push(`id: ${str(meta.id)},`);
   L.push(`label: ${str(meta.label)},`);
@@ -426,7 +482,10 @@ function emitTake(meta: TakeMeta, doc: NarrativeDoc, canon: CanonIndex): string 
 
 /** Compile all open bundles into the `src/ui/storyTakes.gen.ts` module source
  *  (unformatted). Zero bundles emits a stable empty registry. */
-export function emitStoryTakes(bundles: readonly ParsedTakeBundle[], canon: CanonIndex): string {
+export function emitStoryTakes(
+  bundles: readonly ParsedTakeBundle[],
+  canon: CanonIndex,
+): string {
   const entries = bundles.map((b) => {
     if (b.meta.takes.length !== b.docs.length) {
       throw new NarrativeError(
@@ -442,7 +501,8 @@ export function emitStoryTakes(bundles: readonly ParsedTakeBundle[], canon: Cano
     if (b.meta.rationale) L.push(`rationale: ${str(b.meta.rationale)},`);
     if (b.meta.canonLabel) L.push(`canonLabel: ${str(b.meta.canonLabel)},`);
     if (b.meta.rung !== undefined) L.push(`rung: ${b.meta.rung},`);
-    if (b.meta.rungReason !== undefined) L.push(`rungReason: ${str(b.meta.rungReason)},`);
+    if (b.meta.rungReason !== undefined)
+      L.push(`rungReason: ${str(b.meta.rungReason)},`);
     L.push('takes: [');
     b.meta.takes.forEach((t, i) => L.push(emitTake(t, b.docs[i]!, canon)));
     L.push('],');
@@ -452,11 +512,15 @@ export function emitStoryTakes(bundles: readonly ParsedTakeBundle[], canon: Cano
   const body =
     `export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [\n` +
     `${entries.join('\n\n')}\n];`;
-  return withImports(GENERATED('src/core/content/narrative/takes/', 'storyTakes.ts'), body, [
-    `import type { StoryTakeBundle } from './storyTakes';`,
-    `import { COLD_OPEN } from '../core/content/coldOpen';`,
-    `import { getDialogueLine } from '../core/content/dialogue';`,
-    `import { NAMES } from '../core/content/names';`,
-    `import { NPC_NAME } from '../core/content/voices';`,
-  ]);
+  return withImports(
+    GENERATED('src/core/content/narrative/takes/', 'storyTakes.ts'),
+    body,
+    [
+      `import type { StoryTakeBundle } from './storyTakes';`,
+      `import { COLD_OPEN } from '../core/content/coldOpen';`,
+      `import { getDialogueLine } from '../core/content/dialogue';`,
+      `import { NAMES } from '../core/content/names';`,
+      `import { NPC_NAME } from '../core/content/voices';`,
+    ],
+  );
 }

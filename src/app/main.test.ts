@@ -11,7 +11,12 @@
 // at R5 — both the rung assert and the "no stale higher-rung unlock" assert flip red.
 import { describe, it, expect } from 'vitest';
 import { planRungJump } from './main';
-import { createInitialState, getRank, isUnlocked, type GameState } from '../core';
+import {
+  createInitialState,
+  getRank,
+  isUnlocked,
+  type GameState,
+} from '../core';
 
 /** Climb a fresh game up to `rung` using the same pure engine the teleport uses (an upward jump,
  *  so no reset is involved — this is the honest "we are genuinely AT rung X" fixture to jump from). */
@@ -41,7 +46,8 @@ describe('planRungJump — DEV rung teleport, both directions (F68)', () => {
     expect(down.reset).toBe(true);
     expect(down.state.rung).toBe('R3');
     // R3's unlocks are re-granted…
-    for (const u of unlocksOf('R3')) expect(isUnlocked(down.state, u)).toBe(true);
+    for (const u of unlocksOf('R3'))
+      expect(isUnlocked(down.state, u)).toBe(true);
     // …and every stale higher-rung unlock (R4's durability/equip, R5's stance) is GONE —
     // the reset dropped the higher rank flags, so the derived set shrank with them (ADR-179).
     for (const u of [...unlocksOf('R4'), ...unlocksOf('R5')]) {

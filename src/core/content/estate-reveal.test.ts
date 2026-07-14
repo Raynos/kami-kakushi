@@ -33,8 +33,15 @@ describe('A8 — interior-house reveals stagger across the estate ladder', () =>
   });
 
   it('every interior-house surface is revealed EXACTLY once (no double-bundle)', () => {
-    for (const room of ['house-omoya', 'house-workshops', 'house-granary', 'house-study']) {
-      const count = RANKS.filter((r) => (r.rewardOnReach?.unlock ?? []).includes(room)).length;
+    for (const room of [
+      'house-omoya',
+      'house-workshops',
+      'house-granary',
+      'house-study',
+    ]) {
+      const count = RANKS.filter((r) =>
+        (r.rewardOnReach?.unlock ?? []).includes(room),
+      ).length;
       expect(count).toBe(1);
     }
   });

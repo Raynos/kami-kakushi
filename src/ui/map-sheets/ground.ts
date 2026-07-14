@@ -7,9 +7,32 @@
 
 import type { Pt } from './geom';
 import { bbox, pointInPoly } from './geom';
-import { brushStroke, fineLayer, inkLine, inkText, rng, stipple, sv, tip, wash } from './brush';
-import { bambooGrove, grassTufts, orchardRows, pine, reedBed, treeMass } from './flora';
-import { furrows, ghostBunds, paddyBlock, sweptCourt, terraceRun } from './fields';
+import {
+  brushStroke,
+  fineLayer,
+  inkLine,
+  inkText,
+  rng,
+  stipple,
+  sv,
+  tip,
+  wash,
+} from './brush';
+import {
+  bambooGrove,
+  grassTufts,
+  orchardRows,
+  pine,
+  reedBed,
+  treeMass,
+} from './flora';
+import {
+  furrows,
+  ghostBunds,
+  paddyBlock,
+  sweptCourt,
+  terraceRun,
+} from './fields';
 import {
   charcoalClamp,
   dryingRack,
@@ -26,7 +49,16 @@ import {
   well,
   wingedHouse,
 } from './built';
-import { bridge, channel, fishWeir, flowTicks, pool, river, sluiceGate, weirBar } from './water';
+import {
+  bridge,
+  channel,
+  fishWeir,
+  flowTicks,
+  pool,
+  river,
+  sluiceGate,
+  weirBar,
+} from './water';
 import { groundWashBand, hachureBand, hillRange } from './terrain';
 import {
   BOUNDARY_STONES,
@@ -48,7 +80,12 @@ import type { Tier } from './nodes';
 
 /** A work-worn road: a warm tapered under-stroke + a fine dash overlay, one idiom
  *  for every route on the sheet (ghost roads pass ghost=true). */
-function road(art: SVGElement, pts: readonly Pt[], seed: string, ghost = false): void {
+function road(
+  art: SVGElement,
+  pts: readonly Pt[],
+  seed: string,
+  ghost = false,
+): void {
   if (ghost) {
     inkLine(art, pts, {
       seed: `${seed}-g`,
@@ -89,7 +126,12 @@ function redNote(
   horizontal = false,
 ): void {
   const g = sv('g');
-  inkText(g, x, y, text, { size: 16, color: 'var(--shu)', opacity: 1, vertical: !horizontal });
+  inkText(g, x, y, text, {
+    size: 16,
+    color: 'var(--shu)',
+    opacity: 1,
+    vertical: !horizontal,
+  });
   tip(g, why);
   art.append(g);
 }
@@ -277,7 +319,9 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     // the woodlot edge — scattered conifers thinning toward the precinct
     const r = alongScatter(WILDS.woodlotScatter, 26, 'woodlot-scatter');
     for (const [x, y, s] of r)
-      pine(art, x, y, 7 + s * 5, { seed: `wl-${x.toFixed(0)}-${y.toFixed(0)}` });
+      pine(art, x, y, 7 + s * 5, {
+        seed: `wl-${x.toFixed(0)}-${y.toFixed(0)}`,
+      });
     // char-darkened stumps (T0's undated marks)
     stipple(art, WILDS.woodlotScatter, {
       seed: 'stumps',
@@ -288,16 +332,23 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
       opacity: 0.7,
     });
   }
-  charcoalClamp(art, WILDS.clamp[0], WILDS.clamp[1], { seed: 'clamp', smoking: d.clampSmoking });
+  charcoalClamp(art, WILDS.clamp[0], WILDS.clamp[1], {
+    seed: 'clamp',
+    smoking: d.clampSmoking,
+  });
 
   // ── 3 · fields (G7): the worked fraction + the ghost of the old extent ──
   ghostBunds(art, FIELDS.ghostBunds, { seed: 'ghost-w' });
   ghostBunds(art, FIELDS.ghostBundsSouth, { seed: 'ghost-s' });
   for (let i = 0; i < FIELDS.homePaddies.length; i++) {
-    paddyBlock(art, FIELDS.homePaddies[i]!, { seed: `paddy-${i}`, rowAngleDeg: -4 + i * 3 });
+    paddyBlock(art, FIELDS.homePaddies[i]!, {
+      seed: `paddy-${i}`,
+      rowAngleDeg: -4 + i * 3,
+    });
   }
   furrows(art, GUEST.vegRows, { seed: 'veg', angleDeg: 88 });
-  for (const [x, y] of GUEST.dryingRacks) dryingRack(art, x, y, { seed: `rack-${x}` });
+  for (const [x, y] of GUEST.dryingRacks)
+    dryingRack(art, x, y, { seed: `rack-${x}` });
   // the margins: scrubby fringe + the sett-line running under the precinct wall
   grassTufts(art, FIELDS.margins, { seed: 'margins', density: 0.7 });
   inkLine(art, FIELDS.settLine, {
@@ -348,7 +399,10 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   });
 
   // ── 4 · water (G2/G3): the river, the works, the one channel that matters ──
-  river(art, RIVER.centerline, { seed: 'river', widthProfile: [...RIVER.widthProfile] });
+  river(art, RIVER.centerline, {
+    seed: 'river',
+    widthProfile: [...RIVER.widthProfile],
+  });
   flowTicks(art, RIVER.centerline, { seed: 'flow', count: 7 });
   for (const p of WATER.pools)
     pool(art, p.x, p.y, p.r, { seed: `pool-${p.x}`, drained: d.poolsDrained });
@@ -372,23 +426,41 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     );
     // the kanji alone read as DISASTER to fresh eyes (R14 inverted 0/3 —
     // "drying, ominous"); the reviser's gloss says what the red means
-    inkText(art, 452, 300, 'pools drained —', { size: 12, color: 'var(--shu)', opacity: 0.95 });
-    inkText(art, 452, 318, 'the breach closed', { size: 12, color: 'var(--shu)', opacity: 0.95 });
-    inkText(art, 452, 336, 'ditches cut anew', { size: 12, color: 'var(--shu)', opacity: 0.95 });
+    inkText(art, 452, 300, 'pools drained —', {
+      size: 12,
+      color: 'var(--shu)',
+      opacity: 0.95,
+    });
+    inkText(art, 452, 318, 'the breach closed', {
+      size: 12,
+      color: 'var(--shu)',
+      opacity: 0.95,
+    });
+    inkText(art, 452, 336, 'ditches cut anew', {
+      size: 12,
+      color: 'var(--shu)',
+      opacity: 0.95,
+    });
   }
   // the old breach: open robbed gap in T0; closed in fresh stone in T1
   breachMark(art, tier);
-  for (const ch of WATER.worksChannels) channel(art, ch, { seed: 'works', silted: d.worksSilted });
-  sluiceGate(art, WATER.worksSluice.at, WATER.worksSluice.angleDeg, { seed: 'works-sluice' });
+  for (const ch of WATER.worksChannels)
+    channel(art, ch, { seed: 'works', silted: d.worksSilted });
+  sluiceGate(art, WATER.worksSluice.at, WATER.worksSluice.angleDeg, {
+    seed: 'works-sluice',
+  });
   weirBar(art, WATER.weir.at, WATER.weir.angleDeg, { seed: 'weir' });
   channel(art, WATER.mainChannel, { seed: 'main-ch' });
   for (let i = 0; i < WATER.paddyDitches.length; i++)
     channel(art, WATER.paddyDitches[i]!, { seed: `pd-${i}` });
-  sluiceGate(art, WATER.channelSluice.at, WATER.channelSluice.angleDeg, { seed: 'ch-sluice' });
+  sluiceGate(art, WATER.channelSluice.at, WATER.channelSluice.angleDeg, {
+    seed: 'ch-sluice',
+  });
   channel(art, WATER.siltedBranch, { seed: 'silt-br', silted: d.worksSilted });
   bridge(art, WATER.bridge.at, WATER.bridge.angleDeg, { seed: 'bridge' });
   reedBed(art, WATER.reeds, { seed: 'reeds' });
-  for (const fw of WATER.fishWeirs) fishWeir(art, fw.at, fw.angleDeg, { seed: `fw-${fw.at[0]}` });
+  for (const fw of WATER.fishWeirs)
+    fishWeir(art, fw.at, fw.angleDeg, { seed: `fw-${fw.at[0]}` });
   // the otters' den — dressed stone in a wild bank (a wrong thing, drawn small)
   {
     const g = fineLayer(art);
@@ -413,7 +485,10 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     tip(g, 'The otters den in DRESSED stone — squared blocks, in a riverbank');
   }
   // Matsuzō's hut — his side of the water
-  shed(art, WATER.matsuzoHut[0], WATER.matsuzoHut[1], { seed: 'matsuzo', scale: 0.8 });
+  shed(art, WATER.matsuzoHut[0], WATER.matsuzoHut[1], {
+    seed: 'matsuzo',
+    scale: 0.8,
+  });
   // the weir-jizō + the offerings nobody admits to
   stoneMarker(art, WATER.jizo[0], WATER.jizo[1], 'jizo', { seed: 'jizo' });
 
@@ -480,10 +555,17 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   });
   // the great gate's collapse spills forward — the fallen lintel + rubble apron
   // that make the dead entrance READ at fit view
-  fallenRoof(art, PRECINCT.greatGate.at[0] + 34, PRECINCT.greatGate.at[1] + 26, 62, 34, {
-    seed: 'gate-lintel',
-    angleDeg: 12,
-  });
+  fallenRoof(
+    art,
+    PRECINCT.greatGate.at[0] + 34,
+    PRECINCT.greatGate.at[1] + 26,
+    62,
+    34,
+    {
+      seed: 'gate-lintel',
+      angleDeg: 12,
+    },
+  );
   rubbleField(
     art,
     [
@@ -495,15 +577,24 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     { seed: 'gate-rubble' },
   );
   for (const f of PRECINCT.fallenRoofs)
-    fallenRoof(art, f.x, f.y, f.w, f.h, { seed: `fallen-${f.x}`, angleDeg: f.angleDeg });
+    fallenRoof(art, f.x, f.y, f.w, f.h, {
+      seed: `fallen-${f.x}`,
+      angleDeg: f.angleDeg,
+    });
   for (const b of PRECINCT.barracksRow)
-    fallenRoof(art, b.x, b.y, b.w, b.h, { seed: `barr-${b.x}`, angleDeg: b.angleDeg });
+    fallenRoof(art, b.x, b.y, b.w, b.h, {
+      seed: `barr-${b.x}`,
+      angleDeg: b.angleDeg,
+    });
   // the original temple-alcove — a small ruined shrine in the inner domain
   fallenRoof(art, PRECINCT.templeAlcove[0], PRECINCT.templeAlcove[1], 46, 30, {
     seed: 'temple-old',
     angleDeg: -6,
   });
-  grassTufts(art, PRECINCT.innerGardenOld, { seed: 'old-garden', density: 1.7 });
+  grassTufts(art, PRECINCT.innerGardenOld, {
+    seed: 'old-garden',
+    density: 1.7,
+  });
   // the old garden's ornamental trees, gone wild among the tufts
   pine(art, 1592, 1128, 9, { seed: 'garden-pine-1' });
   pine(art, 1768, 1096, 8, { seed: 'garden-pine-2' });
@@ -523,8 +614,14 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
 
   // ── 8 · the guest house — the lived corner (G5/G6) ──
   sweptCourt(art, GUEST.forecourt, { seed: 'forecourt' });
-  wallRun(art, [...GUEST.wall, GUEST.wall[0]!], { seed: 'guest-wall', state: 'neat' });
-  gatehouse(art, GUEST.gate.at, GUEST.gate.angleDeg, { seed: 'guest-gate', scale: 1.25 });
+  wallRun(art, [...GUEST.wall, GUEST.wall[0]!], {
+    seed: 'guest-wall',
+    state: 'neat',
+  });
+  gatehouse(art, GUEST.gate.at, GUEST.gate.angleDeg, {
+    seed: 'guest-gate',
+    scale: 1.25,
+  });
   const house = wingedHouse(art, GUEST.house.at, {
     seed: 'house',
     scale: GUEST.house.scale,
@@ -533,7 +630,10 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
   // the alcove corridor seal sits on the JOINING corridor (hall → east wing),
   // never the great roof — there it reads as "the house is a shrine" (blind-
   // reader finding)
-  overrides.set('shrine', [(house.hall[0] + house.eastWing[0]) / 2, house.hall[1] - 8]);
+  overrides.set('shrine', [
+    (house.hall[0] + house.eastWing[0]) / 2,
+    house.hall[1] - 8,
+  ]);
   overrides.set('kitchen', house.kitchen);
   overrides.set('east-wing', house.eastWing);
   overrides.set('west-wing', house.westWing);
@@ -584,7 +684,13 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
         [wx - 13, wy + 26],
         [wx + 13, wy + 42],
       ],
-      { seed: 'west-tie-a', w: 1.8, color: 'var(--silver-dim)', opacity: 0.9, amp: 0.6 },
+      {
+        seed: 'west-tie-a',
+        w: 1.8,
+        color: 'var(--silver-dim)',
+        opacity: 0.9,
+        amp: 0.6,
+      },
     );
     inkLine(
       art,
@@ -592,7 +698,13 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
         [wx + 13, wy + 26],
         [wx - 13, wy + 42],
       ],
-      { seed: 'west-tie-b', w: 1.8, color: 'var(--silver-dim)', opacity: 0.9, amp: 0.6 },
+      {
+        seed: 'west-tie-b',
+        w: 1.8,
+        color: 'var(--silver-dim)',
+        opacity: 0.9,
+        amp: 0.6,
+      },
     );
   }
   if (fresh) {
@@ -610,7 +722,14 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
       { seed: 'east-fresh', fill: 'var(--steel-hi)', opacity: 0.16, amp: 2 },
     );
     // sits above the wing, clear of the Workshops caption cluster (L9)
-    redNote(art, ex - 6, ey - 66, '改・東棟成', 'The east wing, rebuilt (R4–R6)', true);
+    redNote(
+      art,
+      ex - 6,
+      ey - 66,
+      '改・東棟成',
+      'The east wing, rebuilt (R4–R6)',
+      true,
+    );
     // ADR-151 hybrid: ONE fresh repair reaches INTO the dead precinct — the
     // wall stretch north of the lived corner re-stacked in new work. The ruin
     // itself stays untouched (its reveal is T2); this is the household's first
@@ -623,7 +742,13 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
       ],
       { seed: 'precinct-mend', state: 'neat' },
     );
-    redNote(art, 1868, 964, '改・繕', 'The old wall, mended a few ken past the rope — why?');
+    redNote(
+      art,
+      1868,
+      964,
+      '改・繕',
+      'The old wall, mended a few ken past the rope — why?',
+    );
     redNote(
       art,
       house.shoin[0] - 44,
@@ -633,15 +758,27 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     );
   }
   kura(art, GUEST.kura[0], GUEST.kura[1], { seed: 'kura' });
-  shed(art, GUEST.woodshed[0], GUEST.woodshed[1], { seed: 'woodshed', scale: 0.9 });
-  leanTo(art, GUEST.sickroom[0], GUEST.sickroom[1], { seed: 'sickroom', angleDeg: 90 });
+  shed(art, GUEST.woodshed[0], GUEST.woodshed[1], {
+    seed: 'woodshed',
+    scale: 0.9,
+  });
+  leanTo(art, GUEST.sickroom[0], GUEST.sickroom[1], {
+    seed: 'sickroom',
+    angleDeg: 90,
+  });
   stableRange(art, GUEST.stable.at, {
     seed: 'stable',
     stalls: GUEST.stable.stalls,
     angleDeg: GUEST.stable.angleDeg,
   });
-  shed(art, GUEST.workshops[0], GUEST.workshops[1], { seed: 'workshop', scale: 1 });
-  forge(art, GUEST.workshops[0] - 26, GUEST.workshops[1] + 18, { seed: 'forge', lit: d.forgeLit });
+  shed(art, GUEST.workshops[0], GUEST.workshops[1], {
+    seed: 'workshop',
+    scale: 1,
+  });
+  forge(art, GUEST.workshops[0] - 26, GUEST.workshops[1] + 18, {
+    seed: 'forge',
+    lit: d.forgeLit,
+  });
   well(art, GUEST.well[0], GUEST.well[1], { seed: 'well' });
 
   // ── 9 · the family plot (drawn both tiers; sealed in T1) + the bounds (G9) ──
@@ -656,8 +793,15 @@ export function paintWorld(art: SVGElement, tier: Tier): Map<string, Pt> {
     stoneMarker(sg, s.x, s.y, 'boundary', { seed: `bstone-${s.x}` });
     if (s.newer && tier === 'T1') {
       const g = fineLayer(art);
-      inkText(g, s.x + 16, s.y - 10, '新?', { size: 11, color: 'var(--shu)', opacity: 0.8 });
-      tip(g, 'This stone is NEWER than its brothers — and stands a field short of the old line');
+      inkText(g, s.x + 16, s.y - 10, '新?', {
+        size: 11,
+        color: 'var(--shu)',
+        opacity: 0.8,
+      });
+      tip(
+        g,
+        'This stone is NEWER than its brothers — and stands a field short of the old line',
+      );
     }
   }
 
@@ -686,14 +830,23 @@ function breachMark(art: SVGElement, tier: Tier): void {
       ],
       { seed: 'breach-fix', w: 6, color: 'var(--gold-dim)', opacity: 0.85 },
     );
-    redNote(art, bx + 46, by + 6, '改・塞', 'The breach, CLOSED at R4 — the pools drained with it');
+    redNote(
+      art,
+      bx + 46,
+      by + 6,
+      '改・塞',
+      'The breach, CLOSED at R4 — the pools drained with it',
+    );
     // English gloss beside the kanji stamp (R14 — the repair must READ as repair)
     inkText(art, bx + 66, by - 2, 'breach closed — new stone', {
       size: 12,
       color: 'var(--shu)',
       opacity: 0.95,
     });
-    tip(g, 'The old breach — closed in fresh stone (R4); the robbed hollows still read beside it');
+    tip(
+      g,
+      'The old breach — closed in fresh stone (R4); the robbed hollows still read beside it',
+    );
   } else {
     tip(
       g,
@@ -761,7 +914,10 @@ function ropeLine(art: SVGElement): void {
       );
     }
   }
-  tip(g, 'The rope and the warning — the ruin is not entered, and not discussed');
+  tip(
+    g,
+    'The rope and the warning — the ruin is not entered, and not discussed',
+  );
   art.append(g);
 }
 

@@ -7,7 +7,12 @@
 import { hasFlag, type GameState } from './state';
 import type { MobId } from './content/enemies';
 import { getMob } from './content/enemies';
-import { mcCombatStats, mobCombatStats, resolveFight, combatLevelForXp } from './combat';
+import {
+  mcCombatStats,
+  mobCombatStats,
+  resolveFight,
+  combatLevelForXp,
+} from './combat';
 import { hpMax } from './selectors';
 import { applyRewards } from './rewards';
 import { advanceClock } from './step';
@@ -34,7 +39,10 @@ function wearWeapon(state: GameState): GameState {
   // A2: wear is no longer stance-dependent — a flat cost per fight (§4.6.10).
   return {
     ...state,
-    weaponDurability: Math.max(0, state.weaponDurability - DURABILITY_WEAR_PER_FIGHT),
+    weaponDurability: Math.max(
+      0,
+      state.weaponDurability - DURABILITY_WEAR_PER_FIGHT,
+    ),
   };
 }
 
@@ -46,10 +54,14 @@ function attrPointsAt(level: number): number {
 
 function gainCombatXp(state: GameState, amount: number): GameState {
   const combatXp = state.character.combatXp + amount;
-  let next: GameState = { ...state, character: { ...state.character, combatXp } };
+  let next: GameState = {
+    ...state,
+    character: { ...state.character, combatXp },
+  };
   const newLevel = combatLevelForXp(combatXp);
   if (newLevel > state.character.level) {
-    const pointsGained = attrPointsAt(newLevel) - attrPointsAt(state.character.level);
+    const pointsGained =
+      attrPointsAt(newLevel) - attrPointsAt(state.character.level);
     next = {
       ...next,
       character: {
@@ -60,7 +72,13 @@ function gainCombatXp(state: GameState, amount: number): GameState {
     };
     // ADR-050: a level-up no longer free-heals — HP carries, and eating is the only mend.
     next = applyRewards(next, {
-      log: [{ channel: 'milestone', contentKey: 'combat.levelUp', params: { level: newLevel } }],
+      log: [
+        {
+          channel: 'milestone',
+          contentKey: 'combat.levelUp',
+          params: { level: newLevel },
+        },
+      ],
     });
   }
   return next;
@@ -68,7 +86,11 @@ function gainCombatXp(state: GameState, amount: number): GameState {
 
 /** A grindable fight: real outcome, self-recovering loss. `retreat` selects the auto-retreat-@20%
  *  mode (batch-2 call 6) — break off at the threshold instead of fighting to the end. */
-export function applyGrindFight(state: GameState, mobId: MobId, retreat = false): GameState {
+export function applyGrindFight(
+  state: GameState,
+  mobId: MobId,
+  retreat = false,
+): GameState {
   const mob = getMob(mobId);
   const retreatHp = retreat ? Math.round(AUTO_RETREAT_FRAC * hpMax(state)) : 0;
   // Arming auto-flee while ALREADY at/below the retreat threshold (e.g. HP 1 right after a loss)
@@ -122,7 +144,9 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
             hpAfter: result.mcHpLeft,
             coin: 0, // G4: no coin from beasts
             lootQty: drop ? drop.qty : 0,
-            lootLabel: drop ? getMaterial(drop.material).label.toLowerCase() : '',
+            lootLabel: drop
+              ? getMaterial(drop.material).label.toLowerCase()
+              : '',
           },
         },
       ],
@@ -147,7 +171,11 @@ export function applyGrindFight(state: GameState, mobId: MobId, retreat = false)
         {
           channel: 'combat',
           contentKey: 'combat.flee',
-          params: { mob: mob.label.toLowerCase(), hpBefore, hpAfter: result.mcHpLeft },
+          params: {
+            mob: mob.label.toLowerCase(),
+            hpBefore,
+            hpAfter: result.mcHpLeft,
+          },
         },
       ],
     });

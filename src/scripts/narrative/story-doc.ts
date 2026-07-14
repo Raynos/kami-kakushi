@@ -18,7 +18,9 @@ import type {
   TopicNode,
 } from './parse';
 
-const RANK_BY_ID = new Map<string, (typeof RANKS)[number]>(RANKS.map((r) => [r.id, r]));
+const RANK_BY_ID = new Map<string, (typeof RANKS)[number]>(
+  RANKS.map((r) => [r.id, r]),
+);
 
 /** Resolve `{key}` interpolations + `@…` reuse refs into plain reading text. */
 function makeResolver(docs: readonly NarrativeDoc[]): (text: string) => string {
@@ -26,7 +28,8 @@ function makeResolver(docs: readonly NarrativeDoc[]): (text: string) => string {
   const dialogue = new Map<string, string>();
   for (const doc of docs) {
     for (const b of doc.blocks) {
-      if (b.kind === 'prose') for (const e of b.entries) coldOpen.set(e.key, e.text);
+      if (b.kind === 'prose')
+        for (const e of b.entries) coldOpen.set(e.key, e.text);
       if (b.kind === 'dialogue') {
         for (const l of b.lines) dialogue.set(`${b.id}/${l.id}`, l.text);
       }
@@ -82,7 +85,10 @@ function effectNotes(o: OptionNode, resolve: Resolver): string {
   return bits.length ? ` <small>· ${bits.join(' · ')}</small>` : '';
 }
 
-function sceneLines(scene: RungSceneNode | IntroSceneNode, resolve: Resolver): string[] {
+function sceneLines(
+  scene: RungSceneNode | IntroSceneNode,
+  resolve: Resolver,
+): string[] {
   const out: string[] = [];
   out.push(...proseLines(scene.greeting, resolve));
   for (const t of scene.topics) out.push(...topicLines(t, resolve));
@@ -94,7 +100,11 @@ function sceneLines(scene: RungSceneNode | IntroSceneNode, resolve: Resolver): s
       react.kind === 'speech'
         ? `**${react.speaker}:** ${resolve(react.text)}`
         : `*${resolve(react.text)}*`;
-    out.push(`- ${resolve(o.label)}${effectNotes(o, resolve)}`, `  ${reactText}`, '');
+    out.push(
+      `- ${resolve(o.label)}${effectNotes(o, resolve)}`,
+      `  ${reactText}`,
+      '',
+    );
   }
   return out;
 }
@@ -116,7 +126,11 @@ function sceneDefLines(def: SceneDefNode, resolve: Resolver): string[] {
         react.kind === 'speech'
           ? `**${react.speaker}:** ${resolve(react.text)}`
           : `*${resolve(react.text)}*`;
-      out.push(`- ${resolve(o.label)}${effectNotes(o, resolve)}`, `  ${reactText}`, '');
+      out.push(
+        `- ${resolve(o.label)}${effectNotes(o, resolve)}`,
+        `  ${reactText}`,
+        '',
+      );
     }
   }
   return out;
@@ -158,7 +172,9 @@ export function emitStoryDoc(docs: readonly NarrativeDoc[]): string {
   }
 
   // ── the rung beats ──
-  for (const scene of docs.flatMap((d) => d.blocks).filter((b) => b.kind === 'rung')) {
+  for (const scene of docs
+    .flatMap((d) => d.blocks)
+    .filter((b) => b.kind === 'rung')) {
     const rank = RANK_BY_ID.get(scene.rankKey);
     const title = rank ? `${rank.title} ${rank.kanji}` : scene.rankKey;
     L.push(`## ${scene.rankKey} · ${title}`, '');
@@ -166,7 +182,9 @@ export function emitStoryDoc(docs: readonly NarrativeDoc[]): string {
   }
 
   // ── the generalized scenes (storywave G3.5 — a STUB until G4.1 fills scenes.md) ──
-  const sceneDefs = docs.flatMap((d) => d.blocks).filter((b) => b.kind === 'scene-def');
+  const sceneDefs = docs
+    .flatMap((d) => d.blocks)
+    .filter((b) => b.kind === 'scene-def');
   if (sceneDefs.length > 0) {
     L.push('## Generalized scenes (G3.5 stub)', '');
     L.push(
@@ -184,7 +202,9 @@ export function emitStoryDoc(docs: readonly NarrativeDoc[]): string {
   // artifact for the authored lists: flavor first (what the player feels), the
   // Progress-tab objective line under it (HD-41 — what the register records),
   // then the mechanical spec as small print (what the engine counts). ──
-  const reqBlocks = docs.flatMap((d) => d.blocks).filter((b) => b.kind === 'requirements');
+  const reqBlocks = docs
+    .flatMap((d) => d.blocks)
+    .filter((b) => b.kind === 'requirements');
   if (reqBlocks.length > 0) {
     L.push('## The hidden rung requirements', '');
     L.push(
@@ -212,7 +232,9 @@ export function emitStoryDoc(docs: readonly NarrativeDoc[]): string {
                   : s.pred.kind === 'skill'
                     ? `skill ${s.pred.skill} ≥ ${s.pred.min}`
                     : `${s.pred.kind} ${s.pred.res} ≥ ${s.pred.min}`;
-        L.push(`- ${resolve(r.flavor ?? '')} <small>*(${r.id} — ${mech})*</small>`);
+        L.push(
+          `- ${resolve(r.flavor ?? '')} <small>*(${r.id} — ${mech})*</small>`,
+        );
         L.push(`  - <small>Progress: ${resolve(r.objective ?? '')}</small>`);
       }
       L.push('');

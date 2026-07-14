@@ -33,7 +33,8 @@ import {
 
 /** The R0…R7 ladder in order, derived from the rank registry (never a hand-typed magic list). */
 const RUNG_ORDER = RANKS.map((r) => r.id);
-const rungIndex = (id: string): number => RUNG_ORDER.indexOf(id as (typeof RUNG_ORDER)[number]);
+const rungIndex = (id: string): number =>
+  RUNG_ORDER.indexOf(id as (typeof RUNG_ORDER)[number]);
 
 interface ArcTrace {
   readonly final: GameState;
@@ -58,7 +59,8 @@ function playArc(seed: number): ArcTrace {
   while (s.tier === 0 && guard++ < 2_000_000) {
     reached[s.rung] = true;
     // the day-wage is the R5+ faucet: it must NEVER accrue before the trusted hand is put on the books.
-    if (rungIndex(s.rung) < R5 && s.wageDaysAccrued > 0) wageAccruedBeforeR5 = true;
+    if (rungIndex(s.rung) < R5 && s.wageDaysAccrued > 0)
+      wageAccruedBeforeR5 = true;
     if (ascensionAvailable(s)) {
       s = reduce(s, { type: 'ascend' });
       break;
@@ -121,14 +123,18 @@ describe('the storywave T0 arc closes end-to-end via real intents (weir cold ope
 
   it('the SILENT-content beats played: R2 yard-hand, the R5 Count, the R7 dream (scenes drained)', () => {
     for (const id of ['r2-yard-hand', 'count', 'r7-dream']) {
-      expect(final.scenesPlayed.includes(id), `scene ${id} never played`).toBe(true);
+      expect(final.scenesPlayed.includes(id), `scene ${id} never played`).toBe(
+        true,
+      );
     }
   });
 
   it('THE LOOP CLOSES: Phase 2 opened at the capstone, the Estate reached EXCELLENT, and it ascended', () => {
     expect(hasFlag(final, 't0-capstone')).toBe(true);
     expect(estateGrade(final)).toBe('EXCELLENT');
-    expect(final.influence.estate.value).toBeGreaterThanOrEqual(balance.ESTATE_BANDS.excellent);
+    expect(final.influence.estate.value).toBeGreaterThanOrEqual(
+      balance.ESTATE_BANDS.excellent,
+    );
     expect(final.tier).toBe(1); // T0 → T1
     expect(phaseOf({ ...final, tier: 0 })).toBe(2); // the macro engine was open at the capstone
   });
@@ -137,7 +143,9 @@ describe('the storywave T0 arc closes end-to-end via real intents (weir cold ope
     const again = playArc(20260626);
     expect(again.final.tier).toBe(1);
     expect(again.steps).toBe(arc.steps);
-    expect(again.final.influence.estate.value).toBe(final.influence.estate.value);
+    expect(again.final.influence.estate.value).toBe(
+      final.influence.estate.value,
+    );
     expect(again.final.seasonsPassed).toBe(final.seasonsPassed);
   });
 });
@@ -150,7 +158,12 @@ describe('the T0 arc — the DESIGN LEVERS at the gates (not collapsed metrics)'
     const ready: GameState = {
       ...base,
       // ADR-179 — verb-farm + room-paddies derive from their rung's fact-flag (rank-r1).
-      flags: { ...base.flags, awake: true, raked: true, ...factsForSurfaces('verb-farm') },
+      flags: {
+        ...base.flags,
+        awake: true,
+        raked: true,
+        ...factsForSurfaces('verb-farm'),
+      },
       location: 'paddies',
       character: { ...base.character, satiety: 100 },
     };
@@ -161,12 +174,16 @@ describe('the T0 arc — the DESIGN LEVERS at the gates (not collapsed metrics)'
     expect(first).toBeGreaterThan(0);
     expect(later).toBeLessThan(first); // the depleting pool is the lever, not a flat faucet
     // and the underlying draw curve is MONOTONIC in what remains (the source-of-truth lever)
-    expect(balance.productionDraw(300)).toBeGreaterThan(balance.productionDraw(100));
+    expect(balance.productionDraw(300)).toBeGreaterThan(
+      balance.productionDraw(100),
+    );
   });
 
   it('the rice SELL price swings by SEASON (spring dearest, autumn cheapest) — the store-vs-sell lever', () => {
     // Assert the DIRECTION (the design lever), derived from the price table, not a pinned magnitude.
-    expect(balance.riceSellPrice('spring')).toBeGreaterThan(balance.riceSellPrice('autumn'));
+    expect(balance.riceSellPrice('spring')).toBeGreaterThan(
+      balance.riceSellPrice('autumn'),
+    );
     // and the arc actually rode a season it could sell into (a positive coin close proves the faucet ran).
     expect(season(createInitialState(1))).toBe('winter'); // the wheel opens on Winter (bible)
   });

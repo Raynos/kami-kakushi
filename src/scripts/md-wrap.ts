@@ -61,7 +61,12 @@ export function width(s: string): number {
  * is NEVER split — it overflows onto its own line, which is precisely how an
  * unbreakable URL survives untouched.
  */
-export function fold(text: string, first: string, cont: string, max = PROSE_WIDTH): string[] {
+export function fold(
+  text: string,
+  first: string,
+  cont: string,
+  max = PROSE_WIDTH,
+): string[] {
   const words = text.split(/\s+/).filter(Boolean);
   if (words.length === 0) return [];
   const out: string[] = [];
@@ -90,12 +95,17 @@ function isProse(line: string): boolean {
   // guard existed. Treat it as blank: verbatim, and it ends the open paragraph.
   if (QUOTE.test(line) && line.replace(QUOTE, '').trim() === '') return false;
   if (FENCE.test(line) || TABLE.test(line) || HEADING.test(line)) return false;
-  if (THEMATIC.test(line) || LINK_DEF.test(line) || HTML_ISH.test(line)) return false;
+  if (THEMATIC.test(line) || LINK_DEF.test(line) || HTML_ISH.test(line))
+    return false;
   return true;
 }
 
 /** The prefix a paragraph's FIRST line carries, and the one its continuations get. */
-function prefixesFor(line: string): { first: string; cont: string; text: string } {
+function prefixesFor(line: string): {
+  first: string;
+  cont: string;
+  text: string;
+} {
   const quote = QUOTE.exec(line)?.[1] ?? '';
   const rest = line.slice(quote.length);
   const li = LIST_ITEM.exec(rest);
@@ -112,7 +122,11 @@ function prefixesFor(line: string): { first: string; cont: string; text: string 
     };
   }
   const indent = /^\s*/.exec(rest)?.[0] ?? '';
-  return { first: quote + indent, cont: quote + indent, text: rest.slice(indent.length) };
+  return {
+    first: quote + indent,
+    cont: quote + indent,
+    text: rest.slice(indent.length),
+  };
 }
 
 /**
@@ -134,7 +148,10 @@ export function reflow(src: string, max = PROSE_WIDTH): string {
  * inside a ```code fence``` (which is precisely how offenders() once flagged a
  * shell one-liner in this very journal).
  */
-function analyze(src: string, max = PROSE_WIDTH): { out: string; prose: Set<number> } {
+function analyze(
+  src: string,
+  max = PROSE_WIDTH,
+): { out: string; prose: Set<number> } {
   const lines = src.split('\n');
   const out: string[] = [];
   const prose = new Set<number>();
@@ -208,7 +225,10 @@ function analyze(src: string, max = PROSE_WIDTH): { out: string; prose: Set<numb
  *  3. folding it would actually SHORTEN it — so a line whose overflow is one
  *     unbreakable token (a long URL or path) is not an offender, by construction.
  */
-export function offenders(src: string, max = PROSE_WIDTH): { line: number; text: string }[] {
+export function offenders(
+  src: string,
+  max = PROSE_WIDTH,
+): { line: number; text: string }[] {
   const { prose } = analyze(src, max);
   const lines = src.split('\n');
   const hits: { line: number; text: string }[] = [];
@@ -218,7 +238,8 @@ export function offenders(src: string, max = PROSE_WIDTH): { line: number; text:
     if (width(text) <= max) continue; // (2)
     const { first, cont } = prefixesFor(text);
     const body = text.slice(width(first));
-    if (fold(body, first, cont, max).length > 1) hits.push({ line: n + 1, text }); // (3)
+    if (fold(body, first, cont, max).length > 1)
+      hits.push({ line: n + 1, text }); // (3)
   }
   return hits;
 }
@@ -289,7 +310,9 @@ function main(): void {
     if (hits.length === 0) continue;
 
     bad += hits.length;
-    console.error(`${file} — ${hits.length} prose line(s) over ${PROSE_WIDTH} chars:`);
+    console.error(
+      `${file} — ${hits.length} prose line(s) over ${PROSE_WIDTH} chars:`,
+    );
     for (const h of hits.slice(0, 12)) {
       console.error(`  ${h.line}: (${width(h.text)}) ${h.text.slice(0, 60)}…`);
     }
@@ -302,7 +325,9 @@ function main(): void {
   }
   if (!check)
     console.log(
-      fixed === 0 ? 'md-wrap: nothing to reflow.' : `md-wrap: reflowed ${fixed} file(s).`,
+      fixed === 0
+        ? 'md-wrap: nothing to reflow.'
+        : `md-wrap: reflowed ${fixed} file(s).`,
     );
 }
 

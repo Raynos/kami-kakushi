@@ -3,7 +3,11 @@
 // runs at push/CI, not the per-commit vitest lane (verify budget, ADR-072/ADR-176).
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount } from '../render';
-import { createInitialState, type GameState, factsForSurfaces } from '../../core';
+import {
+  createInitialState,
+  type GameState,
+  factsForSurfaces,
+} from '../../core';
 import { __setStoryOverlay } from '../../core/content/story-overlay';
 
 import { noopHooks } from './test-utils';
@@ -37,7 +41,10 @@ describe('D-119/ADR-177 — tabs reveal one beat at a time (Schedule A)', () => 
     // ADR-179 — stamp the FACTS that entitle each surface (rank-rN / event flags);
     // visibility derives, so a rung's whole grant-list travels together.
     render(
-      { ...base, flags: { ...base.flags, awake: true, ...factsForSurfaces(...surfaces) } },
+      {
+        ...base,
+        flags: { ...base.flags, awake: true, ...factsForSurfaces(...surfaces) },
+      },
       null,
     );
   }
@@ -51,7 +58,9 @@ describe('D-119/ADR-177 — tabs reveal one beat at a time (Schedule A)', () => 
     const labels = tabLabels();
     expect(labels.some((l) => l.includes('地図'))).toBe(true); // Map
     // RED against the old schedule: Estate used to light at R1 (ADR-177 moved it to R6).
-    expect(labels.some((l) => l.includes('家') && !l.includes('武'))).toBe(false);
+    expect(labels.some((l) => l.includes('家') && !l.includes('武'))).toBe(
+      false,
+    );
     expect(labels.some((l) => l.includes('普請'))).toBe(false);
     expect(labels.some((l) => l.includes('Inventory'))).toBe(false);
     expect(labels.some((l) => l.includes('Quests'))).toBe(false);
@@ -63,7 +72,11 @@ describe('D-119/ADR-177 — tabs reveal one beat at a time (Schedule A)', () => 
     render(
       {
         ...base,
-        flags: { ...base.flags, awake: true, ...factsForSurfaces('room-gate', 'panel-estate') },
+        flags: {
+          ...base.flags,
+          awake: true,
+          ...factsForSurfaces('room-gate', 'panel-estate'),
+        },
       },
       null,
     );
@@ -86,13 +99,21 @@ describe('D-119/ADR-177 — tabs reveal one beat at a time (Schedule A)', () => 
   });
 
   it('R5 (tab-quests granted) is where the Quests tab reveals — its own beat', () => {
-    at(['room-gate', 'panel-estate', 'tab-combat', 'tab-inventory', 'tab-quests']);
+    at([
+      'room-gate',
+      'panel-estate',
+      'tab-combat',
+      'tab-inventory',
+      'tab-quests',
+    ]);
     expect(tabLabels().some((l) => l.includes('Quests'))).toBe(true);
   });
 
   it('R6 (tab-estate granted) is where Estate 家 finally reveals — the capstone tab', () => {
     at(['room-gate', 'tab-estate']);
-    expect(tabLabels().some((l) => l.includes('家') && !l.includes('武'))).toBe(true);
+    expect(tabLabels().some((l) => l.includes('家') && !l.includes('武'))).toBe(
+      true,
+    );
   });
 });
 
@@ -133,9 +154,9 @@ describe('FB-358 — a tab-set collapse resets activeTab to work', () => {
     };
     const render = mount(root, () => {}, noopHooks());
     render(rich, null);
-    const mapTab = [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')].find((b) =>
-      (b.textContent ?? '').includes('地図'),
-    );
+    const mapTab = [
+      ...root.querySelectorAll<HTMLButtonElement>('.nav-tab'),
+    ].find((b) => (b.textContent ?? '').includes('地図'));
     expect(mapTab).toBeDefined();
     mapTab!.click(); // setTab('map') re-renders off lastState
     const mapPane = root.querySelector<HTMLElement>('.map-pane')!;

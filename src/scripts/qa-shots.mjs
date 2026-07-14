@@ -41,7 +41,9 @@ async function playIntro(page) {
     )
       return;
     await hurryTypewriter(page);
-    const ask = page.locator('.vn-ask button.intro-ask:not(.asked):visible').first();
+    const ask = page
+      .locator('.vn-ask button.intro-ask:not(.asked):visible')
+      .first();
     if (await ask.isVisible().catch(() => false)) {
       await ask.click();
       await hurryTypewriter(page);
@@ -85,7 +87,10 @@ const steps = [
   },
   // IA reorg (ADR-112): skills/attrs/bestiary live on the Character 己 tab (present from R3).
   { name: '08b-character', run: clickTab('Character') },
-  { name: '09-settings', run: `document.querySelector('.settings-btn').click()` },
+  {
+    name: '09-settings',
+    run: `document.querySelector('.settings-btn').click()`,
+  },
   {
     name: '10-rankup-seal',
     fn: async (page) => {
@@ -93,7 +98,9 @@ const steps = [
         `document.querySelector('.modal-close').click(); __qa.newGame(); __qa.dispatch({type:'open_eyes'})`,
       );
       await playIntro(page); // a fresh game re-raises the intro over the shell
-      await page.evaluate(`for(let i=0;i<7;i++)__qa.dispatch({type:'rake_rice'})`);
+      await page.evaluate(
+        `for(let i=0;i<7;i++)__qa.dispatch({type:'rake_rice'})`,
+      );
     },
     wait: 300,
   },
@@ -146,7 +153,9 @@ const pngs = readdirSync(OUT)
   .filter((f) => f.endsWith('.png'))
   .map((f) => `${OUT}/${f}`);
 try {
-  execFileSync('oxipng', ['-o', 'max', '--strip', 'safe', '-q', ...pngs], { stdio: 'inherit' });
+  execFileSync('oxipng', ['-o', 'max', '--strip', 'safe', '-q', ...pngs], {
+    stdio: 'inherit',
+  });
   console.log(`optimized ${pngs.length} screenshots (oxipng, lossless)`);
 } catch (e) {
   if (e.code === 'ENOENT')

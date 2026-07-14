@@ -12,7 +12,12 @@ import type { RoomId } from './house';
 
 /** A stable signature of everything the sheet's ink reads — repaint only when it moves. */
 export function estateSheetSignature(state: GameState): string {
-  const rooms = ['house-omoya', 'house-workshops', 'house-granary', 'house-study']
+  const rooms = [
+    'house-omoya',
+    'house-workshops',
+    'house-granary',
+    'house-study',
+  ]
     .map((id) => (isUnlocked(state, id) ? '1' : '0'))
     .join('');
   return `${rooms}·U${state.estateStage}`;

@@ -6,8 +6,10 @@
 import { NAMES } from './names';
 
 export const FLAVOR = {
-  mendHint: 'The edge is going. Not yet mine to mend — climb higher, then set it right.',
-  rakeCapLine: 'The spilled rice is raked to the last grain. There is nothing left on the boards.',
+  mendHint:
+    'The edge is going. Not yet mine to mend — climb higher, then set it right.',
+  rakeCapLine:
+    'The spilled rice is raked to the last grain. There is nothing left on the boards.',
   restOpen:
     'You find a stretch of wall out of the wind, set your back to it, and let your arms hang. The work will keep. So will you.',
   sleep:
@@ -118,7 +120,8 @@ export const FLAVOR = {
     'Heat by mid-morning. Work moves to the field edges and the shade of the kura wall; the monkeys move with it.',
   seasonSummer2:
     "A wedding at the miller's, two days gone. The kitchen heard when the red rice arrived — a bowl of it, already cool.",
-  seasonBon1: 'Bon. The village road carries more people in a day than the gate sees in a season.',
+  seasonBon1:
+    'Bon. The village road carries more people in a day than the gate sees in a season.',
   seasonBon2: "Yohei doesn't come Bon week. Even trade goes home.",
   seasonAutumn1:
     'Cutting weather, while it holds. Every field in the valley is a count now — sheaves, racks, and what the racks lose in the night.',
@@ -490,17 +493,22 @@ export const FLAVOR = {
     "Inside, this year's rice wants most of the room there is, with the harvest still to come. Along the north wall the damp is at its patient work, a hand's width up the boards and climbing.",
   worksSeenHouse:
     "From the forecourt the omoya's shut rooms show as a row of weathered screens no hand has slid in years, and moss holds the ridge where the thatch keeps water. The roof is failing, and nobody is coming to stop it.",
-  worksLadderUnnamed: 'No works named yet. Nothing out there has been written down against.',
-  worksLadderNamed: 'The book has named its concerns; go and see them where they stand.',
+  worksLadderUnnamed:
+    'No works named yet. Nothing out there has been written down against.',
+  worksLadderNamed:
+    'The book has named its concerns; go and see them where they stand.',
   worksU1Label: 'Stem the first rot',
   worksU1Blurb:
     'Mend the gatepost, the bunds, and the woodshed roof before the water works deeper.',
   worksU1Done:
     'The gatepost stands dry at the foot, the bunds carry their water where it is wanted, and the woodshed roof turns the rain it used to pass. Three lines the land held open are closed against it — the first the book has closed in years. (U1 · Stabilising)',
   stallGlossFair: 'a fair price, much the same in every village along the road',
-  stallGlossDear: 'the lean spring has rice dear on every road — a good season to sell',
-  stallGlossGlut: 'the autumn glut is on every cart — rice goes cheap, better held in the kura',
-  stallGlossSagged: 'his store rides heavy with rice bought here — the offer sags under the load',
+  stallGlossDear:
+    'the lean spring has rice dear on every road — a good season to sell',
+  stallGlossGlut:
+    'the autumn glut is on every cart — rice goes cheap, better held in the kura',
+  stallGlossSagged:
+    'his store rides heavy with rice bought here — the offer sags under the load',
   stallRefusal:
     "The pedlar's store is full to the rails; he buys no rice until the villages down the road take it off him.",
   stallPurseEmpty:

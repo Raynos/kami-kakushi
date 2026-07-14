@@ -48,9 +48,13 @@ describe('ADR-184 — the zone-reveal law', () => {
     // (its ceremony) or by a fact-flag some SCENE sets (its side-quest VN). A zone entitled by
     // neither is unreachable content; a zone entitled by a flag nothing sets is worse — it is
     // authored-but-dark. Derived from the scene registry, so a new zone must earn a beat.
-    const scheduled = new Set(RANKS.flatMap((r) => r.rewardOnReach?.unlock ?? []));
+    const scheduled = new Set(
+      RANKS.flatMap((r) => r.rewardOnReach?.unlock ?? []),
+    );
     const sceneFlags = new Set(
-      SCENES.flatMap((d) => d.scene.decision.options.flatMap((o) => o.flags ?? [])),
+      SCENES.flatMap((d) =>
+        d.scene.decision.options.flatMap((o) => o.flags ?? []),
+      ),
     );
     // `sb-lease` is narration-only: its flag is latched by applySceneCompletionEffects, not by an
     // option. Read it from the engine rather than hand-listing it (scenes.ts is the source).
@@ -62,8 +66,13 @@ describe('ADR-184 — the zone-reveal law', () => {
       // rung exists) — a third legitimate opener, and the only one.
       if (s.unlock(atRung(0), new Set())) continue;
       // otherwise: its predicate must be satisfied by a flag some scene sets.
-      const opened = [...sceneFlags].some((f) => s.unlock(setFlag(atRung(0), f), new Set()));
-      expect(opened, `${s.id} is opened by no rung and no scene — it is unreachable`).toBe(true);
+      const opened = [...sceneFlags].some((f) =>
+        s.unlock(setFlag(atRung(0), f), new Set()),
+      );
+      expect(
+        opened,
+        `${s.id} is opened by no rung and no scene — it is unreachable`,
+      ).toBe(true);
     }
   });
 
@@ -111,8 +120,12 @@ describe('ADR-184 — the zone-reveal law', () => {
     // Its ceremony line is "a mat, a bowl, a nail for the coat: yours". ADR-177 moved the home
     // grant to `tab-inventory`; this asserts the ZONE and the HOME can never drift apart again —
     // both derived, no rung named here.
-    const homeRung = RANKS.findIndex((r) => r.rewardOnReach?.unlock?.includes('tab-inventory'));
-    const shedRung = RANKS.findIndex((r) => r.rewardOnReach?.unlock?.includes('room-woodshed'));
+    const homeRung = RANKS.findIndex((r) =>
+      r.rewardOnReach?.unlock?.includes('tab-inventory'),
+    );
+    const shedRung = RANKS.findIndex((r) =>
+      r.rewardOnReach?.unlock?.includes('room-woodshed'),
+    );
     expect(shedRung).toBe(homeRung);
     const vis = visibleSet(atRung(shedRung));
     expect(vis.has('panel-home')).toBe(true); // the promise is kept the moment it is spoken
@@ -133,7 +146,9 @@ describe('ADR-184 — the zone-reveal law', () => {
     const flush = board({ resources: { coin: CHEAPEST_STALL_ITEM_COST } });
     expect(revealsPass(flush).sceneQueue).toContain('sb-market');
     // …and not at the woodlot: the beat happens at the board, where Genemon is.
-    expect(revealsPass({ ...flush, location: 'woodlot' }).sceneQueue).not.toContain('sb-market');
+    expect(
+      revealsPass({ ...flush, location: 'woodlot' }).sceneQueue,
+    ).not.toContain('sb-market');
 
     // the kitchen: greens you cannot eat raw.
     const noGreens = board({ resources: { sansai: COOK_SANSAI_COST - 1 } });
@@ -175,7 +190,9 @@ describe('ADR-184 — the zone-reveal law', () => {
     // sceptical or rude — the pick colours the relationship, never the map.
     for (const id of ['sb-market', 'sb-cook', 'sb-racks', 'sb-sickroom']) {
       const def = SCENES.find((d) => d.id === id)!;
-      const flagSets = def.scene.decision.options.map((o) => new Set(o.flags ?? []));
+      const flagSets = def.scene.decision.options.map(
+        (o) => new Set(o.flags ?? []),
+      );
       expect(flagSets.length, `${id} must offer a choice`).toBeGreaterThan(1);
       const [first, ...rest] = flagSets;
       for (const other of rest) {
@@ -205,7 +222,10 @@ describe('ADR-184 — the zone-reveal law', () => {
     expect(loaded.seenReveals).toContain('room-paddies'); // …and a still-valid one is kept
 
     // …so when the woodshed's real rung arrives, it announces, instead of appearing in silence.
-    const atR4 = announcePass({ ...atRung(4), seenReveals: loaded.seenReveals });
+    const atR4 = announcePass({
+      ...atRung(4),
+      seenReveals: loaded.seenReveals,
+    });
     expect(atR4.seenReveals).toContain('room-woodshed');
   });
 
@@ -231,7 +251,9 @@ describe('ADR-184 — the zone-reveal law', () => {
     expect(visibleSet(opened).has('room-gate')).toBe(true);
     const after = announcePass(opened);
     expect(after.seenReveals).toContain('room-gate'); // latched (never announced twice)
-    expect(after.log.entries.some((l) => l.contentKey === 'reveal.room-gate')).toBe(false); // silent
+    expect(
+      after.log.entries.some((l) => l.contentKey === 'reveal.room-gate'),
+    ).toBe(false); // silent
   });
 
   it('the reveal beats fire from real play: the R0→R3 climb opens every zone its rungs need', () => {

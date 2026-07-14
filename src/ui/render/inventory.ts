@@ -24,7 +24,13 @@ import {
   type Intent,
 } from '../../core';
 import { el, stampAct } from '../render';
-import { reconcileList, setText, setClass, setDisabled, toggle } from '../reconcile';
+import {
+  reconcileList,
+  setText,
+  setClass,
+  setDisabled,
+  toggle,
+} from '../reconcile';
 import type { DevApi } from '../dev';
 
 type Dispatch = (intent: Intent) => void;
@@ -79,7 +85,8 @@ export function createInventoryView(ctx: {
     // Phase 2 surfaces RICE beside coin (deposit/withdraw are already resource-generic), so the
     // "what you store, you keep" shelter closes the rice loss-shelter gap.
     // IA reorg (ADR-112 §2 / FB-108) — the kura bank is the Inventory tab's home (a clean lift).
-    const show = ctx.activeTab() === 'inventory' && isUnlocked(state, 'panel-estate');
+    const show =
+      ctx.activeTab() === 'inventory' && isUnlocked(state, 'panel-estate');
     toggle(storehousePane, show);
     if (!show) return;
     // build the shell ONCE (FB-81): the coin + rice store/withdraw rows and the "walk back" blurb are
@@ -99,15 +106,21 @@ export function createInventoryView(ctx: {
       const row = el('div', 'labour-row');
       const dep = el('button', 'auto-toggle', 'Store all coin');
       dep.type = 'button';
-      dep.addEventListener('click', () => dispatch({ type: 'deposit', resource: 'coin' }));
+      dep.addEventListener('click', () =>
+        dispatch({ type: 'deposit', resource: 'coin' }),
+      );
       const wd = el('button', 'auto-toggle', 'Withdraw all coin');
       wd.type = 'button';
-      wd.addEventListener('click', () => dispatch({ type: 'withdraw', resource: 'coin' }));
+      wd.addEventListener('click', () =>
+        dispatch({ type: 'withdraw', resource: 'coin' }),
+      );
       row.append(dep, wd);
       const riceRow = el('div', 'labour-row');
       const depRice = el('button', 'auto-toggle', 'Store all rice');
       depRice.type = 'button';
-      depRice.addEventListener('click', () => dispatch({ type: 'deposit', resource: 'rice' }));
+      depRice.addEventListener('click', () =>
+        dispatch({ type: 'deposit', resource: 'rice' }),
+      );
       riceRow.append(depRice);
       const away = el(
         'div',
@@ -204,7 +217,9 @@ export function createInventoryView(ctx: {
       const buy = el('div', 'belonging-buy');
       const btn = el('button', 'auto-toggle', formatCoin(def.source.coinCost));
       btn.type = 'button';
-      btn.addEventListener('click', () => dispatch({ type: 'buy_belonging', belongingId: def.id }));
+      btn.addEventListener('click', () =>
+        dispatch({ type: 'buy_belonging', belongingId: def.id }),
+      );
       buy.append(btn);
       row.append(buy);
     }
@@ -216,7 +231,8 @@ export function createInventoryView(ctx: {
     // Reveal-gated on the home existing (panel-home, R1 — "a place here is yours"); hidden on every
     // other tab + before the home is granted (no ghost box, FB-72). Belongings are DISTINCT from the
     // storehouse's resources: possessions you own + keep, shown with their comfort bonuses.
-    const show = ctx.activeTab() === 'inventory' && isUnlocked(state, 'panel-home');
+    const show =
+      ctx.activeTab() === 'inventory' && isUnlocked(state, 'panel-home');
     toggle(belongingsPane, show);
     if (!show) return;
     // ── the diverged HOME / belongings presentation (ADR-075) — A = the functional list (default,
@@ -237,7 +253,8 @@ export function createInventoryView(ctx: {
         // default A, wholesale — the same owned/comfort/acquire structure the incremental path builds.
         const ownedHead = el('div', 'belongings-subhead', 'What is yours');
         const ownedList = el('div', 'belongings-list');
-        for (const def of ownedBelongings(state)) ownedList.append(buildBelongingRow(def));
+        for (const def of ownedBelongings(state))
+          ownedList.append(buildBelongingRow(def));
         const settledD = homeSetComplete(ownedBelongingIds(state));
         const comfortD = el(
           'div',
@@ -251,7 +268,8 @@ export function createInventoryView(ctx: {
         if (acquirableD.length > 0) {
           card.append(el('div', 'belongings-subhead', 'Settle your corner'));
           const acquireList = el('div', 'belongings-list');
-          for (const def of acquirableD) acquireList.append(buildBelongingRow(def));
+          for (const def of acquirableD)
+            acquireList.append(buildBelongingRow(def));
           card.append(acquireList);
         }
       }
@@ -365,14 +383,17 @@ export function createInventoryView(ctx: {
       build: buildBelongingRow,
       patch: (row, def) => {
         if (def.source.kind !== 'buy') return;
-        const btn = row.querySelector<HTMLButtonElement>('.belonging-buy button');
+        const btn = row.querySelector<HTMLButtonElement>(
+          '.belonging-buy button',
+        );
         if (!btn) return;
         const afford = carriedCoin >= def.source.coinCost;
         setDisabled(btn, !afford);
         const title = afford ? '' : `Needs ${formatCoin(def.source.coinCost)}`;
         if (btn.title !== title) btn.title = title;
         const aria = `Bring a ${def.label.toLowerCase()} into your corner (${comfortLabel(def)}) for ${formatCoin(def.source.coinCost)}`;
-        if (btn.getAttribute('aria-label') !== aria) btn.setAttribute('aria-label', aria);
+        if (btn.getAttribute('aria-label') !== aria)
+          btn.setAttribute('aria-label', aria);
       },
       order: true,
     });

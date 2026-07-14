@@ -53,11 +53,15 @@ describe('ids', () => {
     expect(id).toMatch(SERVER_SESSION_RE);
   });
   it('sessionFilename appends .md', () => {
-    expect(sessionFilename('2026-07-03T18-40-00-abc')).toBe('2026-07-03T18-40-00-abc.md');
+    expect(sessionFilename('2026-07-03T18-40-00-abc')).toBe(
+      '2026-07-03T18-40-00-abc.md',
+    );
   });
   it('stampOf converts colons to dashes; slugOf kebabs 4 words / falls back', () => {
     expect(stampOf('2026-07-03T18:42:07+0200')).toBe('2026-07-03T18-42-07');
-    expect(slugOf('The open-eyes button is off centre')).toBe('the-open-eyes-button-is');
+    expect(slugOf('The open-eyes button is off centre')).toBe(
+      'the-open-eyes-button-is',
+    );
     expect(slugOf('日本語 ！！！')).toBe('note');
   });
 });
@@ -72,9 +76,15 @@ describe('buckets — file key + slug', () => {
     expect(slugGroup('！！！')).toBe('');
   });
   it('captureFileKey is the bucket slug when grouped, else the session id', () => {
-    expect(captureFileKey('2026-07-03T18-40-00-abc', 'Map feedback')).toBe('map-feedback');
-    expect(captureFileKey('2026-07-03T18-40-00-abc', '')).toBe('2026-07-03T18-40-00-abc');
-    expect(captureFileKey('2026-07-03T18-40-00-abc', '！！！')).toBe('2026-07-03T18-40-00-abc');
+    expect(captureFileKey('2026-07-03T18-40-00-abc', 'Map feedback')).toBe(
+      'map-feedback',
+    );
+    expect(captureFileKey('2026-07-03T18-40-00-abc', '')).toBe(
+      '2026-07-03T18-40-00-abc',
+    );
+    expect(captureFileKey('2026-07-03T18-40-00-abc', '！！！')).toBe(
+      '2026-07-03T18-40-00-abc',
+    );
   });
   it('buildBucketHeader names the bucket + its slug folder', () => {
     const h = buildBucketHeader('Map feedback', 'map-feedback');
@@ -102,10 +112,14 @@ describe('buildEntry', () => {
       META.sessionId,
     );
     // heading carries the kind (default Bug) so a drain scans bug-vs-question at a glance
-    expect(entry).toContain('## Bug · 2026-07-03T18:42:07+0200 — open-eyes-button-off');
+    expect(entry).toContain(
+      '## Bug · 2026-07-03T18:42:07+0200 — open-eyes-button-off',
+    );
     expect(entry).toContain('open eyes button off centre'); // the human's note
     expect(metadataName).toBe('2026-07-03T18-42-07.json');
-    expect(entry).toContain(`**Details:** \`${META.sessionId}/${metadataName}\``); // link out
+    expect(entry).toContain(
+      `**Details:** \`${META.sessionId}/${metadataName}\``,
+    ); // link out
     // the heavy stuff is NOT inline in the .md
     expect(entry).not.toContain('eyJhcHAiOiJrYW1pLWtha3VzaGkifQ=='); // no base64 save
     expect(entry).not.toContain('seed 20260626'); // no context dump
@@ -122,20 +136,29 @@ describe('buildEntry', () => {
   });
 
   it('a bucketed entry keys sidecar links off the bucket slug + records provenance', () => {
-    const { entry, metadata } = buildEntry('the weir seal is faint', ctx(), 'map-feedback', {
-      kind: 'question',
-      group: 'Map feedback',
-      session: META.sessionId,
-      build: META.build,
-    });
+    const { entry, metadata } = buildEntry(
+      'the weir seal is faint',
+      ctx(),
+      'map-feedback',
+      {
+        kind: 'question',
+        group: 'Map feedback',
+        session: META.sessionId,
+        build: META.build,
+      },
+    );
     // links resolve against the bucket folder, NOT the session id
-    expect(entry).toContain('**Details:** `map-feedback/2026-07-03T18-42-07.json`');
+    expect(entry).toContain(
+      '**Details:** `map-feedback/2026-07-03T18-42-07.json`',
+    );
     const m = JSON.parse(metadata);
     expect(m.group).toBe('Map feedback');
     expect(m.session).toBe(META.sessionId); // provenance survives cross-session bucketing
     expect(m.build).toEqual(META.build);
     // ungrouped ⇒ group is null
-    expect(JSON.parse(buildEntry('n', ctx(), META.sessionId).metadata).group).toBeNull();
+    expect(
+      JSON.parse(buildEntry('n', ctx(), META.sessionId).metadata).group,
+    ).toBeNull();
   });
 
   it('puts the save + logs + full context in the metadata JSON', () => {
@@ -143,7 +166,9 @@ describe('buildEntry', () => {
       'n',
       ctx({
         variants: { market: 'market-c' },
-        logTail: [{ channel: 'combat', text: 'You strike.', count: 3, speaker: 'You' }],
+        logTail: [
+          { channel: 'combat', text: 'You strike.', count: 3, speaker: 'You' },
+        ],
       }),
       META.sessionId,
     );
@@ -160,18 +185,29 @@ describe('buildEntry', () => {
 
   it('references a same-stem screenshot in the session folder only when a shot exists', () => {
     expect(
-      buildEntry('n', ctx({ hasScreenshot: false }), META.sessionId).screenshotName,
+      buildEntry('n', ctx({ hasScreenshot: false }), META.sessionId)
+        .screenshotName,
     ).toBeUndefined();
-    const built = buildEntry('open eyes', ctx({ hasScreenshot: true }), META.sessionId);
+    const built = buildEntry(
+      'open eyes',
+      ctx({ hasScreenshot: true }),
+      META.sessionId,
+    );
     expect(built.screenshotName).toBe('2026-07-03T18-42-07.png');
     expect(built.screenshotName!).toMatch(SERVER_PNG_RE);
-    expect(built.entry).toContain('`2026-07-03T18-40-00-abc123/2026-07-03T18-42-07.png`');
+    expect(built.entry).toContain(
+      '`2026-07-03T18-40-00-abc123/2026-07-03T18-42-07.png`',
+    );
     // the metadata records the screenshot name too
-    expect(JSON.parse(built.metadata).screenshot).toBe('2026-07-03T18-42-07.png');
+    expect(JSON.parse(built.metadata).screenshot).toBe(
+      '2026-07-03T18-42-07.png',
+    );
   });
 
   it('renders the picked element descriptor when present, and omits it otherwise', () => {
-    expect(buildEntry('n', ctx(), META.sessionId).entry).not.toContain('**Element:**');
+    expect(buildEntry('n', ctx(), META.sessionId).entry).not.toContain(
+      '**Element:**',
+    );
     const { entry } = buildEntry(
       'n',
       ctx({

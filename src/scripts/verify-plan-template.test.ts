@@ -77,12 +77,18 @@ describe('validatePlan', () => {
   });
 
   it('fails on a missing Template line', () => {
-    const v = validatePlan(VALID.replace(/^\*\*Template:.*$/m, ''), 'docs/plans/fable-x.md');
+    const v = validatePlan(
+      VALID.replace(/^\*\*Template:.*$/m, ''),
+      'docs/plans/fable-x.md',
+    );
     expect(v.failures.some((f) => f.includes('Template'))).toBe(true);
   });
 
   it('fails on an unknown Template class', () => {
-    const v = validatePlan(VALID.replace('**Template:** build', '**Template:** vibes'), 'p.md');
+    const v = validatePlan(
+      VALID.replace('**Template:** build', '**Template:** vibes'),
+      'p.md',
+    );
     expect(v.failures.some((f) => f.includes('vibes'))).toBe(true);
   });
 
@@ -106,7 +112,9 @@ describe('validatePlan', () => {
       '## What exists today\n\n',
     );
     const v = validatePlan(gutted, 'p.md');
-    expect(v.failures.some((f) => f.toLowerCase().includes('what exists'))).toBe(true);
+    expect(
+      v.failures.some((f) => f.toLowerCase().includes('what exists')),
+    ).toBe(true);
   });
 
   it('accepts the explicit "none — <reason>" escape in a section body', () => {
@@ -137,7 +145,10 @@ describe('validatePlan', () => {
   });
 
   it('fails a steps section with fewer than 3 steps and thin prose', () => {
-    const thin = VALID.replace(/## Steps[\s\S]*?(?=## Verification)/, '## Steps\n\n1. Do it.\n\n');
+    const thin = VALID.replace(
+      /## Steps[\s\S]*?(?=## Verification)/,
+      '## Steps\n\n1. Do it.\n\n',
+    );
     const v = validatePlan(thin, 'p.md');
     expect(v.failures.some((f) => f.startsWith('steps:'))).toBe(true);
   });
@@ -148,7 +159,10 @@ describe('validatePlan', () => {
       'p.md',
     );
     expect(proc.failures.some((f) => f.includes('Teeth'))).toBe(true);
-    const ops = validatePlan(VALID.replace('**Template:** build', '**Template:** ops'), 'p.md');
+    const ops = validatePlan(
+      VALID.replace('**Template:** build', '**Template:** ops'),
+      'p.md',
+    );
     expect(ops.failures.some((f) => f.includes('Go conditions'))).toBe(true);
     expect(ops.failures.some((f) => f.includes('Aftermath'))).toBe(true);
   });
@@ -159,7 +173,9 @@ describe('validatePlan', () => {
       '## Risks\n\n<!-- fill me: landmines, sequencing conflicts, rollback -->\n',
     );
     const v = validatePlan(skeleton, 'p.md');
-    expect(v.failures.some((f) => f.includes('Risks') || f.includes('empty'))).toBe(true);
+    expect(
+      v.failures.some((f) => f.includes('Risks') || f.includes('empty')),
+    ).toBe(true);
   });
 
   it('warns (never blocks) on a missing model-prefix filename', () => {
@@ -177,7 +193,10 @@ describe('validatePlan', () => {
 
 describe('first-principles warns (2026-07-11 fresh pass)', () => {
   it('warns when grounding cites a path that does not exist (anti-hallucination)', () => {
-    const bogus = VALID.replace('src/ui/map-variants/sheet-map.ts', 'src/ui/never/exists-nope.ts');
+    const bogus = VALID.replace(
+      'src/ui/map-variants/sheet-map.ts',
+      'src/ui/never/exists-nope.ts',
+    );
     const v = validatePlan(bogus, 'p.md');
     expect(v.failures).toEqual([]);
     expect(v.warns.some((w) => w.includes('do not exist'))).toBe(true);
@@ -186,8 +205,13 @@ describe('first-principles warns (2026-07-11 fresh pass)', () => {
   it('warns when grounding carries no survey date (grounding rots)', () => {
     const v = validatePlan(VALID, 'p.md'); // fixture grounding has no date
     expect(v.warns.some((w) => w.includes('survey date'))).toBe(true);
-    const dated = VALID.replace('carries the v1 ring', 'carries the v1 ring (surveyed 2026-07-11)');
-    expect(validatePlan(dated, 'p.md').warns.some((w) => w.includes('survey date'))).toBe(false);
+    const dated = VALID.replace(
+      'carries the v1 ring',
+      'carries the v1 ring (surveyed 2026-07-11)',
+    );
+    expect(
+      validatePlan(dated, 'p.md').warns.some((w) => w.includes('survey date')),
+    ).toBe(false);
   });
 
   it('warns when Status is LOCKED but no human is named', () => {
@@ -216,15 +240,23 @@ describe('scaffold (docs/plans/templates/ single-source)', () => {
     '2. Second concrete step lands its own commit cleanly in src/scripts.\n' +
     '3. Third verifies with a live capture and an e2e fixture, surveyed 2026-07-11.';
 
-  it.each(CLASSES)('committed templates/%s.md matches the generator (no drift)', (cls) => {
-    expect(readFileSync(`docs/plans/templates/${cls}.md`, 'utf-8')).toBe(templateFileContent(cls));
-  });
+  it.each(CLASSES)(
+    'committed templates/%s.md matches the generator (no drift)',
+    (cls) => {
+      expect(readFileSync(`docs/plans/templates/${cls}.md`, 'utf-8')).toBe(
+        templateFileContent(cls),
+      );
+    },
+  );
 
   it.each(CLASSES)('a filled %s scaffold passes the gate', (cls) => {
     const filledPlan = scaffoldTemplate(cls)
       .replace(/<!--[\s\S]*?-->/g, FILLER)
       .replace('(<YYYY-MM-DD>, <session>)', '(2026-07-11, test)');
-    const v = validatePlan(filledPlan, `docs/plans/fable-2026-07-11-${cls}-fixture.md`);
+    const v = validatePlan(
+      filledPlan,
+      `docs/plans/fable-2026-07-11-${cls}-fixture.md`,
+    );
     expect(v.failures).toEqual([]);
   });
 
@@ -236,7 +268,8 @@ describe('scaffold (docs/plans/templates/ single-source)', () => {
 
 describe('splitSections', () => {
   it('keeps ### subsections inside their ## parent body', () => {
-    const md = '## Steps\n\nintro\n\n### Phase 1\n\n- a\n- b\n- c\n\n## Risks\n\nnone — safe.';
+    const md =
+      '## Steps\n\nintro\n\n### Phase 1\n\n- a\n- b\n- c\n\n## Risks\n\nnone — safe.';
     const secs = splitSections(md);
     const steps = secs.find((s) => s.ids.includes('steps'));
     expect(steps?.body).toContain('Phase 1');

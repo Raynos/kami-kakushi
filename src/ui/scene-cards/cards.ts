@@ -25,7 +25,16 @@
 // prototype-first law. Seeded-deterministic; Andon tokens only; each card's
 // single tint is its speaker's VN voice colour (--v-physician / --v-steward).
 
-import { brushStroke, inkLine, rng, scrawl, stipple, sv, tip, wash } from '../map-sheets/brush';
+import {
+  brushStroke,
+  inkLine,
+  rng,
+  scrawl,
+  stipple,
+  sv,
+  tip,
+  wash,
+} from '../map-sheets/brush';
 import type { Pt } from '../map-sheets/geom';
 import { NAMES } from '../../core/content/names';
 
@@ -78,7 +87,11 @@ function txt(
 
 /** A keyblock silhouette — one flat near-black mass; the craft is the outline.
  *  Low scrawl amp on purpose: kage-e reads CUT, not wobbled. */
-function silhouette(parent: SVGElement, pts: readonly Pt[], seed: string): SVGPathElement {
+function silhouette(
+  parent: SVGElement,
+  pts: readonly Pt[],
+  seed: string,
+): SVGPathElement {
   const p = sv('path', {
     d: scrawl(pts, seed, 1.5, true),
     fill: 'var(--void)',
@@ -91,7 +104,12 @@ function silhouette(parent: SVGElement, pts: readonly Pt[], seed: string): SVGPa
 
 /** The caption cartouche — a vermillion seal-frame with vertical role-kanji.
  *  Lives in the misregistered colour layer: a seal is a second press. */
-function cartouche(parent: SVGElement, kanji: string, roman: string, seed: string): void {
+function cartouche(
+  parent: SVGElement,
+  kanji: string,
+  roman: string,
+  seed: string,
+): void {
   const x0 = 646;
   const y0 = 26;
   const w = 48;
@@ -150,7 +168,12 @@ function paintSoanCard(l: Layers): void {
     [6, 399],
   ];
   wash(l.paper, field, { seed: 'soan-paper', fill: 'var(--washi)', amp: 2 });
-  wash(l.paper, field, { seed: 'soan-tint', fill: 'var(--v-physician)', opacity: 0.22, amp: 2 });
+  wash(l.paper, field, {
+    seed: 'soan-tint',
+    fill: 'var(--v-physician)',
+    opacity: 0.22,
+    amp: 2,
+  });
 
   // slat-light — three flat bands falling from the beam onto the void (the
   // light falls INTO the cutout, for free, via evenodd)
@@ -165,7 +188,12 @@ function paintSoanCard(l: Layers): void {
         [bx + 62, 292],
         [bx, 295],
       ],
-      { seed: `soan-band-${i}`, fill: 'var(--silver-hi)', opacity: i === 1 ? 0.13 : 0.1, amp: 2 },
+      {
+        seed: `soan-band-${i}`,
+        fill: 'var(--silver-hi)',
+        opacity: i === 1 ? 0.13 : 0.1,
+        amp: 2,
+      },
     );
   }
 
@@ -295,7 +323,12 @@ function paintGenemonCard(l: Layers): void {
     [6, 399],
   ];
   wash(l.paper, field, { seed: 'gen-paper', fill: 'var(--washi)', amp: 2 });
-  wash(l.paper, field, { seed: 'gen-tint', fill: 'var(--v-steward)', opacity: 0.22, amp: 2 });
+  wash(l.paper, field, {
+    seed: 'gen-tint',
+    fill: 'var(--v-steward)',
+    opacity: 0.22,
+    amp: 2,
+  });
 
   // a low dusk band above the ground shadow — the one hint of depth
   wash(
@@ -329,7 +362,10 @@ function paintGenemonCard(l: Layers): void {
     bale.push([300 + Math.cos(a) * 72, 288 + Math.sin(a) * 32]);
   }
   silhouette(baleG, bale, 'gen-bale');
-  tip(baleG, 'Half a season’s stores, spilled where the kura door gave way in the rains.');
+  tip(
+    baleG,
+    'Half a season’s stores, spilled where the kura door gave way in the rains.',
+  );
   l.key.append(baleG);
 
   // Genemon — standing profile, stooped by years of keeping, hands clasped
@@ -362,7 +398,10 @@ function paintGenemonCard(l: Layers): void {
     ],
     'gen-fig',
   );
-  tip(genG, `${NAMES.elder}, steward of this house — he keeps the little it has left to keep.`);
+  tip(
+    genG,
+    `${NAMES.elder}, steward of this house — he keeps the little it has left to keep.`,
+  );
   l.key.append(genG);
 
   // the rake — foreground plane, oversized, bleeding off the frame corner
@@ -407,7 +446,12 @@ function paintGenemonCard(l: Layers): void {
     [430, 346],
     [352, 312],
   ];
-  wash(spillG, spill, { seed: 'gen-spill', fill: 'var(--gold)', opacity: 0.4, amp: 4 });
+  wash(spillG, spill, {
+    seed: 'gen-spill',
+    fill: 'var(--gold)',
+    opacity: 0.4,
+    amp: 4,
+  });
   stipple(spillG, spill, {
     seed: 'gen-rice',
     step: 9,
@@ -425,7 +469,14 @@ function paintGenemonCard(l: Layers): void {
       [714, 399],
       [420, 399],
     ],
-    { seed: 'gen-strays', step: 26, prob: 0.3, r: 1, color: 'var(--gold-hi)', opacity: 0.5 },
+    {
+      seed: 'gen-strays',
+      step: 26,
+      prob: 0.3,
+      r: 1,
+      color: 'var(--gold-hi)',
+      opacity: 0.5,
+    },
   );
   l.colorOver.append(spillG);
 
@@ -438,7 +489,12 @@ function paintGenemonCard(l: Layers): void {
         [bx, 262],
         [bx + 14, 314],
       ],
-      { seed: `gen-rope-a${i}`, color: 'var(--v-steward)', w: 2.2, opacity: 0.85 },
+      {
+        seed: `gen-rope-a${i}`,
+        color: 'var(--v-steward)',
+        w: 2.2,
+        opacity: 0.85,
+      },
     );
     inkLine(
       l.colorOver,
@@ -446,7 +502,12 @@ function paintGenemonCard(l: Layers): void {
         [bx + 14, 262],
         [bx, 314],
       ],
-      { seed: `gen-rope-b${i}`, color: 'var(--v-steward)', w: 2.2, opacity: 0.85 },
+      {
+        seed: `gen-rope-b${i}`,
+        color: 'var(--v-steward)',
+        w: 2.2,
+        opacity: 0.85,
+      },
     );
   }
   const cap: Pt[] = [];
@@ -513,10 +574,20 @@ function grainFilter(
   id: string,
   o: { bf: string; slope: number; intercept: number; seed: string },
 ): void {
-  const f = sv('filter', { id, x: '-2%', y: '-2%', width: '104%', height: '104%' });
+  const f = sv('filter', {
+    id,
+    x: '-2%',
+    y: '-2%',
+    width: '104%',
+    height: '104%',
+  });
   const ct = sv('feComponentTransfer', { in: 'n', result: 'a' });
   ct.append(
-    sv('feFuncA', { type: 'linear', slope: String(o.slope), intercept: String(o.intercept) }),
+    sv('feFuncA', {
+      type: 'linear',
+      slope: String(o.slope),
+      intercept: String(o.intercept),
+    }),
   );
   f.append(
     sv('feTurbulence', {
@@ -542,7 +613,13 @@ function buildCard(def: SceneCard): SVGSVGElement {
   }) as SVGSVGElement;
   const defs = sv('defs');
   // the keyblock's hand-cut wobble
-  const wob = sv('filter', { id: `${uid}-w`, x: '-3%', y: '-3%', width: '106%', height: '106%' });
+  const wob = sv('filter', {
+    id: `${uid}-w`,
+    x: '-3%',
+    y: '-3%',
+    width: '106%',
+    height: '106%',
+  });
   wob.append(
     sv('feTurbulence', {
       type: 'fractalNoise',
@@ -554,8 +631,18 @@ function buildCard(def: SceneCard): SVGSVGElement {
     sv('feDisplacementMap', { in: 'SourceGraphic', in2: 'n', scale: '2.5' }),
   );
   defs.append(wob);
-  grainFilter(defs, `${uid}-gp`, { bf: '0.006 0.08', slope: 0.35, intercept: 0.78, seed: '5' });
-  grainFilter(defs, `${uid}-gc`, { bf: '0.55', slope: 0.9, intercept: 0.35, seed: '9' });
+  grainFilter(defs, `${uid}-gp`, {
+    bf: '0.006 0.08',
+    slope: 0.35,
+    intercept: 0.78,
+    seed: '5',
+  });
+  grainFilter(defs, `${uid}-gc`, {
+    bf: '0.55',
+    slope: 0.9,
+    intercept: 0.35,
+    seed: '9',
+  });
   svg.append(defs);
 
   // the registration slip — seeded per card, a few px, the press's honesty

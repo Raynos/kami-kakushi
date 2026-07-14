@@ -66,8 +66,14 @@ export function paintSheetB(root: SVGElement, fx: EstateFixture): void {
     masses: RUIN,
   });
   if (fx.ruinRevealed) {
-    txt(root, bx(13.5), RUIN_GY - 6.9 * KEN - 12, '本邸', { size: 22, color: 'var(--silver-hi)' });
-    txt(root, bx(16), RUIN_GY - 6.9 * KEN - 10, '改', { size: 11, color: 'var(--shu)' });
+    txt(root, bx(13.5), RUIN_GY - 6.9 * KEN - 12, '本邸', {
+      size: 22,
+      color: 'var(--silver-hi)',
+    });
+    txt(root, bx(16), RUIN_GY - 6.9 * KEN - 10, '改', {
+      size: 11,
+      color: 'var(--shu)',
+    });
   } else {
     txt(root, bx(13.5), RUIN_GY - 6.9 * KEN - 12, '廃', {
       size: 14,
@@ -97,7 +103,10 @@ export function paintSheetB(root: SVGElement, fx: EstateFixture): void {
       size: 10,
       color: 'var(--silver-hi)',
     });
-    if (ink.fresh) freshStamp(back, x1 - 8, BGY - rm.ridge * KEN - 10, { seed: `b:bg:${id}:n` });
+    if (ink.fresh)
+      freshStamp(back, x1 - 8, BGY - rm.ridge * KEN - 10, {
+        seed: `b:bg:${id}:n`,
+      });
   }
   root.append(back);
 
@@ -135,14 +144,24 @@ export function paintSheetB(root: SVGElement, fx: EstateFixture): void {
 // ── the cut convention ───────────────────────────────────────────────────────
 
 /** A cut structural member — the honest grey of the section plane (E6). */
-function cutPost(root: SVGElement, x: number, topY: number, seed: string): void {
+function cutPost(
+  root: SVGElement,
+  x: number,
+  topY: number,
+  seed: string,
+): void {
   const poly: [number, number][] = [
     [x - 3.2, topY],
     [x + 3.2, topY],
     [x + 3.2, GY],
     [x - 3.2, GY],
   ];
-  wash(root, poly, { seed: `${seed}:w`, fill: 'var(--steel-hi)', opacity: 0.2, amp: 0.6 });
+  wash(root, poly, {
+    seed: `${seed}:w`,
+    fill: 'var(--steel-hi)',
+    opacity: 0.2,
+    amp: 0.6,
+  });
   hatchArea(root, poly, {
     seed: `${seed}:h`,
     angle: 46,
@@ -215,12 +234,21 @@ function cutRoom(root: SVGElement, rm: RoomDef, fx: EstateFixture): void {
         [x0 + 5, (eaveY + GY) / 2],
         [x1 - 5, (eaveY + GY) / 2],
       ],
-      { seed: `b:${rm.id}:tie`, color: 'var(--ink-soft)', w: 1.6, opacity: 0.8, amp: 1 },
+      {
+        seed: `b:${rm.id}:tie`,
+        color: 'var(--ink-soft)',
+        w: 1.6,
+        opacity: 0.8,
+        amp: 1,
+      },
     );
   } else if (rm.id === 'stable') {
     stallRange(g, x0, eaveY, x1, GY, {
       seed: 'b:stalls',
-      stalls: Math.max(4, Math.round(STALLS * ((rm.rect[2] - rm.rect[0]) / 10))),
+      stalls: Math.max(
+        4,
+        Math.round(STALLS * ((rm.rect[2] - rm.rect[0]) / 10)),
+      ),
       muleAt: 1,
       mode: 'elev',
     });
@@ -247,7 +275,11 @@ function cutRoom(root: SVGElement, rm: RoomDef, fx: EstateFixture): void {
   if (rm.id === 'mainBody') {
     // the corridor's far wall carries the alcove — worship in a hallway (H3)
     altarNiche(g, bx(16.2), GY - 8, 'b:alcove', 'elev');
-    txt(g, bx(10.4), GY - 9, '廊下', { size: 8.5, color: 'var(--ink-faint)', font: 'body' });
+    txt(g, bx(10.4), GY - 9, '廊下', {
+      size: 8.5,
+      color: 'var(--ink-faint)',
+      font: 'body',
+    });
   }
   // the floor / ground beam
   brushStroke(
@@ -262,7 +294,10 @@ function cutRoom(root: SVGElement, rm: RoomDef, fx: EstateFixture): void {
   cutPost(g, x0, eaveY, `b:${rm.id}:cpL`);
   cutPost(g, x1, eaveY, `b:${rm.id}:cpR`);
   // the roof
-  roofProfile(g, x0, x1, eaveY, GY - rm.ridge * KEN, { seed: `b:${rm.id}:r`, fresh: ink.fresh });
+  roofProfile(g, x0, x1, eaveY, GY - rm.ridge * KEN, {
+    seed: `b:${rm.id}:r`,
+    fresh: ink.fresh,
+  });
   // seal + reviser marks
   const cxp = (x0 + x1) / 2;
   if (rm.id === 'mainBody') {
@@ -272,19 +307,35 @@ function cutRoom(root: SVGElement, rm: RoomDef, fx: EstateFixture): void {
         color: 'var(--silver-hi)',
         opacity: 0.75,
       });
-      struckMark(g, [cxp - 28, GY - rm.ridge * KEN - 11], [cxp + 4, GY - rm.ridge * KEN - 13], {
-        seed: 'b:mstrike',
+      struckMark(
+        g,
+        [cxp - 28, GY - rm.ridge * KEN - 11],
+        [cxp + 4, GY - rm.ridge * KEN - 13],
+        {
+          seed: 'b:mstrike',
+        },
+      );
+      txt(g, cxp + 22, GY - rm.ridge * KEN - 8, '客殿', {
+        size: 12,
+        color: 'var(--shu)',
       });
-      txt(g, cxp + 22, GY - rm.ridge * KEN - 8, '客殿', { size: 12, color: 'var(--shu)' });
     } else {
-      txt(g, cxp, GY - rm.ridge * KEN - 8, '母屋', { size: 13, color: 'var(--silver-hi)' });
+      txt(g, cxp, GY - rm.ridge * KEN - 8, '母屋', {
+        size: 13,
+        color: 'var(--silver-hi)',
+      });
     }
   } else {
-    txt(g, cxp, GY - rm.ridge * KEN - 7, rm.kanji, { size: 11, color: 'var(--silver-hi)' });
+    txt(g, cxp, GY - rm.ridge * KEN - 7, rm.kanji, {
+      size: 11,
+      color: 'var(--silver-hi)',
+    });
   }
   if (ink.fresh) freshStamp(g, x1 - 10, eaveY - 12, { seed: `b:${rm.id}:new` });
   if (ink.struck)
-    struckMark(g, [x0 + 8, eaveY - 3], [x0 + 46, eaveY - 7], { seed: `b:${rm.id}:struck` });
+    struckMark(g, [x0 + 8, eaveY - 3], [x0 + 46, eaveY - 7], {
+      seed: `b:${rm.id}:struck`,
+    });
   tip(g as unknown as SVGElement, rm.en);
   root.append(g);
 }
@@ -313,37 +364,84 @@ function paintForeground(root: SVGElement, fx: EstateFixture): void {
   // seated a step lower than the wing behind it, so its gold can't be
   // mis-attributed to the west wing (blind-pass iter-2)
   const kGround = GY + 42;
-  wallFace(kg, kx0, kx1, kGround - kitchen.eave * KEN, kGround, { seed: 'b:kit', postStep: 26 });
-  roofProfile(kg, kx0, kx1, kGround - kitchen.eave * KEN, kGround - kitchen.ridge * KEN, {
-    seed: 'b:kitr',
-    fresh: kink.fresh,
+  wallFace(kg, kx0, kx1, kGround - kitchen.eave * KEN, kGround, {
+    seed: 'b:kit',
+    postStep: 26,
   });
+  roofProfile(
+    kg,
+    kx0,
+    kx1,
+    kGround - kitchen.eave * KEN,
+    kGround - kitchen.ridge * KEN,
+    {
+      seed: 'b:kitr',
+      fresh: kink.fresh,
+    },
+  );
   boardDesk(kg, kx0 + (kx1 - kx0) * 0.6, kGround - 12, 'b:board', 'elev');
-  smokeWisp(kg, kx0 + (kx1 - kx0) * 0.35, kGround - kitchen.ridge * KEN - 2, 'b:smoke');
-  txt(kg, (kx0 + kx1) / 2, kGround + 12, '竈', { size: 10, color: 'var(--silver-hi)' });
-  if (kink.fresh) freshStamp(kg, kx1 - 8, kGround - kitchen.ridge * KEN - 10, { seed: 'b:kitn' });
+  smokeWisp(
+    kg,
+    kx0 + (kx1 - kx0) * 0.35,
+    kGround - kitchen.ridge * KEN - 2,
+    'b:smoke',
+  );
+  txt(kg, (kx0 + kx1) / 2, kGround + 12, '竈', {
+    size: 10,
+    color: 'var(--silver-hi)',
+  });
+  if (kink.fresh)
+    freshStamp(kg, kx1 - 8, kGround - kitchen.ridge * KEN - 10, {
+      seed: 'b:kitn',
+    });
   g.append(kg);
   // Sōan's lean-to + the woodshed, small at the west end
   const sick = room('sickroom');
   const sg = sv('g', { opacity: '0.8' });
   const sx0 = bx(0.4);
   const sx1 = bx(2.6);
-  wallFace(sg, sx0, sx1, GY + 30 - sick.eave * KEN, GY + 30, { seed: 'b:sick', postStep: 20 });
-  roofProfile(sg, sx0, sx1, GY + 30 - sick.eave * KEN, GY + 30 - sick.ridge * KEN, {
-    seed: 'b:sickr',
-    leanTo: true,
+  wallFace(sg, sx0, sx1, GY + 30 - sick.eave * KEN, GY + 30, {
+    seed: 'b:sick',
+    postStep: 20,
   });
-  txt(sg, (sx0 + sx1) / 2, GY + 42, '薬', { size: 9, color: 'var(--silver-hi)' });
+  roofProfile(
+    sg,
+    sx0,
+    sx1,
+    GY + 30 - sick.eave * KEN,
+    GY + 30 - sick.ridge * KEN,
+    {
+      seed: 'b:sickr',
+      leanTo: true,
+    },
+  );
+  txt(sg, (sx0 + sx1) / 2, GY + 42, '薬', {
+    size: 9,
+    color: 'var(--silver-hi)',
+  });
   g.append(sg);
   const shed = room('woodshed');
   const wg = sv('g', { opacity: '0.8' });
   const wx0 = bx(2.9);
   const wx1 = bx(4.6);
-  wallFace(wg, wx0, wx1, GY + 52 - shed.eave * KEN, GY + 52, { seed: 'b:shed', postStep: 18 });
-  roofProfile(wg, wx0, wx1, GY + 52 - shed.eave * KEN, GY + 52 - shed.ridge * KEN, {
-    seed: 'b:shedr',
+  wallFace(wg, wx0, wx1, GY + 52 - shed.eave * KEN, GY + 52, {
+    seed: 'b:shed',
+    postStep: 18,
   });
-  txt(wg, (wx0 + wx1) / 2, GY + 63, '薪', { size: 9, color: 'var(--silver-hi)' });
+  roofProfile(
+    wg,
+    wx0,
+    wx1,
+    GY + 52 - shed.eave * KEN,
+    GY + 52 - shed.ridge * KEN,
+    {
+      seed: 'b:shedr',
+    },
+  );
+  txt(wg, (wx0 + wx1) / 2, GY + 63, '薪', {
+    size: 9,
+    color: 'var(--silver-hi)',
+  });
   g.append(wg);
   // the well — posts, beam, the hanging bucket
   const wx = bx(17.6);
@@ -391,12 +489,28 @@ function paintForeground(root: SVGElement, fx: EstateFixture): void {
   const gx0 = bx(11);
   const gx1 = bx(15);
   const gGround = GY + 60;
-  wallFace(gg, bx(8.6), gx0, gGround - 1.1 * KEN, gGround, { seed: 'b:gwallW', postStep: 30 });
-  wallFace(gg, gx1, bx(17.4), gGround - 1.1 * KEN, gGround, { seed: 'b:gwallE', postStep: 30 });
-  wallFace(gg, gx0, gx1, gGround - gate.eave * KEN, gGround, { seed: 'b:gate', postStep: 22 });
-  roofProfile(gg, gx0, gx1, gGround - gate.eave * KEN, gGround - gate.ridge * KEN, {
-    seed: 'b:gater',
+  wallFace(gg, bx(8.6), gx0, gGround - 1.1 * KEN, gGround, {
+    seed: 'b:gwallW',
+    postStep: 30,
   });
+  wallFace(gg, gx1, bx(17.4), gGround - 1.1 * KEN, gGround, {
+    seed: 'b:gwallE',
+    postStep: 30,
+  });
+  wallFace(gg, gx0, gx1, gGround - gate.eave * KEN, gGround, {
+    seed: 'b:gate',
+    postStep: 22,
+  });
+  roofProfile(
+    gg,
+    gx0,
+    gx1,
+    gGround - gate.eave * KEN,
+    gGround - gate.ridge * KEN,
+    {
+      seed: 'b:gater',
+    },
+  );
   brushStroke(
     gg,
     [
@@ -405,8 +519,14 @@ function paintForeground(root: SVGElement, fx: EstateFixture): void {
     ],
     { seed: 'b:thresh', w: 2.4, color: 'var(--silver-dim)', dry: true },
   );
-  txt(gg, (gx0 + gx1) / 2, gGround + 13, '門', { size: 10, color: 'var(--silver-hi)' });
+  txt(gg, (gx0 + gx1) / 2, gGround + 13, '門', {
+    size: 10,
+    color: 'var(--silver-hi)',
+  });
   g.append(gg);
-  tip(g as unknown as SVGElement, 'the yards — forecourt, well, and the one formal gate');
+  tip(
+    g as unknown as SVGElement,
+    'the yards — forecourt, well, and the one formal gate',
+  );
   root.append(g);
 }

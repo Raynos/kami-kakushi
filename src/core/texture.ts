@@ -53,7 +53,10 @@ function emit(state: GameState, line: TextureLine): GameState {
   });
 }
 
-function roll(state: GameState, lines: readonly TextureLine[]): [TextureLine | null, GameState] {
+function roll(
+  state: GameState,
+  lines: readonly TextureLine[],
+): [TextureLine | null, GameState] {
   if (lines.length === 0) return [null, state];
   const [v, rng] = nextFloat(state.rng, 'worldgen');
   const next = { ...state, rng };
@@ -78,7 +81,10 @@ export function textureDayPass(state: GameState): GameState {
   const [chance, withRoll] = nextFloat(state.rng, 'worldgen');
   let next = { ...state, rng: withRoll };
   if (chance < TEXTURE_DAY_CHANCE) {
-    const [line, rolled] = roll(next, [...pool(seasonPrefix(next.season)), ...pool('weather')]);
+    const [line, rolled] = roll(next, [
+      ...pool(seasonPrefix(next.season)),
+      ...pool('weather'),
+    ]);
     next = rolled;
     if (line) return emit(next, line);
   }

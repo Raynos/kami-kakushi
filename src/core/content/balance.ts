@@ -121,7 +121,13 @@ export const PHASE2_PHASE1_RATIO_MAX = 1.2;
 // → ascension) and the season judge is a visible beat. ──
 // C4.7 (ADR-159): the six-step ladder's lower rungs — BAD/OK thresholds are sim-owned
 // intermediate steps (ADR-132); the T0 ascension gate stays EXCELLENT (480), untouched.
-export const ESTATE_BANDS = { bad: 80, ok: 160, good: 240, great: 360, excellent: 480 } as const;
+export const ESTATE_BANDS = {
+  bad: 80,
+  ok: 160,
+  good: 240,
+  great: 360,
+  excellent: 480,
+} as const;
 /** Per-deed cap = this/100 · GOOD (anti-spike: one deed can't jump the grade). 0.04·240 ≈ 10. */
 export let PER_DEED_CAP_NUM = 4;
 /** Estate standing a single Phase-2 labour act banks (a "deed") — a SUB-koku fraction, accumulated
@@ -153,7 +159,12 @@ export let ESTATE_DEED_PER_ACT = 0.8;
  *   - workshop · craft_weapon — the workshop's recorded yield (rare, bigger)
  *   - watch    · a WON grind fight — the house is safer (Arms stays T1-gated)
  *   - treasury · sell_rice — coin into the house books (the Q3 store-vs-sell lever) */
-export type EstateDeedSource = 'fields' | 'stores' | 'workshop' | 'watch' | 'treasury';
+export type EstateDeedSource =
+  | 'fields'
+  | 'stores'
+  | 'workshop'
+  | 'watch'
+  | 'treasury';
 export const ESTATE_DEED_SOURCE_MULT: Record<EstateDeedSource, number> = {
   fields: 1,
   stores: 1,
@@ -366,7 +377,11 @@ export let TEXTURE_MARKET_CHANCE = 0.5;
 export let AUTO_RETREAT_FRAC = 0.2;
 
 // ── Durability bands (ADR-034/FU17): attackPower multiplier; never auto-unequipped ──
-export const DURABILITY_BANDS: readonly { min: number; mult: number; name: string }[] = [
+export const DURABILITY_BANDS: readonly {
+  min: number;
+  mult: number;
+  name: string;
+}[] = [
   { min: 75, mult: 1.0, name: 'Pristine' },
   { min: 50, mult: 0.9, name: 'Worn' },
   { min: 1, mult: 0.75, name: 'Battered' },
@@ -510,7 +525,9 @@ export function riceSpoilage(held: number): number {
 export const KURA_RICE_CAP_BASE = 120;
 export const KURA_RICE_CAP_PER_STAGE = 80;
 export function kuraRiceCap(estateStage: number): number {
-  return KURA_RICE_CAP_BASE + Math.max(0, estateStage) * KURA_RICE_CAP_PER_STAGE;
+  return (
+    KURA_RICE_CAP_BASE + Math.max(0, estateStage) * KURA_RICE_CAP_PER_STAGE
+  );
 }
 
 // ── The measured-kura rice model (ADR-163 / G4.5, the soft-cap two-lane economy) ──────────────
@@ -544,10 +561,16 @@ export const POOL_DRAW_DEN = 6;
 /** The season-refill pool for a site — the base, lifted by the autumn-harvest peak when the site is
  *  season-gated (the paddy peaks Autumn). Pure; the caller passes whether this site rides the
  *  harvest multiplier. SIM-OWNED SEED (ADR-132). */
-export function sitePoolRefill(site: string, season: Season, seasonHarvest: boolean): number {
+export function sitePoolRefill(
+  site: string,
+  season: Season,
+  seasonHarvest: boolean,
+): number {
   const base = SITE_POOL_BASE[site] ?? SITE_POOL_DEFAULT;
   if (seasonHarvest && season === 'autumn') {
-    return Math.round((base * HARVEST_AUTUMN_MULT_NUM) / HARVEST_AUTUMN_MULT_DEN);
+    return Math.round(
+      (base * HARVEST_AUTUMN_MULT_NUM) / HARVEST_AUTUMN_MULT_DEN,
+    );
   }
   return base;
 }
@@ -904,5 +927,6 @@ export const BALANCE_CANON: Readonly<Record<string, number>> = Object.freeze({
 
 /** Reset every overridden lever back to its canon value (the cockpit's "Reset all to canon"). */
 export function __resetBalanceLevers(): void {
-  for (const path of Object.keys(BALANCE_CANON)) __setBalanceLever(path, BALANCE_CANON[path]!);
+  for (const path of Object.keys(BALANCE_CANON))
+    __setBalanceLever(path, BALANCE_CANON[path]!);
 }

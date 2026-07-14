@@ -49,7 +49,8 @@ export function mountRequirementsCheatlist(
   const head = el('div');
   head.style.cssText = 'color:#b08d4f;font-size:11px;text-transform:uppercase;';
   const list = el('div');
-  list.style.cssText = 'display:flex;flex-direction:column;gap:.25rem;font-size:12px;';
+  list.style.cssText =
+    'display:flex;flex-direction:column;gap:.25rem;font-size:12px;';
   const note = el(
     'div',
     'The player never sees this list — only the % bar and the completion flavor lines.',

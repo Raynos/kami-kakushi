@@ -66,7 +66,8 @@ type Resolver = (id: string, params: LogParams) => string | undefined;
 
 /** A flavor key's effective prose — the active take's if set, else canon FLAVOR. */
 const effFlavor = (key: string): string | undefined =>
-  storyText(`flavor.${key}`) ?? (FLAVOR as Readonly<Record<string, string>>)[key];
+  storyText(`flavor.${key}`) ??
+  (FLAVOR as Readonly<Record<string, string>>)[key];
 
 /** A narration run's take line for a canon-id address, or undefined ⇒ read canon. */
 function runText(
@@ -105,7 +106,10 @@ const worksText = (key: string): string | undefined => effFlavor(key);
  *  the canon registry does not carry. Resolving it positionally is the best available answer, and
  *  when it is out of range the caller falls back to the entry's stored prose. Ids are matched
  *  FIRST, so a line that ever authored a numeric-looking slug still wins. */
-function lineText(lines: readonly IntroSetupLine[], id: string): string | undefined {
+function lineText(
+  lines: readonly IntroSetupLine[],
+  id: string,
+): string | undefined {
   const named = lines.find((l) => l.id === id);
   if (named) return named.text;
   return /^\d+$/.test(id) ? lines[Number(id)]?.text : undefined;
@@ -130,7 +134,10 @@ function topicText(
   if (!t) return undefined;
   if (m[2] === undefined) return t.label; // asks are flat-keyed — the overlay hit them upstream
   // an answer is a narration RUN: the take's sequence at the canon position, else canon.
-  return runText(`${nsUnit}.topic.${t.id}.answer`, t.answer, m[2]) ?? lineText(t.answer, m[2]);
+  return (
+    runText(`${nsUnit}.topic.${t.id}.answer`, t.answer, m[2]) ??
+    lineText(t.answer, m[2])
+  );
 }
 
 // ── the VN payload (scenes AND rung beats share `RungScene`, so one reader serves both) ──────
@@ -144,7 +151,11 @@ function topicText(
 // neighbour — silently, because the index still resolved (ADR-186's known limit). Ids travel with
 // the prose, so a reorder is a no-op and a reword still reaches every save. `lineText` keeps the
 // legacy numeric path for a descriptor written before the v12 migration.
-function vnText(nsUnit: string, scene: RungScene, part: string): string | undefined {
+function vnText(
+  nsUnit: string,
+  scene: RungScene,
+  part: string,
+): string | undefined {
   const greeting = part.match(/^greeting\.(.+)$/);
   if (greeting) {
     return (
@@ -255,7 +266,8 @@ function requirementText(id: string): string | undefined {
 function nightRoundText(tail: string): string | undefined {
   const m = tail.match(/^(.+)\.stage\.(\d+)$/);
   if (!m) return undefined;
-  return NIGHT_ROUNDS.find((r) => r.id === m[1])?.stages[Number(m[2])]?.narration;
+  return NIGHT_ROUNDS.find((r) => r.id === m[1])?.stages[Number(m[2])]
+    ?.narration;
 }
 
 /** A belonging's acquire line: `belonging.<id>.acquire` (the def owns the prose). */
@@ -302,15 +314,20 @@ const RESOLVERS: Readonly<Record<string, Resolver>> = {
   // take switcher — reaches every existing save. Lives here, not in log-content: log-content is
   // a leaf and must not reach into the flavor registry.
   pillar: (part, params) =>
-    part === 'judge' ? `${judgeLine(params.grade as Grade)} (+${params.bonus} koku)` : undefined,
+    part === 'judge'
+      ? `${judgeLine(params.grade as Grade)} (+${params.bonus} koku)`
+      : undefined,
 
   activity: (id, params) => activityText(id, params),
   // The cold-open rake: authored prose + the amount it credited (the amount is the only variable).
   coldOpen: (part, params) =>
-    part === 'rake' ? rakeLine(typeof params.amount === 'number' ? params.amount : 0) : undefined,
+    part === 'rake'
+      ? rakeLine(typeof params.amount === 'number' ? params.amount : 0)
+      : undefined,
   // The at-home rest line — which of the two it is depends on owning bedding, a FACT, so it rides
   // in params rather than being frozen as prose.
-  home: (part, params) => (part === 'rest' ? homeRestLine(params.bedding === true) : undefined),
+  home: (part, params) =>
+    part === 'rest' ? homeRestLine(params.bedding === true) : undefined,
   // The ±attribute system line (step C, session-200): the FACT is the attribute id; the
   // words re-render from ATTR_META so a reword reaches every save.
   attr: (id) => ATTR_META[id as AttrId]?.log,
@@ -352,7 +369,10 @@ export const LOG_NAMESPACES: readonly string[] = Object.keys(RESOLVERS);
  * Throws on a key nothing can resolve. `codec.ts` catches that and keeps the entry's stored text,
  * so a removed contentKey degrades one line instead of nuking a save.
  */
-export function renderLogLine(contentKey: string, params: LogParams = {}): string {
+export function renderLogLine(
+  contentKey: string,
+  params: LogParams = {},
+): string {
   // step B (session-200) — the ONE story overlay wins on an exact key hit: every
   // flat-keyed take class re-voices here, for emit, save-load, and the DEV repaint alike.
   const take = storyText(contentKey);

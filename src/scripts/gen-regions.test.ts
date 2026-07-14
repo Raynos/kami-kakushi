@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { spliceRegion, hasRegion, wrap, MissingRegionError } from './gen-regions';
+import {
+  spliceRegion,
+  hasRegion,
+  wrap,
+  MissingRegionError,
+} from './gen-regions';
 
 // Proves the region splicer's THREE load-bearing guarantees (F1a Phase 1): it
 // preserves every byte outside the markers, it is byte-idempotent, and a missing
@@ -7,7 +12,8 @@ import { spliceRegion, hasRegion, wrap, MissingRegionError } from './gen-regions
 // can go RED (a splicer that clobbered surrounding prose, drifted on re-run, or
 // swallowed a missing marker would fail here).
 
-const begin = (id: string) => `<!-- gen:begin ${id} (pnpm run checkpoint — do not edit inside) -->`;
+const begin = (id: string) =>
+  `<!-- gen:begin ${id} (pnpm run checkpoint — do not edit inside) -->`;
 const end = (id: string) => `<!-- gen:end ${id} -->`;
 
 const doc = (id: string, body: string) =>
@@ -58,12 +64,18 @@ describe('spliceRegion', () => {
 
   it('throws a self-explaining MissingRegionError when the begin marker is absent', () => {
     const src = '# Title\n\nno markers here\n';
-    expect(() => spliceRegion(src, 'gate-roster', 'x')).toThrow(MissingRegionError);
-    expect(() => spliceRegion(src, 'gate-roster', 'x')).toThrow(/gen:begin gate-roster/);
+    expect(() => spliceRegion(src, 'gate-roster', 'x')).toThrow(
+      MissingRegionError,
+    );
+    expect(() => spliceRegion(src, 'gate-roster', 'x')).toThrow(
+      /gen:begin gate-roster/,
+    );
   });
 
   it('throws when a begin marker has no matching end', () => {
-    const src = ['# Title', begin('r'), 'body but no end marker', ''].join('\n');
+    const src = ['# Title', begin('r'), 'body but no end marker', ''].join(
+      '\n',
+    );
     expect(() => spliceRegion(src, 'r', 'x')).toThrow(MissingRegionError);
   });
 });
@@ -81,7 +93,8 @@ describe('wrap', () => {
     const text = 'one two three four five six seven eight nine ten';
     const out = wrap(text, 20);
     expect(out).toBe(wrap(text, 20)); // pure / stable
-    for (const line of out.split('\n')) expect(line.length).toBeLessThanOrEqual(20);
+    for (const line of out.split('\n'))
+      expect(line.length).toBeLessThanOrEqual(20);
     // round-trips the words (nothing dropped or duplicated)
     expect(out.split(/\s+/)).toEqual(text.split(' '));
   });

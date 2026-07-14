@@ -54,7 +54,10 @@ const porterFacingRef: { current: 1 | -1 } = { current: 1 };
  *  2026-07-11: the overlay died with the swapped-out svg in one frame — a flash). The
  *  new sheet mounts these marks already fading (CSS-driven) and clears the ref. */
 const trailAfterglowRef: {
-  current: { marks: readonly { cx: number; cy: number; angle: string }[]; p: number } | null;
+  current: {
+    marks: readonly { cx: number; cy: number; angle: string }[];
+    p: number;
+  } | null;
 } = { current: null };
 
 /** The shared footprint geometry — the walk overlay stamps these live; the afterglow
@@ -74,7 +77,11 @@ function footprintMarks(
   for (let i = 1; i <= N; i++) {
     const f = i / (N + 1);
     const side = i % 2 === 0 ? 1 : -1;
-    out.push({ cx: A.x + dx * f + nx * side * 14, cy: A.y + dy * f + ny * side * 14, angle });
+    out.push({
+      cx: A.x + dx * f + nx * side * 14,
+      cy: A.y + dy * f + ny * side * 14,
+      angle,
+    });
   }
   return out;
 }
@@ -83,7 +90,11 @@ function footprintMarks(
  *  sheet is mounted. `sample()` yields the ActionClock's {fraction 0→1, running} for the move. */
 export const travelPresenceRef: {
   current:
-    | ((fromId: string, toId: string, sample: () => { fraction: number; running: boolean }) => void)
+    | ((
+        fromId: string,
+        toId: string,
+        sample: () => { fraction: number; running: boolean },
+      ) => void)
     | null;
 } = { current: null };
 
@@ -93,10 +104,18 @@ export const travelPresenceRef: {
 /** Mount the resting porter piece beside the zone anchor (south offset — the piece
  *  stands BESIDE the seal box, never behind the label). Display-only (TST4 position
  *  read; P15 — no destination preview, the piece exists only where you ARE). */
-function mountRestingPorter(parent: SVGElement, x: number, y: number, tipText: string): void {
+function mountRestingPorter(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  tipText: string,
+): void {
   const piece = buildPorter('rest');
   const flip = porterFacingRef.current < 0 ? ' scale(-1 1)' : '';
-  piece.setAttribute('transform', `translate(${x} ${y + PORTER_STAND_Y})${flip}`);
+  piece.setAttribute(
+    'transform',
+    `translate(${x} ${y + PORTER_STAND_Y})${flip}`,
+  );
   tip(piece, tipText);
   parent.append(piece);
 }
@@ -157,7 +176,12 @@ function drawSeal(
   g.append(
     sv(
       'text',
-      { x: String(x), y: String(y + 16), 'text-anchor': 'middle', class: 'sheetmap-kanji' },
+      {
+        x: String(x),
+        y: String(y + 16),
+        'text-anchor': 'middle',
+        class: 'sheetmap-kanji',
+      },
       kanji,
     ),
   );
@@ -250,7 +274,10 @@ export function renderMapSheet(
   const glow = trailAfterglowRef.current;
   trailAfterglowRef.current = null;
   if (glow && glow.p >= 0.85) {
-    const trail = sv('g', { class: 'sheetmap-print-fade', 'pointer-events': 'none' });
+    const trail = sv('g', {
+      class: 'sheetmap-print-fade',
+      'pointer-events': 'none',
+    });
     for (const m of glow.marks) {
       trail.append(
         sv('ellipse', {
@@ -263,7 +290,9 @@ export function renderMapSheet(
         }),
       );
     }
-    trail.addEventListener('animationend', () => trail.remove(), { once: true });
+    trail.addEventListener('animationend', () => trail.remove(), {
+      once: true,
+    });
     seals.append(trail);
   }
   paintT0Ground(art, T0_WINDOW);
@@ -291,7 +320,8 @@ export function renderMapSheet(
   seals.append(cart);
 
   const revealed = ctx.revealed;
-  const isNeighbour = (id: string): boolean => ctx.neighbours.some((n) => n.id === id);
+  const isNeighbour = (id: string): boolean =>
+    ctx.neighbours.some((n) => n.id === id);
 
   // (1) the surveyed zones + locked scenery — a seal each; travel where you may step.
   for (const node of MAP_NODES) {
@@ -327,7 +357,12 @@ export function renderMapSheet(
     const nb = isNeighbour(node.id);
     const gated = nb && !!node.dangerRing && !ctx.condOk;
     const walkable = nb && !gated && !here;
-    const g = drawSeal(seals, node.id, a.x, a.y, { here, gated, walkable, locked: false });
+    const g = drawSeal(seals, node.id, a.x, a.y, {
+      here,
+      gated,
+      walkable,
+      locked: false,
+    });
     const asHtml = g as unknown as HTMLElement;
     if (walkable) {
       wireTravel(asHtml, node.id, ctx);
@@ -391,8 +426,12 @@ export function renderMapSheet(
   const defaultVb = (): { x: number; y: number; w: number; h: number } => {
     if (!revealStage?.known) return { ...FR };
     const hereA = ANCHORS[ctx.here];
-    const xs = revealStage.known.map((p) => p[0]).concat(hereA ? [hereA.x] : []);
-    const ys = revealStage.known.map((p) => p[1]).concat(hereA ? [hereA.y] : []);
+    const xs = revealStage.known
+      .map((p) => p[0])
+      .concat(hereA ? [hereA.x] : []);
+    const ys = revealStage.known
+      .map((p) => p[1])
+      .concat(hereA ? [hereA.y] : []);
     const pad = 90;
     let x = Math.min(...xs) - pad;
     let y = Math.min(...ys) - pad;
@@ -430,7 +469,11 @@ export function renderMapSheet(
   const fit = viewer.fit;
   const controls = document.createElement('div');
   controls.className = 'sheetmap-controls';
-  const zoomBtn = (label: string, act: () => void, aria: string): HTMLButtonElement => {
+  const zoomBtn = (
+    label: string,
+    act: () => void,
+    aria: string,
+  ): HTMLButtonElement => {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'sheetmap-zoom';
@@ -488,10 +531,15 @@ export function renderMapSheet(
       return;
     }
     const top = wrap.getBoundingClientRect().top;
-    const foot = document.querySelector('.appbar-footer')?.getBoundingClientRect().height ?? 0;
+    const foot =
+      document.querySelector('.appbar-footer')?.getBoundingClientRect()
+        .height ?? 0;
     // FB-377 — a touch more air below the sheet (26, was 14); the sheet PINS top-left
     // (margin 0, not auto-centred) so the you-are-here card floats in the right column.
-    const availH = Math.max(240, Math.round(window.innerHeight - top - foot - 26));
+    const availH = Math.max(
+      240,
+      Math.round(window.innerHeight - top - foot - 26),
+    );
     const hostW = container.clientWidth || wrap.clientWidth || FR.w;
     const w = Math.min(hostW, Math.round((availH * FR.w) / FR.h));
     wrap.style.width = `${w}px`;
@@ -511,9 +559,11 @@ export function renderMapSheet(
   travelPresenceRef.current = (fromId, toId, sample) => {
     const fa = ANCHORS[fromId];
     const ta = ANCHORS[toId];
-    if (fa === undefined || ta === undefined || import.meta.env.MODE === 'test') return;
+    if (fa === undefined || ta === undefined || import.meta.env.MODE === 'test')
+      return;
     const reduced =
-      typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      typeof matchMedia === 'function' &&
+      matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced) {
       // P12 — reduced-motion: no footsteps; the view simply follows to centre for the arrival.
       vb.x = ta.x - vb.w / 2;
@@ -544,12 +594,16 @@ function runFootstepsFollow(
   sample: () => { fraction: number; running: boolean },
 ): void {
   const clamp01 = (n: number): number => Math.min(1, Math.max(0, n));
-  const ease = (t: number): number => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+  const ease = (t: number): number =>
+    t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
   // you are leaving `from`: hide its resting piece for the transit; restore it if the
   // move is cancelled (on completion the sheet rebuilds with the piece already at `to`).
   const resting = svg.querySelector<SVGElement>('.sheetmap-porter');
   if (resting) resting.style.opacity = '0';
-  const overlay = sv('g', { class: 'sheetmap-presence', 'pointer-events': 'none' });
+  const overlay = sv('g', {
+    class: 'sheetmap-presence',
+    'pointer-events': 'none',
+  });
   svg.append(overlay);
   const done = (): void => {
     overlay.remove();

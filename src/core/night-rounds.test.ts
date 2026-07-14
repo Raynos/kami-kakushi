@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { createInitialState, type GameState } from './index';
-import { resolveNightStage, nightStageReward, beginNightRound } from './night-rounds';
+import {
+  resolveNightStage,
+  nightStageReward,
+  beginNightRound,
+} from './night-rounds';
 import type { NightRoundDef } from './content/nightRounds';
 import { NIGHT_ROUNDS } from './content/nightRounds';
 import { mcCombatStats, mobCombatStats, resolveFight } from './combat';
@@ -78,7 +82,11 @@ describe("G2 night-round engine — a `scripted:'survive'` stage cannot kill or 
     };
     const start = beginNightRound(weakMc(3), def);
     // PRECONDITION: the underlying real fight IS a loss — so the survive guarantee is doing work.
-    const real = resolveFight(start.rng, mcCombatStats(start), mobCombatStats(getMob('bandit')));
+    const real = resolveFight(
+      start.rng,
+      mcCombatStats(start),
+      mobCombatStats(getMob('bandit')),
+    );
     expect(real.won).toBe(false);
 
     const after = resolveNightStage(start, def);
@@ -98,7 +106,11 @@ describe('G2 night-round engine — a fall ends the round (→ sickroom at G3)',
       stages: [{ id: 's0', areaId: 'woodlot', foe: 'bandit' }],
     };
     const start = beginNightRound(weakMc(4), def);
-    const real = resolveFight(start.rng, mcCombatStats(start), mobCombatStats(getMob('bandit')));
+    const real = resolveFight(
+      start.rng,
+      mcCombatStats(start),
+      mobCombatStats(getMob('bandit')),
+    );
     expect(real.won).toBe(false); // precondition: this stage is a loss
     const after = resolveNightStage(start, def);
     expect(after.roundState).toBeNull(); // the fall ended the round
@@ -119,12 +131,18 @@ describe('the REAL NIGHT_ROUNDS registry (B3) — every shipped round holds the 
       for (const stage of def.stages) {
         // roll on several streams so a coin drop can't hide behind one seed
         for (const seed of [1, 2, 3, 4, 5]) {
-          const { reward } = nightStageReward(createInitialState(seed).rng, stage);
+          const { reward } = nightStageReward(
+            createInitialState(seed).rng,
+            stage,
+          );
           expect('coin' in reward.materials).toBe(false);
           for (const key of Object.keys(reward.materials)) {
             // every rolled key is a real MATERIAL id (coin is not one) — RED the moment a
             // stage's drop table mints anything that isn't salvage
-            expect(materialIds.has(key), `${def.id}/${stage.id} rolled '${key}'`).toBe(true);
+            expect(
+              materialIds.has(key),
+              `${def.id}/${stage.id} rolled '${key}'`,
+            ).toBe(true);
           }
         }
       }
@@ -141,10 +159,17 @@ describe('the REAL NIGHT_ROUNDS registry (B3) — every shipped round holds the 
       let start: GameState | null = null;
       for (let seed = 1; seed <= 200 && start === null; seed++) {
         const s = withCarried(weakMc(seed));
-        const real = resolveFight(s.rng, mcCombatStats(s), mobCombatStats(getMob(stage.foe)));
+        const real = resolveFight(
+          s.rng,
+          mcCombatStats(s),
+          mobCombatStats(getMob(stage.foe)),
+        );
         if (!real.won) start = s;
       }
-      expect(start, `${def.id}: no losing seed found for '${stage.foe}'`).not.toBeNull();
+      expect(
+        start,
+        `${def.id}: no losing seed found for '${stage.foe}'`,
+      ).not.toBeNull();
       let s = beginNightRound(start!, def);
       s = { ...s, roundState: { roundId: def.id, stage: idx } };
       const before = s.resources;
@@ -152,10 +177,14 @@ describe('the REAL NIGHT_ROUNDS registry (B3) — every shipped round holds the 
       expect(after.roundState).toBeNull(); // the fall ended the round
       // the bleed derives from the balance constants — never copied fractions (test law #2)
       const coinHad = before.coin ?? 0;
-      expect(after.resources.coin ?? 0).toBe(coinHad - Math.round(coinHad * LOSS_COIN_FRAC));
+      expect(after.resources.coin ?? 0).toBe(
+        coinHad - Math.round(coinHad * LOSS_COIN_FRAC),
+      );
       for (const m of MATERIALS) {
         const had = before[m.id] ?? 0;
-        expect(after.resources[m.id] ?? 0).toBe(had - Math.floor(had * LOSS_MATERIAL_FRAC));
+        expect(after.resources[m.id] ?? 0).toBe(
+          had - Math.floor(had * LOSS_MATERIAL_FRAC),
+        );
       }
     }
   });

@@ -92,7 +92,11 @@ interface Golden {
 }
 
 describe('map-sheets golden pin — the drawing is the HR-12-passed one', () => {
-  const current: Golden = { t0: renderTier('T0'), t1: renderTier('T1'), t2: renderTier('T2') };
+  const current: Golden = {
+    t0: renderTier('T0'),
+    t1: renderTier('T1'),
+    t2: renderTier('T2'),
+  };
 
   if (process.env.UPDATE_MAP_GOLDEN) {
     it('regenerates the pin (UPDATE_MAP_GOLDEN set)', () => {

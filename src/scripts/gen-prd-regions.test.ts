@@ -19,7 +19,9 @@ describe('genT0RungTitles', () => {
     for (const r of RANKS) {
       // fixtures come from the source of truth (RANKS), never a copied literal —
       // rename a rung in ranks.ts and this fails until the generator is re-run.
-      expect(body).toContain(`| ${r.id} | ${r.title} | ${r.kanji} |`.replace(/^/, '> '));
+      expect(body).toContain(
+        `| ${r.id} | ${r.title} | ${r.kanji} |`.replace(/^/, '> '),
+      );
     }
   });
 
@@ -40,7 +42,16 @@ describe('genT0RungTitles', () => {
     const begin =
       '<!-- gen:begin t0-rung-titles (pnpm run gen:prd-regions — do not edit inside) -->';
     const end = '<!-- gen:end t0-rung-titles -->';
-    const doc = ['# §3', '', 'Prose above.', begin, 'seed', end, 'Prose below.', ''].join('\n');
+    const doc = [
+      '# §3',
+      '',
+      'Prose above.',
+      begin,
+      'seed',
+      end,
+      'Prose below.',
+      '',
+    ].join('\n');
     const once = spliceRegion(doc, 't0-rung-titles', genT0RungTitles());
     const twice = spliceRegion(once, 't0-rung-titles', genT0RungTitles());
     expect(twice).toBe(once); // stable
@@ -57,7 +68,9 @@ describe('genT0WeaponRoster', () => {
       // fixtures from the source of truth (WEAPONS): rename a weapon in weapons.ts
       // and this fails until the region is regenerated (the mismatch that shipped
       // kama-yari in §4 while the build had the woodlot axe, ADR-128).
-      expect(body).toContain(`> | ${w.label} | ${w.kanji} | ${w.archetype} | ${w.blurb} |`);
+      expect(body).toContain(
+        `> | ${w.label} | ${w.kanji} | ${w.archetype} | ${w.blurb} |`,
+      );
     }
   });
 
@@ -72,7 +85,8 @@ describe('genT0WeaponRoster', () => {
     const body = genT0WeaponRoster();
     // the durabilityMax values are §4-domain tuning; a generator that leaked them
     // would fail here (and would re-drift every time a number is tuned).
-    for (const w of WEAPONS) expect(body).not.toContain(String(w.durabilityMax));
+    for (const w of WEAPONS)
+      expect(body).not.toContain(String(w.durabilityMax));
   });
 });
 
@@ -134,7 +148,14 @@ import {
   genT0EstateWorks,
   genVerifyGates,
 } from './gen-prd-regions';
-import { DISCOVERIES, AREAS, ACTIVITIES, QUESTS, MARKET_ITEMS, ESTATE_STAGES } from '../core';
+import {
+  DISCOVERIES,
+  AREAS,
+  ACTIVITIES,
+  QUESTS,
+  MARKET_ITEMS,
+  ESTATE_STAGES,
+} from '../core';
 import { GATES } from './gates';
 
 describe('genT0Discoveries (G1)', () => {
@@ -148,7 +169,8 @@ describe('genT0Discoveries (G1)', () => {
   it('keeps tuning OUT — no attempt floors or roll chances leak', () => {
     const body = genT0Discoveries();
     for (const d of DISCOVERIES) {
-      if (d.trigger.chance) expect(body).not.toContain(String(d.trigger.chance));
+      if (d.trigger.chance)
+        expect(body).not.toContain(String(d.trigger.chance));
       if (d.minAttempts) expect(body).not.toContain(`| ${d.minAttempts} |`);
     }
   });
@@ -177,7 +199,9 @@ describe('genT0ZoneReveals (G2)', () => {
     const rungOf = (zone: string): string | undefined =>
       RANKS.find((r) => r.rewardOnReach?.unlock?.includes(`room-${zone}`))?.id;
     const kura = AREAS.find((a) => a.id === 'kura');
-    expect(body).toContain(`| \`kura\` | ${kura?.label} | inks in at **${rungOf('kura')}** |`);
+    expect(body).toContain(
+      `| \`kura\` | ${kura?.label} | inks in at **${rungOf('kura')}** |`,
+    );
     expect(rungOf('kura')).toBe('R3');
     expect(rungOf('drill-yard')).toBe('R4');
   });
@@ -195,7 +219,8 @@ describe('genT0RungReveals (G3)', () => {
     const body = genT0RungReveals();
     for (const r of RANKS) {
       expect(body).toContain(`| ${r.id} — ${r.title} |`);
-      for (const u of r.rewardOnReach?.unlock ?? []) expect(body).toContain(`\`${u}\``);
+      for (const u of r.rewardOnReach?.unlock ?? [])
+        expect(body).toContain(`\`${u}\``);
     }
   });
 
@@ -210,7 +235,8 @@ describe('genT0RungReveals (G3)', () => {
 describe('genT0QuestRoster (G4)', () => {
   it('names every quest id, kind and title — derived from QUESTS', () => {
     const body = genT0QuestRoster();
-    for (const q of QUESTS) expect(body).toContain(`| \`${q.id}\` | ${q.kind} | ${q.title} |`);
+    for (const q of QUESTS)
+      expect(body).toContain(`| \`${q.id}\` | ${q.kind} | ${q.title} |`);
   });
 });
 
@@ -218,13 +244,16 @@ describe('genT0Activities (G5)', () => {
   it('carries every activity with its node/skill/deed bindings', () => {
     const body = genT0Activities();
     for (const a of ACTIVITIES) {
-      expect(body).toContain(`| \`${a.id}\` | ${a.label} | ${a.area} | ${a.skill} |`);
+      expect(body).toContain(
+        `| \`${a.id}\` | ${a.label} | ${a.area} | ${a.skill} |`,
+      );
     }
   });
 
   it('keeps §4 tuning OUT — no yields or satiety costs leak', () => {
     const body = genT0Activities();
-    for (const a of ACTIVITIES) expect(body).not.toContain(`| ${a.satietyCost} |`);
+    for (const a of ACTIVITIES)
+      expect(body).not.toContain(`| ${a.satietyCost} |`);
   });
 });
 
@@ -236,7 +265,8 @@ describe('genT0MarketStock (G6)', () => {
       if (m.seasons) expect(body).toContain(m.seasons.join(' · '));
     }
     // a seasonless staple reads "every season" — RED if the fallback is dropped
-    if (MARKET_ITEMS.some((m) => !m.seasons)) expect(body).toContain('every season');
+    if (MARKET_ITEMS.some((m) => !m.seasons))
+      expect(body).toContain('every season');
   });
 
   it('keeps prices and stock caps OUT (§4 tuning)', () => {
@@ -261,7 +291,8 @@ describe('genT0EstateWorks (G7)', () => {
 describe('genVerifyGates (G8)', () => {
   it('carries every gate name, command and lane — derived from GATES', () => {
     const body = genVerifyGates();
-    for (const g of GATES) expect(body).toContain(`| ${g.name} | \`${g.cmd}\` | ${g.scope} |`);
+    for (const g of GATES)
+      expect(body).toContain(`| ${g.name} | \`${g.cmd}\` | ${g.scope} |`);
   });
 
   it('emits exactly one row per gate (17 today)', () => {

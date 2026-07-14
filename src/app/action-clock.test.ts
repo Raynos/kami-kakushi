@@ -119,9 +119,13 @@ describe('ActionClock (ADR-148)', () => {
 
   it('actionKey refines per payload so cooldowns attach to the right button', () => {
     expect(actionKey('rake_rice')).toBe('rake_rice');
-    expect(actionKey('do_activity', { activityId: 'farm_paddy' })).toBe('do_activity:farm_paddy');
+    expect(actionKey('do_activity', { activityId: 'farm_paddy' })).toBe(
+      'do_activity:farm_paddy',
+    );
     expect(actionKey('move_to', { to: 'kura' })).toBe('move_to:kura');
-    expect(actionKey('craft_weapon', { recipeId: 'ono' })).toBe('craft_weapon:ono');
+    expect(actionKey('craft_weapon', { recipeId: 'ono' })).toBe(
+      'craft_weapon:ono',
+    );
   });
 });
 

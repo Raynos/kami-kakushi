@@ -26,7 +26,8 @@ export const WEAPONS: readonly WeaponDef[] = [
     baseSpeed: 0.9,
     durabilityMax: 40,
     archetype: 'reach · blunt',
-    blurb: "A porter's shoulder-pole. Not a weapon — but it has reach, and it is what you have.",
+    blurb:
+      "A porter's shoulder-pole. Not a weapon — but it has reach, and it is what you have.",
   },
   {
     id: 'wood_axe',
@@ -36,7 +37,8 @@ export const WEAPONS: readonly WeaponDef[] = [
     baseSpeed: 0.85, // provisional (v0.2) — tune by playtest
     durabilityMax: 55,
     archetype: 'heavy · single',
-    blurb: 'A felling axe off the woodlot rack — heavy, slow, and it bites deep.',
+    blurb:
+      'A felling axe off the woodlot rack — heavy, slow, and it bites deep.',
   },
   {
     id: 'yari',
@@ -54,7 +56,9 @@ export const WEAPONS: readonly WeaponDef[] = [
   },
 ];
 
-export const WEAPON_IDS: ReadonlySet<string> = new Set(WEAPONS.map((w) => w.id));
+export const WEAPON_IDS: ReadonlySet<string> = new Set(
+  WEAPONS.map((w) => w.id),
+);
 
 export function getWeapon(id: WeaponId): WeaponDef {
   const w = WEAPONS.find((x) => x.id === id);

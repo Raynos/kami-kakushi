@@ -82,7 +82,11 @@ describe('Estate deeds are Phase-2-gated (FU7) (M2·3)', () => {
     const s = reduce(
       // farm_paddy is SPATIAL (v0.3.1 Step 5) — must be at its node to run.
       // ADR-179 — stamp the verb's entitling rank fact; visibility derives from it.
-      { ...base, location: 'paddies', flags: { ...base.flags, ...factsForSurfaces('verb-farm') } },
+      {
+        ...base,
+        location: 'paddies',
+        flags: { ...base.flags, ...factsForSurfaces('verb-farm') },
+      },
       { type: 'do_activity', activityId: 'farm_paddy' },
     );
     // The deed is SUB-koku (ADR-133): a single act banks into `frac`, not yet a whole koku in `value`.
@@ -92,13 +96,20 @@ describe('Estate deeds are Phase-2-gated (FU7) (M2·3)', () => {
 
 describe('seasonal judge — new high-water, the 70/30 share, ±10% (M2·3/M2·4)', () => {
   it('fires only on a NEW high-water (highWater > judged)', () => {
-    expect(seasonalJudge({ value: 70, highWater: 70, judged: 70 }, 0.5).bonus).toBe(0);
-    expect(seasonalJudge({ value: 140, highWater: 140, judged: 70 }, 0.5).bonus).toBeGreaterThan(0);
+    expect(
+      seasonalJudge({ value: 70, highWater: 70, judged: 70 }, 0.5).bonus,
+    ).toBe(0);
+    expect(
+      seasonalJudge({ value: 140, highWater: 140, judged: 70 }, 0.5).bonus,
+    ).toBeGreaterThan(0);
   });
 
   it('pays ~3/7 of the deed-growth — the 30% seasonal share', () => {
     const growth = 700;
-    const { bonus } = seasonalJudge({ value: growth, highWater: growth, judged: 0 }, 0.5); // swing 1.0
+    const { bonus } = seasonalJudge(
+      { value: growth, highWater: growth, judged: 0 },
+      0.5,
+    ); // swing 1.0
     expect(bonus).toBe(Math.round((growth * 3) / 7)); // 300, i.e. 30% beside the 70% of deeds
   });
 
@@ -144,7 +155,10 @@ describe('the seasonal judge fires on the season-exit pipeline (M2·4, storywave
 describe('ADR-145 — the multi-source Phase-2 economy (Phase 1 DoD)', () => {
   // Fixtures derive from the SOURCE OF TRUTH (the balance constants), never copied literals.
   const base = () => balance.ESTATE_DEED_PER_ACT;
-  const mult = balance.ESTATE_DEED_SOURCE_MULT as Record<EstateDeedSource, number>;
+  const mult = balance.ESTATE_DEED_SOURCE_MULT as Record<
+    EstateDeedSource,
+    number
+  >;
 
   it('each source banks its OWN magnitude — base × its multiplier (the design lever)', () => {
     for (const source of Object.keys(mult) as EstateDeedSource[]) {
@@ -196,7 +210,10 @@ describe('ADR-145 — the multi-source Phase-2 economy (Phase 1 DoD)', () => {
       },
       { type: 'do_activity', activityId: 'farm_paddy' },
     );
-    expect(farm.influence.estate.frac ?? 0).toBeCloseTo(estateDeedMagnitude('fields'), 9);
+    expect(farm.influence.estate.frac ?? 0).toBeCloseTo(
+      estateDeedMagnitude('fields'),
+      9,
+    );
     const wood = reduce(
       {
         ...base2,
@@ -220,7 +237,9 @@ describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', (
       ...s,
       estateStage: stage,
       resources: { ...s.resources, coin: 99999, wood: 99999 },
-      influence: { estate: { value: deedValue, highWater: deedValue, judged: 0 } },
+      influence: {
+        estate: { value: deedValue, highWater: deedValue, judged: 0 },
+      },
       // ADR-177 — close every discovery chain (source-of-truth-derived) so these
       // cases test the DEED gate alone, never the works gate. ADR-179 — panel-estate
       // derives from its fact-flag (factsForSurfaces), not a stored latch.
@@ -239,8 +258,13 @@ describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', (
     if (stage === 0) return next; // refused — the caller asserts on it
     const def = ESTATE_STAGES.find((d) => d.stage === stage)!;
     const zone = WORKS_PROJECTS.find((p) => p.stage === stage)!.zones[0]!.node;
-    next = { ...next, location: zone, character: { ...next.character, satiety: 999 } };
-    for (let i = 0; i < def.workActs; i++) next = reduce(next, { type: 'work_project' });
+    next = {
+      ...next,
+      location: zone,
+      character: { ...next.character, satiety: 999 },
+    };
+    for (let i = 0; i < def.workActs; i++)
+      next = reduce(next, { type: 'work_project' });
     return next;
   };
 
@@ -259,9 +283,12 @@ describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', (
   });
 
   it('the gates are ordered along the deed climb and sit under the EXCELLENT band', () => {
-    for (let i = 1; i < gates.length; i++) expect(gates[i]!).toBeGreaterThan(gates[i - 1]!);
+    for (let i = 1; i < gates.length; i++)
+      expect(gates[i]!).toBeGreaterThan(gates[i - 1]!);
     // the E1 build-complete beat must be reachable BEFORE/AT the ascension gate (plan §6 P2)
-    expect(gates[gates.length - 1]!).toBeLessThanOrEqual(balance.ESTATE_BANDS.excellent);
+    expect(gates[gates.length - 1]!).toBeLessThanOrEqual(
+      balance.ESTATE_BANDS.excellent,
+    );
   });
 
   it('the build advances in ORDER and the E1 "estate stands" beat fires exactly once (TST2)', () => {
@@ -273,7 +300,9 @@ describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', (
     expect(s.flags['estate-stands']).toBe(true);
     // Match the completion BEAT precisely (FLAVOR.estateStands) — the U4 stage's own commissioning
     // line also carries the phrase "the estate stands", so a loose substring would over-count.
-    const standsLines = s.log.entries.filter((l) => l.text === FLAVOR.estateStands);
+    const standsLines = s.log.entries.filter(
+      (l) => l.text === FLAVOR.estateStands,
+    );
     expect(standsLines.length).toBe(1); // the build-complete beat fired exactly once
     // …and a further improve is a no-op that does NOT re-fire it (append-only, TST2)
     const again = reduce(s, { type: 'improve_estate' });
@@ -289,7 +318,8 @@ describe('ADR-145 — the staged E0→E1 build as pacing beats (Phase 2 DoD)', (
     const second = bankEstateDeed(first, 'fields');
     expect(second.log.entries.length).toBe(revealed); // no repeat — the reveal is one-time
     // the second deed still BANKS (whole+frac total — frac alone wraps past 1 koku, HD-35)
-    const total = (s: typeof s0) => s.influence.estate.value + (s.influence.estate.frac ?? 0);
+    const total = (s: typeof s0) =>
+      s.influence.estate.value + (s.influence.estate.frac ?? 0);
     expect(total(second)).toBeGreaterThan(total(first));
   });
 });
@@ -304,7 +334,9 @@ describe('ADR-145 — estateBuild is the ONE build read (Phase 4 DoD, AC-6/TST4)
       ...atPhase2(),
       estateStage: 1,
       resources: { coin: cost2 - 1 },
-      influence: { estate: { value: gate2 - 1, highWater: gate2 - 1, judged: 0 } },
+      influence: {
+        estate: { value: gate2 - 1, highWater: gate2 - 1, judged: 0 },
+      },
     };
     const b = estateBuild(s);
     expect(b.complete).toBe(false);
@@ -320,7 +352,12 @@ describe('ADR-145 — estateBuild is the ONE build read (Phase 4 DoD, AC-6/TST4)
       ),
     ).toEqual(expect.objectContaining({ estateStage: 1 }));
     // statuses ladder: built ≤ current < next < locked, one row per stage
-    expect(b.rows.map((r) => r.status)).toEqual(['built', 'next', 'locked', 'locked']);
+    expect(b.rows.map((r) => r.status)).toEqual([
+      'built',
+      'next',
+      'locked',
+      'locked',
+    ]);
   });
 
   it('reports complete at U4 with no next block', () => {
@@ -337,7 +374,13 @@ describe('estateGrade reads the live pillar', () => {
     expect(estateGrade(createInitialState(1))).toBe('FAIL'); // a fresh house starts failing (ADR-159)
     const rich: GameState = {
       ...createInitialState(1),
-      influence: { estate: { value: balance.ESTATE_BANDS.excellent, highWater: 999, judged: 0 } },
+      influence: {
+        estate: {
+          value: balance.ESTATE_BANDS.excellent,
+          highWater: 999,
+          judged: 0,
+        },
+      },
     };
     expect(estateGrade(rich)).toBe('EXCELLENT');
   });

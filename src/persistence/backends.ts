@@ -116,7 +116,8 @@ export class IndexedDBBackend implements StorageBackend {
       const req = indexedDB.open(this.dbName, 1);
       req.onupgradeneeded = () => {
         const db = req.result;
-        if (!db.objectStoreNames.contains(this.storeName)) db.createObjectStore(this.storeName);
+        if (!db.objectStoreNames.contains(this.storeName))
+          db.createObjectStore(this.storeName);
       };
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => reject(req.error);
@@ -167,7 +168,9 @@ export class IndexedDBBackend implements StorageBackend {
   }
   async keys(): Promise<string[]> {
     try {
-      const ks = await this.tx<IDBValidKey[]>('readonly', (s) => s.getAllKeys());
+      const ks = await this.tx<IDBValidKey[]>('readonly', (s) =>
+        s.getAllKeys(),
+      );
       return ks.map((k) => String(k));
     } catch {
       return [];

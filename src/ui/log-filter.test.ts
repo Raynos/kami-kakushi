@@ -60,7 +60,8 @@ describe('logFilterMatches — the F111 chat axis (optional Q&A vs mandatory Sto
   });
 
   it('the Chat tab holds ONLY chat lines — a non-chat channel never leaks in', () => {
-    for (const c of ALL_CHANNELS) expect(logFilterMatches(c, 'chat', false, false)).toBe(false);
+    for (const c of ALL_CHANNELS)
+      expect(logFilterMatches(c, 'chat', false, false)).toBe(false);
   });
 
   it('chat lines never appear in Now (they are permanent, not ephemeral)', () => {
@@ -93,7 +94,8 @@ describe('logFilterMatches — the F9 channel→category mapping (non-ephemeral)
   });
 
   it('All shows every channel', () => {
-    for (const c of ALL_CHANNELS) expect(logFilterMatches(c, 'all', false)).toBe(true);
+    for (const c of ALL_CHANNELS)
+      expect(logFilterMatches(c, 'all', false)).toBe(true);
   });
 });
 
@@ -106,7 +108,14 @@ describe('logFilterMatches — the F53 ephemeral / Now rule', () => {
   });
 
   it('every OTHER filter HIDES ephemeral entries (they live only in Now)', () => {
-    const permanentFilters: LogFilter[] = ['story', 'progression', 'chat', 'combat', 'work', 'all'];
+    const permanentFilters: LogFilter[] = [
+      'story',
+      'progression',
+      'chat',
+      'combat',
+      'work',
+      'all',
+    ];
     for (const f of permanentFilters) {
       for (const c of ALL_CHANNELS) {
         // an ephemeral line NEVER shows outside Now, even under All / its own channel category.
@@ -129,7 +138,9 @@ describe('logFilterMatches — reachability invariants', () => {
     );
     for (const c of ALL_CHANNELS) {
       const reachable = categorized.some((f) => logFilterMatches(c, f, false));
-      expect(reachable, `channel "${c}" must belong to a filter category`).toBe(true);
+      expect(reachable, `channel "${c}" must belong to a filter category`).toBe(
+        true,
+      );
     }
   });
 
@@ -137,7 +148,9 @@ describe('logFilterMatches — reachability invariants', () => {
     // an ephemeral flavor line would be UNREACHABLE if Now did not exist: every other filter
     // hides it, so Now is its sole home.
     for (const c of ALL_CHANNELS) {
-      const reachable = LOG_FILTERS.map((f) => f.id).filter((f) => logFilterMatches(c, f, true));
+      const reachable = LOG_FILTERS.map((f) => f.id).filter((f) =>
+        logFilterMatches(c, f, true),
+      );
       expect(reachable).toEqual(['now']);
     }
   });
@@ -147,19 +160,33 @@ describe('logFilterMatches — the HD-41 earned axis (a rung reward is story AND
   it('an EARNED narration line shows in Progress AND keeps its Story home', () => {
     // the defect this fixes (taste P16: Progress = earned): a requirement-completion
     // line routed to Story only, and the Progress tab never registered the step.
-    expect(logFilterMatches('narration', 'progression', false, false, true)).toBe(true);
-    expect(logFilterMatches('narration', 'story', false, false, true)).toBe(true);
+    expect(
+      logFilterMatches('narration', 'progression', false, false, true),
+    ).toBe(true);
+    expect(logFilterMatches('narration', 'story', false, false, true)).toBe(
+      true,
+    );
   });
 
   it('a PLAIN narration line still never reaches Progress (the axis is the descriptor, not the channel)', () => {
-    expect(logFilterMatches('narration', 'progression', false, false, false)).toBe(false);
+    expect(
+      logFilterMatches('narration', 'progression', false, false, false),
+    ).toBe(false);
   });
 
   it('the earned axis never leaks into Work/Combat/Chat, and never overrides ephemeral', () => {
-    expect(logFilterMatches('narration', 'work', false, false, true)).toBe(false);
-    expect(logFilterMatches('narration', 'combat', false, false, true)).toBe(false);
-    expect(logFilterMatches('narration', 'chat', false, false, true)).toBe(false);
-    expect(logFilterMatches('narration', 'progression', true, false, true)).toBe(false); // ephemeral wins
+    expect(logFilterMatches('narration', 'work', false, false, true)).toBe(
+      false,
+    );
+    expect(logFilterMatches('narration', 'combat', false, false, true)).toBe(
+      false,
+    );
+    expect(logFilterMatches('narration', 'chat', false, false, true)).toBe(
+      false,
+    );
+    expect(
+      logFilterMatches('narration', 'progression', true, false, true),
+    ).toBe(false); // ephemeral wins
   });
 
   it('isEarnedLine keys off the ADR-186 requirement descriptor, nothing else', () => {

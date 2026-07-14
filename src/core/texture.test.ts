@@ -9,7 +9,9 @@ import { FLAVOR } from './content/flavor';
 import { __setBalanceLever, __resetBalanceLevers } from './content/balance';
 import { isMarketDay } from './content/market';
 
-const flavorLines = new Set<string>(Object.values(FLAVOR).filter((v) => typeof v === 'string'));
+const flavorLines = new Set<string>(
+  Object.values(FLAVOR).filter((v) => typeof v === 'string'),
+);
 
 function awake(seed = 1): GameState {
   const s = createInitialState(seed);
@@ -19,7 +21,12 @@ function awake(seed = 1): GameState {
 describe('the ambient texture emitter (C4.3)', () => {
   it('the authored pools EXIST (season per-season, weather, gossip — registry-derived)', () => {
     const keys = Object.keys(FLAVOR);
-    for (const prefix of ['seasonWinter', 'seasonAutumn', 'weather', 'gossip']) {
+    for (const prefix of [
+      'seasonWinter',
+      'seasonAutumn',
+      'weather',
+      'gossip',
+    ]) {
       expect(
         keys.some((k) => k.startsWith(prefix)),
         `no FLAVOR keys under '${prefix}'`,

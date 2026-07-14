@@ -36,16 +36,19 @@ export function inferQuoteVoiceColor(text: string): string | null {
 // rides on the line's `voice-<category>` class, so the prefix inherits it — no extra colour code.
 export function speakerPrefixNode(entry: LogEntry): HTMLElement | null {
   if (entry.speaker === undefined || entry.speaker === '') return null;
-  const name = NPC_NAME[entry.speaker as keyof typeof NPC_NAME] ?? entry.speaker;
+  const name =
+    NPC_NAME[entry.speaker as keyof typeof NPC_NAME] ?? entry.speaker;
   return el('span', 'log-speaker', `${name}: `);
 }
 
 // FB-56 — the intro perk-unlock milestone line "Perk unlocked — {name}: {desc} (±mechanics)" renders
 // as an old-school JRPG PERK BOX, not the red milestone strip. Parse the single-source shape the
 // core emits (`introPerkLine`); a non-perk milestone falls through to normal styling.
-export function parsePerkLine(
-  entry: LogEntry,
-): { readonly name: string; readonly desc: string; readonly mechanics: string } | null {
+export function parsePerkLine(entry: LogEntry): {
+  readonly name: string;
+  readonly desc: string;
+  readonly mechanics: string;
+} | null {
   if (entry.channel !== 'milestone') return null;
   const m = /^Perk unlocked — (.+?): (.+) \(([^)]*)\)\s*$/.exec(entry.text);
   if (!m) return null;
@@ -54,7 +57,11 @@ export function parsePerkLine(
 
 export function buildPerkBox(
   line: HTMLElement,
-  perk: { readonly name: string; readonly desc: string; readonly mechanics: string },
+  perk: {
+    readonly name: string;
+    readonly desc: string;
+    readonly mechanics: string;
+  },
 ): void {
   line.textContent = '';
   const box = el('div', 'perk-box');
@@ -72,13 +79,15 @@ export function buildStatLine(mechanics: string): HTMLElement {
   const re = /([+\-−]\d+\s+)(STR|AGI|INT|SPD|LUCK)/g;
   let idx = 0;
   for (const m of mechanics.matchAll(re)) {
-    if (m.index > idx) out.append(document.createTextNode(mechanics.slice(idx, m.index)));
+    if (m.index > idx)
+      out.append(document.createTextNode(mechanics.slice(idx, m.index)));
     const tok = el('span', 'stat-attr', `${m[1]}${m[2]}`);
     tok.style.color = ATTR_COLOR[m[2]!.toLowerCase() as AttrId];
     out.append(tok);
     idx = m.index + m[0].length;
   }
-  if (idx < mechanics.length) out.append(document.createTextNode(mechanics.slice(idx)));
+  if (idx < mechanics.length)
+    out.append(document.createTextNode(mechanics.slice(idx)));
   return out;
 }
 
@@ -93,13 +102,15 @@ export function appendNarration(line: HTMLElement, text: string): void {
   let last = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(text)) !== null) {
-    if (m.index > last) line.append(document.createTextNode(text.slice(last, m.index)));
+    if (m.index > last)
+      line.append(document.createTextNode(text.slice(last, m.index)));
     const span = el('span', 'speech', m[0]);
     if (quoteColor) span.style.color = quoteColor;
     line.append(span);
     last = m.index + m[0].length;
   }
-  if (last < text.length) line.append(document.createTextNode(text.slice(last)));
+  if (last < text.length)
+    line.append(document.createTextNode(text.slice(last)));
 }
 
 // F127/FB-165/FB-400 — chat grouping: a PURE function of the entries maps every chat
@@ -120,7 +131,8 @@ export function computeChatKickers(entries: readonly LogEntry[]): {
       current = null; // a non-chat line breaks the run
       continue;
     }
-    let partner = e.voice !== 'player' && e.speaker !== undefined ? e.speaker : null;
+    let partner =
+      e.voice !== 'player' && e.speaker !== undefined ? e.speaker : null;
     if (partner === null) {
       // a player line: the partner is whoever replies next in this chat run
       for (let j = i + 1; j < entries.length; j++) {
@@ -136,7 +148,10 @@ export function computeChatKickers(entries: readonly LogEntry[]): {
     if (partner !== null && partner !== current) {
       // FB-270 — the group opener may carry a scene context ("the cold open",
       // "The day-hand promotion"); the head names it so the card has meaning.
-      openers.set(e.key, e.context !== undefined ? `${partner} · ${e.context}` : partner);
+      openers.set(
+        e.key,
+        e.context !== undefined ? `${partner} · ${e.context}` : partner,
+      );
       current = partner;
     }
     if (partner !== null) partners.set(e.key, partner);

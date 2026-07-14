@@ -24,7 +24,13 @@
 // the hook rung can be — and archived/existing plans are grandfathered by
 // construction (--diff-filter=A never re-fires on a graduation git mv).
 
-import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  readFileSync,
+  readdirSync,
+  statSync,
+  writeFileSync,
+} from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { parseStatusToken, CLOSED_TOKENS } from './checkpoint';
@@ -48,7 +54,8 @@ const SECTIONS: Record<string, RegExp> = {
   syncPrd: /\bprd\b/,
   syncBible: /story[- ]?bible/,
   hitl: /(open question|human|hitl|\bforks?\b|for the human)/,
-  scope: /(non[- ]goals?|out of scope|\bscope\b|not in this plan|stays out|deferred|dropped)/,
+  scope:
+    /(non[- ]goals?|out of scope|\bscope\b|not in this plan|stays out|deferred|dropped)/,
   risks: /(risks?|landmines|caveats|what could make this wrong)/,
   teeth: /\bteeth\b/,
   rollback: /(rollback|escape hatch)/,
@@ -88,7 +95,15 @@ export const REQUIRED: Record<PlanClass, { hard: string[]; warn: string[] }> = {
     warn: ['rollback'],
   },
   ops: {
-    hard: ['why', 'goConditions', 'steps', 'verification', 'sync', 'aftermath', 'risks'],
+    hard: [
+      'why',
+      'goConditions',
+      'steps',
+      'verification',
+      'sync',
+      'aftermath',
+      'risks',
+    ],
     warn: ['routing'],
   },
 };
@@ -176,7 +191,8 @@ const SECTION_GUIDE: Record<string, string> = {
     'the PROOF the gate can go RED. Budget: what it adds to the <=8s\n' +
     'commit lane (ADR-176).',
   rollback:
-    'How this unwinds if it misfires: the flag, the revert seam, the\n' + 'escape hatch env var.',
+    'How this unwinds if it misfires: the flag, the revert seam, the\n' +
+    'escape hatch env var.',
   goConditions:
     'Blocking preconditions: coordination (other agents parked?), human\n' +
     'sign-offs already in hand, backups taken.',
@@ -187,7 +203,8 @@ const SECTION_GUIDE: Record<string, string> = {
  *  SECTION_HEADING/GUIDE; docs/plans/templates/<class>.md is generated from
  *  this (--scaffold-write) and a vitest case REDs on drift. */
 export function scaffoldTemplate(cls: PlanClass): string {
-  const heading = (id: string): string => HEADING_OVERRIDE[cls]?.[id] ?? SECTION_HEADING[id] ?? id;
+  const heading = (id: string): string =>
+    HEADING_OVERRIDE[cls]?.[id] ?? SECTION_HEADING[id] ?? id;
   const lines: string[] = [
     '# <imperative title — what lands when this plan is done>',
     '',
@@ -198,7 +215,9 @@ export function scaffoldTemplate(cls: PlanClass): string {
   ];
   const req = REQUIRED[cls];
   for (const id of [...req.hard, ...req.warn]) {
-    const optional = req.warn.includes(id) ? ' <!-- optional (warn-rung) -->' : '';
+    const optional = req.warn.includes(id)
+      ? ' <!-- optional (warn-rung) -->'
+      : '';
     lines.push(`## ${heading(id)}${optional}`, '');
     lines.push(`<!-- ${SECTION_GUIDE[id] ?? ''} -->`, '');
   }
@@ -266,7 +285,11 @@ export function splitSections(md: string): Section[] {
     const ids = Object.entries(SECTIONS)
       .filter(([, rx]) => rx.test(norm))
       .map(([sid]) => sid);
-    out.push({ ids, heading: cur.text, body: lines.slice(cur.i + 1, end).join('\n') });
+    out.push({
+      ids,
+      heading: cur.text,
+      body: lines.slice(cur.i + 1, end).join('\n'),
+    });
   }
   return out;
 }
@@ -306,7 +329,9 @@ export function validatePlan(
   const st = parseStatusToken(content);
   if (!st) failures.push('header: no **Status:** line');
   else if (!(CLOSED_TOKENS as readonly string[]).includes(st.token))
-    failures.push(`header: Status token "${st.token}" outside the closed vocabulary`);
+    failures.push(
+      `header: Status token "${st.token}" outside the closed vocabulary`,
+    );
 
   if (!/^\s*\*\*confidence\b/im.test(content))
     failures.push('header: no **Confidence:** ( X% Opus, Y% Fable ) line');
@@ -315,8 +340,12 @@ export function validatePlan(
   let cls: PlanClass | null = assumeClass;
   if (tm) {
     const declared = (tm[1] ?? '').toLowerCase();
-    if (declared === 'build' || declared === 'process' || declared === 'ops') cls = declared;
-    else failures.push(`header: Template class "${tm[1]}" is not build|process|ops`);
+    if (declared === 'build' || declared === 'process' || declared === 'ops')
+      cls = declared;
+    else
+      failures.push(
+        `header: Template class "${tm[1]}" is not build|process|ops`,
+      );
   } else if (!assumeClass) {
     failures.push('header: no **Template:** build|process|ops line');
   }
@@ -333,7 +362,9 @@ export function validatePlan(
     if (first === undefined) {
       sink.push(`missing section — add: ${SECTION_LABEL[id] ?? id}`);
     } else if (!hits.some((s) => filled(s.body))) {
-      sink.push(`empty section "${first.heading}" — fill it (or "none — <reason>")`);
+      sink.push(
+        `empty section "${first.heading}" — fill it (or "none — <reason>")`,
+      );
     }
   };
 
@@ -348,7 +379,8 @@ export function validatePlan(
       const viaSplit =
         effective !== 'build'
           ? prdSecs.some((s) => filled(s.body))
-          : prdSecs.some((s) => filled(s.body)) && bibleSecs.some((s) => filled(s.body));
+          : prdSecs.some((s) => filled(s.body)) &&
+            bibleSecs.some((s) => filled(s.body));
       if (!viaSingle && !viaSplit) {
         check('sync', failures);
         continue;
@@ -358,7 +390,9 @@ export function validatePlan(
       if (viaSingle && !viaSplit && effective !== 'process') {
         const body = syncSecs.map((s) => s.body).join('\n');
         if (!/\bprd\b/i.test(body))
-          failures.push('sync: no PRD line — name the § edit or "PRD: none — <reason>"');
+          failures.push(
+            'sync: no PRD line — name the § edit or "PRD: none — <reason>"',
+          );
         if (effective === 'build' && !/story[- ]?bible/i.test(body))
           failures.push(
             'sync: no story-bible line — name the section or "Story-bible: none — <reason>"',
@@ -370,7 +404,9 @@ export function validatePlan(
       const hits = find(sections, 'steps');
       const first = hits[0];
       if (first === undefined) {
-        failures.push(`missing section — add: ${SECTION_LABEL.steps ?? 'steps'}`);
+        failures.push(
+          `missing section — add: ${SECTION_LABEL.steps ?? 'steps'}`,
+        );
         continue;
       }
       const body = hits.map((s) => s.body).join('\n');
@@ -395,7 +431,9 @@ export function validatePlan(
         body,
       )
     )
-      warns.push('verification: names no concrete check (test/gate/sim/e2e/capture)');
+      warns.push(
+        'verification: names no concrete check (test/gate/sim/e2e/capture)',
+      );
   }
 
   // ── grounding should cite the repo, not memory ──
@@ -407,7 +445,9 @@ export function validatePlan(
         body,
       )
     )
-      warns.push("grounding: cites no file path or commit — verify, don't trust (PH2)");
+      warns.push(
+        "grounding: cites no file path or commit — verify, don't trust (PH2)",
+      );
 
     // First-principles (2026-07-11 fresh pass): grounding claims are only as
     // good as their verifiability. Two cheap, sound-at-warn checks:
@@ -415,7 +455,10 @@ export function validatePlan(
     //     hallucination or rot, exactly the PH2 failure a reviewer can't see;
     // (b) grounding ROTS — it should carry the date it was surveyed, so an
     //     executor weeks later knows to re-verify before building on it.
-    const cited = body.match(/(?:src|docs|project|\.claude|\.githooks|\.github)\/[\w./-]+/g) ?? [];
+    const cited =
+      body.match(
+        /(?:src|docs|project|\.claude|\.githooks|\.github)\/[\w./-]+/g,
+      ) ?? [];
     const missing = [
       ...new Set(
         cited
@@ -442,7 +485,9 @@ export function validatePlan(
       content,
     )
   )
-    warns.push('status: LOCKED but no human attribution anywhere — locked by whom, when?');
+    warns.push(
+      'status: LOCKED but no human attribution anywhere — locked by whom, when?',
+    );
 
   // ── build plans must prove the player can REACH the change (PH6) ──
   if (effective === 'build' && verifSecs.some((s) => filled(s.body))) {
@@ -459,7 +504,9 @@ export function validatePlan(
 
   // ── why should cite the record ──
   if (!/\b(FB-\d+|ADR-\d+|D-\d{3}|HR-\d+|HD-\d+)\b/.test(content))
-    warns.push('why: no FB-/ADR-/HR-/HD- citation anywhere — what record demands this plan?');
+    warns.push(
+      'why: no FB-/ADR-/HR-/HD- citation anywhere — what record demands this plan?',
+    );
 
   // ── filename convention (WARN, mirrors the hook's existing nag) ──
   const base = file.split('/').pop() ?? file;
@@ -477,9 +524,13 @@ export function validatePlan(
 // ── CLI ────────────────────────────────────────────────────────────────────
 
 function stagedNewPlans(): string[] {
-  const out = execFileSync('git', ['diff', '--cached', '--name-only', '--diff-filter=A'], {
-    encoding: 'utf-8',
-  });
+  const out = execFileSync(
+    'git',
+    ['diff', '--cached', '--name-only', '--diff-filter=A'],
+    {
+      encoding: 'utf-8',
+    },
+  );
   return out.split('\n').filter(
     (f) =>
       /^docs\/plans\/.+\.md$/.test(f) &&
@@ -499,8 +550,10 @@ function mdFilesUnder(dir: string): string[] {
 }
 
 function report(v: PlanVerdict): void {
-  for (const f of v.failures) console.error(`  X plan-template: ${v.file} — ${f}`);
-  for (const w of v.warns) console.log(`  ~ plan-template WARN: ${v.file} — ${w}`);
+  for (const f of v.failures)
+    console.error(`  X plan-template: ${v.file} — ${f}`);
+  for (const w of v.warns)
+    console.log(`  ~ plan-template WARN: ${v.file} — ${w}`);
 }
 
 function main(): void {
@@ -509,7 +562,9 @@ function main(): void {
   if (argv[0] === '--scaffold') {
     const cls = argv[1];
     if (cls !== 'build' && cls !== 'process' && cls !== 'ops') {
-      console.error('usage: verify-plan-template.ts --scaffold build|process|ops');
+      console.error(
+        'usage: verify-plan-template.ts --scaffold build|process|ops',
+      );
       process.exit(1);
     }
     process.stdout.write(scaffoldTemplate(cls) + '\n');
@@ -528,8 +583,11 @@ function main(): void {
   if (argv[0] === '--backtest') {
     // Corpus sweep: classless plans are scored against all three classes and
     // take their BEST fit (fewest failures) — fair to pre-template eras.
-    const roots = argv.slice(1).length ? argv.slice(1) : ['project/archive', 'docs/plans'];
-    const skip = /prd-v1\.md$|prd-05-narrative-old-canon\.md$|docs\/plans\/templates\//;
+    const roots = argv.slice(1).length
+      ? argv.slice(1)
+      : ['project/archive', 'docs/plans'];
+    const skip =
+      /prd-v1\.md$|prd-05-narrative-old-canon\.md$|docs\/plans\/templates\//;
     // The Confidence/Template header lines post-date most of the corpus —
     // split them out so the sweep measures SUBSTANCE: would this plan pass
     // if it merely declared its class?
@@ -572,15 +630,26 @@ function main(): void {
     const v = validatePlan(readFileSync(f, 'utf-8'), f, null);
     report(v);
     if (v.failures.length > 0) red = true;
-    else console.log(`  ✓ plan-template: ${f} (${v.cls}) — all mandatory sections present.`);
+    else
+      console.log(
+        `  ✓ plan-template: ${f} (${v.cls}) — all mandatory sections present.`,
+      );
   }
   if (red) {
     console.error('');
-    console.error('  X commit blocked - a NEW plan is missing its template obligations.');
-    console.error('    The three templates + section guidance: docs/guides/plan-authoring.md');
-    console.error('    (declare **Template:** build|process|ops in the header; every mandatory');
+    console.error(
+      '  X commit blocked - a NEW plan is missing its template obligations.',
+    );
+    console.error(
+      '    The three templates + section guidance: docs/guides/plan-authoring.md',
+    );
+    console.error(
+      '    (declare **Template:** build|process|ops in the header; every mandatory',
+    );
     console.error('    section filled, or an explicit "none - <reason>").');
-    console.error('    Genuinely exempt (rare)?  SKIP_PLAN_TEMPLATE=1 git commit ...');
+    console.error(
+      '    Genuinely exempt (rare)?  SKIP_PLAN_TEMPLATE=1 git commit ...',
+    );
     process.exit(1);
   }
 }

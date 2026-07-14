@@ -38,7 +38,11 @@ export interface RungOption {
   readonly flags?: readonly string[];
   /** The RARE small stat nudge (BQ2) — a modest one-time +attr, smaller than an intro perk. Present
    *  on EXACTLY ONE option (R3 'disciplined'); everything else omits it. `note` is the delight line. */
-  readonly statBonus?: { readonly attr: AttrId; readonly amount: number; readonly note: string };
+  readonly statBonus?: {
+    readonly attr: AttrId;
+    readonly amount: number;
+    readonly note: string;
+  };
   /** For R5 only: the opening stance this pick makes your default (a story-DEFAULT, NOT a bonus). */
   readonly setStance?: StanceId;
 }
@@ -77,16 +81,25 @@ export function rungBeatFor(target: RankId): RungScene | undefined {
 
 /** The topics askable RIGHT NOW in a rung beat — those whose `gate` passes over the asked-set.
  *  Mirrors the intro's `availableTopics`; asked topics STAY + are re-askable (the caller dims them). */
-export function availableRungTopics(scene: RungScene, asked: ReadonlySet<string>): DialogueTopic[] {
+export function availableRungTopics(
+  scene: RungScene,
+  asked: ReadonlySet<string>,
+): DialogueTopic[] {
   return scene.topics.filter((t) => (t.gate ? t.gate(asked) : true));
 }
 
 /** Find a rung-beat topic by id (the `ask_rung_topic` reducer looks up the asked topic). */
-export function rungTopic(scene: RungScene, topicId: string): DialogueTopic | undefined {
+export function rungTopic(
+  scene: RungScene,
+  topicId: string,
+): DialogueTopic | undefined {
   return scene.topics.find((t) => t.id === topicId);
 }
 
 /** Find a rung-beat decision option by id (the `choose_rung_option` reducer looks up the pick). */
-export function rungOption(scene: RungScene, optionId: string): RungOption | undefined {
+export function rungOption(
+  scene: RungScene,
+  optionId: string,
+): RungOption | undefined {
   return scene.decision.options.find((o) => o.id === optionId);
 }

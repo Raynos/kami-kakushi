@@ -15,11 +15,15 @@ import { T0_NODES } from '../../ui/map-sheets/nodes';
 
 // Every revealFlag the graph references, as a "fully-opened estate" set.
 const ALL_REVEALED = new Set<string>(
-  MAP_NODES.map((n) => n.revealFlag).filter((f): f is string => f !== undefined),
+  MAP_NODES.map((n) => n.revealFlag).filter(
+    (f): f is string => f !== undefined,
+  ),
 );
 
 // The walkable, always-open R0 cold-open nodes (no revealFlag, not locked scenery).
-const UNGATED = MAP_NODES.filter((n) => n.revealFlag === undefined && !n.locked).map((n) => n.id);
+const UNGATED = MAP_NODES.filter(
+  (n) => n.revealFlag === undefined && !n.locked,
+).map((n) => n.id);
 
 describe('MAP_NODES — the T0 estate node-graph', () => {
   it('holds exactly the sheet ceiling — every non-activity T0 zone, no more (D-065, TST1)', () => {
@@ -38,14 +42,22 @@ describe('MAP_NODES — the T0 estate node-graph', () => {
 
   it('covers every existing estate area (mirrors content/areas.ts)', () => {
     for (const area of AREAS) {
-      expect(MAP_NODE_IDS.has(area.id), `node for area '${area.id}'`).toBe(true);
+      expect(MAP_NODE_IDS.has(area.id), `node for area '${area.id}'`).toBe(
+        true,
+      );
     }
   });
 
   it('marks the wild nodes as danger rings (the combat grounds)', () => {
     const danger = MAP_NODES.filter((n) => n.dangerRing).map((n) => n.id);
     // in map-order: the paddy edge, the woodlot, the weir reeds, the orchard, the grove.
-    expect(danger).toEqual(['field-margins', 'woodlot', 'weir-reeds', 'orchard', 'grove']);
+    expect(danger).toEqual([
+      'field-margins',
+      'woodlot',
+      'weir-reeds',
+      'orchard',
+      'grove',
+    ]);
   });
 
   it('reveal-gates EVERY node — no zone predates its own introduction', () => {
@@ -60,7 +72,8 @@ describe('MAP_NODES — the T0 estate node-graph', () => {
     const ruined = getNode('ruined');
     expect(ruined.locked).toBe(true);
     // even fully-revealed, no adjacent may step into it.
-    for (const nb of ruined.neighbors) expect(canMove(nb, 'ruined', ALL_REVEALED)).toBe(false);
+    for (const nb of ruined.neighbors)
+      expect(canMove(nb, 'ruined', ALL_REVEALED)).toBe(false);
   });
 });
 
@@ -68,8 +81,14 @@ describe('graph shape', () => {
   it('has symmetric adjacency (if A lists B, B lists A)', () => {
     for (const node of MAP_NODES) {
       for (const nb of node.neighbors) {
-        expect(MAP_NODE_IDS.has(nb), `${node.id} -> unknown neighbour ${nb}`).toBe(true);
-        expect(getNode(nb).neighbors, `${nb} should list ${node.id} back`).toContain(node.id);
+        expect(
+          MAP_NODE_IDS.has(nb),
+          `${node.id} -> unknown neighbour ${nb}`,
+        ).toBe(true);
+        expect(
+          getNode(nb).neighbors,
+          `${nb} should list ${node.id} back`,
+        ).toContain(node.id);
       }
     }
   });
@@ -125,11 +144,15 @@ describe('canMove — adjacency AND reveal gating', () => {
   });
 
   it('allows an adjacent move once the target room is revealed', () => {
-    expect(canMove('forecourt', 'paddies', new Set(['room-paddies']))).toBe(true);
+    expect(canMove('forecourt', 'paddies', new Set(['room-paddies']))).toBe(
+      true,
+    );
   });
 
   it('allows reaching a revealed neighbour without other reveals', () => {
-    expect(canMove('kitchen', 'forecourt', new Set(['room-forecourt']))).toBe(true);
+    expect(canMove('kitchen', 'forecourt', new Set(['room-forecourt']))).toBe(
+      true,
+    );
   });
 
   it('returns false for unknown endpoints (total + safe, never throws)', () => {

@@ -6,7 +6,11 @@
 // RED-able: if pick mode stopped opening on `, the element stopped flowing into the entry, the
 // note stopped reaching the POST, or captures stopped sharing one session file, an assert flips red.
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mountCapture, CAPTURE_SENTINEL, type CaptureEntryContext } from './capture';
+import {
+  mountCapture,
+  CAPTURE_SENTINEL,
+  type CaptureEntryContext,
+} from './capture';
 
 const SESSION = '2026-07-04T21-53-00-testid';
 
@@ -31,12 +35,17 @@ const flush = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
 // the pick pointerdown). Consume it before dispatching real button clicks in a test.
 const clearSwallow = (): void =>
   void document.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-const boxEl = (): HTMLElement | null => document.querySelector('[data-kami-capture]');
-const highlightEl = (): HTMLElement | null => document.querySelector('[data-kami-highlight]');
+const boxEl = (): HTMLElement | null =>
+  document.querySelector('[data-kami-capture]');
+const highlightEl = (): HTMLElement | null =>
+  document.querySelector('[data-kami-highlight]');
 /** The "inbox unreachable" dialog, and a button inside it by label. */
-const dialogEl = (): HTMLElement | null => document.querySelector('[data-kami-capture-error]');
+const dialogEl = (): HTMLElement | null =>
+  document.querySelector('[data-kami-capture-error]');
 const dlgBtn = (re: RegExp): HTMLButtonElement =>
-  [...dialogEl()!.querySelectorAll('button')].find((b) => re.test(b.textContent ?? ''))!;
+  [...dialogEl()!.querySelectorAll('button')].find((b) =>
+    re.test(b.textContent ?? ''),
+  )!;
 
 /** Run `body` with the anchor-download machinery stubbed; `onDownload` sees each `a.download`.
  *  jsdom has no URL.createObjectURL / anchor download, so both must be faked. */
@@ -61,7 +70,9 @@ async function withStubbedDownload(
   }
 }
 const hotkey = (target: EventTarget = document): void => {
-  target.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote', bubbles: true }));
+  target.dispatchEvent(
+    new KeyboardEvent('keydown', { code: 'Backquote', bubbles: true }),
+  );
 };
 
 /** Enter pick mode, then press — with elementFromPoint stubbed to `el` (null ⇒ a general note).
@@ -70,7 +81,9 @@ const hotkey = (target: EventTarget = document): void => {
 function pick(el: Element | null): void {
   hotkey();
   document.elementFromPoint = (): Element | null => el;
-  document.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientX: 5, clientY: 5 }));
+  document.dispatchEvent(
+    new MouseEvent('pointerdown', { bubbles: true, clientX: 5, clientY: 5 }),
+  );
 }
 /** Name the bucket on the OPEN box. Mandatory since FB-217 — a capture with no bucket is refused. */
 function setBucket(name: string): void {
@@ -79,11 +92,20 @@ function setBucket(name: string): void {
   g.dispatchEvent(new Event('input', { bubbles: true }));
 }
 /** Send a note. `bucket: null` deliberately skips naming one — the FB-217 refusal path. */
-async function typeAndSend(note: string, bucket: string | null = 'feedback ui'): Promise<void> {
+async function typeAndSend(
+  note: string,
+  bucket: string | null = 'feedback ui',
+): Promise<void> {
   if (bucket !== null) setBucket(bucket);
   const ta = boxEl()!.querySelector('textarea')!;
   ta.value = note;
-  ta.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', ctrlKey: true, bubbles: true }));
+  ta.dispatchEvent(
+    new KeyboardEvent('keydown', {
+      key: 'Enter',
+      ctrlKey: true,
+      bubbles: true,
+    }),
+  );
   await flush();
 }
 
@@ -153,7 +175,8 @@ function fakeFreeze(): {
 const realGetContext = HTMLCanvasElement.prototype.getContext;
 
 beforeEach(() => {
-  HTMLCanvasElement.prototype.getContext = (() => null) as typeof realGetContext;
+  HTMLCanvasElement.prototype.getContext = (() =>
+    null) as typeof realGetContext;
   document.body.innerHTML = '';
   document.elementFromPoint = (): Element | null => null; // jsdom default
   host = document.createElement('div');
@@ -189,7 +212,9 @@ describe('mountCapture — pick mode', () => {
     mount();
     hotkey();
     expect(highlightEl()).not.toBeNull();
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+    );
     expect(highlightEl()).toBeNull();
     expect(boxEl()).toBeNull();
   });
@@ -235,9 +260,19 @@ describe('mountCapture — drag/resize window', () => {
     const el = boxEl()!;
     expect(el.style.resize).toBe('both'); // resizable window
     el.getBoundingClientRect = () => RECT; // jsdom has no layout — stub the rect
-    el.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientX: 950, clientY: 620 }));
+    el.dispatchEvent(
+      new MouseEvent('pointerdown', {
+        bubbles: true,
+        clientX: 950,
+        clientY: 620,
+      }),
+    );
     document.dispatchEvent(
-      new MouseEvent('pointermove', { bubbles: true, clientX: 850, clientY: 700 }),
+      new MouseEvent('pointermove', {
+        bubbles: true,
+        clientX: 850,
+        clientY: 700,
+      }),
     );
     expect(el.style.left).toBe('800px'); // 900 + (850 - 950)
     expect(el.style.top).toBe('680px'); // 600 + (700 - 620)
@@ -251,10 +286,18 @@ describe('mountCapture — drag/resize window', () => {
     el.getBoundingClientRect = () => RECT;
     const before = el.style.left;
     el.querySelector('textarea')!.dispatchEvent(
-      new MouseEvent('pointerdown', { bubbles: true, clientX: 950, clientY: 700 }),
+      new MouseEvent('pointerdown', {
+        bubbles: true,
+        clientX: 950,
+        clientY: 700,
+      }),
     );
     document.dispatchEvent(
-      new MouseEvent('pointermove', { bubbles: true, clientX: 850, clientY: 700 }),
+      new MouseEvent('pointermove', {
+        bubbles: true,
+        clientX: 850,
+        clientY: 700,
+      }),
     );
     expect(el.style.left).toBe(before); // unchanged
   });
@@ -268,7 +311,9 @@ describe('mountCapture — drag/resize window', () => {
     // close (Escape) — closeBox reads the rect and stores it
     el1
       .querySelector('textarea')!
-      .dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+      .dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+      );
     // reopen — should restore the remembered left/top/size
     pick(null);
     const el2 = boxEl()!;
@@ -286,7 +331,9 @@ describe('mountCapture — submit', () => {
     expect(posts[0]!.url).toBe('/__playtest-capture');
     expect(posts[0]!.body.session).toBe('feedback-ui'); // keyed by the bucket (FB-217)
     expect(posts[0]!.body.header).toContain('# Playtest bucket');
-    expect(posts[0]!.body.entry).toContain('the open-eyes button sits off centre');
+    expect(posts[0]!.body.entry).toContain(
+      'the open-eyes button sits off centre',
+    );
     expect(boxEl()).toBeNull();
   });
 
@@ -313,7 +360,10 @@ describe('mountCapture — submit', () => {
   it('bakes drawn markup into the screenshot via the injected compositor', async () => {
     const base = 'data:image/png;base64,BASE==';
     const composited = 'data:image/png;base64,COMPOSITED==';
-    let seen: { base: string; strokes: readonly { x: number; y: number }[][] } | null = null;
+    let seen: {
+      base: string;
+      strokes: readonly { x: number; y: number }[][];
+    } | null = null;
     mount({
       snapshot: async () => base,
       composite: async (b, strokes) => {
@@ -323,7 +373,8 @@ describe('mountCapture — submit', () => {
     });
     pick(null);
     clearSwallow();
-    const canvas = document.querySelector<HTMLCanvasElement>('[data-kami-markup]')!;
+    const canvas =
+      document.querySelector<HTMLCanvasElement>('[data-kami-markup]')!;
     expect(canvas).not.toBeNull();
     canvas.getBoundingClientRect = () =>
       ({
@@ -339,13 +390,23 @@ describe('mountCapture — submit', () => {
       }) as DOMRect;
     // enter draw mode, then draw one stroke (down → move → up)
     const btn = (re: RegExp): HTMLButtonElement =>
-      [...boxEl()!.querySelectorAll('button')].find((b) => re.test(b.textContent ?? ''))!;
+      [...boxEl()!.querySelectorAll('button')].find((b) =>
+        re.test(b.textContent ?? ''),
+      )!;
     btn(/Draw/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
     canvas.dispatchEvent(
-      new MouseEvent('pointerdown', { bubbles: true, clientX: 10, clientY: 12 }),
+      new MouseEvent('pointerdown', {
+        bubbles: true,
+        clientX: 10,
+        clientY: 12,
+      }),
     );
     document.dispatchEvent(
-      new MouseEvent('pointermove', { bubbles: true, clientX: 40, clientY: 50 }),
+      new MouseEvent('pointermove', {
+        bubbles: true,
+        clientX: 40,
+        clientY: 50,
+      }),
     );
     document.dispatchEvent(new MouseEvent('pointerup', { bubbles: true }));
     await typeAndSend('the CSS stick is right here');
@@ -379,7 +440,8 @@ describe('mountCapture — submit', () => {
     mount({ snapshot: async () => 'data:image/png;base64,BASE==' });
     pick(null);
     clearSwallow();
-    const canvas = document.querySelector<HTMLCanvasElement>('[data-kami-markup]')!;
+    const canvas =
+      document.querySelector<HTMLCanvasElement>('[data-kami-markup]')!;
     canvas.getBoundingClientRect = () =>
       ({
         left: 0,
@@ -393,14 +455,20 @@ describe('mountCapture — submit', () => {
         toJSON: () => ({}),
       }) as DOMRect;
     const btn = (re: RegExp): HTMLButtonElement =>
-      [...boxEl()!.querySelectorAll('button')].find((b) => re.test(b.textContent ?? ''))!;
+      [...boxEl()!.querySelectorAll('button')].find((b) =>
+        re.test(b.textContent ?? ''),
+      )!;
     // nothing drawn yet → Undo/Clear disabled
     expect(btn(/Undo/).disabled).toBe(true);
     expect(btn(/Clear/).disabled).toBe(true);
     btn(/Draw/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
     const stroke = (): void => {
       canvas.dispatchEvent(
-        new MouseEvent('pointerdown', { bubbles: true, clientX: 5, clientY: 5 }),
+        new MouseEvent('pointerdown', {
+          bubbles: true,
+          clientX: 5,
+          clientY: 5,
+        }),
       );
       document.dispatchEvent(new MouseEvent('pointerup', { bubbles: true }));
     };
@@ -481,13 +549,17 @@ describe('mountCapture — submit', () => {
         await typeAndSend('offline note');
         expect(dialogEl()).not.toBeNull();
 
-        const labels = [...dialogEl()!.querySelectorAll('button')].map((b) => b.textContent);
+        const labels = [...dialogEl()!.querySelectorAll('button')].map(
+          (b) => b.textContent,
+        );
         expect(labels).toEqual(['Retry', 'Copy note', 'Discard']);
         expect(dialogEl()!.textContent).not.toContain('Save');
 
         // and nothing downloads on its own, either
         clearSwallow();
-        dlgBtn(/Discard/).dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        dlgBtn(/Discard/).dispatchEvent(
+          new MouseEvent('click', { bubbles: true }),
+        );
         await flush();
         expect(downloaded).toBe('');
       },
@@ -498,7 +570,9 @@ describe('mountCapture — submit', () => {
     mount({ post: async () => false });
     pick(null);
     await typeAndSend('offline note');
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+    );
     expect(dialogEl()).toBeNull();
   });
 });
@@ -554,7 +628,13 @@ describe('mountCapture — kind + bucket', () => {
     setBucket('dev tooling');
     expect(boxEl()!.textContent).not.toContain('Name a bucket before sending');
     const ta = boxEl()!.querySelector('textarea')!;
-    ta.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', ctrlKey: true, bubbles: true }));
+    ta.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Enter',
+        ctrlKey: true,
+        bubbles: true,
+      }),
+    );
     await flush();
     expect(posts[0]!.body.session).toBe('dev-tooling');
     expect(posts[0]!.body.entry).toContain('second time lucky');
@@ -572,7 +652,9 @@ describe('mountCapture — kind + bucket', () => {
     mount();
     pick(null);
     clearSwallow(); // consume the pick-follow click swallow before clicking a control
-    kindBtn('question').dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    kindBtn('question').dispatchEvent(
+      new MouseEvent('click', { bubbles: true }),
+    );
     setGroup('Map feedback');
     await typeAndSend('the weir seal is faint', null); // keep the bucket set above
     expect(posts[0]!.body.session).toBe('map-feedback'); // file keyed by the bucket slug
@@ -584,7 +666,9 @@ describe('mountCapture — kind + bucket', () => {
     mount();
     pick(null);
     clearSwallow();
-    kindBtn('question').dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    kindBtn('question').dispatchEvent(
+      new MouseEvent('click', { bubbles: true }),
+    );
     setGroup('Dev tooling');
     await typeAndSend('first', null); // keep the bucket set above
     pick(null); // reopen — the toggle + bucket should be remembered (sticky within the mount)
@@ -602,7 +686,10 @@ describe('FB-195/196 — the map sheet is capturable', () => {
     const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     g.setAttribute('class', 't0v2-node');
     (g as unknown as { dataset: DOMStringMap }).dataset.zone = 'weir';
-    const kanji = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    const kanji = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'text',
+    );
     kanji.textContent = '堰';
     g.appendChild(kanji);
     svg.appendChild(g);
@@ -646,7 +733,9 @@ describe('mountCapture — the shell freeze', () => {
     const f = fakeFreeze();
     mount({ freeze: f.control });
     hotkey();
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+    );
     expect(f.calls).toEqual(['freeze', 'thaw']);
   });
 
@@ -657,7 +746,9 @@ describe('mountCapture — the shell freeze', () => {
     expect(boxEl()).not.toBeNull();
     // Esc is handled on the note field (where the caret is), not on `document`.
     const ta = boxEl()!.querySelector('textarea')!;
-    ta.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    ta.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+    );
     expect(boxEl()).toBeNull();
     expect(f.calls).toEqual(['freeze', 'thaw']);
   });
@@ -681,7 +772,9 @@ describe('mountCapture — the shell freeze', () => {
     expect(captureActive()).toBe(false); // idle — a freeze now could only be a stranded one
     hotkey();
     expect(captureActive()).toBe(true); // picking: the human is choosing an element
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+    );
     expect(captureActive()).toBe(false); // pick abandoned — the overlay let the freeze go
     pick(document.createElement('button'));
     expect(captureActive()).toBe(true); // note box open: the human is typing
@@ -726,7 +819,11 @@ describe('mountCapture — the shell freeze', () => {
 
   it('shoots a still screen: box hidden, highlight lit, game not yet thawed', async () => {
     const f = fakeFreeze();
-    const observed: { box: string | undefined; highlight: boolean; thawed: boolean }[] = [];
+    const observed: {
+      box: string | undefined;
+      highlight: boolean;
+      thawed: boolean;
+    }[] = [];
     mount({
       freeze: f.control,
       shotRoot: document.body,
@@ -780,7 +877,8 @@ describe('mountCapture — the shell freeze', () => {
 // FB-259 — the bucket suggestion list. The native `<datalist>` popup is an OS widget: a white slab
 // in system font, unstyleable, dropped into an ink-dark overlay. Replaced with our own listbox.
 describe('mountCapture — the bucket combobox', () => {
-  const menuEl = (): HTMLElement | null => document.querySelector('[data-kami-capture-menu]');
+  const menuEl = (): HTMLElement | null =>
+    document.querySelector('[data-kami-capture-menu]');
   const options = (): HTMLElement[] => [
     ...(menuEl()?.querySelectorAll<HTMLElement>('[role="option"]') ?? []),
   ];
@@ -797,7 +895,10 @@ describe('mountCapture — the bucket combobox', () => {
     );
 
   beforeEach(() =>
-    localStorage.setItem('kami-capture-groups', JSON.stringify(['map feedback', 'dev tooling'])),
+    localStorage.setItem(
+      'kami-capture-groups',
+      JSON.stringify(['map feedback', 'dev tooling']),
+    ),
   );
   afterEach(() => localStorage.clear());
 
@@ -821,7 +922,10 @@ describe('mountCapture — the bucket combobox', () => {
     mount();
     pick(null);
     groupField().dispatchEvent(new FocusEvent('focus'));
-    expect(options().map((o) => o.textContent)).toEqual(['map feedback', 'dev tooling']);
+    expect(options().map((o) => o.textContent)).toEqual([
+      'map feedback',
+      'dev tooling',
+    ]);
 
     type('dev');
     const labels = options().map((o) => o.textContent);
@@ -841,7 +945,9 @@ describe('mountCapture — the bucket combobox', () => {
     mount();
     pick(null);
     type('map feedback');
-    expect(options().some((o) => o.textContent?.includes('new bucket'))).toBe(false);
+    expect(options().some((o) => o.textContent?.includes('new bucket'))).toBe(
+      false,
+    );
   });
 
   it('picks a suggestion with the arrow keys and Enter (without sending)', () => {
@@ -860,7 +966,9 @@ describe('mountCapture — the bucket combobox', () => {
     pick(null);
     groupField().dispatchEvent(new FocusEvent('focus'));
     // jsdom has no PointerEvent constructor; listeners key off the event TYPE.
-    options()[1]!.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }));
+    options()[1]!.dispatchEvent(
+      new MouseEvent('pointerdown', { bubbles: true }),
+    );
     expect(groupField().value).toBe('dev tooling');
   });
 
@@ -885,7 +993,9 @@ describe('mountCapture — the bucket combobox', () => {
     expect(menuEl()).not.toBeNull();
     boxEl()!
       .querySelector('textarea')!
-      .dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+      .dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+      );
     expect(menuEl()).toBeNull(); // no orphan listbox on <body>
   });
 });

@@ -91,7 +91,11 @@ export function planRungJump(
   if (targetIdx < 0) return { reset: false, state: current }; // unknown rung → no-op
   // The only story-half gates below R4 (R1 `farmed`, R2 `first-fight-survived`, R3 `combat-blooded`);
   // granting all three is harmless (R0 + R4…R7 are always-ready) and keeps the flag record coherent.
-  const storyFlags = { farmed: true, 'first-fight-survived': true, 'combat-blooded': true };
+  const storyFlags = {
+    farmed: true,
+    'first-fight-survived': true,
+    'combat-blooded': true,
+  };
   // Descend or self-jump ⇒ reset: a fresh game clears EVERY higher-rung unlock, then we re-climb.
   const reset = targetIdx <= order.indexOf(current.rung);
   let s = reset ? createInitialState(DEFAULT_SEED) : current;
@@ -138,13 +142,22 @@ async function boot(): Promise<void> {
     const rb = await save.loadRollback();
     state = rb ? rb.state : loaded.state;
     await save.clearCrashCount();
-    note(root, 'Recovered from an earlier rough exit — rolled back to a stable point.');
+    note(
+      root,
+      'Recovered from an earlier rough exit — rolled back to a stable point.',
+    );
   } else if (loaded) {
     state = loaded.state;
     if (loaded.migrated) {
-      note(root, 'We updated your saved game to the latest version of Kamikakushi.');
+      note(
+        root,
+        'We updated your saved game to the latest version of Kamikakushi.',
+      );
     } else if (loaded.coerced) {
-      note(root, 'We mended a small problem in your saved game and carried on — nothing was lost.');
+      note(
+        root,
+        'We mended a small problem in your saved game and carried on — nothing was lost.',
+      );
     }
     // ── orphaned-id sensor (save-format plan, step 4) — DEV only, zero prod cost ──────────
     // This save may reference content ids that src/ has since RENAMED. Access and visibility
@@ -192,11 +205,14 @@ async function boot(): Promise<void> {
       const fixture = getFixture(fixtureName);
       if (fixture) {
         await save.backup(state);
-        const res = await save.importState(toBase64(JSON.stringify(fixture.env)));
+        const res = await save.importState(
+          toBase64(JSON.stringify(fixture.env)),
+        );
         if ('state' in res) {
           state = res.state;
           bootedFromFixture = true;
-        } else note(root, `Fixture "${fixtureName}" failed to load: ${res.reason}`);
+        } else
+          note(root, `Fixture "${fixtureName}" failed to load: ${res.reason}`);
       } else {
         note(root, `Unknown fixture "${fixtureName}".`);
       }
@@ -213,7 +229,10 @@ async function boot(): Promise<void> {
   let prev: GameState | null = null;
 
   // reveal tracking (for the __qa reveal-cadence proxy)
-  const reveals: RevealMark[] = state.seenReveals.map((id) => ({ id, tick: state.clock.tick }));
+  const reveals: RevealMark[] = state.seenReveals.map((id) => ({
+    id,
+    tick: state.clock.tick,
+  }));
   let actionCount = 0;
   let paused = false;
   let crashed = false;
@@ -244,7 +263,10 @@ async function boot(): Promise<void> {
         } else {
           // surface a FAILED restore — otherwise the modal just closes and a bad/truncated save
           // code looks like it loaded (this is the primary cross-device backup path).
-          note(root, "That save code couldn't be read — check you copied the whole thing.");
+          note(
+            root,
+            "That save code couldn't be read — check you copied the whole thing.",
+          );
         }
       })();
     },
@@ -298,7 +320,10 @@ async function boot(): Promise<void> {
       : undefined;
   // 'resume' (boot with an existing save) CONTINUES the newest stored run for this seed —
   // the human F5s a lot; a reload must never fragment the run history (plan §3.1).
-  telemetry?.onRunStart(bootedFromFixture ? 'fixture' : loaded ? 'resume' : 'boot', state);
+  telemetry?.onRunStart(
+    bootedFromFixture ? 'fixture' : loaded ? 'resume' : 'boot',
+    state,
+  );
 
   // The RENDERER'S dispatch copy only is wrapped — every intent through it is a PLAYER intent.
   // autoStep below keeps the raw dispatch (auto-mode intents are not the human acting).
@@ -320,8 +345,10 @@ async function boot(): Promise<void> {
   ]);
   function disarmAutos(): void {
     if (state.autoRake) dispatch({ type: 'set_auto_rake', on: false });
-    if (state.autoActivity !== null) dispatch({ type: 'set_auto', activityId: null });
-    if (state.autoCombat !== null) dispatch({ type: 'set_auto_combat', mobId: null });
+    if (state.autoActivity !== null)
+      dispatch({ type: 'set_auto', activityId: null });
+    if (state.autoCombat !== null)
+      dispatch({ type: 'set_auto_combat', mobId: null });
   }
   function playerDispatch(intent: Intent): void {
     if (MANUAL_DISARM.has(intent.type)) disarmAutos();
@@ -329,7 +356,8 @@ async function boot(): Promise<void> {
     // outright (it never completes): a work line landing mid-scene fractured
     // the card. Disarming the autos (FB-266) wasn't enough — the already-
     // running action kept its timer and fired under the VN.
-    if (intent.type === 'begin_rung_beat' || intent.type === 'begin_scene') clock.cancelAll();
+    if (intent.type === 'begin_rung_beat' || intent.type === 'begin_scene')
+      clock.cancelAll();
     dispatch(intent);
   }
   // ADR-148 — the timing payload timingFor understands, pulled off the intent union.
@@ -349,9 +377,14 @@ async function boot(): Promise<void> {
   // autos at PRESS, FB-146 — the running action must not race an auto) and its
   // effect lands at completion. The DEV speed multiplier compresses the clock,
   // never the core (autoSpeed = 1 in prod).
-  const playerBase = telemetry ? telemetry.wrapDispatch(playerDispatch) : playerDispatch;
+  const playerBase = telemetry
+    ? telemetry.wrapDispatch(playerDispatch)
+    : playerDispatch;
   function timedPlayerDispatch(intent: Intent): void {
-    const t = timingFor(intent.type, { ...timingPayload(intent), from: state.location });
+    const t = timingFor(intent.type, {
+      ...timingPayload(intent),
+      from: state.location,
+    });
     if (t.kind === 'instant') {
       playerBase(intent);
       return;
@@ -468,14 +501,19 @@ async function boot(): Promise<void> {
     if (clock.busy()) return;
     const intent = autoModeIntent(state);
     if (!intent) return;
-    const t = timingFor(intent.type, { ...timingPayload(intent), from: state.location });
+    const t = timingFor(intent.type, {
+      ...timingPayload(intent),
+      from: state.location,
+    });
     if (t.kind === 'instant') {
       dispatch(intent);
       return;
     }
     const key = actionKey(intent.type, timingPayload(intent));
     if (clock.status(key).phase === 'cooldown') return; // wait out the cooldown, then go again
-    clock.press(key, t.durationMs / autoSpeed, t.cooldownMs / autoSpeed, () => dispatch(intent));
+    clock.press(key, t.durationMs / autoSpeed, t.cooldownMs / autoSpeed, () =>
+      dispatch(intent),
+    );
   }
   window.setInterval(autoStep, AUTO_REPEAT_MS);
 
@@ -616,7 +654,12 @@ async function boot(): Promise<void> {
         commit({
           ...state,
           rung: 'R7',
-          flags: { ...state.flags, ...rankFlagsUpTo('R7'), awake: true, 't0-capstone': true },
+          flags: {
+            ...state.flags,
+            ...rankFlagsUpTo('R7'),
+            awake: true,
+            't0-capstone': true,
+          },
         });
         return state.rung;
       },
@@ -711,7 +754,8 @@ async function boot(): Promise<void> {
       // a playtest can never destroy the human's real save — "↩ last backup" is the way home.
       loadFixture: async (name: string) => {
         const fixture = getFixture(name);
-        if (!fixture) return { ok: false as const, reason: `unknown-fixture:${name}` };
+        if (!fixture)
+          return { ok: false as const, reason: `unknown-fixture:${name}` };
         await save.backup(state);
         return qa.load(toBase64(JSON.stringify(fixture.env)));
       },
@@ -827,7 +871,11 @@ async function boot(): Promise<void> {
                 .map((s) => [s.id, dev.getVariant(s.id)]),
             )
           : {},
-        viewport: { w: window.innerWidth, h: window.innerHeight, dpr: window.devicePixelRatio },
+        viewport: {
+          w: window.innerWidth,
+          h: window.innerHeight,
+          dpr: window.devicePixelRatio,
+        },
         url: window.location.pathname + window.location.search,
         saveBase64: save.exportState(state),
         logTail: state.log.entries.slice(-20).map((e) => ({

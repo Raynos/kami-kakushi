@@ -2,7 +2,10 @@ import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
-import { CAPTURE_ENDPOINT, playtestInboxHandler } from './src/scripts/playtest-inbox';
+import {
+  CAPTURE_ENDPOINT,
+  playtestInboxHandler,
+} from './src/scripts/playtest-inbox';
 import {
   TELEMETRY_DROP_ENDPOINT,
   sweepTelemetryDir,
@@ -76,10 +79,14 @@ function git(cmd: string): string | undefined {
     return undefined;
   }
 }
-const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
+const pkg = JSON.parse(
+  readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
+);
 const VERSION = process.env.BUILD_VERSION ?? `v${pkg.version}`;
-const BUILD_SHA = process.env.BUILD_SHA ?? git('rev-parse --short HEAD') ?? 'dev';
-const BUILD_DATE = process.env.BUILD_DATE ?? git('log -1 --format=%cs') ?? 'dev';
+const BUILD_SHA =
+  process.env.BUILD_SHA ?? git('rev-parse --short HEAD') ?? 'dev';
+const BUILD_DATE =
+  process.env.BUILD_DATE ?? git('log -1 --format=%cs') ?? 'dev';
 
 // D-138 — T0-only: ship the CLIENT-SIDE DEV tools (__qa play-API, DEV panel +
 // variant harness, balance cockpit, F6 fixtures) INTO the prod (gh-pages) bundle,
@@ -139,7 +146,11 @@ function singleServerGuard(): void {
 export default defineConfig(({ command }) => {
   // Guard ONLY the real dev server — never `vite build`, `vite preview`, or vitest (which all
   // load this config too, and must not be blocked by a running dev server).
-  if (command === 'serve' && !process.env.VITEST && !process.argv.includes('preview')) {
+  if (
+    command === 'serve' &&
+    !process.env.VITEST &&
+    !process.argv.includes('preview')
+  ) {
     singleServerGuard();
   }
   return {
@@ -157,7 +168,10 @@ export default defineConfig(({ command }) => {
           const pendingDir = fileURLToPath(
             new URL('./project/playtest-inbox/pending', import.meta.url),
           );
-          server.middlewares.use(CAPTURE_ENDPOINT, playtestInboxHandler(pendingDir));
+          server.middlewares.use(
+            CAPTURE_ENDPOINT,
+            playtestInboxHandler(pendingDir),
+          );
         },
       },
       {
@@ -167,16 +181,23 @@ export default defineConfig(({ command }) => {
         name: 'telemetry-drop',
         apply: 'serve',
         configureServer(server) {
-          const dir = fileURLToPath(new URL('./project/telemetry', import.meta.url));
+          const dir = fileURLToPath(
+            new URL('./project/telemetry', import.meta.url),
+          );
           // GC on boot as well as on every drop: a folder left full of tainted / 20-second
           // runs reads as play that never happened (see telemetry/retention.ts). NEVER under
           // vitest — it boots a vite server too, and the test lane must not touch the human's
           // sensor data (the 973b996 rule). The drop endpoint is unreachable there anyway.
           const swept = process.env.VITEST ? [] : sweepTelemetryDir(dir);
           if (swept.length > 0) {
-            console.info(`[telemetry] swept ${swept.length} unusable report(s) from ${dir}`);
+            console.info(
+              `[telemetry] swept ${swept.length} unusable report(s) from ${dir}`,
+            );
           }
-          server.middlewares.use(TELEMETRY_DROP_ENDPOINT, telemetryDropHandler(dir));
+          server.middlewares.use(
+            TELEMETRY_DROP_ENDPOINT,
+            telemetryDropHandler(dir),
+          );
         },
       },
       {

@@ -20,12 +20,22 @@ import { execFileSync } from 'node:child_process';
 // loud but never blocking (same two-tier shape as the 5s drift timer vs
 // verify:budget). The hard `cap` raises only via a human-reviewed edit here;
 // SKIP_DOCBUDGET=1 stays the same-day escape while that edit is discussed.
-const BUDGETS: ReadonlyArray<{ path: string; cap: number; warn?: number; genreLeak: RegExp }> = [
+const BUDGETS: ReadonlyArray<{
+  path: string;
+  cap: number;
+  warn?: number;
+  genreLeak: RegExp;
+}> = [
   // taste.md + project-status.md live PINNED at their caps by design (the cap
   // IS the displacement pressure) — a soft warn there would fire on every run
   // forever, teaching deafness (AC-11). Warns go only where headroom is the norm.
   { path: 'docs/living/taste.md', cap: 150, genreLeak: /\(session-\d+\)/ },
-  { path: 'docs/living/ui-design.md', cap: 400, warn: 360, genreLeak: /\(session-\d+\)/ },
+  {
+    path: 'docs/living/ui-design.md',
+    cap: 400,
+    warn: 360,
+    genreLeak: /\(session-\d+\)/,
+  },
   {
     path: 'project/status/project-status.md',
     cap: 120,
@@ -37,7 +47,12 @@ const BUDGETS: ReadonlyArray<{ path: string; cap: number; warn?: number; genreLe
   // but the hard cap is deliberately generous (a co-agent adding a bullet
   // mid-flight must never hit a wall); the warn is the working pressure.
   { path: 'AGENTS.md', cap: 500, warn: 420, genreLeak: /\(session-\d+\)/ },
-  { path: 'docs/repo-map.md', cap: 250, warn: 220, genreLeak: /\(session-\d+\)/ },
+  {
+    path: 'docs/repo-map.md',
+    cap: 250,
+    warn: 220,
+    genreLeak: /\(session-\d+\)/,
+  },
 ];
 
 let red = false;
@@ -50,7 +65,9 @@ for (const { path, cap, warn, genreLeak } of BUDGETS) {
   const text = readFileSync(path, 'utf-8');
   const lines = text.split('\n').length - (text.endsWith('\n') ? 1 : 0);
   if (lines > cap) {
-    console.error(`  X doc-budgets: ${path} is ${lines} lines — over its ${cap}-line cap.`);
+    console.error(
+      `  X doc-budgets: ${path} is ${lines} lines — over its ${cap}-line cap.`,
+    );
     console.error(
       '    SNAPSHOT-CLASS doc (ADR-126): replace in place — to add a line, displace a weaker',
     );
@@ -88,7 +105,9 @@ if (existsSync(RD_PATH)) {
   const cur = readFileSync(RD_PATH, 'utf-8');
   const curDebt = parseDebt(cur);
   if (!curDebt) {
-    console.error(`  X doc-budgets: ${RD_PATH} is missing its rewrite-debt counter.`);
+    console.error(
+      `  X doc-budgets: ${RD_PATH} is missing its rewrite-debt counter.`,
+    );
     console.error(
       `    Add a last line: <!-- rewrite-debt: N/${RD_THRESHOLD} · last full rewrite: YYYY-MM-DD -->`,
     );
@@ -99,10 +118,13 @@ if (existsSync(RD_PATH)) {
     // "compression" and must not demand a bump — else every journal-adding session
     // cries wolf (AC-11). So compare with the `gen:begin…gen:end` blocks STRIPPED. No
     // HEAD blob (new file / detached bootstrap) skips the check gracefully.
-    const stripGen = (s: string): string => s.replace(/<!-- gen:begin[\s\S]*?gen:end[^>]*-->/g, '');
+    const stripGen = (s: string): string =>
+      s.replace(/<!-- gen:begin[\s\S]*?gen:end[^>]*-->/g, '');
     let head = '';
     try {
-      head = execFileSync('git', ['show', `HEAD:${RD_PATH}`], { encoding: 'utf-8' });
+      head = execFileSync('git', ['show', `HEAD:${RD_PATH}`], {
+        encoding: 'utf-8',
+      });
     } catch {
       head = '';
     }
@@ -142,4 +164,6 @@ if (existsSync(RD_PATH)) {
 }
 
 if (red) process.exit(1);
-console.log(`  ✓ doc-budgets: ${BUDGETS.length} snapshot docs within their caps.`);
+console.log(
+  `  ✓ doc-budgets: ${BUDGETS.length} snapshot docs within their caps.`,
+);

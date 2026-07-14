@@ -35,7 +35,13 @@ export type TelemetryEvent =
 
 /** Why a segment closed — the report's closer histogram is the calibration read's raw material
  *  (which rule clipped what — plan §6.1). */
-export type SegmentCloser = 'hidden' | 'blur' | 'idle-ttl' | 'sleep-gap' | 'flush' | 'capture';
+export type SegmentCloser =
+  | 'hidden'
+  | 'blur'
+  | 'idle-ttl'
+  | 'sleep-gap'
+  | 'flush'
+  | 'capture';
 
 /** A maximal contiguous attended span. active/idle interleave freely WITHIN a segment;
  *  hidden/blur/walk-away close it. `autosArmedMs` distinguishes watching-a-grind from
@@ -150,7 +156,10 @@ function idleTtl(s: SessionizerState): number {
 /** Accrue the span [t0, t1] into the open segment: active up to lastInput+recency, idle after. */
 function accrue(s: SessionizerState, t0: number, t1: number): SessionizerState {
   if (!s.open || t1 <= t0) return s;
-  const activeEnd = Math.min(t1, Math.max(t0, s.lastInputT + s.config.inputRecencyMs));
+  const activeEnd = Math.min(
+    t1,
+    Math.max(t0, s.lastInputT + s.config.inputRecencyMs),
+  );
   const active = activeEnd - t0;
   const idle = t1 - activeEnd;
   return {
@@ -165,7 +174,11 @@ function accrue(s: SessionizerState, t0: number, t1: number): SessionizerState {
 }
 
 /** Close the open segment at `end` (already accrued to `end` by the caller). */
-function close(s: SessionizerState, end: number, closer: SegmentCloser): SessionizerState {
+function close(
+  s: SessionizerState,
+  end: number,
+  closer: SegmentCloser,
+): SessionizerState {
   if (!s.open) return s;
   const seg: Segment = {
     start: s.open.start,
@@ -191,7 +204,10 @@ function close(s: SessionizerState, end: number, closer: SegmentCloser): Session
  *     TTL deadline and close there (`idle-ttl`);
  *  3. normal accrual of [lastEvent, now] into the open segment;
  *  4. the event's own edge (visibility/focus close-or-track, input opens/reopens, etc.). */
-export function advance(state: SessionizerState, ev: TelemetryEvent): SessionizerState {
+export function advance(
+  state: SessionizerState,
+  ev: TelemetryEvent,
+): SessionizerState {
   let s = state;
   const t = ev.t;
   const gap = t - s.lastEventT;
@@ -253,7 +269,11 @@ export function advance(state: SessionizerState, ev: TelemetryEvent): Sessionize
           s.config.noteReengageWindowMs > 0 &&
           t - s.lastNoteT <= s.config.noteReengageWindowMs;
         const start = reengage && s.lastNoteT !== null ? s.lastNoteT : t;
-        s = { ...s, open: { start, activeMs: 0, idleMs: 0, autosArmedMs: 0 }, lastNoteT: null };
+        s = {
+          ...s,
+          open: { start, activeMs: 0, idleMs: 0, autosArmedMs: 0 },
+          lastNoteT: null,
+        };
         // The back-dated note→input span accrues as idle (they watched, they didn't act).
         s = accrue(s, start, t);
       }
@@ -267,7 +287,8 @@ export function advance(state: SessionizerState, ev: TelemetryEvent): Sessionize
       // Only meaningful while unattended-visible — that's the only state a note can rescue.
       // Never while capturing: else the note→input re-engagement back-dates a segment across
       // the minutes spent in the note box, re-crediting exactly what 'capture' just excluded.
-      if (!s.open && s.visible && s.focused && !s.capturing) s = { ...s, lastNoteT: t };
+      if (!s.open && s.visible && s.focused && !s.capturing)
+        s = { ...s, lastNoteT: t };
       break;
     case 'heartbeat':
       break; // its work (steps 1–3) is done by arriving at all

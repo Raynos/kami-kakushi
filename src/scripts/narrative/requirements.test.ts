@@ -9,7 +9,11 @@ import { RANKS } from '../../core/content/ranks';
 
 /** One rung block. `ids` controls how many reqs it authors (default 1 — used by the
  *  hard-minimum RED test; pass 3 for a valid list). */
-const goodBlock = (rank: string, id = 'do-a-thing', ids: string[] = [id]): string =>
+const goodBlock = (
+  rank: string,
+  id = 'do-a-thing',
+  ids: string[] = [id],
+): string =>
   [
     `## requirements ${rank}`,
     '',
@@ -75,8 +79,13 @@ describe('requirements grammar (FB-121 / ADR-137) — parse + validate + emit', 
       'state',
       'state',
     ]);
-    expect(block.reqs[0]!.spec).toMatchObject({ token: 'kill:boar', target: 2 });
-    expect(block.reqs[6]!.spec).toMatchObject({ pred: { kind: 'native', key: 'estate-u1' } });
+    expect(block.reqs[0]!.spec).toMatchObject({
+      token: 'kill:boar',
+      target: 2,
+    });
+    expect(block.reqs[6]!.spec).toMatchObject({
+      pred: { kind: 'native', key: 'estate-u1' },
+    });
   });
 
   it('rejects a malformed spec, a zero count, and a missing flavor/drive — at the md line', () => {
@@ -102,7 +111,10 @@ describe('requirements grammar (FB-121 / ADR-137) — parse + validate + emit', 
     // would leave the Progress register mute for that completion (or fall back to the
     // Story prose the human rejected), so the compiler refuses to build it.
     expect(() =>
-      parseNarrative('## requirements R0\n### req x · flag some-flag\nflavor: f\ndrive: d', 'x.md'),
+      parseNarrative(
+        '## requirements R0\n### req x · flag some-flag\nflavor: f\ndrive: d',
+        'x.md',
+      ),
     ).toThrow(/no objective line/);
     expect(() =>
       parseNarrative(
@@ -130,12 +142,16 @@ describe('requirements grammar (FB-121 / ADR-137) — parse + validate + emit', 
       .map((r) => goodBlock(r.id, `req-${r.id.toLowerCase()}`))
       .join('\n');
     const missing = validateNarrative([parseNarrative(seven, 'x.md')]);
-    expect(missing.errors.some((e) => e.includes(`missing for ${RANKS.at(-1)!.id}`))).toBe(true);
+    expect(
+      missing.errors.some((e) => e.includes(`missing for ${RANKS.at(-1)!.id}`)),
+    ).toBe(true);
     // duplicate list + duplicate req id
     const dupList = validateNarrative([
       parseNarrative(allEight() + '\n' + goodBlock('R0', 'other'), 'x.md'),
     ]);
-    expect(dupList.errors.some((e) => e.includes('duplicate requirements list'))).toBe(true);
+    expect(
+      dupList.errors.some((e) => e.includes('duplicate requirements list')),
+    ).toBe(true);
     const dupId = validateNarrative([
       parseNarrative(
         [
@@ -152,7 +168,9 @@ describe('requirements grammar (FB-121 / ADR-137) — parse + validate + emit', 
         'x.md',
       ),
     ]);
-    expect(dupId.errors.some((e) => e.includes('duplicate req id "same"'))).toBe(true);
+    expect(
+      dupId.errors.some((e) => e.includes('duplicate req id "same"')),
+    ).toBe(true);
   });
 
   it('emit produces the registry literal with NAMES interpolation resolved', () => {

@@ -7,7 +7,13 @@ import {
   factsForSurfaces,
   type GameState,
 } from './index';
-import { hungerMax, restQuality, restRefill, satietyMax, staminaRate } from './selectors';
+import {
+  hungerMax,
+  restQuality,
+  restRefill,
+  satietyMax,
+  staminaRate,
+} from './selectors';
 import { TICKS_PER_DAY } from './constants';
 
 // ADR-178 (the body split, Option C) — TWO legible stores on two clocks:
@@ -38,16 +44,26 @@ function withVitals(over: {
     // ADR-179 — `over.unlocked` names SURFACES to make visible; visibility derives, so the fact
     // bridge translates each to its entitling fact-flag(s) (verb-eat-rice → rank-r1, verb-cook →
     // rank-r2 via its row).
-    flags: { ...s.flags, awake: true, raked: true, ...factsForSurfaces(...(over.unlocked ?? [])) },
+    flags: {
+      ...s.flags,
+      awake: true,
+      raked: true,
+      ...factsForSurfaces(...(over.unlocked ?? [])),
+    },
   };
 }
 
 describe('D-178 — hunger is a DAILY store: the day drains it, the kura ration maintains it', () => {
   it('a day boundary with an EMPTY kura drains exactly HUNGER_PER_DAY', () => {
-    const s = withVitals({ hunger: hungerMax(createInitialState(1)), kuraRice: 0 });
+    const s = withVitals({
+      hunger: hungerMax(createInitialState(1)),
+      kuraRice: 0,
+    });
     const after = advanceClock(s, TICKS_PER_DAY);
     expect(after.clock.day).toBe(s.clock.day + 1);
-    expect(after.character.hunger).toBe(s.character.hunger - balance.HUNGER_PER_DAY);
+    expect(after.character.hunger).toBe(
+      s.character.hunger - balance.HUNGER_PER_DAY,
+    );
   });
 
   it('a STOCKED kura serves the daily ration: rice leaves the kura and the belly is maintained', () => {
@@ -116,7 +132,11 @@ describe('D-178 — food feeds the BELLY, never the work bar (the split itself)'
   });
 
   it('cook_meal fills the belly and mends ZERO HP — food is satiety-only (ADR-164/ADR-197)', () => {
-    const s = withVitals({ hunger: 10, satiety: 20, unlocked: ['verb-cook', 'room-kitchen'] });
+    const s = withVitals({
+      hunger: 10,
+      satiety: 20,
+      unlocked: ['verb-cook', 'room-kitchen'],
+    });
     const fed = {
       ...s,
       resources: { ...s.resources, sansai: 5 },
@@ -130,13 +150,17 @@ describe('D-178 — food feeds the BELLY, never the work bar (the split itself)'
   });
 
   it('a deliberate meal beats the household ration (the design lever that makes eating worth it)', () => {
-    expect(balance.EAT_RICE_HUNGER).toBeGreaterThan(balance.HUNGER_MEAL_RESTORE);
+    expect(balance.EAT_RICE_HUNGER).toBeGreaterThan(
+      balance.HUNGER_MEAL_RESTORE,
+    );
   });
 });
 
 describe('D-178 — the teeth: hungry rest is POOR rest (a multiplier that slows, never blocks)', () => {
   it('restQuality is FLAT (1.0) at and above HUNGER_FLAT_ABOVE of the belly', () => {
-    const at = withVitals({ hunger: balance.HUNGER_MAX * balance.HUNGER_FLAT_ABOVE });
+    const at = withVitals({
+      hunger: balance.HUNGER_MAX * balance.HUNGER_FLAT_ABOVE,
+    });
     const above = withVitals({ hunger: balance.HUNGER_MAX });
     expect(restQuality(at)).toBe(1);
     expect(restQuality(above)).toBe(1);
@@ -144,7 +168,9 @@ describe('D-178 — the teeth: hungry rest is POOR rest (a multiplier that slows
 
   it('restQuality ramps MONOTONICALLY down to HUNGER_REST_FLOOR at empty — never to 0', () => {
     const empty = withVitals({ hunger: 0 });
-    const mid = withVitals({ hunger: (balance.HUNGER_MAX * balance.HUNGER_FLAT_ABOVE) / 2 });
+    const mid = withVitals({
+      hunger: (balance.HUNGER_MAX * balance.HUNGER_FLAT_ABOVE) / 2,
+    });
     expect(restQuality(empty)).toBe(balance.HUNGER_REST_FLOOR);
     expect(restQuality(mid)).toBeGreaterThan(restQuality(empty));
     expect(restQuality(mid)).toBeLessThan(1);

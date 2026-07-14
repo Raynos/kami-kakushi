@@ -44,12 +44,26 @@ export interface PresenceCtx {
 
 /** Derive the presence context from GameState (the single place state internals are read). */
 export function presenceCtx(s: GameState): PresenceCtx {
-  return { dayOfWeek: dayOfWeek(s.clock.day), season: s.season, rung: s.rung, flags: s.flags };
+  return {
+    dayOfWeek: dayOfWeek(s.clock.day),
+    season: s.season,
+    rung: s.rung,
+    flags: s.flags,
+  };
 }
 
 /** The rung ladder order, for "at or past Rn" presence gates (plain index compare — the canonical
  *  ordering lives in ranks.ts; kept local so people.ts stays a leaf). */
-const RUNG_ORDER: readonly RankId[] = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7'];
+const RUNG_ORDER: readonly RankId[] = [
+  'R0',
+  'R1',
+  'R2',
+  'R3',
+  'R4',
+  'R5',
+  'R6',
+  'R7',
+];
 function rungAtLeast(rung: RankId, min: RankId): boolean {
   return RUNG_ORDER.indexOf(rung) >= RUNG_ORDER.indexOf(min);
 }

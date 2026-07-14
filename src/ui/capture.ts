@@ -59,7 +59,9 @@ function loadGroups(): string[] {
   try {
     const raw = globalThis.localStorage?.getItem(GROUPS_KEY);
     const arr = raw ? (JSON.parse(raw) as unknown) : [];
-    return Array.isArray(arr) ? arr.filter((x): x is string => typeof x === 'string') : [];
+    return Array.isArray(arr)
+      ? arr.filter((x): x is string => typeof x === 'string')
+      : [];
   } catch {
     return []; // storage unavailable / corrupt — recents are a convenience only
   }
@@ -70,10 +72,10 @@ function rememberGroup(name: string): void {
   const n = name.trim();
   if (!n) return;
   try {
-    const next = [n, ...loadGroups().filter((g) => g.toLowerCase() !== n.toLowerCase())].slice(
-      0,
-      GROUPS_MAX,
-    );
+    const next = [
+      n,
+      ...loadGroups().filter((g) => g.toLowerCase() !== n.toLowerCase()),
+    ].slice(0, GROUPS_MAX);
     globalThis.localStorage?.setItem(GROUPS_KEY, JSON.stringify(next));
   } catch {
     /* storage unavailable — the bucket still works for this capture, just no suggestion memory */
@@ -105,7 +107,10 @@ export type ScreenshotCompositor = (
 
 /** The per-capture context minus the fields the overlay fills itself (`capturedAt`, frozen at
  *  pick; `hasScreenshot`, known after the shot; `element`, from the pick). main.ts supplies this. */
-export type CaptureEntryContext = Omit<CaptureContext, 'capturedAt' | 'hasScreenshot' | 'element'>;
+export type CaptureEntryContext = Omit<
+  CaptureContext,
+  'capturedAt' | 'hasScreenshot' | 'element'
+>;
 
 /** The shell freeze (src/app/freeze-clock.ts), injected so this module stays dependency-free.
  *  `raw` hands back the UNPATCHED timers: the overlay's own chrome (toast, click-swallow guard,
@@ -181,12 +186,16 @@ function resolveSession(
   now: () => Date,
   storage: Storage | undefined,
 ): { sessionId: string; startedAt: string } {
-  if (opts.sessionId) return { sessionId: opts.sessionId, startedAt: localIso(now()) };
+  if (opts.sessionId)
+    return { sessionId: opts.sessionId, startedAt: localIso(now()) };
   try {
     const raw = storage?.getItem(SESSION_KEY);
     if (raw) {
       const parsed = JSON.parse(raw) as { id?: unknown; startedAt?: unknown };
-      if (typeof parsed.id === 'string' && typeof parsed.startedAt === 'string') {
+      if (
+        typeof parsed.id === 'string' &&
+        typeof parsed.startedAt === 'string'
+      ) {
         return { sessionId: parsed.id, startedAt: parsed.startedAt };
       }
     }
@@ -206,12 +215,19 @@ function resolveSession(
 function isEditableTarget(t: EventTarget | null): boolean {
   if (!(t instanceof HTMLElement)) return false;
   const tag = t.tagName;
-  return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || t.isContentEditable;
+  return (
+    tag === 'INPUT' ||
+    tag === 'TEXTAREA' ||
+    tag === 'SELECT' ||
+    t.isContentEditable
+  );
 }
 
 /** dataset of an HTML *or* SVG element (both carry one; plain Element doesn't). */
 function dataOf(el: Element): DOMStringMap | undefined {
-  return el instanceof HTMLElement || el instanceof SVGElement ? el.dataset : undefined;
+  return el instanceof HTMLElement || el instanceof SVGElement
+    ? el.dataset
+    : undefined;
 }
 
 /** A short best-effort CSS-ish path (stops at #app or a data-panel/data-node anchor). */
@@ -237,7 +253,9 @@ function cssPath(el: Element): string {
     }
     const parent: Element | null = cur.parentElement;
     if (parent) {
-      const sibs = Array.from(parent.children).filter((c) => c.tagName === cur!.tagName);
+      const sibs = Array.from(parent.children).filter(
+        (c) => c.tagName === cur!.tagName,
+      );
       if (sibs.length > 1) part += `:nth-of-type(${sibs.indexOf(cur) + 1})`;
     }
     parts.unshift(part);
@@ -277,7 +295,8 @@ function describeElement(el: Element): ElementDescriptor {
   } else if (aria) {
     label = `${el.tagName.toLowerCase()} "${aria}"`;
   } else {
-    const cls = typeof el.className === 'string' ? el.className.split(/\s+/)[0] : '';
+    const cls =
+      typeof el.className === 'string' ? el.className.split(/\s+/)[0] : '';
     label = el.tagName.toLowerCase() + (cls ? `.${cls}` : '');
   }
   return { label, text, selector: cssPath(el), rect };
@@ -300,7 +319,8 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
   const doc = opts.doc ?? document;
   const now = opts.now ?? ((): Date => new Date());
   const storage =
-    opts.storage ?? (typeof sessionStorage !== 'undefined' ? sessionStorage : undefined);
+    opts.storage ??
+    (typeof sessionStorage !== 'undefined' ? sessionStorage : undefined);
   const post =
     opts.post ??
     (async (url: string, body: string): Promise<boolean> => {
@@ -321,9 +341,11 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
   // the bare fallback is for hosts with no freeze installed (unit tests).
   const rawSetTimeout =
     opts.freeze?.raw.setTimeout ??
-    ((fn: () => void, ms: number): number => setTimeout(fn, ms) as unknown as number);
+    ((fn: () => void, ms: number): number =>
+      setTimeout(fn, ms) as unknown as number);
   const rawClearTimeout =
-    opts.freeze?.raw.clearTimeout ?? ((id: number): void => void clearTimeout(id));
+    opts.freeze?.raw.clearTimeout ??
+    ((id: number): void => void clearTimeout(id));
 
   const host = opts.host;
   const session = resolveSession(opts, now, storage);
@@ -334,10 +356,12 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
     const view = doc.defaultView;
     // rAF is deliberately NOT part of the freeze (nothing in the shell animates with it), so it
     // still fires while the game is held still — which is exactly what we need here.
-    if (view?.requestAnimationFrame) view.requestAnimationFrame(() => rawSetTimeout(fn, 0));
+    if (view?.requestAnimationFrame)
+      view.requestAnimationFrame(() => rawSetTimeout(fn, 0));
     else rawSetTimeout(fn, 0);
   };
-  const nextPaint = (): Promise<void> => new Promise<void>((res) => afterPaint(() => res()));
+  const nextPaint = (): Promise<void> =>
+    new Promise<void>((res) => afterPaint(() => res()));
 
   // Sticky across captures within this mount: the kind toggle (default Bug) and the current bucket
   // name ('' = ungrouped). So a run of "map feedback" questions is set once, not re-picked each time.
@@ -374,7 +398,12 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
   let dialog: HTMLElement | null = null;
   // Remembered box position + size (the human can drag/resize the feedback window; the size
   // persists across captures in the session so a "lots of feedback" size sticks).
-  let boxRect: { left: number; top: number; width: number; height: number } | null = null;
+  let boxRect: {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+  } | null = null;
 
   // ── markup drawing — a bright-green freehand overlay baked into the screenshot on send ──
   // A transparent canvas over the captured host; strokes accumulate as CSS-px polylines and are
@@ -402,8 +431,10 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
       if (stroke.length === 0) continue;
       ctx.beginPath();
       ctx.moveTo(stroke[0]!.x, stroke[0]!.y);
-      for (let i = 1; i < stroke.length; i++) ctx.lineTo(stroke[i]!.x, stroke[i]!.y);
-      if (stroke.length === 1) ctx.lineTo(stroke[0]!.x + 0.1, stroke[0]!.y + 0.1); // a lone tap = dot
+      for (let i = 1; i < stroke.length; i++)
+        ctx.lineTo(stroke[i]!.x, stroke[i]!.y);
+      if (stroke.length === 1)
+        ctx.lineTo(stroke[0]!.x + 0.1, stroke[0]!.y + 0.1); // a lone tap = dot
       ctx.stroke();
     }
   }
@@ -481,7 +512,8 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
 
   function showHint(): void {
     hint = doc.createElement('div');
-    hint.textContent = 'click the element you mean · Esc / click empty for a general note';
+    hint.textContent =
+      'click the element you mean · Esc / click empty for a general note';
     hint.style.cssText =
       'position:fixed;left:50%;top:1rem;transform:translateX(-50%);z-index:2147483646;' +
       'pointer-events:none;background:#26221E;color:#F3E9D2;border:1px solid #7A6C59;' +
@@ -572,7 +604,10 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
       // must not also take the game down with it.
       highlight.remove();
       opts.freeze?.thaw();
-      console.error('[kami-kakushi] the capture note box failed to open — game thawed', err);
+      console.error(
+        '[kami-kakushi] the capture note box failed to open — game thawed',
+        err,
+      );
     }
   }
 
@@ -678,15 +713,18 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
     body.textContent =
       'The playtest inbox refused the note — the DEV server is almost certainly not running. ' +
       'Nothing was written. Start it with `pnpm run dev`, then Retry: your note is held here.';
-    body.style.cssText = 'color:#C9BCA4;font-size:0.85rem;margin-bottom:.75rem;';
+    body.style.cssText =
+      'color:#C9BCA4;font-size:0.85rem;margin-bottom:.75rem;';
 
     const status = doc.createElement('div');
     status.setAttribute('role', 'status');
-    status.style.cssText = 'min-height:1.2em;font-size:0.78rem;color:#E4B24A;margin-bottom:.6rem;';
+    status.style.cssText =
+      'min-height:1.2em;font-size:0.78rem;color:#E4B24A;margin-bottom:.6rem;';
     const setStatus = (t: string): void => void (status.textContent = t);
 
     const row = doc.createElement('div');
-    row.style.cssText = 'display:flex;gap:.5rem;justify-content:flex-end;flex-wrap:wrap;';
+    row.style.cssText =
+      'display:flex;gap:.5rem;justify-content:flex-end;flex-wrap:wrap;';
     const mkBtn = (label: string, primary: boolean): HTMLButtonElement => {
       const b = doc.createElement('button');
       b.type = 'button';
@@ -779,7 +817,8 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
   function bucketMissing(): boolean {
     if (!box || slugGroup(currentGroup)) return false;
     box.groupInput.style.borderColor = '#D7402C';
-    box.hintLine.textContent = 'Name a bucket before sending — it routes the drain.';
+    box.hintLine.textContent =
+      'Name a bucket before sending — it routes the drain.';
     box.hintLine.style.color = '#D7402C';
     box.groupInput.focus();
     return true;
@@ -820,12 +859,17 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
           startedAt: session.startedAt,
           build: opts.build,
         });
-    const { entry, metadataName, metadata, screenshotName } = buildEntry(note, ctx, fileKey, {
-      kind: currentKind,
-      ...(groupSlug ? { group: currentGroup.trim() } : {}),
-      session: session.sessionId,
-      build: opts.build,
-    });
+    const { entry, metadataName, metadata, screenshotName } = buildEntry(
+      note,
+      ctx,
+      fileKey,
+      {
+        kind: currentKind,
+        ...(groupSlug ? { group: currentGroup.trim() } : {}),
+        session: session.sessionId,
+        build: opts.build,
+      },
+    );
     const payload: Record<string, unknown> = {
       session: fileKey,
       header,
@@ -867,7 +911,8 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
     // A DRAGGABLE + RESIZABLE window: positioned by left/top (so `resize:both` grows toward the
     // bottom-right), sized from the remembered rect so a bigger window sticks across captures —
     // for when the human is giving a lot of feedback and wants a bigger text area.
-    const view = doc.defaultView ?? (typeof window !== 'undefined' ? window : undefined);
+    const view =
+      doc.defaultView ?? (typeof window !== 'undefined' ? window : undefined);
     const vh = view?.innerHeight ?? 800;
     const w = boxRect?.width ?? 360;
     const h = boxRect?.height ?? 200;
@@ -946,7 +991,11 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
     const bugBtn = mkKindBtn('bug', 'Bug');
     const questionBtn = mkKindBtn('question', 'Question');
     function paintKind(): void {
-      const paint = (b: HTMLButtonElement, active: boolean, activeBg: string): void => {
+      const paint = (
+        b: HTMLButtonElement,
+        active: boolean,
+        activeBg: string,
+      ): void => {
         b.style.background = active ? activeBg : 'transparent';
         b.style.color = active ? '#1A1713' : '#B8A98C';
         b.style.fontWeight = active ? '700' : '400';
@@ -962,7 +1011,8 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
     // popup is an OS widget: an unstyleable white slab in system font, dropped into the middle of an
     // ink-dark overlay. It cannot be themed, so it is replaced with our own listbox.
     const groupWrap = doc.createElement('div');
-    groupWrap.style.cssText = 'position:relative;display:flex;flex:1 1 auto;min-width:0;';
+    groupWrap.style.cssText =
+      'position:relative;display:flex;flex:1 1 auto;min-width:0;';
 
     const groupInput = doc.createElement('input');
     groupInput.type = 'text';
@@ -973,7 +1023,8 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
     groupInput.setAttribute('role', 'combobox');
     groupInput.setAttribute('aria-expanded', 'false');
     groupInput.placeholder = 'bucket — e.g. map feedback (required)';
-    groupInput.title = 'Group this capture into a bucket so `/drain-inbox <bucket>` drains just it';
+    groupInput.title =
+      'Group this capture into a bucket so `/drain-inbox <bucket>` drains just it';
     groupInput.style.cssText =
       'flex:1 1 auto;min-width:0;background:#1A1713;color:#F3E9D2;border:1px solid #3A342C;' +
       'border-radius:3px;padding:.2rem 1.3rem .2rem .4rem;font:inherit;font-size:0.75rem;outline:none;';
@@ -1041,7 +1092,9 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
       const typed = groupInput.value.trim();
       const recents = loadGroups();
       const hay = typed.toLowerCase();
-      const matches = typed ? recents.filter((g) => g.toLowerCase().includes(hay)) : recents;
+      const matches = typed
+        ? recents.filter((g) => g.toLowerCase().includes(hay))
+        : recents;
       const exact = recents.some((g) => g.toLowerCase() === hay);
 
       menu.textContent = '';
@@ -1077,7 +1130,9 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
       paintActive();
     }
 
-    caret.addEventListener('click', () => (menuOpen ? closeMenu() : openMenu()));
+    caret.addEventListener('click', () =>
+      menuOpen ? closeMenu() : openMenu(),
+    );
     groupInput.addEventListener('focus', openMenu);
     groupInput.addEventListener('input', () => {
       currentGroup = groupInput.value;
@@ -1097,7 +1152,13 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
         paintActive();
         // optional-call: jsdom has no scrollIntoView, and a missing scroll is never worth a throw
         rows[activeIdx]?.el.scrollIntoView?.({ block: 'nearest' });
-      } else if (e.key === 'Enter' && !e.metaKey && !e.ctrlKey && menuOpen && activeIdx >= 0) {
+      } else if (
+        e.key === 'Enter' &&
+        !e.metaKey &&
+        !e.ctrlKey &&
+        menuOpen &&
+        activeIdx >= 0
+      ) {
         e.preventDefault();
         e.stopImmediatePropagation();
         choose(rows[activeIdx]!.value);
@@ -1111,7 +1172,8 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
     // A press anywhere else dismisses the menu (the input keeps focus if that's where it landed).
     const onDocDown = (e: Event): void => {
       const t = e.target as Node | null;
-      if (menuOpen && t && !menu.contains(t) && t !== groupInput && t !== caret) closeMenu();
+      if (menuOpen && t && !menu.contains(t) && t !== groupInput && t !== caret)
+        closeMenu();
     };
     doc.addEventListener('pointerdown', onDocDown, true);
     closeGroupMenu = (): void => {
@@ -1124,7 +1186,9 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
     metaRow.append(kindWrap, groupWrap);
 
     const textarea = doc.createElement('textarea');
-    textarea.placeholder = element ? `What about "${element.label}"?` : 'What did you notice?';
+    textarea.placeholder = element
+      ? `What about "${element.label}"?`
+      : 'What did you notice?';
     textarea.style.cssText =
       'flex:1 1 auto;width:100%;box-sizing:border-box;resize:none;background:#1A1713;' +
       'color:#F3E9D2;border:none;padding:.6rem;font:inherit;outline:none;cursor:text;';
@@ -1166,7 +1230,8 @@ export function mountCapture(opts: CaptureOptions): CaptureHandle {
       return b;
     };
     markupBtn = mkBtn('✎ Draw');
-    markupBtn.title = 'Draw on the screen (bright green) — baked into the screenshot on send';
+    markupBtn.title =
+      'Draw on the screen (bright green) — baked into the screenshot on send';
     markupBtn.addEventListener('click', () => setDraw(!drawing));
     undoBtn = mkBtn('Undo');
     undoBtn.addEventListener('click', () => {

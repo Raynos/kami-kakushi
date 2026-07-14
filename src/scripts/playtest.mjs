@@ -20,7 +20,12 @@ try {
     qa.toRung('R2');
     qa.faceWolf();
     qa.toRung('R3');
-    log.push(['reached', qa.selectors.rung(), 'combatLvl', qa.selectors.combatLevel()]);
+    log.push([
+      'reached',
+      qa.selectors.rung(),
+      'combatLvl',
+      qa.selectors.combatLevel(),
+    ]);
 
     // real-play grind: fight the easiest foe, escalating as the MC levels. Step 5b — foes are
     // spatial, so qa.fight() auto-walks to the foe's node first. The escalation stays on the
@@ -36,7 +41,8 @@ try {
     for (let i = 0; i < 200; i++) {
       const before = qa.state();
       // escalate once the current foe is trivially beaten (level past it)
-      if (before.character.level > foeIdx + 1 && foeIdx < order.length - 1) foeIdx++;
+      if (before.character.level > foeIdx + 1 && foeIdx < order.length - 1)
+        foeIdx++;
       // keep the larder + woodpile stocked, then heal to fighting-fit and sharpen the blade before
       // the bout: only cooking mends HP (D-076) and a worn blade craters the win-rate, so a
       // sustainable grind must do both between fights.
@@ -56,8 +62,10 @@ try {
       const after = qa.state();
       if (after.character.level > before.character.level) levelUps++;
       if (after.character.combatXp === before.character.combatXp) losses++;
-      if (after.character.combatXp < before.character.combatXp) log.push(['REGRESSION', i]);
-      if (after.character.level < before.character.level) log.push(['LEVEL-LOSS', i]);
+      if (after.character.combatXp < before.character.combatXp)
+        log.push(['REGRESSION', i]);
+      if (after.character.level < before.character.level)
+        log.push(['LEVEL-LOSS', i]);
     }
     const s = qa.state();
     return {
@@ -70,7 +78,9 @@ try {
       losses,
       pacing: qa.pacing(),
       reveals: qa.reveals().length,
-      anomalies: log.filter((l) => l[0] === 'REGRESSION' || l[0] === 'LEVEL-LOSS'),
+      anomalies: log.filter(
+        (l) => l[0] === 'REGRESSION' || l[0] === 'LEVEL-LOSS',
+      ),
       trace: log,
     };
   });
@@ -79,5 +89,9 @@ try {
 } finally {
   await browser.close();
 }
-console.log(errors.length ? 'CONSOLE ERRORS:\n' + errors.join('\n') : 'no console errors.');
+console.log(
+  errors.length
+    ? 'CONSOLE ERRORS:\n' + errors.join('\n')
+    : 'no console errors.',
+);
 process.exitCode = errors.length ? 1 : 0;

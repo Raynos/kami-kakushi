@@ -20,7 +20,8 @@ const BAND_MAX_MS = 90000;
 
 const timedEntries = (rec: Readonly<Record<string, ActionTiming>>) =>
   Object.entries(rec).filter(
-    (e): e is [string, Extract<ActionTiming, { kind: 'timed' }>] => e[1].kind === 'timed',
+    (e): e is [string, Extract<ActionTiming, { kind: 'timed' }>] =>
+      e[1].kind === 'timed',
   );
 
 describe('action timing (ADR-148)', () => {
@@ -46,7 +47,13 @@ describe('action timing (ADR-148)', () => {
   it('trade/inventory intents are the locked INSTANT class', () => {
     // The ADR-148 lever: buying/selling is explicitly zero-second. Reclassifying
     // any of these to timed is a design change, not a tuning pass.
-    for (const type of ['sell_rice', 'buy_item', 'buy_belonging', 'deposit', 'withdraw'] as const)
+    for (const type of [
+      'sell_rice',
+      'buy_item',
+      'buy_belonging',
+      'deposit',
+      'withdraw',
+    ] as const)
       expect(INTENT_TIMING[type].kind, type).toBe('instant');
   });
 
@@ -59,7 +66,10 @@ describe('action timing (ADR-148)', () => {
     // Derived from MAP_NODES: a new edge without an EDGE_WALK_MS entry is RED.
     for (const n of MAP_NODES)
       for (const nb of n.neighbors) {
-        expect(EDGE_WALK_MS[edgeKey(n.id, nb)], `${n.id} ↔ ${nb}`).toBeGreaterThan(0);
+        expect(
+          EDGE_WALK_MS[edgeKey(n.id, nb)],
+          `${n.id} ↔ ${nb}`,
+        ).toBeGreaterThan(0);
       }
     // undirected: both directions read the same edge
     expect(walkMs('kura', 'forecourt')).toBe(walkMs('forecourt', 'kura'));
@@ -75,7 +85,9 @@ describe('action timing (ADR-148)', () => {
 
   it('timingFor routes do_activity to its per-activity entry', () => {
     for (const a of ACTIVITIES)
-      expect(timingFor('do_activity', { activityId: a.id })).toBe(ACTIVITY_TIMING[a.id]);
+      expect(timingFor('do_activity', { activityId: a.id })).toBe(
+        ACTIVITY_TIMING[a.id],
+      );
     // and falls back to the intent table without an activity
     expect(timingFor('rest')).toBe(INTENT_TIMING.rest);
   });

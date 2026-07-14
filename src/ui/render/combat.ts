@@ -25,7 +25,14 @@ import {
   type MobId,
   type StanceId,
 } from '../../core';
-import { el, pct, stampAct, STANCE_UI, AUTO_PAUSED_LABEL, AUTO_PAUSED_REASON } from '../render';
+import {
+  el,
+  pct,
+  stampAct,
+  STANCE_UI,
+  AUTO_PAUSED_LABEL,
+  AUTO_PAUSED_REASON,
+} from '../render';
 import { FLAVOR } from '../../core/content/flavor';
 import {
   reconcileList,
@@ -58,11 +65,19 @@ export function renderBestiary(container: HTMLElement, state: GameState): void {
   for (const e of entries) {
     const card = el('div', 'foe-row frame bestiary-card');
     const head = el('div', 'skill-head');
-    head.append(el('span', 'skill-name', e.seen ? `${e.mob.label} ${e.mob.kanji}` : 'Unknown foe'));
+    head.append(
+      el(
+        'span',
+        'skill-name',
+        e.seen ? `${e.mob.label} ${e.mob.kanji}` : 'Unknown foe',
+      ),
+    );
     const wr = el('span', 'win-rate');
     if (e.seen) {
-      const tier = e.winRate >= 0.55 ? 'good' : e.winRate >= 0.28 ? 'fair' : 'risky';
-      const word = tier === 'good' ? 'Steady' : tier === 'fair' ? 'Even' : 'Risky';
+      const tier =
+        e.winRate >= 0.55 ? 'good' : e.winRate >= 0.28 ? 'fair' : 'risky';
+      const word =
+        tier === 'good' ? 'Steady' : tier === 'fair' ? 'Even' : 'Risky';
       const pip = el('span', `pip ${tier}`, '◆');
       pip.setAttribute('aria-hidden', 'true');
       wr.append(pip, document.createTextNode(` ${pct(e.winRate)} · ${word}`));
@@ -83,7 +98,11 @@ export function renderBestiary(container: HTMLElement, state: GameState): void {
       meta.append(el('span', undefined, `Haunts — ${where}`));
       card.append(meta);
     } else {
-      const fog = el('div', 'skill-blurb', 'A beast you have not yet met. Face it to record it.');
+      const fog = el(
+        'div',
+        'skill-blurb',
+        'A beast you have not yet met. Face it to record it.',
+      );
       fog.style.color = 'var(--ink-faint)';
       card.append(fog);
     }
@@ -114,7 +133,8 @@ export function patchWinRate(
   const txt = wr.querySelector<HTMLElement>('.wr-text')!;
   if (seen) {
     const tier = winRate >= 0.55 ? 'good' : winRate >= 0.28 ? 'fair' : 'risky';
-    const word = tier === 'good' ? 'Steady' : tier === 'fair' ? 'Even' : 'Risky';
+    const word =
+      tier === 'good' ? 'Steady' : tier === 'fair' ? 'Even' : 'Risky';
     setPipClass(pip, tier);
     setText(pip, '◆');
     setText(txt, ` ${pct(winRate)} · ${word}`);
@@ -155,7 +175,12 @@ export function patchBestiaryCard(
     card.querySelector('.skill-name')!,
     seen ? `${e.mob.label} ${e.mob.kanji}` : 'Unknown foe',
   );
-  patchWinRate(card.querySelector('.win-rate')!, seen, e.winRate, ' Not yet faced');
+  patchWinRate(
+    card.querySelector('.win-rate')!,
+    seen,
+    e.winRate,
+    ' Not yet faced',
+  );
   const blurb = card.querySelector<HTMLElement>('.bestiary-blurb')!;
   const meta = card.querySelector<HTMLElement>('.bestiary-meta')!;
   const fog = card.querySelector<HTMLElement>('.bestiary-fog')!;
@@ -203,13 +228,20 @@ export function createCombatView(ctx: {
     const paused = autoOn && ctx.isPaused(); // an armed auto-fight says WHY it isn't swinging
     setClass(toggles[0]!, 'on', deathOn);
     setClass(toggles[0]!, 'waiting', deathOn && paused);
-    setText(toggles[0]!, deathOn ? (paused ? AUTO_PAUSED_LABEL : '■ stop') : '▶ auto · to the end');
+    setText(
+      toggles[0]!,
+      deathOn ? (paused ? AUTO_PAUSED_LABEL : '■ stop') : '▶ auto · to the end',
+    );
     setTitle(toggles[0]!, deathOn && paused ? AUTO_PAUSED_REASON : '');
     setClass(toggles[1]!, 'on', retreatOn);
     setClass(toggles[1]!, 'waiting', retreatOn && paused);
     setText(
       toggles[1]!,
-      retreatOn ? (paused ? AUTO_PAUSED_LABEL : '■ stop') : '▶ auto · flee @20%',
+      retreatOn
+        ? paused
+          ? AUTO_PAUSED_LABEL
+          : '■ stop'
+        : '▶ auto · flee @20%',
     );
     setTitle(toggles[1]!, retreatOn && paused ? AUTO_PAUSED_REASON : '');
   }
@@ -249,7 +281,9 @@ export function createCombatView(ctx: {
     const ctrl = el('div', 'labour-row');
     const fight = el('button', 'verb', 'Fight');
     fight.type = 'button';
-    fight.addEventListener('click', () => dispatch({ type: 'fight', mobId: mob }));
+    fight.addEventListener('click', () =>
+      dispatch({ type: 'fight', mobId: mob }),
+    );
     const atDeath = el('button', 'auto-toggle');
     atDeath.type = 'button';
     atDeath.title =
@@ -259,17 +293,32 @@ export function createCombatView(ctx: {
       `Auto-fight the ${fc.mob.label} to the end — a loss costs coin + rice`,
     );
     atDeath.addEventListener('click', () => {
-      const on = ctx.lastState()?.autoCombat === mob && !ctx.lastState()!.autoCombatRetreat;
-      dispatch({ type: 'set_auto_combat', mobId: on ? null : mob, retreat: false });
+      const on =
+        ctx.lastState()?.autoCombat === mob &&
+        !ctx.lastState()!.autoCombatRetreat;
+      dispatch({
+        type: 'set_auto_combat',
+        mobId: on ? null : mob,
+        retreat: false,
+      });
     });
     const atFlee = el('button', 'auto-toggle');
     atFlee.type = 'button';
     atFlee.title =
       'Auto-fight, but break off when HP falls below 20% (a fast foe can still kill you first).';
-    atFlee.setAttribute('aria-label', `Auto-fight the ${fc.mob.label}, fleeing below 20% HP`);
+    atFlee.setAttribute(
+      'aria-label',
+      `Auto-fight the ${fc.mob.label}, fleeing below 20% HP`,
+    );
     atFlee.addEventListener('click', () => {
-      const on = ctx.lastState()?.autoCombat === mob && ctx.lastState()!.autoCombatRetreat === true;
-      dispatch({ type: 'set_auto_combat', mobId: on ? null : mob, retreat: true });
+      const on =
+        ctx.lastState()?.autoCombat === mob &&
+        ctx.lastState()!.autoCombatRetreat === true;
+      dispatch({
+        type: 'set_auto_combat',
+        mobId: on ? null : mob,
+        retreat: true,
+      });
     });
     ctrl.append(fight, atDeath, atFlee);
     row.append(ctrl);
@@ -290,7 +339,9 @@ export function createCombatView(ctx: {
     btn.setAttribute('aria-label', `${ui.gloss} stance — ${trade}. ${ui.hint}`);
     btn.append(el('span', 'stance-label', `${ui.kanji} ${ui.gloss}`));
     btn.append(el('span', 'stance-wear', trade));
-    btn.addEventListener('click', () => dispatch({ type: 'set_stance', stance: s }));
+    btn.addEventListener('click', () =>
+      dispatch({ type: 'set_stance', stance: s }),
+    );
     return btn;
   }
 
@@ -379,12 +430,17 @@ export function createCombatView(ctx: {
     );
     // HD-23 (option C) — see the incremental path: a diegetic lock-hint when the blade is worn but
     // repair (R4) isn't yet the player's. Mirrored here for DEV-wholesale parity.
-    if (!isUnlocked(state, 'verb-repair') && (band.name === 'Battered' || band.name === 'Broken')) {
+    if (
+      !isUnlocked(state, 'verb-repair') &&
+      (band.name === 'Battered' || band.name === 'Broken')
+    ) {
       wc.append(
         el(
           'div',
           'lock-hint',
-          __DEV_TOOLS__ && dev ? dev.subFlavor('mendHint', FLAVOR.mendHint) : FLAVOR.mendHint,
+          __DEV_TOOLS__ && dev
+            ? dev.subFlavor('mendHint', FLAVOR.mendHint)
+            : FLAVOR.mendHint,
         ),
       );
     }
@@ -404,18 +460,27 @@ export function createCombatView(ctx: {
     }
     if (showEquip) {
       for (const w of WEAPONS) {
-        const owned = w.id === 'carrying_pole' || hasFlag(state, `crafted-${w.id}`);
+        const owned =
+          w.id === 'carrying_pole' || hasFlag(state, `crafted-${w.id}`);
         if (!owned || w.id === state.equippedWeapon) continue;
-        const eq = el('button', 'auto-toggle', `Take up · ${w.label} ${w.kanji}`);
+        const eq = el(
+          'button',
+          'auto-toggle',
+          `Take up · ${w.label} ${w.kanji}`,
+        );
         eq.type = 'button';
-        eq.addEventListener('click', () => dispatch({ type: 'equip_weapon', weaponId: w.id }));
+        eq.addEventListener('click', () =>
+          dispatch({ type: 'equip_weapon', weaponId: w.id }),
+        );
         wctrl.append(eq);
       }
     }
     if (wctrl.childElementCount > 0) wc.append(wctrl);
     combatPane.append(wc);
 
-    const recipe = RECIPES.find((r) => !hasFlag(state, `crafted-${r.outputWeapon}`));
+    const recipe = RECIPES.find(
+      (r) => !hasFlag(state, `crafted-${r.outputWeapon}`),
+    );
     const hasMaterial = MATERIALS.some((m) => (state.resources[m.id] ?? 0) > 0);
     if (showEquip && recipe && hasMaterial) {
       const cc = el('div', 'weapon-card frame craft-card');
@@ -427,13 +492,25 @@ export function createCombatView(ctx: {
           'Strip what the carcasses give up, then forge a real edge at the woodlot smithy — found and made, not tossed off a rack.',
         ),
       );
-      if (!(__DEV_TOOLS__ && dev && dev.renderVariant('craft', cc, state, dispatch))) {
+      if (
+        !(
+          __DEV_TOOLS__ &&
+          dev &&
+          dev.renderVariant('craft', cc, state, dispatch)
+        )
+      ) {
         for (const [mat, need] of Object.entries(recipe.inputs)) {
           const have = state.resources[mat] ?? 0;
           const m = getMaterial(mat);
           const row = el('div', 'craft-mat');
           row.append(el('span', 'craft-mat-name', `${m.label} ${m.kanji}`));
-          row.append(el('span', `craft-mat-count${have >= need ? ' ok' : ''}`, `${have}/${need}`));
+          row.append(
+            el(
+              'span',
+              `craft-mat-count${have >= need ? ' ok' : ''}`,
+              `${have}/${need}`,
+            ),
+          );
           cc.append(row);
         }
       }
@@ -453,7 +530,8 @@ export function createCombatView(ctx: {
     if (isUnlocked(state, 'stance-control')) {
       const stanceRow = el('div', 'stance-row');
       stanceRow.append(el('h3', undefined, 'Stance 構え'));
-      for (const s of STANCE_ORDER) stanceRow.append(patchStanceReady(buildStanceBtn(s), s, state));
+      for (const s of STANCE_ORDER)
+        stanceRow.append(patchStanceReady(buildStanceBtn(s), s, state));
       combatPane.append(stanceRow);
     }
 
@@ -479,16 +557,22 @@ export function createCombatView(ctx: {
 
   // apply the current-render stance selection to a freshly-built stance button (shared by the
   // wholesale DEV path + the incremental patch).
-  function patchStanceReady(btn: HTMLElement, s: StanceId, state: GameState): HTMLElement {
+  function patchStanceReady(
+    btn: HTMLElement,
+    s: StanceId,
+    state: GameState,
+  ): HTMLElement {
     const on = state.stance === s;
     setClass(btn, 'on', on);
     const pressed = String(on);
-    if (btn.getAttribute('aria-pressed') !== pressed) btn.setAttribute('aria-pressed', pressed);
+    if (btn.getAttribute('aria-pressed') !== pressed)
+      btn.setAttribute('aria-pressed', pressed);
     return btn;
   }
 
   function renderCombat(state: GameState): void {
-    const show = ctx.activeTab() === 'combat' && isUnlocked(state, 'tab-combat');
+    const show =
+      ctx.activeTab() === 'combat' && isUnlocked(state, 'tab-combat');
     toggle(combatPane, show);
     if (!show) return;
     // DEV variant sessions keep the wholesale rebuild (the craft/bestiary variant toggles need a
@@ -530,7 +614,9 @@ export function createCombatView(ctx: {
       const repairBtn = el('button', 'auto-toggle');
       repairBtn.type = 'button';
       stampAct(repairBtn, 'repair_weapon');
-      repairBtn.addEventListener('click', () => dispatch({ type: 'repair_weapon' }));
+      repairBtn.addEventListener('click', () =>
+        dispatch({ type: 'repair_weapon' }),
+      );
       wctrl.append(repairBtn);
       wc.append(wctrl);
 
@@ -544,7 +630,14 @@ export function createCombatView(ctx: {
       );
       const watchList = el('div', 'combat-group');
 
-      combatPane.append(xpCard, wc, craftHost, watchHead, watchEmpty, watchList);
+      combatPane.append(
+        xpCard,
+        wc,
+        craftHost,
+        watchHead,
+        watchEmpty,
+        watchList,
+      );
       combatRefs = {
         xpNow,
         xpFill,
@@ -589,14 +682,17 @@ export function createCombatView(ctx: {
     // HD-23 (option C) — R3 has no mend path (verb-repair reveals at R4). When the blade is worn AND
     // repair isn't yet the player's, a diegetic lock-hint says the mend exists but is earned, not asked.
     const wornNoMend =
-      !isUnlocked(state, 'verb-repair') && (band.name === 'Battered' || band.name === 'Broken');
+      !isUnlocked(state, 'verb-repair') &&
+      (band.name === 'Battered' || band.name === 'Broken');
     toggle(r.wcHint, wornNoMend);
     // The line is FB-5 canon (FLAVOR.mendHint); in DEV the story set-switcher can swap it live
     // for an HR-10 alternate (ADR-139) — the weapon-card patches each render, so no epoch key needed.
     if (wornNoMend)
       setText(
         r.wcHint,
-        __DEV_TOOLS__ && dev ? dev.subFlavor('mendHint', FLAVOR.mendHint) : FLAVOR.mendHint,
+        __DEV_TOOLS__ && dev
+          ? dev.subFlavor('mendHint', FLAVOR.mendHint)
+          : FLAVOR.mendHint,
       );
     toggle(r.repairBtn, showRepair);
     if (showRepair) {
@@ -604,7 +700,10 @@ export function createCombatView(ctx: {
         r.repairBtn,
         `Repair (${balance.REPAIR_WOOD_COST} wood, ${formatCoin(balance.REPAIR_COIN_COST)})`,
       );
-      setDisabled(r.repairBtn, (state.resources.wood ?? 0) < balance.REPAIR_WOOD_COST);
+      setDisabled(
+        r.repairBtn,
+        (state.resources.wood ?? 0) < balance.REPAIR_WOOD_COST,
+      );
       const title = `${balance.REPAIR_WOOD_COST} wood + up to ${formatCoin(balance.REPAIR_COIN_COST)} (waived if you're short)`;
       if (r.repairBtn.title !== title) r.repairBtn.title = title;
     }
@@ -620,9 +719,15 @@ export function createCombatView(ctx: {
     reconcileList(r.wctrl, equippable, {
       key: (w) => w.id,
       build: (w) => {
-        const eq = el('button', 'auto-toggle', `Take up · ${w.label} ${w.kanji}`);
+        const eq = el(
+          'button',
+          'auto-toggle',
+          `Take up · ${w.label} ${w.kanji}`,
+        );
         eq.type = 'button';
-        eq.addEventListener('click', () => dispatch({ type: 'equip_weapon', weaponId: w.id }));
+        eq.addEventListener('click', () =>
+          dispatch({ type: 'equip_weapon', weaponId: w.id }),
+        );
         return eq;
       },
       order: true,
@@ -630,7 +735,9 @@ export function createCombatView(ctx: {
     toggle(r.wctrl, showRepair || equippable.length > 0);
 
     // ── loot→craft card (0-or-1, keyed by recipe.id so it rebuilds only when the recipe advances) ──
-    const recipe = RECIPES.find((rc) => !hasFlag(state, `crafted-${rc.outputWeapon}`));
+    const recipe = RECIPES.find(
+      (rc) => !hasFlag(state, `crafted-${rc.outputWeapon}`),
+    );
     const hasMaterial = MATERIALS.some((m) => (state.resources[m.id] ?? 0) > 0);
     const craftItems = showEquip && recipe && hasMaterial ? [recipe] : [];
     toggle(r.craftHost, craftItems.length > 0);

@@ -197,7 +197,12 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         voice: 'narrator',
         text: 'Kihei crouches at the sill a long time, reading the blood the way Genemon reads a column of figures. The trail goes west, into the trees, in drops that get no smaller.',
       },
-      { id: 'alive-good', voice: 'arms', speaker: NPC_NAME.kihei, text: '"…Alive. Good."' },
+      {
+        id: 'alive-good',
+        voice: 'arms',
+        speaker: NPC_NAME.kihei,
+        text: '"…Alive. Good."',
+      },
       {
         id: 'for-a-moment-there-is-more',
         voice: 'narrator',
@@ -313,7 +318,8 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
           id: 'r3-hold',
           label: '"It knows this door now. So do I. I\'ll be at the sill."',
           say: '"It knows this door now. So do I. I\'ll be at the sill."',
-          react: '"Then mend the bar before dark, and take the long spear this time. Eat first."',
+          react:
+            '"Then mend the bar before dark, and take the long spear this time. Eat first."',
           memory: [{ npc: 'kihei', warmthDelta: 1, regard: 'steady' }],
           flags: ['r3-hold'],
           statBonus: {
@@ -326,7 +332,8 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
           id: 'r3-mend',
           label: '"The bar first. Then the wolf."',
           say: '"The bar first. Then the wolf."',
-          react: '"The bar, the screen, then the tally. I will enter the wood against the house."',
+          react:
+            '"The bar, the screen, then the tally. I will enter the wood against the house."',
           reactNpc: 'genemon',
           memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'careful' }],
           flags: ['r3-mend'],
@@ -370,7 +377,11 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
         voice: 'player',
         text: '"Rats were in the store. Three nights, while I lay. A quarter-sack gone. Two more opened at the seam."',
       },
-      { id: 'the-watch-was-mine', voice: 'player', text: '"The watch was mine."' },
+      {
+        id: 'the-watch-was-mine',
+        voice: 'player',
+        text: '"The watch was mine."',
+      },
       {
         id: 'genemon-writes-before-he-answers-it',
         voice: 'narrator',
@@ -526,7 +537,9 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
           say: '"I lost the house rice."',
           react:
             '"The rice is Genemon\'s grief. Mine is the sill. Then carry it to this yard at dawn."',
-          memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'owned-the-loss' }],
+          memory: [
+            { npc: 'genemon', warmthDelta: 1, regard: 'owned-the-loss' },
+          ],
           flags: ['r4-the-rice'],
         },
         {
@@ -545,7 +558,12 @@ export const RUNG_BEATS: Partial<Record<RankId, RungScene>> = {
     rank: 'R6',
     voice: 'steward',
     speaker: 'genemon',
-    motivates: ['house-workshops', 'house-granary', 'tab-estate', 'panel-house-influence'],
+    motivates: [
+      'house-workshops',
+      'house-granary',
+      'tab-estate',
+      'panel-house-influence',
+    ],
     greeting: [
       {
         id: 'morning-the-forecourt-genemon-s-window',

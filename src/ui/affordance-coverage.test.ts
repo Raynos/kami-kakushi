@@ -19,7 +19,13 @@ import { createActionClock } from '../app/action-clock';
 import { validateEnvelope } from '../persistence/validate';
 import { migrate } from '../persistence/migrate';
 import { getFixtures } from '../fixtures';
-import { createInitialState, reduce, introSceneAt, type GameState, type Intent } from '../core';
+import {
+  createInitialState,
+  reduce,
+  introSceneAt,
+  type GameState,
+  type Intent,
+} from '../core';
 
 type IntentType = Intent['type'];
 
@@ -85,10 +91,13 @@ const NON_UI_INTENTS = [
 ] as const satisfies readonly IntentType[];
 
 // ── the exhaustiveness trip (compile-time, enforced by the typecheck gate) ──────
-type Classified = (typeof PLAYER_INTENTS)[number] | (typeof NON_UI_INTENTS)[number];
+type Classified =
+  | (typeof PLAYER_INTENTS)[number]
+  | (typeof NON_UI_INTENTS)[number];
 type Unclassified = Exclude<IntentType, Classified>; // a new intent lands here
 type Stale = Exclude<Classified, IntentType>; // a renamed/removed intent lands here
-const _everyIntentClassified: Unclassified extends never ? true : Unclassified = true;
+const _everyIntentClassified: Unclassified extends never ? true : Unclassified =
+  true;
 const _noStaleEntries: Stale extends never ? true : Stale = true;
 void _everyIntentClassified;
 void _noStaleEntries;
@@ -144,7 +153,9 @@ function sweep(state: GameState, seen: Set<IntentType>): void {
     for (let pass = 0; pass < 4; pass++) {
       // controls are <button>s PLUS role=button travel seals (the HR-7 survey-plan map wires
       // its SVG nodes as buttons — wireTravel — so the sweep must reach them too).
-      const buttons = [...document.querySelectorAll<HTMLElement>('button, [role="button"]')].filter(
+      const buttons = [
+        ...document.querySelectorAll<HTMLElement>('button, [role="button"]'),
+      ].filter(
         (b) =>
           !(b instanceof HTMLButtonElement && b.disabled) &&
           b.getAttribute('aria-disabled') !== 'true' &&
@@ -156,7 +167,8 @@ function sweep(state: GameState, seen: Set<IntentType>): void {
       );
       if (buttons.length === 0) break;
       for (const b of buttons) {
-        if (!b.isConnected || (b instanceof HTMLButtonElement && b.disabled)) continue;
+        if (!b.isConnected || (b instanceof HTMLButtonElement && b.disabled))
+          continue;
         clicked.add(b);
         b.dispatchEvent(new MouseEvent('click', { bubbles: true }));
       }
@@ -196,7 +208,9 @@ describe('intent → affordance coverage (the wiring-layer ratchet)', () => {
     // zoom/pan/fit controls call it on click — FB-339). Production already guards a
     // null CTM (`if (!m) return {x:0,y:0}`), so a null-returning stub is faithful:
     // the sweep just needs the click to DISPATCH, not to compute real zoom math.
-    (SVGElement.prototype as unknown as { getScreenCTM?: () => null }).getScreenCTM ??= () => null;
+    (
+      SVGElement.prototype as unknown as { getScreenCTM?: () => null }
+    ).getScreenCTM ??= () => null;
   });
 
   it('every player-facing intent is dispatched by some control, somewhere', () => {
@@ -223,7 +237,9 @@ describe('intent → affordance coverage (the wiring-layer ratchet)', () => {
 
     // two one-intent extensions past the registered waypoints:
     // inside the rung-beat VN (choose_rung_option lives there)
-    const inBeat = reduce(fixtureState('rung-beat-ready'), { type: 'begin_rung_beat' });
+    const inBeat = reduce(fixtureState('rung-beat-ready'), {
+      type: 'begin_rung_beat',
+    });
     sweep(inBeat, seen);
     // just past the ceremony (spend_attribute needs boon points to spend)
     sweep(reduce(fixtureState('pre-ascension'), { type: 'ascend' }), seen);
@@ -233,7 +249,10 @@ describe('intent → affordance coverage (the wiring-layer ratchet)', () => {
     // contract, not this one's). Each exists to ENABLE one tail affordance:
     const worn = fixtureState('worn-weapon-no-wood');
     // equip_weapon: a forged axe waiting in the rack beside the equipped pole
-    sweep({ ...worn, flags: { ...worn.flags, 'crafted-wood_axe': true } }, seen);
+    sweep(
+      { ...worn, flags: { ...worn.flags, 'crafted-wood_axe': true } },
+      seen,
+    );
     // craft_weapon: standing at the smithy (the woodlot) with the recipe's inputs on hand
     sweep(
       {
@@ -249,7 +268,11 @@ describe('intent → affordance coverage (the wiring-layer ratchet)', () => {
     // Yohei is present — his presence gates the whole market pane.)
     const gate = fixtureState('rice-at-gate');
     sweep(
-      { ...gate, clock: { ...gate.clock, day: 2 }, resources: { ...gate.resources, coin: 500 } },
+      {
+        ...gate,
+        clock: { ...gate.clock, day: 2 },
+        resources: { ...gate.resources, coin: 500 },
+      },
       seen,
     );
     // sleep (ADR-187): the day-skip is a HOME verb — the woodshed corner is the only bed in the
@@ -286,9 +309,19 @@ describe('intent → affordance coverage (the wiring-layer ratchet)', () => {
       seen,
     );
     // advance_scene_beat: a NARRATION-only scene live (the Autumn nengu frame) — its Continue.
-    sweep({ ...r5, sceneQueue: [], activeScene: { id: 'nengu-autumn-frame', beat: 0 } }, seen);
+    sweep(
+      {
+        ...r5,
+        sceneQueue: [],
+        activeScene: { id: 'nengu-autumn-frame', beat: 0 },
+      },
+      seen,
+    );
     // choose_scene_option: a DECISION scene live (the Count) — pick an option, then Continue.
-    sweep({ ...r5, sceneQueue: [], activeScene: { id: 'count', beat: 0 } }, seen);
+    sweep(
+      { ...r5, sceneQueue: [], activeScene: { id: 'count', beat: 0 } },
+      seen,
+    );
 
     const missing = PLAYER_INTENTS.filter((t) => !seen.has(t));
     expect(

@@ -6,7 +6,14 @@
 // (spec §3 L1/L2/L7). Baselines are drawn WEST→EAST (left→right); hills stack screen-up.
 
 import { brushStroke, hatchArea, inkLine, rng, sv, wash } from './brush';
-import { along, normalAt, offsetPolyline, polyLen, resample, type Pt } from './geom';
+import {
+  along,
+  normalAt,
+  offsetPolyline,
+  polyLen,
+  resample,
+  type Pt,
+} from './geom';
 
 // ── internals ────────────────────────────────────────────────────────────────
 
@@ -31,9 +38,11 @@ function pickProfile(r: () => number): (t: number) => number {
   if (kind === 3) {
     const a2 = Math.min(0.9, apex + 0.28 + r() * 0.18);
     const h2 = 0.6 + r() * 0.28;
-    return (t) => Math.max(bell(t, apex, sharp + 0.6), h2 * bell(t, a2, sharp + 0.6));
+    return (t) =>
+      Math.max(bell(t, apex, sharp + 0.6), h2 * bell(t, a2, sharp + 0.6));
   }
-  return (t) => bell(t, apex, 0.8) ** 1.4 * (0.92 + 0.08 * Math.sin(t * Math.PI));
+  return (t) =>
+    bell(t, apex, 0.8) ** 1.4 * (0.92 + 0.08 * Math.sin(t * Math.PI));
 }
 
 interface HillArgs {
@@ -101,7 +110,10 @@ function drawHill(g: SVGElement, a: HillArgs): void {
     const i1 = n - Math.round(n * (0.09 + r() * 0.13));
     const echo: Pt[] = [];
     for (let i = i0; i <= i1; i++)
-      echo.push([crest[0] + (sil[i]![0] - crest[0]) * f, crest[1] + (sil[i]![1] - crest[1]) * f]);
+      echo.push([
+        crest[0] + (sil[i]![0] - crest[0]) * f,
+        crest[1] + (sil[i]![1] - crest[1]) * f,
+      ]);
     inkLine(g, echo, {
       seed: `${a.seed}:e${k}`,
       w: (1.3 + a.depth * 0.4) * (1 - (k - 1) * 0.16),
@@ -119,7 +131,9 @@ function drawHill(g: SVGElement, a: HillArgs): void {
     for (let i = ci; i !== iFoot; i += a.shadow) half.push(sil[i]!);
     half.push(sil[iFoot]!);
     half.push([crest[0] - up[0] * best, crest[1] - up[1] * best]);
-    const ang = (Math.atan2(sil[iFoot]![1] - crest[1], sil[iFoot]![0] - crest[0]) * 180) / Math.PI;
+    const ang =
+      (Math.atan2(sil[iFoot]![1] - crest[1], sil[iFoot]![0] - crest[0]) * 180) /
+      Math.PI;
     hatchArea(g, half, {
       seed: `${a.seed}:shade`,
       angle: ang,
@@ -199,7 +213,11 @@ export interface HillRangeOpts {
  *  strokes — in 2–3 depth rows over a faint under-wash, nearer scales occluding the
  *  farther. Silhouette family, size, and lean jitter per hill so nothing reads
  *  stamped. This fills the sheet's north with PLACE, never a polyline (spec L7). */
-export function hillRange(parent: SVGElement, baseline: readonly Pt[], o: HillRangeOpts): void {
+export function hillRange(
+  parent: SVGElement,
+  baseline: readonly Pt[],
+  o: HillRangeOpts,
+): void {
   if (baseline.length < 2) return;
   const rows = Math.max(1, Math.min(4, Math.round(o.rows ?? 3)));
   const scale = o.scale ?? 1;
@@ -220,7 +238,8 @@ export function hillRange(parent: SVGElement, baseline: readonly Pt[], o: HillRa
     const [nx, ny] = normalAt(rs, i);
     // taper the mass to nothing at both ends — no vertical wall seams
     const edge = Math.min(1, i / 2.2, (rs.length - 1 - i) / 2.2);
-    const lift = ((rows - 1) * liftStep + (26 + rm() * 52) * scale) * (0.12 + 0.88 * edge);
+    const lift =
+      ((rows - 1) * liftStep + (26 + rm() * 52) * scale) * (0.12 + 0.88 * edge);
     massTop.push([rs[i]![0] - nx * lift, rs[i]![1] - ny * lift]);
   }
   const massBot = offsetPolyline(rs, 22 * scale).reverse();
@@ -248,7 +267,15 @@ export function hillRange(parent: SVGElement, baseline: readonly Pt[], o: HillRa
       const up: Pt = [tj[1], -tj[0]];
       const wobbleLift = lift + (r() - 0.5) * 10 * scale;
       const base: Pt = [p[0] + up[0] * wobbleLift, p[1] + up[1] * wobbleLift];
-      drawHill(g, { base, tan: tj, hw, h, depth, shadow, seed: `${o.seed}:r${row}h${idx}` });
+      drawHill(g, {
+        base,
+        tan: tj,
+        hw,
+        h,
+        depth,
+        shadow,
+        seed: `${o.seed}:r${row}h${idx}`,
+      });
       dist += hw * (0.9 + r() * 0.55);
       idx++;
     }
@@ -267,7 +294,11 @@ export interface HachureOpts {
  *  a scarp or bank edge. Length, angle, and spacing all jitter, long-short alternation
  *  plus dropped ticks give the hand's rhythm; deliberately SUBORDINATE to hillRange
  *  (an accent mark, fine-weight ink, never a structure line — spec L7). */
-export function hachureBand(parent: SVGElement, pts: readonly Pt[], o: HachureOpts): void {
+export function hachureBand(
+  parent: SVGElement,
+  pts: readonly Pt[],
+  o: HachureOpts,
+): void {
   if (pts.length < 2) return;
   const r = rng(o.seed);
   const side = o.side ?? 1;
@@ -299,7 +330,10 @@ export function hachureBand(parent: SVGElement, pts: readonly Pt[], o: HachureOp
       g,
       [
         [x0, y0],
-        [(x0 + ex) / 2 + tx * tickLen * 0.12, (y0 + ey) / 2 + ty * tickLen * 0.12],
+        [
+          (x0 + ex) / 2 + tx * tickLen * 0.12,
+          (y0 + ey) / 2 + ty * tickLen * 0.12,
+        ],
         [ex, ey],
       ],
       {
@@ -321,7 +355,11 @@ export interface RidgeLineOpts {
  *  Period maps mark these with a single pressed brush line that swells in the belly
  *  and dries out at the tail; a few faint settling ticks under it keep it reading as
  *  ground rather than a stray scratch. */
-export function ridgeLine(parent: SVGElement, pts: readonly Pt[], o: RidgeLineOpts): void {
+export function ridgeLine(
+  parent: SVGElement,
+  pts: readonly Pt[],
+  o: RidgeLineOpts,
+): void {
   if (pts.length < 2) return;
   const w = o.w ?? 2.2;
   const g = sv('g', { class: 'ms-ridge' });
@@ -355,7 +393,13 @@ export function ridgeLine(parent: SVGElement, pts: readonly Pt[], o: RidgeLineOp
         [p[0] + dx * 2, p[1] + dy * 2],
         [p[0] + dx * (2 + tickLen), p[1] + dy * (2 + tickLen)],
       ],
-      { seed: `${o.seed}:tk${i}`, w: 0.95, color: 'var(--ink-soft)', amp: 0.6, opacity: 0.8 },
+      {
+        seed: `${o.seed}:tk${i}`,
+        w: 0.95,
+        color: 'var(--ink-soft)',
+        amp: 0.6,
+        opacity: 0.8,
+      },
     );
   }
 }
@@ -382,5 +426,10 @@ export function groundWashBand(
   const step = Math.max(14, Math.min(44, perim / 24));
   const ring = resample([...poly, poly[0]!], step);
   if (ring.length > 1) ring.pop(); // wash() closes the path itself
-  wash(parent, ring, { seed: o.seed, fill: o.tone, opacity: o.opacity ?? 0.5, amp: 6.5 });
+  wash(parent, ring, {
+    seed: o.seed,
+    fill: o.tone,
+    opacity: o.opacity ?? 0.5,
+    amp: 6.5,
+  });
 }

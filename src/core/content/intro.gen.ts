@@ -101,7 +101,12 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         speaker: NPC_NAME.genemon,
         text: '"The weir man. Sōan — can he work?"',
       },
-      { id: 'ask-him', voice: 'physician', speaker: NPC_NAME.soan, text: '"Ask him."' },
+      {
+        id: 'ask-him',
+        voice: 'physician',
+        speaker: NPC_NAME.soan,
+        text: '"Ask him."',
+      },
       {
         id: 'name-age-where-from-in-that',
         voice: 'steward',
@@ -135,7 +140,12 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
         voice: 'narrator',
         text: 'Genemon does not look surprised. He looks down and writes, and reads it back as he writes, aloud and once.',
       },
-      { id: 'daybook', voice: 'steward', speaker: NPC_NAME.genemon, text: COLD_OPEN.daybook },
+      {
+        id: 'daybook',
+        voice: 'steward',
+        speaker: NPC_NAME.genemon,
+        text: COLD_OPEN.daybook,
+      },
       {
         id: 'when-he-can-stand-he-rakes',
         voice: 'steward',
@@ -196,7 +206,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           react:
             "You tie it in the cord of your own bedding: a carrier's hitch, fast and one-handed, twice. Sōan watches it both times. He does not write it down while you are looking.",
           stat: { up: 'agi', down: 'int' },
-          perk: { name: "The Carrier's Hitch", desc: 'fast, one-handed, holds wet.' },
+          perk: {
+            name: "The Carrier's Hitch",
+            desc: 'fast, one-handed, holds wet.',
+          },
           memory: { npc: 'soan', regard: 'noted', warmth: 1 },
         },
         {
@@ -206,7 +219,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           react:
             '"Can you stand? Then the rake is by the door, and the well is past the kitchen. Water first — the kitchen never has enough. Come back when something bleeds."',
           stat: { up: 'str', down: 'luck' },
-          perk: { name: 'The Well Yoke', desc: 'a load the shoulders carry before it is asked.' },
+          perk: {
+            name: 'The Well Yoke',
+            desc: 'a load the shoulders carry before it is asked.',
+          },
           memory: { npc: 'soan', regard: 'plain', warmth: 0 },
         },
         {
@@ -216,7 +232,10 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
           react:
             '"Day four, by mine. Yours can start where you like. Mark the post — notches hold."',
           stat: { up: 'int', down: 'agi' },
-          perk: { name: 'The Notched Post', desc: 'a day cut where fever cannot blur it.' },
+          perk: {
+            name: 'The Notched Post',
+            desc: 'a day cut where fever cannot blur it.',
+          },
           memory: { npc: 'soan', regard: 'methodical', warmth: 0 },
         },
       ],
@@ -288,7 +307,8 @@ export const DIALOGUE_SCENES: readonly DialogueScene[] = [
       },
     ],
     decision: {
-      prompt: 'The brush waits over the condition column. How do you answer the steward?',
+      prompt:
+        'The brush waits over the condition column. How do you answer the steward?',
       options: [
         {
           id: 'genemon-earnest',

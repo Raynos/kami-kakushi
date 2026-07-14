@@ -10,7 +10,11 @@ import type { EconomySnapshot } from './milestones';
 
 const MIN = 60_000;
 
-const seg = (start: number, end: number, closer: Segment['closer']): Segment => ({
+const seg = (
+  start: number,
+  end: number,
+  closer: Segment['closer'],
+): Segment => ({
   start,
   end,
   activeMs: end - start,
@@ -19,7 +23,10 @@ const seg = (start: number, end: number, closer: Segment['closer']): Segment => 
   closer,
 });
 
-const snap = (rung: EconomySnapshot['rung'], tGame: number): EconomySnapshot => ({
+const snap = (
+  rung: EconomySnapshot['rung'],
+  tGame: number,
+): EconomySnapshot => ({
   rung,
   tier: 0,
   tGame,
@@ -41,12 +48,22 @@ function record(taints: string[] = []): RunRecord {
     milestones: [
       // R0 cleared after 4.2 attended minutes, R1 after 10.2 (Δ = 6.0).
       {
-        event: { kind: 'rung-up', from: 'R0', to: 'R1', snapshot: snap('R1', 38) },
+        event: {
+          kind: 'rung-up',
+          from: 'R0',
+          to: 'R1',
+          snapshot: snap('R1', 38),
+        },
         attendedMs: 4.2 * MIN,
         wallMs: 5 * MIN,
       },
       {
-        event: { kind: 'rung-up', from: 'R1', to: 'R2', snapshot: snap('R2', 98) },
+        event: {
+          kind: 'rung-up',
+          from: 'R1',
+          to: 'R2',
+          snapshot: snap('R2', 98),
+        },
         attendedMs: 10.2 * MIN,
         wallMs: 12 * MIN,
       },
@@ -79,7 +96,12 @@ describe('formatRunReport', () => {
       ...record(),
       milestones: [
         {
-          event: { kind: 'rung-up', from: 'R0', to: 'R1', snapshot: snap('R1', 4) },
+          event: {
+            kind: 'rung-up',
+            from: 'R0',
+            to: 'R1',
+            snapshot: snap('R1', 4),
+          },
           // Sanity: derived from the band floor, not a magic number — half the minimum.
           attendedMs: (balance.T0_PACING_BAND_MIN / 2) * MIN,
           wallMs: MIN,
@@ -93,7 +115,9 @@ describe('formatRunReport', () => {
   });
 
   it('a tainted run is labelled and drops the vs-sim/band columns', () => {
-    const out = formatRunReport(record(['speed>1', 'toRung']), [{ rung: 'R0', wallMin: 3.1 }]);
+    const out = formatRunReport(record(['speed>1', 'toRung']), [
+      { rung: 'R0', wallMin: 3.1 },
+    ]);
     expect(out).toContain('TAINTED: speed>1, toRung');
     const r0 = out.split('\n').find((l) => l.startsWith('R0'));
     expect(r0).toContain('tainted'); // the sim column refuses the comparison
@@ -101,7 +125,9 @@ describe('formatRunReport', () => {
   });
 
   it('a save-import run keeps the vs-sim comparison — origin mark, not a time taint', () => {
-    const out = formatRunReport(record(['save-import']), [{ rung: 'R0', wallMin: 3.1 }]);
+    const out = formatRunReport(record(['save-import']), [
+      { rung: 'R0', wallMin: 3.1 },
+    ]);
     expect(out).toContain('untainted · marked: save-import (origin unknown)');
     const r0 = out.split('\n').find((l) => l.startsWith('R0'));
     expect(r0).toContain('3.1'); // the sim column still compares
@@ -110,8 +136,12 @@ describe('formatRunReport', () => {
   });
 
   it('a time taint on top of an import still refuses the comparison', () => {
-    const out = formatRunReport(record(['save-import', 'speed>1']), [{ rung: 'R0', wallMin: 3.1 }]);
-    expect(out).toContain('TAINTED: speed>1 · marked: save-import (origin unknown)');
+    const out = formatRunReport(record(['save-import', 'speed>1']), [
+      { rung: 'R0', wallMin: 3.1 },
+    ]);
+    expect(out).toContain(
+      'TAINTED: speed>1 · marked: save-import (origin unknown)',
+    );
     const r0 = out.split('\n').find((l) => l.startsWith('R0'));
     expect(r0).toContain('tainted');
     expect(r0).not.toContain('3.1');

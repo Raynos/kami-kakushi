@@ -10,20 +10,32 @@ export {};
 
 import { readFileSync } from 'node:fs';
 
-const pkg = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')) as {
+const pkg = JSON.parse(
+  readFileSync(new URL('../../package.json', import.meta.url), 'utf8'),
+) as {
   version: string;
 };
 const { version } = pkg;
-const changelog = readFileSync(new URL('../../CHANGELOG.md', import.meta.url), 'utf8');
+const changelog = readFileSync(
+  new URL('../../CHANGELOG.md', import.meta.url),
+  'utf8',
+);
 
 // Keep-a-Changelog release headings look like:  ## [0.3.4] — 2026-07-02
 // Match the version in brackets at the start of a line, tolerant of the trailing " — <date>".
-const headingRe = new RegExp(`^##\\s*\\[${version.replace(/\./g, '\\.')}\\]`, 'm');
+const headingRe = new RegExp(
+  `^##\\s*\\[${version.replace(/\./g, '\\.')}\\]`,
+  'm',
+);
 
 if (!headingRe.test(changelog)) {
-  console.error(`  X verify-changelog: package.json is v${version}, but CHANGELOG.md has no`);
+  console.error(
+    `  X verify-changelog: package.json is v${version}, but CHANGELOG.md has no`,
+  );
   console.error(`    "## [${version}]" release section.`);
-  console.error(`    A version bump must be documented — add the entry (newest first,`);
+  console.error(
+    `    A version bump must be documented — add the entry (newest first,`,
+  );
   console.error(`    Keep-a-Changelog format). See CHANGELOG.md.`);
   process.exit(1);
 }

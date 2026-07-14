@@ -148,7 +148,8 @@ export function buildSettings(hooks: AppHooks): {
   const exportArea = el('textarea', 'save-area');
   exportArea.readOnly = true;
   exportArea.rows = 2;
-  exportArea.placeholder = 'Your exported save appears here — copy it somewhere safe.';
+  exportArea.placeholder =
+    'Your exported save appears here — copy it somewhere safe.';
   exportArea.id = 'save-export';
   exportArea.name = 'save-export';
   exportArea.setAttribute('aria-label', 'Exported save code');
@@ -213,15 +214,22 @@ export function buildSettings(hooks: AppHooks): {
       `Built agentically with Claude Code · ${__VERSION__} · build ${__BUILD_SHA__} · ${__BUILD_DATE__}`,
     ),
   );
-  aboutSec.append(el('p', 'modal-meta', 'Code: MIT. Game content: all rights reserved.'));
   aboutSec.append(
-    el('p', 'modal-meta', 'Content notes: mild thematic — child-disappearance, drowning, debt.'),
+    el('p', 'modal-meta', 'Code: MIT. Game content: all rights reserved.'),
+  );
+  aboutSec.append(
+    el(
+      'p',
+      'modal-meta',
+      'Content notes: mild thematic — child-disappearance, drowning, debt.',
+    ),
   );
   // FB-105 — deep-link to the raw CHANGELOG on GitHub (opens in a new tab); a raw-file link is fine per
   // the human's spec. The version's story is one click from the footer (FB-104 version → About → here).
   const changelogRow = el('p', 'modal-meta');
   const changelog = el('a', 'modal-link', 'Changelog') as HTMLAnchorElement;
-  changelog.href = 'https://raw.githubusercontent.com/Raynos/kami-kakushi/main/CHANGELOG.md';
+  changelog.href =
+    'https://raw.githubusercontent.com/Raynos/kami-kakushi/main/CHANGELOG.md';
   changelog.target = '_blank';
   changelog.rel = 'noopener noreferrer';
   changelogRow.append(document.createTextNode('Version history: '), changelog);

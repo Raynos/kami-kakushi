@@ -39,7 +39,9 @@ const ARCHIVE_LINK = /\]\((?:\.\.\/)?(?:project\/)?archive\//;
 const lines = readFileSync(FILE, 'utf8').split('\n');
 const failures: string[] = [];
 const fail = (i: number, msg: string) =>
-  failures.push(`  ${FILE}:${i + 1}\n      ${lines[i]!.trim().slice(0, 88)}\n    ^ ${msg}`);
+  failures.push(
+    `  ${FILE}:${i + 1}\n      ${lines[i]!.trim().slice(0, 88)}\n    ^ ${msg}`,
+  );
 
 let insec = false;
 let inEntry = false; // inside a `- [ ]` entry's continuation block
@@ -61,10 +63,16 @@ for (let i = 0; i < lines.length; i++) {
   } else if (/^- \[ \]/.test(line)) {
     inEntry = true;
     if (ARCHIVE_LINK.test(line)) {
-      fail(i, 'entry links into project/archive/ — an archived doc never belongs in the queue.');
+      fail(
+        i,
+        'entry links into project/archive/ — an archived doc never belongs in the queue.',
+      );
     }
   } else if (/^- /.test(line)) {
-    fail(i, 'plain bullet — queue entries are `- [ ]` checkboxes, or the brief cannot see them.');
+    fail(
+      i,
+      'plain bullet — queue entries are `- [ ]` checkboxes, or the brief cannot see them.',
+    );
     inEntry = false;
   } else if (/^[ \t]+\S/.test(line)) {
     if (!inEntry) {
@@ -73,7 +81,10 @@ for (let i = 0; i < lines.length; i++) {
         "orphan fragment — a wrapped entry was part-deleted; remove ALL of an entry's lines.",
       );
     } else if (ARCHIVE_LINK.test(line)) {
-      fail(i, 'entry links into project/archive/ — an archived doc never belongs in the queue.');
+      fail(
+        i,
+        'entry links into project/archive/ — an archived doc never belongs in the queue.',
+      );
     }
   } else {
     inEntry = false; // blank line or other top-level content ends the entry
@@ -81,7 +92,9 @@ for (let i = 0; i < lines.length; i++) {
 }
 
 if (failures.length > 0) {
-  console.error(`✗ human-todo: ${FILE} has ${failures.length} rot pattern(s):\n`);
+  console.error(
+    `✗ human-todo: ${FILE} has ${failures.length} rot pattern(s):\n`,
+  );
   console.error(failures.join('\n\n'));
   console.error(
     `\n  This file is what the session brief relays to the human every morning — rot here\n` +
@@ -93,4 +106,6 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`✓ human-todo: ${FILE} is tidy (no ticked/orphaned/archived/bare entries).`);
+console.log(
+  `✓ human-todo: ${FILE} is tidy (no ticked/orphaned/archived/bare entries).`,
+);

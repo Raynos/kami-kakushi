@@ -17,7 +17,8 @@ export function buildSettingsPane(opts: {
   const section = (title: string): HTMLElement => {
     const sec = el('div');
     const h = el('div', undefined, title);
-    h.style.cssText = 'color:#b08d4f;font-size:11px;text-transform:uppercase;margin-bottom:.2rem;';
+    h.style.cssText =
+      'color:#b08d4f;font-size:11px;text-transform:uppercase;margin-bottom:.2rem;';
     sec.append(h);
     const rows = el('div');
     rows.style.cssText = 'display:flex;flex-wrap:wrap;gap:.25rem;';
@@ -137,7 +138,8 @@ export function buildSettingsPane(opts: {
     line.dataset.sentinel = t.sentinel;
     const refresh = (): void => {
       const s = t.summary();
-      const taint = s.taints.length > 0 ? ` · TAINTED (${s.taints.join(', ')})` : '';
+      const taint =
+        s.taints.length > 0 ? ` · TAINTED (${s.taints.join(', ')})` : '';
       line.textContent = `${s.attendedMin} min attended (${s.activeMin} active / ${s.idleMin} idle) · now: ${s.class} · ${s.segments} seg${taint}`;
     };
     refresh();
@@ -146,7 +148,8 @@ export function buildSettingsPane(opts: {
     tele.append(mono('Drop report → project/telemetry/', () => t.drop()));
     tele.append(
       mono('Clear history', () => {
-        if (window.confirm('Clear ALL telemetry history (every stored run)?')) t.clear();
+        if (window.confirm('Clear ALL telemetry history (every stored run)?'))
+          t.clear();
       }),
     );
   }

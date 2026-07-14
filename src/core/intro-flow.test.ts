@@ -14,13 +14,17 @@ import {
   type GameState,
 } from './index';
 
-const wake = (seed = 1): GameState => reduce(createInitialState(seed), { type: 'open_eyes' });
+const wake = (seed = 1): GameState =>
+  reduce(createInitialState(seed), { type: 'open_eyes' });
 // HD-37: three beats again — derive a beat by ID + a walker that parks the run on it.
 const beatById = (id: string) => INTRO_BEATS.find((b) => b.id === id)!;
 const atBeat = (id: string, seed = 1): GameState => {
   let s = wake(seed);
   while (introActive(s.introBeat) && INTRO_BEATS[s.introBeat]!.id !== id) {
-    s = reduce(s, { type: 'choose_intro', optionId: INTRO_BEATS[s.introBeat]!.options![0]!.id });
+    s = reduce(s, {
+      type: 'choose_intro',
+      optionId: INTRO_BEATS[s.introBeat]!.options![0]!.id,
+    });
   }
   return s;
 };
@@ -45,8 +49,12 @@ describe('interactive intro — reducer flow (plan §3.5)', () => {
     const before = attrTotal(s);
     const after = reduce(s, { type: 'choose_intro', optionId: opt.id });
     // the DESIGN LEVER: the named up-attr rose by exactly 1, the down-attr fell by exactly 1
-    expect(after.character.attrs[opt.stat.up]).toBe((s.character.attrs[opt.stat.up] ?? 0) + 1);
-    expect(after.character.attrs[opt.stat.down]).toBe((s.character.attrs[opt.stat.down] ?? 0) - 1);
+    expect(after.character.attrs[opt.stat.up]).toBe(
+      (s.character.attrs[opt.stat.up] ?? 0) + 1,
+    );
+    expect(after.character.attrs[opt.stat.down]).toBe(
+      (s.character.attrs[opt.stat.down] ?? 0) - 1,
+    );
     // untouched attrs are unchanged
     for (const id of ATTR_IDS) {
       if (id !== opt.stat.up && id !== opt.stat.down) {
@@ -70,7 +78,9 @@ describe('interactive intro — reducer flow (plan §3.5)', () => {
     const outcome = after.log.entries.find((e) => e.channel === 'milestone');
     expect(outcome?.text).toBe(introPerkLine(opt));
     // and it is NOT emitted on the system channel anymore (the FB-41 relocation)
-    expect(after.log.entries.find((e) => e.channel === 'system')).toBeUndefined();
+    expect(
+      after.log.entries.find((e) => e.channel === 'system'),
+    ).toBeUndefined();
     // FB-56: that line carries the granted PERK — its name + standalone desc — plus the ±, not a bare delta.
     expect(outcome?.text).toContain(opt.perk.name);
     expect(outcome?.text).toContain(opt.perk.desc);
@@ -108,23 +118,34 @@ describe('interactive intro — reducer flow (plan §3.5)', () => {
     // pick the first option at each of the 3 beats
     for (let i = 0; i < INTRO_BEAT_COUNT; i++) {
       expect(s.introBeat).toBe(i);
-      s = reduce(s, { type: 'choose_intro', optionId: INTRO_BEATS[i]!.options![0]!.id });
+      s = reduce(s, {
+        type: 'choose_intro',
+        optionId: INTRO_BEATS[i]!.options![0]!.id,
+      });
     }
     expect(s.introBeat).toBe(INTRO_BEAT_COUNT); // cursor at length ⇒ intro done
     expect(introActive(s.introBeat)).toBe(false);
     // the tail revealed the closing narration and handed off: the rake verb is available
     expect(availableActions(s)).toContain('rake_rice');
     // a further choice/advance is a no-op once the intro is over
-    expect(reduce(s, { type: 'choose_intro', optionId: 'soan-grateful' })).toBe(s);
+    expect(reduce(s, { type: 'choose_intro', optionId: 'soan-grateful' })).toBe(
+      s,
+    );
     expect(reduce(s, { type: 'advance_intro' })).toBe(s);
   });
 
   it('choose_intro is a no-op for a foreign option id or when the intro is inactive', () => {
     const s = wake();
-    expect(reduce(s, { type: 'choose_intro', optionId: 'genemon-earnest' })).toBe(s); // wrong beat
-    expect(reduce(s, { type: 'choose_intro', optionId: 'no-such-option' })).toBe(s);
+    expect(
+      reduce(s, { type: 'choose_intro', optionId: 'genemon-earnest' }),
+    ).toBe(s); // wrong beat
+    expect(
+      reduce(s, { type: 'choose_intro', optionId: 'no-such-option' }),
+    ).toBe(s);
     const pre = createInitialState(1); // pre-wake ⇒ inactive
-    expect(reduce(pre, { type: 'choose_intro', optionId: 'soan-grateful' })).toBe(pre);
+    expect(
+      reduce(pre, { type: 'choose_intro', optionId: 'soan-grateful' }),
+    ).toBe(pre);
   });
 });
 
@@ -138,7 +159,10 @@ describe('per-NPC memory READ — a later Sōan line branches on regard (plan §
     // The dialogue greeting branches on regard === 'grateful' (warm) vs else (cool). The intro's
     // re-authored regards no longer include 'grateful', so the READ is exercised at its source: a
     // Sōan remembered as grateful surfaces the warm greeting (RED if the memGate branch breaks).
-    const s: GameState = { ...wake(), npcMemory: { soan: { regard: 'grateful', warmth: 1 } } };
+    const s: GameState = {
+      ...wake(),
+      npcMemory: { soan: { regard: 'grateful', warmth: 1 } },
+    };
     expect(npcRegard(s, 'soan')).toBe('grateful');
     expect(soanGreetIds(s)).toEqual(['soan-greet-grateful']);
   });
@@ -146,7 +170,10 @@ describe('per-NPC memory READ — a later Sōan line branches on regard (plan §
   it('any OTHER regard surfaces the COOL greeting — the branches are mutually exclusive', () => {
     // a REAL intro answer (the first Sōan option) leaves a non-grateful regard → the cool greeting.
     const opt = beatById('soan').options!.find((o) => o.memory)!;
-    const s = reduce(atBeat('soan'), { type: 'choose_intro', optionId: opt.id });
+    const s = reduce(atBeat('soan'), {
+      type: 'choose_intro',
+      optionId: opt.id,
+    });
     expect(npcRegard(s, 'soan')).toBe(opt.memory!.regard);
     expect(npcRegard(s, 'soan')).not.toBe('grateful');
     expect(soanGreetIds(s)).toEqual(['soan-greet-curt']);
@@ -162,7 +189,10 @@ describe('per-NPC memory READ — a later Sōan line branches on regard (plan §
     // a real (non-grateful) Sōan answer → cool; an earnest Genemon (seeded directly, so the
     // assertion is independent of the genemon beat's own options) must not warm the Sōan greeting.
     const soanOpt = beatById('soan').options!.find((o) => o.memory)!;
-    const s0 = reduce(atBeat('soan'), { type: 'choose_intro', optionId: soanOpt.id });
+    const s0 = reduce(atBeat('soan'), {
+      type: 'choose_intro',
+      optionId: soanOpt.id,
+    });
     const s = {
       ...s0,
       npcMemory: { ...s0.npcMemory, genemon: { regard: 'earnest', warmth: 1 } },

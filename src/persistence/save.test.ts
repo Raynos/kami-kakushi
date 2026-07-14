@@ -11,7 +11,9 @@ import {
 import { SaveManager, MemoryBackend, createMemorySaveManager } from './index';
 
 function sample(seed = 7): GameState {
-  return reduce(reduce(createInitialState(seed), { type: 'open_eyes' }), { type: 'rake_rice' });
+  return reduce(reduce(createInitialState(seed), { type: 'open_eyes' }), {
+    type: 'rake_rice',
+  });
 }
 
 // These round-trips assert VALUE identity (toEqual), not byte identity of the JSON. They used to
@@ -39,7 +41,9 @@ describe('multi-backend redundant save', () => {
     const rich: GameState = {
       ...sample(),
       tier: 1,
-      influence: { estate: { value: 312, highWater: 360, judged: 240, frac: 0.5 } },
+      influence: {
+        estate: { value: 312, highWater: 360, judged: 240, frac: 0.5 },
+      },
       quests: {
         accepted: ['crop-raiders'],
         progress: { 'crop-raiders': ['rout-monkey', 'mend-fence'] },
@@ -55,7 +59,10 @@ describe('multi-backend redundant save', () => {
     // and the new fields specifically survive (not just an incidental byte-match)
     expect(loaded!.state.tier).toBe(1);
     expect(loaded!.state.influence.estate.judged).toBe(240);
-    expect(loaded!.state.quests.progress['crop-raiders']).toEqual(['rout-monkey', 'mend-fence']);
+    expect(loaded!.state.quests.progress['crop-raiders']).toEqual([
+      'rout-monkey',
+      'mend-fence',
+    ]);
     expect(loaded!.state.marketBought['mountain-greens']).toBe(2);
     expect(loaded!.state.location).toBe('paddies');
   });
@@ -82,7 +89,10 @@ describe('multi-backend redundant save', () => {
 
   it('rejects a foreign / wrong-app blob to recovery', async () => {
     const backend = new MemoryBackend();
-    await backend.set('kk:save:1', JSON.stringify({ app: 'someone-else', state: {} }));
+    await backend.set(
+      'kk:save:1',
+      JSON.stringify({ app: 'someone-else', state: {} }),
+    );
     const mgr = new SaveManager({ backends: [backend], now: () => 1 });
     expect(await mgr.load()).toBeNull();
   });
@@ -203,7 +213,9 @@ describe('migration wiring + pre-migration backup', () => {
     // the old latch became the announce-once ceremony latch (lossless — no reveal re-plays)…
     expect(loaded!.state.seenReveals).toEqual(['verb-rake', 'readout-coin']);
     // …the visibility latch itself is GONE (visibility derives from facts now)…
-    expect('unlocked' in (loaded!.state as unknown as Record<string, unknown>)).toBe(false);
+    expect(
+      'unlocked' in (loaded!.state as unknown as Record<string, unknown>),
+    ).toBe(false);
     // …and the latched coin readout synthesized its entitling fact.
     expect(loaded!.state.flags['coin-earned']).toBe(true);
   });
@@ -233,7 +245,11 @@ describe('migration wiring + pre-migration backup', () => {
     const backend = new MemoryBackend();
     await backend.set(
       'kk:save:1',
-      JSON.stringify({ app: 'kami-kakushi', schemaVersion: SCHEMA_VERSION + 1, state: sample() }),
+      JSON.stringify({
+        app: 'kami-kakushi',
+        schemaVersion: SCHEMA_VERSION + 1,
+        state: sample(),
+      }),
     );
     const mgr = new SaveManager({ backends: [backend], now: () => 1 });
     expect(await mgr.load()).toBeNull();

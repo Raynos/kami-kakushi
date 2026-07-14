@@ -17,7 +17,11 @@ export type DiscoveryId = string;
 export type DiscoveryTrigger =
   /** Repeat-action unlock: each attempt of `activity` AT the discovery's node rolls the seeded
    *  chance (with the pity ramp — persistence pays without a hard wall). */
-  | { readonly kind: 'watch'; readonly activity: ActivityId; readonly chance: number }
+  | {
+      readonly kind: 'watch';
+      readonly activity: ActivityId;
+      readonly chance: number;
+    }
   /** The stumble: each arrival at the node rolls the seeded chance outright. */
   | { readonly kind: 'visit'; readonly chance: number };
 

@@ -50,7 +50,10 @@ export function visibleSet(state: GameState): ReadonlySet<SurfaceId> {
   for (let grew = true; grew; ) {
     grew = false;
     for (const s of SURFACES) {
-      if (!vis.has(s.id) && (grantedByRung(state, s.id) || s.unlock(state, vis))) {
+      if (
+        !vis.has(s.id) &&
+        (grantedByRung(state, s.id) || s.unlock(state, vis))
+      ) {
         vis.add(s.id);
         grew = true;
       }
@@ -95,7 +98,9 @@ const SPECIAL_FACTS: Readonly<Record<string, () => Record<string, boolean>>> = {
  * reveals: readout-body/rice, room-forecourt — set `awake` + `introBeat` instead),
  * so a caller can't silently under-specify.
  */
-export function factsForSurfaces(...ids: readonly SurfaceId[]): Record<string, boolean> {
+export function factsForSurfaces(
+  ...ids: readonly SurfaceId[]
+): Record<string, boolean> {
   const flags: Record<string, boolean> = {};
   for (const id of ids) {
     const rung = SURFACE_RUNG.get(id);
@@ -104,7 +109,8 @@ export function factsForSurfaces(...ids: readonly SurfaceId[]): Record<string, b
       continue;
     }
     const special = SPECIAL_FACTS[id];
-    if (!special) throw new Error(`factsForSurfaces: no flag facts entitle "${id}"`);
+    if (!special)
+      throw new Error(`factsForSurfaces: no flag facts entitle "${id}"`);
     Object.assign(flags, special());
   }
   return flags;
@@ -143,8 +149,13 @@ export function zoneRevealMode(): ZoneRevealMode {
  * fact (a `rank-rN` flag, or an event flag a scene sets), so nothing un-reveals for an innocent
  * reason — and the scope is `room-*` only, so verbs/panels/readouts keep their latch untouched.
  */
-function rearmZoneReveals(state: GameState, vis: ReadonlySet<SurfaceId>): GameState {
-  const kept = state.seenReveals.filter((id) => !id.startsWith('room-') || vis.has(id));
+function rearmZoneReveals(
+  state: GameState,
+  vis: ReadonlySet<SurfaceId>,
+): GameState {
+  const kept = state.seenReveals.filter(
+    (id) => !id.startsWith('room-') || vis.has(id),
+  );
   if (kept.length === state.seenReveals.length) return state;
   return { ...state, seenReveals: kept };
 }

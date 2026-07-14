@@ -68,7 +68,8 @@ const countFor = (rung: GameState['rung'], token: string): number => {
   const targets = rungRequirements(rung)
     .filter((r) => r.type === 'count' && r.token === token)
     .map((r) => (r.type === 'count' ? r.target : 0));
-  if (targets.length === 0) throw new Error(`no count req for ${token} at ${rung}`);
+  if (targets.length === 0)
+    throw new Error(`no count req for ${token} at ${rung}`);
   return Math.max(...targets);
 };
 function haul(n: number): Intent[] {
@@ -79,8 +80,14 @@ function haul(n: number): Intent[] {
 }
 /** Drive the FULL R1 count set (farm the paddies + haul the forecourt), spatially. */
 function doR1Work(s: GameState): GameState {
-  s = run({ ...s, location: 'paddies' }, farm(countFor('R1', 'act:farm_paddy')));
-  s = run({ ...s, location: 'forecourt' }, haul(countFor('R1', 'act:haul_stores')));
+  s = run(
+    { ...s, location: 'paddies' },
+    farm(countFor('R1', 'act:farm_paddy')),
+  );
+  s = run(
+    { ...s, location: 'forecourt' },
+    haul(countFor('R1', 'act:haul_stores')),
+  );
   return s;
 }
 
@@ -91,7 +98,10 @@ function doR1Work(s: GameState): GameState {
 function finishIntro(s: GameState): GameState {
   while (introActive(s.introBeat)) {
     const scene = introSceneAt(s.introBeat)!;
-    s = reduce(s, { type: 'choose_intro', optionId: scene.decision.options[0]!.id });
+    s = reduce(s, {
+      type: 'choose_intro',
+      optionId: scene.decision.options[0]!.id,
+    });
   }
   return s;
 }
@@ -165,11 +175,15 @@ describe('T0 Phase-1 rung climb', () => {
         { ...t, location: 'woodlot' },
         Array.from(
           { length: countFor('R2', 'act:forage_satoyama') },
-          () => ({ type: 'do_activity', activityId: 'forage_satoyama' }) as Intent,
+          () =>
+            ({ type: 'do_activity', activityId: 'forage_satoyama' }) as Intent,
         ),
       );
     const haulR2 = (t: GameState): GameState =>
-      run({ ...t, location: 'forecourt' }, haul(countFor('R2', 'act:haul_stores')));
+      run(
+        { ...t, location: 'forecourt' },
+        haul(countFor('R2', 'act:haul_stores')),
+      );
     // woodcut + haul only (forage untouched) → the list is INCOMPLETE, so the gate holds.
     const partial = haulR2(woodcut(s));
     expect(promotionReady(partial)).toBe(false);
@@ -184,7 +198,16 @@ describe('T0 Phase-1 rung climb', () => {
 // M2·2 — the thin R4→R7 ladder closes T0: the capstone opens Phase 2 (the macro-pillar grind).
 describe('T0 ladder R4→R7 + the capstone (M2·2)', () => {
   it('the rung ladder is the contiguous T0 spine R0…R7', () => {
-    expect(RANKS.map((r) => r.id)).toEqual(['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7']);
+    expect(RANKS.map((r) => r.id)).toEqual([
+      'R0',
+      'R1',
+      'R2',
+      'R3',
+      'R4',
+      'R5',
+      'R6',
+      'R7',
+    ]);
     expect(RANKS.every((r) => r.tier === 0)).toBe(true);
   });
 
@@ -197,7 +220,10 @@ describe('T0 ladder R4→R7 + the capstone (M2·2)', () => {
         .map((r) => [r.id, r.type === 'count' ? r.target : 1]),
     );
     const allDone = Object.fromEntries(
-      rungRequirements('R3').map((r) => [r.id, r.type === 'count' ? r.target : 1]),
+      rungRequirements('R3').map((r) => [
+        r.id,
+        r.type === 'count' ? r.target : 1,
+      ]),
     );
     const atR3 = (rungReqs: Record<string, number>): GameState => ({
       ...base,
@@ -317,7 +343,9 @@ describe('diegetic mentor onboarding (Genemon) — T0-M1-F3', () => {
     expect(base.autoRake).toBe(false); // off by default
     const armed = reduce(base, { type: 'set_auto_rake', on: true });
     expect(armed.autoRake).toBe(true);
-    expect(reduce(armed, { type: 'set_auto_rake', on: false }).autoRake).toBe(false);
+    expect(reduce(armed, { type: 'set_auto_rake', on: false }).autoRake).toBe(
+      false,
+    );
   });
 });
 
@@ -338,16 +366,22 @@ describe('walkable estate map (T0-M4-F4 / D-065)', () => {
       },
     };
     // adjacent + revealed → you move
-    expect(reduce(atForecourt, { type: 'move_to', to: 'paddies' }).location).toBe('paddies');
+    expect(
+      reduce(atForecourt, { type: 'move_to', to: 'paddies' }).location,
+    ).toBe('paddies');
     // non-adjacent even when revealed (the field margins aren't off the forecourt) → no-op
-    expect(reduce(atForecourt, { type: 'move_to', to: 'field-margins' })).toBe(atForecourt);
+    expect(reduce(atForecourt, { type: 'move_to', to: 'field-margins' })).toBe(
+      atForecourt,
+    );
     // the danger ring needs the conditioning gate even when adjacent + revealed
     const atPaddies: GameState = {
       ...atForecourt,
       location: 'paddies',
     };
     // field-margins is a danger ring adjacent to the paddies + revealed — still blocked (conditioning 0)
-    expect(reduce(atPaddies, { type: 'move_to', to: 'field-margins' })).toBe(atPaddies);
+    expect(reduce(atPaddies, { type: 'move_to', to: 'field-margins' })).toBe(
+      atPaddies,
+    );
   });
 });
 
@@ -363,7 +397,11 @@ describe("porter's-knot is mechanically inert (no-magic / mediocre-start)", () =
       rung: 'R2',
       location: 'paddies', // v0.3.1 Step 5: farm_paddy is spatial — stand where the labour runs
       // ADR-179 — the farm verb + combat tab derive from their rung facts (rank-r1/rank-r3).
-      flags: { ...base.flags, awake: true, ...factsForSurfaces('verb-farm', 'tab-combat') },
+      flags: {
+        ...base.flags,
+        awake: true,
+        ...factsForSurfaces('verb-farm', 'tab-combat'),
+      },
     };
     const withKnot: GameState = {
       ...plain,
@@ -373,8 +411,14 @@ describe("porter's-knot is mechanically inert (no-magic / mediocre-start)", () =
     expect(mcCombatStats(withKnot)).toEqual(mcCombatStats(plain));
     expect(hpMax(withKnot)).toBe(hpMax(plain));
     // labour yields the same rice (the dream is no productivity blessing either)
-    const yKnot = reduce(withKnot, { type: 'do_activity', activityId: 'farm_paddy' });
-    const yPlain = reduce(plain, { type: 'do_activity', activityId: 'farm_paddy' });
+    const yKnot = reduce(withKnot, {
+      type: 'do_activity',
+      activityId: 'farm_paddy',
+    });
+    const yPlain = reduce(plain, {
+      type: 'do_activity',
+      activityId: 'farm_paddy',
+    });
     expect(yKnot.resources.rice).toBe(yPlain.resources.rice);
   });
 });
@@ -388,9 +432,12 @@ describe('conditioning enablement gate (the danger ring)', () => {
     // gate — zero it synthetically to isolate the LEVER (level < gate blocks; ≥ gate opens).
     s = { ...s, skillXp: { ...s.skillXp, conditioning: 0 } };
     // stand at the woodlot so the ONLY thing gating forage is the conditioning level, not the node
-    expect(canDoActivity({ ...s, location: 'woodlot' }, getActivity('forage_satoyama'))).toBe(
-      false,
-    );
+    expect(
+      canDoActivity(
+        { ...s, location: 'woodlot' },
+        getActivity('forage_satoyama'),
+      ),
+    ).toBe(false);
     // top off the climb's fatigue so conditioning XP isn't stamina-throttled, then haul builds it to Lv2
     s = { ...s, character: { ...s.character, satiety: 100 } };
     s = run(
@@ -401,7 +448,12 @@ describe('conditioning enablement gate (the danger ring)', () => {
       ),
     );
     expect(skillLevel(s, 'conditioning')).toBeGreaterThanOrEqual(2);
-    expect(canDoActivity({ ...s, location: 'woodlot' }, getActivity('forage_satoyama'))).toBe(true);
+    expect(
+      canDoActivity(
+        { ...s, location: 'woodlot' },
+        getActivity('forage_satoyama'),
+      ),
+    ).toBe(true);
   });
 });
 
@@ -425,7 +477,10 @@ describe('soft stamina + season', () => {
     // a DEEPLY drained body — low but still able to pay the act (FB-265 refuses at the true
     // floor now, so "drained yields less but never zero" is tested INSIDE the affordable band;
     // the exactly-empty case is the refusal test below, not a throttle case).
-    const drained: GameState = { ...s, character: { ...s.character, satiety: 4 } };
+    const drained: GameState = {
+      ...s,
+      character: { ...s.character, satiety: 4 },
+    };
     // walk the drained body back to the paddies for the tired-farm comparison
     const tired = reduce(
       { ...drained, location: 'paddies' },
@@ -443,10 +498,18 @@ describe('soft stamina + season', () => {
     expect(reduce(s, { type: 'rake_rice' })).toBe(s); // refused, not a free act
     // labour: the same predicate gates do_activity + the button's shown reason (AC-6)
     let r2 = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
-    r2 = playBeat(run(r2, repeat('rake_rice', countFor('R0', 'act:rake_rice')))); // → R1
-    r2 = { ...r2, location: 'paddies', character: { ...r2.character, satiety: 1 } };
+    r2 = playBeat(
+      run(r2, repeat('rake_rice', countFor('R0', 'act:rake_rice'))),
+    ); // → R1
+    r2 = {
+      ...r2,
+      location: 'paddies',
+      character: { ...r2.character, satiety: 1 },
+    };
     expect(canDoActivity(r2, getActivity('farm_paddy'))).toBe(false);
-    expect(reduce(r2, { type: 'do_activity', activityId: 'farm_paddy' })).toBe(r2);
+    expect(reduce(r2, { type: 'do_activity', activityId: 'farm_paddy' })).toBe(
+      r2,
+    );
     // …and rest is the way back in
     const rested = reduce(r2, { type: 'rest' });
     expect(canDoActivity(rested, getActivity('farm_paddy'))).toBe(true);
@@ -461,7 +524,9 @@ describe('soft stamina + season', () => {
     // seam to R2 so this test keeps testing ITS lever (storage + manual turn), not the guard.
     const s = { ...s0, rung: 'R2' as const };
     // two turns on: Winter → New Year → Spring — the next season derived from SEASONS, not a copied index.
-    const twoOn = reduce(reduce(s, { type: 'advance_season' }), { type: 'advance_season' });
+    const twoOn = reduce(reduce(s, { type: 'advance_season' }), {
+      type: 'advance_season',
+    });
     expect(season(twoOn)).toBe(SEASONS[2]); // 'spring'
   });
 });
@@ -505,15 +570,22 @@ describe('ephemeral flavor tagging (F53 + F58a)', () => {
       // ADR-179 — verb-farm derives from its rung fact (rank-r1), never a stored latch.
       flags: { ...base.flags, awake: true, ...factsForSurfaces('verb-farm') },
     };
-    const farmed = reduce(atPaddies, { type: 'do_activity', activityId: 'farm_paddy' });
+    const farmed = reduce(atPaddies, {
+      type: 'do_activity',
+      activityId: 'farm_paddy',
+    });
     const farmLine = lastByChannel(farmed, 'reward');
     expect(farmLine).toBeDefined();
     expect(farmLine!.ephemeral).toBe(true);
 
     // …but the flag is NOT a blanket: the milestone rung-marker line (applyPromotion's rank.marker)
     // stays a PERMANENT record. Climb R0→R1 for a real promotion beat, then read its milestone line.
-    let promoted = finishIntro(reduce(createInitialState(1), { type: 'open_eyes' }));
-    promoted = playBeat(run(promoted, repeat('rake_rice', countFor('R0', 'act:rake_rice')))); // → R1
+    let promoted = finishIntro(
+      reduce(createInitialState(1), { type: 'open_eyes' }),
+    );
+    promoted = playBeat(
+      run(promoted, repeat('rake_rice', countFor('R0', 'act:rake_rice'))),
+    ); // → R1
     expect(promoted.rung).toBe('R1');
     const markerLine = lastByChannel(promoted, 'milestone');
     expect(markerLine).toBeDefined();

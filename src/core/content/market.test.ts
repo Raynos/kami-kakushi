@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { MARKET_ITEMS, MARKET_ITEM_IDS, getItem, canBuy, MARKET_COIN_SINK_NOTE } from './market';
+import {
+  MARKET_ITEMS,
+  MARKET_ITEM_IDS,
+  getItem,
+  canBuy,
+  MARKET_COIN_SINK_NOTE,
+} from './market';
 
 // The capped coin-sink market (T0-M4-F3 / ADR-008: trade ≤ ⅓, a MINORITY lane). The
 // contract under test is the canBuy gate (coin AND the per-run stockCap), that the
@@ -36,7 +42,9 @@ describe('canBuy — the coin + per-run-cap gate (the minority-lane clamp)', () 
       // under cap but one coin short → false
       expect(canBuy({ coin: item.coinCost - 1 }, item, 0)).toBe(false);
       // both conditions met → true
-      expect(canBuy({ coin: item.coinCost }, item, item.stockCap - 1)).toBe(true);
+      expect(canBuy({ coin: item.coinCost }, item, item.stockCap - 1)).toBe(
+        true,
+      );
     }
   });
 });

@@ -57,8 +57,12 @@ function audioContextCtor(): AudioCtor | undefined {
  *  a missing matchMedia (jsdom / node) is simply "no preference", never a throw. */
 function prefersReducedMotion(): boolean {
   try {
-    const mm = (globalThis as { matchMedia?: (q: string) => { matches: boolean } }).matchMedia;
-    return typeof mm === 'function' && mm('(prefers-reduced-motion: reduce)').matches;
+    const mm = (
+      globalThis as { matchMedia?: (q: string) => { matches: boolean } }
+    ).matchMedia;
+    return (
+      typeof mm === 'function' && mm('(prefers-reduced-motion: reduce)').matches
+    );
   } catch {
     return false;
   }
@@ -120,8 +124,20 @@ function playTaiko(ctx: AudioContext, master: GainNode): void {
 
 /** Shamisen/koto 三味線・箏 — a bright plucked note + an octave overtone, fast-decaying. */
 function playPluck(ctx: AudioContext, master: GainNode): void {
-  playVoice(ctx, master, { type: 'triangle', freq: 587, peak: 0.5, attack: 0.002, decay: 0.28 }); // ~D5
-  playVoice(ctx, master, { type: 'sawtooth', freq: 1174, peak: 0.16, attack: 0.002, decay: 0.16 });
+  playVoice(ctx, master, {
+    type: 'triangle',
+    freq: 587,
+    peak: 0.5,
+    attack: 0.002,
+    decay: 0.28,
+  }); // ~D5
+  playVoice(ctx, master, {
+    type: 'sawtooth',
+    freq: 1174,
+    peak: 0.16,
+    attack: 0.002,
+    decay: 0.16,
+  });
 }
 
 /** Suzu 鈴 — a struck temple-bell: inharmonic sine partials over a long-ish ring (<400ms). */
@@ -178,7 +194,8 @@ export function createSfx(opts: SfxOptions = {}): Sfx {
     }
     // A later user gesture can lift the autoplay suspension (best-effort, fire-and-forget).
     try {
-      if (ctx.state === 'suspended' && typeof ctx.resume === 'function') void ctx.resume();
+      if (ctx.state === 'suspended' && typeof ctx.resume === 'function')
+        void ctx.resume();
     } catch {
       /* ignore — audio is never load-bearing */
     }

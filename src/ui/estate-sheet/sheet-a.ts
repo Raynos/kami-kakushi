@@ -82,7 +82,10 @@ export function paintSheetA(root: SVGElement, fx: EstateFixture): void {
       size: 20,
       color: 'var(--silver-hi)',
     });
-    txt(root, kx(15.6), ruinGround - 6.9 * KEN - 12, '改', { size: 10, color: 'var(--shu)' });
+    txt(root, kx(15.6), ruinGround - 6.9 * KEN - 12, '改', {
+      size: 10,
+      color: 'var(--shu)',
+    });
   } else {
     txt(root, kx(13.5), ruinGround - 6.9 * KEN - 14, '廃', {
       size: 13,
@@ -98,28 +101,61 @@ export function paintSheetA(root: SVGElement, fx: EstateFixture): void {
       [kx(-1), PY - 16],
       [kx(27), PY - 18],
     ],
-    { seed: 'a:rope', color: 'var(--shu)', w: 1, dash: '2 7', opacity: 0.55, amp: 2 },
+    {
+      seed: 'a:rope',
+      color: 'var(--shu)',
+      w: 1,
+      dash: '2 7',
+      opacity: 0.55,
+      amp: 2,
+    },
   );
 
   // ── the north fold: the compound's north wall, upright above the hinge ──
-  wallFace(root, kx(0), kx(26), PY - 1.1 * KEN, PY, { seed: 'a:nwall', postStep: 46 });
-  foldHinge(root, [kx(0), PY], [kx(26), PY], { seed: 'a:hinge-n', tabSide: -1, tabs: 3 });
+  wallFace(root, kx(0), kx(26), PY - 1.1 * KEN, PY, {
+    seed: 'a:nwall',
+    postStep: 46,
+  });
+  foldHinge(root, [kx(0), PY], [kx(26), PY], {
+    seed: 'a:hinge-n',
+    tabSide: -1,
+    tabs: 3,
+  });
 
   // ── the plan ──
   paintPlan(root, fx);
 
   // ── the south fold: south wall + the gate elevation, folded DOWN ──
   const sy = ky(20);
-  wallFace(root, kx(0), kx(11), sy, sy + 1.2 * KEN, { seed: 'a:swall-w', postStep: 44 });
-  wallFace(root, kx(15), kx(26), sy, sy + 1.2 * KEN, { seed: 'a:swall-e', postStep: 44 });
+  wallFace(root, kx(0), kx(11), sy, sy + 1.2 * KEN, {
+    seed: 'a:swall-w',
+    postStep: 44,
+  });
+  wallFace(root, kx(15), kx(26), sy, sy + 1.2 * KEN, {
+    seed: 'a:swall-e',
+    postStep: 44,
+  });
   // the gate — an EVENT: its roof reaching further down (away) than the wall
   const gate = ROOMS.find((r) => r.id === 'gate')!;
-  wallFace(root, kx(11), kx(15), sy, sy + gate.eave * KEN, { seed: 'a:gatewall', postStep: 24 });
-  roofProfile(root, kx(11), kx(15), sy + gate.eave * KEN, sy + gate.ridge * KEN, {
-    seed: 'a:gateroof',
-    flip: true,
+  wallFace(root, kx(11), kx(15), sy, sy + gate.eave * KEN, {
+    seed: 'a:gatewall',
+    postStep: 24,
   });
-  txt(root, kx(13), sy + gate.ridge * KEN + 16, '門', { size: 12, color: 'var(--silver-hi)' });
+  roofProfile(
+    root,
+    kx(11),
+    kx(15),
+    sy + gate.eave * KEN,
+    sy + gate.ridge * KEN,
+    {
+      seed: 'a:gateroof',
+      flip: true,
+    },
+  );
+  txt(root, kx(13), sy + gate.ridge * KEN + 16, '門', {
+    size: 12,
+    color: 'var(--silver-hi)',
+  });
   // the worn threshold
   brushStroke(
     root,
@@ -129,7 +165,11 @@ export function paintSheetA(root: SVGElement, fx: EstateFixture): void {
     ],
     { seed: 'a:thresh', w: 2.6, color: 'var(--silver-dim)', dry: true },
   );
-  foldHinge(root, [kx(0), sy], [kx(26), sy], { seed: 'a:hinge-s', tabSide: 1, tabs: 3 });
+  foldHinge(root, [kx(0), sy], [kx(26), sy], {
+    seed: 'a:hinge-s',
+    tabSide: 1,
+    tabs: 3,
+  });
 
   // ── loose pieces (the cut-out parts of the paper model) ──
   paintWestPiece(root, fx);
@@ -185,7 +225,14 @@ function paintPlan(root: SVGElement, fx: EstateFixture): void {
     ],
     { seed: 'a:court', fill: 'var(--steel-hi)', opacity: 0.13, amp: 2 },
   );
-  rakeArcs(root, kx(FORECOURT.x0), ky(FORECOURT.y0), kx(FORECOURT.x1), ky(FORECOURT.y1), 'a:rake');
+  rakeArcs(
+    root,
+    kx(FORECOURT.x0),
+    ky(FORECOURT.y0),
+    kx(FORECOURT.x1),
+    ky(FORECOURT.y1),
+    'a:rake',
+  );
   wellRing(root, kx(WELL.x), ky(WELL.y), 7, 'a:well');
   // the period well mark — a cold reader took the bare ring for a lone stone
   txt(root, kx(WELL.x) + 13, ky(WELL.y) + 4, '井', {
@@ -203,7 +250,12 @@ function paintPlan(root: SVGElement, fx: EstateFixture): void {
     [kx(26), ky(20)],
     [kx(15), ky(20)],
   ];
-  brushStroke(root, wallPts, { seed: 'a:wall', w: 3.2, color: 'var(--silver)', wobble: 0.2 });
+  brushStroke(root, wallPts, {
+    seed: 'a:wall',
+    w: 3.2,
+    color: 'var(--silver)',
+    wobble: 0.2,
+  });
 
   // rooms
   for (const room of ROOMS) {
@@ -240,7 +292,11 @@ function paintPlan(root: SVGElement, fx: EstateFixture): void {
   txt(root, kx(21.2), ky(13.6), '稽', { size: 12, color: 'var(--silver-hi)' });
 }
 
-function paintPlanRoom(root: SVGElement, room: RoomDef, fx: EstateFixture): void {
+function paintPlanRoom(
+  root: SVGElement,
+  room: RoomDef,
+  fx: EstateFixture,
+): void {
   const ink = fx.rooms[room.id];
   const [x0k, y0k, x1k, y1k] = room.rect;
   const x0 = kx(x0k);
@@ -272,7 +328,12 @@ function paintPlanRoom(root: SVGElement, room: RoomDef, fx: EstateFixture): void
         [x1, y1],
         [x0, y1],
       ],
-      { seed: `a:${room.id}:pl`, fill: 'var(--silver-faint)', opacity: 0.3, amp: 1.4 },
+      {
+        seed: `a:${room.id}:pl`,
+        fill: 'var(--silver-faint)',
+        opacity: 0.3,
+        amp: 1.4,
+      },
     );
   }
   if (ink.state === 'closed') {
@@ -310,12 +371,22 @@ function paintPlanRoom(root: SVGElement, room: RoomDef, fx: EstateFixture): void
       muleAt: MULE_STALL,
       mode: 'plan',
     });
-  } else if (room.id !== 'kura' && room.id !== 'woodshed' && room.id !== 'sickroom') {
+  } else if (
+    room.id !== 'kura' &&
+    room.id !== 'woodshed' &&
+    room.id !== 'sickroom'
+  ) {
     // mats belong to the living rooms; the service floors are earth & board
     tatamiPlan(g, x0, y0, x1, y1, { seed: `a:${room.id}:tat` });
   }
   if (room.id === 'kitchen') {
-    boardDesk(g, x0 + (x1 - x0) * 0.62, y0 + (y1 - y0) * 0.3, 'a:board', 'plan');
+    boardDesk(
+      g,
+      x0 + (x1 - x0) * 0.62,
+      y0 + (y1 - y0) * 0.3,
+      'a:board',
+      'plan',
+    );
     // the threshold step on the WEST face (toward the paddies)
     brushStroke(
       g,
@@ -332,25 +403,43 @@ function paintPlanRoom(root: SVGElement, room: RoomDef, fx: EstateFixture): void
   if (room.id === 'mainBody') {
     // H5's honesty seam made visible at the room label
     if (fx.ruinRevealed) {
-      txt(g, cxp - 10, cyp - 12, '母屋', { size: 13, color: 'var(--silver-hi)', opacity: 0.75 });
-      struckMark(g, [cxp - 26, cyp - 15], [cxp + 5, cyp - 17], { seed: 'a:mstrike' });
+      txt(g, cxp - 10, cyp - 12, '母屋', {
+        size: 13,
+        color: 'var(--silver-hi)',
+        opacity: 0.75,
+      });
+      struckMark(g, [cxp - 26, cyp - 15], [cxp + 5, cyp - 17], {
+        seed: 'a:mstrike',
+      });
       txt(g, cxp + 22, cyp - 12, '客殿', { size: 13, color: 'var(--shu)' });
     } else {
       txt(g, cxp, cyp - 12, '母屋', { size: 14, color: 'var(--silver-hi)' });
     }
   } else if (room.id !== 'stable') {
-    txt(g, cxp, cyp + 4, room.kanji, { size: 11, color: 'var(--silver-hi)', opacity: 0.95 });
+    txt(g, cxp, cyp + 4, room.kanji, {
+      size: 11,
+      color: 'var(--silver-hi)',
+      opacity: 0.95,
+    });
   }
   if (fresh) freshStamp(g, x1 - 10, y0 + 10, { seed: `a:${room.id}:new` });
   if (ink.struck)
-    struckMark(g, [x0 + 4, y1 - 6], [x0 + (x1 - x0) * 0.4, y1 - 10], { seed: `a:${room.id}:strk` });
+    struckMark(g, [x0 + 4, y1 - 6], [x0 + (x1 - x0) * 0.4, y1 - 10], {
+      seed: `a:${room.id}:strk`,
+    });
   tip(g as unknown as SVGElement, room.en);
   root.append(g);
 }
 
 // ── the loose pieces ─────────────────────────────────────────────────────────
 
-function pieceCaption(root: SVGElement, x: number, y: number, label: string, seed: string): void {
+function pieceCaption(
+  root: SVGElement,
+  x: number,
+  y: number,
+  label: string,
+  seed: string,
+): void {
   txt(root, x, y, label, { size: 10, color: 'var(--ink-soft)', font: 'body' });
   // cut marks — scissors dashes around a loose piece
   inkLine(
@@ -371,29 +460,66 @@ function paintWestPiece(root: SVGElement, fx: EstateFixture): void {
   const kw = 3 * KEN; // kitchen face width (its plan depth)
   const kitchen = ROOMS.find((r) => r.id === 'kitchen')!;
   const kfresh = fx.rooms.kitchen.fresh === true;
-  wallFace(root, x0, x0 + kw, ground - kitchen.eave * KEN, ground, { seed: 'a:wk', postStep: 26 });
-  roofProfile(root, x0, x0 + kw, ground - kitchen.eave * KEN, ground - kitchen.ridge * KEN, {
-    seed: 'a:wkr',
-    fresh: kfresh,
+  wallFace(root, x0, x0 + kw, ground - kitchen.eave * KEN, ground, {
+    seed: 'a:wk',
+    postStep: 26,
   });
-  if (kfresh) freshStamp(root, x0 + kw - 6, ground - kitchen.ridge * KEN - 8, { seed: 'a:wknew' });
-  smokeWisp(root, x0 + kw * 0.42, ground - kitchen.ridge * KEN - 2, 'a:wksmoke');
+  roofProfile(
+    root,
+    x0,
+    x0 + kw,
+    ground - kitchen.eave * KEN,
+    ground - kitchen.ridge * KEN,
+    {
+      seed: 'a:wkr',
+      fresh: kfresh,
+    },
+  );
+  if (kfresh)
+    freshStamp(root, x0 + kw - 6, ground - kitchen.ridge * KEN - 8, {
+      seed: 'a:wknew',
+    });
+  smokeWisp(
+    root,
+    x0 + kw * 0.42,
+    ground - kitchen.ridge * KEN - 2,
+    'a:wksmoke',
+  );
   // the lean-to beside it
   const sick = ROOMS.find((r) => r.id === 'sickroom')!;
   const sx = x0 + kw + 14;
   const sw = 2.2 * KEN;
-  wallFace(root, sx, sx + sw, ground - sick.eave * KEN, ground, { seed: 'a:ws', postStep: 22 });
-  roofProfile(root, sx, sx + sw, ground - sick.eave * KEN, ground - sick.ridge * KEN, {
-    seed: 'a:wsr',
-    leanTo: true,
+  wallFace(root, sx, sx + sw, ground - sick.eave * KEN, ground, {
+    seed: 'a:ws',
+    postStep: 22,
   });
-  txt(root, sx + sw / 2, ground - 8, '薬', { size: 9, color: 'var(--silver-hi)' });
+  roofProfile(
+    root,
+    sx,
+    sx + sw,
+    ground - sick.eave * KEN,
+    ground - sick.ridge * KEN,
+    {
+      seed: 'a:wsr',
+      leanTo: true,
+    },
+  );
+  txt(root, sx + sw / 2, ground - 8, '薬', {
+    size: 9,
+    color: 'var(--silver-hi)',
+  });
   foldHinge(root, [x0 - 4, ground], [sx + sw + 4, ground], {
     seed: 'a:whinge',
     tabSide: 1,
     tabs: 2,
   });
-  pieceCaption(root, x0 + (sw + kw + 14) / 2, ground + 30, '西面 — the west face', 'a:wcut');
+  pieceCaption(
+    root,
+    x0 + (sw + kw + 14) / 2,
+    ground + 30,
+    '西面 — the west face',
+    'a:wcut',
+  );
 }
 
 /** 東面 — the old stable court's long face: housing for twenty, one mule. */
@@ -412,9 +538,16 @@ function paintEastPiece(root: SVGElement, _fx: EstateFixture): void {
     muleAt: MULE_STALL,
     mode: 'elev',
   });
-  roofProfile(root, x0, x0 + w, ground - stable.eave * KEN, ground - stable.ridge * KEN, {
-    seed: 'a:estr',
-  });
+  roofProfile(
+    root,
+    x0,
+    x0 + w,
+    ground - stable.eave * KEN,
+    ground - stable.ridge * KEN,
+    {
+      seed: 'a:estr',
+    },
+  );
   // the rack, empty
   for (const dx of [26, 34, 42]) {
     inkLine(
@@ -431,7 +564,13 @@ function paintEastPiece(root: SVGElement, _fx: EstateFixture): void {
     tabSide: 1,
     tabs: 2,
   });
-  pieceCaption(root, x0 + w / 2, ground + 30, '東面 — the old stable court', 'a:ecut');
+  pieceCaption(
+    root,
+    x0 + w / 2,
+    ground + 30,
+    '東面 — the old stable court',
+    'a:ecut',
+  );
 }
 
 /** 御殿南面 — the winged residence's south face: one building, two wings, the
@@ -457,12 +596,21 @@ function paintResidencePiece(root: SVGElement, fx: EstateFixture): void {
       postStep: 34,
       closed: ink.state === 'closed',
     });
-    roofProfile(root, rx0, rx1, ground - room.eave * KEN, ground - room.ridge * KEN, {
-      seed: `a:res${tag}r`,
-      fresh: ink.fresh,
-    });
+    roofProfile(
+      root,
+      rx0,
+      rx1,
+      ground - room.eave * KEN,
+      ground - room.ridge * KEN,
+      {
+        seed: `a:res${tag}r`,
+        fresh: ink.fresh,
+      },
+    );
     if (ink.fresh)
-      freshStamp(root, rx1 - 8, ground - room.ridge * KEN - 8, { seed: `a:res${tag}n` });
+      freshStamp(root, rx1 - 8, ground - room.ridge * KEN - 8, {
+        seed: `a:res${tag}n`,
+      });
     if (ink.struck)
       struckMark(
         root,
@@ -482,5 +630,11 @@ function paintResidencePiece(root: SVGElement, fx: EstateFixture): void {
     ],
     { seed: 'a:engawa', color: 'var(--silver-dim)', w: 1.3, amp: 0.8 },
   );
-  pieceCaption(root, toX(13), ground + 32, '御殿南面 — the house, its two wings', 'a:rescut');
+  pieceCaption(
+    root,
+    toX(13),
+    ground + 32,
+    '御殿南面 — the house, its two wings',
+    'a:rescut',
+  );
 }

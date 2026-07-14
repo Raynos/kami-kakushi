@@ -63,12 +63,19 @@ describe('save/load e2e — a full-arc playthrough round-trips through the real 
   it('still rehydrates a LEGACY keyless entry (an old save must keep loading)', async () => {
     const legacy: GameState = {
       ...rich,
-      log: pushLog(rich.log, 'narration', 'prose from before descriptors existed', 0),
+      log: pushLog(
+        rich.log,
+        'narration',
+        'prose from before descriptors existed',
+        0,
+      ),
     };
     const mgr = createMemorySaveManager([new MemoryBackend()], () => 1000);
     await mgr.save(legacy);
     const loaded = await mgr.load();
-    expect(loaded!.state.log.entries.at(-1)!.text).toBe('prose from before descriptors existed');
+    expect(loaded!.state.log.entries.at(-1)!.text).toBe(
+      'prose from before descriptors existed',
+    );
   });
 
   it('round-trips byte-identically through save()/load() (gzip + descriptor rehydrate)', async () => {

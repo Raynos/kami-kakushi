@@ -206,9 +206,11 @@ function combatLegIntent(s: GameState): Intent | null {
   const weapon = getWeapon(s.equippedWeapon);
   const band = durabilityBand(s.weaponDurability, weapon.durabilityMax);
   if (band.name === 'Battered' || band.name === 'Broken') {
-    if ((s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST) return { type: 'repair_weapon' };
+    if ((s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST)
+      return { type: 'repair_weapon' };
     const wood = getActivity('woodcut_edge');
-    if (canDoActivity(s, wood)) return { type: 'do_activity', activityId: 'woodcut_edge' };
+    if (canDoActivity(s, wood))
+      return { type: 'do_activity', activityId: 'woodcut_edge' };
     const hop = nextHopToward(s.location, wood.area, visibleSet(s));
     if (hop) return { type: 'move_to', to: hop };
     // can't reach wood — fall through and fight with what's in hand rather than stall.
@@ -254,7 +256,11 @@ export const greedy: Persona = {
   ],
   decide(s) {
     if (ascensionAvailable(s)) return { type: 'ascend' };
-    if (s.rung === 'R3' && !hasFlag(s, 'combat-blooded') && isUnlocked(s, 'tab-combat')) {
+    if (
+      s.rung === 'R3' &&
+      !hasFlag(s, 'combat-blooded') &&
+      isUnlocked(s, 'tab-combat')
+    ) {
       const leg = combatLegIntent(s);
       if (leg) return leg;
     }
@@ -302,7 +308,8 @@ export const idler: Persona = {
     // a labour site's (site, season) pool runs dry and every act yields nothing until the
     // wheel turns. Even an idler ends the season when the labour under their auto-loop is
     // farming a dead pool (engine-refused pre-R2, so guard the rung like the vitals gate).
-    const poolDry = (id: ActivityId): boolean => (s.sitePools[getActivity(id).area] ?? 0) <= 0;
+    const poolDry = (id: ActivityId): boolean =>
+      (s.sitePools[getActivity(id).area] ?? 0) <= 0;
     const canTurnWheel = rungNumber(s.rung) >= 2;
     if (ascensionAvailable(s)) return { type: 'ascend' };
     const acts = availableActions(s);
@@ -313,10 +320,12 @@ export const idler: Persona = {
     if (s.activeScene !== null) {
       const def = sceneById(s.activeScene.id);
       const opts = def?.scene.decision.options ?? [];
-      if (opts.length > 0) return { type: 'choose_scene_option', optionId: opts[0]!.id };
+      if (opts.length > 0)
+        return { type: 'choose_scene_option', optionId: opts[0]!.id };
       return { type: 'advance_scene_beat' };
     }
-    if (s.sceneQueue.length > 0) return { type: 'begin_scene', sceneId: s.sceneQueue[0]! };
+    if (s.sceneQueue.length > 0)
+      return { type: 'begin_scene', sceneId: s.sceneQueue[0]! };
     // check-in: a VN affordance is showing — answer it (first option, deterministically).
     if (introActive(s.introBeat)) {
       const opt = introSceneAt(s.introBeat)?.decision.options[0];
@@ -342,7 +351,9 @@ export const idler: Persona = {
     // kill requirements: arm the auto-combat watch on the (level-laddered) foe and let the
     // shipped loop fight; the check-in mends first — a hurt watch is a loss loop. Training
     // below level parity mirrors the focused driver's ladder.
-    const killReq = rem.find((r) => r.type === 'count' && r.token.startsWith('kill:'));
+    const killReq = rem.find(
+      (r) => r.type === 'count' && r.token.startsWith('kill:'),
+    );
     if (killReq && killReq.type === 'count' && isUnlocked(s, 'tab-combat')) {
       // mend HP FIRST (the sickroom lane, ADR-164/ADR-197 — mirrors the night-round branch
       // below): arming the watch at 1 HP is the loss-loop the HD-35 re-pace exposed on
@@ -360,16 +371,21 @@ export const idler: Persona = {
       const kw = getWeapon(s.equippedWeapon);
       const kband = durabilityBand(s.weaponDurability, kw.durabilityMax);
       if (kband.name === 'Battered' || kband.name === 'Broken') {
-        if ((s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST) return { type: 'repair_weapon' };
+        if ((s.resources.wood ?? 0) >= balance.REPAIR_WOOD_COST)
+          return { type: 'repair_weapon' };
         // a dry woodlot pool yields nothing — turn the wheel first (C5b; the exact loop
         // that soft-locked the idler: 27k zero-yield cuts against a dead seasonal pool)
-        if (poolDry('woodcut_edge') && canTurnWheel) return { type: 'advance_season' };
+        if (poolDry('woodcut_edge') && canTurnWheel)
+          return { type: 'advance_season' };
         const woodlot = getActivity('woodcut_edge');
-        if (s.location === woodlot.area) return { type: 'do_activity', activityId: 'woodcut_edge' };
+        if (s.location === woodlot.area)
+          return { type: 'do_activity', activityId: 'woodcut_edge' };
         const hop = nextHopToward(s.location, woodlot.area, visibleSet(s));
         if (hop) return { type: 'move_to', to: hop };
       }
-      const target = getMob(killReq.token.slice('kill:'.length) as Parameters<typeof getMob>[0]);
+      const target = getMob(
+        killReq.token.slice('kill:'.length) as Parameters<typeof getMob>[0],
+      );
       const foe =
         s.character.level >= target.level
           ? target
@@ -379,7 +395,11 @@ export const idler: Persona = {
       if (s.autoCombat === null) {
         if (s.location === foe.area) {
           const retreatHp = Math.round(balance.AUTO_RETREAT_FRAC * hpMax(s));
-          return { type: 'set_auto_combat', mobId: foe.id, retreat: s.character.hp > retreatHp };
+          return {
+            type: 'set_auto_combat',
+            mobId: foe.id,
+            retreat: s.character.hp > retreatHp,
+          };
         }
         const hop = nextHopToward(s.location, foe.area, visibleSet(s));
         if (hop) return { type: 'move_to', to: hop };
@@ -393,7 +413,9 @@ export const idler: Persona = {
     // done (rem is flags-only — the FB-121 shape), so the rat/tanuki grinding has already
     // levelled the fighter; prep mirrors the focused driver: mended HP, full belly, a sound
     // blade — the round is back-to-back fights with no mend inside it.
-    const wolfReq = rem.find((r) => r.type === 'flag' && r.flag === 'wolf-survived-not-won');
+    const wolfReq = rem.find(
+      (r) => r.type === 'flag' && r.flag === 'wolf-survived-not-won',
+    );
     if (
       wolfReq &&
       rem.every((r) => r.type === 'flag') &&
@@ -424,7 +446,9 @@ export const idler: Persona = {
     if (
       s.autoActivity !== null &&
       rem.length > 0 &&
-      !rem.some((r) => r.type === 'count' && r.token === `act:${s.autoActivity}`)
+      !rem.some(
+        (r) => r.type === 'count' && r.token === `act:${s.autoActivity}`,
+      )
     ) {
       return { type: 'set_auto', activityId: null };
     }
@@ -436,7 +460,8 @@ export const idler: Persona = {
     const auto = autoModeIntent(s);
     if (auto) return auto;
     // check-in: the auto-mode is idle — arm the next REQUIRED labour…
-    if (acts.includes('rake_rice') && !s.autoRake) return { type: 'set_auto_rake', on: true };
+    if (acts.includes('rake_rice') && !s.autoRake)
+      return { type: 'set_auto_rake', on: true };
     const actReq = rem.find(
       (r) =>
         r.type === 'count' &&
@@ -474,15 +499,18 @@ function explorerCandidates(s: GameState): Intent[] {
   // topics first (the plan's "ask every intro/rung topic before choosing")
   if (introActive(s.introBeat)) {
     const scene = introSceneAt(s.introBeat);
-    for (const t of scene?.topics ?? []) out.push({ type: 'ask_topic', topicId: t.id });
+    for (const t of scene?.topics ?? [])
+      out.push({ type: 'ask_topic', topicId: t.id });
   }
   if (s.rungBeat !== null) {
     const scene = RUNG_BEATS[s.rungBeat];
-    for (const t of scene?.topics ?? []) out.push({ type: 'ask_rung_topic', topicId: t.id });
+    for (const t of scene?.topics ?? [])
+      out.push({ type: 'ask_rung_topic', topicId: t.id });
   }
   if (s.activeScene !== null) {
     const def = sceneById(s.activeScene.id);
-    for (const t of def?.scene.topics ?? []) out.push({ type: 'ask_scene_topic', topicId: t.id });
+    for (const t of def?.scene.topics ?? [])
+      out.push({ type: 'ask_scene_topic', topicId: t.id });
   }
   // walk every revealed, adjacent node (registry order)
   const revealed = visibleSet(s);
@@ -491,11 +519,14 @@ function explorerCandidates(s: GameState): Intent[] {
       out.push({ type: 'move_to', to: n.id });
     }
   }
-  for (const a of ACTIVITIES) out.push({ type: 'do_activity', activityId: a.id });
-  for (const m of MOBS) if (!m.scripted) out.push({ type: 'fight', mobId: m.id });
+  for (const a of ACTIVITIES)
+    out.push({ type: 'do_activity', activityId: a.id });
+  for (const m of MOBS)
+    if (!m.scripted) out.push({ type: 'fight', mobId: m.id });
   for (const q of QUESTS) out.push({ type: 'accept_quest', questId: q.id });
   for (const i of MARKET_ITEMS) out.push({ type: 'buy_item', itemId: i.id });
-  for (const b of BELONGING_IDS) out.push({ type: 'buy_belonging', belongingId: b });
+  for (const b of BELONGING_IDS)
+    out.push({ type: 'buy_belonging', belongingId: b });
   for (const r of RECIPES) out.push({ type: 'craft_weapon', recipeId: r.id });
   for (const w of WEAPONS) out.push({ type: 'equip_weapon', weaponId: w.id });
   for (const st of STANCE_ORDER) out.push({ type: 'set_stance', stance: st });

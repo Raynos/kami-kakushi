@@ -123,7 +123,8 @@ export function paintReveal(
   // FB-396 reset — every stage repaint re-evaluates every sheet note (the DEV
   // previewer swaps stages in place; a note hidden by a prior stage must not
   // stay hidden on a stage that reveals its ground).
-  for (const note of svg.querySelectorAll('.ms-sheet-note')) note.removeAttribute('visibility');
+  for (const note of svg.querySelectorAll('.ms-sheet-note'))
+    note.removeAttribute('visibility');
   if (!stage || (!stage.known && !stage.blobs)) return null;
   const fr = T0_WINDOW;
   const uid = `msr-${stage.rung}-${Math.abs(fr.x)}`;
@@ -142,13 +143,18 @@ export function paintReveal(
     );
     defs.append(filt);
   }
-  const fog = sv('g', { class: 'ms-reveal', filter: `url(#${uid})` }) as SVGGElement;
+  const fog = sv('g', {
+    class: 'ms-reveal',
+    filter: `url(#${uid})`,
+  }) as SVGGElement;
   art.after(fog);
   // FB-390/391 — the family OWNS the document: the north arrow + scale bar read
   // even on unsurveyed paper. They ride their own lift group (t0-sheet
   // paintFurniture), raised ABOVE the fog — never a hole in it (a hole showed
   // the world art beneath). Idempotent across stage repaints.
-  for (const lift of svg.querySelectorAll(':scope > g .ms-furn-lift, :scope > .ms-furn-lift'))
+  for (const lift of svg.querySelectorAll(
+    ':scope > g .ms-furn-lift, :scope > .ms-furn-lift',
+  ))
     fog.after(lift);
   // FB-396 — sheet notes are FOG-ATOMIC: a note anchored under the fog hides
   // entirely (its tail must not poke out of the paper); one on surveyed ground
@@ -161,7 +167,11 @@ export function paintReveal(
     else fog.after(note);
   }
 
-  const paths: { d: string; rule: 'evenodd' | 'nonzero'; edge: readonly Pt[] }[] = [];
+  const paths: {
+    d: string;
+    rule: 'evenodd' | 'nonzero';
+    edge: readonly Pt[];
+  }[] = [];
   if (stage.known) {
     // FB-378/385 — the fog covers the WHOLE window, edge to edge (the old 20-unit
     // inset left an unfogged ring). Beyond-the-window world art can't leak at all
@@ -175,11 +185,17 @@ export function paintReveal(
       edge: stage.known,
     });
   }
-  for (const b of stage.blobs ?? []) paths.push({ d: poly(b), rule: 'nonzero', edge: b });
+  for (const b of stage.blobs ?? [])
+    paths.push({ d: poly(b), rule: 'nonzero', edge: b });
 
   for (const p of paths) {
     fog.append(
-      sv('path', { d: p.d, fill: 'var(--steel-1)', 'fill-rule': p.rule, 'fill-opacity': '0.985' }),
+      sv('path', {
+        d: p.d,
+        fill: 'var(--steel-1)',
+        'fill-rule': p.rule,
+        'fill-opacity': '0.985',
+      }),
     );
     // the survey edge — a scrawled frontier line where the drawing stops
     fog.append(
@@ -247,7 +263,11 @@ export function paintReveal(
     frontier.append(t);
   }
   for (const n of stage.notes ?? []) {
-    inkText(frontier, n.x, n.y, n.text, { size: 13, color: 'var(--ink-soft)', opacity: 0.9 });
+    inkText(frontier, n.x, n.y, n.text, {
+      size: 13,
+      color: 'var(--ink-soft)',
+      opacity: 0.9,
+    });
   }
   // the caller removes BOTH groups by class; return the fog for convenience
   return fog;
@@ -255,7 +275,11 @@ export function paintReveal(
 
 /** Is world point (x,y) under `stage`'s fog? (FB-380 — seal painters consult this
  *  so nothing under unsurveyed paper is previewed by name.) No stage ⇒ no fog. */
-export function isFogged(stage: RevealStage | null, x: number, y: number): boolean {
+export function isFogged(
+  stage: RevealStage | null,
+  x: number,
+  y: number,
+): boolean {
   if (!stage) return false;
   if (stage.known) return !pointInBox(x, y, stage.known);
   return (stage.blobs ?? []).some((b) => pointInBox(x, y, b));
@@ -265,5 +289,10 @@ export function isFogged(stage: RevealStage | null, x: number, y: number): boole
 function pointInBox(x: number, y: number, p: readonly Pt[]): boolean {
   const xs = p.map((q) => q[0]);
   const ys = p.map((q) => q[1]);
-  return x > Math.min(...xs) && x < Math.max(...xs) && y > Math.min(...ys) && y < Math.max(...ys);
+  return (
+    x > Math.min(...xs) &&
+    x < Math.max(...xs) &&
+    y > Math.min(...ys) &&
+    y < Math.max(...ys)
+  );
 }

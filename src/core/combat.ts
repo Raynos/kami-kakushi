@@ -89,11 +89,16 @@ const COMBAT_CUM: readonly number[] = (() => {
 
 export function combatLevelForXp(xp: number): number {
   let level = 1;
-  while (level < COMBAT_MAX_LEVEL && xp >= (COMBAT_CUM[level + 1] ?? Infinity)) level++;
+  while (level < COMBAT_MAX_LEVEL && xp >= (COMBAT_CUM[level + 1] ?? Infinity))
+    level++;
   return level;
 }
 
-export function combatXpProgress(xp: number): { level: number; into: number; needed: number } {
+export function combatXpProgress(xp: number): {
+  level: number;
+  into: number;
+  needed: number;
+} {
   const level = combatLevelForXp(xp);
   const base = COMBAT_CUM[level] ?? 0;
   const next = COMBAT_CUM[level + 1] ?? base + 1;
@@ -102,7 +107,8 @@ export function combatXpProgress(xp: number): { level: number; into: number; nee
 
 /** Combat satiety throttle on attackPower (FU16/§4.6.1b) — a separate coefficient. */
 export function combatSatietyRate(state: GameState): number {
-  const frac = satietyMax(state) > 0 ? state.character.satiety / satietyMax(state) : 0;
+  const frac =
+    satietyMax(state) > 0 ? state.character.satiety / satietyMax(state) : 0;
   if (frac >= COMBAT_SATIETY_FLAT_ABOVE) return 1;
   const t = clamp(frac / COMBAT_SATIETY_FLAT_ABOVE, 0, 1);
   return COMBAT_SATIETY_FLOOR + (1 - COMBAT_SATIETY_FLOOR) * t;
@@ -113,7 +119,8 @@ export function durabilityBand(
   durabilityMax: number,
 ): { mult: number; name: string } {
   const pct = durabilityMax > 0 ? (durability / durabilityMax) * 100 : 0;
-  for (const b of DURABILITY_BANDS) if (pct >= b.min) return { mult: b.mult, name: b.name };
+  for (const b of DURABILITY_BANDS)
+    if (pct >= b.min) return { mult: b.mult, name: b.name };
   const last = DURABILITY_BANDS[DURABILITY_BANDS.length - 1]!;
   return { mult: last.mult, name: last.name };
 }
@@ -132,7 +139,11 @@ export function mcCombatStats(state: GameState, foeKnown = false): CombatStats {
   const intMult = foeKnown ? 1 + INT_KNOWN_DMG_COEFF * a.int : 1;
   // attackPower = (weaponBase + 1.2·STR)·stance·satiety·durability·intBestiary (§4.6.1).
   const rawAtk =
-    (weapon.baseAttack + STR_ATK_COEFF * a.str) * stance.atkMult * satRate * band.mult * intMult;
+    (weapon.baseAttack + STR_ATK_COEFF * a.str) *
+    stance.atkMult *
+    satRate *
+    band.mult *
+    intMult;
   return {
     attackPower: Math.max(1, Math.round(rawAtk)),
     defense: STR_DEF_COEFF * a.str,
@@ -175,7 +186,10 @@ function expectedDmg(atk: CombatStats, def: CombatStats): number {
   const critFactor = 1 + atk.critChance * (CRIT_MULT - 1);
   const blockFactor = 1 - def.blockChance * BLOCK_REDUCTION;
   const mitigated =
-    (atk.attackPower - def.defense) * critFactor * blockFactor * def.damageTakenMult;
+    (atk.attackPower - def.defense) *
+    critFactor *
+    blockFactor *
+    def.damageTakenMult;
   return hitChance(atk, def) * Math.max(floor, mitigated);
 }
 
@@ -281,7 +295,8 @@ export function foeForecasts(state: GameState): FoeForecast[] {
  *  for T2 per A10) is excluded here even on its node, though it stays in the balance curve. */
 export function foesHere(state: GameState): FoeForecast[] {
   return foeForecasts(state).filter(
-    (fc) => fc.mob.area === state.location && (fc.mob.minTier ?? 0) <= state.tier,
+    (fc) =>
+      fc.mob.area === state.location && (fc.mob.minTier ?? 0) <= state.tier,
   );
 }
 
@@ -357,5 +372,11 @@ export function resolveFight(
       break;
     }
   }
-  return { won: enHp <= 0 && mcHp > 0, fled, mcHpLeft: Math.max(0, mcHp), rounds, rng: r };
+  return {
+    won: enHp <= 0 && mcHp > 0,
+    fled,
+    mcHpLeft: Math.max(0, mcHp),
+    rounds,
+    rng: r,
+  };
 }

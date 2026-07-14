@@ -16,7 +16,10 @@ import {
 const MIN = 60_000;
 
 /** Fold a synthetic timeline through the reducer — the same advance() the live shell calls. */
-function fold(events: TelemetryEvent[], state: SessionizerState): SessionizerState {
+function fold(
+  events: TelemetryEvent[],
+  state: SessionizerState,
+): SessionizerState {
   return events.reduce((s, ev) => advance(s, ev), state);
 }
 
@@ -30,7 +33,8 @@ function inputs(from: number, to: number, stepMs = MIN): TelemetryEvent[] {
 /** Heartbeats every 30s over (from, to] — the live page's watchdog cadence. */
 function heartbeats(from: number, to: number): TelemetryEvent[] {
   const out: TelemetryEvent[] = [];
-  for (let t = from + 30_000; t <= to; t += 30_000) out.push({ t, kind: 'heartbeat' });
+  for (let t = from + 30_000; t <= to; t += 30_000)
+    out.push({ t, kind: 'heartbeat' });
   return out;
 }
 
@@ -171,7 +175,11 @@ describe('sessionizer — attended-idle counts (watching the grind IS play)', ()
   it('visible, autos armed, no input, under TTL: idle accrues and autosArmedMs tracks it', () => {
     let s = createSessionizer(0);
     s = fold(
-      [{ t: 0, kind: 'auto', armed: true }, { t: 0, kind: 'input' }, ...heartbeats(0, 4 * MIN)],
+      [
+        { t: 0, kind: 'auto', armed: true },
+        { t: 0, kind: 'input' },
+        ...heartbeats(0, 4 * MIN),
+      ],
       s,
     );
     s = finalize(s, 4 * MIN);
@@ -213,7 +221,11 @@ describe('sessionizer — note re-engagement (the flagged weakest rule)', () => 
   function walkedAway(): SessionizerState {
     const s = createSessionizer(0);
     return fold(
-      [{ t: 0, kind: 'auto', armed: true }, { t: 0, kind: 'input' }, ...heartbeats(0, 6 * MIN)],
+      [
+        { t: 0, kind: 'auto', armed: true },
+        { t: 0, kind: 'input' },
+        ...heartbeats(0, 6 * MIN),
+      ],
       s,
     );
   }

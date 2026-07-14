@@ -30,17 +30,23 @@ describe('hasWholeWord', () => {
   });
 
   it('escapes regex metacharacters in the needle', () => {
-    expect(hasWholeWord('mamushi (pit viper) strikes', 'mamushi (pit viper)')).toBe(true);
+    expect(
+      hasWholeWord('mamushi (pit viper) strikes', 'mamushi (pit viper)'),
+    ).toBe(true);
   });
 });
 
 describe('matchesLabel', () => {
   it('accepts the core form when the trailing parenthetical is absent', () => {
-    expect(matchesLabel('a mamushi struck from the grass', 'Mamushi (pit viper)')).toBe(true);
+    expect(
+      matchesLabel('a mamushi struck from the grass', 'Mamushi (pit viper)'),
+    ).toBe(true);
   });
 
   it('is case-insensitive over a lowercased corpus', () => {
-    expect(matchesLabel('the grain-store leans', 'The grain-store (kura)')).toBe(true);
+    expect(
+      matchesLabel('the grain-store leans', 'The grain-store (kura)'),
+    ).toBe(true);
   });
 
   it('rejects a label absent from the corpus', () => {
@@ -64,6 +70,8 @@ describe('stripGenRegions', () => {
   });
 
   it('leaves a retired term in HAND prose alone — the scan still fires there', () => {
-    expect(stripGenRegions('the satoyama frame lives on')).toContain('satoyama');
+    expect(stripGenRegions('the satoyama frame lives on')).toContain(
+      'satoyama',
+    );
   });
 });

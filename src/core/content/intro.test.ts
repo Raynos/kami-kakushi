@@ -20,7 +20,9 @@ describe('INTRO_BEATS — the interactive-intro data (plan §3.4/§4)', () => {
     expect(INTRO_BEAT_COUNT).toBe(3);
     expect(INTRO_BEATS.map((b) => b.id)).toEqual(['dream', 'soan', 'genemon']);
     expect(INTRO_BEATS.find((b) => b.id === 'soan')!.speaker).toBe('soan');
-    expect(INTRO_BEATS.find((b) => b.id === 'genemon')!.speaker).toBe('genemon');
+    expect(INTRO_BEATS.find((b) => b.id === 'genemon')!.speaker).toBe(
+      'genemon',
+    );
     expect(INTRO_BEATS.find((b) => b.id === 'dream')!.speaker).toBeUndefined(); // narrator act
   });
 
@@ -87,7 +89,9 @@ describe('INTRO_BEATS — the interactive-intro data (plan §3.4/§4)', () => {
       }
     }
     // …and the write machinery is actually exercised: at least one beat carries memory.
-    expect(INTRO_BEATS.some((b) => b.options!.some((o) => o.memory))).toBe(true);
+    expect(INTRO_BEATS.some((b) => b.options!.some((o) => o.memory))).toBe(
+      true,
+    );
   });
 
   it('option ids are globally unique (the reducer looks options up by id)', () => {
@@ -146,7 +150,9 @@ describe('intro selectors', () => {
   });
 
   it('every perk name is distinct (the milestone line must read as a specific unlock)', () => {
-    const names = INTRO_BEATS.flatMap((b) => b.options!.map((o) => o.perk.name));
+    const names = INTRO_BEATS.flatMap((b) =>
+      b.options!.map((o) => o.perk.name),
+    );
     expect(names.length).toBeGreaterThan(0);
     expect(new Set(names).size).toBe(names.length);
   });

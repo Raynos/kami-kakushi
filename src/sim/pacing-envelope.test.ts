@@ -34,7 +34,10 @@ const ratioStub = (
     totalWallMin,
     totalIntents: 0,
     economy: { phase2Intents: phase2WallMin === null ? null : 1 },
-    rungs: phase2WallMin === null ? [] : [{ rung: PHASE2_RUNG, wallMin: phase2WallMin }],
+    rungs:
+      phase2WallMin === null
+        ? []
+        : [{ rung: PHASE2_RUNG, wallMin: phase2WallMin }],
   }) as unknown as RunMetrics;
 
 describe('T0 pacing envelope tripwire (greedy, canonical seed)', () => {

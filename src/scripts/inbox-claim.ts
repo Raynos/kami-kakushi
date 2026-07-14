@@ -32,8 +32,12 @@ import {
   type Claim,
 } from './inbox-lanes';
 
-const PENDING = resolve(new URL('../../project/playtest-inbox/pending', import.meta.url).pathname);
-const FLOG_DIR = resolve(new URL('../../project/feedback-human', import.meta.url).pathname);
+const PENDING = resolve(
+  new URL('../../project/playtest-inbox/pending', import.meta.url).pathname,
+);
+const FLOG_DIR = resolve(
+  new URL('../../project/feedback-human', import.meta.url).pathname,
+);
 
 function readFlogTexts(): string[] {
   try {
@@ -65,7 +69,9 @@ function printLive(exceptLanes: readonly string[] = []): void {
   const alive = liveness();
   for (const { lane, claim } of claims) {
     if (exceptLanes.includes(lane)) continue;
-    const remaining = items.filter((i) => i.lane === lane && i.status === 'open').length;
+    const remaining = items.filter(
+      (i) => i.lane === lane && i.status === 'open',
+    ).length;
     console.log(
       `LIVE     ${lane.padEnd(14)} ${claim.pane.padEnd(7)} ${claim.agent.padEnd(10)} ` +
         `${alive.get(lane) ? 'alive' : 'DEAD (reapable)'}   ${remaining} open   FB-${claim.fbLo}..${claim.fbHi}`,
@@ -81,7 +87,9 @@ if (cmd === 'list') {
     claims.map((c) => c.claim),
     items,
   );
-  console.log(`F-number high-water mark: FB-${hw} (next block starts at FB-${hw + 1})`);
+  console.log(
+    `F-number high-water mark: FB-${hw} (next block starts at FB-${hw + 1})`,
+  );
   process.exit(0);
 }
 
@@ -93,10 +101,14 @@ if (cmd === 'headline') {
   // from each sidecar (`lane ?? bucket`), so a lane renamed off its bucket is
   // still seen as claimed. Union of every claim's lanes, live or not.
   const claimedLanes = new Set(
-    claims.flatMap(({ claim }) => (Array.isArray(claim.lanes) ? claim.lanes : [])),
+    claims.flatMap(({ claim }) =>
+      Array.isArray(claim.lanes) ? claim.lanes : [],
+    ),
   );
   for (const row of bucketDrainRows(items, claimedLanes)) {
-    console.log(`${row.count}\t${row.bucket}\t${row.inProgress ? 'in progress' : 'pending'}`);
+    console.log(
+      `${row.count}\t${row.bucket}\t${row.inProgress ? 'in progress' : 'pending'}`,
+    );
   }
   process.exit(0);
 }
@@ -116,7 +128,9 @@ if (cmd === 'reap') {
   const reaped = claims.filter(({ lane }) => !alive.get(lane));
   for (const { lane } of reaped) releaseClaim(PENDING, lane);
   console.log(
-    reaped.length === 0 ? 'nothing to reap' : `reaped: ${reaped.map((r) => r.lane).join(', ')}`,
+    reaped.length === 0
+      ? 'nothing to reap'
+      : `reaped: ${reaped.map((r) => r.lane).join(', ')}`,
   );
   process.exit(0);
 }
@@ -141,7 +155,9 @@ if (cmd === 'claim') {
   const mine = items.filter((i) => lanes.includes(i.lane));
   const open = mine.filter((i) => i.status === 'open');
   if (open.length === 0) {
-    console.error(`claim: no open items in lane(s) ${lanes.join(', ')} — nothing to drain`);
+    console.error(
+      `claim: no open items in lane(s) ${lanes.join(', ')} — nothing to drain`,
+    );
     process.exit(1);
   }
 
@@ -195,7 +211,10 @@ if (cmd === 'claim') {
   // accidental mismatch doesn't hide a drain-in-progress. (The brief itself now
   // resolves the real lane, so this is belt-and-suspenders, not a correctness
   // dependency.)
-  const orphanLanes = lanesWithoutBucket(lanes, new Set(items.map((i) => i.bucket)));
+  const orphanLanes = lanesWithoutBucket(
+    lanes,
+    new Set(items.map((i) => i.bucket)),
+  );
   if (orphanLanes.length > 0) {
     console.warn(
       `  ~ WARN: lane(s) ${orphanLanes.join(', ')} name no pending bucket folder —`,
@@ -226,5 +245,7 @@ if (cmd === 'claim') {
   process.exit(0);
 }
 
-console.error(`unknown command: ${cmd} (use claim | list | headline | release | reap)`);
+console.error(
+  `unknown command: ${cmd} (use claim | list | headline | release | reap)`,
+);
 process.exit(1);

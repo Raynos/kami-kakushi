@@ -39,7 +39,10 @@ export const meta = {
       detail: 'score each description separately against its rubric',
       model: 'opus',
     },
-    { title: 'Report', detail: 'write the scored report to project/audit/reports/' },
+    {
+      title: 'Report',
+      detail: 'write the scored report to project/audit/reports/',
+    },
   ],
 };
 
@@ -95,14 +98,20 @@ the filename, T1 files contain "t1", T2 files contain "t2".`,
   },
 );
 const filesFor = (t) =>
-  (t === 'T0' ? cap && cap.t0 : t === 'T1' ? cap && cap.t1 : cap && cap.t2) || [];
+  (t === 'T0' ? cap && cap.t0 : t === 'T1' ? cap && cap.t1 : cap && cap.t2) ||
+  [];
 if (!cap || sheets.some((t) => filesFor(t).length === 0)) {
   return {
     failed: 'capture',
-    detail: (cap && cap.error) || 'no shots produced for a requested sheet — is the dev server up?',
+    detail:
+      (cap && cap.error) ||
+      'no shots produced for a requested sheet — is the dev server up?',
   };
 }
-log(sheets.map((t) => `${filesFor(t).length} ${t}`).join(' + ') + ` shots → ${cap.outdir}`);
+log(
+  sheets.map((t) => `${filesFor(t).length} ${t}`).join(' + ') +
+    ` shots → ${cap.outdir}`,
+);
 
 // which map-spec rubric section + cross-sheet comparison each tier is judged by
 const RUBRIC_NOTE = {
@@ -202,7 +211,12 @@ const scored = results.filter(Boolean).map(({ tier, chains }) => {
   const byId = new Map();
   for (const c of chains) {
     for (const l of c.judge.lines) {
-      const e = byId.get(l.id) || { id: l.id, kind: l.kind, passVotes: 0, missWhy: [] };
+      const e = byId.get(l.id) || {
+        id: l.id,
+        kind: l.kind,
+        passVotes: 0,
+        missWhy: [],
+      };
       if (l.pass) e.passVotes += 1;
       else if (l.why) e.missWhy.push(l.why);
       if (l.kind === 'M') e.kind = 'M'; // conservative on kind disagreement
@@ -232,10 +246,13 @@ const scored = results.filter(Boolean).map(({ tier, chains }) => {
   };
 });
 const degraded = scored.filter((t) => t.judges < READERS);
-for (const t of degraded) log(`⚠ ${t.tier}: only ${t.judges}/${READERS} reader chains survived`);
+for (const t of degraded)
+  log(`⚠ ${t.tier}: only ${t.judges}/${READERS} reader chains survived`);
 const pass =
   scored.length === sheets.length &&
-  scored.every((t) => t.judges >= 2 && t.mPass === t.mTotal && t.sPass * 2 >= t.sTotal);
+  scored.every(
+    (t) => t.judges >= 2 && t.mPass === t.mTotal && t.sPass * 2 >= t.sTotal,
+  );
 for (const t of scored)
   log(
     `${t.tier}: M ${t.mPass}/${t.mTotal} · S ${t.sPass}/${t.sTotal} · marginal ${t.lines.filter((l) => l.marginal).length}`,

@@ -98,7 +98,8 @@ export function createLogView(ctx: {
   // fires this too and re-confirms `true`, so there's no fight with the auto-follow.
   logLines.addEventListener('scroll', () => {
     const atFoot =
-      logLines.scrollHeight - logLines.scrollTop - logLines.clientHeight <= LOG_STICK_THRESHOLD_PX;
+      logLines.scrollHeight - logLines.scrollTop - logLines.clientHeight <=
+      LOG_STICK_THRESHOLD_PX;
     // FB-150 — mid-glide positions may only RE-pin, never unpin.
     if (!atFoot && performance.now() < smoothScrollUntil) return;
     logPinnedToBottom = atFoot;
@@ -221,7 +222,8 @@ export function createLogView(ctx: {
       e.chat === true,
       isEarnedLine(e.contentKey),
     ) &&
-    (logFilter !== 'story' || storySubMatches(storySub, e.context !== undefined));
+    (logFilter !== 'story' ||
+      storySubMatches(storySub, e.context !== undefined));
   // FB-20 — per-channel "highest key the reader has seen"; a tab whose channel has entries
   // beyond its seen-mark (that arrived while another tab was active) shows an unread dot.
   const logSeen: Record<LogFilter, number> = {
@@ -281,11 +283,14 @@ export function createLogView(ctx: {
    *  finished, or null when this entry (or this view) isn't one. DEV can swap the take live —
    *  the line is read from the registry on every paint, never stored. */
   function progressObjective(entry: LogEntry): string | null {
-    if (logFilter !== 'progression' || !isEarnedLine(entry.contentKey)) return null;
+    if (logFilter !== 'progression' || !isEarnedLine(entry.contentKey))
+      return null;
     const id = entry.contentKey!.slice('requirement.'.length);
     const req = requirementById(id);
     if (!req) return null;
-    return __DEV_TOOLS__ && dev ? dev.subReqObjective(id, req.objective) : req.objective;
+    return __DEV_TOOLS__ && dev
+      ? dev.subReqObjective(id, req.objective)
+      : req.objective;
   }
   function renderLineContent(line: HTMLElement, entry: LogEntry): void {
     const perk = parsePerkLine(entry);
@@ -321,14 +326,19 @@ export function createLogView(ctx: {
     const prefix = speakerPrefixNode(entry);
     if (prefix) line.append(prefix);
     // DEV — re-derive keyed prose so a story-take flip re-voices logged lines (see devRederivedEntry).
-    const text = formatLogText(__DEV_TOOLS__ && dev ? devRederivedEntry(entry) : entry);
+    const text = formatLogText(
+      __DEV_TOOLS__ && dev ? devRederivedEntry(entry) : entry,
+    );
     // FB-26 — when a line carries a speaker `voice`, the whole line takes that
     // voice's colour (via the `voice-<category>` class on the line, added in
     // buildLogLine), so who's talking reads at a glance. The FB-23 quote-detection
     // (`.speech` spans) runs for NARRATOR-voiced and un-voiced narration (FB-228 —
     // an embedded quote is a character speaking, tinted by inference); a line
     // spoken in a real voice renders plain and lets the class colour it whole.
-    if (entry.channel === 'narration' && (entry.voice === undefined || entry.voice === 'narrator'))
+    if (
+      entry.channel === 'narration' &&
+      (entry.voice === undefined || entry.voice === 'narrator')
+    )
       appendNarration(line, text);
     else line.append(document.createTextNode(text));
   }
@@ -352,7 +362,8 @@ export function createLogView(ctx: {
     // runs. A chat line's group identity is its conversation partner (chatPartners);
     // its card head is the opener's "with <partner> · <context>" label (the retired
     // inline kicker's text, now a lintel).
-    const chatPartner = entry.chat === true ? (chatPartners.get(entry.key) ?? null) : null;
+    const chatPartner =
+      entry.chat === true ? (chatPartners.get(entry.key) ?? null) : null;
     const ctx =
       chatPartner !== null
         ? `chat:${chatPartner}`
@@ -373,7 +384,9 @@ export function createLogView(ctx: {
       if (ctx !== lastHeadCtx) {
         // a chat card's lintel: the opener's label; a mid-run repaint falls back to the partner.
         line.dataset.sceneHead =
-          chatPartner !== null ? `with ${chatKickers.get(entry.key) ?? chatPartner}` : ctx;
+          chatPartner !== null
+            ? `with ${chatKickers.get(entry.key) ?? chatPartner}`
+            : ctx;
         lastHeadCtx = ctx;
       }
     }
@@ -382,7 +395,8 @@ export function createLogView(ctx: {
   }
   function stampBlockBreak(line: HTMLElement, entry: LogEntry): void {
     const key = `${entry.channel}|${entry.voice ?? ''}|${entry.speaker ?? ''}`;
-    if (lastBlockKey !== null && key !== lastBlockKey) line.classList.add('log-break');
+    if (lastBlockKey !== null && key !== lastBlockKey)
+      line.classList.add('log-break');
     lastBlockKey = key;
   }
   function buildLogLine(entry: LogEntry, animate: boolean): HTMLElement {
@@ -399,11 +413,15 @@ export function createLogView(ctx: {
     // today's channel-only styling (narrator quote-detection fallback). FB-228 — a
     // line spoken in a real voice (never the narrator) also steps in (.spoken).
     const voiceClass = entry.voice ? ` voice-${entry.voice}` : '';
-    const spokenClass = entry.voice && entry.voice !== 'narrator' ? ' spoken' : '';
+    const spokenClass =
+      entry.voice && entry.voice !== 'narrator' ? ' spoken' : '';
     // HD-41 — a rung-requirement completion is story that is ALSO earned: the class carries
     // the treatment (A quiet ledger dot by default; B/C via the DEV earned-line variant).
     const earnedClass = isEarnedLine(entry.contentKey) ? ' earned' : '';
-    const line = el('div', `log-line ${entry.channel}${voiceClass}${spokenClass}${earnedClass}`);
+    const line = el(
+      'div',
+      `log-line ${entry.channel}${voiceClass}${spokenClass}${earnedClass}`,
+    );
     stampBlockBreak(line, entry); // FB-167 — breathing room when the speaker-block changes
     stampSceneGroup(line, entry); // FB-262 — VN-unit grouping in the Story log
     renderLineContent(line, entry);
@@ -435,7 +453,8 @@ export function createLogView(ctx: {
   }
   function appendLine(entry: LogEntry, animate: boolean): void {
     logLines.append(buildLogLine(entry, animate)); // newest at the BOTTOM (reads as a story)
-    while (logLines.childElementCount > LOG_DOM_MAX) logLines.firstElementChild?.remove();
+    while (logLines.childElementCount > LOG_DOM_MAX)
+      logLines.firstElementChild?.remove();
     scrollLogToNewest(animate); // follow the newest line (FB-7); animated appends glide (FB-150)
     armFreshDividerFade(); // FB-177 — the divider fades after the LAST written line, not the first
   }
@@ -479,7 +498,8 @@ export function createLogView(ctx: {
   function typeLine(entry: LogEntry, onDone: () => void): void {
     const line = buildLogLine(entry, false);
     logLines.append(line);
-    while (logLines.childElementCount > LOG_DOM_MAX) logLines.firstElementChild?.remove();
+    while (logLines.childElementCount > LOG_DOM_MAX)
+      logLines.firstElementChild?.remove();
     scrollLogToNewest();
     armFreshDividerFade(); // FB-177 — a typing line keeps the fresh divider alive
 
@@ -488,7 +508,8 @@ export function createLogView(ctx: {
     const walker = document.createTreeWalker(line, NodeFilter.SHOW_TEXT);
     const nodes: { node: Text; full: string }[] = [];
     for (let n = walker.nextNode(); n; n = walker.nextNode()) {
-      if (n.parentElement?.closest('.scene-head, .bullet, .log-speaker')) continue;
+      if (n.parentElement?.closest('.scene-head, .bullet, .log-speaker'))
+        continue;
       const t = n as Text;
       nodes.push({ node: t, full: t.data });
       t.data = '';
@@ -566,10 +587,12 @@ export function createLogView(ctx: {
   }
   function paintLogFilterBar(): void {
     logFilterBar.dataset.variant = 'log-filter-segmented'; // human pick (FB-21); A/B removed
-    for (const [id, btn] of logFilterBtns) btn.classList.toggle('active', id === logFilter);
+    for (const [id, btn] of logFilterBtns)
+      btn.classList.toggle('active', id === logFilter);
     // FB-320 — the Story tab expands its vn/all sub-toggle only while selected
     storySubWrap.hidden = logFilter !== 'story';
-    for (const [sub, sb] of storySubBtns) sb.classList.toggle('active', sub === storySub);
+    for (const [sub, sb] of storySubBtns)
+      sb.classList.toggle('active', sub === storySub);
   }
   // FB-20 — the highest entry key that shows under filter `f`.
   function maxKeyForFilter(entries: readonly LogEntry[], f: LogFilter): number {
@@ -594,7 +617,8 @@ export function createLogView(ctx: {
     if (logSeenSeeded) return;
     logSeenSeeded = true;
     const loaded = state.log.entries;
-    for (const f of Object.keys(logSeen) as LogFilter[]) logSeen[f] = maxKeyForFilter(loaded, f);
+    for (const f of Object.keys(logSeen) as LogFilter[])
+      logSeen[f] = maxKeyForFilter(loaded, f);
   }
   function refreshLogTabs(state: GameState): void {
     const entries = state.log.entries;
@@ -624,7 +648,8 @@ export function createLogView(ctx: {
     }
   }
   function ensureExpiryClock(): void {
-    if (nowInterval === undefined) nowInterval = window.setInterval(tickExpiry, 500);
+    if (nowInterval === undefined)
+      nowInterval = window.setInterval(tickExpiry, 500);
   }
   function cancelNowCollapse(): void {
     // F58b — cancel any in-flight collapse animations so their removal timers don't fire late (used
@@ -674,7 +699,9 @@ export function createLogView(ctx: {
   // from the TTL (they hold the Now view's recent beat). Derived from the stamps themselves
   // (nowSeen keys are the log keys, monotonic), so it needs no state threading.
   function protectedNowKeys(): Set<number> {
-    const keys = [...nowSeen.keys()].sort((a, b) => b - a).slice(0, NOW_KEEP_LAST);
+    const keys = [...nowSeen.keys()]
+      .sort((a, b) => b - a)
+      .slice(0, NOW_KEEP_LAST);
     return new Set(keys);
   }
   // FB-175 — the Now tab's ambient ACTIVITY lamp: fleeting text landed in the last 10s.
@@ -716,7 +743,11 @@ export function createLogView(ctx: {
     // the now-line nodes; the placeholder is the sole foreign sibling and is removed before a repaint.
     if (logLines.querySelector('.now-line')) return; // still has live lines
     if (nowEmptyEl && nowEmptyEl.isConnected) return;
-    nowEmptyEl = el('div', 'log-empty', 'Quiet, just now — the moment has passed.');
+    nowEmptyEl = el(
+      'div',
+      'log-empty',
+      'Quiet, just now — the moment has passed.',
+    );
     logLines.append(nowEmptyEl);
   }
   // FB-115 — the interval body: ALWAYS ages the stamps out on wall time (so the expiry runs regardless
@@ -745,7 +776,9 @@ export function createLogView(ctx: {
       // lands (stampEphemeral re-arms the clock) — stop ticking rather than spin forever.
       if (
         nowSeen.size > 0 &&
-        [...nowSeen.entries()].every(([k, seen]) => keep.has(k) && now - seen >= NOW_TTL_MS)
+        [...nowSeen.entries()].every(
+          ([k, seen]) => keep.has(k) && now - seen >= NOW_TTL_MS,
+        )
       ) {
         stopExpiryClock();
         refreshNowLive();
@@ -784,7 +817,8 @@ export function createLogView(ctx: {
           collapseNowLine(node, Number(raw));
         }
       } else {
-        if (!reduced && age >= NOW_TTL_MS - NOW_FADE_MS) node.classList.add('now-fading');
+        if (!reduced && age >= NOW_TTL_MS - NOW_FADE_MS)
+          node.classList.add('now-fading');
         live += 1;
       }
     }
@@ -867,7 +901,11 @@ export function createLogView(ctx: {
       // a single long line can TYPE for longer than the whole countdown — while the
       // cascade is still writing (typing tick live or lines queued), check back later
       // instead of fading out from under the reader.
-      if (typeTimer !== undefined || revealTimer !== undefined || revealQueue.length > 0) {
+      if (
+        typeTimer !== undefined ||
+        revealTimer !== undefined ||
+        revealQueue.length > 0
+      ) {
         armFreshDividerFade();
         return;
       }
@@ -915,7 +953,8 @@ export function createLogView(ctx: {
       // divider + cascade + typewriter — "as if the tab had been open the whole time".
       // (The seen high-water is captured BEFORE refreshLogTabs below marks this tab seen;
       // the >12 flush valve still protects a huge backlog. Now/all are excluded — no dots.)
-      const unreadFrom = f !== 'all' && f !== 'now' ? logSeen[f] : Number.MAX_SAFE_INTEGER;
+      const unreadFrom =
+        f !== 'all' && f !== 'now' ? logSeen[f] : Number.MAX_SAFE_INTEGER;
       const wasFirst = ctx.firstRender();
       ctx.setFirstRender(true);
       if (
@@ -1032,7 +1071,8 @@ export function createLogView(ctx: {
           // line; scrolled-up keeps the anchored boundary (its fade re-arms). Never
           // while a VN owns the screen (the player isn't watching the transcript).
           if (!ctx.vnActive(state) && !ctx.introEndingRender()) {
-            if (freshDivider?.isConnected && !logPinnedToBottom) armFreshDividerFade();
+            if (freshDivider?.isConnected && !logPinnedToBottom)
+              armFreshDividerFade();
             else markFreshDivider(lineEl);
           }
           scrollLogToNewest();
@@ -1094,7 +1134,8 @@ export function createLogView(ctx: {
       // into history keeps the anchored marker (new lines land under it, its fade
       // re-arms); a reader PINNED at the foot has read everything above, so the divider
       // RE-ANCHORS to sit just above each incoming block — new text always says 新.
-      if (freshDivider?.isConnected && !logPinnedToBottom) armFreshDividerFade();
+      if (freshDivider?.isConnected && !logPinnedToBottom)
+        armFreshDividerFade();
       else markFreshDivider();
     }
 
@@ -1109,7 +1150,12 @@ export function createLogView(ctx: {
       for (const e of freshVisible) {
         // P2 — a lone STORY line still typewrites (route it through the cascade of one);
         // ctx.firstRender()/didReset/reduced-motion/intro keep the instant path (guards bail).
-        if (!didReset && !introInstant && typewriterEnabled() && qualifiesForTypewriter(e)) {
+        if (
+          !didReset &&
+          !introInstant &&
+          typewriterEnabled() &&
+          qualifiesForTypewriter(e)
+        ) {
           revealQueue.push(e);
           pumpReveal();
         } else {

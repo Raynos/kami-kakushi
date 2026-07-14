@@ -30,17 +30,23 @@ if (!existsSync(DIR)) {
 }
 
 const errors: string[] = [];
-const files = readdirSync(DIR).filter((f) => f.endsWith('.md') && f !== 'README.md');
+const files = readdirSync(DIR).filter(
+  (f) => f.endsWith('.md') && f !== 'README.md',
+);
 
 if (files.length !== EXPECTED) {
-  errors.push(`expected ${EXPECTED} section files, found ${files.length}: ${files.join(', ')}`);
+  errors.push(
+    `expected ${EXPECTED} section files, found ${files.length}: ${files.join(', ')}`,
+  );
 }
 
 const seen = new Set<number>();
 for (const f of files) {
-  if (!ASCII_NAME.test(f)) errors.push(`filename not ASCII/ordered: ${f} (want e.g. 01-vision.md)`);
+  if (!ASCII_NAME.test(f))
+    errors.push(`filename not ASCII/ordered: ${f} (want e.g. 01-vision.md)`);
   const content = readFileSync(join(DIR, f), 'utf8');
-  if (content.length < MIN_CHARS) errors.push(`${f} is only ${content.length} chars — truncated?`);
+  if (content.length < MIN_CHARS)
+    errors.push(`${f} is only ${content.length} chars — truncated?`);
 
   const header = /^# §(\d+)\b/m.exec(content);
   if (!header) {
@@ -50,7 +56,8 @@ for (const f of files) {
   const num = Number(header[1]);
   seen.add(num);
   const prefix = Number(f.slice(0, 2));
-  if (num !== prefix) errors.push(`${f}: header §${num} != filename prefix ${prefix}`);
+  if (num !== prefix)
+    errors.push(`${f}: header §${num} != filename prefix ${prefix}`);
 
   // The stub index must link this section file (so no orphan, and the inbound refs resolve).
   if (existsSync(INDEX)) {

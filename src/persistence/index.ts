@@ -29,7 +29,9 @@ export { findOrphanedIds, formatOrphanReport } from './orphans';
 export type { OrphanReport, OrphanGroup } from './orphans';
 
 /** The real browser save manager: three redundant backends + the wall clock. */
-export function createBrowserSaveManager(overrides: Partial<SaveManagerOptions> = {}): SaveManager {
+export function createBrowserSaveManager(
+  overrides: Partial<SaveManagerOptions> = {},
+): SaveManager {
   const backends: StorageBackend[] = [
     new IndexedDBBackend(),
     localStorageBackend(),

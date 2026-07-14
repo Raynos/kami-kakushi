@@ -33,7 +33,10 @@ export function walkPoint(from: Pt, to: Pt, p: number): Pt {
  *  and periodic; zero when not walking (the caller gates on `running`).
  *  FB-389 (drain 2026-07-11) — frequencies halved with the ×2 walk table: the
  *  0.4s/0.8s cycles read frantic; ~0.8s bob / ~1.6s rock reads heavy. */
-export function gaitAt(tMs: number): { readonly bob: number; readonly rock: number } {
+export function gaitAt(tMs: number): {
+  readonly bob: number;
+  readonly rock: number;
+} {
   return {
     bob: Math.sin(tMs * 0.008) * 3.5,
     rock: Math.sin(tMs * 0.004) * 6,

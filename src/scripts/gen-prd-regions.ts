@@ -79,7 +79,9 @@ export function genT0RungTitles(): string {
  *  (`baseAttack`/`baseSpeed`/durability) stay OUT — those are §4.6.9's provisional,
  *  sim-owned domain (ADR-132), never transcluded. Pure fn; exported for test. */
 export function genT0WeaponRoster(): string {
-  const rows = WEAPONS.map((w) => `| ${w.label} | ${w.kanji} | ${w.archetype} | ${w.blurb} |`);
+  const rows = WEAPONS.map(
+    (w) => `| ${w.label} | ${w.kanji} | ${w.archetype} | ${w.blurb} |`,
+  );
   return [
     '> **The T0 weapon roster, as the build ships it** — GENERATED from `WEAPONS`',
     '> ([`weapons.ts`](../../../src/core/content/weapons.ts)) by `pnpm run',
@@ -101,7 +103,9 @@ export function genT0WeaponRoster(): string {
  *  `level` is §4.6 tuning and stays out. Pure fn of MOBS; exported for test. */
 export function genT0Bestiary(): string {
   const t0 = MOBS.filter((m) => (m.minTier ?? 0) < 2);
-  const rows = t0.map((m) => `| ${m.label} | ${m.kanji} | ${m.area.replace(/-/g, ' ')} |`);
+  const rows = t0.map(
+    (m) => `| ${m.label} | ${m.kanji} | ${m.area.replace(/-/g, ' ')} |`,
+  );
   return [
     '> **The T0 bestiary, as the build ships it** — GENERATED from `MOBS`',
     '> ([`enemies.ts`](../../../src/core/content/enemies.ts)) by `pnpm run',
@@ -159,7 +163,9 @@ export function genT0DeedSources(): string {
  *  canon, readable in t0-story/flavor) stay OUT. Pure fn; exported for test. */
 export function genT0Discoveries(): string {
   const trig = (d: (typeof DISCOVERIES)[number]): string =>
-    d.trigger.kind === 'watch' ? `watching (\`${d.trigger.activity}\`)` : 'stumbled on arrival';
+    d.trigger.kind === 'watch'
+      ? `watching (\`${d.trigger.activity}\`)`
+      : 'stumbled on arrival';
   const rows = DISCOVERIES.map(
     (d) =>
       `| \`${d.id}\` | ${d.node} | ${d.reveals ? `\`${d.reveals}\`` : '*(seed-only find)*'} | ${trig(d)} |`,
@@ -254,7 +260,8 @@ export function genT0QuestRoster(): string {
  *  deed source), derived from ACTIVITIES. Yields/satiety/xp are §4 tuning, out. */
 export function genT0Activities(): string {
   const rows = ACTIVITIES.map(
-    (a) => `| \`${a.id}\` | ${a.label} | ${a.area} | ${a.skill} | ${a.deedSource ?? '—'} |`,
+    (a) =>
+      `| \`${a.id}\` | ${a.label} | ${a.area} | ${a.skill} | ${a.deedSource ?? '—'} |`,
   );
   return [
     '> **The T0 activity roster, as the build ships it** — GENERATED from `ACTIVITIES`',
@@ -295,7 +302,9 @@ export function genT0MarketStock(): string {
 /** The T0 estate works ladder (ADR-168 G7) — identity only (stage · label · blurb),
  *  derived from ESTATE_STAGES. Coin costs and bonuses are sim-owned seeds, out. */
 export function genT0EstateWorks(): string {
-  const rows = ESTATE_STAGES.map((s) => `| U${s.stage} | ${s.label} | ${s.blurb} |`);
+  const rows = ESTATE_STAGES.map(
+    (s) => `| U${s.stage} | ${s.label} | ${s.blurb} |`,
+  );
   return [
     '> **The T0 estate works (kura-works flywheel), as the build ships them** — GENERATED',
     '> from `ESTATE_STAGES` ([`estate.ts`](../../../src/core/content/estate.ts)) by',
@@ -335,18 +344,66 @@ interface RegionSpec {
   gen: () => string;
 }
 const REGIONS: ReadonlyArray<RegionSpec> = [
-  { file: 'docs/living/prd/01-vision.md', id: 't0-rung-reveals', gen: genT0RungReveals },
-  { file: 'docs/living/prd/03-unlock-ladder.md', id: 't0-rung-titles', gen: genT0RungTitles },
-  { file: 'docs/living/prd/03-unlock-ladder.md', id: 't0-deed-sources', gen: genT0DeedSources },
-  { file: 'docs/living/prd/03-unlock-ladder.md', id: 't0-zone-reveals', gen: genT0ZoneReveals },
-  { file: 'docs/living/prd/02-systems.md', id: 't0-weapon-roster', gen: genT0WeaponRoster },
-  { file: 'docs/living/prd/02-systems.md', id: 't0-bestiary', gen: genT0Bestiary },
-  { file: 'docs/living/prd/02-systems.md', id: 't0-discoveries', gen: genT0Discoveries },
-  { file: 'docs/living/prd/02-systems.md', id: 't0-quest-roster', gen: genT0QuestRoster },
-  { file: 'docs/living/prd/02-systems.md', id: 't0-activities', gen: genT0Activities },
-  { file: 'docs/living/prd/02-systems.md', id: 't0-market-stock', gen: genT0MarketStock },
-  { file: 'docs/living/prd/02-systems.md', id: 't0-estate-works', gen: genT0EstateWorks },
-  { file: 'docs/living/prd/06-tech-architecture.md', id: 'verify-gates', gen: genVerifyGates },
+  {
+    file: 'docs/living/prd/01-vision.md',
+    id: 't0-rung-reveals',
+    gen: genT0RungReveals,
+  },
+  {
+    file: 'docs/living/prd/03-unlock-ladder.md',
+    id: 't0-rung-titles',
+    gen: genT0RungTitles,
+  },
+  {
+    file: 'docs/living/prd/03-unlock-ladder.md',
+    id: 't0-deed-sources',
+    gen: genT0DeedSources,
+  },
+  {
+    file: 'docs/living/prd/03-unlock-ladder.md',
+    id: 't0-zone-reveals',
+    gen: genT0ZoneReveals,
+  },
+  {
+    file: 'docs/living/prd/02-systems.md',
+    id: 't0-weapon-roster',
+    gen: genT0WeaponRoster,
+  },
+  {
+    file: 'docs/living/prd/02-systems.md',
+    id: 't0-bestiary',
+    gen: genT0Bestiary,
+  },
+  {
+    file: 'docs/living/prd/02-systems.md',
+    id: 't0-discoveries',
+    gen: genT0Discoveries,
+  },
+  {
+    file: 'docs/living/prd/02-systems.md',
+    id: 't0-quest-roster',
+    gen: genT0QuestRoster,
+  },
+  {
+    file: 'docs/living/prd/02-systems.md',
+    id: 't0-activities',
+    gen: genT0Activities,
+  },
+  {
+    file: 'docs/living/prd/02-systems.md',
+    id: 't0-market-stock',
+    gen: genT0MarketStock,
+  },
+  {
+    file: 'docs/living/prd/02-systems.md',
+    id: 't0-estate-works',
+    gen: genT0EstateWorks,
+  },
+  {
+    file: 'docs/living/prd/06-tech-architecture.md',
+    id: 'verify-gates',
+    gen: genVerifyGates,
+  },
 ];
 
 /** Apply every region targeting `file` and return before/after. */
@@ -372,12 +429,18 @@ function runCli(): void {
       return before !== after;
     });
     if (stale.length) {
-      console.error('  X gen-prd-regions --check FAILED: generated PRD region(s) are stale:');
+      console.error(
+        '  X gen-prd-regions --check FAILED: generated PRD region(s) are stale:',
+      );
       for (const f of stale) console.error(`      ${f}`);
-      console.error('    Run `pnpm run gen:prd-regions` to regenerate, then stage the file.');
+      console.error(
+        '    Run `pnpm run gen:prd-regions` to regenerate, then stage the file.',
+      );
       process.exit(1);
     }
-    console.log(`  ✓ gen-prd-regions --check: ${targetFiles.length} PRD region-doc(s) fresh.`);
+    console.log(
+      `  ✓ gen-prd-regions --check: ${targetFiles.length} PRD region-doc(s) fresh.`,
+    );
     process.exit(0);
   }
 
@@ -393,7 +456,9 @@ function runCli(): void {
     console.log('gen-prd-regions — wrote:');
     for (const f of wrote) console.log(`  ~ ${f}`);
   } else {
-    console.log('gen-prd-regions: PRD region(s) already up to date (no write).');
+    console.log(
+      'gen-prd-regions: PRD region(s) already up to date (no write).',
+    );
   }
   process.exit(0);
 }

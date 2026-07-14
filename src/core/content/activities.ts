@@ -146,7 +146,9 @@ export const ACTIVITIES: readonly ActivityDef[] = [
   },
 ];
 
-export const ACTIVITY_IDS: ReadonlySet<string> = new Set(ACTIVITIES.map((a) => a.id));
+export const ACTIVITY_IDS: ReadonlySet<string> = new Set(
+  ACTIVITIES.map((a) => a.id),
+);
 
 // ── Labour SITES + the per-(site, season) production pool (ADR-163 / G4.5) ───────────────────────
 // Each distinct labour `area` is a SITE with a per-season yield pool (SITE_POOL_BASE). A site is
@@ -156,14 +158,22 @@ export const ACTIVITY_IDS: ReadonlySet<string> = new Set(ACTIVITIES.map((a) => a
 
 /** Every distinct labour site + whether it rides the autumn-harvest peak. Derived from ACTIVITIES
  *  (single source), so a new labour activity's site is picked up for free. */
-export const LABOUR_SITES: readonly { readonly site: string; readonly seasonHarvest: boolean }[] =
-  (() => {
-    const byArea = new Map<string, boolean>();
-    for (const a of ACTIVITIES) {
-      byArea.set(a.area, (byArea.get(a.area) ?? false) || a.seasonHarvest === true);
-    }
-    return [...byArea.entries()].map(([site, seasonHarvest]) => ({ site, seasonHarvest }));
-  })();
+export const LABOUR_SITES: readonly {
+  readonly site: string;
+  readonly seasonHarvest: boolean;
+}[] = (() => {
+  const byArea = new Map<string, boolean>();
+  for (const a of ACTIVITIES) {
+    byArea.set(
+      a.area,
+      (byArea.get(a.area) ?? false) || a.seasonHarvest === true,
+    );
+  }
+  return [...byArea.entries()].map(([site, seasonHarvest]) => ({
+    site,
+    seasonHarvest,
+  }));
+})();
 
 /** The fresh season-turn pool map: every labour site refilled to its (site, season) peak. Used at
  *  init (winter) and at each `advance_season`. */

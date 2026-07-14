@@ -50,9 +50,17 @@ export function rng(seed: string): () => number {
 // ── path builders ────────────────────────────────────────────────────────────
 
 /** Hand-scrawled path: jittered vertices, bowed segments (the surveyed brush line). */
-export function scrawl(pts: readonly Pt[], seed: string, amp = 2.2, close = false): string {
+export function scrawl(
+  pts: readonly Pt[],
+  seed: string,
+  amp = 2.2,
+  close = false,
+): string {
   const r = rng(seed);
-  const j = (p: Pt): Pt => [p[0] + (r() - 0.5) * 2 * amp, p[1] + (r() - 0.5) * 2 * amp];
+  const j = (p: Pt): Pt => [
+    p[0] + (r() - 0.5) * 2 * amp,
+    p[1] + (r() - 0.5) * 2 * amp,
+  ];
   const q = pts.map(j);
   if (close) q.push(q[0]!);
   const p0 = q[0]!;
@@ -84,7 +92,11 @@ export interface InkOpts {
 }
 
 /** A fine scrawled ink stroke — the hairline/working-line register (spec L2 W1–W3). */
-export function inkLine(parent: SVGElement, pts: readonly Pt[], o: InkOpts = {}): SVGPathElement {
+export function inkLine(
+  parent: SVGElement,
+  pts: readonly Pt[],
+  o: InkOpts = {},
+): SVGPathElement {
   const p = sv('path', {
     d: scrawl(pts, o.seed ?? 'ink', o.amp ?? 1.6),
     fill: 'none',
@@ -119,11 +131,18 @@ export interface BrushOpts {
 /** THE structural stroke — a tapered, variable-width brush line rendered as a filled
  *  polygon (spec L2 W4): pressure swells in the belly, tapers at both ends, and can
  *  break up dry at the tail. Never a uniform polyline. */
-export function brushStroke(parent: SVGElement, pts: readonly Pt[], o: BrushOpts): void {
+export function brushStroke(
+  parent: SVGElement,
+  pts: readonly Pt[],
+  o: BrushOpts,
+): void {
   const r = rng(o.seed);
   const step = Math.max(7, o.w * 1.8);
   const line = resample(pts, step).map(
-    (p): Pt => [p[0] + (r() - 0.5) * 2 * (o.amp ?? 1.8), p[1] + (r() - 0.5) * 2 * (o.amp ?? 1.8)],
+    (p): Pt => [
+      p[0] + (r() - 0.5) * 2 * (o.amp ?? 1.8),
+      p[1] + (r() - 0.5) * 2 * (o.amp ?? 1.8),
+    ],
   );
   if (line.length < 2) return;
   const tIn = o.taperIn ?? 0.16;
@@ -133,7 +152,8 @@ export function brushStroke(parent: SVGElement, pts: readonly Pt[], o: BrushOpts
   const widths: number[] = [];
   for (let i = 0; i < n; i++) {
     const t = i / (n - 1);
-    const ease = (v: number): number => Math.sin(Math.min(v, 1) * Math.PI * 0.5) ** 0.85;
+    const ease = (v: number): number =>
+      Math.sin(Math.min(v, 1) * Math.PI * 0.5) ** 0.85;
     const prof = ease(t / tIn) * ease((1 - t) / tOut);
     widths.push(Math.max(0.35, o.w * prof * (1 + (r() - 0.5) * 2 * wob)));
   }
@@ -164,7 +184,8 @@ export function brushStroke(parent: SVGElement, pts: readonly Pt[], o: BrushOpts
     right.reverse();
     const all = [...left, ...right];
     let d = `M${all[0]![0].toFixed(1)},${all[0]![1].toFixed(1)}`;
-    for (let i = 1; i < all.length; i++) d += ` L${all[i]![0].toFixed(1)},${all[i]![1].toFixed(1)}`;
+    for (let i = 1; i < all.length; i++)
+      d += ` L${all[i]![0].toFixed(1)},${all[i]![1].toFixed(1)}`;
     d += ' Z';
     parent.append(
       sv('path', {
@@ -189,13 +210,21 @@ export interface WashOpts {
 
 /** A flat token-colour ground wash with a hand-cut edge (spec L1 — flat fills only,
  *  texture comes from strokes layered ON washes, never raster grain). */
-export function wash(parent: SVGElement, pts: readonly Pt[], o: WashOpts): SVGPathElement {
+export function wash(
+  parent: SVGElement,
+  pts: readonly Pt[],
+  o: WashOpts,
+): SVGPathElement {
   const p = sv('path', {
     d: scrawl(pts, o.seed, o.amp ?? 5, true),
     fill: o.fill,
     ...(o.opacity !== undefined ? { opacity: String(o.opacity) } : {}),
     ...(o.stroke
-      ? { stroke: o.stroke, 'stroke-width': String(o.strokeW ?? 1), 'stroke-linejoin': 'round' }
+      ? {
+          stroke: o.stroke,
+          'stroke-width': String(o.strokeW ?? 1),
+          'stroke-linejoin': 'round',
+        }
       : { stroke: 'none' }),
   });
   parent.append(p);

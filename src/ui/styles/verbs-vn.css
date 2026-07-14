@@ -16,7 +16,9 @@
   border-radius: var(--radius);
   padding: var(--space-2) var(--space-3);
   text-align: left;
-  min-height: var(--tap-min); /* a11y touch target; justify defaults flex-start → copy stays left */
+  min-height: var(
+    --tap-min
+  ); /* a11y touch target; justify defaults flex-start → copy stays left */
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -91,7 +93,12 @@
   overflow: auto;
   /* a SOLID full-screen ground (not a translucent scrim over a visible shell) — the same
      kura-dark field the cold-open wakes in, so the two intro beats read as one dark space. */
-  background: radial-gradient(ellipse at center, #141726 0%, var(--steel-0) 62%, var(--void) 100%);
+  background: radial-gradient(
+    ellipse at center,
+    #141726 0%,
+    var(--steel-0) 62%,
+    var(--void) 100%
+  );
 }
 .vn-card {
   /* a GENEROUS share of the screen (F46) — large + tall, comfortably centred; not a small modal.
@@ -368,7 +375,12 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-6);
-  background: linear-gradient(180deg, var(--steel-2), var(--steel-1) 52%, var(--steel-0));
+  background: linear-gradient(
+    180deg,
+    var(--steel-2),
+    var(--steel-1) 52%,
+    var(--steel-0)
+  );
   border-radius: var(--radius);
 }
 .vn-rung-ceremony .hanko-css {
@@ -503,12 +515,20 @@
 .verb.intro-choice {
   position: relative;
   border-left: 3px solid var(--attr-accent, var(--ai-soft));
-  background: color-mix(in srgb, var(--attr-accent, var(--ai)) 9%, var(--washi));
+  background: color-mix(
+    in srgb,
+    var(--attr-accent, var(--ai)) 9%,
+    var(--washi)
+  );
   padding-right: 2.4rem; /* room for the kanji chip */
 }
 .verb.intro-choice:hover,
 .verb.intro-choice:focus-visible {
-  background: color-mix(in srgb, var(--attr-accent, var(--ai)) 17%, var(--washi));
+  background: color-mix(
+    in srgb,
+    var(--attr-accent, var(--ai)) 17%,
+    var(--washi)
+  );
   border-color: var(--attr-accent, var(--ai));
 }
 .intro-choice-tag {

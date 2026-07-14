@@ -31,7 +31,10 @@ import {
 
 /** display name → NpcId (the NPC_NAME reverse map). */
 const NPC_BY_NAME = new Map<string, NpcId>(
-  (Object.entries(NPC_NAME) as [NpcId, string][]).map(([id, name]) => [name, id]),
+  (Object.entries(NPC_NAME) as [NpcId, string][]).map(([id, name]) => [
+    name,
+    id,
+  ]),
 );
 /** display name → NAMES key (for non-NPC ambient speakers like the pedlar). */
 const NAMES_KEY_BY_NAME = new Map<string, string>(
@@ -42,11 +45,15 @@ const NAMES_KEYS = new Set(Object.keys(NAMES));
 const str = (s: string): string => JSON.stringify(s);
 
 /** Emit an object key bare when it's a valid identifier, quoted otherwise (e.g. dashy flavor keys). */
-export const keyExpr = (k: string): string => (/^[A-Za-z_$][\w$]*$/.test(k) ? k : str(k));
+export const keyExpr = (k: string): string =>
+  /^[A-Za-z_$][\w$]*$/.test(k) ? k : str(k);
 
 /** Emit a prose text as a TS expression: `{key}` NAMES interpolations become a template
  *  literal with `${NAMES.key}` parts; plain text stays a JSON string. */
-export function textExpr(text: string, loc: { file: string; line: number }): string {
+export function textExpr(
+  text: string,
+  loc: { file: string; line: number },
+): string {
   if (!/\{[a-zA-Z]+\}/.test(text)) return str(text);
   const parts = text.split(/\{([a-zA-Z]+)\}/);
   // odd indices are candidate keys; even are literal runs.
@@ -56,17 +63,24 @@ export function textExpr(text: string, loc: { file: string; line: number }): str
   for (let i = 0; i < parts.length; i++) {
     const p = parts[i]!;
     if (i % 2 === 1) {
-      if (!NAMES_KEYS.has(p)) throw new NarrativeError(loc, `unknown NAMES interpolation "{${p}}"`);
+      if (!NAMES_KEYS.has(p))
+        throw new NarrativeError(loc, `unknown NAMES interpolation "{${p}}"`);
       out += `\${NAMES.${p}}`;
     } else {
-      out += p.replaceAll('\\', '\\\\').replaceAll('`', '\\`').replaceAll('${', '\\${');
+      out += p
+        .replaceAll('\\', '\\\\')
+        .replaceAll('`', '\\`')
+        .replaceAll('${', '\\${');
     }
   }
   return out + '`';
 }
 
 /** A `@…` reuse reference → the single-source expression the hand-written file used. */
-function refExpr(text: string, loc: { file: string; line: number }): string | undefined {
+function refExpr(
+  text: string,
+  loc: { file: string; line: number },
+): string | undefined {
   const cold = /^@cold-open\.([a-zA-Z]+)$/.exec(text);
   if (cold) return `COLD_OPEN.${cold[1]}`;
   const dlg = /^@dialogue\.([a-z0-9-]+)\/([a-z0-9-]+)$/.exec(text);
@@ -90,7 +104,11 @@ interface ResolvedSpeaker {
 function resolveSpeaker(line: SpeechLine): ResolvedSpeaker {
   const npc = NPC_BY_NAME.get(line.speaker);
   if (npc) {
-    return { npc, voice: line.voice ?? NPC_VOICE[npc], speakerExpr: `NPC_NAME.${npc}` };
+    return {
+      npc,
+      voice: line.voice ?? NPC_VOICE[npc],
+      speakerExpr: `NPC_NAME.${npc}`,
+    };
   }
   const namesKey = NAMES_KEY_BY_NAME.get(line.speaker);
   if (namesKey) {
@@ -114,7 +132,10 @@ function resolveSpeaker(line: SpeechLine): ResolvedSpeaker {
 export function emitProseLine(line: ProseLine): string {
   const expr = refExpr(line.text, line.loc) ?? textExpr(line.text, line.loc);
   if (line.id === undefined) {
-    throw new NarrativeError(line.loc, 'a greeting / answer line needs a `<!--#slug-->` id marker');
+    throw new NarrativeError(
+      line.loc,
+      'a greeting / answer line needs a `<!--#slug-->` id marker',
+    );
   }
   const id = `id: ${str(line.id)}, `;
   if (line.kind === 'narr') return `{ ${id}voice: 'narrator', text: ${expr} },`;
@@ -123,7 +144,10 @@ export function emitProseLine(line: ProseLine): string {
   // (playerSpeaker: You → Nameless → Gonbei), so the mid-story label flip lands for free.
   if (line.speaker === 'You') {
     if (line.voice !== undefined) {
-      throw new NarrativeError(line.loc, 'a `You:` player line never takes a (voice) override');
+      throw new NarrativeError(
+        line.loc,
+        'a `You:` player line never takes a (voice) override',
+      );
     }
     return `{ ${id}voice: 'player', text: ${expr} },`;
   }
@@ -133,10 +157,16 @@ export function emitProseLine(line: ProseLine): string {
 
 // ── rung beats ──────────────────────────────────────────────────────────────
 
-function emitRungOption(opt: OptionNode, scene: RungSceneNode | SceneDefNode): string {
+function emitRungOption(
+  opt: OptionNode,
+  scene: RungSceneNode | SceneDefNode,
+): string {
   const react = opt.react!; // parse guarantees presence
   if (react.kind !== 'speech') {
-    throw new NarrativeError(react.loc, 'a rung-beat react must be a speech line');
+    throw new NarrativeError(
+      react.loc,
+      'a rung-beat react must be a speech line',
+    );
   }
   const r = resolveSpeaker(react);
   if (!r.npc) {
@@ -170,7 +200,9 @@ function emitRungOption(opt: OptionNode, scene: RungSceneNode | SceneDefNode): s
   return L.join('\n');
 }
 
-function emitTopics(scene: RungSceneNode | IntroSceneNode | SceneDefNode): string {
+function emitTopics(
+  scene: RungSceneNode | IntroSceneNode | SceneDefNode,
+): string {
   if (scene.topics.length === 0) return 'topics: [],';
   const L: string[] = ['topics: ['];
   for (const t of scene.topics) {
@@ -190,11 +222,18 @@ function emitTopics(scene: RungSceneNode | IntroSceneNode | SceneDefNode): strin
 export function emitRungScene(scene: RungSceneNode): string {
   const meta = (key: string): string | undefined => scene.meta.get(key)?.value;
   const voice = meta('voice');
-  if (!voice) throw new NarrativeError(scene.loc, `scene "${scene.id}" is missing "voice:" meta`);
+  if (!voice)
+    throw new NarrativeError(
+      scene.loc,
+      `scene "${scene.id}" is missing "voice:" meta`,
+    );
   const speaker = meta('speaker');
   const motivatesRaw = meta('motivates');
   if (!motivatesRaw) {
-    throw new NarrativeError(scene.loc, `scene "${scene.id}" is missing "motivates:" meta`);
+    throw new NarrativeError(
+      scene.loc,
+      `scene "${scene.id}" is missing "motivates:" meta`,
+    );
   }
   const motivates = motivatesRaw.split(',').map((m) => m.trim());
 
@@ -227,7 +266,11 @@ export const GENERATED = (file: string, home: string): string =>
     `// Data only — the types + helpers stay hand-written in ${home}, which re-exports this.`,
   ].join('\n');
 
-export function withImports(header: string, body: string, imports: readonly string[]): string {
+export function withImports(
+  header: string,
+  body: string,
+  imports: readonly string[],
+): string {
   const used = imports.filter((imp) => {
     const m = /import (?:type )?\{ ?(\w+)/.exec(imp);
     return m ? body.includes(m[1]!) : true;
@@ -263,8 +306,16 @@ function emitIntroOption(opt: OptionNode, scene: IntroSceneNode): string {
       );
     }
   }
-  if (!opt.stat) throw new NarrativeError(opt.loc, `intro option "${opt.id}" is missing "stat:"`);
-  if (!opt.perk) throw new NarrativeError(opt.loc, `intro option "${opt.id}" is missing "perk:"`);
+  if (!opt.stat)
+    throw new NarrativeError(
+      opt.loc,
+      `intro option "${opt.id}" is missing "stat:"`,
+    );
+  if (!opt.perk)
+    throw new NarrativeError(
+      opt.loc,
+      `intro option "${opt.id}" is missing "perk:"`,
+    );
   const L: string[] = ['{'];
   L.push(`id: ${str(opt.id)},`);
   L.push(`label: ${textExpr(opt.label, opt.loc)},`);
@@ -282,7 +333,9 @@ function emitIntroOption(opt: OptionNode, scene: IntroSceneNode): string {
       );
     }
     const m = opt.memory[0]!;
-    L.push(`memory: { npc: '${m.npc}', regard: ${str(m.regard!)}, warmth: ${m.warmthDelta} },`);
+    L.push(
+      `memory: { npc: '${m.npc}', regard: ${str(m.regard!)}, warmth: ${m.warmthDelta} },`,
+    );
   }
   L.push('},');
   return L.join('\n');
@@ -290,7 +343,11 @@ function emitIntroOption(opt: OptionNode, scene: IntroSceneNode): string {
 
 export function emitIntroScene(scene: IntroSceneNode): string {
   const voice = scene.meta.get('voice')?.value;
-  if (!voice) throw new NarrativeError(scene.loc, `scene "${scene.id}" is missing "voice:" meta`);
+  if (!voice)
+    throw new NarrativeError(
+      scene.loc,
+      `scene "${scene.id}" is missing "voice:" meta`,
+    );
   const speaker = scene.meta.get('speaker')?.value;
   const title = scene.meta.get('title');
   const L: string[] = ['{'];
@@ -334,7 +391,9 @@ export function emitIntro(doc: NarrativeDoc): string {
 
 function whenExpr(when: WhenGate): string {
   if (when.type === 'flag') {
-    const key = /^[a-zA-Z_$][\w$]*$/.test(when.flag) ? `.${when.flag}` : `[${str(when.flag)}]`;
+    const key = /^[a-zA-Z_$][\w$]*$/.test(when.flag)
+      ? `.${when.flag}`
+      : `[${str(when.flag)}]`;
     return `gate: (flags) => flags${key} === true,`;
   }
   const op = when.op === 'is' ? '===' : '!==';
@@ -384,8 +443,14 @@ export function emitDialogue(doc: NarrativeDoc): string {
 /** Compile the cold-open narrative doc into the `coldOpen.gen.ts` module source (unformatted). */
 export function emitColdOpen(doc: NarrativeDoc): string {
   const block = doc.blocks.find((b) => b.kind === 'prose');
-  if (!block) throw new NarrativeError({ file: doc.file, line: 1 }, 'no `## prose` block found');
-  const entries = block.entries.map((e) => `${e.key}: ${textExpr(e.text, e.loc)},`).join('\n');
+  if (!block)
+    throw new NarrativeError(
+      { file: doc.file, line: 1 },
+      'no `## prose` block found',
+    );
+  const entries = block.entries
+    .map((e) => `${e.key}: ${textExpr(e.text, e.loc)},`)
+    .join('\n');
   const body = `export const COLD_OPEN = {\n${entries}\n} as const;`;
   return withImports(GENERATED(doc.file, 'coldOpen.ts'), body, [
     `import { NAMES } from './names';`,
@@ -398,12 +463,18 @@ export function emitColdOpen(doc: NarrativeDoc): string {
  *  the cold open; the NAMES import auto-drops when no `{key}` interpolation is used. */
 export function emitFlavor(doc: NarrativeDoc): string {
   const block = doc.blocks.find((b) => b.kind === 'prose');
-  if (!block) throw new NarrativeError({ file: doc.file, line: 1 }, 'no `## prose` block found');
+  if (!block)
+    throw new NarrativeError(
+      { file: doc.file, line: 1 },
+      'no `## prose` block found',
+    );
   const entries = block.entries
     .map((e) => `${keyExpr(e.key)}: ${textExpr(e.text, e.loc)},`)
     .join('\n');
   const body = `export const FLAVOR = {\n${entries}\n} as const;`;
-  return withImports(GENERATED(doc.file, 'flavor.ts'), body, [`import { NAMES } from './names';`]);
+  return withImports(GENERATED(doc.file, 'flavor.ts'), body, [
+    `import { NAMES } from './names';`,
+  ]);
 }
 
 /** Compile the requirements narrative doc into the `requirements.gen.ts` module source
@@ -413,14 +484,21 @@ export function emitFlavor(doc: NarrativeDoc): string {
 export function emitRequirements(doc: NarrativeDoc): string {
   const blocks = doc.blocks.filter((b) => b.kind === 'requirements');
   if (blocks.length === 0) {
-    throw new NarrativeError({ file: doc.file, line: 1 }, 'no `## requirements` block found');
+    throw new NarrativeError(
+      { file: doc.file, line: 1 },
+      'no `## requirements` block found',
+    );
   }
   const emitReq = (r: (typeof blocks)[number]['reqs'][number]): string => {
     const L: string[] = ['{'];
     L.push(`id: ${str(r.id)},`);
     const s = r.spec;
     if (s.type === 'count') {
-      L.push(`type: 'count',`, `token: ${str(s.token)},`, `target: ${s.target},`);
+      L.push(
+        `type: 'count',`,
+        `token: ${str(s.token)},`,
+        `target: ${s.target},`,
+      );
     } else if (s.type === 'flag') {
       L.push(`type: 'flag',`, `flag: ${str(s.flag)},`);
     } else {
@@ -470,10 +548,16 @@ function triggerExpr(t: SceneTriggerAst): string {
 export function emitSceneDefBody(def: SceneDefNode): string {
   const meta = (key: string): string | undefined => def.meta.get(key)?.value;
   const voice = meta('voice');
-  if (!voice) throw new NarrativeError(def.loc, `scene-def "${def.id}" is missing "voice:" meta`);
+  if (!voice)
+    throw new NarrativeError(
+      def.loc,
+      `scene-def "${def.id}" is missing "voice:" meta`,
+    );
   const speaker = meta('speaker');
   const motivatesRaw = meta('motivates');
-  const motivates = motivatesRaw ? motivatesRaw.split(',').map((m) => m.trim()) : [];
+  const motivates = motivatesRaw
+    ? motivatesRaw.split(',').map((m) => m.trim())
+    : [];
 
   const S: string[] = ['{'];
   S.push(`id: ${str(def.id)},`);
@@ -503,10 +587,17 @@ export function emitSceneDef(def: SceneDefNode): string {
   const meta = (key: string): string | undefined => def.meta.get(key)?.value;
   const triggerRaw = meta('trigger');
   if (!triggerRaw) {
-    throw new NarrativeError(def.loc, `scene-def "${def.id}" is missing "trigger:" meta`);
+    throw new NarrativeError(
+      def.loc,
+      `scene-def "${def.id}" is missing "trigger:" meta`,
+    );
   }
   const parsed = parseSceneTrigger(triggerRaw);
-  if (!parsed.ok) throw new NarrativeError(def.loc, `scene-def "${def.id}": ${parsed.reason}`);
+  if (!parsed.ok)
+    throw new NarrativeError(
+      def.loc,
+      `scene-def "${def.id}": ${parsed.reason}`,
+    );
 
   const L: string[] = ['{'];
   L.push(`id: ${str(def.id)},`);

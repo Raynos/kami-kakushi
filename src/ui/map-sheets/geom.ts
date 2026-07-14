@@ -7,7 +7,12 @@
 
 export type Pt = readonly [number, number];
 
-export function bbox(pts: readonly Pt[]): { x0: number; y0: number; x1: number; y1: number } {
+export function bbox(pts: readonly Pt[]): {
+  x0: number;
+  y0: number;
+  x1: number;
+  y1: number;
+} {
   let x0 = Infinity;
   let y0 = Infinity;
   let x1 = -Infinity;
@@ -26,7 +31,8 @@ export function pointInPoly([px, py]: Pt, poly: readonly Pt[]): boolean {
   for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
     const [xi, yi] = poly[i]!;
     const [xj, yj] = poly[j]!;
-    if (yi > py !== yj > py && px < ((xj - xi) * (py - yi)) / (yj - yi) + xi) inside = !inside;
+    if (yi > py !== yj > py && px < ((xj - xi) * (py - yi)) / (yj - yi) + xi)
+      inside = !inside;
   }
   return inside;
 }
@@ -58,7 +64,8 @@ export function resample(pts: readonly Pt[], step: number): Pt[] {
   }
   const last = pts[pts.length - 1]!;
   const tail = out[out.length - 1]!;
-  if (Math.hypot(last[0] - tail[0], last[1] - tail[1]) > step * 0.25) out.push(last);
+  if (Math.hypot(last[0] - tail[0], last[1] - tail[1]) > step * 0.25)
+    out.push(last);
   else out[out.length - 1] = last;
   return out;
 }
@@ -68,7 +75,10 @@ export function along(pts: readonly Pt[], t: number): { p: Pt; tan: Pt } {
   const segs: number[] = [];
   let total = 0;
   for (let i = 1; i < pts.length; i++) {
-    const d = Math.hypot(pts[i]![0] - pts[i - 1]![0], pts[i]![1] - pts[i - 1]![1]);
+    const d = Math.hypot(
+      pts[i]![0] - pts[i - 1]![0],
+      pts[i]![1] - pts[i - 1]![1],
+    );
     segs.push(d);
     total += d;
   }
@@ -98,7 +108,10 @@ export function edgeNormal(a: Pt, b: Pt): Pt {
 /** Unit normal at vertex i of a polyline (left of travel), from clamped neighbours —
  *  the one vertex-normal in the toolkit (was re-derived inline ~5×, G-5). */
 export function normalAt(pts: readonly Pt[], i: number): Pt {
-  return edgeNormal(pts[Math.max(0, i - 1)]!, pts[Math.min(pts.length - 1, i + 1)]!);
+  return edgeNormal(
+    pts[Math.max(0, i - 1)]!,
+    pts[Math.min(pts.length - 1, i + 1)]!,
+  );
 }
 
 /** Offset a polyline sideways (left of travel = positive d) via vertex normals. */
@@ -150,7 +163,10 @@ export interface ScanRunsOpts {
  *  engine behind hatch fills, transplant rows, furrows and the ghost-bund grid
  *  (G-5: hatchArea and fields.rowSegments were two copies of this loop). Each
  *  returned segment is one inside-run of one row. */
-export function scanlineRuns(poly: readonly Pt[], o: ScanRunsOpts): { a: Pt; b: Pt }[] {
+export function scanlineRuns(
+  poly: readonly Pt[],
+  o: ScanRunsOpts,
+): { a: Pt; b: Pt }[] {
   const ang = (o.angleDeg * Math.PI) / 180;
   const dx = Math.cos(ang);
   const dy = Math.sin(ang);
@@ -159,7 +175,11 @@ export function scanlineRuns(poly: readonly Pt[], o: ScanRunsOpts): { a: Pt; b: 
   const cx = (x0 + x1) / 2;
   const cy = (y0 + y1) / 2;
   const out: { a: Pt; b: Pt }[] = [];
-  for (let off = -diag / 2 + (o.phase ?? 0); off <= diag / 2; off += o.spacing) {
+  for (
+    let off = -diag / 2 + (o.phase ?? 0);
+    off <= diag / 2;
+    off += o.spacing
+  ) {
     const oj = off + (o.r() - 0.5) * o.spacing * o.jitter;
     let start: Pt | null = null;
     let prev: Pt | null = null;

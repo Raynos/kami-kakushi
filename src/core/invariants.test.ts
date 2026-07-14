@@ -32,7 +32,9 @@ import { RUNG_BEATS } from './content/rungBeats';
 // and assert the invariants hold at EVERY step — a regression on the spine trips here with the step.
 
 interface Step {
-  readonly intent: Intent | { readonly type: 'night-stage'; readonly foe: string };
+  readonly intent:
+    | Intent
+    | { readonly type: 'night-stage'; readonly foe: string };
   readonly before: GameState;
   readonly after: GameState;
 }
@@ -69,7 +71,8 @@ const arc = (() => {
   return { states, steps, final: s };
 })();
 
-const finite = (n: number): boolean => typeof n === 'number' && Number.isFinite(n);
+const finite = (n: number): boolean =>
+  typeof n === 'number' && Number.isFinite(n);
 
 /** Per-state corruption check — a failure string (with the offending field) or null if clean. */
 function checkState(s: GameState): string | null {
@@ -82,19 +85,24 @@ function checkState(s: GameState): string | null {
     return `hunger=${c.hunger}`;
   if (!finite(c.level) || c.level < 1) return `level=${c.level}`;
   if (!finite(c.combatXp) || c.combatXp < 0) return `combatXp=${c.combatXp}`;
-  for (const [k, v] of Object.entries(c.attrs)) if (!finite(v)) return `attr ${k}=${v}`;
+  for (const [k, v] of Object.entries(c.attrs))
+    if (!finite(v)) return `attr ${k}=${v}`;
   for (const [k, v] of Object.entries(s.resources)) {
     if (!finite(v) || v < 0) return `resource ${k}=${v}`;
   }
-  for (const [k, v] of Object.entries(s.banked)) if (!finite(v) || v < 0) return `banked ${k}=${v}`;
+  for (const [k, v] of Object.entries(s.banked))
+    if (!finite(v) || v < 0) return `banked ${k}=${v}`;
   for (const [k, v] of Object.entries(s.rungReqs))
     if (!finite(v) || v < 0) return `rungReqs ${k}=${v}`;
   if (!finite(s.tier) || s.tier < 0) return `tier=${s.tier}`;
-  if (!finite(s.estateStage) || s.estateStage < 0) return `estateStage=${s.estateStage}`;
-  if (!finite(s.seasonsPassed) || s.seasonsPassed < 0) return `seasonsPassed=${s.seasonsPassed}`;
+  if (!finite(s.estateStage) || s.estateStage < 0)
+    return `estateStage=${s.estateStage}`;
+  if (!finite(s.seasonsPassed) || s.seasonsPassed < 0)
+    return `seasonsPassed=${s.seasonsPassed}`;
   const e = s.influence.estate;
   if (!finite(e.value) || e.value < 0) return `influence.value=${e.value}`;
-  if (!finite(e.highWater) || e.highWater < e.value) return `influence.highWater=${e.highWater}`;
+  if (!finite(e.highWater) || e.highWater < e.value)
+    return `influence.highWater=${e.highWater}`;
   return null;
 }
 
@@ -125,8 +133,12 @@ describe('structural invariants hold across the full real playthrough', () => {
       const u = arc.states[i]!.seenReveals;
       if (u === prevRef) continue;
       prevRef = u;
-      expect(u.length, `seenReveals shrank at step ${i}`).toBeGreaterThanOrEqual(seen.size);
-      for (const id of seen) expect(u.includes(id), `lost reveal '${id}' at step ${i}`).toBe(true);
+      expect(
+        u.length,
+        `seenReveals shrank at step ${i}`,
+      ).toBeGreaterThanOrEqual(seen.size);
+      for (const id of seen)
+        expect(u.includes(id), `lost reveal '${id}' at step ${i}`).toBe(true);
       for (const id of u) seen.add(id);
     }
   });
@@ -157,9 +169,10 @@ describe('structural invariants hold across the full real playthrough', () => {
       const t0 = prev.clock.day * 24 + prev.clock.tick;
       const t1 = cur.clock.day * 24 + cur.clock.tick;
       expect(t1, `clock ran backwards at step ${i}`).toBeGreaterThanOrEqual(t0);
-      expect(cur.log.seq, `log.seq ran backwards at step ${i}`).toBeGreaterThanOrEqual(
-        prev.log.seq,
-      );
+      expect(
+        cur.log.seq,
+        `log.seq ran backwards at step ${i}`,
+      ).toBeGreaterThanOrEqual(prev.log.seq);
     }
   });
 
@@ -175,9 +188,10 @@ describe('structural invariants hold across the full real playthrough', () => {
   it('100 ⟺ promotionReady — the requirement bar can never lie about the gate', () => {
     for (let i = 0; i < arc.states.length; i++) {
       const s = arc.states[i]!;
-      expect(rungProgress(s).percent === 100, `percent/gate disagree at step ${i}`).toBe(
-        promotionReady(s),
-      );
+      expect(
+        rungProgress(s).percent === 100,
+        `percent/gate disagree at step ${i}`,
+      ).toBe(promotionReady(s));
     }
   });
 });
@@ -210,10 +224,13 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
   it('the season WHEEL only advances by the advance_season intent (never a silent auto-turn)', () => {
     for (const st of arc.steps) {
       if (st.intent.type === 'advance_season') continue;
-      expect(st.after.season, `season turned on ${st.intent.type}`).toBe(st.before.season);
-      expect(st.after.seasonsPassed, `seasonsPassed moved on ${st.intent.type}`).toBe(
-        st.before.seasonsPassed,
+      expect(st.after.season, `season turned on ${st.intent.type}`).toBe(
+        st.before.season,
       );
+      expect(
+        st.after.seasonsPassed,
+        `seasonsPassed moved on ${st.intent.type}`,
+      ).toBe(st.before.seasonsPassed);
     }
   });
 
@@ -222,14 +239,16 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
     for (const st of arc.steps) {
       if (st.before.season === 'autumn' && st.after.season !== 'autumn') {
         sawAutumnExit = true;
-        expect(hasFlag(st.after, 'nengu-reckoned'), 'left autumn without reckoning the nengu').toBe(
-          true,
-        );
+        expect(
+          hasFlag(st.after, 'nengu-reckoned'),
+          'left autumn without reckoning the nengu',
+        ).toBe(true);
       }
     }
-    expect(sawAutumnExit, 'the arc never crossed an autumn boundary (nengu never tested)').toBe(
-      true,
-    );
+    expect(
+      sawAutumnExit,
+      'the arc never crossed an autumn boundary (nengu never tested)',
+    ).toBe(true);
   });
 
   it('the SPEAKER label only climbs You → Nameless → Gonbei (monotonic, never a regress)', () => {
@@ -243,19 +262,26 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
       expect(rank(s), 'speaker label regressed').toBeGreaterThanOrEqual(hi);
       hi = rank(s);
       // Gonbei (the R7 house name) can never precede Nameless (the R0 name beat).
-      if (hasFlag(s, 'label-gonbei')) expect(hasFlag(s, 'label-nameless')).toBe(true);
+      if (hasFlag(s, 'label-gonbei'))
+        expect(hasFlag(s, 'label-nameless')).toBe(true);
       if (hasFlag(s, 'label-nameless')) sawNameless = true;
       if (hasFlag(s, 'label-gonbei')) sawGonbei = true;
       // the nameplate the log renders tracks the ladder (You/Nameless before the house name lands).
       if (rank(s) < 2) expect(NAMES).toContain(playerSpeaker(s));
     }
-    expect(sawNameless && sawGonbei, 'the ladder never reached its two named rungs').toBe(true);
+    expect(
+      sawNameless && sawGonbei,
+      'the ladder never reached its two named rungs',
+    ).toBe(true);
     expect(playerSpeaker(arc.final)).toBe('Gonbei'); // ends at the house name (bible R7)
   });
 
   it('RICE is held ONLY in the kura — it is never a carried resource, on any state', () => {
     for (let i = 0; i < arc.states.length; i++) {
-      expect(arc.states[i]!.resources.rice ?? 0, `rice was carried at step ${i}`).toBe(0);
+      expect(
+        arc.states[i]!.resources.rice ?? 0,
+        `rice was carried at step ${i}`,
+      ).toBe(0);
     }
   });
 
@@ -268,19 +294,28 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
       resources: { ...base.resources, coin: 100, hardwood: 100 },
       banked: { ...base.banked, rice: 200 },
     };
-    const ready = { ...armed, character: { ...armed.character, hp: hpMax(armed) } };
+    const ready = {
+      ...armed,
+      character: { ...armed.character, hp: hpMax(armed) },
+    };
     const after = applyGrindFight(ready, 'bandit');
     expect(after.character.hp).toBe(balance.SETBACK_HP); // it lost
     // the ROUT bleeds a FRACTION of carried wealth — coin + goods take the LOSS_COIN/MATERIAL hit…
-    expect(after.resources.coin).toBe(100 - Math.round(100 * balance.LOSS_COIN_FRAC));
-    expect(after.resources.hardwood).toBe(100 - Math.floor(100 * balance.LOSS_MATERIAL_FRAC));
+    expect(after.resources.coin).toBe(
+      100 - Math.round(100 * balance.LOSS_COIN_FRAC),
+    );
+    expect(after.resources.hardwood).toBe(
+      100 - Math.floor(100 * balance.LOSS_MATERIAL_FRAC),
+    );
     // …but the kura rice takes NO rout penalty: it only ever loses the household's daily MEAL over the
     // lost sick-days (a few shō), never the ~20% carried-loss fraction (which would be 40+ here → RED).
     const rout = Math.round(200 * balance.LOSS_COIN_FRAC); // what a rice-bleed WOULD have taken
-    const maxMeals = balance.CONSUMPTION_SHO_PER_DAY * (balance.SICKROOM_DAYS_LOST + 3);
-    expect(200 - (after.banked.rice ?? 0), 'the rout bled the kura rice').toBeLessThanOrEqual(
-      maxMeals,
-    );
+    const maxMeals =
+      balance.CONSUMPTION_SHO_PER_DAY * (balance.SICKROOM_DAYS_LOST + 3);
+    expect(
+      200 - (after.banked.rice ?? 0),
+      'the rout bled the kura rice',
+    ).toBeLessThanOrEqual(maxMeals);
     expect(maxMeals).toBeLessThan(rout); // proves the two are distinguishable (the check can go RED)
     expect(after.resources.rice ?? 0).toBe(0); // and rice is never carried to bleed in the first place
   });
@@ -314,15 +349,17 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
       if (st.intent.type === 'fight') foe = st.intent.mobId;
       else if (st.intent.type === 'night-stage') foe = st.intent.foe;
       if (foe && foe !== '?') {
-        expect(getMob(foe as Parameters<typeof getMob>[0]).minTier ?? 0).toBeLessThanOrEqual(
-          st.before.tier,
-        );
+        expect(
+          getMob(foe as Parameters<typeof getMob>[0]).minTier ?? 0,
+        ).toBeLessThanOrEqual(st.before.tier);
       }
     }
     // structural: every human-tier foe (minTier ≥ 2) is absent from the T0-reachable set — the roster
     // holds exactly one such foe (the bandit), so a beast slipping to minTier ≥ 2 or a human dropping
     // below it is a RED here.
-    expect(MOBS.filter((m) => (m.minTier ?? 0) >= 2).map((m) => m.id)).toEqual(['bandit']);
+    expect(MOBS.filter((m) => (m.minTier ?? 0) >= 2).map((m) => m.id)).toEqual([
+      'bandit',
+    ]);
   });
 
   it('DEBT is never NUMBERED in T0 — the nengu is a felt FLAG, carrying no numeric debt field', () => {
@@ -358,8 +395,14 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
         // ADR-179 — tab-combat derives from its rung fact (rank-r3), never a stored latch.
         flags: { ...base.flags, ...factsForSurfaces('tab-combat') },
       };
-      expect(reduce(s, { type: 'fight', mobId: mob.id }), `fight ${mob.id}`).toBe(s);
-      expect(reduce(s, { type: 'set_auto_combat', mobId: mob.id }), `arm ${mob.id}`).toBe(s);
+      expect(
+        reduce(s, { type: 'fight', mobId: mob.id }),
+        `fight ${mob.id}`,
+      ).toBe(s);
+      expect(
+        reduce(s, { type: 'set_auto_combat', mobId: mob.id }),
+        `arm ${mob.id}`,
+      ).toBe(s);
     }
   });
 
@@ -370,9 +413,10 @@ describe('the T0 TIER invariants (the design laws) hold across the full playthro
     }
     // …and the SILENT rungs (R2, R5) deliver their story as an enqueued scene that actually played.
     for (const id of ['r2-yard-hand', 'count']) {
-      expect(arc.final.scenesPlayed.includes(id), `silent rung scene ${id} never played`).toBe(
-        true,
-      );
+      expect(
+        arc.final.scenesPlayed.includes(id),
+        `silent rung scene ${id} never played`,
+      ).toBe(true);
     }
     // the R7 capstone dream too (the 8th VN surface, beside R0's intro) — the run drained it.
     expect(arc.final.scenesPlayed.includes('r7-dream')).toBe(true);

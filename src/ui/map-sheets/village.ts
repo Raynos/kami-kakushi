@@ -6,7 +6,16 @@
 // only, brush-alive + seed-jittered (never a stamped grid — spec L6). Buildings
 // reuse built.roofMass so the whole valley reads in one hand.
 
-import { brushStroke, fineLayer, inkLine, rng, stipple, sv, tip, wash } from './brush';
+import {
+  brushStroke,
+  fineLayer,
+  inkLine,
+  rng,
+  stipple,
+  sv,
+  tip,
+  wash,
+} from './brush';
 import { edgeNormal, resample, type Pt } from './geom';
 import { roofMass, shed } from './built';
 
@@ -30,7 +39,11 @@ export interface HouseClusterOpts {
 /** A cluster of village houses — small gabled roof pictograms scattered brush-alive
  *  around an origin (spec D1: whole compounds/houses as pictograms, not room-by-room).
  *  Sizes/angles/positions all seed-jittered so a village never reads stamped. */
-export function houseCluster(parent: SVGElement, at: Pt, o: HouseClusterOpts): void {
+export function houseCluster(
+  parent: SVGElement,
+  at: Pt,
+  o: HouseClusterOpts,
+): void {
   const r = rng(o.seed);
   const [ox, oy] = at;
   // a loose grid-ish scatter so houses face the lane but never line up perfectly
@@ -51,7 +64,11 @@ export function houseCluster(parent: SVGElement, at: Pt, o: HouseClusterOpts): v
 
 /** A village lane — a trodden pale ground stroke with a fine dash centre, the
  *  street register (wider + calmer than a work-path road). */
-export function villageLane(parent: SVGElement, pts: readonly Pt[], o: { seed: string }): void {
+export function villageLane(
+  parent: SVGElement,
+  pts: readonly Pt[],
+  o: { seed: string },
+): void {
   brushStroke(parent, pts, {
     seed: `${o.seed}:u`,
     w: 14,
@@ -73,10 +90,24 @@ export function villageLane(parent: SVGElement, pts: readonly Pt[], o: { seed: s
 
 /** The market square — swept open ground with rows of stall awnings (small tented
  *  ticks). Season-stocked in the fiction; here, the standing rows of a market. */
-export function marketSquare(parent: SVGElement, ground: readonly Pt[], o: { seed: string }): void {
+export function marketSquare(
+  parent: SVGElement,
+  ground: readonly Pt[],
+  o: { seed: string },
+): void {
   const r = rng(o.seed);
-  wash(parent, ground, { seed: `${o.seed}:g`, fill: 'var(--steel-hi)', opacity: 0.5, amp: 3 });
-  wash(parent, ground, { seed: `${o.seed}:g2`, fill: 'var(--silver-faint)', opacity: 0.5, amp: 2 });
+  wash(parent, ground, {
+    seed: `${o.seed}:g`,
+    fill: 'var(--steel-hi)',
+    opacity: 0.5,
+    amp: 3,
+  });
+  wash(parent, ground, {
+    seed: `${o.seed}:g2`,
+    fill: 'var(--silver-faint)',
+    opacity: 0.5,
+    amp: 2,
+  });
   // rake/traffic arcs so it reads swept, not blank
   const fine = fineLayer(parent);
   const xs = ground.map((p) => p[0]);
@@ -136,7 +167,11 @@ export function marketSquare(parent: SVGElement, ground: readonly Pt[], o: { see
 
 /** A torii — the shrine gate glyph: two posts, a curved kasagi lintel + a straight
  *  nuki below it. The valley's folk-faith mark. */
-export function torii(parent: SVGElement, at: Pt, o: { seed: string; scale?: number }): void {
+export function torii(
+  parent: SVGElement,
+  at: Pt,
+  o: { seed: string; scale?: number },
+): void {
   const s = o.scale ?? 1;
   const r = rng(o.seed);
   const t = frame(at[0], at[1], (r() - 0.5) * 3);
@@ -179,9 +214,17 @@ export function torii(parent: SVGElement, at: Pt, o: { seed: string; scale?: num
 
 /** The temple/shrine — a hip-roofed hall with a torii before it and a small stone
  *  or two (Ekai's, the register of the vanished). Bigger than a village house. */
-export function templeGlyph(parent: SVGElement, at: Pt, toriiAt: Pt, o: { seed: string }): void {
+export function templeGlyph(
+  parent: SVGElement,
+  at: Pt,
+  toriiAt: Pt,
+  o: { seed: string },
+): void {
   torii(parent, toriiAt, { seed: `${o.seed}:torii`, scale: 1.1 });
-  roofMass(parent, at[0], at[1], 56, 40, { seed: `${o.seed}:hall`, style: 'hip' });
+  roofMass(parent, at[0], at[1], 56, 40, {
+    seed: `${o.seed}:hall`,
+    style: 'hip',
+  });
   // a small subsidiary hall / gate behind
   roofMass(parent, at[0] + 34, at[1] - 30, 30, 22, {
     seed: `${o.seed}:sub`,
@@ -204,7 +247,10 @@ export function templeGlyph(parent: SVGElement, at: Pt, toriiAt: Pt, o: { seed: 
       }),
     );
   }
-  tip(parent.appendChild(sv('g')), 'Ekai keeps the register of the vanished here');
+  tip(
+    parent.appendChild(sv('g')),
+    'Ekai keeps the register of the vanished here',
+  );
 }
 
 /** The mill — a small building on a race off the river, with a waterwheel: a ring
@@ -216,7 +262,12 @@ export function millWheel(
   o: { seed: string },
 ): void {
   // the race — a fine double channel line drawn from river to wheel
-  inkLine(parent, race, { seed: `${o.seed}:race`, w: 1.4, color: 'var(--silver-dim)', amp: 1 });
+  inkLine(parent, race, {
+    seed: `${o.seed}:race`,
+    w: 1.4,
+    color: 'var(--silver-dim)',
+    amp: 1,
+  });
   shed(parent, at[0], at[1], { seed: `${o.seed}:house`, scale: 1.1 });
   // the wheel — a circle with radial paddle ticks, on the river (west) side
   const wx = at[0] - 22;
@@ -259,7 +310,12 @@ export function millWheel(
 
 /** The ferry — two landing stubs on opposite banks + a rope line across + a small
  *  boat glyph (Funakichi's; where no bridge reaches). */
-export function ferryLanding(parent: SVGElement, east: Pt, west: Pt, o: { seed: string }): void {
+export function ferryLanding(
+  parent: SVGElement,
+  east: Pt,
+  west: Pt,
+  o: { seed: string },
+): void {
   // landing planks on each bank
   for (const [bx, by, tag] of [
     [east[0], east[1], 'E'],
@@ -273,18 +329,27 @@ export function ferryLanding(parent: SVGElement, east: Pt, west: Pt, o: { seed: 
         [bx + 8, by + 5],
         [bx - 8, by + 3],
       ],
-      { seed: `${o.seed}:land${tag}`, w: 1.4, color: 'var(--silver-dim)', amp: 0.5 },
+      {
+        seed: `${o.seed}:land${tag}`,
+        w: 1.4,
+        color: 'var(--silver-dim)',
+        amp: 0.5,
+      },
     );
   }
   // the rope across
-  inkLine(parent, [east, [(east[0] + west[0]) / 2, (east[1] + west[1]) / 2 + 4], west], {
-    seed: `${o.seed}:rope`,
-    w: 0.9,
-    color: 'var(--ink-soft)',
-    dash: '3 4',
-    opacity: 0.85,
-    amp: 1,
-  });
+  inkLine(
+    parent,
+    [east, [(east[0] + west[0]) / 2, (east[1] + west[1]) / 2 + 4], west],
+    {
+      seed: `${o.seed}:rope`,
+      w: 0.9,
+      color: 'var(--ink-soft)',
+      dash: '3 4',
+      opacity: 0.85,
+      amp: 1,
+    },
+  );
   // the boat — a slim hull glyph mid-river
   const mx = (east[0] + west[0]) / 2;
   const my = (east[1] + west[1]) / 2 + 3;
@@ -313,10 +378,19 @@ export function ferryLanding(parent: SVGElement, east: Pt, west: Pt, o: { seed: 
 /** The old quarry — a stepped dressed-stone scar (benched cuts + squared blocks +
  *  spoil), the cuts MATCHING the ruin's robbed footings (spec: the village took
  *  the main house apart here). */
-export function quarryScar(parent: SVGElement, poly: readonly Pt[], o: { seed: string }): void {
+export function quarryScar(
+  parent: SVGElement,
+  poly: readonly Pt[],
+  o: { seed: string },
+): void {
   const r = rng(o.seed);
   // the cut face — a pale exposed-rock wash
-  wash(parent, poly, { seed: `${o.seed}:face`, fill: 'var(--steel-hi)', opacity: 0.4, amp: 3 });
+  wash(parent, poly, {
+    seed: `${o.seed}:face`,
+    fill: 'var(--steel-hi)',
+    opacity: 0.4,
+    amp: 3,
+  });
   // benched cut lines — the straight-edged steps a quarry leaves (deliberately
   // un-scrawled: the squareness is the wrong thing that ties it to the ruin)
   const xs = poly.map((p) => p[0]);
@@ -333,7 +407,13 @@ export function quarryScar(parent: SVGElement, poly: readonly Pt[], o: { seed: s
         [x0 + 12, yy],
         [x1 - 12, yy + (r() - 0.5) * 4],
       ],
-      { seed: `${o.seed}:bench${i}`, w: 1.3, color: 'var(--silver-dim)', amp: 0.4, opacity: 0.9 },
+      {
+        seed: `${o.seed}:bench${i}`,
+        w: 1.3,
+        color: 'var(--silver-dim)',
+        amp: 0.4,
+        opacity: 0.9,
+      },
     );
   }
   // squared blocks cut and stacked at the foot
@@ -376,7 +456,11 @@ export function quarryScar(parent: SVGElement, poly: readonly Pt[], o: { seed: s
 
 /** The mountain-dogs' camp — a rough palisade ring of stakes, a couple of lean
  *  tents, and a campfire (sticks + a shu ember). Up a side draw, off the floor. */
-export function banditCamp(parent: SVGElement, at: Pt, o: { seed: string }): void {
+export function banditCamp(
+  parent: SVGElement,
+  at: Pt,
+  o: { seed: string },
+): void {
   const r = rng(o.seed);
   const [cx, cy] = at;
   // palisade — a ring of leaning stake ticks
@@ -462,7 +546,11 @@ export function banditCamp(parent: SVGElement, at: Pt, o: { seed: string }): voi
 }
 
 /** A hill shrine — a tiny torii + a stone; the flank folk-faith scatter. */
-export function hillShrine(parent: SVGElement, at: Pt, o: { seed: string }): void {
+export function hillShrine(
+  parent: SVGElement,
+  at: Pt,
+  o: { seed: string },
+): void {
   torii(parent, [at[0], at[1] - 2], { seed: `${o.seed}:t`, scale: 0.55 });
   parent.append(
     sv('circle', {
@@ -478,7 +566,11 @@ export function hillShrine(parent: SVGElement, at: Pt, o: { seed: string }): voi
 
 /** A drawn contour/scarp hachure band along a flank ridgeline — reuses the road
  *  idiom for a valley-wall shoulder so the flanks read as rising ground. */
-export function flankShoulder(parent: SVGElement, pts: readonly Pt[], o: { seed: string }): void {
+export function flankShoulder(
+  parent: SVGElement,
+  pts: readonly Pt[],
+  o: { seed: string },
+): void {
   const line = resample(pts, 60);
   inkLine(parent, line, {
     seed: `${o.seed}:r`,
@@ -501,7 +593,13 @@ export function flankShoulder(parent: SVGElement, pts: readonly Pt[], o: { seed:
         [p[0], p[1]],
         [p[0] + nx * 10 * dir, p[1] + ny * 10 * dir],
       ],
-      { seed: `${o.seed}:h${i}`, w: 0.8, color: 'var(--ink-faint)', amp: 0.5, opacity: 0.6 },
+      {
+        seed: `${o.seed}:h${i}`,
+        w: 0.8,
+        color: 'var(--ink-faint)',
+        amp: 0.5,
+        opacity: 0.6,
+      },
     );
   }
 }

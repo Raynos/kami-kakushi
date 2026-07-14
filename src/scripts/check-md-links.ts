@@ -31,7 +31,13 @@ const SCAN_ROOTS = [
 ];
 // 'worktrees': co-agent git worktrees under .claude/worktrees — transient full-repo
 // checkouts whose relative links break one level deeper; scanning them cries wolf (AC-11).
-const EXCLUDE_DIRS = new Set(['node_modules', '.git', 'dist', 'tmp', 'worktrees']);
+const EXCLUDE_DIRS = new Set([
+  'node_modules',
+  '.git',
+  'dist',
+  'tmp',
+  'worktrees',
+]);
 
 function walk(abs: string, out: string[]): void {
   const st = statSync(abs);
@@ -85,7 +91,11 @@ for (const abs of files) {
       const pathPart = raw.split('#')[0]!.split('?')[0]!;
       if (!pathPart) continue; // pure `#anchor` / `?query`
       if (!existsSync(resolve(dirname(abs), pathPart))) {
-        broken.push({ file: relative(repoRoot, abs), line: i + 1, target: pathPart });
+        broken.push({
+          file: relative(repoRoot, abs),
+          line: i + 1,
+          target: pathPart,
+        });
       }
     }
   });
@@ -93,7 +103,8 @@ for (const abs of files) {
 
 if (broken.length > 0) {
   console.error(`✗ md-links: ${broken.length} dead intra-repo link(s):`);
-  for (const b of broken) console.error(`    ${b.file}:${b.line} → ${b.target}`);
+  for (const b of broken)
+    console.error(`    ${b.file}:${b.line} → ${b.target}`);
   console.error(
     '  Fix the path, or point at the renamed target. (External/#anchor links are skipped.)',
   );

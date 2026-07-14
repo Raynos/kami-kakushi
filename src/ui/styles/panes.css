@@ -131,7 +131,9 @@
   color: var(--beni);
 }
 .win-rate .pip.unknown {
-  color: var(--ink-faint); /* an un-encountered foe: neutral, no difficulty hue */
+  color: var(
+    --ink-faint
+  ); /* an un-encountered foe: neutral, no difficulty hue */
 }
 
 /* ── a11y: text scale + reduced-motion class (Settings) ──────────────────── */

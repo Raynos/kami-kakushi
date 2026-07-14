@@ -57,14 +57,18 @@ describe('nextDialogueLines cursor', () => {
     expect(lines[0]!.speaker).toBe(NAMES.elder);
     // the opener is exactly the ungated lines (the flag-gated payoff is withheld), in order
     const def = getDialogue(COLD_OPEN_DIALOGUE_ID);
-    const ungatedInOrder = def.lines.filter((l) => l.gate === undefined).map((l) => l.id);
+    const ungatedInOrder = def.lines
+      .filter((l) => l.gate === undefined)
+      .map((l) => l.id);
     expect(lines.map((l) => l.id)).toEqual(ungatedInOrder);
   });
 
   it('returns [] once every line has been delivered', () => {
     const def = getDialogue(COLD_OPEN_DIALOGUE_ID);
     const allDelivered = new Set(def.lines.map((l) => l.id));
-    expect(nextDialogueLines(COLD_OPEN_DIALOGUE_ID, allDelivered, { raked: true })).toEqual([]);
+    expect(
+      nextDialogueLines(COLD_OPEN_DIALOGUE_ID, allDelivered, { raked: true }),
+    ).toEqual([]);
   });
 
   it('withholds a gated line while its flag is false, reveals it once satisfied', () => {
@@ -72,7 +76,9 @@ describe('nextDialogueLines cursor', () => {
     const gated = def.lines.find((l) => l.gate !== undefined);
     expect(gated).toBeDefined();
     // gate(flags) === false → the line is withheld
-    const off = nextDialogueLines(COLD_OPEN_DIALOGUE_ID, NONE, { raked: false });
+    const off = nextDialogueLines(COLD_OPEN_DIALOGUE_ID, NONE, {
+      raked: false,
+    });
     expect(off.map((l) => l.id)).not.toContain(gated!.id);
     // an absent flag is also withheld (gate reads false)
     const absent = nextDialogueLines(COLD_OPEN_DIALOGUE_ID, NONE, NO_FLAGS);
@@ -85,7 +91,9 @@ describe('nextDialogueLines cursor', () => {
   it('advances as lines are delivered — the cursor skips delivered ids, preserving order', () => {
     const def = getDialogue(COLD_OPEN_DIALOGUE_ID);
     const firstId = def.lines[0]!.id;
-    const after = nextDialogueLines(COLD_OPEN_DIALOGUE_ID, new Set([firstId]), { raked: true });
+    const after = nextDialogueLines(COLD_OPEN_DIALOGUE_ID, new Set([firstId]), {
+      raked: true,
+    });
     expect(after.map((l) => l.id)).not.toContain(firstId);
     expect(after.map((l) => l.id)).toEqual(def.lines.slice(1).map((l) => l.id));
   });
@@ -116,16 +124,22 @@ describe('M7 dialogue live-swap — the DEV text overlay', () => {
     expect(line.id).toBe(first.id); // identity is canon — delivered-tracking never forks
     expect(line.gate).toBe(first.gate);
     expect(line.voice).toBe(first.voice);
-    const fresh = nextDialogueLines(COLD_OPEN_DIALOGUE_ID, NONE, { raked: true });
+    const fresh = nextDialogueLines(COLD_OPEN_DIALOGUE_ID, NONE, {
+      raked: true,
+    });
     expect(fresh.find((l) => l.id === first.id)?.text).toBe('TAKE voice');
   });
 
   it('clears back to canon (null), and an uncovered line is untouched', () => {
     const second = def.lines[1]!;
     __setStoryOverlay({ [key]: 'TAKE voice' });
-    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, second.id).text).toBe(second.text);
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, second.id).text).toBe(
+      second.text,
+    );
     __setStoryOverlay(null);
-    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, first.id).text).toBe(first.text);
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, first.id).text).toBe(
+      first.text,
+    );
   });
 
   it('reaches the log resolver — a saved/logged keyed line re-derives to the take', () => {
@@ -143,7 +157,8 @@ describe('cold-open voice convention (F91/F93 — supersedes F57)', () => {
   // says…") carries the narrator voice with no nameplate. (This flips gen-rake from the old FB-57
   // 'narrator' tag — the human now reads it as Genemon speaking.)
   const voiceOf = (lineId: string) =>
-    getDialogue(COLD_OPEN_DIALOGUE_ID).lines.find((l) => l.id === lineId)?.voice;
+    getDialogue(COLD_OPEN_DIALOGUE_ID).lines.find((l) => l.id === lineId)
+      ?.voice;
 
   it("Genemon's own speech is voice 'steward' (renders 'Genemon: …')", () => {
     for (const id of ['gen-greet', 'gen-stores', 'gen-rake', 'gen-keep']) {

@@ -187,7 +187,8 @@ export const MOBS: readonly MobDef[] = [
     // The first HUMAN threat is canon-held for T2 (T0 sheet: no human combat in T0/T1). The bandit
     // stays in the balance CURVE (the top-end wall foeForecasts reads) but is GATED out of a T0 fight.
     minTier: 2,
-    blurb: 'A masterless man gone to robbery on the woodlot road — a threat for a later season.',
+    blurb:
+      'A masterless man gone to robbery on the woodlot road — a threat for a later season.',
   },
 ];
 

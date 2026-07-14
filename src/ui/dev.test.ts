@@ -272,12 +272,19 @@ describe('renderer variant routing — Works 普請 + Estate 家 (ADR-177 Phase 
     const dev = createDevApi();
     dev.setVariant('works', 'works-b');
     const intents: string[] = [];
-    const render = mount(root, (i) => void intents.push(i.type), noopHooks(), dev);
+    const render = mount(
+      root,
+      (i) => void intents.push(i.type),
+      noopHooks(),
+      dev,
+    );
     render(worksState(), null);
     openTab('普請');
     expect(root.querySelector('.works-board-row')).not.toBeNull();
     expect(root.querySelector('.works-ledger')).toBeNull();
-    const btn = [...root.querySelectorAll<HTMLButtonElement>('.works-board button.verb')][0];
+    const btn = [
+      ...root.querySelectorAll<HTMLButtonElement>('.works-board button.verb'),
+    ][0];
     expect(btn).toBeDefined();
     btn!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(intents).toContain('improve_estate'); // ADR-075: every variant WORKS
@@ -436,7 +443,11 @@ describe('renderer variant routing — Bestiary (D-075, A7)', () => {
         ...base,
         location: 'home-paddies',
         // ADR-179 — the combat tab + Bestiary derive from their rung fact (rank-r3).
-        flags: { ...base.flags, awake: true, ...factsForSurfaces('tab-combat', 'panel-bestiary') },
+        flags: {
+          ...base.flags,
+          awake: true,
+          ...factsForSurfaces('tab-combat', 'panel-bestiary'),
+        },
       },
       'mob-monkey',
     );
@@ -517,7 +528,12 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
         awake: true,
         raked: true,
         'rank-r1': true,
-        ...factsForSurfaces('panel-rung-ladder', 'panel-estate', 'panel-home', 'tab-inventory'),
+        ...factsForSurfaces(
+          'panel-rung-ladder',
+          'panel-estate',
+          'panel-home',
+          'tab-inventory',
+        ),
       },
       resources: { ...base.resources, coin: 500 },
       ...extra,
@@ -551,7 +567,9 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
     expect(pane.querySelector('.home-room')).not.toBeNull(); // the diegetic room grid
     expect(pane.querySelector('.belonging-row')).toBeNull(); // the default list is replaced
     // the bowl + mat are placed IN SITU in the room (owned belongings render as room pieces).
-    expect(pane.querySelector('.home-piece[data-belonging="bowl"]')).not.toBeNull();
+    expect(
+      pane.querySelector('.home-piece[data-belonging="bowl"]'),
+    ).not.toBeNull();
     // the acquire list reads as "what the room still lacks".
     expect(pane.textContent).toContain('What the room still lacks');
   });
@@ -567,7 +585,9 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
     expect(pane.querySelector('.belonging-row')).toBeNull();
     expect(pane.textContent).toContain('持ち物帳');
     // owned pieces are ruled ledger lines (the bowl among them).
-    expect(pane.querySelector('.home-ledger-row[data-belonging="bowl"]')).not.toBeNull();
+    expect(
+      pane.querySelector('.home-ledger-row[data-belonging="bowl"]'),
+    ).not.toBeNull();
   });
 
   it('the room-cutaway comfort tally reads the SAME numbers as the default (A6)', () => {
@@ -580,7 +600,9 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
     const amt = getBelonging('bedding').comfort?.amount ?? 0;
     expect(amt).toBeGreaterThan(0);
     // the tally is read through the SAME selectors the reducer uses — not a copied magic number.
-    expect(pane.querySelector('.home-cutaway-tally')?.textContent).toContain(`rest +${amt}`);
+    expect(pane.querySelector('.home-cutaway-tally')?.textContent).toContain(
+      `rest +${amt}`,
+    );
   });
 
   it('a DEV-variant buy button drives the REAL buy_belonging intent', () => {
@@ -592,10 +614,15 @@ describe('renderer variant routing — Home / belongings (D-075, D-111)', () => 
     openInventory();
     const pane = root.querySelector<HTMLElement>('.belongings-pane')!;
     // an UNFILLED ledger line for a buyable piece; its verb button dispatches the real intent.
-    const row = pane.querySelector<HTMLElement>('.home-unfilled-row[data-belonging="bedding"]')!;
+    const row = pane.querySelector<HTMLElement>(
+      '.home-unfilled-row[data-belonging="bedding"]',
+    )!;
     expect(row).not.toBeNull();
     row.querySelector<HTMLButtonElement>('button')!.click();
-    expect(dispatched).toContainEqual({ type: 'buy_belonging', belongingId: 'bedding' });
+    expect(dispatched).toContainEqual({
+      type: 'buy_belonging',
+      belongingId: 'bedding',
+    });
   });
 });
 
@@ -608,7 +635,8 @@ describe('DEV panel — Speed row (F49)', () => {
   }
   // the active button carries the gold bg + bold weight (jsdom normalises the hex to rgb, so key
   // off the bold weight the highlight also stamps on — set to '700' active, 'normal' otherwise).
-  const isActive = (b: HTMLButtonElement): boolean => b.style.fontWeight === '700';
+  const isActive = (b: HTMLButtonElement): boolean =>
+    b.style.fontWeight === '700';
 
   it('offers 1·2·4·8·16 (16× is present)', () => {
     const host = document.createElement('div');
@@ -644,7 +672,12 @@ describe('DEV panel — Speed row (F49)', () => {
     const host = document.createElement('div');
     document.body.append(host);
     const qa = stubQa();
-    mountDevPanel(host, { qa, dev: createDevApi(), rerender: () => {}, cockpit: testCockpit() });
+    mountDevPanel(host, {
+      qa,
+      dev: createDevApi(),
+      rerender: () => {},
+      cockpit: testCockpit(),
+    });
     const btns = speedButtons(host);
     const four = btns.find((b) => b.textContent === '4×')!;
     four.click();
@@ -660,7 +693,11 @@ describe('DEV panel — Speed row (F49)', () => {
 // human can pull it off whatever it covers while reviewing. RED on main before this landed:
 // no pointer handler existed, so a drag never set left/top and the release still collapsed.
 describe('DEV panel — drag by the header (session-200)', () => {
-  function mountPanel(): { host: HTMLElement; head: HTMLElement; panel: HTMLElement } {
+  function mountPanel(): {
+    host: HTMLElement;
+    head: HTMLElement;
+    panel: HTMLElement;
+  } {
     const host = document.createElement('div');
     document.body.append(host);
     mountDevPanel(host, {
@@ -760,7 +797,8 @@ describe('DEV panel — New-game footer safety (F95)', () => {
     expect(restore).toBeTruthy();
     // DOM order: restore precedes New game (compareDocumentPosition FOLLOWING = 4).
     expect(
-      restore.compareDocumentPosition(newGame) & Node.DOCUMENT_POSITION_FOLLOWING,
+      restore.compareDocumentPosition(newGame) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
     // no backup yet (stub hasBackup=false) → disabled.
     expect(restore.disabled).toBe(true);
@@ -792,7 +830,10 @@ describe('DEV panel — New-game footer safety (F95)', () => {
     let restored = 0;
     // hasBackup=true so the mount probe enables the button.
     mountDevPanel(host, {
-      qa: stubQa({ hasBackup: async () => true, restoreBackup: async () => (restored++, true) }),
+      qa: stubQa({
+        hasBackup: async () => true,
+        restoreBackup: async () => (restored++, true),
+      }),
       dev: createDevApi(),
       rerender: () => {},
       cockpit: testCockpit(),
@@ -830,7 +871,10 @@ describe('ADR-139 story take-sets', () => {
     voice: 'steward',
     greeting: [{ id: 'g0', voice: 'narrator', text }],
     topics: [],
-    decision: { prompt: 'p?', options: [{ id: 'o1', label: 'l', say: 's', react: 'r' }] },
+    decision: {
+      prompt: 'p?',
+      options: [{ id: 'o1', label: 'l', say: 's', react: 'r' }],
+    },
     motivates: [],
   });
   const canon = scene('canon line');
@@ -843,7 +887,11 @@ describe('ADR-139 story take-sets', () => {
         id: 'b',
         label: 'Colder',
         brief: 'withholds warmth',
-        seq: { 'beat.R1.greeting': [{ id: 'b0', voice: 'narrator', text: 'take-b line' }] },
+        seq: {
+          'beat.R1.greeting': [
+            { id: 'b0', voice: 'narrator', text: 'take-b line' },
+          ],
+        },
       },
       { id: 'c', label: 'Warmer', brief: 'lets the weariness show' },
     ],
@@ -935,10 +983,16 @@ describe('ADR-139 story take-sets', () => {
   // authored take. RED if the bundle is pruned/renamed or the scene-def emit path regresses.
   it('subScene: the real hd30-nengu bundle swaps the authored nengu scene', () => {
     const nengu = STORY_TAKE_BUNDLES.find((b) => b.id === 'hd30-nengu');
-    expect(nengu, 'hd30-nengu bundle present in the generated registry').toBeDefined();
+    expect(
+      nengu,
+      'hd30-nengu bundle present in the generated registry',
+    ).toBeDefined();
     const takeA = nengu!.takes.find((t) => t.id === 'a');
     const authored = takeA?.seq?.['scene.nengu-autumn-frame.greeting'];
-    expect(authored, 'take a carries the nengu-autumn-frame greeting run').toBeDefined();
+    expect(
+      authored,
+      'take a carries the nengu-autumn-frame greeting run',
+    ).toBeDefined();
     const dev = createDevApi(STORY_TAKE_BUNDLES);
     const liveCanon: RungScene = {
       id: 'nengu-autumn-frame',
@@ -962,7 +1016,12 @@ describe('ADR-139 story take-sets', () => {
     title: 'Flavor bundle',
     hr: 'none · test fixture',
     takes: [
-      { id: 'a', label: 'A', brief: 'names the smith', text: { 'flavor.mendHint': 'take-a line' } },
+      {
+        id: 'a',
+        label: 'A',
+        brief: 'names the smith',
+        text: { 'flavor.mendHint': 'take-a line' },
+      },
       { id: 'b', label: 'B', brief: 'no flavor unit' }, // b carries no flavor → canon shows
     ],
   };
@@ -983,7 +1042,11 @@ describe('ADR-139 story take-sets', () => {
   it('lists open bundles in the Review tab, and badges only what awaits a verdict', () => {
     const host = document.createElement('div');
     document.body.append(host);
-    const settled: StoryTakeBundle = { ...bundle, id: 'kept', title: 'Kept for reference' };
+    const settled: StoryTakeBundle = {
+      ...bundle,
+      id: 'kept',
+      title: 'Kept for reference',
+    };
     const open: StoryTakeBundle = { ...bundle, hr: 'HR-99' };
     mountDevPanel(host, {
       qa: stubQa(),
@@ -991,7 +1054,9 @@ describe('ADR-139 story take-sets', () => {
       rerender: () => {},
       cockpit: testCockpit(),
     });
-    const storyHalf = host.querySelector('[data-review-half="story"]') as HTMLButtonElement;
+    const storyHalf = host.querySelector(
+      '[data-review-half="story"]',
+    ) as HTMLButtonElement;
     expect(storyHalf.textContent).toBe('Story (1)'); // 2 bundles, 1 awaiting
     storyHalf.click();
     expect(host.textContent).toContain('Test bundle');
@@ -1012,7 +1077,9 @@ describe('ADR-139 story take-sets', () => {
       rerender: () => {},
       cockpit: testCockpit(),
     });
-    (host.querySelector('[data-review-half="story"]') as HTMLButtonElement).click();
+    (
+      host.querySelector('[data-review-half="story"]') as HTMLButtonElement
+    ).click();
     const row = [...host.querySelectorAll('div')].find((d) =>
       (d.textContent ?? '').includes('Test bundle'),
     )!;
@@ -1043,7 +1110,9 @@ describe('FB-121 req-flavor — the CORE overlay rides the switcher', () => {
       },
     ],
   };
-  const rakeReq = rungRequirements('R0').find((r) => r.id === 'rake-the-spill')!;
+  const rakeReq = rungRequirements('R0').find(
+    (r) => r.id === 'rake-the-spill',
+  )!;
 
   afterEach(() => __setStoryOverlay(null));
 
@@ -1070,7 +1139,8 @@ describe('FB-121 req-flavor — the CORE overlay rides the switcher', () => {
 // RED on main before this landed: takes carried `dialogues` payloads but no overlay was synced
 // and `dialogue:` units rendered "(reader-only)". ──
 describe('M7 dialogue — the CORE overlay rides the switcher', () => {
-  const canonLine = DIALOGUES.find((d) => d.id === COLD_OPEN_DIALOGUE_ID)!.lines[0]!;
+  const canonLine = DIALOGUES.find((d) => d.id === COLD_OPEN_DIALOGUE_ID)!
+    .lines[0]!;
   const bundle: StoryTakeBundle = {
     id: 'dlg-test',
     title: 'Dialogue test',
@@ -1080,7 +1150,10 @@ describe('M7 dialogue — the CORE overlay rides the switcher', () => {
         id: 'b',
         label: 'alt voice',
         brief: 'the alternate register',
-        text: { [`dialogue.${COLD_OPEN_DIALOGUE_ID}.${canonLine.id}`]: 'ALT teach line' },
+        text: {
+          [`dialogue.${COLD_OPEN_DIALOGUE_ID}.${canonLine.id}`]:
+            'ALT teach line',
+        },
       },
     ],
   };
@@ -1089,20 +1162,34 @@ describe('M7 dialogue — the CORE overlay rides the switcher', () => {
 
   it('selecting a take overlays the core read; canon restores on switch-back', () => {
     const dev = createDevApi([bundle]);
-    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe(canonLine.text);
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe(
+      canonLine.text,
+    );
     dev.setStoryTake('dlg-test', 'b');
-    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe('ALT teach line');
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe(
+      'ALT teach line',
+    );
     dev.setStoryTake('dlg-test', 'canon');
-    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe(canonLine.text);
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe(
+      canonLine.text,
+    );
   });
 
   it('a per-unit override wins over the bundle set (and clears)', () => {
     const dev = createDevApi([bundle]);
     dev.setStoryTake('dlg-test', 'b');
     dev.setStoryUnit('dlg-test', `dialogue:${COLD_OPEN_DIALOGUE_ID}`, 'canon');
-    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe(canonLine.text);
-    dev.setStoryUnit('dlg-test', `dialogue:${COLD_OPEN_DIALOGUE_ID}`, undefined);
-    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe('ALT teach line');
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe(
+      canonLine.text,
+    );
+    dev.setStoryUnit(
+      'dlg-test',
+      `dialogue:${COLD_OPEN_DIALOGUE_ID}`,
+      undefined,
+    );
+    expect(getDialogueLine(COLD_OPEN_DIALOGUE_ID, canonLine.id).text).toBe(
+      'ALT teach line',
+    );
   });
 
   it('dialogue units are LIVE in the switcher, never "(reader-only)"', () => {
@@ -1129,7 +1216,11 @@ describe('session-200 — logged intro lines re-derive under the selected take',
         // the take's OWN slug — blind authorship; position maps it onto canon.
         seq: {
           [`intro.${canonScene.id}.greeting`]: [
-            { id: 'blind-authored-slug', voice: canonFirst.voice, text: 'ALT dream line' },
+            {
+              id: 'blind-authored-slug',
+              voice: canonFirst.voice,
+              text: 'ALT dream line',
+            },
           ],
         },
       },
@@ -1161,7 +1252,9 @@ describe('session-200 — logged intro lines re-derive under the selected take',
     if (!second) return; // canon dream has one line — nothing past the end to probe
     const dev = createDevApi([bundle]);
     dev.setStoryTake('intro-log-test', 'b');
-    expect(renderLogLine(`intro.${canonScene.id}.greeting.${second.id}`)).toBe(second.text);
+    expect(renderLogLine(`intro.${canonScene.id}.greeting.${second.id}`)).toBe(
+      second.text,
+    );
   });
 });
 
@@ -1183,15 +1276,23 @@ describe('HD-41 req-objective — the switcher swaps the Progress reading', () =
       },
     ],
   };
-  const rakeReq = rungRequirements('R0').find((r) => r.id === 'rake-the-spill')!;
+  const rakeReq = rungRequirements('R0').find(
+    (r) => r.id === 'rake-the-spill',
+  )!;
 
   it('canon by default; the selected take swaps it; switching back restores canon', () => {
     const dev = createDevApi([bundle]);
-    expect(dev.subReqObjective(rakeReq.id, rakeReq.objective)).toBe(rakeReq.objective);
+    expect(dev.subReqObjective(rakeReq.id, rakeReq.objective)).toBe(
+      rakeReq.objective,
+    );
     dev.setStoryTake('obj-test', 'b');
-    expect(dev.subReqObjective(rakeReq.id, rakeReq.objective)).toBe('ALT objective line');
+    expect(dev.subReqObjective(rakeReq.id, rakeReq.objective)).toBe(
+      'ALT objective line',
+    );
     dev.setStoryTake('obj-test', 'canon');
-    expect(dev.subReqObjective(rakeReq.id, rakeReq.objective)).toBe(rakeReq.objective);
+    expect(dev.subReqObjective(rakeReq.id, rakeReq.objective)).toBe(
+      rakeReq.objective,
+    );
   });
 
   it('a requirement the take does not touch keeps canon, and the epoch bumps for the repaint', () => {
@@ -1199,7 +1300,9 @@ describe('HD-41 req-objective — the switcher swaps the Progress reading', () =
     const other = rungRequirements('R0').find((r) => r.id !== rakeReq.id)!;
     const before = dev.storyEpoch();
     dev.setStoryTake('obj-test', 'b');
-    expect(dev.subReqObjective(other.id, other.objective)).toBe(other.objective);
+    expect(dev.subReqObjective(other.id, other.objective)).toBe(
+      other.objective,
+    );
     // the log is append-only: without an epoch bump the renderer would never repaint the
     // Progress view, and the flip would look dead until the next completion.
     expect(dev.storyEpoch()).toBeGreaterThan(before);
@@ -1210,11 +1313,16 @@ describe('ADR-139 story reader modal', () => {
   // takes are flat maps on CANON structure — the react override targets the REAL R1
   // option id (the reader rebuilds the take column against the live registry).
   const r1OptId = RUNG_BEATS.R1!.decision.options[0]!.id;
-  const readerTake = (greeting: string, react: string): StoryTakeBundle['takes'][number] => ({
+  const readerTake = (
+    greeting: string,
+    react: string,
+  ): StoryTakeBundle['takes'][number] => ({
     id: 'b',
     label: 'Colder',
     brief: 'withholds',
-    seq: { 'beat.R1.greeting': [{ id: 'b0', voice: 'narrator', text: greeting }] },
+    seq: {
+      'beat.R1.greeting': [{ id: 'b0', voice: 'narrator', text: greeting }],
+    },
     text: { [`beat.R1.opt.${r1OptId}.react`]: react },
   });
   const bundle: StoryTakeBundle = {
@@ -1252,7 +1360,8 @@ describe('ADR-139 story reader modal', () => {
     expect(text).not.toContain('scene:nengu-autumn-frame (reader-only)'); // it's LIVE, not reader-only
     // canon reads the LIVE SCENES registry; the take-a alt renders its own run.
     const takeA = nengu!.takes.find((t) => t.id === 'a')!;
-    const altGreeting = takeA.seq!['scene.nengu-autumn-frame.greeting']![0]!.text;
+    const altGreeting =
+      takeA.seq!['scene.nengu-autumn-frame.greeting']![0]!.text;
     expect(text).toContain(altGreeting.slice(0, 40));
   });
 
@@ -1268,7 +1377,11 @@ describe('ADR-139 story reader modal', () => {
       (n) => (n as HTMLElement).style.opacity === '0.45',
     );
     expect(dimmed.length).toBeGreaterThan(0);
-    expect(dimmed.some((n) => (n.textContent ?? '').includes(sharedText.slice(0, 30)))).toBe(true);
+    expect(
+      dimmed.some((n) =>
+        (n.textContent ?? '').includes(sharedText.slice(0, 30)),
+      ),
+    ).toBe(true);
     // a line unique to the take stays undimmed.
     const fresh = [...scrim.querySelectorAll('.log-line')].find((n) =>
       (n.textContent ?? '').includes('a fresh react'),

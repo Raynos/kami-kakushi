@@ -25,4 +25,4 @@ trim_trailing_whitespace = false
 # Code — keep this in step with .oxfmtrc.json's `printWidth`, which is the
 # enforced one (the `oxfmt` verify gate). This line is only the editor's ruler.
 [*.{ts,tsx,js,mjs,cjs,json}]
-max_line_length = 100
+max_line_length = 80

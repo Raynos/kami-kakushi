@@ -1,5 +1,11 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
@@ -28,7 +34,8 @@ function freshPending(): string {
   return dir;
 }
 afterEach(() => {
-  for (const d of tmpDirs.splice(0)) rmSync(d, { recursive: true, force: true });
+  for (const d of tmpDirs.splice(0))
+    rmSync(d, { recursive: true, force: true });
 });
 
 /** A minimal sidecar as the middleware writes it — NO drain fields, so the
@@ -123,8 +130,16 @@ describe('writeDrainFields', () => {
   it('merges fields without dropping the capture payload', () => {
     const dir = freshPending();
     const path = writeSidecar(dir, 'r0', 's1');
-    writeDrainFields(path, { lane: 'speaker-style', status: 'done', fb: 231, commit: 'beef123' });
-    const raw = JSON.parse(readFileSync(path, 'utf-8')) as Record<string, unknown>;
+    writeDrainFields(path, {
+      lane: 'speaker-style',
+      status: 'done',
+      fb: 231,
+      commit: 'beef123',
+    });
+    const raw = JSON.parse(readFileSync(path, 'utf-8')) as Record<
+      string,
+      unknown
+    >;
     expect(raw.save).toBe('eyJ='); // the repro survives
     expect(raw.lane).toBe('speaker-style');
     expect(raw.fb).toBe(231);
@@ -133,8 +148,12 @@ describe('writeDrainFields', () => {
 
 describe('deriveSurface + findCollisions', () => {
   it('maps VN selectors and the log panel to their tokens', () => {
-    expect(deriveSurface('span.vn-speech', 'div > p > span')).toEqual(['vn-overlay']);
-    expect(deriveSurface('panel "log"', 'section[data-panel=log] > div')).toEqual(['log-panel']);
+    expect(deriveSurface('span.vn-speech', 'div > p > span')).toEqual([
+      'vn-overlay',
+    ]);
+    expect(
+      deriveSurface('panel "log"', 'section[data-panel=log] > div'),
+    ).toEqual(['log-panel']);
     expect(deriveSurface('unknown thing', 'div.mystery')).toEqual([]);
   });
 
@@ -191,9 +210,9 @@ describe('bucketDrainRows — status by RESOLVED lane, not folder', () => {
 
 describe('lanesWithoutBucket — claim-time divergence warning', () => {
   it('flags a claimed lane that names no bucket folder, passes a matching one', () => {
-    expect(lanesWithoutBucket(['log-panel', 'r1'], new Set(['r1', 'the-log']))).toEqual([
-      'log-panel',
-    ]);
+    expect(
+      lanesWithoutBucket(['log-panel', 'r1'], new Set(['r1', 'the-log'])),
+    ).toEqual(['log-panel']);
     expect(lanesWithoutBucket(['r1'], new Set(['r1']))).toEqual([]);
   });
 });
@@ -208,7 +227,11 @@ describe('fbAllocations + fbHighWater', () => {
   });
 
   it('high-water is the max across headings, live claims, and stamped sidecars', () => {
-    const hw = fbHighWater([197, 122], [claim({ fbHi: 214 })], [item({ fb: 230 })]);
+    const hw = fbHighWater(
+      [197, 122],
+      [claim({ fbHi: 214 })],
+      [item({ fb: 230 })],
+    );
     expect(hw).toBe(230);
     expect(fbHighWater([], [], [])).toBe(FB_BASELINE); // never below the baseline
   });
@@ -230,14 +253,21 @@ describe('claims — atomicity + liveness', () => {
     const c = claim({ pane: 'w6:p1', pid: 424242 });
     expect(isClaimLive(c, { herdrPanes: () => ['w6:p1', 'w3:p3'] })).toBe(true);
     expect(isClaimLive(c, { herdrPanes: () => ['w3:p3'] })).toBe(false); // provably stale
-    expect(isClaimLive(c, { herdrPanes: () => null, pidAlive: () => true })).toBe(true);
-    expect(isClaimLive(c, { herdrPanes: () => null, pidAlive: () => false })).toBe(false);
+    expect(
+      isClaimLive(c, { herdrPanes: () => null, pidAlive: () => true }),
+    ).toBe(true);
+    expect(
+      isClaimLive(c, { herdrPanes: () => null, pidAlive: () => false }),
+    ).toBe(false);
   });
 });
 
 describe('ledgerFindings — every check can go RED', () => {
   it('is green on a healthy corpus (defaults-by-absence + grandfathered history)', () => {
-    const pending = [item({}), item({ stamp: 's2', status: 'done', fb: 230, commit: 'abc' })];
+    const pending = [
+      item({}),
+      item({ stamp: 's2', status: 'done', fb: 230, commit: 'abc' }),
+    ];
     // Historic duplicates AT/below the baseline are grandfathered:
     const headings = [1, 1, 122, 122, FB_BASELINE, 230];
     expect(ledgerFindings(pending, [], headings)).toEqual([]);
@@ -246,9 +276,17 @@ describe('ledgerFindings — every check can go RED', () => {
   it('REDs a duplicate fb stamped on two captures', () => {
     const dup = [
       item({ fb: 230, status: 'done', commit: 'a' }),
-      item({ stamp: 's2', bucket: 'dev', fb: 230, status: 'done', commit: 'b' }),
+      item({
+        stamp: 's2',
+        bucket: 'dev',
+        fb: 230,
+        status: 'done',
+        commit: 'b',
+      }),
     ];
-    const stamped = ledgerFindings(dup, [], []).filter((f) => f.includes('stamped on'));
+    const stamped = ledgerFindings(dup, [], []).filter((f) =>
+      f.includes('stamped on'),
+    );
     expect(stamped).toHaveLength(1);
     expect(stamped[0]).toContain('FB-230');
   });
@@ -261,7 +299,9 @@ describe('ledgerFindings — every check can go RED', () => {
 
   it('REDs done-without-record and a fully-done bucket left in pending/', () => {
     const doneNoCommit = item({ status: 'done', fb: 231 });
-    expect(ledgerFindings([doneNoCommit], [], [])[0]).toContain('missing commit');
+    expect(ledgerFindings([doneNoCommit], [], [])[0]).toContain(
+      'missing commit',
+    );
     const allDone = [
       item({ status: 'done', fb: 232, commit: 'a' }),
       item({ stamp: 's2', status: 'done', fb: 233, commit: 'b' }),
@@ -270,6 +310,8 @@ describe('ledgerFindings — every check can go RED', () => {
     expect(findings.some((f) => f.includes('archive it'))).toBe(true);
     // ...but a parked item legitimately holds the bucket open:
     const withParked = [...allDone, item({ stamp: 's3', status: 'parked' })];
-    expect(ledgerFindings(withParked, [], []).some((f) => f.includes('archive it'))).toBe(false);
+    expect(
+      ledgerFindings(withParked, [], []).some((f) => f.includes('archive it')),
+    ).toBe(false);
   });
 });

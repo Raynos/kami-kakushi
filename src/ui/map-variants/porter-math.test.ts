@@ -15,8 +15,10 @@ describe('walkPoint — linear, clock-driven travel', () => {
   it('is LINEAR — the midpoint fraction is the midpoint of the edge (the human ask: constant speed, no easing)', () => {
     expect(walkPoint(from, to, 0.5)).toEqual({ x: 300, y: 600 });
     // equal fraction steps cover equal distances (no ease-in/out on the piece)
-    const d = (a: { x: number; y: number }, b: { x: number; y: number }): number =>
-      Math.hypot(b.x - a.x, b.y - a.y);
+    const d = (
+      a: { x: number; y: number },
+      b: { x: number; y: number },
+    ): number => Math.hypot(b.x - a.x, b.y - a.y);
     const step1 = d(walkPoint(from, to, 0.1), walkPoint(from, to, 0.2));
     const step2 = d(walkPoint(from, to, 0.8), walkPoint(from, to, 0.9));
     expect(step1).toBeCloseTo(step2, 9);

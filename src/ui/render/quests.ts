@@ -1,7 +1,13 @@
 // The QUESTS surface (split out of render.ts, 2026-07-13 render-split): the ADR-119
 // dedicated Quests tab (用). The default (A) card list ships from here; the diverged B/C
 // alternates stay DEV-only in ui/dev/variant-renderers.ts behind `dev.renderVariant`.
-import { formatCoin, isUnlocked, QUESTS, type GameState, type Intent } from '../../core';
+import {
+  formatCoin,
+  isUnlocked,
+  QUESTS,
+  type GameState,
+  type Intent,
+} from '../../core';
 import { el, QUESTS_BLURB } from '../render';
 import { reconcileList, setText, setClass, toggle } from '../reconcile';
 import type { DevApi } from '../dev';
@@ -36,11 +42,17 @@ export function createQuestsView(ctx: {
     card.append(el('div', 'influence-when'));
     const btn = el('button', 'verb', 'Take this on');
     btn.type = 'button';
-    btn.addEventListener('click', () => dispatch({ type: 'accept_quest', questId: q.id }));
+    btn.addEventListener('click', () =>
+      dispatch({ type: 'accept_quest', questId: q.id }),
+    );
     card.append(btn);
     return card;
   }
-  function patchQuestCard(card: HTMLElement, q: (typeof QUESTS)[number], state: GameState): void {
+  function patchQuestCard(
+    card: HTMLElement,
+    q: (typeof QUESTS)[number],
+    state: GameState,
+  ): void {
     const done = new Set(state.quests.progress[q.id] ?? []);
     const completed = state.quests.completed.includes(q.id);
     const accepted = state.quests.accepted.includes(q.id);
@@ -61,13 +73,17 @@ export function createQuestsView(ctx: {
     toggle(reward, rewardShown);
     if (rewardShown) setText(reward, `Reward: ${formatCoin(rk)}`);
     // the accept button shows only on an un-taken offer.
-    toggle(card.querySelector<HTMLButtonElement>('.verb')!, !accepted && !completed);
+    toggle(
+      card.querySelector<HTMLButtonElement>('.verb')!,
+      !accepted && !completed,
+    );
   }
   function renderQuests(state: GameState): void {
     // ADR-119 (supersedes ADR-112 §8.1, reinstates ADR-037) — Quests regains its OWN dedicated tab, revealed
     // at R5 (tab-quests) as its own quest-log beat. It's no longer a Character section, so it self-gates
     // to the Quests tab and hides everywhere else (no ghost slice).
-    const show = ctx.activeTab() === 'quests' && isUnlocked(state, 'tab-quests');
+    const show =
+      ctx.activeTab() === 'quests' && isUnlocked(state, 'tab-quests');
     toggle(questsPane, show);
     if (!show) return;
     // ── the diverged Quests body (ADR-075) — A = the .frame cards (default, ships). B/C live DEV-only

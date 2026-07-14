@@ -86,11 +86,16 @@ describe('T0-A — the home is GRANTED at R4 (ADR-177 — the reveal wiring, not
     expect(ownsBelonging(s, 'bowl')).toBe(false);
     // the Inventory tab opening (tab-inventory, R4) reveals the home the instant its tab appears.
     // ADR-179 — stamp the tab's entitling facts; announcePass plays the reveal LINE (ceremony only).
-    s = announcePass({ ...s, flags: { ...s.flags, ...factsForSurfaces('tab-inventory') } });
+    s = announcePass({
+      ...s,
+      flags: { ...s.flags, ...factsForSurfaces('tab-inventory') },
+    });
     expect(isUnlocked(s, 'panel-home')).toBe(true);
     expect(ownsBelonging(s, 'bowl')).toBe(true); // "a dry corner and a bowl" — cashed
     // the reveal fires "a place here is yours" into the log (dialogue.ts:81 made mechanical).
-    expect(s.log.entries.some((e) => /a place here is yours/i.test(e.text))).toBe(true);
+    expect(
+      s.log.entries.some((e) => /a place here is yours/i.test(e.text)),
+    ).toBe(true);
   });
 });
 
@@ -122,7 +127,9 @@ describe('T0-A / FB-402+FB-409 — rest is SITED: home lines & comfort belong to
   it('the home rest line reflects the bedding you own (bare mat vs futon)', () => {
     const bare = reduce(atWoodshed(), { type: 'rest' });
     expect(restLineOf(bare)).toBe(homeRestLine(false));
-    const withBedding = reduce(atWoodshed({ belongings: ['bedding'] }), { type: 'rest' });
+    const withBedding = reduce(atWoodshed({ belongings: ['bedding'] }), {
+      type: 'rest',
+    });
     expect(restLineOf(withBedding)).toBe(homeRestLine(true));
     expect(homeRestLine(true)).not.toBe(homeRestLine(false));
   });
@@ -154,7 +161,8 @@ describe('T0-B — belongings are OWNABLE + a category DISTINCT from resources',
   it('buying a belonging debits coin into the `belongings` store, leaving resources otherwise intact', () => {
     const s = atHome(200);
     const bedding = getBelonging('bedding');
-    if (bedding.source.kind !== 'buy') throw new Error('fixture: bedding must be buyable');
+    if (bedding.source.kind !== 'buy')
+      throw new Error('fixture: bedding must be buyable');
     const after = reduce(s, { type: 'buy_belonging', belongingId: 'bedding' });
     // the piece lands in the DISTINCT belongings array — never in resources.
     expect(after.belongings).toContain('bedding');
@@ -167,7 +175,10 @@ describe('T0-B — belongings are OWNABLE + a category DISTINCT from resources',
   it('a belonging is not CONSUMED by any verb + a double-buy is a no-op', () => {
     const s = atHome(1000);
     const once = reduce(s, { type: 'buy_belonging', belongingId: 'bedding' });
-    const twice = reduce(once, { type: 'buy_belonging', belongingId: 'bedding' });
+    const twice = reduce(once, {
+      type: 'buy_belonging',
+      belongingId: 'bedding',
+    });
     // owned once; a second buy neither duplicates it nor charges again.
     expect(twice.belongings.filter((b) => b === 'bedding')).toHaveLength(1);
     expect(twice.resources.coin).toBe(once.resources.coin);
@@ -199,8 +210,12 @@ describe('T0-C — comfort furniture improves its TARGET (assert the lever, not 
     const restedBare = reduce(base, { type: 'rest' });
     const restedBed = reduce(withBedding, { type: 'rest' });
     expect(restedBare.character.satiety).toBe(SATIETY_PER_REST); // from 0
-    expect(restedBed.character.satiety).toBe(SATIETY_PER_REST + bedding.comfort.amount);
-    expect(restedBed.character.satiety - restedBare.character.satiety).toBe(bedding.comfort.amount);
+    expect(restedBed.character.satiety).toBe(
+      SATIETY_PER_REST + bedding.comfort.amount,
+    );
+    expect(restedBed.character.satiety - restedBare.character.satiety).toBe(
+      bedding.comfort.amount,
+    );
   });
 
   it('the hearth HOMES the cook verb (diegetic), and is NOT a satiety stat (D-120)', () => {
@@ -234,7 +249,11 @@ describe('T0-C — comfort furniture improves its TARGET (assert the lever, not 
     const chest = getBelonging('chest');
     const chestRest = chest.comfort?.kind === 'rest' ? chest.comfort.amount : 0;
     // FB-409 — sited at the woodshed corner.
-    const full = { ...atHome(), location: 'woodshed' as const, belongings: [...SETTLED_HOME_SET] };
+    const full = {
+      ...atHome(),
+      location: 'woodshed' as const,
+      belongings: [...SETTLED_HOME_SET],
+    };
     const withoutChest = {
       ...atHome(),
       location: 'woodshed' as const,
@@ -255,9 +274,11 @@ describe('T0-C — comfort furniture improves its TARGET (assert the lever, not 
     expect(homeRestBonus(base)).toBe(0);
     expect(homeSatietyBonus(base)).toBe(0);
     // the granted keepsakes (mat + bowl) are owned but carry no comfort — flavour, not a stat.
-    expect(ownedBelongings(base).every((b) => b.comfort === null || b.source.kind === 'buy')).toBe(
-      true,
-    );
+    expect(
+      ownedBelongings(base).every(
+        (b) => b.comfort === null || b.source.kind === 'buy',
+      ),
+    ).toBe(true);
   });
 });
 
@@ -277,7 +298,8 @@ describe('D-111 invariant — PRESTIGE not power: no furniture ever grants a com
     let s = atHome(1000);
     const before = s.character;
     for (const def of BELONGINGS) {
-      if (def.source.kind === 'buy') s = reduce(s, { type: 'buy_belonging', belongingId: def.id });
+      if (def.source.kind === 'buy')
+        s = reduce(s, { type: 'buy_belonging', belongingId: def.id });
     }
     expect(s.character.attrs).toEqual(before.attrs);
     expect(s.character.hp).toBe(before.hp);
@@ -294,11 +316,17 @@ describe('D-088 — the housing full-arc: earn coin → buy bedding → rest rec
     }
     // rest BEFORE furnishing…
     // FB-409 — rest is sited: the futon improves rests taken AT the woodshed corner.
-    const poor = { ...atHome(bedding.source.coinCost), location: 'woodshed' as const };
+    const poor = {
+      ...atHome(bedding.source.coinCost),
+      location: 'woodshed' as const,
+    };
     const restedBefore = reduce(poor, { type: 'rest' });
     const gainBefore = restedBefore.character.satiety - poor.character.satiety;
     // …buy the futon (coin → belonging)…
-    const furnished = reduce(poor, { type: 'buy_belonging', belongingId: 'bedding' });
+    const furnished = reduce(poor, {
+      type: 'buy_belonging',
+      belongingId: 'bedding',
+    });
     expect(furnished.belongings).toContain('bedding');
     expect(furnished.resources.coin).toBe(0); // spent the lot on the futon
     // …and rest AFTER: the same verb now restores strictly more, by the futon's amount.

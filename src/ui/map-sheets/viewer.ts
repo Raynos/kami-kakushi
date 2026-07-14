@@ -163,7 +163,8 @@ export function attachSheetViewer(
     svg.classList.add(opts.panningClass);
   });
   svg.addEventListener('pointermove', (e) => {
-    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.has(e.pointerId))
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.size === 2) {
       const [a, b] = [...pointers.values()];
       const d = Math.hypot(a!.x - b!.x, a!.y - b!.y);
@@ -182,7 +183,8 @@ export function attachSheetViewer(
       dragMoved = true;
       // capture only once a REAL drag starts (guarded: jsdom has no
       // setPointerCapture)
-      if (typeof svg.setPointerCapture === 'function') svg.setPointerCapture(e.pointerId);
+      if (typeof svg.setPointerCapture === 'function')
+        svg.setPointerCapture(e.pointerId);
     }
     if (!dragMoved) return;
     vb.x += dx;

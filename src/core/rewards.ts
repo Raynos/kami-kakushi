@@ -38,7 +38,10 @@ export interface RewardBundle {
   }[];
 }
 
-export function applyRewards(state: GameState, rewards: RewardBundle): GameState {
+export function applyRewards(
+  state: GameState,
+  rewards: RewardBundle,
+): GameState {
   let next = state;
   if (rewards.resources) {
     for (const [id, delta] of Object.entries(rewards.resources)) {
@@ -65,7 +68,9 @@ export function applyRewards(state: GameState, rewards: RewardBundle): GameState
       // every keyed narrative line and threw on any scene outside the shipped registry.)
       const text =
         line.text ??
-        (line.contentKey !== undefined ? renderLogLine(line.contentKey, line.params) : '');
+        (line.contentKey !== undefined
+          ? renderLogLine(line.contentKey, line.params)
+          : '');
       next = {
         ...next,
         log: pushLog(next.log, line.channel, text, next.clock.tick, {

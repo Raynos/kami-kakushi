@@ -65,13 +65,21 @@ function advanceStage(state: GameState, def: NightRoundDef): GameState {
 }
 
 /** Resolve the CURRENT stage of an in-flight round through the seeded combat resolver. */
-export function resolveNightStage(state: GameState, def: NightRoundDef): GameState {
-  if (state.roundState === null || state.roundState.roundId !== def.id) return state;
+export function resolveNightStage(
+  state: GameState,
+  def: NightRoundDef,
+): GameState {
+  if (state.roundState === null || state.roundState.roundId !== def.id)
+    return state;
   const stageIndex = state.roundState.stage;
   const stage = def.stages[stageIndex];
   if (!stage) return state; // no stage under the cursor (round already past its last)
   const mob = getMob(stage.foe);
-  const result = resolveFight(state.rng, mcCombatStats(state), mobCombatStats(mob));
+  const result = resolveFight(
+    state.rng,
+    mcCombatStats(state),
+    mobCombatStats(mob),
+  );
   let next: GameState = { ...state, rng: result.rng };
 
   if (stage.scripted === 'survive') {
@@ -94,7 +102,8 @@ export function resolveNightStage(state: GameState, def: NightRoundDef): GameSta
     // the combat cursor) so it folds cleanly into the round's seeded replay.
     const { reward, rng: lootRng } = nightStageReward(next.rng, stage);
     next = { ...next, rng: lootRng };
-    for (const [id, qty] of Object.entries(reward.materials)) next = withResource(next, id, qty);
+    for (const [id, qty] of Object.entries(reward.materials))
+      next = withResource(next, id, qty);
     next = emitStageNarration(next, stage, def.id, stageIndex); // C4.4 — the won stage's aftermath
     return advanceStage(next, def);
   }
@@ -162,7 +171,10 @@ function emitStageNarration(
  *  moon, the round either opens the fed-dog's bark coda (the sb-dog-coda VN — once, only
  *  after the dog beat's fed branch) or logs the hooded-lantern sighting; never both in
  *  one round (one lantern moment — TST1). */
-export function beginNightRound(state: GameState, def: NightRoundDef): GameState {
+export function beginNightRound(
+  state: GameState,
+  def: NightRoundDef,
+): GameState {
   let next: GameState = { ...state, roundState: { roundId: def.id, stage: 0 } };
   next = applyRewards(next, {
     log: [
@@ -176,7 +188,8 @@ export function beginNightRound(state: GameState, def: NightRoundDef): GameState
     ],
   });
   if (isNewMoon(next)) {
-    const codaFresh = hasFlag(next, 'sb-dog-fed') && !next.scenesPlayed.includes('sb-dog-coda');
+    const codaFresh =
+      hasFlag(next, 'sb-dog-fed') && !next.scenesPlayed.includes('sb-dog-coda');
     if (codaFresh) {
       next = enqueueScene(next, 'sb-dog-coda');
     } else {

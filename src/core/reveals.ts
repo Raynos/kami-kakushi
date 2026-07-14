@@ -63,7 +63,8 @@ export function revealsPass(state: GameState): GameState {
   // ── the field margins — the raided drying racks, seen from the rows you work. R3+, so
   //    the ground opens with the blade that can answer it (R3's own requirement list keeps
   //    the MC in the paddies, so this fires from the rung's own labour).
-  if (rung >= 3 && next.location === 'paddies') next = enqueueScene(next, 'sb-racks');
+  if (rung >= 3 && next.location === 'paddies')
+    next = enqueueScene(next, 'sb-racks');
 
   // ── the weir reeds — `sb-lease` (authored long before this law) IS this beat: Matsuzō up
   //    from the river, the screens rat-gnawed, "send your man down". It already enqueues at
@@ -71,7 +72,8 @@ export function revealsPass(state: GameState): GameState {
   //    it within a week of R3 instead of within a season. Its completion latches the flag
   //    (scenes.ts `applySceneCompletionEffects` — it is a narration-only beat, so it has no
   //    option to carry one).
-  if (rung >= 3 && dayOfWeek(next.clock.day) === LEASE_DAY) next = enqueueScene(next, 'sb-lease');
+  if (rung >= 3 && dayOfWeek(next.clock.day) === LEASE_DAY)
+    next = enqueueScene(next, 'sb-lease');
 
   // ── the sickroom — the first hurt THAT COUNTS. FB-382's stated intent is "the sickroom
   //    reveals when hurt starts existing", and hurt starts existing when COMBAT does (the
@@ -97,10 +99,16 @@ export function revealsPass(state: GameState): GameState {
   if (!hasFlag(next, 'sleep-announced') && canSleep(next)) {
     next = {
       ...next,
-      log: pushLog(next.log, 'narration', sleepAnnounceLine(), next.clock.tick, {
-        voice: 'narrator',
-        contentKey: 'flavor.sleepAnnounce',
-      }),
+      log: pushLog(
+        next.log,
+        'narration',
+        sleepAnnounceLine(),
+        next.clock.tick,
+        {
+          voice: 'narrator',
+          contentKey: 'flavor.sleepAnnounce',
+        },
+      ),
     };
     next = setFlag(next, 'sleep-announced');
   }

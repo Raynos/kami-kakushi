@@ -47,14 +47,29 @@ const CURRENCY_LEDGER: Ledger = {
   },
   wood: { consumer: 'repair_weapon REPAIR_WOOD_COST sink (intents + balance)' },
   sansai: { consumer: 'cook_meal COOK_SANSAI_COST sink (intents + balance)' },
-  hardwood: { consumer: 'craft_weapon RECIPES inputs → wood_axe (intents + crafting)' },
-  beast_sinew: { consumer: 'craft_weapon RECIPES inputs → wood_axe (intents + crafting)' },
+  hardwood: {
+    consumer: 'craft_weapon RECIPES inputs → wood_axe (intents + crafting)',
+  },
+  beast_sinew: {
+    consumer: 'craft_weapon RECIPES inputs → wood_axe (intents + crafting)',
+  },
 };
 const SKILL_LEDGER: Ledger = {
-  farming: { consumer: 'skillYieldNum yield multiplier on do_activity (intents + skills)' },
-  foraging: { consumer: 'skillYieldNum yield multiplier on do_activity (intents + skills)' },
-  woodcutting: { consumer: 'skillYieldNum yield multiplier on do_activity (intents + skills)' },
-  conditioning: { consumer: 'CONDITIONING_GATE_LEVEL danger-ring gate (selectors)' },
+  farming: {
+    consumer:
+      'skillYieldNum yield multiplier on do_activity (intents + skills)',
+  },
+  foraging: {
+    consumer:
+      'skillYieldNum yield multiplier on do_activity (intents + skills)',
+  },
+  woodcutting: {
+    consumer:
+      'skillYieldNum yield multiplier on do_activity (intents + skills)',
+  },
+  conditioning: {
+    consumer: 'CONDITIONING_GATE_LEVEL danger-ring gate (selectors)',
+  },
 };
 // Character attributes — the 5-attribute combat build (§4.6.1). Each surfaced value must have a
 // live consumer, else the "no more dead values" claim quietly rots. Derived from ATTR_IDS so
@@ -62,7 +77,9 @@ const SKILL_LEDGER: Ledger = {
 const SURFACED_ATTRIBUTES = new Set<string>(['attributePoints', ...ATTR_IDS]);
 const ATTRIBUTE_LEDGER: Ledger = {
   attributePoints: { consumer: 'spend_attribute → attrs[a] (intents)' },
-  str: { consumer: 'mcCombatStats attackPower/defense + hpMax (combat/selectors)' },
+  str: {
+    consumer: 'mcCombatStats attackPower/defense + hpMax (combat/selectors)',
+  },
   agi: { consumer: 'mcCombatStats accuracy/evasion/crit (combat)' },
   int: { consumer: 'mcCombatStats INT bestiary-known damage bonus (combat)' },
   spd: { consumer: 'mcCombatStats attackSpeed (combat)' },
@@ -78,7 +95,8 @@ describe('G-NO-DEAD-VALUES — every surfaced value is ledgered (consumer or tra
   it('no surfaced currency/skill/attribute is missing from the ledger (no silent dead values)', () => {
     for (const id of SURFACED_CURRENCIES)
       expect(CURRENCY_LEDGER[id], `currency '${id}'`).toBeDefined();
-    for (const id of SURFACED_SKILLS) expect(SKILL_LEDGER[id], `skill '${id}'`).toBeDefined();
+    for (const id of SURFACED_SKILLS)
+      expect(SKILL_LEDGER[id], `skill '${id}'`).toBeDefined();
     for (const id of SURFACED_ATTRIBUTES)
       expect(ATTRIBUTE_LEDGER[id], `attribute '${id}'`).toBeDefined();
   });

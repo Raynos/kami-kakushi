@@ -73,7 +73,8 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     const render = mount(root, () => {}, noopHooks());
     render(combatState([]), null); // R3-only surfaces
     openCombat();
-    const pane = root.querySelector<HTMLElement>('#pane-combat, .combat-pane') ?? root;
+    const pane =
+      root.querySelector<HTMLElement>('#pane-combat, .combat-pane') ?? root;
     // the fight floor is present on Combat
     expect(root.querySelector('.weapon-card')).not.toBeNull();
     expect(root.querySelector('.foe-row')).not.toBeNull();
@@ -86,30 +87,38 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     openCombat();
     // the R4/R5 beats are held back
     expect(pane.querySelector('.stance-row')).toBeNull();
-    const blurbHasDurability = [...root.querySelectorAll('.weapon-card .skill-blurb')].some((b) =>
-      (b.textContent ?? '').includes('durability'),
-    );
+    const blurbHasDurability = [
+      ...root.querySelectorAll('.weapon-card .skill-blurb'),
+    ].some((b) => (b.textContent ?? '').includes('durability'));
     expect(blurbHasDurability).toBe(false);
-    const repairBtn = [...root.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
-      (b.textContent ?? '').includes('Repair'),
-    );
+    const repairBtn = [
+      ...root.querySelectorAll<HTMLButtonElement>('button'),
+    ].find((b) => (b.textContent ?? '').includes('Repair'));
     expect(repairBtn).toBeUndefined();
   });
 
   it('R4 adds the durability read + repair (equip loop); R5 adds the stance row', () => {
     const render = mount(root, () => {}, noopHooks());
     // R4: durability + equipment + repair unlocked
-    render(combatState(['readout-durability', 'panel-equipment', 'verb-repair']), null);
-    openCombat();
-    const durBlurb = [...root.querySelectorAll('.weapon-card .skill-blurb')].some((b) =>
-      (b.textContent ?? '').includes('durability'),
+    render(
+      combatState(['readout-durability', 'panel-equipment', 'verb-repair']),
+      null,
     );
+    openCombat();
+    const durBlurb = [
+      ...root.querySelectorAll('.weapon-card .skill-blurb'),
+    ].some((b) => (b.textContent ?? '').includes('durability'));
     expect(durBlurb).toBe(true);
     expect(root.querySelector('.stance-row')).toBeNull(); // stance still held for R5
 
     // R5: stance control now live
     render(
-      combatState(['readout-durability', 'panel-equipment', 'verb-repair', 'stance-control']),
+      combatState([
+        'readout-durability',
+        'panel-equipment',
+        'verb-repair',
+        'stance-control',
+      ]),
       null,
     );
     expect(root.querySelector('.stance-row')).not.toBeNull();
@@ -126,7 +135,9 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
       ...r3,
       weaponDurability: Math.max(1, Math.round(weapon.durabilityMax * 0.1)),
     };
-    expect(durabilityBand(battered.weaponDurability, weapon.durabilityMax).name).toBe('Battered');
+    expect(
+      durabilityBand(battered.weaponDurability, weapon.durabilityMax).name,
+    ).toBe('Battered');
 
     render(battered, null);
     openCombat();
@@ -136,9 +147,9 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     // the line is single-sourced from the FB-5 flavor registry (canon = take B), not a literal.
     expect(hint!.textContent).toBe(FLAVOR.mendHint);
     // …and no Repair button is reachable at R3.
-    const repairAtR3 = [...root.querySelectorAll<HTMLButtonElement>('button')].some(
-      (b) => (b.textContent ?? '').includes('Repair') && !b.hidden,
-    );
+    const repairAtR3 = [
+      ...root.querySelectorAll<HTMLButtonElement>('button'),
+    ].some((b) => (b.textContent ?? '').includes('Repair') && !b.hidden);
     expect(repairAtR3).toBe(false);
 
     // R4: `verb-repair` unlocks — the SAME worn blade now offers the real mend CTA and the hint retires.
@@ -147,15 +158,19 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
       // ADR-179 — all three are R4-scheduled; the rank-r4 fact entitles them.
       flags: {
         ...battered.flags,
-        ...factsForSurfaces('readout-durability', 'panel-equipment', 'verb-repair'),
+        ...factsForSurfaces(
+          'readout-durability',
+          'panel-equipment',
+          'verb-repair',
+        ),
       },
     };
     render(r4, battered);
     const hintR4 = root.querySelector<HTMLElement>('.weapon-card .lock-hint');
     expect(hintR4 === null || hintR4.hidden).toBe(true);
-    const repairAtR4 = [...root.querySelectorAll<HTMLButtonElement>('button')].some(
-      (b) => (b.textContent ?? '').includes('Repair') && !b.hidden,
-    );
+    const repairAtR4 = [
+      ...root.querySelectorAll<HTMLButtonElement>('button'),
+    ].some((b) => (b.textContent ?? '').includes('Repair') && !b.hidden);
     expect(repairAtR4).toBe(true);
   });
 
@@ -167,15 +182,17 @@ describe('A7 — combat tab reveals one beat per rung + the Bestiary fogs unface
     // no foe faced → the bestiary cards read as fogged silhouettes
     const cards = [...root.querySelectorAll<HTMLElement>('.bestiary-card')];
     expect(cards.length).toBeGreaterThan(0);
-    expect(cards.every((c) => (c.textContent ?? '').includes('Unknown foe'))).toBe(true);
+    expect(
+      cards.every((c) => (c.textContent ?? '').includes('Unknown foe')),
+    ).toBe(true);
     expect(root.textContent).toContain('Not yet faced');
 
     // face the monkey → its card inks in with a real win-% and its kanji, others stay fogged.
     const seen = setFlag(state, 'mob-monkey');
     render(seen, state);
-    const inked = [...root.querySelectorAll<HTMLElement>('.bestiary-card')].find((c) =>
-      (c.textContent ?? '').includes('Crop-raiding monkey'),
-    );
+    const inked = [
+      ...root.querySelectorAll<HTMLElement>('.bestiary-card'),
+    ].find((c) => (c.textContent ?? '').includes('Crop-raiding monkey'));
     expect(inked).toBeTruthy();
     expect(inked!.textContent).toContain('%');
     expect(inked!.textContent).toContain('Tell —');

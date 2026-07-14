@@ -21,7 +21,15 @@ import { groundWashBand, hachureBand, hillRange } from './terrain';
 import { flowTicks, river } from './water';
 import { ghostBunds } from './fields';
 import { grassTufts, pine, treeMass } from './flora';
-import { fallenRoof, gatehouse, roofMass, rubbleField, stoneMarker, wallRun, well } from './built';
+import {
+  fallenRoof,
+  gatehouse,
+  roofMass,
+  rubbleField,
+  stoneMarker,
+  wallRun,
+  well,
+} from './built';
 import {
   banditCamp,
   ferryLanding,
@@ -49,7 +57,12 @@ import {
 } from './valley';
 
 /** A work-worn valley road — a warm tapered under-stroke + a fine dash overlay. */
-function road(art: SVGElement, pts: readonly Pt[], seed: string, ghost = false): void {
+function road(
+  art: SVGElement,
+  pts: readonly Pt[],
+  seed: string,
+  ghost = false,
+): void {
   if (ghost) {
     inkLine(art, pts, {
       seed: `${seed}-g`,
@@ -91,7 +104,12 @@ function road(art: SVGElement, pts: readonly Pt[], seed: string, ghost = false):
 }
 
 /** The reviser's red re-label note — the T2 reveal, on the sheet (spec §6.2). */
-function reLabelNote(art: SVGElement, x: number, y: number, text: string): void {
+function reLabelNote(
+  art: SVGElement,
+  x: number,
+  y: number,
+  text: string,
+): void {
   const g = sv('g');
   inkText(g, x, y, text, { size: 15, color: 'var(--shu)', opacity: 0.95 });
   art.append(g);
@@ -171,22 +189,47 @@ export function paintValley(art: SVGElement, revealed: boolean): void {
   // ── 1 · the valley walls: north hills + the flanks running south ──
   hillRange(art, HILLS.range1, { seed: 'v-hills-far', rows: 3 });
   hillRange(art, HILLS.range2, { seed: 'v-hills-near', rows: 2, scale: 0.7 });
-  hillRange(art, HILLS.foothills, { seed: 'v-hills-foot', rows: 1, scale: 0.38 });
+  hillRange(art, HILLS.foothills, {
+    seed: 'v-hills-foot',
+    rows: 1,
+    scale: 0.38,
+  });
   flankShoulder(art, VALLEY_HILLS.westRidge, { seed: 'v-flankW' });
   flankShoulder(art, VALLEY_HILLS.eastRidge, { seed: 'v-flankE' });
-  treeMass(art, VALLEY_WOODS.west, { seed: 'v-woodW', density: 0.6, floor: true });
-  treeMass(art, VALLEY_WOODS.east, { seed: 'v-woodE', density: 0.66, floor: true });
+  treeMass(art, VALLEY_WOODS.west, {
+    seed: 'v-woodW',
+    density: 0.6,
+    floor: true,
+  });
+  treeMass(art, VALLEY_WOODS.east, {
+    seed: 'v-woodE',
+    density: 0.66,
+    floor: true,
+  });
 
   // ── 2 · the river — the valley's spine, N→S through the gorge to the crossing ──
-  river(art, RIVER.centerline, { seed: 'v-riverN', widthProfile: [...RIVER.widthProfile] });
+  river(art, RIVER.centerline, {
+    seed: 'v-riverN',
+    widthProfile: [...RIVER.widthProfile],
+  });
   river(art, RIVER_SOUTH.centerline, {
     seed: 'v-riverS',
     widthProfile: [...RIVER_SOUTH.widthProfile],
   });
   flowTicks(art, RIVER_SOUTH.centerline, { seed: 'v-flow', count: 8 });
   // the gorge — the pinching valley walls + the squared cutting nobody claims
-  wash(art, GORGE.westWall, { seed: 'gorge-w', fill: 'var(--steel-0)', opacity: 0.5, amp: 4 });
-  wash(art, GORGE.eastWall, { seed: 'gorge-e', fill: 'var(--steel-0)', opacity: 0.5, amp: 4 });
+  wash(art, GORGE.westWall, {
+    seed: 'gorge-w',
+    fill: 'var(--steel-0)',
+    opacity: 0.5,
+    amp: 4,
+  });
+  wash(art, GORGE.eastWall, {
+    seed: 'gorge-e',
+    fill: 'var(--steel-0)',
+    opacity: 0.5,
+    amp: 4,
+  });
   hachureBand(art, GORGE.westWall, { seed: 'gorge-hw', side: 1 });
   hachureBand(art, GORGE.eastWall, { seed: 'gorge-he', side: -1 });
   {
@@ -242,7 +285,12 @@ export function paintValley(art: SVGElement, revealed: boolean): void {
       'v-villfieldS',
     ],
   ] as const) {
-    wash(art, poly, { seed: `${seed}-w`, fill: 'var(--steel-hi)', opacity: 0.1, amp: 6 });
+    wash(art, poly, {
+      seed: `${seed}-w`,
+      fill: 'var(--steel-hi)',
+      opacity: 0.1,
+      amp: 6,
+    });
     hatchArea(art, poly, {
       seed: `${seed}-h`,
       angle: -14,
@@ -273,18 +321,26 @@ export function paintValley(art: SVGElement, revealed: boolean): void {
   // the moved boundary stone — a field into Asagiri's land (the dispute, drawn)
   {
     const [sx, sy] = VALLEY_FEATURES.movedStone;
-    const g = sv('g', { transform: `translate(${sx} ${sy}) scale(1.5) translate(${-sx} ${-sy})` });
+    const g = sv('g', {
+      transform: `translate(${sx} ${sy}) scale(1.5) translate(${-sx} ${-sy})`,
+    });
     art.append(g);
     stoneMarker(g, sx, sy, 'boundary', { seed: 'v-movedstone' });
     const fine = fineLayer(art);
-    inkText(fine, sx + 16, sy - 8, '新?', { size: 11, color: 'var(--shu)', opacity: 0.85 });
+    inkText(fine, sx + 16, sy - 8, '新?', {
+      size: 11,
+      color: 'var(--shu)',
+      opacity: 0.85,
+    });
   }
 
   // ── 6 · ASAGIRI — the village, downstream (VG5) ──
   villageLane(art, VILLAGE.street, { seed: 'v-street' });
   // the mill (on the river, above the village) + the ferry crossing
   millWheel(art, VILLAGE.mill.at, VILLAGE.mill.race, { seed: 'v-mill' });
-  ferryLanding(art, VILLAGE.ferry.east, VILLAGE.ferry.west, { seed: 'v-ferry' });
+  ferryLanding(art, VILLAGE.ferry.east, VILLAGE.ferry.west, {
+    seed: 'v-ferry',
+  });
   // the headman's walled yard, then the house clusters
   wallRun(art, [...VILLAGE.headman.yard, VILLAGE.headman.yard[0]!], {
     seed: 'v-headman-yard',
@@ -296,12 +352,18 @@ export function paintValley(art: SVGElement, revealed: boolean): void {
   });
   for (let i = 0; i < VILLAGE.clusters.length; i++) {
     const c = VILLAGE.clusters[i]!;
-    houseCluster(art, c.at, { seed: `v-cluster${i}`, count: c.count, spread: c.spread });
+    houseCluster(art, c.at, {
+      seed: `v-cluster${i}`,
+      count: c.count,
+      spread: c.spread,
+    });
   }
   // the well, market, temple
   well(art, VILLAGE.well[0], VILLAGE.well[1], { seed: 'v-well' });
   marketSquare(art, VILLAGE.market.ground, { seed: 'v-market' });
-  templeGlyph(art, VILLAGE.temple.at, VILLAGE.temple.torii, { seed: 'v-temple' });
+  templeGlyph(art, VILLAGE.temple.at, VILLAGE.temple.torii, {
+    seed: 'v-temple',
+  });
 
   // ── 7 · the exit notes + the reveal re-label ──
   for (const n of VALLEY_NOTES)
@@ -312,8 +374,18 @@ export function paintValley(art: SVGElement, revealed: boolean): void {
       ...(n.vertical ? { vertical: true } : {}),
     });
   if (revealed) {
-    reLabelNote(art, PRECINCT.greatGate.at[0] - 150, PRECINCT.greatGate.at[1] + 120, '改・本邸');
-    reLabelNote(art, GUEST.house.at[0] + 60, GUEST.house.at[1] + 70, '改・客殿');
+    reLabelNote(
+      art,
+      PRECINCT.greatGate.at[0] - 150,
+      PRECINCT.greatGate.at[1] + 120,
+      '改・本邸',
+    );
+    reLabelNote(
+      art,
+      GUEST.house.at[0] + 60,
+      GUEST.house.at[1] + 70,
+      '改・客殿',
+    );
   }
 }
 
@@ -332,7 +404,12 @@ function paintDemotedEstate(art: SVGElement, revealed: boolean): void {
       [1960, 1800],
       [1470, 1810],
     ];
-    wash(art, paddy, { seed: 'v-paddy-w', fill: 'var(--steel-hi)', opacity: 0.12, amp: 6 });
+    wash(art, paddy, {
+      seed: 'v-paddy-w',
+      fill: 'var(--steel-hi)',
+      opacity: 0.12,
+      amp: 6,
+    });
     hatchArea(art, paddy, {
       seed: 'v-paddy-h',
       angle: -16,
@@ -372,11 +449,17 @@ function paintDemotedEstate(art: SVGElement, revealed: boolean): void {
     wallRun(art, s, { seed: `v-prec-broke-${s[0][0]}`, state: 'standing' });
   }
   for (const f of PRECINCT.fallenRoofs)
-    fallenRoof(art, f.x, f.y, f.w, f.h, { seed: `v-fallen-${f.x}`, angleDeg: f.angleDeg });
+    fallenRoof(art, f.x, f.y, f.w, f.h, {
+      seed: `v-fallen-${f.x}`,
+      angleDeg: f.angleDeg,
+    });
   // a couple of feral pines in the old ground so the ruin reads overgrown
   pine(art, 1592, 1128, 10, { seed: 'v-garden-pine-1' });
   pine(art, 1768, 1096, 9, { seed: 'v-garden-pine-2' });
-  grassTufts(art, PRECINCT.innerGardenOld, { seed: 'v-old-garden', density: 1.2 });
+  grassTufts(art, PRECINCT.innerGardenOld, {
+    seed: 'v-old-garden',
+    density: 1.2,
+  });
   // broken, overgrown ground THROUGH the ruin core so the great compound reads as
   // RUINED (not an intact settlement) at fit — the blind pass read it as buildings
   // until this landed (V3). Rubble + grass breaching, over the fallen halls.
@@ -394,7 +477,10 @@ function paintDemotedEstate(art: SVGElement, revealed: boolean): void {
   // the guest house — small, in the ruin's SE corner (its neat wall = the repaired
   // stretch of the precinct's own circuit). Drawn as a compact pictogram, not the
   // winged interior.
-  wallRun(art, [...GUEST.wall, GUEST.wall[0]!], { seed: 'v-guest-wall', state: 'neat' });
+  wallRun(art, [...GUEST.wall, GUEST.wall[0]!], {
+    seed: 'v-guest-wall',
+    state: 'neat',
+  });
   roofMass(art, GUEST.house.at[0], GUEST.house.at[1], 72, 48, {
     seed: 'v-guest-hall',
     style: 'hip',
@@ -423,9 +509,17 @@ function paintDemotedEstate(art: SVGElement, revealed: boolean): void {
         [gx + 60, gy + 60],
         [gx - 60, gy + 60],
       ],
-      { seed: 'v-gate-cleared', fill: 'var(--steel-hi)', opacity: 0.35, amp: 3 },
+      {
+        seed: 'v-gate-cleared',
+        fill: 'var(--steel-hi)',
+        opacity: 0.35,
+        amp: 3,
+      },
     );
-    gatehouse(art, [gx, gy], PRECINCT.greatGate.angleDeg, { seed: 'v-newgate', scale: 2.0 });
+    gatehouse(art, [gx, gy], PRECINCT.greatGate.angleDeg, {
+      seed: 'v-newgate',
+      scale: 2.0,
+    });
     // scaffold poles — the works still fresh
     for (const dx of [-52, 52]) {
       inkLine(
@@ -434,7 +528,13 @@ function paintDemotedEstate(art: SVGElement, revealed: boolean): void {
           [gx + dx, gy + 40],
           [gx + dx + 6, gy - 30],
         ],
-        { seed: `v-scaf${dx}`, w: 1.4, color: 'var(--gold-dim)', amp: 0.5, opacity: 0.9 },
+        {
+          seed: `v-scaf${dx}`,
+          w: 1.4,
+          color: 'var(--gold-dim)',
+          amp: 0.5,
+          opacity: 0.9,
+        },
       );
     }
     // the one-more-petal crest on the new gatehouse (the wrong thing, answered by

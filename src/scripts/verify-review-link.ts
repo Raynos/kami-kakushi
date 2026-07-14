@@ -38,7 +38,11 @@ interface Entry {
 
 const entries: Entry[] = [
   ...SURFACES.map((s) => ({ kind: 'surface' as const, id: s.id, hr: s.hr })),
-  ...STORY_TAKE_BUNDLES.map((b) => ({ kind: 'bundle' as const, id: b.id, hr: b.hr })),
+  ...STORY_TAKE_BUNDLES.map((b) => ({
+    kind: 'bundle' as const,
+    id: b.id,
+    hr: b.hr,
+  })),
 ];
 const byId = new Map(entries.map((e) => [e.id, e]));
 
@@ -110,7 +114,9 @@ for (const e of entries) {
 // reverse: every DEV-panel citation in an open item must resolve, and to THIS item
 for (const [hr, sec] of secs) {
   if (!sec.open) continue;
-  for (const m of sec.body.matchAll(/Review → (?:Story|Variants) → ((?:\*\*[^*]+\*\*[ ·]*)+)/g)) {
+  for (const m of sec.body.matchAll(
+    /Review → (?:Story|Variants) → ((?:\*\*[^*]+\*\*[ ·]*)+)/g,
+  )) {
     for (const t of m[1]!.matchAll(/\*\*([^*]+)\*\*/g)) {
       const id = t[1]!;
       const owner = byId.get(id);

@@ -23,7 +23,10 @@ import { el, stampAct, HOUSE_ROOMS, ESTATE_STAGE_NAMES } from '../render';
 import { setText, setClass, setDisabled, setStyle, toggle } from '../reconcile';
 import { FLAVOR } from '../../core/content/flavor';
 import { paintSheetA, SHEET_A_W, SHEET_A_H } from '../estate-sheet/sheet-a';
-import { estateFixtureFromState, estateSheetSignature } from '../estate-sheet/from-state';
+import {
+  estateFixtureFromState,
+  estateSheetSignature,
+} from '../estate-sheet/from-state';
 import type { DevApi } from '../dev';
 
 type Dispatch = (intent: Intent) => void;
@@ -83,11 +86,16 @@ export function createEstateView(ctx: {
   function renderWorks(state: GameState): void {
     // ADR-177 Schedule A (F4) — the projects/upgrades home is the Works 普請 tab, cause-gated
     // on the works-intro naming (panel-estate's predicate). Estate 家 keeps the house itself.
-    const show = ctx.activeTab() === 'works' && isUnlocked(state, 'panel-estate');
+    const show =
+      ctx.activeTab() === 'works' && isUnlocked(state, 'panel-estate');
     toggle(worksPane, show);
     if (!show) return;
     // ADR-075 — DEV variant fall-through (B · work-site board / C · the interim ladder).
-    if (__DEV_TOOLS__ && dev && dev.renderVariant('works', worksPane, state, dispatch)) {
+    if (
+      __DEV_TOOLS__ &&
+      dev &&
+      dev.renderVariant('works', worksPane, state, dispatch)
+    ) {
       worksSig = null; // switching back to A rebuilds the default page cleanly
       return;
     }
@@ -97,7 +105,8 @@ export function createEstateView(ctx: {
     //    concern shows the go-and-see line; the future stays a faint unruled line (TST3).
     const build = estateBuild(state);
     const stageName =
-      ESTATE_STAGE_NAMES[state.estateStage] ?? ESTATE_STAGE_NAMES[ESTATE_STAGE_NAMES.length - 1]!;
+      ESTATE_STAGE_NAMES[state.estateStage] ??
+      ESTATE_STAGE_NAMES[ESTATE_STAGE_NAMES.length - 1]!;
     const carried = state.resources.coin ?? 0;
     const banked = state.banked.coin ?? 0;
     const n = build.next;
@@ -140,7 +149,13 @@ export function createEstateView(ctx: {
             el('span', 'ledger-rule', '普'),
             el('span', 'ledger-name', stageLabel(n.def)),
           );
-          line.append(el('span', 'ledger-note', `${state.estateWorkDone} / ${n.def.workActs}`));
+          line.append(
+            el(
+              'span',
+              'ledger-note',
+              `${state.estateWorkDone} / ${n.def.workActs}`,
+            ),
+          );
           page.append(line);
           const body = el('div', 'ledger-entry');
           body.append(
@@ -157,7 +172,10 @@ export function createEstateView(ctx: {
         }
         if (n.discovery === 'open') {
           const line = el('div', 'ledger-line is-open');
-          line.append(el('span', 'ledger-rule', '▹'), el('span', 'ledger-name', stageLabel(n.def)));
+          line.append(
+            el('span', 'ledger-rule', '▹'),
+            el('span', 'ledger-name', stageLabel(n.def)),
+          );
           line.append(el('span', 'ledger-note', formatCoin(n.def.coinCost)));
           page.append(line);
           const body = el('div', 'ledger-entry');
@@ -189,10 +207,15 @@ export function createEstateView(ctx: {
           const btn = el('button', 'verb');
           btn.type = 'button';
           stampAct(btn, 'improve_estate');
-          btn.addEventListener('click', () => dispatch({ type: 'improve_estate' }));
+          btn.addEventListener('click', () =>
+            dispatch({ type: 'improve_estate' }),
+          );
           btn.textContent = `Commission — ${stageLabel(n.def)}`;
           const woodShort = (state.resources.wood ?? 0) < n.def.woodCost;
-          setDisabled(btn, carried < n.def.coinCost || woodShort || n.deedsShort > 0);
+          setDisabled(
+            btn,
+            carried < n.def.coinCost || woodShort || n.deedsShort > 0,
+          );
           // don't lie "Needs N coin" when the coin merely sits safe in the kura (AC-6/TST4).
           btn.title = btn.disabled
             ? n.deedsShort > 0
@@ -208,14 +231,17 @@ export function createEstateView(ctx: {
         } else {
           // named-but-unpriced (go and see) or nothing named yet — the chain's read (TST4);
           // both lines are FB-5 canon, live-swappable in DEV (ADR-143).
-          const hintKey = n.discovery === 'named' ? 'worksLadderNamed' : 'worksLadderUnnamed';
+          const hintKey =
+            n.discovery === 'named' ? 'worksLadderNamed' : 'worksLadderUnnamed';
           const line = el('div', `ledger-line is-${n.discovery}`);
           line.append(
             el('span', 'ledger-rule', '▹'),
             el(
               'span',
               'ledger-name is-hint',
-              __DEV_TOOLS__ && dev ? dev.subFlavor(hintKey, FLAVOR[hintKey]) : FLAVOR[hintKey],
+              __DEV_TOOLS__ && dev
+                ? dev.subFlavor(hintKey, FLAVOR[hintKey])
+                : FLAVOR[hintKey],
             ),
           );
           page.append(line);
@@ -224,11 +250,16 @@ export function createEstateView(ctx: {
       }
       // a stage beyond the next — a faint unruled line; a promise, never a preview (P15/TST3).
       const line = el('div', 'ledger-line is-faint');
-      line.append(el('span', 'ledger-rule', '　'), el('span', 'ledger-name', 'the works continue'));
+      line.append(
+        el('span', 'ledger-rule', '　'),
+        el('span', 'ledger-name', 'the works continue'),
+      );
       page.append(line);
     }
     if (build.complete)
-      page.append(el('div', 'ledger-line is-footing', 'The estate stands restored.'));
+      page.append(
+        el('div', 'ledger-line is-footing', 'The estate stands restored.'),
+      );
     card.append(page);
     worksPane.append(card);
   }
@@ -236,11 +267,16 @@ export function createEstateView(ctx: {
   function renderEstate(state: GameState): void {
     // ADR-177 Schedule A — Estate 家 (R6): the house ITSELF is the tab's anchor (F5 —
     // the E1 okoshi-ezu cutaway folds in, state-driven); the influence pane shares the tab.
-    const show = ctx.activeTab() === 'estate' && isUnlocked(state, 'tab-estate');
+    const show =
+      ctx.activeTab() === 'estate' && isUnlocked(state, 'tab-estate');
     toggle(estatePane, show);
     if (!show) return;
     // ADR-075 — DEV variant fall-through (B · the steward's reckoning / C · the rooms list).
-    if (__DEV_TOOLS__ && dev && dev.renderVariant('estate-house', estatePane, state, dispatch)) {
+    if (
+      __DEV_TOOLS__ &&
+      dev &&
+      dev.renderVariant('estate-house', estatePane, state, dispatch)
+    ) {
       estateSig = null;
       return;
     }
@@ -258,11 +294,16 @@ export function createEstateView(ctx: {
     svg.setAttribute('viewBox', `0 0 ${SHEET_A_W} ${SHEET_A_H}`);
     svg.setAttribute('class', 'estate-sheet-svg');
     svg.setAttribute('role', 'img');
-    svg.setAttribute('aria-label', 'The estate survey sheet — the house as it stands');
+    svg.setAttribute(
+      'aria-label',
+      'The estate survey sheet — the house as it stands',
+    );
     paintSheetA(svg, estateFixtureFromState(state));
     holder.append(svg);
     card.append(holder);
-    const opened = HOUSE_ROOMS.filter((room) => isUnlocked(state, room.surface));
+    const opened = HOUSE_ROOMS.filter((room) =>
+      isUnlocked(state, room.surface),
+    );
     card.append(
       el(
         'div',
@@ -292,7 +333,8 @@ export function createEstateView(ctx: {
 
   // shared koku-standing helpers (used by both the DEV wholesale path + the incremental patch).
   const LIVE_ARIA = "The House's koku standing";
-  const LOCKED_ARIA = "The House's koku standing — opens once you are trusted of the house";
+  const LOCKED_ARIA =
+    "The House's koku standing — opens once you are trusted of the house";
   function gradeWordFor(grade: ReturnType<typeof estateGrade>): string {
     // C4.7 (ADR-159) — the six-step ladder wears the classical grade kanji
     // (不可·劣·可·良·優·秀). Mechanical labels; the day-book judge's per-grade
@@ -336,10 +378,18 @@ export function createEstateView(ctx: {
         );
       }
       card.append(
-        el('div', 'rung-next frontier', 'Beyond the gate the road climbs on — to be continued.'),
+        el(
+          'div',
+          'rung-next frontier',
+          'Beyond the gate the road climbs on — to be continued.',
+        ),
       );
     } else if (ascensionAvailable(state)) {
-      const btn = el('button', 'verb primary ascend-cta', 'Ascend — a man of the house');
+      const btn = el(
+        'button',
+        'verb primary ascend-cta',
+        'Ascend — a man of the house',
+      );
       btn.type = 'button';
       btn.addEventListener('click', () => dispatch({ type: 'ascend' }));
       card.append(btn);
@@ -360,7 +410,9 @@ export function createEstateView(ctx: {
   //    House standing → its home is the Estate tab. The DEV variant path stays wholesale. ──
   function renderHouseInfluence(state: GameState): void {
     // IA reorg (ADR-112 §2/§8.3) — the koku (House standing) moves from Work to the Estate tab.
-    const show = ctx.activeTab() === 'estate' && isUnlocked(state, 'panel-house-influence');
+    const show =
+      ctx.activeTab() === 'estate' &&
+      isUnlocked(state, 'panel-house-influence');
     toggle(influence, show);
     if (!show) return;
 
@@ -372,7 +424,10 @@ export function createEstateView(ctx: {
     if (__DEV_TOOLS__ && dev) {
       influenceRefs = null;
       influence.textContent = '';
-      const card = el('div', `influence-panel frame${live ? ' live' : ' locked'}`);
+      const card = el(
+        'div',
+        `influence-panel frame${live ? ' live' : ' locked'}`,
+      );
       card.setAttribute(
         'aria-label',
         live
@@ -396,7 +451,11 @@ export function createEstateView(ctx: {
         );
         for (let i = 0; i < 4; i++) card.append(silhouetteRow());
         card.append(
-          el('div', 'influence-foot lock-hint', 'Opens when you are Trusted of the house.'),
+          el(
+            'div',
+            'influence-foot lock-hint',
+            'Opens when you are Trusted of the house.',
+          ),
         );
         influence.append(card);
         return;
@@ -412,7 +471,11 @@ export function createEstateView(ctx: {
       name.append(koku, document.createTextNode(' koku'));
       activeRow.append(name);
       activeRow.append(
-        el('span', `influence-grade grade-${grade.toLowerCase()}`, gradeWordFor(grade)),
+        el(
+          'span',
+          `influence-grade grade-${grade.toLowerCase()}`,
+          gradeWordFor(grade),
+        ),
       );
       card.append(activeRow);
       if (!dev.renderVariant('influence', card, state, dispatch)) {
@@ -499,7 +562,11 @@ export function createEstateView(ctx: {
       // the ascension foot — three mutually-exclusive states toggled in place: the risen resolution
       // (tier≥1: foot + optional boon + frontier), the ascend CTA, or the koku gate (foot).
       const foot = el('div', 'influence-foot');
-      const ascendBtn = el('button', 'verb primary ascend-cta', 'Ascend — a man of the house');
+      const ascendBtn = el(
+        'button',
+        'verb primary ascend-cta',
+        'Ascend — a man of the house',
+      );
       ascendBtn.type = 'button';
       ascendBtn.addEventListener('click', () => dispatch({ type: 'ascend' }));
       const boon = el('div', 'influence-when');
@@ -562,7 +629,11 @@ export function createEstateView(ctx: {
     setText(r.grade, gradeWordFor(grade));
     if (r.grade.className !== `influence-grade grade-${grade.toLowerCase()}`)
       r.grade.className = `influence-grade grade-${grade.toLowerCase()}`;
-    setStyle(r.fill, 'width', `${Math.min(100, Math.round((est.value / bands.excellent) * 100))}%`);
+    setStyle(
+      r.fill,
+      'width',
+      `${Math.min(100, Math.round((est.value / bands.excellent) * 100))}%`,
+    );
     if (r.fill.className !== `influence-fill grade-${grade.toLowerCase()}`)
       r.fill.className = `influence-fill grade-${grade.toLowerCase()}`;
     const tickAt = [bands.good, bands.great, bands.excellent];
@@ -573,7 +644,10 @@ export function createEstateView(ctx: {
         `${Math.round((tickAt[i]! / bands.excellent) * 100)}%`,
       );
     }
-    setText(r.when, `The season re-assesses at ${formatKMB(est.highWater)} koku.`);
+    setText(
+      r.when,
+      `The season re-assesses at ${formatKMB(est.highWater)} koku.`,
+    );
     setText(
       r.horizon,
       `The road runs on toward daimyō 大名 — at ${balance.DAIMYO_KOKU.toLocaleString('en-US')} koku.`,

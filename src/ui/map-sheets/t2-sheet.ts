@@ -18,7 +18,11 @@ interface Frame {
 /** Paint the T2 valley ground. Returns an (empty) seal-anchor override map: T2 seals
  *  sit on their layout ANCHORS directly (no room-scale refinement at valley zoom).
  *  `revealed` defaults true — the sheet is the end-of-tier survey, drawn honest. */
-export function paintT2Ground(art: SVGElement, frame: Frame, revealed = true): Map<string, Pt> {
+export function paintT2Ground(
+  art: SVGElement,
+  frame: Frame,
+  revealed = true,
+): Map<string, Pt> {
   paintValley(art, revealed);
   paintFurniture(art, frame, 'T2');
   return new Map<string, Pt>();

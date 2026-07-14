@@ -48,7 +48,10 @@ function voiceFlavor(state: GameState, req: RequirementDef): GameState {
  *  consumer: accepted quests + the current rung's counted requirements. */
 export function applyProgressEvent(state: GameState, token: string): GameState {
   let next = applyQuestEvent(state, token);
-  next = foldAdvance(next, advanceOnToken(rungRequirements(next.rung), next.rungReqs, token));
+  next = foldAdvance(
+    next,
+    advanceOnToken(rungRequirements(next.rung), next.rungReqs, token),
+  );
   return next;
 }
 
@@ -56,5 +59,8 @@ export function applyProgressEvent(state: GameState, token: string): GameState {
  *  requirements (state predicates + story flags) against the post-intent snapshot,
  *  latching completions + voicing their flavor. Cheap when nothing is pending. */
 export function settleRequirements(state: GameState): GameState {
-  return foldAdvance(state, settleOnState(rungRequirements(state.rung), state.rungReqs, state));
+  return foldAdvance(
+    state,
+    settleOnState(rungRequirements(state.rung), state.rungReqs, state),
+  );
 }

@@ -4,7 +4,13 @@
 // rejected to recovery (Q46). Re-asserting up-only / trade-≤⅓ lands additively once
 // pillars exist (M3+); the M0 shape is validated structurally here.
 
-import type { GameState, StanceId, AttrId, Season, MerchantState } from '../core';
+import type {
+  GameState,
+  StanceId,
+  AttrId,
+  Season,
+  MerchantState,
+} from '../core';
 import type { RankId } from '../core';
 import {
   APP_ID,
@@ -48,11 +54,15 @@ function validateMerchants(v: unknown): GameState['merchants'] {
   const out: Record<string, MerchantState> = { ...seeded };
   for (const [id, raw] of Object.entries(v)) {
     if (!isObject(raw)) continue;
-    const mon = Math.max(0, Math.floor(num(raw.mon, seeded[id]?.mon ?? 0).value));
+    const mon = Math.max(
+      0,
+      Math.floor(num(raw.mon, seeded[id]?.mon ?? 0).value),
+    );
     const stock: Record<string, number> = {};
     if (isObject(raw.stock)) {
       for (const [r, n] of Object.entries(raw.stock)) {
-        if (typeof n === 'number' && Number.isFinite(n) && n > 0) stock[r] = Math.floor(n);
+        if (typeof n === 'number' && Number.isFinite(n) && n > 0)
+          stock[r] = Math.floor(n);
       }
     }
     out[id] = { mon, stock };
@@ -60,15 +70,22 @@ function validateMerchants(v: unknown): GameState['merchants'] {
   return out;
 }
 
-function num(v: unknown, fallback: number): { value: number; coerced: boolean } {
-  if (typeof v === 'number' && Number.isFinite(v)) return { value: v, coerced: false };
+function num(
+  v: unknown,
+  fallback: number,
+): { value: number; coerced: boolean } {
+  if (typeof v === 'number' && Number.isFinite(v))
+    return { value: v, coerced: false };
   return { value: fallback, coerced: true };
 }
 
 // For ADDITIVE (later-milestone) numeric fields: an ABSENT field is normal additive
 // hydration of an older save, NOT a repair — so it must not trip the "we mended a small
 // problem" load notice. Only a PRESENT-but-invalid value counts as a coercion.
-function numAdditive(v: unknown, fallback: number): { value: number; coerced: boolean } {
+function numAdditive(
+  v: unknown,
+  fallback: number,
+): { value: number; coerced: boolean } {
   if (v === undefined) return { value: fallback, coerced: false };
   return num(v, fallback);
 }
@@ -94,35 +111,48 @@ function validateInfluence(v: unknown): GameState['influence'] {
  *  A stored pool wins (a drawn-down site stays drawn; a 0 stays worked-out — depletion is a FACT);
  *  a site the save has never heard of is born FULL for the season, never dead-by-omission. A
  *  non-numeric stored value is junk, not a fact, and falls back to the fresh refill. */
-function hydrateSitePools(stored: unknown, season: Season): GameState['sitePools'] {
+function hydrateSitePools(
+  stored: unknown,
+  season: Season,
+): GameState['sitePools'] {
   const pools: Record<string, number> = refillSitePools(season);
   if (isObject(stored)) {
     for (const [site, value] of Object.entries(stored)) {
-      if (typeof value === 'number' && Number.isFinite(value)) pools[site] = Math.max(0, value);
+      if (typeof value === 'number' && Number.isFinite(value))
+        pools[site] = Math.max(0, value);
     }
   }
   return pools as GameState['sitePools'];
 }
 
 /** Validate a candidate envelope; returns the (possibly coerced/migrated) GameState or a reject reason. */
-export function validateEnvelope(raw: unknown, opts?: { migrate?: MigrateFn }): ValidateResult {
+export function validateEnvelope(
+  raw: unknown,
+  opts?: { migrate?: MigrateFn },
+): ValidateResult {
   if (!isObject(raw)) return { ok: false, reason: 'not-an-object' };
-  if (raw.app !== APP_ID) return { ok: false, reason: 'foreign-or-missing-app-id' };
+  if (raw.app !== APP_ID)
+    return { ok: false, reason: 'foreign-or-missing-app-id' };
   // ── clean-break generation gate (ADR-161, storywave): a blob from a PRIOR generation — or one
   //    with NO `generation` field at all (every pre-storywave save) — RETIRES. It is not migrated
   //    and never crashes: the caller backs it up and boots fresh with a courteous notice (TST2). ──
   const generation = typeof raw.generation === 'number' ? raw.generation : 1;
   if (generation < APP_GENERATION)
     return { ok: false, reason: 'retired-generation', retired: true };
-  if (typeof raw.schemaVersion !== 'number') return { ok: false, reason: 'missing-schema-version' };
-  if (raw.schemaVersion > SCHEMA_VERSION) return { ok: false, reason: 'from-a-newer-version' };
+  if (typeof raw.schemaVersion !== 'number')
+    return { ok: false, reason: 'missing-schema-version' };
+  if (raw.schemaVersion > SCHEMA_VERSION)
+    return { ok: false, reason: 'from-a-newer-version' };
   // ── migration safety net (PRD §6.8.2): bring an OLD save's state to current schema
   //    BEFORE structural validation. Additive growth needs none; this runs only when a
   //    stored schemaVersion < SCHEMA_VERSION has a registered step. ──
   const run = opts?.migrate ?? migrate;
   const migratedState =
-    raw.schemaVersion < SCHEMA_VERSION ? run(raw.state, raw.schemaVersion) : raw.state;
-  const didMigrate = raw.schemaVersion < SCHEMA_VERSION && migratedState !== raw.state;
+    raw.schemaVersion < SCHEMA_VERSION
+      ? run(raw.state, raw.schemaVersion)
+      : raw.state;
+  const didMigrate =
+    raw.schemaVersion < SCHEMA_VERSION && migratedState !== raw.state;
   const res = validateState(migratedState);
   if (!res.ok) return res;
   return { ...res, migrated: didMigrate, coerced: res.coerced || didMigrate };
@@ -146,7 +176,11 @@ export function validateState(rawState: unknown): ValidateResult {
 
   // --- clock (structural) ---
   const clock = rawState.clock;
-  if (!isObject(clock) || typeof clock.tick !== 'number' || typeof clock.day !== 'number') {
+  if (
+    !isObject(clock) ||
+    typeof clock.tick !== 'number' ||
+    typeof clock.day !== 'number'
+  ) {
     return { ok: false, reason: 'clock-corrupt' };
   }
 
@@ -204,11 +238,17 @@ export function validateState(rawState: unknown): ValidateResult {
     clampChanged;
 
   // --- collections (structural shape; default-safe) ---
-  if (!isObject(rawState.resources)) return { ok: false, reason: 'resources-corrupt' };
+  if (!isObject(rawState.resources))
+    return { ok: false, reason: 'resources-corrupt' };
   if (!isObject(rawState.flags)) return { ok: false, reason: 'flags-corrupt' };
-  if (!Array.isArray(rawState.seenReveals)) return { ok: false, reason: 'seen-reveals-corrupt' };
+  if (!Array.isArray(rawState.seenReveals))
+    return { ok: false, reason: 'seen-reveals-corrupt' };
   const log = rawState.log;
-  if (!isObject(log) || !Array.isArray(log.entries) || typeof log.seq !== 'number') {
+  if (
+    !isObject(log) ||
+    !Array.isArray(log.entries) ||
+    typeof log.seq !== 'number'
+  ) {
     return { ok: false, reason: 'log-corrupt' };
   }
 
@@ -281,7 +321,8 @@ export function validateState(rawState: unknown): ValidateResult {
   void _exhaustive;
 
   const resolvedSeason: Season =
-    typeof base.season === 'string' && (SEASONS as readonly string[]).includes(base.season)
+    typeof base.season === 'string' &&
+    (SEASONS as readonly string[]).includes(base.season)
       ? (base.season as Season)
       : 'winter';
 
@@ -290,17 +331,26 @@ export function validateState(rawState: unknown): ValidateResult {
   // through a save and crash the UI at first render — the same class of bug the `location`
   // clamp above exists to prevent. Clamp to a real weapon (fallback: the starting pole).
   const resolvedWeapon: WeaponId =
-    typeof base.equippedWeapon === 'string' && WEAPON_IDS.has(base.equippedWeapon)
+    typeof base.equippedWeapon === 'string' &&
+    WEAPON_IDS.has(base.equippedWeapon)
       ? (base.equippedWeapon as WeaponId)
       : 'carrying_pole';
-  if (base.equippedWeapon !== undefined && resolvedWeapon !== base.equippedWeapon) coerced = true;
+  if (
+    base.equippedWeapon !== undefined &&
+    resolvedWeapon !== base.equippedWeapon
+  )
+    coerced = true;
   // Durability is bounded by the CURRENT def's durabilityMax, never a hardcoded 40: src/ is the
   // truth for how much wear a weapon can hold, so a rebalanced max re-clamps an old save's wear
   // on load. Absent → a full weapon (additive hydration, not a repair).
   const durabilityMax = getWeapon(resolvedWeapon).durabilityMax;
   const rawDurability = numAdditive(base.weaponDurability, durabilityMax);
-  const resolvedDurability = Math.min(durabilityMax, Math.max(0, rawDurability.value));
-  if (rawDurability.coerced || resolvedDurability !== rawDurability.value) coerced = true;
+  const resolvedDurability = Math.min(
+    durabilityMax,
+    Math.max(0, rawDurability.value),
+  );
+  if (rawDurability.coerced || resolvedDurability !== rawDurability.value)
+    coerced = true;
 
   // ── a WHITELIST rebuild, not a spread (save-format plan, step 2) ──────────────────────────
   // This literal is built from the explicitly-validated fields ONLY — there is deliberately no
@@ -320,12 +370,16 @@ export function validateState(rawState: unknown): ValidateResult {
     // carries them; still default safely (unknown season → the wheel's start; bad count → 0).
     season: resolvedSeason,
     seasonsPassed:
-      typeof base.seasonsPassed === 'number' ? Math.max(0, Math.floor(base.seasonsPassed)) : 0,
+      typeof base.seasonsPassed === 'number'
+        ? Math.max(0, Math.floor(base.seasonsPassed))
+        : 0,
     character: validatedCharacter,
     resources: rawState.resources as GameState['resources'],
     // additive (batch-2 call 7): the kura storehouse. Absent in any pre-bank save → empty (all
     // wealth carried), which is the correct fresh-bank default.
-    banked: isObject(base.banked) ? (base.banked as GameState['banked']) : { rice: 0 },
+    banked: isObject(base.banked)
+      ? (base.banked as GameState['banked'])
+      : { rice: 0 },
     // ── the measured-kura production pools (v10, ADR-163 / G4.5) ──────────────────────────
     // Hydrated PER KEY, not all-or-nothing: readers do `sitePools[site] ?? 0`, so a key that is
     // merely MISSING reads as a worked-out site (yield 0). A site added or renamed in src/
@@ -336,10 +390,16 @@ export function validateState(rawState: unknown): ValidateResult {
     sitePools: hydrateSitePools(base.sitePools, resolvedSeason),
     // MON lane wage accrual (v10, additive). Absent/malformed → not yet waged (0 / -1).
     wageDaysAccrued:
-      typeof base.wageDaysAccrued === 'number' ? Math.max(0, Math.floor(base.wageDaysAccrued)) : 0,
-    lastWageDay: typeof base.lastWageDay === 'number' ? Math.floor(base.lastWageDay) : -1,
+      typeof base.wageDaysAccrued === 'number'
+        ? Math.max(0, Math.floor(base.wageDaysAccrued))
+        : 0,
+    lastWageDay:
+      typeof base.lastWageDay === 'number' ? Math.floor(base.lastWageDay) : -1,
     // FB-324 rake cap counter (v10, additive). Absent/malformed → 0.
-    rakesDone: typeof base.rakesDone === 'number' ? Math.max(0, Math.floor(base.rakesDone)) : 0,
+    rakesDone:
+      typeof base.rakesDone === 'number'
+        ? Math.max(0, Math.floor(base.rakesDone))
+        : 0,
     flags: rawState.flags as GameState['flags'],
     seenReveals: rawState.seenReveals as GameState['seenReveals'],
     // Normalize each loaded entry's coalescing count to ≥1 so a later pushLog onto a
@@ -350,16 +410,23 @@ export function validateState(rawState: unknown): ValidateResult {
         const c = entry.count;
         return {
           ...entry,
-          count: typeof c === 'number' && Number.isFinite(c) ? Math.max(1, Math.floor(c)) : 1,
+          count:
+            typeof c === 'number' && Number.isFinite(c)
+              ? Math.max(1, Math.floor(c))
+              : 1,
         };
       }),
       seq: log.seq,
     } as unknown as GameState['log'],
     skillXp: base.skillXp ?? {},
-    deliveredDialogue: Array.isArray(base.deliveredDialogue) ? base.deliveredDialogue : [],
+    deliveredDialogue: Array.isArray(base.deliveredDialogue)
+      ? base.deliveredDialogue
+      : [],
     // ── interactive intro (v3, additive) ──
     // Per-NPC memory: an object (default {}); persists across ascension. A malformed value → {}.
-    npcMemory: isObject(base.npcMemory) ? (base.npcMemory as GameState['npcMemory']) : {},
+    npcMemory: isObject(base.npcMemory)
+      ? (base.npcMemory as GameState['npcMemory'])
+      : {},
     // The intro cursor. Absent (a pre-intro save) → intro-DONE if already awake, else pre-wake (-1),
     // matching the v2→v3 migration so a partially-hydrated blob still lands coherently.
     introBeat:
@@ -377,7 +444,9 @@ export function validateState(rawState: unknown): ValidateResult {
         : null,
     // The dialogue-tree ask-hub set (v4, additive). Absent (any pre-tree save) → [] (nothing asked
     // yet, the correct fresh default); a malformed value → []. Matches the v3→v4 migration.
-    askedTopics: Array.isArray(base.askedTopics) ? (base.askedTopics as readonly string[]) : [],
+    askedTopics: Array.isArray(base.askedTopics)
+      ? (base.askedTopics as readonly string[])
+      : [],
     quests: isObject(base.quests)
       ? (base.quests as GameState['quests'])
       : { accepted: [], progress: {}, completed: [] },
@@ -391,20 +460,28 @@ export function validateState(rawState: unknown): ValidateResult {
     // ── deep housing (v7, additive; ADR-111): the ids of BOUGHT comfort furniture. Absent (any
     // pre-housing save) → [] (owns no furniture — the correct fresh default); malformed → []. Matches
     // the v6→v7 migration. Granted keepsakes are derived, not stored, so they need no hydration.
-    belongings: Array.isArray(base.belongings) ? (base.belongings as readonly string[]) : [],
+    belongings: Array.isArray(base.belongings)
+      ? (base.belongings as readonly string[])
+      : [],
     location,
     rung: base.rung ?? 'R0',
     // Per-requirement rung progress (v8, FB-121/ADR-137). Malformed -> {} (progress within
     // the current rung restarts -- the same deliberate default as the v7->v8 migration).
-    rungReqs: isObject(base.rungReqs) ? (base.rungReqs as GameState['rungReqs']) : {},
+    rungReqs: isObject(base.rungReqs)
+      ? (base.rungReqs as GameState['rungReqs'])
+      : {},
     estateStage: typeof base.estateStage === 'number' ? base.estateStage : 0,
     // ADR-177 F3 — commission fields (older saves default to no work under way)
-    estateCommission: typeof base.estateCommission === 'number' ? base.estateCommission : 0,
-    estateWorkDone: typeof base.estateWorkDone === 'number' ? base.estateWorkDone : 0,
+    estateCommission:
+      typeof base.estateCommission === 'number' ? base.estateCommission : 0,
+    estateWorkDone:
+      typeof base.estateWorkDone === 'number' ? base.estateWorkDone : 0,
     // ── emergent node discovery (v9, additive; ADR-146): the write-once latch + attempt
     // counters. Absent (any pre-discovery save) → empty (found nothing yet — the correct fresh
     // default); malformed → empty. Matches the v8→v9 migration.
-    discovered: Array.isArray(base.discovered) ? (base.discovered as readonly string[]) : [],
+    discovered: Array.isArray(base.discovered)
+      ? (base.discovered as readonly string[])
+      : [],
     discoveryProgress: isObject(base.discoveryProgress)
       ? (base.discoveryProgress as GameState['discoveryProgress'])
       : {},
@@ -427,14 +504,23 @@ export function validateState(rawState: unknown): ValidateResult {
     // ── storywave G2 (v10, additive; DORMANT): the generalized-scene queue/cursor/latch +
     // the night-round cursor. Absent / malformed → the inert fresh defaults (nothing enqueued,
     // no scene or round live). Registries ship empty, so a clean-break v10 save carries none.
-    sceneQueue: Array.isArray(base.sceneQueue) ? (base.sceneQueue as GameState['sceneQueue']) : [],
-    activeScene: isObject(base.activeScene) ? (base.activeScene as GameState['activeScene']) : null,
+    sceneQueue: Array.isArray(base.sceneQueue)
+      ? (base.sceneQueue as GameState['sceneQueue'])
+      : [],
+    activeScene: isObject(base.activeScene)
+      ? (base.activeScene as GameState['activeScene'])
+      : null,
     scenesPlayed: Array.isArray(base.scenesPlayed)
       ? (base.scenesPlayed as GameState['scenesPlayed'])
       : [],
-    roundState: isObject(base.roundState) ? (base.roundState as GameState['roundState']) : null,
+    roundState: isObject(base.roundState)
+      ? (base.roundState as GameState['roundState'])
+      : null,
     // Sōan's defeat ledger (G3) — a non-negative counter; absent/malformed → 0 (fresh).
-    soanLedger: typeof base.soanLedger === 'number' ? Math.max(0, Math.floor(base.soanLedger)) : 0,
+    soanLedger:
+      typeof base.soanLedger === 'number'
+        ? Math.max(0, Math.floor(base.soanLedger))
+        : 0,
   };
 
   return { ok: true, state, coerced, migrated: false };

@@ -44,7 +44,9 @@ export interface SaveManagerOptions {
   readonly migrate?: MigrateFn;
 }
 
-export type SaveResult = { ok: true; saveCounter: number } | { ok: false; reason: string };
+export type SaveResult =
+  | { ok: true; saveCounter: number }
+  | { ok: false; reason: string };
 
 export interface LoadResult {
   readonly state: GameState;
@@ -96,7 +98,8 @@ export class SaveManager {
   /** Redundant atomic write to all backends. Poison-suppressed: an invalid state never lands. */
   async save(state: GameState): Promise<SaveResult> {
     const check = validateState(state);
-    if (!check.ok) return { ok: false, reason: `poison-suppressed:${check.reason}` };
+    if (!check.ok)
+      return { ok: false, reason: `poison-suppressed:${check.reason}` };
     if (this.backends.length === 0) return { ok: false, reason: 'no-backends' };
 
     const saveCounter = this.counter + 1;
@@ -114,7 +117,8 @@ export class SaveManager {
         }
       }),
     );
-    if (!results.some(Boolean)) return { ok: false, reason: 'all-backends-failed' };
+    if (!results.some(Boolean))
+      return { ok: false, reason: 'all-backends-failed' };
     this.counter = saveCounter;
     return { ok: true, saveCounter };
   }
@@ -132,7 +136,9 @@ export class SaveManager {
         } catch {
           continue; // unparseable / poisoned blob → ignored (recovery)
         }
-        const fromVersion = isFiniteVersion(parsed) ? parsed.schemaVersion : SCHEMA_VERSION;
+        const fromVersion = isFiniteVersion(parsed)
+          ? parsed.schemaVersion
+          : SCHEMA_VERSION;
         const v = validateEnvelope(parsed, { migrate: this.migrateFn });
         if (!v.ok) {
           // ADR-161 clean break: a RETIRED (prior-generation) blob is not a load candidate — back
@@ -147,7 +153,8 @@ export class SaveManager {
         const env = parsed as Partial<SaveEnvelope>;
         out.push({
           state: v.state,
-          saveCounter: typeof env.saveCounter === 'number' ? env.saveCounter : 0,
+          saveCounter:
+            typeof env.saveCounter === 'number' ? env.saveCounter : 0,
           savedAt: typeof env.savedAt === 'number' ? env.savedAt : 0,
           coerced: v.coerced,
           migrated: v.migrated,
@@ -171,7 +178,8 @@ export class SaveManager {
     const safeMode = (await this.getCrashCount()) >= this.crashThreshold;
     // Persist the pre-migration bytes ONCE if this load actually migrated, so a bad
     // migration is recoverable / re-importable (PRD §6.8.2).
-    if (winner.migrated) await this.backupRaw(winner.fromVersion, winner.rawBytes);
+    if (winner.migrated)
+      await this.backupRaw(winner.fromVersion, winner.rawBytes);
     return { ...winner, safeMode };
   }
 
@@ -185,7 +193,8 @@ export class SaveManager {
   async loadRollback(): Promise<LoadResult | null> {
     const candidates = await this.readCandidates();
     const distinct = candidates.filter(
-      (c, i, arr) => arr.findIndex((o) => o.saveCounter === c.saveCounter) === i,
+      (c, i, arr) =>
+        arr.findIndex((o) => o.saveCounter === c.saveCounter) === i,
     );
     const older = distinct[1] ?? distinct[0];
     if (!older) return null;
@@ -195,14 +204,20 @@ export class SaveManager {
   /** PRD §6.8.2 raw pre-migration backup: keep the original bytes so a bad migration is recoverable/re-importable. */
   private async backupRaw(fromVersion: number, raw: string): Promise<void> {
     const key = `${PREMIGRATE_PREFIX}${fromVersion}`;
-    await Promise.all(this.backends.map((b) => b.set(key, raw).catch(() => undefined)));
+    await Promise.all(
+      this.backends.map((b) => b.set(key, raw).catch(() => undefined)),
+    );
   }
 
   /** ADR-161 clean break: preserve a retired (prior-generation) save's raw bytes under the
    *  reboot-backup key so the player's old run survives the reboot (recoverable/exportable),
    *  never silently destroyed. Best-effort across backends. */
   private async backupReboot(raw: string): Promise<void> {
-    await Promise.all(this.backends.map((b) => b.set(PREREBOOT_KEY, raw).catch(() => undefined)));
+    await Promise.all(
+      this.backends.map((b) =>
+        b.set(PREREBOOT_KEY, raw).catch(() => undefined),
+      ),
+    );
   }
 
   // ── FB-96 backup slot: snapshot-before-wipe safety net for the DEV New game button ──
@@ -210,7 +225,8 @@ export class SaveManager {
    *  previous backup). Poison-suppressed like save(): an invalid state never lands as a backup. */
   async backup(state: GameState): Promise<SaveResult> {
     const check = validateState(state);
-    if (!check.ok) return { ok: false, reason: `backup-invalid:${check.reason}` };
+    if (!check.ok)
+      return { ok: false, reason: `backup-invalid:${check.reason}` };
     if (this.backends.length === 0) return { ok: false, reason: 'no-backends' };
     const env = makeEnvelope(state, this.counter, this.now());
     const raw = await encodeStore(env);
@@ -224,7 +240,8 @@ export class SaveManager {
         }
       }),
     );
-    if (!results.some(Boolean)) return { ok: false, reason: 'all-backends-failed' };
+    if (!results.some(Boolean))
+      return { ok: false, reason: 'all-backends-failed' };
     return { ok: true, saveCounter: this.counter };
   }
 
@@ -257,7 +274,9 @@ export class SaveManager {
         state: v.state,
         saveCounter: res.saveCounter,
         coerced: v.coerced,
-        migrated: v.migrated || (isFiniteVersion(env) && env.schemaVersion !== SCHEMA_VERSION),
+        migrated:
+          v.migrated ||
+          (isFiniteVersion(env) && env.schemaVersion !== SCHEMA_VERSION),
         safeMode: false,
         source: 'backup',
       };
@@ -282,12 +301,16 @@ export class SaveManager {
 
   async bumpCrashCount(): Promise<number> {
     const n = (await this.getCrashCount()) + 1;
-    await Promise.all(this.backends.map((b) => b.set(CRASH_KEY, JSON.stringify({ count: n }))));
+    await Promise.all(
+      this.backends.map((b) => b.set(CRASH_KEY, JSON.stringify({ count: n }))),
+    );
     return n;
   }
 
   async clearCrashCount(): Promise<void> {
-    await Promise.all(this.backends.map((b) => b.set(CRASH_KEY, JSON.stringify({ count: 0 }))));
+    await Promise.all(
+      this.backends.map((b) => b.set(CRASH_KEY, JSON.stringify({ count: 0 }))),
+    );
   }
 
   // ── base64 export / import (the portable durability backstop) ──────────────────
@@ -296,7 +319,9 @@ export class SaveManager {
   }
 
   /** Validate + adopt an imported save as the new newest. Throws nothing — returns a result. */
-  async importState(b64: string): Promise<LoadResult | { ok: false; reason: string }> {
+  async importState(
+    b64: string,
+  ): Promise<LoadResult | { ok: false; reason: string }> {
     let parsed: unknown;
     try {
       parsed = importBase64(b64);

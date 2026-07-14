@@ -12,29 +12,42 @@ const roster = [
   { name: 'b1', scope: 'both' },
 ] as const;
 
-const names = (gates: readonly { name: string }[]): string[] => gates.map((g) => g.name);
+const names = (gates: readonly { name: string }[]): string[] =>
+  gates.map((g) => g.name);
 
 describe('gatesForFlags', () => {
   it('no flags -> the FULL roster runs, nothing skipped', () => {
-    const { run, skipped } = gatesForFlags(roster, { skipCode: false, skipDocs: false });
+    const { run, skipped } = gatesForFlags(roster, {
+      skipCode: false,
+      skipDocs: false,
+    });
     expect(names(run)).toEqual(['c1', 'c2', 'd1', 'b1']);
     expect(skipped).toEqual([]);
   });
 
   it('SKIP_CODE_VERIFY -> code gates skipped; docs AND both still run', () => {
-    const { run, skipped } = gatesForFlags(roster, { skipCode: true, skipDocs: false });
+    const { run, skipped } = gatesForFlags(roster, {
+      skipCode: true,
+      skipDocs: false,
+    });
     expect(names(run)).toEqual(['d1', 'b1']);
     expect(names(skipped)).toEqual(['c1', 'c2']);
   });
 
   it('SKIP_DOCS_VERIFY -> docs gates skipped; code AND both still run', () => {
-    const { run, skipped } = gatesForFlags(roster, { skipCode: false, skipDocs: true });
+    const { run, skipped } = gatesForFlags(roster, {
+      skipCode: false,
+      skipDocs: true,
+    });
     expect(names(run)).toEqual(['c1', 'c2', 'b1']);
     expect(names(skipped)).toEqual(['d1']);
   });
 
   it("both flags -> everything skipped, 'both' included (a full skip)", () => {
-    const { run, skipped } = gatesForFlags(roster, { skipCode: true, skipDocs: true });
+    const { run, skipped } = gatesForFlags(roster, {
+      skipCode: true,
+      skipDocs: true,
+    });
     expect(run).toEqual([]);
     expect(names(skipped)).toEqual(['c1', 'c2', 'd1', 'b1']);
   });
@@ -51,7 +64,9 @@ describe('scopeFlagsFromEnv', () => {
       skipCode: false,
       skipDocs: true,
     });
-    expect(scopeFlagsFromEnv({ SKIP_CODE_VERIFY: 'true', SKIP_DOCS_VERIFY: '0' })).toEqual({
+    expect(
+      scopeFlagsFromEnv({ SKIP_CODE_VERIFY: 'true', SKIP_DOCS_VERIFY: '0' }),
+    ).toEqual({
       skipCode: false,
       skipDocs: false,
     });

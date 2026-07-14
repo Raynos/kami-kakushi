@@ -12,25 +12,35 @@ import { boot, expectNoPageErrors, press } from './helpers';
 
 /** Snapshot the autosave ring (kk:save:0..2) so a test can wait for it to CHANGE. */
 function saveRing(page: Page): Promise<(string | null)[]> {
-  return page.evaluate(() => [0, 1, 2].map((i) => localStorage.getItem(`kk:save:${i}`)));
+  return page.evaluate(() =>
+    [0, 1, 2].map((i) => localStorage.getItem(`kk:save:${i}`)),
+  );
 }
 
 /** Wait until any ring slot differs from `before` — the debounced autosave landed. */
-async function waitForAutosave(page: Page, before: (string | null)[]): Promise<void> {
+async function waitForAutosave(
+  page: Page,
+  before: (string | null)[],
+): Promise<void> {
   await page.waitForFunction(
-    (prev) => [0, 1, 2].some((i) => localStorage.getItem(`kk:save:${i}`) !== prev[i]),
+    (prev) =>
+      [0, 1, 2].some((i) => localStorage.getItem(`kk:save:${i}`) !== prev[i]),
     before,
     { timeout: 10_000 },
   );
 }
 
-test('reload-resume: the run survives a fresh boot, not a cold open', async ({ page }) => {
+test('reload-resume: the run survives a fresh boot, not a cold open', async ({
+  page,
+}) => {
   const errors = await boot(page, 'at-kura-with-coin');
 
   // real actions: bank the carried coin through the visible control
   await press(page.locator('.nav-tab', { hasText: '蔵' })); // Inventory
   const ringBefore = await saveRing(page);
-  await press(page.locator('button.auto-toggle', { hasText: 'Store all coin' }));
+  await press(
+    page.locator('button.auto-toggle', { hasText: 'Store all coin' }),
+  );
   const banked = await page.evaluate<number>('__qa.state().banked.coin ?? 0');
   expect(banked).toBeGreaterThan(0);
 
@@ -44,7 +54,9 @@ test('reload-resume: the run survives a fresh boot, not a cold open', async ({ p
   const resumed = await page.evaluate<{ banked: number; loc: string }>(
     '({ banked: __qa.state().banked.coin ?? 0, loc: __qa.state().location })',
   );
-  expect(resumed.banked, 'the banked coin must survive the reboot').toBe(banked);
+  expect(resumed.banked, 'the banked coin must survive the reboot').toBe(
+    banked,
+  );
   expect(resumed.loc, 'the location must survive the reboot').toBe('kura');
   await expect(
     page.locator('button.verb.primary', { hasText: 'Open your eyes' }),
@@ -53,7 +65,10 @@ test('reload-resume: the run survives a fresh boot, not a cold open', async ({ p
   expectNoPageErrors(errors);
 });
 
-test('export → import round-trips through the real settings UI', async ({ page, browser }) => {
+test('export → import round-trips through the real settings UI', async ({
+  page,
+  browser,
+}) => {
   const errors = await boot(page, 'wealthy-idler');
   const truth = await page.evaluate<{ rung: string; banked: number }>(
     '({ rung: __qa.state().rung, banked: __qa.state().banked.coin ?? 0 })',
@@ -64,7 +79,10 @@ test('export → import round-trips through the real settings UI', async ({ page
   await press(page.locator('.modal-tab', { hasText: 'Saves' }));
   await press(page.locator('button.auto-toggle', { hasText: 'Export save' }));
   const code = await page.locator('#save-export').inputValue();
-  expect(code.length, 'the export textarea must carry a save code').toBeGreaterThan(0);
+  expect(
+    code.length,
+    'the export textarea must carry a save code',
+  ).toBeGreaterThan(0);
 
   // a genuinely different browser profile — fresh localStorage. It boots a
   // DIFFERENT fixture (R3) rather than a cold open: the settings entry lives in
@@ -74,7 +92,9 @@ test('export → import round-trips through the real settings UI', async ({ page
   const ctx = await browser.newContext();
   try {
     const page2 = await ctx.newPage();
-    await page2.goto(`http://localhost:5199/?dev=no&telemetry=no&fixture=fresh-R3-pre-wolf`);
+    await page2.goto(
+      `http://localhost:5199/?dev=no&telemetry=no&fixture=fresh-R3-pre-wolf`,
+    );
     await page2.waitForFunction('Boolean(window.__qa)');
     await page2.waitForFunction(`window.__qa.state().rung === 'R3'`);
     await press(page2.locator('.settings-btn'));
@@ -83,9 +103,14 @@ test('export → import round-trips through the real settings UI', async ({ page
     await press(page2.locator('button.auto-toggle', { hasText: 'Import' }));
 
     // the state lands: same rung, same banked coin, and the modal closed itself
-    await page2.waitForFunction((want) => (window as any).__qa.state().rung === want, truth.rung);
+    await page2.waitForFunction(
+      (want) => (window as any).__qa.state().rung === want,
+      truth.rung,
+    );
     const got = await page2.evaluate<number>('__qa.state().banked.coin ?? 0');
-    expect(got, 'the imported run must carry the banked coin').toBe(truth.banked);
+    expect(got, 'the imported run must carry the banked coin').toBe(
+      truth.banked,
+    );
     await expect(page2.locator('.modal-scrim')).toBeHidden();
   } finally {
     await ctx.close();
@@ -93,7 +118,9 @@ test('export → import round-trips through the real settings UI', async ({ page
   expectNoPageErrors(errors);
 });
 
-test('mid-intro refresh resumes the intro at the same beat (T2)', async ({ page }) => {
+test('mid-intro refresh resumes the intro at the same beat (T2)', async ({
+  page,
+}) => {
   // instant text: this test's subject is persistence, not pacing
   const errors = await boot(page, undefined, { instantText: true });
   const ringBefore = await saveRing(page);

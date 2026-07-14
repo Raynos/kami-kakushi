@@ -30,9 +30,17 @@
 
 /** The subset of `window` the clock patches. Injected so the whole thing is testable in jsdom. */
 export interface TimerHost {
-  setTimeout(fn: (...a: never[]) => void, ms?: number, ...args: never[]): number;
+  setTimeout(
+    fn: (...a: never[]) => void,
+    ms?: number,
+    ...args: never[]
+  ): number;
   clearTimeout(id?: number): void;
-  setInterval(fn: (...a: never[]) => void, ms?: number, ...args: never[]): number;
+  setInterval(
+    fn: (...a: never[]) => void,
+    ms?: number,
+    ...args: never[]
+  ): number;
   clearInterval(id?: number): void;
 }
 
@@ -82,7 +90,10 @@ export interface FreezeClockDeps {
  * that re-armed the timer under a different native id. An id we don't recognise (a timer armed
  * before install, or one of vite's) is passed straight through to the native clear.
  */
-export function installFreezeClock(host: TimerHost, deps: FreezeClockDeps = {}): FreezeClock {
+export function installFreezeClock(
+  host: TimerHost,
+  deps: FreezeClockDeps = {},
+): FreezeClock {
   const now = deps.now ?? (() => Date.now());
   const nativeSetTimeout = host.setTimeout.bind(host);
   const nativeClearTimeout = host.clearTimeout.bind(host);
@@ -148,7 +159,10 @@ export function installFreezeClock(host: TimerHost, deps: FreezeClockDeps = {}):
     return id;
   }
 
-  function cancel(id: number | undefined, nativeClear: (n?: number) => void): void {
+  function cancel(
+    id: number | undefined,
+    nativeClear: (n?: number) => void,
+  ): void {
     if (id === undefined) return;
     const p = pending.get(id);
     if (!p) {
@@ -160,7 +174,8 @@ export function installFreezeClock(host: TimerHost, deps: FreezeClockDeps = {}):
   }
 
   host.setTimeout = (fn, ms, ...args) => schedule(fn, ms, args, undefined);
-  host.setInterval = (fn, ms, ...args) => schedule(fn, ms, args, Math.max(0, ms ?? 0));
+  host.setInterval = (fn, ms, ...args) =>
+    schedule(fn, ms, args, Math.max(0, ms ?? 0));
   host.clearTimeout = (id) => cancel(id, nativeClearTimeout);
   host.clearInterval = (id) => cancel(id, nativeClearInterval);
 
@@ -186,7 +201,10 @@ export function installFreezeClock(host: TimerHost, deps: FreezeClockDeps = {}):
   /** Which properties is `el` transitioning? Browsers expand the `transition` shorthand into
    *  `transition-property`; jsdom does not, so fall back to the first token of each inline segment
    *  (`width 5000ms linear` → `width`). Returns [] for `none`/`all` — nothing safe to pin. */
-  function transitionedProps(el: HTMLElement, computed: CSSStyleDeclaration): string[] {
+  function transitionedProps(
+    el: HTMLElement,
+    computed: CSSStyleDeclaration,
+  ): string[] {
     const source = computed.transitionProperty || el.style.transition;
     return source
       .split(',')
@@ -197,7 +215,9 @@ export function installFreezeClock(host: TimerHost, deps: FreezeClockDeps = {}):
   function pinTransitions(): void {
     const doc = deps.doc;
     if (!doc?.defaultView) return;
-    for (const el of doc.querySelectorAll<HTMLElement>('[style*="transition"]')) {
+    for (const el of doc.querySelectorAll<HTMLElement>(
+      '[style*="transition"]',
+    )) {
       const computed = doc.defaultView.getComputedStyle(el);
       const names = transitionedProps(el, computed);
       if (names.length === 0) continue;

@@ -18,7 +18,12 @@ import {
   type TelemetryEvent,
 } from './sessionizer';
 import { autosArmed, detectMilestones } from './milestones';
-import { formatRunReport, type MilestoneEntry, type RunRecord, type SimRow } from './report';
+import {
+  formatRunReport,
+  type MilestoneEntry,
+  type RunRecord,
+  type SimRow,
+} from './report';
 import { attachSignals, INPUT_THROTTLE_MS } from './signals';
 import { createTelemetryStore, TELEMETRY_STORE_KEY } from './store';
 import { postSessionReport } from './drop';
@@ -32,7 +37,12 @@ export const TELEMETRY_SENTINEL = '__KAMI_TELEMETRY__';
 /** `resume` = boot WITH an existing save (plan §3.1: a NEW run starts only at
  *  boot-with-no-save / newGame / import) — the newest stored run for the same seed is
  *  CONTINUED, so an FB-5 mid-session doesn't shred the run history into per-boot fragments. */
-export type RunStartReason = 'boot' | 'resume' | 'new-game' | 'import' | 'fixture';
+export type RunStartReason =
+  | 'boot'
+  | 'resume'
+  | 'new-game'
+  | 'import'
+  | 'fixture';
 
 export interface TelemetrySummary {
   readonly runId: string;
@@ -51,7 +61,9 @@ export interface TelemetryQa {
   report(): string;
   segments(): SessionizerState['segments'];
   runs(): readonly RunRecord[];
-  configure(patch: Partial<TelemetryConfig & { inputThrottleMs: number }>): TelemetryConfig;
+  configure(
+    patch: Partial<TelemetryConfig & { inputThrottleMs: number }>,
+  ): TelemetryConfig;
   /** Drop the current run's report into project/telemetry/ NOW (the panel button; session-end
    *  drops happen automatically on segment close). */
   drop(): void;
@@ -129,7 +141,11 @@ export function createTelemetry(opts: {
     }
   }
 
-  attachSignals(emit, () => ({ inputThrottleMs, heartbeatMs: ss.config.heartbeatMs }), now);
+  attachSignals(
+    emit,
+    () => ({ inputThrottleMs, heartbeatMs: ss.config.heartbeatMs }),
+    now,
+  );
 
   // Multi-tab beacon (plan §6.5): a second DEV tab writing the same ring is last-writer-wins
   // (accepted, one human) — but say so LOUDLY so the data isn't silently trusted.
@@ -148,7 +164,10 @@ export function createTelemetry(opts: {
   function simRows(): SimRow[] {
     if (!cachedSim) {
       try {
-        cachedSim = walkPacing().map((r) => ({ rung: r.rung, wallMin: r.wallMin }));
+        cachedSim = walkPacing().map((r) => ({
+          rung: r.rung,
+          wallMin: r.wallMin,
+        }));
       } catch {
         cachedSim = [];
       }
@@ -169,7 +188,8 @@ export function createTelemetry(opts: {
             : t - ss.lastInputT <= ss.config.inputRecencyMs
               ? 'active'
               : 'idle';
-      const active = carriedActiveMs + ss.closedActiveMs + (ss.open?.activeMs ?? 0);
+      const active =
+        carriedActiveMs + ss.closedActiveMs + (ss.open?.activeMs ?? 0);
       const idle = carriedIdleMs + ss.closedIdleMs + (ss.open?.idleMs ?? 0);
       return {
         runId,
@@ -192,7 +212,8 @@ export function createTelemetry(opts: {
     segments: () => [...carriedSegments, ...ss.segments],
     runs: () => store.loadRuns(),
     configure(patch): TelemetryConfig {
-      if (patch.inputThrottleMs !== undefined) inputThrottleMs = patch.inputThrottleMs;
+      if (patch.inputThrottleMs !== undefined)
+        inputThrottleMs = patch.inputThrottleMs;
       const { inputThrottleMs: _drop, ...cfg } = patch;
       ss = { ...ss, config: { ...ss.config, ...cfg } };
       return ss.config;
@@ -242,7 +263,11 @@ export function createTelemetry(opts: {
     runId = `${startedAtISO.slice(0, 10).replace(/-/g, '')}-${Math.floor(runStartT / 1000)}`;
     milestones = [];
     taints = new Set(
-      reason === 'import' ? ['save-import'] : reason === 'fixture' ? ['fixture'] : [],
+      reason === 'import'
+        ? ['save-import']
+        : reason === 'fixture'
+          ? ['fixture']
+          : [],
     );
     carriedSegments = [];
     carriedActiveMs = 0;
@@ -266,7 +291,11 @@ export function createTelemetry(opts: {
         if (ev.kind === 'auto') emit({ t, kind: 'auto', armed: ev.armed });
         else if (ev.kind === 'note') emit({ t, kind: 'note' });
         else {
-          milestones.push({ event: ev, attendedMs: runAttendedMs(), wallMs: t - runStartT });
+          milestones.push({
+            event: ev,
+            attendedMs: runAttendedMs(),
+            wallMs: t - runStartT,
+          });
           persist();
         }
       }

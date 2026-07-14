@@ -44,7 +44,14 @@ import {
   RAKE_AUTO_REVEAL_COUNT,
 } from '../render';
 import { RAKE_DONE_REASON } from '../../core/content/coldOpen';
-import { reconcileList, setText, setClass, setDisabled, setTitle, toggle } from '../reconcile';
+import {
+  reconcileList,
+  setText,
+  setClass,
+  setDisabled,
+  setTitle,
+  toggle,
+} from '../reconcile';
 import type { DevApi } from '../dev';
 
 type Dispatch = (intent: Intent) => void;
@@ -61,7 +68,15 @@ export function createActionsView(ctx: {
   lastState(): GameState | null;
   isPaused(): boolean;
 }): { renderActions(state: GameState): void } {
-  const { pane: actions, zoneBanner, zoneSeal, zoneName, zoneLine, dispatch, dev } = ctx;
+  const {
+    pane: actions,
+    zoneBanner,
+    zoneSeal,
+    zoneName,
+    zoneLine,
+    dispatch,
+    dev,
+  } = ctx;
 
   // ── Phase 2 (FB-81) — the two big flash offenders go incremental. `actions` (the Work hero, rebuilt
   //    ~2×/s) and `combatPane` (a 6-block composite) are split into named sub-containers built ONCE;
@@ -123,13 +138,18 @@ export function createActionsView(ctx: {
     return `${gains ? `${gains} · ` : ''}+${f.xp} ${o.activity.skill} xp · −${o.activity.satietyCost} body`;
   }
 
-  function patchLabourRow(row: HTMLElement, o: LabourOption, state: GameState): void {
+  function patchLabourRow(
+    row: HTMLElement,
+    o: LabourOption,
+    state: GameState,
+  ): void {
     const btn = row.children[0] as HTMLButtonElement;
     const auto = row.children[1] as HTMLButtonElement;
     const lock = row.children[2] as HTMLElement;
     setDisabled(btn, !o.available);
     // the disabled reason wins; an available act reads its cost/effect line (FB-346).
-    const btnTitle = !o.available && o.reason ? o.reason : labourTitle(state, o);
+    const btnTitle =
+      !o.available && o.reason ? o.reason : labourTitle(state, o);
     if (btn.title !== btnTitle) btn.title = btnTitle;
     if (o.available) {
       toggle(auto, true);
@@ -141,7 +161,8 @@ export function createActionsView(ctx: {
       setText(auto, on ? (paused ? AUTO_PAUSED_LABEL : '■ stop') : '▶ auto');
       setTitle(auto, paused ? AUTO_PAUSED_REASON : '');
       const pressed = String(on);
-      if (auto.getAttribute('aria-pressed') !== pressed) auto.setAttribute('aria-pressed', pressed);
+      if (auto.getAttribute('aria-pressed') !== pressed)
+        auto.setAttribute('aria-pressed', pressed);
     } else {
       // ADR-148 — an ARMED auto never vanishes with its activity: it visibly idles
       // ("pause, resume when legal") and re-fires via the heartbeat once legal again.
@@ -163,16 +184,21 @@ export function createActionsView(ctx: {
     // FB-410 — the zone banner: patch the node's kanji + name + standing line in place (P4/TST2 —
     // the head never rebuilds under the player). (Guarded lookup — some test fixtures stand on
     // non-map ground; the banner just hides.)
-    const here = MAP_NODE_IDS.has(state.location) ? getNode(state.location) : null;
+    const here = MAP_NODE_IDS.has(state.location)
+      ? getNode(state.location)
+      : null;
     if (here) {
-      if (zoneSeal.textContent !== (here.kanji ?? '')) setText(zoneSeal, here.kanji ?? '');
+      if (zoneSeal.textContent !== (here.kanji ?? ''))
+        setText(zoneSeal, here.kanji ?? '');
       toggle(zoneSeal, Boolean(here.kanji));
       if (zoneName.textContent !== here.label) setText(zoneName, here.label);
       // the standing line — the SAME seasonal read the Map card resolves (one source), so a
       // season turn re-inks it here too. The DEV story switcher live-swaps it by key, as there.
       const sb = nodeSeasonalBlurb(here, season(state));
       const lineText =
-        __DEV_TOOLS__ && dev && sb.key !== undefined ? dev.subFlavor(sb.key, sb.text) : sb.text;
+        __DEV_TOOLS__ && dev && sb.key !== undefined
+          ? dev.subFlavor(sb.key, sb.text)
+          : sb.text;
       setText(zoneLine, lineText);
     }
     toggle(zoneLine, here !== null && zoneLine.textContent !== '');
@@ -203,14 +229,17 @@ export function createActionsView(ctx: {
         document.createTextNode(' Post the night watch 夜廻'),
       );
       // FB-346 — say what posting means before the player commits to a night of stages.
-      nightBtn.title = 'Stand the grain-watch through the night stages — it can end in a fight.';
+      nightBtn.title =
+        'Stand the grain-watch through the night stages — it can end in a fight.';
       nightBtn.addEventListener('click', () =>
         // C4.8 — the first round (the quest, wolf climax) plays ONCE; after the wolf is
         // survived the post serves the repeatable grain-watch (no scripted wolf replay —
         // it returns in T1, locked canon).
         dispatch({
           type: 'begin_night_round',
-          roundId: hasFlag(state, 'wolf-survived-not-won') ? 'grain-watch' : 'first-night-round',
+          roundId: hasFlag(state, 'wolf-survived-not-won')
+            ? 'grain-watch'
+            : 'first-night-round',
         }),
       );
       const nightBlurb = el('p', 'area-blurb');
@@ -221,7 +250,9 @@ export function createActionsView(ctx: {
       wageBtn.type = 'button';
       wageBtn.title =
         'The day-book accrues your wage 給 by the worked day — collect what stands owed.';
-      wageBtn.addEventListener('click', () => dispatch({ type: 'collect_wage' }));
+      wageBtn.addEventListener('click', () =>
+        dispatch({ type: 'collect_wage' }),
+      );
       wageRow.append(wageBtn);
       // (c) ADR-177 F3 — the works site: one sited act of the commissioned project.
       //     Same place-beat idiom as the night post; shown only AT a work zone (TST3).
@@ -229,7 +260,9 @@ export function createActionsView(ctx: {
       const worksBtn = el('button', 'verb primary');
       worksBtn.type = 'button';
       stampAct(worksBtn, 'work_project');
-      worksBtn.addEventListener('click', () => dispatch({ type: 'work_project' }));
+      worksBtn.addEventListener('click', () =>
+        dispatch({ type: 'work_project' }),
+      );
       worksRow.append(worksBtn);
       // (d) ADR-164/ADR-197 — the sickroom mend lane: Sōan's paid treatment (mon-only — the
       //     row HIDES without the coin, ADR-197) + the free pallet-day rest. Same place-beat
@@ -245,9 +278,18 @@ export function createActionsView(ctx: {
       const restSickBtn = el('button', 'verb');
       restSickBtn.type = 'button';
       stampAct(restSickBtn, 'rest_sickroom');
-      restSickBtn.addEventListener('click', () => dispatch({ type: 'rest_sickroom' }));
+      restSickBtn.addEventListener('click', () =>
+        dispatch({ type: 'rest_sickroom' }),
+      );
       restSickRow.append(restSickBtn);
-      placeStrip.append(nightBlurb, nightRow, wageRow, worksRow, treatRow, restSickRow);
+      placeStrip.append(
+        nightBlurb,
+        nightRow,
+        wageRow,
+        worksRow,
+        treatRow,
+        restSickRow,
+      );
       const areaGroups = el('div', 'actions-group');
       const noWork = el(
         'p',
@@ -301,7 +343,11 @@ export function createActionsView(ctx: {
           row.append(btn, auto, lock);
           return row;
         }
-        const btn = el('button', a === 'open_eyes' ? 'verb primary' : 'verb', META_LABELS[a]);
+        const btn = el(
+          'button',
+          a === 'open_eyes' ? 'verb primary' : 'verb',
+          META_LABELS[a],
+        );
         btn.type = 'button';
         stampAct(btn, a);
         btn.addEventListener('click', () => dispatch({ type: a } as Intent));
@@ -365,7 +411,10 @@ export function createActionsView(ctx: {
             setClass(auto, 'on', true);
             setClass(auto, 'waiting', true);
             setText(auto, paused ? AUTO_PAUSED_LABEL : '⏸ waiting');
-            setTitle(auto, paused ? AUTO_PAUSED_REASON : OUT_OF_STRENGTH_REASON);
+            setTitle(
+              auto,
+              paused ? AUTO_PAUSED_REASON : OUT_OF_STRENGTH_REASON,
+            );
           }
         } else {
           toggle(auto, rakeCount(state) >= RAKE_AUTO_REVEAL_COUNT);
@@ -377,7 +426,11 @@ export function createActionsView(ctx: {
           if (auto.getAttribute('aria-pressed') !== pressed)
             auto.setAttribute('aria-pressed', pressed);
         }
-        const reason = exhausted ? RAKE_DONE_REASON : affordable ? '' : OUT_OF_STRENGTH_REASON;
+        const reason = exhausted
+          ? RAKE_DONE_REASON
+          : affordable
+            ? ''
+            : OUT_OF_STRENGTH_REASON;
         toggle(lock, !!reason);
         if (reason) setText(lock, reason);
       },
@@ -391,14 +444,19 @@ export function createActionsView(ctx: {
     //     gate. While a round is LIVE the app loop resolves its stages — the blurb reads the stage.
     const roundLive = state.roundState !== null;
     const nightPending =
-      hasFlag(state, 'rank-r3') && !hasFlag(state, 'wolf-survived-not-won') && !roundLive;
+      hasFlag(state, 'rank-r3') &&
+      !hasFlag(state, 'wolf-survived-not-won') &&
+      !roundLive;
     const atGate = state.location === 'gate';
     toggle(r.nightRow, nightPending && atGate);
     if (roundLive) {
       const def = nightRoundById(state.roundState!.roundId);
       const stage = def?.stages[state.roundState!.stage];
       const foe = stage ? getMob(stage.foe).label : 'the dark';
-      setText(r.nightBlurb, `夜廻 The watch is walking — you face ${foe} at the grain store.`);
+      setText(
+        r.nightBlurb,
+        `夜廻 The watch is walking — you face ${foe} at the grain store.`,
+      );
     } else if (nightPending && !atGate) {
       setText(
         r.nightBlurb,
@@ -427,8 +485,14 @@ export function createActionsView(ctx: {
     if (canWork) {
       const def = ESTATE_STAGES.find((d) => d.stage === state.estateCommission);
       if (def) {
-        setText(r.worksBtn, `Work the repairs 普請 (${state.estateWorkDone} / ${def.workActs})`);
-        setDisabled(r.worksBtn, state.character.satiety < balance.WORKS_ACT_SATIETY);
+        setText(
+          r.worksBtn,
+          `Work the repairs 普請 (${state.estateWorkDone} / ${def.workActs})`,
+        );
+        setDisabled(
+          r.worksBtn,
+          state.character.satiety < balance.WORKS_ACT_SATIETY,
+        );
         r.worksBtn.title =
           state.character.satiety < balance.WORKS_ACT_SATIETY
             ? 'Too spent — rest or eat before working the site.'
@@ -443,17 +507,28 @@ export function createActionsView(ctx: {
     toggle(r.treatRow, treatable);
     if (treatable) {
       const tf = treatForecast(state);
-      setText(r.treatBtn, `Take Sōan's treatment 手当 (−${tf.cost} mon · +${tf.hpGain} HP)`);
-      r.treatBtn.title = 'Sōan cleans and binds the hurt — paid speed, the coin counted once.';
+      setText(
+        r.treatBtn,
+        `Take Sōan's treatment 手当 (−${tf.cost} mon · +${tf.hpGain} HP)`,
+      );
+      r.treatBtn.title =
+        'Sōan cleans and binds the hurt — paid speed, the coin counted once.';
     }
     const restable = canRestSickroom(state);
     toggle(r.restSickRow, restable);
     if (restable) {
       const rf = restSickroomForecast(state);
-      setText(r.restSickBtn, `Rest on the pallet 臥 (the day is spent · +${rf.hpGain} HP)`);
-      r.restSickBtn.title = 'Give the day to the pallet — free and slow; you wake at dawn.';
+      setText(
+        r.restSickBtn,
+        `Rest on the pallet 臥 (the day is spent · +${rf.hpGain} HP)`,
+      );
+      r.restSickBtn.title =
+        'Give the day to the pallet — free and slow; you wake at dawn.';
     }
-    toggle(r.placeStrip, nightPending || roundLive || waged || treatable || restable);
+    toggle(
+      r.placeStrip,
+      nightPending || roundLive || waged || treatable || restable,
+    );
 
     // labour activities, grouped by estate room (each: do-once + auto-repeat toggle). Outer keyed
     // list over the areas that HAVE labour here; each group's rows are an inner keyed list.

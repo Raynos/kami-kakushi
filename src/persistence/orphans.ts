@@ -60,7 +60,8 @@ function liveDialogueLineIds(): ReadonlySet<string> {
 
 function liveRequirementIds(): ReadonlySet<string> {
   const ids = new Set<string>();
-  for (const reqs of Object.values(RUNG_REQUIREMENTS)) for (const r of reqs) ids.add(r.id);
+  for (const reqs of Object.values(RUNG_REQUIREMENTS))
+    for (const r of reqs) ids.add(r.id);
   return ids;
 }
 
@@ -101,7 +102,12 @@ export function findOrphanedIds(state: GameState): OrphanReport {
     new Set(SCENES.map((s) => s.id)),
     'a played scene may replay',
   );
-  add('belongings', state.belongings, BELONGING_IDS, 'a bought belonging vanishes from the home');
+  add(
+    'belongings',
+    state.belongings,
+    BELONGING_IDS,
+    'a bought belonging vanishes from the home',
+  );
   add(
     'marketBought',
     Object.keys(state.marketBought),
@@ -144,7 +150,12 @@ export function findOrphanedIds(state: GameState): OrphanReport {
     WEAPON_IDS,
     'the equipped weapon falls back to the pole',
   );
-  add('location', [state.location], MAP_NODE_IDS, 'the player is teleported to the forecourt');
+  add(
+    'location',
+    [state.location],
+    MAP_NODE_IDS,
+    'the player is teleported to the forecourt',
+  );
 
   return { groups, total: groups.reduce((n, g) => n + g.ids.length, 0) };
 }
@@ -152,5 +163,7 @@ export function findOrphanedIds(state: GameState): OrphanReport {
 /** A compact one-line-per-kind rendering — shared by the console log and the DEV panel. */
 export function formatOrphanReport(report: OrphanReport): string {
   if (report.total === 0) return 'no orphaned ids — this save matches src/';
-  return report.groups.map((g) => `${g.kind}: ${g.ids.join(', ')} — ${g.consequence}`).join('\n');
+  return report.groups
+    .map((g) => `${g.kind}: ${g.ids.join(', ')} — ${g.consequence}`)
+    .join('\n');
 }

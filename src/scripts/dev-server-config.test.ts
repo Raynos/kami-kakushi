@@ -68,7 +68,9 @@ describe('vite dev server — the live playtest is never reloaded (F75/FB-257)',
     // A JS-imported stylesheet is served in dev as a JS module that imports @vite/client — which is
     // how the client (and its reload) reached the page even with the html tag stripped.
     const html = readFileSync('src/index.html', 'utf-8');
-    expect(html).toMatch(/<link[^>]+rel="stylesheet"[^>]+href="\.\/ui\/styles\.css"/);
+    expect(html).toMatch(
+      /<link[^>]+rel="stylesheet"[^>]+href="\.\/ui\/styles\.css"/,
+    );
     const uiIndex = readFileSync('src/ui/index.ts', 'utf-8');
     expect(uiIndex).not.toMatch(/^\s*import\s+['"]\.\/styles\.css['"]/m);
   });

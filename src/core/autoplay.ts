@@ -41,9 +41,19 @@ import { isRequirementDone } from './requirements-engine';
 import { canCraft, getRecipe } from './content/crafting';
 import { hasFlag } from './state';
 import { introActive, introSceneAt } from './content/intro';
-import { promotionReady, pendingPromotionTarget, phaseOf, rungNumber } from './ranks';
+import {
+  promotionReady,
+  pendingPromotionTarget,
+  phaseOf,
+  rungNumber,
+} from './ranks';
 import { estateBuild } from './selectors';
-import { WORKS_PROJECTS, stageOpen, canWorkProject, worksSiteZones } from './works';
+import {
+  WORKS_PROJECTS,
+  stageOpen,
+  canWorkProject,
+  worksSiteZones,
+} from './works';
 import { RUNG_BEATS } from './content/rungBeats';
 
 /** ADR-145 Phase-2 player-model knob (NOT canon): the KURA rice pile (shō) at which the
@@ -91,14 +101,20 @@ export function nextHopToward(
 /** Cheapest (lowest-satiety) rung-eligible labour ANYWHERE reachable, + its node — the focused-
  *  optimal pick under the spatial model. Un-revealed, danger-gated, and unreachable labours are
  *  excluded, so the harness only ever heads for a labour it can actually reach and do. */
-export function cheapestEligibleGlobal(s: GameState): { id: ActivityId; node: string } | null {
+export function cheapestEligibleGlobal(
+  s: GameState,
+): { id: ActivityId; node: string } | null {
   const elig = new Set(getRank(s.rung).eligible);
   const revealed = visibleSet(s);
   const opts = ACTIVITIES.filter((a) => {
     if (!elig.has(a.id)) return false;
     if (!isUnlocked(s, a.surface)) return false;
-    if (a.dangerRing && skillLevel(s, 'conditioning') < CONDITIONING_GATE_LEVEL) return false;
-    return a.area === s.location || nextHopToward(s.location, a.area, revealed) !== null;
+    if (a.dangerRing && skillLevel(s, 'conditioning') < CONDITIONING_GATE_LEVEL)
+      return false;
+    return (
+      a.area === s.location ||
+      nextHopToward(s.location, a.area, revealed) !== null
+    );
   }).sort((a, b) => a.satietyCost - b.satietyCost);
   const best = opts[0];
   return best ? { id: best.id, node: best.area } : null;
@@ -136,7 +152,8 @@ export function autoModeIntent(s: GameState): Intent | null {
   // FB-266 — a VN surface (rung beat / generalized scene / intro) owns the screen: auto
   // PAUSES under it (stays armed, resumes on close) rather than grinding beneath the card.
   // The manual "Answer the summons" press additionally DISARMS via MANUAL_DISARM (main.ts).
-  if (s.rungBeat !== null || s.activeScene !== null || introActive(s.introBeat)) return null;
+  if (s.rungBeat !== null || s.activeScene !== null || introActive(s.introBeat))
+    return null;
   const belowKnee = (): boolean =>
     s.character.satiety < satietyMax(s) * STAMINA_FLAT_ABOVE &&
     availableActions(s).includes('rest');
@@ -148,7 +165,8 @@ export function autoModeIntent(s: GameState): Intent | null {
     const weapon = getWeapon(s.equippedWeapon);
     const band = durabilityBand(s.weaponDurability, weapon.durabilityMax);
     const worn = band.name === 'Battered' || band.name === 'Broken';
-    if (worn && (s.resources.wood ?? 0) >= REPAIR_WOOD_COST) return { type: 'repair_weapon' };
+    if (worn && (s.resources.wood ?? 0) >= REPAIR_WOOD_COST)
+      return { type: 'repair_weapon' };
     if (band.name === 'Broken') {
       return { type: 'set_auto_combat', mobId: null, reason: 'weapon-broken' };
     }
@@ -156,7 +174,8 @@ export function autoModeIntent(s: GameState): Intent | null {
   }
   // auto-rake the R0 cold-open; clears itself once raking is no longer legal (R1).
   if (s.autoRake) {
-    if (!availableActions(s).includes('rake_rice')) return { type: 'set_auto_rake', on: false };
+    if (!availableActions(s).includes('rake_rice'))
+      return { type: 'set_auto_rake', on: false };
     if (rakeExhausted(s)) return { type: 'set_auto_rake', on: false }; // FB-324 — spill exhausted
     if (belowKnee()) return { type: 'rest' };
     return { type: 'rake_rice' };
@@ -185,10 +204,12 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
   if (s.activeScene !== null) {
     const def = sceneById(s.activeScene.id);
     const opts = def?.scene.decision.options ?? [];
-    if (opts.length > 0) return { type: 'choose_scene_option', optionId: opts[0]!.id };
+    if (opts.length > 0)
+      return { type: 'choose_scene_option', optionId: opts[0]!.id };
     return { type: 'advance_scene_beat' };
   }
-  if (s.sceneQueue.length > 0) return { type: 'begin_scene', sceneId: s.sceneQueue[0]! };
+  if (s.sceneQueue.length > 0)
+    return { type: 'begin_scene', sceneId: s.sceneQueue[0]! };
   // (a) answer the intro's VN scenes before working — pick the first closer, deterministically.
   if (introActive(s.introBeat)) {
     const scene = introSceneAt(s.introBeat);
@@ -207,21 +228,28 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
     // rungs deadlock the ladder).
     if (pendingPromotionTarget(s) !== null) return { type: 'begin_rung_beat' };
   }
-  if (s.character.satiety < satietyMax(s) * 0.25 && acts.includes('rest')) return { type: 'rest' };
+  if (s.character.satiety < satietyMax(s) * 0.25 && acts.includes('rest'))
+    return { type: 'rest' };
   if (acts.includes('rake_rice')) return { type: 'rake_rice' };
   // FB-121: drive the CURRENT rung's authored requirement list, in authored order. The
   // Phase-3 policy covers count (act:/kill:) + the R2 flag req — the whole harness reach
   // today (R0→R3); state-predicate driving (coin/belonging/estate) is the Phase-5 sim
   // rework, keyed to each req's `drive:` hint.
   const revealed = visibleSet(s);
-  const unfinished = rungRequirements(s.rung).filter((d) => !isRequirementDone(d, s.rungReqs));
+  const unfinished = rungRequirements(s.rung).filter(
+    (d) => !isRequirementDone(d, s.rungReqs),
+  );
   // G4.3 — the scripted grain-store wolf drive is deleted; the wolf moves to the R3 night round
   // (its 'first-fight-survived' req is driven through the night-round staging in a later chunk).
   // walk-to-then-do one labour act (the shared "go do X" move for every driver below).
   const driveLabour = (id: ActivityId): Intent | null => {
     const act = getActivity(id);
     if (!isUnlocked(s, act.surface)) return null;
-    if (act.dangerRing && skillLevel(s, 'conditioning') < CONDITIONING_GATE_LEVEL) return null;
+    if (
+      act.dangerRing &&
+      skillLevel(s, 'conditioning') < CONDITIONING_GATE_LEVEL
+    )
+      return null;
     if (act.area === s.location && canDoActivity(s, act)) {
       return { type: 'do_activity', activityId: act.id };
     }
@@ -239,7 +267,11 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
     const proj = WORKS_PROJECTS.find((x) => x.stage === stage);
     if (!proj || hasFlag(s, proj.openFlag)) return null;
     if (!hasFlag(s, proj.namedFlag)) {
-      if (proj.namedAtRung === undefined && rungNumber(s.rung) >= 2 && s.location !== 'forecourt') {
+      if (
+        proj.namedAtRung === undefined &&
+        rungNumber(s.rung) >= 2 &&
+        s.location !== 'forecourt'
+      ) {
         const hop = nextHopToward(s.location, 'forecourt', revealed);
         if (hop) return { type: 'move_to', to: hop };
       }
@@ -258,7 +290,8 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
   const driveCommission = (): Intent | null => {
     if (s.estateCommission <= 0) return null;
     if (canWorkProject(s)) {
-      if (s.character.satiety < WORKS_ACT_SATIETY && acts.includes('rest')) return { type: 'rest' };
+      if (s.character.satiety < WORKS_ACT_SATIETY && acts.includes('rest'))
+        return { type: 'rest' };
       return { type: 'work_project' };
     }
     for (const node of worksSiteZones(s.estateCommission)) {
@@ -271,7 +304,8 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
   // on a market day; else the coin-paying haul while the forecourt pool holds, and when it's worked
   // out forage's steady pocket-coin (a SECONDARY yield, NOT pool-limited) keeps the faucet flowing.
   const earnCoin = (): Intent | null => {
-    if (isWaged(s.rung) && s.wageDaysAccrued > 0) return { type: 'collect_wage' };
+    if (isWaged(s.rung) && s.wageDaysAccrued > 0)
+      return { type: 'collect_wage' };
     // ADR-194 — mirror the reducer's no-op guards INCLUDING the merchant: a dry purse or a
     // sagged-to-zero price must not stall the policy loop on no-op sells (B4 closure).
     if (
@@ -317,15 +351,22 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
   const fightToward = (desired: MobId): Intent | null => {
     if (!isUnlocked(s, 'tab-combat')) return null;
     // craft the axe the moment the looted materials allow (a real upgrade over the pole).
-    if (!hasFlag(s, 'crafted-wood_axe') && canCraft(s.resources, getRecipe('craft_wood_axe'))) {
+    if (
+      !hasFlag(s, 'crafted-wood_axe') &&
+      canCraft(s.resources, getRecipe('craft_wood_axe'))
+    ) {
       return { type: 'craft_weapon', recipeId: 'craft_wood_axe' };
     }
     const mend = mendToFull();
     if (mend) return mend;
     // mend a worn blade when the wood allows (a Broken edge grinds losses); else cut the wood.
-    const band = durabilityBand(s.weaponDurability, getWeapon(s.equippedWeapon).durabilityMax);
+    const band = durabilityBand(
+      s.weaponDurability,
+      getWeapon(s.equippedWeapon).durabilityMax,
+    );
     if (band.name === 'Battered' || band.name === 'Broken') {
-      if ((s.resources.wood ?? 0) >= REPAIR_WOOD_COST) return { type: 'repair_weapon' };
+      if ((s.resources.wood ?? 0) >= REPAIR_WOOD_COST)
+        return { type: 'repair_weapon' };
       const cut = driveLabour('woodcut_edge');
       if (cut) return cut;
     }
@@ -342,11 +383,14 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
       const trainable = GRINDABLE_MOBS.filter(
         (m) => m.level <= s.character.level && fightable(m),
       ).sort((a, b) => b.level - a.level);
-      const fallback = GRINDABLE_MOBS.filter(fightable).sort((a, b) => a.level - b.level);
+      const fallback = GRINDABLE_MOBS.filter(fightable).sort(
+        (a, b) => a.level - b.level,
+      );
       mob = trainable[0]?.id ?? fallback[0]?.id ?? null;
     }
     if (mob === null) return null;
-    if (getMob(mob).area === s.location) return { type: 'fight', mobId: mob, retreat: false };
+    if (getMob(mob).area === s.location)
+      return { type: 'fight', mobId: mob, retreat: false };
     const hop = nextHopToward(s.location, getMob(mob).area, revealed);
     return hop ? { type: 'move_to', to: hop } : null;
   };
@@ -355,7 +399,8 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
     const [verb, subject] = req.token.split(':') as [string, string];
     if (verb === 'act' && subject === 'repair_weapon') {
       // the R4 mend: cut the wood if short, then repair (the reducer waives the coin fee broke).
-      if ((s.resources.wood ?? 0) >= REPAIR_WOOD_COST) return { type: 'repair_weapon' };
+      if ((s.resources.wood ?? 0) >= REPAIR_WOOD_COST)
+        return { type: 'repair_weapon' };
       const cut = driveLabour('woodcut_edge');
       if (cut) return cut;
       continue;
@@ -464,7 +509,8 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
         return { type: 'rest' };
       const mend = mendToFull();
       if (mend) return mend;
-      if (s.roundState === null) return { type: 'begin_night_round', roundId: 'first-night-round' };
+      if (s.roundState === null)
+        return { type: 'begin_night_round', roundId: 'first-night-round' };
       continue; // a round is live — the driver loop resolves its stages this step
     }
     if (req.flag === 'nengu-reckoned') {
@@ -515,13 +561,17 @@ export function focusedOptimalIntent(s: GameState): Intent | null {
     //      unjudged Estate growth has banked (so the reckoning always pays a real bonus — never a
     //      0-bonus no-op loop, since advance_season is instant — and the deed-grind is never
     //      starved). Rice is sold first (above), so the spoilage riding the turn bites little.
-    if (s.influence.estate.highWater - s.influence.estate.judged >= PHASE2_SEASON_COLLECT_KOKU) {
+    if (
+      s.influence.estate.highWater - s.influence.estate.judged >=
+      PHASE2_SEASON_COLLECT_KOKU
+    ) {
       return { type: 'advance_season' };
     }
     // (3) rotate the estate-relevant earners — fields on even days, stores on odd.
     const rotated = s.clock.day % 2 === 0 ? 'farm_paddy' : 'haul_stores';
     const go =
-      driveLabour(rotated) ?? driveLabour(rotated === 'farm_paddy' ? 'haul_stores' : 'farm_paddy');
+      driveLabour(rotated) ??
+      driveLabour(rotated === 'farm_paddy' ? 'haul_stores' : 'farm_paddy');
     if (go) return go;
     // neither earner reachable — fall through to the generic pool rather than stall.
   }

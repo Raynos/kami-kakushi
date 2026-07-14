@@ -23,7 +23,11 @@ export interface SaveEnvelope {
   readonly state: GameState;
 }
 
-export function makeEnvelope(state: GameState, saveCounter: number, savedAt: number): SaveEnvelope {
+export function makeEnvelope(
+  state: GameState,
+  saveCounter: number,
+  savedAt: number,
+): SaveEnvelope {
   return {
     app: APP_ID,
     schemaVersion: SCHEMA_VERSION,
@@ -44,7 +48,8 @@ export function decodeEnvelope(raw: string): unknown {
 
 // UTF-8-safe base64 (macrons + kanji survive) — works in browser (btoa/atob) and Node (Buffer).
 export function toBase64(str: string): string {
-  if (typeof Buffer !== 'undefined') return Buffer.from(str, 'utf-8').toString('base64');
+  if (typeof Buffer !== 'undefined')
+    return Buffer.from(str, 'utf-8').toString('base64');
   const bytes = new TextEncoder().encode(str);
   let bin = '';
   for (const b of bytes) bin += String.fromCharCode(b);
@@ -52,7 +57,8 @@ export function toBase64(str: string): string {
 }
 
 export function fromBase64(b64: string): string {
-  if (typeof Buffer !== 'undefined') return Buffer.from(b64, 'base64').toString('utf-8');
+  if (typeof Buffer !== 'undefined')
+    return Buffer.from(b64, 'base64').toString('utf-8');
   const bin = atob(b64);
   const bytes = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
@@ -83,7 +89,10 @@ const GZIP_PREFIX = 'KKgz1:';
 
 async function pipeBytes(
   bytes: Uint8Array,
-  ts: { readable: ReadableStream<Uint8Array>; writable: WritableStream<BufferSource> },
+  ts: {
+    readable: ReadableStream<Uint8Array>;
+    writable: WritableStream<BufferSource>;
+  },
 ): Promise<Uint8Array> {
   const writer = ts.writable.getWriter();
   // A Uint8Array IS a BufferSource at runtime; the cast sidesteps TS's ArrayBufferLike
@@ -109,14 +118,16 @@ async function pipeBytes(
 }
 
 function bytesToBase64(bytes: Uint8Array): string {
-  if (typeof Buffer !== 'undefined') return Buffer.from(bytes).toString('base64');
+  if (typeof Buffer !== 'undefined')
+    return Buffer.from(bytes).toString('base64');
   let bin = '';
   for (const b of bytes) bin += String.fromCharCode(b);
   return btoa(bin);
 }
 
 function base64ToBytes(b64: string): Uint8Array {
-  if (typeof Buffer !== 'undefined') return new Uint8Array(Buffer.from(b64, 'base64'));
+  if (typeof Buffer !== 'undefined')
+    return new Uint8Array(Buffer.from(b64, 'base64'));
   const bin = atob(b64);
   const bytes = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
@@ -142,7 +153,10 @@ function stripLogEntry(e: LogEntry): unknown {
 /** Rebuild a keyed entry's `text` from the registry, in pushLog's canonical field order so a
  *  save→load round-trip stays byte-identical. A keyless entry passes through unchanged. */
 function rehydrateLogEntry(raw: unknown): unknown {
-  const e = raw as Partial<LogEntry> & { contentKey?: string; params?: LogParams };
+  const e = raw as Partial<LogEntry> & {
+    contentKey?: string;
+    params?: LogParams;
+  };
   if (e.contentKey === undefined && e.contextKey === undefined) return raw;
   let text = e.text ?? '';
   if (e.contentKey !== undefined) {

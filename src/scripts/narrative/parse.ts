@@ -87,7 +87,11 @@ export interface OptionNode {
   react?: ProseLine;
   memory?: MemoryEffect[];
   flags?: string[];
-  bonus?: { readonly amount: number; readonly attr: string; readonly note: string };
+  bonus?: {
+    readonly amount: number;
+    readonly attr: string;
+    readonly note: string;
+  };
   stance?: string;
   /** Intro-only: `stat: +int -str` (the net-zero lean). */
   stat?: { readonly up: string; readonly down: string };
@@ -160,7 +164,10 @@ export function parseSceneTrigger(
   if (s === 'season-exit' || s.startsWith('season-exit ')) {
     const season = s.slice('season-exit'.length).trim();
     if (!season)
-      return { ok: false, reason: 'season-exit trigger needs a season (season-exit <season>)' };
+      return {
+        ok: false,
+        reason: 'season-exit trigger needs a season (season-exit <season>)',
+      };
     return { ok: true, trigger: { kind: 'season-exit', season } };
   }
   if (s === 'flag' || s.startsWith('flag ')) {
@@ -244,10 +251,22 @@ export type ReqSpec =
   | {
       readonly type: 'state';
       readonly pred:
-        | { readonly kind: 'resource'; readonly res: string; readonly min: number }
-        | { readonly kind: 'banked'; readonly res: string; readonly min: number }
+        | {
+            readonly kind: 'resource';
+            readonly res: string;
+            readonly min: number;
+          }
+        | {
+            readonly kind: 'banked';
+            readonly res: string;
+            readonly min: number;
+          }
         | { readonly kind: 'belonging'; readonly id: string }
-        | { readonly kind: 'skill'; readonly skill: string; readonly min: number }
+        | {
+            readonly kind: 'skill';
+            readonly skill: string;
+            readonly min: number;
+          }
         | { readonly kind: 'native'; readonly key: string };
     };
 
@@ -285,7 +304,9 @@ export interface NarrativeDoc {
 }
 
 /** The rung/intro scenes of a doc (the common scene shape). */
-export function scenesOf(doc: NarrativeDoc): (RungSceneNode | IntroSceneNode)[] {
+export function scenesOf(
+  doc: NarrativeDoc,
+): (RungSceneNode | IntroSceneNode)[] {
   return doc.blocks.filter((b) => b.kind === 'rung' || b.kind === 'scene');
 }
 
@@ -353,10 +374,16 @@ function parseMemory(raw: string, loc: Loc): MemoryEffect[] {
 }
 
 /** Parse `bonus: +1 agi — "…delight line…"`. */
-function parseBonus(raw: string, loc: Loc): { amount: number; attr: string; note: string } {
+function parseBonus(
+  raw: string,
+  loc: Loc,
+): { amount: number; attr: string; note: string } {
   const m = /^\+(\d+) ([a-z]+) — "(.+)"$/.exec(raw);
   if (!m) {
-    throw new NarrativeError(loc, `bad bonus "${raw}" — expected '+N <attr> — "<note>"'`);
+    throw new NarrativeError(
+      loc,
+      `bad bonus "${raw}" — expected '+N <attr> — "<note>"'`,
+    );
   }
   return { amount: Number(m[1]), attr: m[2]!, note: m[3]! };
 }
@@ -364,21 +391,35 @@ function parseBonus(raw: string, loc: Loc): { amount: number; attr: string; note
 /** Parse `stat: +int -str` (accepts ASCII '-' and U+2212 '−'). */
 function parseStat(raw: string, loc: Loc): { up: string; down: string } {
   const m = /^\+([a-z]+) [-−]([a-z]+)$/.exec(raw.trim());
-  if (!m) throw new NarrativeError(loc, `bad stat "${raw}" — expected "+<attr> -<attr>"`);
+  if (!m)
+    throw new NarrativeError(
+      loc,
+      `bad stat "${raw}" — expected "+<attr> -<attr>"`,
+    );
   return { up: m[1]!, down: m[2]! };
 }
 
 /** Parse `perk: <Name> — <desc>`. */
 function parsePerk(raw: string, loc: Loc): { name: string; desc: string } {
   const m = /^(.+?) — (.+)$/.exec(raw);
-  if (!m) throw new NarrativeError(loc, `bad perk "${raw}" — expected "<Name> — <desc>"`);
+  if (!m)
+    throw new NarrativeError(
+      loc,
+      `bad perk "${raw}" — expected "<Name> — <desc>"`,
+    );
   return { name: m[1]!, desc: m[2]! };
 }
 
 /** Parse `when: raked` | `when: soan.regard is grateful` | `when: soan.regard not grateful`. */
 function parseWhen(raw: string, loc: Loc): WhenGate {
   const mem = /^([a-z-]+)\.regard (is|not) (\S+)$/.exec(raw.trim());
-  if (mem) return { type: 'regard', npc: mem[1]!, op: mem[2] as 'is' | 'not', value: mem[3]! };
+  if (mem)
+    return {
+      type: 'regard',
+      npc: mem[1]!,
+      op: mem[2] as 'is' | 'not',
+      value: mem[3]!,
+    };
   const flag = /^([a-z][a-z0-9-]*)$/.exec(raw.trim());
   if (flag) return { type: 'flag', flag: flag[1]! };
   throw new NarrativeError(
@@ -395,7 +436,8 @@ function parseReqSpec(raw: string, loc: Loc): ReqSpec {
   let m = /^count ([a-z_]+:[a-z0-9_-]+) (\d+)$/.exec(spec);
   if (m) {
     const target = Number(m[2]);
-    if (target < 1) throw new NarrativeError(loc, `count target must be ≥ 1 (got ${target})`);
+    if (target < 1)
+      throw new NarrativeError(loc, `count target must be ≥ 1 (got ${target})`);
     return { type: 'count', token: m[1]!, target };
   }
   m = /^flag ([a-z][a-z0-9-]*)$/.exec(spec);
@@ -408,7 +450,11 @@ function parseReqSpec(raw: string, loc: Loc): ReqSpec {
   m = /^state belonging ([a-z0-9_-]+)$/.exec(spec);
   if (m) return { type: 'state', pred: { kind: 'belonging', id: m[1]! } };
   m = /^state skill ([a-z_]+) >= (\d+)$/.exec(spec);
-  if (m) return { type: 'state', pred: { kind: 'skill', skill: m[1]!, min: Number(m[2]) } };
+  if (m)
+    return {
+      type: 'state',
+      pred: { kind: 'skill', skill: m[1]!, min: Number(m[2]) },
+    };
   m = /^native ([a-z0-9-]+)$/.exec(spec);
   if (m) return { type: 'state', pred: { kind: 'native', key: m[1]! } };
   throw new NarrativeError(
@@ -422,14 +468,18 @@ function parseReqSpec(raw: string, loc: Loc): ReqSpec {
 /** True when `text`, placed at column 0, would be re-classified as a structural marker —
  *  used by writers/wrappers to avoid a hard-wrap landing on an ambiguous continuation line. */
 export function looksLikeMarker(text: string): boolean {
-  if (text.startsWith('>') || text.startsWith('#') || text.startsWith('<!--')) return true;
+  if (text.startsWith('>') || text.startsWith('#') || text.startsWith('<!--'))
+    return true;
   const ann = RE_ANNOTATION.exec(text);
   if (ann && RESERVED.has(ann[1]!)) return true;
   return RE_SPEECH.test(text);
 }
 
 type OpenPara =
-  | { type: 'prose'; node: { kind: 'narr' | 'speech'; text: string } & Record<string, unknown> }
+  | {
+      type: 'prose';
+      node: { kind: 'narr' | 'speech'; text: string } & Record<string, unknown>;
+    }
   | { type: 'plain'; text: string; loc: Loc } // dialogue-line / prose-entry body text
   | { type: 'annotation'; key: string; value: string; loc: Loc };
 
@@ -499,14 +549,20 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
       if (dline) {
         dline.text = dline.text === '' ? o.text : `${dline.text}\n${o.text}`;
         if (dline.text.includes('\n')) {
-          return fail(o.loc.line, 'a dialogue line takes exactly one paragraph');
+          return fail(
+            o.loc.line,
+            'a dialogue line takes exactly one paragraph',
+          );
         }
       } else if (pentry) {
         if (pentry.text !== '')
           return fail(o.loc.line, 'a prose entry takes exactly one paragraph');
         pentry.text = o.text;
       } else {
-        return fail(o.loc.line, 'plain prose outside a dialogue line / prose entry');
+        return fail(
+          o.loc.line,
+          'plain prose outside a dialogue line / prose entry',
+        );
       }
       return;
     }
@@ -523,29 +579,44 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
                 // (stamped as the log `context`, splitting the cold open into act cards).
                 ['speaker', 'voice', 'title'];
         if (!known.includes(key)) {
-          return fail(loc.line, `unknown scene meta key "${key}" (${known.join('/')})`);
+          return fail(
+            loc.line,
+            `unknown scene meta key "${key}" (${known.join('/')})`,
+          );
         }
-        if (scene.meta.has(key)) return fail(loc.line, `duplicate scene meta "${key}"`);
+        if (scene.meta.has(key))
+          return fail(loc.line, `duplicate scene meta "${key}"`);
         scene.meta.set(key, { value, loc });
       } else if (section === 'dialogue' && dialogue) {
-        if (key !== 'unrouted') return fail(loc.line, `unknown dialogue meta key "${key}"`);
+        if (key !== 'unrouted')
+          return fail(loc.line, `unknown dialogue meta key "${key}"`);
         dialogue.unrouted = value.trim();
       } else if (section === 'dialogue-line' && dline) {
         if (key === 'voice') dline.voice = value.trim();
         else if (key === 'when') dline.when = parseWhen(value, loc);
-        else return fail(loc.line, `unknown dialogue-line key "${key}" (voice/when)`);
+        else
+          return fail(
+            loc.line,
+            `unknown dialogue-line key "${key}" (voice/when)`,
+          );
       } else if (section === 'req-entry' && rentry) {
         if (key === 'flavor') {
-          if (rentry.flavor !== undefined) return fail(loc.line, 'duplicate req flavor');
+          if (rentry.flavor !== undefined)
+            return fail(loc.line, 'duplicate req flavor');
           rentry.flavor = value.trim();
         } else if (key === 'objective') {
-          if (rentry.objective !== undefined) return fail(loc.line, 'duplicate req objective');
+          if (rentry.objective !== undefined)
+            return fail(loc.line, 'duplicate req objective');
           rentry.objective = value.trim();
         } else if (key === 'drive') {
-          if (rentry.drive !== undefined) return fail(loc.line, 'duplicate req drive');
+          if (rentry.drive !== undefined)
+            return fail(loc.line, 'duplicate req drive');
           rentry.drive = value.trim();
         } else {
-          return fail(loc.line, `unknown req annotation "${key}" (flavor/objective/drive)`);
+          return fail(
+            loc.line,
+            `unknown req annotation "${key}" (flavor/objective/drive)`,
+          );
         }
       } else if (option) {
         switch (key) {
@@ -574,7 +645,8 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
             return fail(loc.line, `unknown option annotation "${key}"`);
         }
       } else if (topic && section === 'topic') {
-        if (key !== 'after') return fail(loc.line, `unknown topic annotation "${key}"`);
+        if (key !== 'after')
+          return fail(loc.line, `unknown topic annotation "${key}"`);
         topic.after = value.trim();
       } else {
         return fail(loc.line, `annotation "${key}" in an unexpected position`);
@@ -585,14 +657,20 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     const node = o.node as unknown as ProseLine;
     if (option) {
       if (option.react)
-        return fail(node.loc.line, `option "${option.id}" already has a react line`);
+        return fail(
+          node.loc.line,
+          `option "${option.id}" already has a react line`,
+        );
       option.react = node;
     } else if (topic && section === 'topic') {
       topic.answer.push(node);
     } else if (scene && (section === 'greeting' || section === 'meta')) {
       scene.greeting.push(node);
     } else {
-      return fail(node.loc.line, 'prose in an unexpected position (before any scene?)');
+      return fail(
+        node.loc.line,
+        'prose in an unexpected position (before any scene?)',
+      );
     }
   };
 
@@ -611,7 +689,10 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
       const idM = RE_LINE_ID.exec(raw.trim());
       if (idM) {
         if (pendingId !== undefined) {
-          return fail(n, `line-id "#${pendingId}" has no prose line under it`) as never;
+          return fail(
+            n,
+            `line-id "#${pendingId}" has no prose line under it`,
+          ) as never;
         }
         pendingId = idM[1]!;
         continue;
@@ -628,7 +709,11 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
 
     // Indented line → continuation of whatever is open.
     if (/^\s/.test(raw)) {
-      if (!open) return fail(n, 'indented continuation with nothing open above it') as never;
+      if (!open)
+        return fail(
+          n,
+          'indented continuation with nothing open above it',
+        ) as never;
       if (open.type === 'annotation') open.value += ' ' + raw.trim();
       else if (open.type === 'plain') open.text += ' ' + raw.trim();
       else open.node.text += ' ' + raw.trim();
@@ -640,7 +725,10 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     // labelled nothing (a rename that outran its line, a deleted block). Loud, never silent — a
     // dropped id is a log entry that will orphan on the next load.
     if (pendingId !== undefined && raw.startsWith('#')) {
-      return fail(n, `line-id "#${pendingId}" has no prose line under it`) as never;
+      return fail(
+        n,
+        `line-id "#${pendingId}" has no prose line under it`,
+      ) as never;
     }
     const rungM = RE_RUNG.exec(raw);
     const sceneDefM = RE_SCENEDEF.exec(raw);
@@ -704,7 +792,12 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     if (proseM) {
       close();
       resetBlock();
-      prose = { kind: 'prose', id: proseM[1]!, entries: [], loc: { file, line: n } };
+      prose = {
+        kind: 'prose',
+        id: proseM[1]!,
+        entries: [],
+        loc: { file, line: n },
+      };
       blocks.push(prose);
       section = 'prose';
       continue;
@@ -713,12 +806,18 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     if (reqsM) {
       close();
       resetBlock();
-      reqs = { kind: 'requirements', rankKey: reqsM[1]!, reqs: [], loc: { file, line: n } };
+      reqs = {
+        kind: 'requirements',
+        rankKey: reqsM[1]!,
+        reqs: [],
+        loc: { file, line: n },
+      };
       blocks.push(reqs);
       section = 'requirements';
       continue;
     }
-    if (raw.startsWith('## ')) return fail(n, `unrecognized block heading "${raw}"`) as never;
+    if (raw.startsWith('## '))
+      return fail(n, `unrecognized block heading "${raw}"`) as never;
 
     // ── sub-headings ──
     if (dialogue) {
@@ -731,7 +830,10 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
         continue;
       }
       if (raw.startsWith('#'))
-        return fail(n, `unrecognized heading in a dialogue def: "${raw}"`) as never;
+        return fail(
+          n,
+          `unrecognized heading in a dialogue def: "${raw}"`,
+        ) as never;
     }
     if (reqs) {
       const reqM = RE_REQ.exec(raw);
@@ -744,7 +846,10 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
         continue;
       }
       if (raw.startsWith('#'))
-        return fail(n, `unrecognized heading in a requirements block: "${raw}"`) as never;
+        return fail(
+          n,
+          `unrecognized heading in a requirements block: "${raw}"`,
+        ) as never;
     }
     if (prose) {
       const keyM = RE_KEY.exec(raw);
@@ -756,15 +861,24 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
         continue;
       }
       if (raw.startsWith('#'))
-        return fail(n, `unrecognized heading in a prose block: "${raw}"`) as never;
+        return fail(
+          n,
+          `unrecognized heading in a prose block: "${raw}"`,
+        ) as never;
     }
 
     const topicM = RE_TOPIC.exec(raw);
     if (topicM) {
       close();
       if (!scene) return fail(n, 'topic outside a scene') as never;
-      if (section === 'decision') return fail(n, 'ask-topic after the decide block') as never;
-      topic = { id: topicM[1]!, label: topicM[2]!, answer: [], loc: { file, line: n } };
+      if (section === 'decision')
+        return fail(n, 'ask-topic after the decide block') as never;
+      topic = {
+        id: topicM[1]!,
+        label: topicM[2]!,
+        answer: [],
+        loc: { file, line: n },
+      };
       scene.topics.push(topic);
       section = 'topic';
       continue;
@@ -774,8 +888,13 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     if (decideM) {
       close();
       if (!scene) return fail(n, 'decide outside a scene') as never;
-      if (scene.decision) return fail(n, 'a scene takes exactly one decide block') as never;
-      scene.decision = { prompt: decideM[1]!, options: [], loc: { file, line: n } };
+      if (scene.decision)
+        return fail(n, 'a scene takes exactly one decide block') as never;
+      scene.decision = {
+        prompt: decideM[1]!,
+        options: [],
+        loc: { file, line: n },
+      };
       section = 'decision';
       topic = undefined;
       option = undefined;
@@ -785,12 +904,14 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     const optionM = RE_OPTION.exec(raw);
     if (optionM) {
       close();
-      if (!scene?.decision) return fail(n, 'option outside a decide block') as never;
+      if (!scene?.decision)
+        return fail(n, 'option outside a decide block') as never;
       option = { id: optionM[1]!, label: optionM[2]!, loc: { file, line: n } };
       scene.decision.options.push(option);
       continue;
     }
-    if (raw.startsWith('#')) return fail(n, `unrecognized heading "${raw}"`) as never;
+    if (raw.startsWith('#'))
+      return fail(n, `unrecognized heading "${raw}"`) as never;
 
     // ── body text ──
     // Dialogue-line / prose-entry bodies are PLAIN prose: no speech classification
@@ -799,7 +920,12 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
       const annM = RE_ANNOTATION.exec(raw);
       if (annM && RESERVED.has(annM[1]!) && open?.type !== 'plain') {
         close();
-        open = { type: 'annotation', key: annM[1]!, value: annM[2]!, loc: { file, line: n } };
+        open = {
+          type: 'annotation',
+          key: annM[1]!,
+          value: annM[2]!,
+          loc: { file, line: n },
+        };
         continue;
       }
       if (open?.type === 'plain') open.text += ' ' + raw.trim();
@@ -818,7 +944,12 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
         close();
         open = {
           type: 'prose',
-          node: { kind: 'narr', text: narrM[1]!, ...takeId(), loc: { file, line: n } },
+          node: {
+            kind: 'narr',
+            text: narrM[1]!,
+            ...takeId(),
+            loc: { file, line: n },
+          },
         };
       }
       continue;
@@ -829,7 +960,12 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
       close();
       open = {
         type: 'prose',
-        node: { kind: 'narr', text: raw.trim(), ...takeId(), loc: { file, line: n } },
+        node: {
+          kind: 'narr',
+          text: raw.trim(),
+          ...takeId(),
+          loc: { file, line: n },
+        },
       };
       continue;
     }
@@ -837,7 +973,12 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
     const annM = RE_ANNOTATION.exec(raw);
     if (annM && RESERVED.has(annM[1]!)) {
       close();
-      open = { type: 'annotation', key: annM[1]!, value: annM[2]!, loc: { file, line: n } };
+      open = {
+        type: 'annotation',
+        key: annM[1]!,
+        value: annM[2]!,
+        loc: { file, line: n },
+      };
       continue;
     }
 
@@ -878,12 +1019,17 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
   // option reacts; dialogue lines and prose entries carry text.
   for (const b of blocks) {
     if (b.kind === 'rung' || b.kind === 'scene') {
-      if (!b.decision) throw new NarrativeError(b.loc, `scene "${b.id}" has no decide block`);
+      if (!b.decision)
+        throw new NarrativeError(b.loc, `scene "${b.id}" has no decide block`);
       if (b.decision.options.length === 0) {
-        throw new NarrativeError(b.decision.loc, `scene "${b.id}" decide block has no options`);
+        throw new NarrativeError(
+          b.decision.loc,
+          `scene "${b.id}" decide block has no options`,
+        );
       }
       for (const o of b.decision.options) {
-        if (!o.react) throw new NarrativeError(o.loc, `option "${o.id}" has no react line`);
+        if (!o.react)
+          throw new NarrativeError(o.loc, `option "${o.id}" has no react line`);
       }
     } else if (b.kind === 'scene-def') {
       // A scene-def's decision is OPTIONAL (a decision-less scene-def is the narration-only
@@ -897,27 +1043,45 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
           );
         }
         for (const o of b.decision.options) {
-          if (!o.react) throw new NarrativeError(o.loc, `option "${o.id}" has no react line`);
+          if (!o.react)
+            throw new NarrativeError(
+              o.loc,
+              `option "${o.id}" has no react line`,
+            );
         }
       }
     } else if (b.kind === 'dialogue') {
       for (const l of b.lines) {
-        if (l.text === '') throw new NarrativeError(l.loc, `dialogue line "${l.id}" has no text`);
+        if (l.text === '')
+          throw new NarrativeError(
+            l.loc,
+            `dialogue line "${l.id}" has no text`,
+          );
       }
     } else if (b.kind === 'requirements') {
       if (b.reqs.length === 0) {
-        throw new NarrativeError(b.loc, `requirements ${b.rankKey} lists no requirements`);
+        throw new NarrativeError(
+          b.loc,
+          `requirements ${b.rankKey} lists no requirements`,
+        );
       }
       for (const r of b.reqs) {
-        if (!r.flavor) throw new NarrativeError(r.loc, `req "${r.id}" has no flavor line`);
+        if (!r.flavor)
+          throw new NarrativeError(r.loc, `req "${r.id}" has no flavor line`);
         // HD-41 — the Progress tab shows the work, not the story prose: every requirement
         // states the labour it just finished (the Story keeps the overheard flavor line).
-        if (!r.objective) throw new NarrativeError(r.loc, `req "${r.id}" has no objective line`);
-        if (!r.drive) throw new NarrativeError(r.loc, `req "${r.id}" has no drive hint`);
+        if (!r.objective)
+          throw new NarrativeError(
+            r.loc,
+            `req "${r.id}" has no objective line`,
+          );
+        if (!r.drive)
+          throw new NarrativeError(r.loc, `req "${r.id}" has no drive hint`);
       }
     } else {
       for (const e of b.entries) {
-        if (e.text === '') throw new NarrativeError(e.loc, `prose entry "${e.key}" has no text`);
+        if (e.text === '')
+          throw new NarrativeError(e.loc, `prose entry "${e.key}" has no text`);
       }
     }
   }

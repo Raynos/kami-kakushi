@@ -82,7 +82,8 @@ export function parseStatusToken(content: string): PlanStatus | null {
   // Only the space-separated "IN PROGRESS" two-worder folds into the canonical
   // token; every other status is a single leading word (so "SUPERSEDED by FB-2"
   // parses as SUPERSEDED, not SUPERSEDED-BY).
-  if (token === 'IN' && /^\s+PROGRESS\b/i.test(s.slice(m[0].length))) token = 'IN-PROGRESS';
+  if (token === 'IN' && /^\s+PROGRESS\b/i.test(s.slice(m[0].length)))
+    token = 'IN-PROGRESS';
   return { token, archivable: ARCHIVABLE.has(token) };
 }
 
@@ -155,7 +156,9 @@ function invalidTokenPlans(): Array<{ file: string; token: string | null }> {
  *  hard block day-one would collide with "don't fight someone else's red" (§3.2).
  *  Promotion WARN->block is DEFERRED to the human after a clean soak week. */
 function unArchivedDonePlans(): string[] {
-  return planFiles().filter((f) => parseStatusToken(read(`${PLANS_DIR}/${f}`))?.archivable);
+  return planFiles().filter(
+    (f) => parseStatusToken(read(`${PLANS_DIR}/${f}`))?.archivable,
+  );
 }
 
 // --- stale BACKLOG plan-pointer guard (human, 2026-07-07) ---------------------
@@ -187,7 +190,10 @@ export function extractPlanRefs(text: string): string[] {
 /** Of the plan paths referenced in `backlogText`, those whose file is ABSENT
  *  (archived / moved / deleted) — the stale pointers BACKLOG must not keep.
  *  Pure: `exists` (repo-relative → bool) is injected so it is RED-able. */
-export function stalePlanRefs(backlogText: string, exists: (rel: string) => boolean): string[] {
+export function stalePlanRefs(
+  backlogText: string,
+  exists: (rel: string) => boolean,
+): string[] {
   return extractPlanRefs(backlogText).filter((p) => !exists(p));
 }
 
@@ -214,7 +220,13 @@ const LINK_SCAN_ROOTS = [
   'project/human-in-the-loop',
   'project/todo-human.md',
 ];
-const LINK_EXCLUDE = new Set(['node_modules', '.git', 'dist', 'tmp', 'worktrees']);
+const LINK_EXCLUDE = new Set([
+  'node_modules',
+  '.git',
+  'dist',
+  'tmp',
+  'worktrees',
+]);
 const LINK_RE = /\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
 const LINK_SKIP = /^(https?:|mailto:|tel:|data:|#|<)/i;
 
@@ -271,7 +283,11 @@ export function relinkTarget(
  *  (found the hard way archiving the process-wave master plan; md-links
  *  caught the dead target). The text cannot contain `]` (LINK_RE), so the
  *  first `](` is the text/target boundary — splice by position. */
-export function replaceLinkTarget(whole: string, tgt: string, next: string): string {
+export function replaceLinkTarget(
+  whole: string,
+  tgt: string,
+  next: string,
+): string {
   const sep = whole.indexOf('](') + 2;
   return whole.slice(0, sep) + next + whole.slice(sep + tgt.length);
 }
@@ -279,7 +295,11 @@ export function replaceLinkTarget(whole: string, tgt: string, next: string): str
 /** Rewrite the backticked plan path in the reading queue to its archive path and
  *  tag it `(archived — done)` — KEEP the entry (ADR-089: removal is human judgment).
  *  Pure string transform. Idempotent (won't double-tag). */
-export function rewriteQueuePath(queue: string, oldRel: string, newRel: string): string {
+export function rewriteQueuePath(
+  queue: string,
+  oldRel: string,
+  newRel: string,
+): string {
   const escaped = oldRel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   return queue.replace(
     new RegExp('`' + escaped + '`(?!\\s*\\(archived)', 'g'),
@@ -297,7 +317,11 @@ interface Move {
 /** Move every archivable plan and fix up links + queue. Returns what it did.
  *  With `stage`, records the moves/edits in the index (git mv + git add) — else
  *  writes to disk only, staging nothing (shared-tree default). */
-function archiveDonePlans(stage: boolean): { moves: Move[]; relinked: string[]; queued: boolean } {
+function archiveDonePlans(stage: boolean): {
+  moves: Move[];
+  relinked: string[];
+  queued: boolean;
+} {
   const moves: Move[] = [];
   for (const f of planFiles()) {
     const st = parseStatusToken(read(`${PLANS_DIR}/${f}`));
@@ -313,7 +337,8 @@ function archiveDonePlans(stage: boolean): { moves: Move[]; relinked: string[]; 
 
   // 1) move the files
   for (const m of moves) {
-    if (stage) execFileSync('git', ['mv', m.oldRel, m.newRel], { cwd: repoRoot });
+    if (stage)
+      execFileSync('git', ['mv', m.oldRel, m.newRel], { cwd: repoRoot });
     else renameSync(m.oldAbs, m.newAbs);
   }
   // 2) rewrite intra-repo markdown links pointing at any moved plan
@@ -330,7 +355,10 @@ function archiveDonePlans(stage: boolean): { moves: Move[]; relinked: string[]; 
     if (after !== before) {
       writeFileSync(fileAbs, after, 'utf-8');
       relinked.push(relative(repoRoot, fileAbs));
-      if (stage) execFileSync('git', ['add', '--', relative(repoRoot, fileAbs)], { cwd: repoRoot });
+      if (stage)
+        execFileSync('git', ['add', '--', relative(repoRoot, fileAbs)], {
+          cwd: repoRoot,
+        });
     }
   }
   // 3) rewrite the reading-queue backticked path (keep + tag)
@@ -410,7 +438,9 @@ export function fillJournalSkeleton(
   const bStart = template.indexOf('SHAPE B');
   const afterA = template.indexOf('-->', aStart);
   if (aStart < 0 || bStart < 0 || afterA < 0)
-    throw new Error('checkpoint: _TEMPLATE.md is missing its SHAPE A / SHAPE B markers.');
+    throw new Error(
+      'checkpoint: _TEMPLATE.md is missing its SHAPE A / SHAPE B markers.',
+    );
   const block = template
     .slice(afterA + 3, bStart)
     .replace(/<!--[\s\S]*?-->\s*$/, '')
@@ -426,11 +456,15 @@ export function fillJournalSkeleton(
 /** Create the skeleton file. Returns its repo-relative path, or throws if the
  *  target already exists (never touches an existing journal file). */
 function scaffoldJournal(topic: string): string {
-  const names = readdirSync(abs(JOURNAL_DIR)).filter((f) => /-session-\d+/.test(f));
+  const names = readdirSync(abs(JOURNAL_DIR)).filter((f) =>
+    /-session-\d+/.test(f),
+  );
   const nn = nextSessionNumber(names);
   const rel = `${JOURNAL_DIR}/${today()}-session-${nn}-${slugify(topic)}.md`;
   if (existsSync(abs(rel)))
-    throw new Error(`checkpoint --journal: refusing to touch an existing file: ${rel}`);
+    throw new Error(
+      `checkpoint --journal: refusing to touch an existing file: ${rel}`,
+    );
   const body = fillJournalSkeleton(read(JOURNAL_TEMPLATE), nn, today(), topic);
   writeFileSync(abs(rel), body, 'utf-8');
   return rel;
@@ -444,9 +478,21 @@ interface RegionSpec {
   gen: () => string;
 }
 const REGIONS: ReadonlyArray<RegionSpec> = [
-  { file: 'project/status/project-status.md', id: 'gate-roster', gen: genGateRoster },
-  { file: 'project/status/project-status.md', id: 'resume-journal', gen: genResumeJournal },
-  { file: 'project/status/working-agreements.md', id: 'gate-roster', gen: genGateRoster },
+  {
+    file: 'project/status/project-status.md',
+    id: 'gate-roster',
+    gen: genGateRoster,
+  },
+  {
+    file: 'project/status/project-status.md',
+    id: 'resume-journal',
+    gen: genResumeJournal,
+  },
+  {
+    file: 'project/status/working-agreements.md',
+    id: 'gate-roster',
+    gen: genGateRoster,
+  },
   { file: 'docs/plans/README.md', id: 'active-plans', gen: genActivePlans },
 ];
 
@@ -484,20 +530,35 @@ function runCli(): void {
     const staleRefs = staleBacklogRefs();
     if (bad.length || stale.length || staleRefs.length) {
       if (bad.length) {
-        console.error('  X checkpoint --check FAILED: plan status token(s) outside the closed set');
+        console.error(
+          '  X checkpoint --check FAILED: plan status token(s) outside the closed set',
+        );
         console.error(`    (${CLOSED_TOKENS.join(' · ')}):`);
-        for (const b of bad) console.error(`      ${b.file} — ${b.token ?? '(no **Status: line)'}`);
+        for (const b of bad)
+          console.error(
+            `      ${b.file} — ${b.token ?? '(no **Status: line)'}`,
+          );
       }
       if (stale.length) {
-        console.error('  X checkpoint --check FAILED: generated region(s) are stale:');
+        console.error(
+          '  X checkpoint --check FAILED: generated region(s) are stale:',
+        );
         for (const f of stale) console.error(`      ${f}`);
-        console.error('    Run `pnpm run checkpoint` to regenerate, then stage the files.');
+        console.error(
+          '    Run `pnpm run checkpoint` to regenerate, then stage the files.',
+        );
       }
       if (staleRefs.length) {
-        console.error(`  X checkpoint --check FAILED: ${BACKLOG} references plan(s) no longer`);
-        console.error('    in docs/plans/ (archived / moved) — a stale pointer, remove the line:');
+        console.error(
+          `  X checkpoint --check FAILED: ${BACKLOG} references plan(s) no longer`,
+        );
+        console.error(
+          '    in docs/plans/ (archived / moved) — a stale pointer, remove the line:',
+        );
         for (const p of staleRefs) console.error(`      ${p}`);
-        console.error(`    BACKLOG holds parked NOTES, not plan-pointers (see its header).`);
+        console.error(
+          `    BACKLOG holds parked NOTES, not plan-pointers (see its header).`,
+        );
       }
       process.exit(1);
     }
@@ -522,7 +583,9 @@ function runCli(): void {
   let scaffolded: string | undefined;
   if (jIdx >= 0) {
     if (!journalTopic || journalTopic.startsWith('--')) {
-      console.error('  X checkpoint --journal needs a topic: --journal "the topic"');
+      console.error(
+        '  X checkpoint --journal needs a topic: --journal "the topic"',
+      );
       process.exit(2);
     }
     scaffolded = scaffoldJournal(journalTopic);
@@ -532,9 +595,14 @@ function runCli(): void {
   // Archive done/superseded plans FIRST (so the active-plans region excludes them).
   const { moves, relinked, queued } = archiveDonePlans(stage);
   for (const m of moves)
-    console.log(`  → moved ${m.oldRel} → ${m.newRel}${stage ? ' (staged)' : ''}`);
+    console.log(
+      `  → moved ${m.oldRel} → ${m.newRel}${stage ? ' (staged)' : ''}`,
+    );
   for (const f of relinked) console.log(`    relinked ${f}`);
-  if (queued) console.log(`    reading-queue path(s) rewritten + tagged (archived — done)`);
+  if (queued)
+    console.log(
+      `    reading-queue path(s) rewritten + tagged (archived — done)`,
+    );
 
   const wrote: string[] = [];
   for (const file of targetFiles) {
@@ -560,7 +628,9 @@ function runCli(): void {
 
   // Flagged: stale BACKLOG plan-pointers (the RED gate is --check; here a WARN).
   for (const p of staleBacklogRefs())
-    console.log(`  !! flagged: ${BACKLOG} points at archived/moved plan: ${p} (remove the line)`);
+    console.log(
+      `  !! flagged: ${BACKLOG} points at archived/moved plan: ${p} (remove the line)`,
+    );
 
   // Newest journal — a bare run just names it (no scaffolding). Same picker the
   // resume-journal region uses, so the printout and the spliced pointer agree.

@@ -6,8 +6,17 @@
 // (the reveal reads as plot). The phase is DERIVED from the current rung (FU7).
 
 import type { GameState } from './state';
-import { getRank, nextRankId, type RankDef, type RankId } from './content/ranks';
-import { allRequirementsDone, isRequirementDone, rungPercentOf } from './requirements-engine';
+import {
+  getRank,
+  nextRankId,
+  type RankDef,
+  type RankId,
+} from './content/ranks';
+import {
+  allRequirementsDone,
+  isRequirementDone,
+  rungPercentOf,
+} from './requirements-engine';
 import type { RequirementDef } from './requirements-engine';
 import { rungRequirements } from './content/requirements';
 import { getWeapon } from './content/weapons';
@@ -41,8 +50,12 @@ export function rungProgress(state: GameState): {
 
 /** The CURRENT rung's not-yet-done requirements, in authored order — the harness/sim
  *  policies read this ("is only the wolf left?"), never the raw progress map. */
-export function remainingRequirements(state: GameState): readonly RequirementDef[] {
-  return rungRequirements(state.rung).filter((d) => !isRequirementDone(d, state.rungReqs));
+export function remainingRequirements(
+  state: GameState,
+): readonly RequirementDef[] {
+  return rungRequirements(state.rung).filter(
+    (d) => !isRequirementDone(d, state.rungReqs),
+  );
 }
 
 /** True when the CURRENT rung's requirement list is fully done (100% IS ready — the
@@ -103,7 +116,10 @@ export function applyPromotion(state: GameState, target: RankId): GameState {
   });
   // a promotion is a renewal — the house feasts a new rank, so the BELLY refills (satiety). HP does
   // NOT: under ADR-050 only eating (cook) mends wounds, so a rung climb can't be farmed as a free heal.
-  next = { ...next, character: { ...next.character, satiety: satietyMax(next) } };
+  next = {
+    ...next,
+    character: { ...next.character, satiety: satietyMax(next) },
+  };
   return next;
 }
 

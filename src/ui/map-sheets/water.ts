@@ -19,7 +19,10 @@ import {
 } from './brush';
 
 /** Interpolate a half-width at fraction t from a width profile. */
-function widthAt(profile: readonly { t: number; w: number }[], t: number): number {
+function widthAt(
+  profile: readonly { t: number; w: number }[],
+  t: number,
+): number {
   if (profile.length === 0) return 30;
   let lo = profile[0]!;
   let hi = profile[profile.length - 1]!;
@@ -40,7 +43,11 @@ export interface RiverOpts {
 
 /** The river — wash between offset banks, tapered bank strokes, current threads
  *  broken into runs, shoal ticks at the slack edges. Flow = increasing t. */
-export function river(parent: SVGElement, centerline: readonly Pt[], o: RiverOpts): void {
+export function river(
+  parent: SVGElement,
+  centerline: readonly Pt[],
+  o: RiverOpts,
+): void {
   const r = rng(o.seed);
   const prof = o.widthProfile ?? [{ t: 0, w: o.w ?? 30 }];
   const line = resample(centerline, 26);
@@ -94,7 +101,10 @@ export function river(parent: SVGElement, centerline: readonly Pt[], o: RiverOpt
       for (let s = t0; s <= t1; s += 0.02) {
         const i = Math.min(n - 1, Math.round(s * (n - 1)));
         const [nx, ny] = normalAt(line, i);
-        seg.push([line[i]![0] + nx * half[i]! * off, line[i]![1] + ny * half[i]! * off]);
+        seg.push([
+          line[i]![0] + nx * half[i]! * off,
+          line[i]![1] + ny * half[i]! * off,
+        ]);
       }
       if (seg.length > 1) {
         inkLine(parent, seg, {
@@ -142,7 +152,13 @@ export interface PoolOpts {
 
 /** A pool — standing water (wash + combs), or a DRAINED bed: rim, cracked mud,
  *  no water tone (the T1 re-survey retires the upstream pools this way). */
-export function pool(parent: SVGElement, cx: number, cy: number, rad: number, o: PoolOpts): void {
+export function pool(
+  parent: SVGElement,
+  cx: number,
+  cy: number,
+  rad: number,
+  o: PoolOpts,
+): void {
   const r = rng(o.seed);
   const ring: Pt[] = [];
   const steps = 9;
@@ -177,7 +193,12 @@ export function pool(parent: SVGElement, cx: number, cy: number, rad: number, o:
     });
     return;
   }
-  wash(parent, ring, { seed: `${o.seed}-tone`, fill: 'var(--steel-0)', opacity: 0.9, amp: 2.5 });
+  wash(parent, ring, {
+    seed: `${o.seed}-tone`,
+    fill: 'var(--steel-0)',
+    opacity: 0.9,
+    amp: 2.5,
+  });
   brushStroke(parent, [...ring, ring[0]!], {
     seed: `${o.seed}-edge`,
     w: 1.8,
@@ -187,7 +208,10 @@ export function pool(parent: SVGElement, cx: number, cy: number, rad: number, o:
     taperOut: 0.03,
     amp: 1.5,
   });
-  waveComb(parent, cx, cy - rad * 0.12, rad * 0.9, { seed: `${o.seed}-c1`, opacity: 0.55 });
+  waveComb(parent, cx, cy - rad * 0.12, rad * 0.9, {
+    seed: `${o.seed}-c1`,
+    opacity: 0.55,
+  });
   waveComb(parent, cx + rad * 0.2, cy + rad * 0.28, rad * 0.6, {
     seed: `${o.seed}-c2`,
     opacity: 0.4,
@@ -203,7 +227,12 @@ export interface WeirBarOpts {
  *  physically see the weir"): a structural gold bar clean across the water,
  *  two courses of laid stones riding it, stake ticks on the downstream face,
  *  and the water's own testimony — a foam step of wave-combs just below. */
-export function weirBar(parent: SVGElement, at: Pt, angleDeg: number, o: WeirBarOpts): void {
+export function weirBar(
+  parent: SVGElement,
+  at: Pt,
+  angleDeg: number,
+  o: WeirBarOpts,
+): void {
   const r = rng(o.seed);
   const len = o.len ?? 54;
   const a = (angleDeg * Math.PI) / 180;
@@ -217,7 +246,13 @@ export function weirBar(parent: SVGElement, at: Pt, angleDeg: number, o: WeirBar
       [at[0] - dx * (len / 2 + 5), at[1] - dy * (len / 2 + 5)],
       [at[0] + dx * (len / 2 + 5), at[1] + dy * (len / 2 + 5)],
     ],
-    { seed: `${o.seed}-bar`, w: 4.4, color: 'var(--gold-dim)', opacity: 0.95, amp: 0.8 },
+    {
+      seed: `${o.seed}-bar`,
+      w: 4.4,
+      color: 'var(--gold-dim)',
+      opacity: 0.95,
+      amp: 0.8,
+    },
   );
   // two courses of squared stones on the bar
   const stones = Math.max(5, Math.round(len / 12));
@@ -252,7 +287,13 @@ export function weirBar(parent: SVGElement, at: Pt, angleDeg: number, o: WeirBar
         [sx, sy],
         [sx + (r() - 0.5) * 2, sy + 8],
       ],
-      { seed: `${o.seed}-stk-${i}`, w: 1.6, color: 'var(--gold-dim)', opacity: 0.85, amp: 0.5 },
+      {
+        seed: `${o.seed}-stk-${i}`,
+        w: 1.6,
+        color: 'var(--gold-dim)',
+        opacity: 0.85,
+        amp: 0.5,
+      },
     );
   }
   // the fall — foam combs just downstream say WEIR the way water says it
@@ -278,7 +319,11 @@ export interface ChannelOpts {
  *  ditch cut, a broken current thread RIDING the water (the river's suiha
  *  idiom at ditch scale), and downstream chevrons. silted = the far reach
  *  breaks up into dots and dies (the half-lost work the field-hands hint at). */
-export function channel(parent: SVGElement, pts: readonly Pt[], o: ChannelOpts): void {
+export function channel(
+  parent: SVGElement,
+  pts: readonly Pt[],
+  o: ChannelOpts,
+): void {
   const line = resample(pts, 18);
   const a = offsetPolyline(line, 2.3);
   const b = offsetPolyline(line, -2.3);
@@ -330,9 +375,15 @@ export function channel(parent: SVGElement, pts: readonly Pt[], o: ChannelOpts):
     }
     let len = 0;
     for (let i = 1; i < line.length; i++) {
-      len += Math.hypot(line[i]![0] - line[i - 1]![0], line[i]![1] - line[i - 1]![1]);
+      len += Math.hypot(
+        line[i]![0] - line[i - 1]![0],
+        line[i]![1] - line[i - 1]![1],
+      );
     }
-    flowTicks(parent, line, { seed: `${o.seed}-flow`, count: Math.max(3, Math.round(len / 170)) });
+    flowTicks(parent, line, {
+      seed: `${o.seed}-flow`,
+      count: Math.max(3, Math.round(len / 170)),
+    });
     // sedge along the cut — the accessory that says WET the way the weir reeds
     // do: small diverging flicks off the bank, alternating sides down the run
     const sr = rng(`${o.seed}-sedge`);
@@ -394,7 +445,12 @@ export function channel(parent: SVGElement, pts: readonly Pt[], o: ChannelOpts):
 }
 
 /** A sluice gate — a small bar across the ditch + two posts: built work, gold. */
-export function sluiceGate(parent: SVGElement, at: Pt, angleDeg: number, o: SeedOpts): void {
+export function sluiceGate(
+  parent: SVGElement,
+  at: Pt,
+  angleDeg: number,
+  o: SeedOpts,
+): void {
   const { seed } = o;
   const a = (angleDeg * Math.PI) / 180;
   const dx = Math.cos(a);
@@ -405,7 +461,13 @@ export function sluiceGate(parent: SVGElement, at: Pt, angleDeg: number, o: Seed
       [at[0] - dx * 9, at[1] - dy * 9],
       [at[0] + dx * 9, at[1] + dy * 9],
     ],
-    { seed: `${seed}-bar`, w: 3.4, color: 'var(--gold-dim)', opacity: 0.9, amp: 0.6 },
+    {
+      seed: `${seed}-bar`,
+      w: 3.4,
+      color: 'var(--gold-dim)',
+      opacity: 0.9,
+      amp: 0.6,
+    },
   );
   for (const s of [-1, 1] as const) {
     inkLine(
@@ -414,7 +476,13 @@ export function sluiceGate(parent: SVGElement, at: Pt, angleDeg: number, o: Seed
         [at[0] + dx * 10 * s, at[1] + dy * 10 * s - 4],
         [at[0] + dx * 10 * s, at[1] + dy * 10 * s + 4],
       ],
-      { seed: `${seed}-p${s}`, w: 1.6, color: 'var(--gold-dim)', opacity: 0.85, amp: 0.4 },
+      {
+        seed: `${seed}-p${s}`,
+        w: 1.6,
+        color: 'var(--gold-dim)',
+        opacity: 0.85,
+        amp: 0.4,
+      },
     );
   }
 }
@@ -425,7 +493,12 @@ export interface BridgeOpts {
 }
 
 /** A plank footbridge — two bearers + plank ticks (the way to Matsuzō's bank). */
-export function bridge(parent: SVGElement, at: Pt, angleDeg: number, o: BridgeOpts): void {
+export function bridge(
+  parent: SVGElement,
+  at: Pt,
+  angleDeg: number,
+  o: BridgeOpts,
+): void {
   const r = rng(o.seed);
   const len = o.len ?? 46;
   const a = (angleDeg * Math.PI) / 180;
@@ -438,7 +511,13 @@ export function bridge(parent: SVGElement, at: Pt, angleDeg: number, o: BridgeOp
         [at[0] - dx * (len / 2), at[1] - dy * (len / 2) + s * 3.2],
         [at[0] + dx * (len / 2), at[1] + dy * (len / 2) + s * 3.2],
       ],
-      { seed: `${o.seed}-br${s}`, w: 1.8, color: 'var(--gold-dim)', opacity: 0.9, amp: 0.8 },
+      {
+        seed: `${o.seed}-br${s}`,
+        w: 1.8,
+        color: 'var(--gold-dim)',
+        opacity: 0.9,
+        amp: 0.8,
+      },
     );
   }
   const planks = Math.max(5, Math.round(len / 7));
@@ -469,7 +548,11 @@ export interface FlowTicksOpts {
 }
 
 /** Downstream chevrons — the flow direction, readable at a glance (spec R2). */
-export function flowTicks(parent: SVGElement, centerline: readonly Pt[], o: FlowTicksOpts): void {
+export function flowTicks(
+  parent: SVGElement,
+  centerline: readonly Pt[],
+  o: FlowTicksOpts,
+): void {
   const r = rng(o.seed);
   const count = o.count ?? 6;
   for (let i = 0; i < count; i++) {
@@ -500,7 +583,12 @@ export function flowTicks(parent: SVGElement, centerline: readonly Pt[], o: Flow
 }
 
 /** A leased fish weir — a V of stake dots, apex upstream, opening downstream. */
-export function fishWeir(parent: SVGElement, at: Pt, angleDeg: number, o: SeedOpts): void {
+export function fishWeir(
+  parent: SVGElement,
+  at: Pt,
+  angleDeg: number,
+  o: SeedOpts,
+): void {
   const { seed } = o;
   const r = rng(seed);
   const a = (angleDeg * Math.PI) / 180;
@@ -511,9 +599,13 @@ export function fishWeir(parent: SVGElement, at: Pt, angleDeg: number, o: SeedOp
   for (const side of [-1, 1] as const) {
     for (let i = 0; i < 5; i++) {
       const d = 3 + i * 5;
-      const sx = at[0] + fx * d + Math.cos(a) * d * 0.55 * side + (r() - 0.5) * 1.5;
-      const sy = at[1] + fy * d + Math.sin(a) * d * 0.55 * side + (r() - 0.5) * 1.5;
-      g.append(sv('circle', { cx: sx.toFixed(1), cy: sy.toFixed(1), r: '1.3' }));
+      const sx =
+        at[0] + fx * d + Math.cos(a) * d * 0.55 * side + (r() - 0.5) * 1.5;
+      const sy =
+        at[1] + fy * d + Math.sin(a) * d * 0.55 * side + (r() - 0.5) * 1.5;
+      g.append(
+        sv('circle', { cx: sx.toFixed(1), cy: sy.toFixed(1), r: '1.3' }),
+      );
     }
   }
   parent.append(g);

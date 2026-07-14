@@ -44,9 +44,9 @@ describe('HD-24 (option B) — cold-open offers a quiet restore-a-save line', ()
     restore!.click();
     expect(scrim!.hidden).toBe(false); // the restore line opens it…
     // …straight onto the Saves tab (the import textarea's section is the active one).
-    const savesTab = [...root.querySelectorAll<HTMLButtonElement>('.modal-tab')].find((b) =>
-      (b.textContent ?? '').includes('Saves'),
-    );
+    const savesTab = [
+      ...root.querySelectorAll<HTMLButtonElement>('.modal-tab'),
+    ].find((b) => (b.textContent ?? '').includes('Saves'));
     expect(savesTab?.getAttribute('aria-selected')).toBe('true');
   });
 });

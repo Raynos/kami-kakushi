@@ -45,7 +45,12 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
   // an intro-active state (awake so render shows the VN scene, not the cold-open) parked at `beat`.
   function introState(beat: number, askedTopics: string[] = []): GameState {
     const base = createInitialState(1);
-    return { ...base, introBeat: beat, askedTopics, flags: { ...base.flags, awake: true } };
+    return {
+      ...base,
+      introBeat: beat,
+      askedTopics,
+      flags: { ...base.flags, awake: true },
+    };
   }
   function spyMount(): { seen: Intent[]; render: ReturnType<typeof mount> } {
     const seen: Intent[] = [];
@@ -69,7 +74,9 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     expect(root.querySelector('.vn-story .vn-lines')).not.toBeNull();
     expect(root.querySelector('.vn-panel')).not.toBeNull();
     // the greeting typed into the story; the ASK sub-panel is shown, the DECIDE sub-panel is hidden.
-    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain('Sōan');
+    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
+      'Sōan',
+    );
     expect(root.querySelectorAll('.intro-ask').length).toBe(SOAN.topics.length);
     expect(shown('.vn-ask')).toBe(true);
     expect(shown('.vn-decide')).toBe(false); // the decision is withheld in the ask phase
@@ -89,7 +96,9 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     // the panel swapped IN PLACE: decide shown, ask hidden (both still in the DOM).
     expect(shown('.vn-decide')).toBe(true);
     expect(shown('.vn-ask')).toBe(false);
-    expect(root.querySelectorAll('.intro-choice').length).toBe(SOAN.decision.options.length);
+    expect(root.querySelectorAll('.intro-choice').length).toBe(
+      SOAN.decision.options.length,
+    );
     // the decision prompt joined the story transcript (so it, too, is typed — FB-82/FB-83).
     expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
       SOAN.decision.prompt,
@@ -107,7 +116,9 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     expect(firstLine.isConnected).toBe(true); // the greeting node was NOT recreated
     const lines = root.querySelectorAll('.vn-story .vn-line');
     expect(lines.length).toBeGreaterThan(greetingLines); // the Q + answer appended
-    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(topic.label);
+    expect(root.querySelector<HTMLElement>('.vn-story')!.textContent).toContain(
+      topic.label,
+    );
   });
 
   it('each decision button is THEMED by the attribute it grants +1 (accent + kanji chip)', () => {
@@ -116,7 +127,9 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     const opt = SOAN.decision.options[0]!; // derived — whatever soan's first option grants
     const btn = byText('.intro-choice', opt.label)!;
     expect(btn).toBeTruthy();
-    expect(btn.style.getPropertyValue('--attr-accent')).toContain(`attr-${opt.stat.up}`);
+    expect(btn.style.getPropertyValue('--attr-accent')).toContain(
+      `attr-${opt.stat.up}`,
+    );
     const chip = btn.querySelector<HTMLElement>('.intro-choice-tag')!;
     expect(chip).not.toBeNull();
     expect(chip.textContent).toBe(ATTR_META[opt.stat.up].kanji);
@@ -141,7 +154,9 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     expect(perk).not.toBeNull();
     expect(perk.textContent).toContain(opt.perk.name);
     expect(perk.classList.contains('attr-themed')).toBe(true);
-    expect(root.querySelector('.perk-attr-chip')!.textContent).toBe(ATTR_META[opt.stat.up].kanji);
+    expect(root.querySelector('.perk-attr-chip')!.textContent).toBe(
+      ATTR_META[opt.stat.up].kanji,
+    );
     expect(shown('.vn-outcome')).toBe(true);
     expect(shown('.vn-decide')).toBe(false);
     // …and a single Continue is the ONLY way onward.
@@ -159,9 +174,9 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     s = reduce(s, { type: 'choose_intro', optionId: opt.id }); // the REAL pick → perk milestone
     expect(s.log.entries.some((e) => e.channel === 'milestone')).toBe(true); // fixture self-check
     render(s, null); // the last scene is done ⇒ the intro is over — the shell reveals
-    const progress = [...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab')].find((b) =>
-      (b.textContent ?? '').includes('Progress'),
-    )!;
+    const progress = [
+      ...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab'),
+    ].find((b) => (b.textContent ?? '').includes('Progress'))!;
     expect(progress).not.toBeUndefined();
     expect(progress.classList.contains('unread')).toBe(true);
   });
@@ -201,9 +216,9 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     // the scene's first VOICED greeting line (narrator lines carry no speaker → no prefix, by design).
     const npcName = SOAN.greeting.find((l) => l.speaker)!.speaker; // from the scene
     expect(npcName).toBeTruthy();
-    const prefixes = [...root.querySelectorAll<HTMLElement>('.vn-line .vn-speaker')].map(
-      (s) => s.textContent,
-    );
+    const prefixes = [
+      ...root.querySelectorAll<HTMLElement>('.vn-line .vn-speaker'),
+    ].map((s) => s.textContent);
     // the NPC's own name prefixes its line (RED before FB-88 — NPC lines had no .vn-speaker span).
     expect(prefixes).toContain(`${npcName}: `);
   });
@@ -214,9 +229,9 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     const { render } = spyMount();
     const topic = SOAN.topics[0]!;
     render(introState(SOAN_IDX, [topic.id]), null);
-    const btn = [...root.querySelectorAll<HTMLButtonElement>('.intro-ask')].find((b) =>
-      (b.textContent ?? '').includes(topic.label),
-    )!;
+    const btn = [
+      ...root.querySelectorAll<HTMLButtonElement>('.intro-ask'),
+    ].find((b) => (b.textContent ?? '').includes(topic.label))!;
     expect(btn).toBeTruthy();
     expect(btn.classList.contains('asked')).toBe(true);
   });
@@ -274,13 +289,19 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
   // registry) ⇒ promotionReady. rungBeat stays null (the promotion BANKS). FB-121.
   const doneReqs = (rung: GameState['rung']): Record<string, number> =>
     Object.fromEntries(
-      rungRequirements(rung).map((r) => [r.id, r.type === 'count' ? r.target : 1]),
+      rungRequirements(rung).map((r) => [
+        r.id,
+        r.type === 'count' ? r.target : 1,
+      ]),
     );
   function rungReadyState(): GameState {
     return { ...awakeRungBase(), rungReqs: doneReqs('R0') };
   }
   // a state parked INSIDE a live rung beat (the player already triggered it).
-  function rungBeatState(target: 'R1' | 'R3', askedTopics: string[] = []): GameState {
+  function rungBeatState(
+    target: 'R1' | 'R3',
+    askedTopics: string[] = [],
+  ): GameState {
     return { ...awakeRungBase(), rungBeat: target, askedTopics };
   }
 
@@ -289,9 +310,12 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     const state = rungReadyState();
     expect(promotionReady(state)).toBe(true); // fixture self-check (derived, not a magic number)
     render(state, null);
-    const trigger = root.querySelector<HTMLButtonElement>('.rung-head-trigger')!;
+    const trigger =
+      root.querySelector<HTMLButtonElement>('.rung-head-trigger')!;
     expect(trigger).not.toBeNull();
-    expect(root.querySelector('.rung-head')!.classList.contains('ready')).toBe(true);
+    expect(root.querySelector('.rung-head')!.classList.contains('ready')).toBe(
+      true,
+    );
     expect(trigger.disabled).toBe(false); // clickable ONLY when ready
     trigger.click();
     expect(seen).toContainEqual({ type: 'begin_rung_beat' });
@@ -311,8 +335,11 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     expect(promotionReady(state)).toBe(true); // the list IS done + the gate open…
     expect(nextRankId(state.rung)).toBeNull(); // …but there is no rung to advance to
     render(state, null);
-    expect(root.querySelector('.rung-head')!.classList.contains('ready')).toBe(false); // no glow
-    const trigger = root.querySelector<HTMLButtonElement>('.rung-head-trigger')!;
+    expect(root.querySelector('.rung-head')!.classList.contains('ready')).toBe(
+      false,
+    ); // no glow
+    const trigger =
+      root.querySelector<HTMLButtonElement>('.rung-head-trigger')!;
     expect(trigger.disabled).toBe(true);
     trigger.click();
     expect(seen).not.toContainEqual({ type: 'begin_rung_beat' }); // clicking does nothing
@@ -323,15 +350,21 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     // mid-climb, NOT ready: the R0 count requirement at 40% of its target (registry-derived).
     const rake = rungRequirements('R0').find((r) => r.type === 'count')!;
     const midway = rake.type === 'count' ? Math.floor(rake.target * 0.4) : 0;
-    const state: GameState = { ...awakeRungBase(), rungReqs: { [rake.id]: midway } };
+    const state: GameState = {
+      ...awakeRungBase(),
+      rungReqs: { [rake.id]: midway },
+    };
     expect(promotionReady(state)).toBe(false);
     render(state, null);
     const head = root.querySelector<HTMLElement>('.rung-head')!;
     expect(head.hidden).toBe(false);
     expect(head.classList.contains('ready')).toBe(false);
-    expect(root.querySelector<HTMLButtonElement>('.rung-head-trigger')!.disabled).toBe(true);
+    expect(
+      root.querySelector<HTMLButtonElement>('.rung-head-trigger')!.disabled,
+    ).toBe(true);
     const rank = getRank('R0');
-    const name = root.querySelector<HTMLElement>('.rung-head-name')!.textContent ?? '';
+    const name =
+      root.querySelector<HTMLElement>('.rung-head-name')!.textContent ?? '';
     expect(name).toContain(rank.title);
     expect(name).toContain(rank.kanji);
     expect(root.querySelector('.rung-head-meter > span')).not.toBeNull();
@@ -341,7 +374,9 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
       `${rungProgress(state).percent}%`,
     );
     const next = getRank(nextRankId('R0')!); // → R1
-    expect(root.querySelector('.rung-head-card-next')!.textContent).toContain(next.title);
+    expect(root.querySelector('.rung-head-card-next')!.textContent).toContain(
+      next.title,
+    );
   });
 
   it('with rungBeat set the VN scene renders the rung beat and HIDES the shell (vnActive)', () => {
@@ -368,7 +403,9 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     render(rungBeatState('R3'), null);
     expect(shown('.vn-ask')).toBe(true);
     // only the un-gated topics are askable at zero-asked (kihei-who gates behind kihei-why-blade).
-    const askable = RUNG_BEATS.R3!.topics.filter((t) => !t.gate || t.gate(new Set<string>()));
+    const askable = RUNG_BEATS.R3!.topics.filter(
+      (t) => !t.gate || t.gate(new Set<string>()),
+    );
     expect(askable.length).toBeGreaterThan(0);
     expect(root.querySelectorAll('.intro-ask').length).toBe(askable.length);
     const topic = askable[0]!;
@@ -395,7 +432,10 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     expect(ceremony.textContent).toContain("You've been promoted to");
     // …step 2: the ceremony's Continue is the ONE dispatching control.
     ceremony.querySelector<HTMLButtonElement>('.intro-continue')!.click();
-    expect(seen).toContainEqual({ type: 'choose_rung_option', optionId: opt.id });
+    expect(seen).toContainEqual({
+      type: 'choose_rung_option',
+      optionId: opt.id,
+    });
   });
 
   it('ignoring a ready promotion leaves the game playable (the beat is IGNORABLE, D-110)', () => {
@@ -407,8 +447,12 @@ describe('D-110 / F106 — rung-up story beats are reachable (header trigger + V
     expect(root.querySelector<HTMLElement>('.shell')!.hidden).toBe(false);
     expect(root.querySelector('.vn-scene')).toBeNull();
     // … the affordance sits ready-but-optional (the player may keep grinding indefinitely).
-    expect(root.querySelector('.rung-head')!.classList.contains('ready')).toBe(true);
-    expect(root.querySelector<HTMLButtonElement>('.rung-head-trigger')!.disabled).toBe(false);
+    expect(root.querySelector('.rung-head')!.classList.contains('ready')).toBe(
+      true,
+    );
+    expect(
+      root.querySelector<HTMLButtonElement>('.rung-head-trigger')!.disabled,
+    ).toBe(false);
   });
 });
 
@@ -446,13 +490,20 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
   });
   function introState(beat: number, askedTopics: string[] = []): GameState {
     const base = createInitialState(1);
-    return { ...base, introBeat: beat, askedTopics, flags: { ...base.flags, awake: true } };
+    return {
+      ...base,
+      introBeat: beat,
+      askedTopics,
+      flags: { ...base.flags, awake: true },
+    };
   }
   function spyMount(): ReturnType<typeof mount> {
     return mount(root, () => {}, noopHooks());
   }
   const lineTexts = (): (string | null)[] =>
-    [...root.querySelectorAll<HTMLElement>('.vn-line .vn-text')].map((e) => e.textContent);
+    [...root.querySelectorAll<HTMLElement>('.vn-line .vn-text')].map(
+      (e) => e.textContent,
+    );
   const shown = (sel: string): boolean => {
     const e = root.querySelector<HTMLElement>(sel);
     return !!e && !e.hidden;
@@ -472,7 +523,9 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     // voiced line whose source carries no quotes is DISPLAYED quoted (FB-158), so derive the
     // expected DISPLAY text with the same rule rather than the raw source.
     const displayed = (line: (typeof greeting)[number]): string =>
-      line.voice !== 'narrator' && !/["“]/.test(line.text) ? `"${line.text}"` : line.text;
+      line.voice !== 'narrator' && !/["“]/.test(line.text)
+        ? `"${line.text}"`
+        : line.text;
     greeting.forEach((line, i) => expect(texts[i]).toBe(displayed(line))); // every line typed itself
     expect(shown('.vn-ask')).toBe(true); // …and the panel revealed after the last line
   });
@@ -496,7 +549,9 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     const full = SOAN.greeting[0]!.text;
     const first = root.querySelector<HTMLElement>('.vn-line .vn-text')!;
     expect(first.textContent).not.toBe(full); // mid-type
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { key: ' ', bubbles: true }),
+    );
     expect(first.textContent).toBe(full); // Space filled the line at once
   });
 
@@ -512,7 +567,9 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     const before = typing.textContent;
     const btn = root.querySelector<HTMLButtonElement>('.intro-ask')!;
     btn.focus();
-    btn.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+    btn.dispatchEvent(
+      new KeyboardEvent('keydown', { key: ' ', bubbles: true }),
+    );
     expect(typing.textContent).toBe(before); // untouched — the keydown belonged to the button
   });
 
@@ -538,7 +595,9 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     const typing = root.querySelector<HTMLElement>('.vn-line .vn-text')!;
     expect(typing.classList.contains('co-typing')).toBe(true); // riding line 0 mid-type
     vi.runAllTimers(); // the whole block types + auto-advances out
-    const resting = [...root.querySelectorAll<HTMLElement>('.vn-lines .co-typing')];
+    const resting = [
+      ...root.querySelectorAll<HTMLElement>('.vn-lines .co-typing'),
+    ];
     expect(resting.length).toBe(1); // exactly ONE caret, resting (FB-271), never a trail
     const lines = [...root.querySelectorAll<HTMLElement>('.vn-lines .vn-text')];
     expect(resting[0]).toBe(lines[lines.length - 1]); // …on the block's LAST line
@@ -557,7 +616,9 @@ describe('F86/F90 — intro typewriter auto-advance + flicker-free reconcile (an
     [...root.querySelectorAll<HTMLButtonElement>('.intro-choice')]
       .find((b) => b.textContent!.includes(opt.label))!
       .click(); // latch → the fresh reply block drops the divider
-    const divider = root.querySelector<HTMLElement>('.vn-story .log-fresh-divider')!;
+    const divider = root.querySelector<HTMLElement>(
+      '.vn-story .log-fresh-divider',
+    )!;
     expect(divider).not.toBeNull();
     vi.advanceTimersByTime(FRESH_DIVIDER_TTL_MS - 1000); // types the block + waits out most of the TTL
     expect(divider.isConnected).toBe(true);
@@ -615,7 +676,11 @@ describe('FB-359/FB-360 — a swap to pre-awake tears the VN scene down', () => 
 
   it('New game while the intro VN is open drops the scene and shows the cold open', () => {
     const base = createInitialState(1);
-    const inVn: GameState = { ...base, introBeat: 1, flags: { ...base.flags, awake: true } };
+    const inVn: GameState = {
+      ...base,
+      introBeat: 1,
+      flags: { ...base.flags, awake: true },
+    };
     const render = mount(root, () => {}, noopHooks());
     render(inVn, null);
     expect(root.querySelector('.vn-scene')).not.toBeNull(); // the VN is up

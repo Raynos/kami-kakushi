@@ -8,7 +8,9 @@
 /** Integer power by repeated squaring. `exp` must be a non-negative integer. */
 export function ipow(base: number, exp: number): number {
   if (!Number.isInteger(exp) || exp < 0) {
-    throw new Error(`ipow: exponent must be a non-negative integer, got ${exp}`);
+    throw new Error(
+      `ipow: exponent must be a non-negative integer, got ${exp}`,
+    );
   }
   let result = 1;
   let b = base;

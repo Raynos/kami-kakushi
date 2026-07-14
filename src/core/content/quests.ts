@@ -228,7 +228,9 @@ export function advanceQuest(
   event: string,
   quest: QuestDef,
 ): ReadonlySet<string> {
-  const matched = quest.steps.filter((s) => s.event === event && !done.has(s.id));
+  const matched = quest.steps.filter(
+    (s) => s.event === event && !done.has(s.id),
+  );
   if (matched.length === 0) return done;
   const next = new Set(done);
   for (const s of matched) next.add(s.id);
@@ -236,6 +238,9 @@ export function advanceQuest(
 }
 
 /** A quest is complete once ALL of its steps are done — in ANY order. */
-export function isQuestComplete(done: ReadonlySet<string>, quest: QuestDef): boolean {
+export function isQuestComplete(
+  done: ReadonlySet<string>,
+  quest: QuestDef,
+): boolean {
   return quest.steps.every((s) => done.has(s.id));
 }

@@ -4,7 +4,16 @@
 // diagram. Everything composes from brush.ts (seeded, token-coloured, brush-alive);
 // silver = drawn state, gold = the frame keyline, shu = the reviser's red only.
 
-import { sv, rng, scrawl, inkLine, brushStroke, wash, inkText, type SeedOpts } from './brush';
+import {
+  sv,
+  rng,
+  scrawl,
+  inkLine,
+  brushStroke,
+  wash,
+  inkText,
+  type SeedOpts,
+} from './brush';
 import { resample, type Pt } from './geom';
 
 /** Closed hand-scrawled rect path (corners + side midpoints so long sides waver). */
@@ -127,10 +136,16 @@ export function hankoSeal(
     }),
   );
   const cs = size * 0.58;
-  inkText(g, x + (r() - 0.5) * size * 0.06, y + cs * 0.36 + (r() - 0.5) * size * 0.04, char, {
-    size: cs,
-    color: 'var(--shu)',
-  });
+  inkText(
+    g,
+    x + (r() - 0.5) * size * 0.06,
+    y + cs * 0.36 + (r() - 0.5) * size * 0.04,
+    char,
+    {
+      size: cs,
+      color: 'var(--shu)',
+    },
+  );
   parent.append(g);
 }
 
@@ -152,7 +167,12 @@ export interface CartoucheOpts {
  * framed heavy, with the reviser's red 改 seal pressed below it. The loudest piece
  * of furniture on the sheet, on purpose — it names the document.
  */
-export function cartouche(parent: SVGElement, x: number, y: number, o: CartoucheOpts): void {
+export function cartouche(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  o: CartoucheOpts,
+): void {
   const mainSize = 21;
   const subSize = 12;
   const padX = 12;
@@ -175,7 +195,12 @@ export function cartouche(parent: SVGElement, x: number, y: number, o: Cartouche
   // frame's wobble so it stays a visible second voice (contrast floor, spec L2)
   g.append(
     sv('path', {
-      d: scrawl(rectRing(x + 6, y + 6, W - 12, H - 12), `${o.seed}:key`, 0.9, true),
+      d: scrawl(
+        rectRing(x + 6, y + 6, W - 12, H - 12),
+        `${o.seed}:key`,
+        0.9,
+        true,
+      ),
       fill: 'none',
       stroke: 'var(--gold)',
       'stroke-width': '1.35',
@@ -183,7 +208,11 @@ export function cartouche(parent: SVGElement, x: number, y: number, o: Cartouche
       opacity: '0.92',
     }),
   );
-  brushFrame(g, x, y, W, H, { seed: `${o.seed}:frame`, w: 3.4, color: 'var(--silver)' });
+  brushFrame(g, x, y, W, H, {
+    seed: `${o.seed}:frame`,
+    w: 3.4,
+    color: 'var(--silver)',
+  });
   const titleX = x + W - padX - mainW / 2;
   inkText(g, titleX, y + padY + titleH / 2, o.title, {
     size: mainSize,
@@ -201,7 +230,11 @@ export function cartouche(parent: SVGElement, x: number, y: number, o: Cartouche
   // a selected/selectable seal to the player — the ・改 in the title carries it
   if (o.gloss) {
     // right-aligned to the slip's edge so it never clips the sheet border
-    inkText(g, x + W, y + H + 18, o.gloss, { size: 12, color: 'var(--ink-soft)', anchor: 'end' });
+    inkText(g, x + W, y + H + 18, o.gloss, {
+      size: 12,
+      color: 'var(--ink-soft)',
+      anchor: 'end',
+    });
   }
   parent.append(g);
 }
@@ -230,7 +263,12 @@ export interface LegendOpts {
  * sheet's live label grammar, so the legend teaches by resemblance) + a one-line
  * gloss in the body face. The mystery marks stay OUT of it by design (G12).
  */
-export function legendBox(parent: SVGElement, x: number, y: number, o: LegendOpts): void {
+export function legendBox(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  o: LegendOpts,
+): void {
   const r = rng(`${o.seed}:legend`);
   const W = o.w ?? 178;
   const pad = 12;
@@ -244,8 +282,15 @@ export function legendBox(parent: SVGElement, x: number, y: number, o: LegendOpt
     opacity: 0.94,
     amp: 2,
   });
-  brushFrame(g, x, y, W, H, { seed: `${o.seed}:frame`, w: 2.1, color: 'var(--silver-dim)' });
-  inkText(g, x + W / 2, y + pad + 12, o.title ?? '凡例', { size: 14, color: 'var(--silver)' });
+  brushFrame(g, x, y, W, H, {
+    seed: `${o.seed}:frame`,
+    w: 2.1,
+    color: 'var(--silver-dim)',
+  });
+  inkText(g, x + W / 2, y + pad + 12, o.title ?? '凡例', {
+    size: 14,
+    color: 'var(--silver)',
+  });
   inkLine(
     g,
     [
@@ -327,7 +372,12 @@ export interface ScaleBarOpts {
  * into 間/町 units, the whole span named (e.g. 一町 = 60 ken). Drawn as a tapered
  * baseline with hand-set tick divisions, the end ticks strongest.
  */
-export function scaleBar(parent: SVGElement, x: number, y: number, o: ScaleBarOpts): void {
+export function scaleBar(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  o: ScaleBarOpts,
+): void {
   const r = rng(`${o.seed}:scale`);
   const len = o.length ?? 168;
   const n = Math.max(2, o.ticks ?? 6);
@@ -379,7 +429,12 @@ export function scaleBar(parent: SVGElement, x: number, y: number, o: ScaleBarOp
  * its head rather than a compass rose. One tapering upstroke, a two-flick head, the
  * character above; the whole mark set a few degrees off true, as a hand would.
  */
-export function northArrow(parent: SVGElement, x: number, y: number, o: SeedOpts): void {
+export function northArrow(
+  parent: SVGElement,
+  x: number,
+  y: number,
+  o: SeedOpts,
+): void {
   const { seed } = o;
   const r = rng(`${seed}:north`);
   const tilt = (r() - 0.5) * 7;
@@ -448,7 +503,12 @@ export interface BorderOpts {
  * hairline (the trimmed edge) + an inner gold keyline (the surveyed field) + small
  * gold corner ticks where the keyline was squared off the mounting board.
  */
-export function sheetBorder(parent: SVGElement, w: number, h: number, o: BorderOpts): void {
+export function sheetBorder(
+  parent: SVGElement,
+  w: number,
+  h: number,
+  o: BorderOpts,
+): void {
   const g = sv('g');
   const ring = (inset: number): Pt[] =>
     resample(
@@ -505,8 +565,18 @@ export function sheetBorder(parent: SVGElement, w: number, h: number, o: BorderO
     ],
   ];
   corners.forEach(([c, a, b], i) => {
-    inkLine(g, [c, a], { seed: `${o.seed}:ct${i}a`, w: 2, color: 'var(--gold)', amp: 0.5 });
-    inkLine(g, [c, b], { seed: `${o.seed}:ct${i}b`, w: 2, color: 'var(--gold)', amp: 0.5 });
+    inkLine(g, [c, a], {
+      seed: `${o.seed}:ct${i}a`,
+      w: 2,
+      color: 'var(--gold)',
+      amp: 0.5,
+    });
+    inkLine(g, [c, b], {
+      seed: `${o.seed}:ct${i}b`,
+      w: 2,
+      color: 'var(--gold)',
+      amp: 0.5,
+    });
   });
   parent.append(g);
 }
@@ -520,7 +590,12 @@ export interface CreaseOpts {
  * vertical + two horizontal VERY faint wavering lines at the third-marks, quieter
  * than any linework (ink-faint, ~0.35). Pure sheet-material voice, never data.
  */
-export function foldCreases(parent: SVGElement, w: number, h: number, o: CreaseOpts): void {
+export function foldCreases(
+  parent: SVGElement,
+  w: number,
+  h: number,
+  o: CreaseOpts,
+): void {
   const r = rng(`${o.seed}:crease`);
   const g = sv('g');
   const line = (pts: Pt[], sub: string): void => {

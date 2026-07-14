@@ -188,7 +188,11 @@
   gap: var(--space-3);
   padding: var(--space-3);
   border: 1px solid var(--key);
-  background: linear-gradient(180deg, rgba(216, 185, 120, 0.05), transparent 70%);
+  background: linear-gradient(
+    180deg,
+    rgba(216, 185, 120, 0.05),
+    transparent 70%
+  );
 }
 .zone-banner .zb-kanji {
   font-family: var(--font-display);

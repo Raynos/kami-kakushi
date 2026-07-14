@@ -330,7 +330,12 @@
   opacity: 1;
   /* M5 — an opaque steel plate (B.2) so the title/kicker sit on steel, never
      transparently over the log. */
-  background: linear-gradient(180deg, var(--steel-2), var(--steel-1) 52%, var(--steel-0));
+  background: linear-gradient(
+    180deg,
+    var(--steel-2),
+    var(--steel-1) 52%,
+    var(--steel-0)
+  );
   padding: var(--space-4) var(--space-5);
   border: 1px solid var(--key);
   border-radius: var(--radius-card, 4px);
@@ -404,7 +409,12 @@
   position: absolute;
   inset: -14%;
   border-radius: inherit;
-  background: radial-gradient(circle, var(--shu-hi), var(--shu) 50%, transparent 72%);
+  background: radial-gradient(
+    circle,
+    var(--shu-hi),
+    var(--shu) 50%,
+    transparent 72%
+  );
   opacity: 0;
   pointer-events: none;
   z-index: -1;

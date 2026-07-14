@@ -69,7 +69,9 @@ try {
     await page.waitForTimeout(120);
   };
   const shotSvg = async (name) => {
-    await page.locator('.t0v2-mapwrap').screenshot({ path: `${OUT}/${name}.png` });
+    await page
+      .locator('.t0v2-mapwrap')
+      .screenshot({ path: `${OUT}/${name}.png` });
     console.log('shot', name);
   };
   const shotFull = async (name) => {

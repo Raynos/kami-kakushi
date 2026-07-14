@@ -11,7 +11,12 @@
 // Pure: no Math.random, no Math.pow/exp/log/trig (integer/BigInt only). The renderer
 // never calls this; all randomness flows through here and lives in GameState.
 
-export type RngStream = 'combat' | 'loot' | 'seasonal' | 'worldgen' | 'discovery';
+export type RngStream =
+  | 'combat'
+  | 'loot'
+  | 'seasonal'
+  | 'worldgen'
+  | 'discovery';
 
 export interface Rng {
   readonly seed: number;
@@ -79,13 +84,21 @@ export function nextInt(rng: Rng, stream: RngStream, n: number): [number, Rng] {
 }
 
 /** True with probability `p` (clamped to [0,1]). */
-export function nextChance(rng: Rng, stream: RngStream, p: number): [boolean, Rng] {
+export function nextChance(
+  rng: Rng,
+  stream: RngStream,
+  p: number,
+): [boolean, Rng] {
   const [v, rng2] = nextFloat(rng, stream);
   return [v < p, rng2];
 }
 
 /** Pick one element uniformly from a non-empty array. */
-export function nextPick<T>(rng: Rng, stream: RngStream, items: readonly T[]): [T, Rng] {
+export function nextPick<T>(
+  rng: Rng,
+  stream: RngStream,
+  items: readonly T[],
+): [T, Rng] {
   if (items.length === 0) throw new Error('nextPick: empty array');
   const [i, rng2] = nextInt(rng, stream, items.length);
   return [items[i]!, rng2];
@@ -128,7 +141,11 @@ function hashLabel(label: string): bigint {
 }
 
 /** A stateless float in [0,1) keyed by (seed, label, day). Not stored (PRD §6.7.1). */
-export function deriveDayKeyed(seed: number, label: string, day: number): number {
+export function deriveDayKeyed(
+  seed: number,
+  label: string,
+  day: number,
+): number {
   const base = (BigInt(seed >>> 0) ^ hashLabel(label)) & MASK64;
   const state = (base + GAMMA * BigInt(day + 1)) & MASK64;
   const z = mix64(state);

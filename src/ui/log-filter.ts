@@ -5,7 +5,14 @@
 
 import type { LogChannel } from '../core/log';
 
-export type LogFilter = 'story' | 'progression' | 'chat' | 'combat' | 'work' | 'all' | 'now';
+export type LogFilter =
+  | 'story'
+  | 'progression'
+  | 'chat'
+  | 'combat'
+  | 'work'
+  | 'all'
+  | 'now';
 
 /** The bar's buttons, left→right (FB-111): Story · Progress · Chat · Combat · Work · All · Now.
  *  `story` leads (the default returnable view — FB-9); `chat` holds the OPTIONAL Q&A you chose to ask

@@ -28,7 +28,12 @@ function atBoardR2(): GameState {
     location: 'forecourt',
     flags: {
       ...s.flags,
-      ...factsForSurfaces('panel-rung-ladder', 'room-gate', 'room-paddies', 'room-woodshed'),
+      ...factsForSurfaces(
+        'panel-rung-ladder',
+        'room-gate',
+        'room-paddies',
+        'room-woodshed',
+      ),
     },
   };
 }
@@ -48,7 +53,10 @@ describe('ADR-177 — the works discovery chain', () => {
     expect(canMove('paddies', 'weir', visibleSet(s))).toBe(false); // locked at R1/R2 pre-naming
     // ADR-179 — the old worksPass push is deleted: room-weir DERIVES from the named flag,
     // so the moment it latches the surface flips visible with no pass at all.
-    const named: GameState = { ...s, flags: { ...s.flags, 'works-named-weir': true } };
+    const named: GameState = {
+      ...s,
+      flags: { ...s.flags, 'works-named-weir': true },
+    };
     expect(isUnlocked(named, 'room-weir')).toBe(true);
     expect(canMove('paddies', 'weir', visibleSet(named))).toBe(true); // named → open
   });
@@ -88,16 +96,23 @@ describe('ADR-177 — the works discovery chain', () => {
     // ADR-177 F3 — the two-step build: the commissioning pays coin + WOOD…
     const noWood = reduce(s, { type: 'improve_estate' });
     expect(noWood).toBe(s); // wood-short refuses (coin alone no longer builds)
-    s = { ...s, resources: { ...s.resources, wood: ESTATE_STAGES[0]!.woodCost } };
+    s = {
+      ...s,
+      resources: { ...s.resources, wood: ESTATE_STAGES[0]!.woodCost },
+    };
     s = reduce(s, { type: 'improve_estate' });
     expect(s.estateCommission).toBe(1);
     expect(s.estateStage).toBe(0); // commissioned, not built — the work is ahead
     expect(s.resources.wood ?? 0).toBe(0); // the timber went into the works
     // …and the stage completes through sited work_project acts at the project's zones.
-    const away = reduce({ ...s, location: 'kitchen' }, { type: 'work_project' });
+    const away = reduce(
+      { ...s, location: 'kitchen' },
+      { type: 'work_project' },
+    );
     expect(away.estateWorkDone).toBe(0); // not at a work zone — refused (canWorkProject)
     s = { ...s, location: 'gate', character: { ...s.character, satiety: 999 } };
-    for (let i = 0; i < ESTATE_STAGES[0]!.workActs; i++) s = reduce(s, { type: 'work_project' });
+    for (let i = 0; i < ESTATE_STAGES[0]!.workActs; i++)
+      s = reduce(s, { type: 'work_project' });
     expect(s.estateStage).toBe(1); // the closing act advances the ladder
     expect(s.estateCommission).toBe(0);
   });
@@ -111,19 +126,26 @@ describe('ADR-177 — the works discovery chain', () => {
     expect(hasFlag(inOrder, u2.namedFlag)).toBe(true);
     // the day-book naming line lands exactly once (its own emit latch).
     expect(inOrder.log.entries.length).toBe(base.log.entries.length + 1);
-    expect(worksPass(inOrder).log.entries.length).toBe(inOrder.log.entries.length);
+    expect(worksPass(inOrder).log.entries.length).toBe(
+      inOrder.log.entries.length,
+    );
   });
 
   it('estateBuild surfaces the discovery read (TST4 — the card never guesses)', () => {
     const s = atBoardR2();
     expect(estateBuild(s).next?.discovery).toBe('unnamed');
     expect(estateBuild(s).next?.open).toBe(false);
-    const open: GameState = { ...s, flags: { ...s.flags, [U1.openFlag]: true } };
+    const open: GameState = {
+      ...s,
+      flags: { ...s.flags, [U1.openFlag]: true },
+    };
     expect(estateBuild(open).next?.discovery).toBe('open');
     expect(estateBuild(open).next?.open).toBe(true);
   });
 
   it('every ladder stage has a discovery chain, keyed 1:1 to ESTATE_STAGES', () => {
-    expect(WORKS_PROJECTS.map((p) => p.stage)).toEqual(ESTATE_STAGES.map((d) => d.stage));
+    expect(WORKS_PROJECTS.map((p) => p.stage)).toEqual(
+      ESTATE_STAGES.map((d) => d.stage),
+    );
   });
 });

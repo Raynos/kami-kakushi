@@ -7,7 +7,9 @@ import type { RequirementDef } from '../requirements-engine';
 import type { RankId } from './ranks';
 import { NAMES } from './names';
 
-export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[]>> = {
+export const RUNG_REQUIREMENTS: Readonly<
+  Record<RankId, readonly RequirementDef[]>
+> = {
   R0: [
     {
       id: 'rake-the-first-rows',
@@ -53,7 +55,8 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       type: 'count',
       token: 'act:farm_paddy',
       target: 30,
-      flavor: 'The paddy women no longer point out which rows are his; he has learned them.',
+      flavor:
+        'The paddy women no longer point out which rows are his; he has learned them.',
       objective: 'The paddy stands planted, not a row out of true.',
       drive: 'farm_paddy',
     },
@@ -145,7 +148,8 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       token: 'act:woodcut_edge',
       target: 25,
       flavor: `"The palisade wood is his cutting," ${NAMES.drillmaster} says, striking a post with the flat of his hand.`,
-      objective: 'New posts stand in the palisade, pale against the weathered wood.',
+      objective:
+        'New posts stand in the palisade, pale against the weathered wood.',
       drive: 'woodcut_edge',
     },
     {
@@ -175,7 +179,8 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       type: 'count',
       token: 'act:haul_stores',
       target: 50,
-      flavor: 'When the kura needs moving in a hurry, it is his name the yard calls first.',
+      flavor:
+        'When the kura needs moving in a hurry, it is his name the yard calls first.',
       objective: "A kura's worth of bales moves between dawn and dusk.",
       drive: 'haul_stores',
     },
@@ -184,7 +189,8 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       type: 'count',
       token: 'act:haul_stores',
       target: 75,
-      flavor: 'New porters are told to watch how he stacks; nobody remembers deciding that.',
+      flavor:
+        'New porters are told to watch how he stacks; nobody remembers deciding that.',
       objective: 'Every stack in the kura leans the same way now.',
       drive: 'haul_stores',
     },
@@ -217,7 +223,8 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       target: 25,
       flavor:
         "He comes back from past the charcoal-burners' marker so often the kitchen stops waiting up.",
-      objective: "The path past the charcoal-burners' marker is beaten flat now.",
+      objective:
+        "The path past the charcoal-burners' marker is beaten flat now.",
       drive: 'forage_deepwoods',
     },
     {
@@ -264,7 +271,8 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       type: 'state',
       pred: { kind: 'resource', res: 'coin', min: 300 },
       flavor: `"His purse holds steady," ${NAMES.steward} lets fall, "which is more than this house has managed."`,
-      objective: 'Three hundred mon sit strung under the floorboard, none spent.',
+      objective:
+        'Three hundred mon sit strung under the floorboard, none spent.',
       drive: 'sell rice',
     },
     {
@@ -311,7 +319,8 @@ export const RUNG_REQUIREMENTS: Readonly<Record<RankId, readonly RequirementDef[
       flavor:
         'You stood in the room while the year was measured against the house — the reckoning read out, the gap named plainly and once, and nothing asked of you but to be there for it. A full year, lived through.',
       objective: 'The nengu bales stand roped at the gate, the year closed.',
-      drive: 'sim reaches the Autumn season-exit, whose nengu ceremony sets `nengu-reckoned`.',
+      drive:
+        'sim reaches the Autumn season-exit, whose nengu ceremony sets `nengu-reckoned`.',
     },
   ],
 };

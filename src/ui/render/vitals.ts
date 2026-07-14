@@ -70,7 +70,11 @@ export function createVitalsView(ctx: {
 
   // increases-only number-pop (juice). prev===undefined (load / import / new game) never
   // pops — popValue's guard avoids a false flash on the first paint of a loaded save.
-  function popValue(node: HTMLElement, cur: number, before: number | undefined): void {
+  function popValue(
+    node: HTMLElement,
+    cur: number,
+    before: number | undefined,
+  ): void {
     if (before === undefined || cur <= before) return;
     node.classList.remove('pop');
     void node.offsetWidth; // reflow so the animation restarts on a fresh increment
@@ -108,7 +112,8 @@ export function createVitalsView(ctx: {
       const rungN = Number.parseInt(state.rung.replace(/^R/, ''), 10);
       const canTurnSeason = Number.isFinite(rungN) && rungN >= 2;
       seasonEndBtn.hidden = !canTurnSeason;
-      if (canTurnSeason) setText(seasonEndBtn, `End the ${SEASON_TAG[season(state)].name} 季`);
+      if (canTurnSeason)
+        setText(seasonEndBtn, `End the ${SEASON_TAG[season(state)].name} 季`);
     } else {
       seasonEndBtn.hidden = true;
     }
@@ -121,7 +126,10 @@ export function createVitalsView(ctx: {
       staminaBar.classList.toggle('low', staminaRate(state) < 0.99);
       // FB-387 (revising FB-335) — bars only in the header; the exact number lives on
       // the hover title. The unit reads "body" everywhere (FB-334), never "satiety".
-      setText(staminaNum, `${Math.round(state.character.satiety)}/${Math.round(max)}`);
+      setText(
+        staminaNum,
+        `${Math.round(state.character.satiety)}/${Math.round(max)}`,
+      );
       stamina.title = `Body 体 ${Math.round(state.character.satiety)}/${Math.round(max)} — work draws it down; a rest refills it. Rest better on a full belly.`;
     }
 
@@ -136,7 +144,10 @@ export function createVitalsView(ctx: {
       bellyBar.classList.toggle('low', restQuality(state) < 0.99);
       // FB-387 — bars only (the FB-335 numeral moved to the hover title); the unit reads
       // "belly" everywhere (FB-334's law), never the internal field name.
-      setText(bellyNum, `${Math.round(state.character.hunger)}/${Math.round(max)}`);
+      setText(
+        bellyNum,
+        `${Math.round(state.character.hunger)}/${Math.round(max)}`,
+      );
       belly.title = `Belly 腹 ${Math.round(state.character.hunger)}/${Math.round(max)} — the day draws it down; the house eats from the kura, a meal fills it. A hungry rest restores less.`;
     }
 

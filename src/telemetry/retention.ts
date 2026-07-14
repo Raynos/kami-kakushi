@@ -36,7 +36,8 @@ export function keepReport(text: string): RetentionVerdict {
 
   const label = header[1];
   if (label.startsWith('TAINTED:')) {
-    const which = label.split(' · ')[0]?.slice('TAINTED:'.length).trim() ?? 'unknown';
+    const which =
+      label.split(' · ')[0]?.slice('TAINTED:'.length).trim() ?? 'unknown';
     return { keep: false, reason: `time-tainted (${which})` };
   }
 

@@ -52,7 +52,9 @@ describe('ADR-184 — a rung can always REACH the labour it demands (the R1 stra
     const base = createInitialState(1);
     const render = mount(root, () => {}, noopHooks());
     const labels = (): string[] =>
-      [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')].map((b) => b.textContent ?? '');
+      [...root.querySelectorAll<HTMLButtonElement>('.nav-tab')].map(
+        (b) => b.textContent ?? '',
+      );
 
     // the cold open: the forecourt alone — there is only one place to be, so no map.
     render({ ...base, flags: { ...base.flags, awake: true } }, null);
@@ -62,7 +64,11 @@ describe('ADR-184 — a rung can always REACH the labour it demands (the R1 stra
     render(
       {
         ...base,
-        flags: { ...base.flags, awake: true, ...factsForSurfaces('room-paddies') },
+        flags: {
+          ...base.flags,
+          awake: true,
+          ...factsForSurfaces('room-paddies'),
+        },
       },
       null,
     );
@@ -80,11 +86,15 @@ describe('ADR-184 — a rung can always REACH the labour it demands (the R1 stra
 describe('F224 — rake teach cooldown covers its own text', () => {
   it('F224 — every teach id exists and the cooldown covers the LONGEST line at cadence', () => {
     const def = getDialogue(COLD_OPEN_DIALOGUE_ID);
-    const teach = RAKE_TEACH_LINE_IDS.map((id) => def.lines.find((l) => l.id === id));
+    const teach = RAKE_TEACH_LINE_IDS.map((id) =>
+      def.lines.find((l) => l.id === id),
+    );
     teach.forEach((l) => expect(l).toBeDefined()); // a dialogue.md rename REDs here
     const longest = Math.max(...teach.map((l) => l!.text.length));
     expect(longest).toBeGreaterThan(0);
-    expect(RAKE_TEACH_COOLDOWN_MS).toBeGreaterThanOrEqual(longest * TYPE_CADENCE_MS);
+    expect(RAKE_TEACH_COOLDOWN_MS).toBeGreaterThanOrEqual(
+      longest * TYPE_CADENCE_MS,
+    );
   });
 
   it('F224 — rakeTeachPending stays true until ALL three lines are delivered', () => {
@@ -127,22 +137,26 @@ describe('FB-367/FB-368 — rake row: dead auto hides, lock-hint reads the why',
 
   // `satiety: 'full'` = topped up (derived via satietyMax); `'spent'` = one below the act
   // cost (derived from balance.SATIETY_PER_ACT — the same constant canAffordAct gates on).
-  function rakeState(satiety: 'full' | 'spent', over: Partial<GameState> = {}): GameState {
+  function rakeState(
+    satiety: 'full' | 'spent',
+    over: Partial<GameState> = {},
+  ): GameState {
     const base = createInitialState(1);
     return {
       ...base,
       flags: { ...base.flags, awake: true },
       character: {
         ...base.character,
-        satiety: satiety === 'full' ? satietyMax(base) : balance.SATIETY_PER_ACT - 1,
+        satiety:
+          satiety === 'full' ? satietyMax(base) : balance.SATIETY_PER_ACT - 1,
       },
       ...over,
     };
   }
   function rakeRow(): HTMLElement {
-    const btn = [...root.querySelectorAll<HTMLButtonElement>('.actions .verb')].find((b) =>
-      (b.textContent ?? '').includes('Rake the spilled rice'),
-    )!;
+    const btn = [
+      ...root.querySelectorAll<HTMLButtonElement>('.actions .verb'),
+    ].find((b) => (b.textContent ?? '').includes('Rake the spilled rice'))!;
     expect(btn).toBeDefined();
     return btn.closest('.labour-row') as HTMLElement;
   }
@@ -152,16 +166,24 @@ describe('FB-367/FB-368 — rake row: dead auto hides, lock-hint reads the why',
     // affordable (full body) — exhaustion is the sole gate. Rake progress high enough that
     // the auto-toggle HAD been revealed (derived from the R0 requirement, like the % bar) —
     // otherwise "hidden" could never have gone RED here.
-    const base = rakeState('full', { rakesDone: balance.RAKE_CAP, autoRake: true });
+    const base = rakeState('full', {
+      rakesDone: balance.RAKE_CAP,
+      autoRake: true,
+    });
     const rakeReq = rungRequirements(base.rung).find(
       (r) => r.type === 'count' && r.token === 'act:rake_rice',
     )!;
     expect(rakeReq).toBeDefined();
-    const s: GameState = { ...base, rungReqs: { [rakeReq.id]: balance.RAKE_CAP } };
+    const s: GameState = {
+      ...base,
+      rungReqs: { [rakeReq.id]: balance.RAKE_CAP },
+    };
     render(s, null);
     const row = rakeRow();
     expect(row.querySelector<HTMLButtonElement>('.verb')!.disabled).toBe(true);
-    expect(row.querySelector<HTMLButtonElement>('.auto-toggle')!.hidden).toBe(true); // no dead idle
+    expect(row.querySelector<HTMLButtonElement>('.auto-toggle')!.hidden).toBe(
+      true,
+    ); // no dead idle
     const lock = row.querySelector<HTMLElement>('.lock-hint')!;
     expect(lock.hidden).toBe(false);
     expect(lock.textContent).toBe(RAKE_DONE_REASON);
@@ -186,7 +208,9 @@ describe('FB-367/FB-368 — rake row: dead auto hides, lock-hint reads the why',
     const weary = rakeState('spent', { rakesDone: 0, autoRake: false });
     render(weary, null);
     const row = rakeRow();
-    expect(row.querySelector<HTMLButtonElement>('.auto-toggle')!.hidden).toBe(true);
+    expect(row.querySelector<HTMLButtonElement>('.auto-toggle')!.hidden).toBe(
+      true,
+    );
     expect(row.querySelector<HTMLElement>('.lock-hint')!.hidden).toBe(false);
     // rested again → the hint clears and the verb re-arms
     const rested = rakeState('full', { rakesDone: 0, autoRake: false });

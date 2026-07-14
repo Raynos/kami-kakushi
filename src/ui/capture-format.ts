@@ -48,7 +48,12 @@ export interface ElementDescriptor {
   readonly label: string;
   readonly text: string;
   readonly selector: string;
-  readonly rect: { readonly x: number; readonly y: number; readonly w: number; readonly h: number };
+  readonly rect: {
+    readonly x: number;
+    readonly y: number;
+    readonly w: number;
+    readonly h: number;
+  };
 }
 
 /** What a capture is: a defect to fix, or a thing the human is exploring interactively. Surfaced
@@ -56,7 +61,10 @@ export interface ElementDescriptor {
 export type CaptureKind = 'bug' | 'question';
 
 /** Human-readable heading label per kind. */
-const KIND_LABEL: Readonly<Record<CaptureKind, string>> = { bug: 'Bug', question: 'Question' };
+const KIND_LABEL: Readonly<Record<CaptureKind, string>> = {
+  bug: 'Bug',
+  question: 'Question',
+};
 
 /** Per-entry metadata beyond the game context — the kind, the (optional) bucket, and the source
  *  session/build provenance (a bucket file spans sessions + builds, so each entry records its own). */
@@ -269,7 +277,8 @@ export function buildEntry(
         `@${el.rect.x},${el.rect.y} ${el.rect.w}×${el.rect.h}`,
     );
   }
-  if (screenshotName) lines.push(`**Screenshot:** \`${fileKey}/${screenshotName}\``);
+  if (screenshotName)
+    lines.push(`**Screenshot:** \`${fileKey}/${screenshotName}\``);
   lines.push(
     `**Details:** \`${fileKey}/${metadataName}\` — save + recent logs + full context`,
     '',

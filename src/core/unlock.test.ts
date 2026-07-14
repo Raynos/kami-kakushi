@@ -4,7 +4,13 @@
 
 import { describe, it, expect } from 'vitest';
 import { createInitialState, setFlag, type GameState } from './state';
-import { visibleSet, isUnlocked, unlockedSurfaces, announcePass, factsForSurfaces } from './unlock';
+import {
+  visibleSet,
+  isUnlocked,
+  unlockedSurfaces,
+  announcePass,
+  factsForSurfaces,
+} from './unlock';
 import { RANKS, type RankId } from './content/ranks';
 
 const init = (): GameState => createInitialState(7);
@@ -20,7 +26,10 @@ function atRung(state: GameState, target: RankId): GameState {
 }
 
 /** The authored schedule, read from RANKS (the single source): rank → its unlock list. */
-const schedule = RANKS.map((r) => ({ id: r.id, unlock: r.rewardOnReach?.unlock ?? [] }));
+const schedule = RANKS.map((r) => ({
+  id: r.id,
+  unlock: r.rewardOnReach?.unlock ?? [],
+}));
 
 describe('visibleSet — the rung derivation table (from the RANKS schedule)', () => {
   it('a fresh state shows the cold open and nothing scheduled', () => {
@@ -38,7 +47,10 @@ describe('visibleSet — the rung derivation table (from the RANKS schedule)', (
       const vis = visibleSet(atRung(init(), target));
       for (let j = 1; j < schedule.length; j++) {
         for (const id of schedule[j]!.unlock) {
-          expect(vis.has(id), `${id} at ${target} (scheduled ${schedule[j]!.id})`).toBe(j <= i);
+          expect(
+            vis.has(id),
+            `${id} at ${target} (scheduled ${schedule[j]!.id})`,
+          ).toBe(j <= i);
         }
       }
     }
@@ -47,7 +59,10 @@ describe('visibleSet — the rung derivation table (from the RANKS schedule)', (
   it('a stale save cannot pin a stale surface: visibility ignores seenReveals entirely', () => {
     // A save claiming a high-rung surface was "revealed" (announced) grants NOTHING:
     // the facts (no rank flags) say R0, so the surface is not visible.
-    const lying: GameState = { ...init(), seenReveals: ['tab-combat', 'tab-quests'] };
+    const lying: GameState = {
+      ...init(),
+      seenReveals: ['tab-combat', 'tab-quests'],
+    };
     expect(isUnlocked(lying, 'tab-combat')).toBe(false);
     expect(isUnlocked(lying, 'tab-quests')).toBe(false);
   });
@@ -79,7 +94,9 @@ describe('visibleSet — the rung derivation table (from the RANKS schedule)', (
 
   it('unlockedSurfaces returns registry order', () => {
     const ids = unlockedSurfaces(atRung(init(), 'R2'));
-    expect([...ids].sort((a, b) => ids.indexOf(a) - ids.indexOf(b))).toEqual(ids as string[]);
+    expect([...ids].sort((a, b) => ids.indexOf(a) - ids.indexOf(b))).toEqual(
+      ids as string[],
+    );
     expect(ids).toContain('tab-skills');
   });
 });
@@ -90,7 +107,9 @@ describe('announcePass — the announce-once ceremony latch (ADR-179)', () => {
     const s = setFlag(setFlag(init(), 'awake', true), 'raked', true);
     const once = announcePass(s);
     expect(once.seenReveals).toContain('verb-rest');
-    const restLines = once.log.entries.filter((e) => e.text.includes('set the work down'));
+    const restLines = once.log.entries.filter((e) =>
+      e.text.includes('set the work down'),
+    );
     expect(restLines.length).toBe(1);
 
     // A second pass on the SAME state is a strict no-op (no new object, no new line).
@@ -98,7 +117,9 @@ describe('announcePass — the announce-once ceremony latch (ADR-179)', () => {
   });
 
   it('a reload never re-spams: a persisted round-trip announces nothing new', () => {
-    const played = announcePass(setFlag(setFlag(init(), 'awake', true), 'raked', true));
+    const played = announcePass(
+      setFlag(setFlag(init(), 'awake', true), 'raked', true),
+    );
     // Simulate save→load: a structural copy of the persisted state (GameState is JSON-safe).
     const reloaded = JSON.parse(JSON.stringify(played)) as GameState;
     const after = announcePass(reloaded);

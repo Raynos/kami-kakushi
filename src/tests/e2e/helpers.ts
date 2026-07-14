@@ -82,13 +82,17 @@ export async function boot(
   // it). Playwright's own waitForFunction timeout stays as the fallback bound.
   await page.evaluate(() =>
     document.fonts.ready.then(
-      () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => r(null)))),
+      () =>
+        new Promise((r) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => r(null))),
+        ),
     ),
   );
   // ADR-148 — journeys assert FLOWS, not pacing: timed actions complete instantly so a
   // 5s rake doesn't stretch every spec. The timed path itself is covered explicitly by
   // the specs that boot `{ timedActions: true }` (real durations, the Phase-2 DoD e2e).
-  if (!opts.timedActions) await page.evaluate('window.__qa.instantActions(true)');
+  if (!opts.timedActions)
+    await page.evaluate('window.__qa.instantActions(true)');
   return errors;
 }
 
@@ -103,14 +107,19 @@ export async function boot(
  *  settle does (probed: tap-after-1200ms succeeds where 30s of retries never do). Surfaced
  *  when the wealthy-idler fixture moved to a spring boot (ADR-170 re-rolled its season/day)
  *  and under parallel-suite load on the other walks. */
-export async function walkSheet(page: Page, nodes: readonly string[]): Promise<void> {
+export async function walkSheet(
+  page: Page,
+  nodes: readonly string[],
+): Promise<void> {
   // 2026-07-11 — the walk table slowed ×5 (real hops are 15–35s now): compress the
   // ActionClock through the DEV speed multiplier so the e2e drives the SAME UI path
   // (press → timer → arrival) without waiting real journey time.
   await page.evaluate('window.__qa.speed(8)');
   try {
     for (const node of nodes) {
-      await press(page.locator(`.map-nav [data-node="${node}"]:not([data-locked])`));
+      await press(
+        page.locator(`.map-nav [data-node="${node}"]:not([data-locked])`),
+      );
       await page.waitForFunction(`window.__qa.state().location === '${node}'`);
       await page.waitForTimeout(1200);
       await playAnyOpenVn(page);
@@ -142,7 +151,9 @@ export async function hurryTypewriter(page: Page): Promise<void> {
  *  advanced (the next scene mounted, or the VN closed). */
 export async function playVnScene(page: Page): Promise<void> {
   await hurryTypewriter(page);
-  const ask = page.locator('.vn-ask button.intro-ask:not(.asked):visible').first();
+  const ask = page
+    .locator('.vn-ask button.intro-ask:not(.asked):visible')
+    .first();
   if (await ask.isVisible().catch(() => false)) {
     await press(ask); // ask ≥1 topic — the decide grid must survive the detour
     await hurryTypewriter(page); // the answer types out too
@@ -156,12 +167,16 @@ export async function playVnScene(page: Page): Promise<void> {
   await press(choice); // latches the option
   await hurryTypewriter(page); // the outcome types out before Continue shows
   const cont = page.locator('button.intro-continue');
-  await expect(cont.first(), 'Continue never appeared after choosing').toBeVisible();
+  await expect(
+    cont.first(),
+    'Continue never appeared after choosing',
+  ).toBeVisible();
   await press(cont.first()); // intro: dispatches · rung: "Rung up" performs the ceremony (FB-153)
   // FB-153 — a rung beat holds its promotion ceremony IN the modal: a second
   // Continue (inside .vn-rung-ceremony) is the dispatching control there.
   const ceremonyCont = page.locator('.vn-rung-ceremony button.intro-continue');
-  if (await ceremonyCont.isVisible().catch(() => false)) await press(ceremonyCont);
+  if (await ceremonyCont.isVisible().catch(() => false))
+    await press(ceremonyCont);
 }
 
 /** ADR-184 — a zone opens only in a VN, and those VNs fire from the LABOUR the player is
@@ -188,7 +203,10 @@ export async function playAnyOpenVn(page: Page, max = 4): Promise<void> {
 /** THE core mobile invariant: the page never scrolls horizontally. (This is the
  *  check that catches an overflowing tab row, an unwrapped table, a fixed-width
  *  panel — the whole "hangs off the right edge" bug class.) */
-export async function expectNoHorizontalOverflow(page: Page, label: string): Promise<void> {
+export async function expectNoHorizontalOverflow(
+  page: Page,
+  label: string,
+): Promise<void> {
   const m = await page.evaluate(() => ({
     scrollW: document.documentElement.scrollWidth,
     clientW: document.documentElement.clientWidth,
@@ -221,7 +239,8 @@ export async function expectControlsTappable(
 ): Promise<void> {
   const minTargetPx = opts.minTargetPx ?? 44;
   const boxes: ControlBox[] = await page.evaluate(() => {
-    const sel = 'button.verb, .nav-tab, .settings-btn, .rung-head-trigger:not([disabled])';
+    const sel =
+      'button.verb, .nav-tab, .settings-btn, .rung-head-trigger:not([disabled])';
     const out: ControlBox[] = [];
     for (const el of document.querySelectorAll<HTMLElement>(sel)) {
       const r = el.getBoundingClientRect();
@@ -231,9 +250,16 @@ export async function expectControlsTappable(
         const cx = b.x + b.width / 2;
         const cy = b.y + b.height / 2;
         // offscreen (scrolled-away) centres are fine — the player scrolls to them
-        if (cy < 0 || cy > window.innerHeight || cx < 0 || cx > window.innerWidth) return null;
+        if (
+          cy < 0 ||
+          cy > window.innerHeight ||
+          cx < 0 ||
+          cx > window.innerWidth
+        )
+          return null;
         const top = document.elementFromPoint(cx, cy);
-        if (!top || top === el || el.contains(top) || top.contains(el)) return null;
+        if (!top || top === el || el.contains(top) || top.contains(el))
+          return null;
         return `${top.tagName}.${(top as HTMLElement).className}`;
       };
       let covered = probe();
@@ -257,13 +283,22 @@ export async function expectControlsTappable(
   });
   const vw = page.viewportSize()?.width ?? 0;
   for (const b of boxes) {
-    expect(b.right, `${label}: "${b.label}" hangs off the right edge`).toBeLessThanOrEqual(vw + 1);
-    expect(b.left, `${label}: "${b.label}" hangs off the left edge`).toBeGreaterThanOrEqual(-1);
+    expect(
+      b.right,
+      `${label}: "${b.label}" hangs off the right edge`,
+    ).toBeLessThanOrEqual(vw + 1);
+    expect(
+      b.left,
+      `${label}: "${b.label}" hangs off the left edge`,
+    ).toBeGreaterThanOrEqual(-1);
     expect(
       b.height,
       `${label}: "${b.label}" is under the ${minTargetPx}px target floor`,
     ).toBeGreaterThanOrEqual(minTargetPx);
-    expect(b.covered, `${label}: "${b.label}" is painted over by ${b.covered}`).toBeNull();
+    expect(
+      b.covered,
+      `${label}: "${b.label}" is painted over by ${b.covered}`,
+    ).toBeNull();
   }
 }
 
@@ -272,10 +307,18 @@ export async function expectControlsTappable(
  *  the tab BAR at the bottom (below the log). The log is a SHELL sibling now
  *  (`.shell > .log`), not a workspace fold — the dead-CSS/overlap bug class this
  *  guards is unchanged (a pane at zero size, or painted over another). */
-export async function expectSingleColumnStack(page: Page, label: string): Promise<void> {
+export async function expectSingleColumnStack(
+  page: Page,
+  label: string,
+): Promise<void> {
   const m = await page.evaluate(() => {
     const shell = document.querySelector<HTMLElement>('.shell');
-    if (!shell || shell.hidden || shell.getAttribute('data-layout') !== 'layout-byobu') return null;
+    if (
+      !shell ||
+      shell.hidden ||
+      shell.getAttribute('data-layout') !== 'layout-byobu'
+    )
+      return null;
     const ws = shell.querySelector('.workspace');
     const log = shell.querySelector(':scope > .log');
     const nav = shell.querySelector<HTMLElement>(':scope > .nav');
@@ -295,8 +338,14 @@ export async function expectSingleColumnStack(page: Page, label: string): Promis
     };
   });
   if (m === null) return; // pre-shell states (cold open, intro) have nothing to stack
-  expect(m.workHeight, `${label}: the work desk collapsed to zero height`).toBeGreaterThan(0);
-  expect(m.logHeight, `${label}: the log band collapsed to zero height`).toBeGreaterThan(0);
+  expect(
+    m.workHeight,
+    `${label}: the work desk collapsed to zero height`,
+  ).toBeGreaterThan(0);
+  expect(
+    m.logHeight,
+    `${label}: the log band collapsed to zero height`,
+  ).toBeGreaterThan(0);
   expect(
     m.logTop,
     `${label}: the log band must stack BELOW the work desk, not over it`,
@@ -318,10 +367,18 @@ export async function expectSingleColumnStack(page: Page, label: string): Promis
  *  held to its design cap (46% of the workspace, styles.css FB-117). RED-proof: the
  *  dead-CSS regression class — a fold at zero size, or painted over the other —
  *  the desktop twin of the day-one mobile bug (see the ≤720px block's comment). */
-export async function expectTwoColumnSpread(page: Page, label: string): Promise<void> {
+export async function expectTwoColumnSpread(
+  page: Page,
+  label: string,
+): Promise<void> {
   const m = await page.evaluate(() => {
     const shell = document.querySelector<HTMLElement>('.shell');
-    if (!shell || shell.hidden || shell.getAttribute('data-layout') !== 'layout-byobu') return null;
+    if (
+      !shell ||
+      shell.hidden ||
+      shell.getAttribute('data-layout') !== 'layout-byobu'
+    )
+      return null;
     const ws = shell.querySelector('.workspace');
     const log = shell.querySelector(':scope > .log');
     if (!ws || !log) return null;
@@ -338,16 +395,29 @@ export async function expectTwoColumnSpread(page: Page, label: string): Promise<
     };
   });
   if (m === null) return; // pre-shell states (cold open, intro) have no frame yet
-  expect(m.workWidth, `${label}: the work desk collapsed to zero width`).toBeGreaterThan(0);
-  expect(m.workHeight, `${label}: the work desk collapsed to zero height`).toBeGreaterThan(0);
-  expect(m.logWidth, `${label}: the log window collapsed to zero width`).toBeGreaterThan(0);
-  expect(m.logHeight, `${label}: the log window collapsed to zero height`).toBeGreaterThan(0);
+  expect(
+    m.workWidth,
+    `${label}: the work desk collapsed to zero width`,
+  ).toBeGreaterThan(0);
+  expect(
+    m.workHeight,
+    `${label}: the work desk collapsed to zero height`,
+  ).toBeGreaterThan(0);
+  expect(
+    m.logWidth,
+    `${label}: the log window collapsed to zero width`,
+  ).toBeGreaterThan(0);
+  expect(
+    m.logHeight,
+    `${label}: the log window collapsed to zero height`,
+  ).toBeGreaterThan(0);
   expect(
     m.workRight,
     `${label}: the work desk must sit LEFT of the log window, not under it`,
   ).toBeLessThanOrEqual(m.logLeft + 1);
   // the Andon log window is capped at 38% of the shell (styles.css M3 grid)
-  expect(m.logWidth, `${label}: the log window overruns its 38% design cap`).toBeLessThanOrEqual(
-    Math.ceil(m.shellWidth * 0.38) + 1,
-  );
+  expect(
+    m.logWidth,
+    `${label}: the log window overruns its 38% design cap`,
+  ).toBeLessThanOrEqual(Math.ceil(m.shellWidth * 0.38) + 1);
 }

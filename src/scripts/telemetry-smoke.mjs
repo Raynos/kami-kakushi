@@ -31,7 +31,9 @@ try {
   page.on('pageerror', (e) => pageErrors.push(e.message));
 
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
-  await page.waitForFunction(() => Boolean(window.__qa?.telemetry), { timeout: 10000 });
+  await page.waitForFunction(() => Boolean(window.__qa?.telemetry), {
+    timeout: 10000,
+  });
 
   // Shrink the constants so seconds-scale spans classify like minutes-scale ones; throttle 0
   // so every real pointer event reaches the sessionizer; huge sleep factor so scripted waits
@@ -58,24 +60,44 @@ try {
     await page.waitForTimeout(150);
   }
   const ticksAfterA = await page.evaluate(() => window.__qa.pacing().ticks);
-  if (ticksAfterA > ticks0) ok(`game ticks flowed while visible (+${ticksAfterA - ticks0})`);
-  else fail('no game ticks during visible play — the D-079 cross-check would be vacuous');
+  if (ticksAfterA > ticks0)
+    ok(`game ticks flowed while visible (+${ticksAfterA - ticks0})`);
+  else
+    fail(
+      'no game ticks during visible play — the D-079 cross-check would be vacuous',
+    );
 
   // ── Phase B: hide the tab (the DoD's real visibilitychange, not a synthetic sessionizer poke) ──
   await page.evaluate(() => {
-    Object.defineProperty(document, 'visibilityState', { value: 'hidden', configurable: true });
-    Object.defineProperty(document, 'hidden', { value: true, configurable: true });
+    Object.defineProperty(document, 'visibilityState', {
+      value: 'hidden',
+      configurable: true,
+    });
+    Object.defineProperty(document, 'hidden', {
+      value: true,
+      configurable: true,
+    });
     document.dispatchEvent(new Event('visibilitychange'));
   });
   await page.waitForTimeout(HIDDEN_B);
   const ticksAfterB = await page.evaluate(() => window.__qa.pacing().ticks);
-  if (ticksAfterB === ticksAfterA) ok('hidden span advanced ZERO game ticks (D-079 holds)');
-  else fail(`hidden span advanced ${ticksAfterB - ticksAfterA} ticks — the loop ignored hidden`);
+  if (ticksAfterB === ticksAfterA)
+    ok('hidden span advanced ZERO game ticks (D-079 holds)');
+  else
+    fail(
+      `hidden span advanced ${ticksAfterB - ticksAfterA} ticks — the loop ignored hidden`,
+    );
 
   // ── Phase C: back + more play ──
   await page.evaluate(() => {
-    Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true });
-    Object.defineProperty(document, 'hidden', { value: false, configurable: true });
+    Object.defineProperty(document, 'visibilityState', {
+      value: 'visible',
+      configurable: true,
+    });
+    Object.defineProperty(document, 'hidden', {
+      value: false,
+      configurable: true,
+    });
     document.dispatchEvent(new Event('visibilitychange'));
   });
   const tC0 = Date.now();
@@ -89,7 +111,10 @@ try {
     window.dispatchEvent(new Event('blur'));
     const segs = window.__qa.telemetry.segments();
     return {
-      segments: segs.map((s) => ({ closer: s.closer, ms: s.activeMs + s.idleMs })),
+      segments: segs.map((s) => ({
+        closer: s.closer,
+        ms: s.activeMs + s.idleMs,
+      })),
       attended: segs.reduce((a, s) => a + s.activeMs + s.idleMs, 0),
       summary: window.__qa.telemetry.summary(),
     };
@@ -99,23 +124,35 @@ try {
   const scripted = PLAY_A + PLAY_C;
   // Generous slack (throttled event edges + runner jitter), but the wall total MUST be ruled
   // out: attended must miss at least half the hidden span.
-  if (result.attended >= scripted * 0.5 && result.attended <= wall - HIDDEN_B / 2) {
+  if (
+    result.attended >= scripted * 0.5 &&
+    result.attended <= wall - HIDDEN_B / 2
+  ) {
     ok(
       `attended ${result.attended}ms ≈ scripted play ${scripted}ms (wall ${wall}ms excluded the hidden ${HIDDEN_B}ms)`,
     );
   } else {
-    fail(`attended ${result.attended}ms — expected ≈${scripted}ms, NOT the wall ${wall}ms`);
+    fail(
+      `attended ${result.attended}ms — expected ≈${scripted}ms, NOT the wall ${wall}ms`,
+    );
   }
-  if (result.segments.some((s) => s.closer === 'hidden')) ok("segment closed by 'hidden'");
-  else fail(`no hidden-closed segment (closers: ${result.segments.map((s) => s.closer)})`);
-  if (result.summary.taints.includes('qa-drive')) ok('__qa driving tainted the run');
+  if (result.segments.some((s) => s.closer === 'hidden'))
+    ok("segment closed by 'hidden'");
+  else
+    fail(
+      `no hidden-closed segment (closers: ${result.segments.map((s) => s.closer)})`,
+    );
+  if (result.summary.taints.includes('qa-drive'))
+    ok('__qa driving tainted the run');
   else fail(`run not tainted by __qa drive (taints: ${result.summary.taints})`);
 
   const runId = result.summary.runId;
 
   // ── Reload: the ring must have persisted the run (the hide-edge sync write) ──
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
-  await page.waitForFunction(() => Boolean(window.__qa?.telemetry), { timeout: 10000 });
+  await page.waitForFunction(() => Boolean(window.__qa?.telemetry), {
+    timeout: 10000,
+  });
   const persisted = await page.evaluate(
     (id) => window.__qa.telemetry.runs().find((r) => r.runId === id),
     runId,
@@ -144,20 +181,27 @@ try {
   // ── Ph4: the session-end auto-drop landed a report FILE in project/telemetry/ ──
   // (Only provable when the target is the local dev server serving THIS tree.)
   if (BASE.includes('localhost')) {
-    const dropPath = fileURLToPath(new URL(`../../project/telemetry/${runId}.md`, import.meta.url));
+    const dropPath = fileURLToPath(
+      new URL(`../../project/telemetry/${runId}.md`, import.meta.url),
+    );
     if (existsSync(dropPath)) {
       const body = readFileSync(dropPath, 'utf-8');
       if (body.includes(runId) && body.includes('segments:')) {
-        ok(`auto-drop landed project/telemetry/${runId}.md (${body.length} B, report-shaped)`);
+        ok(
+          `auto-drop landed project/telemetry/${runId}.md (${body.length} B, report-shaped)`,
+        );
       } else {
-        fail(`dropped file exists but isn't report-shaped (${body.slice(0, 60)}…)`);
+        fail(
+          `dropped file exists but isn't report-shaped (${body.slice(0, 60)}…)`,
+        );
       }
     } else {
       fail(`no auto-dropped report at project/telemetry/${runId}.md`);
     }
   }
 
-  if (pageErrors.length) fail('page errors: ' + pageErrors.slice(0, 3).join(' | '));
+  if (pageErrors.length)
+    fail('page errors: ' + pageErrors.slice(0, 3).join(' | '));
 } catch (e) {
   fail('smoke threw: ' + (e && e.message ? e.message : String(e)));
 } finally {

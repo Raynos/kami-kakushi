@@ -59,7 +59,9 @@ export function createMarketView(ctx: {
     const buy = el('div', 'market-buy');
     const btn = el('button', 'auto-toggle', formatCoin(item.coinCost));
     btn.type = 'button';
-    btn.addEventListener('click', () => dispatch({ type: 'buy_item', itemId: item.id }));
+    btn.addEventListener('click', () =>
+      dispatch({ type: 'buy_item', itemId: item.id }),
+    );
     buy.append(btn);
     row.append(buy);
     return row;
@@ -72,12 +74,16 @@ export function createMarketView(ctx: {
     const bought = state.marketBought[item.id] ?? 0;
     const capped = bought >= item.stockCap;
     const grantStr = marketGrantStr(item);
-    setText(row.querySelector('.market-grant')!, `${grantStr}${capped ? ' · sold out' : ''}`);
+    setText(
+      row.querySelector('.market-grant')!,
+      `${grantStr}${capped ? ' · sold out' : ''}`,
+    );
     const btn = row.querySelector<HTMLButtonElement>('.market-buy button')!;
     // a11y: the visible label is just the price — a full accessible name so a screen-reader hears
     // WHAT it buys, not a bare "10 mon" (ADR-045 a11y-ink).
     const aria = `Buy ${item.label} (${grantStr}) for ${formatCoin(item.coinCost)}${capped ? ' — sold out' : ''}`;
-    if (btn.getAttribute('aria-label') !== aria) btn.setAttribute('aria-label', aria);
+    if (btn.getAttribute('aria-label') !== aria)
+      btn.setAttribute('aria-label', aria);
     setDisabled(btn, !canBuy(state.resources, item, bought));
     const title = capped
       ? "You've taken all the pedlar carries this run."
@@ -145,10 +151,14 @@ export function createMarketView(ctx: {
     );
     setText(sellPurse, `Yohei's purse: ${formatCoin(quote.merchantMon)}.`);
     const rice = state.banked.rice ?? 0;
-    setText(sellBtn, `Sell kura rice (${quote.sho} shō → ${formatCoin(quote.coin)})`);
+    setText(
+      sellBtn,
+      `Sell kura rice (${quote.sho} shō → ${formatCoin(quote.coin)})`,
+    );
     // a11y: a full accessible name so a screen-reader hears WHAT the sell does + the live price.
     const aria = `Sell ${quote.sho} shō of kura rice for ${formatCoin(quote.coin)} at the sagging ${SEASON_TAG[s].name} price, ${formatCoin(quote.unitNow)} the next measure. Yohei's purse holds ${formatCoin(quote.merchantMon)}`;
-    if (sellBtn.getAttribute('aria-label') !== aria) sellBtn.setAttribute('aria-label', aria);
+    if (sellBtn.getAttribute('aria-label') !== aria)
+      sellBtn.setAttribute('aria-label', aria);
     setDisabled(sellBtn, quote.sho <= 0);
     const title =
       rice <= 0
@@ -167,7 +177,10 @@ export function createMarketView(ctx: {
     // actually present (peopleHere) — so his shop is never dumped inline (on Work OR on Map).
     const pedlarPresent = peopleHere(state).some((p) => p.id === 'yohei');
     // FB-332 — talk-to-reveal follows the who's-here rows to the Zone tab.
-    const show = ctx.activeTab() === 'work' && ctx.openPersonId() === 'yohei' && pedlarPresent;
+    const show =
+      ctx.activeTab() === 'work' &&
+      ctx.openPersonId() === 'yohei' &&
+      pedlarPresent;
     toggle(marketPane, show);
     if (!show) return;
     // ── the diverged goods presentation (ADR-075) — A = the price-button list (default, ships).
@@ -213,7 +226,12 @@ export function createMarketView(ctx: {
       patch: (row, item) => patchMarketRow(row, item, state),
       order: true,
     });
-    patchSellRice(marketRefs.sellPrice, marketRefs.sellPurse, marketRefs.sellBtn, state);
+    patchSellRice(
+      marketRefs.sellPrice,
+      marketRefs.sellPurse,
+      marketRefs.sellBtn,
+      state,
+    );
   }
 
   return { renderMarket };

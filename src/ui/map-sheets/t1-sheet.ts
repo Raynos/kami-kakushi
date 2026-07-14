@@ -10,7 +10,12 @@ import { paintFurniture } from './t0-sheet';
 /** Paint the T1 ground; returns seal-anchor refinements for the shell. */
 export function paintT1Ground(
   art: SVGElement,
-  frame: { readonly x: number; readonly y: number; readonly w: number; readonly h: number },
+  frame: {
+    readonly x: number;
+    readonly y: number;
+    readonly w: number;
+    readonly h: number;
+  },
 ): Map<string, Pt> {
   const overrides = paintWorld(art, 'T1');
   paintFurniture(art, frame, 'T1');

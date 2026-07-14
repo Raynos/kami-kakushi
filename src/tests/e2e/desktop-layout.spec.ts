@@ -46,7 +46,9 @@ for (const fixture of FIXTURES) {
 test('fixture registry drift — every scenario save has desktop coverage', async ({
   warmPage: page,
 }) => {
-  const live = await page.evaluate<string[]>('__qa.fixtures().map(f => f.name).sort()');
+  const live = await page.evaluate<string[]>(
+    '__qa.fixtures().map(f => f.name).sort()',
+  );
   // FIXTURES is the ONE shared constant both layout suites loop over — a new
   // fixture must join it (gaining mobile AND desktop coverage in the same move);
   // a renamed one must not leave a dead test behind.

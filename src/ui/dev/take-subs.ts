@@ -47,7 +47,12 @@ export function rebuildScene<S extends RungScene | DialogueScene>(
     const say = text(`${ns}.opt.${o.id}.say`);
     const react = text(`${ns}.opt.${o.id}.react`);
     const bonus = text(`${ns}.opt.${o.id}.bonus`);
-    if (label === undefined && say === undefined && react === undefined && bonus === undefined) {
+    if (
+      label === undefined &&
+      say === undefined &&
+      react === undefined &&
+      bonus === undefined
+    ) {
       return o;
     }
     touched = true;
@@ -63,7 +68,9 @@ export function rebuildScene<S extends RungScene | DialogueScene>(
     return next;
   });
   if (!touched) return scene;
-  const optionsChanged = options.some((o, i) => o !== scene.decision.options[i]);
+  const optionsChanged = options.some(
+    (o, i) => o !== scene.decision.options[i],
+  );
   const decision =
     prompt !== undefined || optionsChanged
       ? { ...scene.decision, prompt: prompt ?? scene.decision.prompt, options }
@@ -72,7 +79,10 @@ export function rebuildScene<S extends RungScene | DialogueScene>(
 }
 
 /** The live-sub view: rebuild on the GLOBAL overlay (what the switcher selected). */
-export function overlayScene<S extends RungScene | DialogueScene>(ns: string, scene: S): S {
+export function overlayScene<S extends RungScene | DialogueScene>(
+  ns: string,
+  scene: S,
+): S {
   return rebuildScene(ns, scene, storyText, storySeq);
 }
 
@@ -85,7 +95,8 @@ export function takeSceneView<S extends RungScene | DialogueScene>(
 ): S | null {
   const covers = (k: string): boolean => k.startsWith(`${ns}.`);
   const touched =
-    Object.keys(take.text ?? {}).some(covers) || Object.keys(take.seq ?? {}).some(covers);
+    Object.keys(take.text ?? {}).some(covers) ||
+    Object.keys(take.seq ?? {}).some(covers);
   if (!touched) return null;
   return rebuildScene(
     ns,

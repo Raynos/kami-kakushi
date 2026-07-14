@@ -70,7 +70,9 @@ describe('coin denominations (D-108 — mixed mon/monme/ryō)', () => {
   it('breaks ryō + monme + mon', () => {
     // 1 ryō (4000) + 6 monme (480) + 20 mon = 4500 mon.
     expect(MON_PER_RYO + 6 * MON_PER_MONME + 20).toBe(4500);
-    expect(formatCoin(MON_PER_RYO + 6 * MON_PER_MONME + 20)).toBe('1 ryō 6 monme 20 mon');
+    expect(formatCoin(MON_PER_RYO + 6 * MON_PER_MONME + 20)).toBe(
+      '1 ryō 6 monme 20 mon',
+    );
   });
 
   it('drops zero sub-parts cleanly at the ryō tier', () => {
@@ -95,7 +97,12 @@ describe('coin denominations (D-108 — mixed mon/monme/ryō)', () => {
       let total = 0;
       for (const m of s.matchAll(/(\d+)\s*(ryō|monme|mon)/g)) {
         const n = Number(m[1]);
-        total += m[2] === 'ryō' ? n * MON_PER_RYO : m[2] === 'monme' ? n * MON_PER_MONME : n;
+        total +=
+          m[2] === 'ryō'
+            ? n * MON_PER_RYO
+            : m[2] === 'monme'
+              ? n * MON_PER_MONME
+              : n;
       }
       return total;
     };

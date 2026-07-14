@@ -41,16 +41,24 @@ function atPhase2(): GameState {
 /** …with the Estate pillar at a given value (the ascension gate reads the grade). */
 function withEstate(value: number): GameState {
   const s = atPhase2();
-  return { ...s, influence: { estate: { value, highWater: value, judged: 0 } } };
+  return {
+    ...s,
+    influence: { estate: { value, highWater: value, judged: 0 } },
+  };
 }
 
 describe('ascension gate (T0 = Estate ≥ EXCELLENT) — manual opt-in (M2·5)', () => {
   it('is closed below EXCELLENT, and at the wrong tier/phase', () => {
     expect(ascensionAvailable(createInitialState(1))).toBe(false); // Phase 1
-    expect(ascensionAvailable(withEstate(balance.ESTATE_BANDS.great))).toBe(false); // only GREAT
-    expect(ascensionAvailable({ ...withEstate(balance.ESTATE_BANDS.excellent), tier: 1 })).toBe(
+    expect(ascensionAvailable(withEstate(balance.ESTATE_BANDS.great))).toBe(
       false,
-    ); // already ascended
+    ); // only GREAT
+    expect(
+      ascensionAvailable({
+        ...withEstate(balance.ESTATE_BANDS.excellent),
+        tier: 1,
+      }),
+    ).toBe(false); // already ascended
   });
 
   it('opens exactly at EXCELLENT in Phase 2 at tier 0', () => {
@@ -77,15 +85,23 @@ describe('ascend — tier bump + grade-scaled boon + dream beat (D-049/D-062)', 
     expect(t1.flags['ascended-t0']).toBe(true);
     expect(t1.flags['dream-t0-ascension']).toBe(true);
     // the dream beat READS the porter's-knot flag (no longer write-only) — the clearer cut
-    const withKnot = ascend({ ...s, flags: { ...s.flags, 'porters-knot': true } });
-    const dream = withKnot.log.entries.find((e) => e.text.includes("porter's knot"));
+    const withKnot = ascend({
+      ...s,
+      flags: { ...s.flags, 'porters-knot': true },
+    });
+    const dream = withKnot.log.entries.find((e) =>
+      e.text.includes("porter's knot"),
+    );
     expect(dream).toBeDefined();
   });
 
   it('overshooting the gate buys a BIGGER boon (D-049)', () => {
     const base = ascensionBoon(withEstate(balance.ESTATE_BANDS.excellent));
     const over = ascensionBoon(
-      withEstate(balance.ESTATE_BANDS.excellent + 4 * balance.ASCENSION_BOON_OVERSHOOT_PER_POINT),
+      withEstate(
+        balance.ESTATE_BANDS.excellent +
+          4 * balance.ASCENSION_BOON_OVERSHOOT_PER_POINT,
+      ),
     );
     expect(over).toBeGreaterThan(base);
     expect(over - base).toBe(4);
@@ -107,14 +123,22 @@ describe('the spine CLOSES end-to-end (M2·5)', () => {
     // gate→ascend CHAIN fires; the FULL ~1:1 grind duration (ADR-133) is owned by the sim + t0-arc,
     // so we grind only the last koku or two here rather than ~12k fractional-deed acts (AC-17).
     const nearGate = balance.ESTATE_BANDS.excellent - 2;
-    s = { ...s, influence: { estate: { value: nearGate, highWater: nearGate, judged: nearGate } } };
+    s = {
+      ...s,
+      influence: {
+        estate: { value: nearGate, highWater: nearGate, judged: nearGate },
+      },
+    };
     expect(estateGrade(s)).toBe('GREAT'); // below EXCELLENT
     expect(ascensionAvailable(s)).toBe(false); // not yet at the gate
 
     let guard = 0;
     while (estateGrade(s) !== 'EXCELLENT' && guard++ < 1000) {
       // v0.3.1 Step 5: activities are SPATIAL — farm_paddy runs only at its node.
-      s = reduce({ ...s, location: 'paddies' }, { type: 'do_activity', activityId: 'farm_paddy' });
+      s = reduce(
+        { ...s, location: 'paddies' },
+        { type: 'do_activity', activityId: 'farm_paddy' },
+      );
     }
     expect(estateGrade(s)).toBe('EXCELLENT'); // the deed grind reached the gate
     expect(ascensionAvailable(s)).toBe(true);
@@ -146,7 +170,10 @@ describe('the spine CLOSES end-to-end (M2·5)', () => {
       estateStage: MAX_ESTATE_STAGE, // nothing left to commission/walk in the works chain
       // every R7 plan requirement met (derived from the registry, never literals)
       rungReqs: Object.fromEntries(
-        rungRequirements('R7').map((r) => [r.id, r.type === 'count' ? r.target : 1]),
+        rungRequirements('R7').map((r) => [
+          r.id,
+          r.type === 'count' ? r.target : 1,
+        ]),
       ),
       // unjudged growth well above the collect threshold ⇒ a payout is owed
       influence: { estate: { value: 100, highWater: 100, judged: 0, frac: 0 } },
@@ -159,6 +186,8 @@ describe('the spine CLOSES end-to-end (M2·5)', () => {
     // and it left its ceremonial mark in the log — the per-GRADE judge line (C5a/ADR-159),
     // derived from the same sources the emitter reads (never a copied string)
     const grade = gradeOf(after.influence.estate.value);
-    expect(after.log.entries.some((e) => e.text.startsWith(judgeLine(grade)))).toBe(true);
+    expect(
+      after.log.entries.some((e) => e.text.startsWith(judgeLine(grade))),
+    ).toBe(true);
   });
 });

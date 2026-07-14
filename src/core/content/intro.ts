@@ -8,7 +8,13 @@
 
 import { storyText } from './story-overlay';
 import { ATTR_META, type AttrId } from './balance';
-import { NPC_NAME, NPC_VOICE, PLAYER_SPEAKER, type NpcId, type VoiceCategory } from './voices';
+import {
+  NPC_NAME,
+  NPC_VOICE,
+  PLAYER_SPEAKER,
+  type NpcId,
+  type VoiceCategory,
+} from './voices';
 
 /** One line of a beat's setup (the NPC/narrator lines revealed when the beat opens).
  *
@@ -43,7 +49,11 @@ export interface IntroOption {
    *  The UI renders these as JRPG-style perk boxes later; this module carries the DATA + milestone line. */
   readonly perk: { readonly name: string; readonly desc: string };
   /** The per-NPC memory write; absent ⇒ a self/narrator beat that remembers nothing. */
-  readonly memory?: { readonly npc: NpcId; readonly regard: string; readonly warmth: number };
+  readonly memory?: {
+    readonly npc: NpcId;
+    readonly regard: string;
+    readonly warmth: number;
+  };
 }
 
 /** One askable QUESTION node in an NPC's hub (npc-dialogue-tree plan §3.1). Exploratory:
@@ -145,17 +155,26 @@ export function introSceneAt(introScene: number): DialogueScene | null {
 
 /** The topics askable RIGHT NOW: those whose `gate` passes over the asked-set. Asked topics STAY in
  *  the hub (human fork 2026-07-02) — the caller dims the ones present in `asked`; nothing is removed. */
-export function availableTopics(scene: DialogueScene, asked: ReadonlySet<string>): DialogueTopic[] {
+export function availableTopics(
+  scene: DialogueScene,
+  asked: ReadonlySet<string>,
+): DialogueTopic[] {
   return scene.topics.filter((t) => (t.gate ? t.gate(asked) : true));
 }
 
 /** Find a topic within a scene by id (the `ask_topic` reducer looks up the asked topic). */
-export function introTopic(scene: DialogueScene, topicId: string): DialogueTopic | undefined {
+export function introTopic(
+  scene: DialogueScene,
+  topicId: string,
+): DialogueTopic | undefined {
   return scene.topics.find((t) => t.id === topicId);
 }
 
 /** Find a DECISION option within a scene by id (the `choose_intro` reducer looks up the pick). */
-export function introSceneOption(scene: DialogueScene, optionId: string): IntroOption | undefined {
+export function introSceneOption(
+  scene: DialogueScene,
+  optionId: string,
+): IntroOption | undefined {
   return scene.decision.options.find((o) => o.id === optionId);
 }
 
@@ -165,7 +184,10 @@ export function introBeatAt(introScene: number): IntroBeat | null {
 }
 
 /** DERIVED back-compat: find an option within a legacy beat by id. */
-export function introOption(beat: IntroBeat, optionId: string): IntroOption | undefined {
+export function introOption(
+  beat: IntroBeat,
+  optionId: string,
+): IntroOption | undefined {
   return beat.options?.find((o) => o.id === optionId);
 }
 

@@ -276,7 +276,11 @@ export const SCENES: readonly SceneDef[] = [
           speaker: NPC_NAME.rokusuke,
           text: '"Kept it same as any day. It would have read the same if it hanged you."',
         },
-        { id: 'he-bends-back-to-the-row', voice: 'narrator', text: 'He bends back to the row.' },
+        {
+          id: 'he-bends-back-to-the-row',
+          voice: 'narrator',
+          text: 'He bends back to the row.',
+        },
         {
           id: 'eleven-marks-on-a-board-kept',
           voice: 'narrator',
@@ -354,14 +358,17 @@ export const SCENES: readonly SceneDef[] = [
             say: '"I count one pouch lost. That\'s all I count."',
             react:
               "\"You won't say? Why won't you say — you're not so bad. Don't expect anything.\"",
-            memory: [{ npc: 'shinnosuke', warmthDelta: 1, regard: 'kept-quiet' }],
+            memory: [
+              { npc: 'shinnosuke', warmthDelta: 1, regard: 'kept-quiet' },
+            ],
             flags: ['sb-grove-covered'],
           },
           {
             id: 'sb-grove-teach',
             label: '"Stand uphill of them. Watch."',
             say: '"Stand uphill of them. Watch."',
-            react: '"Like this? Why uphill — so they can\'t get above you, or so you look bigger?"',
+            react:
+              '"Like this? Why uphill — so they can\'t get above you, or so you look bigger?"',
             memory: [{ npc: 'shinnosuke', warmthDelta: 1, regard: 'taught' }],
             flags: ['sb-grove-taught'],
           },
@@ -557,7 +564,8 @@ export const SCENES: readonly SceneDef[] = [
             id: 'sb-dog-kihei',
             label: '"Take it to Kihei."',
             say: '"Take it to Kihei."',
-            react: '"Give me your belt-cord. Go rake the leaves. This isn\'t a lesson."',
+            react:
+              '"Give me your belt-cord. Go rake the leaves. This isn\'t a lesson."',
             memory: [{ npc: 'kihei', warmthDelta: 1, regard: 'clear-eyed' }],
             flags: ['sb-dog-ended'],
           },
@@ -757,8 +765,16 @@ export const SCENES: readonly SceneDef[] = [
           voice: 'narrator',
           text: 'Behind him on the climb, somebody calls a name. Short, worn smooth, thrown easy — a name that has landed a thousand times and expects to land now.',
         },
-        { id: 'he-turns-to-answer', voice: 'narrator', text: 'He turns to answer.' },
-        { id: 'the-mountain-moves', voice: 'narrator', text: 'The mountain moves.' },
+        {
+          id: 'he-turns-to-answer',
+          voice: 'narrator',
+          text: 'He turns to answer.',
+        },
+        {
+          id: 'the-mountain-moves',
+          voice: 'narrator',
+          text: 'The mountain moves.',
+        },
         {
           id: 'after-that-there-is-only-the',
           voice: 'narrator',
@@ -1075,7 +1091,9 @@ export const SCENES: readonly SceneDef[] = [
             say: '"I\'ll walk it today, while the light holds."',
             react:
               '"Then it has someone to answer it. It never has. Go before the light turns. The post first — you will see the water standing in the foot of it. Then the bunds. Then the shed."',
-            memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'walked-the-book' }],
+            memory: [
+              { npc: 'genemon', warmthDelta: 1, regard: 'walked-the-book' },
+            ],
             flags: ['works-named-u1', 'works-named-weir'],
           },
           {
@@ -1256,7 +1274,9 @@ export const SCENES: readonly SceneDef[] = [
             say: '"Cut it back. Row by row, the way it was lost."',
             react:
               '"Entered. Mind the dogs. Bring me the rows one at a time and I will strike them off as they come. I have not struck a line off this page in years."',
-            memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'ground-taken-back' }],
+            memory: [
+              { npc: 'genemon', warmthDelta: 1, regard: 'ground-taken-back' },
+            ],
             flags: ['works-open-u2'],
           },
           {
@@ -1347,7 +1367,9 @@ export const SCENES: readonly SceneDef[] = [
             say: '"Raise it. Board by board, ahead of the weather."',
             react:
               '"Entered. Green wood dries crooked — buy seasoned, or cut early and let it stand. Do not put wet timber under next year\'s rice. And mark the date: it is the first line I have written on this page before the damage, and not after it."',
-            memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'past-winters-need' }],
+            memory: [
+              { npc: 'genemon', warmthDelta: 1, regard: 'past-winters-need' },
+            ],
             flags: ['works-open-u3'],
           },
           {
@@ -1449,7 +1471,9 @@ export const SCENES: readonly SceneDef[] = [
             say: '"Open the rooms. All of them."',
             react:
               '"Entered. The last line, and the largest. When the rooms are open and the house is dry, I will close this page and rule a new one. I have never had cause to think what goes on it."',
-            memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'the-house-stands' }],
+            memory: [
+              { npc: 'genemon', warmthDelta: 1, regard: 'the-house-stands' },
+            ],
             flags: ['works-open-u4'],
           },
           {
@@ -1531,7 +1555,8 @@ export const SCENES: readonly SceneDef[] = [
         },
       ],
       decision: {
-        prompt: 'The coin is yours. Genemon waits to hear what you will do with it.',
+        prompt:
+          'The coin is yours. Genemon waits to hear what you will do with it.',
         options: [
           {
             id: 'sb-market-go',
@@ -1539,7 +1564,9 @@ export const SCENES: readonly SceneDef[] = [
             say: '"Then I\'ll learn what things cost."',
             react:
               '"You will. Yohei will price you as a stray the first time and as a regular the fourth, and the whole of the lesson is the difference between those two prices. Your own coin, mind. The house\'s is not loose yet."',
-            memory: [{ npc: 'genemon', warmthDelta: 1, regard: 'counts-his-coin' }],
+            memory: [
+              { npc: 'genemon', warmthDelta: 1, regard: 'counts-his-coin' },
+            ],
             flags: ['told-of-the-stall'],
           },
           {
@@ -1548,7 +1575,9 @@ export const SCENES: readonly SceneDef[] = [
             say: '"It keeps. I need nothing."',
             react:
               '"Then it sits, and it is yours to sit on. The stall goes up on its days whether you come to it or not, and the prices will not have improved by the time you do. You know the gate now. That was the errand."',
-            memory: [{ npc: 'genemon', warmthDelta: 0, regard: 'keeps-his-coin' }],
+            memory: [
+              { npc: 'genemon', warmthDelta: 0, regard: 'keeps-his-coin' },
+            ],
             flags: ['told-of-the-stall'],
           },
         ],
@@ -1630,7 +1659,9 @@ export const SCENES: readonly SceneDef[] = [
             say: '"Show me the pot."',
             react:
               '"Stand where you can see, then, and do not crowd the fire. Water to the scratch inside the rim, not above it. Greens in when it moves, not before. Two handfuls — the pot is smaller than it looks and it will not forgive a third — and off the heat while the stalks still hold their shape. There. You can feed yourself now. A man who can feed himself is a man who — the handle takes the heat. Use the cloth."',
-            memory: [{ npc: 'ohisa', warmthDelta: 1, regard: 'learns-the-pot' }],
+            memory: [
+              { npc: 'ohisa', warmthDelta: 1, regard: 'learns-the-pot' },
+            ],
             flags: ['taught-to-cook'],
           },
           {
@@ -1639,7 +1670,9 @@ export const SCENES: readonly SceneDef[] = [
             say: '"Boil them, then. I\'ll take the bowl."',
             react:
               '"You will. Two handfuls, no more, and I will not be doing it for you twice. The pot is there. The fire is there. I will not always be standing at it on the day you come across that yard needing it. Eat it sitting down — standing, it does you half the good."',
-            memory: [{ npc: 'ohisa', warmthDelta: 0, regard: 'takes-the-bowl' }],
+            memory: [
+              { npc: 'ohisa', warmthDelta: 0, regard: 'takes-the-bowl' },
+            ],
             flags: ['taught-to-cook'],
           },
         ],
@@ -1708,7 +1741,8 @@ export const SCENES: readonly SceneDef[] = [
         },
       ],
       decision: {
-        prompt: 'Four bundles a night, and the margin lies at the end of your row.',
+        prompt:
+          'Four bundles a night, and the margin lies at the end of your row.',
         options: [
           {
             id: 'sb-racks-take',
@@ -1716,7 +1750,9 @@ export const SCENES: readonly SceneDef[] = [
             say: '"Show me where they come in."',
             react:
               '"End of the third bund, where the ground goes soft. Follow the drag-marks — they do not hide them, they have never had call to. Go before dark or after; they do not keep our hours. And you had it off the racks, not off me. The racks are there for anyone to count."',
-            memory: [{ npc: 'rokusuke', warmthDelta: 1, regard: 'walks-the-margin' }],
+            memory: [
+              { npc: 'rokusuke', warmthDelta: 1, regard: 'walks-the-margin' },
+            ],
             flags: ['racks-raided'],
           },
           {

@@ -41,7 +41,9 @@ import { GATES } from './gates';
 import { gatesForFlags, scopeFlagsFromEnv } from './verify-scope';
 
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
-const binDir = fileURLToPath(new URL('../../node_modules/.bin', import.meta.url));
+const binDir = fileURLToPath(
+  new URL('../../node_modules/.bin', import.meta.url),
+);
 const env = { ...process.env, PATH: `${binDir}:${process.env.PATH ?? ''}` };
 
 interface GateResult {
@@ -59,10 +61,20 @@ function runGate(g: { name: string; cmd: string }): Promise<GateResult> {
     child.stdout.on('data', (d: Buffer) => (output += d.toString()));
     child.stderr.on('data', (d: Buffer) => (output += d.toString()));
     child.on('close', (code) =>
-      resolve({ name: g.name, code: code ?? 1, ms: performance.now() - t0, output }),
+      resolve({
+        name: g.name,
+        code: code ?? 1,
+        ms: performance.now() - t0,
+        output,
+      }),
     );
     child.on('error', (e) =>
-      resolve({ name: g.name, code: 1, ms: performance.now() - t0, output: String(e) }),
+      resolve({
+        name: g.name,
+        code: 1,
+        ms: performance.now() - t0,
+        output: String(e),
+      }),
     );
   });
 }
@@ -81,7 +93,9 @@ async function runAll(
       results.push(await runGate(gates[next++]!));
     }
   };
-  await Promise.all(Array.from({ length: Math.min(limit, gates.length) }, worker));
+  await Promise.all(
+    Array.from({ length: Math.min(limit, gates.length) }, worker),
+  );
   return results;
 }
 
@@ -97,13 +111,28 @@ function runGateSequential(g: {
   return new Promise((resolve) => {
     const t0 = performance.now();
     console.log(`\n  ▶ ${g.name}  (${g.cmd})`);
-    const child = spawn(g.cmd, { cwd: repoRoot, env, shell: true, stdio: 'inherit' });
+    const child = spawn(g.cmd, {
+      cwd: repoRoot,
+      env,
+      shell: true,
+      stdio: 'inherit',
+    });
     child.on('close', (code) =>
-      resolve({ name: g.name, code: code ?? 1, ms: performance.now() - t0, output: '' }),
+      resolve({
+        name: g.name,
+        code: code ?? 1,
+        ms: performance.now() - t0,
+        output: '',
+      }),
     );
     child.on('error', (e) => {
       console.error(String(e));
-      resolve({ name: g.name, code: 1, ms: performance.now() - t0, output: '' });
+      resolve({
+        name: g.name,
+        code: 1,
+        ms: performance.now() - t0,
+        output: '',
+      });
     });
   });
 }
@@ -134,7 +163,8 @@ const KNOWN = new Set([
   '--performance',
   '--perf',
 ]);
-const hasFlag = (...names: string[]): boolean => names.some((n) => argv.includes(n));
+const hasFlag = (...names: string[]): boolean =>
+  names.some((n) => argv.includes(n));
 for (const a of argv) {
   if (a.startsWith('-') && !KNOWN.has(a)) {
     console.error(`  ! unknown flag "${a}" — try \`pnpm run verify --help\``);
@@ -183,7 +213,9 @@ function printTimings(results: GateResult[]): void {
 function printAllOutput(results: GateResult[]): void {
   for (const r of [...results].sort((a, b) => b.ms - a.ms)) {
     const out = r.output.trim();
-    console.log(`\n  ${r.code === 0 ? '✓' : '✗'} ${r.name} (${fmt(r.ms)}, exit ${r.code}):`);
+    console.log(
+      `\n  ${r.code === 0 ? '✓' : '✗'} ${r.name} (${fmt(r.ms)}, exit ${r.code}):`,
+    );
     console.log(out ? indent(out) : '    (no output)');
   }
 }
@@ -197,7 +229,10 @@ if (hasFlag('--help', '-h')) {
 // run must be unmistakable in the output, never a false "all green".
 function noteScope(skipped: ReadonlyArray<{ name: string }>): void {
   if (!skipped.length) return;
-  const via = [flags.skipCode && 'SKIP_CODE_VERIFY', flags.skipDocs && 'SKIP_DOCS_VERIFY']
+  const via = [
+    flags.skipCode && 'SKIP_CODE_VERIFY',
+    flags.skipDocs && 'SKIP_DOCS_VERIFY',
+  ]
     .filter(Boolean)
     .join(' + ');
   console.log(
@@ -231,8 +266,12 @@ if (sequential) {
     );
     process.exit(1);
   }
-  const scopeNote = skipped.length ? ` of ${GATES.length} (${skipped.length} lane-skipped)` : '';
-  console.log(`\n  verify OK — ${roster.length} gates${scopeNote} in ${fmt(total)} (sequential)`);
+  const scopeNote = skipped.length
+    ? ` of ${GATES.length} (${skipped.length} lane-skipped)`
+    : '';
+  console.log(
+    `\n  verify OK — ${roster.length} gates${scopeNote} in ${fmt(total)} (sequential)`,
+  );
   process.exit(0);
 }
 
@@ -241,7 +280,9 @@ if (!budget) {
   if (debug) {
     console.log('  debug — resolved config:');
     console.log(`    concurrency: ${concurrency} (${cpus().length} CPUs)`);
-    console.log(`    scope flags: skipCode=${flags.skipCode} skipDocs=${flags.skipDocs}`);
+    console.log(
+      `    scope flags: skipCode=${flags.skipCode} skipDocs=${flags.skipDocs}`,
+    );
     console.log(`    PATH prepend: ${binDir}`);
     console.log(`    roster: ${roster.length}/${GATES.length} gate(s)`);
     for (const g of roster) console.log(`      ${g.name.padEnd(20)} ${g.cmd}`);
@@ -278,7 +319,9 @@ if (!budget) {
     process.exit(1);
   }
   const slowest = [...results].sort((a, b) => b.ms - a.ms)[0]!;
-  const scopeNote = skipped.length ? ` of ${GATES.length} (${skipped.length} lane-skipped)` : '';
+  const scopeNote = skipped.length
+    ? ` of ${GATES.length} (${skipped.length} lane-skipped)`
+    : '';
   console.log(
     `  verify OK — ${roster.length} gates${scopeNote} in ${fmt(total)} (${concurrency}-way parallel; slowest: ${slowest.name} ${fmt(slowest.ms)})`,
   );
@@ -286,7 +329,9 @@ if (!budget) {
 }
 
 if (flags.skipCode || flags.skipDocs) {
-  console.log('  ~ SKIP_CODE_VERIFY/SKIP_DOCS_VERIFY ignored: --budget measures the FULL roster.');
+  console.log(
+    '  ~ SKIP_CODE_VERIFY/SKIP_DOCS_VERIFY ignored: --budget measures the FULL roster.',
+  );
 }
 
 // --budget: the deliberate HARD check — median of RUNS parallel runs + the per-gate critical path.
@@ -297,7 +342,9 @@ const BUDGET_MS = Number(process.env.VERIFY_BUDGET_MS ?? 8000);
 const SOFT_MS = Number(process.env.VERIFY_SOFT_MS ?? 5000);
 const RUNS = Math.max(1, Number(process.env.VERIFY_BUDGET_RUNS ?? 3));
 if (!Number.isFinite(BUDGET_MS) || BUDGET_MS <= 0) {
-  console.error(`  X VERIFY_BUDGET_MS is not a positive number: "${process.env.VERIFY_BUDGET_MS}"`);
+  console.error(
+    `  X VERIFY_BUDGET_MS is not a positive number: "${process.env.VERIFY_BUDGET_MS}"`,
+  );
   process.exit(2);
 }
 console.log(
@@ -324,7 +371,9 @@ for (const g of [...last].sort((a, b) => b.ms - a.ms)) {
 totals.sort((a, b) => a - b);
 const median = totals[Math.floor(totals.length / 2)]!;
 console.log(`\n  parallel runs: ${totals.map(fmt).join(' · ')}`);
-console.log(`  median: ${fmt(median)}   soft: ${fmt(SOFT_MS)}   HARD: ${fmt(BUDGET_MS)}`);
+console.log(
+  `  median: ${fmt(median)}   soft: ${fmt(SOFT_MS)}   HARD: ${fmt(BUDGET_MS)}`,
+);
 if (median > BUDGET_MS) {
   console.error(
     `\n  X OVER the HARD ${fmt(BUDGET_MS)} budget by ${fmt(median - BUDGET_MS)}. The critical path is the slowest gate` +

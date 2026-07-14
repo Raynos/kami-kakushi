@@ -16,7 +16,14 @@ import {
   type SkillId,
 } from '../../core';
 import { el, stampAct } from '../render';
-import { reconcileList, setText, setClass, setDisabled, setStyle, toggle } from '../reconcile';
+import {
+  reconcileList,
+  setText,
+  setClass,
+  setDisabled,
+  setStyle,
+  toggle,
+} from '../reconcile';
 import { renderBestiary, buildBestiaryCard, patchBestiaryCard } from './combat';
 import type { DevApi } from '../dev';
 
@@ -34,7 +41,14 @@ export function createCharacterView(ctx: {
   renderSkills(state: GameState): void;
   renderCharacterSheet(state: GameState): void;
 } {
-  const { characterBody, characterTrain, characterBestiary, skillsPane, dispatch, dev } = ctx;
+  const {
+    characterBody,
+    characterTrain,
+    characterBestiary,
+    skillsPane,
+    dispatch,
+    dev,
+  } = ctx;
 
   // characterRefs — the Character tab's SPLIT-OUT halves of combat (training attrs + bestiary),
   // each a build-once/patch surface (FB-81). Reveal at R3 (`readout-combat-level` / `panel-bestiary`).
@@ -49,7 +63,8 @@ export function createCharacterView(ctx: {
     eatRiceRow: HTMLElement;
     eatRiceBtn: HTMLButtonElement;
   } | null = null;
-  let characterTrainRefs: { train: HTMLElement; trainPts: HTMLElement } | null = null;
+  let characterTrainRefs: { train: HTMLElement; trainPts: HTMLElement } | null =
+    null;
   let characterBestiaryRefs: {
     host: HTMLElement;
     blurb: HTMLElement;
@@ -58,14 +73,16 @@ export function createCharacterView(ctx: {
 
   function renderSkills(state: GameState): void {
     // IA reorg (ADR-112 §2) — skills is a section of the Character tab (with attrs + bestiary).
-    const show = ctx.activeTab() === 'character' && isUnlocked(state, 'tab-skills');
+    const show =
+      ctx.activeTab() === 'character' && isUnlocked(state, 'tab-skills');
     toggle(skillsPane, show);
     if (!show) return;
     // the visible skill rows — reconciled as a keyed list so each card is built ONCE (its meter fill
     // persists ⇒ the width transition plays) and patched in place; a not-yet-visible skill has no
     // node, so an empty pane stays genuinely empty (FB-72 ghost-box contract).
     const visible = SKILLS.filter(
-      (def) => skillVisible(state, def.id) || isUnlocked(state, `skill-${def.id}`),
+      (def) =>
+        skillVisible(state, def.id) || isUnlocked(state, `skill-${def.id}`),
     );
     reconcileList(skillsPane, visible, {
       key: (def) => def.id,
@@ -91,7 +108,10 @@ export function createCharacterView(ctx: {
           const yieldPct = Math.round(
             (skillYieldNum(prog.level) / balance.SKILL_YIELD_DEN - 1) * 100,
           );
-          setText(card.querySelector('.rung-hint')!, `+${yieldPct}% labour yield`);
+          setText(
+            card.querySelector('.rung-hint')!,
+            `+${yieldPct}% labour yield`,
+          );
         }
         setStyle(
           card.querySelector<HTMLElement>('.meter span')!,
@@ -116,7 +136,8 @@ export function createCharacterView(ctx: {
     //    the food verbs' ONE home, beside the Body 体/Belly 腹 readouts they feed (TST3/TST4;
     //    zones stopped carrying them, ADR-178 §4). The card appears with either verb. ──
     const showBody =
-      onCharacter && (isUnlocked(state, 'verb-cook') || isUnlocked(state, 'verb-eat-rice'));
+      onCharacter &&
+      (isUnlocked(state, 'verb-cook') || isUnlocked(state, 'verb-eat-rice'));
     toggle(characterBody, showBody);
     if (showBody) {
       if (!characterBodyRefs) {
@@ -137,17 +158,28 @@ export function createCharacterView(ctx: {
         const cookBtn = el('button', 'verb');
         cookBtn.type = 'button';
         stampAct(cookBtn, 'cook_meal');
-        cookBtn.addEventListener('click', () => dispatch({ type: 'cook_meal' }));
+        cookBtn.addEventListener('click', () =>
+          dispatch({ type: 'cook_meal' }),
+        );
         cookRow.append(cookBtn);
         const eatRiceRow = el('div', 'labour-row');
         const eatRiceBtn = el('button', 'verb');
         eatRiceBtn.type = 'button';
         stampAct(eatRiceBtn, 'eat_rice');
-        eatRiceBtn.addEventListener('click', () => dispatch({ type: 'eat_rice' }));
+        eatRiceBtn.addEventListener('click', () =>
+          dispatch({ type: 'eat_rice' }),
+        );
         eatRiceRow.append(eatRiceBtn);
         card.append(cookRow, eatRiceRow);
         characterBody.append(card);
-        characterBodyRefs = { bodyVal, bellyVal, cookRow, cookBtn, eatRiceRow, eatRiceBtn };
+        characterBodyRefs = {
+          bodyVal,
+          bellyVal,
+          cookRow,
+          cookBtn,
+          eatRiceRow,
+          eatRiceBtn,
+        };
       }
       const b = characterBodyRefs;
       // vitals readouts — numerals live here (the header vital-stack keeps bars-only, FB-387).
@@ -155,7 +187,10 @@ export function createCharacterView(ctx: {
         b.bodyVal,
         `${Math.round(state.character.satiety)}/${Math.round(satietyMax(state))} work left in the day`,
       );
-      setText(b.bellyVal, ` ${Math.round(state.character.hunger)}/${Math.round(hungerMax(state))}`);
+      setText(
+        b.bellyVal,
+        ` ${Math.round(state.character.hunger)}/${Math.round(hungerMax(state))}`,
+      );
 
       // cook a meal — sansai → belly (ADR-178; the HP mend is SEVERED, ADR-164/ADR-197 —
       // wounds mend at the sickroom, so the hurt-primary cue left with it).
@@ -225,13 +260,18 @@ export function createCharacterView(ctx: {
           row.append(label);
           const plus = el('button', 'auto-toggle', '+1');
           plus.type = 'button';
-          plus.addEventListener('click', () => dispatch({ type: 'spend_attribute', attr: id }));
+          plus.addEventListener('click', () =>
+            dispatch({ type: 'spend_attribute', attr: id }),
+          );
           row.append(plus);
           return row;
         },
         patch: (row, id) => {
           setText(row.querySelector('.attr-val')!, ` ${c.attrs[id]}`);
-          setDisabled(row.querySelector('.auto-toggle')!, c.attributePoints <= 0);
+          setDisabled(
+            row.querySelector('.auto-toggle')!,
+            c.attributePoints <= 0,
+          );
         },
       });
     }
@@ -247,7 +287,8 @@ export function createCharacterView(ctx: {
       if (showBestiary) {
         const bpane = el('div', 'bestiary');
         characterBestiary.append(bpane);
-        if (!dev.renderVariant('bestiary', bpane, state, dispatch)) renderBestiary(bpane, state);
+        if (!dev.renderVariant('bestiary', bpane, state, dispatch))
+          renderBestiary(bpane, state);
       }
       return;
     }

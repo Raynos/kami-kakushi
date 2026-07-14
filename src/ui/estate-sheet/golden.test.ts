@@ -53,7 +53,10 @@ const DRAW_ATTRS = [
   'style',
 ];
 
-function renderSheet(variant: 'a' | 'b', eraId: string): { hash: string; nodes: number } {
+function renderSheet(
+  variant: 'a' | 'b',
+  eraId: string,
+): { hash: string; nodes: number } {
   const fx = ERAS.find((e) => e.id === eraId)!;
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   const art = document.createElementNS('http://www.w3.org/2000/svg', 'g');

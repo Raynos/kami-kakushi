@@ -14,7 +14,12 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createInitialState, balance, __resetBalanceLevers, BALANCE_CANON } from '../core';
+import {
+  createInitialState,
+  balance,
+  __resetBalanceLevers,
+  BALANCE_CANON,
+} from '../core';
 import { makeEnvelope, encodeEnvelope } from '../persistence/codec';
 import { resolveCapture, writeCapture } from '../scripts/playtest-inbox';
 import {
@@ -45,7 +50,10 @@ afterEach(() => __resetBalanceLevers());
 
 describe('buildTuneArtifact — the pure export-diff builder', () => {
   it('emits the exact frontmatter + touched table + old→new apply lines (bytes)', () => {
-    const md = buildTuneArtifact([{ path: 'EAT_RICE_HUNGER', canon: 30, current: 36 }], META);
+    const md = buildTuneArtifact(
+      [{ path: 'EAT_RICE_HUNGER', canon: 30, current: 36 }],
+      META,
+    );
     const expected =
       [
         '---',
@@ -82,8 +90,12 @@ describe('buildTuneArtifact — the pure export-diff builder', () => {
     );
     expect(md).toContain('| RICE_PER_RAKE | 3 | 2 | −33% |');
     expect(md).toContain('| EAT_RICE_HUNGER | 30 | 45 | +50% |');
-    expect(md).toContain('- `export let RICE_PER_RAKE = 3;` → `export let RICE_PER_RAKE = 2;`');
-    expect(md).toContain('session_url: /?bal.RICE_PER_RAKE=2&bal.EAT_RICE_HUNGER=45');
+    expect(md).toContain(
+      '- `export let RICE_PER_RAKE = 3;` → `export let RICE_PER_RAKE = 2;`',
+    );
+    expect(md).toContain(
+      'session_url: /?bal.RICE_PER_RAKE=2&bal.EAT_RICE_HUNGER=45',
+    );
   });
 
   it('a structured map path emits a field-edit line (not `export let`)', () => {
@@ -97,12 +109,19 @@ describe('buildTuneArtifact — the pure export-diff builder', () => {
   });
 
   it('no lever emits the retired ranks.ts mirror bullet (FB-121: the rung sliders are gone)', () => {
-    const scalar = buildTuneArtifact([{ path: 'RICE_PER_RAKE', canon: 3, current: 4 }], META);
+    const scalar = buildTuneArtifact(
+      [{ path: 'RICE_PER_RAKE', canon: 3, current: 4 }],
+      META,
+    );
     expect(scalar).not.toContain('src/core/content/ranks.ts');
   });
 
   it('appends an optional note section only when non-empty', () => {
-    const bare = buildTuneArtifact([{ path: 'RICE_PER_RAKE', canon: 3, current: 4 }], META, '   ');
+    const bare = buildTuneArtifact(
+      [{ path: 'RICE_PER_RAKE', canon: 3, current: 4 }],
+      META,
+      '   ',
+    );
     expect(bare).not.toContain('## Note');
     const noted = buildTuneArtifact(
       [{ path: 'RICE_PER_RAKE', canon: 3, current: 4 }],
@@ -123,7 +142,9 @@ describe('cockpit controller — set / read / canon / touched / reset', () => {
     expect(c.read('RICE_PER_RAKE')).toBe(10);
     expect(balance.RICE_PER_RAKE).toBe(10); // the module binding moved — importers see it
     expect(c.canon('RICE_PER_RAKE')).toBe(RAKE); // canon is preserved for the readout
-    expect(c.touched()).toEqual([{ path: 'RICE_PER_RAKE', canon: RAKE, current: 10 }]);
+    expect(c.touched()).toEqual([
+      { path: 'RICE_PER_RAKE', canon: RAKE, current: 10 },
+    ]);
 
     c.reset();
     expect(balance.RICE_PER_RAKE).toBe(RAKE);
@@ -156,9 +177,14 @@ describe('cockpit controller — set / read / canon / touched / reset', () => {
     expect(p.session).not.toContain(':');
     expect(p.metadataName).toBe('2026-07-03T18-42-07.000Z-balance-tune.json');
     expect(p.markdown).toContain(`| RICE_PER_RAKE | ${RAKE} | 5 |`);
-    const meta = JSON.parse(p.metadata) as { kind: string; touched: { path: string }[] };
+    const meta = JSON.parse(p.metadata) as {
+      kind: string;
+      touched: { path: string }[];
+    };
     expect(meta.kind).toBe('balance-tune');
-    expect(meta.touched).toEqual([{ path: 'RICE_PER_RAKE', canon: RAKE, current: 5 }]);
+    expect(meta.touched).toEqual([
+      { path: 'RICE_PER_RAKE', canon: RAKE, current: 5 },
+    ]);
   });
 });
 
@@ -189,7 +215,9 @@ describe('the full §2 lever set — registry / CANON / switches in lockstep', (
 
   it('a structured map path overrides the live namespace value (in-place mutation)', () => {
     const c = cockpit();
-    expect(balance.ESTATE_BANDS.excellent).toBe(BALANCE_CANON['ESTATE_BANDS.excellent']);
+    expect(balance.ESTATE_BANDS.excellent).toBe(
+      BALANCE_CANON['ESTATE_BANDS.excellent'],
+    );
     c.set('ESTATE_BANDS.excellent', 960);
     expect(balance.ESTATE_BANDS.excellent).toBe(960); // importers reading the property see it live
     c.set('RICE_SELL_PRICE_BY_SEASON.spring', 9);
@@ -197,8 +225,12 @@ describe('the full §2 lever set — registry / CANON / switches in lockstep', (
     c.set('STANCE_MODS.jodan.atkMult', 2);
     expect(balance.STANCE_MODS.jodan.atkMult).toBe(2);
     c.reset();
-    expect(balance.ESTATE_BANDS.excellent).toBe(BALANCE_CANON['ESTATE_BANDS.excellent']);
-    expect(balance.STANCE_MODS.jodan.atkMult).toBe(BALANCE_CANON['STANCE_MODS.jodan.atkMult']);
+    expect(balance.ESTATE_BANDS.excellent).toBe(
+      BALANCE_CANON['ESTATE_BANDS.excellent'],
+    );
+    expect(balance.STANCE_MODS.jodan.atkMult).toBe(
+      BALANCE_CANON['STANCE_MODS.jodan.atkMult'],
+    );
   });
 });
 
@@ -259,7 +291,11 @@ describe('export transport — mount POST + fallback (Ph3)', () => {
     await Promise.resolve();
     await Promise.resolve();
     expect(posted!.url).toBe('/__playtest-capture');
-    const parsed = JSON.parse(posted!.body) as { session: string; header: string; entry: string };
+    const parsed = JSON.parse(posted!.body) as {
+      session: string;
+      header: string;
+      entry: string;
+    };
     expect(parsed.session).toContain('-balance-tune');
     expect(parsed.entry).toBe('');
     expect(parsed.header).toContain(`| RICE_PER_RAKE | ${RAKE} | 9 |`);
@@ -275,7 +311,9 @@ describe('export transport — mount POST + fallback (Ph3)', () => {
     const customDoc = {
       createElement: (tag: string) => {
         const node = document.createElement(tag);
-        if (tag === 'a') node.click = () => downloads.push((node as HTMLAnchorElement).download);
+        if (tag === 'a')
+          node.click = () =>
+            downloads.push((node as HTMLAnchorElement).download);
         return node;
       },
       body: document.body,

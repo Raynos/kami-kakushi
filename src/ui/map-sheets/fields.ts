@@ -4,7 +4,15 @@
 // dry-field furrow hatching, and swept-court ground. Every mark composes brush.ts —
 // seeded-deterministic, Andon-Steel tokens only, brush-alive (no uniform CAD lines).
 
-import { brushStroke, fineLayer, inkLine, inkText, rng, wash, type SeedOpts } from './brush';
+import {
+  brushStroke,
+  fineLayer,
+  inkLine,
+  inkText,
+  rng,
+  wash,
+  type SeedOpts,
+} from './brush';
 import {
   along,
   bbox,
@@ -27,7 +35,14 @@ function rowSegments(
   r: () => number,
   jitter: number,
 ): { a: Pt; b: Pt }[] {
-  return scanlineRuns(poly, { angleDeg, spacing, r, jitter, step: 5, phase: spacing / 2 });
+  return scanlineRuns(poly, {
+    angleDeg,
+    spacing,
+    r,
+    jitter,
+    step: 5,
+    phase: spacing / 2,
+  });
 }
 
 /** The stretch of a polyline between fractions t0..t1 of its point run. */
@@ -82,12 +97,21 @@ function kanjiNum(n: number): string {
   if (n < 10) return KANJI_DIGIT[n]!;
   const tens = Math.floor(n / 10);
   const ones = n % 10;
-  return (tens > 1 ? KANJI_DIGIT[tens]! : '') + '十' + (ones ? KANJI_DIGIT[ones]! : '');
+  return (
+    (tens > 1 ? KANJI_DIGIT[tens]! : '') +
+    '十' +
+    (ones ? KANJI_DIGIT[ones]! : '')
+  );
 }
 
 /** A terrace-count stone: small irregular washed stone + its kanji numeral (the
  *  T1 wrong-thing made legible — the numbering runs on into the scrub, G7). */
-function stoneNumeral(parent: SVGElement, [x, y]: Pt, n: number, seed: string): void {
+function stoneNumeral(
+  parent: SVGElement,
+  [x, y]: Pt,
+  n: number,
+  seed: string,
+): void {
   const r = rng(seed);
   const wide = n >= 10;
   const rad = (wide ? 9 : 7.2) + r() * 1.2;
@@ -96,7 +120,10 @@ function stoneNumeral(parent: SVGElement, [x, y]: Pt, n: number, seed: string): 
   for (let i = 0; i < k; i++) {
     const a = (i / k) * Math.PI * 2 + r() * 0.25;
     const rr = rad * (0.92 + r() * 0.16);
-    pts.push([x + Math.cos(a) * rr * (wide ? 1.2 : 1), y + Math.sin(a) * rr * 0.85]);
+    pts.push([
+      x + Math.cos(a) * rr * (wide ? 1.2 : 1),
+      y + Math.sin(a) * rr * 0.85,
+    ]);
   }
   wash(parent, pts, {
     seed: `${seed}:s`,
@@ -105,15 +132,24 @@ function stoneNumeral(parent: SVGElement, [x, y]: Pt, n: number, seed: string): 
     stroke: 'var(--silver-wire)',
     strokeW: 0.7,
   });
-  inkText(parent, x, y + 3.6, kanjiNum(n), { size: wide ? 9 : 10.5, color: 'var(--ink)' });
+  inkText(parent, x, y + 3.6, kanjiNum(n), {
+    size: wide ? 9 : 10.5,
+    color: 'var(--ink)',
+  });
 }
 
 /** A scrub tuft — a small fan of grass pulls where the field has let go. */
-function scrubTuft(parent: SVGElement, [x, y]: Pt, seed: string, scale = 1): void {
+function scrubTuft(
+  parent: SVGElement,
+  [x, y]: Pt,
+  seed: string,
+  scale = 1,
+): void {
   const r = rng(seed);
   const blades = 4 + Math.floor(r() * 3);
   for (let i = 0; i < blades; i++) {
-    const a = -Math.PI / 2 + (i / Math.max(1, blades - 1) - 0.5) * (1.1 + r() * 0.6);
+    const a =
+      -Math.PI / 2 + (i / Math.max(1, blades - 1) - 0.5) * (1.1 + r() * 0.6);
     const len = (6 + r() * 5) * scale;
     inkLine(
       parent,
@@ -138,7 +174,11 @@ export interface PaddyBlockOpts {
  *  transplant-row dashes at the field's row angle, and a working-weight bund outline —
  *  the period surveyor's way of saying "this square is planted and holds water".
  *  wet=false drops the silver water sheen for a drier ground. */
-export function paddyBlock(parent: SVGElement, poly: readonly Pt[], o: PaddyBlockOpts): void {
+export function paddyBlock(
+  parent: SVGElement,
+  poly: readonly Pt[],
+  o: PaddyBlockOpts,
+): void {
   const wet = o.wet ?? true;
   const r = rng(o.seed);
   wash(parent, poly, {
@@ -147,11 +187,22 @@ export function paddyBlock(parent: SVGElement, poly: readonly Pt[], o: PaddyBloc
     opacity: wet ? 0.95 : 0.55,
     amp: 3,
   });
-  if (wet) wash(parent, poly, { seed: `${o.seed}:sheen`, fill: 'var(--silver-faint)', amp: 3 });
+  if (wet)
+    wash(parent, poly, {
+      seed: `${o.seed}:sheen`,
+      fill: 'var(--silver-faint)',
+      amp: 3,
+    });
   const { x0, y0, x1, y1 } = bbox(poly);
   const minDim = Math.min(x1 - x0, y1 - y0);
   const spacing = Math.max(7, Math.min(12, minDim / 8));
-  const rows = rowSegments(insetPoly(poly, 6), o.rowAngleDeg ?? 0, spacing, r, 0.22);
+  const rows = rowSegments(
+    insetPoly(poly, 6),
+    o.rowAngleDeg ?? 0,
+    spacing,
+    r,
+    0.22,
+  );
   for (let i = 0; i < rows.length; i++) {
     const { a, b } = rows[i]!;
     // stagger each row's start so dash phases never align into a grid
@@ -184,7 +235,11 @@ export interface GhostBundsOpts {
  *  is that, drawn): a faint dotted irregular grid filling the polygon, stretches lost
  *  where the stones were robbed or ploughed out. angleDeg (optional extra) aligns the
  *  ghost grid with a living block's pattern so the traces read as its continuation. */
-export function ghostBunds(parent: SVGElement, poly: readonly Pt[], o: GhostBundsOpts): void {
+export function ghostBunds(
+  parent: SVGElement,
+  poly: readonly Pt[],
+  o: GhostBundsOpts,
+): void {
   const r = rng(o.seed);
   const cell = o.cell ?? 46;
   const baseAng = o.angleDeg ?? (r() - 0.5) * 6;
@@ -250,12 +305,17 @@ export interface TerraceRunOpts {
  *  scrub tufts and NO water tone when the run has been let go. numberFrom sets tiny
  *  kanji count-stones at the strip ends (fine layer, L10); the numerals keep counting
  *  on let-go strips — the T1 wrong thing. */
-export function terraceRun(parent: SVGElement, baseline: readonly Pt[], o: TerraceRunOpts): void {
+export function terraceRun(
+  parent: SVGElement,
+  baseline: readonly Pt[],
+  o: TerraceRunOpts,
+): void {
   const r = rng(o.seed);
   const base = resample(baseline, 14);
   const first = base[0]!;
   const last = base[base.length - 1]!;
-  const runAngle = (Math.atan2(last[1] - first[1], last[0] - first[0]) * 180) / Math.PI;
+  const runAngle =
+    (Math.atan2(last[1] - first[1], last[0] - first[0]) * 180) / Math.PI;
   const edges: Pt[][] = [base];
   let acc = 0;
   for (let i = 0; i < o.count; i++) {
@@ -374,14 +434,29 @@ export interface FurrowsOpts {
  *  drier ground tone. The whole plot shares one plough bow (the ox turns the same way
  *  every pass) while each row keeps its own waver, stops short of the headland by its
  *  own margin, and now and then breaks mid-field — never a screen-tone hatch. */
-export function furrows(parent: SVGElement, poly: readonly Pt[], o: FurrowsOpts): void {
+export function furrows(
+  parent: SVGElement,
+  poly: readonly Pt[],
+  o: FurrowsOpts,
+): void {
   const r = rng(o.seed);
-  wash(parent, poly, { seed: `${o.seed}:wash`, fill: 'var(--steel-2)', opacity: 0.75, amp: 3 });
+  wash(parent, poly, {
+    seed: `${o.seed}:wash`,
+    fill: 'var(--steel-2)',
+    opacity: 0.75,
+    amp: 3,
+  });
   const { x0, y0, x1, y1 } = bbox(poly);
   const minDim = Math.min(x1 - x0, y1 - y0);
   const spacing = Math.max(6, Math.min(10, minDim / 10));
   const plotBow = (r() - 0.5) * 0.14; // one shared plough drift for the whole plot
-  const segs = rowSegments(insetPoly(poly, 5), o.angleDeg ?? 0, spacing, r, 0.3);
+  const segs = rowSegments(
+    insetPoly(poly, 5),
+    o.angleDeg ?? 0,
+    spacing,
+    r,
+    0.3,
+  );
   for (let i = 0; i < segs.length; i++) {
     if (r() < 0.06) continue; // a row the plough skipped
     const { a, b } = segs[i]!;
@@ -411,7 +486,8 @@ export function furrows(parent: SVGElement, poly: readonly Pt[], o: FurrowsOpts)
       const [t0, t1] = pieces[p]!;
       const pts: Pt[] = [];
       const steps = 4;
-      for (let s = 0; s <= steps; s++) pts.push(row(t0 + ((t1 - t0) * s) / steps));
+      for (let s = 0; s <= steps; s++)
+        pts.push(row(t0 + ((t1 - t0) * s) / steps));
       inkLine(parent, pts, {
         seed: `${o.seed}:f${i}-${p}`,
         w: 0.8 + r() * 0.8,
@@ -429,9 +505,18 @@ export function furrows(parent: SVGElement, poly: readonly Pt[], o: FurrowsOpts)
  *  across the court, so the sweeps are long shallow arcs in a shared direction, each
  *  pass a close group of 2–3 tine lines; one small turn-swirl where the sweeper came
  *  about. The way a surveyor notes ground that is TENDED rather than grown. */
-export function sweptCourt(parent: SVGElement, poly: readonly Pt[], o: SeedOpts): void {
+export function sweptCourt(
+  parent: SVGElement,
+  poly: readonly Pt[],
+  o: SeedOpts,
+): void {
   const r = rng(o.seed);
-  wash(parent, poly, { seed: `${o.seed}:wash`, fill: 'var(--steel-hi)', opacity: 0.62, amp: 3.5 });
+  wash(parent, poly, {
+    seed: `${o.seed}:wash`,
+    fill: 'var(--steel-hi)',
+    opacity: 0.62,
+    amp: 3.5,
+  });
   const fine = fineLayer(parent);
   const inner = insetPoly(poly, 7);
   // one dominant sweep direction for the whole court
@@ -466,7 +551,9 @@ export function sweptCourt(parent: SVGElement, poly: readonly Pt[], o: SeedOpts)
     const tines = 2 + Math.floor(r() * 2);
     for (let k = 0; k < tines; k++) {
       const off = (k - (tines - 1) / 2) * (3 + r() * 0.8);
-      const pts = offsetPolyline(spinePts, off).filter((p) => pointInPoly(p, inner));
+      const pts = offsetPolyline(spinePts, off).filter((p) =>
+        pointInPoly(p, inner),
+      );
       if (pts.length < 3) continue;
       let run: Pt[] = [];
       const flush = (fI: number): void => {
@@ -495,7 +582,10 @@ export function sweptCourt(parent: SVGElement, poly: readonly Pt[], o: SeedOpts)
   let anchor: Pt | null = null;
   const { x0, y0, x1, y1 } = bbox(inner);
   for (let tries = 0; tries < 20 && !anchor; tries++) {
-    const q: Pt = [x0 + (0.15 + r() * 0.7) * (x1 - x0), y0 + (0.15 + r() * 0.7) * (y1 - y0)];
+    const q: Pt = [
+      x0 + (0.15 + r() * 0.7) * (x1 - x0),
+      y0 + (0.15 + r() * 0.7) * (y1 - y0),
+    ];
     if (pointInPoly(q, inner)) anchor = q;
   }
   if (anchor) {
@@ -508,7 +598,10 @@ export function sweptCourt(parent: SVGElement, poly: readonly Pt[], o: SeedOpts)
       const run: Pt[] = [];
       for (let sI = 0; sI <= steps; sI++) {
         const a = a0 + (span * sI) / steps;
-        const p: Pt = [anchor[0] + Math.cos(a) * rad, anchor[1] + Math.sin(a) * rad];
+        const p: Pt = [
+          anchor[0] + Math.cos(a) * rad,
+          anchor[1] + Math.sin(a) * rad,
+        ];
         if (pointInPoly(p, inner)) run.push(p);
       }
       if (run.length >= 3)

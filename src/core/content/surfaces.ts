@@ -19,7 +19,13 @@ import { NAMES } from './names';
 import { R3_FRONTIER_COMBAT_LEVEL } from './balance';
 import { skillVisible } from '../skills';
 
-export type SurfaceKind = 'screen' | 'panel' | 'tab' | 'readout' | 'verb' | 'row';
+export type SurfaceKind =
+  | 'screen'
+  | 'panel'
+  | 'tab'
+  | 'readout'
+  | 'verb'
+  | 'row';
 
 export interface Surface {
   readonly id: SurfaceId;
@@ -52,7 +58,9 @@ export interface Surface {
 // FB-91/FB-93 — every surface-reveal line is scene NARRATION, so it carries the `narrator` voice
 // EXPLICITLY (matching the intro's narration convention), never emitted as an un-voiced/plain line.
 // keyless-ok: the announce pass attaches contentKey `reveal.<surface-id>` at emit (unlock.ts).
-const narrate = (text: string): { channel: LogChannel; text: string; voice: VoiceCategory } => ({
+const narrate = (
+  text: string,
+): { channel: LogChannel; text: string; voice: VoiceCategory } => ({
   channel: 'narration',
   text,
   voice: 'narrator',
@@ -101,7 +109,9 @@ export const SURFACES: readonly Surface[] = [
     id: 'readout-coin',
     kind: 'readout',
     unlock: (s) =>
-      hasFlag(s, 'coin-earned') || (s.resources.coin ?? 0) > 0 || (s.banked.coin ?? 0) > 0,
+      hasFlag(s, 'coin-earned') ||
+      (s.resources.coin ?? 0) > 0 ||
+      (s.banked.coin ?? 0) > 0,
     revealLine: narrate(
       'Coin, at last, and few enough to count on one hand. What little the house pays in mon, you keep your own tally of.',
     ),
@@ -136,7 +146,9 @@ export const SURFACES: readonly Surface[] = [
     unlock: () => false,
     // FB-273 — fleeting Now flavor, not a Story beat (human, 2026-07-10).
     revealLine: {
-      ...narrate('You begin to mark the turning of the days, and the four seasons with them.'),
+      ...narrate(
+        'You begin to mark the turning of the days, and the four seasons with them.',
+      ),
       ephemeral: true,
     },
   },
@@ -190,7 +202,8 @@ export const SURFACES: readonly Surface[] = [
     kind: 'panel',
     unlock: () => false,
     // FB-272 — the "your home area" beat belongs to the ceremony (human, 2026-07-10).
-    ceremonyLabel: 'The woodshed corner — a mat, a bowl, a nail for the coat: yours',
+    ceremonyLabel:
+      'The woodshed corner — a mat, a bowl, a nail for the coat: yours',
   },
   {
     // Human 2026-07-11 — the forecourt is INTRODUCED, never pre-known: it exists the
@@ -232,7 +245,9 @@ export const SURFACES: readonly Surface[] = [
     id: 'tab-skills',
     kind: 'tab',
     unlock: () => false,
-    revealLine: narrate('A way to track what your hands are learning takes shape — your Skills.'),
+    revealLine: narrate(
+      'A way to track what your hands are learning takes shape — your Skills.',
+    ),
   },
   {
     id: 'room-woodlot',
@@ -506,7 +521,8 @@ export const SURFACES: readonly Surface[] = [
     kind: 'screen',
     // latched flag, NOT the transient `s.rung === 'R3'` — R3→R4 promotes at combat lvl 1, so a
     // rung check would go dead forever; `rank-r3` (set once at R3, never cleared) back-reveals.
-    unlock: (s) => hasFlag(s, 'rank-r3') && s.character.level >= R3_FRONTIER_COMBAT_LEVEL,
+    unlock: (s) =>
+      hasFlag(s, 'rank-r3') && s.character.level >= R3_FRONTIER_COMBAT_LEVEL,
     // keyless-ok: keyed `reveal.<surface-id>` at the announce emit (unlock.ts).
     revealLine: { channel: 'milestone', text: FRONTIER_BEAT },
   },
@@ -522,9 +538,23 @@ export const SURFACES: readonly Surface[] = [
   },
 
   // ── skills surface BY-DOING (discover-by-doing) ──
-  { id: 'skill-farming', kind: 'row', unlock: (s) => skillVisible(s, 'farming') },
-  { id: 'skill-foraging', kind: 'row', unlock: (s) => skillVisible(s, 'foraging') },
-  { id: 'skill-woodcutting', kind: 'row', unlock: (s) => skillVisible(s, 'woodcutting') },
+  {
+    id: 'skill-farming',
+    kind: 'row',
+    unlock: (s) => skillVisible(s, 'farming'),
+  },
+  {
+    id: 'skill-foraging',
+    kind: 'row',
+    unlock: (s) => skillVisible(s, 'foraging'),
+  },
+  {
+    id: 'skill-woodcutting',
+    kind: 'row',
+    unlock: (s) => skillVisible(s, 'woodcutting'),
+  },
 ];
 
-export const SURFACE_IDS: ReadonlySet<SurfaceId> = new Set(SURFACES.map((x) => x.id));
+export const SURFACE_IDS: ReadonlySet<SurfaceId> = new Set(
+  SURFACES.map((x) => x.id),
+);

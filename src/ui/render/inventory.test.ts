@@ -75,13 +75,17 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
     expect(pane).not.toBeNull();
     expect(pane.hidden).toBe(false);
     // the bowl + the mat exist — the promised keepsakes, made real.
-    const names = [...pane.querySelectorAll('.belonging-name')].map((n) => n.textContent);
+    const names = [...pane.querySelectorAll('.belonging-name')].map(
+      (n) => n.textContent,
+    );
     expect(names).toContain('A rice bowl');
     expect(names).toContain('A straw sleeping-mat');
     // …and there's at least one comfort piece to acquire (a coin buy button).
     expect(pane.querySelector('.belonging-buy button')).not.toBeNull();
     // the comfort summary reads a bare corner until you furnish it.
-    expect(pane.querySelector('.belongings-comfort-summary')?.textContent).toMatch(/bare corner/i);
+    expect(
+      pane.querySelector('.belongings-comfort-summary')?.textContent,
+    ).toMatch(/bare corner/i);
   });
 
   it('shows a bought piece and its comfort bonus in effect', () => {
@@ -89,14 +93,16 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
     render(homeState({ belongings: ['bedding'] }), null);
     openInventory();
     const pane = root.querySelector<HTMLElement>('.belongings-pane')!;
-    const names = [...pane.querySelectorAll('.belonging-name')].map((n) => n.textContent);
+    const names = [...pane.querySelectorAll('.belonging-name')].map(
+      (n) => n.textContent,
+    );
     expect(names).toContain('A futon'); // the owned futon shows in "what is yours"
     // the comfort tally reflects the bedding's rest bonus (source of truth), not a bare corner.
     const amt = getBelonging('bedding').comfort?.amount ?? 0;
     expect(amt).toBeGreaterThan(0);
-    expect(pane.querySelector('.belongings-comfort-summary')?.textContent).toContain(
-      `rest +${amt}`,
-    );
+    expect(
+      pane.querySelector('.belongings-comfort-summary')?.textContent,
+    ).toContain(`rest +${amt}`);
   });
 
   it('mounts the WIELDED weapon on the wall at R5 (status-mirror), reading the actual weapon (D-122)', () => {
@@ -105,15 +111,28 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
     // pre-R5 (no wall-weapon flag) → the status-mirror is hidden.
     render(s, null);
     openInventory();
-    expect(root.querySelector<HTMLElement>('.belongings-status-mirror')!.hidden).toBe(true);
+    expect(
+      root.querySelector<HTMLElement>('.belongings-status-mirror')!.hidden,
+    ).toBe(true);
     // at R5 with the token + a SPECIFIC weapon wielded → the mount names THAT weapon (not a generic
     // sword), read live from equippedWeapon. RED against a hardcoded mount / an ignored weapon.
     const axe = getWeapon('wood_axe');
-    render({ ...s, flags: { ...s.flags, 'wall-weapon': true }, equippedWeapon: axe.id }, null);
+    render(
+      {
+        ...s,
+        flags: { ...s.flags, 'wall-weapon': true },
+        equippedWeapon: axe.id,
+      },
+      null,
+    );
     openInventory();
-    const mirror = root.querySelector<HTMLElement>('.belongings-status-mirror')!;
+    const mirror = root.querySelector<HTMLElement>(
+      '.belongings-status-mirror',
+    )!;
     expect(mirror.hidden).toBe(false);
-    expect(mirror.textContent!.toLowerCase()).toContain(axe.label.toLowerCase());
+    expect(mirror.textContent!.toLowerCase()).toContain(
+      axe.label.toLowerCase(),
+    );
     expect(mirror.textContent!.toLowerCase()).not.toContain('sword');
   });
 
@@ -131,7 +150,10 @@ describe('render — the HOME + belongings (Inventory tab, D-111 / F89)', () => 
   it('the prod default buy button dispatches buy_belonging (no DEV variant leaks in)', () => {
     const seen: Intent[] = [];
     const render = mount(root, (i) => seen.push(i), noopHooks());
-    render(homeState({ resources: { coin: 500 } as GameState['resources'] }), null);
+    render(
+      homeState({ resources: { coin: 500 } as GameState['resources'] }),
+      null,
+    );
     openInventory();
     const pane = root.querySelector<HTMLElement>('.belongings-pane')!;
     // the shipped list — NOT a DEV cutaway / ledger frame.

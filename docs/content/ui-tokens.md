@@ -117,8 +117,11 @@
      elsewhere Georgia + the system sans. Zero font pipeline. ───────────── */
   --font-head: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
   --font-body: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
-  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
-  --font-num: 'Avenir Next', Avenir, 'Helvetica Neue', ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-num:
+    'Avenir Next', Avenir, 'Helvetica Neue', ui-sans-serif, system-ui,
+    sans-serif;
 
   --fs-display: calc(clamp(1.6rem, 4vw, 2.6rem) * var(--text-scale, 1));
   --fs-h1: calc(1.3rem * var(--text-scale, 1));

@@ -50,8 +50,16 @@ export const WORKS_PROJECTS: readonly WorksProjectDef[] = [
     openFlag: 'works-open-u1',
     zones: [
       { node: 'gate', seenFlag: 'works-seen-gate', seenKey: 'worksSeenGate' },
-      { node: 'paddies', seenFlag: 'works-seen-paddies', seenKey: 'worksSeenPaddies' },
-      { node: 'woodshed', seenFlag: 'works-seen-woodshed', seenKey: 'worksSeenWoodshed' },
+      {
+        node: 'paddies',
+        seenFlag: 'works-seen-paddies',
+        seenKey: 'worksSeenPaddies',
+      },
+      {
+        node: 'woodshed',
+        seenFlag: 'works-seen-woodshed',
+        seenKey: 'worksSeenWoodshed',
+      },
     ],
   },
   {
@@ -62,7 +70,13 @@ export const WORKS_PROJECTS: readonly WorksProjectDef[] = [
     namedFlag: 'works-named-u2',
     seenFlag: 'works-seen-u2',
     openFlag: 'works-open-u2',
-    zones: [{ node: 'orchard', seenFlag: 'works-seen-orchard', seenKey: 'worksSeenOrchard' }],
+    zones: [
+      {
+        node: 'orchard',
+        seenFlag: 'works-seen-orchard',
+        seenKey: 'worksSeenOrchard',
+      },
+    ],
   },
   {
     stage: 3,
@@ -72,7 +86,9 @@ export const WORKS_PROJECTS: readonly WorksProjectDef[] = [
     namedFlag: 'works-named-u3',
     seenFlag: 'works-seen-u3',
     openFlag: 'works-open-u3',
-    zones: [{ node: 'kura', seenFlag: 'works-seen-kura', seenKey: 'worksSeenKura' }],
+    zones: [
+      { node: 'kura', seenFlag: 'works-seen-kura', seenKey: 'worksSeenKura' },
+    ],
   },
   {
     stage: 4,
@@ -83,7 +99,13 @@ export const WORKS_PROJECTS: readonly WorksProjectDef[] = [
     seenFlag: 'works-seen-u4',
     openFlag: 'works-open-u4',
     // The omoya has no walkable node — its shut rooms are SEEN from the forecourt.
-    zones: [{ node: 'forecourt', seenFlag: 'works-seen-house', seenKey: 'worksSeenHouse' }],
+    zones: [
+      {
+        node: 'forecourt',
+        seenFlag: 'works-seen-house',
+        seenKey: 'worksSeenHouse',
+      },
+    ],
   },
 ];
 
@@ -99,7 +121,10 @@ export function canWorkProject(state: GameState): boolean {
 
 /** The commissioned stage's work zones (for the site read / the sim's walk). */
 export function worksSiteZones(stage: number): readonly string[] {
-  return WORKS_PROJECTS.find((x) => x.stage === stage)?.zones.map((z) => z.node) ?? [];
+  return (
+    WORKS_PROJECTS.find((x) => x.stage === stage)?.zones.map((z) => z.node) ??
+    []
+  );
 }
 
 /** Is the estate ladder stage open to commission (its pricing beat has closed)? */
@@ -110,7 +135,10 @@ export function stageOpen(state: GameState, stage: number): boolean {
 }
 
 /** The discovery read for a not-yet-open stage (TST4 — the card never guesses). */
-export function stageDiscovery(state: GameState, stage: number): 'unnamed' | 'named' | 'open' {
+export function stageDiscovery(
+  state: GameState,
+  stage: number,
+): 'unnamed' | 'named' | 'open' {
   const p = WORKS_PROJECTS.find((x) => x.stage === stage);
   if (!p) return 'open';
   if (hasFlag(state, p.openFlag)) return 'open';
@@ -140,7 +168,8 @@ export function worksPass(state: GameState): GameState {
   const rung = rungNumber(next.rung);
   // (0) the works-intro fires at the board: first forecourt presence at R2+ enqueues
   //     the scene (enqueueScene once-guards a played `once` def — never re-fires).
-  if (rung >= 2 && next.location === 'forecourt') next = enqueueScene(next, 'works-intro');
+  if (rung >= 2 && next.location === 'forecourt')
+    next = enqueueScene(next, 'works-intro');
   // (1) FB-342 — the weir path re-opens the moment the day-book names the lease.
   //     ADR-179 — the `works-named-weir` flag IS the fact; room-weir's visibility
   //     derives from it (surfaces.ts predicate), so there is nothing to push here.
@@ -152,7 +181,11 @@ export function worksPass(state: GameState): GameState {
     // (2) rung-derived naming (U2–U4): arriving at the rung names the concern; the
     //     day-book line emits exactly once (its own latch, separate from the flag so
     //     an old save past the rung still gets the flag without a duplicate line).
-    if (p.namedAtRung !== undefined && rung >= p.namedAtRung && !hasFlag(next, p.namedFlag)) {
+    if (
+      p.namedAtRung !== undefined &&
+      rung >= p.namedAtRung &&
+      !hasFlag(next, p.namedFlag)
+    ) {
       next = setFlag(next, p.namedFlag);
     }
     if (

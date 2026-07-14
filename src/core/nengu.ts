@@ -43,7 +43,8 @@ export function reckonNengu(state: GameState): GameState {
   // marks the shortfall (the debt's pressure) for content to read — a flag seam, no number.
   next = setFlag(next, 'nengu-reckoned');
   next = setFlag(next, nenguYearFlag(next.seasonsPassed));
-  if (paid < demandSho && !hasFlag(next, 'nengu-short')) next = setFlag(next, 'nengu-short');
+  if (paid < demandSho && !hasFlag(next, 'nengu-short'))
+    next = setFlag(next, 'nengu-short');
   return applyRewards(next, {
     log: [
       {

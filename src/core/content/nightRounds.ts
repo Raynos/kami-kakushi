@@ -48,7 +48,12 @@ export const NIGHT_ROUNDS: readonly NightRoundDef[] = [
         foe: 'store_rats',
         narration: FLAVOR.nightRoundRats,
       },
-      { id: 'roof-marten', areaId: 'kura', foe: 'marten', narration: FLAVOR.nightRoundMarten },
+      {
+        id: 'roof-marten',
+        areaId: 'kura',
+        foe: 'marten',
+        narration: FLAVOR.nightRoundMarten,
+      },
       {
         id: 'the-wolf',
         areaId: 'kura',
@@ -72,7 +77,12 @@ export const NIGHT_ROUNDS: readonly NightRoundDef[] = [
         foe: 'store_rats',
         narration: FLAVOR.nightRoundRats,
       },
-      { id: 'watch-marten', areaId: 'kura', foe: 'marten', narration: FLAVOR.nightRoundMarten },
+      {
+        id: 'watch-marten',
+        areaId: 'kura',
+        foe: 'marten',
+        narration: FLAVOR.nightRoundMarten,
+      },
     ],
   },
 ];

@@ -51,7 +51,13 @@ export function createOverlays(ctx: {
     seal.textContent = '家産'; // the Estate pillar, ascended
     inner.append(seal);
     inner.append(el('div', 'rankup-title', `A man of the ${NAMES.house}`));
-    inner.append(el('div', 'rankup-kicker subtitle', 'The Estate pillar stands. The next stirs.'));
+    inner.append(
+      el(
+        'div',
+        'rankup-kicker subtitle',
+        'The Estate pillar stands. The next stirs.',
+      ),
+    );
     overlay.append(inner);
     shell.append(overlay);
     void state;
@@ -86,7 +92,11 @@ export function createOverlays(ctx: {
     x.addEventListener('click', close);
     card.append(x);
     card.append(
-      el('div', 'slop-kicker', target === 'R1' ? 'Warning — slop' : 'Warning — turbo slop'),
+      el(
+        'div',
+        'slop-kicker',
+        target === 'R1' ? 'Warning — slop' : 'Warning — turbo slop',
+      ),
       el(
         'p',
         'slop-body',
@@ -96,7 +106,11 @@ export function createOverlays(ctx: {
               'pure vibe coding — Jake has not seen any of this yet.',
       ),
     );
-    const confirm = el('button', 'verb primary slop-confirm', 'Confirm to continue');
+    const confirm = el(
+      'button',
+      'verb primary slop-confirm',
+      'Confirm to continue',
+    );
     confirm.type = 'button';
     confirm.addEventListener('click', close);
     let focusTarget: HTMLElement = confirm;
@@ -128,7 +142,9 @@ export function createOverlays(ctx: {
     // the settings-modal Tab trap (D-Q-a11y), minus every close affordance
     card.addEventListener('keydown', (e) => {
       if (e.key !== 'Tab') return;
-      const f = card.querySelectorAll<HTMLElement>('button:not([disabled]), input');
+      const f = card.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), input',
+      );
       if (f.length === 0) return;
       const first = f[0]!;
       const last = f[f.length - 1]!;

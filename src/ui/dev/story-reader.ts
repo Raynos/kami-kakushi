@@ -50,17 +50,37 @@ function readerSceneLines(scene: ReaderScene): ReaderLine[] {
   const out: ReaderLine[] = [];
   const speakerName = scene.speaker ? NPC_NAME[scene.speaker] : undefined;
   for (const g of scene.greeting) {
-    out.push({ voice: g.voice, speaker: g.speaker, text: g.text, kind: 'line' });
+    out.push({
+      voice: g.voice,
+      speaker: g.speaker,
+      text: g.text,
+      kind: 'line',
+    });
   }
   for (const t of scene.topics) {
-    out.push({ voice: 'player', speaker: PLAYER_SPEAKER, text: t.label, kind: 'line' });
+    out.push({
+      voice: 'player',
+      speaker: PLAYER_SPEAKER,
+      text: t.label,
+      kind: 'line',
+    });
     for (const a of t.answer) {
-      out.push({ voice: a.voice, speaker: a.speaker, text: a.text, kind: 'line' });
+      out.push({
+        voice: a.voice,
+        speaker: a.speaker,
+        text: a.text,
+        kind: 'line',
+      });
     }
   }
   out.push({ voice: 'narrator', text: scene.decision.prompt, kind: 'prompt' });
   for (const o of scene.decision.options) {
-    out.push({ voice: 'player', speaker: PLAYER_SPEAKER, text: o.say, kind: 'option' });
+    out.push({
+      voice: 'player',
+      speaker: PLAYER_SPEAKER,
+      text: o.say,
+      kind: 'option',
+    });
     const rn = 'reactNpc' in o && o.reactNpc ? o.reactNpc : undefined;
     out.push({
       voice: rn ? NPC_VOICE[rn] : scene.voice,
@@ -76,7 +96,10 @@ function readerSceneLines(scene: ReaderScene): ReaderLine[] {
 function readerUnitsOf(bundle: StoryTakeBundle): string[] {
   const keys = new Set<string>();
   for (const t of bundle.takes) {
-    for (const k of [...Object.keys(t.text ?? {}), ...Object.keys(t.seq ?? {})]) {
+    for (const k of [
+      ...Object.keys(t.text ?? {}),
+      ...Object.keys(t.seq ?? {}),
+    ]) {
       keys.add(unitOfKey(k));
     }
   }
@@ -84,7 +107,9 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
   // requirement, canon-only ones too (their alternate columns show "no take — canon plays"),
   // so a rung's section is its complete set, never just the diverged subset.
   const hasNs = (ns: string): boolean =>
-    bundle.takes.some((t) => Object.keys(t.text ?? {}).some((k) => k.startsWith(`${ns}.`)));
+    bundle.takes.some((t) =>
+      Object.keys(t.text ?? {}).some((k) => k.startsWith(`${ns}.`)),
+    );
   if (hasNs('requirement')) {
     for (const reqs of Object.values(RUNG_REQUIREMENTS)) {
       for (const r of reqs) keys.add(`req-flavor:${r.id}`);
@@ -117,27 +142,39 @@ function readerUnitsOf(bundle: StoryTakeBundle): string[] {
       : k.startsWith('req-objective:')
         ? (reqFlavorPlacement(k.slice('req-objective:'.length))?.order ?? 9999)
         : 0;
-  return [...keys].sort((a, b) => order(a) - order(b) || sub(a) - sub(b) || a.localeCompare(b));
+  return [...keys].sort(
+    (a, b) => order(a) - order(b) || sub(a) - sub(b) || a.localeCompare(b),
+  );
 }
 
 /** The content of `unit` in `take` ('canon' reads the LIVE registries). Null ⇒ absent. */
-function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] | null {
-  const [kind, key] = [unit.slice(0, unit.indexOf(':')), unit.slice(unit.indexOf(':') + 1)];
+function readerUnitLines(
+  unit: string,
+  take: StoryTake | 'canon',
+): ReaderLine[] | null {
+  const [kind, key] = [
+    unit.slice(0, unit.indexOf(':')),
+    unit.slice(unit.indexOf(':') + 1),
+  ];
   // step B2 — a take is a flat text map + narration-run sequences on CANON structure:
   // scene columns rebuild the canon def with the take's words (takeSceneView), flat
   // classes are one lookup into take.text.
-  const flat = (contentKey: string, canon: string | undefined): string | undefined =>
-    take === 'canon' ? canon : take.text?.[contentKey];
+  const flat = (
+    contentKey: string,
+    canon: string | undefined,
+  ): string | undefined => (take === 'canon' ? canon : take.text?.[contentKey]);
   if (kind === 'rung') {
     const canon = RUNG_BEATS[key as RankId];
     if (!canon) return null;
-    const s = take === 'canon' ? canon : takeSceneView(`beat.${key}`, canon, take);
+    const s =
+      take === 'canon' ? canon : takeSceneView(`beat.${key}`, canon, take);
     return s ? readerSceneLines(s) : null;
   }
   if (kind === 'intro') {
     const canon = DIALOGUE_SCENES.find((x) => x.id === key);
     if (!canon) return null;
-    const s = take === 'canon' ? canon : takeSceneView(`intro.${key}`, canon, take);
+    const s =
+      take === 'canon' ? canon : takeSceneView(`intro.${key}`, canon, take);
     return s ? readerSceneLines(s) : null;
   }
   if (kind === 'scene') {
@@ -145,7 +182,8 @@ function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] 
     // SCENES registry body; trigger/once stay canon (state-compatible takes).
     const canon = sceneById(key)?.scene;
     if (!canon) return null;
-    const s = take === 'canon' ? canon : takeSceneView(`scene.${key}`, canon, take);
+    const s =
+      take === 'canon' ? canon : takeSceneView(`scene.${key}`, canon, take);
     return s ? readerSceneLines(s) : null;
   }
   if (kind === 'dialogue') {
@@ -157,7 +195,10 @@ function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] 
         ? d.lines
         : d.lines
             .filter((l) => take.text?.[`dialogue.${key}.${l.id}`] !== undefined)
-            .map((l) => ({ ...l, text: take.text![`dialogue.${key}.${l.id}`]! }));
+            .map((l) => ({
+              ...l,
+              text: take.text![`dialogue.${key}.${l.id}`]!,
+            }));
     return lines.length > 0
       ? lines.map((l) => ({
           voice: l.voice ?? 'villager',
@@ -173,8 +214,13 @@ function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] 
   }
   if (kind === 'intro-title') {
     // FB-362 — the scene's 幕-head label; canon reads the LIVE scene's `title:` (intro.gen).
-    const text = flat(`intro-title.${key}`, DIALOGUE_SCENES.find((x) => x.id === key)?.title);
-    return text ? [{ voice: 'narrator', text: `— ${text} —`, kind: 'line' }] : null;
+    const text = flat(
+      `intro-title.${key}`,
+      DIALOGUE_SCENES.find((x) => x.id === key)?.title,
+    );
+    return text
+      ? [{ voice: 'narrator', text: `— ${text} —`, kind: 'line' }]
+      : null;
   }
   if (kind === 'req-flavor') {
     // FB-121 requirement-completion lines — canon reads the LIVE registry by requirement id.
@@ -192,7 +238,10 @@ function readerUnitLines(unit: string, take: StoryTake | 'canon'): ReaderLine[] 
     const text = flat(`req-objective.${key}`, canon);
     return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
   }
-  const text = flat(`cold-open.${key}`, (COLD_OPEN as Record<string, string>)[key]);
+  const text = flat(
+    `cold-open.${key}`,
+    (COLD_OPEN as Record<string, string>)[key],
+  );
   return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
 }
 
@@ -205,16 +254,19 @@ function readerScriptBlock(
   canonTexts?: ReadonlySet<string>,
 ): void {
   const block = el('div');
-  block.style.cssText = 'display:flex;flex-direction:column;gap:.5rem;max-width:62ch;';
+  block.style.cssText =
+    'display:flex;flex-direction:column;gap:.5rem;max-width:62ch;';
   for (const l of lines) {
     const line = el('div');
     line.className = `log-line voice-${l.voice}`;
     line.style.cssText = 'font-size:1rem;line-height:1.65;';
     if (l.kind === 'prompt')
-      line.style.cssText += 'font-weight:700;color:var(--ink);margin-top:.35rem;';
+      line.style.cssText +=
+        'font-weight:700;color:var(--ink);margin-top:.35rem;';
     if (l.kind === 'option') line.style.cssText += 'margin-top:.4rem;';
     line.textContent =
-      (l.kind === 'option' ? '▸ ' : '') + (l.speaker ? `${l.speaker}: ${l.text}` : l.text);
+      (l.kind === 'option' ? '▸ ' : '') +
+      (l.speaker ? `${l.speaker}: ${l.text}` : l.text);
     if (canonTexts?.has(l.text)) {
       line.style.opacity = '.45';
       line.title = 'identical to canon (shared line)';
@@ -225,9 +277,17 @@ function readerScriptBlock(
 }
 
 /** A tight chrome chip (the dense register — labels, takes, briefs). */
-function readerChip(text: string, tone: 'pick' | 'alt' | 'mute' = 'mute'): HTMLElement {
+function readerChip(
+  text: string,
+  tone: 'pick' | 'alt' | 'mute' = 'mute',
+): HTMLElement {
   const c = el('span', undefined, text);
-  const bg = tone === 'pick' ? 'var(--rokusho)' : tone === 'alt' ? 'var(--ai)' : 'var(--ink-faint)';
+  const bg =
+    tone === 'pick'
+      ? 'var(--rokusho)'
+      : tone === 'alt'
+        ? 'var(--ai)'
+        : 'var(--ink-faint)';
   c.style.cssText =
     `display:inline-block;background:${bg};color:var(--washi);border-radius:3px;` +
     'padding:.05rem .45rem;font-size:11px;letter-spacing:.08em;text-transform:uppercase;';
@@ -236,14 +296,21 @@ function readerChip(text: string, tone: 'pick' | 'alt' | 'mute' = 'mute'): HTMLE
 
 // FB-121 req-flavor placement: units group PER RUNG (human, 2026-07-07 — the explore
 // page reads as the ladder, not 23 flat items), ordered by rung then authored position.
-function reqFlavorPlacement(reqId: string): { section: string; order: number } | null {
-  const rungs = Object.keys(RUNG_REQUIREMENTS) as (keyof typeof RUNG_REQUIREMENTS)[];
+function reqFlavorPlacement(
+  reqId: string,
+): { section: string; order: number } | null {
+  const rungs = Object.keys(
+    RUNG_REQUIREMENTS,
+  ) as (keyof typeof RUNG_REQUIREMENTS)[];
   for (let r = 0; r < rungs.length; r++) {
     const reqs = RUNG_REQUIREMENTS[rungs[r]!];
     const i = reqs.findIndex((x) => x.id === reqId);
     if (i >= 0) {
       const rank = getRank(rungs[r]!);
-      return { section: `${rungs[r]} · ${rank.title} ${rank.kanji}`, order: r * 100 + i };
+      return {
+        section: `${rungs[r]} · ${rank.title} ${rank.kanji}`,
+        order: r * 100 + i,
+      };
     }
   }
   return null;
@@ -268,7 +335,11 @@ function reqFlavorPlacement(reqId: string): { section: string; order: number } |
 export const LIVE_UNITS =
   /^(rung|intro|intro-title|scene|flavor|req-flavor|req-objective|dialogue):|^cold-open:(lede|cta)$/;
 
-function readerUnitHeader(host: HTMLElement, unit: string, extra?: HTMLElement): void {
+function readerUnitHeader(
+  host: HTMLElement,
+  unit: string,
+  extra?: HTMLElement,
+): void {
   const h = el('div');
   h.style.cssText =
     'display:flex;align-items:center;gap:.5rem;margin:1.4rem 0 .6rem;padding-top:.9rem;' +
@@ -279,7 +350,11 @@ function readerUnitHeader(host: HTMLElement, unit: string, extra?: HTMLElement):
 }
 
 /** Variant "galley" — units as rows, takes as columns (side-by-side compare). */
-function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: DevApi): void {
+function renderReaderGalley(
+  host: HTMLElement,
+  bundle: StoryTakeBundle,
+  dev?: DevApi,
+): void {
   let lastSection: string | null = null;
   for (const unit of readerUnitsOf(bundle)) {
     // grouped sections (req-flavor groups per rung; other kinds are groupless today):
@@ -287,7 +362,8 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: De
     const section = unit.startsWith('req-flavor:')
       ? (reqFlavorPlacement(unit.slice('req-flavor:'.length))?.section ?? null)
       : unit.startsWith('req-objective:')
-        ? (reqFlavorPlacement(unit.slice('req-objective:'.length))?.section ?? null)
+        ? (reqFlavorPlacement(unit.slice('req-objective:'.length))?.section ??
+          null)
         : null;
     if (section !== null && section !== lastSection) {
       const sh = el('div', undefined, section);
@@ -313,7 +389,11 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: De
           b.style.color = on ? '#1c1814' : 'var(--ink, #e7d9bc)';
         }
       };
-      const uBtn = (id: string | undefined, label: string, title: string): void => {
+      const uBtn = (
+        id: string | undefined,
+        label: string,
+        title: string,
+      ): void => {
         const b = el('button', undefined, label) as HTMLButtonElement;
         b.type = 'button';
         b.title = title;
@@ -328,8 +408,13 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: De
         extra!.append(b);
       };
       uBtn(undefined, '·', 'follow the bundle set');
-      uBtn('canon', `canon — ${bundle.canonLabel ?? 'the pick'}`, 'pin this unit to canon');
-      for (const t of bundle.takes) uBtn(t.id, t.id.toUpperCase(), `${t.id} — ${t.label}`);
+      uBtn(
+        'canon',
+        `canon — ${bundle.canonLabel ?? 'the pick'}`,
+        'pin this unit to canon',
+      );
+      for (const t of bundle.takes)
+        uBtn(t.id, t.id.toUpperCase(), `${t.id} — ${t.label}`);
       uRefresh();
     }
     const chipLabel = unit.startsWith('req-flavor:')
@@ -337,7 +422,11 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: De
       : unit.startsWith('req-objective:')
         ? unit.slice('req-objective:'.length)
         : unit;
-    readerUnitHeader(host, LIVE_UNITS.test(unit) ? chipLabel : `${chipLabel} (reader-only)`, extra);
+    readerUnitHeader(
+      host,
+      LIVE_UNITS.test(unit) ? chipLabel : `${chipLabel} (reader-only)`,
+      extra,
+    );
     const scroll = el('div');
     scroll.style.cssText = 'overflow-x:auto;';
     const row = el('div');
@@ -349,14 +438,20 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: De
       canonTexts?: ReadonlySet<string>,
     ): void => {
       const c = el('div');
-      c.style.cssText = 'border:1px solid var(--ink-faint);padding:.7rem .8rem;min-width:0;';
+      c.style.cssText =
+        'border:1px solid var(--ink-faint);padding:.7rem .8rem;min-width:0;';
       const hd = el('div');
-      hd.style.cssText = 'margin-bottom:.5rem;display:flex;gap:.5rem;flex-wrap:wrap;';
+      hd.style.cssText =
+        'margin-bottom:.5rem;display:flex;gap:.5rem;flex-wrap:wrap;';
       hd.append(head);
       c.append(hd);
       if (lines) readerScriptBlock(c, lines, canonTexts);
       else {
-        const none = el('div', undefined, '— no take for this unit (canon plays) —');
+        const none = el(
+          'div',
+          undefined,
+          '— no take for this unit (canon plays) —',
+        );
         none.style.cssText = 'color:var(--ink-faint);font-size:12px;';
         c.append(none);
       }
@@ -364,9 +459,16 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: De
     };
     const canonLines = readerUnitLines(unit, 'canon');
     const canonTexts = new Set((canonLines ?? []).map((l) => l.text));
-    cell(readerChip(`canon · ${bundle.canonLabel ?? 'the pick'}`, 'pick'), canonLines);
+    cell(
+      readerChip(`canon · ${bundle.canonLabel ?? 'the pick'}`, 'pick'),
+      canonLines,
+    );
     for (const t of bundle.takes) {
-      cell(readerChip(`${t.id} · ${t.label}`, 'alt'), readerUnitLines(unit, t), canonTexts);
+      cell(
+        readerChip(`${t.id} · ${t.label}`, 'alt'),
+        readerUnitLines(unit, t),
+        canonTexts,
+      );
     }
     scroll.append(row);
     host.append(scroll);
@@ -377,7 +479,10 @@ function renderReaderGalley(host: HTMLElement, bundle: StoryTakeBundle, dev?: De
  *  Galley-only since FB-125: the human picked Galley columns FIRM (HR-9 ✅);
  *  the annotated/stage variants were retired (recoverable from git history +
  *  the HR-9 archive record). */
-export function openStoryReader(bundle: StoryTakeBundle, dev?: DevApi): HTMLElement {
+export function openStoryReader(
+  bundle: StoryTakeBundle,
+  dev?: DevApi,
+): HTMLElement {
   const scrim = el('div');
   scrim.className = 'modal-scrim';
   scrim.dataset['dev'] = DEV_SENTINEL;
@@ -403,7 +508,11 @@ export function openStoryReader(bundle: StoryTakeBundle, dev?: DevApi): HTMLElem
   const kami = el('span', undefined, '物語');
   kami.className = 'kami';
   // ONE explore page per diverge (human, 2026-07-07) — the page IS the bundle, titled by its id.
-  const roman = el('span', undefined, `Explore story — ${bundle.id} · ${bundle.title}`);
+  const roman = el(
+    'span',
+    undefined,
+    `Explore story — ${bundle.id} · ${bundle.title}`,
+  );
   roman.className = 'roman';
   title.append(kami, roman);
   card.append(title);

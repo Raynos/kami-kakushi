@@ -41,7 +41,10 @@ describe('SLOP threshold gates — R0→R1 confirm, R1→R2 typed consent, DEV t
   const INTRO_DONE = DIALOGUE_SCENES.length;
   const doneReqs = (rung: GameState['rung']): Record<string, number> =>
     Object.fromEntries(
-      rungRequirements(rung).map((r) => [r.id, r.type === 'count' ? r.target : 1]),
+      rungRequirements(rung).map((r) => [
+        r.id,
+        r.type === 'count' ? r.target : 1,
+      ]),
     );
   /** An out-of-intro state parked at `rung` with its requirement list DONE (registry-derived). */
   function readyAt(rung: GameState['rung']): GameState {

@@ -85,7 +85,8 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
     group: 'W2 · store-vs-sell',
     watch: 'W2',
     integer: true,
-    guard: 'spring-dearest / autumn-cheapest monotonic direction is test-asserted canon',
+    guard:
+      'spring-dearest / autumn-cheapest monotonic direction is test-asserted canon',
   },
   {
     path: 'RICE_SELL_PRICE_BY_SEASON.summer',
@@ -130,7 +131,8 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
     group: 'W3 · eat vs rest',
     watch: 'W3',
     integer: true,
-    guard: 'EAT_RICE_HUNGER > HUNGER_MEAL_RESTORE is the documented design lever (ADR-178)',
+    guard:
+      'EAT_RICE_HUNGER > HUNGER_MEAL_RESTORE is the documented design lever (ADR-178)',
   },
   {
     path: 'EAT_RICE_COST',
@@ -228,30 +230,105 @@ export const BALANCE_LEVERS: readonly LeverDef[] = [
     integer: true,
   },
   // Stamina / meals
-  { path: 'SATIETY_PER_ACT', label: 'Satiety cost / act', group: 'Stamina / meals', integer: true },
-  { path: 'STAMINA_RATE_FLOOR', label: 'Stamina rate floor', group: 'Stamina / meals' },
-  { path: 'STAMINA_FLAT_ABOVE', label: 'Stamina flat-above', group: 'Stamina / meals' },
-  { path: 'COOK_SANSAI_COST', label: 'Cook sansai cost', group: 'Stamina / meals', integer: true },
+  {
+    path: 'SATIETY_PER_ACT',
+    label: 'Satiety cost / act',
+    group: 'Stamina / meals',
+    integer: true,
+  },
+  {
+    path: 'STAMINA_RATE_FLOOR',
+    label: 'Stamina rate floor',
+    group: 'Stamina / meals',
+  },
+  {
+    path: 'STAMINA_FLAT_ABOVE',
+    label: 'Stamina flat-above',
+    group: 'Stamina / meals',
+  },
+  {
+    path: 'COOK_SANSAI_COST',
+    label: 'Cook sansai cost',
+    group: 'Stamina / meals',
+    integer: true,
+  },
   // ADR-164/ADR-197 — the sickroom mend lane ('Cook HP restore' RETIRED with the severed mend)
-  { path: 'TREAT_COST_MON', label: 'Treat cost (mon)', group: 'Sickroom mend', integer: true },
-  { path: 'TREAT_HP_RESTORE', label: 'Treat HP restore', group: 'Sickroom mend', integer: true },
-  { path: 'REST_SICKROOM_HP', label: 'Rest HP / day', group: 'Sickroom mend', integer: true },
+  {
+    path: 'TREAT_COST_MON',
+    label: 'Treat cost (mon)',
+    group: 'Sickroom mend',
+    integer: true,
+  },
+  {
+    path: 'TREAT_HP_RESTORE',
+    label: 'Treat HP restore',
+    group: 'Sickroom mend',
+    integer: true,
+  },
+  {
+    path: 'REST_SICKROOM_HP',
+    label: 'Rest HP / day',
+    group: 'Sickroom mend',
+    integer: true,
+  },
   // Rung pacing sliders RETIRED with the points meter (FB-121/ADR-137): requirement counts
   // tune in narrative/requirements.md (edit → gen:narrative → sim), never by cockpit lever.
   // Sinks / upkeep
-  { path: 'REPAIR_COIN_COST', label: 'Repair coin cost', group: 'Sinks / upkeep', integer: true },
-  { path: 'REPAIR_WOOD_COST', label: 'Repair wood cost', group: 'Sinks / upkeep', integer: true },
+  {
+    path: 'REPAIR_COIN_COST',
+    label: 'Repair coin cost',
+    group: 'Sinks / upkeep',
+    integer: true,
+  },
+  {
+    path: 'REPAIR_WOOD_COST',
+    label: 'Repair wood cost',
+    group: 'Sinks / upkeep',
+    integer: true,
+  },
   // Combat feel
-  { path: 'STANCE_MODS.jodan.atkMult', label: 'Jōdan atk ×', group: 'Combat feel' },
-  { path: 'STANCE_MODS.jodan.takenMult', label: 'Jōdan taken ×', group: 'Combat feel' },
-  { path: 'STANCE_MODS.gedan.atkMult', label: 'Gedan atk ×', group: 'Combat feel' },
-  { path: 'STANCE_MODS.gedan.takenMult', label: 'Gedan taken ×', group: 'Combat feel' },
+  {
+    path: 'STANCE_MODS.jodan.atkMult',
+    label: 'Jōdan atk ×',
+    group: 'Combat feel',
+  },
+  {
+    path: 'STANCE_MODS.jodan.takenMult',
+    label: 'Jōdan taken ×',
+    group: 'Combat feel',
+  },
+  {
+    path: 'STANCE_MODS.gedan.atkMult',
+    label: 'Gedan atk ×',
+    group: 'Combat feel',
+  },
+  {
+    path: 'STANCE_MODS.gedan.takenMult',
+    label: 'Gedan taken ×',
+    group: 'Combat feel',
+  },
   { path: 'LOSS_COIN_FRAC', label: 'Loss · coin frac', group: 'Combat feel' },
-  { path: 'LOSS_MATERIAL_FRAC', label: 'Loss · material frac', group: 'Combat feel' },
-  { path: 'AUTO_RETREAT_FRAC', label: 'Auto-retreat HP frac', group: 'Combat feel' },
+  {
+    path: 'LOSS_MATERIAL_FRAC',
+    label: 'Loss · material frac',
+    group: 'Combat feel',
+  },
+  {
+    path: 'AUTO_RETREAT_FRAC',
+    label: 'Auto-retreat HP frac',
+    group: 'Combat feel',
+  },
   // C4.3 — the ambient log-texture cadence (bible §0.5 "flavor in the log")
-  { path: 'TEXTURE_DAY_CHANCE', label: 'Texture · day chance', group: 'World feel' },
-  { path: 'TEXTURE_MARKET_CHANCE', label: 'Texture · market gossip', group: 'World feel' },
+  {
+    path: 'TEXTURE_DAY_CHANCE',
+    label: 'Texture · day chance',
+    group: 'World feel',
+  },
+  {
+    path: 'TEXTURE_MARKET_CHANCE',
+    label: 'Texture · market gossip',
+    group: 'World feel',
+  },
 ];
 
 /** One touched lever: its canon and current (overridden) value. */
@@ -355,7 +432,10 @@ export function buildTuneArtifact(
   note?: string,
 ): string {
   const rows = touched
-    .map((t) => `| ${t.path} | ${t.canon} | ${t.current} | ${deltaPct(t.canon, t.current)} |`)
+    .map(
+      (t) =>
+        `| ${t.path} | ${t.canon} | ${t.current} | ${deltaPct(t.canon, t.current)} |`,
+    )
     .join('\n');
   const applies = touched.map(applyLine).join('\n');
   const lines = [
@@ -402,7 +482,8 @@ export function createBalanceCockpit(opts: {
     onChange?.();
     for (const s of subscribers) s();
   };
-  const canon = (path: string): number => BALANCE_CANON[path] ?? readBalanceLever(path);
+  const canon = (path: string): number =>
+    BALANCE_CANON[path] ?? readBalanceLever(path);
 
   // ── URL persistence (FB-18 variant pattern): each touched lever mirrors to `?bal.<path>=<value>`;
   //    the param is DROPPED when the lever returns to canon (a clean state keeps a clean URL). Legible
@@ -474,7 +555,13 @@ export function createBalanceCockpit(opts: {
         markdown: buildTuneArtifact(touched, m, note),
         metadataName: `${stamp}.json`,
         metadata: JSON.stringify(
-          { kind: 'balance-tune', build: m.build, seed: m.seed, clock: m.clock, touched },
+          {
+            kind: 'balance-tune',
+            build: m.build,
+            seed: m.seed,
+            clock: m.clock,
+            touched,
+          },
           null,
           2,
         ),
@@ -543,8 +630,13 @@ export function mountBalanceCockpit(
     const box = el('div');
     box.style.cssText =
       'border:1px solid #3a322a;border-radius:3px;padding:.3rem .4rem;margin-bottom:.4rem;display:flex;flex-direction:column;gap:.15rem;';
-    const title = el('div', undefined, 'Live feel — selector estimate, not a sim');
-    title.style.cssText = 'color:#b08d4f;font-size:10px;text-transform:uppercase;';
+    const title = el(
+      'div',
+      undefined,
+      'Live feel — selector estimate, not a sim',
+    );
+    title.style.cssText =
+      'color:#b08d4f;font-size:10px;text-transform:uppercase;';
     box.append(title);
     const lines = [el('div'), el('div'), el('div'), el('div')];
     for (const l of lines) {
@@ -565,12 +657,16 @@ export function mountBalanceCockpit(
       lines[0]!.textContent = `Next rung ${s.rung}: ${rungProgress(s).percent}% of requirements`;
       // 2 · capstone ETA (W4) — Estate value → EXCELLENT at the (capped) deed-per-act rate
       const deed = Math.min(balance.ESTATE_DEED_PER_ACT, perDeedCap());
-      const gap = Math.max(0, balance.ESTATE_BANDS.excellent - s.influence.estate.value);
+      const gap = Math.max(
+        0,
+        balance.ESTATE_BANDS.excellent - s.influence.estate.value,
+      );
       const acts2 = deed > 0 ? Math.ceil(gap / deed) : 0;
       lines[1]!.textContent = `Capstone (Excellent ${balance.ESTATE_BANDS.excellent}): ${acts2} acts ≈ ${fmtMin(acts2)}`;
       // 3 · eat-vs-rest verdict (W3)
       const seasonNow = season(s);
-      const coinWorth = balance.EAT_RICE_COST * balance.riceSellPrice(seasonNow);
+      const coinWorth =
+        balance.EAT_RICE_COST * balance.riceSellPrice(seasonNow);
       const restBody = balance.SATIETY_PER_REST + homeRestBonus(s);
       lines[2]!.textContent = `Eat +${balance.EAT_RICE_HUNGER} belly / ${balance.EAT_RICE_COST} rice (≈${coinWorth} coin, ${seasonNow}) vs rest +${restBody} body free`;
       // 4 · rice→coin flow (W1/W2)
@@ -584,13 +680,15 @@ export function mountBalanceCockpit(
 
   // group the levers, preserving registry order (watch items first).
   const groups: string[] = [];
-  for (const l of cockpit.levers) if (!groups.includes(l.group)) groups.push(l.group);
+  for (const l of cockpit.levers)
+    if (!groups.includes(l.group)) groups.push(l.group);
 
   for (const group of groups) {
     const sec = el('div');
     sec.style.cssText = 'margin-bottom:.5rem;';
     const h = el('div', undefined, group);
-    h.style.cssText = 'color:#b08d4f;font-size:11px;text-transform:uppercase;margin-bottom:.25rem;';
+    h.style.cssText =
+      'color:#b08d4f;font-size:11px;text-transform:uppercase;margin-bottom:.25rem;';
     sec.append(h);
 
     for (const lever of cockpit.levers.filter((l) => l.group === group)) {
@@ -618,7 +716,8 @@ export function mountBalanceCockpit(
       }
       const readout = el('span', undefined, '');
       readout.dataset.role = 'readout';
-      readout.style.cssText = 'margin-left:auto;color:#9b8e78;font-variant-numeric:tabular-nums;';
+      readout.style.cssText =
+        'margin-left:auto;color:#9b8e78;font-variant-numeric:tabular-nums;';
       top.append(readout);
       row.append(top);
 
@@ -678,7 +777,11 @@ export function mountBalanceCockpit(
   }
 
   // Reset-all-to-canon (Ph2 also clears the bal.* URL params).
-  const resetAll = el('button', undefined, 'Reset all to canon') as HTMLButtonElement;
+  const resetAll = el(
+    'button',
+    undefined,
+    'Reset all to canon',
+  ) as HTMLButtonElement;
   resetAll.type = 'button';
   resetAll.style.cssText =
     'margin-top:.3rem;background:#3a322a;color:#e7d9bc;border:1px solid #7a6c59;border-radius:3px;padding:.2rem .5rem;font:inherit;cursor:pointer;font-weight:700;';
@@ -697,7 +800,11 @@ export function mountBalanceCockpit(
   noteInput.placeholder = 'optional note — why this tune…';
   noteInput.style.cssText =
     'background:#26221e;color:#e7d9bc;border:1px solid #7a6c59;border-radius:3px;padding:.15rem .35rem;font:inherit;font-size:11px;';
-  const exportBtn = el('button', undefined, 'Export tune → inbox') as HTMLButtonElement;
+  const exportBtn = el(
+    'button',
+    undefined,
+    'Export tune → inbox',
+  ) as HTMLButtonElement;
   exportBtn.type = 'button';
   exportBtn.style.cssText =
     'background:#b08d4f;color:#1c1814;border:1px solid #7a6c59;border-radius:3px;padding:.22rem .5rem;font:inherit;cursor:pointer;font-weight:700;';
@@ -740,7 +847,8 @@ export function mountBalanceCockpit(
         /* clipboard denied — the download below still delivers the bytes */
       }
       downloadFallback(`${payload.session}.md`, payload.markdown);
-      status.textContent = 'inbox unreachable — copied to clipboard + downloaded';
+      status.textContent =
+        'inbox unreachable — copied to clipboard + downloaded';
     }
   };
   exportBtn.addEventListener('click', () => void doExport());

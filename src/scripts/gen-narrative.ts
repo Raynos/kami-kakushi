@@ -15,7 +15,11 @@ import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
-import { parseNarrative, NarrativeError, type NarrativeDoc } from './narrative/parse';
+import {
+  parseNarrative,
+  NarrativeError,
+  type NarrativeDoc,
+} from './narrative/parse';
 import {
   emitColdOpen,
   emitDialogue,
@@ -89,7 +93,9 @@ function format(source: string, outPath: string): string {
     encoding: 'utf-8',
   });
   if (r.status !== 0) {
-    throw new Error(`oxfmt failed on generated ${outPath}:\n${r.stderr || r.stdout}`);
+    throw new Error(
+      `oxfmt failed on generated ${outPath}:\n${r.stderr || r.stdout}`,
+    );
   }
   return r.stdout;
 }
@@ -101,10 +107,14 @@ try {
   // Parse everything first — validation is a whole-set concern.
   const present = TARGETS.filter((t) => existsSync(join(repoRoot, t.md)));
   const docs = new Map<string, NarrativeDoc>(
-    present.map((t) => [t.md, parseNarrative(readFileSync(join(repoRoot, t.md), 'utf-8'), t.md)]),
+    present.map((t) => [
+      t.md,
+      parseNarrative(readFileSync(join(repoRoot, t.md), 'utf-8'), t.md),
+    ]),
   );
   const verdict = validateNarrative([...docs.values()]);
-  for (const w of verdict.warnings) console.warn(`  ~ gen-narrative WARN: ${w}`);
+  for (const w of verdict.warnings)
+    console.warn(`  ~ gen-narrative WARN: ${w}`);
   if (verdict.errors.length) {
     for (const e of verdict.errors) console.error(`  X gen-narrative: ${e}`);
     process.exit(1);
@@ -161,7 +171,10 @@ try {
     : [];
   const bundles: ParsedTakeBundle[] = bundleIds.map((b) => {
     const metaPath = `${TAKES_DIR}/${b}/bundle.md`;
-    const meta = parseBundleMeta(readFileSync(join(repoRoot, metaPath), 'utf-8'), metaPath);
+    const meta = parseBundleMeta(
+      readFileSync(join(repoRoot, metaPath), 'utf-8'),
+      metaPath,
+    );
     const docs = meta.takes.map((t) => {
       const p = `${TAKES_DIR}/${b}/${t.file}`;
       return parseNarrative(readFileSync(join(repoRoot, p), 'utf-8'), p);
@@ -176,7 +189,9 @@ try {
   );
   const takesOutAbs = join(repoRoot, TAKES_OUT);
   if (check) {
-    const onDisk = existsSync(takesOutAbs) ? readFileSync(takesOutAbs, 'utf-8') : '';
+    const onDisk = existsSync(takesOutAbs)
+      ? readFileSync(takesOutAbs, 'utf-8')
+      : '';
     if (onDisk !== takesGenerated) {
       console.error(
         `  X gen-narrative: ${TAKES_OUT} is out of date (or hand-edited).\n` +
@@ -186,7 +201,9 @@ try {
     }
   } else {
     writeFileSync(takesOutAbs, takesGenerated);
-    console.log(`  gen-narrative: wrote ${TAKES_OUT} (${bundles.length} open bundle(s))`);
+    console.log(
+      `  gen-narrative: wrote ${TAKES_OUT} (${bundles.length} open bundle(s))`,
+    );
   }
 
   if (check) {

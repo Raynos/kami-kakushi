@@ -23,14 +23,18 @@ const status = (line: string) => `# Plan\n\n${line}\n\n## Body\n`;
 
 describe('parseStatusToken', () => {
   it('reads a canonical **Status:** glyph + token line', () => {
-    expect(parseStatusToken(status('**Status:** 📋 PROPOSED — awaiting read'))).toEqual({
+    expect(
+      parseStatusToken(status('**Status:** 📋 PROPOSED — awaiting read')),
+    ).toEqual({
       token: 'PROPOSED',
       archivable: false,
     });
   });
 
   it('reads the whole-line-bold **Status: … ** form too', () => {
-    expect(parseStatusToken(status('**Status: 📋 PROPOSED — awaiting read.**'))).toEqual({
+    expect(
+      parseStatusToken(status('**Status: 📋 PROPOSED — awaiting read.**')),
+    ).toEqual({
       token: 'PROPOSED',
       archivable: false,
     });
@@ -38,30 +42,40 @@ describe('parseStatusToken', () => {
 
   it('joins a two-word "IN PROGRESS" into the IN-PROGRESS token (not just "IN")', () => {
     expect(
-      parseStatusToken(status('**Status: 🔧 IN PROGRESS (the wave) — do not archive.**')),
+      parseStatusToken(
+        status('**Status: 🔧 IN PROGRESS (the wave) — do not archive.**'),
+      ),
     ).toEqual({ token: 'IN-PROGRESS', archivable: false });
   });
 
   it('keeps an already-hyphenated IN-PROGRESS token', () => {
-    expect(parseStatusToken(status('**Status:** 🔨 IN-PROGRESS — building'))!.token).toBe(
-      'IN-PROGRESS',
-    );
+    expect(
+      parseStatusToken(status('**Status:** 🔨 IN-PROGRESS — building'))!.token,
+    ).toBe('IN-PROGRESS');
   });
 
   it('classifies DONE as archivable', () => {
-    expect(parseStatusToken(status('**Status:** ✅ DONE — shipped + verified'))).toEqual({
+    expect(
+      parseStatusToken(status('**Status:** ✅ DONE — shipped + verified')),
+    ).toEqual({
       token: 'DONE',
       archivable: true,
     });
   });
 
   it('classifies SUPERSEDED as archivable', () => {
-    expect(parseStatusToken(status('**Status:** ❌ SUPERSEDED by F2'))!.archivable).toBe(true);
+    expect(
+      parseStatusToken(status('**Status:** ❌ SUPERSEDED by F2'))!.archivable,
+    ).toBe(true);
   });
 
   it('does NOT tag a leading "✅ LOCKED" as archivable (the glyph is decoration)', () => {
     // The exact bug session-brief mis-fired on: ✅ glyph + a non-DONE token.
-    expect(parseStatusToken(status('**Status:** ✅ LOCKED — scope approved, unbuilt'))).toEqual({
+    expect(
+      parseStatusToken(
+        status('**Status:** ✅ LOCKED — scope approved, unbuilt'),
+      ),
+    ).toEqual({
       token: 'LOCKED',
       archivable: false,
     });
@@ -69,8 +83,9 @@ describe('parseStatusToken', () => {
 
   it('does NOT tag a mid-line "DONE" as archivable (token is the FIRST word only)', () => {
     expect(
-      parseStatusToken(status('**Status: 🔨 IN-PROGRESS — DONE only when all ten land.**'))!
-        .archivable,
+      parseStatusToken(
+        status('**Status: 🔨 IN-PROGRESS — DONE only when all ten land.**'),
+      )!.archivable,
     ).toBe(false);
   });
 
@@ -127,22 +142,28 @@ describe('relinkTarget', () => {
   const newAbs = resolve(root, 'project/archive/x.md');
 
   it('recomputes a relative link that pointed at the moved plan', () => {
-    expect(relinkTarget(fromAbs, '../docs/plans/x.md', oldAbs, newAbs)).toBe('./archive/x.md');
+    expect(relinkTarget(fromAbs, '../docs/plans/x.md', oldAbs, newAbs)).toBe(
+      './archive/x.md',
+    );
   });
 
   it('returns null for a link that did not point at the moved plan', () => {
-    expect(relinkTarget(fromAbs, '../docs/plans/other.md', oldAbs, newAbs)).toBeNull();
+    expect(
+      relinkTarget(fromAbs, '../docs/plans/other.md', oldAbs, newAbs),
+    ).toBeNull();
   });
 
   it('skips external / anchor-only links', () => {
-    expect(relinkTarget(fromAbs, 'https://example.com', oldAbs, newAbs)).toBeNull();
+    expect(
+      relinkTarget(fromAbs, 'https://example.com', oldAbs, newAbs),
+    ).toBeNull();
     expect(relinkTarget(fromAbs, '#section', oldAbs, newAbs)).toBeNull();
   });
 
   it('preserves an #anchor suffix on the rewritten link', () => {
-    expect(relinkTarget(fromAbs, '../docs/plans/x.md#open', oldAbs, newAbs)).toBe(
-      './archive/x.md#open',
-    );
+    expect(
+      relinkTarget(fromAbs, '../docs/plans/x.md#open', oldAbs, newAbs),
+    ).toBe('./archive/x.md#open');
   });
 });
 
@@ -157,9 +178,9 @@ describe('replaceLinkTarget', () => {
   });
 
   it('leaves the link text untouched when it differs from the target', () => {
-    expect(replaceLinkTarget('[the X plan](x.md)', 'x.md', './archive/x.md')).toBe(
-      '[the X plan](./archive/x.md)',
-    );
+    expect(
+      replaceLinkTarget('[the X plan](x.md)', 'x.md', './archive/x.md'),
+    ).toBe('[the X plan](./archive/x.md)');
   });
 
   it('preserves a "title" suffix after the target', () => {
@@ -215,7 +236,9 @@ describe('newestJournalName', () => {
 
 describe('slugify', () => {
   it('lowercases, collapses non-alphanumerics to single dashes, trims', () => {
-    expect(slugify('  The Mechanical Checkpoint! ')).toBe('the-mechanical-checkpoint');
+    expect(slugify('  The Mechanical Checkpoint! ')).toBe(
+      'the-mechanical-checkpoint',
+    );
     expect(slugify('A/B — test')).toBe('a-b-test');
   });
 });
@@ -234,7 +257,12 @@ describe('fillJournalSkeleton', () => {
   ].join('\n');
 
   it('fills NN / date / topic from the shape-A block only', () => {
-    const out = fillJournalSkeleton(template, 63, '2026-07-04', 'a fresh topic');
+    const out = fillJournalSkeleton(
+      template,
+      63,
+      '2026-07-04',
+      'a fresh topic',
+    );
     expect(out).toContain('# Session 63 — 2026-07-04 — a fresh topic');
     expect(out).not.toContain('{YYYY-MM-DD}');
     expect(out).not.toContain('Session NN');
@@ -263,7 +291,9 @@ describe('extractPlanRefs', () => {
   });
 
   it('returns nothing when no plan path is referenced', () => {
-    expect(extractPlanRefs('a parked note about the T2 inn board, no plans.')).toEqual([]);
+    expect(
+      extractPlanRefs('a parked note about the T2 inn board, no plans.'),
+    ).toEqual([]);
   });
 });
 

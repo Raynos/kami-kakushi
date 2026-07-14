@@ -16,9 +16,13 @@ import {
 } from './codec';
 
 /** Ungzip a stored blob back to its RAW envelope JSON (the on-disk descriptor form). */
-function inspectStored(stored: string): { state: { log: { entries: Record<string, unknown>[] } } } {
+function inspectStored(stored: string): {
+  state: { log: { entries: Record<string, unknown>[] } };
+} {
   expect(stored.startsWith('KKgz1:')).toBe(true);
-  const json = gunzipSync(Buffer.from(stored.slice('KKgz1:'.length), 'base64')).toString('utf-8');
+  const json = gunzipSync(
+    Buffer.from(stored.slice('KKgz1:'.length), 'base64'),
+  ).toString('utf-8');
   return JSON.parse(json);
 }
 
@@ -28,7 +32,9 @@ function inspectStored(stored: string): { state: { log: { entries: Record<string
  *  Rehydrate it exactly as `fixtures/index.ts` does — anything else tests a form the game never
  *  actually holds in memory. */
 function fixtureState(name: string): GameState {
-  const path = fileURLToPath(new URL(`../fixtures/saves/${name}.json`, import.meta.url));
+  const path = fileURLToPath(
+    new URL(`../fixtures/saves/${name}.json`, import.meta.url),
+  );
   const parsed = JSON.parse(readFileSync(path, 'utf-8')) as unknown;
   return rehydrateEnvelopeLog(parsed).state;
 }
@@ -79,18 +85,25 @@ describe('log-descriptor persistence (Stage C-final)', () => {
             lootLabel: 'boar hide',
           },
         },
-        { channel: 'narration', text: 'A keyless content line, kept verbatim.' },
+        {
+          channel: 'narration',
+          text: 'A keyless content line, kept verbatim.',
+        },
       ],
     });
   }
 
   it('drops derivable text from KEYED entries in the store, keeps KEYLESS text verbatim', async () => {
-    const stored = inspectStored(await encodeStore(makeEnvelope(mixedState(), 1, 1000)));
+    const stored = inspectStored(
+      await encodeStore(makeEnvelope(mixedState(), 1, 1000)),
+    );
     const entries = stored.state.log.entries;
     const keyed = entries.find((e) => e.contentKey === 'combat.win')!;
     expect(keyed.text).toBeUndefined(); // the words are re-derived on load, not stored
     expect(keyed.params).toBeDefined();
-    const keyless = entries.find((e) => typeof e.text === 'string' && !('contentKey' in e))!;
+    const keyless = entries.find(
+      (e) => typeof e.text === 'string' && !('contentKey' in e),
+    )!;
     expect(keyless.text).toBe('A keyless content line, kept verbatim.'); // verbatim
   });
 
@@ -108,7 +121,9 @@ describe('log-descriptor persistence (Stage C-final)', () => {
       lootQty: 1,
       lootLabel: 'boar hide',
     });
-    expect(JSON.stringify(back)).toContain(JSON.stringify(winText).slice(1, -1));
+    expect(JSON.stringify(back)).toContain(
+      JSON.stringify(winText).slice(1, -1),
+    );
   });
 
   it('round-trips a full 300-entry fixture (keyed descriptors) byte-identically', async () => {

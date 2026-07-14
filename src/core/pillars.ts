@@ -38,7 +38,10 @@ export interface GradeBands {
 }
 
 /** The grade a pillar value earns (the ascension gate reads this; ADR-049/ADR-057/ADR-159). */
-export function gradeOf(value: number, bands: GradeBands = ESTATE_BANDS): Grade {
+export function gradeOf(
+  value: number,
+  bands: GradeBands = ESTATE_BANDS,
+): Grade {
   if (value >= bands.excellent) return 'EXCELLENT';
   if (value >= bands.great) return 'GREAT';
   if (value >= bands.good) return 'GOOD';
@@ -74,7 +77,12 @@ export function accrueDeed(
   const frac = pool - whole;
   if (whole === 0) return { ...pillar, frac }; // sub-koku progress only — value/high-water hold
   const value = pillar.value + whole;
-  return { ...pillar, value, highWater: Math.max(pillar.highWater, value), frac };
+  return {
+    ...pillar,
+    value,
+    highWater: Math.max(pillar.highWater, value),
+    frac,
+  };
 }
 
 /** Bank an Estate deed onto the state — ONLY in Phase 2 (post-R7 capstone, FU7). The labour
@@ -102,14 +110,19 @@ export function seasonalJudge(
   const swing = 1 - SEASONAL_SWING + r * (2 * SEASONAL_SWING); // [1-σ, 1+σ]
   const bonus = Math.max(
     0,
-    Math.round((growth * SEASONAL_OVER_DEEDS_NUM * swing) / SEASONAL_OVER_DEEDS_DEN),
+    Math.round(
+      (growth * SEASONAL_OVER_DEEDS_NUM * swing) / SEASONAL_OVER_DEEDS_DEN,
+    ),
   );
   const value = pillar.value + bonus;
   const highWater = Math.max(pillar.highWater, value);
   // Advance `judged` to the POST-bonus high-water — the bonus is BANKED, never re-judged next
   // season (was `pillar.highWater`, which re-judged its own payout → geometric inflation; battery fix).
   // Carry `frac` (the sub-koku deed accumulator) untouched — the seasonal bonus banks whole koku.
-  return { pillar: { value, highWater, judged: highWater, frac: pillar.frac ?? 0 }, bonus };
+  return {
+    pillar: { value, highWater, judged: highWater, frac: pillar.frac ?? 0 },
+    bonus,
+  };
 }
 
 /** ADR-145 — the deed a given SOURCE banks: the single base magnitude × the source's multiplier.
@@ -124,7 +137,10 @@ export function estateDeedMagnitude(source: EstateDeedSource): number {
  *  The FIRST deed a source ever banks fires its one-time reveal beat (TST3 — the recurring
  *  earner is DISCOVERED via the beat, never spawned; flag-gated, append-only per TST2). This is
  *  shared glue both the activity and fight reducers ride (AC-20 — never a reducer→reducer call). */
-export function bankEstateDeed(state: GameState, source: EstateDeedSource | undefined): GameState {
+export function bankEstateDeed(
+  state: GameState,
+  source: EstateDeedSource | undefined,
+): GameState {
   if (source === undefined) return state;
   const banked = applyEstateDeed(state, estateDeedMagnitude(source));
   if (banked === state) return state; // Phase 1 / nothing moved — no beat, no flag

@@ -45,9 +45,16 @@ interface RequirementBase {
 
 export type RequirementDef =
   /** N occurrences of an advance token ('act:rake_rice', 'kill:boar', 'gather:wood'). */
-  | (RequirementBase & { readonly type: 'count'; readonly token: string; readonly target: number })
+  | (RequirementBase & {
+      readonly type: 'count';
+      readonly token: string;
+      readonly target: number;
+    })
   /** A predicate over GameState snapshots (mon held, item owned) — atomic. */
-  | (RequirementBase & { readonly type: 'state'; readonly pred: StatePredicate })
+  | (RequirementBase & {
+      readonly type: 'state';
+      readonly pred: StatePredicate;
+    })
   /** A story flag turning true (absorbs the old storyGate milestones) — atomic. */
   | (RequirementBase & { readonly type: 'flag'; readonly flag: string });
 
@@ -59,7 +66,9 @@ export type RequirementProgress = Readonly<Record<string, number>>;
 
 /** Native escape-hatch predicates (FB-5 `native:`) — real logic beyond the declared
  *  grammar lives HERE as hand-written TS, keyed by the `native:` name in the md. */
-export const NATIVE_PREDICATES: Readonly<Record<string, (s: GameState) => boolean>> = {
+export const NATIVE_PREDICATES: Readonly<
+  Record<string, (s: GameState) => boolean>
+> = {
   /** R6 "coin-into-the-works": the first kura-works PURCHASE stage bought (ADR-098/ADR-107). */
   'estate-u1': (s) => s.estateStage >= 1,
 };
@@ -70,7 +79,10 @@ export function requirementTarget(def: RequirementDef): number {
   return def.type === 'count' ? def.target : 1;
 }
 
-export function isRequirementDone(def: RequirementDef, progress: RequirementProgress): boolean {
+export function isRequirementDone(
+  def: RequirementDef,
+  progress: RequirementProgress,
+): boolean {
   return (progress[def.id] ?? 0) >= requirementTarget(def);
 }
 
@@ -90,7 +102,10 @@ export function chunkCount(target: number): number {
 
 /** A requirement's quantized 0..1 contribution fraction. Counted reqs step in
  *  chunkCount() increments; atomic reqs are all-or-nothing. */
-function quantizedFrac(def: RequirementDef, progress: RequirementProgress): number {
+function quantizedFrac(
+  def: RequirementDef,
+  progress: RequirementProgress,
+): number {
   const prog = progress[def.id] ?? 0;
   if (def.type !== 'count') return prog >= 1 ? 1 : 0;
   if (prog >= def.target) return 1;
@@ -149,10 +164,14 @@ function evalPredicate(pred: StatePredicate, state: GameState): boolean {
     case 'belonging':
       return state.belongings.includes(pred.id);
     case 'skill':
-      return skillLevel(state, pred.skill as Parameters<typeof skillLevel>[1]) >= pred.min;
+      return (
+        skillLevel(state, pred.skill as Parameters<typeof skillLevel>[1]) >=
+        pred.min
+      );
     case 'native': {
       const fn = NATIVE_PREDICATES[pred.key];
-      if (!fn) throw new Error(`unknown native requirement predicate: ${pred.key}`);
+      if (!fn)
+        throw new Error(`unknown native requirement predicate: ${pred.key}`);
       return fn(state);
     }
   }
@@ -172,7 +191,9 @@ export function settleOnState(
     if (def.type === 'count') continue;
     if ((progress[def.id] ?? 0) >= 1) continue; // latched
     const met =
-      def.type === 'flag' ? state.flags[def.flag] === true : evalPredicate(def.pred, state);
+      def.type === 'flag'
+        ? state.flags[def.flag] === true
+        : evalPredicate(def.pred, state);
     if (!met) continue;
     next ??= { ...progress };
     next[def.id] = 1;

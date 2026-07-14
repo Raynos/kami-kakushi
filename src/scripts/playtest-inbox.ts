@@ -21,7 +21,12 @@ import {
 } from 'node:fs';
 import { basename, join, resolve, sep } from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { fbAllocations, fbHighWater, readClaims, readItems } from './inbox-lanes';
+import {
+  fbAllocations,
+  fbHighWater,
+  readClaims,
+  readItems,
+} from './inbox-lanes';
 
 // The POST path is single-sourced in the browser-safe format module so the client shares it
 // WITHOUT importing this fs/http-laden server module. Re-exported so vite.config.ts keeps
@@ -82,22 +87,42 @@ function fail(status: number, error: string): ResolvedCapture {
 
 /** Validate an untrusted capture body and resolve it to concrete session paths. Re-sanitises
  *  server-side regardless of what the client sent (R2 — the endpoint trusts nothing). */
-export function resolveCapture(body: unknown, pendingDir: string): ResolvedCapture {
-  if (typeof body !== 'object' || body === null) return fail(400, 'body must be a JSON object');
-  const { session, header, entry, metadataName, metadata, screenshotName, screenshot } =
-    body as Record<string, unknown>;
+export function resolveCapture(
+  body: unknown,
+  pendingDir: string,
+): ResolvedCapture {
+  if (typeof body !== 'object' || body === null)
+    return fail(400, 'body must be a JSON object');
+  const {
+    session,
+    header,
+    entry,
+    metadataName,
+    metadata,
+    screenshotName,
+    screenshot,
+  } = body as Record<string, unknown>;
 
-  if (typeof session !== 'string' || typeof header !== 'string' || typeof entry !== 'string') {
+  if (
+    typeof session !== 'string' ||
+    typeof header !== 'string' ||
+    typeof entry !== 'string'
+  ) {
     return fail(400, 'session, header and entry are required strings');
   }
-  if (!SESSION_RE.test(session)) return fail(400, `illegal session id: ${session}`);
-  if (Buffer.byteLength(header, 'utf-8') + Buffer.byteLength(entry, 'utf-8') > MAX_MARKDOWN_BYTES) {
+  if (!SESSION_RE.test(session))
+    return fail(400, `illegal session id: ${session}`);
+  if (
+    Buffer.byteLength(header, 'utf-8') + Buffer.byteLength(entry, 'utf-8') >
+    MAX_MARKDOWN_BYTES
+  ) {
     return fail(413, 'markdown exceeds the size cap');
   }
   if (typeof metadataName !== 'string' || typeof metadata !== 'string') {
     return fail(400, 'metadataName and metadata are required strings');
   }
-  if (!JSON_NAME_RE.test(metadataName)) return fail(400, `illegal metadata name: ${metadataName}`);
+  if (!JSON_NAME_RE.test(metadataName))
+    return fail(400, `illegal metadata name: ${metadataName}`);
   if (Buffer.byteLength(metadata, 'utf-8') > MAX_METADATA_BYTES) {
     return fail(413, 'metadata exceeds the size cap');
   }
@@ -106,10 +131,16 @@ export function resolveCapture(body: unknown, pendingDir: string): ResolvedCaptu
   const mdPath = resolve(dir, `${session}.md`);
   const sessionDir = resolve(dir, session);
   // Dir-jail: the .md and the session folder must stay strictly inside pending/.
-  if (mdPath !== `${dir}${sep}${session}.md` || !mdPath.startsWith(`${dir}${sep}`)) {
+  if (
+    mdPath !== `${dir}${sep}${session}.md` ||
+    !mdPath.startsWith(`${dir}${sep}`)
+  ) {
     return fail(400, 'resolved path escapes the inbox');
   }
-  if (sessionDir !== `${dir}${sep}${session}` || !sessionDir.startsWith(`${dir}${sep}`)) {
+  if (
+    sessionDir !== `${dir}${sep}${session}` ||
+    !sessionDir.startsWith(`${dir}${sep}`)
+  ) {
     return fail(400, 'resolved session folder escapes the inbox');
   }
   const metadataPath = resolve(sessionDir, metadataName);
@@ -117,10 +148,21 @@ export function resolveCapture(body: unknown, pendingDir: string): ResolvedCaptu
     return fail(400, 'metadata path escapes the folder');
   }
 
-  const base = { ok: true, mdPath, header, entry, sessionDir, metadataPath, metadata } as const;
+  const base = {
+    ok: true,
+    mdPath,
+    header,
+    entry,
+    sessionDir,
+    metadataPath,
+    metadata,
+  } as const;
   if (screenshot === undefined) return base;
   if (typeof screenshot !== 'string' || typeof screenshotName !== 'string') {
-    return fail(400, 'screenshot requires a data URL string + a screenshotName');
+    return fail(
+      400,
+      'screenshot requires a data URL string + a screenshotName',
+    );
   }
   if (!PNG_NAME_RE.test(screenshotName))
     return fail(400, `illegal screenshot name: ${screenshotName}`);
@@ -141,7 +183,10 @@ export function stampCapture(
   resolved: Extract<ResolvedCapture, { ok: true }>,
   fb: number,
 ): Extract<ResolvedCapture, { ok: true }> {
-  const entry = resolved.entry.replace(/^## (Bug|Question) · /m, `## $1 · FB-${fb} · `);
+  const entry = resolved.entry.replace(
+    /^## (Bug|Question) · /m,
+    `## $1 · FB-${fb} · `,
+  );
   let metadata = resolved.metadata;
   try {
     metadata = `${JSON.stringify({ ...(JSON.parse(metadata) as Record<string, unknown>), fb }, null, 1)}\n`;
@@ -167,7 +212,10 @@ export function nextFbNumber(pendingDir: string): number {
     } catch {
       /* no F-log dir (tests) — sidecars + claims still bound the allocation */
     }
-    const items = [...readItems(pendingDir), ...readItems(join(inboxRoot, 'archive'))];
+    const items = [
+      ...readItems(pendingDir),
+      ...readItems(join(inboxRoot, 'archive')),
+    ];
     return (
       fbHighWater(
         fbAllocations(texts),
@@ -187,13 +235,16 @@ export function writeCapture(
   pendingDir: string,
 ): void {
   mkdirSync(resolve(pendingDir), { recursive: true });
-  if (existsSync(resolved.mdPath)) appendFileSync(resolved.mdPath, resolved.entry);
-  else writeFileSync(resolved.mdPath, resolved.header + resolved.entry, 'utf-8');
+  if (existsSync(resolved.mdPath))
+    appendFileSync(resolved.mdPath, resolved.entry);
+  else
+    writeFileSync(resolved.mdPath, resolved.header + resolved.entry, 'utf-8');
   // Sidecars in the session folder: the metadata JSON (committed — save + logs + context) and the
   // optional screenshot (git-ignored).
   mkdirSync(resolved.sessionDir, { recursive: true });
   writeFileSync(resolved.metadataPath, resolved.metadata, 'utf-8');
-  if (resolved.shotPath && resolved.pngBuffer) writeFileSync(resolved.shotPath, resolved.pngBuffer);
+  if (resolved.shotPath && resolved.pngBuffer)
+    writeFileSync(resolved.shotPath, resolved.pngBuffer);
 }
 
 /** Every capture commit carries this exact subject — it is also the amend-batch marker:
@@ -225,7 +276,8 @@ export function commitCapture(
   const repoRoot = resolve(pendingDir, '..', '..', '..');
   const git =
     run ??
-    ((args: string[]): void => void execFileSync('git', args, { cwd: repoRoot, stdio: 'ignore' }));
+    ((args: string[]): void =>
+      void execFileSync('git', args, { cwd: repoRoot, stdio: 'ignore' }));
   // With an injected `run` but no `read`, probing must not hit the REAL repo — throw
   // instead, which the probe catches as "don't amend" (the pre-batching behaviour).
   const readGit =
@@ -241,7 +293,8 @@ export function commitCapture(
     let amend = false;
     try {
       amend =
-        readGit(['log', '-1', '--format=%s']).trim() === CAPTURE_COMMIT_SUBJECT &&
+        readGit(['log', '-1', '--format=%s']).trim() ===
+          CAPTURE_COMMIT_SUBJECT &&
         readGit(['branch', '-r', '--contains', 'HEAD']).trim() === ''; // never rewrite pushed history
     } catch {
       amend = false;

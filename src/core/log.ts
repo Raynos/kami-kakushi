@@ -9,7 +9,12 @@ import type { VoiceCategory } from './content/voices';
 import type { LogParams } from './content/log-content';
 
 /** Visual/semantic channels (ui-design.md §5.1). */
-export type LogChannel = 'narration' | 'reward' | 'combat' | 'system' | 'milestone';
+export type LogChannel =
+  | 'narration'
+  | 'reward'
+  | 'combat'
+  | 'system'
+  | 'milestone';
 
 export interface LogEntry {
   /** Stable monotonic key for keyed DOM reconciliation + reveal-on-load no-respam. */

@@ -25,13 +25,25 @@
 // Exit codes: 0 ok · 3 lane held by a LIVE owner (claim/wait timeout).
 export {};
 
-import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { basename, join, resolve } from 'node:path';
 import { type Claim, isClaimLive } from './inbox-lanes';
 
-const CLAIMS = resolve(new URL('../../project/.claims', import.meta.url).pathname);
-const DECISIONS_FILE = resolve(new URL('../../docs/living/decisions.md', import.meta.url).pathname);
-const DECISIONS_DIR = resolve(new URL('../../docs/living/decisions', import.meta.url).pathname);
+const CLAIMS = resolve(
+  new URL('../../project/.claims', import.meta.url).pathname,
+);
+const DECISIONS_FILE = resolve(
+  new URL('../../docs/living/decisions.md', import.meta.url).pathname,
+);
+const DECISIONS_DIR = resolve(
+  new URL('../../docs/living/decisions', import.meta.url).pathname,
+);
 
 /** A tree lane claim. `adrLo`/`adrHi` carry an ADR-number reservation and are
  *  0 for the mutex lanes (push/exit) — mirroring inbox-claim's fb block. */
@@ -52,10 +64,14 @@ export function lanePath(claimsDir: string, lane: string): string {
 /** Atomic O_EXCL create — the POSIX mutex. Throws EEXIST when held. */
 export function createTreeClaim(claimsDir: string, claim: TreeClaim): void {
   mkdirSync(claimsDir, { recursive: true });
-  writeFileSync(lanePath(claimsDir, claim.lane), `${JSON.stringify(claim, null, 1)}\n`, {
-    encoding: 'utf-8',
-    flag: 'wx',
-  });
+  writeFileSync(
+    lanePath(claimsDir, claim.lane),
+    `${JSON.stringify(claim, null, 1)}\n`,
+    {
+      encoding: 'utf-8',
+      flag: 'wx',
+    },
+  );
 }
 
 export function readTreeClaims(claimsDir: string): TreeClaim[] {
@@ -68,7 +84,9 @@ export function readTreeClaims(claimsDir: string): TreeClaim[] {
   const out: TreeClaim[] = [];
   for (const f of files) {
     try {
-      const raw = JSON.parse(readFileSync(join(claimsDir, f), 'utf-8')) as TreeClaim;
+      const raw = JSON.parse(
+        readFileSync(join(claimsDir, f), 'utf-8'),
+      ) as TreeClaim;
       out.push({ ...raw, lane: raw.lane ?? basename(f, '.json') });
     } catch {
       /* unreadable → reap handles it */
@@ -132,7 +150,10 @@ export function adrAllocations(mdTexts: readonly string[]): number[] {
 }
 
 /** Next free ADR number sits above every heading AND every live reservation. */
-export function adrHighWater(headings: readonly number[], claims: readonly TreeClaim[]): number {
+export function adrHighWater(
+  headings: readonly number[],
+  claims: readonly TreeClaim[],
+): number {
   return Math.max(0, ...headings, ...claims.map((c) => c.adrHi));
 }
 
@@ -144,7 +165,9 @@ function readDecisionTexts(): string[] {
     /* index may not exist in a bare checkout */
   }
   try {
-    for (const f of readdirSync(DECISIONS_DIR).filter((f) => f.endsWith('.md'))) {
+    for (const f of readdirSync(DECISIONS_DIR).filter((f) =>
+      f.endsWith('.md'),
+    )) {
       texts.push(readFileSync(join(DECISIONS_DIR, f), 'utf-8'));
     }
   } catch {
@@ -218,7 +241,10 @@ async function main(): Promise<void> {
   if (cmd === 'adr') {
     const n = Math.max(1, Number(args[0] ?? 1));
     reapDead(CLAIMS);
-    const hw = adrHighWater(adrAllocations(readDecisionTexts()), readTreeClaims(CLAIMS));
+    const hw = adrHighWater(
+      adrAllocations(readDecisionTexts()),
+      readTreeClaims(CLAIMS),
+    );
     const lo = hw + 1;
     const hi = hw + n;
     createTreeClaim(CLAIMS, {
@@ -226,13 +252,17 @@ async function main(): Promise<void> {
       adrLo: lo,
       adrHi: hi,
     });
-    console.log(n === 1 ? `reserved ADR-${lo}` : `reserved ADR-${lo}..ADR-${hi}`);
+    console.log(
+      n === 1 ? `reserved ADR-${lo}` : `reserved ADR-${lo}..ADR-${hi}`,
+    );
     return;
   }
 
   if (cmd === 'reap') {
     const reaped = reapDead(CLAIMS);
-    console.log(reaped.length > 0 ? `reaped: ${reaped.join(', ')}` : 'nothing to reap');
+    console.log(
+      reaped.length > 0 ? `reaped: ${reaped.join(', ')}` : 'nothing to reap',
+    );
     return;
   }
 
@@ -245,7 +275,9 @@ async function main(): Promise<void> {
   for (const c of claims) {
     const live = isTreeClaimLive(c) ? 'live' : 'DEAD';
     const adr = c.adrHi > 0 ? ` ADR-${c.adrLo}..${c.adrHi}` : '';
-    console.log(`${c.lane}  ${c.pane} (${c.agent}) ${live} since ${c.started}${adr}`);
+    console.log(
+      `${c.lane}  ${c.pane} (${c.agent}) ${live} since ${c.started}${adr}`,
+    );
   }
 }
 

@@ -43,13 +43,18 @@ test('intro VN completes: cold boot to the working shell', async ({ page }) => {
   }
 
   // the shell must be revealed: the VN gone, the workspace live
-  await expect(page.locator('.vn-scene'), 'the intro never released the shell').toBeHidden();
+  await expect(
+    page.locator('.vn-scene'),
+    'the intro never released the shell',
+  ).toBeHidden();
   await expect(page.locator('.workspace')).toBeVisible();
   await expectNoHorizontalOverflow(page, 'shell after intro');
   expectNoPageErrors(errors);
 });
 
-test('rung-beat completes: summons → choice → promotion lands', async ({ page }) => {
+test('rung-beat completes: summons → choice → promotion lands', async ({
+  page,
+}) => {
   const errors = await boot(page, 'rung-beat-ready');
   const rungBefore = await page.evaluate<string>('__qa.state().rung');
 
@@ -60,8 +65,13 @@ test('rung-beat completes: summons → choice → promotion lands', async ({ pag
   await playVnScene(page);
 
   // the promotion applied — rung advanced — and the shell restored
-  await page.waitForFunction(`window.__qa.state().rung !== ${JSON.stringify(rungBefore)}`);
-  await expect(page.locator('.vn-scene'), 'the beat never released the shell').toBeHidden();
+  await page.waitForFunction(
+    `window.__qa.state().rung !== ${JSON.stringify(rungBefore)}`,
+  );
+  await expect(
+    page.locator('.vn-scene'),
+    'the beat never released the shell',
+  ).toBeHidden();
 
   // the SLOP threshold gate (human, 2026-07-10): the first rung-up crosses into
   // unreviewed content, so the warning must interpose and Confirm must clear it.
@@ -75,9 +85,13 @@ test('rung-beat completes: summons → choice → promotion lands', async ({ pag
   expectNoPageErrors(errors);
 });
 
-test('market loop: speak with Yohei, sell the rice, the coin rises', async ({ page }) => {
+test('market loop: speak with Yohei, sell the rice, the coin rises', async ({
+  page,
+}) => {
   const errors = await boot(page, 'rice-at-gate');
-  const coinBefore = await page.evaluate<number>('__qa.state().resources.coin ?? 0');
+  const coinBefore = await page.evaluate<number>(
+    '__qa.state().resources.coin ?? 0',
+  );
 
   // Yohei stands the gate only on his MARKET DAYS (day % 7 ∈ {2,5} — YOHEI_MARKET_DAYS).
   // The fixture may land off-market; rest at the gate (rest never moves) until a market
@@ -91,7 +105,9 @@ test('market loop: speak with Yohei, sell the rice, the coin rises', async ({ pa
   await press(page.locator('.nav-tab', { hasText: 'Zone' })); // FB-332 — who's-here lives on Zone
   // ADR-114 talk-to-open: the market shows ONLY after speaking with the pedlar
   await expect(page.locator('.market-sell')).toBeHidden();
-  await press(page.locator('button.person-talk', { hasText: 'Speak with Yohei' }));
+  await press(
+    page.locator('button.person-talk', { hasText: 'Speak with Yohei' }),
+  );
   const sell = page.locator('.market-sell button.auto-toggle');
   await expect(sell, 'the market never opened from the talk').toBeVisible();
   await expect(sell).toBeEnabled();
@@ -104,20 +120,31 @@ test('market loop: speak with Yohei, sell the rice, the coin rises', async ({ pa
     .toBeGreaterThan(coinBefore);
   // the surface outcome (FB-171 — coin left the header; the Inventory kura card is
   // its readout home): the storehouse carried-coin line shows the new sum (not stale)
-  const coinNow = await page.evaluate<number>('__qa.state().resources.coin ?? 0');
+  const coinNow = await page.evaluate<number>(
+    '__qa.state().resources.coin ?? 0',
+  );
   await press(page.locator('.nav-tab', { hasText: '蔵' })); // Inventory
   const kuraCard = page.locator('.slice-do .rung-card, .rung-card').first();
-  await expect(kuraCard, 'the kura card must surface the carried coin').toContainText('coin');
+  await expect(
+    kuraCard,
+    'the kura card must surface the carried coin',
+  ).toContainText('coin');
   expect(coinNow).toBeGreaterThan(coinBefore);
   expectNoPageErrors(errors);
 });
 
-test('kura deposit: store the coin, the banked figure updates', async ({ page }) => {
+test('kura deposit: store the coin, the banked figure updates', async ({
+  page,
+}) => {
   const errors = await boot(page, 'at-kura-with-coin');
-  const bankedBefore = await page.evaluate<number>('__qa.state().banked.coin ?? 0');
+  const bankedBefore = await page.evaluate<number>(
+    '__qa.state().banked.coin ?? 0',
+  );
 
   await press(page.locator('.nav-tab', { hasText: '蔵' })); // Inventory
-  await press(page.locator('button.auto-toggle', { hasText: 'Store all coin' }));
+  await press(
+    page.locator('button.auto-toggle', { hasText: 'Store all coin' }),
+  );
 
   await expect
     .poll(() => page.evaluate<number>('__qa.state().banked.coin ?? 0'), {
@@ -125,7 +152,9 @@ test('kura deposit: store the coin, the banked figure updates', async ({ page })
     })
     .toBeGreaterThan(bankedBefore);
   // surface outcome: the storehouse footer line shows the stored sum
-  await expect(page.locator('.rung-card .influence-when').first()).toContainText('stored');
+  await expect(
+    page.locator('.rung-card .influence-when').first(),
+  ).toContainText('stored');
   expectNoPageErrors(errors);
 });
 
@@ -141,13 +170,17 @@ test('mend lane: food is satiety-only; the sickroom pallet heals (ADR-164/ADR-19
   await press(page.locator('.nav-tab', { hasText: 'Character' }));
   const cook = page.locator('button.verb', { hasText: 'Cook a meal' }).first();
   await expect(cook).toBeVisible();
-  await expect(cook, 'food is never the heal cue (ADR-197)').not.toHaveClass(/\bprimary\b/);
+  await expect(cook, 'food is never the heal cue (ADR-197)').not.toHaveClass(
+    /\bprimary\b/,
+  );
 
   // (2) the mend lanes live at the sickroom (ADR-197): the paid treat row (this fixture
   //     still carries coin) and the free pallet day. Drive the FREE lane — it can never
   //     strand a player, which is the design's floor.
   await press(page.locator('.nav-tab', { hasText: 'Zone' }));
-  const pallet = page.locator('button.verb', { hasText: 'Rest on the pallet' }).first();
+  const pallet = page
+    .locator('button.verb', { hasText: 'Rest on the pallet' })
+    .first();
   await expect(pallet, 'the free mend lane must be reachable').toBeVisible();
   await expect(pallet).toBeEnabled();
 
@@ -160,9 +193,13 @@ test('mend lane: food is satiety-only; the sickroom pallet heals (ADR-164/ADR-19
   expectNoPageErrors(errors);
 });
 
-test('repair bind: chop wood, mend the blade, durability rises', async ({ page }) => {
+test('repair bind: chop wood, mend the blade, durability rises', async ({
+  page,
+}) => {
   const errors = await boot(page, 'worn-weapon-no-wood');
-  const duraBefore = await page.evaluate<number>('__qa.state().weaponDurability');
+  const duraBefore = await page.evaluate<number>(
+    '__qa.state().weaponDurability',
+  );
 
   // walk to the woodlot through the REAL map (sickroom → forecourt → paddies → woodlot),
   // paced per hop — see walkSheet (the webkit stale-hit-test wedge).
@@ -195,15 +232,22 @@ test('repair bind: chop wood, mend the blade, durability rises', async ({ page }
   expectNoPageErrors(errors);
 });
 
-test('quest slice: take it on, do its act, the step marks done', async ({ page }) => {
+test('quest slice: take it on, do its act, the step marks done', async ({
+  page,
+}) => {
   const errors = await boot(page, 'wealthy-idler');
 
   await press(page.locator('.nav-tab', { hasText: '用' })); // Quests
   // Target a quest whose FIRST step is a MAP fight: the night-round quest's first step is a
   // night-round-only foe (unreachable on the map), so pick the orchard chain — it opens on a
   // feral-dog kill at the orchard node (kill:feral_dog → the FIGHT→quest event seam).
-  const orchard = page.locator('.quest-card', { hasText: 'Take back the orchard' });
-  await expect(orchard, 'the orchard quest must offer itself at R7').toBeVisible();
+  const orchard = page.locator('.quest-card', {
+    hasText: 'Take back the orchard',
+  });
+  await expect(
+    orchard,
+    'the orchard quest must offer itself at R7',
+  ).toBeVisible();
   const accept = orchard.locator('button.verb', { hasText: 'Take this on' });
   await expect(accept, 'an acceptable quest must offer itself').toBeVisible();
   await press(accept);
@@ -232,7 +276,9 @@ test('quest slice: take it on, do its act, the step marks done', async ({ page }
   expectNoPageErrors(errors);
 });
 
-test('ascension ceremony: the arc pays off, tier turns over', async ({ page }) => {
+test('ascension ceremony: the arc pays off, tier turns over', async ({
+  page,
+}) => {
   const errors = await boot(page, 'pre-ascension');
 
   await press(page.locator('.nav-tab', { hasText: '家' })); // Estate
@@ -245,11 +291,15 @@ test('ascension ceremony: the arc pays off, tier turns over', async ({ page }) =
   // the ceremony surface — the title-card seal — actually showed
   await expect(page.locator('.rankup-seal.ascension')).toBeVisible();
   // and the post-ascension surface follows it (the seal auto-clears)
-  await expect(page.locator('.rankup-seal.ascension')).toBeHidden({ timeout: 6_000 });
+  await expect(page.locator('.rankup-seal.ascension')).toBeHidden({
+    timeout: 6_000,
+  });
   // the payoff is VISIBLE (T4): back on Estate, the boon waits to be spent
   await press(page.locator('.nav-tab', { hasText: '家' }));
   await expect(
-    page.locator('.influence-when', { hasText: /boon|man of the house/ }).first(),
+    page
+      .locator('.influence-when', { hasText: /boon|man of the house/ })
+      .first(),
     'the post-ascension surface must show the payoff',
   ).toBeVisible();
   await expectNoHorizontalOverflow(page, 'post-ascension');

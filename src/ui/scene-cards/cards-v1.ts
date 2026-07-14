@@ -97,7 +97,11 @@ function headPts(cx: number, cy: number, r: number): Pt[] {
 }
 
 /** Two or three curved robe-fold strokes — brushwork, never a regular hatch. */
-function robeFolds(parent: SVGElement, folds: readonly (readonly Pt[])[], seed: string): void {
+function robeFolds(
+  parent: SVGElement,
+  folds: readonly (readonly Pt[])[],
+  seed: string,
+): void {
   for (const [i, f] of folds.entries())
     inkLine(parent, f, {
       seed: `${seed}-fold-${i}`,
@@ -110,7 +114,12 @@ function robeFolds(parent: SVGElement, folds: readonly (readonly Pt[])[], seed: 
 
 /** The caption cartouche — a vermillion seal-frame with vertical role-kanji,
  *  top-right like a print's title cartouche. */
-function cartouche(parent: SVGElement, kanji: string, roman: string, seed: string): void {
+function cartouche(
+  parent: SVGElement,
+  kanji: string,
+  roman: string,
+  seed: string,
+): void {
   const x0 = 646;
   const y0 = 26;
   const w = 48;
@@ -250,7 +259,12 @@ function paintSoanCard(art: SVGElement): void {
         [bx + 88, 350],
         [bx + 22, 354],
       ],
-      { seed: `soan-pool-${i}`, fill: 'var(--v-physician)', opacity: 0.12, amp: 3 },
+      {
+        seed: `soan-pool-${i}`,
+        fill: 'var(--v-physician)',
+        opacity: 0.12,
+        amp: 3,
+      },
     );
   }
 
@@ -298,7 +312,10 @@ function paintSoanCard(art: SVGElement): void {
     stroke: 'var(--ink-faint)',
     strokeW: 1,
   });
-  tip(mcG, 'the spirited-away — a figure-scale void; the man the light falls around');
+  tip(
+    mcG,
+    'the spirited-away — a figure-scale void; the man the light falls around',
+  );
   art.append(mcG);
 
   // Sōan — kneeling, sat back on his heels, facing the bed; a featureless mass
@@ -324,7 +341,12 @@ function paintSoanCard(art: SVGElement): void {
     [518, 246],
     [504, 230],
   ];
-  wash(soanG, soanBody, { seed: 'soan-body', fill: 'var(--ink-soft)', amp: 2.5, opacity: 0.92 });
+  wash(soanG, soanBody, {
+    seed: 'soan-body',
+    fill: 'var(--ink-soft)',
+    amp: 2.5,
+    opacity: 0.92,
+  });
   wash(soanG, headPts(494, 208, 16), {
     seed: 'soan-head',
     fill: 'var(--ink-soft)',
@@ -510,7 +532,12 @@ function paintGenemonCard(art: SVGElement): void {
         [12, y],
         [708, y - 4],
       ],
-      { seed: `gen-board-${i}`, color: 'var(--ink-faint)', w: 1, opacity: 0.35 },
+      {
+        seed: `gen-board-${i}`,
+        color: 'var(--ink-faint)',
+        w: 1,
+        opacity: 0.35,
+      },
     );
 
   // the tawara — a rice bale toppled on its side, ropes still crossed
@@ -519,7 +546,12 @@ function paintGenemonCard(art: SVGElement): void {
     const a = (i / 12) * Math.PI * 2;
     bale.push([336 + Math.cos(a) * 68, 320 + Math.sin(a) * 26]);
   }
-  wash(art, bale, { seed: 'gen-bale', fill: 'var(--gold-dim)', opacity: 0.38, amp: 2.5 });
+  wash(art, bale, {
+    seed: 'gen-bale',
+    fill: 'var(--gold-dim)',
+    opacity: 0.38,
+    amp: 2.5,
+  });
   hatchArea(art, bale, {
     seed: 'gen-bale-straw',
     angle: 5,
@@ -535,7 +567,12 @@ function paintGenemonCard(art: SVGElement): void {
         [bx, 298],
         [bx + 12, 342],
       ],
-      { seed: `gen-rope-a${i}`, color: 'var(--ink-soft)', w: 1.6, opacity: 0.8 },
+      {
+        seed: `gen-rope-a${i}`,
+        color: 'var(--ink-soft)',
+        w: 1.6,
+        opacity: 0.8,
+      },
     );
     inkLine(
       art,
@@ -543,7 +580,12 @@ function paintGenemonCard(art: SVGElement): void {
         [bx + 12, 298],
         [bx, 342],
       ],
-      { seed: `gen-rope-b${i}`, color: 'var(--ink-soft)', w: 1.6, opacity: 0.8 },
+      {
+        seed: `gen-rope-b${i}`,
+        color: 'var(--ink-soft)',
+        w: 1.6,
+        opacity: 0.8,
+      },
     );
   }
   wash(art, headPts(402, 320, 19), {
@@ -565,7 +607,12 @@ function paintGenemonCard(art: SVGElement): void {
     [438, 398],
     [396, 342],
   ];
-  wash(spillG, spill, { seed: 'gen-spill-wash', fill: 'var(--v-steward)', opacity: 0.05, amp: 4 });
+  wash(spillG, spill, {
+    seed: 'gen-spill-wash',
+    fill: 'var(--v-steward)',
+    opacity: 0.05,
+    amp: 4,
+  });
   stipple(spillG, spill, {
     seed: 'gen-rice',
     step: 8,
@@ -590,7 +637,10 @@ function paintGenemonCard(art: SVGElement): void {
     color: 'var(--v-steward)',
     opacity: 0.35,
   });
-  tip(spillG, 'Half a season’s stores, spilled where the kura door gave way in the rains.');
+  tip(
+    spillG,
+    'Half a season’s stores, spilled where the kura door gave way in the rains.',
+  );
   art.append(spillG);
 
   // the rake — set to the work already, leaning clear of the bale, head down
@@ -617,7 +667,12 @@ function paintGenemonCard(art: SVGElement): void {
         [214 + i * 11, 326 + i * 2.4],
         [217 + i * 11, 340 + i * 2],
       ],
-      { seed: `gen-tine-${i}`, color: 'var(--ink-soft)', w: 1.6, opacity: 0.85 },
+      {
+        seed: `gen-tine-${i}`,
+        color: 'var(--ink-soft)',
+        w: 1.6,
+        opacity: 0.85,
+      },
     );
 
   // Genemon — standing over the loss, a stooped featureless mass, hands kept
@@ -644,7 +699,12 @@ function paintGenemonCard(art: SVGElement): void {
     [584, 206],
     [560, 194],
   ];
-  wash(genG, genBody, { seed: 'gen-body', fill: 'var(--ink-soft)', amp: 2.5, opacity: 0.92 });
+  wash(genG, genBody, {
+    seed: 'gen-body',
+    fill: 'var(--ink-soft)',
+    amp: 2.5,
+    opacity: 0.92,
+  });
   wash(genG, headPts(552, 174, 15), {
     seed: 'gen-head',
     fill: 'var(--ink-soft)',
@@ -675,7 +735,10 @@ function paintGenemonCard(art: SVGElement): void {
     ],
     { seed: 'gen-obi', color: 'var(--washi-deep)', w: 2.2, opacity: 0.5 },
   );
-  tip(genG, `${NAMES.elder}, steward of this house — he keeps the little it has left to keep.`);
+  tip(
+    genG,
+    `${NAMES.elder}, steward of this house — he keeps the little it has left to keep.`,
+  );
   art.append(genG);
 
   cartouche(art, '家令', NAMES.elder, 'gen');

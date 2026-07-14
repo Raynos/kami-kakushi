@@ -11,10 +11,21 @@
 
 export {};
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { makeEnvelope, stripEnvelopeLog } from '../persistence/codec';
-import { FIXTURE_SPECS, buildFixtureState, type FixtureSpec } from '../fixtures/specs';
+import {
+  FIXTURE_SPECS,
+  buildFixtureState,
+  type FixtureSpec,
+} from '../fixtures/specs';
 
 const SAVES_DIR = fileURLToPath(new URL('../fixtures/saves/', import.meta.url));
 
@@ -27,7 +38,9 @@ function render(spec: FixtureSpec): string {
   return JSON.stringify(env, null, 2) + '\n';
 }
 
-const outputs = FIXTURE_SPECS.map((spec) => [`${spec.name}.json`, render(spec)] as const);
+const outputs = FIXTURE_SPECS.map(
+  (spec) => [`${spec.name}.json`, render(spec)] as const,
+);
 const expected = new Set<string>(outputs.map(([file]) => file));
 
 // Orphan saves = a JSON on disk with no spec (a removed/renamed fixture). Regen deletes them so the
@@ -35,7 +48,9 @@ const expected = new Set<string>(outputs.map(([file]) => file));
 // round-trip test's braces).
 function orphansOnDisk(): string[] {
   if (!existsSync(SAVES_DIR)) return [];
-  return readdirSync(SAVES_DIR).filter((f) => f.endsWith('.json') && !expected.has(f));
+  return readdirSync(SAVES_DIR).filter(
+    (f) => f.endsWith('.json') && !expected.has(f),
+  );
 }
 
 const check = process.argv.includes('--check');
@@ -59,7 +74,9 @@ if (check) {
     stale = true;
   }
   if (stale) process.exit(1);
-  console.log(`fixtures:check: ${outputs.length} fixture save(s) are up to date.`);
+  console.log(
+    `fixtures:check: ${outputs.length} fixture save(s) are up to date.`,
+  );
 } else {
   mkdirSync(SAVES_DIR, { recursive: true });
   for (const [file, content] of outputs) {

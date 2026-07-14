@@ -32,18 +32,24 @@ describe('requirements registry (FB-121) — authored lists resolve against the 
     // One requirement = one flavor beat across a whole climb (the R0 lesson): the
     // gen-narrative validator blocks it at authoring time; this guards the registry.
     for (const rank of RANKS) {
-      expect(rungRequirements(rank.id).length, `rung ${rank.id}`).toBeGreaterThanOrEqual(3);
+      expect(
+        rungRequirements(rank.id).length,
+        `rung ${rank.id}`,
+      ).toBeGreaterThanOrEqual(3);
     }
-    expect(Object.keys(RUNG_REQUIREMENTS).sort()).toEqual(RANKS.map((r) => r.id).sort());
+    expect(Object.keys(RUNG_REQUIREMENTS).sort()).toEqual(
+      RANKS.map((r) => r.id).sort(),
+    );
   });
 
   it('every count token is one a reducer actually emits (a silent-never-completes guard)', () => {
     for (const rank of RANKS) {
       for (const req of rungRequirements(rank.id)) {
         if (req.type !== 'count') continue;
-        expect(EMITTED_TOKENS.has(req.token), `${rank.id}/${req.id}: token "${req.token}"`).toBe(
-          true,
-        );
+        expect(
+          EMITTED_TOKENS.has(req.token),
+          `${rank.id}/${req.id}: token "${req.token}"`,
+        ).toBe(true);
       }
     }
   });
@@ -55,13 +61,24 @@ describe('requirements registry (FB-121) — authored lists resolve against the 
         const p = req.pred;
         const label = `${rank.id}/${req.id}`;
         if (p.kind === 'belonging') {
-          expect(BELONGING_IDS.has(p.id), `${label}: belonging "${p.id}"`).toBe(true);
+          expect(BELONGING_IDS.has(p.id), `${label}: belonging "${p.id}"`).toBe(
+            true,
+          );
         } else if (p.kind === 'skill') {
-          expect(SKILL_ID_SET.has(p.skill), `${label}: skill "${p.skill}"`).toBe(true);
+          expect(
+            SKILL_ID_SET.has(p.skill),
+            `${label}: skill "${p.skill}"`,
+          ).toBe(true);
         } else if (p.kind === 'native') {
-          expect(NATIVE_PREDICATES[p.key], `${label}: native "${p.key}"`).toBeDefined();
+          expect(
+            NATIVE_PREDICATES[p.key],
+            `${label}: native "${p.key}"`,
+          ).toBeDefined();
         } else {
-          expect(['rice', 'coin', 'wood', 'sansai'], `${label}: res "${p.res}"`).toContain(p.res);
+          expect(
+            ['rice', 'coin', 'wood', 'sansai'],
+            `${label}: res "${p.res}"`,
+          ).toContain(p.res);
         }
       }
     }
@@ -73,8 +90,13 @@ describe('requirements registry (FB-121) — authored lists resolve against the 
       const ids = reqs.map((r) => r.id);
       expect(new Set(ids).size, `rung ${rank.id} ids`).toBe(ids.length);
       for (const req of reqs) {
-        expect(req.flavor.length, `${rank.id}/${req.id} flavor`).toBeGreaterThan(0);
-        expect(req.drive.length, `${rank.id}/${req.id} drive`).toBeGreaterThan(0);
+        expect(
+          req.flavor.length,
+          `${rank.id}/${req.id} flavor`,
+        ).toBeGreaterThan(0);
+        expect(req.drive.length, `${rank.id}/${req.id} drive`).toBeGreaterThan(
+          0,
+        );
       }
     }
   });

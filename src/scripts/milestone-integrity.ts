@@ -20,19 +20,43 @@ const read = (rel: string): string | null =>
 /** Each named DoD forward-contract (roadmap §"DoD forward-contracts" + ADR-088's per-tier tests) →
  *  the instrument that RESOLVES it: a file that must exist + a stable marker proving it's the real
  *  check (a contract name embedded in a describe, or a load-bearing symbol). */
-const MANIFEST: ReadonlyArray<{ contract: string; file: string; marker: string }> = [
+const MANIFEST: ReadonlyArray<{
+  contract: string;
+  file: string;
+  marker: string;
+}> = [
   { contract: 'G-CURVE', file: 'src/core/m2.test.ts', marker: 'combat curve' },
-  { contract: 'G-NO-DEAD-VALUES', file: 'src/core/integrity.test.ts', marker: 'G-NO-DEAD-VALUES' },
+  {
+    contract: 'G-NO-DEAD-VALUES',
+    file: 'src/core/integrity.test.ts',
+    marker: 'G-NO-DEAD-VALUES',
+  },
   {
     contract: 'NO-STANCE-DOMINATED',
     file: 'src/core/m2.test.ts',
     marker: 'stance strictly dominates',
   },
-  { contract: 'DISPLAYED==TESTED', file: 'src/core/m2.test.ts', marker: 'seed-robust' },
-  { contract: 'playcheck', file: 'src/playcheck.ts', marker: 'focusedOptimalIntent' },
+  {
+    contract: 'DISPLAYED==TESTED',
+    file: 'src/core/m2.test.ts',
+    marker: 'seed-robust',
+  },
+  {
+    contract: 'playcheck',
+    file: 'src/playcheck.ts',
+    marker: 'focusedOptimalIntent',
+  },
   // ADR-088 — the per-tier hard DoD contract: a full-arc e2e + an invariants test, each a real test.
-  { contract: 'T0-e2e (D-088)', file: 'src/core/t0-arc.test.ts', marker: 'focusedOptimalIntent' },
-  { contract: 'T0-invariants (D-088)', file: 'src/core/invariants.test.ts', marker: 'invariant' },
+  {
+    contract: 'T0-e2e (D-088)',
+    file: 'src/core/t0-arc.test.ts',
+    marker: 'focusedOptimalIntent',
+  },
+  {
+    contract: 'T0-invariants (D-088)',
+    file: 'src/core/invariants.test.ts',
+    marker: 'invariant',
+  },
 ];
 
 const problems: string[] = [];
@@ -41,7 +65,9 @@ const problems: string[] = [];
 for (const { contract, file, marker } of MANIFEST) {
   const src = read(file);
   if (src === null) {
-    problems.push(`${contract}: names ${file}, which does NOT exist (DoD instrument unresolved).`);
+    problems.push(
+      `${contract}: names ${file}, which does NOT exist (DoD instrument unresolved).`,
+    );
     continue;
   }
   if (!src.toLowerCase().includes(marker.toLowerCase())) {
@@ -53,7 +79,9 @@ for (const { contract, file, marker } of MANIFEST) {
 
 // (2) every named contract the roadmap MENTIONS must be in the manifest (no un-wired DoD instrument).
 const roadmap = read('docs/living/roadmap.md') ?? '';
-const manifestNames = new Set(MANIFEST.map((m) => m.contract.replace(/\s*\(.*\)$/, '')));
+const manifestNames = new Set(
+  MANIFEST.map((m) => m.contract.replace(/\s*\(.*\)$/, '')),
+);
 // the token vocabulary the roadmap uses for its forward-contracts (§"DoD forward-contracts").
 const NAMED = [
   'G-CURVE',

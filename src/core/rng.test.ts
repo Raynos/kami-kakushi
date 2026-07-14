@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { createRng, nextFloat, nextInt, nextChance, nextPick, deriveDayKeyed } from './rng';
+import {
+  createRng,
+  nextFloat,
+  nextInt,
+  nextChance,
+  nextPick,
+  deriveDayKeyed,
+} from './rng';
 
 describe('seeded RNG (splitmix64, per-stream cursors)', () => {
   it('is deterministic: same seed → same sequence', () => {
@@ -52,9 +59,15 @@ describe('seeded RNG (splitmix64, per-stream cursors)', () => {
   });
 
   it('deriveDayKeyed is stateless & reproducible', () => {
-    expect(deriveDayKeyed(42, 'weather', 10)).toBe(deriveDayKeyed(42, 'weather', 10));
-    expect(deriveDayKeyed(42, 'weather', 10)).not.toBe(deriveDayKeyed(42, 'weather', 11));
-    expect(deriveDayKeyed(42, 'weather', 10)).not.toBe(deriveDayKeyed(42, 'lunar', 10));
+    expect(deriveDayKeyed(42, 'weather', 10)).toBe(
+      deriveDayKeyed(42, 'weather', 10),
+    );
+    expect(deriveDayKeyed(42, 'weather', 10)).not.toBe(
+      deriveDayKeyed(42, 'weather', 11),
+    );
+    expect(deriveDayKeyed(42, 'weather', 10)).not.toBe(
+      deriveDayKeyed(42, 'lunar', 10),
+    );
   });
 
   it('floats are in [0,1)', () => {
@@ -68,7 +81,11 @@ describe('seeded RNG (splitmix64, per-stream cursors)', () => {
   });
 });
 
-function drawN(rng: ReturnType<typeof createRng>, stream: 'combat' | 'loot', n: number): number[] {
+function drawN(
+  rng: ReturnType<typeof createRng>,
+  stream: 'combat' | 'loot',
+  n: number,
+): number[] {
   const out: number[] = [];
   let r = rng;
   for (let i = 0; i < n; i++) {

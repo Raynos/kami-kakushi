@@ -35,7 +35,12 @@ import { buildProtosPane } from './dev/protos-pane';
 // Re-exported so main.ts builds the cockpit THROUGH ui/dev — keeping dev-cockpit.ts imported only
 // here, riding this module's DEV fold + sentinel graph (FB-7 / ADR-059).
 export { createBalanceCockpit, buildTuneArtifact } from './dev-cockpit';
-export type { BalanceCockpit, TuneMeta, TouchedLever, LeverDef } from './dev-cockpit';
+export type {
+  BalanceCockpit,
+  TuneMeta,
+  TouchedLever,
+  LeverDef,
+} from './dev-cockpit';
 // Re-exported (render-split): the reader + the strip-guard sentinel keep their './dev' home.
 export { openStoryReader, LIVE_UNITS } from './dev/story-reader';
 export { DEV_SENTINEL } from './dev/widgets';
@@ -99,10 +104,13 @@ export interface DevApi {
   ): boolean;
 }
 
-export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BUNDLES): DevApi {
+export function createDevApi(
+  bundles: readonly StoryTakeBundle[] = STORY_TAKE_BUNDLES,
+): DevApi {
   const variant: Record<string, string> = {};
   for (const s of SURFACES) variant[s.id] = s.variants[0]!.id;
-  const defaultOf = (s: string): string => SURFACES.find((x) => x.id === s)?.variants[0]?.id ?? '';
+  const defaultOf = (s: string): string =>
+    SURFACES.find((x) => x.id === s)?.variants[0]?.id ?? '';
 
   // ── ADR-139 story take-sets: bundle-level active set + per-unit overrides. 'canon' = the
   //    live pick (always valid). Injected `bundles` default to the generated registry — a
@@ -112,7 +120,8 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
   const unitOverride: Record<string, Record<string, string>> = {};
   let storyEpoch = 0;
   const validTake = (b: string, id: string): boolean =>
-    id === 'canon' || (bundles.find((x) => x.id === b)?.takes.some((t) => t.id === id) ?? false);
+    id === 'canon' ||
+    (bundles.find((x) => x.id === b)?.takes.some((t) => t.id === id) ?? false);
   /** The effective take for a unit: its override if set, else the bundle's active set. */
   const effective = (b: string, unit: string): string =>
     unitOverride[b]?.[unit] ?? storyTake[b] ?? 'canon';
@@ -137,7 +146,10 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
       }
     }
     const any = Object.keys(text).length + Object.keys(seq).length > 0;
-    __setStoryOverlay(any ? text : null, any && Object.keys(seq).length > 0 ? seq : null);
+    __setStoryOverlay(
+      any ? text : null,
+      any && Object.keys(seq).length > 0 ? seq : null,
+    );
   };
 
   // FB-18 — hydrate variant selections from the URL query params so a tweak survives a reload and a
@@ -228,7 +240,9 @@ export function createDevApi(bundles: readonly StoryTakeBundle[] = STORY_TAKE_BU
     // with take words on canon structure (identity when nothing is covered — the VN
     // keeps its object-equality fast paths), flat classes are one lookup.
     subRungScene: (scene) =>
-      scene.rank === undefined ? scene : overlayScene(`beat.${scene.rank}`, scene),
+      scene.rank === undefined
+        ? scene
+        : overlayScene(`beat.${scene.rank}`, scene),
     subIntroScene: (scene) => overlayScene(`intro.${scene.id}`, scene),
     subScene: (scene) => overlayScene(`scene.${scene.id}`, scene),
     subFlavor: (key, canon) => storyText(`flavor.${key}`) ?? canon,
@@ -277,7 +291,12 @@ export interface DevQa {
 
 export function mountDevPanel(
   host: HTMLElement,
-  opts: { qa: DevQa; dev: DevApi; rerender: () => void; cockpit: BalanceCockpit },
+  opts: {
+    qa: DevQa;
+    dev: DevApi;
+    rerender: () => void;
+    cockpit: BalanceCockpit;
+  },
 ): void {
   const { qa, dev, rerender, cockpit } = opts;
 
@@ -333,7 +352,11 @@ export function mountDevPanel(
     const sx = e.clientX;
     const sy = e.clientY;
     const onMove = (ev: PointerEvent): void => {
-      if (!headDragged && Math.abs(ev.clientX - sx) + Math.abs(ev.clientY - sy) < 4) return;
+      if (
+        !headDragged &&
+        Math.abs(ev.clientX - sx) + Math.abs(ev.clientY - sy) < 4
+      )
+        return;
       headDragged = true;
       panel.style.right = 'auto';
       panel.style.bottom = 'auto';
@@ -419,7 +442,13 @@ export function mountDevPanel(
   const protosPane = el('div');
   protosPane.style.cssText = `display:none;flex-direction:column;gap:.2rem;${paneScroll}`;
 
-  type TabId = 'settings' | 'review' | 'scenarios' | 'balance' | 'rungs' | 'protos';
+  type TabId =
+    | 'settings'
+    | 'review'
+    | 'scenarios'
+    | 'balance'
+    | 'rungs'
+    | 'protos';
   const settingsTab = tabBtn('Settings');
   const reviewTab = tabBtn('Review');
   const scenariosTab = tabBtn('Scenarios');
@@ -440,7 +469,10 @@ export function mountDevPanel(
   // the buttons (a badge on the tab alone can't say "13 of these are story"), and the picked
   // half is the gold one, matching every other selected-state in this panel.
   type ReviewHalf = 'variants' | 'story';
-  const halves: Record<ReviewHalf, { btn: HTMLButtonElement; pane: HTMLElement }> = {
+  const halves: Record<
+    ReviewHalf,
+    { btn: HTMLButtonElement; pane: HTMLElement }
+  > = {
     variants: { btn: tabBtn('Variants'), pane: variantsPane },
     story: { btn: tabBtn('Story'), pane: storyPane },
   };
@@ -485,8 +517,23 @@ export function mountDevPanel(
   // FB-303 — Balance LAST (the human's least-reached pane); FB-302's 3-up rows make the order
   // Settings · Review · Scenarios / Rung info · Prototypes · Balance (six tabs, two full rows —
   // folding Story into Review cost a tab and bought an even grid).
-  tabBar.append(settingsTab, reviewTab, scenariosTab, rungsTab, protosTab, balanceTab);
-  body.append(tabBar, settingsPane, reviewPane, scenariosPane, balancePane, rungsPane, protosPane);
+  tabBar.append(
+    settingsTab,
+    reviewTab,
+    scenariosTab,
+    rungsTab,
+    protosTab,
+    balanceTab,
+  );
+  body.append(
+    tabBar,
+    settingsPane,
+    reviewPane,
+    scenariosPane,
+    balancePane,
+    rungsPane,
+    protosPane,
+  );
 
   const cheatlist = mountRequirementsCheatlist(rungsPane, qa.state);
   // refresh the cheatlist whenever its tab is selected + on a slow tick while visible
@@ -517,10 +564,15 @@ export function mountDevPanel(
   // what AWAITS A VERDICT (2026-07-13): a settled bundle kept as reference still renders, but
   // counting it would make the badge lie about the size of the queue.
   const openUi = dev.surfaces.filter((s) => isAwaitingVerdict(s.hr)).length;
-  const openStory = dev.storyBundles.filter((b) => isAwaitingVerdict(b.hr)).length;
-  halves.story.btn.textContent = openStory > 0 ? `Story (${openStory})` : 'Story';
-  halves.variants.btn.textContent = openUi > 0 ? `Variants (${openUi})` : 'Variants';
-  reviewTab.textContent = openUi + openStory > 0 ? `Review (${openUi + openStory})` : 'Review';
+  const openStory = dev.storyBundles.filter((b) =>
+    isAwaitingVerdict(b.hr),
+  ).length;
+  halves.story.btn.textContent =
+    openStory > 0 ? `Story (${openStory})` : 'Story';
+  halves.variants.btn.textContent =
+    openUi > 0 ? `Variants (${openUi})` : 'Variants';
+  reviewTab.textContent =
+    openUi + openStory > 0 ? `Review (${openUi + openStory})` : 'Review';
   // (FB-228/HR-22 — the MC-colour swatch trio lived here 2026-07-10 for the taste call;
   // the human LOCKED A · asagi sky #8ec9ff same day, so the toggle is stripped — the
   // pick IS the styles.css --v-player token, zero flag-debt. Git history keeps the trio.)
@@ -580,7 +632,9 @@ export function mountDevPanel(
   // FB-301 — "NG (post open)": a fresh run with the cold open already answered — loads the
   // FB-6 `post-cold-open` fixture (backup-first like every Load, so it's non-destructive).
   const ngPostBtn = mono('⟳ NG (post open)', () => {
-    void Promise.resolve(qa.loadFixture('post-cold-open')).then(() => enableRestore());
+    void Promise.resolve(qa.loadFixture('post-cold-open')).then(() =>
+      enableRestore(),
+    );
   });
   footer.append(ngPostBtn);
   body.append(footer);

@@ -4,7 +4,12 @@
 // the live registries (PEOPLE / DIALOGUES), never copied ids or prose.
 
 import { describe, expect, it } from 'vitest';
-import { createInitialState, reduce, factsForSurfaces, type GameState } from './index';
+import {
+  createInitialState,
+  reduce,
+  factsForSurfaces,
+  type GameState,
+} from './index';
 import { PEOPLE, getPerson } from './content/people';
 import { getDialogue } from './content/dialogue';
 import { peopleHere } from './selectors';
@@ -19,15 +24,22 @@ function standingWith(personId: string): GameState {
     ...s,
     rung: 'R4',
     location: p.node,
-    flags: p.placeGate ? { ...s.flags, ...factsForSurfaces(p.placeGate) } : s.flags,
+    flags: p.placeGate
+      ? { ...s.flags, ...factsForSurfaces(p.placeGate) }
+      : s.flags,
   };
 }
 
 describe('talk_to — a vn person speaks their authored lines (C4.2)', () => {
   // pick a vn person with an unconditional presence from the REAL registry
-  const talker = PEOPLE.find((p) => p.depth === 'vn' && p.sceneId && !p.presence);
+  const talker = PEOPLE.find(
+    (p) => p.depth === 'vn' && p.sceneId && !p.presence,
+  );
   it('the registry offers at least one always-present vn person to test against', () => {
-    expect(talker, 'no unconditionally-present vn person in PEOPLE').toBeTruthy();
+    expect(
+      talker,
+      'no unconditionally-present vn person in PEOPLE',
+    ).toBeTruthy();
   });
 
   it('delivers ONE next line per ask into the log, with the speaker nameplate, advancing the cursor', () => {
@@ -60,7 +72,8 @@ describe('talk_to — a vn person speaks their authored lines (C4.2)', () => {
     // and must stop appending (delivered set covers everything reachable at this state)
     let s = standingWith(p.id);
     const lineCount = getDialogue(p.sceneId!).lines.length;
-    for (let i = 0; i < lineCount + 3; i++) s = reduce(s, { type: 'talk_to', personId: p.id });
+    for (let i = 0; i < lineCount + 3; i++)
+      s = reduce(s, { type: 'talk_to', personId: p.id });
     const delivered = s.deliveredDialogue.length;
     const again = reduce(s, { type: 'talk_to', personId: p.id });
     expect(again.deliveredDialogue.length).toBe(delivered);
@@ -69,7 +82,10 @@ describe('talk_to — a vn person speaks their authored lines (C4.2)', () => {
   it('every vn person with a sceneId points at a REAL dialogue with lines (registry seam)', () => {
     for (const p of PEOPLE.filter((x) => x.depth === 'vn' && x.sceneId)) {
       const d = getDialogue(p.sceneId!); // throws on an unknown id — RED on a broken seam
-      expect(d.lines.length, `${p.id}'s dialogue ${p.sceneId} is empty`).toBeGreaterThan(0);
+      expect(
+        d.lines.length,
+        `${p.id}'s dialogue ${p.sceneId} is empty`,
+      ).toBeGreaterThan(0);
     }
   });
 });

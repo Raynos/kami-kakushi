@@ -16,14 +16,21 @@ import type { ActivityId } from './activities';
 import type { IntentType } from '../intents';
 
 export type ActionTiming =
-  | { readonly kind: 'timed'; readonly durationMs: number; readonly cooldownMs: number }
+  | {
+      readonly kind: 'timed';
+      readonly durationMs: number;
+      readonly cooldownMs: number;
+    }
   | { readonly kind: 'instant' };
 
 const INSTANT: ActionTiming = { kind: 'instant' };
 /** The ADR-148 cooldown seed — per-action data (each entry carries its own copy so
  *  any one action can diverge later without a schema change), uniform 2s today. */
 export const COOLDOWN_SEED_MS = 2000;
-const timed = (durationMs: number, cooldownMs = COOLDOWN_SEED_MS): ActionTiming => ({
+const timed = (
+  durationMs: number,
+  cooldownMs = COOLDOWN_SEED_MS,
+): ActionTiming => ({
   kind: 'timed',
   durationMs,
   cooldownMs,
@@ -179,12 +186,19 @@ export const INTENT_TIMING: Readonly<Record<IntentType, ActionTiming>> = {
  *  auto loop (AUTO_REPEAT_MS). Both the pacing report and the balance sim consume
  *  THIS, so the measurement can never desync from the shell clock's data. */
 export function intentWallMs(
-  intent: { readonly type: IntentType; readonly activityId?: string | null; readonly to?: string },
+  intent: {
+    readonly type: IntentType;
+    readonly activityId?: string | null;
+    readonly to?: string;
+  },
   location: string,
   heartbeatMs: number,
 ): number {
-  const opts: { activityId?: ActivityId; from?: string; to?: string } = { from: location };
-  if (typeof intent.activityId === 'string') opts.activityId = intent.activityId as ActivityId;
+  const opts: { activityId?: ActivityId; from?: string; to?: string } = {
+    from: location,
+  };
+  if (typeof intent.activityId === 'string')
+    opts.activityId = intent.activityId as ActivityId;
   if (intent.to !== undefined) opts.to = intent.to;
   const t = timingFor(intent.type, opts);
   return t.kind === 'timed' ? t.durationMs + t.cooldownMs : heartbeatMs;
@@ -192,11 +206,20 @@ export function intentWallMs(
 
 export function timingFor(
   type: IntentType,
-  opts?: { readonly activityId?: ActivityId; readonly from?: string; readonly to?: string },
+  opts?: {
+    readonly activityId?: ActivityId;
+    readonly from?: string;
+    readonly to?: string;
+  },
 ): ActionTiming {
-  if (type === 'do_activity' && opts?.activityId) return ACTIVITY_TIMING[opts.activityId];
+  if (type === 'do_activity' && opts?.activityId)
+    return ACTIVITY_TIMING[opts.activityId];
   if (type === 'move_to' && opts?.to)
     // per-edge walk seconds (Phase 3); no cooldown — you arrive and keep moving
-    return { kind: 'timed', durationMs: walkMs(opts.from, opts.to), cooldownMs: 0 };
+    return {
+      kind: 'timed',
+      durationMs: walkMs(opts.from, opts.to),
+      cooldownMs: 0,
+    };
   return INTENT_TIMING[type];
 }

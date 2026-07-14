@@ -17,7 +17,10 @@ export function acceptQuest(state: GameState, questId: string): GameState {
     quests: {
       ...state.quests,
       accepted: [...state.quests.accepted, questId],
-      progress: { ...state.quests.progress, [questId]: state.quests.progress[questId] ?? [] },
+      progress: {
+        ...state.quests.progress,
+        [questId]: state.quests.progress[questId] ?? [],
+      },
     },
   };
 }
@@ -31,13 +34,23 @@ export function applyQuestEvent(state: GameState, token: string): GameState {
   for (const id of state.quests.accepted) {
     if (next.quests.completed.includes(id)) continue;
     const quest = getQuest(id);
-    const done = advanceQuest(new Set(next.quests.progress[id] ?? []), token, quest);
+    const done = advanceQuest(
+      new Set(next.quests.progress[id] ?? []),
+      token,
+      quest,
+    );
     next = {
       ...next,
-      quests: { ...next.quests, progress: { ...next.quests.progress, [id]: [...done] } },
+      quests: {
+        ...next.quests,
+        progress: { ...next.quests.progress, [id]: [...done] },
+      },
     };
     if (isQuestComplete(done, quest)) {
-      next = { ...next, quests: { ...next.quests, completed: [...next.quests.completed, id] } };
+      next = {
+        ...next,
+        quests: { ...next.quests, completed: [...next.quests.completed, id] },
+      };
       next = applyRewards(next, quest.reward);
     }
   }

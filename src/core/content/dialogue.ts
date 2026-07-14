@@ -45,15 +45,23 @@ export const COLD_OPEN_DIALOGUE_ID = 'genemon-open';
  *  RAKE_TEACH_COOLDOWN_MS) so each line finishes typing before the next press —
  *  the cold-open pacing beat the human asked for. A dialogue.md rename REDs the
  *  ids-exist test, so this list can't silently drift from the registry. */
-export const RAKE_TEACH_LINE_IDS: readonly string[] = ['gen-rake', 'gen-keep', 'gen-kept'];
-export function rakeTeachPending(deliveredDialogue: readonly string[]): boolean {
+export const RAKE_TEACH_LINE_IDS: readonly string[] = [
+  'gen-rake',
+  'gen-keep',
+  'gen-kept',
+];
+export function rakeTeachPending(
+  deliveredDialogue: readonly string[],
+): boolean {
   return RAKE_TEACH_LINE_IDS.some((id) => !deliveredDialogue.includes(id));
 }
 
 export { DIALOGUES } from './dialogue.gen';
 import { DIALOGUES } from './dialogue.gen';
 
-export const DIALOGUE_IDS: ReadonlySet<string> = new Set(DIALOGUES.map((d) => d.id));
+export const DIALOGUE_IDS: ReadonlySet<string> = new Set(
+  DIALOGUES.map((d) => d.id),
+);
 
 // ── ADR-139 / M7 (2026-07-13) — dialogue lines ride the ONE story overlay (step B) ──────
 // Dialogue lines are CORE-emitted log text (intents.ts deliverDialogue). Takes overlay
@@ -70,8 +78,13 @@ function effectiveLine(dialogueId: string, line: DialogueLine): DialogueLine {
 
 /** Overlay-aware, NON-throwing line-text lookup for log-render's resolver: an unknown id is
  *  the ordinary "src/ renamed this line" case and must yield undefined, not an exception. */
-export function dialogueLineText(dialogueId: string, lineId: string): string | undefined {
-  const line = DIALOGUES.find((d) => d.id === dialogueId)?.lines.find((l) => l.id === lineId);
+export function dialogueLineText(
+  dialogueId: string,
+  lineId: string,
+): string | undefined {
+  const line = DIALOGUES.find((d) => d.id === dialogueId)?.lines.find(
+    (l) => l.id === lineId,
+  );
   return line === undefined ? undefined : effectiveLine(dialogueId, line).text;
 }
 
@@ -83,7 +96,10 @@ export function getDialogue(id: string): DialogueDef {
 
 /** Look up one authored line by (dialogue, line) id — single source for content that REUSES a
  *  registry line's text (e.g. the intro's Genemon-greet setup). Throws on an unknown id. */
-export function getDialogueLine(dialogueId: string, lineId: string): DialogueLine {
+export function getDialogueLine(
+  dialogueId: string,
+  lineId: string,
+): DialogueLine {
   const line = getDialogue(dialogueId).lines.find((l) => l.id === lineId);
   if (!line) throw new Error(`unknown dialogue line: ${dialogueId}/${lineId}`);
   return effectiveLine(dialogueId, line);

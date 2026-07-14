@@ -90,7 +90,8 @@ export function createVnView(ctx: {
   const introRenderedKeys = new Set<string>(); // transcript entry keys already appended to the DOM
   let introLastState: GameState | null = null; // latest state, for the UI-only (Done / pick) handlers
   // typewriter over the newly-appended block: its typing nodes + a per-line cursor (FB-62 click-advance).
-  let introBlockNodes: { readonly span: HTMLElement; readonly text: string }[] = [];
+  let introBlockNodes: { readonly span: HTMLElement; readonly text: string }[] =
+    [];
   let introBlockIndex = -1; // index of the line currently revealing within the block (−1 ⇒ idle)
   let introLineTyping = false; // is that line still animating char-by-char?
   let introOnBlockDone: (() => void) | undefined; // fired when the block's LAST line completes
@@ -131,7 +132,11 @@ export function createVnView(ctx: {
     readonly reactSpeaker?: string; // the react nameplate (undefined ⇒ a narrator react)
     readonly attr?: AttrId; // intro decision-button theming (+1 attr); rung: only the statBonus pick
     readonly accent?: string; // FB-147 — rung choice hint: warmth gold / even silver / costly shu
-    readonly perk?: { readonly name: string; readonly desc: string; readonly mechanics: string };
+    readonly perk?: {
+      readonly name: string;
+      readonly desc: string;
+      readonly mechanics: string;
+    };
     readonly note?: string; // rung `statBonus` delight line (the rare bonus) → a small outcome note
   }
   interface VnScene {
@@ -163,7 +168,11 @@ export function createVnView(ctx: {
           reactVoice: beatReactVoice(scene),
           ...(rs !== undefined ? { reactSpeaker: rs } : {}),
           attr: o.stat.up as AttrId,
-          perk: { name: o.perk.name, desc: o.perk.desc, mechanics: introStatDelta(o.stat) },
+          perk: {
+            name: o.perk.name,
+            desc: o.perk.desc,
+            mechanics: introStatDelta(o.stat),
+          },
         };
       }),
     };
@@ -186,15 +195,23 @@ export function createVnView(ctx: {
         // (deliberately telegraphs relational cost — TST4, the player never guesses).
         const warmth = (o.memory ?? []).reduce((n, m) => n + m.warmthDelta, 0);
         const accent =
-          warmth > 0 ? 'var(--gold)' : warmth < 0 ? 'var(--shu-hi)' : 'var(--silver-dim)';
+          warmth > 0
+            ? 'var(--gold)'
+            : warmth < 0
+              ? 'var(--shu-hi)'
+              : 'var(--silver-dim)';
         return {
           id: o.id,
           label: o.label,
           say: o.say,
           react: o.react,
-          reactVoice: o.reactNpc ? NPC_VOICE[o.reactNpc] : beatReactVoice(scene),
+          reactVoice: o.reactNpc
+            ? NPC_VOICE[o.reactNpc]
+            : beatReactVoice(scene),
           ...(rs !== undefined ? { reactSpeaker: rs } : {}),
-          ...(o.statBonus ? { note: o.statBonus.note, attr: o.statBonus.attr } : { accent }),
+          ...(o.statBonus
+            ? { note: o.statBonus.note, attr: o.statBonus.attr }
+            : { accent }),
         };
       }),
     };
@@ -220,15 +237,23 @@ export function createVnView(ctx: {
         const rs = o.reactNpc ? NPC_NAME[o.reactNpc] : beatReactSpeaker(scene);
         const warmth = (o.memory ?? []).reduce((n, m) => n + m.warmthDelta, 0);
         const accent =
-          warmth > 0 ? 'var(--gold)' : warmth < 0 ? 'var(--shu-hi)' : 'var(--silver-dim)';
+          warmth > 0
+            ? 'var(--gold)'
+            : warmth < 0
+              ? 'var(--shu-hi)'
+              : 'var(--silver-dim)';
         return {
           id: o.id,
           label: o.label,
           say: o.say,
           react: o.react,
-          reactVoice: o.reactNpc ? NPC_VOICE[o.reactNpc] : beatReactVoice(scene),
+          reactVoice: o.reactNpc
+            ? NPC_VOICE[o.reactNpc]
+            : beatReactVoice(scene),
           ...(rs !== undefined ? { reactSpeaker: rs } : {}),
-          ...(o.statBonus ? { note: o.statBonus.note, attr: o.statBonus.attr } : { accent }),
+          ...(o.statBonus
+            ? { note: o.statBonus.note, attr: o.statBonus.attr }
+            : { accent }),
         };
       }),
     };
@@ -266,7 +291,11 @@ export function createVnView(ctx: {
   // Is a full-screen VN scene live? (the render gate — intro OR a rung beat). ADR-110 §7.3: the washi
   // surface hides the shell during BOTH; the world inks in only after the active scene ends.
   function vnActive(state: GameState): boolean {
-    return introActive(state.introBeat) || state.rungBeat !== null || state.activeScene !== null;
+    return (
+      introActive(state.introBeat) ||
+      state.rungBeat !== null ||
+      state.activeScene !== null
+    );
   }
   // pin the LEFT transcript column to its newest line (FB-84) — the .vn-lines' scroll parent (.vn-story).
   function introScrollToBottom(): void {
@@ -371,7 +400,9 @@ export function createVnView(ctx: {
       voice: VoiceCategory;
       speaker?: string;
     }): string | undefined =>
-      line.voice === 'player' && line.speaker === undefined ? playerSpeaker(state) : line.speaker;
+      line.voice === 'player' && line.speaker === undefined
+        ? playerSpeaker(state)
+        : line.speaker;
     scene.greeting.forEach((line, i) =>
       out.push({
         key: `greet:${i}`,
@@ -407,7 +438,12 @@ export function createVnView(ctx: {
       : undefined;
     // the decision prompt joins the transcript once we're deciding (so it, too, TYPES — FB-82/FB-83).
     if (introPhase === 'decide' || pending)
-      out.push({ key: 'prompt', voice: 'narrator', text: scene.prompt, prompt: true });
+      out.push({
+        key: 'prompt',
+        voice: 'narrator',
+        text: scene.prompt,
+        prompt: true,
+      });
     if (pending) {
       out.push({
         key: `say:${pending.id}`,
@@ -457,7 +493,8 @@ export function createVnView(ctx: {
     if (introAdvanceTimer !== undefined) return; // already armed — never stack two
     introAdvanceTimer = window.setTimeout(() => {
       introAdvanceTimer = undefined;
-      if (introBlockIndex < introBlockNodes.length - 1) introStartLine(introBlockIndex + 1);
+      if (introBlockIndex < introBlockNodes.length - 1)
+        introStartLine(introBlockIndex + 1);
     }, ms);
   }
   function introLineComplete(advanceMs: number = INTRO_LINE_ADVANCE_MS): void {
@@ -475,11 +512,13 @@ export function createVnView(ctx: {
     let last = 0;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text)) !== null) {
-      if (m.index > last) segs.push({ text: text.slice(last, m.index), speech: false });
+      if (m.index > last)
+        segs.push({ text: text.slice(last, m.index), speech: false });
       segs.push({ text: m[0], speech: true });
       last = m.index + m[0].length;
     }
-    if (last < text.length) segs.push({ text: text.slice(last), speech: false });
+    if (last < text.length)
+      segs.push({ text: text.slice(last), speech: false });
     return segs;
   }
   function writeVnSlice(span: HTMLElement, text: string, upTo: number): void {
@@ -523,7 +562,8 @@ export function createVnView(ctx: {
       i += 1;
       writeVnSlice(node.span, node.text, i);
       introScrollToBottom(); // FB-84 — stick to the bottom as each char lands
-      if (i < node.text.length) introTypeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
+      if (i < node.text.length)
+        introTypeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
       else introLineComplete();
     };
     introTypeTimer = window.setTimeout(step, TYPE_MS_PER_CHAR);
@@ -580,7 +620,8 @@ export function createVnView(ctx: {
       else {
         // FB-228 — a narrator line's embedded quote is a character speaking: route the
         // inferred speaker's colour through the SAME --voice the .vn-speech spans read.
-        const quoteVoice = e.voice === 'narrator' ? inferQuoteVoice(e.text) : null;
+        const quoteVoice =
+          e.voice === 'narrator' ? inferQuoteVoice(e.text) : null;
         p.style.setProperty('--voice', VOICE_COLOR[quoteVoice ?? e.voice]);
       }
       if (e.speaker) p.classList.add('vn-spoken'); // FB-228 — spoken lines step in (indent)
@@ -595,7 +636,9 @@ export function createVnView(ctx: {
       // (dialogue.md teach lines): display it QUOTED like every other utterance,
       // which also routes it through the speech-colour segmenter for free.
       const text =
-        !e.prompt && e.voice !== 'narrator' && !/["“]/.test(e.text) ? `"${e.text}"` : e.text;
+        !e.prompt && e.voice !== 'narrator' && !/["“]/.test(e.text)
+          ? `"${e.text}"`
+          : e.text;
       introStoryLinesEl?.append(p);
       introRenderedKeys.add(e.key);
       if (instant) {
@@ -627,7 +670,11 @@ export function createVnView(ctx: {
   }
   function activePanelEl(): HTMLElement | null {
     const kind = activePanelKind();
-    return kind === 'ask' ? introAskEl : kind === 'decide' ? introDecideEl : introOutcomeEl;
+    return kind === 'ask'
+      ? introAskEl
+      : kind === 'decide'
+        ? introDecideEl
+        : introOutcomeEl;
   }
   // is the active sub-panel already revealed? (FB-90 — lets an idle tick skip the reveal entirely.)
   function activePanelShown(): boolean {
@@ -654,7 +701,9 @@ export function createVnView(ctx: {
   // that advances — it dispatches by SOURCE (`choose_intro` vs `choose_rung_option`, ADR-110 §7.3).
   function ensureOutcomePanel(scene: VnScene): void {
     if (introOutcomeEl || !introPanelEl) return;
-    const opt = pendingChoiceId ? scene.options.find((o) => o.id === pendingChoiceId) : undefined;
+    const opt = pendingChoiceId
+      ? scene.options.find((o) => o.id === pendingChoiceId)
+      : undefined;
     if (!opt) return;
     const wrap = el('div', 'vn-outcome');
     wrap.hidden = true;
@@ -664,7 +713,9 @@ export function createVnView(ctx: {
     if (scene.source === 'intro') {
       const cont = el('button', 'verb intro-continue', 'Continue');
       cont.type = 'button';
-      cont.addEventListener('click', () => dispatch({ type: 'choose_intro', optionId: optId }));
+      cont.addEventListener('click', () =>
+        dispatch({ type: 'choose_intro', optionId: optId }),
+      );
       wrap.append(cont);
     } else if (scene.source === 'scene') {
       // storywave G4.9 — a generalized scene's terminal pick: a plain Continue (NO promotion/
@@ -707,7 +758,11 @@ export function createVnView(ctx: {
         seal.textContent = rank?.kanji ?? '昇';
         cer.append(seal);
         cer.append(
-          el('div', 'vn-rung-flavor', `You've been promoted to ${rank?.title ?? 'a new rung'}.`),
+          el(
+            'div',
+            'vn-rung-flavor',
+            `You've been promoted to ${rank?.title ?? 'a new rung'}.`,
+          ),
         );
         // FB-272 — the ceremony carries the "what opens" context (human, 2026-07-10): the
         // rank's unlocked surfaces with a short ceremonyLabel list HERE, framed as the
@@ -718,9 +773,14 @@ export function createVnView(ctx: {
         if (opens.length > 0) {
           const list = el('div', 'vn-rung-opens');
           list.append(
-            el('div', 'vn-rung-opens-head', 'Now open to you — the house expects them worked:'),
+            el(
+              'div',
+              'vn-rung-opens-head',
+              'Now open to you — the house expects them worked:',
+            ),
           );
-          for (const label of opens) list.append(el('div', 'vn-rung-opens-item', label));
+          for (const label of opens)
+            list.append(el('div', 'vn-rung-opens-item', label));
           cer.append(list);
         }
         const cont = el('button', 'verb intro-continue', 'Continue');
@@ -828,7 +888,9 @@ export function createVnView(ctx: {
     if (scene.source === 'scene' && scene.options.length === 0) {
       const cont = el('button', 'verb intro-continue', 'Continue');
       cont.type = 'button';
-      cont.addEventListener('click', () => dispatch({ type: 'advance_scene_beat' }));
+      cont.addEventListener('click', () =>
+        dispatch({ type: 'advance_scene_beat' }),
+      );
       const choices = el('div', 'vn-choices vn-grid');
       choices.append(cont);
       decide.append(choices);
@@ -841,7 +903,10 @@ export function createVnView(ctx: {
       b.type = 'button';
       // theme by the POSITIVE (+1) attribute; a rung choice with none carries its
       // FB-147 warmth accent (gold/silver/shu); a pure-flavour choice falls to --ai.
-      b.style.setProperty('--attr-accent', attr ? ATTR_COLOR[attr] : (opt.accent ?? 'var(--ai)'));
+      b.style.setProperty(
+        '--attr-accent',
+        attr ? ATTR_COLOR[attr] : (opt.accent ?? 'var(--ai)'),
+      );
       if (attr) b.append(el('span', 'intro-choice-tag', ATTR_META[attr].kanji));
       // UI-only: LATCH the choice (shows the reply + perk + Continue); the dispatch waits for Continue.
       b.addEventListener('click', () => {
@@ -904,7 +969,9 @@ export function createVnView(ctx: {
   function reconcileIntro(scene: VnScene, state: GameState): void {
     introLastState = state;
     reconcileAskHub(scene, state); // dim asked / surface newly-gated topics (in place)
-    const fresh = introTranscript(scene, state).filter((e) => !introRenderedKeys.has(e.key));
+    const fresh = introTranscript(scene, state).filter(
+      (e) => !introRenderedKeys.has(e.key),
+    );
     if (fresh.length > 0) {
       hideStalePanels(activePanelKind()); // clear stale controls before the new block types
       introAppendBlock(fresh, () => revealActivePanel(scene));
@@ -921,7 +988,11 @@ export function createVnView(ctx: {
   // Takes the ALREADY-normalized perk (`{name,desc,mechanics}`) so both the intro's granted perk and
   // any future VN outcome feed it (ADR-110 §7.3) — the ± mechanics are baked in at projection time.
   function buildVnPerkBox(
-    perk: { readonly name: string; readonly desc: string; readonly mechanics: string },
+    perk: {
+      readonly name: string;
+      readonly desc: string;
+      readonly mechanics: string;
+    },
     attr: AttrId | undefined,
   ): HTMLElement {
     const wrap = el('div', 'intro-perk-line');
@@ -952,7 +1023,9 @@ export function createVnView(ctx: {
     // ADR-139 — a DEV take swap must rebuild the (append-only) live transcript: fold the story
     // epoch into the scene key so a swap reads as a scene change. Identity in prod/strip builds.
     const sceneKey =
-      __DEV_TOOLS__ && dev && dev.storyEpoch() > 0 ? `${scene.id}#${dev.storyEpoch()}` : scene.id;
+      __DEV_TOOLS__ && dev && dev.storyEpoch() > 0
+        ? `${scene.id}#${dev.storyEpoch()}`
+        : scene.id;
     if (sceneKey !== introSceneCurrentId) {
       teardownIntroScene(); // a new scene ⇒ the one place we rebuild the shell wholesale
       introSceneCurrentId = sceneKey;

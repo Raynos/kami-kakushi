@@ -15,5 +15,7 @@ export const SIM_SEEDS: readonly number[] = [CANONICAL_SEED, 1, 7, 11, 13];
 
 /** N deterministic fuzz seeds derived from `base` (the `--fuzz N` sweep). */
 export function fuzzSeeds(base: number, n: number): number[] {
-  return Array.from({ length: n }, (_, i) => deriveDayKeyed(base, 'sim-fuzz', i));
+  return Array.from({ length: n }, (_, i) =>
+    deriveDayKeyed(base, 'sim-fuzz', i),
+  );
 }

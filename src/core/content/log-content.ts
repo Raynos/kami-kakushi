@@ -45,7 +45,8 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
   // The win/loss/flee lines are the auto-grind's highest-frequency output. Their
   // composed sub-phrases (loot tally, rout-loss grammar) live HERE, not at the emit
   // site — the registry owns every word; the emit site passes only raw numbers/labels.
-  'combat.levelUp': (p) => `Your body has hardened with the fighting. Combat level ${p.level}.`,
+  'combat.levelUp': (p) =>
+    `Your body has hardened with the fighting. Combat level ${p.level}.`,
   'combat.tooHurt': () =>
     'You are too hurt to hold the line — eat and mend before you take the field.',
   'combat.win': (p) => {
@@ -90,12 +91,14 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
     `You take a bowl of plain rice. (−${p.rice} rice${Number(p.bellyGain) > 0 ? `, +${p.bellyGain} belly` : ''})`,
   'market.sellRice': (p) =>
     `You sell ${p.rice} rice to the pedlar at ${formatCoin(Number(p.price))} the measure. (+${formatCoin(Number(p.coinGain))})`,
-  'market.buyItem': (p) => `You barter ${formatCoin(Number(p.coin))} for a ${p.item}.`,
+  'market.buyItem': (p) =>
+    `You barter ${formatCoin(Number(p.coin))} for a ${p.item}.`,
   // save-format plan, step 1 — lines whose prose used to sit inline in a reducer. They live here
   // now so the SAVE stores a key, not the words: reword one and every existing save follows.
   'nengu.reckoned': () =>
     'The nengu is reckoned: the year measured against the house, the shortfall named plainly and let stand. No one at the board says the figure twice.',
-  'estate.workProgress': (p) => `The work goes forward — ${p.stage}, ${p.done} of ${p.total}.`,
+  'estate.workProgress': (p) =>
+    `The work goes forward — ${p.stage}, ${p.done} of ${p.total}.`,
   'wage.first': (p) =>
     `You are handed ${p.pay} mon at the board, counted once into your palm — the first the house has paid you in coin, and yours to keep.`,
   'estate.commissioned': (p) =>
@@ -113,7 +116,10 @@ export const LOG_CONTENT: Record<string, LogTemplate> = {
 
 /** Render a line's text from its content-key + params. Throws on an unknown key —
  *  a migration/emit-site bug is better LOUD than a silently blank hero-surface line. */
-export function renderLogLine(contentKey: string, params: LogParams = {}): string {
+export function renderLogLine(
+  contentKey: string,
+  params: LogParams = {},
+): string {
   const tmpl = LOG_CONTENT[contentKey];
   if (tmpl === undefined) {
     throw new Error(`log-content: unknown contentKey "${contentKey}"`);

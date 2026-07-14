@@ -25,7 +25,10 @@ export interface TelemetryStore {
 }
 
 export function createTelemetryStore(
-  storage: Pick<Storage, 'getItem' | 'setItem' | 'removeItem'> | null = defaultStorage(),
+  storage: Pick<
+    Storage,
+    'getItem' | 'setItem' | 'removeItem'
+  > | null = defaultStorage(),
 ): TelemetryStore {
   // In-memory fallback (ui-prefs pattern): the session still reports live; history is lost on
   // reload — acceptable for DEV tooling (plan §6.7).
@@ -47,7 +50,10 @@ export function createTelemetryStore(
     mem = runs;
     if (!storage) return;
     try {
-      storage.setItem(TELEMETRY_STORE_KEY, JSON.stringify({ runs } satisfies StoreShape));
+      storage.setItem(
+        TELEMETRY_STORE_KEY,
+        JSON.stringify({ runs } satisfies StoreShape),
+      );
     } catch {
       /* quota/private mode — keep the in-memory copy; nothing else to do */
     }
@@ -59,7 +65,10 @@ export function createTelemetryStore(
       let runs = [...read().filter((r) => r.runId !== run.runId), run];
       // Prune oldest whole runs (list is oldest→newest) until under the cap; the live run
       // always survives.
-      while (runs.length > 1 && JSON.stringify({ runs }).length > TELEMETRY_MAX_BYTES) {
+      while (
+        runs.length > 1 &&
+        JSON.stringify({ runs }).length > TELEMETRY_MAX_BYTES
+      ) {
         runs = runs.slice(1);
       }
       write(runs);
@@ -76,7 +85,10 @@ export function createTelemetryStore(
   };
 }
 
-function defaultStorage(): Pick<Storage, 'getItem' | 'setItem' | 'removeItem'> | null {
+function defaultStorage(): Pick<
+  Storage,
+  'getItem' | 'setItem' | 'removeItem'
+> | null {
   try {
     return typeof localStorage !== 'undefined' ? localStorage : null;
   } catch {

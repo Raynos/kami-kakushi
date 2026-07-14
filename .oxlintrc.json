@@ -5,7 +5,10 @@
     "correctness": "error"
   },
   "rules": {
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+    "no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
     "typescript/no-useless-empty-export": "off",
     "unicorn/prefer-string-starts-ends-with": "off"
   },

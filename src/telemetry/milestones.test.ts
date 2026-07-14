@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { createInitialState, rungRequirements, balance, toTierId, type GameState } from '../core';
+import {
+  createInitialState,
+  rungRequirements,
+  balance,
+  toTierId,
+  type GameState,
+} from '../core';
 import { detectMilestones, autosArmed, snapshot } from './milestones';
 
 // Detector proofs: fixtures start from the REAL createInitialState and mutate the public
@@ -7,7 +13,10 @@ import { detectMilestones, autosArmed, snapshot } from './milestones';
 // SETBACK_HP), never copied magic numbers (ADR-086 rule 2).
 
 const base = createInitialState(20260705);
-const patch = (s: GameState, p: Partial<GameState>): GameState => ({ ...s, ...p });
+const patch = (s: GameState, p: Partial<GameState>): GameState => ({
+  ...s,
+  ...p,
+});
 
 describe('milestone detectors — (prev, next) commit diffs', () => {
   it('a rung change emits rung-up with a next-state snapshot', () => {
@@ -23,17 +32,27 @@ describe('milestone detectors — (prev, next) commit diffs', () => {
 
   it('a tier increase emits ascension', () => {
     const next = patch(base, { tier: toTierId(base.tier + 1) });
-    expect(detectMilestones(base, next).find((e) => e.kind === 'ascension')).toMatchObject({
+    expect(
+      detectMilestones(base, next).find((e) => e.kind === 'ascension'),
+    ).toMatchObject({
       fromTier: base.tier,
       toTier: base.tier + 1,
     });
   });
 
   it('hp dropping TO SETBACK_HP from above emits loss; sitting AT it does not re-emit', () => {
-    const above = patch(base, { character: { ...base.character, hp: balance.SETBACK_HP + 5 } });
-    const routed = patch(base, { character: { ...base.character, hp: balance.SETBACK_HP } });
-    expect(detectMilestones(above, routed).some((e) => e.kind === 'loss')).toBe(true);
-    expect(detectMilestones(routed, routed).some((e) => e.kind === 'loss')).toBe(false);
+    const above = patch(base, {
+      character: { ...base.character, hp: balance.SETBACK_HP + 5 },
+    });
+    const routed = patch(base, {
+      character: { ...base.character, hp: balance.SETBACK_HP },
+    });
+    expect(detectMilestones(above, routed).some((e) => e.kind === 'loss')).toBe(
+      true,
+    );
+    expect(
+      detectMilestones(routed, routed).some((e) => e.kind === 'loss'),
+    ).toBe(false);
   });
 
   it('any auto arming/disarming emits auto; only the DISARM also emits a note', () => {
@@ -43,21 +62,32 @@ describe('milestone detectors — (prev, next) commit diffs', () => {
     expect(arm.some((e) => e.kind === 'note')).toBe(false);
 
     const disarm = detectMilestones(armed, base);
-    expect(disarm.find((e) => e.kind === 'auto')).toMatchObject({ armed: false });
+    expect(disarm.find((e) => e.kind === 'auto')).toMatchObject({
+      armed: false,
+    });
     expect(disarm.some((e) => e.kind === 'note')).toBe(true);
   });
 
   it('the requirement list completing emits a promotion-ready note (no rung change)', () => {
     // FB-121: derive the fixtures from the gen'd registry — one requirement short vs all done.
     const reqs = rungRequirements(base.rung);
-    const doneMap = Object.fromEntries(reqs.map((r) => [r.id, r.type === 'count' ? r.target : 1]));
+    const doneMap = Object.fromEntries(
+      reqs.map((r) => [r.id, r.type === 'count' ? r.target : 1]),
+    );
     const first = reqs[0]!;
-    const nearly = { ...doneMap, [first.id]: (first.type === 'count' ? first.target : 1) - 1 };
+    const nearly = {
+      ...doneMap,
+      [first.id]: (first.type === 'count' ? first.target : 1) - 1,
+    };
     const below = patch(base, { rungReqs: nearly });
     const ready = patch(base, { rungReqs: doneMap });
-    expect(detectMilestones(below, ready).some((e) => e.kind === 'note')).toBe(true);
+    expect(detectMilestones(below, ready).some((e) => e.kind === 'note')).toBe(
+      true,
+    );
     // Already ready: no repeat note on every later commit.
-    expect(detectMilestones(ready, ready).some((e) => e.kind === 'note')).toBe(false);
+    expect(detectMilestones(ready, ready).some((e) => e.kind === 'note')).toBe(
+      false,
+    );
   });
 
   it('an unchanged commit emits nothing', () => {
@@ -69,7 +99,11 @@ describe('autosArmed / snapshot', () => {
   it('any of the three auto modes counts as armed', () => {
     expect(autosArmed(base)).toBe(false);
     expect(autosArmed(patch(base, { autoRake: true }))).toBe(true);
-    expect(autosArmed(patch(base, { autoCombat: 'wolf' as GameState['autoCombat'] }))).toBe(true);
+    expect(
+      autosArmed(
+        patch(base, { autoCombat: 'wolf' as GameState['autoCombat'] }),
+      ),
+    ).toBe(true);
   });
 
   it('tGame follows the day*24+tick __qa.pacing convention', () => {

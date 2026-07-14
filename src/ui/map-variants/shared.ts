@@ -28,12 +28,16 @@ export interface MapCtx {
 
 /** Build the MapCtx from live state — the ONE ctx source (render.ts's map tab and the
  *  DEV travel-presence variants both call this, so the seam never forks — TST1). */
-export function buildMapCtx(state: GameState, dispatch: (intent: Intent) => void): MapCtx {
+export function buildMapCtx(
+  state: GameState,
+  dispatch: (intent: Intent) => void,
+): MapCtx {
   const revealed = visibleSet(state);
   return {
     here: state.location,
     revealed,
-    condOk: skillLevel(state, 'conditioning') >= balance.CONDITIONING_GATE_LEVEL,
+    condOk:
+      skillLevel(state, 'conditioning') >= balance.CONDITIONING_GATE_LEVEL,
     neighbours: reachableFrom(state.location, revealed),
     move: (id) => dispatch({ type: 'move_to', to: id }),
     gateReason: `Needs Conditioning Lv${balance.CONDITIONING_GATE_LEVEL}`,
@@ -65,7 +69,9 @@ export function isNeighbour(ctx: MapCtx, id: string): boolean {
 }
 
 /** The revealed node set (BFS from the kura over revealed ground), node → depth. */
-export function revealedDepths(revealed: ReadonlySet<string>): Map<string, number> {
+export function revealedDepths(
+  revealed: ReadonlySet<string>,
+): Map<string, number> {
   const depths = new Map<string, number>();
   const start = 'kura';
   depths.set(start, 0);
@@ -85,7 +91,9 @@ export function revealedDepths(revealed: ReadonlySet<string>): Map<string, numbe
 
 /** Undiscovered ground one step past revealed nodes (the fog frontier):
  *  id → the revealed node it hangs off. NEVER name these (reveal-as-plot). */
-export function fogFrontier(revealed: ReadonlySet<string>): Map<string, string> {
+export function fogFrontier(
+  revealed: ReadonlySet<string>,
+): Map<string, string> {
   const depths = revealedDepths(revealed);
   const fog = new Map<string, string>();
   for (const id of depths.keys()) {

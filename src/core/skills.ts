@@ -51,7 +51,10 @@ export function skillVisible(state: GameState, id: SkillId): boolean {
  * per level to the +CAP_NUM% ceiling (×3.0 at L51). Deterministic, no Math.pow.
  */
 export function skillYieldNum(level: number): number {
-  return SKILL_YIELD_DEN + Math.min((level - 1) * SKILL_YIELD_PER_LEVEL_NUM, SKILL_YIELD_CAP_NUM);
+  return (
+    SKILL_YIELD_DEN +
+    Math.min((level - 1) * SKILL_YIELD_PER_LEVEL_NUM, SKILL_YIELD_CAP_NUM)
+  );
 }
 
 export interface SkillProgress {

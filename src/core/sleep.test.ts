@@ -25,16 +25,23 @@ import {
 import { TICKS_PER_DAY } from './constants';
 import { PERSONAS } from '../sim/personas';
 
-const { HUNGER_PER_DAY, HUNGER_MEAL_RESTORE, SLEEP_MEAL_FRACTION, CONSUMPTION_SHO_PER_DAY } =
-  balance;
+const {
+  HUNGER_PER_DAY,
+  HUNGER_MEAL_RESTORE,
+  SLEEP_MEAL_FRACTION,
+  CONSUMPTION_SHO_PER_DAY,
+} = balance;
 
 /** What ONE slept day costs the belly, derived from the balance source: the day's drain, less the
  *  FRACTION of the household's ration that reached a man who was asleep when it was served. */
-const SLEPT_DAY_BELLY_COST = HUNGER_PER_DAY - HUNGER_MEAL_RESTORE * SLEEP_MEAL_FRACTION;
+const SLEPT_DAY_BELLY_COST =
+  HUNGER_PER_DAY - HUNGER_MEAL_RESTORE * SLEEP_MEAL_FRACTION;
 
 /** In your corner, with the corner YOURS (panel-home derives from tab-inventory's rung facts —
  *  ADR-179), belly mid-bar so a slide has headroom in both directions, kura stocked unless said. */
-function atCorner(over: { hunger?: number; kuraRice?: number; tick?: number } = {}): GameState {
+function atCorner(
+  over: { hunger?: number; kuraRice?: number; tick?: number } = {},
+): GameState {
   const s = createInitialState(1);
   return {
     ...s,
@@ -42,14 +49,23 @@ function atCorner(over: { hunger?: number; kuraRice?: number; tick?: number } = 
     clock: { ...s.clock, tick: over.tick ?? 0 },
     character: { ...s.character, hunger: over.hunger ?? balance.HUNGER_MAX },
     banked: { ...s.banked, rice: over.kuraRice ?? 100 },
-    flags: { ...s.flags, awake: true, raked: true, ...factsForSurfaces('tab-inventory') },
+    flags: {
+      ...s.flags,
+      awake: true,
+      raked: true,
+      ...factsForSurfaces('tab-inventory'),
+    },
   };
 }
 
 describe('ADR-187 — sleep is a HOME verb: a bed, at your corner, or nothing', () => {
   it('refuses without the corner: pre-home, sleep is not even offered', () => {
     const s = createInitialState(1);
-    const homeless: GameState = { ...s, location: 'woodshed', flags: { ...s.flags, awake: true } };
+    const homeless: GameState = {
+      ...s,
+      location: 'woodshed',
+      flags: { ...s.flags, awake: true },
+    };
     expect(canSleep(homeless)).toBe(false);
     expect(availableActions(homeless)).not.toContain('sleep');
     // ...and the reducer refuses on its own — the guard is not the shell's to keep.
@@ -108,7 +124,10 @@ describe('ADR-187 — the teeth: an idle day is a hungrier day', () => {
     const s = atCorner({ hunger: balance.HUNGER_MAX });
     const after = reduce(s, { type: 'sleep' });
     expect(SLEPT_DAY_BELLY_COST).toBeGreaterThan(0); // the design lever itself: teeth exist
-    expect(after.character.hunger).toBeCloseTo(s.character.hunger - SLEPT_DAY_BELLY_COST, 5);
+    expect(after.character.hunger).toBeCloseTo(
+      s.character.hunger - SLEPT_DAY_BELLY_COST,
+      5,
+    );
   });
 
   it('the belly SLIDES on a run of sleeps — three dawns cost three days of pot', () => {
@@ -134,7 +153,10 @@ describe('ADR-187 — the teeth: an idle day is a hungrier day', () => {
     // `rest` (2 ticks) stays the only thing that puts the body back — and the cheaper way to get
     // it. Sleep buys time, and only time. Give sleep a body refill and this goes RED.
     const s = atCorner({ hunger: balance.HUNGER_MAX });
-    const spent: GameState = { ...s, character: { ...s.character, satiety: 1 } };
+    const spent: GameState = {
+      ...s,
+      character: { ...s.character, satiety: 1 },
+    };
     expect(reduce(spent, { type: 'sleep' }).character.satiety).toBe(1);
   });
 });
@@ -145,7 +167,10 @@ describe('ADR-187 — AC-6: the forecast IS the reality', () => {
     const f = sleepForecast(s);
     const after = reduce(s, { type: 'sleep' });
     expect(s.banked.rice! - after.banked.rice!).toBe(f.riceDrawn);
-    expect(s.character.hunger - after.character.hunger).toBeCloseTo(f.bellyLost, 5);
+    expect(s.character.hunger - after.character.hunger).toBeCloseTo(
+      f.bellyLost,
+      5,
+    );
   });
 
   it('a nearly-empty kura forecasts the SHORT ration it can actually serve', () => {

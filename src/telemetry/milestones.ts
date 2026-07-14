@@ -23,7 +23,12 @@ export interface EconomySnapshot {
 
 export type MilestoneEvent =
   | { kind: 'rung-up'; from: RankId; to: RankId; snapshot: EconomySnapshot }
-  | { kind: 'ascension'; fromTier: number; toTier: number; snapshot: EconomySnapshot }
+  | {
+      kind: 'ascension';
+      fromTier: number;
+      toTier: number;
+      snapshot: EconomySnapshot;
+    }
   | { kind: 'loss'; snapshot: EconomySnapshot }
   /** Any auto (labour/rake/combat) armed-state flip — feeds the sessionizer's `auto` events
    *  (the two-tier idle TTL) and the segment's autosArmedMs. */
@@ -52,11 +57,19 @@ export function snapshot(s: GameState): EconomySnapshot {
 
 /** Diff one commit. Order: state milestones first (they snapshot `next`), then the
  *  sessionizer-feeding transitions (auto/note). */
-export function detectMilestones(prev: GameState, next: GameState): MilestoneEvent[] {
+export function detectMilestones(
+  prev: GameState,
+  next: GameState,
+): MilestoneEvent[] {
   const events: MilestoneEvent[] = [];
 
   if (next.rung !== prev.rung) {
-    events.push({ kind: 'rung-up', from: prev.rung, to: next.rung, snapshot: snapshot(next) });
+    events.push({
+      kind: 'rung-up',
+      from: prev.rung,
+      to: next.rung,
+      snapshot: snapshot(next),
+    });
   }
   if (next.tier !== prev.tier) {
     events.push({
@@ -70,7 +83,10 @@ export function detectMilestones(prev: GameState, next: GameState): MilestoneEve
   // (fight.ts rout signature). A legitimate drop TO exactly SETBACK_HP by attrition would
   // false-positive; acceptable for an n=1 DEV report, and the report labels it "losses", not
   // a gate input.
-  if (next.character.hp === balance.SETBACK_HP && prev.character.hp > balance.SETBACK_HP) {
+  if (
+    next.character.hp === balance.SETBACK_HP &&
+    prev.character.hp > balance.SETBACK_HP
+  ) {
     events.push({ kind: 'loss', snapshot: snapshot(next) });
   }
 
@@ -87,7 +103,11 @@ export function detectMilestones(prev: GameState, next: GameState): MilestoneEve
 
   // Promotion-ready: the requirement list completing mid-grind (the bar hitting 100) is the
   // other "come look" moment. Derived from the SAME engine read the gate uses (FB-121/AC-6).
-  if (next.rung === prev.rung && !promotionReady(prev) && promotionReady(next)) {
+  if (
+    next.rung === prev.rung &&
+    !promotionReady(prev) &&
+    promotionReady(next)
+  ) {
     events.push({ kind: 'note' });
   }
 

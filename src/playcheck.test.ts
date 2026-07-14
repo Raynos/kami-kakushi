@@ -33,6 +33,8 @@ describe('playcheck — the fun-vector gate has teeth', () => {
   });
 
   it('GREEN just under the ratchet boundary (no false alarm on minor drift)', () => {
-    expect(evaluate({ ...v, firstActionMs: 1900, maxDeadTimeMs: 1900 }, committed)).toEqual([]);
+    expect(
+      evaluate({ ...v, firstActionMs: 1900, maxDeadTimeMs: 1900 }, committed),
+    ).toEqual([]);
   });
 });

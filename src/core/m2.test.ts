@@ -45,7 +45,10 @@ function mc(level = 1, satiety = 100): GameState {
     const k = build[i % build.length]!;
     attrs[k] = attrs[k] + 1;
   }
-  const t: GameState = { ...s, character: { ...s.character, level, satiety, attrs } };
+  const t: GameState = {
+    ...s,
+    character: { ...s.character, level, satiety, attrs },
+  };
   return { ...t, character: { ...t.character, hp: hpMax(t) } };
 }
 function atFullSatiety(s: GameState): GameState {
@@ -85,7 +88,9 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
     for (const lvl of balance.CURVE_CHECKPOINT_LEVELS) {
       const rates = foeForecasts(mc(lvl)).map((f) => f.winRate);
       expect(rates.every((r) => r <= balance.CURVE_DEAD_TIER_MAX)).toBe(false);
-      expect(rates.every((r) => r >= balance.CURVE_TRIVIAL_TIER_MIN)).toBe(false);
+      expect(rates.every((r) => r >= balance.CURVE_TRIVIAL_TIER_MIN)).toBe(
+        false,
+      );
     }
   });
 
@@ -93,7 +98,8 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
     const inBand = (state: GameState) =>
       foeForecasts(state).filter(
         (f) =>
-          f.winRate >= balance.CURVE_CHOICE_BAND_MIN && f.winRate <= balance.CURVE_CHOICE_BAND_MAX,
+          f.winRate >= balance.CURVE_CHOICE_BAND_MIN &&
+          f.winRate <= balance.CURVE_CHOICE_BAND_MAX,
       ).length;
     expect(inBand(mc(2))).toBeGreaterThanOrEqual(2);
     expect(inBand(mc(3))).toBeGreaterThanOrEqual(2);
@@ -103,12 +109,27 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
     // G4: the wolf lives ONLY in the R3 night round now (nightRoundOnly → excluded from the day
     // foeForecasts), so sample its curve DIRECTLY through the shared combat model. At L3 it is a
     // true coin-flip race (won, not steamrolled) — the arc's humbling grain-watch climax.
-    const wr = sampledWinRate(mcCombatStats(mc(3)), mobCombatStats(getMob('wolf')), 33, 100);
+    const wr = sampledWinRate(
+      mcCombatStats(mc(3)),
+      mobCombatStats(getMob('wolf')),
+      33,
+      100,
+    );
     expect(wr).toBeGreaterThanOrEqual(0.4);
     expect(wr).toBeLessThanOrEqual(0.72);
     // and it IS a race the ladder wins: strictly easier once leveled past L3, harder before it.
-    const early = sampledWinRate(mcCombatStats(mc(1)), mobCombatStats(getMob('wolf')), 33, 100);
-    const later = sampledWinRate(mcCombatStats(mc(6)), mobCombatStats(getMob('wolf')), 33, 100);
+    const early = sampledWinRate(
+      mcCombatStats(mc(1)),
+      mobCombatStats(getMob('wolf')),
+      33,
+      100,
+    );
+    const later = sampledWinRate(
+      mcCombatStats(mc(6)),
+      mobCombatStats(getMob('wolf')),
+      33,
+      100,
+    );
     expect(early).toBeLessThan(wr);
     expect(later).toBeGreaterThan(wr);
   });
@@ -141,14 +162,22 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
 
   it('the analytic closed-form diverges from the honest sample on a lopsided race (bandit @L5)', () => {
     const s = mc(5);
-    const analytic = analyticWinRate(mcCombatStats(s), mobCombatStats(getMob('bandit')));
+    const analytic = analyticWinRate(
+      mcCombatStats(s),
+      mobCombatStats(getMob('bandit')),
+    );
     const sampled = foeWr(s, 'bandit');
     // analytic over-states a steep race (~0.31) vs the played sample (~0.09) — why we keep both.
     expect(Math.abs(analytic - sampled)).toBeGreaterThan(0.1);
   });
 
   it('the satiety throttle lowers the win-rate (eat before you fight)', () => {
-    const full = sampledWinRate(mcCombatStats(mc(2, 100)), mobCombatStats(getMob('wolf')), 33, 100);
+    const full = sampledWinRate(
+      mcCombatStats(mc(2, 100)),
+      mobCombatStats(getMob('wolf')),
+      33,
+      100,
+    );
     const starving = sampledWinRate(
       mcCombatStats(mc(2, 5)),
       mobCombatStats(getMob('wolf')),
@@ -177,10 +206,14 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
     for (const p of all)
       for (const q of all) {
         if (p.s === q.s) continue;
-        expect(dominates(p.l, q.l), `${p.s} must not dominate ${q.s}`).toBe(false);
+        expect(dominates(p.l, q.l), `${p.s} must not dominate ${q.s}`).toBe(
+          false,
+        );
       }
     // …and stance is a REAL decision: it meaningfully moves the first-fight win-rate (>2% swing).
-    const wrs = balance.STANCE_ORDER.map((s) => foeWr({ ...mc(1), stance: s }, 'monkey'));
+    const wrs = balance.STANCE_ORDER.map((s) =>
+      foeWr({ ...mc(1), stance: s }, 'monkey'),
+    );
     expect(Math.max(...wrs) - Math.min(...wrs)).toBeGreaterThan(0.02);
   });
 
@@ -199,7 +232,8 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
     // wear is stance-INDEPENDENT now: every stance wears the flat DURABILITY_WEAR_PER_FIGHT.
     const fresh = createInitialState(1);
     const wearOf = (stance: GameState['stance']) =>
-      fresh.weaponDurability - applyGrindFight({ ...fresh, stance }, 'monkey').weaponDurability;
+      fresh.weaponDurability -
+      applyGrindFight({ ...fresh, stance }, 'monkey').weaponDurability;
     for (const id of balance.STANCE_ORDER)
       expect(wearOf(id)).toBe(balance.DURABILITY_WEAR_PER_FIGHT);
   });
@@ -212,14 +246,20 @@ describe('combat curve — a graded close-duel rolling frontier (sampled forecas
 describe('HP carries between fights and heals only at the sickroom (D-050 → D-164/D-197)', () => {
   it('combat reads carried HP — a hurt fighter forecasts strictly lower', () => {
     const full = mc(1);
-    const hurt: GameState = { ...full, character: { ...full.character, hp: 6 } };
+    const hurt: GameState = {
+      ...full,
+      character: { ...full.character, hp: 6 },
+    };
     expect(mcCombatStats(hurt).hp).toBe(6);
     expect(foeWr(hurt, 'monkey')).toBeLessThan(foeWr(full, 'monkey'));
   });
 
   it('a loss leaves you genuinely hurt (SETBACK_HP) — NOT full-healed', () => {
     // bandit @L1 is out of reach → a guaranteed loss
-    const after = applyGrindFight(atFullSatiety(createInitialState(3)), 'bandit');
+    const after = applyGrindFight(
+      atFullSatiety(createInitialState(3)),
+      'bandit',
+    );
     expect(after.character.hp).toBe(balance.SETBACK_HP);
     expect(after.character.hp).toBeLessThan(hpMax(after));
   });
@@ -391,11 +431,19 @@ describe('fight outcomes are self-recovering and never lose progress (§4.6.6 LO
           s = reduce(s, { type: 'rest' });
           continue;
         }
-        if (durabilityBand(s.weaponDurability, w.durabilityMax).name === 'Broken')
+        if (
+          durabilityBand(s.weaponDurability, w.durabilityMax).name === 'Broken'
+        )
           foughtBroken = true;
-        s = reduce({ ...s, location: getMob('monkey').area }, { type: 'fight', mobId: 'monkey' });
+        s = reduce(
+          { ...s, location: getMob('monkey').area },
+          { type: 'fight', mobId: 'monkey' },
+        );
       }
-      expect(s.character.level, `seed ${seed} stranded below combat-L2`).toBeGreaterThanOrEqual(2);
+      expect(
+        s.character.level,
+        `seed ${seed} stranded below combat-L2`,
+      ).toBeGreaterThanOrEqual(2);
       expect(foughtBroken, `seed ${seed} fought a Broken blade`).toBe(false);
     }
   });
@@ -413,7 +461,8 @@ describe('loot→craft 2nd weapon (D-052) — found + crafted, not granted', () 
   const recover = (s: GameState): GameState => {
     const w = getWeapon(s.equippedWeapon);
     let n = s;
-    if (n.character.hp < hpMax(n)) n = { ...n, character: { ...n.character, hp: hpMax(n) } };
+    if (n.character.hp < hpMax(n))
+      n = { ...n, character: { ...n.character, hp: hpMax(n) } };
     if (durabilityBand(n.weaponDurability, w.durabilityMax).name !== 'Pristine')
       n = { ...n, weaponDurability: w.durabilityMax };
     return n;
@@ -433,7 +482,8 @@ describe('loot→craft 2nd weapon (D-052) — found + crafted, not granted', () 
     let got = false;
     for (let i = 0; i < 200 && !got; i++) {
       s = applyGrindFight(recover(s), 'monkey');
-      got = (s.resources.beast_sinew ?? 0) > 0 || (s.resources.hardwood ?? 0) > 0;
+      got =
+        (s.resources.beast_sinew ?? 0) > 0 || (s.resources.hardwood ?? 0) > 0;
     }
     expect(got).toBe(true);
   });
@@ -448,13 +498,18 @@ describe('loot→craft 2nd weapon (D-052) — found + crafted, not granted', () 
       flags: { ...base.flags, ...factsForSurfaces('tab-combat') },
     };
     expect(canCraft(stocked.resources, recipe)).toBe(true);
-    const crafted = reduce(stocked, { type: 'craft_weapon', recipeId: 'craft_wood_axe' });
+    const crafted = reduce(stocked, {
+      type: 'craft_weapon',
+      recipeId: 'craft_wood_axe',
+    });
     expect(crafted.equippedWeapon).toBe('wood_axe'); // forged + taken up
     expect(crafted.flags['crafted-wood_axe']).toBe(true);
     expect(crafted.resources.hardwood).toBe(0); // inputs consumed
     expect(crafted.resources.beast_sinew).toBe(0);
     // can't craft again without materials (no-op)
-    expect(reduce(crafted, { type: 'craft_weapon', recipeId: 'craft_wood_axe' })).toBe(crafted);
+    expect(
+      reduce(crafted, { type: 'craft_weapon', recipeId: 'craft_wood_axe' }),
+    ).toBe(crafted);
   });
 
   // ADR-052 "never-gifted" gate (battery #16): equipping the axe is refused until you've forged
@@ -467,16 +522,27 @@ describe('loot→craft 2nd weapon (D-052) — found + crafted, not granted', () 
     };
     // no `crafted-wood_axe` flag → equipping the axe is a structural no-op
     expect(armed.flags['crafted-wood_axe']).toBeUndefined();
-    expect(reduce(armed, { type: 'equip_weapon', weaponId: 'wood_axe' })).toBe(armed);
+    expect(reduce(armed, { type: 'equip_weapon', weaponId: 'wood_axe' })).toBe(
+      armed,
+    );
     // forge it (sets the flag + equips), switch back to the pole, then re-equip the axe → allowed
     const stocked: GameState = {
       ...armed,
       resources: { ...armed.resources, hardwood: 3, beast_sinew: 1 },
     };
-    const crafted = reduce(stocked, { type: 'craft_weapon', recipeId: 'craft_wood_axe' });
-    const onPole = reduce(crafted, { type: 'equip_weapon', weaponId: 'carrying_pole' });
+    const crafted = reduce(stocked, {
+      type: 'craft_weapon',
+      recipeId: 'craft_wood_axe',
+    });
+    const onPole = reduce(crafted, {
+      type: 'equip_weapon',
+      weaponId: 'carrying_pole',
+    });
     expect(onPole.equippedWeapon).toBe('carrying_pole');
-    const reArmed = reduce(onPole, { type: 'equip_weapon', weaponId: 'wood_axe' });
+    const reArmed = reduce(onPole, {
+      type: 'equip_weapon',
+      weaponId: 'wood_axe',
+    });
     expect(reArmed.equippedWeapon).toBe('wood_axe'); // now permitted — the flag survives
   });
 });
@@ -488,7 +554,10 @@ describe('loot→craft 2nd weapon (D-052) — found + crafted, not granted', () 
 // revealed by the R6 rank reward.
 describe('narrative — R3 terminal beat + 2nd dream payoff (audit #2/#6/#13)', () => {
   /** A state parked at R3 with the mystery flags written, before the new surfaces latch. */
-  function atR3(level: number, flagOverrides: Record<string, boolean> = {}): GameState {
+  function atR3(
+    level: number,
+    flagOverrides: Record<string, boolean> = {},
+  ): GameState {
     const base = createInitialState(1);
     return {
       ...base,
@@ -529,10 +598,14 @@ describe('narrative — R3 terminal beat + 2nd dream payoff (audit #2/#6/#13)', 
   });
 
   it('the 2nd dream reads the earlier mystery flags — no longer write-only', () => {
-    const noKnot = atR3(balance.R3_FRONTIER_COMBAT_LEVEL, { 'porters-knot': false });
+    const noKnot = atR3(balance.R3_FRONTIER_COMBAT_LEVEL, {
+      'porters-knot': false,
+    });
     expect(isUnlocked(noKnot, 'dream-2')).toBe(false);
 
-    const noDream1 = atR3(balance.R3_FRONTIER_COMBAT_LEVEL, { 'dream-1': false });
+    const noDream1 = atR3(balance.R3_FRONTIER_COMBAT_LEVEL, {
+      'dream-1': false,
+    });
     expect(isUnlocked(noDream1, 'dream-2')).toBe(false);
   });
 
@@ -547,9 +620,13 @@ describe('narrative — R3 terminal beat + 2nd dream payoff (audit #2/#6/#13)', 
     const once = announcePass(atR3(balance.R3_FRONTIER_COMBAT_LEVEL));
     const twice = announcePass(once);
     // ADR-179 — the announce-once latch is `seenReveals` (visibility itself is derived).
-    expect(twice.seenReveals.filter((id) => id === 'screen-demo-frontier')).toHaveLength(1);
+    expect(
+      twice.seenReveals.filter((id) => id === 'screen-demo-frontier'),
+    ).toHaveLength(1);
     const frontierLines = twice.log.entries.filter(
-      (e) => e.channel === 'milestone' && e.text.includes('a soldier in you under the farmhand'),
+      (e) =>
+        e.channel === 'milestone' &&
+        e.text.includes('a soldier in you under the farmhand'),
     );
     expect(frontierLines).toHaveLength(1);
   });
@@ -577,7 +654,9 @@ describe('load-path reveal — a fact-entitled surface derives visible on load (
     expect(isUnlocked(stale, 'readout-coin')).toBe(true);
     const loaded = announcePass(stale); // exactly what the load path runs before the first render
     expect(loaded.seenReveals).toContain('readout-coin'); // the ceremony latched…
-    expect(announcePass(loaded).seenReveals.filter((id) => id === 'readout-coin')).toHaveLength(1); // …once
+    expect(
+      announcePass(loaded).seenReveals.filter((id) => id === 'readout-coin'),
+    ).toHaveLength(1); // …once
   });
 
   it('coin BANKED in the kura (nothing carried) still shows it (predicate covers banked)', () => {

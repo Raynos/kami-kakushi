@@ -329,13 +329,23 @@
   position: absolute;
   inset: 0 auto 0 0;
   width: var(--fill);
-  background: linear-gradient(90deg, var(--gold-dim), var(--gold) 55%, var(--gold-hi));
+  background: linear-gradient(
+    90deg,
+    var(--gold-dim),
+    var(--gold) 55%,
+    var(--gold-hi)
+  );
   box-shadow: 0 0 6px rgba(216, 185, 120, 0.4);
   transition: width var(--dur) var(--ease-ink);
 }
 .vital.health .bar > span {
   /* life = SILVER (state), never gold (value) — the bimetal split */
-  background: linear-gradient(90deg, #6f7896, var(--silver) 58%, var(--silver-hi));
+  background: linear-gradient(
+    90deg,
+    #6f7896,
+    var(--silver) 58%,
+    var(--silver-hi)
+  );
   box-shadow: 0 0 6px rgba(205, 214, 238, 0.35);
 }
 .vital.stamina .bar > span {
@@ -357,7 +367,10 @@
 .workspace {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(0, 1.5fr); /* work LEFT · story log RIGHT (F8) */
-  grid-template-rows: minmax(0, 1fr); /* a single full-height row so columns can scroll */
+  grid-template-rows: minmax(
+    0,
+    1fr
+  ); /* a single full-height row so columns can scroll */
   /* F73 — tighter workspace gutter/gap (was --space-6): the chrome frame around the content
      columns shrinks so more of the screen is the game, not padding. */
   gap: var(--space-4);
@@ -450,7 +463,8 @@
 /* ═══ PANEL FRAMING (M2) — LOCKED to soft cards: each work slice a soft washi surface (subtle fill +
    drop shadow, no hard keyline) for a calm dashboard. The log keeps its own `.log` book frame. The
    woodblock-box / hairline framings were pruned (D-075 zero-flag-debt). ═══ */
-.workspace[data-layout='layout-byobu'][data-framing='framing-cards'] .slice:not(.slice-log) {
+.workspace[data-layout='layout-byobu'][data-framing='framing-cards']
+  .slice:not(.slice-log) {
   background: var(--surface);
   border: 1px solid var(--ink-faint);
   border-radius: var(--radius);
@@ -487,7 +501,8 @@
   }
   /* drop the card framing on mobile (single column) — no borders, boxes, or forced
      padding. Matches the framing-cards selector exactly so it out-orders it. */
-  .workspace[data-layout='layout-byobu'][data-framing='framing-cards'] .slice:not(.slice-log) {
+  .workspace[data-layout='layout-byobu'][data-framing='framing-cards']
+    .slice:not(.slice-log) {
     border: none;
     box-shadow: none;
     background: none;

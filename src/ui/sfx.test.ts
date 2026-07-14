@@ -86,11 +86,15 @@ function setGlobal(key: keyof MutableGlobals, value: unknown): void {
   (globalThis as MutableGlobals)[key] = value;
 }
 function totalOscillators(): number {
-  return FakeAudioContext.instances.reduce((n, c) => n + c.oscillators.length, 0);
+  return FakeAudioContext.instances.reduce(
+    (n, c) => n + c.oscillators.length,
+    0,
+  );
 }
 function totalGainConnections(): number {
   let n = 0;
-  for (const c of FakeAudioContext.instances) for (const g of c.gains) n += g.connections.length;
+  for (const c of FakeAudioContext.instances)
+    for (const g of c.gains) n += g.connections.length;
   return n;
 }
 
@@ -107,7 +111,13 @@ afterEach(() => {
 describe('createSfx — public contract', () => {
   it('(a) returns the full API', () => {
     const sfx: Sfx = createSfx();
-    for (const m of ['hit', 'reward', 'rankUp', 'setMuted', 'isMuted'] as const) {
+    for (const m of [
+      'hit',
+      'reward',
+      'rankUp',
+      'setMuted',
+      'isMuted',
+    ] as const) {
       expect(typeof sfx[m]).toBe('function');
     }
     expect(sfx.isMuted()).toBe(false);
@@ -171,9 +181,15 @@ describe('createSfx — public contract', () => {
     const oscs = FakeAudioContext.instances.flatMap((c) => c.oscillators);
     expect(oscs.length).toBeGreaterThan(0);
     for (const o of oscs) {
-      expect(o.stopAt, 'a voice never scheduled its stop (would ring forever)').toBeDefined();
+      expect(
+        o.stopAt,
+        'a voice never scheduled its stop (would ring forever)',
+      ).toBeDefined();
       const envelope = o.stopAt! - STOP_TAIL_S - (o.startAt ?? 0);
-      expect(envelope, 'a voice envelope runs past the 400ms spec cap').toBeLessThan(0.4);
+      expect(
+        envelope,
+        'a voice envelope runs past the 400ms spec cap',
+      ).toBeLessThan(0.4);
       expect(envelope).toBeGreaterThan(0);
     }
   });

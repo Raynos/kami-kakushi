@@ -20,7 +20,11 @@ import {
   HUNGER_MEAL_RESTORE,
 } from './content/balance';
 import { refillSitePools } from './content/activities';
-import { isMarketDay, merchantRestock, YOHEI_PURSE_MON } from './content/market';
+import {
+  isMarketDay,
+  merchantRestock,
+  YOHEI_PURSE_MON,
+} from './content/market';
 import { textureDayPass, textureSeasonTurn } from './texture';
 import { triggerScenes } from './scenes';
 
@@ -34,7 +38,10 @@ function onReckoning(state: GameState): GameState {
   const r = deriveDayKeyed(state.rng.seed, 'seasonal-estate', state.clock.day);
   const { pillar, bonus } = seasonalJudge(state.influence.estate, r);
   if (bonus <= 0) return state; // no new high-water → no judge this reckoning
-  const judged: GameState = { ...state, influence: { ...state.influence, estate: pillar } };
+  const judged: GameState = {
+    ...state,
+    influence: { ...state.influence, estate: pillar },
+  };
   return applyRewards(judged, {
     log: [
       {
@@ -122,7 +129,10 @@ function onDayBoundary(state: GameState): GameState {
     if (yohei) {
       next = {
         ...next,
-        merchants: { ...next.merchants, yohei: merchantRestock(yohei, YOHEI_PURSE_MON) },
+        merchants: {
+          ...next.merchants,
+          yohei: merchantRestock(yohei, YOHEI_PURSE_MON),
+        },
       };
     }
   }
@@ -130,7 +140,10 @@ function onDayBoundary(state: GameState): GameState {
   const eaten = Math.min(inKura, CONSUMPTION_SHO_PER_DAY);
   if (eaten <= 0) return next;
   next = withBanked(next, 'rice', -eaten);
-  return adjustHunger(next, HUNGER_MEAL_RESTORE * (eaten / CONSUMPTION_SHO_PER_DAY));
+  return adjustHunger(
+    next,
+    HUNGER_MEAL_RESTORE * (eaten / CONSUMPTION_SHO_PER_DAY),
+  );
 }
 
 function singleTick(state: GameState): GameState {
@@ -139,7 +152,10 @@ function singleTick(state: GameState): GameState {
   // C4.3: the boundary also breathes the world's ambient texture (one authored line, chance-gated).
   const tickNext = state.clock.tick + 1;
   if (tickNext >= TICKS_PER_DAY) {
-    const rolled: GameState = { ...state, clock: { tick: 0, day: state.clock.day + 1 } };
+    const rolled: GameState = {
+      ...state,
+      clock: { tick: 0, day: state.clock.day + 1 },
+    };
     return textureDayPass(onDayBoundary(rolled));
   }
   return { ...state, clock: { tick: tickNext, day: state.clock.day } };
@@ -148,7 +164,9 @@ function singleTick(state: GameState): GameState {
 /** Advance the clock by N whole ticks, folding ONE at a time (B10). No reveal pass. */
 export function advanceClock(state: GameState, ticks: number): GameState {
   if (!Number.isInteger(ticks) || ticks < 0) {
-    throw new Error(`advanceClock: ticks must be a non-negative integer, got ${ticks}`);
+    throw new Error(
+      `advanceClock: ticks must be a non-negative integer, got ${ticks}`,
+    );
   }
   let next = state;
   for (let i = 0; i < ticks; i++) next = singleTick(next);

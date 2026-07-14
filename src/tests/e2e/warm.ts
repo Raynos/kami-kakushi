@@ -25,7 +25,9 @@ export const test = base.extend<WarmFixtures, { workerPage: Page }>({
       const context = await browser.newContext();
       const page = await context.newPage();
       // telemetry=no: the e2e lane must not pollute the human's attended-play sensor (FB-8)
-      await page.goto('/?dev=no&telemetry=no', { waitUntil: 'domcontentloaded' });
+      await page.goto('/?dev=no&telemetry=no', {
+        waitUntil: 'domcontentloaded',
+      });
       await page.waitForFunction('Boolean(window.__qa)');
       await use(page);
       await context.close();
@@ -42,7 +44,8 @@ export const test = base.extend<WarmFixtures, { workerPage: Page }>({
   },
   warmErrors: async ({ warmPage }, use) => {
     const errors: string[] = [];
-    const onPageError = (e: Error): void => void errors.push(`pageerror: ${e.message}`);
+    const onPageError = (e: Error): void =>
+      void errors.push(`pageerror: ${e.message}`);
     const onConsole = (m: { type(): string; text(): string }): void => {
       if (m.type() === 'error') errors.push(`console.error: ${m.text()}`);
     };
@@ -56,32 +59,48 @@ export const test = base.extend<WarmFixtures, { workerPage: Page }>({
 
 /** Reset the warm page to a FRESH cold-open state (the pre-awake wake card). */
 export async function newGameWarm(page: Page): Promise<void> {
-  await page.evaluate(() => (window as never as { __qa: { newGame(): void } }).__qa.newGame());
+  await page.evaluate(() =>
+    (window as never as { __qa: { newGame(): void } }).__qa.newGame(),
+  );
   await page.waitForSelector('button.verb.primary', { state: 'visible' });
 }
 
 /** Swap the warm page onto a named fixture state and wait for the re-render. */
-export async function loadFixtureWarm(page: Page, fixture: string): Promise<void> {
+export async function loadFixtureWarm(
+  page: Page,
+  fixture: string,
+): Promise<void> {
   // resolves to the SaveManager LoadResult ({state, source, …}); a bad name
   // resolves {ok:false, reason} — assert on the loaded state's presence
   const loaded = await page.evaluate(
     (name) =>
       (
         window as never as {
-          __qa: { loadFixture(n: string): Promise<{ state?: unknown; reason?: string }> };
+          __qa: {
+            loadFixture(
+              n: string,
+            ): Promise<{ state?: unknown; reason?: string }>;
+          };
         }
       ).__qa
         .loadFixture(name)
-        .then((r) => ({ hasState: Boolean(r && r.state), reason: r?.reason ?? null })),
+        .then((r) => ({
+          hasState: Boolean(r && r.state),
+          reason: r?.reason ?? null,
+        })),
     fixture,
   );
-  expect(loaded.hasState, `fixture ${fixture} must load (${loaded.reason ?? 'no reason'})`).toBe(
-    true,
-  );
+  expect(
+    loaded.hasState,
+    `fixture ${fixture} must load (${loaded.reason ?? 'no reason'})`,
+  ).toBe(true);
   // same settle conditions as boot(): fonts final + two frames past the render
   await page.evaluate(() =>
     document.fonts.ready.then(
-      () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => r(null)))),
+      () =>
+        new Promise((r) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => r(null))),
+        ),
     ),
   );
 }

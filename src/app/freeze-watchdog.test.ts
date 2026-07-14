@@ -5,7 +5,11 @@
 // freeze the overlay OWNS alone" fails; schedule the poll on the patched timers instead of the raw
 // ones and "polls on RAW timers" fails.
 import { describe, expect, it, vi } from 'vitest';
-import { checkFreeze, startFreezeWatchdog, type FreezeWatchdogDeps } from './freeze-watchdog';
+import {
+  checkFreeze,
+  startFreezeWatchdog,
+  type FreezeWatchdogDeps,
+} from './freeze-watchdog';
 import { installFreezeClock } from './freeze-clock';
 import { makeFakeTimerHost } from './fake-timer-host';
 

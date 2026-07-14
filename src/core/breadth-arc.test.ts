@@ -37,7 +37,12 @@ function readyState(seed: number): GameState {
     ...base,
     rung: 'R3',
     clock: { ...base.clock, day: MARKET_DAY },
-    character: { ...base.character, level: 10, hp: hpMax(leveled), satiety: 100 },
+    character: {
+      ...base.character,
+      level: 10,
+      hp: hpMax(leveled),
+      satiety: 100,
+    },
     flags: {
       ...base.flags,
       awake: true,
@@ -89,7 +94,11 @@ describe('T0-M4 breadth seams close end-to-end via real intents', () => {
     let guard = 0;
     while (!stepDone(s, GATHER_STEP) && guard++ < 60) {
       s = reduce(
-        { ...s, location: 'woodlot', character: { ...s.character, satiety: 100 } },
+        {
+          ...s,
+          location: 'woodlot',
+          character: { ...s.character, satiety: 100 },
+        },
         { type: 'do_activity', activityId: 'woodcut_edge' },
       );
     }
@@ -109,7 +118,8 @@ describe('T0-M4 breadth seams close end-to-end via real intents', () => {
     const item = 'greens_sack'; // 10 coin → +3 sansai, stockCap 5
     const coinStart = s.resources.coin ?? 0;
     // buy past the cap — only stockCap buys should land
-    for (let i = 0; i < 8; i++) s = reduce(s, { type: 'buy_item', itemId: item });
+    for (let i = 0; i < 8; i++)
+      s = reduce(s, { type: 'buy_item', itemId: item });
     expect(s.marketBought[item]).toBe(5); // capped, not 8
     expect(s.resources.coin ?? 0).toBe(coinStart - 5 * 10); // 5 buys × 10 coin
     expect(s.resources.sansai ?? 0).toBe(5 * 3); // 5 buys × 3 sansai

@@ -18,7 +18,9 @@ export interface ScopeFlags {
   skipDocs: boolean;
 }
 
-export function scopeFlagsFromEnv(env: Record<string, string | undefined>): ScopeFlags {
+export function scopeFlagsFromEnv(
+  env: Record<string, string | undefined>,
+): ScopeFlags {
   return {
     skipCode: env['SKIP_CODE_VERIFY'] === '1',
     skipDocs: env['SKIP_DOCS_VERIFY'] === '1',

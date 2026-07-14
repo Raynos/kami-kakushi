@@ -99,7 +99,9 @@ describe('attachSignals — the shell stays passive', () => {
       () => 0,
     );
     const passive = spy.mock.calls
-      .filter(([type]) => ['pointerdown', 'pointermove', 'keydown', 'wheel'].includes(type))
+      .filter(([type]) =>
+        ['pointerdown', 'pointermove', 'keydown', 'wheel'].includes(type),
+      )
       .map(([, , opts]) => opts);
     expect(passive).toHaveLength(4);
     for (const o of passive) expect(o).toMatchObject({ passive: true });

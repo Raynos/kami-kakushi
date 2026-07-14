@@ -25,7 +25,12 @@ import {
   intentWallMs,
 } from '../core';
 
-const { AUTO_REPEAT_MS, RUNG_WALL_FLOOR_MIN, T0_PACING_BAND_MIN, T0_PACING_BAND_MAX } = balance;
+const {
+  AUTO_REPEAT_MS,
+  RUNG_WALL_FLOOR_MIN,
+  T0_PACING_BAND_MIN,
+  T0_PACING_BAND_MAX,
+} = balance;
 const SEED = 20260626;
 
 export interface RungPacing {
@@ -129,7 +134,9 @@ export function walkPacing(seed = SEED): RungPacing[] {
       wallMin,
       inGameDays: (c.endTick - c.startTick) / 24,
       terminal,
-      outOfBand: !terminal && (wallMin < T0_PACING_BAND_MIN || wallMin > T0_PACING_BAND_MAX),
+      outOfBand:
+        !terminal &&
+        (wallMin < T0_PACING_BAND_MIN || wallMin > T0_PACING_BAND_MAX),
     });
   }
   return rows;
@@ -142,7 +149,8 @@ export function walkPacing(seed = SEED): RungPacing[] {
 // `typeof process` guard: the FB-8 DEV telemetry report imports walkPacing() in the BROWSER
 // (the vs-sim column) — a bare `process.argv` there is a boot-time ReferenceError.
 const RUN_AS_CLI =
-  typeof process !== 'undefined' && (process.argv[1]?.includes('pacing-report') ?? false);
+  typeof process !== 'undefined' &&
+  (process.argv[1]?.includes('pacing-report') ?? false);
 if (RUN_AS_CLI) {
   const check = process.argv.includes('--check');
   const rows = walkPacing();
@@ -153,7 +161,13 @@ if (RUN_AS_CLI) {
     'rung  title          thr     act            acts   rests  intents  wall(min)  ~days  band',
   );
   for (const r of rows) {
-    const flag = r.terminal ? 'TERMINAL' : r.intents === 0 ? '-' : r.outOfBand ? 'OUT' : 'OK';
+    const flag = r.terminal
+      ? 'TERMINAL'
+      : r.intents === 0
+        ? '-'
+        : r.outOfBand
+          ? 'OUT'
+          : 'OK';
     console.log(
       `${r.rung.padEnd(5)} ${r.title.padEnd(14)} ${String(r.requirements).padStart(6)} ${r.act.padEnd(13)} ${String(r.acts).padStart(6)} ${String(r.rests).padStart(6)} ${String(r.intents).padStart(8)} ${r.wallMin.toFixed(2).padStart(9)} ${r.inGameDays.toFixed(0).padStart(6)}  ${flag}`,
     );

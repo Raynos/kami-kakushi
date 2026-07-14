@@ -78,7 +78,9 @@ describe('keepReport', () => {
   });
 
   it('still drops a save-imported run that ALSO carries a time taint', () => {
-    expect(keepReport(report(49.2, ['save-import', 'speed>1'])).keep).toBe(false);
+    expect(keepReport(report(49.2, ['save-import', 'speed>1'])).keep).toBe(
+      false,
+    );
   });
 
   it('fails OPEN: an unrecognised or truncated report is never deleted', () => {

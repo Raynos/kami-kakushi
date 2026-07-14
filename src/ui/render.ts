@@ -46,7 +46,14 @@ import {
   NPC_NAME,
   rungRequirements,
 } from '../core';
-import { reconcileList, setText, toggle, setClass, setDisabled, setStyle } from './reconcile';
+import {
+  reconcileList,
+  setText,
+  toggle,
+  setClass,
+  setDisabled,
+  setStyle,
+} from './reconcile';
 import type { Sfx } from './sfx';
 // the SHIPPED estate map — the 絵図 survey-plan sheet, the human-picked winner of the ADR-075
 // real-map diverge (HR-7). storywave G4.9: rebuilt on the map-sheets geometry (the ONE aligned
@@ -92,7 +99,8 @@ export function rakeCount(state: GameState): number {
  *  saved). It wears the '⏸' the illegal-but-armed auto already wears (ADR-148) — same idiom, one
  *  home (TST1), and the player never guesses state (TST4). */
 export const AUTO_PAUSED_LABEL = '⏸ paused';
-export const AUTO_PAUSED_REASON = 'The game is paused — resume it in Settings ⚙.';
+export const AUTO_PAUSED_REASON =
+  'The game is paused — resume it in Settings ⚙.';
 
 export const META_LABELS: Record<MetaVerb, string> = {
   open_eyes: COLD_OPEN.cta, // single-sourced with the title card's verb (AC-21)
@@ -106,7 +114,10 @@ export const META_LABELS: Record<MetaVerb, string> = {
 
 // the active combat decision (kendo kamae) — kanji avoid the foe-tier word collision
 // ('Steady'/'Even') used by the win-rate pips.
-export const STANCE_UI: Record<StanceId, { kanji: string; gloss: string; hint: string }> = {
+export const STANCE_UI: Record<
+  StanceId,
+  { kanji: string; gloss: string; hint: string }
+> = {
   gedan: {
     kanji: '下段',
     gloss: 'Guarded',
@@ -183,7 +194,11 @@ export function introNameplate(scene: {
   seal.lang = 'ja';
   seal.style.color = color;
   seal.style.borderColor = color;
-  const name = el('div', 'vn-name', scene.speaker ? NPC_NAME[scene.speaker] : 'A memory');
+  const name = el(
+    'div',
+    'vn-name',
+    scene.speaker ? NPC_NAME[scene.speaker] : 'A memory',
+  );
   name.style.color = color;
   name.style.borderColor = color;
   plate.append(seal, name);
@@ -208,11 +223,19 @@ export const ESTATE_STAGE_NAMES = [
 // A8: the house physically REOPENS its rooms as your standing rises (omoya R4, workshops +
 // granary R6, the lord's study R7). Flavour — the estate's recovery made visible — not walkable
 // map nodes (the 7-node ceiling is untouched). Each row inks in when its rung reveal fires.
-export const HOUSE_ROOMS: readonly { surface: string; kanji: string; label: string }[] = [
+export const HOUSE_ROOMS: readonly {
+  surface: string;
+  kanji: string;
+  label: string;
+}[] = [
   { surface: 'house-omoya', kanji: '母屋', label: 'The main house reopened' },
   { surface: 'house-workshops', kanji: '工房', label: 'The workshops woken' },
   { surface: 'house-granary', kanji: '板倉', label: 'A new granary raised' },
-  { surface: 'house-study', kanji: '書院', label: "The lord's study opened to you" },
+  {
+    surface: 'house-study',
+    kanji: '書院',
+    label: "The lord's study opened to you",
+  },
 ];
 
 // Static pane blurbs — hoisted so the incremental (prod/test) path and the DEV-variant
@@ -231,7 +254,10 @@ export const CHANNEL_BULLET: Record<LogChannel, string> = {
   milestone: '❖',
 };
 
-export const SEASON_TAG: Record<Season, { kanji: string; emoji: string; name: string }> = {
+export const SEASON_TAG: Record<
+  Season,
+  { kanji: string; emoji: string; name: string }
+> = {
   winter: { kanji: '冬', emoji: '❄️', name: 'Winter' },
   'new-year': { kanji: '正月', emoji: '🎍', name: 'New Year' },
   spring: { kanji: '春', emoji: '🌸', name: 'Spring' },
@@ -252,7 +278,15 @@ type Dispatch = (intent: Intent) => void;
 // thematic tab, each revealed only once it has content — ONE tab per rung. Work R0 →
 // Map R1 (alone) → Works+Character R2 (the one accepted double; Works is cause-gated on
 // the works-intro naming) → Combat R3 (alone) → Inventory R4 → Quests R5 → Estate 家 R6.
-type Tab = 'work' | 'map' | 'works' | 'estate' | 'inventory' | 'character' | 'combat' | 'quests';
+type Tab =
+  | 'work'
+  | 'map'
+  | 'works'
+  | 'estate'
+  | 'inventory'
+  | 'character'
+  | 'combat'
+  | 'quests';
 
 export interface AppHooks {
   exportSave: () => string;
@@ -286,7 +320,9 @@ export function formatLogText(entry: LogEntry): string {
   // authored text carries no quotation marks is wrapped at display time, so bare
   // dialogue (dialogue.md teach lines) reads like every other utterance.
   const text =
-    entry.voice !== undefined && entry.voice !== 'narrator' && !/["“]/.test(entry.text)
+    entry.voice !== undefined &&
+    entry.voice !== 'narrator' &&
+    !/["“]/.test(entry.text)
       ? `"${entry.text}"`
       : entry.text;
   const n = entry.count ?? 1;
@@ -359,7 +395,10 @@ export function el<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
-function vital(id: string, label: string): { wrap: HTMLElement; value: HTMLElement } {
+function vital(
+  id: string,
+  label: string,
+): { wrap: HTMLElement; value: HTMLElement } {
   const wrap = el('div', `vital ${id}`);
   wrap.hidden = true;
   wrap.append(el('span', 'label', label));
@@ -401,7 +440,8 @@ export function introReduced(): boolean {
     document.documentElement.classList.contains('reduced-motion')
   );
 }
-export const introInstant = (): boolean => introReduced() || import.meta.env.MODE === 'test';
+export const introInstant = (): boolean =>
+  introReduced() || import.meta.env.MODE === 'test';
 
 export function buildFreshDividerNode(): HTMLElement {
   const d = el('div', 'log-fresh-divider');
@@ -492,7 +532,9 @@ export function mount(
   const seasonEndBtn = el('button', 'season-end');
   seasonEndBtn.type = 'button';
   seasonEndBtn.hidden = true;
-  seasonEndBtn.addEventListener('click', () => dispatch({ type: 'advance_season' }));
+  seasonEndBtn.addEventListener('click', () =>
+    dispatch({ type: 'advance_season' }),
+  );
   clock.append(seasonEndBtn);
   const stamina = el('div', 'vital stamina');
   stamina.hidden = true;
@@ -505,7 +547,8 @@ export function mount(
   // give body the SAME exact-number readout life has, and say on hover what fills/drains it.
   const staminaNum = el('span', 'value numeric');
   stamina.append(staminaNum);
-  stamina.title = 'Body 体 — work draws it down; a rest refills it. Rest better on a full belly.';
+  stamina.title =
+    'Body 体 — work draws it down; a rest refills it. Rest better on a full belly.';
   // The belly (ADR-178 — the FB-345 body split): the SAME vital idiom as body (one primitive per
   // idiom — label + bar + exact number + hover name), on the slow daily clock. The day draws it
   // down; the kura ration maintains it; a meal raises it; its only teeth are rest quality.
@@ -549,7 +592,10 @@ export function mount(
   //    idle re-render produces zero DOM churn (FB-81). ──
   const rungHead = el('div', 'rung-head');
   rungHead.hidden = true;
-  const rungHeadTrigger = el('button', 'rung-head-trigger') as HTMLButtonElement;
+  const rungHeadTrigger = el(
+    'button',
+    'rung-head-trigger',
+  ) as HTMLButtonElement;
   rungHeadTrigger.type = 'button';
   rungHeadTrigger.addEventListener('click', () => {
     slopGateArmed = true; // a real player crosses the threshold — the SLOP gate may fire
@@ -718,7 +764,11 @@ export function mount(
   const footer = el('footer', 'appbar-footer');
   // FB-104 — the version is CLICKABLE → the About modal (single-sourced from __VERSION__, never
   // hand-typed — AC-21). A real button for keyboard/a11y, styled to read as the plain version stamp.
-  const versionBtn = el('button', 'foot-meta foot-version', __VERSION__) as HTMLButtonElement;
+  const versionBtn = el(
+    'button',
+    'foot-meta foot-version',
+    __VERSION__,
+  ) as HTMLButtonElement;
   versionBtn.type = 'button';
   versionBtn.setAttribute('aria-haspopup', 'dialog');
   versionBtn.setAttribute('aria-label', `About Kami-kakushi ${__VERSION__}`);
@@ -742,9 +792,13 @@ export function mount(
   // ── pre-awake cold-open title card (sibling to the shell; shown until 'awake') ──
   // The lede/CTA resolve through the DEV story switcher (HD-37 unit A) — canon in prod.
   const cardLede = (): string =>
-    __DEV_TOOLS__ && dev ? dev.subColdOpen('lede', COLD_OPEN.lede) : COLD_OPEN.lede;
+    __DEV_TOOLS__ && dev
+      ? dev.subColdOpen('lede', COLD_OPEN.lede)
+      : COLD_OPEN.lede;
   const cardCta = (): string =>
-    __DEV_TOOLS__ && dev ? dev.subColdOpen('cta', COLD_OPEN.cta) : COLD_OPEN.cta;
+    __DEV_TOOLS__ && dev
+      ? dev.subColdOpen('cta', COLD_OPEN.cta)
+      : COLD_OPEN.cta;
   const coldOpen = el('div', 'coldopen');
   const coFrame = el('div', 'frame');
   const coTitle = el('h1');
@@ -759,7 +813,11 @@ export function mount(
   // can import BEFORE replaying the whole intro (the Settings→Saves import otherwise sits behind the
   // awake shell). Reuses the existing Saves modal — no new surface. FB-126: anchored as a tiny,
   // subtle footer at the BOTTOM of the field (a sibling of the card, not a button under the CTA).
-  const coRestore = el('button', 'coldopen-restore', 'Returning? Restore a saved game');
+  const coRestore = el(
+    'button',
+    'coldopen-restore',
+    'Returning? Restore a saved game',
+  );
   coRestore.type = 'button';
   coRestore.addEventListener('click', () => settings.open('saves'));
   coFrame.append(coTitle, coRoman, coLede, coVerb);
@@ -791,7 +849,8 @@ export function mount(
     for (const child of slice.children) {
       const c = child as HTMLElement;
       if (c.hidden) continue;
-      if (c.childElementCount > 0 || (c.textContent ?? '').trim() !== '') return true;
+      if (c.childElementCount > 0 || (c.textContent ?? '').trim() !== '')
+        return true;
     }
     return false;
   }
@@ -833,7 +892,10 @@ export function mount(
   function characterHasContent(state: GameState): boolean {
     const skillsHaveCard =
       isUnlocked(state, 'tab-skills') &&
-      SKILLS.some((def) => skillVisible(state, def.id) || isUnlocked(state, `skill-${def.id}`));
+      SKILLS.some(
+        (def) =>
+          skillVisible(state, def.id) || isUnlocked(state, `skill-${def.id}`),
+      );
     return (
       skillsHaveCard ||
       isUnlocked(state, 'verb-cook') || // the Body card (FB-343/FB-369 — food verbs re-homed here)
@@ -862,7 +924,10 @@ export function mount(
         // walk to. The live playtest caught what no engine test could: the reducer happily accepts
         // `move_to` whether or not a tab exists to press. Derived from the visible set, so any future
         // re-mapping carries it (TST1) and this can never drift again.
-        return unlockedSurfaces(state).filter((id) => id.startsWith('room-')).length >= 2;
+        return (
+          unlockedSurfaces(state).filter((id) => id.startsWith('room-'))
+            .length >= 2
+        );
       case 'works':
         // ADR-177 Schedule A — the projects home (普請): cause-gated on the works-intro
         // beat's day-book naming (panel-estate's predicate), R2+ at the board.
@@ -933,7 +998,8 @@ export function mount(
   function renderRungHead(state: GameState): void {
     // the rung's home once the ladder is meaningful (first rake / the R1 reveal) — gated like the
     // Work-column ladder but WITHOUT the tab check (the header is always on screen).
-    const show = isUnlocked(state, 'panel-rung-ladder') || hasFlag(state, 'raked');
+    const show =
+      isUnlocked(state, 'panel-rung-ladder') || hasFlag(state, 'raked');
     toggle(rungHead, show);
     if (!show) return;
     const rank = currentRank(state);
@@ -971,12 +1037,15 @@ export function mount(
         ? `Answer the summons — begin the ${getRank(target).title} beat`
         : 'Answer the summons'
       : `${rank.title} — Estate service ${prog.percent}%`;
-    if (rungHeadTrigger.title !== triggerTitle) rungHeadTrigger.title = triggerTitle;
+    if (rungHeadTrigger.title !== triggerTitle)
+      rungHeadTrigger.title = triggerTitle;
     // the hover-card detail (FB-106): the current rung, the meter numbers, the next rung.
     setText(rungHeadCardNow, `${rank.title} · ${rank.kanji}`);
     setText(
       rungHeadCardMeter,
-      prog.ready ? 'Ready to advance — answer the summons.' : `Estate service · ${prog.percent}%`,
+      prog.ready
+        ? 'Ready to advance — answer the summons.'
+        : `Estate service · ${prog.percent}%`,
     );
     const nid = nextRankId(rank.id);
     setText(
@@ -1181,9 +1250,24 @@ export function mount(
     const at = (fn: () => void, ms: number): void => {
       timers.push(window.setTimeout(fn, ms));
     };
-    const stages: { el: HTMLElement; text: string; per: number; holdAfter: number }[] = [
-      { el: coTitle, text: COLD_OPEN_TITLE, per: TYPE_MS_PER_CHAR * 3, holdAfter: 380 },
-      { el: coRoman, text: COLD_OPEN_ROMAN, per: TYPE_MS_PER_CHAR, holdAfter: 380 },
+    const stages: {
+      el: HTMLElement;
+      text: string;
+      per: number;
+      holdAfter: number;
+    }[] = [
+      {
+        el: coTitle,
+        text: COLD_OPEN_TITLE,
+        per: TYPE_MS_PER_CHAR * 3,
+        holdAfter: 380,
+      },
+      {
+        el: coRoman,
+        text: COLD_OPEN_ROMAN,
+        per: TYPE_MS_PER_CHAR,
+        holdAfter: 380,
+      },
       { el: coLede, text: cardLede(), per: TYPE_MS_PER_CHAR, holdAfter: 900 },
     ];
     let t = 350; // a beat of dark before the title strikes
@@ -1206,7 +1290,8 @@ export function mount(
       t += s.holdAfter;
     }
     at(showButton, t);
-    cancelColdOpenReveal = () => timers.forEach((id) => window.clearTimeout(id));
+    cancelColdOpenReveal = () =>
+      timers.forEach((id) => window.clearTimeout(id));
   }
   function render(state: GameState, prev: GameState | null): void {
     lastState = state;
@@ -1354,13 +1439,19 @@ export function mount(
       // when a player-initiated control armed the latch (never a DEV teleport).
       if (slopGateArmed) {
         slopGateArmed = false;
-        if (prev.rung === 'R0' && state.rung === 'R1') pendingSlopWarning = 'R1';
-        else if (prev.rung === 'R1' && state.rung === 'R2') pendingSlopWarning = 'R2';
+        if (prev.rung === 'R0' && state.rung === 'R1')
+          pendingSlopWarning = 'R1';
+        else if (prev.rung === 'R1' && state.rung === 'R2')
+          pendingSlopWarning = 'R2';
       }
     }
     // A pending SLOP warning waits out any live-or-queued VN (the rung-up story
     // plays FIRST — human, 2026-07-10 follow-up), then opens on the shell.
-    if (pendingSlopWarning && !vnActive(state) && state.sceneQueue.length === 0) {
+    if (
+      pendingSlopWarning &&
+      !vnActive(state) &&
+      state.sceneQueue.length === 0
+    ) {
       showSlopWarning(pendingSlopWarning);
       pendingSlopWarning = null;
     }
@@ -1430,7 +1521,8 @@ export function mount(
       } else {
         setClass(btn, 'act-locked', lock);
         if (lock) btn.setAttribute('aria-disabled', 'true');
-        else if (btn.dataset.locked !== '1') btn.removeAttribute('aria-disabled');
+        else if (btn.dataset.locked !== '1')
+          btn.removeAttribute('aria-disabled');
       }
       paintActBar(btn, st.phase, st.fraction, st.remainingMs);
     }
@@ -1473,8 +1565,11 @@ export function mount(
       card.hidden = true;
     };
     root.addEventListener('mouseover', (e) => {
-      if (document.body.dataset.devActHover !== '1' || !lastState) return hideCard();
-      const btn = (e.target as Element | null)?.closest<HTMLElement>('[data-act-key]');
+      if (document.body.dataset.devActHover !== '1' || !lastState)
+        return hideCard();
+      const btn = (e.target as Element | null)?.closest<HTMLElement>(
+        '[data-act-key]',
+      );
       if (!btn) return hideCard();
       const key = btn.dataset.actKey!;
       const sep = key.indexOf(':');
@@ -1485,7 +1580,9 @@ export function mount(
       // action (not just labour). Numbers come from the same balance constants / selectors the
       // reducer spends (AC-6) — never re-typed literals. FB-334 — the unit reads "body" (the
       // visible meter's name), never the internal field name "satiety".
-      card.append(el('div', 'dev-act-card-title', btn.textContent?.trim() || key));
+      card.append(
+        el('div', 'dev-act-card-title', btn.textContent?.trim() || key),
+      );
       const state = lastState;
       const line = (t: string): void => {
         card.append(el('div', 'dev-act-card-line', t));
@@ -1502,7 +1599,9 @@ export function mount(
           break;
         }
         case 'rake_rice':
-          line(`+${balance.RICE_PER_RAKE} shō (kura) · −${balance.SATIETY_PER_ACT} body`);
+          line(
+            `+${balance.RICE_PER_RAKE} shō (kura) · −${balance.SATIETY_PER_ACT} body`,
+          );
           break;
         case 'rest':
           // restRefill — the SAME selector the reducer spends (AC-6), so a hungry (degraded)
@@ -1514,11 +1613,15 @@ export function mount(
           // real price and it is not a number, so it leads in words; the stores/belly follow.
           const f = sleepForecast(state);
           line('the day is spent — you wake at dawn');
-          line(`−${f.riceDrawn} shō (kura) · −${Math.round(f.bellyLost)} belly · no body back`);
+          line(
+            `−${f.riceDrawn} shō (kura) · −${Math.round(f.bellyLost)} belly · no body back`,
+          );
           break;
         }
         case 'cook_meal':
-          line(`−${balance.COOK_SANSAI_COST} sansai · +${balance.COOK_HUNGER_RESTORE} belly`);
+          line(
+            `−${balance.COOK_SANSAI_COST} sansai · +${balance.COOK_HUNGER_RESTORE} belly`,
+          );
           break;
         case 'treat': {
           // ADR-164/ADR-197 — the SAME selector the reducer spends (AC-6).
@@ -1529,11 +1632,15 @@ export function mount(
         case 'rest_sickroom': {
           const f = restSickroomForecast(state);
           line('the day is spent — you wake at dawn');
-          line(`+${f.hpGain} hp · −${f.riceDrawn} shō (kura) · −${Math.round(f.bellyLost)} belly`);
+          line(
+            `+${f.hpGain} hp · −${f.riceDrawn} shō (kura) · −${Math.round(f.bellyLost)} belly`,
+          );
           break;
         }
         case 'eat_rice':
-          line(`−${balance.EAT_RICE_COST} shō (kura) · +${balance.EAT_RICE_HUNGER} belly`);
+          line(
+            `−${balance.EAT_RICE_COST} shō (kura) · +${balance.EAT_RICE_HUNGER} belly`,
+          );
           break;
         case 'repair_weapon':
           line(
@@ -1552,8 +1659,11 @@ export function mount(
           break;
         }
         case 'improve_estate': {
-          const target = ESTATE_STAGES.find((s) => s.stage === state.estateStage + 1);
-          if (target) line(`−${formatCoin(target.coinCost)} → stage U${target.stage}`);
+          const target = ESTATE_STAGES.find(
+            (s) => s.stage === state.estateStage + 1,
+          );
+          if (target)
+            line(`−${formatCoin(target.coinCost)} → stage U${target.stage}`);
           break;
         }
         case 'move_to':
@@ -1579,7 +1689,10 @@ export function mount(
       card.hidden = false;
       // clamp on-screen only after unhiding, so the measured size is real
       const r = btn.getBoundingClientRect();
-      const x = Math.min(Math.max(4, r.left), window.innerWidth - card.offsetWidth - 4);
+      const x = Math.min(
+        Math.max(4, r.left),
+        window.innerWidth - card.offsetWidth - 4,
+      );
       const below = r.bottom + 4 + card.offsetHeight <= window.innerHeight;
       card.style.left = `${x}px`;
       card.style.top = `${below ? r.bottom + 4 : Math.max(4, r.top - 4 - card.offsetHeight)}px`;

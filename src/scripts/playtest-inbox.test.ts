@@ -1,5 +1,12 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, dirname, join } from 'node:path';
 import {
@@ -12,9 +19,18 @@ import {
   MAX_MARKDOWN_BYTES,
   type ResolvedCapture,
 } from './playtest-inbox';
-import { buildEntry, buildSessionHeader, type CaptureContext } from '../ui/capture-format';
+import {
+  buildEntry,
+  buildSessionHeader,
+  type CaptureContext,
+} from '../ui/capture-format';
 import { createInitialState, APP_ID } from '../core';
-import { exportBase64, importBase64, makeEnvelope, type SaveEnvelope } from '../persistence/codec';
+import {
+  exportBase64,
+  importBase64,
+  makeEnvelope,
+  type SaveEnvelope,
+} from '../persistence/codec';
 
 const tmpDirs: string[] = [];
 function freshPending(): string {
@@ -23,7 +39,8 @@ function freshPending(): string {
   return dir;
 }
 afterEach(() => {
-  for (const d of tmpDirs.splice(0)) rmSync(d, { recursive: true, force: true });
+  for (const d of tmpDirs.splice(0))
+    rmSync(d, { recursive: true, force: true });
 });
 
 function ok(r: ResolvedCapture): Extract<ResolvedCapture, { ok: true }> {
@@ -56,8 +73,12 @@ describe('resolveCapture — validation', () => {
   it('rejects a missing or illegal metadata name', () => {
     const { metadataName: _drop, ...noMeta } = good;
     expect(resolveCapture(noMeta, dir).ok).toBe(false);
-    expect(resolveCapture({ ...good, metadataName: 'm.txt' }, dir).ok).toBe(false);
-    expect(resolveCapture({ ...good, metadataName: 'a/b.json' }, dir).ok).toBe(false);
+    expect(resolveCapture({ ...good, metadataName: 'm.txt' }, dir).ok).toBe(
+      false,
+    );
+    expect(resolveCapture({ ...good, metadataName: 'a/b.json' }, dir).ok).toBe(
+      false,
+    );
   });
 
   it('rejects a path-traversal / separator session id', () => {
@@ -67,18 +88,27 @@ describe('resolveCapture — validation', () => {
 
   it('rejects missing fields', () => {
     expect(resolveCapture(null, dir).ok).toBe(false);
-    expect(resolveCapture({ session: SESSION, entry: 'x' }, dir).ok).toBe(false); // no header
+    expect(resolveCapture({ session: SESSION, entry: 'x' }, dir).ok).toBe(
+      false,
+    ); // no header
   });
 
   it('rejects oversized markdown (413)', () => {
     const big = 'a'.repeat(MAX_MARKDOWN_BYTES + 1);
-    expect(resolveCapture({ ...good, entry: big }, dir)).toMatchObject({ ok: false, status: 413 });
+    expect(resolveCapture({ ...good, entry: big }, dir)).toMatchObject({
+      ok: false,
+      status: 413,
+    });
   });
 
   it('screenshot: decodes a png to <session>/<name>.png inside the folder', () => {
     const r = ok(
       resolveCapture(
-        { ...good, screenshot: PNG_1PX, screenshotName: '2026-07-04T22-01-00.png' },
+        {
+          ...good,
+          screenshot: PNG_1PX,
+          screenshotName: '2026-07-04T22-01-00.png',
+        },
         dir,
       ),
     );
@@ -87,13 +117,22 @@ describe('resolveCapture — validation', () => {
   });
 
   it('screenshot: rejects a png without a name, a bad name, or a non-png url', () => {
-    expect(resolveCapture({ ...good, screenshot: PNG_1PX }, dir).ok).toBe(false); // no name
+    expect(resolveCapture({ ...good, screenshot: PNG_1PX }, dir).ok).toBe(
+      false,
+    ); // no name
     expect(
-      resolveCapture({ ...good, screenshot: PNG_1PX, screenshotName: 'a/b.png' }, dir).ok,
+      resolveCapture(
+        { ...good, screenshot: PNG_1PX, screenshotName: 'a/b.png' },
+        dir,
+      ).ok,
     ).toBe(false);
     expect(
       resolveCapture(
-        { ...good, screenshot: 'data:image/gif;base64,AA', screenshotName: 'a.png' },
+        {
+          ...good,
+          screenshot: 'data:image/gif;base64,AA',
+          screenshotName: 'a.png',
+        },
         dir,
       ).ok,
     ).toBe(false);
@@ -101,7 +140,11 @@ describe('resolveCapture — validation', () => {
 });
 
 describe('writeCapture — one file per session, header once, entries appended', () => {
-  function realCtx(saveBase64: string, capturedAt: string, shot: boolean): CaptureContext {
+  function realCtx(
+    saveBase64: string,
+    capturedAt: string,
+    shot: boolean,
+  ): CaptureContext {
     return {
       capturedAt,
       seed: 20260626,
@@ -128,7 +171,11 @@ describe('writeCapture — one file per session, header once, entries appended',
     });
     const save = exportBase64(makeEnvelope(createInitialState(20260626), 1, 0));
 
-    const e1 = buildEntry('first note', realCtx(save, '2026-07-04T22:00:05+0200', true), SESSION);
+    const e1 = buildEntry(
+      'first note',
+      realCtx(save, '2026-07-04T22:00:05+0200', true),
+      SESSION,
+    );
     const w1 = ok(
       resolveCapture(
         {
@@ -145,7 +192,11 @@ describe('writeCapture — one file per session, header once, entries appended',
     );
     writeCapture(w1, pending);
 
-    const e2 = buildEntry('second note', realCtx(save, '2026-07-04T22:01:12+0200', false), SESSION);
+    const e2 = buildEntry(
+      'second note',
+      realCtx(save, '2026-07-04T22:01:12+0200', false),
+      SESSION,
+    );
     const w2 = ok(
       resolveCapture(
         {
@@ -237,7 +288,8 @@ describe('commitCapture — auto-commit the .md (fail-soft, opt-outable)', () =>
       [MD],
       PENDING,
       (args) => calls.push(args),
-      (args) => (args[0] === 'log' ? `${CAPTURE_COMMIT_SUBJECT}\n` : '  origin/main\n'),
+      (args) =>
+        args[0] === 'log' ? `${CAPTURE_COMMIT_SUBJECT}\n` : '  origin/main\n',
     );
     expect(calls[1]).not.toContain('--amend');
   });
@@ -283,9 +335,13 @@ describe('stampCapture + nextFbNumber — capture-time FB allocation (ADR-171)',
 
   it('injects FB-<n> into the entry heading and the sidecar', () => {
     const stamped = stampCapture(base, 255);
-    expect(stamped.entry).toContain('## Bug · FB-255 · 2026-07-10T13:00:00+0200');
+    expect(stamped.entry).toContain(
+      '## Bug · FB-255 · 2026-07-10T13:00:00+0200',
+    );
     expect((JSON.parse(stamped.metadata) as { fb: number }).fb).toBe(255);
-    expect((JSON.parse(stamped.metadata) as { save: string }).save).toBe('eyJ='); // payload survives
+    expect((JSON.parse(stamped.metadata) as { save: string }).save).toBe(
+      'eyJ=',
+    ); // payload survives
   });
 
   it('stamps a Question heading too, and tolerates unparseable metadata', () => {
@@ -300,7 +356,11 @@ describe('stampCapture + nextFbNumber — capture-time FB allocation (ADR-171)',
   it('nextFbNumber allocates above stamped sidecars AND live claim blocks', () => {
     const dir = freshPending();
     mkdirSync(join(dir, 'r0'), { recursive: true });
-    writeFileSync(join(dir, 'r0', 's1.json'), JSON.stringify({ kind: 'bug', fb: 240 }), 'utf-8');
+    writeFileSync(
+      join(dir, 'r0', 's1.json'),
+      JSON.stringify({ kind: 'bug', fb: 240 }),
+      'utf-8',
+    );
     mkdirSync(join(dir, '.claims'), { recursive: true });
     writeFileSync(
       join(dir, '.claims', 'dev.json'),

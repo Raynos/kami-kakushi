@@ -7,7 +7,12 @@
 
 import { describe, expect, it } from 'vitest';
 import { SEASONS, SHO_PER_KOKU, type Season } from './constants';
-import { createInitialState, reduce, refillSitePools, type GameState } from './index';
+import {
+  createInitialState,
+  reduce,
+  refillSitePools,
+  type GameState,
+} from './index';
 import { hasFlag } from './state';
 import { nenguYearFlag } from './nengu';
 import { NENGU_KOKU_DEMAND } from './content/balance';
@@ -68,7 +73,10 @@ describe('advance_season is ENGINE law (C1.4) — the guards the render used to 
   });
 
   it('refuses while a generalized scene owns the surface', () => {
-    const s: GameState = { ...wheelReady(5), activeScene: { id: 'count', beat: 0 } };
+    const s: GameState = {
+      ...wheelReady(5),
+      activeScene: { id: 'count', beat: 0 },
+    };
     expect(reduce(s, { type: 'advance_season' })).toBe(s);
   });
 });
@@ -79,13 +87,17 @@ describe("the Autumn REFUSING gate (ADR-166) — the year doesn't turn until the
     const before = s.banked.rice ?? 0;
     const reckoned = reckonViaScene(s);
     // the kura paid the demand (derived — never a copied magnitude)
-    expect(reckoned.banked.rice ?? 0).toBe(before - Math.min(before, DEMAND_SHO));
+    expect(reckoned.banked.rice ?? 0).toBe(
+      before - Math.min(before, DEMAND_SHO),
+    );
     expect(hasFlag(reckoned, 'nengu-reckoned')).toBe(true); // the R7 seam
     expect(hasFlag(reckoned, nenguYearFlag(reckoned.seasonsPassed))).toBe(true);
     expect(hasFlag(reckoned, 'nengu-short')).toBe(false); // the pile covered it
     // and NOW the exit passes
     const out = reduce(reckoned, { type: 'advance_season' });
-    expect(out.season).toBe(SEASONS[(SEASONS.indexOf('autumn') + 1) % SEASONS.length]);
+    expect(out.season).toBe(
+      SEASONS[(SEASONS.indexOf('autumn') + 1) % SEASONS.length],
+    );
   });
 
   it('a shortfall latches nengu-short (the debt felt, never numbered)', () => {

@@ -62,17 +62,20 @@ export const SURFACES: SurfaceDef[] = [
       {
         id: 'influence-a',
         label: 'A · continuous bar',
-        blurb: 'Indigo→gold ink bar, ticks at Good/Great/Excellent (the shipped default).',
+        blurb:
+          'Indigo→gold ink bar, ticks at Good/Great/Excellent (the shipped default).',
       },
       {
         id: 'influence-b',
         label: 'B · segmented bands',
-        blurb: 'Three lacquer band-boxes (Good/Great/Excellent); the current band fills.',
+        blurb:
+          'Three lacquer band-boxes (Good/Great/Excellent); the current band fills.',
       },
       {
         id: 'influence-c',
         label: 'C · standing marks',
-        blurb: 'A row of ink marks ◆◇ filling toward Excellent — a diegetic tally.',
+        blurb:
+          'A row of ink marks ◆◇ filling toward Excellent — a diegetic tally.',
       },
     ],
   },
@@ -85,17 +88,20 @@ export const SURFACES: SurfaceDef[] = [
       {
         id: 'craft-a',
         label: 'A · work-order checklist',
-        blurb: 'Name…have/need rows, green once met, one Forge button (the shipped default).',
+        blurb:
+          'Name…have/need rows, green once met, one Forge button (the shipped default).',
       },
       {
         id: 'craft-b',
         label: "B · smith's measures",
-        blurb: 'Each material a continuous ink fill-gauge toward the needed amount.',
+        blurb:
+          'Each material a continuous ink fill-gauge toward the needed amount.',
       },
       {
         id: 'craft-c',
         label: 'C · diegetic assembly',
-        blurb: 'Each material shown as the part it becomes; a 整/未 verdict at the foot.',
+        blurb:
+          'Each material shown as the part it becomes; a 整/未 verdict at the foot.',
       },
     ],
   },
@@ -122,7 +128,8 @@ export const SURFACES: SurfaceDef[] = [
       {
         id: 'works-c',
         label: 'C · the build ladder (interim)',
-        blurb: 'the pre-ADR-177 tracker shape — ladder rows + improve card, kept for comparison',
+        blurb:
+          'the pre-ADR-177 tracker shape — ladder rows + improve card, kept for comparison',
       },
     ],
   },
@@ -143,7 +150,8 @@ export const SURFACES: SurfaceDef[] = [
       {
         id: 'estate-house-b',
         label: "B · the steward's reckoning",
-        blurb: 'the rooms as day-book lines — open/shut per room, the standing as the footing',
+        blurb:
+          'the rooms as day-book lines — open/shut per room, the standing as the footing',
       },
       {
         id: 'estate-house-c',
@@ -161,17 +169,20 @@ export const SURFACES: SurfaceDef[] = [
       {
         id: 'market-a',
         label: 'A · price-button list',
-        blurb: 'Flat rows: name + grant, a bare coin buy-button (the calm, shipped default).',
+        blurb:
+          'Flat rows: name + grant, a bare coin buy-button (the calm, shipped default).',
       },
       {
         id: 'market-b',
         label: 'B · posted price-board',
-        blurb: 'One notice: name … grant · price · 求, with stock/shortfall beneath.',
+        blurb:
+          'One notice: name … grant · price · 求, with stock/shortfall beneath.',
       },
       {
         id: 'market-c',
         label: "C · pedlar's ground-cloth",
-        blurb: 'Purse up top, emoji goods, remaining stock as continuous ochre ink.',
+        blurb:
+          'Purse up top, emoji goods, remaining stock as continuous ochre ink.',
       },
     ],
   },
@@ -194,12 +205,14 @@ export const SURFACES: SurfaceDef[] = [
       {
         id: 'quests-b',
         label: 'B · 高札 notice-board',
-        blurb: 'Commission-bills on a board; a continuous-ink deeds stroke; 請ける to take.',
+        blurb:
+          'Commission-bills on a board; a continuous-ink deeds stroke; 請ける to take.',
       },
       {
         id: 'quests-c',
         label: 'C · 用帳 field-ledger',
-        blurb: 'Aligned ledger rows: kind · note · ink tally · right-aligned coin column.',
+        blurb:
+          'Aligned ledger rows: kind · note · ink tally · right-aligned coin column.',
       },
     ],
   },
@@ -218,7 +231,8 @@ export const SURFACES: SurfaceDef[] = [
       {
         id: 'bestiary-b',
         label: 'B · danger ledger',
-        blurb: 'A ranked ink table easiest→deadliest, each foe a continuous danger-gauge (A19).',
+        blurb:
+          'A ranked ink table easiest→deadliest, each foe a continuous danger-gauge (A19).',
       },
       {
         id: 'bestiary-c',
@@ -288,7 +302,8 @@ export const SURFACES: SurfaceDef[] = [
     hr: 'HR-32b',
     rung: 2,
     label: 'Zone announce (reveal mode)',
-    apply: (id) => __setZoneRevealMode(id === 'zone-reveal-ink' ? 'vn+ink' : 'vn'),
+    apply: (id) =>
+      __setZoneRevealMode(id === 'zone-reveal-ink' ? 'vn+ink' : 'vn'),
     variants: [
       {
         id: 'zone-reveal-vn',
@@ -299,7 +314,8 @@ export const SURFACES: SurfaceDef[] = [
       {
         id: 'zone-reveal-ink',
         label: 'B · VN + map-ink',
-        blurb: 'the scene closes, then the zone inks onto the map with a line of its own',
+        blurb:
+          'the scene closes, then the zone inks onto the map with a line of its own',
       },
     ],
   },

@@ -28,7 +28,11 @@ export function formatKMB(n: number): string {
       // Boundary carry: 999_999 rounds to 1000.00K → bump to 1.00M.
       if (rounded >= 1000 && i > 0) {
         const bigger = UNITS[i - 1]!;
-        return sign + (Math.round((abs / bigger.value) * 100) / 100).toFixed(2) + bigger.suffix;
+        return (
+          sign +
+          (Math.round((abs / bigger.value) * 100) / 100).toFixed(2) +
+          bigger.suffix
+        );
       }
       return sign + rounded.toFixed(2) + unit.suffix;
     }

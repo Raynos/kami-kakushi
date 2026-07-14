@@ -2,8 +2,19 @@
 // @slow — jsdom render suite (split out of render.test.ts, 2026-07-13 render-split);
 // runs at push/CI, not the per-commit vitest lane (verify budget, ADR-072/ADR-176).
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { mount, formatLogText, devRederivedEntry, NOW_TTL_MS, NOW_KEEP_LAST } from '../render';
-import { LOG_SCALE_MIN, LOG_SCALE_MAX, LOG_SCALE_STEP, LOG_SCALE_DEFAULT } from '../ui-prefs';
+import {
+  mount,
+  formatLogText,
+  devRederivedEntry,
+  NOW_TTL_MS,
+  NOW_KEEP_LAST,
+} from '../render';
+import {
+  LOG_SCALE_MIN,
+  LOG_SCALE_MAX,
+  LOG_SCALE_STEP,
+  LOG_SCALE_DEFAULT,
+} from '../ui-prefs';
 import {
   createInitialState,
   reduce,
@@ -21,30 +32,30 @@ import { entry, SOAN, SOAN_IDX, noopHooks } from './test-utils';
 
 describe('formatLogText — coalesced ×N display', () => {
   it('leaves a single (count 1) line untouched', () => {
-    expect(formatLogText(entry('You fell the crop-raiding monkey. (+3 coin)', 1))).toBe(
-      'You fell the crop-raiding monkey. (+3 coin)',
-    );
+    expect(
+      formatLogText(entry('You fell the crop-raiding monkey. (+3 coin)', 1)),
+    ).toBe('You fell the crop-raiding monkey. (+3 coin)');
   });
 
   it('multiplies a single-resource suffix into a running total', () => {
-    expect(formatLogText(entry('You fell the crop-raiding monkey. (+3 coin)', 12))).toBe(
-      'You fell the crop-raiding monkey. ×12 (+36 coin)',
-    );
+    expect(
+      formatLogText(entry('You fell the crop-raiding monkey. (+3 coin)', 12)),
+    ).toBe('You fell the crop-raiding monkey. ×12 (+36 coin)');
     expect(formatLogText(entry('Work the home paddies. (+4 rice)', 7))).toBe(
       'Work the home paddies. ×7 (+28 rice)',
     );
   });
 
   it('never multiplies a multi-resource suffix (bare ×N fallback)', () => {
-    expect(formatLogText(entry('Forage the woodlot edge. (+2 sansai, +1 coin)', 5))).toBe(
-      'Forage the woodlot edge. (+2 sansai, +1 coin) ×5',
-    );
+    expect(
+      formatLogText(entry('Forage the woodlot edge. (+2 sansai, +1 coin)', 5)),
+    ).toBe('Forage the woodlot edge. (+2 sansai, +1 coin) ×5');
   });
 
   it('falls back to a bare ×N on a non-suffix line', () => {
-    expect(formatLogText(entry('The monkey drives you back.', 3, 'combat'))).toBe(
-      'The monkey drives you back. ×3',
-    );
+    expect(
+      formatLogText(entry('The monkey drives you back.', 3, 'combat')),
+    ).toBe('The monkey drives you back. ×3');
   });
 });
 
@@ -75,10 +86,16 @@ describe('F74 — per-log font stepper scales the log text + persists', () => {
     return { ...base, flags: { ...base.flags, awake: true } };
   }
   const stepper = () => ({
-    minus: root.querySelector<HTMLButtonElement>('.log-font-btn[aria-label="Smaller log text"]')!,
-    plus: root.querySelector<HTMLButtonElement>('.log-font-btn[aria-label="Larger log text"]')!,
+    minus: root.querySelector<HTMLButtonElement>(
+      '.log-font-btn[aria-label="Smaller log text"]',
+    )!,
+    plus: root.querySelector<HTMLButtonElement>(
+      '.log-font-btn[aria-label="Larger log text"]',
+    )!,
     logScaleVar: () =>
-      root.querySelector<HTMLElement>('.slice-log')!.style.getPropertyValue('--log-scale'),
+      root
+        .querySelector<HTMLElement>('.slice-log')!
+        .style.getPropertyValue('--log-scale'),
   });
 
   it('renders the A− / A+ steppers inside the log filter bar', () => {
@@ -134,7 +151,10 @@ describe('F74 — per-log font stepper scales the log text + persists', () => {
     document.body.append(root);
     const render2 = mount(root, () => {}, noopHooks());
     render2(awake(), null);
-    expect(Number(stepper().logScaleVar())).toBeCloseTo(LOG_SCALE_DEFAULT + 2 * LOG_SCALE_STEP, 5);
+    expect(Number(stepper().logScaleVar())).toBeCloseTo(
+      LOG_SCALE_DEFAULT + 2 * LOG_SCALE_STEP,
+      5,
+    );
   });
 });
 
@@ -179,7 +199,8 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
       .find((b) => (b.textContent ?? '') === label)
       ?.click();
   }
-  const logText = (): string => root.querySelector<HTMLElement>('.log-lines')!.textContent ?? '';
+  const logText = (): string =>
+    root.querySelector<HTMLElement>('.log-lines')!.textContent ?? '';
 
   // a MANDATORY story beat (narration, no chat flag) vs an OPTIONAL asked question (narration +
   // chat:true) — the exact split ask_topic/ask_rung_topic produce (they flag their lines `chat`).
@@ -188,7 +209,14 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
   function withChatAndStory(): GameState {
     return logged([
       { key: 0, channel: 'narration', text: MANDATORY, tick: 0, count: 1 },
-      { key: 1, channel: 'narration', text: ASKED, tick: 0, count: 1, chat: true },
+      {
+        key: 1,
+        channel: 'narration',
+        text: ASKED,
+        tick: 0,
+        count: 1,
+        chat: true,
+      },
     ]);
   }
 
@@ -203,9 +231,9 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
     const render = mount(root, () => {}, noopHooks());
     render(withChatAndStory(), null);
     // Chat sits in the bar (order: Story · Progress · Chat · Combat · Work · All · Now)…
-    const chatTab = [...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab')].find(
-      (b) => (b.textContent ?? '') === 'Chat',
-    );
+    const chatTab = [
+      ...root.querySelectorAll<HTMLButtonElement>('.log-filter-tab'),
+    ].find((b) => (b.textContent ?? '') === 'Chat');
     expect(chatTab).toBeTruthy();
     clickFilter('Chat');
     expect(logText()).toContain(ASKED); // the optional Q&A lives here…
@@ -217,7 +245,14 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
     // classes as VN scene runs, and the opener's head names the interlocutor.
     const render = mount(root, () => {}, noopHooks());
     const s = logged([
-      { key: 0, channel: 'narration', text: 'Who found me?', tick: 0, count: 1, chat: true },
+      {
+        key: 0,
+        channel: 'narration',
+        text: 'Who found me?',
+        tick: 0,
+        count: 1,
+        chat: true,
+      },
       {
         key: 1,
         channel: 'narration',
@@ -231,7 +266,9 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
     ] as LogEntry[]);
     render(s, null);
     clickFilter('Chat');
-    const lines = [...root.querySelectorAll<HTMLElement>('.log-lines .log-line')];
+    const lines = [
+      ...root.querySelectorAll<HTMLElement>('.log-lines .log-line'),
+    ];
     expect(lines.length).toBe(2);
     expect(lines.every((l) => l.classList.contains('scene-line'))).toBe(true);
     const head = root.querySelector<HTMLElement>('.log-lines .scene-head');
@@ -248,14 +285,17 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
     const asked = s.log.entries.filter((e) => e.text === topic.label);
     expect(asked.length).toBeGreaterThan(0);
     // the player's question + the NPC's answer are ALL chat (they route to Chat, off Story).
-    for (const e of s.log.entries.filter((e) => e.chat)) expect(e.channel).toBe('narration');
+    for (const e of s.log.entries.filter((e) => e.chat))
+      expect(e.channel).toBe('narration');
     expect(asked.every((e) => e.chat === true)).toBe(true);
   });
 
   it('F104 — the footer version is clickable → opens the About modal (single-sourced version)', () => {
     const render = mount(root, () => {}, noopHooks());
     render(awake(), null);
-    const ver = root.querySelector<HTMLButtonElement>('.appbar-footer .foot-version')!;
+    const ver = root.querySelector<HTMLButtonElement>(
+      '.appbar-footer .foot-version',
+    )!;
     expect(ver).not.toBeNull();
     // single-sourced from __VERSION__ (package.json), never hand-typed (AC-21).
     expect(ver.textContent).toBe(__VERSION__);
@@ -264,17 +304,21 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
     ver.click();
     expect(scrim.hidden).toBe(false); // …the modal opened…
     // …straight on the About tab, whose panel carries the single-sourced version.
-    expect(root.querySelector<HTMLElement>('.modal-tab.active')!.textContent).toBe('About');
-    const shownSection = [...root.querySelectorAll<HTMLElement>('.modal-section')].find(
-      (s) => !s.hidden,
-    )!;
+    expect(
+      root.querySelector<HTMLElement>('.modal-tab.active')!.textContent,
+    ).toBe('About');
+    const shownSection = [
+      ...root.querySelectorAll<HTMLElement>('.modal-section'),
+    ].find((s) => !s.hidden)!;
     expect(shownSection.textContent).toContain(__VERSION__);
   });
 
   it('F105 — the About modal deep-links to the raw CHANGELOG on GitHub (opens in a new tab)', () => {
     const render = mount(root, () => {}, noopHooks());
     render(awake(), null);
-    root.querySelector<HTMLButtonElement>('.appbar-footer .foot-version')!.click();
+    root
+      .querySelector<HTMLButtonElement>('.appbar-footer .foot-version')!
+      .click();
     const link = root.querySelector<HTMLAnchorElement>('.modal-link')!;
     expect(link).not.toBeNull();
     expect(link.getAttribute('href')).toBe(
@@ -292,7 +336,10 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
       Array.from({ length: n }, (_, i) => ({
         key: i,
         channel: 'narration' as const,
-        text: i === 0 ? 'A cold gust crosses the yard.' : `The yard goes on (${i}).`,
+        text:
+          i === 0
+            ? 'A cold gust crosses the yard.'
+            : `The yard goes on (${i}).`,
         tick: i,
         count: 1,
         ephemeral: true,
@@ -312,9 +359,13 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
       // …then open Now: the DISPLACED oldest line aged out; the keep-last floor still stands
       // whole (FB-268 — the Now view always holds the recent beat, however old).
       clickFilter('Now');
-      const lines = [...root.querySelectorAll<HTMLElement>('.log-lines .now-line')];
+      const lines = [
+        ...root.querySelectorAll<HTMLElement>('.log-lines .now-line'),
+      ];
       expect(lines.length).toBe(NOW_KEEP_LAST);
-      expect(lines.some((l) => l.textContent!.includes('A cold gust'))).toBe(false);
+      expect(lines.some((l) => l.textContent!.includes('A cold gust'))).toBe(
+        false,
+      );
     } finally {
       vi.useRealTimers();
     }
@@ -327,9 +378,13 @@ describe('F111 / F104 / F105 / F115 — log/UI polish batch', () => {
       render(withEphemeral(), null);
       vi.advanceTimersByTime(1000); // well within the TTL — still alive
       clickFilter('Now');
-      const nowLines = [...root.querySelectorAll<HTMLElement>('.log-lines .now-line')];
+      const nowLines = [
+        ...root.querySelectorAll<HTMLElement>('.log-lines .now-line'),
+      ];
       expect(nowLines.length).toBe(1);
-      expect(nowLines[0]!.textContent).toContain('A cold gust crosses the yard.');
+      expect(nowLines[0]!.textContent).toContain(
+        'A cold gust crosses the yard.',
+      );
     } finally {
       vi.useRealTimers();
     }
@@ -390,7 +445,8 @@ describe('HD-41 — the earned line: two readings, and a pulse that means someth
       .find((b) => (b.textContent ?? '') === label)
       ?.click();
   };
-  const logText = (): string => root.querySelector<HTMLElement>('.log-lines')!.textContent ?? '';
+  const logText = (): string =>
+    root.querySelector<HTMLElement>('.log-lines')!.textContent ?? '';
 
   it('Story reads the overheard line; Progress states the work that was finished', () => {
     const render = mount(root, () => {}, noopHooks());
@@ -417,13 +473,16 @@ describe('HD-41 — the earned line: two readings, and a pulse that means someth
       flags: { ...createInitialState(1).flags, awake: true, raked: true },
     };
     const at = (n: number): GameState => ({ ...base, rungReqs: { [r.id]: n } });
-    const meter = (): HTMLElement => root.querySelector<HTMLElement>('.rung-head-meter')!;
+    const meter = (): HTMLElement =>
+      root.querySelector<HTMLElement>('.rung-head-meter')!;
     render(at(1), null); // first paint — never pulses (a load is not an achievement)
     expect(meter().classList.contains('bump')).toBe(false);
     // the bar MOVES (the rounded percent grows) but nothing is finished yet ⇒ no flash.
     const half = Math.floor(target / 2);
     render(at(half), at(1));
-    expect(rungProgress(at(half)).percent).toBeGreaterThan(rungProgress(at(1)).percent);
+    expect(rungProgress(at(half)).percent).toBeGreaterThan(
+      rungProgress(at(1)).percent,
+    );
     expect(meter().classList.contains('bump')).toBe(false);
     // the requirement lands ⇒ exactly here, the meter flashes.
     render(at(target), at(half));
@@ -452,13 +511,21 @@ describe('devRederivedEntry — keyed log prose re-derives under the active take
       contentKey: `dialogue.${COLD_OPEN_DIALOGUE_ID}.${line.id}`,
     };
     expect(devRederivedEntry(keyed).text).toBe(line.text); // canon registry read
-    __setStoryOverlay({ [`dialogue.${COLD_OPEN_DIALOGUE_ID}.${line.id}`]: 'TAKE voice' });
+    __setStoryOverlay({
+      [`dialogue.${COLD_OPEN_DIALOGUE_ID}.${line.id}`]: 'TAKE voice',
+    });
     expect(devRederivedEntry(keyed).text).toBe('TAKE voice'); // the flip reaches history
     // an unresolvable key (renamed content id) degrades to the stored prose, same as codec
-    expect(devRederivedEntry({ ...keyed, contentKey: 'dialogue.gone.gone' }).text).toBe(
-      'stale baked prose',
-    );
-    const unkeyed: LogEntry = { key: 1, channel: 'narration', text: 'inline', tick: 0, count: 1 };
+    expect(
+      devRederivedEntry({ ...keyed, contentKey: 'dialogue.gone.gone' }).text,
+    ).toBe('stale baked prose');
+    const unkeyed: LogEntry = {
+      key: 1,
+      channel: 'narration',
+      text: 'inline',
+      tick: 0,
+      count: 1,
+    };
     expect(devRederivedEntry(unkeyed)).toBe(unkeyed); // identity — no key, no derive
   });
 });
