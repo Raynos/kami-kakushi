@@ -52,11 +52,20 @@ add() { BRIEF+="$1"$'\n'; }
 
 # Extract top-level unticked items "- [ ]" under a given "## <heading>" section,
 # stopping at the next "## " heading. Drops the checkbox and the ** bold markers.
+# Handles both the one-line form ("- [ ] item") and the 72-char-wrapped form
+# where "- [ ]" sits alone and the item text starts on the next indented line.
 section_items() {
   local file="$1" heading="$2"
   awk -v target="## $heading" '
-    /^## / { insec = ($0 == target); next }
-    insec && /^- \[ \] / { sub(/^- \[ \] /, "- "); gsub(/\*\*/, ""); print }
+    /^## / { insec = ($0 == target); wrapped = 0; next }
+    !insec { next }
+    /^- \[ \] ./ { sub(/^- \[ \] /, "- "); gsub(/\*\*/, ""); print; next }
+    /^- \[ \][[:space:]]*$/ { wrapped = 1; next }
+    wrapped && /^[[:space:]]+[^[:space:]]/ {
+      line = $0; sub(/^[[:space:]]+/, "", line); gsub(/\*\*/, "", line)
+      print "- " line; wrapped = 0; next
+    }
+    { wrapped = 0 }
   ' "$file"
 }
 
