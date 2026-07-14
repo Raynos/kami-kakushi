@@ -200,3 +200,14 @@ Deliberately not built; each says why. Never nagged.
   and rare by design; the ceremony isn't worth it for a path nobody
   walks yet. Evidence:
   [`shared-tree-git.md` §6](../docs/guides/shared-tree-git.md).
+
+- **Skill-trigger boosts may need an AGENTS.md rung (session-207,
+  2026-07-14).** The human wants `battery` (cheap modes), `tdd`, and
+  `grill-me` to fire MORE; their frontmatter descriptions were
+  rewritten to self-invoke framing (the description IS always-loaded
+  trigger surface). Deliberately NOT added: a one-line AGENTS.md nudge
+  per skill — always-loaded cost, and the descriptions may suffice.
+  **Re-open if the three still under-fire over the next sessions**
+  (the human counts a skill-less grilling as a FAIL); the fix is one
+  nudge line each at the relevant AGENTS.md bullet. Evidence:
+  [`2026-07-14-skills-audit.md` §Rulings](audit/reports/2026-07-14-skills-audit.md).
