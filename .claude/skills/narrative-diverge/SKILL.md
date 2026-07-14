@@ -57,28 +57,30 @@ TODOs are fresh-context work the human kicks off — never pre-wire them.
 7. **Land the pick in canon; keep alternates DEV-only.** The picked take goes
    into the FB-5 source (`src/core/content/narrative/` → `gen:narrative`).
    Alternates live in the DEV-only narrative-variants area (compiled,
-   strip-gated from prod — zero prod flag-debt), switchable via the DEV
-   **story-variant set-switcher** and readable in the **script-reader modal**
-   (both LIVE since session 92 — DEV panel → **Story** tab: the set-switcher
-   + the "⤢ Explore story" full-page reader; the reader-variant pick is
-   HR-9. Source-area spec: `src/core/content/narrative/takes/README.md`).
-   **The alternates MUST switch LIVE in the running game (ADR-143), not
-   reader-only** (re-affirmed by the human 2026-07-07: ALL narrative diverges
-   review the same way, in the DEV menu). Since ADR-198 (session-200)
-   this is ONE mechanism for every unit class: `gen:narrative` compiles
-   each take to a flat contentKey→text map + narration-run sequences
-   (canonicalized against canon behind the HARD prose-only gate), the
-   switcher flattens the effective takes into the single story overlay
-   (`__setStoryOverlay` / `core/content/story-overlay.ts`), and every
-   reader — emit, save-load, the DEV log repaint (logged lines
-   re-voice), and the render-read surfaces — resolves through it. A new
-   unit class needs NO wiring beyond a contentKey at its emitter (the
-   keyless gate's static half REDs a keyless durable emitter) and its
-   prefix in `LIVE_UNITS` (`dev.ts`).
+   strip-gated from prod — zero prod flag-debt), switchable via the take
+   set-switcher in the DEV panel's **Review tab → Story half** (one block
+   per open bundle, each with its own "⤢ Explore" script-reader link;
+   source-area spec: `src/core/content/narrative/takes/README.md`). The
+   bundle declares its `hr:` + `rung:` in its `bundle.md` (required — the
+   `review-link` gate binds registry ↔ queue both ways). **The alternates
+   MUST switch LIVE in the running game (ADR-143), not reader-only**
+   (re-affirmed by the human 2026-07-07: ALL narrative diverges review the
+   same way, in the DEV menu). Since ADR-198 this is ONE mechanism for
+   every unit class: `gen:narrative` compiles each take to a flat
+   contentKey→text map +
+   narration-run sequences (canonicalized against canon behind the HARD
+   prose-only gate), the switcher flattens the effective takes into the
+   single story overlay (`__setStoryOverlay` /
+   `core/content/story-overlay.ts`), and every reader — emit, save-load, the
+   DEV log repaint (logged lines re-voice), and the render-read surfaces —
+   resolves through it. A new unit class needs NO wiring beyond a contentKey
+   at its emitter (the keyless gate's static half REDs a keyless durable
+   emitter) and its prefix in `LIVE_UNITS` (`dev.ts`).
 8. **File ONE HR-item per bundle** in `project/human-in-the-loop/review.md`:
    the picked script as a continuous read, alternates under each unit, Pass-1
    brief + per-take scorecard blocks, pick rationale, and **exactly how to
-   review it LIVE** — which DEV set-switcher entry, and the in-game surface +
+   review it LIVE** — cite the bundle's **id** (`Review → Story → <id>`;
+   ADR-192 — stable ids, never positional tags) plus the in-game surface +
    state to reach so the swap is visible (ADR-143: never "read the alternates
    below" as the review path). Journal + status bump, commit, move on.
 9. **Sign-off is conversational.** The human reads in-game (set-switcher +

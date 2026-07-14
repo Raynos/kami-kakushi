@@ -7,28 +7,24 @@ description: Run a multi-lens stress-test battery on the game's spec/design/buil
 
 A **battery** is a multi-agent stress-test: independent reviewers each read the subject *cold* through a
 different **lens**, return structured findings, and a convergence critic de-duplicates and scores them.
-We have run this ~four times ad-hoc (PRD V2, state-of-the-game v0.1, v0.2). This skill makes it **one
-repeatable operation** with a registry so we stop re-auditing unchanged areas and always bring a fresh angle.
+It is **a sharp tool, not a self-improving machine** — agents cannot reliably grade their own output
+(optimization drifts toward defensible-but-trivial findings), so there is no self-grading loop: truth
+comes from **(a) the human's lived knowledge of the game** and **(b) reality at the build/playtest gate.**
 
-It is **a sharp tool, not a self-improving machine.** Agents cannot reliably grade their own output —
-optimization drifts toward defensible-but-trivial findings. Truth comes from **(a) the human's lived
-knowledge of the game** and **(b) reality at the build/playtest gate.** So there is no self-grading loop here.
-
-## Two modes
+## Three modes
 
 - **Full battery** (milestone / pre-build / pre-ship gate): 6–13 lenses + a convergence critic. Diverse
   coverage, scored, registry-tracked.
 - **Mini battery** (validate one fix / one scenario): ~3 lenses from different angles (does-it-work /
   failure-modes / player-experience). Same archiving, lighter synthesis, **no** new registry lenses.
   Skip the battery entirely for **taste/judgment calls** — those need conversation, not agents.
-- **Diff re-audit** (P1 — after a locked-ADR execution / large refactor, *before* calling it done): a
+- **Diff re-audit** (after a locked-ADR execution / large refactor, *before* calling it done): a
   focused independent re-pass over **just the diff** on the *current* build (not the whole subject) — ~3
   lenses: *does-the-change-do-what-the-ADR-says* / *new-failure-modes-introduced* / *did-it-touch-an-
-  approved-design-or-balance-pick* (if so, **flag it + offer to revert** per P2 — never silently change an
-  approved aesthetic). Same archiving, **no** new registry lenses. This is the cheap confidence pass v0.3
-  ran post-M2·8 (it came back clean — that *confidence* is the point). The build the human will actually
-  play often changed substantially after the last full battery, so re-audit the **delta**, not the
-  milestone.
+  approved-design-or-balance-pick* (if so, **flag it + offer to revert** — never silently change an
+  approved aesthetic). Same archiving, **no** new registry lenses. Re-audit the **delta**, not the
+  milestone — the build the human will actually play often changed substantially after the last full
+  battery.
 
 ## The four steps
 
@@ -97,7 +93,7 @@ Drive it with **`Workflow`**, not a loose pile of `Agent` calls:
   planned-future gap as a defect.** And **refute the GREEN claims too**, not only the red: a "this works /
   this is done" assertion is itself a finding to adversarially verify (PH3).
 
-### 3 · Archive everything (five artifacts)
+### 3 · Archive everything (six artifacts)
 
 1. **Raw verdicts** → snapshot the Workflow `.output` **verbatim** into `project/brainstorms/raw/` via
    `src/scripts/snapshot-research.sh <output-file> <slug>` (per CLAUDE.md — cheap lossless insurance).
@@ -107,11 +103,10 @@ Drive it with **`Workflow`**, not a loose pile of `Agent` calls:
    cites the report.
 4. **Update the registry:** add/append each lens with its run date + report file.
 5. **Route findings to the ledger:** every actionable finding becomes a row the human can action —
-   an **ADR** in `docs/living/decisions.md` (for locked-design calls) and/or an **H/HR-item** in
+   an **ADR** in `docs/living/decisions.md` (for locked-design calls) and/or an **HD/HR-item** in
    `project/human-in-the-loop/`. *A finding with no ledger row gets forgotten.*
-6. **Redlines to disk before applying (ADR-188):** when applying any
-   battery / reviewer findings, write the list to a checklist file
-   FIRST and tick items as they land — never apply from context (PH3).
+6. **Redlines to disk before applying (ADR-188):** when applying any battery / reviewer findings, write
+   the list to a checklist file FIRST and tick items as they land — never apply from context (PH3).
 
 ### 4 · Report to the human
 
@@ -132,5 +127,6 @@ batch with a plain-language summary of what changed and how to revert.
 ## Lessons log (separate from batteries)
 
 When real use (a build/playtest gate, the human) reveals the battery **missed** something, log it in
-`project/audit/battery-lessons.md` (create if absent; *what missed · context · the fix*). On confirmation, patch **this skill**
-— and prefer abstracting a principle that prevents a whole **family** of misses over patching the instance.
+`project/audit/battery-lessons.md` (create if absent; *what missed · context · the fix*). On confirmation,
+patch **this skill** — prefer abstracting a principle that prevents a whole **family** of misses over
+patching the instance.

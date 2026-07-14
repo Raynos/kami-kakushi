@@ -9,10 +9,8 @@ disable-model-invocation: true
 
 > Encodes **Flow 2** of the ADR-117 "PRD on a diet" decision
 > ([`project/brainstorms/2026-07-03-prd-on-a-diet.md`](../../../project/brainstorms/2026-07-03-prd-on-a-diet.md),
-> Flow 2, human-locked). This is the **big, judgment-dense** editorial move —
-> compressing signed canon down to intent while preserving meaning. It exists so
-> the procedure is **one invocation away** the day a tier's review closes,
-> regardless of which session is live.
+> Flow 2, human-locked) — the **big, judgment-dense** editorial move:
+> compressing signed canon down to intent while preserving meaning.
 
 ## ⚠️ Two guards before you start
 
@@ -20,15 +18,13 @@ disable-model-invocation: true
    **human taste review (HR-item) closing** (Q3) — *not* code-ship. If the tier's
    HR-item in
    [`review.md`](../../../project/human-in-the-loop/review.md) is still open
-   (e.g. **HR-1** for the T0 MS0–MS4 demo), **stop** — the tier isn't ready to
-   compress. This skill is dormant until then.
-2. **Routing: this is FABLE work.** Compressing signed canon is judgment-dense
-   editorial work — deciding intent vs detail, drafting acceptance criteria,
-   preserving meaning while deleting most of the words. Errors are subtle
-   (silent meaning-loss) and **no gate catches them** (PH2/Flow 4). An Opus
-   session should route the sweep itself to **Fable** unless the human steers
-   otherwise (ADR-124). *Authoring* this skill was transcription; *running* it is
-   the sweep.
+   (e.g. **HR-1** for the T0 MS0–MS4 demo), **stop** — this skill is dormant
+   until then.
+2. **Routing: this is FABLE work.** Compressing signed canon is judgment-dense —
+   deciding intent vs detail, drafting acceptance criteria, preserving meaning
+   while deleting most of the words. Errors are subtle (silent meaning-loss) and
+   **no gate catches them** (PH2/Flow 4). An Opus session should route the sweep
+   itself to **Fable** unless the human steers otherwise (ADR-124).
 
 ## The sweep (Flow 2, verbatim)
 

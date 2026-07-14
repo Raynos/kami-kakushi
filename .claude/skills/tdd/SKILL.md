@@ -5,12 +5,12 @@ description: Test-driven development. Use when the user wants to build features 
 
 # Test-Driven Development
 
-> **Adapted for kamikakushi — kept as close to the [source skill](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd) as possible.** Only two things are changed because they don't fit this repo:
+> **Adapted for kamikakushi — kept as close to the [source skill](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd) as possible.** Two changes:
 >
-> 1. **No user-approval gate.** The upstream Planning step says "confirm with user / get user approval before coding." This repo is **autonomous by default** (`CLAUDE.md`): you proceed without asking on routine work, and **stop-and-ask only** when a slice changes *what the game is* or a **public core contract** — and you record those as an ADR in `docs/living/decisions.md`. The prioritised behaviour list goes in the journal, not a blocking question.
-> 2. **Retargeted references.** `CONTEXT.md` → `docs/living/decisions.md` (the ADR log) + the PRD; the `/codebase-design` skill (does not exist here) → the **pure-core boundary** in `CLAUDE.md`.
+> 1. **No user-approval gate.** This repo is **autonomous by default** (`CLAUDE.md`): proceed without asking on routine work; **stop-and-ask only** when a slice changes *what the game is* or a **public core contract** (record those as an ADR in `docs/living/decisions.md`). The prioritised behaviour list goes in the journal, not a blocking question.
+> 2. **Retargeted references.** `CONTEXT.md` → `docs/living/decisions.md` (the ADR log) + the PRD; the `/codebase-design` skill (absent here) → the **pure-core boundary** in `CLAUDE.md`.
 >
-> **Test preference: fast integration/system tests over narrow unit tests** — which is exactly this skill's "integration-style, through public interfaces" creed. Drive the **real** game and assert on real behaviour: the DEV `window.__qa` harness, and the real renderer mounted in **jsdom** (see `src/ui/render.test.ts` — "mount the real renderer and drive it like the app does"), all under `vitest` so it runs in milliseconds. Reserve Playwright for true end-to-end. The *why* (drive real code paths; determinism is the substrate) lives in `docs/guides/qa-playtesting.md` §0.
+> **Test preference: fast integration/system tests over narrow unit tests** — this skill's "integration-style, through public interfaces" creed. Drive the **real** game and assert on real behaviour: the DEV `window.__qa` harness, and the real renderer mounted in **jsdom** (see `src/ui/render.test.ts`), all under `vitest` so it runs in milliseconds. Reserve Playwright for true end-to-end. The *why* lives in `docs/guides/qa-playtesting.md` §0.
 
 ## Philosophy
 

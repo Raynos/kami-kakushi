@@ -11,9 +11,8 @@ contact sheet → pick the lossless candidate).
 
 ## Prerequisite — the DEV-only play API (`window.__qa`)
 
-The game exposes a **DEV-only play API on `window.__qa`** (`import.meta.env.DEV`, stripped from prod)
-that wraps the same actions the UI sends to the core, plus read access and loop control. The
-**authoritative method list is [`docs/guides/qa-playtesting.md`](../../../docs/guides/qa-playtesting.md)
+The game exposes a **DEV-only play API on `window.__qa`** (`import.meta.env.DEV`, stripped from prod).
+The **authoritative method list is [`docs/guides/qa-playtesting.md`](../../../docs/guides/qa-playtesting.md)
 §1** — the verbs you'll use here:
 
 - **Read:** `state()` — the current snapshot; `reveals()`, `pacing()`.
@@ -24,8 +23,7 @@ that wraps the same actions the UI sends to the core, plus read access and loop 
   jump straight to a late unlock or a screen a short natural run won't reach.
 
 > `frames(1)` (render one frame) and `tick(dt)` (advance one sim step) are the capture primitives: pause,
-> settle/advance one deterministic frame, and shoot — used by both the screenshot and recording paths.
-> *(There is no `__qa.step()`; use `frames(1)`/`tick`.)*
+> settle/advance one deterministic frame, and shoot. *(There is no `__qa.step()`; use `frames(1)`/`tick`.)*
 
 ## Setup — HEADLESS ONLY
 
@@ -40,9 +38,8 @@ Playwright MCP / Chrome DevTools MCP browser tools, so don't reach for them):
 - **An ad-hoc headless page** for states the gallery doesn't cover: a short node
   script under `tmp/` (playwright chromium, `headless: true`) that navigates to
   the dev URL, `evaluate`s `window.__qa.…` verbs, and screenshots to a file.
-  Semi-transparent DOM overlays (menus, modals) render fine under modern
-  headless chromium — screenshot the *page*, not the canvas alone, so overlays
-  are included.
+  Screenshot the *page*, not the canvas alone, so DOM overlays (menus, modals)
+  are included — they render fine under modern headless chromium.
 
 ## Recipe A — static state screenshot
 

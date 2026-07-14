@@ -7,12 +7,12 @@ disable-model-invocation: true
 
 # Handoff
 
-> **Adapted for kamikakushi — kept as close to the [source skill](https://github.com/mattpocock/skills/tree/main/skills/productivity/handoff) as possible.** Frontmatter (`name` + `description`, plus `argument-hint` / `disable-model-invocation`) is unchanged. Only two things are adapted because they don't fit this repo:
+> **Adapted for kamikakushi — kept as close to the [source skill](https://github.com/mattpocock/skills/tree/main/skills/productivity/handoff) as possible** (frontmatter unchanged). Two adaptations:
 >
-> 1. **Save location.** Upstream says "save to the temporary directory of the user's OS." This repo's convention (`CLAUDE.md`) is the **repo-local, git-ignored `tmp/`** — explicitly *not* the global system scratchpad — so the handoff doc goes in `tmp/`. (That dir is inside the repo but git-ignored, so it still isn't committed.)
-> 2. **Relation to existing resumability machinery.** A handoff here overlaps with how this repo already stays resumable: the chronological session **LOG** in `project/journal/` (summary at top, entries appended at the BOTTOM — never prepend) and the **live snapshot** `project/status/project-status.md` (the "Leave it resumable" working agreement). This handoff doc is a *transient* `tmp/` artifact aimed at one fresh agent for one specific continuation — it does **not** replace the journal/status. If what you're capturing is durable project progress, write it to `project/journal/` + `project/status/project-status.md` instead of (or in addition to) the handoff doc, and reference those by path from the handoff.
+> 1. **Save location:** the repo-local, git-ignored `tmp/` (per `CLAUDE.md`) — not the OS temp dir, not the global scratchpad, not anywhere that gets committed.
+> 2. **Relation to the repo's resumability machinery:** the handoff doc is a *transient* `tmp/` artifact aimed at one fresh agent for one specific continuation — it does **not** replace `project/journal/` or `project/status/project-status.md`. Durable project progress goes there (instead of, or in addition to, the handoff doc), referenced by path from the handoff.
 
-Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save it to the repo-local, git-ignored `tmp/` directory (per `CLAUDE.md`) — not the global system scratchpad, and not anywhere that gets committed.
+Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save it to the repo-local, git-ignored `tmp/`.
 
 Include a "suggested skills" section in the document, which suggests skills that the agent should invoke.
 

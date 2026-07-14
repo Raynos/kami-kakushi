@@ -133,3 +133,8 @@ review. Trimming descriptions would buy little; don't bother.
 
 Everything else: no action. No dead links, no orphaned references,
 and the dormant pair are parked exactly as their ADRs intended.
+
+> **Postscript (same day):** a human-approved brevity + correctness
+> pass landed after this audit (session 207b journal) — 10 skills
+> trimmed/corrected, 6 confirmed already-minimal. Line counts above
+> are pre-pass. The 3 asks in §Summary remain open.

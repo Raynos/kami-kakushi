@@ -6,15 +6,10 @@ description: Interview the user relentlessly about a plan, design, or topic, che
 # Grill Me
 
 Relentlessly interview the user about every aspect of the topic until you reach shared
-understanding. Walk down each branch of the decision tree, resolving dependencies one by one. The
-real goal is to **extract what's in their head into a durable, organized markdown file** so nothing
-is lost as context fills up.
-
-## The capture file is the whole point
-
-Long interviews fill up context. If you hold answers only in your head, you will eventually
-misremember, conflate, or drop something. So you **checkpoint to disk after every single answer**.
-The file, not your context, is the source of truth. Never make the user ask you to save progress.
+understanding, walking down each branch of the decision tree and resolving dependencies one by one.
+The real goal is to **extract what's in their head into a durable, organized markdown file** — the
+file, not your context, is the source of truth (long interviews fill context; held-in-head answers
+get misremembered, conflated, or dropped). Never make the user ask you to save progress.
 
 ## Setup (BEFORE the first question)
 
