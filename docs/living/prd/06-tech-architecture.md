@@ -89,6 +89,7 @@ clock vitest-dominated) and generated here:
 > | inbox-ledger | `tsx src/scripts/inbox-ledger.ts` | docs |
 > | review-link | `tsx src/scripts/verify-review-link.ts` | both |
 > | deferred-work | `tsx src/scripts/verify-deferred-work.ts` | docs |
+> | human-todo | `tsx src/scripts/verify-human-todo.ts` | docs |
 <!-- gen:end verify-gates -->
 
 The `--check` gates (gen-docs, gen-prd-regions, gen-narrative, fixtures,

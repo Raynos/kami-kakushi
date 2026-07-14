@@ -37,3 +37,22 @@ stacked:
 - None specific to this fix. The deeper norm for future sessions:
   when clearing a wrapped queue entry, delete the WHOLE entry (all
   its continuation lines), and delete rather than tick.
+
+## Part 2 — teeth, so it can't rot again
+
+Two follow-ups on the human's ask ("fix session-brief; fix the
+process to keep todo-human tidy"):
+
+- `session-brief.sh` `section_items()` now JOINS an entry's wrapped
+  continuation lines into one output line — the brief carries the
+  whole entry (link + description), not just its first physical line
+  (the printWidth TODO used to truncate at "when all the agents").
+- New **`human-todo` verify gate** (`verify-human-todo.ts`, gate #21):
+  REDs the four observed rot patterns in `todo-human.md`'s TODO +
+  Reading-queue sections — ticked `[x]` entries, orphan fragments
+  from part-deleted wrapped entries, links into `project/archive/`,
+  and plain non-checkbox bullets (invisible to the brief). Blockquote
+  lines exempt (never cries wolf on the header/footer prose). Proven
+  RED-able against the actual pre-cleanup file (19 hits) and green on
+  the clean one; takes an optional path arg so the RED case stays
+  provable.

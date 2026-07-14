@@ -52,20 +52,26 @@ add() { BRIEF+="$1"$'\n'; }
 
 # Extract top-level unticked items "- [ ]" under a given "## <heading>" section,
 # stopping at the next "## " heading. Drops the checkbox and the ** bold markers.
-# Handles both the one-line form ("- [ ] item") and the 72-char-wrapped form
-# where "- [ ]" sits alone and the item text starts on the next indented line.
+# An entry's indented continuation lines (the 72-char-wrapped house style —
+# including the form where "- [ ]" sits alone and the text starts on the next
+# line) are JOINED into the one output line, so the brief carries the whole
+# entry, not just its first physical line.
 section_items() {
   local file="$1" heading="$2"
   awk -v target="## $heading" '
-    /^## / { insec = ($0 == target); wrapped = 0; next }
-    !insec { next }
-    /^- \[ \] ./ { sub(/^- \[ \] /, "- "); gsub(/\*\*/, ""); print; next }
-    /^- \[ \][[:space:]]*$/ { wrapped = 1; next }
-    wrapped && /^[[:space:]]+[^[:space:]]/ {
-      line = $0; sub(/^[[:space:]]+/, "", line); gsub(/\*\*/, "", line)
-      print "- " line; wrapped = 0; next
+    function flush() {
+      if (initem && item != "") { gsub(/\*\*/, "", item); print "- " item }
+      initem = 0; item = ""
     }
-    { wrapped = 0 }
+    /^## / { flush(); insec = ($0 == target); next }
+    !insec { next }
+    /^- \[ \]/ { flush(); initem = 1; item = $0; sub(/^- \[ \][[:space:]]*/, "", item); next }
+    initem && /^[[:space:]]+[^[:space:]]/ {
+      line = $0; sub(/^[[:space:]]+/, "", line)
+      item = (item == "") ? line : item " " line; next
+    }
+    { flush() }
+    END { flush() }
   ' "$file"
 }
 

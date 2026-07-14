@@ -44,4 +44,7 @@ export const GATES: ReadonlyArray<Gate> = [
   // "if it isn't in the queue, it doesn't exist" (human, 2026-07-12): a SHOUTED "NOT built"
   // in canon/snapshot must name a home the human reads (plan / HR / HD / BACKLOG / roadmap).
   { name: 'deferred-work', cmd: 'tsx src/scripts/verify-deferred-work.ts', scope: 'docs' },
+  // the session brief is only as honest as todo-human.md — RED on the observed rot
+  // patterns (ticked / orphaned / archived / bare entries), session 205.
+  { name: 'human-todo', cmd: 'tsx src/scripts/verify-human-todo.ts', scope: 'docs' },
 ];

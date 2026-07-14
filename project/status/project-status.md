@@ -79,10 +79,10 @@ oxlint boundary (no Math.random/pow/DOM/Date.now in `src/core`).
 `pnpm run verify` runs in parallel via `verify-run.ts` (roster:
 [`gates.ts`](../../src/scripts/gates.ts)):
 <!-- gen:begin gate-roster (pnpm run checkpoint — do not edit inside) -->
-**20 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
+**21 gates**: tsgo, oxlint, oxfmt, vitest, verify-content, verify-prd,
 gen-docs, fixtures, gen-narrative, gen-prd-regions, pacing, playcheck,
 md-links, milestone-integrity, verify-changelog, doc-budgets,
-checkpoint, inbox-ledger, review-link, deferred-work.
+checkpoint, inbox-ledger, review-link, deferred-work, human-todo.
 <!-- gen:end gate-roster -->
 **`pre-commit`** runs `verify` + reading-queue/journal/snapshot gates;
 **`pre-push`** blocks red. **No auto-reload** — inert `/@vite/client`,
