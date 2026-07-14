@@ -46,7 +46,8 @@
     "verify:balance": "tsx src/scripts/balance-sim.ts --check",
     "balance:fresh": "tsx src/scripts/balance-sim.ts --check-fresh",
     "verify:tooling": "tsx src/scripts/verify-tooling.ts",
-    "push": "bash src/scripts/push-main.sh"
+    "push": "bash src/scripts/push-main.sh",
+    "ccusage": "CLAUDE_CONFIG_DIR=${CLAUDE_CONFIG_DIR:-$HOME/.claude} npx -y ccusage@latest claude weekly --since $(node -e 'process.stdout.write(new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10).replace(/-/g, \"\"))')"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
