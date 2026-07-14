@@ -9,6 +9,7 @@ import {
   season,
   peopleHere,
   riceSellQuote,
+  FLAVOR,
   MARKET_ITEMS,
   type GameState,
   type Intent,
@@ -108,6 +109,12 @@ export function createMarketView(ctx: {
     sell.append(sellPrice, sellPurse, buy);
     return { sell, sellPrice, sellPurse, sellBtn };
   }
+  // ADR-194 stall voice (bundle yohei-stall, FB-5 canon in narrative/flavor.md): the FLAVOR
+  // read goes through dev.subFlavor so the DEV Story switcher live-swaps the takes (ADR-143).
+  function stallLine(key: keyof typeof FLAVOR): string {
+    const canon = FLAVOR[key];
+    return __DEV_TOOLS__ && dev ? dev.subFlavor(key, canon) : canon;
+  }
   function patchSellRice(
     sellPrice: HTMLElement,
     sellPurse: HTMLElement,
@@ -121,18 +128,19 @@ export function createMarketView(ctx: {
     const quote = riceSellQuote(state);
     const base = balance.riceSellPrice(s);
     const prices = Object.values(balance.RICE_SELL_PRICE_BY_SEASON);
-    const gloss =
+    const gloss = stallLine(
       quote.unitNow < base
-        ? 'his store is heavy with rice — the price has sagged'
+        ? 'stallGlossSagged'
         : base >= Math.max(...prices)
-          ? 'rice sells dear — a good season to sell'
+          ? 'stallGlossDear'
           : base <= Math.min(...prices)
-            ? 'the autumn glut — rice sells cheap; hold it in the kura if you can'
-            : 'a fair price';
+            ? 'stallGlossGlut'
+            : 'stallGlossFair',
+    );
     setText(
       sellPrice,
       quote.unitNow <= 0
-        ? `The pedlar is stocked full of rice — he'll buy again once it sells down.`
+        ? stallLine('stallRefusal')
         : `The pedlar pays ${formatCoin(quote.unitNow)} the measure now — ${SEASON_TAG[s].name}, ${gloss}.`,
     );
     setText(sellPurse, `Yohei's purse: ${formatCoin(quote.merchantMon)}.`);
@@ -146,9 +154,9 @@ export function createMarketView(ctx: {
       rice <= 0
         ? 'No kura rice to sell — rake or farm to gather it.'
         : quote.unitNow <= 0
-          ? 'He is stocked full of rice — come back after it sells down.'
+          ? stallLine('stallRefusal')
           : quote.sho <= 0
-            ? 'His purse is empty — he buys again on his next market day.'
+            ? stallLine('stallPurseEmpty')
             : '';
     if (sellBtn.title !== title) sellBtn.title = title;
   }

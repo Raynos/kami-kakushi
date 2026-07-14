@@ -1075,3 +1075,51 @@ Kihei, or the wolf.
 **Your verdict writes ADR-190** and closes HD-44. If the *heir* reads
 wrong to you — if the nudge belongs on `r3-mend`, or not on R3 at all —
 say so; that is a bigger call than the words, and it is yours.
+
+### HR-44 🔲 [~R2+ · story] — the stall speaks (`yohei-stall` bundle, ADR-139/ADR-194)
+
+**The ADR-194 merchant-state moments, voiced.** The permanent-purse
+stall landed (session 204) with mechanical placeholder copy; this is
+the follow-up diverge you called the same day — six flavor reads on
+the market card: the four price glosses (fair / dear spring / autumn
+glut / sagged-by-his-stock), the stuffed-full refusal, and the dry
+purse. The card's numbers (price, purse readout, the sell button's
+quote) stay mechanical; only the fiction fragments diverge.
+
+**The three takes diverge on WHO tells you the market's state** —
+Yohei himself, the house's day-book, or the valley road.
+
+  - [ ] **canon · C "the market road"** _(self-picked; ships)_ —
+    prices as weather moving through a market larger than this gate:
+    - fair: *"a fair price, much the same in every village along the
+      road"* · sagged: *"his store rides heavy with rice bought here —
+      the offer sags under the load"*
+    - refusal: *"The pedlar's store is full to the rails; he buys no
+      rice until the villages down the road take it off him."*
+    - **Why it was picked:** the only take whose fiction CAUSES the
+      ADR-194 mechanics (TST3) — the villages down the road ARE the
+      restock drift (why his stock drains and his purse refills
+      between visits), and the glut "on every cart" reads the season
+      price as a valley fact, not a stall quirk.
+  - [ ] **A "the pedlar's own mouth"** (17✔ 2✘ 2—) — Yohei speaks:
+    *"spring's a hungry mouth — bring me rice and I'll pay dear for
+    it," says Yohei* / *"Not a grain more — I've rice to my chin."*
+    Most characterful; docked for double-attributing inside the price
+    template and one-time gestures as standing captions.
+  - [ ] **B "the day-book"** (19✔ 1✘ 1—) — the ledger register:
+    *"the customary rate, as the book records it year upon year"* /
+    *"custom resumes when his rice has moved on."*
+  - The REPLACED placeholders (session-204 mechanical copy, the
+    archive): *"a fair price"* · *"rice sells dear — a good season to
+    sell"* · *"the autumn glut — rice sells cheap; hold it in the kura
+    if you can"* · *"his store is heavy with rice — the price has
+    sagged"* · *"The pedlar is stocked full of rice — he'll buy again
+    once it sells down."* · *"His purse is empty — he buys again on
+    his next market day."*
+
+  - **How to look LIVE:** load `rice-at-gate` (DEV → Scenarios), rest
+    at the gate until a market day (水 or 土), then **Speak with
+    Yohei** — the stall card's price line carries the gloss. DEV →
+    Review → Story → **yohei-stall**, switch takes and watch the line
+    re-voice in place. Sell the whole kura to see the sagged gloss,
+    the refusal, and (button hover) the dry-purse line.

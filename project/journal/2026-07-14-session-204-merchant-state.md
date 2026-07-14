@@ -67,10 +67,26 @@ ZERO, not a floor · purse shown as an explicit number.
 - Telemetry (FB-8) read: no untainted attended reports cover the mon
   lane / R7 window (one R0 row, capture-tainted) — nothing to quote.
 
+## Entry 2 — the stall speaks (ADR-139 diverge, same session)
+
+The human ruled "do it now" on the deferred Yohei voice: the six
+merchant-state flavor reads (four price glosses · refusal · dry purse)
+diverged as bundle `yohei-stall` — three blind takes (A the pedlar's
+own mouth · B the day-book · C the market road), Pass-1 constraint
+brief + per-take scorecards in `bundle.md`. **Canon = C** (the only
+take whose fiction CAUSES the ADR-194 mechanics — the villages down
+the road ARE the restock drift). Canon landed in
+`narrative/flavor.md` (`stallGloss*`, `stallRefusal`,
+`stallPurseEmpty`); `ui/render/market.ts` reads them via
+`dev.subFlavor` (live-swappable, ADR-143); alternates in
+`takes/yohei-stall/`; **HR-44** filed with the live review path.
+Verified: gen-narrative + full verify green; headless re-proof shows
+the road voice rendering in the live card.
+
 ## Next intended steps
 
-1. Nothing owed by this plan. Yohei haggle/flavor lines remain a
-   NON-goal here (an ADR-139 diverge if wanted — not queued).
+1. HR-44 awaits the human's take verdict (DEV → Review → Story →
+   yohei-stall). Nothing else owed by this plan.
 
 ## Landmines
 

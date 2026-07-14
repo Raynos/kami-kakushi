@@ -3138,6 +3138,63 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   },
 
   {
+    id: 'yohei-stall',
+    title: 'The stall speaks (ADR-194 merchant-state moments)',
+    hr: 'HR-44',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'Take C picked — it is the only take whose fiction CAUSES the ADR-194 mechanics (TST3): the wider valley market is WHY his stock drains and his purse refills between visits ("the villages down the road take it off him" IS the restock drift), and the glut/dear glosses read the price as weather moving through a market larger than this gate. B is the cleanest fit to the day-book register but narrates the stall from the house\'s side — the one voice the stall card doesn\'t need doubled. A is the most characterful, but the quoted patter double-attributes inside the narrator\'s price template ("The pedlar pays… — Winter, \'…,\' says Yohei."), and its one-time gestures ("waves you off") sit oddly as standing card captions.',
+    canonLabel: 'C · the market road',
+    rungReason: "the stall card's standing reads (any market day, ~R2 on)",
+    takes: [
+      {
+        id: 'a',
+        label: "the pedlar's own mouth",
+        brief:
+          'Yohei SPEAKS — market patter, a man who counts his own coin, self-interest cheerfully on show; attribution baked into the text',
+        scorecard:
+          '17✔ 2✘ 2— [briefed: the quotes double-attribute inside the price template\'s own "The pedlar pays…" clause; blind spot: durative card captions carry one-time gestures ("waves you off", "shows you the bare lining")]',
+        text: {
+          'flavor.stallGlossFair': '"a fair rate, and I\'ll not haggle it," says Yohei',
+          'flavor.stallGlossDear':
+            '"spring\'s a hungry mouth — bring me rice and I\'ll pay dear for it," says Yohei',
+          'flavor.stallGlossGlut':
+            '"every cart on the road is heavy with the harvest — keep yours in the kura," says Yohei',
+          'flavor.stallGlossSagged':
+            '"my sacks are near full of your rice already — I\'ll not pay the old rate," says Yohei',
+          'flavor.stallRefusal':
+            '"Not a grain more — I\'ve rice to my chin. Come back when I\'ve sold some down." Yohei waves you off.',
+          'flavor.stallPurseEmpty':
+            '"You\'ve emptied my purse, friend. I\'ll carry coin again come market day." Yohei shows you the bare lining.',
+        },
+        seq: {},
+      },
+      {
+        id: 'b',
+        label: 'the day-book',
+        brief:
+          'the house-ledger narrator — trade observed as custom and entry, dry and professional; personality withheld',
+        scorecard:
+          '19✔ 1✘ 1— [blind spot: "trade stands entered" is ledgerese past the plain-spoken bar — the fact survives but on a second read]',
+        text: {
+          'flavor.stallGlossFair': 'the customary rate, as the book records it year upon year',
+          'flavor.stallGlossDear':
+            'rice gone dear in the hungry months — a season the book marks for selling',
+          'flavor.stallGlossGlut':
+            'the new crop cheapens every measure — better held in the kura than sold',
+          'flavor.stallGlossSagged':
+            'his store already heavy with bought rice, and the offer sunk below the season',
+          'flavor.stallRefusal':
+            "The pedlar's store will hold no more; custom resumes when his rice has moved on.",
+          'flavor.stallPurseEmpty':
+            'His purse is spent to the lining; trade stands entered until he comes again on a market day.',
+        },
+        seq: {},
+      },
+    ],
+  },
+
+  {
     id: 'zone-reveals',
     title: 'The four side-quest VNs that open four zones (ADR-184)',
     hr: 'HR-33',

@@ -497,4 +497,12 @@ export const FLAVOR = {
     'Mend the gatepost, the bunds, and the woodshed roof before the water works deeper.',
   worksU1Done:
     'The gatepost stands dry at the foot, the bunds carry their water where it is wanted, and the woodshed roof turns the rain it used to pass. Three lines the land held open are closed against it — the first the book has closed in years. (U1 · Stabilising)',
+  stallGlossFair: 'a fair price, much the same in every village along the road',
+  stallGlossDear: 'the lean spring has rice dear on every road — a good season to sell',
+  stallGlossGlut: 'the autumn glut is on every cart — rice goes cheap, better held in the kura',
+  stallGlossSagged: 'his store rides heavy with rice bought here — the offer sags under the load',
+  stallRefusal:
+    "The pedlar's store is full to the rails; he buys no rice until the villages down the road take it off him.",
+  stallPurseEmpty:
+    'His purse has emptied on this side of the valley; he comes with coin again on his market day.',
 } as const;

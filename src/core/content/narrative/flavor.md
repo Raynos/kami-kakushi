@@ -1238,3 +1238,38 @@ The gatepost stands dry at the foot, the bunds carry their water where it is
 wanted, and the woodshed roof turns the rain it used to pass. Three lines the
 land held open are closed against it — the first the book has closed in
 years. (U1 · Stabilising)
+
+<!-- ADR-194 stall voice (bundle yohei-stall) — the merchant-state moments the
+  market card reads OUTSIDE a VN: the four price glosses (they complete
+  "The pedlar pays X the measure now — <Season>, {gloss}."), the stuffed-full
+  refusal, and the dry purse. Canon = take C "the market road" (TST3: the
+  wider valley market is WHY his stock drains and his purse refills between
+  visits — the ADR-194 restock drift, caused by the fiction). Alternates in
+  takes/yohei-stall/ until sign-off (HR-44); render reads via dev.subFlavor
+  in ui/render/market.ts. -->
+
+### stallGlossFair
+
+a fair price, much the same in every village along the road
+
+### stallGlossDear
+
+the lean spring has rice dear on every road — a good season to sell
+
+### stallGlossGlut
+
+the autumn glut is on every cart — rice goes cheap, better held in the kura
+
+### stallGlossSagged
+
+his store rides heavy with rice bought here — the offer sags under the load
+
+### stallRefusal
+
+The pedlar's store is full to the rails; he buys no rice until the villages
+down the road take it off him.
+
+### stallPurseEmpty
+
+His purse has emptied on this side of the valley; he comes with coin again
+on his market day.
