@@ -1,6 +1,6 @@
 ---
 name: battery
-description: Run a multi-lens stress-test battery on the game's spec/design/build — independent fresh-eyes agents attack it through different evaluative lenses via a Workflow, findings are adversarially grounded and de-duplicated by a convergence critic, raw verdicts are snapshotted verbatim, a scored report lands in project/audit/reports/, and an experiment registry tracks which lenses have run so each battery brings a fresh angle. Use when the human says "run a battery", "stress-test the spec/design/build", "mini battery", "audit it with agents", or at a milestone / pre-build / pre-ship gate.
+description: Run a stress-test battery on the game's spec/design/build — independent fresh-eyes agents attack it through different lenses via a Workflow, a convergence critic de-duplicates and scores, the report lands in project/audit/reports/, and a registry keeps lenses fresh. Three sizes, and most runs should be the CHEAP ones — diff re-audit (~3 lenses over just the diff; run one BEFORE calling a locked-ADR execution or large refactor done) and mini battery (~3 lenses; validate one fix or scenario). The full battery (6–13 lenses, expensive, registry-tracked) is for milestone / pre-ship gates or an explicit human ask. SELF-INVOKE the cheap modes instead of improvising an ad-hoc audit — "audit this", "stress-test X", "fresh eyes on Y", pre-/ship confidence, and done-claims on big changes all fire this skill. Also fires on "run a battery" / "mini battery".
 ---
 
 # Battery

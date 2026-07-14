@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: Interview the user relentlessly about a plan, design, or topic, checkpointing every answer to a brainstorm file so nothing is lost. Use when the user wants to stress-test a plan, get grilled on a design, run a brainstorm or discovery session, extract what's in their head into a doc, or says "grill me".
+description: Interview the user relentlessly about a plan, design, or topic, checkpointing every answer to a brainstorm file so nothing is lost. MANDATORY whenever interviewing the human — a skill-less grilling is a FAIL. Fires on "grill me", stress-test / poke holes at a plan or design, brainstorm / think-through / talk-out sessions, a floated idea to develop, or extracting their head into a doc.
 ---
 
 # Grill Me

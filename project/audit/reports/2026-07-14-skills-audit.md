@@ -134,6 +134,24 @@ review. Trimming descriptions would buy little; don't bother.
 Everything else: no action. No dead links, no orphaned references,
 and the dormant pair are parked exactly as their ADRs intended.
 
+## Rulings (human, 2026-07-14 — all asks CLOSED)
+
+The human walked every question above in batches, same day:
+
+1. **`handoff`** — KEEP as-is (not retired; near-zero cost).
+2. **`battery`** — KEEP + **fire more often**: no full battery now
+   (expensive); instead the description was rewritten to lead with
+   the cheap modes (diff re-audit / mini) and tell agents to
+   SELF-INVOKE them instead of ad-hoc audits.
+3. **`tdd`** — KEEP + fire more often: description rewritten to
+   agent-shaped triggers (bug-fix repro → RED test first; pure-core
+   features; any new test).
+4. **`prd-compress`** — keep dormant as designed. 5. **`distill-taste`**
+   — keep dormant. 6. **Descriptions** — leave the untouched 13 alone
+   (length = prompt-token cost; the human trimmed two boost drafts for
+   exactly that reason). 7. **`grill-me`** — KEEP + fire more often
+   (description now MANDATORY-framed: a skill-less grilling is a FAIL).
+
 > **Postscript (same day):** a human-approved brevity + correctness
 > pass landed after this audit (session 207b journal) — 10 skills
 > trimmed/corrected, 6 confirmed already-minimal. Line counts above

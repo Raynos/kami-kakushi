@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions "red-green-refactor", or wants integration tests.
+description: Test-driven development — red→green→refactor through public interfaces. SELF-INVOKE when fixing a reproducible bug (repro → failing test FIRST), building a pure-core feature, or adding any test (mutation-check it) — not only when the user says test-first / "red-green-refactor" / integration tests.
 ---
 
 # Test-Driven Development

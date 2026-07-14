@@ -25,11 +25,6 @@
 ## Reading queue
 
 - [ ]
-  [`project/audit/reports/2026-07-14-skills-audit.md`](audit/reports/2026-07-14-skills-audit.md)
-  — the skills audit you asked for: 10/16 alive, 2 dormant by design,
-  3 need your call (`handoff` retire? · `battery` recommit or park? ·
-  `tdd` keep as reference?)
-- [ ]
   [`project/brainstorms/2026-07-12-quest-shapes-that-emerged.md`](brainstorms/2026-07-12-quest-shapes-that-emerged.md)
   — the four quest shapes ADR-184's reveal wave actually produced
   (emergent, deliberately not an ADR — your call)
