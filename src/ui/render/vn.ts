@@ -15,6 +15,7 @@ import {
   beatReactSpeaker,
   beatReactVoice,
   introActive,
+  introSceneTitle,
   introStatDelta,
   RANKS,
   SURFACES,
@@ -142,6 +143,9 @@ export function createVnView(ctx: {
   interface VnScene {
     readonly source: VnSource;
     readonly id: string;
+    /** the 幕-head act label — the SAME context string the scene's lines group under in the
+     *  Story log (TST1), shown on the modal nameplate so the player reads WHICH VN they're in. */
+    readonly title?: string;
     readonly voice: VoiceCategory;
     readonly speaker?: NpcId;
     readonly greeting: readonly IntroSetupLine[];
@@ -267,15 +271,24 @@ export function createVnView(ctx: {
     // take (display/content only; state + RNG never fork — takes are state-compatible by
     // the narrative/takes README rule). Identity when everything is 'canon'; folds to the
     // plain selectors in a strip build (same `__DEV_TOOLS__` axis as the panel, ADR-138).
+    // the 幕-head act title mirrors the SAME `context` the core stamps on each source's log
+    // lines (intents.ts / scenes.ts), so the modal label and the Story-log card head always
+    // read identically (TST1 — one label, one source-of-meaning).
     if (introActive(state.introBeat)) {
       const s = introSceneAt(state.introBeat);
       const sub = __DEV_TOOLS__ && dev && s ? dev.subIntroScene(s) : s;
-      return sub ? projectIntro(sub) : null;
+      return sub ? { ...projectIntro(sub), title: introSceneTitle(sub) } : null;
     }
     if (state.rungBeat !== null) {
       const s = rungBeatFor(state.rungBeat);
       const sub = __DEV_TOOLS__ && dev && s ? dev.subRungScene(s) : s;
-      return sub ? projectRung(sub) : null;
+      const rank = RANKS.find((r) => r.id === state.rungBeat);
+      return sub
+        ? {
+            ...projectRung(sub),
+            ...(rank ? { title: `${rank.title} promotion` } : {}),
+          }
+        : null;
     }
     // storywave G4.9 — a live generalized scene (Count / season / nengu / side-beat / dream).
     // ADR-139 — the switcher substitutes its RungScene body with the selected take (display-only;
@@ -284,7 +297,12 @@ export function createVnView(ctx: {
       const def = sceneById(state.activeScene.id);
       const s = def ? def.scene : null;
       const sub = __DEV_TOOLS__ && dev && s ? dev.subScene(s) : s;
-      return sub ? projectScene(sub) : null;
+      return sub
+        ? {
+            ...projectScene(sub),
+            title: state.activeScene.id.replace(/-/g, ' '),
+          }
+        : null;
     }
     return null;
   }

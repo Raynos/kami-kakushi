@@ -183,10 +183,13 @@ export const VOICE_SEAL: Record<VoiceCategory, string> = {
 };
 /** A kanji ink-seal nameplate (hanko idiom): a category-coloured seal + the speaker's name. Takes a
  *  minimal structural shape so BOTH the intro `DialogueScene` and the normalized `VnScene` (rung
- *  beats) feed it (ADR-110 §7.3). */
+ *  beats) feed it (ADR-110 §7.3). `title` is the scene's 幕-head act label — the SAME context string
+ *  its lines group under in the Story log (TST1 · one idiom) — pinned to the far right of the plate
+ *  so the player can always read WHICH VN they're in, not just who is speaking (TST4). */
 export function introNameplate(scene: {
   readonly voice: VoiceCategory;
   readonly speaker?: NpcId;
+  readonly title?: string;
 }): HTMLElement {
   const color = VOICE_COLOR[scene.voice];
   const plate = el('div', 'vn-nameplate');
@@ -202,6 +205,16 @@ export function introNameplate(scene: {
   name.style.color = color;
   name.style.borderColor = color;
   plate.append(seal, name);
+  if (scene.title) {
+    // the 幕 (act-curtain) act label — reuses the Story log's scene-head idiom (gold
+    // small-caps), pushed right so it never crowds the speaker name.
+    const act = el('div', 'vn-act');
+    const mark = el('span', 'vn-act-mark', '幕');
+    mark.lang = 'ja';
+    mark.setAttribute('aria-hidden', 'true');
+    act.append(mark, el('span', 'vn-act-label', scene.title));
+    plate.append(act);
+  }
   return plate;
 }
 

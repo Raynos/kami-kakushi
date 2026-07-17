@@ -7,6 +7,7 @@ import {
   createInitialState,
   reduce,
   DIALOGUE_SCENES,
+  introSceneTitle,
   ATTR_META,
   getRank,
   nextRankId,
@@ -81,6 +82,15 @@ describe('F62/F81 — the interactive intro VN scene (append-only, two columns)'
     expect(shown('.vn-ask')).toBe(true);
     expect(shown('.vn-decide')).toBe(false); // the decision is withheld in the ask phase
     expect(root.querySelector('.intro-done')).not.toBeNull();
+  });
+
+  it('the nameplate carries the scene 幕-head act title (which VN this is)', () => {
+    const { render } = spyMount();
+    render(introState(SOAN_IDX), null);
+    const act = root.querySelector<HTMLElement>('.vn-nameplate .vn-act-label');
+    expect(act).not.toBeNull();
+    // the SAME context string the scene's log lines group under (single source, TST1).
+    expect(act!.textContent).toBe(introSceneTitle(SOAN));
   });
 
   it('"I\'ve heard enough" swaps to the DECIDE grid WITHOUT recreating the story nodes (F81)', () => {

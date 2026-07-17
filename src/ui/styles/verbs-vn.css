@@ -163,6 +163,32 @@
   border-bottom: 1px solid currentColor;
   padding-bottom: 0.1rem;
 }
+/* the 幕-head act label — WHICH VN this is, matching the Story-log scene-head idiom
+   (gold small-caps, log.css). Pushed to the far right so it frames the plate without
+   crowding the speaker name; the 幕 curtain-mark keeps its natural weight/colour. */
+.vn-act {
+  margin-left: auto;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.vn-act-mark {
+  flex: 0 0 auto;
+  font-family: var(--font-display);
+  color: var(--gold);
+  opacity: 0.9;
+}
+.vn-act-label {
+  font-family: var(--font-head);
+  font-size: var(--fs-tiny, 0.72rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 /* the spoken / narration prose — LEFT-aligned, natural wrap (F40); a reserved min-height keeps
    the card from jumping as the typewriter fills each line. */
 /* ── the TWO-column VN modal body (F62) — LEFT = the diegetic transcript (the only place dialogue
