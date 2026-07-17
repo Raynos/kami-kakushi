@@ -33,6 +33,26 @@
   [`docs/plans/fable-2026-07-17-talk-system-redesign.md`](../docs/plans/fable-2026-07-17-talk-system-redesign.md)
   — the FB-415 talk-system redesign plan, built from your grill answers
   (D1–D8): state-derived asks + authored beats, surface via diverge.
+- [ ]
+  [`docs/plans/fable-2026-07-18-pictogram-ab.md`](../docs/plans/fable-2026-07-18-pictogram-ab.md)
+  — #15 pulled forward: the honest 10-item pictogram-vs-emoji contact
+  sheet, blind-passed; "both slop, keep emoji" stays a valid verdict.
+- [ ]
+  [`docs/plans/fable-2026-07-18-stamp-book-resume.md`](../docs/plans/fable-2026-07-18-stamp-book-resume.md)
+  — #8+10 resumed ("yeah good, continue later"): spec → state feed →
+  home HD → the ADR-075 look diverge; the Plan-B gate is satisfied.
+- [ ]
+  [`docs/plans/fable-2026-07-18-reading-script-interleave.md`](../docs/plans/fable-2026-07-18-reading-script-interleave.md)
+  — fix t0-story.md's broken R1→R7 spine (R2/R5 filed under
+  "Generalized scenes"); pulls the BACKLOG note forward.
+- [ ]
+  [`docs/plans/fable-2026-07-18-estate-sheet-craft-pass.md`](../docs/plans/fable-2026-07-18-estate-sheet-craft-pass.md)
+  — #5 past "needs more work": the three HR-30 scorecard ✘s (mobile ·
+  shutters · idiom), additive under the open review, pin + blind-pass.
+- [ ]
+  [`docs/plans/fable-2026-07-18-bestiary-plates.md`](../docs/plans/fable-2026-07-18-bestiary-plates.md)
+  — #4 pulled forward: code-drawn field-guide plates for the HR-5
+  panel, spec + blind-pass, wired as a DEV-only option d.
 
 > **What belongs here** — a durable doc whose purpose is for you to read
 > or sign off: a **plan** (`docs/plans/`), a **brainstorm /
