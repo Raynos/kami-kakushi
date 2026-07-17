@@ -46,7 +46,9 @@ export const REVEAL: readonly RevealStage[] = [
       [1820, 1500],
     ],
     notes: [
-      { x: 2160, y: 1730, text: 'beyond this, not yet walked' },
+      // FB-413 — rides 18 under the village note (layout.ts SHEET_NOTES),
+      // which moved up 24 for fog-displacement margin; keep the pair together.
+      { x: 2160, y: 1706, text: 'beyond this, not yet walked' },
       { x: 1730, y: 1290, text: 'the old fields, they say' },
     ],
   },

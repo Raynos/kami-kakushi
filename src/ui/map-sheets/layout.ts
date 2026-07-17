@@ -566,7 +566,10 @@ export const NOTES: readonly {
   readonly text: string;
   readonly t1Only?: boolean;
 }[] = [
-  { x: 2196, y: 1712, text: 'to the village — half a ri' },
+  // FB-413 — 25 units clear of the R1 fog frontier (edge ≈ y1725 here): the
+  // baseline sat 13 units off while the fog's displacement filter jitters ±14,
+  // so a renderer rasterizing the filter differently could eat glyph bottoms.
+  { x: 2196, y: 1688, text: 'to the village — half a ri' },
   { x: 2450, y: 1275, text: 'the pass road — east' },
   { x: 620, y: 468, text: 'upstream — the temple lands' },
   { x: 2050, y: 2032, text: 'the village road', t1Only: true },
