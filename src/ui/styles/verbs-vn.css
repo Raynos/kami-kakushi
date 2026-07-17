@@ -64,10 +64,17 @@
 .verb:active {
   transform: translateY(1px);
 }
+/* FB-411 — a dead plate must READ dead at a glance (TST4): opacity .7 on a
+   dark steel plate was indistinguishable from a live verb sitting next to it
+   (the human clicked a gated Rake believing it live). Flatten the plate — no
+   gradient, no silver top-rim — and dim harder; the title keeps the why. */
 .verb[disabled] {
   color: var(--ink-faint);
   cursor: default;
-  opacity: 0.7;
+  opacity: 0.45;
+  background: var(--steel-1);
+  box-shadow: none;
+  border-style: dashed;
 }
 .verb.primary {
   /* F133 steel language: the suggested action is a GOLD keyline (value/CTA);
