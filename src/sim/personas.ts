@@ -101,10 +101,10 @@ export const ALL_INTENTS = {
   work_project: true,
   ascend: true,
   advance_season: true,
-  talk_to: true,
   // FB-415 — `ask` is census-complete here but, like `sleep`, no persona `knows` it: an ask
   // is free info (D7 — no clock, no resources), so it can't move the pacing bands the sim
-  // measures. It prints in every persona's skip-list, deliberately.
+  // measures. It prints in every persona's skip-list, deliberately. (`talk_to` retired with
+  // the step-4 re-homing — the u9 lines answer through asks now.)
   ask: true,
   // ADR-187 — `sleep` is in the REGISTRY (this map is the total intent census, not a policy),
   // but NO persona `knows` it: the balance sim is SKIP-BLIND by standing ruling, so the pacing

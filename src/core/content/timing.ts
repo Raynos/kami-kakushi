@@ -175,7 +175,6 @@ export const INTENT_TIMING: Readonly<Record<IntentType, ActionTiming>> = {
   move_to: timed(TRAVEL_SEED_MS), // Phase 3 replaces with per-edge walk seconds
   ascend: INSTANT, // the ascension ceremony owns its own theater (ADR-062)
   advance_season: INSTANT, // storywave G1: instant dispatch — the VN overlay IS the time (ADR-148)
-  talk_to: INSTANT, // C4.2: a spoken line is narration, not labour — time would be chrome (TST3)
   ask: INSTANT, // FB-415 D7: asks are FREE — no clock, no satiety; info never costs fiction time
 };
 

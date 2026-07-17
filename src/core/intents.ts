@@ -47,7 +47,6 @@ import {
   restSickroomForecast,
   riceSellQuote,
 } from './selectors';
-import { getPerson, PEOPLE_IDS } from './content/people';
 import { availableAsks, askFreshnessKey } from './asks';
 import { ASKS, askById } from './content/asks';
 import { getBelonging, homeRestLine } from './content/home';
@@ -157,7 +156,6 @@ export type Intent =
   | { type: 'ask_scene_topic'; topicId: string } // HD-43: ASK a scene's hub topic (the side-beats)
   | { type: 'choose_scene_option'; optionId: string } // storywave G2: the terminal scene decision
   | { type: 'begin_night_round'; roundId: string } // storywave G2: start the on-rails night round
-  | { type: 'talk_to'; personId: string } // C4.2: a vn person's talk delivers their next authored line
   | { type: 'ask'; askId: string } // FB-415: hear a state-derived everyday ask — inline only, no log
   | { type: 'rake_rice' }
   | { type: 'rest' }
@@ -1617,20 +1615,6 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!def) return state;
       if (state.roundState !== null) return state;
       next = beginNightRound(next, def);
-      break;
-    }
-    case 'talk_to': {
-      // C4.2 — the vn-depth cast is CONVERSABLE: talking delivers the person's next
-      // gate/memory-satisfied authored line into the log through the SAME diegetic-mentor
-      // cursor the cold open uses (deliverDialogue — one home, TST1; the log IS the surface,
-      // never a popup). One line per ask ("one teach per moment"); talk again for the next;
-      // exhausted or absent → a clean no-op. Presence is engine-checked (peopleHere).
-      if (!PEOPLE_IDS.has(intent.personId)) return state;
-      const person = getPerson(intent.personId);
-      if (person.depth !== 'vn' || !person.sceneId) return state;
-      if (!peopleHere(state).some((p) => p.id === intent.personId))
-        return state;
-      next = deliverDialogue(next, person.sceneId, 1);
       break;
     }
     case 'ask': {

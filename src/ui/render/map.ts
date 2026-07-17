@@ -154,20 +154,11 @@ export function createMapView(ctx: {
     const talk = el('button', 'verb person-talk');
     talk.type = 'button';
     talk.addEventListener('click', () => {
-      if (p.depth === 'vn' && p.sceneId) {
-        // C4.2 — a `vn` person actually SPEAKS: every press delivers their next
-        // gate-satisfied authored line into the Story log (the talk_to intent — the same
-        // diegetic-mentor cursor as the cold open; the log is the surface, TST1/ADR-039).
-        // The conversation STAYS open ("Ask X" keeps asking); it closes by walking off or
-        // talking to someone else. The dispatch re-renders for us.
-        // (FB-415 interim — step 4 re-homes these lines and retires the cursor.)
-        if (ctx.openPersonId() !== p.id) openAskId = null;
-        ctx.setOpenPersonId(p.id);
-        dispatch({ type: 'talk_to', personId: p.id });
-        return;
-      }
-      // small/tiny: toggle the greeting/wares panel — a second click on the open person
-      // closes it. Re-render off the last state (like setTab), UI-only.
+      // FB-415 step 4 — Speak is a pure open/close for EVERY depth now: a vn person's
+      // conversation opens their ask plates (the u9 lines answer through the person-ask;
+      // the C4.2 press-A cursor is retired), a small person shows their greeting, a tiny
+      // trader opens wares. A second click on the open person closes. UI-only re-render.
+      openAskId = null;
       ctx.setOpenPersonId(ctx.openPersonId() === p.id ? null : p.id);
       ctx.rerender();
     });
@@ -181,10 +172,8 @@ export function createMapView(ctx: {
   ): void {
     const open = ctx.openPersonId() === p.id;
     const talk = row.querySelector<HTMLButtonElement>('.person-talk')!;
-    // a vn conversation stays open and keeps ASKING (C4.2); small/tiny toggle open/closed
-    const openLabel =
-      p.depth === 'vn' ? `Ask ${p.name} more` : `Leave ${p.name}`;
-    setText(talk, open ? openLabel : `Speak with ${p.name}`);
+    // one label pair for every depth (the "Ask X more" flip retired with talk_to)
+    setText(talk, open ? `Leave ${p.name}` : `Speak with ${p.name}`);
     setClass(talk, 'on', open);
     const say = row.querySelector<HTMLElement>('.person-say')!;
     toggle(say, open && Boolean(p.greeting));

@@ -210,11 +210,7 @@ function renderTalkVariant(
       talk.addEventListener('click', () => {
         talkUi.personId = p.id;
         talkUi.askId = null;
-        // the interim C4.2 cursor still fires for a vn person (step 4 retires it);
-        // its dispatch re-renders — a non-vn open is UI-only, so re-render here.
-        if (p.depth === 'vn' && p.sceneId)
-          dispatch({ type: 'talk_to', personId: p.id });
-        else rerender();
+        rerender(); // opening is UI-only (talk_to retired at step 4)
       });
       row.append(talk);
       container.append(row);
@@ -276,11 +272,11 @@ function renderTalkVariant(
       if (talkUi.personId !== p.id) {
         talkUi.personId = p.id;
         talkUi.log = [];
+      } else {
+        talkUi.personId = null;
+        talkUi.log = [];
       }
-      // the interim C4.2 cursor still fires for a vn person (step 4 retires it)
-      if (p.depth === 'vn' && p.sceneId)
-        dispatch({ type: 'talk_to', personId: p.id });
-      else rerender();
+      rerender(); // open/close is UI-only (talk_to retired at step 4)
     });
     row.append(talk);
     container.append(row);

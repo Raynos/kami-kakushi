@@ -1060,26 +1060,71 @@
   - Genemon: “The book says what it says. My ledger holds one line for you — what you are to this house today is written there, and today it reads: nothing more, nothing less.”
 - “What does the house want of me?” <small>*(genemon-house-wants · R0+ · refresh: rung)*</small>
   - <small>native: house-wants</small>
+- “The terms again, if you would.” <small>*(genemon-word · R0+)*</small>
+  - <small>native: u9-genemon</small>
 
 ### soan
 
 - “Have a look at me, would you?” <small>*(soan-body-mend · R0+ · refresh: health)*</small>
   - <small>native: body-mend</small>
+- “A moment of your rounds?” <small>*(soan-word · R0+)*</small>
+  - <small>native: u9-soan</small>
 
 ### ohisa
 
 - “What’s the kitchen cooking?” <small>*(ohisa-kitchen-season · R0+ · refresh: season)*</small>
   - O-Hisa: “What the season gives, we cook. The pot doesn’t argue with the calendar and neither do I — come at mealtime and you’ll see for yourself.”
+- “How do you fare, O-Hisa?” <small>*(ohisa-word · R0+)*</small>
+  - <small>native: u9-ohisa</small>
 
 ### oyae
 
 - “Any word from the village?” <small>*(oyae-village-news · R1+ · refresh: season)*</small>
   - O-Yae: “Word comes up the road with me every morning — most of it not worth the carrying. Ask me again when the season turns; that’s when the village finds things worth saying.”
+- “And you, O-Yae?” <small>*(oyae-word · R0+)*</small>
+  - <small>native: u9-oyae</small>
 
 ### shinnosuke
 
 - “What are you up to?” <small>*(shinnosuke-what-are-you-doing · R0+)*</small>
   - Shinnosuke: “Watching you. Grandfather says you came from the weir with no name on you. I’ve never met anyone who wasn’t anyone before.”
+- “Go on, then — say it.” <small>*(shinnosuke-word · R0+)*</small>
+  - <small>native: u9-shinnosuke</small>
+
+### kihei
+
+- “Anything for me, drillmaster?” <small>*(kihei-word · R0+)*</small>
+  - <small>native: u9-kihei</small>
+
+### naoyuki
+
+- “You wanted to say something.” <small>*(naoyuki-word · R0+)*</small>
+  - <small>native: u9-naoyuki</small>
+
+### toku
+
+- “Grandmother — a word?” <small>*(toku-word · R0+)*</small>
+  - <small>native: u9-toku</small>
+
+### matsuzo
+
+- “How runs the water, old man?” <small>*(matsuzo-word · R0+)*</small>
+  - <small>native: u9-matsuzo</small>
+
+### iori
+
+- “A word, traveler?” <small>*(iori-word · R0+)*</small>
+  - <small>native: u9-iori</small>
+
+### oume
+
+- “Good day at the paddy’s edge?” <small>*(oume-word · R0+)*</small>
+  - <small>native: u9-oume</small>
+
+### rokusuke
+
+- “How go the hands?” <small>*(rokusuke-word · R0+)*</small>
+  - <small>native: u9-rokusuke</small>
 
 ## The hidden rung requirements
 

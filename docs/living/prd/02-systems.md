@@ -946,9 +946,13 @@ ascension**, distinct from and longer-lived than the save-light per-line flags a
 
 **Every vendor is a PERSON on a spectrum, not a bare menu (ADR-114).** A shop is someone you talk to at a map
 node's "who's here" list (§2.9 / the Map tab), arranged on an interaction spectrum: **(a) full VN characters**
-(a ADR-104 scene + quests + ongoing dialogue), **(b) small people** (a line or two of dialogue + a trade), and
-**(c) tiny traders** (zero questions to ask — talking opens straight into the trade / market menu; a face on
-a shop). A vendor may also be **place-gated** — you must **reach or BUILD** the location first (e.g. the
+(a ADR-104 scene + quests + ongoing everyday talk), **(b) small people** (a line or two of dialogue + a
+trade), and **(c) tiny traders** (zero questions to ask — talking opens straight into the trade / market
+menu; a face on a shop). **Everyday talk is ASKS (FB-415 / ADR-200):** rung-windowed, when-gated questions
+whose answers derive from live game state (house wants · body & mend · the person's own cast lines),
+rendered inline in the talk surface and never written to a log channel — authored story beats alone write
+to Story. Heard asks dim but stay pressable; a state move that changes an answer re-lights it and the
+person's 新 newness mark (no timers). Asks are free — info never costs fiction time. A vendor may also be **place-gated** — you must **reach or BUILD** the location first (e.g. the
 smithery before the smith), so the vendor's shop reveals only when its node is reached/built (reuse the
 surface-reveal + estate-build gating). So **a vendor = (person on the spectrum) + (optional place-gate)** — no
 shop is a bare inline menu (this reframes the "provisioning shop", §2.4, as a talkable trader). *(The full

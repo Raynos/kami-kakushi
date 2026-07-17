@@ -41,7 +41,11 @@ export interface AskDef {
   /** The answer, derived from live state — data in, data out, NO log write. */
   readonly answer: (s: GameState) => readonly AskAnswerLine[];
   /** Freshness key (D6): while the stored hear-key matches this, the ask is
-   *  exhausted (dim). Absent = constant key (heard once, dim forever). */
+   *  exhausted (dim). Absent = the DEFAULT key: a digest of the answer's own
+   *  text — "exhausted" means "the answer hasn't changed", so any state move
+   *  that reshapes the answer (a gate opening a new line, a band shifting)
+   *  re-lights the ask with no authoring. Declare `freshness` only when an
+   *  UNCHANGED answer should still re-light (a season turning). */
   readonly freshness?: (s: GameState) => string;
 }
 
@@ -62,10 +66,22 @@ function inRungWindow(rung: RankId, def: AskDef): boolean {
   return def.rungMax === undefined ? true : i <= RANK_INDEX[def.rungMax];
 }
 
+/** djb2 over the answer's joined text — a short, deterministic digest (pure: no
+ *  Math.random, no Date). Collisions merely leave an ask dim one move longer. */
+function answerDigest(lines: readonly AskAnswerLine[]): string {
+  let h = 5381;
+  for (const l of lines)
+    for (let i = 0; i < l.text.length; i++)
+      h = ((h << 5) + h + l.text.charCodeAt(i)) | 0;
+  return (h >>> 0).toString(16);
+}
+
 /** The answer's freshness key NOW — the value `asksHeard` stores at hear time and the
- *  heard test compares against (D6). A def with no `freshness` keys constantly. */
+ *  heard test compares against (D6). Default: the answer-text digest (see AskDef). */
 export function askFreshnessKey(s: GameState, def: AskDef): string {
-  return def.freshness === undefined ? '' : def.freshness(s);
+  return def.freshness === undefined
+    ? answerDigest(def.answer(s))
+    : def.freshness(s);
 }
 
 /** An ask counts heard only while the key stored at hear time still matches the
@@ -78,7 +94,7 @@ function isHeard(s: GameState, def: AskDef): boolean {
  *  heard/fresh (a heard ask stays offered — exhausted asks dim but stay pressable,
  *  D6). Feeds BOTH the talk surface and the `ask` reducer (AC-6). Presence is NOT
  *  checked here — the surface lists only `peopleHere` rows and the intent
- *  engine-checks presence, exactly as `talk_to` does. */
+ *  engine-checks presence itself. */
 export function availableAsks(
   s: GameState,
   personId: string,

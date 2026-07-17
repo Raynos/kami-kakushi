@@ -67,3 +67,70 @@ label: “What are you up to?”
 Shinnosuke: “Watching you. Grandfather says you came from the weir
 with no name on you. I’ve never met anyone who wasn’t anyone
 before.”
+
+<!-- ── The D8 re-homing (plan step 4): each vn person's u9-* cast def
+  (dialogue.md) answers through ONE person-ask. The native fn returns
+  every gate-satisfied line; a `when:` gate opening later RESHAPES the
+  answer, and the default text-digest freshness re-lights the ask —
+  the old press-A drip becomes state-driven newness (D6). Labels are
+  placeholder-grade, pending each person's ADR-139 wave. -->
+
+## ask genemon-word · genemon
+rungs: R0+
+native: u9-genemon
+label: “The terms again, if you would.”
+
+## ask kihei-word · kihei
+rungs: R0+
+native: u9-kihei
+label: “Anything for me, drillmaster?”
+
+## ask soan-word · soan
+rungs: R0+
+native: u9-soan
+label: “A moment of your rounds?”
+
+## ask ohisa-word · ohisa
+rungs: R0+
+native: u9-ohisa
+label: “How do you fare, O-Hisa?”
+
+## ask shinnosuke-word · shinnosuke
+rungs: R0+
+native: u9-shinnosuke
+label: “Go on, then — say it.”
+
+## ask naoyuki-word · naoyuki
+rungs: R0+
+native: u9-naoyuki
+label: “You wanted to say something.”
+
+## ask toku-word · toku
+rungs: R0+
+native: u9-toku
+label: “Grandmother — a word?”
+
+## ask oyae-word · oyae
+rungs: R0+
+native: u9-oyae
+label: “And you, O-Yae?”
+
+## ask matsuzo-word · matsuzo
+rungs: R0+
+native: u9-matsuzo
+label: “How runs the water, old man?”
+
+## ask iori-word · iori
+rungs: R0+
+native: u9-iori
+label: “A word, traveler?”
+
+## ask oume-word · oume
+rungs: R0+
+native: u9-oume
+label: “Good day at the paddy’s edge?”
+
+## ask rokusuke-word · rokusuke
+rungs: R0+
+native: u9-rokusuke
+label: “How go the hands?”

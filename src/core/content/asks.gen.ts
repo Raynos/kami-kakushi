@@ -87,4 +87,100 @@ export const ASK_DEFS: readonly GenAskDef[] = [
       },
     ],
   },
+
+  {
+    id: 'genemon-word',
+    person: 'genemon',
+    rungMin: 'R0',
+    label: '“The terms again, if you would.”',
+    native: 'u9-genemon',
+  },
+
+  {
+    id: 'kihei-word',
+    person: 'kihei',
+    rungMin: 'R0',
+    label: '“Anything for me, drillmaster?”',
+    native: 'u9-kihei',
+  },
+
+  {
+    id: 'soan-word',
+    person: 'soan',
+    rungMin: 'R0',
+    label: '“A moment of your rounds?”',
+    native: 'u9-soan',
+  },
+
+  {
+    id: 'ohisa-word',
+    person: 'ohisa',
+    rungMin: 'R0',
+    label: '“How do you fare, O-Hisa?”',
+    native: 'u9-ohisa',
+  },
+
+  {
+    id: 'shinnosuke-word',
+    person: 'shinnosuke',
+    rungMin: 'R0',
+    label: '“Go on, then — say it.”',
+    native: 'u9-shinnosuke',
+  },
+
+  {
+    id: 'naoyuki-word',
+    person: 'naoyuki',
+    rungMin: 'R0',
+    label: '“You wanted to say something.”',
+    native: 'u9-naoyuki',
+  },
+
+  {
+    id: 'toku-word',
+    person: 'toku',
+    rungMin: 'R0',
+    label: '“Grandmother — a word?”',
+    native: 'u9-toku',
+  },
+
+  {
+    id: 'oyae-word',
+    person: 'oyae',
+    rungMin: 'R0',
+    label: '“And you, O-Yae?”',
+    native: 'u9-oyae',
+  },
+
+  {
+    id: 'matsuzo-word',
+    person: 'matsuzo',
+    rungMin: 'R0',
+    label: '“How runs the water, old man?”',
+    native: 'u9-matsuzo',
+  },
+
+  {
+    id: 'iori-word',
+    person: 'iori',
+    rungMin: 'R0',
+    label: '“A word, traveler?”',
+    native: 'u9-iori',
+  },
+
+  {
+    id: 'oume-word',
+    person: 'oume',
+    rungMin: 'R0',
+    label: '“Good day at the paddy’s edge?”',
+    native: 'u9-oume',
+  },
+
+  {
+    id: 'rokusuke-word',
+    person: 'rokusuke',
+    rungMin: 'R0',
+    label: '“How go the hands?”',
+    native: 'u9-rokusuke',
+  },
 ];

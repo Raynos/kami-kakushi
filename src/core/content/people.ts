@@ -10,9 +10,10 @@
 //
 // The LINES a person speaks are migrated canon (dialogue.gen.ts `u9-<npc>` registries — the
 // single source, NEVER re-typed here). This module places WHO stands WHERE and WHEN; a `vn`
-// person's Speak dispatches the `talk_to` intent (C4.2), which delivers their next
-// gate/memory-satisfied line into the Story log through the deliverDialogue cursor (the same
-// diegetic-mentor path as the cold open — one home, TST1). Munemasa — "a voice through a
+// person's Speak opens their ASK PLATES (FB-415 — the talk-system redesign), and the u9
+// lines come back as the person-ask's answer (asks.md `native: u9-<npc>` →
+// ask-natives.ts, gate/memory-aware, inline only — D4). The old C4.2 `talk_to`
+// press-A cursor is retired (step 4, 2026-07-18). Munemasa — "a voice through a
 // wall" — never places at a T0 node, so he has no entry.
 
 import type { GameState, SurfaceId } from '../state';
@@ -96,7 +97,8 @@ export interface NodePerson {
   readonly presence?: (c: PresenceCtx) => boolean;
 
   // ── depth-specific payloads ──
-  /** `vn` → the migrated dialogue/scene id to open on talk (dialogue.gen.ts `u9-<npc>`). */
+  /** `vn` → the person's u9 cast def (dialogue.gen.ts `u9-<npc>`) — answered through
+   *  their person-ask (asks.md `native:`) since the FB-415 step-4 re-homing. */
   readonly sceneId?: string;
   /** `small`/`tiny` → a line or two shown on talk (so a trader reads as a person, not a menu). */
   readonly greeting?: string;

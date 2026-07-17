@@ -11,10 +11,36 @@ import type { GameState } from '../state';
 import type { AskAnswerLine } from '../asks';
 import { hpMax } from '../selectors';
 import { getRank, nextRankId } from './ranks';
+import { DIALOGUES, nextDialogueLines } from './dialogue';
+
+// ── the D8 re-homing: every u9-* cast def answers through its person's ask ──
+// The C4.2 press-A dispenser is retired; the SAME authored lines (dialogue.md,
+// takes-overlay-aware via nextDialogueLines) now come back as one inline answer —
+// every gate-satisfied line, no delivered-cursor. A `when:` gate opening a new
+// line RESHAPES the answer, which re-lights the ask via the default text-digest
+// freshness (D6): the drip becomes state-driven newness instead of button-mashing.
+const NOTHING_DELIVERED: ReadonlySet<string> = new Set();
+const u9Answers: Record<string, (s: GameState) => readonly AskAnswerLine[]> =
+  Object.fromEntries(
+    DIALOGUES.filter((d) => d.id.startsWith('u9-')).map((d) => [
+      d.id,
+      (s: GameState): readonly AskAnswerLine[] =>
+        nextDialogueLines(d.id, NOTHING_DELIVERED, s.flags, s.npcMemory).map(
+          (l) => ({
+            text: l.text,
+            // a narrator line renders unplated (the surface suppresses the
+            // nameplate on voice 'narrator', matching deliverDialogue)
+            ...(l.voice !== undefined ? { voice: l.voice } : {}),
+            ...(l.voice !== 'narrator' ? { speaker: l.speaker } : {}),
+          }),
+        ),
+    ]),
+  );
 
 export const NATIVE_ASK_ANSWERS: Readonly<
   Record<string, (s: GameState) => readonly AskAnswerLine[]>
 > = {
+  ...u9Answers,
   /** Genemon, "what does the house want of me" — the D2 house-wants read: your
    *  standing now and the line above yours, direction without reciting the hidden
    *  requirement list (FB-121 stays hidden; the fiction points, the book doesn't). */

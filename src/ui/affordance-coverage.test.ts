@@ -33,8 +33,7 @@ type IntentType = Intent['type'];
 const PLAYER_INTENTS = [
   'open_eyes',
   'ask_topic',
-  'talk_to', // C4.2 — the who's-here Speak button (a vn person's next authored line)
-  'ask', // FB-415 — the in-row ask plates (variant A ships; opens via Speak, then a plate)
+  'ask', // FB-415 — the in-row ask plates (opens via Speak, then a plate; talk_to retired)
   'choose_intro',
   'begin_rung_beat',
   'ask_rung_topic',

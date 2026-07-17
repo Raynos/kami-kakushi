@@ -112,6 +112,33 @@ all variant strings (the default T0 build ships DEV tools by
 design). Pass-2 scorecards + the §5 pick rationale (A 21 · C 19 ·
 B 18) live in the HR-45 item.
 
+## 6 · Steps 4+5 — the re-homing lands; talk_to retired
+
+**D8 disposition (the per-line triage):** every u9-* cast def
+re-homes as ONE person-ask (`asks.md` `native: u9-<npc>`, 12 people)
+whose native answer derives from the LIVE dialogue registry
+(`nextDialogueLines` with an empty delivered-set → every
+gate/memory-satisfied line, takes-overlay-aware). No line was cut;
+none graduated to a story beat (the u9 sets are ambient character
+prose — a wave can still promote one later). u9-yohei stays
+unrouted on purpose (tiny/stall owns his voice, D2/HR-44).
+
+**The D6 upgrade that fell out:** default ask freshness is now a
+text-digest of the answer (djb2) — "exhausted" literally means "the
+answer hasn't changed", so a `when:` gate opening a new u9 line
+re-lights the ask with zero authoring. Explicit `refresh:` remains
+for the re-light-on-unchanged-text cases (season). Step 5 is thereby
+COMPLETE (mark + dim + state-driven refresh all live).
+
+**Retired:** the `talk_to` intent (union + reducer case + timing +
+sim census + PLAYER_INTENTS), the "Ask X more" label flip (Speak is
+a pure open/close toggle at every depth now). `deliverDialogue`
+stays (cold open + rake teach). `talk.test.ts` rewritten: full-T0
+floor (every vn sceneId has a person-ask), answer = the def's open
+lines verbatim + NO log write + old cursor still, gate-open
+re-light. FULL suite 1415 green; live-driven again on a throwaway
+:5266 (3 plates on Genemon, dim + 新 correct, Story untouched).
+
 <!-- append further entries below, in order -->
 
 ---
