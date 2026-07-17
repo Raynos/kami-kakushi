@@ -4,8 +4,9 @@
 > tactic conflicts with this, this wins.
 
 **A compiling build is the floor, not the bar.** For this game the real bar is
-that it be _paced, genuinely fun, and intentional_ — woodblock/ink, never generic
-AI-slop. Function is necessary and nowhere near sufficient.
+that it be _paced, genuinely fun, and intentional_ — the locked design
+language (Andon Steel since ADR-127), never generic AI-slop. Function
+is necessary and nowhere near sufficient.
 
 ## The principles
 
@@ -14,7 +15,8 @@ AI-slop. Function is necessary and nowhere near sufficient.
   sufficient) — but its _presence_ is never proven by a green proxy. The human is
   the final fun & taste arbiter.
 - **Intentional craft over generated defaults.** Lock the design language — the
-  mid-Edo woodblock/ink bible, its traditional-instrument audio analogue —
+  Andon Steel UI bible (ADR-127; audio deferred to real samples,
+  ADR-193) —
   _before_ building a surface: opinionated constraint reads as handmade, defaults
   read as slop. Restraint (subtraction, significance-gated juice, no spam) is
   itself the craft.

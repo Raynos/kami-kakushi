@@ -10,7 +10,8 @@ Design docs — **living documents**, each the *current* truth for its concern, 
     (append-only, but live — moved here from the old `history/`).
   - [`roadmap.md`](living/roadmap.md) — the living milestone tracker (**v0.3 shipped the full T0 M0–M4
     arc**; later tiers provisional).
-  - [`ui-design.md`](living/ui-design.md) — the woodblock/ink UI design-language bible.
+  - [`ui-design.md`](living/ui-design.md) — the Andon Steel UI bible
+    (ADR-127).
   - [`sfx-spec.md`](guides/sfx-spec.md) — the minimal audio-cue contract (3 cues built in `src/ui/sfx.ts`).
   - [`fun-factor.md`](living/fun-factor.md) — what fun *is* & how to keep it high.
   - [`qa-playtesting.md`](guides/qa-playtesting.md) — how Claude drives & play-tests the game.

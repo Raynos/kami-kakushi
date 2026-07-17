@@ -1,7 +1,8 @@
-# The FULL gate roster — `pnpm run verify` runs all 15 gates (the atomic
-# lint/typecheck/test checks PLUS the 11 house-specific invariant gates:
-# content/PRD verifiers, gen-region freshness, md-links, milestone-integrity,
-# changelog, doc-budgets, checkpoint). This is the authoritative "everything
+# The FULL gate roster — `pnpm run verify` runs every gate in the
+# src/scripts/gates.ts roster (the atomic lint/typecheck/test checks
+# PLUS the house-specific invariant gates: content/PRD verifiers,
+# gen-region freshness, md-links, milestone-integrity, changelog,
+# doc-budgets, checkpoint, …; never hand-count them here). This is the authoritative "everything
 # passed" backstop; the atomic per-check workflows (lint/typecheck/test/build)
 # exist alongside it so a failure reads meaningfully at a glance.
 #

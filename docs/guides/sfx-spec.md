@@ -1,5 +1,11 @@
 # SFX Spec — the minimal traditional-palette audio pass
 
+> ⚠ **Superseded for T0 by ADR-193 (human ruling, 2026-07-13): T0
+> ships SILENT.** The synth cues below were built, heard, and muted
+> (they read comedic against the game's restraint); future audio
+> returns with REAL samples, human-gated. This spec stays as the
+> palette/timing reference for that future pass.
+
 > **LIVING — the minimal 3-cue pass is BUILT & WIRED** in [`../../src/ui/sfx.ts`](../../src/ui/sfx.ts)
 > (synthesized Web Audio, behind the **Sound on/off** toggle): `hit` (taiko) on **every player-driven
 > deed/fight** (`do_activity`/`fight`/`face_wolf` — the per-action thud), `reward` (shamisen/koto) on a
@@ -7,7 +13,8 @@
 > doc is the **contract** it implements; the genuinely-deferred part is **§4 (the full bed)**. Locked
 > by **ADR-068** (palette + timing), sequenced within **ADR-041** (a small *synthesized* Web Audio set —
 > no audio-file pipeline).
-> Companion to the look: [`ui-design.md`](../living/ui-design.md) (the woodblock/ink bible) and
+> Companion to the look: [`ui-design.md`](../living/ui-design.md)
+> (the Andon Steel bible, ADR-127) and
 > [`fun-factor.md`](../living/fun-factor.md) (juice = the make-or-break priority).
 
 ---

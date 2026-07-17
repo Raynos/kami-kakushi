@@ -58,7 +58,8 @@ The entries are sharded into `docs/living/decisions/` by ADR number
   band, new ADRs land here** (story reboot, estate spine, seasons,
   the ADR-19x process locks)
 
-Numbering gaps ADR-146/ADR-148 are recorded inside the log (no entry
-was ever written). `verify-deferred-work` scans the index AND every
+The one numbering gap is ADR-147 — between ADR-146 and ADR-148, no
+entry was ever written (recorded inside the log, ADR-195).
+`verify-deferred-work` scans the index AND every
 band; `tree-claim.ts adr` reads both for its high-water mark.
 

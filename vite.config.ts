@@ -114,7 +114,8 @@ const SHIP_DEV_TOOLS = !['0', 'false', 'no', 'off'].includes(
 //
 // 5264 — "KAMI" on a phone keypad (human, 2026-07-17): 5173 kept being stolen by OTHER
 // prototypes' vite servers on this box (vite's default cascade walks 5173→5174→5175…), so
-// kami's canonical port lives far outside that range. The e2e lane stays on 5199.
+// kami's canonical port lives far outside that range. The e2e lane lives on 5265
+// (playwright.config.ts owns that number).
 const DEV_PORT = 5264;
 function singleServerGuard(): void {
   if (process.env.KAMI_ALLOW_MULTI_DEV === '1') return;

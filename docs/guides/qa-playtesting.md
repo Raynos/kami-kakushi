@@ -113,8 +113,8 @@ the async twin of the human's live playtest loop; it never blocks either side.
 | Method | Effect |
 |---|---|
 | `newGame(seed)` | Fresh run on a fixed seed (skips any title wait). |
-| `dispatch(intent)` | Apply one player intent through `reduce` (the universal driver). Convenience wrappers: `activity(id)`, `auto(id\|null)`, `faceWolf()`, `fight(mobId)`, `autoCombat(mobId\|null)`, `setStance(s)`. Intents with no wrapper are driven raw: `move_to` (or use `goto` below), `deposit`/`withdraw` (the kura 蔵 bank — move a resource carried ↔ sheltered `banked`), `set_auto_rake` (the leave-it-running auto-labour toggle), and `set_auto_combat`'s `retreat` flag (sets `autoCombatRetreat` — the auto-retreat-at-~20%-HP mode vs fight-to-death). |
-| `goto(node)` | **Walk to a map node** — replays real `move_to` hops over the revealed graph. The nodes are the SHIPPED 16-zone roster (`src/core/content/areas.ts` — spot-check there before scripting): `weir`, `weir-reeds`, `gate`, `forecourt`, `woodshed`, `kitchen`, `shrine`, `kura`, `sickroom`, `drill-yard`, `paddies`, `field-margins`, `woodlot`, `ruined`, `orchard`, `grove`. **REQUIRED to reach node-gated activities/foes** — labours + enemies are spatial, so a driver that never walks can't reach the woodlot forage or bank at the `kura`. `fight`/`faceWolf` auto-`goto` the foe's node first. |
+| `dispatch(intent)` | Apply one player intent through `reduce` (the universal driver). Convenience wrappers: `activity(id)`, `auto(id\|null)`, `fight(mobId)`, `autoCombat(mobId\|null)`, `setStance(s)`. Intents with no wrapper are driven raw: `move_to` (or use `goto` below), `deposit`/`withdraw` (the kura 蔵 bank — move a resource carried ↔ sheltered `banked`), `set_auto_rake` (the leave-it-running auto-labour toggle), and `set_auto_combat`'s `retreat` flag (sets `autoCombatRetreat` — the auto-retreat-at-~20%-HP mode vs fight-to-death). |
+| `goto(node)` | **Walk to a map node** — replays real `move_to` hops over the revealed graph. The nodes are the SHIPPED 16-zone roster (`src/core/content/areas.ts` — spot-check there before scripting): `weir`, `weir-reeds`, `gate`, `forecourt`, `woodshed`, `kitchen`, `shrine`, `kura`, `sickroom`, `drill-yard`, `paddies`, `field-margins`, `woodlot`, `ruined`, `orchard`, `grove`. **REQUIRED to reach node-gated activities/foes** — labours + enemies are spatial, so a driver that never walks can't reach the woodlot forage or bank at the `kura`. `fight` auto-`goto`s the foe's node first. |
 | `tick(dt)` / `frames(n)` | Advance the sim one step (`tick`) / re-render N frames without advancing the sim (`frames`). |
 | `toRung(id)` / `toTier(n)` | **Jump-to-rung / jump-to-tier teleport** — `planRungJump` applies real promotions up to the target (a DOWNWARD jump resets to a fresh climb) so a QA run reaches a checkpoint in seconds. NOTE: it does NOT play the intro — a fresh-run drive must answer the intro scenes first (or boot a `?fixture=` save, which is already past them). `toTier(n)` accepts **0..6** (T0–T6; no upper clamp). |
 | `jumpToPhase2()` / `jumpToAscension()` | **DEV teleports** — to the R7 capstone (Phase-2 open) / an ascension-ready Estate-EXCELLENT state, so the macro spine is one click away. |
@@ -361,8 +361,10 @@ The loop (per the [UI design-language bible](../living/ui-design.md), which the 
 1. **Drive** the game to a target state with `__qa` (or the `capture-game-states` skill).
 2. **Screenshot** it via Playwright / Chrome DevTools MCP (`take_screenshot`) — at desktop **and**
    the mobile bottom-bar/drawer layout (§6.9 responsive).
-3. **The agent reviews the screenshot itself** against the bible: is the woodblock/ink language
-   coherent? typography/spacing/colour-roles right? the event-log reading as the heart? the reveal/
+3. **The agent reviews the screenshot itself** against the bible: is
+   the Andon Steel language (ADR-127) coherent?
+   typography/spacing/colour-roles right? the event-log reading as the
+   heart? the reveal/
    rank-up *motion* satisfying? any slop, misalignment, overflow, contrast/readability fail, or
    placeholder-looking element? Check the console (`list_console_messages`) + network for errors /
    missing assets.
@@ -378,8 +380,9 @@ surface's **real deep state**, not the fresh shell (the shell never exercises th
 treat a **visual oddity as a real bug until proven otherwise**, never wave it off as a "harness artifact"
 (the seal "doubled text" was rationalised away repeatedly — it was a real missing-scrim bug on the most
 climactic screen — A8). The design constraint is **on-palette AND ≥4.5:1**: resolve the
-aesthetic-vs-accessibility tension *in-palette* (deeper cinnabar/bronze tones that hit AA while staying
-woodblock, ADR-045), never by abandoning the approved palette — and if an a11y fix touches an
+aesthetic-vs-accessibility tension *in-palette* (deeper tones that
+hit AA while staying on the Andon Steel palette, ADR-045), never by
+abandoning the approved palette — and if an a11y fix touches an
 **approved** design/diverge pick, **flag it + offer to revert** even when it's "obviously correct" (P2).
 Soft = it informs the work, it doesn't block the build.
 
@@ -432,7 +435,8 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
   the combat forecast, at a glance? Legends, tooltips (non-hover-dependent), clear thresholds.
 - **Onboarding:** the cold open + the first few reveals must *teach the loop* without a wall of text;
   the open-ended-not-handholdy quest framing reads as a suggestion, not a checklist.
-- **Atmosphere (within text+emoji+CSS):** the woodblock/ink mood, season/weather flavour, the diegetic
+- **Atmosphere (within text+emoji+CSS):** the Andon Steel mood
+  (ADR-127), season/weather flavour, the diegetic
   log voice, festival beats — coherence over decoration.
 - **Balance:** the auto-player audits → tuning passes to the §4.8 targets. **Calibrate the sim as an
   *instrument* and back-solve (A18):** take two measured points, derive the inverse transfer function, and
@@ -454,13 +458,17 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
 - **MCP browser servers: BLOCKED (headed).** The Playwright / Chrome-DevTools MCP browser tools open
   a *visible* window and are denied by the `.claude/hooks/enforce-headless-qa.sh` PreToolUse hook
   (§0 "HEADLESS ONLY"). Drive `window.__qa` through a **headless page** instead — the tracked node
-  drivers (`qa-shots.mjs`, `playtest.mjs`) or an ad-hoc headless-chromium script under `tmp/`.
+  driver (`qa-shots.mjs`) or an ad-hoc headless-chromium script
+  under `tmp/`.
 - **The [`capture-game-states`](../../.claude/skills) skill:** the project's purpose-built driver for
   "drive the game headlessly and screenshot/record its states" — the front door for the §4 visual loop
   and audit sweeps; outputs land in [`audit/screens/latest/`](../../project/audit/screens/latest).
 - **Where the harness lives:** `src/app/` (the composition root) installs `window.__qa` under
-  `import.meta.env.DEV`, wrapping `src/core`'s `reduce`/`tick`; the screenshot/playtest drivers are
-  tracked at `src/scripts/qa-shots.mjs` + `src/scripts/playtest.mjs`. The auto-player + fun-proxy collectors
+  `import.meta.env.DEV`, wrapping `src/core`'s `reduce`/`tick`; the
+  screenshot driver is tracked at `src/scripts/qa-shots.mjs`
+  (`playtest.mjs` was retired 2026-07-18 —
+  rotted twice over; the balance sim + `@slow` arc tests cover the
+  long-grind smoke). The auto-player + fun-proxy collectors
   will live as a DEV/test module driven through the same API (still pending).
 
 ---

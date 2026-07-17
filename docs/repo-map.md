@@ -50,7 +50,8 @@ always-loaded context while being editable on its own.
   ADR-196 — new ADRs go in the newest band, numbers via
   `tree-claim.ts adr`),
   **[roadmap.md](../docs/living/roadmap.md)** (the milestone tracker),
-  **[ui-design.md](../docs/living/ui-design.md)** (the woodblock/ink UI bible),
+  **[ui-design.md](../docs/living/ui-design.md)** (the Andon Steel UI
+  bible, ADR-127),
   **[fun-factor.md](../docs/living/fun-factor.md)** (what fun is),
   **[qa-playtesting.md](../docs/guides/qa-playtesting.md)** (how Claude
   play-tests). Generated content/balance tables live under

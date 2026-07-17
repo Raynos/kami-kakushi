@@ -41,7 +41,7 @@ philosophy wins.**
   rather than waited on. Never block; never silently decide. →
   [`bias-to-motion.md`](docs/philosophy/bias-to-motion.md) (ADR-083)
 - **PH5 · If it isn't fun, it isn't finished.** A compiling build is the floor; the
-  bar is paced, genuinely fun, intentional (woodblock/ink, never AI-slop). Fun is a
+  bar is paced, genuinely fun, intentional (Andon Steel, never AI-slop). Fun is a
   hypothesis tested by play — proxies prove its absence, only a human certifies its
   presence. Lock the design language first (constraint reads handmade, defaults
   read slop), and the player gets the real game, never the scaffolding. →
@@ -208,7 +208,7 @@ Full version:
   place only if it **could have gone RED**: a false green is worse than no test
   (PH3). So, on **every** new test: **(1)** ask *"can this go RED?"* — a tautology
   or a dead-value ratchet is not a test; **(2)** derive fixtures from the
-  **source of truth** (`rungThreshold`, the `balance` constants), **never** copied
+  **source of truth** (`requirements.md`, the `balance` constants), **never** copied
   magic numbers (hard-coded act-counts broke ~6 tests at MS2·8); **(3)** assert the
   **design lever** (atk/taken/wear multiplier, the monotonic *mechanism*), not a
   collapsed metric (win-rate conflates levers; 15% vs 35% both round to "5"). And
@@ -342,9 +342,9 @@ Full version:
     promises exist in the game; the UI reveal follows the story beat.
   - **TST4 · The player never guesses state** — speaker, changes, newness,
     progress: readable at a glance.
-- **QA fun & visuals, not just function.** A compiling build isn't the bar — the
-  game must be *paced and fun* and *look intentional* (woodblock/ink, **not**
-  generic AI-slop). Three distinct living docs own this: **what fun *is* & how
+- **QA fun & visuals, not just function.** The game must be *paced and fun* and
+  *look intentional* (Andon Steel, **not** generic AI-slop). Three distinct
+  living docs own this: **what fun *is* & how
   to keep it high** → [`docs/living/fun-factor.md`](docs/living/fun-factor.md);
   **how Claude drives / observes / screenshots the game to play-test it** (the
   harness + MCP tools + the fun-proxy *measurement*) →
