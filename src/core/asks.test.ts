@@ -135,6 +135,38 @@ describe('the ask intent — heard-marking, inline only (D4/D7)', () => {
   });
 });
 
+describe('the authored ask registry (asks.md → asks.gen.ts seam)', () => {
+  it('every ask names a REAL person and an ordered rung window', () => {
+    const order = RANKS.map((r) => r.id);
+    for (const a of ASKS) {
+      expect(
+        () => getPerson(a.person),
+        `${a.id}: unknown person`,
+      ).not.toThrow();
+      expect(
+        order.indexOf(a.rungMin),
+        `${a.id}: bad rungMin`,
+      ).toBeGreaterThanOrEqual(0);
+      if (a.rungMax !== undefined) {
+        expect(
+          order.indexOf(a.rungMax),
+          `${a.id}: window runs backwards`,
+        ).toBeGreaterThanOrEqual(order.indexOf(a.rungMin));
+      }
+    }
+  });
+
+  it('every answer derives to at least one line at the ask’s opening rung', () => {
+    // native answers (ask-natives.ts) and static lines alike: data in, lines out
+    for (const a of ASKS) {
+      const lines = a.answer(standingFor(a));
+      expect(lines.length, `${a.id}: empty answer`).toBeGreaterThan(0);
+      for (const l of lines)
+        expect(l.text.length, `${a.id}: blank line`).toBeGreaterThan(0);
+    }
+  });
+});
+
 describe('asksHeard persistence (SCHEMA_VERSION 15, additive)', () => {
   it('heard asks survive a save→load round-trip', () => {
     const d = seedAsk()!;

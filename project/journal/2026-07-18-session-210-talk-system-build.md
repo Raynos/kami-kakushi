@@ -44,6 +44,26 @@ SCHEMA_VERSION 14→15 (identity migration + validate hydration),
 core/index exports, fixtures regenerated. `talk_to` untouched
 (retires at step 4). Full vitest suite green (1413).
 
+## 3 · Step 2 — the authoring pipeline (`## ask` grammar)
+
+Extended the FB-5 compiler with the `## ask <id> · <npc>` block:
+meta (`rungs:` window · required `label:` · optional `when:` /
+`refresh:` / `native:`) + id-marked static answer prose. Closed
+vocabularies live hand-written — `ask-refresh.ts` (D6 freshness
+kinds: rung/season/works/health) and `ask-natives.ts` (real-logic
+answers: house-wants, body-mend) — and emit validates authored keys
+against them at compile time (file:line errors). `asks.gen.ts` is
+the generated registry; `content/asks.ts` is now the gen→engine
+mapping (overlay-aware via `ask.<id>.<lineId>` — takes bundles can
+re-voice later without touching heard-state). Seeded the R0–R2
+matrix: genemon ×2, soan, ohisa, oyae, shinnosuke (placeholder
+voice, each pending its ADR-139 wave). The story doc gains an
+"everyday asks" section. Registry-seam tests added (9 green).
+
+Deferred, noted: takes.ts bundle units for asks land with the first
+ask-answer wave (the overlay hook is live; only the bundle grammar
+side is missing).
+
 <!-- append further entries below, in order -->
 
 ---

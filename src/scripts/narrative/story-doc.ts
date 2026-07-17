@@ -198,6 +198,47 @@ export function emitStoryDoc(docs: readonly NarrativeDoc[]): string {
     }
   }
 
+  // ── the everyday asks (FB-415) — grouped per person, window + label + answer;
+  // a native answer names its hand-written fn (ask-natives.ts derives it live). ──
+  const askDefs = docs.flatMap((d) => d.blocks).filter((b) => b.kind === 'ask');
+  if (askDefs.length > 0) {
+    L.push('## The everyday asks (FB-415)', '');
+    L.push(
+      '> State-derived talk: each ask is a rung-windowed question answered',
+      '> inline in the talk surface (never the Story log — D4). A `native`',
+      '> answer derives from live state in `ask-natives.ts`; prose here is the',
+      '> static answer as authored.',
+      '',
+    );
+    const people = [...new Set(askDefs.map((a) => a.person))];
+    for (const person of people) {
+      L.push(`### ${person}`, '');
+      for (const a of askDefs.filter((x) => x.person === person)) {
+        const window =
+          a.rungMax === undefined
+            ? `${a.rungMin}+`
+            : a.rungMin === a.rungMax
+              ? a.rungMin
+              : `${a.rungMin}–${a.rungMax}`;
+        L.push(
+          `- ${resolve(a.label ?? '')} <small>*(${a.id} · ${window}${a.refresh ? ` · refresh: ${a.refresh}` : ''})*</small>`,
+        );
+        if (a.native !== undefined) {
+          L.push(`  - <small>native: ${a.native}</small>`);
+        } else {
+          for (const line of a.lines) {
+            const said =
+              line.kind === 'speech'
+                ? `${line.speaker}: ${line.text}`
+                : line.text;
+            L.push(`  - ${resolve(said)}`);
+          }
+        }
+      }
+      L.push('');
+    }
+  }
+
   // ── the hidden rung requirements (FB-121 / ADR-137) — the human's sign-off
   // artifact for the authored lists: flavor first (what the player feels), the
   // Progress-tab objective line under it (HD-41 — what the register records),

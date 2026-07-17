@@ -1047,6 +1047,40 @@
 - "It'll mend while I work." <small>· memory soan +0 (walks-it-off) · flags tended-by-soan</small>
   **Sōan:** "It will not. It will knit crooked and you will carry it the rest of a life spent carrying things — but you are not mine to keep, and a man who will not lie down cannot be made to. Take the wrap with you and put it on before the swelling does the arguing. The room is the lean-to off the outer court; the door is the one you came through. You will come back through it. They all do. I would rather you came in on your feet."
 
+## The everyday asks (FB-415)
+
+> State-derived talk: each ask is a rung-windowed question answered
+> inline in the talk surface (never the Story log — D4). A `native`
+> answer derives from live state in `ask-natives.ts`; prose here is the
+> static answer as authored.
+
+### genemon
+
+- “How do I stand with the house?” <small>*(genemon-house-standing · R0+ · refresh: rung)*</small>
+  - Genemon: “The book says what it says. My ledger holds one line for you — what you are to this house today is written there, and today it reads: nothing more, nothing less.”
+- “What does the house want of me?” <small>*(genemon-house-wants · R0+ · refresh: rung)*</small>
+  - <small>native: house-wants</small>
+
+### soan
+
+- “Have a look at me, would you?” <small>*(soan-body-mend · R0+ · refresh: health)*</small>
+  - <small>native: body-mend</small>
+
+### ohisa
+
+- “What’s the kitchen cooking?” <small>*(ohisa-kitchen-season · R0+ · refresh: season)*</small>
+  - O-Hisa: “What the season gives, we cook. The pot doesn’t argue with the calendar and neither do I — come at mealtime and you’ll see for yourself.”
+
+### oyae
+
+- “Any word from the village?” <small>*(oyae-village-news · R1+ · refresh: season)*</small>
+  - O-Yae: “Word comes up the road with me every morning — most of it not worth the carrying. Ask me again when the season turns; that’s when the village finds things worth saying.”
+
+### shinnosuke
+
+- “What are you up to?” <small>*(shinnosuke-what-are-you-doing · R0+)*</small>
+  - Shinnosuke: “Watching you. Grandfather says you came from the weir with no name on you. I’ve never met anyone who wasn’t anyone before.”
+
 ## The hidden rung requirements
 
 > The player never sees this list — only the rounded % bar, each

@@ -202,6 +202,7 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
   // §3.3 topic + option ids globally unique (each namespace flat across the doc set).
   const topicIds = new Map<string, Loc>();
   const optionIds = new Map<string, Loc>();
+  const askIds = new Map<string, Loc>(); // FB-415 — ask ids are the asksHeard save keys
   const rankKeys = new Map<string, Loc>();
   const reqRungs = new Map<string, Loc>();
   const introScenes: IntroSceneNode[] = [];
@@ -243,6 +244,26 @@ export function validateNarrative(docs: readonly NarrativeDoc[]): Verdict {
             err(r.loc, `duplicate req id "${r.id}" in ${block.rankKey}`);
           seen.add(r.id);
           if (r.flavor) checkText(r.flavor, r.loc);
+        }
+        continue;
+      }
+      if (block.kind === 'ask') {
+        // FB-415 — ask ids are save keys (asksHeard) and future overlay addresses
+        // (`ask.<id>.<line-id>`): globally unique, and each answer line's slug unique
+        // within its ask. Person/refresh/native key resolution is emit's concern
+        // (emitAskDef errors with file:line against the live registries).
+        if (askIds.has(block.id)) {
+          err(block.loc, `duplicate ask id "${block.id}"`);
+        }
+        askIds.set(block.id, block.loc);
+        const seen = new Set<string>();
+        for (const l of block.lines) {
+          if (l.id !== undefined) {
+            if (seen.has(l.id))
+              err(l.loc, `duplicate line id "#${l.id}" in ask "${block.id}"`);
+            seen.add(l.id);
+          }
+          checkText(l.text, l.loc);
         }
         continue;
       }

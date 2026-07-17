@@ -17,6 +17,7 @@ import { NAMES } from '../../core/content/names';
 import {
   NarrativeError,
   parseSceneTrigger,
+  type AskDefNode,
   type DialogueDefNode,
   type IntroSceneNode,
   type NarrativeDoc,
@@ -28,6 +29,8 @@ import {
   type SpeechLine,
   type WhenGate,
 } from './parse';
+import { ASK_REFRESH_KINDS } from '../../core/content/ask-refresh';
+import { NATIVE_ASK_KINDS } from '../../core/content/ask-natives';
 
 /** display name → NpcId (the NPC_NAME reverse map). */
 const NPC_BY_NAME = new Map<string, NpcId>(
@@ -435,6 +438,58 @@ export function emitDialogue(doc: NarrativeDoc): string {
   return withImports(GENERATED(doc.file, 'dialogue.ts'), body, [
     `import { NAMES } from './names';`,
     `import type { DialogueDef } from './dialogue';`,
+  ]);
+}
+
+// ── everyday asks (FB-415) ──────────────────────────────────────────────────
+
+function emitAskDef(def: AskDefNode): string {
+  if (!NPC_NAME[def.person as NpcId]) {
+    throw new NarrativeError(
+      def.loc,
+      `unknown ask person "${def.person}" (an NPC id)`,
+    );
+  }
+  if (def.refresh !== undefined && !ASK_REFRESH_KINDS.has(def.refresh)) {
+    throw new NarrativeError(
+      def.loc,
+      `unknown ask refresh "${def.refresh}" (ask-refresh.ts knows: ${[...ASK_REFRESH_KINDS].join(', ')})`,
+    );
+  }
+  if (def.native !== undefined && !NATIVE_ASK_KINDS.has(def.native)) {
+    throw new NarrativeError(
+      def.loc,
+      `unknown ask native "${def.native}" (ask-natives.ts knows: ${[...NATIVE_ASK_KINDS].join(', ')})`,
+    );
+  }
+  const L: string[] = ['{'];
+  L.push(`id: ${str(def.id)},`);
+  L.push(`person: ${str(def.person)},`);
+  L.push(`rungMin: ${str(def.rungMin!)},`);
+  if (def.rungMax !== undefined) L.push(`rungMax: ${str(def.rungMax)},`);
+  L.push(`label: ${textExpr(def.label!, def.loc)},`);
+  if (def.when) L.push(whenExpr(def.when));
+  if (def.refresh !== undefined) L.push(`refresh: ${str(def.refresh)},`);
+  if (def.native !== undefined) L.push(`native: ${str(def.native)},`);
+  if (def.lines.length > 0) {
+    L.push('lines: [');
+    for (const l of def.lines) L.push(emitProseLine(l));
+    L.push('],');
+  }
+  L.push('},');
+  return L.join('\n');
+}
+
+/** Compile the asks narrative doc into the `asks.gen.ts` module source (unformatted). */
+export function emitAsks(doc: NarrativeDoc): string {
+  const defs = doc.blocks.filter((b) => b.kind === 'ask');
+  const body = `export const ASK_DEFS: readonly GenAskDef[] = [\n${defs
+    .map(emitAskDef)
+    .join('\n\n')}\n];`;
+  return withImports(GENERATED(doc.file, 'asks.ts'), body, [
+    `import { NAMES } from './names';`,
+    `import { NPC_NAME } from './voices';`,
+    `import type { GenAskDef } from './asks';`,
   ]);
 }
 

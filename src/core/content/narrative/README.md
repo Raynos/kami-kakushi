@@ -30,6 +30,17 @@ purpose); the compiled one-page reading copy is `docs/content/t0-story.md`.
   ceremony, the R5 Count, authored side-beats), one `## scene-def <id>` block
   each. Re-exported by `../scenes.ts` (which keeps the types + `sceneById`). A
   STUB at G3.5; filled at G4.1.
+- `asks.md` → `../asks.gen.ts` — the **everyday-ask registry** (FB-415,
+  talk-system redesign): `## ask <id> · <npc>` blocks — meta (`rungs:`
+  window `R0+`/`R0–R3`/`R2` · required `label:` — the MC's spoken
+  question, quotes verbatim · optional `when:` flag/regard gate ·
+  `refresh:` from the CLOSED `../ask-refresh.ts` vocabulary · `native:`
+  from `../ask-natives.ts`, the real-logic escape hatch, exclusive with
+  prose), then static answer prose (speech/narr lines, each with a
+  line-id marker — the takes-overlay address `ask.<id>.<line-id>`).
+  Re-exported by `../asks.ts` (the gen→engine mapping); the engine
+  (selector + `ask` intent) is `core/asks.ts`. Answers render INLINE in
+  the talk surface, never any log channel (D4).
 - `requirements.md` → `../requirements.gen.ts` — the **hidden rung-requirement
   lists** (FB-121 / ADR-137), one `## requirements R<n>` block per rung R0–R7
   (the validator holds the set to exactly all eight, each with **≥3

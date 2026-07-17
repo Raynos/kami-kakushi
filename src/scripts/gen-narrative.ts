@@ -21,6 +21,7 @@ import {
   type NarrativeDoc,
 } from './narrative/parse';
 import {
+  emitAsks,
   emitColdOpen,
   emitDialogue,
   emitFlavor,
@@ -81,6 +82,11 @@ const TARGETS: readonly Target[] = [
     md: 'src/core/content/narrative/scenes.md',
     out: 'src/core/content/scenes.gen.ts',
     emit: emitScenes,
+  },
+  {
+    md: 'src/core/content/narrative/asks.md',
+    out: 'src/core/content/asks.gen.ts',
+    emit: emitAsks,
   },
 ];
 

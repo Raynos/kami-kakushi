@@ -234,6 +234,27 @@ export interface DialogueDefNode {
   readonly loc: Loc;
 }
 
+/** An everyday-ask def (`## ask <id> · <npc>` — FB-415, the talk-system redesign).
+ *  Meta annotations: `rungs:` (the D5 window — `R0+` / `R0–R3` / `R2`), required
+ *  `label:` (the MC's spoken question, quotes verbatim), optional `when:` (reuses the
+ *  dialogue WhenGate), `refresh:` (a closed ASK_REFRESH vocabulary key — D6), and
+ *  `native:` (a NATIVE_ASK_ANSWERS key — the real-logic escape hatch; then NO prose).
+ *  A static answer is prose lines, each carrying a `<!--#slug-->` id (the future
+ *  takes-overlay address `ask.<id>.<line-id>`). */
+export interface AskDefNode {
+  readonly kind: 'ask';
+  readonly id: string;
+  readonly person: string;
+  rungMin?: string;
+  rungMax?: string;
+  when?: WhenGate;
+  refresh?: string;
+  native?: string;
+  label?: string;
+  readonly lines: ProseLine[];
+  readonly loc: Loc;
+}
+
 /** A keyed-prose block (`## prose cold-open` → `### wake` …). */
 export interface ProseDocNode {
   readonly kind: 'prose';
@@ -295,6 +316,7 @@ export type BlockNode =
   | IntroSceneNode
   | SceneDefNode
   | DialogueDefNode
+  | AskDefNode
   | ProseDocNode
   | RequirementsNode;
 
@@ -331,6 +353,11 @@ const RESERVED = new Set([
   'flavor',
   'objective',
   'drive',
+  // FB-415 `## ask` meta keys
+  'rungs',
+  'refresh',
+  'native',
+  'label',
 ]);
 
 const RE_RUNG = /^## rung (\S+) · (\S+)\s*$/;
@@ -339,6 +366,7 @@ const RE_REQ = /^### req ([a-z0-9-]+) · (.+)$/;
 const RE_SCENE = /^## scene (\S+)\s*$/;
 const RE_SCENEDEF = /^## scene-def (\S+)\s*$/;
 const RE_DIALOGUE = /^## dialogue (\S+) · (\S+)\s*$/;
+const RE_ASK = /^## ask ([a-z0-9-]+) · ([a-z-]+)\s*$/;
 const RE_PROSE = /^## prose (\S+)\s*$/;
 const RE_TOPIC = /^### ask ([a-z0-9-]+) · (.+)$/;
 const RE_DECIDE = /^### decide · (.+)$/;
@@ -408,6 +436,29 @@ function parsePerk(raw: string, loc: Loc): { name: string; desc: string } {
       `bad perk "${raw}" — expected "<Name> — <desc>"`,
     );
   return { name: m[1]!, desc: m[2]! };
+}
+
+/** Parse an ask's `rungs:` window — `R0+` (open top) / `R0–R3` (also ASCII `-`) / `R2`. */
+function parseRungWindow(raw: string, loc: Loc): { min: string; max?: string } {
+  const s = raw.trim();
+  const open = /^(R[0-7])\+$/.exec(s);
+  if (open) return { min: open[1]! };
+  const span = /^(R[0-7])[–-](R[0-7])$/.exec(s);
+  if (span) {
+    if (Number(span[1]![1]) > Number(span[2]![1])) {
+      throw new NarrativeError(
+        loc,
+        `rungs window "${s}" runs backwards (min above max)`,
+      );
+    }
+    return { min: span[1]!, max: span[2]! };
+  }
+  const one = /^(R[0-7])$/.exec(s);
+  if (one) return { min: one[1]!, max: one[1]! };
+  throw new NarrativeError(
+    loc,
+    `bad rungs "${s}" — expected "R<n>+", "R<n>–R<m>", or "R<n>"`,
+  );
 }
 
 /** Parse `when: raked` | `when: soan.regard is grateful` | `when: soan.regard not grateful`. */
@@ -493,7 +544,8 @@ type Section =
   | 'prose' // between `## prose` and its first `### <key>`
   | 'prose-entry'
   | 'requirements' // between `## requirements` and its first `### req`
-  | 'req-entry';
+  | 'req-entry'
+  | 'ask'; // inside an `## ask` def (annotations + answer prose, no sub-headings)
 
 export function parseNarrative(source: string, file: string): NarrativeDoc {
   const lines = source.split('\n');
@@ -501,6 +553,7 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
 
   let scene: RungSceneNode | IntroSceneNode | SceneDefNode | undefined;
   let dialogue: DialogueDefNode | undefined;
+  let ask: AskDefNode | undefined;
   let prose: ProseDocNode | undefined;
   let reqs: RequirementsNode | undefined;
   let rentry: ReqEntryNode | undefined;
@@ -521,6 +574,7 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
   const resetBlock = (): void => {
     scene = undefined;
     dialogue = undefined;
+    ask = undefined;
     prose = undefined;
     reqs = undefined;
     rentry = undefined;
@@ -599,6 +653,37 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
             loc.line,
             `unknown dialogue-line key "${key}" (voice/when)`,
           );
+      } else if (section === 'ask' && ask) {
+        if (ask.lines.length > 0)
+          return fail(loc.line, 'ask meta must come before the answer prose');
+        if (key === 'rungs') {
+          if (ask.rungMin !== undefined)
+            return fail(loc.line, 'duplicate ask rungs');
+          const w = parseRungWindow(value, loc);
+          ask.rungMin = w.min;
+          if (w.max !== undefined) ask.rungMax = w.max;
+        } else if (key === 'label') {
+          if (ask.label !== undefined)
+            return fail(loc.line, 'duplicate ask label');
+          ask.label = value.trim();
+        } else if (key === 'when') {
+          if (ask.when !== undefined)
+            return fail(loc.line, 'duplicate ask when');
+          ask.when = parseWhen(value, loc);
+        } else if (key === 'refresh') {
+          if (ask.refresh !== undefined)
+            return fail(loc.line, 'duplicate ask refresh');
+          ask.refresh = value.trim();
+        } else if (key === 'native') {
+          if (ask.native !== undefined)
+            return fail(loc.line, 'duplicate ask native');
+          ask.native = value.trim();
+        } else {
+          return fail(
+            loc.line,
+            `unknown ask key "${key}" (rungs/label/when/refresh/native)`,
+          );
+        }
       } else if (section === 'req-entry' && rentry) {
         if (key === 'flavor') {
           if (rentry.flavor !== undefined)
@@ -664,6 +749,8 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
       option.react = node;
     } else if (topic && section === 'topic') {
       topic.answer.push(node);
+    } else if (ask && section === 'ask') {
+      ask.lines.push(node);
     } else if (scene && (section === 'greeting' || section === 'meta')) {
       scene.greeting.push(node);
     } else {
@@ -789,6 +876,21 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
       section = 'dialogue';
       continue;
     }
+    const askM = RE_ASK.exec(raw);
+    if (askM) {
+      close();
+      resetBlock();
+      ask = {
+        kind: 'ask',
+        id: askM[1]!,
+        person: askM[2]!,
+        lines: [],
+        loc: { file, line: n },
+      };
+      blocks.push(ask);
+      section = 'ask';
+      continue;
+    }
     if (proseM) {
       close();
       resetBlock();
@@ -850,6 +952,12 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
           n,
           `unrecognized heading in a requirements block: "${raw}"`,
         ) as never;
+    }
+    if (ask && raw.startsWith('#')) {
+      return fail(
+        n,
+        `unrecognized heading in an ask def: "${raw}" (asks have no sub-headings)`,
+      ) as never;
     }
     if (prose) {
       const keyM = RE_KEY.exec(raw);
@@ -1057,6 +1165,24 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
             l.loc,
             `dialogue line "${l.id}" has no text`,
           );
+      }
+    } else if (b.kind === 'ask') {
+      if (b.rungMin === undefined)
+        throw new NarrativeError(b.loc, `ask "${b.id}" has no rungs window`);
+      if (b.label === undefined)
+        throw new NarrativeError(b.loc, `ask "${b.id}" has no label`);
+      // a native answer and prose lines are mutually exclusive; one is required
+      if (b.native !== undefined && b.lines.length > 0) {
+        throw new NarrativeError(
+          b.loc,
+          `ask "${b.id}" declares native: AND prose lines — pick one`,
+        );
+      }
+      if (b.native === undefined && b.lines.length === 0) {
+        throw new NarrativeError(
+          b.loc,
+          `ask "${b.id}" has no answer (prose lines or native:)`,
+        );
       }
     } else if (b.kind === 'requirements') {
       if (b.reqs.length === 0) {
