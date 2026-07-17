@@ -188,7 +188,7 @@ Deliberately not built; each says why. Never nagged.
   wc-l cap); if a new ADR-075 diverge grows it, split it
   per-surface then.
 
-- **A worktree agent can't playtest through `:5173` (found
+- **A worktree agent can't playtest through `:5264` (found
   session-206, ADR-199).** The shared dev server runs from the MAIN
   tree root, so a job isolated in a worktree cannot reach its own
   changes in the live playtest — a PH6 collision. Today's answer is

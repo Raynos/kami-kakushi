@@ -4,7 +4,7 @@
 // rehydrated byte-identically. Exercises the real encodeStore→localStorage→decodeStore→render path.
 import { chromium } from 'playwright';
 
-const BASE = process.env.QA_URL || 'http://localhost:5173';
+const BASE = process.env.QA_URL || 'http://localhost:5264';
 const browser = await chromium.launch({ headless: true });
 const errors = [];
 let failed = false;

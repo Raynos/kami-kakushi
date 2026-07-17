@@ -107,11 +107,15 @@ const SHIP_DEV_TOOLS = !['0', 'false', 'no', 'off'].includes(
 //
 // It must IGNORE ITSELF. Vite restarts IN-PROCESS when the config — or anything the config
 // imports (playtest-inbox.ts, telemetry-drop.ts) — changes: restartServer() re-evaluates this
-// file (re-running the guard) and only THEN closes the old server. So mid-restart :5173 is
+// file (re-running the guard) and only THEN closes the old server. So mid-restart the port is
 // still listening, held by our OWN pid. Counting that as "someone else" made the dev server
 // exit(1) on every edit to a config dep — it killed itself, and the playtest-capture POST was
 // left with no inbox to reach (the human hit exactly this while an agent edited telemetry-drop).
-const DEV_PORT = 5173;
+//
+// 5264 — "KAMI" on a phone keypad (human, 2026-07-17): 5173 kept being stolen by OTHER
+// prototypes' vite servers on this box (vite's default cascade walks 5173→5174→5175…), so
+// kami's canonical port lives far outside that range. The e2e lane stays on 5199.
+const DEV_PORT = 5264;
 function singleServerGuard(): void {
   if (process.env.KAMI_ALLOW_MULTI_DEV === '1') return;
   let listening: string;
@@ -246,7 +250,7 @@ export default defineConfig(({ command }) => {
       },
     ],
     server: {
-      // One dev server, on 5173, or none: pin the port and refuse to cascade. The
+      // One dev server, on DEV_PORT (5264), or none: pin the port and refuse to cascade. The
       // singleServerGuard above prints a friendly message first; strictPort is the backstop
       // so a race (port taken between the check and the bind) still fails instead of sprawling.
       port: DEV_PORT,

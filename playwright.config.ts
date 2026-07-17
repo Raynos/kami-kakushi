@@ -11,7 +11,7 @@
 // so tests see exactly what a player sees while staying drivable.
 import { defineConfig, devices } from '@playwright/test';
 
-const PORT = 5199; // NOT 5173 — never fights the human's live dev server
+const PORT = 5199; // NOT 5264 — never fights the human's live dev server
 
 export default defineConfig({
   testDir: './src/tests/e2e',
@@ -31,7 +31,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   webServer: {
-    // KAMI_ALLOW_MULTI_DEV bypasses the single-dev-server guard (which watches 5173
+    // KAMI_ALLOW_MULTI_DEV bypasses the single-dev-server guard (which watches 5264
     // regardless of our port); --strictPort keeps this lane from cascading either.
     command: `KAMI_ALLOW_MULTI_DEV=1 pnpm exec vite --port ${PORT} --strictPort`,
     url: `http://localhost:${PORT}`,

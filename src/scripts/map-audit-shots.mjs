@@ -9,11 +9,11 @@
 // (rake arcs, room captions, terrace numerals — spec L10) is invisible in
 // every shot. That exact bug hid the fine layer from the iter1–5 blind passes.
 //
-// Usage: QA_URL=http://localhost:5173/ node src/scripts/map-audit-shots.mjs [outdir]
+// Usage: QA_URL=http://localhost:5264/ node src/scripts/map-audit-shots.mjs [outdir]
 import { chromium } from 'playwright';
 import { mkdirSync } from 'node:fs';
 
-const URL = process.env.QA_URL || 'http://localhost:5173/';
+const URL = process.env.QA_URL || 'http://localhost:5264/';
 const OUT =
   process.argv[2] ||
   `project/audit/screens/${new Date().toISOString().slice(0, 10)}-t0t1-map-shots`;

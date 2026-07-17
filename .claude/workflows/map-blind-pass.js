@@ -69,7 +69,7 @@ if (!sheets || sheets.length === 0 || sheets.some((s) => !VALID.includes(s))) {
       JSON.stringify(args),
   };
 }
-const url = a.url || 'http://localhost:5173/';
+const url = a.url || 'http://localhost:5264/';
 const outdirArg = a.outdir || '';
 const READERS = 3; // per sheet; verdict = strict majority of judged descriptions
 

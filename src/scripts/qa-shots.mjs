@@ -1,11 +1,11 @@
 // Headless QA screenshot harness (PRD §6.10 / qa-playtesting.md §4). Drives the DEV
 // __qa API to a sequence of states and screenshots each — fully headless (no GUI).
-// Usage: QA_URL=http://localhost:5174/ node src/scripts/qa-shots.mjs
+// Usage: QA_URL=http://localhost:5264/ node src/scripts/qa-shots.mjs
 import { chromium } from 'playwright';
 import { execFileSync } from 'node:child_process';
 import { readdirSync } from 'node:fs';
 
-const URL = process.env.QA_URL || 'http://localhost:5174/';
+const URL = process.env.QA_URL || 'http://localhost:5264/';
 const OUT = 'project/audit/screens/latest';
 
 // Each step: optional `run` (a JS expression string evaluated in the page) or `fn`

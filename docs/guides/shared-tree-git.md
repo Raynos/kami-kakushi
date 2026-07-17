@@ -163,14 +163,14 @@ the committed `.gitignore`).
 
 1. **Its own `node_modules`.** A worktree is a separate checkout;
    dependencies are not shared. Budget a `pnpm install`.
-2. **It is NOT what `:5173` serves.** The shared dev server runs from
+2. **It is NOT what `:5264` serves.** The shared dev server runs from
    the **main tree root** — so your worktree's changes are *not*
    reachable in the shared playtest, and by PH6 ("if a player can't
    reach it, it doesn't exist") un-playtested work is not done. Either
    playtest **after** landing on `main`, or run your own vite on
    another port with the documented escape
    (`KAMI_ALLOW_MULTI_DEV=1` / `SKIP_DEVGUARD=1`) — **never** kill or
-   respawn the shared `:5173` server.
+   respawn the shared `:5264` server.
 
 ### Landing it
 

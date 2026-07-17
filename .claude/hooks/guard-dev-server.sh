@@ -8,10 +8,10 @@
 #
 # Contract: reads the PreToolUse JSON on stdin, inspects .tool_input.command.
 #   • start-a-dev-server cmd (pnpm/npm/yarn/bun dev, bare `vite`/`vite serve`)
-#       AND :5173 already held  → exit 2 (block): reuse the running one.
-#       AND :5173 free          → exit 0 + warn (nudge toward the herdr pane).
-#   • kill-the-dev-server cmd (pkill vite, kill of the :5173 holder, xargs kill)
-#       AND :5173 held          → exit 2 (block): never kill+respawn the shared one.
+#       AND :5264 already held  → exit 2 (block): reuse the running one.
+#       AND :5264 free          → exit 0 + warn (nudge toward the herdr pane).
+#   • kill-the-dev-server cmd (pkill vite, kill of the :5264 holder, xargs kill)
+#       AND :5264 held          → exit 2 (block): never kill+respawn the shared one.
 # Exits 0 silently otherwise.
 #
 # False-positive discipline: trigger tokens quoted as DATA (a git commit message,
@@ -48,7 +48,7 @@ git | echo | printf | cat | jq | tee | grep | rg | egrep | sed | awk | head | ta
   ;;
 esac
 
-DEV_PORT=5173
+DEV_PORT=5264
 
 # Command position: line start or right after a ; & | ( operator (+ optional
 # env-assignment / nohup / env / timeout wrappers). NOT a bare space, so a

@@ -26,11 +26,11 @@ and play** — each need a different QA tool. This plan covers all three.
   `window.__qa` through a headless page. **Do NOT use the Playwright / Chrome-DevTools
   MCP browser tools** — they open a *visible* browser window, which is disallowed here
   (enforced by the `.claude/hooks/enforce-headless-qa.sh` PreToolUse hook). **Reuse the
-  ONE dev server** — it runs in the shared herdr playtest pane on `:5173`; point your
-  headless driver at `http://localhost:5173`. **Never `pnpm run dev` a rival, never
+  ONE dev server** — it runs in the shared herdr playtest pane on `:5264`; point your
+  headless driver at `http://localhost:5264`. **Never `pnpm run dev` a rival, never
   kill+respawn the running one** — that churn keeps taking the server down for everyone in
   this shared tree (enforced by the `.claude/hooks/guard-dev-server.sh` PreToolUse hook).
-  If `:5173` is genuinely dead, ask the human to restart the pane.
+  If `:5264` is genuinely dead, ask the human to restart the pane.
 - **Drive real code paths, never synthetic input.** All QA routes through the pure-core
   `reduce(state, intent)` / `tick(state, dt)` contracts (§6.3) via a DEV-only API — the *same* flow a
   real player triggers. No test-only shortcuts; a scripted pass exercises the actual game.
@@ -445,12 +445,12 @@ audit saturates.** Each iteration is a small, shippable, verify-green improvemen
 
 ## 7. Tooling
 
-- **Dev server:** ONE Vite server, in the shared **herdr playtest pane** on `:5173` — reuse it; the
+- **Dev server:** ONE Vite server, in the shared **herdr playtest pane** on `:5264` — reuse it; the
   headless drivers point at it. **Do NOT spawn your own and do NOT kill the running one** — a rival
   `pnpm run dev` / a `kill`+respawn is what keeps taking the shared server down (the vite
   `singleServerGuard` + the `.claude/hooks/guard-dev-server.sh` PreToolUse hook both block it;
   bypass a genuine throwaway with `KAMI_ALLOW_MULTI_DEV=1` / `SKIP_DEVGUARD=1`). It does **not**
-  survive a Claude restart — if `:5173` is truly dead, ask the human to relaunch the pane.
+  survive a Claude restart — if `:5264` is truly dead, ask the human to relaunch the pane.
 - **MCP browser servers: BLOCKED (headed).** The Playwright / Chrome-DevTools MCP browser tools open
   a *visible* window and are denied by the `.claude/hooks/enforce-headless-qa.sh` PreToolUse hook
   (§0 "HEADLESS ONLY"). Drive `window.__qa` through a **headless page** instead — the tracked node

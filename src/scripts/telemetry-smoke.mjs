@@ -11,7 +11,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 
-const BASE = process.env.QA_URL || 'http://localhost:5173';
+const BASE = process.env.QA_URL || 'http://localhost:5264';
 const browser = await chromium.launch({ headless: true });
 let failed = false;
 const fail = (m) => {

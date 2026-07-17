@@ -107,7 +107,7 @@ FB-257. `dev`·`build`·`/ship`.
    [`journal/2026-07-14-session-207-skills-audit.md`](../journal/2026-07-14-session-207-skills-audit.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev
-   server on localhost:5173 (never spawn/kill your own). **`?dev=no`**
+   server on localhost:5264 (never spawn/kill your own). **`?dev=no`**
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
 4. **Next (autonomous):** merchant-state LANDED (session 204,
@@ -117,4 +117,4 @@ FB-257. `dev`·`build`·`/ship`.
    commits stay local by design). Render-split LANDED (session 203):
    surface work goes in `src/ui/render|dev/`, not the shells.
 
-<!-- rewrite-debt: 8/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 9/20 · last full rewrite: 2026-07-13 -->
