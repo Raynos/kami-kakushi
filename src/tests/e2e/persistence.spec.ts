@@ -93,7 +93,7 @@ test('export → import round-trips through the real settings UI', async ({
   try {
     const page2 = await ctx.newPage();
     await page2.goto(
-      `http://localhost:5199/?dev=no&telemetry=no&fixture=fresh-R3-pre-wolf`,
+      `http://localhost:5265/?dev=no&telemetry=no&fixture=fresh-R3-pre-wolf`,
     );
     await page2.waitForFunction('Boolean(window.__qa)');
     await page2.waitForFunction(`window.__qa.state().rung === 'R3'`);

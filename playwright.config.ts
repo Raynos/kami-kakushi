@@ -11,7 +11,11 @@
 // so tests see exactly what a player sees while staying drivable.
 import { defineConfig, devices } from '@playwright/test';
 
-const PORT = 5199; // NOT 5264 — never fights the human's live dev server
+// NOT 5264 (never fights the human's live dev server) and NOT 5199 anymore:
+// another prototype on this box squatted 5199 and reuseExistingServer happily
+// drove the wrong game (115 reds, 2026-07-17). 5265 rides beside kami's 5264 —
+// the "KAMI"-keypad family, outside every vite-default cascade on this box.
+const PORT = 5265;
 
 export default defineConfig({
   testDir: './src/tests/e2e',
