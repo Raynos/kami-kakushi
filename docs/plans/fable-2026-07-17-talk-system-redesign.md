@@ -1,6 +1,15 @@
 # Rebuild talking: state-derived asks + authored beats (FB-415)
 
-**Status:** ▶️ IN PROGRESS (picked up 2026-07-18, session 210)
+**Status:** ▶️ IN-PROGRESS — steps 1–5 built & shipped (2026-07-18,
+session 210 — 9e2dff3c · 353fdacf · 10c00d0f · e8afaac4; ADR-200);
+only the authored waves remain. The
+engine, the `## ask` grammar + R0–R2 seed, the three-variant surface
+(HR-45, A ships), the D8 re-homing (talk_to retired, full-T0 floor
+proven), and the D6 freshness are all live. **REMAINING, queued
+here: the per-person ADR-139 ask-answer waves** — upgrade the
+placeholder labels/answers (each `-word` person-ask + the D2 seed
+asks) bundle by bundle in the Story switcher; discovery-hint asks
+join per wave. Pick this plan up to run a wave.
 
 **Rulings (human, 2026-07-18 — pre-build Q&A):**
 - **Routing:** all five steps build in the Fable session (no Opus
