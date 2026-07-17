@@ -50,3 +50,22 @@ plan out of the reading queue (human call).
   `map-audit-shots` before the next push if in doubt.
 - Verify budget: median 6.04s (soft 5s) on this loaded box — one
   commit needed `SKIP_BUDGET=1` during a 9s spike; watch it.
+
+---
+
+## Entry 2 — the port sprawl second strike + the FB-415 grill
+
+- **e2e lane moved to :5265** (`60101d92`): local `test:e2e` ran 115
+  reds because ANOTHER prototype ("Blazing Trigger") squatted :5199
+  and `reuseExistingServer` drove the wrong game. 115/115 green on
+  5265. Both ports now live in the KAMI-keypad family (5264/5265).
+- **FB-415 grilled → planned.** Grill capture:
+  `project/brainstorms/2026-07-17-talk-system-redesign.md` (D1–D8:
+  info+beats · house/body/discovery payload · surface diverge ·
+  inline-only info · rung-scoped everyone · state-driven freshness ·
+  free · re-home all). Plan:
+  `docs/plans/fable-2026-07-17-talk-system-redesign.md` (📋 PROPOSED,
+  queued for the human). r0 bucket archived once FB-415's sidecar
+  stamped → plan.
+- Seam noted in the plan: co-agent `w8:p1` ("vn-modal") is live in
+  this tree — the VN-lite talk variant must not edit VN scene modules.

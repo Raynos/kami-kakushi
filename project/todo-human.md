@@ -29,6 +29,10 @@
   [`project/brainstorms/2026-07-12-quest-shapes-that-emerged.md`](brainstorms/2026-07-12-quest-shapes-that-emerged.md)
   — the four quest shapes ADR-184's reveal wave actually produced
   (emergent, deliberately not an ADR — your call)
+- [ ]
+  [`docs/plans/fable-2026-07-17-talk-system-redesign.md`](../docs/plans/fable-2026-07-17-talk-system-redesign.md)
+  — the FB-415 talk-system redesign plan, built from your grill answers
+  (D1–D8): state-derived asks + authored beats, surface via diverge.
 
 > **What belongs here** — a durable doc whose purpose is for you to read
 > or sign off: a **plan** (`docs/plans/`), a **brainstorm /
