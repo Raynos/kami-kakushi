@@ -110,11 +110,11 @@ FB-257. `dev`·`build`·`/ship`.
    server on localhost:5264 (never spawn/kill your own). **`?dev=no`**
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** FB-415 talk plan ▶️ steps 1–2 DONE (s210);
-   NEXT step-3 diverge → step-4 re-home (full-T0 floor). Inbox ✅.
+4. **Next (autonomous):** FB-415 talk SHIPPED (s210, ADR-200; pick
+   at HR-45) — its ADR-139 ask-answer waves are the queued pickup.
 5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
    with **`pnpm run push`** (bare `git push` is blocked; lane held →
    commits stay local by design). Render-split LANDED (session 203):
    surface work goes in `src/ui/render|dev/`, not the shells.
 
-<!-- rewrite-debt: 11/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 12/20 · last full rewrite: 2026-07-13 -->

@@ -30,10 +30,6 @@
   — the four quest shapes ADR-184's reveal wave actually produced
   (emergent, deliberately not an ADR — your call)
 - [ ]
-  [`docs/plans/fable-2026-07-17-talk-system-redesign.md`](../docs/plans/fable-2026-07-17-talk-system-redesign.md)
-  — the FB-415 talk-system redesign plan, built from your grill answers
-  (D1–D8): state-derived asks + authored beats, surface via diverge.
-- [ ]
   [`docs/plans/fable-2026-07-18-pictogram-ab.md`](../docs/plans/fable-2026-07-18-pictogram-ab.md)
   — #15 pulled forward: the honest 10-item pictogram-vs-emoji contact
   sheet, blind-passed; "both slop, keep emoji" stays a valid verdict.

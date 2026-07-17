@@ -9,7 +9,10 @@ proven), and the D6 freshness are all live. **REMAINING, queued
 here: the per-person ADR-139 ask-answer waves** — upgrade the
 placeholder labels/answers (each `-word` person-ask + the D2 seed
 asks) bundle by bundle in the Story switcher; discovery-hint asks
-join per wave. Pick this plan up to run a wave.
+join per wave. The FIRST wave also wires ask units into
+`narrative/takes.ts` (the overlay hook `ask.<id>.<line-id>` is live;
+only the bundle-grammar side is missing — journal s210 §3). Pick
+this plan up to run a wave.
 
 **Rulings (human, 2026-07-18 — pre-build Q&A):**
 - **Routing:** all five steps build in the Fable session (no Opus
