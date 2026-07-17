@@ -1,6 +1,8 @@
 # T2 (Valley) map — rungs + fog
 
-**Status: 🆕 READY TO BUILD (human-greenlit 2026-07-09). Mechanics-only — no
+**Status: ⏳ PARKED (human, 2026-07-17 — T2 work waits; pull forward
+when T2 opens). Was READY TO BUILD (human-greenlit 2026-07-09).
+Mechanics-only — no
 golden-pin regen, no HR-item** (the fog is unhashed shell-runtime paint; the
 default T2 render stays byte-identical). Best done as a focused pass: the fog
 geometry wants live visual iteration via `?t2-map-demo`.

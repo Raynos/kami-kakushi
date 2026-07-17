@@ -29,11 +29,6 @@
   [`project/brainstorms/2026-07-12-quest-shapes-that-emerged.md`](brainstorms/2026-07-12-quest-shapes-that-emerged.md)
   — the four quest shapes ADR-184's reveal wave actually produced
   (emergent, deliberately not an ADR — your call)
-- [ ]
-  [`docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md`](../docs/plans/t2/opus-2026-07-09-t2-rungs-fog.md)
-  — the ready-to-build plan for T2 (Valley) map rungs + fog (you
-  greenlit it 2026-07-09; mechanics-only, no pin/HR). Skim
-  before/whenever I build it.
 
 > **What belongs here** — a durable doc whose purpose is for you to read
 > or sign off: a **plan** (`docs/plans/`), a **brainstorm /
