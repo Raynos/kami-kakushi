@@ -595,8 +595,9 @@ export const SURVEY_NOTES: readonly {
   // R6 — the shrinkage
   { x: 950, y: 1748, text: 'the old fields — four times this, let go' },
   { x: 648, y: 872, text: 'boundary stone — the old line' },
-  // R8 — the stable court under the drill yard
-  { x: 2380, y: 1402, text: 'the old stables — stalls for twenty' },
+  // R8 — the stable court under the drill yard. FB-414: y sits 30 below the
+  // stable building's footprint so the caption never runs across the drawing.
+  { x: 2380, y: 1432, text: 'the old stables — stalls for twenty' },
 ];
 
 /** The night-rounds patrol rail (drawn when 夜 is selected) — gate → kura →
