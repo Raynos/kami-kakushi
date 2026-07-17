@@ -34,6 +34,7 @@ const PLAYER_INTENTS = [
   'open_eyes',
   'ask_topic',
   'talk_to', // C4.2 — the who's-here Speak button (a vn person's next authored line)
+  'ask', // FB-415 — the in-row ask plates (variant A ships; opens via Speak, then a plate)
   'choose_intro',
   'begin_rung_beat',
   'ask_rung_topic',
@@ -88,10 +89,6 @@ const NON_UI_INTENTS = [
   // opens a scene — the player-facing scene controls are its Continue / pick (advance_scene_beat /
   // choose_scene_option, both in PLAYER_INTENTS). So it stays NON_UI by design.
   'begin_scene',
-  // FB-415 step 1 — the `ask` ENGINE lands before its surface: the talk-surface diverge
-  // (plan step 3) wires the ask plates, and the inverse check below then forces this
-  // entry up into PLAYER_INTENTS. Consciously allowlisted, not forgotten.
-  'ask',
 ] as const satisfies readonly IntentType[];
 
 // ── the exhaustiveness trip (compile-time, enforced by the typecheck gate) ──────

@@ -13,6 +13,11 @@ import {
   skillLevel,
   unlockedSurfaces,
   PEOPLE,
+  ASKS,
+  askById,
+  availableAsks,
+  unheardAskCount,
+  type AvailableAsk,
   type GameState,
   type Intent,
   type NodePerson,
@@ -112,6 +117,13 @@ export function createMapView(ctx: {
   //    (listener bound here); patch flips the open/closed label + the greeting line in place (FB-81).
   //    Talk dispatches by depth: a `tiny` trader's Speak opens his wares (renderMarket, gated on
   //    `openPersonId`); a `small`/`vn` person opens his greeting line (a simple talk panel for now). ──
+  // FB-415 — which everyday ask's answer is showing (UI-local, like openPersonId; one at
+  // a time). Cleared when the conversation closes or the person changes.
+  let openAskId: string | null = null;
+  // DEV variant bookkeeping: what the whos-list currently holds, so returning to the
+  // default clears the variant's foreign DOM exactly once (then stays incremental).
+  let devWhosMode: 'default' | 'variant' | null = null;
+
   function buildPersonRow(p: NodePerson): HTMLElement {
     const row = el('div', 'person-row frame');
     const head = el('div', 'person-head');
@@ -124,9 +136,21 @@ export function createMapView(ctx: {
     name.style.color = color;
     head.append(seal, name);
     if (p.tell) head.append(el('span', 'person-tell lock-hint', p.tell));
+    // FB-415 D6 — the newness mark: worn while this person holds any UNHEARD ask (state
+    // moving an answer re-lights it). Patched from unheardAskCount — the same selector
+    // the plates dim from (AC-6), so the mark can never disagree with the plates.
+    const news = el('span', 'ask-new');
+    news.lang = 'ja';
+    head.append(news);
     row.append(head);
     const say = el('div', 'person-say skill-blurb');
     row.append(say);
+    // FB-415 — the in-row ask plates (variant A, ships): the person's askable questions
+    // as small chrome-register buttons; heard ones DIM but stay pressable (P17/D6). The
+    // answer renders INLINE beneath (D4 — never a log write), reading-register.
+    const plates = el('div', 'ask-plates');
+    const answer = el('div', 'ask-answer');
+    row.append(plates, answer);
     const talk = el('button', 'verb person-talk');
     talk.type = 'button';
     talk.addEventListener('click', () => {
@@ -136,6 +160,8 @@ export function createMapView(ctx: {
         // diegetic-mentor cursor as the cold open; the log is the surface, TST1/ADR-039).
         // The conversation STAYS open ("Ask X" keeps asking); it closes by walking off or
         // talking to someone else. The dispatch re-renders for us.
+        // (FB-415 interim — step 4 re-homes these lines and retires the cursor.)
+        if (ctx.openPersonId() !== p.id) openAskId = null;
         ctx.setOpenPersonId(p.id);
         dispatch({ type: 'talk_to', personId: p.id });
         return;
@@ -148,7 +174,11 @@ export function createMapView(ctx: {
     row.append(talk);
     return row;
   }
-  function patchPersonRow(row: HTMLElement, p: NodePerson): void {
+  function patchPersonRow(
+    row: HTMLElement,
+    p: NodePerson,
+    state: GameState,
+  ): void {
     const open = ctx.openPersonId() === p.id;
     const talk = row.querySelector<HTMLButtonElement>('.person-talk')!;
     // a vn conversation stays open and keeps ASKING (C4.2); small/tiny toggle open/closed
@@ -159,13 +189,70 @@ export function createMapView(ctx: {
     const say = row.querySelector<HTMLElement>('.person-say')!;
     toggle(say, open && Boolean(p.greeting));
     if (open && p.greeting) setText(say, p.greeting);
+    // ── FB-415 asks (variant A) — patched in place every render (P4): ──
+    // the newness mark (shown open OR closed — it is the draw to come talk)…
+    const news = row.querySelector<HTMLElement>('.ask-new')!;
+    const unheard = unheardAskCount(state, p.id, ASKS);
+    setText(news, `新 ${unheard}`);
+    toggle(news, unheard > 0);
+    // …the plates (only while the conversation is open)…
+    const plates = row.querySelector<HTMLElement>('.ask-plates')!;
+    const asks = open ? availableAsks(state, p.id, ASKS) : [];
+    toggle(plates, asks.length > 0);
+    reconcileList(plates, asks as AvailableAsk[], {
+      key: (a) => a.def.id,
+      build: (a) => {
+        const b = el('button', 'verb ask-plate', a.def.label);
+        b.type = 'button';
+        b.addEventListener('click', () => {
+          openAskId = a.def.id;
+          dispatch({ type: 'ask', askId: a.def.id });
+        });
+        return b;
+      },
+      patch: (node, a) => {
+        setText(node, a.def.label);
+        setClass(node, 'heard', a.heard);
+        setClass(node, 'on', openAskId === a.def.id);
+      },
+      order: true,
+    });
+    // …and the open answer, its content swapped inside a stable container (P5).
+    const answerEl = row.querySelector<HTMLElement>('.ask-answer')!;
+    const def = open && openAskId !== null ? askById(openAskId) : undefined;
+    const showAnswer = def !== undefined && def.person === p.id;
+    toggle(answerEl, showAnswer);
+    if (showAnswer) {
+      const lines = def.answer(state).map((l, i) => ({ l, i }));
+      reconcileList(answerEl, lines, {
+        key: (x) => String(x.i),
+        build: () => {
+          const line = el('div', 'ask-answer-line');
+          line.append(el('span', 'ask-answer-speaker'), el('span'));
+          return line;
+        },
+        patch: (node, x) => {
+          const speakerEl = node.children[0] as HTMLElement;
+          const textEl = node.children[1] as HTMLElement;
+          // P3 — the nameplate is the primary signal: the def's speaker, else the
+          // asked person; coloured by the line's voice, else the person's.
+          const speaker = x.l.speaker ?? p.name;
+          const color = VOICE_COLOR[x.l.voice ?? p.voice];
+          setText(speakerEl, `${speaker}: `);
+          speakerEl.style.color = color;
+          setText(textEl, x.l.text);
+        },
+        order: true,
+      });
+    }
   }
   // render the who's-here list into a host (shared by the incremental + DEV-default map paths so the
   // DEV default never drifts from prod, §6.5). Returns whether anyone is present (⇒ show the host).
   function fillWhosHere(
     list: HTMLElement,
     present: readonly NodePerson[],
-    away: readonly NodePerson[] = [],
+    away: readonly NodePerson[],
+    state: GameState,
   ): boolean {
     // present people first, then the dimmed away rows (FB-408). One reconciled list —
     // the `away:` key prefix means a person flipping present↔away rebuilds their row.
@@ -177,7 +264,7 @@ export function createMapView(ctx: {
       key: (r) => (r.away ? `away:${r.p.id}` : r.p.id),
       build: (r) => (r.away ? buildAwayRow(r.p) : buildPersonRow(r.p)),
       patch: (row, r) => {
-        if (!r.away) patchPersonRow(row, r.p);
+        if (!r.away) patchPersonRow(row, r.p, state);
       },
       order: true,
     });
@@ -278,15 +365,38 @@ export function createMapView(ctx: {
     if (
       ctx.openPersonId() !== null &&
       !present.some((p) => p.id === ctx.openPersonId())
-    )
+    ) {
       ctx.setOpenPersonId(null);
+      openAskId = null; // FB-415 — a closed conversation closes its answer too
+    }
     // FB-408 — the node's absent REGULARS ride the same list as dimmed schedule rows
     // (Yohei off-market: "sets up on market days 水・土"), so scheduled ground never
     // reads purposeless.
     const away = peopleAwayHere(state);
+    // ── the FB-415 talk-surface diverge (ADR-075) — A (in-row plates) is the inline
+    //    default below; B/C live DEV-only behind the variant toggle. Same DEV wholesale
+    //    clear-and-rebuild pattern as the market pane: only a live DEV session takes this
+    //    branch (tests/prod keep the incremental path — FB-81, zero idle churn). ──
+    if (__DEV_TOOLS__ && dev) {
+      const show =
+        ctx.activeTab() === 'work' && present.length + away.length > 0;
+      if (dev.renderVariant('talk', whosList, state, dispatch)) {
+        devWhosMode = 'variant';
+        toggle(whosPane, show);
+        return;
+      }
+      // returning to the default: drop the variant's foreign DOM ONCE, then stay
+      // incremental (TST2 — the default must not churn per tick even in DEV).
+      if (devWhosMode === 'variant') whosList.textContent = '';
+      devWhosMode = 'default';
+      fillWhosHere(whosList, present, away, state);
+      toggle(whosPane, show);
+      return;
+    }
     toggle(
       whosPane,
-      ctx.activeTab() === 'work' && fillWhosHere(whosList, present, away),
+      ctx.activeTab() === 'work' &&
+        fillWhosHere(whosList, present, away, state),
     );
   }
 

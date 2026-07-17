@@ -259,6 +259,52 @@
 .person-talk.on {
   border-color: var(--rokusho);
 }
+/* ── FB-415 everyday asks (talk surface, variant A: in-row plates) ──────────
+   Plates are CHROME register (tight, dense — P19); the answer is READING
+   register (breathes). Heard plates DIM but stay pressable (P17/D6 — same
+   answer, honest about having nothing new); the 新 mark on the head is the
+   unheard-count draw, lit while any ask is fresh. */
+.ask-new {
+  font-size: var(--fs-micro);
+  color: var(--rokusho);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-seal);
+  padding: 0 var(--space-2);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.ask-plates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.ask-plate {
+  font-size: var(--fs-small);
+  text-align: left;
+  padding: var(--space-1) var(--space-2);
+}
+.ask-plate.heard {
+  opacity: 0.55;
+}
+.ask-plate.on {
+  border-color: var(--rokusho);
+}
+.ask-answer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--silver-faint);
+}
+.ask-answer-line {
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.ask-answer-speaker {
+  font-family: var(--font-head);
+  font-weight: 700;
+}
 /* ── D-111 / F89: the HOME + belongings (Inventory tab) — "a dry corner and a bowl" made real.
    A possession reads as an inked keepsake, not a bare menu row: kanji + name head, an ink blurb,
    a quiet comfort badge, and (for a buyable piece) a left-aligned buy cell. Reuses the room-card

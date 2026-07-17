@@ -24,6 +24,14 @@ import {
   MARKET_ITEMS,
   QUESTS,
   RECIPES,
+  ASKS,
+  askById,
+  availableAsks,
+  unheardAskCount,
+  peopleHere,
+  peopleAwayHere,
+  playerSpeaker,
+  type NodePerson,
   type BelongingDef,
   type GameState,
   type Intent,
@@ -37,7 +45,14 @@ import {
   getNode,
   ESTATE_STAGES,
 } from '../../core';
-import { el, pct, HOUSE_ROOMS, ESTATE_STAGE_NAMES } from '../render';
+import {
+  el,
+  pct,
+  HOUSE_ROOMS,
+  ESTATE_STAGE_NAMES,
+  VOICE_COLOR,
+  VOICE_SEAL,
+} from '../render';
 import { FLAVOR } from '../../core/content/flavor';
 
 // ── the alternate (non-default) variant renderers — DEV-only, stripped from prod ──
@@ -65,7 +80,225 @@ export function renderSurfaceVariant(
     return renderWorksVariant(variantId, container, state, dispatch);
   if (surface === 'estate-house')
     return renderEstateHouseVariant(variantId, container, state);
+  if (surface === 'talk')
+    return renderTalkVariant(variantId, container, state, dispatch);
   return false;
+}
+
+// ── the FB-415 talk surface (B / C) — DEV-only, stripped from prod. Default A (in-row
+// ask plates) ships inline in render/map.ts; both alternates re-present the SAME
+// availableAsks/unheardAskCount reads and drive the REAL `ask` intent (ADR-075: every
+// variant works). UI-open state is module-local (the wholesale DEV rebuild re-derives). ──
+
+/** B/C conversation state — which person/ask is open (B), the running exchange (C). */
+const talkUi: {
+  personId: string | null;
+  askId: string | null;
+  log: { speaker: string; color: string; text: string }[];
+} = { personId: null, askId: null, log: [] };
+
+function renderTalkVariant(
+  variantId: string,
+  container: HTMLElement,
+  state: GameState,
+  dispatch: (intent: Intent) => void,
+): boolean {
+  if (variantId !== 'talk-b' && variantId !== 'talk-c') return false;
+  container.textContent = ''; // wholesale DEV rebuild (market-pane precedent)
+  const present = peopleHere(state);
+  const away = peopleAwayHere(state);
+  if (
+    talkUi.personId !== null &&
+    !present.some((p) => p.id === talkUi.personId)
+  ) {
+    talkUi.personId = null;
+    talkUi.askId = null;
+    talkUi.log = [];
+  }
+  const open = present.find((p) => p.id === talkUi.personId);
+  // a click that only moves UI-local state re-renders synchronously (no fake intent)
+  const rerender = (): void => {
+    renderTalkVariant(variantId, container, state, dispatch);
+  };
+
+  const newsChip = (personId: string): HTMLElement | null => {
+    const n = unheardAskCount(state, personId, ASKS);
+    if (n === 0) return null;
+    const chip = el('span', 'ask-new', `新 ${n}`);
+    chip.lang = 'ja';
+    return chip;
+  };
+
+  const personHead = (p: NodePerson): HTMLElement => {
+    const head = el('div', 'person-head');
+    const color = VOICE_COLOR[p.voice];
+    const seal = el('span', 'person-seal', VOICE_SEAL[p.voice]);
+    seal.lang = 'ja';
+    seal.style.color = color;
+    seal.style.borderColor = color;
+    const name = el('span', 'person-name', p.name);
+    name.style.color = color;
+    head.append(seal, name);
+    if (p.tell) head.append(el('span', 'person-tell lock-hint', p.tell));
+    const chip = newsChip(p.id);
+    if (chip) head.append(chip);
+    return head;
+  };
+
+  if (variantId === 'talk-b') {
+    // B — the VN-lite framed exchange: ONE speech frame at the head of the pane (the
+    // ceremony register — P19's breathing half), the asks as a vertical VN choice list
+    // (P11: ask-first, an explicit "Take your leave" closes). The rows below stay terse.
+    if (open) {
+      const frame = el('div', 'person-row frame');
+      frame.style.cssText = 'border-color:var(--rokusho);gap:.6rem;';
+      frame.append(personHead(open));
+      const speech = el('div', 'ask-answer');
+      const def = talkUi.askId !== null ? askById(talkUi.askId) : undefined;
+      if (def && def.person === open.id) {
+        for (const l of def.answer(state)) {
+          const line = el('div', 'ask-answer-line');
+          const sp = el(
+            'span',
+            'ask-answer-speaker',
+            `${l.speaker ?? open.name}: `,
+          );
+          sp.style.color = VOICE_COLOR[l.voice ?? open.voice];
+          line.append(sp, el('span', undefined, l.text));
+          speech.append(line);
+        }
+      } else {
+        const still = el('div', 'ask-answer-line');
+        still.append(
+          el('span', undefined, `${open.name} waits on your question.`),
+        );
+        speech.append(still);
+      }
+      frame.append(speech);
+      const choices = el('div');
+      choices.style.cssText =
+        'display:flex;flex-direction:column;align-items:flex-start;gap:.35rem;';
+      for (const a of availableAsks(state, open.id, ASKS)) {
+        const b = el('button', 'verb ask-plate', a.def.label);
+        b.type = 'button';
+        if (a.heard) b.classList.add('heard');
+        if (talkUi.askId === a.def.id) b.classList.add('on');
+        b.addEventListener('click', () => {
+          talkUi.askId = a.def.id;
+          dispatch({ type: 'ask', askId: a.def.id });
+        });
+        choices.append(b);
+      }
+      const leave = el('button', 'verb');
+      leave.type = 'button';
+      leave.textContent = 'Take your leave';
+      leave.addEventListener('click', () => {
+        talkUi.personId = null;
+        talkUi.askId = null;
+        rerender();
+      });
+      choices.append(leave);
+      frame.append(choices);
+      container.append(frame);
+    }
+    for (const p of present) {
+      if (open && p.id === open.id) continue;
+      const row = el('div', 'person-row frame');
+      row.append(personHead(p));
+      const talk = el('button', 'verb person-talk', `Speak with ${p.name}`);
+      talk.type = 'button';
+      talk.addEventListener('click', () => {
+        talkUi.personId = p.id;
+        talkUi.askId = null;
+        // the interim C4.2 cursor still fires for a vn person (step 4 retires it);
+        // its dispatch re-renders — a non-vn open is UI-only, so re-render here.
+        if (p.depth === 'vn' && p.sceneId)
+          dispatch({ type: 'talk_to', personId: p.id });
+        else rerender();
+      });
+      row.append(talk);
+      container.append(row);
+    }
+    for (const p of away) container.append(buildTalkAwayRow(p));
+    return true;
+  }
+
+  // C — the mini-transcript: the open row carries a SHORT running exchange (your
+  // question, their answer — the last few kept), so the conversation reads as a
+  // conversation; the plates stay beneath. Distinct hierarchy from A (one answer
+  // swaps) and B (framed ceremony). Transcript is UI-local, capped, never logged (D4).
+  for (const p of present) {
+    const row = el('div', 'person-row frame');
+    row.append(personHead(p));
+    const isOpen = open !== undefined && p.id === open.id;
+    if (isOpen) {
+      if (talkUi.log.length > 0) {
+        const tr = el('div', 'ask-answer');
+        for (const e of talkUi.log) {
+          const line = el('div', 'ask-answer-line');
+          const sp = el('span', 'ask-answer-speaker', `${e.speaker}: `);
+          sp.style.color = e.color;
+          line.append(sp, el('span', undefined, e.text));
+          tr.append(line);
+        }
+        row.append(tr);
+      }
+      const plates = el('div', 'ask-plates');
+      for (const a of availableAsks(state, p.id, ASKS)) {
+        const b = el('button', 'verb ask-plate', a.def.label);
+        b.type = 'button';
+        if (a.heard) b.classList.add('heard');
+        b.addEventListener('click', () => {
+          talkUi.log.push({
+            speaker: playerSpeaker(state),
+            color: VOICE_COLOR.player,
+            text: a.def.label,
+          });
+          for (const l of a.def.answer(state)) {
+            talkUi.log.push({
+              speaker: l.speaker ?? p.name,
+              color: VOICE_COLOR[l.voice ?? p.voice],
+              text: l.text,
+            });
+          }
+          talkUi.log = talkUi.log.slice(-8); // the last few exchanges only
+          dispatch({ type: 'ask', askId: a.def.id });
+        });
+        plates.append(b);
+      }
+      row.append(plates);
+    }
+    const talk = el('button', 'verb person-talk');
+    talk.type = 'button';
+    talk.textContent = isOpen ? `Ask ${p.name} more` : `Speak with ${p.name}`;
+    if (isOpen) talk.classList.add('on');
+    talk.addEventListener('click', () => {
+      if (talkUi.personId !== p.id) {
+        talkUi.personId = p.id;
+        talkUi.log = [];
+      }
+      // the interim C4.2 cursor still fires for a vn person (step 4 retires it)
+      if (p.depth === 'vn' && p.sceneId)
+        dispatch({ type: 'talk_to', personId: p.id });
+      else rerender();
+    });
+    row.append(talk);
+    container.append(row);
+  }
+  for (const p of away) container.append(buildTalkAwayRow(p));
+  return true;
+}
+
+/** FB-408 away row, re-presented for the talk variants (dimmed, button-less). */
+function buildTalkAwayRow(p: NodePerson): HTMLElement {
+  const row = el('div', 'person-row frame person-away');
+  const head = el('div', 'person-head');
+  const seal = el('span', 'person-seal', VOICE_SEAL[p.voice]);
+  seal.lang = 'ja';
+  head.append(seal, el('span', 'person-name', p.name));
+  if (p.awayTell) head.append(el('span', 'person-tell lock-hint', p.awayTell));
+  row.append(head);
+  return row;
 }
 
 /** The diverged Works 普請 (B / C) — DEV-only, stripped from prod. Default A (the day-book

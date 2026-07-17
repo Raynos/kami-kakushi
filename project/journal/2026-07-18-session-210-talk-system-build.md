@@ -64,6 +64,54 @@ Deferred, noted: takes.ts bundle units for asks land with the first
 ask-answer wave (the overlay hook is live; only the bundle grammar
 side is missing).
 
+## 4 · Step 3 — the talk-surface diverge: taste Pass 1 (full walk)
+
+Seam: herdr-checked `w8:p1` (skills-lib, `.claude/skills/` only — no
+collision; corrected their stale "canon = v14" note to v15) and
+`w7:p1` (QA/HR automation). I own `src/ui/render/map.ts`, new talk
+variant code, `dev-surfaces.ts` (+1 row), talk styles.
+
+Full 21-walk for the ask surface at the person row (✱ = applies):
+P1✱ asks live ONLY here (stall keeps market talk; no log echo) ·
+P2✱ reuse person-row/.verb/lock-hint/VOICE_* — no new primitives ·
+P3✱ answer nameplate + voice from the def/person, set at source ·
+P4✱ plates PATCH dim-state; answer content swaps inside a stable
+container — never a row rebuild on tick · P5✱ expansion opens once,
+re-asking replaces the answer in place, the list never jumps ·
+P6✱ plates wrap clean at 390px · P7 n/a · P8 n/a · P9 n/a (asks are
+everyday, not spawns — people already discovered) · P10 n/a ·
+P11✱ Fallout idiom: ask-first, explicit close; a press never
+auto-closes the surface · P12✱ typewriter is STORY-scope only → ask
+answers render INSTANTLY (info, not story) · P13 n/a · P14 n/a ·
+P15✱ labels/discovery hints point, never name the undiscovered ·
+P16✱ D4: no channel write, no unread badge anywhere · P17✱ heard =
+dimmed-NOT-disabled; the row wears the unheard-count mark; state
+moves un-dim (D6) · P18 n/a · P19✱ plates = chrome register (tight);
+answer text breathes · P20✱ expansion scrolls inside the zone pane ·
+P21 n/a. Values: TST2 — dispatch re-render preserves open person +
+open ask + visible answer.
+
+## 5 · Step 3 — the diverge built: A/B/C live, A self-picked
+
+Built the three-variant talk surface: **A · in-row ask plates**
+(inline default in `render/map.ts` — incremental patch path, 新-count
+chip, dim-heard plates, answer swaps in a stable container) ·
+**B · VN-lite exchange** and **C · mini-transcript** (DEV-only in
+`dev/variant-renderers.ts`, wholesale-rebuild per the market DEV
+precedent, module-local open state). Registry row `talk` → HR-45;
+`ask` reclassified NON_UI → PLAYER_INTENTS (sweep green, 23.9s).
+
+Verified: full suite 1274 green · affordance sweep green · PH6 live
+drive headless against a throwaway :5266 vite (the shared :5264 pane
+was DEAD — nothing held the port; per the standing rule I did NOT
+respawn it; flagged to the human) — 11 shots in
+`project/audit/screens/2026-07-18-talk-diverge/` (A plates + both
+answers + 新2→新1 drop, B exchange, C two-exchange transcript,
+A at 390px) · strip-safety: `SHIP_DEV_TOOLS=0` build greps CLEAN for
+all variant strings (the default T0 build ships DEV tools by
+design). Pass-2 scorecards + the §5 pick rationale (A 21 · C 19 ·
+B 18) live in the HR-45 item.
+
 <!-- append further entries below, in order -->
 
 ---

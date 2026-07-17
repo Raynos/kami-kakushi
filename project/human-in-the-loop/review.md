@@ -59,6 +59,60 @@ build is git history.)
     rung.
   - **Verdict:** _(awaiting the human)_
 
+## ▸ R0 · the forecourt (talk opens)
+
+### HR-45 🔲 [R0+ · talk] — Talk surface (everyday asks) — pick a variant (ADR-075, FB-415)
+
+The FB-415 talk-system redesign's surface: everyday talk is now an
+**ASK** — rung-windowed questions answered from LIVE state, inline in
+the talk surface, never written to any log (D4). All three variants
+read the same `availableAsks`/`unheardAskCount` selectors and dispatch
+the real `ask` intent; the 新-count newness mark + dimmed-but-pressable
+heard asks (D6) are shared mechanics, not variant choices.
+
+  - **Taste brief (pass 1):** P2 reuse person-row/.verb/lock-hint —
+    no new primitives · P3 answer nameplate + voice from the def ·
+    P4 plates patch dim-state in place · P5 expansion opens once,
+    re-ask replaces the answer, the list never jumps · P11 ask-first,
+    explicit close · P12 typewriter is story-scope → answers render
+    INSTANTLY · P15 labels/hints point, never name the undiscovered ·
+    P16/D4 no channel write, no badge · P17 heard = dimmed-not-
+    disabled + the 新 mark · P19 plates chrome-tight, answers breathe
+  - [ ] **talk-a — in-row ask plates** _(self-picked prod default;
+    ships)_ — the person row expands into small ask plates; the answer
+    opens beneath, one at a time; heard plates dim; the row head wears
+    the 新 count.
+    - **Scorecard (A):** 13✔ · 0✘ · 8—
+  - [ ] **talk-b — VN-lite exchange** _(built; DEV-only)_ — one framed
+    speech surface at the pane head (ceremony register): the answer as
+    speech, asks as a vertical choice list, an explicit "Take your
+    leave".
+    - **Scorecard (B):** 11✔ · 2✘ · 8—
+      - ✘ P5 [briefed] — opening morphs the person's row into the
+        head-frame, so the list reflows once per open; inherent to the
+        ceremony approach, named not silent.
+      - ✘ TST2 [briefed] — B/C rebuild wholesale per tick in DEV (the
+        market-pane DEV precedent); the shipped default (A) stays
+        incremental.
+  - [ ] **talk-c — mini-transcript** _(built; DEV-only)_ — the open row
+    carries a short running exchange (your question, their answer, the
+    last few kept) — conversation reads as conversation.
+    - **Scorecard (C):** 12✔ · 1✘ · 8—
+      - ✘ P5 [briefed] — the transcript grows the row as you ask
+        (capped at 8 lines), pushing rows beneath; borderline, named.
+  - **Why A was picked (§5 rubric):** A 21 · C 19 · B 18 weighted; A
+    holds hierarchy (row → plates → answer, one calm path), stays
+    incremental (TST2), and is the conservative default. C's
+    conversation-memory feel is the one to steal from if you prefer it.
+  - **Interim, named:** until plan step 4 lands, a vn person's Speak
+    still ALSO delivers the old C4.2 authored line into Story — the
+    re-homing retires that cursor.
+  - **How to look:** DEV → Scenarios → `rung-R1` → Zone tab → Speak
+    with Genemon → press the plates. DEV → Review → Variants →
+    **talk** to switch. Screenshots:
+    `project/audit/screens/2026-07-18-talk-diverge/`.
+  - **Verdict:** _(awaiting your pick)_
+
 ## ▸ R1 · the estate opens (Map/Estate tab reveals)
 
 ### HR-2A 🔲 [~R1] — Travelling market — pick a variant (ADR-075)

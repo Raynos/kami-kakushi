@@ -54,6 +54,36 @@ export interface SurfaceDef {
 // hd41-progress-objective story bundle is pruned as well — the objective lines ship in canon.
 export const SURFACES: SurfaceDef[] = [
   {
+    // FB-415 (talk-system redesign, plan step 3) — HOW asking works at the person row.
+    // A (in-row plates) ships inline in render/map.ts; B/C live in variant-renderers,
+    // DEV-only. All three read the same availableAsks/unheardAskCount selectors and
+    // dispatch the real `ask` intent; answers render inline only (D4 — never a log).
+    id: 'talk',
+    hr: 'HR-45',
+    rung: 0,
+    label: 'Talk — everyday asks',
+    variants: [
+      {
+        id: 'talk-a',
+        label: 'A · in-row ask plates',
+        blurb:
+          'shipped default — the person row expands into small ask plates; the answer opens beneath, one at a time; heard plates dim',
+      },
+      {
+        id: 'talk-b',
+        label: 'B · VN-lite exchange',
+        blurb:
+          'one framed speech surface at the head of the pane — the answer as ceremony, asks as a vertical choice list, an explicit "Take your leave"',
+      },
+      {
+        id: 'talk-c',
+        label: 'C · mini-transcript',
+        blurb:
+          'the open row carries a short running exchange (your question, their answer, the last few kept) — conversation as conversation',
+      },
+    ],
+  },
+  {
     id: 'influence',
     hr: 'HR-2B',
     rung: 3,
