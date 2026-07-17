@@ -159,8 +159,8 @@ philosophy wins.**
   vite-level guard **and** the **`guard-dev-server.sh`** PreToolUse hook now
   block starting a second server while `:5264` is held, and block killing the
   holder (escape a genuine throwaway on another port: `KAMI_ALLOW_MULTI_DEV=1` /
-  `SKIP_DEVGUARD=1`). If `:5264` is genuinely dead, **ask the human** to relaunch
-  the pane — don't respawn it yourself.
+  `SKIP_DEVGUARD=1`). If `:5264` is dead, **restart it yourself in
+  the herdr dev-server pane** (human, 2026-07-18) — never a rival.
 - **Session start → surface what's waiting on the human.** A `SessionStart` hook
   runs [`src/scripts/session-brief.sh`](src/scripts/session-brief.sh) (wired in
   `.claude/settings.json`), which prints the open **human queue** — the unticked

@@ -40,7 +40,11 @@ has '(SKIP_DEVGUARD|KAMI_ALLOW_MULTI_DEV)=1' && exit 0
 # Strip leading env-assignments / nohup / env / timeout wrappers, take word 1.
 first="$(printf '%s' "$cmd" \
   | sed -E 's/^[[:space:]]*(([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]+|nohup|env|timeout[[:space:]]+[0-9smh.]+)[[:space:]]+)*//' \
-  | awk '{print $1}')"
+  | awk 'NR==1{print $1}')"
+# NR==1 — on a MULTILINE command (a git commit -m with a body), plain
+# '{print $1}' prints word 1 of EVERY line, the case-match fails, and
+# trigger tokens inside the quoted message fire the guard (2026-07-18:
+# a commit message about the dev-server LAW was blocked as a kill).
 first="${first##*/}" # basename, so /usr/bin/git → git
 case "$first" in
 git | echo | printf | cat | jq | tee | grep | rg | egrep | sed | awk | head | tail | less | bat | node | tsx)
@@ -90,10 +94,10 @@ Do NOT start a second one and do NOT kill this one. Reuse it:
   • a running server survives across YOUR session; spawning + killing is the
     exact churn that keeps taking it down for the human and other agents.
 
-If you genuinely believe it's dead, ASK THE HUMAN to restart the herdr pane —
-never kill+respawn it yourself.
-(Deliberate throwaway server on another port? KAMI_ALLOW_MULTI_DEV=1 pnpm dev,
- or SKIP_DEVGUARD=1 to bypass this hook.)
+If it seems wedged (listening but not serving), restart it IN the shared
+herdr dev-server pane (Ctrl-C there, then pnpm run dev — human-ruled
+2026-07-18); a coordinated restart is SKIP_DEVGUARD=1, never a private
+respawn. (Deliberate throwaway on another port? KAMI_ALLOW_MULTI_DEV=1.)
 EOF
   exit 2
 fi
@@ -114,8 +118,9 @@ on :${DEV_PORT} (pid ${holder}) — the shared herdr playtest pane.
 
 Kill+respawn is exactly the churn that keeps taking the server down for the
 human and the other agents in this shared tree. Leave it running and reuse
-:${DEV_PORT}. If it genuinely must be restarted, ASK THE HUMAN — they own the pane.
-(Deliberate, coordinated restart? SKIP_DEVGUARD=1.)
+:${DEV_PORT}. If it genuinely must be restarted, do it IN the shared herdr
+dev-server pane (human-ruled 2026-07-18), with SKIP_DEVGUARD=1 for the
+coordinated restart — never a private respawn.
 EOF
     exit 2
   fi
@@ -123,7 +128,7 @@ fi
 
 # ── WARN: no server yet — prefer the herdr pane over a session-owned one ─────
 if [ "$starts_dev" = 1 ] && [ -z "$holder" ]; then
-  jq -n --arg p "$DEV_PORT" '{systemMessage: ("🖥️ No dev server on :" + $p + ". Prefer starting it in the shared herdr playtest pane (or ask the human) over a background server owned by THIS session — a session-owned server dies on your restart and gets re-spawned, which is the churn we are trying to kill. Proceeding.")}'
+  jq -n --arg p "$DEV_PORT" '{systemMessage: ("🖥️ No dev server on :" + $p + ". Start it in the SHARED herdr dev-server pane (human-ruled 2026-07-18), not as a background server owned by THIS session — a session-owned server dies on your restart and gets re-spawned, which is the churn we are trying to kill. Proceeding.")}'
 fi
 
 exit 0

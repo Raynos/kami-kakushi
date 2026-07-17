@@ -67,6 +67,15 @@ pass; full standard walked):
   affordance). Three out-of-scope phone-layout defects recorded in
   the report, to be named in the HR-30 addendum.
 
+- **3b landed** — plan-view closure now draws the SAME vertical
+  shutter-board + tie convention the 凡例 and the wall faces teach
+  (was a 45° hatch the legend never decoded); boards inked stronger
+  (`ink-soft` .6 vs `ink-faint` .55). Deliberate pin regen included
+  (`UPDATE_ESTATE_GOLDEN=1`), recapture eyeballed: 局/書院 read as
+  shuttered-kept.
+- The tree went GREEN mid-session (talk WIP + skill library landed);
+  the dev-server law fix committed clean, no skip.
+
 ## Next intended steps
 
 1. Step 1 — register truth fix (graphics-concepts row 5).
