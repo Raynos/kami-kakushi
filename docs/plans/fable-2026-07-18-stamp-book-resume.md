@@ -1,6 +1,7 @@
 # Stamp book (E3) — spec, state feed, home, and the look diverge
 
-**Status:** 📋 PROPOSED (2026-07-18, session 211)
+**Status:** 🔨 IN-PROGRESS (2026-07-18, session 214 — grill rulings
+locked as ADR-201; building)
 **Confidence:** ( 30% Opus, 70% Fable ) — the stamp grammar and the
 look diverge are Fable craft; the state feed and DEV wiring are
 mechanical.
@@ -29,6 +30,28 @@ storywave **Plan B — which SHIPPED v0.4.0**
 note in `project/archive/fable-2026-07-07-storywave-docs.md`), so the
 gate is satisfied. Pull-forward: the human's 2026-07-18 ask ("Make a
 plan for 2", the overnight-burn triage).
+
+## Rulings (2026-07-18 live grill → ADR-201)
+
+The human ruled the plan's forks live (session 214;
+`project/brainstorms/2026-07-18-stamp-book-decisions.md`). These
+SUPERSEDE the step text below where they conflict:
+
+1. **Home:** ceremony afterglow **+** a revisitable **Record panel
+   on the Character tab**. Step 3's HD is **CLOSED** — no HD-item.
+2. **Fiction:** the **MC's own seal-book** (shuinchō the player
+   carries; each rank-granter presses their own seal). Named hands
+   ground in bible canon; new facts go through the HR.
+3. **Scale (the big re-scope):** **compact, ≤20% of the screen** —
+   an in-page gym-badge-style section showing pressed seals AND
+   empty future slots. NOT a full-screen modal; the current
+   `openStampBook()` prototype is the wrong scale and retires to
+   DEV-reference status. Step 4's variants reinterpret at compact
+   scale.
+4. **Depth:** per-seal **inspect popover** (whose hand, day/season,
+   knots) — no large element anywhere.
+5. **Future slots:** the **next rung named, the rest mystery**
+   silhouettes.
 
 ## What exists today
 
@@ -64,12 +87,8 @@ Surveyed **2026-07-18** at `9e2dff3c`:
    migration + `pnpm run fixtures:regen` — core change and fixture
    regen land in ONE commit (crowded-tree rule). The fixture file
    stays as the DEV-demo fallback.
-3. **The home HD-item** — file the HD the README names: where the
-   book lives for a real player. Proposed default (ships DEV-only
-   until the HD closes): a Record panel opened from the Character
-   tab; alternates: the Progress tab, or the rank-ceremony modal's
-   afterglow. Never blocks — the diverge proceeds against the
-   default.
+3. ~~**The home HD-item**~~ **CLOSED by ruling 1 (ADR-201):**
+   afterglow + Character-tab Record panel. No HD-item to file.
 4. **The ADR-075 diverge** — 2–3 WORKING look variants behind the
    DEV variants registry (`src/ui/dev-surfaces.ts` row, review-link
    gate kept true): e.g. A · concertina spread (the current
@@ -136,7 +155,9 @@ Surveyed **2026-07-18** at `9e2dff3c`:
   active talk-system plan holds dirty in this tree right now (git
   status, 2026-07-18). **Step 2 lands only after the talk-system
   session's changes are committed and green**; re-survey before
-  starting it.
+  starting it. *(Re-surveyed session 214: the talk-system core
+  changes are all committed — the seam is clear; step 2 may
+  proceed.)*
 - Everything else (`src/ui/stamp-book/**`) is unshared ground; the
   `protos-pane.ts`/`dev-surfaces.ts` touches are one-line, pathspec
   committed after a staged-set check.
