@@ -93,6 +93,13 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // to `{}` in validateState when absent (no ask heard yet — the correct fresh default).
   // Identity here; the bump records the format change.
   14: (state) => state,
+
+  // v15 → v16 (ADR-201 run record): purely additive — `rungRecord` + `defeatDays` hydrate
+  // to `[]` in validateState when absent (an old save's pressed set still derives from the
+  // rank-rN flags; its seals render undated — a deliberate no-synthesis default, so a
+  // hydrated save never claims a date it doesn't have). Identity here; the bump records
+  // the format change.
+  15: (state) => state,
 };
 
 /** `<ns>.<scene>.…greeting.<i>` / `…answer.<i>` → the same address with the line's authored id.

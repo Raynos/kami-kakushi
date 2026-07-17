@@ -79,7 +79,17 @@ export function pendingPromotionTarget(state: GameState): RankId | null {
  *  the gate is verified by `promotionReady` before `begin_rung_beat`. */
 export function applyPromotion(state: GameState, target: RankId): GameState {
   const rank = getRank(target);
-  let next: GameState = { ...state, rung: target, rungReqs: {} };
+  let next: GameState = {
+    ...state,
+    rung: target,
+    rungReqs: {},
+    // ADR-201 — date the press: the stamp book's record grows here and ONLY here
+    // (the sole place a rung advances keeps the record trivially one-per-rung).
+    rungRecord: [
+      ...state.rungRecord,
+      { rung: target, day: state.clock.day, season: state.season },
+    ],
+  };
   // FB-388 — the beat's fiction can MOVE you (R1: the terms leave you at the
   // forecourt, no manual walk out of the kura). Data on the RankDef; walking
   // away also ends any auto-grind, same as move_to.

@@ -66,7 +66,7 @@ export {
   npcRegard,
   markTopicAsked,
 } from './state';
-export type { NpcMemory } from './state';
+export type { NpcMemory, RungPress } from './state';
 
 // ── interactive intro + speaker/voice model (interactive-intro plan §3) ──
 export {

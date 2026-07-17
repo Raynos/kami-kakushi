@@ -73,6 +73,15 @@ export interface NpcMemory {
   readonly warmth: number;
 }
 
+/** One pressed seal in the run's record (ADR-201, the stamp-book state feed): the rung reached,
+ *  and WHEN — the absolute day + the season it was pressed in. Season is stored (not derived)
+ *  because the season is manual state (ADR-153): the day alone can't recover it. */
+export interface RungPress {
+  readonly rung: RankId;
+  readonly day: number;
+  readonly season: Season;
+}
+
 /** Quest progress (T0-M4-F1 / ADR-037). `progress` holds the done STEP ids per quest (a set,
  *  stored as a JSON-friendly array); `completed` guards the one-time reward grant. */
 export interface QuestState {
@@ -275,6 +284,18 @@ export interface GameState {
    *  fight / fallen night-round "grows Sōan's ledger", the sickroom's running tally of what the MC
    *  owes. The treatment/debt lane reads it from G4. Additive (default 0). */
   readonly soanLedger: number;
+
+  // ── the run record (ADR-201, additive; SCHEMA_VERSION 16) ──
+  /** DATED rung presses — one entry per rung reached, in press order, appended ONLY by
+   *  `applyPromotion` (+ the R0 seed at creation). The stamp book's date feed. NOT the
+   *  pressed-set source of truth — that stays the `rank-rN` flags (ADR-179 shape): a pre-v16
+   *  save hydrates `[]` and its already-reached rungs simply render undated. Never cleared;
+   *  survives ascension (the MC's history is durable). */
+  readonly rungRecord: readonly RungPress[];
+  /** The absolute DAYS defeats landed on (the thread-knot feed) — appended where `soanLedger`
+   *  increments (defeat.ts). `soanLedger` stays the canonical COUNT (old saves have counts
+   *  with no days); this array only dates what happened after v16. Additive (default []). */
+  readonly defeatDays: readonly number[];
 }
 
 export function createInitialState(seed: number): GameState {
@@ -344,6 +365,10 @@ export function createInitialState(seed: number): GameState {
     scenesPlayed: [],
     roundState: null,
     soanLedger: 0,
+    // ADR-201 — the record opens with R0 already pressed: the cold open IS the R0 ceremony
+    // (Genemon's terms over the open day-book), day 0 of the opening Winter.
+    rungRecord: [{ rung: 'R0', day: 0, season: 'winter' }],
+    defeatDays: [],
   };
 }
 

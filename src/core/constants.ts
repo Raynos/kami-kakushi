@@ -37,8 +37,12 @@ export const APP_ID = 'kami-kakushi' as const;
  *  the identity; the bump records the format change.
  *  v15 = ASK HEARD-STATE (FB-415): additive `asksHeard` map (askId → freshness key) —
  *  an absent field hydrates to `{}` on load (validate — no ask heard yet, the correct
- *  fresh default), so the migration is the identity; the bump records the format change. */
-export const SCHEMA_VERSION = 15 as const;
+ *  fresh default), so the migration is the identity; the bump records the format change.
+ *  v16 = THE RUN RECORD (ADR-201, stamp book): additive `rungRecord` (dated rung presses)
+ *  + `defeatDays` (dated falls). Absent fields hydrate to `[]` — old saves' pressed set
+ *  still derives from the rank-rN flags, their seals just render undated — so the
+ *  migration is the identity; the bump records the format change. */
+export const SCHEMA_VERSION = 16 as const;
 
 /** App GENERATION (ADR-161, storywave clean break): bumped when the state model breaks so
  *  hard that migration is not worth carrying. A saved blob with a generation below this

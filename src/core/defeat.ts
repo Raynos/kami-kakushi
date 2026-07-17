@@ -31,6 +31,8 @@ export function applyDefeatConsequences(state: GameState): GameState {
   let next: GameState = {
     ...state,
     soanLedger: state.soanLedger + 1,
+    // ADR-201 — date the fall: the stamp book's thread knots on this day.
+    defeatDays: [...state.defeatDays, state.clock.day],
     location: SICKROOM_NODE,
   };
   next = advanceClock(next, SICKROOM_DAYS_LOST * TICKS_PER_DAY);

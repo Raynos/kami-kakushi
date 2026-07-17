@@ -316,7 +316,9 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'roundState'
     | 'soanLedger'
     | 'estateCommission'
-    | 'estateWorkDone';
+    | 'estateWorkDone'
+    | 'rungRecord'
+    | 'defeatDays';
   type _AssertAllHandled = keyof GameState extends _Handled ? true : never;
   const _exhaustive: _AssertAllHandled = true;
   void _exhaustive;
@@ -527,6 +529,17 @@ export function validateState(rawState: unknown): ValidateResult {
       typeof base.soanLedger === 'number'
         ? Math.max(0, Math.floor(base.soanLedger))
         : 0,
+    // ── the run record (v16, additive; ADR-201): dated rung presses + defeat days. Absent
+    // (any pre-v16 save) → [] — the pressed SET still derives from the rank-rN flags, so an
+    // old save's seals render undated rather than missing (the deliberate no-synthesis
+    // default); malformed → []. NOT re-seeded with R0 here: only createInitialState seeds,
+    // so a hydrated old save never claims a date it doesn't have.
+    rungRecord: Array.isArray(base.rungRecord)
+      ? (base.rungRecord as GameState['rungRecord'])
+      : [],
+    defeatDays: Array.isArray(base.defeatDays)
+      ? (base.defeatDays as GameState['defeatDays'])
+      : [],
   };
 
   return { ok: true, state, coerced, migrated: false };

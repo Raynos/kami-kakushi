@@ -20,6 +20,23 @@ BUILD: the plan went ACTIVE and the compact stamp-book build started.
   ACTIVE; Rulings section added; step 3 struck CLOSED; the step-2
   core-seam risk re-surveyed (talk-system core is committed — clear).
 
+## Steps 1+2 landed (same session)
+
+- `src/ui/stamp-book/README.md` → the full E3.1 spec at compact
+  scale (fiction table with the granting hands bible-grounded, the
+  compact grammar, the blind rubric).
+- **SCHEMA_VERSION 15→16 (ADR-201 run record):** additive
+  `rungRecord` (dated presses; appended only in `applyPromotion`,
+  R0 seeded at creation) + `defeatDays` (appended where
+  `soanLedger` grows). Identity migration; hydration defaults `[]`
+  (old saves' pressed set derives from ladder position — seals
+  render undated, never synthesized). Fixtures regenerated in the
+  same commit.
+- `src/ui/stamp-book/from-state.ts` — the ONE derivation feeding
+  every variant; the data shape itself enforces ruling 5 (future
+  slots carry no identity). 7 tests in `from-state.test.ts`
+  (registry-derived expectations; real engine drives, no pokes).
+
 ## Next intended steps
 
 1. Step 1 — E3.1 spec in `src/ui/stamp-book/README.md`, rewritten to

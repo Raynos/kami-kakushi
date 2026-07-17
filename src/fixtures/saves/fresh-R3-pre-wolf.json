@@ -1,11 +1,11 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 15,
+  "schemaVersion": 16,
   "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 15,
+    "schemaVersion": 16,
     "season": "winter",
     "seasonsPassed": 0,
     "rng": {
@@ -3106,6 +3106,32 @@
       "sb-racks"
     ],
     "roundState": null,
-    "soanLedger": 2
+    "soanLedger": 2,
+    "rungRecord": [
+      {
+        "rung": "R0",
+        "day": 0,
+        "season": "winter"
+      },
+      {
+        "rung": "R1",
+        "day": 3,
+        "season": "winter"
+      },
+      {
+        "rung": "R2",
+        "day": 8,
+        "season": "winter"
+      },
+      {
+        "rung": "R3",
+        "day": 14,
+        "season": "winter"
+      }
+    ],
+    "defeatDays": [
+      16,
+      33
+    ]
   }
 }
