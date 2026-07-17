@@ -16,6 +16,10 @@ mark strength, not a missing legend row.
   correction); steps 3a/3b/3c rewritten to the rulings; step 3d added
   (proto-door retirement); the step-2 async check struck as RESOLVED.
 
+- `docs/living/graphics-concepts.md` — row 5's forward track
+  rewritten honestly (step 1): integration already happened (家 tab
+  variant A, state-driven); remaining work = the craft pass.
+
 ## Next intended steps
 
 1. Step 1 — register truth fix (graphics-concepts row 5).
