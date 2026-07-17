@@ -1,6 +1,7 @@
 # Estate sheet craft pass — past "needs more work" (#5)
 
-**Status:** 📋 PROPOSED (2026-07-18, session 211)
+**Status:** ▶️ IN-PROGRESS (2026-07-18, session 212 — rulings locked
+in the walk-through below; building)
 **Confidence:** ( 20% Opus, 80% Fable ) — ink craft + taste judgment;
 only the mobile-layout mechanics are routine.
 **Template:** build
@@ -50,6 +51,33 @@ Surveyed **2026-07-18** at `9e2dff3c`:
 - The DEV prototype door also still exists (protos-pane
   "⤢ Estate sheet", fixture-era demo).
 
+## Rulings (2026-07-18 walk-through, session 212)
+
+The human answered the plan's forks directly (AskUserQuestion):
+
+- **R1 · Redline scope: craft-only, confirmed.** Exactly the three
+  recorded ✘s; geometry, room truths, and the variant set stay as
+  reviewed. The step-2 async check is hereby RESOLVED — the addendum
+  no longer carries the question.
+- **R2 · P20 mobile: tap-to-maximize.** Fit-width preview inline in
+  the 家 tab; tapping opens the map viewer's ⛶ maximize primitive
+  (CSS blow-up, pan/zoom, Esc/exit chip) — reuse, not reinvention
+  (TST1), and no inline pan fighting the page scroll.
+- **R3 · P2 idiom: FULL Andon furniture** — the human overrode the
+  "smallest change" default. The legend + cartouche rebuild as proper
+  Andon card components; the survey *drawing* stays period — it's the
+  furniture that becomes the app's.
+- **R4 · The fixture-era DEV proto door ("⤢ Estate sheet",
+  protos-pane) RETIRES** in this pass (TST1: one home — the live 家
+  tab + the HR-30 review row remain).
+
+**Grounding correction (same walk-through):** step 3b's premise was
+partially stale — the 凡例 already decodes shutters
+(`elevation.ts` `legendBox`: 新 fresh · shu strike · shutters). The
+TST4 fix therefore concentrates on strengthening the closed-room
+*marks themselves* (and the legend row's legibility), not adding a
+missing row.
+
 ## Steps
 
 1. **Register truth fix** — `docs/living/graphics-concepts.md` row 5:
@@ -64,16 +92,22 @@ Surveyed **2026-07-18** at `9e2dff3c`:
 3. **The three ✘s** — each an independently committable,
    verify-green fix behind the golden pin, taste-scorecard Pass 1
    first:
-   - **a · P20 mobile:** a real phone presentation for the tall
-     sheet (≤920px) — reuse the map-sheets mobile idiom (TST1: one
-     shared primitive per idiom) rather than inventing one; labels
-     must stay legible at viewport width.
-   - **b · TST4 shutters:** strengthen the closed-but-kept marks and
-     add the shutter glyph to the 凡例 legend so the open/shut read
+   - **a · P20 mobile (per R2):** tap-to-maximize — fit-width
+     preview inline at ≤920px; tapping opens the map viewer's ⛶
+     maximize primitive (pan/zoom, exit chip, Esc). Labels legible
+     in the maximized view; the preview only has to read as "the
+     sheet, tap to study".
+   - **b · TST4 shutters (per the grounding correction):**
+     strengthen the closed-but-kept marks themselves — and the
+     existing legend row's legibility — so the open/shut read
      survives a cold reader.
-   - **c · P2 idiom:** align the cartouche/legend furniture with the
-     app's card idiom per `ui-design.md` — the smallest change that
-     kills the ✘; the period-document character must survive it.
+   - **c · P2 idiom (per R3):** rebuild the cartouche/legend
+     furniture as proper Andon card components per `ui-design.md` —
+     the FULL alignment, not the minimum edit; the survey drawing
+     itself keeps its period character.
+   - **d · Proto-door retirement (per R4):** delete the fixture-era
+     "⤢ Estate sheet" protos-pane door; the live 家 tab + HR-30
+     review row are the one home.
 4. **Re-verify** — re-run the blind pass; re-scorecard variant A;
    the after-report must clear the rubric lines behind the ✘s.
 5. **HR-30 addendum + pin** — append a dated addendum to the OPEN
@@ -110,10 +144,10 @@ Surveyed **2026-07-18** at `9e2dff3c`:
 
 - **HR-30 addendum**, not a new item — the open review absorbs the
   improved ground with a dated note.
-- One async question, filed in the addendum WITH a default (never
-  blocking): *"any redline beyond the three recorded ✘s? Default:
-  craft-only — geometry, room truths, and variant set stay
-  exactly as reviewed."*
+- ~~One async question, filed in the addendum WITH a default~~ —
+  RESOLVED in the 2026-07-18 walk-through (Rulings R1): craft-only,
+  confirmed by the human directly; the addendum records the ruling
+  instead of asking.
 - Taste-scorecard Pass 1 before step 3; Pass 2 after step 4.
 
 ## Non-goals
