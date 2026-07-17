@@ -15,6 +15,7 @@ import {
   factsForSurfaces,
 } from '../../core';
 import { __setStoryOverlay } from '../../core/content/story-overlay';
+import { RUNG_LADDER } from '../map-sheets/nodes';
 
 import { noopHooks } from './test-utils';
 
@@ -266,8 +267,16 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
 
   it('unsurveyed ground stays UNNAMED (reveal-as-plot) and no destination blurb leaks', () => {
     const { render } = spyRender();
-    // at the paddies with the paddy surveyed but the woodlot (one step past) still unsurveyed.
-    render(at('paddies', ['room-gate', 'room-paddies']), null);
+    // at the paddies with the paddy surveyed but the woodlot (one step past) still
+    // unsurveyed — at the woodlot's OWN unlock rung, so its wash is due (FB-412
+    // hides washes for zones gated above the current rung).
+    render(
+      {
+        ...at('paddies', ['room-gate', 'room-paddies']),
+        rung: `R${RUNG_LADDER['woodlot']}` as GameState['rung'],
+      },
+      null,
+    );
     openMapTab();
     const text =
       root.querySelector<HTMLElement>('.map-pane .map-nav')!.textContent ?? '';
@@ -277,6 +286,25 @@ describe('Estate map — flavor card + the 絵図 survey-plan sheet (F102 / HR-7
     // NEVER named on the sheet (the woodlot sits one step past the revealed paddies).
     expect(text).toContain('未測');
     expect(text).not.toContain(getNode('woodlot').label);
+  });
+
+  it('a rung-gated frontier zone beyond the current rung gets NO 未測 wash (FB-412)', () => {
+    const { render } = spyRender();
+    // at the forecourt at R1: kitchen is walk-now frontier ground, but the
+    // woodshed + drill yard unlock at R4 — their washes would tease ground
+    // three rungs early ("all the kanjis for future zones are still floating").
+    render(
+      { ...at('forecourt', ['room-gate', 'room-paddies']), rung: 'R1' },
+      null,
+    );
+    openMapTab();
+    const nav = root.querySelector<HTMLElement>('.map-pane .map-nav')!;
+    // the walk-now frontier keeps its tease (reveal-as-plot, ADR-151)…
+    expect(nav.querySelector('[data-fog-node="kitchen"]')).not.toBeNull();
+    // …but future-rung ground stays a secret (the DEV previewer's zonesAtRung
+    // semantics — the live sheet must agree with it).
+    expect(nav.querySelector('[data-fog-node="woodshed"]')).toBeNull();
+    expect(nav.querySelector('[data-fog-node="drill-yard"]')).toBeNull();
   });
 
   it('a conditioning-locked node is GREYED + inert with its reason VISIBLE (not hidden)', () => {

@@ -17,7 +17,12 @@ import { getNode, MAP_NODES } from '../../core';
 import type { GameState, Intent } from '../../core';
 import { rng, sv, tip } from '../map-sheets/brush';
 import { ANCHORS, T0_WINDOW } from '../map-sheets/layout';
-import { isFogged, paintReveal, stageAtRung } from '../map-sheets/reveal';
+import {
+  isFogged,
+  paintReveal,
+  stageAtRung,
+  zonesAtRung,
+} from '../map-sheets/reveal';
 import { attachSheetViewer } from '../map-sheets/viewer';
 import { paintT0Ground } from '../map-sheets/t0-sheet';
 import { gaitAt, PORTER_STAND_Y, walkPoint } from './porter-math';
@@ -393,6 +398,7 @@ export function renderMapSheet(
 
   // (2) the fog frontier — unsurveyed ground one step past a revealed node: an unnamed 未測 wash
   //     (reveal-as-plot — never name it). Locked scenery is not fog (it's drawn above).
+  const surveyableNow = zonesAtRung(rungN);
   for (const id of fogFrontier(revealed).keys()) {
     if (getNode(id).locked) continue;
     const a = ANCHORS[id];
@@ -400,11 +406,17 @@ export function renderMapSheet(
     // FB-392/FB-394/FB-397 (w1 drain, 2026-07-11) — a frontier whose anchor sits under
     // the rung's fog stays a SECRET: no 未測 wash floating on the fog wash.
     if (isFogged(revealStage, a.x, a.y)) continue;
+    // FB-412 — a rung-gated zone beyond the CURRENT rung is a secret, not a tease:
+    // the wash marks only ground the player could survey now (the DEV previewer's
+    // zonesAtRung semantics; at R1 the R4 woodshed/drill-yard washes read as
+    // "future zones floating on the sheet").
+    if (!surveyableNow(id)) continue;
     const t = sv('text', {
       x: String(a.x),
       y: String(a.y),
       'text-anchor': 'middle',
       class: 'sheetmap-fog',
+      'data-fog-node': id,
     });
     t.append(
       sv('tspan', { x: String(a.x), dy: '0' }, '未'),
