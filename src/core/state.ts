@@ -188,6 +188,11 @@ export interface GameState {
    *  2026-07-02) and the branch gates. Default `[]`; NEVER cleared on ascension (part of the run's
    *  history — `ascend` spreads state, so it carries through). */
   readonly askedTopics: readonly string[];
+  /** FB-415 ask heard-state: askId → the answer's FRESHNESS KEY at hear time (asks.ts).
+   *  An ask reads heard only while its stored key still matches the current state's key,
+   *  so a state move (rung, works, health, season) makes it fresh again — the D6
+   *  state-driven refresh, no timers. Additive (default `{}`). SCHEMA_VERSION 15. */
+  readonly asksHeard: Readonly<Record<string, string>>;
   /** Quest acceptance + per-step progress + completion (T0-M4-F1 / ADR-037). */
   readonly quests: QuestState;
   /** Per-RUN buy counts per market item — the stockCap clamp (TRADE taste, T0-M4-F3 / ADR-008). */
@@ -311,6 +316,7 @@ export function createInitialState(seed: number): GameState {
     introBeat: -1, // pre-wake; open_eyes starts the intro at scene 0
     rungBeat: null, // no rung beat live until a ready promotion is triggered (ADR-110)
     askedTopics: [],
+    asksHeard: {}, // FB-415 — no everyday ask heard yet
     quests: { accepted: [], progress: {}, completed: [] },
     marketBought: {},
     merchants: initialMerchants(), // ADR-194 — Yohei opens with his seed purse and an empty stall-store

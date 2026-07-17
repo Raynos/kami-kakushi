@@ -34,8 +34,11 @@ export const APP_ID = 'kami-kakushi' as const;
  *  latch is the only record of a first wage).
  *  v14 = MERCHANT STATE (ADR-194): additive `merchants` map (purse + stock per merchant) —
  *  an absent field hydrates to the seeded roster on load (validate), so the migration is
- *  the identity; the bump records the format change. */
-export const SCHEMA_VERSION = 14 as const;
+ *  the identity; the bump records the format change.
+ *  v15 = ASK HEARD-STATE (FB-415): additive `asksHeard` map (askId → freshness key) —
+ *  an absent field hydrates to `{}` on load (validate — no ask heard yet, the correct
+ *  fresh default), so the migration is the identity; the bump records the format change. */
+export const SCHEMA_VERSION = 15 as const;
 
 /** App GENERATION (ADR-161, storywave clean break): bumped when the state model breaks so
  *  hard that migration is not worth carrying. A saved blob with a generation below this

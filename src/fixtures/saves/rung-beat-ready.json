@@ -1,11 +1,11 @@
 {
   "app": "kami-kakushi",
-  "schemaVersion": 14,
+  "schemaVersion": 15,
   "generation": 2,
   "saveCounter": 0,
   "savedAt": 0,
   "state": {
-    "schemaVersion": 14,
+    "schemaVersion": 15,
     "season": "winter",
     "seasonsPassed": 0,
     "rng": {
@@ -615,6 +615,7 @@
     "introBeat": 3,
     "rungBeat": null,
     "askedTopics": [],
+    "asksHeard": {},
     "quests": {
       "accepted": [],
       "progress": {},

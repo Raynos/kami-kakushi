@@ -102,6 +102,9 @@ export type { NpcId, VoiceCategory } from './content/voices';
 
 export type { Intent, IntentType, MetaVerb } from './intents';
 export { reduce, availableActions } from './intents';
+export type { AskDef, AskAnswerLine, AvailableAsk } from './asks';
+export { availableAsks, unheardAskCount, askFreshnessKey } from './asks';
+export { ASKS, ASK_IDS, askById } from './content/asks';
 export {
   focusedOptimalIntent,
   autoModeIntent,

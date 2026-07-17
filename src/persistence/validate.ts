@@ -290,6 +290,7 @@ export function validateState(rawState: unknown): ValidateResult {
     | 'introBeat'
     | 'rungBeat'
     | 'askedTopics'
+    | 'asksHeard'
     | 'quests'
     | 'marketBought'
     | 'merchants'
@@ -447,6 +448,11 @@ export function validateState(rawState: unknown): ValidateResult {
     askedTopics: Array.isArray(base.askedTopics)
       ? (base.askedTopics as readonly string[])
       : [],
+    // The FB-415 ask heard-map (v15, additive): askId → freshness key. Absent (any pre-ask
+    // save) → {} (no ask heard yet, the correct fresh default); malformed → {}.
+    asksHeard: isObject(base.asksHeard)
+      ? (base.asksHeard as GameState['asksHeard'])
+      : {},
     quests: isObject(base.quests)
       ? (base.quests as GameState['quests'])
       : { accepted: [], progress: {}, completed: [] },

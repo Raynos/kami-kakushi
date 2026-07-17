@@ -25,6 +25,25 @@ cover later rungs — authored waves upgrade placeholders, never
 create coverage); the Risks "ships with only the R0–R2 seed"
 fallback is bounded by the no-broken-rung ruling.
 
+## 2 · Step 1 — the core ask engine (TDD, red→green per slice)
+
+Behaviors tested (the spec-of-record, per the tdd skill): rung-window
+selection derives from RANKS order (no literals) · `ask` marks heard
++ leaves EVERY log channel untouched (D4) · presence/unknown-ask
+no-ops · D6 freshness (heard dims; a state move un-hears — the key
+handshake) · `unheardAskCount` newness · save round-trip + pre-v15
+blob hydration (mutation-checked: broke hydration, saw RED,
+restored — and re-applied my own wiped edits, see Landmines).
+
+Built: `src/core/asks.ts` (AskDef · availableAsks · unheardAskCount
+· askFreshnessKey — heard = stored freshness key still matches),
+`src/core/content/asks.ts` (step-1 seed registry, placeholder voice
+pending ADR-139 waves), `ask` intent (AC-6: reducer accepts only
+what availableAsks offers), `asksHeard` in GameState,
+SCHEMA_VERSION 14→15 (identity migration + validate hydration),
+core/index exports, fixtures regenerated. `talk_to` untouched
+(retires at step 4). Full vitest suite green (1413).
+
 <!-- append further entries below, in order -->
 
 ---

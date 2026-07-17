@@ -48,6 +48,8 @@ import {
   riceSellQuote,
 } from './selectors';
 import { getPerson, PEOPLE_IDS } from './content/people';
+import { availableAsks, askFreshnessKey } from './asks';
+import { ASKS, askById } from './content/asks';
 import { getBelonging, homeRestLine } from './content/home';
 import { skillLevel } from './skills';
 import {
@@ -156,6 +158,7 @@ export type Intent =
   | { type: 'choose_scene_option'; optionId: string } // storywave G2: the terminal scene decision
   | { type: 'begin_night_round'; roundId: string } // storywave G2: start the on-rails night round
   | { type: 'talk_to'; personId: string } // C4.2: a vn person's talk delivers their next authored line
+  | { type: 'ask'; askId: string } // FB-415: hear a state-derived everyday ask — inline only, no log
   | { type: 'rake_rice' }
   | { type: 'rest' }
   | { type: 'sleep' } // ADR-187: end the day at your corner — the ONLY way time moves without an act
@@ -1628,6 +1631,29 @@ export function reduce(state: GameState, intent: Intent): GameState {
       if (!peopleHere(state).some((p) => p.id === intent.personId))
         return state;
       next = deliverDialogue(next, person.sceneId, 1);
+      break;
+    }
+    case 'ask': {
+      // FB-415 — hear a state-derived everyday ask. The def must be offered by the SAME
+      // selector the surface renders from (availableAsks — AC-6, so button and reducer
+      // can never disagree); presence is engine-checked like talk_to. Hearing latches
+      // the answer's freshness key into `asksHeard` and emits NO log line on ANY
+      // channel (D4 — the answer renders inline in the talk surface, derived from
+      // state by the caller); asks cost nothing (D7 — no clock, no satiety).
+      const def = askById(intent.askId);
+      if (!def) return state;
+      if (!peopleHere(state).some((p) => p.id === def.person)) return state;
+      const offered = availableAsks(state, def.person, ASKS).some(
+        (a) => a.def.id === def.id,
+      );
+      if (!offered) return state;
+      next = {
+        ...next,
+        asksHeard: {
+          ...next.asksHeard,
+          [def.id]: askFreshnessKey(state, def),
+        },
+      };
       break;
     }
   }

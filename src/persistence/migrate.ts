@@ -88,6 +88,11 @@ const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // the seeded roster in validateState when absent (idempotent: a present map is kept as-is,
   // so re-running can never double-grant). Identity here; the bump records the format change.
   13: (state) => state,
+
+  // v14 → v15 (FB-415 ask heard-state): purely additive — the new `asksHeard` map hydrates
+  // to `{}` in validateState when absent (no ask heard yet — the correct fresh default).
+  // Identity here; the bump records the format change.
+  14: (state) => state,
 };
 
 /** `<ns>.<scene>.…greeting.<i>` / `…answer.<i>` → the same address with the line's authored id.
