@@ -32,9 +32,8 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
   when its **authored objective-requirement list** is 100% done. Every
   T1+ list must span BOTH tracks — canon, **no teeth yet**.
 - **✅ SLEEP — TIME MOVES WITHOUT WORK (ADR-187):** a `sleep` verb at
-  **your woodshed corner (R4+, the only bed)** — one press = one dawn,
-  INSTANT, and priced: the day's acts are forfeited, the house still
-  eats, you slept through the pot. The sim stays **SKIP-BLIND**
+  your woodshed corner (R4+, the only bed) — one press = one dawn,
+  priced: acts forfeited, the house still eats. Sim stays SKIP-BLIND
   (pinned). The announce beat is BUILT — read it at **HR-40**.
 - **✅ ZONE-REVEAL LAW (ADR-184):** a zone opens **only inside a VN**;
   a rung-up VN opens **≤2** (gated). Five zones earn side-quest VNs;
@@ -50,8 +49,9 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
 - **✅ BODY SPLIT (ADR-178) · ESTATE (ADR-177):** works chain
   (**HR-27**) · diverges (**HR-29/HR-30**). **✅ FOUNDATIONS:** bible
   (ADR-150) · PRD freeze cancelled (ADR-168) · UI-v2/taste lock
-  (ADR-144/126). **NOT DONE: T2 rungs/fog** · Phase-2 economy.
-- **🧊 PARKED:** Plan K + T1 emergent-nodes (`docs/plans/t1/`).
+  (ADR-144/126). **NOT DONE:** Phase-2 economy.
+- **🧊 PARKED:** Plan K · T1 emergent-nodes (`docs/plans/t1/`) · T2
+  rungs/fog (`docs/plans/t2/`, human 2026-07-17).
 
 ## Waiting on the human
 
@@ -110,11 +110,11 @@ FB-257. `dev`·`build`·`/ship`.
    server on localhost:5264 (never spawn/kill your own). **`?dev=no`**
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** merchant-state LANDED (session 204,
-   ADR-194). Plans empty → **T2 rungs/fog** · telemetry · inbox drain.
+4. **Next (autonomous):** inbox DRAINED (s208; dev :5264, e2e :5265).
+   Talk plan (FB-415) 📋 PROPOSED — human reads first. Else telemetry.
 5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
    with **`pnpm run push`** (bare `git push` is blocked; lane held →
    commits stay local by design). Render-split LANDED (session 203):
    surface work goes in `src/ui/render|dev/`, not the shells.
 
-<!-- rewrite-debt: 9/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 10/20 · last full rewrite: 2026-07-13 -->

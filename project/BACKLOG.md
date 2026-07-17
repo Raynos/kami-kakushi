@@ -115,6 +115,15 @@ Deliberately not built; each says why. Never nagged.
 
 
 
+- [ ] **T0 sheet R9 secondary reads weakly in blind passes (s208,
+  2026-07-17).** 2/3 blind readers miss the orchard/woodlot rows
+  being planted as courtyards aligned to the ruin, and the bamboo
+  grove pressuring the vegetable rows (map-spec §5 R9, a SECONDARY
+  line — the pass still scored PASS, 7/7 mandatory). Pre-existing,
+  untouched by the s208 caption fixes. Pull forward only with other
+  T0 sheet craft work (map-sheets skill + pin regen); evidence:
+  `project/audit/reports/2026-07-17-t0-map-blind-pass.md`.
+
 ## Graphics concepts — parked shelves live in their register
 
 - [ ] **Parked graphics concepts** — the one home for the whole slate
@@ -131,6 +140,14 @@ Deliberately not built; each says why. Never nagged.
     documents · #9 season wheel · #13 emaki.
 
 ## T2
+
+- [ ] **Relationship/favor lever for talk (ruled OUT of T0, s208
+  grill D1).** The FB-415 grill considered per-person trust/favor
+  gating prices/quests/beats and the human ruled it out of the talk
+  redesign — info + story beats only. Revisit as a T1+ system if the
+  shipped ask system leaves people feeling stateless; the grill
+  capture (`project/brainstorms/2026-07-17-talk-system-redesign.md`,
+  Q1) holds the reasoning.
 
 - [ ] **Inn rumours board as a discovery-rumor source** — when the
   village inn + rumours board reveal (PRD §2.13, T2), the board becomes
