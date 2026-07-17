@@ -1,6 +1,21 @@
 # Rebuild talking: state-derived asks + authored beats (FB-415)
 
-**Status:** 📋 PROPOSED (2026-07-17, session 208)
+**Status:** ▶️ IN PROGRESS (picked up 2026-07-18, session 210)
+
+**Rulings (human, 2026-07-18 — pre-build Q&A):**
+- **Routing:** all five steps build in the Fable session (no Opus
+  subagents for 1–2).
+- **Step-4 gate:** fires after the agent's diverge SELF-PICK
+  (ADR-075 non-blocking); alternates stay behind the DEV toggle for
+  the human's override.
+- **Defaults accepted** (ask counts 1–3 · Kihei/Naoyuki beats-placed
+  only) **with a scope ruling: NOTHING breaks at any rung.** Talking
+  exists at every rung of T0 today, so EVERYTHING ports to the new
+  system — later rungs get their content filled (re-homed lines
+  and/or placeholder asks), never a dead Speak button. The old
+  "engine ships with only the R0–R2 seed" fallback is void where it
+  would leave a rung broken.
+- **Variant (c):** let it emerge during the diverge; no pre-shape.
 **Confidence:** ( 40% Opus, 60% Fable ) — the core ask engine is
 mechanical; the ask answers, variant look, and beat re-homing are
 fiction + taste.
@@ -87,7 +102,12 @@ migration last (nothing half-dead mid-plan).
    people actually present there (Genemon, Sōan, Yohei-non-market,
    whoever the presence map says), 1–3 asks each; later rungs fill as
    authored waves (ADR-139 bundles, one bundle per person or per
-   domain — coherent, never 25 atomized calls).
+   domain — coherent, never 25 atomized calls). **Full-T0 floor
+   (human ruling, 2026-07-18): every person×rung that has talk today
+   still has working talk after the port** — later rungs are covered
+   by the step-4 re-homed lines and, where a gap remains, placeholder
+   asks; the authored-wave upgrades then replace placeholders, they
+   don't create coverage.
 3. **Surface diverge (ADR-075, FULL).** 2–3 WORKING variants spanning
    the settled range, DEV-toggle switchable, taste-scorecard Pass 1
    first: (a) **in-row asks** — the person row expands into ask
@@ -177,8 +197,9 @@ migration last (nothing half-dead mid-plan).
   the plan's migration test is the local answer.
 - **Authoring volume:** 13 people × 8 rungs is a trap; the sparse
   matrix + per-bundle waves (step 2) cap it. If a wave stalls, the
-  engine still ships with the R0–R2 seed — partial-and-excellent
-  (PH1).
+  engine still ships with the R0–R2 seed **plus the full re-homed
+  line coverage — the 2026-07-18 ruling: partial authoring is fine,
+  a broken rung is not** (PH1 bounded by the full-T0 floor above).
 - **Rollback:** steps 1–2 are additive (registry + selector, old
   cursor intact until step 4); the point of no return is step 4's
   re-homing — do it after the diverge pick, not before.

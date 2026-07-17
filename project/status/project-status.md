@@ -104,7 +104,7 @@ FB-257. `dev`·`build`·`/ship`.
 
 1. Read the **newest journal** + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-17-session-209-vn-act-title.md`](../journal/2026-07-17-session-209-vn-act-title.md)
+   [`journal/2026-07-18-session-210-talk-system-build.md`](../journal/2026-07-18-session-210-talk-system-build.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev
    server on localhost:5264 (never spawn/kill your own). **`?dev=no`**
