@@ -33,19 +33,19 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
   T1+ list must span BOTH tracks — canon, **no teeth yet**.
 - **✅ SLEEP — TIME MOVES WITHOUT WORK (ADR-187):** a `sleep` verb at
   your woodshed corner (R4+, the only bed) — one press = one dawn,
-  priced: acts forfeited, the house still eats. Sim stays SKIP-BLIND
-  (pinned). The announce beat is BUILT — read it at **HR-40**.
+  priced: acts forfeited, the house still eats. Sim SKIP-BLIND.
 - **✅ ZONE-REVEAL LAW (ADR-184):** a zone opens **only inside a VN**;
   a rung-up VN opens **≤2** (gated). Five zones earn side-quest VNs;
   the woodshed rides to **R4**. Fog stands: sheet CLIPS, one viewer.
 - **✅ SICKROOM MEND LANE (ADR-164/197, s202):** HP mends ONLY at the
   sickroom — `treat` (mon-only, hides when broke) + `rest_sickroom`
   (free pallet day); cook heal SEVERED (food = belly). Band [3, 28].
-  The mend lines are diverged — 3 takes, canon picked (**HR-43**).
 - **✅ TAKE SYSTEM = ONE FUNNEL (ADR-198, s200):** a DEV take flip
   re-renders EVERYTHING (logged lines incl.); takes gen-compile to
-  flat maps behind a HARD prose-only gate; ten setters → ONE overlay;
-  the keyless gate grew a static half; 幕-heads keyed (SCHEMA v13).
+  flat maps behind a HARD prose-only gate; ten setters → ONE overlay.
+- **✅ SEAL-BOOK STRIP (ADR-201, s214):** the run record as a compact
+  Character-tab strip (v16 `rungRecord`+`defeatDays`; 3 variants,
+  blind-passed, pick at **HR-46**). NOT DONE: the afterglow beat.
 - **✅ BODY SPLIT (ADR-178) · ESTATE (ADR-177):** works chain
   (**HR-27**) · diverges (**HR-29/HR-30**). **✅ FOUNDATIONS:** bible
   (ADR-150) · PRD freeze cancelled (ADR-168) · UI-v2/taste lock
@@ -70,7 +70,7 @@ The live queue: [`../human-in-the-loop/`](../human-in-the-loop).
 - **ONE home for every pick: DEV → Review** — Story ⇄ Variants behind
   one switch; each row carries its **HR-n**. **Story** 🔲 HR-18…21 ·
   HR-27 · HR-39 · HR-40 · HR-42 · HR-43 · **Variants** 🔲 HR-6 · HR-5 ·
-  HR-2A–D · HR-29/30.
+  HR-2A–D · HR-29/30 · HR-45 · HR-46.
 
 ## Toolchain
 
@@ -91,7 +91,7 @@ FB-257. `dev`·`build`·`/ship`.
 ## Code & repo layout
 
 - `src/core` (pure: rules, state, content incl. `narrative/`) ·
-  `src/persistence` (save layer, SCHEMA 13) · `src/ui` (shells over
+  `src/persistence` (save layer, SCHEMA 16) · `src/ui` (shells over
   `render/` views · `dev/` panes · `styles/` — the render-split)
   · `src/app/main.ts` (root + `window.__qa`)
   · `src/scripts/*`. Full map: [`repo-map.md`](../../docs/repo-map.md);
@@ -110,11 +110,11 @@ FB-257. `dev`·`build`·`/ship`.
    server on localhost:5264 (never spawn/kill your own). **`?dev=no`**
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** FB-415 talk SHIPPED (s210, ADR-200; pick
-   at HR-45) — its ADR-139 ask-answer waves are the queued pickup.
+4. **Next (autonomous):** the stamp-book afterglow beat + its
+   ADR-139 intro line (plan, s214) · the FB-415 ask-answer waves.
 5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
    with **`pnpm run push`** (bare `git push` is blocked; lane held →
    commits stay local by design). Render-split LANDED (session 203):
    surface work goes in `src/ui/render|dev/`, not the shells.
 
-<!-- rewrite-debt: 12/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 13/20 · last full rewrite: 2026-07-13 -->
