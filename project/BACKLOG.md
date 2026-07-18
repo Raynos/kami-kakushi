@@ -204,6 +204,16 @@ Deliberately not built; each says why. Never nagged.
   walks yet. Evidence:
   [`shared-tree-git.md` §6](../docs/guides/shared-tree-git.md).
 
+- **Cohesion steer awaits its ADR lock (session-213, 2026-07-18).**
+  The human's cohesion ruling (every element earns its place on ALL
+  THREE axes — game/story/fun; the founding steer of the
+  `kami-cohesion-campaign` skill) is recorded verbatim in
+  [`feedback-human/2026-07-18-skill-library-rulings.md`](feedback-human/2026-07-18-skill-library-rulings.md)
+  (R1) but not yet locked as an ADR (ADR-022 — a steer this
+  load-bearing belongs in the decision log). The campaign's Phase 0
+  does it (reserve via `tree-claim.ts adr`); parked here until the
+  human starts that campaign.
+
 - **Skill-trigger boosts may need an AGENTS.md rung (session-207,
   2026-07-14).** The human wants `battery` (cheap modes), `tdd`, and
   `grill-me` to fire MORE; their frontmatter descriptions were
