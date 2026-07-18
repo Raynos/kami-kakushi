@@ -11,14 +11,14 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'genemon-house-standing',
     person: 'genemon',
     rungMin: 'R0',
-    label: '“How do I stand with the house?”',
+    label: '“What does your book say of me?”',
     refresh: 'rung',
     lines: [
       {
         id: 'the-book-says',
         voice: 'steward',
         speaker: NPC_NAME.genemon,
-        text: '“The book says what it says. My ledger holds one line for you — what you are to this house today is written there, and today it reads: nothing more, nothing less.”',
+        text: '“Your line stands where the book set it this morning — entered, current, carried forward, nothing owing past what the page shows. Most men wait to be read to. You ask; I have made a note of that.”',
       },
     ],
   },
@@ -27,7 +27,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'genemon-house-wants',
     person: 'genemon',
     rungMin: 'R0',
-    label: '“What does the house want of me?”',
+    label: '“Steward. What does the house ask of me?”',
     refresh: 'rung',
     native: 'house-wants',
   },
@@ -36,7 +36,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'soan-body-mend',
     person: 'soan',
     rungMin: 'R0',
-    label: '“Have a look at me, would you?”',
+    label: '“Doctor. Look me over, when your rounds allow.”',
     refresh: 'health',
     native: 'body-mend',
   },
@@ -45,14 +45,14 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'ohisa-kitchen-season',
     person: 'ohisa',
     rungMin: 'R0',
-    label: '“What’s the kitchen cooking?”',
+    label: '“What’s in the pot?”',
     refresh: 'season',
     lines: [
       {
         id: 'what-the-season-gives',
         voice: 'steward',
         speaker: NPC_NAME.ohisa,
-        text: '“What the season gives, we cook. The pot doesn’t argue with the calendar and neither do I — come at mealtime and you’ll see for yourself.”',
+        text: '“What comes in the door with the dirt still on it, that goes in the pot — that and salt, and salt we still have. If the season means to be kinder than the last one — well. You’ll smell it from the woodshed before I say a word.”',
       },
     ],
   },
@@ -61,14 +61,14 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'oyae-village-news',
     person: 'oyae',
     rungMin: 'R1',
-    label: '“Any word from the village?”',
+    label: '“What do they say in the village?”',
     refresh: 'season',
     lines: [
       {
         id: 'word-comes-up-the-road',
         voice: 'villager',
         speaker: NPC_NAME.oyae,
-        text: '“Word comes up the road with me every morning — most of it not worth the carrying. Ask me again when the season turns; that’s when the village finds things worth saying.”',
+        text: '“The baskets go down full of washing and come back up full of what they say — none of it mine, I only carry. They’re talking, they always are; when they say a thing worth setting the load down for, you’ll have it the same morning I do.”',
       },
     ],
   },
@@ -77,13 +77,13 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'shinnosuke-what-are-you-doing',
     person: 'shinnosuke',
     rungMin: 'R0',
-    label: '“What are you up to?”',
+    label: '“No work of your own?”',
     lines: [
       {
         id: 'watching-you',
         voice: 'steward',
         speaker: NPC_NAME.shinnosuke,
-        text: '“Watching you. Grandfather says you came from the weir with no name on you. I’ve never met anyone who wasn’t anyone before.”',
+        text: '“My letters — only the ink dries faster than I can write it, so I’m watching you work instead. How do you tie a load one-handed, and who taught you?”',
       },
     ],
   },
@@ -92,7 +92,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'genemon-word',
     person: 'genemon',
     rungMin: 'R0',
-    label: '“The terms again, if you would.”',
+    label: '“Steward. Have you a word for me?”',
     native: 'u9-genemon',
   },
 
@@ -100,7 +100,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'kihei-word',
     person: 'kihei',
     rungMin: 'R0',
-    label: '“Anything for me, drillmaster?”',
+    label: '“Drillmaster. Have you an order for me?”',
     native: 'u9-kihei',
   },
 
@@ -108,7 +108,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'soan-word',
     person: 'soan',
     rungMin: 'R0',
-    label: '“A moment of your rounds?”',
+    label: '“Doctor. If you can spare me a moment.”',
     native: 'u9-soan',
   },
 
@@ -116,7 +116,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'ohisa-word',
     person: 'ohisa',
     rungMin: 'R0',
-    label: '“How do you fare, O-Hisa?”',
+    label: '“O-Hisa. A word, if the pot can wait.”',
     native: 'u9-ohisa',
   },
 
@@ -124,7 +124,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'shinnosuke-word',
     person: 'shinnosuke',
     rungMin: 'R0',
-    label: '“Go on, then — say it.”',
+    label: '“You have questions. Ask one.”',
     native: 'u9-shinnosuke',
   },
 
@@ -132,7 +132,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'naoyuki-word',
     person: 'naoyuki',
     rungMin: 'R0',
-    label: '“You wanted to say something.”',
+    label: '“Master Naoyuki. What would you have me do?”',
     native: 'u9-naoyuki',
   },
 
@@ -140,7 +140,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'toku-word',
     person: 'toku',
     rungMin: 'R0',
-    label: '“Grandmother — a word?”',
+    label: '“Grandmother. May I have a word?”',
     native: 'u9-toku',
   },
 
@@ -148,7 +148,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'oyae-word',
     person: 'oyae',
     rungMin: 'R0',
-    label: '“And you, O-Yae?”',
+    label: '“What do they say down the road, O-Yae?”',
     native: 'u9-oyae',
   },
 
@@ -156,7 +156,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'matsuzo-word',
     person: 'matsuzo',
     rungMin: 'R0',
-    label: '“How runs the water, old man?”',
+    label: '“What news at the weir, Matsuzō?”',
     native: 'u9-matsuzo',
   },
 
@@ -164,7 +164,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'iori-word',
     person: 'iori',
     rungMin: 'R0',
-    label: '“A word, traveler?”',
+    label: '“A word before you go, traveler?”',
     native: 'u9-iori',
   },
 
@@ -172,7 +172,7 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'oume-word',
     person: 'oume',
     rungMin: 'R0',
-    label: '“Good day at the paddy’s edge?”',
+    label: '“How do the fields stand, O-Ume?”',
     native: 'u9-oume',
   },
 
@@ -180,7 +180,31 @@ export const ASK_DEFS: readonly GenAskDef[] = [
     id: 'rokusuke-word',
     person: 'rokusuke',
     rungMin: 'R0',
-    label: '“How go the hands?”',
+    label: '“Anything doing, Rokusuke?”',
     native: 'u9-rokusuke',
+  },
+
+  {
+    id: 'matsuzo-waters',
+    person: 'matsuzo',
+    rungMin: 'R0',
+    label: '“Is the weir holding?”',
+    native: 'waters-hint',
+  },
+
+  {
+    id: 'oume-margins',
+    person: 'oume',
+    rungMin: 'R0',
+    label: '“Hard ground this year?”',
+    native: 'margins-hint',
+  },
+
+  {
+    id: 'rokusuke-timber',
+    person: 'rokusuke',
+    rungMin: 'R0',
+    label: '“Does the wood cut clean?”',
+    native: 'timber-hint',
   },
 ];

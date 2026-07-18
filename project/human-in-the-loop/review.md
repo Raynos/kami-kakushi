@@ -300,6 +300,118 @@ only thing that can.**
   ruling.
 - **Verdict:** _(awaiting your call)_
 
+### HR-49 🔲 [R0+ · story] — the asking voice: all 14 native-ask labels (`ask-voice` bundle, ADR-139/FB-415)
+
+The talk plan's first ask wave (s218): every native ask's LABEL — the
+MC's spoken question on the talk plates — re-voiced from placeholder
+grade as ONE coherent asking voice (12 `-word` asks + house-wants +
+body-mend). Sibling waves: HR-50 (house answers) · HR-51 (village +
+discovery hints).
+
+  - **Taste brief (pass 1):** labels are chrome (P19, one tight
+    line) · MC law — plainest voice, a question visibly costs him ·
+    each label honestly names its answer (TST4) and leads into the
+    person's u9 lines · full brief in the bundle dir.
+  - **Canon (B · the ladder is audible)** _(self-picked)_: the
+    house's hierarchy shapes his mouth — address-first up the ladder
+    (“Steward. Have you a word for me?” · “Grandmother. May I have a
+    word?”), yard-talk down it (“Anything doing, Rokusuke?”); read in
+    a row the fourteen labels descend audibly from petition to
+    shoptalk.
+    - **Scorecard (B):** 20✔ 0✘ 1— — strongest TST3 (the audible
+      ladder IS the standing fiction) and TST4 (each label names its
+      person's domain).
+  - [ ] **take a — the workman's minimum** — asking as labour, pared
+    to the fewest words (“Orders?” · “What’s my work?”).
+    - **Scorecard (A):** 19✔ 1✘ 1— — ✘ [briefed] the uniform
+      terseness undercarries "a question visibly costs him".
+  - [ ] **take c — the question he almost doesn't ask** — the
+    cost-law audible: each label buys the other person a way out
+    (“An order for me, if you have one. If not, I’m back to the
+    work.”).
+    - **Scorecard (C):** 18✔ 2✘ 1— — ✘ [briefed] two-sentence labels
+      bulk the chrome (P19); ✘ [blind spot] one label asserts an
+      off-screen fact.
+  - **Why B:** the ladder enacts the game's spine (standing decides
+    everything) and differentiates the cast at a glance; the
+    cost-law survives in the address-as-payment shape.
+  - **Seam note:** HR-37 (the MC's inner line) is open in parallel —
+    labels are his SPOKEN voice; if your HR-37 verdict re-shapes his
+    register, say so here and the label set re-runs.
+  - **How to look:** any person row → Speak (labels are the plates)
+    · DEV → Review → Story → **ask-voice** to swap takes LIVE.
+  - **Verdict:** _(awaiting your pick)_
+
+### HR-50 🔲 [R0+ · story] — the house answers: standing, wants, mend (`ask-house` bundle, ADR-139/FB-415)
+
+The second ask wave (s218): Genemon's standing answer + label, his
+two house-wants branches («rank»/«next» substitute live rank titles),
+and Sōan's three exam verdicts — the D2 house-wants and body-&-mend
+payloads, re-voiced from placeholder grade.
+
+  - **Taste brief (pass 1):** TST3 — answers say what the state
+    derives (rung, health third), FB-121 the requirement list stays
+    hidden, the fiction points · Genemon = item/count/condition ·
+    Sōan = physician's economy · answers breathe (1–3 sentences).
+  - **Canon (B · the man behind the book)** _(self-picked)_: the
+    ledger's fact first, then for exactly one clause the man looks
+    up — “Most men wait to be read to. You ask; I have made a note
+    of that.” · “I do not rule ahead for a man I expect to lose.” ·
+    Sōan's “The bed is aired; it has been for a while.”
+    - **Scorecard (B):** 21✔ 0✘ — the one human beat per answer is
+      the regard mechanic the engine tracks (npcMemory), voiced.
+  - [ ] **take a — the ledger speaks** — the purest accounting, all
+    warmth withheld; being kept, exactly and impersonally.
+    - **Scorecard (A):** 20✔ 0✘ 1— — impersonal by design; thinner
+      drama, a brief-level choice.
+  - [ ] **take c — the house teaches** — every answer a fact plus a
+    direction shaped like an order; the house training its stranger.
+    - **Scorecard (C):** 20✔ 0✘ 1— — the aggregate flirts with
+      tutorial voice.
+  - **Why B:** best Pass-2; Genemon's dry regard bends his locked
+    register without breaking it and matches the
+    misreadings-dissolve arc.
+  - **How to look:** Forecourt → Genemon → Speak (standing + wants);
+    Sickroom → Sōan → Speak (the verdict follows your health third)
+    · DEV → Review → Story → **ask-house** to swap takes LIVE.
+  - **Verdict:** _(awaiting your pick)_
+
+### HR-51 🔲 [R0+ · story] — the village answers + the three discovery hints (`ask-village` bundle, ADR-139/FB-415)
+
+The third ask wave (s218): O-Hisa/O-Yae/Shinnosuke's everyday answers
+re-voiced, plus the D2 discovery-hint payload BUILT — three NEW asks
+(`matsuzo-waters` · `oume-margins` · `rokusuke-timber`) whose native
+answers branch on the discovery latches (reeds → sluice → settled;
+sett; lacquer) and re-light when a find changes the answer.
+
+  - **Taste brief (pass 1):** P15 — the hint POINTS while
+    undiscovered, the settled branch may name · cast registers
+    locked (O-Yae never claims · Matsuzō answers about water ·
+    Rokusuke attributes everything away) · labels in the MC's law.
+  - **Canon (B · work talk only)** _(self-picked)_: the world leaks
+    through the labour — “Cut reeds lie down with the current, and
+    those don’t.” · “river-stone rolls, and this holds its line” ·
+    the axe that “comes back off it smelling bitter”.
+    - **Scorecard (B):** 21✔ 0✘ — cleanest registers, most concrete
+      hints, zero contract-breaking props; kernel #2 voiced.
+  - [ ] **take a — the village looks sideways** — every answer
+    carries the village's sidelong watch on the stranger.
+    - **Scorecard (A):** 20✔ 1✘ — ✘ [blind spot] Shinnosuke names
+      standing watchers the game can't show.
+  - [ ] **take c — small kindnesses** — each answer gives slightly
+    more than asked; warmth as things, not words.
+    - **Scorecard (C):** 18✔ 2✘ 1— — ✘ [blind spot] named props
+      (mattock, gloves, bowl) are P10 contracts the game can't
+      honor; ✘ [blind spot] invents drill canon.
+  - **Why B:** best Pass-2; the hints as material work-facts are the
+    strongest P15 pointing in the corpus and the labels sit cleanest
+    in the MC's voice.
+  - **How to look:** Kitchen → O-Hisa/O-Yae/Shinnosuke → Speak; Weir
+    (lease day) → Matsuzō; Field margins → O-Ume; Paddies →
+    Rokusuke — the hint branch follows your discovery state · DEV →
+    Review → Story → **ask-village** to swap takes LIVE.
+  - **Verdict:** _(awaiting your pick)_
+
 ## ▸ R3 · combat & the wider house (Combat/Inventory tabs reveal)
 
 ### HR-2B 🔲 [R3 · fills R7] — House-Influence panel (家威 grade) — pick a variant (ADR-075)

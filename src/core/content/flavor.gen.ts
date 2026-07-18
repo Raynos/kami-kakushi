@@ -515,4 +515,28 @@ export const FLAVOR = {
     'His purse has emptied on this side of the valley; he comes with coin again on his market day.',
   sealbookIntro:
     'A seal-book, thin as a folded letter, and on its first page the day-hand mark pressed wet and vermillion. It goes into the breast of your robe, against the ribs. No name yet — but a page that says you are.',
+  askHouseWantsTop:
+    '“Above «rank» this book rules no further line — you have climbed off the top of my page. What the house wants of you now is what it wanted first: that its count come out even at dark. It has that, and I will not pretend otherwise.”',
+  askHouseWantsLadder:
+    '“The book has you at «rank», and I have already ruled the line above it for «next» — empty as yet, waiting on ink. I do not rule ahead for a man I expect to lose. The house will show you what fills it; it is not mine to recite.”',
+  askMendSound:
+    '“Sound. Whatever the river left in you, the work has carried out. Away with you — and come when a thing hurts, not a week after it stops.”',
+  askMendMarked:
+    '“Marked, and mending — the body is doing its work if you let it. Ease the load a few days; the paddies will not notice, though I know you will. Come by if it worsens.”',
+  askMendDown:
+    '“Enough. This is past walking off — you will come to the sickroom and let me work at it properly. The bed is aired; it has been for a while.”',
+  askWatersReeds:
+    '“Weir’s holding; it’s the water below it that parts wrong, near bank, in the reeds. Cut reeds lie down with the current, and those don’t. Somebody cut there and never carried — go look how the water goes around it.”',
+  askWatersSluice:
+    '“The water lies flat in the reeds now you’ve carried them off. There’s older work than that: up under the woodlot trees the ground stays wet where no rain sits, which means water still remembers a way through there. Something let it through once, and it’s choked now.”',
+  askWatersSettled:
+    '“Reeds carried, and the old gate under the trees found — the water’s got nothing left to show you. It runs, I watch it run. Ask me again when it rains.”',
+  askMarginsSett:
+    '“The margin rows fight the blade — there’s stone under that grass, and not river-stone either; river-stone rolls, and this holds its line. My husband turned his furrow around it every spring and never dug to ask why. You’ve the arms for asking.”',
+  askMarginsSettled:
+    '“A set stone after all — laid hands put it there, and laid hands found it. My rows will run straighter for it. That’s more thanks than most work gets.”',
+  askTimberLacquer:
+    '“The hands say one trunk in the lot cuts wrong — the axe comes back off it smelling bitter, and there’s a grey scar on the bark that weeps out amber. I wouldn’t know; I cut where I’m told. But nobody’s felled it, and nobody’s saying why not.”',
+  askTimberSettled:
+    '“They’re saying you named the bitter trunk — a lacquer tree, and the hands that rashed off it last summer might have said so sooner. Not me; I never touched it. The lot cuts quiet again.”',
 } as const;

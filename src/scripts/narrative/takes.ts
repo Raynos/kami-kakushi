@@ -21,6 +21,7 @@ import {
   type IntroSceneNode,
   type SceneDefNode,
   type DialogueDefNode,
+  type AskDefNode,
   type DecisionNode,
   type ProseLine,
   type TopicNode,
@@ -239,6 +240,8 @@ export interface CanonIndex {
   readonly intro: ReadonlyMap<string, IntroSceneNode>;
   readonly sceneDef: ReadonlyMap<string, SceneDefNode>;
   readonly dialogue: ReadonlyMap<string, DialogueDefNode>;
+  /** everyday asks (FB-415) — label + static answer lines re-voice like dialogue. */
+  readonly ask: ReadonlyMap<string, AskDefNode>;
   /** prose block id (`flavor` / `cold-open`) → its canon key set. */
   readonly prose: ReadonlyMap<string, ReadonlySet<string>>;
   /** requirement ids (`### req <id>`) — the req-flavor / req-objective key space. */
@@ -250,6 +253,7 @@ export function buildCanonIndex(docs: readonly NarrativeDoc[]): CanonIndex {
   const intro = new Map<string, IntroSceneNode>();
   const sceneDef = new Map<string, SceneDefNode>();
   const dialogue = new Map<string, DialogueDefNode>();
+  const ask = new Map<string, AskDefNode>();
   const prose = new Map<string, Set<string>>();
   const reqIds = new Set<string>();
   for (const doc of docs) {
@@ -258,6 +262,7 @@ export function buildCanonIndex(docs: readonly NarrativeDoc[]): CanonIndex {
       else if (b.kind === 'scene') intro.set(b.id, b);
       else if (b.kind === 'scene-def') sceneDef.set(b.id, b);
       else if (b.kind === 'dialogue') dialogue.set(b.id, b);
+      else if (b.kind === 'ask') ask.set(b.id, b);
       else if (b.kind === 'prose') {
         const set = prose.get(b.id) ?? new Set<string>();
         for (const e of b.entries) set.add(e.key);
@@ -267,7 +272,7 @@ export function buildCanonIndex(docs: readonly NarrativeDoc[]): CanonIndex {
       }
     }
   }
-  return { rung, intro, sceneDef, dialogue, prose, reqIds };
+  return { rung, intro, sceneDef, dialogue, ask, prose, reqIds };
 }
 
 /** The gate's voice: every refusal names the bundle · take · unit and what mismatched. */
@@ -422,6 +427,55 @@ function emitTakeText(
         out.push(
           `${str(`dialogue.${b.id}.${l.id}`)}: ${textExpr(l.text, l.loc)},`,
         );
+      }
+    } else if (b.kind === 'ask') {
+      const c = canon.ask.get(b.id);
+      if (!c)
+        throw gateError(b.loc, `ask:${b.id}`, 'no canon ask with this id');
+      // the label is the MC's spoken question — required by the parser on every
+      // `## ask`, so a take always re-voices it (`ask.<id>.label`).
+      out.push(`${str(`ask.${b.id}.label`)}: ${textExpr(b.label!, b.loc)},`);
+      if (c.native !== undefined) {
+        // a native-answered canon ask carries no prose — its branch text lives
+        // in flavor keys (re-voiced as flavor units); prose here would fork
+        // what the game derives (prose-only). The take declares the SAME
+        // native key (the parser demands one of native/prose).
+        if (b.lines.length > 0) {
+          throw gateError(
+            b.loc,
+            `ask:${b.id}`,
+            `canon ask is native ("${c.native}") — answer prose lives in flavor keys, not the ask unit`,
+          );
+        }
+        if (b.native !== c.native) {
+          throw gateError(
+            b.loc,
+            `ask:${b.id}`,
+            `native must match canon ("${c.native}", got "${b.native ?? ''}")`,
+          );
+        }
+      } else {
+        // static answer lines have STABLE canon ids (the overlay addresses) —
+        // a take re-voices a SUBSET by naming them, exactly like dialogue.
+        for (const l of b.lines) {
+          if (l.id === undefined) {
+            throw gateError(
+              l.loc,
+              `ask:${b.id}`,
+              "a take answer line needs the canon line's <!--#slug--> id",
+            );
+          }
+          if (!c.lines.some((cl) => cl.id === l.id)) {
+            throw gateError(
+              l.loc,
+              `ask:${b.id}`,
+              `line "${l.id}" does not exist in canon (canon ids: ${c.lines.map((x) => x.id).join(', ')})`,
+            );
+          }
+          out.push(
+            `${str(`ask.${b.id}.${l.id}`)}: ${textExpr(l.text, l.loc)},`,
+          );
+        }
       }
     } else if (b.kind === 'prose') {
       const ns =

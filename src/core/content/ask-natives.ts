@@ -10,8 +10,10 @@
 import type { GameState } from '../state';
 import type { AskAnswerLine } from '../asks';
 import { hpMax } from '../selectors';
+import { isDiscovered } from '../discovery';
 import { getRank, nextRankId } from './ranks';
 import { DIALOGUES, nextDialogueLines } from './dialogue';
+import { flavorLine } from './flavor';
 
 // ── the D8 re-homing: every u9-* cast def answers through its person's ask ──
 // The C4.2 press-A dispenser is retired; the SAME authored lines (dialogue.md,
@@ -43,50 +45,67 @@ export const NATIVE_ASK_ANSWERS: Readonly<
   ...u9Answers,
   /** Genemon, "what does the house want of me" — the D2 house-wants read: your
    *  standing now and the line above yours, direction without reciting the hidden
-   *  requirement list (FB-121 stays hidden; the fiction points, the book doesn't). */
+   *  requirement list (FB-121 stays hidden; the fiction points, the book doesn't).
+   *  Branch prose lives in flavor.md (askHouseWants*) — take-switchable; the
+   *  «rank»/«next» tokens are substituted here, after the overlay lookup. */
   'house-wants': (s) => {
     const here = getRank(s.rung);
     const above = nextRankId(s.rung);
     if (above === null) {
       return [
-        {
-          text: `“${here.title} — the book has no line above yours to want you into. The house asks what it always asks: that the day's work be done.”`,
-        },
+        { text: flavorLine('askHouseWantsTop').replace('«rank»', here.title) },
       ];
     }
     return [
       {
-        text: `“Today the book calls you ${here.title.toLowerCase()}. Above that line sits ${getRank(above).title.toLowerCase()} — do the work in front of you, and the house will notice when it notices.”`,
+        text: flavorLine('askHouseWantsLadder')
+          .replace('«rank»', here.title.toLowerCase())
+          .replace('«next»', getRank(above).title.toLowerCase()),
       },
     ];
   },
 
   /** Sōan, "how is my body" — the D2 body-&-mend read: a coarse exam verdict by
    *  health third (same banding as the `health` refresh key, so the answer and its
-   *  newness move together). */
+   *  newness move together). Branch prose in flavor.md (askMend*). */
   'body-mend': (s) => {
     const max = hpMax(s);
     const third = Math.ceil((3 * s.character.hp) / max);
-    if (third >= 3) {
-      return [
-        {
-          text: '“Sound enough. Whatever you carry, it isn’t a wound — eat, sleep, and stay out of my sickroom.”',
-        },
-      ];
-    }
-    if (third === 2) {
-      return [
-        {
-          text: '“You’re marked. Nothing that won’t close on its own — but it closes faster on a pallet than at a labour.”',
-        },
-      ];
-    }
-    return [
-      {
-        text: '“You should be lying down, not asking questions. The sickroom, now — paid or free, but now.”',
-      },
-    ];
+    if (third >= 3) return [{ text: flavorLine('askMendSound') }];
+    if (third === 2) return [{ text: flavorLine('askMendMarked') }];
+    return [{ text: flavorLine('askMendDown') }];
   },
+
+  // ── D2 discovery-hint asks (wave C, s218): each person points at what their
+  // work has noticed — the branch follows the discovery latch, so the default
+  // text-digest freshness re-lights the ask exactly when a find changes the
+  // answer. Matsuzō walks his two water finds in order (reeds, then the old
+  // sluice under the woodlot); the settled branch closes the thread.
+  'waters-hint': (s) => {
+    if (!isDiscovered(s, 'disc-weir-bundle'))
+      return [{ text: flavorLine('askWatersReeds') }];
+    if (!isDiscovered(s, 'disc-woodlot-sluice'))
+      return [{ text: flavorLine('askWatersSluice') }];
+    return [{ text: flavorLine('askWatersSettled') }];
+  },
+  'margins-hint': (s) => [
+    {
+      text: flavorLine(
+        isDiscovered(s, 'disc-margins-sett')
+          ? 'askMarginsSettled'
+          : 'askMarginsSett',
+      ),
+    },
+  ],
+  'timber-hint': (s) => [
+    {
+      text: flavorLine(
+        isDiscovered(s, 'disc-woodlot-lacquer')
+          ? 'askTimberSettled'
+          : 'askTimberLacquer',
+      ),
+    },
+  ],
 };
 
 export const NATIVE_ASK_KINDS: ReadonlySet<string> = new Set(

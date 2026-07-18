@@ -16,6 +16,7 @@ export function unitOfKey(key: string): string {
   if (ns === 'req-objective') return `req-objective:${a}`;
   if (ns === 'cold-open') return `cold-open:${a}`;
   if (ns === 'intro-title') return `intro-title:${a}`;
+  if (ns === 'ask') return `ask:${a}`;
   return `flavor:${a}`;
 }
 

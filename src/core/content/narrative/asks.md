@@ -9,128 +9,155 @@
   ask-refresh.ts vocabulary · `native:` from ask-natives.ts — the
   real-logic escape hatch, exclusive with prose). A static answer is
   prose lines, each carrying a `#slug` line-id comment marker — the
-  future takes-overlay address `ask.<id>.<line-id>`.
+  takes-overlay address `ask.<id>.<line-id>`; the label overlays as
+  `ask.<id>.label`.
 
-  STEP-2 SEED (R0–R2, per the plan's sparse matrix): 1–3 asks for
-  the people a player actually stands with early — placeholder-grade
-  voice, each ask pending its ADR-139 takes bundle. Later rungs join
-  per authored wave; the step-4 re-homing carries the full-T0 floor
-  meanwhile. -->
+  VOICE (s218, the ADR-139 ask waves): labels are the W-A pick — the
+  ladder is audible (address-first up the house, yard-talk down it);
+  house answers are the W-B pick — the man behind the book; village
+  answers + discovery hints are the W-C pick — work talk only.
+  Alternates: takes/ask-voice/ · takes/ask-house/ · takes/ask-village/
+  (HR-49 · HR-50 · HR-51). -->
 
 ## ask genemon-house-standing · genemon
 rungs: R0+
 refresh: rung
-label: “How do I stand with the house?”
+label: “What does your book say of me?”
 
 <!--#the-book-says-->
-Genemon: “The book says what it says. My ledger holds one line for
-you — what you are to this house today is written there, and today
-it reads: nothing more, nothing less.”
+Genemon: “Your line stands where the book set it this morning —
+entered, current, carried forward, nothing owing past what the page
+shows. Most men wait to be read to. You ask; I have made a note of
+that.”
 
 ## ask genemon-house-wants · genemon
 rungs: R0+
 refresh: rung
 native: house-wants
-label: “What does the house want of me?”
+label: “Steward. What does the house ask of me?”
 
 ## ask soan-body-mend · soan
 rungs: R0+
 refresh: health
 native: body-mend
-label: “Have a look at me, would you?”
+label: “Doctor. Look me over, when your rounds allow.”
 
 ## ask ohisa-kitchen-season · ohisa
 rungs: R0+
 refresh: season
-label: “What’s the kitchen cooking?”
+label: “What’s in the pot?”
 
 <!--#what-the-season-gives-->
-O-Hisa: “What the season gives, we cook. The pot doesn’t argue with
-the calendar and neither do I — come at mealtime and you’ll see for
-yourself.”
+O-Hisa: “What comes in the door with the dirt still on it, that goes
+in the pot — that and salt, and salt we still have. If the season
+means to be kinder than the last one — well. You’ll smell it from the
+woodshed before I say a word.”
 
 ## ask oyae-village-news · oyae
 rungs: R1+
 refresh: season
-label: “Any word from the village?”
+label: “What do they say in the village?”
 
 <!--#word-comes-up-the-road-->
-O-Yae: “Word comes up the road with me every morning — most of it
-not worth the carrying. Ask me again when the season turns; that’s
-when the village finds things worth saying.”
+O-Yae: “The baskets go down full of washing and come back up full of
+what they say — none of it mine, I only carry. They’re talking, they
+always are; when they say a thing worth setting the load down for,
+you’ll have it the same morning I do.”
 
 ## ask shinnosuke-what-are-you-doing · shinnosuke
 rungs: R0+
-label: “What are you up to?”
+label: “No work of your own?”
 
 <!--#watching-you-->
-Shinnosuke: “Watching you. Grandfather says you came from the weir
-with no name on you. I’ve never met anyone who wasn’t anyone
-before.”
+Shinnosuke: “My letters — only the ink dries faster than I can write
+it, so I’m watching you work instead. How do you tie a load
+one-handed, and who taught you?”
 
 <!-- ── The D8 re-homing (plan step 4): each vn person's u9-* cast def
   (dialogue.md) answers through ONE person-ask. The native fn returns
   every gate-satisfied line; a `when:` gate opening later RESHAPES the
   answer, and the default text-digest freshness re-lights the ask —
-  the old press-A drip becomes state-driven newness (D6). Labels are
-  placeholder-grade, pending each person's ADR-139 wave. -->
+  the old press-A drip becomes state-driven newness (D6). -->
 
 ## ask genemon-word · genemon
 rungs: R0+
 native: u9-genemon
-label: “The terms again, if you would.”
+label: “Steward. Have you a word for me?”
 
 ## ask kihei-word · kihei
 rungs: R0+
 native: u9-kihei
-label: “Anything for me, drillmaster?”
+label: “Drillmaster. Have you an order for me?”
 
 ## ask soan-word · soan
 rungs: R0+
 native: u9-soan
-label: “A moment of your rounds?”
+label: “Doctor. If you can spare me a moment.”
 
 ## ask ohisa-word · ohisa
 rungs: R0+
 native: u9-ohisa
-label: “How do you fare, O-Hisa?”
+label: “O-Hisa. A word, if the pot can wait.”
 
 ## ask shinnosuke-word · shinnosuke
 rungs: R0+
 native: u9-shinnosuke
-label: “Go on, then — say it.”
+label: “You have questions. Ask one.”
 
 ## ask naoyuki-word · naoyuki
 rungs: R0+
 native: u9-naoyuki
-label: “You wanted to say something.”
+label: “Master Naoyuki. What would you have me do?”
 
 ## ask toku-word · toku
 rungs: R0+
 native: u9-toku
-label: “Grandmother — a word?”
+label: “Grandmother. May I have a word?”
 
 ## ask oyae-word · oyae
 rungs: R0+
 native: u9-oyae
-label: “And you, O-Yae?”
+label: “What do they say down the road, O-Yae?”
 
 ## ask matsuzo-word · matsuzo
 rungs: R0+
 native: u9-matsuzo
-label: “How runs the water, old man?”
+label: “What news at the weir, Matsuzō?”
 
 ## ask iori-word · iori
 rungs: R0+
 native: u9-iori
-label: “A word, traveler?”
+label: “A word before you go, traveler?”
 
 ## ask oume-word · oume
 rungs: R0+
 native: u9-oume
-label: “Good day at the paddy’s edge?”
+label: “How do the fields stand, O-Ume?”
 
 ## ask rokusuke-word · rokusuke
 rungs: R0+
 native: u9-rokusuke
-label: “How go the hands?”
+label: “Anything doing, Rokusuke?”
+
+<!-- ── D2 discovery-hint asks (s218, wave C): a person points at what
+  their work has made them notice — P15: the hint POINTS while the
+  thing is undiscovered, the settled branch may name it. Answers are
+  native (branch on the discovery latch, ask-natives.ts); branch
+  prose lives in flavor.md (askWaters*/askMargins*/askTimber*), so
+  each branch is take-switchable. Default text-digest freshness
+  re-lights the ask when a latch flips a branch. -->
+
+## ask matsuzo-waters · matsuzo
+rungs: R0+
+native: waters-hint
+label: “Is the weir holding?”
+
+## ask oume-margins · oume
+rungs: R0+
+native: margins-hint
+label: “Hard ground this year?”
+
+## ask rokusuke-timber · rokusuke
+rungs: R0+
+native: timber-hint
+label: “Does the wood cut clean?”

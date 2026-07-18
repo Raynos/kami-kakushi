@@ -16,6 +16,7 @@ import {
 import { el } from '../render';
 import { COLD_OPEN } from '../../core/content/coldOpen';
 import { FLAVOR } from '../../core/content/flavor';
+import { ASK_DEFS } from '../../core/content/asks.gen';
 import type { RungScene } from '../../core/content/rungBeats';
 import type { DialogueScene } from '../../core/content/intro';
 import type { StoryTake, StoryTakeBundle } from '../storyTakes';
@@ -212,6 +213,34 @@ function readerUnitLines(
     const text = flat(`flavor.${key}`, (FLAVOR as Record<string, string>)[key]);
     return text ? [{ voice: 'narrator', text, kind: 'line' }] : null;
   }
+  if (kind === 'ask') {
+    // FB-415 everyday asks — the label (the MC's spoken question) + the static
+    // answer lines; a take re-voices a subset by canon line id, like dialogue.
+    // Native-answered asks show the label only (branch prose lives in flavor
+    // keys and reads as flavor units).
+    const g = ASK_DEFS.find((a) => a.id === key);
+    if (!g) return null;
+    const out: ReaderLine[] = [];
+    const label = flat(`ask.${key}.label`, g.label);
+    if (label !== undefined)
+      out.push({ voice: 'player', text: label, kind: 'line' });
+    const gLines = g.lines ?? [];
+    const lines =
+      take === 'canon'
+        ? gLines
+        : gLines
+            .filter((l) => take.text?.[`ask.${key}.${l.id}`] !== undefined)
+            .map((l) => ({ ...l, text: take.text![`ask.${key}.${l.id}`]! }));
+    for (const l of lines) {
+      out.push({
+        voice: l.voice,
+        ...(l.speaker !== undefined ? { speaker: l.speaker } : {}),
+        text: l.text,
+        kind: 'line',
+      });
+    }
+    return out.length > 0 ? out : null;
+  }
   if (kind === 'intro-title') {
     // FB-362 — the scene's 幕-head label; canon reads the LIVE scene's `title:` (intro.gen).
     const text = flat(
@@ -333,7 +362,7 @@ function reqFlavorPlacement(
 // line's 幕-head `context` is baked UNKEYED, so history keeps its heads until context
 // gains a key (known residue, plan §Risks).
 export const LIVE_UNITS =
-  /^(rung|intro|intro-title|scene|flavor|req-flavor|req-objective|dialogue):|^cold-open:(lede|cta)$/;
+  /^(rung|intro|intro-title|scene|flavor|req-flavor|req-objective|dialogue|ask):|^cold-open:(lede|cta)$/;
 
 function readerUnitHeader(
   host: HTMLElement,

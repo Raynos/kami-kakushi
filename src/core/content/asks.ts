@@ -63,7 +63,12 @@ function toAskDef(g: GenAskDef): AskDef {
     person: g.person,
     rungMin: g.rungMin,
     ...(g.rungMax !== undefined ? { rungMax: g.rungMax } : {}),
-    label: g.label,
+    // overlay-aware LAZILY (ADR-139, `ask.<id>.label`) — ASKS is built once at
+    // module load, before any DEV take is active, so a plain field would freeze
+    // canon; the getter resolves per read, like the answer closure below.
+    get label(): string {
+      return storyText(`ask.${g.id}.label`) ?? g.label;
+    },
     ...(g.gate !== undefined || g.memGate !== undefined
       ? {
           when: (s: Parameters<NonNullable<AskDef['when']>>[0]): boolean =>

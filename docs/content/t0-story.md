@@ -1060,75 +1060,81 @@
 
 ### genemon
 
-- “How do I stand with the house?” <small>*(genemon-house-standing · R0+ · refresh: rung)*</small>
-  - Genemon: “The book says what it says. My ledger holds one line for you — what you are to this house today is written there, and today it reads: nothing more, nothing less.”
-- “What does the house want of me?” <small>*(genemon-house-wants · R0+ · refresh: rung)*</small>
+- “What does your book say of me?” <small>*(genemon-house-standing · R0+ · refresh: rung)*</small>
+  - Genemon: “Your line stands where the book set it this morning — entered, current, carried forward, nothing owing past what the page shows. Most men wait to be read to. You ask; I have made a note of that.”
+- “Steward. What does the house ask of me?” <small>*(genemon-house-wants · R0+ · refresh: rung)*</small>
   - <small>native: house-wants</small>
-- “The terms again, if you would.” <small>*(genemon-word · R0+)*</small>
+- “Steward. Have you a word for me?” <small>*(genemon-word · R0+)*</small>
   - <small>native: u9-genemon</small>
 
 ### soan
 
-- “Have a look at me, would you?” <small>*(soan-body-mend · R0+ · refresh: health)*</small>
+- “Doctor. Look me over, when your rounds allow.” <small>*(soan-body-mend · R0+ · refresh: health)*</small>
   - <small>native: body-mend</small>
-- “A moment of your rounds?” <small>*(soan-word · R0+)*</small>
+- “Doctor. If you can spare me a moment.” <small>*(soan-word · R0+)*</small>
   - <small>native: u9-soan</small>
 
 ### ohisa
 
-- “What’s the kitchen cooking?” <small>*(ohisa-kitchen-season · R0+ · refresh: season)*</small>
-  - O-Hisa: “What the season gives, we cook. The pot doesn’t argue with the calendar and neither do I — come at mealtime and you’ll see for yourself.”
-- “How do you fare, O-Hisa?” <small>*(ohisa-word · R0+)*</small>
+- “What’s in the pot?” <small>*(ohisa-kitchen-season · R0+ · refresh: season)*</small>
+  - O-Hisa: “What comes in the door with the dirt still on it, that goes in the pot — that and salt, and salt we still have. If the season means to be kinder than the last one — well. You’ll smell it from the woodshed before I say a word.”
+- “O-Hisa. A word, if the pot can wait.” <small>*(ohisa-word · R0+)*</small>
   - <small>native: u9-ohisa</small>
 
 ### oyae
 
-- “Any word from the village?” <small>*(oyae-village-news · R1+ · refresh: season)*</small>
-  - O-Yae: “Word comes up the road with me every morning — most of it not worth the carrying. Ask me again when the season turns; that’s when the village finds things worth saying.”
-- “And you, O-Yae?” <small>*(oyae-word · R0+)*</small>
+- “What do they say in the village?” <small>*(oyae-village-news · R1+ · refresh: season)*</small>
+  - O-Yae: “The baskets go down full of washing and come back up full of what they say — none of it mine, I only carry. They’re talking, they always are; when they say a thing worth setting the load down for, you’ll have it the same morning I do.”
+- “What do they say down the road, O-Yae?” <small>*(oyae-word · R0+)*</small>
   - <small>native: u9-oyae</small>
 
 ### shinnosuke
 
-- “What are you up to?” <small>*(shinnosuke-what-are-you-doing · R0+)*</small>
-  - Shinnosuke: “Watching you. Grandfather says you came from the weir with no name on you. I’ve never met anyone who wasn’t anyone before.”
-- “Go on, then — say it.” <small>*(shinnosuke-word · R0+)*</small>
+- “No work of your own?” <small>*(shinnosuke-what-are-you-doing · R0+)*</small>
+  - Shinnosuke: “My letters — only the ink dries faster than I can write it, so I’m watching you work instead. How do you tie a load one-handed, and who taught you?”
+- “You have questions. Ask one.” <small>*(shinnosuke-word · R0+)*</small>
   - <small>native: u9-shinnosuke</small>
 
 ### kihei
 
-- “Anything for me, drillmaster?” <small>*(kihei-word · R0+)*</small>
+- “Drillmaster. Have you an order for me?” <small>*(kihei-word · R0+)*</small>
   - <small>native: u9-kihei</small>
 
 ### naoyuki
 
-- “You wanted to say something.” <small>*(naoyuki-word · R0+)*</small>
+- “Master Naoyuki. What would you have me do?” <small>*(naoyuki-word · R0+)*</small>
   - <small>native: u9-naoyuki</small>
 
 ### toku
 
-- “Grandmother — a word?” <small>*(toku-word · R0+)*</small>
+- “Grandmother. May I have a word?” <small>*(toku-word · R0+)*</small>
   - <small>native: u9-toku</small>
 
 ### matsuzo
 
-- “How runs the water, old man?” <small>*(matsuzo-word · R0+)*</small>
+- “What news at the weir, Matsuzō?” <small>*(matsuzo-word · R0+)*</small>
   - <small>native: u9-matsuzo</small>
+- “Is the weir holding?” <small>*(matsuzo-waters · R0+)*</small>
+  - <small>native: waters-hint</small>
 
 ### iori
 
-- “A word, traveler?” <small>*(iori-word · R0+)*</small>
+- “A word before you go, traveler?” <small>*(iori-word · R0+)*</small>
   - <small>native: u9-iori</small>
 
 ### oume
 
-- “Good day at the paddy’s edge?” <small>*(oume-word · R0+)*</small>
+- “How do the fields stand, O-Ume?” <small>*(oume-word · R0+)*</small>
   - <small>native: u9-oume</small>
+- “Hard ground this year?” <small>*(oume-margins · R0+)*</small>
+  - <small>native: margins-hint</small>
 
 ### rokusuke
 
-- “How go the hands?” <small>*(rokusuke-word · R0+)*</small>
+- “Anything doing, Rokusuke?” <small>*(rokusuke-word · R0+)*</small>
   - <small>native: u9-rokusuke</small>
+- “Does the wood cut clean?” <small>*(rokusuke-timber · R0+)*</small>
+  - <small>native: timber-hint</small>
 
 ## The hidden rung requirements
 

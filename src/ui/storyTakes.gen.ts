@@ -328,6 +328,232 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   },
 
   {
+    id: 'ask-house',
+    title: 'The house answers — standing, wants, and the mend verdicts',
+    hr: 'HR-50',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'Take B picked — the one human beat per answer is exactly the regard mechanic the engine already tracks (npcMemory): Genemon\'s dry ledger register bends without breaking ("I have made a note of that"), the Ladder branch points UP without reciting the hidden list (FB-121), and Sōan\'s Down verdict routes to the real sickroom lane. A is the purest register but impersonal by design — thinner drama; C works but every answer an order flirts with tutorial voice.',
+    canonLabel: 'B · the man behind the book',
+    rung: 0,
+    takes: [
+      {
+        id: 'a',
+        label: 'the ledger speaks',
+        brief:
+          'the house answers as its books — item, count, condition; the drama is the completeness of the accounting, all warmth withheld',
+        scorecard:
+          '20✔ 0✘ 1— [impersonal by design — a brief-level choice, not a defect]',
+        text: {
+          'ask.genemon-house-standing.label': '“What does the book say of me?”',
+          'ask.genemon-house-standing.the-book-says':
+            '“The book, then. One line under your name: entered, worked, fed, and the feeding returned — current as of this morning. When the line changes I change it, and you will hear it read.”',
+          'flavor.askHouseWantsTop':
+            '“«rank». The column ends at your line; nothing is ruled above it. The house wants of you now what it wants of the book itself — that the entry hold, season after season.”',
+          'flavor.askHouseWantsLadder':
+            '“The book has you down as «rank». Above your line a place is ruled for «next» — ruled, and standing empty. When you have earned its ink you will not need me to say so; the entry will be drying before you ask.”',
+          'flavor.askMendSound':
+            '“Breath even, grip full, no heat under the old marks. Nothing here worth ink. Back to your work.”',
+          'flavor.askMendMarked':
+            '“Bruising, and a strain not yet knitted — marked, but mending on its own account. I write ‘mending’; keep it true and you need not come back.”',
+          'flavor.askMendDown':
+            '“Grip weak, breath short, heat where there should be none — this is a hurt body, not a tired one. The disposition is the sickroom, and it is not an opinion. Go there before the book has to say worse of you.”',
+        },
+        seq: {},
+      },
+      {
+        id: 'c',
+        label: 'the house teaches',
+        brief:
+          'every answer is a fact followed by a direction shaped like an order — the house training its stranger toward the next thing',
+        scorecard:
+          '20✔ 0✘ 1— [aggregate reads slightly instructional — edges of tutorial voice]',
+        text: {
+          'ask.genemon-house-standing.label':
+            '“What does your book say of me?”',
+          'ask.genemon-house-standing.the-book-says':
+            '“Your line is written and current — you stand today exactly where your work has put you. The entry does not move at my desk; it moves at the board. Take work there and I will have something new to write.”',
+          'flavor.askHouseWantsTop':
+            '“«rank». Above that line my book is blank; there is no higher entry to set you toward. So the instruction is short: keep the work under your hand done, and done so that I never look at it twice.”',
+          'flavor.askHouseWantsLadder':
+            '“Today the book writes you «rank»; the line above it reads «next». What carries a man from the one to the other I do not read aloud — but all of it is work, and work is taken at the board. Go there oftener than you come here.”',
+          'flavor.askMendSound':
+            '“Arms up. Breathe. Nothing in you argues with me today — work as you have been, eat when the kitchen calls you, and waste no more of my mornings being well.”',
+          'flavor.askMendMarked':
+            '“Turn around. You are marked, but the marks are knitting, and they will finish on their own if you let them. Lighter loads and whole nights of sleep; come back to me if the knitting stops.”',
+          'flavor.askMendDown':
+            '“No — sit. This is past mending on its feet; it wants the sickroom, a bed, and me looking in on it. Go now, while it is a matter of days and not of a season.”',
+        },
+        seq: {},
+      },
+    ],
+  },
+
+  {
+    id: 'ask-village',
+    title: 'The village answers, and the three discovery hints',
+    hr: 'HR-51',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      "Take B picked — the registers are cleanest (O-Yae never claims, Matsuzō answers only about water, Rokusuke attributes even his own noticing away), and the hints are MATERIAL facts a worker can't unsee (\"cut reeds lie down with the current, and those don't\") — P15 pointing at its best, kernel #2 voiced (the world ambient until touched). A's sideways-watch stance lands but has Shinnosuke asserting standing surveillance canon can't show; C's kindness props (the mattock, the gloves, the covered bowl) are story promises the game can't honor as items (P10).",
+    canonLabel: 'B · work talk only',
+    rung: 0,
+    takes: [
+      {
+        id: 'a',
+        label: 'the village looks sideways',
+        brief:
+          "every answer carries, one layer down, the village's sidelong watch on the stranger — hints arrive as things OTHERS noticed and mention to him sideways",
+        scorecard:
+          "20✔ 1✘ [blind spot: Shinnosuke names watchers at windows and gates — standing surveillance canon doesn't establish and the game can't show]",
+        text: {
+          'ask.ohisa-kitchen-season.label': '“What’s in the pot this season?”',
+          'ask.ohisa-kitchen-season.what-the-season-gives':
+            '“The pot holds what the fields and the garden are giving, same as every year — come at the bell and you’ll eat what the house eats. The kitchen marks who cleans his bowl, and yours comes back like it’s been scrubbed. If the garden’s kind this turn — well.”',
+          'ask.oyae-village-news.label':
+            '“What are they saying in the village?”',
+          'ask.oyae-village-news.word-comes-up-the-road':
+            '“The usual, mostly — whose fence, whose ox, who owes what to whom. They talk about you too, down there — the man the river left at the weir — though that’s them saying it, mind, not me. Come the season’s turn they’ll have decided what you are; ask me then.”',
+          'ask.shinnosuke-what-are-you-doing.label':
+            '“What are you looking at?”',
+          'ask.shinnosuke-what-are-you-doing.watching-you':
+            '“You. The whole house watches you — Genemon from the Forecourt window, Kihei from the gate — only they look away when you turn around. I don’t see why I should pretend I wasn’t.”',
+          'ask.matsuzo-waters.label': '“Seen anything on the water?”',
+          'ask.oume-margins.label': '“Anything out here I should see?”',
+          'ask.rokusuke-timber.label': '“Have the hands noticed anything?”',
+          'flavor.askWatersReeds':
+            '“Water’s running low and honest this stretch, so you can see what it keeps. There’s something dark sitting in the reeds below the weir that the current didn’t put there — I’d wade for it myself, but my knees answer for me now. A man the river brought might as well take what the river’s holding.”',
+          'flavor.askWatersSluice':
+            '“The reeds sit cleaner now you’ve been at them. What bothers me is up under the woodlot — water goes in beneath those trees and comes out slow and sour, like something old in there can’t swallow anymore. Men shaped water up that slope in my grandfather’s day; trees don’t choke a flow that way on their own.”',
+          'flavor.askWatersSettled':
+            '“Reeds clear, and that old throat under the trees breathing again — the water runs the way it did when I was young enough to matter to it. Nothing else on this stretch wants finding. The river’s used to you now, and that’s not a thing it does quickly.”',
+          'flavor.askMarginsSett':
+            '“You’ll take a little rice before you go — sit, sit; of all the men in this valley you’re the one I’ll not send off hungry. My husband used to say the margin grass past the far bund grows the way it does because there’s something under it older than the paddy — he meant to dig one autumn and never got his autumn. Maybe it was waiting for other hands.”',
+          'flavor.askMarginsSettled':
+            '“So it was a boundary stone under the grass all along, set by hands nobody living remembers — I told my husband last night, and I think he was pleased. There’s nothing else out here but grass and frogs and me. Come by at Bon; the margins owe you a meal.”',
+          'flavor.askTimberLacquer':
+            '“Not me — but one of the hands, cutting up in the woodlot, said his axe came back smelling bitter off one trunk, and there’s a grey scar on it weeping something amber. Nobody’s touched it since; the hands say a tree that bleeds like that is somebody else’s trouble. I’d not know myself.”',
+          'flavor.askTimberSettled':
+            '“The hands say you knew that lacquer tree for what it was — worth more standing than a winter of firewood, they say. They’re calling you the man with the eye now; I said nothing either way. Far as anyone’s told me, the woodlot’s just trees again.”',
+        },
+        seq: {},
+      },
+      {
+        id: 'c',
+        label: 'small kindnesses',
+        brief:
+          'each answer gives slightly more than was asked — a second helping, a kept-back piece of news, a tool offered; warmth without sentiment',
+        scorecard:
+          '18✔ 2✘ [blind spot: named props offered to the player (mattock, gloves, covered bowl) are P10 contracts the game can\'t honor as items] [blind spot: invents drill canon ("Kihei\'s third form has nine parts")] 1—',
+        text: {
+          'ask.ohisa-kitchen-season.label': '“What’s in the pot?”',
+          'ask.ohisa-kitchen-season.what-the-season-gives':
+            '“What the season’s given — the pot takes whatever the garden and the store-room agree on, and this while they’re agreeing well enough. There’s a covered bowl on the shelf by the door that won’t keep past tonight, and somebody had better eat it. If you’re passing — well.”',
+          'ask.oyae-village-news.label': '“What’s the talk in the village?”',
+          'ask.oyae-village-news.word-comes-up-the-road':
+            '“They say what they always say — whose roof, whose ox, whose girl is promised — and most of it I set down at the gate. The piece that concerns you I kept hold of: they’ve left off asking where you came from and taken up asking what you’re paid. That’s the sound of a village keeping a man, by everything I’ve ever heard of it.”',
+          'ask.shinnosuke-what-are-you-doing.label': '“What have you been at?”',
+          'ask.shinnosuke-what-are-you-doing.watching-you':
+            '“Counting — Kihei’s third form has nine parts, did you know that? Do you want the spot I count from? The west wall’s warm all afternoon, and you can have the warm stretch; I’ll sit the end.”',
+          'ask.matsuzo-waters.label': '“Anything need doing down here?”',
+          'ask.oume-margins.label': '“All well out here?”',
+          'ask.rokusuke-timber.label': '“How goes the woodlot?”',
+          'flavor.askWatersReeds':
+            '“The water’s low, and low water keeps no secrets. Something’s been sitting in the thick of the reeds past the weir since the thaw — the current breaks on it, and nobody’s come asking after it. My back won’t bend that far anymore; yours would, and whatever it is, it’s yours for the wading.”',
+          'flavor.askWatersSluice':
+            '“You cleared the reeds — the water runs sweeter through here for it. Now if you’ve more wading in you: the ground under the woodlot trees used to drink from this channel, and somewhere in there the old cut still sits choked — you can hear the water wanting it, this time of year. Take a bar along; whatever’s stopping it has had years to settle in.”',
+          'flavor.askWatersSettled':
+            '“Reed-bed runs clear, the old sluice drinks, and the woodlot ground will thank you for it by autumn. That’s the water settled, all of it — sixty years I’ve listened and it never sounded better. Sit a while if you like; the weir talks enough for the both of us.”',
+          'flavor.askMarginsSett':
+            '“Well enough — the frogs are back early, which the field takes for a good sign, and so do I. There’s a place along the margin where the grass grows thin in a straight line, and straight lines are never the field’s own doing. Take my mattock from the doorway — it’s no use to me till planting, and you’ll bring it back when it’s done its work.”',
+          'flavor.askMarginsSettled':
+            '“So it was a boundary stone under there all this time — older than the house, I shouldn’t wonder, older than the paddies for certain. I set a little rice by it this morning; whoever laid it did careful work, and careful work should be thanked.”',
+          'flavor.askTimberLacquer':
+            '“It goes — the hands keep pace. One of them was saying there’s a trunk in the north stand that bites back: bitter on the axe, they said, and a grey scar on it weeping something amber. I’d let it stand till somebody who knows trees has looked at it — there’s a pair of gloves by the saws, somebody left them, in case you’re that somebody.”',
+          'flavor.askTimberSettled':
+            '“The hands say that trunk you flagged was lacquer — good thing nobody swung at it bare-armed. They say whoever spotted it saved a man a bad month, maybe two. I wouldn’t know; I just stack what’s cut.”',
+        },
+        seq: {},
+      },
+    ],
+  },
+
+  {
+    id: 'ask-voice',
+    title: 'The asking voice — how the MC frames every question',
+    hr: 'HR-49',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      "Take B picked — the audible ladder is the game's own fiction (standing decides everything, TST3): address-first up the house, yard-talk down it, so the fourteen labels read the cast's standing at a glance (TST4) while every sentence stays his — short, flat, costing him something. A undercarries the \"a question visibly costs him\" law (pared-to-nothing asking reads as ease); C is the law made audible but its two-sentence labels bulk the chrome (P19) and one asserts an off-screen fact canon doesn't establish.",
+    canonLabel: 'B · the ladder is audible',
+    rung: 0,
+    takes: [
+      {
+        id: 'a',
+        label: "the workman's minimum",
+        brief:
+          'asking as labour — every question pared to the fewest words that still ask; the person shows only in the object asked about, never in added courtesy',
+        scorecard:
+          '19✔ 1✘ [briefed: uniform terseness undercarries "a question visibly costs him" — reads as ease, not toll] 1—',
+        text: {
+          'ask.genemon-house-wants.label': '“What’s my work?”',
+          'ask.soan-body-mend.label': '“Am I fit to work?”',
+          'ask.genemon-word.label': '“What’s in the book?”',
+          'ask.kihei-word.label': '“Orders?”',
+          'ask.soan-word.label': '“How am I mending?”',
+          'ask.ohisa-word.label': '“Anything need doing?”',
+          'ask.shinnosuke-word.label': '“You have questions?”',
+          'ask.naoyuki-word.label': '“Where do you want me?”',
+          'ask.toku-word.label': '“What was this house, before?”',
+          'ask.oyae-word.label': '“What do they say?”',
+          'ask.matsuzo-word.label': '“Water low or high?”',
+          'ask.iori-word.label': '“Staying long?”',
+          'ask.oume-word.label': '“The racks held?”',
+          'ask.rokusuke-word.label': '“How’s the work?”',
+        },
+        seq: {},
+      },
+      {
+        id: 'c',
+        label: "the question he almost doesn't ask",
+        brief:
+          'the cost-law made audible — each label names its thing, then spends the rest of the line buying the other person a way out of answering',
+        scorecard:
+          '18✔ 2✘ [briefed: P19 — labels are chrome and most run two sentences] [blind spot: ohisa-word asserts an off-screen fact ("mending my things") canon doesn\'t establish] 1—',
+        text: {
+          'ask.genemon-house-wants.label':
+            '“What the house would have of me next. Read it out, if it’s written.”',
+          'ask.soan-body-mend.label':
+            '“Look me over when you’re able. I’ll take the verdict plain.”',
+          'ask.genemon-word.label':
+            '“If the day-book has a word for me, I’d hear it. If not, that’s an answer too.”',
+          'ask.kihei-word.label':
+            '“An order for me, if you have one. If not, I’m back to the work.”',
+          'ask.soan-word.label':
+            '“Spare me a word as you go. The sick come first, I know.”',
+          'ask.ohisa-word.label':
+            '“You’ve been mending my things. I’d thank you, if you’ll let me.”',
+          'ask.shinnosuke-word.label': '“You have questions. Ask them.”',
+          'ask.naoyuki-word.label':
+            '“A word, if you’ll allow one. The work will keep that long.”',
+          'ask.toku-word.label':
+            '“You remember what this house was. Tell me a little, when it suits you.”',
+          'ask.oyae-word.label':
+            '“What do they say, down the road? You can tell me the part about me.”',
+          'ask.matsuzo-word.label':
+            '“The river. How is it keeping, this season?”',
+          'ask.iori-word.label':
+            '“You’ll move on soon, I expect. A word while you’re here.”',
+          'ask.oume-word.label': '“A word, if I’m not interrupting.”',
+          'ask.rokusuke-word.label':
+            '“How does the work stand, by your count? It’s only me asking.”',
+        },
+        seq: {},
+      },
+    ],
+  },
+
+  {
     id: 'c5a-discoveries',
     title: 'The three hidden discoveries',
     hr: 'HR-19',

@@ -4,16 +4,20 @@
 // writes the log (D4 — inline only; story beats alone write to Story). Rung windows in
 // these fixtures derive from the RANKS registry order, never copied literals.
 
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import {
   createInitialState,
   reduce,
   factsForSurfaces,
   type GameState,
 } from './index';
-import { RANKS } from './content/ranks';
+import { RANKS, getRank } from './content/ranks';
 import { getPerson } from './content/people';
-import { ASKS } from './content/asks';
+import { ASKS, askById } from './content/asks';
+import { NATIVE_ASK_ANSWERS } from './content/ask-natives';
+import { FLAVOR } from './content/flavor';
+import { __setStoryOverlay } from './content/story-overlay';
+import { hpMax } from './selectors';
 import { availableAsks, unheardAskCount, type AskDef } from './asks';
 import { makeEnvelope } from '../persistence/codec';
 import { validateEnvelope } from '../persistence/validate';
@@ -188,5 +192,55 @@ describe('asksHeard persistence (SCHEMA_VERSION 15, additive)', () => {
     const res = validateEnvelope(JSON.parse(JSON.stringify(env)));
     expect(res.ok).toBe(true);
     if (res.ok) expect(res.state.asksHeard).toEqual({});
+  });
+});
+
+// ── the ADR-139 overlay seam (talk-plan ask waves) — a take re-voices what the
+// player READS (label, answer prose) while ids, gates, and heard-keys stay canon.
+// RED before the wave-1 wiring: `label` was a frozen field read at module load,
+// and the native branch prose was inline TS strings no overlay could reach. ──
+describe('the story overlay re-voices asks (ADR-139, `ask.<id>.*` + flavor keys)', () => {
+  afterEach(() => __setStoryOverlay(null));
+
+  it('the label resolves through the overlay LAZILY, and falls back to canon', () => {
+    const canon = askById('genemon-house-standing')!.label;
+    __setStoryOverlay({ 'ask.genemon-house-standing.label': 'TAKE label' });
+    expect(askById('genemon-house-standing')!.label).toBe('TAKE label');
+    __setStoryOverlay(null);
+    expect(askById('genemon-house-standing')!.label).toBe(canon);
+  });
+
+  it('a static answer line re-voices by its canon line id', () => {
+    const s = createInitialState(1);
+    __setStoryOverlay({
+      'ask.genemon-house-standing.the-book-says': 'TAKE answer',
+    });
+    expect(askById('genemon-house-standing')!.answer(s)[0]!.text).toBe(
+      'TAKE answer',
+    );
+  });
+
+  it('native branch prose funnels through its flavor key (take-switchable)', () => {
+    const init = createInitialState(1);
+    const sound = {
+      ...init,
+      character: { ...init.character, hp: hpMax(init) },
+    };
+    // drift pin (TST1, the discoveries hintKeys pattern): the canon branch IS
+    // the flavor entry, so the pair can't drift apart.
+    expect(NATIVE_ASK_ANSWERS['body-mend']!(sound)[0]!.text).toBe(
+      FLAVOR.askMendSound,
+    );
+    __setStoryOverlay({ 'flavor.askMendSound': 'TAKE mend verdict' });
+    expect(NATIVE_ASK_ANSWERS['body-mend']!(sound)[0]!.text).toBe(
+      'TAKE mend verdict',
+    );
+  });
+
+  it('house-wants substitutes the «rank»/«next» tokens with live rank titles', () => {
+    const s = createInitialState(1);
+    const text = NATIVE_ASK_ANSWERS['house-wants']!(s)[0]!.text;
+    expect(text).toContain(getRank(s.rung).title.toLowerCase());
+    expect(text).not.toContain('«');
   });
 });

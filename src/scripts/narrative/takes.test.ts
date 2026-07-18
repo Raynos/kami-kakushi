@@ -264,3 +264,105 @@ ${GENEMON}: "Another react."
     );
   });
 });
+
+// ── FB-415 ask units (talk-plan ask waves, wave-1 wiring) — a take re-voices the
+// label (always — the parser requires it) and a SUBSET of static answer lines by
+// canon line id, like dialogue. RED on main before this landed: an `## ask` block
+// in a take doc compiled to NOTHING (silently dropped from the flat map). ──
+describe('ask units in takes — label + canon-id answer lines', () => {
+  const ASK_CANON = buildCanonIndex([
+    parseNarrative(
+      `## ask demo-ask · genemon
+rungs: R0+
+label: “The canon question?”
+
+<!--#first-->
+${GENEMON}: “The first canon line.”
+
+<!--#second-->
+> A canon narrator line.
+
+## ask demo-native · soan
+rungs: R0+
+native: body-mend
+label: “The canon native question?”
+`,
+      'asks.md',
+    ),
+  ]);
+  const compileAskTake = (takeMd: string): string => {
+    const meta = parseBundleMeta(BUNDLE, 'bundle.md');
+    return emitStoryTakes(
+      [{ meta, docs: [parseNarrative(takeMd, 'take-b.md')] }],
+      ASK_CANON,
+    );
+  };
+
+  it('emits the label and the named line under CANON addresses', () => {
+    const src = compileAskTake(
+      `## ask demo-ask · genemon
+rungs: R0+
+label: “A colder question?”
+
+<!--#first-->
+${GENEMON}: “A colder first line.”
+`,
+    );
+    expect(src).toContain('"ask.demo-ask.label"');
+    expect(src).toContain('"ask.demo-ask.first"');
+    expect(src).not.toContain('"ask.demo-ask.second"'); // subset — untouched line stays canon
+  });
+
+  it('a native canon ask re-voices its label only', () => {
+    const src = compileAskTake(
+      `## ask demo-native · soan
+rungs: R0+
+native: body-mend
+label: “A colder native question?”
+`,
+    );
+    expect(src).toContain('"ask.demo-native.label"');
+  });
+
+  it('REDs an ask unit canon lacks', () => {
+    expect(() =>
+      compileAskTake(
+        `## ask no-such-ask · genemon
+rungs: R0+
+label: “Lost?”
+
+<!--#first-->
+> Line.
+`,
+      ),
+    ).toThrowError(/prose-only gate — ask:no-such-ask: no canon ask/);
+  });
+
+  it('REDs a line id canon lacks, naming the canon ids', () => {
+    expect(() =>
+      compileAskTake(
+        `## ask demo-ask · genemon
+rungs: R0+
+label: “A question?”
+
+<!--#third-->
+> A line canon never had.
+`,
+      ),
+    ).toThrowError(/ask:demo-ask: line "third" does not exist in canon/);
+  });
+
+  it('REDs prose on a native canon ask (branch text lives in flavor keys)', () => {
+    expect(() =>
+      compileAskTake(
+        `## ask demo-native · soan
+rungs: R0+
+label: “A question?”
+
+<!--#stray-->
+> Stray prose.
+`,
+      ),
+    ).toThrowError(/ask:demo-native: canon ask is native/);
+  });
+});
