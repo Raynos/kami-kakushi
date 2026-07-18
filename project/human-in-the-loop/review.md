@@ -218,6 +218,49 @@ ceremony) is the plan's named NEXT step, not in this bundle.
     `project/audit/screens/2026-07-18-stamp-book-diverge/`.
   - **Verdict:** _(awaiting your pick)_
 
+### HR-47 🔲 [R1 · story] — the seal-book names itself (`sealbook-intro` bundle, ADR-139/ADR-201)
+
+The ADR-201 strip's missing story line (the P10 debt every HR-46
+scorecard names): a ONE-TIME narration on the Story channel at the R1
+press — the first time the fiction mentions the book the Character
+tab carries. Core-emitted (`applyPromotion`, R1 only), key
+`flavor.sealbookIntro`, take-switchable. **New-fact proposal for the
+bible ride-along:** hired hands carry a personal seal-book each
+granter presses — currently written NOWHERE in `docs/story-bible/`;
+your pick here also blesses (or rejects) that fact.
+
+  - **Taste brief (pass 1):** P3 narrator voice, Story channel ·
+    TST3 the line makes the strip's existence story-caused · P12
+    types like story · register grounded mid-Edo, concrete objects,
+    no mysticism · new-fact minimal (a thin carried book, nothing
+    more) · 1–3 sentences
+  - **Canon (B · the possession)** _(self-picked)_:
+    > A seal-book, thin as a folded letter, and on its first page
+    > the day-hand mark pressed wet and vermillion. It goes into
+    > the breast of your robe, against the ribs. No name yet — but
+    > a page that says you are.
+    - **Scorecard (B):** 8✔ · 0✘ · 13— — withholds the book's origin
+      on purpose (the intimacy IS the take); period fix applied in
+      integration (shirt → the breast of your robe).
+  - [ ] **take a — the object, witnessed** — the house's custom of
+    record; warmth through procedure, Genemon's inventory register.
+    - **Scorecard (A):** 7✔ · 1✘ · 13— — ✘ [briefed] leans
+      house-owned against ruling 3's MC's-own-book fiction.
+  - [ ] **take c — the record as witness** — austere: what is
+    pressed will be READ someday, for or against him.
+    - **Scorecard (C):** 8✔ · 0✘ · 13— — "read someday" is a
+      promise; existing canon pays it (the R5 Count's day-book
+      clearing, the R7 naming). The runner-up.
+  - **Why B (pick rationale):** it binds the strip to the game's
+    spine — a nameless man's first proof of existing — and matches
+    ruling 3 (his OWN carried book) exactly; A and C both frame the
+    book as the house's instrument.
+  - **How to look:** DEV → Scenarios → `rung-R1` → Story log (the
+    line sits at the R1 press) · DEV → Review → Story →
+    **sealbook-intro** to swap takes LIVE (logged lines re-voice,
+    ADR-198). The afterglow + strip: Character tab.
+  - **Verdict:** _(awaiting your pick)_
+
 ## ▸ R3 · combat & the wider house (Combat/Inventory tabs reveal)
 
 ### HR-2B 🔲 [R3 · fills R7] — House-Influence panel (家威 grade) — pick a variant (ADR-075)

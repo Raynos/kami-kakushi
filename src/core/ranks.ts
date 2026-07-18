@@ -96,6 +96,21 @@ export function applyPromotion(state: GameState, target: RankId): GameState {
   if (rank.arriveAt !== undefined && rank.arriveAt !== next.location)
     next = { ...next, location: rank.arriveAt, autoCombat: null };
   if (rank.rewardOnReach) next = applyRewards(next, rank.rewardOnReach);
+  // ADR-201 — the seal-book names itself at the FIRST witnessed press (R1):
+  // one-time narration on the Story channel (the R0 seed predates the
+  // fiction's reveal by design). Take-switchable via the flavor registry
+  // (bundle sealbook-intro, HR-47).
+  if (target === 'R1') {
+    next = applyRewards(next, {
+      log: [
+        {
+          channel: 'narration',
+          voice: 'narrator',
+          contentKey: 'flavor.sealbookIntro',
+        },
+      ],
+    });
+  }
   // ADR-122 — the T0 status token: a rung that grants `wall-weapon` mounts the weapon you WIELD at that
   // moment on your home wall (the status-mirror). The reveal names your ACTUAL weapon (never a generic
   // sword), read from state — data-driven off the flag, so the R-rung isn't hard-coded here.

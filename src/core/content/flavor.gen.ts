@@ -513,4 +513,6 @@ export const FLAVOR = {
     "The pedlar's store is full to the rails; he buys no rice until the villages down the road take it off him.",
   stallPurseEmpty:
     'His purse has emptied on this side of the valley; he comes with coin again on his market day.',
+  sealbookIntro:
+    'A seal-book, thin as a folded letter, and on its first page the day-hand mark pressed wet and vermillion. It goes into the breast of your robe, against the ribs. No name yet — but a page that says you are.',
 } as const;

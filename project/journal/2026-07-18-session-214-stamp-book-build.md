@@ -146,8 +146,31 @@ deliberately with the fixes.
 - Choreography is the shipped concertina's; a B/C pick at HR-46
   would bring its own (named there).
 
+## The sealbook-intro story unit landed (same session)
+
+- **ADR-139 run:** three blind agents, three distinct dramatic
+  briefs (A procedural warmth · B private possession · C the record
+  as witness — commitments, not paraphrases). **B picked**: "No name
+  yet — but a page that says you are" — binds the strip to the
+  namelessness→naming spine and ruling 3 (the MC's OWN book); C the
+  named runner-up (clean R5 Count foreshadow); one period fix in
+  integration (shirt → breast of the robe).
+- **Wiring:** canon in `flavor.md` (`### sealbookIntro`); emitter in
+  `applyPromotion` (R1 only, narration channel, key
+  `flavor.sealbookIntro` — the FB-324 rake-cap pattern); alternates
+  in `takes/sealbook-intro/` (bundle hr: HR-47, rung R1); `flavor`
+  already in LIVE_UNITS so the swap is live, logged lines re-voice
+  (ADR-198). The R0 seed press deliberately predates the reveal.
+- **HR-47 filed** (review.md, R1 section): canon read + alternates +
+  briefs + scorecards + the NEW-FACT proposal (hired hands carry a
+  seal-book — written nowhere in the bible; the pick blesses or
+  rejects it).
+- **Proven:** gen + fixtures regen green (the line is in the R1+
+  fixture descriptors); live probe — the line renders in the R1
+  story log. Full verify 21/21.
+
 ## Next intended steps
 
-1. The ADR-139 story unit naming the book (the P10 debt) — 3 blind
-   takes → bundle → DEV Story switcher → HR row.
-2. HR-46 awaits the human's variant pick; alternates stay DEV-only.
+1. HR-46 (variant) + HR-47 (the line + the bible new-fact) await
+   the human; alternates stay DEV-only. The plan is then done save
+   the pick-driven prod promotion/prune.

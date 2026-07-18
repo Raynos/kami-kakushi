@@ -2467,6 +2467,44 @@ export const STORY_TAKE_BUNDLES: readonly StoryTakeBundle[] = [
   },
 
   {
+    id: 'sealbook-intro',
+    title: 'The seal-book names itself (ADR-201, the R1 press)',
+    hr: 'HR-47',
+    review: 'project/human-in-the-loop/review.md',
+    rationale:
+      'Take B picked — "No name yet — but a page that says you are" binds the surface to the game\'s central spine (namelessness → the hand-me-down name at R7) and to the ADR-201 ruling exactly (the MC\'s OWN carried book, ruling 3): the strip exists because this page is his proof of existing. C is the strongest runner-up — "the page will answer for you" is a clean R5 Count foreshadow the human may prefer; A grants the house-custom framing, which leans house-owned against ruling 3. One period fix applied to B in integration ("inside your shirt" → the breast of your robe).',
+    canonLabel: 'B · the possession',
+    rung: 1,
+    takes: [
+      {
+        id: 'a',
+        label: 'the object, witnessed',
+        brief:
+          "procedural warmth — the house's standing custom of record; bookkeeping made personal, warmth THROUGH procedure; Genemon's inventory register",
+        scorecard:
+          '7✔ 1✘ 13— [briefed: leans house-owned ("the house keeps a book") against ADR-201 ruling 3\'s MC\'s-OWN-book fiction]',
+        text: {
+          'flavor.sealbookIntro': `For hands kept on, the house keeps a book: small, thin, made to be carried. ${NAMES.elder} presses the day-hand seal to the first page — 日雇, vermillion, square and exact — entering the terms from the board the way he enters anything the house means to keep. An account opened, even of you.`,
+        },
+        seq: {},
+      },
+      {
+        id: 'c',
+        label: 'the record as witness',
+        brief:
+          'austere, forward-leaning — a seal can be pointed at later; what is pressed will be READ someday, for or against him',
+        scorecard:
+          '8✔ 0✘ 13— [borderline: "read someday" makes a promise — honored by existing canon (the R5 Count\'s day-book clearing, the R7 naming), so the contract holds]',
+        text: {
+          'flavor.sealbookIntro':
+            'The house puts a thin seal-book into your hands — it keeps nothing it cannot later point to. The day-hand seal goes down in vermillion, and the paper takes it without argument. What is pressed today will be read someday, and the page will answer for you, one way or the other.',
+        },
+        seq: {},
+      },
+    ],
+  },
+
+  {
     id: 'sickroom-mend',
     title: 'The sickroom mend lines (treat & the pallet day)',
     hr: 'HR-43',

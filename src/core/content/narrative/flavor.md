@@ -1273,3 +1273,18 @@ down the road take it off him.
 
 His purse has emptied on this side of the valley; he comes with coin again
 on his market day.
+
+<!-- ADR-201 sealbook intro (bundle sealbook-intro, HR-47) — the ONE-TIME
+  narration at the R1 press: the seal-book names itself the first time a
+  hand presses it. CORE-emitted by ranks.ts applyPromotion (target R1),
+  Story channel (narration), key flavor.sealbookIntro. The R0 seed press
+  predates the fiction's reveal on purpose — the book is SHOWN when the
+  first witnessed press happens, not at the cold open. Alternates in
+  takes/sealbook-intro/. -->
+
+### sealbookIntro
+
+A seal-book, thin as a folded letter, and on its first page the
+day-hand mark pressed wet and vermillion. It goes into the breast of
+your robe, against the ribs. No name yet — but a page that says you
+are.
