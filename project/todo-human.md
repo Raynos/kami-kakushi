@@ -40,10 +40,6 @@
   footer · 1/100 life bar reads full); small fix plan, no design
   forks. *(The estate craft-pass plan left the queue — you walked
   its rulings live this morning; its result is the HR-30 addendum.)*
-- [ ]
-  [`docs/plans/fable-2026-07-18-bestiary-plates.md`](../docs/plans/fable-2026-07-18-bestiary-plates.md)
-  — #4 pulled forward: code-drawn field-guide plates for the HR-5
-  panel, spec + blind-pass, wired as a DEV-only option d.
 
 > **What belongs here** — a durable doc whose purpose is for you to read
 > or sign off: a **plan** (`docs/plans/`), a **brainstorm /

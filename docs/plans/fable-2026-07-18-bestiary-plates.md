@@ -1,6 +1,18 @@
 # Bestiary plates — the drawn field guide (#4)
 
-**Status:** 📋 PROPOSED (2026-07-18, session 211)
+**Status:** ▶️ IN PROGRESS (engaged live 2026-07-18, session 217 —
+rulings below)
+
+## Rulings (human, 2026-07-18 — engaged live, session 217)
+
+- **The hand is NOT Sōan** — invent a new document fiction that fits
+  inside the story bible (still flagged PROPOSED in the spec; canon
+  adoption stays the HR's call).
+- **Field-note prose is IN SCOPE** — each plate carries fiction-voiced
+  prose, 3+ blind takes per ADR-139, baked into this build (supersedes
+  the "if any variant carries it" hedge below).
+- **Blind readers + subagents inherit Fable** (D-124 default
+  confirmed; the 2026-07-11 Opus steer does not bind this build).
 **Confidence:** ( 25% Opus, 75% Fable ) — creature silhouettes under
 stroke discipline are the highest slop-risk drawing on the slate; the
 spec and the judging are the plan's center of gravity.
